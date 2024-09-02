@@ -4,6 +4,7 @@ import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { Form } from 'types/Form'
 import postComputeShader from 'lib/gpu/wgsl/postComputeShader.wgsl?raw'
+import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants'
 
 export async function getDevice() {
   const adapter: GPUAdapter | null = await navigator?.gpu?.requestAdapter()
@@ -141,6 +142,7 @@ export type GpuExecutionContext = {
   resultsQueue: FixedSizePriorityQueue<GpuResult>
   baseParamsArray: number[]
   cancelled: boolean
+  computeEngine: string
 
   // Webgpu internal objects
   device: GPUDevice
@@ -161,6 +163,7 @@ export function initializeGpuPipeline(
   request: Form,
   params: OptimizerParams,
   permutations: number,
+  computeEngine: string,
   relicSetSolutions: number[],
   ornamentSetSolutions: number[],
   debug = false,
@@ -245,6 +248,7 @@ export function initializeGpuPipeline(
     resultsQueue,
     baseParamsArray,
     cancelled: false,
+    computeEngine,
 
     device,
     computePipeline,
@@ -285,9 +289,13 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   passEncoder.setBindGroup(1, bindGroup1)
   passEncoder.setBindGroup(2, bindGroup2)
   passEncoder.dispatchWorkgroups(gpuContext.WORKGROUP_SIZE)
-  passEncoder.setPipeline(postComputePipeline)
-  passEncoder.setBindGroup(0, postComputeBindGroup0)
-  passEncoder.dispatchWorkgroups(1)
+
+  if (gpuContext.computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL) {
+    passEncoder.setPipeline(postComputePipeline)
+    passEncoder.setBindGroup(0, postComputeBindGroup0)
+    passEncoder.dispatchWorkgroups(1)
+  }
+
   passEncoder.end()
 
   const gpuReadBuffer = device.createBuffer({

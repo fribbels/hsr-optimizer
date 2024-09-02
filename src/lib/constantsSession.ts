@@ -3,4 +3,5 @@ export enum SavedSessionKeys {
   relicScorerSidebarOpen = 'relicScorerSidebarOpen',
   scoringType = 'scoringType',
   combatScoreDetails = 'combatScoreDetails',
+  computeEngine = 'computeEngine',
 }

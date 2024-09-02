@@ -456,3 +456,7 @@ a {
 .ant-card-hoverable:hover {
     border-color: #4b69ab !important;
 }
+
+.custom-dropdown-button .ant-btn-compact-first-item {
+    width: 100%;
+}

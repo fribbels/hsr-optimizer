@@ -1,4 +1,4 @@
-import { Flex, Form, Select, Switch, Typography } from 'antd'
+import { Flex, Form, Select, Typography } from 'antd'
 import { HeaderText } from 'components/HeaderText.jsx'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { Hint } from 'lib/hint.jsx'
@@ -11,7 +11,6 @@ import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSele
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect.tsx'
 import { SortOption } from 'lib/optimizer/sortOptions.ts'
 import { Utils } from 'lib/utils.js'
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 
 type CharacterSelectorDisplayProps = {}
@@ -82,51 +81,51 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
-      <Flex justify="space-between" align="center">
+      <Flex justify='space-between' align='center'>
         <HeaderText>Character</HeaderText>
         <TooltipImage type={Hint.character()}/>
       </Flex>
       <Flex gap={optimizerTabDefaultGap}>
-        <Form.Item name="characterId">
+        <Form.Item name='characterId'>
           <CharacterSelect
-            value=""
+            value=''
             selectStyle={{ width: 156 }}
             onChange={setOptimizerTabFocusCharacter}
           />
         </Form.Item>
-        <Form.Item name="characterEidolon">
+        <Form.Item name='characterEidolon'>
           <Select
             showSearch
             style={{ width: 50 }}
             options={eidolonOptions}
             onChange={setOptimizerFormCharacterEidolon}
-            placeholder="E"
+            placeholder='E'
             popupMatchSelectWidth={55}
             suffixIcon={null}
           />
         </Form.Item>
       </Flex>
-      <Flex justify="space-between" align="center">
+      <Flex justify='space-between' align='center'>
         <HeaderText>Light cone</HeaderText>
         <TooltipImage type={Hint.lightCone()}/>
       </Flex>
       <Flex vertical gap={optimizerTabDefaultGap}>
         <Flex gap={optimizerTabDefaultGap}>
-          <Form.Item name="lightCone">
+          <Form.Item name='lightCone'>
             <LightConeSelect
-              value=""
+              value=''
               selectStyle={{ width: 156 }}
               characterId={optimizerTabFocusCharacter}
               onChange={setOptimizerFormSelectedLightCone}
             />
           </Form.Item>
-          <Form.Item name="lightConeSuperimposition">
+          <Form.Item name='lightConeSuperimposition'>
             <Select
               showSearch
               style={{ width: 50 }}
               onChange={setOptimizerFormSelectedLightConeSuperimposition}
               options={superimpositionOptions}
-              placeholder="S"
+              placeholder='S'
               popupMatchSelectWidth={55}
               suffixIcon={null}
             />
@@ -134,48 +133,36 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
         </Flex>
       </Flex>
 
-      <Flex justify="space-between" align="center" style={{ marginTop: 3 }}>
+      <Flex justify='space-between' align='center' style={{ marginTop: 16 }}>
         <HeaderText>Presets</HeaderText>
       </Flex>
 
       <RecommendedPresetsButton/>
 
-      <Flex justify="space-between" align="center" style={{ marginTop: 3 }}>
+      <Flex justify='space-between' align='center' style={{ marginTop: 16 }}>
         <HeaderText>Optimization target</HeaderText>
       </Flex>
 
-      <Form.Item name="resultLimit">
+      <Form.Item name='resultLimit'>
         <Select
           showSearch
           style={{ width: panelWidth }}
           options={resultLimitOptions}
-          placeholder="Find top results"
+          placeholder='Find top results'
         />
       </Form.Item>
 
-      <Form.Item name="resultSort">
+      <Form.Item name='resultSort'>
         <Select
           showSearch
           style={{ width: panelWidth }}
           options={resultSortOptions}
           listHeight={800}
           popupMatchSelectWidth={250}
-          placeholder="Sorted by"
+          placeholder='Sorted by'
           filterOption={Utils.labelFilterOption}
         />
       </Form.Item>
-
-      <Flex align="center">
-        <Form.Item name="gpuAcceleration">
-          <Switch
-            checkedChildren={<CheckOutlined/>}
-            unCheckedChildren={<CloseOutlined/>}
-            defaultChecked={true}
-            style={{ width: 45, marginRight: 5 }}
-          />
-        </Form.Item>
-        <Text>GPU acceleration (BETA)</Text>
-      </Flex>
     </Flex>
   )
 }

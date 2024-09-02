@@ -1,6 +1,6 @@
 import { Form } from 'types/Form'
 import { generateParams } from 'lib/optimizer/calculateParams'
-import { SetsOrnaments, SetsRelics } from 'lib/constants'
+import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, SetsOrnaments, SetsRelics } from 'lib/constants'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { debugWebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
@@ -21,6 +21,7 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
     request,
     params,
     permutations,
+    COMPUTE_ENGINE_GPU_EXPERIMENTAL,
     relicSetSolutions,
     ornamentSetSolutions,
     true,

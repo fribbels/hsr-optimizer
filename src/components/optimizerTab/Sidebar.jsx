@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, Grid, Modal, Progress, Radio, theme, Typography } from 'antd'
+import { Button, Divider, Dropdown, Flex, Grid, Modal, Progress, Radio, theme, Typography } from 'antd'
 import React, { useState } from 'react'
 import FormCard from 'components/optimizerTab/FormCard'
 import { HeaderText } from '../HeaderText'
@@ -6,17 +6,62 @@ import { TooltipImage } from '../TooltipImage'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Hint } from 'lib/hint'
 import PropTypes from 'prop-types'
-import { ThunderboltFilled } from '@ant-design/icons'
+import { DownOutlined, ThunderboltFilled } from '@ant-design/icons'
 import { Optimizer } from 'lib/optimizer/optimizer.ts'
 import { defaultPadding } from 'components/optimizerTab/optimizerTabConstants'
 import { SettingOptions } from 'components/SettingsDrawer'
 import DB from 'lib/db'
 import { Utils } from 'lib/utils'
+import { SavedSessionKeys } from 'lib/constantsSession'
+import { COMPUTE_ENGINE_CPU, COMPUTE_ENGINE_GPU_EXPERIMENTAL, COMPUTE_ENGINE_GPU_STABLE } from 'lib/constants'
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
 
 const { Text } = Typography
+
+const computeEngineToDisplay = {
+  [COMPUTE_ENGINE_GPU_EXPERIMENTAL]: 'GPU acceleration: Enabled',
+  [COMPUTE_ENGINE_GPU_STABLE]: 'GPU acceleration: Enabled',
+  [COMPUTE_ENGINE_CPU]: 'GPU acceleration: Disabled',
+}
+
+function getGpuOptions(computeEngine) {
+  return [
+    {
+      label: (
+        <div style={{ width: '100%', fontWeight: computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL ? 'bold' : '' }}>
+          GPU acceleration enabled (experimental)
+        </div>
+      ),
+      key: COMPUTE_ENGINE_GPU_EXPERIMENTAL,
+    },
+    {
+      label: (
+        <div style={{ width: '100%', fontWeight: computeEngine == COMPUTE_ENGINE_GPU_STABLE ? 'bold' : '' }}>
+          GPU acceleration enabled (stable)
+        </div>
+      ),
+      key: COMPUTE_ENGINE_GPU_STABLE,
+    },
+    {
+      label: (
+        <div style={{ width: '100%', fontWeight: computeEngine == COMPUTE_ENGINE_CPU ? 'bold' : '' }}>
+          CPU only
+        </div>
+      ),
+      key: COMPUTE_ENGINE_CPU,
+    },
+    // {
+    //   label: (
+    //     <div style={{ width: '100%' }}>
+    //       More information
+    //     </div>
+    //   ),
+    //   key: MORE_INFO,
+    // },
+  ]
+}
 
 function PermutationDisplay(props) {
   const rightText = props.total
@@ -64,6 +109,33 @@ export default function Sidebar() {
   return renderSidebarAtBreakpoint()
 }
 
+function ComputeEngineSelect() {
+  const computeEngine = window.store((s) => s.savedSession[SavedSessionKeys.computeEngine])
+  return (
+    <Dropdown
+      menu={{
+        items: getGpuOptions(computeEngine),
+        onClick: (e) => {
+          window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, e.key)
+          Message.success(`Set compute engine to [${e.key}]`)
+        },
+      }}
+      style={{ width: '100%', flex: 1 }}
+      className='custom-dropdown-button'
+    >
+      <Button style={{ padding: 3 }}>
+        <Flex justify='space-around' align='center' style={{ width: '100%' }}>
+          <div style={{ width: 1 }}/>
+          <Text>
+            {computeEngineToDisplay[computeEngine]}
+          </Text>
+          <DownOutlined/>
+        </Flex>
+      </Button>
+    </Dropdown>
+  )
+}
+
 function addToPinned() {
   const currentPinned = window.optimizerGrid.current.api.getGridOption('pinnedTopRowData')
   const selectedNodes = window.optimizerGrid.current.api.getSelectedNodes()
@@ -104,6 +176,8 @@ function SidebarContent() {
   const optimizerStartTime = window.store((s) => s.optimizerStartTime)
   const optimizerEndTime = window.store((s) => s.optimizerEndTime)
 
+  const computeEngine = window.store((s) => s.savedSession[SavedSessionKeys.computeEngine])
+
   const [startTime, setStartTime] = useState(undefined)
 
   const [manyPermsModalOpen, setManyPermsModalOpen] = useState(false)
@@ -127,7 +201,10 @@ function SidebarContent() {
   }
 
   function startClicked() {
-    if (permutations < 1000000000 || window.optimizerForm.getFieldValue('gpuAcceleration')) {
+    const computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
+    if (permutations < 1000000000
+      || computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL
+      || computeEngine == COMPUTE_ENGINE_GPU_STABLE) {
       startOptimizer()
     } else {
       setManyPermsModalOpen(true)
@@ -144,7 +221,7 @@ function SidebarContent() {
       <ManyPermsModal startSearch={startOptimizer} manyPermsModalOpen={manyPermsModalOpen} setManyPermsModalOpen={setManyPermsModalOpen}/>
       <Flex vertical style={{ overflow: 'clip' }}>
         <Flex style={{ position: 'sticky', top: '50%', transform: 'translateY(-50%)', paddingLeft: 10 }}>
-          <FormCard height={600}>
+          <FormCard height={635}>
             <Flex vertical gap={10}>
               <Flex justify='space-between' align='center'>
                 <HeaderText>Permutations</HeaderText>
@@ -192,6 +269,9 @@ function SidebarContent() {
                     Start optimizer
                   </Button>
                 </Flex>
+
+                <ComputeEngineSelect/>
+
                 <Flex gap={defaultGap}>
                   <Button onClick={cancelClicked} style={{ flex: 1 }}>
                     Cancel
@@ -302,7 +382,10 @@ function MobileSidebarContent() {
   }
 
   function startClicked() {
-    if (permutations < 1000000000 || window.optimizerForm.getFieldValue('gpuAcceleration')) {
+    const computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
+    if (permutations < 1000000000
+      || computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL
+      || computeEngine == COMPUTE_ENGINE_GPU_STABLE) {
       startOptimizer()
     } else {
       setManyPermsModalOpen(true)
@@ -369,15 +452,7 @@ function MobileSidebarContent() {
             </Radio>
           </Radio.Group>
           <Flex vertical>
-            <HeaderText>
-              {calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress)}
-            </HeaderText>
-            <Progress
-              strokeColor={token.colorPrimary}
-              steps={17}
-              size={[8, 5]}
-              percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
-            />
+            <ComputeEngineSelect/>
           </Flex>
         </Flex>
         {/* Controls Column */}

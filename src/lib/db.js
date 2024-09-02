@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
+import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
@@ -63,6 +63,14 @@ export const RouteToPage = {
 // Nonreactive usage
 // store.getState().setRelicsById(relicsById)
 
+const savedSessionDefaults = {
+  [SavedSessionKeys.optimizerCharacterId]: null,
+  [SavedSessionKeys.relicScorerSidebarOpen]: true,
+  [SavedSessionKeys.scoringType]: SIMULATION_SCORE,
+  [SavedSessionKeys.combatScoreDetails]: DAMAGE_UPGRADES,
+  [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_EXPERIMENTAL,
+}
+
 window.store = create((set) => ({
   version: CURRENT_OPTIMIZER_VERSION,
   colorTheme: Themes.BLUE,
@@ -100,7 +108,6 @@ window.store = create((set) => ({
   zeroResultModalOpen: false,
   menuSidebarOpen: true,
   relicScorerSidebarOpen: true,
-  gpuAccelerationWarned: false,
   optimizerStartTime: null,
   optimizerEndTime: null,
 
@@ -148,12 +155,7 @@ window.store = create((set) => ({
     [OptimizerMenuIds.characterStatsSimulation]: false,
   },
 
-  savedSession: {
-    [SavedSessionKeys.optimizerCharacterId]: null,
-    [SavedSessionKeys.relicScorerSidebarOpen]: true,
-    [SavedSessionKeys.scoringType]: SIMULATION_SCORE,
-    [SavedSessionKeys.combatScoreDetails]: DAMAGE_UPGRADES,
-  },
+  savedSession: savedSessionDefaults,
 
   settings: DefaultSettingOptions,
 
@@ -185,7 +187,6 @@ window.store = create((set) => ({
   setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
   setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
   setOptimizationId: (x) => set(() => ({ optimizationId: x })),
-  setGpuAccelerationWarned: (x) => set(() => ({ gpuAccelerationWarned: x })),
   setOptimizerStartTime: (x) => set(() => ({ optimizerStartTime: x })),
   setOptimizerEndTime: (x) => set(() => ({ optimizerEndTime: x })),
   setTeammateCount: (x) => set(() => ({ teammateCount: x })),
@@ -447,7 +448,13 @@ export const DB = {
         delete x.savedSession.optimizerCharacterId
       }
 
-      window.store.getState().setSavedSession(x.savedSession)
+      // When new session items are added, set user's save to the default
+      const overiddenSavedSessionDefaults = {
+        ...savedSessionDefaults,
+        ...x.savedSession,
+      }
+
+      window.store.getState().setSavedSession(overiddenSavedSessionDefaults)
     }
 
     if (x.settings) {

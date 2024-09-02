@@ -15,6 +15,7 @@ import { Renderer } from 'lib/renderer'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 import { ClearOutlined } from '@ant-design/icons'
 import { UnreleasedSets } from 'lib/dataParser'
+import { SettingOptions } from 'components/SettingsDrawer'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -75,7 +76,7 @@ export default function RelicFilterBar(props) {
       return {
         key: x[0],
         display: (
-          <Flex style={{ width: width, height: tagHeight }} justify="space-around" align="center">
+          <Flex style={{ width: width, height: tagHeight }} justify='space-around' align='center'>
             <Text style={{ fontSize: 18 }}>
               {x[1]}
             </Text>
@@ -141,7 +142,9 @@ export default function RelicFilterBar(props) {
   // are warned about, we genuinely only want to do this on first component render (updates
   // will correctly re-trigger it)
   useEffect(() => {
-    characterSelectorChange(currentlySelectedCharacterId)
+    if (DB.getState().settings[SettingOptions.RelicPotentialLoadBehavior.name] == SettingOptions.RelicPotentialLoadBehavior.ScoreAtStartup) {
+      characterSelectorChange(currentlySelectedCharacterId)
+    }
   }, [])
 
   function characterSelectorChange(id, singleRelic) {
@@ -234,23 +237,23 @@ export default function RelicFilterBar(props) {
       <Flex gap={10}>
         <Flex vertical flex={1}>
           <HeaderText>Part</HeaderText>
-          <FilterRow name="part" tags={partsData} flexBasis="15%"/>
+          <FilterRow name='part' tags={partsData} flexBasis='15%'/>
         </Flex>
         <Flex vertical style={{ height: '100%' }} flex={1}>
           <HeaderText>Enhance</HeaderText>
-          <FilterRow name="enhance" tags={enhanceData} flexBasis="15%"/>
+          <FilterRow name='enhance' tags={enhanceData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.5}>
           <HeaderText>Grade</HeaderText>
-          <FilterRow name="grade" tags={gradeData} flexBasis="15%"/>
+          <FilterRow name='grade' tags={gradeData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>Verified</HeaderText>
-          <FilterRow name="verified" tags={verifiedData} flexBasis="15%"/>
+          <FilterRow name='verified' tags={verifiedData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>Equipped</HeaderText>
-          <FilterRow name="equippedBy" tags={equippedByData} flexBasis="15%"/>
+          <FilterRow name='equippedBy' tags={equippedByData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.4}>
           <HeaderText>Clear</HeaderText>
@@ -262,17 +265,17 @@ export default function RelicFilterBar(props) {
 
       <Flex vertical>
         <HeaderText>Set</HeaderText>
-        <FilterRow name="set" tags={setsData} flexBasis={`${100 / Object.values(SetsRelics).length}%`}/>
+        <FilterRow name='set' tags={setsData} flexBasis={`${100 / Object.values(SetsRelics).length}%`}/>
       </Flex>
 
       <Flex vertical>
         <HeaderText>Main stats</HeaderText>
-        <FilterRow name="mainStats" tags={mainStatsData}/>
+        <FilterRow name='mainStats' tags={mainStatsData}/>
       </Flex>
 
       <Flex vertical>
         <HeaderText>Substats</HeaderText>
-        <FilterRow name="subStats" tags={subStatsData}/>
+        <FilterRow name='subStats' tags={subStatsData}/>
       </Flex>
 
       <Flex gap={10}>
@@ -305,18 +308,18 @@ export default function RelicFilterBar(props) {
 
         <Flex vertical flex={0.25} gap={10}>
           <Flex vertical>
-            <Flex justify="space-between" align="center">
+            <Flex justify='space-between' align='center'>
               <HeaderText>Relic ratings</HeaderText>
               <TooltipImage type={Hint.valueColumns()}/>
             </Flex>
             <Flex gap={10}>
               <Select
-                mode="multiple"
+                mode='multiple'
                 allowClear
                 value={props.valueColumns}
                 onChange={props.setValueColumns}
                 options={props.valueColumnOptions}
-                maxTagCount="responsive"
+                maxTagCount='responsive'
                 style={{ flex: 1 }}
                 listHeight={750}
               />
@@ -393,7 +396,7 @@ function FilterRow(props) {
             backgroundColor: selectedTags.includes(tag.key) ? token.colorPrimary : 'transparent',
           }}
         >
-          <Flex align="center" justify="space-around" style={{ height: '100%' }}>
+          <Flex align='center' justify='space-around' style={{ height: '100%' }}>
             {tag.display}
           </Flex>
         </CheckableTag>

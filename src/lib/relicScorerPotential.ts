@@ -847,7 +847,7 @@ function maxEnhance(grade: 2 | 3 | 4 | 5) {
 
 function scoreToRating(score: number): rating { // + 1 rating per 0.5 low rolls of score, starting from 1 low roll of score
   const index = Math.min(Math.floor(score / (minRollValue / 2)), ratings.length - 1)
-  return ratings[index]
+  return index < 0 ? '???' : ratings[index]
 }
 
 // Hands/Head have no weight. Optimal main stats are 1.0 weight, and anything else inherits the substat weight.

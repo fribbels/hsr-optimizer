@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
 import { Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
@@ -975,7 +974,8 @@ function hashRelic(relic) {
     substatValues: substatValues, // Match to 1 decimal point
     substatStats: substatStats,
   }
-  return objectHash(hashObject)
+
+  return Utils.objectHash(hashObject)
 }
 
 // -1: old > new, 0: old == new, 1, new > old
@@ -1005,7 +1005,7 @@ function partialHashRelic(relic) {
     mainstat: relic.main.stat,
   }
 
-  return objectHash(hashObject)
+  return Utils.objectHash(hashObject)
 }
 
 /**

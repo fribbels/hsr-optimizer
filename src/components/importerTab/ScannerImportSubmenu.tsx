@@ -135,8 +135,11 @@ export function ScannerImportSubmenu() {
     setTimeout(() => {
       DB.mergeRelicsWithState(currentRelics)
       SaveState.save()
-      setCurrentStage(Stages.FINISHED)
-      setLoading2(false)
+
+      setTimeout(() => {
+        setLoading2(false)
+        setCurrentStage(Stages.FINISHED)
+      }, 100)
     }, importerTabSpinnerMs)
   }
 
@@ -145,8 +148,11 @@ export function ScannerImportSubmenu() {
     setTimeout(() => {
       DB.mergeRelicsWithState(currentRelics, currentCharacters)
       SaveState.save()
-      setCurrentStage(Stages.FINISHED)
-      setLoading2(false)
+
+      setTimeout(() => {
+        setLoading2(false)
+        setCurrentStage(Stages.FINISHED)
+      }, 100)
     }, importerTabSpinnerMs)
   }
 
@@ -162,7 +168,7 @@ export function ScannerImportSubmenu() {
               <ReliquaryDescription/>
               <li>
                 Kel-Z HSR Scanner (
-                <ColorizedLink text="Github" url={KelzScannerConfig.releases}/>
+                <ColorizedLink text='Github' url={KelzScannerConfig.releases}/>
                 )
                 <ul>
                   <li>Inaccurate speed decimals, 5-10 minutes OCR scan</li>
@@ -172,7 +178,7 @@ export function ScannerImportSubmenu() {
               <li>
                 Relic Scorer Import (
                 <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}>
-                  <ColorizedLink text="Relic scorer"/>
+                  <ColorizedLink text='Relic scorer'/>
                 </span>
                 )
                 <ul>
@@ -181,7 +187,7 @@ export function ScannerImportSubmenu() {
                 </ul>
               </li>
               <li>HoyoLab Import (
-                <ColorizedLink text="Instructions" url="https://github.com/fribbels/hsr-optimizer/discussions/403"/>
+                <ColorizedLink text='Instructions' url='https://github.com/fribbels/hsr-optimizer/discussions/403'/>
                 )
                 <ul>
                   <li>Inaccurate speed decimals, instant scan</li>
@@ -190,11 +196,11 @@ export function ScannerImportSubmenu() {
               </li>
             </ul>
           </Text>
-          <Flex vertical align="flex-start">
-            <Flex gap={10} align="center">
+          <Flex vertical align='flex-start'>
+            <Flex gap={10} align='center'>
               <Upload
-                accept=".json"
-                name="file"
+                accept='.json'
+                name='file'
                 beforeUpload={beforeUpload}
               >
                 <Button
@@ -211,9 +217,9 @@ export function ScannerImportSubmenu() {
 
               <Input
                 style={{ width: importerTabButtonWidth }}
-                className="centered-placeholder"
-                placeholder="Paste json file contents"
-                value=""
+                className='centered-placeholder'
+                placeholder='Paste json file contents'
+                value=''
                 disabled={loading1}
                 onChange={(e) => {
                   const text = e.target.value
@@ -254,7 +260,7 @@ export function ScannerImportSubmenu() {
             Import relics only. Updates the optimizer with the new dataset of relics and doesn't overwrite builds.
           </Text>
 
-          <Button style={{ width: importerTabButtonWidth }} type="primary" onClick={mergeRelicsConfirmed} loading={loading2}>
+          <Button style={{ width: importerTabButtonWidth }} type='primary' onClick={mergeRelicsConfirmed} loading={loading2}>
             Import relics
           </Button>
 
@@ -264,14 +270,14 @@ export function ScannerImportSubmenu() {
           </Text>
 
           <Popconfirm
-            title="Overwrite optimizer builds"
-            description="Are you sure you want to overwrite your optimizer builds with ingame builds?"
+            title='Overwrite optimizer builds'
+            description='Are you sure you want to overwrite your optimizer builds with ingame builds?'
             onConfirm={mergeCharactersConfirmed}
-            placement="bottom"
-            okText="Yes"
-            cancelText="Cancel"
+            placement='bottom'
+            okText='Yes'
+            cancelText='Cancel'
           >
-            <Button style={{ width: importerTabButtonWidth }} type="primary" loading={loading2}>
+            <Button style={{ width: importerTabButtonWidth }} type='primary' loading={loading2}>
               Import relics & characters
             </Button>
           </Popconfirm>
@@ -295,7 +301,7 @@ export function ScannerImportSubmenu() {
   return (
     <Flex gap={5}>
       <Steps
-        direction="vertical"
+        direction='vertical'
         current={currentStage}
         items={[
           {

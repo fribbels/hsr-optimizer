@@ -69,7 +69,7 @@ export function getDefaultForm(initialCharacter) {
     teammate1: defaultTeammate(),
     teammate2: defaultTeammate(),
     resultSort: scoringMetadata?.sortOption.key,
-    resultLimit: 100000,
+    resultsLimit: 1024,
     combatBuffs: combatBuffs,
     combo: {
       BASIC: 0,

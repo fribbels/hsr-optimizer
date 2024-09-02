@@ -22,11 +22,24 @@ const Text = styled(Typography)`
 const resultLimitString = (limit: number) => `Find top ${limit.toLocaleString()} results`
 const resultLimitOptions = (() => {
   return [
-    { value: 100, label: resultLimitString(100) },
-    { value: 1000, label: resultLimitString(1000) },
-    { value: 10000, label: resultLimitString(10000) },
-    { value: 100000, label: resultLimitString(100000) },
-    { value: 1000000, label: resultLimitString(1000000) },
+    // { value: 1, label: resultLimitString(1) },
+    // { value: 2, label: resultLimitString(2) },
+    // { value: 4, label: resultLimitString(4) },
+    // { value: 8, label: resultLimitString(8) },
+    // { value: 16, label: resultLimitString(16) },
+    // { value: 32, label: resultLimitString(32) },
+    { value: 64, label: resultLimitString(64) },
+    { value: 128, label: resultLimitString(128) },
+    { value: 256, label: resultLimitString(256) },
+    { value: 512, label: resultLimitString(512) },
+    { value: 1024, label: resultLimitString(1024) },
+    { value: 2048, label: resultLimitString(2048) },
+    { value: 4096, label: resultLimitString(4096) },
+    { value: 8192, label: resultLimitString(8192) },
+    { value: 16384, label: resultLimitString(16384) },
+    { value: 32768, label: resultLimitString(32768) },
+    { value: 65536, label: resultLimitString(65536) },
+    // { value: 131072, label: resultLimitString(131072) },
   ]
 })()
 
@@ -143,12 +156,13 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
         <HeaderText>Optimization target</HeaderText>
       </Flex>
 
-      <Form.Item name='resultLimit'>
+      <Form.Item name='resultsLimit'>
         <Select
           showSearch
           style={{ width: panelWidth }}
           options={resultLimitOptions}
           placeholder='Find top results'
+          listHeight={800}
         />
       </Form.Item>
 

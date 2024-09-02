@@ -59,16 +59,16 @@ export const SettingsDrawer = () => {
 
   const optionsPermutationsSidebarBehavior = [
     {
-      value: SettingOptions.PermutationsSidebarBehavior.NoShow,
-      label: <span>Default: Always keep the sidebar on the right</span>,
-    },
-    {
       value: SettingOptions.PermutationsSidebarBehavior.ShowXL,
-      label: <span>Minimize for the smallest screen size</span>,
+      label: <span>Default: Minimize if most of the sidebar is hidden</span>,
     },
     {
       value: SettingOptions.PermutationsSidebarBehavior.ShowXXL,
-      label: <span>Minimize for best-looking layout</span>,
+      label: <span>Minimize if any of the sidebar is hidden</span>,
+    },
+    {
+      value: SettingOptions.PermutationsSidebarBehavior.NoShow,
+      label: <span>Always keep the sidebar on the right</span>,
     },
   ]
 

@@ -100,7 +100,7 @@ export function SimulatedBuildsGrid() {
   return (
     <Table
       showHeader={false}
-      locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No custom simulations selected"/> }}
+      locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='No custom stat simulations selected'/> }}
       rowSelection={{
         selectedRowKeys: selectedStatSimulations,
         type: 'radio',
@@ -115,7 +115,7 @@ export function SimulatedBuildsGrid() {
         },
       })}
       pagination={false}
-      size="small"
+      size='small'
       style={{
         flex: 1,
         width: STAT_SIMULATION_GRID_WIDTH,

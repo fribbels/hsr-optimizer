@@ -1,5 +1,5 @@
 import { Button, Flex, Select, theme, Tooltip, Typography } from 'antd'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { RelicScorer } from 'lib/relicScorerPotential'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { HeaderText } from './HeaderText'
@@ -15,6 +15,7 @@ import { Renderer } from 'lib/renderer'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 import { ClearOutlined } from '@ant-design/icons'
 import { UnreleasedSets } from 'lib/dataParser'
+import { SettingOptions } from 'components/SettingsDrawer'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -136,6 +137,15 @@ export default function RelicFilterBar(props) {
   }
 
   useSubscribe('refreshRelicsScore', window.refreshRelicsScore)
+
+  // Kick off an initial calculation to populate value columns. Though empty dependencies
+  // are warned about, we genuinely only want to do this on first component render (updates
+  // will correctly re-trigger it)
+  useEffect(() => {
+    if (DB.getState().settings[SettingOptions.RelicPotentialLoadBehavior.name] == SettingOptions.RelicPotentialLoadBehavior.ScoreAtStartup) {
+      characterSelectorChange(currentlySelectedCharacterId)
+    }
+  }, [])
 
   function characterSelectorChange(id, singleRelic) {
     const relics = singleRelic ? [singleRelic] : Object.values(DB.getRelicsById())

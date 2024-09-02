@@ -753,3 +753,7 @@ export const CHARACTER_SCORE = 'Character Score'
 
 export const DAMAGE_UPGRADES = 'Damage Upgrades'
 export const COMBAT_STATS = 'Combat Stats'
+
+export const COMPUTE_MODE_CPU = 'CPU'
+export const COMPUTE_MODE_GPU_STABLE = 'GPU STABLE'
+export const COMPUTE_MODE_GPU_EXPERIMENTAL = 'GPU EXPERIMENTAL'

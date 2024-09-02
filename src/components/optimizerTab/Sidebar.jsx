@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, Grid, Modal, Progress, Radio, theme, Typography } from 'antd'
+import { Button, Divider, Dropdown, Flex, Grid, Modal, Progress, Radio, theme, Typography } from 'antd'
 import React, { useState } from 'react'
 import FormCard from 'components/optimizerTab/FormCard'
 import { HeaderText } from '../HeaderText'
@@ -17,6 +17,17 @@ const { useToken } = theme
 const { useBreakpoint } = Grid
 
 const { Text } = Typography
+
+const gpuOptions = [
+  {
+    label: (
+      <div style={{ width: '100%' }}>
+        GPU acceleration: ON
+      </div>
+    ),
+    key: '1',
+  },
+]
 
 function PermutationDisplay(props) {
   const rightText = props.total
@@ -144,7 +155,7 @@ function SidebarContent() {
       <ManyPermsModal startSearch={startOptimizer} manyPermsModalOpen={manyPermsModalOpen} setManyPermsModalOpen={setManyPermsModalOpen}/>
       <Flex vertical style={{ overflow: 'clip' }}>
         <Flex style={{ position: 'sticky', top: '50%', transform: 'translateY(-50%)', paddingLeft: 10 }}>
-          <FormCard height={600}>
+          <FormCard height={635}>
             <Flex vertical gap={10}>
               <Flex justify='space-between' align='center'>
                 <HeaderText>Permutations</HeaderText>
@@ -192,6 +203,15 @@ function SidebarContent() {
                     Start optimizer
                   </Button>
                 </Flex>
+
+                <Dropdown.Button
+                  menu={{ items: gpuOptions }}
+                  style={{ width: '100%', flex: 1 }}
+                  className='custom-dropdown-button'
+                >
+                  GPU acceleration: ON
+                </Dropdown.Button>
+
                 <Flex gap={defaultGap}>
                   <Button onClick={cancelClicked} style={{ flex: 1 }}>
                     Cancel

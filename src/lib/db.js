@@ -153,6 +153,7 @@ window.store = create((set) => ({
     [SavedSessionKeys.relicScorerSidebarOpen]: true,
     [SavedSessionKeys.scoringType]: SIMULATION_SCORE,
     [SavedSessionKeys.combatScoreDetails]: DAMAGE_UPGRADES,
+    [SavedSessionKeys.computeMode]: DAMAGE_UPGRADES,
   },
 
   settings: DefaultSettingOptions,

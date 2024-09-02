@@ -26,40 +26,42 @@ const computeEngineToDisplay = {
   [COMPUTE_ENGINE_CPU]: 'GPU acceleration: Disabled',
 }
 
-const gpuOptions = [
-  {
-    label: (
-      <div style={{ width: '100%' }}>
-        Default: GPU acceleration enabled (experimental)
-      </div>
-    ),
-    key: COMPUTE_ENGINE_GPU_EXPERIMENTAL,
-  },
-  {
-    label: (
-      <div style={{ width: '100%' }}>
-        GPU acceleration enabled (stable)
-      </div>
-    ),
-    key: COMPUTE_ENGINE_GPU_STABLE,
-  },
-  {
-    label: (
-      <div style={{ width: '100%' }}>
-        CPU only
-      </div>
-    ),
-    key: COMPUTE_ENGINE_CPU,
-  },
-  // {
-  //   label: (
-  //     <div style={{ width: '100%' }}>
-  //       More information
-  //     </div>
-  //   ),
-  //   key: MORE_INFO,
-  // },
-]
+function getGpuOptions(computeEngine) {
+  return [
+    {
+      label: (
+        <div style={{ width: '100%', fontWeight: computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL ? 'bold' : '' }}>
+          GPU acceleration enabled (experimental)
+        </div>
+      ),
+      key: COMPUTE_ENGINE_GPU_EXPERIMENTAL,
+    },
+    {
+      label: (
+        <div style={{ width: '100%', fontWeight: computeEngine == COMPUTE_ENGINE_GPU_STABLE ? 'bold' : '' }}>
+          GPU acceleration enabled (stable)
+        </div>
+      ),
+      key: COMPUTE_ENGINE_GPU_STABLE,
+    },
+    {
+      label: (
+        <div style={{ width: '100%', fontWeight: computeEngine == COMPUTE_ENGINE_CPU ? 'bold' : '' }}>
+          CPU only
+        </div>
+      ),
+      key: COMPUTE_ENGINE_CPU,
+    },
+    // {
+    //   label: (
+    //     <div style={{ width: '100%' }}>
+    //       More information
+    //     </div>
+    //   ),
+    //   key: MORE_INFO,
+    // },
+  ]
+}
 
 function PermutationDisplay(props) {
   const rightText = props.total
@@ -112,7 +114,7 @@ function ComputeEngineSelect() {
   return (
     <Dropdown
       menu={{
-        items: gpuOptions,
+        items: getGpuOptions(computeEngine),
         onClick: (e) => {
           window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, e.key)
           Message.success(`Set compute engine to [${e.key}]`)

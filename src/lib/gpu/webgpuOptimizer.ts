@@ -67,11 +67,10 @@ export async function gpuOptimize(props: {
       const workgroupsSkipped = -(firstElement + 2048)
       const elementOffset = workgroupsSkipped * 512 * 256
 
-      void readBuffer(offset, gpuReadBuffer, gpuContext, elementOffset)
+      await readBuffer(offset, gpuReadBuffer, gpuContext, elementOffset)
     } else {
-      void readBuffer(offset, gpuReadBuffer, gpuContext)
+      await readBuffer(offset, gpuReadBuffer, gpuContext)
     }
-
     window.store.getState().setOptimizerEndTime(Date.now())
     window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
     window.store.getState().setPermutationsSearched(Math.min(gpuContext.permutations, maxPermNumber))
@@ -92,7 +91,7 @@ export async function gpuOptimize(props: {
 
 // eslint-disable-next-line
 async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: GpuExecutionContext, elementOffset: number = 0) {
-  await gpuReadBuffer.mapAsync(GPUMapMode.READ, elementOffset * 4)
+  await gpuReadBuffer.mapAsync(GPUMapMode.READ, elementOffset)
 
   const arrayBuffer = gpuReadBuffer.getMappedRange(elementOffset * 4)
   const array = new Float32Array(arrayBuffer)

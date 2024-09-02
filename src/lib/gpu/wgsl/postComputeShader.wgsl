@@ -9,10 +9,10 @@ fn main(
   @builtin(num_workgroups) num_workgroups: vec3<u32>
 ) {
   var hasResult = 0;
-  let offset = local_invocation_index * 256 * 512; // 255 * 256 * 512 = 33423360
+  let offset = local_invocation_index * 256 * 512;
 
-  for (var i: u32 = 511; i < 256 * 512; i += 512) { // 511
-    let index = offset + i; // 33423360 + // 511
+  for (var i: u32 = 511; i < 256 * 512; i += 512) {
+    let index = offset + i;
     if (results[index] != -512) {
       hasResult = 1;
       break;

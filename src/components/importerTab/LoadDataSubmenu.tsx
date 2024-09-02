@@ -29,10 +29,10 @@ export function LoadDataSubmenu() {
       reader.readAsText(file)
       reader.onload = () => {
         const fileUploadText = String(reader.result)
-        console.log('Uploaded file', fileUploadText)
+        // console.log('Uploaded file', fileUploadText)
 
         const json = JSON.parse(fileUploadText)
-        console.log('Parsed json', json)
+        // console.log('Parsed json', json)
 
         if (json.fileType || json.source) {
           setLoading1(true)

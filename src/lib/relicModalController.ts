@@ -17,11 +17,14 @@ export const RelicModalController = {
     window.rescoreSingleRelic(updatedRelic)
     DB.setRelic(updatedRelic)
     window.setRelicRows(DB.getRelics())
-    SaveState.save()
-    window.forceCharacterTabUpdate()
 
-    Message.success('Successfully edited relic')
     console.log('onEditOk', updatedRelic)
+    Message.success('Successfully edited relic')
+
+    setTimeout(() => {
+      SaveState.save()
+      window.forceCharacterTabUpdate()
+    }, 200)
 
     OptimizerTabController.updateFilters()
 

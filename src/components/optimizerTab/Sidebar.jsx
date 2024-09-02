@@ -447,7 +447,7 @@ function calculateProgressText(startTime, optimizerEndTime, permutations, permut
   }
 
   const msDiff = endTime - startTime
-  if (msDiff < 5_000 && permutationsSearched < 5_000_000 || !permutationsSearched) {
+  if (!optimizerEndTime && msDiff < 5_000 && permutationsSearched < 5_000_000 || !permutationsSearched) {
     return 'Progress  (calculating ETA..)'
   }
 

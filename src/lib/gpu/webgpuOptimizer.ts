@@ -61,6 +61,8 @@ export async function gpuOptimize(props: {
     const firstElement = new Float32Array(gpuReadBuffer.getMappedRange(0, 4))[0]
     gpuReadBuffer.unmap()
 
+    console.debug('First element: ', firstElement)
+
     if (firstElement == -2304) {
       // Skip
     } else if (firstElement <= -2048) {
@@ -71,6 +73,7 @@ export async function gpuOptimize(props: {
     } else {
       await readBuffer(offset, gpuReadBuffer, gpuContext)
     }
+
     window.store.getState().setOptimizerEndTime(Date.now())
     window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
     window.store.getState().setPermutationsSearched(Math.min(gpuContext.permutations, maxPermNumber))
@@ -82,11 +85,12 @@ export async function gpuOptimize(props: {
 
     if (gpuContext.permutations <= maxPermNumber || !window.store.getState().optimizationInProgress) {
       gpuContext.cancelled = true
-      outputResults(gpuContext)
-      destroyPipeline(gpuContext)
       break
     }
   }
+
+  outputResults(gpuContext)
+  destroyPipeline(gpuContext)
 }
 
 // eslint-disable-next-line
@@ -105,6 +109,10 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
   if (diff < 0) {
     limit += diff
   }
+
+  console.debug('Skip bytes: ', elementOffset * 4)
+
+  console.debug('Heap min before: ', top)
 
   const indexOffset = offset + elementOffset
   if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
@@ -141,9 +149,13 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
     }
   }
 
+  console.debug('Heap min after: ', top)
+
   if (gpuContext.DEBUG) {
     debugWebgpuOutput(gpuContext, arrayBuffer)
   }
+
+  console.debug('Queue size: ', resultsQueue.size())
 }
 
 function outputResults(gpuContext: GpuExecutionContext) {

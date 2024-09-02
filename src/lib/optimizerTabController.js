@@ -536,7 +536,7 @@ export const OptimizerTabController = {
       }
     }
 
-    console.log('Form update', newForm)
+    // console.log('Form update', newForm)
     return newForm
   },
 
@@ -707,7 +707,7 @@ export const OptimizerTabController = {
       window.store.getState().setOptimizerFormCharacterEidolon(form.characterEidolon)
       window.store.getState().setStatDisplay(form.statDisplay || DEFAULT_STAT_DISPLAY)
       window.store.getState().setStatSimulations(form.statSim?.simulations || [])
-      console.log('@updateForm', displayFormValues, character)
+      // console.log('@updateForm', displayFormValues, character)
 
       window.onOptimizerFormValuesChange({}, displayFormValues)
     }, 50)

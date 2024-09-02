@@ -354,7 +354,7 @@ export const DB = {
     }, 2000)
   },
 
-  setStore: (x) => {
+  setStore: (x, autosave = true) => {
     const charactersById = {}
     const dbCharacters = DB.getMetadata().characters
     const dbLightCones = DB.getMetadata().lightCones
@@ -464,7 +464,10 @@ export const DB = {
 
     DB.refreshCharacters()
     DB.refreshRelics()
-    SaveState.save()
+
+    if (autosave) {
+      SaveState.save()
+    }
   },
   resetStore: () => {
     DB.setStore({

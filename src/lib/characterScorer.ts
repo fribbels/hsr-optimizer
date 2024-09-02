@@ -386,7 +386,7 @@ export function scoreCharacterSimulation(
   const benchmarkSim = candidateBenchmarkSims[0]
   const benchmarkSimResult = benchmarkSim.result
 
-  console.debug('bestSims', candidateBenchmarkSims)
+  console.log('bestSims', candidateBenchmarkSims)
 
   // ===== Calculate the maximum build =====
 
@@ -466,7 +466,7 @@ export function scoreCharacterSimulation(
 
   cachedSims[cacheKey] = simScoringResult
 
-  console.debug('simScoringResult', simScoringResult)
+  console.log('simScoringResult', simScoringResult)
   return simScoringResult
 }
 
@@ -598,7 +598,7 @@ function generateStatImprovements(
   upgradeMain(Parts.PlanarSphere)
   upgradeMain(Parts.LinkRope)
 
-  console.log(originalSimResult, originalSim, metadata, substatUpgradeResults)
+  console.log('Stat improvements', originalSimResult, originalSim, metadata, substatUpgradeResults)
 
   return { substatUpgradeResults, setUpgradeResults, mainUpgradeResults }
 }
@@ -819,7 +819,7 @@ function computeOptimalSimulation(
 
   currentSimulation.result = currentSimulationResult
 
-  console.debug(
+  console.log(
     'simulationRuns',
     simulationRuns,
     partialSimulationWrapper.simulation.request.simBody,

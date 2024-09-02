@@ -61,7 +61,7 @@ export default function OptimizerForm() {
     }
 
     const request = allValues
-    console.log('@onValuesChange', request, changedValues)
+    // console.log('@onValuesChange', request, changedValues)
 
     if (keys[0] === 'characterId') {
       window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, changedValues.characterId)
@@ -134,7 +134,7 @@ export default function OptimizerForm() {
     <div style={{ position: 'relative' }}>
       <Form
         form={optimizerForm}
-        layout="vertical"
+        layout='vertical'
         onValuesChange={onValuesChange}
       >
         <FormSetConditionals/>
@@ -155,7 +155,7 @@ export default function OptimizerForm() {
               <CharacterConditionalDisplayWrapper/>
             </FormCard>
 
-            <FormCard justify="space-between">
+            <FormCard justify='space-between'>
               <LightConeConditionalDisplayWrapper/>
             </FormCard>
 
@@ -238,13 +238,13 @@ function LightConeConditionalDisplayWrapper() {
       defaults.maxEnergyStacks = Math.min(160, DB.getMetadata().characters[optimizerTabFocusCharacter].max_sp)
     }
 
-    console.log('Loaded light cone conditional values', defaults)
+    // console.log('Loaded light cone conditional values', defaults)
 
     window.optimizerForm.setFieldValue('lightConeConditionals', defaults)
   }, [optimizerTabFocusCharacter, optimizerFormSelectedLightCone, optimizerFormSelectedLightConeSuperimposition])
 
   return (
-    <Flex vertical justify="space-between" style={{ height: '100%', marginBottom: 8 }}>
+    <Flex vertical justify='space-between' style={{ height: '100%', marginBottom: 8 }}>
       <LightConeConditionalDisplay
         id={optimizerFormSelectedLightCone}
         superImposition={optimizerFormSelectedLightConeSuperimposition}

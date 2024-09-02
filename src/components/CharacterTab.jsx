@@ -63,7 +63,7 @@ function cellNameRenderer(params) {
   if (equippedNumber < 1) color = '#d72f2f'
 
   return (
-    <Flex align="center" justify="flex-start" style={{ height: '100%', width: '100%' }}>
+    <Flex align='center' justify='flex-start' style={{ height: '100%', width: '100%' }}>
       <Text style={{
         margin: 'auto',
         padding: '0px 5px',
@@ -178,7 +178,7 @@ export default function CharacterTab() {
 
   const [characterFilters, setCharacterFilters] = useState(defaultFilters)
 
-  console.log('CharacterTab')
+  console.log('======================================================================= RENDER CharacterTab')
 
   useSubscribe('refreshRelicsScore', () => {
     // TODO: understand why setTimeout is needed and refactor
@@ -511,9 +511,9 @@ export default function CharacterTab() {
           <Flex style={{ width: 230 }}>
             <Input
               allowClear
-              size="large"
+              size='large'
               style={{ height: 40 }}
-              placeholder="Search character name"
+              placeholder='Search character name'
               onChange={(e) => {
                 nameFilter.current = e.target.value.toLowerCase()
                 externalFilterChanged()
@@ -522,18 +522,18 @@ export default function CharacterTab() {
           </Flex>
           <Flex style={{ flex: 1 }}>
             <SegmentedFilterRow
-              name="element"
+              name='element'
               tags={generateElementTags()}
-              flexBasis="14.2%"
+              flexBasis='14.2%'
               currentFilters={characterFilters}
               setCurrentFilters={setCharacterFilters}
             />
           </Flex>
           <Flex style={{ flex: 1 }}>
             <SegmentedFilterRow
-              name="path"
+              name='path'
               tags={generatePathTags()}
-              flexBasis="14.2%"
+              flexBasis='14.2%'
               currentFilters={characterFilters}
               setCurrentFilters={setCharacterFilters}
             />
@@ -542,7 +542,7 @@ export default function CharacterTab() {
         <Flex style={{ height: '100%' }}>
           <Flex vertical gap={10} style={{ marginRight: 8 }}>
             <div
-              id="characterGrid" className="ag-theme-balham-dark" style={{
+              id='characterGrid' className='ag-theme-balham-dark' style={{
                 ...{ display: 'block', width: 230, height: parentH - 80 },
                 ...getGridTheme(token),
               }}
@@ -570,9 +570,9 @@ export default function CharacterTab() {
               />
             </div>
             <Flex vertical gap={8}>
-              <Flex justify="space-between" gap={8}>
+              <Flex justify='space-between' gap={8}>
                 <Dropdown
-                  placement="topLeft"
+                  placement='topLeft'
                   menu={actionsMenuProps}
                   trigger={['hover']}
                 >
@@ -585,13 +585,13 @@ export default function CharacterTab() {
               <Flex gap={8}>
                 <Button
                   style={{ flex: 'auto' }} icon={<CameraOutlined/>} onClick={clipboardClicked}
-                  type="primary"
+                  type='primary'
                   loading={screenshotLoading}
                 >
                   Copy screenshot
                 </Button>
                 <Button
-                  style={{ width: 40 }} type="primary" icon={<DownloadOutlined/>}
+                  style={{ width: 40 }} type='primary' icon={<DownloadOutlined/>}
                   onClick={downloadClicked}
                   loading={downloadLoading}
                 />
@@ -600,7 +600,7 @@ export default function CharacterTab() {
           </Flex>
           <Flex vertical>
             <CharacterPreview
-              id="characterTabPreview"
+              id='characterTabPreview'
               character={selectedCharacter}
               setOriginalCharacterModalOpen={setCharacterModalOpen}
               setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}

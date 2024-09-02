@@ -27,13 +27,13 @@ export async function gpuOptimize(props: {
   }
 
   device.onuncapturederror = (event) => {
-    if (window.store.getState().optimizationInProgress == true) {
+    if (window.store.getState().optimizationInProgress) {
       window.store.getState().setOptimizationInProgress(false)
       Message.error('The GPU acceleration process has crashed - results may be invalid. Please report a bug to the Discord server', 15)
     }
   }
 
-  window.store.getState().setOptimizerStartTime(new Date())
+  window.store.getState().setOptimizerStartTime(Date.now())
 
   const gpuContext = initializeGpuPipeline(
     device,
@@ -49,19 +49,38 @@ export async function gpuOptimize(props: {
     Message.warning('Debug mode is ON', 5)
   }
 
-  console.log('Raw inputs', { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions })
+  console.log('Raw inputs', { params, request, relics, permutations })
   // console.log('GPU execution context', gpuContext)
 
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {
     const offset = iteration * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
+    const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
     const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
-    await gpuReadBuffer.mapAsync(GPUMapMode.READ)
 
-    void readBuffer(offset, gpuReadBuffer, gpuContext)
+    await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 4)
+    const firstElement = new Float32Array(gpuReadBuffer.getMappedRange(0, 4))[0]
+    gpuReadBuffer.unmap()
+
+    if (firstElement == -2304) {
+      // Skip
+    } else if (firstElement <= -2048) {
+      const workgroupsSkipped = -(firstElement + 2048)
+      const elementOffset = workgroupsSkipped * 512 * 256
+
+      await readBuffer(offset, gpuReadBuffer, gpuContext, elementOffset)
+    } else {
+      await readBuffer(offset, gpuReadBuffer, gpuContext)
+    }
+    window.store.getState().setOptimizerEndTime(Date.now())
+    window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
+    window.store.getState().setPermutationsSearched(Math.min(gpuContext.permutations, maxPermNumber))
 
     // logIterationTimer(iteration, gpuContext)
 
-    if (window.store.getState().optimizationInProgress == false) {
+    gpuReadBuffer.unmap()
+    gpuReadBuffer.destroy()
+
+    if (gpuContext.permutations <= maxPermNumber || !window.store.getState().optimizationInProgress) {
       gpuContext.cancelled = true
       outputResults(gpuContext)
       destroyPipeline(gpuContext)
@@ -71,19 +90,23 @@ export async function gpuOptimize(props: {
 }
 
 // eslint-disable-next-line
-async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: GpuExecutionContext) {
-  const arrayBuffer = gpuReadBuffer.getMappedRange()
-  const resultsQueue = gpuContext.resultsQueue
+async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: GpuExecutionContext, elementOffset: number = 0) {
+  await gpuReadBuffer.mapAsync(GPUMapMode.READ, elementOffset)
+
+  const arrayBuffer = gpuReadBuffer.getMappedRange(elementOffset * 4)
   const array = new Float32Array(arrayBuffer)
+
+  const resultsQueue = gpuContext.resultsQueue
   let top = resultsQueue.top()?.value ?? 0
 
-  let limit = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
-  const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
+  let limit = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION - elementOffset
+  const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION - elementOffset
   const diff = gpuContext.permutations - maxPermNumber
   if (diff < 0) {
     limit += diff
   }
 
+  const indexOffset = offset + elementOffset
   if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
     for (let j = limit - 1; j >= 0; j--) {
       const value = array[j]
@@ -94,7 +117,7 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
       if (value <= top) continue
 
       top = resultsQueue.fixedSizePushOvercapped({
-        index: offset + j,
+        index: indexOffset + j,
         value: value,
       }).value
     }
@@ -106,34 +129,20 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
         continue
       }
 
-      const permutationNumber = offset + j
-
       if (value <= top && resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
         continue
       }
 
       resultsQueue.fixedSizePush({
-        index: permutationNumber,
+        index: indexOffset + j,
         value: value,
       })
       top = resultsQueue.top()!.value
     }
   }
 
-  window.store.getState().setOptimizerEndTime(Date.now())
-  window.store.getState().setPermutationsResults(resultsQueue.size())
-  window.store.getState().setPermutationsSearched(Math.min(gpuContext.permutations, maxPermNumber))
-
   if (gpuContext.DEBUG) {
     debugWebgpuOutput(gpuContext, arrayBuffer)
-  }
-
-  gpuReadBuffer.unmap()
-  gpuReadBuffer.destroy()
-
-  if (gpuContext.permutations <= maxPermNumber) {
-    outputResults(gpuContext)
-    destroyPipeline(gpuContext)
   }
 }
 
@@ -181,7 +190,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
 
   // console.log(outputs)
 
-  const sortOption = SortOption[gpuContext.request.resultSort]
+  const sortOption = SortOption[gpuContext.request.resultSort!]
   const gridSortColumn = gpuContext.request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
   setSortColumn(gridSortColumn)
   OptimizerTabController.setRows(outputs)

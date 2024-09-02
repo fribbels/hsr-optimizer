@@ -21,7 +21,7 @@ const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content: c
 
   if (!content) {
     if (teammateIndex != null) {
-      ret.push(<div key={i++}>Team passives still under construction</div>)
+      ret.push(<div key={i++}>No conditional team passives</div>)
     } else {
       ret.push(<div key={i++}>No conditional passives</div>)
     }

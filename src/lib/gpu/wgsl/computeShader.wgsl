@@ -39,31 +39,33 @@ fn main(
     workgroup_id.x +
     workgroup_id.y * num_workgroups.x +
     workgroup_id.z * num_workgroups.x * num_workgroups.y;
+  let indexGlobal = i32(workgroup_index * WORKGROUP_SIZE + local_invocation_index);
+
+  // Load params
+  let lSize = i32(params.lSize);
+  let pSize = i32(params.pSize);
+  let fSize = i32(params.fSize);
+  let bSize = i32(params.bSize);
+  let gSize = i32(params.gSize);
+  let hSize = i32(params.hSize);
+  let xl = i32(params.xl);
+  let xp = i32(params.xp);
+  let xf = i32(params.xf);
+  let xb = i32(params.xb);
+  let xg = i32(params.xg);
+  let xh = i32(params.xh);
+  let threshold = f32(params.threshold);
+  let relicSetCount = u32(params.relicSetCount);
+  let ornamentSetCount = u32(params.ornamentSetCount);
+
+  let epsilon = 0.000001f;
 
   var failures: f32 = 1;
 
-  // Calculate global_invocation_index
-  let indexGlobal = i32(workgroup_index * WORKGROUP_SIZE + local_invocation_index);
-
   for (var i = 0; i < CYCLES_PER_INVOCATION; i++) {
-    let index = indexGlobal * CYCLES_PER_INVOCATION + i;
+    // Calculate global_invocation_index
 
-    // Load params
-    let lSize = i32(params.lSize);
-    let pSize = i32(params.pSize);
-    let fSize = i32(params.fSize);
-    let bSize = i32(params.bSize);
-    let gSize = i32(params.gSize);
-    let hSize = i32(params.hSize);
-    let xl = i32(params.xl);
-    let xp = i32(params.xp);
-    let xf = i32(params.xf);
-    let xb = i32(params.xb);
-    let xg = i32(params.xg);
-    let xh = i32(params.xh);
-    let threshold = f32(params.threshold);
-    let relicSetCount = u32(params.relicSetCount);
-    let ornamentSetCount = u32(params.ornamentSetCount);
+    let index = indexGlobal * CYCLES_PER_INVOCATION + i;
 
     // Calculate relic index per slot
 
@@ -110,11 +112,21 @@ fn main(
     let ornamentSetIndex: u32 = setP + setL * ornamentSetCount;
 
 
+
+    // START SET FILTERS
+    // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+    /* INJECT SET FILTERS */
+    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+    // END SET FILTERS
+
+
+
     // START COMPUTED STATS
     // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
     /* INJECT COMPUTED STATS */
     // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
     // END COMPUTED STATS
+
 
 
     // Calculate relic set counts
@@ -161,18 +173,12 @@ fn main(
     x.sets.LushakaTheSunkenSeas            = i32((1 >> (setP ^ 16)) + (1 >> (setL ^ 16)));
     x.sets.TheWondrousBananAmusementPark   = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
 
-    // START SET FILTERS
-    // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-    /* INJECT SET FILTERS */
-    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-    // END SET FILTERS
-
     var c: BasicStats = BasicStats();
     var state: ConditionalState = ConditionalState();
 
     // Calculate relic stat sums
 
-    let epsilon = 0.000001f;
+    // NOTE: Performance is worse if we don't add elemental dmg from head/hands/body/feet/rope
 
     c.HP_P  = head.HP_P + hands.HP_P + body.HP_P + feet.HP_P + planarSphere.HP_P + linkRope.HP_P;
     c.ATK_P = head.ATK_P + hands.ATK_P + body.ATK_P + feet.ATK_P + planarSphere.ATK_P + linkRope.ATK_P;
@@ -196,7 +202,6 @@ fn main(
     c.Wind_DMG      = epsilon + head.Wind_DMG + hands.Wind_DMG + body.Wind_DMG + feet.Wind_DMG + planarSphere.Wind_DMG + linkRope.Wind_DMG;
     c.Quantum_DMG   = epsilon + head.Quantum_DMG + hands.Quantum_DMG + body.Quantum_DMG + feet.Quantum_DMG + planarSphere.Quantum_DMG + linkRope.Quantum_DMG;
     c.Imaginary_DMG = epsilon + head.Imaginary_DMG + hands.Imaginary_DMG + body.Imaginary_DMG + feet.Imaginary_DMG + planarSphere.Imaginary_DMG + linkRope.Imaginary_DMG;
-    x.WEIGHT        = epsilon + head.weightScore + hands.weightScore + body.weightScore + feet.weightScore + planarSphere.weightScore + linkRope.weightScore;
 
     // Calculate basic stats
 
@@ -211,26 +216,13 @@ fn main(
     c.BE  += characterBE + lcBE + traceBE;
     c.ERR += characterERR + lcERR + traceERR;
     c.OHB += characterOHB + lcOHB + traceOHB;
-    c.Physical_DMG  += tracePhysical_DMG;
-    c.Fire_DMG      += traceFire_DMG;
-    c.Ice_DMG       += traceIce_DMG;
-    c.Lightning_DMG += traceLightning_DMG;
-    c.Wind_DMG      += traceWind_DMG;
-    c.Quantum_DMG   += traceQuantum_DMG;
-    c.Imaginary_DMG += traceImaginary_DMG;
-
-
-    // Calculate elemental stats after set counts
-
-    c.Physical_DMG  += 0.10 * p2(x.sets.ChampionOfStreetwiseBoxing);
-    c.Fire_DMG      += 0.10 * p2(x.sets.FiresmithOfLavaForging);
-    c.Ice_DMG       += 0.10 * p2(x.sets.HunterOfGlacialForest);
-    c.Lightning_DMG += 0.10 * p2(x.sets.BandOfSizzlingThunder);
-    c.Wind_DMG      += 0.10 * p2(x.sets.EagleOfTwilightLine);
-    c.Quantum_DMG   += 0.10 * p2(x.sets.GeniusOfBrilliantStars);
-    c.Imaginary_DMG += 0.10 * p2(x.sets.WastelanderOfBanditryDesert);
-
-    addElementalDmg(&c, &x);
+    c.Physical_DMG  += tracePhysical_DMG + 0.10 * p2(x.sets.ChampionOfStreetwiseBoxing);
+    c.Fire_DMG      += traceFire_DMG + 0.10 * p2(x.sets.FiresmithOfLavaForging);
+    c.Ice_DMG       += traceIce_DMG + 0.10 * p2(x.sets.HunterOfGlacialForest);
+    c.Lightning_DMG += traceLightning_DMG + 0.10 * p2(x.sets.BandOfSizzlingThunder);
+    c.Wind_DMG      += traceWind_DMG + 0.10 * p2(x.sets.EagleOfTwilightLine);
+    c.Quantum_DMG   += traceQuantum_DMG + 0.10 * p2(x.sets.GeniusOfBrilliantStars);
+    c.Imaginary_DMG += traceImaginary_DMG + 0.10 * p2(x.sets.WastelanderOfBanditryDesert);
 
     // Calculate set effects
 
@@ -311,6 +303,9 @@ fn main(
     x.BE  += c.BE   + combatBuffsBE;
     x.ERR += c.ERR;
     x.OHB += c.OHB;
+
+    addElementalDmg(&c, &x);
+    x.WEIGHT = epsilon + head.weightScore + hands.weightScore + body.weightScore + feet.weightScore + planarSphere.weightScore + linkRope.weightScore;
 
     x.ELEMENTAL_DMG += combatBuffsDMG_BOOST;
     x.EFFECT_RES_PEN += combatBuffsEFFECT_RES_PEN;

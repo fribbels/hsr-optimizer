@@ -16,7 +16,7 @@ const { Text } = Typography
 
 export default function GettingStartedTab() {
   const { token } = useToken()
-  console.log('GettingStartedTab ')
+  console.log('======================================================================= RENDER GettingStartedTab')
 
   function tryItOutClicked() {
     DB.setStore(JSON.parse(JSON.stringify(sampleSave)))
@@ -44,14 +44,14 @@ export default function GettingStartedTab() {
           </p>
 
           <Popconfirm
-            title="Confirm"
-            description="Load a sample save file?"
+            title='Confirm'
+            description='Load a sample save file?'
             onConfirm={tryItOutClicked}
-            placement="bottom"
-            okText="Yes"
-            cancelText="Cancel"
+            placement='bottom'
+            okText='Yes'
+            cancelText='Cancel'
           >
-            <Button type="primary" icon={<ImportOutlined/>} style={{ width: 200 }}>
+            <Button type='primary' icon={<ImportOutlined/>} style={{ width: 200 }}>
               Try it out!
             </Button>
           </Popconfirm>
@@ -63,7 +63,7 @@ export default function GettingStartedTab() {
           <img src={Assets.getGuideImage('quickstart')} style={screenshotStyle}></img>
 
           <p>
-            From the <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}><ColorizedLink text="Relic scorer"/></span> tab, clicking on the Optimize Character Stats button will automatically import and run the
+            From the <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}><ColorizedLink text='Relic scorer'/></span> tab, clicking on the Optimize Character Stats button will automatically import and run the
             optimizer on your selected character. This option will only be able to use the relics from your profile's
             showcase characters, so it is still recommended to use a scanner to import your full inventory of relics,
             but this allows for a quick calculation of character stats in combat.
@@ -89,7 +89,7 @@ export default function GettingStartedTab() {
 
             <li>
               Kel-Z HSR Scanner (
-              <ColorizedLink text="Github" url={KelzScannerConfig.releases}/>
+              <ColorizedLink text='Github' url={KelzScannerConfig.releases}/>
               )
               <ul>
                 <li>OCR scanner</li>
@@ -100,7 +100,7 @@ export default function GettingStartedTab() {
             <li>
               Relic Scorer Import (
               <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}>
-                <ColorizedLink text="Relic scorer"/>
+                <ColorizedLink text='Relic scorer'/>
               </span>
               )
               <ul>

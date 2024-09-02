@@ -167,7 +167,7 @@ export default function GettingStartedTab() {
           </p>
 
           <h4 style={titleStyle}>
-            Stat filters
+            Stat min / max filters
           </h4>
 
           <p>

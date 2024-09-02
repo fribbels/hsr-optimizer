@@ -183,14 +183,19 @@ function outputResults(gpuContext: GpuExecutionContext) {
     const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
     const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
 
-    const c = calculateBuild(gpuContext.request, {
-      Head: relics.Head[h],
-      Hands: relics.Hands[g],
-      Body: relics.Body[b],
-      Feet: relics.Feet[f],
-      PlanarSphere: relics.PlanarSphere[p],
-      LinkRope: relics.LinkRope[l],
-    })
+    const cachedParams = gpuContext.params
+    const c = calculateBuild(
+      gpuContext.request,
+      {
+        Head: relics.Head[h],
+        Hands: relics.Hands[g],
+        Body: relics.Body[b],
+        Feet: relics.Feet[f],
+        PlanarSphere: relics.PlanarSphere[p],
+        LinkRope: relics.LinkRope[l],
+      },
+      cachedParams,
+    )
 
     c.id = index
     renameFields(c)

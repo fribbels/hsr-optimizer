@@ -127,8 +127,8 @@ export const Optimizer = {
     let results = []
     const sortOption = SortOption[request.resultSort]
     const gridSortColumn = request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
-    const resultLimit = request.resultLimit || 100000
-    const queueResults = new FixedSizePriorityQueue(resultLimit, (a, b) => a[gridSortColumn] - b[gridSortColumn])
+    const resultsLimit = request.resultsLimit || 1024
+    const queueResults = new FixedSizePriorityQueue(resultsLimit, (a, b) => a[gridSortColumn] - b[gridSortColumn])
 
     // Incrementally increase the optimization run sizes instead of having a fixed size, so it doesnt lag for 2 seconds on Start
     const increment = 20000

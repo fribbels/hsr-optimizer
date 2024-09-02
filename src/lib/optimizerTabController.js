@@ -501,8 +501,8 @@ export const OptimizerTabController = {
       }
     }
 
-    if (!newForm.resultLimit) {
-      newForm.resultLimit = 100000
+    if (!newForm.resultsLimit) {
+      newForm.resultsLimit = 1024
     }
 
     if (!newForm.mainStatUpscaleLevel) {
@@ -550,7 +550,7 @@ export const OptimizerTabController = {
       return false
     }
 
-    if (!x.resultLimit || !x.resultSort) {
+    if (!x.resultsLimit || !x.resultSort) {
       Message.error('Missing optimization target fields')
       console.log('Missing optimization target fields')
       return false

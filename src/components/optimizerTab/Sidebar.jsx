@@ -122,6 +122,7 @@ function ComputeEngineSelect() {
       }}
       style={{ width: '100%', flex: 1 }}
       className='custom-dropdown-button'
+      trigger={['click']}
     >
       <Button style={{ padding: 3 }}>
         <Flex justify='space-around' align='center' style={{ width: '100%' }}>

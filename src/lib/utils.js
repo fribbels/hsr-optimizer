@@ -3,7 +3,7 @@ import DB from './db'
 import { Constants } from './constants.ts'
 import { Message } from './message'
 import { v4 as uuidv4 } from 'uuid'
-import objectHash from 'object-hash'
+import stringify from 'json-stable-stringify'
 
 console.debug = (...args) => {
   let messageConfig = '%c%s '
@@ -34,7 +34,7 @@ console.debug = (...args) => {
 export const Utils = {
   // Hashes an object for uniqueness checks
   objectHash: (obj) => {
-    return objectHash(obj)
+    return stringify(obj)
   },
 
   // Fill array of size n with 0s

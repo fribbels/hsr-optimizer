@@ -229,7 +229,7 @@ export function scoreCharacterSimulation(
   const metadata = defaultMetadata
   const relicsByPart = cloneRelicsFillEmptySlots(displayRelics)
 
-  const cacheKey = TsUtils.objectHash({
+  const cacheKey = Utils.objectHash({
     characterId,
     characterEidolon,
     lightCone,

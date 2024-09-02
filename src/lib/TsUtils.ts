@@ -1,4 +1,3 @@
-import objectHash from 'object-hash'
 import { Constants, MainStats } from './constants'
 import { RelicEnhance, RelicGrade } from '../types/Relic'
 
@@ -20,13 +19,12 @@ export const TsUtils = {
     return Math.round(number * factor) / factor
   },
 
-  objectHash: (obj: objectHash.NotUndefined): string => {
-    return objectHash(obj)
-  },
-
-  calculateRelicMainStatValue: (mainStatType: MainStats,
+  calculateRelicMainStatValue: (
+    mainStatType: MainStats,
     grade: RelicGrade,
-    enhance: RelicEnhance): number =>
-    Constants.MainStatsValues[mainStatType][grade].base
-    + Constants.MainStatsValues[mainStatType][grade].increment * enhance,
+    enhance: RelicEnhance,
+  ): number => {
+    return Constants.MainStatsValues[mainStatType][grade].base
+      + Constants.MainStatsValues[mainStatType][grade].increment * enhance
+  },
 }

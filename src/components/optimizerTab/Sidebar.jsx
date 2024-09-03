@@ -554,10 +554,10 @@ function ManyPermsModal(props) {
       onCancel={() => props.setManyPermsModalOpen(false)}
       footer={null}
     >
-      <Flex justify='space-between' align='center' style={{ height: 45, marginBottom: 15 }} gap={16}>
+      <Flex justify='space-between' align='center' style={{ height: 45, marginTop: 30, marginBottom: 15 }} gap={16}>
         <Text>
-          This search will take a substantial amount of time. You may want to consider limiting the search to only certain sets and main stats,
-          or use the Substat weight filter to reduce the number of permutations, or enable GPU acceleration on supported browsers.
+          This optimization search will take a substantial amount of time to finish. You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats,
+          or use the Substat weight filter to reduce the number of permutations.
         </Text>
         <Button
           onClick={() => props.setManyPermsModalOpen(false)}

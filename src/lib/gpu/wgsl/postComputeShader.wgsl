@@ -26,6 +26,12 @@ fn main(
   workgroupBarrier();
   storageBarrier();
 
+  // Do half the work here
+
+
+  workgroupBarrier();
+  storageBarrier();
+
   if (local_invocation_index != 0) {
     return;
   }

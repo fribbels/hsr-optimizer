@@ -1,7 +1,6 @@
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { Form } from 'types/Form'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
-import { RelicsByPart } from 'lib/gpu/webgpuDataTransform'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { renameFields } from 'lib/optimizer/optimizer'
@@ -11,7 +10,7 @@ import { setSortColumn } from 'components/optimizerTab/optimizerForm/Recommended
 import { Message } from 'lib/message'
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
-import { GpuExecutionContext } from 'lib/gpu/webgpuTypes'
+import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
 
 export async function gpuOptimize(props: {
   params: OptimizerParams

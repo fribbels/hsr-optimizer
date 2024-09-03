@@ -3,10 +3,10 @@ import { Form } from 'types/Form'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { generateTestRelics, StatDeltaAnalysis, testWrapper } from 'lib/gpu/tests/webgpuTestUtils'
 import DB from 'lib/db'
-import { RelicsByPart } from 'lib/gpu/webgpuDataTransform'
 import { SetsOrnamentsNames, SetsRelicsNames } from 'lib/constants'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { LightCone } from 'types/LightCone'
+import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 
 export type WebgpuTest = {
   name: string

@@ -1,11 +1,11 @@
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
-import { generateBaseParamsArray, generateParamsMatrix, mergeRelicsIntoArray, RelicsByPart } from 'lib/gpu/webgpuDataTransform'
+import { generateBaseParamsArray, generateParamsMatrix, mergeRelicsIntoArray } from 'lib/gpu/webgpuDataTransform'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { Form } from 'types/Form'
 import postComputeShader from 'lib/gpu/wgsl/postComputeShader.wgsl?raw'
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants'
-import { GpuExecutionContext, GpuResult } from 'lib/gpu/webgpuTypes'
+import { GpuExecutionContext, GpuResult, RelicsByPart } from 'lib/gpu/webgpuTypes'
 
 export function initializeGpuPipeline(
   device: GPUDevice,

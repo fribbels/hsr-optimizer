@@ -5,8 +5,8 @@ import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'l
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { debugWebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
-import { RelicsByPart } from 'lib/gpu/webgpuDataTransform'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
+import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 
 export async function runTestRequest(request: Form, relics: RelicsByPart, device: GPUDevice) {
   const params = generateParams(request)

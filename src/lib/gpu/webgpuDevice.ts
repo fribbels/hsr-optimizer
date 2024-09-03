@@ -2,7 +2,7 @@ import { SavedSessionKeys } from 'lib/constantsSession'
 import { COMPUTE_ENGINE_CPU } from 'lib/constants'
 import { webgpuNotSupportedNotification } from 'lib/notifications'
 
-export async function getWebgpuDevice(warn: boolean) {
+export async function getWebgpuDevice(warn?: boolean) {
   const adapter: GPUAdapter | null = await navigator?.gpu?.requestAdapter()
 
   if (adapter == null) {

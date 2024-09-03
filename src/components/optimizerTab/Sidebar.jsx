@@ -1,4 +1,4 @@
-import { Button, Divider, Dropdown, Flex, Grid, Modal, Progress, Radio, theme, Typography } from 'antd'
+import { Button, Divider, Dropdown, Flex, Grid, Modal, Popconfirm, Progress, Radio, theme, Typography } from 'antd'
 import React, { useState } from 'react'
 import FormCard from 'components/optimizerTab/FormCard'
 import { HeaderText } from '../HeaderText'
@@ -14,6 +14,7 @@ import DB from 'lib/db'
 import { Utils } from 'lib/utils'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { COMPUTE_ENGINE_CPU, COMPUTE_ENGINE_GPU_EXPERIMENTAL, COMPUTE_ENGINE_GPU_STABLE } from 'lib/constants'
+import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
@@ -116,8 +117,17 @@ function ComputeEngineSelect() {
       menu={{
         items: getGpuOptions(computeEngine),
         onClick: (e) => {
-          window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, e.key)
-          Message.success(`Set compute engine to [${e.key}]`)
+          if (e.key == COMPUTE_ENGINE_CPU) {
+            window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
+            Message.success(`Switched compute engine to [${e.key}]`)
+          } else {
+            verifyWebgpuSupport(true).then((device) => {
+              if (device) {
+                window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, e.key)
+                Message.success(`Switched compute engine to [${e.key}]`)
+              }
+            })
+          }
         },
       }}
       style={{ width: '100%', flex: 1 }}
@@ -176,8 +186,6 @@ function SidebarContent() {
 
   const optimizerStartTime = window.store((s) => s.optimizerStartTime)
   const optimizerEndTime = window.store((s) => s.optimizerEndTime)
-
-  const computeEngine = window.store((s) => s.savedSession[SavedSessionKeys.computeEngine])
 
   const [startTime, setStartTime] = useState(undefined)
 
@@ -277,9 +285,18 @@ function SidebarContent() {
                   <Button onClick={cancelClicked} style={{ flex: 1 }}>
                     Cancel
                   </Button>
-                  <Button onClick={resetClicked} style={{ flex: 1 }}>
-                    Reset
-                  </Button>
+
+                  <Popconfirm
+                    title='Reset all filters?'
+                    description='All filters will be reset to their default values'
+                    onConfirm={resetClicked}
+                    okText='Yes'
+                    cancelText='No'
+                  >
+                    <Button style={{ flex: 1 }}>
+                      Reset
+                    </Button>
+                  </Popconfirm>
                 </Flex>
                 <Flex gap={defaultGap}>
                 </Flex>
@@ -476,9 +493,17 @@ function MobileSidebarContent() {
               <Button onClick={cancelClicked} style={{ flex: 1 }}>
                 Cancel
               </Button>
-              <Button onClick={resetClicked} style={{ flex: 1 }}>
-                Reset
-              </Button>
+              <Popconfirm
+                title='Reset all filters?'
+                description='All filters will be reset to their default values'
+                onConfirm={resetClicked}
+                okText='Yes'
+                cancelText='No'
+              >
+                <Button style={{ flex: 1 }}>
+                  Reset
+                </Button>
+              </Popconfirm>
             </Flex>
           </Flex>
         </Flex>
@@ -546,10 +571,10 @@ function ManyPermsModal(props) {
       onCancel={() => props.setManyPermsModalOpen(false)}
       footer={null}
     >
-      <Flex justify='space-between' align='center' style={{ height: 45, marginBottom: 15 }} gap={16}>
+      <Flex justify='space-between' align='center' style={{ height: 45, marginTop: 30, marginBottom: 15 }} gap={16}>
         <Text>
-          This search will take a substantial amount of time. You may want to consider limiting the search to only certain sets and main stats,
-          or use the Substat weight filter to reduce the number of permutations, or enable GPU acceleration on supported browsers.
+          This optimization search will take a substantial amount of time to finish. You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats,
+          or use the Substat weight filter to reduce the number of permutations.
         </Text>
         <Button
           onClick={() => props.setManyPermsModalOpen(false)}

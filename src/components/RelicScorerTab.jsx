@@ -385,7 +385,7 @@ function CharacterPreviewSelection(props) {
       Utils.screenshotElementById('relicScorerPreview', 'clipboard').finally(() => {
         setScreenshotLoading(false)
       })
-    }, 50)
+    }, 100)
   }
 
   async function downloadClicked() {
@@ -396,7 +396,7 @@ function CharacterPreviewSelection(props) {
       Utils.screenshotElementById('relicScorerPreview', 'download', name).finally(() => {
         setDownloadLoading(false)
       })
-    }, 50)
+    }, 100)
   }
 
   function presetClicked(e) {

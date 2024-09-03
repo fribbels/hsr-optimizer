@@ -1,161 +1,11 @@
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
-import { generateBaseParamsArray, generateParamsMatrix, mergeRelicsIntoArray, RelicsByPart } from 'lib/gpu/webgpuDataTransform'
+import { generateBaseParamsArray, generateParamsMatrix, mergeRelicsIntoArray } from 'lib/gpu/webgpuDataTransform'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { Form } from 'types/Form'
 import postComputeShader from 'lib/gpu/wgsl/postComputeShader.wgsl?raw'
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants'
-
-export async function getDevice() {
-  const adapter: GPUAdapter | null = await navigator?.gpu?.requestAdapter()
-  if (adapter == null) {
-    return null
-  }
-  return await adapter.requestDevice({
-    requiredLimits: {
-      // maxComputeInvocationsPerWorkgroup: 512,
-      // maxComputeWorkgroupSizeX: 512,
-      // maxStorageBufferBindingSize: 268435456,
-    },
-  })
-}
-
-export function generatePipeline(device: GPUDevice, wgsl: string) {
-  const bindGroupLayouts = generateLayouts(device)
-  const shaderModule = device.createShaderModule({
-    code: wgsl,
-  })
-
-  // console.log(wgsl)
-
-  return device.createComputePipeline({
-    layout: device.createPipelineLayout({
-      bindGroupLayouts: bindGroupLayouts,
-    }),
-    compute: {
-      module: shaderModule,
-      entryPoint: 'main',
-    },
-  })
-}
-
-export function generatePostComputePipeline(device: GPUDevice) {
-  const bindGroupLayouts = [
-    device.createBindGroupLayout({
-      entries: [
-        { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
-      ],
-    }),
-  ]
-  const shaderModule = device.createShaderModule({
-    code: postComputeShader,
-  })
-
-  return device.createComputePipeline({
-    layout: device.createPipelineLayout({
-      bindGroupLayouts: bindGroupLayouts,
-    }),
-    compute: {
-      module: shaderModule,
-      entryPoint: 'main',
-    },
-  })
-}
-
-function generateLayouts(device: GPUDevice) {
-  return [
-    device.createBindGroupLayout({
-      entries: [
-        { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
-      ],
-    }),
-    device.createBindGroupLayout({
-      entries: [
-        { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
-        { binding: 1, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
-        { binding: 2, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
-      ],
-    }),
-    device.createBindGroupLayout({
-      entries: [
-        { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
-      ],
-    }),
-  ]
-}
-
-export function createGpuBuffer(
-  device: GPUDevice,
-  matrix: Int32Array | Float32Array,
-  usage: GPUBufferUsageFlags,
-  mapped = true,
-  int = false,
-) {
-  const gpuBuffer = device.createBuffer({
-    mappedAtCreation: mapped,
-    size: matrix.byteLength,
-    usage: usage,
-  })
-
-  const arrayBuffer = gpuBuffer.getMappedRange()
-  if (int) {
-    new Int32Array(arrayBuffer).set(matrix)
-  } else {
-    new Float32Array(arrayBuffer).set(matrix)
-  }
-  gpuBuffer.unmap()
-
-  return gpuBuffer
-}
-
-export type GpuResult = {
-  index: number
-  value: number
-}
-
-export type GpuConstants = {
-  WORKGROUP_SIZE: number
-  BLOCK_SIZE: number
-  CYCLES_PER_INVOCATION: number
-  RESULTS_LIMIT: number
-  DEBUG: boolean
-}
-
-export type GpuExecutionContext = {
-  // GPU constants
-  WORKGROUP_SIZE: number
-  BLOCK_SIZE: number
-  CYCLES_PER_INVOCATION: number
-  RESULTS_LIMIT: number
-  DEBUG: boolean
-
-  // Inputs
-  request: Form
-  params: OptimizerParams
-
-  // Cached execution data
-  resultMatrixBufferSize: number
-  permutations: number
-  iterations: number
-  startTime: number
-  relics: RelicsByPart
-  resultsQueue: FixedSizePriorityQueue<GpuResult>
-  baseParamsArray: number[]
-  cancelled: boolean
-  computeEngine: string
-
-  // Webgpu internal objects
-  device: GPUDevice
-  computePipeline: GPUComputePipeline
-  postComputePipeline: GPUComputePipeline
-  bindGroup1: GPUBindGroup
-  bindGroup2: GPUBindGroup
-  postComputeBindGroup0: GPUBindGroup
-  resultMatrixBuffer: GPUBuffer
-  relicsMatrixBuffer: GPUBuffer
-  relicSetSolutionsMatrixBuffer: GPUBuffer
-  ornamentSetSolutionsMatrixBuffer: GPUBuffer
-}
+import { GpuExecutionContext, GpuResult, RelicsByPart } from 'lib/gpu/webgpuTypes'
 
 export function initializeGpuPipeline(
   device: GPUDevice,
@@ -303,13 +153,12 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
     usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
   })
 
-  // Encode commands for copying buffer to buffer.
   commandEncoder.copyBufferToBuffer(
-    resultMatrixBuffer /* source buffer */,
-    0 /* source offset */,
-    gpuReadBuffer /* destination buffer */,
-    0 /* destination offset */,
-    resultMatrixBufferSize, /* size */
+    resultMatrixBuffer,
+    0,
+    gpuReadBuffer,
+    0,
+    resultMatrixBufferSize,
   )
 
   device.queue.submit([commandEncoder.finish()])
@@ -319,6 +168,94 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   }
 
   return gpuReadBuffer
+}
+
+export function generatePipeline(device: GPUDevice, wgsl: string) {
+  const bindGroupLayouts = generateLayouts(device)
+  const shaderModule = device.createShaderModule({
+    code: wgsl,
+  })
+
+  // console.log(wgsl)
+
+  return device.createComputePipeline({
+    layout: device.createPipelineLayout({
+      bindGroupLayouts: bindGroupLayouts,
+    }),
+    compute: {
+      module: shaderModule,
+      entryPoint: 'main',
+    },
+  })
+}
+
+export function generatePostComputePipeline(device: GPUDevice) {
+  const bindGroupLayouts = [
+    device.createBindGroupLayout({
+      entries: [
+        { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
+      ],
+    }),
+  ]
+  const shaderModule = device.createShaderModule({
+    code: postComputeShader,
+  })
+
+  return device.createComputePipeline({
+    layout: device.createPipelineLayout({
+      bindGroupLayouts: bindGroupLayouts,
+    }),
+    compute: {
+      module: shaderModule,
+      entryPoint: 'main',
+    },
+  })
+}
+
+function generateLayouts(device: GPUDevice) {
+  return [
+    device.createBindGroupLayout({
+      entries: [
+        { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
+      ],
+    }),
+    device.createBindGroupLayout({
+      entries: [
+        { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
+        { binding: 1, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
+        { binding: 2, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
+      ],
+    }),
+    device.createBindGroupLayout({
+      entries: [
+        { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
+      ],
+    }),
+  ]
+}
+
+export function createGpuBuffer(
+  device: GPUDevice,
+  matrix: Int32Array | Float32Array,
+  usage: GPUBufferUsageFlags,
+  mapped = true,
+  int = false,
+) {
+  const gpuBuffer = device.createBuffer({
+    mappedAtCreation: mapped,
+    size: matrix.byteLength,
+    usage: usage,
+  })
+
+  const arrayBuffer = gpuBuffer.getMappedRange()
+  if (int) {
+    new Int32Array(arrayBuffer).set(matrix)
+  } else {
+    new Float32Array(arrayBuffer).set(matrix)
+  }
+  gpuBuffer.unmap()
+
+  return gpuBuffer
 }
 
 export function destroyPipeline(gpuContext: GpuExecutionContext) {

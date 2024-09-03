@@ -68,6 +68,7 @@ export type HsrOptimizerStore = {
   setPermutationsResults: (n: number) => void
   setPermutationsSearched: (n: number) => void
   setSavedSessionKey: (key: string, value: string) => void
+  setActiveKey: (key: string) => void
 
   permutationDetails: PermutationDetails
 

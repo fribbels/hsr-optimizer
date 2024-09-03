@@ -402,7 +402,7 @@ export default function CharacterTab() {
       Utils.screenshotElementById('characterTabPreview', 'clipboard').finally(() => {
         setScreenshotLoading(false)
       })
-    }, 50)
+    }, 100)
   }
 
   function downloadClicked() {
@@ -413,7 +413,7 @@ export default function CharacterTab() {
       Utils.screenshotElementById('characterTabPreview', 'download', name).finally(() => {
         setDownloadLoading(false)
       })
-    }, 50)
+    }, 100)
   }
 
   function confirmSaveBuild(name) {

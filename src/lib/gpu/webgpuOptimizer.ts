@@ -1,7 +1,6 @@
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { Form } from 'types/Form'
-import { destroyPipeline, generateExecutionPass, getDevice, GpuExecutionContext, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
-import { RelicsByPart } from 'lib/gpu/webgpuDataTransform'
+import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { renameFields } from 'lib/optimizer/optimizer'
@@ -10,6 +9,8 @@ import { SortOption } from 'lib/optimizer/sortOptions'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { Message } from 'lib/message'
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants'
+import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
+import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
 
 export async function gpuOptimize(props: {
   params: OptimizerParams
@@ -22,7 +23,7 @@ export async function gpuOptimize(props: {
 }) {
   const { params, request, relics, permutations, computeEngine, relicSetSolutions, ornamentSetSolutions } = props
 
-  const device = await getDevice()
+  const device = await getWebgpuDevice()
   if (device == null) {
     console.error('Not supported')
     return
@@ -31,7 +32,7 @@ export async function gpuOptimize(props: {
   device.onuncapturederror = (event) => {
     if (window.store.getState().optimizationInProgress) {
       window.store.getState().setOptimizationInProgress(false)
-      Message.error('The GPU acceleration process has crashed - results may be invalid. Please report a bug to the Discord server', 15)
+      Message.error('The GPU acceleration process has crashed - results may be invalid. Please try again or report a bug to the Discord server', 20)
     }
   }
 

@@ -14,6 +14,7 @@ import DB from 'lib/db'
 import { Utils } from 'lib/utils'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { COMPUTE_ENGINE_CPU, COMPUTE_ENGINE_GPU_EXPERIMENTAL, COMPUTE_ENGINE_GPU_STABLE } from 'lib/constants'
+import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
@@ -116,8 +117,17 @@ function ComputeEngineSelect() {
       menu={{
         items: getGpuOptions(computeEngine),
         onClick: (e) => {
-          window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, e.key)
-          Message.success(`Set compute engine to [${e.key}]`)
+          if (e.key == COMPUTE_ENGINE_CPU) {
+            window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
+            Message.success(`Set compute engine to [${e.key}]`)
+          } else {
+            verifyWebgpuSupport(true).then((device) => {
+              if (device) {
+                window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, e.key)
+                Message.success(`Set compute engine to [${e.key}]`)
+              }
+            })
+          }
         },
       }}
       style={{ width: '100%', flex: 1 }}
@@ -176,8 +186,6 @@ function SidebarContent() {
 
   const optimizerStartTime = window.store((s) => s.optimizerStartTime)
   const optimizerEndTime = window.store((s) => s.optimizerEndTime)
-
-  const computeEngine = window.store((s) => s.savedSession[SavedSessionKeys.computeEngine])
 
   const [startTime, setStartTime] = useState(undefined)
 

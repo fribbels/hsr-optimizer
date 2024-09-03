@@ -3,6 +3,7 @@ import semver from 'semver'
 import { AppPages } from 'lib/db'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants'
 import { UnorderedListOutlined } from '@ant-design/icons'
+import { ColorizedLink } from 'components/common/ColorizedLink'
 
 export function checkForUpdatesNotification(version: string) {
   // Errors checking for versions shouldn't crash the app
@@ -43,22 +44,27 @@ export function checkForUpdatesNotification(version: string) {
 export function webgpuNotSupportedNotification() {
   // Errors checking for versions shouldn't crash the app
   try {
-    window.notificationApi.success({
-      message: 'New updates!',
+    window.notificationApi.warning({
+      message: 'WebGPU is not supported on this browser!',
       description: (
         <Flex vertical>
           <div>
-            a
+            Please use one of the following supported environments in order to enable GPU acceleration:
           </div>
           <div>
-            a
+            <ul>
+              <li>Windows & Mac — Chrome, Opera, Edge</li>
+              <li>
+                Linux — <ColorizedLink text='Behind a flag' url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status'/>
+              </li>
+            </ul>
           </div>
           <div>
-            a
+
           </div>
         </Flex>
       ),
-      duration: 30,
+      duration: 15,
     })
   } catch (e) {
     console.error(e)

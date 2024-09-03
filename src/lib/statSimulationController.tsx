@@ -265,7 +265,7 @@ export type RunSimulationsParams = {
 
 export function runSimulations(
   form: Form,
-  cachedOptimizerParams: OptimizerParams,
+  cachedOptimizerParams: OptimizerParams | null,
   simulations: Simulation[],
   inputParams: Partial<RunSimulationsParams> = {},
 ): SimulationResult[] {
@@ -392,7 +392,7 @@ export function startOptimizerStatSimulation() {
 
   console.log('Starting sims', existingSimulations)
 
-  const simulationResults = runSimulations(form, existingSimulations)
+  const simulationResults = runSimulations(form, null, existingSimulations)
 
   OptimizerTabController.setRows(simulationResults)
 

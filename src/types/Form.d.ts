@@ -51,6 +51,7 @@ export type Form = {
   statSim?: any
   resultSort?: string
   path?: string
+  resultsLimit?: number
 
   weights: {
     [key: string]: number

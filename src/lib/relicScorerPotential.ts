@@ -528,7 +528,7 @@ export class RelicScorer {
     meta?: ScoringMetadata
   } {
     if (!relic) {
-      console.warn('scoreCurrentRelic called but no relic given for character', id ?? '????')
+      // console.warn('scoreCurrentRelic called but no relic given for character', id ?? '????')
       return {
         score: '',
         rating: '',

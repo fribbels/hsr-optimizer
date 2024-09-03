@@ -183,14 +183,14 @@ export const Utils = {
       const isMobile = Utils.isMobile()
 
       if (isMobile) {
-        htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 }).then(() => {
-          htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 }).then((blob) => {
+        htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5, skipFonts: true }).then(() => {
+          htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5, skipFonts: true }).then((blob) => {
             handleBlob(blob)
             resolve()
           })
         })
       } else {
-        htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 }).then((blob) => {
+        htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5, skipFonts: true }).then((blob) => {
           handleBlob(blob)
           resolve()
         })

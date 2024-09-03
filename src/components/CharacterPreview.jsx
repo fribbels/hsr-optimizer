@@ -234,11 +234,7 @@ export function CharacterPreview(props) {
     }
   }
 
-  const t1 = Date.now()
   let combatSimResult = scoreCharacterSimulation(character, displayRelics, currentSelection)
-  const t2 = Date.now()
-  console.debug('TIME: ', t2 - t1)
-
   let simScoringResult = scoringType == SIMULATION_SCORE && combatSimResult
   if (!simScoringResult?.originalSim) {
     combatSimResult = null

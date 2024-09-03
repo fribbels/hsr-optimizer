@@ -137,7 +137,7 @@ export const Utils = {
     const isMobile = Utils.isMobile()
     const repeatLoadBlob = async () => {
       const minDataLength = 1200000
-      const maxAttempts = isMobile ? 5 : 1
+      const maxAttempts = isMobile ? 9 : 3
       let i = 0
       let blob
 

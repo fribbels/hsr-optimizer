@@ -134,7 +134,7 @@ export const Utils = {
     if (characterName == 'Jade') {
       return new Promise((resolve, reject) => {
         domtoimage
-          .toPng(document.getElementById(elementId), { height: 858, width: 1070, copyDefaultStyles: false, scale: 1.5, cacheBust: true })
+          .toPng(document.getElementById(elementId), { height: 858, width: 1070, scale: 1.5 })
           .then(async function (dataUrl) {
             // Save to file
             if (action == 'download') {

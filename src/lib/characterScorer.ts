@@ -239,7 +239,7 @@ export function scoreCharacterSimulation(
   })
 
   if (cachedSims[cacheKey]) {
-    console.log('Using cached bestSims')
+    // console.log('Using cached bestSims')
     return cachedSims[cacheKey]
   }
 

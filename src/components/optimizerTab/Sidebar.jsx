@@ -1,4 +1,4 @@
-import { Button, Divider, Dropdown, Flex, Grid, Modal, Progress, Radio, theme, Typography } from 'antd'
+import { Button, Divider, Dropdown, Flex, Grid, Modal, Popconfirm, Progress, Radio, theme, Typography } from 'antd'
 import React, { useState } from 'react'
 import FormCard from 'components/optimizerTab/FormCard'
 import { HeaderText } from '../HeaderText'
@@ -285,9 +285,18 @@ function SidebarContent() {
                   <Button onClick={cancelClicked} style={{ flex: 1 }}>
                     Cancel
                   </Button>
-                  <Button onClick={resetClicked} style={{ flex: 1 }}>
-                    Reset
-                  </Button>
+
+                  <Popconfirm
+                    title='Reset all filters?'
+                    description='All filters will be reset to their default values'
+                    onConfirm={resetClicked}
+                    okText='Yes'
+                    cancelText='No'
+                  >
+                    <Button style={{ flex: 1 }}>
+                      Reset
+                    </Button>
+                  </Popconfirm>
                 </Flex>
                 <Flex gap={defaultGap}>
                 </Flex>
@@ -484,9 +493,17 @@ function MobileSidebarContent() {
               <Button onClick={cancelClicked} style={{ flex: 1 }}>
                 Cancel
               </Button>
-              <Button onClick={resetClicked} style={{ flex: 1 }}>
-                Reset
-              </Button>
+              <Popconfirm
+                title='Reset all filters?'
+                description='All filters will be reset to their default values'
+                onConfirm={resetClicked}
+                okText='Yes'
+                cancelText='No'
+              >
+                <Button style={{ flex: 1 }}>
+                  Reset
+                </Button>
+              </Popconfirm>
             </Flex>
           </Flex>
         </Flex>

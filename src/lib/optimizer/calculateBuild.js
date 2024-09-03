@@ -33,8 +33,10 @@ function generateUnusedSets(relics) {
   return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
 }
 
-export function calculateBuild(request, relics, cachedParams) {
-  request = Utils.clone(request)
+export function calculateBuild(request, relics, cachedParams, reuseRequest = false) {
+  if (!reuseRequest) {
+    request = Utils.clone(request)
+  }
 
   const params = cachedParams ?? generateParams(request)
 

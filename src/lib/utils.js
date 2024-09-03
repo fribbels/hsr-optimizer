@@ -134,7 +134,7 @@ export const Utils = {
     if (characterName == 'Jade') {
       return new Promise((resolve, reject) => {
         domtoimage
-          .toPng(document.getElementById(elementId), { height: 858, width: 1070, scale: 1.5 })
+          .toPng(document.getElementById(elementId), { height: 858 * 1.5, width: 1070 * 1.5, copyDefaultStyles: false, style: { transform: 'scale(1.5)', transformOrigin: 'top left' } })
           .then(async function (dataUrl) {
             // Save to file
             if (action == 'download') {
@@ -168,6 +168,7 @@ export const Utils = {
                 console.log('Image shared successfully')
                 resolve()
               } else {
+                Message.error('Failed to share')
                 // Fallback method for devices that do not support Web Share API
                 // const prefix = characterName || 'Hsr-optimizer'
                 // const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
@@ -184,6 +185,8 @@ export const Utils = {
                 // Message.success('Downloaded screenshot')
               }
             }
+          }).catch((e) => {
+            Message.error(e)
           })
       })
     }

@@ -235,6 +235,9 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         throw new Error(`Imgur API error: ${errorData.data.error}`)
       }
       const data = await response.json()
+      if (data.data.width && data.data.height) {
+        setOriginalDimensions({ width: data.data.width, height: data.data.height })
+      }
       if (data.success) {
         const imgurLink = data.data.link
         setVerifiedImageUrl(imgurLink)
@@ -270,6 +273,9 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         throw new Error(`Imgur API error: ${errorData.data.error}`)
       }
       const data = await response.json()
+      if (data.data.width && data.data.height) {
+        setOriginalDimensions({ width: data.data.width, height: data.data.height })
+      }
       if (data.success) {
         const imgurLink = data.data.link
         setIsVerificationLoading(false)
@@ -401,37 +407,37 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       title: 'Provide image',
       content: (
         <>
-          <Flex justify="center" style={{ marginBottom: 16 }}>
-            <Radio.Group onChange={onRadioChange} value={radio} buttonStyle="solid">
-              <Radio.Button value="upload">Upload image</Radio.Button>
-              <Radio.Button value="url">Enter image URL</Radio.Button>
-              {defaultImageUrl && <Radio.Button value="default">Use default image</Radio.Button>}
+          <Flex justify='center' style={{ marginBottom: 16 }}>
+            <Radio.Group onChange={onRadioChange} value={radio} buttonStyle='solid'>
+              <Radio.Button value='upload'>Upload image</Radio.Button>
+              <Radio.Button value='url'>Enter image URL</Radio.Button>
+              {defaultImageUrl && <Radio.Button value='default'>Use default image</Radio.Button>}
             </Radio.Group>
           </Flex>
 
           {radio === 'upload' && (
             <>
               <Dragger
-                name="file"
+                name='file'
                 multiple={false}
-                accept="image/png, image/jpeg, image/jpg, image/gif"
+                accept='image/png, image/jpeg, image/jpg, image/gif'
                 beforeUpload={handleBeforeUpload}
                 disabled={isVerificationLoading}
                 showUploadList={false}
               >
                 {isVerificationLoading
                   ? (
-                    <Flex style={{ height: '300px' }} justify="center" align="center">
-                      <Spin size="large"/>
+                    <Flex style={{ height: '300px' }} justify='center' align='center'>
+                      <Spin size='large'/>
                     </Flex>
                   )
                   : (
-                    <Flex style={{ height: '300px' }} justify="center" align="center" vertical>
-                      <p className="ant-upload-drag-icon">
+                    <Flex style={{ height: '300px' }} justify='center' align='center' vertical>
+                      <p className='ant-upload-drag-icon'>
                         <InboxOutlined/>
                       </p>
-                      <p className="ant-upload-text">Click or drag image file to this area to upload</p>
-                      <p className="ant-upload-hint">
+                      <p className='ant-upload-text'>Click or drag image file to this area to upload</p>
+                      <p className='ant-upload-hint'>
                         Accepts .jpg .jpeg .png .gif (Max: 20MB)
                       </p>
                     </Flex>
@@ -442,17 +448,17 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
 
           {radio === 'url' && (
             <Form.Item
-              name="imageUrl"
-              label="Image URL"
+              name='imageUrl'
+              label='Image URL'
               style={{ margin: '0 20px' }}
               rules={[{ required: true, message: 'Please input a valid image URL' }]}
             >
-              <Input autoComplete="off"/>
+              <Input autoComplete='off'/>
             </Form.Item>
           )}
 
           {radio === 'default' && (
-            <Flex justify="center" style={{ height: '400px' }}>
+            <Flex justify='center' style={{ height: '400px' }}>
               <img src={defaultImageUrl}/>
             </Flex>
           )}
@@ -496,7 +502,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               maxZoom={MAX_ZOOM}
             />
           </div>
-          <Flex style={{ width: '100%', marginTop: 4 }} gap={8} align="center">
+          <Flex style={{ width: '100%', marginTop: 4 }} gap={8} align='center'>
             <label>Zoom</label>
             <Slider
               style={{ width: '100%' }}
@@ -526,12 +532,12 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 (Optional) Art by:
               </Text>
               <Form.Item
-                name="artistName"
+                name='artistName'
               >
                 <Input
                   style={{ flex: 1, marginTop: 3 }}
-                  placeholder="Credit the artist if possible"
-                  autoComplete="off"
+                  placeholder='Credit the artist if possible'
+                  autoComplete='off'
                 />
               </Form.Item>
             </Flex>
@@ -542,7 +548,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   ]
 
   return (
-    <Form form={customImageForm} layout="vertical">
+    <Form form={customImageForm} layout='vertical'>
       <Modal
         open={open}
         width={width}
@@ -553,9 +559,9 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         onOk={handleOk}
         onCancel={() => setOpen(false)}
         footer={[
-          <Flex key={1} justify="flex-end">
-            <Flex style={{ marginTop: 16 }} justify="center" align="center" gap={8}>
-              {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size="large"/>}
+          <Flex key={1} justify='flex-end'>
+            <Flex style={{ marginTop: 16 }} justify='center' align='center' gap={8}>
+              {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size='large'/>}
               <Button onClick={() => setOpen(false)}>
                 Cancel
               </Button>
@@ -570,12 +576,12 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 </Button>
               )}
               {current < steps.length - 1 && (
-                <Button type="primary" onClick={next} disabled={radio === 'upload'}>
+                <Button type='primary' onClick={next} disabled={radio === 'upload'}>
                   Next
                 </Button>
               )}
               {current === steps.length - 1 && (
-                <Button type="primary" onClick={handleOk}>
+                <Button type='primary' onClick={handleOk}>
                   Submit
                 </Button>
               )}

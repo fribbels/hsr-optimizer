@@ -119,12 +119,12 @@ function ComputeEngineSelect() {
         onClick: (e) => {
           if (e.key == COMPUTE_ENGINE_CPU) {
             window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
-            Message.success(`Set compute engine to [${e.key}]`)
+            Message.success(`Switched compute engine to [${e.key}]`)
           } else {
             verifyWebgpuSupport(true).then((device) => {
               if (device) {
                 window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, e.key)
-                Message.success(`Set compute engine to [${e.key}]`)
+                Message.success(`Switched compute engine to [${e.key}]`)
               }
             })
           }

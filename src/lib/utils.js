@@ -136,39 +136,25 @@ export const Utils = {
   screenshotElementById: async (elementId, action, characterName) => {
     const isMobile = Utils.isMobile()
     const repeatLoadBlob = async () => {
-      let blob
-      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+      const minDataLength = 1200000
+      const maxAttempts = isMobile ? 5 : 1
       let i = 0
-      let maxAttempts
-      if (isMobile) {
-        if (isSafari) {
-          maxAttempts = 5
-        } else {
-          maxAttempts = 3
+      let blob
+
+      while (i < maxAttempts) {
+        i++
+        blob = await htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 })
+
+        if (blob.size > minDataLength) {
+          break
         }
-      } else {
-        maxAttempts = 1
       }
-      const cycle = []
-      const repeat = true
 
-      while (repeat && i < maxAttempts) {
-        i += 1
-        blob = await htmlToImage.toBlob(document.getElementById(elementId), {
-          fetchRequestInit: {
-            cache: 'no-cache',
-          },
-          skipAutoScale: true,
-          includeQueryParams: true,
-          pixelRatio: 1.5,
-          quality: 1,
-        })
-        console.log(blob)
-        console.log(blob.size)
-        cycle[i] = blob.size
-
-        if (blob.size <= cycle[i - 1]) break
+      if (isMobile) {
+        // Render again
+        blob = await htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 })
       }
+
       return blob
     }
 
@@ -218,7 +204,7 @@ export const Utils = {
     }
 
     return new Promise((resolve) => {
-      repeatLoadBlob(document.getElementById(elementId), { pixelRatio: 1.5, skipFonts: true }).then((blob) => {
+      repeatLoadBlob().then((blob) => {
         handleBlob(blob)
         resolve()
       })

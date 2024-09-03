@@ -134,6 +134,44 @@ export const Utils = {
 
   // Util to capture a div and screenshot it to clipboard/file
   screenshotElementById: async (elementId, action, characterName) => {
+    const isMobile = Utils.isMobile()
+    const repeatLoadBlob = async () => {
+      let blob
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+      let i = 0
+      let maxAttempts
+      if (isMobile) {
+        if (isSafari) {
+          maxAttempts = 5
+        } else {
+          maxAttempts = 3
+        }
+      } else {
+        maxAttempts = 1
+      }
+      const cycle = []
+      const repeat = true
+
+      while (repeat && i < maxAttempts) {
+        i += 1
+        blob = await htmlToImage.toBlob(document.getElementById(elementId), {
+          fetchRequestInit: {
+            cache: 'no-cache',
+          },
+          skipAutoScale: true,
+          includeQueryParams: true,
+          pixelRatio: 1.5,
+          quality: 1,
+        })
+        console.log(blob)
+        console.log(blob.size)
+        cycle[i] = blob.size
+
+        if (blob.size <= cycle[i - 1]) break
+      }
+      return blob
+    }
+
     function handleBlob(blob) {
       const prefix = characterName || 'Hsr-optimizer'
       const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
@@ -141,7 +179,7 @@ export const Utils = {
       const filename = `${prefix}_${date}_${time}.png`
 
       if (action == 'clipboard') {
-        if (Utils.isMobile()) {
+        if (isMobile) {
           const file = new File([blob], filename, { type: 'image/png' })
           if (navigator.canShare && navigator.canShare({ files: [file] })) {
             navigator.share({
@@ -179,22 +217,11 @@ export const Utils = {
       }
     }
 
-    return new Promise((resolve, reject) => {
-      const isMobile = Utils.isMobile()
-
-      if (isMobile) {
-        htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5, skipFonts: true }).then(() => {
-          htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5, skipFonts: true }).then((blob) => {
-            handleBlob(blob)
-            resolve()
-          })
-        })
-      } else {
-        htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5, skipFonts: true }).then((blob) => {
-          handleBlob(blob)
-          resolve()
-        })
-      }
+    return new Promise((resolve) => {
+      repeatLoadBlob(document.getElementById(elementId), { pixelRatio: 1.5, skipFonts: true }).then((blob) => {
+        handleBlob(blob)
+        resolve()
+      })
     })
   },
 

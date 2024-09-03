@@ -107,6 +107,63 @@ export const Utils = {
 
   // Util to capture a div and screenshot it to clipboard/file
   screenshotElementById: async (elementId, action, characterName) => {
+    // DEBUG
+    if (characterName == 'Jade') {
+      return new Promise((resolve, reject) => {
+        domtoimage.toBlob(document.getElementById(elementId), { height: 858, width: 1070, copyDefaultStyles: false, scale: 1.5 }).then(async function (blob) {
+          if (action == 'clipboard') {
+            try {
+              const data = [new window.ClipboardItem({ [blob.type]: blob })]
+              await navigator.clipboard.write(data)
+              Message.success('Copied screenshot to clipboard')
+              resolve()
+            } catch (e) {
+              Message.error('Unable to save screenshot to clipboard, try the download button to the right')
+              reject(e)
+            }
+          }
+
+          // Save to file
+          if (action == 'download') {
+            const file = new File([blob], 'yourImageFileName.png', {
+              type: blob.type,
+            })
+
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+              await navigator.share({
+                files: [file],
+                title: 'Download Image',
+                text: 'Here is the image you wanted to download.',
+              })
+              console.log('Image shared successfully')
+              resolve()
+            } else {
+              // Fallback method for devices that do not support Web Share API
+              const prefix = characterName || 'Hsr-optimizer'
+              const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
+              const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
+              const filename = `${prefix}_${date}_${time}.png`
+              const fileUrl = window.URL.createObjectURL(blob)
+              const anchorElement = document.createElement('a')
+              anchorElement.href = fileUrl
+              anchorElement.download = filename
+              anchorElement.style.display = 'none'
+              document.body.appendChild(anchorElement)
+              anchorElement.click()
+              anchorElement.remove()
+              window.URL.revokeObjectURL(fileUrl)
+              Message.success('Downloaded screenshot')
+              resolve()
+            }
+          }
+        }).catch(function (e) {
+          console.error(e, elementId, action)
+          Message.error('Unable to take screenshot, please try again')
+          reject(e)
+        })
+      })
+    }
+
     return new Promise((resolve, reject) => {
       domtoimage.toBlob(document.getElementById(elementId), { height: 858, width: 1070, copyDefaultStyles: false, scale: 1.5 }).then(async function (blob) {
         if (action == 'clipboard') {

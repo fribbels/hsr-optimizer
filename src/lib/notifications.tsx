@@ -1,4 +1,4 @@
-import { Button, Space } from 'antd'
+import { Button, Flex, Space } from 'antd'
 import semver from 'semver'
 import { AppPages } from 'lib/db'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants'
@@ -15,24 +15,51 @@ export function checkForUpdatesNotification(version: string) {
 
     const btn = (
       <Space>
-        <Button type="primary" icon={<UnorderedListOutlined />} onClick={() => {
-          window.notificationApi.destroy()
-          window.store.getState().setActiveKey(AppPages.CHANGELOG)
-        }}>
+        <Button
+          type='primary' icon={<UnorderedListOutlined/>} onClick={() => {
+            window.notificationApi.destroy()
+            window.store.getState().setActiveKey(AppPages.CHANGELOG)
+          }}
+        >
           View changelog
         </Button>
-        <Button type="default" onClick={() => window.notificationApi.destroy()}>
+        <Button type='default' onClick={() => window.notificationApi.destroy()}>
           Dismiss
         </Button>
       </Space>
-    );
+    )
 
     window.notificationApi.success({
       message: 'New updates!',
       description: 'Check out the changelog for the latest optimizer updates.',
       btn,
       duration: 30,
-    });
+    })
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export function webgpuNotSupportedNotification() {
+  // Errors checking for versions shouldn't crash the app
+  try {
+    window.notificationApi.success({
+      message: 'New updates!',
+      description: (
+        <Flex vertical>
+          <div>
+            a
+          </div>
+          <div>
+            a
+          </div>
+          <div>
+            a
+          </div>
+        </Flex>
+      ),
+      duration: 30,
+    })
   } catch (e) {
     console.error(e)
   }

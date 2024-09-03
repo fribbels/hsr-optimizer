@@ -14,8 +14,8 @@ import { BufferPacker } from 'lib/bufferPacker'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { Message } from 'lib/message'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
-import { getDevice } from 'lib/gpu/webgpuInternals'
 import { SavedSessionKeys } from 'lib/constantsSession'
+import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 
 let CANCEL = false
 
@@ -139,7 +139,7 @@ export const Optimizer = {
 
     let computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
 
-    const gpuDevice = await getDevice()
+    const gpuDevice = await getWebgpuDevice()
     if (gpuDevice == null && computeEngine != COMPUTE_ENGINE_CPU) {
       Message.warning(`GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server`, 15)
       window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
@@ -159,7 +159,7 @@ export const Optimizer = {
 
       let inProgress = runs.length
 
-      window.store.getState().setOptimizerStartTime(new Date())
+      window.store.getState().setOptimizerStartTime(Date.now())
       for (const run of runs) {
         const task = {
           input: {

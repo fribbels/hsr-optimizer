@@ -31,6 +31,29 @@ console.debug = (...args) => {
   console.log(messageConfig, 'color: orange', '[DEBUG]', ...args)
 }
 
+function base64ToFile(base64FileUrl, filename, mimeType) {
+  // Step 1: Remove the Base64 prefix from the file URL
+  const base64String = base64FileUrl.split(',')[1]
+
+  // Step 2: Decode the Base64 string to binary data
+  const byteString = atob(base64String)
+
+  // Step 3: Create an array of 8-bit unsigned integers
+  const byteNumbers = new Array(byteString.length)
+  for (let i = 0; i < byteString.length; i++) {
+    byteNumbers[i] = byteString.charCodeAt(i)
+  }
+  const byteArray = new Uint8Array(byteNumbers)
+
+  // Step 4: Create a Blob from the byte array
+  const blob = new Blob([byteArray], { type: mimeType })
+
+  // Step 5: Convert the Blob to a File object
+  const file = new File([blob], filename, { type: mimeType })
+
+  return file
+}
+
 export const Utils = {
   // Hashes an object for uniqueness checks
   objectHash: (obj) => {
@@ -112,20 +135,55 @@ export const Utils = {
       return new Promise((resolve, reject) => {
         domtoimage
           .toPng(document.getElementById(elementId), { height: 858, width: 1070, copyDefaultStyles: false, scale: 1.5, cacheBust: true })
-          .then(function (dataUrl) {
+          .then(async function (dataUrl) {
             // Save to file
             if (action == 'download') {
-              console.debug(dataUrl)
-              const a = document.createElement('a') // Create <a>
-              a.href = dataUrl // Image Base64 Goes here
-              a.download = 'Image.png' // File name Here
-              a.click() // Downloaded file
-              document.body.removeChild(a)
+              const prefix = characterName || 'Hsr-optimizer'
+              const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
+              const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
+              const filename = `${prefix}_${date}_${time}.png`
+              const anchorElement = document.createElement('a')
+              anchorElement.href = dataUrl
+              anchorElement.download = filename
+              anchorElement.style.display = 'none'
+              document.body.appendChild(anchorElement)
+              anchorElement.click()
+              anchorElement.remove()
+              window.URL.revokeObjectURL(dataUrl)
+              Message.success('Downloaded screenshot')
+
+              // const file = new File([blob], 'yourImageFileName.png', {
+              //   type: blob.type,
+              // })
+              const mimeType = 'image/png' // MIME type of the file
+
+              const file = base64ToFile(dataUrl, filename, mimeType)
+
+              if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                  files: [file],
+                  title: 'Download Image',
+                  text: 'Here is the image you wanted to download.',
+                })
+                console.log('Image shared successfully')
+                resolve()
+              } else {
+                // Fallback method for devices that do not support Web Share API
+                // const prefix = characterName || 'Hsr-optimizer'
+                // const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
+                // const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
+                // const filename = `${prefix}_${date}_${time}.png`
+                // const anchorElement = document.createElement('a')
+                // anchorElement.href = dataUrl
+                // anchorElement.download = filename
+                // anchorElement.style.display = 'none'
+                // document.body.appendChild(anchorElement)
+                // anchorElement.click()
+                // anchorElement.remove()
+                // window.URL.revokeObjectURL(dataUrl)
+                // Message.success('Downloaded screenshot')
+              }
             }
-            resolve()
-          }).catch(function (error) {
-            console.error('oops, something went wrong!', error)
-            reject()
           })
       })
     }

@@ -648,13 +648,13 @@ function computeOptimalSimulation(
   metadata: SimulationMetadata,
   scoringParams: ScoringParams,
 ) {
-  const minSubstatRollCounts = TsUtils.clone(inputMinSubstatRollCounts)
-  const maxSubstatRollCounts = TsUtils.clone(inputMaxSubstatRollCounts)
+  const minSubstatRollCounts = inputMinSubstatRollCounts
+  const maxSubstatRollCounts = inputMaxSubstatRollCounts
 
   const breakpoints = metadata.breakpoints
   const goal = scoringParams.substatGoal
   let sum = sumSubstatRolls(maxSubstatRollCounts)
-  let currentSimulation: Simulation = TsUtils.clone(partialSimulationWrapper.simulation)
+  let currentSimulation: Simulation = partialSimulationWrapper.simulation
   let currentSimulationResult: SimulationResult = undefined
 
   let breakpointsCap = true
@@ -917,31 +917,39 @@ function calculateMaxSubstatRollCounts(
   // Force speed
   maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
 
+  // The simplifications should not go below 6 rolls otherwise it interferes with possible build enforcement
+
   // Simplify crit rate so the sim is not wasting permutations
   // Overcapped 30 * 3.24 + 5 = 102.2% crit
   // Main stat  20 * 3.24 + 32.4 + 5 = 102.2% crit
   // Assumes maximum 100 CR is needed ever
   const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
   const missingCrit = Math.max(0, 100 - baselineSimResult.x[Stats.CR] * 100)
-  maxCounts[Stats.CR] = Math.max(scoringParams.baselineFreeRolls, Math.min(
+  maxCounts[Stats.CR] = Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution ? 6 : 0, Math.min(
     request.simBody == Stats.CR
       ? Math.ceil((missingCrit - 32.4) / critValue)
       : Math.ceil(missingCrit / critValue),
     maxCounts[Stats.CR],
-  ))
+  )))
 
   // Simplify EHR so the sim is not wasting permutations
   // Assumes 20 enemy effect RES
   // Assumes maximum 120 EHR is needed ever
   const ehrValue = StatCalculator.getMaxedSubstatValue(Stats.EHR, scoringParams.quality)
   const missingEhr = Math.max(0, 120 - baselineSimResult.x[Stats.EHR] * 100)
-  maxCounts[Stats.EHR] = Math.max(scoringParams.baselineFreeRolls, Math.min(
+  maxCounts[Stats.EHR] = Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution ? 6 : 0, Math.min(
     request.simBody == Stats.EHR
       ? Math.ceil((missingEhr - 43.2) / ehrValue)
       : Math.ceil(missingEhr / ehrValue),
     maxCounts[Stats.EHR],
-  ))
+  )))
 
+  // Forced speed rolls will take up slots from the 36 potential max rolls of other stats
+  const nonSpeedSubsCapDeduction = Math.ceil(partialSimulationWrapper.speedRollsDeduction) - 6
+  for (const stat of SubStats) {
+    if (stat == Stats.SPD) continue
+    maxCounts[stat] = Math.min(maxCounts[stat], 36 - nonSpeedSubsCapDeduction)
+  }
   return maxCounts
 }
 

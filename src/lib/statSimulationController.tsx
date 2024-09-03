@@ -341,23 +341,22 @@ export function runSimulations(
 
     // Convert substat rolls to value totals
     const substatValues: Stat[] = []
-    const requestSubstats: SimulationStats = Utils.clone(sim.request.stats)
-    if (sim.simType == StatSimTypes.SubstatRolls) {
-      for (const substat of SubStats) {
+
+    // Convert value totals to substat objects
+    for (const substat of SubStats) {
+      let value = sim.request.stats[substat]
+
+      if (sim.simType == StatSimTypes.SubstatRolls) {
         const substatValue = substat == Stats.SPD
           ? params.speedRollValue
           : StatCalculator.getMaxedSubstatValue(substat, params.quality)
 
-        let substatCount = Utils.precisionRound((requestSubstats[substat] || 0))
+        let substatCount = Utils.precisionRound((sim.request.stats[substat] || 0))
         substatCount = params.substatRollsModifier(substatCount, substat, relics)
 
-        requestSubstats[substat] = substatCount * substatValue
+        value = substatCount * substatValue
       }
-    }
 
-    // Convert value totals to substat objects
-    for (const substat of SubStats) {
-      const value = requestSubstats[substat]
       if (value) {
         substatValues.push({
           stat: substat,
@@ -370,7 +369,7 @@ export function runSimulations(
 
     RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
 
-    const c = calculateBuild(form, relics, cachedOptimizerParams)
+    const c = calculateBuild(form, relics, cachedOptimizerParams, true)
 
     renameFields(c)
     // For optimizer grid syncing with sim table

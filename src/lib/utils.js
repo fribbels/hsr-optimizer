@@ -134,60 +134,67 @@ export const Utils = {
 
   // Util to capture a div and screenshot it to clipboard/file
   screenshotElementById: async (elementId, action, characterName) => {
-    const isMobile = Utils.isMobile()
-    return new Promise((resolve, reject) => {
-      Promise.resolve(isMobile).then((isMobile) => {
-        if (isMobile) {
-          return htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 })
-        }
-      }).then(() => {
-        return htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 })
-      }).then((blob) => {
-        const prefix = characterName || 'Hsr-optimizer'
-        const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
-        const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
-        const filename = `${prefix}_${date}_${time}.png`
+    function handleBlob(blob) {
+      const prefix = characterName || 'Hsr-optimizer'
+      const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
+      const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
+      const filename = `${prefix}_${date}_${time}.png`
 
-        if (action == 'clipboard') {
-          if (isMobile) {
-            const file = new File([blob], filename, { type: 'image/png' })
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
-              navigator.share({
-                files: [file],
-                title: 'Title',
-                text: 'Text',
-              })
-            } else {
-              Message.error('Unable to save screenshot to clipboard, try the download button to the right')
-            }
+      if (action == 'clipboard') {
+        if (Utils.isMobile()) {
+          const file = new File([blob], filename, { type: 'image/png' })
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({
+              files: [file],
+              title: '',
+              text: '',
+            })
           } else {
-            try {
-              const data = [new window.ClipboardItem({ [blob.type]: blob })]
-              navigator.clipboard.write(data).then(() => {
-                Message.success('Copied screenshot to clipboard')
-              })
-            } catch (e) {
-              console.error(e)
-              Message.error('Unable to save screenshot to clipboard, try the download button to the right')
-            }
+            Message.error('Unable to save screenshot to clipboard, try the download button to the right')
+          }
+        } else {
+          try {
+            const data = [new window.ClipboardItem({ [blob.type]: blob })]
+            navigator.clipboard.write(data).then(() => {
+              Message.success('Copied screenshot to clipboard')
+            })
+          } catch (e) {
+            console.error(e)
+            Message.error('Unable to save screenshot to clipboard, try the download button to the right')
           }
         }
+      }
 
-        if (action == 'download') {
-          const fileUrl = window.URL.createObjectURL(blob)
-          const anchorElement = document.createElement('a')
-          anchorElement.href = fileUrl
-          anchorElement.download = filename
-          anchorElement.style.display = 'none'
-          document.body.appendChild(anchorElement)
-          anchorElement.click()
-          anchorElement.remove()
-          window.URL.revokeObjectURL(fileUrl)
-          Message.success('Downloaded screenshot')
-        }
+      if (action == 'download') {
+        const fileUrl = window.URL.createObjectURL(blob)
+        const anchorElement = document.createElement('a')
+        anchorElement.href = fileUrl
+        anchorElement.download = filename
+        anchorElement.style.display = 'none'
+        document.body.appendChild(anchorElement)
+        anchorElement.click()
+        anchorElement.remove()
+        window.URL.revokeObjectURL(fileUrl)
+        Message.success('Downloaded screenshot')
+      }
+    }
 
-        resolve()
-      })
+    return new Promise((resolve, reject) => {
+      const isMobile = Utils.isMobile()
+
+      if (isMobile) {
+        htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 }).then(() => {
+          htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 }).then((blob) => {
+            handleBlob(blob)
+            resolve()
+          })
+        })
+      } else {
+        htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 }).then((blob) => {
+          handleBlob(blob)
+          resolve()
+        })
+      }
     })
   },
 

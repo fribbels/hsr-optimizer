@@ -9,6 +9,7 @@ export const LoadingBlurredImage: React.FC<LoadingBlurredImageProps> = ({ src, .
     <img
       {...rest}
       src={src}
+      loading='eager'
       style={{
         ...rest.style,
         filter: blur ? 'blur(10px)' : 'none',

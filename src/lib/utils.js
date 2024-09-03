@@ -128,46 +128,57 @@ export const Utils = {
     return arr[Math.floor(Math.random() * arr.length)]
   },
 
+  isMobile: () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  },
+
   // Util to capture a div and screenshot it to clipboard/file
   screenshotElementById: async (elementId, action, characterName) => {
-    return new Promise((resolve, reject) => {
-      htmlToImage.toBlob(document.getElementById(elementId))
-        .then(function (blob) {
-          htmlToImage.toBlob(document.getElementById(elementId))
-            .then(function (blob) {
-              if (action == 'clipboard') {
-                try {
-                  const data = [new window.ClipboardItem({ [blob.type]: blob })]
-                  navigator.clipboard.write(data).then(() => {
-                    Message.success('Copied screenshot to clipboard')
-                  })
-                } catch (e) {
-                  console.error(e)
-                  Message.error('Unable to save screenshot to clipboard, try the download button to the right')
-                }
-              }
+    const isMobile = Utils.isMobile()
+    if (isMobile) {
+      // Dummy blob to preload images on mobile
+      await htmlToImage.toBlob(document.getElementById(elementId), { height: 1, width: 1, canvasWidth: 1, canvasHeight: 1, pixelRatio: 1 })
+    }
 
-              if (action == 'download') {
-                const prefix = characterName || 'Hsr-optimizer'
-                const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
-                const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
-                const filename = `${prefix}_${date}_${time}.png`
-                const fileUrl = window.URL.createObjectURL(blob)
-                const anchorElement = document.createElement('a')
-                anchorElement.href = fileUrl
-                anchorElement.download = filename
-                anchorElement.style.display = 'none'
-                document.body.appendChild(anchorElement)
-                anchorElement.click()
-                anchorElement.remove()
-                window.URL.revokeObjectURL(fileUrl)
-                Message.success('Downloaded screenshot')
-              }
+    const blob = await htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 })
 
-              resolve()
-            })
+    const prefix = characterName || 'Hsr-optimizer'
+    const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
+    const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
+    const filename = `${prefix}_${date}_${time}.png`
+
+    if (action == 'clipboard') {
+      if (isMobile && navigator.canShare) {
+        await navigator.share({
+          files: [new File([blob], filename, { type: 'image/png' })],
+          title: 'Title',
+          text: 'Text',
         })
-    })
+      } else {
+        try {
+          const data = [new window.ClipboardItem({ [blob.type]: blob })]
+          navigator.clipboard.write(data).then(() => {
+            Message.success('Copied screenshot to clipboard')
+          })
+        } catch (e) {
+          console.error(e)
+          Message.error('Unable to save screenshot to clipboard, try the download button to the right')
+        }
+      }
+    }
+
+    if (action == 'download') {
+      const fileUrl = window.URL.createObjectURL(blob)
+      const anchorElement = document.createElement('a')
+      anchorElement.href = fileUrl
+      anchorElement.download = filename
+      anchorElement.style.display = 'none'
+      document.body.appendChild(anchorElement)
+      anchorElement.click()
+      anchorElement.remove()
+      window.URL.revokeObjectURL(fileUrl)
+      Message.success('Downloaded screenshot')
+    }
   },
 
   // Convert an array to an object keyed by id field

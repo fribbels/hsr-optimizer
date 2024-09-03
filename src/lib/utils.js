@@ -4,6 +4,7 @@ import { Message } from './message'
 import { v4 as uuidv4 } from 'uuid'
 import stringify from 'json-stable-stringify'
 import domtoimage from 'dom-to-image-more'
+import { domToBlob as htmlToBlob } from 'modern-screenshot'
 
 console.debug = (...args) => {
   let messageConfig = '%c%s '
@@ -133,61 +134,45 @@ export const Utils = {
     // DEBUG
     if (characterName == 'Jade') {
       return new Promise((resolve, reject) => {
-        domtoimage
-          .toPng(document.getElementById(elementId), { height: 858 * 1.5, width: 1070 * 1.5, copyDefaultStyles: false, style: { transform: 'scale(1.5)', transformOrigin: 'top left' } })
-          .then(async function (dataUrl) {
-            // Save to file
-            if (action == 'download') {
-              const prefix = characterName || 'Hsr-optimizer'
-              const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
-              const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
-              const filename = `${prefix}_${date}_${time}.png`
-              const anchorElement = document.createElement('a')
-              anchorElement.href = dataUrl
-              anchorElement.download = filename
-              anchorElement.style.display = 'none'
-              document.body.appendChild(anchorElement)
-              anchorElement.click()
-              anchorElement.remove()
-              window.URL.revokeObjectURL(dataUrl)
-              Message.success('Downloaded screenshot')
-
-              // const file = new File([blob], 'yourImageFileName.png', {
-              //   type: blob.type,
-              // })
-              const mimeType = 'image/png' // MIME type of the file
-
-              const file = base64ToFile(dataUrl, filename, mimeType)
-
-              if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                await navigator.share({
-                  files: [file],
-                  title: 'Download Image',
-                  text: 'Here is the image you wanted to download.',
-                })
-                console.log('Image shared successfully')
-                resolve()
-              } else {
-                Message.error('Failed to share')
-                // Fallback method for devices that do not support Web Share API
-                // const prefix = characterName || 'Hsr-optimizer'
-                // const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
-                // const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
-                // const filename = `${prefix}_${date}_${time}.png`
-                // const anchorElement = document.createElement('a')
-                // anchorElement.href = dataUrl
-                // anchorElement.download = filename
-                // anchorElement.style.display = 'none'
-                // document.body.appendChild(anchorElement)
-                // anchorElement.click()
-                // anchorElement.remove()
-                // window.URL.revokeObjectURL(dataUrl)
-                // Message.success('Downloaded screenshot')
-              }
+        return htmlToBlob(document.getElementById(elementId), {
+          scale: 1.5,
+          drawImageInterval: 0,
+        }).then(async (blob) => {
+          /*
+           * Save to clipboard
+           * This is not supported in firefox, possibly other browsers too
+           */
+          if (action == 'clipboard') {
+            try {
+              const data = [new window.ClipboardItem({ [blob.type]: blob })]
+              await navigator.clipboard.write(data)
+              Message.success('Copied screenshot to clipboard')
+            } catch (e) {
+              Message.error('Unable to save screenshot to clipboard, try the download button to the right')
             }
-          }).catch((e) => {
-            Message.error(e)
-          })
+          }
+
+          // Save to file
+          if (action == 'download') {
+            const prefix = characterName || 'Hsr-optimizer'
+            const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
+            const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
+            const filename = `${prefix}_${date}_${time}.png`
+            const fileUrl = window.URL.createObjectURL(blob)
+            const anchorElement = document.createElement('a')
+            anchorElement.href = fileUrl
+            anchorElement.download = filename
+            anchorElement.style.display = 'none'
+            document.body.appendChild(anchorElement)
+            anchorElement.click()
+            anchorElement.remove()
+            window.URL.revokeObjectURL(fileUrl)
+            Message.success('Downloaded screenshot')
+          }
+        }).catch((e) => {
+          console.error(e)
+          Message.error('Unable to take screenshot, please try again')
+        })
       })
     }
 

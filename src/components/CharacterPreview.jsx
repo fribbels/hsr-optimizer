@@ -564,7 +564,7 @@ export function CharacterPreview(props) {
                     onClick={() => setEditPortraitModalOpen(true)}
                     type='primary'
                   >
-                    {(character.portrait || customPortrait) ? 'Update crop' : 'Edit portrait'}
+                    Edit portrait
                   </Button>
                   <EditImageModal
                     title='portrait'

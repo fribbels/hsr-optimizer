@@ -75,7 +75,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       resetConfig()
     } else if (existingConfig) {
       customImageForm.setFieldsValue({ imageUrl: existingConfig.imageUrl, artistName: existingConfig.artistName })
-      setRadio('url') // If there's a existingConfig, there will always be a url
+      setRadio('upload')
       setCurrent(1)
       setVerifiedImageUrl(existingConfig.imageUrl)
       setOriginalDimensions(existingConfig.originalDimensions)
@@ -397,7 +397,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
 
   const revert = () => {
     onOk({ type: 'delete' })
-    setCurrent(0)
+    setCurrent(1)
   }
   const prev = () => setCurrent(current - 1)
   const onRadioChange = (e: RadioChangeEvent) => setRadio(e.target.value)
@@ -566,8 +566,8 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 Cancel
               </Button>
               {(current > 0 && existingConfig) && (
-                <Button onClick={revert} danger>
-                  Revert to default
+                <Button onClick={prev} danger>
+                  Upload new image
                 </Button>
               )}
               {(current > 0 && !existingConfig) && (
@@ -588,7 +588,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
             </Flex>
           </Flex>,
         ]}
-        title={existingConfig ? 'Update crop' : `Edit ${title ?? 'image'}`}
+        title={`Edit ${title ?? 'image'}`}
       >
         <div style={{ height: '505px', position: 'relative' }}>
           {!existingConfig

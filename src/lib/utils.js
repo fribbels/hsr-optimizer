@@ -130,130 +130,44 @@ export const Utils = {
 
   // Util to capture a div and screenshot it to clipboard/file
   screenshotElementById: async (elementId, action, characterName) => {
-    htmlToImage.toBlob(document.getElementById(elementId))
-      .then(function (blob) {
-        if (action == 'clipboard') {
-          try {
-            const data = [new window.ClipboardItem({ [blob.type]: blob })]
-            navigator.clipboard.write(data).then(() => {
-              Message.success('Copied screenshot to clipboard')
-            })
-          } catch (e) {
-            console.error(e)
-            Message.error('Unable to save screenshot to clipboard, try the download button to the right')
-          }
-        }
-        if (action == 'download') {
-          const prefix = characterName || 'Hsr-optimizer'
-          const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
-          const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
-          const filename = `${prefix}_${date}_${time}.png`
-          const fileUrl = window.URL.createObjectURL(blob)
-          const anchorElement = document.createElement('a')
-          anchorElement.href = fileUrl
-          anchorElement.download = filename
-          anchorElement.style.display = 'none'
-          document.body.appendChild(anchorElement)
-          anchorElement.click()
-          anchorElement.remove()
-          window.URL.revokeObjectURL(fileUrl)
-          Message.success('Downloaded screenshot')
-        }
-      })
-    // DEBUG
-    // return new Promise((resolve, reject) => {
-    //   htmlToImage.toPng(document.getElementById('my-node'))
-    //     .then(function (dataUrl) {
-    //       download(dataUrl, 'my-node.png');
-    //     });
-    //
-    //   return htmlToBlob(document.getElementById(elementId), {
-    //     scale: 1.5,
-    //     drawImageInterval: 1,
-    //   }).then(async (blob) => {
-    //     console.log('!!!1')
-    //     /*
-    //      * Save to clipboard
-    //      * This is not supported in firefox, possibly other browsers too
-    //      */
-    //     if (action == 'clipboard') {
-    //       try {
-    //         console.log('!!!2')
-    //         const data = [new window.ClipboardItem({ [blob.type]: blob })]
-    //         console.log('!!!3')
-    //         navigator.clipboard.write(data).then(() => {
-    //           console.log('!!!4')
-    //           Message.success('Copied screenshot to clipboard')
-    //         })
-    //       } catch (e) {
-    //         console.error(e)
-    //         Message.error('Unable to save screenshot to clipboard, try the download button to the right')
-    //       }
-    //     }
-    //
-    //     // Save to file
-    //     if (action == 'download') {
-    //       const prefix = characterName || 'Hsr-optimizer'
-    //       const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
-    //       const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
-    //       const filename = `${prefix}_${date}_${time}.png`
-    //       const fileUrl = window.URL.createObjectURL(blob)
-    //       const anchorElement = document.createElement('a')
-    //       console.log('!!!2')
-    //       anchorElement.href = fileUrl
-    //       anchorElement.download = filename
-    //       anchorElement.style.display = 'none'
-    //       document.body.appendChild(anchorElement)
-    //       anchorElement.click()
-    //       anchorElement.remove()
-    //       console.log('!!!3')
-    //       window.URL.revokeObjectURL(fileUrl)
-    //       Message.success('Downloaded screenshot')
-    //     }
-    //   }).catch((e) => {
-    //     console.error(e)
-    //     Message.error('Unable to take screenshot, please try again')
-    //   })
-    // })
+    return new Promise((resolve, reject) => {
+      htmlToImage.toBlob(document.getElementById(elementId))
+        .then(function (blob) {
+          htmlToImage.toBlob(document.getElementById(elementId))
+            .then(function (blob) {
+              if (action == 'clipboard') {
+                try {
+                  const data = [new window.ClipboardItem({ [blob.type]: blob })]
+                  navigator.clipboard.write(data).then(() => {
+                    Message.success('Copied screenshot to clipboard')
+                  })
+                } catch (e) {
+                  console.error(e)
+                  Message.error('Unable to save screenshot to clipboard, try the download button to the right')
+                }
+              }
 
-    // return new Promise((resolve, reject) => {
-    //   domtoimage.toBlob(document.getElementById(elementId), { height: 858, width: 1070, copyDefaultStyles: false, scale: 1.5, cacheBust: true }).then(async function (blob) {
-    //     if (action == 'clipboard') {
-    //       try {
-    //         const data = [new window.ClipboardItem({ [blob.type]: blob })]
-    //         await navigator.clipboard.write(data)
-    //         Message.success('Copied screenshot to clipboard')
-    //         resolve()
-    //       } catch (e) {
-    //         Message.error('Unable to save screenshot to clipboard, try the download button to the right')
-    //         reject(e)
-    //       }
-    //     }
-    //
-    //     // Save to file
-    //     if (action == 'download') {
-    //       const prefix = characterName || 'Hsr-optimizer'
-    //       const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
-    //       const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
-    //       const filename = `${prefix}_${date}_${time}.png`
-    //       const fileUrl = window.URL.createObjectURL(blob)
-    //       const anchorElement = document.createElement('a')
-    //       anchorElement.href = fileUrl
-    //       anchorElement.download = filename
-    //       anchorElement.style.display = 'none'
-    //       document.body.appendChild(anchorElement)
-    //       anchorElement.click()
-    //       anchorElement.remove()
-    //       window.URL.revokeObjectURL(fileUrl)
-    //       Message.success('Downloaded screenshot')
-    //       resolve()
-    //     }
-    //   }).catch(function (e) {
-    //     console.error(e, elementId, action)
-    //     Message.error('Unable to take screenshot, please try again')
-    //     reject(e)
-    //   })
-    // })
+              if (action == 'download') {
+                const prefix = characterName || 'Hsr-optimizer'
+                const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
+                const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
+                const filename = `${prefix}_${date}_${time}.png`
+                const fileUrl = window.URL.createObjectURL(blob)
+                const anchorElement = document.createElement('a')
+                anchorElement.href = fileUrl
+                anchorElement.download = filename
+                anchorElement.style.display = 'none'
+                document.body.appendChild(anchorElement)
+                anchorElement.click()
+                anchorElement.remove()
+                window.URL.revokeObjectURL(fileUrl)
+                Message.success('Downloaded screenshot')
+              }
+
+              resolve()
+            })
+        })
+    })
   },
 
   // Convert an array to an object keyed by id field

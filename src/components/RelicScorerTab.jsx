@@ -200,7 +200,7 @@ export default function RelicScorerTab() {
         {/* </Flex> */}
         <Flex gap={10} vertical align='center'>
           <Text>
-            Enter your account UID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.
+            Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly.
             {window.officialOnly ? '' : ` (Current version ${CURRENT_DATA_VERSION})`}
           </Text>
         </Flex>

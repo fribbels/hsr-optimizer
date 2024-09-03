@@ -137,7 +137,7 @@ export const Utils = {
     const isMobile = Utils.isMobile()
     if (isMobile) {
       // Dummy blob to preload images on mobile
-      await htmlToImage.toBlob(document.getElementById(elementId), { height: 1, width: 1, canvasWidth: 1, canvasHeight: 1, pixelRatio: 1 })
+      await htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 })
     }
 
     const blob = await htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 })
@@ -148,12 +148,17 @@ export const Utils = {
     const filename = `${prefix}_${date}_${time}.png`
 
     if (action == 'clipboard') {
-      if (isMobile && navigator.canShare) {
-        await navigator.share({
-          files: [new File([blob], filename, { type: 'image/png' })],
-          title: 'Title',
-          text: 'Text',
-        })
+      if (isMobile) {
+        const file = new File([blob], filename, { type: 'image/png' })
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: 'Title',
+            text: 'Text',
+          })
+        } else {
+          Message.error('Unable to save screenshot to clipboard, try the download button to the right')
+        }
       } else {
         try {
           const data = [new window.ClipboardItem({ [blob.type]: blob })]

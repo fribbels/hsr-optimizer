@@ -648,13 +648,13 @@ function computeOptimalSimulation(
   metadata: SimulationMetadata,
   scoringParams: ScoringParams,
 ) {
-  const minSubstatRollCounts = TsUtils.clone(inputMinSubstatRollCounts)
-  const maxSubstatRollCounts = TsUtils.clone(inputMaxSubstatRollCounts)
+  const minSubstatRollCounts = inputMinSubstatRollCounts
+  const maxSubstatRollCounts = inputMaxSubstatRollCounts
 
   const breakpoints = metadata.breakpoints
   const goal = scoringParams.substatGoal
   let sum = sumSubstatRolls(maxSubstatRollCounts)
-  let currentSimulation: Simulation = TsUtils.clone(partialSimulationWrapper.simulation)
+  let currentSimulation: Simulation = partialSimulationWrapper.simulation
   let currentSimulationResult: SimulationResult = undefined
 
   let breakpointsCap = true

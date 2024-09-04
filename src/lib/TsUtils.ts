@@ -1,11 +1,17 @@
 import { Constants, MainStats } from './constants'
-import { RelicEnhance, RelicGrade } from '../types/Relic'
+import { RelicEnhance, RelicGrade } from 'types/Relic'
+import stringify from 'json-stable-stringify'
 
 export const TsUtils = {
   // Returns the same object
   clone<T>(obj: T): T {
     if (!obj) return obj
     return JSON.parse(JSON.stringify(obj)) as T
+  },
+
+  objectHash<T>(obj: T): string {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    return stringify(obj)
   },
 
   // [1, 2, 3] => 6

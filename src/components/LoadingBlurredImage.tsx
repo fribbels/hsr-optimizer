@@ -73,8 +73,8 @@ export const LoadingBlurredImage: React.FC<LoadingBlurredImageProps> = ({ src, s
       loading='eager'
       style={{
         ...storedImg.style,
-        filter: blur ? 'blur(7px)' : 'none',
-        transition: blur ? '' : 'filter 0.6s cubic-bezier(.41,.65,.39,.99)',
+        filter: blur ? 'blur(6px)' : 'none',
+        transition: blur ? '' : 'filter 0.5s cubic-bezier(.41,.65,.39,.99)',
       }}
     />
   )

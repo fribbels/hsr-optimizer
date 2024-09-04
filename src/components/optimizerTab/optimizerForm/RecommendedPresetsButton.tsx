@@ -25,7 +25,7 @@ import { Utils } from 'lib/utils'
 export const SpdValues = {
   SPD0: {
     key: 'SPD0',
-    label: '0 SPD - Action advance support recommended',
+    label: 'No minimum speed',
     value: undefined,
   },
   SPD111: {

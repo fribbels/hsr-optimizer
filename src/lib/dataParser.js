@@ -1522,7 +1522,7 @@ function getScoringMetadata() {
         ],
       },
       presets: [
-        PresetEffects.fnAshblazingSet(4),
+        PresetEffects.fnAshblazingSet(8),
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,

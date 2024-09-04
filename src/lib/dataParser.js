@@ -1367,7 +1367,9 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.VALOROUS_SET,
+      ],
       sortOption: SortOption.DEF,
     },
     1002: { // Dan Heng
@@ -1520,7 +1522,8 @@ function getScoringMetadata() {
         ],
       },
       presets: [
-        PresetEffects.fnAshblazingSet(4),
+        PresetEffects.fnAshblazingSet(8),
+        PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -1741,6 +1744,7 @@ function getScoringMetadata() {
       presets: [
         PresetEffects.PRISONER_SET,
         PresetEffects.fnAshblazingSet(6),
+        PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.DOT,
       simulation: {
@@ -2042,7 +2046,8 @@ function getScoringMetadata() {
         ],
       },
       presets: [
-        PresetEffects.fnAshblazingSet(4),
+        PresetEffects.fnAshblazingSet(8),
+        PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -3126,7 +3131,9 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.VALOROUS_SET,
+      ],
       sortOption: SortOption.BASIC,
       simulation: {
         parts: {
@@ -3328,6 +3335,7 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(8),
+        PresetEffects.VALOROUS_SET,
         PresetEffects.BANANA_SET,
       ],
       sortOption: SortOption.FUA,
@@ -3437,7 +3445,9 @@ function getScoringMetadata() {
           Stats.HP_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.VALOROUS_SET,
+      ],
       sortOption: SortOption.BASIC,
       simulation: {
         parts: {
@@ -3747,7 +3757,10 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.VALOROUS_SET,
+        PresetEffects.fnAshblazingSet(2),
+      ],
       sortOption: SortOption.ULT,
       simulation: {
         parts: {
@@ -4159,6 +4172,7 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(3),
+        PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.SKILL,
       simulation: {
@@ -4343,7 +4357,9 @@ function getScoringMetadata() {
         [Constants.Parts.PlanarSphere]: [],
         [Constants.Parts.LinkRope]: [],
       },
-      presets: [],
+      presets: [
+        PresetEffects.PRISONER_SET,
+      ],
       sortOption: SortOption.EHR,
     },
     1220: { // Feixiao
@@ -4388,7 +4404,8 @@ function getScoringMetadata() {
         ],
       },
       presets: [
-        PresetEffects.fnAshblazingSet(1),
+        PresetEffects.fnAshblazingSet(4),
+        PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.ULT,
       simulation: {
@@ -4497,7 +4514,10 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.VALOROUS_SET,
+        PresetEffects.fnAshblazingSet(8),
+      ],
       sortOption: SortOption.FUA,
       simulation: {
         parts: {
@@ -4610,7 +4630,8 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.BANANA_SET,
-        PresetEffects.fnAshblazingSet(3),
+        PresetEffects.fnAshblazingSet(6),
+        PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.BE,
     },
@@ -4657,6 +4678,7 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(6),
+        PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -4767,7 +4789,10 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.fnAshblazingSet(2),
+        PresetEffects.VALOROUS_SET,
+      ],
       sortOption: SortOption.BASIC,
       simulation: {
         parts: {
@@ -5063,7 +5088,7 @@ function getScoringMetadata() {
         ],
       },
       presets: [
-        PresetEffects.fnAshblazingSet(7),
+        PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -5182,6 +5207,7 @@ function getScoringMetadata() {
       presets: [
         PresetEffects.fnAshblazingSet(1),
         PresetEffects.fnPioneerSet(4),
+        PresetEffects.VALOROUS_SET,
         PresetEffects.WASTELANDER_SET,
       ],
       sortOption: SortOption.FUA,
@@ -5800,7 +5826,10 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.VALOROUS_SET,
+        PresetEffects.fnAshblazingSet(8),
+      ],
       sortOption: SortOption.FUA,
       simulation: {
         parts: {

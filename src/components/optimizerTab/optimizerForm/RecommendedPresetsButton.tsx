@@ -25,7 +25,7 @@ import { Utils } from 'lib/utils'
 export const SpdValues = {
   SPD0: {
     key: 'SPD0',
-    label: '0 SPD - Action advance support recommended',
+    label: 'No minimum speed',
     value: undefined,
   },
   SPD111: {
@@ -107,6 +107,9 @@ export const PresetEffects = {
   WASTELANDER_SET: (form) => {
     form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 2
   },
+  VALOROUS_SET: (form) => {
+    form.setConditionals[Sets.TheWindSoaringValorous][1] = true
+  },
   BANANA_SET: (form) => {
     form.setConditionals[Sets.TheWondrousBananAmusementPark][1] = true
   },
@@ -155,7 +158,7 @@ const RecommendedPresetsButton = () => {
       overlayStyle={{ width: 'max-content' }}
     >
       <a onClick={(e) => e.preventDefault()}>
-        <Button type="primary" style={{ width: '100%' }}>
+        <Button type='primary' style={{ width: '100%' }}>
           Recommended presets
           <DownOutlined/>
         </Button>

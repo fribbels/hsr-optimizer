@@ -477,7 +477,13 @@ function CharacterPreviewSelection(props) {
           </Flex>
         </Flex>
 
-        <Segmented style={{ width: '100%', overflow: 'hidden' }} options={options} block onChange={selectionChange} value={props.selectedCharacter?.id}/>
+        <Segmented
+          style={{ width: '100%', overflow: 'hidden' }}
+          options={options}
+          block
+          onChange={selectionChange}
+          value={props.selectedCharacter?.id}
+        />
         <Flex id='previewWrapper' style={{ padding: '5px', backgroundColor: token.colorBgBase }}>
           <CharacterPreview
             class='relicScorerCharacterPreview'

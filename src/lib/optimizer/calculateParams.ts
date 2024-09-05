@@ -116,7 +116,7 @@ function generateCharacterBaseParams(request: Form, params: Partial<OptimizerPar
 }
 
 function generateSetConditionalParams(request: Form, params: Partial<OptimizerParams>) {
-  const setConditionals = request.setConditionals
+  const setConditionals = request.setConditionals ?? defaultSetConditionals
 
   for (const set of Object.values(Constants.Sets)) {
     if (!setConditionals[set]) {

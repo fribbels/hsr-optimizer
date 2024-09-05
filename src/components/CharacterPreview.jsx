@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button, Card, Flex, Image, Segmented, theme, Typography } from 'antd'
 import PropTypes from 'prop-types'
 import { RelicScorer } from 'lib/relicScorerPotential'
-import { StatCalculator } from 'lib/statCalculator'
 import { DB } from 'lib/db'
 import { Assets } from 'lib/assets'
 import { CHARACTER_SCORE, COMBAT_STATS, Constants, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, ElementToDamage, SETTINGS_TEAM, SIMULATION_SCORE } from 'lib/constants.ts'
@@ -26,6 +25,8 @@ import CharacterModal from 'components/CharacterModal'
 import { LoadingBlurredImage } from 'components/LoadingBlurredImage'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { HeaderText } from 'components/HeaderText.jsx'
+import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { OptimizerTabController } from 'lib/optimizerTabController'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -183,24 +184,25 @@ export function CharacterPreview(props) {
 
   let displayRelics
   let scoringResults
-  let finalStats
   if (isScorer || isBuilds) {
     const relicsArray = Object.values(character.equipped)
     scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray)
-    displayRelics = character.equipped
-    finalStats = StatCalculator.calculateCharacterWithRelics(character, Object.values(character.equipped))
+    displayRelics = Utils.clone(character.equipped)
   } else {
     scoringResults = RelicScorer.scoreCharacter(character)
-    displayRelics = {
+    displayRelics = Utils.clone({
       Head: relicsById[character.equipped?.Head],
       Hands: relicsById[character.equipped?.Hands],
       Body: relicsById[character.equipped?.Body],
       Feet: relicsById[character.equipped?.Feet],
       PlanarSphere: relicsById[character.equipped?.PlanarSphere],
       LinkRope: relicsById[character.equipped?.LinkRope],
-    }
-    finalStats = StatCalculator.calculate(character)
+    })
   }
+
+  RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(displayRelics))
+  const finalStats = calculateBuild(OptimizerTabController.fixForm(OptimizerTabController.getDisplayFormValues(character.form)), displayRelics)
+  finalStats.CV = StatCalculator.calculateCv(Object.values(displayRelics))
 
   const characterId = character.form.characterId
   const characterMetadata = DB.getMetadata().characters[characterId]

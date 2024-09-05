@@ -271,6 +271,23 @@ export const RelicFilters = {
     return relics
   },
 
+  condenseRelicSubstatsForOptimizerSingle: (relics) => {
+    for (const relic of relics) {
+      relic.condensedStats = []
+      for (const substat of relic.substats) {
+        const stat = substat.stat
+        const value = getValueByStatType(stat, substat.value)
+
+        relic.condensedStats.push([stat, value])
+      }
+      // Use augmented main value for maxed main stat filter
+      relic.condensedStats.push([relic.augmentedStats.mainStat, relic.augmentedStats.mainValue])
+
+      delete relic.augmentedStats
+      delete relic.weights
+    }
+  },
+
   condenseRelicSubstatsForOptimizer: (relicsByPart) => {
     for (const part of Object.keys(Constants.Parts)) {
       const relics = relicsByPart[part]

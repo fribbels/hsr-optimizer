@@ -47,6 +47,23 @@ export const StatCalculator = {
     return maxedMainStats[relic.main.stat][relic.grade - 2]
   },
 
+  calculateCv: (relics) => {
+    let total = 0
+    for (const relic of relics) {
+      if (!relic || !relic.condensedStats) continue
+      for (const condensedStat of relic.condensedStats) {
+        if (condensedStat[0] == Constants.Stats.CD) {
+          total += condensedStat[1]
+        }
+        if (condensedStat[0] == Constants.Stats.CR) {
+          total += condensedStat[1] * 2
+        }
+      }
+    }
+
+    return Utils.precisionRound(total * 100)
+  },
+
   calculateCharacterWithRelics(character, relics) {
     if (!character) return console.log('No character selected')
 
@@ -115,18 +132,21 @@ export const StatCalculator = {
      * console.log(relics)
      */
 
-    function sum(relics, stat) {
+    function calculateCv(relics) {
       let total = 0
       for (const relic of relics) {
         if (!relic) continue
-        total += relic.augmentedStats[stat] || 0
-
-        if (stat == relic.augmentedStats.mainStat) {
-          total += relic.augmentedStats.mainValue
+        for (const condensedStat of relic.condensedStats) {
+          if (condensedStat[0] == Constants.Stats.CD) {
+            total += condensedStat[1]
+          }
+          if (condensedStat[0] == Constants.Stats.CR) {
+            total += condensedStat[1] * 2
+          }
         }
       }
 
-      return total
+      return Utils.precisionRound(total)
     }
 
     const crSum = sum(relics, Constants.Stats.CR)

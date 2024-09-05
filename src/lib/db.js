@@ -11,6 +11,7 @@ import { OptimizerMenuIds } from 'components/optimizerTab/FormRow.tsx'
 import { Themes } from 'lib/theme'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { DefaultSettingOptions, SettingOptions } from 'components/SettingsDrawer'
+import { oldCharacterScoringMetadata } from 'lib/oldCharacterScoringMetadata'
 
 const state = {
   relics: [],
@@ -314,7 +315,28 @@ export const DB = {
     const scoringMetadataOverrides = window.store.getState().scoringMetadataOverrides[id]
     const returnScoringMetadata = Utils.mergeUndefinedValues(scoringMetadataOverrides || {}, defaultScoringMetadata)
 
-    for (const key of Object.keys(returnScoringMetadata.stats)) {
+    // POST MIGRATION UNCOMMENT
+    // if (scoringMetadataOverrides && scoringMetadataOverrides.modified) {
+    //   let statWeightsModified = false
+    //   for (const stat of Object.values(Constants.Stats)) {
+    //     if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) != Utils.nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
+    //       statWeightsModified = true
+    //     }
+    //   }
+    //
+    //   if (statWeightsModified) {
+    //     returnScoringMetadata.stats = scoringMetadataOverrides.stats
+    //     returnScoringMetadata.modified = true
+    //   } else {
+    //     returnScoringMetadata.stats = defaultScoringMetadata.stats
+    //     returnScoringMetadata.modified = false
+    //   }
+    // } else {
+    //   returnScoringMetadata.stats = defaultScoringMetadata.stats
+    //   returnScoringMetadata.modified = false
+    // }
+
+    for (const key of Object.keys(defaultScoringMetadata.stats)) {
       if (returnScoringMetadata.stats[key] == null) {
         returnScoringMetadata.stats[key] = 0
       }
@@ -331,6 +353,9 @@ export const DB = {
       overrides[id] = updated
     } else {
       Utils.mergeDefinedValues(overrides[id], updated)
+    }
+    if (updated.modified) {
+      overrides.modified = true
     }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
@@ -427,7 +452,46 @@ export const DB = {
         if (value.length) {
           delete x.scoringMetadataOverrides[key]
         }
+
+        // There was a bug setting the modified flag on custom scoring weight changes
+        // This makes it impossible to tell if a previous saved score was customized or not
+        // We attempt to fix this by running a migration for a few months (start 9/5/2024), any scores matching
+        // the old score will be migrated to the new scores, while any non-matching ones are marked modified
+        // After this migration done, Ctrl + F and uncomment the POST MIGRATION UNCOMMENT section to re-enable overwriting
+        const scoringMetadataOverrides = x.scoringMetadataOverrides[key]
+        if (scoringMetadataOverrides) {
+          const oldScoringMetadataStats = oldCharacterScoringMetadata[key]
+          const defaultScoringMetadata = dbCharacters[key].scoringMetadata
+
+          let isOldScoring = true
+          for (const stat of Object.values(Constants.Stats)) {
+            if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) != Utils.nullUndefinedToZero(oldScoringMetadataStats[stat])) {
+              isOldScoring = false
+              break
+            }
+          }
+
+          // Migrate old scoring to new scoring
+          if (isOldScoring) {
+            scoringMetadataOverrides.stats = Utils.clone(defaultScoringMetadata.stats)
+            scoringMetadataOverrides.modified = false
+          } else {
+            // Otherwise mark any modified as modified
+            let statWeightsModified = false
+            for (const stat of Object.values(Constants.Stats)) {
+              if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) != Utils.nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
+                statWeightsModified = true
+                break
+              }
+            }
+
+            if (statWeightsModified) {
+              scoringMetadataOverrides.modified = true
+            }
+          }
+        }
       }
+
       window.store.getState().setScoringMetadataOverrides(x.scoringMetadataOverrides || {})
     }
 

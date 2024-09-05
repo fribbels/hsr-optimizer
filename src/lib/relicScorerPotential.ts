@@ -33,29 +33,29 @@ type substat = {
 type rating = 'F' | 'F+' | 'D' | 'D+' | 'C' | 'C+' | 'B' | 'B+' | 'A' | 'A+' | 'S' | 'S+' | 'SS' | 'SS+' | 'SSS' | 'SSS+' | 'WTF' | 'WTF+'
 const ratings: rating[] = ['F', 'F', 'F', 'F+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'SS', 'SS+', 'SSS', 'SSS+', 'WTF', 'WTF+']
 
+export const dmgOrbMainstatBonus = 1.8
 export const percentToScore = 0.582// a perfect DPS glove scores 58.2 in substat scoring, using DPS characters as a marker leads to the biggest buffs / smallest nerfs
 export const minRollValue = 5.1 // Using the legacy value from OCR days without decimals, real value is 5.184
-export const dmgOrbMainstatBonus = 1.763
-export const mainStatBonuses = { // BALANCING/TODO: new mainstat bonuses
+export const mainStatBonuses = {
   [Constants.Parts.Body]: {
-    [Constants.Stats.HP_P]: 1.32,
-    [Constants.Stats.ATK_P]: 1.284,
-    [Constants.Stats.DEF_P]: 1.305,
-    [Constants.Stats.CR]: 1.644,
-    [Constants.Stats.CD]: 1.658,
-    [Constants.Stats.OHB]: 1.712,
-    [Constants.Stats.EHR]: 1.668,
+    [Constants.Stats.HP_P]: 1.3,
+    [Constants.Stats.ATK_P]: 1.3,
+    [Constants.Stats.DEF_P]: 1.3,
+    [Constants.Stats.CR]: 1.7,
+    [Constants.Stats.CD]: 1.7,
+    [Constants.Stats.OHB]: 1.7,
+    [Constants.Stats.EHR]: 1.7,
   },
   [Constants.Parts.Feet]: {
-    [Constants.Stats.HP_P]: 1.058,
-    [Constants.Stats.ATK_P]: 1.019,
-    [Constants.Stats.DEF_P]: 1,
-    [Constants.Stats.SPD]: 1.567,
+    [Constants.Stats.HP_P]: 1.0,
+    [Constants.Stats.ATK_P]: 1.0,
+    [Constants.Stats.DEF_P]: 1.0,
+    [Constants.Stats.SPD]: 1.6,
   },
   [Constants.Parts.PlanarSphere]: {
-    [Constants.Stats.HP_P]: 1.583,
-    [Constants.Stats.ATK_P]: 1.559,
-    [Constants.Stats.DEF_P]: 1.587,
+    [Constants.Stats.HP_P]: 1.6,
+    [Constants.Stats.ATK_P]: 1.6,
+    [Constants.Stats.DEF_P]: 1.6,
     [Constants.Stats.Physical_DMG]: dmgOrbMainstatBonus,
     [Constants.Stats.Fire_DMG]: dmgOrbMainstatBonus,
     [Constants.Stats.Ice_DMG]: dmgOrbMainstatBonus,
@@ -65,11 +65,11 @@ export const mainStatBonuses = { // BALANCING/TODO: new mainstat bonuses
     [Constants.Stats.Imaginary_DMG]: dmgOrbMainstatBonus,
   },
   [Constants.Parts.LinkRope]: {
-    [Constants.Stats.HP_P]: 1.073,
-    [Constants.Stats.ATK_P]: 1.076,
-    [Constants.Stats.DEF_P]: 1.172,
-    [Constants.Stats.BE]: 1.416,
-    [Constants.Stats.ERR]: 2,
+    [Constants.Stats.HP_P]: 1.1,
+    [Constants.Stats.ATK_P]: 1.1,
+    [Constants.Stats.DEF_P]: 1.1,
+    [Constants.Stats.BE]: 1.4,
+    [Constants.Stats.ERR]: 2.0,
   },
 }
 

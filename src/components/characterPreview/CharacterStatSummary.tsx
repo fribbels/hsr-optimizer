@@ -2,6 +2,8 @@ import { Flex } from 'antd'
 import StatRow from 'components/characterPreview/StatRow.tsx'
 import { Constants, Stats } from 'lib/constants.ts'
 
+const epsilon = 0.001
+
 export const CharacterStatSummary = (props: {
   finalStats: any
   elementalDmgValue: string
@@ -19,11 +21,11 @@ export const CharacterStatSummary = (props: {
       <StatRow finalStats={props.finalStats} stat={Constants.Stats.EHR}/>
       <StatRow finalStats={props.finalStats} stat={Constants.Stats.RES}/>
       <StatRow finalStats={props.finalStats} stat={Constants.Stats.BE}/>
-      {!props.simScore && !!props.finalStats[Stats.OHB] && <StatRow finalStats={props.finalStats} stat={Stats.OHB}/>}
+      {!props.simScore && props.finalStats[Stats.OHB] > epsilon && <StatRow finalStats={props.finalStats} stat={Stats.OHB}/>}
       {(props.simScore == null || props.cv <= 64.8) && <StatRow finalStats={props.finalStats} stat={Constants.Stats.ERR}/>}
       <StatRow finalStats={props.finalStats} stat={props.elementalDmgValue}/>
-      {props.cv != null && props.cv > 64.8 && <StatRow finalStats={props.finalStats} stat="CV" value={props.cv}/>}
-      {props.simScore != null && <StatRow finalStats={props.finalStats} stat="simScore" value={props.simScore}/>}
+      {props.cv != null && props.cv > 64.8 && <StatRow finalStats={props.finalStats} stat='CV' value={props.cv}/>}
+      {props.simScore != null && <StatRow finalStats={props.finalStats} stat='simScore' value={props.simScore}/>}
     </Flex>
   )
 }

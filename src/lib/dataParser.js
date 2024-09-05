@@ -4404,7 +4404,7 @@ function getScoringMetadata() {
         ],
       },
       presets: [
-        PresetEffects.fnAshblazingSet(4),
+        PresetEffects.fnAshblazingSet(1),
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.ULT,

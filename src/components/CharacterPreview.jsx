@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button, Card, Flex, Image, Segmented, theme, Typography } from 'antd'
 import PropTypes from 'prop-types'
 import { RelicScorer } from 'lib/relicScorerPotential'
-import { StatCalculator } from 'lib/statCalculator'
 import { DB } from 'lib/db'
 import { Assets } from 'lib/assets'
 import { CHARACTER_SCORE, COMBAT_STATS, Constants, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, ElementToDamage, SETTINGS_TEAM, SIMULATION_SCORE } from 'lib/constants.ts'
@@ -26,6 +25,8 @@ import CharacterModal from 'components/CharacterModal'
 import { LoadingBlurredImage } from 'components/LoadingBlurredImage'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { HeaderText } from 'components/HeaderText.jsx'
+import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { OptimizerTabController } from 'lib/optimizerTabController'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -183,12 +184,10 @@ export function CharacterPreview(props) {
 
   let displayRelics
   let scoringResults
-  let finalStats
   if (isScorer || isBuilds) {
     const relicsArray = Object.values(character.equipped)
     scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray)
     displayRelics = character.equipped
-    finalStats = StatCalculator.calculateCharacterWithRelics(character, Object.values(character.equipped))
   } else {
     scoringResults = RelicScorer.scoreCharacter(character)
     displayRelics = {
@@ -199,13 +198,18 @@ export function CharacterPreview(props) {
       PlanarSphere: relicsById[character.equipped?.PlanarSphere],
       LinkRope: relicsById[character.equipped?.LinkRope],
     }
-    finalStats = StatCalculator.calculate(character)
   }
 
   const characterId = character.form.characterId
   const characterMetadata = DB.getMetadata().characters[characterId]
   const characterElement = characterMetadata.element
   const elementalDmgValue = ElementToDamage[characterElement]
+
+  const statCalculationRelics = Utils.clone(displayRelics)
+  RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics))
+  const finalStats = calculateBuild(OptimizerTabController.fixForm(OptimizerTabController.getDisplayFormValues(character.form)), statCalculationRelics)
+  finalStats.CV = StatCalculator.calculateCv(Object.values(statCalculationRelics))
+  finalStats[elementalDmgValue] = finalStats.ELEMENTAL_DMG
 
   let currentSelection = teamSelection
   if (character?.id) {

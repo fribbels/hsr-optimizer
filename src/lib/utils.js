@@ -70,6 +70,11 @@ export const Utils = {
     return new Array(n).fill(x)
   },
 
+  nullUndefinedToZero: (x) => {
+    if (x == null) return 0
+    return x
+  },
+
   mergeDefinedValues: (target, source) => {
     for (const key of Object.keys(target)) {
       if (source[key] != null) {

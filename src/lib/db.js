@@ -314,7 +314,27 @@ export const DB = {
     const scoringMetadataOverrides = window.store.getState().scoringMetadataOverrides[id]
     const returnScoringMetadata = Utils.mergeUndefinedValues(scoringMetadataOverrides || {}, defaultScoringMetadata)
 
-    for (const key of Object.keys(returnScoringMetadata.stats)) {
+    if (scoringMetadataOverrides && scoringMetadataOverrides.modified) {
+      let statWeightsModified = false
+      for (const stat of Object.values(Constants.Stats)) {
+        if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) != Utils.nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
+          statWeightsModified = true
+        }
+      }
+
+      if (statWeightsModified) {
+        returnScoringMetadata.stats = scoringMetadataOverrides.stats
+        returnScoringMetadata.modified = true
+      } else {
+        returnScoringMetadata.stats = defaultScoringMetadata.stats
+        returnScoringMetadata.modified = false
+      }
+    } else {
+      returnScoringMetadata.stats = defaultScoringMetadata.stats
+      returnScoringMetadata.modified = false
+    }
+
+    for (const key of Object.keys(defaultScoringMetadata.stats)) {
       if (returnScoringMetadata.stats[key] == null) {
         returnScoringMetadata.stats[key] = 0
       }

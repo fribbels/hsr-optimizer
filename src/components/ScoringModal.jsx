@@ -171,10 +171,10 @@ export default function ScoringModal() {
         {' '}
         <code>Score = substatScore / idealScore * {percentToScore}</code>
         .
-        This allows for characters with fewer desired stats to achieve scores comparable to characters with many desired stats
+        This allows for characters with fewer desired stats to achieve scores comparable to characters with many desired stats.
       </PStyled>
       <PStyled style={{ margin: '7px 0px' }}>
-        The idealScore is the substatScore for a theoretical perfect relic
+        The idealScore is the substatScore for a theoretical perfect relic.
       </PStyled>
       <PStyled style={{ margin: '7px 0px' }}>
         The substatScore is calculated by
@@ -214,7 +214,7 @@ export default function ScoringModal() {
         The normalization is calculated based on the normalization for the respective % counterparts:
         <li>
           <code>64.8 / % main stat value * % stat high roll value / flat stat high roll value</code>
-          . in combination with the adjusted weights, this allows for flat stats to be accurately scored when compared against their % counterparts
+          . in combination with the adjusted weights, this allows for flat stats to be accurately scored when compared against their % counterparts.
         </li>
       </PStyled>
 
@@ -250,7 +250,7 @@ export default function ScoringModal() {
       </PStyled>
 
       <PStyled style={{ margin: '7px 0px' }}>
-        Body/feet/sphere/rope relics are granted extra rolls to compensate for the difficulty of obtaining optimal main stats with desired substats.
+        Relics with main stats (body/feet/sphere/rope) are granted extra rolls to compensate for the difficulty of obtaining optimal main stats with desired substats.
         These numbers were calculated by a simulation of relic rolls accounting for main stat drop rate and expected substat value.
         These rolls are first multiplied by the min roll value of
         {' '}
@@ -261,32 +261,32 @@ export default function ScoringModal() {
 
       <Flex justify='space-between' style={{ marginRight: 30 }}>
         <ul>
-          <li><code>Body HP_P {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.HP_P]).toFixed(1)}</code></li>
-          <li><code>Body ATK_P {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.ATK_P]).toFixed(1)}</code></li>
-          <li><code>Body DEF_P {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.DEF_P]).toFixed(1)}</code></li>
-          <li><code>Body CR {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.CR]).toFixed(1)}</code></li>
-          <li><code>Body CD {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.CD]).toFixed(1)}</code></li>
+          <li><code>Body — HP %: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.HP_P]).toFixed(1)}</code></li>
+          <li><code>Body — ATK %: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.ATK_P]).toFixed(1)}</code></li>
+          <li><code>Body — DEF %: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.DEF_P]).toFixed(1)}</code></li>
+          <li><code>Body — CR: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.CR]).toFixed(1)}</code></li>
+          <li><code>Body — CD: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.CD]).toFixed(1)}</code></li>
         </ul>
         <ul>
-          <li><code>Body OHB {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.OHB]).toFixed(1)}</code></li>
-          <li><code>Body EHR {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.EHR]).toFixed(1)}</code></li>
-          <li><code>Feet HP_P {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.HP_P]).toFixed(1)}</code></li>
-          <li><code>Feet ATK_P {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.ATK_P]).toFixed(1)}</code></li>
-          <li><code>Feet DEF_P {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.DEF_P]).toFixed(1)}</code></li>
+          <li><code>Body — OHB: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.OHB]).toFixed(1)}</code></li>
+          <li><code>Body — EHR: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.EHR]).toFixed(1)}</code></li>
+          <li><code>Feet — HP %: {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.HP_P]).toFixed(1)}</code></li>
+          <li><code>Feet — ATK %: {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.ATK_P]).toFixed(1)}</code></li>
+          <li><code>Feet — DEF %: {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.DEF_P]).toFixed(1)}</code></li>
         </ul>
-        1 <ul>
-          <li><code>Feet SPD {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.SPD]).toFixed(1)}</code></li>
-          <li><code>PlanarSphere HP_P {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.HP_P]).toFixed(1)}</code></li>
-          <li><code>PlanarSphere ATK_P {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.ATK_P]).toFixed(1)}</code></li>
-          <li><code>PlanarSphere DEF_P {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.DEF_P]).toFixed(1)}</code></li>
-          <li><code>PlanarSphere ELEM {(dmgOrbMainstatBonus).toFixed(1)}</code></li>
-          </ul>
         <ul>
-          <li><code>LinkRope HP_P {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.HP_P]).toFixed(1)}</code></li>
-          <li><code>LinkRope ATK_P {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.ATK_P]).toFixed(1)}</code></li>
-          <li><code>LinkRope DEF_P {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.DEF_P]).toFixed(1)}</code></li>
-          <li><code>LinkRope BE {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.BE]).toFixed(1)}</code></li>
-          <li><code>LinkRope ERR {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.ERR]).toFixed(1)}</code></li>
+          <li><code>Feet — SPD: {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.SPD]).toFixed(1)}</code></li>
+          <li><code>Sphere — HP %: {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.HP_P]).toFixed(1)}</code></li>
+          <li><code>Sphere — ATK %: {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.ATK_P]).toFixed(1)}</code></li>
+          <li><code>Sphere — DEF %: {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.DEF_P]).toFixed(1)}</code></li>
+          <li><code>Sphere — Elemental DMG %: {(dmgOrbMainstatBonus).toFixed(1)}</code></li>
+        </ul>
+        <ul>
+          <li><code>Rope — HP %: {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.HP_P]).toFixed(1)}</code></li>
+          <li><code>Rope — ATK %: {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.ATK_P]).toFixed(1)}</code></li>
+          <li><code>Rope — DEF %: {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.DEF_P]).toFixed(1)}</code></li>
+          <li><code>Rope — BE: {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.BE]).toFixed(1)}</code></li>
+          <li><code>Rope — ERR: {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.ERR]).toFixed(1)}</code></li>
         </ul>
       </Flex>
 

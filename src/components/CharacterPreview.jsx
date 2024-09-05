@@ -187,17 +187,17 @@ export function CharacterPreview(props) {
   if (isScorer || isBuilds) {
     const relicsArray = Object.values(character.equipped)
     scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray)
-    displayRelics = Utils.clone(character.equipped)
+    displayRelics = character.equipped
   } else {
     scoringResults = RelicScorer.scoreCharacter(character)
-    displayRelics = Utils.clone({
+    displayRelics = {
       Head: relicsById[character.equipped?.Head],
       Hands: relicsById[character.equipped?.Hands],
       Body: relicsById[character.equipped?.Body],
       Feet: relicsById[character.equipped?.Feet],
       PlanarSphere: relicsById[character.equipped?.PlanarSphere],
       LinkRope: relicsById[character.equipped?.LinkRope],
-    })
+    }
   }
 
   const characterId = character.form.characterId
@@ -205,9 +205,10 @@ export function CharacterPreview(props) {
   const characterElement = characterMetadata.element
   const elementalDmgValue = ElementToDamage[characterElement]
 
-  RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(displayRelics))
-  const finalStats = calculateBuild(OptimizerTabController.fixForm(OptimizerTabController.getDisplayFormValues(character.form)), displayRelics)
-  finalStats.CV = StatCalculator.calculateCv(Object.values(displayRelics))
+  const statCalculationRelics = Utils.clone(displayRelics)
+  RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics))
+  const finalStats = calculateBuild(OptimizerTabController.fixForm(OptimizerTabController.getDisplayFormValues(character.form)), statCalculationRelics)
+  finalStats.CV = StatCalculator.calculateCv(Object.values(statCalculationRelics))
   finalStats[elementalDmgValue] = finalStats.ELEMENTAL_DMG
 
   let currentSelection = teamSelection

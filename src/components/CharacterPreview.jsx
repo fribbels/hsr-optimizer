@@ -200,14 +200,15 @@ export function CharacterPreview(props) {
     })
   }
 
-  RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(displayRelics))
-  const finalStats = calculateBuild(OptimizerTabController.fixForm(OptimizerTabController.getDisplayFormValues(character.form)), displayRelics)
-  finalStats.CV = StatCalculator.calculateCv(Object.values(displayRelics))
-
   const characterId = character.form.characterId
   const characterMetadata = DB.getMetadata().characters[characterId]
   const characterElement = characterMetadata.element
   const elementalDmgValue = ElementToDamage[characterElement]
+
+  RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(displayRelics))
+  const finalStats = calculateBuild(OptimizerTabController.fixForm(OptimizerTabController.getDisplayFormValues(character.form)), displayRelics)
+  finalStats.CV = StatCalculator.calculateCv(Object.values(displayRelics))
+  finalStats[elementalDmgValue] = finalStats.ELEMENTAL_DMG
 
   let currentSelection = teamSelection
   if (character?.id) {

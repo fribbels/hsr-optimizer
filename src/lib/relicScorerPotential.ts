@@ -33,6 +33,7 @@ type substat = {
 type rating = 'F' | 'F+' | 'D' | 'D+' | 'C' | 'C+' | 'B' | 'B+' | 'A' | 'A+' | 'S' | 'S+' | 'SS' | 'SS+' | 'SSS' | 'SSS+' | 'WTF' | 'WTF+'
 const ratings: rating[] = ['F', 'F', 'F', 'F+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'SS', 'SS+', 'SSS', 'SSS+', 'WTF', 'WTF+']
 
+export const dmgOrbMainstatBonus = 1.8
 export const percentToScore = 0.582// a perfect DPS glove scores 58.2 in substat scoring, using DPS characters as a marker leads to the biggest buffs / smallest nerfs
 export const minRollValue = 5.1 // Using the legacy value from OCR days without decimals, real value is 5.184
 export const mainStatBonuses = {
@@ -55,13 +56,13 @@ export const mainStatBonuses = {
     [Constants.Stats.HP_P]: 1.6,
     [Constants.Stats.ATK_P]: 1.6,
     [Constants.Stats.DEF_P]: 1.6,
-    [Constants.Stats.Physical_DMG]: 1.8,
-    [Constants.Stats.Fire_DMG]: 1.8,
-    [Constants.Stats.Ice_DMG]: 1.8,
-    [Constants.Stats.Lightning_DMG]: 1.8,
-    [Constants.Stats.Wind_DMG]: 1.8,
-    [Constants.Stats.Quantum_DMG]: 1.8,
-    [Constants.Stats.Imaginary_DMG]: 1.8,
+    [Constants.Stats.Physical_DMG]: dmgOrbMainstatBonus,
+    [Constants.Stats.Fire_DMG]: dmgOrbMainstatBonus,
+    [Constants.Stats.Ice_DMG]: dmgOrbMainstatBonus,
+    [Constants.Stats.Lightning_DMG]: dmgOrbMainstatBonus,
+    [Constants.Stats.Wind_DMG]: dmgOrbMainstatBonus,
+    [Constants.Stats.Quantum_DMG]: dmgOrbMainstatBonus,
+    [Constants.Stats.Imaginary_DMG]: dmgOrbMainstatBonus,
   },
   [Constants.Parts.LinkRope]: {
     [Constants.Stats.HP_P]: 1.1,

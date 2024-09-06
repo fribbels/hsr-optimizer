@@ -105,8 +105,13 @@ self.onmessage = function (e: MessageEvent) {
     const relicSetIndex = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount
     const ornamentSetIndex = setP + setL * ornamentSetCount
 
+    const arrayIndex = relicSetIndex >> 5
+    const bitPosition = relicSetIndex & 31
+    const packedValue = relicSetSolutions[arrayIndex]
+    const unpackedValue = (packedValue >> (31 - bitPosition)) & 1
+
     // Exit early if sets don't match
-    if (relicSetSolutions[relicSetIndex] != 1 || ornamentSetSolutions[ornamentSetIndex] != 1) {
+    if (unpackedValue != 1 || ornamentSetSolutions[ornamentSetIndex] != 1) {
       continue
     }
 

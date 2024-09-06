@@ -64,7 +64,13 @@ function format(text: string) {
 function injectSetFilters(wgsl: string, gpuParams: GpuConstants) {
   // CTRL+ F: RESULTS ASSIGNMENT
   return wgsl.replace('/* INJECT SET FILTERS */', indent(`
-if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[ornamentSetIndex] < 1) {
+
+let arrayIndex = relicSetIndex >> 5u;
+let bitPosition = relicSetIndex & 31u;
+let packedValue: i32 = relicSetSolutionsMatrix[arrayIndex];
+let unpackedValue = (u32(packedValue) >> (31u - bitPosition)) & 1u;
+
+if (unpackedValue < 1 || ornamentSetSolutionsMatrix[ornamentSetIndex] < 1) {
   results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
   continue;
 }

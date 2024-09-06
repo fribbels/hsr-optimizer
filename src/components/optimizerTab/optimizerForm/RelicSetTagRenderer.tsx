@@ -25,7 +25,6 @@ export function RelicSetTagRenderer(props) {
 
   if (!value) return (
     <Tag
-      onMouseDown={onPreventMouseDown}
       closable={closable}
       onClose={onClose}
     >
@@ -69,7 +68,6 @@ export function RelicSetTagRenderer(props) {
 
   return (
     <Tag
-      onMouseDown={onPreventMouseDown}
       closable={closable}
       onClose={onClose}
       style={{ display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 22, alignItems: 'center', overflow: 'hidden' }}

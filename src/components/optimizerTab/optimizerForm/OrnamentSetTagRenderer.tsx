@@ -14,7 +14,6 @@ export function OrnamentSetTagRenderer(props) {
 
   if (!value) return (
     <Tag
-      onMouseDown={onPreventMouseDown}
       closable={closable}
       onClose={onClose}
     >
@@ -26,7 +25,6 @@ export function OrnamentSetTagRenderer(props) {
 
   return (
     <Tag
-      onMouseDown={onPreventMouseDown}
       closable={closable}
       onClose={onClose}
       style={{ display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 21, alignItems: 'center', overflow: 'hidden' }}

@@ -196,6 +196,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
         LinkRope: relics.LinkRope[l],
       },
       cachedParams,
+      true,
     )
 
     c.id = index

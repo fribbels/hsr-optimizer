@@ -11,9 +11,20 @@ export function OrnamentSetTagRenderer(props) {
     event.preventDefault()
     event.stopPropagation()
   }
+
+  if (!value) return (
+    <Tag
+      closable={closable}
+      onClose={onClose}
+    >
+      <Flex>
+        {(props.label || '').replace(/[^0-9+]/g, '')}
+      </Flex>
+    </Tag>
+  )
+
   return (
     <Tag
-      onMouseDown={onPreventMouseDown}
       closable={closable}
       onClose={onClose}
       style={{ display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 21, alignItems: 'center', overflow: 'hidden' }}

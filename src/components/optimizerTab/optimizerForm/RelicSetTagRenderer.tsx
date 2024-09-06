@@ -8,8 +8,6 @@ import PropTypes from 'prop-types'
 export function RelicSetTagRenderer(props) {
   const { value, closable, onClose } = props
 
-  if (!value) return
-
   /*
    * The value comes in as:
    * "2 PieceBand of Sizzling Thunder__RC_CASCADER_SPLIT__Guard of Wuthering Snow"
@@ -20,7 +18,22 @@ export function RelicSetTagRenderer(props) {
    *['2 + Any', 'Knight of Purity Palace']
    */
 
-  if (!value) return
+  const onPreventMouseDown = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+  }
+
+  if (!value) return (
+    <Tag
+      onMouseDown={onPreventMouseDown}
+      closable={closable}
+      onClose={onClose}
+    >
+      <Flex>
+        {(props.label || '').replace(/[^0-9+]/g, '')}
+      </Flex>
+    </Tag>
+  )
 
   const pieces = value.split('__RC_CASCADER_SPLIT__')
   let inner
@@ -54,10 +67,6 @@ export function RelicSetTagRenderer(props) {
       )
   }
 
-  const onPreventMouseDown = (event) => {
-    event.preventDefault()
-    event.stopPropagation()
-  }
   return (
     <Tag
       onMouseDown={onPreventMouseDown}

@@ -11,6 +11,19 @@ export function OrnamentSetTagRenderer(props) {
     event.preventDefault()
     event.stopPropagation()
   }
+
+  if (!value) return (
+    <Tag
+      onMouseDown={onPreventMouseDown}
+      closable={closable}
+      onClose={onClose}
+    >
+      <Flex>
+        {(props.label || '').replace(/[^0-9+]/g, '')}
+      </Flex>
+    </Tag>
+  )
+
   return (
     <Tag
       onMouseDown={onPreventMouseDown}

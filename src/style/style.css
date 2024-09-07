@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: 'Noto Sans', 'Roboto', sans-serif;
+    font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -24,7 +24,7 @@ body,
 }
 
 pre {
-  font-family: 'Noto Sans', 'Roboto', sans-serif;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif;
 }
 
 .test {
@@ -36,67 +36,67 @@ pre {
 }
 
 .ant-typography {
-  font-family: 'Noto Sans', 'Roboto', sans-serif !important;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif !important;
 }
 
 .ant-flex {
-  font-family: 'Noto Sans', 'Roboto', sans-serif;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif;
 }
 
 .ant-flex {
-  font-family: 'Noto Sans', 'Roboto', sans-serif
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif
 }
 
 .ant-menu-title-content {
-  font-family: 'Noto Sans', 'Roboto', sans-serif;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif;
 }
 
 .ant-btn {
-  font-family: 'Noto Sans', 'Roboto', sans-serif;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif;
 }
 
 .ant-radio-button-wrapper {
-  font-family: 'Noto Sans', 'Roboto', sans-serif;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif;
 }
 
 .ant-popover-title {
-  font-family: 'Noto Sans', 'Roboto', sans-serif;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif;
 }
 
 .ant-input {
-  font-family: 'Noto Sans', 'Roboto', sans-serif;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif;
 }
 
 .ant-input-number-input {
-  font-family: 'Noto Sans', 'Roboto', sans-serif !important;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif !important;
 }
 
 .ant-pagination-item {
-  font-family: 'Noto Sans', 'Roboto', sans-serif !important;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif !important;
 }
 
 .ant-select-selection-item {
-  font-family: 'Noto Sans', 'Roboto', sans-serif;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif;
 }
 
 .ant-select-selection-placeholder {
-  font-family: 'Noto Sans', 'Roboto', sans-serif;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif;
 }
 
 .ant-divider {
-  font-family: 'Noto Sans', 'Roboto', sans-serif;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif;
 }
 
 .ant-drawer-title {
-  font-family: 'Noto Sans', 'Roboto', sans-serif !important;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif !important;
 }
 
 .ant-tabs {
-  font-family: 'Noto Sans', 'Roboto', sans-serif !important;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif !important;
 }
 
 .ant-segmented {
-  font-family: 'Noto Sans', 'Roboto', sans-serif !important;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif !important;
 }
 
 .ag-body-horizontal-scroll {
@@ -128,7 +128,7 @@ pre {
 .ag-theme-balham .ag-header-group-cell {
     padding-left: 2px;
     padding-right: 2px;
-    font-family: 'Noto Sans', 'Roboto', sans-serif;
+    font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif;
     font-size: 14px;
     font-weight: 600;
     text-align: center;
@@ -154,7 +154,7 @@ pre {
 .ag-header {
     height: 24px !important;
     min-height: 24px !important;
-    font-family: 'Noto Sans', 'Roboto', sans-serif;
+    font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif;
 }
 
 #relicGrid .ag-header {
@@ -193,7 +193,7 @@ pre {
 }
 
 .ag-paging-row-summary-panel{
-  font-family: 'Noto Sans', 'Roboto', sans-serif;
+  font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif;
 }
 
 .ag-header-cell-text {
@@ -216,7 +216,7 @@ pre {
 .ag-cell-value {
     font-weight: 400;
     text-align: center;
-    font-family: 'Noto Sans', 'Roboto', sans-serif;
+    font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif;
     font-size: 1em;
     display: flex;
     justify-content: center;

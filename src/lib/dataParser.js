@@ -4678,6 +4678,7 @@ function getScoringMetadata() {
         ],
       },
       presets: [
+        PresetEffects.fnPioneerSet(4),
         PresetEffects.fnAshblazingSet(6),
         PresetEffects.VALOROUS_SET,
       ],

@@ -1,6 +1,6 @@
 import { Utils } from 'lib/utils'
-import { GpuExecutionContext } from 'lib/gpu/webgpuInternals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { GpuExecutionContext } from 'lib/gpu/webgpuTypes'
 
 export function logIterationTimer(i: number, gpuContext: GpuExecutionContext) {
   const endTime = new Date().getTime()

@@ -23,7 +23,7 @@ export type LightConeRanks = {
 export type LightCone = {
   desc: string
   icon: AssetRelativeUrl
-  id: number
+  id: string
   name: string
   path: InternalPath | ExternalPath
   portrait: AssetRelativeUrl

@@ -2,10 +2,11 @@ import { getDefaultForm } from 'lib/defaultForm'
 import { Form } from 'types/Form'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { generateTestRelics, StatDeltaAnalysis, testWrapper } from 'lib/gpu/tests/webgpuTestUtils'
-import { getDevice } from 'lib/gpu/webgpuInternals'
 import DB from 'lib/db'
-import { RelicsByPart } from 'lib/gpu/webgpuDataTransform'
 import { SetsOrnamentsNames, SetsRelicsNames } from 'lib/constants'
+import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
+import { LightCone } from 'types/LightCone'
+import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 
 export type WebgpuTest = {
   name: string
@@ -88,7 +89,7 @@ const baseCharacterLightConeMappings = [
 ]
 
 export async function generateAllTests() {
-  const device = await getDevice()
+  const device = await getWebgpuDevice()
   if (!device) return []
 
   cache.metadata = DB.getMetadata()
@@ -118,7 +119,7 @@ export function generateE6E5Tests(device: GPUDevice) {
 export function generateStarLcTests(device: GPUDevice, star: number) {
   // Use Kafka since she has DOT and FUA
   const characterId = '1005'
-  const lightCones = Object.values(cache.metadata.lightCones).filter((lc) => lc.rarity == star)
+  const lightCones = Object.values(cache.metadata.lightCones as LightCone[]).filter((lc: LightCone) => lc.rarity == star)
   const tests: WebgpuTest[] = []
 
   for (const lc of lightCones) {

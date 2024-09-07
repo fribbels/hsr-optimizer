@@ -139,6 +139,9 @@ export const Assets = {
   },
 
   getSetImage: (set, part) => {
+    if (set == -1) {
+      return Assets.getBlank()
+    }
     if (!part) {
       part = Constants.Parts.PlanarSphere
     }

@@ -50,6 +50,7 @@ export type Form = {
   PRIMARY_ELEMENTAL_DMG_TYPE: string
   statSim?: any
   resultSort?: string
+  resultsLimit?: number
   path?: string
 
   weights: {

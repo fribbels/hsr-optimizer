@@ -69,9 +69,9 @@ export default function ScoringModal() {
 
   function StatValueRow(props) {
     return (
-      <Flex justify="flex-start" style={{ width: panelWidth }} align="center" gap={5}>
-        <Form.Item size="default" name={['stats', props.stat]}>
-          <InputNumberStyled controls={false} size="small"/>
+      <Flex justify='flex-start' style={{ width: panelWidth }} align='center' gap={5}>
+        <Form.Item size='default' name={['stats', props.stat]}>
+          <InputNumberStyled controls={false} size='small'/>
         </Form.Item>
         <Flex>
           <img src={Assets.getStatIcon(props.stat)} style={{ width: 25, height: 25, marginRight: 3 }}></img>
@@ -147,11 +147,11 @@ export default function ScoringModal() {
 
     return (
       <Popconfirm
-        title="Reset the scoring algorithm for all characters?"
-        description="You will lose any custom scoring settings you have set on any character."
+        title='Reset the scoring algorithm for all characters?'
+        description='You will lose any custom scoring settings you have set on any character.'
         onConfirm={resetAllCharacters}
-        okText="Yes"
-        cancelText="No"
+        okText='Yes'
+        cancelText='No'
       >
         <Button danger>Reset all characters</Button>
       </Popconfirm>
@@ -171,10 +171,10 @@ export default function ScoringModal() {
         {' '}
         <code>Score = substatScore / idealScore * {percentToScore}</code>
         .
-        This allows for characters with fewer desired stats to achieve scores comparable to characters with many desired stats
+        This allows for characters with fewer desired stats to achieve scores comparable to characters with many desired stats.
       </PStyled>
       <PStyled style={{ margin: '7px 0px' }}>
-        The idealScore is the substatScore for a theoretical perfect relic
+        The idealScore is the substatScore for a theoretical perfect relic.
       </PStyled>
       <PStyled style={{ margin: '7px 0px' }}>
         The substatScore is calculated by
@@ -187,7 +187,7 @@ export default function ScoringModal() {
         <code>64.8</code>
         :
       </PStyled>
-      <Flex justify="space-between" style={{ marginRight: 120 }}>
+      <Flex justify='space-between' style={{ marginRight: 120 }}>
         <ul>
           <li><code>CD BE = 64.8 / 64.8 == 1.0</code></li>
           <li><code>DEF% = 64.8 / 54.0 == 1.2</code></li>
@@ -214,7 +214,7 @@ export default function ScoringModal() {
         The normalization is calculated based on the normalization for the respective % counterparts:
         <li>
           <code>64.8 / % main stat value * % stat high roll value / flat stat high roll value</code>
-          . in combination with the adjusted weights, this allows for flat stats to be accurately scored when compared against their % counterparts
+          . in combination with the adjusted weights, this allows for flat stats to be accurately scored when compared against their % counterparts.
         </li>
       </PStyled>
 
@@ -250,9 +250,8 @@ export default function ScoringModal() {
       </PStyled>
 
       <PStyled style={{ margin: '7px 0px' }}>
-        Body/feet/sphere/rope relics are granted extra rolls to compensate for the difficulty of obtaining optimal main stats with desired substats.
+        Relics with main stats (body/feet/sphere/rope) are granted extra rolls to compensate for the difficulty of obtaining optimal main stats with desired substats.
         These numbers were calculated by a simulation of relic rolls accounting for main stat drop rate and expected substat value.
-        <li style={{ fontWeight: 'bolder' }}>TODO: figure out new mainstat bonuses and add explainer here for how we figured it out</li>
         These rolls are first multiplied by the min roll value of
         {' '}
         <code>{minRollValue}</code>
@@ -260,34 +259,34 @@ export default function ScoringModal() {
         and then, if the main stat is not optimal, scaled down by the stat weight to obtain the bonus score value.
       </PStyled>
 
-      <Flex justify="space-between" style={{ marginRight: 30 }}>
+      <Flex justify='space-between' style={{ marginRight: 30 }}>
         <ul>
-          <li><code>Body HP_P {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.HP_P]).toFixed(3)}</code></li>
-          <li><code>Body ATK_P {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.ATK_P]).toFixed(3)}</code></li>
-          <li><code>Body DEF_P {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.DEF_P]).toFixed(3)}</code></li>
-          <li><code>Body CR {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.CR]).toFixed(3)}</code></li>
-          <li><code>Body CD {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.CD]).toFixed(3)}</code></li>
+          <li><code>Body — HP %: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.HP_P]).toFixed(1)}</code></li>
+          <li><code>Body — ATK %: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.ATK_P]).toFixed(1)}</code></li>
+          <li><code>Body — DEF %: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.DEF_P]).toFixed(1)}</code></li>
+          <li><code>Body — CR: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.CR]).toFixed(1)}</code></li>
+          <li><code>Body — CD: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.CD]).toFixed(1)}</code></li>
         </ul>
         <ul>
-          <li><code>Body OHB {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.OHB]).toFixed(3)}</code></li>
-          <li><code>Body EHR {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.EHR]).toFixed(3)}</code></li>
-          <li><code>Feet HP_P {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.HP_P]).toFixed(3)}</code></li>
-          <li><code>Feet ATK_P {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.ATK_P]).toFixed(3)}</code></li>
-          <li><code>Feet DEF_P {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.DEF_P]).toFixed(3)}</code></li>
+          <li><code>Body — OHB: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.OHB]).toFixed(1)}</code></li>
+          <li><code>Body — EHR: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.EHR]).toFixed(1)}</code></li>
+          <li><code>Feet — HP %: {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.HP_P]).toFixed(1)}</code></li>
+          <li><code>Feet — ATK %: {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.ATK_P]).toFixed(1)}</code></li>
+          <li><code>Feet — DEF %: {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.DEF_P]).toFixed(1)}</code></li>
         </ul>
         <ul>
-          <li><code>Feet SPD {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.SPD]).toFixed(3)}</code></li>
-          <li><code>PlanarSphere HP_P {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.HP_P]).toFixed(3)}</code></li>
-          <li><code>PlanarSphere ATK_P {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.ATK_P]).toFixed(3)}</code></li>
-          <li><code>PlanarSphere DEF_P {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.DEF_P]).toFixed(3)}</code></li>
-          <li><code>PlanarSphere ELEM {(dmgOrbMainstatBonus).toFixed(3)}</code></li>
+          <li><code>Feet — SPD: {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.SPD]).toFixed(1)}</code></li>
+          <li><code>Sphere — HP %: {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.HP_P]).toFixed(1)}</code></li>
+          <li><code>Sphere — ATK %: {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.ATK_P]).toFixed(1)}</code></li>
+          <li><code>Sphere — DEF %: {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.DEF_P]).toFixed(1)}</code></li>
+          <li><code>Sphere — Elemental DMG %: {(dmgOrbMainstatBonus).toFixed(1)}</code></li>
         </ul>
         <ul>
-          <li><code>LinkRope HP_P {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.HP_P]).toFixed(3)}</code></li>
-          <li><code>LinkRope ATK_P {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.ATK_P]).toFixed(3)}</code></li>
-          <li><code>LinkRope DEF_P {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.DEF_P]).toFixed(3)}</code></li>
-          <li><code>LinkRope BE {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.BE]).toFixed(3)}</code></li>
-          <li><code>LinkRope ERR {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.ERR]).toFixed(3)}</code></li>
+          <li><code>Rope — HP %: {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.HP_P]).toFixed(1)}</code></li>
+          <li><code>Rope — ATK %: {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.ATK_P]).toFixed(1)}</code></li>
+          <li><code>Rope — DEF %: {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.DEF_P]).toFixed(1)}</code></li>
+          <li><code>Rope — BE: {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.BE]).toFixed(1)}</code></li>
+          <li><code>Rope — ERR: {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.ERR]).toFixed(1)}</code></li>
         </ul>
       </Flex>
 
@@ -307,14 +306,14 @@ export default function ScoringModal() {
       onCancel={handleCancel}
       forceRender
       footer={[
-        <Button key="back" onClick={handleCancel}>
+        <Button key='back' onClick={handleCancel}>
           Cancel
         </Button>,
-        <Button key="default" onClick={handleResetDefault}>
+        <Button key='default' onClick={handleResetDefault}>
           Reset to default
         </Button>,
-        <ResetAllCharactersButton key="resetAll"/>,
-        <Button key="submit" type="primary" onClick={onModalOk}>
+        <ResetAllCharactersButton key='resetAll'/>,
+        <Button key='submit' type='primary' onClick={onModalOk}>
           Save changes
         </Button>,
       ]}
@@ -322,18 +321,18 @@ export default function ScoringModal() {
       <Form
         form={scoringAlgorithmForm}
         preserve={false}
-        layout="vertical"
+        layout='vertical'
         onFinish={onFinish}
       >
 
         <TitleDivider>Stat weights</TitleDivider>
 
         <Flex gap={10} vertical>
-          <Flex gap={20} justify="space-between">
+          <Flex gap={20} justify='space-between'>
             <Flex vertical gap={5}>
-              <Form.Item size="default" name="characterId">
+              <Form.Item size='default' name='characterId'>
                 <CharacterSelect
-                  value=""
+                  value=''
                   selectStyle={{}}
                   onChange={characterSelectorChange}
                 />
@@ -369,21 +368,21 @@ export default function ScoringModal() {
 
         <TitleDivider>Optimal main stats</TitleDivider>
 
-        <Flex justify="space-between">
+        <Flex justify='space-between'>
           <Flex vertical gap={defaultGap * 2}>
-            <Flex vertical gap={1} justify="flex-start">
+            <Flex vertical gap={1} justify='flex-start'>
               <Text style={{ marginLeft: 5 }}>
                 Body
               </Text>
-              <Form.Item size="default" name={['parts', Constants.Parts.Body]}>
+              <Form.Item size='default' name={['parts', Constants.Parts.Body]}>
                 <Select
-                  mode="multiple"
+                  mode='multiple'
                   allowClear
                   style={{
                     width: selectWidth,
                   }}
-                  placeholder="Body"
-                  maxTagCount="responsive"
+                  placeholder='Body'
+                  maxTagCount='responsive'
                 >
                   <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                   <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
@@ -396,19 +395,19 @@ export default function ScoringModal() {
               </Form.Item>
             </Flex>
 
-            <Flex vertical gap={1} justify="flex-start">
+            <Flex vertical gap={1} justify='flex-start'>
               <Text style={{ marginLeft: 5 }}>
                 Feet
               </Text>
-              <Form.Item size="default" name={['parts', Constants.Parts.Feet]}>
+              <Form.Item size='default' name={['parts', Constants.Parts.Feet]}>
                 <Select
-                  mode="multiple"
+                  mode='multiple'
                   allowClear
                   style={{
                     width: selectWidth,
                   }}
-                  placeholder="Feet"
-                  maxTagCount="responsive"
+                  placeholder='Feet'
+                  maxTagCount='responsive'
                 >
                   <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                   <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
@@ -419,20 +418,20 @@ export default function ScoringModal() {
             </Flex>
           </Flex>
           <Flex vertical gap={defaultGap * 2}>
-            <Flex vertical gap={1} justify="flex-start">
+            <Flex vertical gap={1} justify='flex-start'>
               <Text style={{ marginLeft: 5 }}>
                 Planar Sphere
               </Text>
-              <Form.Item size="default" name={['parts', Constants.Parts.PlanarSphere]}>
+              <Form.Item size='default' name={['parts', Constants.Parts.PlanarSphere]}>
                 <Select
-                  mode="multiple"
+                  mode='multiple'
                   allowClear
                   style={{
                     width: selectWidth,
                   }}
-                  placeholder="Planar Sphere"
+                  placeholder='Planar Sphere'
                   listHeight={400}
-                  maxTagCount="responsive"
+                  maxTagCount='responsive'
                 >
                   <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                   <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
@@ -448,20 +447,20 @@ export default function ScoringModal() {
               </Form.Item>
             </Flex>
 
-            <Flex vertical gap={1} justify="flex-start">
+            <Flex vertical gap={1} justify='flex-start'>
               <Text style={{ marginLeft: 5 }}>
                 Link rope
               </Text>
 
-              <Form.Item size="default" name={['parts', Constants.Parts.LinkRope]}>
+              <Form.Item size='default' name={['parts', Constants.Parts.LinkRope]}>
                 <Select
-                  mode="multiple"
+                  mode='multiple'
                   allowClear
                   style={{
                     width: selectWidth,
                   }}
-                  placeholder="Link Rope"
-                  maxTagCount="responsive"
+                  placeholder='Link Rope'
+                  maxTagCount='responsive'
                 >
                   <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                   <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>

@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
+import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
@@ -11,6 +11,7 @@ import { OptimizerMenuIds } from 'components/optimizerTab/FormRow.tsx'
 import { Themes } from 'lib/theme'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { DefaultSettingOptions, SettingOptions } from 'components/SettingsDrawer'
+import { oldCharacterScoringMetadata } from 'lib/oldCharacterScoringMetadata'
 
 const state = {
   relics: [],
@@ -63,6 +64,14 @@ export const RouteToPage = {
 // Nonreactive usage
 // store.getState().setRelicsById(relicsById)
 
+const savedSessionDefaults = {
+  [SavedSessionKeys.optimizerCharacterId]: null,
+  [SavedSessionKeys.relicScorerSidebarOpen]: true,
+  [SavedSessionKeys.scoringType]: SIMULATION_SCORE,
+  [SavedSessionKeys.combatScoreDetails]: DAMAGE_UPGRADES,
+  [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_EXPERIMENTAL,
+}
+
 window.store = create((set) => ({
   version: CURRENT_OPTIMIZER_VERSION,
   colorTheme: Themes.BLUE,
@@ -100,7 +109,6 @@ window.store = create((set) => ({
   zeroResultModalOpen: false,
   menuSidebarOpen: true,
   relicScorerSidebarOpen: true,
-  gpuAccelerationWarned: false,
   optimizerStartTime: null,
   optimizerEndTime: null,
 
@@ -148,12 +156,7 @@ window.store = create((set) => ({
     [OptimizerMenuIds.characterStatsSimulation]: false,
   },
 
-  savedSession: {
-    [SavedSessionKeys.optimizerCharacterId]: null,
-    [SavedSessionKeys.relicScorerSidebarOpen]: true,
-    [SavedSessionKeys.scoringType]: SIMULATION_SCORE,
-    [SavedSessionKeys.combatScoreDetails]: DAMAGE_UPGRADES,
-  },
+  savedSession: savedSessionDefaults,
 
   settings: DefaultSettingOptions,
 
@@ -185,7 +188,6 @@ window.store = create((set) => ({
   setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
   setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
   setOptimizationId: (x) => set(() => ({ optimizationId: x })),
-  setGpuAccelerationWarned: (x) => set(() => ({ gpuAccelerationWarned: x })),
   setOptimizerStartTime: (x) => set(() => ({ optimizerStartTime: x })),
   setOptimizerEndTime: (x) => set(() => ({ optimizerEndTime: x })),
   setTeammateCount: (x) => set(() => ({ teammateCount: x })),
@@ -313,7 +315,28 @@ export const DB = {
     const scoringMetadataOverrides = window.store.getState().scoringMetadataOverrides[id]
     const returnScoringMetadata = Utils.mergeUndefinedValues(scoringMetadataOverrides || {}, defaultScoringMetadata)
 
-    for (const key of Object.keys(returnScoringMetadata.stats)) {
+    // POST MIGRATION UNCOMMENT
+    // if (scoringMetadataOverrides && scoringMetadataOverrides.modified) {
+    //   let statWeightsModified = false
+    //   for (const stat of Object.values(Constants.Stats)) {
+    //     if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) != Utils.nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
+    //       statWeightsModified = true
+    //     }
+    //   }
+    //
+    //   if (statWeightsModified) {
+    //     returnScoringMetadata.stats = scoringMetadataOverrides.stats
+    //     returnScoringMetadata.modified = true
+    //   } else {
+    //     returnScoringMetadata.stats = defaultScoringMetadata.stats
+    //     returnScoringMetadata.modified = false
+    //   }
+    // } else {
+    //   returnScoringMetadata.stats = defaultScoringMetadata.stats
+    //   returnScoringMetadata.modified = false
+    // }
+
+    for (const key of Object.keys(defaultScoringMetadata.stats)) {
       if (returnScoringMetadata.stats[key] == null) {
         returnScoringMetadata.stats[key] = 0
       }
@@ -330,6 +353,9 @@ export const DB = {
       overrides[id] = updated
     } else {
       Utils.mergeDefinedValues(overrides[id], updated)
+    }
+    if (updated.modified) {
+      overrides.modified = true
     }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
@@ -426,7 +452,46 @@ export const DB = {
         if (value.length) {
           delete x.scoringMetadataOverrides[key]
         }
+
+        // There was a bug setting the modified flag on custom scoring weight changes
+        // This makes it impossible to tell if a previous saved score was customized or not
+        // We attempt to fix this by running a migration for a few months (start 9/5/2024), any scores matching
+        // the old score will be migrated to the new scores, while any non-matching ones are marked modified
+        // After this migration done, Ctrl + F and uncomment the POST MIGRATION UNCOMMENT section to re-enable overwriting
+        const scoringMetadataOverrides = x.scoringMetadataOverrides[key]
+        if (scoringMetadataOverrides) {
+          const oldScoringMetadataStats = oldCharacterScoringMetadata[key]
+          const defaultScoringMetadata = dbCharacters[key].scoringMetadata
+
+          let isOldScoring = true
+          for (const stat of Object.values(Constants.Stats)) {
+            if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) != Utils.nullUndefinedToZero(oldScoringMetadataStats[stat])) {
+              isOldScoring = false
+              break
+            }
+          }
+
+          // Migrate old scoring to new scoring
+          if (isOldScoring) {
+            scoringMetadataOverrides.stats = Utils.clone(defaultScoringMetadata.stats)
+            scoringMetadataOverrides.modified = false
+          } else {
+            // Otherwise mark any modified as modified
+            let statWeightsModified = false
+            for (const stat of Object.values(Constants.Stats)) {
+              if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) != Utils.nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
+                statWeightsModified = true
+                break
+              }
+            }
+
+            if (statWeightsModified) {
+              scoringMetadataOverrides.modified = true
+            }
+          }
+        }
       }
+
       window.store.getState().setScoringMetadataOverrides(x.scoringMetadataOverrides || {})
     }
 
@@ -447,7 +512,13 @@ export const DB = {
         delete x.savedSession.optimizerCharacterId
       }
 
-      window.store.getState().setSavedSession(x.savedSession)
+      // When new session items are added, set user's save to the default
+      const overiddenSavedSessionDefaults = {
+        ...savedSessionDefaults,
+        ...x.savedSession,
+      }
+
+      window.store.getState().setSavedSession(overiddenSavedSessionDefaults)
     }
 
     if (x.settings) {

@@ -378,10 +378,6 @@ export const OptimizerTabController = {
       newForm.enemyMaxToughness = enemyOptions.enemyMaxToughness
     }
 
-    if (form.gpuAcceleration == null) {
-      newForm.gpuAcceleration = true
-    }
-
     if (newForm.characterId) {
       const defaultOptions = CharacterConditionals.get(newForm).defaults()
       if (!newForm.characterConditionals) {
@@ -505,8 +501,8 @@ export const OptimizerTabController = {
       }
     }
 
-    if (!newForm.resultLimit) {
-      newForm.resultLimit = 100000
+    if (!newForm.resultsLimit) {
+      newForm.resultsLimit = 1024
     }
 
     if (!newForm.mainStatUpscaleLevel) {
@@ -554,7 +550,7 @@ export const OptimizerTabController = {
       return false
     }
 
-    if (!x.resultLimit || !x.resultSort) {
+    if (!x.resultsLimit || !x.resultSort) {
       Message.error('Missing optimization target fields')
       console.log('Missing optimization target fields')
       return false

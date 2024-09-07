@@ -68,7 +68,7 @@ export function calculateElementalStats(c: BasicStatsObject, request: Form, para
       c.ELEMENTAL_DMG = sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0.10 * p2(sets.ChampionOfStreetwiseBoxing))
       break
     case Stats.Fire_DMG:
-      c.ELEMENTAL_DMG = sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0.10 * p2(sets.FiresmithOfLavaForging) + 0.10 * params.enabledFiresmithOfLavaForging * p4(sets.FiresmithOfLavaForging))
+      c.ELEMENTAL_DMG = sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0.10 * p2(sets.FiresmithOfLavaForging))
       break
     case Stats.Ice_DMG:
       c.ELEMENTAL_DMG = sumPercentStat(Stats.Ice_DMG, base, lc, trace, c, 0.10 * p2(sets.HunterOfGlacialForest))

@@ -721,7 +721,7 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
   }
 
   return (
-    <Flex vertical gap={1} align='center' style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 0 }}>
+    <Flex vertical gap={1} align='center' style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
       <Flex vertical align='center'>
         <HeaderText style={{ fontSize: 16 }}>
           Combat Stats

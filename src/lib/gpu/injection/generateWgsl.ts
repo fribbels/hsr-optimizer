@@ -11,8 +11,8 @@ import { injectPrecomputedStats } from 'lib/gpu/injection/injectPrecomputedStats
 import { injectUtils } from 'lib/gpu/injection/injectUtils'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { indent } from 'lib/gpu/injection/wgslUtils'
-import { GpuConstants } from 'lib/gpu/webgpuInternals'
 import { Constants } from 'lib/constants'
+import { GpuConstants } from 'lib/gpu/webgpuTypes'
 
 export function generateWgsl(params: OptimizerParams, request: Form, gpuParams: GpuConstants) {
   calculateConditionals(request, params)

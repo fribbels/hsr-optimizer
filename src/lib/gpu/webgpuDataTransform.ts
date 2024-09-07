@@ -1,8 +1,9 @@
 import { Relic } from 'types/Relic'
-import { createGpuBuffer, GpuExecutionContext } from 'lib/gpu/webgpuInternals'
+import { createGpuBuffer } from 'lib/gpu/webgpuInternals'
 import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats } from 'lib/constants'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { StringToNumberMap } from 'types/Common'
+import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
 
 export const StatsToWebgpuIndex = {
   [Stats.HP_P]: 0,
@@ -59,15 +60,6 @@ export function generateParamsMatrix(
   paramsArray[12] = gpuContext.resultsQueue.top()?.value ?? 0
 
   return createGpuBuffer(device, new Float32Array(paramsArray), GPUBufferUsage.STORAGE)
-}
-
-export type RelicsByPart = {
-  LinkRope: Relic[]
-  PlanarSphere: Relic[]
-  Feet: Relic[]
-  Body: Relic[]
-  Hands: Relic[]
-  Head: Relic[]
 }
 
 export function generateBaseParamsArray(relics: RelicsByPart, params: OptimizerParams) {

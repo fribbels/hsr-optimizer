@@ -25,6 +25,7 @@ import { BufferPacker } from 'lib/bufferPacker'
 import { Typography } from 'antd'
 import { RelicRollFixer } from 'lib/relicRollFixer'
 import { Themes } from 'lib/theme'
+import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
 
 window.WorkerPool = WorkerPool
 window.Constants = Constants
@@ -50,6 +51,7 @@ window.colorTheme = Themes.BLUE
 
 DataParser.parse(window.officialOnly)
 SaveState.load(false)
+verifyWebgpuSupport()
 
 const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
 

@@ -200,7 +200,7 @@ export default function RelicScorerTab() {
         {/* </Flex> */}
         <Flex gap={10} vertical align='center'>
           <Text>
-            Enter your account UID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.
+            Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly.
             {window.officialOnly ? '' : ` (Current version ${CURRENT_DATA_VERSION})`}
           </Text>
         </Flex>
@@ -385,7 +385,7 @@ function CharacterPreviewSelection(props) {
       Utils.screenshotElementById('relicScorerPreview', 'clipboard').finally(() => {
         setScreenshotLoading(false)
       })
-    }, 50)
+    }, 100)
   }
 
   async function downloadClicked() {
@@ -396,7 +396,7 @@ function CharacterPreviewSelection(props) {
       Utils.screenshotElementById('relicScorerPreview', 'download', name).finally(() => {
         setDownloadLoading(false)
       })
-    }, 50)
+    }, 100)
   }
 
   function presetClicked(e) {
@@ -477,7 +477,13 @@ function CharacterPreviewSelection(props) {
           </Flex>
         </Flex>
 
-        <Segmented style={{ width: '100%', overflow: 'hidden' }} options={options} block onChange={selectionChange} value={props.selectedCharacter?.id}/>
+        <Segmented
+          style={{ width: '100%', overflow: 'hidden' }}
+          options={options}
+          block
+          onChange={selectionChange}
+          value={props.selectedCharacter?.id}
+        />
         <Flex id='previewWrapper' style={{ padding: '5px', backgroundColor: token.colorBgBase }}>
           <CharacterPreview
             class='relicScorerCharacterPreview'

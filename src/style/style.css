@@ -1,13 +1,12 @@
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: 'Noto Sans', 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: 'Source Code Pro';
 }
 
 html,
@@ -20,12 +19,84 @@ body,
     min-width: fit-content !important;
 }
 
+.ant-typography code {
+  font-family: 'Source Code Pro' !important;
+}
+
+pre {
+  font-family: 'Noto Sans', 'Roboto', sans-serif;
+}
+
 .test {
     background-color: #fff;
 }
 
 .ant-form-item {
     margin-bottom: 0px !important;
+}
+
+.ant-typography {
+  font-family: 'Noto Sans', 'Roboto', sans-serif !important;
+}
+
+.ant-flex {
+  font-family: 'Noto Sans', 'Roboto', sans-serif;
+}
+
+.ant-flex {
+  font-family: 'Noto Sans', 'Roboto', sans-serif
+}
+
+.ant-menu-title-content {
+  font-family: 'Noto Sans', 'Roboto', sans-serif;
+}
+
+.ant-btn {
+  font-family: 'Noto Sans', 'Roboto', sans-serif;
+}
+
+.ant-radio-button-wrapper {
+  font-family: 'Noto Sans', 'Roboto', sans-serif;
+}
+
+.ant-popover-title {
+  font-family: 'Noto Sans', 'Roboto', sans-serif;
+}
+
+.ant-input {
+  font-family: 'Noto Sans', 'Roboto', sans-serif;
+}
+
+.ant-input-number-input {
+  font-family: 'Noto Sans', 'Roboto', sans-serif !important;
+}
+
+.ant-pagination-item {
+  font-family: 'Noto Sans', 'Roboto', sans-serif !important;
+}
+
+.ant-select-selection-item {
+  font-family: 'Noto Sans', 'Roboto', sans-serif;
+}
+
+.ant-select-selection-placeholder {
+  font-family: 'Noto Sans', 'Roboto', sans-serif;
+}
+
+.ant-divider {
+  font-family: 'Noto Sans', 'Roboto', sans-serif;
+}
+
+.ant-drawer-title {
+  font-family: 'Noto Sans', 'Roboto', sans-serif !important;
+}
+
+.ant-tabs {
+  font-family: 'Noto Sans', 'Roboto', sans-serif !important;
+}
+
+.ant-segmented {
+  font-family: 'Noto Sans', 'Roboto', sans-serif !important;
 }
 
 .ag-body-horizontal-scroll {
@@ -57,7 +128,7 @@ body,
 .ag-theme-balham .ag-header-group-cell {
     padding-left: 2px;
     padding-right: 2px;
-    font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+    font-family: 'Noto Sans', 'Roboto', sans-serif;
     font-size: 14px;
     font-weight: 600;
     text-align: center;
@@ -83,6 +154,7 @@ body,
 .ag-header {
     height: 24px !important;
     min-height: 24px !important;
+    font-family: 'Noto Sans', 'Roboto', sans-serif;
 }
 
 #relicGrid .ag-header {
@@ -120,6 +192,10 @@ body,
     position: unset !important;
 }
 
+.ag-paging-row-summary-panel{
+  font-family: 'Noto Sans', 'Roboto', sans-serif;
+}
+
 .ag-header-cell-text {
     overflow: initial;
     text-overflow: initial;
@@ -140,7 +216,7 @@ body,
 .ag-cell-value {
     font-weight: 400;
     text-align: center;
-    font-family: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif;
+    font-family: 'Noto Sans', 'Roboto', sans-serif;
     font-size: 1em;
     display: flex;
     justify-content: center;

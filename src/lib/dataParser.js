@@ -4626,6 +4626,7 @@ function getScoringMetadata() {
         [Constants.Parts.LinkRope]: [
           Constants.Stats.BE,
           Constants.Stats.ERR,
+          Constants.Stats.ATK_P,
         ],
       },
       presets: [

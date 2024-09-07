@@ -49,13 +49,13 @@ const resultSortOptions = (() => {
     {
       label: 'Damage calculations',
       options: [
+        { value: SortOption.COMBO.key, label: resultSortString('Combo DMG') },
         { value: SortOption.BASIC.key, label: resultSortString('Basic DMG') },
         { value: SortOption.SKILL.key, label: resultSortString('Skill DMG') },
         { value: SortOption.ULT.key, label: resultSortString('Ult DMG') },
         { value: SortOption.FUA.key, label: resultSortString('Follow-up DMG') },
         { value: SortOption.DOT.key, label: resultSortString('DoT DMG') },
         { value: SortOption.BREAK.key, label: resultSortString('Break DMG') },
-        { value: SortOption.COMBO.key, label: resultSortString('Combo DMG') },
       ],
     },
     {

@@ -110,7 +110,7 @@ function getChangelogContent() {
       content: [
         `Added GPU acceleration to perform calculations on the graphics card for a significant improvement in optimizer search speed`,
         `Enabling GPU acceleration will improve the optimizer's search speed to hundreds of millions of permutations per second, up to billions on high end devices`,
-        `3 compute engines are now available`,
+        `3 compute engine options are now available`,
         `— GPU Experimental: Fastest search speed but potentially unsupported on some devices`,
         `— GPU Stable: Fast search speed for general device compatability (default)`,
         `— CPU Only`,

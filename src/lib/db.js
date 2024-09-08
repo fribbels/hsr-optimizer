@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
+import { COMPUTE_ENGINE_GPU_STABLE, Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
@@ -69,7 +69,7 @@ const savedSessionDefaults = {
   [SavedSessionKeys.relicScorerSidebarOpen]: true,
   [SavedSessionKeys.scoringType]: SIMULATION_SCORE,
   [SavedSessionKeys.combatScoreDetails]: DAMAGE_UPGRADES,
-  [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_EXPERIMENTAL,
+  [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
 }
 
 window.store = create((set) => ({

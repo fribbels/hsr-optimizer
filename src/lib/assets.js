@@ -111,6 +111,9 @@ export const Assets = {
   getGithub: () => {
     return getImageUrl('/misc/badgegithub.webp')
   },
+  getKofi: () => {
+    return getImageUrl('/misc/badgekofi.webp')
+  },
   getStar: () => {
     return getImageUrl('/misc/StarBig.webp')
   },

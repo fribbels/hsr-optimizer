@@ -206,7 +206,7 @@ export default function ScoringModal() {
         This allows for characters with fewer desired stats to achieve scores comparable to characters with many desired stats.
       </PStyled>
       <PStyled style={{ margin: '7px 0px' }}>
-        The idealScore is the substatScore for a theoretical perfect relic.
+        The idealScore is the substatScore for a theoretical perfect relic. By adjusting the score to the maximum possible relic, this means that when a weighted substat is occupied by the main stat, the score value of the remaining substat weights increases.
       </PStyled>
       <PStyled style={{ margin: '7px 0px' }}>
         The substatScore is calculated by

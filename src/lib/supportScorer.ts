@@ -1,13 +1,15 @@
 import { Character } from 'types/Character'
-import { calculateSetNames, calculateSimSets, CharacterMetadata, generateFullDefaultForm, RelicBuild, ScoringMetadata, ScoringParams, SimulationScore, SimulationSets } from 'lib/characterScorer'
+import { calculateSetNames, calculateSimSets, CharacterMetadata, generateFullDefaultForm, RelicBuild, ScoringMetadata, ScoringParams, simulateBaselineCharacter, SimulationMetadata, SimulationScore, SimulationSets } from 'lib/characterScorer'
 import { TsUtils } from 'lib/TsUtils'
 import { Form } from 'types/Form'
 import { generateParams, OptimizerParams } from 'lib/optimizer/calculateParams'
 import { calculateConditionalRegistry, calculateConditionals } from 'lib/optimizer/calculateConditionals'
-import { Parts, Stats } from 'lib/constants'
-import { convertRelicsToSimulation, runSimulations, Simulation } from 'lib/statSimulationController'
+import { Constants, Parts, Stats } from 'lib/constants'
+import { convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/statSimulationController'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { Relic } from 'types/Relic'
+import { StatCalculator } from 'lib/statCalculator'
+import { StringToNumberMap } from 'types/Common'
 
 const cachedSims: { [key: string]: SimulationScore } = {}
 
@@ -15,7 +17,7 @@ export function scoreSupportSimulation(
   character: Character,
   relicsByPart: RelicBuild,
   characterMetadata: CharacterMetadata,
-  defaultScoringMetadatametada: ScoringMetadata,
+  defaultScoringMetadata: ScoringMetadata,
 ): SimulationScore | null {
   const originalForm = character.form
   const characterId = originalForm.characterId
@@ -23,7 +25,7 @@ export function scoreSupportSimulation(
   const lightCone = originalForm.lightCone
   const lightConeSuperimposition = originalForm.lightConeSuperimposition
 
-  const simulationMetadata = defaultScoringMetadatametada.simulation
+  const simulationMetadata = defaultScoringMetadata.simulation
 
   const cacheKey = TsUtils.objectHash({
     characterId,
@@ -58,7 +60,174 @@ export function scoreSupportSimulation(
 
   console.debug({ originalSimResult, originalSim })
 
-  return null
+  const perfectBuilds = generatePerfectBuilds(
+    character,
+    relicsByPart,
+    characterMetadata,
+    defaultScoringMetadata,
+    simulationMetadata,
+    originalSim,
+    simulationForm,
+    cachedOptimizerParams,
+    simulationSets,
+  )
+
+  console.log(originalSim)
+  console.log(perfectBuilds)
+
+  const axes = [
+    Stats.BE,
+    Stats.SPD,
+    Stats.RES,
+  ]
+
+  Constants.SubStats.map((x) => originalSim.request.stats[x] = originalSim.request.stats[x] ?? 0)
+  const coordinate = calculateCoordinate(originalSim.request.stats, axes)
+
+  const perfectCoordinates = perfectBuilds.map((x) => x.stats).map((x) => calculateCoordinate(x, axes))
+
+  let minDistance = Constants.MAX_INT
+  let minPerfectCoordinate
+  for (const perfectCoordinate of perfectCoordinates) {
+    const distance = euclideanDistance(coordinate, perfectCoordinate)
+
+    console.log(distance, perfectCoordinate)
+    if (distance < minDistance) {
+      minDistance = distance
+      minPerfectCoordinate = perfectCoordinate
+    }
+  }
+
+  // Euclidean distance
+
+  const sumArray = (arr: number[]) => arr.reduce((sum, num) => sum + num, 0)
+  const sum = sumArray(minPerfectCoordinate)
+  const percentage = (sum - minDistance) / (sum / 2) * 100
+
+  // const sumArray = (arr: number[]) => arr.reduce((sum, num) => sum + num, 0)
+  // const sum = sumArray(minPerfectCoordinate)
+  // const percentage = (54 - minDistance) / (54 / 2) * 100
+
+  console.log(minDistance)
+  console.log(`${[percentage]} %`)
+  console.log(coordinate)
+  console.log(minPerfectCoordinate)
+
+  return {
+    type: 'Support',
+    percentage: percentage,
+  }
+}
+
+function euclideanDistance(coordinate: number[], perfection: number[]) {
+  let sum = 0
+
+  for (let i = 0; i < coordinate.length; i++) {
+    const diff = Math.min(coordinate[i], perfection[i]) - perfection[i]
+    sum += diff * diff
+  }
+
+  return Math.sqrt(sum)
+}
+
+function manhattanDistance(coordinate: number[], perfection: number[]) {
+  let sum = 0
+
+  for (let i = 0; i < coordinate.length; i++) {
+    sum += Math.abs(Math.min(coordinate[i], perfection[i]) - perfection[i])
+  }
+
+  return sum
+}
+
+function calculateCoordinate(statRolls: StringToNumberMap, dimensions: string[]) {
+  const coordinate: number[] = []
+  for (const dimension of dimensions) {
+    coordinate.push(statRolls[dimension])
+  }
+
+  return coordinate
+}
+
+function generatePerfectBuilds(
+  character: Character,
+  relicsByPart: RelicBuild,
+  characterMetadata: CharacterMetadata,
+  defaultScoringMetadata: ScoringMetadata,
+  simulationMetadata: SimulationMetadata,
+  originalSim: Simulation,
+  simulationForm: Form,
+  cachedOptimizerParams: OptimizerParams,
+  simulationSets: SimulationSets,
+) {
+  const build: Partial<SimulationRequest> = {
+    simBody: '',
+    simFeet: '',
+    simPlanarSphere: '',
+    simLinkRope: '',
+  }
+  const stats: SimulationStats = {}
+
+  const metaParts = simulationMetadata.parts
+  build.simBody = originalSim.request.simBody in metaParts[Parts.Body] ? originalSim.request.simBody : metaParts[Parts.Body][0]
+  build.simFeet = originalSim.request.simFeet in metaParts[Parts.Feet] ? originalSim.request.simFeet : metaParts[Parts.Feet][0]
+  build.simPlanarSphere = originalSim.request.simPlanarSphere in metaParts[Parts.PlanarSphere] ? originalSim.request.simPlanarSphere : metaParts[Parts.PlanarSphere][0]
+  build.simLinkRope = originalSim.request.simLinkRope in metaParts[Parts.LinkRope] ? originalSim.request.simLinkRope : metaParts[Parts.LinkRope][0]
+
+  const perfectBuilds: SimulationRequest[] = []
+
+  for (const perfectBuildMeta of simulationMetadata.perfection) {
+    const perfectBuild = TsUtils.clone(build)
+
+    const { baselineSimResult, baselineSim } = simulateBaselineCharacter(
+      relicsByPart,
+      simulationForm,
+      cachedOptimizerParams,
+      simulationSets,
+      benchmarkScoringParams,
+    )
+
+    const statTracker = {
+      [Parts.Head]: simulationMetadata.substats.filter((stat) => stat != Stats.HP).slice(0, 4),
+      [Parts.Hands]: simulationMetadata.substats.filter((stat) => stat != Stats.ATK).slice(0, 4),
+      [Parts.Body]: simulationMetadata.substats.filter((stat) => stat != build.simBody).slice(0, 4),
+      [Parts.Feet]: simulationMetadata.substats.filter((stat) => stat != build.simFeet).slice(0, 4),
+      [Parts.PlanarSphere]: simulationMetadata.substats.filter((stat) => stat != build.simPlanarSphere).slice(0, 4),
+      [Parts.LinkRope]: simulationMetadata.substats.filter((stat) => stat != build.simLinkRope).slice(0, 4),
+    }
+
+    const minimumStatCounts: StringToNumberMap = Object.values(statTracker).flatMap((x) => x).reduce((acc, item) => (acc[item] = (acc[item] || 0) + 1, acc), {})
+    Constants.SubStats.map((x) => minimumStatCounts[x] = minimumStatCounts[x] ?? 0)
+
+    const resDiff = Math.max(0, 100 - baselineSimResult.x[Stats.RES] * 100)
+    const resRollDiff = resDiff / StatCalculator.getMaxedSubstatValue(Stats.RES) - minimumStatCounts[Stats.RES]
+
+    let remaining = 30
+    let resRemaining = resRollDiff
+    while (remaining > 0) {
+      // TODO: Has to reach the benchmark first
+      for (const stat of perfectBuildMeta.stats) {
+        if (stat == Stats.RES && resRemaining <= 0) {
+          continue
+        }
+
+        minimumStatCounts[stat] += 1
+        if (stat == Stats.RES) {
+          resRemaining -= 1
+        }
+
+        remaining -= 1
+        break
+      }
+    }
+
+    console.log(minimumStatCounts)
+
+    perfectBuild.stats = minimumStatCounts
+    perfectBuilds.push(perfectBuild as SimulationRequest)
+  }
+
+  return perfectBuilds
 }
 
 function simulateOriginalCharacter(
@@ -127,7 +296,15 @@ const benchmarkScoringParams: ScoringParams = {
 }
 
 const originalScoringParams: ScoringParams = {
-  ...benchmarkScoringParams,
+  quality: 1,
+  speedRollValue: 2.6,
+  substatGoal: 48,
+  freeRolls: 2,
+  maxPerSub: 30,
+  deductionPerMain: 5,
+  baselineFreeRolls: 2,
+  limitFlatStats: true,
+  enforcePossibleDistribution: false,
   substatRollsModifier: (rolls: number) => rolls,
 }
 

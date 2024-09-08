@@ -182,6 +182,7 @@ export type SimulationMetadata = {
     DOT: number
     BREAK: number
   }
+  perfection: { stats: string[] }[]
   relicSets: string[][]
   ornamentSets: string[]
   maxBonusRolls: {
@@ -1080,7 +1081,7 @@ function generatePartialSimulations(
   return results
 }
 
-function simulateBaselineCharacter(
+export function simulateBaselineCharacter(
   displayRelics: RelicBuild,
   simulationForm: Form,
   cachedOptimizerParams: OptimizerParams,

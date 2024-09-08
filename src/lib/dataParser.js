@@ -5048,36 +5048,63 @@ function getScoringMetadata() {
         type: 'Support',
         parts: {
           [Parts.Body]: [
-            Stats.CR,
-            Stats.CD,
+            Stats.HP_P,
+            Stats.DEF_P,
           ],
           [Parts.Feet]: [
-            Stats.ATK_P,
             Stats.SPD,
           ],
           [Parts.PlanarSphere]: [
-            Stats.ATK_P,
-            Stats.Physical_DMG,
+            Stats.HP_P,
+            Stats.DEF_P,
           ],
           [Parts.LinkRope]: [
-            Stats.ATK_P,
+            Stats.ERR,
+            Stats.BE,
           ],
         },
         substats: [
-          Stats.CD,
-          Stats.CR,
-          Stats.ATK_P,
-          Stats.ATK,
+          Stats.BE,
+          Stats.SPD,
+          Stats.RES,
+          Stats.HP_P,
+          Stats.DEF_P,
         ],
-        breakpoints: {},
-        formula: {
-          BASIC: 0,
-          SKILL: 3,
-          ULT: 1,
-          FUA: 0,
-          DOT: 0,
-          BREAK: 0,
+        breakpoints: {
+          [Stats.RES]: 1.80,
         },
+        perfection: [
+          {
+            stats: [
+              Stats.BE,
+            ],
+          },
+          {
+            stats: [
+              Stats.SPD,
+            ],
+          },
+          {
+            stats: [
+              Stats.RES,
+              Stats.BE,
+            ],
+          },
+          {
+            stats: [
+              Stats.RES,
+              Stats.SPD,
+            ],
+          },
+        ],
+        // formula: {
+        //   BASIC: 0,
+        //   SKILL: 3,
+        //   ULT: 1,
+        //   FUA: 0,
+        //   DOT: 0,
+        //   BREAK: 0,
+        // },
         relicSets: [
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,

@@ -37,7 +37,7 @@ function presetCharacters() {
 
 const { Text } = Typography
 
-const throttleSeconds = 10
+const throttleSeconds = 1
 
 export default function RelicScorerTab() {
   console.log('======================================================================= RENDER RelicScorerTab')

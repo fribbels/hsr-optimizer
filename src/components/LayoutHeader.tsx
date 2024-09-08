@@ -51,7 +51,12 @@ export function LayoutHeader() {
         <Flex>
           <a href='https://ko-fi.com/fribbels' target='_blank' rel='noreferrer'>
             <Flex>
-              <img src={Assets.getKofi()} style={{ height: 36, marginRight: 7, borderRadius: 5 }}></img>
+              <img src={Assets.getKofi()} style={{ height: 36, marginRight: 6, borderRadius: 5 }}></img>
+            </Flex>
+          </a>
+          <a href='https://discord.gg/rDmB4Un7qg' target='_blank' rel='noreferrer'>
+            <Flex>
+              <img src={Assets.getDiscord()} style={{ height: 36, marginRight: 6, borderRadius: 5 }}></img>
             </Flex>
           </a>
         </Flex>

@@ -169,6 +169,8 @@ export const Assets = {
       [Constants.Sets.WatchmakerMasterOfDreamMachinations]: '118',
       [Constants.Sets.IronCavalryAgainstTheScourge]: '119',
       [Constants.Sets.TheWindSoaringValorous]: '120',
+      [Constants.Sets.ScholarLostInErudition]: '999',
+      [Constants.Sets.SacerdosRelivedOrdeal]: '999',
 
       [Constants.Sets.SpaceSealingStation]: '301',
       [Constants.Sets.FleetOfTheAgeless]: '302',

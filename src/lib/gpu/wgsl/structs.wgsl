@@ -72,6 +72,8 @@ struct Sets {
   WatchmakerMasterOfDreamMachinations: i32,
   IronCavalryAgainstTheScourge: i32,
   TheWindSoaringValorous: i32,
+  SacerdosRelivedOrdeal: i32,
+  ScholarLostInErudition: i32,
   SpaceSealingStation: i32,
   FleetOfTheAgeless: i32,
   PanCosmicCommercialEnterprise: i32,

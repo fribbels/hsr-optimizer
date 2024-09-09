@@ -412,6 +412,8 @@ export const SetsRelics = {
   WatchmakerMasterOfDreamMachinations: 'Watchmaker, Master of Dream Machinations',
   IronCavalryAgainstTheScourge: 'Iron Cavalry Against the Scourge',
   TheWindSoaringValorous: 'The Wind-Soaring Valorous',
+  ScholarLostInErudition: 'Scholar Lost in Erudition',
+  SacerdosRelivedOrdeal: "Sacerdos' Relived Ordeal",
 }
 export type SetsRelics = typeof SetsRelics[keyof typeof SetsRelics]
 
@@ -757,3 +759,6 @@ export const COMBAT_STATS = 'Combat Stats'
 export const COMPUTE_ENGINE_CPU = 'CPU'
 export const COMPUTE_ENGINE_GPU_STABLE = 'GPU Stable'
 export const COMPUTE_ENGINE_GPU_EXPERIMENTAL = 'GPU Experimental'
+
+export const SACERDOS_RELIVED_ORDEAL_1_STACK = 'Sacerdos\' Relived Ordeal 1x'
+export const SACERDOS_RELIVED_ORDEAL_2_STACK = 'Sacerdos\' Relived Ordeal 2x'

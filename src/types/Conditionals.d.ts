@@ -419,3 +419,8 @@ export type ConditionalBuff =
   | 'e6MultiplierIncrease'
   | 'luminfluxUltStacks'
   | 'e4Buffs'
+  | 'sealformActive'
+  | 'atkToBreakVulnerability'
+  | 'e1DefPen'
+  | 'e2Buffs'
+  | 'e4SpdBuff'

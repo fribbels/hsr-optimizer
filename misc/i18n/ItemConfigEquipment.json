@@ -1,0 +1,3125 @@
+[
+  {
+    "ID": 20000,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -64638617
+    },
+    "ItemDesc": {
+      "Hash": -674811383
+    },
+    "ItemBGDesc": {
+      "Hash": -43494578
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20000.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20000.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20001,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1501445324
+    },
+    "ItemDesc": {
+      "Hash": 891272558
+    },
+    "ItemBGDesc": {
+      "Hash": -1609578519
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20001.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20001.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20002,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1098160797
+    },
+    "ItemDesc": {
+      "Hash": -1837610797
+    },
+    "ItemBGDesc": {
+      "Hash": 1119304836
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20002.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20002.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20003,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1630722558
+    },
+    "ItemDesc": {
+      "Hash": -271526856
+    },
+    "ItemBGDesc": {
+      "Hash": -446779105
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20003.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20003.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20004,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1904729851
+    },
+    "ItemDesc": {
+      "Hash": 1294557085
+    },
+    "ItemBGDesc": {
+      "Hash": -2012863046
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20004.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20004.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20005,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -824153504
+    },
+    "ItemDesc": {
+      "Hash": -1434326270
+    },
+    "ItemBGDesc": {
+      "Hash": 716020309
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20005.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20005.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20006,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1227438031
+    },
+    "ItemDesc": {
+      "Hash": 131757671
+    },
+    "ItemBGDesc": {
+      "Hash": -850063632
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20006.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20006.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20007,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 338645910
+    },
+    "ItemDesc": {
+      "Hash": 1697841612
+    },
+    "ItemBGDesc": {
+      "Hash": 1878819723
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20007.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20007.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20008,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 291591743
+    },
+    "ItemDesc": {
+      "Hash": -318581023
+    },
+    "ItemBGDesc": {
+      "Hash": 312735782
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20008.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20008.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20009,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1857675684
+    },
+    "ItemDesc": {
+      "Hash": 1247502918
+    },
+    "ItemBGDesc": {
+      "Hash": -1253348159
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20009.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20009.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20010,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -64638618
+    },
+    "ItemDesc": {
+      "Hash": -674811384
+    },
+    "ItemBGDesc": {
+      "Hash": -43494579
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20010.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20010.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20011,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1501445323
+    },
+    "ItemDesc": {
+      "Hash": 891272557
+    },
+    "ItemBGDesc": {
+      "Hash": -1609578520
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20011.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20011.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20012,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1098160796
+    },
+    "ItemDesc": {
+      "Hash": -1837610798
+    },
+    "ItemBGDesc": {
+      "Hash": 1119304835
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20012.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20012.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20013,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1630722559
+    },
+    "ItemDesc": {
+      "Hash": -271526857
+    },
+    "ItemBGDesc": {
+      "Hash": -446779106
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20013.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20013.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20014,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1904729850
+    },
+    "ItemDesc": {
+      "Hash": 1294557084
+    },
+    "ItemBGDesc": {
+      "Hash": -2012863047
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20014.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20014.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20015,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -824153505
+    },
+    "ItemDesc": {
+      "Hash": -1434326271
+    },
+    "ItemBGDesc": {
+      "Hash": 716020308
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20015.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20015.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20016,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1227438032
+    },
+    "ItemDesc": {
+      "Hash": 131757670
+    },
+    "ItemBGDesc": {
+      "Hash": -850063633
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20016.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20016.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20017,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 338645909
+    },
+    "ItemDesc": {
+      "Hash": 1697841611
+    },
+    "ItemBGDesc": {
+      "Hash": 1878819722
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20017.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20017.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20018,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 291591742
+    },
+    "ItemDesc": {
+      "Hash": -318581024
+    },
+    "ItemBGDesc": {
+      "Hash": 312735781
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20018.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20018.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20019,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1857675683
+    },
+    "ItemDesc": {
+      "Hash": 1247502917
+    },
+    "ItemBGDesc": {
+      "Hash": -1253348160
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20019.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20019.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 20020,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "Rare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -64638615
+    },
+    "ItemDesc": {
+      "Hash": -674811381
+    },
+    "ItemBGDesc": {
+      "Hash": -43494580
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/20020.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/20020.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 221,
+        "ItemNum": 1
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21000,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -64638714
+    },
+    "ItemDesc": {
+      "Hash": -674811480
+    },
+    "ItemBGDesc": {
+      "Hash": -43494547
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21000.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21000.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21001,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1501445227
+    },
+    "ItemDesc": {
+      "Hash": 891272461
+    },
+    "ItemBGDesc": {
+      "Hash": -1609578488
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21001.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21001.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21002,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1098160700
+    },
+    "ItemDesc": {
+      "Hash": -1837610894
+    },
+    "ItemBGDesc": {
+      "Hash": 1119304867
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21002.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21002.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21003,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1630722655
+    },
+    "ItemDesc": {
+      "Hash": -271526953
+    },
+    "ItemBGDesc": {
+      "Hash": -446779074
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21003.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21003.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21004,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1904729754
+    },
+    "ItemDesc": {
+      "Hash": 1294556988
+    },
+    "ItemBGDesc": {
+      "Hash": -2012863015
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21004.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21004.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21005,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -824153601
+    },
+    "ItemDesc": {
+      "Hash": -1434326367
+    },
+    "ItemBGDesc": {
+      "Hash": 716020340
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21005.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21005.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21006,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1227438128
+    },
+    "ItemDesc": {
+      "Hash": 131757574
+    },
+    "ItemBGDesc": {
+      "Hash": -850063601
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21006.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21006.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21008,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 291591646
+    },
+    "ItemDesc": {
+      "Hash": -318581120
+    },
+    "ItemBGDesc": {
+      "Hash": 312735813
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21008.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21008.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21009,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1857675587
+    },
+    "ItemDesc": {
+      "Hash": 1247502821
+    },
+    "ItemBGDesc": {
+      "Hash": -1253348128
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21009.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21009.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21010,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -64638713
+    },
+    "ItemDesc": {
+      "Hash": -674811479
+    },
+    "ItemBGDesc": {
+      "Hash": -43494546
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21010.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21010.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21011,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1501445228
+    },
+    "ItemDesc": {
+      "Hash": 891272462
+    },
+    "ItemBGDesc": {
+      "Hash": -1609578487
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21011.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21011.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21012,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1098160701
+    },
+    "ItemDesc": {
+      "Hash": -1837610893
+    },
+    "ItemBGDesc": {
+      "Hash": 1119304868
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21012.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21012.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21013,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1630722654
+    },
+    "ItemDesc": {
+      "Hash": -271526952
+    },
+    "ItemBGDesc": {
+      "Hash": -446779073
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21013.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21013.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21014,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1904729755
+    },
+    "ItemDesc": {
+      "Hash": 1294556989
+    },
+    "ItemBGDesc": {
+      "Hash": -2012863014
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21014.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21014.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21015,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -824153600
+    },
+    "ItemDesc": {
+      "Hash": -1434326366
+    },
+    "ItemBGDesc": {
+      "Hash": 716020341
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21015.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21015.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21016,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1227438127
+    },
+    "ItemDesc": {
+      "Hash": 131757575
+    },
+    "ItemBGDesc": {
+      "Hash": -850063600
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21016.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21016.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21017,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 338645814
+    },
+    "ItemDesc": {
+      "Hash": 1697841516
+    },
+    "ItemBGDesc": {
+      "Hash": 1878819755
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21017.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21017.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21018,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 291591647
+    },
+    "ItemDesc": {
+      "Hash": -318581119
+    },
+    "ItemBGDesc": {
+      "Hash": 312735814
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21018.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21018.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21019,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1857675588
+    },
+    "ItemDesc": {
+      "Hash": 1247502822
+    },
+    "ItemBGDesc": {
+      "Hash": -1253348127
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21019.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21019.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21020,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -64638712
+    },
+    "ItemDesc": {
+      "Hash": -674811478
+    },
+    "ItemBGDesc": {
+      "Hash": -43494549
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21020.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21020.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21021,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1501445229
+    },
+    "ItemDesc": {
+      "Hash": 891272463
+    },
+    "ItemBGDesc": {
+      "Hash": -1609578490
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21021.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21021.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21022,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1098160702
+    },
+    "ItemDesc": {
+      "Hash": -1837610892
+    },
+    "ItemBGDesc": {
+      "Hash": 1119304865
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21022.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21022.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21023,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1630722653
+    },
+    "ItemDesc": {
+      "Hash": -271526951
+    },
+    "ItemBGDesc": {
+      "Hash": -446779076
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21023.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21023.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21024,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1904729756
+    },
+    "ItemDesc": {
+      "Hash": 1294556990
+    },
+    "ItemBGDesc": {
+      "Hash": -2012863017
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21024.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21024.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21026,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1227438126
+    },
+    "ItemDesc": {
+      "Hash": 131757576
+    },
+    "ItemBGDesc": {
+      "Hash": -850063603
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21026.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21026.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21027,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 338645815
+    },
+    "ItemDesc": {
+      "Hash": 1697841517
+    },
+    "ItemBGDesc": {
+      "Hash": 1878819752
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21027.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21027.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21028,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 291591648
+    },
+    "ItemDesc": {
+      "Hash": -318581118
+    },
+    "ItemBGDesc": {
+      "Hash": 312735811
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21028.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21028.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21029,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1857675589
+    },
+    "ItemDesc": {
+      "Hash": 1247502823
+    },
+    "ItemBGDesc": {
+      "Hash": -1253348130
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21029.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21029.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21030,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -64638711
+    },
+    "ItemDesc": {
+      "Hash": -674811477
+    },
+    "ItemBGDesc": {
+      "Hash": -43494548
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21030.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21030.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21031,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1501445230
+    },
+    "ItemDesc": {
+      "Hash": 891272464
+    },
+    "ItemBGDesc": {
+      "Hash": -1609578489
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21031.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21031.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21032,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1098160703
+    },
+    "ItemDesc": {
+      "Hash": -1837610891
+    },
+    "ItemBGDesc": {
+      "Hash": 1119304866
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21032.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21032.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21033,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1630722652
+    },
+    "ItemDesc": {
+      "Hash": -271526950
+    },
+    "ItemBGDesc": {
+      "Hash": -446779075
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21033.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21033.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21034,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1904729757
+    },
+    "ItemDesc": {
+      "Hash": 1294556991
+    },
+    "ItemBGDesc": {
+      "Hash": -2012863016
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21034.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21034.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 22000,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -64638551
+    },
+    "ItemDesc": {
+      "Hash": -674811317
+    },
+    "ItemBGDesc": {
+      "Hash": -43494644
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/22000.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/22000.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23000,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -64638648
+    },
+    "ItemDesc": {
+      "Hash": -674811414
+    },
+    "ItemBGDesc": {
+      "Hash": -43494613
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23000.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23000.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23001,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1501445293
+    },
+    "ItemDesc": {
+      "Hash": 891272527
+    },
+    "ItemBGDesc": {
+      "Hash": -1609578554
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23001.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23001.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23002,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1098160766
+    },
+    "ItemDesc": {
+      "Hash": -1837610828
+    },
+    "ItemBGDesc": {
+      "Hash": 1119304801
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23002.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23002.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23003,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1630722589
+    },
+    "ItemDesc": {
+      "Hash": -271526887
+    },
+    "ItemBGDesc": {
+      "Hash": -446779140
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23003.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23003.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23004,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1904729820
+    },
+    "ItemDesc": {
+      "Hash": 1294557054
+    },
+    "ItemBGDesc": {
+      "Hash": -2012863081
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23004.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23004.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23005,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -824153535
+    },
+    "ItemDesc": {
+      "Hash": -1434326301
+    },
+    "ItemBGDesc": {
+      "Hash": 716020274
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23005.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23005.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23006,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1227438062
+    },
+    "ItemDesc": {
+      "Hash": 131757640
+    },
+    "ItemBGDesc": {
+      "Hash": -850063667
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23006.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23006.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23007,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 338645879
+    },
+    "ItemDesc": {
+      "Hash": 1697841581
+    },
+    "ItemBGDesc": {
+      "Hash": 1878819688
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23007.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23007.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23008,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 291591712
+    },
+    "ItemDesc": {
+      "Hash": -318581054
+    },
+    "ItemBGDesc": {
+      "Hash": 312735747
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23008.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23008.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23009,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1857675653
+    },
+    "ItemDesc": {
+      "Hash": 1247502887
+    },
+    "ItemBGDesc": {
+      "Hash": -1253348194
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23009.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23009.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23010,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -64638647
+    },
+    "ItemDesc": {
+      "Hash": -674811413
+    },
+    "ItemBGDesc": {
+      "Hash": -43494612
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23010.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23010.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23011,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1501445294
+    },
+    "ItemDesc": {
+      "Hash": 891272528
+    },
+    "ItemBGDesc": {
+      "Hash": -1609578553
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23011.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23011.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23012,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1098160767
+    },
+    "ItemDesc": {
+      "Hash": -1837610827
+    },
+    "ItemBGDesc": {
+      "Hash": 1119304802
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23012.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23012.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23013,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1630722588
+    },
+    "ItemDesc": {
+      "Hash": -271526886
+    },
+    "ItemBGDesc": {
+      "Hash": -446779139
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23013.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23013.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23014,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1904729821
+    },
+    "ItemDesc": {
+      "Hash": 1294557055
+    },
+    "ItemBGDesc": {
+      "Hash": -2012863080
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23014.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23014.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23015,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -824153534
+    },
+    "ItemDesc": {
+      "Hash": -1434326300
+    },
+    "ItemBGDesc": {
+      "Hash": 716020275
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23015.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23015.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23016,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1227438061
+    },
+    "ItemDesc": {
+      "Hash": 131757641
+    },
+    "ItemBGDesc": {
+      "Hash": -850063666
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23016.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23016.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 24000,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -64638749
+    },
+    "ItemDesc": {
+      "Hash": -674811251
+    },
+    "ItemBGDesc": {
+      "Hash": -43494446
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/24000.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/24000.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 24001,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1501445192
+    },
+    "ItemDesc": {
+      "Hash": 891272690
+    },
+    "ItemBGDesc": {
+      "Hash": -1609578387
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/24001.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/24001.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 24002,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1098160665
+    },
+    "ItemDesc": {
+      "Hash": -1837610665
+    },
+    "ItemBGDesc": {
+      "Hash": 1119304968
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/24002.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/24002.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 21025,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -824153599
+    },
+    "ItemDesc": {
+      "Hash": -1434326365
+    },
+    "ItemBGDesc": {
+      "Hash": 716020338
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21025.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21025.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 23017,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 338645880
+    },
+    "ItemDesc": {
+      "Hash": 1697841582
+    },
+    "ItemBGDesc": {
+      "Hash": 1878819689
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23017.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23017.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23018,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 291591713
+    },
+    "ItemDesc": {
+      "Hash": -318581053
+    },
+    "ItemBGDesc": {
+      "Hash": 312735748
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23018.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23018.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23019,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1857675654
+    },
+    "ItemDesc": {
+      "Hash": 1247502888
+    },
+    "ItemBGDesc": {
+      "Hash": -1253348193
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23019.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23019.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23021,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1501445291
+    },
+    "ItemDesc": {
+      "Hash": 891272525
+    },
+    "ItemBGDesc": {
+      "Hash": -1609578552
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23021.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23021.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23023,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1630722591
+    },
+    "ItemDesc": {
+      "Hash": -271526889
+    },
+    "ItemBGDesc": {
+      "Hash": -446779138
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23023.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23023.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23020,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -64638650
+    },
+    "ItemDesc": {
+      "Hash": -674811416
+    },
+    "ItemBGDesc": {
+      "Hash": -43494611
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23020.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23020.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 24003,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1630722690
+    },
+    "ItemDesc": {
+      "Hash": -271526724
+    },
+    "ItemBGDesc": {
+      "Hash": -446778973
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/24003.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/24003.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 21035,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -824153598
+    },
+    "ItemDesc": {
+      "Hash": -1434326364
+    },
+    "ItemBGDesc": {
+      "Hash": 716020339
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21035.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21035.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21036,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1227438125
+    },
+    "ItemDesc": {
+      "Hash": 131757577
+    },
+    "ItemBGDesc": {
+      "Hash": -850063602
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21036.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21036.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21037,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 338645816
+    },
+    "ItemDesc": {
+      "Hash": 1697841518
+    },
+    "ItemBGDesc": {
+      "Hash": 1878819753
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21037.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21037.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21038,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 291591649
+    },
+    "ItemDesc": {
+      "Hash": -318581117
+    },
+    "ItemBGDesc": {
+      "Hash": 312735812
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21038.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21038.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21039,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1857675590
+    },
+    "ItemDesc": {
+      "Hash": 1247502824
+    },
+    "ItemBGDesc": {
+      "Hash": -1253348129
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21039.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21039.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21040,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -64638718
+    },
+    "ItemDesc": {
+      "Hash": -674811476
+    },
+    "ItemBGDesc": {
+      "Hash": -43494543
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21040.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21040.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21041,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1501445223
+    },
+    "ItemDesc": {
+      "Hash": 891272465
+    },
+    "ItemBGDesc": {
+      "Hash": -1609578484
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21041.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21041.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 23022,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1098160764
+    },
+    "ItemDesc": {
+      "Hash": -1837610830
+    },
+    "ItemBGDesc": {
+      "Hash": 1119304803
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23022.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23022.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 21007,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 338645813
+    },
+    "ItemDesc": {
+      "Hash": 1697841515
+    },
+    "ItemBGDesc": {
+      "Hash": 1878819754
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21007.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21007.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 24004,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1904729719
+    },
+    "ItemDesc": {
+      "Hash": 1294557217
+    },
+    "ItemBGDesc": {
+      "Hash": -2012862914
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/24004.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/24004.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 22001,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1501445390
+    },
+    "ItemDesc": {
+      "Hash": 891272624
+    },
+    "ItemBGDesc": {
+      "Hash": -1609578585
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/22001.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/22001.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23024,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1904729818
+    },
+    "ItemDesc": {
+      "Hash": 1294557052
+    },
+    "ItemBGDesc": {
+      "Hash": -2012863079
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23024.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23024.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23025,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -824153537
+    },
+    "ItemDesc": {
+      "Hash": -1434326303
+    },
+    "ItemBGDesc": {
+      "Hash": 716020276
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23025.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23025.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 21042,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1098160696
+    },
+    "ItemDesc": {
+      "Hash": -1837610890
+    },
+    "ItemBGDesc": {
+      "Hash": 1119304871
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21042.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21042.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21043,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1630722659
+    },
+    "ItemDesc": {
+      "Hash": -271526949
+    },
+    "ItemBGDesc": {
+      "Hash": -446779070
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21043.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21043.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 23028,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 291591710
+    },
+    "ItemDesc": {
+      "Hash": -318581056
+    },
+    "ItemBGDesc": {
+      "Hash": 312735749
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23028.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23028.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23027,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 338645877
+    },
+    "ItemDesc": {
+      "Hash": 1697841579
+    },
+    "ItemBGDesc": {
+      "Hash": 1878819690
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23027.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23027.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 21044,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1904729750
+    },
+    "ItemDesc": {
+      "Hash": 1294556992
+    },
+    "ItemBGDesc": {
+      "Hash": -2012863011
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21044.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21044.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21045,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -824153605
+    },
+    "ItemDesc": {
+      "Hash": -1434326363
+    },
+    "ItemBGDesc": {
+      "Hash": 716020344
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21045.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21045.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21046,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1227438132
+    },
+    "ItemDesc": {
+      "Hash": 131757578
+    },
+    "ItemBGDesc": {
+      "Hash": -850063597
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21046.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21046.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 21047,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 338645809
+    },
+    "ItemDesc": {
+      "Hash": 1697841519
+    },
+    "ItemBGDesc": {
+      "Hash": 1878819758
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/21047.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/21047.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "IsSellable": true,
+    "ReturnItemIDList": [
+      {
+        "ItemID": 223,
+        "ItemNum": 2
+      }
+    ],
+    "SellType": "Sell"
+  },
+  {
+    "ID": 22002,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "VeryRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1098160863
+    },
+    "ItemDesc": {
+      "Hash": -1837610731
+    },
+    "ItemBGDesc": {
+      "Hash": 1119304770
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/22002.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/22002.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23026,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -1227438064
+    },
+    "ItemDesc": {
+      "Hash": 131757638
+    },
+    "ItemBGDesc": {
+      "Hash": -850063665
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23026.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23026.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23030,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": -64638649
+    },
+    "ItemDesc": {
+      "Hash": -674811415
+    },
+    "ItemBGDesc": {
+      "Hash": -43494610
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23030.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23030.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23029,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1857675651
+    },
+    "ItemDesc": {
+      "Hash": 1247502885
+    },
+    "ItemBGDesc": {
+      "Hash": -1253348192
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23029.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23029.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23031,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1501445292
+    },
+    "ItemDesc": {
+      "Hash": 891272526
+    },
+    "ItemBGDesc": {
+      "Hash": -1609578551
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23031.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23031.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  },
+  {
+    "ID": 23032,
+    "ItemMainType": "Equipment",
+    "ItemSubType": "Equipment",
+    "InventoryDisplayTag": 1,
+    "Rarity": "SuperRare",
+    "isVisible": true,
+    "ItemName": {
+      "Hash": 1098160765
+    },
+    "ItemDesc": {
+      "Hash": -1837610829
+    },
+    "ItemBGDesc": {
+      "Hash": 1119304804
+    },
+    "ItemIconPath": "SpriteOutput/ItemIcon/LightConeIcons/23032.png",
+    "ItemFigureIconPath": "SpriteOutput/ItemFigures/LightCone/23032.png",
+    "ItemCurrencyIconPath": "0",
+    "ItemAvatarIconPath": "",
+    "PileLimit": 9999,
+    "CustomDataList": [],
+    "ReturnItemIDList": []
+  }
+]

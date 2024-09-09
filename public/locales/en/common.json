@@ -1,0 +1,6 @@
+{
+  "relic_one": "{{relic, capitalize}}",
+  "relic_other": "{{relics, capitalize}}",
+  "relicWithCount_one": "{{count}} {{relic, capitalize}}",
+  "relicWithCount_other": "{{count}} {{relics, capitalize}}"
+}

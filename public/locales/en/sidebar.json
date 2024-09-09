@@ -1,0 +1,22 @@
+{
+  "showcase" : {
+    "title" : "Showcase",
+    "scorer": "Relic Scorer"
+  },
+  "optimization": {
+    "title": "Optimization",
+    "optimizer": "Optimizer",
+    "characters": "Characters",
+    "import": "Import / Save",
+    "settings": "Settings",
+    "start": "Get Started"
+  },
+  "links": {
+    "title": "Links",
+    "changelog": "Changelog",
+    "discord": "Discord",
+    "github": "GitHub",
+    "kofi": "Ko-fi",
+    "unleak": "No Leaks"
+  }
+}

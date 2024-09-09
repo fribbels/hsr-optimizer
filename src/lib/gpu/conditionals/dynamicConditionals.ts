@@ -306,8 +306,8 @@ if (${wgslFalse(r.atkToBreakVulnerability)}) {
 }
 let atk = (*p_x).ATK;
 let stateValue: f32 = (*p_state).RappaConversionConditional;
-let atkOverStacks: f32 = floor((x.ATK - 2000) / 100)
-let buffValue: f32 = min(0.12, max(0, atkOverStacks) * 0.01) + 0.03
+let atkOverStacks: f32 = floor((x.ATK - 2000) / 100);
+let buffValue: f32 = min(0.12, max(0, atkOverStacks) * 0.01) + 0.03;
 
 (*p_state).RappaConversionConditional = buffValue;
 (*p_x).BREAK_VULNERABILITY += buffValue - stateValue;

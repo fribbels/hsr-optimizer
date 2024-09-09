@@ -6,7 +6,7 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { BETA_UPDATE, Stats } from 'lib/constants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  const sValuesCd = [0.18, 0.18, 0.18, 0.18, 0.18]
+  const sValuesCd = [0.18, 0.225, 0.27, 0.315, 0.36]
 
   const content: ContentItem[] = [
     {
@@ -23,7 +23,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   return {
     content: () => content,
     defaults: () => ({
-      sValuesCd: true,
+      cdBuff: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals

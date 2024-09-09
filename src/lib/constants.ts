@@ -412,8 +412,8 @@ export const SetsRelics = {
   WatchmakerMasterOfDreamMachinations: 'Watchmaker, Master of Dream Machinations',
   IronCavalryAgainstTheScourge: 'Iron Cavalry Against the Scourge',
   TheWindSoaringValorous: 'The Wind-Soaring Valorous',
-  ScholarLostInErudition: 'Scholar Lost in Erudition',
   SacerdosRelivedOrdeal: "Sacerdos' Relived Ordeal",
+  ScholarLostInErudition: 'Scholar Lost in Erudition',
 }
 export type SetsRelics = typeof SetsRelics[keyof typeof SetsRelics]
 

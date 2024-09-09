@@ -424,3 +424,4 @@ export type ConditionalBuff =
   | 'e1DefPen'
   | 'e2Buffs'
   | 'e4SpdBuff'
+  | 'teammateBreakVulnerability'

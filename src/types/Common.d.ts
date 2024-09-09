@@ -62,3 +62,7 @@ export type NumberToNumberMap = {
 export type StringToNumberMap = {
   [key: string]: number
 }
+
+export type StringToStringMap = {
+  [key: string]: string
+}

@@ -25,12 +25,10 @@ function presetCharacters() {
   const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.displayName == name)?.id || null
   const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.displayName == name)?.id || null
   return [
+    { characterId: char('Rappa'), lightConeId: lc('Ninjutsu Inscription: Dazzling Evilbreaker') },
     { characterId: char('Feixiao'), lightConeId: lc('I Venture Forth to Hunt') },
     { characterId: char('Lingsha'), lightConeId: lc('Scent Alone Stays True') },
     { characterId: char('Jiaoqiu'), lightConeId: lc('Those Many Springs') },
-    { characterId: char('Moze'), lightConeId: lc('Shadowed by Night') },
-    { characterId: char('March 7th (Hunt)'), lightConeId: lc('Cruising in the Stellar Sea'), lightConeSuperimposition: 5 },
-    { characterId: char('Yunli'), lightConeId: lc('Dance at Sunset') },
     { custom: true },
   ].filter((x) => x.characterId != null || x.custom) // Unreleased characters
 }
@@ -200,7 +198,7 @@ export default function RelicScorerTab() {
         {/* </Flex> */}
         <Flex gap={10} vertical align='center'>
           <Text>
-            Enter your account UID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.
+            Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly.
             {window.officialOnly ? '' : ` (Current version ${CURRENT_DATA_VERSION})`}
           </Text>
         </Flex>
@@ -385,7 +383,7 @@ function CharacterPreviewSelection(props) {
       Utils.screenshotElementById('relicScorerPreview', 'clipboard').finally(() => {
         setScreenshotLoading(false)
       })
-    }, 50)
+    }, 100)
   }
 
   async function downloadClicked() {
@@ -396,7 +394,7 @@ function CharacterPreviewSelection(props) {
       Utils.screenshotElementById('relicScorerPreview', 'download', name).finally(() => {
         setDownloadLoading(false)
       })
-    }, 50)
+    }, 100)
   }
 
   function presetClicked(e) {
@@ -477,7 +475,13 @@ function CharacterPreviewSelection(props) {
           </Flex>
         </Flex>
 
-        <Segmented style={{ width: '100%', overflow: 'hidden' }} options={options} block onChange={selectionChange} value={props.selectedCharacter?.id}/>
+        <Segmented
+          style={{ width: '100%', overflow: 'hidden' }}
+          options={options}
+          block
+          onChange={selectionChange}
+          value={props.selectedCharacter?.id}
+        />
         <Flex id='previewWrapper' style={{ padding: '5px', backgroundColor: token.colorBgBase }}>
           <CharacterPreview
             class='relicScorerCharacterPreview'

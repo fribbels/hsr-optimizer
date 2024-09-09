@@ -1,7 +1,6 @@
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { Form } from 'types/Form'
-import { destroyPipeline, generateExecutionPass, getDevice, GpuExecutionContext, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
-import { RelicsByPart } from 'lib/gpu/webgpuDataTransform'
+import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { renameFields } from 'lib/optimizer/optimizer'
@@ -9,18 +8,22 @@ import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { Message } from 'lib/message'
+import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants'
+import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
+import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
 
 export async function gpuOptimize(props: {
   params: OptimizerParams
   request: Form
   relics: RelicsByPart
   permutations: number
+  computeEngine: string
   relicSetSolutions: number[]
   ornamentSetSolutions: number[]
 }) {
-  const { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions } = props
+  const { params, request, relics, permutations, computeEngine, relicSetSolutions, ornamentSetSolutions } = props
 
-  const device = await getDevice()
+  const device = await getWebgpuDevice()
   if (device == null) {
     console.error('Not supported')
     return
@@ -29,7 +32,7 @@ export async function gpuOptimize(props: {
   device.onuncapturederror = (event) => {
     if (window.store.getState().optimizationInProgress) {
       window.store.getState().setOptimizationInProgress(false)
-      Message.error('The GPU acceleration process has crashed - results may be invalid. Please report a bug to the Discord server', 15)
+      Message.error('The GPU acceleration process has crashed - results may be invalid. Please try again or report a bug to the Discord server', 20)
     }
   }
 
@@ -41,6 +44,7 @@ export async function gpuOptimize(props: {
     request,
     params,
     permutations,
+    computeEngine,
     relicSetSolutions,
     ornamentSetSolutions,
   )
@@ -57,17 +61,21 @@ export async function gpuOptimize(props: {
     const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
     const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
 
-    await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 4)
-    const firstElement = new Float32Array(gpuReadBuffer.getMappedRange(0, 4))[0]
-    gpuReadBuffer.unmap()
+    if (computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL) {
+      await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 4)
+      const firstElement = new Float32Array(gpuReadBuffer.getMappedRange(0, 4))[0]
+      gpuReadBuffer.unmap()
 
-    if (firstElement == -2304) {
-      // Skip
-    } else if (firstElement <= -2048) {
-      const workgroupsSkipped = -(firstElement + 2048)
-      const elementOffset = workgroupsSkipped * 512 * 256
+      if (firstElement == -2304) {
+        // Skip
+      } else if (firstElement <= -2048) {
+        const workgroupsSkipped = -(firstElement + 2048)
+        const elementOffset = workgroupsSkipped * 512 * 256
 
-      await readBuffer(offset, gpuReadBuffer, gpuContext, elementOffset)
+        await readBuffer(offset, gpuReadBuffer, gpuContext, elementOffset)
+      } else {
+        await readBuffer(offset, gpuReadBuffer, gpuContext)
+      }
     } else {
       await readBuffer(offset, gpuReadBuffer, gpuContext)
     }
@@ -176,14 +184,20 @@ function outputResults(gpuContext: GpuExecutionContext) {
     const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
     const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
 
-    const c = calculateBuild(gpuContext.request, {
-      Head: relics.Head[h],
-      Hands: relics.Hands[g],
-      Body: relics.Body[b],
-      Feet: relics.Feet[f],
-      PlanarSphere: relics.PlanarSphere[p],
-      LinkRope: relics.LinkRope[l],
-    })
+    const cachedParams = gpuContext.params
+    const c = calculateBuild(
+      gpuContext.request,
+      {
+        Head: relics.Head[h],
+        Hands: relics.Hands[g],
+        Body: relics.Body[b],
+        Feet: relics.Feet[f],
+        PlanarSphere: relics.PlanarSphere[p],
+        LinkRope: relics.LinkRope[l],
+      },
+      cachedParams,
+      true,
+    )
 
     c.id = index
     renameFields(c)

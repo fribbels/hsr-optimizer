@@ -1,6 +1,6 @@
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { Sets, Stats } from 'lib/constants'
+import { SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets, Stats } from 'lib/constants'
 
 export function calculateTeammates(request, params) {
   // Precompute teammate effects
@@ -50,6 +50,12 @@ export function calculateTeammates(request, params) {
       case Sets.WatchmakerMasterOfDreamMachinations:
         if (teammateSetEffects[Sets.WatchmakerMasterOfDreamMachinations]) break
         precomputedX[Stats.BE] += 0.30
+        break
+      case SACERDOS_RELIVED_ORDEAL_1_STACK:
+        precomputedX[Stats.CD] += 0.20
+        break
+      case SACERDOS_RELIVED_ORDEAL_2_STACK:
+        precomputedX[Stats.CD] += 0.40
         break
       default:
     }

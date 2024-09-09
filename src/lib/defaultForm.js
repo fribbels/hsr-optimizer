@@ -57,7 +57,6 @@ export function getDefaultForm(initialCharacter) {
     rankFilter: true,
     includeEquippedRelics: true,
     keepCurrentRelics: false,
-    gpuAcceleration: true,
     enhance: 9,
     grade: 5,
     mainHead: [],
@@ -70,7 +69,7 @@ export function getDefaultForm(initialCharacter) {
     teammate1: defaultTeammate(),
     teammate2: defaultTeammate(),
     resultSort: scoringMetadata?.sortOption.key,
-    resultLimit: 100000,
+    resultsLimit: 1024,
     combatBuffs: combatBuffs,
     combo: {
       BASIC: 0,
@@ -146,7 +145,9 @@ export const defaultSetConditionals = {
   [Constants.Sets.PioneerDiverOfDeadWaters]: [undefined, 2],
   [Constants.Sets.WatchmakerMasterOfDreamMachinations]: [undefined, false],
   [Constants.Sets.IronCavalryAgainstTheScourge]: [undefined, true],
-  [Constants.Sets.TheWindSoaringValorous]: [undefined, true],
+  [Constants.Sets.TheWindSoaringValorous]: [undefined, false],
+  [Constants.Sets.SacerdosRelivedOrdeal]: [undefined, true],
+  [Constants.Sets.ScholarLostInErudition]: [undefined, true],
 
   [Constants.Sets.SpaceSealingStation]: [undefined, true],
   [Constants.Sets.FleetOfTheAgeless]: [undefined, true],

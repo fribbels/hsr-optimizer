@@ -151,6 +151,8 @@ fn main(
     x.sets.WatchmakerMasterOfDreamMachinations = i32((1 >> (setH ^ 17)) + (1 >> (setG ^ 17)) + (1 >> (setB ^ 17)) + (1 >> (setF ^ 17)));
     x.sets.IronCavalryAgainstTheScourge        = i32((1 >> (setH ^ 18)) + (1 >> (setG ^ 18)) + (1 >> (setB ^ 18)) + (1 >> (setF ^ 18)));
     x.sets.TheWindSoaringValorous              = i32((1 >> (setH ^ 19)) + (1 >> (setG ^ 19)) + (1 >> (setB ^ 19)) + (1 >> (setF ^ 19)));
+    x.sets.SacerdosRelivedOrdeal               = i32((1 >> (setH ^ 20)) + (1 >> (setG ^ 20)) + (1 >> (setB ^ 20)) + (1 >> (setF ^ 20)));
+    x.sets.ScholarLostInErudition              = i32((1 >> (setH ^ 21)) + (1 >> (setG ^ 21)) + (1 >> (setB ^ 21)) + (1 >> (setF ^ 21)));
 
     // Calculate ornament set counts
 
@@ -229,7 +231,8 @@ fn main(
     c.SPD += (baseSPD) * (
       0.06 * p2(x.sets.MessengerTraversingHackerspace) +
       0.06 * p2(x.sets.ForgeOfTheKalpagniLantern) +
-      0.06 * p4(x.sets.MusketeerOfWildWheat)
+      0.06 * p4(x.sets.MusketeerOfWildWheat) +
+      0.06 * p2(x.sets.SacerdosRelivedOrdeal)
     );
 
     c.HP += (baseHP) * (
@@ -256,7 +259,8 @@ fn main(
       0.08 * p2(x.sets.RutilantArena) +
       0.04 * p4(x.sets.PioneerDiverOfDeadWaters) +
       0.04 * p2(x.sets.SigoniaTheUnclaimedDesolation) +
-      0.06 * p4(x.sets.TheWindSoaringValorous)
+      0.06 * p4(x.sets.TheWindSoaringValorous) +
+      0.06 * p2(x.sets.ScholarLostInErudition)
     );
 
     c.CD += (
@@ -406,6 +410,14 @@ fn main(
       buffAbilityDmg(&x, ULT_TYPE, 0.36 * f32(enabledTheWindSoaringValorous), 1);
     }
 
+    if (p4(x.sets.ScholarLostInErudition) >= 1) {
+      buffAbilityDmg(&x, SKILL_TYPE | ULT_TYPE, 0.20, 1);
+
+      if (f32(enabledScholarLostInErudition) >= 1.0) {
+        buffAbilityDmg(&x, SKILL_TYPE, 0.20, 1);
+      }
+    }
+
     //
 
     if (p4(x.sets.GeniusOfBrilliantStars) >= 1) {
@@ -542,6 +554,19 @@ fn main(
       * (1.0 / 30.0)
       * (1.0 + x.BREAK_EFFICIENCY_BOOST);
 
+    let BASIC_SUPER_BREAK_DMG
+      = universalMulti
+      * 3767.5533
+      * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
+      * breakVulnerability
+      * (1.0 - baseResistance)
+      * (1.0 + x.BE)
+      * (x.BASIC_SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER)
+      * (1.0 / 30.0)
+      * (1.0 + x.BREAK_EFFICIENCY_BOOST);
+
+    let ACTUAL_BASIC_SUPER_BREAK_DMG = select(SUPER_BREAK_DMG, BASIC_SUPER_BREAK_DMG, BASIC_SUPER_BREAK_DMG > 0);
+
     x.BASIC_DMG
       = x.BASIC_DMG
       * universalMulti
@@ -551,7 +576,7 @@ fn main(
       * (1.0 - (baseResistance - x.BASIC_RES_PEN))
       * (1.0 + x.BASIC_ORIGINAL_DMG_BOOST)
       + (x.BASIC_BREAK_DMG_MODIFIER * x.BREAK_DMG)
-      + (SUPER_BREAK_DMG * x.BASIC_TOUGHNESS_DMG * (1.0 + x.BASIC_BREAK_EFFICIENCY_BOOST));
+      + (ACTUAL_BASIC_SUPER_BREAK_DMG * x.BASIC_TOUGHNESS_DMG * (1.0 + x.BASIC_BREAK_EFFICIENCY_BOOST));
 
     x.SKILL_DMG
       = x.SKILL_DMG

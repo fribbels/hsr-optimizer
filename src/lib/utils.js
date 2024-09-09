@@ -1,9 +1,9 @@
-import { domToBlob as htmlToBlob } from 'modern-screenshot'
 import DB from './db'
 import { Constants } from './constants.ts'
-import { Message } from './message'
 import { v4 as uuidv4 } from 'uuid'
 import stringify from 'json-stable-stringify'
+
+import * as htmlToImage from 'html-to-image'
 
 console.debug = (...args) => {
   let messageConfig = '%c%s '
@@ -45,6 +45,11 @@ export const Utils = {
   // Fill array of size n with value x
   arrayOfValue: (n, x) => {
     return new Array(n).fill(x)
+  },
+
+  nullUndefinedToZero: (x) => {
+    if (x == null) return 0
+    return x
   },
 
   mergeDefinedValues: (target, source) => {
@@ -105,32 +110,68 @@ export const Utils = {
     return arr[Math.floor(Math.random() * arr.length)]
   },
 
+  isMobile: () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  },
+
   // Util to capture a div and screenshot it to clipboard/file
   screenshotElementById: async (elementId, action, characterName) => {
-    return htmlToBlob(document.getElementById(elementId), {
-      scale: 1.5,
-      drawImageInterval: 0,
-    }).then(async (blob) => {
-      /*
-       * Save to clipboard
-       * This is not supported in firefox, possibly other browsers too
-       */
-      if (action == 'clipboard') {
-        try {
-          const data = [new window.ClipboardItem({ [blob.type]: blob })]
-          await navigator.clipboard.write(data)
-          Message.success('Copied screenshot to clipboard')
-        } catch (e) {
-          Message.error('Unable to save screenshot to clipboard, try the download button to the right')
+    const isMobile = Utils.isMobile()
+    const repeatLoadBlob = async () => {
+      const minDataLength = 1200000
+      const maxAttempts = isMobile ? 9 : 3
+      let i = 0
+      let blob
+
+      while (i < maxAttempts) {
+        i++
+        blob = await htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5, skipFonts: true })
+
+        if (blob.size > minDataLength) {
+          break
         }
       }
 
-      // Save to file
+      if (isMobile) {
+        // Render again
+        blob = await htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5, skipFonts: true })
+      }
+
+      return blob
+    }
+
+    function handleBlob(blob) {
+      const prefix = characterName || 'Hsr-optimizer'
+      const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
+      const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
+      const filename = `${prefix}_${date}_${time}.png`
+
+      if (action == 'clipboard') {
+        if (isMobile) {
+          const file = new File([blob], filename, { type: 'image/png' })
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({
+              files: [file],
+              title: '',
+              text: '',
+            })
+          } else {
+            Message.error('Unable to save screenshot to clipboard, try the download button to the right')
+          }
+        } else {
+          try {
+            const data = [new window.ClipboardItem({ [blob.type]: blob })]
+            navigator.clipboard.write(data).then(() => {
+              Message.success('Copied screenshot to clipboard')
+            })
+          } catch (e) {
+            console.error(e)
+            Message.error('Unable to save screenshot to clipboard, try the download button to the right')
+          }
+        }
+      }
+
       if (action == 'download') {
-        const prefix = characterName || 'Hsr-optimizer'
-        const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
-        const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
-        const filename = `${prefix}_${date}_${time}.png`
         const fileUrl = window.URL.createObjectURL(blob)
         const anchorElement = document.createElement('a')
         anchorElement.href = fileUrl
@@ -142,9 +183,13 @@ export const Utils = {
         window.URL.revokeObjectURL(fileUrl)
         Message.success('Downloaded screenshot')
       }
-    }).catch((e) => {
-      console.error(e)
-      Message.error('Unable to take screenshot, please try again')
+    }
+
+    return new Promise((resolve) => {
+      repeatLoadBlob().then((blob) => {
+        handleBlob(blob)
+        resolve()
+      })
     })
   },
 

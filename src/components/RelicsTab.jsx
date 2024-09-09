@@ -465,9 +465,6 @@ export default function RelicsTab() {
           >
             Edit Relic
           </Button>
-          <Button type='primary' onClick={addClicked} style={{ width: '150px' }}>
-            Add New Relic
-          </Button>
           <Popconfirm
             title='Confirm'
             description={selectedRelics.length > 1 ? `Delete the selected ${selectedRelics.length} relics?` : 'Delete the selected relic?'}
@@ -482,6 +479,9 @@ export default function RelicsTab() {
               Delete Relic
             </Button>
           </Popconfirm>
+          <Button type='primary' onClick={addClicked} style={{ width: '150px' }}>
+            Add New Relic
+          </Button>
           <Select
             value={plottedCharacterType}
             onChange={setPlottedCharacterType}

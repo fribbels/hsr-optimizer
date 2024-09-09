@@ -57,6 +57,7 @@ import jiaoqiu from 'lib/conditionals/character/Jiaoqiu'
 import feixiao from 'lib/conditionals/character/Feixiao'
 import lingsha from 'lib/conditionals/character/Lingsha'
 import moze from 'lib/conditionals/character/Moze'
+import rappa from 'lib/conditionals/character/Rappa'
 
 export const characterOptionMapping = {
   1001: march7th,
@@ -115,6 +116,7 @@ export const characterOptionMapping = {
   1312: misha,
   1314: jade,
   1315: boothill,
+  1317: rappa,
   8001: trailblazerdestruction,
   8002: trailblazerdestruction,
   8003: trailblazerpreservation,

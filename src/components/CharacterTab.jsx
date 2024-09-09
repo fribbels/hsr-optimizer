@@ -402,7 +402,7 @@ export default function CharacterTab() {
       Utils.screenshotElementById('characterTabPreview', 'clipboard').finally(() => {
         setScreenshotLoading(false)
       })
-    }, 50)
+    }, 100)
   }
 
   function downloadClicked() {
@@ -413,7 +413,7 @@ export default function CharacterTab() {
       Utils.screenshotElementById('characterTabPreview', 'download', name).finally(() => {
         setDownloadLoading(false)
       })
-    }, 50)
+    }, 100)
   }
 
   function confirmSaveBuild(name) {
@@ -507,7 +507,7 @@ export default function CharacterTab() {
       }}
     >
       <Flex vertical gap={defaultGap}>
-        <Flex gap={8} style={{ width: '100%', marginBottom: 5 }}>
+        <Flex gap={6} style={{ width: '100%', marginBottom: 5, paddingRight: 1 }}>
           <Flex style={{ width: 230 }}>
             <Input
               allowClear

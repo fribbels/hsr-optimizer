@@ -1169,7 +1169,7 @@ export function calculatePenaltyMultiplier(
   for (const stat of Object.keys(breakpoints)) {
     if (Utils.isFlat(stat)) {
       // Flats are penalized by their percentage
-      newPenaltyMultiplier *= Math.min(1, simulationResult.x[stat] / breakpoints[stat])
+      newPenaltyMultiplier *= (Math.min(1, simulationResult.x[stat] / breakpoints[stat]) + 1) / 2
     } else {
       // Percents are penalize by half of the missing stat's breakpoint roll percentage
       newPenaltyMultiplier *= Math.min(1, 1 - (breakpoints[stat] - simulationResult.x[stat]) / StatCalculator.getMaxedSubstatValue(stat, scoringParams.quality))

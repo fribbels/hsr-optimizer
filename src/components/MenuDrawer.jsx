@@ -102,6 +102,14 @@ const MenuDrawer = () => {
         ),
         AppPages.CHANGELOG),
       getItem(
+        <Typography.Link href='https://ko-fi.com/fribbels' target='_blank' rel='noopener noreferrer'>
+          <CoffeeIcon style={{ marginRight: 5 }}/>
+          {' '}
+          {t('links.kofi')}
+        </Typography.Link>,
+        'link donate',
+      ),
+      getItem(
         <Typography.Link href='https://discord.gg/rDmB4Un7qg' target='_blank' rel='noopener noreferrer'>
           <DiscordIcon style={{ marginRight: 5 }}/>
           {' '}
@@ -116,14 +124,6 @@ const MenuDrawer = () => {
           {t('links.github')}
         </Typography.Link>,
         'link github',
-      ),
-      getItem(
-        <Typography.Link href='https://www.patreon.com/fribbels' target='_blank' rel='noopener noreferrer'>
-          <CoffeeIcon style={{ marginRight: 5 }}/>
-          {' '}
-          {t('links.kofi')}
-        </Typography.Link>,
-        'link donate',
       ),
       !window.officialOnly && getItem(
         <Typography.Link href='https://starrailoptimizer.github.io/' target='_blank' rel='noopener noreferrer'>

@@ -80,6 +80,7 @@ const baseCharacterLightConeMappings = [
   { characterId: '1312', lightConeId: basicLc }, // Misha
   { characterId: '1314', lightConeId: '23028' }, // Jade
   { characterId: '1315', lightConeId: '23027' }, // Boothill
+  { characterId: '1317', lightConeId: '23033' }, // Rappa
   { characterId: '8001', lightConeId: basicLc }, // Trailblazer
   { characterId: '8002', lightConeId: basicLc }, // Trailblazer
   { characterId: '8003', lightConeId: basicLc }, // Trailblazer

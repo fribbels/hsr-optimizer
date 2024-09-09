@@ -38,6 +38,7 @@ export type OptimizerParams = {
   enabledForgeOfTheKalpagniLantern: number
   enabledTheWindSoaringValorous: number
   enabledTheWondrousBananAmusementPark: number
+  enabledScholarLostInErudition: number
   valueChampionOfStreetwiseBoxing: number
   valueWastelanderOfBanditryDesert: number
   valueLongevousDisciple: number
@@ -135,6 +136,7 @@ function generateSetConditionalParams(request: Form, params: Partial<OptimizerPa
   params.enabledForgeOfTheKalpagniLantern = setConditionals[Constants.Sets.ForgeOfTheKalpagniLantern][1] == true ? 1 : 0
   params.enabledTheWindSoaringValorous = setConditionals[Constants.Sets.TheWindSoaringValorous][1] == true ? 1 : 0
   params.enabledTheWondrousBananAmusementPark = setConditionals[Constants.Sets.TheWondrousBananAmusementPark][1] == true ? 1 : 0
+  params.enabledScholarLostInErudition = setConditionals[Constants.Sets.ScholarLostInErudition][1] == true ? 1 : 0
 
   params.valueChampionOfStreetwiseBoxing = setConditionals[Constants.Sets.ChampionOfStreetwiseBoxing][1] || 0
   params.valueWastelanderOfBanditryDesert = setConditionals[Constants.Sets.WastelanderOfBanditryDesert][1] || 0

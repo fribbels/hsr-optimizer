@@ -59,8 +59,9 @@ export function webgpuNotSupportedNotification() {
               </li>
             </ul>
           </div>
-          <div>
 
+          <div>
+            If you're on one of the supported browsers and it doesn't work, try another browser, or try switching your browser to use your dedicated graphics card instead of integrated.
           </div>
         </Flex>
       ),

@@ -73,6 +73,17 @@ export function calculateDamage(x, request, params) {
     * (1 / 30)
     * (1 + x.BREAK_EFFICIENCY_BOOST)
 
+  const basicSuperBreakDmg
+    = universalMulti
+    * 3767.5533
+    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
+    * breakVulnerability
+    * (1 - baseResistance)
+    * (1 + x[Stats.BE])
+    * (x.BASIC_SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER)
+    * (1 / 30)
+    * (1 + x.BREAK_EFFICIENCY_BOOST)
+
   x.BASIC_DMG
     = x.BASIC_DMG
     * universalMulti
@@ -82,7 +93,7 @@ export function calculateDamage(x, request, params) {
     * (1 - (baseResistance - x.BASIC_RES_PEN))
     * (1 + x.BASIC_ORIGINAL_DMG_BOOST)
     + (x.BASIC_BREAK_DMG_MODIFIER * x.BREAK_DMG)
-    + (x.SUPER_BREAK_DMG * x.BASIC_TOUGHNESS_DMG * (1 + x.BASIC_BREAK_EFFICIENCY_BOOST))
+    + ((basicSuperBreakDmg ? basicSuperBreakDmg : x.SUPER_BREAK_DMG) * x.BASIC_TOUGHNESS_DMG * (1 + x.BASIC_BREAK_EFFICIENCY_BOOST))
 
   x.SKILL_DMG
     = x.SKILL_DMG

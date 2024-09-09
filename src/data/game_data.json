@@ -661,7 +661,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1221": {
       "id": "1221",
@@ -695,7 +695,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1223": {
       "id": "1223",
@@ -712,7 +712,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1224": {
       "id": "1224",
@@ -951,6 +951,23 @@
         "CRIT DMG": 0.5
       },
       "unreleased": false
+    },
+    "1317": {
+      "id": "1317",
+      "name": "Rappa",
+      "rarity": 5,
+      "path": "Erudition",
+      "element": "Imaginary",
+      "max_sp": 160,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 640.332,
+        "DEF": 460.845,
+        "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
     },
     "8001": {
       "id": "8001",
@@ -1882,6 +1899,18 @@
         "ATK": 476.28,
         "DEF": 396.9
       },
+      "unreleased": false
+    },
+    "21048": {
+      "id": "21048",
+      "name": "Dream's Montage",
+      "rarity": 4,
+      "path": "Abundance",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 423.36,
+        "DEF": 396.9
+      },
       "unreleased": true
     },
     "22000": {
@@ -1919,6 +1948,18 @@
         "DEF": 330.75
       },
       "unreleased": false
+    },
+    "22003": {
+      "id": "22003",
+      "name": "Ninja Record: Sound Hunt",
+      "rarity": 4,
+      "path": "Destruction",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 476.28,
+        "DEF": 264.6
+      },
+      "unreleased": true
     },
     "23000": {
       "id": "23000",
@@ -2302,7 +2343,7 @@
         "ATK": 635.04,
         "DEF": 463.05
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23032": {
       "id": "23032",
@@ -2312,6 +2353,18 @@
       "stats": {
         "HP": 1058.4,
         "ATK": 529.2,
+        "DEF": 529.2
+      },
+      "unreleased": false
+    },
+    "23033": {
+      "id": "23033",
+      "name": "Ninjutsu Inscription: Dazzling Evilbreaker",
+      "rarity": 5,
+      "path": "Erudition",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 582.12,
         "DEF": 529.2
       },
       "unreleased": true
@@ -2386,7 +2439,7 @@
     {
       "id": "317",
       "name": "Lushaka, the Sunken Seas",
-      "skills": "Increases the wearer's Energy Regeneration Rate by <b>5.0%</b>. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by <b>12.0%</b>."
+      "skills": "Increases the wearer's Energy Regeneration Rate by <b>5.0%</b>. If the wearer is not the first character in the team lineup, then increases the ATK of the first character in the team lineup by <b>12.0%</b>."
     },
     {
       "id": "316",
@@ -2396,7 +2449,7 @@
     {
       "id": "315",
       "name": "Duran, Dynasty of Running Wolves",
-      "skills": "When an ally uses a follow-up attack, the wearer gains 1 stack of Merit, stacking up to <b>5.0</b> time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <b>5.0%</b>. When there are <b>5.0</b> stacks, additionally increases the wearer's CRIT DMG by <b>25.0%</b>."
+      "skills": "When a Party target uses a follow-up attack, the wearer gains 1 stack of \"Merit,\" stacking up to <b>5.0</b> time(s). Each stack of \"Merit\" increases the DMG dealt by the wearer's follow-up attacks by <b>5.0%</b>. When there are <b>5.0</b> stacks, additionally increases the wearer's CRIT DMG by <b>25.0%</b>."
     },
     {
       "id": "314",
@@ -2411,7 +2464,7 @@
     {
       "id": "312",
       "name": "Penacony, Land of the Dreams",
-      "skills": "Increases wearer's Energy Regeneration Rate by <b>5.0%</b>. Increases DMG by <b>10.0%</b> for all other allies that are of the same Type as the wearer."
+      "skills": "Increases wearer's Energy Regeneration Rate by <b>5.0%</b>. Increases DMG by <b>10.0%</b> for all other Party targets that are of the same Type as the wearer."
     },
     {
       "id": "311",
@@ -2421,7 +2474,7 @@
     {
       "id": "310",
       "name": "Broken Keel",
-      "skills": "Increases the wearer's Effect RES by <b>10.0%</b>. When the wearer's Effect RES is at <b>30.0%</b> or higher, all allies' CRIT DMG increases by <b>10.0%</b>."
+      "skills": "Increases the wearer's Effect RES by <b>10.0%</b>. When the wearer's Effect RES is at <b>30.0%</b> or higher, all Party targets' CRIT DMG increases by <b>10.0%</b>."
     },
     {
       "id": "309",
@@ -2461,12 +2514,22 @@
     {
       "id": "302",
       "name": "Fleet of the Ageless",
-      "skills": "Increases the wearer's Max HP by <b>12.0%</b>. When the wearer's SPD reaches <b>120.0</b> or higher, all allies' ATK increases by <b>8.0%</b>."
+      "skills": "Increases the wearer's Max HP by <b>12.0%</b>. When the wearer's SPD reaches <b>120.0</b> or higher, all Party targets' ATK increases by <b>8.0%</b>."
     },
     {
       "id": "301",
       "name": "Space Sealing Station",
       "skills": "Increases the wearer's ATK by <b>12.0%</b>. When the wearer's SPD reaches <b>120.0</b> or higher, the wearer's ATK increases by an extra <b>12.0%</b>."
+    },
+    {
+      "id": "122",
+      "name": "Scholar Lost in Erudition",
+      "skills": "Increases CRIT Rate by <b>6.0%</b>.,Increases DMG dealt by Ultimate and Skill by <b>20.0%</b>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <b>20.0%</b>."
+    },
+    {
+      "id": "121",
+      "name": "Sacerdos' Relived Ordeal",
+      "skills": "Increases SPD by <b>6.0%</b>.,When using Skill or Ultimate on one Party target, increases the target's CRIT DMG by <b>20.0%</b>, lasting for <b>2.0</b> turn(s). This effect can stack up to <b>2.0</b> time(s)."
     },
     {
       "id": "120",
@@ -2481,7 +2544,7 @@
     {
       "id": "118",
       "name": "Watchmaker, Master of Dream Machinations",
-      "skills": "Increases Break Effect by <b>16.0%</b>.,When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by <b>30.0%</b> for <b>2.0</b> turn(s). This effect cannot be stacked."
+      "skills": "Increases Break Effect by <b>16.0%</b>.,When the wearer uses Ultimate on any Party character, increases all Party characters' Break Effect by <b>30.0%</b> for <b>2.0</b> turn(s). This effect cannot be stacked."
     },
     {
       "id": "117",
@@ -2501,7 +2564,7 @@
     {
       "id": "114",
       "name": "Messenger Traversing Hackerspace",
-      "skills": "Increases SPD by <b>6.0%</b>.,When the wearer uses their Ultimate on an ally, SPD for all allies increases by <b>12.0%</b> for <b>1.0</b> turn(s). This effect cannot be stacked."
+      "skills": "Increases SPD by <b>6.0%</b>.,When the wearer uses Ultimate on any Party character, increases all Party characters' SPD by <b>12.0%</b> for <b>1.0</b> turn(s). This effect cannot be stacked."
     },
     {
       "id": "113",

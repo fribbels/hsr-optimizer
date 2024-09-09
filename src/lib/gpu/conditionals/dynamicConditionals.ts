@@ -276,6 +276,45 @@ let buffValue: f32 = min(0.72, 0.60 * ehr);
   },
 }
 
+export const RappaConversionConditional: DynamicConditional = {
+  id: 'RappaConversionConditional',
+  type: ConditionalType.ABILITY,
+  activation: ConditionalActivation.CONTINUOUS,
+  dependsOn: [Stats.ATK],
+  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    return true
+  },
+  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    const r = request.characterConditionals
+    if (!r.atkToBreakVulnerability) {
+      return
+    }
+
+    const stateValue = params.conditionalState[this.id] || 0
+    const atkOverStacks = Math.floor(precisionRound((x[Stats.ATK] - 2000) / 100))
+    const buffValue = Math.min(0.12, Math.max(0, atkOverStacks) * 0.01) + 0.03
+
+    params.conditionalState[this.id] = buffValue
+    x.BREAK_VULNERABILITY += buffValue - stateValue
+  },
+  gpu: function (request: Form, params: OptimizerParams) {
+    const r = request.characterConditionals
+
+    return conditionalWgslWrapper(this, `
+if (${wgslFalse(r.atkToBreakVulnerability)}) {
+  return;
+}
+let atk = (*p_x).ATK;
+let stateValue: f32 = (*p_state).RappaConversionConditional;
+let atkOverStacks: f32 = floor((x.ATK - 2000) / 100);
+let buffValue: f32 = min(0.12, max(0, atkOverStacks) * 0.01) + 0.03;
+
+(*p_state).RappaConversionConditional = buffValue;
+(*p_x).BREAK_VULNERABILITY += buffValue - stateValue;
+    `)
+  },
+}
+
 export const GallagherConversionConditional: DynamicConditional = {
   id: 'GallagherConversionConditional',
   type: ConditionalType.ABILITY,
@@ -319,8 +358,8 @@ export const RuanMeiConversionConditional: DynamicConditional = {
     const r = request.characterConditionals
 
     const stateValue = params.conditionalState[this.id] || 0
-    const beOver = precisionRound((x[Stats.BE] * 100 - 120) / 10)
-    const buffValue = Math.floor(Math.max(0, beOver)) * 0.06
+    const beOver = Math.floor(precisionRound((x[Stats.BE] * 100 - 120) / 10))
+    const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
 
     params.conditionalState[this.id] = buffValue
     x.ELEMENTAL_DMG += buffValue - stateValue

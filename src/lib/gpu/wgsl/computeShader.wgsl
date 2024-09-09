@@ -554,6 +554,19 @@ fn main(
       * (1.0 / 30.0)
       * (1.0 + x.BREAK_EFFICIENCY_BOOST);
 
+    let BASIC_SUPER_BREAK_DMG
+      = universalMulti
+      * 3767.5533
+      * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
+      * breakVulnerability
+      * (1.0 - baseResistance)
+      * (1.0 + x.BE)
+      * (x.BASIC_SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER)
+      * (1.0 / 30.0)
+      * (1.0 + x.BREAK_EFFICIENCY_BOOST);
+
+    let ACTUAL_BASIC_SUPER_BREAK_DMG = select(SUPER_BREAK_DMG, BASIC_SUPER_BREAK_DMG, BASIC_SUPER_BREAK_DMG > 0);
+
     x.BASIC_DMG
       = x.BASIC_DMG
       * universalMulti
@@ -563,7 +576,7 @@ fn main(
       * (1.0 - (baseResistance - x.BASIC_RES_PEN))
       * (1.0 + x.BASIC_ORIGINAL_DMG_BOOST)
       + (x.BASIC_BREAK_DMG_MODIFIER * x.BREAK_DMG)
-      + (SUPER_BREAK_DMG * x.BASIC_TOUGHNESS_DMG * (1.0 + x.BASIC_BREAK_EFFICIENCY_BOOST));
+      + (ACTUAL_BASIC_SUPER_BREAK_DMG * x.BASIC_TOUGHNESS_DMG * (1.0 + x.BASIC_BREAK_EFFICIENCY_BOOST));
 
     x.SKILL_DMG
       = x.SKILL_DMG

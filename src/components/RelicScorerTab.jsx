@@ -25,12 +25,10 @@ function presetCharacters() {
   const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.displayName == name)?.id || null
   const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.displayName == name)?.id || null
   return [
+    { characterId: char('Rappa'), lightConeId: lc('Ninjutsu Inscription: Dazzling Evilbreaker') },
     { characterId: char('Feixiao'), lightConeId: lc('I Venture Forth to Hunt') },
     { characterId: char('Lingsha'), lightConeId: lc('Scent Alone Stays True') },
     { characterId: char('Jiaoqiu'), lightConeId: lc('Those Many Springs') },
-    { characterId: char('Moze'), lightConeId: lc('Shadowed by Night') },
-    { characterId: char('March 7th (Hunt)'), lightConeId: lc('Cruising in the Stellar Sea'), lightConeSuperimposition: 5 },
-    { characterId: char('Yunli'), lightConeId: lc('Dance at Sunset') },
     { custom: true },
   ].filter((x) => x.characterId != null || x.custom) // Unreleased characters
 }

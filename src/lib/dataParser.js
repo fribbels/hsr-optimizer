@@ -6029,8 +6029,8 @@ function getScoringMetadata() {
     },
     1317: { // Rappa // TODO
       stats: {
-        [Stats.ATK]: 1.0,
-        [Stats.ATK_P]: 1.0,
+        [Stats.ATK]: 1,
+        [Stats.ATK_P]: 1,
         [Stats.DEF]: 0,
         [Stats.DEF_P]: 0,
         [Stats.HP]: 0,
@@ -6061,7 +6061,9 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.WASTELANDER_SET,
+      ],
       sortOption: SortOption.BASIC,
       simulation: {
         parts: {
@@ -6091,7 +6093,7 @@ function getScoringMetadata() {
         },
         formula: {
           BASIC: 3,
-          SKILL: 0,
+          SKILL: 1,
           ULT: 0,
           FUA: 0,
           DOT: 0,
@@ -6117,10 +6119,10 @@ function getScoringMetadata() {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1301', // Gallagher
-            lightCone: '20015', // Multi
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: '1003', // Himeko
+            lightCone: '23000', // Milky way
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
         ],
       },

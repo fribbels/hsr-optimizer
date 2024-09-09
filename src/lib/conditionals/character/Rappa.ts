@@ -121,12 +121,12 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.SPD_P] += (e >= 4 && r.sealformActive && r.e4SpdBuff) ? 0.12 : 0
 
-      x.SUPER_BREAK_MODIFIER += (r.sealformActive) ? 0.60 : 0
+      x.BASIC_SUPER_BREAK_MODIFIER += (r.sealformActive) ? 0.60 : 0
 
       x.BASIC_SCALING += (r.sealformActive) ? basicEnhancedScaling : basicScaling
       x.SKILL_SCALING += skillScaling
 
-      x.BASIC_TOUGHNESS_DMG += (r.sealformActive) ? 30 : 45
+      x.BASIC_TOUGHNESS_DMG += (r.sealformActive) ? 75 : 30
       x.SKILL_TOUGHNESS_DMG += 30
 
       return x

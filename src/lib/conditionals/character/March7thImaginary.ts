@@ -1,13 +1,8 @@
-import {
-  ASHBLAZING_ATK_STACK,
-  baseComputedStatsObject,
-  BASIC_TYPE,
-  ComputedStatsObject
-} from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/utils'
+import { ASHBLAZING_ATK_STACK, BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
@@ -128,9 +123,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => (teammateDefaults),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       x[Stats.SPD_P] += (e >= 1 && r.selfSpdBuff) ? 0.10 : 0
       buffAbilityDmg(x, BASIC_TYPE, talentDmgBuff, (r.talentDmgBuff))
@@ -150,7 +144,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
       const t = request.characterConditionals
@@ -160,16 +154,11 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.CD] += (t.masterBuff && t.masterCdBeBuffs) ? 0.60 : 0
       x[Stats.BE] += (t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.characterConditionals
-      const x: ComputedStatsObject = c.x
-
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, fuaHitCountMulti)
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+      standardFuaAtkFinalizer(x, request, fuaHitCountMulti)
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      return gpuStandardFuaAtkFinalizer(fuaHitCountMulti)
     },
   }
 }

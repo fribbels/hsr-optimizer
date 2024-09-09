@@ -41,7 +41,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       postUltDotDmgBuff: true,
     }),
@@ -50,7 +49,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       buffAbilityDmg(x, DOT_TYPE, sValues[s], (r.postUltDotDmgBuff))
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { },
+    finalizeCalculations: () => {
+    },
   }
 }

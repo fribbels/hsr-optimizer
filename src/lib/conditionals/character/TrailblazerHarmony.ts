@@ -1,9 +1,9 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
@@ -94,9 +94,20 @@ export default (e: Eidolon): CharacterConditional => {
       superBreakDmg: true,
       teammateBeValue: 2.00,
     }),
-    precomputeEffects: (request: Form) => {
+    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
+      if (r.superBreakDmg) {
+        x.ENEMY_WEAKNESS_BROKEN = 1
+      }
+    },
+    initializeTeammateConfigurations: (x: ComputedStatsObject, request: Form) => {
+      const r = request.characterConditionals
+      if (r.superBreakDmg) {
+        x.ENEMY_WEAKNESS_BROKEN = 1
+      }
+    },
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+      const r = request.characterConditionals
 
       // Stats
       x[Stats.ERR] += (e >= 2 && r.e2EnergyRegenBuff) ? 0.25 : 0
@@ -114,11 +125,6 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      // Special case where we force the weakness break on if the option is enabled
-      if (m.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN = 1
-      }
-
       x[Stats.BE] += (m.backupDancer) ? ultBeScaling : 0
       x.SUPER_BREAK_HMC_MODIFIER += (m.backupDancer && m.superBreakDmg) ? targetsToSuperBreakMulti[request.enemyCount] : 0
     },
@@ -127,11 +133,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.BE] += (e >= 4) ? 0.15 * t.teammateBeValue : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, _request: Form) => {
-      const x = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

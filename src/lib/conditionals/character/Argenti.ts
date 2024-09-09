@@ -1,12 +1,12 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
+import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityDefShred } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
@@ -79,11 +79,9 @@ export default (e: Eidolon): CharacterConditional => {
       e2UltAtkBuff: true,
       enemyHp50: true,
     }),
-    teammateDefaults: () => ({
-    }),
-    precomputeEffects: (request: Form) => {
+    teammateDefaults: () => ({}),
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Skills
       x[Stats.CR] += (r.talentStacks) * talentCrStackValue
@@ -103,7 +101,7 @@ export default (e: Eidolon): CharacterConditional => {
       // BOOST
       x.ELEMENTAL_DMG += (r.enemyHp50) ? 0.15 : 0
       // Argenti's e6 ult buff is actually a cast type buff, not dmg type but we'll do it like this anyways
-      buffAbilityDefShred(x, ULT_TYPE, 0.30, (e >= 6))
+      buffAbilityDefPen(x, ULT_TYPE, 0.30, (e >= 6))
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 30
@@ -111,15 +109,9 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += 0
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

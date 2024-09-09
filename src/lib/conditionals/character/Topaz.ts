@@ -1,19 +1,12 @@
 import { Stats } from 'lib/constants'
-import {
-  ASHBLAZING_ATK_STACK,
-  baseComputedStatsObject,
-  BASIC_TYPE,
-  ComputedStatsObject,
-  FUA_TYPE,
-  SKILL_TYPE
-} from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, calculateAshblazingSet, findContentId, precisionRound } from 'lib/conditionals/utils'
+import { ASHBLAZING_ATK_STACK, BASIC_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, calculateAshblazingSet, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityCd, buffAbilityResShred, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityCd, buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -81,19 +74,19 @@ export default (e: Eidolon): CharacterConditional => {
       enemyProofOfDebtDebuff: true,
       e1DebtorStacks: 2,
     }),
-    precomputeEffects: (request: Form) => {
-      const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
-
+    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
       x.BASIC_DMG_TYPE = BASIC_TYPE | FUA_TYPE
       x.SKILL_DMG_TYPE = SKILL_TYPE | FUA_TYPE
+    },
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+      const r = request.characterConditionals
 
       buffAbilityCd(x, SKILL_TYPE | FUA_TYPE, enhancedStateFuaCdBoost, (r.numbyEnhancedState))
-      buffAbilityResShred(x, SKILL_TYPE | FUA_TYPE, 0.10, (e >= 6))
+      buffAbilityResPen(x, SKILL_TYPE | FUA_TYPE, 0.10, (e >= 6))
 
       // Numby buffs only applies to the skill/fua not basic, we deduct it from basic
       buffAbilityCd(x, BASIC_TYPE, -enhancedStateFuaCdBoost, (r.numbyEnhancedState))
-      buffAbilityResShred(x, BASIC_TYPE, -0.10, (e >= 6))
+      buffAbilityResPen(x, BASIC_TYPE, -0.10, (e >= 6))
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -117,17 +110,25 @@ export default (e: Eidolon): CharacterConditional => {
       buffAbilityVulnerability(x, FUA_TYPE, proofOfDebtFuaVulnerability, (m.enemyProofOfDebtDebuff))
       buffAbilityCd(x, FUA_TYPE, 0.25 * m.e1DebtorStacks, (e >= 1 && m.enemyProofOfDebtDebuff))
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = c.x
 
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
-      const ashblazingFuaData = calculateAshblazingSet(c, request, hitMulti)
-      const ashblazingBasicData = calculateAshblazingSet(c, request, basicHitCountMulti)
-
-      x.BASIC_DMG += x.BASIC_SCALING * (x[Stats.ATK] - ashblazingBasicData.ashblazingAtk + ashblazingBasicData.ashblazingMulti)
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingFuaData.ashblazingAtk + ashblazingFuaData.ashblazingMulti)
+      const basicAshblazingAtk = calculateAshblazingSet(x, request, basicHitCountMulti)
+      const fuaAshblazingAtk = calculateAshblazingSet(x, request, hitMulti)
+      x.BASIC_DMG += x.BASIC_SCALING * (x[Stats.ATK] + basicAshblazingAtk)
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + fuaAshblazingAtk)
       x.SKILL_DMG = x.FUA_DMG
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      const r = request.characterConditionals
+      const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
+
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${basicHitCountMulti}));
+x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMulti}));
+x.SKILL_DMG = x.FUA_DMG;
+    `
     },
   }
 }

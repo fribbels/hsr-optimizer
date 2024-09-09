@@ -5,13 +5,13 @@ import FormStatTextStyled from 'components/optimizerTab/optimizerForm/FormStatTe
 
 const FilterRow = (props) => {
   return (
-    <Flex justify="space-between" style={{margin: 0}}>
-      <Form.Item name={`min${props.name}`} style={{margin: 0}}>
-        <InputNumberStyled size="small" controls={false} style={{margin: 0}}/>
+    <Flex justify='space-between' style={{ margin: 0 }}>
+      <Form.Item name={`min${props.name}`} style={{ margin: 0 }}>
+        <InputNumberStyled size='small' controls={false} style={{ margin: 0, width: 63 }}/>
       </Form.Item>
       <FormStatTextStyled>{props.label}</FormStatTextStyled>
-      <Form.Item name={`max${props.name}`} style={{marginRight: 0}}>
-        <InputNumberStyled size="small" controls={false} style={{margin: 0}}/>
+      <Form.Item name={`max${props.name}`} style={{ marginRight: 0 }}>
+        <InputNumberStyled size='small' controls={false} style={{ margin: 0, width: 63 }}/>
       </Form.Item>
     </Flex>
   )

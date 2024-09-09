@@ -12,9 +12,12 @@ const RelicPreview = ({
   characterId = undefined,
   score,
   source = '',
-  setSelectedRelic = () => { },
-  setEditModalOpen = () => { },
-  setAddModelOpen = () => { },
+  setSelectedRelic = () => {
+  },
+  setEditModalOpen = () => {
+  },
+  setAddModelOpen = () => {
+  },
 }) => {
   relic = {
     enhance: 0,
@@ -54,10 +57,10 @@ const RelicPreview = ({
       hoverable={source != 'scorer' && source != 'builds'}
       onClick={cardClicked}
       style={{ width: 200, height: 280 }}
-    /*
-     * onMouseEnter={() => setHovered(true)}
-     * onMouseLeave={() => setHovered(false)}
-     */
+      /*
+       * onMouseEnter={() => setHovered(true)}
+       * onMouseLeave={() => setHovered(false)}
+       */
     >
       <Flex vertical justify="space-between" style={{ height: 255 }}>
         <Flex justify="space-between" align="center">
@@ -82,11 +85,11 @@ const RelicPreview = ({
           />
         </Flex>
 
-        <Divider style={{ margin: '6px 0px 6px 0px' }} />
+        <Divider style={{ margin: '6px 0px 6px 0px' }}/>
 
         {GenerateStat(main, true, relic)}
 
-        <Divider style={{ margin: '6px 0px 6px 0px' }} />
+        <Divider style={{ margin: '6px 0px 6px 0px' }}/>
 
         <Flex vertical gap={0}>
           {GenerateStat(substats[0], false, relic)}
@@ -95,7 +98,7 @@ const RelicPreview = ({
           {GenerateStat(substats[3], false, relic)}
         </Flex>
 
-        <Divider style={{ margin: '6px 0px 6px 0px' }} />
+        <Divider style={{ margin: '6px 0px 6px 0px' }}/>
 
         <Flex justify="space-between">
           <Flex>

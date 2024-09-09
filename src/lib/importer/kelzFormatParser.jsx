@@ -19,9 +19,9 @@ for (const set of relicSetList) {
   set[1] = lowerAlphaNumeric(set[1])
 }
 const relicSetMapping = gameData.relics.reduce((map, relic) => {
-  map[relic.id] = relic;
-  return map;
-}, {});
+  map[relic.id] = relic
+  return map
+}, {})
 
 export class KelzFormatParser { // TODO abstract class
   constructor(config) {
@@ -46,7 +46,7 @@ export class KelzFormatParser { // TODO abstract class
     if (json.version != this.config.latestOutputVersion) {
       Message.warning((
         <Text>
-          {`Your scanner version is out of date and may result in incorrect imports! Please update to the latest version from Github:`}
+          Your scanner version is out of date and may result in incorrect imports! Please update to the latest version from Github:
           {' '}
           <a target="_blank" style={{ color: '#3f8eff' }} href={this.config.releases} rel="noreferrer">{this.config.releases}</a>
         </Text>
@@ -120,7 +120,7 @@ function readCharacterV3(character, lightCones, trailblazer, path) {
   if (lightCones) {
     if (character.key.startsWith('Trailblazer')) {
       lightCone = lightCones.find((x) => x.location === character.key)
-        || lightCones.find((x) => x.location.startsWith('Trailblazer'))
+      || lightCones.find((x) => x.location.startsWith('Trailblazer'))
     } else {
       lightCone = lightCones.find((x) => x.location === character.key)
     }
@@ -190,7 +190,7 @@ function readCharacterV4(character, lightCones, trailblazer, path) {
     lightCone = lightCones.find((x) => x.location === character.id)
   }
 
-  let characterId = character.id
+  const characterId = character.id
 
   const lcKey = lightCone?.id
   const lightConeId = lcKey

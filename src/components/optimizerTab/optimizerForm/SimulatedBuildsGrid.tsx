@@ -16,7 +16,7 @@ interface DataType {
 
 const columns: TableColumnsType<DataType> = [
   {
-    title: (<Flex style={{marginLeft: 5}}>Simulation details</Flex>),
+    title: (<Flex style={{ marginLeft: 5 }}>Simulation details</Flex>),
     dataIndex: 'name',
     fixed: 'left',
     width: '560',
@@ -33,9 +33,11 @@ const columns: TableColumnsType<DataType> = [
     key: 'x',
     render: (_, record) => {
       return (
-        <a onClick={() => {
-          deleteStatSimulationBuild(record)
-        }} style={{display: 'flex', justifyContent: 'center'}}>
+        <a
+          onClick={() => {
+            deleteStatSimulationBuild(record)
+          }} style={{ display: 'flex', justifyContent: 'center' }}
+        >
           <CloseOutlined/>
         </a>
       )
@@ -98,7 +100,7 @@ export function SimulatedBuildsGrid() {
   return (
     <Table
       showHeader={false}
-      locale={{emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No custom simulations selected"/>}}
+      locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='No custom stat simulations selected'/> }}
       rowSelection={{
         selectedRowKeys: selectedStatSimulations,
         type: 'radio',
@@ -110,17 +112,17 @@ export function SimulatedBuildsGrid() {
       onRow={(record) => ({
         onClick: () => {
           setSelectedStatSimulations(record.key != null ? [record.key] : [])
-        }
+        },
       })}
       pagination={false}
-      size="small"
+      size='small'
       style={{
         flex: 1,
         width: STAT_SIMULATION_GRID_WIDTH,
         // borderRadius: 8,
         height: '100%',
         backgroundColor: '#0000001a',
-        border: '1px solid rgba(255, 255, 255, 0.15)'
+        border: '1px solid rgba(255, 255, 255, 0.15)',
       }}
       scroll={{
         y: 300,

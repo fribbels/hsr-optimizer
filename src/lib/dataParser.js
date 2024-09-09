@@ -1,7 +1,7 @@
-import gameData from 'data/game_data.json'
-import relicMainAffixes from 'data/relic_main_affixes.json'
-import relicSubAffixes from 'data/relic_sub_affixes.json'
-import relicSets from 'data/relic_sets.json'
+import gameData from 'data/game_data.json' with { type: 'json' }
+import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
+import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
+import relicSets from 'data/relic_sets.json' with { type: 'json' }
 import { Parts, PartsMainStats, Sets, SetsRelics, Stats } from 'lib/constants.ts'
 import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
@@ -40,19 +40,19 @@ export const DataParser = {
     if (officialOnly) {
       // UnreleasedSets[Constants.SetsRelics.TheWindSoaringValorous] = true
       // UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstTheScourge] = true
-      UnreleasedSets[Constants.SetsOrnaments.LushakaTheSunkenSeas] = true
-      UnreleasedSets[Constants.SetsOrnaments.TheWondrousBananAmusementPark] = true
+      UnreleasedSets[Constants.SetsRelics.SacerdosRelivedOrdeal] = true
+      UnreleasedSets[Constants.SetsRelics.ScholarLostInErudition] = true
 
       // Delete unreleased sets
       // delete Constants.SetsRelics.TheWindSoaringValorous
       // delete Constants.SetsRelics.IronCavalryAgainstScourge
-      delete Constants.SetsOrnaments.LushakaTheSunkenSeas
-      delete Constants.SetsOrnaments.TheWondrousBananAmusementPark
+      delete Constants.SetsRelics.SacerdosRelivedOrdeal
+      delete Constants.SetsRelics.ScholarLostInErudition
       //
       // delete Constants.SetsRelicsNames.TheWindSoaringValorous
       // delete Constants.SetsRelicsNames.IronCavalryAgainstScourge
-      delete Constants.SetsOrnamentsNames.LushakaTheSunkenSeas
-      delete Constants.SetsOrnamentsNames.TheWondrousBananAmusementPark
+      delete Constants.SetsRelicsNames.SacerdosRelivedOrdeal
+      delete Constants.SetsRelicsNames.ScholarLostInErudition
 
       // Delete unreleased characters
       for (const character of Object.values(characters)) {
@@ -381,6 +381,13 @@ function getSuperimpositions() {
       4: { [Constants.Stats.BE]: 0.49 },
       5: { [Constants.Stats.BE]: 0.56 },
     },
+    21048: {
+      1: { [Constants.Stats.SPD_P]: 0.08 },
+      2: { [Constants.Stats.SPD_P]: 0.09 },
+      3: { [Constants.Stats.SPD_P]: 0.10 },
+      4: { [Constants.Stats.SPD_P]: 0.11 },
+      5: { [Constants.Stats.SPD_P]: 0.12 },
+    },
     22000: {
       1: { [Stats.EHR]: 0.20 },
       2: { [Stats.EHR]: 0.25 },
@@ -402,6 +409,13 @@ function getSuperimpositions() {
       4: { [Stats.ATK_P]: 0.28 },
       5: { [Stats.ATK_P]: 0.32 },
     },
+    22003: {
+      1: { [Stats.HP_P]: 0.12 },
+      2: { [Stats.HP_P]: 0.15 },
+      3: { [Stats.HP_P]: 0.18 },
+      4: { [Stats.HP_P]: 0.21 },
+      5: { [Stats.HP_P]: 0.24 },
+    },
     23000: {},
     23001: {
       1: { [Stats.CR]: 0.18 },
@@ -417,7 +431,13 @@ function getSuperimpositions() {
       4: { [Stats.ATK_P]: 0.36 },
       5: { [Stats.ATK_P]: 0.40 },
     },
-    23003: {},
+    23003: {
+      1: { [Stats.ERR]: 0.10 },
+      2: { [Stats.ERR]: 0.12 },
+      3: { [Stats.ERR]: 0.14 },
+      4: { [Stats.ERR]: 0.16 },
+      5: { [Stats.ERR]: 0.18 },
+    },
     23004: {},
     23005: {
       1: { [Stats.DEF_P]: 0.24, [Stats.EHR]: 0.24 },
@@ -603,6 +623,13 @@ function getSuperimpositions() {
       4: { [Constants.Stats.BE]: 0.90 },
       5: { [Constants.Stats.BE]: 1.00 },
     },
+    23033: {
+      1: { [Constants.Stats.BE]: 0.60 },
+      2: { [Constants.Stats.BE]: 0.70 },
+      3: { [Constants.Stats.BE]: 0.80 },
+      4: { [Constants.Stats.BE]: 0.90 },
+      5: { [Constants.Stats.BE]: 1.00 },
+    },
     24000: {},
     24001: {
       1: { [Stats.CR]: 0.08 },
@@ -707,9 +734,11 @@ function getLightConeOverrideCenter() {
     21045: 160,
     21046: 145,
     21047: 145,
+    21048: 250,
     22000: 275,
     22001: 220,
     22002: 160,
+    22003: 185,
     23000: 140,
     23001: 150,
     23002: 160,
@@ -742,6 +771,7 @@ function getLightConeOverrideCenter() {
     23029: 140,
     23031: 145,
     23032: 180,
+    23033: 175,
     24000: 170,
     24001: 270,
     24002: 170,
@@ -1032,6 +1062,11 @@ function getOverrideTraces() {
       [Stats.ATK_P]: 0.18,
       [Stats.HP_P]: 0.10,
     },
+    1317: { // Rappa
+      [Stats.ATK_P]: 0.28,
+      [Stats.SPD]: 9,
+      [Stats.BE]: 0.133,
+    },
     8001: { // Physical Trailblazer
       [Stats.ATK_P]: 0.28,
       [Stats.HP_P]: 0.18,
@@ -1291,6 +1326,10 @@ function getOverrideImageCenter() {
       x: 1000,
       y: 1100,
     },
+    1317: { // Rappa
+      x: 1145,
+      y: 1150,
+    },
     8001: { // Physical Trailblazer M
       x: 1024,
       y: 1100,
@@ -1361,7 +1400,9 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.VALOROUS_SET,
+      ],
       sortOption: SortOption.DEF,
     },
     1002: { // Dan Heng
@@ -1514,7 +1555,8 @@ function getScoringMetadata() {
         ],
       },
       presets: [
-        PresetEffects.fnAshblazingSet(4),
+        PresetEffects.fnAshblazingSet(8),
+        PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -1701,11 +1743,11 @@ function getScoringMetadata() {
         [Stats.HP]: 0,
         [Stats.HP_P]: 0,
         [Stats.SPD]: 1,
-        [Stats.CR]: 0.5,
-        [Stats.CD]: 0.5,
+        [Stats.CR]: 0,
+        [Stats.CD]: 0,
         [Stats.EHR]: 0.5,
         [Stats.RES]: 0,
-        [Stats.BE]: 0.75,
+        [Stats.BE]: 0,
         [Stats.ERR]: 0,
         [Stats.OHB]: 0,
         [Stats.Physical_DMG]: 0,
@@ -1735,6 +1777,7 @@ function getScoringMetadata() {
       presets: [
         PresetEffects.PRISONER_SET,
         PresetEffects.fnAshblazingSet(6),
+        PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.DOT,
       simulation: {
@@ -1802,18 +1845,18 @@ function getScoringMetadata() {
     },
     1006: { // Silver Wolf
       stats: {
-        [Stats.ATK]: 0.5,
-        [Stats.ATK_P]: 0.5,
-        [Stats.DEF]: 0.25,
-        [Stats.DEF_P]: 0.25,
-        [Stats.HP]: 0.25,
-        [Stats.HP_P]: 0.25,
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0.5,
+        [Stats.DEF_P]: 0.5,
+        [Stats.HP]: 0.5,
+        [Stats.HP_P]: 0.5,
         [Stats.SPD]: 1,
-        [Stats.CR]: 0.75,
-        [Stats.CD]: 0.75,
+        [Stats.CR]: 0,
+        [Stats.CD]: 0,
         [Stats.EHR]: 1,
-        [Stats.RES]: 0,
-        [Stats.BE]: 0.75,
+        [Stats.RES]: 0.5,
+        [Stats.BE]: 0,
         [Stats.ERR]: 1,
         [Stats.OHB]: 0,
         [Stats.Physical_DMG]: 0,
@@ -1958,17 +2001,17 @@ function getScoringMetadata() {
     },
     1009: { // Asta
       stats: {
-        [Stats.ATK]: 0.75,
-        [Stats.ATK_P]: 0.75,
-        [Stats.DEF]: 0.75,
-        [Stats.DEF_P]: 0.75,
-        [Stats.HP]: 0.75,
-        [Stats.HP_P]: 0.75,
+        [Stats.ATK]: 0.5,
+        [Stats.ATK_P]: 0.5,
+        [Stats.DEF]: 0.5,
+        [Stats.DEF_P]: 0.5,
+        [Stats.HP]: 1,
+        [Stats.HP_P]: 1,
         [Stats.SPD]: 1,
         [Stats.CR]: 0,
         [Stats.CD]: 0,
         [Stats.EHR]: 0,
-        [Stats.RES]: 0.75,
+        [Stats.RES]: 0.5,
         [Stats.BE]: 0.5,
         [Stats.ERR]: 1,
         [Stats.OHB]: 0,
@@ -2036,7 +2079,8 @@ function getScoringMetadata() {
         ],
       },
       presets: [
-        PresetEffects.fnAshblazingSet(4),
+        PresetEffects.fnAshblazingSet(8),
+        PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -2108,10 +2152,10 @@ function getScoringMetadata() {
       stats: {
         [Stats.ATK]: 0,
         [Stats.ATK_P]: 0,
-        [Stats.DEF]: 0.75,
-        [Stats.DEF_P]: 0.75,
-        [Stats.HP]: 0.75,
-        [Stats.HP_P]: 0.75,
+        [Stats.DEF]: 0.5,
+        [Stats.DEF_P]: 0.5,
+        [Stats.HP]: 0.5,
+        [Stats.HP_P]: 0.5,
         [Stats.SPD]: 1,
         [Stats.CR]: 0,
         [Stats.CD]: 1,
@@ -2456,7 +2500,7 @@ function getScoringMetadata() {
         [Stats.CR]: 0,
         [Stats.CD]: 0,
         [Stats.EHR]: 1,
-        [Stats.RES]: 0.75,
+        [Stats.RES]: 0.5,
         [Stats.BE]: 0,
         [Stats.ERR]: 1,
         [Stats.OHB]: 0,
@@ -3120,7 +3164,9 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.VALOROUS_SET,
+      ],
       sortOption: SortOption.BASIC,
       simulation: {
         parts: {
@@ -3198,7 +3244,7 @@ function getScoringMetadata() {
         [Stats.CR]: 0,
         [Stats.CD]: 0,
         [Stats.EHR]: 0,
-        [Stats.RES]: 0.75,
+        [Stats.RES]: 0.5,
         [Stats.BE]: 0,
         [Stats.ERR]: 1,
         [Stats.OHB]: 0,
@@ -3322,6 +3368,7 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(8),
+        PresetEffects.VALOROUS_SET,
         PresetEffects.BANANA_SET,
       ],
       sortOption: SortOption.FUA,
@@ -3431,7 +3478,9 @@ function getScoringMetadata() {
           Stats.HP_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.VALOROUS_SET,
+      ],
       sortOption: SortOption.BASIC,
       simulation: {
         parts: {
@@ -3657,15 +3706,15 @@ function getScoringMetadata() {
       stats: {
         [Stats.ATK]: 0,
         [Stats.ATK_P]: 0,
-        [Stats.DEF]: 0.75,
-        [Stats.DEF_P]: 0.75,
+        [Stats.DEF]: 1,
+        [Stats.DEF_P]: 1,
         [Stats.HP]: 1,
         [Stats.HP_P]: 1,
         [Stats.SPD]: 1,
         [Stats.CR]: 0,
         [Stats.CD]: 0,
         [Stats.EHR]: 0,
-        [Stats.RES]: 0.75,
+        [Stats.RES]: 0.5,
         [Stats.BE]: 0,
         [Stats.ERR]: 1,
         [Stats.OHB]: 0,
@@ -3741,7 +3790,10 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.VALOROUS_SET,
+        PresetEffects.fnAshblazingSet(2),
+      ],
       sortOption: SortOption.ULT,
       simulation: {
         parts: {
@@ -3810,16 +3862,16 @@ function getScoringMetadata() {
       stats: {
         [Stats.ATK]: 1,
         [Stats.ATK_P]: 1,
-        [Stats.DEF]: 0,
-        [Stats.DEF_P]: 0,
-        [Stats.HP]: 0,
-        [Stats.HP_P]: 0,
+        [Stats.DEF]: 0.5,
+        [Stats.DEF_P]: 0.5,
+        [Stats.HP]: 0.5,
+        [Stats.HP_P]: 0.5,
         [Stats.SPD]: 1,
         [Stats.CR]: 0,
         [Stats.CD]: 0,
         [Stats.EHR]: 1,
-        [Stats.RES]: 0,
-        [Stats.BE]: 0.75,
+        [Stats.RES]: 0.5,
+        [Stats.BE]: 0,
         [Stats.ERR]: 1,
         [Stats.OHB]: 0,
         [Stats.Physical_DMG]: 0,
@@ -4153,6 +4205,7 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(3),
+        PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.SKILL,
       simulation: {
@@ -4234,7 +4287,7 @@ function getScoringMetadata() {
         [Stats.CR]: 0,
         [Stats.CD]: 0,
         [Stats.EHR]: 0,
-        [Stats.RES]: 0.75,
+        [Stats.RES]: 0.5,
         [Stats.BE]: 0,
         [Stats.ERR]: 1,
         [Stats.OHB]: 0,
@@ -4315,7 +4368,7 @@ function getScoringMetadata() {
         [Constants.Stats.CR]: 0,
         [Constants.Stats.CD]: 0,
         [Constants.Stats.EHR]: 1,
-        [Constants.Stats.RES]: 0,
+        [Constants.Stats.RES]: 0.5,
         [Constants.Stats.BE]: 0,
         [Constants.Stats.ERR]: 0,
         [Constants.Stats.OHB]: 0,
@@ -4337,7 +4390,9 @@ function getScoringMetadata() {
         [Constants.Parts.PlanarSphere]: [],
         [Constants.Parts.LinkRope]: [],
       },
-      presets: [],
+      presets: [
+        PresetEffects.PRISONER_SET,
+      ],
       sortOption: SortOption.EHR,
     },
     1220: { // Feixiao
@@ -4383,6 +4438,7 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(1),
+        PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.ULT,
       simulation: {
@@ -4491,7 +4547,10 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.VALOROUS_SET,
+        PresetEffects.fnAshblazingSet(8),
+      ],
       sortOption: SortOption.FUA,
       simulation: {
         parts: {
@@ -4600,11 +4659,13 @@ function getScoringMetadata() {
         [Constants.Parts.LinkRope]: [
           Constants.Stats.BE,
           Constants.Stats.ERR,
+          Constants.Stats.ATK_P,
         ],
       },
       presets: [
         PresetEffects.BANANA_SET,
-        PresetEffects.fnAshblazingSet(3),
+        PresetEffects.fnAshblazingSet(6),
+        PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.BE,
     },
@@ -4650,7 +4711,9 @@ function getScoringMetadata() {
         ],
       },
       presets: [
+        PresetEffects.fnPioneerSet(4),
         PresetEffects.fnAshblazingSet(6),
+        PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -4761,7 +4824,10 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.fnAshblazingSet(2),
+        PresetEffects.VALOROUS_SET,
+      ],
       sortOption: SortOption.BASIC,
       simulation: {
         parts: {
@@ -4979,15 +5045,15 @@ function getScoringMetadata() {
       stats: {
         [Stats.ATK]: 0,
         [Stats.ATK_P]: 0,
-        [Stats.DEF]: 0.75,
-        [Stats.DEF_P]: 0.75,
-        [Stats.HP]: 0.75,
-        [Stats.HP_P]: 0.75,
+        [Stats.DEF]: 0.5,
+        [Stats.DEF_P]: 0.5,
+        [Stats.HP]: 0.5,
+        [Stats.HP_P]: 0.5,
         [Stats.SPD]: 1,
         [Stats.CR]: 0,
         [Stats.CD]: 0,
         [Stats.EHR]: 0,
-        [Stats.RES]: 0.75,
+        [Stats.RES]: 0.5,
         [Stats.BE]: 1,
         [Stats.ERR]: 1,
         [Stats.OHB]: 0,
@@ -5019,8 +5085,8 @@ function getScoringMetadata() {
         [Stats.ATK_P]: 0,
         [Stats.DEF]: 1,
         [Stats.DEF_P]: 1,
-        [Stats.HP]: 0.5,
-        [Stats.HP_P]: 0.5,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
         [Stats.SPD]: 1,
         [Stats.CR]: 1,
         [Stats.CD]: 1,
@@ -5057,7 +5123,7 @@ function getScoringMetadata() {
         ],
       },
       presets: [
-        PresetEffects.fnAshblazingSet(7),
+        PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -5176,6 +5242,7 @@ function getScoringMetadata() {
       presets: [
         PresetEffects.fnAshblazingSet(1),
         PresetEffects.fnPioneerSet(4),
+        PresetEffects.VALOROUS_SET,
         PresetEffects.WASTELANDER_SET,
       ],
       sortOption: SortOption.FUA,
@@ -5247,15 +5314,15 @@ function getScoringMetadata() {
       stats: {
         [Stats.ATK]: 0,
         [Stats.ATK_P]: 0,
-        [Stats.DEF]: 0.75,
-        [Stats.DEF_P]: 0.75,
-        [Stats.HP]: 0.75,
-        [Stats.HP_P]: 0.75,
+        [Stats.DEF]: 0.5,
+        [Stats.DEF_P]: 0.5,
+        [Stats.HP]: 0.5,
+        [Stats.HP_P]: 0.5,
         [Stats.SPD]: 1,
         [Stats.CR]: 0,
         [Stats.CD]: 1,
         [Stats.EHR]: 0,
-        [Stats.RES]: 0.75,
+        [Stats.RES]: 0.5,
         [Stats.BE]: 0,
         [Stats.ERR]: 1,
         [Stats.OHB]: 0,
@@ -5295,7 +5362,7 @@ function getScoringMetadata() {
         [Stats.CD]: 0,
         [Stats.EHR]: 1,
         [Stats.RES]: 0,
-        [Stats.BE]: 0.5,
+        [Stats.BE]: 0,
         [Stats.ERR]: 0,
         [Stats.OHB]: 0,
         [Stats.Physical_DMG]: 0,
@@ -5504,15 +5571,15 @@ function getScoringMetadata() {
       stats: {
         [Stats.ATK]: 1,
         [Stats.ATK_P]: 1,
-        [Stats.DEF]: 0.75,
-        [Stats.DEF_P]: 0.75,
-        [Stats.HP]: 0.75,
-        [Stats.HP_P]: 0.75,
+        [Stats.DEF]: 0.5,
+        [Stats.DEF_P]: 0.5,
+        [Stats.HP]: 0.5,
+        [Stats.HP_P]: 0.5,
         [Stats.SPD]: 1,
         [Stats.CR]: 0,
         [Stats.CD]: 0,
         [Stats.EHR]: 0,
-        [Stats.RES]: 0.75,
+        [Stats.RES]: 0.5,
         [Stats.BE]: 0,
         [Stats.ERR]: 1,
         [Stats.OHB]: 0,
@@ -5545,8 +5612,8 @@ function getScoringMetadata() {
     },
     1310: { // Firefly
       stats: {
-        [Constants.Stats.ATK]: 1,
-        [Constants.Stats.ATK_P]: 1,
+        [Constants.Stats.ATK]: 0.5,
+        [Constants.Stats.ATK_P]: 0.5,
         [Constants.Stats.DEF]: 0,
         [Constants.Stats.DEF_P]: 0,
         [Constants.Stats.HP]: 0,
@@ -5603,9 +5670,9 @@ function getScoringMetadata() {
         substats: [
           Stats.BE,
           Stats.ATK_P,
+          Stats.ATK,
           Stats.CR,
           Stats.CD,
-          Stats.ATK,
         ],
         breakpoints: {},
         maxBonusRolls: {},
@@ -5794,7 +5861,10 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.VALOROUS_SET,
+        PresetEffects.fnAshblazingSet(8),
+      ],
       sortOption: SortOption.FUA,
       simulation: {
         parts: {
@@ -5863,15 +5933,15 @@ function getScoringMetadata() {
     },
     1315: { // Boothill
       stats: {
-        [Stats.ATK]: 0.5,
-        [Stats.ATK_P]: 0.5,
+        [Stats.ATK]: 0.25,
+        [Stats.ATK_P]: 0.25,
         [Stats.DEF]: 0,
         [Stats.DEF_P]: 0,
         [Stats.HP]: 0,
         [Stats.HP_P]: 0,
         [Stats.SPD]: 1,
-        [Stats.CR]: 0.75,
-        [Stats.CD]: 0.75,
+        [Stats.CR]: 0.25,
+        [Stats.CD]: 0.25,
         [Stats.EHR]: 0,
         [Stats.RES]: 0,
         [Stats.BE]: 1,
@@ -5957,6 +6027,106 @@ function getScoringMetadata() {
             lightCone: '20015', // Multi
             characterEidolon: 6,
             lightConeSuperimposition: 5,
+          },
+        ],
+      },
+    },
+    1317: { // Rappa // TODO
+      stats: {
+        [Stats.ATK]: 1,
+        [Stats.ATK_P]: 1,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 0,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 1,
+        [Stats.ERR]: 0,
+        [Stats.OHB]: 0,
+        [Stats.Physical_DMG]: 0,
+        [Stats.Fire_DMG]: 0,
+        [Stats.Ice_DMG]: 0,
+        [Stats.Lightning_DMG]: 0,
+        [Stats.Wind_DMG]: 0,
+        [Stats.Quantum_DMG]: 0,
+        [Stats.Imaginary_DMG]: 1,
+      },
+      parts: {
+        [Parts.Body]: [],
+        [Parts.Feet]: [
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [],
+        [Parts.LinkRope]: [
+          Stats.BE,
+        ],
+      },
+      presets: [
+        PresetEffects.WASTELANDER_SET,
+      ],
+      sortOption: SortOption.BASIC,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.ATK_P,
+          ],
+          [Parts.Feet]: [
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.Imaginary_DMG,
+            Stats.ATK_P,
+          ],
+          [Parts.LinkRope]: [
+            Stats.BE,
+          ],
+        },
+        substats: [
+          Stats.BE,
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.CD,
+          Stats.CR,
+        ],
+        breakpoints: {
+          [Stats.ATK]: 3200,
+        },
+        formula: {
+          BASIC: 3,
+          SKILL: 1,
+          ULT: 0,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 1,
+        },
+        relicSets: [
+          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+        ],
+        ornamentSets: [
+          Sets.TaliaKingdomOfBanditry,
+        ],
+        teammates: [
+          {
+            characterId: '8006', // Stelle
+            lightCone: '21004', // Memories
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1003', // Himeko
+            lightCone: '23000', // Milky way
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
         ],
       },
@@ -6267,15 +6437,15 @@ function getScoringMetadata() {
       stats: {
         [Stats.ATK]: 0,
         [Stats.ATK_P]: 0,
-        [Stats.DEF]: 0.75,
-        [Stats.DEF_P]: 0.75,
-        [Stats.HP]: 0.75,
-        [Stats.HP_P]: 0.75,
+        [Stats.DEF]: 0.5,
+        [Stats.DEF_P]: 0.5,
+        [Stats.HP]: 0.5,
+        [Stats.HP_P]: 0.5,
         [Stats.SPD]: 1,
         [Stats.CR]: 0,
         [Stats.CD]: 0,
         [Stats.EHR]: 0,
-        [Stats.RES]: 0.75,
+        [Stats.RES]: 0.5,
         [Stats.BE]: 1,
         [Stats.ERR]: 1,
         [Stats.OHB]: 0,
@@ -6305,15 +6475,15 @@ function getScoringMetadata() {
       stats: {
         [Stats.ATK]: 0,
         [Stats.ATK_P]: 0,
-        [Stats.DEF]: 0.75,
-        [Stats.DEF_P]: 0.75,
-        [Stats.HP]: 0.75,
-        [Stats.HP_P]: 0.75,
+        [Stats.DEF]: 0.5,
+        [Stats.DEF_P]: 0.5,
+        [Stats.HP]: 0.5,
+        [Stats.HP_P]: 0.5,
         [Stats.SPD]: 1,
         [Stats.CR]: 0,
         [Stats.CD]: 0,
         [Stats.EHR]: 0,
-        [Stats.RES]: 0.75,
+        [Stats.RES]: 0.5,
         [Stats.BE]: 1,
         [Stats.ERR]: 1,
         [Stats.OHB]: 0,

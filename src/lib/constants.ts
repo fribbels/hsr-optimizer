@@ -1,7 +1,7 @@
 // Represents the version of the latest info, which should be the beta leaks version at the time of the major update
-export const CURRENT_OPTIMIZER_VERSION = 'v2.5.4'
+export const CURRENT_OPTIMIZER_VERSION = 'v2.6.1'
 // Represents the data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '2.5v5'
+export const CURRENT_DATA_VERSION = '2.6v1'
 export const BETA_UPDATE = `Current version: ${CURRENT_DATA_VERSION} - Calculations are subject to change.`
 
 export const Stats = {
@@ -412,6 +412,8 @@ export const SetsRelics = {
   WatchmakerMasterOfDreamMachinations: 'Watchmaker, Master of Dream Machinations',
   IronCavalryAgainstTheScourge: 'Iron Cavalry Against the Scourge',
   TheWindSoaringValorous: 'The Wind-Soaring Valorous',
+  SacerdosRelivedOrdeal: "Sacerdos' Relived Ordeal",
+  ScholarLostInErudition: 'Scholar Lost in Erudition',
 }
 export type SetsRelics = typeof SetsRelics[keyof typeof SetsRelics]
 
@@ -715,19 +717,19 @@ export const CombatBuffs = {
     key: 'DMG_BOOST',
     percent: true,
   },
-  DEF_SHRED: {
-    title: 'Def Shred %',
-    key: 'DEF_SHRED',
+  DEF_PEN: {
+    title: 'Def Pen %',
+    key: 'DEF_PEN',
     percent: true,
   },
-  RES_SHRED: {
-    title: 'Dmg RES Shred %',
-    key: 'RES_SHRED',
+  RES_PEN: {
+    title: 'Dmg RES PEN %',
+    key: 'RES_PEN',
     percent: true,
   },
-  EFFECT_RES_SHRED: {
-    title: 'Effect RES Shred %',
-    key: 'EFFECT_RES_SHRED',
+  EFFECT_RES_PEN: {
+    title: 'Effect RES PEN %',
+    key: 'EFFECT_RES_PEN',
     percent: true,
   },
   VULNERABILITY: {
@@ -754,3 +756,9 @@ export const CHARACTER_SCORE = 'Character Score'
 export const DAMAGE_UPGRADES = 'Damage Upgrades'
 export const COMBAT_STATS = 'Combat Stats'
 
+export const COMPUTE_ENGINE_CPU = 'CPU'
+export const COMPUTE_ENGINE_GPU_STABLE = 'GPU Stable'
+export const COMPUTE_ENGINE_GPU_EXPERIMENTAL = 'GPU Experimental'
+
+export const SACERDOS_RELIVED_ORDEAL_1_STACK = 'Sacerdos\' Relived Ordeal 1x'
+export const SACERDOS_RELIVED_ORDEAL_2_STACK = 'Sacerdos\' Relived Ordeal 2x'

@@ -1,8 +1,8 @@
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 
@@ -73,9 +73,8 @@ export default (e: Eidolon): CharacterConditional => {
       ultBuff: true,
       initialSpeedBuff: true,
     }),
-    precomputeEffects: (request) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -101,12 +100,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.Imaginary_DMG] += (m.teamImaginaryDmgBoost) ? 0.12 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

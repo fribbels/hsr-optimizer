@@ -1,16 +1,9 @@
 import { Stats } from 'lib/constants'
-import {
-  baseComputedStatsObject,
-  BASIC_TYPE,
-  ComputedStatsObject,
-  FUA_TYPE,
-  SKILL_TYPE,
-  ULT_TYPE
-} from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/utils'
+import { ASHBLAZING_ATK_STACK, BASIC_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { buffAbilityCd, buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
@@ -23,7 +16,31 @@ export default (e: Eidolon): CharacterConditional => {
   const ultScaling = ult(e, 2.00, 2.16)
   const fuaScaling = talent(e, 0.66, 0.726)
 
-  let hitMulti = 0
+  function getHitMulti(request: Form) {
+    const r = request.characterConditionals
+
+    let hitMulti = 0
+    const stacks = r.talentHitsPerAction
+    const hits = r.talentAttacks
+    const stacksPerMiss = (request.enemyCount >= 3) ? 2 : 0
+    const stacksPerHit = (request.enemyCount >= 3) ? 3 : 1
+    const stacksPreHit = (request.enemyCount >= 3) ? 2 : 1
+
+    // Calc stacks on miss
+    let ashblazingStacks = stacksPerMiss * (stacks - hits)
+
+    // Calc stacks on hit
+    ashblazingStacks += stacksPreHit
+    let atkBoostSum = 0
+    for (let i = 0; i < hits; i++) {
+      atkBoostSum += Math.min(8, ashblazingStacks) * (1 / hits)
+      ashblazingStacks += stacksPerHit
+    }
+
+    hitMulti = atkBoostSum * ASHBLAZING_ATK_STACK
+
+    return hitMulti
+  }
 
   const content: ContentItem[] = [{
     formItem: 'switch',
@@ -80,11 +97,9 @@ export default (e: Eidolon): CharacterConditional => {
       e2DmgBuff: true,
       e6FuaVulnerabilityStacks: 3,
     }),
-    teammateDefaults: () => ({
-    }),
-    precomputeEffects: (request) => {
+    teammateDefaults: () => ({}),
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       r.talentHitsPerAction = Math.max(r.talentHitsPerAction, r.talentAttacks)
 
@@ -95,7 +110,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
-      x.FUA_SCALING += fuaScaling
+      x.FUA_SCALING += fuaScaling * r.talentAttacks
 
       // Boost
       buffAbilityCd(x, FUA_TYPE, 0.25, (r.talentHitsPerAction >= 6))
@@ -103,24 +118,7 @@ export default (e: Eidolon): CharacterConditional => {
       buffAbilityVulnerability(x, FUA_TYPE, r.e6FuaVulnerabilityStacks * 0.12, (e >= 6))
 
       // Lightning lord calcs
-      const stacks = r.talentHitsPerAction
       const hits = r.talentAttacks
-      const stacksPerMiss = (request.enemyCount >= 3) ? 2 : 0
-      const stacksPerHit = (request.enemyCount >= 3) ? 3 : 1
-      const stacksPreHit = (request.enemyCount >= 3) ? 2 : 1
-
-      // Calc stacks on miss
-      let ashblazingStacks = stacksPerMiss * (stacks - hits)
-
-      // Calc stacks on hit
-      ashblazingStacks += stacksPreHit
-      let atkBoostSum = 0
-      for (let i = 0; i < hits; i++) {
-        atkBoostSum += Math.min(8, ashblazingStacks) * (1 / hits)
-        ashblazingStacks += stacksPerHit
-      }
-
-      hitMulti = atkBoostSum * 0.06
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 30
@@ -129,19 +127,14 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       // TODO: Technically E6 has a vulnerability but its kinda hard to calc
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.characterConditionals
-      const x = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
-      x.FUA_DMG += x.FUA_SCALING * r.talentAttacks * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+      standardFuaAtkFinalizer(x, request, getHitMulti(request))
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      return gpuStandardFuaAtkFinalizer(getHitMulti(request))
     },
   }
 }

@@ -24,7 +24,7 @@ export const EnemyConfigurationsDrawer = () => {
       <Flex vertical gap={5}>
         <Flex justify="space-between" align="center" style={{ marginBottom: 5 }}>
           <HeaderText>Enemy stat options</HeaderText>
-          <TooltipImage type={Hint.enemyOptions()} />
+          <TooltipImage type={Hint.enemyOptions()}/>
         </Flex>
 
         <Form.Item name={enemyFormItemName('enemyLevel')}>
@@ -71,8 +71,8 @@ export const EnemyConfigurationsDrawer = () => {
         <Flex align="center">
           <Form.Item name={enemyFormItemName('enemyElementalWeak')} valuePropName="checked">
             <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
+              checkedChildren={<CheckOutlined/>}
+              unCheckedChildren={<CloseOutlined/>}
               defaultChecked
               style={{ width: 45, marginRight: 5 }}
             />
@@ -83,8 +83,8 @@ export const EnemyConfigurationsDrawer = () => {
         <Flex align="center">
           <Form.Item name={enemyFormItemName('enemyWeaknessBroken')} valuePropName="checked">
             <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
+              checkedChildren={<CheckOutlined/>}
+              unCheckedChildren={<CloseOutlined/>}
               style={{ width: 45, marginRight: 5 }}
             />
           </Form.Item>

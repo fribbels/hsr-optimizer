@@ -69,7 +69,7 @@ export function generatePathTags() {
   return Object.keys(PathNames).map((x) => {
     return {
       key: x,
-      display: <img style={{ width: 32 }} src={Assets.getPath(x)} />,
+      display: <img style={{ width: 32 }} src={Assets.getPath(x)}/>,
     }
   })
 }
@@ -78,7 +78,7 @@ export function generateRarityTags() {
   return [5, 4, 3].map((x) => {
     const stars: ReactElement[] = []
     for (let i = 0; i < x; i++) {
-      stars.push(<img key={i} style={{ width: 16 }} src={Assets.getStar()} />)
+      stars.push(<img key={i} style={{ width: 16 }} src={Assets.getStar()}/>)
     }
     return {
       key: x,
@@ -95,7 +95,7 @@ export function generateElementTags() {
   return Object.keys(ElementToDamage).map((x) => {
     return {
       key: x,
-      display: <img style={{ width: 30 }} src={Assets.getElement(x)} />,
+      display: <img style={{ width: 30 }} src={Assets.getElement(x)}/>,
     }
   })
 }

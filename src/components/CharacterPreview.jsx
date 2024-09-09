@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, Card, Flex, Image, Segmented, theme, Typography } from 'antd'
 import PropTypes from 'prop-types'
-import { RelicScorer } from 'lib/relicScorer.ts'
-import { StatCalculator } from 'lib/statCalculator'
+import { RelicScorer } from 'lib/relicScorerPotential'
 import { DB } from 'lib/db'
 import { Assets } from 'lib/assets'
 import { CHARACTER_SCORE, COMBAT_STATS, Constants, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, ElementToDamage, SETTINGS_TEAM, SIMULATION_SCORE } from 'lib/constants.ts'
@@ -26,6 +25,8 @@ import CharacterModal from 'components/CharacterModal'
 import { LoadingBlurredImage } from 'components/LoadingBlurredImage'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { HeaderText } from 'components/HeaderText.jsx'
+import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { OptimizerTabController } from 'lib/optimizerTabController'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -45,7 +46,7 @@ const buttonStyle = {
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 export function CharacterPreview(props) {
-  console.log('@CharacterPreview')
+  console.log('======================================================================= RENDER CharacterPreview')
 
   const { token } = useToken()
 
@@ -62,13 +63,16 @@ export function CharacterPreview(props) {
   const [addModalOpen, setAddModalOpen] = useState(false)
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
   const [customPortrait, setCustomPortrait] = useState(null) // <null | CustomImageConfig>
-  const [teamSelection, setTeamSelection] = useState(CUSTOM_TEAM)
+  const [teamSelection, setTeamSelection] = useState(DEFAULT_TEAM)
   const [scoringType, setScoringType] = useState(SIMULATION_SCORE)
   const [combatScoreDetails, setCombatScoreDetails] = useState(COMBAT_STATS)
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState()
   const [redrawTeammates, setRedrawTeammates] = useState()
+
+  // We need to track the previously selected character in order to know which state to put the sim team in.
+  const prevCharId = useRef(null)
 
   useEffect(() => {
     // Use any existing character's portrait instead of the default
@@ -85,6 +89,7 @@ export function CharacterPreview(props) {
           setTeamSelection(DEFAULT_TEAM)
         }
       }
+      prevCharId.current = character.id
     }
   }, [character])
 
@@ -148,7 +153,7 @@ export function CharacterPreview(props) {
 
         <Flex gap={defaultGap}>
           <Flex
-            vertical gap={defaultGap} align="center"
+            vertical gap={defaultGap} align='center'
             style={{
               outline: `2px solid ${token.colorBgContainer}`,
               width: '100%',
@@ -156,7 +161,7 @@ export function CharacterPreview(props) {
               borderRadius: '8px',
             }}
           >
-            <Flex vertical style={{ width: middleColumnWidth, height: 280 * 2 + defaultGap }} justify="space-between">
+            <Flex vertical style={{ width: middleColumnWidth, height: 280 * 2 + defaultGap }} justify='space-between'>
               <Flex></Flex>
             </Flex>
           </Flex>
@@ -179,12 +184,10 @@ export function CharacterPreview(props) {
 
   let displayRelics
   let scoringResults
-  let finalStats
   if (isScorer || isBuilds) {
     const relicsArray = Object.values(character.equipped)
     scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray)
     displayRelics = character.equipped
-    finalStats = StatCalculator.calculateCharacterWithRelics(character, Object.values(character.equipped))
   } else {
     scoringResults = RelicScorer.scoreCharacter(character)
     displayRelics = {
@@ -195,7 +198,6 @@ export function CharacterPreview(props) {
       PlanarSphere: relicsById[character.equipped?.PlanarSphere],
       LinkRope: relicsById[character.equipped?.LinkRope],
     }
-    finalStats = StatCalculator.calculate(character)
   }
 
   const characterId = character.form.characterId
@@ -203,7 +205,40 @@ export function CharacterPreview(props) {
   const characterElement = characterMetadata.element
   const elementalDmgValue = ElementToDamage[characterElement]
 
-  let combatSimResult = scoreCharacterSimulation(character, displayRelics, teamSelection)
+  const statCalculationRelics = Utils.clone(displayRelics)
+  RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics))
+  const finalStats = calculateBuild(OptimizerTabController.fixForm(OptimizerTabController.getDisplayFormValues(character.form)), statCalculationRelics)
+  finalStats.CV = StatCalculator.calculateCv(Object.values(statCalculationRelics))
+  finalStats[elementalDmgValue] = finalStats.ELEMENTAL_DMG
+
+  let currentSelection = teamSelection
+  if (character?.id) {
+    const defaultScoringMetadata = DB.getMetadata().characters[character.id].scoringMetadata
+    if (defaultScoringMetadata?.simulation) {
+      const scoringMetadata = DB.getScoringMetadata(character.id)
+
+      const hasCustom = Utils.objectHash(scoringMetadata.simulation.teammates) != Utils.objectHash(defaultScoringMetadata.simulation.teammates)
+
+      // Use the previously selected character to handle all cases of overriding the sim team display
+      if (prevCharId.current == null) {
+        if (hasCustom) {
+          currentSelection = CUSTOM_TEAM
+        } else {
+          currentSelection = DEFAULT_TEAM
+        }
+      }
+
+      if (prevCharId.current != character.id) {
+        if (hasCustom) {
+          currentSelection = CUSTOM_TEAM
+        } else {
+          currentSelection = teamSelection
+        }
+      }
+    }
+  }
+
+  let combatSimResult = scoreCharacterSimulation(character, displayRelics, currentSelection)
   let simScoringResult = scoringType == SIMULATION_SCORE && combatSimResult
   if (!simScoringResult?.originalSim) {
     combatSimResult = null
@@ -279,7 +314,7 @@ export function CharacterPreview(props) {
     }
 
     const textDisplay = (
-      <Flex align="center" vertical style={{ marginBottom: 4, paddingTop: 3, paddingBottom: 3 }}>
+      <Flex align='center' vertical style={{ marginBottom: 4, paddingTop: 3, paddingBottom: 3 }}>
         <StatText style={textStyle}>
           Combat Sim
         </StatText>
@@ -402,9 +437,9 @@ export function CharacterPreview(props) {
 
           setSelectedTeammateIndex(index)
         }}
-        className="custom-grid"
+        className='custom-grid'
       >
-        <Flex vertical align="center" gap={0}>
+        <Flex vertical align='center' gap={0}>
           <img
             src={Assets.getCharacterAvatarById(teammate.characterId)}
             style={{
@@ -436,19 +471,19 @@ export function CharacterPreview(props) {
           }}
         >
           <RelicModal
-            selectedRelic={selectedRelic} type="edit" onOk={onEditOk}
+            selectedRelic={selectedRelic} type='edit' onOk={onEditOk}
             setOpen={setEditModalOpen}
             open={editModalOpen}
           />
           <RelicModal
-            selectedRelic={selectedRelic} type="edit" onOk={onAddOk}
+            selectedRelic={selectedRelic} type='edit' onOk={onAddOk}
             setOpen={setAddModalOpen}
             open={addModalOpen}
           />
 
           <Flex
             vertical gap={15}
-            className="character-build-portrait"
+            className='character-build-portrait'
           >
             {!isBuilds && (
               <div
@@ -494,14 +529,14 @@ export function CharacterPreview(props) {
                         ...buttonStyle,
                         top: 46,
                       }}
-                      className="character-build-portrait-button"
+                      className='character-build-portrait-button'
                       icon={<EditOutlined/>}
                       onClick={() => {
                         setCharacterModalAdd(false)
                         setOriginalCharacterModalInitialCharacter(character)
                         setOriginalCharacterModalOpen(true)
                       }}
-                      type="primary"
+                      type='primary'
                     >
                       Edit character
                     </Button>
@@ -512,13 +547,13 @@ export function CharacterPreview(props) {
                         ...buttonStyle,
                         top: 46,
                       }}
-                      className="character-build-portrait-button"
+                      className='character-build-portrait-button'
                       icon={<EditOutlined/>}
                       onClick={() => {
                         setOriginalCharacterModalInitialCharacter(character)
                         setOriginalCharacterModalOpen(true)
                       }}
-                      type="primary"
+                      type='primary'
                     >
                       Edit character
                     </Button>
@@ -528,15 +563,15 @@ export function CharacterPreview(props) {
                       ...buttonStyle,
                       top: 7,
                     }}
-                    className="character-build-portrait-button"
+                    className='character-build-portrait-button'
                     icon={<EditOutlined/>}
                     onClick={() => setEditPortraitModalOpen(true)}
-                    type="primary"
+                    type='primary'
                   >
-                    {(character.portrait || customPortrait) ? 'Update crop' : 'Edit portrait'}
+                    Edit portrait
                   </Button>
                   <EditImageModal
-                    title="portrait"
+                    title='portrait'
                     aspectRatio={parentW / parentH}
                     existingConfig={customPortrait ?? character.portrait}
                     open={editPortraitModalOpen}
@@ -555,7 +590,7 @@ export function CharacterPreview(props) {
                     paddingLeft: 4,
                     display: getArtistName() ? 'flex' : 'none',
                   }}
-                  align="flex-start"
+                  align='flex-start'
                 >
                   <Text
                     style={{
@@ -592,7 +627,7 @@ export function CharacterPreview(props) {
                         // top: newLcHeight - 221, // top right
                         paddingRight: 12,
                       }}
-                      align="flex-end"
+                      align='flex-end'
                     >
                       <Text
                         style={{
@@ -627,6 +662,16 @@ export function CharacterPreview(props) {
                       filter: filter,
                       position: 'relative',
                     }}
+                    onClick={() => {
+                      if (isScorer) {
+                        setOriginalCharacterModalInitialCharacter(character)
+                        setOriginalCharacterModalOpen(true)
+                      } else {
+                        setCharacterModalAdd(false)
+                        setOriginalCharacterModalInitialCharacter(character)
+                        setOriginalCharacterModalOpen(true)
+                      }
+                    }}
                   >
                     <LoadingBlurredImage
                       src={lightConeSrc}
@@ -644,13 +689,13 @@ export function CharacterPreview(props) {
           </Flex>
 
           <Flex gap={defaultGap}>
-            <Flex vertical gap={defaultGap} align="center" justify="space-between">
+            <Flex vertical gap={defaultGap} align='center' justify='space-between'>
               <Flex
                 vertical style={{ width: middleColumnWidth, height: '100%' /* 280 * 2 + defaultGap */ }}
-                justify="space-between"
+                justify='space-between'
               >
                 <Flex vertical>
-                  <Flex justify="space-around" style={{ height: 26, marginBottom: 6 }} align="center">
+                  <Flex justify='space-around' style={{ height: 26, marginBottom: 6 }} align='center'>
                     <Image
                       preview={false}
                       width={36}
@@ -703,10 +748,10 @@ export function CharacterPreview(props) {
                             borderRadius: 10,
                           },
                         }}
-                        size="small"
+                        size='small'
                         bordered={false}
                       >
-                        <Flex justify="space-around" style={{ paddingTop: 0 }}>
+                        <Flex justify='space-around' style={{ paddingTop: 0 }}>
                           <CharacterPreviewScoringTeammate
                             result={simScoringResult} index={0}
                             setCharacterModalOpen={setCharacterModalOpen}
@@ -771,14 +816,25 @@ export function CharacterPreview(props) {
                           {`Lv${lightConeLevel} S${lightConeSuperimposition}`}
                         </StatText>
                       </Flex>
-                      <div style={{
-                        width: `${tempLcParentW}px`,
-                        height: `${tempLcParentH}px`,
-                        overflow: 'hidden',
-                        borderRadius: '8px',
-                        outline: outline,
-                        filter: filter,
-                      }}
+                      <div
+                        style={{
+                          width: `${tempLcParentW}px`,
+                          height: `${tempLcParentH}px`,
+                          overflow: 'hidden',
+                          borderRadius: '8px',
+                          outline: outline,
+                          filter: filter,
+                        }}
+                        onClick={() => {
+                          if (isScorer) {
+                            setOriginalCharacterModalInitialCharacter(character)
+                            setOriginalCharacterModalOpen(true)
+                          } else {
+                            setCharacterModalAdd(false)
+                            setOriginalCharacterModalInitialCharacter(character)
+                            setOriginalCharacterModalOpen(true)
+                          }
+                        }}
                       >
                         <LoadingBlurredImage
                           src={lightConeSrc}
@@ -859,8 +915,8 @@ export function CharacterPreview(props) {
 
       {!isBuilds && (
         <Flex vertical>
-          <Flex justify="center" gap={25}>
-            <Flex justify="center" style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: token.colorBgContainer + '85' }} align="center">
+          <Flex justify='center' gap={25}>
+            <Flex justify='center' style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: token.colorBgContainer + '85' }} align='center'>
               <Text style={{ width: 150 }}>
                 Scoring algorithm:
               </Text>
@@ -888,7 +944,7 @@ export function CharacterPreview(props) {
               />
             </Flex>
 
-            <Flex justify="center" style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: token.colorBgContainer + '85' }} align="center">
+            <Flex justify='center' style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: token.colorBgContainer + '85' }} align='center'>
               <Text style={{ width: 150 }}>
                 Combat score details:
               </Text>
@@ -939,7 +995,7 @@ function OverlayText(props) {
         height: 0,
         top: top,
       }}
-      align="center"
+      align='center'
     >
       <Text
         style={{

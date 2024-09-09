@@ -186,6 +186,7 @@ const trailblazerMetadataLookup: { [key: number]: TrailblazerMetadata } = {
   8006: { trailblazer: 'Stelle', current_trailblazer_path: 'Harmony' },
   8005: { trailblazer: 'Caelus', current_trailblazer_path: 'Harmony' },
 }
+
 function getTrailblazerMetadata(id: number) {
   return trailblazerMetadataLookup[id]
 }
@@ -213,6 +214,7 @@ const statLookup: { [key: number]: string } = {
   22: Constants.Stats.Quantum_DMG,
   24: Constants.Stats.Imaginary_DMG,
 }
+
 function getStat(id: number) {
   return statLookup[id] || ''
 }
@@ -225,6 +227,7 @@ const slotLookup: { [key: number]: string } = {
   5: Parts.PlanarSphere,
   6: Parts.LinkRope,
 }
+
 function getSlot(id: number) {
   return slotLookup[id] || ''
 }
@@ -237,7 +240,6 @@ function getSet(id: number): string {
 
   return relicSetsData[setId].name
 }
-
 
 const tidOverrides = {
   55001: { set: '101', part: '3', main: '436' },

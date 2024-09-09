@@ -1,11 +1,12 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, precisionRound } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
@@ -65,11 +66,9 @@ export default (e: Eidolon): CharacterConditional => {
       e1EnemyHp80CrBoost: false,
       e6UltTargetDebuff: true,
     }),
-    teammateDefaults: () => ({
-    }),
-    precomputeEffects: (request: Form) => {
+    teammateDefaults: () => ({}),
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.CR] += (e >= 1 && r.e1EnemyHp80CrBoost) ? 0.15 : 0
@@ -90,12 +89,11 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       // TODO: Seele's E6 should have a teammate effect but its kinda hard to calc
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -104,6 +102,20 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
       x.SKILL_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
       x.ULT_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      const r = request.characterConditionals
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * x.ATK;
+
+if (${wgslTrue(e >= 6 && r.e6UltTargetDebuff)}) {
+  x.BASIC_DMG += 0.15 * x.ULT_DMG;
+  x.SKILL_DMG += 0.15 * x.ULT_DMG;
+  x.ULT_DMG += 0.15 * x.ULT_DMG;
+}
+    `
     },
   }
 }

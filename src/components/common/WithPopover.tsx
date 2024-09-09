@@ -14,7 +14,7 @@ function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithP
     const [open, setOpen] = React.useState(false)
     const content = (
       <Text style={{ width: 400, display: 'block' }}>
-        <hr />
+        <hr/>
         {props.content}
       </Text>
     )
@@ -29,7 +29,7 @@ function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithP
         onOpenChange={setOpen}
       >
         <span>
-          <WrappedComponent {...props} />
+          <WrappedComponent {...props}/>
         </span>
       </Popover>
     )

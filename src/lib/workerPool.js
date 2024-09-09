@@ -1,16 +1,16 @@
-import { BufferPacker } from './bufferPacker'
-import { Constants } from './constants'
-import OptimizerWorker from './worker/optimizerWorker?worker&inline'
+import { BufferPacker } from 'lib/bufferPacker'
+import { Constants } from 'lib/constants'
+import OptimizerWorker from 'lib/worker/optimizerWorker.ts?worker&inline'
 
-let poolSize = Math.max(1, (navigator.hardwareConcurrency || 4) - 1)
+const poolSize = Math.min(8, Math.max(1, (navigator.hardwareConcurrency || 4) - 1))
 let initializedWorkers = 0
 console.log('Using pool size ' + poolSize)
 
 // Reuse workers and buffers
-let workers = []
-let buffers = []
+const workers = []
+const buffers = []
 let taskQueue = []
-let taskStatus = {}
+const taskStatus = {}
 
 export const WorkerPool = {
   initializeWorker: () => {
@@ -32,7 +32,7 @@ export const WorkerPool = {
 
   nextTask: () => {
     if (taskQueue.length == 0) return
-    let { task, callback } = taskQueue.shift()
+    const { task, callback } = taskQueue.shift()
     WorkerPool.execute(task, callback)
   },
 

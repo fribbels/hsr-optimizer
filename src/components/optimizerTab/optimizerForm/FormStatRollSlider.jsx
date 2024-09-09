@@ -7,7 +7,7 @@ import { Parts } from 'lib/constants'
 
 const sliderWidth = 140
 const Text = styled(Typography)`
-  white-space: pre-line;
+    white-space: pre-line;
 `
 
 export function FormStatRollSlider(props) {
@@ -37,6 +37,7 @@ export function FormStatRollSlider(props) {
     </Flex>
   )
 }
+
 FormStatRollSlider.propTypes = {
   text: PropTypes.string,
   name: PropTypes.string,
@@ -69,8 +70,8 @@ export function FormStatRollSliderTopPercent(props) {
   return (
     <Flex gap={5} style={{ marginBottom: 0 }} align="center">
       <Flex gap={5} justify="flex-start" style={{ minWidth: 50 }}>
-        <img src={Assets.getPart(parts[0])} style={{ width: 18 }} />
-        <img src={Assets.getPart(parts[1])} style={{ width: 18 }} />
+        <img src={Assets.getPart(parts[0])} style={{ width: 18 }}/>
+        <img src={Assets.getPart(parts[1])} style={{ width: 18 }}/>
       </Flex>
 
       <Flex align="center" justify="flex-start" gap={10}>

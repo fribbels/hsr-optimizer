@@ -1,11 +1,16 @@
-import { Stats } from 'lib/constants.ts'
+import { Stats } from 'lib/constants'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
-import { calculatePassiveStatConversions } from 'lib/optimizer/calculateDamage.js'
+import { CharacterConditionals } from 'lib/characterConditionals'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_TYPE, BasicStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BelobogOfTheArchitectsConditional, BrokenKeelConditional, CelestialDifferentiatorConditional, FirmamentFrontlineGlamoth135Conditional, FirmamentFrontlineGlamoth160Conditional, FleetOfTheAgelessConditional, InertSalsottoConditional, IronCavalryAgainstTheScourge150Conditional, IronCavalryAgainstTheScourge250Conditional, PanCosmicCommercialEnterpriseConditional, RutilantArenaConditional, SpaceSealingStationConditional, TaliaKingdomOfBanditryConditional } from 'lib/gpu/conditionals/setConditionals'
+import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { Form } from 'types/Form'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
-export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
-  c.sets = {
+export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: number, setB: number, setF: number, setP: number, setL: number) {
+  c.x.sets = {
     PasserbyOfWanderingCloud: (1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)),
     MusketeerOfWildWheat: (1 >> (setH ^ 1)) + (1 >> (setG ^ 1)) + (1 >> (setB ^ 1)) + (1 >> (setF ^ 1)),
     KnightOfPurityPalace: (1 >> (setH ^ 2)) + (1 >> (setG ^ 2)) + (1 >> (setB ^ 2)) + (1 >> (setF ^ 2)),
@@ -26,6 +31,8 @@ export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
     WatchmakerMasterOfDreamMachinations: (1 >> (setH ^ 17)) + (1 >> (setG ^ 17)) + (1 >> (setB ^ 17)) + (1 >> (setF ^ 17)),
     IronCavalryAgainstTheScourge: (1 >> (setH ^ 18)) + (1 >> (setG ^ 18)) + (1 >> (setB ^ 18)) + (1 >> (setF ^ 18)),
     TheWindSoaringValorous: (1 >> (setH ^ 19)) + (1 >> (setG ^ 19)) + (1 >> (setB ^ 19)) + (1 >> (setF ^ 19)),
+    SacerdosRelivedOrdeal: (1 >> (setH ^ 20)) + (1 >> (setG ^ 20)) + (1 >> (setB ^ 20)) + (1 >> (setF ^ 20)),
+    ScholarLostInErudition: (1 >> (setH ^ 21)) + (1 >> (setG ^ 21)) + (1 >> (setB ^ 21)) + (1 >> (setF ^ 21)),
 
     SpaceSealingStation: (1 >> (setP ^ 0)) + (1 >> (setL ^ 0)),
     FleetOfTheAgeless: (1 >> (setP ^ 1)) + (1 >> (setL ^ 1)),
@@ -46,14 +53,14 @@ export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
     LushakaTheSunkenSeas: (1 >> (setP ^ 16)) + (1 >> (setL ^ 16)),
     TheWondrousBananAmusementPark: (1 >> (setP ^ 17)) + (1 >> (setL ^ 17)),
   }
-  return c.sets
+  return c.x.sets
 }
 
-export function calculateElementalStats(c, request, params) {
+export function calculateElementalStats(c: BasicStatsObject, request: Form, params: OptimizerParams) {
   const base = params.character.base
   const trace = params.character.traces
   const lc = params.character.lightCone
-  const sets = c.sets
+  const sets = c.x.sets
 
   // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
   // This is mostly because there isnt a need to split out damage types while we're calculating display stats.
@@ -63,7 +70,7 @@ export function calculateElementalStats(c, request, params) {
       c.ELEMENTAL_DMG = sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0.10 * p2(sets.ChampionOfStreetwiseBoxing))
       break
     case Stats.Fire_DMG:
-      c.ELEMENTAL_DMG = sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0.10 * p2(sets.FiresmithOfLavaForging) + 0.10 * params.enabledFiresmithOfLavaForging * p4(sets.FiresmithOfLavaForging))
+      c.ELEMENTAL_DMG = sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0.10 * p2(sets.FiresmithOfLavaForging))
       break
     case Stats.Ice_DMG:
       c.ELEMENTAL_DMG = sumPercentStat(Stats.Ice_DMG, base, lc, trace, c, 0.10 * p2(sets.HunterOfGlacialForest))
@@ -83,16 +90,17 @@ export function calculateElementalStats(c, request, params) {
   }
 }
 
-export function calculateBaseStats(c, request, params) {
+export function calculateBaseStats(c: BasicStatsObject, request: Form, params: OptimizerParams) {
   const base = params.character.base
   const lc = params.character.lightCone
   const trace = params.character.traces
 
-  const sets = c.sets
+  const sets = c.x.sets
   c[Stats.SPD] = sumFlatStat(Stats.SPD, Stats.SPD_P, request.baseSpd, lc, trace, c,
     0.06 * p2(sets.MessengerTraversingHackerspace)
     + 0.06 * p2(sets.ForgeOfTheKalpagniLantern)
-    + 0.06 * p4(sets.MusketeerOfWildWheat),
+    + 0.06 * p4(sets.MusketeerOfWildWheat)
+    + 0.06 * p2(sets.SacerdosRelivedOrdeal),
   )
 
   c[Stats.HP] = sumFlatStat(Stats.HP, Stats.HP_P, request.baseHp, lc, trace, c,
@@ -119,7 +127,8 @@ export function calculateBaseStats(c, request, params) {
     + 0.08 * p2(sets.RutilantArena)
     + 0.04 * p4(sets.PioneerDiverOfDeadWaters)
     + 0.04 * p2(sets.SigoniaTheUnclaimedDesolation)
-    + 0.06 * p4(sets.TheWindSoaringValorous),
+    + 0.06 * p4(sets.TheWindSoaringValorous)
+    + 0.06 * p2(sets.ScholarLostInErudition),
   )
 
   c[Stats.CD] = sumPercentStat(Stats.CD, base, lc, trace, c,
@@ -154,9 +163,12 @@ export function calculateBaseStats(c, request, params) {
   )
 }
 
-export function calculateComputedStats(c, request, params) {
-  const sets = c.sets
+export function calculateComputedStats(c: BasicStatsObject, request: Form, params: OptimizerParams) {
+  params.characterConditionals = CharacterConditionals.get(request)
+  params.lightConeConditionals = LightConeConditionals.get(request)
+
   const x = c.x
+  const sets = x.sets
 
   // Add base to computed
   x[Stats.ATK] += c[Stats.ATK]
@@ -181,54 +193,86 @@ export function calculateComputedStats(c, request, params) {
   x[Stats.SPD] += request.combatBuffs.SPD_P * request.baseSpd + request.combatBuffs.SPD
   x[Stats.BE] += request.combatBuffs.BE
   x.ELEMENTAL_DMG += request.combatBuffs.DMG_BOOST
-  x.EFFECT_RES_SHRED += request.combatBuffs.EFFECT_RES_SHRED
-  x.DMG_TAKEN_MULTI += request.combatBuffs.VULNERABILITY
+  x.EFFECT_RES_PEN += request.combatBuffs.EFFECT_RES_PEN
+  x.VULNERABILITY += request.combatBuffs.VULNERABILITY
   x.BREAK_EFFICIENCY_BOOST += request.combatBuffs.BREAK_EFFICIENCY
 
-  // Set effects
-  x[Stats.SPD_P]
-    += 0.12 * params.enabledMessengerTraversingHackerspace * p4(sets.MessengerTraversingHackerspace)
+  // SPD
+
+  if (p4(sets.MessengerTraversingHackerspace) && params.enabledMessengerTraversingHackerspace) {
+    x[Stats.SPD_P] += 0.12
+  }
   x[Stats.SPD] += x[Stats.SPD_P] * request.baseSpd
 
-  x[Stats.ATK_P]
-    += 0.05 * params.valueChampionOfStreetwiseBoxing * p4(sets.ChampionOfStreetwiseBoxing)
-    + 0.20 * params.enabledBandOfSizzlingThunder * p4(sets.BandOfSizzlingThunder)
-    + 0.06 * params.valueTheAshblazingGrandDuke * p4(sets.TheAshblazingGrandDuke)
-    + 0.12 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.SpaceSealingStation)
-    + 0.08 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.FleetOfTheAgeless)
-    + Math.min(0.25, 0.25 * x[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
+  // ATK
 
+  if (p4(sets.ChampionOfStreetwiseBoxing)) {
+    x[Stats.ATK_P] += 0.05 * params.valueChampionOfStreetwiseBoxing
+  }
+  if (p4(sets.BandOfSizzlingThunder) && params.enabledBandOfSizzlingThunder) {
+    x[Stats.ATK_P] += 0.20
+  }
+  if (p4(sets.TheAshblazingGrandDuke)) {
+    x[Stats.ATK_P] += 0.06 * params.valueTheAshblazingGrandDuke
+  }
   x[Stats.ATK] += x[Stats.ATK_P] * request.baseAtk
 
-  x[Stats.DEF_P]
-    += 0.15 * (x[Stats.EHR] >= 0.50 ? 1 : 0) * p2(sets.BelobogOfTheArchitects)
+  // DEF
+
   x[Stats.DEF] += x[Stats.DEF_P] * request.baseDef
+
+  // HP
 
   x[Stats.HP] += x[Stats.HP_P] * request.baseHp
 
-  calculatePassiveStatConversions(c, request, params)
+  // CD
 
-  x[Stats.CD]
-    += 0.25 * params.enabledHunterOfGlacialForest * p4(sets.HunterOfGlacialForest)
-    + 0.10 * (params.valueWastelanderOfBanditryDesert == 2 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)
-    + 0.10 * (x[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
-    + pioneerSetIndexToCd[params.valuePioneerDiverOfDeadWaters] * p4(sets.PioneerDiverOfDeadWaters)
-    + 0.04 * (params.valueSigoniaTheUnclaimedDesolation) * p2(sets.SigoniaTheUnclaimedDesolation)
-    + 0.25 * (params.valueDuranDynastyOfRunningWolves >= 5) * p2(sets.DuranDynastyOfRunningWolves)
-    + 0.32 * params.enabledTheWondrousBananAmusementPark * p2(sets.TheWondrousBananAmusementPark)
+  if (p4(sets.HunterOfGlacialForest) && params.enabledHunterOfGlacialForest) {
+    x[Stats.CD] += 0.25
+  }
+  if (p4(sets.WastelanderOfBanditryDesert)) {
+    x[Stats.CD] += 0.10 * (params.valueWastelanderOfBanditryDesert == 2 ? 1 : 0)
+  }
+  if (p4(sets.PioneerDiverOfDeadWaters)) {
+    x[Stats.CD] += pioneerSetIndexToCd[params.valuePioneerDiverOfDeadWaters]
+  }
+  if (p2(sets.SigoniaTheUnclaimedDesolation)) {
+    x[Stats.CD] += 0.04 * (params.valueSigoniaTheUnclaimedDesolation)
+  }
+  if (p2(sets.DuranDynastyOfRunningWolves) && params.valueDuranDynastyOfRunningWolves >= 5) {
+    x[Stats.CD] += 0.25
+  }
+  if (p2(sets.TheWondrousBananAmusementPark) && params.enabledTheWondrousBananAmusementPark) {
+    x[Stats.CD] += 0.32
+  }
 
-  x[Stats.CR]
-    += 0.10 * (params.valueWastelanderOfBanditryDesert > 0 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)
-    + 0.08 * params.valueLongevousDisciple * p4(sets.LongevousDisciple)
-    + 0.60 * params.enabledCelestialDifferentiator * (x[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
-    + 0.04 * (params.valuePioneerDiverOfDeadWaters > 2 ? 1 : 0) * p4(sets.PioneerDiverOfDeadWaters)
-    + 0.12 * (params.enabledIzumoGenseiAndTakamaDivineRealm) * p2(sets.IzumoGenseiAndTakamaDivineRealm)
+  // CR
 
-  x[Stats.BE]
-    += 0.20 * (x[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
-    + 0.30 * params.enabledWatchmakerMasterOfDreamMachinations * p4(sets.WatchmakerMasterOfDreamMachinations)
-    + 0.40 * params.enabledForgeOfTheKalpagniLantern * p2(sets.ForgeOfTheKalpagniLantern)
+  if (p4(sets.WastelanderOfBanditryDesert) && params.valueWastelanderOfBanditryDesert > 0) {
+    x[Stats.CR] += 0.10
+  }
+  if (p4(sets.LongevousDisciple)) {
+    x[Stats.CR] += 0.08 * params.valueLongevousDisciple
+  }
+  if (p4(sets.PioneerDiverOfDeadWaters) && params.valuePioneerDiverOfDeadWaters > 2) {
+    x[Stats.CR] += 0.04
+  }
+  if (p2(sets.IzumoGenseiAndTakamaDivineRealm) && params.enabledIzumoGenseiAndTakamaDivineRealm) {
+    x[Stats.CR] += 0.12
+  }
 
+  // calculatePassiveStatConversions(c, request, params)
+
+  // BE
+
+  if (p4(sets.WatchmakerMasterOfDreamMachinations) && params.enabledWatchmakerMasterOfDreamMachinations) {
+    x[Stats.BE] += 0.30
+  }
+  if (p2(sets.ForgeOfTheKalpagniLantern) && params.enabledForgeOfTheKalpagniLantern) {
+    x[Stats.BE] += 0.40
+  }
+
+  // Buffs
 
   // Basic boost
   p4(sets.MusketeerOfWildWheat) && buffAbilityDmg(x, BASIC_TYPE, 0.10)
@@ -242,32 +286,60 @@ export function calculateComputedStats(c, request, params) {
 
   // Ult boost
   p4(sets.TheWindSoaringValorous) && buffAbilityDmg(x, ULT_TYPE, 0.36 * params.enabledTheWindSoaringValorous)
+  p4(sets.ScholarLostInErudition) && buffAbilityDmg(x, ULT_TYPE | SKILL_TYPE, 0.20)
 
-  // Multiple boost
-  p2(sets.RutilantArena) && (x[Stats.CR] >= 0.70) && buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, 0.20)
-  p2(sets.InertSalsotto) && (x[Stats.CR] >= 0.50) && buffAbilityDmg(x, ULT_TYPE | FUA_TYPE, 0.15)
+  if (p4(sets.GeniusOfBrilliantStars)) {
+    x.DEF_PEN += params.enabledGeniusOfBrilliantStars ? 0.20 : 0.10
+  }
 
-  x.DEF_SHRED
-    += p4(sets.GeniusOfBrilliantStars) ? (params.enabledGeniusOfBrilliantStars ? 0.20 : 0.10) : 0
+  if (p4(sets.PrisonerInDeepConfinement)) {
+    x.DEF_PEN += 0.06 * params.valuePrisonerInDeepConfinement
+  }
 
-  x.DEF_SHRED
-    += 0.06 * params.valuePrisonerInDeepConfinement * p4(sets.PrisonerInDeepConfinement)
+  if (p2(sets.PioneerDiverOfDeadWaters)) {
+    x.ELEMENTAL_DMG += 0.12
+  }
 
-  x.BREAK_DEF_PEN
-    += 0.10 * (x[Stats.BE] >= 1.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
+  // Elemental DMG
 
-  x.SUPER_BREAK_DEF_PEN
-    += 0.15 * (x[Stats.BE] >= 2.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
+  if (p2(sets.FiresmithOfLavaForging) && params.enabledFiresmithOfLavaForging) {
+    x[Stats.Fire_DMG] += 0.12
+  }
 
-  x.ELEMENTAL_DMG
-    += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
-    + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
-    + 0.12 * p2(sets.PioneerDiverOfDeadWaters) * (params.valuePioneerDiverOfDeadWaters > -1 ? 1 : 0)
+  if (p4(sets.ScholarLostInErudition) && params.enabledScholarLostInErudition) {
+    buffAbilityDmg(x, SKILL_TYPE, 0.20)
+  }
+
+  // Dynamic - still need implementing
+
+  p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, request, params)
+  p2(sets.RutilantArena) && evaluateConditional(RutilantArenaConditional, x, request, params)
+  p2(sets.InertSalsotto) && evaluateConditional(InertSalsottoConditional, x, request, params)
+  p2(sets.FleetOfTheAgeless) && evaluateConditional(FleetOfTheAgelessConditional, x, request, params)
+  p2(sets.BelobogOfTheArchitects) && evaluateConditional(BelobogOfTheArchitectsConditional, x, request, params)
+  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge150Conditional, x, request, params)
+  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge250Conditional, x, request, params)
+  p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, request, params)
+  p2(sets.BrokenKeel) && evaluateConditional(BrokenKeelConditional, x, request, params)
+  p2(sets.CelestialDifferentiator) && evaluateConditional(CelestialDifferentiatorConditional, x, request, params)
+  p2(sets.TaliaKingdomOfBanditry) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, request, params)
+  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth135Conditional, x, request, params)
+  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth160Conditional, x, request, params)
+
+  const characterConditionals = params.characterConditionals
+  const lightConeConditionals = params.lightConeConditionals
+
+  for (const conditional of characterConditionals.dynamicConditionals || []) {
+    evaluateConditional(conditional, x, request, params)
+  }
+  for (const conditional of lightConeConditionals.dynamicConditionals || []) {
+    evaluateConditional(conditional, x, request, params)
+  }
 
   return x
 }
 
-export function calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope) {
+export function calculateRelicStats(c: BasicStatsObject, head, hands, body, feet, planarSphere, linkRope) {
   for (const relic of [head, hands, body, feet, planarSphere, linkRope]) {
     if (!relic.part) continue
 
@@ -285,11 +357,11 @@ export function calculateRelicStats(c, head, hands, body, feet, planarSphere, li
     + linkRope.weightScore
 }
 
-function sumPercentStat(stat, base, lc, trace, relicSum, setEffects) {
+function sumPercentStat(stat, base, lc, trace, relicSum, setEffects): number {
   return base[stat] + lc[stat] + relicSum[stat] + trace[stat] + setEffects
 }
 
-function sumFlatStat(stat, statP, baseValue, lc, trace, relicSum, setEffects) {
+function sumFlatStat(stat, statP, baseValue, lc, trace, relicSum, setEffects): number {
   return (baseValue) * (1 + setEffects + relicSum[statP] + trace[statP] + lc[statP]) + relicSum[stat] + trace[stat]
 }
 
@@ -302,7 +374,7 @@ const pioneerSetIndexToCd = {
   4: 0.24,
 }
 
-export const baseCharacterStats = {
+export const baseCharacterStats: BasicStatsObject = {
   [Stats.HP_P]: 0,
   [Stats.ATK_P]: 0,
   [Stats.DEF_P]: 0,

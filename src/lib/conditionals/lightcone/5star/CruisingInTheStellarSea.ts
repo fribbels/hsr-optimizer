@@ -1,10 +1,10 @@
 import { ContentItem } from 'types/Conditionals'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import getContentFromLCRanks from '../getContentFromLCRank'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesCr = [0.08, 0.10, 0.12, 0.14, 0.16]
@@ -54,18 +54,17 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       enemyHp50CrBoost: false,
       enemyDefeatedAtkBuff: true,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
       x[Stats.CR] += (r.enemyHp50CrBoost) ? sValuesCr[s] : 0
       x[Stats.ATK_P] += (r.enemyDefeatedAtkBuff) ? sValuesAtk[s] : 0
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { },
+    finalizeCalculations: () => {
+    },
   }
 }

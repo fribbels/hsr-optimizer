@@ -1,12 +1,16 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
+import { BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
 import { Eidolon } from 'types/Character'
 
 import { Form } from 'types/Form'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -84,9 +88,8 @@ export default (e: Eidolon): CharacterConditional => {
       ultDmgBuff: true,
       teammateAtkBuffValue: skillAtkBoostScaling,
     }),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.SPD_P] += (r.skillSpdBuff) ? 0.20 : 0
@@ -98,7 +101,6 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Boost
       buffAbilityDmg(x, BASIC_TYPE, 0.40)
-      x.BENEDICTION_LIGHTNING_DMG = (r.benedictionBuff) ? skillLightningDmgBoostScaling + talentScaling : 0
 
       x.BASIC_TOUGHNESS_DMG += 30
 
@@ -116,15 +118,79 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.ATK_P] += (t.benedictionBuff) ? t.teammateAtkBuffValue : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = c.x
 
-      x[Stats.ATK] += (r.benedictionBuff) ? x[Stats.ATK] * skillAtkBoostMax : 0
+      // x[Stats.ATK] += (r.benedictionBuff) ? x[Stats.ATK] * skillAtkBoostMax : 0
 
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK] + x.BENEDICTION_LIGHTNING_DMG * x[Stats.ATK]
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK] + ((r.benedictionBuff) ? skillLightningDmgBoostScaling + talentScaling : 0) * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
+    gpuFinalizeCalculations: (request: Form) => {
+      const r = request.characterConditionals
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+if (${wgslTrue(r.benedictionBuff)}) {
+  x.BASIC_DMG += (${skillLightningDmgBoostScaling + talentScaling}) * x.ATK;
+}
+
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * x.ATK;
+    `
+    },
+    dynamicConditionals: [
+      {
+        id: 'TingyunAtkConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.ATK],
+        ratioConversion: true,
+        condition: function () {
+          return true
+        },
+        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+          const r = request.characterConditionals
+          if (!r.benedictionBuff) {
+            return
+          }
+
+          const stateValue = params.conditionalState[this.id] || 0
+          const convertibleAtkValue = x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF
+
+          const buffATK = skillAtkBoostMax * convertibleAtkValue
+          const stateBuffATK = skillAtkBoostMax * stateValue
+
+          params.conditionalState[this.id] = x[Stats.ATK]
+
+          const finalBuffAtk = buffATK - (stateValue ? stateBuffATK : 0)
+          x.RATIO_BASED_ATK_BUFF += finalBuffAtk
+
+          buffStat(x, request, params, Stats.ATK, finalBuffAtk)
+        },
+        gpu: function (request: Form, _params: OptimizerParams) {
+          const r = request.characterConditionals
+
+          return conditionalWgslWrapper(this, `
+if (${wgslFalse(r.benedictionBuff)}) {
+  return;
+}
+
+let stateValue: f32 = (*p_state).TingyunAtkConditional;
+let convertibleAtkValue: f32 = (*p_x).ATK - (*p_x).RATIO_BASED_ATK_BUFF;
+
+var buffATK: f32 = ${skillAtkBoostMax} * convertibleAtkValue;
+var stateBuffATK: f32 = ${skillAtkBoostMax} * stateValue;
+
+(*p_state).TingyunAtkConditional = (*p_x).ATK;
+
+let finalBuffAtk = buffATK - select(0, stateBuffATK, stateValue > 0);
+(*p_x).RATIO_BASED_ATK_BUFF += finalBuffAtk;
+
+buffNonRatioDynamicATK(finalBuffAtk, p_x, p_state);
+    `)
+        },
+      },
+    ],
   }
 }

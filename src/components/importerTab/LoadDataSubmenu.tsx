@@ -29,10 +29,10 @@ export function LoadDataSubmenu() {
       reader.readAsText(file)
       reader.onload = () => {
         const fileUploadText = String(reader.result)
-        console.log('Uploaded file', fileUploadText)
+        // console.log('Uploaded file', fileUploadText)
 
         const json = JSON.parse(fileUploadText)
-        console.log('Parsed json', json)
+        // console.log('Parsed json', json)
 
         if (json.fileType || json.source) {
           setLoading1(true)
@@ -62,8 +62,11 @@ export function LoadDataSubmenu() {
     setTimeout(() => {
       DB.setStore(currentSave)
       window.refreshRelicsScore()
-      setCurrentStage(Stages.FINISHED)
-      setLoading2(false)
+
+      setTimeout(() => {
+        setCurrentStage(Stages.FINISHED)
+        setLoading2(false)
+      }, importerTabSpinnerMs)
     }, importerTabSpinnerMs)
   }
 
@@ -75,13 +78,13 @@ export function LoadDataSubmenu() {
             Load your optimizer data from a file.
           </Text>
           <Upload
-            accept=".json"
-            name="file"
+            accept='.json'
+            name='file'
             beforeUpload={beforeUpload}
           >
             <Button
               style={{ width: importerTabButtonWidth }}
-              icon={<UploadOutlined />}
+              icon={<UploadOutlined/>}
               loading={loading1}
               onClick={() => setCurrentStage(Stages.LOAD_FILE)}
             >
@@ -109,7 +112,7 @@ export function LoadDataSubmenu() {
           <Text>
             {`File contains ${currentSave.relics.length} relics and ${currentSave.characters.length} characters. Replace your current data with the uploaded data?`}
           </Text>
-          <Button style={{ width: importerTabButtonWidth }} icon={<ImportOutlined />} type="primary" onClick={loadConfirmed} loading={loading2}>
+          <Button style={{ width: importerTabButtonWidth }} icon={<ImportOutlined/>} type='primary' onClick={loadConfirmed} loading={loading2}>
             Use uploaded data
           </Button>
         </Flex>
@@ -132,7 +135,7 @@ export function LoadDataSubmenu() {
   return (
     <Flex gap={5}>
       <Steps
-        direction="vertical"
+        direction='vertical'
         current={currentStage}
         items={[
           {

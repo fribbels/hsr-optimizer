@@ -14,25 +14,33 @@ import { AppPages, PageToRoute } from 'lib/db'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import ImportTab from 'components/importerTab/ImportTab'
 import SettingsTab from 'components/settingsTab/settingsTab'
+import WebgpuTab from 'components/webgpuTab/WebgpuTab'
 
 const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
 
 let optimizerInitialized = false
 
 const Tabs = () => {
-  const activeKey = window.store((s) => s.activeKey)
+  const activeKey = window.store((s) => s.activeKey).split('?')[0]
 
-  const optimizerTab = React.useMemo(() => <OptimizerTab />, [])
-  const characterTab = React.useMemo(() => <CharacterTab />, [])
-  const relicsTab = React.useMemo(() => <RelicsTab />, [])
-  const importTab = React.useMemo(() => <ImportTab />, [])
-  const gettingStartedTab = React.useMemo(() => <GettingStartedTab />, [])
-  const relicScorerTab = React.useMemo(() => <RelicScorerTab />, [])
-  const changelogTab = React.useMemo(() => <ChangelogTab />, [])
-  const settingsTab = React.useMemo(() => <SettingsTab />, [])
+  const optimizerTab = React.useMemo(() => <OptimizerTab/>, [])
+  const characterTab = React.useMemo(() => <CharacterTab/>, [])
+  const relicsTab = React.useMemo(() => <RelicsTab/>, [])
+  const importTab = React.useMemo(() => <ImportTab/>, [])
+  const gettingStartedTab = React.useMemo(() => <GettingStartedTab/>, [])
+  const relicScorerTab = React.useMemo(() => <RelicScorerTab/>, [])
+  const changelogTab = React.useMemo(() => <ChangelogTab/>, [])
+  const settingsTab = React.useMemo(() => <SettingsTab/>, [])
+  const webgpuTab = React.useMemo(() => <WebgpuTab/>, [])
 
   useEffect(() => {
-    const route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]
+    let route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]
+    if (activeKey == AppPages.RELIC_SCORER) {
+      const id = window.location.hash.split('?')[1]?.split('id=')[1]?.split('&')[0]
+      if (id) {
+        route += `?id=${id}`
+      }
+    }
     console.log('Navigating activekey to route', activeKey, route)
     window.history.pushState({}, window.title, route)
 
@@ -51,17 +59,18 @@ const Tabs = () => {
 
   return (
     <Flex justify="space-around">
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.OPTIMIZER} content={optimizerTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.CHARACTERS} content={characterTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.IMPORT} content={importTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.GETTING_STARTED} content={gettingStartedTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.RELIC_SCORER} content={relicScorerTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.SETTINGS} content={settingsTab} />
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.OPTIMIZER} content={optimizerTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.CHARACTERS} content={characterTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.IMPORT} content={importTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.GETTING_STARTED} content={gettingStartedTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.RELIC_SCORER} content={relicScorerTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.SETTINGS} content={settingsTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.WEBGPU_TEST} content={webgpuTab}/>
 
       <ErrorBoundary fallbackRender={defaultErrorRender}>
-        <ScoringModal />
+        <ScoringModal/>
       </ErrorBoundary>
     </Flex>
   )

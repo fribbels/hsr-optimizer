@@ -233,7 +233,7 @@ export default function RelicModal(props: {
   return (
     <Form
       form={relicForm}
-      layout="vertical"
+      layout='vertical'
       preserve={false}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
@@ -246,10 +246,10 @@ export default function RelicModal(props: {
         open={props.open} //
         onCancel={() => props.setOpen(false)}
         footer={[
-          <Button key="back" onClick={handleCancel}>
+          <Button key='back' onClick={handleCancel}>
             Cancel
           </Button>,
-          <Button key="submit" type="primary" onClick={handleOk}>
+          <Button key='submit' type='primary' onClick={handleOk}>
             Submit
           </Button>,
         ]}
@@ -260,8 +260,8 @@ export default function RelicModal(props: {
 
               <HeaderText>Part</HeaderText>
 
-              <Form.Item name="part">
-                <Radio.Group buttonStyle="solid">
+              <Form.Item name='part'>
+                <Radio.Group buttonStyle='solid'>
                   <RadioIcon value={Constants.Parts.Head} src={Assets.getPart(Constants.Parts.Head)}/>
                   <RadioIcon value={Constants.Parts.Hands} src={Assets.getPart(Constants.Parts.Hands)}/>
                   <RadioIcon value={Constants.Parts.Body} src={Assets.getPart(Constants.Parts.Body)}/>
@@ -272,16 +272,16 @@ export default function RelicModal(props: {
               </Form.Item>
 
               <HeaderText>Set</HeaderText>
-              <Form.Item name="set">
+              <Form.Item name='set'>
                 <Select
                   showSearch
                   allowClear
                   style={{
                     width: 300,
                   }}
-                  placeholder="Sets"
+                  placeholder='Sets'
                   options={setOptions}
-                  maxTagCount="responsive"
+                  maxTagCount='responsive'
                 >
                 </Select>
               </Form.Item>
@@ -289,7 +289,7 @@ export default function RelicModal(props: {
               <HeaderText>Enhance / Grade</HeaderText>
 
               <Flex gap={10}>
-                <Form.Item name="enhance">
+                <Form.Item name='enhance'>
                   <Select
                     showSearch
                     style={{ width: 115 }}
@@ -301,7 +301,7 @@ export default function RelicModal(props: {
                   +3
                 </Button>
 
-                <Form.Item name="grade">
+                <Form.Item name='grade'>
                   <Select
                     showSearch
                     style={{ width: 115 }}
@@ -319,20 +319,20 @@ export default function RelicModal(props: {
               <HeaderText>Main stat</HeaderText>
 
               <Flex gap={10}>
-                <Form.Item name="mainStatType">
+                <Form.Item name='mainStatType'>
                   <Select
                     showSearch
                     style={{
                       width: 200,
                     }}
-                    placeholder="Main Stat"
-                    maxTagCount="responsive"
+                    placeholder='Main Stat'
+                    maxTagCount='responsive'
                     options={mainStatOptions}
                     disabled={mainStatOptions.length <= 1}
                   />
                 </Form.Item>
 
-                <Form.Item name="mainStatValue">
+                <Form.Item name='mainStatValue'>
                   <InputNumberStyled controls={false} disabled/>
                 </Form.Item>
               </Flex>
@@ -342,13 +342,13 @@ export default function RelicModal(props: {
 
             <Flex vertical gap={5} style={{}}>
               <HeaderText>Equipped by</HeaderText>
-              <Form.Item name="equippedBy">
+              <Form.Item name='equippedBy'>
                 <Select
                   showSearch
                   filterOption={Utils.titleFilterOption}
                   style={{ height: 35 }}
                   options={characterOptions}
-                  optionLabelProp="title"
+                  optionLabelProp='title'
                 />
               </Form.Item>
 
@@ -363,7 +363,7 @@ export default function RelicModal(props: {
 
           <Flex gap={20}>
             <Flex vertical gap={5} style={{ width: '100%' }}>
-              <Flex justify="space-between">
+              <Flex justify='space-between'>
                 <HeaderText>Substats</HeaderText>
                 <Flex style={{ width: 180 }}>
                   <HeaderText>Substat upgrades</HeaderText>
@@ -389,7 +389,7 @@ RelicModal.propTypes = {
 }
 
 function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; relicForm: FormInstance; resetUpgradeValues: () => void; plusThree: () => void }) {
-  const inputRef = useRef(null);
+  const inputRef = useRef(null)
   const [hovered, setHovered] = React.useState(false)
   const statTypeField = `substatType${props.index}`
   const statValueField = `substatValue${props.index}`
@@ -414,7 +414,12 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
 
     return (
       <Flex style={{ width: '100%' }}>
-        <Button type={hovered ? 'default' : 'dashed'} style={{ width: '100%', padding: 0 }} onClick={() => upgradeClicked(subProps.quality)} disabled={value == undefined} tabIndex={-1}>
+        <Button
+          type={hovered ? 'default' : 'dashed'}
+          style={{ width: '100%', padding: 0 }}
+          onClick={() => upgradeClicked(subProps.quality)}
+          disabled={value == undefined} tabIndex={-1}
+        >
           {value || ''}
         </Button>
       </Flex>
@@ -429,10 +434,10 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
             showSearch
             allowClear
             style={{
-              width: 200,
+              width: 210,
             }}
-            placeholder="Substat"
-            maxTagCount="responsive"
+            placeholder='Substat'
+            maxTagCount='responsive'
             options={substatOptions}
             listHeight={750}
             onChange={() => {
@@ -449,7 +454,7 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
           <Input
             ref={inputRef}
             onFocus={handleFocus}
-            style={{ width: 60 }}
+            style={{ width: 80 }}
             onChange={props.resetUpgradeValues}
             tabIndex={0}
           />
@@ -457,9 +462,9 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
       </Flex>
       <CaretRightOutlined style={{ width: 12 }}/>
       <Flex gap={5} style={{ width: '100%' }}>
-        <UpgradeButton quality="low"/>
-        <UpgradeButton quality="mid"/>
-        <UpgradeButton quality="high"/>
+        <UpgradeButton quality='low'/>
+        <UpgradeButton quality='mid'/>
+        <UpgradeButton quality='high'/>
       </Flex>
     </Flex>
   )

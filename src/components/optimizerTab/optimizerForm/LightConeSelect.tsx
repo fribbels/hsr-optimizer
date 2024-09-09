@@ -50,7 +50,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
     labelledOptions.push({
       value: option.value,
       label: (
-        <Flex gap={5} align="center">
+        <Flex gap={5} align='center'>
           <img
             src={Assets.getPath(metadata.lightCones[option.value].path)}
             style={{ height: 22, marginRight: 4 }}
@@ -92,7 +92,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
         style={selectStyle}
         value={value}
         options={withIcon ? labelledOptions : lightConeOptions}
-        placeholder="Light cone"
+        placeholder='Light cone'
         allowClear
         onClear={() => {
           if (onChange) onChange(null)
@@ -110,20 +110,20 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
       <Modal
         open={open}
         centered
-        width="90%"
+        width='90%'
         style={{ height: '70%', maxWidth: 1200 }}
         destroyOnClose
-        title="Select a light cone"
+        title='Select a light cone'
         onCancel={() => setOpen(false)}
         footer={null}
       >
         <Flex vertical gap={12}>
-          <Flex gap={12} wrap="wrap">
-            <Flex vertical wrap="wrap" style={{ minWidth: 300, flexGrow: 1 }}>
+          <Flex gap={12} wrap='wrap'>
+            <Flex vertical wrap='wrap' style={{ minWidth: 300, flexGrow: 1 }}>
               <Input
-                size="large"
+                size='large'
                 style={{ height: 40 }}
-                placeholder="Light cone"
+                placeholder='Light cone'
                 ref={inputRef}
                 onChange={(e) => {
                   const newFilters = Utils.clone(currentFilters)
@@ -138,21 +138,21 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                 }}
               />
             </Flex>
-            <Flex wrap="wrap" style={{ flexGrow: 1 }} gap={12}>
-              <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
+            <Flex wrap='wrap' style={{ flexGrow: 1 }} gap={12}>
+              <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
                 <SegmentedFilterRow
-                  name="path"
+                  name='path'
                   tags={generatePathTags()}
-                  flexBasis="14.2%"
+                  flexBasis='14.2%'
                   currentFilters={currentFilters}
                   setCurrentFilters={setCurrentFilters}
                 />
               </Flex>
-              <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
+              <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
                 <SegmentedFilterRow
-                  name="rarity"
+                  name='rarity'
                   tags={generateRarityTags()}
-                  flexBasis="14.2%"
+                  flexBasis='14.2%'
                   currentFilters={currentFilters}
                   setCurrentFilters={setCurrentFilters}
                 />

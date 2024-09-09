@@ -6,7 +6,7 @@ import Plot from 'react-plotly.js'
 import RelicPreview from './RelicPreview'
 import { Constants, Stats } from 'lib/constants'
 import RelicModal from './RelicModal.tsx'
-import { RelicScorer } from 'lib/relicScorer'
+import { RelicScorer } from 'lib/relicScorerPotential'
 import { Gradient } from 'lib/gradient'
 import { Message } from 'lib/message'
 import { TooltipImage } from './TooltipImage'
@@ -47,8 +47,10 @@ export default function RelicsTab() {
   window.setRelicRows = setRelicRows
 
   const [selectedRelic, setSelectedRelic] = useState()
+  const [selectedRelics, setselectedRelics] = useState([])
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [plottedCharacterType, setPlottedCharacterType] = useState(PLOT_CUSTOM)
   const [relicInsight, setRelicInsight] = useState('buckets')
 
@@ -254,6 +256,7 @@ export default function RelicsTab() {
     suppressScrollOnNewData: true,
     enableRangeSelection: false,
     suppressMultiSort: true,
+    getRowId: (params) => String(params.data.id),
   }), [])
 
   // headerTooltip
@@ -268,8 +271,17 @@ export default function RelicsTab() {
     suppressHeaderMenuButton: true,
   }), [])
 
+  const onSelectionChanged = useCallback((event) => {
+    console.log('selectionChanged', event)
+    setselectedRelics(event.api.getSelectedRows())
+  }, [])
+
   const rowClickedListener = useCallback((event) => {
     console.log('rowClicked', event)
+    if (!event.type) {
+      const node = gridRef.current.api.getRowNode(event.id)
+      node.setSelected(true, true)
+    }
     setSelectedRelic(event.data)
   }, [])
 
@@ -303,6 +315,7 @@ export default function RelicsTab() {
 
   function editClicked() {
     console.log('edit clicked')
+    if (!selectedRelic) return Message.error('No relic selected')
     setEditModalOpen(true)
   }
 
@@ -311,12 +324,24 @@ export default function RelicsTab() {
     setAddModalOpen(true)
   }
 
-  function deleteClicked() {
+  function deleteClicked(isOpen) {
     console.log('delete clicked')
 
-    if (!selectedRelic) return Message.error('No relic selected')
+    if (selectedRelics.length === 0) {
+      setDeleteConfirmOpen(false)
+      return Message.error('No relic selected')
+    }
 
-    DB.deleteRelic(selectedRelic.id)
+    setDeleteConfirmOpen(isOpen)
+  }
+
+  function deletePerform() {
+    if (selectedRelics.length === 0) return Message.error('No relic selected')
+
+    selectedRelics.forEach((relic) => {
+      DB.deleteRelic(relic.id)
+    })
+
     setRelicRows(DB.getRelics())
     setSelectedRelic(undefined)
     SaveState.save()
@@ -326,23 +351,23 @@ export default function RelicsTab() {
 
   const focusCharacter = window.store.getState().relicsTabFocusCharacter
   let score
-  if (focusCharacter) {
-    score = RelicScorer.score(selectedRelic, focusCharacter)
+  if (focusCharacter && selectedRelic) {
+    score = RelicScorer.scoreCurrentRelic(selectedRelic, focusCharacter)
   }
 
   const numScores = 10
   const [scores, setScores] = useState(null)
   const [scoreBuckets, setScoreBuckets] = useState(null)
+  const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
   useEffect(() => {
     if (selectedRelic) {
       const chars = DB.getMetadata().characters
-      const excluded = window.store.getState().excludedRelicPotentialCharacters
       const allScores = Object.keys(chars)
-        .filter((id) => !(plottedCharacterType === PLOT_CUSTOM && excluded.includes(id)))
+        .filter((id) => !(plottedCharacterType === PLOT_CUSTOM && excludedRelicPotentialCharacters.includes(id)))
         .map((id) => ({
           cid: id,
           name: chars[id].displayName,
-          score: RelicScorer.scoreRelicPct(selectedRelic, id, true),
+          score: RelicScorer.scoreRelicPotential(selectedRelic, id, true),
           color: '#000',
           owned: !!DB.getCharacterById(id),
         }))
@@ -363,21 +388,21 @@ export default function RelicsTab() {
       sb.forEach((bucket) => bucket.sort((s1, s2) => s1.name.localeCompare(s2.name)))
       setScoreBuckets(sb)
     }
-  }, [plottedCharacterType, selectedRelic])
+  }, [plottedCharacterType, selectedRelic, excludedRelicPotentialCharacters])
 
   return (
     <Flex style={{ width: 1350, marginBottom: 100 }}>
-      <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen}/>
-      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
+      <RelicModal selectedRelic={selectedRelic} type='add' onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen}/>
+      <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
       <Flex vertical gap={10}>
 
         <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions}/>
 
         <div
-          id="relicGrid" className="ag-theme-balham-dark" style={{
-          ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
-          ...getGridTheme(token),
-        }}
+          id='relicGrid' className='ag-theme-balham-dark' style={{
+            ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
+            ...getGridTheme(token),
+          }}
         >
 
           <AgGridReact
@@ -391,36 +416,44 @@ export default function RelicsTab() {
 
             animateRows={true}
             headerHeight={24}
-            rowSelection="single"
+            rowSelection='multiple'
 
             pagination={true}
             paginationPageSizeSelector={false}
             paginationPageSize={2000}
 
+            onSelectionChanged={onSelectionChanged}
             onRowClicked={rowClickedListener}
             onRowDoubleClicked={onRowDoubleClickedListener}
             navigateToNextCell={navigateToNextCell}
           />
         </div>
         <Flex gap={10}>
-          <Button type="primary" onClick={editClicked} style={{ width: '150px' }}>
+          <Button
+            type='primary'
+            onClick={editClicked}
+            style={{ width: '150px' }}
+            disabled={selectedRelics.length === 0 || selectedRelics.length > 1}
+          >
             Edit Relic
           </Button>
-          <Button type="primary" onClick={addClicked} style={{ width: '150px' }}>
-            Add New Relic
-          </Button>
           <Popconfirm
-            title="Confirm"
-            description="Delete this relic?"
-            onConfirm={deleteClicked}
-            placement="bottom"
-            okText="Yes"
-            cancelText="Cancel"
+            title='Confirm'
+            description={selectedRelics.length > 1 ? `Delete the selected ${selectedRelics.length} relics?` : 'Delete the selected relic?'}
+            open={deleteConfirmOpen}
+            onOpenChange={deleteClicked}
+            onConfirm={deletePerform}
+            placement='bottom'
+            okText='Yes'
+            cancelText='Cancel'
           >
-            <Button type="primary" style={{ width: '150px' }}>
+            <Button type='primary' style={{ width: '150px' }} disabled={selectedRelics.length === 0}>
               Delete Relic
             </Button>
           </Popconfirm>
+          <Button type='primary' onClick={addClicked} style={{ width: '150px' }}>
+            Add New Relic
+          </Button>
           <Select
             value={plottedCharacterType}
             onChange={setPlottedCharacterType}
@@ -452,6 +485,10 @@ export default function RelicsTab() {
             <Flex gap={10}>
               <Flex style={{ borderRadius: 8, overflow: 'hidden', border: `1px solid ${token.colorBorderSecondary}` }}>
                 <Plot
+                  onClick={(e) => {
+                    store.getState().setScoringAlgorithmFocusCharacter(e.points[0].data.cid)
+                    window.setIsScoringModalOpen(true)
+                  }}
                   data={
                     scores.map((s) => ({
                       x: [s.score.averagePct],
@@ -467,6 +504,7 @@ export default function RelicsTab() {
                       },
                       marker: { color: s.color },
                       name: s.name,
+                      cid: s.cid,
                     })).reverse()
                   }
                   layout={{
@@ -519,10 +557,10 @@ export default function RelicsTab() {
                           <svg width={10} height={10}>
                             <rect
                               width={10} height={10} style={{
-                              fill: x.color,
-                              strokeWidth: 1,
-                              stroke: 'rgb(0,0,0)',
-                            }}
+                                fill: x.color,
+                                strokeWidth: 1,
+                                stroke: 'rgb(0,0,0)',
+                              }}
                             />
                           </svg>
                         )
@@ -530,9 +568,24 @@ export default function RelicsTab() {
                         const bestPct = Math.floor(x.score.bestPct)
                         const pctText = worstPct === bestPct ? `${worstPct}%` : `${worstPct}% - ${bestPct}%`
                         return (
-                          <li key={x.cid} style={x.owned ? { fontWeight: 'bold' } : undefined}>
-                            {rect} {x.name}: {pctText}
-                          </li>
+                          <Flex key={x.cid} gap={4}>
+                            <li style={x.owned ? { fontWeight: 'bold' } : undefined}>
+                              <Flex align='center' gap={8}>
+                                {rect}
+                                <a style={{ height: '19px' }}> {/* 20 px is too big and pushes the characters below the lower edge of the plot */}
+                                  <img
+                                    src={Assets.getCharacterAvatarById(x.cid)}
+                                    style={{ height: '19px' }}
+                                    onClick={(e) => {
+                                      store.getState().setScoringAlgorithmFocusCharacter(e.target.attributes.src.nodeValue.split('avatar/')[1].split('.webp')[0])
+                                      window.setIsScoringModalOpen(true)
+                                    }}
+                                  />
+                                </a>
+                                {x.name}: {pctText}
+                              </Flex>
+                            </li>
+                          </Flex>
                         )
                       })
                   }
@@ -546,6 +599,10 @@ export default function RelicsTab() {
               // by adding invisible points for each character (to get 'name on hover' behavior),
               // then adding an image on top of each point
               <Plot
+                onClick={(e) => {
+                  store.getState().setScoringAlgorithmFocusCharacter(e.points[0].data.cid[e.points[0].pointIndex])
+                  window.setIsScoringModalOpen(true)
+                }}
                 data={[
                   // Add fake data in each category to make sure we don't elide any categories - that would
                   // mess up our image placement
@@ -572,14 +629,16 @@ export default function RelicsTab() {
                     hovertext: scoreBuckets.flatMap((bucket, _bucketIdx) =>
                       bucket.map((score, _idx) => [
                         score.name,
-                        (score.score.meta.bestNewSubstats.length === 0
+                        (score.score.meta.bestAddedStats.length === 0
                           ? ''
-                          : 'New stats: ' + score.score.meta.bestNewSubstats.join(' / ')),
-                        (score.score.meta.bestRolledSubstats == null
+                          : 'New stats: ' + score.score.meta.bestAddedStats.join(' / ')),
+                        (score.score.meta.bestUpgradedStats == null
                           ? ''
-                          : 'Upgraded stats: ' + score.score.meta.bestRolledSubstats.join(' / ')),
+                          : 'Upgraded stats: ' + score.score.meta.bestUpgradedStats.join(' / ')),
                       ].filter((t) => t !== '').join('<br>')),
                     ),
+                    cid: scoreBuckets.flatMap((bucket, _bucketIdx) =>
+                      bucket.map((score, idx) => score.cid)),
                     marker: {
                       color: 'rgba(0, 0, 0, 0)', // change to 1 to see backing points
                       symbol: 'circle',

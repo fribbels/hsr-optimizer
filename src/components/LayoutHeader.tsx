@@ -24,11 +24,11 @@ export function LayoutHeader() {
         backgroundImage: 'linear-gradient(rgb(0 0 0/60%) 0 0)',
       }}
     >
-      <Flex align="center" justify="space-between" style={{ width: '100%' }}>
+      <Flex align='center' justify='space-between' style={{ width: '100%' }}>
         <Flex>
           <Button
-            type="text"
-            icon={menuSidebarOpen ? <CloseOutlined /> : <MenuOutlined />}
+            type='text'
+            icon={menuSidebarOpen ? <CloseOutlined/> : <MenuOutlined/>}
             onClick={() => setMenuSidebarOpen(!menuSidebarOpen)}
             style={{
               fontSize: '16px',
@@ -37,27 +37,26 @@ export function LayoutHeader() {
             }}
           />
           <a href={BASE_PATH}>
-            <Flex align="center">
+            <Flex align='center'>
               <img src={Assets.getLogo()} style={{ width: 30, height: 30, marginRight: 35 }}></img>
               <Typography
                 style={{ fontWeight: 600, fontSize: 22 }}
-                color="inherit"
+                color='inherit'
               >
-                {'Fribbels Honkai Star Rail Optimizer'}
+                Fribbels Honkai Star Rail Optimizer
               </Typography>
             </Flex>
           </a>
         </Flex>
         <Flex>
-          <a href="https://github.com/fribbels/hsr-optimizer" target="_blank" rel="noreferrer">
+          <a href='https://ko-fi.com/fribbels' target='_blank' rel='noreferrer'>
             <Flex>
-              <img src={Assets.getGithub()} style={{ height: 36, marginRight: 7, borderRadius: 5 }}></img>
+              <img src={Assets.getKofi()} style={{ height: 36, marginRight: 6, borderRadius: 5 }}></img>
             </Flex>
           </a>
-
-          <a href="https://discord.gg/rDmB4Un7qg" target="_blank" rel="noreferrer">
+          <a href='https://discord.gg/rDmB4Un7qg' target='_blank' rel='noreferrer'>
             <Flex>
-              <img src={Assets.getDiscord()} style={{ height: 36, marginRight: 7, borderRadius: 5 }}></img>
+              <img src={Assets.getDiscord()} style={{ height: 36, marginRight: 6, borderRadius: 5 }}></img>
             </Flex>
           </a>
         </Flex>

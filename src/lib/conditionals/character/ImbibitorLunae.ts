@@ -1,12 +1,12 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
+import { BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityResShred } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityResPen } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -74,11 +74,9 @@ export default (e: Eidolon): CharacterConditional => {
       talentRighteousHeartStacks: righteousHeartStackMax,
       e6ResPenStacks: 3,
     }),
-    teammateDefaults: () => ({
-    }),
-    precomputeEffects: (request: Form) => {
+    teammateDefaults: () => ({}),
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.CD] += (request.enemyElementalWeak) ? 0.24 : 0
@@ -90,26 +88,22 @@ export default (e: Eidolon): CharacterConditional => {
         1: basicEnhanced1Scaling,
         2: basicEnhanced2Scaling,
         3: basicEnhanced3Scaling,
-      }[r.basicEnhanced] || 0
+      }[r.basicEnhanced] ?? 0
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
 
       // Boost
       x.ELEMENTAL_DMG += r.talentRighteousHeartStacks * righteousHeartDmgValue
-      buffAbilityResShred(x, BASIC_TYPE, 0.20 * r.e6ResPenStacks, (e >= 6 && r.basicEnhanced == 3))
+      buffAbilityResPen(x, BASIC_TYPE, 0.20 * r.e6ResPenStacks, (e >= 6 && r.basicEnhanced == 3))
 
       x.BASIC_TOUGHNESS_DMG += 30 + 30 * r.basicEnhanced
       x.ULT_TOUGHNESS_DMG += 60
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

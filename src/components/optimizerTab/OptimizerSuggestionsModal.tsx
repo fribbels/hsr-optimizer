@@ -1,6 +1,6 @@
 import { Button, Flex, Modal, Typography } from 'antd'
 import { ReactElement } from 'react'
-import { Optimizer } from 'lib/optimizer/optimizer.js'
+import { Optimizer } from 'lib/optimizer/optimizer.ts'
 import { HorizontalDivider } from 'components/Dividers.tsx'
 import { Parts, PartsToReadable } from 'lib/constants.ts'
 import DB, { AppPages } from 'lib/db.js'
@@ -223,7 +223,7 @@ export function ZeroPermutationsSuggestionsModal() {
   const zeroPermutationModalOpen = window.store((s) => s.zeroPermutationModalOpen)
   const setZeroPermutationsModalOpen = window.store((s) => s.setZeroPermutationsModalOpen)
 
-  console.log('Suggestions root causes', rootCauses)
+  // console.log('Suggestions root causes', rootCauses)
 
   const rootCauseDisplay: ReactElement[] = []
   for (const rootCause of rootCauses) {
@@ -245,7 +245,7 @@ export function ZeroPermutationsSuggestionsModal() {
         <Text>
           This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar.
         </Text>
-        <HorizontalDivider />
+        <HorizontalDivider/>
         {rootCauseDisplay}
       </Flex>
     </Modal>
@@ -340,8 +340,8 @@ const ZeroResultRootCauseFixes: {
   [ZeroResultRootCause.MAX_COMBO]: filterFixes(ZeroResultRootCause.MAX_COMBO),
   [ZeroResultRootCause.MIN_COMBO]: filterFixes(ZeroResultRootCause.MIN_COMBO),
   [ZeroResultRootCause.STAT_VIEW]: {
-    description: 'Your stat filters are configured for basic stats, which does not include buffs. ' +
-      'The Combat stats view will show buffed stats from abilities / teammates / relics / etc.',
+    description: 'Your stat filters are configured for basic stats, which does not include buffs. '
+    + 'The Combat stats view will show buffed stats from abilities / teammates / relics / etc.',
     buttonText: 'Switch to Combat stats view',
     applyFix: () => {
       const setStatDisplay = window.store.getState().setStatDisplay
@@ -416,7 +416,7 @@ export function ZeroResultSuggestionModal() {
   const zeroResultModalOpen = window.store((s) => s.zeroResultModalOpen)
   const setZeroResultModalOpen = window.store((s) => s.setZeroResultModalOpen)
 
-  console.log('Suggestions root causes', rootCauses)
+  // console.log('Suggestions root causes', rootCauses)
 
   const rootCauseDisplay: ReactElement[] = []
   for (const rootCause of rootCauses) {
@@ -451,7 +451,7 @@ export function ZeroResultSuggestionModal() {
             Reset all filters
           </Button>
         </Flex>
-        <HorizontalDivider />
+        <HorizontalDivider/>
         {rootCauseDisplay}
       </Flex>
     </Modal>

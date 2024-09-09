@@ -1,19 +1,14 @@
 import { Stats } from 'lib/constants'
-import {
-  baseComputedStatsObject,
-  ComputedStatsObject,
-  SKILL_TYPE,
-  ULT_TYPE
-} from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
+import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
-  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const talentAtkScalingValue = talent(e, 0.20, 0.22)
 
@@ -50,13 +45,13 @@ export default (e: Eidolon): CharacterConditional => {
       talentStacks: 2,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (request) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.ATK_P] += r.talentStacks * talentAtkScalingValue
       x[Stats.DEF_P] += r.talentStacks * 0.10
+      x[Stats.CR] += (x.ENEMY_WEAKNESS_BROKEN) ? 0.25 : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -73,16 +68,9 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c.x
-
-      x[Stats.CR] += (x.ENEMY_WEAKNESS_BROKEN) ? 0.25 : 0
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

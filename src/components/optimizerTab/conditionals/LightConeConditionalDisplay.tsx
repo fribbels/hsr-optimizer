@@ -15,7 +15,7 @@ export interface LightConeConditionalDisplayProps {
 }
 
 export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisplayProps) => {
-  console.log('LightConeConditionalDisplay', props)
+  // console.log('LightConeConditionalDisplay', props)
 
   const { id, superImposition, teammateIndex } = props
   // TODO revisit type workaround
@@ -26,7 +26,7 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
       <Flex vertical gap={5}>
         <Flex justify="space-between" align="center">
           <HeaderText>Light cone passives</HeaderText>
-          <TooltipImage type={Hint.lightConePassives()} />
+          <TooltipImage type={Hint.lightConePassives()}/>
         </Flex>
         {(teammateIndex == null) && <Typography.Text italic></Typography.Text>}
       </Flex>
@@ -37,16 +37,16 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
   const lightCone = lcFn(superImposition - 1)
 
   const content = teammateIndex != null
-    ? (lightCone.teammateContent ? lightCone.teammateContent(teammateIndex) : undefined)
+    ? (lightCone.teammateContent ? lightCone.teammateContent() : undefined)
     : lightCone.content()
 
   return (
     <Flex vertical gap={5}>
       <Flex justify="space-between" align="center">
         <HeaderText>Light cone passives</HeaderText>
-        <TooltipImage type={Hint.lightConePassives()} />
+        <TooltipImage type={Hint.lightConePassives()}/>
       </Flex>
-      <DisplayFormControl content={content} teammateIndex={teammateIndex} />
+      <DisplayFormControl content={content} teammateIndex={teammateIndex}/>
     </Flex>
   )
 })

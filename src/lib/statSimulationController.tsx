@@ -7,7 +7,7 @@ import { Relic, Stat } from 'types/Relic'
 import { RelicFilters } from 'lib/relicFilters'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { calculateCurrentlyEquippedRow, renameFields } from 'lib/optimizer/optimizer'
+import { calculateCurrentlyEquippedRow, renameFields } from 'lib/optimizer/optimizer.ts'
 import { Assets } from 'lib/assets'
 import { Flex, Tag } from 'antd'
 import { Message } from 'lib/message'
@@ -17,6 +17,7 @@ import { SaveState } from 'lib/saveState'
 import DB from 'lib/db'
 import { Form } from 'types/Form'
 import { SimulationResult } from 'lib/characterScorer'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
 export type Simulation = {
   name?: string
@@ -126,11 +127,11 @@ function validateRequest(request: SimulationRequest) {
 export function renderDefaultSimulationName(sim: Simulation) {
   return (
     <Flex gap={5}>
-      <SimSetsDisplay sim={sim} />
+      <SimSetsDisplay sim={sim}/>
 
       |
 
-      <SimMainsDisplay sim={sim} />
+      <SimMainsDisplay sim={sim}/>
 
       |
 
@@ -142,7 +143,7 @@ export function renderDefaultSimulationName(sim: Simulation) {
         {sim.name ? `|` : null}
       </Flex>
 
-      <SimSubstatsDisplay sim={sim} />
+      <SimSubstatsDisplay sim={sim}/>
     </Flex>
   )
 }
@@ -155,12 +156,12 @@ function SimSetsDisplay(props: { sim: Simulation }) {
   const ornamentImage = request.simOrnamentSet ? Assets.getSetImage(request.simOrnamentSet) : Assets.getBlank()
   return (
     <Flex gap={5}>
-      <Flex style={{ width: imgSize * 2 + 5 }} justify="center">
-        <img style={{ width: request.simRelicSet1 ? imgSize : 0 }} src={relicImage1} />
-        <img style={{ width: request.simRelicSet2 ? imgSize : 0 }} src={relicImage2} />
+      <Flex style={{ width: imgSize * 2 + 5 }} justify='center'>
+        <img style={{ width: request.simRelicSet1 ? imgSize : 0 }} src={relicImage1}/>
+        <img style={{ width: request.simRelicSet2 ? imgSize : 0 }} src={relicImage2}/>
       </Flex>
 
-      <img style={{ width: imgSize }} src={ornamentImage} />
+      <img style={{ width: imgSize }} src={ornamentImage}/>
     </Flex>
   )
 }
@@ -170,10 +171,10 @@ function SimMainsDisplay(props: { sim: Simulation }) {
   const imgSize = 22
   return (
     <Flex>
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simBody, true)} />
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simFeet, true)} />
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simPlanarSphere, true)} />
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simLinkRope, true)} />
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simBody, true)}/>
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simFeet, true)}/>
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simPlanarSphere, true)}/>
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simLinkRope, true)}/>
     </Flex>
   )
 }
@@ -264,6 +265,7 @@ export type RunSimulationsParams = {
 
 export function runSimulations(
   form: Form,
+  cachedOptimizerParams: OptimizerParams | null,
   simulations: Simulation[],
   inputParams: Partial<RunSimulationsParams> = {},
 ): SimulationResult[] {
@@ -339,23 +341,22 @@ export function runSimulations(
 
     // Convert substat rolls to value totals
     const substatValues: Stat[] = []
-    const requestSubstats: SimulationStats = Utils.clone(sim.request.stats)
-    if (sim.simType == StatSimTypes.SubstatRolls) {
-      for (const substat of SubStats) {
+
+    // Convert value totals to substat objects
+    for (const substat of SubStats) {
+      let value = sim.request.stats[substat]
+
+      if (sim.simType == StatSimTypes.SubstatRolls) {
         const substatValue = substat == Stats.SPD
           ? params.speedRollValue
           : StatCalculator.getMaxedSubstatValue(substat, params.quality)
 
-        let substatCount = Utils.precisionRound((requestSubstats[substat] || 0))
+        let substatCount = Utils.precisionRound((sim.request.stats[substat] || 0))
         substatCount = params.substatRollsModifier(substatCount, substat, relics)
 
-        requestSubstats[substat] = substatCount * substatValue
+        value = substatCount * substatValue
       }
-    }
 
-    // Convert value totals to substat objects
-    for (const substat of SubStats) {
-      const value = requestSubstats[substat]
       if (value) {
         substatValues.push({
           stat: substat,
@@ -368,7 +369,7 @@ export function runSimulations(
 
     RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
 
-    const c = calculateBuild(form, relics)
+    const c = calculateBuild(form, relics, cachedOptimizerParams, true)
 
     renameFields(c)
     // For optimizer grid syncing with sim table
@@ -390,7 +391,7 @@ export function startOptimizerStatSimulation() {
 
   console.log('Starting sims', existingSimulations)
 
-  const simulationResults = runSimulations(form, existingSimulations)
+  const simulationResults = runSimulations(form, null, existingSimulations)
 
   OptimizerTabController.setRows(simulationResults)
 

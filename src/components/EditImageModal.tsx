@@ -75,7 +75,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       resetConfig()
     } else if (existingConfig) {
       customImageForm.setFieldsValue({ imageUrl: existingConfig.imageUrl, artistName: existingConfig.artistName })
-      setRadio('url') // If there's a existingConfig, there will always be a url
+      setRadio('upload')
       setCurrent(1)
       setVerifiedImageUrl(existingConfig.imageUrl)
       setOriginalDimensions(existingConfig.originalDimensions)
@@ -201,21 +201,21 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   }
 
   /************************************************
-  IMPORTANT:
-    When testing this on localhost, you WILL run into a 429 / 403 issue.
-    This is because Imgur API hates localhost for some reason.
-    https://stackoverflow.com/questions/66195106/imgur-api-responding-with-code-403-with-server-error-429
-  WORKAROUND:
-    1) start vite using `HOST=0.0.0.0 npm run start` instead of `npm run start`
-    2) Use http://127.0.0.1:3000/hsr-optimizer instead of http://localhost:3000/hsr-optimizer
-  HOWEVER:
-    You will not be able to access i.imgur.com/... links using 127.0.0.1,
-    So the immediate next step of cropping will not work as expected.
-    https://stackoverflow.com/questions/43895390/imgur-images-returning-403
-  SUMMARY:
-    These Imgur restrictions are incredibly annoying to test with in development,
-    however it should have no impact in production.
-  *************************************************/
+   IMPORTANT:
+   When testing this on localhost, you WILL run into a 429 / 403 issue.
+   This is because Imgur API hates localhost for some reason.
+   https://stackoverflow.com/questions/66195106/imgur-api-responding-with-code-403-with-server-error-429
+   WORKAROUND:
+   1) start vite using `HOST=0.0.0.0 npm run start` instead of `npm run start`
+   2) Use http://127.0.0.1:3000/hsr-optimizer instead of http://localhost:3000/hsr-optimizer
+   HOWEVER:
+   You will not be able to access i.imgur.com/... links using 127.0.0.1,
+   So the immediate next step of cropping will not work as expected.
+   https://stackoverflow.com/questions/43895390/imgur-images-returning-403
+   SUMMARY:
+   These Imgur restrictions are incredibly annoying to test with in development,
+   however it should have no impact in production.
+   *************************************************/
   const uploadToImgurByUrl = async (imageUrl: string) => {
     const formData = new FormData()
     formData.append('image', imageUrl)
@@ -235,6 +235,9 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         throw new Error(`Imgur API error: ${errorData.data.error}`)
       }
       const data = await response.json()
+      if (data.data.width && data.data.height) {
+        setOriginalDimensions({ width: data.data.width, height: data.data.height })
+      }
       if (data.success) {
         const imgurLink = data.data.link
         setVerifiedImageUrl(imgurLink)
@@ -270,6 +273,9 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         throw new Error(`Imgur API error: ${errorData.data.error}`)
       }
       const data = await response.json()
+      if (data.data.width && data.data.height) {
+        setOriginalDimensions({ width: data.data.width, height: data.data.height })
+      }
       if (data.success) {
         const imgurLink = data.data.link
         setIsVerificationLoading(false)
@@ -391,7 +397,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
 
   const revert = () => {
     onOk({ type: 'delete' })
-    setCurrent(0)
+    setCurrent(1)
   }
   const prev = () => setCurrent(current - 1)
   const onRadioChange = (e: RadioChangeEvent) => setRadio(e.target.value)
@@ -401,37 +407,37 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       title: 'Provide image',
       content: (
         <>
-          <Flex justify="center" style={{ marginBottom: 16 }}>
-            <Radio.Group onChange={onRadioChange} value={radio} buttonStyle="solid">
-              <Radio.Button value="upload">Upload image</Radio.Button>
-              <Radio.Button value="url">Enter image URL</Radio.Button>
-              {defaultImageUrl && <Radio.Button value="default">Use default image</Radio.Button>}
+          <Flex justify='center' style={{ marginBottom: 16 }}>
+            <Radio.Group onChange={onRadioChange} value={radio} buttonStyle='solid'>
+              <Radio.Button value='upload'>Upload image</Radio.Button>
+              <Radio.Button value='url'>Enter image URL</Radio.Button>
+              {defaultImageUrl && <Radio.Button value='default'>Use default image</Radio.Button>}
             </Radio.Group>
           </Flex>
 
           {radio === 'upload' && (
             <>
               <Dragger
-                name="file"
+                name='file'
                 multiple={false}
-                accept="image/png, image/jpeg, image/jpg, image/gif"
+                accept='image/png, image/jpeg, image/jpg, image/gif'
                 beforeUpload={handleBeforeUpload}
                 disabled={isVerificationLoading}
                 showUploadList={false}
               >
                 {isVerificationLoading
                   ? (
-                    <Flex style={{ height: '300px' }} justify="center" align="center">
-                      <Spin size="large" />
+                    <Flex style={{ height: '300px' }} justify='center' align='center'>
+                      <Spin size='large'/>
                     </Flex>
                   )
                   : (
-                    <Flex style={{ height: '300px' }} justify="center" align="center" vertical>
-                      <p className="ant-upload-drag-icon">
-                        <InboxOutlined />
+                    <Flex style={{ height: '300px' }} justify='center' align='center' vertical>
+                      <p className='ant-upload-drag-icon'>
+                        <InboxOutlined/>
                       </p>
-                      <p className="ant-upload-text">Click or drag image file to this area to upload</p>
-                      <p className="ant-upload-hint">
+                      <p className='ant-upload-text'>Click or drag image file to this area to upload</p>
+                      <p className='ant-upload-hint'>
                         Accepts .jpg .jpeg .png .gif (Max: 20MB)
                       </p>
                     </Flex>
@@ -442,18 +448,18 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
 
           {radio === 'url' && (
             <Form.Item
-              name="imageUrl"
-              label="Image URL"
+              name='imageUrl'
+              label='Image URL'
               style={{ margin: '0 20px' }}
               rules={[{ required: true, message: 'Please input a valid image URL' }]}
             >
-              <Input autoComplete="off" />
+              <Input autoComplete='off'/>
             </Form.Item>
           )}
 
           {radio === 'default' && (
-            <Flex justify="center" style={{ height: '400px' }}>
-              <img src={defaultImageUrl} />
+            <Flex justify='center' style={{ height: '400px' }}>
+              <img src={defaultImageUrl}/>
             </Flex>
           )}
         </>
@@ -496,7 +502,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               maxZoom={MAX_ZOOM}
             />
           </div>
-          <Flex style={{ width: '100%', marginTop: 4 }} gap={8} align="center">
+          <Flex style={{ width: '100%', marginTop: 4 }} gap={8} align='center'>
             <label>Zoom</label>
             <Slider
               style={{ width: '100%' }}
@@ -513,11 +519,11 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           <Flex style={{ marginTop: 0 }}>
             <Flex vertical style={{ flex: 1 }}>
               <div>
-                <DragOutlined style={{ marginRight: 8 }} />
+                <DragOutlined style={{ marginRight: 8 }}/>
                 Drag to move
               </div>
               <div style={{ flex: 1, marginTop: 8 }}>
-                <ZoomInOutlined style={{ marginRight: 8 }} />
+                <ZoomInOutlined style={{ marginRight: 8 }}/>
                 Pinch or scroll to zoom
               </div>
             </Flex>
@@ -526,12 +532,12 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 (Optional) Art by:
               </Text>
               <Form.Item
-                name="artistName"
+                name='artistName'
               >
                 <Input
                   style={{ flex: 1, marginTop: 3 }}
-                  placeholder="Credit the artist if possible"
-                  autoComplete="off"
+                  placeholder='Credit the artist if possible'
+                  autoComplete='off'
                 />
               </Form.Item>
             </Flex>
@@ -542,7 +548,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   ]
 
   return (
-    <Form form={customImageForm} layout="vertical">
+    <Form form={customImageForm} layout='vertical'>
       <Modal
         open={open}
         width={width}
@@ -553,15 +559,15 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         onOk={handleOk}
         onCancel={() => setOpen(false)}
         footer={[
-          <Flex key={1} justify="flex-end">
-            <Flex style={{ marginTop: 16 }} justify="center" align="center" gap={8}>
-              {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size="large" />}
+          <Flex key={1} justify='flex-end'>
+            <Flex style={{ marginTop: 16 }} justify='center' align='center' gap={8}>
+              {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size='large'/>}
               <Button onClick={() => setOpen(false)}>
                 Cancel
               </Button>
               {(current > 0 && existingConfig) && (
-                <Button onClick={revert} danger>
-                  Revert to default
+                <Button onClick={prev} danger>
+                  Upload new image
                 </Button>
               )}
               {(current > 0 && !existingConfig) && (
@@ -570,26 +576,26 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 </Button>
               )}
               {current < steps.length - 1 && (
-                <Button type="primary" onClick={next} disabled={radio === 'upload'}>
+                <Button type='primary' onClick={next} disabled={radio === 'upload'}>
                   Next
                 </Button>
               )}
               {current === steps.length - 1 && (
-                <Button type="primary" onClick={handleOk}>
+                <Button type='primary' onClick={handleOk}>
                   Submit
                 </Button>
               )}
             </Flex>
           </Flex>,
         ]}
-        title={existingConfig ? 'Update crop' : `Edit ${title ?? 'image'}`}
+        title={`Edit ${title ?? 'image'}`}
       >
         <div style={{ height: '505px', position: 'relative' }}>
           {!existingConfig
           && (
             <Steps current={current} style={{ marginBottom: 12 }}>
               {steps.map((item) => (
-                <Steps.Step key={item.title} title={item.title} />
+                <Steps.Step key={item.title} title={item.title}/>
               ))}
             </Steps>
           )}

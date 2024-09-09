@@ -1,15 +1,14 @@
-import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
+import { ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
-  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const targetBurnedExtraScaling = talent(e, 1.00, 1.10)
 
@@ -35,7 +34,7 @@ export default (e: Eidolon): CharacterConditional => {
       text: 'Target burned',
       title: 'Target burned',
       content: `When attacking a target afflicted with Burn, deals Additional Fire DMG equal to ${precisionRound(targetBurnedExtraScaling * 100)}% of Hook's ATK.`,
-    }
+    },
   ]
 
   return {
@@ -46,9 +45,8 @@ export default (e: Eidolon): CharacterConditional => {
       targetBurned: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
 
@@ -73,15 +71,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
-    },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

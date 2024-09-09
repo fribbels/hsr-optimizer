@@ -1,11 +1,10 @@
 import { ContentItem } from 'types/Conditionals'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { Stats } from 'lib/constants.ts'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { findContentId, precisionRound } from 'lib/conditionals/utils.ts'
+import { Stats } from 'lib/constants'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesErr = [0.03, 0.035, 0.04, 0.045, 0.05]
@@ -52,13 +51,13 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x.ELEMENTAL_DMG += (t.cadenzaActive) ? sValuesDmgBuff[s] : 0
     },
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
       x[Stats.ERR] += r.cantillationStacks * sValuesErr[s]
       x[Stats.ATK_P] += (r.cadenzaActive) ? sValuesAtkBuff[s] : 0
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { },
+    finalizeCalculations: () => {
+    },
   }
 }

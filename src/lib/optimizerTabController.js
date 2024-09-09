@@ -501,8 +501,8 @@ export const OptimizerTabController = {
       }
     }
 
-    if (!newForm.resultLimit) {
-      newForm.resultLimit = 100000
+    if (!newForm.resultsLimit) {
+      newForm.resultsLimit = 1024
     }
 
     if (!newForm.mainStatUpscaleLevel) {
@@ -521,7 +521,7 @@ export const OptimizerTabController = {
       newForm.combo = {}
     }
 
-    if (Object.values(newForm.combo).every(value => !value)) {
+    if (Object.values(newForm.combo).every((value) => !value)) {
       const formula = scoringMetadata?.simulation?.formula
       if (formula) {
         for (const key of DamageKeys) {
@@ -532,7 +532,7 @@ export const OptimizerTabController = {
       }
     }
 
-    console.log('Form update', newForm)
+    // console.log('Form update', newForm)
     return newForm
   },
 
@@ -550,7 +550,7 @@ export const OptimizerTabController = {
       return false
     }
 
-    if (!x.resultLimit || !x.resultSort) {
+    if (!x.resultsLimit || !x.resultSort) {
       Message.error('Missing optimization target fields')
       console.log('Missing optimization target fields')
       return false
@@ -703,7 +703,7 @@ export const OptimizerTabController = {
       window.store.getState().setOptimizerFormCharacterEidolon(form.characterEidolon)
       window.store.getState().setStatDisplay(form.statDisplay || DEFAULT_STAT_DISPLAY)
       window.store.getState().setStatSimulations(form.statSim?.simulations || [])
-      console.log('@updateForm', displayFormValues, character)
+      // console.log('@updateForm', displayFormValues, character)
 
       window.onOptimizerFormValuesChange({}, displayFormValues)
     }, 50)

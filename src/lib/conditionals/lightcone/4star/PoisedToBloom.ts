@@ -3,7 +3,6 @@ import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { BETA_UPDATE, Stats } from 'lib/constants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
@@ -30,16 +29,14 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     teammateDefaults: () => ({
       cdBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
 
       x[Stats.CD] += (m.cdBuff) ? sValuesCd[s] : 0
     },
-    calculatePassives: (/* c, request */) => {
-    },
-    calculateBaseMultis: (_c: PrecomputedCharacterConditional, _request: Form) => {
+    finalizeCalculations: () => {
     },
   }
 }

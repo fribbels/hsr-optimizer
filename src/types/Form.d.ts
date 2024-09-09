@@ -1,10 +1,10 @@
 // import { } from "./Common";
 import { RelicEnhance, RelicGrade } from 'types/Relic'
-import { CharacterId, Eidolon } from 'types/Character'
+import { Eidolon } from 'types/Character'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { CharacterConditionalMap } from 'types/CharacterConditional'
 import { RelicSet } from 'types/RelicSet'
-import { ConditionalLightConeMap } from './LightConeConditionals'
+import { ConditionalLightConeMap } from 'types/LightConeConditionals'
+import { CharacterConditionalMap } from 'types/CharacterConditional'
 
 type MIN_INT = 0 | number
 type MAX_INT = 2147483647 | number
@@ -20,13 +20,14 @@ export type Teammate = {
 
 export type Form = {
   characterEidolon: Eidolon
-  characterId: CharacterId | undefined
+  characterId: string
   characterLevel: number
   enemyCount: number
   enemyElementalWeak: number
   enemyLevel: number
   enemyMaxToughness: number
   enemyResistance: number
+  enemyEffectResistance: number
   enemyWeaknessBroken: boolean
   enhance: RelicEnhance | number
   grade: RelicGrade | number
@@ -48,6 +49,8 @@ export type Form = {
   statDisplay: string
   PRIMARY_ELEMENTAL_DMG_TYPE: string
   statSim?: any
+  resultSort?: string
+  resultsLimit?: number
   path?: string
 
   weights: {
@@ -61,6 +64,8 @@ export type Form = {
   combo: {
     [key: string]: number
   }
+
+  setConditionals: { [key: string]: any[] }
 
   teammate0: Teammate
   teammate1: Teammate

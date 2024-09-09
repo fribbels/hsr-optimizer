@@ -263,12 +263,29 @@ export const RelicFilters = {
         const maxEnhance = grade * 3
         if (enhance < maxEnhance && enhance < mainStatUpscaleLevel) {
           const newEnhance = maxEnhance < mainStatUpscaleLevel ? maxEnhance : mainStatUpscaleLevel
-          const newValue = TsUtils.calculateRelicMainStatValue(stat, grade, newEnhance)
-          return x.augmentedStats.mainValue = newValue / (Utils.isFlat(x.main.stat) ? 1 : 100)
+          const newValue = TsUtils.calculateRelicMainStatValue(stat, grade, newEnhance) / (Utils.isFlat(x.main.stat) ? 1 : 100)
+          return x.augmentedStats.mainValue = newValue
         }
       })
     }
     return relics
+  },
+
+  condenseRelicSubstatsForOptimizerSingle: (relics) => {
+    for (const relic of relics) {
+      relic.condensedStats = []
+      for (const substat of relic.substats) {
+        const stat = substat.stat
+        const value = getValueByStatType(stat, substat.value)
+
+        relic.condensedStats.push([stat, value])
+      }
+      // Use augmented main value for maxed main stat filter
+      relic.condensedStats.push([relic.augmentedStats.mainStat, relic.augmentedStats.mainValue])
+
+      delete relic.augmentedStats
+      delete relic.weights
+    }
   },
 
   condenseRelicSubstatsForOptimizer: (relicsByPart) => {

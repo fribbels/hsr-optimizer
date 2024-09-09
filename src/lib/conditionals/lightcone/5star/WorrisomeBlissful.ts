@@ -3,7 +3,7 @@ import { Form } from 'types/Form'
 import getContentFromLCRanks from '../getContentFromLCRank'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals'
-import { ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants.ts'
+import { ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
@@ -62,7 +62,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.CD] += m.targetTameStacks * sValuesCd[s]
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { },
+    finalizeCalculations: () => {
+    },
   }
 }

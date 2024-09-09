@@ -1,10 +1,10 @@
 import { ContentItem } from 'types/Conditionals'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { ConditionalLightConeMap, LightConeConditional } from 'types/LightConeConditionals'
-import { Stats } from 'lib/constants.ts'
-import { precisionRound } from 'lib/conditionals/utils'
+import { LightConeConditional } from 'types/LightConeConditionals'
+import { Stats } from 'lib/constants'
+import { precisionRound } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesCd = [0.24, 0.30, 0.36, 0.42, 0.48]
@@ -23,16 +23,15 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       enemyDefReducedSlowed: true,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.lightConeConditionals as ConditionalLightConeMap
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+      const r = request.lightConeConditionals
 
       x[Stats.CD] += (r.enemyDefReducedSlowed) ? sValuesCd[s] : 0
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { },
+    finalizeCalculations: () => {
+    },
   }
 }

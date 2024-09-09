@@ -9,15 +9,17 @@ import DB from 'lib/db'
 import { Constants } from 'lib/constants.ts'
 import { usePublish } from 'hooks/usePublish'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
+import { dmgOrbMainstatBonus, mainStatBonuses, minRollValue, percentToScore } from 'lib/relicScorerPotential'
+// ^ can be hardcoded later, this makes initial balance adjustments less of a hassle
 
 const { Text } = Typography
 
 const TitleDivider = styled(Divider)`
-  margin-top: 10px !important;
-  margin-bottom: 10px !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
 `
 const InputNumberStyled = styled(InputNumber)`
-  width: 62px
+    width: 62px
 `
 const PStyled = styled.p`
 `
@@ -67,9 +69,9 @@ export default function ScoringModal() {
 
   function StatValueRow(props) {
     return (
-      <Flex justify="flex-start" style={{ width: panelWidth }} align="center" gap={5}>
-        <Form.Item size="default" name={['stats', props.stat]}>
-          <InputNumberStyled controls={false} size="small" />
+      <Flex justify='flex-start' style={{ width: panelWidth }} align='center' gap={5}>
+        <Form.Item size='default' name={['stats', props.stat]}>
+          <InputNumberStyled controls={false} size='small'/>
         </Form.Item>
         <Flex>
           <img src={Assets.getStatIcon(props.stat)} style={{ width: 25, height: 25, marginRight: 3 }}></img>
@@ -78,6 +80,7 @@ export default function ScoringModal() {
       </Flex>
     )
   }
+
   StatValueRow.propTypes = {
     stat: PropTypes.string,
   }
@@ -144,11 +147,11 @@ export default function ScoringModal() {
 
     return (
       <Popconfirm
-        title="Reset the scoring algorithm for all characters?"
-        description="You will lose any custom scoring settings you have set on any character."
+        title='Reset the scoring algorithm for all characters?'
+        description='You will lose any custom scoring settings you have set on any character.'
         onConfirm={resetAllCharacters}
-        okText="Yes"
-        cancelText="No"
+        okText='Yes'
+        cancelText='No'
       >
         <Button danger>Reset all characters</Button>
       </Popconfirm>
@@ -161,12 +164,54 @@ export default function ScoringModal() {
 
   const previewSrc = (scoringAlgorithmFocusCharacter) ? Assets.getCharacterPreviewById(scoringAlgorithmFocusCharacter) : Assets.getBlank()
 
-  const methodologyCollapse = (
+  const weightMethodologyCollapse = (
     <Text>
-      <PStyled>
-        Substat scoring is calculated by
+      <PStyled style={{ margin: '7px 0px' }}>
+        Substat weights are graded on a 0.0 to 1.0 scale in increments of 0.25, based on how valuable each stat is to the character. Weights are evaluated based on the following general ruleset:
+      </PStyled>
+
+      <Flex justify='space-between' style={{ marginRight: 30 }}>
+        <ul>
+          <li><u>Speed weight:</u></li>
+          <li>— SPD is given a value of 1.0 for every character. This is due to the importance of speed tuning in team compositions, and the optimizer should be used to maximize each character's stats at a certain speed breakpoint.</li>
+          <br/>
+          <li><u>CRIT Rate / CRIT Damage weight:</u></li>
+          <li>— Crit DPS in general are given the weights 0.75 ATK | 1.0 SPD | 1.0 CR | 1.0 CD, unless they have any other special scaling.</li>
+          <li>— ATK is weighted slightly than CR and CD rolls because in general crit substats will provide a higher boost to damage.</li>
+          <br/>
+          <li><u>HP / DEF weight:</u></li>
+          <li>— Defensive supports are given 2.0 weight to distribute between HP and DEF.</li>
+          <li>— For each additional (0.75 | 1.0) stat weight that they scale with, deduct 0.5 down to a minimum of 1.0.</li>
+          <li>— If 2.0 still remains and one of the stats is worth more than the other (Huohuo and HP% for example), assign a 1.0 / 0.75 split.</li>
+          <li>— Offensive supports follow the same ruleset, except they start with 1.5 weight to distribute between HP and DEF.</li>
+          <br/>
+          <li><u>RES weight:</u></li>
+          <li>— Support characters are granted 0.5 RES weight by default, with an additional 0.25 weight if they have synergy with RES or have critical team-saving abilities.</li>
+        </ul>
+      </Flex>
+
+      <PStyled style={{ margin: '7px 0px' }}>
+        These weights are the defaults, but each player may have different preferences. Feel free to adjust the weights to fit a certain playstyle. DPS characters should rely on the optimizer and Combat Score to evaluate their performance in combat, since substats scores don't take into account external factors like team buffs or passive effects.
+      </PStyled>
+    </Text>
+  )
+
+  const calculationsMethodologyCollapse = (
+    <Text>
+      <PStyled style={{ margin: '7px 0px' }}>
+        Relic scores are calculated by
         {' '}
-        <code>Score = weight * normalization * value</code>
+        <code>Score = substatScore / idealScore * {percentToScore}</code>
+        .
+        This allows for characters with fewer desired stats to achieve scores comparable to characters with many desired stats.
+      </PStyled>
+      <PStyled style={{ margin: '7px 0px' }}>
+        The idealScore is the substatScore for a theoretical perfect relic. By adjusting the score to the maximum possible relic, this means that when a weighted substat is occupied by the main stat, the score value of the remaining substat weights increases.
+      </PStyled>
+      <PStyled style={{ margin: '7px 0px' }}>
+        The substatScore is calculated by
+        {' '}
+        <code>SubstatScore = weight * normalization * value</code>
         .
         The weight of each stat is defined above, on a scale of 0 to 1.
         The normalization of each stat is calculated based on the ratio of their main stat values to Crit DMG with max value
@@ -174,7 +219,7 @@ export default function ScoringModal() {
         <code>64.8</code>
         :
       </PStyled>
-      <Flex justify="space-between" style={{ marginRight: 120 }}>
+      <Flex justify='space-between' style={{ marginRight: 120 }}>
         <ul>
           <li><code>CD BE = 64.8 / 64.8 == 1.0</code></li>
           <li><code>DEF% = 64.8 / 54.0 == 1.2</code></li>
@@ -191,24 +236,27 @@ export default function ScoringModal() {
       <PStyled style={{ margin: '7px 0px' }}>
         Flat ATK/HP/DEF have a separate calculation:
         {' '}
-        <code>1 / (2 * character base * 0.01) * (64.8 / (% main stat value))</code>
+        Their weights are automatically calculated based on the weights given to their respective % counterparts
+        <code> % stat weight * flat stat low roll / (baseStats.HP * 2 * % stat low roll)</code>
+        the weight calculation for flat atk for Seele for example would be:
+        <code> 0.75 * 19 / (baseStats.HP * 2 * 0.03888)</code>
         .
-        This converts the flat stat value to a percent equivalent by base stats, then normalizes it.
-        Double the character base is used instead of character + light cone base due to the variable nature of light cone stats.
+      </PStyled>
+      <PStyled style={{ margin: '7px 0px' }}>
+        The normalization is calculated based on the normalization for the respective % counterparts:
+        <li>
+          <code>64.8 / % main stat value * % stat high roll value / flat stat high roll value</code>
+          . in combination with the adjusted weights, this allows for flat stats to be accurately scored when compared against their % counterparts.
+        </li>
       </PStyled>
 
       <PStyled style={{ margin: '7px 0px' }}>
         A letter grade is assigned based on the number of normalized min rolls of each substat.
-        The score for each min roll in theory should be equivalent to
+        The score for each min roll is equivalent to
         {' '}
-        <code>5.184</code>
-        , but is rounded down to
-        {' '}
-        <code>5.1</code>
-        {' '}
-        due to the game not displaying extra decimals.
+        <code>{minRollValue}</code>
+        {'\n'}
         The general scale for grade by rolls is
-        {' '}
         <code>F=1, D=2, C=3, B=4, A=5, S=6, SS=7, SSS=8, WTF=9</code>
         {' '}
         with a
@@ -221,7 +269,7 @@ export default function ScoringModal() {
       <PStyled style={{ margin: '7px 0px' }}>
         Character scores are calculated by
         {' '}
-        <code>Score = sum(relic substat scores) + sum(main stat scores)</code>
+        <code>Score = sum(relic scores) + sum(main stat scores)</code>
         .
         Only the feet/body/sphere/rope relics have main stat scores.
         The main stat score for a 5 star maxed relic is
@@ -234,43 +282,43 @@ export default function ScoringModal() {
       </PStyled>
 
       <PStyled style={{ margin: '7px 0px' }}>
-        Body/feet/sphere/rope relics are granted extra rolls to compensate for the difficulty of obtaining optimal main stats with desired substats.
+        Relics with main stats (body/feet/sphere/rope) are granted extra rolls to compensate for the difficulty of obtaining optimal main stats with desired substats.
         These numbers were calculated by a simulation of relic rolls accounting for main stat drop rate and expected substat value.
-        These rolls are multiplied by the min roll value of
+        These rolls are first multiplied by the min roll value of
         {' '}
-        <code>5.1</code>
+        <code>{minRollValue}</code>
         {' '}
-        for the bonus score value.
+        and then, if the main stat is not optimal, scaled down by the stat weight to obtain the bonus score value.
       </PStyled>
 
-      <Flex justify="space-between" style={{ marginRight: 30 }}>
+      <Flex justify='space-between' style={{ marginRight: 30 }}>
         <ul>
-          <li><code>Body HP_P 1.320</code></li>
-          <li><code>Body ATK_P 1.284</code></li>
-          <li><code>Body DEF_P 1.305</code></li>
-          <li><code>Body CR 1.644</code></li>
-          <li><code>Body CD 1.658</code></li>
+          <li><code>Body — HP %: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.HP_P]).toFixed(1)}</code></li>
+          <li><code>Body — ATK %: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.ATK_P]).toFixed(1)}</code></li>
+          <li><code>Body — DEF %: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.DEF_P]).toFixed(1)}</code></li>
+          <li><code>Body — CR: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.CR]).toFixed(1)}</code></li>
+          <li><code>Body — CD: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.CD]).toFixed(1)}</code></li>
         </ul>
         <ul>
-          <li><code>Body OHB 1.712</code></li>
-          <li><code>Body EHR 1.668</code></li>
-          <li><code>Feet HP_P 1.058</code></li>
-          <li><code>Feet ATK_P 1.019</code></li>
-          <li><code>Feet DEF_P 1.000</code></li>
+          <li><code>Body — OHB: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.OHB]).toFixed(1)}</code></li>
+          <li><code>Body — EHR: {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.EHR]).toFixed(1)}</code></li>
+          <li><code>Feet — HP %: {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.HP_P]).toFixed(1)}</code></li>
+          <li><code>Feet — ATK %: {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.ATK_P]).toFixed(1)}</code></li>
+          <li><code>Feet — DEF %: {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.DEF_P]).toFixed(1)}</code></li>
         </ul>
         <ul>
-          <li><code>Feet SPD 1.567</code></li>
-          <li><code>PlanarSphere HP_P 1.583</code></li>
-          <li><code>PlanarSphere ATK_P 1.559</code></li>
-          <li><code>PlanarSphere DEF_P 1.587</code></li>
-          <li><code>PlanarSphere ELEM 1.763</code></li>
+          <li><code>Feet — SPD: {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.SPD]).toFixed(1)}</code></li>
+          <li><code>Sphere — HP %: {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.HP_P]).toFixed(1)}</code></li>
+          <li><code>Sphere — ATK %: {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.ATK_P]).toFixed(1)}</code></li>
+          <li><code>Sphere — DEF %: {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.DEF_P]).toFixed(1)}</code></li>
+          <li><code>Sphere — Elemental DMG %: {(dmgOrbMainstatBonus).toFixed(1)}</code></li>
         </ul>
         <ul>
-          <li><code>LinkRope HP_P 1.073</code></li>
-          <li><code>LinkRope ATK_P 1.076</code></li>
-          <li><code>LinkRope DEF_P 1.172</code></li>
-          <li><code>LinkRope BE 1.416</code></li>
-          <li><code>LinkRope ERR 2.000</code></li>
+          <li><code>Rope — HP %: {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.HP_P]).toFixed(1)}</code></li>
+          <li><code>Rope — ATK %: {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.ATK_P]).toFixed(1)}</code></li>
+          <li><code>Rope — DEF %: {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.DEF_P]).toFixed(1)}</code></li>
+          <li><code>Rope — BE: {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.BE]).toFixed(1)}</code></li>
+          <li><code>Rope — ERR: {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.ERR]).toFixed(1)}</code></li>
         </ul>
       </Flex>
 
@@ -290,14 +338,14 @@ export default function ScoringModal() {
       onCancel={handleCancel}
       forceRender
       footer={[
-        <Button key="back" onClick={handleCancel}>
+        <Button key='back' onClick={handleCancel}>
           Cancel
         </Button>,
-        <Button key="default" onClick={handleResetDefault}>
+        <Button key='default' onClick={handleResetDefault}>
           Reset to default
         </Button>,
-        <ResetAllCharactersButton key="resetAll" />,
-        <Button key="submit" type="primary" onClick={onModalOk}>
+        <ResetAllCharactersButton key='resetAll'/>,
+        <Button key='submit' type='primary' onClick={onModalOk}>
           Save changes
         </Button>,
       ]}
@@ -305,68 +353,68 @@ export default function ScoringModal() {
       <Form
         form={scoringAlgorithmForm}
         preserve={false}
-        layout="vertical"
+        layout='vertical'
         onFinish={onFinish}
       >
 
         <TitleDivider>Stat weights</TitleDivider>
 
         <Flex gap={10} vertical>
-          <Flex gap={20} justify="space-between">
+          <Flex gap={20} justify='space-between'>
             <Flex vertical gap={5}>
-              <Form.Item size="default" name="characterId">
+              <Form.Item size='default' name='characterId'>
                 <CharacterSelect
-                  value=""
+                  value=''
                   selectStyle={{}}
                   onChange={characterSelectorChange}
                 />
               </Form.Item>
               <div style={{ height: 230, width: panelWidth, overflow: 'hidden' }}>
-                <img src={previewSrc} style={{ width: panelWidth }} />
+                <img src={previewSrc} style={{ width: panelWidth }}/>
               </div>
             </Flex>
             <Flex vertical gap={3}>
-              <StatValueRow stat={Constants.Stats.ATK} />
-              <StatValueRow stat={Constants.Stats.HP} />
-              <StatValueRow stat={Constants.Stats.DEF} />
-              <StatValueRow stat={Constants.Stats.SPD} />
-              <StatValueRow stat={Constants.Stats.CR} />
-              <StatValueRow stat={Constants.Stats.CD} />
-              <StatValueRow stat={Constants.Stats.EHR} />
-              <StatValueRow stat={Constants.Stats.RES} />
-              <StatValueRow stat={Constants.Stats.BE} />
+              <StatValueRow stat={Constants.Stats.ATK}/>
+              <StatValueRow stat={Constants.Stats.HP}/>
+              <StatValueRow stat={Constants.Stats.DEF}/>
+              <StatValueRow stat={Constants.Stats.SPD}/>
+              <StatValueRow stat={Constants.Stats.CR}/>
+              <StatValueRow stat={Constants.Stats.CD}/>
+              <StatValueRow stat={Constants.Stats.EHR}/>
+              <StatValueRow stat={Constants.Stats.RES}/>
+              <StatValueRow stat={Constants.Stats.BE}/>
             </Flex>
             <Flex vertical gap={3}>
-              <StatValueRow stat={Constants.Stats.ERR} />
-              <StatValueRow stat={Constants.Stats.OHB} />
-              <StatValueRow stat={Constants.Stats.Physical_DMG} />
-              <StatValueRow stat={Constants.Stats.Fire_DMG} />
-              <StatValueRow stat={Constants.Stats.Ice_DMG} />
-              <StatValueRow stat={Constants.Stats.Lightning_DMG} />
-              <StatValueRow stat={Constants.Stats.Wind_DMG} />
-              <StatValueRow stat={Constants.Stats.Quantum_DMG} />
-              <StatValueRow stat={Constants.Stats.Imaginary_DMG} />
+              <StatValueRow stat={Constants.Stats.ERR}/>
+              <StatValueRow stat={Constants.Stats.OHB}/>
+              <StatValueRow stat={Constants.Stats.Physical_DMG}/>
+              <StatValueRow stat={Constants.Stats.Fire_DMG}/>
+              <StatValueRow stat={Constants.Stats.Ice_DMG}/>
+              <StatValueRow stat={Constants.Stats.Lightning_DMG}/>
+              <StatValueRow stat={Constants.Stats.Wind_DMG}/>
+              <StatValueRow stat={Constants.Stats.Quantum_DMG}/>
+              <StatValueRow stat={Constants.Stats.Imaginary_DMG}/>
             </Flex>
           </Flex>
         </Flex>
 
         <TitleDivider>Optimal main stats</TitleDivider>
 
-        <Flex justify="space-between">
+        <Flex justify='space-between'>
           <Flex vertical gap={defaultGap * 2}>
-            <Flex vertical gap={1} justify="flex-start">
+            <Flex vertical gap={1} justify='flex-start'>
               <Text style={{ marginLeft: 5 }}>
                 Body
               </Text>
-              <Form.Item size="default" name={['parts', Constants.Parts.Body]}>
+              <Form.Item size='default' name={['parts', Constants.Parts.Body]}>
                 <Select
-                  mode="multiple"
+                  mode='multiple'
                   allowClear
                   style={{
                     width: selectWidth,
                   }}
-                  placeholder="Body"
-                  maxTagCount="responsive"
+                  placeholder='Body'
+                  maxTagCount='responsive'
                 >
                   <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                   <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
@@ -379,19 +427,19 @@ export default function ScoringModal() {
               </Form.Item>
             </Flex>
 
-            <Flex vertical gap={1} justify="flex-start">
+            <Flex vertical gap={1} justify='flex-start'>
               <Text style={{ marginLeft: 5 }}>
                 Feet
               </Text>
-              <Form.Item size="default" name={['parts', Constants.Parts.Feet]}>
+              <Form.Item size='default' name={['parts', Constants.Parts.Feet]}>
                 <Select
-                  mode="multiple"
+                  mode='multiple'
                   allowClear
                   style={{
                     width: selectWidth,
                   }}
-                  placeholder="Feet"
-                  maxTagCount="responsive"
+                  placeholder='Feet'
+                  maxTagCount='responsive'
                 >
                   <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                   <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
@@ -402,20 +450,20 @@ export default function ScoringModal() {
             </Flex>
           </Flex>
           <Flex vertical gap={defaultGap * 2}>
-            <Flex vertical gap={1} justify="flex-start">
+            <Flex vertical gap={1} justify='flex-start'>
               <Text style={{ marginLeft: 5 }}>
                 Planar Sphere
               </Text>
-              <Form.Item size="default" name={['parts', Constants.Parts.PlanarSphere]}>
+              <Form.Item size='default' name={['parts', Constants.Parts.PlanarSphere]}>
                 <Select
-                  mode="multiple"
+                  mode='multiple'
                   allowClear
                   style={{
                     width: selectWidth,
                   }}
-                  placeholder="Planar Sphere"
+                  placeholder='Planar Sphere'
                   listHeight={400}
-                  maxTagCount="responsive"
+                  maxTagCount='responsive'
                 >
                   <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                   <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
@@ -431,20 +479,20 @@ export default function ScoringModal() {
               </Form.Item>
             </Flex>
 
-            <Flex vertical gap={1} justify="flex-start">
+            <Flex vertical gap={1} justify='flex-start'>
               <Text style={{ marginLeft: 5 }}>
                 Link rope
               </Text>
 
-              <Form.Item size="default" name={['parts', Constants.Parts.LinkRope]}>
+              <Form.Item size='default' name={['parts', Constants.Parts.LinkRope]}>
                 <Select
-                  mode="multiple"
+                  mode='multiple'
                   allowClear
                   style={{
                     width: selectWidth,
                   }}
-                  placeholder="Link Rope"
-                  maxTagCount="responsive"
+                  placeholder='Link Rope'
+                  maxTagCount='responsive'
                 >
                   <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                   <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
@@ -457,6 +505,18 @@ export default function ScoringModal() {
           </Flex>
         </Flex>
 
+        <TitleDivider>Substat weight methodology</TitleDivider>
+
+        <Collapse
+          ghost
+          items={[{
+            key: '1',
+            label: 'Click to show details',
+            children: weightMethodologyCollapse,
+          }]}
+        >
+        </Collapse>
+
         <TitleDivider>Calculations</TitleDivider>
 
         <Collapse
@@ -464,7 +524,7 @@ export default function ScoringModal() {
           items={[{
             key: '1',
             label: 'Click to show details',
-            children: methodologyCollapse,
+            children: calculationsMethodologyCollapse,
           }]}
         >
         </Collapse>

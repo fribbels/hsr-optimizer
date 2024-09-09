@@ -1,11 +1,15 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
+import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -82,9 +86,8 @@ export default (e: Eidolon): CharacterConditional => {
       burdenAtkBuff: true,
       teammateSPDValue: 160,
     }),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
 
@@ -113,15 +116,60 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.SPD] += (t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.characterConditionals
-      const x = c.x
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    dynamicConditionals: [
+      {
+        id: 'HanyaSpdConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.SPD],
+        ratioConversion: true,
+        condition: function () {
+          return true
+        },
+        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+          const r = request.characterConditionals
+          if (!r.ultBuff) {
+            return
+          }
 
-      x[Stats.SPD] += (r.ultBuff) ? ultSpdBuffValue * x[Stats.SPD] : 0
+          const stateValue = params.conditionalState[this.id] || 0
+          const convertibleSpdValue = x[Stats.SPD] - x.RATIO_BASED_SPD_BUFF
 
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-    },
+          const buffSPD = ultSpdBuffValue * convertibleSpdValue
+          const stateBuffSPD = ultSpdBuffValue * stateValue
+
+          params.conditionalState[this.id] = x[Stats.SPD]
+
+          const finalBuffSpd = buffSPD - (stateValue ? stateBuffSPD : 0)
+          x.RATIO_BASED_SPD_BUFF += finalBuffSpd
+
+          buffStat(x, request, params, Stats.SPD, finalBuffSpd)
+        },
+        gpu: function (request: Form, _params: OptimizerParams) {
+          const r = request.characterConditionals
+
+          return conditionalWgslWrapper(this, `
+if (${wgslFalse(r.ultBuff)}) {
+  return;
+}
+
+let stateValue: f32 = (*p_state).HanyaSpdConditional;
+let convertibleSpdValue: f32 = (*p_x).SPD - (*p_x).RATIO_BASED_SPD_BUFF;
+
+var buffSPD: f32 = ${ultSpdBuffValue} * convertibleSpdValue;
+var stateBuffSPD: f32 = ${ultSpdBuffValue} * stateValue;
+
+(*p_state).HanyaSpdConditional = (*p_x).SPD;
+
+let finalBuffSpd = buffSPD - select(0, stateBuffSPD, stateValue > 0);
+(*p_x).RATIO_BASED_SPD_BUFF += finalBuffSpd;
+
+buffNonRatioDynamicSPD(finalBuffSpd, p_x, p_state);
+    `)
+        },
+      },
+    ],
   }
 }

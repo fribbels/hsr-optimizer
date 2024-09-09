@@ -1,11 +1,10 @@
 import { ContentItem } from 'types/Conditionals'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { Stats } from 'lib/constants.ts'
-import { findContentId, precisionRound } from 'lib/conditionals/utils.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Stats } from 'lib/constants'
+import { findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesCd = [0.40, 0.46, 0.52, 0.58, 0.64]
@@ -46,7 +45,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     teammateDefaults: () => ({
       targetVulnerability: true,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
       x[Stats.CD] += (r.shieldCdBuff) ? sValuesCd[s] : 0
@@ -54,9 +53,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
 
-      x.DMG_TAKEN_MULTI += (m.targetVulnerability) ? sValuesVulnerability[s] : 0
+      x.VULNERABILITY += (m.targetVulnerability) ? sValuesVulnerability[s] : 0
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { },
+    finalizeCalculations: () => {
+    },
   }
 }

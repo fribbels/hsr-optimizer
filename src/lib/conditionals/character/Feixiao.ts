@@ -1,8 +1,8 @@
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/utils'
+import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
@@ -21,8 +21,8 @@ export default (e: Eidolon): CharacterConditional => {
   const fuaScaling = talent(e, 1.10, 1.21)
   const talentDmgBuff = talent(e, 0.60, 0.66)
 
-  const ultHitCountMulti = ASHBLAZING_ATK_STACK * (1 * 0.1285 + 2 * 0.1285 + 3 * 0.1285 + 4 * 0.1285 + 5 * 0.1285 + 6 * 0.1285 + 7 * 0.2285)
-  const ultBrokenHitCountMulti = ASHBLAZING_ATK_STACK * (
+  const ultHitCountMulti = (1 * 0.1285 + 2 * 0.1285 + 3 * 0.1285 + 4 * 0.1285 + 5 * 0.1285 + 6 * 0.1285 + 7 * 0.2285)
+  const ultBrokenHitCountMulti = (
     1 * 0.1285 * 0.1 + 2 * 0.1285 * 0.9
     + 3 * 0.1285 * 0.1 + 4 * 0.1285 * 0.9
     + 5 * 0.1285 * 0.1 + 6 * 0.1285 * 0.9
@@ -30,6 +30,14 @@ export default (e: Eidolon): CharacterConditional => {
     + 8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
     + 8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
     + 8 * 0.2285)
+
+  function getUltHitMulti(request: Form) {
+    const r = request.characterConditionals
+
+    return r.weaknessBrokenUlt
+      ? ASHBLAZING_ATK_STACK * ultBrokenHitCountMulti
+      : ASHBLAZING_ATK_STACK * ultHitCountMulti
+  }
 
   const content: ContentItem[] = [
     {
@@ -102,16 +110,24 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => defaults,
     teammateDefaults: () => ({}),
-    precomputeEffects: (request: Form) => {
+    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
 
-      // Special case where we force the weakness break on if the ult break option is enabled
       if (r.weaknessBrokenUlt) {
         x.ENEMY_WEAKNESS_BROKEN = 1
-      } else {
+      }
+
+      if (e >= 6 && r.e6Buffs) {
+        x.FUA_DMG_TYPE = ULT_TYPE | FUA_TYPE
+      }
+    },
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+      const r = request.characterConditionals
+
+      // Special case where we force the weakness break on if the ult break option is enabled
+      if (!r.weaknessBrokenUlt) {
         x.ULT_BREAK_EFFICIENCY_BOOST += 1.00
       }
 
@@ -135,7 +151,6 @@ export default (e: Eidolon): CharacterConditional => {
 
       if (e >= 6 && r.e6Buffs) {
         x.RES_PEN += 0.20
-        x.FUA_DMG_TYPE = ULT_TYPE | FUA_TYPE
         x.FUA_SCALING += 1.40
       }
 
@@ -148,27 +163,23 @@ export default (e: Eidolon): CharacterConditional => {
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.characterConditionals
-      const x: ComputedStatsObject = c.x
-
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-
-      // Ult is multi hit ashblazing
-      if (r.weaknessBrokenUlt) {
-        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, ultBrokenHitCountMulti)
-        x.ULT_DMG += x.ULT_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
-      } else {
-        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, ultHitCountMulti)
-        x.ULT_DMG += x.ULT_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
-      }
-
-      // // Everything else is single hit
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, ASHBLAZING_ATK_STACK * (1 * 1.00))
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      x.ULT_DMG += x.ULT_SCALING * (x[Stats.ATK] + calculateAshblazingSet(x, request, getUltHitMulti(request)))
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + calculateAshblazingSet(x, request, ASHBLAZING_ATK_STACK * (1 * 1.00)))
+      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${getUltHitMulti(request)}));
+x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${ASHBLAZING_ATK_STACK * (1 * 1.00)}));
+x.DOT_DMG += x.DOT_SCALING * x.ATK;
+    `
     },
   }
 }

@@ -1,17 +1,13 @@
 import { Stats } from 'lib/constants'
-import {
-  ASHBLAZING_ATK_STACK,
-  baseComputedStatsObject,
-  ComputedStatsObject,
-  FUA_TYPE
-} from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
+import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, precisionRound, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { NumberToNumberMap } from 'types/Common'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -23,7 +19,7 @@ export default (e: Eidolon): CharacterConditional => {
   const skillScaling = skill(e, 1.20, 1.32)
   const fuaScaling = talent(e, 1.60, 1.76)
 
-  const hitMultiByTargetsBlast = {
+  const hitMultiByTargetsBlast: NumberToNumberMap = {
     1: ASHBLAZING_ATK_STACK * (1 * 1 / 1),
     3: ASHBLAZING_ATK_STACK * (2 * 1 / 1),
     5: ASHBLAZING_ATK_STACK * (2 * 1 / 1), // Clara is 1 hit blast when enhanced
@@ -72,11 +68,9 @@ export default (e: Eidolon): CharacterConditional => {
       e2UltAtkBuff: true,
       e4DmgReductionBuff: true,
     }),
-    teammateDefaults: () => ({
-    }),
-    precomputeEffects: (request: Form) => {
+    teammateDefaults: () => ({}),
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.ATK_P] += (e >= 2 && r.e2UltAtkBuff) ? 0.30 : 0
@@ -101,23 +95,17 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-
-      // Calc ashblazing: ult buff -> blast, unbuffed -> single
-      if (r.ultBuff) {
-        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMultiByTargetsBlast[request.enemyCount])
-        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
-      } else {
-        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMultiSingle)
-        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
-      }
+      const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[request.enemyCount] : hitMultiSingle
+      standardFuaAtkFinalizer(x, request, hitMulti)
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      const r = request.characterConditionals
+      const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[request.enemyCount] : hitMultiSingle
+      return gpuStandardFuaAtkFinalizer(hitMulti)
     },
   }
 }

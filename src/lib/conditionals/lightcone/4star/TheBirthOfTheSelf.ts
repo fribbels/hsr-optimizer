@@ -36,7 +36,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       enemyHp50FuaBuff: true,
     }),
@@ -46,7 +45,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       buffAbilityDmg(x, FUA_TYPE, sValues[s])
       buffAbilityDmg(x, FUA_TYPE, sValues[s], (r.enemyHp50FuaBuff))
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { },
+    finalizeCalculations: () => {
+    },
   }
 }

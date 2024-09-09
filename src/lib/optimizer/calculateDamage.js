@@ -1,26 +1,19 @@
 import { Stats } from 'lib/constants'
 import { p2 } from 'lib/optimizer/optimizerUtils'
 
-export function calculateBaseMultis(c, request, params) {
+export function calculateBaseMultis(x, request, params) {
   const lightConeConditionals = params.lightConeConditionals
   const characterConditionals = params.characterConditionals
 
-  if (lightConeConditionals.calculateBaseMultis) lightConeConditionals.calculateBaseMultis(c, request, params)
-  if (characterConditionals.calculateBaseMultis) characterConditionals.calculateBaseMultis(c, request, params)
+  if (lightConeConditionals.finalizeCalculations) lightConeConditionals.finalizeCalculations(x, request)
+  if (characterConditionals.finalizeCalculations) characterConditionals.finalizeCalculations(x, request)
 }
 
-export function calculatePassiveStatConversions(c, request, params) {
-  const characterConditionals = params.characterConditionals
-
-  if (characterConditionals.calculatePassives) characterConditionals.calculatePassives(c, request, params)
-}
-
-export function calculateDamage(c, request, params) {
-  const x = c.x
-  const sets = c.sets
+export function calculateDamage(x, request, params) {
+  const sets = x.sets
   const cLevel = 80
   const eLevel = request.enemyLevel
-  const defReduction = x.DEF_SHRED + request.combatBuffs.DEF_SHRED
+  const defReduction = x.DEF_PEN + request.combatBuffs.DEF_PEN
   const defIgnore = 0
 
   x.ELEMENTAL_DMG += x[params.ELEMENTAL_DMG_TYPE]
@@ -39,19 +32,19 @@ export function calculateDamage(c, request, params) {
 
   const ULT_CD = x.ULT_CD_OVERRIDE || (x[Stats.CD] + x.ULT_CD_BOOST) // Robin overrides ULT CD
 
-  const breakVulnerability = 1 + x.DMG_TAKEN_MULTI + x.BREAK_VULNERABILITY
-  const basicVulnerability = 1 + x.DMG_TAKEN_MULTI + x.BASIC_VULNERABILITY
-  const skillVulnerability = 1 + x.DMG_TAKEN_MULTI + x.SKILL_VULNERABILITY
-  const ultVulnerability = 1 + x.DMG_TAKEN_MULTI + x.ULT_VULNERABILITY * x.ULT_BOOSTS_MULTI
-  const fuaVulnerability = 1 + x.DMG_TAKEN_MULTI + x.FUA_VULNERABILITY
-  const dotVulnerability = 1 + x.DMG_TAKEN_MULTI + x.DOT_VULNERABILITY
+  const breakVulnerability = 1 + x.VULNERABILITY + x.BREAK_VULNERABILITY
+  const basicVulnerability = 1 + x.VULNERABILITY + x.BASIC_VULNERABILITY
+  const skillVulnerability = 1 + x.VULNERABILITY + x.SKILL_VULNERABILITY
+  const ultVulnerability = 1 + x.VULNERABILITY + x.ULT_VULNERABILITY * x.ULT_BOOSTS_MULTI
+  const fuaVulnerability = 1 + x.VULNERABILITY + x.FUA_VULNERABILITY
+  const dotVulnerability = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY
 
   const ENEMY_EFFECT_RES = request.enemyEffectResistance
   // const ENEMY_DEBUFF_RES = 0 // Ignored debuff res for now
 
   // For stacking dots where the first stack has extra value
   // c = dot chance, s = stacks => avg dmg = (full dmg) * (1 + 0.05 * c * (s-1)) / (1 + 0.05 * (s-1))
-  const effectiveDotChance = Math.min(1, x.DOT_CHANCE * (1 + x[Stats.EHR]) * (1 - ENEMY_EFFECT_RES + x.EFFECT_RES_SHRED))
+  const effectiveDotChance = Math.min(1, x.DOT_CHANCE * (1 + x[Stats.EHR]) * (1 - ENEMY_EFFECT_RES + x.EFFECT_RES_PEN))
   const dotEhrMultiplier = x.DOT_SPLIT
     ? (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + 0.05 * (x.DOT_STACKS - 1))
     : effectiveDotChance
@@ -80,6 +73,17 @@ export function calculateDamage(c, request, params) {
     * (1 / 30)
     * (1 + x.BREAK_EFFICIENCY_BOOST)
 
+  const basicSuperBreakDmg
+    = universalMulti
+    * 3767.5533
+    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
+    * breakVulnerability
+    * (1 - baseResistance)
+    * (1 + x[Stats.BE])
+    * (x.BASIC_SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER)
+    * (1 / 30)
+    * (1 + x.BREAK_EFFICIENCY_BOOST)
+
   x.BASIC_DMG
     = x.BASIC_DMG
     * universalMulti
@@ -89,7 +93,7 @@ export function calculateDamage(c, request, params) {
     * (1 - (baseResistance - x.BASIC_RES_PEN))
     * (1 + x.BASIC_ORIGINAL_DMG_BOOST)
     + (x.BASIC_BREAK_DMG_MODIFIER * x.BREAK_DMG)
-    + (x.SUPER_BREAK_DMG * x.BASIC_TOUGHNESS_DMG * (1 + x.BASIC_BREAK_EFFICIENCY_BOOST))
+    + ((basicSuperBreakDmg ? basicSuperBreakDmg : x.SUPER_BREAK_DMG) * x.BASIC_TOUGHNESS_DMG * (1 + x.BASIC_BREAK_EFFICIENCY_BOOST))
 
   x.SKILL_DMG
     = x.SKILL_DMG

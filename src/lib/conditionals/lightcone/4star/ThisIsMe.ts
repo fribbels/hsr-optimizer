@@ -36,22 +36,13 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       defScalingUltDmg: false,
     }),
-    precomputeEffects: (/* x, request */) => {
-      //  let r = request.lightConeConditionals
+    precomputeEffects: () => {
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (/* c: PrecomputedCharacterConditional, request: Form */) => {
-      /*
-       * console.warn('not implemented', c, request);
-       * let r = request.lightConeConditionals
-       * let x = c.x
-       */
-
-      // x.ULT_DEF_SCALING += (r.defScalingUltDmg) ? sValues[s] : 0
+    finalizeCalculations: () => {
+      // TODO: NOT IMPLEMENTED
     },
   }
 }

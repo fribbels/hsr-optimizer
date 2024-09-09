@@ -1,4 +1,4 @@
-String.prototype.format = String.prototype.f = function() {
+String.prototype.format = String.prototype.f = function () {
   let s = this, // eslint-disable-line @typescript-eslint/no-this-alias
     i = arguments.length
 

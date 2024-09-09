@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Button, Dropdown, Flex, Form, Input, Segmented, theme, Typography } from 'antd'
 import { CharacterPreview } from 'components/CharacterPreview'
 import { SaveState } from 'lib/saveState'
 import { CharacterConverter } from 'lib/characterConverter'
 import { Assets } from 'lib/assets'
 import PropTypes from 'prop-types'
-import DB, { AppPages } from 'lib/db'
+import DB, { AppPages, PageToRoute } from 'lib/db'
 import { Utils } from 'lib/utils'
 import Icon, { CameraOutlined, DownloadOutlined, EditOutlined, ExperimentOutlined, ImportOutlined, LineChartOutlined } from '@ant-design/icons'
 import { Message } from 'lib/message'
@@ -25,24 +25,25 @@ function presetCharacters() {
   const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.displayName == name)?.id || null
   const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.displayName == name)?.id || null
   return [
+    { characterId: char('Rappa'), lightConeId: lc('Ninjutsu Inscription: Dazzling Evilbreaker') },
     { characterId: char('Feixiao'), lightConeId: lc('I Venture Forth to Hunt') },
     { characterId: char('Lingsha'), lightConeId: lc('Scent Alone Stays True') },
     { characterId: char('Jiaoqiu'), lightConeId: lc('Those Many Springs') },
-    { characterId: char('Moze'), lightConeId: lc('Shadowed by Night') },
-    { characterId: char('March 7th (Hunt)'), lightConeId: lc('Cruising in the Stellar Sea'), lightConeSuperimposition: 5 },
-    { characterId: char('Yunli'), lightConeId: lc('Dance at Sunset') },
     { custom: true },
   ].filter((x) => x.characterId != null || x.custom) // Unreleased characters
 }
 
 const { Text } = Typography
 
+const throttleSeconds = 10
+
 export default function RelicScorerTab() {
-  console.log('RelicScorerTab')
+  console.log('======================================================================= RENDER RelicScorerTab')
 
   const [loading, setLoading] = useState(false)
   const [availableCharacters, setAvailableCharacters] = useState([])
   const [selectedCharacter, setSelectedCharacter] = useState()
+  const latestRefreshDate = useRef(null)
 
   const scorerId = window.store((s) => s.scorerId)
   const setScorerId = window.store((s) => s.setScorerId)
@@ -50,7 +51,35 @@ export default function RelicScorerTab() {
   const [scorerForm] = Form.useForm()
   window.scorerForm = scorerForm
 
+  useEffect(() => {
+    const params = window.location.href.split('?')[1]
+    if (params) {
+      const id = params.split('id=')[1].split('&')[0]
+      onFinish({ scorerId: id })
+    }
+  }, [])
+  const activeKey = window.store((s) => s.activeKey)
+  useEffect(() => {
+    if (availableCharacters.length && scorerId && activeKey == AppPages.RELIC_SCORER) {
+      window.history.replaceState({ id: scorerId }, `profile: ${scorerId}`, PageToRoute[AppPages.RELIC_SCORER] + `?id=${scorerId}`)
+    }
+  }, [activeKey])
+
   function onFinish(x) {
+    if (latestRefreshDate.current) {
+      Message.warning(`Please wait ${Math.max(1, Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000))} seconds before retrying`)
+      if (loading) {
+        setLoading(false)
+      }
+      return
+    } else {
+      setLoading(true)
+      latestRefreshDate.current = new Date()
+      setTimeout(() => {
+        latestRefreshDate.current = null
+      }, throttleSeconds * 1000)
+    }
+
     console.log('finish', x)
 
     const id = x?.scorerId?.toString().trim() || ''
@@ -63,6 +92,8 @@ export default function RelicScorerTab() {
 
     setScorerId(id)
     SaveState.save()
+
+    window.history.replaceState({ id: id }, `profile: ${id}`, PageToRoute[AppPages.RELIC_SCORER] + `?id=${id}`)
 
     fetch(`${API_ENDPOINT}/profile/${id}`, { method: 'GET' })
       .then((response) => {
@@ -87,9 +118,9 @@ export default function RelicScorerTab() {
             data.detailInfo.avatarDetailList[2],
             data.detailInfo.avatarDetailList[3],
             data.detailInfo.avatarDetailList[4],
-          ].filter(x => !!x)
+          ].filter((x) => !!x)
         } else if (data.source == 'mihomo') {
-          characters = data.characters.filter(x => !!x)
+          characters = data.characters.filter((x) => !!x)
           for (const character of characters) {
             character.relicList = character.relics || []
             character.equipment = character.light_cone
@@ -104,7 +135,6 @@ export default function RelicScorerTab() {
               relic.subAffixList = relic.sub_affix
             }
           }
-
         } else {
           if (!data.detailInfo) {
             setLoading(false)
@@ -128,7 +158,7 @@ export default function RelicScorerTab() {
         console.log('characters', characters)
 
         // Filter by unique id
-        const converted = characters.map((x) => CharacterConverter.convert(x)).filter((value, index, self) => self.map(x => x.id).indexOf(value.id) == index)
+        const converted = characters.map((x) => CharacterConverter.convert(x)).filter((value, index, self) => self.map((x) => x.id).indexOf(value.id) == index)
         for (let i = 0; i < converted.length; i++) {
           converted[i].index = i
         }
@@ -137,11 +167,16 @@ export default function RelicScorerTab() {
           setSelectedCharacter(converted[0])
         }
         setLoading(false)
+        Message.success('Successfully loaded profile')
         console.log(converted)
+        scorerForm.setFieldValue('scorerId', id)
       })
       .catch((error) => {
-        console.error('Fetch error:', error)
-        setLoading(false)
+        setTimeout(() => {
+          Message.warning('Error during lookup, please try again in a bit')
+          console.error('Fetch error:', error)
+          setLoading(false)
+        }, Math.max(0, throttleSeconds * 1000 - (new Date() - latestRefreshDate.current)))
       })
   }
 
@@ -157,13 +192,13 @@ export default function RelicScorerTab() {
 
   return (
     <div>
-      <Flex vertical gap={0} align="center">
-        {/*<Flex gap={10} vertical align="center">*/}
-        {/* <Text><h3 style={{color: '#ffaa4f'}}>The relic scorer may be down for maintenance after the patch, please try again later</h3></Text>*/}
-        {/*</Flex>*/}
-        <Flex gap={10} vertical align="center">
+      <Flex vertical gap={0} align='center'>
+        {/* <Flex gap={10} vertical align="center"> */}
+        {/* <Text><h3 style={{color: '#ffaa4f'}}>The relic scorer may be down for maintenance after the patch, please try again later</h3></Text> */}
+        {/* </Flex> */}
+        <Flex gap={10} vertical align='center'>
           <Text>
-            Enter your account UID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.
+            Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly.
             {window.officialOnly ? '' : ` (Current version ${CURRENT_DATA_VERSION})`}
           </Text>
         </Flex>
@@ -172,11 +207,16 @@ export default function RelicScorerTab() {
           onFinish={onFinish}
           initialValues={{ scorerId: initialId }}
         >
-          <Flex style={{ margin: 10, width: 1100 }} justify="center" align="center" gap={10}>
-            <Form.Item size="default" name="scorerId">
-              <Input style={{ width: 150 }} placeholder="Account UID"/>
+          <Flex style={{ margin: 10, width: 1100 }} justify='center' align='center' gap={10}>
+            <Form.Item size='default' name='scorerId'>
+              <Input style={{ width: 150 }} placeholder='Account UID'/>
             </Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} onClick={() => setLoading(true)} style={{ width: 100 }}>
+            <Button
+              type='primary'
+              htmlType='submit'
+              loading={loading}
+              style={{ width: 150 }}
+            >
               Submit
             </Button>
             <Button
@@ -244,7 +284,7 @@ function CharacterPreviewSelection(props) {
     onClick: handleMenuClicked,
   }
 
-  console.log('CharacterPreviewSelection', props)
+  // console.log('CharacterPreviewSelection', props)
 
   useEffect(() => {
     setScoringAlgorithmFocusCharacter(props.selectedCharacter?.id)
@@ -255,7 +295,7 @@ function CharacterPreviewSelection(props) {
     const availableCharacter = props.availableCharacters[i]
     options.push({
       label: (
-        <Flex align="center" justify="space-around">
+        <Flex align='center' justify='space-around'>
           <img style={{ width: 100, height: 100, objectFit: 'contain' }} src={Assets.getCharacterAvatarById(availableCharacter.id)}></img>
         </Flex>
       ),
@@ -343,7 +383,7 @@ function CharacterPreviewSelection(props) {
       Utils.screenshotElementById('relicScorerPreview', 'clipboard').finally(() => {
         setScreenshotLoading(false)
       })
-    }, 50)
+    }, 100)
   }
 
   async function downloadClicked() {
@@ -354,7 +394,7 @@ function CharacterPreviewSelection(props) {
       Utils.screenshotElementById('relicScorerPreview', 'download', name).finally(() => {
         setDownloadLoading(false)
       })
-    }, 50)
+    }, 100)
   }
 
   function presetClicked(e) {
@@ -409,8 +449,8 @@ function CharacterPreviewSelection(props) {
   }
 
   return (
-    <Flex style={{ width: 1300, marginLeft: 25 }} justify="space-around">
-      <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1068 }}>
+    <Flex style={{ width: 1300, marginLeft: 25 }} justify='space-around'>
+      <Flex vertical align='center' gap={5} style={{ marginBottom: 100, width: 1068 }}>
         <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
           <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey}/>
           <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
@@ -435,13 +475,19 @@ function CharacterPreviewSelection(props) {
           </Flex>
         </Flex>
 
-        <Segmented style={{ width: '100%', overflow: 'hidden' }} options={options} block onChange={selectionChange} value={props.selectedCharacter?.id}/>
-        <Flex id="previewWrapper" style={{ padding: '5px', backgroundColor: token.colorBgBase }}>
+        <Segmented
+          style={{ width: '100%', overflow: 'hidden' }}
+          options={options}
+          block
+          onChange={selectionChange}
+          value={props.selectedCharacter?.id}
+        />
+        <Flex id='previewWrapper' style={{ padding: '5px', backgroundColor: token.colorBgBase }}>
           <CharacterPreview
-            class="relicScorerCharacterPreview"
+            class='relicScorerCharacterPreview'
             character={props.selectedCharacter}
-            source="scorer"
-            id="relicScorerPreview"
+            source='scorer'
+            id='relicScorerPreview'
             setOriginalCharacterModalOpen={setCharacterModalOpen}
             setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
           />
@@ -491,7 +537,7 @@ function Sidebar(props) {
             return (
               <Button
                 key={key++}
-                type="text"
+                type='text'
                 style={{
                   width: 107,
                   height: 107,
@@ -534,8 +580,8 @@ function Sidebar(props) {
           }}
         >
           <Button
-            type="primary"
-            shape="round"
+            type='primary'
+            shape='round'
             style={{ height: 100, width: 100, borderRadius: 50, marginBottom: 5 }}
           >
             <Icon component={ExperimentOutlined} style={{ fontSize: 65 }}/>

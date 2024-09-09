@@ -9,7 +9,7 @@ interface NameBuildProps {
 
 const NameBuild: React.FC<NameBuildProps> = ({ open, setOpen, onOk }) => {
   const [characterForm] = Form.useForm()
-  window['characterForm'] = characterForm
+  window.characterForm = characterForm
 
   function onModalOk() {
     const formValues = characterForm.getFieldsValue()
@@ -46,7 +46,7 @@ const NameBuild: React.FC<NameBuildProps> = ({ open, setOpen, onOk }) => {
           rules={[{ required: true, message: 'Please input a name' }]}
           style={{ width: panelWidth }}
         >
-          <Input />
+          <Input/>
         </Form.Item>
       </Form>
     </Modal>

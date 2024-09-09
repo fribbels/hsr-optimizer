@@ -448,3 +448,15 @@ a {
 .ag-header-cell-filter-button {
     display: none;
 }
+
+.ant-card-hoverable {
+    transition: box-shadow 0.3s, border-color 0.3s;
+}
+
+.ant-card-hoverable:hover {
+    border-color: #45729f !important;
+}
+
+.custom-dropdown-button .ant-btn-compact-first-item {
+    width: 100%;
+}

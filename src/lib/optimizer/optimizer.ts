@@ -1,18 +1,21 @@
-import { Constants, ElementToDamage, MAX_RESULTS, Stats } from 'lib/constants.ts'
+import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, MAX_RESULTS, Stats } from 'lib/constants.ts'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Utils } from 'lib/utils'
 import DB from 'lib/db'
 import { WorkerPool } from 'lib/workerPool'
-import { BufferPacker } from 'lib/bufferPacker'
 import { RelicFilters } from 'lib/relicFilters'
-import { Message } from 'lib/message'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimizer/relicSetSolver'
-import { generateParams } from 'lib/optimizer/calculateParams'
+import { generateParams } from 'lib/optimizer/calculateParams.ts'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { SortOption } from 'lib/optimizer/sortOptions'
+import { BufferPacker } from 'lib/bufferPacker'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
+import { Message } from 'lib/message'
+import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
+import { SavedSessionKeys } from 'lib/constantsSession'
+import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 
 let CANCEL = false
 
@@ -62,11 +65,8 @@ export const Optimizer = {
     return [relics, preFilteredRelicsByPart]
   },
 
-  optimize: function (request) {
+  optimize: async function (request) {
     CANCEL = false
-
-    window.store.getState().setPermutationsSearched(0)
-    window.store.getState().setPermutationsResults(0)
 
     const teammates = [
       request.teammate0,
@@ -83,7 +83,7 @@ export const Optimizer = {
     RelicFilters.condenseRelicSubstatsForOptimizer(relics)
 
     console.log('Optimize request', request)
-    console.log('Optimize relics', relics)
+    // console.log('Optimize relics', relics)
 
     const relicSetSolutions = generateRelicSetSolutions(request)
     const ornamentSetSolutions = generateOrnamentSetSolutions(request)
@@ -127,78 +127,104 @@ export const Optimizer = {
     let results = []
     const sortOption = SortOption[request.resultSort]
     const gridSortColumn = request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
-    const resultLimit = request.resultLimit || 100000
-    const queueResults = new FixedSizePriorityQueue(resultLimit, (a, b) => a[gridSortColumn] - b[gridSortColumn])
+    const resultsLimit = request.resultsLimit || 1024
+    const queueResults = new FixedSizePriorityQueue(resultsLimit, (a, b) => a[gridSortColumn] - b[gridSortColumn])
 
     // Incrementally increase the optimization run sizes instead of having a fixed size, so it doesnt lag for 2 seconds on Start
     const increment = 20000
     let runSize = 0
     const maxSize = Constants.THREAD_BUFFER_LENGTH
 
-    // Generate runs
-    const runs = []
-    for (let currentSkip = 0; currentSkip < permutations; currentSkip += runSize) {
-      runSize = Math.min(maxSize, runSize + increment)
-      runs.push({
-        skip: currentSkip,
-        runSize: runSize,
-      })
+    const clonedParams = Utils.clone(params) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
+
+    let computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
+
+    const gpuDevice = await getWebgpuDevice()
+    if (gpuDevice == null && computeEngine != COMPUTE_ENGINE_CPU) {
+      Message.warning(`GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server`, 15)
+      window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
+      computeEngine = COMPUTE_ENGINE_CPU
     }
 
-    let inProgress = runs.length
-    for (const run of runs) {
-      const task = {
-        input: {
-          params: params,
-          request: request,
-          relics: relics,
-          WIDTH: run.runSize,
-          skip: run.skip,
-          permutations: permutations,
-          relicSetSolutions: relicSetSolutions,
-          ornamentSetSolutions: ornamentSetSolutions,
-        },
-        getMinFilter: () => queueResults.size() ? queueResults.top()[gridSortColumn] : 0,
+    if (computeEngine == COMPUTE_ENGINE_CPU) {
+      // Generate runs
+      const runs: { skip: number; runSize: number }[] = []
+      for (let currentSkip = 0; currentSkip < permutations; currentSkip += runSize) {
+        runSize = Math.min(maxSize, runSize + increment)
+        runs.push({
+          skip: currentSkip,
+          runSize: runSize,
+        })
       }
 
-      const callback = (result) => {
-        searched += run.runSize
-        inProgress -= 1
+      let inProgress = runs.length
 
-        if (CANCEL && resultsShown) {
-          return
+      window.store.getState().setOptimizerStartTime(Date.now())
+      for (const run of runs) {
+        const task = {
+          input: {
+            params: clonedParams,
+            request: request,
+            relics: relics,
+            WIDTH: run.runSize,
+            skip: run.skip,
+            permutations: permutations,
+            relicSetSolutions: relicSetSolutions,
+            ornamentSetSolutions: ornamentSetSolutions,
+          },
+          getMinFilter: () => queueResults.size() ? queueResults.top()[gridSortColumn] : 0,
         }
 
-        const resultArr = new Float64Array(result.buffer)
-        // console.log(`Optimizer results`, result, resultArr, run)
+        const callback = (result) => {
+          searched += run.runSize
+          inProgress -= 1
 
-        BufferPacker.extractArrayToResults(resultArr, run.runSize, results, queueResults)
-        // console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
+          if (CANCEL && resultsShown) {
+            return
+          }
 
-        window.store.getState().setPermutationsResults(queueResults.size())
-        window.store.getState().setPermutationsSearched(Math.min(permutations, searched))
+          const resultArr = new Float64Array(result.buffer)
+          // console.log(`Optimizer results`, result, resultArr, run)
 
-        if (inProgress == 0 || CANCEL) {
-          window.store.getState().setOptimizationInProgress(false)
-          results = queueResults.toArray()
-          OptimizerTabController.setRows(results)
-          setSortColumn(gridSortColumn)
+          BufferPacker.extractArrayToResults(resultArr, run.runSize, results, queueResults)
+          // console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
 
-          window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
-          console.log('Done', results.length)
-          resultsShown = true
-          if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)
-          return
+          window.store.getState().setPermutationsResults(queueResults.size())
+          window.store.getState().setPermutationsSearched(Math.min(permutations, searched))
+          window.store.getState().setOptimizerEndTime(Date.now())
+
+          if (inProgress == 0 || CANCEL) {
+            window.store.getState().setOptimizationInProgress(false)
+            results = queueResults.toArray()
+            OptimizerTabController.setRows(results)
+            setSortColumn(gridSortColumn)
+
+            window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+            console.log('Done', results.length)
+            resultsShown = true
+            if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)
+            return
+          }
+
+          if ((results.length >= MAX_RESULTS) && !CANCEL) {
+            CANCEL = true
+            Optimizer.cancel(request.optimizationId)
+            Message.error('Too many results, stopping at 2,000,000 - please narrow your filters to limit results', 10)
+          }
         }
 
-        if ((results.length >= MAX_RESULTS) && !CANCEL) {
-          CANCEL = true
-          Optimizer.cancel(request.optimizationId)
-          Message.error('Too many results, stopping at 2,000,000 - please narrow your filters to limit results', 10)
-        }
+        WorkerPool.execute(task, callback)
       }
-
-      WorkerPool.execute(task, callback)
+    } else {
+      gpuOptimize({
+        params: params,
+        request: request,
+        relics: relics,
+        permutations: permutations,
+        computeEngine: computeEngine,
+        relicSetSolutions: relicSetSolutions,
+        ornamentSetSolutions: ornamentSetSolutions,
+      })
     }
   },
 }

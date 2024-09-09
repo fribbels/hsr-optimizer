@@ -1,12 +1,13 @@
-import { baseComputedStatsObject, ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId } from 'lib/conditionals/utils'
+import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { BETA_UPDATE, Stats } from 'lib/constants'
+import { BETA_UPDATE } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { JiaoqiuConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -108,9 +109,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => (teammateDefaults),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -130,27 +130,17 @@ export default (e: Eidolon): CharacterConditional => {
 
       buffAbilityVulnerability(x, ULT_TYPE, ultVulnerabilityScaling, (m.ultFieldActive))
 
-      x.DMG_TAKEN_MULTI += (m.ashenRoastStacks > 0) ? talentVulnerabilityBase : 0
-      x.DMG_TAKEN_MULTI += Math.max(0, m.ashenRoastStacks - 1) * talentVulnerabilityScaling
+      x.VULNERABILITY += (m.ashenRoastStacks > 0) ? talentVulnerabilityBase : 0
+      x.VULNERABILITY += Math.max(0, m.ashenRoastStacks - 1) * talentVulnerabilityScaling
 
       x.ELEMENTAL_DMG += (e >= 1 && m.e1DmgBoost && m.ashenRoastStacks > 0) ? 0.40 : 0
 
       x.RES_PEN += (e >= 6 && m.e6ResShred) ? m.ashenRoastStacks * 0.03 : 0
     },
-    precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.characterConditionals
-      const x: ComputedStatsObject = c.x
-
-      x[Stats.ATK] += (r.ehrToAtkBoost && x[Stats.EHR] > 0.80)
-        ? Math.min(2.40, 0.60 * Math.floor((x[Stats.EHR] - 0.80) / 0.15)) * request.baseAtk
-        : 0
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    dynamicConditionals: [JiaoqiuConversionConditional],
   }
 }

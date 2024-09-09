@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { BarChartOutlined, BarsOutlined, BookOutlined, LineChartOutlined, LinkOutlined, RadarChartOutlined, SettingOutlined, StarFilled, ToolOutlined, UnorderedListOutlined, UploadOutlined, UserOutlined, } from '@ant-design/icons'
+import { BarChartOutlined, BarsOutlined, BookOutlined, LineChartOutlined, LinkOutlined, RadarChartOutlined, SettingOutlined, StarFilled, SunOutlined, UnorderedListOutlined, UploadOutlined, UserOutlined } from '@ant-design/icons'
 import { Flex, Menu, Typography } from 'antd'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
@@ -21,7 +21,7 @@ const MenuDrawer = () => {
   const setActiveKey = window.store((s) => s.setActiveKey)
 
   const items = useMemo(() => [
-    getItem('Showcase', 'subTools', <ToolOutlined/>, [
+    getItem('Showcase', 'subTools', <SunOutlined/>, [
       getItem(
         (
           <Flex>
@@ -100,7 +100,15 @@ const MenuDrawer = () => {
         ),
         AppPages.CHANGELOG),
       getItem(
-        <Typography.Link href="https://discord.gg/rDmB4Un7qg" target="_blank" rel="noopener noreferrer">
+        <Typography.Link href='https://ko-fi.com/fribbels' target='_blank' rel='noopener noreferrer'>
+          <CoffeeIcon style={{ marginRight: 5 }}/>
+          {' '}
+          Ko-fi
+        </Typography.Link>,
+        'link donate',
+      ),
+      getItem(
+        <Typography.Link href='https://discord.gg/rDmB4Un7qg' target='_blank' rel='noopener noreferrer'>
           <DiscordIcon style={{ marginRight: 5 }}/>
           {' '}
           Discord
@@ -108,23 +116,15 @@ const MenuDrawer = () => {
         'link discord',
       ),
       getItem(
-        <Typography.Link href="https://github.com/fribbels/hsr-optimizer" target="_blank" rel="noopener noreferrer">
+        <Typography.Link href='https://github.com/fribbels/hsr-optimizer' target='_blank' rel='noopener noreferrer'>
           <GithubIcon style={{ marginRight: 5 }}/>
           {' '}
           Github
         </Typography.Link>,
         'link github',
       ),
-      getItem(
-        <Typography.Link href="https://www.patreon.com/fribbels" target="_blank" rel="noopener noreferrer">
-          <CoffeeIcon style={{ marginRight: 5 }}/>
-          {' '}
-          Patreon
-        </Typography.Link>,
-        'link donate',
-      ),
       !window.officialOnly && getItem(
-        <Typography.Link href="https://starrailoptimizer.github.io/" target="_blank" rel="noopener noreferrer">
+        <Typography.Link href='https://starrailoptimizer.github.io/' target='_blank' rel='noopener noreferrer'>
           <LinkOutlined style={{ marginRight: 5 }}/>
           {' '}
           No leaks
@@ -147,7 +147,7 @@ const MenuDrawer = () => {
       defaultSelectedKeys={['1']}
       defaultOpenKeys={['subOptimizer', 'subTools', 'subLinks']}
       selectedKeys={activeKey}
-      mode="inline"
+      mode='inline'
       items={items}
     />
   )

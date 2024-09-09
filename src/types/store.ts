@@ -1,6 +1,7 @@
 import { Character, CharacterId } from './Character'
 import { Relic } from './Relic'
 import { LightCone } from './LightCone'
+import { StringToStringMap } from 'types/Common'
 
 type PermutationDetails = {
   Head: number
@@ -58,10 +59,17 @@ export type HsrOptimizerStore = {
   enemyConfigurationsDrawerOpen: boolean
   setCombatBuffsDrawerOpen: (open: boolean) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void
-
+  setOptimizationInProgress: (open: boolean) => void
+  setOptimizerStartTime: (open: number) => void
+  setOptimizerEndTime: (open: number) => void
   optimizerFormCharacterEidolon: number
   optimizerFormSelectedLightCone: null | LightCone
   optimizerFormSelectedLightConeSuperimposition: number
+  setPermutationsResults: (n: number) => void
+  setPermutationsSearched: (n: number) => void
+  setSavedSessionKey: (key: string, value: string) => void
+  setActiveKey: (key: string) => void
+  setConditionalSetEffectsDrawerOpen: (b: boolean) => void
 
   permutationDetails: PermutationDetails
 
@@ -70,5 +78,5 @@ export type HsrOptimizerStore = {
 
   optimizerMenuState: Record<string, boolean>
 
-  savedSession: unknown
+  savedSession: StringToStringMap
 }

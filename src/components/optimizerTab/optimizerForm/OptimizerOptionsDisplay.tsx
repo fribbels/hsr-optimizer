@@ -50,14 +50,14 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
       <Flex vertical gap={optimizerTabDefaultGap}>
         <Flex justify="space-between" align="center">
           <HeaderText>Optimizer options</HeaderText>
-          <TooltipImage type={Hint.optimizerOptions()} />
+          <TooltipImage type={Hint.optimizerOptions()}/>
         </Flex>
 
         <Flex align="center">
           <Form.Item name="includeEquippedRelics" valuePropName="checked">
             <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
+              checkedChildren={<CheckOutlined/>}
+              unCheckedChildren={<CloseOutlined/>}
               defaultChecked
               style={{ width: 45, marginRight: 5 }}
             />
@@ -68,8 +68,8 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         <Flex align="center">
           <Form.Item name="rankFilter" valuePropName="checked">
             <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
+              checkedChildren={<CheckOutlined/>}
+              unCheckedChildren={<CloseOutlined/>}
               defaultChecked
               style={{ width: 45, marginRight: 5 }}
             />
@@ -80,8 +80,8 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         <Flex align="center">
           <Form.Item name="keepCurrentRelics" valuePropName="checked">
             <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
+              checkedChildren={<CheckOutlined/>}
+              unCheckedChildren={<CloseOutlined/>}
               defaultChecked
               style={{ width: 45, marginRight: 5 }}
             />

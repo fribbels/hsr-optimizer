@@ -1,8 +1,7 @@
 import { create } from 'zustand'
-import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
+import { COMPUTE_ENGINE_GPU_STABLE, Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
@@ -12,6 +11,7 @@ import { OptimizerMenuIds } from 'components/optimizerTab/FormRow.tsx'
 import { Themes } from 'lib/theme'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { DefaultSettingOptions, SettingOptions } from 'components/SettingsDrawer'
+import { oldCharacterScoringMetadata } from 'lib/oldCharacterScoringMetadata'
 
 const state = {
   relics: [],
@@ -35,6 +35,8 @@ export const AppPages = {
   CHANGELOG: 'CHANGELOG',
   SETTINGS: 'SETTINGS',
   RELIC_SCORER: 'RELIC_SCORER',
+
+  WEBGPU_TEST: 'WEBGPU_TEST',
 }
 
 export const PageToRoute = {
@@ -43,6 +45,8 @@ export const PageToRoute = {
   [AppPages.RELIC_SCORER]: BASE_PATH + '#scorer',
   [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
   [AppPages.GETTING_STARTED]: BASE_PATH + '#getting-started',
+
+  [AppPages.WEBGPU_TEST]: BASE_PATH + '#webgpu',
 }
 
 export const RouteToPage = {
@@ -50,6 +54,7 @@ export const RouteToPage = {
   [PageToRoute[AppPages.RELIC_SCORER]]: AppPages.RELIC_SCORER,
   [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
   [PageToRoute[AppPages.GETTING_STARTED]]: AppPages.GETTING_STARTED,
+  [PageToRoute[AppPages.WEBGPU_TEST]]: AppPages.WEBGPU_TEST,
 }
 
 // React usage
@@ -58,6 +63,14 @@ export const RouteToPage = {
 
 // Nonreactive usage
 // store.getState().setRelicsById(relicsById)
+
+const savedSessionDefaults = {
+  [SavedSessionKeys.optimizerCharacterId]: null,
+  [SavedSessionKeys.relicScorerSidebarOpen]: true,
+  [SavedSessionKeys.scoringType]: SIMULATION_SCORE,
+  [SavedSessionKeys.combatScoreDetails]: DAMAGE_UPGRADES,
+  [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
+}
 
 window.store = create((set) => ({
   version: CURRENT_OPTIMIZER_VERSION,
@@ -70,7 +83,9 @@ window.store = create((set) => ({
   scoringAlgorithmFocusCharacter: undefined,
   relicsTabFocusCharacter: undefined,
 
-  activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)] ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash] : AppPages.OPTIMIZER,
+  activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)]
+    ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash.split('?')[0]]
+    : AppPages.OPTIMIZER,
   characters: [],
   charactersById: {},
   conditionalSetEffectsDrawerOpen: false,
@@ -94,6 +109,8 @@ window.store = create((set) => ({
   zeroResultModalOpen: false,
   menuSidebarOpen: true,
   relicScorerSidebarOpen: true,
+  optimizerStartTime: null,
+  optimizerEndTime: null,
 
   optimizerFormCharacterEidolon: 0,
   optimizerFormSelectedLightCone: null,
@@ -139,12 +156,7 @@ window.store = create((set) => ({
     [OptimizerMenuIds.characterStatsSimulation]: false,
   },
 
-  savedSession: {
-    [SavedSessionKeys.optimizerCharacterId]: null,
-    [SavedSessionKeys.relicScorerSidebarOpen]: true,
-    [SavedSessionKeys.scoringType]: SIMULATION_SCORE,
-    [SavedSessionKeys.combatScoreDetails]: DAMAGE_UPGRADES,
-  },
+  savedSession: savedSessionDefaults,
 
   settings: DefaultSettingOptions,
 
@@ -176,6 +188,8 @@ window.store = create((set) => ({
   setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
   setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
   setOptimizationId: (x) => set(() => ({ optimizationId: x })),
+  setOptimizerStartTime: (x) => set(() => ({ optimizerStartTime: x })),
+  setOptimizerEndTime: (x) => set(() => ({ optimizerEndTime: x })),
   setTeammateCount: (x) => set(() => ({ teammateCount: x })),
   setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),
   setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
@@ -301,7 +315,28 @@ export const DB = {
     const scoringMetadataOverrides = window.store.getState().scoringMetadataOverrides[id]
     const returnScoringMetadata = Utils.mergeUndefinedValues(scoringMetadataOverrides || {}, defaultScoringMetadata)
 
-    for (const key of Object.keys(returnScoringMetadata.stats)) {
+    // POST MIGRATION UNCOMMENT
+    // if (scoringMetadataOverrides && scoringMetadataOverrides.modified) {
+    //   let statWeightsModified = false
+    //   for (const stat of Object.values(Constants.Stats)) {
+    //     if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) != Utils.nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
+    //       statWeightsModified = true
+    //     }
+    //   }
+    //
+    //   if (statWeightsModified) {
+    //     returnScoringMetadata.stats = scoringMetadataOverrides.stats
+    //     returnScoringMetadata.modified = true
+    //   } else {
+    //     returnScoringMetadata.stats = defaultScoringMetadata.stats
+    //     returnScoringMetadata.modified = false
+    //   }
+    // } else {
+    //   returnScoringMetadata.stats = defaultScoringMetadata.stats
+    //   returnScoringMetadata.modified = false
+    // }
+
+    for (const key of Object.keys(defaultScoringMetadata.stats)) {
       if (returnScoringMetadata.stats[key] == null) {
         returnScoringMetadata.stats[key] = 0
       }
@@ -318,6 +353,9 @@ export const DB = {
       overrides[id] = updated
     } else {
       Utils.mergeDefinedValues(overrides[id], updated)
+    }
+    if (updated.modified) {
+      overrides.modified = true
     }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
@@ -341,7 +379,7 @@ export const DB = {
     }, 2000)
   },
 
-  setStore: (x) => {
+  setStore: (x, autosave = true) => {
     const charactersById = {}
     const dbCharacters = DB.getMetadata().characters
     const dbLightCones = DB.getMetadata().lightCones
@@ -414,7 +452,46 @@ export const DB = {
         if (value.length) {
           delete x.scoringMetadataOverrides[key]
         }
+
+        // There was a bug setting the modified flag on custom scoring weight changes
+        // This makes it impossible to tell if a previous saved score was customized or not
+        // We attempt to fix this by running a migration for a few months (start 9/5/2024), any scores matching
+        // the old score will be migrated to the new scores, while any non-matching ones are marked modified
+        // After this migration done, Ctrl + F and uncomment the POST MIGRATION UNCOMMENT section to re-enable overwriting
+        const scoringMetadataOverrides = x.scoringMetadataOverrides[key]
+        if (scoringMetadataOverrides) {
+          const oldScoringMetadataStats = oldCharacterScoringMetadata[key]
+          const defaultScoringMetadata = dbCharacters[key].scoringMetadata
+
+          let isOldScoring = true
+          for (const stat of Object.values(Constants.Stats)) {
+            if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) != Utils.nullUndefinedToZero(oldScoringMetadataStats[stat])) {
+              isOldScoring = false
+              break
+            }
+          }
+
+          // Migrate old scoring to new scoring
+          if (isOldScoring) {
+            scoringMetadataOverrides.stats = Utils.clone(defaultScoringMetadata.stats)
+            scoringMetadataOverrides.modified = false
+          } else {
+            // Otherwise mark any modified as modified
+            let statWeightsModified = false
+            for (const stat of Object.values(Constants.Stats)) {
+              if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) != Utils.nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
+                statWeightsModified = true
+                break
+              }
+            }
+
+            if (statWeightsModified) {
+              scoringMetadataOverrides.modified = true
+            }
+          }
+        }
       }
+
       window.store.getState().setScoringMetadataOverrides(x.scoringMetadataOverrides || {})
     }
 
@@ -435,7 +512,13 @@ export const DB = {
         delete x.savedSession.optimizerCharacterId
       }
 
-      window.store.getState().setSavedSession(x.savedSession)
+      // When new session items are added, set user's save to the default
+      const overiddenSavedSessionDefaults = {
+        ...savedSessionDefaults,
+        ...x.savedSession,
+      }
+
+      window.store.getState().setSavedSession(overiddenSavedSessionDefaults)
     }
 
     if (x.settings) {
@@ -451,7 +534,10 @@ export const DB = {
 
     DB.refreshCharacters()
     DB.refreshRelics()
-    SaveState.save()
+
+    if (autosave) {
+      SaveState.save()
+    }
   },
   resetStore: () => {
     DB.setStore({
@@ -959,7 +1045,8 @@ function hashRelic(relic) {
     substatValues: substatValues, // Match to 1 decimal point
     substatStats: substatStats,
   }
-  return objectHash(hashObject)
+
+  return Utils.objectHash(hashObject)
 }
 
 // -1: old > new, 0: old == new, 1, new > old
@@ -989,7 +1076,7 @@ function partialHashRelic(relic) {
     mainstat: relic.main.stat,
   }
 
-  return objectHash(hashObject)
+  return Utils.objectHash(hashObject)
 }
 
 /**

@@ -1,12 +1,14 @@
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet, findContentId } from 'lib/conditionals/utils'
+import { ASHBLAZING_ATK_STACK, BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, findContentId, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
-import { buffAbilityVulnerability } from "lib/optimizer/calculateBuffs";
+import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { NumberToNumberMap } from 'types/Common'
+import { LingshaConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
@@ -17,7 +19,7 @@ export default (e: Eidolon): CharacterConditional => {
   const ultBreakVulnerability = ult(e, 0.25, 0.27)
   const fuaScaling = talent(e, 0.75, 0.825)
 
-  const hitMultiByTargets = {
+  const hitMultiByTargets: NumberToNumberMap = {
     1: ASHBLAZING_ATK_STACK * (1 * 1 / 2 + 2 * 1 / 2),
     3: ASHBLAZING_ATK_STACK * (2 * 1 / 2 + 3 * 1 / 2),
     5: ASHBLAZING_ATK_STACK * (3 * 1 / 2 + 4 * 1 / 2),
@@ -96,9 +98,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -119,33 +120,23 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
+      if (x.ENEMY_WEAKNESS_BROKEN) {
+        x.DEF_PEN += (e >= 1 && m.e1DefShred) ? 0.20 : 0
+      }
+
       buffAbilityVulnerability(x, BREAK_TYPE, ultBreakVulnerability, (m.befogState))
 
       x[Stats.BE] += (e >= 2 && m.e2BeBuff) ? 0.40 : 0
       x.RES_PEN += (e >= 6 && m.e6ResShred) ? 0.20 : 0
     },
-    postPreComputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
-
-      if (x.ENEMY_WEAKNESS_BROKEN) {
-        x.DEF_SHRED += (e >= 1 && m.e1DefShred) ? 0.20 : 0
-      }
+    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+      standardFuaAtkFinalizer(x, request, hitMultiByTargets[request.enemyCount])
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.characterConditionals
-      const x: ComputedStatsObject = c.x
-
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMultiByTargets[request.enemyCount])
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-
-      x[Stats.ATK] += (r.beConversion) ? Math.min(0.50, 0.25 * x[Stats.BE]) * request.baseAtk : 0
-      x[Stats.OHB] += (r.beConversion) ? Math.min(0.20, 0.10 * x[Stats.BE]) : 0
+    gpuFinalizeCalculations: (request: Form) => {
+      return gpuStandardFuaAtkFinalizer(hitMultiByTargets[request.enemyCount])
     },
+    dynamicConditionals: [LingshaConversionConditional],
   }
 }

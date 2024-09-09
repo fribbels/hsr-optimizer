@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react'
 import FormCard from 'components/optimizerTab/FormCard.js'
 import { SyncOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Image, Select, SelectProps, Typography } from 'antd'
-import { Constants, eidolonOptions, Sets, superimpositionOptions } from 'lib/constants.ts'
+import { Constants, eidolonOptions, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets, superimpositionOptions } from 'lib/constants.ts'
 import { Assets } from 'lib/assets.js'
 import { CharacterConditionals } from 'lib/characterConditionals.js'
 import { LightConeConditionals } from 'lib/lightConeConditionals.js'
@@ -29,7 +29,7 @@ const cardHeight = 480
 const optionRender = (option) => (
   option.data.value
     ? (
-      <Flex gap={10} align="center">
+      <Flex gap={10} align='center'>
         <Flex>
           <img src={Assets.getSetImage(option.data.value, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }}></img>
         </Flex>
@@ -44,7 +44,7 @@ const optionRender = (option) => (
 )
 
 const labelRender = (set: string, text: string) => (
-  <Flex align="center" gap={3}>
+  <Flex align='center' gap={3}>
     <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} style={{ width: 20, height: 20 }}></img>
     <Text style={{ fontSize: 12 }}>
       {text}
@@ -63,6 +63,16 @@ const teammateRelicSetOptions: SelectProps['options'] = (() => {
       value: Sets.WatchmakerMasterOfDreamMachinations,
       desc: `4 Piece: ${Sets.WatchmakerMasterOfDreamMachinations} (+30% BE)`,
       label: labelRender(Sets.WatchmakerMasterOfDreamMachinations, '30% BE'),
+    },
+    {
+      value: SACERDOS_RELIVED_ORDEAL_1_STACK,
+      desc: `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 1 stack (+20% CD)`,
+      label: labelRender(Sets.SacerdosRelivedOrdeal, '20% CD'),
+    },
+    {
+      value: SACERDOS_RELIVED_ORDEAL_2_STACK,
+      desc: `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 2 stack (+40% CD)`,
+      label: labelRender(Sets.SacerdosRelivedOrdeal, '40% CD'),
     },
   ]
 })()
@@ -112,17 +122,17 @@ const teammateOrnamentSets = [
   Sets.BrokenKeel,
   Sets.FleetOfTheAgeless,
   Sets.PenaconyLandOfTheDreams,
-  Sets.LushakaTheSunkenSeas
+  Sets.LushakaTheSunkenSeas,
 ]
 
 // Find 4 piece relic sets and 2 piece ornament sets
 function calculateTeammateSets(teammateCharacter: Character) {
-  const relics = Object.values(teammateCharacter.equipped).map((id) => DB.getRelicById(id)).filter(x => x)
+  const relics = Object.values(teammateCharacter.equipped).map((id) => DB.getRelicById(id)).filter((x) => x)
   const activeTeammateSets: { teamRelicSet?: string; teamOrnamentSet?: string } = {}
   for (const set of teammateRelicSets) {
     if (relics.filter((relic) => relic.set == set).length == 4 && set != Sets.MessengerTraversingHackerspace) {
       activeTeammateSets.teamRelicSet = set
-    } 
+    }
   }
 
   for (const set of teammateOrnamentSets) {
@@ -207,18 +217,18 @@ const TeammateCard = (props: { index: number }) => {
   }, [teammateLightConeId, teammateSuperimposition, props.index])
 
   return (
-    <FormCard size="medium" height={cardHeight} style={{ overflow: 'auto' }}>
+    <FormCard size='medium' height={cardHeight} style={{ overflow: 'auto' }}>
       <Flex vertical gap={5}>
         <Flex gap={5}>
           <Form.Item name={[teammateProperty, `characterId`]} style={{ flex: 1 }}>
             <CharacterSelect
-              value=""
-              selectStyle={{ }}
+              value=''
+              selectStyle={{}}
             />
           </Form.Item>
 
           <Button
-            icon={<SyncOutlined />}
+            icon={<SyncOutlined/>}
             style={{ width: 35 }}
             disabled={disabled}
             onClick={() => {
@@ -232,7 +242,7 @@ const TeammateCard = (props: { index: number }) => {
               showSearch
               style={{ width: 110 }}
               options={eidolonOptions}
-              placeholder="Eidolon"
+              placeholder='Eidolon'
               disabled={disabled}
             />
           </Form.Item>
@@ -258,13 +268,13 @@ const TeammateCard = (props: { index: number }) => {
 
             <Form.Item name={[teammateProperty, `teamRelicSet`]}>
               <Select
-                className="teammate-set-select"
+                className='teammate-set-select'
                 style={{ width: 110 }}
                 options={teammateRelicSetOptions}
-                placeholder="Relics"
+                placeholder='Relics'
                 allowClear
                 popupMatchSelectWidth={false}
-                optionLabelProp="label"
+                optionLabelProp='label'
                 optionRender={optionRender}
                 disabled={disabled}
               />
@@ -272,13 +282,13 @@ const TeammateCard = (props: { index: number }) => {
 
             <Form.Item name={[teammateProperty, `teamOrnamentSet`]}>
               <Select
-                className="teammate-set-select"
+                className='teammate-set-select'
                 style={{ width: 110 }}
                 options={teammateOrnamentSetOptions}
-                placeholder="Ornaments"
+                placeholder='Ornaments'
                 allowClear
                 popupMatchSelectWidth={false}
-                optionLabelProp="label"
+                optionLabelProp='label'
                 optionRender={optionRender}
                 disabled={disabled}
               />
@@ -286,12 +296,12 @@ const TeammateCard = (props: { index: number }) => {
           </Flex>
         </Flex>
 
-        <div style={{ height: 1 }} />
+        <div style={{ height: 1 }}/>
 
         <Flex gap={5}>
           <Form.Item name={[teammateProperty, `lightCone`]}>
             <LightConeSelect
-              value=""
+              value=''
               selectStyle={{ width: 258 }}
               characterId={teammateCharacterId}
             />
@@ -302,7 +312,7 @@ const TeammateCard = (props: { index: number }) => {
               showSearch
               style={{ width: 110 }}
               options={superimpositionOptions}
-              placeholder="Superimposition"
+              placeholder='Superimposition'
               disabled={disabled}
             />
           </Form.Item>

@@ -1,12 +1,11 @@
 import { ContentItem } from 'types/Conditionals'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import getContentFromLCRanks from '../getContentFromLCRank'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { findContentId } from 'lib/conditionals/utils.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { findContentId } from 'lib/conditionals/conditionalUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesCr = [0.12, 0.14, 0.16, 0.18, 0.20]
@@ -68,7 +67,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     teammateDefaults: () => ({
       targetCodeDebuff: true,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
       x[Stats.CR] += (r.enemy3DebuffsCrBoost) ? sValuesCr[s] : 0
@@ -76,9 +75,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
 
-      x.DMG_TAKEN_MULTI += (m.targetCodeDebuff) ? sValuesDmg[s] : 0
+      x.VULNERABILITY += (m.targetCodeDebuff) ? sValuesDmg[s] : 0
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { },
+    finalizeCalculations: () => {
+    },
   }
 }

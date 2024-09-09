@@ -8,7 +8,7 @@ const justify = 'flex-start'
 const align = 'center'
 
 const Text = styled(Typography)`
-  white-space: pre-line;
+    white-space: pre-line;
 `
 
 function conditionalType(props: FormSwitchProps) {
@@ -36,8 +36,8 @@ export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
     <Flex justify={justify} align={align}>
       <Form.Item name={itemName} valuePropName="checked">
         <Switch
-          checkedChildren={<CheckOutlined />}
-          unCheckedChildren={<CloseOutlined />}
+          checkedChildren={<CheckOutlined/>}
+          unCheckedChildren={<CloseOutlined/>}
           disabled={props.disabled}
           defaultChecked={false}
           style={{ width: 45, marginRight: 5 }}

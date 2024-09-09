@@ -1,9 +1,9 @@
-import { domToBlob as htmlToBlob } from 'modern-screenshot'
 import DB from './db'
 import { Constants } from './constants.ts'
-import { Message } from './message'
 import { v4 as uuidv4 } from 'uuid'
-import objectHash from 'object-hash'
+import stringify from 'json-stable-stringify'
+
+import * as htmlToImage from 'html-to-image'
 
 console.debug = (...args) => {
   let messageConfig = '%c%s '
@@ -31,10 +31,33 @@ console.debug = (...args) => {
   console.log(messageConfig, 'color: orange', '[DEBUG]', ...args)
 }
 
+function base64ToFile(base64FileUrl, filename, mimeType) {
+  // Step 1: Remove the Base64 prefix from the file URL
+  const base64String = base64FileUrl.split(',')[1]
+
+  // Step 2: Decode the Base64 string to binary data
+  const byteString = atob(base64String)
+
+  // Step 3: Create an array of 8-bit unsigned integers
+  const byteNumbers = new Array(byteString.length)
+  for (let i = 0; i < byteString.length; i++) {
+    byteNumbers[i] = byteString.charCodeAt(i)
+  }
+  const byteArray = new Uint8Array(byteNumbers)
+
+  // Step 4: Create a Blob from the byte array
+  const blob = new Blob([byteArray], { type: mimeType })
+
+  // Step 5: Convert the Blob to a File object
+  const file = new File([blob], filename, { type: mimeType })
+
+  return file
+}
+
 export const Utils = {
   // Hashes an object for uniqueness checks
   objectHash: (obj) => {
-    return objectHash(obj)
+    return stringify(obj)
   },
 
   // Fill array of size n with 0s
@@ -45,6 +68,11 @@ export const Utils = {
   // Fill array of size n with value x
   arrayOfValue: (n, x) => {
     return new Array(n).fill(x)
+  },
+
+  nullUndefinedToZero: (x) => {
+    if (x == null) return 0
+    return x
   },
 
   mergeDefinedValues: (target, source) => {
@@ -105,32 +133,68 @@ export const Utils = {
     return arr[Math.floor(Math.random() * arr.length)]
   },
 
+  isMobile: () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  },
+
   // Util to capture a div and screenshot it to clipboard/file
   screenshotElementById: async (elementId, action, characterName) => {
-    return htmlToBlob(document.getElementById(elementId), {
-      scale: 1.5,
-      drawImageInterval: 0,
-    }).then(async (blob) => {
-      /*
-       * Save to clipboard
-       * This is not supported in firefox, possibly other browsers too
-       */
-      if (action == 'clipboard') {
-        try {
-          const data = [new window.ClipboardItem({ [blob.type]: blob })]
-          await navigator.clipboard.write(data)
-          Message.success('Copied screenshot to clipboard')
-        } catch (e) {
-          Message.error('Unable to save screenshot to clipboard, try the download button to the right')
+    const isMobile = Utils.isMobile()
+    const repeatLoadBlob = async () => {
+      const minDataLength = 1200000
+      const maxAttempts = isMobile ? 9 : 3
+      let i = 0
+      let blob
+
+      while (i < maxAttempts) {
+        i++
+        blob = await htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 })
+
+        if (blob.size > minDataLength) {
+          break
         }
       }
 
-      // Save to file
+      if (isMobile) {
+        // Render again
+        blob = await htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 })
+      }
+
+      return blob
+    }
+
+    function handleBlob(blob) {
+      const prefix = characterName || 'Hsr-optimizer'
+      const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
+      const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
+      const filename = `${prefix}_${date}_${time}.png`
+
+      if (action == 'clipboard') {
+        if (isMobile) {
+          const file = new File([blob], filename, { type: 'image/png' })
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({
+              files: [file],
+              title: '',
+              text: '',
+            })
+          } else {
+            Message.error('Unable to save screenshot to clipboard, try the download button to the right')
+          }
+        } else {
+          try {
+            const data = [new window.ClipboardItem({ [blob.type]: blob })]
+            navigator.clipboard.write(data).then(() => {
+              Message.success('Copied screenshot to clipboard')
+            })
+          } catch (e) {
+            console.error(e)
+            Message.error('Unable to save screenshot to clipboard, try the download button to the right')
+          }
+        }
+      }
+
       if (action == 'download') {
-        const prefix = characterName || 'Hsr-optimizer'
-        const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
-        const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
-        const filename = `${prefix}_${date}_${time}.png`
         const fileUrl = window.URL.createObjectURL(blob)
         const anchorElement = document.createElement('a')
         anchorElement.href = fileUrl
@@ -142,9 +206,13 @@ export const Utils = {
         window.URL.revokeObjectURL(fileUrl)
         Message.success('Downloaded screenshot')
       }
-    }).catch((e) => {
-      console.error(e)
-      Message.error('Unable to take screenshot, please try again')
+    }
+
+    return new Promise((resolve) => {
+      repeatLoadBlob().then((blob) => {
+        handleBlob(blob)
+        resolve()
+      })
     })
   },
 
@@ -322,14 +390,16 @@ export const Utils = {
   msToReadable: (duration) => {
     const seconds = Math.floor((duration / 1000) % 60)
     const minutes = Math.floor((duration / (1000 * 60)) % 60)
+    const hours = Math.floor((duration / (1000 * 60 * 60)))
 
+    const hoursS = hours > 0 ? `${hours}:` : ''
     const minutesS = (minutes < 10) ? `0${minutes}` : `${minutes}`
     const secondsS = (seconds < 10) ? `0${seconds}` : `${seconds}`
 
-    return `${minutesS}:${secondsS}`
+    return `${hoursS}${minutesS}:${secondsS}`
   },
 
   filterUnique: (arr) => {
     return arr.filter((value, index, array) => array.indexOf(value) === index)
-  }
+  },
 }

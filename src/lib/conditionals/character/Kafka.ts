@@ -1,20 +1,14 @@
-import { Stats } from 'lib/constants'
-import {
-  ASHBLAZING_ATK_STACK,
-  baseComputedStatsObject,
-  ComputedStatsObject,
-  DOT_TYPE
-} from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, calculateAshblazingSet, findContentId } from 'lib/conditionals/utils'
+import { ASHBLAZING_ATK_STACK, ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, findContentId, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
-  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.60, 1.76)
@@ -43,7 +37,7 @@ export default (e: Eidolon): CharacterConditional => {
       title: 'E2 Team DoT DMG boost',
       content: `E2: While Kafka is on the field, DoT dealt by all allies increases by 25%.`,
       disabled: e < 2,
-    }
+    },
   ]
 
   const teammateContent: ContentItem[] = [
@@ -62,9 +56,7 @@ export default (e: Eidolon): CharacterConditional => {
       e1DotDmgReceivedDebuff: true,
       e2TeamDotBoost: true,
     }),
-    precomputeEffects: (_request) => {
-      const x = Object.assign({}, baseComputedStatsObject)
-
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -90,16 +82,11 @@ export default (e: Eidolon): CharacterConditional => {
       buffAbilityVulnerability(x, DOT_TYPE, 0.30, (e >= 1 && m.e1DotDmgReceivedDebuff))
       buffAbilityDmg(x, DOT_TYPE, 0.25, (e >= 2 && m.e2TeamDotBoost))
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
-      const x = c.x
-
-      const {ashblazingMulti, ashblazingAtk} = calculateAshblazingSet(c, request, hitMulti)
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
-      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+      standardFuaAtkFinalizer(x, request, hitMulti)
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      return gpuStandardFuaAtkFinalizer(hitMulti)
     },
   }
 }

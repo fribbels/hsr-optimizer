@@ -1,6 +1,6 @@
 import { Flex, Form } from 'antd'
 import React, { useEffect } from 'react'
-import { Optimizer } from 'lib/optimizer/optimizer'
+import { Optimizer } from 'lib/optimizer/optimizer.ts'
 import { Constants } from 'lib/constants.ts'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'components/optimizerTab/FormRow.tsx'
@@ -61,7 +61,7 @@ export default function OptimizerForm() {
     }
 
     const request = allValues
-    console.log('@onValuesChange', request, changedValues)
+    // console.log('@onValuesChange', request, changedValues)
 
     if (keys[0] === 'characterId') {
       window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, changedValues.characterId)
@@ -111,6 +111,8 @@ export default function OptimizerForm() {
       return
     }
 
+    window.store.getState().setPermutationsSearched(0)
+    window.store.getState().setPermutationsResults(0)
     window.store.getState().setOptimizationInProgress(true)
 
     DB.addFromForm(form)
@@ -132,33 +134,33 @@ export default function OptimizerForm() {
     <div style={{ position: 'relative' }}>
       <Form
         form={optimizerForm}
-        layout="vertical"
+        layout='vertical'
         onValuesChange={onValuesChange}
       >
-        <FormSetConditionals />
+        <FormSetConditionals/>
 
         {/* Row 1 */}
 
         <FilterContainer>
           <FormRow id={OptimizerMenuIds.characterOptions}>
             <FormCard style={{ overflow: 'hidden' }}>
-              <OptimizerTabCharacterPanel />
+              <OptimizerTabCharacterPanel/>
             </FormCard>
 
             <FormCard>
-              <CharacterSelectorDisplay />
+              <CharacterSelectorDisplay/>
             </FormCard>
 
             <FormCard>
-              <CharacterConditionalDisplayWrapper />
+              <CharacterConditionalDisplayWrapper/>
             </FormCard>
 
-            <FormCard justify="space-between">
-              <LightConeConditionalDisplayWrapper />
+            <FormCard justify='space-between'>
+              <LightConeConditionalDisplayWrapper/>
             </FormCard>
 
             <FormCard>
-              <OptimizerOptionsDisplay />
+              <OptimizerOptionsDisplay/>
             </FormCard>
           </FormRow>
 
@@ -166,40 +168,40 @@ export default function OptimizerForm() {
 
           <FormRow id={OptimizerMenuIds.relicAndStatFilters}>
             <FormCard>
-              <RelicMainSetFilters />
+              <RelicMainSetFilters/>
             </FormCard>
 
             <FormCard>
-              <SubstatWeightFilters />
+              <SubstatWeightFilters/>
             </FormCard>
 
             <FormCard>
-              <MinMaxStatFilters />
+              <MinMaxStatFilters/>
             </FormCard>
 
             <FormCard>
-              <MinMaxRatingFilters />
+              <MinMaxRatingFilters/>
             </FormCard>
 
             <FormCard>
-              <ComboFilters />
-              <CombatBuffsDrawer />
-              <EnemyConfigurationsDrawer />
+              <ComboFilters/>
+              <CombatBuffsDrawer/>
+              <EnemyConfigurationsDrawer/>
             </FormCard>
           </FormRow>
 
           {/* Row 3 */}
 
           <TeammateFormRow id={OptimizerMenuIds.teammates}>
-            <TeammateCard index={0} />
-            <TeammateCard index={1} />
-            <TeammateCard index={2} />
+            <TeammateCard index={0}/>
+            <TeammateCard index={1}/>
+            <TeammateCard index={2}/>
           </TeammateFormRow>
 
           {/* Row 4 */}
 
           <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
-            <StatSimulationDisplay />
+            <StatSimulationDisplay/>
           </FormRow>
         </FilterContainer>
       </Form>
@@ -236,18 +238,18 @@ function LightConeConditionalDisplayWrapper() {
       defaults.maxEnergyStacks = Math.min(160, DB.getMetadata().characters[optimizerTabFocusCharacter].max_sp)
     }
 
-    console.log('Loaded light cone conditional values', defaults)
+    // console.log('Loaded light cone conditional values', defaults)
 
     window.optimizerForm.setFieldValue('lightConeConditionals', defaults)
   }, [optimizerTabFocusCharacter, optimizerFormSelectedLightCone, optimizerFormSelectedLightConeSuperimposition])
 
   return (
-    <Flex vertical justify="space-between" style={{ height: '100%', marginBottom: 8 }}>
+    <Flex vertical justify='space-between' style={{ height: '100%', marginBottom: 8 }}>
       <LightConeConditionalDisplay
         id={optimizerFormSelectedLightCone}
         superImposition={optimizerFormSelectedLightConeSuperimposition}
       />
-      <AdvancedOptionsPanel />
+      <AdvancedOptionsPanel/>
     </Flex>
   )
 }

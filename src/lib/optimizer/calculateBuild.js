@@ -1,8 +1,8 @@
-import { generateParams } from 'lib/optimizer/calculateParams'
-import { calculateConditionals, calculatePostPrecomputeConditionals } from 'lib/optimizer/calculateConditionals'
-import { calculatePostPrecomputeTeammates, calculateTeammates } from 'lib/optimizer/calculateTeammates'
+import { generateParams } from 'lib/optimizer/calculateParams.ts'
+import { calculateConditionalRegistry, calculateConditionals } from 'lib/optimizer/calculateConditionals.ts'
+import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { OrnamentSetCount, OrnamentSetToIndex, RelicSetCount, RelicSetToIndex } from 'lib/constants'
-import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
+import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats.ts'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { Constants } from 'lib/constants.ts'
@@ -32,18 +32,20 @@ function generateUnusedSets(relics) {
   ])
   return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
 }
-export function calculateBuild(request, relics) {
-  request = Utils.clone(request)
 
-  const params = generateParams(request)
+export function calculateBuild(request, relics, cachedParams = null, reuseRequest = false) {
+  if (!reuseRequest) {
+    request = Utils.clone(request)
+  }
 
-  // Precompute
-  calculateConditionals(request, params)
-  calculateTeammates(request, params)
+  const params = cachedParams ?? generateParams(request)
 
-  // Postcompute
-  calculatePostPrecomputeConditionals(request, params)
-  calculatePostPrecomputeTeammates(request, params)
+  // The conditional registry gets used during each sim and needs to be regenerated
+  calculateConditionalRegistry(request, params)
+  if (!cachedParams) {
+    calculateConditionals(request, params)
+    calculateTeammates(request, params)
+  }
 
   // Compute
   const { Head, Hands, Body, Feet, PlanarSphere, LinkRope } = extractRelics(relics)
@@ -63,9 +65,10 @@ export function calculateBuild(request, relics) {
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount
 
+  const x = Object.assign({}, params.precomputedX)
   const c = {
     ...baseCharacterStats,
-    x: Object.assign({}, params.precomputedX),
+    x: x,
     relicSetIndex: relicSetIndex,
     ornamentSetIndex: ornamentSetIndex,
   }
@@ -75,8 +78,8 @@ export function calculateBuild(request, relics) {
   calculateBaseStats(c, request, params)
   calculateElementalStats(c, request, params)
   calculateComputedStats(c, request, params)
-  calculateBaseMultis(c, request, params)
-  calculateDamage(c, request, params)
+  calculateBaseMultis(x, request, params)
+  calculateDamage(x, request, params)
 
   return c
 }

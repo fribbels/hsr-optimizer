@@ -1,14 +1,14 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
-  const {basic, skill, ult} = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicEnhancedHitValue = basic(e, 0.20, 0.22)
   const targetUltDebuffDmgTakenValue = ult(e, 0.20, 0.216)
@@ -65,7 +65,7 @@ export default (e: Eidolon): CharacterConditional => {
       min: 0,
       max: 4,
       disabled: e < 4,
-    }
+    },
   ]
 
   const teammateContent: ContentItem[] = [
@@ -85,9 +85,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
       targetUltDebuffed: true,
     }),
-    precomputeEffects: (request) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.ATK_P] += (e >= 4) ? r.e4TalentStacks * 0.05 : 0
@@ -113,15 +112,9 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      x.DMG_TAKEN_MULTI += (m.targetUltDebuffed) ? targetUltDebuffDmgTakenValue : 0
+      x.VULNERABILITY += (m.targetUltDebuffed) ? targetUltDebuffDmgTakenValue : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

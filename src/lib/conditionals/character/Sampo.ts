@@ -1,15 +1,14 @@
-import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
+import { ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
-  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const dotVulnerabilityValue = ult(e, 0.30, 0.32)
 
@@ -46,7 +45,7 @@ export default (e: Eidolon): CharacterConditional => {
       text: 'Target has wind shear',
       title: 'Target has wind shear',
       content: `Enemies with Wind Shear effect deal 15% less damage to Sampo.`,
-    }
+    },
   ]
 
   const teammateContent: ContentItem[] = [
@@ -64,9 +63,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
       targetDotTakenDebuff: true,
     }),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
 
@@ -94,13 +92,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       buffAbilityVulnerability(x, DOT_TYPE, dotVulnerabilityValue, (m.targetDotTakenDebuff))
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

@@ -5,7 +5,7 @@ import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
 import DB, { AppPages } from 'lib/db'
-import { RelicScorer } from 'lib/relicScorer'
+import { RelicScorer } from 'lib/relicScorerPotential'
 import { CharacterPreview } from './CharacterPreview'
 import { Assets } from 'lib/assets'
 import { SaveState } from 'lib/saveState'
@@ -63,7 +63,7 @@ function cellNameRenderer(params) {
   if (equippedNumber < 1) color = '#d72f2f'
 
   return (
-    <Flex align="center" justify="flex-start" style={{ height: '100%', width: '100%' }}>
+    <Flex align='center' justify='flex-start' style={{ height: '100%', width: '100%' }}>
       <Text style={{
         margin: 'auto',
         padding: '0px 5px',
@@ -178,7 +178,7 @@ export default function CharacterTab() {
 
   const [characterFilters, setCharacterFilters] = useState(defaultFilters)
 
-  console.log('CharacterTab')
+  console.log('======================================================================= RENDER CharacterTab')
 
   useSubscribe('refreshRelicsScore', () => {
     // TODO: understand why setTimeout is needed and refactor
@@ -365,7 +365,7 @@ export default function CharacterTab() {
   }
 
   function scoringAlgorithmClicked() {
-    setScoringAlgorithmFocusCharacter(characterTabFocusCharacter)
+    if (characterTabFocusCharacter) setScoringAlgorithmFocusCharacter(characterTabFocusCharacter)
     window.setIsScoringModalOpen(true)
   }
 
@@ -402,7 +402,7 @@ export default function CharacterTab() {
       Utils.screenshotElementById('characterTabPreview', 'clipboard').finally(() => {
         setScreenshotLoading(false)
       })
-    }, 50)
+    }, 100)
   }
 
   function downloadClicked() {
@@ -413,7 +413,7 @@ export default function CharacterTab() {
       Utils.screenshotElementById('characterTabPreview', 'download', name).finally(() => {
         setDownloadLoading(false)
       })
-    }, 50)
+    }, 100)
   }
 
   function confirmSaveBuild(name) {
@@ -507,13 +507,13 @@ export default function CharacterTab() {
       }}
     >
       <Flex vertical gap={defaultGap}>
-        <Flex gap={8} style={{ width: '100%', marginBottom: 5 }}>
+        <Flex gap={6} style={{ width: '100%', marginBottom: 5, paddingRight: 1 }}>
           <Flex style={{ width: 230 }}>
             <Input
               allowClear
-              size="large"
+              size='large'
               style={{ height: 40 }}
-              placeholder="Search character name"
+              placeholder='Search character name'
               onChange={(e) => {
                 nameFilter.current = e.target.value.toLowerCase()
                 externalFilterChanged()
@@ -522,30 +522,30 @@ export default function CharacterTab() {
           </Flex>
           <Flex style={{ flex: 1 }}>
             <SegmentedFilterRow
-              name="element"
+              name='element'
               tags={generateElementTags()}
-              flexBasis="14.2%"
+              flexBasis='14.2%'
               currentFilters={characterFilters}
               setCurrentFilters={setCharacterFilters}
             />
           </Flex>
           <Flex style={{ flex: 1 }}>
             <SegmentedFilterRow
-              name="path"
+              name='path'
               tags={generatePathTags()}
-              flexBasis="14.2%"
+              flexBasis='14.2%'
               currentFilters={characterFilters}
               setCurrentFilters={setCharacterFilters}
             />
           </Flex>
         </Flex>
         <Flex style={{ height: '100%' }}>
-          <Flex vertical gap={10} style={{ marginRight: 8 }}>
+          <Flex vertical gap={10} style={{ marginRight: selectedCharacter ? 6 : 8 }}>
             <div
-              id="characterGrid" className="ag-theme-balham-dark" style={{
-              ...{ display: 'block', width: 230, height: parentH - 80 },
-              ...getGridTheme(token),
-            }}
+              id='characterGrid' className='ag-theme-balham-dark' style={{
+                ...{ display: 'block', width: 230, height: parentH - 80 },
+                ...getGridTheme(token),
+              }}
             >
               <AgGridReact
                 ref={characterGrid}
@@ -570,9 +570,9 @@ export default function CharacterTab() {
               />
             </div>
             <Flex vertical gap={8}>
-              <Flex justify="space-between" gap={8}>
+              <Flex justify='space-between' gap={8}>
                 <Dropdown
-                  placement="topLeft"
+                  placement='topLeft'
                   menu={actionsMenuProps}
                   trigger={['hover']}
                 >
@@ -585,13 +585,13 @@ export default function CharacterTab() {
               <Flex gap={8}>
                 <Button
                   style={{ flex: 'auto' }} icon={<CameraOutlined/>} onClick={clipboardClicked}
-                  type="primary"
+                  type='primary'
                   loading={screenshotLoading}
                 >
                   Copy screenshot
                 </Button>
                 <Button
-                  style={{ width: 40 }} type="primary" icon={<DownloadOutlined/>}
+                  style={{ width: 40 }} type='primary' icon={<DownloadOutlined/>}
                   onClick={downloadClicked}
                   loading={downloadLoading}
                 />
@@ -600,7 +600,7 @@ export default function CharacterTab() {
           </Flex>
           <Flex vertical>
             <CharacterPreview
-              id="characterTabPreview"
+              id='characterTabPreview'
               character={selectedCharacter}
               setOriginalCharacterModalOpen={setCharacterModalOpen}
               setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}

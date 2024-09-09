@@ -1,6 +1,6 @@
 import { LightConeRawRank } from 'types/LightConeConditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { precisionRound } from '../utils.ts'
+import { precisionRound } from 'lib/conditionals/conditionalUtils.ts'
 
 /**
  * Takss a SuperImpositionLevel and a LightConeRawRank and returns a string

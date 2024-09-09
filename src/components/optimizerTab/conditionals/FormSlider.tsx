@@ -2,7 +2,7 @@ import { ComponentProps, ComponentType, useEffect, useRef } from 'react'
 import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
 import styled from 'styled-components'
 import WithPopover from 'components/common/WithPopover.tsx'
-import { precisionRound } from 'lib/conditionals/utils'
+import { precisionRound } from 'lib/conditionals/conditionalUtils'
 
 const justify = 'flex-start'
 const align = 'center'
@@ -57,12 +57,12 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
 
     minRef.current = props.min
     maxRef.current = props.max
-  }, [props.min, props.max]);
+  }, [props.min, props.max])
 
   return (
-    <Flex vertical gap={5} style={{marginBottom: 0}}>
+    <Flex vertical gap={5} style={{ marginBottom: 0 }}>
       <Flex justify={justify} align={align}>
-        <div style={{minWidth: inputWidth, display: 'block'}}>
+        <div style={{ minWidth: inputWidth, display: 'block' }}>
           <Form.Item name={itemName}>
             <InputNumber
               min={props.min}
@@ -83,7 +83,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
         </Text>
       </Flex>
 
-      <Flex align="center" justify="flex-start" gap={5} style={{height: 14}}>
+      <Flex align="center" justify="flex-start" gap={5} style={{ height: 14 }}>
         <Form.Item name={itemName}>
           <Slider
             min={props.min}
@@ -104,8 +104,9 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
         <Text style={{
           minWidth: 20,
           marginBottom: 2,
-          textAlign: 'center'
-        }}>
+          textAlign: 'center',
+        }}
+        >
           {`${precisionRound(props.max * multiplier)}${symbol}`}
         </Text>
       </Flex>

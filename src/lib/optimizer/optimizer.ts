@@ -172,7 +172,9 @@ export const Optimizer = {
             relicSetSolutions: relicSetSolutions,
             ornamentSetSolutions: ornamentSetSolutions,
           },
-          getMinFilter: () => queueResults.size() ? queueResults.top()[gridSortColumn] : 0,
+          getMinFilter: () => {
+            return queueResults.size() && queueResults.size() >= request.resultsLimit ? queueResults.top()[gridSortColumn] : 0
+          },
         }
 
         const callback = (result) => {

@@ -31,29 +31,6 @@ console.debug = (...args) => {
   console.log(messageConfig, 'color: orange', '[DEBUG]', ...args)
 }
 
-function base64ToFile(base64FileUrl, filename, mimeType) {
-  // Step 1: Remove the Base64 prefix from the file URL
-  const base64String = base64FileUrl.split(',')[1]
-
-  // Step 2: Decode the Base64 string to binary data
-  const byteString = atob(base64String)
-
-  // Step 3: Create an array of 8-bit unsigned integers
-  const byteNumbers = new Array(byteString.length)
-  for (let i = 0; i < byteString.length; i++) {
-    byteNumbers[i] = byteString.charCodeAt(i)
-  }
-  const byteArray = new Uint8Array(byteNumbers)
-
-  // Step 4: Create a Blob from the byte array
-  const blob = new Blob([byteArray], { type: mimeType })
-
-  // Step 5: Convert the Blob to a File object
-  const file = new File([blob], filename, { type: mimeType })
-
-  return file
-}
-
 export const Utils = {
   // Hashes an object for uniqueness checks
   objectHash: (obj) => {
@@ -148,7 +125,7 @@ export const Utils = {
 
       while (i < maxAttempts) {
         i++
-        blob = await htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 })
+        blob = await htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5, skipFonts: true })
 
         if (blob.size > minDataLength) {
           break
@@ -157,7 +134,7 @@ export const Utils = {
 
       if (isMobile) {
         // Render again
-        blob = await htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 })
+        blob = await htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5, skipFonts: true })
       }
 
       return blob

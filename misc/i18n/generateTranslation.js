@@ -72,6 +72,14 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru']){
     output.lightcones[lightcone.ID] = cleanString(locale, textmap[lightcone.ItemName.Hash])
   }
 
+  writeFile(`TextMap${(locale == 'zh' ? 'chs' : locale).toUpperCase()}.json`, JSON.stringify(textmap), (err) => {
+    if (err)
+      console.log(err);
+    else {
+      console.log("File written successfully\n");
+    }
+  })
+
   writeFile(`../../public/locales/${locale}/gameData.json`, JSON.stringify(output), (err) => {
     if (err)
       console.log(err);

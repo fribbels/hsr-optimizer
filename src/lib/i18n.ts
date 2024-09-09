@@ -4,7 +4,7 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import Backend from 'i18next-http-backend'
 import { BASE_PATH } from './db'
 
-export const supportedLanguages = ['en']
+export const supportedLanguages = ['zh', 'de', 'en', 'es', 'fr', 'id', 'jp', 'kr', 'pt', 'ru']
 void i18next
   .use(Backend)
   .use(LanguageDetector)

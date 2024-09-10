@@ -13,8 +13,8 @@ export function ReliquaryDescription(): ReactElement {
           <ColorizedLink text={t('link')} url={ReliquaryArchiverConfig.releases}/>
           )
           <ul>
-            <li><b style={{ color: '#ffaa4f' }}>***** Status: Down for maintenance after 2.5 patch *****</b></li>
-            {/* <li><b style={{ color: '#82e192' }}>Status: Updated for patch 2.5, new download required for March 7th support</b></li> */}
+            <li><b style={{ color: '#ffaa4f' }}>{t('offlinemsg', { version: 2.5 })}</b></li>
+            {/* <li><b style={{ color: '#82e192' }}>{t('onlinemsg', { version: 2.5 })}</b></li> */}
             <li>{t('l1')}</li>
             <li>{t('l2')}</li>
           </ul>

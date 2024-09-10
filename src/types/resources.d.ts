@@ -988,8 +988,8 @@ interface Resources {
         "reliquarydesc": {
           "title": "(Recommended) IceDynamix Reliquary Archiver",
           "link": "Github",
-          "onlinemsg": "Status: Updated for patch 2.4, new download required for March 7th support",
-          "offlinemsg": "***** Status: Down for maintenance after 2.4 patch *****",
+          "onlinemsg": "Status: Updated for patch {{version}}, new download required for March 7th support",
+          "offlinemsg": "***** Status: Down for maintenance after {{version}} patch *****",
           "l1": "Accurate speed decimals, instant scan",
           "l2": "Imports full inventory and character roster"
         },

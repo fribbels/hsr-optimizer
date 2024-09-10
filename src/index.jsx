@@ -55,7 +55,7 @@ verifyWebgpuSupport()
 
 const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const root = ReactDOM.createRoot(document.getElementById('root'))
 
   root.render(

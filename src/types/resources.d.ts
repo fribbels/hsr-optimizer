@@ -11,7 +11,12 @@ interface Resources {
     "lightconeWithCount_one": "{{count}} {{light cone, capitalize}}",
     "lightconeWithCount_other": "{{count}} {{light cones, capitalize}}",
     "cancel": "{{cancel, capitalise}}",
-    "submit": "{{submit, capitalize}}"
+    "submit": "{{submit, capitalize}}",
+    "yes": "{{yes, capitalize}}",
+    "characterWithCount_one": "{{count}} {{character, capitalize}}",
+    "characterWithCount_other": "{{count}} {{characters, capitalize}}",
+    "character_one": "{{character, capitalize}}",
+    "character_other": "{{characters, capitalize}}"
   },
   "gameData": {
     "characters": {
@@ -964,7 +969,98 @@ interface Resources {
       "p2": "<0>Auto Filter rows</0> - Maximum number of rows before the relic locator applies a part/set filter to try and bring the searched relic closer to the top of your inventory"
     }
   },
-  "importSaveTab": {},
+  "importSaveTab": {
+    "tablabels": {
+      "import": "$t(common:relic, {\"count\": 1, \"length\": 1}) scanner importer",
+      "load": "Load optimizer data",
+      "save": "Save optimizer data",
+      "clear": "Clear optimizer data"
+    },
+    "import": {
+      "errormsg": {
+        "unknown": "Unknown Error",
+        "invalidfile": "Invalid scanner file",
+        "invalidjson": "Invalid JSON",
+        "fragment": "Error occurred while importing file: "
+      },
+      "stage1": {
+        "header": "Install and run one of the relic scanner options:",
+        "reliquarydesc": {
+          "title": "(Recommended) IceDynamix Reliquary Archiver",
+          "link": "Github",
+          "onlinemsg": "Status: Updated for patch 2.4, new download required for March 7th support",
+          "offlinemsg": "***** Status: Down for maintenance after 2.4 patch *****",
+          "l1": "Accurate speed decimals, instant scan",
+          "l2": "Imports full inventory and character roster"
+        },
+        "kelzdesc": {
+          "title": "Kel-Z HSR Scanner",
+          "link": "Github",
+          "l1": "Inaccurate speed decimals, 5-10 minutes OCR scan",
+          "l2": "Imports full inventory and character roster"
+        },
+        "scorerdesc": {
+          "title": "Relic Scorer Import",
+          "link": "Relic scorer",
+          "l1": "Accurate speed decimals, instant scan",
+          "l2": "No download needed, but limited to relics from the 8 characters on profile showcase"
+        },
+        "hoyolabdesc": {
+          "title": "HoyoLab Import",
+          "link": "Instructions",
+          "l1": "Inaccurate speed decimals, instant scan",
+          "l2": "No download needed, but limited to ingame characters' equipped relics"
+        },
+        "buttontext": "Upload scanner json file",
+        "or": "or",
+        "placeholder": "Paste json file contents"
+      },
+      "stage2": {
+        "or": "OR",
+        "fileinfo": "File contains $t(common:relicWithCount, {\"count\": {{reliccount}} }) and $t(common:characterWithCount, {\"count\": {{charactercount}} }).",
+        "norelics": "Invalid scanner file, please try a different file",
+        "relicsimport": {
+          "label": "Import $t(common:relic, {\"count\": 123, \"length\": 0}) only. Updates the optimizer with the new dataset of $t(common:relic, {\"count\": 123, \"length\": 0}) and doesn't overwrite builds.",
+          "buttontext": "Import $t(common:relic, {\"count\": 123, \"length\": 0})"
+        },
+        "charactersimport": {
+          "label": "Import $t(common:relic, {\"count\": 123, \"length\": 0}) only. Updates the optimizer with the new dataset of $t(common:relic, {\"count\": 123, \"length\": 0}) and doesn't overwrite builds.",
+          "buttontext": "Import $t(common:relic, {\"count\": 123, \"length\": 0}) & $t(common:character, {\"count\": 123, \"length\": 0})",
+          "warningtitle": "Overwrite optimizer builds",
+          "warningdescription": "Are you sure you want to overwrite your optimizer builds with ingame builds?"
+        }
+      },
+      "stage3": {
+        "successmessage": "Done!"
+      }
+    },
+    "loaddata": {
+      "stage1": {
+        "label": "Load your optimizer data from a file.",
+        "buttontext": "Load save data"
+      },
+      "stage2": {
+        "errormsg": "Invalid save file, please try a different file. Did you mean to use the \"$t(tablabels.import)\" tab?",
+        "label": "File contains $t(common:relicWithCount, {\"count\": {{reliccount}} }) and $t(common:characterWithCount, {\"count\": {{charactercount}} }). Replace your current data with the uploaded data?",
+        "buttontext": "Use uploaded data"
+      },
+      "stage3": {
+        "successmessage": "Done!"
+      }
+    },
+    "savedata": {
+      "label": "Save your optimizer data to a file.",
+      "buttontext": "Save data",
+      "successmessage": "Done"
+    },
+    "cleardata": {
+      "label": "Clear all optimizer data.",
+      "buttontext": "Clear data",
+      "successmessage": "Cleared data",
+      "warningtitle": "Erase all data",
+      "warningdescription": "Are you sure you want to clear all relics and characters?"
+    }
+  },
   "modals": {},
   "relicScorerTab": {},
   "relicsTab": {
@@ -993,12 +1089,12 @@ interface Resources {
   "sidebar": {
     "showcase": {
       "title": "Showcase",
-      "scorer": "Relic Scorer"
+      "scorer": "$t(common:relic, {\"count\": 1, \"length\": 1}) Scorer"
     },
     "optimization": {
       "title": "Optimization",
       "optimizer": "Optimizer",
-      "characters": "Characters",
+      "characters": "$t(common:character, {\"count\": 23, \"length\": 1})",
       "import": "Import / Save",
       "settings": "Settings",
       "start": "Get Started"

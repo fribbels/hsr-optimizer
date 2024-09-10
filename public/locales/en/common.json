@@ -8,5 +8,10 @@
   "lightconeWithCount_one": "{{count}} {{light cone, capitalize}}",
   "lightconeWithCount_other": "{{count}} {{light cones, capitalize}}",
   "cancel": "{{cancel, capitalise}}",
-  "submit":"{{submit, capitalize}}"
+  "submit":"{{submit, capitalize}}",
+  "yes": "{{yes, capitalize}}",
+  "characterWithCount_one": "{{count}} {{character, capitalize}}",
+  "characterWithCount_other": "{{count}} {{characters, capitalize}}",
+  "character_one": "{{character, capitalize}}",
+  "character_other": "{{characters, capitalize}}"
 }

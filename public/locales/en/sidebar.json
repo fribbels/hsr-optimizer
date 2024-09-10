@@ -1,12 +1,12 @@
 {
   "showcase" : {
     "title" : "Showcase",
-    "scorer": "Relic Scorer"
+    "scorer": "$t(common:relic, {\"count\": 1, \"length\": 1}) Scorer"
   },
   "optimization": {
     "title": "Optimization",
     "optimizer": "Optimizer",
-    "characters": "Characters",
+    "characters": "$t(common:character, {\"count\": 23, \"length\": 1})",
     "import": "Import / Save",
     "settings": "Settings",
     "start": "Get Started"

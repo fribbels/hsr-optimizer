@@ -8,21 +8,13 @@ type placementOptions = 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight'
 
 export function LanguageSelector(props: { style: React.CSSProperties; dropdownStyle: React.CSSProperties; flagOnly: boolean; placement: placementOptions }) {
   const { t, i18n } = useTranslation()
-  const selectedLanguage = i18n.resolvedLanguage
   const setLocale = window.store((s) => s.setLocale)
   const selectOptions = ((languages: { [key: string]: { locale: string; nativeName: string } }) => {
     const ret: { value: string; label: ReactElement }[] = []
     for (const key in languages) {
       ret.push({
         value: languages[key].locale,
-        /* label:
-  <Flex gap={8} style={{ fontWeight: key == selectedLanguage ? 'bold' : 'normal' }}>
-    <img style={{ height: 15, marginTop: 8 }} src={Assets.getFlag(languages[key].locale)}/>{props.flagOnly === true ? '' : languages[key].nativeName}
-  </Flex>, */
-        label:
-  <Flex gap={8} style={{ fontWeight: key == selectedLanguage ? 'bold' : 'normal' }}>
-    <img style={{ height: 15, marginTop: 4 }} src={Assets.getFlag(languages[key].locale)}/>{languages[key].nativeName}
-  </Flex>,
+        label: <Flex gap={8}><img style={{ height: 15, marginTop: 4 }} src={Assets.getFlag(languages[key].locale)}/>{languages[key].nativeName}</Flex>,
       })
     }
     return ret

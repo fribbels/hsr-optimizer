@@ -3,8 +3,10 @@
   "relic_other": "{{relics, capitalize}}",
   "relicWithCount_one": "{{count}} {{relic, capitalize}}",
   "relicWithCount_other": "{{count}} {{relics, capitalize}}",
-  "lightcone_one": "{{lightcone, capitalize}}",
-  "lightcone_other": "{{lightcones, capitalize}}",
-  "lightconeWithCount_one": "{{count}} {{lightcone, capitalize}}",
-  "lightconeWithCount_other": "{{count}} {{lightcones, capitalize}}"
+  "lightcone_one": "{{light cone, capitalize}}",
+  "lightcone_other": "{{light cones, capitalize}}",
+  "lightconeWithCount_one": "{{count}} {{light cone, capitalize}}",
+  "lightconeWithCount_other": "{{count}} {{light cones, capitalize}}",
+  "cancel": "{{cancel, capitalise}}",
+  "submit":"{{submit, capitalize}}"
 }

@@ -1,4 +1,4 @@
-import { Button, Flex, InputNumber, Select, theme, Tooltip, Typography } from 'antd'
+import { Button, Flex, Select, theme, Tooltip, Typography } from 'antd'
 import React, { useEffect, useMemo, useState } from 'react'
 import { RelicScorer } from 'lib/relicScorerPotential'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
@@ -31,10 +31,6 @@ export default function RelicFilterBar(props) {
   const setRelicsTabFocusCharacter = window.store((s) => s.setRelicsTabFocusCharacter)
 
   const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
-
-  const setInventoryWidth = store((s) => s.setInventoryWidth)
-
-  const setRowLimit = store((s) => s.setRowLimit)
 
   const characterOptions = useMemo(() => {
     return Utils.generateCharacterOptions()
@@ -308,39 +304,6 @@ export default function RelicFilterBar(props) {
             >
               Scoring algorithm
             </Button>
-          </Flex>
-        </Flex>
-
-        <Flex flex={0.15} gap={8}>
-          <Flex vertical flex={0.1}>
-            <Flex justify='space-between' align='center'>
-              <HeaderText>Inventory Width</HeaderText>
-            </Flex>
-            <InputNumber
-              defaultValue={window.store.getState().inventoryWidth}
-              style={{ width: 'auto' }}
-              min={1}
-              onChange={(e) => {
-                setInventoryWidth(e)
-                SaveState.save()
-              }}
-            />
-          </Flex>
-
-          <Flex vertical flex={0.1}>
-            <Flex justify='space-between' align='center' gap={10}>
-              <HeaderText>Auto filter</HeaderText>
-              <TooltipImage type={Hint.locatorParams()}/>
-            </Flex>
-            <InputNumber
-              defaultValue={window.store.getState().rowLimit}
-              style={{ width: 'auto' }}
-              min={1}
-              onChange={(e) => {
-                setRowLimit(e)
-                SaveState.save()
-              }}
-            />
           </Flex>
         </Flex>
 

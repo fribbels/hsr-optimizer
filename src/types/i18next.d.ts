@@ -5,3 +5,4 @@ declare module 'i18next' {
     resources: Resources
   }
 }
+// npx i18next-resources-for-ts interface -i ./public/locales/en -o ./src/types/resources.d.ts

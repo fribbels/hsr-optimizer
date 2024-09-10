@@ -63,6 +63,10 @@ export type HsrOptimizerStore = {
   menuSidebarOpen: boolean
   relicScorerSidebarOpen: boolean
   enemyConfigurationsDrawerOpen: boolean
+  settingsDrawerOpen: boolean
+  settings: unknown
+  setSettings: (settings: unknown) => void
+  setSettingsDrawerOpen: (open: boolean) => void
   setCombatBuffsDrawerOpen: (open: boolean) => void
   setLocale: (locale: string) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void

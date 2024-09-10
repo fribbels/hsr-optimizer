@@ -458,6 +458,10 @@ export const DB = {
         if (value.length) {
           delete x.scoringMetadataOverrides[key]
         }
+        if (key == 'modified') {
+          delete x.scoringMetadataOverrides[key]
+          continue
+        }
 
         // There was a bug setting the modified flag on custom scoring weight changes
         // This makes it impossible to tell if a previous saved score was customized or not

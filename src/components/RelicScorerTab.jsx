@@ -193,8 +193,8 @@ export default function RelicScorerTab() {
   return (
     <div>
       <Flex vertical gap={0} align='center'>
-        {/* <Flex gap={10} vertical align="center"> */}
-        {/* <Text><h3 style={{color: '#ffaa4f'}}>The relic scorer may be down for maintenance after the patch, please try again later</h3></Text> */}
+        {/* <Flex gap={10} vertical align='center'> */}
+        {/*  <Text><h3 style={{ color: '#ffaa4f' }}>The relic scorer may be down for maintenance after the 2.5 patch, please try again later</h3></Text> */}
         {/* </Flex> */}
         <Flex gap={10} vertical align='center'>
           <Text>

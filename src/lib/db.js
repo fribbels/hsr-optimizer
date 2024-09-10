@@ -469,6 +469,10 @@ export const DB = {
         // After this migration done, Ctrl + F and uncomment the POST MIGRATION UNCOMMENT section to re-enable overwriting
         const scoringMetadataOverrides = x.scoringMetadataOverrides[key]
         if (scoringMetadataOverrides) {
+          if (!dbCharacters[key] || !dbCharacters[key].scoringMetadata) {
+            continue
+          }
+
           const oldScoringMetadataStats = oldCharacterScoringMetadata[key] || {}
           const defaultScoringMetadata = dbCharacters[key].scoringMetadata
 

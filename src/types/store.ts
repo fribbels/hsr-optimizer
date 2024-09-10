@@ -34,6 +34,8 @@ export type HsrOptimizerStore = {
 
   optimizerGrid: unknown
 
+  locale?: string
+
   optimizerTabFocusCharacter?: CharacterId
   characterTabFocusCharacter?: CharacterId
   scoringAlgorithmFocusCharacter?: CharacterId
@@ -58,10 +60,12 @@ export type HsrOptimizerStore = {
   relicScorerSidebarOpen: boolean
   enemyConfigurationsDrawerOpen: boolean
   setCombatBuffsDrawerOpen: (open: boolean) => void
+  setLocale: (locale: string) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void
   setOptimizationInProgress: (open: boolean) => void
   setOptimizerStartTime: (open: number) => void
   setOptimizerEndTime: (open: number) => void
+  setMenuSidebarOpen: (open: boolean) => void
   optimizerFormCharacterEidolon: number
   optimizerFormSelectedLightCone: null | LightCone
   optimizerFormSelectedLightConeSuperimposition: number

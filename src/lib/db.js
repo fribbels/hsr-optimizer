@@ -78,6 +78,8 @@ window.store = create((set) => ({
 
   optimizerGrid: undefined,
 
+  locale: undefined,
+
   optimizerTabFocusCharacter: undefined,
   characterTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
@@ -162,6 +164,7 @@ window.store = create((set) => ({
 
   setVersion: (x) => set(() => ({ version: x })),
   setActiveKey: (x) => set(() => ({ activeKey: x })),
+  setLocale: (x) => set(() => ({ locale: x })),
   setCharacters: (x) => set(() => ({ characters: x })),
   setCharactersById: (x) => set(() => ({ charactersById: x })),
   setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),

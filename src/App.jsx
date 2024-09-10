@@ -5,6 +5,7 @@ import { LayoutHeader } from 'components/LayoutHeader.tsx'
 import { LayoutSider } from 'components/LayoutSider.tsx'
 import { SettingsDrawer } from 'components/SettingsDrawer'
 import { checkForUpdatesNotification } from 'lib/notifications'
+import { useTranslation } from 'react-i18next'
 
 const { useToken, getDesignToken } = theme
 const { Content } = Layout
@@ -13,12 +14,14 @@ const App = () => {
   const [messageApi, messageContextHolder] = message.useMessage()
   const [notificationApi, notificationContextHolder] = notification.useNotification()
   const [modalApi, modalContextHolder] = Modal.useModal()
+  const { t, i18n } = useTranslation()
 
   window.messageApi = messageApi
   window.notificationApi = notificationApi
   window.modalApi = modalApi
 
   const colorTheme = store((s) => s.colorTheme)
+  const locale = store((s) => s.locale)
   useEffect(() => {
     Gradient.setToken(getDesignToken({
       token: colorTheme,
@@ -29,8 +32,13 @@ const App = () => {
     checkForUpdatesNotification(DB.getState().version)
   }, [])
 
+  useEffect(() => {
+    console.log('setting language to:', i18n.resolvedLanguage)
+    console.log('language updated: (locale, resolvedLang)', locale, i18n.resolvedLanguage)
+  }, [i18n.resolvedLanguage, locale])
   return (
     <ConfigProvider
+      locale={locale}
       theme={{
         token: {
           motionUnit: 0.1,

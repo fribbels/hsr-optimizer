@@ -89,6 +89,38 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru']){
   })
 }
 
+writeFile(`./AvatarConfig.json`, JSON.stringify(AvatarConfig), (err) => {
+  if (err)
+    console.log(err);
+  else {
+    console.log("File written successfully\n");
+  }
+})
+
+writeFile(`AvatarSkillConfig.json`, JSON.stringify(skillConfig), (err) => {
+  if (err)
+    console.log(err);
+  else {
+    console.log("File written successfully\n");
+  }
+})
+
+writeFile(`./ItemConfigEquipment.json`, JSON.stringify(lightconeConfig), (err) => {
+  if (err)
+    console.log(err);
+  else {
+    console.log("File written successfully\n");
+  }
+})
+
+writeFile(`./RelicSetConfig.json`, JSON.stringify(relicsetConfig), (err) => {
+  if (err)
+    console.log(err);
+  else {
+    console.log("File written successfully\n");
+  }
+})
+
 function cleanString (locale, string) {
   if (locale !== 'jp') {
     return string

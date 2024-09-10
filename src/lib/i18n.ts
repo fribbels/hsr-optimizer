@@ -4,7 +4,50 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import Backend from 'i18next-http-backend'
 import { BASE_PATH } from './db'
 
-export const supportedLanguages = ['zh', 'de', 'en', 'es', 'fr', 'id', 'jp', 'kr', 'pt', 'ru']
+export const languages = {
+  zh: {
+    locale: 'zh',
+    nativeName: '中国人',
+  },
+  de: {
+    locale: 'de',
+    nativeName: 'Deutsch',
+  },
+  en: {
+    locale: 'en',
+    nativeName: 'English',
+  },
+  es: {
+    locale: 'es',
+    nativeName: 'Español',
+  },
+  fr: {
+    locale: 'fr',
+    nativeName: 'Français',
+  },
+  id: {
+    locale: 'id',
+    nativeName: 'Bahasa Indonesia',
+  },
+  jp: {
+    locale: 'jp',
+    nativeName: '日本語',
+  },
+  kr: {
+    locale: 'kr',
+    nativeName: '한국인',
+  },
+  pt: {
+    locale: 'pt',
+    nativeName: 'Português',
+  },
+  ru: {
+    locale: 'ru',
+    nativeName: 'русский',
+  },
+}
+
+export const supportedLanguages = Object.keys(languages)
 void i18next
   .use(Backend)
   .use(LanguageDetector)
@@ -35,7 +78,6 @@ i18next.services.formatter?.add('capitalize', (value: string | undefined, lng, o
   for (let i = 0; i < length; i++) {
     out = out + string.charAt(i).toUpperCase()
   }
-  console.log(value, options, 'testing')
   return out + string.slice(length)
 })
 

@@ -60,11 +60,6 @@ export const Assets = {
 
     return getImageUrl(`/icon/avatar/${id}.webp`)
   },
-  getCharacterIconById: (id) => {
-    if (!id) return Assets.getBlank()
-
-    return getImageUrl(`/icon/character/${id}.webp`)
-  },
   getCharacterPreviewById: (id) => {
     if (!id) return Assets.getBlank()
 

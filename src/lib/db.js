@@ -82,8 +82,8 @@ window.store = create((set) => ({
   characterTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
   relicsTabFocusCharacter: undefined,
-  inventoryWidth: 7,
-  rowLimit: 10,
+  inventoryWidth: 14,
+  rowLimit: 8,
 
   activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)]
     ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash.split('?')[0]]

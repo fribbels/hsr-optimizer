@@ -495,9 +495,14 @@ export default function RelicsTab() {
 
           <Popover
             trigger='click'
+            onOpenChange={(open) => {
+              if (!open) {
+                SaveState.save()
+              }
+            }}
             content={(
               <Flex gap={8} style={{ width: 260 }}>
-                <Flex vertical style={{}}>
+                <Flex vertical>
                   <Flex justify='space-between' align='center'>
                     <HeaderText>Inventory width</HeaderText>
                   </Flex>
@@ -507,14 +512,13 @@ export default function RelicsTab() {
                     min={1}
                     onChange={(e) => {
                       setInventoryWidth(e)
-                      SaveState.save()
                     }}
                   />
                 </Flex>
 
-                <Flex vertical style={{}}>
+                <Flex vertical>
                   <Flex justify='space-between' align='center' gap={10}>
-                    <HeaderText>Auto filter</HeaderText>
+                    <HeaderText>Auto filter rows</HeaderText>
                     <TooltipImage type={Hint.locatorParams()}/>
                   </Flex>
                   <InputNumber
@@ -523,7 +527,6 @@ export default function RelicsTab() {
                     min={1}
                     onChange={(e) => {
                       setRowLimit(e)
-                      SaveState.save()
                     }}
                   />
                 </Flex>
@@ -553,7 +556,7 @@ export default function RelicsTab() {
                       {locatorFilters.set && <img src={Assets.getSetImage(locatorFilters.set, undefined, true)} style={{ height: 26 }}/>}
                       {!locatorFilters.part && !locatorFilters.set && <div style={{ width: 10 }}></div>}
                     </Flex>
-                    <Typography style={{}}>
+                    <Typography>
                       {!selectedRelic ? '' : `Location - Row ${Math.ceil((relicPositionIndex + 1) / inventoryWidth)} / Col ${relicPositionIndex % inventoryWidth + 1}`}
                     </Typography>
                     <SettingOutlined/>

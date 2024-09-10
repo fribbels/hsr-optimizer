@@ -281,8 +281,8 @@ export const Hint = {
       title: 'Relic Location',
       content: (
         <Flex vertical gap={10}>
-          <p>When a relic is selected in the grid, its position in the ingame inventory in game is displayed here.</p>
-          <p>If the set / part filters are active, apply those same filters in game, then sort by Date Obtained (newest first) to find the relic.</p>
+          <p>When a relic is selected in the grid, its position in the ingame inventory is displayed here.</p>
+          <p>If the set / part filters are active, apply those same filters ingame, then sort by Date Obtained (newest first) to find the relic.</p>
 
           <Flex vertical>
             <div>⚠️Usage notes⚠️</div>
@@ -305,10 +305,10 @@ export const Hint = {
           <p>
             <strong>Inventory Width</strong>
             {' - '}
-            Select how many columns your inventory has in game so that the relic locator can find your relic accurately
+            Select the number of columns the inventory has ingame so that the relic locator can find your relic accurately
           </p>
           <p>
-            <strong>Auto Filter</strong>
+            <strong>Auto Filter rows</strong>
             {' - '}
             Maximum number of rows before the relic locator applies a part/set filter to try and bring the searched relic closer to the top of your inventory
           </p>

@@ -8,7 +8,6 @@ export const SortOption = {
     combatProperty: 'ATK',
     basicGridColumn: 'ATK',
     combatGridColumn: 'xATK',
-    gpuProperty: 'ATK',
   },
   DEF: {
     key: 'DEF',

@@ -267,6 +267,8 @@ export function CharacterPreview(props) {
   const newLcMargin = 5
   const newLcHeight = 140
   // Some APIs return empty light cone as '0'
+  const charCenter = DB.getMetadata().characters[character.id].imageCenter
+
   const lcCenter = (character.form.lightCone && character.form.lightCone != '0') ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter : 0
 
   const tempLcParentW = simScoringResult ? parentW : lcParentW
@@ -516,9 +518,9 @@ export function CharacterPreview(props) {
                           src={Assets.getCharacterPortraitById(character.id)}
                           style={{
                             position: 'absolute',
-                            left: -DB.getMetadata().characters[character.id].imageCenter.x / 2 * tempInnerW / 1024 + parentW / 2,
-                            top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 * tempInnerW / 1024 + tempParentH / 2,
-                            width: tempInnerW,
+                            left: -charCenter.x * charCenter.z / 2 * tempInnerW / 1024 + parentW / 2,
+                            top: -charCenter.y * charCenter.z / 2 * tempInnerW / 1024 + tempParentH / 2,
+                            width: tempInnerW * charCenter.z,
                           }}
                         />
                       )

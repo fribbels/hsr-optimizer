@@ -60,11 +60,6 @@ export const Assets = {
 
     return getImageUrl(`/icon/avatar/${id}.webp`)
   },
-  getCharacterIconById: (id) => {
-    if (!id) return Assets.getBlank()
-
-    return getImageUrl(`/icon/character/${id}.webp`)
-  },
   getCharacterPreviewById: (id) => {
     if (!id) return Assets.getBlank()
 
@@ -144,7 +139,7 @@ export const Assets = {
     return getImageUrl(`/misc/changelog/${path}`)
   },
 
-  getSetImage: (set, part) => {
+  getSetImage: (set, part, actualIcon = false) => {
     if (set == -1) {
       return Assets.getBlank()
     }
@@ -203,6 +198,9 @@ export const Assets = {
       [Constants.Parts.Feet]: '_3',
       [Constants.Parts.PlanarSphere]: '_0',
       [Constants.Parts.LinkRope]: '_1',
+    }
+    if (actualIcon) {
+      return getImageUrl(`/icon/relic/${setToId[set]}.webp`)
     }
     return getImageUrl(`/icon/relic/${setToId[set]}${partToId[part]}.webp`)
   },

@@ -255,8 +255,8 @@ export const CelestialDifferentiatorConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.CD],
-  condition: function (x: ComputedStatsObject) {
-    return p2(x.sets.CelestialDifferentiator) && x[Stats.CD] >= 1.20
+  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    return p2(x.sets.CelestialDifferentiator) && params.enabledCelestialDifferentiator && x[Stats.CD] >= 1.20
   },
   effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
     buffStat(x, request, params, Stats.CR, 0.60)
@@ -265,6 +265,7 @@ export const CelestialDifferentiatorConditional: DynamicConditional = {
     return conditionalWgslWrapper(this, `
 if (
   p2((*p_x).sets.CelestialDifferentiator) >= 1 &&
+  enabledCelestialDifferentiator >= 1 &&
   (*p_state).CelestialDifferentiatorConditional == 0.0 &&
   (*p_x).CD >= 1.20
 ) {

@@ -1105,254 +1105,317 @@ function getOverrideImageCenter() {
     1001: { // March 7th
       x: 1024,
       y: 1100,
+      z: 1,
     },
     1002: { // Dan Heng
       x: 1024,
       y: 1000,
+      z: 1,
     },
     1003: { // Himeko
       x: 1024,
       y: 1120,
+      z: 1,
     },
     1004: { // Welt
       x: 885,
       y: 950,
+      z: 1,
     },
     1005: { // Kafka
       x: 980,
       y: 950,
+      z: 1,
     },
     1006: { // Silver Wolf
       x: 1010,
       y: 1024,
+      z: 1,
     },
     1008: { // Arlan
       x: 1240,
       y: 1000,
+      z: 1,
     },
     1009: { // Asta
       x: 1024,
       y: 1000,
+      z: 1,
     },
     1013: { // Herta
       x: 970,
       y: 920,
+      z: 1,
     },
     1101: { // Bronya
       x: 950,
       y: 1180,
+      z: 1,
     },
     1102: { // Seele
       x: 820,
       y: 1050,
+      z: 1,
     },
     1103: { // Serval
       x: 1050,
       y: 1024,
+      z: 1,
     },
     1104: { // Gepard
       x: 1150,
       y: 1110,
+      z: 1,
     },
     1105: { // Natasha
       x: 1040,
       y: 1024,
+      z: 1,
     },
     1106: { // Pela
       x: 780,
       y: 1100,
+      z: 1,
     },
     1107: { // Clara
       x: 880,
       y: 900,
+      z: 1,
     },
     1108: { // Sampo
       x: 1024,
       y: 925,
+      z: 1,
     },
     1109: { // Hook
       x: 930,
       y: 1024,
+      z: 1,
     },
     1110: { // Lynx
       x: 1180,
       y: 1000,
+      z: 1,
     },
     1111: { // Luka
       x: 930,
       y: 1000,
+      z: 1,
     },
     1112: { // Topaz and Numby
       x: 1120,
       y: 875,
+      z: 1,
     },
     1201: { // Qingque
       x: 1000,
       y: 1024,
+      z: 1,
     },
     1202: { // Tingyun
       x: 1024,
       y: 950,
+      z: 1,
     },
     1203: { // Luocha
       x: 1024,
       y: 1024,
+      z: 1,
     },
     1204: { // Jing Yuan
       x: 1060,
       y: 1024,
+      z: 1,
     },
     1205: { // Blade
       x: 990,
       y: 800,
+      z: 1,
     },
     1206: { // Sushang
       x: 1100,
       y: 1024,
+      z: 1,
     },
     1207: { // Yukong
       x: 900,
       y: 1050,
+      z: 1,
     },
     1208: { // Fu Xuan
       x: 920,
       y: 950,
+      z: 1,
     },
     1209: { // Yanqing
       x: 1024,
       y: 1000,
+      z: 1,
     },
     1210: { // Guinaifen
       x: 1024,
       y: 1024,
+      z: 1,
     },
     1211: { // Bailu
       x: 1000,
       y: 950,
+      z: 1,
     },
     1212: { // Jingliu
       x: 1024,
       y: 940,
+      z: 1,
     },
     1213: { // Dan Heng • Imbibitor Lunae
       x: 1050,
       y: 1000,
+      z: 1,
     },
     1214: { // Xueyi
       x: 1000,
       y: 900,
+      z: 1,
     },
     1215: { // Hanya
       x: 1000,
       y: 1024,
+      z: 1,
     },
     1217: { // Huohuo
       x: 950,
       y: 950,
+      z: 1,
     },
     1218: { // Jiaoqiu
       x: 950,
       y: 900,
+      z: 1,
     },
     1220: { // Feixiao
       x: 1024,
       y: 1050,
+      z: 1,
     },
     1221: { // Yunli
       x: 1024,
       y: 1024,
+      z: 1,
     },
     1222: { // Lingsha
       x: 1110,
       y: 1000,
+      z: 1,
     },
     1223: { // Moze
       x: 975,
       y: 1024,
+      z: 1,
     },
     1224: { // March 8th
       x: 825,
       y: 950,
+      z: 1,
     },
     1301: { // Gallagher
       x: 1150,
       y: 1024,
+      z: 1,
     },
     1302: { // Argenti
       x: 680,
       y: 1000,
+      z: 1,
     },
     1303: { // Ruan Mei
       x: 1060,
       y: 1050,
+      z: 1,
     },
     1304: { // Aventurine
       x: 1150,
       y: 1000,
+      z: 1,
     },
     1305: { // Dr Ratio
       x: 900,
       y: 850,
+      z: 1,
     },
     1306: { // Sparkle
       x: 1050,
       y: 1050,
+      z: 1,
     },
     1307: { // Black Swan
       x: 920,
       y: 900,
+      z: 1,
     },
     1308: { // Acheron
       x: 1000,
       y: 900,
+      z: 1,
     },
     1309: { // Robin
       x: 1024,
       y: 900,
+      z: 1,
     },
     1310: { // Firefly
       x: 900,
       y: 1150,
+      z: 1,
     },
     1312: { // Misha
       x: 1050,
       y: 1075,
+      z: 1,
     },
     1314: { // Jade
       x: 1024,
       y: 925,
+      z: 1,
     },
     1315: { // Boothill
       x: 1000,
       y: 1100,
+      z: 1,
     },
     1317: { // Rappa
-      x: 1145,
-      y: 1150,
+      x: 1125,
+      y: 1175,
+      z: 1.10,
     },
     8001: { // Physical Trailblazer M
       x: 1024,
       y: 1100,
+      z: 1,
     },
     8002: { // Physical Trailblazer F
       x: 1024,
       y: 1024,
+      z: 1,
     },
     8003: { // Fire Trailblazer M
       x: 980,
       y: 1024,
+      z: 1,
     },
     8004: { // Fire Trailblazer F
       x: 1050,
       y: 1024,
+      z: 1,
     },
     8005: { // Imaginary Trailblazer M
       x: 1050,
       y: 1000,
+      z: 1,
     },
     8006: { // Imaginary Trailblazer F
       x: 1050,
       y: 1000,
+      z: 1,
     },
   }
 }

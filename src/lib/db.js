@@ -84,6 +84,8 @@ window.store = create((set) => ({
   characterTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
   relicsTabFocusCharacter: undefined,
+  inventoryWidth: 14,
+  rowLimit: 8,
 
   activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)]
     ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash.split('?')[0]]
@@ -167,6 +169,8 @@ window.store = create((set) => ({
   setLocale: (x) => set(() => ({ locale: x })),
   setCharacters: (x) => set(() => ({ characters: x })),
   setCharactersById: (x) => set(() => ({ charactersById: x })),
+  setInventoryWidth: (x) => set(() => ({ inventoryWidth: x })),
+  setRowLimit: (x) => set(() => ({ rowLimit: x })),
   setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
   setCombatBuffsDrawerOpen: (x) => set(() => ({ combatBuffsDrawerOpen: x })),
   setEnemyConfigurationsDrawerOpen: (x) => set(() => ({ enemyConfigurationsDrawerOpen: x })),
@@ -287,6 +291,7 @@ export const DB = {
     const addRelic = !oldRelic
 
     if (addRelic) {
+      relic.ageIndex = DB.getRelics().length
       setRelic(relic)
       if (relic.equippedBy) {
         DB.equipRelic(relic, relic.equippedBy)
@@ -448,6 +453,7 @@ export const DB = {
         relic.equippedBy = undefined
       }
     }
+    IndexRelics(x.relics)
 
     if (x.scoringMetadataOverrides) {
       for (const [key, value] of Object.entries(x.scoringMetadataOverrides)) {
@@ -463,7 +469,7 @@ export const DB = {
         // After this migration done, Ctrl + F and uncomment the POST MIGRATION UNCOMMENT section to re-enable overwriting
         const scoringMetadataOverrides = x.scoringMetadataOverrides[key]
         if (scoringMetadataOverrides) {
-          const oldScoringMetadataStats = oldCharacterScoringMetadata[key]
+          const oldScoringMetadataStats = oldCharacterScoringMetadata[key] || {}
           const defaultScoringMetadata = dbCharacters[key].scoringMetadata
 
           let isOldScoring = true
@@ -530,6 +536,8 @@ export const DB = {
 
     window.store.getState().setExcludedRelicPotentialCharacters(x.excludedRelicPotentialCharacters || [])
     window.store.getState().setVersion(x.version)
+    window.store.getState().setInventoryWidth(x.relicLocator?.inventoryWidth ?? 7)
+    window.store.getState().setRowLimit(x.relicLocator?.rowLimit ?? 10)
 
     assignRanks(x.characters)
     DB.setRelics(x.relics)
@@ -842,6 +850,8 @@ export const DB = {
       }
     }
 
+    IndexRelics(replacementRelics)
+
     console.log('Replacement relics', replacementRelics)
 
     DB.setRelics(replacementRelics)
@@ -934,6 +944,7 @@ export const DB = {
     console.log('updatedOldRelics', updatedOldRelics)
 
     oldRelics.map((x) => RelicAugmenter.augment(x))
+    IndexRelics(oldRelics)
     DB.setRelics(oldRelics)
 
     for (const equipUpdate of equipUpdates) {
@@ -1097,4 +1108,11 @@ function deduplicateArray(arr) {
   if (arr == null) return arr
 
   return [...new Set(arr)]
+}
+
+function IndexRelics(arr) {
+  const length = arr.length
+  for (let i = 0; i < length; i++) {
+    arr[i].ageIndex = length - i - 1
+  }
 }

@@ -51,7 +51,7 @@ export const Renderer = {
     setImages.sort()
 
     return (
-      <Flex justify="center" style={{ marginTop: -1 }}>
+      <Flex justify='center' style={{ marginTop: -1 }}>
         <SetDisplay asset={setImages[0]}/>
         <SetDisplay asset={setImages[1]}/>
       </Flex>
@@ -72,7 +72,7 @@ export const Renderer = {
       const setName = Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == s1)[0]
       setImage = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
       return (
-        <Flex justify="center" style={{ marginTop: -1 }}>
+        <Flex justify='center' style={{ marginTop: -1 }}>
           <SetDisplay asset={setImage}/>
         </Flex>
       )
@@ -87,7 +87,7 @@ export const Renderer = {
 
     const src = Assets.getSetImage(x.data.set, part)
     return (
-      <Flex justify="center" title={x.data.set} style={{ marginTop: -1 }}>
+      <Flex justify='center' title={x.data.set} style={{ marginTop: -1 }}>
         <SetDisplay asset={src}/>
       </Flex>
     )
@@ -100,7 +100,7 @@ export const Renderer = {
 
     const src = Assets.getCharacterAvatarById(equippedBy)
     return (
-      <Flex justify="center" style={{ marginTop: -1 }}>
+      <Flex justify='center' style={{ marginTop: -1 }}>
         <SetDisplay asset={src}/>
       </Flex>
     )
@@ -119,7 +119,7 @@ export const Renderer = {
   partIcon: (x) => {
     if (x == undefined || x.value == undefined) return ''
     return (
-      <Flex justify="center" style={{ marginTop: -1, width: 20, marginBottom: 3 }}>
+      <Flex justify='center' style={{ marginTop: -1, width: 20, marginBottom: 3 }}>
         <SetDisplay asset={Assets.getPart(x.value)}/>
       </Flex>
     )
@@ -187,9 +187,16 @@ export const Renderer = {
     const color = gradeToColor[relic.grade] || ''
     return (
       (string ? relic.verified == 'true' : relic.verified)
-        ? <Tooltip mouseEnterDelay={0.4}
-                   title="Relic substats verified by relic scorer (speed decimals)"><CheckCircleFilled
-          style={{ fontSize: '14px', color: color }}/></Tooltip>
+        ? (
+          <Tooltip
+            mouseEnterDelay={0.4}
+            title='Relic substats verified by relic scorer (speed decimals)'
+          >
+            <CheckCircleFilled
+              style={{ fontSize: '14px', color: color }}
+            />
+          </Tooltip>
+        )
         : <div style={{ width: 14, height: 14, borderRadius: '50%', background: color }}/>
     )
   },

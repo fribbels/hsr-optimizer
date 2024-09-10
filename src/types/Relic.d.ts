@@ -22,6 +22,7 @@ export type Relic = {
   grade: RelicGrade
   id: GUID
   verified?: boolean
+  ageIndex?: number
 
   main: {
     stat: MainStats

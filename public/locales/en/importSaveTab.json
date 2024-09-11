@@ -13,32 +13,32 @@
       "fragment": "Error occurred while importing file: "
     },
     "stage1": {
-      "header": "Install and run one of the relic scanner options:",
+      "header": "Install and run one of the $t(common:relic, {\"count\": 1, \"length\": 0}) scanner options:",
       "reliquarydesc": {
         "title": "(Recommended) IceDynamix Reliquary Archiver",
         "link": "Github",
-        "onlinemsg": "Status: Updated for patch {{version}}, new download required for March 7th support",
+        "onlinemsg": "Status: Updated for patch {{version}}, new download required",
         "offlinemsg": "***** Status: Down for maintenance after {{version}} patch *****",
         "l1": "Accurate speed decimals, instant scan",
-        "l2": "Imports full inventory and character roster"
+        "l2": "Imports full inventory and $t(common:character, {\"count\": 1, \"length\": 0}) roster"
       },
       "kelzdesc": {
         "title": "Kel-Z HSR Scanner",
         "link": "Github",
         "l1": "Inaccurate speed decimals, 5-10 minutes OCR scan",
-        "l2": "Imports full inventory and character roster"
+        "l2": "Imports full inventory and $t(common:character, {\"count\": 1, \"length\": 0}) roster"
       },
       "scorerdesc": {
-        "title": "Relic Scorer Import",
-        "link": "Relic scorer",
+        "title": "$t(common:relic, {\"count\": 1, \"length\": 1}) Scorer Import",
+        "link": "$t(common:relic, {\"count\": 1, \"length\": 1}) scorer",
         "l1": "Accurate speed decimals, instant scan",
-        "l2": "No download needed, but limited to relics from the 8 characters on profile showcase"
+        "l2": "No download needed, but limited to $t(common:relic, {\"count\": 48, \"length\": 0}) from the 8 $t(common:character, {\"count\": 26, \"length\": 0}) on profile showcase"
       },
       "hoyolabdesc": {
         "title": "HoyoLab Import",
         "link": "Instructions",
         "l1": "Inaccurate speed decimals, instant scan",
-        "l2": "No download needed, but limited to ingame characters' equipped relics"
+        "l2": "No download needed, but limited to ingame $t(common:character, {\"count\": 26, \"length\": 0})' equipped $t(common:relic, {\"count\": 6, \"length\": 0})"
       },
       "buttontext": "Upload scanner json file",
       "or": "or",
@@ -87,6 +87,10 @@
     "buttontext": "Clear data",
     "successmessage": "Cleared data",
     "warningtitle": "Erase all data",
-    "warningdescription": "Are you sure you want to clear all relics and characters?"
+    "warningdescription": "Are you sure you want to clear all $t(common:relic, {\"count\": 1300, \"length\": 0}) and $t(common:character, {\"count\": 26, \"length\": 0})?"
+  },
+  "partialimport": {
+    "oldrelics": "Updated stats for {{count}} existing $t(common:relic, {\"count\": {{count}}, \"length\": 0})",
+    "newrelics": "Added {{count}} new $t(common:relic, {\"count\": {{count}}, \"length\": 0})"
   }
 }

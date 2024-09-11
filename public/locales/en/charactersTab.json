@@ -1,1 +1,53 @@
-{}
+{
+  "characteractions": {
+    "buttontext": "Character actions",
+    "character": {
+      "label": "Character",
+      "options": {
+        "add": "Add new character",
+        "edit": "Edit character",
+        "switch": "Switch relics with",
+        "unequip": "Unequip character",
+        "delete": "Delete character"
+      }
+    },
+    "build": {
+      "label": "Builds",
+      "options": {
+        "save": "Save build",
+        "view": "View saved builds"
+      }
+    },
+    "scoring": {
+      "label": "Scoring",
+      "options": {
+        "scoringmodal": "Scoring algorithm"
+      }
+    },
+    "priority": {
+      "label": "Priority",
+      "options": {
+        "sortbyscore": "Sort all characters by score",
+        "movetotop": "Move character to top"
+      }
+    }
+  },
+  "copyscreenshot": "Copy screenshot",
+  "searchplaceholder": "Search character name",
+  "gridheaders": {
+    "icon": "Icon",
+    "priority": "Priority",
+    "character": "Character"
+  },
+  "messages": {
+    "removesuccess": "Successfully removed character",
+    "unequipsuccess": "Successfully unequipped character",
+    "noselectedcharacter": "No selected character",
+    "switchsuccess": "Successfully switched relics to $t(gameData:characters.{{charid}}.name)",
+    "sortbyscorewarning": "Are you sure you want to sort all characters? <0/>You will lose any custom rankings you have set.",
+    "savesuccess": "Successfully saved build: {{name}}",
+    "unequipwarning": "Are you sure you want to unequip $t(gameData:characters.{{charid}}.name)?",
+    "deletewarning": "Are you sure you want to delete $t(gameData:characters.{{charid}}.name)?"
+  },
+  "characterpreview": {}
+}

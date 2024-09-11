@@ -22,6 +22,8 @@ import { OptimizerTabController } from 'lib/optimizerTabController'
 import SwitchRelicsModal from './SwitchRelicsModal'
 import { getGridTheme } from 'lib/theme'
 import { generateElementTags, generatePathTags, SegmentedFilterRow } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
+import i18next from 'i18next'
+import { Trans, useTranslation } from 'react-i18next'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -53,9 +55,7 @@ function cellRankRenderer(params) {
 
 function cellNameRenderer(params) {
   const data = params.data
-  const characterMetadata = DB.getMetadata().characters[data.id]
-  const characterName = characterMetadata.displayName
-
+  const characterName = i18next.t(`gameData:characters.${data.id}.name`)
   const equippedNumber = data.equipped ? Object.values(data.equipped).filter((x) => x != undefined).length : 0
   // console.log('CellRenderer', equippedNumber, data, characterMetadata)
   let color = '#81d47e'
@@ -90,77 +90,6 @@ const defaultFilters = {
   element: [],
 }
 
-const items = [
-  {
-    key: 'character group',
-    type: 'group',
-    label: 'Character',
-    children: [
-      {
-        label: 'Add new character',
-        key: 'add',
-      },
-      {
-        label: 'Edit character',
-        key: 'edit',
-      },
-      {
-        label: 'Switch relics with',
-        key: 'switchRelics',
-      },
-      {
-        label: 'Unequip character',
-        key: 'unequip',
-      },
-      {
-        label: 'Delete character',
-        key: 'delete',
-      },
-    ],
-  },
-  {
-    key: 'builds group',
-    type: 'group',
-    label: 'Builds',
-    children: [
-      {
-        label: 'Save build',
-        key: 'saveBuild',
-      },
-      {
-        label: 'View saved builds',
-        key: 'viewBuilds',
-      },
-    ],
-  },
-  {
-    key: 'scoring group',
-    type: 'group',
-    label: 'Scoring',
-    children: [
-      {
-        label: 'Scoring algorithm',
-        key: 'scoring',
-      },
-    ],
-  },
-  {
-    key: 'priority group',
-    type: 'group',
-    label: 'Priority',
-    children: [
-      {
-        label: 'Sort all characters by score',
-        key: 'sortByScore',
-      },
-      {
-        label: 'Move character to top',
-        key: 'moveToTop',
-      },
-    ],
-  },
-]
-
 export default function CharacterTab() {
   const { token } = useToken()
 
@@ -178,6 +107,8 @@ export default function CharacterTab() {
 
   const [characterFilters, setCharacterFilters] = useState(defaultFilters)
 
+  const { t } = useTranslation('charactersTab')
+
   console.log('======================================================================= RENDER CharacterTab')
 
   useSubscribe('refreshRelicsScore', () => {
@@ -186,6 +117,77 @@ export default function CharacterTab() {
       window.forceCharacterTabUpdate()
     }, 100)
   })
+
+  const items = [
+    {
+      key: 'character group',
+      type: 'group',
+      label: t('characteractions.character.label'),
+      children: [
+        {
+          label: t('characteractions.character.options.add'),
+          key: 'add',
+        },
+        {
+          label: t('characteractions.character.options.edit'),
+          key: 'edit',
+        },
+        {
+          label: t('characteractions.character.options.switch'),
+          key: 'switchRelics',
+        },
+        {
+          label: t('characteractions.character.options.unequip'),
+          key: 'unequip',
+        },
+        {
+          label: t('characteractions.character.options.delete'),
+          key: 'delete',
+        },
+      ],
+    },
+    {
+      key: 'builds group',
+      type: 'group',
+      label: t('characteractions.build.label'),
+      children: [
+        {
+          label: t('characteractions.build.options.save'),
+          key: 'saveBuild',
+        },
+        {
+          label: t('characteractions.build.options.view'),
+          key: 'viewBuilds',
+        },
+      ],
+    },
+    {
+      key: 'scoring group',
+      type: 'group',
+      label: t('characteractions.scoring.label'),
+      children: [
+        {
+          label: t('characteractions.scoring.options.scoringmodal'),
+          key: 'scoring',
+        },
+      ],
+    },
+    {
+      key: 'priority group',
+      type: 'group',
+      label: t('characteractions.priority.label'),
+      children: [
+        {
+          label: t('characteractions.priority.options.sortbyscore'),
+          key: 'sortByScore',
+        },
+        {
+          label: t('characteractions.priority.options.movetotop'),
+          key: 'moveToTop',
+        },
+      ],
+    },
+  ]
 
   const characterGrid = useRef() // Optional - for accessing Grid's API
   window.characterGrid = characterGrid
@@ -213,9 +215,9 @@ export default function CharacterTab() {
   }
 
   const columnDefs = useMemo(() => [
-    { field: '', headerName: 'Icon', cellRenderer: cellImageRenderer, width: 52 },
-    { field: '', headerName: 'Priority', cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
-    { field: '', headerName: 'Character', flex: 1, cellRenderer: cellNameRenderer },
+    { field: '', headerName: t('gridheaders.icon'), cellRenderer: cellImageRenderer, width: 52 },
+    { field: '', headerName: t('gridheaders.priority'), cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
+    { field: '', headerName: t('gridheaders.character'), flex: 1, cellRenderer: cellNameRenderer },
   ], [])
 
   const gridOptions = useMemo(() => ({
@@ -317,7 +319,7 @@ export default function CharacterTab() {
 
     SaveState.save()
 
-    Message.success('Successfully removed character')
+    Message.success(t('messages.removesuccess'))
   }
 
   function unequipClicked() {
@@ -334,7 +336,7 @@ export default function CharacterTab() {
 
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
-    Message.success('Successfully unequipped character')
+    Message.success(t('messages.unequipsuccess'))
     window.relicsGrid.current.api.redrawRows()
 
     SaveState.save()
@@ -343,7 +345,7 @@ export default function CharacterTab() {
   // Reuse the same modal for both edit/add and scroll to the selected character
   function onCharacterModalOk(form) {
     if (!form.characterId) {
-      return Message.error('No selected character')
+      return Message.error(t('messages.noselectedcharacter'))
     }
 
     const character = DB.addFromForm(form)
@@ -352,7 +354,7 @@ export default function CharacterTab() {
 
   function onSwitchRelicsModalOk(switchToCharacter) {
     if (!switchToCharacter) {
-      return Message.error('No selected character')
+      return Message.error(t('messages.noselectedcharacter'))
     }
 
     DB.switchRelics(selectedCharacter.id, switchToCharacter.value)
@@ -360,7 +362,7 @@ export default function CharacterTab() {
 
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
-    Message.success(`Successfully switched relics to ${switchToCharacter.title}`)
+    Message.success(t('messages.switchsuccess', { charid: switchToCharacter.value }))
     window.relicsGrid.current.api.redrawRows()
   }
 
@@ -376,10 +378,13 @@ export default function CharacterTab() {
   }
 
   async function sortByScoreClicked() {
-    if (!await confirm(<>
-      Are you sure you want to sort all characters? <br/>
-      You will lose any custom rankings you have set.
-    </>)) {
+    if (!await confirm(
+      <>
+        <Trans t={t} i18nKey='messages.sortbyscorewarning'>
+          <br/>
+        </Trans>
+      </>,
+    )) {
       return
     }
 
@@ -513,7 +518,7 @@ export default function CharacterTab() {
               allowClear
               size='large'
               style={{ height: 40 }}
-              placeholder='Search character name'
+              placeholder={t('searchplaceholder')}
               onChange={(e) => {
                 nameFilter.current = e.target.value.toLowerCase()
                 externalFilterChanged()
@@ -577,7 +582,7 @@ export default function CharacterTab() {
                   trigger={['hover']}
                 >
                   <Button style={{ width: '100%' }} icon={<UserOutlined/>}>
-                    Character actions
+                    {t('characteractions.buttontext')}
                     <DownOutlined/>
                   </Button>
                 </Dropdown>
@@ -588,7 +593,7 @@ export default function CharacterTab() {
                   type='primary'
                   loading={screenshotLoading}
                 >
-                  Copy screenshot
+                  {t('copyscreenshot')}
                 </Button>
                 <Button
                   style={{ width: 40 }} type='primary' icon={<DownloadOutlined/>}

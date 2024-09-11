@@ -1,6 +1,58 @@
 interface Resources {
   "changelogTab": {},
-  "charactersTab": {},
+  "charactersTab": {
+    "characteractions": {
+      "buttontext": "Character actions",
+      "character": {
+        "label": "Character",
+        "options": {
+          "add": "Add new character",
+          "edit": "Edit character",
+          "switch": "Switch relics with",
+          "unequip": "Unequip character",
+          "delete": "Delete character"
+        }
+      },
+      "build": {
+        "label": "Builds",
+        "options": {
+          "save": "Save build",
+          "view": "View saved builds"
+        }
+      },
+      "scoring": {
+        "label": "Scoring",
+        "options": {
+          "scoringmodal": "Scoring algorithm"
+        }
+      },
+      "priority": {
+        "label": "Priority",
+        "options": {
+          "sortbyscore": "Sort all characters by score",
+          "movetotop": "Move character to top"
+        }
+      }
+    },
+    "copyscreenshot": "Copy screenshot",
+    "searchplaceholder": "Search character name",
+    "gridheaders": {
+      "icon": "Icon",
+      "priority": "Priority",
+      "character": "Character"
+    },
+    "messages": {
+      "removesuccess": "Successfully removed character",
+      "unequipsuccess": "Successfully unequipped character",
+      "noselectedcharacter": "No selected character",
+      "switchsuccess": "Successfully switched relics to $t(gameData:characters.{{charid}}.name)",
+      "sortbyscorewarning": "Are you sure you want to sort all characters? <0/>You will lose any custom rankings you have set.",
+      "savesuccess": "Successfully saved build: {{name}}",
+      "unequipwarning": "Are you sure you want to unequip $t(gameData:characters.{{charid}}.name)?",
+      "deletewarning": "Are you sure you want to delete $t(gameData:characters.{{charid}}.name)?"
+    },
+    "characterpreview": {}
+  },
   "common": {
     "relic_one": "{{relic, capitalize}}",
     "relic_other": "{{relics, capitalize}}",
@@ -10,7 +62,8 @@ interface Resources {
     "lightcone_other": "{{light cones, capitalize}}",
     "lightconeWithCount_one": "{{count}} {{light cone, capitalize}}",
     "lightconeWithCount_other": "{{count}} {{light cones, capitalize}}",
-    "cancel": "{{cancel, capitalise}}",
+    "cancel": "{{cancel, capitalize}}",
+    "confirm": "{{confirm, capitalize}}",
     "submit": "{{submit, capitalize}}",
     "yes": "{{yes, capitalize}}",
     "characterWithCount_one": "{{count}} {{character, capitalize}}",
@@ -616,7 +669,7 @@ interface Resources {
         }
       },
       "8001": {
-        "name": "{NICKNAME}",
+        "name": "Caelus (Destruction)",
         "abilities": {
           "800101": "Farewell Hit",
           "800102": "RIP Home Run",
@@ -627,7 +680,7 @@ interface Resources {
         }
       },
       "8002": {
-        "name": "{NICKNAME}",
+        "name": "Stelle (Destruction)",
         "abilities": {
           "800201": "Farewell Hit",
           "800202": "RIP Home Run",
@@ -638,7 +691,7 @@ interface Resources {
         }
       },
       "8003": {
-        "name": "{NICKNAME}",
+        "name": "Caelus (Preservation)",
         "abilities": {
           "800301": "Ice-Breaking Light",
           "800302": "Ever-Burning Amber",
@@ -649,7 +702,7 @@ interface Resources {
         }
       },
       "8004": {
-        "name": "{NICKNAME}",
+        "name": "Stelle (Preservation)",
         "abilities": {
           "800401": "Ice-Breaking Light",
           "800402": "Ever-Burning Amber",
@@ -660,7 +713,7 @@ interface Resources {
         }
       },
       "8005": {
-        "name": "{NICKNAME}",
+        "name": "Caelus (Harmony)",
         "abilities": {
           "800501": "Swing Dance Etiquette",
           "800502": "Halftime to Make It Rain",
@@ -671,7 +724,7 @@ interface Resources {
         }
       },
       "8006": {
-        "name": "{NICKNAME}",
+        "name": "Stelle (Harmony)",
         "abilities": {
           "800601": "Swing Dance Etiquette",
           "800602": "Halftime to Make It Rain",
@@ -833,6 +886,25 @@ interface Resources {
       "24002": "Texture of Memories",
       "24003": "Solitary Healing",
       "24004": "Eternal Calculus"
+    },
+    "paths": {
+      "Warrior": "Destruction",
+      "Rogue": "The Hunt",
+      "Mage": "Erudition",
+      "Shaman": "Harmony",
+      "Warlock": "Nihility",
+      "Knight": "Preservation",
+      "Priest": "Abundance",
+      "undefined": "General"
+    },
+    "elements": {
+      "Physical": "Physical",
+      "Fire": "Fire",
+      "Ice": "Ice",
+      "Thunder": "Lightning",
+      "Wind": "Wind",
+      "Quantum": "Quantum",
+      "Imaginary": "Imaginary"
     }
   },
   "getStartedTab": {},
@@ -984,32 +1056,32 @@ interface Resources {
         "fragment": "Error occurred while importing file: "
       },
       "stage1": {
-        "header": "Install and run one of the relic scanner options:",
+        "header": "Install and run one of the $t(common:relic, {\"count\": 1, \"length\": 0}) scanner options:",
         "reliquarydesc": {
           "title": "(Recommended) IceDynamix Reliquary Archiver",
           "link": "Github",
-          "onlinemsg": "Status: Updated for patch {{version}}, new download required for March 7th support",
+          "onlinemsg": "Status: Updated for patch {{version}}, new download required",
           "offlinemsg": "***** Status: Down for maintenance after {{version}} patch *****",
           "l1": "Accurate speed decimals, instant scan",
-          "l2": "Imports full inventory and character roster"
+          "l2": "Imports full inventory and $t(common:character, {\"count\": 1, \"length\": 0}) roster"
         },
         "kelzdesc": {
           "title": "Kel-Z HSR Scanner",
           "link": "Github",
           "l1": "Inaccurate speed decimals, 5-10 minutes OCR scan",
-          "l2": "Imports full inventory and character roster"
+          "l2": "Imports full inventory and $t(common:character, {\"count\": 1, \"length\": 0}) roster"
         },
         "scorerdesc": {
-          "title": "Relic Scorer Import",
-          "link": "Relic scorer",
+          "title": "$t(common:relic, {\"count\": 1, \"length\": 1}) Scorer Import",
+          "link": "$t(common:relic, {\"count\": 1, \"length\": 1}) scorer",
           "l1": "Accurate speed decimals, instant scan",
-          "l2": "No download needed, but limited to relics from the 8 characters on profile showcase"
+          "l2": "No download needed, but limited to $t(common:relic, {\"count\": 48, \"length\": 0}) from the 8 $t(common:character, {\"count\": 26, \"length\": 0}) on profile showcase"
         },
         "hoyolabdesc": {
           "title": "HoyoLab Import",
           "link": "Instructions",
           "l1": "Inaccurate speed decimals, instant scan",
-          "l2": "No download needed, but limited to ingame characters' equipped relics"
+          "l2": "No download needed, but limited to ingame $t(common:character, {\"count\": 26, \"length\": 0})' equipped $t(common:relic, {\"count\": 6, \"length\": 0})"
         },
         "buttontext": "Upload scanner json file",
         "or": "or",
@@ -1058,11 +1130,50 @@ interface Resources {
       "buttontext": "Clear data",
       "successmessage": "Cleared data",
       "warningtitle": "Erase all data",
-      "warningdescription": "Are you sure you want to clear all relics and characters?"
+      "warningdescription": "Are you sure you want to clear all $t(common:relic, {\"count\": 1300, \"length\": 0}) and $t(common:character, {\"count\": 26, \"length\": 0})?"
+    },
+    "partialimport": {
+      "oldrelics": "Updated stats for {{count}} existing $t(common:relic, {\"count\": {{count}}, \"length\": 0})",
+      "newrelics": "Added {{count}} new $t(common:relic, {\"count\": {{count}}, \"length\": 0})"
     }
   },
-  "modals": {},
-  "relicScorerTab": {},
+  "modals": {
+    "editimage": {},
+    "editcharacter": {},
+    "relic": {},
+    "savebuild": {},
+    "builds": {},
+    "switchrelics": {}
+  },
+  "relicScorerTab": {
+    "messages": {
+      "throttlewarning": "Please wait {{seconds}} seconds before retrying",
+      "invalididwarning": "Invalid ID",
+      "idloaderror": "Error loading ID",
+      "successmsg": "Successfully loaded profile",
+      "lookuperror": "Error during lookup, please try again in a bit",
+      "nocharacterselected": "No selected $t(common:character, {\"count\": 1, \"length\": 0})",
+      "characteralreadyexists": "Selected $t(common:character, {\"count\": 1, \"length\": 0}) already exists"
+    },
+    "header": {
+      "downtimewarning": "The $t(common:relic, {\"count\": 1, \"length\": 0}) scorer may be down for maintenance after the {{game_version}} patch, please try again later",
+      "withversion": "Enter your account UID to score your profile $t(common:character, {\"count\": 1, \"length\": 0}) at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}} )",
+      "withoutversion": "Enter your account UID to score your profile $t(common:character, {\"count\": 1, \"length\": 0}) at level 80 & maxed traces. Log out to refresh instantly."
+    },
+    "submissionbar": {
+      "placeholder": "Account UID",
+      "buttontext": "$t(common:submit, {\"length\": 1})",
+      "algorithmbutton": "Scoring algorithm"
+    },
+    "copyscreenshot": "Copy screenshot",
+    "importlabels": {
+      "relics": "Import $t(common:relic, {\"count\": 48, \"length\": 0}) into optimizer",
+      "singlecharacter": "Import selected $t(common:character, {\"count\": 1, \"length\": 0}) & all $t(common:relic, {\"count\": 48, \"length\": 0}) into optimizer",
+      "allcharacters": "Import all $t(common:character, {\"count\": 8, \"length\": 0}) & all $t(common:relic, {\"count\": 48, \"length\": 0}) into optimizer"
+    },
+    "simulaterelics": "Simulate $t(common:relic, {\"count\": 48, \"length\": 0}) on another $t(common:character, {\"count\": 1, \"length\": 0})",
+    "optimizeoncharacter": "Optimize $t(common:character, {\"count\": 1, \"length\": 0}) stats"
+  },
   "relicsTab": {
     "relicFilterBar": {},
     "relicGrid": {}

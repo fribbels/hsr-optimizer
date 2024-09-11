@@ -70,6 +70,7 @@ export type HsrOptimizerStore = {
   setCombatBuffsDrawerOpen: (open: boolean) => void
   setLocale: (locale: string) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void
+  setOptimizerTabFocusCharacter: (CharacterId: CharacterId) => void
   setOptimizationInProgress: (open: boolean) => void
   setOptimizerStartTime: (open: number) => void
   setOptimizerEndTime: (open: number) => void

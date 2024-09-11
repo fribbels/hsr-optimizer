@@ -1,1 +1,29 @@
-{}
+{
+  "messages": {
+    "throttlewarning": "Please wait {{seconds}} seconds before retrying",
+    "invalididwarning": "Invalid ID",
+    "idloaderror": "Error loading ID",
+    "successmsg": "Successfully loaded profile",
+    "lookuperror": "Error during lookup, please try again in a bit",
+    "nocharacterselected": "No selected $t(common:character, {\"count\": 1, \"length\": 0})",
+    "characteralreadyexists": "Selected $t(common:character, {\"count\": 1, \"length\": 0}) already exists"
+  },
+  "header": {
+    "downtimewarning": "The $t(common:relic, {\"count\": 1, \"length\": 0}) scorer may be down for maintenance after the {{game_version}} patch, please try again later",
+    "withversion": "Enter your account UID to score your profile $t(common:character, {\"count\": 1, \"length\": 0}) at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}} )",
+    "withoutversion": "Enter your account UID to score your profile $t(common:character, {\"count\": 1, \"length\": 0}) at level 80 & maxed traces. Log out to refresh instantly."
+  },
+  "submissionbar": {
+    "placeholder": "Account UID",
+    "buttontext": "$t(common:submit, {\"length\": 1})",
+    "algorithmbutton": "Scoring algorithm"
+  },
+  "copyscreenshot": "Copy screenshot",
+  "importlabels": {
+    "relics": "Import $t(common:relic, {\"count\": 48, \"length\": 0}) into optimizer",
+    "singlecharacter": "Import selected $t(common:character, {\"count\": 1, \"length\": 0}) & all $t(common:relic, {\"count\": 48, \"length\": 0}) into optimizer",
+    "allcharacters": "Import all $t(common:character, {\"count\": 8, \"length\": 0}) & all $t(common:relic, {\"count\": 48, \"length\": 0}) into optimizer"
+  },
+  "simulaterelics": "Simulate $t(common:relic, {\"count\": 48, \"length\": 0}) on another $t(common:character, {\"count\": 1, \"length\": 0})",
+  "optimizeoncharacter": "Optimize $t(common:character, {\"count\": 1, \"length\": 0}) stats"
+}

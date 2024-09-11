@@ -12,6 +12,7 @@ import { Themes } from 'lib/theme'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { DefaultSettingOptions, SettingOptions } from 'components/SettingsDrawer'
 import { oldCharacterScoringMetadata } from 'lib/oldCharacterScoringMetadata'
+import i18next from 'i18next'
 
 const state = {
   relics: [],
@@ -964,8 +965,8 @@ export const DB = {
       window.characterGrid.current.api.redrawRows()
     }
 
-    if (updatedOldRelics.length) Message.success(`Updated stats for ${updatedOldRelics.length} existing relics`, 8)
-    if (addedNewRelics.length) Message.success(`Added ${addedNewRelics.length} new relics`, 8)
+    if (updatedOldRelics.length) Message.success(i18next.t('importSaveTab:partialimport.oldrelics', { count: updatedOldRelics.length }), 8)
+    if (addedNewRelics.length) Message.success(i18next.t('importSaveTab:partialimport.oldrelics', { count: addedNewRelics.length }), 8)
   },
 }
 

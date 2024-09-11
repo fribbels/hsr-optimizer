@@ -15,6 +15,7 @@ import { applySpdPreset } from 'components/optimizerTab/optimizerForm/Recommende
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Constants, CURRENT_DATA_VERSION } from 'lib/constants'
+import { useTranslation } from 'react-i18next'
 
 const { useToken } = theme
 // NOTE: These strings are replaced by github actions for beta deployment, don't change
@@ -51,6 +52,8 @@ export default function RelicScorerTab() {
   const [scorerForm] = Form.useForm()
   window.scorerForm = scorerForm
 
+  const { t } = useTranslation('relicScorerTab')
+
   useEffect(() => {
     const params = window.location.href.split('?')[1]
     if (params) {
@@ -67,7 +70,7 @@ export default function RelicScorerTab() {
 
   function onFinish(x) {
     if (latestRefreshDate.current) {
-      Message.warning(`Please wait ${Math.max(1, Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000))} seconds before retrying`)
+      Message.warning(t('messages.throttlewarning', { seconds: Math.max(1, Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000)) }))
       if (loading) {
         setLoading(false)
       }
@@ -86,7 +89,7 @@ export default function RelicScorerTab() {
 
     if (!id || id.length != 9) {
       setLoading(false)
-      Message.error('Invalid ID')
+      Message.error(t('messages.invalididwarning'))
       return
     }
 
@@ -138,7 +141,7 @@ export default function RelicScorerTab() {
         } else {
           if (!data.detailInfo) {
             setLoading(false)
-            Message.error('Error loading ID')
+            Message.error(t('messages.idloaderror'))
             return 'ERROR'
           }
 
@@ -167,13 +170,13 @@ export default function RelicScorerTab() {
           setSelectedCharacter(converted[0])
         }
         setLoading(false)
-        Message.success('Successfully loaded profile')
+        Message.success(t('messages.successmsg'))
         console.log(converted)
         scorerForm.setFieldValue('scorerId', id)
       })
       .catch((error) => {
         setTimeout(() => {
-          Message.warning('Error during lookup, please try again in a bit')
+          Message.warning(t('messages.lookuperror'))
           console.error('Fetch error:', error)
           setLoading(false)
         }, Math.max(0, throttleSeconds * 1000 - (new Date() - latestRefreshDate.current)))
@@ -193,13 +196,14 @@ export default function RelicScorerTab() {
   return (
     <div>
       <Flex vertical gap={0} align='center'>
-        {/* <Flex gap={10} vertical align='center'> */}
-        {/*  <Text><h3 style={{ color: '#ffaa4f' }}>The relic scorer may be down for maintenance after the 2.5 patch, please try again later</h3></Text> */}
-        {/* </Flex> */}
+        {/*
+        <Flex gap={10} vertical align='center'>
+        <Text><h3 style={{ color: '#ffaa4f' }}>{t('header.downtimewarning', { game_version: 2.6 })}</h3></Text>
+        </Flex>
+        */}
         <Flex gap={10} vertical align='center'>
           <Text>
-            Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly.
-            {window.officialOnly ? '' : ` (Current version ${CURRENT_DATA_VERSION})`}
+            {window.officialOnly ? t('header.withoutversion') : t('header.withversion', { beta_version: CURRENT_DATA_VERSION })}
           </Text>
         </Flex>
         <Form
@@ -209,7 +213,7 @@ export default function RelicScorerTab() {
         >
           <Flex style={{ margin: 10, width: 1100 }} justify='center' align='center' gap={10}>
             <Form.Item size='default' name='scorerId'>
-              <Input style={{ width: 150 }} placeholder='Account UID'/>
+              <Input style={{ width: 150 }} placeholder={t('submissionbar.placeholder')}/>
             </Form.Item>
             <Button
               type='primary'
@@ -217,13 +221,13 @@ export default function RelicScorerTab() {
               loading={loading}
               style={{ width: 150 }}
             >
-              Submit
+              {t('submissionbar.buttontext')}
             </Button>
             <Button
               style={{ width: 150 }}
               onClick={() => window.setIsScoringModalOpen(true)}
             >
-              Scoring algorithm
+              {t('submissionbar.algorithmbutton')}
             </Button>
           </Flex>
         </Form>
@@ -252,13 +256,15 @@ function CharacterPreviewSelection(props) {
   const [screenshotLoading, setScreenshotLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
 
+  const { t } = useTranslation('relicScorerTab')
+
   const items = [
     {
-      label: <Flex gap={10}><ImportOutlined/>Import all characters & all relics into optimizer</Flex>,
+      label: <Flex gap={10}><ImportOutlined/>{t('importlabels.allcharacters')}</Flex>,
       key: 'import characters',
     },
     {
-      label: <Flex gap={10}><ImportOutlined/>Import selected character & all relics into optimizer</Flex>,
+      label: <Flex gap={10}><ImportOutlined/>{t('importlabels.singlecharacter')}</Flex>,
       key: 'import single character',
     },
   ]
@@ -317,10 +323,10 @@ function CharacterPreviewSelection(props) {
 
   function onCharacterModalOk(form) {
     if (!form.characterId) {
-      return Message.error('No selected character')
+      return Message.error(t('messages.nocharacterselected'))
     }
     if (props.availableCharacters.find((x) => x.id == form.characterId) && props.selectedCharacter.id != form.characterId) {
-      return Message.error('Selected character already exists')
+      return Message.error(t('messages.characteralreadyexists'))
     }
 
     // Updates the selected segmented option
@@ -455,7 +461,7 @@ function CharacterPreviewSelection(props) {
           <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey}/>
           <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
             <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined/>} loading={screenshotLoading}>
-              Copy screenshot
+              {t('copyscreenshot')}
             </Button>
             <Button style={{ width: 40 }} icon={<DownloadOutlined/>} onClick={downloadClicked} loading={downloadLoading}/>
             <Dropdown.Button
@@ -464,13 +470,13 @@ function CharacterPreviewSelection(props) {
               menu={menuProps}
             >
               <ImportOutlined/>
-              Import relics into optimizer
+              {t('importlabels.relics')}
             </Dropdown.Button>
             <Button icon={<ExperimentOutlined/>} onClick={simulateClicked} style={{ width: 280 }}>
-              Simulate relics on another character
+              {t('simulaterelics')}
             </Button>
             <Button icon={<LineChartOutlined/>} onClick={optimizeClicked} style={{ width: 228 }}>
-              Optimize character stats
+              {t('optimizeoncharacter')}
             </Button>
           </Flex>
         </Flex>

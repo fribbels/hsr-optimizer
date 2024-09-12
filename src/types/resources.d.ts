@@ -69,7 +69,34 @@ interface Resources {
     "characterWithCount_one": "{{count}} {{character, capitalize}}",
     "characterWithCount_other": "{{count}} {{characters, capitalize}}",
     "character_one": "{{character, capitalize}}",
-    "character_other": "{{characters, capitalize}}"
+    "character_other": "{{characters, capitalize}}",
+    "statnames": {
+      "HP": "HP",
+      "ATK": "ATK",
+      "DEF": "DEF",
+      "HP%": "HP %",
+      "ATK%": "ATK %",
+      "DEF%": "DEF %",
+      "SPD": "SPD",
+      "CRIT Rate": "CRIT Rate",
+      "CRIT DMG": "CRIT DMG",
+      "Effect Hit Rate": "Effect Hit Rate",
+      "Effect RES": "Effect RES",
+      "Break Effect": "Break Effect",
+      "Energy Regen": "Energy Regen",
+      "Healing Boost": "Healing Boost",
+      "Element_DMG": "$t(gameData:elements.{{element}} ) DMG",
+      "Element": "$t(gameData:elements.{{element}})",
+      "HP %": "HP %",
+      "ATK %": "ATK %",
+      "DEF %": "DEF %",
+      "SPD %": "SPD %",
+      "HIT": "HIT",
+      "RES": "RES",
+      "Break": "Break",
+      "Energy": "Energy",
+      "Healing": "Test1"
+    }
   },
   "gameData": {
     "characters": {
@@ -1060,7 +1087,7 @@ interface Resources {
         "reliquarydesc": {
           "title": "(Recommended) IceDynamix Reliquary Archiver",
           "link": "Github",
-          "onlinemsg": "Status: Updated for patch {{version}}, new download required",
+          "onlinemsg": "Status: Updated for patch {{version}} — New download required",
           "offlinemsg": "***** Status: Down for maintenance after {{version}} patch *****",
           "l1": "Accurate speed decimals, instant scan",
           "l2": "Imports full inventory and $t(common:character, {\"count\": 1, \"length\": 0}) roster"
@@ -1175,8 +1202,143 @@ interface Resources {
     "optimizeoncharacter": "Optimize $t(common:character, {\"count\": 1, \"length\": 0}) stats"
   },
   "relicsTab": {
-    "relicFilterBar": {},
-    "relicGrid": {}
+    "relicFilterBar": {
+      "part": "Part",
+      "enhance": "Enhance",
+      "grade": "Grade",
+      "verified": "Verified",
+      "equipped": "Equipped",
+      "clear": "Clear",
+      "clearbutton": "Clear all filters",
+      "set": "Set",
+      "mainstat": "Main stats",
+      "substat": "Substats",
+      "reapplybutton": "Reapply scores",
+      "scoringbutton": "Scoring algorithm",
+      "recommendationheader": "Relic recommendation character",
+      "rating": "Relic ratings",
+      "customcharsheader": "Custom potential characters"
+    },
+    "messages": {
+      "addrelicsuccess": "Successfully added $t(common:relic, {\"count\": 1, \"length\": 0})",
+      "norelicselected": "No $t(common:relic, {\"count\": 1, \"length\": 0}) selected",
+      "deleterelicsuccess": "Successfully deleted $t(common:relic, {\"count\": 1, \"length\": 0})"
+    },
+    "relicGrid": {
+      "valueformatters": {
+        "part": {},
+        "stat": {
+          "element": "$t(common:.statnames.Element, {\"element\": {{element}})",
+          "other": "$t(common:.statnames.{{stat}})"
+        }
+      },
+      "headers": {
+        "equippedby": "Owner",
+        "set": "Set",
+        "grade": "Grade",
+        "part": "Part",
+        "enhance": "Enhance",
+        "mainstat": "Main\nStat",
+        "mainvalue": "Main Value",
+        "hpp": "HP %",
+        "atkp": "ATK %",
+        "defp": "DEF %",
+        "hp": "HP",
+        "atk": "ATK",
+        "def": "DEF",
+        "spd": "SPD",
+        "cr": "Crit\nRate",
+        "cd": "Crit\nDMG",
+        "ehr": "Effect\nHit Rate",
+        "res": "Effect\nRES",
+        "be": "Break\nEffect",
+        "cv": "Crit\nValue"
+      },
+      "valuecolumns": {
+        "selectedcharacter": {
+          "label": "Selected $t(common:character, {\"count\": 1, \"length\": 0})",
+          "scorecol": {
+            "label": "Selected $t(common:character, {\"count\": 1, \"length\": 0}): Score",
+            "header": "Selected Char\nScore"
+          },
+          "avgpotcol": {
+            "label": "Selected $t(common:character, {\"count\": 1, \"length\": 0}): Average potential",
+            "header": "Selected Char\nAvg Potential"
+          },
+          "maxpotcol": {
+            "label": "Selected $t(common:character, {\"count\": 1, \"length\": 0}): Max potential",
+            "header": "Selected Char\nMax Potential"
+          }
+        },
+        "customcharacters": {
+          "label": "Custom $t(common:character, {\"count\": 10, \"length\": 0})",
+          "avgpotcol": {
+            "label": "Custom $t(common:character, {\"count\": 10, \"length\": 0}): Average potential",
+            "header": "Custom Chars\nAvg Potential"
+          },
+          "maxpotcol": {
+            "label": "Custom $t(common:character, {\"count\": 10, \"length\": 0}): Max potential",
+            "header": "Custom Chars\nMax Potential"
+          }
+        },
+        "allcharacters": {
+          "label": "All $t(common:character, {\"count\": 10, \"length\": 0})",
+          "avgpotcol": {
+            "label": "All $t(common:character, {\"count\": 10, \"length\": 0}): Average potential",
+            "header": "All Chars\nAvg Potential"
+          },
+          "maxpotcol": {
+            "label": "All $t(common:character, {\"count\": 10, \"length\": 0}): Max potential",
+            "header": "All Chars\nMax Potential"
+          }
+        },
+        "comingsoon": {
+          "label": "Coming soon",
+          "setspotential": {
+            "label": "$t(common:relic, {\"count\": 1, \"length\": 1}) / Ornament sets potential",
+            "header": "All Chars\nMax Potential + Sets"
+          }
+        }
+      }
+    },
+    "toolbar": {
+      "reliclocator": {
+        "width": "Inventory width",
+        "filter": "Auto filter rows",
+        "noneselected": "Select a $t(common:relic, {\"count\": 1, \"length\": 0}) to locate",
+        "location": "Location - Row {{rowindex}} / Col {{columnindex}}"
+      },
+      "insightoptions": {
+        "buckets": "$t(common:relic, {\"count\": 1, \"length\": 1}) Insight: Buckets",
+        "top10": "$t(common:relic, {\"count\": 1, \"length\": 1}) Insight: Top 10"
+      },
+      "plotoptions": {
+        "plotall": "Show all $t(common:character, {\"count\": 12, \"length\": 0})",
+        "plotcustom": "Show custom $t(common:character, {\"count\": 12, \"length\": 0})"
+      },
+      "editrelic": "Edit $t(common:relic, {\"count\": 1, \"length\": 1})",
+      "deleterelic": {
+        "buttontext": "Delete $t(common:relic, {\"count\": 1, \"length\": 1})",
+        "warning_one": "Delete the selected $t(common:relic, {\"count\": 1, \"length\": 0})?",
+        "warning_other": "Delete the selected {{count}} $t(common:relic, {\"count\": {{count}}, \"length\": 0})?"
+      },
+      "addrelic": "Add New $t(common:relic, {\"count\": 1, \"length\": 1})"
+    },
+    "relicinsights": {
+      "newstats": "New stats: ",
+      "upgradedstats": "Upgraded stats: "
+    }
+  },
+  "renderer": {
+    "rendergrade": "Relic substats verified by relic scorer (speed decimals)",
+    "parts": {
+      "Head": "Head",
+      "Hands": "Hands",
+      "Body": "Body",
+      "Feet": "Feet",
+      "Sphere": "Sphere",
+      "Rope": "Rope"
+    }
   },
   "settings": {
     "title": "Settings",

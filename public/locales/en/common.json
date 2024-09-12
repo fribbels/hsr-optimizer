@@ -14,5 +14,32 @@
   "characterWithCount_one": "{{count}} {{character, capitalize}}",
   "characterWithCount_other": "{{count}} {{characters, capitalize}}",
   "character_one": "{{character, capitalize}}",
-  "character_other": "{{characters, capitalize}}"
+  "character_other": "{{characters, capitalize}}",
+  "statnames": {
+    "HP": "HP",
+    "ATK": "ATK",
+    "DEF": "DEF",
+    "HP%": "HP %",
+    "ATK%": "ATK %",
+    "DEF%": "DEF %",
+    "SPD": "SPD",
+    "CRIT Rate": "CRIT Rate",
+    "CRIT DMG": "CRIT DMG",
+    "Effect Hit Rate": "Effect Hit Rate",
+    "Effect RES": "Effect RES",
+    "Break Effect": "Break Effect",
+    "Energy Regen": "Energy Regen",
+    "Healing Boost": "Healing Boost",
+    "Element_DMG": "$t(gameData:elements.{{element}} ) DMG",
+    "Element": "$t(gameData:elements.{{element}})",
+    "HP %": "HP %",
+    "ATK %": "ATK %",
+    "DEF %": "DEF %",
+    "SPD %": "SPD %",
+    "HIT": "HIT",
+    "RES": "RES",
+    "Break": "Break",
+    "Energy": "Energy",
+    "Healing": "Test1"
+  }
 }

@@ -1,0 +1,11 @@
+{
+  "rendergrade": "Relic substats verified by relic scorer (speed decimals)",
+  "parts": {
+    "Head": "Head",
+    "Hands": "Hands",
+    "Body": "Body",
+    "Feet": "Feet",
+    "Sphere": "Sphere",
+    "Rope": "Rope"
+  }
+}

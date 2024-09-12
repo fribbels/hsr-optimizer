@@ -17,7 +17,7 @@
       "reliquarydesc": {
         "title": "(Recommended) IceDynamix Reliquary Archiver",
         "link": "Github",
-        "onlinemsg": "Status: Updated for patch {{version}}, new download required",
+        "onlinemsg": "Status: Updated for patch {{version}} — New download required",
         "offlinemsg": "***** Status: Down for maintenance after {{version}} patch *****",
         "l1": "Accurate speed decimals, instant scan",
         "l2": "Imports full inventory and $t(common:character, {\"count\": 1, \"length\": 0}) roster"

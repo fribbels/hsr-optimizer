@@ -1165,12 +1165,32 @@ interface Resources {
     }
   },
   "modals": {
-    "editimage": {},
+    "scoring": {},
+    "0perms": {},
+    "manyperms": {},
+    "0results": {},
     "editcharacter": {},
     "relic": {},
+    "editimage": {},
     "savebuild": {},
+    "switchrelics": {},
     "builds": {},
-    "switchrelics": {}
+    "scorefooter": {},
+    "characterselect": {
+      "multiselect": {
+        "placeholder": "Customize characters",
+        "maxtagplaceholder_zero": "{{count}} characters excluded",
+        "maxtagplaceholder_other": "All characters enabled",
+        "modaltitle": "Select characters to exclude"
+      },
+      "singleselect": {
+        "placeholder": "Character",
+        "modaltitle": "Select a character"
+      },
+      "searchplaceholder": "Search character name",
+      "excludebutton": "Exclude all",
+      "clearbutton": "Clear"
+    }
   },
   "relicScorerTab": {
     "messages": {
@@ -1215,9 +1235,9 @@ interface Resources {
       "substat": "Substats",
       "reapplybutton": "Reapply scores",
       "scoringbutton": "Scoring algorithm",
-      "recommendationheader": "Relic recommendation character",
-      "rating": "Relic ratings",
-      "customcharsheader": "Custom potential characters"
+      "recommendationheader": "$t(common:relic, {\"count\": 1, \"length\": 1}) recommendation character",
+      "rating": "$t(common:relic, {\"count\": 1, \"length\": 1}) ratings",
+      "customcharsheader": "Custom potential $t(common:character, {\"count\": 12, \"length\": 0})"
     },
     "messages": {
       "addrelicsuccess": "Successfully added $t(common:relic, {\"count\": 1, \"length\": 0})",

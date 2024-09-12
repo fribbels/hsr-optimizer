@@ -4,6 +4,7 @@ import { Button, Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Utils } from 'lib/utils.js'
 import { Assets } from 'lib/assets.js'
 import { CardGridItemContent, generateElementTags, generatePathTags, SegmentedFilterRow } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
+import { useTranslation } from 'react-i18next'
 
 interface CharacterSelectProps {
   value
@@ -37,12 +38,14 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   const [selected, setSelected] = useState<Map<string, boolean>>(new Map())
   const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
 
+  const { t } = useTranslation('modals', { keyPrefix: 'characterselect' })
+
   const labelledOptions: { value: string; label }[] = []
   for (const option of characterOptions) {
     labelledOptions.push({
       value: option.value,
       label: (
-        <Flex gap={5} align="center">
+        <Flex gap={5} align='center'>
           <img
             src={Assets.getCharacterAvatarById(option.value)}
             style={{ height: 22, marginRight: 4 }}
@@ -110,11 +113,11 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         style={selectStyle}
         value={value}
         options={withIcon ? labelledOptions : characterOptions}
-        placeholder={multipleSelect ? 'Customize characters' : 'Character'}
+        placeholder={multipleSelect ? t('multiselect.placeholder') : t('singleselect.placeholder')}
         allowClear
         maxTagCount={0}
         maxTagPlaceholder={() => (
-          <span>{excludedRelicPotentialCharacters.length ? `${excludedRelicPotentialCharacters.length} characters excluded` : 'All characters enabled'}</span>
+          <span>{t('multiselect.maxtagplaceholder', { count: excludedRelicPotentialCharacters.length })}</span>
         )}
         onClear={() => {
           if (onChange) onChange(null)
@@ -134,9 +137,9 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         open={open}
         centered
         destroyOnClose
-        width="90%"
+        width='90%'
         style={{ height: '80%', maxWidth: 1450 }}
-        title={multipleSelect ? 'Select characters to exclude' : 'Select a character'}
+        title={multipleSelect ? t('multiselect.modaltitle') : t('singleselect.modaltitle')}
         onCancel={() => {
           if (multipleSelect) {
             if (onChange) onChange(selected)
@@ -147,15 +150,15 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         footer={null}
       >
         <Flex vertical gap={12} style={{ minWidth: 350 }}>
-          <Flex gap={12} wrap="wrap">
-            <Flex wrap="nowrap" style={{ flexGrow: 1 }} gap={10}>
+          <Flex gap={12} wrap='wrap'>
+            <Flex wrap='nowrap' style={{ flexGrow: 1 }} gap={10}>
               <Input
-                size="large"
+                size='large'
                 style={{
                   height: 40,
                   flex: 1,
                 }}
-                placeholder="Search character name"
+                placeholder={t('searchplaceholder')}
                 ref={inputRef}
                 onChange={(e) => {
                   const newFilters = Utils.clone(currentFilters)
@@ -175,32 +178,32 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                     onClick={excludeAll}
                     style={{ height: '100%', width: 120 }}
                   >
-                    Exclude all
+                    {t('excludebutton')}
                   </Button>
                   <Button
                     onClick={includeAll}
                     style={{ height: '100%', width: 120 }}
                   >
-                    Clear
+                    {t('clearbutton')}
                   </Button>
                 </Flex>
               )}
             </Flex>
-            <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }} gap={12}>
-              <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
+            <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }} gap={12}>
+              <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
                 <SegmentedFilterRow
-                  name="element"
+                  name='element'
                   tags={generateElementTags()}
-                  flexBasis="14.2%"
+                  flexBasis='14.2%'
                   currentFilters={currentFilters}
                   setCurrentFilters={setCurrentFilters}
                 />
               </Flex>
-              <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
+              <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
                 <SegmentedFilterRow
-                  name="path"
+                  name='path'
                   tags={generatePathTags()}
-                  flexBasis="14.2%"
+                  flexBasis='14.2%'
                   currentFilters={currentFilters}
                   setCurrentFilters={setCurrentFilters}
                 />

@@ -1,8 +1,28 @@
 {
-  "editimage": {},
+  "scoring": {},
+  "0perms": {},
+  "manyperms": {},
+  "0results": {},
   "editcharacter": {},
   "relic": {},
+  "editimage": {},
   "savebuild": {},
+  "switchrelics": {},
   "builds": {},
-  "switchrelics": {}
+  "scorefooter": {},
+  "characterselect": {
+    "multiselect": {
+      "placeholder": "Customize characters",
+      "maxtagplaceholder_other": "{{count}} characters excluded",
+      "maxtagplaceholder_zero": "All characters enabled",
+      "modaltitle": "Select characters to exclude"
+    },
+    "singleselect": {
+      "placeholder": "Character",
+      "modaltitle": "Select a character"
+    },
+    "searchplaceholder": "Search character name",
+    "excludebutton": "Exclude all",
+    "clearbutton": "Clear"
+  }
 }

@@ -19,9 +19,9 @@
     "HP": "HP",
     "ATK": "ATK",
     "DEF": "DEF",
-    "HP%": "HP %",
-    "ATK%": "ATK %",
-    "DEF%": "DEF %",
+    "HP%": "HP%",
+    "ATK%": "ATK%",
+    "DEF%": "DEF%",
     "SPD": "SPD",
     "CRIT Rate": "CRIT Rate",
     "CRIT DMG": "CRIT DMG",
@@ -30,8 +30,9 @@
     "Break Effect": "Break Effect",
     "Energy Regen": "Energy Regen",
     "Healing Boost": "Healing Boost",
-    "Element_DMG": "$t(gameData:elements.{{element}} ) DMG",
+    "Element_DMG": "$t(gameData:elements.{{element}}) DMG",
     "Element": "$t(gameData:elements.{{element}})",
+    "Element_DMG_Boost": "$t(gameData:elements.{{element}}) DMG Boost",
     "HP %": "HP %",
     "ATK %": "ATK %",
     "DEF %": "DEF %",
@@ -40,6 +41,6 @@
     "RES": "RES",
     "Break": "Break",
     "Energy": "Energy",
-    "Healing": "Test1"
+    "Healing": "Healing"
   }
 }

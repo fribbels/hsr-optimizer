@@ -744,6 +744,50 @@ export const CombatBuffs = {
   },
 }
 
+export const setToId = {
+  [Constants.Sets.PasserbyOfWanderingCloud]: '101',
+  [Constants.Sets.MusketeerOfWildWheat]: '102',
+  [Constants.Sets.KnightOfPurityPalace]: '103',
+  [Constants.Sets.HunterOfGlacialForest]: '104',
+  [Constants.Sets.ChampionOfStreetwiseBoxing]: '105',
+  [Constants.Sets.GuardOfWutheringSnow]: '106',
+  [Constants.Sets.FiresmithOfLavaForging]: '107',
+  [Constants.Sets.GeniusOfBrilliantStars]: '108',
+  [Constants.Sets.BandOfSizzlingThunder]: '109',
+  [Constants.Sets.EagleOfTwilightLine]: '110',
+  [Constants.Sets.ThiefOfShootingMeteor]: '111',
+  [Constants.Sets.WastelanderOfBanditryDesert]: '112',
+  [Constants.Sets.LongevousDisciple]: '113',
+  [Constants.Sets.MessengerTraversingHackerspace]: '114',
+  [Constants.Sets.TheAshblazingGrandDuke]: '115',
+  [Constants.Sets.PrisonerInDeepConfinement]: '116',
+  [Constants.Sets.PioneerDiverOfDeadWaters]: '117',
+  [Constants.Sets.WatchmakerMasterOfDreamMachinations]: '118',
+  [Constants.Sets.IronCavalryAgainstTheScourge]: '119',
+  [Constants.Sets.TheWindSoaringValorous]: '120',
+  [Constants.Sets.SacerdosRelivedOrdeal]: '121',
+  [Constants.Sets.ScholarLostInErudition]: '122',
+
+  [Constants.Sets.SpaceSealingStation]: '301',
+  [Constants.Sets.FleetOfTheAgeless]: '302',
+  [Constants.Sets.PanCosmicCommercialEnterprise]: '303',
+  [Constants.Sets.BelobogOfTheArchitects]: '304',
+  [Constants.Sets.CelestialDifferentiator]: '305',
+  [Constants.Sets.InertSalsotto]: '306',
+  [Constants.Sets.TaliaKingdomOfBanditry]: '307',
+  [Constants.Sets.SprightlyVonwacq]: '308',
+  [Constants.Sets.RutilantArena]: '309',
+  [Constants.Sets.BrokenKeel]: '310',
+  [Constants.Sets.FirmamentFrontlineGlamoth]: '311',
+  [Constants.Sets.PenaconyLandOfTheDreams]: '312',
+  [Constants.Sets.SigoniaTheUnclaimedDesolation]: '313',
+  [Constants.Sets.IzumoGenseiAndTakamaDivineRealm]: '314',
+  [Constants.Sets.DuranDynastyOfRunningWolves]: '315',
+  [Constants.Sets.ForgeOfTheKalpagniLantern]: '316',
+  [Constants.Sets.LushakaTheSunkenSeas]: '317',
+  [Constants.Sets.TheWondrousBananAmusementPark]: '318',
+}
+
 export const DamageKeys = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK']
 
 export const DEFAULT_TEAM = 'Default'

@@ -74,9 +74,9 @@ interface Resources {
       "HP": "HP",
       "ATK": "ATK",
       "DEF": "DEF",
-      "HP%": "HP %",
-      "ATK%": "ATK %",
-      "DEF%": "DEF %",
+      "HP%": "HP%",
+      "ATK%": "ATK%",
+      "DEF%": "DEF%",
       "SPD": "SPD",
       "CRIT Rate": "CRIT Rate",
       "CRIT DMG": "CRIT DMG",
@@ -85,8 +85,9 @@ interface Resources {
       "Break Effect": "Break Effect",
       "Energy Regen": "Energy Regen",
       "Healing Boost": "Healing Boost",
-      "Element_DMG": "$t(gameData:elements.{{element}} ) DMG",
+      "Element_DMG": "$t(gameData:elements.{{element}}) DMG",
       "Element": "$t(gameData:elements.{{element}})",
+      "Element_DMG_Boost": "$t(gameData:elements.{{element}}) DMG Boost",
       "HP %": "HP %",
       "ATK %": "ATK %",
       "DEF %": "DEF %",
@@ -95,7 +96,7 @@ interface Resources {
       "RES": "RES",
       "Break": "Break",
       "Energy": "Energy",
-      "Healing": "Test1"
+      "Healing": "Healing"
     }
   },
   "gameData": {
@@ -1170,7 +1171,41 @@ interface Resources {
     "manyperms": {},
     "0results": {},
     "editcharacter": {},
-    "relic": {},
+    "relic": {
+      "part": "Part",
+      "wearer": "Equipped by",
+      "set": "Set",
+      "enhance": "Enhance / Grade",
+      "mainstat": "Main stat",
+      "substat": "Substats",
+      "upgrades": "Substat upgrades",
+      "messages": {
+        "submitfail": "",
+        "reliccompleted": "",
+        "editsuccess": "",
+        "error": {
+          "partmissing": "Part field is missing",
+          "mainstatmissing": "Main stat is missing",
+          "setmissing": "Set field is missing",
+          "enhancemissing": "Enhance field is missing",
+          "grademissing": "Grade field is missing",
+          "enhanceinvalid": "Enhance value is invalid",
+          "gradeinvalid": "Grade value is invalid",
+          "enhancetoohigh": "Enhance value is too high for this grade",
+          "setinvalid": "Set value is invalid",
+          "setnotornament": "The selected set is not an ornament set",
+          "setnotrelic": "The selected set is not a relic set",
+          "subninvalid": "Substat {{number}} is invalid",
+          "subsoutoforder": "Substats are out of order",
+          "duplicatesubs": "Duplicate substats, only one of each type is allowed",
+          "mainassub": "Substat type is the same as the main stat",
+          "subtoobig": "Substat value is too big",
+          "maintoobig": "Main stat value is too big",
+          "subtoosmall": "Substat values should be positive",
+          "maintoosmall": "Main stat values should be positive"
+        }
+      }
+    },
     "editimage": {},
     "savebuild": {},
     "switchrelics": {},
@@ -1178,16 +1213,16 @@ interface Resources {
     "scorefooter": {},
     "characterselect": {
       "multiselect": {
-        "placeholder": "Customize characters",
-        "maxtagplaceholder_zero": "{{count}} characters excluded",
-        "maxtagplaceholder_other": "All characters enabled",
-        "modaltitle": "Select characters to exclude"
+        "placeholder": "Customize $t(common:character, {\"count\": 12, \"length\": 0})",
+        "maxtagplaceholder_other": "{{count}} $t(common:character, {\"count\": {{count}}, \"length\": 0}) excluded",
+        "maxtagplaceholder_zero": "All $t(common:character, {\"count\": 12, \"length\": 0}) enabled",
+        "modaltitle": "Select $t(common:character, {\"count\": 12, \"length\": 0}) to exclude"
       },
       "singleselect": {
-        "placeholder": "Character",
-        "modaltitle": "Select a character"
+        "placeholder": "$t(common:character, {\"count\": 1, \"length\": 1})",
+        "modaltitle": "Select a $t(common:character, {\"count\": 1, \"length\": 0})"
       },
-      "searchplaceholder": "Search character name",
+      "searchplaceholder": "Search $t(common:character, {\"count\": 1, \"length\": 0}) name",
       "excludebutton": "Exclude all",
       "clearbutton": "Clear"
     }

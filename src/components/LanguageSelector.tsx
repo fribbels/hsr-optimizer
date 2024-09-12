@@ -35,7 +35,7 @@ export function LanguageSelector(props: { style: React.CSSProperties; dropdownSt
       }}
       onChange={(e: string) => {
         i18n.changeLanguage(e)
-        setLocale(e)
+          .then(() => setLocale(e))
       }}
       style={props.style}
       dropdownStyle={props.dropdownStyle}

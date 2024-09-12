@@ -1,15 +1,22 @@
-import { Constants } from 'lib/constants'
+import { Constants, setToId } from 'lib/constants'
 import { Assets } from 'lib/assets'
 import { Flex } from 'antd'
-import React from 'react'
 import { UnreleasedSets } from 'lib/dataParser'
+import i18next from 'i18next'
 
 // Sets
 export function getSetOptions() {
   const setOptions = []
   for (const entry of [...Object.entries(Constants.SetsRelics), ...Object.entries(Constants.SetsOrnaments)].filter((x) => !UnreleasedSets[x[1]])) {
     setOptions.push({
-      label: generateImageLabel(entry[1], Assets.getSetImage),
+      label: (() => {
+        return (
+          <Flex align='center' gap={10}>
+            <img style={{ height: 22, width: 22 }} src={Assets.getSetImage(entry[1])}/>
+            {i18next.t(`gameData:relicsets.${setToId[entry[1]]}`)}
+          </Flex>
+        )
+      })(),
       value: entry[1],
     })
   }
@@ -18,26 +25,9 @@ export function getSetOptions() {
 }
 
 // Stats
-export const substatOptions = []
-for (const entry of Object.entries(Constants.SubStats)) {
-  substatOptions.push({
-    label: generateImageLabel(entry[1], (x) => Assets.getStatIcon(x, true), 22),
-    value: entry[1],
-  })
-}
 
 // Enhance
 export const enhanceOptions = []
 for (let i = 15; i >= 0; i--) {
   enhanceOptions.push({ value: i, label: '+' + i })
-}
-
-// Utils
-export function generateImageLabel(value, srcFn, size = 22) {
-  return (
-    <Flex align="center" gap={10}>
-      <img src={srcFn(value)} style={{ width: size, height: size }}/>
-      {value}
-    </Flex>
-  )
 }

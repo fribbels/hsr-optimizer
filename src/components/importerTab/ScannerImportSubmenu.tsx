@@ -11,6 +11,7 @@ import { ReliquaryDescription } from 'components/importerTab/ReliquaryDescriptio
 import { hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
 import { Message } from 'lib/message'
 import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
 
 const { Text } = Typography
 
@@ -259,8 +260,8 @@ export function ScannerImportSubmenu() {
             description={t('stage2.charactersimport.warningdescription')}
             onConfirm={mergeCharactersConfirmed}
             placement='bottom'
-            okText={t('common:yes', { length: 1 })}
-            cancelText={t('common:cancel', { length: 1 })}
+            okText={i18next.t('common:yes', { length: 1 })}
+            cancelText={i18next.t('common:cancel', { length: 1 })}
           >
             <Button style={{ width: importerTabButtonWidth }} type='primary' loading={loading2}>
               {t('stage2.charactersimport.buttontext')}

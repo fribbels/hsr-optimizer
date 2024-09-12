@@ -110,7 +110,7 @@ export const Renderer = {
   readableStat: (x) => {
     if (x == undefined || x.value == undefined) return ''
     const stat = StatsToReadable[x.value].split(' ')
-    if (stat[stat.length - 1] == 'DMG') {
+    if (stat[1] == 'DMG' && stat[0] != 'CRIT') {
       return i18next.t('common:statnames.Element', { element: (stat[0] == 'Lightning' ? 'Thunder' : stat[0]) })
     }
     return i18next.t(`common:statnames.${StatsToReadableShort[x.value]}`)

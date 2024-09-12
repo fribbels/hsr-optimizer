@@ -183,6 +183,7 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
   analyze('DOT_STACKS', P_2)
   analyze('ENEMY_WEAKNESS_BROKEN', P_2)
   analyze('SUPER_BREAK_MODIFIER', P_2)
+  analyze('BASIC_SUPER_BREAK_MODIFIER', P_2)
   analyze('SUPER_BREAK_HMC_MODIFIER', P_2)
   analyze('BASIC_TOUGHNESS_DMG', P_2)
   analyze('SKILL_TOUGHNESS_DMG', P_2)

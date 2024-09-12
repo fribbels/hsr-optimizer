@@ -119,7 +119,8 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         if (!defaultImageUrl) {
           console.error('defaultImageUrl does not exist, but default image was chosen.')
         }
-        onOk({ type: 'add', imageUrl: defaultImageUrl ?? '', ...imageConfigWithoutUrl, artistName })
+        onOk({ type: 'delete' })
+        setOpen(false)
         setCurrent(0)
         break
       default:
@@ -386,7 +387,8 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         await validateInputImageUrl(customImageForm.getFieldValue('imageUrl'))
         break
       case 'default':
-        await validateInputImageDefault()
+        onOk({ type: 'delete' })
+        setOpen(false)
         break
       case null:
       default:

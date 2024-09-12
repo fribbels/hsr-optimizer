@@ -60,11 +60,6 @@ export const Assets = {
 
     return getImageUrl(`/icon/avatar/${id}.webp`)
   },
-  getCharacterIconById: (id) => {
-    if (!id) return Assets.getBlank()
-
-    return getImageUrl(`/icon/character/${id}.webp`)
-  },
   getCharacterPreviewById: (id) => {
     if (!id) return Assets.getBlank()
 
@@ -111,6 +106,9 @@ export const Assets = {
   getGithub: () => {
     return getImageUrl('/misc/badgegithub.webp')
   },
+  getKofi: () => {
+    return getImageUrl('/misc/badgekofi.webp')
+  },
   getStar: () => {
     return getImageUrl('/misc/StarBig.webp')
   },
@@ -138,7 +136,7 @@ export const Assets = {
     return getImageUrl(`/misc/changelog/${path}`)
   },
 
-  getSetImage: (set, part) => {
+  getSetImage: (set, part, actualIcon = false) => {
     if (set == -1) {
       return Assets.getBlank()
     }
@@ -166,6 +164,8 @@ export const Assets = {
       [Constants.Sets.WatchmakerMasterOfDreamMachinations]: '118',
       [Constants.Sets.IronCavalryAgainstTheScourge]: '119',
       [Constants.Sets.TheWindSoaringValorous]: '120',
+      [Constants.Sets.SacerdosRelivedOrdeal]: '121',
+      [Constants.Sets.ScholarLostInErudition]: '122',
 
       [Constants.Sets.SpaceSealingStation]: '301',
       [Constants.Sets.FleetOfTheAgeless]: '302',
@@ -195,6 +195,9 @@ export const Assets = {
       [Constants.Parts.Feet]: '_3',
       [Constants.Parts.PlanarSphere]: '_0',
       [Constants.Parts.LinkRope]: '_1',
+    }
+    if (actualIcon) {
+      return getImageUrl(`/icon/relic/${setToId[set]}.webp`)
     }
     return getImageUrl(`/icon/relic/${setToId[set]}${partToId[part]}.webp`)
   },

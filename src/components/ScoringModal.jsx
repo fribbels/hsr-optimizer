@@ -164,7 +164,39 @@ export default function ScoringModal() {
 
   const previewSrc = (scoringAlgorithmFocusCharacter) ? Assets.getCharacterPreviewById(scoringAlgorithmFocusCharacter) : Assets.getBlank()
 
-  const methodologyCollapse = (
+  const weightMethodologyCollapse = (
+    <Text>
+      <PStyled style={{ margin: '7px 0px' }}>
+        Substat weights are graded on a 0.0 to 1.0 scale in increments of 0.25, based on how valuable each stat is to the character. Weights are evaluated based on the following general ruleset:
+      </PStyled>
+
+      <Flex justify='space-between' style={{ marginRight: 30 }}>
+        <ul>
+          <li><u>Speed weight:</u></li>
+          <li>— SPD is given a value of 1.0 for every character. This is due to the importance of speed tuning in team compositions, and the optimizer should be used to maximize each character's stats at a certain speed breakpoint.</li>
+          <br/>
+          <li><u>CRIT Rate / CRIT Damage weight:</u></li>
+          <li>— Crit DPS in general are given the weights 0.75 ATK | 1.0 SPD | 1.0 CR | 1.0 CD, unless they have any other special scaling.</li>
+          <li>— ATK is weighted slightly than CR and CD rolls because in general crit substats will provide a higher boost to damage.</li>
+          <br/>
+          <li><u>HP / DEF weight:</u></li>
+          <li>— Defensive supports are given 2.0 weight to distribute between HP and DEF.</li>
+          <li>— For each additional (0.75 | 1.0) stat weight that they scale with, deduct 0.5 down to a minimum of 1.0.</li>
+          <li>— If 2.0 still remains and one of the stats is worth more than the other (Huohuo and HP% for example), assign a 1.0 / 0.75 split.</li>
+          <li>— Offensive supports follow the same ruleset, except they start with 1.5 weight to distribute between HP and DEF.</li>
+          <br/>
+          <li><u>RES weight:</u></li>
+          <li>— Support characters are granted 0.5 RES weight by default, with an additional 0.25 weight if they have synergy with RES or have critical team-saving abilities.</li>
+        </ul>
+      </Flex>
+
+      <PStyled style={{ margin: '7px 0px' }}>
+        These weights are the defaults, but each player may have different preferences. Feel free to adjust the weights to fit a certain playstyle. DPS characters should rely on the optimizer and Combat Score to evaluate their performance in combat, since substats scores don't take into account external factors like team buffs or passive effects.
+      </PStyled>
+    </Text>
+  )
+
+  const calculationsMethodologyCollapse = (
     <Text>
       <PStyled style={{ margin: '7px 0px' }}>
         Relic scores are calculated by
@@ -174,7 +206,7 @@ export default function ScoringModal() {
         This allows for characters with fewer desired stats to achieve scores comparable to characters with many desired stats.
       </PStyled>
       <PStyled style={{ margin: '7px 0px' }}>
-        The idealScore is the substatScore for a theoretical perfect relic.
+        The idealScore is the substatScore for a theoretical perfect relic. By adjusting the score to the maximum possible relic, this means that when a weighted substat is occupied by the main stat, the score value of the remaining substat weights increases.
       </PStyled>
       <PStyled style={{ margin: '7px 0px' }}>
         The substatScore is calculated by
@@ -473,6 +505,18 @@ export default function ScoringModal() {
           </Flex>
         </Flex>
 
+        <TitleDivider>Substat weight methodology</TitleDivider>
+
+        <Collapse
+          ghost
+          items={[{
+            key: '1',
+            label: 'Click to show details',
+            children: weightMethodologyCollapse,
+          }]}
+        >
+        </Collapse>
+
         <TitleDivider>Calculations</TitleDivider>
 
         <Collapse
@@ -480,7 +524,7 @@ export default function ScoringModal() {
           items={[{
             key: '1',
             label: 'Click to show details',
-            children: methodologyCollapse,
+            children: calculationsMethodologyCollapse,
           }]}
         >
         </Collapse>

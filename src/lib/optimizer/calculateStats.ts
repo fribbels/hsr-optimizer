@@ -31,6 +31,8 @@ export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: numb
     WatchmakerMasterOfDreamMachinations: (1 >> (setH ^ 17)) + (1 >> (setG ^ 17)) + (1 >> (setB ^ 17)) + (1 >> (setF ^ 17)),
     IronCavalryAgainstTheScourge: (1 >> (setH ^ 18)) + (1 >> (setG ^ 18)) + (1 >> (setB ^ 18)) + (1 >> (setF ^ 18)),
     TheWindSoaringValorous: (1 >> (setH ^ 19)) + (1 >> (setG ^ 19)) + (1 >> (setB ^ 19)) + (1 >> (setF ^ 19)),
+    SacerdosRelivedOrdeal: (1 >> (setH ^ 20)) + (1 >> (setG ^ 20)) + (1 >> (setB ^ 20)) + (1 >> (setF ^ 20)),
+    ScholarLostInErudition: (1 >> (setH ^ 21)) + (1 >> (setG ^ 21)) + (1 >> (setB ^ 21)) + (1 >> (setF ^ 21)),
 
     SpaceSealingStation: (1 >> (setP ^ 0)) + (1 >> (setL ^ 0)),
     FleetOfTheAgeless: (1 >> (setP ^ 1)) + (1 >> (setL ^ 1)),
@@ -97,7 +99,8 @@ export function calculateBaseStats(c: BasicStatsObject, request: Form, params: O
   c[Stats.SPD] = sumFlatStat(Stats.SPD, Stats.SPD_P, request.baseSpd, lc, trace, c,
     0.06 * p2(sets.MessengerTraversingHackerspace)
     + 0.06 * p2(sets.ForgeOfTheKalpagniLantern)
-    + 0.06 * p4(sets.MusketeerOfWildWheat),
+    + 0.06 * p4(sets.MusketeerOfWildWheat)
+    + 0.06 * p2(sets.SacerdosRelivedOrdeal),
   )
 
   c[Stats.HP] = sumFlatStat(Stats.HP, Stats.HP_P, request.baseHp, lc, trace, c,
@@ -124,7 +127,8 @@ export function calculateBaseStats(c: BasicStatsObject, request: Form, params: O
     + 0.08 * p2(sets.RutilantArena)
     + 0.04 * p4(sets.PioneerDiverOfDeadWaters)
     + 0.04 * p2(sets.SigoniaTheUnclaimedDesolation)
-    + 0.06 * p4(sets.TheWindSoaringValorous),
+    + 0.06 * p4(sets.TheWindSoaringValorous)
+    + 0.06 * p2(sets.ScholarLostInErudition),
   )
 
   c[Stats.CD] = sumPercentStat(Stats.CD, base, lc, trace, c,
@@ -192,10 +196,6 @@ export function calculateComputedStats(c: BasicStatsObject, request: Form, param
   x.EFFECT_RES_PEN += request.combatBuffs.EFFECT_RES_PEN
   x.VULNERABILITY += request.combatBuffs.VULNERABILITY
   x.BREAK_EFFICIENCY_BOOST += request.combatBuffs.BREAK_EFFICIENCY
-
-  // Set effects
-  // x[Stats.SPD_P]
-  //   += 0.12 * params.enabledMessengerTraversingHackerspace * p4(sets.MessengerTraversingHackerspace)
 
   // SPD
 
@@ -286,6 +286,7 @@ export function calculateComputedStats(c: BasicStatsObject, request: Form, param
 
   // Ult boost
   p4(sets.TheWindSoaringValorous) && buffAbilityDmg(x, ULT_TYPE, 0.36 * params.enabledTheWindSoaringValorous)
+  p4(sets.ScholarLostInErudition) && buffAbilityDmg(x, ULT_TYPE | SKILL_TYPE, 0.20)
 
   if (p4(sets.GeniusOfBrilliantStars)) {
     x.DEF_PEN += params.enabledGeniusOfBrilliantStars ? 0.20 : 0.10
@@ -303,6 +304,10 @@ export function calculateComputedStats(c: BasicStatsObject, request: Form, param
 
   if (p2(sets.FiresmithOfLavaForging) && params.enabledFiresmithOfLavaForging) {
     x[Stats.Fire_DMG] += 0.12
+  }
+
+  if (p4(sets.ScholarLostInErudition) && params.enabledScholarLostInErudition) {
+    buffAbilityDmg(x, SKILL_TYPE, 0.20)
   }
 
   // Dynamic - still need implementing

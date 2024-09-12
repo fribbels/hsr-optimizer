@@ -39,6 +39,10 @@ export type HsrOptimizerStore = {
   scoringAlgorithmFocusCharacter?: CharacterId
 
   activeKey: unknown
+  inventoryWidth: number
+  setInventoryWidth: (width: number) => void
+  rowLimit: number
+  setRowLimit: (rowLimit: number) => void
   characters: Character[]
   charactersById: Record<CharacterId, Character>
   characterTabBlur: boolean
@@ -67,6 +71,7 @@ export type HsrOptimizerStore = {
   optimizerFormSelectedLightConeSuperimposition: number
   setPermutationsResults: (n: number) => void
   setPermutationsSearched: (n: number) => void
+  setRelicsById: (relicsById: Record<number, Relic>) => void
   setSavedSessionKey: (key: string, value: string) => void
   setActiveKey: (key: string) => void
   setConditionalSetEffectsDrawerOpen: (b: boolean) => void

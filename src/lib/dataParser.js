@@ -40,19 +40,19 @@ export const DataParser = {
     if (officialOnly) {
       // UnreleasedSets[Constants.SetsRelics.TheWindSoaringValorous] = true
       // UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstTheScourge] = true
-      // UnreleasedSets[Constants.SetsOrnaments.ForgeOfTheKalpagniLantern] = true
-      // UnreleasedSets[Constants.SetsOrnaments.DuranDynastyOfRunningWolves] = true
+      UnreleasedSets[Constants.SetsRelics.SacerdosRelivedOrdeal] = true
+      UnreleasedSets[Constants.SetsRelics.ScholarLostInErudition] = true
 
       // Delete unreleased sets
       // delete Constants.SetsRelics.TheWindSoaringValorous
       // delete Constants.SetsRelics.IronCavalryAgainstScourge
-      // delete Constants.SetsOrnaments.ForgeOfTheKalpagniLantern
-      // delete Constants.SetsOrnaments.DuranDynastyOfRunningWolves
+      delete Constants.SetsRelics.SacerdosRelivedOrdeal
+      delete Constants.SetsRelics.ScholarLostInErudition
       //
       // delete Constants.SetsRelicsNames.TheWindSoaringValorous
       // delete Constants.SetsRelicsNames.IronCavalryAgainstScourge
-      // delete Constants.SetsOrnamentsNames.ForgeOfTheKalpagniLantern
-      // delete Constants.SetsOrnamentsNames.DuranDynastyOfRunningWolves
+      delete Constants.SetsRelicsNames.SacerdosRelivedOrdeal
+      delete Constants.SetsRelicsNames.ScholarLostInErudition
 
       // Delete unreleased characters
       for (const character of Object.values(characters)) {
@@ -381,6 +381,13 @@ function getSuperimpositions() {
       4: { [Constants.Stats.BE]: 0.49 },
       5: { [Constants.Stats.BE]: 0.56 },
     },
+    21048: {
+      1: { [Constants.Stats.SPD_P]: 0.08 },
+      2: { [Constants.Stats.SPD_P]: 0.09 },
+      3: { [Constants.Stats.SPD_P]: 0.10 },
+      4: { [Constants.Stats.SPD_P]: 0.11 },
+      5: { [Constants.Stats.SPD_P]: 0.12 },
+    },
     22000: {
       1: { [Stats.EHR]: 0.20 },
       2: { [Stats.EHR]: 0.25 },
@@ -401,6 +408,13 @@ function getSuperimpositions() {
       3: { [Stats.ATK_P]: 0.24 },
       4: { [Stats.ATK_P]: 0.28 },
       5: { [Stats.ATK_P]: 0.32 },
+    },
+    22003: {
+      1: { [Stats.HP_P]: 0.12 },
+      2: { [Stats.HP_P]: 0.15 },
+      3: { [Stats.HP_P]: 0.18 },
+      4: { [Stats.HP_P]: 0.21 },
+      5: { [Stats.HP_P]: 0.24 },
     },
     23000: {},
     23001: {
@@ -609,6 +623,13 @@ function getSuperimpositions() {
       4: { [Constants.Stats.BE]: 0.90 },
       5: { [Constants.Stats.BE]: 1.00 },
     },
+    23033: {
+      1: { [Constants.Stats.BE]: 0.60 },
+      2: { [Constants.Stats.BE]: 0.70 },
+      3: { [Constants.Stats.BE]: 0.80 },
+      4: { [Constants.Stats.BE]: 0.90 },
+      5: { [Constants.Stats.BE]: 1.00 },
+    },
     24000: {},
     24001: {
       1: { [Stats.CR]: 0.08 },
@@ -713,9 +734,11 @@ function getLightConeOverrideCenter() {
     21045: 160,
     21046: 145,
     21047: 145,
+    21048: 250,
     22000: 275,
     22001: 220,
     22002: 160,
+    22003: 185,
     23000: 140,
     23001: 150,
     23002: 160,
@@ -748,6 +771,7 @@ function getLightConeOverrideCenter() {
     23029: 140,
     23031: 145,
     23032: 180,
+    23033: 175,
     24000: 170,
     24001: 270,
     24002: 170,
@@ -1038,6 +1062,11 @@ function getOverrideTraces() {
       [Stats.ATK_P]: 0.18,
       [Stats.HP_P]: 0.10,
     },
+    1317: { // Rappa
+      [Stats.ATK_P]: 0.28,
+      [Stats.SPD]: 9,
+      [Stats.BE]: 0.133,
+    },
     8001: { // Physical Trailblazer
       [Stats.ATK_P]: 0.28,
       [Stats.HP_P]: 0.18,
@@ -1076,250 +1105,317 @@ function getOverrideImageCenter() {
     1001: { // March 7th
       x: 1024,
       y: 1100,
+      z: 1,
     },
     1002: { // Dan Heng
       x: 1024,
       y: 1000,
+      z: 1,
     },
     1003: { // Himeko
       x: 1024,
       y: 1120,
+      z: 1,
     },
     1004: { // Welt
       x: 885,
       y: 950,
+      z: 1,
     },
     1005: { // Kafka
       x: 980,
       y: 950,
+      z: 1,
     },
     1006: { // Silver Wolf
       x: 1010,
       y: 1024,
+      z: 1,
     },
     1008: { // Arlan
       x: 1240,
       y: 1000,
+      z: 1,
     },
     1009: { // Asta
       x: 1024,
       y: 1000,
+      z: 1,
     },
     1013: { // Herta
       x: 970,
       y: 920,
+      z: 1,
     },
     1101: { // Bronya
       x: 950,
       y: 1180,
+      z: 1,
     },
     1102: { // Seele
       x: 820,
       y: 1050,
+      z: 1,
     },
     1103: { // Serval
       x: 1050,
       y: 1024,
+      z: 1,
     },
     1104: { // Gepard
       x: 1150,
       y: 1110,
+      z: 1,
     },
     1105: { // Natasha
       x: 1040,
       y: 1024,
+      z: 1,
     },
     1106: { // Pela
       x: 780,
       y: 1100,
+      z: 1,
     },
     1107: { // Clara
       x: 880,
       y: 900,
+      z: 1,
     },
     1108: { // Sampo
       x: 1024,
       y: 925,
+      z: 1,
     },
     1109: { // Hook
       x: 930,
       y: 1024,
+      z: 1,
     },
     1110: { // Lynx
       x: 1180,
       y: 1000,
+      z: 1,
     },
     1111: { // Luka
       x: 930,
       y: 1000,
+      z: 1,
     },
     1112: { // Topaz and Numby
       x: 1120,
       y: 875,
+      z: 1,
     },
     1201: { // Qingque
       x: 1000,
       y: 1024,
+      z: 1,
     },
     1202: { // Tingyun
       x: 1024,
       y: 950,
+      z: 1,
     },
     1203: { // Luocha
       x: 1024,
       y: 1024,
+      z: 1,
     },
     1204: { // Jing Yuan
       x: 1060,
       y: 1024,
+      z: 1,
     },
     1205: { // Blade
       x: 990,
       y: 800,
+      z: 1,
     },
     1206: { // Sushang
       x: 1100,
       y: 1024,
+      z: 1,
     },
     1207: { // Yukong
       x: 900,
       y: 1050,
+      z: 1,
     },
     1208: { // Fu Xuan
       x: 920,
       y: 950,
+      z: 1,
     },
     1209: { // Yanqing
       x: 1024,
       y: 1000,
+      z: 1,
     },
     1210: { // Guinaifen
       x: 1024,
       y: 1024,
+      z: 1,
     },
     1211: { // Bailu
       x: 1000,
       y: 950,
+      z: 1,
     },
     1212: { // Jingliu
       x: 1024,
       y: 940,
+      z: 1,
     },
     1213: { // Dan Heng • Imbibitor Lunae
       x: 1050,
       y: 1000,
+      z: 1,
     },
     1214: { // Xueyi
       x: 1000,
       y: 900,
+      z: 1,
     },
     1215: { // Hanya
       x: 1000,
       y: 1024,
+      z: 1,
     },
     1217: { // Huohuo
       x: 950,
       y: 950,
+      z: 1,
     },
     1218: { // Jiaoqiu
       x: 950,
       y: 900,
+      z: 1,
     },
     1220: { // Feixiao
       x: 1024,
       y: 1050,
+      z: 1,
     },
     1221: { // Yunli
       x: 1024,
       y: 1024,
+      z: 1,
     },
     1222: { // Lingsha
       x: 1110,
       y: 1000,
+      z: 1,
     },
     1223: { // Moze
       x: 975,
       y: 1024,
+      z: 1,
     },
     1224: { // March 8th
       x: 825,
       y: 950,
+      z: 1,
     },
     1301: { // Gallagher
       x: 1150,
       y: 1024,
+      z: 1,
     },
     1302: { // Argenti
       x: 680,
       y: 1000,
+      z: 1,
     },
     1303: { // Ruan Mei
       x: 1060,
       y: 1050,
+      z: 1,
     },
     1304: { // Aventurine
       x: 1150,
       y: 1000,
+      z: 1,
     },
     1305: { // Dr Ratio
       x: 900,
       y: 850,
+      z: 1,
     },
     1306: { // Sparkle
       x: 1050,
       y: 1050,
+      z: 1,
     },
     1307: { // Black Swan
       x: 920,
       y: 900,
+      z: 1,
     },
     1308: { // Acheron
       x: 1000,
       y: 900,
+      z: 1,
     },
     1309: { // Robin
       x: 1024,
       y: 900,
+      z: 1,
     },
     1310: { // Firefly
       x: 900,
       y: 1150,
+      z: 1,
     },
     1312: { // Misha
       x: 1050,
       y: 1075,
+      z: 1,
     },
     1314: { // Jade
       x: 1024,
       y: 925,
+      z: 1,
     },
     1315: { // Boothill
       x: 1000,
       y: 1100,
+      z: 1,
+    },
+    1317: { // Rappa
+      x: 1125,
+      y: 1175,
+      z: 1.10,
     },
     8001: { // Physical Trailblazer M
       x: 1024,
       y: 1100,
+      z: 1,
     },
     8002: { // Physical Trailblazer F
       x: 1024,
       y: 1024,
+      z: 1,
     },
     8003: { // Fire Trailblazer M
       x: 980,
       y: 1024,
+      z: 1,
     },
     8004: { // Fire Trailblazer F
       x: 1050,
       y: 1024,
+      z: 1,
     },
     8005: { // Imaginary Trailblazer M
       x: 1050,
       y: 1000,
+      z: 1,
     },
     8006: { // Imaginary Trailblazer F
       x: 1050,
       y: 1000,
+      z: 1,
     },
   }
 }
@@ -3837,8 +3933,8 @@ function getScoringMetadata() {
         [Stats.CR]: 0,
         [Stats.CD]: 0,
         [Stats.EHR]: 1,
-        [Stats.RES]: 0,
-        [Stats.BE]: 0.5,
+        [Stats.RES]: 0.5,
+        [Stats.BE]: 0,
         [Stats.ERR]: 1,
         [Stats.OHB]: 0,
         [Stats.Physical_DMG]: 0,
@@ -4678,6 +4774,7 @@ function getScoringMetadata() {
         ],
       },
       presets: [
+        PresetEffects.fnPioneerSet(4),
         PresetEffects.fnAshblazingSet(6),
         PresetEffects.VALOROUS_SET,
       ],
@@ -5727,9 +5824,9 @@ function getScoringMetadata() {
         substats: [
           Stats.BE,
           Stats.ATK_P,
+          Stats.ATK,
           Stats.CR,
           Stats.CD,
-          Stats.ATK,
         ],
         breakpoints: {},
         maxBonusRolls: {},
@@ -6084,6 +6181,106 @@ function getScoringMetadata() {
             lightCone: '20015', // Multi
             characterEidolon: 6,
             lightConeSuperimposition: 5,
+          },
+        ],
+      },
+    },
+    1317: { // Rappa // TODO
+      stats: {
+        [Stats.ATK]: 1,
+        [Stats.ATK_P]: 1,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 0,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 1,
+        [Stats.ERR]: 0,
+        [Stats.OHB]: 0,
+        [Stats.Physical_DMG]: 0,
+        [Stats.Fire_DMG]: 0,
+        [Stats.Ice_DMG]: 0,
+        [Stats.Lightning_DMG]: 0,
+        [Stats.Wind_DMG]: 0,
+        [Stats.Quantum_DMG]: 0,
+        [Stats.Imaginary_DMG]: 1,
+      },
+      parts: {
+        [Parts.Body]: [],
+        [Parts.Feet]: [
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [],
+        [Parts.LinkRope]: [
+          Stats.BE,
+        ],
+      },
+      presets: [
+        PresetEffects.WASTELANDER_SET,
+      ],
+      sortOption: SortOption.BASIC,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.ATK_P,
+          ],
+          [Parts.Feet]: [
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.Imaginary_DMG,
+            Stats.ATK_P,
+          ],
+          [Parts.LinkRope]: [
+            Stats.BE,
+          ],
+        },
+        substats: [
+          Stats.BE,
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.CD,
+          Stats.CR,
+        ],
+        breakpoints: {
+          [Stats.ATK]: 3200,
+        },
+        formula: {
+          BASIC: 3,
+          SKILL: 1,
+          ULT: 0,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 1,
+        },
+        relicSets: [
+          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+        ],
+        ornamentSets: [
+          Sets.TaliaKingdomOfBanditry,
+        ],
+        teammates: [
+          {
+            characterId: '8006', // Stelle
+            lightCone: '21004', // Memories
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1003', // Himeko
+            lightCone: '23000', // Milky way
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
         ],
       },

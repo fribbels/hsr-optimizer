@@ -15,6 +15,7 @@ import { Renderer } from 'lib/renderer'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 import { ClearOutlined } from '@ant-design/icons'
 import { UnreleasedSets } from 'lib/dataParser'
+import { SaveState } from 'lib/saveState'
 import { SettingOptions } from 'components/SettingsDrawer'
 
 const { useToken } = theme

@@ -8093,7 +8093,11 @@ interface Resources {
       }
     },
     "savebuild": {},
-    "switchrelics": {},
+    "switchrelics": {
+      "title": "Switch relics with character",
+      "cancel": "$t(common:cancel, {\"length\": 1})",
+      "save": "$t(common:save, {\"length\": 1})"
+    },
     "builds": {},
     "scorefooter": {},
     "characterselect": {

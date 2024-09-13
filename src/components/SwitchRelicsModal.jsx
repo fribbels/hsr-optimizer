@@ -5,17 +5,20 @@ import { defaultGap } from 'lib/constantsUi'
 import { Utils } from 'lib/utils'
 import PropTypes from 'prop-types'
 import { generateCharacterList } from 'lib/displayUtils'
+import { useTranslation } from 'react-i18next'
 
 export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacter }) {
   const [characterForm] = Form.useForm()
   window.characterForm = characterForm
   const characters = window.store((s) => s.characters)
 
+  const { t } = useTranslation('modals', { keyPrefix: 'switchrelics' })
+
   const characterOptions = useMemo(() => generateCharacterList({
     currentCharacters: characters,
     excludeCharacters: [currentCharacter],
     withNobodyOption: false,
-  }), [characters, currentCharacter])
+  }), [characters, currentCharacter, t])
 
   useEffect(() => {
     if (!open) return
@@ -47,26 +50,26 @@ export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacte
       onOk={onModalOk}
       onCancel={handleCancel}
       footer={[
-        <Button key="back" onClick={handleCancel}>
-          Cancel
+        <Button key='back' onClick={handleCancel}>
+          {t('cancel')}
         </Button>,
-        <Button key="submit" type="primary" onClick={onModalOk}>
-          Save
+        <Button key='submit' type='primary' onClick={onModalOk}>
+          {t('save')}
         </Button>,
       ]}
     >
       <Form
         form={characterForm}
         preserve={false}
-        layout="vertical"
+        layout='vertical'
       >
-        <Flex justify="space-between" align="center">
-          <HeaderText>Switch relics with character</HeaderText>
+        <Flex justify='space-between' align='center'>
+          <HeaderText>{t('title')}</HeaderText>
         </Flex>
 
         <Flex vertical gap={defaultGap}>
           <Flex gap={defaultGap}>
-            <Form.Item size="default" name="selectedCharacter">
+            <Form.Item size='default' name='selectedCharacter'>
               <Select
                 labelInValue
                 showSearch

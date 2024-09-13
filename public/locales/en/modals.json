@@ -14,8 +14,8 @@
     "upgrades": "Substat upgrades",
     "messages": {
       "submitfail": "Submit failed!",
-      "reliccompleted": "Completed relic",
-      "editsuccess": "Successfully edited relic",
+      "reliccompleted": "Completed $t(common:relic, {\"count\": 1, \"length\": 0})",
+      "editsuccess": "Successfully edited $t(common:relic, {\"count\": 1, \"length\": 0})",
       "error": {
         "partmissing": "Part field is missing",
         "mainstatmissing": "Main stat is missing",
@@ -27,7 +27,7 @@
         "enhancetoohigh": "Enhance value is too high for this grade",
         "setinvalid": "Set value is invalid",
         "setnotornament": "The selected set is not an ornament set",
-        "setnotrelic": "The selected set is not a relic set",
+        "setnotrelic": "The selected set is not a $t(common:relic, {\"count\": 1, \"length\": 0}) set",
         "subninvalid": "Substat {{number}} is invalid",
         "subsoutoforder": "Substats are out of order",
         "duplicatesubs": "Duplicate substats, only one of each type is allowed",

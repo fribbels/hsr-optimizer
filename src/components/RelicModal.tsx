@@ -1,14 +1,14 @@
 import styled from 'styled-components'
 import { Button, Flex, Form, Image, Input, InputNumber, Modal, Radio, Select, theme } from 'antd'
 import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
-import { Constants, Stats } from 'lib/constants'
+import { Constants, Stats, setToId } from 'lib/constants'
 import { HeaderText } from './HeaderText'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
 import { Utils } from 'lib/utils'
 import { TsUtils } from 'lib/TsUtils'
 import { Assets } from 'lib/assets'
-import { enhanceOptions, getSetOptions } from 'components/SelectOptions'
+import { UnreleasedSets } from 'lib/dataParser'
 import { Relic, Stat } from 'types/Relic'
 import { Character } from 'types/Character'
 import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/relicModalController'
@@ -102,7 +102,24 @@ export default function RelicModal(props: {
   const characters: Character[] = window.store((s) => s.characters)
 
   const characterOptions = useMemo(() => generateCharacterList({ currentCharacters: characters }), [characters, i18next.resolvedLanguage])
-  const setOptions = useMemo(() => getSetOptions(), [i18next.resolvedLanguage])
+  const setOptions = useMemo(
+    function getSetOptions() {
+      const setOptions: { label: ReactElement; value: string }[] = []
+      for (const entry of [...Object.entries(Constants.SetsRelics), ...Object.entries(Constants.SetsOrnaments)].filter((x) => !UnreleasedSets[x[1]])) {
+        setOptions.push({
+          label: (() => {
+            return (
+              <Flex align='center' gap={10}>
+                <img style={{ height: 22, width: 22 }} src={Assets.getSetImage(entry[1])}/>
+                {i18next.t(`gameData:relicsets.${setToId[entry[1]]}`)}
+              </Flex>
+            )
+          })(),
+          value: entry[1],
+        })
+      }
+      return setOptions
+    }, [i18next.resolvedLanguage])
   const equippedBy: string = Form.useWatch('equippedBy', relicForm)
   const [upgradeValues, setUpgradeValues] = useState<RelicUpgradeValues[]>([])
 
@@ -254,6 +271,14 @@ export default function RelicModal(props: {
     relicForm.setFieldValue('enhance', Math.min(relicForm.getFieldValue('enhance') + 3, 15))
   }
 
+  const enhanceOptions: { value: number; label: string }[] = useMemo(() => {
+    const ret: { value: number; label: string }[] = []
+    for (let i = 15; i >= 0; i--) {
+      ret.push({ value: i, label: '+' + i })
+    }
+    return ret
+  }, [])
+
   return (
     <Form
       form={relicForm}
@@ -271,10 +296,10 @@ export default function RelicModal(props: {
         onCancel={() => props.setOpen(false)}
         footer={[
           <Button key='back' onClick={handleCancel}>
-            {t('common:cancel', {length: 1})}
+            {t('common:cancel', { length: 1 })}
           </Button>,
           <Button key='submit' type='primary' onClick={handleOk}>
-            {t('common:submit', {length:1})}
+            {t('common:submit', { length: 1 })}
           </Button>,
         ]}
       >

@@ -45,6 +45,14 @@ export const languages = {
     locale: 'ru',
     nativeName: 'русский',
   },
+  th: {
+    locale: 'th',
+    nativeName: 'แบบไทย',
+  },
+  vi: {
+    locale: 'vi',
+    nativeName: 'tiếng việt',
+  },
 }
 
 export const supportedLanguages = Object.keys(languages)

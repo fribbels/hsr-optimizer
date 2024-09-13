@@ -10,7 +10,7 @@ import { RelicRollFixer } from 'lib/relicRollFixer'
 import i18next from 'i18next'
 
 export const RelicModalController = {
-  onEditOk: (selectedRelic, relic) => {
+  onEditOk: (selectedRelic: Relic, relic: Relic) => {
     relic.id = selectedRelic.id
 
     const updatedRelic = { ...selectedRelic, ...relic }
@@ -94,16 +94,16 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
     return Message.error(i18next.t('modals:relic.messages.error.setnotrelic'))
   }
   if (relicForm.substatType0 != undefined && relicForm.substatValue0 == undefined || relicForm.substatType0 == undefined && relicForm.substatValue0 != undefined) {
-    return Message.error(i18next.t('modals:relic.messages.error.subninvalid', {number: 1}))
+    return Message.error(i18next.t('modals:relic.messages.error.subninvalid', { number: 1 }))
   }
   if (relicForm.substatType1 != undefined && relicForm.substatValue1 == undefined || relicForm.substatType1 == undefined && relicForm.substatValue1 != undefined) {
-    return Message.error(i18next.t('modals:relic.messages.error.subninvalid', {number: 2}))
+    return Message.error(i18next.t('modals:relic.messages.error.subninvalid', { number: 2 }))
   }
   if (relicForm.substatType2 != undefined && relicForm.substatValue2 == undefined || relicForm.substatType2 == undefined && relicForm.substatValue2 != undefined) {
-    return Message.error(i18next.t('modals:relic.messages.error.subninvalid', {number: 3}))
+    return Message.error(i18next.t('modals:relic.messages.error.subninvalid', { number: 3 }))
   }
   if (relicForm.substatType3 != undefined && relicForm.substatValue3 == undefined || relicForm.substatType3 == undefined && relicForm.substatValue3 != undefined) {
-    return Message.error(i18next.t('modals:relic.messages.error.subninvalid', {number: 4}))
+    return Message.error(i18next.t('modals:relic.messages.error.subninvalid', { number: 4 }))
   }
 
   if (relicForm.substatType3 != undefined && (relicForm.substatType0 == undefined || relicForm.substatType1 == undefined || relicForm.substatType2 == undefined)) {

@@ -237,7 +237,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                     styles={{ body: { padding: 1 } }}
                     onMouseDown={() => handleClick(option.id)}
                   >
-                    <CardGridItemContent imgSrc={Assets.getCharacterPreviewById(option.id)} text={option.displayName} innerW={innerW} innerH={innerH} rows={1}/>
+                    <CardGridItemContent imgSrc={Assets.getCharacterPreviewById(option.id)} text={t(`gameData:characters.${option.id}.name`)} innerW={innerW} innerH={innerH} rows={1}/>
                   </Card>
                 ))
             }

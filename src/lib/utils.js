@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import stringify from 'json-stable-stringify'
 
 import * as htmlToImage from 'html-to-image'
+import i18next from 'i18next'
 
 console.debug = (...args) => {
   let messageConfig = '%c%s '
@@ -263,7 +264,7 @@ export const Utils = {
 
     for (const value of Object.values(characterData)) {
       value.value = value.id
-      value.label = value.displayName
+      value.label = i18next.t(`gameData:characters.${value.id}.name`)
     }
 
     return Object.values(characterData).sort((a, b) => a.displayName.localeCompare(b.displayName))

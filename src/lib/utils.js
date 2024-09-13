@@ -282,12 +282,12 @@ export const Utils = {
 
     for (const value of Object.values(lcData)) {
       value.value = value.id
-      value.label = value.name
+      value.label = i18next.t(`gameData:lightcones.${value.id}`)
     }
 
     return Object.values(lcData)
       .filter((lc) => !pathFilter || lc.path === pathFilter)
-      .sort((a, b) => a.label.localeCompare(b.label))
+      .sort((a, b) => a.label.localeCompare(b.label, window.locale))
   },
 
   // Character selector options from current characters with some customization parameters

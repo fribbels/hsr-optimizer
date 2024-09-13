@@ -66,6 +66,9 @@ interface Resources {
     "confirm": "{{confirm, capitalize}}",
     "submit": "{{submit, capitalize}}",
     "yes": "{{yes, capitalize}}",
+    "save": "{{save, capitalize}}",
+    "eidolonNShort": "E{{eidolon}}",
+    "superimpositionNShort": "S{{superimposition}}",
     "characterWithCount_one": "{{count}} {{character, capitalize}}",
     "characterWithCount_other": "{{count}} {{characters, capitalize}}",
     "character_one": "{{character, capitalize}}",
@@ -8012,7 +8015,14 @@ interface Resources {
     "0perms": {},
     "manyperms": {},
     "0results": {},
-    "editcharacter": {},
+    "editcharacter": {
+      "eidolonbutton": "$t(common:eidolonNShort, {\"eidolon\":{{eidolon}} })",
+      "superimpositionbutton": "$t(common:superimpositionNShort, {\"superimposition\":{{superimposition}} })",
+      "character": "$t(common:character, {\"count\": 1, \"length\": 1})",
+      "lightcone": "$t(common:lightcone, {\"count\": 1, \"length\": 1})",
+      "cancel": "$t(common:cancel, {\"length\": 1})",
+      "save": "$t(common:save, {\"length: 1\"})"
+    },
     "relic": {
       "part": "Part",
       "wearer": "Equipped by",
@@ -8067,6 +8077,10 @@ interface Resources {
       "searchplaceholder": "Search $t(common:character, {\"count\": 1, \"length\": 0}) name",
       "excludebutton": "Exclude all",
       "clearbutton": "Clear"
+    },
+    "lightconeselect": {
+      "placeholder": "$t(common:lightcone, {\"count\": 1, \"length\": 1})",
+      "title": "Select a $t(common:lightcone, {\"count\": 1, \"length\": 0})"
     }
   },
   "relicScorerTab": {

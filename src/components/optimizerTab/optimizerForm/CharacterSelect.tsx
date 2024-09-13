@@ -32,13 +32,12 @@ const defaultFilters = {
 const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle, multipleSelect, withIcon }) => {
   // console.log('==================================== CHARACTER SELECT')
   const inputRef = useRef<InputRef>(null)
+  const { t } = useTranslation('modals', { keyPrefix: 'characterselect' })
   const [open, setOpen] = useState(false)
   const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
-  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
+  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [t])
   const [selected, setSelected] = useState<Map<string, boolean>>(new Map())
   const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
-
-  const { t } = useTranslation('modals', { keyPrefix: 'characterselect' })
 
   const labelledOptions: { value: string; label }[] = []
   for (const option of characterOptions) {
@@ -237,7 +236,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                     styles={{ body: { padding: 1 } }}
                     onMouseDown={() => handleClick(option.id)}
                   >
-                    <CardGridItemContent imgSrc={Assets.getCharacterPreviewById(option.id)} text={t(`gameData:characters.${option.id}.name`)} innerW={innerW} innerH={innerH} rows={1}/>
+                    <CardGridItemContent imgSrc={Assets.getCharacterPreviewById(option.id)} text={option.label} innerW={innerW} innerH={innerH} rows={1}/>
                   </Card>
                 ))
             }

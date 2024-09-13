@@ -218,7 +218,7 @@ export default function CharacterTab() {
     { field: '', headerName: t('gridheaders.icon'), cellRenderer: cellImageRenderer, width: 52 },
     { field: '', headerName: t('gridheaders.priority'), cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
     { field: '', headerName: t('gridheaders.character'), flex: 1, cellRenderer: cellNameRenderer },
-  ], [])
+  ], [t])
 
   const gridOptions = useMemo(() => ({
     rowHeight: 50,

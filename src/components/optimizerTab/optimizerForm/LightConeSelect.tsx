@@ -5,6 +5,7 @@ import { Utils } from 'lib/utils'
 import { Assets } from 'lib/assets'
 import DB from 'lib/db.js'
 import { CardGridItemContent, generatePathTags, generateRarityTags, SegmentedFilterRow } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
+import { useTranslation } from 'react-i18next'
 
 interface LightConeSelectProps {
   value
@@ -33,6 +34,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
   // console.log('==================================== LC SELECT')
   const metadata = DB.getMetadata()
   const [open, setOpen] = useState(false)
+  const { t } = useTranslation('modals', { keyPrefix: 'lightconeselect' })
   const defaultFilters = useMemo(() => {
     return {
       rarity: [],
@@ -43,23 +45,26 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
 
   const inputRef = useRef<InputRef>(null)
   const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
-  const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), [])
+  const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), [t])
 
-  const labelledOptions: { value: string; label }[] = []
-  for (const option of lightConeOptions) {
-    labelledOptions.push({
-      value: option.value,
-      label: (
-        <Flex gap={5} align='center'>
-          <img
-            src={Assets.getPath(metadata.lightCones[option.value].path)}
-            style={{ height: 22, marginRight: 4 }}
-          />
-          {option.label}
-        </Flex>
-      ),
-    })
-  }
+  const labelledOptions = useMemo(() => {
+    const labelledOptions: { value: string; label }[] = []
+    for (const option of lightConeOptions) {
+      labelledOptions.push({
+        value: option.value,
+        label: (
+          <Flex gap={5} align='center'>
+            <img
+              src={Assets.getPath(metadata.lightCones[option.value].path)}
+              style={{ height: 22, marginRight: 4 }}
+            />
+            {option.label}
+          </Flex>
+        ),
+      })
+    }
+    return labelledOptions
+  }, [lightConeOptions])
 
   useEffect(() => {
     if (open) {
@@ -92,7 +97,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
         style={selectStyle}
         value={value}
         options={withIcon ? labelledOptions : lightConeOptions}
-        placeholder='Light cone'
+        placeholder={t('placeholder')}
         allowClear
         onClear={() => {
           if (onChange) onChange(null)
@@ -113,7 +118,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
         width='90%'
         style={{ height: '70%', maxWidth: 1200 }}
         destroyOnClose
-        title='Select a light cone'
+        title={t('title')}
         onCancel={() => setOpen(false)}
         footer={null}
       >
@@ -123,7 +128,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
               <Input
                 size='large'
                 style={{ height: 40 }}
-                placeholder='Light cone'
+                placeholder={t('placeholder')}
                 ref={inputRef}
                 onChange={(e) => {
                   const newFilters = Utils.clone(currentFilters)
@@ -177,7 +182,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                     onMouseDown={() => handleClick(option.id)}
                     styles={{ body: { padding: 1 } }}
                   >
-                    <CardGridItemContent imgSrc={Assets.getLightConeIconById(option.id)} text={option.displayName} innerW={innerW} innerH={innerH} rows={2}/>
+                    <CardGridItemContent imgSrc={Assets.getLightConeIconById(option.id)} text={option.label} innerW={innerW} innerH={innerH} rows={2}/>
                   </Card>
                 ))
             }

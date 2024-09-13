@@ -323,7 +323,7 @@ export default function RelicModal(props: {
                   <Select
                     showSearch
                     style={{
-                      width: 200,
+                      width: 210,
                     }}
                     placeholder='Main Stat'
                     maxTagCount='responsive'
@@ -333,7 +333,7 @@ export default function RelicModal(props: {
                 </Form.Item>
 
                 <Form.Item name='mainStatValue'>
-                  <InputNumberStyled controls={false} disabled/>
+                  <InputNumber controls={false} disabled style={{ width: 80 }}/>
                 </Form.Item>
               </Flex>
             </Flex>

@@ -59,7 +59,15 @@ export function scoreSupportSimulation(
   )
 
   console.debug({ originalSimResult, originalSim })
-
+  // {
+  //   "HP": 2.9,
+  //   "DEF": 5.6,
+  //   "HP%": 4.3,
+  //   "DEF%": 0,
+  //   "SPD": 8.3077,
+  //   "Effect RES": 0,
+  //   "Break Effect": 14.2
+  // }
   const perfectBuilds = generatePerfectBuilds(
     character,
     relicsByPart,
@@ -72,82 +80,21 @@ export function scoreSupportSimulation(
     simulationSets,
   )
 
-  console.log(originalSim)
+  // Perfection: 54
+  // 4.3 + 8.3 + 14.2 = 26.8
+  //
+
+  console.log('originalSim', originalSim)
+  console.log('stats', originalSim.request.stats)
   console.log(perfectBuilds)
-
-  const axes = [
-    Stats.BE,
-    Stats.SPD,
-    Stats.RES,
-  ]
-
-  Constants.SubStats.map((x) => originalSim.request.stats[x] = originalSim.request.stats[x] ?? 0)
-  const coordinate = calculateCoordinate(originalSim.request.stats, axes)
-
-  const perfectCoordinates = perfectBuilds.map((x) => x.stats).map((x) => calculateCoordinate(x, axes))
-
-  let minDistance = Constants.MAX_INT
-  let minPerfectCoordinate
-  for (const perfectCoordinate of perfectCoordinates) {
-    const distance = euclideanDistance(coordinate, perfectCoordinate)
-
-    console.log(distance, perfectCoordinate)
-    if (distance < minDistance) {
-      minDistance = distance
-      minPerfectCoordinate = perfectCoordinate
-    }
-  }
-
-  // Euclidean distance
-
-  const sumArray = (arr: number[]) => arr.reduce((sum, num) => sum + num, 0)
-  const sum = sumArray(minPerfectCoordinate)
-  const percentage = (sum - minDistance) / (sum / 2) * 100
-
-  // const sumArray = (arr: number[]) => arr.reduce((sum, num) => sum + num, 0)
-  // const sum = sumArray(minPerfectCoordinate)
-  // const percentage = (54 - minDistance) / (54 / 2) * 100
-
-  console.log(minDistance)
-  console.log(`${[percentage]} %`)
-  console.log(coordinate)
-  console.log(minPerfectCoordinate)
 
   return {
     type: 'Support',
-    percentage: percentage,
+    percentage: 0,
   }
 }
 
-function euclideanDistance(coordinate: number[], perfection: number[]) {
-  let sum = 0
-
-  for (let i = 0; i < coordinate.length; i++) {
-    const diff = Math.min(coordinate[i], perfection[i]) - perfection[i]
-    sum += diff * diff
-  }
-
-  return Math.sqrt(sum)
-}
-
-function manhattanDistance(coordinate: number[], perfection: number[]) {
-  let sum = 0
-
-  for (let i = 0; i < coordinate.length; i++) {
-    sum += Math.abs(Math.min(coordinate[i], perfection[i]) - perfection[i])
-  }
-
-  return sum
-}
-
-function calculateCoordinate(statRolls: StringToNumberMap, dimensions: string[]) {
-  const coordinate: number[] = []
-  for (const dimension of dimensions) {
-    coordinate.push(statRolls[dimension])
-  }
-
-  return coordinate
-}
+function
 
 function generatePerfectBuilds(
   character: Character,

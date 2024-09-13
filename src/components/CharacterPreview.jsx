@@ -573,7 +573,7 @@ export function CharacterPreview(props) {
                     Edit portrait
                   </Button>
                   <EditImageModal
-                    title='portrait'
+                    title='Edit portrait'
                     aspectRatio={parentW / parentH}
                     existingConfig={customPortrait ?? character.portrait}
                     open={editPortraitModalOpen}

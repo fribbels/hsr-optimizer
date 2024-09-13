@@ -8021,7 +8021,7 @@ interface Resources {
       "character": "$t(common:character, {\"count\": 1, \"length\": 1})",
       "lightcone": "$t(common:lightcone, {\"count\": 1, \"length\": 1})",
       "cancel": "$t(common:cancel, {\"length\": 1})",
-      "save": "$t(common:save, {\"length: 1\"})"
+      "save": "$t(common:save, {\"length\": 1})"
     },
     "relic": {
       "part": "Part",
@@ -8058,7 +8058,40 @@ interface Resources {
         }
       }
     },
-    "editimage": {},
+    "editimage": {
+      "defaulttitle": "Edit image",
+      "upload": {
+        "title": "Provide image",
+        "radio": {
+          "upload": "Upload image",
+          "url": "Enter image URL",
+          "default": "Use default image"
+        },
+        "upload": {
+          "method": "Click or drag image file to this area to upload",
+          "limit": "Accepts .jpg .jpeg .png .gif (Max: 20MB)"
+        },
+        "url": {
+          "label": "Image",
+          "rule": "Please input a valid image URL"
+        }
+      },
+      "edit": {
+        "title": "Crop image",
+        "zoom": "Zoom",
+        "drag": "Drag to move",
+        "pinch": "Pinch or scroll to zoom",
+        "artby": "(Optional) Art by:",
+        "creditplaceholder": "Credit the artist if possible"
+      },
+      "footer": {
+        "cancel": "$t(common:cancel, {\"length\": 1})",
+        "uploadnew": "Upload new image",
+        "previous": "Previous",
+        "next": "Next",
+        "submit": "$t(common:submit, {\"length\": 1})"
+      }
+    },
     "savebuild": {},
     "switchrelics": {},
     "builds": {},

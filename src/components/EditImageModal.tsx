@@ -6,6 +6,8 @@ import { DragOutlined, InboxOutlined, ZoomInOutlined } from '@ant-design/icons'
 import Dragger from 'antd/es/upload/Dragger'
 import { Message } from 'lib/message'
 import { RcFile } from 'antd/es/upload'
+import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
 
 const { Text } = Typography
 
@@ -39,12 +41,14 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   open,
   setOpen,
   onOk,
-  title = 'Edit image',
+  title = i18next.t('modals:editimage.defaulttitle'),
   width = 400,
   defaultImageUrl,
 }) => {
   const [current, setCurrent] = React.useState(0)
   const [customImageForm] = Form.useForm()
+
+  const {t} = useTranslation('modals', {keyPrefix: 'editimage'})
 
   const [isVerificationLoading, setIsVerificationLoading] = React.useState(false)
   const [verifiedImageUrl, setVerifiedImageUrl] = React.useState('')
@@ -411,9 +415,9 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         <>
           <Flex justify='center' style={{ marginBottom: 16 }}>
             <Radio.Group onChange={onRadioChange} value={radio} buttonStyle='solid'>
-              <Radio.Button value='upload'>Upload image</Radio.Button>
-              <Radio.Button value='url'>Enter image URL</Radio.Button>
-              {defaultImageUrl && <Radio.Button value='default'>Use default image</Radio.Button>}
+              <Radio.Button value='upload'>{t('upload.radio.upload')}</Radio.Button>
+              <Radio.Button value='url'>{t('upload.radio.url')}</Radio.Button>
+              {defaultImageUrl && <Radio.Button value='default'>{t('upload.radio.default')}</Radio.Button>}
             </Radio.Group>
           </Flex>
 
@@ -438,10 +442,8 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                       <p className='ant-upload-drag-icon'>
                         <InboxOutlined/>
                       </p>
-                      <p className='ant-upload-text'>Click or drag image file to this area to upload</p>
-                      <p className='ant-upload-hint'>
-                        Accepts .jpg .jpeg .png .gif (Max: 20MB)
-                      </p>
+                      <p className='ant-upload-text'>{t('upload.upload.method')}</p>
+                      <p className='ant-upload-hint'>{t('upload.upload.limit')}</p>
                     </Flex>
                   )}
               </Dragger>
@@ -451,9 +453,9 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           {radio === 'url' && (
             <Form.Item
               name='imageUrl'
-              label='Image URL'
+              label={t('upload.url.label')}
               style={{ margin: '0 20px' }}
-              rules={[{ required: true, message: 'Please input a valid image URL' }]}
+              rules={[{ required: true, message: t('upload.url.rule') }]}
             >
               <Input autoComplete='off'/>
             </Form.Item>
@@ -505,7 +507,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
             />
           </div>
           <Flex style={{ width: '100%', marginTop: 4 }} gap={8} align='center'>
-            <label>Zoom</label>
+            <label>{t('edit.zoom')}</label>
             <Slider
               style={{ width: '100%' }}
               min={MIN_ZOOM}
@@ -522,23 +524,23 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
             <Flex vertical style={{ flex: 1 }}>
               <div>
                 <DragOutlined style={{ marginRight: 8 }}/>
-                Drag to move
+                {t('edit.drag')}
               </div>
               <div style={{ flex: 1, marginTop: 8 }}>
                 <ZoomInOutlined style={{ marginRight: 8 }}/>
-                Pinch or scroll to zoom
+                {t('edit.pinch')}
               </div>
             </Flex>
             <Flex vertical style={{ flex: 1 }}>
               <Text style={{ flex: 1, marginLeft: 3 }}>
-                (Optional) Art by:
+                {t('edit.artby')}
               </Text>
               <Form.Item
                 name='artistName'
               >
                 <Input
                   style={{ flex: 1, marginTop: 3 }}
-                  placeholder='Credit the artist if possible'
+                  placeholder={t('edit.creditplaceholder')}
                   autoComplete='off'
                 />
               </Form.Item>
@@ -565,39 +567,39 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
             <Flex style={{ marginTop: 16 }} justify='center' align='center' gap={8}>
               {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size='large'/>}
               <Button onClick={() => setOpen(false)}>
-                Cancel
+                {t('footer.cancel')}
               </Button>
               {(current > 0 && existingConfig) && (
                 <Button onClick={prev} danger>
-                  Upload new image
+                  {t('footer.uploadnew')}
                 </Button>
               )}
               {(current > 0 && !existingConfig) && (
                 <Button onClick={prev}>
-                  Previous
+                  {t('footer.previous')}
                 </Button>
               )}
               {current < steps.length - 1 && (
                 <Button type='primary' onClick={next} disabled={radio === 'upload'}>
-                  Next
+                  {t('footer.next')}
                 </Button>
               )}
               {current === steps.length - 1 && (
                 <Button type='primary' onClick={handleOk}>
-                  Submit
+                  {t('footer.submit')}
                 </Button>
               )}
             </Flex>
           </Flex>,
         ]}
-        title={`Edit ${title ?? 'image'}`}
+        title={title}
       >
         <div style={{ height: '505px', position: 'relative' }}>
           {!existingConfig
           && (
             <Steps current={current} style={{ marginBottom: 12 }}>
-              {steps.map((item) => (
-                <Steps.Step key={item.title} title={item.title}/>
+              {steps.map((item) => (//make this cleaner if ever adding more steps
+                <Steps.Step key={item.title} title={item.title == 'Provide image' ? t('upload.title') : t('edit.title') }/>
               ))}
             </Steps>
           )}

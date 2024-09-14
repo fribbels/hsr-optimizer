@@ -85,8 +85,12 @@ export function scoreSupportSimulation(
   //
 
   console.log('originalSim', originalSim)
+
   console.log('stats', originalSim.request.stats)
   console.log(perfectBuilds)
+
+  tempScore(originalSim.request.stats)
+  perfectBuilds.map((x) => tempScore(x.stats))
 
   return {
     type: 'Support',
@@ -94,7 +98,16 @@ export function scoreSupportSimulation(
   }
 }
 
-function
+function tempScore(stats) {
+  const spdScore = stats[Stats.SPD]
+  const beScore = stats[Stats.BE]
+  const resScore = stats[Stats.RES]
+
+  console.log('SPD SCORE: ', spdScore)
+  console.log('BE SCORE: ', beScore)
+  console.log('RES SCORE: ', resScore)
+  console.log('SUM: ', spdScore + beScore + resScore)
+}
 
 function generatePerfectBuilds(
   character: Character,
@@ -154,6 +167,9 @@ function generatePerfectBuilds(
     while (remaining > 0) {
       // TODO: Has to reach the benchmark first
       for (const stat of perfectBuildMeta.stats) {
+        if (stat == Stats.SPD && minimumStatCounts[Stats.SPD] >= 30) {
+          continue
+        }
         if (stat == Stats.RES && resRemaining <= 0) {
           continue
         }

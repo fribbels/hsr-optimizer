@@ -5174,11 +5174,13 @@ function getScoringMetadata() {
           {
             stats: [
               Stats.BE,
+              Stats.SPD,
             ],
           },
           {
             stats: [
               Stats.SPD,
+              Stats.BE,
             ],
           },
           {

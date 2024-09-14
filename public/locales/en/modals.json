@@ -1,7 +1,12 @@
 {
   "scoring": {},
   "0perms": {},
-  "manyperms": {},
+  "manyperms": {
+    "title": "Very large search requested",
+    "text": "This optimization search will take a substantial amount of time to finish. You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats, or use the Substat weight filter to reduce the number of permutations.",
+    "cancel": "$t(common:cancel, {\"length\": 1}) search",
+    "proceed": "Proceed with search"
+  },
   "0results": {},
   "editcharacter": {
     "eidolonbutton": "$t(common:eidolonNShort, {\"eidolon\":{{eidolon}} })",

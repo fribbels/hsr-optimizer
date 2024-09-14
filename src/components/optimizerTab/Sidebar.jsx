@@ -15,6 +15,7 @@ import { Utils } from 'lib/utils'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { COMPUTE_ENGINE_CPU, COMPUTE_ENGINE_GPU_EXPERIMENTAL, COMPUTE_ENGINE_GPU_STABLE } from 'lib/constants'
 import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
+import { useTranslation } from 'react-i18next'
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
@@ -560,9 +561,10 @@ function calculateProgressText(startTime, optimizerEndTime, permutations, permut
 }
 
 function ManyPermsModal(props) {
+  const { t } = useTranslation('modals', { keyPrefix: 'manyperms' })
   return (
     <Modal
-      title='Very large search requested'
+      title={t('title')}
       open={props.manyPermsModalOpen}
       width={900}
       destroyOnClose
@@ -573,15 +575,14 @@ function ManyPermsModal(props) {
     >
       <Flex justify='space-between' align='center' style={{ height: 45, marginTop: 30, marginBottom: 15 }} gap={16}>
         <Text>
-          This optimization search will take a substantial amount of time to finish. You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats,
-          or use the Substat weight filter to reduce the number of permutations.
+          {t('text')}
         </Text>
         <Button
           onClick={() => props.setManyPermsModalOpen(false)}
           style={{ width: 250 }}
           type='primary'
         >
-          Cancel search
+          {t('cancel')}
         </Button>
         <Button
           onClick={() => {
@@ -591,7 +592,7 @@ function ManyPermsModal(props) {
           style={{ width: 250 }}
           type='primary'
         >
-          Proceed with search
+          {t('proceed')}
         </Button>
       </Flex>
     </Modal>

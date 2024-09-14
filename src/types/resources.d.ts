@@ -65,8 +65,10 @@ interface Resources {
     "cancel": "{{cancel, capitalize}}",
     "confirm": "{{confirm, capitalize}}",
     "submit": "{{submit, capitalize}}",
+    "ok": "{{ok, capitalize}}",
     "yes": "{{yes, capitalize}}",
     "save": "{{save, capitalize}}",
+    "score": "{{score, capitalize}}",
     "eidolonNShort": "E{{eidolon}}",
     "superimpositionNShort": "S{{superimposition}}",
     "characterWithCount_one": "{{count}} {{character, capitalize}}",
@@ -8103,7 +8105,32 @@ interface Resources {
       "cancel": "$t(common:cancel, {\"length\": 1})",
       "save": "$t(common:save, {\"length\": 1})"
     },
-    "builds": {},
+    "builds": {
+      "deleteall": "Delete All",
+      "cancel": "$t(common:cancel, {\"length\": 1})",
+      "equip": "Equip",
+      "score": "$t(common:score, {\"length\": 1})",
+      "confirmmodal": {
+        "confirmbutton": "$t(common:confirm, {\"length\": 1})",
+        "cancelbutton": "$t(common:cancel, {\"length\": 1})",
+        "title": "$t(common:confirm, {\"length\": 1})"
+      },
+      "confirmequip": {
+        "content": "Equipping this will unequip characters that use the relics in this build",
+        "successmessage": "Successfully equipped build: {{buildName}}"
+      },
+      "confirmdelete": {
+        "deleteall": "Are you sure you want to delete all builds?",
+        "deletesingle": "Are you sure you want to delete {{name}}?",
+        "successmessageall": "Successfully deleted all builds for {{characterName}}",
+        "successmessagesingle": "Successfully deleted build: {{name}}"
+      },
+      "nobuilds": {
+        "ok": "$t(common:ok, {\"length\": 1})",
+        "cancel": "$t(common:cancel, {\"length\": 1})",
+        "nonesaved": "No saved builds"
+      }
+    },
     "scorefooter": {},
     "characterselect": {
       "multiselect": {

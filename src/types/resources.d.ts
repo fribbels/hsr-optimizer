@@ -8092,7 +8092,12 @@ interface Resources {
         "submit": "$t(common:submit, {\"length\": 1})"
       }
     },
-    "savebuild": {},
+    "savebuild": {
+      "cancel": "$t(common:cancel, {\"length\": 1})",
+      "save": "$t(common:save, {\"length\": 1})",
+      "label": "Build name",
+      "rule": "Please input a name"
+    },
     "switchrelics": {
       "title": "Switch relics with character",
       "cancel": "$t(common:cancel, {\"length\": 1})",

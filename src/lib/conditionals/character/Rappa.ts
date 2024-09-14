@@ -12,7 +12,7 @@ export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5 // TODO
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const basicEnhancedScaling = basic(e, 1.60, 1.70)
+  const basicEnhancedScaling = basic(e, 2.00, 2.32)
 
   const skillScaling = skill(e, 1.20, 1.32)
 

@@ -5168,7 +5168,7 @@ function getScoringMetadata() {
           Stats.DEF_P,
         ],
         breakpoints: {
-          [Stats.RES]: 1.80,
+          [Stats.BE]: 1.80,
         },
         perfection: [
           {

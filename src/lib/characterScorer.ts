@@ -200,9 +200,9 @@ export type RelicBuild = {
   [key: string]: Relic
 }
 
-type ScoringFunction = (result: SimulationResult, penalty?: boolean) => void
+export type ScoringFunction = (result: SimulationResult, penalty?: boolean) => void
 
-type PartialSimulationWrapper = {
+export type PartialSimulationWrapper = {
   simulation: Simulation
   finalSpeed: number
   speedRollsDeduction: number
@@ -850,10 +850,10 @@ function computeOptimalSimulation(
   return currentSimulation
 }
 
-function sumSubstatRolls(maxSubstatRollCounts: SimulationStats) {
+export function sumSubstatRolls(maxSubstatRollCounts: SimulationStats) {
   let sum = 0
   for (const stat of SubStats) {
-    sum += maxSubstatRollCounts[stat]
+    sum += maxSubstatRollCounts[stat] ?? 0
   }
   return sum
 }

@@ -697,16 +697,16 @@ export function CharacterPreview(props) {
                 justify='space-between'
               >
                 <Flex vertical>
-                  <Flex justify='space-around' style={{ height: 26, marginBottom: 6 }} align='center'>
+                  <Flex justify='space-around' style={{ height: 26, marginBottom: 4 }} align='center'>
                     <Image
                       preview={false}
-                      width={36}
+                      width={32}
                       src={Assets.getElement(characterElement)}
                     />
                     <Rarity rarity={characterMetadata.rarity}/>
                     <Image
                       preview={false}
-                      width={36}
+                      width={32}
                       src={Assets.getPathFromClass(characterPath)}
                     />
                   </Flex>

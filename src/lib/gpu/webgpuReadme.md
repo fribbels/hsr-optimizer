@@ -1,8 +1,20 @@
 # WebGPU optimizer design
 
-## Motivation
+## Overview
 
-The goal is to rewrite the optimization algorithm to run on WebGPU for faster search performance.
+The goal is to improve the optimization algorithm performance with GPU acceleration using WebGPU.
+
+The first phase of implementation is complete - we now have parity between the CPU and GPU feature set.
+
+## Performance
+
+Initial beta testing shows performance in the billions of permutations per second, with higher end machines
+observing speed around 2.2 billion permutations/second on a NVIDIA GeForce RTX 4080 SUPER, and average / low end
+machines maxing out at around 1.0 billion permutations/second.
+
+![](https://i.imgur.com/YoWrhwv.png)
+
+Further performance optimizations are planned to maximize GPU utilization & improve algorithmic efficiency.
 
 ## Future state
 
@@ -12,7 +24,7 @@ The goal is to rewrite the optimization algorithm to run on WebGPU for faster se
 
 Wgsl has no 64 bit support. Type casting generally has to be done manually.
 General rule of thumb: most optimization values should be calculated and stored as f32s,
-indices as i32s, conditionals and results as bools. Prefer structs for related values where possible.
+indices as i32s, conditionals and results as f32s. Prefer structs for related values where possible.
 
 The values that can exceed 32 bit limits will need special handling, they are:
 
@@ -30,14 +42,14 @@ The kernel will take the following inputs (group/bindings/scope TBD):
 ```wgsl
 @group(0) @binding(0) var<storage, read_write> params : Params;
 @group(0) @binding(1) var<storage, read_write> relics : array<Relic>;
-@group(0) @binding(2) var<storage, read_write> results : array<bool>
-@group(1) @binding(0) var<storage, read_write> ornamentSetSolutionsMatrix : array<bool>;
-@group(1) @binding(0) var<storage, read_write> relicSetSolutionsMatrix : array<bool>;
+@group(0) @binding(2) var<storage, read_write> results : array<f32>
+@group(1) @binding(0) var<storage, read_write> ornamentSetSolutionsMatrix : array<i32>;
+@group(1) @binding(0) var<storage, read_write> relicSetSolutionsMatrix : array<i32>;
 ```
 
 * params - Contains the optimizer form: user options, teammate configs, filters, global index offset, etc
 * relics - Input relic stats & set, condensed into a struct of f32s
-* results - Output array. Every permutation generates a single boolean: pass or fail
+* results - Output array. Every permutation generates a single f32 result, negative for failed filters
 * ornamentSetSolutionsMatrix - Relic set combination lookup table - More details down the page
 * relicSetSolutionsMatrix - Ornament set combination lookup table - More details down the page
 
@@ -50,9 +62,6 @@ The difference here is the JS optimizer outputs all the values from the worker,
 then reassembles it into a stats row. In this new design we output a single f32,
 then recalculate the entire stats object in JS, but only for the values that pass the
 GPU filter.
-
-The theory here is that reconstructing the build on CPU
-is faster than cost of transferring memory out of the GPU.
 
 ## Relic set filtering
 
@@ -92,13 +101,11 @@ Conditional stats will use a select function for binary options:
 
 Multiple option conditionals will use array lookups:
 
-```wgsl
-Documentation TODO
-```
+`Documentation TODO`
 
 ## Dynamic conditionals
 
-`TODO`
+`Documentation TODO`
 
 ## Algorithm stages
 

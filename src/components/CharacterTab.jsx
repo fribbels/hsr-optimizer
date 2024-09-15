@@ -577,7 +577,7 @@ export default function CharacterTab() {
                   trigger={['hover']}
                 >
                   <Button style={{ width: '100%' }} icon={<UserOutlined/>}>
-                    Character actions
+                    Character menu
                     <DownOutlined/>
                   </Button>
                 </Dropdown>

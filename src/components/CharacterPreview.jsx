@@ -750,6 +750,7 @@ export function CharacterPreview(props) {
                             borderRadius: 10,
                           },
                         }}
+                        className='teamSelectionCard'
                         size='small'
                         bordered={false}
                       >

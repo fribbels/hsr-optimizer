@@ -11,8 +11,8 @@ const { Content } = Layout
 
 const App = () => {
   const [messageApi, messageContextHolder] = message.useMessage()
-  const [notificationApi, notificationContextHolder] = notification.useNotification();
-  const [modalApi, modalContextHolder] = Modal.useModal();
+  const [notificationApi, notificationContextHolder] = notification.useNotification()
+  const [modalApi, modalContextHolder] = Modal.useModal()
 
   window.messageApi = messageApi
   window.notificationApi = notificationApi
@@ -27,7 +27,7 @@ const App = () => {
 
   useEffect(() => {
     checkForUpdatesNotification(DB.getState().version)
-  }, []);
+  }, [])
 
   return (
     <ConfigProvider
@@ -47,7 +47,7 @@ const App = () => {
         components: {
           // OptimizerForm.js
           Cascader: {
-            dropdownHeight: 740,
+            dropdownHeight: 800,
             controlItemWidth: 100,
             controlWidth: 100,
           },
@@ -60,7 +60,7 @@ const App = () => {
           Menu: {
             margin: 2,
             itemPaddingInline: 0,
-            subMenuItemBg: 'rgba(255, 255, 255, 0.05)'
+            subMenuItemBg: 'rgba(255, 255, 255, 0.05)',
           },
 
           Table: {

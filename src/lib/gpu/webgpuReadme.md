@@ -44,7 +44,7 @@ The kernel will take the following inputs (group/bindings/scope TBD):
 ## Output
 
 The GPU component just acts as a very fast filter.
-Each permutation will generate a single boolean result: pass/fail, stored in a bool[] array.
+Each permutation will generate a single value output, stored in a f32 array.
 
 The difference here is the JS optimizer outputs all the values from the worker,
 then reassembles it into a stats row. In this new design we output a single f32,

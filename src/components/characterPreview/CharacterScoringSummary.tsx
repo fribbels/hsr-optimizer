@@ -124,8 +124,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             What is DPS Score?
           </h2>
           <p>
-            DPS Score is a damage simulation based metric for accurately scoring a
-            character's <i>damage performance in combat</i>.
+            DPS Score is a damage simulation based metric for accurately scoring how optimal the character's relics are for maximizing damage in combat.
           </p>
           <p>
             This score is calculated by using the optimizer to simulate the character's combat stats and rates the build based on
@@ -152,7 +151,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </h2>
           <p>
             At its heart, this score is calculated using a Basic / Skill / Ult / FuA / DoT / Break
-            ability damage rotation defined per character. These simulations use the optimizer's default conditional settings
+            ability damage rotation predefined per character. These simulations use the optimizer's default conditional settings
             for the character / teammates / light cones / relic sets, and the damage sum is then used to compare between builds.
           </p>
 
@@ -173,8 +172,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </ul>
 
           <p>
-            The original character's build is scored based on how its damage compares to the benchmark percentages.
-            The benchmark and perfection builds will always match the original character's speed.
+            The original character's build is scored based on how its Combo DMG compares to the benchmark percentages.
+            The benchmark and perfection builds will always match the original character's SPD.
           </p>
 
           <h4>
@@ -190,9 +189,9 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             <li>The default damage simulation uses a common team composition and the character's BiS relic + ornament set</li>
             <li>The 100% benchmark uses the same eidolon and superimposition as the original character, at level 80 and maxed traces</li>
             <li>The 100% benchmark has 4 main stats and 48 total substats: 8 from each gear slot</li>
-            <li>Each substat is equivalent to a 5 star relic's low roll value, except for speed which uses mid rolls</li>
-            <li>First, 2 substats are allocated to each substat type, except for Speed</li>
-            <li>Substats are then allocated to Speed to match the original character's in-combat Speed</li>
+            <li>Each substat is equivalent to a 5 star relic's low roll value, except for SPD which uses mid rolls</li>
+            <li>First, 2 substats are allocated to each substat type, except for SPD</li>
+            <li>Substats are then allocated to SPD to match the original character's in-combat SPD</li>
             <li>The remaining substats are then distributed to the other stats options to maximize the build's damage output</li>
             <li>The resulting build must be a substat distribution that is possible to make with the in-game sub and main stat
               restrictions (For example, relics with a main stat cannot also have the same substat, and no duplicate substat slots per piece, etc)
@@ -306,11 +305,11 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
           <h2>FAQs</h2>
 
-          <h4>Why does the sim match Speed?</h4>
+          <h4>Why does the sim match speed?</h4>
           <p>
             Speed is controlled separately from the other stats because damage isn't comparable between different speed thresholds.
-            For example, higher speed can actually result in lower damage with Bronya as a teammate if the Speed tuning is thrown off.
-            To make damage comparisons fair, we equalize the Speed variable by forcing the sim's substats to match the original character's combat speed.
+            For example, higher speed can actually result in lower damage with Bronya as a teammate if the speed tuning is thrown off.
+            To make damage comparisons fair, we equalize the speed variable by forcing the sim's substats to match the original character's combat speed.
           </p>
 
           <h4>Why does a build score lower even though it has higher Sim Damage?</h4>

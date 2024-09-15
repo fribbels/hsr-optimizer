@@ -281,7 +281,7 @@ export function CharacterPreview(props) {
   const tempParentH = simScoringResult ? parentH - newLcHeight - newLcMargin : parentH
 
   // Since the lc takes some space, we want to zoom the portrait out
-  const tempInnerW = simScoringResult ? 875 : innerW
+  const tempInnerW = simScoringResult ? 950 : innerW
 
   // Teammate character modal OK
   function onCharacterModalOk(form) {
@@ -484,7 +484,7 @@ export function CharacterPreview(props) {
           />
 
           <Flex
-            vertical gap={15}
+            vertical gap={12}
             className='character-build-portrait'
           >
             {!isBuilds && (

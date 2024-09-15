@@ -265,7 +265,7 @@ export function CharacterPreview(props) {
 
   // Temporary w/h overrides while we're split between sim scoring and weight scoring
   const newLcMargin = 5
-  const newLcHeight = 120
+  const newLcHeight = 125
   // Some APIs return empty light cone as '0'
   const charCenter = DB.getMetadata().characters[character.id].imageCenter
 
@@ -429,7 +429,7 @@ export function CharacterPreview(props) {
   function CharacterPreviewScoringTeammate(props) {
     const { result, index, setCharacterModalOpen, setSelectedTeammateIndex } = props
     const teammate = result.simulationMetadata.teammates[index]
-    const iconSize = 60
+    const iconSize = 64
     return (
       <Card.Grid
         style={gridStyle} hoverable={true}
@@ -455,7 +455,7 @@ export function CharacterPreview(props) {
             }}
           />
           <OverlayText text={`E${teammate.characterEidolon}`} top={-12}/>
-          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: 2 }}/>
+          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: 0 }}/>
           <OverlayText text={`S${teammate.lightConeSuperimposition}`} top={-16}/>
         </Flex>
       </Card.Grid>

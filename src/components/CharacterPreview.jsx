@@ -336,7 +336,7 @@ export function CharacterPreview(props) {
   function ScoreFooter(props) {
     const tabsDisplay = (
       <Segmented
-        style={{ marginLeft: 10, marginRight: 10, marginTop: 1, marginBottom: 2, alignItems: 'center' }}
+        style={{ marginLeft: 10, marginRight: 10, marginTop: 2, marginBottom: 0, alignItems: 'center' }}
         onChange={(selection) => {
           if (selection == SETTINGS_TEAM) {
             window.modalApi.info({
@@ -455,8 +455,8 @@ export function CharacterPreview(props) {
             }}
           />
           <OverlayText text={`E${teammate.characterEidolon}`} top={-12}/>
-          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: 0 }}/>
-          <OverlayText text={`S${teammate.lightConeSuperimposition}`} top={-16}/>
+          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: -3 }}/>
+          <OverlayText text={`S${teammate.lightConeSuperimposition}`} top={-18}/>
         </Flex>
       </Card.Grid>
     )
@@ -1023,7 +1023,7 @@ function OverlayText(props) {
 const gridStyle = {
   width: '33.3333%',
   textAlign: 'center',
-  padding: 5,
+  padding: 1,
   // border: 'none',
   boxShadow: 'none',
 }

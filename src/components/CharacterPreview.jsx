@@ -265,7 +265,7 @@ export function CharacterPreview(props) {
 
   // Temporary w/h overrides while we're split between sim scoring and weight scoring
   const newLcMargin = 5
-  const newLcHeight = 140
+  const newLcHeight = 120
   // Some APIs return empty light cone as '0'
   const charCenter = DB.getMetadata().characters[character.id].imageCenter
 

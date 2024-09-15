@@ -1350,7 +1350,7 @@ function getOverrideImageCenter() {
     1307: { // Black Swan
       x: 950,
       y: 950,
-      z: 1.15,
+      z: 1.25,
     },
     1308: { // Acheron
       x: 1000,

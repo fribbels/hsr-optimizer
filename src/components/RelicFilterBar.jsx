@@ -7,7 +7,7 @@ import { TooltipImage } from './TooltipImage'
 import DB from '../lib/db'
 import { Hint } from 'lib/hint'
 import { Utils } from 'lib/utils'
-import { Constants, SetsRelics, Stats } from 'lib/constants'
+import { Constants, SetsRelics, setToId, Stats } from 'lib/constants'
 import { Assets } from 'lib/assets'
 import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
@@ -33,7 +33,7 @@ export default function RelicFilterBar(props) {
 
   const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
 
-  const { t } = useTranslation('relicsTab', { keyPrefix: 'relicFilterBar' })
+  const { t, i18n } = useTranslation(['relicsTab', 'common', 'gameData'])
 
   const characterOptions = useMemo(() => {
     return Utils.generateCharacterOptions()
@@ -58,7 +58,7 @@ export default function RelicFilterBar(props) {
 
       return tooltip
         ? (
-          <Tooltip title={key} mouseEnterDelay={0.2}>
+          <Tooltip title={i18n.exists(`common:stats.${key}`) ? t(`common:stats.${key}`) : t(`gameData:relicsets.${setToId[key]}`)} mouseEnterDelay={0.2}>
             <img style={{ width: width }} src={src}/>
           </Tooltip>
         )
@@ -240,51 +240,51 @@ export default function RelicFilterBar(props) {
     <Flex vertical gap={2}>
       <Flex gap={10}>
         <Flex vertical flex={1}>
-          <HeaderText>{t('part')}</HeaderText>
+          <HeaderText>{t('relicFilterBar.part')}</HeaderText>
           <FilterRow name='part' tags={partsData} flexBasis='15%'/>
         </Flex>
         <Flex vertical style={{ height: '100%' }} flex={1}>
-          <HeaderText>{t('enhance')}</HeaderText>
+          <HeaderText>{t('relicFilterBar.enhance')}</HeaderText>
           <FilterRow name='enhance' tags={enhanceData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.5}>
-          <HeaderText>{t('grade')}</HeaderText>
+          <HeaderText>{t('relicFilterBar.grade')}</HeaderText>
           <FilterRow name='grade' tags={gradeData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.25}>
-          <HeaderText>{t('verified')}</HeaderText>
+          <HeaderText>{t('relicFilterBar.verified')}</HeaderText>
           <FilterRow name='verified' tags={verifiedData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.25}>
-          <HeaderText>{t('equipped')}</HeaderText>
+          <HeaderText>{t('relicFilterBar.equipped')}</HeaderText>
           <FilterRow name='equippedBy' tags={equippedByData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.4}>
           <HeaderText>{t('clear')}</HeaderText>
           <Button icon={<ClearOutlined/>} onClick={clearClicked} style={{ flexGrow: 1, height: '100%' }}>
-            {t('clearbutton')}
+            {t('relicFilterBar.clearbutton')}
           </Button>
         </Flex>
       </Flex>
 
       <Flex vertical>
-        <HeaderText>{t('set')}</HeaderText>
+        <HeaderText>{t('relicFilterBar.set')}</HeaderText>
         <FilterRow name='set' tags={setsData} flexBasis={`${100 / Object.values(SetsRelics).length}%`}/>
       </Flex>
 
       <Flex vertical>
-        <HeaderText>{t('mainstat')}</HeaderText>
+        <HeaderText>{t('relicFilterBar.mainstat')}</HeaderText>
         <FilterRow name='mainStats' tags={mainStatsData}/>
       </Flex>
 
       <Flex vertical>
-        <HeaderText>{t('substat')}</HeaderText>
+        <HeaderText>{t('relicFilterBar.substat')}</HeaderText>
         <FilterRow name='subStats' tags={subStatsData}/>
       </Flex>
 
       <Flex gap={10}>
         <Flex vertical flex={0.5}>
-          <HeaderText>{t('recommendationheader')}</HeaderText>
+          <HeaderText>{t('relicFilterBar.recommendationheader')}</HeaderText>
           <Flex gap={10}>
             <CharacterSelect
               value={currentlySelectedCharacterId}
@@ -299,13 +299,13 @@ export default function RelicFilterBar(props) {
               onClick={rescoreClicked}
               style={{ flex: 1, padding: '0px' }}
             >
-              {t('reapplybutton')}
+              {t('relicFilterBar.reapplybutton')}
             </Button>
             <Button
               onClick={scoringClicked}
               style={{ flex: 1, padding: '0px' }}
             >
-              {t('scoringbutton')}
+              {t('relicFilterBar.scoringbutton')}
             </Button>
           </Flex>
         </Flex>
@@ -313,7 +313,7 @@ export default function RelicFilterBar(props) {
         <Flex vertical flex={0.25} gap={10}>
           <Flex vertical>
             <Flex justify='space-between' align='center'>
-              <HeaderText>{t('rating')}</HeaderText>
+              <HeaderText>{t('relicFilterBar.rating')}</HeaderText>
               <TooltipImage type={Hint.valueColumns()}/>
             </Flex>
             <Flex gap={10}>
@@ -332,7 +332,7 @@ export default function RelicFilterBar(props) {
         </Flex>
 
         <Flex vertical flex={0.25}>
-          <HeaderText>{t('customcharsheader')}</HeaderText>
+          <HeaderText>{t('relicFilterBar.customcharsheader')}</HeaderText>
           <CharacterSelect
             value={window.store.getState().excludedRelicPotentialCharacters}
             selectStyle={{ flex: 1 }}

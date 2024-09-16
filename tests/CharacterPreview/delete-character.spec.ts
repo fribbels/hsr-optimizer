@@ -7,7 +7,7 @@ test('Delete character from Characters tab', async ({ page }) => {
   await page.getByRole('menuitem', { name: 'Characters' }).click()
 
   await page.locator('#characterGrid').getByText('Jingliu').click()
-  await page.getByRole('button', { name: 'Actions down' }).click()
+  await page.getByRole('button', { name: 'user Character menu down' }).click()
   await page.getByText('Delete character').click()
   await page.getByRole('button', { name: 'Confirm' }).click()
 

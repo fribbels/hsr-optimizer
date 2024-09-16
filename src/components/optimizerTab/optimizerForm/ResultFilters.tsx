@@ -32,7 +32,7 @@ export const MinMaxRatingFilters = () => {
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
       <Flex justify='space-between' align='center'>
-        <HeaderText>Rating min / filters</HeaderText>
+        <HeaderText>Rating min / max filters</HeaderText>
         <TooltipImage type={Hint.ratingFilters()}/>
       </Flex>
 

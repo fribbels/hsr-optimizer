@@ -512,8 +512,20 @@ export default function CharacterTab() {
       }}
     >
       <Flex vertical gap={defaultGap}>
-        <Flex gap={6} style={{ width: '100%', marginBottom: 5, paddingRight: 1 }}>
-          <Flex style={{ width: 230 }}>
+        <Flex gap={6} style={{ width: '100%', marginBottom: 0, paddingRight: 1 }}>
+          <Flex justify='space-between' gap={8} style={{ width: 230, height: '100%' }}>
+            <Dropdown
+              placement='topLeft'
+              menu={actionsMenuProps}
+              trigger={['hover']}
+            >
+              <Button style={{ width: '100%', height: '100%' }} icon={<UserOutlined/>} type='default'>
+                {t('characteractions.buttontext')}
+                <DownOutlined/>
+              </Button>
+            </Dropdown>
+          </Flex>
+          <Flex style={{ width: 242 }}>
             <Input
               allowClear
               size='large'
@@ -527,8 +539,8 @@ export default function CharacterTab() {
           </Flex>
           <Flex style={{ flex: 1 }}>
             <SegmentedFilterRow
-              name='element'
-              tags={generateElementTags()}
+              name='path'
+              tags={generatePathTags()}
               flexBasis='14.2%'
               currentFilters={characterFilters}
               setCurrentFilters={setCharacterFilters}
@@ -536,8 +548,8 @@ export default function CharacterTab() {
           </Flex>
           <Flex style={{ flex: 1 }}>
             <SegmentedFilterRow
-              name='path'
-              tags={generatePathTags()}
+              name='element'
+              tags={generateElementTags()}
               flexBasis='14.2%'
               currentFilters={characterFilters}
               setCurrentFilters={setCharacterFilters}
@@ -548,7 +560,7 @@ export default function CharacterTab() {
           <Flex vertical gap={10} style={{ marginRight: selectedCharacter ? 6 : 8 }}>
             <div
               id='characterGrid' className='ag-theme-balham-dark' style={{
-                ...{ display: 'block', width: 230, height: parentH - 80 },
+                ...{ display: 'block', width: 230, height: parentH - 40 },
                 ...getGridTheme(token),
               }}
             >
@@ -575,18 +587,6 @@ export default function CharacterTab() {
               />
             </div>
             <Flex vertical gap={8}>
-              <Flex justify='space-between' gap={8}>
-                <Dropdown
-                  placement='topLeft'
-                  menu={actionsMenuProps}
-                  trigger={['hover']}
-                >
-                  <Button style={{ width: '100%' }} icon={<UserOutlined/>}>
-                    {t('characteractions.buttontext')}
-                    <DownOutlined/>
-                  </Button>
-                </Dropdown>
-              </Flex>
               <Flex gap={8}>
                 <Button
                   style={{ flex: 'auto' }} icon={<CameraOutlined/>} onClick={clipboardClicked}

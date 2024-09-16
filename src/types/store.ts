@@ -76,6 +76,7 @@ export type HsrOptimizerStore = {
   setOptimizerEndTime: (open: number) => void
   setMenuSidebarOpen: (open: boolean) => void
   setRelicTabFilters: (filters: RelicTabFilters) => void
+  setOptimizerRunningEngine: (s: string) => void
   optimizerFormCharacterEidolon: number
   optimizerFormSelectedLightCone: null | LightCone
   optimizerFormSelectedLightConeSuperimposition: number

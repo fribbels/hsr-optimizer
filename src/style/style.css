@@ -454,9 +454,19 @@ a {
 }
 
 .ant-card-hoverable:hover {
-    border-color: #45729f !important;
+    border-color: #4d7fb2 !important;
+}
+
+.lightConeCard:hover {
+    outline: 1px solid #4d7fb2 !important;
+    cursor: pointer;
 }
 
 .custom-dropdown-button .ant-btn-compact-first-item {
     width: 100%;
+}
+
+.teamSelectionCard > .ant-card-body {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
 }

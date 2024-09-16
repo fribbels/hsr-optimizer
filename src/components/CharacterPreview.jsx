@@ -654,6 +654,7 @@ export function CharacterPreview(props) {
                     </Flex>
                   )}
                   <Flex
+                    className='lightConeCard'
                     style={{
                       width: `${tempLcParentW}px`,
                       height: `${tempLcParentH}px`,
@@ -700,13 +701,13 @@ export function CharacterPreview(props) {
                   <Flex justify='space-around' style={{ height: 26, marginBottom: 6 }} align='center'>
                     <Image
                       preview={false}
-                      width={36}
+                      width={32}
                       src={Assets.getElement(characterElement)}
                     />
                     <Rarity rarity={characterMetadata.rarity}/>
                     <Image
                       preview={false}
-                      width={36}
+                      width={32}
                       src={Assets.getPathFromClass(characterPath)}
                     />
                   </Flex>
@@ -750,6 +751,7 @@ export function CharacterPreview(props) {
                             borderRadius: 10,
                           },
                         }}
+                        className='teamSelectionCard'
                         size='small'
                         bordered={false}
                       >
@@ -805,7 +807,6 @@ export function CharacterPreview(props) {
                   !simScoringResult
                   && (
                     <Flex vertical style={{ width: middleColumnWidth }}>
-
                       <Flex vertical>
                         <StatText
                           style={{ fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center' }}
@@ -819,6 +820,7 @@ export function CharacterPreview(props) {
                         </StatText>
                       </Flex>
                       <div
+                        className='lightConeCard'
                         style={{
                           width: `${tempLcParentW}px`,
                           height: `${tempLcParentH}px`,

@@ -63,9 +63,10 @@ export type HsrOptimizerStore = {
   enemyConfigurationsDrawerOpen: boolean
   setCombatBuffsDrawerOpen: (open: boolean) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void
-  setOptimizationInProgress: (open: boolean) => void
-  setOptimizerStartTime: (open: number) => void
-  setOptimizerEndTime: (open: number) => void
+  setOptimizationInProgress: (b: boolean) => void
+  setOptimizerStartTime: (n: number) => void
+  setOptimizerEndTime: (n: number) => void
+  setOptimizerRunningEngine: (s: string) => void
   optimizerFormCharacterEidolon: number
   optimizerFormSelectedLightCone: null | LightCone
   optimizerFormSelectedLightConeSuperimposition: number

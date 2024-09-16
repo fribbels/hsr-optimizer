@@ -97,11 +97,11 @@ const items = [
     label: 'Character',
     children: [
       {
-        label: 'Add new character',
+        label: 'Add a new character',
         key: 'add',
       },
       {
-        label: 'Edit character',
+        label: 'Edit character / light cone',
         key: 'edit',
       },
       {
@@ -124,7 +124,7 @@ const items = [
     label: 'Builds',
     children: [
       {
-        label: 'Save build',
+        label: 'Save current build',
         key: 'saveBuild',
       },
       {

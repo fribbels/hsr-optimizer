@@ -160,6 +160,7 @@ export const Optimizer = {
       let inProgress = runs.length
 
       window.store.getState().setOptimizerStartTime(Date.now())
+      window.store.getState().setOptimizerRunningEngine(COMPUTE_ENGINE_CPU)
       for (const run of runs) {
         const task = {
           input: {

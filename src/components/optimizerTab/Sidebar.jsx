@@ -188,6 +188,7 @@ function SidebarContent() {
   const optimizerEndTime = window.store((s) => s.optimizerEndTime)
 
   const computeEngine = window.store((s) => s.savedSession[SavedSessionKeys.computeEngine])
+  const optimizerRunningEngine = window.store((s) => s.optimizerRunningEngine)
 
   const [startTime, setStartTime] = useState(undefined)
 
@@ -255,7 +256,7 @@ function SidebarContent() {
 
               <Flex vertical>
                 <HeaderText>
-                  {calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, computeEngine)}
+                  {calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine)}
                 </HeaderText>
                 <Progress
                   strokeColor={token.colorPrimary}
@@ -538,7 +539,7 @@ function MobileSidebarContent() {
   )
 }
 
-function calculateProgressText(startTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, computeEngine) {
+function calculateProgressText(startTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine) {
   if (!startTime) {
     return 'Progress'
   }
@@ -548,7 +549,7 @@ function calculateProgressText(startTime, optimizerEndTime, permutations, permut
     endTime = optimizerEndTime
   }
 
-  const searched = computeEngine == COMPUTE_ENGINE_CPU ? permutationsSearched : Math.max(permutationsSearched, 65536 * 512)
+  const searched = optimizerRunningEngine == COMPUTE_ENGINE_CPU ? permutationsSearched : Math.max(permutationsSearched, 65536 * 512)
 
   const msDiff = endTime - startTime
   if (!optimizerEndTime && msDiff < 5_000 && permutationsSearched < 5_000_000 || !permutationsSearched) {

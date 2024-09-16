@@ -296,7 +296,16 @@ function CharacterPreviewSelection(props) {
     options.push({
       label: (
         <Flex align='center' justify='space-around'>
-          <img style={{ width: 100, height: 100, objectFit: 'contain' }} src={Assets.getCharacterAvatarById(availableCharacter.id)}></img>
+          <img
+            style={{
+              width: 100,
+              height: 100,
+              objectFit: 'contain',
+              borderRadius: 100,
+              border: '1px solid #7d7d7dc2',
+            }}
+            src={Assets.getCharacterAvatarById(availableCharacter.id)}
+          />
         </Flex>
       ),
       value: availableCharacter.id,

@@ -118,10 +118,15 @@ export const DataParser = {
       characters[id].scoringMetadata.characterId = id
     }
 
+    const relicSets = gameData.relics.reduce((acc, obj) => {
+      acc[obj.id] = obj
+      return acc
+    }, {})
+
     const relics = {
       relicMainAffixes,
       relicSubAffixes,
-      relicSets: gameData.relics,
+      relicSets,
     }
 
     const data = {

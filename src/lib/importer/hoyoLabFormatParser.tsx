@@ -110,10 +110,7 @@ type HoyolabOutput = {
 }
 
 export function hoyolabParser(json: HoyolabData) {
-  const relicData = DB.getMetadata().relics.relicSets.reduce((acc, obj) => {
-    acc[obj.id] = obj
-    return acc
-  }, {})
+  const relicData = DB.getMetadata().relics.relicSets
 
   const output: HoyolabOutput = {
     metadata: {

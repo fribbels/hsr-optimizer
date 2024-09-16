@@ -135,6 +135,8 @@ function getChangelogContent() {
         `resultCount.webp`,
         `The Relic Insights tool now opens the character scoring panel on click, and now updates correctly when the selected character is changed`,
         `insights.webp`,
+        leaks(`Updated with version 2.6v1 content`),
+        leaks(`rappa.webp`),
         `Clicking the light cone portrait on character cards now bring up the Edit Character / Light Cone menu`,
         `Added a confirmation popup for resetting optimizer filters`,
         `Added on-hit buffs for the character's primary ability to the Combat stats section of scoring cards`,

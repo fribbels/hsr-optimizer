@@ -571,7 +571,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               </Button>
               {(current > 0 && existingConfig) && (
                 <Button onClick={prev} danger>
-                  {t('footer.uploadnew')}
+                  {t('footer.change')}
                 </Button>
               )}
               {(current > 0 && !existingConfig) && (

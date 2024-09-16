@@ -30,6 +30,7 @@ const App = () => {
 
   useEffect(() => {
     checkForUpdatesNotification(DB.getState().version)
+    window.store.getState().setLocale(i18n.resolvedLanguage)
   }, [])
 
   useEffect(() => {

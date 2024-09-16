@@ -22,13 +22,6 @@
     "deleterelicsuccess": "Successfully deleted $t(common:relic, {\"count\": 1, \"length\": 0})"
   },
   "relicGrid": {
-    "valueformatters": {
-      "part": {},
-      "stat": {
-        "element": "$t(common:.statnames.Element, {\"element\": {{element}})",
-        "other": "$t(common:.statnames.{{stat}})"
-      }
-    },
     "headers": {
       "equippedby": "Owner",
       "set": "Set",

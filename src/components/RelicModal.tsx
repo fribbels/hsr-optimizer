@@ -96,6 +96,7 @@ export default function RelicModal(props: {
   setOpen: (open: boolean) => void
   open: boolean
 }) {
+  const { t } = useTranslation(['modals', 'common', 'gameData'])
   const { token } = useToken()
   const [relicForm] = Form.useForm()
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
@@ -122,8 +123,6 @@ export default function RelicModal(props: {
     }, [i18next.resolvedLanguage])
   const equippedBy: string = Form.useWatch('equippedBy', relicForm)
   const [upgradeValues, setUpgradeValues] = useState<RelicUpgradeValues[]>([])
-
-  const { t } = useTranslation(['modals', 'common', 'gameData'], { keyPrefix: 'relic' })
 
   useEffect(() => {
     let defaultValues = {
@@ -165,13 +164,10 @@ export default function RelicModal(props: {
     if (props.selectedRelic?.part) {
       mainStatOptions = Object.entries(Constants.PartsMainStats[props.selectedRelic?.part]).map((entry) => ({
         label: (() => {
-          const isDMGBonus = (entry[1].split(' ')[1] == 'DMG' && entry[1].split(' ')[0] != 'CRIT')
           return (
             <Flex align='center' gap={10}>
               <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }}/>
-              {isDMGBonus
-                ? t('common:statnames.Element_DMG_Boost', { element: entry[1].split(' ')[0] == 'Lightning' ? 'Thunder' : entry[1].split(' ')[0] })
-                : t(`common:statnames.${entry[1]}`)}
+              {t(`common:stats.${entry[1]}`)}
             </Flex>
           )
         })(), // generateImageLabel(entry[1], (x) => Assets.getStatIcon(x, true), 22),
@@ -204,13 +200,13 @@ export default function RelicModal(props: {
       relic.verified = false
     }
 
-    console.log(t('messages.editsuccess'), relic)
+    console.log(t('relic.messages.editsuccess'), relic)
 
     props.onOk(relic)
     props.setOpen(false)
   }
   const onFinishFailed = () => {
-    Message.error(t('messages.submitfail'))
+    Message.error(t('relic.messages.submitfail'))
     props.setOpen(false)
   }
   const onValuesChange = (formValues: RelicForm) => {
@@ -218,13 +214,10 @@ export default function RelicModal(props: {
     if (formValues.part) {
       mainStatOptions = Object.entries(Constants.PartsMainStats[formValues.part]).map((entry) => ({
         label: (() => {
-          const isDMGBonus = (entry[1].split(' ')[1] == 'DMG' && entry[1].split(' ')[0] != 'CRIT')
           return (
             <Flex align='center' gap={10}>
               <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }}/>
-              {isDMGBonus
-                ? t('common:statnames.Element_DMG_Boost', { element: entry[1].split(' ')[0] == 'Lightning' ? 'Thunder' : entry[1].split(' ')[0] })
-                : t(`common:statnames.${entry[1]}`)}
+              {t(`common:stats.${entry[1]}`)}
             </Flex>
           )
         })(),
@@ -307,7 +300,7 @@ export default function RelicModal(props: {
           <Flex gap={10}>
             <Flex vertical gap={5}>
 
-              <HeaderText>{t('part')}</HeaderText>
+              <HeaderText>{t('relic.part')}</HeaderText>
 
               <Form.Item name='part'>
                 <Radio.Group buttonStyle='solid'>
@@ -320,7 +313,7 @@ export default function RelicModal(props: {
                 </Radio.Group>
               </Form.Item>
 
-              <HeaderText>{t('set')}</HeaderText>
+              <HeaderText>{t('relic.set')}</HeaderText>
               <Form.Item name='set'>
                 <Select
                   showSearch
@@ -335,7 +328,7 @@ export default function RelicModal(props: {
                 </Select>
               </Form.Item>
 
-              <HeaderText>{t('enhance')}</HeaderText>
+              <HeaderText>{t('relic.enhance')}</HeaderText>
 
               <Flex gap={10}>
                 <Form.Item name='enhance'>
@@ -365,7 +358,7 @@ export default function RelicModal(props: {
                 </Form.Item>
               </Flex>
 
-              <HeaderText>{t('mainstat')}</HeaderText>
+              <HeaderText>{t('relic.mainstat')}</HeaderText>
 
               <Flex gap={10}>
                 <Form.Item name='mainStatType'>
@@ -390,7 +383,7 @@ export default function RelicModal(props: {
             <div style={{ display: 'block', minWidth: 12 }}/>
 
             <Flex vertical gap={5} style={{}}>
-              <HeaderText>{t('wearer')}</HeaderText>
+              <HeaderText>{t('relic.wearer')}</HeaderText>
               <Form.Item name='equippedBy'>
                 <Select
                   showSearch
@@ -413,9 +406,9 @@ export default function RelicModal(props: {
           <Flex gap={20}>
             <Flex vertical gap={5} style={{ width: '100%' }}>
               <Flex justify='space-between'>
-                <HeaderText>{t('substat')}</HeaderText>
+                <HeaderText>{t('relic.substat')}</HeaderText>
                 <Flex style={{ width: 180 }}>
-                  <HeaderText>{t('upgrades')}</HeaderText>
+                  <HeaderText>{t('relic.upgrades')}</HeaderText>
                 </Flex>
               </Flex>
               <SubstatInput index={0} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree}/>
@@ -466,7 +459,7 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
           return (
             <Flex align='center' gap={10}>
               <img style={{ width: 22, height: 22 }} src={Assets.getStatIcon(entry[1], true)}/>
-              {i18next.t(`common:statnames.${entry[1]}`)}
+              {i18next.t(`common:stats.${entry[1]}`)}
             </Flex>
           )
         })(),

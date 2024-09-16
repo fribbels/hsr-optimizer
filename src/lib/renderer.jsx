@@ -109,16 +109,12 @@ export const Renderer = {
 
   readableStat: (x) => {
     if (x == undefined || x.value == undefined) return ''
-    const stat = StatsToReadable[x.value].split(' ')
-    if (stat[1] == 'DMG' && stat[0] != 'CRIT') {
-      return i18next.t('common:statnames.Element', { element: (stat[0] == 'Lightning' ? 'Thunder' : stat[0]) })
-    }
-    return i18next.t(`common:statnames.${StatsToReadableShort[x.value]}`)
+    return i18next.t(`common:shortreadablestats.${x.value}`)
   },
 
   readablePart: (x) => {
     if (x == undefined || x.value == undefined) return ''
-    return i18next.t(`renderer:parts.${Constants.PartsToReadable[x.value]}`)
+    return i18next.t(`common:readableparts.${x.value}`)
   },
 
   partIcon: (x) => {
@@ -195,7 +191,7 @@ export const Renderer = {
         ? (
           <Tooltip
             mouseEnterDelay={0.4}
-            title={i18next.t('renderer:rendergrade')}
+            title={i18next.t('common:verifiedrelichovertext')}
           >
             <CheckCircleFilled
               style={{ fontSize: '14px', color: color }}

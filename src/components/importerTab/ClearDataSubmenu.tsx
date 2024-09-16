@@ -10,7 +10,7 @@ const { Text } = Typography
 
 export function ClearDataSubmenu() {
   const [loading, setLoading] = useState(false)
-  const { t } = useTranslation(['importSaveTab', 'common'], { keyPrefix: 'cleardata' })
+  const { t } = useTranslation(['importSaveTab', 'common'])
 
   function clearDataClicked() {
     console.log('Clear data')
@@ -19,25 +19,25 @@ export function ClearDataSubmenu() {
       setLoading(false)
       DB.resetStore()
 
-      Message.success(t('successmessage'))
+      Message.success(t('cleardata.successmessage'))
     }, importerTabSpinnerMs)
   }
 
   return (
     <Flex vertical gap={5}>
       <Text>
-        {t('label')}
+        {t('cleardata.label')}
       </Text>
       <Popconfirm
-        title={t('warningtitle')}
-        description={t('warningdescription')}
+        title={t('cleardata.warningtitle')}
+        description={t('cleardata.warningdescription')}
         onConfirm={clearDataClicked}
         placement='bottom'
         okText={t('common:yes')}
         cancelText={t('common:cancel')}
       >
         <Button type='primary' icon={<DeleteOutlined/>} loading={loading} style={{ width: importerTabButtonWidth }}>
-          {t('buttontext')}
+          {t('cleardata.buttontext')}
         </Button>
       </Popconfirm>
     </Flex>

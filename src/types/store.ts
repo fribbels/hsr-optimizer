@@ -34,7 +34,7 @@ export type HsrOptimizerStore = {
 
   optimizerGrid: unknown
 
-  locale?: string
+  locale: string | undefined
 
   optimizerTabFocusCharacter?: CharacterId
   characterTabFocusCharacter?: CharacterId

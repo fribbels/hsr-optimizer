@@ -301,8 +301,9 @@ function CharacterPreviewSelection(props) {
               width: 100,
               height: 100,
               objectFit: 'contain',
-              borderRadius: 100,
-              border: '1px solid #7d7d7dc2',
+              borderRadius: 50,
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              background: 'rgba(255, 255, 255, 0.1)',
             }}
             src={Assets.getCharacterAvatarById(availableCharacter.id)}
           />
@@ -539,7 +540,13 @@ function Sidebar(props) {
               ? (
                 <img
                   src={Assets.getCharacterAvatarById(preset.characterId)}
-                  style={{ height: 100, width: 100 }}
+                  style={{
+                    height: 100,
+                    width: 100,
+                    borderRadius: 100,
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                  }}
                 />
               )
               : <Icon component={EditOutlined} style={{ fontSize: 85 }}/>

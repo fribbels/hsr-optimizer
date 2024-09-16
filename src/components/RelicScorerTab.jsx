@@ -303,7 +303,7 @@ function CharacterPreviewSelection(props) {
               objectFit: 'contain',
               borderRadius: 50,
               border: '1px solid rgba(255, 255, 255, 0.2)',
-              background: 'rgba(255, 255, 255, 0.1)',
+              background: 'rgba(255, 255, 255, 0.05)',
             }}
             src={Assets.getCharacterAvatarById(availableCharacter.id)}
           />
@@ -545,7 +545,7 @@ function Sidebar(props) {
                     width: 100,
                     borderRadius: 100,
                     border: '1px solid rgba(255, 255, 255, 0.2)',
-                    background: 'rgba(255, 255, 255, 0.1)',
+                    background: 'rgba(255, 255, 255, 0.05)',
                   }}
                 />
               )

@@ -37,6 +37,7 @@ export async function gpuOptimize(props: {
   }
 
   window.store.getState().setOptimizerStartTime(Date.now())
+  window.store.getState().setOptimizerRunningEngine(computeEngine)
 
   const gpuContext = initializeGpuPipeline(
     device,

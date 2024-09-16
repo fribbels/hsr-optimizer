@@ -124,7 +124,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             What is DPS Score?
           </h2>
           <p>
-            DPS Score is a damage simulation based metric for accurately scoring how optimal the character's relics are for maximizing damage in combat.
+            DPS Score is a damage calculation based metric for accurately scoring how optimal the character's relics are for maximizing damage in combat.
           </p>
           <p>
             This score is calculated by using the optimizer to simulate the character's combat stats and rates the build based on
@@ -194,7 +194,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             <li>Substats are then allocated to SPD to match the original character's in-combat SPD</li>
             <li>The remaining substats are then distributed to the other stats options to maximize the build's damage output</li>
             <li>The resulting build must be a substat distribution that is possible to make with the in-game sub and main stat
-              restrictions (For example, relics with a main stat cannot also have the same substat, and no duplicate substat slots per piece, etc)
+              restrictions (for example, relics with a main stat cannot also have the same substat, and no duplicate substat slots per piece, etc)
             </li>
             <li>An artificial diminishing returns penalty is applied to substats with greater than <code>12 - (2 * main stats)</code> rolls, to simulate the difficulty of obtaining multiple rolls in a single stat</li>
           </ul>

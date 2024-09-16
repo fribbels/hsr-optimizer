@@ -62,6 +62,7 @@ export const baseComputedStatsObject = {
   ULT_CD_BOOST: 0,
   FUA_CD_BOOST: 0,
 
+  // These are unused
   BASIC_BOOST: 0,
   SKILL_BOOST: 0,
   ULT_BOOST: 0,

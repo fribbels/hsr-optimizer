@@ -111,6 +111,7 @@ window.store = create((set) => ({
   zeroResultModalOpen: false,
   menuSidebarOpen: true,
   relicScorerSidebarOpen: true,
+  optimizerRunningEngine: null,
   optimizerStartTime: null,
   optimizerEndTime: null,
 
@@ -193,6 +194,7 @@ window.store = create((set) => ({
   setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
   setOptimizationId: (x) => set(() => ({ optimizationId: x })),
   setOptimizerStartTime: (x) => set(() => ({ optimizerStartTime: x })),
+  setOptimizerRunningEngine: (x) => set(() => ({ optimizerRunningEngine: x })),
   setOptimizerEndTime: (x) => set(() => ({ optimizerEndTime: x })),
   setTeammateCount: (x) => set(() => ({ teammateCount: x })),
   setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),

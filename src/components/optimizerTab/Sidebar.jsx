@@ -187,6 +187,9 @@ function SidebarContent() {
   const optimizerStartTime = window.store((s) => s.optimizerStartTime)
   const optimizerEndTime = window.store((s) => s.optimizerEndTime)
 
+  const computeEngine = window.store((s) => s.savedSession[SavedSessionKeys.computeEngine])
+  const optimizerRunningEngine = window.store((s) => s.optimizerRunningEngine)
+
   const [startTime, setStartTime] = useState(undefined)
 
   const [manyPermsModalOpen, setManyPermsModalOpen] = useState(false)
@@ -210,7 +213,6 @@ function SidebarContent() {
   }
 
   function startClicked() {
-    const computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
     if (permutations < 1000000000
       || computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL
       || computeEngine == COMPUTE_ENGINE_GPU_STABLE) {
@@ -254,7 +256,7 @@ function SidebarContent() {
 
               <Flex vertical>
                 <HeaderText>
-                  {calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress)}
+                  {calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine)}
                 </HeaderText>
                 <Progress
                   strokeColor={token.colorPrimary}
@@ -537,7 +539,7 @@ function MobileSidebarContent() {
   )
 }
 
-function calculateProgressText(startTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress) {
+function calculateProgressText(startTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine) {
   if (!startTime) {
     return 'Progress'
   }
@@ -547,16 +549,18 @@ function calculateProgressText(startTime, optimizerEndTime, permutations, permut
     endTime = optimizerEndTime
   }
 
+  const searched = optimizerRunningEngine == COMPUTE_ENGINE_CPU ? permutationsSearched : Math.max(permutationsSearched, 65536 * 512)
+
   const msDiff = endTime - startTime
   if (!optimizerEndTime && msDiff < 5_000 && permutationsSearched < 5_000_000 || !permutationsSearched) {
     return 'Progress  (calculating ETA..)'
   }
 
   const msRemaining = msDiff / permutationsSearched * (permutations - permutationsSearched)
-  const persecond = permutationsSearched / (msDiff / 1000)
+  const perSecond = searched / (msDiff / 1000)
   return optimizationInProgress
-    ? `${Math.floor(persecond).toLocaleString()} / sec — ${Utils.msToReadable(msRemaining)} left`
-    : `${Math.floor(persecond).toLocaleString()} / sec — Finished`
+    ? `${Math.floor(perSecond).toLocaleString()} / sec — ${Utils.msToReadable(msRemaining)} left`
+    : `${Math.floor(perSecond).toLocaleString()} / sec — Finished`
 }
 
 function ManyPermsModal(props) {

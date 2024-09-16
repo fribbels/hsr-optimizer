@@ -537,6 +537,7 @@ export default function RelicsTab() {
               justify='space-between'
               align='center'
               style={{
+                cursor: 'pointer',
                 paddingLeft: 8,
                 paddingRight: 10,
                 width: 285,

@@ -296,7 +296,17 @@ function CharacterPreviewSelection(props) {
     options.push({
       label: (
         <Flex align='center' justify='space-around'>
-          <img style={{ width: 100, height: 100, objectFit: 'contain' }} src={Assets.getCharacterAvatarById(availableCharacter.id)}></img>
+          <img
+            style={{
+              width: 100,
+              height: 100,
+              objectFit: 'contain',
+              borderRadius: 50,
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              background: 'rgba(255, 255, 255, 0.05)',
+            }}
+            src={Assets.getCharacterAvatarById(availableCharacter.id)}
+          />
         </Flex>
       ),
       value: availableCharacter.id,
@@ -454,7 +464,7 @@ function CharacterPreviewSelection(props) {
         <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
           <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey}/>
           <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
-            <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined/>} loading={screenshotLoading}>
+            <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined/>} loading={screenshotLoading} type='primary'>
               Copy screenshot
             </Button>
             <Button style={{ width: 40 }} icon={<DownloadOutlined/>} onClick={downloadClicked} loading={downloadLoading}/>
@@ -530,7 +540,13 @@ function Sidebar(props) {
               ? (
                 <img
                   src={Assets.getCharacterAvatarById(preset.characterId)}
-                  style={{ height: 100, width: 100 }}
+                  style={{
+                    height: 100,
+                    width: 100,
+                    borderRadius: 100,
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                  }}
                 />
               )
               : <Icon component={EditOutlined} style={{ fontSize: 85 }}/>

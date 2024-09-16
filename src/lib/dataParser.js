@@ -1,7 +1,6 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
-import relicSets from 'data/relic_sets.json' with { type: 'json' }
 import { Parts, PartsMainStats, Sets, SetsRelics, Stats } from 'lib/constants.ts'
 import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
@@ -118,6 +117,11 @@ export const DataParser = {
       characters[id].scoringMetadata = scoringMetadata[id]
       characters[id].scoringMetadata.characterId = id
     }
+
+    const relicSets = gameData.relics.reduce((acc, obj) => {
+      acc[obj.id] = obj
+      return acc
+    }, {})
 
     const relics = {
       relicMainAffixes,
@@ -1114,7 +1118,7 @@ function getOverrideImageCenter() {
     },
     1003: { // Himeko
       x: 1015,
-      y: 1225,
+      y: 1215,
       z: 1.05,
     },
     1004: { // Welt

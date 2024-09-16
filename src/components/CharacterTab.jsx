@@ -534,8 +534,8 @@ export default function CharacterTab() {
           </Flex>
           <Flex style={{ flex: 1 }}>
             <SegmentedFilterRow
-              name='element'
-              tags={generateElementTags()}
+              name='path'
+              tags={generatePathTags()}
               flexBasis='14.2%'
               currentFilters={characterFilters}
               setCurrentFilters={setCharacterFilters}
@@ -543,8 +543,8 @@ export default function CharacterTab() {
           </Flex>
           <Flex style={{ flex: 1 }}>
             <SegmentedFilterRow
-              name='path'
-              tags={generatePathTags()}
+              name='element'
+              tags={generateElementTags()}
               flexBasis='14.2%'
               currentFilters={characterFilters}
               setCurrentFilters={setCharacterFilters}

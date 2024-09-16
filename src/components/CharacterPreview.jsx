@@ -654,6 +654,7 @@ export function CharacterPreview(props) {
                     </Flex>
                   )}
                   <Flex
+                    className='lightConeCard'
                     style={{
                       width: `${tempLcParentW}px`,
                       height: `${tempLcParentH}px`,
@@ -806,7 +807,6 @@ export function CharacterPreview(props) {
                   !simScoringResult
                   && (
                     <Flex vertical style={{ width: middleColumnWidth }}>
-
                       <Flex vertical>
                         <StatText
                           style={{ fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center' }}
@@ -820,6 +820,7 @@ export function CharacterPreview(props) {
                         </StatText>
                       </Flex>
                       <div
+                        className='lightConeCard'
                         style={{
                           width: `${tempLcParentW}px`,
                           height: `${tempLcParentH}px`,

@@ -1114,7 +1114,7 @@ function getOverrideImageCenter() {
     },
     1003: { // Himeko
       x: 1015,
-      y: 1225,
+      y: 1215,
       z: 1.05,
     },
     1004: { // Welt

@@ -122,7 +122,17 @@
       "NoneSaved": "No saved builds"
     }
   },
-  "ScoreFooter": {},
+  "ScoreFooter": {
+    "ModalTitle": "Combat sim scoring settings",
+    "ResetButtonText": "Reset custom team to default",
+    "ResetSuccessMsg": "Reset to default teams",
+    "SyncButtonText": "Sync imported eidolons / light cones",
+    "SyncSuccessMsg": "Synced teammates",
+    "TeamOptions": {
+      "Default": "Default",
+      "Custom": "Custom"
+    }
+  },
   "CharacterSelect": {
     "MultiSelect": {
       "Placeholder": "Customize $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0})",

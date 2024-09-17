@@ -134,7 +134,7 @@ const MenuDrawer = () => {
         'link leaks free',
       ),
     ]),
-  ], [])
+  ], [t])
 
   const onClick = (e) => {
     if (e.key && e.key.includes('link')) return

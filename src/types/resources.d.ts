@@ -45,11 +45,11 @@ interface Resources {
       "RemoveSuccess": "Successfully removed character",
       "UnequipSuccess": "Successfully unequipped character",
       "NoSelectedCharacter": "No selected character",
-      "SwitchSuccess": "Successfully switched relics to $t(gameData:Characters.{{charid}}.name)",
+      "SwitchSuccess": "Successfully switched relics to $t(gameData:Characters.{{charid}}.Name)",
       "SortByScoreWarning": "Are you sure you want to sort all characters? <0/>You will lose any custom rankings you have set.",
       "SaveSuccess": "Successfully saved build: {{name}}",
-      "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charid}}.name)?",
-      "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charid}}.name)?"
+      "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charid}}.Name)?",
+      "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charid}}.Name)?"
     },
     "CharacterPreview": {}
   },
@@ -8010,7 +8010,7 @@ interface Resources {
       "p2": "'Buckets' looks at how perfect this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.<0/>If you hover over a character portrait you'll see the new stats and/or rolls necessary to reach the max potential of this relic.<1/>⚠️ Relics with missing substats may have misleadlingly high buckets, as best-case upgrade analysis assumes the best new substat per character.",
       "p3": "'Top 10' takes the top 10 characters that this relic could be best for, and shows the range of '% perfection' upgrading this relic could result in."
     },
-    "reliclocation": {
+    "RelicLocation": {
       "Title": "Relic Location",
       "p1": "When a relic is selected in the grid, its position in the ingame inventory is displayed here.",
       "p2": "If the set / part filters are active, apply those same filters ingame, then sort by Date Obtained (newest first) to find the relic.",
@@ -8245,7 +8245,17 @@ interface Resources {
         "NoneSaved": "No saved builds"
       }
     },
-    "ScoreFooter": {},
+    "ScoreFooter": {
+      "ModalTitle": "Combat sim scoring settings",
+      "ResetButtonText": "Reset custom team to default",
+      "ResetSuccessMsg": "Reset to default teams",
+      "SyncButtonText": "Sync imported eidolons / light cones",
+      "SyncSuccessMsg": "Synced teammates",
+      "TeamOptions": {
+        "Default": "Default",
+        "Custom": "Custom"
+      }
+    },
     "CharacterSelect": {
       "MultiSelect": {
         "Placeholder": "Customize $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0})",
@@ -8443,7 +8453,7 @@ interface Resources {
     "Optimization": {
       "Title": "Optimization",
       "Optimizer": "Optimizer",
-      "Relics": "$t(common:Relic, {\"count\": 2000, \"capitalizeLength\": 1)",
+      "Relics": "$t(common:Relic, {\"count\": 2000, \"capitalizeLength\": 1})",
       "Characters": "$t(common:Character, {\"count\": 23, \"capitalizeLength\": 1})",
       "Import": "Import / Save",
       "Settings": "Settings",

@@ -69,7 +69,7 @@ export default function CharacterModal(props) {
       >
         <Flex vertical gap={10}>
           <Flex vertical gap={5}>
-            <HeaderText>{t('character')}</HeaderText>
+            <HeaderText>{t('Character')}</HeaderText>
             <Form.Item size='default' name='characterId'>
               <CharacterSelect
                 value=''

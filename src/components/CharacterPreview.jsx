@@ -27,6 +27,7 @@ import { SavedSessionKeys } from 'lib/constantsSession'
 import { HeaderText } from 'components/HeaderText.jsx'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
+import { useTranslation } from 'react-i18next'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -49,6 +50,8 @@ export function CharacterPreview(props) {
   console.log('======================================================================= RENDER CharacterPreview')
 
   const { token } = useToken()
+
+  const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
   const { source, character, setOriginalCharacterModalOpen, setOriginalCharacterModalInitialCharacter, setCharacterModalAdd } = props
 
@@ -342,11 +345,12 @@ export function CharacterPreview(props) {
             window.modalApi.info({
               icon: null,
               width: 400,
+              okText: t('common:Ok', { capitalizeLength: -1 }),
               maskClosable: true,
               content: (
                 <div style={{ width: '100%' }}>
                   <Flex vertical gap={10}>
-                    <HeaderText>Combat sim scoring settings</HeaderText>
+                    <HeaderText>{t('modals:ScoreFooter.ModalTitle')}</HeaderText>
                     <Button
                       icon={<SyncOutlined/>}
                       onClick={() => {
@@ -358,10 +362,10 @@ export function CharacterPreview(props) {
                         setTeamSelection(DEFAULT_TEAM)
                         setRedrawTeammates(Math.random())
 
-                        Message.success('Reset to default teams')
+                        Message.success(t('modals:ScoreFooter.ResetSuccessMsg'))
                       }}
                     >
-                      Reset custom team to default
+                      {t('modals:ScoreFooter.ResetButtonText')}
                     </Button>
                     <Button
                       icon={<SwapOutlined/>}
@@ -384,10 +388,10 @@ export function CharacterPreview(props) {
                         setTeamSelection(CUSTOM_TEAM)
                         setRedrawTeammates(Math.random())
 
-                        Message.success('Synced teammates')
+                        Message.success(t('modals:ScoreFooter.SyncSuccessMsg'))
                       }}
                     >
-                      Sync imported eidolons / light cones
+                      {t('modals:ScoreFooter.SyncButtonText')}
                     </Button>
                   </Flex>
                 </div>
@@ -400,7 +404,10 @@ export function CharacterPreview(props) {
         value={teamSelection}
         block
         options={[
-          DEFAULT_TEAM,
+          {
+            value: DEFAULT_TEAM,
+            label: t('modals:ScoreFooter.TeamOptions.Default'),
+          },
           {
             label: (
               <SettingOutlined/>
@@ -408,7 +415,10 @@ export function CharacterPreview(props) {
             value: SETTINGS_TEAM,
             className: 'short-segmented',
           },
-          CUSTOM_TEAM,
+          {
+            value: CUSTOM_TEAM,
+            label: t('modals:ScoreFooter.TeamOptions.Custom'),
+          },
         ]}
       />
     )

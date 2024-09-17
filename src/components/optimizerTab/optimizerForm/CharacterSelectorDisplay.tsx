@@ -88,6 +88,9 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
   const setOptimizerFormSelectedLightCone = window.store((s) => s.setOptimizerFormSelectedLightCone)
   const setOptimizerFormSelectedLightConeSuperimposition = window.store((s) => s.setOptimizerFormSelectedLightConeSuperimposition)
 
+  const optimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.optimizerTabFocusCharacterSelectModalOpen)
+  const setOptimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.setOptimizerTabFocusCharacterSelectModalOpen)
+
   useEffect(() => {
     OptimizerTabController.updateCharacter(optimizerTabFocusCharacter)
   }, [optimizerTabFocusCharacter])
@@ -104,6 +107,8 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
             value=''
             selectStyle={{ width: 156 }}
             onChange={setOptimizerTabFocusCharacter}
+            externalOpen={optimizerTabFocusCharacterSelectModalOpen}
+            setExternalOpen={setOptimizerTabFocusCharacterSelectModalOpen}
           />
         </Form.Item>
         <Form.Item name='characterEidolon'>

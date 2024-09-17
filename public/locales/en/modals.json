@@ -1,5 +1,36 @@
 {
-  "Scoring": {},
+  "Scoring": {
+    "StatWeightsHeader": "Stat Weights",
+    "MainstatsHeader": "Optimal mainstats",
+    "WeightMethodology": {
+      "Header": "Substat weight methodology",
+      "RevealText": "Click to show details",
+      "Paragraph1": "",
+      "Paragraph2": "",
+      "Paragraph3": ""
+    },
+    "CalculationMethodology": {
+      "Header": "Calculations",
+      "RevealText": "Click to show details",
+      "Paragraph1": "",
+      "Paragraph2": "",
+      "Paragraph3": "",
+      "Paragraph4": "",
+      "Paragraph5": "",
+      "Paragraph6": "",
+      "Paragraph7": "",
+      "Paragraph8": "",
+      "Paragraph9": "",
+      "Paragraph10": "",
+      "Paragraph11": ""
+    },
+    "Footer": {
+      "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1})",
+      "Reset": "Reset to default",
+      "ResetAll": "Reset all $t(common:Character, {\"count\": 35, \"capitalizeLength\": 0})",
+      "Save": "$t(common:Save, {\"capitalizeLength\": 1}) changes"
+    }
+  },
   "0Perms": {},
   "ManyPerms": {
     "Title": "Very large search requested",

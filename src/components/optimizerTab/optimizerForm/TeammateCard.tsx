@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import FormCard from 'components/optimizerTab/FormCard.js'
 import { SyncOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Select, SelectProps, Typography } from 'antd'
@@ -164,6 +164,10 @@ const TeammateCard = (props: { index: number }) => {
   const teammateLightConeId = Form.useWatch([teammateProperty, 'lightCone'], window.optimizerForm)
   const teammateSuperimposition = Form.useWatch([teammateProperty, 'lightConeSuperimposition'], window.optimizerForm)
 
+  const [teammateSelectModalOpen, setTeammateSelectModalOpen] = useState(false)
+
+  const [teammateLightConeSelectOpen, setTeammateLightConeSelectOpen] = useState(false)
+
   const disabled = teammateCharacterId == null
 
   function updateTeammate() {
@@ -231,6 +235,8 @@ const TeammateCard = (props: { index: number }) => {
             <CharacterSelect
               value=''
               selectStyle={{}}
+              externalOpen={teammateSelectModalOpen}
+              setExternalOpen={setTeammateSelectModalOpen}
             />
           </Form.Item>
 
@@ -265,11 +271,14 @@ const TeammateCard = (props: { index: number }) => {
           </Flex>
           <Flex vertical gap={5}>
             <div style={{ width: `${rightPanelWidth}px`, height: `${rightPanelWidth}px`, borderRadius: '10px' }}>
-              <img
-                width={rightPanelWidth}
-                height={rightPanelWidth}
-                src={Assets.getCharacterAvatarById(teammateCharacterId)}
-              />
+              <a>
+                <img
+                  width={rightPanelWidth}
+                  height={rightPanelWidth}
+                  src={Assets.getCharacterAvatarById(teammateCharacterId)}
+                  onClick={() => setTeammateSelectModalOpen(true)}
+                />
+              </a>
             </div>
 
             <Form.Item name={[teammateProperty, `teamRelicSet`]}>
@@ -310,6 +319,8 @@ const TeammateCard = (props: { index: number }) => {
               value=''
               selectStyle={{ width: 258 }}
               characterId={teammateCharacterId}
+              externalOpen={teammateLightConeSelectOpen}
+              setExternalOpen={setTeammateLightConeSelectOpen}
             />
           </Form.Item>
 
@@ -334,14 +345,17 @@ const TeammateCard = (props: { index: number }) => {
           </Flex>
           <Flex>
             <div style={{ width: `${parentW}px`, height: `${parentH}px`, borderRadius: '10px' }}>
-              <img
-                width={lcWidth}
-                src={Assets.getLightConeIconById(teammateLightConeId)}
-                style={{
-                  marginLeft: -5,
-                  transform: `translate(${(lcInnerW - lcParentW) / 2 / lcInnerW * -100}%, ${(lcInnerH - lcParentH) / 2 / lcInnerH * -100}%)`,
-                }}
-              />
+              <a>
+                <img
+                  width={lcWidth}
+                  src={Assets.getLightConeIconById(teammateLightConeId)}
+                  style={{
+                    marginLeft: -5,
+                    transform: `translate(${(lcInnerW - lcParentW) / 2 / lcInnerW * -100}%, ${(lcInnerH - lcParentH) / 2 / lcInnerH * -100}%)`,
+                  }}
+                  onClick={() => setTeammateLightConeSelectOpen(true)}
+                />
+              </a>
             </div>
           </Flex>
         </Flex>

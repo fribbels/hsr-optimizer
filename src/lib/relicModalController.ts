@@ -20,7 +20,7 @@ export const RelicModalController = {
     window.setRelicRows(DB.getRelics())
 
     console.log('onEditOk', updatedRelic)
-    Message.success(i18next.t('modals:relic.messages.editsuccess'))
+    Message.success(i18next.t('modals:Relic.Messages.EditSuccess'))
 
     setTimeout(() => {
       SaveState.save()
@@ -55,86 +55,86 @@ export type RelicForm = {
 export function validateRelic(relicForm: RelicForm): Relic | void {
   console.log('Form finished', relicForm)
   if (!relicForm.part) {
-    return Message.error(i18next.t('modals:relic.messages.error.partmissing'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.PartMissing'))
   }
   if (!relicForm.mainStatType) {
-    return Message.error(i18next.t('modals:relic.messages.error.mainstatmissing'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.MainstatMissing'))
   }
   if (!relicForm.mainStatValue) {
-    return Message.error(i18next.t('modals:relic.messages.error.mainstatmissing'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.MainstatMissing'))
   }
   if (!relicForm.set) {
-    return Message.error(i18next.t('modals:relic.messages.error.setmissing'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SetMissing'))
   }
   if (relicForm.enhance == undefined) {
-    return Message.error(i18next.t('modals:relic.messages.error.enhancemissing'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.EnhanceMissing'))
   }
   if (relicForm.grade == undefined) {
-    return Message.error(i18next.t('modals:relic.messages.error.grademissing'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.GradeMissing'))
   }
   if (relicForm.grade > 5 || relicForm.grade < 2) {
-    return Message.error(i18next.t('modals:relic.messages.error.gradeinvalid'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.GradeInvalid'))
   }
   if (relicForm.enhance > 15 || relicForm.enhance < 0) {
-    return Message.error(i18next.t('modals:relic.messages.error.enhanceinvalid'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.EnhancInvalid'))
   }
   if (relicForm.enhance > relicForm.grade * 3) {
-    return Message.error(i18next.t('modals:relic.messages.error.enhancetoohigh'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.EnhanceTooHigh'))
   }
   if (!Constants.SetsRelicsNames.includes(relicForm.set) && !Constants.SetsOrnamentsNames.includes(relicForm.set)) {
-    return Message.error(i18next.t('modals:relic.messages.error.setinvalid'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SetInvalid'))
   }
   if (Constants.SetsRelicsNames.includes(relicForm.set) && (relicForm.part == Constants.Parts.PlanarSphere || relicForm.part == Constants.Parts.LinkRope)) {
-    return Message.error(i18next.t('modals:relic.messages.error.setnotornament'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SetNotOrnament'))
   }
   if (Constants.SetsOrnamentsNames.includes(relicForm.set) && (relicForm.part == Constants.Parts.Head
     || relicForm.part == Constants.Parts.Hands
     || relicForm.part == Constants.Parts.Body
     || relicForm.part == Constants.Parts.Feet)) {
-    return Message.error(i18next.t('modals:relic.messages.error.setnotrelic'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SetNotRelic'))
   }
   if (relicForm.substatType0 != undefined && relicForm.substatValue0 == undefined || relicForm.substatType0 == undefined && relicForm.substatValue0 != undefined) {
-    return Message.error(i18next.t('modals:relic.messages.error.subninvalid', { number: 1 }))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubNInvalid', { number: 1 }))
   }
   if (relicForm.substatType1 != undefined && relicForm.substatValue1 == undefined || relicForm.substatType1 == undefined && relicForm.substatValue1 != undefined) {
-    return Message.error(i18next.t('modals:relic.messages.error.subninvalid', { number: 2 }))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubNInvalid', { number: 2 }))
   }
   if (relicForm.substatType2 != undefined && relicForm.substatValue2 == undefined || relicForm.substatType2 == undefined && relicForm.substatValue2 != undefined) {
-    return Message.error(i18next.t('modals:relic.messages.error.subninvalid', { number: 3 }))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubNInvalid', { number: 3 }))
   }
   if (relicForm.substatType3 != undefined && relicForm.substatValue3 == undefined || relicForm.substatType3 == undefined && relicForm.substatValue3 != undefined) {
-    return Message.error(i18next.t('modals:relic.messages.error.subninvalid', { number: 4 }))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubNInvalid', { number: 4 }))
   }
 
   if (relicForm.substatType3 != undefined && (relicForm.substatType0 == undefined || relicForm.substatType1 == undefined || relicForm.substatType2 == undefined)) {
-    return Message.error(i18next.t('modals:relic.messages.error.subsoutoforder'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubsOutOfOrder'))
   }
   if (relicForm.substatType2 != undefined && (relicForm.substatType0 == undefined || relicForm.substatType1 == undefined)) {
-    return Message.error(i18next.t('modals:relic.messages.error.subsoutoforder'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubsOutOfOrder'))
   }
   if (relicForm.substatType1 != undefined && (relicForm.substatType0 == undefined)) {
-    return Message.error(i18next.t('modals:relic.messages.error.subsoutoforder'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubsOutOfOrder'))
   }
 
   const substatTypes = [relicForm.substatType0, relicForm.substatType1, relicForm.substatType2, relicForm.substatType3].filter((x) => x != undefined)
   if (new Set(substatTypes).size !== substatTypes.length) {
-    return Message.error(i18next.t('modals:relic.messages.error.duplicatesubs'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.DuplicateSubs'))
   }
   if (substatTypes.includes(relicForm.mainStatType)) {
-    return Message.error(i18next.t('modals:relic.messages.error.mainassub'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.MainAsSub'))
   }
 
   if (relicForm.substatValue0 >= 1000 || relicForm.substatValue1 >= 1000 || relicForm.substatValue2 >= 1000 || relicForm.substatValue3 >= 1000) {
-    return Message.error(i18next.t('modals:relic.messages.error.subtoobig'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubTooBig'))
   }
   if (relicForm.mainStatValue >= 1000) {
-    return Message.error(i18next.t('modals:relic.messages.error.maintoobig'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.MainTooBig'))
   }
   if (relicForm.substatValue0 <= 0 || relicForm.substatValue1 <= 0 || relicForm.substatValue2 <= 0 || relicForm.substatValue3 <= 0) {
-    return Message.error(i18next.t('modals:relic.messages.error.subtoosmall'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubTooSmall'))
   }
   if (relicForm.mainStatValue <= 0) {
-    return Message.error(i18next.t('modals:relic.messages.error.maintoosmall'))
+    return Message.error(i18next.t('modals:Relic.Messages.Error.MainTooSmall'))
   }
 
   const relic: Relic = {

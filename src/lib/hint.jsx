@@ -5,160 +5,130 @@ import i18next from 'i18next'
 export const Hint = {
   ratingFilters: () => {
     return {
-      title: i18next.t('hint:ratingfilter.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'ratingfilter' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-            <p>{t('p2')}</p>
-            <p>{t('p3')}</p>
-          </Flex>
-        )
-      })(),
+      title: i18next.t('hint:RatingFilter.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:RatingFilter.p1')}</p>
+          <p>{i18next.t('hint:RatingFilter.p2')}</p>
+          <p>{i18next.t('hint:RatingFilter.p3')}</p>
+        </Flex>
+      ),
     }
   },
 
   combatBuffs: () => {
     return {
-      title: i18next.t('hint:combatbuffs.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'combatbuffs' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-          </Flex>
-        )
-      })(),
+      title: i18next.t('hint:CombatBuffs.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:CombatBuffs.p1')}</p>
+        </Flex>
+      ),
     }
   },
 
   statFilters: () => {
     return {
-      title: i18next.t('hint:statfilters.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'statfilters' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-            <p>{t('p2')}</p>
-            <p>{t('p3')}</p>
-          </Flex>
-        )
-      })(),
+      title: i18next.t('hint:StatFilters.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:StatFilters.Tp1')}</p>
+          <p>{i18next.t('hint:StatFilters.Tp2')}</p>
+          <p>{i18next.t('hint:StatFilters.Tp3')}</p>
+        </Flex>
+      ),
     }
   },
 
   mainStats: () => {
     return {
-      title: i18next.t('hint:mainstats.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'mainstats' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-          </Flex>
-        )
-      })(),
+      title: i18next.t('hint:Mainstats.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:Mainstats.p1')}</p>
+        </Flex>
+      ),
     }
   },
 
   sets: () => {
     return {
-      title: i18next.t('hint:sets.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'sets' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-            <p>{t('p2')}</p>
-          </Flex>
-        )
-      })(),
+      title: i18next.t('hint:Sets.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:Sets.p1')}</p>
+          <p>{i18next.t('hint:Sets.p2')}</p>
+        </Flex>
+      ),
     }
   },
 
   character: () => {
     return {
-      title: i18next.t('hint:character.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'character' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-          </Flex>
-        )
-      })(),
+      title: i18next.t('hint:Character.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:Character.p1')}</p>
+        </Flex>
+      ),
     }
   },
 
   characterPassives: () => {
     return {
-      title: i18next.t('hint:characterpassives.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'characterpassives' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-            <p>{t('p2')}</p>
-          </Flex>
-        )
-      })(),
+      title: i18next.t('hint:CharacterPassives.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:CharacterPassives.p1')}</p>
+          <p>{i18next.t('hint:CharacterPassives.p2')}</p>
+        </Flex>
+      ),
     }
   },
 
   lightConePassives: () => {
     return {
-      title: i18next.t('hint:lightconepassives.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'lightconepassives' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-            <p>{t('p2')}</p>
-          </Flex>
-        )
-      })(),
+      title: i18next.t('hint:LightconePassives.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:LightconePassives.p1')}</p>
+          <p>{i18next.t('hint:LightconePassives.p2')}</p>
+        </Flex>
+      ),
     }
   },
 
   lightCone: () => {
     return {
-      title: i18next.t('hint:lightcone.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'lightcone' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-            <p>{t('p2')}</p>
-          </Flex>
-        )
-      })(),
+      title: i18next.t('hint:Lightcone.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:Lightcone.p1')}</p>
+          <p>{i18next.t('hint:Lightcone.p2')}</p>
+        </Flex>
+      ),
     }
   },
 
   actions: () => {
     return {
-      title: i18next.t('hint:actions.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'actions' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-            <p>{t('p2')}</p>
-            <p>{t('p3')}</p>
-            <p>{t('p4')}</p>
-          </Flex>
-        )
-      })(),
+      title: i18next.t('hint:Actions.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:Actions.p1')}</p>
+          <p>{i18next.t('hint:Actions.p2')}</p>
+          <p>{i18next.t('hint:Actions.p3')}</p>
+          <p>{i18next.t('hint:Actions.p4')}</p>
+        </Flex>
+      ),
     }
   },
 
   optimizerOptions: () => {
     return {
-      title: i18next.t('hint:optimizeroptions.title'),
+      title: i18next.t('hint:OptimizerOptions.Title'),
       content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'optimizeroptions' })
+        const { t } = useTranslation('hint', { keyPrefix: 'OptimizerOptions' })
         return (
           <Flex vertical gap={10}>
             <p>
@@ -204,119 +174,101 @@ export const Hint = {
 
   relics: () => {
     return {
-      title: i18next.t('hint:relics.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'relics' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-            <p>{t('p2')}</p>
-            <p>{t('p3')}</p>
-            <p>{t('p4')}</p>
-            <p>{t('p5')}</p>
-          </Flex>
-        )
-      })(),
+      title: i18next.t('hint:Relics.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:Relics.p1')}</p>
+          <p>{i18next.t('hint:Relics.p2')}</p>
+          <p>{i18next.t('hint:Relics.p3')}</p>
+          <p>{i18next.t('hint:Relics.p4')}</p>
+          <p>{i18next.t('hint:Relics.p5')}</p>
+        </Flex>
+      ),
     }
   },
 
   optimizationDetails: () => {
     return {
-      title: i18next.t('hint:optimizationdetails.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'optimizationdetails' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-            <p>{t('p2')}</p>
-            <p>{t('p3')}</p>
-            <p>{t('p4')}</p>
-          </Flex>
-        )
-      })(),
+      title: i18next.t('hint:OptimizationDetails.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:OptimizationDetails.p1')}</p>
+          <p>{i18next.t('hint:OptimizationDetails.p2')}</p>
+          <p>{i18next.t('hint:OptimizationDetails.p3')}</p>
+          <p>{i18next.t('hint:OptimizationDetails.p4')}</p>
+        </Flex>
+      ),
     }
   },
 
   enemyOptions: () => {
     return {
-      title: i18next.t('hint:enemyoptions.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'enemyoptions' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-            <p>{t('p2')}</p>
-            <p>{t('p3')}</p>
-            <p>{t('p4')}</p>
-            <p>{t('p5')}</p>
-            <p>{t('p6')}</p>
-          </Flex>
-        )
-      })(),
+      title: i18next.t('hint:EnemyOptions.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:EnemyOptions.p1')}</p>
+          <p>{i18next.t('hint:EnemyOptions.p2')}</p>
+          <p>{i18next.t('hint:EnemyOptions.p3')}</p>
+          <p>{i18next.t('hint:EnemyOptions.p4')}</p>
+          <p>{i18next.t('hint:EnemyOptions.p5')}</p>
+          <p>{i18next.t('hint:EnemyOptions.p6')}</p>
+        </Flex>
+      ),
     }
   },
 
   substatWeightFilter: () => {
     return {
-      title: i18next.t('hint:substatweightfilter.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'substatweightfilter' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-            <p>{t('p2')}</p>
-            <p>{t('p3')}</p>
-            <p>{t('p4')}</p>
-          </Flex>
-        )
-      })(),
+      title: i18next.t('hint:SubstatWeightFilter.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:SubstatWeightFilter.p1')}</p>
+          <p>{i18next.t('hint:SubstatWeightFilter.p2')}</p>
+          <p>{i18next.t('hint:SubstatWeightFilter.p3')}</p>
+          <p>{i18next.t('hint:SubstatWeightFilter.p4')}</p>
+        </Flex>
+      ),
     }
   },
 
   statDisplay: () => {
     return {
-      title: i18next.t('hint:statdisplay.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'statdisplay' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-            <p>{t('p2')}</p>
-            <p>{t('p3')}</p>
-          </Flex>
-        )
-      })(),
+      title: i18next.t('hint:StatDisplay.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:StatDisplay.p1')}</p>
+          <p>{i18next.t('hint:StatDisplay.p2')}</p>
+          <p>{i18next.t('hint:StatDisplay.p3')}</p>
+        </Flex>
+      ),
     }
   },
 
   valueColumns: () => {
     return {
-      title: i18next.t('hint:valuecolumns.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'valuecolumns' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-            <p><b>{t('p2')}</b></p>
-            <p>{t('p3')}</p>
-            <p>{t('p4')}</p>
-            <p>{t('p5')}</p>
-            <p><b>{t('p6')}</b></p>
-            <p>{t('p7')}</p>
-            <p>{t('p8')}</p>
-            <p>{t('p9')}</p>
-            <p>{t('p10')}</p>
-          </Flex>
-        )
-      })(),
+      title: i18next.t('hint:ValueColumns.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:ValueColumns.p1')}</p>
+          <p><b>{i18next.t('hint:ValueColumns.p2')}</b></p>
+          <p>{i18next.t('hint:ValueColumns.p3')}</p>
+          <p>{i18next.t('hint:ValueColumns.p4')}</p>
+          <p>{i18next.t('hint:ValueColumns.p5')}</p>
+          <p><b>{i18next.t('hint:ValueColumns.p6')}</b></p>
+          <p>{i18next.t('hint:ValueColumns.p7')}</p>
+          <p>{i18next.t('hint:ValueColumns.p8')}</p>
+          <p>{i18next.t('hint:ValueColumns.p9')}</p>
+          <p>{i18next.t('hint:ValueColumns.p10')}</p>
+        </Flex>
+      ),
     }
   },
 
   relicInsight: () => {
     return {
-      title: i18next.t('hint:relicinsights.title'),
+      title: i18next.t('hint:RelicInsights.Title'),
       content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'relicinsights' })
+        const { t } = useTranslation('hint', { keyPrefix: 'RelicInsights' })
         return (
           <Flex vertical gap={10}>
             <p>{t('p1')}</p>
@@ -335,33 +287,30 @@ export const Hint = {
 
   relicLocation: () => {
     return {
-      title: i18next.t('hint:reliclocation.title'),
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'reliclocation' })
-        return (
-          <Flex vertical gap={10}>
-            <p>{t('p1')}</p>
-            <p>{t('p2')}</p>
+      title: i18next.t('hint:RelicLocation.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:RelicLocation.p1')}</p>
+          <p>{i18next.t('hint:RelicLocation.p2')}</p>
 
-            <Flex vertical>
-              <div>{t('p3')}</div>
-              <ul>
-                <li>{t('p4')}</li>
-                <li>{t('p5')}</li>
-                <li>{t('p6')}</li>
-              </ul>
-            </Flex>
+          <Flex vertical>
+            <div>{i18next.t('hint:RelicLocation.p3')}</div>
+            <ul>
+              <li>{i18next.t('hint:RelicLocation.p4')}</li>
+              <li>{i18next.t('hint:RelicLocation.p5')}</li>
+              <li>{i18next.t('hint:RelicLocation.p6')}</li>
+            </ul>
           </Flex>
-        )
-      })(),
+        </Flex>
+      ),
     }
   },
 
   locatorParams: () => {
     return {
-      title: i18next.t('hint:locatorparams.title'),
+      title: i18next.t('hint:LocatorParams.Title'),
       content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'locatorparams' })
+        const { t } = useTranslation('hint', { keyPrefix: 'LocatorParams' })
         return (
           <Flex vertical gap={8}>
             <p>

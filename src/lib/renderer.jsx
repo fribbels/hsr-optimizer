@@ -109,12 +109,12 @@ export const Renderer = {
 
   readableStat: (x) => {
     if (x == undefined || x.value == undefined) return ''
-    return i18next.t(`common:shortreadablestats.${x.value}`)
+    return i18next.t(`common:ShortReadableStats.${x.value}`)
   },
 
   readablePart: (x) => {
     if (x == undefined || x.value == undefined) return ''
-    return i18next.t(`common:readableparts.${x.value}`)
+    return i18next.t(`common:ReadableParts.${x.value}`)
   },
 
   partIcon: (x) => {
@@ -191,7 +191,7 @@ export const Renderer = {
         ? (
           <Tooltip
             mouseEnterDelay={0.4}
-            title={i18next.t('common:verifiedrelichovertext')}
+            title={i18next.t('common:VerifiedRelicHoverText')}
           >
             <CheckCircleFilled
               style={{ fontSize: '14px', color: color }}

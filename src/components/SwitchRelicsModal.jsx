@@ -12,7 +12,7 @@ export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacte
   window.characterForm = characterForm
   const characters = window.store((s) => s.characters)
 
-  const { t } = useTranslation('modals', { keyPrefix: 'switchrelics' })
+  const { t } = useTranslation('modals', { keyPrefix: 'SwitchRelics' })
 
   const characterOptions = useMemo(() => generateCharacterList({
     currentCharacters: characters,
@@ -51,10 +51,10 @@ export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacte
       onCancel={handleCancel}
       footer={[
         <Button key='back' onClick={handleCancel}>
-          {t('cancel')}
+          {t('Cancel')}
         </Button>,
         <Button key='submit' type='primary' onClick={onModalOk}>
-          {t('save')}
+          {t('Save')}
         </Button>,
       ]}
     >
@@ -64,7 +64,7 @@ export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacte
         layout='vertical'
       >
         <Flex justify='space-between' align='center'>
-          <HeaderText>{t('title')}</HeaderText>
+          <HeaderText>{t('Title')}</HeaderText>
         </Flex>
 
         <Flex vertical gap={defaultGap}>

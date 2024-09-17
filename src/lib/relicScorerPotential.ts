@@ -475,7 +475,7 @@ export class RelicScorer {
       if (relic.substats.length < 4) {
         for (const [stat, weight] of availableSubstats) {
           if (weight >= availableSubstats[availableSubstats.length - 1][1]) {
-            bestAddedStats.push(i18next.t(`common:stats.${stat}`))
+            bestAddedStats.push(i18next.t(`common:Stats.${stat}`))
           }
         }
       }
@@ -491,7 +491,7 @@ export class RelicScorer {
       const bestWeight = upgradeCandidates[0][1]
       for (const [stat, weight] of upgradeCandidates) {
         if (validUpgrades[stat] && weight >= bestWeight) {
-          bestUpgradedStats.push(i18next.t(`common:stats.${stat}`))
+          bestUpgradedStats.push(i18next.t(`common:Stats.${stat}`))
         }
       }
       levelupMetadata = {

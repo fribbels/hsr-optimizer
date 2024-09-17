@@ -11,12 +11,11 @@ export default function CharacterModal(props) {
   const [characterForm] = Form.useForm()
   window.characterForm = characterForm
 
-  const { t } = useTranslation('modals', { keyPrefix: 'editcharacter' })
+  const { t } = useTranslation('modals', { keyPrefix: 'EditCharacter' })
 
   const [characterId, setCharacterId] = useState(props.initialCharacter?.form.characterId || '')
   const [eidolon, setEidolon] = useState(props.initialCharacter?.form.characterEidolon || 0)
   const [superimposition, setSuperimposition] = useState(props.initialCharacter?.form.lightConeSuperimposition || 1)
-  const characterMetadata = useMemo(() => DB.getMetadata().characters, [])
 
   useEffect(() => {
     if (!props.open) return
@@ -56,10 +55,10 @@ export default function CharacterModal(props) {
       onCancel={handleCancel}
       footer={[
         <Button key='back' onClick={handleCancel}>
-          {t('cancel')}
+          {t('Cancel')}
         </Button>,
         <Button key='submit' type='primary' onClick={onModalOk}>
-          {t('save')}
+          {t('Save')}
         </Button>,
       ]}
     >
@@ -88,19 +87,19 @@ export default function CharacterModal(props) {
                 buttonStyle='solid'
                 style={{ width: '100%', display: 'flex' }}
               >
-                <RadioButton text={t('eidolonbutton', { eidolon: 0 })} value={0}/>
-                <RadioButton text={t('eidolonbutton', { eidolon: 1 })} value={1}/>
-                <RadioButton text={t('eidolonbutton', { eidolon: 2 })} value={2}/>
-                <RadioButton text={t('eidolonbutton', { eidolon: 3 })} value={3}/>
-                <RadioButton text={t('eidolonbutton', { eidolon: 4 })} value={4}/>
-                <RadioButton text={t('eidolonbutton', { eidolon: 5 })} value={5}/>
-                <RadioButton text={t('eidolonbutton', { eidolon: 6 })} value={6}/>
+                <RadioButton text={t('EidolonButton', { eidolon: 0 })} value={0}/>
+                <RadioButton text={t('EidolonButton', { eidolon: 1 })} value={1}/>
+                <RadioButton text={t('EidolonButton', { eidolon: 2 })} value={2}/>
+                <RadioButton text={t('EidolonButton', { eidolon: 3 })} value={3}/>
+                <RadioButton text={t('EidolonButton', { eidolon: 4 })} value={4}/>
+                <RadioButton text={t('EidolonButton', { eidolon: 5 })} value={5}/>
+                <RadioButton text={t('EidolonButton', { eidolon: 6 })} value={6}/>
               </Radio.Group>
             </Form.Item>
           </Flex>
 
           <Flex vertical gap={5}>
-            <HeaderText>{t('lightcone')}</HeaderText>
+            <HeaderText>{t('Lightcone')}</HeaderText>
             <Form.Item size='default' name='lightCone'>
               <LightConeSelect
                 value=''
@@ -118,11 +117,11 @@ export default function CharacterModal(props) {
                 buttonStyle='solid'
                 style={{ width: '100%', display: 'flex' }}
               >
-                <RadioButton text={t('superimpositionbutton', { superimposition: 1 })} value={1}/>
-                <RadioButton text={t('superimpositionbutton', { superimposition: 2 })} value={2}/>
-                <RadioButton text={t('superimpositionbutton', { superimposition: 3 })} value={3}/>
-                <RadioButton text={t('superimpositionbutton', { superimposition: 4 })} value={4}/>
-                <RadioButton text={t('superimpositionbutton', { superimposition: 5 })} value={5}/>
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 1 })} value={1}/>
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 2 })} value={2}/>
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 3 })} value={3}/>
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 4 })} value={4}/>
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 5 })} value={5}/>
               </Radio.Group>
             </Form.Item>
           </Flex>

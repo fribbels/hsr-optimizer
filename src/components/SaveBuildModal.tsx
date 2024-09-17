@@ -12,7 +12,7 @@ const NameBuild: React.FC<NameBuildProps> = ({ open, setOpen, onOk }) => {
   const [characterForm] = Form.useForm()
   window.characterForm = characterForm
 
-  const { t } = useTranslation('modals', { keyPrefix: 'savebuild' })
+  const { t } = useTranslation('modals', { keyPrefix: 'SaveBuild' })
 
   function onModalOk() {
     const formValues = characterForm.getFieldsValue()
@@ -35,18 +35,18 @@ const NameBuild: React.FC<NameBuildProps> = ({ open, setOpen, onOk }) => {
       onCancel={handleCancel}
       footer={[
         <Button key='back' onClick={handleCancel}>
-          {t('cancel')}
+          {t('Cancel')}
         </Button>,
         <Button key='submit' type='primary' onClick={onModalOk}>
-          {t('save')}
+          {t('Save')}
         </Button>,
       ]}
     >
       <Form form={characterForm} preserve={false} layout='vertical'>
         <Form.Item
           name='name'
-          label={t('label')}
-          rules={[{ required: true, message: t('rule') }]}
+          label={t('Label')}
+          rules={[{ required: true, message: t('Rule') }]}
           style={{ width: panelWidth }}
         >
           <Input/>

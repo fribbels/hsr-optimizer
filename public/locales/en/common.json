@@ -1,27 +1,27 @@
 {
-  "relic_one": "{{relic, capitalize}}",
-  "relic_other": "{{relics, capitalize}}",
-  "relicWithCount_one": "{{count}} {{relic, capitalize}}",
-  "relicWithCount_other": "{{count}} {{relics, capitalize}}",
-  "lightcone_one": "{{light cone, capitalize}}",
-  "lightcone_other": "{{light cones, capitalize}}",
-  "lightconeWithCount_one": "{{count}} {{light cone, capitalize}}",
-  "lightconeWithCount_other": "{{count}} {{light cones, capitalize}}",
-  "cancel": "{{cancel, capitalize}}",
-  "confirm": "{{confirm, capitalize}}",
-  "submit":"{{submit, capitalize}}",
-  "ok": "{{ok, capitalize}}",
-  "yes": "{{yes, capitalize}}",
-  "save": "{{save, capitalize}}",
-  "score": "{{score, capitalize}}",
-  "eidolonNShort": "E{{eidolon}}",
-  "superimpositionNShort": "S{{superimposition}}",
-  "characterWithCount_one": "{{count}} {{character, capitalize}}",
-  "characterWithCount_other": "{{count}} {{characters, capitalize}}",
-  "character_one": "{{character, capitalize}}",
-  "character_other": "{{characters, capitalize}}",
-  "verifiedrelichovertext": "Relic substats verified by relic scorer (speed decimals)",
-  "parts": {
+  "Relic_one": "{{relic, capitalize}}",
+  "Relic_other": "{{relics, capitalize}}",
+  "RelicWithCount_one": "{{count}} {{relic, capitalize}}",
+  "RelicWithCount_other": "{{count}} {{relics, capitalize}}",
+  "Lightcone_one": "{{light cone, capitalize}}",
+  "Lightcone_other": "{{light cones, capitalize}}",
+  "LightconeWithCount_one": "{{count}} {{light cone, capitalize}}",
+  "LightconeWithCount_other": "{{count}} {{light cones, capitalize}}",
+  "Cancel": "{{cancel, capitalize}}",
+  "Confirm": "{{confirm, capitalize}}",
+  "Submit":"{{submit, capitalize}}",
+  "Ok": "{{ok, capitalize}}",
+  "Yes": "{{yes, capitalize}}",
+  "Save": "{{save, capitalize}}",
+  "Score": "{{score, capitalize}}",
+  "EidolonNShort": "E{{eidolon}}",
+  "SuperimpositionNShort": "S{{superimposition}}",
+  "CharacterWithCount_one": "{{count}} {{character, capitalize}}",
+  "CharacterWithCount_other": "{{count}} {{characters, capitalize}}",
+  "Character_one": "{{character, capitalize}}",
+  "Character_other": "{{characters, capitalize}}",
+  "VerifiedRelicHoverText": "Relic substats verified by relic scorer (speed decimals)",
+  "Parts": {
     "Head": "Head",
     "Hands": "Hands",
     "Body": "Body",
@@ -29,7 +29,7 @@
     "PlanarSphere": "Planar Sphere",
     "LinkRope": "Link Rope"
   },
-  "readableparts": {
+  "ReadableParts": {
     "Head": "Head",
     "Hands": "Hands",
     "Body": "Body",
@@ -37,7 +37,7 @@
     "PlanarSphere": "Sphere",
     "LinkRope": "Rope"
   },
-  "stats": {
+  "Stats": {
     "HP%": "HP%",
     "HP": "HP",
     "ATK%": "ATK%",
@@ -53,15 +53,15 @@
     "Break Effect": "Break Effect",
     "Energy Regeneration Rate": "Energy Regeneration Rate",
     "Outgoing Healing Boost": "Outgoing Healing Boost",
-    "Physical DMG Boost": "$t(gameData:elements.Physical) DMG Boost",
-    "Fire DMG Boost": "$t(gameData:elements.Fire) DMG Boost",
-    "Ice DMG Boost": "$t(gameData:elements.Ice) DMG Boost",
-    "Lightning DMG Boost": "$t(gameData:elements.Thunder) DMG Boost",
-    "Wind DMG Boost": "$t(gameData:elements.Wind) DMG Boost",
-    "Quantum DMG Boost": "$t(gameData:elements.Quantum) DMG Boost",
-    "Imaginary DMG Boost": "$t(gameData:elements.Imaginary) DMG Boost"
+    "Physical DMG Boost": "$t(gameData:Elements.Physical) DMG Boost",
+    "Fire DMG Boost": "$t(gameData:Elements.Fire) DMG Boost",
+    "Ice DMG Boost": "$t(gameData:Elements.Ice) DMG Boost",
+    "Lightning DMG Boost": "$t(gameData:Elements.Thunder) DMG Boost",
+    "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG Boost",
+    "Quantum DMG Boost": "$t(gameData:Elements.Quantum) DMG Boost",
+    "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary) DMG Boost"
   },
-  "shortstats": {
+  "ShortStats": {
     "HP%": "HP%",
     "HP": "HP",
     "ATK%": "ATK%",
@@ -77,15 +77,15 @@
     "Break Effect": "BE",
     "Energy Regeneration Rate": "ERR",
     "Outgoing Healing Boost": "OHB",
-    "Physical DMG Boost": "$t(gameData:elements.Physical)",
-    "Fire DMG Boost": "$t(gameData:elements.Fire)",
-    "Ice DMG Boost": "$t(gameData:elements.Ice)",
-    "Lightning DMG Boost": "$t(gameData:elements.Thunder)",
-    "Wind DMG Boost": "$t(gameData:elements.Wind)",
-    "Quantum DMG Boost": "$t(gameData:elements.Quantum)",
-    "Imaginary DMG Boost": "$t(gameData:elements.Imaginary)"
+    "Physical DMG Boost": "$t(gameData:Elements.Physical)",
+    "Fire DMG Boost": "$t(gameData:Elements.Fire)",
+    "Ice DMG Boost": "$t(gameData:Elements.Ice)",
+    "Lightning DMG Boost": "$t(gameData:Elements.Thunder)",
+    "Wind DMG Boost": "$t(gameData:Elements.Wind)",
+    "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
+    "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)"
   },
-  "shortspacedstats": {
+  "ShortSpacedStats": {
     "HP%": "HP %",
     "HP": "HP",
     "ATK%": "ATK %",
@@ -101,15 +101,15 @@
     "Break Effect": "BE",
     "Energy Regeneration Rate": "ERR",
     "Outgoing Healing Boost": "OHB",
-    "Physical DMG Boost": "$t(gameData:elements.Physical)",
-    "Fire DMG Boost": "$t(gameData:elements.Fire)",
-    "Ice DMG Boost": "$t(gameData:elements.Ice)",
-    "Lightning DMG Boost": "$t(gameData:elements.Thunder)",
-    "Wind DMG Boost": "$t(gameData:elements.Wind)",
-    "Quantum DMG Boost": "$t(gameData:elements.Quantum)",
-    "Imaginary DMG Boost": "$t(gameData:elements.Imaginary)"
+    "Physical DMG Boost": "$t(gameData:Elements.Physical)",
+    "Fire DMG Boost": "$t(gameData:Elements.Fire)",
+    "Ice DMG Boost": "$t(gameData:Elements.Ice)",
+    "Lightning DMG Boost": "$t(gameData:Elements.Thunder)",
+    "Wind DMG Boost": "$t(gameData:Elements.Wind)",
+    "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
+    "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)"
   },
-  "readablestats": {
+  "ReadableStats": {
     "HP%": "HP %",
     "HP": "HP",
     "ATK%": "ATK %",
@@ -125,15 +125,15 @@
     "Break Effect": "Break Effect",
     "Energy Regeneration Rate": "Energy Regen",
     "Outgoing Healing Boost": "Healing Boost",
-    "Physical DMG Boost": "$t(gameData:elements.Physical) DMG",
-    "Fire DMG Boost": "$t(gameData:elements.Fire) DMG",
-    "Ice DMG Boost": "$t(gameData:elements.Ice) DMG",
-    "Lightning DMG Boost": "$t(gameData:elements.Thunder) DMG",
-    "Wind DMG Boost": "$t(gameData:elements.Wind) DMG",
-    "Quantum DMG Boost": "$t(gameData:elements.Quantum) DMG",
-    "Imaginary DMG Boost": "$t(gameData:elements.Imaginary) DMG"
+    "Physical DMG Boost": "$t(gameData:Elements.Physical) DMG",
+    "Fire DMG Boost": "$t(gameData:Elements.Fire) DMG",
+    "Ice DMG Boost": "$t(gameData:Elements.Ice) DMG",
+    "Lightning DMG Boost": "$t(gameData:Elements.Thunder) DMG",
+    "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG",
+    "Quantum DMG Boost": "$t(gameData:Elements.Quantum) DMG",
+    "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary) DMG"
   },
-  "shortreadablestats": {
+  "ShortReadableStats": {
     "HP%": "HP %",
     "HP": "HP",
     "ATK%": "ATK %",
@@ -149,12 +149,12 @@
     "Break Effect": "Break",
     "Energy Regeneration Rate": "Energy",
     "Outgoing Healing Boost": "Healing",
-    "Physical DMG Boost": "$t(gameData:elements.Physical)",
-    "Fire DMG Boost": "$t(gameData:elements.Fire)",
-    "Ice DMG Boost": "$t(gameData:elements.Ice)",
-    "Lightning DMG Boost": "$t(gameData:elements.Thunder)",
-    "Wind DMG Boost": "$t(gameData:elements.Wind)",
-    "Quantum DMG Boost": "$t(gameData:elements.Quantum)",
-    "Imaginary DMG Boost": "$t(gameData:elements.Imaginary)"
+    "Physical DMG Boost": "$t(gameData:Elements.Physical)",
+    "Fire DMG Boost": "$t(gameData:Elements.Fire)",
+    "Ice DMG Boost": "$t(gameData:Elements.Ice)",
+    "Lightning DMG Boost": "$t(gameData:Elements.Thunder)",
+    "Wind DMG Boost": "$t(gameData:Elements.Wind)",
+    "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
+    "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)"
   }
 }

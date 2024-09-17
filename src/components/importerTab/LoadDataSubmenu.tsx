@@ -23,7 +23,7 @@ export function LoadDataSubmenu() {
   const [currentSave, setCurrentSave] = useState<LoadSaveState | undefined>(undefined)
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
-  const { t } = useTranslation('importSaveTab', { keyPrefix: 'loaddata' })
+  const { t } = useTranslation('importSaveTab', { keyPrefix: 'LoadData' })
 
   function beforeUpload(file): Promise<boolean> {
     return new Promise(() => {
@@ -77,7 +77,7 @@ export function LoadDataSubmenu() {
       <Flex style={{ minHeight: 100 }}>
         <Flex vertical gap={10}>
           <Text>
-            {t('stage1.label')}
+            {t('Stage1.Label')}
           </Text>
           <Upload
             accept='.json'
@@ -90,7 +90,7 @@ export function LoadDataSubmenu() {
               loading={loading1}
               onClick={() => setCurrentStage(Stages.LOAD_FILE)}
             >
-              {t('stage1.buttontext')}
+              {t('Stage1.ButtonText')}
             </Button>
           </Upload>
         </Flex>
@@ -103,7 +103,7 @@ export function LoadDataSubmenu() {
       return (
         <Flex style={{ minHeight: 100 }}>
           <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
-            {t('stage2.errormsg')}
+            {t('Stage2.ErrorMsg')}
           </Flex>
         </Flex>
       )
@@ -112,10 +112,10 @@ export function LoadDataSubmenu() {
       <Flex style={{ minHeight: 100 }}>
         <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
           <Text>
-            {t('stage2.label', { reliccount: currentSave.relics.length, charactercount: currentSave.characters.length })}
+            {t('Stage2.Label', { reliccount: currentSave.relics.length, charactercount: currentSave.characters.length })}
           </Text>
           <Button style={{ width: importerTabButtonWidth }} icon={<ImportOutlined/>} type='primary' onClick={loadConfirmed} loading={loading2}>
-            {t('stage2.buttontext')}
+            {t('Stage2.ButtonText')}
           </Button>
         </Flex>
       </Flex>
@@ -127,7 +127,7 @@ export function LoadDataSubmenu() {
       <Flex style={{ minHeight: 100 }}>
         <Flex vertical gap={10} style={{ display: currentStage >= 2 ? 'flex' : 'none' }}>
           <Text>
-            {t('stage3.successmessage')}
+            {t('Stage3.SuccessMessage')}
           </Text>
         </Flex>
       </Flex>

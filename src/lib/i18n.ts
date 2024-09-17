@@ -76,9 +76,9 @@ void i18next
     },
   })
 
-i18next.services.formatter?.add('capitalize', (value: string | undefined, lng, options: { interpolationkey?: string; length: number }) => {
+i18next.services.formatter?.add('capitalize', (value: string | undefined, lng, options: { interpolationkey?: string; capitalizeLength: number }) => {
   const string = value ?? options.interpolationkey ?? ''
-  let length = options.length || 0
+  let length = options.capitalizeLength || 0
   if (length < 0) {
     length = string.length
   }

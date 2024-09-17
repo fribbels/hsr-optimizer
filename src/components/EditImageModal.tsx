@@ -41,14 +41,14 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   open,
   setOpen,
   onOk,
-  title = i18next.t('modals:editimage.defaulttitle'),
+  title = i18next.t('modals:EditImage.DefaultTitle'),
   width = 400,
   defaultImageUrl,
 }) => {
   const [current, setCurrent] = React.useState(0)
   const [customImageForm] = Form.useForm()
 
-  const {t} = useTranslation('modals', {keyPrefix: 'editimage'})
+  const { t } = useTranslation('modals', { keyPrefix: 'EditImage' })
 
   const [isVerificationLoading, setIsVerificationLoading] = React.useState(false)
   const [verifiedImageUrl, setVerifiedImageUrl] = React.useState('')
@@ -415,9 +415,9 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         <>
           <Flex justify='center' style={{ marginBottom: 16 }}>
             <Radio.Group onChange={onRadioChange} value={radio} buttonStyle='solid'>
-              <Radio.Button value='upload'>{t('upload.radio.upload')}</Radio.Button>
-              <Radio.Button value='url'>{t('upload.radio.url')}</Radio.Button>
-              {defaultImageUrl && <Radio.Button value='default'>{t('upload.radio.default')}</Radio.Button>}
+              <Radio.Button value='upload'>{t('Upload.Radio.Upload')}</Radio.Button>
+              <Radio.Button value='url'>{t('Upload.Radio.Url')}</Radio.Button>
+              {defaultImageUrl && <Radio.Button value='default'>{t('Upload.Radio.Default')}</Radio.Button>}
             </Radio.Group>
           </Flex>
 
@@ -442,8 +442,8 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                       <p className='ant-upload-drag-icon'>
                         <InboxOutlined/>
                       </p>
-                      <p className='ant-upload-text'>{t('upload.upload.method')}</p>
-                      <p className='ant-upload-hint'>{t('upload.upload.limit')}</p>
+                      <p className='ant-upload-text'>{t('Upload.Upload.Method')}</p>
+                      <p className='ant-upload-hint'>{t('Upload.Upload.Limit')}</p>
                     </Flex>
                   )}
               </Dragger>
@@ -453,9 +453,9 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           {radio === 'url' && (
             <Form.Item
               name='imageUrl'
-              label={t('upload.url.label')}
+              label={t('Upload.Url.Label')}
               style={{ margin: '0 20px' }}
-              rules={[{ required: true, message: t('upload.url.rule') }]}
+              rules={[{ required: true, message: t('Upload.Url.Rule') }]}
             >
               <Input autoComplete='off'/>
             </Form.Item>
@@ -507,7 +507,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
             />
           </div>
           <Flex style={{ width: '100%', marginTop: 4 }} gap={8} align='center'>
-            <label>{t('edit.zoom')}</label>
+            <label>{t('Edit.Zoom')}</label>
             <Slider
               style={{ width: '100%' }}
               min={MIN_ZOOM}
@@ -524,23 +524,23 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
             <Flex vertical style={{ flex: 1 }}>
               <div>
                 <DragOutlined style={{ marginRight: 8 }}/>
-                {t('edit.drag')}
+                {t('Edit.Drag')}
               </div>
               <div style={{ flex: 1, marginTop: 8 }}>
                 <ZoomInOutlined style={{ marginRight: 8 }}/>
-                {t('edit.pinch')}
+                {t('Edit.Pinch')}
               </div>
             </Flex>
             <Flex vertical style={{ flex: 1 }}>
               <Text style={{ flex: 1, marginLeft: 3 }}>
-                {t('edit.artby')}
+                {t('Edit.ArtBy')}
               </Text>
               <Form.Item
                 name='artistName'
               >
                 <Input
                   style={{ flex: 1, marginTop: 3 }}
-                  placeholder={t('edit.creditplaceholder')}
+                  placeholder={t('Edit.CreditPlaceholder')}
                   autoComplete='off'
                 />
               </Form.Item>
@@ -567,26 +567,26 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
             <Flex style={{ marginTop: 16 }} justify='center' align='center' gap={8}>
               {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size='large'/>}
               <Button onClick={() => setOpen(false)}>
-                {t('footer.cancel')}
+                {t('Footer.Cancel')}
               </Button>
               {(current > 0 && existingConfig) && (
                 <Button onClick={prev} danger>
-                  {t('footer.change')}
+                  {t('Footer.Change')}
                 </Button>
               )}
               {(current > 0 && !existingConfig) && (
                 <Button onClick={prev}>
-                  {t('footer.previous')}
+                  {t('Footer.Previous')}
                 </Button>
               )}
               {current < steps.length - 1 && (
                 <Button type='primary' onClick={next} disabled={radio === 'upload'}>
-                  {t('footer.next')}
+                  {t('Footer.Next')}
                 </Button>
               )}
               {current === steps.length - 1 && (
                 <Button type='primary' onClick={handleOk}>
-                  {t('footer.submit')}
+                  {t('Footer.Submit')}
                 </Button>
               )}
             </Flex>
@@ -598,8 +598,8 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           {!existingConfig
           && (
             <Steps current={current} style={{ marginBottom: 12 }}>
-              {steps.map((item) => (//make this cleaner if ever adding more steps
-                <Steps.Step key={item.title} title={item.title == 'Provide image' ? t('upload.title') : t('edit.title') }/>
+              {steps.map((item) => (// make this cleaner if ever adding more steps
+                <Steps.Step key={item.title} title={item.title == 'Provide image' ? t('Upload.Title') : t('Edit.Title')}/>
               ))}
             </Steps>
           )}

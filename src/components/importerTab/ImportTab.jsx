@@ -64,7 +64,7 @@ const saveFile = async (blob, suggestedName) => {
 }
 
 function SaveDataSubmenu() {
-  const { t } = useTranslation('importSaveTab', { keyPrefix: 'savedata' })
+  const { t } = useTranslation('importSaveTab', { keyPrefix: 'SaveData' })
   async function saveClicked() {
     try {
       const stateString = SaveState.save()
@@ -75,7 +75,7 @@ function SaveDataSubmenu() {
       )
 
       await saveFile(blob, 'fribbels-optimizer-save.json')
-      Message.success(t('successmessage'))
+      Message.success(t('SuccessMessage'))
     } catch (e) {
       console.warn(e)
     }
@@ -87,7 +87,7 @@ function SaveDataSubmenu() {
         {t('label')}
       </Text>
       <Button type='primary' onClick={saveClicked} icon={<DownloadOutlined/>} style={{ width: buttonWidth }}>
-        {t('buttontext')}
+        {t('ButtonText')}
       </Button>
     </Flex>
   )
@@ -95,7 +95,7 @@ function SaveDataSubmenu() {
 
 export default function ImportTab() {
   const tabSize = 'large'
-  const { t } = useTranslation('importSaveTab', { keyPrefix: 'tablabels' })
+  const { t } = useTranslation('importSaveTab', { keyPrefix: 'TabLabels' })
 
   return (
     <div>
@@ -108,22 +108,22 @@ export default function ImportTab() {
           }}
           items={[
             {
-              label: t('import'),
+              label: t('Import'),
               key: 0,
               children: <ScannerImportSubmenu/>,
             },
             {
-              label: t('load'),
+              label: t('Load'),
               key: 1,
               children: <LoadDataSubmenu/>,
             },
             {
-              label: t('save'),
+              label: t('Save'),
               key: 2,
               children: <SaveDataSubmenu/>,
             },
             {
-              label: t('clear'),
+              label: t('Clear'),
               key: 3,
               children: <ClearDataSubmenu/>,
             },

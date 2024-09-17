@@ -1,82 +1,82 @@
 interface Resources {
   "changelogTab": {},
   "charactersTab": {
-    "characteractions": {
-      "buttontext": "Character actions",
-      "character": {
-        "label": "Character",
-        "options": {
-          "add": "Add new character",
-          "edit": "Edit character",
-          "switch": "Switch relics with",
-          "unequip": "Unequip character",
-          "delete": "Delete character"
+    "CharacterMenu": {
+      "ButtonText": "Character menu",
+      "Character": {
+        "Label": "Character",
+        "Options": {
+          "Add": "Add new character",
+          "Edit": "Edit character / light cone",
+          "Switch": "Switch relics with",
+          "Unequip": "Unequip character",
+          "Delete": "Delete character"
         }
       },
-      "build": {
-        "label": "Builds",
-        "options": {
-          "save": "Save build",
-          "view": "View saved builds"
+      "Build": {
+        "Label": "Builds",
+        "Options": {
+          "Save": "Save current build",
+          "View": "View saved builds"
         }
       },
-      "scoring": {
-        "label": "Scoring",
-        "options": {
-          "scoringmodal": "Scoring algorithm"
+      "Scoring": {
+        "Label": "Scoring",
+        "Options": {
+          "ScoringModal": "Scoring algorithm"
         }
       },
-      "priority": {
-        "label": "Priority",
-        "options": {
-          "sortbyscore": "Sort all characters by score",
-          "movetotop": "Move character to top"
+      "Priority": {
+        "Label": "Priority",
+        "Options": {
+          "SortByScore": "Sort all characters by score",
+          "MoveToTop": "Move character to top"
         }
       }
     },
-    "copyscreenshot": "Copy screenshot",
-    "searchplaceholder": "Search character name",
-    "gridheaders": {
-      "icon": "Icon",
-      "priority": "Priority",
-      "character": "Character"
+    "CopyScreenshot": "Copy screenshot",
+    "SearchPlaceholder": "Search character name",
+    "GridHeaders": {
+      "Icon": "Icon",
+      "Priority": "Priority",
+      "Character": "Character"
     },
-    "messages": {
-      "removesuccess": "Successfully removed character",
-      "unequipsuccess": "Successfully unequipped character",
-      "noselectedcharacter": "No selected character",
-      "switchsuccess": "Successfully switched relics to $t(gameData:characters.{{charid}}.name)",
-      "sortbyscorewarning": "Are you sure you want to sort all characters? <0/>You will lose any custom rankings you have set.",
-      "savesuccess": "Successfully saved build: {{name}}",
-      "unequipwarning": "Are you sure you want to unequip $t(gameData:characters.{{charid}}.name)?",
-      "deletewarning": "Are you sure you want to delete $t(gameData:characters.{{charid}}.name)?"
+    "Messages": {
+      "RemoveSuccess": "Successfully removed character",
+      "UnequipSuccess": "Successfully unequipped character",
+      "NoSelectedCharacter": "No selected character",
+      "SwitchSuccess": "Successfully switched relics to $t(gameData:Characters.{{charid}}.name)",
+      "SortByScoreWarning": "Are you sure you want to sort all characters? <0/>You will lose any custom rankings you have set.",
+      "SaveSuccess": "Successfully saved build: {{name}}",
+      "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charid}}.name)?",
+      "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charid}}.name)?"
     },
-    "characterpreview": {}
+    "CharacterPreview": {}
   },
   "common": {
-    "relic_one": "{{relic, capitalize}}",
-    "relic_other": "{{relics, capitalize}}",
-    "relicWithCount_one": "{{count}} {{relic, capitalize}}",
-    "relicWithCount_other": "{{count}} {{relics, capitalize}}",
-    "lightcone_one": "{{light cone, capitalize}}",
-    "lightcone_other": "{{light cones, capitalize}}",
-    "lightconeWithCount_one": "{{count}} {{light cone, capitalize}}",
-    "lightconeWithCount_other": "{{count}} {{light cones, capitalize}}",
-    "cancel": "{{cancel, capitalize}}",
-    "confirm": "{{confirm, capitalize}}",
-    "submit": "{{submit, capitalize}}",
-    "ok": "{{ok, capitalize}}",
-    "yes": "{{yes, capitalize}}",
-    "save": "{{save, capitalize}}",
-    "score": "{{score, capitalize}}",
-    "eidolonNShort": "E{{eidolon}}",
-    "superimpositionNShort": "S{{superimposition}}",
-    "characterWithCount_one": "{{count}} {{character, capitalize}}",
-    "characterWithCount_other": "{{count}} {{characters, capitalize}}",
-    "character_one": "{{character, capitalize}}",
-    "character_other": "{{characters, capitalize}}",
-    "verifiedrelichovertext": "Relic substats verified by relic scorer (speed decimals)",
-    "parts": {
+    "Relic_one": "{{relic, capitalize}}",
+    "Relic_other": "{{relics, capitalize}}",
+    "RelicWithCount_one": "{{count}} {{relic, capitalize}}",
+    "RelicWithCount_other": "{{count}} {{relics, capitalize}}",
+    "Lightcone_one": "{{light cone, capitalize}}",
+    "Lightcone_other": "{{light cones, capitalize}}",
+    "LightconeWithCount_one": "{{count}} {{light cone, capitalize}}",
+    "LightconeWithCount_other": "{{count}} {{light cones, capitalize}}",
+    "Cancel": "{{cancel, capitalize}}",
+    "Confirm": "{{confirm, capitalize}}",
+    "Submit": "{{submit, capitalize}}",
+    "Ok": "{{ok, capitalize}}",
+    "Yes": "{{yes, capitalize}}",
+    "Save": "{{save, capitalize}}",
+    "Score": "{{score, capitalize}}",
+    "EidolonNShort": "E{{eidolon}}",
+    "SuperimpositionNShort": "S{{superimposition}}",
+    "CharacterWithCount_one": "{{count}} {{character, capitalize}}",
+    "CharacterWithCount_other": "{{count}} {{characters, capitalize}}",
+    "Character_one": "{{character, capitalize}}",
+    "Character_other": "{{characters, capitalize}}",
+    "VerifiedRelicHoverText": "Relic substats verified by relic scorer (speed decimals)",
+    "Parts": {
       "Head": "Head",
       "Hands": "Hands",
       "Body": "Body",
@@ -84,7 +84,7 @@ interface Resources {
       "PlanarSphere": "Planar Sphere",
       "LinkRope": "Link Rope"
     },
-    "readableparts": {
+    "ReadableParts": {
       "Head": "Head",
       "Hands": "Hands",
       "Body": "Body",
@@ -92,7 +92,7 @@ interface Resources {
       "PlanarSphere": "Sphere",
       "LinkRope": "Rope"
     },
-    "stats": {
+    "Stats": {
       "HP%": "HP%",
       "HP": "HP",
       "ATK%": "ATK%",
@@ -108,15 +108,15 @@ interface Resources {
       "Break Effect": "Break Effect",
       "Energy Regeneration Rate": "Energy Regeneration Rate",
       "Outgoing Healing Boost": "Outgoing Healing Boost",
-      "Physical DMG Boost": "$t(gameData:elements.Physical) DMG Boost",
-      "Fire DMG Boost": "$t(gameData:elements.Fire) DMG Boost",
-      "Ice DMG Boost": "$t(gameData:elements.Ice) DMG Boost",
-      "Lightning DMG Boost": "$t(gameData:elements.Thunder) DMG Boost",
-      "Wind DMG Boost": "$t(gameData:elements.Wind) DMG Boost",
-      "Quantum DMG Boost": "$t(gameData:elements.Quantum) DMG Boost",
-      "Imaginary DMG Boost": "$t(gameData:elements.Imaginary) DMG Boost"
+      "Physical DMG Boost": "$t(gameData:Elements.Physical) DMG Boost",
+      "Fire DMG Boost": "$t(gameData:Elements.Fire) DMG Boost",
+      "Ice DMG Boost": "$t(gameData:Elements.Ice) DMG Boost",
+      "Lightning DMG Boost": "$t(gameData:Elements.Thunder) DMG Boost",
+      "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG Boost",
+      "Quantum DMG Boost": "$t(gameData:Elements.Quantum) DMG Boost",
+      "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary) DMG Boost"
     },
-    "shortstats": {
+    "ShortStats": {
       "HP%": "HP%",
       "HP": "HP",
       "ATK%": "ATK%",
@@ -132,15 +132,15 @@ interface Resources {
       "Break Effect": "BE",
       "Energy Regeneration Rate": "ERR",
       "Outgoing Healing Boost": "OHB",
-      "Physical DMG Boost": "$t(gameData:elements.Physical)",
-      "Fire DMG Boost": "$t(gameData:elements.Fire)",
-      "Ice DMG Boost": "$t(gameData:elements.Ice)",
-      "Lightning DMG Boost": "$t(gameData:elements.Thunder)",
-      "Wind DMG Boost": "$t(gameData:elements.Wind)",
-      "Quantum DMG Boost": "$t(gameData:elements.Quantum)",
-      "Imaginary DMG Boost": "$t(gameData:elements.Imaginary)"
+      "Physical DMG Boost": "$t(gameData:Elements.Physical)",
+      "Fire DMG Boost": "$t(gameData:Elements.Fire)",
+      "Ice DMG Boost": "$t(gameData:Elements.Ice)",
+      "Lightning DMG Boost": "$t(gameData:Elements.Thunder)",
+      "Wind DMG Boost": "$t(gameData:Elements.Wind)",
+      "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
+      "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)"
     },
-    "shortspacedstats": {
+    "ShortSpacedStats": {
       "HP%": "HP %",
       "HP": "HP",
       "ATK%": "ATK %",
@@ -156,15 +156,15 @@ interface Resources {
       "Break Effect": "BE",
       "Energy Regeneration Rate": "ERR",
       "Outgoing Healing Boost": "OHB",
-      "Physical DMG Boost": "$t(gameData:elements.Physical)",
-      "Fire DMG Boost": "$t(gameData:elements.Fire)",
-      "Ice DMG Boost": "$t(gameData:elements.Ice)",
-      "Lightning DMG Boost": "$t(gameData:elements.Thunder)",
-      "Wind DMG Boost": "$t(gameData:elements.Wind)",
-      "Quantum DMG Boost": "$t(gameData:elements.Quantum)",
-      "Imaginary DMG Boost": "$t(gameData:elements.Imaginary)"
+      "Physical DMG Boost": "$t(gameData:Elements.Physical)",
+      "Fire DMG Boost": "$t(gameData:Elements.Fire)",
+      "Ice DMG Boost": "$t(gameData:Elements.Ice)",
+      "Lightning DMG Boost": "$t(gameData:Elements.Thunder)",
+      "Wind DMG Boost": "$t(gameData:Elements.Wind)",
+      "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
+      "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)"
     },
-    "readablestats": {
+    "ReadableStats": {
       "HP%": "HP %",
       "HP": "HP",
       "ATK%": "ATK %",
@@ -180,15 +180,15 @@ interface Resources {
       "Break Effect": "Break Effect",
       "Energy Regeneration Rate": "Energy Regen",
       "Outgoing Healing Boost": "Healing Boost",
-      "Physical DMG Boost": "$t(gameData:elements.Physical) DMG",
-      "Fire DMG Boost": "$t(gameData:elements.Fire) DMG",
-      "Ice DMG Boost": "$t(gameData:elements.Ice) DMG",
-      "Lightning DMG Boost": "$t(gameData:elements.Thunder) DMG",
-      "Wind DMG Boost": "$t(gameData:elements.Wind) DMG",
-      "Quantum DMG Boost": "$t(gameData:elements.Quantum) DMG",
-      "Imaginary DMG Boost": "$t(gameData:elements.Imaginary) DMG"
+      "Physical DMG Boost": "$t(gameData:Elements.Physical) DMG",
+      "Fire DMG Boost": "$t(gameData:Elements.Fire) DMG",
+      "Ice DMG Boost": "$t(gameData:Elements.Ice) DMG",
+      "Lightning DMG Boost": "$t(gameData:Elements.Thunder) DMG",
+      "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG",
+      "Quantum DMG Boost": "$t(gameData:Elements.Quantum) DMG",
+      "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary) DMG"
     },
-    "shortreadablestats": {
+    "ShortReadableStats": {
       "HP%": "HP %",
       "HP": "HP",
       "ATK%": "ATK %",
@@ -204,20 +204,20 @@ interface Resources {
       "Break Effect": "Break",
       "Energy Regeneration Rate": "Energy",
       "Outgoing Healing Boost": "Healing",
-      "Physical DMG Boost": "$t(gameData:elements.Physical)",
-      "Fire DMG Boost": "$t(gameData:elements.Fire)",
-      "Ice DMG Boost": "$t(gameData:elements.Ice)",
-      "Lightning DMG Boost": "$t(gameData:elements.Thunder)",
-      "Wind DMG Boost": "$t(gameData:elements.Wind)",
-      "Quantum DMG Boost": "$t(gameData:elements.Quantum)",
-      "Imaginary DMG Boost": "$t(gameData:elements.Imaginary)"
+      "Physical DMG Boost": "$t(gameData:Elements.Physical)",
+      "Fire DMG Boost": "$t(gameData:Elements.Fire)",
+      "Ice DMG Boost": "$t(gameData:Elements.Ice)",
+      "Lightning DMG Boost": "$t(gameData:Elements.Thunder)",
+      "Wind DMG Boost": "$t(gameData:Elements.Wind)",
+      "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
+      "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)"
     }
   },
   "gameData": {
-    "characters": {
+    "Characters": {
       "1001": {
-        "name": "March 7th",
-        "abilities": {
+        "Name": "March 7th",
+        "Abilities": {
           "100101": {
             "name": "Frigid Cold Arrow",
             "desc": "Deals minor Ice DMG to a single enemy.",
@@ -248,7 +248,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. After entering battle, there is a <unbreak>#1[i]%</unbreak> <u>base chance</u> to Freeze a random enemy for <unbreak>#2[i]</unbreak> turn(s).\\nWhile Frozen, the enemy cannot take action and will take <u>Additional</u> Ice DMG equal to <unbreak>#3[i]%</unbreak> of March 7th's ATK at the beginning of each turn."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "100101": {
             "name": "Memory of You",
             "desc": "Every time March 7th's Ultimate Freezes a target, she regenerates <unbreak>#1[i]</unbreak> Energy."
@@ -274,7 +274,7 @@ interface Resources {
             "desc": "Allies under the protection of the Shield granted by the Skill restore HP equal to <unbreak>#1[i]%</unbreak> of their Max HP plus <unbreak>#2[i]</unbreak> at the beginning of each turn."
           }
         },
-        "effects": {
+        "Effects": {
           "10010011": {
             "name": "Shield",
             "desc": "Gains a Shield that absorbs DMG. While the Shield persists, enemy attacks will not reduce Shielded characters' HP.",
@@ -296,7 +296,7 @@ interface Resources {
             "ID": 10010013
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Purify",
             "desc": "When using the Skill, removes 1 debuff from a target ally.",
@@ -321,8 +321,8 @@ interface Resources {
         }
       },
       "1002": {
-        "name": "Dan Heng",
-        "abilities": {
+        "Name": "Dan Heng",
+        "Abilities": {
           "100201": {
             "name": "Cloudlancer Art: North Wind",
             "desc": "Deals minor Wind DMG to a single enemy.",
@@ -353,7 +353,7 @@ interface Resources {
             "longdesc": "After Dan Heng uses his Technique, his ATK increases by <unbreak>#1[i]%</unbreak> at the start of the next battle for <unbreak>#2[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "100201": {
             "name": "The Higher You Fly, the Harder You Fall",
             "desc": "When the target enemy's current HP percentage is greater than or equal to <unbreak>#1[i]%</unbreak>, CRIT Rate increases by <unbreak>#2[i]%</unbreak>."
@@ -379,7 +379,7 @@ interface Resources {
             "desc": "The Slow state triggered by Skill reduces the enemy's SPD by an extra <unbreak>#1[i]%</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10010021": {
             "name": "Splitting Spearhead",
             "desc": "ATK +<color=#f29e38ff><unbreak>#1[i]%</unbreak></color>.",
@@ -428,7 +428,7 @@ interface Resources {
             "ID": 10010027
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Hidden Dragon",
             "desc": "When current HP percentage is <unbreak>#1[i]%</unbreak> or lower, reduces the chance of being attacked by enemies.",
@@ -453,8 +453,8 @@ interface Resources {
         }
       },
       "1003": {
-        "name": "Himeko",
-        "abilities": {
+        "Name": "Himeko",
+        "Abilities": {
           "100301": {
             "name": "Sawblade Tuning",
             "desc": "Deals minor Fire DMG to a single enemy.",
@@ -485,7 +485,7 @@ interface Resources {
             "longdesc": "After using Technique, creates a Special Dimension that lasts for <unbreak>#4[i]</unbreak> second(s). After entering battle with enemies in the Special Dimension, there is a <unbreak>#1[i]%</unbreak> <u>base chance</u> to increase Fire DMG taken by enemies by <unbreak>#2[i]%</unbreak> for <unbreak>#3[i]</unbreak> turn(s). Only 1 dimension created by allies can exist at the same time."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "100301": {
             "name": "Childhood",
             "desc": "After \"Victory Rush\" is triggered, Himeko's SPD increases by <unbreak>#1[i]%</unbreak> for <unbreak>#2[i]</unbreak> turn(s)."
@@ -511,7 +511,7 @@ interface Resources {
             "desc": "Ultimate deals DMG 2 extra times, each of which deals Fire DMG equal to <unbreak>#1[i]%</unbreak> of the original DMG to a random enemy."
           }
         },
-        "effects": {
+        "Effects": {
           "10010031": {
             "name": "Victory Rush",
             "desc": "Talent \"Victory Rush\" cannot be triggered.",
@@ -546,7 +546,7 @@ interface Resources {
             "ID": 10010035
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Starfire",
             "desc": "After using an attack, there is a <unbreak>#1[i]%</unbreak> base chance to inflict Burn on enemies for <unbreak>#2[i]</unbreak> turn(s).\\nWhen afflicted with Burn, enemies take Fire DoT equal to <unbreak>#3[i]%</unbreak> of Himeko's ATK at the start of each turn.",
@@ -571,8 +571,8 @@ interface Resources {
         }
       },
       "1004": {
-        "name": "Welt",
-        "abilities": {
+        "Name": "Welt",
+        "Abilities": {
           "100401": {
             "name": "Gravity Suppression",
             "desc": "Deals minor Imaginary DMG to a single enemy.",
@@ -603,7 +603,7 @@ interface Resources {
             "longdesc": "After using Welt's Technique, create a Special Dimension that lasts for <unbreak>#4[i]</unbreak> second(s). Enemies in this Special Dimension have their movement speed reduced by <unbreak>#5[i]%</unbreak>. After entering battle with enemies in the Special Dimension, there is a <unbreak>#1[i]%</unbreak> <u>base chance</u> to Imprison the enemies for 1 turn.\\nImprisoned enemies have their <u>actions delayed</u> by <unbreak>#2[i]%</unbreak> and SPD reduced by <unbreak>#3[i]%</unbreak>. Only 1 dimension created by allies can exist at the same time."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "100401": {
             "name": "Legacy of Honor",
             "desc": "After using Ultimate, Welt gets enhanced. Then, the next <unbreak>#3[i]</unbreak> time(s) he uses Basic ATK or Skill, deals 1 extra instance of Additional DMG to the target enemy. The Additional DMG dealt when using Basic ATK is equal to <unbreak>#1[i]%</unbreak> of Basic ATK DMG multiplier. The Additional DMG dealt when using Skill is equal to <unbreak>#2[i]%</unbreak> of Skill DMG multiplier."
@@ -629,7 +629,7 @@ interface Resources {
             "desc": "When using Skill, deals DMG for 1 extra time to a random enemy."
           }
         },
-        "effects": {
+        "Effects": {
           "10010041": {
             "name": "Slow",
             "desc": "SPD -<color=#f29e38ff><unbreak>#1[i]%</unbreak></color>.",
@@ -651,7 +651,7 @@ interface Resources {
             "ID": 10010043
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Retribution",
             "desc": "When using Ultimate, there is a <unbreak>#1[i]%</unbreak> base chance to increase the DMG received by the targets by <unbreak>#2[i]%</unbreak> for <unbreak>#3[i]</unbreak> turn(s).",
@@ -676,8 +676,8 @@ interface Resources {
         }
       },
       "1005": {
-        "name": "Kafka",
-        "abilities": {
+        "Name": "Kafka",
+        "Abilities": {
           "100501": {
             "name": "Midnight Tumult",
             "desc": "Deals minor Lightning DMG to a single enemy.",
@@ -708,7 +708,7 @@ interface Resources {
             "longdesc": "Immediately attacks all enemies within a set range. After entering battle, deals Lightning DMG equal to <unbreak>#3[i]%</unbreak> of Kafka's ATK to all enemies, with a <unbreak>#1[i]%</unbreak> <u>base chance</u> to inflict Shock equivalent to that applied by her Ultimate on every enemy target for <unbreak>#2[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "100501": {
             "name": "Da Capo",
             "desc": "When the Talent triggers a follow-up attack, there is a <unbreak>#1[i]%</unbreak> base chance to increase the DoT received by the target by <unbreak>#2[i]%</unbreak> for <unbreak>#3[i]</unbreak> turn(s)."
@@ -734,7 +734,7 @@ interface Resources {
             "desc": "The Shock inflicted on the enemy target by the Ultimate, the Technique, or the Talent-triggered follow-up attack has a DMG multiplier increase of <unbreak>#1[i]%</unbreak> and lasts <unbreak>#2[i]</unbreak> turn(s) longer."
           }
         },
-        "effects": {
+        "Effects": {
           "10010051": {
             "name": "Gentle but Cruel",
             "desc": "The effect of Talent \"Gentle but Cruel\" can now be triggered.",
@@ -768,7 +768,7 @@ interface Resources {
             "ID": 10010055
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Torture",
             "desc": "When the Ultimate is used, enemy targets will now receive DMG immediately from all currently applied DoT sources instead of just receiving DMG immediately from the currently applied Shock state.",
@@ -793,8 +793,8 @@ interface Resources {
         }
       },
       "1006": {
-        "name": "Silver Wolf",
-        "abilities": {
+        "Name": "Silver Wolf",
+        "Abilities": {
           "100601": {
             "name": "System Warning",
             "desc": "Deals minor Quantum DMG to a single enemy.",
@@ -825,7 +825,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. After entering battle, deals Quantum DMG equal to <unbreak>#1[i]%</unbreak> of Silver Wolf's ATK to all enemies, and ignores Weakness Types and reduces Toughness from all enemies. Enemies with their Weakness Broken in this way will trigger the Quantum Weakness Break effect."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "100601": {
             "name": "Social Engineering",
             "desc": "After using her Ultimate to attack enemies, Silver Wolf regenerates <unbreak>#1[i]</unbreak> Energy for every debuff that the target enemy currently has. This effect can be triggered up to <unbreak>#2[i]</unbreak> time(s) in each use of her Ultimate."
@@ -851,7 +851,7 @@ interface Resources {
             "desc": "For every debuff the target enemy has, the DMG dealt by Silver Wolf increases by <unbreak>#1[i]%</unbreak>, up to a limit of <unbreak>#2[i]%</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10010061": {
             "name": "Type-1 Bug",
             "desc": "ATK -<color=#f29e38ff><unbreak>#1[f1]%</unbreak></color>.",
@@ -915,7 +915,7 @@ interface Resources {
             "ID": 10010069
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Generate",
             "desc": "Bug's duration is extended for <unbreak>#1[i]</unbreak> turn(s). Every time an enemy is inflicted with Weakness Break, Silver Wolf has a <unbreak>#2[i]%</unbreak> base chance of implanting a random Bug in the enemy.",
@@ -940,8 +940,8 @@ interface Resources {
         }
       },
       "1008": {
-        "name": "Arlan",
-        "abilities": {
+        "Name": "Arlan",
+        "Abilities": {
           "100801": {
             "name": "Lightning Rush",
             "desc": "Deals minor Lightning DMG to a single enemy.",
@@ -972,7 +972,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. After entering battle, deals Lightning DMG equal to <unbreak>#1[i]%</unbreak> of Arlan's ATK to all enemies."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "100801": {
             "name": "To the Bitter End",
             "desc": "When HP percentage is lower than or equal to <unbreak>50%</unbreak> of Max HP, increases DMG dealt by Skill by <unbreak>#1[i]%</unbreak>."
@@ -998,7 +998,7 @@ interface Resources {
             "desc": "When the current HP percentage drops to <unbreak>50%</unbreak> or below, Ultimate deals <unbreak>#1[i]%</unbreak> more DMG, and the DMG multiplier for adjacent targets is raised to the same level as that for the primary target."
           }
         },
-        "effects": {
+        "Effects": {
           "10010081": {
             "name": "Pain and Anger",
             "desc": "Increases DMG dealt by <color=#f29e38ff><unbreak>#1[f1]%</unbreak></color>.",
@@ -1019,7 +1019,7 @@ interface Resources {
             "ID": 10010083
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Revival",
             "desc": "If the current HP percentage is <unbreak>#1[i]%</unbreak> or lower when defeating an enemy, immediately restores HP equal to <unbreak>#2[i]%</unbreak> of Max HP.",
@@ -1044,8 +1044,8 @@ interface Resources {
         }
       },
       "1009": {
-        "name": "Asta",
-        "abilities": {
+        "Name": "Asta",
+        "Abilities": {
           "100901": {
             "name": "Spectrum Beam",
             "desc": "Deals minor Fire DMG to a single enemy.",
@@ -1076,7 +1076,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. After entering battle, deals Fire DMG equal to <unbreak>#1[i]%</unbreak> of Asta's ATK to all enemies."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "100901": {
             "name": "Star Sings Sans Verses or Vocals",
             "desc": "When using Skill, deals DMG for 1 extra time to a random enemy."
@@ -1102,7 +1102,7 @@ interface Resources {
             "desc": "Charging stack(s) lost in each turn is reduced by <unbreak>#1[i]</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10010091": {
             "name": "Charging",
             "desc": "Each stack increases ATK by <color=#f29e38ff><unbreak>#1[f1]%</unbreak></color>, up to 5 stacks.",
@@ -1132,7 +1132,7 @@ interface Resources {
             "ID": 10010094
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Sparks",
             "desc": "Asta's Basic ATK has a <unbreak>#1[i]%</unbreak> base chance to Burn an enemy target for <unbreak>#2[i]</unbreak> turn(s).\\nBurned enemies take Fire DoT equal to <unbreak>#3[i]%</unbreak> of DMG dealt by Asta's Basic ATK at the start of each turn.",
@@ -1157,8 +1157,8 @@ interface Resources {
         }
       },
       "1013": {
-        "name": "Herta",
-        "abilities": {
+        "Name": "Herta",
+        "Abilities": {
           "101301": {
             "name": "What Are You Looking At?",
             "desc": "Deals minor Ice DMG to a single enemy.",
@@ -1187,7 +1187,7 @@ interface Resources {
             "longdesc": "After using her Technique, Herta's ATK increases by <unbreak>#1[i]%</unbreak> for <unbreak>#2[i]</unbreak> turn(s) at the beginning of the next battle."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "101301": {
             "name": "Kick You When You're Down",
             "desc": "If the enemy's HP percentage is at <unbreak>#1[i]%</unbreak> or less, Herta's Basic ATK deals Additional Ice DMG equal to <unbreak>#2[i]%</unbreak> of Herta's ATK."
@@ -1213,7 +1213,7 @@ interface Resources {
             "desc": "After using Ultimate, this character's ATK increases by <unbreak>#1[i]%</unbreak> for <unbreak>#2[i]</unbreak> turn(s)."
           }
         },
-        "effects": {
+        "Effects": {
           "10010131": {
             "name": "It Can Still Be Optimized",
             "desc": "ATK +<color=#f29e38ff><unbreak>#1[i]%</unbreak></color>.",
@@ -1236,7 +1236,7 @@ interface Resources {
             "ID": 10010133
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Efficiency",
             "desc": "When Skill is used, the DMG Boost effect on target enemies increases by an extra <unbreak>#1[i]%</unbreak>.",
@@ -1261,8 +1261,8 @@ interface Resources {
         }
       },
       "1101": {
-        "name": "Bronya",
-        "abilities": {
+        "Name": "Bronya",
+        "Abilities": {
           "110101": {
             "name": "Windrider Bullet",
             "desc": "Deals minor Wind DMG to a single enemy.",
@@ -1293,7 +1293,7 @@ interface Resources {
             "longdesc": "After using Bronya's Technique, at the start of the next battle, all allies' ATK increases by <unbreak>#1[i]%</unbreak> for <unbreak>#2[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "110101": {
             "name": "Hone Your Strength",
             "desc": "When using Skill, there is a <unbreak>#1[i]%</unbreak> fixed chance of recovering 1 Skill Point. This effect has a 1-turn cooldown."
@@ -1319,7 +1319,7 @@ interface Resources {
             "desc": "The duration of the DMG Boost effect placed by the Skill on the target ally increases by <unbreak>#1[i]</unbreak> turn(s)."
           }
         },
-        "effects": {
+        "Effects": {
           "10011011": {
             "name": "The Belobog March",
             "desc": "ATK +<color=#f29e38ff><unbreak>#1[i]%</unbreak></color> and CRIT DMG +<color=#f29e38ff><unbreak>#2[i]%</unbreak></color>.",
@@ -1361,7 +1361,7 @@ interface Resources {
             "ID": 10011016
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Command",
             "desc": "The CRIT Rate for Basic ATK increases to <unbreak>100%</unbreak>.",
@@ -1386,8 +1386,8 @@ interface Resources {
         }
       },
       "1102": {
-        "name": "Seele",
-        "abilities": {
+        "Name": "Seele",
+        "Abilities": {
           "110201": {
             "name": "Thwack",
             "desc": "Deals minor Quantum DMG to a single enemy.",
@@ -1418,7 +1418,7 @@ interface Resources {
             "longdesc": "After using her Technique, Seele gains Stealth for <unbreak>#1[i]</unbreak> second(s). While Stealth is active, Seele cannot be detected by enemies. And when entering battle by attacking enemies, Seele will immediately enter the Amplification state."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "110201": {
             "name": "Extirpating Slash",
             "desc": "When dealing DMG to an enemy whose HP percentage is <unbreak>#1[i]%</unbreak> or lower, CRIT Rate increases by <unbreak>#2[i]%</unbreak>."
@@ -1444,7 +1444,7 @@ interface Resources {
             "desc": "After Seele uses her Ultimate, inflict the target enemy with Butterfly Flurry for <unbreak>#2[i]</unbreak> turn(s). Enemies suffering from Butterfly Flurry will take Additional Quantum DMG equal to <unbreak>#1[i]%</unbreak> of Seele's Ultimate DMG every time they are attacked. If the target enemy is defeated by the Butterfly Flurry DMG triggered by other allies' attacks, Seele's Talent will not be triggered.\\nWhen Seele is knocked down, the Butterfly Flurry inflicted on the enemies will be removed."
           }
         },
-        "effects": {
+        "Effects": {
           "10011021": {
             "name": "SPD Boost",
             "desc": "SPD +<color=#f29e38ff><unbreak>#1[i]%</unbreak></color>.",
@@ -1487,7 +1487,7 @@ interface Resources {
             "ID": 10011026
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Nightshade",
             "desc": "When current HP percentage is <unbreak>#1[i]%</unbreak> or lower, reduces the chance of being attacked by enemies.",
@@ -1512,8 +1512,8 @@ interface Resources {
         }
       },
       "1103": {
-        "name": "Serval",
-        "abilities": {
+        "Name": "Serval",
+        "Abilities": {
           "110301": {
             "name": "Roaring Thunderclap",
             "desc": "Deals minor Lightning DMG to a single enemy.",
@@ -1544,7 +1544,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. After entering battle, deals Lightning DMG equal to <unbreak>#4[i]%</unbreak> of Serval's ATK to a random enemy, with a <unbreak>#1[i]%</unbreak> <u>base chance</u> for all enemies to become Shocked for <unbreak>#3[i]</unbreak> turn(s).\\nWhile Shocked, enemies will take Lightning DoT equal to <unbreak>#2[i]%</unbreak> of Serval's ATK at the beginning of each turn."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "110301": {
             "name": "Echo Chamber",
             "desc": "Basic ATK deals Lightning DMG equal to <unbreak>#1[i]%</unbreak> of Basic ATK DMG to a random target adjacent to the target enemy."
@@ -1570,7 +1570,7 @@ interface Resources {
             "desc": "Serval deals <unbreak>#1[i]%</unbreak> more DMG to Shocked enemies."
           }
         },
-        "effects": {
+        "Effects": {
           "10011031": {
             "name": "DMG Boost",
             "desc": "Roaring Thunderclap and Lightning Flash deal <color=#f29e38ff><unbreak>#1[i]%</unbreak></color> more DMG.",
@@ -1586,7 +1586,7 @@ interface Resources {
             "ID": 10011032
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Rock 'n' Roll",
             "desc": "Skill has a <unbreak>#1[i]%</unbreak> increased base chance to Shock enemies.",
@@ -1611,8 +1611,8 @@ interface Resources {
         }
       },
       "1104": {
-        "name": "Gepard",
-        "abilities": {
+        "Name": "Gepard",
+        "Abilities": {
           "110401": {
             "name": "Fist of Conviction",
             "desc": "Deals minor Ice DMG to a single enemy.",
@@ -1643,7 +1643,7 @@ interface Resources {
             "longdesc": "After Gepard uses his Technique, when the next battle begins, a Shield will be applied to all allies, absorbing DMG equal to <unbreak>#1[i]%</unbreak> of Gepard's DEF plus <unbreak>#3[i]</unbreak> for <unbreak>#2[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "110401": {
             "name": "Due Diligence",
             "desc": "When using Skill, increases the base chance to Freeze target enemy by <unbreak>#1[i]%</unbreak>."
@@ -1669,7 +1669,7 @@ interface Resources {
             "desc": "When his Talent is triggered, Gepard immediately takes action and restores extra HP equal to <unbreak>#1[i]%</unbreak> of his Max HP."
           }
         },
-        "effects": {
+        "Effects": {
           "10011041": {
             "name": "Shield",
             "desc": "Gains a Shield that absorbs DMG. While the Shield persists, enemy attacks will not reduce Shielded characters' HP.",
@@ -1725,7 +1725,7 @@ interface Resources {
             "ID": 10011048
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Integrity",
             "desc": "Gepard has a higher chance to be attacked by enemies.",
@@ -1750,8 +1750,8 @@ interface Resources {
         }
       },
       "1105": {
-        "name": "Natasha",
-        "abilities": {
+        "Name": "Natasha",
+        "Abilities": {
           "110501": {
             "name": "Behind the Kindness",
             "desc": "Deals minor Physical DMG to a single enemy.",
@@ -1782,7 +1782,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. After entering battle, deals Physical DMG equal to <unbreak>#4[i]%</unbreak> of Natasha's ATK to a random enemy, with a <unbreak>#1[i]%</unbreak> <u>base chance</u> to Weaken all enemies.\\nWhile Weakened, enemies deal <unbreak>#2[i]%</unbreak> less DMG to allies for <unbreak>#3[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "110501": {
             "name": "Pharmacology Expertise",
             "desc": "After being attacked, if the current HP percentage is <unbreak>#1[i]%</unbreak> or lower, heals self for 1 time to restore HP by an amount equal to <unbreak>#2[i]%</unbreak> of Max HP plus <unbreak>#3[i]</unbreak>. This effect can only be triggered 1 time per battle."
@@ -1808,7 +1808,7 @@ interface Resources {
             "desc": "Natasha's Basic ATK additionally deals Physical DMG equal to <unbreak>#1[i]%</unbreak> of her Max HP."
           }
         },
-        "effects": {
+        "Effects": {
           "10011051": {
             "name": "Weaken",
             "desc": "Deals <color=#f29e38ff><unbreak>#1[i]%</unbreak></color> less DMG to your team.",
@@ -1845,7 +1845,7 @@ interface Resources {
             "ID": 10011055
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Soothe",
             "desc": "The Skill removes <unbreak>#1[i]</unbreak> debuff(s) from a target ally.",
@@ -1870,8 +1870,8 @@ interface Resources {
         }
       },
       "1106": {
-        "name": "Pela",
-        "abilities": {
+        "Name": "Pela",
+        "Abilities": {
           "110601": {
             "name": "Frost Shot",
             "desc": "Deals minor Ice DMG to a single enemy.",
@@ -1902,7 +1902,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. Upon entering battle, Pela deals Ice DMG equal to <unbreak>#4[i]%</unbreak> of her ATK to a random enemy, with a <unbreak>#1[i]%</unbreak> <u>base chance</u> of lowering the DEF of all enemies by <unbreak>#2[i]%</unbreak> for <unbreak>#3[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "110601": {
             "name": "Victory Report",
             "desc": "When an enemy is defeated, Pela regenerates <unbreak>#1[i]</unbreak> Energy."
@@ -1928,7 +1928,7 @@ interface Resources {
             "desc": "When Pela attacks a debuffed enemy, she deals Additional Ice DMG equal to <unbreak>#1[i]%</unbreak> of Pela's ATK to the enemy."
           }
         },
-        "effects": {
+        "Effects": {
           "10011061": {
             "name": "Exposed",
             "desc": "DEF -<color=#f29e38ff><unbreak>#1[i]%</unbreak></color>.",
@@ -1972,7 +1972,7 @@ interface Resources {
             "ID": 10011066
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Bash",
             "desc": "Deals <unbreak>#1[i]%</unbreak> more DMG to debuffed enemies.",
@@ -1997,8 +1997,8 @@ interface Resources {
         }
       },
       "1107": {
-        "name": "Clara",
-        "abilities": {
+        "Name": "Clara",
+        "Abilities": {
           "110701": {
             "name": "I Want to Help",
             "desc": "Deals minor Physical DMG to a single enemy.",
@@ -2029,7 +2029,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. Upon entering battle, the chance Clara will be attacked by enemies increases for <unbreak>#1[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "110701": {
             "name": "A Tall Figure",
             "desc": "Using Skill will not remove Marks of Counter on the enemy."
@@ -2055,7 +2055,7 @@ interface Resources {
             "desc": "After other allies are hit, Svarog also has a <unbreak>#1[i]%</unbreak> fixed chance to trigger a Counter on the attacker and mark them with a Mark of Counter. When using Ultimate, the number of Enhanced Counters increases by <unbreak>#2[i]</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10011071": {
             "name": "Promise, Not Command",
             "desc": "Receives less DMG with a higher chance to be attacked.",
@@ -2101,7 +2101,7 @@ interface Resources {
             "ID": 10011077
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Kinship",
             "desc": "When attacked, this character has a <unbreak>#1[i]%</unbreak> fixed chance to remove a debuff placed on them.",
@@ -2126,8 +2126,8 @@ interface Resources {
         }
       },
       "1108": {
-        "name": "Sampo",
-        "abilities": {
+        "Name": "Sampo",
+        "Abilities": {
           "110801": {
             "name": "Dazzling Blades",
             "desc": "Deals minor Wind DMG to a single enemy.",
@@ -2158,7 +2158,7 @@ interface Resources {
             "longdesc": "After Sampo uses his Technique, enemies in a set area are inflicted with Blind for <unbreak>#1[i]</unbreak> second(s). Blinded enemies cannot detect your team.\\nWhen initiating combat against a Blinded enemy, there is a <unbreak>#2[i]%</unbreak> <u>fixed chance</u> to delay all enemies' action by <unbreak>#3[i]%</unbreak>."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "110801": {
             "name": "Rising Love",
             "desc": "When using Skill, deals DMG for <unbreak>#1[i]</unbreak> extra time(s) to a random enemy."
@@ -2184,7 +2184,7 @@ interface Resources {
             "desc": "Talent's Wind Shear DMG multiplier increases by <unbreak>#1[i]%</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10011081": {
             "name": "DoT Vulnerability",
             "desc": "DoT taken +<color=#f29e38ff><unbreak>#1[i]%</unbreak></color>.",
@@ -2193,7 +2193,7 @@ interface Resources {
             "ID": 10011081
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Trap",
             "desc": "Extends the duration of Wind Shear caused by Talent by <unbreak>#1[i]</unbreak> turn(s).",
@@ -2218,8 +2218,8 @@ interface Resources {
         }
       },
       "1109": {
-        "name": "Hook",
-        "abilities": {
+        "Name": "Hook",
+        "Abilities": {
           "110901": {
             "name": "Hehe! Don't Get Burned!",
             "desc": "Deals minor Fire DMG to a single enemy.",
@@ -2250,7 +2250,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. Upon entering battle, Hook deals Fire DMG equal to <unbreak>#4[i]%</unbreak> of her ATK to a random enemy. In addition, there is a <unbreak>#1[i]%</unbreak> <u>base chance</u> to inflict Burn on every enemy for <unbreak>#3[i]</unbreak> turn(s).\\nWhen afflicted with Burn, enemies will take Fire DoT equal to <unbreak>#2[i]%</unbreak> of Hook's ATK at the beginning of each turn."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "110901": {
             "name": "Early to Bed, Early to Rise",
             "desc": "Enhanced Skill deals <unbreak>#1[i]%</unbreak> increased DMG."
@@ -2276,7 +2276,7 @@ interface Resources {
             "desc": "Hook deals <unbreak>#1[i]%</unbreak> more DMG to enemies afflicted with Burn."
           }
         },
-        "effects": {
+        "Effects": {
           "10011091": {
             "name": "Enhanced Skill",
             "desc": "Enhances the next Skill and changes it to a Blast attack.",
@@ -2285,7 +2285,7 @@ interface Resources {
             "ID": 10011091
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Innocence",
             "desc": "Hook restores HP equal to <unbreak>#1[i]%</unbreak> of her Max HP whenever her Talent is triggered.",
@@ -2310,8 +2310,8 @@ interface Resources {
         }
       },
       "1110": {
-        "name": "Lynx",
-        "abilities": {
+        "Name": "Lynx",
+        "Abilities": {
           "111001": {
             "name": "Ice Crampon Technique",
             "desc": "Deals minor Quantum DMG to a single enemy.",
@@ -2342,7 +2342,7 @@ interface Resources {
             "longdesc": "After Lynx uses her Technique, at the start of the next battle, all allies are granted her Talent's continuous healing effect, lasting for <unbreak>#1[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "111001": {
             "name": "Morning of Snow Hike",
             "desc": "When healing allies with HP percentage equal to or lower than <unbreak>#1[i]%</unbreak>, Lynx's Outgoing Healing increases by <unbreak>#2[i]%</unbreak>. This effect also works on continuous healing."
@@ -2368,7 +2368,7 @@ interface Resources {
             "desc": "Additionally boosts the Max HP increasing effect of \"Survival Response\" by an amount equal to <unbreak>#1[f1]%</unbreak> of Lynx's Max HP and increases Effect RES by <unbreak>#2[i]%</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10011101": {
             "name": "Healing Over Time",
             "desc": "Restores a certain amount of HP at the start of each turn.",
@@ -2411,7 +2411,7 @@ interface Resources {
             "ID": 10011106
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Advance Surveying",
             "desc": "After a target with \"Survival Response\" is hit, Lynx regenerates <unbreak>#1[i]</unbreak> Energy immediately.",
@@ -2436,8 +2436,8 @@ interface Resources {
         }
       },
       "1111": {
-        "name": "Luka",
-        "abilities": {
+        "Name": "Luka",
+        "Abilities": {
           "111101": {
             "name": "Direct Punch",
             "desc": "Deals minor Physical DMG to a single enemy.",
@@ -2468,7 +2468,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. Upon entering battle, Luka deals Physical DMG equal to <unbreak>#1[i]%</unbreak> of his ATK to a random single enemy with a <unbreak>#2[i]%</unbreak> <u>base chance</u> to inflict his Skill's Bleed effect on the target. Then, Luka gains 1 additional stack of Fighting Will."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "111101": {
             "name": "Fighting Endlessly",
             "desc": "When Luka takes action, if the target enemy is Bleeding, increases DMG dealt by Luka by <unbreak>#1[i]%</unbreak> for <unbreak>#2[i]</unbreak> turn(s)."
@@ -2494,7 +2494,7 @@ interface Resources {
             "desc": "After the Enhanced Basic ATK's \"Rising Uppercut\" hits a Bleeding enemy target, the Bleed status will immediately deal DMG 1 time equal to <unbreak>#1[i]%</unbreak> of the original DMG for every hit of Direct Punch already unleashed during the current Enhanced Basic ATK."
           }
         },
-        "effects": {
+        "Effects": {
           "10011111": {
             "name": "Fighting Endlessly",
             "desc": "Increases DMG dealt by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color>.",
@@ -2524,7 +2524,7 @@ interface Resources {
             "ID": 10011115
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Kinetic Overload",
             "desc": "When the Skill is used, immediately dispels <unbreak>#1[i]</unbreak> buff from the enemy target.",
@@ -2549,8 +2549,8 @@ interface Resources {
         }
       },
       "1112": {
-        "name": "Topaz & Numby",
-        "abilities": {
+        "Name": "Topaz & Numby",
+        "Abilities": {
           "111201": {
             "name": "Deficit...",
             "desc": "Deals minor Fire DMG to an enemy.",
@@ -2581,7 +2581,7 @@ interface Resources {
             "longdesc": "Summons Numby when Topaz enters the overworld. Numby will automatically search for Basic Treasures and Trotters within a set radius.\\nUsing her Technique will regenerate <unbreak>#1[i]</unbreak> Energy for Topaz after Numby's first attack in the next battle.\\nIf Topaz is still in the team after using her Technique and defeating overworld enemies, a small bonus amount of credits will be added to the earned credits. A maximum of <unbreak>#2[i]</unbreak> bonus credits can be received per calendar day.\\nAfter using her Technique and defeating enemies in Simulated Universe or Divergent Universe, additionally receive a small amount of Cosmic Fragments with a small chance to obtain 1 random Curio."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "111201": {
             "name": "Future Market",
             "desc": "When enemies afflicted with Proof of Debt receive follow-up attacks, they will enter the Debtor state. This can take effect only once within a single attack.\\nThe Debtor state increases the CRIT DMG of follow-up attacks inflicted on the target enemies by <unbreak>#1[i]%</unbreak>, stacking up to <unbreak>#2[i]</unbreak> time(s). When Proof of Debt is removed, the Debtor state is also removed."
@@ -2607,7 +2607,7 @@ interface Resources {
             "desc": "Numby's attack count during the Windfall Bonanza! state increases by <unbreak>#1[i]</unbreak>, and its Fire RES PEN increases by <unbreak>#2[i]%</unbreak> when it attacks."
           }
         },
-        "effects": {
+        "Effects": {
           "10011121": {
             "name": "Windfall Bonanza!",
             "desc": "Numby's DMG multiplier increases by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color>, CRIT DMG increases by <color=#f29e38ff><unbreak>#2[i]%</unbreak></color>. When enemies with Proof of Debt receive attacks from allies' Basic ATK, Skill, or Ultimate, Numby's action is Advanced Forward by <color=#f29e38ff><unbreak>#3[i]%</unbreak></color>.",
@@ -2634,7 +2634,7 @@ interface Resources {
             "ID": 10011124
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Overdraft",
             "desc": "When Topaz uses Basic ATK to deal DMG, it will be considered as a follow-up attack.",
@@ -2659,8 +2659,8 @@ interface Resources {
         }
       },
       "1201": {
-        "name": "Qingque",
-        "abilities": {
+        "Name": "Qingque",
+        "Abilities": {
           "120101": {
             "name": "Flower Pick",
             "desc": "Tosses a tile to deal minor Quantum DMG to a single enemy.",
@@ -2691,7 +2691,7 @@ interface Resources {
             "longdesc": "After using Technique, Qingque draws <unbreak>#1[i]</unbreak> jade tile(s) when the battle starts."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "120101": {
             "name": "Rise Through the Tiles",
             "desc": "Ultimate deals <unbreak>#1[i]%</unbreak> more DMG."
@@ -2717,7 +2717,7 @@ interface Resources {
             "desc": "Recovers 1 Skill Point after using Enhanced Basic ATK."
           }
         },
-        "effects": {
+        "Effects": {
           "10012011": {
             "name": "Hidden Hand",
             "desc": "Basic ATK is Enhanced and increases ATK by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color>.",
@@ -2744,7 +2744,7 @@ interface Resources {
             "ID": 10012014
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Tile Battle",
             "desc": "Restores 1 Skill Point when using the Skill. This effect can only be triggered 1 time per battle.",
@@ -2769,8 +2769,8 @@ interface Resources {
         }
       },
       "1202": {
-        "name": "Tingyun",
-        "abilities": {
+        "Name": "Tingyun",
+        "Abilities": {
           "120201": {
             "name": "Dislodged",
             "desc": "Deals minor Lightning DMG to a single enemy.",
@@ -2801,7 +2801,7 @@ interface Resources {
             "longdesc": "Tingyun immediately regenerates <unbreak>#1[i]</unbreak> Energy upon using her Technique."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "120201": {
             "name": "Windfall of Lucky Springs",
             "desc": "After using their Ultimate, the ally with Benediction gains a <unbreak>#1[i]%</unbreak> increase in SPD for 1 turn."
@@ -2827,7 +2827,7 @@ interface Resources {
             "desc": "Ultimate regenerates <unbreak>#1[i]</unbreak> more Energy for the target ally."
           }
         },
-        "effects": {
+        "Effects": {
           "10012021": {
             "name": "Benediction",
             "desc": "ATK +<color=#f29e38ff><unbreak>#1[i]</unbreak></color>.",
@@ -2857,7 +2857,7 @@ interface Resources {
             "ID": 10012024
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Nourished Joviality",
             "desc": "Tingyun's SPD increases by <unbreak>#1[i]%</unbreak> for 1 turn after using Skill.",
@@ -2882,8 +2882,8 @@ interface Resources {
         }
       },
       "1203": {
-        "name": "Luocha",
-        "abilities": {
+        "Name": "Luocha",
+        "Abilities": {
           "120301": {
             "name": "Thorns of the Abyss",
             "desc": "Deals minor Imaginary DMG to a single enemy.",
@@ -2914,7 +2914,7 @@ interface Resources {
             "longdesc": "After the Technique is used, the Talent will be immediately triggered at the start of the next battle."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "120301": {
             "name": "Ablution of the Quick",
             "desc": "While the Zone is active, ATK of all allies increases by <unbreak>#1[i]%</unbreak>."
@@ -2940,7 +2940,7 @@ interface Resources {
             "desc": "When Ultimate is used, there is a <unbreak>#1[i]%</unbreak> fixed chance to reduce all enemies' All-Type RES by <unbreak>#2[i]%</unbreak> for <unbreak>#3[i]</unbreak> turn(s)."
           }
         },
-        "effects": {
+        "Effects": {
           "10012031": {
             "name": "Shield",
             "desc": "Gains a Shield that absorbs DMG. While the Shield persists, enemy attacks will not reduce Shielded characters' HP.",
@@ -2994,7 +2994,7 @@ interface Resources {
             "ID": 10012038
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Cleansing Revival",
             "desc": "When the Skill's effect is triggered, removes <unbreak>#1[i]</unbreak> debuff(s) from a target ally.",
@@ -3019,8 +3019,8 @@ interface Resources {
         }
       },
       "1204": {
-        "name": "Jing Yuan",
-        "abilities": {
+        "Name": "Jing Yuan",
+        "Abilities": {
           "120401": {
             "name": "Glistening Light",
             "desc": "Deals minor Lightning DMG to a single enemy.",
@@ -3051,7 +3051,7 @@ interface Resources {
             "longdesc": "After the Technique is used, the Lightning-Lord's Hits Per Action in the first turn increases by <unbreak>#1[i]</unbreak> at the start of the next battle."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "120401": {
             "name": "Slash, Seas Split",
             "desc": "When Lightning-Lord attacks, the DMG multiplier on enemies adjacent to the target enemy increases by an extra amount equal to <unbreak>#1[i]%</unbreak> of the DMG multiplier against the primary target enemy."
@@ -3077,7 +3077,7 @@ interface Resources {
             "desc": "Each hit performed by the Lightning-Lord when it takes action will make the target enemy Vulnerable.\\nWhile Vulnerable, enemies receive <unbreak>#1[i]%</unbreak> more DMG until the end of the Lightning-Lord's current turn, stacking up to <unbreak>#2[i]</unbreak> time(s)."
           }
         },
-        "effects": {
+        "Effects": {
           "10012041": {
             "name": "Prana Extirpated",
             "desc": "Lightning-Lord's Hits Per Action.",
@@ -3104,7 +3104,7 @@ interface Resources {
             "ID": 10012044
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Battalia Crush",
             "desc": "If the Lightning-Lord's Hits Per Action is greater or equal to <unbreak>#1[i]</unbreak> in the next turn, its CRIT DMG increases by <unbreak>#2[i]%</unbreak> for the next turn.",
@@ -3129,8 +3129,8 @@ interface Resources {
         }
       },
       "1205": {
-        "name": "Blade",
-        "abilities": {
+        "Name": "Blade",
+        "Abilities": {
           "120501": {
             "name": "Shard Sword",
             "desc": "Deals minor Wind DMG to an enemy.",
@@ -3161,7 +3161,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. After entering combat, consumes <unbreak>#2[i]%</unbreak> of Blade's Max HP while dealing Wind DMG equal to <unbreak>#1[i]%</unbreak> of his Max HP to all enemies.\\nIf Blade's current HP is insufficient, his HP will be reduced to 1 when this Technique is used."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "120501": {
             "name": "Blade Cuts the Deepest in Hell",
             "desc": "Blade's Ultimate deals additionally increased DMG to a single enemy target, with the increased amount equal to <unbreak>#1[i]%</unbreak> of the tally of Blade's HP loss in the current battle.\\nThe tally of Blade's HP loss in the current battle is capped at <unbreak>#2[i]%</unbreak> of his Max HP. The tally value will be reset and re-accumulated after his Ultimate has been used."
@@ -3187,7 +3187,7 @@ interface Resources {
             "desc": "The maximum number of Charge stacks is reduced to 4. The follow-up attack triggered by Talent deals additionally increased DMG, equal to <unbreak>#1[i]%</unbreak> of Blade's Max HP."
           }
         },
-        "effects": {
+        "Effects": {
           "10012051": {
             "name": "Hellscape",
             "desc": "Basic ATK \"Shard Sword\" is enhanced, becoming \"Forest of Swords\" and dealing Blast DMG.",
@@ -3243,7 +3243,7 @@ interface Resources {
             "ID": 10012058
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Vita Infinita",
             "desc": "When Blade's current HP percentage is at <unbreak>50%</unbreak> of Max HP or lower, Incoming Healing increases by <unbreak>#1[i]%</unbreak>.",
@@ -3268,8 +3268,8 @@ interface Resources {
         }
       },
       "1206": {
-        "name": "Sushang",
-        "abilities": {
+        "Name": "Sushang",
+        "Abilities": {
           "120601": {
             "name": "Cloudfencer Art: Starshine",
             "desc": "Deals minor Physical DMG to a single enemy.",
@@ -3300,7 +3300,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. Upon entering battle, Sushang deals Physical DMG equal to <unbreak>#1[i]%</unbreak> of her ATK to all enemies."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "120601": {
             "name": "Cut With Ease",
             "desc": "After using Skill against a Weakness Broken enemy, regenerates 1 Skill Point."
@@ -3326,7 +3326,7 @@ interface Resources {
             "desc": "Talent's SPD Boost is stackable and can stack up to 2 times. Additionally, after entering battle, Sushang immediately gains 1 stack of her Talent's SPD Boost."
           }
         },
-        "effects": {
+        "Effects": {
           "10012061": {
             "name": "Dawn Herald",
             "desc": "Increases ATK by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color> and receives 2 extra chances to trigger Sword Stance when using Skill.",
@@ -3369,7 +3369,7 @@ interface Resources {
             "ID": 10012066
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Guileless",
             "desc": "When current HP percentage is <unbreak>#1[i]%</unbreak> or lower, reduces the chance of being attacked by enemies.",
@@ -3394,8 +3394,8 @@ interface Resources {
         }
       },
       "1207": {
-        "name": "Yukong",
-        "abilities": {
+        "Name": "Yukong",
+        "Abilities": {
           "120701": {
             "name": "Arrowslinger",
             "desc": "Deals minor Imaginary DMG to an enemy.",
@@ -3426,7 +3426,7 @@ interface Resources {
             "longdesc": "After using her Technique, Yukong enters Sprint mode for <unbreak>#1[i]</unbreak> seconds. In Sprint mode, her movement speed increases by <unbreak>#2[i]%</unbreak>, and Yukong gains <unbreak>#3[i]</unbreak> stack(s) of \"Roaring Bowstrings\" when she enters battle by attacking enemies."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "120701": {
             "name": "Aerial Marshal",
             "desc": "At the start of battle, increases the SPD of all allies by <unbreak>#1[i]%</unbreak> for <unbreak>#2[i]</unbreak> turn(s)."
@@ -3452,7 +3452,7 @@ interface Resources {
             "desc": "When Yukong uses her Ultimate, she immediately gains <unbreak>#1[i]</unbreak> stack(s) of \"Roaring Bowstrings.\""
           }
         },
-        "effects": {
+        "Effects": {
           "10012071": {
             "name": "Roaring Bowstrings",
             "desc": "ATK +<color=#f29e38ff><unbreak>#1[i]%</unbreak></color>.",
@@ -3494,7 +3494,7 @@ interface Resources {
             "ID": 10012076
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Archerion",
             "desc": "Yukong can resist 1 debuff application for 1 time. This effect can be triggered again after <unbreak>#1[i]</unbreak> turn(s).",
@@ -3519,8 +3519,8 @@ interface Resources {
         }
       },
       "1208": {
-        "name": "Fu Xuan",
-        "abilities": {
+        "Name": "Fu Xuan",
+        "Abilities": {
           "120801": {
             "name": "Novaburst",
             "desc": "Deals minor Quantum DMG to a single enemy.",
@@ -3551,7 +3551,7 @@ interface Resources {
             "longdesc": "After the Technique is used, all team members receive a Barrier, lasting for <unbreak>#1[i]</unbreak> seconds. This Barrier can block all enemy attacks, and the team will not enter battle when attacked. Entering battle while the Barrier is active will have Fu Xuan automatically activate Matrix of Prescience at the start of the battle, lasting for <unbreak>#2[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "120801": {
             "name": "Dominus Pacis",
             "desc": "The Knowledge effect increases CRIT DMG by <unbreak>#1[i]%</unbreak>."
@@ -3577,7 +3577,7 @@ interface Resources {
             "desc": "Once Matrix of Prescience is activated, it will keep a tally of the total HP lost by all team members in the current battle. The DMG dealt by Fu Xuan's Ultimate will increase by <unbreak>#1[i]%</unbreak> of this tally of HP loss.\\nThis tally is also capped at <unbreak>#2[i]%</unbreak> of Fu Xuan's Max HP and the tally value will reset and re-accumulate after Fu Xuan's Ultimate is used."
           }
         },
-        "effects": {
+        "Effects": {
           "10012081": {
             "name": "Knowledge",
             "desc": "Max HP +<color=#f29e38ff><unbreak>#1[i]</unbreak></color>, CRIT Rate +<color=#f29e38ff><unbreak>#2[f1]%</unbreak></color>.",
@@ -3631,7 +3631,7 @@ interface Resources {
             "ID": 10012088
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Taiyi, the Macrocosmic",
             "desc": "When Matrix of Prescience is active, Fu Xuan will regenerate <unbreak>#1[i]</unbreak> extra Energy when she uses her Skill.",
@@ -3656,8 +3656,8 @@ interface Resources {
         }
       },
       "1209": {
-        "name": "Yanqing",
-        "abilities": {
+        "Name": "Yanqing",
+        "Abilities": {
           "120901": {
             "name": "Frost Thorn",
             "desc": "Deals minor Ice DMG to a single enemy.",
@@ -3688,7 +3688,7 @@ interface Resources {
             "longdesc": "After using his Technique, at the start of the next battle, Yanqing deals <unbreak>#2[i]%</unbreak> more DMG for <unbreak>#3[i]</unbreak> turn(s) to enemies whose current HP percentage is <unbreak>#1[i]%</unbreak> or higher."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "120901": {
             "name": "Svelte Saber",
             "desc": "When Yanqing attacks a Frozen enemy, he deals Additional Ice DMG equal to <unbreak>#1[i]%</unbreak> of his ATK."
@@ -3714,7 +3714,7 @@ interface Resources {
             "desc": "If the buffs from Soulsteel Sync or the Ultimate are in effect when an enemy is defeated, the duration of these buffs is extended by 1 turn."
           }
         },
-        "effects": {
+        "Effects": {
           "10012091": {
             "name": "Soulsteel Sync",
             "desc": "Increases CRIT Rate by <color=#f29e38ff><unbreak>#1[f1]%</unbreak></color> and CRIT DMG by <color=#f29e38ff><unbreak>#2[i]%</unbreak></color>.",
@@ -3751,7 +3751,7 @@ interface Resources {
             "ID": 10012095
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Icing on the Kick",
             "desc": "When Yanqing attacks, deals Additional Ice DMG equal to <unbreak>#1[i]%</unbreak> of Yanqing's ATK to enemies with Ice Weakness.",
@@ -3776,8 +3776,8 @@ interface Resources {
         }
       },
       "1210": {
-        "name": "Guinaifen",
-        "abilities": {
+        "Name": "Guinaifen",
+        "Abilities": {
           "121001": {
             "name": "Standing Ovation",
             "desc": "Deals minor Fire DMG to a single enemy.",
@@ -3808,7 +3808,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. After entering battle, deals DMG for <unbreak>#2[i]</unbreak> time(s), dealing Fire DMG equal to <unbreak>#1[i]%</unbreak> of Guinaifen's ATK to a random single enemy target each time, with a <unbreak>#3[i]%</unbreak> <u>base chance</u> of inflicting Firekiss on them."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "121001": {
             "name": "Slurping Noodles During Handstand",
             "desc": "When Skill is used, there is a <unbreak>#1[i]%</unbreak> base chance to reduce the attacked target enemy's Effect RES by <unbreak>#2[i]%</unbreak> for <unbreak>#3[i]</unbreak> turn(s)."
@@ -3834,7 +3834,7 @@ interface Resources {
             "desc": "Increases the stackable Firekiss count by <unbreak>#1[i]</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10012103": {
             "name": "Firekiss",
             "desc": "Received DMG increases by <color=#f29e38ff><unbreak>#1[f1]%</unbreak></color>.",
@@ -3850,7 +3850,7 @@ interface Resources {
             "ID": 10012105
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "High Poles",
             "desc": "Basic ATK has a <unbreak>#1[i]%</unbreak> base chance of inflicting an enemy with a Burn, equivalent to that of Skill.",
@@ -3875,8 +3875,8 @@ interface Resources {
         }
       },
       "1211": {
-        "name": "Bailu",
-        "abilities": {
+        "Name": "Bailu",
+        "Abilities": {
           "121101": {
             "name": "Diagnostic Kick",
             "desc": "Deals minor Lightning DMG to a single enemy.",
@@ -3907,7 +3907,7 @@ interface Resources {
             "longdesc": "After Technique is used, at the start of the next battle, all allies are granted Invigoration for <unbreak>#1[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "121101": {
             "name": "Ambrosial Aqua",
             "desc": "If the target ally's current HP is equal to their Max HP when Invigoration ends, regenerates <unbreak>#1[i]</unbreak> extra Energy for this target."
@@ -3933,7 +3933,7 @@ interface Resources {
             "desc": "Bailu can heal allies who received a killing blow <unbreak>#1[i]</unbreak> more time(s) in a single battle."
           }
         },
-        "effects": {
+        "Effects": {
           "10012111": {
             "name": "Invigoration",
             "desc": "Restores HP when attacked.",
@@ -3970,7 +3970,7 @@ interface Resources {
             "ID": 10012115
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Qihuang Analects",
             "desc": "When Bailu heals a target ally above their normal Max HP, the target's Max HP increases by <unbreak>#1[i]%</unbreak> for <unbreak>#2[i]</unbreak> turns.",
@@ -3995,8 +3995,8 @@ interface Resources {
         }
       },
       "1212": {
-        "name": "Jingliu",
-        "abilities": {
+        "Name": "Jingliu",
+        "Abilities": {
           "121201": {
             "name": "Lucent Moonglow",
             "desc": "Deals minor Ice DMG to a single enemy target.",
@@ -4027,7 +4027,7 @@ interface Resources {
             "longdesc": "After using this Technique, creates a Special Dimension around Jingliu that lasts for <unbreak>#3[i]</unbreak> seconds, and all enemies in this Special Dimension will become Frozen. After entering combat with enemies in the Special Dimension, Jingliu immediately regenerates <unbreak>#6[i]</unbreak> Energy and obtains <unbreak>#1[i]</unbreak> stack(s) of Syzygy, with a <unbreak>#2[i]%</unbreak> <u>base chance</u> of Freezing enemy targets for <unbreak>#4[i]</unbreak> turn(s). While Frozen, enemy targets cannot take action, and receive Ice <u>Additional DMG</u> equal to <unbreak>#5[i]%</unbreak> of Jingliu's ATK at the start of every turn. Only 1 dimension created by allies can exist at the same time."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "121201": {
             "name": "Moon Crashes Tianguan Gate",
             "desc": "When using her Ultimate or Enhanced Skill, Jingliu's CRIT DMG increases by <unbreak>#1[i]%</unbreak> for <unbreak>#3[i]</unbreak> turn(s). If only one enemy target is attacked, the target will additionally be dealt Ice DMG equal to <unbreak>#2[i]%</unbreak> of Jingliu's ATK."
@@ -4053,7 +4053,7 @@ interface Resources {
             "desc": "When Jingliu enters the Spectral Transmigration state, the Syzygy stack limit increases by 1, and Jingliu obtains <unbreak>#1[i]</unbreak> stack(s) of Syzygy. While she is in the Spectral Transmigration state, her CRIT DMG increases by <unbreak>#2[i]%</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10012121": {
             "name": "Spectral Transmigration",
             "desc": "Increases ATK by <color=#f29e38ff><unbreak>#1[i]</unbreak></color>.",
@@ -4110,7 +4110,7 @@ interface Resources {
             "ID": 10012128
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Deathrealm",
             "desc": "While in the Spectral Transmigration state, increases Effect RES by <unbreak>#1[i]%</unbreak>.",
@@ -4135,8 +4135,8 @@ interface Resources {
         }
       },
       "1213": {
-        "name": "Dan Heng • Imbibitor Lunae",
-        "abilities": {
+        "Name": "Dan Heng • Imbibitor Lunae",
+        "Abilities": {
           "121301": {
             "name": "Beneficent Lotus",
             "desc": "Deals minor Imaginary DMG to a single enemy.",
@@ -4167,7 +4167,7 @@ interface Resources {
             "longdesc": "After using his Technique, Dan Heng • Imbibitor Lunae enters the Leaping Dragon state for <unbreak>#2[i]</unbreak> seconds. While in the Leaping Dragon state, using his attack enables him to move forward rapidly for a set distance, attacking all enemies he touches and blocking all incoming attacks. After entering combat via attacking enemies in the Leaping Dragon state, Dan Heng • Imbibitor Lunae deals Imaginary DMG equal to <unbreak>#3[i]%</unbreak> of his ATK to all enemies, and gains <unbreak>#1[i]</unbreak> Squama Sacrosancta."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "121301": {
             "name": "Tethered to Sky",
             "desc": "Increases the stackable Righteous Heart count by <unbreak>#1[i]</unbreak>, and gains 1 extra stack of Righteous Heart for each hit during an attack."
@@ -4193,7 +4193,7 @@ interface Resources {
             "desc": "After any other ally uses their Ultimate, the Imaginary RES PEN of Dan Heng • Imbibitor Lunae's next Fulgurant Leap attack increases by <unbreak>#1[i]%</unbreak>. This effect can stack up to <unbreak>#2[i]</unbreak> time(s)."
           }
         },
-        "effects": {
+        "Effects": {
           "10012131": {
             "name": "Outroar",
             "desc": "Each stack increases CRIT DMG dealt by <color=#f29e38ff><unbreak>#1[f1]%</unbreak></color>, up to <color=#f29e38ff><unbreak>#2[i]</unbreak></color> stack(s).",
@@ -4226,7 +4226,7 @@ interface Resources {
             "ID": 10012135
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Star Veil",
             "desc": "At the start of the battle, immediately regenerates <unbreak>#1[i]</unbreak> Energy.",
@@ -4251,8 +4251,8 @@ interface Resources {
         }
       },
       "1214": {
-        "name": "Xueyi",
-        "abilities": {
+        "Name": "Xueyi",
+        "Abilities": {
           "121401": {
             "name": "Mara-Sunder Awl",
             "desc": "Deals minor Quantum DMG to a single enemy.",
@@ -4283,7 +4283,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. After entering combat, deals <unbreak>#1[i]%</unbreak> of Xueyi's ATK as Quantum DMG to all enemies."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "121401": {
             "name": "Dvesha, Inhibited",
             "desc": "Increases the DMG dealt by the Talent's follow-up attack by <unbreak>#1[i]%</unbreak>."
@@ -4309,7 +4309,7 @@ interface Resources {
             "desc": "The max stack limit for Karma decreases to <unbreak>#1[i]</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10012141": {
             "name": "Perspicacious Mainframe",
             "desc": "<color=#f29e38ff><unbreak>#1[i]</unbreak></color> overflowing Karma stacks.",
@@ -4330,7 +4330,7 @@ interface Resources {
             "ID": 10012143
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Clairvoyant Loom",
             "desc": "Increases DMG dealt by this unit by an amount equal to <unbreak>#1[i]%</unbreak> of Break Effect, up to a maximum DMG increase of <unbreak>#2[i]%</unbreak>.",
@@ -4355,8 +4355,8 @@ interface Resources {
         }
       },
       "1215": {
-        "name": "Hanya",
-        "abilities": {
+        "Name": "Hanya",
+        "Abilities": {
           "121501": {
             "name": "Oracle Brush",
             "desc": "Deals minor Physical DMG to a single enemy.",
@@ -4387,7 +4387,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. After entering battle, applies Burden equivalent to that applied by the Skill to a random enemy."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "121501": {
             "name": "One Heart",
             "desc": "When an ally with Hanya's Ultimate's effect defeats an enemy, Hanya's action is Advanced Forward by <unbreak>#1[i]%</unbreak>. This effect can only be triggered <unbreak>#2[i]</unbreak> time(s) per turn."
@@ -4413,7 +4413,7 @@ interface Resources {
             "desc": "Increase the DMG Boost effect of the Talent by an additional <unbreak>#1[i]%</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10012151": {
             "name": "Edict",
             "desc": "Increases ATK by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color> and SPD by <color=#f29e38ff><unbreak>#2[i]</unbreak></color> points.",
@@ -4457,7 +4457,7 @@ interface Resources {
             "ID": 10012156
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Scrivener",
             "desc": "Allies triggering Burden's Skill Point recovery effect have their ATK increased by <unbreak>#1[i]%</unbreak> for <unbreak>#2[i]</unbreak> turn(s).",
@@ -4482,8 +4482,8 @@ interface Resources {
         }
       },
       "1217": {
-        "name": "Huohuo",
-        "abilities": {
+        "Name": "Huohuo",
+        "Abilities": {
           "121701": {
             "name": "Banner: Stormcaller",
             "desc": "Deals minor Wind DMG to a single enemy.",
@@ -4514,7 +4514,7 @@ interface Resources {
             "longdesc": "Huohuo terrorizes surrounding enemies, afflicting Horror-Struck on them. Enemies in Horror-Struck will flee away from Huohuo for <unbreak>#4[i]</unbreak> second(s). When entering battle with enemies in Horror-Struck, there is a <unbreak>#1[i]%</unbreak> <u>base chance</u> of reducing every single enemy's ATK by <unbreak>#2[i]%</unbreak> for <unbreak>#3[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "121701": {
             "name": "Anchored to Vessel, Specters Nestled",
             "desc": "The duration of Divine Provision produced by the Talent is extended by <unbreak>#2[i]</unbreak> turn(s). When Huohuo possesses Divine Provision, all allies' SPD increases by <unbreak>#1[i]%</unbreak>."
@@ -4540,7 +4540,7 @@ interface Resources {
             "desc": "When healing a target ally, increases the target ally's DMG dealt by <unbreak>#1[i]%</unbreak> for <unbreak>#2[i]</unbreak> turn(s)."
           }
         },
-        "effects": {
+        "Effects": {
           "10012172": {
             "name": "Divine Provision",
             "desc": "When an ally's turn starts or when an ally uses their Ultimate, restores HP for that ally by an amount equal to <color=#f29e38ff><unbreak>#1[f1]%</unbreak></color> of Huohuo's Max HP plus <color=#f29e38ff><unbreak>#2[i]</unbreak></color>. At the same time, every ally currently at <color=#f29e38ff><unbreak>#3[i]%</unbreak></color> HP percentage or lower receives healing once. When Divine Provision is triggered to provide healing for allies, dispel 1 debuff from the said ally. This effect's remaining trigger count is <color=#f29e38ff><unbreak>#4[i]</unbreak></color>.",
@@ -4590,7 +4590,7 @@ interface Resources {
             "ID": 10012178
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Fearful to Act",
             "desc": "When battle starts, Huohuo gains Divine Provision, lasting for <unbreak>#1[i]</unbreak> turn(s).",
@@ -4615,8 +4615,8 @@ interface Resources {
         }
       },
       "1218": {
-        "name": "Jiaoqiu",
-        "abilities": {
+        "Name": "Jiaoqiu",
+        "Abilities": {
           "121801": {
             "name": "Heart Afire",
             "desc": "Deals minor Fire DMG to a single enemy.",
@@ -4647,7 +4647,7 @@ interface Resources {
             "longdesc": "After using Technique, creates a Special Dimension that lasts for <unbreak>#2[i]</unbreak> second(s). After entering combat with enemies in this Special Dimension, deals Fire DMG equal to <unbreak>#1[i]%</unbreak> of Jiaoqiu's ATK to all enemies, with a <unbreak>#3[i]%</unbreak> <u>base chance</u> of applying 1 \"Ashen Roast\" stack. Only 1 dimension created by allies can exist at the same time."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "121801": {
             "name": "Pentapathic Transference",
             "desc": "Allies deal <unbreak>#1[i]%</unbreak> increased DMG to enemy targets afflicted with Ashen Roast. Whenever inflicting Ashen Roast on an enemy target via triggering the Talent's effect, additionally increases the number of \"Ashen Roast\" stacks applied this time by <unbreak>#2[i]</unbreak>."
@@ -4673,7 +4673,7 @@ interface Resources {
             "desc": "When an enemy target gets defeated, their accumulated \"Ashen Roast\" stacks will transfer to the enemy with the lowest number of \"Ashen Roast\" stacks on the battlefield. The maximum stack limit of Ashen Roast increases to <unbreak>#2[i]</unbreak>, and each \"Ashen Roast\" stack reduces the target's All-Type RES by <unbreak>#3[i]%</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10012181": {
             "name": "Pyrograph Arcanum",
             "desc": "Enemy targets in the Zone take <color=#f29e38ff><unbreak>#1[f1]%</unbreak></color> increased Ultimate DMG, with a <color=#f29e38ff><unbreak>#2[i]%</unbreak></color> base chance of being inflicted with 1 stack of Ashen Roast when taking action. While the Zone exists, this effect can trigger up to <color=#f29e38ff><unbreak>#3[i]</unbreak></color> time(s). And it can only trigger once per enemy turn. This effect can still trigger for <color=#f29e38ff><unbreak>#4[i]</unbreak></color> more time(s).",
@@ -4734,7 +4734,7 @@ interface Resources {
             "ID": 10012189
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Pyre Cleanse",
             "desc": "When battle starts, immediately regenerates <unbreak>#1[i]</unbreak> Energy.",
@@ -4759,9 +4759,9 @@ interface Resources {
         }
       },
       "1220": {
-        "name": "Feixiao",
-        "abilities": {},
-        "eidolons": {
+        "Name": "Feixiao",
+        "Abilities": {},
+        "Eidolons": {
           "122001": {
             "name": "Skyward I Quell",
             "desc": "After launching \"Boltsunder Blitz\" or \"Waraxe Skyward,\" additionally increases the Ultimate DMG dealt by Feixiao by an amount equal to <unbreak>#1[i]%</unbreak> of the original DMG, stacking up to <unbreak>#2[i]</unbreak> time(s) and lasting until the end of the Ultimate action."
@@ -4787,7 +4787,7 @@ interface Resources {
             "desc": "Increases the All-Type RES PEN of Ultimate DMG dealt by Feixiao by <unbreak>#1[i]%</unbreak>. Talent's follow-up attack DMG is considered as Ultimate DMG at the same time, and its DMG multiplier increases by <unbreak>#2[i]%</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10012201": {
             "name": "Thunderhunt",
             "desc": "The Talent's follow-up attack can now be triggered.",
@@ -4828,7 +4828,7 @@ interface Resources {
             "ID": 10012206
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Heavenpath",
             "desc": "When the battle starts, gains <unbreak>#1[i]</unbreak> point(s) of \"Flying Aureus.\"\\nAt the start of a turn, if no follow-up attack was launched via Talent in the previous turn, then this counts as 1 toward the number of attacks required to gain \"Flying Aureus.\"",
@@ -4853,8 +4853,8 @@ interface Resources {
         }
       },
       "1221": {
-        "name": "Yunli",
-        "abilities": {
+        "Name": "Yunli",
+        "Abilities": {
           "122101": {
             "name": "Galespin Summersault",
             "desc": "Deals minor Physical DMG to a single enemy.",
@@ -4885,7 +4885,7 @@ interface Resources {
             "longdesc": "This unit gains the Ward effect, lasting for <unbreak>#2[i]</unbreak> seconds. During this time, upon entering combat by either attacking enemies or receiving an attack, immediately casts \"Intuit: Cull\" on a random enemy, and increases the DMG dealt by this attack by <unbreak>#1[i]%</unbreak>."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "122101": {
             "name": "Weathered Blade Does Not Sully",
             "desc": "Increases DMG dealt by \"Intuit: Slash\" and \"Intuit: Cull\" by <unbreak>#1[i]%</unbreak>. Increases the number of additional DMG instances for \"Intuit: Cull\" by <unbreak>#2[i]</unbreak>."
@@ -4911,7 +4911,7 @@ interface Resources {
             "desc": "While Parry is active, if an enemy actively uses their abilities, regardless of whether it attacks Yunli or not, it will trigger \"Intuit: Cull\" and remove the \"Parry\" effect. When dealing DMG via \"Intuit: Slash\" or \"Intuit: Cull,\" increases CRIT Rate by <unbreak>#1[i]%</unbreak> and Physical RES PEN by <unbreak>#2[i]%</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10012211": {
             "name": "Imbalance",
             "desc": "Increases DMG dealt by Yunli to this unit by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color>.",
@@ -4962,7 +4962,7 @@ interface Resources {
             "ID": 10012217
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Fiery Wheel",
             "desc": "After each use of \"Intuit: Slash,\" the next \"Intuit: Slash\" will be replaced by \"Intuit: Cull.\"",
@@ -4987,9 +4987,9 @@ interface Resources {
         }
       },
       "1222": {
-        "name": "Lingsha",
-        "abilities": {},
-        "eidolons": {
+        "Name": "Lingsha",
+        "Abilities": {},
+        "Eidolons": {
           "122201": {
             "name": "Bloom on Vileward Bouquet",
             "desc": "Lingsha's Weakness Break Efficiency increases by <unbreak>#2[i]%</unbreak>. When an enemy unit's Weakness is Broken, reduces their DEF by <unbreak>#1[i]%</unbreak>."
@@ -5015,7 +5015,7 @@ interface Resources {
             "desc": "While Fuyuan is on the field, reduces all enemies' All-Type RES by <unbreak>#1[i]%</unbreak>. When Fuyuan attacks, additionally deals <unbreak>#2[i]</unbreak> instance(s) of DMG, with each instance dealing both Fire DMG equal to <unbreak>#3[i]%</unbreak> of Lingsha's ATK and a Toughness Reduction of <unbreak>#4[i]</unbreak> to a single random enemy. This prioritizes targets with both Toughness greater than 0 and Fire Weakness."
           }
         },
-        "effects": {
+        "Effects": {
           "10012221": {
             "name": "Bloom on Vileward Bouquet",
             "desc": "DEF decreases by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color>.",
@@ -5051,7 +5051,7 @@ interface Resources {
             "ID": 10012225
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Vermilion Waft",
             "desc": "Increases this unit's ATK or Outgoing Healing by an amount equal to <unbreak>#1[i]%</unbreak>/<unbreak>#2[i]%</unbreak> of Break Effect, up to a maximum increase of <unbreak>#3[i]%</unbreak>/<unbreak>#4[i]%</unbreak> respectively.",
@@ -5076,9 +5076,9 @@ interface Resources {
         }
       },
       "1223": {
-        "name": "Moze",
-        "abilities": {},
-        "eidolons": {
+        "Name": "Moze",
+        "Abilities": {},
+        "Eidolons": {
           "122301": {
             "name": "Oathkeeper",
             "desc": "After entering battle, Moze regenerates <unbreak>#2[i]</unbreak> Energy. Each time the Additional DMG from his Talent is triggered, Moze regenerates <unbreak>#1[i]</unbreak> Energy."
@@ -5104,7 +5104,7 @@ interface Resources {
             "desc": "Increases the DMG multiplier of the Talent's follow-up attack by <unbreak>#1[i]%</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10012231": {
             "name": "Prey",
             "desc": "This unit is marked as \"Prey.\" After every time it receives an attack, it will receive Lightning Additional DMG equal to <color=#f29e38ff><unbreak>#1[i]%</unbreak></color> of Moze's ATK, and Moze will consume 1 point of Charge.",
@@ -5168,7 +5168,7 @@ interface Resources {
             "ID": 10012239
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Nightfeather",
             "desc": "After using the Talent's follow-up attack, recovers <unbreak>#1[i]</unbreak> Skill Point(s). This effect can trigger again after <unbreak>#2[i]</unbreak> turn(s).",
@@ -5193,8 +5193,8 @@ interface Resources {
         }
       },
       "1224": {
-        "name": "March 7th",
-        "abilities": {
+        "Name": "March 7th",
+        "Abilities": {
           "122401": {
             "name": "My Sword Zaps Demons",
             "desc": "Deals minor Imaginary DMG to a single enemy and gains <color=#f29e38ff><unbreak>#2[i]</unbreak></color> point(s) of Charge.",
@@ -5225,7 +5225,7 @@ interface Resources {
             "longdesc": "If March 7th is on the team, she gains 1 point of Charge at the start of the next battle whenever an ally uses Technique, up to a max of <unbreak>#1[i]</unbreak> point(s).\\nAfter using Technique, March 7th regenerates <unbreak>#2[i]</unbreak> Energy when the next battle starts."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "122401": {
             "name": "My Sword Stirs Starlight",
             "desc": "When Shifu is on the field, increases March 7th's SPD by <unbreak>#1[i]%</unbreak>."
@@ -5251,7 +5251,7 @@ interface Resources {
             "desc": "After using Ultimate, increases the CRIT DMG dealt by the next Enhanced Basic ATK by <unbreak>#1[i]%</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10012241": {
             "name": "Shifu",
             "desc": "After using an attack or Ultimate, <color=#f29e38ff>%CasterName</color> gains a max of 1 Charge point each time.",
@@ -5306,7 +5306,7 @@ interface Resources {
             "ID": 10012248
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Swan Soar",
             "desc": "When the battle starts, March 7th's action is Advanced Forward by <unbreak>#1[i]%</unbreak>.",
@@ -5331,8 +5331,8 @@ interface Resources {
         }
       },
       "1301": {
-        "name": "Gallagher",
-        "abilities": {
+        "Name": "Gallagher",
+        "Abilities": {
           "130101": {
             "name": "Corkage Fee",
             "desc": "Deals minor Fire DMG to a single enemy.",
@@ -5363,7 +5363,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. Upon entering battle, inflicts Besotted on all enemies, lasting for <unbreak>#1[i]</unbreak> turn(s). And deals Fire DMG equal to <unbreak>#2[i]%</unbreak> of Gallagher's ATK to all enemies."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "130101": {
             "name": "Salty Dog",
             "desc": "When entering the battle, Gallagher regenerates <unbreak>#1[i]</unbreak> Energy and increases Effect RES by <unbreak>#2[i]%</unbreak>."
@@ -5389,7 +5389,7 @@ interface Resources {
             "desc": "Increases Gallagher's Break Effect by <unbreak>#1[i]%</unbreak> and Weakness Break Efficiency by <unbreak>#2[i]%</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10013011": {
             "name": "Besotted",
             "desc": "Increases the received Break DMG by <color=#f29e38ff><unbreak>#1[f1]%</unbreak></color>. And every time this unit gets attacked by characters, the attacker will restore <color=#f29e38ff><unbreak>#2[i]</unbreak></color> HP.",
@@ -5412,7 +5412,7 @@ interface Resources {
             "ID": 10013013
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Novel Concoction",
             "desc": "Increases this unit's Outgoing Healing by an amount equal to <unbreak>#1[i]%</unbreak> of Break Effect, up to a maximum Outgoing Healing increase of <unbreak>#2[i]%</unbreak>.",
@@ -5437,8 +5437,8 @@ interface Resources {
         }
       },
       "1302": {
-        "name": "Argenti",
-        "abilities": {
+        "Name": "Argenti",
+        "Abilities": {
           "130201": {
             "name": "Fleeting Fragrance",
             "desc": "Deals minor Physical DMG to a single enemy.",
@@ -5469,7 +5469,7 @@ interface Resources {
             "longdesc": "After using the Technique, enemies in a set area are inflicted with Daze for <unbreak>#1[i]</unbreak> second(s). Dazed enemies will not actively attack the team.\\nWhen attacking a Dazed enemy to enter combat, deals Physical DMG to all enemies equal to <unbreak>#2[i]%</unbreak> of Argenti's ATK and regenerates his Energy by <unbreak>#3[i]</unbreak>."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "130201": {
             "name": "A Lacuna in Kingdom of Aesthetics",
             "desc": "Each stack of Apotheosis additionally increases CRIT DMG by <unbreak>#1[i]%</unbreak>."
@@ -5495,7 +5495,7 @@ interface Resources {
             "desc": "When using Ultimate, ignores <unbreak>#1[i]%</unbreak> of enemy targets' DEF."
           }
         },
-        "effects": {
+        "Effects": {
           "10013021": {
             "name": "Apotheosis",
             "desc": "Increases CRIT Rate by <color=#f29e38ff><unbreak>#1[f1]%</unbreak></color>.",
@@ -5511,7 +5511,7 @@ interface Resources {
             "ID": 10013022
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Piety",
             "desc": "At the start of a turn, immediately gains <unbreak>#1[i]</unbreak> stack(s) of Apotheosis.",
@@ -5536,8 +5536,8 @@ interface Resources {
         }
       },
       "1303": {
-        "name": "Ruan Mei",
-        "abilities": {
+        "Name": "Ruan Mei",
+        "Abilities": {
           "130301": {
             "name": "Threading Fragrance",
             "desc": "Deals minor Ice DMG to a single enemy.",
@@ -5568,7 +5568,7 @@ interface Resources {
             "longdesc": "After using the Technique, gains Silken Serenade. At the start of the next battle, automatically triggers the Skill for <unbreak>#1[i]</unbreak> time(s) without consuming Skill Points.\\nIn Simulated Universe or Divergent Universe, when Ruan Mei has Silken Serenade, the team actively attacking enemies will always be regarded as attacking their Weakness to enter battle, and this attack can reduce all enemies' Toughness regardless of Weakness types. When breaking Weakness, triggers Weakness Break Effect corresponding to the attacker's Type. For every Blessing in possession (up to a max of <unbreak>#4[i]</unbreak> Blessings will be taken into account), additionally increases the Toughness Reduction of this attack by <unbreak>#2[i]%</unbreak>. After breaking an enemy target's Weakness, additionally deals to the enemy target Break DMG equal to <unbreak>#3[i]%</unbreak> of Ruan Mei's Ice Break DMG."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "130301": {
             "name": "Neuronic Embroidery",
             "desc": "While the Ultimate's Zone is deployed, the DMG dealt by all allies ignores <unbreak>#1[i]%</unbreak> of the target's DEF."
@@ -5594,7 +5594,7 @@ interface Resources {
             "desc": "Extends the duration of the Ultimate's Zone by <unbreak>#1[i]</unbreak> turn(s). The Talent's Break DMG multiplier additionally increases by <unbreak>#2[i]%</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10013031": {
             "name": "Overtone",
             "desc": "DMG dealt increases by <color=#f29e38ff><unbreak>#1[f1]%</unbreak></color>. Weakness Break Efficiency increases by <color=#f29e38ff><unbreak>#2[i]%</unbreak></color>.",
@@ -5654,7 +5654,7 @@ interface Resources {
             "ID": 10013039
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Inert Respiration",
             "desc": "Increases Break Effect by <unbreak>#1[i]%</unbreak> for all allies.",
@@ -5679,8 +5679,8 @@ interface Resources {
         }
       },
       "1304": {
-        "name": "Aventurine",
-        "abilities": {
+        "Name": "Aventurine",
+        "Abilities": {
           "130401": {
             "name": "Straight Bet",
             "desc": "Deals minor Imaginary DMG to a single target enemy.",
@@ -5711,7 +5711,7 @@ interface Resources {
             "longdesc": "After using the Technique, 1 of the following effects will be granted:\\nThere is a chance for DEF to increase by <unbreak>#1[i]%</unbreak>.\\nThere is a high chance for DEF to increase by <unbreak>#2[i]%</unbreak>.\\nThere is a small chance for DEF to increase by <unbreak>#3[i]%</unbreak>.\\n\\nWhen this Technique is used repeatedly, the acquired effect with the highest buff value is retained.\\nWhen the next battle starts, increases all allies' DEF by the corresponding value, lasting for <unbreak>#4[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "130401": {
             "name": "Prisoner's Dilemma",
             "desc": "Increases CRIT DMG by <unbreak>#1[i]%</unbreak> for allies with Fortified Wager. After using the Ultimate, provides all allies with a Fortified Wager shield, whose Shield effect is equal to <unbreak>#2[i]%</unbreak> of the one provided by the Skill, lasting for <unbreak>#3[i]</unbreak> turn(s)."
@@ -5737,7 +5737,7 @@ interface Resources {
             "desc": "For every ally that holds a Shield, the DMG dealt by Aventurine increases by <unbreak>#1[i]%</unbreak>, up to a maximum of <unbreak>#2[i]%</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10013041": {
             "name": "Unexpected Hanging Paradox",
             "desc": "DEF increases by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color>",
@@ -5798,7 +5798,7 @@ interface Resources {
             "ID": 10013049
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Leverage",
             "desc": "For every <unbreak>100</unbreak> of Aventurine's DEF that exceeds <unbreak>#3[i]</unbreak>, increases his own CRIT Rate by <unbreak>#1[i]%</unbreak>, up to a maximum increase of <unbreak>#2[i]%</unbreak>.",
@@ -5823,8 +5823,8 @@ interface Resources {
         }
       },
       "1305": {
-        "name": "Dr. Ratio",
-        "abilities": {
+        "Name": "Dr. Ratio",
+        "Abilities": {
           "130501": {
             "name": "Mind is Might",
             "desc": "Deals minor Imaginary DMG to a single target enemy.",
@@ -5855,7 +5855,7 @@ interface Resources {
             "longdesc": "After using Technique, creates a Special Dimension that Taunts nearby enemies, lasting for <unbreak>#1[i]</unbreak> second(s). After entering battle with enemies in this Special Dimension, there is a <unbreak>#2[i]%</unbreak> <u>base chance</u> to reduce each single enemy target's SPD by <unbreak>#3[i]%</unbreak> for <unbreak>#4[i]</unbreak> turn(s). Only 1 dimension created by allies can exist at the same time."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "130501": {
             "name": "Pride Comes Before a Fall",
             "desc": "The maximum stackable count for the Trace \"Summation\" increases by <unbreak>#1[i]</unbreak>. When a battle begins, immediately obtains <unbreak>#2[i]</unbreak> stacks of Summation. Needs to unlock Summation first."
@@ -5881,7 +5881,7 @@ interface Resources {
             "desc": "Additionally increases the triggerable count for Wiseman's Folly by <unbreak>#1[i]</unbreak>. The DMG dealt by the Talent's follow-up attack increases by <unbreak>#2[i]%</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10013051": {
             "name": "SPD Boost",
             "desc": "Each stack increases SPD by <color=#f29e38ff><unbreak>#1[f1]%</unbreak></color>.",
@@ -5944,7 +5944,7 @@ interface Resources {
             "ID": 10013059
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Summation",
             "desc": "When Dr. Ratio uses his Skill, for every debuff on the target, his CRIT Rate increases by <unbreak>#1[f1]%</unbreak> and CRIT DMG by <unbreak>#2[i]%</unbreak>. This effect can stack up to <unbreak>#3[i]</unbreak> time(s).",
@@ -5969,8 +5969,8 @@ interface Resources {
         }
       },
       "1306": {
-        "name": "Sparkle",
-        "abilities": {
+        "Name": "Sparkle",
+        "Abilities": {
           "130601": {
             "name": "Monodrama",
             "desc": "Deals minor Quantum DMG to a single enemy.",
@@ -6001,7 +6001,7 @@ interface Resources {
             "longdesc": "Using the Technique grants all allies Misdirect for <unbreak>#2[i]</unbreak> seconds. Characters with Misdirect will not be detected by enemies, and entering battle in the Misdirect state recovers <unbreak>#1[i]</unbreak> Skill Point(s) for the team."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "130601": {
             "name": "Suspension of Disbelief",
             "desc": "The Cipher effect granted by the Ultimate lasts for 1 extra turn. All allies with Cipher have their ATK increased by <unbreak>#1[i]%</unbreak>."
@@ -6027,7 +6027,7 @@ interface Resources {
             "desc": "The CRIT DMG Boost effect provided by the Skill additionally increases by an amount equal to <unbreak>#1[i]%</unbreak> of Sparkle's CRIT DMG. When Sparkle uses Skill, her Skill's CRIT DMG Boost effect will apply to all allies with Cipher. When Sparkle uses her Ultimate, any single ally who benefits from her Skill's CRIT DMG Boost will spread that effect to allies with Cipher."
           }
         },
-        "effects": {
+        "Effects": {
           "10013061": {
             "name": "Dreamdiver",
             "desc": "Increase CRIT DMG by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color>.",
@@ -6071,7 +6071,7 @@ interface Resources {
             "ID": 10013067
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Almanac",
             "desc": "When using Basic ATK, additionally regenerates <unbreak>#1[i]</unbreak> Energy.",
@@ -6096,8 +6096,8 @@ interface Resources {
         }
       },
       "1307": {
-        "name": "Black Swan",
-        "abilities": {
+        "Name": "Black Swan",
+        "Abilities": {
           "130701": {
             "name": "Percipience, Silent Dawn",
             "desc": "Deals minor Wind DMG to a single enemy and has a chance of applying <u>Arcana</u> to the target. After attacking a target that suffers <color=#f29e38ff>Wind Shear, Bleed, Burn, or Shock</color>, there is respectively a chance of <color=#f29e38ff>additionally applying <u>Arcana</u></color>.",
@@ -6128,7 +6128,7 @@ interface Resources {
             "longdesc": "After this Technique is used, there is a <unbreak>#1[i]%</unbreak> <u>base chance</u> for each enemy to be inflicted with 1 stack of <u>Arcana</u> at the start of the next battle. For each successful application of <u>Arcana</u> on a target, inflicts another stack of <u>Arcana</u> on the same target. This process repeats until <u>Arcana</u> fails to be inflicted on this target. For each successive application of <u>Arcana</u> on a target, its <u>base chance</u> of success is equal to <unbreak>#2[i]%</unbreak> of the <u>base chance</u> of the previous successful infliction of <u>Arcana</u> on that target."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "130701": {
             "name": "Seven Pillars of Wisdom",
             "desc": "While Black Swan is active in battle, enemies afflicted with Wind Shear, Bleed, Burn, or Shock will have their corresponding Wind, Physical, Fire, or Lightning RES respectively reduced by <unbreak>#1[i]%</unbreak>."
@@ -6154,7 +6154,7 @@ interface Resources {
             "desc": "When an enemy target gets attacked by Black Swan's allies, Black Swan has a <unbreak>#2[i]%</unbreak> base chance of inflicting 1 stack of Arcana on the target.\\nEvery time Black Swan inflicts Arcana on an enemy target, there is a <unbreak>#1[i]%</unbreak> fixed chance to additionally increase the number of Arcana stacked this time by <unbreak>#3[i]</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10013071": {
             "name": "Arcana",
             "desc": "Takes Wind DMG at the start of each turn. Being afflicted with Arcana will also be considered as suffering from Wind Shear. This state stacks up to <color=#f29e38ff><unbreak>#1[i]</unbreak></color> times.",
@@ -6201,7 +6201,7 @@ interface Resources {
             "ID": 10013077
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Viscera's Disquiet",
             "desc": "After using the Skill to attack a single target enemy that has Wind Shear, Bleed, Burn, or Shock, each of these debuffs respectively has a <unbreak>#1[i]%</unbreak> base chance of inflicting 1 extra stack of Arcana.",
@@ -6226,8 +6226,8 @@ interface Resources {
         }
       },
       "1308": {
-        "name": "Acheron",
-        "abilities": {
+        "Name": "Acheron",
+        "Abilities": {
           "130801": {
             "name": "Trilateral Wiltcross",
             "desc": "Deals minor Lightning DMG to a single enemy.",
@@ -6258,7 +6258,7 @@ interface Resources {
             "longdesc": "Immediately attacks the enemy. At the start of each wave, gains Quadrivalent Ascendance, dealing Lightning DMG equal to <unbreak>#1[i]%</unbreak> of Acheron's ATK to all enemies and reducing Toughness of all enemies irrespective of Weakness Types. When breaking Weaknesses, triggers the Lightning Weakness Break effect.\\nQuadrivalent Ascendance: After using the Ultimate, Acheron gains <unbreak>#2[i]</unbreak> point(s) of Slashed Dream and inflicts <unbreak>#2[i]</unbreak> stack(s) of Crimson Knot on a single random enemy.\\nIf attacking a normal enemy, immediately defeats them without entering combat. When not hitting enemies, no Technique Points are consumed."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "130801": {
             "name": "Silenced Sky Spake Sooth",
             "desc": "When dealing DMG to debuffed enemies, increases the CRIT Rate by <unbreak>#1[i]%</unbreak>."
@@ -6284,7 +6284,7 @@ interface Resources {
             "desc": "Increases the All-Type RES PEN for the Ultimate DMG dealt by Acheron by <unbreak>#1[i]%</unbreak>. The DMG dealt by Basic ATK and Skill will also be considered as Ultimate DMG and can reduce enemy toughness regardless of Weakness Types. When breaking Weaknesses, triggers the Lightning Weakness Break effect."
           }
         },
-        "effects": {
+        "Effects": {
           "10013081": {
             "name": "Crimson Knot",
             "desc": "When removed, immediately deals Lightning DMG equal to <color=#f29e38ff><unbreak>#1[f1]%</unbreak></color> of Acheron's ATK to all enemies once. For every stack of Crimson Knot removed, this DMG multiplier additionally increases, up to a maximum of <color=#f29e38ff><unbreak>#2[f1]%</unbreak></color>.",
@@ -6326,7 +6326,7 @@ interface Resources {
             "ID": 10013086
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Red Oni",
             "desc": "When battle starts, immediately gains <unbreak>#1[i]</unbreak> point(s) of Slashed Dream and applies <unbreak>#1[i]</unbreak> stack(s) of Crimson Knot to a random enemy. When Slashed Dream reaches its upper limit, for every point of Slashed Dream that exceeds the limit, gains 1 stack of Quadrivalent Ascendance. Enables Quadrivalent Ascendance to stack up to <unbreak>#2[i]</unbreak> time(s).",
@@ -6351,8 +6351,8 @@ interface Resources {
         }
       },
       "1309": {
-        "name": "Robin",
-        "abilities": {
+        "Name": "Robin",
+        "Abilities": {
           "130901": {
             "name": "Wingflip White Noise",
             "desc": "Deals minor Physical DMG to a single enemy.",
@@ -6383,7 +6383,7 @@ interface Resources {
             "longdesc": "After using Technique, creates a Special Dimension around the character that lasts for <unbreak>#1[i]</unbreak> seconds. Enemies within this dimension will not attack Robin and will follow Robin while the dimension is active. After entering battle while the dimension is active, Robin regenerates <unbreak>#2[i]</unbreak> Energy at the start of each wave. Only 1 dimension created by allies can exist at the same time."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "130901": {
             "name": "Land of Smiles",
             "desc": "While the Concerto state is active, all allies' All-Type RES PEN increases by <unbreak>#1[i]%</unbreak>."
@@ -6409,7 +6409,7 @@ interface Resources {
             "desc": "While the Concerto state is active, the CRIT DMG for the Additional Physical DMG caused by the Ultimate increases by <unbreak>#2[i]%</unbreak>. The effect of Moonless Midnight can trigger up to <unbreak>#1[i]</unbreak> time(s). And the trigger count resets each time the Ultimate is used."
           }
         },
-        "effects": {
+        "Effects": {
           "10013091": {
             "name": "Aria",
             "desc": "DMG dealt increases by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color>.",
@@ -6473,7 +6473,7 @@ interface Resources {
             "ID": 10013099
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Coloratura Cadenza",
             "desc": "When the battle begins, this character's action is Advanced Forward by <unbreak>#1[i]%</unbreak>.",
@@ -6498,8 +6498,8 @@ interface Resources {
         }
       },
       "1310": {
-        "name": "Firefly",
-        "abilities": {
+        "Name": "Firefly",
+        "Abilities": {
           "131001": {
             "name": "Order: Flare Propulsion",
             "desc": "Deals minor Fire DMG to a single enemy.",
@@ -6530,7 +6530,7 @@ interface Resources {
             "longdesc": "Leaps into the air and moves about freely for <unbreak>#1[i]</unbreak> seconds, which can be ended early by launching a plunging attack. When the duration ends, plunges and immediately attacks all enemies within a set area. At the start of each wave, applies a Fire Weakness to all enemies, lasting for <unbreak>#3[i]</unbreak> turn(s). Then, deals Fire DMG equal to <unbreak>#2[i]%</unbreak> of SAM's ATK to all enemies."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "131001": {
             "name": "In Reddened Chrysalis, I Once Rest",
             "desc": "When using the Enhanced Skill, ignores <unbreak>#1[i]%</unbreak> of the target's DEF. The Enhanced Skill does not consume Skill Points."
@@ -6556,7 +6556,7 @@ interface Resources {
             "desc": "While in Complete Combustion, increases SAM's Fire RES PEN by <unbreak>#1[i]%</unbreak>. When using the Enhanced Basic ATK or Enhanced Skill, increases the Weakness Break Efficiency by <unbreak>#2[i]%</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10013101": {
             "name": "Fyrefly Type-IV: Complete Combustion",
             "desc": "When using Enhanced Basic ATK or Enhanced Skill, increases this unit's Weakness Break Efficiency by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color> and the Break DMG dealt by SAM to the enemy targets by <color=#f29e38ff><unbreak>#4[f1]%</unbreak></color>. Increases SPD by <color=#f29e38ff><unbreak>#2[i]</unbreak></color>, and Effect RES by <color=#f29e38ff><unbreak>#3[i]%</unbreak></color>.",
@@ -6598,7 +6598,7 @@ interface Resources {
             "ID": 10013106
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Module α: Antilag Outburst",
             "desc": "During the Complete Combustion, attacking enemies that have no Fire Weakness can also reduce their Toughness, with the effect being equivalent to <unbreak>#1[i]%</unbreak> of the original Toughness Reduction from abilities.",
@@ -6623,8 +6623,8 @@ interface Resources {
         }
       },
       "1312": {
-        "name": "Misha",
-        "abilities": {
+        "Name": "Misha",
+        "Abilities": {
           "131201": {
             "name": "E—Excuse Me, Please!",
             "desc": "Deals minor Ice DMG to a single enemy.",
@@ -6655,7 +6655,7 @@ interface Resources {
             "longdesc": "After using the Technique, creates a Special Dimension that lasts for <unbreak>#1[i]</unbreak> seconds. Enemies caught in the Special Dimension are inflicted with Dream Prison and stop all their actions. Upon entering battle against enemies afflicted with Dream Prison, increases the Hits Per Action for Misha's next Ultimate by <unbreak>#2[i]</unbreak> hit(s). Only 1 dimension created by allies can exist at the same time."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "131201": {
             "name": "Whimsicality of Fancy",
             "desc": "When using the Ultimate, for every enemy on the field, additionally increases the Hits Per Action for the current Ultimate by <unbreak>#1[i]</unbreak> hit(s), up to a maximum increase of <unbreak>#2[i]</unbreak> hit(s)."
@@ -6681,7 +6681,7 @@ interface Resources {
             "desc": "When using the Ultimate, increases own DMG by <unbreak>#2[i]%</unbreak>, lasting until the end of the turn. In addition, the next time the Skill is used, recovers <unbreak>#1[i]</unbreak> Skill Point(s) for the team."
           }
         },
-        "effects": {
+        "Effects": {
           "10013121": {
             "name": "Estrangement of Dream",
             "desc": "Increases DMG dealt by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color>.",
@@ -6716,7 +6716,7 @@ interface Resources {
             "ID": 10013125
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Release",
             "desc": "Before the Ultimate's first hit lands, increases the base chance of Freezing the target by <unbreak>#1[i]%</unbreak>.",
@@ -6741,8 +6741,8 @@ interface Resources {
         }
       },
       "1314": {
-        "name": "Jade",
-        "abilities": {
+        "Name": "Jade",
+        "Abilities": {
           "131401": {
             "name": "Lash of Riches",
             "desc": "Deals minor Quantum DMG to a single enemy and minor Quantum DMG to enemies adjacent to it.",
@@ -6773,7 +6773,7 @@ interface Resources {
             "longdesc": "After using the Technique, inflicts enemies within a set area with Blind Fealty for <unbreak>#1[i]</unbreak> second(s). Enemies inflicted with Blind Fealty will not initiate attacks on allies. When entering battle via actively attacking enemies inflicted with Blind Fealty, all enemies with Blind Fealty will enter combat simultaneously. After entering battle, deals Quantum DMG equal to <unbreak>#2[i]%</unbreak> of Jade's ATK to all enemies, and immediately gains <unbreak>#3[i]</unbreak> stack(s) of Pawned Asset."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "131401": {
             "name": "Altruism? Nevertheless Tradable",
             "desc": "The follow-up attack DMG from Jade's Talent increases by <unbreak>#1[i]%</unbreak>. After the Debt Collector character attacks and the number of the enemy target(s) hit is either 2 or 1, Jade additionally gains <unbreak>#2[i]</unbreak> or <unbreak>#3[i]</unbreak> point(s) of Charge respectively."
@@ -6799,7 +6799,7 @@ interface Resources {
             "desc": "When the Debt Collector character exists on the field, Jade's Quantum RES PEN increases by <unbreak>#1[i]%</unbreak>, and Jade gains the Debt Collector state."
           }
         },
-        "effects": {
+        "Effects": {
           "10013141": {
             "name": "Pawned Asset",
             "desc": "Each stack increases CRIT DMG by <color=#f29e38ff><unbreak>#1[f1]%</unbreak></color>.",
@@ -6863,7 +6863,7 @@ interface Resources {
             "ID": 10013149
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Reverse Repo",
             "desc": "When an enemy target enters combat, Jade gains <unbreak>#2[i]</unbreak> stack(s) of Pawned Asset. When the Debt Collector character's turn starts, additionally gains <unbreak>#1[i]</unbreak> stack(s) of Pawned Asset.",
@@ -6888,8 +6888,8 @@ interface Resources {
         }
       },
       "1315": {
-        "name": "Boothill",
-        "abilities": {
+        "Name": "Boothill",
+        "Abilities": {
           "131501": {
             "name": "Skullcrush Spurs",
             "desc": "Deals minor Physical DMG to a single enemy.",
@@ -6920,7 +6920,7 @@ interface Resources {
             "longdesc": "After the Technique is used, when casting the Skill for the first time in the next battle, applies the same Physical Weakness to the target as the one induced by the Ultimate, lasting for <unbreak>#1[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "131501": {
             "name": "Dusty Trail's Lone Star",
             "desc": "When the battle starts, obtains 1 stack of Pocket Trickshot. When Boothill deals DMG, ignores <unbreak>#1[i]%</unbreak> of the enemy target's DEF."
@@ -6946,7 +6946,7 @@ interface Resources {
             "desc": "When triggering the Talent's Break DMG, additionally deals Break DMG to the target equal to <unbreak>#1[i]%</unbreak> of the original DMG multiplier and additionally deals Break DMG to adjacent targets equal to <unbreak>#2[i]%</unbreak> of the original DMG multiplier."
           }
         },
-        "effects": {
+        "Effects": {
           "10013151": {
             "name": "Pocket Trickshot",
             "desc": "Every stack increases the Toughness Reduction of the Enhanced Basic Attack by <color=#f29e38ff><unbreak>#2[i]%</unbreak></color>. If the target is Weakness Broken while the Enhanced Basic ATK is being used, deals additional Physical Break DMG based on the number of Pocket Trickshot stacks. This effect can stack up to <color=#f29e38ff><unbreak>#1[i]</unbreak></color> time(s).",
@@ -6994,7 +6994,7 @@ interface Resources {
             "ID": 10013157
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Ghost Load",
             "desc": "Increase this character's CRIT Rate/CRIT DMG, by an amount equal to <unbreak>#1[i]%</unbreak>/<unbreak>#3[i]%</unbreak> of Break Effect, up to a max increase of <unbreak>#2[i]%</unbreak>/<unbreak>#4[i]%</unbreak>.",
@@ -7019,8 +7019,8 @@ interface Resources {
         }
       },
       "8001": {
-        "name": "Caelus (Destruction)",
-        "abilities": {
+        "Name": "Caelus (Destruction)",
+        "Abilities": {
           "800101": {
             "name": "Farewell Hit",
             "desc": "Deals minor Physical DMG to a single enemy.",
@@ -7049,7 +7049,7 @@ interface Resources {
             "longdesc": "Immediately heals all allies for <unbreak>#1[i]%</unbreak> of their respective Max HP after using this Technique."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "800101": {
             "name": "A Falling Star",
             "desc": "When enemies are defeated due to the Trailblazer's Ultimate, the Trailblazer regenerates <unbreak>#1[i]</unbreak> extra Energy. This effect can only be triggered once per attack."
@@ -7075,7 +7075,7 @@ interface Resources {
             "desc": "The Trailblazer's Talent is also triggered when they defeat an enemy."
           }
         },
-        "effects": {
+        "Effects": {
           "10080012": {
             "name": "Perfect Pickoff",
             "desc": "Each stack increases ATK by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color>, up to <color=#f29e38ff><unbreak>#2[i]</unbreak></color> stack(s).",
@@ -7091,7 +7091,7 @@ interface Resources {
             "ID": 10080013
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Ready for Battle",
             "desc": "At the start of the battle, immediately regenerates <unbreak>#1[i]</unbreak> Energy.",
@@ -7116,8 +7116,8 @@ interface Resources {
         }
       },
       "8002": {
-        "name": "Stelle (Destruction)",
-        "abilities": {
+        "Name": "Stelle (Destruction)",
+        "Abilities": {
           "800201": {
             "name": "Farewell Hit",
             "desc": "Deals minor Physical DMG to a single enemy.",
@@ -7146,7 +7146,7 @@ interface Resources {
             "longdesc": "Immediately heals all allies for <unbreak>#1[i]%</unbreak> of their respective Max HP after using this Technique."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "800201": {
             "name": "A Falling Star",
             "desc": "When enemies are defeated due to the Trailblazer's Ultimate, the Trailblazer regenerates <unbreak>#1[i]</unbreak> extra Energy. This effect can only be triggered once per attack."
@@ -7172,7 +7172,7 @@ interface Resources {
             "desc": "The Trailblazer's Talent is also triggered when they defeat an enemy."
           }
         },
-        "effects": {
+        "Effects": {
           "10080022": {
             "name": "Perfect Pickoff",
             "desc": "Each stack increases ATK by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color>, up to <color=#f29e38ff><unbreak>#2[i]</unbreak></color> stack(s).",
@@ -7188,7 +7188,7 @@ interface Resources {
             "ID": 10080023
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Ready for Battle",
             "desc": "At the start of the battle, immediately regenerates <unbreak>#1[i]</unbreak> Energy.",
@@ -7213,8 +7213,8 @@ interface Resources {
         }
       },
       "8003": {
-        "name": "Caelus (Preservation)",
-        "abilities": {
+        "Name": "Caelus (Preservation)",
+        "Abilities": {
           "800301": {
             "name": "Ice-Breaking Light",
             "desc": "Deals minor Fire DMG to a single enemy and gains Magma Will.",
@@ -7243,7 +7243,7 @@ interface Resources {
             "longdesc": "After using Technique, at the start of the next battle, gains a Shield that absorbs DMG equal to <unbreak>#1[i]%</unbreak> of the Trailblazer's DEF plus <unbreak>#2[i]</unbreak> for <unbreak>#3[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "800301": {
             "name": "Earth-Shaking Resonance",
             "desc": "When the Trailblazer uses their Basic ATK, additionally deals Fire DMG equal to <unbreak>#1[i]%</unbreak> of the Trailblazer's DEF. When the Trailblazer uses their enhanced Basic ATK, additionally deals Fire DMG equal to <unbreak>#2[i]%</unbreak> of the Trailblazer's DEF."
@@ -7269,7 +7269,7 @@ interface Resources {
             "desc": "After the Trailblazer uses enhanced Basic ATK or Ultimate, their DEF increases by <unbreak>#1[i]%</unbreak>. Stacks up to <unbreak>#2[i]</unbreak> time(s)."
           }
         },
-        "effects": {
+        "Effects": {
           "10080031": {
             "name": "Magma Will",
             "desc": "When there are 4 or more stacks of Magma Will, Enhances Basic ATK.",
@@ -7326,7 +7326,7 @@ interface Resources {
             "ID": 10080039
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "The Strong Defend the Weak",
             "desc": "After using the Skill, the DMG taken by all allies reduces by <unbreak>#2[i]%</unbreak> for <unbreak>#3[i]</unbreak> turn(s).",
@@ -7351,8 +7351,8 @@ interface Resources {
         }
       },
       "8004": {
-        "name": "Stelle (Preservation)",
-        "abilities": {
+        "Name": "Stelle (Preservation)",
+        "Abilities": {
           "800401": {
             "name": "Ice-Breaking Light",
             "desc": "Deals minor Fire DMG to a single enemy and gains Magma Will.",
@@ -7381,7 +7381,7 @@ interface Resources {
             "longdesc": "After using Technique, at the start of the next battle, gains a Shield that absorbs DMG equal to <unbreak>#1[i]%</unbreak> of the Trailblazer's DEF plus <unbreak>#2[i]</unbreak> for <unbreak>#3[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "800401": {
             "name": "Earth-Shaking Resonance",
             "desc": "When the Trailblazer uses their Basic ATK, additionally deals Fire DMG equal to <unbreak>#1[i]%</unbreak> of the Trailblazer's DEF. When the Trailblazer uses their enhanced Basic ATK, additionally deals Fire DMG equal to <unbreak>#2[i]%</unbreak> of the Trailblazer's DEF."
@@ -7407,7 +7407,7 @@ interface Resources {
             "desc": "After the Trailblazer uses enhanced Basic ATK or Ultimate, their DEF increases by <unbreak>#1[i]%</unbreak>. Stacks up to <unbreak>#2[i]</unbreak> time(s)."
           }
         },
-        "effects": {
+        "Effects": {
           "10080041": {
             "name": "Magma Will",
             "desc": "When there are 4 or more stacks of Magma Will, Enhances Basic ATK.",
@@ -7464,7 +7464,7 @@ interface Resources {
             "ID": 10080048
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "The Strong Defend the Weak",
             "desc": "After using the Skill, the DMG taken by all allies reduces by <unbreak>#2[i]%</unbreak> for <unbreak>#3[i]</unbreak> turn(s).",
@@ -7489,8 +7489,8 @@ interface Resources {
         }
       },
       "8005": {
-        "name": "Caelus (Harmony)",
-        "abilities": {
+        "Name": "Caelus (Harmony)",
+        "Abilities": {
           "800501": {
             "name": "Swing Dance Etiquette",
             "desc": "Deals minor Imaginary DMG to a single enemy.",
@@ -7521,7 +7521,7 @@ interface Resources {
             "longdesc": "After the Technique is used, at the start of the next battle, all allies' Break Effect increases by <unbreak>#1[i]%</unbreak>, lasting for <unbreak>#2[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "800501": {
             "name": "Best Seat in the House",
             "desc": "After using Skill for the first time, immediately recovers <unbreak>#1[i]</unbreak> Skill Point(s)."
@@ -7547,7 +7547,7 @@ interface Resources {
             "desc": "The number of additional DMG applications by the Skill increases by <unbreak>#1[i]</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10080051": {
             "name": "Dove in Tophat",
             "desc": "Increases Break Effect by <color=#f29e38ff><unbreak>#1[f1]%</unbreak></color>.",
@@ -7579,7 +7579,7 @@ interface Resources {
             "ID": 10080055
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Dance With the One",
             "desc": "When the number of enemy targets on the field is 5 (or more)/4/3/2/1, the Super Break DMG triggered by the Backup Dancer effect increases by <unbreak>#1[i]%</unbreak>/<unbreak>#2[i]%</unbreak>/<unbreak>#3[i]%</unbreak>/<unbreak>#4[i]%</unbreak>/<unbreak>#5[i]%</unbreak>.",
@@ -7604,8 +7604,8 @@ interface Resources {
         }
       },
       "8006": {
-        "name": "Stelle (Harmony)",
-        "abilities": {
+        "Name": "Stelle (Harmony)",
+        "Abilities": {
           "800601": {
             "name": "Swing Dance Etiquette",
             "desc": "Deals minor Imaginary DMG to a single enemy.",
@@ -7636,7 +7636,7 @@ interface Resources {
             "longdesc": "After the Technique is used, at the start of the next battle, all allies' Break Effect increases by <unbreak>#1[i]%</unbreak>, lasting for <unbreak>#2[i]</unbreak> turn(s)."
           }
         },
-        "eidolons": {
+        "Eidolons": {
           "800601": {
             "name": "Best Seat in the House",
             "desc": "After using Skill for the first time, immediately recovers <unbreak>#1[i]</unbreak> Skill Point(s)."
@@ -7662,7 +7662,7 @@ interface Resources {
             "desc": "The number of additional DMG applications by the Skill increases by <unbreak>#1[i]</unbreak>."
           }
         },
-        "effects": {
+        "Effects": {
           "10080061": {
             "name": "Dove in Tophat",
             "desc": "Increases Break Effect by <color=#f29e38ff><unbreak>#1[f1]%</unbreak></color>.",
@@ -7694,7 +7694,7 @@ interface Resources {
             "ID": 10080065
           }
         },
-        "traces": {
+        "Traces": {
           "A2": {
             "name": "Dance With the One",
             "desc": "When the number of enemy targets on the field is 5 (or more)/4/3/2/1, the Super Break DMG triggered by the Backup Dancer effect increases by <unbreak>#1[i]%</unbreak>/<unbreak>#2[i]%</unbreak>/<unbreak>#3[i]%</unbreak>/<unbreak>#4[i]%</unbreak>/<unbreak>#5[i]%</unbreak>.",
@@ -7719,7 +7719,7 @@ interface Resources {
         }
       }
     },
-    "relicsets": {
+    "RelicSets": {
       "101": "Passerby of Wandering Cloud",
       "102": "Musketeer of Wild Wheat",
       "103": "Knight of Purity Palace",
@@ -7759,7 +7759,7 @@ interface Resources {
       "317": "Lushaka, the Sunken Seas",
       "318": "The Wondrous BananAmusement Park"
     },
-    "lightcones": {
+    "Lightcones": {
       "20000": "Arrows",
       "20001": "Cornucopia",
       "20002": "Collapsing Sky",
@@ -7871,7 +7871,7 @@ interface Resources {
       "24003": "Solitary Healing",
       "24004": "Eternal Calculus"
     },
-    "paths": {
+    "Paths": {
       "Warrior": "Destruction",
       "Rogue": "The Hunt",
       "Mage": "Erudition",
@@ -7881,7 +7881,7 @@ interface Resources {
       "Priest": "Abundance",
       "undefined": "General"
     },
-    "elements": {
+    "Elements": {
       "Physical": "Physical",
       "Fire": "Fire",
       "Ice": "Ice",
@@ -7893,59 +7893,59 @@ interface Resources {
   },
   "getStartedTab": {},
   "hint": {
-    "ratingfilter": {
-      "title": "Rating filters",
+    "RatingFilter": {
+      "Title": "Rating filters",
       "p1": "Weight - Sum of substat weights of all 6 relics, from the Substat weight filter",
       "p2": "Ehp - Effective HP, measuring how tanky a max level character is. Calculated using HP & DEF & damage reduction passives",
       "p3": "Basic / Skill / Ult / Fua (Follow-up attack) / Dot (Damage over time) - Skill damage calculations, based on the environmental factors in character passives / light cone passives / enemy options."
     },
-    "combatbuffs": {
-      "title": "Combat buffs",
+    "CombatBuffs": {
+      "Title": "Combat buffs",
       "p1": "Additional team buffs to apply to the calculations. Note that buffs from character / light cone self-buffs and passives and traces are already included in calculations."
     },
-    "statfilters": {
-      "title": "Stat filters",
+    "StatFilters": {
+      "Title": "Stat filters",
       "p1": "Min (left) / Max (right) filters for character stats, inclusive. The optimizer will only show results within these ranges",
       "p2": "Stat abbreviations are ATK / HP / DEF / SPD / Crit Rate / Crit Damage / Effect Hit Rate / Effect RES / Break Effect",
       "p3": "NOTE: Ingame speed decimals are truncated so you may see speed values ingame higher than shown here. This is because the OCR importer can't detect the hidden decimals."
     },
-    "mainstats": {
-      "title": "Main stats",
+    "Mainstats": {
+      "Title": "Main stats",
       "p1": "Select main stats to use for optimization search. Multiple values can be selected for more options"
     },
-    "sets": {
-      "title": "Sets",
+    "Sets": {
+      "Title": "Sets",
       "p1": "Select the relic and ornament sets to filter results by. Multiple sets can be selected for more options",
       "p2": "Set effects will be accounted for in calculations, use the Conditional set effects menu to customize which effects are active."
     },
-    "character": {
-      "title": "Character",
+    "Character": {
+      "Title": "Character",
       "p1": "Select the character and eidolon. Character is assumed to be level 80 with maxed traces in optimization calcs."
     },
-    "characterpassives": {
-      "title": "Character passives",
+    "CharacterPassives": {
+      "Title": "Character passives",
       "p1": "Select the conditional effects to apply to the character.",
       "p2": "Effects that rely on combat stats or environment state will be applied by default, so only the options that require user input are listed here."
     },
-    "lightconepassives": {
-      "title": "Light cone passives",
+    "LightconePassives": {
+      "Title": "Light cone passives",
       "p1": "Select the conditional effects to apply to the light cone.",
       "p2": "Effects that rely on combat stats or environment state will be applied by default, so only the options that require user input are listed here."
     },
-    "lightcone": {
-      "title": "Light cone",
+    "Lightcone": {
+      "Title": "Light cone",
       "p1": "Select the light cone and superimposition. Light cone is assumed to be level 80 in optimization calcs.",
       "p2": "Superimposition and passive effects are applied under the Light cone passives panel."
     },
-    "actions": {
-      "title": "Actions",
+    "Actions": {
+      "Title": "Actions",
       "p1": "Equip - Equip the selected relics from the grid onto the character",
       "p2": "Filter - Re-apply the search filters to existing results. Use this to narrow filters without restarting a search",
       "p3": "Pin build - Pin the currently selected row to the top of the grid. Use this to compare multiple builds more easily",
       "p4": "Clear pins - Clear all the builds that you pinned to the top of the grid"
     },
-    "optimizeroptions": {
-      "title": "Optimizer options",
+    "OptimizerOptions": {
+      "Title": "Optimizer options",
       "p1": "<0>Character priority filter</0> - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.",
       "p2": "<0>Boost main stat</0> - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats are not changed accordingly, so builds with lower level relics may be stronger once you level them.",
       "p3": "<0>Keep current relics</0> - The character must use its currently equipped items, and the optimizer will try to fill in empty slots",
@@ -7954,23 +7954,23 @@ interface Resources {
       "p6": "<0>Exclude</0> - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter",
       "p7": "<0>Enhance / grade</0> - Select the minimum enhance to search for and minimum stars for relics to include"
     },
-    "relics": {
-      "title": "Relics",
+    "Relics": {
+      "Title": "Relics",
       "p1": "Note - Potential is a percent rating which compares a relic to the best possible +15 relic for the current character in the slot. This rating is based off the scoring algorithm weights. This means unrolled relics at +0 sometimes have a higher potential than existing +15 relics, because their possible rolls can go into the character's desired stats.",
       "p2": "Selected character: Score - The relic's current weight as defined by the scoring algorithm for the currently selected character",
       "p3": "Selected character: Average potential - The relic's potential weight if rolls went into the average weight of the relic's substats",
       "p4": "Selected character: Max potential - The relic's maximum potential weight if all future rolls went into the character's desired stats",
       "p5": "All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game."
     },
-    "optimizationdetails": {
-      "title": "Optimization details",
+    "OptimizationDetails": {
+      "Title": "Optimization details",
       "p1": "Shows how many relics are being used in the optimization search, after all filters are applied",
       "p2": "Perms - Number of permutations that need to be searched. Narrow your filters to reduce permutations & search time",
       "p3": "Searched - Number of permutations already searched",
       "p4": "Results - Number of displayed results that satisfy the stat filters"
     },
-    "enemyoptions": {
-      "title": "Enemy options",
+    "EnemyOptions": {
+      "Title": "Enemy options",
       "p1": "Level - Enemy level, affects enemy DEF calculations",
       "p2": "Targets - Number of targets in the battle. The target enemy is always assumed to be in the center, and damage calculations are only for the single primary target.",
       "p3": "RES - Enemy elemental RES. RES is set to 0 when the enemy's elemental weakness is enabled.",
@@ -7978,21 +7978,21 @@ interface Resources {
       "p5": "Elemental weakness - Whether the enemy is weak to the character's type. Enabling this sets enemy elemental RES % to 0.",
       "p6": "Weakness broken - Whether the enemy's toughness bar is broken. Affects damage calculations and certain character passives."
     },
-    "substatweightfilter": {
-      "title": "Substat weight filter",
+    "SubstatWeightFilter": {
+      "Title": "Substat weight filter",
       "p1": "This filter is used to reduce the number of permutations the optimizer has to process.",
       "p2": "It works by first scoring each relic per slot by the weights defined, then filtering by the number of weighted min rolls the relic has.",
       "p3": "Only relics that have more than the specified number of weighted rolls will be used for the optimization search.",
       "p4": "Note that setting the minimum rolls too low may result in some builds not being displayed, if the filter ends up excludes a key relic. Use this filter with caution, but on large searches it makes a large impact on reducing search time."
     },
-    "statdisplay": {
-      "title": "Stat and filter view",
+    "StatDisplay": {
+      "Title": "Stat and filter view",
       "p1": "This allows for switching between viewing results as Base stats vs Combat stats. Stat filters will also be applied to the selected view.",
       "p2": "Base stats - The stats as shown on the character's screen ingame, with no in-combat buffs applied.",
       "p3": "Combat stats - The character's stats with all stat modifiers in combat included: ability buffs, character & light cone passives, teammates, conditional set effects, etc."
     },
-    "valuecolumns": {
-      "title": "Value Columns",
+    "ValueColumns": {
+      "Title": "Value Columns",
       "p1": "You can optionally display a number of columns that assess the relative 'value' of a relic.",
       "p2": "Weight",
       "p3": "Weight columns assess the contribution of a particular relic to the overall letter grading of the selected recommendation character (if any).",
@@ -8004,14 +8004,14 @@ interface Resources {
       "p9": "Potential is useful for finding relics that aren't good on any character, or hidden gems that could be great when upgraded.",
       "p10": "Note: ordering by potential can be mismatched against weights, due to weight calculations preferring lower weight ideal mainstats."
     },
-    "relicinsights": {
-      "title": "Relic Insight",
+    "RelicInsights": {
+      "Title": "Relic Insight",
       "p1": "When a relic is selected in the table above, you can choose an analysis to view a plot of.",
       "p2": "'Buckets' looks at how perfect this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.<0/>If you hover over a character portrait you'll see the new stats and/or rolls necessary to reach the max potential of this relic.<1/>⚠️ Relics with missing substats may have misleadlingly high buckets, as best-case upgrade analysis assumes the best new substat per character.",
       "p3": "'Top 10' takes the top 10 characters that this relic could be best for, and shows the range of '% perfection' upgrading this relic could result in."
     },
     "reliclocation": {
-      "title": "Relic Location",
+      "Title": "Relic Location",
       "p1": "When a relic is selected in the grid, its position in the ingame inventory is displayed here.",
       "p2": "If the set / part filters are active, apply those same filters ingame, then sort by Date Obtained (newest first) to find the relic.",
       "p3": "⚠️Usage notes⚠️",
@@ -8019,317 +8019,317 @@ interface Resources {
       "p5": "If new relics were deleted or obtained since the last import, they must be re-scanned and imported",
       "p6": "Select the appropriate Inventory width setting to get accurate locations. The width depends on the ingame screen and menu width"
     },
-    "locatorparams": {
-      "title": "Relic Locator Options",
+    "LocatorParams": {
+      "Title": "Relic Locator Options",
       "p1": "<0>Inventory Width</0> - Select the number of columns the inventory has ingame so that the relic locator can find your relic accurately",
       "p2": "<0>Auto Filter rows</0> - Maximum number of rows before the relic locator applies a part/set filter to try and bring the searched relic closer to the top of your inventory"
     }
   },
   "importSaveTab": {
-    "tablabels": {
-      "import": "$t(common:relic, {\"count\": 1, \"length\": 1}) scanner importer",
-      "load": "Load optimizer data",
-      "save": "Save optimizer data",
-      "clear": "Clear optimizer data"
+    "TabLabels": {
+      "Import": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) scanner importer",
+      "Load": "Load optimizer data",
+      "Save": "Save optimizer data",
+      "Clear": "Clear optimizer data"
     },
-    "import": {
-      "errormsg": {
-        "unknown": "Unknown Error",
-        "invalidfile": "Invalid scanner file",
-        "invalidjson": "Invalid JSON",
-        "fragment": "Error occurred while importing file: "
+    "Import": {
+      "ErrorMsg": {
+        "Unknown": "Unknown Error",
+        "InvalidFile": "Invalid scanner file",
+        "InvalidJson": "Invalid JSON",
+        "Fragment": "Error occurred while importing file: "
       },
-      "stage1": {
-        "header": "Install and run one of the $t(common:relic, {\"count\": 1, \"length\": 0}) scanner options:",
-        "reliquarydesc": {
-          "title": "(Recommended) IceDynamix Reliquary Archiver",
-          "link": "Github",
-          "onlinemsg": "Status: Updated for patch {{version}} — New download required",
-          "offlinemsg": "***** Status: Down for maintenance after {{version}} patch *****",
+      "Stage1": {
+        "Header": "Install and run one of the $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0}) scanner options:",
+        "ReliquaryDesc": {
+          "Title": "(Recommended) IceDynamix Reliquary Archiver",
+          "Link": "Github",
+          "OnlineMsg": "Status: Updated for patch {{version}} — New download required",
+          "OfflineMsg": "***** Status: Down for maintenance after {{version}} patch *****",
           "l1": "Accurate speed decimals, instant scan",
-          "l2": "Imports full inventory and $t(common:character, {\"count\": 1, \"length\": 0}) roster"
+          "l2": "Imports full inventory and $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) roster"
         },
-        "kelzdesc": {
-          "title": "Kel-Z HSR Scanner",
-          "link": "Github",
+        "KelzDesc": {
+          "Title": "Kel-Z HSR Scanner",
+          "Link": "Github",
           "l1": "Inaccurate speed decimals, 5-10 minutes OCR scan",
-          "l2": "Imports full inventory and $t(common:character, {\"count\": 1, \"length\": 0}) roster"
+          "l2": "Imports full inventory and $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) roster"
         },
-        "scorerdesc": {
-          "title": "$t(common:relic, {\"count\": 1, \"length\": 1}) Scorer Import",
-          "link": "$t(common:relic, {\"count\": 1, \"length\": 1}) scorer",
+        "ScorerDesc": {
+          "Title": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) Scorer Import",
+          "Link": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) scorer",
           "l1": "Accurate speed decimals, instant scan",
-          "l2": "No download needed, but limited to $t(common:relic, {\"count\": 48, \"length\": 0}) from the 8 $t(common:character, {\"count\": 26, \"length\": 0}) on profile showcase"
+          "l2": "No download needed, but limited to $t(common:Relic, {\"count\": 48, \"capitalizeLength\": 0}) from the 8 $t(common:Character, {\"count\": 26, \"capitalizeLength\": 0}) on profile showcase"
         },
-        "hoyolabdesc": {
-          "title": "HoyoLab Import",
-          "link": "Instructions",
+        "HoyolabDesc": {
+          "Title": "HoyoLab Import",
+          "Link": "Instructions",
           "l1": "Inaccurate speed decimals, instant scan",
-          "l2": "No download needed, but limited to ingame $t(common:character, {\"count\": 26, \"length\": 0})' equipped $t(common:relic, {\"count\": 6, \"length\": 0})"
+          "l2": "No download needed, but limited to ingame $t(common:Character, {\"count\": 26, \"capitalizeLength\": 0})' equipped $t(common:Relic, {\"count\": 6, \"capitalizeLength\": 0})"
         },
-        "buttontext": "Upload scanner json file",
-        "or": "or",
-        "placeholder": "Paste json file contents"
+        "ButtonText": "Upload scanner json file",
+        "Or": "or",
+        "Placeholder": "Paste json file contents"
       },
-      "stage2": {
-        "or": "OR",
-        "fileinfo": "File contains $t(common:relicWithCount, {\"count\": {{reliccount}} }) and $t(common:characterWithCount, {\"count\": {{charactercount}} }).",
-        "norelics": "Invalid scanner file, please try a different file",
-        "relicsimport": {
-          "label": "Import $t(common:relic, {\"count\": 123, \"length\": 0}) only. Updates the optimizer with the new dataset of $t(common:relic, {\"count\": 123, \"length\": 0}) and doesn't overwrite builds.",
-          "buttontext": "Import $t(common:relic, {\"count\": 123, \"length\": 0})"
+      "Stage2": {
+        "Or": "OR",
+        "FileInfo": "File contains $t(common:RelicWithCount, {\"count\": {{reliccount}} }) and $t(common:CharacterWithCount, {\"count\": {{charactercount}} }).",
+        "NoRelics": "Invalid scanner file, please try a different file",
+        "RelicsImport": {
+          "Label": "Import $t(common:Relic, {\"count\": 123, \"capitalizeLength\": 0}) only. Updates the optimizer with the new dataset of $t(common:Relic, {\"count\": 123, \"capitalizeLength\": 0}) and doesn't overwrite builds.",
+          "ButtonText": "Import $t(common:Relic, {\"count\": 123, \"capitalizeLength\": 0})"
         },
-        "charactersimport": {
-          "label": "Import $t(common:relic, {\"count\": 123, \"length\": 0}) only. Updates the optimizer with the new dataset of $t(common:relic, {\"count\": 123, \"length\": 0}) and doesn't overwrite builds.",
-          "buttontext": "Import $t(common:relic, {\"count\": 123, \"length\": 0}) & $t(common:character, {\"count\": 123, \"length\": 0})",
-          "warningtitle": "Overwrite optimizer builds",
-          "warningdescription": "Are you sure you want to overwrite your optimizer builds with ingame builds?"
+        "CharactersImport": {
+          "Label": "Import $t(common:Relic, {\"count\": 123, \"capitalizeLength\": 0}) only. Updates the optimizer with the new dataset of $t(common:Relic, {\"count\": 123, \"capitalizeLength\": 0}) and doesn't overwrite builds.",
+          "ButtonText": "Import $t(common:Relic, {\"count\": 123, \"capitalizeLength\": 0}) & $t(common:Character, {\"count\": 123, \"capitalizeLength\": 0})",
+          "WarningTitle": "Overwrite optimizer builds",
+          "WarningDescription": "Are you sure you want to overwrite your optimizer builds with ingame builds?"
         }
       },
-      "stage3": {
-        "successmessage": "Done!"
+      "Stage3": {
+        "SuccessMessage": "Done!"
       }
     },
-    "loaddata": {
-      "stage1": {
-        "label": "Load your optimizer data from a file.",
-        "buttontext": "Load save data"
+    "LoadData": {
+      "Stage1": {
+        "Label": "Load your optimizer data from a file.",
+        "ButtonText": "Load save data"
       },
-      "stage2": {
-        "errormsg": "Invalid save file, please try a different file. Did you mean to use the \"$t(tablabels.import)\" tab?",
-        "label": "File contains $t(common:relicWithCount, {\"count\": {{reliccount}} }) and $t(common:characterWithCount, {\"count\": {{charactercount}} }). Replace your current data with the uploaded data?",
-        "buttontext": "Use uploaded data"
+      "Stage2": {
+        "ErrorMsg": "Invalid save file, please try a different file. Did you mean to use the \"$t(tablabels.import)\" tab?",
+        "Label": "File contains $t(common:RelicWithCount, {\"count\": {{reliccount}} }) and $t(common:CharacterWithCount, {\"count\": {{charactercount}} }). Replace your current data with the uploaded data?",
+        "ButtonText": "Use uploaded data"
       },
-      "stage3": {
-        "successmessage": "Done!"
+      "Stage3": {
+        "SuccessMessage": "Done!"
       }
     },
-    "savedata": {
-      "label": "Save your optimizer data to a file.",
-      "buttontext": "Save data",
-      "successmessage": "Done"
+    "SaveData": {
+      "Label": "Save your optimizer data to a file.",
+      "ButtonText": "Save data",
+      "SuccessMessage": "Done"
     },
-    "cleardata": {
-      "label": "Clear all optimizer data.",
-      "buttontext": "Clear data",
-      "successmessage": "Cleared data",
-      "warningtitle": "Erase all data",
-      "warningdescription": "Are you sure you want to clear all $t(common:relic, {\"count\": 1300, \"length\": 0}) and $t(common:character, {\"count\": 26, \"length\": 0})?"
+    "ClearData": {
+      "Label": "Clear all optimizer data.",
+      "ButtonText": "Clear data",
+      "SuccessMessage": "Cleared data",
+      "WarningTitle": "Erase all data",
+      "WarningDescription": "Are you sure you want to clear all $t(common:Relic, {\"count\": 1300, \"capitalizeLength\": 0}) and $t(common:Character, {\"count\": 26, \"capitalizeLength\": 0})?"
     },
-    "partialimport": {
-      "oldrelics": "Updated stats for {{count}} existing $t(common:relic, {\"count\": {{count}}, \"length\": 0})",
-      "newrelics": "Added {{count}} new $t(common:relic, {\"count\": {{count}}, \"length\": 0})"
+    "PartialImport": {
+      "OldRelics": "Updated stats for {{count}} existing $t(common:Relic, {\"count\": {{count}}, \"capitalizeLength\": 0})",
+      "NewRelics": "Added {{count}} new $t(common:Relic, {\"count\": {{count}}, \"capitalizeLength\": 0})"
     }
   },
   "modals": {
-    "scoring": {},
-    "0perms": {},
-    "manyperms": {
-      "title": "Very large search requested",
-      "text": "This optimization search will take a substantial amount of time to finish. You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats, or use the Substat weight filter to reduce the number of permutations.",
-      "cancel": "$t(common:cancel, {\"length\": 1}) search",
-      "proceed": "Proceed with search"
+    "Scoring": {},
+    "0Perms": {},
+    "ManyPerms": {
+      "Title": "Very large search requested",
+      "Text": "This optimization search will take a substantial amount of time to finish. You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats, or use the Substat weight filter to reduce the number of permutations.",
+      "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1}) search",
+      "Proceed": "Proceed with search"
     },
-    "0results": {},
-    "editcharacter": {
-      "eidolonbutton": "$t(common:eidolonNShort, {\"eidolon\":{{eidolon}} })",
-      "superimpositionbutton": "$t(common:superimpositionNShort, {\"superimposition\":{{superimposition}} })",
-      "character": "$t(common:character, {\"count\": 1, \"length\": 1})",
-      "lightcone": "$t(common:lightcone, {\"count\": 1, \"length\": 1})",
-      "cancel": "$t(common:cancel, {\"length\": 1})",
-      "save": "$t(common:save, {\"length\": 1})"
+    "0Results": {},
+    "EditCharacter": {
+      "EidolonButton": "$t(common:EidolonNShort, {\"eidolon\":{{eidolon}} })",
+      "SuperimpositionButton": "$t(common:SuperimpositionNShort, {\"superimposition\":{{superimposition}} })",
+      "Character": "$t(common:Character, {\"count\": 1, \"capitalizeLength\": 1})",
+      "Lightcone": "$t(common:Lightcone, {\"count\": 1, \"capitalizeLength\": 1})",
+      "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1})",
+      "Save": "$t(common:Save, {\"capitalizeLength\": 1})"
     },
-    "relic": {
-      "part": "Part",
-      "wearer": "Equipped by",
-      "set": "Set",
-      "enhance": "Enhance / Grade",
-      "mainstat": "Main stat",
-      "substat": "Substats",
-      "upgrades": "Substat upgrades",
-      "messages": {
-        "submitfail": "Submit failed!",
-        "reliccompleted": "Completed $t(common:relic, {\"count\": 1, \"length\": 0})",
-        "editsuccess": "Successfully edited $t(common:relic, {\"count\": 1, \"length\": 0})",
-        "error": {
-          "partmissing": "Part field is missing",
-          "mainstatmissing": "Main stat is missing",
-          "setmissing": "Set field is missing",
-          "enhancemissing": "Enhance field is missing",
-          "grademissing": "Grade field is missing",
-          "enhanceinvalid": "Enhance value is invalid",
-          "gradeinvalid": "Grade value is invalid",
-          "enhancetoohigh": "Enhance value is too high for this grade",
-          "setinvalid": "Set value is invalid",
-          "setnotornament": "The selected set is not an ornament set",
-          "setnotrelic": "The selected set is not a $t(common:relic, {\"count\": 1, \"length\": 0}) set",
-          "subninvalid": "Substat {{number}} is invalid",
-          "subsoutoforder": "Substats are out of order",
-          "duplicatesubs": "Duplicate substats, only one of each type is allowed",
-          "mainassub": "Substat type is the same as the main stat",
-          "subtoobig": "Substat value is too big",
-          "maintoobig": "Main stat value is too big",
-          "subtoosmall": "Substat values should be positive",
-          "maintoosmall": "Main stat values should be positive"
+    "Relic": {
+      "Part": "Part",
+      "Wearer": "Equipped by",
+      "Set": "Set",
+      "Enhance": "Enhance / Grade",
+      "Mainstat": "Main stat",
+      "Substat": "Substats",
+      "Upgrades": "Substat upgrades",
+      "Messages": {
+        "SubmitFail": "Submit failed!",
+        "RelicCompleted": "Completed $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0})",
+        "EditSuccess": "Successfully edited $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0})",
+        "Error": {
+          "PartMissing": "Part field is missing",
+          "MainstatMissing": "Main stat is missing",
+          "SetMissing": "Set field is missing",
+          "EnhanceMissing": "Enhance field is missing",
+          "GradeMissing": "Grade field is missing",
+          "EnhanceInvalid": "Enhance value is invalid",
+          "GradeInvalid": "Grade value is invalid",
+          "EnhanceTooHigh": "Enhance value is too high for this grade",
+          "SetInvalid": "Set value is invalid",
+          "SetNotOrnament": "The selected set is not an ornament set",
+          "SetNotRelic": "The selected set is not a $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0}) set",
+          "SubNInvalid": "Substat {{number}} is invalid",
+          "SubsOutOfOrder": "Substats are out of order",
+          "DuplicateSubs": "Duplicate substats, only one of each type is allowed",
+          "MainAsSub": "Substat type is the same as the main stat",
+          "SubTooBig": "Substat value is too big",
+          "MainTooBig": "Main stat value is too big",
+          "SubTooSmall": "Substat values should be positive",
+          "MainTooSmall": "Main stat values should be positive"
         }
       }
     },
-    "editimage": {
-      "defaulttitle": "Edit image",
-      "upload": {
-        "title": "Provide image",
-        "radio": {
-          "upload": "Upload image",
-          "url": "Enter image URL",
-          "default": "Use default image"
+    "EditImage": {
+      "DefaultTitle": "Edit image",
+      "Upload": {
+        "Title": "Provide image",
+        "Radio": {
+          "Upload": "Upload image",
+          "Url": "Enter image URL",
+          "Default": "Use default image"
         },
-        "upload": {
-          "method": "Click or drag image file to this area to upload",
-          "limit": "Accepts .jpg .jpeg .png .gif (Max: 20MB)"
+        "Upload": {
+          "Method": "Click or drag image file to this area to upload",
+          "Limit": "Accepts .jpg .jpeg .png .gif (Max: 20MB)"
         },
-        "url": {
-          "label": "Image",
-          "rule": "Please input a valid image URL"
+        "Url": {
+          "Label": "Image",
+          "Rule": "Please input a valid image URL"
         }
       },
-      "edit": {
-        "title": "Crop image",
-        "zoom": "Zoom",
-        "drag": "Drag to move",
-        "pinch": "Pinch or scroll to zoom",
-        "artby": "(Optional) Art by:",
-        "creditplaceholder": "Credit the artist if possible"
+      "Edit": {
+        "Title": "Crop image",
+        "Zoom": "Zoom",
+        "Drag": "Drag to move",
+        "Pinch": "Pinch or scroll to zoom",
+        "ArtBy": "(Optional) Art by:",
+        "CreditPlaceholder": "Credit the artist if possible"
       },
-      "footer": {
-        "cancel": "$t(common:cancel, {\"length\": 1})",
-        "uploadnew": "Upload new image",
-        "previous": "Previous",
-        "next": "Next",
-        "submit": "$t(common:submit, {\"length\": 1})"
+      "Footer": {
+        "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1})",
+        "Change": "Change image",
+        "Previous": "Previous",
+        "Next": "Next",
+        "Submit": "$t(common:Submit, {\"capitalizeLength\": 1})"
       }
     },
-    "savebuild": {
-      "cancel": "$t(common:cancel, {\"length\": 1})",
-      "save": "$t(common:save, {\"length\": 1})",
-      "label": "Build name",
-      "rule": "Please input a name"
+    "SaveBuild": {
+      "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1})",
+      "Save": "$t(common:Save, {\"capitalizeLength\": 1})",
+      "Label": "Build name",
+      "Rule": "Please input a name"
     },
-    "switchrelics": {
-      "title": "Switch relics with character",
-      "cancel": "$t(common:cancel, {\"length\": 1})",
-      "save": "$t(common:save, {\"length\": 1})"
+    "SwitchRelics": {
+      "Title": "Switch relics with character",
+      "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1})",
+      "Save": "$t(common:Save, {\"capitalizeLength\": 1})"
     },
-    "builds": {
-      "deleteall": "Delete All",
-      "cancel": "$t(common:cancel, {\"length\": 1})",
-      "equip": "Equip",
-      "score": "$t(common:score, {\"length\": 1})",
-      "confirmmodal": {
-        "confirmbutton": "$t(common:confirm, {\"length\": 1})",
-        "cancelbutton": "$t(common:cancel, {\"length\": 1})",
-        "title": "$t(common:confirm, {\"length\": 1})"
+    "Builds": {
+      "DeleteAll": "Delete All",
+      "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1})",
+      "Equip": "Equip",
+      "Score": "$t(common:Score, {\"capitalizeLength\": 1})",
+      "ConfirmModal": {
+        "ConfirmButton": "$t(common:Confirm, {\"capitalizeLength\": 1})",
+        "CancelButton": "$t(common:Cancel, {\"capitalizeLength\": 1})",
+        "Title": "$t(common:Confirm, {\"capitalizeLength\": 1})"
       },
-      "confirmequip": {
-        "content": "Equipping this will unequip characters that use the relics in this build",
-        "successmessage": "Successfully equipped build: {{buildName}}"
+      "ConfirmEquip": {
+        "Content": "Equipping this will unequip characters that use the relics in this build",
+        "SuccessMessage": "Successfully equipped build: {{buildName}}"
       },
-      "confirmdelete": {
-        "deleteall": "Are you sure you want to delete all builds?",
-        "deletesingle": "Are you sure you want to delete {{name}}?",
-        "successmessageall": "Successfully deleted all builds for {{characterName}}",
-        "successmessagesingle": "Successfully deleted build: {{name}}"
+      "ConfirmDelete": {
+        "DeleteAll": "Are you sure you want to delete all builds?",
+        "DeleteSingle": "Are you sure you want to delete {{name}}?",
+        "SuccessMessageAll": "Successfully deleted all builds for {{characterName}}",
+        "SuccessMessageSingle": "Successfully deleted build: {{name}}"
       },
-      "nobuilds": {
-        "ok": "$t(common:ok, {\"length\": 1})",
-        "cancel": "$t(common:cancel, {\"length\": 1})",
-        "nonesaved": "No saved builds"
+      "NoBuilds": {
+        "Ok": "$t(common:Ok, {\"capitalizeLength\": 1})",
+        "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1})",
+        "NoneSaved": "No saved builds"
       }
     },
-    "scorefooter": {},
-    "characterselect": {
-      "multiselect": {
-        "placeholder": "Customize $t(common:character, {\"count\": 12, \"length\": 0})",
-        "maxtagplaceholder_other": "{{count}} $t(common:character, {\"count\": {{count}}, \"length\": 0}) excluded",
-        "maxtagplaceholder_zero": "All $t(common:character, {\"count\": 12, \"length\": 0}) enabled",
-        "modaltitle": "Select $t(common:character, {\"count\": 12, \"length\": 0}) to exclude"
+    "ScoreFooter": {},
+    "CharacterSelect": {
+      "MultiSelect": {
+        "Placeholder": "Customize $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0})",
+        "MaxTagPlaceholder_other": "{{count}} $t(common:Character, {\"count\": {{count}}, \"capitalizeLength\": 0}) excluded",
+        "MaxTagPlaceholder_zero": "All $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0}) enabled",
+        "ModalTitle": "Select $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0}) to exclude"
       },
-      "singleselect": {
-        "placeholder": "$t(common:character, {\"count\": 1, \"length\": 1})",
-        "modaltitle": "Select a $t(common:character, {\"count\": 1, \"length\": 0})"
+      "SingleSelect": {
+        "Placeholder": "$t(common:Character, {\"count\": 1, \"capitalizeLength\": 1})",
+        "ModalTitle": "Select a $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0})"
       },
-      "searchplaceholder": "Search $t(common:character, {\"count\": 1, \"length\": 0}) name",
-      "excludebutton": "Exclude all",
-      "clearbutton": "Clear"
+      "SearchPlaceholder": "Search $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) name",
+      "ExcludeButton": "Exclude all",
+      "ClearButton": "Clear"
     },
-    "lightconeselect": {
-      "placeholder": "$t(common:lightcone, {\"count\": 1, \"length\": 1})",
-      "title": "Select a $t(common:lightcone, {\"count\": 1, \"length\": 0})"
+    "LightconeSelect": {
+      "Placeholder": "$t(common:Lightcone, {\"count\": 1, \"capitalizeLength\": 1})",
+      "Title": "Select a $t(common:Lightcone, {\"count\": 1, \"capitalizeLength\": 0})"
     }
   },
   "relicScorerTab": {
-    "messages": {
-      "throttlewarning": "Please wait {{seconds}} seconds before retrying",
-      "invalididwarning": "Invalid ID",
-      "idloaderror": "Error loading ID",
-      "successmsg": "Successfully loaded profile",
-      "lookuperror": "Error during lookup, please try again in a bit",
-      "nocharacterselected": "No selected $t(common:character, {\"count\": 1, \"length\": 0})",
-      "characteralreadyexists": "Selected $t(common:character, {\"count\": 1, \"length\": 0}) already exists"
+    "Messages": {
+      "ThrottleWarning": "Please wait {{seconds}} seconds before retrying",
+      "InvalidIdWarning": "Invalid ID",
+      "IdLoadError": "Error loading ID",
+      "SuccessMsg": "Successfully loaded profile",
+      "LookupError": "Error during lookup, please try again in a bit",
+      "NoCharacterSelected": "No selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0})",
+      "CharacterAlreadyExists": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) already exists"
     },
-    "header": {
-      "downtimewarning": "The $t(common:relic, {\"count\": 1, \"length\": 0}) scorer may be down for maintenance after the {{game_version}} patch, please try again later",
-      "withversion": "Enter your account UID to score your profile $t(common:character, {\"count\": 1, \"length\": 0}) at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}} )",
-      "withoutversion": "Enter your account UID to score your profile $t(common:character, {\"count\": 1, \"length\": 0}) at level 80 & maxed traces. Log out to refresh instantly."
+    "Header": {
+      "DowntimeWarning": "The $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0}) scorer may be down for maintenance after the {{game_version}} patch, please try again later",
+      "WithVersion": "Enter your account UID to score your profile $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}} )",
+      "WithoutVersion": "Enter your account UID to score your profile $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) at level 80 & maxed traces. Log out to refresh instantly."
     },
-    "submissionbar": {
-      "placeholder": "Account UID",
-      "buttontext": "$t(common:submit, {\"length\": 1})",
-      "algorithmbutton": "Scoring algorithm"
+    "SubmissionBar": {
+      "Placeholder": "Account UID",
+      "ButtonText": "$t(common:Submit, {\"capitalizeLength\": 1})",
+      "AlgorithmButton": "Scoring algorithm"
     },
-    "copyscreenshot": "Copy screenshot",
-    "importlabels": {
-      "relics": "Import $t(common:relic, {\"count\": 48, \"length\": 0}) into optimizer",
-      "singlecharacter": "Import selected $t(common:character, {\"count\": 1, \"length\": 0}) & all $t(common:relic, {\"count\": 48, \"length\": 0}) into optimizer",
-      "allcharacters": "Import all $t(common:character, {\"count\": 8, \"length\": 0}) & all $t(common:relic, {\"count\": 48, \"length\": 0}) into optimizer"
+    "CopyScreenshot": "Copy screenshot",
+    "ImportLabels": {
+      "Relics": "Import $t(common:Relic, {\"count\": 48, \"capitalizeLength\": 0}) into optimizer",
+      "SingleCharacter": "Import selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) & all $t(common:Relic, {\"count\": 48, \"capitalizeLength\": 0}) into optimizer",
+      "AllCharacters": "Import all $t(common:Character, {\"count\": 8, \"capitalizeLength\": 0}) & all $t(common:Relic, {\"count\": 48, \"capitalizeLength\": 0}) into optimizer"
     },
-    "simulaterelics": "Simulate $t(common:relic, {\"count\": 48, \"length\": 0}) on another $t(common:character, {\"count\": 1, \"length\": 0})",
-    "optimizeoncharacter": "Optimize $t(common:character, {\"count\": 1, \"length\": 0}) stats"
+    "SimulateRelics": "Simulate $t(common:Relic, {\"count\": 48, \"capitalizeLength\": 0}) on another $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0})",
+    "OptimizeOnCharacter": "Optimize $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) stats"
   },
   "relicsTab": {
-    "relicFilterBar": {
-      "part": "Part",
-      "enhance": "Enhance",
-      "grade": "Grade",
-      "verified": "Verified",
-      "equipped": "Equipped",
-      "clear": "Clear",
-      "clearbutton": "Clear all filters",
-      "set": "Set",
-      "mainstat": "Main stats",
-      "substat": "Substats",
-      "reapplybutton": "Reapply scores",
-      "scoringbutton": "Scoring algorithm",
-      "recommendationheader": "$t(common:relic, {\"count\": 1, \"length\": 1}) recommendation character",
-      "rating": "$t(common:relic, {\"count\": 1, \"length\": 1}) ratings",
-      "customcharsheader": "Custom potential $t(common:character, {\"count\": 12, \"length\": 0})"
+    "RelicFilterBar": {
+      "Part": "Part",
+      "Enhance": "Enhance",
+      "Grade": "Grade",
+      "Verified": "Verified",
+      "Equipped": "Equipped",
+      "Clear": "Clear",
+      "ClearButton": "Clear all filters",
+      "Set": "Set",
+      "Mainstat": "Main stats",
+      "Substat": "Substats",
+      "ReapplyButton": "Reapply scores",
+      "ScoringButton": "Scoring algorithm",
+      "RecommendationHeader": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) recommendation character",
+      "Rating": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) ratings",
+      "CustomCharsHeader": "Custom potential $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0})"
     },
-    "messages": {
-      "addrelicsuccess": "Successfully added $t(common:relic, {\"count\": 1, \"length\": 0})",
-      "norelicselected": "No $t(common:relic, {\"count\": 1, \"length\": 0}) selected",
-      "deleterelicsuccess": "Successfully deleted $t(common:relic, {\"count\": 1, \"length\": 0})"
+    "Messages": {
+      "AddRelicSuccess": "Successfully added $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0})",
+      "NoRelicSelected": "No $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0}) selected",
+      "DeleteRelicSuccess": "Successfully deleted $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0})"
     },
-    "relicGrid": {
-      "headers": {
-        "equippedby": "Owner",
-        "set": "Set",
-        "grade": "Grade",
-        "part": "Part",
-        "enhance": "Enhance",
-        "mainstat": "Main\nStat",
-        "mainvalue": "Main Value",
-        "hpp": "HP %",
-        "atkp": "ATK %",
-        "defp": "DEF %",
+    "RelicGrid": {
+      "Headers": {
+        "EquippedBy": "Owner",
+        "Set": "Set",
+        "Grade": "Grade",
+        "Part": "Part",
+        "Enhance": "Enhance",
+        "Mainstat": "Main\nStat",
+        "Mainvalue": "Main Value",
+        "hpP": "HP %",
+        "atkP": "ATK %",
+        "defP": "DEF %",
         "hp": "HP",
         "atk": "ATK",
         "def": "DEF",
@@ -8341,120 +8341,121 @@ interface Resources {
         "be": "Break\nEffect",
         "cv": "Crit\nValue"
       },
-      "valuecolumns": {
-        "selectedcharacter": {
-          "label": "Selected $t(common:character, {\"count\": 1, \"length\": 0})",
-          "scorecol": {
-            "label": "Selected $t(common:character, {\"count\": 1, \"length\": 0}): Score",
-            "header": "Selected Char\nScore"
+      "ValueColumns": {
+        "SelectedCharacter": {
+          "Label": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0})",
+          "ScoreCol": {
+            "Label": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}): Score",
+            "Header": "Selected Char\nScore"
           },
-          "avgpotcol": {
-            "label": "Selected $t(common:character, {\"count\": 1, \"length\": 0}): Average potential",
-            "header": "Selected Char\nAvg Potential"
+          "AvgPotCol": {
+            "Llabel": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}): Average potential",
+            "Header": "Selected Char\nAvg Potential"
           },
-          "maxpotcol": {
-            "label": "Selected $t(common:character, {\"count\": 1, \"length\": 0}): Max potential",
-            "header": "Selected Char\nMax Potential"
+          "MaxPotCol": {
+            "Label": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}): Max potential",
+            "Header": "Selected Char\nMax Potential"
           }
         },
-        "customcharacters": {
-          "label": "Custom $t(common:character, {\"count\": 10, \"length\": 0})",
-          "avgpotcol": {
-            "label": "Custom $t(common:character, {\"count\": 10, \"length\": 0}): Average potential",
-            "header": "Custom Chars\nAvg Potential"
+        "CustomCharacters": {
+          "Label": "Custom $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0})",
+          "AvgPotCol": {
+            "Label": "Custom $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0}): Average potential",
+            "Header": "Custom Chars\nAvg Potential"
           },
-          "maxpotcol": {
-            "label": "Custom $t(common:character, {\"count\": 10, \"length\": 0}): Max potential",
-            "header": "Custom Chars\nMax Potential"
+          "MaxPotCol": {
+            "Label": "Custom $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0}): Max potential",
+            "Header": "Custom Chars\nMax Potential"
           }
         },
-        "allcharacters": {
-          "label": "All $t(common:character, {\"count\": 10, \"length\": 0})",
-          "avgpotcol": {
-            "label": "All $t(common:character, {\"count\": 10, \"length\": 0}): Average potential",
-            "header": "All Chars\nAvg Potential"
+        "AllCharacters": {
+          "Label": "All $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0})",
+          "AvgPotCol": {
+            "Label": "All $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0}): Average potential",
+            "Header": "All Chars\nAvg Potential"
           },
-          "maxpotcol": {
-            "label": "All $t(common:character, {\"count\": 10, \"length\": 0}): Max potential",
-            "header": "All Chars\nMax Potential"
+          "MaxPotCol": {
+            "Label": "All $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0}): Max potential",
+            "Header": "All Chars\nMax Potential"
           }
         },
-        "comingsoon": {
-          "label": "Coming soon",
-          "setspotential": {
-            "label": "$t(common:relic, {\"count\": 1, \"length\": 1}) / Ornament sets potential",
-            "header": "All Chars\nMax Potential + Sets"
+        "ComingSoon": {
+          "Label": "Coming soon",
+          "SetsPotential": {
+            "Label": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) / Ornament sets potential",
+            "Header": "All Chars\nMax Potential + Sets"
           }
         }
       }
     },
-    "toolbar": {
-      "reliclocator": {
-        "width": "Inventory width",
-        "filter": "Auto filter rows",
-        "noneselected": "Select a $t(common:relic, {\"count\": 1, \"length\": 0}) to locate",
-        "location": "Location - Row {{rowindex}} / Col {{columnindex}}"
+    "Toolbar": {
+      "RelicLocator": {
+        "Width": "Inventory width",
+        "Filter": "Auto filter rows",
+        "NoneSelected": "Select a $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0}) to locate",
+        "Location": "Location - Row {{rowindex}} / Col {{columnindex}}"
       },
-      "insightoptions": {
-        "buckets": "$t(common:relic, {\"count\": 1, \"length\": 1}) Insight: Buckets",
-        "top10": "$t(common:relic, {\"count\": 1, \"length\": 1}) Insight: Top 10"
+      "InsightOptions": {
+        "Buckets": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) Insight: Buckets",
+        "Top10": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) Insight: Top 10"
       },
-      "plotoptions": {
-        "plotall": "Show all $t(common:character, {\"count\": 12, \"length\": 0})",
-        "plotcustom": "Show custom $t(common:character, {\"count\": 12, \"length\": 0})"
+      "PlotOptions": {
+        "PlotAll": "Show all $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0})",
+        "PlotCustom": "Show custom $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0})"
       },
-      "editrelic": "Edit $t(common:relic, {\"count\": 1, \"length\": 1})",
-      "deleterelic": {
-        "buttontext": "Delete $t(common:relic, {\"count\": 1, \"length\": 1})",
-        "warning_one": "Delete the selected $t(common:relic, {\"count\": 1, \"length\": 0})?",
-        "warning_other": "Delete the selected {{count}} $t(common:relic, {\"count\": {{count}}, \"length\": 0})?"
+      "EditRelic": "Edit $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1})",
+      "DeleteRelic": {
+        "ButtonText": "Delete $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1})",
+        "Warning_one": "Delete the selected $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0})?",
+        "Warning_other": "Delete the selected {{count}} $t(common:Relic, {\"count\": {{count}}, \"capitalizeLength\": 0})?"
       },
-      "addrelic": "Add New $t(common:relic, {\"count\": 1, \"length\": 1})"
+      "AddRelic": "Add New $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1})"
     },
-    "relicinsights": {
-      "newstats": "New stats: ",
-      "upgradedstats": "Upgraded stats: "
+    "RelicInsights": {
+      "NewStats": "New stats: ",
+      "UpgradedStats": "Upgraded stats: "
     }
   },
   "settings": {
-    "title": "Settings",
-    "relicequippingbehaviour": {
-      "label": "Equipping relics from another character",
-      "replace": "Default: Replace relics without swapping",
-      "swap": "Swap relics with previous owner"
+    "Title": "Settings",
+    "RelicEquippingBehaviour": {
+      "Label": "Equipping relics from another character",
+      "Replace": "Default: Replace relics without swapping",
+      "Swap": "Swap relics with previous owner"
     },
-    "permutationsidebarbehaviour": {
-      "label": "Shrink optimizer sidebar on smaller screens",
+    "PermutationSidebarBehaviour": {
+      "Label": "Shrink optimizer sidebar on smaller screens",
       "XL": "Default: Minimize if most of the sidebar is hidden",
       "XXL": "Minimize if any of the sidebar is hidden",
-      "noshow": "Always keep the sidebar on the right"
+      "NoShow": "Always keep the sidebar on the right"
     },
-    "relicpotentialloadbehaviour": {
-      "label": "Relic potential scoring on load",
-      "onstartup": "Default: Automatically score relics on page load",
-      "manual": "Only score relics when \"Reapply scores\" is clicked (faster page load)"
+    "RelicPotentialLoadBehaviour": {
+      "Label": "Relic potential scoring on load",
+      "OnStartup": "Default: Automatically score relics on page load",
+      "Manual": "Only score relics when \"Reapply scores\" is clicked (faster page load)"
     }
   },
   "sidebar": {
-    "showcase": {
-      "title": "Showcase",
-      "scorer": "$t(common:relic, {\"count\": 1, \"length\": 1}) Scorer"
+    "Showcase": {
+      "Title": "Showcase",
+      "Scorer": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) Scorer"
     },
-    "optimization": {
-      "title": "Optimization",
-      "optimizer": "Optimizer",
-      "characters": "$t(common:character, {\"count\": 23, \"length\": 1})",
-      "import": "Import / Save",
-      "settings": "Settings",
-      "start": "Get Started"
+    "Optimization": {
+      "Title": "Optimization",
+      "Optimizer": "Optimizer",
+      "Relics": "$t(common:Relic, {\"count\": 2000, \"capitalizeLength\": 1)",
+      "Characters": "$t(common:Character, {\"count\": 23, \"capitalizeLength\": 1})",
+      "Import": "Import / Save",
+      "Settings": "Settings",
+      "Start": "Get Started"
     },
-    "links": {
-      "title": "Links",
-      "changelog": "Changelog",
-      "discord": "Discord",
-      "github": "GitHub",
-      "kofi": "Ko-fi",
-      "unleak": "No Leaks"
+    "Links": {
+      "Title": "Links",
+      "Changelog": "Changelog",
+      "Discord": "Discord",
+      "Github": "GitHub",
+      "Kofi": "Ko-fi",
+      "Unleak": "No leaks"
     }
   }
 }

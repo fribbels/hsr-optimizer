@@ -90,12 +90,12 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
     }
   }
 
-  const output = {characters: {}, relicsets: {}, lightcones: {}, paths: {}, elements: {}}
+  const output = {Characters: {}, RelicSets: {}, Lightcones: {}, Paths: {}, Elements: {}}
 
   for (const avatar of AvatarConfig) {
-    output.characters[avatar.AvatarID] = {
-      name: avatar.AvatarID > 8000 ? cleanString(locale, tbIdToNativeName(avatar.AvatarID, textmap, pathConfig, locale)) : cleanString(locale, textmap[avatar.AvatarName.Hash]),
-      abilities: {
+    output.Characters[avatar.AvatarID] = {
+      Name: avatar.AvatarID > 8000 ? cleanString(locale, tbIdToNativeName(avatar.AvatarID, textmap, pathConfig, locale)) : cleanString(locale, textmap[avatar.AvatarName.Hash]),
+      Abilities: {
         [avatar.SkillList[0]]: abilities[avatar.SkillList[0]],
         [avatar.SkillList[1]]: abilities[avatar.SkillList[1]],
         [avatar.SkillList[2]]: abilities[avatar.SkillList[2]],
@@ -103,7 +103,7 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
         [avatar.SkillList[4]]: abilities[avatar.SkillList[4]],
         [avatar.SkillList[5]]: abilities[avatar.SkillList[5]],
       },
-      eidolons: {
+      Eidolons: {
         [avatar.RankIDList[0]]: eidolons[avatar.RankIDList[0]],
         [avatar.RankIDList[1]]: eidolons[avatar.RankIDList[1]],
         [avatar.RankIDList[2]]: eidolons[avatar.RankIDList[2]],
@@ -111,8 +111,8 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
         [avatar.RankIDList[4]]: eidolons[avatar.RankIDList[4]],
         [avatar.RankIDList[5]]: eidolons[avatar.RankIDList[5]],
       },
-      effects: {},
-      traces: {
+      Effects: {},
+      Traces: {
         A2: {},
         A4: {},
         A6: {}
@@ -120,20 +120,20 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
     }
     for (const effect of effectslist) {
       if(effect.source == avatar.AvatarID) {
-        output.characters[avatar.AvatarID].effects[effect.ID] = effect
+        output.Characters[avatar.AvatarID].Effects[effect.ID] = effect
       }
     }
     for (const trace of tracelist) {
       if (trace.owner == avatar.AvatarID) {
         switch (trace.Ascension) {
           case 2:
-            output.characters[avatar.AvatarID].traces.A2 = trace
+            output.Characters[avatar.AvatarID].Traces.A2 = trace
             break;
           case 4:
-            output.characters[avatar.AvatarID].traces.A4 = trace
+            output.Characters[avatar.AvatarID].Traces.A4 = trace
             break;
           case 6:
-            output.characters[avatar.AvatarID].traces.A6 = trace
+            output.Characters[avatar.AvatarID].Traces.A6 = trace
             break;
           default:
             console.log('error: trace owned but not located')
@@ -144,19 +144,19 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
   }
 
   for (const set of relicsetConfig) {
-    output.relicsets[set.SetID] = cleanString(locale, textmap[set.SetName.Hash])
+    output.RelicSets[set.SetID] = cleanString(locale, textmap[set.SetName.Hash])
   }
 
   for (const lightcone of lightconeConfig) {
-    output.lightcones[lightcone.ID] = cleanString(locale, textmap[lightcone.ItemName.Hash])
+    output.Lightcones[lightcone.ID] = cleanString(locale, textmap[lightcone.ItemName.Hash])
   }
 
   for (const path of pathConfig) {
-    output.paths[path.ID] = cleanString(locale, textmap[path.BaseTypeText.Hash])
+    output.Paths[path.ID] = cleanString(locale, textmap[path.BaseTypeText.Hash])
   }
 
   for (const element of damageConfig) {
-    output.elements[element.ID] = cleanString(locale, textmap[element.DamageTypeName.Hash])
+    output.Elements[element.ID] = cleanString(locale, textmap[element.DamageTypeName.Hash])
   }
 
   writeFile(`../../public/locales/${locale}/gameData.json`, JSON.stringify(output), (err) => {

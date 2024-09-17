@@ -32,7 +32,7 @@ const defaultFilters = {
 const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle, multipleSelect, withIcon }) => {
   // console.log('==================================== CHARACTER SELECT')
   const inputRef = useRef<InputRef>(null)
-  const { t } = useTranslation('modals', { keyPrefix: 'characterselect' })
+  const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
   const [open, setOpen] = useState(false)
   const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [t])
@@ -112,11 +112,11 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         style={selectStyle}
         value={value}
         options={withIcon ? labelledOptions : characterOptions}
-        placeholder={multipleSelect ? t('multiselect.placeholder') : t('singleselect.placeholder')}
+        placeholder={multipleSelect ? t('MultiSelect.Placeholder') : t('SingleSelect.Placeholder')}
         allowClear
         maxTagCount={0}
         maxTagPlaceholder={() => (
-          <span>{t('multiselect.maxtagplaceholder', { count: excludedRelicPotentialCharacters.length })}</span>
+          <span>{t('MultiSelect.MaxTagPlaceholder', { count: excludedRelicPotentialCharacters.length })}</span>
         )}
         onClear={() => {
           if (onChange) onChange(null)
@@ -138,7 +138,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         destroyOnClose
         width='90%'
         style={{ height: '80%', maxWidth: 1450 }}
-        title={multipleSelect ? t('multiselect.modaltitle') : t('singleselect.modaltitle')}
+        title={multipleSelect ? t('MultiSelect.ModalTitle') : t('SingleSelect.ModalTitle')}
         onCancel={() => {
           if (multipleSelect) {
             if (onChange) onChange(selected)
@@ -157,7 +157,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                   height: 40,
                   flex: 1,
                 }}
-                placeholder={t('searchplaceholder')}
+                placeholder={t('SearchPlaceholder')}
                 ref={inputRef}
                 onChange={(e) => {
                   const newFilters = Utils.clone(currentFilters)
@@ -177,13 +177,13 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                     onClick={excludeAll}
                     style={{ height: '100%', width: 120 }}
                   >
-                    {t('excludebutton')}
+                    {t('ExcludeButton')}
                   </Button>
                   <Button
                     onClick={includeAll}
                     style={{ height: '100%', width: 120 }}
                   >
-                    {t('clearbutton')}
+                    {t('ClearButton')}
                   </Button>
                 </Flex>
               )}

@@ -70,7 +70,7 @@ export default function RelicScorerTab() {
 
   function onFinish(x) {
     if (latestRefreshDate.current) {
-      Message.warning(t('messages.throttlewarning', { seconds: Math.max(1, Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000)) }))
+      Message.warning(t('Messages.ThrottleWarning', { seconds: Math.max(1, Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000)) }))
       if (loading) {
         setLoading(false)
       }
@@ -89,7 +89,7 @@ export default function RelicScorerTab() {
 
     if (!id || id.length != 9) {
       setLoading(false)
-      Message.error(t('messages.invalididwarning'))
+      Message.error(t('Messages.InvalidIdWarning'))
       return
     }
 
@@ -141,7 +141,7 @@ export default function RelicScorerTab() {
         } else {
           if (!data.detailInfo) {
             setLoading(false)
-            Message.error(t('messages.idloaderror'))
+            Message.error(t('Messages.IdLoadError'))
             return 'ERROR'
           }
 
@@ -170,13 +170,13 @@ export default function RelicScorerTab() {
           setSelectedCharacter(converted[0])
         }
         setLoading(false)
-        Message.success(t('messages.successmsg'))
+        Message.success(t('Messages.SuccessMsg'))
         console.log(converted)
         scorerForm.setFieldValue('scorerId', id)
       })
       .catch((error) => {
         setTimeout(() => {
-          Message.warning(t('messages.lookuperror'))
+          Message.warning(t('Messages.LookupError'))
           console.error('Fetch error:', error)
           setLoading(false)
         }, Math.max(0, throttleSeconds * 1000 - (new Date() - latestRefreshDate.current)))
@@ -198,12 +198,12 @@ export default function RelicScorerTab() {
       <Flex vertical gap={0} align='center'>
         {/*
         <Flex gap={10} vertical align='center'>
-        <Text><h3 style={{ color: '#ffaa4f' }}>{t('header.downtimewarning', { game_version: 2.6 })}</h3></Text>
+        <Text><h3 style={{ color: '#ffaa4f' }}>{t('Header.DowntimeWarning', { game_version: 2.6 })}</h3></Text>
         </Flex>
         */}
         <Flex gap={10} vertical align='center'>
           <Text>
-            {window.officialOnly ? t('header.withoutversion') : t('header.withversion', { beta_version: CURRENT_DATA_VERSION })}
+            {window.officialOnly ? t('Header.WithoutVersion') : t('Header.WithVersion', { beta_version: CURRENT_DATA_VERSION })}
           </Text>
         </Flex>
         <Form
@@ -213,7 +213,7 @@ export default function RelicScorerTab() {
         >
           <Flex style={{ margin: 10, width: 1100 }} justify='center' align='center' gap={10}>
             <Form.Item size='default' name='scorerId'>
-              <Input style={{ width: 150 }} placeholder={t('submissionbar.placeholder')}/>
+              <Input style={{ width: 150 }} placeholder={t('SubmissionBar.Placeholder')}/>
             </Form.Item>
             <Button
               type='primary'
@@ -221,13 +221,13 @@ export default function RelicScorerTab() {
               loading={loading}
               style={{ width: 150 }}
             >
-              {t('submissionbar.buttontext')}
+              {t('SubmissionBar.ButtonText')}
             </Button>
             <Button
               style={{ width: 150 }}
               onClick={() => window.setIsScoringModalOpen(true)}
             >
-              {t('submissionbar.algorithmbutton')}
+              {t('SubmissionBar.AlgorithmButton')}
             </Button>
           </Flex>
         </Form>
@@ -260,11 +260,11 @@ function CharacterPreviewSelection(props) {
 
   const items = [
     {
-      label: <Flex gap={10}><ImportOutlined/>{t('importlabels.allcharacters')}</Flex>,
+      label: <Flex gap={10}><ImportOutlined/>{t('ImportLabels.AllCharacters')}</Flex>,
       key: 'import characters',
     },
     {
-      label: <Flex gap={10}><ImportOutlined/>{t('importlabels.singlecharacter')}</Flex>,
+      label: <Flex gap={10}><ImportOutlined/>{t('ImportLabels.SingleCharacter')}</Flex>,
       key: 'import single character',
     },
   ]
@@ -333,10 +333,10 @@ function CharacterPreviewSelection(props) {
 
   function onCharacterModalOk(form) {
     if (!form.characterId) {
-      return Message.error(t('messages.nocharacterselected'))
+      return Message.error(t('Messages.NoCharacterSelected'))
     }
     if (props.availableCharacters.find((x) => x.id == form.characterId) && props.selectedCharacter.id != form.characterId) {
-      return Message.error(t('messages.characteralreadyexists'))
+      return Message.error(t('Messages.CharacterAlreadyExists'))
     }
 
     // Updates the selected segmented option
@@ -471,7 +471,7 @@ function CharacterPreviewSelection(props) {
           <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey}/>
           <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
             <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined/>} loading={screenshotLoading} type='primary'>
-              {t('copyscreenshot')}
+              {t('CopyScreenshot')}
             </Button>
             <Button style={{ width: 40 }} icon={<DownloadOutlined/>} onClick={downloadClicked} loading={downloadLoading}/>
             <Dropdown.Button
@@ -480,13 +480,13 @@ function CharacterPreviewSelection(props) {
               menu={menuProps}
             >
               <ImportOutlined/>
-              {t('importlabels.relics')}
+              {t('ImportLabels.Relics')}
             </Dropdown.Button>
             <Button icon={<ExperimentOutlined/>} onClick={simulateClicked} style={{ width: 280 }}>
-              {t('simulaterelics')}
+              {t('SimulateRelics')}
             </Button>
             <Button icon={<LineChartOutlined/>} onClick={optimizeClicked} style={{ width: 228 }}>
-              {t('optimizeoncharacter')}
+              {t('OptimizeOnCharacter')}
             </Button>
           </Flex>
         </Flex>

@@ -52,37 +52,37 @@ export const SettingsDrawer = () => {
   const optionsRelicEquippingBehavior = [
     {
       value: SettingOptions.RelicEquippingBehavior.Replace,
-      label: <span>{t('relicequippingbehaviour.replace')}</span>,
+      label: <span>{t('RelicEquippingBehaviour.Replace')}</span>,
     },
     {
       value: SettingOptions.RelicEquippingBehavior.Swap,
-      label: <span>{t('relicequippingbehaviour.swap')}</span>,
+      label: <span>{t('RelicEquippingBehaviour.Swap')}</span>,
     },
   ]
 
   const optionsPermutationsSidebarBehavior = [
     {
       value: SettingOptions.PermutationsSidebarBehavior.ShowXL,
-      label: <span>{t('permutationsidebarbehaviour.XL')}</span>,
+      label: <span>{t('PermutationSidebarBehaviour.XL')}</span>,
     },
     {
       value: SettingOptions.PermutationsSidebarBehavior.ShowXXL,
-      label: <span>{t('permutationsidebarbehaviour.XXL')}</span>,
+      label: <span>{t('PermutationSidebarBehaviour.XXL')}</span>,
     },
     {
       value: SettingOptions.PermutationsSidebarBehavior.NoShow,
-      label: <span>{t('permutationsidebarbehaviour.noshow')}</span>,
+      label: <span>{t('PermutationSidebarBehaviour.NoShow')}</span>,
     },
   ]
 
   const optionsRelicPotentialLoadBehavior = [
     {
       value: SettingOptions.RelicPotentialLoadBehavior.ScoreAtStartup,
-      label: <span>{t('relicpotentialloadbehaviour.onstartup')}</span>,
+      label: <span>{t('RelicPotentialLoadBehaviour.OnStartup')}</span>,
     },
     {
       value: SettingOptions.RelicPotentialLoadBehavior.ManuallyClickReapplyScores,
-      label: <span>{t('relicpotentialloadbehaviour.manual')}</span>,
+      label: <span>{t('RelicPotentialLoadBehaviour.Manual')}</span>,
     },
   ]
 
@@ -114,13 +114,13 @@ export const SettingsDrawer = () => {
       >
         <Flex vertical gap={defaultGap}>
           <Flex justify='space-between' align='center'>
-            <Text>{t('relicequippingbehaviour.label')}</Text>
+            <Text>{t('RelicEquippingBehaviour.Label')}</Text>
             <Form.Item name={SettingOptions.RelicEquippingBehavior.name}>
               <Select style={{ width: 500 }} options={optionsRelicEquippingBehavior}/>
             </Form.Item>
           </Flex>
           <Flex justify='space-between' align='center'>
-            <Text>{t('permutationsidebarbehaviour.label')}</Text>
+            <Text>{t('PermutationSidebarBehaviour.Label')}</Text>
             <Form.Item name={SettingOptions.PermutationsSidebarBehavior.name}>
               <Select
                 style={{ width: 500 }}
@@ -130,7 +130,7 @@ export const SettingsDrawer = () => {
             </Form.Item>
           </Flex>
           <Flex justify='space-between' align='center'>
-            <Text>{t('relicpotentialloadbehaviour.label')}</Text>
+            <Text>{t('RelicPotentialLoadBehaviour.Label')}</Text>
             <Form.Item name={SettingOptions.RelicPotentialLoadBehavior.name}>
               <Select
                 style={{ width: 500 }}

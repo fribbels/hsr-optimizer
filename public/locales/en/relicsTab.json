@@ -1,38 +1,38 @@
 {
-  "relicFilterBar": {
-    "part": "Part",
-    "enhance": "Enhance",
-    "grade": "Grade",
-    "verified": "Verified",
-    "equipped": "Equipped",
-    "clear": "Clear",
-    "clearbutton": "Clear all filters",
-    "set": "Set",
-    "mainstat": "Main stats",
-    "substat": "Substats",
-    "reapplybutton": "Reapply scores",
-    "scoringbutton": "Scoring algorithm",
-    "recommendationheader": "$t(common:relic, {\"count\": 1, \"length\": 1}) recommendation character",
-    "rating": "$t(common:relic, {\"count\": 1, \"length\": 1}) ratings",
-    "customcharsheader": "Custom potential $t(common:character, {\"count\": 12, \"length\": 0})"
+  "RelicFilterBar": {
+    "Part": "Part",
+    "Enhance": "Enhance",
+    "Grade": "Grade",
+    "Verified": "Verified",
+    "Equipped": "Equipped",
+    "Clear": "Clear",
+    "ClearButton": "Clear all filters",
+    "Set": "Set",
+    "Mainstat": "Main stats",
+    "Substat": "Substats",
+    "ReapplyButton": "Reapply scores",
+    "ScoringButton": "Scoring algorithm",
+    "RecommendationHeader": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) recommendation character",
+    "Rating": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) ratings",
+    "CustomCharsHeader": "Custom potential $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0})"
   },
-  "messages": {
-    "addrelicsuccess": "Successfully added $t(common:relic, {\"count\": 1, \"length\": 0})",
-    "norelicselected": "No $t(common:relic, {\"count\": 1, \"length\": 0}) selected",
-    "deleterelicsuccess": "Successfully deleted $t(common:relic, {\"count\": 1, \"length\": 0})"
+  "Messages": {
+    "AddRelicSuccess": "Successfully added $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0})",
+    "NoRelicSelected": "No $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0}) selected",
+    "DeleteRelicSuccess": "Successfully deleted $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0})"
   },
-  "relicGrid": {
-    "headers": {
-      "equippedby": "Owner",
-      "set": "Set",
-      "grade": "Grade",
-      "part": "Part",
-      "enhance": "Enhance",
-      "mainstat": "Main\nStat",
-      "mainvalue": "Main Value",
-      "hpp": "HP %",
-      "atkp": "ATK %",
-      "defp": "DEF %",
+  "RelicGrid": {
+    "Headers": {
+      "EquippedBy": "Owner",
+      "Set": "Set",
+      "Grade": "Grade",
+      "Part": "Part",
+      "Enhance": "Enhance",
+      "Mainstat": "Main\nStat",
+      "Mainvalue": "Main Value",
+      "hpP": "HP %",
+      "atkP": "ATK %",
+      "defP": "DEF %",
       "hp": "HP",
       "atk": "ATK",
       "def": "DEF",
@@ -44,78 +44,78 @@
       "be": "Break\nEffect",
       "cv": "Crit\nValue"
     },
-    "valuecolumns": {
-      "selectedcharacter": {
-        "label": "Selected $t(common:character, {\"count\": 1, \"length\": 0})",
-        "scorecol": {
-          "label": "Selected $t(common:character, {\"count\": 1, \"length\": 0}): Score",
-          "header": "Selected Char\nScore"
+    "ValueColumns": {
+      "SelectedCharacter": {
+        "Label": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0})",
+        "ScoreCol": {
+          "Label": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}): Score",
+          "Header": "Selected Char\nScore"
         },
-        "avgpotcol": {
-          "label": "Selected $t(common:character, {\"count\": 1, \"length\": 0}): Average potential",
-          "header": "Selected Char\nAvg Potential"
+        "AvgPotCol": {
+          "Llabel": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}): Average potential",
+          "Header": "Selected Char\nAvg Potential"
         },
-        "maxpotcol": {
-          "label": "Selected $t(common:character, {\"count\": 1, \"length\": 0}): Max potential",
-          "header": "Selected Char\nMax Potential"
+        "MaxPotCol": {
+          "Label": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}): Max potential",
+          "Header": "Selected Char\nMax Potential"
         }
       },
-      "customcharacters": {
-        "label": "Custom $t(common:character, {\"count\": 10, \"length\": 0})",
-        "avgpotcol": {
-          "label": "Custom $t(common:character, {\"count\": 10, \"length\": 0}): Average potential",
-          "header": "Custom Chars\nAvg Potential"
+      "CustomCharacters": {
+        "Label": "Custom $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0})",
+        "AvgPotCol": {
+          "Label": "Custom $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0}): Average potential",
+          "Header": "Custom Chars\nAvg Potential"
         },
-        "maxpotcol": {
-          "label": "Custom $t(common:character, {\"count\": 10, \"length\": 0}): Max potential",
-          "header": "Custom Chars\nMax Potential"
+        "MaxPotCol": {
+          "Label": "Custom $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0}): Max potential",
+          "Header": "Custom Chars\nMax Potential"
         }
       },
-      "allcharacters": {
-        "label": "All $t(common:character, {\"count\": 10, \"length\": 0})",
-        "avgpotcol": {
-          "label": "All $t(common:character, {\"count\": 10, \"length\": 0}): Average potential",
-          "header": "All Chars\nAvg Potential"
+      "AllCharacters": {
+        "Label": "All $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0})",
+        "AvgPotCol": {
+          "Label": "All $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0}): Average potential",
+          "Header": "All Chars\nAvg Potential"
         },
-        "maxpotcol": {
-          "label": "All $t(common:character, {\"count\": 10, \"length\": 0}): Max potential",
-          "header": "All Chars\nMax Potential"
+        "MaxPotCol": {
+          "Label": "All $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0}): Max potential",
+          "Header": "All Chars\nMax Potential"
         }
       },
-      "comingsoon": {
-        "label": "Coming soon",
-        "setspotential": {
-          "label": "$t(common:relic, {\"count\": 1, \"length\": 1}) / Ornament sets potential",
-          "header": "All Chars\nMax Potential + Sets"
+      "ComingSoon": {
+        "Label": "Coming soon",
+        "SetsPotential": {
+          "Label": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) / Ornament sets potential",
+          "Header": "All Chars\nMax Potential + Sets"
         }
       }
     }
   },
-  "toolbar": {
-    "reliclocator": {
-      "width": "Inventory width",
-      "filter": "Auto filter rows",
-      "noneselected": "Select a $t(common:relic, {\"count\": 1, \"length\": 0}) to locate",
-      "location": "Location - Row {{rowindex}} / Col {{columnindex}}"
+  "Toolbar": {
+    "RelicLocator": {
+      "Width": "Inventory width",
+      "Filter": "Auto filter rows",
+      "NoneSelected": "Select a $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0}) to locate",
+      "Location": "Location - Row {{rowindex}} / Col {{columnindex}}"
     },
-    "insightoptions": {
-      "buckets": "$t(common:relic, {\"count\": 1, \"length\": 1}) Insight: Buckets",
-      "top10": "$t(common:relic, {\"count\": 1, \"length\": 1}) Insight: Top 10"
+    "InsightOptions": {
+      "Buckets": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) Insight: Buckets",
+      "Top10": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) Insight: Top 10"
     },
-    "plotoptions": {
-      "plotall": "Show all $t(common:character, {\"count\": 12, \"length\": 0})",
-      "plotcustom": "Show custom $t(common:character, {\"count\": 12, \"length\": 0})"
+    "PlotOptions": {
+      "PlotAll": "Show all $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0})",
+      "PlotCustom": "Show custom $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0})"
     },
-    "editrelic": "Edit $t(common:relic, {\"count\": 1, \"length\": 1})",
-    "deleterelic": {
-      "buttontext": "Delete $t(common:relic, {\"count\": 1, \"length\": 1})",
-      "warning_one": "Delete the selected $t(common:relic, {\"count\": 1, \"length\": 0})?",
-      "warning_other": "Delete the selected {{count}} $t(common:relic, {\"count\": {{count}}, \"length\": 0})?"
+    "EditRelic": "Edit $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1})",
+    "DeleteRelic": {
+      "ButtonText": "Delete $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1})",
+      "Warning_one": "Delete the selected $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0})?",
+      "Warning_other": "Delete the selected {{count}} $t(common:Relic, {\"count\": {{count}}, \"capitalizeLength\": 0})?"
     },
-    "addrelic": "Add New $t(common:relic, {\"count\": 1, \"length\": 1})"
+    "AddRelic": "Add New $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1})"
   },
-  "relicinsights": {
-    "newstats": "New stats: ",
-    "upgradedstats": "Upgraded stats: "
+  "RelicInsights": {
+    "NewStats": "New stats: ",
+    "UpgradedStats": "Upgraded stats: "
   }
 }

@@ -264,7 +264,7 @@ export const Utils = {
 
     for (const value of Object.values(characterData)) {
       value.value = value.id
-      value.label = i18next.t(`gameData:characters.${value.id}.name`)
+      value.label = i18next.t(`gameData:Characters.${value.id}.Name`)
     }
 
     return Object.values(characterData).sort((a, b) => a.displayName.localeCompare(b.displayName))
@@ -282,7 +282,7 @@ export const Utils = {
 
     for (const value of Object.values(lcData)) {
       value.value = value.id
-      value.label = i18next.t(`gameData:lightcones.${value.id}`)
+      value.label = i18next.t(`gameData:Lightcones.${value.id}`)
     }
 
     return Object.values(lcData)

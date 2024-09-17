@@ -1,22 +1,23 @@
 {
-  "showcase" : {
-    "title" : "Showcase",
-    "scorer": "$t(common:relic, {\"count\": 1, \"length\": 1}) Scorer"
+  "Showcase" : {
+    "Title" : "Showcase",
+    "Scorer": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) Scorer"
   },
-  "optimization": {
-    "title": "Optimization",
-    "optimizer": "Optimizer",
-    "characters": "$t(common:character, {\"count\": 23, \"length\": 1})",
-    "import": "Import / Save",
-    "settings": "Settings",
-    "start": "Get Started"
+  "Optimization": {
+    "Title": "Optimization",
+    "Optimizer": "Optimizer",
+    "Relics": "$t(common:Relic, {\"count\": 2000, \"capitalizeLength\": 1)",
+    "Characters": "$t(common:Character, {\"count\": 23, \"capitalizeLength\": 1})",
+    "Import": "Import / Save",
+    "Settings": "Settings",
+    "Start": "Get Started"
   },
-  "links": {
-    "title": "Links",
-    "changelog": "Changelog",
-    "discord": "Discord",
-    "github": "GitHub",
-    "kofi": "Ko-fi",
-    "unleak": "No Leaks"
+  "Links": {
+    "Title": "Links",
+    "Changelog": "Changelog",
+    "Discord": "Discord",
+    "Github": "GitHub",
+    "Kofi": "Ko-fi",
+    "Unleak": "No leaks"
   }
 }

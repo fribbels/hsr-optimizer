@@ -34,7 +34,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
   // console.log('==================================== LC SELECT')
   const metadata = DB.getMetadata()
   const [open, setOpen] = useState(false)
-  const { t } = useTranslation('modals', { keyPrefix: 'lightconeselect' })
+  const { t } = useTranslation('modals', { keyPrefix: 'LightconeSelect' })
   const defaultFilters = useMemo(() => {
     return {
       rarity: [],
@@ -97,7 +97,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
         style={selectStyle}
         value={value}
         options={withIcon ? labelledOptions : lightConeOptions}
-        placeholder={t('placeholder')}
+        placeholder={t('Placeholder')}
         allowClear
         onClear={() => {
           if (onChange) onChange(null)
@@ -118,7 +118,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
         width='90%'
         style={{ height: '70%', maxWidth: 1200 }}
         destroyOnClose
-        title={t('title')}
+        title={t('Title')}
         onCancel={() => setOpen(false)}
         footer={null}
       >
@@ -128,7 +128,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
               <Input
                 size='large'
                 style={{ height: 40 }}
-                placeholder={t('placeholder')}
+                placeholder={t('Placeholder')}
                 ref={inputRef}
                 onChange={(e) => {
                   const newFilters = Utils.clone(currentFilters)

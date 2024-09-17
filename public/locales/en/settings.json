@@ -1,19 +1,19 @@
 {
-  "title": "Settings",
-  "relicequippingbehaviour": {
-    "label": "Equipping relics from another character",
-    "replace": "Default: Replace relics without swapping",
-    "swap": "Swap relics with previous owner"
+  "Title": "Settings",
+  "RelicEquippingBehaviour": {
+    "Label": "Equipping relics from another character",
+    "Replace": "Default: Replace relics without swapping",
+    "Swap": "Swap relics with previous owner"
   },
-  "permutationsidebarbehaviour": {
-    "label": "Shrink optimizer sidebar on smaller screens",
+  "PermutationSidebarBehaviour": {
+    "Label": "Shrink optimizer sidebar on smaller screens",
     "XL": "Default: Minimize if most of the sidebar is hidden",
     "XXL": "Minimize if any of the sidebar is hidden",
-    "noshow": "Always keep the sidebar on the right"
+    "NoShow": "Always keep the sidebar on the right"
   },
-  "relicpotentialloadbehaviour": {
-    "label": "Relic potential scoring on load",
-    "onstartup": "Default: Automatically score relics on page load",
-    "manual": "Only score relics when \"Reapply scores\" is clicked (faster page load)"
+  "RelicPotentialLoadBehaviour": {
+    "Label": "Relic potential scoring on load",
+    "OnStartup": "Default: Automatically score relics on page load",
+    "Manual": "Only score relics when \"Reapply scores\" is clicked (faster page load)"
   }
 }

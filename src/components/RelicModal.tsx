@@ -108,14 +108,11 @@ export default function RelicModal(props: {
       const setOptions: { label: ReactElement; value: string }[] = []
       for (const entry of [...Object.entries(Constants.SetsRelics), ...Object.entries(Constants.SetsOrnaments)].filter((x) => !UnreleasedSets[x[1]])) {
         setOptions.push({
-          label: (() => {
-            return (
-              <Flex align='center' gap={10}>
-                <img style={{ height: 22, width: 22 }} src={Assets.getSetImage(entry[1])}/>
-                {i18next.t(`gameData:relicsets.${setToId[entry[1]]}`)}
-              </Flex>
-            )
-          })(),
+          label:
+  <Flex align='center' gap={10}>
+    <img style={{ height: 22, width: 22 }} src={Assets.getSetImage(entry[1])}/>
+    {i18next.t(`gameData:RelicSets.${setToId[entry[1]]}`)}
+  </Flex>,
           value: entry[1],
         })
       }
@@ -163,14 +160,11 @@ export default function RelicModal(props: {
     let mainStatOptions: MainStatOption[] = []
     if (props.selectedRelic?.part) {
       mainStatOptions = Object.entries(Constants.PartsMainStats[props.selectedRelic?.part]).map((entry) => ({
-        label: (() => {
-          return (
-            <Flex align='center' gap={10}>
-              <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }}/>
-              {t(`common:stats.${entry[1]}`)}
-            </Flex>
-          )
-        })(), // generateImageLabel(entry[1], (x) => Assets.getStatIcon(x, true), 22),
+        label:
+  <Flex align='center' gap={10}>
+    <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }}/>
+    {t(`common:Stats.${entry[1]}`)}
+  </Flex>,
         value: entry[1],
       }))
     }
@@ -200,27 +194,24 @@ export default function RelicModal(props: {
       relic.verified = false
     }
 
-    console.log(t('relic.messages.editsuccess'), relic)
+    console.log(t('Relic.Messages.EditSuccess'), relic)
 
     props.onOk(relic)
     props.setOpen(false)
   }
   const onFinishFailed = () => {
-    Message.error(t('relic.messages.submitfail'))
+    Message.error(t('Relic.Messages.SubmitFail'))
     props.setOpen(false)
   }
   const onValuesChange = (formValues: RelicForm) => {
     let mainStatOptions: MainStatOption[] = []
     if (formValues.part) {
       mainStatOptions = Object.entries(Constants.PartsMainStats[formValues.part]).map((entry) => ({
-        label: (() => {
-          return (
-            <Flex align='center' gap={10}>
-              <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }}/>
-              {t(`common:stats.${entry[1]}`)}
-            </Flex>
-          )
-        })(),
+        label:
+  <Flex align='center' gap={10}>
+    <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }}/>
+    {t(`common:Stats.${entry[1]}`)}
+  </Flex>,
         value: entry[1],
       }))
       setMainStatOptions(mainStatOptions)
@@ -289,10 +280,10 @@ export default function RelicModal(props: {
         onCancel={() => props.setOpen(false)}
         footer={[
           <Button key='back' onClick={handleCancel}>
-            {t('common:cancel', { length: 1 })}
+            {t('common:Cancel', { capitalizeLength: 1 })}
           </Button>,
           <Button key='submit' type='primary' onClick={handleOk}>
-            {t('common:submit', { length: 1 })}
+            {t('common:Submit', { capitalizeLength: 1 })}
           </Button>,
         ]}
       >
@@ -300,7 +291,7 @@ export default function RelicModal(props: {
           <Flex gap={10}>
             <Flex vertical gap={5}>
 
-              <HeaderText>{t('relic.part')}</HeaderText>
+              <HeaderText>{t('Relic.Part')}</HeaderText>
 
               <Form.Item name='part'>
                 <Radio.Group buttonStyle='solid'>
@@ -313,7 +304,7 @@ export default function RelicModal(props: {
                 </Radio.Group>
               </Form.Item>
 
-              <HeaderText>{t('relic.set')}</HeaderText>
+              <HeaderText>{t('Relic.Set')}</HeaderText>
               <Form.Item name='set'>
                 <Select
                   showSearch
@@ -328,7 +319,7 @@ export default function RelicModal(props: {
                 </Select>
               </Form.Item>
 
-              <HeaderText>{t('relic.enhance')}</HeaderText>
+              <HeaderText>{t('Relic.Enhance')}</HeaderText>
 
               <Flex gap={10}>
                 <Form.Item name='enhance'>
@@ -358,7 +349,7 @@ export default function RelicModal(props: {
                 </Form.Item>
               </Flex>
 
-              <HeaderText>{t('relic.mainstat')}</HeaderText>
+              <HeaderText>{t('Relic.Mainstat')}</HeaderText>
 
               <Flex gap={10}>
                 <Form.Item name='mainStatType'>
@@ -383,7 +374,7 @@ export default function RelicModal(props: {
             <div style={{ display: 'block', minWidth: 12 }}/>
 
             <Flex vertical gap={5} style={{}}>
-              <HeaderText>{t('relic.wearer')}</HeaderText>
+              <HeaderText>{t('Relic.Wearer')}</HeaderText>
               <Form.Item name='equippedBy'>
                 <Select
                   showSearch
@@ -406,9 +397,9 @@ export default function RelicModal(props: {
           <Flex gap={20}>
             <Flex vertical gap={5} style={{ width: '100%' }}>
               <Flex justify='space-between'>
-                <HeaderText>{t('relic.substat')}</HeaderText>
+                <HeaderText>{t('Relic.Substat')}</HeaderText>
                 <Flex style={{ width: 180 }}>
-                  <HeaderText>{t('relic.upgrades')}</HeaderText>
+                  <HeaderText>{t('Relic.Upgrades')}</HeaderText>
                 </Flex>
               </Flex>
               <SubstatInput index={0} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree}/>
@@ -459,7 +450,7 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
           return (
             <Flex align='center' gap={10}>
               <img style={{ width: 22, height: 22 }} src={Assets.getStatIcon(entry[1], true)}/>
-              {i18next.t(`common:stats.${entry[1]}`)}
+              {i18next.t(`common:Stats.${entry[1]}`)}
             </Flex>
           )
         })(),

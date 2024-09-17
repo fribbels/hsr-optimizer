@@ -55,7 +55,7 @@ function cellRankRenderer(params) {
 
 function cellNameRenderer(params) {
   const data = params.data
-  const characterName = i18next.t(`gameData:characters.${data.id}.name`)
+  const characterName = i18next.t(`gameData:Characters.${data.id}.Name`)
   const equippedNumber = data.equipped ? Object.values(data.equipped).filter((x) => x != undefined).length : 0
   // console.log('CellRenderer', equippedNumber, data, characterMetadata)
   let color = '#81d47e'
@@ -122,26 +122,26 @@ export default function CharacterTab() {
     {
       key: 'character group',
       type: 'group',
-      label: t('characteractions.character.label'),
+      label: t('CharacterMenu.Character.Label'),
       children: [
         {
-          label: t('characteractions.character.options.add'),
+          label: t('CharacterMenu.Character.Options.Add'),
           key: 'add',
         },
         {
-          label: t('characteractions.character.options.edit'),
+          label: t('CharacterMenu.Character.Options.Edit'),
           key: 'edit',
         },
         {
-          label: t('characteractions.character.options.switch'),
+          label: t('CharacterMenu.Character.Options.Switch'),
           key: 'switchRelics',
         },
         {
-          label: t('characteractions.character.options.unequip'),
+          label: t('CharacterMenu.Character.Options.Unequip'),
           key: 'unequip',
         },
         {
-          label: t('characteractions.character.options.delete'),
+          label: t('CharacterMenu.Character.Options.Delete'),
           key: 'delete',
         },
       ],
@@ -149,14 +149,14 @@ export default function CharacterTab() {
     {
       key: 'builds group',
       type: 'group',
-      label: t('characteractions.build.label'),
+      label: t('CharacterMenu.Build.Label'),
       children: [
         {
-          label: t('characteractions.build.options.save'),
+          label: t('CharacterMenu.Build.Options.Save'),
           key: 'saveBuild',
         },
         {
-          label: t('characteractions.build.options.view'),
+          label: t('CharacterMenu.Build.Options.View'),
           key: 'viewBuilds',
         },
       ],
@@ -164,10 +164,10 @@ export default function CharacterTab() {
     {
       key: 'scoring group',
       type: 'group',
-      label: t('characteractions.scoring.label'),
+      label: t('CharacterMenu.Scoring.Label'),
       children: [
         {
-          label: t('characteractions.scoring.options.scoringmodal'),
+          label: t('CharacterMenu.Scoring.Options.ScoringModal'),
           key: 'scoring',
         },
       ],
@@ -175,14 +175,14 @@ export default function CharacterTab() {
     {
       key: 'priority group',
       type: 'group',
-      label: t('characteractions.priority.label'),
+      label: t('CharacterMenu.Priority.Label'),
       children: [
         {
-          label: t('characteractions.priority.options.sortbyscore'),
+          label: t('CharacterMenu.Priority.Options.SortByScore'),
           key: 'sortByScore',
         },
         {
-          label: t('characteractions.priority.options.movetotop'),
+          label: t('CharacterMenu.Priority.Options.MoveToTop'),
           key: 'moveToTop',
         },
       ],
@@ -215,9 +215,9 @@ export default function CharacterTab() {
   }
 
   const columnDefs = useMemo(() => [
-    { field: '', headerName: t('gridheaders.icon'), cellRenderer: cellImageRenderer, width: 52 },
-    { field: '', headerName: t('gridheaders.priority'), cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
-    { field: '', headerName: t('gridheaders.character'), flex: 1, cellRenderer: cellNameRenderer },
+    { field: '', headerName: t('GridHeaders.Icon'), cellRenderer: cellImageRenderer, width: 52 },
+    { field: '', headerName: t('GridHeaders.Priority'), cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
+    { field: '', headerName: t('GridHeaders.Character'), flex: 1, cellRenderer: cellNameRenderer },
   ], [t])
 
   const gridOptions = useMemo(() => ({
@@ -319,7 +319,7 @@ export default function CharacterTab() {
 
     SaveState.save()
 
-    Message.success(t('messages.removesuccess'))
+    Message.success(t('Messages.RemoveSuccess'))
   }
 
   function unequipClicked() {
@@ -336,7 +336,7 @@ export default function CharacterTab() {
 
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
-    Message.success(t('messages.unequipsuccess'))
+    Message.success(t('Messages.UnequipSuccess'))
     window.relicsGrid.current.api.redrawRows()
 
     SaveState.save()
@@ -345,7 +345,7 @@ export default function CharacterTab() {
   // Reuse the same modal for both edit/add and scroll to the selected character
   function onCharacterModalOk(form) {
     if (!form.characterId) {
-      return Message.error(t('messages.noselectedcharacter'))
+      return Message.error(t('Messages.NoSelectedCharacter'))
     }
 
     const character = DB.addFromForm(form)
@@ -354,7 +354,7 @@ export default function CharacterTab() {
 
   function onSwitchRelicsModalOk(switchToCharacter) {
     if (!switchToCharacter) {
-      return Message.error(t('messages.noselectedcharacter'))
+      return Message.error(t('Messages.NoSelectedCharacter'))
     }
 
     DB.switchRelics(selectedCharacter.id, switchToCharacter.value)
@@ -362,7 +362,7 @@ export default function CharacterTab() {
 
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
-    Message.success(t('messages.switchsuccess', { charid: switchToCharacter.value }))
+    Message.success(t('Messages.SwitchSuccess', { charid: switchToCharacter.value }))
     window.relicsGrid.current.api.redrawRows()
   }
 
@@ -380,7 +380,7 @@ export default function CharacterTab() {
   async function sortByScoreClicked() {
     if (!await confirm(
       <>
-        <Trans t={t} i18nKey='messages.sortbyscorewarning'>
+        <Trans t={t} i18nKey='Messages.SortByScoreWarning'>
           <br/>
         </Trans>
       </>,
@@ -431,14 +431,14 @@ export default function CharacterTab() {
       Message.error(res.error)
       return
     }
-    Message.success('Successfully saved build: ' + name)
+    Message.success(t('charactersTab:Messages.SaveSuccess', { name: name }))
     SaveState.save()
     setIsSaveBuildModalOpen(false)
   }
 
   const handleActionsMenuClick = async (e) => {
     if (!selectedCharacter && e.key != 'add' && e.key != 'scoring' && e.key != 'sortByScore') {
-      Message.error('No selected character')
+      Message.error(t('Messages.NoSelectedCharacter'))
       return
     }
 
@@ -457,11 +457,11 @@ export default function CharacterTab() {
         setSwitchRelicsModalOpen(true)
         break
       case 'unequip':
-        if (!await confirm(`Are you sure you want to unequip ${Utils.getCharacterNameById(selectedCharacter.id)}?`)) return
+        if (!await confirm(t('Messages.UnequipWarning', { charid: selectedCharacter.id }) + '?')) return
         unequipClicked()
         break
       case 'delete':
-        if (!await confirm(`Are you sure you want to delete ${Utils.getCharacterNameById(selectedCharacter.id)}?`)) return
+        if (!await confirm(t('Messages.DeleteWarning', { charid: selectedCharacter.id }) + '?')) return
         removeClicked()
         break
       case 'saveBuild':
@@ -520,7 +520,7 @@ export default function CharacterTab() {
               trigger={['hover']}
             >
               <Button style={{ width: '100%', height: '100%' }} icon={<UserOutlined/>} type='default'>
-                {t('characteractions.buttontext')}
+                {t('CharacterMenu.ButtonText')}
                 <DownOutlined/>
               </Button>
             </Dropdown>
@@ -530,7 +530,7 @@ export default function CharacterTab() {
               allowClear
               size='large'
               style={{ height: 40 }}
-              placeholder={t('searchplaceholder')}
+              placeholder={t('SearchPlaceholder')}
               onChange={(e) => {
                 nameFilter.current = e.target.value.toLowerCase()
                 externalFilterChanged()
@@ -593,7 +593,7 @@ export default function CharacterTab() {
                   type='primary'
                   loading={screenshotLoading}
                 >
-                  {t('copyscreenshot')}
+                  {t('CopyScreenshot')}
                 </Button>
                 <Button
                   style={{ width: 40 }} type='primary' icon={<DownloadOutlined/>}

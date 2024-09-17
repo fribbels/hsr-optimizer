@@ -1,29 +1,29 @@
 {
-  "messages": {
-    "throttlewarning": "Please wait {{seconds}} seconds before retrying",
-    "invalididwarning": "Invalid ID",
-    "idloaderror": "Error loading ID",
-    "successmsg": "Successfully loaded profile",
-    "lookuperror": "Error during lookup, please try again in a bit",
-    "nocharacterselected": "No selected $t(common:character, {\"count\": 1, \"length\": 0})",
-    "characteralreadyexists": "Selected $t(common:character, {\"count\": 1, \"length\": 0}) already exists"
+  "Messages": {
+    "ThrottleWarning": "Please wait {{seconds}} seconds before retrying",
+    "InvalidIdWarning": "Invalid ID",
+    "IdLoadError": "Error loading ID",
+    "SuccessMsg": "Successfully loaded profile",
+    "LookupError": "Error during lookup, please try again in a bit",
+    "NoCharacterSelected": "No selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0})",
+    "CharacterAlreadyExists": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) already exists"
   },
-  "header": {
-    "downtimewarning": "The $t(common:relic, {\"count\": 1, \"length\": 0}) scorer may be down for maintenance after the {{game_version}} patch, please try again later",
-    "withversion": "Enter your account UID to score your profile $t(common:character, {\"count\": 1, \"length\": 0}) at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}} )",
-    "withoutversion": "Enter your account UID to score your profile $t(common:character, {\"count\": 1, \"length\": 0}) at level 80 & maxed traces. Log out to refresh instantly."
+  "Header": {
+    "DowntimeWarning": "The $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0}) scorer may be down for maintenance after the {{game_version}} patch, please try again later",
+    "WithVersion": "Enter your account UID to score your profile $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}} )",
+    "WithoutVersion": "Enter your account UID to score your profile $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) at level 80 & maxed traces. Log out to refresh instantly."
   },
-  "submissionbar": {
-    "placeholder": "Account UID",
-    "buttontext": "$t(common:submit, {\"length\": 1})",
-    "algorithmbutton": "Scoring algorithm"
+  "SubmissionBar": {
+    "Placeholder": "Account UID",
+    "ButtonText": "$t(common:Submit, {\"capitalizeLength\": 1})",
+    "AlgorithmButton": "Scoring algorithm"
   },
-  "copyscreenshot": "Copy screenshot",
-  "importlabels": {
-    "relics": "Import $t(common:relic, {\"count\": 48, \"length\": 0}) into optimizer",
-    "singlecharacter": "Import selected $t(common:character, {\"count\": 1, \"length\": 0}) & all $t(common:relic, {\"count\": 48, \"length\": 0}) into optimizer",
-    "allcharacters": "Import all $t(common:character, {\"count\": 8, \"length\": 0}) & all $t(common:relic, {\"count\": 48, \"length\": 0}) into optimizer"
+  "CopyScreenshot": "Copy screenshot",
+  "ImportLabels": {
+    "Relics": "Import $t(common:Relic, {\"count\": 48, \"capitalizeLength\": 0}) into optimizer",
+    "SingleCharacter": "Import selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) & all $t(common:Relic, {\"count\": 48, \"capitalizeLength\": 0}) into optimizer",
+    "AllCharacters": "Import all $t(common:Character, {\"count\": 8, \"capitalizeLength\": 0}) & all $t(common:Relic, {\"count\": 48, \"capitalizeLength\": 0}) into optimizer"
   },
-  "simulaterelics": "Simulate $t(common:relic, {\"count\": 48, \"length\": 0}) on another $t(common:character, {\"count\": 1, \"length\": 0})",
-  "optimizeoncharacter": "Optimize $t(common:character, {\"count\": 1, \"length\": 0}) stats"
+  "SimulateRelics": "Simulate $t(common:Relic, {\"count\": 48, \"capitalizeLength\": 0}) on another $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0})",
+  "OptimizeOnCharacter": "Optimize $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) stats"
 }

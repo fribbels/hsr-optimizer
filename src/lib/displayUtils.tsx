@@ -36,10 +36,10 @@ export function generateCharacterList(
               src={Assets.getCharacterAvatarById(character.id)}
               style={{ height: 22, marginRight: 4 }}
             />
-            {i18next.t(`gameData:characters.${character.id}.name`)}
+            {i18next.t(`gameData:Characters.${character.id}.Name`)}
           </Flex>
         ),
-      title: i18next.t(`gameData:characters.${character.id}.name`),
+      title: i18next.t(`gameData:Characters.${character.id}.Name`),
     }))
     .sort((a, b) => a.title.localeCompare(b.title))
 

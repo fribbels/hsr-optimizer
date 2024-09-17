@@ -565,10 +565,10 @@ function calculateProgressText(startTime, optimizerEndTime, permutations, permut
 }
 
 function ManyPermsModal(props) {
-  const { t } = useTranslation('modals', { keyPrefix: 'manyperms' })
+  const { t } = useTranslation('modals', { keyPrefix: 'ManyPerms' })
   return (
     <Modal
-      title={t('title')}
+      title={t('Title')}
       open={props.manyPermsModalOpen}
       width={900}
       destroyOnClose
@@ -579,14 +579,14 @@ function ManyPermsModal(props) {
     >
       <Flex justify='space-between' align='center' style={{ height: 45, marginTop: 30, marginBottom: 15 }} gap={16}>
         <Text>
-          {t('text')}
+          {t('Text')}
         </Text>
         <Button
           onClick={() => props.setManyPermsModalOpen(false)}
           style={{ width: 250 }}
           type='primary'
         >
-          {t('cancel')}
+          {t('Cancel')}
         </Button>
         <Button
           onClick={() => {
@@ -596,7 +596,7 @@ function ManyPermsModal(props) {
           style={{ width: 250 }}
           type='primary'
         >
-          {t('proceed')}
+          {t('Proceed')}
         </Button>
       </Flex>
     </Modal>

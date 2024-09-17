@@ -19,25 +19,25 @@ export function ClearDataSubmenu() {
       setLoading(false)
       DB.resetStore()
 
-      Message.success(t('cleardata.successmessage'))
+      Message.success(t('ClearData.SuccessMessage'))
     }, importerTabSpinnerMs)
   }
 
   return (
     <Flex vertical gap={5}>
       <Text>
-        {t('cleardata.label')}
+        {t('ClearData.Label')}
       </Text>
       <Popconfirm
-        title={t('cleardata.warningtitle')}
-        description={t('cleardata.warningdescription')}
+        title={t('ClearData.WarningTitle')}
+        description={t('ClearData.WarningDescription')}
         onConfirm={clearDataClicked}
         placement='bottom'
-        okText={t('common:yes')}
-        cancelText={t('common:cancel')}
+        okText={t('common:Yes')}
+        cancelText={t('common:Cancel')}
       >
         <Button type='primary' icon={<DeleteOutlined/>} loading={loading} style={{ width: importerTabButtonWidth }}>
-          {t('cleardata.buttontext')}
+          {t('ClearData.ButtonText')}
         </Button>
       </Popconfirm>
     </Flex>

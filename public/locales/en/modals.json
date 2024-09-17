@@ -1,145 +1,145 @@
 {
-  "scoring": {},
-  "0perms": {},
-  "manyperms": {
-    "title": "Very large search requested",
-    "text": "This optimization search will take a substantial amount of time to finish. You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats, or use the Substat weight filter to reduce the number of permutations.",
-    "cancel": "$t(common:cancel, {\"length\": 1}) search",
-    "proceed": "Proceed with search"
+  "Scoring": {},
+  "0Perms": {},
+  "ManyPerms": {
+    "Title": "Very large search requested",
+    "Text": "This optimization search will take a substantial amount of time to finish. You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats, or use the Substat weight filter to reduce the number of permutations.",
+    "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1}) search",
+    "Proceed": "Proceed with search"
   },
-  "0results": {},
-  "editcharacter": {
-    "eidolonbutton": "$t(common:eidolonNShort, {\"eidolon\":{{eidolon}} })",
-    "superimpositionbutton": "$t(common:superimpositionNShort, {\"superimposition\":{{superimposition}} })",
-    "character": "$t(common:character, {\"count\": 1, \"length\": 1})",
-    "lightcone": "$t(common:lightcone, {\"count\": 1, \"length\": 1})",
-    "cancel": "$t(common:cancel, {\"length\": 1})",
-    "save": "$t(common:save, {\"length\": 1})"
+  "0Results": {},
+  "EditCharacter": {
+    "EidolonButton": "$t(common:EidolonNShort, {\"eidolon\":{{eidolon}} })",
+    "SuperimpositionButton": "$t(common:SuperimpositionNShort, {\"superimposition\":{{superimposition}} })",
+    "Character": "$t(common:Character, {\"count\": 1, \"capitalizeLength\": 1})",
+    "Lightcone": "$t(common:Lightcone, {\"count\": 1, \"capitalizeLength\": 1})",
+    "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1})",
+    "Save": "$t(common:Save, {\"capitalizeLength\": 1})"
   },
-  "relic": {
-    "part": "Part",
-    "wearer": "Equipped by",
-    "set": "Set",
-    "enhance": "Enhance / Grade",
-    "mainstat": "Main stat",
-    "substat": "Substats",
-    "upgrades": "Substat upgrades",
-    "messages": {
-      "submitfail": "Submit failed!",
-      "reliccompleted": "Completed $t(common:relic, {\"count\": 1, \"length\": 0})",
-      "editsuccess": "Successfully edited $t(common:relic, {\"count\": 1, \"length\": 0})",
-      "error": {
-        "partmissing": "Part field is missing",
-        "mainstatmissing": "Main stat is missing",
-        "setmissing": "Set field is missing",
-        "enhancemissing": "Enhance field is missing",
-        "grademissing": "Grade field is missing",
-        "enhanceinvalid": "Enhance value is invalid",
-        "gradeinvalid": "Grade value is invalid",
-        "enhancetoohigh": "Enhance value is too high for this grade",
-        "setinvalid": "Set value is invalid",
-        "setnotornament": "The selected set is not an ornament set",
-        "setnotrelic": "The selected set is not a $t(common:relic, {\"count\": 1, \"length\": 0}) set",
-        "subninvalid": "Substat {{number}} is invalid",
-        "subsoutoforder": "Substats are out of order",
-        "duplicatesubs": "Duplicate substats, only one of each type is allowed",
-        "mainassub": "Substat type is the same as the main stat",
-        "subtoobig": "Substat value is too big",
-        "maintoobig": "Main stat value is too big",
-        "subtoosmall": "Substat values should be positive",
-        "maintoosmall": "Main stat values should be positive"
+  "Relic": {
+    "Part": "Part",
+    "Wearer": "Equipped by",
+    "Set": "Set",
+    "Enhance": "Enhance / Grade",
+    "Mainstat": "Main stat",
+    "Substat": "Substats",
+    "Upgrades": "Substat upgrades",
+    "Messages": {
+      "SubmitFail": "Submit failed!",
+      "RelicCompleted": "Completed $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0})",
+      "EditSuccess": "Successfully edited $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0})",
+      "Error": {
+        "PartMissing": "Part field is missing",
+        "MainstatMissing": "Main stat is missing",
+        "SetMissing": "Set field is missing",
+        "EnhanceMissing": "Enhance field is missing",
+        "GradeMissing": "Grade field is missing",
+        "EnhanceInvalid": "Enhance value is invalid",
+        "GradeInvalid": "Grade value is invalid",
+        "EnhanceTooHigh": "Enhance value is too high for this grade",
+        "SetInvalid": "Set value is invalid",
+        "SetNotOrnament": "The selected set is not an ornament set",
+        "SetNotRelic": "The selected set is not a $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0}) set",
+        "SubNInvalid": "Substat {{number}} is invalid",
+        "SubsOutOfOrder": "Substats are out of order",
+        "DuplicateSubs": "Duplicate substats, only one of each type is allowed",
+        "MainAsSub": "Substat type is the same as the main stat",
+        "SubTooBig": "Substat value is too big",
+        "MainTooBig": "Main stat value is too big",
+        "SubTooSmall": "Substat values should be positive",
+        "MainTooSmall": "Main stat values should be positive"
       }
     }
   },
-  "editimage": {
-    "defaulttitle": "Edit image",
-    "upload": {
-      "title": "Provide image",
-      "radio": {
-        "upload": "Upload image",
-        "url": "Enter image URL",
-        "default": "Use default image"
+  "EditImage": {
+    "DefaultTitle": "Edit image",
+    "Upload": {
+      "Title": "Provide image",
+      "Radio": {
+        "Upload": "Upload image",
+        "Url": "Enter image URL",
+        "Default": "Use default image"
       },
-      "upload": {
-        "method": "Click or drag image file to this area to upload",
-        "limit": "Accepts .jpg .jpeg .png .gif (Max: 20MB)"
+      "Upload": {
+        "Method": "Click or drag image file to this area to upload",
+        "Limit": "Accepts .jpg .jpeg .png .gif (Max: 20MB)"
       },
-      "url": {
-        "label": "Image",
-        "rule": "Please input a valid image URL"
+      "Url": {
+        "Label": "Image",
+        "Rule": "Please input a valid image URL"
       }
     },
-    "edit": {
-      "title": "Crop image",
-      "zoom": "Zoom",
-      "drag": "Drag to move",
-      "pinch": "Pinch or scroll to zoom",
-      "artby": "(Optional) Art by:",
-      "creditplaceholder": "Credit the artist if possible"
+    "Edit": {
+      "Title": "Crop image",
+      "Zoom": "Zoom",
+      "Drag": "Drag to move",
+      "Pinch": "Pinch or scroll to zoom",
+      "ArtBy": "(Optional) Art by:",
+      "CreditPlaceholder": "Credit the artist if possible"
     },
-    "footer": {
-      "cancel": "$t(common:cancel, {\"length\": 1})",
-      "uploadnew": "Upload new image",
-      "previous": "Previous",
-      "next": "Next",
-      "submit": "$t(common:submit, {\"length\": 1})"
+    "Footer": {
+      "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1})",
+      "Change": "Change image",
+      "Previous": "Previous",
+      "Next": "Next",
+      "Submit": "$t(common:Submit, {\"capitalizeLength\": 1})"
     }
   },
-  "savebuild": {
-    "cancel":"$t(common:cancel, {\"length\": 1})",
-    "save":"$t(common:save, {\"length\": 1})",
-    "label": "Build name",
-    "rule": "Please input a name"
+  "SaveBuild": {
+    "Cancel":"$t(common:Cancel, {\"capitalizeLength\": 1})",
+    "Save":"$t(common:Save, {\"capitalizeLength\": 1})",
+    "Label": "Build name",
+    "Rule": "Please input a name"
   },
-  "switchrelics": {
-    "title": "Switch relics with character",
-    "cancel":"$t(common:cancel, {\"length\": 1})",
-    "save": "$t(common:save, {\"length\": 1})"
+  "SwitchRelics": {
+    "Title": "Switch relics with character",
+    "Cancel":"$t(common:Cancel, {\"capitalizeLength\": 1})",
+    "Save": "$t(common:Save, {\"capitalizeLength\": 1})"
   },
-  "builds": {
-    "deleteall": "Delete All",
-    "cancel": "$t(common:cancel, {\"length\": 1})",
-    "equip": "Equip",
-    "score": "$t(common:score, {\"length\": 1})",
-    "confirmmodal": {
-      "confirmbutton": "$t(common:confirm, {\"length\": 1})",
-      "cancelbutton":"$t(common:cancel, {\"length\": 1})",
-      "title": "$t(common:confirm, {\"length\": 1})"
+  "Builds": {
+    "DeleteAll": "Delete All",
+    "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1})",
+    "Equip": "Equip",
+    "Score": "$t(common:Score, {\"capitalizeLength\": 1})",
+    "ConfirmModal": {
+      "ConfirmButton": "$t(common:Confirm, {\"capitalizeLength\": 1})",
+      "CancelButton":"$t(common:Cancel, {\"capitalizeLength\": 1})",
+      "Title": "$t(common:Confirm, {\"capitalizeLength\": 1})"
     },
-    "confirmequip": {
-      "content": "Equipping this will unequip characters that use the relics in this build",
-      "successmessage": "Successfully equipped build: {{buildName}}"
+    "ConfirmEquip": {
+      "Content": "Equipping this will unequip characters that use the relics in this build",
+      "SuccessMessage": "Successfully equipped build: {{buildName}}"
     },
-    "confirmdelete": {
-      "deleteall": "Are you sure you want to delete all builds?",
-      "deletesingle": "Are you sure you want to delete {{name}}?",
-      "successmessageall": "Successfully deleted all builds for {{characterName}}",
-      "successmessagesingle": "Successfully deleted build: {{name}}"
+    "ConfirmDelete": {
+      "DeleteAll": "Are you sure you want to delete all builds?",
+      "DeleteSingle": "Are you sure you want to delete {{name}}?",
+      "SuccessMessageAll": "Successfully deleted all builds for {{characterName}}",
+      "SuccessMessageSingle": "Successfully deleted build: {{name}}"
     },
-    "nobuilds": {
-      "ok": "$t(common:ok, {\"length\": 1})",
-      "cancel":"$t(common:cancel, {\"length\": 1})",
-      "nonesaved": "No saved builds"
+    "NoBuilds": {
+      "Ok": "$t(common:Ok, {\"capitalizeLength\": 1})",
+      "Cancel":"$t(common:Cancel, {\"capitalizeLength\": 1})",
+      "NoneSaved": "No saved builds"
     }
   },
-  "scorefooter": {},
-  "characterselect": {
-    "multiselect": {
-      "placeholder": "Customize $t(common:character, {\"count\": 12, \"length\": 0})",
-      "maxtagplaceholder_other": "{{count}} $t(common:character, {\"count\": {{count}}, \"length\": 0}) excluded",
-      "maxtagplaceholder_zero": "All $t(common:character, {\"count\": 12, \"length\": 0}) enabled",
-      "modaltitle": "Select $t(common:character, {\"count\": 12, \"length\": 0}) to exclude"
+  "ScoreFooter": {},
+  "CharacterSelect": {
+    "MultiSelect": {
+      "Placeholder": "Customize $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0})",
+      "MaxTagPlaceholder_other": "{{count}} $t(common:Character, {\"count\": {{count}}, \"capitalizeLength\": 0}) excluded",
+      "MaxTagPlaceholder_zero": "All $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0}) enabled",
+      "ModalTitle": "Select $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0}) to exclude"
     },
-    "singleselect": {
-      "placeholder": "$t(common:character, {\"count\": 1, \"length\": 1})",
-      "modaltitle": "Select a $t(common:character, {\"count\": 1, \"length\": 0})"
+    "SingleSelect": {
+      "Placeholder": "$t(common:Character, {\"count\": 1, \"capitalizeLength\": 1})",
+      "ModalTitle": "Select a $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0})"
     },
-    "searchplaceholder": "Search $t(common:character, {\"count\": 1, \"length\": 0}) name",
-    "excludebutton": "Exclude all",
-    "clearbutton": "Clear"
+    "SearchPlaceholder": "Search $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) name",
+    "ExcludeButton": "Exclude all",
+    "ClearButton": "Clear"
   },
-  "lightconeselect": {
-    "placeholder": "$t(common:lightcone, {\"count\": 1, \"length\": 1})",
-    "title": "Select a $t(common:lightcone, {\"count\": 1, \"length\": 0})"
+  "LightconeSelect": {
+    "Placeholder": "$t(common:Lightcone, {\"count\": 1, \"capitalizeLength\": 1})",
+    "Title": "Select a $t(common:Lightcone, {\"count\": 1, \"capitalizeLength\": 0})"
   }
 }

@@ -32,7 +32,7 @@ export function ScannerImportSubmenu() {
   const [currentCharacters, setCurrentCharacters] = useState<ParsedCharacter[] | undefined>([])
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
-  const { t } = useTranslation(['importSaveTab', 'common'], { keyPrefix: 'import' })
+  const { t } = useTranslation(['importSaveTab', 'common'])
 
   function beforeUpload(file): Promise<any> {
     return new Promise(() => {
@@ -54,7 +54,7 @@ export function ScannerImportSubmenu() {
       setLoading1(true)
 
       if (!json) {
-        throw new Error(t('errormsg.invalidjson'))
+        throw new Error(t('Import.ErrorMsg.InvalidJson'))
       }
 
       if (json.data) {
@@ -79,7 +79,7 @@ export function ScannerImportSubmenu() {
       }
 
       if (!ValidScannerSources.includes(json.source)) {
-        throw new Error(t('errormsg.invalidfile'))
+        throw new Error(t('Import.ErrorMsg.InvalidFile'))
       }
 
       const parser = ScannerSourceToParser[json.source]
@@ -101,11 +101,11 @@ export function ScannerImportSubmenu() {
         setCurrentStage(Stages.CONFIRM_DATA)
       }, importerTabSpinnerMs)
     } catch (e) {
-      let message: string = t('errormsg.unknown')
+      let message: string = t('Import.ErrorMsg.Unknown')
       if (e instanceof Error) message = e.message
 
       console.error(e)
-      Message.error(t('errormsg.fragment') + message, 10)
+      Message.error(t('Import.ErrorMsg.Fragment') + message, 10)
 
       setTimeout(() => {
         setLoading1(false)
@@ -147,37 +147,37 @@ export function ScannerImportSubmenu() {
       <Flex style={{ minHeight: 100, marginBottom: 30 }} gap={30}>
         <Flex vertical gap={10}>
           <Text>
-            {t('stage1.header')}
+            {t('Import.Stage1.Header')}
           </Text>
           <Text>
             <ul>
               <ReliquaryDescription/>
               <li>
-                {t('stage1.kelzdesc.title')} (
-                <ColorizedLink text={t('stage1.kelzdesc.link')} url={KelzScannerConfig.releases}/>
+                {t('Import.Stage1.KelzDesc.Title')} (
+                <ColorizedLink text={t('Import.Stage1.KelzDesc.Link')} url={KelzScannerConfig.releases}/>
                 )
                 <ul>
-                  <li>{t('stage1.kelzdesc.l1')}</li>
-                  <li>{t('stage1.kelzdesc.l2')}</li>
+                  <li>{t('Import.Stage1.KelzDesc.l1')}</li>
+                  <li>{t('Import.Stage1.KelzDesc.l2')}</li>
                 </ul>
               </li>
               <li>
-                {t('stage1.scorerdesc.title')} (
+                {t('Import.Stage1.ScorerDesc.Title')} (
                 <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}>
-                  <ColorizedLink text={t('stage1.scorerdesc.link')}/>
+                  <ColorizedLink text={t('Import.Stage1.ScorerDesc.Link')}/>
                 </span>
                 )
                 <ul>
-                  <li>{t('stage1.scorerdesc.l1')}</li>
-                  <li>{t('stage1.scorerdesc.l2')}</li>
+                  <li>{t('Import.Stage1.ScorerDesc.l1')}</li>
+                  <li>{t('Import.Stage1.ScorerDesc.l2')}</li>
                 </ul>
               </li>
-              <li>{t('stage1.hoyolabdesc.title')} (
-                <ColorizedLink text={t('stage1.hoyolabdesc.link')} url='https://github.com/fribbels/hsr-optimizer/discussions/403'/>
+              <li>{t('Import.Stage1.HoyolabDesc.Title')} (
+                <ColorizedLink text={t('Import.Stage1.HoyolabDesc.Link')} url='https://github.com/fribbels/hsr-optimizer/discussions/403'/>
                 )
                 <ul>
-                  <li>{t('stage1.hoyolabdesc.l1')}</li>
-                  <li>{t('stage1.hoyolabdesc.l2')}</li>
+                  <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
+                  <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>
                 </ul>
               </li>
             </ul>
@@ -195,11 +195,11 @@ export function ScannerImportSubmenu() {
                   loading={loading1}
                   onClick={() => setCurrentStage(Stages.LOAD_FILE)}
                 >
-                  {t('stage1.buttontext')}
+                  {t('Import.Stage1.ButtonText')}
                 </Button>
               </Upload>
 
-              {t('stage1.or')}
+              {t('Import.Stage1.Or')}
 
               <Input
                 style={{ width: importerTabButtonWidth }}
@@ -229,7 +229,7 @@ export function ScannerImportSubmenu() {
       return (
         <Flex style={{ minHeight: 100 }}>
           <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
-            {t('stage2.norelics')}
+            {t('Import.Stage2.NoRelics')}
           </Flex>
         </Flex>
       )
@@ -239,32 +239,32 @@ export function ScannerImportSubmenu() {
       <Flex style={{ minHeight: 250 }}>
         <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
           <Text>
-            {t('stage2.fileinfo', { reliccount: currentRelics.length || 0, charactercount: currentCharacters?.length || 0 })}
+            {t('Import.Stage2.FileInfo', { reliccount: currentRelics.length || 0, charactercount: currentCharacters?.length || 0 })}
           </Text>
 
           <Text>
-            {t('stage2.relicsimport.label')}
+            {t('Import.Stage2.RelicsImport.Label')}
           </Text>
 
           <Button style={{ width: importerTabButtonWidth }} type='primary' onClick={mergeRelicsConfirmed} loading={loading2}>
-            {t('stage2.relicsimport.buttontext')}
+            {t('Import.Stage2.RelicsImport.ButtonText')}
           </Button>
 
-          <Divider><Text style={{ fontSize: 12 }}>{t('stage2.or')}</Text></Divider>
+          <Divider><Text style={{ fontSize: 12 }}>{t('Import.Stage2.Or')}</Text></Divider>
           <Text>
-            {t('stage2.charactersimport.label')}
+            {t('Import.Stage2.CharactersImport.Label')}
           </Text>
 
           <Popconfirm
-            title={t('stage2.charactersimport.warningtitle')}
-            description={t('stage2.charactersimport.warningdescription')}
+            title={t('Import.Stage2.CharactersImport.WarningTitle')}
+            description={t('Import.Stage2.CharactersImport.WarningDescription')}
             onConfirm={mergeCharactersConfirmed}
             placement='bottom'
-            okText={i18next.t('common:yes', { length: 1 })}
-            cancelText={i18next.t('common:cancel', { length: 1 })}
+            okText={t('common:Yes', { capitalizeLength: 1 })}
+            cancelText={t('common:Cancel', { capitalizeLength: 1 })}
           >
             <Button style={{ width: importerTabButtonWidth }} type='primary' loading={loading2}>
-              {t('stage2.charactersimport.buttontext')}
+              {t('Import.Stage2.CharactersImport.ButtonText')}
             </Button>
           </Popconfirm>
         </Flex>
@@ -277,7 +277,7 @@ export function ScannerImportSubmenu() {
       <Flex style={{ minHeight: 100 }}>
         <Flex vertical gap={10} style={{ display: currentStage >= 2 ? 'flex' : 'none' }}>
           <Text>
-            {t('stage3.successmessage')}
+            {t('Import.Stage3.SuccessMessage')}
           </Text>
         </Flex>
       </Flex>

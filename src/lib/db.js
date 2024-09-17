@@ -967,8 +967,8 @@ export const DB = {
       window.characterGrid.current.api.redrawRows()
     }
 
-    if (updatedOldRelics.length) Message.success(i18next.t('importSaveTab:partialimport.oldrelics', { count: updatedOldRelics.length }), 8)
-    if (addedNewRelics.length) Message.success(i18next.t('importSaveTab:partialimport.oldrelics', { count: addedNewRelics.length }), 8)
+    if (updatedOldRelics.length) Message.success(i18next.t('importSaveTab:PartialImport.OldRelics', { count: updatedOldRelics.length }), 8)
+    if (addedNewRelics.length) Message.success(i18next.t('importSaveTab:PartialImport.NewRelics', { count: addedNewRelics.length }), 8)
   },
 }
 

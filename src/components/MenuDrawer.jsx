@@ -58,7 +58,7 @@ const MenuDrawer = () => {
           <Flex>
             <RadarChartOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
-            {t('Optimization.Relics', { count: 2000, capitalizeLength: 1 })}
+            {t('Optimization.Relics')}
           </Flex>
         ),
         AppPages.RELICS),

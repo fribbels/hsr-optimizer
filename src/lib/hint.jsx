@@ -32,9 +32,9 @@ export const Hint = {
       title: i18next.t('hint:StatFilters.Title'),
       content: (
         <Flex vertical gap={10}>
-          <p>{i18next.t('hint:StatFilters.Tp1')}</p>
-          <p>{i18next.t('hint:StatFilters.Tp2')}</p>
-          <p>{i18next.t('hint:StatFilters.Tp3')}</p>
+          <p>{i18next.t('hint:StatFilters.p1')}</p>
+          <p>{i18next.t('hint:StatFilters.p2')}</p>
+          <p>{i18next.t('hint:StatFilters.p3')}</p>
         </Flex>
       ),
     }

@@ -43,11 +43,11 @@
     "RemoveSuccess": "Successfully removed character",
     "UnequipSuccess": "Successfully unequipped character",
     "NoSelectedCharacter": "No selected character",
-    "SwitchSuccess": "Successfully switched relics to $t(gameData:Characters.{{charid}}.name)",
+    "SwitchSuccess": "Successfully switched relics to $t(gameData:Characters.{{charid}}.Name)",
     "SortByScoreWarning": "Are you sure you want to sort all characters? <0/>You will lose any custom rankings you have set.",
     "SaveSuccess": "Successfully saved build: {{name}}",
-    "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charid}}.name)?",
-    "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charid}}.name)?"
+    "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charid}}.Name)?",
+    "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charid}}.Name)?"
   },
   "CharacterPreview": {}
 }

@@ -184,15 +184,16 @@ export default function RelicsTab() {
   useEffect(() => {
     if (!selectedRelic) return
     const indexLimit = Math.max(1, rowLimit) * Math.max(1, inventoryWidth)
-
-    if (selectedRelic.ageIndex < indexLimit) {
-      setRelicPositionIndex(selectedRelic.ageIndex)
-      setLocatorFilters({ set: undefined, part: undefined })
-      return
-    }
-
     const newerRelics = DB.getRelics().filter((x) => x.ageIndex <= selectedRelic.ageIndex)
 
+    // No filter
+    // if (selectedRelic.ageIndex < indexLimit) {
+    //   setRelicPositionIndex(selectedRelic.ageIndex)
+    //   setLocatorFilters({ set: undefined, part: undefined })
+    //   return
+    // }
+
+    // Part-only filter
     const partFilteredIndex = newerRelics.filter((x) => selectedRelic.part == x.part).length - 1
     if (partFilteredIndex < indexLimit) {
       setRelicPositionIndex(partFilteredIndex)
@@ -200,12 +201,13 @@ export default function RelicsTab() {
       return
     }
 
-    const setFilteredIndex = newerRelics.filter((x) => selectedRelic.set == x.set).length - 1
-    if (setFilteredIndex < indexLimit) {
-      setRelicPositionIndex(setFilteredIndex)
-      setLocatorFilters({ set: selectedRelic.set, part: undefined })
-      return
-    }
+    // Set-only filter
+    // const setFilteredIndex = newerRelics.filter((x) => selectedRelic.set == x.set).length - 1
+    // if (setFilteredIndex < indexLimit) {
+    //   setRelicPositionIndex(setFilteredIndex)
+    //   setLocatorFilters({ set: selectedRelic.set, part: undefined })
+    //   return
+    // }
 
     const filteredIndex = newerRelics.filter((x) => selectedRelic.part == x.part && selectedRelic.set == x.set).length - 1
     setRelicPositionIndex(filteredIndex)

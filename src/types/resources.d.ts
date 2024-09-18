@@ -70,6 +70,9 @@ interface Resources {
     "No": "{{no, capitalize}}",
     "Save": "{{save, capitalize}}",
     "Score": "{{score, capitalize}}",
+    "Reset": "{{reset, capitalize}}",
+    "Maximum": "{{maximum, capitalize}}",
+    "Minimum": "{{minimum, capitalize}}",
     "EidolonNShort": "E{{eidolon}}",
     "SuperimpositionNShort": "S{{superimposition}}",
     "CharacterWithCount_one": "{{count}} {{character, capitalize}}",
@@ -8150,25 +8153,294 @@ interface Resources {
       },
       "Footer": {
         "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1})",
-        "Reset": "Reset to default",
-        "ResetAll": "Reset all $t(common:Character, {\"count\": 35, \"capitalizeLength\": 0})",
+        "Reset": "$t(common:Reset, {\"capitalizeLength\": 1}) to default",
+        "ResetAll": "$t(common:Reset, {\"capitalizeLength\": 1}) all $t(common:Character, {\"count\": 35, \"capitalizeLength\": 0})",
         "Save": "$t(common:Save, {\"capitalizeLength\": 1}) changes"
       },
       "ResetAllConfirm": {
-        "Title": "Reset the scoring algorithm for all characters?",
+        "Title": "$t(common:Reset, {\"capitalizeLength\": 1}) the scoring algorithm for all characters?",
         "Description": "You will lose any custom scoring settings you have set on any character.",
         "Yes": "$t(common:Yes, {\"capitalizeLength\": 1})",
         "No": "$t(common:No, {\"capitalizeLength\": 1})"
       }
     },
-    "0Perms": {},
+    "0Perms": {
+      "Title": "Search generated 0 permutations",
+      "Description": "This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar.",
+      "RootCauses": {
+        "IMPORT": {
+          "Description": "Import relics from your account on the Importer tab",
+          "ButtonText": "Navigate to Importer tab",
+          "SuccessMessage": "Choose an import method and import your relics and characters"
+        },
+        "Body_MAIN": {
+          "Description": "The main stat for the $t(common:Parts.Body) filter might be too restrictive",
+          "ButtonText": "Clear $t(common:Parts.Body) main stat filters",
+          "SuccessMessage": "Cleared $t(common:Parts.Body) main stat filters"
+        },
+        "Feet_MAIN": {
+          "Description": "The main stat for the $t(common:Parts.Feet) filter might be too restrictive",
+          "ButtonText": "Clear $t(common:Parts.Feet) main stat filters",
+          "SuccessMessage": "Cleared $t(common:Parts.Feet) main stat filters"
+        },
+        "PlanarSphere_MAIN": {
+          "Description": "The main stat for the $t(common:Parts.PlanarSphere) filter might be too restrictive",
+          "ButtonText": "Clear $t(common:Parts.PlanarSphere) main stat filters",
+          "SuccessMessage": "Cleared $t(common:Parts.PlanarSphere) main stat filters"
+        },
+        "LinkRope_MAIN": {
+          "Description": "The main stat for the $t(common:Parts.LinkRope) filter might be too restrictive",
+          "ButtonText": "Clear $t(common:Parts.LinkRope) main stat filters",
+          "SuccessMessage": "Cleared $t(common:Parts.LinkRope) main stat filters"
+        },
+        "RELIC_SETS": {
+          "Description": "The selected relic set filters might be too restrictive",
+          "ButtonText": "Clear Relic set filters",
+          "SuccessMessage": "Cleared relic set filters"
+        },
+        "ORNAMENT_SETS": {
+          "Description": "The selected ornament set filters might be too restrictive",
+          "ButtonText": "Clear Ornament set filters",
+          "SuccessMessage": "Cleared ornament set filters"
+        },
+        "KEEP_CURRENT": {
+          "Description": "The \"Keep current relics\" option is enabled, which forces any currently equipped relics on the character to be unchanged in the search",
+          "ButtonText": "Disable \"Keep current relics\"",
+          "SuccessMessage": "Disabled \"Keep current relics\""
+        },
+        "PRIORITY": {
+          "Description": "The character is ranked below other characters on the priority list. When the \"Character priority filter\" is enabled, characters may only take lower priority characters' relics",
+          "ButtonText": "Move character to priority #1",
+          "SuccessMessage": "Moved character to priority #1"
+        },
+        "EXCLUDE_ENABLED": {
+          "Description": "The \"Exclude\" filter has some selected characters, which means this character cannot take relics from the selected characters",
+          "ButtonText": "Clear excluded characters",
+          "SuccessMessage": "Cleared excluded characters"
+        },
+        "EQUIPPED_DISABLED": {
+          "Description": "The \"Include equipped relics\" filter is disabled, which means this character cannot take any relics belonging to other characters",
+          "ButtonText": "Enable \"Include equipped relics\"",
+          "SuccessMessage": "Enabled \"Include equipped relics\""
+        },
+        "MINIMUM_ROLLS": {
+          "Description": "The substat weight filter has a minimum roll threshold that might be too high",
+          "ButtonText": "Set minimum rolls to 0",
+          "SuccessMessage": "Set minimum rolls to 0"
+        }
+      }
+    },
+    "0Results": {
+      "Title": "Search generated 0 results",
+      "ResetAll": {
+        "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) all filters",
+        "SuccessMessage": "Cleared all filters",
+        "Description": "This means your stat and/or rating filters are too restrictive."
+      },
+      "RootCauses": {
+        "StatView": {
+          "SuccessMessage": "Switched to Combat stats view",
+          "Description": "Your stat filters are configured for basic stats, which does not include buffs. The Combat stats view will show buffed stats from abilities / teammates / relics / etc.",
+          "ButtonText": "Switch to Combat stats view"
+        },
+        "MAX_HP": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.HP) filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.HP) may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.HP) filter"
+        },
+        "MIN_HP": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.HP) filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.HP) may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.HP) filter"
+        },
+        "MAX_ATK": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.ATK) filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.ATK) may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.ATK) filter"
+        },
+        "MIN_ATK": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.ATK) filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.ATK) may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.ATK) filter"
+        },
+        "MAX_DEF": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.DEF) filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.DEF) may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.DEF) filter"
+        },
+        "MIN_DEF": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.DEF) filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.DEF) may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.DEF) filter"
+        },
+        "MAX_SPD": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.SPD) filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.SPD) may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.SPD) filter"
+        },
+        "MIN_SPD": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.SPD) filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.SPD) may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.SPD) filter"
+        },
+        "MAX_CR": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.CRIT Rate) filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.CRIT Rate) may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.CRIT Rate) filter"
+        },
+        "MIN_CR": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.CRIT Rate) filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.CRIT Rate) may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.CRIT Rate) filter"
+        },
+        "MAX_CD": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.CRIT DMG) filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.CRIT DMG) may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.CRIT DMG) filter"
+        },
+        "MIN_CD": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.CRIT DMG) filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.CRIT DMG) may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.CRIT DMG) filter"
+        },
+        "MAX_EHR": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.Effect Hit Rate) filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.Effect Hit Rate) may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.Effect Hit Rate) filter"
+        },
+        "MIN_EHR": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.Effect Hit Rate) filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.Effect Hit Rate) may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.Effect Hit Rate) filter"
+        },
+        "MAX_RES": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.Effect RES) filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.Effect RES) may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.Effect RES) filter"
+        },
+        "MIN_RES": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.Effect RES) filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.Effect RES) may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.Effect RES) filter"
+        },
+        "MAX_BE": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.Break Effect) filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.Break Effect) may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.Break Effect) filter"
+        },
+        "MIN_BE": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.Break Effect) filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.Break Effect) may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.Break Effect) filter"
+        },
+        "MAX_ERR": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.Energy Regeneration Rate) filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.Energy Regeneration Rate) may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) $t(common:Stats.Energy Regeneration Rate) filter"
+        },
+        "MIN_ERR": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.Energy Regeneration Rate) filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.Energy Regeneration Rate) may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.Energy Regeneration Rate) filter"
+        },
+        "MAX_WEIGHT": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) Weight filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) weight may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) Weight filter"
+        },
+        "MIN_WEIGHT": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) Weight filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) weight may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) Weight filter"
+        },
+        "MAX_EHP": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) EHP filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) EHP may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) EHP filter"
+        },
+        "MIN_EHP": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) EHP filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) EHP may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) EHP filter"
+        },
+        "MAX_BASIC": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) Basic filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) basic attack damage may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) Basic filter"
+        },
+        "MIN_BASIC": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) Basic filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) basic attack damage may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) Basic filter"
+        },
+        "MAX_SKILL": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) Skill filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) skill damage may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) Skill filter"
+        },
+        "MIN_SKILL": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) Skill filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) skill damage may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) Skill filter"
+        },
+        "MAX_ULT": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) ULT filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) ultimate damage may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) ULT filter"
+        },
+        "MIN_ULT": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) ULT filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) ultimate damage may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) ULT filter"
+        },
+        "MAX_FUA": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) FUA filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) follow-up attack damage may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) FUA filter"
+        },
+        "MIN_FUA": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) FUA filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) follow-up attack damage may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) FUA filter"
+        },
+        "MAX_DOT": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) DOT filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) DOT damage may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) DOT filter"
+        },
+        "MIN_DOT": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) DOT filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) DOT damage may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) DOT filter"
+        },
+        "MAX_BREAK": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) Break filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) break damage may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) Break filter"
+        },
+        "MIN_BREAK": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) Break filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) break damage may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) Break filter"
+        },
+        "MAX_COMBO": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) Combo filter",
+          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) combo damage may be too low",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) Combo filter"
+        },
+        "MIN_COMBO": {
+          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) Combo filter",
+          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) combo damage may be too high",
+          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) Combo filter"
+        }
+      }
+    },
     "ManyPerms": {
       "Title": "Very large search requested",
       "Text": "This optimization search will take a substantial amount of time to finish. You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats, or use the Substat weight filter to reduce the number of permutations.",
       "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1}) search",
       "Proceed": "Proceed with search"
     },
-    "0Results": {},
     "EditCharacter": {
       "EidolonButton": "$t(common:EidolonNShort, {\"eidolon\":{{eidolon}} })",
       "SuperimpositionButton": "$t(common:SuperimpositionNShort, {\"superimposition\":{{superimposition}} })",
@@ -8285,8 +8557,8 @@ interface Resources {
     },
     "ScoreFooter": {
       "ModalTitle": "Combat sim scoring settings",
-      "ResetButtonText": "Reset custom team to default",
-      "ResetSuccessMsg": "Reset to default teams",
+      "ResetButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) custom team to default",
+      "ResetSuccessMsg": "$t(common:Reset, {\"capitalizeLength\": 1}) to default teams",
       "SyncButtonText": "Sync imported eidolons / light cones",
       "SyncSuccessMsg": "Synced teammates",
       "TeamOptions": {

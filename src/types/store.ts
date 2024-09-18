@@ -60,6 +60,7 @@ export type HsrOptimizerStore = {
   optimizationId?: number
   teammateCount: number
   zeroPermutationModalOpen: boolean
+  zeroResultModalOpen: boolean
   menuSidebarOpen: boolean
   relicScorerSidebarOpen: boolean
   enemyConfigurationsDrawerOpen: boolean
@@ -84,11 +85,15 @@ export type HsrOptimizerStore = {
   optimizerFormSelectedLightConeSuperimposition: number
   setPermutationsResults: (n: number) => void
   setPermutationsSearched: (n: number) => void
+  setZeroPermutationsModalOpen: (open: boolean) => void
+  setZeroResultModalOpen: (open: boolean) => void
   setRelicsById: (relicsById: Record<number, Relic>) => void
   setSavedSessionKey: (key: string, value: string) => void
   setActiveKey: (key: string) => void
+  setScoringAlgorithmFocusCharacter: (id: CharacterId) => void
   setConditionalSetEffectsDrawerOpen: (b: boolean) => void
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
+  setStatDisplay: (display: 'combat' | 'base') => void
 
   permutationDetails: PermutationDetails
 

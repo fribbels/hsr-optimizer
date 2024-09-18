@@ -296,7 +296,7 @@ export function calculateComputedStats(c: BasicStatsObject, request: Form, param
     x.DEF_PEN += 0.06 * params.valuePrisonerInDeepConfinement
   }
 
-  if (p2(sets.PioneerDiverOfDeadWaters)) {
+  if (p2(sets.PioneerDiverOfDeadWaters) && params.valuePioneerDiverOfDeadWaters >= 0) {
     x.ELEMENTAL_DMG += 0.12
   }
 

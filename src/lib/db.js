@@ -114,6 +114,7 @@ window.store = create((set) => ({
   optimizerRunningEngine: null,
   optimizerStartTime: null,
   optimizerEndTime: null,
+  optimizerTabFocusCharacterSelectModalOpen: false,
 
   optimizerFormCharacterEidolon: 0,
   optimizerFormSelectedLightCone: null,
@@ -200,6 +201,7 @@ window.store = create((set) => ({
   setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),
   setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
   setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
+  setOptimizerTabFocusCharacterSelectModalOpen: (x) => set(() => ({ optimizerTabFocusCharacterSelectModalOpen: x })),
   setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
   setZeroResultModalOpen: (x) => set(() => ({ zeroResultModalOpen: x })),
   setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),

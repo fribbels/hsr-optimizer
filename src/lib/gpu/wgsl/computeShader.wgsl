@@ -432,7 +432,7 @@ fn main(
       x.DEF_PEN += 0.06 * f32(valuePrisonerInDeepConfinement);
     }
 
-    if (p2(x.sets.PioneerDiverOfDeadWaters) >= 1) {
+    if (p2(x.sets.PioneerDiverOfDeadWaters) >= 1 && valuePioneerDiverOfDeadWaters >= 0) {
       x.ELEMENTAL_DMG += 0.12;
     }
 

@@ -271,14 +271,13 @@ const TeammateCard = (props: { index: number }) => {
           </Flex>
           <Flex vertical gap={5}>
             <div style={{ width: `${rightPanelWidth}px`, height: `${rightPanelWidth}px`, borderRadius: '10px' }}>
-              <a>
-                <img
-                  width={rightPanelWidth}
-                  height={rightPanelWidth}
-                  src={Assets.getCharacterAvatarById(teammateCharacterId)}
-                  onClick={() => setTeammateSelectModalOpen(true)}
-                />
-              </a>
+              <img
+                width={rightPanelWidth}
+                height={rightPanelWidth}
+                src={Assets.getCharacterAvatarById(teammateCharacterId)}
+                onClick={() => setTeammateSelectModalOpen(true)}
+                style={{ cursor: 'pointer' }}
+              />
             </div>
 
             <Form.Item name={[teammateProperty, `teamRelicSet`]}>

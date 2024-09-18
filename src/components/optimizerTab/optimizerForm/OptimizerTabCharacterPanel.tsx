@@ -10,14 +10,12 @@ export const OptimizerTabCharacterPanel = () => {
 
   return (
     <div style={{ width: `${parentW}px`, height: `${parentH}px`, borderRadius: '10px', position: 'relative' }}>
-      <a>
-        <img
-          width={innerW}
-          src={Assets.getCharacterPreviewById(optimizerTabFocusCharacter)}
-          style={{ transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)` }}
-          onClick={() => { window.store.getState().setOptimizerTabFocusCharacterSelectModalOpen(true) }}
-        />
-      </a>
+      <img
+        width={innerW}
+        src={Assets.getCharacterPreviewById(optimizerTabFocusCharacter)}
+        style={{ transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)`, cursor: 'pointer' }}
+        onClick={() => { window.store.getState().setOptimizerTabFocusCharacterSelectModalOpen(true) }}
+      />
     </div>
   )
 }

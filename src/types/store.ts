@@ -61,6 +61,7 @@ export type HsrOptimizerStore = {
   menuSidebarOpen: boolean
   relicScorerSidebarOpen: boolean
   enemyConfigurationsDrawerOpen: boolean
+  OptimizerTabFocusCharacterSelectModalOpen: boolean
   setCombatBuffsDrawerOpen: (open: boolean) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void
   setOptimizationInProgress: (open: boolean) => void
@@ -75,6 +76,7 @@ export type HsrOptimizerStore = {
   setSavedSessionKey: (key: string, value: string) => void
   setActiveKey: (key: string) => void
   setConditionalSetEffectsDrawerOpen: (b: boolean) => void
+  setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
 
   permutationDetails: PermutationDetails
 

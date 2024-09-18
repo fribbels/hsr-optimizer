@@ -12,6 +12,8 @@ interface CharacterSelectProps {
   selectStyle?: React.CSSProperties
   multipleSelect?: boolean
   withIcon?: boolean
+  externalOpen?: boolean
+  setExternalOpen?: (state: boolean) => void
 }
 
 const parentW = 100
@@ -29,7 +31,7 @@ const defaultFilters = {
   name: '',
 }
 
-const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle, multipleSelect, withIcon }) => {
+const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle, multipleSelect, withIcon, externalOpen, setExternalOpen }) => {
   // console.log('==================================== CHARACTER SELECT')
   const inputRef = useRef<InputRef>(null)
   const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
@@ -56,7 +58,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   }
 
   useEffect(() => {
-    if (open) {
+    if (open || externalOpen) {
       setTimeout(() => inputRef?.current?.focus(), 100)
 
       if (multipleSelect) {
@@ -64,7 +66,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         setSelected(newSelected)
       }
     }
-  }, [open])
+  }, [open, externalOpen])
 
   function applyFilters(x) {
     if (currentFilters.element.length && !currentFilters.element.includes(x.element)) {
@@ -86,6 +88,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
       setSelected(new Map(selected))
     } else {
       setOpen(false)
+      if (setExternalOpen) setExternalOpen(false)
       if (onChange) onChange(id)
     }
   }
@@ -133,7 +136,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
       />
 
       <Modal
-        open={open}
+        open={open || externalOpen}
         centered
         destroyOnClose
         width='90%'
@@ -145,6 +148,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
           }
 
           setOpen(false)
+          if (setExternalOpen) setExternalOpen(false)
         }}
         footer={null}
       >

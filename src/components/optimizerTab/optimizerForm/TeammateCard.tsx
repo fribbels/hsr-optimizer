@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import FormCard from 'components/optimizerTab/FormCard.js'
 import { SyncOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Select, SelectProps, Typography } from 'antd'
@@ -164,6 +164,10 @@ const TeammateCard = (props: { index: number }) => {
   const teammateLightConeId = Form.useWatch([teammateProperty, 'lightCone'], window.optimizerForm)
   const teammateSuperimposition = Form.useWatch([teammateProperty, 'lightConeSuperimposition'], window.optimizerForm)
 
+  const [teammateSelectModalOpen, setTeammateSelectModalOpen] = useState(false)
+
+  const [teammateLightConeSelectOpen, setTeammateLightConeSelectOpen] = useState(false)
+
   const disabled = teammateCharacterId == null
 
   function updateTeammate() {
@@ -231,6 +235,8 @@ const TeammateCard = (props: { index: number }) => {
             <CharacterSelect
               value=''
               selectStyle={{}}
+              externalOpen={teammateSelectModalOpen}
+              setExternalOpen={setTeammateSelectModalOpen}
             />
           </Form.Item>
 
@@ -269,6 +275,8 @@ const TeammateCard = (props: { index: number }) => {
                 width={rightPanelWidth}
                 height={rightPanelWidth}
                 src={Assets.getCharacterAvatarById(teammateCharacterId)}
+                onClick={() => setTeammateSelectModalOpen(true)}
+                style={{ cursor: 'pointer' }}
               />
             </div>
 
@@ -310,6 +318,8 @@ const TeammateCard = (props: { index: number }) => {
               value=''
               selectStyle={{ width: 258 }}
               characterId={teammateCharacterId}
+              externalOpen={teammateLightConeSelectOpen}
+              setExternalOpen={setTeammateLightConeSelectOpen}
             />
           </Form.Item>
 
@@ -340,7 +350,9 @@ const TeammateCard = (props: { index: number }) => {
                 style={{
                   marginLeft: -5,
                   transform: `translate(${(lcInnerW - lcParentW) / 2 / lcInnerW * -100}%, ${(lcInnerH - lcParentH) / 2 / lcInnerH * -100}%)`,
+                  cursor: 'pointer',
                 }}
+                onClick={() => setTeammateLightConeSelectOpen(true)}
               />
             </div>
           </Flex>

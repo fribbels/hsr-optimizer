@@ -67,6 +67,7 @@ export type HsrOptimizerStore = {
   settings: unknown
   setSettings: (settings: unknown) => void
   setSettingsDrawerOpen: (open: boolean) => void
+  optimizerTabFocusCharacterSelectModalOpen: boolean
   setCombatBuffsDrawerOpen: (open: boolean) => void
   setLocale: (locale: string) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void
@@ -87,6 +88,7 @@ export type HsrOptimizerStore = {
   setSavedSessionKey: (key: string, value: string) => void
   setActiveKey: (key: string) => void
   setConditionalSetEffectsDrawerOpen: (b: boolean) => void
+  setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
 
   permutationDetails: PermutationDetails
 

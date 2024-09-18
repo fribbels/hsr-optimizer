@@ -13,6 +13,9 @@ interface LightConeSelectProps {
   onChange?: (id) => void
   selectStyle?: React.CSSProperties
   initialPath?: string
+  withIcon?: boolean
+  externalOpen?: boolean
+  setExternalOpen?: (state: boolean) => void
 }
 
 const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 112px, #282B31 112px, #282B31 150px)'
@@ -30,7 +33,7 @@ const parentH = 150
 const innerW = 115
 const innerH = 150
 
-const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, onChange, selectStyle, initialPath, withIcon }) => {
+const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, onChange, selectStyle, initialPath, withIcon, externalOpen, setExternalOpen }) => {
   // console.log('==================================== LC SELECT')
   const metadata = DB.getMetadata()
   const [open, setOpen] = useState(false)
@@ -67,10 +70,10 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
   }, [lightConeOptions])
 
   useEffect(() => {
-    if (open) {
+    if (open || externalOpen) {
       setTimeout(() => inputRef?.current?.focus(), 100)
     }
-  }, [open])
+  }, [open, externalOpen])
 
   function applyFilters(x) {
     if (currentFilters.rarity.length && !currentFilters.rarity.includes(x.rarity)) {
@@ -88,6 +91,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
 
   const handleClick = (id) => {
     setOpen(false)
+    if (setExternalOpen) setExternalOpen(false)
     if (onChange) onChange(id)
   }
 
@@ -113,13 +117,16 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
       />
 
       <Modal
-        open={open}
+        open={open || externalOpen}
         centered
         width='90%'
         style={{ height: '70%', maxWidth: 1200 }}
         destroyOnClose
         title={t('Title')}
-        onCancel={() => setOpen(false)}
+        onCancel={() => {
+          setOpen(false)
+          if (setExternalOpen) setExternalOpen(false)
+        }}
         footer={null}
       >
         <Flex vertical gap={12}>

@@ -61,7 +61,7 @@ export type HsrOptimizerStore = {
   menuSidebarOpen: boolean
   relicScorerSidebarOpen: boolean
   enemyConfigurationsDrawerOpen: boolean
-  OptimizerTabFocusCharacterSelectModalOpen: boolean
+  optimizerTabFocusCharacterSelectModalOpen: boolean
   setCombatBuffsDrawerOpen: (open: boolean) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void
   setOptimizationInProgress: (open: boolean) => void

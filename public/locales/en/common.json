@@ -12,6 +12,7 @@
   "Submit":"{{submit, capitalize}}",
   "Ok": "{{ok, capitalize}}",
   "Yes": "{{yes, capitalize}}",
+  "No": "{{no, capitalize}}",
   "Save": "{{save, capitalize}}",
   "Score": "{{score, capitalize}}",
   "EidolonNShort": "E{{eidolon}}",

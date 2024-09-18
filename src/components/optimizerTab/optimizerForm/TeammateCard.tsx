@@ -344,17 +344,16 @@ const TeammateCard = (props: { index: number }) => {
           </Flex>
           <Flex>
             <div style={{ width: `${parentW}px`, height: `${parentH}px`, borderRadius: '10px' }}>
-              <a>
-                <img
-                  width={lcWidth}
-                  src={Assets.getLightConeIconById(teammateLightConeId)}
-                  style={{
-                    marginLeft: -5,
-                    transform: `translate(${(lcInnerW - lcParentW) / 2 / lcInnerW * -100}%, ${(lcInnerH - lcParentH) / 2 / lcInnerH * -100}%)`,
-                  }}
-                  onClick={() => setTeammateLightConeSelectOpen(true)}
-                />
-              </a>
+              <img
+                width={lcWidth}
+                src={Assets.getLightConeIconById(teammateLightConeId)}
+                style={{
+                  marginLeft: -5,
+                  transform: `translate(${(lcInnerW - lcParentW) / 2 / lcInnerW * -100}%, ${(lcInnerH - lcParentH) / 2 / lcInnerH * -100}%)`,
+                  cursor: 'pointer',
+                }}
+                onClick={() => setTeammateLightConeSelectOpen(true)}
+              />
             </div>
           </Flex>
         </Flex>

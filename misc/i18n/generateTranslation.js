@@ -3,6 +3,7 @@ import AvatarConfig from './AvatarConfig.json' assert {type: 'json'}
 import skillConfig from './AvatarSkillConfig.json' assert {type: 'json'}
 import lightconeConfig from './ItemConfigEquipment.json' assert {type: 'json'}
 import relicsetConfig from './RelicSetConfig.json' assert {type: 'json'}
+import relicEffectConfig from './RelicSetSkillConfig.json' assert {type: 'json'}
 import damageConfig from './DamageType.json' assert {type: 'json'}
 import pathConfig from './AvatarBaseType.json' assert {type: 'json'}
 import rankConfig from './AvatarRankConfig.json' assert {type: 'json'}
@@ -20,6 +21,50 @@ import TextMapPT from './TextMapPT.json' assert {type: 'json'}
 import TextMapRU from './TextMapRU.json' assert {type: 'json'}
 import TextMapTH from './TextMapTH.json' assert {type: 'json'}
 import TextMapVI from './TextMapVI.json' assert {type: 'json'}
+
+function precisionRound(number) {
+  const factor = Math.pow(10, 5)
+  return Math.round(number * factor) / factor
+}
+
+function formattingRemover(string) {
+  if (!string) return
+  return string.replace(/<\/*u>|(<\/*color[^>]*>)/g, '')
+}
+
+function replaceParameters(string, parameters) {
+  if (!string) return
+  let output = string
+  for (let i = 0; i<parameters.length; i++) {
+    const regexstringpercent = `<unbreak>#${i+1}\\[(i|f[1-9])\\]%<\\/unbreak>`
+    const regexstring = `<unbreak>#${i+1}\\[(i|f[1-9])\\][^%]?<\\/unbreak>`
+    const regex = new RegExp(regexstring, 'g')
+    const regexpercent = new RegExp(regexstringpercent, 'g')
+    output = output
+      .replace(regex, `${precisionRound(parameters[i])}`)
+      .replace(regexpercent, `${precisionRound(parameters[i] * 100)}%`)
+  }
+  output = output.replace(/<\/*unbreak>/g, ``)
+  return output
+}
+
+function formatEffectParameters(string) {
+  if (!string) return
+  let output = string
+  const paramMatcher = /\[(i|f[1-9]+)\]/g
+  const matches = (string.match(paramMatcher) ?? []).length
+  for (let i = 0; i < matches; i++) {
+    const regexstringpercent = `<unbreak>#${i+1}\\[(i|f[1-9])\\]%<\\/unbreak>`
+    const regexstring = `<unbreak>#${i+1}\\[(i|f[1-9])\\][^%]?<\\/unbreak>`
+    const regex = new RegExp(regexstring, 'g')
+    const regexpercent = new RegExp(regexstringpercent, 'g')
+    output = output
+      .replace(regex, `{{parameter${i}}}`)
+      .replace(regexpercent, `{{parameter${i}}}%`)
+  }
+  output = output.replace(/<\/*unbreak>/g, ``)
+  return output
+}
 
 const trailblazerpaths = ['Warrior', 'Knight', 'Shaman']
 
@@ -54,25 +99,68 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
 
   const eidolons = {}
   for (const eidolon of rankConfig) {
-    eidolons[eidolon.RankID] = {name: cleanString(locale,translateKey(eidolon.Name, textmap)), desc: translateKey(eidolon.Desc, textmap)}
+    eidolons[eidolon.RankID] = {
+      Name: cleanString(locale,translateKey(eidolon.Name, textmap)),
+      Desc: translateKey(eidolon.Desc, textmap),
+      Values: eidolon.Param.map((x) => x.Value),
+    }
+    eidolons[eidolon.RankID].Desc = replaceParameters(eidolons[eidolon.RankID].Desc, eidolons[eidolon.RankID].Values)
+    eidolons[eidolon.RankID].Desc = formattingRemover(eidolons[eidolon.RankID].Desc.replace(/<\/*unbreak>/g, ``))
+    delete eidolons[eidolon.RankID].Values
   }
 
   const abilities = {}
   for (const ability of skillConfig) {
-    abilities[ability.SkillID] = {
-      name: cleanString(locale,textmap[ability.SkillName.Hash]),
-      desc: textmap[ability.SimpleSkillDesc.Hash],
-      longdesc: textmap[ability.SkillDesc.Hash]
+    if (!abilities[ability.SkillID]) {
+      abilities[ability.SkillID] = {
+      Name: cleanString(locale,textmap[ability.SkillName.Hash]),
+      Desc: formattingRemover(replaceParameters(textmap[ability.SimpleSkillDesc.Hash], ability.SimpleParamList)),
+      Type: textmap[ability.SkillTypeDesc.Hash],
+      }
+    }
+    switch (ability.MaxLevel) {
+      case 1: {// technique / open world attack
+        let parameters = ability.ParamList.map((x) => x.Value)
+        let description = textmap[ability.SkillDesc.Hash]
+        description = replaceParameters(description, parameters)
+        abilities[ability.SkillID].LongDesc = formattingRemover(description)
+      }
+        break;
+      case 5: {// basic attack
+        if (!(ability.Level === 5 || ability.Level === 6)) break
+        let parameters = ability.ParamList.map((x) => x.Value)
+        let description = textmap[ability.SkillDesc.Hash]
+        description = replaceParameters(description, parameters)
+        if (ability.Level === 5) {
+          abilities[ability.SkillID].LongDescWithoutEidolon = formattingRemover(description)
+        } else {
+          abilities[ability.SkillID].LongDescWithEidolon = formattingRemover(description)
+        }
+      }
+        break;
+      default: {// skill/talent/ult
+        if (!(ability.Level === 10 || ability.Level === 12)) break
+        let parameters = ability.ParamList.map((x) => x.Value)
+        let description = textmap[ability.SkillDesc.Hash]
+        if (!description) break
+        description = replaceParameters(description, parameters)
+        if (ability.Level === 10) {
+          abilities[ability.SkillID].LongDescWithoutEidolon = formattingRemover(description)
+        } else {
+          abilities[ability.SkillID].LongDescWithEidolon = formattingRemover(description)
+        }
+      }
+        break;
     }
   }
 
   const effectslist = []
   for (const effect of statusConfig) {
     effectslist.push({
-      name: textmap[effect.StatusName.Hash],
-      desc: textmap[effect.StatusDesc.Hash],
-      effect: textmap[effect.StatusEffect.Hash],
-      source: Number(String(effect.StatusID).slice(3,-1)),
+      Name: textmap[effect.StatusName.Hash],
+      Desc: formatEffectParameters(formattingRemover(textmap[effect.StatusDesc.Hash])),
+      Effect: textmap[effect.StatusEffect.Hash],
+      Source: Number(String(effect.StatusID).slice(3,-1)),
       ID: effect.StatusID
     })
   }
@@ -80,13 +168,43 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
   const tracelist = []
   for (const trace of traceConfig) {
     if (trace.PointType == 3){
-      tracelist.push({
-        name: translateKey(trace.PointName, textmap) ?? 'err',
-        desc: translateKey(trace.PointDesc, textmap) ?? 'err',
-        owner: trace.AvatarID,
+      const formattedTrace = {
+        Name: translateKey(trace.PointName, textmap) ?? 'err',
+        Desc: translateKey(trace.PointDesc, textmap) ?? 'err',
+        Owner: trace.AvatarID,
         ID: trace.PointID,
-        Ascension: trace.AvatarPromotionLimit
-      })
+        Ascension: trace.AvatarPromotionLimit,
+        values: trace.ParamList.map((x) => x.Value),
+      }
+      formattedTrace.Desc = replaceParameters(formattedTrace.Desc, formattedTrace.values)
+      formattedTrace.Desc = formattingRemover(formattedTrace.Desc.replace(/<\/*unbreak>/g, ``))
+      delete formattedTrace.values
+      tracelist.push(formattedTrace)
+    }
+  }
+
+  const setEffects = {}
+  for (const effect of relicEffectConfig) {
+    if (!setEffects[effect.SetID]) {
+      setEffects[effect.SetID] = {
+        effect2pc: '',
+        effect4pc: ''
+      }
+    }
+    if (effect.RequireNum === 2) {
+      setEffects[effect.SetID].effect2pc = {
+        description: translateKey(effect.SkillDesc, textmap),
+        values: effect.AbilityParamList.map((x) => x.Value)
+      }
+      setEffects[effect.SetID].effect2pc.description = replaceParameters(setEffects[effect.SetID].effect2pc.description, setEffects[effect.SetID].effect2pc.values)
+      setEffects[effect.SetID].effect2pc = formattingRemover(setEffects[effect.SetID].effect2pc.description)
+    } else {
+      setEffects[effect.SetID].effect4pc = {
+        description: translateKey(effect.SkillDesc, textmap),
+        values: effect.AbilityParamList.map((x) => x.Value)
+      }
+      setEffects[effect.SetID].effect4pc.description = replaceParameters(setEffects[effect.SetID].effect4pc.description, setEffects[effect.SetID].effect4pc.values)
+      setEffects[effect.SetID].effect4pc = formattingRemover(setEffects[effect.SetID].effect4pc.description)
     }
   }
 
@@ -119,12 +237,12 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
       }
     }
     for (const effect of effectslist) {
-      if(effect.source == avatar.AvatarID) {
+      if(effect.Source == avatar.AvatarID) {
         output.Characters[avatar.AvatarID].Effects[effect.ID] = effect
       }
     }
     for (const trace of tracelist) {
-      if (trace.owner == avatar.AvatarID) {
+      if (trace.Owner == avatar.AvatarID) {
         switch (trace.Ascension) {
           case 2:
             output.Characters[avatar.AvatarID].Traces.A2 = trace
@@ -144,11 +262,20 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
   }
 
   for (const set of relicsetConfig) {
-    output.RelicSets[set.SetID] = cleanString(locale, textmap[set.SetName.Hash])
+    output.RelicSets[set.SetID] = {
+      Name: cleanString(locale, textmap[set.SetName.Hash]),
+      Description2pc: setEffects[set.SetID].effect2pc,
+      Description4pc: setEffects[set.SetID].effect4pc,
+    }
+    if (set.SetID > 300) {
+      delete output.RelicSets[set.SetID].Description4pc
+    }
   }
 
   for (const lightcone of lightconeConfig) {
-    output.Lightcones[lightcone.ID] = cleanString(locale, textmap[lightcone.ItemName.Hash])
+    output.Lightcones[lightcone.ID] = {
+      Name: cleanString(locale, textmap[lightcone.ItemName.Hash])
+    }
   }
 
   for (const path of pathConfig) {
@@ -247,7 +374,7 @@ function getTbName (locale, isCaelus) {
   if (isCaelus) return TB_NAMES[locale].caelus
   return TB_NAMES[locale].stelle
 }
-// shoutout to stargazer for these
+// from the readme on Dim's repo
 function getHash(key) {
   var hash1 = 5381;
   var hash2 = 5381;

@@ -58,7 +58,7 @@ export default function RelicFilterBar(props) {
 
       return tooltip
         ? (
-          <Tooltip title={i18n.exists(`common:Stats.${key}`) ? t(`common:Stats.${key}`) : t(`gameData:RelicSets.${setToId[key]}`)} mouseEnterDelay={0.2}>
+          <Tooltip title={i18n.exists(`common:Stats.${key}`) ? t(`common:Stats.${key}`) : t(`gameData:RelicSets.${setToId[key]}.Name`)} mouseEnterDelay={0.2}>
             <img style={{ width: width }} src={src}/>
           </Tooltip>
         )

@@ -282,7 +282,7 @@ export const Utils = {
 
     for (const value of Object.values(lcData)) {
       value.value = value.id
-      value.label = i18next.t(`gameData:Lightcones.${value.id}`)
+      value.label = i18next.t(`gameData:Lightcones.${value.id}.Name`)
     }
 
     return Object.values(lcData)

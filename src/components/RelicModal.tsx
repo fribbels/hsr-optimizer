@@ -108,11 +108,11 @@ export default function RelicModal(props: {
       const setOptions: { label: ReactElement; value: string }[] = []
       for (const entry of [...Object.entries(Constants.SetsRelics), ...Object.entries(Constants.SetsOrnaments)].filter((x) => !UnreleasedSets[x[1]])) {
         setOptions.push({
-          label:
-  <Flex align='center' gap={10}>
-    <img style={{ height: 22, width: 22 }} src={Assets.getSetImage(entry[1])}/>
-    {i18next.t(`gameData:RelicSets.${setToId[entry[1]]}`)}
-  </Flex>,
+          label: (
+            <Flex align='center' gap={10}>
+              <img style={{ height: 22, width: 22 }} src={Assets.getSetImage(entry[1])}/>
+              {i18next.t(`gameData:RelicSets.${setToId[entry[1]]}.Name`)}
+            </Flex>),
           value: entry[1],
         })
       }

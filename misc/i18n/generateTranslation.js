@@ -1,7 +1,8 @@
 import { writeFile } from 'fs'
 import AvatarConfig from './AvatarConfig.json' assert {type: 'json'}
 import skillConfig from './AvatarSkillConfig.json' assert {type: 'json'}
-import lightconeConfig from './ItemConfigEquipment.json' assert {type: 'json'}
+import lightconeConfig from './EquipmentConfig.json' assert {type: 'json'}
+import lightconeRankConfig from './EquipmentSkillConfig.json' assert {type: 'json'}
 import relicsetConfig from './RelicSetConfig.json' assert {type: 'json'}
 import relicEffectConfig from './RelicSetSkillConfig.json' assert {type: 'json'}
 import damageConfig from './DamageType.json' assert {type: 'json'}
@@ -27,24 +28,26 @@ function precisionRound(number) {
   return Math.round(number * factor) / factor
 }
 
-function formattingRemover(string) {
+function formattingFixer(string) {
   if (!string) return
-  return string.replace(/<\/*u>|(<\/*color[^>]*>)/g, '')
+  string = string.replace(/<color=#([a-f]|[0-9]){8}>/g, "</span><span style='color:#f29e38ff'>").replace(/<\/color>/g, '</span><span>')
+  string = string.replace(/<unbreak>/g, "<span style='whiteSpace: \"nowrap\"'>").replace(/<\/unbreak>/g, '</span>')
+  string = string.replace(/\\n/g, '<br>')
+  return `<span>${string}</span>`
 }
 
 function replaceParameters(string, parameters) {
   if (!string) return
   let output = string
   for (let i = 0; i<parameters.length; i++) {
-    const regexstringpercent = `<unbreak>#${i+1}\\[(i|f[1-9])\\]%<\\/unbreak>`
-    const regexstring = `<unbreak>#${i+1}\\[(i|f[1-9])\\][^%]?<\\/unbreak>`
+    const regexstringpercent = `#${i+1}\\[(i|f[1-9])\\]%`
+    const regexstring = `#${i+1}\\[(i|f[1-9])\\]<`
     const regex = new RegExp(regexstring, 'g')
     const regexpercent = new RegExp(regexstringpercent, 'g')
     output = output
-      .replace(regex, `${precisionRound(parameters[i])}`)
+      .replace(regex, `${precisionRound(parameters[i])}<`)
       .replace(regexpercent, `${precisionRound(parameters[i] * 100)}%`)
   }
-  output = output.replace(/<\/*unbreak>/g, ``)
   return output
 }
 
@@ -54,15 +57,14 @@ function formatEffectParameters(string) {
   const paramMatcher = /\[(i|f[1-9]+)\]/g
   const matches = (string.match(paramMatcher) ?? []).length
   for (let i = 0; i < matches; i++) {
-    const regexstringpercent = `<unbreak>#${i+1}\\[(i|f[1-9])\\]%<\\/unbreak>`
-    const regexstring = `<unbreak>#${i+1}\\[(i|f[1-9])\\][^%]?<\\/unbreak>`
+    const regexstringpercent = `#${i+1}\\[(i|f[1-9])\\]%`
+    const regexstring = `#${i+1}\\[(i|f[1-9])\\]<`
     const regex = new RegExp(regexstring, 'g')
     const regexpercent = new RegExp(regexstringpercent, 'g')
     output = output
-      .replace(regex, `{{parameter${i}}}`)
+      .replace(regex, `{{parameter${i}}}<`)
       .replace(regexpercent, `{{parameter${i}}}%`)
   }
-  output = output.replace(/<\/*unbreak>/g, ``)
   return output
 }
 
@@ -105,7 +107,7 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
       Values: eidolon.Param.map((x) => x.Value),
     }
     eidolons[eidolon.RankID].Desc = replaceParameters(eidolons[eidolon.RankID].Desc, eidolons[eidolon.RankID].Values)
-    eidolons[eidolon.RankID].Desc = formattingRemover(eidolons[eidolon.RankID].Desc.replace(/<\/*unbreak>/g, ``))
+    eidolons[eidolon.RankID].Desc = formattingFixer(eidolons[eidolon.RankID].Desc.replace(/<\/*unbreak>/g, ``))
     delete eidolons[eidolon.RankID].Values
   }
 
@@ -114,7 +116,7 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
     if (!abilities[ability.SkillID]) {
       abilities[ability.SkillID] = {
       Name: cleanString(locale,textmap[ability.SkillName.Hash]),
-      Desc: formattingRemover(replaceParameters(textmap[ability.SimpleSkillDesc.Hash], ability.SimpleParamList)),
+      Desc: formattingFixer(replaceParameters(textmap[ability.SimpleSkillDesc.Hash], ability.SimpleParamList)),
       Type: textmap[ability.SkillTypeDesc.Hash],
       }
     }
@@ -123,7 +125,7 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
         let parameters = ability.ParamList.map((x) => x.Value)
         let description = textmap[ability.SkillDesc.Hash]
         description = replaceParameters(description, parameters)
-        abilities[ability.SkillID].LongDesc = formattingRemover(description)
+        abilities[ability.SkillID].LongDesc = formattingFixer(description)
       }
         break;
       case 5: {// basic attack
@@ -132,9 +134,9 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
         let description = textmap[ability.SkillDesc.Hash]
         description = replaceParameters(description, parameters)
         if (ability.Level === 5) {
-          abilities[ability.SkillID].LongDescWithoutEidolon = formattingRemover(description)
+          abilities[ability.SkillID].LongDescWithoutEidolon = formattingFixer(description)
         } else {
-          abilities[ability.SkillID].LongDescWithEidolon = formattingRemover(description)
+          abilities[ability.SkillID].LongDescWithEidolon = formattingFixer(description)
         }
       }
         break;
@@ -145,9 +147,9 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
         if (!description) break
         description = replaceParameters(description, parameters)
         if (ability.Level === 10) {
-          abilities[ability.SkillID].LongDescWithoutEidolon = formattingRemover(description)
+          abilities[ability.SkillID].LongDescWithoutEidolon = formattingFixer(description)
         } else {
-          abilities[ability.SkillID].LongDescWithEidolon = formattingRemover(description)
+          abilities[ability.SkillID].LongDescWithEidolon = formattingFixer(description)
         }
       }
         break;
@@ -157,9 +159,9 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
   const effectslist = []
   for (const effect of statusConfig) {
     effectslist.push({
-      Name: textmap[effect.StatusName.Hash],
-      Desc: formatEffectParameters(formattingRemover(textmap[effect.StatusDesc.Hash])),
-      Effect: textmap[effect.StatusEffect.Hash],
+      Name: cleanString(locale, textmap[effect.StatusName.Hash]),
+      Desc: formatEffectParameters(formattingFixer(textmap[effect.StatusDesc.Hash])),
+      Effect: cleanString(locale, textmap[effect.StatusEffect.Hash]),
       Source: Number(String(effect.StatusID).slice(3,-1)),
       ID: effect.StatusID
     })
@@ -169,7 +171,7 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
   for (const trace of traceConfig) {
     if (trace.PointType == 3){
       const formattedTrace = {
-        Name: translateKey(trace.PointName, textmap) ?? 'err',
+        Name: cleanString(locale, translateKey(trace.PointName, textmap)) ?? 'err',
         Desc: translateKey(trace.PointDesc, textmap) ?? 'err',
         Owner: trace.AvatarID,
         ID: trace.PointID,
@@ -177,7 +179,7 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
         values: trace.ParamList.map((x) => x.Value),
       }
       formattedTrace.Desc = replaceParameters(formattedTrace.Desc, formattedTrace.values)
-      formattedTrace.Desc = formattingRemover(formattedTrace.Desc.replace(/<\/*unbreak>/g, ``))
+      formattedTrace.Desc = formattingFixer(formattedTrace.Desc)
       delete formattedTrace.values
       tracelist.push(formattedTrace)
     }
@@ -197,14 +199,14 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
         values: effect.AbilityParamList.map((x) => x.Value)
       }
       setEffects[effect.SetID].effect2pc.description = replaceParameters(setEffects[effect.SetID].effect2pc.description, setEffects[effect.SetID].effect2pc.values)
-      setEffects[effect.SetID].effect2pc = formattingRemover(setEffects[effect.SetID].effect2pc.description)
+      setEffects[effect.SetID].effect2pc = formattingFixer(setEffects[effect.SetID].effect2pc.description)
     } else {
       setEffects[effect.SetID].effect4pc = {
         description: translateKey(effect.SkillDesc, textmap),
         values: effect.AbilityParamList.map((x) => x.Value)
       }
       setEffects[effect.SetID].effect4pc.description = replaceParameters(setEffects[effect.SetID].effect4pc.description, setEffects[effect.SetID].effect4pc.values)
-      setEffects[effect.SetID].effect4pc = formattingRemover(setEffects[effect.SetID].effect4pc.description)
+      setEffects[effect.SetID].effect4pc = formattingFixer(setEffects[effect.SetID].effect4pc.description)
     }
   }
 
@@ -273,9 +275,20 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
   }
 
   for (const lightcone of lightconeConfig) {
-    output.Lightcones[lightcone.ID] = {
-      Name: cleanString(locale, textmap[lightcone.ItemName.Hash])
+    const Lightcone = {
+      Name: cleanString(locale, textmap[lightcone.EquipmentName.Hash]),
+      EquipmentDesc: cleanString(locale, textmap[lightcone.EquipmentDesc.Hash]),
     }
+    lightconeRankConfig
+      .filter((x) => x.SkillID == lightcone.SkillID)
+      .sort((a,b) => a.Level - b.Level)
+      .forEach((x) => {
+        const SkillName = cleanString(locale, textmap[x.SkillName.Hash])
+        const SkillDesc = formattingFixer(replaceParameters(cleanString(locale, textmap[x.SkillDesc.Hash]), x.ParamList.map((x) => x.Value)))
+        Lightcone.SkillName = SkillName
+        Lightcone[`S${x.Level}Desc`] = SkillDesc
+      })
+    output.Lightcones[lightcone.EquipmentID] = Lightcone
   }
 
   for (const path of pathConfig) {
@@ -296,6 +309,7 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
 }
 
 function cleanString (locale, string) {
+  if (!string) return
   if (locale !== 'jp') {
     return string
   }

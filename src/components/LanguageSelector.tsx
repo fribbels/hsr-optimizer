@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { languages } from './../lib/i18n'
 import { ReactElement } from 'react'
 import { Assets } from 'lib/assets'
-import I18NextHttpBackend from 'i18next-http-backend'
 
 type placementOptions = 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight'
 

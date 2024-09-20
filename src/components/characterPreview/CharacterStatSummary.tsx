@@ -1,11 +1,11 @@
 import { Flex } from 'antd'
-import StatRow from 'components/characterPreview/StatRow.tsx'
-import { Constants, Stats } from 'lib/constants.ts'
+import StatRow from 'components/characterPreview/StatRow'
+import { Constants, Stats } from 'lib/constants'
 
 const epsilon = 0.001
 
 export const CharacterStatSummary = (props: {
-  finalStats: any
+  finalStats: object
   elementalDmgValue: string
   cv?: number
   simScore?: number

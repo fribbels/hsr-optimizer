@@ -7,6 +7,7 @@
   "Lightcone_other": "{{light cones, capitalize}}",
   "LightconeWithCount_one": "{{count}} {{light cone, capitalize}}",
   "LightconeWithCount_other": "{{count}} {{light cones, capitalize}}",
+  "ThousandsSuffix": "K",
   "Cancel": "{{cancel, capitalize}}",
   "Confirm": "{{confirm, capitalize}}",
   "Submit":"{{submit, capitalize}}",
@@ -20,11 +21,13 @@
   "Minimum": "{{minimum, capitalize}}",
   "EidolonNShort": "E{{eidolon}}",
   "SuperimpositionNShort": "S{{superimposition}}",
+  "LevelShort": "Lv{{level}}",
   "CharacterWithCount_one": "{{count}} {{character, capitalize}}",
   "CharacterWithCount_other": "{{count}} {{characters, capitalize}}",
   "Character_one": "{{character, capitalize}}",
   "Character_other": "{{characters, capitalize}}",
   "VerifiedRelicHoverText": "Relic substats verified by relic scorer (speed decimals)",
+  "CombatStats": "Combat Stats",
   "Parts": {
     "Head": "Head",
     "Hands": "Hands",
@@ -160,5 +163,14 @@
     "Wind DMG Boost": "$t(gameData:Elements.Wind)",
     "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
     "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)"
+  },
+  "DMGTypes": {
+    "simScore": "Combo DMG",
+    "BASIC": "Basic Damage",
+    "ULT": "Ult Damage",
+    "SKILL": "Skill Damage",
+    "FUA": "FUA Damage",
+    "DOT": "DoT Damage",
+    "CV": "CV"
   }
 }

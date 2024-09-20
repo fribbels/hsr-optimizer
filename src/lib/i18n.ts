@@ -61,7 +61,20 @@ void i18next
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    ns: ['changelogTab', 'charactersTab', 'common', 'gameData', 'getStartedTab', 'importSaveTab', 'relicScorerTab', 'relicsTab', 'sidebar', 'modals', 'hint', 'settings'],
+    ns: [
+      'charactersTab',
+      'common',
+      'gameData',
+      'getStartedTab',
+      'importSaveTab',
+      'relicScorerTab',
+      'relicsTab',
+      'sidebar',
+      'modals',
+      'hint',
+      'settings',
+      'optimizerTab',
+    ],
     defaultNS: 'common',
     fallbackNS: ['common', 'gameData'],
     debug: true,

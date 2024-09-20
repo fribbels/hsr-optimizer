@@ -21,7 +21,7 @@ export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }:
   const characterId = id as unknown as keyof typeof characterOptionMapping
   if (!id || !characterOptionMapping[characterId]) {
     return (
-      <Flex justify="space-between" align="center">
+      <Flex justify='space-between' align='center'>
         <HeaderText>Character passives</HeaderText>
         <TooltipImage type={Hint.characterPassives()}/>
       </Flex>
@@ -39,7 +39,7 @@ export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }:
     <Flex vertical gap={5}>
       {(teammateIndex == null)
       && (
-        <Flex justify="space-between" align="center">
+        <Flex justify='space-between' align='center'>
           <HeaderText>Character passives</HeaderText>
           <TooltipImage type={Hint.characterPassives()}/>
         </Flex>

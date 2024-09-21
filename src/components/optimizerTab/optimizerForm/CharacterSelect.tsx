@@ -11,6 +11,8 @@ interface CharacterSelectProps {
   selectStyle?: React.CSSProperties
   multipleSelect?: boolean
   withIcon?: boolean
+  externalOpen?: boolean
+  setExternalOpen?: (state: boolean) => void
 }
 
 const parentW = 100
@@ -28,7 +30,7 @@ const defaultFilters = {
   name: '',
 }
 
-const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle, multipleSelect, withIcon }) => {
+const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle, multipleSelect, withIcon, externalOpen, setExternalOpen }) => {
   // console.log('==================================== CHARACTER SELECT')
   const inputRef = useRef<InputRef>(null)
   const [open, setOpen] = useState(false)
@@ -42,7 +44,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
     labelledOptions.push({
       value: option.value,
       label: (
-        <Flex gap={5} align="center">
+        <Flex gap={5} align='center'>
           <img
             src={Assets.getCharacterAvatarById(option.value)}
             style={{ height: 22, marginRight: 4 }}
@@ -54,7 +56,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   }
 
   useEffect(() => {
-    if (open) {
+    if (open || externalOpen) {
       setTimeout(() => inputRef?.current?.focus(), 100)
 
       if (multipleSelect) {
@@ -62,7 +64,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         setSelected(newSelected)
       }
     }
-  }, [open])
+  }, [open, externalOpen])
 
   function applyFilters(x) {
     if (currentFilters.element.length && !currentFilters.element.includes(x.element)) {
@@ -84,6 +86,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
       setSelected(new Map(selected))
     } else {
       setOpen(false)
+      if (setExternalOpen) setExternalOpen(false)
       if (onChange) onChange(id)
     }
   }
@@ -131,10 +134,10 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
       />
 
       <Modal
-        open={open}
+        open={open || externalOpen}
         centered
         destroyOnClose
-        width="90%"
+        width='90%'
         style={{ height: '80%', maxWidth: 1450 }}
         title={multipleSelect ? 'Select characters to exclude' : 'Select a character'}
         onCancel={() => {
@@ -143,19 +146,20 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
           }
 
           setOpen(false)
+          if (setExternalOpen) setExternalOpen(false)
         }}
         footer={null}
       >
         <Flex vertical gap={12} style={{ minWidth: 350 }}>
-          <Flex gap={12} wrap="wrap">
-            <Flex wrap="nowrap" style={{ flexGrow: 1 }} gap={10}>
+          <Flex gap={12} wrap='wrap'>
+            <Flex wrap='nowrap' style={{ flexGrow: 1 }} gap={10}>
               <Input
-                size="large"
+                size='large'
                 style={{
                   height: 40,
                   flex: 1,
                 }}
-                placeholder="Search character name"
+                placeholder='Search character name'
                 ref={inputRef}
                 onChange={(e) => {
                   const newFilters = Utils.clone(currentFilters)
@@ -186,21 +190,21 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                 </Flex>
               )}
             </Flex>
-            <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }} gap={12}>
-              <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
+            <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }} gap={12}>
+              <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
                 <SegmentedFilterRow
-                  name="element"
+                  name='element'
                   tags={generateElementTags()}
-                  flexBasis="14.2%"
+                  flexBasis='14.2%'
                   currentFilters={currentFilters}
                   setCurrentFilters={setCurrentFilters}
                 />
               </Flex>
-              <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
+              <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
                 <SegmentedFilterRow
-                  name="path"
+                  name='path'
                   tags={generatePathTags()}
-                  flexBasis="14.2%"
+                  flexBasis='14.2%'
                   currentFilters={currentFilters}
                   setCurrentFilters={setCurrentFilters}
                 />

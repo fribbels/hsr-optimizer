@@ -60,11 +60,6 @@ export const Assets = {
 
     return getImageUrl(`/icon/avatar/${id}.webp`)
   },
-  getCharacterIconById: (id) => {
-    if (!id) return Assets.getBlank()
-
-    return getImageUrl(`/icon/character/${id}.webp`)
-  },
   getCharacterPreviewById: (id) => {
     if (!id) return Assets.getBlank()
 
@@ -141,7 +136,7 @@ export const Assets = {
     return getImageUrl(`/misc/changelog/${path}`)
   },
 
-  getSetImage: (set, part) => {
+  getSetImage: (set, part, actualIcon = false) => {
     if (set == -1) {
       return Assets.getBlank()
     }
@@ -201,7 +196,9 @@ export const Assets = {
       [Constants.Parts.PlanarSphere]: '_0',
       [Constants.Parts.LinkRope]: '_1',
     }
-
+    if (actualIcon) {
+      return getImageUrl(`/icon/relic/${setToId[set]}.webp`)
+    }
     if (set == SACERDOS_RELIVED_ORDEAL_1_STACK || set == SACERDOS_RELIVED_ORDEAL_2_STACK) {
       return getImageUrl(`/icon/relic/${setToId[Constants.Sets.SacerdosRelivedOrdeal]}${partToId[part]}.webp`)
     }

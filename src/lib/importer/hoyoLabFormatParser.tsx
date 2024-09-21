@@ -1,8 +1,8 @@
-import { Constants, Parts, SubStats } from '../constants.ts'
-import { Utils } from '../utils'
-import { RelicAugmenter } from '../relicAugmenter'
+import { Constants, Parts, SubStats } from 'lib/constants'
+import { Utils } from 'lib/utils'
+import { RelicAugmenter } from 'lib/relicAugmenter'
+import DB from 'lib/db'
 
-import relicSetsData from 'data/relic_sets.json'
 /*
 
   Sample data:
@@ -110,6 +110,8 @@ type HoyolabOutput = {
 }
 
 export function hoyolabParser(json: HoyolabData) {
+  const relicData = DB.getMetadata().relics.relicSets
+
   const output: HoyolabOutput = {
     metadata: {
       trailblazer: 'Stelle',
@@ -151,7 +153,7 @@ export function hoyolabParser(json: HoyolabData) {
         grade: relic.rarity,
         id: Utils.randomId(),
         part: getSlot(relic.pos),
-        set: getSet(relic.id),
+        set: getSet(relic.id, relicData),
         main: {
           stat: getStat(relic.main_property.property_type),
           value: readValue(relic.main_property.value),
@@ -232,13 +234,13 @@ function getSlot(id: number) {
   return slotLookup[id] || ''
 }
 
-function getSet(id: number): string {
+function getSet(id: number, relicData): string {
   const setId = id.toString().substring(1, 4)
   if (tidOverrides[id]) {
-    return relicSetsData[tidOverrides[id].set].name
+    return relicData[tidOverrides[id].set].name
   }
 
-  return relicSetsData[setId].name
+  return relicData[setId].name
 }
 
 const tidOverrides = {

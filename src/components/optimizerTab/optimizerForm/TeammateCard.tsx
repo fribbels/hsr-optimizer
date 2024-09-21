@@ -1,7 +1,7 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import FormCard from 'components/optimizerTab/FormCard.js'
 import { SyncOutlined } from '@ant-design/icons'
-import { Button, Flex, Form, Image, Select, SelectProps, Typography } from 'antd'
+import { Button, Flex, Form, Select, SelectProps, Typography } from 'antd'
 import { Constants, eidolonOptions, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets, superimpositionOptions } from 'lib/constants.ts'
 import { Assets } from 'lib/assets.js'
 import { CharacterConditionals } from 'lib/characterConditionals.js'
@@ -23,6 +23,13 @@ const parentW = rightPanelWidth
 const parentH = rightPanelWidth
 const innerW = rightPanelWidth
 const innerH = rightPanelWidth
+
+const lcWidth = 120
+
+const lcParentW = lcWidth
+const lcParentH = lcWidth
+const lcInnerW = lcWidth
+const lcInnerH = lcWidth
 
 const cardHeight = 480
 
@@ -66,13 +73,13 @@ const teammateRelicSetOptions: SelectProps['options'] = (() => {
     },
     {
       value: SACERDOS_RELIVED_ORDEAL_1_STACK,
-      desc: `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 1 stack (+20% CD)`,
-      label: labelRender(Sets.SacerdosRelivedOrdeal, '20% CD'),
+      desc: `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 1 stack (+18% CD)`,
+      label: labelRender(Sets.SacerdosRelivedOrdeal, '18% CD'),
     },
     {
       value: SACERDOS_RELIVED_ORDEAL_2_STACK,
-      desc: `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 2 stack (+40% CD)`,
-      label: labelRender(Sets.SacerdosRelivedOrdeal, '40% CD'),
+      desc: `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 2 stack (+36% CD)`,
+      label: labelRender(Sets.SacerdosRelivedOrdeal, '36% CD'),
     },
   ]
 })()
@@ -157,6 +164,10 @@ const TeammateCard = (props: { index: number }) => {
   const teammateLightConeId = Form.useWatch([teammateProperty, 'lightCone'], window.optimizerForm)
   const teammateSuperimposition = Form.useWatch([teammateProperty, 'lightConeSuperimposition'], window.optimizerForm)
 
+  const [teammateSelectModalOpen, setTeammateSelectModalOpen] = useState(false)
+
+  const [teammateLightConeSelectOpen, setTeammateLightConeSelectOpen] = useState(false)
+
   const disabled = teammateCharacterId == null
 
   function updateTeammate() {
@@ -224,6 +235,8 @@ const TeammateCard = (props: { index: number }) => {
             <CharacterSelect
               value=''
               selectStyle={{}}
+              externalOpen={teammateSelectModalOpen}
+              setExternalOpen={setTeammateSelectModalOpen}
             />
           </Form.Item>
 
@@ -258,11 +271,12 @@ const TeammateCard = (props: { index: number }) => {
           </Flex>
           <Flex vertical gap={5}>
             <div style={{ width: `${rightPanelWidth}px`, height: `${rightPanelWidth}px`, borderRadius: '10px' }}>
-              <Image
-                preview={false}
+              <img
                 width={rightPanelWidth}
                 height={rightPanelWidth}
                 src={Assets.getCharacterAvatarById(teammateCharacterId)}
+                onClick={() => setTeammateSelectModalOpen(true)}
+                style={{ cursor: 'pointer' }}
               />
             </div>
 
@@ -304,6 +318,8 @@ const TeammateCard = (props: { index: number }) => {
               value=''
               selectStyle={{ width: 258 }}
               characterId={teammateCharacterId}
+              externalOpen={teammateLightConeSelectOpen}
+              setExternalOpen={setTeammateLightConeSelectOpen}
             />
           </Form.Item>
 
@@ -328,11 +344,15 @@ const TeammateCard = (props: { index: number }) => {
           </Flex>
           <Flex>
             <div style={{ width: `${parentW}px`, height: `${parentH}px`, borderRadius: '10px' }}>
-              <Image
-                preview={false}
-                width={rightPanelWidth}
+              <img
+                width={lcWidth}
                 src={Assets.getLightConeIconById(teammateLightConeId)}
-                style={{ transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)` }}
+                style={{
+                  marginLeft: -5,
+                  transform: `translate(${(lcInnerW - lcParentW) / 2 / lcInnerW * -100}%, ${(lcInnerH - lcParentH) / 2 / lcInnerH * -100}%)`,
+                  cursor: 'pointer',
+                }}
+                onClick={() => setTeammateLightConeSelectOpen(true)}
               />
             </div>
           </Flex>

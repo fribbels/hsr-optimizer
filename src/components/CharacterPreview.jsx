@@ -265,7 +265,7 @@ export function CharacterPreview(props) {
 
   // Temporary w/h overrides while we're split between sim scoring and weight scoring
   const newLcMargin = 5
-  const newLcHeight = 140
+  const newLcHeight = 125
   // Some APIs return empty light cone as '0'
   const charCenter = DB.getMetadata().characters[character.id].imageCenter
 
@@ -281,7 +281,7 @@ export function CharacterPreview(props) {
   const tempParentH = simScoringResult ? parentH - newLcHeight - newLcMargin : parentH
 
   // Since the lc takes some space, we want to zoom the portrait out
-  const tempInnerW = simScoringResult ? 875 : innerW
+  const tempInnerW = simScoringResult ? 950 : innerW
 
   // Teammate character modal OK
   function onCharacterModalOk(form) {
@@ -336,7 +336,7 @@ export function CharacterPreview(props) {
   function ScoreFooter(props) {
     const tabsDisplay = (
       <Segmented
-        style={{ marginLeft: 10, marginRight: 10, marginTop: 1, marginBottom: 2, alignItems: 'center' }}
+        style={{ marginLeft: 10, marginRight: 10, marginTop: 2, marginBottom: 0, alignItems: 'center' }}
         onChange={(selection) => {
           if (selection == SETTINGS_TEAM) {
             window.modalApi.info({
@@ -429,7 +429,7 @@ export function CharacterPreview(props) {
   function CharacterPreviewScoringTeammate(props) {
     const { result, index, setCharacterModalOpen, setSelectedTeammateIndex } = props
     const teammate = result.simulationMetadata.teammates[index]
-    const iconSize = 60
+    const iconSize = 64
     return (
       <Card.Grid
         style={gridStyle} hoverable={true}
@@ -455,8 +455,8 @@ export function CharacterPreview(props) {
             }}
           />
           <OverlayText text={`E${teammate.characterEidolon}`} top={-12}/>
-          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: 2 }}/>
-          <OverlayText text={`S${teammate.lightConeSuperimposition}`} top={-16}/>
+          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: -3 }}/>
+          <OverlayText text={`S${teammate.lightConeSuperimposition}`} top={-18}/>
         </Flex>
       </Card.Grid>
     )
@@ -484,7 +484,7 @@ export function CharacterPreview(props) {
           />
 
           <Flex
-            vertical gap={15}
+            vertical gap={12}
             className='character-build-portrait'
           >
             {!isBuilds && (
@@ -654,6 +654,7 @@ export function CharacterPreview(props) {
                     </Flex>
                   )}
                   <Flex
+                    className='lightConeCard'
                     style={{
                       width: `${tempLcParentW}px`,
                       height: `${tempLcParentH}px`,
@@ -700,13 +701,13 @@ export function CharacterPreview(props) {
                   <Flex justify='space-around' style={{ height: 26, marginBottom: 6 }} align='center'>
                     <Image
                       preview={false}
-                      width={36}
+                      width={32}
                       src={Assets.getElement(characterElement)}
                     />
                     <Rarity rarity={characterMetadata.rarity}/>
                     <Image
                       preview={false}
-                      width={36}
+                      width={32}
                       src={Assets.getPathFromClass(characterPath)}
                     />
                   </Flex>
@@ -750,6 +751,7 @@ export function CharacterPreview(props) {
                             borderRadius: 10,
                           },
                         }}
+                        className='teamSelectionCard'
                         size='small'
                         bordered={false}
                       >
@@ -805,7 +807,6 @@ export function CharacterPreview(props) {
                   !simScoringResult
                   && (
                     <Flex vertical style={{ width: middleColumnWidth }}>
-
                       <Flex vertical>
                         <StatText
                           style={{ fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center' }}
@@ -819,6 +820,7 @@ export function CharacterPreview(props) {
                         </StatText>
                       </Flex>
                       <div
+                        className='lightConeCard'
                         style={{
                           width: `${tempLcParentW}px`,
                           height: `${tempLcParentH}px`,
@@ -1023,7 +1025,7 @@ function OverlayText(props) {
 const gridStyle = {
   width: '33.3333%',
   textAlign: 'center',
-  padding: 5,
+  padding: 1,
   // border: 'none',
   boxShadow: 'none',
 }

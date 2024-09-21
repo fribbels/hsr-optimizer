@@ -1,7 +1,6 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
-import relicSets from 'data/relic_sets.json' with { type: 'json' }
 import { Parts, PartsMainStats, Sets, SetsRelics, Stats } from 'lib/constants.ts'
 import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
@@ -118,6 +117,11 @@ export const DataParser = {
       characters[id].scoringMetadata = scoringMetadata[id]
       characters[id].scoringMetadata.characterId = id
     }
+
+    const relicSets = gameData.relics.reduce((acc, obj) => {
+      acc[obj.id] = obj
+      return acc
+    }, {})
 
     const relics = {
       relicMainAffixes,
@@ -763,7 +767,7 @@ function getLightConeOverrideCenter() {
     23021: 150,
     23022: 190,
     23023: 140,
-    23024: 85,
+    23024: 80,
     23025: 125,
     23026: 180,
     23027: 140,
@@ -1103,9 +1107,9 @@ function getOverrideTraces() {
 function getOverrideImageCenter() {
   return {
     1001: { // March 7th
-      x: 1024,
-      y: 1100,
-      z: 1,
+      x: 985,
+      y: 1075,
+      z: 1.05,
     },
     1002: { // Dan Heng
       x: 1024,
@@ -1113,9 +1117,9 @@ function getOverrideImageCenter() {
       z: 1,
     },
     1003: { // Himeko
-      x: 1024,
-      y: 1120,
-      z: 1,
+      x: 1015,
+      y: 1215,
+      z: 1.05,
     },
     1004: { // Welt
       x: 885,
@@ -1123,13 +1127,13 @@ function getOverrideImageCenter() {
       z: 1,
     },
     1005: { // Kafka
-      x: 980,
+      x: 1000,
       y: 950,
-      z: 1,
+      z: 1.1,
     },
     1006: { // Silver Wolf
-      x: 1010,
-      y: 1024,
+      x: 1050,
+      y: 950,
       z: 1,
     },
     1008: { // Arlan
@@ -1139,28 +1143,28 @@ function getOverrideImageCenter() {
     },
     1009: { // Asta
       x: 1024,
-      y: 1000,
+      y: 975,
       z: 1,
     },
     1013: { // Herta
       x: 970,
-      y: 920,
-      z: 1,
+      y: 910,
+      z: 1.1,
     },
     1101: { // Bronya
       x: 950,
-      y: 1180,
-      z: 1,
+      y: 1200,
+      z: 1.1,
     },
     1102: { // Seele
       x: 820,
-      y: 1050,
-      z: 1,
+      y: 1075,
+      z: 1.1,
     },
     1103: { // Serval
-      x: 1050,
-      y: 1024,
-      z: 1,
+      x: 1060,
+      y: 1030,
+      z: 1.3,
     },
     1104: { // Gepard
       x: 1150,
@@ -1180,22 +1184,22 @@ function getOverrideImageCenter() {
     1107: { // Clara
       x: 880,
       y: 900,
-      z: 1,
+      z: 1.15,
     },
     1108: { // Sampo
-      x: 1024,
-      y: 925,
+      x: 1000,
+      y: 950,
       z: 1,
     },
     1109: { // Hook
-      x: 930,
-      y: 1024,
-      z: 1,
+      x: 975,
+      y: 1025,
+      z: 1.1,
     },
     1110: { // Lynx
       x: 1180,
-      y: 1000,
-      z: 1,
+      y: 1050,
+      z: 1.05,
     },
     1111: { // Luka
       x: 930,
@@ -1219,13 +1223,13 @@ function getOverrideImageCenter() {
     },
     1203: { // Luocha
       x: 1024,
-      y: 1024,
-      z: 1,
+      y: 975,
+      z: 1.05,
     },
     1204: { // Jing Yuan
-      x: 1060,
+      x: 1024,
       y: 1024,
-      z: 1,
+      z: 1.1,
     },
     1205: { // Blade
       x: 990,
@@ -1233,14 +1237,14 @@ function getOverrideImageCenter() {
       z: 1,
     },
     1206: { // Sushang
-      x: 1100,
-      y: 1024,
-      z: 1,
+      x: 1075,
+      y: 1015,
+      z: 1.2,
     },
     1207: { // Yukong
       x: 900,
-      y: 1050,
-      z: 1,
+      y: 1055,
+      z: 1.1,
     },
     1208: { // Fu Xuan
       x: 920,
@@ -1248,12 +1252,12 @@ function getOverrideImageCenter() {
       z: 1,
     },
     1209: { // Yanqing
-      x: 1024,
+      x: 1000,
       y: 1000,
       z: 1,
     },
     1210: { // Guinaifen
-      x: 1024,
+      x: 1000,
       y: 1024,
       z: 1,
     },
@@ -1264,13 +1268,13 @@ function getOverrideImageCenter() {
     },
     1212: { // Jingliu
       x: 1024,
-      y: 940,
+      y: 930,
       z: 1,
     },
     1213: { // Dan Heng • Imbibitor Lunae
       x: 1050,
       y: 1000,
-      z: 1,
+      z: 1.05,
     },
     1214: { // Xueyi
       x: 1000,
@@ -1280,17 +1284,17 @@ function getOverrideImageCenter() {
     1215: { // Hanya
       x: 1000,
       y: 1024,
-      z: 1,
+      z: 1.1,
     },
     1217: { // Huohuo
       x: 950,
-      y: 950,
-      z: 1,
+      y: 975,
+      z: 1.075,
     },
     1218: { // Jiaoqiu
       x: 950,
       y: 900,
-      z: 1,
+      z: 1.1,
     },
     1220: { // Feixiao
       x: 1024,
@@ -1299,33 +1303,33 @@ function getOverrideImageCenter() {
     },
     1221: { // Yunli
       x: 1024,
-      y: 1024,
-      z: 1,
+      y: 1075,
+      z: 1.1,
     },
     1222: { // Lingsha
       x: 1110,
       y: 1000,
-      z: 1,
+      z: 1.1,
     },
     1223: { // Moze
-      x: 975,
+      x: 960,
       y: 1024,
-      z: 1,
+      z: 1.05,
     },
     1224: { // March 8th
       x: 825,
       y: 950,
-      z: 1,
+      z: 1.1,
     },
     1301: { // Gallagher
-      x: 1150,
-      y: 1024,
+      x: 1200,
+      y: 975,
       z: 1,
     },
     1302: { // Argenti
       x: 680,
       y: 1000,
-      z: 1,
+      z: 1.15,
     },
     1303: { // Ruan Mei
       x: 1060,
@@ -1335,12 +1339,12 @@ function getOverrideImageCenter() {
     1304: { // Aventurine
       x: 1150,
       y: 1000,
-      z: 1,
+      z: 1.05,
     },
     1305: { // Dr Ratio
-      x: 900,
-      y: 850,
-      z: 1,
+      x: 965,
+      y: 840,
+      z: 1.15,
     },
     1306: { // Sparkle
       x: 1050,
@@ -1348,9 +1352,9 @@ function getOverrideImageCenter() {
       z: 1,
     },
     1307: { // Black Swan
-      x: 920,
-      y: 900,
-      z: 1,
+      x: 950,
+      y: 925,
+      z: 1.25,
     },
     1308: { // Acheron
       x: 1000,
@@ -1359,13 +1363,13 @@ function getOverrideImageCenter() {
     },
     1309: { // Robin
       x: 1024,
-      y: 900,
+      y: 925,
       z: 1,
     },
     1310: { // Firefly
-      x: 900,
-      y: 1150,
-      z: 1,
+      x: 930,
+      y: 1075,
+      z: 1.25,
     },
     1312: { // Misha
       x: 1050,
@@ -1374,8 +1378,8 @@ function getOverrideImageCenter() {
     },
     1314: { // Jade
       x: 1024,
-      y: 925,
-      z: 1,
+      y: 850,
+      z: 1.15,
     },
     1315: { // Boothill
       x: 1000,
@@ -1385,7 +1389,7 @@ function getOverrideImageCenter() {
     1317: { // Rappa
       x: 1125,
       y: 1175,
-      z: 1.10,
+      z: 1,
     },
     8001: { // Physical Trailblazer M
       x: 1024,
@@ -1400,22 +1404,22 @@ function getOverrideImageCenter() {
     8003: { // Fire Trailblazer M
       x: 980,
       y: 1024,
-      z: 1,
+      z: 1.05,
     },
     8004: { // Fire Trailblazer F
       x: 1050,
       y: 1024,
-      z: 1,
+      z: 1.05,
     },
     8005: { // Imaginary Trailblazer M
-      x: 1050,
+      x: 1040,
       y: 1000,
-      z: 1,
+      z: 1.1,
     },
     8006: { // Imaginary Trailblazer F
-      x: 1050,
+      x: 1040,
       y: 1000,
-      z: 1,
+      z: 1.1,
     },
   }
 }
@@ -1619,6 +1623,7 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(8),
+        PresetEffects.fnPioneerSet(4),
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,
@@ -2398,7 +2403,9 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.fnPioneerSet(4),
+      ],
       sortOption: SortOption.ULT,
       simulation: {
         parts: {
@@ -2593,7 +2600,9 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.fnPioneerSet(4),
+      ],
       sortOption: SortOption.SPD,
     },
     1107: { // Clara
@@ -3120,6 +3129,7 @@ function getScoringMetadata() {
       presets: [
         PresetEffects.fnAshblazingSet(0),
         PresetEffects.BANANA_SET,
+        PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -4612,6 +4622,7 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.VALOROUS_SET,
+        PresetEffects.fnPioneerSet(4),
         PresetEffects.fnAshblazingSet(8),
       ],
       sortOption: SortOption.FUA,
@@ -5187,6 +5198,7 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.VALOROUS_SET,
+        PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -5816,7 +5828,9 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.fnPioneerSet(4),
+      ],
       sortOption: SortOption.ULT,
       simulation: {
         parts: {
@@ -6094,10 +6108,10 @@ function getScoringMetadata() {
         ],
       },
     },
-    1317: { // Rappa // TODO
+    1317: { // Rappa
       stats: {
-        [Stats.ATK]: 1,
-        [Stats.ATK_P]: 1,
+        [Stats.ATK]: 0.5,
+        [Stats.ATK_P]: 0.5,
         [Stats.DEF]: 0,
         [Stats.DEF_P]: 0,
         [Stats.HP]: 0,
@@ -6186,8 +6200,8 @@ function getScoringMetadata() {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1003', // Himeko
-            lightCone: '23000', // Milky way
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Flex } from 'antd'
 
 export const Hint = {
@@ -272,6 +271,47 @@ export const Hint = {
             ⚠️ Relics with missing substats may have misleadlingly high buckets, as best-case upgrade analysis assumes the best new substat per character.
           </p>
           <p>'Top 10' takes the top 10 characters that this relic could be best for, and shows the range of '% perfection' upgrading this relic could result in.</p>
+        </Flex>
+      ),
+    }
+  },
+
+  relicLocation: () => {
+    return {
+      title: 'Relic Location',
+      content: (
+        <Flex vertical gap={10}>
+          <p>When a relic is selected in the grid, its position in the ingame inventory is displayed here.</p>
+          <p>If the set / part filters are active, apply those same filters ingame, then sort by Date Obtained (newest first) to find the relic.</p>
+
+          <Flex vertical>
+            <div>⚠️Usage notes⚠️</div>
+            <ul>
+              <li>This is only supported with Reliquary Archiver import</li>
+              <li>If new relics were deleted or obtained since the last import, they must be re-scanned and imported</li>
+              <li>Select the appropriate Inventory width setting to get accurate locations. The width depends on the ingame screen and menu width</li>
+            </ul>
+          </Flex>
+        </Flex>
+      ),
+    }
+  },
+
+  locatorParams: () => {
+    return {
+      title: 'Relic Locator Options',
+      content: (
+        <Flex vertical gap={8}>
+          <p>
+            <strong>Inventory Width</strong>
+            {' - '}
+            Select the number of columns the inventory has ingame so that the relic locator can find your relic accurately
+          </p>
+          <p>
+            <strong>Auto Filter rows</strong>
+            {' - '}
+            Maximum number of rows before the relic locator applies a part/set filter to try and bring the searched relic closer to the top of your inventory
+          </p>
         </Flex>
       ),
     }

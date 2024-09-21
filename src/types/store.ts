@@ -39,6 +39,10 @@ export type HsrOptimizerStore = {
   scoringAlgorithmFocusCharacter?: CharacterId
 
   activeKey: unknown
+  inventoryWidth: number
+  setInventoryWidth: (width: number) => void
+  rowLimit: number
+  setRowLimit: (rowLimit: number) => void
   characters: Character[]
   charactersById: Record<CharacterId, Character>
   characterTabBlur: boolean
@@ -57,19 +61,23 @@ export type HsrOptimizerStore = {
   menuSidebarOpen: boolean
   relicScorerSidebarOpen: boolean
   enemyConfigurationsDrawerOpen: boolean
+  optimizerTabFocusCharacterSelectModalOpen: boolean
   setCombatBuffsDrawerOpen: (open: boolean) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void
-  setOptimizationInProgress: (open: boolean) => void
-  setOptimizerStartTime: (open: number) => void
-  setOptimizerEndTime: (open: number) => void
+  setOptimizationInProgress: (b: boolean) => void
+  setOptimizerStartTime: (n: number) => void
+  setOptimizerEndTime: (n: number) => void
+  setOptimizerRunningEngine: (s: string) => void
   optimizerFormCharacterEidolon: number
   optimizerFormSelectedLightCone: null | LightCone
   optimizerFormSelectedLightConeSuperimposition: number
   setPermutationsResults: (n: number) => void
   setPermutationsSearched: (n: number) => void
+  setRelicsById: (relicsById: Record<number, Relic>) => void
   setSavedSessionKey: (key: string, value: string) => void
   setActiveKey: (key: string) => void
   setConditionalSetEffectsDrawerOpen: (b: boolean) => void
+  setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
 
   permutationDetails: PermutationDetails
 

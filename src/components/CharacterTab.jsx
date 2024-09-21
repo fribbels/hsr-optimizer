@@ -97,11 +97,11 @@ const items = [
     label: 'Character',
     children: [
       {
-        label: 'Add new character',
+        label: 'Add a new character',
         key: 'add',
       },
       {
-        label: 'Edit character',
+        label: 'Edit character / light cone',
         key: 'edit',
       },
       {
@@ -124,7 +124,7 @@ const items = [
     label: 'Builds',
     children: [
       {
-        label: 'Save build',
+        label: 'Save current build',
         key: 'saveBuild',
       },
       {
@@ -507,8 +507,20 @@ export default function CharacterTab() {
       }}
     >
       <Flex vertical gap={defaultGap}>
-        <Flex gap={6} style={{ width: '100%', marginBottom: 5, paddingRight: 1 }}>
-          <Flex style={{ width: 230 }}>
+        <Flex gap={6} style={{ width: '100%', marginBottom: 0, paddingRight: 1 }}>
+          <Flex justify='space-between' gap={8} style={{ width: 230, height: '100%' }}>
+            <Dropdown
+              placement='topLeft'
+              menu={actionsMenuProps}
+              trigger={['hover']}
+            >
+              <Button style={{ width: '100%', height: '100%' }} icon={<UserOutlined/>} type='default'>
+                Character menu
+                <DownOutlined/>
+              </Button>
+            </Dropdown>
+          </Flex>
+          <Flex style={{ width: 242 }}>
             <Input
               allowClear
               size='large'
@@ -522,15 +534,6 @@ export default function CharacterTab() {
           </Flex>
           <Flex style={{ flex: 1 }}>
             <SegmentedFilterRow
-              name='element'
-              tags={generateElementTags()}
-              flexBasis='14.2%'
-              currentFilters={characterFilters}
-              setCurrentFilters={setCharacterFilters}
-            />
-          </Flex>
-          <Flex style={{ flex: 1 }}>
-            <SegmentedFilterRow
               name='path'
               tags={generatePathTags()}
               flexBasis='14.2%'
@@ -538,12 +541,21 @@ export default function CharacterTab() {
               setCurrentFilters={setCharacterFilters}
             />
           </Flex>
+          <Flex style={{ flex: 1 }}>
+            <SegmentedFilterRow
+              name='element'
+              tags={generateElementTags()}
+              flexBasis='14.2%'
+              currentFilters={characterFilters}
+              setCurrentFilters={setCharacterFilters}
+            />
+          </Flex>
         </Flex>
         <Flex style={{ height: '100%' }}>
-          <Flex vertical gap={10} style={{ marginRight: selectedCharacter ? 6 : 8 }}>
+          <Flex vertical gap={8} style={{ marginRight: selectedCharacter ? 6 : 8 }}>
             <div
               id='characterGrid' className='ag-theme-balham-dark' style={{
-                ...{ display: 'block', width: 230, height: parentH - 80 },
+                ...{ display: 'block', width: 230, height: parentH - 38 },
                 ...getGridTheme(token),
               }}
             >
@@ -570,18 +582,6 @@ export default function CharacterTab() {
               />
             </div>
             <Flex vertical gap={8}>
-              <Flex justify='space-between' gap={8}>
-                <Dropdown
-                  placement='topLeft'
-                  menu={actionsMenuProps}
-                  trigger={['hover']}
-                >
-                  <Button style={{ width: '100%' }} icon={<UserOutlined/>}>
-                    Character actions
-                    <DownOutlined/>
-                  </Button>
-                </Dropdown>
-              </Flex>
               <Flex gap={8}>
                 <Button
                   style={{ flex: 'auto' }} icon={<CameraOutlined/>} onClick={clipboardClicked}

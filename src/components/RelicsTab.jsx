@@ -1,4 +1,4 @@
-import { Button, Flex, Popconfirm, Select, theme } from 'antd'
+import { Button, Flex, InputNumber, Popconfirm, Popover, Select, theme, Typography } from 'antd'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import Plot from 'react-plotly.js'
@@ -20,6 +20,8 @@ import PropTypes from 'prop-types'
 import { RelicModalController } from 'lib/relicModalController'
 import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 import { getGridTheme } from 'lib/theme'
+import { HeaderText } from 'components/HeaderText'
+import { SettingOutlined } from '@ant-design/icons'
 
 const { useToken } = theme
 
@@ -38,6 +40,10 @@ const characterPlotOptions = [
 export default function RelicsTab() {
   const { token } = useToken()
 
+  const inventoryWidth = store((s) => s.inventoryWidth)
+
+  const rowLimit = store((s) => s.rowLimit)
+
   // TODO: This is currently rerendering the whole tab on every relic click, revisit
   console.log('======================================================================= RENDER RelicsTab')
   const gridRef = useRef()
@@ -55,6 +61,9 @@ export default function RelicsTab() {
   const [relicInsight, setRelicInsight] = useState('buckets')
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
+
+  const setInventoryWidth = store((s) => s.setInventoryWidth)
+  const setRowLimit = store((s) => s.setRowLimit)
 
   useEffect(() => {
     if (!window.relicsGrid?.current?.api) return
@@ -169,6 +178,42 @@ export default function RelicsTab() {
     window.relicsGrid.current.api.setFilterModel(filterModel)
   }, [relicTabFilters])
 
+  const [relicPositionIndex, setRelicPositionIndex] = useState(0)
+  const [locatorFilters, setLocatorFilters] = useState({ set: undefined, part: undefined })
+
+  useEffect(() => {
+    if (!selectedRelic) return
+    const indexLimit = Math.max(1, rowLimit) * Math.max(1, inventoryWidth)
+    const newerRelics = DB.getRelics().filter((x) => x.ageIndex <= selectedRelic.ageIndex)
+
+    // No filter
+    // if (selectedRelic.ageIndex < indexLimit) {
+    //   setRelicPositionIndex(selectedRelic.ageIndex)
+    //   setLocatorFilters({ set: undefined, part: undefined })
+    //   return
+    // }
+
+    // Part-only filter
+    const partFilteredIndex = newerRelics.filter((x) => selectedRelic.part == x.part).length - 1
+    if (partFilteredIndex < indexLimit) {
+      setRelicPositionIndex(partFilteredIndex)
+      setLocatorFilters({ set: undefined, part: selectedRelic.part })
+      return
+    }
+
+    // Set-only filter
+    // const setFilteredIndex = newerRelics.filter((x) => selectedRelic.set == x.set).length - 1
+    // if (setFilteredIndex < indexLimit) {
+    //   setRelicPositionIndex(setFilteredIndex)
+    //   setLocatorFilters({ set: selectedRelic.set, part: undefined })
+    //   return
+    // }
+
+    const filteredIndex = newerRelics.filter((x) => selectedRelic.part == x.part && selectedRelic.set == x.set).length - 1
+    setRelicPositionIndex(filteredIndex)
+    setLocatorFilters({ set: selectedRelic.set, part: selectedRelic.part })
+  }, [selectedRelic, inventoryWidth, rowLimit])
+
   const valueColumnOptions = useMemo(() => [
     {
       label: 'Selected character',
@@ -208,12 +253,7 @@ export default function RelicsTab() {
     { field: 'verified', hide: true, filter: 'agTextColumnFilter', filterParams: { maxNumConditions: 2 } },
     { field: 'equippedBy', headerName: 'Owner', width: 40, cellRenderer: Renderer.characterIcon, filter: 'agTextColumnFilter' },
     { field: 'set', cellRenderer: Renderer.anySet, width: 40, headerName: 'Set', filter: 'agTextColumnFilter' },
-    {
-      field: 'grade',
-      width: 40,
-      cellRenderer: Renderer.renderGradeCell,
-      filter: 'agNumberColumnFilter',
-    },
+    { field: 'grade', width: 40, cellRenderer: Renderer.renderGradeCell, filter: 'agNumberColumnFilter' },
     { field: 'part', valueFormatter: Renderer.readablePart, width: 55, filter: 'agTextColumnFilter' },
     { field: 'enhance', width: 55, filter: 'agNumberColumnFilter' },
     { field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: 'Main\nStat', width: 70, filter: 'agTextColumnFilter' },
@@ -432,7 +472,7 @@ export default function RelicsTab() {
           <Button
             type='primary'
             onClick={editClicked}
-            style={{ width: '150px' }}
+            style={{ width: 170 }}
             disabled={selectedRelics.length === 0 || selectedRelics.length > 1}
           >
             Edit Relic
@@ -447,24 +487,112 @@ export default function RelicsTab() {
             okText='Yes'
             cancelText='Cancel'
           >
-            <Button type='primary' style={{ width: '150px' }} disabled={selectedRelics.length === 0}>
+            <Button type='primary' style={{ width: 170 }} disabled={selectedRelics.length === 0}>
               Delete Relic
             </Button>
           </Popconfirm>
-          <Button type='primary' onClick={addClicked} style={{ width: '150px' }}>
+          <Button type='primary' onClick={addClicked} style={{ width: 170 }}>
             Add New Relic
           </Button>
+
+          <Popover
+            trigger='click'
+            onOpenChange={(open) => {
+              if (!open) {
+                SaveState.save()
+              }
+            }}
+            content={(
+              <Flex gap={8} style={{ width: 260 }}>
+                <Flex vertical>
+                  <Flex justify='space-between' align='center'>
+                    <HeaderText>Inventory width</HeaderText>
+                  </Flex>
+                  <InputNumber
+                    defaultValue={window.store.getState().inventoryWidth}
+                    style={{ width: 'auto' }}
+                    min={1}
+                    onChange={(e) => {
+                      setInventoryWidth(e)
+                    }}
+                  />
+                </Flex>
+
+                <Flex vertical>
+                  <Flex justify='space-between' align='center' gap={10}>
+                    <HeaderText>Auto filter rows</HeaderText>
+                    <TooltipImage type={Hint.locatorParams()}/>
+                  </Flex>
+                  <InputNumber
+                    defaultValue={window.store.getState().rowLimit}
+                    style={{ width: 'auto' }}
+                    min={1}
+                    onChange={(e) => {
+                      setRowLimit(e)
+                    }}
+                  />
+                </Flex>
+              </Flex>
+            )}
+          >
+            <Flex
+              justify='space-between'
+              align='center'
+              style={{
+                cursor: 'pointer',
+                paddingLeft: 8,
+                paddingRight: 10,
+                width: 285,
+                marginTop: 1,
+                borderRadius: 5,
+                height: 30,
+                background: 'rgba(36, 51, 86)',
+                boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
+                outline: '1px solid rgba(63, 90, 150)',
+              }}
+            >
+              {
+                selectedRelic && (
+                  <Flex align='center' justify='space-between' style={{ width: '100%' }}>
+                    <Flex gap={5} style={{ minWidth: 10 }} justify='flex-start'>
+                      {locatorFilters.part && <img src={Assets.getPart(locatorFilters.part)} style={{ height: 25 }}/>}
+                      {locatorFilters.set && <img src={Assets.getSetImage(locatorFilters.set, undefined, true)} style={{ height: 26 }}/>}
+                      {!locatorFilters.part && !locatorFilters.set && <div style={{ width: 10 }}></div>}
+                    </Flex>
+                    <Typography>
+                      {!selectedRelic ? '' : `Location - Row ${Math.ceil((relicPositionIndex + 1) / inventoryWidth)} / Col ${relicPositionIndex % inventoryWidth + 1}`}
+                    </Typography>
+                    <SettingOutlined/>
+                  </Flex>
+
+                )
+              }
+              {
+                !selectedRelic && (
+                  <Flex style={{ width: '100%' }} justify='space-between'>
+                    <div style={{ width: 10 }}></div>
+                    <div>Select a relic to locate</div>
+                    <SettingOutlined/>
+                  </Flex>
+                )
+              }
+            </Flex>
+          </Popover>
+
+          <Flex style={{ display: 'block' }}>
+            <TooltipImage type={Hint.relicLocation()}/>
+          </Flex>
           <Select
             value={plottedCharacterType}
             onChange={setPlottedCharacterType}
             options={characterPlotOptions}
-            style={{ width: 210 }}
+            style={{ width: 225 }}
           />
           <Select
             value={relicInsight}
             onChange={setRelicInsight}
             options={relicInsightOptions}
-            style={{ width: 210 }}
+            style={{ width: 225 }}
           />
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relicInsight()}/>

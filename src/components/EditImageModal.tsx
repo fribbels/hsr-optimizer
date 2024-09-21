@@ -569,7 +569,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               </Button>
               {(current > 0 && existingConfig) && (
                 <Button onClick={prev} danger>
-                  Upload new image
+                  Change image
                 </Button>
               )}
               {(current > 0 && !existingConfig) && (

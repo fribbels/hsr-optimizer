@@ -13,6 +13,10 @@ export const SaveState = {
       savedSession: window.store.getState().savedSession,
       settings: window.store.getState().settings,
       version: CURRENT_OPTIMIZER_VERSION,
+      relicLocator: {
+        inventoryWidth: window.store.getState().inventoryWidth,
+        rowLimit: window.store.getState().rowLimit,
+      },
     }
 
     console.log('Saved state')

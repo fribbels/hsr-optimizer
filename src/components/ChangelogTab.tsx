@@ -106,6 +106,25 @@ function getChangelogContent() {
   const changelog: ChangelogContent[] = [
     {
       title: '',
+      date: '09-20-2024',
+      content: [
+        `Added a Relic Locator tool to the Relics tab for finding the relic's row / column in the inventory`,
+        `Optimizer tab character and teammate menus now open upon clicking their icons`,
+        `Updated all assets files to high quality images for character portraits, light cones, icons`,
+        `Readjusted the crop and zoom for the new portrait assets`,
+        `Reliquary is now updated for 2.5`,
+        `Reduced the light cone portrait height for Combat scoring view`,
+        `Moved the Character Menu button to the top of the Characters tab for better findability`,
+        `charMenu.webp`,
+        `Added pointer cursors to clickable icons`,
+        `Fix: Save file now correctly loads previous scoring algorithm changes`,
+        `Fix: Pioneer Diver of Dead Waters 0x conditional now correctly applies`,
+        `Balance: Lowered the scoring penalty for missing flat stat breakpoints for combat scoring`,
+        `Balance: Updated Pioneer Diver of Dead Waters default conditional to 3x+ for characters with debuffs`,
+      ],
+    },
+    {
+      title: '',
       date: '09-08-2024',
       content: [
         `Added GPU acceleration to perform calculations on the graphics card for a significant improvement in optimizer search speed`,

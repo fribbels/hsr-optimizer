@@ -552,10 +552,10 @@ export default function CharacterTab() {
           </Flex>
         </Flex>
         <Flex style={{ height: '100%' }}>
-          <Flex vertical gap={10} style={{ marginRight: selectedCharacter ? 6 : 8 }}>
+          <Flex vertical gap={8} style={{ marginRight: selectedCharacter ? 6 : 8 }}>
             <div
               id='characterGrid' className='ag-theme-balham-dark' style={{
-                ...{ display: 'block', width: 230, height: parentH - 40 },
+                ...{ display: 'block', width: 230, height: parentH - 38 },
                 ...getGridTheme(token),
               }}
             >

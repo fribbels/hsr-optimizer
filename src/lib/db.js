@@ -164,54 +164,54 @@ window.store = create((set) => ({
 
   settings: DefaultSettingOptions,
 
-  setVersion: (x) => set(() => ({version: x})),
-  setActiveKey: (x) => set(() => ({activeKey: x})),
-  setCharacters: (x) => set(() => ({characters: x})),
-  setCharactersById: (x) => set(() => ({charactersById: x})),
-  setInventoryWidth: (x) => set(() => ({inventoryWidth: x})),
-  setRowLimit: (x) => set(() => ({rowLimit: x})),
-  setConditionalSetEffectsDrawerOpen: (x) => set(() => ({conditionalSetEffectsDrawerOpen: x})),
-  setCombatBuffsDrawerOpen: (x) => set(() => ({combatBuffsDrawerOpen: x})),
-  setEnemyConfigurationsDrawerOpen: (x) => set(() => ({enemyConfigurationsDrawerOpen: x})),
-  setSettingsDrawerOpen: (x) => set(() => ({settingsDrawerOpen: x})),
-  setOptimizerTabFocusCharacter: (characterId) => set(() => ({optimizerTabFocusCharacter: characterId})),
-  setCharacterTabFocusCharacter: (characterId) => set(() => ({characterTabFocusCharacter: characterId})),
-  setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({scoringAlgorithmFocusCharacter: characterId})),
-  setRelicsTabFocusCharacter: (characterId) => set(() => ({relicsTabFocusCharacter: characterId})),
-  setPermutationDetails: (x) => set(() => ({permutationDetails: x})),
-  setPermutations: (x) => set(() => ({permutations: x})),
-  setPermutationsResults: (x) => set(() => ({permutationsResults: x})),
-  setPermutationsSearched: (x) => set(() => ({permutationsSearched: x})),
-  setRelicsById: (x) => set(() => ({relicsById: x})),
-  setRelicTabFilters: (x) => set(() => ({relicTabFilters: x})),
-  setCharacterTabFilters: (x) => set(() => ({characterTabFilters: x})),
-  setScorerId: (x) => set(() => ({scorerId: x})),
-  setScoringMetadataOverrides: (x) => set(() => ({scoringMetadataOverrides: x})),
-  setStatDisplay: (x) => set(() => ({statDisplay: x})),
-  setStatSimulationDisplay: (x) => set(() => ({statSimulationDisplay: x})),
-  setStatSimulations: (x) => set(() => ({statSimulations: Utils.clone(x)})),
-  setSelectedStatSimulations: (x) => set(() => ({selectedStatSimulations: x})),
-  setOptimizerMenuState: (x) => set(() => ({optimizerMenuState: x})),
-  setOptimizationInProgress: (x) => set(() => ({optimizationInProgress: x})),
-  setOptimizationId: (x) => set(() => ({optimizationId: x})),
-  setOptimizerStartTime: (x) => set(() => ({optimizerStartTime: x})),
-  setOptimizerRunningEngine: (x) => set(() => ({optimizerRunningEngine: x})),
-  setOptimizerEndTime: (x) => set(() => ({optimizerEndTime: x})),
-  setTeammateCount: (x) => set(() => ({teammateCount: x})),
-  setOptimizerFormCharacterEidolon: (x) => set(() => ({optimizerFormCharacterEidolon: x})),
-  setOptimizerFormSelectedLightCone: (x) => set(() => ({optimizerFormSelectedLightCone: x})),
-  setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({optimizerFormSelectedLightConeSuperimposition: x})),
-  setOptimizerTabFocusCharacterSelectModalOpen: (x) => set(() => ({optimizerTabFocusCharacterSelectModalOpen: x})),
-  setZeroPermutationsModalOpen: (x) => set(() => ({zeroPermutationModalOpen: x})),
-  setZeroResultModalOpen: (x) => set(() => ({zeroResultModalOpen: x})),
-  setExcludedRelicPotentialCharacters: (x) => set(() => ({excludedRelicPotentialCharacters: x})),
-  setMenuSidebarOpen: (x) => set(() => ({menuSidebarOpen: x})),
-  setSettings: (x) => set(() => ({settings: x})),
-  setSavedSession: (x) => set(() => ({savedSession: x})),
+  setVersion: (x) => set(() => ({ version: x })),
+  setActiveKey: (x) => set(() => ({ activeKey: x })),
+  setCharacters: (x) => set(() => ({ characters: x })),
+  setCharactersById: (x) => set(() => ({ charactersById: x })),
+  setInventoryWidth: (x) => set(() => ({ inventoryWidth: x })),
+  setRowLimit: (x) => set(() => ({ rowLimit: x })),
+  setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
+  setCombatBuffsDrawerOpen: (x) => set(() => ({ combatBuffsDrawerOpen: x })),
+  setEnemyConfigurationsDrawerOpen: (x) => set(() => ({ enemyConfigurationsDrawerOpen: x })),
+  setSettingsDrawerOpen: (x) => set(() => ({ settingsDrawerOpen: x })),
+  setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
+  setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
+  setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
+  setRelicsTabFocusCharacter: (characterId) => set(() => ({ relicsTabFocusCharacter: characterId })),
+  setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
+  setPermutations: (x) => set(() => ({ permutations: x })),
+  setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),
+  setPermutationsSearched: (x) => set(() => ({ permutationsSearched: x })),
+  setRelicsById: (x) => set(() => ({ relicsById: x })),
+  setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
+  setCharacterTabFilters: (x) => set(() => ({ characterTabFilters: x })),
+  setScorerId: (x) => set(() => ({ scorerId: x })),
+  setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
+  setStatDisplay: (x) => set(() => ({ statDisplay: x })),
+  setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
+  setStatSimulations: (x) => set(() => ({ statSimulations: Utils.clone(x) })),
+  setSelectedStatSimulations: (x) => set(() => ({ selectedStatSimulations: x })),
+  setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
+  setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
+  setOptimizationId: (x) => set(() => ({ optimizationId: x })),
+  setOptimizerStartTime: (x) => set(() => ({ optimizerStartTime: x })),
+  setOptimizerRunningEngine: (x) => set(() => ({ optimizerRunningEngine: x })),
+  setOptimizerEndTime: (x) => set(() => ({ optimizerEndTime: x })),
+  setTeammateCount: (x) => set(() => ({ teammateCount: x })),
+  setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),
+  setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
+  setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
+  setOptimizerTabFocusCharacterSelectModalOpen: (x) => set(() => ({ optimizerTabFocusCharacterSelectModalOpen: x })),
+  setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
+  setZeroResultModalOpen: (x) => set(() => ({ zeroResultModalOpen: x })),
+  setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
+  setMenuSidebarOpen: (x) => set(() => ({ menuSidebarOpen: x })),
+  setSettings: (x) => set(() => ({ settings: x })),
+  setSavedSession: (x) => set(() => ({ savedSession: x })),
   setSavedSessionKey: (key, x) => set((state) => ({
-    savedSession: {...state.savedSession, [key]: x},
+    savedSession: { ...state.savedSession, [key]: x },
   })),
-  setColorTheme: (x) => set(() => ({colorTheme: x})),
+  setColorTheme: (x) => set(() => ({ colorTheme: x })),
 }))
 
 export const DB = {
@@ -572,10 +572,10 @@ export const DB = {
       }
       DB.setCharacters(characters)
     } else {
-      const defaultForm = getDefaultForm({id: form.characterId})
+      const defaultForm = getDefaultForm({ id: form.characterId })
       found = {
         id: form.characterId,
-        form: {...defaultForm, ...form},
+        form: { ...defaultForm, ...form },
         equipped: {},
       }
       DB.addCharacter(found)
@@ -588,7 +588,7 @@ export const DB = {
      * Since the grid resets the rows, we have to re-select the grid node and inform the character tab
      */
     if (window.characterGrid?.current?.api) {
-      window.characterGrid.current.api.updateGridOptions({rowData: characters})
+      window.characterGrid.current.api.updateGridOptions({ rowData: characters })
       window.characterGrid.current.api.forEachNode((node) => node.data.id == found.id ? node.setSelected(true) : 0)
       window.store.getState().setCharacterTabFocusCharacter(found.id)
     }
@@ -603,7 +603,7 @@ export const DB = {
   saveCharacterPortrait: (characterId, portrait) => {
     let character = DB.getCharacterById(characterId)
     if (!character) {
-      DB.addFromForm({characterId: characterId})
+      DB.addFromForm({ characterId: characterId })
       character = DB.getCharacterById(characterId)
       console.log('Character did not previously exist, adding', character)
     }
@@ -634,7 +634,7 @@ export const DB = {
     if (build) {
       const errorMessage = `Build name [${name}] already exists`
       console.warn(errorMessage)
-      return {error: errorMessage}
+      return { error: errorMessage }
     } else {
       if (!character.builds) character.builds = []
       character.builds.push({
@@ -758,7 +758,7 @@ export const DB = {
     console.log('Equipping relics to character', relicIds, characterId)
 
     for (const relicId of relicIds) {
-      DB.equipRelic({id: relicId}, characterId, forceSwap)
+      DB.equipRelic({ id: relicId }, characterId, forceSwap)
     }
   },
 
@@ -898,7 +898,7 @@ export const DB = {
 
     // only valid when on relics tab
     if (window.relicsGrid?.current?.api) {
-      window.relicsGrid.current.api.updateGridOptions({rowData: replacementRelics})
+      window.relicsGrid.current.api.updateGridOptions({ rowData: replacementRelics })
     }
 
     // only valid when on character tab
@@ -935,12 +935,12 @@ export const DB = {
         match.verified = true
         updatedOldRelics.push(match)
 
-        equipUpdates.push({relic: match, equippedBy: newRelic.equippedBy})
+        equipUpdates.push({ relic: match, equippedBy: newRelic.equippedBy })
       } else {
         oldRelics.push(newRelic)
         addedNewRelics.push(newRelic)
 
-        equipUpdates.push({relic: newRelic, equippedBy: newRelic.equippedBy})
+        equipUpdates.push({ relic: newRelic, equippedBy: newRelic.equippedBy })
         newRelic.equippedBy = undefined
       }
     }

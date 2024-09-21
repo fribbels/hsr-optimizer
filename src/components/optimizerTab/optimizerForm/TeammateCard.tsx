@@ -73,13 +73,13 @@ const teammateRelicSetOptions: SelectProps['options'] = (() => {
     },
     {
       value: SACERDOS_RELIVED_ORDEAL_1_STACK,
-      desc: `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 1 stack (+20% CD)`,
-      label: labelRender(Sets.SacerdosRelivedOrdeal, '20% CD'),
+      desc: `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 1 stack (+18% CD)`,
+      label: labelRender(Sets.SacerdosRelivedOrdeal, '18% CD'),
     },
     {
       value: SACERDOS_RELIVED_ORDEAL_2_STACK,
-      desc: `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 2 stack (+40% CD)`,
-      label: labelRender(Sets.SacerdosRelivedOrdeal, '40% CD'),
+      desc: `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 2 stack (+36% CD)`,
+      label: labelRender(Sets.SacerdosRelivedOrdeal, '36% CD'),
     },
   ]
 })()

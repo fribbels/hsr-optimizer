@@ -1,7 +1,7 @@
 // Represents the version of the latest info, which should be the beta leaks version at the time of the major update
-export const CURRENT_OPTIMIZER_VERSION = 'v2.6.1'
+export const CURRENT_OPTIMIZER_VERSION = 'v2.6.3'
 // Represents the data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '2.6v2'
+export const CURRENT_DATA_VERSION = '2.6v3'
 export const BETA_UPDATE = `Current version: ${CURRENT_DATA_VERSION} - Calculations are subject to change.`
 
 export const Stats = {

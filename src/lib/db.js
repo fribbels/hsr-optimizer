@@ -82,8 +82,8 @@ window.store = create((set) => ({
   characterTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
   relicsTabFocusCharacter: undefined,
-  inventoryWidth: 14,
-  rowLimit: 8,
+  inventoryWidth: 9,
+  rowLimit: 10,
 
   activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)]
     ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash.split('?')[0]]
@@ -541,7 +541,7 @@ export const DB = {
 
     window.store.getState().setExcludedRelicPotentialCharacters(x.excludedRelicPotentialCharacters || [])
     window.store.getState().setVersion(x.version)
-    window.store.getState().setInventoryWidth(x.relicLocator?.inventoryWidth ?? 7)
+    window.store.getState().setInventoryWidth(x.relicLocator?.inventoryWidth ?? 9)
     window.store.getState().setRowLimit(x.relicLocator?.rowLimit ?? 10)
 
     assignRanks(x.characters)

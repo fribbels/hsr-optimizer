@@ -106,6 +106,30 @@ function getChangelogContent() {
   const changelog: ChangelogContent[] = [
     {
       title: '',
+      date: '09-20-2024',
+      content: [
+        `Added a Relic Locator tool to the Relics tab for finding the relic's row / column in the inventory`,
+        `locator.webp`,
+        `Updated all assets files to high quality images for character portraits, light cones, icons`,
+        `Readjusted the crop and zoom for the new portrait assets`,
+        `Reduced the light cone portrait height for Combat scoring view`,
+        `Moved the Character Menu button to the top of the Characters tab for better findability`,
+        `characterTab.webp`,
+        `Reliquary is now updated for 2.5`,
+        `reliquary.webp`,
+        `Updated Rappa's default scoring team`,
+        `rappaTeam.webp`,
+        `Added pointer cursors to clickable icons`,
+        `Optimizer tab character and teammate menus are now open upon clicking their icons`,
+        `Fix: Save file now correctly loads previous scoring algorithm changes`,
+        `Fix: Pioneer Diver of Dead Waters 0x conditional now correctly applies`,
+        `Balance: Lowered the scoring penalty for missing flat stat breakpoints for combat scoring`,
+        `Balance: Updated Pioneer Diver of Dead Waters default conditional to 3x+ for characters with debuffs`,
+        `Balance: Changed Rappa's scoring weights from 1 ATK / 1 SPD / 1 BE to 0.5 ATK / 1 SPD / 1 BE`,
+      ],
+    },
+    {
+      title: '',
       date: '09-08-2024',
       content: [
         `Added GPU acceleration to perform calculations on the graphics card for a significant improvement in optimizer search speed`,

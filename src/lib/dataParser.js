@@ -1143,7 +1143,7 @@ function getOverrideImageCenter() {
     },
     1009: { // Asta
       x: 1024,
-      y: 1000,
+      y: 975,
       z: 1,
     },
     1013: { // Herta
@@ -1153,8 +1153,8 @@ function getOverrideImageCenter() {
     },
     1101: { // Bronya
       x: 950,
-      y: 1180,
-      z: 1.05,
+      y: 1200,
+      z: 1.1,
     },
     1102: { // Seele
       x: 820,
@@ -1184,10 +1184,10 @@ function getOverrideImageCenter() {
     1107: { // Clara
       x: 880,
       y: 900,
-      z: 1.1,
+      z: 1.15,
     },
     1108: { // Sampo
-      x: 1024,
+      x: 1000,
       y: 950,
       z: 1,
     },
@@ -1243,8 +1243,8 @@ function getOverrideImageCenter() {
     },
     1207: { // Yukong
       x: 900,
-      y: 1045,
-      z: 1.11,
+      y: 1055,
+      z: 1.1,
     },
     1208: { // Fu Xuan
       x: 920,
@@ -1252,7 +1252,7 @@ function getOverrideImageCenter() {
       z: 1,
     },
     1209: { // Yanqing
-      x: 1024,
+      x: 1000,
       y: 1000,
       z: 1,
     },
@@ -1342,8 +1342,8 @@ function getOverrideImageCenter() {
       z: 1.05,
     },
     1305: { // Dr Ratio
-      x: 975,
-      y: 850,
+      x: 965,
+      y: 840,
       z: 1.15,
     },
     1306: { // Sparkle
@@ -1363,7 +1363,7 @@ function getOverrideImageCenter() {
     },
     1309: { // Robin
       x: 1024,
-      y: 900,
+      y: 925,
       z: 1,
     },
     1310: { // Firefly

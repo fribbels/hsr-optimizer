@@ -286,7 +286,7 @@ export function calculateComputedStats(c: BasicStatsObject, request: Form, param
 
   // Ult boost
   p4(sets.TheWindSoaringValorous) && buffAbilityDmg(x, ULT_TYPE, 0.36 * params.enabledTheWindSoaringValorous)
-  p4(sets.ScholarLostInErudition) && buffAbilityDmg(x, ULT_TYPE | SKILL_TYPE, 0.25)
+  p4(sets.ScholarLostInErudition) && buffAbilityDmg(x, ULT_TYPE | SKILL_TYPE, 0.20)
 
   if (p4(sets.GeniusOfBrilliantStars)) {
     x.DEF_PEN += params.enabledGeniusOfBrilliantStars ? 0.20 : 0.10
@@ -307,7 +307,7 @@ export function calculateComputedStats(c: BasicStatsObject, request: Form, param
   }
 
   if (p4(sets.ScholarLostInErudition) && params.enabledScholarLostInErudition) {
-    buffAbilityDmg(x, SKILL_TYPE, 0.20)
+    buffAbilityDmg(x, SKILL_TYPE, 0.25)
   }
 
   // Dynamic - still need implementing

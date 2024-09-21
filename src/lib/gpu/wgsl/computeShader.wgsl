@@ -411,7 +411,7 @@ fn main(
     }
 
     if (p4(x.sets.ScholarLostInErudition) >= 1) {
-      buffAbilityDmg(&x, SKILL_TYPE | ULT_TYPE, 0.25, 1);
+      buffAbilityDmg(&x, SKILL_TYPE | ULT_TYPE, 0.20, 1);
 
       if (f32(enabledScholarLostInErudition) >= 1.0) {
         buffAbilityDmg(&x, SKILL_TYPE, 0.25, 1);

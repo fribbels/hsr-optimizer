@@ -9,8 +9,6 @@ import { SortOption } from 'lib/optimizer/sortOptions'
 const characters = gameData.characters
 const lightCones = gameData.lightCones
 
-export const UnreleasedSets = {}
-
 const RELICS_2P_BREAK_EFFECT_SPEED = [
   Sets.MessengerTraversingHackerspace,
   Sets.ThiefOfShootingMeteor,
@@ -35,39 +33,7 @@ const SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS = [
 ]
 
 export const DataParser = {
-  parse: (officialOnly) => {
-    if (officialOnly) {
-      // UnreleasedSets[Constants.SetsRelics.TheWindSoaringValorous] = true
-      // UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstTheScourge] = true
-      UnreleasedSets[Constants.SetsRelics.SacerdosRelivedOrdeal] = true
-      UnreleasedSets[Constants.SetsRelics.ScholarLostInErudition] = true
-
-      // Delete unreleased sets
-      // delete Constants.SetsRelics.TheWindSoaringValorous
-      // delete Constants.SetsRelics.IronCavalryAgainstScourge
-      delete Constants.SetsRelics.SacerdosRelivedOrdeal
-      delete Constants.SetsRelics.ScholarLostInErudition
-      //
-      // delete Constants.SetsRelicsNames.TheWindSoaringValorous
-      // delete Constants.SetsRelicsNames.IronCavalryAgainstScourge
-      delete Constants.SetsRelicsNames.SacerdosRelivedOrdeal
-      delete Constants.SetsRelicsNames.ScholarLostInErudition
-
-      // Delete unreleased characters
-      for (const character of Object.values(characters)) {
-        if (character.unreleased) {
-          delete characters[character.id]
-        }
-      }
-
-      // Delete unreleased light cones
-      for (const lightCone of Object.values(lightCones)) {
-        if (lightCone.unreleased) {
-          delete lightCones[lightCone.id]
-        }
-      }
-    }
-
+  parse: () => {
     const lightConeSuperimpositions = getSuperimpositions()
     const lightConeCenters = getLightConeOverrideCenter()
 

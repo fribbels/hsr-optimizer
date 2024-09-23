@@ -1,8 +1,7 @@
-import { Constants } from 'lib/constants'
+import { Constants, UnreleasedSets } from 'lib/constants'
 import { Assets } from 'lib/assets'
 import { Flex } from 'antd'
 import React from 'react'
-import { UnreleasedSets } from 'lib/dataParser'
 
 // Sets
 export function getSetOptions() {
@@ -35,7 +34,7 @@ for (let i = 15; i >= 0; i--) {
 // Utils
 export function generateImageLabel(value, srcFn, size = 22) {
   return (
-    <Flex align="center" gap={10}>
+    <Flex align='center' gap={10}>
       <img src={srcFn(value)} style={{ width: size, height: size }}/>
       {value}
     </Flex>

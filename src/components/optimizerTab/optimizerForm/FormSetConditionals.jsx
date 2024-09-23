@@ -1,11 +1,10 @@
 import { Drawer, Flex, Form, Popover, Select, Switch, Typography } from 'antd'
-import { BETA_UPDATE, Constants } from 'lib/constants'
+import { BETA_UPDATE, Constants, UnreleasedSets } from 'lib/constants'
 import React, { useMemo } from 'react'
 import { HeaderText } from 'components/HeaderText'
 import PropTypes from 'prop-types'
 import { Assets } from 'lib/assets'
 import { VerticalDivider } from 'components/Dividers'
-import { UnreleasedSets } from 'lib/dataParser'
 
 const { Text } = Typography
 

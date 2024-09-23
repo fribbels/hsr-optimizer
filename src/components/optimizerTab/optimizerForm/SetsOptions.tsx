@@ -1,7 +1,6 @@
 import { Flex } from 'antd'
 import { Assets } from 'lib/assets.js'
-import { Constants, RelicSetFilterOptions } from 'lib/constants.ts'
-import { UnreleasedSets } from 'lib/dataParser'
+import { Constants, RelicSetFilterOptions, UnreleasedSets } from 'lib/constants'
 
 const GenerateSetsOptions = () => {
   const result: {
@@ -36,7 +35,7 @@ const GenerateSetsOptions = () => {
   const GenerateLabel = (value: string, parens: string, label: string): JSX.Element => {
     const imageSrc = value == 'Any' ? Assets.getBlank() : Assets.getSetImage(value, Constants.Parts.Head)
     return (
-      <Flex gap={5} align="center">
+      <Flex gap={5} align='center'>
         <img src={imageSrc} style={{ width: 26, height: 26 }}></img>
         <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
           {parens + label}
@@ -79,7 +78,7 @@ export const GenerateBasicSetsOptions = (): { value: string; label: JSX.Element 
       return {
         value: x,
         label:
-  <Flex gap={5} align="center">
+  <Flex gap={5} align='center'>
     <img src={Assets.getSetImage(x, Constants.Parts.Head)} style={{ width: 21, height: 21 }}></img>
     <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
       {x}

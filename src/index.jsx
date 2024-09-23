@@ -4,7 +4,6 @@ import { ErrorBoundary } from 'react-error-boundary'
 import 'style/style.css'
 import 'style/hsro.css'
 import App from './App'
-
 import { WorkerPool } from 'lib/workerPool'
 import { Constants } from 'lib/constants'
 import { DataParser } from 'lib/dataParser'
@@ -46,21 +45,20 @@ window.RelicScorer = RelicScorer
 window.BufferPacker = BufferPacker
 window.RelicRollFixer = RelicRollFixer
 
-window.officialOnly = false
 window.colorTheme = Themes.BLUE
 
-DataParser.parse(window.officialOnly)
+DataParser.parse()
 SaveState.load(false)
-verifyWebgpuSupport()
+void verifyWebgpuSupport(false)
 
 const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const root = ReactDOM.createRoot(document.getElementById('root'))
 
   root.render(
     <ErrorBoundary fallbackRender={defaultErrorRender}>
-      <App />
+      <App/>
     </ErrorBoundary>,
   )
 })

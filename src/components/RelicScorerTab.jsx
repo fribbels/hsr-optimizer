@@ -14,7 +14,7 @@ import { SavedSessionKeys } from 'lib/constantsSession'
 import { applySpdPreset } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { Constants, CURRENT_DATA_VERSION } from 'lib/constants'
+import { Constants, CURRENT_DATA_VERSION, officialOnly } from 'lib/constants'
 
 const { useToken } = theme
 // NOTE: These strings are replaced by github actions for beta deployment, don't change
@@ -199,7 +199,7 @@ export default function RelicScorerTab() {
         <Flex gap={10} vertical align='center'>
           <Text>
             Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly.
-            {window.officialOnly ? '' : ` (Current version ${CURRENT_DATA_VERSION})`}
+            {officialOnly ? '' : ` (Current version ${CURRENT_DATA_VERSION})`}
           </Text>
         </Flex>
         <Form

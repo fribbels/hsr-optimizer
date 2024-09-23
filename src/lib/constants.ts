@@ -1,4 +1,6 @@
 // Represents the version of the latest info, which should be the beta leaks version at the time of the major update
+import gameData from 'data/game_data.json'
+
 export const CURRENT_OPTIMIZER_VERSION = 'v2.6.3'
 // Represents the data content version, used for display but not for update notifications
 export const CURRENT_DATA_VERSION = '2.6v3'
@@ -415,7 +417,6 @@ export const SetsRelics = {
   SacerdosRelivedOrdeal: "Sacerdos' Relived Ordeal",
   ScholarLostInErudition: 'Scholar Lost in Erudition',
 }
-export type SetsRelics = typeof SetsRelics[keyof typeof SetsRelics]
 
 export const SetsOrnaments = {
   SpaceSealingStation: 'Space Sealing Station',
@@ -437,6 +438,39 @@ export const SetsOrnaments = {
   LushakaTheSunkenSeas: 'Lushaka, the Sunken Seas',
   TheWondrousBananAmusementPark: 'The Wondrous BananAmusement Park',
 }
+
+// Delete unreleased data
+export const officialOnly = true
+const characters = gameData.characters
+const lightCones = gameData.lightCones
+export const UnreleasedSets = {}
+
+if (officialOnly) {
+  UnreleasedSets[SetsRelics.SacerdosRelivedOrdeal] = true
+  UnreleasedSets[SetsRelics.ScholarLostInErudition] = true
+
+  // Delete unreleased sets
+  // @ts-ignore
+  delete SetsRelics.SacerdosRelivedOrdeal
+  // @ts-ignore
+  delete SetsRelics.ScholarLostInErudition
+
+  // Delete unreleased characters
+  for (const character of Object.values(characters)) {
+    if (character.unreleased) {
+      delete characters[character.id]
+    }
+  }
+
+  // Delete unreleased light cones
+  for (const lightCone of Object.values(lightCones)) {
+    if (lightCone.unreleased) {
+      delete lightCones[lightCone.id]
+    }
+  }
+}
+
+export type SetsRelics = typeof SetsRelics[keyof typeof SetsRelics]
 export type SetsOrnaments = typeof SetsOrnaments[keyof typeof SetsOrnaments]
 
 export const Sets = {

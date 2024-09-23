@@ -5,7 +5,7 @@ import 'style/style.css'
 import 'style/hsro.css'
 import App from './App'
 import { WorkerPool } from 'lib/workerPool'
-import { Constants, officialOnly } from 'lib/constants'
+import { Constants } from 'lib/constants'
 import { DataParser } from 'lib/dataParser'
 import { DB } from 'lib/db'
 import { CharacterStats } from 'lib/characterStats'
@@ -47,8 +47,7 @@ window.RelicRollFixer = RelicRollFixer
 
 window.colorTheme = Themes.BLUE
 
-DataParser.parse(officialOnly)
-
+DataParser.parse()
 SaveState.load(false)
 void verifyWebgpuSupport(false)
 

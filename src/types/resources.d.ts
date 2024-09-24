@@ -1,5 +1,10 @@
 interface Resources {
   "charactersTab": {
+    "ScreenshotMessages": {
+      "ScreenshotSuccess": "Copied screenshot to clipboard",
+      "ScreenshotFailed": "Unable to save screenshot to clipboard, try the download button to the right",
+      "DownloadSuccess": "Downloaded screenshot"
+    },
     "CharacterMenu": {
       "ButtonText": "Character menu",
       "Character": {

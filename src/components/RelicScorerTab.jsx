@@ -256,7 +256,7 @@ function CharacterPreviewSelection(props) {
   const [screenshotLoading, setScreenshotLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
 
-  const { t } = useTranslation('relicScorerTab')
+  const { t } = useTranslation(['relicScorerTab', 'gameData'])
 
   const items = [
     {
@@ -406,7 +406,7 @@ function CharacterPreviewSelection(props) {
     setDownloadLoading(true)
     // Use a small timeout here so the spinner doesn't lag while the image is being generated
     setTimeout(() => {
-      const name = props.selectedCharacter ? DB.getMetadata().characters[props.selectedCharacter.id].displayName : null
+      const name = props.selectedCharacter ? t(`gameData:Characters.${props.selectedCharacter.id}.Name`) : null
       Utils.screenshotElementById('relicScorerPreview', 'download', name).finally(() => {
         setDownloadLoading(false)
       })

@@ -143,8 +143,8 @@ export const Utils = {
 
     function handleBlob(blob) {
       const prefix = characterName || 'Hsr-optimizer'
-      const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
-      const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
+      const date = new Date().toLocaleDateString(i18next.resolvedLanguage).replace(/[^apm\d]+/gi, '-')
+      const time = new Date().toLocaleTimeString(i18next.resolvedLanguage).replace(/[^apm\d]+/gi, '-')
       const filename = `${prefix}_${date}_${time}.png`
 
       if (action == 'clipboard') {
@@ -158,16 +158,18 @@ export const Utils = {
             })
           } else {
             Message.error('Unable to save screenshot to clipboard, try the download button to the right')
+            // 'Unable to save screenshot to clipboard, try the download button to the right'
           }
         } else {
           try {
             const data = [new window.ClipboardItem({ [blob.type]: blob })]
             navigator.clipboard.write(data).then(() => {
-              Message.success('Copied screenshot to clipboard')
+              Message.success(i18next.t('charactersTab:ScreenshotMessages.ScreenshotSuccess'))// 'Copied screenshot to clipboard'
             })
           } catch (e) {
             console.error(e)
-            Message.error('Unable to save screenshot to clipboard, try the download button to the right')
+            Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed'))
+            // 'Unable to save screenshot to clipboard, try the download button to the right'
           }
         }
       }
@@ -182,7 +184,7 @@ export const Utils = {
         anchorElement.click()
         anchorElement.remove()
         window.URL.revokeObjectURL(fileUrl)
-        Message.success('Downloaded screenshot')
+        Message.success(i18next.t('charactersTab:ScreenshotMessages.DownloadSuccess')) // 'Downloaded screenshot'
       }
     }
 
@@ -288,25 +290,6 @@ export const Utils = {
     return Object.values(lcData)
       .filter((lc) => !pathFilter || lc.path === pathFilter)
       .sort((a, b) => a.label.localeCompare(b.label, window.locale))
-  },
-
-  // Character selector options from current characters with some customization parameters
-  generateCurrentCharacterOptions: (currentCharacters, excludeCharacters = [], withNobodyOption = true) => {
-    const characterData = DB.getMetadata().characters
-
-    const options = currentCharacters
-      .filter((character) => !excludeCharacters.includes(character))
-      .map((character) => ({
-        value: character.id,
-        label: characterData[character.id].displayName,
-      }))
-      .sort((a, b) => a.label.localeCompare(b.label))
-
-    if (withNobodyOption) {
-      options.unshift({ value: 'None', label: 'Nobody' })
-    }
-
-    return options
   },
 
   // Used to convert output formats for relic scorer, snake-case to camelCase

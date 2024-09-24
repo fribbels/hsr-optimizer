@@ -414,7 +414,7 @@ export default function CharacterTab() {
     setDownloadLoading(true)
     // Use a small timeout here so the spinner doesn't lag while the image is being generated
     setTimeout(() => {
-      const name = selectedCharacter ? DB.getMetadata().characters[selectedCharacter.id].displayName : null
+      const name = selectedCharacter ? t(`gameData:Characters.${selectedCharacter.id}.Name`) : null
       Utils.screenshotElementById('characterTabPreview', 'download', name).finally(() => {
         setDownloadLoading(false)
       })

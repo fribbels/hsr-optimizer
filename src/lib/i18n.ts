@@ -74,6 +74,7 @@ void i18next
       'hint',
       'settings',
       'optimizerTab',
+      'notifications',
     ],
     defaultNS: 'common',
     fallbackNS: ['common', 'gameData'],

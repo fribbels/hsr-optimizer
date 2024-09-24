@@ -34,8 +34,6 @@ export type HsrOptimizerStore = {
 
   optimizerGrid: unknown
 
-  locale: string | undefined
-
   optimizerTabFocusCharacter?: CharacterId
   characterTabFocusCharacter?: CharacterId
   scoringAlgorithmFocusCharacter?: CharacterId
@@ -55,9 +53,11 @@ export type HsrOptimizerStore = {
   relicsById: Record<number, Relic>
   scorerId?: number
   scoringMetadataOverrides: unknown
-  statDisplay: string
+  statDisplay: 'combat' | 'base'
   optimizationInProgress: boolean
   optimizationId?: number
+  optimizerStartTime: number
+  optimizerEndTime: number
   teammateCount: number
   zeroPermutationModalOpen: boolean
   zeroResultModalOpen: boolean
@@ -67,10 +67,10 @@ export type HsrOptimizerStore = {
   settingsDrawerOpen: boolean
   settings: unknown
   setSettings: (settings: unknown) => void
+  setOptimizationId: (id: number) => void
   setSettingsDrawerOpen: (open: boolean) => void
   optimizerTabFocusCharacterSelectModalOpen: boolean
   setCombatBuffsDrawerOpen: (open: boolean) => void
-  setLocale: (locale: string) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void
   setOptimizerTabFocusCharacter: (CharacterId: CharacterId) => void
   setOptimizationInProgress: (open: boolean) => void

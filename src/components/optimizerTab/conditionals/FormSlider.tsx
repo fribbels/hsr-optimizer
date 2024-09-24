@@ -1,7 +1,7 @@
 import { ComponentProps, ComponentType, useEffect, useRef } from 'react'
 import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
 import styled from 'styled-components'
-import WithPopover from 'components/common/WithPopover.tsx'
+import WithPopover from 'components/common/WithPopover'
 import { precisionRound } from 'lib/conditionals/conditionalUtils'
 
 const justify = 'flex-start'
@@ -68,7 +68,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
               min={props.min}
               max={props.max}
               controls={false}
-              size="small"
+              size='small'
               style={{
                 width: numberWidth,
               }}
@@ -83,7 +83,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
         </Text>
       </Flex>
 
-      <Flex align="center" justify="flex-start" gap={5} style={{ height: 14 }}>
+      <Flex align='center' justify='flex-start' gap={5} style={{ height: 14 }}>
         <Form.Item name={itemName}>
           <Slider
             min={props.min}

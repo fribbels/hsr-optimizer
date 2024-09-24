@@ -8,7 +8,6 @@ type placementOptions = 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight'
 
 export function LanguageSelector(props: { style: React.CSSProperties; dropdownStyle: React.CSSProperties; flagOnly: boolean; placement: placementOptions }) {
   const { t, i18n } = useTranslation()
-  const setLocale = window.store((s) => s.setLocale)
   const selectOptions = ((languages: { [key: string]: { locale: string; nativeName: string } }) => {
     const ret: { value: string; label: ReactElement }[] = []
     for (const key in languages) {
@@ -35,7 +34,6 @@ export function LanguageSelector(props: { style: React.CSSProperties; dropdownSt
       }}
       onChange={(e: string) => {
         i18n.changeLanguage(e)
-          .then(() => setLocale(e))
       }}
       style={props.style}
       dropdownStyle={props.dropdownStyle}

@@ -3,11 +3,12 @@ import { Button, Dropdown } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 import DB from 'lib/db.js'
 import { Message } from 'lib/message.js'
-import { Constants, Sets } from 'lib/constants.ts'
+import { Constants, Sets } from 'lib/constants'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
 import { defaultSetConditionals, getDefaultForm } from 'lib/defaultForm.js'
 import { ApplyColumnStateParams } from 'ag-grid-community'
 import { Utils } from 'lib/utils'
+import { useTranslation } from 'react-i18next'
 
 /*
  * 111.11 (5 actions in first four cycles)
@@ -21,74 +22,6 @@ import { Utils } from 'lib/utils'
  * 177.77 (8 actions in first four cycles)
  * 200.00 (3 actions in first cycle)
  */
-
-export const SpdValues = {
-  SPD0: {
-    key: 'SPD0',
-    label: 'No minimum speed',
-    value: undefined,
-  },
-  SPD111: {
-    key: 'SPD111',
-    label: '111.112 SPD - 5 actions in first four cycles',
-    value: 111.112,
-  },
-  SPD114: {
-    key: 'SPD114',
-    label: '114.286 SPD - 4 actions in first three cycles',
-    value: 114.286,
-  },
-  SPD120: {
-    key: 'SPD120',
-    label: '120.000 SPD - 3 actions in first two cycles',
-    value: 120.000,
-  },
-  SPD133: {
-    key: 'SPD133',
-    label: (<b>133.334 SPD - 2 actions in first cycle, 6 actions in first four cycles</b>),
-    value: 133.334,
-  },
-  SPD142: {
-    key: 'SPD142',
-    label: '142.858 SPD - 5 actions in first three cycles',
-    value: 142.858,
-  },
-  SPD155: {
-    key: 'SPD155',
-    label: '155.556 SPD - 7 actions in first four cycles',
-    value: 155.556,
-  },
-  SPD160: {
-    key: 'SPD160',
-    label: '160.000 SPD - 4 actions in first two cycles',
-    value: 160.000,
-  },
-  SPD171: {
-    key: 'SPD171',
-    label: '171.429 SPD - 6 actions in first three cycles',
-    value: 171.429,
-  },
-  SPD177: {
-    key: 'SPD177',
-    label: '177.778 SPD - 8 actions in first four cycles',
-    value: 177.778,
-  },
-  SPD200: {
-    key: 'SPD200',
-    label: '200.000 SPD - 3 actions in first cycle',
-    value: 200.000,
-  },
-}
-const standardSpdOptions = Object.values(SpdValues)
-standardSpdOptions.map((x) => x.label = (<div style={{ minWidth: 450 }}>{x.label}</div>))
-
-export function generateStandardSpdOptions(label) {
-  return {
-    key: label,
-    label: label,
-    children: standardSpdOptions,
-  }
-}
 
 export const PresetEffects = {
   fnAshblazingSet: (stacks) => {
@@ -129,7 +62,79 @@ export function setSortColumn(columnId) {
 }
 
 const RecommendedPresetsButton = () => {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+
+  const SpdValues = useMemo(() => {
+    return {
+      SPD0: {
+        key: 'SPD0',
+        label: t('SpdValues.SPD0'), // 'No minimum speed',
+        value: undefined,
+      },
+      SPD111: {
+        key: 'SPD111',
+        label: t('SpdValues.SPD111'), // '111.112 SPD - 5 actions in first four cycles',
+        value: 111.112,
+      },
+      SPD114: {
+        key: 'SPD114',
+        label: t('SpdValues.SPD114'), // '114.286 SPD - 4 actions in first three cycles',
+        value: 114.286,
+      },
+      SPD120: {
+        key: 'SPD120',
+        label: t('SpdValues.SPD120'), // '120.000 SPD - 3 actions in first two cycles',
+        value: 120.000,
+      },
+      SPD133: {
+        key: 'SPD133',
+        label: (<b>{t('SpdValues.SPD133')/* 133.334 SPD - 2 actions in first cycle, 6 actions in first four cycles */}</b>),
+        value: 133.334,
+      },
+      SPD142: {
+        key: 'SPD142',
+        label: t('SpdValues.SPD142'), // '142.858 SPD - 5 actions in first three cycles',
+        value: 142.858,
+      },
+      SPD155: {
+        key: 'SPD155',
+        label: t('SpdValues.SPD155'), // '155.556 SPD - 7 actions in first four cycles',
+        value: 155.556,
+      },
+      SPD160: {
+        key: 'SPD160',
+        label: t('SpdValues.SPD160'), // '160.000 SPD - 4 actions in first two cycles',
+        value: 160.000,
+      },
+      SPD171: {
+        key: 'SPD171',
+        label: t('SpdValues.SPD171'), // '171.429 SPD - 6 actions in first three cycles',
+        value: 171.429,
+      },
+      SPD177: {
+        key: 'SPD177',
+        label: t('SpdValues.SPD177'), // '177.778 SPD - 8 actions in first four cycles',
+        value: 177.778,
+      },
+      SPD200: {
+        key: 'SPD200',
+        label: t('SpdValues.SPD200'), // '200.000 SPD - 3 actions in first cycle',
+        value: 200.000,
+      },
+    }
+  }, [t])
+
+  const standardSpdOptions = Object.values(SpdValues)
+  standardSpdOptions.map((x) => x.label = (<div style={{ minWidth: 450 }}>{x.label}</div>))
+
+  function generateStandardSpdOptions(label) {
+    return {
+      key: label,
+      label: label,
+      children: standardSpdOptions,
+    }
+  }
 
   const items = useMemo(function () {
     if (!optimizerTabFocusCharacter) return []
@@ -137,8 +142,8 @@ const RecommendedPresetsButton = () => {
     if (!character) return []
 
     // "Standard" Placeholder for now until we have customized builds
-    return [generateStandardSpdOptions(`Standard ${character.displayName}`)]
-  }, [optimizerTabFocusCharacter])
+    return [generateStandardSpdOptions(t('StandardLabel', { id: character.id }))]// Standard ${CharacterName})
+  }, [optimizerTabFocusCharacter, t])
 
   const actionsMenuProps = {
     items,
@@ -146,7 +151,7 @@ const RecommendedPresetsButton = () => {
       if (SpdValues[event.key]) {
         applySpdPreset(SpdValues[event.key].value, optimizerTabFocusCharacter)
       } else {
-        Message.warning('Preset not available, please select another option')
+        Message.warning(t('PresetNotAvailable')/* 'Preset not available, please select another option' */)
       }
     },
   }
@@ -159,7 +164,7 @@ const RecommendedPresetsButton = () => {
     >
       <a onClick={(e) => e.preventDefault()}>
         <Button type='primary' style={{ width: '100%' }}>
-          Recommended presets
+          {t('RecommendedPresets')/* Recommended presets */}
           <DownOutlined/>
         </Button>
       </a>

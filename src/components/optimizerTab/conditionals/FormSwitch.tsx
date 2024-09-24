@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Flex, Form, Switch, Typography } from 'antd'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
-import WithPopover from 'components/common/WithPopover.tsx'
+import WithPopover from 'components/common/WithPopover'
 import { ComponentProps, ComponentType } from 'react'
 
 const justify = 'flex-start'
@@ -34,7 +34,7 @@ export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
 
   return (
     <Flex justify={justify} align={align}>
-      <Form.Item name={itemName} valuePropName="checked">
+      <Form.Item name={itemName} valuePropName='checked'>
         <Switch
           checkedChildren={<CheckOutlined/>}
           unCheckedChildren={<CloseOutlined/>}

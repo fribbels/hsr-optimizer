@@ -22,6 +22,8 @@
     "DeleteRelicSuccess": "Successfully deleted $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0})"
   },
   "RelicGrid": {
+    "To": "to",
+    "Of": "of",
     "Headers": {
       "EquippedBy": "Owner",
       "Set": "Set",
@@ -52,7 +54,7 @@
           "Header": "Selected Char\nScore"
         },
         "AvgPotCol": {
-          "Llabel": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}): Average potential",
+          "Label": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}): Average potential",
           "Header": "Selected Char\nAvg Potential"
         },
         "MaxPotCol": {

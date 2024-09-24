@@ -47,6 +47,7 @@ export default function RelicsTab() {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [plottedCharacterType, setPlottedCharacterType] = useState(PLOT_CUSTOM)
   const [relicInsight, setRelicInsight] = useState('buckets')
+  const [gridDestroyed, setGridDestroyed] = useState(false)
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
 
@@ -56,7 +57,7 @@ export default function RelicsTab() {
   const rowLimit = window.store((s) => s.rowLimit)
   const setRowLimit = window.store((s) => s.setRowLimit)
 
-  const { t } = useTranslation(['relicsTab', 'common', 'gameData'])
+  const { t, i18n } = useTranslation(['relicsTab', 'common', 'gameData'])
 
   const relicInsightOptions = [
     { value: 'buckets', label: t('Toolbar.InsightOptions.Buckets') },
@@ -66,6 +67,11 @@ export default function RelicsTab() {
     { value: PLOT_ALL, label: t('Toolbar.PlotOptions.PlotAll') },
     { value: PLOT_CUSTOM, label: t('Toolbar.PlotOptions.PlotCustom') },
   ]
+
+  useEffect(() => {
+    setGridDestroyed(true) // locale updates require the grid to be destroyed and reconstructed in order to take effect
+    setTimeout(() => setGridDestroyed(false))
+  }, [i18n.resolvedLanguage])
 
   useEffect(() => {
     if (!window.relicsGrid?.current?.api) return
@@ -337,6 +343,12 @@ export default function RelicsTab() {
     return arrowKeyGridNavigation(params, gridRef, (selectedNode) => rowClickedListener(selectedNode))
   }, [])
 
+  const getLocaleText = useCallback((params) => {
+    if (params.key == 'to') return (t('RelicGrid.To'))
+    if (params.key == 'of') return (t('RelicGrid.Of'))
+    return params.key
+  }, [t])
+
   function onAddOk(relic) {
     DB.setRelic(relic)
     window.forceCharacterTabUpdate()
@@ -440,36 +452,40 @@ export default function RelicsTab() {
 
         <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions}/>
 
-        <div
-          id='relicGrid' className='ag-theme-balham-dark' style={{
-            ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
-            ...getGridTheme(token),
-          }}
-        >
+        {!gridDestroyed && (
+          <div
+            id='relicGrid' className='ag-theme-balham-dark' style={{
+              ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
+              ...getGridTheme(token),
+            }}
+          >
 
-          <AgGridReact
-            ref={gridRef}
+            <AgGridReact
+              ref={gridRef}
 
-            rowData={relicRows}
-            gridOptions={gridOptions}
+              rowData={relicRows}
+              gridOptions={gridOptions}
 
-            columnDefs={columnDefs}
-            defaultColDef={defaultColDef}
+              columnDefs={columnDefs}
+              defaultColDef={defaultColDef}
 
-            animateRows={true}
-            headerHeight={24}
-            rowSelection='multiple'
+              animateRows={true}
+              headerHeight={24}
+              rowSelection='multiple'
 
-            pagination={true}
-            paginationPageSizeSelector={false}
-            paginationPageSize={2000}
+              pagination={true}
+              paginationPageSizeSelector={false}
+              paginationPageSize={2100}
+              paginationNumberFormatter={(param) => param.value.toLocaleString(i18n.resolvedLanguage)}
+              getLocaleText={getLocaleText}
 
-            onSelectionChanged={onSelectionChanged}
-            onRowClicked={rowClickedListener}
-            onRowDoubleClicked={onRowDoubleClickedListener}
-            navigateToNextCell={navigateToNextCell}
-          />
-        </div>
+              onSelectionChanged={onSelectionChanged}
+              onRowClicked={rowClickedListener}
+              onRowDoubleClicked={onRowDoubleClickedListener}
+              navigateToNextCell={navigateToNextCell}
+            />
+          </div>
+        )}
         <Flex gap={10}>
           <Button
             type='primary'
@@ -768,7 +784,7 @@ export default function RelicsTab() {
                       ].filter((t) => t !== '').join('<br>')),
                     ),
                     cid: scoreBuckets.flatMap((bucket, _bucketIdx) =>
-                      bucket.map((score, idx) => score.cid)),
+                      bucket.map((score, _idx) => score.cid)),
                     marker: {
                       color: 'rgba(0, 0, 0, 0)', // change to 1 to see backing points
                       symbol: 'circle',

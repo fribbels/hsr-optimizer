@@ -21,7 +21,6 @@ const App = () => {
   window.modalApi = modalApi
 
   const colorTheme = store((s) => s.colorTheme)
-  const locale = store((s) => s.locale)
   useEffect(() => {
     Gradient.setToken(getDesignToken({
       token: colorTheme,
@@ -30,16 +29,13 @@ const App = () => {
 
   useEffect(() => {
     checkForUpdatesNotification(DB.getState().version)
-    window.store.getState().setLocale(i18n.resolvedLanguage)
   }, [])
 
   useEffect(() => {
     console.log('setting language to:', i18n.resolvedLanguage)
-    console.log('language updated: (locale, resolvedLang)', locale, i18n.resolvedLanguage)
-  }, [i18n.resolvedLanguage, locale])
+  }, [i18n.resolvedLanguage])
   return (
     <ConfigProvider
-      locale={locale}
       theme={{
         token: {
           motionUnit: 0.1,

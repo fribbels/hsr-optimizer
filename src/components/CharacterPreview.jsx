@@ -262,7 +262,7 @@ export function CharacterPreview(props) {
 
   const characterLevel = 80
   const characterEidolon = character.form.characterEidolon
-  const characterName = t(`gameData:Characters.${characterId}.Name`)
+  const characterName = characterId ? t(`gameData:Characters.${characterId}.Name`) : ''
   const characterPath = characterMetadata.path
   // console.log(displayRelics)
 

@@ -6,7 +6,8 @@ import { DataMineId } from 'types/Common'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { memo } from 'react'
 import { lightConeOptionMapping } from 'lib/lightConeConditionals.js'
-import DisplayFormControl from 'components/optimizerTab/conditionals/DisplayFormControl.tsx'
+import DisplayFormControl from 'components/optimizerTab/conditionals/DisplayFormControl'
+import { useTranslation } from 'react-i18next'
 
 export interface LightConeConditionalDisplayProps {
   id?: DataMineId
@@ -15,6 +16,7 @@ export interface LightConeConditionalDisplayProps {
 }
 
 export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisplayProps) => {
+  const { t } = useTranslation('optimizerTab')
   // console.log('LightConeConditionalDisplay', props)
 
   const { id, superImposition, teammateIndex } = props
@@ -24,8 +26,8 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
   if (!lightConeId || !lightConeOptionMapping[lightConeId]) {
     return (
       <Flex vertical gap={5}>
-        <Flex justify="space-between" align="center">
-          <HeaderText>Light cone passives</HeaderText>
+        <Flex justify='space-between' align='center'>
+          <HeaderText>{t('LightconePassives')/* Light cone passives */}</HeaderText>
           <TooltipImage type={Hint.lightConePassives()}/>
         </Flex>
         {(teammateIndex == null) && <Typography.Text italic></Typography.Text>}
@@ -42,8 +44,8 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
 
   return (
     <Flex vertical gap={5}>
-      <Flex justify="space-between" align="center">
-        <HeaderText>Light cone passives</HeaderText>
+      <Flex justify='space-between' align='center'>
+        <HeaderText>{t('LightconePassives')/* Light cone passives */}</HeaderText>
         <TooltipImage type={Hint.lightConePassives()}/>
       </Flex>
       <DisplayFormControl content={content} teammateIndex={teammateIndex}/>
@@ -51,4 +53,4 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
   )
 })
 
-LightConeConditionalDisplay.displayName = 'LightConeConstionalDisplay'
+LightConeConditionalDisplay.displayName = 'LightConeConditionalDisplay'

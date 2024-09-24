@@ -3,10 +3,11 @@ import { memo } from 'react'
 import { HeaderText } from 'components/HeaderText.jsx'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { Hint } from 'lib/hint.jsx'
-import DisplayFormControl from 'components/optimizerTab/conditionals/DisplayFormControl.tsx'
+import DisplayFormControl from 'components/optimizerTab/conditionals/DisplayFormControl'
 import { characterOptionMapping } from 'lib/characterConditionals.js'
 import { Eidolon } from 'types/Character'
 import { DataMineId } from 'types/Common'
+import { useTranslation } from 'react-i18next'
 
 export interface CharacterConditionalDisplayProps {
   id?: DataMineId
@@ -15,6 +16,7 @@ export interface CharacterConditionalDisplayProps {
 }
 
 export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }: CharacterConditionalDisplayProps) => {
+  const { t } = useTranslation('optimizerTab')
   // console.log('getDisplayForCharacter', id, teammateIndex)
 
   // TODO revisit type workaround
@@ -22,7 +24,7 @@ export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }:
   if (!id || !characterOptionMapping[characterId]) {
     return (
       <Flex justify='space-between' align='center'>
-        <HeaderText>Character passives</HeaderText>
+        <HeaderText>{t('CharacterPassives')/* Character passives */}</HeaderText>
         <TooltipImage type={Hint.characterPassives()}/>
       </Flex>
     )
@@ -40,7 +42,7 @@ export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }:
       {(teammateIndex == null)
       && (
         <Flex justify='space-between' align='center'>
-          <HeaderText>Character passives</HeaderText>
+          <HeaderText>{t('CharacterPassives')/* Character passives */}</HeaderText>
           <TooltipImage type={Hint.characterPassives()}/>
         </Flex>
       )}

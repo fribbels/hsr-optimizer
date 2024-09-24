@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { Flex, Form } from 'antd'
-import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled.tsx'
-import FormStatTextStyled from 'components/optimizerTab/optimizerForm/FormStatTextStyled.tsx'
+import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled'
+import FormStatTextStyled from 'components/optimizerTab/optimizerForm/FormStatTextStyled'
 
 const FilterRow = (props) => {
   return (

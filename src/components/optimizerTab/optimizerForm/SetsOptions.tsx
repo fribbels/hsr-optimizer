@@ -1,8 +1,7 @@
 import { Flex } from 'antd'
 import i18next from 'i18next'
 import { Assets } from 'lib/assets.js'
-import { Constants, RelicSetFilterOptions, setToId } from 'lib/constants'
-import { UnreleasedSets } from 'lib/dataParser'
+import { Constants, RelicSetFilterOptions, setToId, UnreleasedSets } from 'lib/constants'
 
 // This should be memoised with either the t function or resolved language as a dependency
 const GenerateSetsOptions = () => {

@@ -38,7 +38,6 @@ declare global {
     notificationApi: NotificationInstance
     messageApi: MessageInstance
     store: UseBoundStore<StoreApi<HsrOptimizerStore>>
-    officialOnly: boolean
     colorTheme: ColorTheme
 
     characterGrid: RefObject<AgGridReact<Character>>

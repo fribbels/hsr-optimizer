@@ -46,12 +46,11 @@ window.RelicScorer = RelicScorer
 window.BufferPacker = BufferPacker
 window.RelicRollFixer = RelicRollFixer
 
-window.officialOnly = false
 window.colorTheme = Themes.BLUE
 
-DataParser.parse(window.officialOnly)
+DataParser.parse()
 SaveState.load(false)
-verifyWebgpuSupport()
+void verifyWebgpuSupport(false)
 
 const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
 

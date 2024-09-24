@@ -14,7 +14,7 @@ import { SavedSessionKeys } from 'lib/constantsSession'
 import { applySpdPreset } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { Constants, CURRENT_DATA_VERSION } from 'lib/constants'
+import { Constants, CURRENT_DATA_VERSION, officialOnly } from 'lib/constants'
 import { useTranslation } from 'react-i18next'
 
 const { useToken } = theme
@@ -203,7 +203,7 @@ export default function RelicScorerTab() {
         */}
         <Flex gap={10} vertical align='center'>
           <Text>
-            {window.officialOnly ? t('Header.WithoutVersion') : t('Header.WithVersion', { beta_version: CURRENT_DATA_VERSION })}
+            {officialOnly ? t('Header.WithoutVersion') : t('Header.WithVersion', { beta_version: CURRENT_DATA_VERSION })}
           </Text>
         </Flex>
         <Form

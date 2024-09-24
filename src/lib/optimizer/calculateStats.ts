@@ -307,7 +307,7 @@ export function calculateComputedStats(c: BasicStatsObject, request: Form, param
   }
 
   if (p4(sets.ScholarLostInErudition) && params.enabledScholarLostInErudition) {
-    buffAbilityDmg(x, SKILL_TYPE, 0.20)
+    buffAbilityDmg(x, SKILL_TYPE, 0.25)
   }
 
   // Dynamic - still need implementing

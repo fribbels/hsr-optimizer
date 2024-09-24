@@ -3,6 +3,7 @@ import { Flex, List, theme, Typography } from 'antd'
 import { AppPages } from 'lib/db.js'
 import { Assets } from 'lib/assets'
 import { ColorizedLink } from './common/ColorizedLink'
+import { officialOnly } from 'lib/constants'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -95,7 +96,7 @@ export default function ChangelogTab(): React.JSX.Element {
 }
 
 function leaks(str: string) {
-  return window.officialOnly ? '' : str
+  return officialOnly ? '' : str
 }
 
 /*
@@ -104,6 +105,30 @@ NOTES:
 
 function getChangelogContent() {
   const changelog: ChangelogContent[] = [
+    {
+      title: '',
+      date: '09-20-2024',
+      content: [
+        `Added a Relic Locator tool to the Relics tab for finding the relic's row / column in the inventory`,
+        `locator.webp`,
+        `Updated all assets files to high quality images for character portraits, light cones, icons`,
+        `Readjusted the crop and zoom for the new portrait assets`,
+        `Reduced the light cone portrait height for Combat scoring view`,
+        `Moved the Character Menu button to the top of the Characters tab for better findability`,
+        `characterTab.webp`,
+        `Reliquary is now updated for 2.5`,
+        `reliquary.webp`,
+        leaks(`Updated Rappa's default scoring team`),
+        leaks(`rappaTeam.webp`),
+        `Added pointer cursors to clickable icons`,
+        `Optimizer tab character and teammate menus are now open upon clicking their icons`,
+        `Fix: Save file now correctly loads previous scoring algorithm changes`,
+        `Fix: Pioneer Diver of Dead Waters 0x conditional now correctly applies`,
+        `Balance: Lowered the scoring penalty for missing flat stat breakpoints for combat scoring`,
+        `Balance: Updated Pioneer Diver of Dead Waters default conditional to 3x+ for characters with debuffs`,
+        leaks(`Balance: Changed Rappa's scoring weights from 1 ATK / 1 SPD / 1 BE to 0.5 ATK / 1 SPD / 1 BE`),
+      ],
+    },
     {
       title: '',
       date: '09-08-2024',

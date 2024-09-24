@@ -6,6 +6,7 @@ import { GithubIcon } from 'icons/GithubIcon'
 import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { AppPages } from 'lib/db'
 import { useTranslation } from 'react-i18next'
+import { officialOnly } from 'lib/constants'
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -125,7 +126,7 @@ const MenuDrawer = () => {
         </Typography.Link>,
         'link github',
       ),
-      !window.officialOnly && getItem(
+      !officialOnly && getItem(
         <Typography.Link href='https://starrailoptimizer.github.io/' target='_blank' rel='noopener noreferrer'>
           <LinkOutlined style={{ marginRight: 5 }}/>
           {' '}

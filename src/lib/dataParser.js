@@ -9,8 +9,6 @@ import { SortOption } from 'lib/optimizer/sortOptions'
 const characters = gameData.characters
 const lightCones = gameData.lightCones
 
-export const UnreleasedSets = {}
-
 const RELICS_2P_BREAK_EFFECT_SPEED = [
   Sets.MessengerTraversingHackerspace,
   Sets.ThiefOfShootingMeteor,
@@ -35,39 +33,7 @@ const SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS = [
 ]
 
 export const DataParser = {
-  parse: (officialOnly) => {
-    if (officialOnly) {
-      // UnreleasedSets[Constants.SetsRelics.TheWindSoaringValorous] = true
-      // UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstTheScourge] = true
-      UnreleasedSets[Constants.SetsRelics.SacerdosRelivedOrdeal] = true
-      UnreleasedSets[Constants.SetsRelics.ScholarLostInErudition] = true
-
-      // Delete unreleased sets
-      // delete Constants.SetsRelics.TheWindSoaringValorous
-      // delete Constants.SetsRelics.IronCavalryAgainstScourge
-      delete Constants.SetsRelics.SacerdosRelivedOrdeal
-      delete Constants.SetsRelics.ScholarLostInErudition
-      //
-      // delete Constants.SetsRelicsNames.TheWindSoaringValorous
-      // delete Constants.SetsRelicsNames.IronCavalryAgainstScourge
-      delete Constants.SetsRelicsNames.SacerdosRelivedOrdeal
-      delete Constants.SetsRelicsNames.ScholarLostInErudition
-
-      // Delete unreleased characters
-      for (const character of Object.values(characters)) {
-        if (character.unreleased) {
-          delete characters[character.id]
-        }
-      }
-
-      // Delete unreleased light cones
-      for (const lightCone of Object.values(lightCones)) {
-        if (lightCone.unreleased) {
-          delete lightCones[lightCone.id]
-        }
-      }
-    }
-
+  parse: () => {
     const lightConeSuperimpositions = getSuperimpositions()
     const lightConeCenters = getLightConeOverrideCenter()
 
@@ -1143,7 +1109,7 @@ function getOverrideImageCenter() {
     },
     1009: { // Asta
       x: 1024,
-      y: 1000,
+      y: 975,
       z: 1,
     },
     1013: { // Herta
@@ -1153,13 +1119,13 @@ function getOverrideImageCenter() {
     },
     1101: { // Bronya
       x: 950,
-      y: 1180,
-      z: 1.05,
+      y: 1200,
+      z: 1.1,
     },
     1102: { // Seele
       x: 820,
       y: 1075,
-      z: 1.15,
+      z: 1.1,
     },
     1103: { // Serval
       x: 1060,
@@ -1184,10 +1150,10 @@ function getOverrideImageCenter() {
     1107: { // Clara
       x: 880,
       y: 900,
-      z: 1.1,
+      z: 1.15,
     },
     1108: { // Sampo
-      x: 1024,
+      x: 1000,
       y: 950,
       z: 1,
     },
@@ -1243,8 +1209,8 @@ function getOverrideImageCenter() {
     },
     1207: { // Yukong
       x: 900,
-      y: 1045,
-      z: 1.11,
+      y: 1055,
+      z: 1.1,
     },
     1208: { // Fu Xuan
       x: 920,
@@ -1252,7 +1218,7 @@ function getOverrideImageCenter() {
       z: 1,
     },
     1209: { // Yanqing
-      x: 1024,
+      x: 1000,
       y: 1000,
       z: 1,
     },
@@ -1342,8 +1308,8 @@ function getOverrideImageCenter() {
       z: 1.05,
     },
     1305: { // Dr Ratio
-      x: 975,
-      y: 850,
+      x: 965,
+      y: 840,
       z: 1.15,
     },
     1306: { // Sparkle
@@ -1363,7 +1329,7 @@ function getOverrideImageCenter() {
     },
     1309: { // Robin
       x: 1024,
-      y: 900,
+      y: 925,
       z: 1,
     },
     1310: { // Firefly
@@ -6108,10 +6074,10 @@ function getScoringMetadata() {
         ],
       },
     },
-    1317: { // Rappa // TODO
+    1317: { // Rappa
       stats: {
-        [Stats.ATK]: 1,
-        [Stats.ATK_P]: 1,
+        [Stats.ATK]: 0.5,
+        [Stats.ATK_P]: 0.5,
         [Stats.DEF]: 0,
         [Stats.DEF_P]: 0,
         [Stats.HP]: 0,
@@ -6200,8 +6166,8 @@ function getScoringMetadata() {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1003', // Himeko
-            lightCone: '23000', // Milky way
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

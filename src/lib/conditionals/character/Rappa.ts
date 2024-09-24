@@ -117,7 +117,6 @@ export default (e: Eidolon): CharacterConditional => {
       x.BREAK_EFFICIENCY_BOOST += (r.sealformActive) ? 0.50 : 0
 
       x.DEF_PEN += (e >= 1 && r.sealformActive && r.e1DefPen) ? 0.15 : 0
-      x[Stats.BE] += (e >= 2 && r.sealformActive && r.e2Buffs) ? 0.20 : 0
 
       x[Stats.SPD_P] += (e >= 4 && r.sealformActive && r.e4SpdBuff) ? 0.12 : 0
 

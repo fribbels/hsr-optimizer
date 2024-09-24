@@ -52,10 +52,10 @@ export function calculateTeammates(request, params) {
         precomputedX[Stats.BE] += 0.30
         break
       case SACERDOS_RELIVED_ORDEAL_1_STACK:
-        precomputedX[Stats.CD] += 0.20
+        precomputedX[Stats.CD] += 0.18
         break
       case SACERDOS_RELIVED_ORDEAL_2_STACK:
-        precomputedX[Stats.CD] += 0.40
+        precomputedX[Stats.CD] += 0.36
         break
       default:
     }

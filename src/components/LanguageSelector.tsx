@@ -6,6 +6,8 @@ import { Assets } from 'lib/assets'
 
 type placementOptions = 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight'
 
+const completedLocales = ['en']
+
 export function LanguageSelector(props: { style: React.CSSProperties; dropdownStyle: React.CSSProperties; flagOnly: boolean; placement: placementOptions }) {
   const { t, i18n } = useTranslation()
   const selectOptions = ((languages: { [key: string]: { locale: string; nativeName: string } }) => {
@@ -13,7 +15,13 @@ export function LanguageSelector(props: { style: React.CSSProperties; dropdownSt
     for (const key in languages) {
       ret.push({
         value: languages[key].locale,
-        label: <Flex gap={8}><img style={{ height: 15, marginTop: 4 }} src={Assets.getFlag(languages[key].locale)}/>{languages[key].nativeName}</Flex>,
+        label: (
+          <Flex gap={8}>
+            <img style={{ height: 15, marginTop: 4 }} src={Assets.getFlag(languages[key].locale)}/>
+            {languages[key].nativeName}
+            {completedLocales.includes(languages[key].locale) ? '' : ' (WIP)'}
+          </Flex>
+        ),
       })
     }
     return ret

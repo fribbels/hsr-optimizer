@@ -1,17 +1,16 @@
 import { useState } from 'react'
 import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig.js'
 import { SaveState } from 'lib/saveState.js'
-import { Button, Divider, Flex, Form, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
+import { Button, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import DB, { AppPages } from 'lib/db.js'
-import { importerTabButtonWidth, importerTabSpinnerMs } from 'components/importerTab/importerTabUiConstants.ts'
+import { importerTabButtonWidth, importerTabSpinnerMs } from 'components/importerTab/importerTabUiConstants'
 import { Relic } from 'types/Relic'
-import { ColorizedLink } from 'components/common/ColorizedLink.tsx'
-import { ReliquaryDescription } from 'components/importerTab/ReliquaryDescription.tsx'
+import { ColorizedLink } from 'components/common/ColorizedLink'
+import { ReliquaryDescription } from 'components/importerTab/ReliquaryDescription'
 import { hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
 import { Message } from 'lib/message'
 import { useTranslation } from 'react-i18next'
-import i18next from 'i18next'
 
 const { Text } = Typography
 

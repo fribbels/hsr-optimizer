@@ -410,43 +410,43 @@
     "TeammateSyncSuccessMessage": "Synced teammate info",
     "TeammateSets": {
       "Messenger": {
-        "Desc": "4 Piece: $t(gameData.RelicSets.114.Name) (+12% SPD)",
-        "Set": "$t(gameData.RelicSets.114.Name)",
+        "Desc": "4 Piece: $t(gameData:RelicSets.114.Name) (+12% SPD)",
+        "Set": "$t(gameData:RelicSets.114.Name)",
         "Text": "12% SPD"
       },
       "Watchmaker": {
-        "Desc": "4 Piece: $t(gameData.RelicSets.118.Name) (+30% BE)",
-        "Set": "$t(gameData.RelicSets.118.Name)",
+        "Desc": "4 Piece: $t(gameData:RelicSets.118.Name) (+30% BE)",
+        "Set": "$t(gameData:RelicSets.118.Name)",
         "Text": "30% BE"
       },
       "Sacerdos1Stack": {
-        "Desc": "4 Piece: $t(gameData.RelicSets.121.Name) (+20% CD)",
-        "Set": "$t(gameData.RelicSets.121.Name)",
+        "Desc": "4 Piece: $t(gameData:RelicSets.121.Name) (+20% CD)",
+        "Set": "$t(gameData:RelicSets.121.Name)",
         "Text": "20% CD"
       },
       "Sacerdos2Stack": {
-        "Desc": "4 Piece: $t(gameData.RelicSets.121.Name) (+40% CD)",
-        "Set": "$t(gameData.RelicSets.121.Name)",
+        "Desc": "4 Piece: $t(gameData:RelicSets.121.Name) (+40% CD)",
+        "Set": "$t(gameData:RelicSets.121.Name)",
         "Text": "40% CD"
       },
       "Keel": {
-        "Desc": "$t(gameData.RelicSets.310.Name) (+10% CD)",
-        "Set": "$t(gameData.RelicSets.310.Name)",
+        "Desc": "$t(gameData:RelicSets.310.Name) (+10% CD)",
+        "Set": "$t(gameData:RelicSets.310.Name)",
         "Text": "10% CD"
       },
       "Ageless": {
-        "Desc": "$t(gameData.RelicSets.302.Name) (+8% ATK)",
-        "Set": "$t(gameData.RelicSets.302.Name)",
+        "Desc": "$t(gameData:RelicSets.302.Name) (+8% ATK)",
+        "Set": "$t(gameData:RelicSets.302.Name)",
         "Text": "8% ATK"
       },
       "Penacony": {
-        "Desc": "$t(gameData.RelicSets.312.Name) (+10% DMG for same element)",
-        "Set": "$t(gameData.RelicSets.312.Name)",
+        "Desc": "$t(gameData:RelicSets.312.Name) (+10% DMG for same element)",
+        "Set": "$t(gameData:RelicSets.312.Name)",
         "Text": "10% DMG"
       },
       "Lushaka": {
-        "Desc": "$t(gameData.RelicSets.317.Name) (+12% ATK)",
-        "Set": "$t(gameData.RelicSets.317.Name)",
+        "Desc": "$t(gameData:RelicSets.317.Name) (+12% ATK)",
+        "Set": "$t(gameData:RelicSets.317.Name)",
         "Text": "12% ATK"
       }
     }

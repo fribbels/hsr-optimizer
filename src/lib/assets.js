@@ -1,4 +1,3 @@
-
 import { Constants, setToId, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK } from './constants.ts'
 import { BASE_PATH } from 'lib/db.js'
 
@@ -114,6 +113,10 @@ export const Assets = {
   },
   getGuideImage: (name) => {
     return getImageUrl(`/misc/guide/${name}.webp`)
+  },
+  getLocaleGuideImage: (name, locale) => {
+    if (!locale) return Assets.getBlank()
+    return getImageUrl(`/misc/guide/${locale}/${name}.webp`)
   },
   getStarBw: () => {
     return getImageUrl('/misc/QuestMainIcon.webp')

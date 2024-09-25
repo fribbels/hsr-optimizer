@@ -75,6 +75,7 @@ void i18next
       'settings',
       'optimizerTab',
       'notifications',
+      'conditionals',
     ],
     defaultNS: 'common',
     fallbackNS: ['common', 'gameData'],

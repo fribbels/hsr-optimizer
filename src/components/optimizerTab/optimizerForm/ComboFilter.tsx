@@ -1,4 +1,4 @@
-import { Flex, Form, Typography } from 'antd'
+import { Button, Flex, Form, Radio, Typography } from 'antd'
 import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants'
 import { HeaderText } from 'components/HeaderText'
 import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled'
@@ -18,6 +18,79 @@ export const ComboFilters = () => {
         <ComboRow title={t('FUA')} name='FUA'/>
         <ComboRow title={t('DOT')} name='DOT'/>
         <ComboRow title={t('BREAK')} name='BREAK'/>
+      </Flex>
+
+
+      <Flex vertical>
+        {/* <Segmented */}
+        {/*  vertical */}
+        {/*  style={{ width: 40 }} */}
+        {/*  options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} */}
+        {/* /> */}
+
+        <Flex gap={0}>
+          <div style={{ width: 30 }}>
+            #1
+          </div>
+          <Radio.Group
+            defaultValue='a'
+            buttonStyle='solid'
+            size='small'
+          >
+            <Radio.Button value='a'>Basic</Radio.Button>
+            <Radio.Button value='b'>Skill</Radio.Button>
+            <Radio.Button value='c'>Ult</Radio.Button>
+            <Radio.Button value='d'>Fua</Radio.Button>
+          </Radio.Group>
+        </Flex>
+        <Flex gap={0}>
+          <div style={{ width: 30 }}>
+            #2
+          </div>
+          <Radio.Group
+            defaultValue='a'
+            buttonStyle='solid'
+            size='small'
+          >
+            <Radio.Button value='a'>Basic</Radio.Button>
+            <Radio.Button value='b'>Skill</Radio.Button>
+            <Radio.Button value='c'>Ult</Radio.Button>
+            <Radio.Button value='d'>Fua</Radio.Button>
+          </Radio.Group>
+        </Flex>
+        <Flex gap={0}>
+          <div style={{ width: 30 }}>
+            #3
+          </div>
+          <Radio.Group
+            defaultValue='a'
+            buttonStyle='solid'
+            size='small'
+          >
+            <Radio.Button value='a'>Basic</Radio.Button>
+            <Radio.Button value='b'>Skill</Radio.Button>
+            <Radio.Button value='c'>Ult</Radio.Button>
+            <Radio.Button value='d'>Fua</Radio.Button>
+          </Radio.Group>
+        </Flex>
+        <Flex gap={0}>
+          <div style={{ width: 30 }}>
+            #4
+          </div>
+          <Radio.Group
+            defaultValue='a'
+            buttonStyle='solid'
+            size='small'
+          >
+            <Radio.Button value='a'>Basic</Radio.Button>
+            <Radio.Button value='b'>Skill</Radio.Button>
+            <Radio.Button value='c'>Ult</Radio.Button>
+            <Radio.Button value='d'>Fua</Radio.Button>
+          </Radio.Group>
+        </Flex>
+        <Button size='small' variant='outlined' style={{ marginLeft: 30, width: 156 }}>
+          +
+        </Button>
       </Flex>
     </Flex>
   )

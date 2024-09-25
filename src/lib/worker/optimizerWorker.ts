@@ -70,6 +70,30 @@ self.onmessage = function (e: MessageEvent) {
   calculateConditionals(request, params)
   calculateTeammates(request, params)
 
+  type OptimizerActions = {
+    type: string
+    buffs: string[]
+  }
+
+  const actions: OptimizerActions[] = [
+    {
+      type: 'ULT',
+      buffs: [],
+    },
+    {
+      type: 'SKILL',
+      buffs: [],
+    },
+    {
+      type: 'SKILL',
+      buffs: [],
+    },
+    {
+      type: 'SKILL',
+      buffs: [],
+    },
+  ]
+
   const limit = Math.min(data.permutations, data.WIDTH)
 
   for (let col = 0; col < limit; col++) {

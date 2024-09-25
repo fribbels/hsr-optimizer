@@ -116,10 +116,11 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
     if (!abilities[ability.SkillID]) {
       abilities[ability.SkillID] = {
       Name: cleanString(locale,textmap[ability.SkillName.Hash]),
-      Desc: formattingFixer(replaceParameters(textmap[ability.SimpleSkillDesc.Hash], ability.SimpleParamList)),
+      Desc: formattingFixer(replaceParameters(textmap[ability.SimpleSkillDesc.Hash], ability.SimpleParamList.map((x) => x.Value))),
       Type: textmap[ability.SkillTypeDesc.Hash],
       }
     }
+    /*
     switch (ability.MaxLevel) {
       case 1: {// technique / open world attack
         let parameters = ability.ParamList.map((x) => x.Value)
@@ -153,7 +154,7 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
         }
       }
         break;
-    }
+    }*/
   }
 
   const effectslist = []
@@ -231,13 +232,13 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
         [avatar.RankIDList[4]]: eidolons[avatar.RankIDList[4]],
         [avatar.RankIDList[5]]: eidolons[avatar.RankIDList[5]],
       },
-      Effects: {},
+    }
+      /*Effects: {},
       Traces: {
         A2: {},
         A4: {},
         A6: {}
       }
-    }
     for (const effect of effectslist) {
       if(effect.Source == avatar.AvatarID) {
         output.Characters[avatar.AvatarID].Effects[effect.ID] = effect
@@ -260,7 +261,7 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
             break;
         }
       }
-    }
+    }*/
   }
 
   for (const set of relicsetConfig) {
@@ -284,9 +285,9 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
       .sort((a,b) => a.Level - b.Level)
       .forEach((x) => {
         const SkillName = cleanString(locale, textmap[x.SkillName.Hash])
-        const SkillDesc = formattingFixer(replaceParameters(cleanString(locale, textmap[x.SkillDesc.Hash]), x.ParamList.map((x) => x.Value)))
+        // const SkillDesc = formattingFixer(replaceParameters(cleanString(locale, textmap[x.SkillDesc.Hash]), x.ParamList.map((x) => x.Value)))
         Lightcone.SkillName = SkillName
-        Lightcone[`S${x.Level}Desc`] = SkillDesc
+        // Lightcone[`S${x.Level}Desc`] = SkillDesc
       })
     output.Lightcones[lightcone.EquipmentID] = Lightcone
   }

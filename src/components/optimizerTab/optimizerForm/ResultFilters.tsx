@@ -30,7 +30,7 @@ export const MinMaxStatFilters = () => {
           <FilterRow name='Err' label='ERR'/>
         </Flex>
         <Flex
-          style={{ height: 20, width: '100%', cursor: 'pointer' }}
+          style={{ height: 20, width: '100%', marginTop: -4, cursor: 'pointer' }}
           justify='space-around'
           align='flex-start'
           onClick={() => setView('Ratings')}
@@ -55,7 +55,7 @@ export const MinMaxStatFilters = () => {
         <FilterRow name='Break' label='BREAK'/>
         <FilterRow name='Combo' label='COMBO'/>
         <Flex
-          style={{ height: 20, width: '100%', cursor: 'pointer' }}
+          style={{ height: 20, width: '100%', marginTop: -4, cursor: 'pointer' }}
           justify='space-around'
           align='flex-start'
           onClick={() => setView('Stats')}

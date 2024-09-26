@@ -461,10 +461,10 @@ function CharacterPreviewSelection(props) {
   return (
     <Flex style={{ width: 1300, marginLeft: 25 }} justify='space-around'>
       <Flex vertical align='center' gap={5} style={{ marginBottom: 100, width: 1068 }}>
-        <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
+        <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none', width: '100%' }}>
           <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey}/>
-          <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
-            <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined/>} loading={screenshotLoading} type='primary'>
+          <Flex style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }} justify='space-between'>
+            <Button onClick={clipboardClicked} style={{ width: 225 }} icon={<CameraOutlined/>} loading={screenshotLoading} type='primary'>
               Copy screenshot
             </Button>
             <Button style={{ width: 40 }} icon={<DownloadOutlined/>} onClick={downloadClicked} loading={downloadLoading}/>

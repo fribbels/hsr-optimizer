@@ -2,39 +2,23 @@ import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.IndeliblePromise')
   const sValues = [0.15, 0.1875, 0.225, 0.2625, 0.3]
-  const lcRanks = {
-    id: '21042',
-    skill: 'Inheritance',
-    desc: "Increases the wearer's Break Effect by #1[i]%. When the wearer uses their Ultimate, increases CRIT Rate by #2[i]%, lasting for #3[i] turn(s).",
-    params: [
-      [0.28, 0.15, 2],
-      [0.35, 0.1875, 2],
-      [0.42, 0.225, 2],
-      [0.49, 0.2625, 2],
-      [0.56, 0.3, 2],
-    ],
-    properties: [
-      [{ type: 'BreakDamageAddedRatioBase', value: 0.28 }],
-      [{ type: 'BreakDamageAddedRatioBase', value: 0.35 }],
-      [{ type: 'BreakDamageAddedRatioBase', value: 0.42 }],
-      [{ type: 'BreakDamageAddedRatioBase', value: 0.49 }],
-      [{ type: 'BreakDamageAddedRatioBase', value: 0.56 }],
-    ],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'crBuff',
     name: 'crBuff',
     formItem: 'switch',
-    text: 'Ult CR buff',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.0.text'),
+    title: t('Content.0.title'),
+    content: t('Content.0.content', { BreakBuff: TsUtils.precisionRound(100 * (0.21 + 0.7 * s)), CritBuff: TsUtils.precisionRound(100 * sValues[s]), Duration: 2 }),
   }]
 
   return {

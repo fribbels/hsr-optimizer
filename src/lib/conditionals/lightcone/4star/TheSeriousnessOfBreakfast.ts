@@ -3,53 +3,32 @@ import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.TheSeriousnessOfBreakfast')
   const sValuesDmgBoost = [0.12, 0.15, 0.18, 0.21, 0.24]
   const sValuesStacks = [0.04, 0.05, 0.06, 0.07, 0.08]
-  const lcRanks = {
-    id: '21027',
-    skill: 'Get Ready',
-    desc: "Increases the wearer's DMG by #1[i]%.",
-    params: [
-      [0.12, 0.04, 3],
-      [0.15, 0.05, 3],
-      [0.18, 0.06, 3],
-      [0.21, 0.07, 3],
-      [0.24, 0.08, 3],
-    ],
-    properties: [
-      [{ type: 'AllDamageTypeAddedRatio', value: 0.12 }],
-      [{ type: 'AllDamageTypeAddedRatio', value: 0.15 }],
-      [{ type: 'AllDamageTypeAddedRatio', value: 0.18 }],
-      [{ type: 'AllDamageTypeAddedRatio', value: 0.21 }],
-      [{ type: 'AllDamageTypeAddedRatio', value: 0.24 }],
-    ],
-  }
-
-  const lcRanks2 = {
-    ...lcRanks,
-    desc: `For every enemy defeated by the wearer, the wearer's ATK increases by #2[i]%, stacking up to #3[i] time(s).`,
-  }
 
   const content: ContentItem[] = [{
     lc: true,
     id: 'dmgBoost',
     name: 'dmgBoost',
     formItem: 'switch',
-    text: 'DMG boost',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.0.text'),
+    title: t('Content.0.title'),
+    content: t('Content.0.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmgBoost[s]) }),
   }, {
     lc: true,
     id: 'defeatedEnemyAtkStacks',
     name: 'defeatedEnemyAtkStacks',
     formItem: 'slider',
-    text: 'Defeated enemy ATK stacks',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks2),
+    text: t('Content.1.text'),
+    title: t('Content.1.title'),
+    content: t('Content.1.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesStacks[s]), StackLimit: 3 }),
     min: 0,
     max: 3,
   }]

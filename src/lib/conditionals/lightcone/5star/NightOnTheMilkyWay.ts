@@ -1,51 +1,34 @@
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals'
+import { LightConeConditional } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.NightOnTheMilkyWay')
   const sValuesAtk = [0.09, 0.105, 0.12, 0.135, 0.15]
   const sValuesDmg = [0.30, 0.35, 0.40, 0.45, 0.50]
-
-  const lcRank: LightConeRawRank = {
-    id: '23000',
-    skill: 'Meteor Swarm',
-    desc: "For every enemy on the field, increases the wearer's ATK by #2[f1]%, up to 5 stacks.",
-    params: [
-      [0.3, 0.09],
-      [0.35, 0.105],
-      [0.4, 0.12],
-      [0.45, 0.135],
-      [0.5, 0.15],
-    ],
-    properties: [
-      [], [], [], [], [],
-    ],
-  }
-  const lcRank2: LightConeRawRank = {
-    ...lcRank,
-    desc: `When an enemy is inflicted with Weakness Break, the DMG dealt by the wearer increases by #1[i]% for 1 turn.`,
-  }
 
   const content: ContentItem[] = [{
     lc: true,
     id: 'enemyCountAtkBuff',
     name: 'enemyCountAtkBuff',
     formItem: 'switch',
-    text: 'Enemy count atk buff',
-    title: lcRank.skill,
-    content: getContentFromLCRanks(s, lcRank),
+    text: t('Content.0.text'),
+    title: t('Content.0.title'),
+    content: t('Content.0.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]) }),
   }, {
     lc: true,
     id: 'enemyWeaknessBreakDmgBuff',
     name: 'enemyWeaknessBreakDmgBuff',
     formItem: 'switch',
-    text: 'Enemy weakness break dmg buff',
-    title: lcRank.skill,
-    content: getContentFromLCRanks(s, lcRank2),
+    text: t('Content.1.text'),
+    title: t('Content.1.title'),
+    content: t('Content.1.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]) }),
   }]
 
   return {

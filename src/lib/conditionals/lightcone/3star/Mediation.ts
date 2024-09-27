@@ -2,27 +2,22 @@ import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ContentItem } from 'types/Conditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.Mediation')
   const sValues = [12, 14, 16, 18, 20]
-  const lcRanks = {
-    id: '20019',
-    skill: 'Family',
-    desc: 'Upon entering battle, increases SPD of all allies by #1[i] points for #2[i] turn(s).',
-    params: [[12, 1], [14, 1], [16, 1], [18, 1], [20, 1]],
-    properties: [[], [], [], [], []],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'initialSpdBuff',
     name: 'initialSpdBuff',
     formItem: 'switch',
-    text: 'Initial SPD buff',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.0.text'),
+    title: t('Content.0.title'),
+    content: t('Content.0.content', { SpdBuff: sValues[s], Duration: 1 }),
   }]
 
   return {

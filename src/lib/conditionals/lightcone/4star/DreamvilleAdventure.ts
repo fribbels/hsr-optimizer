@@ -2,53 +2,41 @@ import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.DreamvilleAdventure')
   const sValues = [0.12, 0.14, 0.16, 0.18, 0.20]
-  const lcRanks = {
-    id: '21036',
-    skill: 'Solidarity',
-    desc: "After the wearer uses a certain type of ability such as Basic ATK, Skill, or Ultimate, all allies gain Childishness, which increases allies' DMG for the same type of ability as used by the wearer by #1[i]%. Childishness only takes effect for the most recent type of ability the wearer used and cannot be stacked.",
-    params: [
-      [0.12],
-      [0.14],
-      [0.16],
-      [0.18],
-      [0.2],
-    ],
-    properties: [
-      [], [], [], [], [],
-    ],
-  }
   const content: ContentItem[] = [
     {
       lc: true,
       id: 'ultDmgBuff',
       name: 'ultDmgBuff',
       formItem: 'switch',
-      text: 'Ult DMG buff',
-      title: lcRanks.skill,
-      content: getContentFromLCRanks(s, lcRanks),
+      text: t('Content.0.text'),
+      title: t('Content.0.title'),
+      content: t('Content.0.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },
     {
       lc: true,
       id: 'skillDmgBuff',
       name: 'skillDmgBuff',
       formItem: 'switch',
-      text: 'Skill DMG buff',
-      title: lcRanks.skill,
-      content: getContentFromLCRanks(s, lcRanks),
+      text: t('Content.1.text'),
+      title: t('Content.1.title'),
+      content: t('Content.1.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     }, {
       lc: true,
       id: 'basicDmgBuff',
       name: 'basicDmgBuff',
       formItem: 'switch',
-      text: 'Basic DMG buff',
-      title: lcRanks.skill,
-      content: getContentFromLCRanks(s, lcRanks),
+      text: t('Content.2.text'),
+      title: t('Content.2.title'),
+      content: t('Content.2.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },
   ]
 

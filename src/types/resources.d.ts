@@ -357,7 +357,2613 @@ interface Resources {
       "CV": "CV"
     }
   },
-  "conditionals": {},
+  "conditionals": {
+    "Lightcones": {
+      "AlongThePassingShore": {
+        "Content": [
+          {
+            "text": "Mirage Fizzle debuff",
+            "title": "Steerer",
+            "content": "When the wearer hits an enemy target, inflicts Mirage Fizzle on the enemy, lasting for 1 turn. Each time the wearer attacks, this effect can only trigger 1 time on each target. The wearer deals {{DmgBoost}}% increased DMG to targets afflicted with Mirage Fizzle, and the DMG dealt by the wearer's Ultimate additionally increases by {{UltDmgBoost}}%."
+          }
+        ]
+      },
+      "AnInstantBeforeAGaze": {
+        "Content": [
+          {
+            "text": "Max Energy",
+            "title": "A Knight's Pilgrimage",
+            "content": "When the wearer uses Ultimate, increases the wearer's Ultimate DMG based on their Max Energy. Each point of Energy increases the Ultimate DMG by {{DmgStep}}%, up to {{EnergyLimit}} points of Energy."
+          }
+        ]
+      },
+      "BaptismOfPureThought": {
+        "Content": [
+          {
+            "text": "Debuff crit dmg stacks",
+            "title": "Mental Training",
+            "content": "For every debuff on the enemy target, the wearer's CRIT DMG dealt against this target increases by {{DmgStep}}%, stacking up to {{StackCount}} times."
+          },
+          {
+            "text": "Disputation ult CD / FUA DEF PEN buff",
+            "title": "Mental Training",
+            "content": "When using Ultimate to attack the enemy target, the wearer receives the Disputation effect, which increases DMG dealt by {{DmgStep}}% and enables their follow-up attacks to ignore {{DefIgnore}}% of the target's DEF. This effect lasts for {{Duration}} turns."
+          }
+        ]
+      },
+      "BeforeDawn": {
+        "Content": [
+          {
+            "text": "FUA DMG boost",
+            "title": "Long Night",
+            "content": "After the wearer uses their Skill or Ultimate, they gain Somnus Corpus. Upon triggering a follow-up attack, Somnus Corpus will be consumed and the follow-up attack DMG increases by {{DmgBuff}}%"
+          }
+        ]
+      },
+      "BrighterThanTheSun": {
+        "Content": [
+          {
+            "text": "Dragon's Call stacks",
+            "title": "Defiant Till Death",
+            "content": "When the wearer uses their Basic ATK, they will gain 1 stack of Dragon's Call, lasting for {{Duration}} turns. Each stack of Dragon's Call increases the wearer's ATK by {{AtkBuff}}% and Energy Regeneration Rate by {{RegenBuff}}%. Dragon's Call can be stacked up to {{StackCount}} times."
+          }
+        ]
+      },
+      "ButTheBattleIsntOver": {
+        "Content": [
+          {
+            "text": "Post skill DMG buff",
+            "title": "Heir",
+            "content": "When the wearer uses their Skill, the next ally taking action (except the wearer) deals {{DmgBuff}}% more DMG for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "CruisingInTheStellarSea": {
+        "Content": [
+          {
+            "text": "Enemy HP ≤ 50% CR buff",
+            "title": "Chase",
+            "content": "Increases the wearer's CRIT rate against enemies with HP less than or equal to {{HPThreshold}}% by an extra {{CritBuff}}%."
+          },
+          {
+            "text": "Enemy defeated ATK buff",
+            "title": "Chase",
+            "content": "When the wearer defeats an enemy, their ATK is increased by {{AtkBuff}}% for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "DanceAtSunset": {
+        "Content": [
+          {
+            "text": "FUA DMG stacks",
+            "title": "Deeply Engrossed",
+            "content": "After the wearer uses Ultimate, receives 1 stack of Firedance, lasting for 2 turns and stacking up to 2.0 time(s). Each stack of Firedance increases the DMG dealt by the wearer's follow-up attack by {{DmgBoost}}% ."
+          }
+        ]
+      },
+      "EarthlyEscapade": {
+        "Content": [
+          {
+            "text": "Mask active",
+            "title": "Capriciousness",
+            "content": "At the start of the battle, the wearer gains Mask, lasting for {{InitialDuration}} turn(s). While the wearer has Mask, the wearer's allies have their CRIT Rate increased by {{CritRateBuff}}% and their CRIT DMG increased by {{CritDmgBuff}}%. For every 1 Skill Point the wearer recovers (including Skill Points that exceed the limit), they gain 1 stack of Radiant Flame. And when the wearer has {{StackCount}} stacks of Radiant Flame, all the stacks are removed, and they gain Mask for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "EchoesOfTheCoffin": {
+        "Content": [
+          {
+            "text": "Post ult SPD buff",
+            "title": "Thorns",
+            "content": "After the wearer uses an attack, for each different enemy target the wearer hits, regenerates {{EnergyRecovered}} Energy. Each attack can regenerate Energy up to {{RecoveryCountLimit}} time(s) this way. After the wearer uses their Ultimate, all allies gain {{SpdBuff}} SPD for 1 turn."
+          }
+        ]
+      },
+      "EternalCalculus": {
+        "Content": [
+          {
+            "text": "ATK buff stacks",
+            "title": "Boundless Thought",
+            "content": "After using an attack, for each enemy target hit, additionally increases ATK by {{AtkBuff}}%. This effect can stack up to 5 times and last until the next attack."
+          },
+          {
+            "text": "3 targets hit SPD buff",
+            "title": "Boundless Thought",
+            "content": "If there are 3 or more enemy targets hit, this unit's SPD increases by {{SpdBuff}}%, lasting for 1 turn(s)."
+          }
+        ]
+      },
+      "FlowingNightglow": {
+        "Content": [
+          {
+            "text": "Cadenza active",
+            "title": "Pacify",
+            "content": "Every time an ally attacks, the wearer gains 1 stack of Cantillation. Each stack of Cantillation increases the wearer's Energy Regeneration Rate by {{RegenBuff}}%, stacking up to 5 time(s). When the wearer uses their Ultimate, removes Cantillation and gains Cadenza. Cadenza increases the Wearer's ATK by {{AtkBuff}}% and increases all allies' DMG dealt by {{DmgBuff}}%, lasting for 1 turn(s)."
+          },
+          {
+            "text": "Cantillation stacks",
+            "title": "Pacify",
+            "content": "Every time an ally attacks, the wearer gains 1 stack of Cantillation. Each stack of Cantillation increases the wearer's Energy Regeneration Rate by {{RegenBuff}}%, stacking up to 5 time(s). When the wearer uses their Ultimate, removes Cantillation and gains Cadenza. Cadenza increases the Wearer's ATK by {{AtkBuff}}% and increases all allies' DMG dealt by {{DmgBuff}}%, lasting for 1 turn(s)."
+          }
+        ]
+      },
+      "IncessantRain": {
+        "Content": [
+          {
+            "text": "Enemy ≤ 3 debuffs CR buff",
+            "title": "Mirage of Reality",
+            "content": "When the wearer deals DMG to an enemy that currently has {{DebuffCount}} or more debuffs, increases the wearer's CRIT Rate by {{CritBuff}}%."
+          },
+          {
+            "text": "Target Aether Code debuff",
+            "title": "Mirage of Reality",
+            "content": "After the wearer uses their Basic ATK, Skill, or Ultimate, there is a chance to implant Aether Code on a random hit target that does not yet have it. Targets with Aether Code receive {{DmgIncrease}}% increased DMG for 1 turn."
+          }
+        ]
+      },
+      "InherentlyUnjustDestiny": {
+        "Content": [
+          {
+            "text": "Shield CD buff",
+            "title": "All-In",
+            "content": "When the wearer provides a Shield to an ally, the wearer's CRIT DMG increases by {{CritBuff}}%, lasting for 2 turn(s)."
+          },
+          {
+            "text": "Target vulnerability debuff",
+            "title": "All-In",
+            "content": "When the wearer's follow-up attack hits an enemy target, there is a 100% base chance to increase the DMG taken by the attacked enemy target by {{Vulnerability}}%, lasting for 2 turn(s)."
+          }
+        ]
+      },
+      "InTheNameOfTheWorld": {
+        "Content": [
+          {
+            "text": "Enemy debuffed DMG boost",
+            "title": "Inheritor",
+            "content": "Increases the wearer's DMG to debuffed enemies by {{DmgBuff}}%."
+          },
+          {
+            "text": "Skill ATK boost (not implemented)",
+            "title": "Inheritor",
+            "content": "When the wearer uses their Skill, the Effect Hit Rate for this attack increases by {{EhrBuff}}%, and ATK increases by {{AtkBuff}}%."
+          }
+        ]
+      },
+      "InTheNight": {
+        "Content": [
+          {
+            "text": "Speed scaling buffs enabled",
+            "title": "Flowers and Butterflies",
+            "content": "While the wearer is in battle, for every {{SpdThreshold}} SPD that exceeds 100, the DMG of the wearer's Basic ATK and Skill is increased by {{DmgBuff}}% and the CRIT DMG of their Ultimate is increased by {{CritBuff}}%. This effect can stack up to {{StackLimit}} time(s)."
+          }
+        ]
+      },
+      "IShallBeMyOwnSword": {
+        "Content": [
+          {
+            "text": "Eclipse stacks",
+            "title": "With This Evening Jade",
+            "content": "When an ally (excluding the wearer) gets attacked or loses HP, the wearer gains 1 stack of Eclipse, up to a max of {{StackLimit}} stack(s). Each stack of Eclipse increases the DMG of the wearer's next attack by {{DmgBuff}}%."
+          },
+          {
+            "text": "Max stack DEF pen",
+            "title": "With This Evening Jade",
+            "content": "When {{StackThreshold}} stack(s) are reached, additionally enables that attack to ignore {{DefIgnore}}% of the enemy's DEF. This effect will be removed after the wearer uses an attack."
+          }
+        ]
+      },
+      "IVentureForthToHunt": {
+        "Content": [
+          {
+            "text": "Luminflux stacks",
+            "title": "Intimidation",
+            "content": "When the wearer launches a follow-up attack, gains 1 stack of \"Luminflux,\" stacking up to 2.0 time(s). Each stack of \"Luminflux\" enables the Ultimate DMG dealt by the wearer to ignore {{DefIgnore}}% of the target's DEF. When the wearer's turn ends, removes 1 stack of \"Luminflux."
+          }
+        ]
+      },
+      "MomentOfVictory": {
+        "Content": [
+          {
+            "text": "Self attacked DEF buff",
+            "title": "Verdict",
+            "content": "Increases the chance for the wearer to be attacked by enemies. When the wearer is attacked, increase their DEF by an extra {{DefBuff}}% until the end of the wearer's turn."
+          }
+        ]
+      },
+      "NightOfFright": {
+        "Content": [
+          {
+            "text": "ATK buff stacks",
+            "title": "Deep, Deep Breaths",
+            "content": "When the wearer provides healing for an ally, increases the healed ally's ATK by {{AtkBuff}}%. This effect can stack up to {{StackLimit}} times and lasts for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "NightOnTheMilkyWay": {
+        "Content": [
+          {
+            "text": "Enemy count atk buff",
+            "title": "Meteor Swarm",
+            "content": "For every enemy on the field, increases the wearer's ATK by {{AtkBuff}}%, up to 5 stacks."
+          },
+          {
+            "text": "Enemy weakness break dmg buff",
+            "title": "Meteor Swarm",
+            "content": "When an enemy is inflicted with Weakness Break, the DMG dealt by the wearer increases by {{DmgBuff}}% for 1 turn."
+          }
+        ]
+      },
+      "NinjutsuInscriptionDazzlingEvilbreaker": [],
+      "OnTheFallOfAnAeon": {
+        "Content": [
+          {
+            "text": "ATK boost stacks",
+            "title": "Moth to Flames",
+            "content": "Whenever the wearer attacks, their ATK is increased by {{AtkBuff}}% in this battle. This effect can stack up to {{StackLimit}} time(s)."
+          },
+          {
+            "text": "Weakness break DMG buff",
+            "title": "Moth to Flames",
+            "content": "After a character inflicts Weakness Break on an enemy, the wearer's DMG increases by {{DmgBuff}}% for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "PastSelfInTheMirror": {
+        "Content": [
+          {
+            "text": "Post Ult DMG buff",
+            "title": "The Plum Fragrance In My Bones",
+            "content": "When the wearer uses their Ultimate, increases all allies' DMG by {{DmgBuff}}%, lasting for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "PatienceIsAllYouNeed": {
+        "Content": [
+          {
+            "text": "SPD Stacks",
+            "title": "Spider Web",
+            "content": "After every attack launched by wearer, their SPD increases by {{SpdBuff}}%, stacking up to {{StackLimit}} times."
+          },
+          {
+            "text": "DoT Effect (not implemented)",
+            "title": "Spider Web",
+            "content": "If the wearer hits an enemy target that is not afflicted by Erode, there is a 100% base chance to inflict Erode to the target. Enemies afflicted with Erode are also considered to be Shocked and will receive Lightning DoT at the start of each turn equal to {{Multiplier}}% of the wearer's ATK, lasting for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "ReforgedRemembrance": {
+        "Content": [
+          {
+            "text": "Prophet stacks",
+            "title": "Crystallize",
+            "content": "When the wearer deals DMG to an enemy inflicted with Wind Shear, Burn, Shock, or Bleed, each respectively grants 1 stack of Prophet, stacking up to {{StackLimit}} time(s). In a single battle, only 1 stack of Prophet can be granted for each type of DoT. Every stack of Prophet increases wearer's ATK by {{AtkBuff}}% and enables the DoT dealt to ignore {{DefIgnore}}% of the target's DEF."
+          }
+        ]
+      },
+      "SailingTowardsASecondLife": {
+        "Content": [
+          {
+            "text": "Break DMG DEF shred",
+            "title": "Rough Water",
+            "content": "The Break DMG dealt by the wearer ignores {{DefIgnore}}% of the target's DEF."
+          },
+          {
+            "text": "BE ≥ 150 SPD buff",
+            "title": "Rough Water",
+            "content": "When the wearer's Break Effect in battle is at 150% or greater, increases their SPD by {{SpdBuff}}%."
+          }
+        ]
+      },
+      "ScentAloneStaysTrue": {
+        "Content": [
+          {
+            "text": "Woefree vulnerability",
+            "title": "Contentment",
+            "content": "After the wearer uses Ultimate to attack enemy targets, inflicts the targets with the \"Woefree\" state, lasting for 2.0 turn(s). While in \"Woefree,\" enemy targets take {{Vulnerability}}% increased DMG. The effect of increasing DMG taken is additionally boosted by {{AdditionalVulnerability}}% if the wearer's current Break Effect is 150.0% or higher."
+          }
+        ],
+        "TeammateContent": [
+          {
+            "text": "Additional vulnerability",
+            "title": "Contentment",
+            "content": "After the wearer uses Ultimate to attack enemy targets, inflicts the targets with the \"Woefree\" state, lasting for 2.0 turn(s). While in \"Woefree,\" enemy targets take {{Vulnerability}}% increased DMG. The effect of increasing DMG taken is additionally boosted by {{AdditionalVulnerability}}% if the wearer's current Break Effect is 150.0% or higher."
+          }
+        ]
+      },
+      "SheAlreadyShutHerEyes": {
+        "Content": [
+          {
+            "text": "HP lost DMG buff",
+            "title": "Visioscape",
+            "content": "When the wearer's HP is reduced, all allies' DMG dealt increases by {{DmgBuff}}%, lasting for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "SleepLikeTheDead": {
+        "Content": [
+          {
+            "text": "Missed crit CR buff",
+            "title": "Sweet Dreams",
+            "content": "When the wearer's Basic ATK or Skill does not result in a CRIT Hit, increases their CRIT Rate by {{CritBuff}}% for {{Duration}} turn(s). This effect can only trigger once every {{Cooldown}} turn(s)."
+          }
+        ]
+      },
+      "SolitaryHealing": {
+        "Content": [
+          {
+            "text": "Post ult DoT DMG buff",
+            "title": "Chaos Elixir",
+            "content": "When the wearer uses their Ultimate, increases DoT dealt by the wearer by {{DmgBuff}}%, lasting for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "SomethingIrreplaceable": {
+        "Content": [
+          {
+            "text": "Enemy defeated or self hit DMG buff",
+            "title": "Kinship",
+            "content": "When the wearer defeats an enemy or is hit, immediately restores HP equal to {{Multiplier}}% of the wearer's ATK. At the same time, the wearer's DMG is increased by {{DmgBuff}}% until the end of their next turn. This effect cannot stack and can only trigger 1 time per turn."
+          }
+        ]
+      },
+      "TextureOfMemories": {
+        "Content": [
+          {
+            "text": "Active shield DMG taken decrease",
+            "title": "Treasure",
+            "content": "If the wearer is attacked and has no Shield, they gain a Shield equal to {{ShieldHp}}% of their Max HP for {{Duration}} turn(s). This effect can only be triggered once every {{Cooldown}} turn(s). If the wearer has a Shield when attacked, the DMG they receive decreases by {{DmgReduction}}%."
+          }
+        ]
+      },
+      "TheUnreachableSide": {
+        "Content": [
+          {
+            "text": "HP consumed or attacked DMG buff",
+            "title": "Unfulfilled Yearning",
+            "content": "When the wearer is attacked or consumes their own HP, their DMG increases by {{DmgBuff}}%. This effect is removed after the wearer uses an attack."
+          }
+        ]
+      },
+      "ThoseManySprings": {
+        "Content": [
+          {
+            "text": "Unarmored vulnerability",
+            "title": "Worldly Affairs Leave No Mark",
+            "content": "After the wearer uses Basic ATK, Skill, or Ultimate to attack an enemy target, there is a 60.0% base chance to inflict \"Unarmored\" on the target. While in the Unarmored state, the enemy target receives {{UnarmoredVulnerability}}% increased DMG, lasting for 2.0 turn(s). If the target is under a DoT state inflicted by the wearer, there is a 60.0% base chance to upgrade the \"Unarmored\" state inflicted by the wearer to the \"Cornered\" state, which additionally increases the DMG the enemy target receives by {{CorneredVulnerability}}% , lasting for 2.0 turn(s)."
+          },
+          {
+            "text": "Cornered vulnerability",
+            "title": "Worldly Affairs Leave No Mark",
+            "content": "After the wearer uses Basic ATK, Skill, or Ultimate to attack an enemy target, there is a 60.0% base chance to inflict \"Unarmored\" on the target. While in the Unarmored state, the enemy target receives {{UnarmoredVulnerability}}% increased DMG, lasting for 2.0 turn(s). If the target is under a DoT state inflicted by the wearer, there is a 60.0% base chance to upgrade the \"Unarmored\" state inflicted by the wearer to the \"Cornered\" state, which additionally increases the DMG the enemy target receives by {{CorneredVulnerability}}% , lasting for 2.0 turn(s)."
+          }
+        ]
+      },
+      "TimeWaitsForNoOne": {
+        "Content": [
+          {
+            "text": "Healing based dmg proc (Not implemented)",
+            "title": "Morn, Noon, Dusk, and Night",
+            "content": "When the wearer heals allies, record the amount of Outgoing Healing. When any ally launches an attack, a random attacked enemy takes Additional DMG equal to {{Multiplier}}% of the recorded Outgoing Healing value. The type of this Additional DMG is of the same Type as the wearer's. This Additional DMG is not affected by other buffs, and can only occur 1 time per turn."
+          }
+        ]
+      },
+      "WhereaboutsShouldDreamsRest": {
+        "Content": [
+          {
+            "text": "Routed Vulnerability",
+            "title": "Metamorphosis",
+            "content": "When the wearer deals Break DMG to an enemy target, inflicts Routed on the enemy, lasting for 2 turn(s). Targets afflicted with Routed receive ${{Vulnerability}}% increased Break DMG from the wearer, and their SPD is lowered by 20%. Effects of the similar type cannot be stacked."
+          }
+        ]
+      },
+      "WorrisomeBlissful": {
+        "Content": [
+          {
+            "text": "Target Tame stacks",
+            "title": "One At A Time",
+            "content": "After the wearer uses a follow-up attack, apply the Tame state to the target, stacking up to {{StackLimit}} stacks. When allies hit enemy targets under the Tame state, every Tame stack increases the CRIT DMG dealt by {{CritBuff}}%."
+          }
+        ]
+      },
+      "YetHopeIsPriceless": {
+        "Content": [
+          {
+            "text": "CD to FUA DMG boost",
+            "title": "Promise",
+            "content": "While the wearer is in battle, for every 20% CRIT DMG that exceeds 120%, the DMG dealt by follow-up attack increases by {{DmgBuff}}%. This effect can stack up to 4 time(s)."
+          },
+          {
+            "text": "Ult / FUA DEF shred",
+            "title": "Promise",
+            "content": "When the battle starts or after the wearer uses their Basic ATK, enables Ultimate or the DMG dealt by follow-up attack to ignore {{DefShred}}% of the target's DEF, lasting for 2 turn(s)."
+          }
+        ]
+      },
+      "AfterTheCharmonyFall": {
+        "Content": [
+          {
+            "text": "SPD buff",
+            "title": "Quiescence",
+            "content": "After the wearer uses Ultimate, increases SPD by {{SpdBuff}}%, lasting for 2 turn(s)."
+          }
+        ]
+      },
+      "ASecretVow": {
+        "Content": [
+          {
+            "text": "Enemy HP % higher DMG boost",
+            "title": "Spare No Effort",
+            "content": "The wearer also deals an extra {{DmgBuff}}% of DMG to enemies whose current HP percentage is equal to or higher than the wearer's current HP percentage."
+          }
+        ]
+      },
+      "BeforeTheTutorialMissionStarts": {
+        "Content": []
+      },
+      "BoundlessChoreo": {
+        "Content": [
+          {
+            "text": "Enemy DEF reduced / slowed",
+            "title": "Scrutinize",
+            "content": "The wearer deals {{CritBuff}}% more CRIT DMG to enemies that are currently Slowed or have reduced DEF."
+          }
+        ]
+      },
+      "CarveTheMoonWeaveTheClouds": {
+        "Content": [
+          {
+            "text": "ATK buff active",
+            "title": "Secret",
+            "content": "At the start of the battle and whenever the wearer's turn begins, one of the following effects is applied randomly:::BR::All allies' ATK increases by {{AtkBuff}}%::BR::All allies' CRIT DMG increases by {{CritBuff}}%::BR::All allies' Energy Regeneration Rate increases by {{RegenBuff}}%.::BR::The applied effect cannot be identical to the last effect applied, and will replace the previous effect. The applied effect will be removed when the wearer has been knocked down. Effects of the similar type cannot be stacked."
+          },
+          {
+            "text": "CD buff active",
+            "title": "Secret",
+            "content": "At the start of the battle and whenever the wearer's turn begins, one of the following effects is applied randomly:::BR::All allies' ATK increases by {{AtkBuff}}%::BR::All allies' CRIT DMG increases by {{CritBuff}}%::BR::All allies' Energy Regeneration Rate increases by {{RegenBuff}}%.::BR::The applied effect cannot be identical to the last effect applied, and will replace the previous effect. The applied effect will be removed when the wearer has been knocked down. Effects of the similar type cannot be stacked."
+          },
+          {
+            "text": "ERR buff active",
+            "title": "Secret",
+            "content": "At the start of the battle and whenever the wearer's turn begins, one of the following effects is applied randomly:::BR::All allies' ATK increases by {{AtkBuff}}%::BR::All allies' CRIT DMG increases by {{CritBuff}}%::BR::All allies' Energy Regeneration Rate increases by {{RegenBuff}}%.::BR::The applied effect cannot be identical to the last effect applied, and will replace the previous effect. The applied effect will be removed when the wearer has been knocked down. Effects of the similar type cannot be stacked."
+          }
+        ]
+      },
+      "ConcertForTwo": {
+        "Content": [
+          {
+            "text": "Teammate shield DMG stacks",
+            "title": "Inspire",
+            "content": "For every on-field character that has a Shield, the DMG dealt by the wearer increases by {{DmgBuff}}%."
+          }
+        ]
+      },
+      "DanceDanceDance": {
+        "Content": []
+      },
+      "DayOneOfMyNewLife": {
+        "Content": [
+          {
+            "text": "Dmg RES buff",
+            "title": "At This Very Moment",
+            "content": "After entering battle, increases All-Type RES of all allies by {{ResBuff}}%. Effects of the same type cannot stack."
+          }
+        ]
+      },
+      "DestinyThreadsForewoven": {
+        "Content": []
+      },
+      "DreamsMontage": {
+        "Content": []
+      },
+      "DreamvilleAdventure": {
+        "Content": [
+          {
+            "text": "Ult DMG buff'",
+            "title": "Solidarity",
+            "content": "After the wearer uses a certain type of ability such as Basic ATK, Skill, or Ultimate, all allies gain Childishness, which increases allies' DMG for the same type of ability as used by the wearer by {{DmgBuff}}%. Childishness only takes effect for the most recent type of ability the wearer used and cannot be stacked."
+          },
+          {
+            "text": "Skill DMG buff",
+            "title": "Solidarity",
+            "content": "After the wearer uses a certain type of ability such as Basic ATK, Skill, or Ultimate, all allies gain Childishness, which increases allies' DMG for the same type of ability as used by the wearer by {{DmgBuff}}%. Childishness only takes effect for the most recent type of ability the wearer used and cannot be stacked."
+          },
+          {
+            "text": "Basic DMG buff",
+            "title": "Solidarity",
+            "content": "After the wearer uses a certain type of ability such as Basic ATK, Skill, or Ultimate, all allies gain Childishness, which increases allies' DMG for the same type of ability as used by the wearer by {{DmgBuff}}%. Childishness only takes effect for the most recent type of ability the wearer used and cannot be stacked."
+          }
+        ]
+      },
+      "EyesOfThePrey": {
+        "Content": []
+      },
+      "Fermata": {
+        "Content": [
+          {
+            "text": "Enemy shocked / wind sheared",
+            "title": "Semibreve Rest",
+            "content": "Increases the wearer's DMG to enemies afflicted with Shock or Wind Shear by {{DmgBuff}}%. This also applies to DoT."
+          }
+        ]
+      },
+      "FinalVictor": {
+        "Content": [
+          {
+            "text": "Good Fortune stacks",
+            "title": "All In",
+            "content": "When the wearer lands a CRIT hit on enemies, gains a stack of Good Fortune, stacking up to {{StackLimit}} time(s). Every stack of Good Fortune the wearer has will increase their CRIT DMG by {{CritBuff}}%. Good Fortune will be removed at the end of the wearer's turn."
+          }
+        ]
+      },
+      "FlamesAfar": {
+        "Content": [
+          {
+            "text": "DMG increased buff",
+            "title": "Deflagration",
+            "content": "When the cumulative HP loss of the wearer during a single attack exceeds {{HpThreshold}}% of their Max HP, or if the amount of their own HP they consume at one time is greater than {{HpThreshold}}% of their Max HP, immediately heals the wearer for {{Healing}}% of their Max HP, and at the same time, increases the DMG they deal by {{DmgBuff}}% for {{Duration}} turn(s). This effect can only be triggered once every {{Cooldown}} turn(s)."
+          }
+        ]
+      },
+      "ForTomorrowsJourney": {
+        "Content": [
+          {
+            "text": "Ult usage DMG buff",
+            "title": "Bonds",
+            "content": "After the wearer uses their Ultimate, increases their DMG dealt by {{DmgBuff}}%, lasting for 1 turn(s)."
+          }
+        ]
+      },
+      "GeniusesRepose": {
+        "Content": [
+          {
+            "text": "Defeated enemy CD buff",
+            "title": "Each Now Has a Role to Play",
+            "content": "When the wearer defeats an enemy, the wearer's CRIT DMG increases by {{DmgBuff}}% for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "GoodNightAndSleepWell": {
+        "Content": [
+          {
+            "text": "Debuff stacks DMG increase",
+            "title": "Toiler",
+            "content": "For every debuff the target enemy has, the DMG dealt by the wearer increases by {{DmgBuff}}%, stacking up to {{StackLimit}} time(s). This effect also applies to DoT."
+          }
+        ]
+      },
+      "HeyOverHere": {
+        "Content": [
+          {
+            "text": "Post skill heal buff",
+            "title": "I'm Not Afraid!",
+            "content": "When the wearer uses their Skill, increases Outgoing Healing by {{HealingBoost}}%, lasting for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "IndeliblePromise": {
+        "Content": [
+          {
+            "text": "Ult CR buff",
+            "title": "Inheritance",
+            "content": "Increases the wearer's Break Effect by {{BreakBuff}}%. When the wearer uses their Ultimate, increases CRIT Rate by {{CritBuff}}%, lasting for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "ItsShowtime": {
+        "Content": [
+          {
+            "text": "Trick stacks",
+            "title": "Self-Amusement",
+            "content": "When the wearer inflicts a debuff on an enemy, gains a stack of Trick. Every stack of Trick increases the wearer's DMG dealt by {{DmgBuff}}%, stacking up to {{StackLimit}} time(s). This effect lasts for {{Duration}} turn(s). When the wearer's Effect Hit Rate is {{EhrThreshold}}% or higher, increases ATK by {{AtkBuff}}%."
+          }
+        ]
+      },
+      "LandausChoice": {
+        "Content": []
+      },
+      "MakeTheWorldClamor": {
+        "Content": [
+          {
+            "text": "Ult DMG buff",
+            "title": "The Power of Sound",
+            "content": "The wearer regenerates {{Energy}} Energy immediately upon entering battle, and increases Ultimate DMG by {{DmgBuff}}%."
+          }
+        ]
+      },
+      "MemoriesOfThePast": {
+        "Content": []
+      },
+      "NinjaRecordSoundHunt": {
+        "Content": [
+          {
+            "text": "CD buff",
+            "title": "Curtains Up!",
+            "content": ""
+          }
+        ]
+      },
+      "NowhereToRun": {
+        "Content": []
+      },
+      "OnlySilenceRemains": {
+        "Content": [
+          {
+            "text": "≤ 2 enemies CR buff",
+            "title": "Record",
+            "content": "If there are 2 or fewer enemies on the field, increases wearer's CRIT Rate by {{CritBuff}}%."
+          }
+        ]
+      },
+      "PastAndFuture": {
+        "Content": [
+          {
+            "text": "Post skill DMG buff",
+            "title": "Kites From the Past",
+            "content": "When the wearer uses their Skill, the next ally taking action (except the wearer) deals {{DmgBuff}}% increased DMG for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "PerfectTiming": {
+        "Content": [
+          {
+            "text": "RES to healing boost",
+            "title": "Refraction of Sightline",
+            "content": "Increases the wearer's Outgoing Healing by an amount that is equal to {{Scaling}}% of Effect RES. Outgoing Healing can be increased this way by up to {{Limit}}%."
+          }
+        ]
+      },
+      "PlanetaryRendezvous": {
+        "Content": [
+          {
+            "text": "Same element ally DMG boost",
+            "title": "Departure",
+            "content": "After entering battle, if an ally deals the same DMG Type as the wearer, DMG dealt increases by {{DmgBuff}}%."
+          }
+        ]
+      },
+      "PoisedToBloom": {
+        "Content": [
+          {
+            "text": "Double path CD buff",
+            "title": "Lose Not, Forget Not",
+            "content": "Upon entering battle, if two or more characters follow the same Path, then these characters' CRIT DMG increases by {{CritBuff}}% . "
+          }
+        ]
+      },
+      "PostOpConversation": {
+        "Content": [
+          {
+            "text": "Ult healing boost",
+            "title": "Mutual Healing",
+            "content": "Increases the wearer's Outgoing Healing when they use their Ultimate by {{HealingBoost}}%."
+          }
+        ]
+      },
+      "QuidProQuo": {
+        "Content": []
+      },
+      "ResolutionShinesAsPearlsOfSweat": {
+        "Content": [
+          {
+            "text": "Target ensnared",
+            "title": "Glance Back",
+            "content": "When the wearer hits an enemy and if the hit enemy is not already Ensnared, then there is a chance to Ensnare the hit enemy. Ensnared enemies' DEF decreases by {{DefShred}}% for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "ReturnToDarkness": {
+        "Content": []
+      },
+      "RiverFlowsInSpring": {
+        "Content": [
+          {
+            "text": "SPD / DMG buff active",
+            "title": "Stave Off the Lingering Cold",
+            "content": "After entering battle, increases the wearer's SPD by {{SpdBuff}}% and DMG by {{DmgBuff}}%. When the wearer takes DMG, this effect will disappear. This effect will resume after the end of the wearer's next turn."
+          }
+        ]
+      },
+      "ShadowedByNight": {
+        "Content": [
+          {
+            "text": "SPD buff",
+            "title": "Concealment",
+            "content": "When entering battle or after dealing Break DMG, increases SPD by {{SpdBuff}}% , lasting for 2.0 turn(s)."
+          }
+        ]
+      },
+      "SharedFeeling": {
+        "Content": []
+      },
+      "SubscribeForMore": {
+        "Content": [
+          {
+            "text": "Max energy DMG boost",
+            "title": "Like Before You Leave!",
+            "content": "Increases the DMG of the wearer's Basic ATK and Skill by {{DmgBuff}}%. This effect increases by an extra {{DmgBuff}}% when the wearer's current Energy reaches its max level."
+          }
+        ]
+      },
+      "Swordplay": {
+        "Content": [
+          {
+            "text": "Same target hit stacks",
+            "title": "Answers of Their Own",
+            "content": "For each time the wearer hits the same target, DMG dealt increases by {{DmgBuff}}%, stacking up to {{StackLimit}} time(s). This effect will be dispelled when the wearer changes targets."
+          }
+        ]
+      },
+      "TheBirthOfTheSelf": {
+        "Content": [
+          {
+            "text": "Enemy HP < 50% fua buff",
+            "title": "The Maiden in the Painting",
+            "content": "If the current HP of the target enemy is below or equal to {{HpThreshold}}%, increases DMG dealt by follow-up attacks by an extra {{DmgBuff}}%."
+          }
+        ]
+      },
+      "TheDayTheCosmosFell": {
+        "Content": [
+          {
+            "text": "≥ 2 weakness targets CD buff",
+            "title": "Stratagem",
+            "content": "When the wearer uses an attack and at least 2 attacked enemies have the corresponding Weakness, the wearer's CRIT DMG increases by {{CritBuff}}% for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "TheMolesWelcomeYou": {
+        "Content": [
+          {
+            "text": "ATK buff stacks",
+            "title": "Fantastic Adventure",
+            "content": "When the wearer uses Basic ATK, Skill, or Ultimate to attack enemies, the wearer gains one stack of Mischievous. Each stack increases the wearer's ATK by {{AtkBuff}}%."
+          }
+        ]
+      },
+      "TheSeriousnessOfBreakfast": {
+        "Content": [
+          {
+            "text": "DMG boost",
+            "title": "Get Ready",
+            "content": "Increases the wearer's DMG by {{DmgBuff}}%."
+          },
+          {
+            "text": "Defeated enemy ATK stacks",
+            "title": "Get Ready",
+            "content": "For every enemy defeated by the wearer, the wearer's ATK increases by {{AtkBuff}}%, stacking up to {{StackLimit}} time(s)."
+          }
+        ]
+      },
+      "ThisIsMe": {
+        "Content": [
+          {
+            "text": "DEF scaling ult DMG (Not implemented)",
+            "title": "New Chapter",
+            "content": "Increases the DMG of the wearer when they use their Ultimate by {{Multiplier}}% of the wearer's DEF. This effect only applies 1 time per enemy target during each use of the wearer's Ultimate."
+          }
+        ]
+      },
+      "TodayIsAnotherPeacefulDay": {
+        "Content": [
+          {
+            "text": "Max energy",
+            "title": "A Storm Is Coming",
+            "content": "After entering battle, increases the wearer's DMG based on their Max Energy. DMG increases by {{DmgStep}}% per point of Energy, up to {{EnergyLimit}} Energy."
+          }
+        ]
+      },
+      "TrendOfTheUniversalMarket": {
+        "Content": []
+      },
+      "UnderTheBlueSky": {
+        "Content": [
+          {
+            "text": "Defeated enemy CR buff",
+            "title": "Rye Under the Sun",
+            "content": "When the wearer defeats an enemy, the wearer's CRIT Rate increases by {{CritBuff}}% for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "WarmthShortensColdNights": {
+        "Content": []
+      },
+      "WeAreWildfire": {
+        "Content": [
+          {
+            "text": "Initial DMG reduction buff",
+            "title": "Teary-Eyed",
+            "content": "At the start of the battle, the DMG dealt to all allies decreases by {{DmgReduction}}% for {{Duration}} turn(s). At the same time, immediately restores HP to all allies equal to {{Healing}}% of the respective HP difference between the characters' Max HP and current HP."
+          }
+        ]
+      },
+      "WeWillMeetAgain": {
+        "Content": [
+          {
+            "text": "Additional DMG proc",
+            "title": "A Discourse in Arms",
+            "content": "After the wearer uses Basic ATK or Skill, deals Additional DMG equal to {{Multiplier}}% of the wearer's ATK to a random enemy that has been attacked."
+          }
+        ]
+      },
+      "WhatIsReal": {
+        "Content": []
+      },
+      "WoofWalkTime": {
+        "Content": [
+          {
+            "text": "Enemy Burn/Bleed ATK boost",
+            "title": "Run!",
+            "content": "Increases the wearer's DMG to enemies afflicted with Burn or Bleed by {{DmgBuff}}%. This also applies to DoT."
+          }
+        ]
+      },
+      "Adversarial": {
+        "Content": [
+          {
+            "text": "Defeated enemy SPD buff",
+            "title": "Alliance",
+            "content": "When the wearer defeats an enemy, increases SPD by {{SpdBuff}}% for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "Amber": {
+        "Content": [
+          {
+            "text": "HP < 50% DEF buff",
+            "title": "Stasis",
+            "content": "If the wearer's current HP is lower than {{HpThreshold}}%, increases their DEF by a further {{DefBuff}}%."
+          }
+        ]
+      },
+      "Arrows": {
+        "Content": [
+          {
+            "text": "Initial CR buff",
+            "title": "Crisis",
+            "content": "At the start of the battle, the wearer's CRIT Rate increases by {{CritBuff}}% for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "Chorus": {
+        "Content": [
+          {
+            "text": "Initial ATK buff",
+            "title": "Concerted",
+            "content": "After entering battle, increases the ATK of all allies by {{AtkBuff}}%. Effects of the same type cannot stack."
+          }
+        ]
+      },
+      "CollapsingSky": {
+        "Content": [
+          {
+            "text": "Basic/Skill DMG buff",
+            "title": "Havoc",
+            "content": "Increases the wearer's Basic ATK and Skill DMG by {{DmgBuff}}%."
+          }
+        ]
+      },
+      "Cornucopia": {
+        "Content": [
+          {
+            "text": "Healing buff",
+            "title": "Prosperity",
+            "content": "When the wearer uses their Skill or Ultimate, their Outgoing Healing increases by {{HealingBuff}}%."
+          }
+        ]
+      },
+      "DartingArrow": {
+        "Content": [
+          {
+            "text": "Defeated enemy ATK buff",
+            "title": "War Cry",
+            "content": "When the wearer defeats an enemy, increases ATK by {{AtkBuff}}% for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "DataBank": {
+        "Content": [
+          {
+            "text": "Ult DMG buff",
+            "title": "Learned",
+            "content": "Increases the wearer's Ultimate DMG by {{DmgBuff}}%."
+          }
+        ]
+      },
+      "Defense": {
+        "Content": []
+      },
+      "FineFruit": {
+        "Content": []
+      },
+      "HiddenShadow": {
+        "Content": [
+          {
+            "text": "Basic ATK Additional DMG",
+            "title": "Mechanism",
+            "content": "After using Skill, the wearer's next Basic ATK deals Additional DMG equal to {{MultiplierBonus}}% of ATK to the target enemy."
+          }
+        ]
+      },
+      "Loop": {
+        "Content": [
+          {
+            "text": "Enemy slowed DMG buff",
+            "title": "Pursuit",
+            "content": "Increases DMG dealt from its wearer to Slowed enemies by {{DmgBuff}}%."
+          }
+        ]
+      },
+      "Mediation": {
+        "Content": [
+          {
+            "text": "Initial SPD buff",
+            "title": "Family",
+            "content": "Upon entering battle, increases SPD of all allies by {{SpdBuff}} points for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "MeshingCogs": {
+        "Content": []
+      },
+      "Multiplication": {
+        "Content": []
+      },
+      "MutualDemise": {
+        "Content": [
+          {
+            "text": "Self HP < 80% CR buff",
+            "title": "Legion",
+            "content": "If the wearer's current HP is lower than {{HpThreshold}}%, CRIT Rate increases by {{CritBuff}}%."
+          }
+        ]
+      },
+      "Passkey": {
+        "Content": []
+      },
+      "Pioneering": {
+        "Content": []
+      },
+      "Sagacity": {
+        "Content": [
+          {
+            "text": "Post ult ATK buff",
+            "title": "Genius",
+            "content": "When the wearer uses their Ultimate, increases ATK by {{AtkBuff}}% for {{Duration}} turn(s)."
+          }
+        ]
+      },
+      "ShatteredHome": {
+        "Content": [
+          {
+            "text": "Enemy HP > 50% DMG buff",
+            "title": "Eradication",
+            "content": "The wearer deals {{DmgBuff}}% more DMG to enemy targets whose HP percentage is greater than {{HpThreshold}}%."
+          }
+        ]
+      },
+      "Void": {
+        "Content": [
+          {
+            "text": "Initial EHR buff",
+            "title": "Fallen",
+            "content": "At the start of the battle, the wearer's Effect Hit Rate increases by {{EhrBuff}}% for {{Duration}} turn(s)."
+          }
+        ]
+      }
+    },
+    "Characters": {
+      "Acheron": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Argenti": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Arlan": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Asta": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Aventurine": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Bailu": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "BlackSwan": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Blade": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Boothill": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Bronya": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Clara": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "DanHeng": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "DrRatio": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Feixiao": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Firefly": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "FuXuan": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ],
+        "TeammateContent": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Gallagher": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Gepard": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Guinaifen": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Hanya": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ],
+        "TeammateContent": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Herta": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Himeko": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Hook": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Huohuo": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "ImbibitorLunae": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Jade": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ],
+        "TeammateContent": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Jiaoqiu": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Jingliu": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "JingYuan": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Kafka": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Lingsha": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Luka": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Luocha": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Lynx": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ],
+        "TeammateContent": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "March7th": {
+        "Content": []
+      },
+      "March7thImaginary": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ],
+        "TeammateContent": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Misha": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Moze": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Natasha": {
+        "Content": []
+      },
+      "Pela": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Qingque": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Rappa": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ],
+        "TeammateContent": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Robin": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ],
+        "TeammateContent": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "RuanMei": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ],
+        "TeammateContent": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Sampo": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Seele": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Serval": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "SilverWolf": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Sparkle": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ],
+        "TeammateContent": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Sushang": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Tingyun": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ],
+        "TeammateContent": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Topaz": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "TrailblazerDestruction": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "TrailblazerHarmony": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ],
+        "TeammateContent": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "TrailblazerPreservation": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Welt": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Xueyi": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Yanqing": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Yukong": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      "Yunli": {
+        "Content": [
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          },
+          {
+            "text": "",
+            "title": "",
+            "content": ""
+          }
+        ]
+      }
+    }
+  },
   "gameData": {
     "Characters": {
       "1001": {
@@ -4664,7 +7270,7 @@ interface Resources {
       "cancelText": "Cancel",
       "SuccessMessage": "Successfully loaded data",
       "Header": "Try it out!",
-      "Option 1": "<0>Option 1: Load a sample save</0><1>TESTIf you would like to give the optimizer a try before doing any relic importing, use this to load a sample save file and check out the features.</1>",
+      "Option 1": "<0>Option 1: Load a sample save</0><1>If you would like to give the optimizer a try before doing any relic importing, use this to load a sample save file and check out the features.</1>",
       "Option 2": "<0>Option 2: One-click-optimize from the Relic Scorer</0><1/><2>From the <1><0 text=\"Relic scorer\"></0></1> tab, clicking on the Optimize Character Stats button will automatically import and run the optimizer on your selected character. This option will only be able to use the relics from your profile's showcase characters, so it is still recommended to use a scanner to import your full inventory of relics, but this allows for a quick calculation of character stats in combat.</2>"
     },
     "HowTo": {

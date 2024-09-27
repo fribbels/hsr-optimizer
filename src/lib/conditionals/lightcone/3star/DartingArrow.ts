@@ -2,35 +2,23 @@ import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ContentItem } from 'types/Conditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.DartingArrow')
   const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-  const lcRanks = {
-    id: '20007',
-    skill: 'War Cry',
-    desc: 'When the wearer defeats an enemy, increases ATK by #1[i]% for #2[i] turn(s).',
-    params: [
-      [0.24, 3],
-      [0.3, 3],
-      [0.36, 3],
-      [0.42, 3],
-      [0.48, 3],
-    ],
-    properties: [
-      [], [], [], [], [],
-    ],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'defeatedEnemyAtkBuff',
     name: 'defeatedEnemyAtkBuff',
     formItem: 'switch',
-    text: 'Defeated enemy ATK buff',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.0.text'),
+    title: t('Content.0.title'),
+    content: t('Content.0.content', { AtkBuff: TsUtils.precisionRound(100 * sValues[s]), Duration: 3 }),
   }]
 
   return {

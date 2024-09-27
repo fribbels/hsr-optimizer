@@ -5,8 +5,11 @@ import { LightConeConditional } from 'types/LightConeConditionals'
 import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.AlongThePassingShore')
   const sValuesDmgBoost = [0.24, 0.28, 0.32, 0.36, 0.40]
   const sValuesUltDmgBoost = [0.24, 0.28, 0.32, 0.36, 0.40]
 
@@ -16,9 +19,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'emptyBubblesDebuff',
       name: 'emptyBubblesDebuff',
       formItem: 'switch',
-      text: 'Mirage Fizzle debuff',
-      title: 'Steerer',
-      content: `When the wearer hits an enemy target, inflicts Mirage Fizzle on the enemy, lasting for 1 turn. Each time the wearer attacks, this effect can only trigger 1 time on each target. The wearer deals ${precisionRound(sValuesDmgBoost[s] * 100)}% increased DMG to targets afflicted with Mirage Fizzle, and the DMG dealt by the wearer's Ultimate additionally increases by ${precisionRound(sValuesUltDmgBoost[s] * 100)}%.`,
+      text: t('Content.0.text'),
+      title: t('Content.0.title'),
+      content: t('Content.0.content', { UltDmgBoost: precisionRound(100 * sValuesUltDmgBoost[s]), DmgBoost: precisionRound(100 * sValuesDmgBoost[s]) }),
     },
   ]
 

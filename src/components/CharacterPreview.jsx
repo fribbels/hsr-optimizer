@@ -26,6 +26,7 @@ import { SavedSessionKeys } from 'lib/constantsSession'
 import { HeaderText } from 'components/HeaderText.jsx'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
+import { StatChart } from 'components/characterPreview/StatChart'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -286,17 +287,19 @@ export function CharacterPreview(props) {
 
   const lcCenter = (character.form.lightCone && character.form.lightCone != '0') ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter : 0
 
-  const tempLcParentW = simScoringResult ? parentW : lcParentW
+  const condensedView = simScoringResult || supportScoreResult
 
-  const tempLcParentH = simScoringResult ? newLcHeight : lcParentH
-  const tempLcInnerW = simScoringResult ? parentW + 16 : lcInnerW
+  const tempLcParentW = condensedView ? parentW : lcParentW
 
-  const tempLcInnerH = simScoringResult ? 1260 / 902 * tempLcInnerW : lcInnerH
+  const tempLcParentH = condensedView ? newLcHeight : lcParentH
+  const tempLcInnerW = condensedView ? parentW + 16 : lcInnerW
 
-  const tempParentH = simScoringResult ? parentH - newLcHeight - newLcMargin : parentH
+  const tempLcInnerH = condensedView ? 1260 / 902 * tempLcInnerW : lcInnerH
+
+  const tempParentH = condensedView ? parentH - newLcHeight - newLcMargin : parentH
 
   // Since the lc takes some space, we want to zoom the portrait out
-  const tempInnerW = simScoringResult ? 875 : innerW
+  const tempInnerW = condensedView ? 875 : innerW
 
   // Teammate character modal OK
   function onCharacterModalOk(form) {
@@ -593,7 +596,7 @@ export function CharacterPreview(props) {
                   vertical
                   style={{
                     position: 'relative',
-                    top: simScoringResult ? tempParentH - 44 : tempParentH - 34,
+                    top: condensedView ? tempParentH - 44 : tempParentH - 34,
                     height: 34,
                     paddingLeft: 4,
                     display: getArtistName() ? 'flex' : 'none',
@@ -622,7 +625,7 @@ export function CharacterPreview(props) {
             )}
 
             {
-              simScoringResult
+              condensedView
               && !isBuilds && (
                 <Flex vertical>
                   {lightConeName && (
@@ -732,9 +735,25 @@ export function CharacterPreview(props) {
                   cv={finalStats.CV}
                   simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
                 />
+
                 {
-                  simScoringResult
-                  && <ScoreHeader result={simScoringResult}/>
+                  !simScoringResult && supportScoreResult
+                  && (
+                    <Flex align='center' vertical style={{ marginBottom: 4, paddingTop: 3, paddingBottom: 3 }}>
+                      <StatText style={textStyle}>
+                        Combat Sim
+                      </StatText>
+                      <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
+                        {`Support Score: ${supportScoreResult.percentage.toFixed(1)} ${scoringResults.totalScore == 0 ? '' : '(' + getSimScoreGrade(supportScoreResult.percentage / 100) + ')'}`}
+                      </StatText>
+                    </Flex>
+                  )
+                }
+                {
+                  supportScoreResult && <StatChart stats={supportScoreResult.debug.originalSim.request.stats}/>
+                }
+                {
+                  simScoringResult && supportScoreResult == null && <ScoreHeader result={simScoringResult}/>
                 }
                 {
                   simScoringResult
@@ -808,20 +827,7 @@ export function CharacterPreview(props) {
                   )
                 }
                 {
-                  !simScoringResult && supportScoreResult
-                  && (
-                    <Flex align='center' vertical style={{ marginBottom: 4, paddingTop: 3, paddingBottom: 3 }}>
-                      <StatText style={textStyle}>
-                        Combat Sim
-                      </StatText>
-                      <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
-                        {`Support Score: ${supportScoreResult.percentage.toFixed(1)} ${scoringResults.totalScore == 0 ? '' : '(' + getSimScoreGrade(supportScoreResult.percentage / 100) + ')'}`}
-                      </StatText>
-                    </Flex>
-                  )
-                }
-                {
-                  !simScoringResult
+                  !condensedView
                   && (
                     <Flex vertical style={{ width: middleColumnWidth }}>
 

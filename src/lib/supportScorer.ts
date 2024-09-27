@@ -179,6 +179,10 @@ export function scoreSupportSimulation(
 
   return {
     type: 'Support',
+    debug: {
+      originalSimResult: originalSimResult,
+      originalSim: originalSim,
+    },
     percentage: 0,
   }
 }

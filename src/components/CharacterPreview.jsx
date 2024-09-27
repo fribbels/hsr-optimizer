@@ -6,7 +6,6 @@ import { DB } from 'lib/db'
 import { Assets } from 'lib/assets'
 import { CHARACTER_SCORE, COMBAT_STATS, Constants, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, ElementToDamage, SETTINGS_TEAM, SIMULATION_SCORE } from 'lib/constants.ts'
 import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleColumnWidth, parentH, parentW } from 'lib/constantsUi'
-
 import Rarity from 'components/characterPreview/Rarity'
 import StatText from 'components/characterPreview/StatText'
 import RelicModal from 'components/RelicModal.tsx'
@@ -42,6 +41,15 @@ const buttonStyle = {
   position: 'absolute',
   left: 6,
   width: 150,
+}
+
+const textStyle = {
+  fontSize: 17,
+  fontWeight: '600',
+  textAlign: 'center',
+  color: 'rgb(225, 165, 100)',
+  height: 23,
+  whiteSpace: 'nowrap',
 }
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
@@ -238,15 +246,22 @@ export function CharacterPreview(props) {
     }
   }
 
+  let supportScoreResult = null
   let combatSimResult = scoreCharacterSimulation(character, displayRelics, currentSelection)
   let simScoringResult = scoringType == SIMULATION_SCORE && combatSimResult
   if (!simScoringResult?.originalSim) {
+    if (combatSimResult?.type == 'Support') {
+      supportScoreResult = combatSimResult
+    }
+
     combatSimResult = null
     simScoringResult = null
   } else {
     // Fix elemental damage
     simScoringResult.originalSimResult[elementalDmgValue] = simScoringResult.originalSimResult.ELEMENTAL_DMG
   }
+
+  console.log(supportScoreResult)
 
   const scoredRelics = scoringResults.relics || []
 
@@ -305,15 +320,6 @@ export function CharacterPreview(props) {
 
   function ScoreHeader(props) {
     const result = props.result
-
-    const textStyle = {
-      fontSize: 17,
-      fontWeight: '600',
-      textAlign: 'center',
-      color: 'rgb(225, 165, 100)',
-      height: 23,
-      whiteSpace: 'nowrap',
-    }
 
     const textDisplay = (
       <Flex align='center' vertical style={{ marginBottom: 4, paddingTop: 3, paddingBottom: 3 }}>
@@ -794,11 +800,24 @@ export function CharacterPreview(props) {
                 }
 
                 {
-                  !simScoringResult
+                  !simScoringResult && !supportScoreResult
                   && (
                     <Flex vertical>
                       <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
                         {`Character Score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')'}`}
+                      </StatText>
+                    </Flex>
+                  )
+                }
+                {
+                  !simScoringResult && supportScoreResult
+                  && (
+                    <Flex align='center' vertical style={{ marginBottom: 4, paddingTop: 3, paddingBottom: 3 }}>
+                      <StatText style={textStyle}>
+                        Combat Sim
+                      </StatText>
+                      <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
+                        {`Support Score: ${supportScoreResult.percentage.toFixed(1)} ${scoringResults.totalScore == 0 ? '' : '(' + getSimScoreGrade(supportScoreResult.percentage / 100) + ')'}`}
                       </StatText>
                     </Flex>
                   )

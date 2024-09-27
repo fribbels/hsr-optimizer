@@ -17,6 +17,7 @@ import { TsUtils } from 'lib/TsUtils'
 import { generateParams, OptimizerParams } from 'lib/optimizer/calculateParams'
 import { calculateConditionalRegistry, calculateConditionals } from 'lib/optimizer/calculateConditionals'
 import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
+import { scoreSupportSimulation } from 'lib/supportScorer'
 
 const cachedSims: { [key: string]: SimulationScore } = {}
 
@@ -98,6 +99,7 @@ export type SimulationResult = ComputedStatsObject & {
 }
 
 export type SimulationScore = {
+  type: string
   percent: number
 
   originalSim: Simulation
@@ -124,7 +126,13 @@ export type SimulationScore = {
   characterMetadata: CharacterMetadata
 }
 
-function cloneRelicsFillEmptySlots(displayRelics: RelicBuild) {
+export type SimulationSets = {
+  relicSet1: string
+  relicSet2: string
+  ornamentSet: string
+}
+
+function cloneRelicsFillEmptySlots(displayRelics: RelicBuild): RelicBuild {
   const cloned: RelicBuild = TsUtils.clone(displayRelics)
   const relicsByPart = {}
   for (const part of Object.values(Parts)) {
@@ -158,6 +166,7 @@ export type ScoringMetadata = {
 }
 
 export type SimulationMetadata = {
+  type: string
   parts: {
     [part: string]: string[]
   }
@@ -173,6 +182,7 @@ export type SimulationMetadata = {
     DOT: number
     BREAK: number
   }
+  perfection: { stats: string[] }[]
   relicSets: string[][]
   ornamentSets: string[]
   maxBonusRolls: {
@@ -190,9 +200,9 @@ export type RelicBuild = {
   [key: string]: Relic
 }
 
-type ScoringFunction = (result: SimulationResult, penalty?: boolean) => void
+export type ScoringFunction = (result: SimulationResult, penalty?: boolean) => void
 
-type PartialSimulationWrapper = {
+export type PartialSimulationWrapper = {
   simulation: Simulation
   finalSpeed: number
   speedRollsDeduction: number
@@ -223,13 +233,23 @@ export function scoreCharacterSimulation(
     return null
   }
 
-  if (teamSelection == CUSTOM_TEAM) {
-    defaultMetadata.teammates = customMetadata.teammates
-  }
   const metadata = defaultMetadata
   const relicsByPart = cloneRelicsFillEmptySlots(displayRelics)
 
-  const cacheKey = Utils.objectHash({
+  if (defaultMetadata.type == 'Support') {
+    return scoreSupportSimulation(
+      character,
+      relicsByPart,
+      characterMetadata,
+      defaultScoringMetadata,
+    )
+  }
+
+  if (teamSelection == CUSTOM_TEAM) {
+    defaultMetadata.teammates = customMetadata.teammates
+  }
+
+  const cacheKey = TsUtils.objectHash({
     characterId,
     characterEidolon,
     lightCone,
@@ -603,7 +623,7 @@ function generateStatImprovements(
   return { substatUpgradeResults, setUpgradeResults, mainUpgradeResults }
 }
 
-function generateFullDefaultForm(
+export function generateFullDefaultForm(
   characterId: string,
   lightCone: string,
   characterEidolon: number,
@@ -830,10 +850,10 @@ function computeOptimalSimulation(
   return currentSimulation
 }
 
-function sumSubstatRolls(maxSubstatRollCounts: SimulationStats) {
+export function sumSubstatRolls(maxSubstatRollCounts: SimulationStats) {
   let sum = 0
   for (const stat of SubStats) {
-    sum += maxSubstatRollCounts[stat]
+    sum += maxSubstatRollCounts[stat] ?? 0
   }
   return sum
 }
@@ -960,13 +980,7 @@ function calculateCharacterSpdStat(character: Character) {
   return baseSpdStat
 }
 
-type SimulationSets = {
-  relicSet1: string
-  relicSet2: string
-  ornamentSet: string
-}
-
-function calculateSimSets(metadata: SimulationMetadata, relicsByPart: RelicBuild): SimulationSets {
+export function calculateSimSets(metadata: SimulationMetadata, relicsByPart: RelicBuild): SimulationSets {
   // Allow equivalent sets
   const { relicSetNames, ornamentSetName } = calculateSetNames(relicsByPart)
 
@@ -1067,7 +1081,7 @@ function generatePartialSimulations(
   return results
 }
 
-function simulateBaselineCharacter(
+export function simulateBaselineCharacter(
   displayRelics: RelicBuild,
   simulationForm: Form,
   cachedOptimizerParams: OptimizerParams,
@@ -1141,7 +1155,7 @@ function simulateOriginalCharacter(
   }
 }
 
-function calculateSetNames(relicsByPart: RelicBuild) {
+export function calculateSetNames(relicsByPart: RelicBuild) {
   Object.values(Parts).forEach((x) => relicsByPart[x] = relicsByPart[x] || emptyRelic())
   const relicSets = [
     relicsByPart[Parts.Head].set,

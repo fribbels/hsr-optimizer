@@ -154,7 +154,7 @@ function styleRules(level) {
       { max: 1, maxBOF: 0, maxEOF: 0 },
     ],
     '@stylistic/no-tabs': level,
-    '@stylistic/no-trailing-spaces': level,
+    '@stylistic/no-trailing-spaces': 'off',
     '@stylistic/no-whitespace-before-property': level,
     '@stylistic/object-curly-newline': [
       level,

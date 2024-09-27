@@ -5118,6 +5118,99 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.BE,
+      simulation: {
+        type: 'Support',
+        parts: {
+          [Parts.Body]: [
+            Stats.HP_P,
+            Stats.DEF_P,
+          ],
+          [Parts.Feet]: [
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.HP_P,
+            Stats.DEF_P,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ERR,
+            Stats.BE,
+          ],
+        },
+        substats: [
+          Stats.BE,
+          Stats.SPD,
+          Stats.RES,
+          Stats.HP_P,
+          Stats.DEF_P,
+        ],
+        breakpoints: {
+          [Stats.BE]: 1.80,
+        },
+        perfection: [
+          {
+            stats: [
+              Stats.BE,
+              Stats.SPD,
+            ],
+          },
+          {
+            stats: [
+              Stats.SPD,
+              Stats.BE,
+            ],
+          },
+          {
+            stats: [
+              Stats.RES,
+              Stats.BE,
+            ],
+          },
+          {
+            stats: [
+              Stats.RES,
+              Stats.SPD,
+            ],
+          },
+        ],
+        // formula: {
+        //   BASIC: 0,
+        //   SKILL: 3,
+        //   ULT: 1,
+        //   FUA: 0,
+        //   DOT: 0,
+        //   BREAK: 0,
+        // },
+        relicSets: [
+          [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          Sets.RutilantArena,
+        ],
+        teammates: [
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1202', // Tingyun
+            lightCone: '21018', // Dance
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     1304: { // Aventurine
       stats: {

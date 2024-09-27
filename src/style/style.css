@@ -460,3 +460,8 @@ a {
 .custom-dropdown-button .ant-btn-compact-first-item {
     width: 100%;
 }
+
+.axis-label-group .axis-label .axis-label-item {
+    opacity: 0.85 !important;
+    font-size: 12px !important;
+}

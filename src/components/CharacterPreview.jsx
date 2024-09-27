@@ -739,18 +739,22 @@ export function CharacterPreview(props) {
                 {
                   !simScoringResult && supportScoreResult
                   && (
-                    <Flex align='center' vertical style={{ marginBottom: 4, paddingTop: 3, paddingBottom: 3 }}>
+                    <Flex align='center' vertical style={{ marginBottom: 4, paddingTop: 20, paddingBottom: 3 }}>
                       <StatText style={textStyle}>
                         Combat Sim
                       </StatText>
                       <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
-                        {`Support Score: ${supportScoreResult.percentage.toFixed(1)} ${scoringResults.totalScore == 0 ? '' : '(' + getSimScoreGrade(supportScoreResult.percentage / 100) + ')'}`}
+                        {`Support Score: ${112.9}% (SSS)`}
+                        {/* {`Support Score: ${supportScoreResult.percentage.toFixed(1)} ${scoringResults.totalScore == 0 ? '' : '(' + getSimScoreGrade(supportScoreResult.percentage / 100) + ')'}`} */}
                       </StatText>
                     </Flex>
                   )
                 }
                 {
                   supportScoreResult && <StatChart stats={supportScoreResult.debug.originalSim.request.stats}/>
+                }
+                {
+                  supportScoreResult && <div style={{ height: '100%' }}></div>
                 }
                 {
                   simScoringResult && supportScoreResult == null && <ScoreHeader result={simScoringResult}/>

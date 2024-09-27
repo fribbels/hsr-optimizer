@@ -1,9 +1,13 @@
 import { StringToNumberMap } from 'types/Common'
-import { ResponsiveRadar } from '@nivo/radar'
 import { Flex } from 'antd'
 import { Stats, StatsToShort } from 'lib/constants'
+import { useRef } from 'react'
+import { Rose } from '@ant-design/plots'
+import { Renderer as SVGRenderer } from '@antv/g-svg'
 
 export function StatChart(props: { stats: StringToNumberMap }) {
+  const plotRef = useRef()
+
   const data = [
     {
       stat: 'BE',
@@ -57,52 +61,99 @@ export function StatChart(props: { stats: StringToNumberMap }) {
 
   const stats = Object.entries(props.stats)
     .filter(([key, value]) => key != Stats.DEF && key != Stats.HP && key != Stats.ATK)
+    // .filter(([key, value]) => key != Stats.CR && key != Stats.CD && key != Stats.EHR && key != Stats.ATK && key != Stats.ATK_P)
     .sort((a, b) => {
       return order.indexOf(a[0]) - order.indexOf(b[0])
     })
+    .sort((a, b) => b[1] - a[1])
+    // .sort((a, b) => a[1] - b[1])
     .map(([key, value]) => {
       return {
-        stat: StatsToShort[key],
-        value: value || 0,
+        stat: StatsToShort[key].replace('%', ''),
+        value: value == null ? null : value / 0.8,
       }
     })
+  stats[0].value = 20
+
+  console.log(JSON.stringify(stats))
+
+  const config = {
+    renderer: new SVGRenderer(),
+    theme: 'classicDark',
+    width: 240,
+    height: 260,
+    marginLeft: 0,
+    marginRight: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+    insetLeft: 0,
+    insetRight: 0,
+    radius: 1,
+    data: stats,
+    xField: 'stat',
+    yField: 'value',
+    colorField: 'stat',
+    scale: {
+      x: {
+        padding: 0,
+      },
+      y: {
+        type: 'linear',
+        domain: [0, 20],
+      },
+      color: {
+        palette:
+          ['#79c7ff', '#69acdd', '#5a94bd', '#4b7b9e', '#3c637e', '#2d4a5f', '#1e313f', '#0f1920', '#000000'],
+
+        // https://colorkit.co/gradient-palette/1e5296-f1f7fd/?steps=9
+      },
+    },
+    axis: {
+      x: {
+        title: false,
+        grid: true,
+        labelFontSize: 10,
+        gridStrokeOpacity: 0.2,
+        gridLineDash: [0, 0],
+        fill: '#33aa88',
+        opacity: 1.0,
+        labelFill: '#ffffff',
+        labelFillOpacity: 1.5,
+        labelFontFamily: 'Lucida Console',
+      },
+      // x: null,
+      y: {
+        title: false,
+        tickCount: 14,
+        tickFilter: (d, i) => i !== 0 && i % 2 == 0,
+        direction: 'left',
+        labelFontSize: 10,
+        labelFill: '#ffffff',
+        labelFillOpacity: 1.0,
+        labelFontFamily: 'Lucida Console',
+      },
+    },
+    legend: null,
+    // labels: [
+    //   {
+    //     text: 'stat',
+    //     position: 'outside',
+    //     connectorStroke: '#777777',
+    //     connectormarkerStartOffset: 5,
+    //     connectorMarkerStartOffset: 5,
+    //     connectorIsBillboard: true,
+    //     connectorStartAngle: 100,
+    //     fontSize: 12,
+    //     dy: (d) => (0),
+    //   },
+    // ],
+    animate: true,
+    labels: null,
+  }
 
   return (
-    <Flex style={{ height: 200 }}>
-      <ResponsiveRadar
-        data={stats}
-        keys={['value']}
-        indexBy='stat'
-        margin={{ top: 30, right: 30, bottom: 20, left: 30 }}
-        dotSize={10}
-        dotColor={{ theme: 'background' }}
-        colors={{ scheme: 'nivo' }}
-        motionConfig='slow'
-        maxValue={10}
-        gridShape='linear'
-        gridLevels={6}
-        borderWidth={1}
-        theme={{
-          text: {
-            fontSize: 11,
-            fill: '#dddddd',
-          },
-          grid: {
-            line: {
-              stroke: '#77777777',
-              strokeWidth: 0.5,
-            },
-          },
-          tooltip: {
-            wrapper: {},
-            container: {
-              color: '#333333',
-              fontSize: 12,
-            },
-          },
-        }}
-      />
-
+    <Flex style={{ height: 270 }}>
+      <Rose {...config}/>
     </Flex>
   )
 }

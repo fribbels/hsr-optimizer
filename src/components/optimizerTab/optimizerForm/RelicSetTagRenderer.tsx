@@ -68,7 +68,7 @@ export function RelicSetTagRenderer(props) {
 
   return (
     <Tag
-      closable={closable}
+      closable={false}
       onClose={onClose}
       style={{ display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 22, alignItems: 'center', overflow: 'hidden' }}
     >

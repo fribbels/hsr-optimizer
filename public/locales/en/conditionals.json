@@ -996,182 +996,182 @@
     "Acheron": {
       "Content": [
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Crimson Knot stacks",
+         "title": "Slashed Dream Cries in Red",
+          "content": "Rainblade: Deals Lightning DMG equal to {{RainbladeScaling}}% of Acheron's ATK to a single target enemy and removes up to 3 stacks of Crimson Knot from the target. When Crimson Knot is removed, immediately deals Lightning DMG equal to {{CrimsonKnotScaling}}% of Acheron's ATK to all enemies. For every stack of Crimson Knot removed, the DMG Multiplier for this is additionally increased.::BR::When the Rainblade from Acheron's Ultimate hits enemy targets with Crimson Knot, her DMG increases by 30%, stacking up to 3 time(s)."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Nihility teammates",
+         "title": "The Abyss",
+          "content": "When there are 1 or 2 Nihility characters other than Acheron in the team, the DMG dealt by Acheron's Basic ATK, Skill, and Ultimate increases to 115% or 160% of the original DMG respectively.::BR::E2: The number of Nihility characters required for the Trace \"The Abyss\" to achieve its highest possible effect is reduced by 1. When this unit's turn starts, gains 1 point of Slashed Dream and inflicts 1 stack of Crimson Knot on the enemy with the most Crimson Knot stacks."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Thunder Core stacks",
+         "title": "Thunder Core",
+          "content": "When the Rainblade from Acheron's Ultimate hits enemy targets with Crimson Knot, her DMG increases by 30%, stacking up to 3 time(s) and lasting for 3 turn(s)."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Stygian Resurge hits",
+         "title": "Thunder Core",
+          "content": "When Stygian Resurge triggers, additionally deals DMG for 6 times. Each time deals Lightning DMG equal to 25% of Acheron's ATK to a single random enemy and is viewed as part of the Ultimate DMG."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "E1 CR boost",
+         "title": "E1: Silenced Sky Spake Sooth",
+          "content": "When dealing DMG to debuffed enemies, increases the CRIT Rate by 18%."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "E4 ult vulnerability",
+         "title": "E4: Shrined Fire for Mirrored Soul",
+          "content": "When enemy targets enter combat, inflicts them with the Ultimate DMG Vulnerability, increasing the amount of Ultimate DMG they take by 8%."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "E6 ult buffs",
+         "title": "E6: Apocalypse, the Emancipator",
+          "content": "Increases the All-Type RES PEN for the Ultimate DMG dealt by Acheron by 20%. The DMG dealt by Basic ATK and Skill will also be considered as Ultimate DMG and can reduce enemy toughness regardless of Weakness Types. When breaking Weaknesses, triggers the Lightning Weakness Break effect."
         }
       ]
     },
     "Argenti": {
       "Content": [
        {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Enhanced ult",
+         "title": "Merit Bestowed in \"My\" Garden",
+          "content": "Consumes 180 Energy and deals Physical DMG equal to {{ultEnhancedScaling}}% of Argenti's ATK to all enemies, and further deals DMG for 6 extra time(s), with each time dealing Physical DMG equal to {{ultEnhancedExtraHitScaling}}% of Argenti's ATK to a random enemy."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Enemy HP ≤ 50% DMG boost",
+         "title": "Courage",
+          "content": "Deals 15% more DMG to enemies whose HP percentage is 50% or less."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Apotheosis stacks",
+         "title": "Sublime Object",
+          "content": "Increases CR by {{talentCrStackValue}}% per stack, max of {{talentMaxStacks}} stacks."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Enhanced ult extra hits on target",
+         "title": "Merit Bestowed in \"My\" Garden",
+          "content": "Enhanced Ult hits a random enemy for {{ultEnhancedExtraHitScaling}}% ATK per hit."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "E2 ult ATK buff",
+         "title": "Agate's Humility",
+          "content": "E2: If the number of enemies on the field equals to 3 or more, increases ATK by 40% for 1 turn."
         }
       ]
     },
     "Arlan": {
       "Content": [
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Self current HP%",
+         "title": "Pain and Anger",
+          "content": "Based on Arlan's current missing HP percentage, gains DMG bonus, up to a maximum increase of {{talentMissingHpDmgBoostMax}}% DMG dealt by Arlan."
         }
       ]
     },
     "Asta": {
       "Content": [
        {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Skill extra hits",
+         "title": "Meteor Storm",
+          "content": "Deals 50% ATK DMG equal to a single enemy. Deals DMG for {{skillExtraDmgHitsMax}} extra times to a random enemy.::BR::E1: When using Skill, deals DMG for 1 extra time to a random enemy."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Talent ATK buff stacks",
+         "title": "Astrometry",
+          "content": "Increases allies' ATK by {{talentStacksAtkBuff}}% for every stack.::BR::E4: Asta's Energy Regeneration Rate increases by 15% when she has 2 or more Charging stacks."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Ult SPD buff active",
+         "title": "Astral Blessing",
+          "content": "Increases SPD of all allies by {{ultSpdBuffValue}} for 2 turn(s)."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Fire DMG boost",
+         "title": "Ignite",
+          "content": "When Asta is on the field, all allies' Fire DMG increases by 18%."
         }
       ]
     },
     "Aventurine": {
       "Content": [
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "DEF to CR boost",
+         "title": "Leverage",
+          "content": "For every 100 of Aventurine's DEF that exceeds 1600, increases his own CRIT Rate by 2%, up to a maximum increase of 48%."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Fortified Wager buff",
+         "title": "Cornerstone Deluxe",
+          "content": "For any single ally with Fortified Wager, their Effect RES increases by {{talentResScaling}}%, and when they get attacked, Aventurine gains 1 point of Blind Bet.::BR::E1: Increases CRIT DMG by 20% for allies with Fortified Wager. After using the Ultimate, provides all allies with a Fortified Wager shield, whose Shield effect is equal to 100% of the one provided by the Skill, lasting for 3 turn(s)."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Enemy Unnerved",
+         "title": "Roulette Shark",
+          "content": "When an ally hits an Unnerved enemy target, the CRIT DMG dealt increases by {{ultCdBoost}}%."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "FUA hits on target",
+         "title": "Bingo!",
+          "content": "Upon reaching 7 points of Blind Bet, Aventurine consumes the 7 points to launch a 7-hit follow-up attack, with each hit dealing Imaginary DMG equal to {{talentDmgScaling}}% of Aventurine's DEF to a single random enemy. Blind Bet is capped at 10 points.::BR::E4: When triggering his Talent's follow-up attack, first increases Aventurine's DEF by 40% for 2 turn(s), and additionally increases the Hits Per Action for his talent's follow-up attack by 3."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "E2 RES shred",
+         "title": "Bounded Rationality",
+          "content": "When using the Basic ATK, reduces the target's All-Type RES by 12% for 3 turn(s)."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "E4 DEF buff",
+         "title": "Unexpected Hanging Paradox",
+          "content": "E4: When triggering his Talent's follow-up attack, first increases Aventurine's DEF by 40% for 2 turn(s)"
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "E6 shield stacks",
+         "title": "Stag Hunt Game",
+          "content": "E6: For every ally that holds a Shield, the DMG dealt by Aventurine increases by 50%, up to a maximum of 150%."
         }
       ]
     },
     "Bailu": {
       "Content": [
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Healing max HP buff",
+         "title": "Qihuang Analects",
+          "content": "When Bailu heals a target ally above their normal Max HP, the target's Max HP increases by 10% for 2 turns."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Invigoration DMG reduction",
+         "title": "Aquatic Benediction",
+          "content": "Characters with Invigoration take 10% less DMG."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "E2 ult healing buff",
+         "title": "Sylphic Slumber",
+          "content": "E2: Increases healing by 15% after Ultimate."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "E4 skill healing DMG buff stacks",
+         "title": "Evil Excision",
+          "content": "E4: Every healing provided by Bailu's Skill makes the recipient deal 10% more DMG for 2 turns. This effect can stack up to 3 times."
         }
       ]
     },
     "BlackSwan": {
       "Content": [
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "EHR to DMG boost",
+         "title": "Candleflame's Portent",
+          "content": "Increases this unit's DMG by an amount equal to 60% of Effect Hit Rate, up to a maximum DMG increase of 72%."
         },
         {
-         "text": "",
-         "title": "",
-          "content": ""
+         "text": "Epiphany debuff",
+         "title": "Bliss of Otherworld's Embrace",
+          "content": "Enemies affected by Epiphany take ${precisionRound(epiphanyDmgTakenBoost * 100)}% more DMG in their turn."
         },
         {
-         "text": "",
-         "title": "",
+         "text": "Def decrease debuff",
+         "title": "Decadence, False Twilight",
           "content": ""
         },
         {

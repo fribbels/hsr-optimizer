@@ -77,6 +77,7 @@ export function calculateBuild(request, relics, cachedParams = null, reuseReques
   calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
   calculateBaseStats(c, request, params)
   calculateElementalStats(c, request, params)
+
   calculateComputedStats(c, request, params)
   calculateBaseMultis(x, request, params)
   calculateDamage(x, request, params)

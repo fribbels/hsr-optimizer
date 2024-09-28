@@ -47,6 +47,7 @@ export type HsrOptimizerStore = {
   charactersById: Record<CharacterId, Character>
   characterTabBlur: boolean
   conditionalSetEffectsDrawerOpen: boolean
+  comboDrawerOpen: boolean
   permutations: number
   permutationsResults: number
   permutationsSearched: number
@@ -92,6 +93,7 @@ export type HsrOptimizerStore = {
   setActiveKey: (key: string) => void
   setScoringAlgorithmFocusCharacter: (id: CharacterId) => void
   setConditionalSetEffectsDrawerOpen: (b: boolean) => void
+  setComboDrawerOpen: (b: boolean) => void
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
   setStatDisplay: (display: 'combat' | 'base') => void
 

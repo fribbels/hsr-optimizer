@@ -3,11 +3,15 @@ import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabCons
 import { HeaderText } from 'components/HeaderText'
 import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled'
 import { useTranslation } from 'react-i18next'
+import { SettingOutlined } from '@ant-design/icons'
+import { ComboDrawer } from 'components/ComboDrawer'
 
 const { Text } = Typography
 
 export const ComboFilters = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
+  const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
+
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
       <HeaderText>{t('Header')/* Rotation COMBO formula */}</HeaderText>
@@ -91,6 +95,14 @@ export const ComboFilters = () => {
         <Button size='small' variant='outlined' style={{ marginLeft: 30, width: 156 }}>
           +
         </Button>
+        <Button
+          style={{ width: 200 }}
+          onClick={() => setComboDrawerOpen(true)}
+          icon={<SettingOutlined/>}
+        >
+          Advanced COMBO
+        </Button>
+        <ComboDrawer/>
       </Flex>
     </Flex>
   )

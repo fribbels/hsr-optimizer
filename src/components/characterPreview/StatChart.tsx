@@ -73,7 +73,7 @@ export function StatChart(props: { stats: StringToNumberMap }) {
         value: value == null ? null : value / 0.8,
       }
     })
-  stats[0].value = 20
+  // stats[0].value = 20
 
   console.log(JSON.stringify(stats))
 
@@ -99,7 +99,7 @@ export function StatChart(props: { stats: StringToNumberMap }) {
       },
       y: {
         type: 'linear',
-        domain: [0, 20],
+        // domain: [0, 16],
       },
       color: {
         palette:
@@ -124,8 +124,8 @@ export function StatChart(props: { stats: StringToNumberMap }) {
       // x: null,
       y: {
         title: false,
-        tickCount: 14,
-        tickFilter: (d, i) => i !== 0 && i % 2 == 0,
+        // tickCount: 14,
+        // tickFilter: (d, i) => i !== 0 && i % 2 == 0,
         direction: 'left',
         labelFontSize: 10,
         labelFill: '#ffffff',

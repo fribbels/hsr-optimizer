@@ -32,7 +32,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       formItem: 'switch',
       text: t('Content.1.text'),
       title: t('Content.1.title'),
-      content: t('Content.1.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesSpdBuff[s]) }),
+      content: t('Content.1.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpdBuff[s]) }),
     },
   ]
 

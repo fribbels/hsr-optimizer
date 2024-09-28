@@ -21,7 +21,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     formItem: 'slider',
     text: t('Content.0.text'),
     title: t('Content.0.title'),
-    content: t('Content.0.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpd[s]), StackLimit: 3 }),
+    content: t('Content.0.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpd[s]) }),
     min: 0,
     max: 3,
   }, {
@@ -31,7 +31,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     formItem: 'switch',
     text: t('Content.1.text'),
     title: t('Content.1.title'),
-    content: t('Content.1.content', { Multiplier: TsUtils.precisionRound(100 * sValuesErode[s]), Duration: 1 }),
+    content: t('Content.1.content', { Multiplier: TsUtils.precisionRound(100 * sValuesErode[s]) }),
   }]
 
   return {

@@ -2,10 +2,10 @@ import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
@@ -21,7 +21,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       formItem: 'switch',
       text: t('Content.0.text'),
       title: t('Content.0.title'),
-      content: t('Content.0.content', { UltDmgBoost: precisionRound(100 * sValuesUltDmgBoost[s]), DmgBoost: precisionRound(100 * sValuesDmgBoost[s]) }),
+      content: t('Content.0.content', { UltDmgBoost: TsUtils.precisionRound(100 * sValuesUltDmgBoost[s]), DmgBoost: TsUtils.precisionRound(100 * sValuesDmgBoost[s]) }),
     },
   ]
 

@@ -7,8 +7,12 @@ import { Form } from 'types/Form'
 import { Stats } from 'lib/constants'
 import { buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.CHARACTER_NAME_HERE')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -33,7 +37,9 @@ export default (e: Eidolon): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'crimsonKnotStacks',
-      name: 'crimsonKnotStacks',
+      name: 'crimsonKnotStacks',/*
+      text: t('Content.0.text'),
+      title: t('Content.0.title'),*/
       text: `Crimson Knot stacks`,
       title: 'Slashed Dream Cries in Red',
       content: `

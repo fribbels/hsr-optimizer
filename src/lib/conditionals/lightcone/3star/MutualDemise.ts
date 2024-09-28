@@ -18,7 +18,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     formItem: 'switch',
     text: t('Content.0.text'),
     title: t('Content.0.title'),
-    content: t('Content.0.content', { HpThreshold: 80, CritBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+    content: t('Content.0.content', { CritBuff: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {

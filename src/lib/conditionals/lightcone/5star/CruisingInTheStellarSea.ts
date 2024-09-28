@@ -20,7 +20,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     formItem: 'switch',
     text: t('Content.0.text'),
     title: t('Content.0.title'),
-    content: t('Content.0.content', { HPThreshold: 0.5, CritBuff: TsUtils.precisionRound(100 * sValuesCr[s]) }),
+    content: t('Content.0.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCr[s]) }),
   }, {
     lc: true,
     id: 'enemyDefeatedAtkBuff',
@@ -28,7 +28,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     formItem: 'switch',
     text: t('Content.1.text'),
     title: t('Content.1.title'),
-    content: t('Content.1.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]), Duration: 2 }),
+    content: t('Content.1.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]) }),
   }]
 
   return {

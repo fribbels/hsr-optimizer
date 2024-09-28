@@ -373,7 +373,7 @@ interface Resources {
           {
             "text": "Max Energy",
             "title": "A Knight's Pilgrimage",
-            "content": "When the wearer uses Ultimate, increases the wearer's Ultimate DMG based on their Max Energy. Each point of Energy increases the Ultimate DMG by {{DmgStep}}%, up to {{EnergyLimit}} points of Energy."
+            "content": "When the wearer uses Ultimate, increases the wearer's Ultimate DMG based on their Max Energy. Each point of Energy increases the Ultimate DMG by {{DmgStep}}%, up to 180 points of Energy."
           }
         ]
       },
@@ -382,12 +382,12 @@ interface Resources {
           {
             "text": "Debuff crit dmg stacks",
             "title": "Mental Training",
-            "content": "For every debuff on the enemy target, the wearer's CRIT DMG dealt against this target increases by {{DmgStep}}%, stacking up to {{StackCount}} times."
+            "content": "For every debuff on the enemy target, the wearer's CRIT DMG dealt against this target increases by {{DmgStep}}%, stacking up to 3 times."
           },
           {
             "text": "Disputation ult CD / FUA DEF PEN buff",
             "title": "Mental Training",
-            "content": "When using Ultimate to attack the enemy target, the wearer receives the Disputation effect, which increases DMG dealt by {{DmgStep}}% and enables their follow-up attacks to ignore {{DefIgnore}}% of the target's DEF. This effect lasts for {{Duration}} turns."
+            "content": "When using Ultimate to attack the enemy target, the wearer receives the Disputation effect, which increases DMG dealt by {{DmgStep}}% and enables their follow-up attacks to ignore {{DefIgnore}}% of the target's DEF. This effect lasts for 2 turns."
           }
         ]
       },
@@ -405,7 +405,7 @@ interface Resources {
           {
             "text": "Dragon's Call stacks",
             "title": "Defiant Till Death",
-            "content": "When the wearer uses their Basic ATK, they will gain 1 stack of Dragon's Call, lasting for {{Duration}} turns. Each stack of Dragon's Call increases the wearer's ATK by {{AtkBuff}}% and Energy Regeneration Rate by {{RegenBuff}}%. Dragon's Call can be stacked up to {{StackCount}} times."
+            "content": "When the wearer uses their Basic ATK, they will gain 1 stack of Dragon's Call, lasting for 2 turns. Each stack of Dragon's Call increases the wearer's ATK by {{AtkBuff}}% and Energy Regeneration Rate by {{RegenBuff}}%. Dragon's Call can be stacked up to 2 times."
           }
         ]
       },
@@ -414,7 +414,7 @@ interface Resources {
           {
             "text": "Post skill DMG buff",
             "title": "Heir",
-            "content": "When the wearer uses their Skill, the next ally taking action (except the wearer) deals {{DmgBuff}}% more DMG for {{Duration}} turn(s)."
+            "content": "When the wearer uses their Skill, the next ally taking action (except the wearer) deals {{DmgBuff}}% more DMG for 1 turn(s)."
           }
         ]
       },
@@ -423,12 +423,12 @@ interface Resources {
           {
             "text": "Enemy HP ≤ 50% CR buff",
             "title": "Chase",
-            "content": "Increases the wearer's CRIT rate against enemies with HP less than or equal to {{HPThreshold}}% by an extra {{CritBuff}}%."
+            "content": "Increases the wearer's CRIT rate against enemies with HP less than or equal to 50% by an extra {{CritBuff}}%."
           },
           {
             "text": "Enemy defeated ATK buff",
             "title": "Chase",
-            "content": "When the wearer defeats an enemy, their ATK is increased by {{AtkBuff}}% for {{Duration}} turn(s)."
+            "content": "When the wearer defeats an enemy, their ATK is increased by {{AtkBuff}}% for 2 turn(s)."
           }
         ]
       },
@@ -446,7 +446,7 @@ interface Resources {
           {
             "text": "Mask active",
             "title": "Capriciousness",
-            "content": "At the start of the battle, the wearer gains Mask, lasting for {{InitialDuration}} turn(s). While the wearer has Mask, the wearer's allies have their CRIT Rate increased by {{CritRateBuff}}% and their CRIT DMG increased by {{CritDmgBuff}}%. For every 1 Skill Point the wearer recovers (including Skill Points that exceed the limit), they gain 1 stack of Radiant Flame. And when the wearer has {{StackCount}} stacks of Radiant Flame, all the stacks are removed, and they gain Mask for {{Duration}} turn(s)."
+            "content": "At the start of the battle, the wearer gains Mask, lasting for 3 turn(s). While the wearer has Mask, the wearer's allies have their CRIT Rate increased by {{CritRateBuff}}% and their CRIT DMG increased by {{CritDmgBuff}}%. For every 1 Skill Point the wearer recovers (including Skill Points that exceed the limit), they gain 1 stack of Radiant Flame. And when the wearer has 4 stacks of Radiant Flame, all the stacks are removed, and they gain Mask for 4 turn(s)."
           }
         ]
       },
@@ -455,7 +455,7 @@ interface Resources {
           {
             "text": "Post ult SPD buff",
             "title": "Thorns",
-            "content": "After the wearer uses an attack, for each different enemy target the wearer hits, regenerates {{EnergyRecovered}} Energy. Each attack can regenerate Energy up to {{RecoveryCountLimit}} time(s) this way. After the wearer uses their Ultimate, all allies gain {{SpdBuff}} SPD for 1 turn."
+            "content": "After the wearer uses an attack, for each different enemy target the wearer hits, regenerates {{EnergyRecovered}} Energy. Each attack can regenerate Energy up to 3 time(s) this way. After the wearer uses their Ultimate, all allies gain {{SpdBuff}} SPD for 1 turn."
           }
         ]
       },
@@ -492,7 +492,7 @@ interface Resources {
           {
             "text": "Enemy ≤ 3 debuffs CR buff",
             "title": "Mirage of Reality",
-            "content": "When the wearer deals DMG to an enemy that currently has {{DebuffCount}} or more debuffs, increases the wearer's CRIT Rate by {{CritBuff}}%."
+            "content": "When the wearer deals DMG to an enemy that currently has 3 or more debuffs, increases the wearer's CRIT Rate by {{CritBuff}}%."
           },
           {
             "text": "Target Aether Code debuff",
@@ -534,7 +534,7 @@ interface Resources {
           {
             "text": "Speed scaling buffs enabled",
             "title": "Flowers and Butterflies",
-            "content": "While the wearer is in battle, for every {{SpdThreshold}} SPD that exceeds 100, the DMG of the wearer's Basic ATK and Skill is increased by {{DmgBuff}}% and the CRIT DMG of their Ultimate is increased by {{CritBuff}}%. This effect can stack up to {{StackLimit}} time(s)."
+            "content": "While the wearer is in battle, for every 10 SPD that exceeds 100, the DMG of the wearer's Basic ATK and Skill is increased by {{DmgBuff}}% and the CRIT DMG of their Ultimate is increased by {{CritBuff}}%. This effect can stack up to 6 time(s)."
           }
         ]
       },
@@ -543,12 +543,12 @@ interface Resources {
           {
             "text": "Eclipse stacks",
             "title": "With This Evening Jade",
-            "content": "When an ally (excluding the wearer) gets attacked or loses HP, the wearer gains 1 stack of Eclipse, up to a max of {{StackLimit}} stack(s). Each stack of Eclipse increases the DMG of the wearer's next attack by {{DmgBuff}}%."
+            "content": "When an ally (excluding the wearer) gets attacked or loses HP, the wearer gains 1 stack of Eclipse, up to a max of 3 stack(s). Each stack of Eclipse increases the DMG of the wearer's next attack by {{DmgBuff}}%."
           },
           {
             "text": "Max stack DEF pen",
             "title": "With This Evening Jade",
-            "content": "When {{StackThreshold}} stack(s) are reached, additionally enables that attack to ignore {{DefIgnore}}% of the enemy's DEF. This effect will be removed after the wearer uses an attack."
+            "content": "When 3 stack(s) are reached, additionally enables that attack to ignore {{DefIgnore}}% of the enemy's DEF. This effect will be removed after the wearer uses an attack."
           }
         ]
       },
@@ -575,7 +575,7 @@ interface Resources {
           {
             "text": "ATK buff stacks",
             "title": "Deep, Deep Breaths",
-            "content": "When the wearer provides healing for an ally, increases the healed ally's ATK by {{AtkBuff}}%. This effect can stack up to {{StackLimit}} times and lasts for {{Duration}} turn(s)."
+            "content": "When the wearer provides healing for an ally, increases the healed ally's ATK by {{AtkBuff}}%. This effect can stack up to 5 times and lasts for 2 turn(s)."
           }
         ]
       },
@@ -599,12 +599,12 @@ interface Resources {
           {
             "text": "ATK boost stacks",
             "title": "Moth to Flames",
-            "content": "Whenever the wearer attacks, their ATK is increased by {{AtkBuff}}% in this battle. This effect can stack up to {{StackLimit}} time(s)."
+            "content": "Whenever the wearer attacks, their ATK is increased by {{AtkBuff}}% in this battle. This effect can stack up to 4 time(s)."
           },
           {
             "text": "Weakness break DMG buff",
             "title": "Moth to Flames",
-            "content": "After a character inflicts Weakness Break on an enemy, the wearer's DMG increases by {{DmgBuff}}% for {{Duration}} turn(s)."
+            "content": "After a character inflicts Weakness Break on an enemy, the wearer's DMG increases by {{DmgBuff}}% for 2 turn(s)."
           }
         ]
       },
@@ -613,7 +613,7 @@ interface Resources {
           {
             "text": "Post Ult DMG buff",
             "title": "The Plum Fragrance In My Bones",
-            "content": "When the wearer uses their Ultimate, increases all allies' DMG by {{DmgBuff}}%, lasting for {{Duration}} turn(s)."
+            "content": "When the wearer uses their Ultimate, increases all allies' DMG by {{DmgBuff}}%, lasting for 3 turn(s)."
           }
         ]
       },
@@ -622,12 +622,12 @@ interface Resources {
           {
             "text": "SPD Stacks",
             "title": "Spider Web",
-            "content": "After every attack launched by wearer, their SPD increases by {{SpdBuff}}%, stacking up to {{StackLimit}} times."
+            "content": "After every attack launched by wearer, their SPD increases by {{SpdBuff}}%, stacking up to 3 times."
           },
           {
             "text": "DoT Effect (not implemented)",
             "title": "Spider Web",
-            "content": "If the wearer hits an enemy target that is not afflicted by Erode, there is a 100% base chance to inflict Erode to the target. Enemies afflicted with Erode are also considered to be Shocked and will receive Lightning DoT at the start of each turn equal to {{Multiplier}}% of the wearer's ATK, lasting for {{Duration}} turn(s)."
+            "content": "If the wearer hits an enemy target that is not afflicted by Erode, there is a 100% base chance to inflict Erode to the target. Enemies afflicted with Erode are also considered to be Shocked and will receive Lightning DoT at the start of each turn equal to {{Multiplier}}% of the wearer's ATK, lasting for 1 turn(s)."
           }
         ]
       },
@@ -636,7 +636,7 @@ interface Resources {
           {
             "text": "Prophet stacks",
             "title": "Crystallize",
-            "content": "When the wearer deals DMG to an enemy inflicted with Wind Shear, Burn, Shock, or Bleed, each respectively grants 1 stack of Prophet, stacking up to {{StackLimit}} time(s). In a single battle, only 1 stack of Prophet can be granted for each type of DoT. Every stack of Prophet increases wearer's ATK by {{AtkBuff}}% and enables the DoT dealt to ignore {{DefIgnore}}% of the target's DEF."
+            "content": "When the wearer deals DMG to an enemy inflicted with Wind Shear, Burn, Shock, or Bleed, each respectively grants 1 stack of Prophet, stacking up to 4 time(s). In a single battle, only 1 stack of Prophet can be granted for each type of DoT. Every stack of Prophet increases wearer's ATK by {{AtkBuff}}% and enables the DoT dealt to ignore {{DefIgnore}}% of the target's DEF."
           }
         ]
       },
@@ -675,7 +675,7 @@ interface Resources {
           {
             "text": "HP lost DMG buff",
             "title": "Visioscape",
-            "content": "When the wearer's HP is reduced, all allies' DMG dealt increases by {{DmgBuff}}%, lasting for {{Duration}} turn(s)."
+            "content": "When the wearer's HP is reduced, all allies' DMG dealt increases by {{DmgBuff}}%, lasting for 2 turn(s)."
           }
         ]
       },
@@ -684,7 +684,7 @@ interface Resources {
           {
             "text": "Missed crit CR buff",
             "title": "Sweet Dreams",
-            "content": "When the wearer's Basic ATK or Skill does not result in a CRIT Hit, increases their CRIT Rate by {{CritBuff}}% for {{Duration}} turn(s). This effect can only trigger once every {{Cooldown}} turn(s)."
+            "content": "When the wearer's Basic ATK or Skill does not result in a CRIT Hit, increases their CRIT Rate by {{CritBuff}}% for 1 turn(s). This effect can only trigger once every 3 turn(s)."
           }
         ]
       },
@@ -693,7 +693,7 @@ interface Resources {
           {
             "text": "Post ult DoT DMG buff",
             "title": "Chaos Elixir",
-            "content": "When the wearer uses their Ultimate, increases DoT dealt by the wearer by {{DmgBuff}}%, lasting for {{Duration}} turn(s)."
+            "content": "When the wearer uses their Ultimate, increases DoT dealt by the wearer by {{DmgBuff}}%, lasting for 2 turn(s)."
           }
         ]
       },
@@ -711,7 +711,7 @@ interface Resources {
           {
             "text": "Active shield DMG taken decrease",
             "title": "Treasure",
-            "content": "If the wearer is attacked and has no Shield, they gain a Shield equal to {{ShieldHp}}% of their Max HP for {{Duration}} turn(s). This effect can only be triggered once every {{Cooldown}} turn(s). If the wearer has a Shield when attacked, the DMG they receive decreases by {{DmgReduction}}%."
+            "content": "If the wearer is attacked and has no Shield, they gain a Shield equal to {{ShieldHp}}% of their Max HP for 2 turn(s). This effect can only be triggered once every 3 turn(s). If the wearer has a Shield when attacked, the DMG they receive decreases by {{DmgReduction}}%."
           }
         ]
       },
@@ -761,7 +761,7 @@ interface Resources {
           {
             "text": "Target Tame stacks",
             "title": "One At A Time",
-            "content": "After the wearer uses a follow-up attack, apply the Tame state to the target, stacking up to {{StackLimit}} stacks. When allies hit enemy targets under the Tame state, every Tame stack increases the CRIT DMG dealt by {{CritBuff}}%."
+            "content": "After the wearer uses a follow-up attack, apply the Tame state to the target, stacking up to 2 stacks. When allies hit enemy targets under the Tame state, every Tame stack increases the CRIT DMG dealt by {{CritBuff}}%."
           }
         ]
       },
@@ -891,7 +891,7 @@ interface Resources {
           {
             "text": "Good Fortune stacks",
             "title": "All In",
-            "content": "When the wearer lands a CRIT hit on enemies, gains a stack of Good Fortune, stacking up to {{StackLimit}} time(s). Every stack of Good Fortune the wearer has will increase their CRIT DMG by {{CritBuff}}%. Good Fortune will be removed at the end of the wearer's turn."
+            "content": "When the wearer lands a CRIT hit on enemies, gains a stack of Good Fortune, stacking up to 4 time(s). Every stack of Good Fortune the wearer has will increase their CRIT DMG by {{CritBuff}}%. Good Fortune will be removed at the end of the wearer's turn."
           }
         ]
       },
@@ -900,7 +900,7 @@ interface Resources {
           {
             "text": "DMG increased buff",
             "title": "Deflagration",
-            "content": "When the cumulative HP loss of the wearer during a single attack exceeds {{HpThreshold}}% of their Max HP, or if the amount of their own HP they consume at one time is greater than {{HpThreshold}}% of their Max HP, immediately heals the wearer for {{Healing}}% of their Max HP, and at the same time, increases the DMG they deal by {{DmgBuff}}% for {{Duration}} turn(s). This effect can only be triggered once every {{Cooldown}} turn(s)."
+            "content": "When the cumulative HP loss of the wearer during a single attack exceeds 25% of their Max HP, or if the amount of their own HP they consume at one time is greater than 25% of their Max HP, immediately heals the wearer for 15% of their Max HP, and at the same time, increases the DMG they deal by {{DmgBuff}}% for 2 turn(s). This effect can only be triggered once every 3 turn(s)."
           }
         ]
       },
@@ -918,7 +918,7 @@ interface Resources {
           {
             "text": "Defeated enemy CD buff",
             "title": "Each Now Has a Role to Play",
-            "content": "When the wearer defeats an enemy, the wearer's CRIT DMG increases by {{DmgBuff}}% for {{Duration}} turn(s)."
+            "content": "When the wearer defeats an enemy, the wearer's CRIT DMG increases by {{DmgBuff}}% for 3 turn(s)."
           }
         ]
       },
@@ -927,7 +927,7 @@ interface Resources {
           {
             "text": "Debuff stacks DMG increase",
             "title": "Toiler",
-            "content": "For every debuff the target enemy has, the DMG dealt by the wearer increases by {{DmgBuff}}%, stacking up to {{StackLimit}} time(s). This effect also applies to DoT."
+            "content": "For every debuff the target enemy has, the DMG dealt by the wearer increases by {{DmgBuff}}%, stacking up to 3 time(s). This effect also applies to DoT."
           }
         ]
       },
@@ -936,7 +936,7 @@ interface Resources {
           {
             "text": "Post skill heal buff",
             "title": "I'm Not Afraid!",
-            "content": "When the wearer uses their Skill, increases Outgoing Healing by {{HealingBoost}}%, lasting for {{Duration}} turn(s)."
+            "content": "When the wearer uses their Skill, increases Outgoing Healing by {{HealingBoost}}%, lasting for 2 turn(s)."
           }
         ]
       },
@@ -945,7 +945,7 @@ interface Resources {
           {
             "text": "Ult CR buff",
             "title": "Inheritance",
-            "content": "Increases the wearer's Break Effect by {{BreakBuff}}%. When the wearer uses their Ultimate, increases CRIT Rate by {{CritBuff}}%, lasting for {{Duration}} turn(s)."
+            "content": "Increases the wearer's Break Effect by {{BreakBuff}}%. When the wearer uses their Ultimate, increases CRIT Rate by {{CritBuff}}%, lasting for 2 turn(s)."
           }
         ]
       },
@@ -954,7 +954,7 @@ interface Resources {
           {
             "text": "Trick stacks",
             "title": "Self-Amusement",
-            "content": "When the wearer inflicts a debuff on an enemy, gains a stack of Trick. Every stack of Trick increases the wearer's DMG dealt by {{DmgBuff}}%, stacking up to {{StackLimit}} time(s). This effect lasts for {{Duration}} turn(s). When the wearer's Effect Hit Rate is {{EhrThreshold}}% or higher, increases ATK by {{AtkBuff}}%."
+            "content": "When the wearer inflicts a debuff on an enemy, gains a stack of Trick. Every stack of Trick increases the wearer's DMG dealt by {{DmgBuff}}%, stacking up to 3 time(s). This effect lasts for 1 turn(s). When the wearer's Effect Hit Rate is 80% or higher, increases ATK by {{AtkBuff}}%."
           }
         ]
       },
@@ -999,7 +999,7 @@ interface Resources {
           {
             "text": "Post skill DMG buff",
             "title": "Kites From the Past",
-            "content": "When the wearer uses their Skill, the next ally taking action (except the wearer) deals {{DmgBuff}}% increased DMG for {{Duration}} turn(s)."
+            "content": "When the wearer uses their Skill, the next ally taking action (except the wearer) deals {{DmgBuff}}% increased DMG for 1 turn(s)."
           }
         ]
       },
@@ -1047,7 +1047,7 @@ interface Resources {
           {
             "text": "Target ensnared",
             "title": "Glance Back",
-            "content": "When the wearer hits an enemy and if the hit enemy is not already Ensnared, then there is a chance to Ensnare the hit enemy. Ensnared enemies' DEF decreases by {{DefShred}}% for {{Duration}} turn(s)."
+            "content": "When the wearer hits an enemy and if the hit enemy is not already Ensnared, then there is a chance to Ensnare the hit enemy. Ensnared enemies' DEF decreases by {{DefShred}}% for 1 turn(s)."
           }
         ]
       },
@@ -1089,7 +1089,7 @@ interface Resources {
           {
             "text": "Same target hit stacks",
             "title": "Answers of Their Own",
-            "content": "For each time the wearer hits the same target, DMG dealt increases by {{DmgBuff}}%, stacking up to {{StackLimit}} time(s). This effect will be dispelled when the wearer changes targets."
+            "content": "For each time the wearer hits the same target, DMG dealt increases by {{DmgBuff}}%, stacking up to 5 time(s). This effect will be dispelled when the wearer changes targets."
           }
         ]
       },
@@ -1098,7 +1098,7 @@ interface Resources {
           {
             "text": "Enemy HP < 50% fua buff",
             "title": "The Maiden in the Painting",
-            "content": "If the current HP of the target enemy is below or equal to {{HpThreshold}}%, increases DMG dealt by follow-up attacks by an extra {{DmgBuff}}%."
+            "content": "If the current HP of the target enemy is below or equal to 50%, increases DMG dealt by follow-up attacks by an extra {{DmgBuff}}%."
           }
         ]
       },
@@ -1107,7 +1107,7 @@ interface Resources {
           {
             "text": "≥ 2 weakness targets CD buff",
             "title": "Stratagem",
-            "content": "When the wearer uses an attack and at least 2 attacked enemies have the corresponding Weakness, the wearer's CRIT DMG increases by {{CritBuff}}% for {{Duration}} turn(s)."
+            "content": "When the wearer uses an attack and at least 2 attacked enemies have the corresponding Weakness, the wearer's CRIT DMG increases by {{CritBuff}}% for 2 turn(s)."
           }
         ]
       },
@@ -1130,7 +1130,7 @@ interface Resources {
           {
             "text": "Defeated enemy ATK stacks",
             "title": "Get Ready",
-            "content": "For every enemy defeated by the wearer, the wearer's ATK increases by {{AtkBuff}}%, stacking up to {{StackLimit}} time(s)."
+            "content": "For every enemy defeated by the wearer, the wearer's ATK increases by {{AtkBuff}}%, stacking up to 3 time(s)."
           }
         ]
       },
@@ -1148,7 +1148,7 @@ interface Resources {
           {
             "text": "Max energy",
             "title": "A Storm Is Coming",
-            "content": "After entering battle, increases the wearer's DMG based on their Max Energy. DMG increases by {{DmgStep}}% per point of Energy, up to {{EnergyLimit}} Energy."
+            "content": "After entering battle, increases the wearer's DMG based on their Max Energy. DMG increases by {{DmgStep}}% per point of Energy, up to 160 Energy."
           }
         ]
       },
@@ -1160,7 +1160,7 @@ interface Resources {
           {
             "text": "Defeated enemy CR buff",
             "title": "Rye Under the Sun",
-            "content": "When the wearer defeats an enemy, the wearer's CRIT Rate increases by {{CritBuff}}% for {{Duration}} turn(s)."
+            "content": "When the wearer defeats an enemy, the wearer's CRIT Rate increases by {{CritBuff}}% for 3 turn(s)."
           }
         ]
       },
@@ -1172,7 +1172,7 @@ interface Resources {
           {
             "text": "Initial DMG reduction buff",
             "title": "Teary-Eyed",
-            "content": "At the start of the battle, the DMG dealt to all allies decreases by {{DmgReduction}}% for {{Duration}} turn(s). At the same time, immediately restores HP to all allies equal to {{Healing}}% of the respective HP difference between the characters' Max HP and current HP."
+            "content": "At the start of the battle, the DMG dealt to all allies decreases by {{DmgReduction}}% for 5 turn(s). At the same time, immediately restores HP to all allies equal to {{Healing}}% of the respective HP difference between the characters' Max HP and current HP."
           }
         ]
       },
@@ -1202,7 +1202,7 @@ interface Resources {
           {
             "text": "Defeated enemy SPD buff",
             "title": "Alliance",
-            "content": "When the wearer defeats an enemy, increases SPD by {{SpdBuff}}% for {{Duration}} turn(s)."
+            "content": "When the wearer defeats an enemy, increases SPD by {{SpdBuff}}% for 2 turn(s)."
           }
         ]
       },
@@ -1211,7 +1211,7 @@ interface Resources {
           {
             "text": "HP < 50% DEF buff",
             "title": "Stasis",
-            "content": "If the wearer's current HP is lower than {{HpThreshold}}%, increases their DEF by a further {{DefBuff}}%."
+            "content": "If the wearer's current HP is lower than 50%, increases their DEF by a further {{DefBuff}}%."
           }
         ]
       },
@@ -1220,7 +1220,7 @@ interface Resources {
           {
             "text": "Initial CR buff",
             "title": "Crisis",
-            "content": "At the start of the battle, the wearer's CRIT Rate increases by {{CritBuff}}% for {{Duration}} turn(s)."
+            "content": "At the start of the battle, the wearer's CRIT Rate increases by {{CritBuff}}% for 3 turn(s)."
           }
         ]
       },
@@ -1256,7 +1256,7 @@ interface Resources {
           {
             "text": "Defeated enemy ATK buff",
             "title": "War Cry",
-            "content": "When the wearer defeats an enemy, increases ATK by {{AtkBuff}}% for {{Duration}} turn(s)."
+            "content": "When the wearer defeats an enemy, increases ATK by {{AtkBuff}}% for 3 turn(s)."
           }
         ]
       },
@@ -1298,7 +1298,7 @@ interface Resources {
           {
             "text": "Initial SPD buff",
             "title": "Family",
-            "content": "Upon entering battle, increases SPD of all allies by {{SpdBuff}} points for {{Duration}} turn(s)."
+            "content": "Upon entering battle, increases SPD of all allies by {{SpdBuff}} points for 1 turn(s)."
           }
         ]
       },
@@ -1313,7 +1313,7 @@ interface Resources {
           {
             "text": "Self HP < 80% CR buff",
             "title": "Legion",
-            "content": "If the wearer's current HP is lower than {{HpThreshold}}%, CRIT Rate increases by {{CritBuff}}%."
+            "content": "If the wearer's current HP is lower than 80%, CRIT Rate increases by {{CritBuff}}%."
           }
         ]
       },
@@ -1328,7 +1328,7 @@ interface Resources {
           {
             "text": "Post ult ATK buff",
             "title": "Genius",
-            "content": "When the wearer uses their Ultimate, increases ATK by {{AtkBuff}}% for {{Duration}} turn(s)."
+            "content": "When the wearer uses their Ultimate, increases ATK by {{AtkBuff}}% for 2 turn(s)."
           }
         ]
       },
@@ -1337,7 +1337,7 @@ interface Resources {
           {
             "text": "Enemy HP > 50% DMG buff",
             "title": "Eradication",
-            "content": "The wearer deals {{DmgBuff}}% more DMG to enemy targets whose HP percentage is greater than {{HpThreshold}}%."
+            "content": "The wearer deals {{DmgBuff}}% more DMG to enemy targets whose HP percentage is greater than 50%."
           }
         ]
       },
@@ -1346,7 +1346,7 @@ interface Resources {
           {
             "text": "Initial EHR buff",
             "title": "Fallen",
-            "content": "At the start of the battle, the wearer's Effect Hit Rate increases by {{EhrBuff}}% for {{Duration}} turn(s)."
+            "content": "At the start of the battle, the wearer's Effect Hit Rate increases by {{EhrBuff}}% for 3 turn(s)."
           }
         ]
       }

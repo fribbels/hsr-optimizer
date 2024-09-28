@@ -18,7 +18,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     formItem: 'switch',
     text: t('Content.0.text'),
     title: t('Content.0.title'),
-    content: t('Content.0.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]), Duration: 1 }),
+    content: t('Content.0.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]) }),
   }]
 
   return {

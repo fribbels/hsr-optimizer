@@ -20,7 +20,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     formItem: 'slider',
     text: t('Content.0.text'),
     title: t('Content.0.title'),
-    content: t('Content.0.content', { StackLimit: 4, AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]), DefIgnore: TsUtils.precisionRound(100 * sValuesDotPen[s]) }),
+    content: t('Content.0.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]), DefIgnore: TsUtils.precisionRound(100 * sValuesDotPen[s]) }),
     min: 0,
     max: 4,
   }]

@@ -19,7 +19,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     formItem: 'switch',
     text: t('Content.0.text'),
     title: t('Content.0.title'),
-    content: t('Content.0.content', { ShieldHp: TsUtils.precisionRound(100 * sValuesShieldHp[s]), Duration: 2, Cooldown: 3, DmgReduction: TsUtils.precisionRound(100 * sValues[s]) }),
+    content: t('Content.0.content', { ShieldHp: TsUtils.precisionRound(100 * sValuesShieldHp[s]), DmgReduction: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {

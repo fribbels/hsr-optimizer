@@ -20,7 +20,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     formItem: 'slider',
     text: t('Content.0.text'),
     title: t('Content.0.title'),
-    content: t('Content.0.content', { StackLimit: 2, CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }), // getContentFromLCRanks(s, lcRank2),
+    content: t('Content.0.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }), // getContentFromLCRanks(s, lcRank2),
     min: 0,
     max: 2,
   }]

@@ -9,6 +9,7 @@ import { Constants } from 'lib/constants.ts'
 import { Utils } from 'lib/utils'
 import { RelicFilters } from 'lib/relicFilters'
 import DB from 'lib/db'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
 export function calculateBuildByCharacterEquippedIds(character) {
   console.log('character', character)
@@ -78,9 +79,58 @@ export function calculateBuild(request, relics, cachedParams = null, reuseReques
   calculateBaseStats(c, request, params)
   calculateElementalStats(c, request, params)
 
-  calculateComputedStats(c, request, params)
+  const actions = [
+    {
+      type: 'COMBAT',
+      buffs: [],
+    },
+    {
+      type: 'ULT',
+      buffs: [],
+    },
+    {
+      type: 'SKILL',
+      buffs: [],
+    },
+    {
+      type: 'SKILL',
+      buffs: [],
+    },
+    {
+      type: 'SKILL',
+      buffs: [],
+    },
+  ]
+
+  calculateComputedStats(c, request, params, actions)
+
+  let combo = 0
+  for (const action of actions) {
+    const ax = {
+      ...x,
+    }
+
+    for (const buff of action.buffs) {
+      if (buff.stat == 'Ability DMG') {
+        buffAbilityDmg(ax, buff.dmgType, buff.value)
+      }
+    }
+
+    calculateBaseMultis(ax, request, params)
+    calculateDamage(ax, request, params)
+
+    if (action.type == 'SKILL') {
+      combo += ax.SKILL_DMG
+    }
+    if (action.type == 'ULT') {
+      combo += ax.ULT_DMG
+    }
+  }
+
   calculateBaseMultis(x, request, params)
   calculateDamage(x, request, params)
+
+  x.COMBO_DMG = combo
 
   return c
 }

@@ -163,7 +163,7 @@ export function calculateBaseStats(c: BasicStatsObject, request: Form, params: O
   )
 }
 
-export function calculateComputedStats(c: BasicStatsObject, request: Form, params: OptimizerParams) {
+export function calculateComputedStats(c: BasicStatsObject, request: Form, params: OptimizerParams, actions: any) {
   params.characterConditionals = CharacterConditionals.get(request)
   params.lightConeConditionals = LightConeConditionals.get(request)
 
@@ -307,7 +307,23 @@ export function calculateComputedStats(c: BasicStatsObject, request: Form, param
   }
 
   if (p4(sets.ScholarLostInErudition) && params.enabledScholarLostInErudition) {
-    buffAbilityDmg(x, SKILL_TYPE, 0.25)
+    let ultActive = false
+    for (const action of actions || []) {
+      if (ultActive || action.type == 'COMBAT') {
+        // apply buff
+        ultActive = false
+
+        action.buffs.push({
+          stat: 'Ability DMG',
+          dmgType: SKILL_TYPE,
+          value: 0.25,
+        })
+      }
+
+      if (action.type == 'ULT') {
+        ultActive = true
+      }
+    }
   }
 
   // Dynamic - still need implementing

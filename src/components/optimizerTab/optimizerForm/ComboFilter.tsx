@@ -38,7 +38,6 @@ export const ComboFilters = () => {
           </div>
           <Radio.Group
             defaultValue='a'
-            buttonStyle='solid'
             size='small'
           >
             <Radio.Button value='a'>Basic</Radio.Button>
@@ -53,7 +52,6 @@ export const ComboFilters = () => {
           </div>
           <Radio.Group
             defaultValue='a'
-            buttonStyle='solid'
             size='small'
           >
             <Radio.Button value='a'>Basic</Radio.Button>
@@ -68,7 +66,6 @@ export const ComboFilters = () => {
           </div>
           <Radio.Group
             defaultValue='a'
-            buttonStyle='solid'
             size='small'
           >
             <Radio.Button value='a'>Basic</Radio.Button>
@@ -83,7 +80,6 @@ export const ComboFilters = () => {
           </div>
           <Radio.Group
             defaultValue='a'
-            buttonStyle='solid'
             size='small'
           >
             <Radio.Button value='a'>Basic</Radio.Button>

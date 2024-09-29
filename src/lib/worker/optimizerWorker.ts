@@ -10,6 +10,7 @@ import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
@@ -74,25 +75,6 @@ self.onmessage = function (e: MessageEvent) {
     type: string
     buffs: string[]
   }
-
-  const actions: OptimizerActions[] = [
-    {
-      type: 'ULT',
-      buffs: [],
-    },
-    {
-      type: 'SKILL',
-      buffs: [],
-    },
-    {
-      type: 'SKILL',
-      buffs: [],
-    },
-    {
-      type: 'SKILL',
-      buffs: [],
-    },
-  ]
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
@@ -168,9 +150,58 @@ self.onmessage = function (e: MessageEvent) {
       }
     }
 
-    calculateComputedStats(c, request, params)
+    const actions = [
+      {
+        type: 'COMBAT',
+        buffs: [],
+      },
+      {
+        type: 'ULT',
+        buffs: [],
+      },
+      {
+        type: 'SKILL',
+        buffs: [],
+      },
+      {
+        type: 'SKILL',
+        buffs: [],
+      },
+      {
+        type: 'SKILL',
+        buffs: [],
+      },
+    ]
+
+    calculateComputedStats(c, request, params, actions)
+
+    let combo = 0
+    for (const action of actions) {
+      const ax = {
+        ...x,
+      }
+
+      for (const buff of action.buffs) {
+        if (buff.stat == 'Ability DMG') {
+          buffAbilityDmg(ax, buff.dmgType, buff.value)
+        }
+      }
+
+      calculateBaseMultis(ax, request, params)
+      calculateDamage(ax, request, params)
+
+      if (action.type == 'SKILL') {
+        combo += ax.SKILL_DMG
+      }
+      if (action.type == 'ULT') {
+        combo += ax.ULT_DMG
+      }
+    }
+
     calculateBaseMultis(x, request, params)
     calculateDamage(x, request, params)
+
+    x.COMBO_DMG = combo
 
     if (failsCombatFilter(x)) {
       continue

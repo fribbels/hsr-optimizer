@@ -5,10 +5,14 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { BETA_UPDATE, Stats } from 'lib/constants'
+import { Stats } from 'lib/constants'
 import { buffAbilityCd } from 'lib/optimizer/calculateBuffs'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Feixiao')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -44,51 +48,51 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'weaknessBrokenUlt',
       name: 'weaknessBrokenUlt',
-      text: 'Weakness broken ult (force weakness break)',
-      title: 'Weakness broken ult (force weakness break)',
-      content: `Overrides weakness break to be enabled. ${BETA_UPDATE}`,
+      text: t('Content.0.text'),
+      title: t('Content.0.title'),
+      content: t('Content.0.content'),
     },
     {
       formItem: 'switch',
       id: 'talentDmgBuff',
       name: 'talentDmgBuff',
-      text: 'Talent DMG buff',
-      title: 'Talent DMG buff',
-      content: BETA_UPDATE,
+      text: t('Content.1.text'),
+      title: t('Content.1.title'),
+      content: t('Content.1.content', { FuaMultiplier: TsUtils.precisionRound(100 * fuaScaling), DmgBuff: TsUtils.precisionRound(100 * talentDmgBuff) }),
     },
     {
       formItem: 'switch',
       id: 'skillAtkBuff',
       name: 'skillAtkBuff',
-      text: 'Skill ATK buff',
-      title: 'Skill ATK buff',
-      content: BETA_UPDATE,
+      text: t('Content.2.text'),
+      title: t('Content.2.title'),
+      content: t('Content.2.content'),
     },
     {
       formItem: 'switch',
       id: 'e1OriginalDmgBoost',
       name: 'e1OriginalDmgBoost',
-      text: 'E1 original DMG boost',
-      title: 'E1 original DMG boost',
-      content: BETA_UPDATE,
+      text: t('Content.3.text'),
+      title: t('Content.3.title'),
+      content: t('Content.3.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e4Buffs',
       name: 'e4Buffs',
-      text: 'E4 buffs',
-      title: 'E4 buffs',
-      content: BETA_UPDATE,
+      text: t('Content.4.text'),
+      title: t('Content.4.title'),
+      content: t('Content.4.content'),
       disabled: e < 4,
     },
     {
       formItem: 'switch',
       id: 'e6Buffs',
       name: 'e6Buffs',
-      text: 'E6 buffs',
-      title: 'E6 buffs',
-      content: BETA_UPDATE,
+      text: t('Content.5.text'),
+      title: t('Content.5.title'),
+      content: t('Content.5.content'),
       disabled: e < 6,
     },
   ]

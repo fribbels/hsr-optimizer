@@ -5,11 +5,14 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { BETA_UPDATE } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { JiaoqiuConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Jiaoqiu')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -30,9 +33,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'ashenRoastStacks',
       name: 'ashenRoastStacks',
-      text: `Ashen Roast stacks`,
-      title: 'Ashen Roast stacks',
-      content: BETA_UPDATE,
+      text: t('Content.0.text'),
+      title: t('Content.0.title'),
+      content: t('Content.0.content', { AshenRoastInitialVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityBase), AshenRoastAdditionalVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityScaling), AshenRoastDotMultiplier: TsUtils.precisionRound(100 * talentDotScaling) }),
       min: 0,
       max: maxAshenRoastStacks,
     },
@@ -40,43 +43,43 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'ultFieldActive',
       name: 'ultFieldActive',
-      text: 'Ult field active',
-      title: 'Ult field active',
-      content: BETA_UPDATE,
+      text: t('Content.1.text'),
+      title: t('Content.1.title'),
+      content: t('Content.1.content', { UltScaling: TsUtils.precisionRound(100 * ultScaling), UltVulnerability: TsUtils.precisionRound(100 * ultVulnerabilityScaling), ZoneDebuffChance: TsUtils.precisionRound(100 * ult(e, 0.6, 0.62)) }),
     },
     {
       formItem: 'switch',
       id: 'ehrToAtkBoost',
       name: 'ehrToAtkBoost',
-      text: 'EHR to ATK boost',
-      title: 'EHR to ATK boost',
-      content: BETA_UPDATE,
+      text: t('Content.2.text'),
+      title: t('Content.2.title'),
+      content: t('Content.2.content'),
     },
     {
       formItem: 'switch',
       id: 'e1DmgBoost',
       name: 'e1DmgBoost',
-      text: 'E1 DMG boost',
-      title: 'E1 DMG boost',
-      content: BETA_UPDATE,
+      text: t('Content.3.text'),
+      title: t('Content.3.title'),
+      content: t('Content.3.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2Dot',
       name: 'e2Dot',
-      text: 'E2 DOT scaling',
-      title: 'E2 DOT scaling',
-      content: BETA_UPDATE,
+      text: t('Content.4.text'),
+      title: t('Content.4.title'),
+      content: t('Content.4.content'),
       disabled: e < 2,
     },
     {
       formItem: 'switch',
       id: 'e6ResShred',
       name: 'e6ResShred',
-      text: 'E6 RES shred',
-      title: 'E6 RES shred',
-      content: BETA_UPDATE,
+      text: t('Content.5.text'),
+      title: t('Content.5.title'),
+      content: t('Content.5.content'),
       disabled: e < 6,
     },
   ]

@@ -358,6 +358,7 @@ interface Resources {
     }
   },
   "conditionals": {
+    "BetaMessage": "Current version: {{Version}} - Calculations are subject to change.",
     "Lightcones": {
       "AlongThePassingShore": {
         "Content": [
@@ -1640,6 +1641,13 @@ interface Resources {
             "title": "Quick March",
             "content": "When using Skill, the target ally's SPD increases by 30% after taking action, lasting for 1 turn."
           }
+        ],
+        "TeammateContent": [
+          {
+            "text": "Bronya's Combat CD",
+            "title": "The Belobog March",
+            "content": "Increases the ATK of all allies by {{ultAtkBoostValue}}% and CRIT DMG by {{ultCdBoostValue}}% of Bronya's CRIT DMG plus {{ultCdBoostBaseValue}}% for 2 turns."
+          }
         ]
       },
       "Clara": {
@@ -1782,7 +1790,7 @@ interface Resources {
           {
             "text": "Team DMG reduction",
             "title": "Bleak Breeds Bliss",
-            "content": "While Fu Xuan is still active in battle, Misfortune Avoidance is applied to the entire team. With Misfortune Avoidance, allies take ${precisionRound(talentDmgReductionValue * 100)}% less DMG."
+            "content": "While Fu Xuan is still active in battle, Misfortune Avoidance is applied to the entire team. With Misfortune Avoidance, allies take {{talentDmgReductionValue}}% less DMG."
           },
           {
             "text": "Skill active",
@@ -2012,7 +2020,7 @@ interface Resources {
           {
             "text": "Basic enhancements",
             "title": "Dracore Libre",
-            "content": "0 stack(s): Uses a 2-hit attack and deals Imaginary DMG equal to {{basicScaling}}% ATK to a single enemy target.::BR::1 stack(s): Uses a 3-hit attack and deals Imaginary DMG equal to {{(basicEnhanced1Scaling}}% ATK to a single enemy target.::BR::2 stack(s): Uses a 5-hit attack and deals Imaginary DMG equal to {{basicEnhanced2Scaling}}% ATK to a single enemy target and reduced DMG to adjacent targets.::BR::3 stack(s): Uses a 7-hit attack and deals Imaginary DMG equal to {{basicEnhanced3Scaling}}% ATK to a single enemy target and reduced DMG to adjacent targets."
+            "content": "0 stack(s): Uses a 2-hit attack and deals Imaginary DMG equal to {{basicScaling}}% ATK to a single enemy target.::BR::1 stack(s): Uses a 3-hit attack and deals Imaginary DMG equal to {{basicEnhanced1Scaling}}% ATK to a single enemy target.::BR::2 stack(s): Uses a 5-hit attack and deals Imaginary DMG equal to {{basicEnhanced2Scaling}}% ATK to a single enemy target and reduced DMG to adjacent targets.::BR::3 stack(s): Uses a 7-hit attack and deals Imaginary DMG equal to {{basicEnhanced3Scaling}}% ATK to a single enemy target and reduced DMG to adjacent targets."
           },
           {
             "text": "Outroar stacks",

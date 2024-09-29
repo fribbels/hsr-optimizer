@@ -1,13 +1,17 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardHpFinalizer, precisionRound, standardHpFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardHpFinalizer, standardHpFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Huohuo')
   const { basic, ult } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const ultBuffValue = ult(e, 0.40, 0.432)
@@ -17,24 +21,24 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
-    text: 'Ult ATK buff',
-    title: 'Ult ATK buff',
-    content: `Increases all allies' ATK by ${precisionRound(ultBuffValue * 100)}% for 2 turns after using Ultimate.`,
+    text: t('Content.0.text'),
+    title: t('Content.0.title'),
+    content: t('Content.0.content', { ultBuffValue: TsUtils.precisionRound(100 * ultBuffValue) }),
   }, {
     formItem: 'switch',
     id: 'skillBuff',
     name: 'skillBuff',
-    text: 'E1 SPD buff',
-    title: 'E1 SPD buff',
-    content: `E1: When Huohuo possesses Divine Provision, all allies' SPD increases by 12%.`,
+    text: t('Content.1.text'),
+    title: t('Content.1.title'),
+    content: t('Content.1.content'),
     disabled: e < 1,
   }, {
     formItem: 'switch',
     id: 'e6DmgBuff',
     name: 'e6DmgBuff',
-    text: 'E6 DMG buff',
-    title: 'E6 DMG buff',
-    content: `E6: When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns.`,
+    text: t('Content.2.text'),
+    title: t('Content.2.title'),
+    content: t('Content.2.content'),
     disabled: e < 6,
   }]
 

@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, precisionRound, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -8,8 +8,12 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Clara')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const ultDmgReductionValue = ult(e, 0.25, 0.27)
@@ -31,31 +35,31 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
-    text: 'Ult buff',
-    title: 'Ult buff',
-    content: `Increases Svarog Counter DMG by ${precisionRound(ultFuaExtraScaling * 100)}% during Ultimate. DMG dealt to Clara is reduced by an extra ${precisionRound(ultDmgReductionValue * 100)}% for 2 turns`,
+    text: t('Content.0.text'),
+    title: t('Content.0.title'),
+    content: t('Content.0.content', { ultFuaExtraScaling: TsUtils.precisionRound(100 * ultFuaExtraScaling) }),
   }, {
     formItem: 'switch',
     id: 'talentEnemyMarked',
     name: 'talentEnemyMarked',
-    text: 'Enemy marked',
-    title: 'Enemy marked',
-    content: `Additionally deals Physical DMG equal to ${precisionRound(skillScaling * 100)}% of Clara's ATK to enemies marked by Svarog with a Mark of Counter.`,
+    text: t('Content.1.text'),
+    title: t('Content.1.title'),
+    content: t('Content.1.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
   }, {
     formItem: 'switch',
     id: 'e2UltAtkBuff',
     name: 'e2UltAtkBuff',
-    text: 'E2 ult ATK buff',
-    title: 'E2 ult ATK buff',
-    content: `E2: After using Ultimate, increases ATK by ${precisionRound(0.30 * 100)}% for 2 turns.`,
+    text: t('Content.2.text'),
+    title: t('Content.2.title'),
+    content: t('Content.2.content'),
     disabled: e < 2,
   }, {
     formItem: 'switch',
     id: 'e4DmgReductionBuff',
     name: 'e4DmgReductionBuff',
-    text: 'E4 DMG reduction buff',
-    title: 'E4 DMG reduction buff',
-    content: `E4: Decreases DMG taken by ${precisionRound(0.30 * 100)}%.`,
+    text: t('Content.3.text'),
+    title: t('Content.3.title'),
+    content: t('Content.3.content'),
     disabled: e < 4,
   }]
 

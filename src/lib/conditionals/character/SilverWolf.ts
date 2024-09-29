@@ -1,12 +1,16 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 const SilverWolf = (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.SilverWolf')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const skillResShredValue = skill(e, 0.10, 0.105)
@@ -21,45 +25,38 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'skillResShredDebuff',
     name: 'skillResShredDebuff',
-    text: 'Skill All-Type RES shred',
-    title: 'Skill: Allow Changes? RES Shred',
-    content: `Decreases the target's All-Type RES of the enemy by ${precisionRound(skillResShredValue * 100)}% for 2 turn(s).
-    ::BR::If there are 3 or more debuff(s) affecting the enemy when the Skill is used, then the Skill decreases the enemy's All-Type RES by an additional 3%.`,
+    text: t('Content.0.text'),
+    title: t('Content.0.title'),
+    content: t('Content.0.content', { skillResShredValue: TsUtils.precisionRound(100 * skillResShredValue) }),
   }, {
     formItem: 'switch',
     id: 'skillWeaknessResShredDebuff',
     name: 'skillWeaknessResShredDebuff',
-    text: 'Skill weakness implanted RES shred',
-    title: 'Skill weakness implanted RES shred',
-    content: `There is a chance to add 1 Weakness of an on-field character's Type to the target enemy. This also reduces the enemy's DMG RES to that Weakness Type by 20% for 2 turn(s). If the enemy already has that Type Weakness, the effect of DMG RES reduction to that Weakness Type will not be triggered.`,
+    text: t('Content.1.text'),
+    title: t('Content.1.title'),
+    content: t('Content.1.content'),
   }, {
     // TODO: should be talent
     formItem: 'switch',
     id: 'talentDefShredDebuff',
     name: 'talentDefShredDebuff',
-    text: 'Bug DEF shred',
-    title: 'Talent: Awaiting System Response... DEF shred',
-    content: `Silver Wolf's bug reduces the target's DEF by ${precisionRound(talentDefShredDebuffValue * 100)}% for 3 turn(s).`,
+    text: t('Content.2.text'),
+    title: t('Content.2.title'),
+    content: t('Content.2.content', { talentDefShredDebuffValue: TsUtils.precisionRound(100 * talentDefShredDebuffValue) }),
   }, {
     formItem: 'switch',
     id: 'ultDefShredDebuff',
     name: 'ultDefShredDebuff',
-    text: 'Ult DEF shred',
-    title: 'Ult: User Banned DEF shred',
-    content: `Decreases the target's DEF by ${precisionRound(ultDefShredValue * 100)}% for 3 turn(s).`,
+    text: t('Content.3.text'),
+    title: t('Content.3.title'),
+    content: t('Content.3.content', { ultDefShredValue: TsUtils.precisionRound(100 * ultDefShredValue) }),
   }, {
     formItem: 'slider',
     id: 'targetDebuffs',
     name: 'targetDebuffs',
-    text: 'Target debuffs',
-    title: 'Target debuffs',
-    content: `
-      If there are 3 or more debuff(s) affecting the enemy when the Skill is used, then the Skill decreases the enemy's All-Type RES by an additional 3%.
-      ::BR::
-      E4: After using her Ultimate to attack enemies, deals Additional Quantum DMG equal to 20% of Silver Wolf's ATK for every debuff currently on the enemy target. This effect can be triggered for a maximum of 5 time(s) during each use of her Ultimate.
-      ::BR::
-      E6: For every debuff the target enemy has, the DMG dealt by Silver Wolf increases by 20%, up to a limit of 100%.
-    `,
+    text: t('Content.4.text'),
+    title: t('Content.4.title'),
+    content: t('Content.4.content'),
     min: 0,
     max: 5,
   }]

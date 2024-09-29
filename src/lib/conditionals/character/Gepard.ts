@@ -6,8 +6,11 @@ import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { GepardConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import i18next from 'i18next'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Gepard')
   const { basic, skill } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -17,9 +20,9 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'e4TeamResBuff',
     name: 'e4TeamResBuff',
-    text: 'E4 Team RES buff',
-    title: 'E4 Team RES buff',
-    content: `E4: When Gepard is in battle, all allies' Effect RES increases by 20%.`,
+    text: t('Content.0.text'),
+    title: t('Content.0.title'),
+    content: t('Content.0.content'),
     disabled: e < 4,
   }]
 

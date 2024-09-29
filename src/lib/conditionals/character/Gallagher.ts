@@ -1,4 +1,4 @@
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
@@ -7,8 +7,12 @@ import { Form } from 'types/Form'
 import { Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { GallagherConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Gallagher')
   const { basic, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -21,51 +25,51 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'basicEnhanced',
       name: 'basicEnhanced',
-      text: 'Enhanced basic',
-      title: 'Nectar Blitz',
-      content: `Ultimate enhances his next Basic ATK to Nectar Blitz.`,
+      text: t('Content.0.text'),
+      title: t('Content.0.title'),
+      content: t('Content.0.content'),
     },
     {
       formItem: 'switch',
       id: 'breakEffectToOhbBoost',
       name: 'breakEffectToOhbBoost',
-      text: 'BE to OHB boost',
-      title: 'Novel Concoction',
-      content: `Increases this unit's Outgoing Healing by an amount equal to 50% of Break Effect, up to a maximum Outgoing Healing increase of 75%.`,
+      text: t('Content.1.text'),
+      title: t('Content.1.title'),
+      content: t('Content.1.content'),
     },
     {
       formItem: 'switch',
       id: 'targetBesotted',
       name: 'targetBesotted',
-      text: 'Target Besotted',
-      title: 'Target Besotted',
-      content: `The Besotted state makes targets receive ${precisionRound(100 * talentBesottedScaling)}% more Break DMG.`,
+      text: t('Content.2.text'),
+      title: t('Content.2.title'),
+      content: t('Content.2.content', { talentBesottedScaling: TsUtils.precisionRound(100 * talentBesottedScaling) }),
     },
     {
       formItem: 'switch',
       id: 'e1ResBuff',
       name: 'e1ResBuff',
-      text: 'E1 RES buff',
-      title: 'E1: Salty Dog',
-      content: `When entering the battle, Gallagher regenerates 20 Energy and increases Effect RES by 50%.`,
+      text: t('Content.3.text'),
+      title: t('Content.3.title'),
+      content: t('Content.3.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2ResBuff',
       name: 'e2ResBuff',
-      text: 'E2 RES buff',
-      title: 'E2: Lion\'s Tail',
-      content: `When using the Skill, removes 1 debuff(s) from the target ally. At the same time, increases their Effect RES by 30%, lasting for 2 turn(s).`,
+      text: t('Content.4.text'),
+      title: t('Content.4.title'),
+      content: t('Content.4.content'),
       disabled: e < 2,
     },
     {
       formItem: 'switch',
       id: 'e6BeBuff',
       name: 'e6BeBuff',
-      text: 'E6 BE buff',
-      title: 'E6: Blood and Sand',
-      content: `Increases Gallagher's Break Effect by 20% and Weakness Break Efficiency by 20%.`,
+      text: t('Content.5.text'),
+      title: t('Content.5.title'),
+      content: t('Content.5.content'),
       disabled: e < 6,
     },
   ]

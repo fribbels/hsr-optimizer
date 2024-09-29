@@ -1,14 +1,18 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Sushang')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const talentSpdBuffValue = talent(e, 0.20, 0.21)
@@ -24,37 +28,34 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'ultBuffedState',
     name: 'ultBuffedState',
-    text: 'Ult buffed state',
-    title: 'Ult buffed state',
-    content: `Sushang's ATK increases by ${precisionRound(ultBuffedAtk * 100)}% and using her Skill has 2 extra chances to trigger Sword Stance for 2 turn(s).
-    Sword Stance triggered from the extra chances deals 50% of the original DMG.`,
+    text: t('Content.0.text'),
+    title: t('Content.0.title'),
+    content: t('Content.0.content', { ultBuffedAtk: TsUtils.precisionRound(100 * ultBuffedAtk) }),
   }, {
     formItem: 'slider',
     id: 'skillExtraHits',
     name: 'skillExtraHits',
-    text: 'Skill extra hits',
-    title: 'Skill extra hits',
-    content: `Increases the number of Sword Stance extra hits of the Skill.`,
+    text: t('Content.1.text'),
+    title: t('Content.1.title'),
+    content: t('Content.1.content'),
     min: 0,
     max: 3,
   }, {
     formItem: 'slider',
     id: 'skillTriggerStacks',
     name: 'skillTriggerStacks',
-    text: 'Skill trigger stacks',
-    title: 'Skill trigger stacks',
-    content: `For every Sword Stance triggered, the DMG dealt by Sword Stance increases by 2.5%. Stacks up to 10 time(s).`,
+    text: t('Content.2.text'),
+    title: t('Content.2.title'),
+    content: t('Content.2.content'),
     min: 0,
     max: 10,
   }, {
     formItem: 'slider',
     id: 'talentSpdBuffStacks',
     name: 'talentSpdBuffStacks',
-    text: 'Talent SPD buff stacks',
-    title: 'Talent SPD buff stacks',
-    content: `When an enemy has their Weakness Broken on the field, Sushang's SPD increases by ${precisionRound(talentSpdBuffValue * 100)}% per stack for 2 turn(s).
-    ::BR::
-    E6: Talent's SPD Boost is stackable and can stack up to 2 times.`,
+    text: t('Content.3.text'),
+    title: t('Content.3.title'),
+    content: t('Content.3.content', { talentSpdBuffValue: TsUtils.precisionRound(100 * talentSpdBuffValue) }),
     min: 0,
     max: talentSpdBuffStacksMax,
   },
@@ -62,9 +63,9 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'e2DmgReductionBuff',
     name: 'e2DmgReductionBuff',
-    text: 'E2 DMG reduction buff',
-    title: 'E2 DMG reduction buff',
-    content: `E2: After triggering Sword Stance, the DMG taken by Sushang is reduced by 20% for 1 turn.`,
+    text: t('Content.4.text'),
+    title: t('Content.4.title'),
+    content: t('Content.4.content'),
     disabled: e < 2,
   }]
 

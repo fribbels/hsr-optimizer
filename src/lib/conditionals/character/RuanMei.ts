@@ -2,14 +2,18 @@ import { Stats } from 'lib/constants'
 import { Eidolon } from 'types/Character'
 import { Form } from 'types/Form'
 
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { RuanMeiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.RuanMei')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const fieldResPenValue = ult(e, 0.25, 0.27)
@@ -22,44 +26,42 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'skillOvertoneBuff',
       name: 'skillOvertoneBuff',
-      text: 'Overtone buff',
-      title: 'Skill: String Sings Slow Swirls',
-      content: `After using her Skill, Ruan Mei gains Overtone, lasting for 3 turn(s). This duration decreases by 1 at the start of Ruan Mei's turn. When Ruan Mei has Overtone, all allies' DMG increases by ${precisionRound(skillScaling * 100)}% and Weakness Break Efficiency increases by 50%`,
+      text: t('Content.0.text'),
+      title: t('Content.0.title'),
+      content: t('Content.0.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
     },
     {
       formItem: 'switch',
       id: 'teamBEBuff',
       name: 'teamBEBuff',
-      text: 'Team BE buff',
-      title: 'Trace: Inert Respiration',
-      content: `Increases Break Effect by 20% for all allies.`,
+      text: t('Content.1.text'),
+      title: t('Content.1.title'),
+      content: t('Content.1.content'),
     },
     {
       formItem: 'switch',
       id: 'ultFieldActive',
       name: 'ultFieldActive',
-      text: 'Ult field active',
-      title: 'Ultimate: Petals to Stream, Repose in Dream',
-      content: `While inside the field, all allies' All-Type RES PEN increases by ${precisionRound(fieldResPenValue * 100)}%.
-    ::BR::
-    E1: While the Ultimate's field is deployed, the DMG dealt by all allies ignores 20% of the target's DEF.`,
+      text: t('Content.2.text'),
+      title: t('Content.2.title'),
+      content: t('Content.2.content', { fieldResPenValue: TsUtils.precisionRound(100 * fieldResPenValue) }),
     },
     {
       formItem: 'switch',
       id: 'e2AtkBoost',
       name: 'e2AtkBoost',
-      text: 'E2 weakness ATK buff',
-      title: 'E2: Reedside Promenade',
-      content: 'E2: With Ruan Mei on the field, all allies increase their ATK by 40% when dealing DMG to enemies with Weakness Break.',
+      text: t('Content.3.text'),
+      title: t('Content.3.title'),
+      content: t('Content.3.content'),
       disabled: (e < 2),
     },
     {
       formItem: 'switch',
       id: 'e4BeBuff',
       name: 'e4BeBuff',
-      text: 'E4 BE buff',
-      title: 'E4: Chatoyant Éclat',
-      content: 'E4: When an enemy target\'s Weakness is Broken, Ruan Mei\'s Break Effect increases by 100% for 3 turn(s).',
+      text: t('Content.4.text'),
+      title: t('Content.4.title'),
+      content: t('Content.4.content'),
       disabled: (e < 4),
     },
   ]
@@ -70,18 +72,18 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'teamSpdBuff',
       name: 'teamSpdBuff',
-      text: 'Team SPD buff',
-      title: 'Talent: Somatotypical Helix',
-      content: `Increases SPD by ${precisionRound(talentSpdScaling * 100)}% for the team (excluding this character).`,
+      text: t('TeammateContent.0.text'),
+      title: t('TeammateContent.0.title'),
+      content: t('TeammateContent.0.content', { talentSpdScaling: TsUtils.precisionRound(100 * talentSpdScaling) }),
     },
     findContentId(content, 'teamBEBuff'),
     {
       formItem: 'slider',
       id: 'teamDmgBuff',
       name: 'teamDmgBuff',
-      text: `BE to DMG buff`,
-      title: 'Trace: Candle Lights on Still Waters',
-      content: `In battle, for every 10% of Ruan Mei's Break Effect that exceeds 120%, her Skill additionally increases allies' DMG by 6%, up to a maximum of 36%.`,
+      text: t('TeammateContent.1.text'),
+      title: t('TeammateContent.1.title'),
+      content: t('TeammateContent.1.content'),
       min: 0,
       max: 0.36,
       percent: true,

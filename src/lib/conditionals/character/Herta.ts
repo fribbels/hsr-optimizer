@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, precisionRound, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -8,8 +8,11 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
+import i18next from 'i18next'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Herta')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -71,9 +74,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'fuaStacks',
       name: 'fuaStacks',
-      text: 'Followup attack hits',
-      title: 'Followup attack hits',
-      content: `When an ally's attack causes an enemy's HP percentage to fall to 50% or lower, Herta will launch a follow-up attack, dealing Ice DMG.`,
+      text: t('Content.0.text'),
+      title: t('Content.0.title'),
+      content: t('Content.0.content'),
       min: 1,
       max: 5,
     },
@@ -81,42 +84,42 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'targetFrozen',
       name: 'targetFrozen',
-      text: 'Target frozen',
-      title: 'Target frozen',
-      content: `When Ultimate is used, deals ${precisionRound(0.20 * 100)}% more DMG to Frozen enemies.`,
+      text: t('Content.1.text'),
+      title: t('Content.1.title'),
+      content: t('Content.1.content'),
     },
     {
       formItem: 'switch',
       id: 'enemyHpGte50',
       name: 'enemyHpGte50',
-      text: 'Skill DMG boost',
-      title: 'One-Time Offer',
-      content: `Skill: If the enemy's HP percentage is 50% or higher, DMG dealt to this target increases by 20%.`,
+      text: t('Content.2.text'),
+      title: t('Content.2.title'),
+      content: t('Content.2.content'),
     },
     {
       formItem: 'switch',
       id: 'techniqueBuff',
       name: 'techniqueBuff',
-      text: 'Technique buff',
-      title: 'Technique buff',
-      content: `Increases ATK by ${precisionRound(0.40 * 100)}% for 3 turns.`,
+      text: t('Content.3.text'),
+      title: t('Content.3.title'),
+      content: t('Content.3.content'),
     },
     {
       formItem: 'switch',
       id: 'enemyHpLte50',
       name: 'enemyHpLte50',
-      text: 'E1 basic scaling boost',
-      title: 'E1: Kick You When You\'re Down',
-      content: `E1: If the enemy's HP percentage is at 50% or less, Herta's Basic ATK deals Additional Ice DMG equal to 40% of Herta's ATK.`,
+      text: t('Content.4.text'),
+      title: t('Content.4.title'),
+      content: t('Content.4.content'),
       disabled: e < 1,
     },
     {
       formItem: 'slider',
       id: 'e2TalentCritStacks',
       name: 'e2TalentCritStacks',
-      text: 'E2 talent CR stacks',
-      title: 'E2 talent CR stacks',
-      content: `E2: Increases CRIT Rate by 3% per stack. Stacks up to 5 times.`,
+      text: t('Content.5.text'),
+      title: t('Content.5.title'),
+      content: t('Content.5.content'),
       min: 0,
       max: 5,
       disabled: e < 2,
@@ -125,9 +128,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e6UltAtkBuff',
       name: 'e6UltAtkBuff',
-      text: 'E6 ult ATK buff',
-      title: 'E6 ult ATK buff',
-      content: `E6: After Ult, increases ATK by ${precisionRound(0.25 * 100)}% for 1 turn.`,
+      text: t('Content.6.text'),
+      title: t('Content.6.title'),
+      content: t('Content.6.content'),
       disabled: e < 6,
     },
   ]

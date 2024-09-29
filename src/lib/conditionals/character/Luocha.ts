@@ -5,8 +5,11 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
+import i18next from 'i18next'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Luocha')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -17,19 +20,17 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'fieldActive',
     name: 'fieldActive',
-    text: 'Field active',
-    title: 'Field active',
-    content: `
-      E1: While the Field is active, ATK of all allies increases by 20%.
-    `,
+    text: t('Content.0.text'),
+    title: t('Content.0.title'),
+    content: t('Content.0.content'),
     // disabled: e < 1, Not disabling this one since technically the field can be active at E0
   }, {
     formItem: 'switch',
     id: 'e6ResReduction',
     name: 'e6ResReduction',
-    text: 'E6 RES reduction',
-    title: 'E6 RES reduction',
-    content: `E6: When Ultimate is used, reduces all enemies' All-Type RES by 20% for 2 turn(s).`,
+    text: t('Content.1.text'),
+    title: t('Content.1.title'),
+    content: t('Content.1.content'),
     disabled: e < 6,
   }]
 

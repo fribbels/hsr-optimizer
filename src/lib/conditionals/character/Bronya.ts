@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardFuaAtkFinalizer, precisionRound, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -11,8 +11,12 @@ import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/set
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Bronya')
   const { basic, skill, ult } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const skillDmgBoostValue = skill(e, 0.66, 0.726)
@@ -29,44 +33,44 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'teamDmgBuff',
     name: 'teamDmgBuff',
-    text: 'Team DMG buff',
-    title: 'Trace: Military Might',
-    content: `When Bronya is on the field, all allies deal 10% more DMG.`,
+    text: t('Content.0.text'),
+    title: t('Content.0.title'),
+    content: t('Content.0.content'),
   }, {
     formItem: 'switch',
     id: 'skillBuff',
     name: 'skillBuff',
-    text: 'Skill DMG buff',
-    title: 'Skill: Combat Redeployment',
-    content: `Dispels a debuff from a single ally, allows them to immediately take action, and increases their DMG by ${precisionRound(skillDmgBoostValue * 100)}% for 1 turn(s).`,
+    text: t('Content.1.text'),
+    title: t('Content.1.title'),
+    content: t('Content.1.content', { skillDmgBoostValue: TsUtils.precisionRound(100 * skillDmgBoostValue) }),
   }, {
     formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
-    text: 'Ult ATK/CD buffs',
-    title: 'Ultimate: The Belobog March',
-    content: `Increases the ATK of all allies by ${precisionRound(ultAtkBoostValue * 100)}% and CRIT DMG by ${precisionRound(ultCdBoostValue * 100)}% of Bronya's CRIT DMG plus ${precisionRound(ultCdBoostBaseValue * 100)}% for 2 turns.`,
+    text: t('Content.2.text'),
+    title: t('Content.2.title'),
+    content: t('Content.2.content', { ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue), ultCdBoostValue: TsUtils.precisionRound(100 * ultCdBoostValue), ultCdBoostBaseValue: TsUtils.precisionRound(100 * ultCdBoostBaseValue) }),
   }, {
     formItem: 'switch',
     id: 'battleStartDefBuff',
     name: 'battleStartDefBuff',
-    text: 'Initial DEF buff',
-    title: 'Trace: Battlefield',
-    content: `At the start of the battle, all allies' DEF increases by 20% for 2 turn(s).`,
+    text: t('Content.3.text'),
+    title: t('Content.3.title'),
+    content: t('Content.3.content'),
   }, {
     formItem: 'switch',
     id: 'techniqueBuff',
     name: 'techniqueBuff',
-    text: 'Technique ATK buff',
-    title: 'Technique: Banner of Command',
-    content: `After using Bronya's Technique, at the start of the next battle, all allies' ATK increases by 15% for 2 turn(s).`,
+    text: t('Content.4.text'),
+    title: t('Content.4.title'),
+    content: t('Content.4.content'),
   }, {
     formItem: 'switch',
     id: 'e2SkillSpdBuff',
     name: 'e2SkillSpdBuff',
-    text: 'E2 skill SPD buff',
-    title: 'E2: Quick March',
-    content: `When using Skill, the target ally's SPD increases by 30% after taking action, lasting for 1 turn.`,
+    text: t('Content.5.text'),
+    title: t('Content.5.title'),
+    content: t('Content.5.content'),
     disabled: e < 2,
   }]
 
@@ -80,9 +84,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateCDValue',
       name: 'teammateCDValue',
-      text: `Bronya's Combat CD`,
-      title: 'Ultimate: The Belobog March',
-      content: `Increases the ATK of all allies by ${precisionRound(ultAtkBoostValue * 100)}% and CRIT DMG by ${precisionRound(ultCdBoostValue * 100)}% of Bronya's CRIT DMG plus ${precisionRound(ultCdBoostBaseValue * 100)}% for 2 turns.`,
+      text: t('TeammateContent.0.text'),
+      title: t('TeammateContent.0.title'),
+      content: t('TeammateContent.0.content', { ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue), ultCdBoostValue: TsUtils.precisionRound(100 * ultCdBoostValue), ultCdBoostBaseValue: TsUtils.precisionRound(100 * ultCdBoostBaseValue) }),
       min: 0,
       max: 3.00,
       percent: true,

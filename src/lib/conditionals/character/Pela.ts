@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -8,8 +8,12 @@ import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Pela')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const ultDefPenValue = ult(e, 0.40, 0.42)
@@ -22,39 +26,37 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'teamEhrBuff',
     name: 'teamEhrBuff',
-    text: 'Team EHR buff',
-    title: 'Team EHR buff',
-    content: `When Pela is on the battlefield, all allies' Effect Hit Rate increases by 10%.`,
+    text: t('Content.0.text'),
+    title: t('Content.0.title'),
+    content: t('Content.0.content'),
   }, {
     formItem: 'switch',
     id: 'enemyDebuffed',
     name: 'enemyDebuffed',
-    text: 'Enemy debuffed',
-    title: 'Enemy debuffed',
-    content: `Deals 20% more DMG to debuffed enemies.`,
+    text: t('Content.1.text'),
+    title: t('Content.1.title'),
+    content: t('Content.1.content'),
   }, {
     formItem: 'switch',
     id: 'skillRemovedBuff',
     name: 'skillRemovedBuff',
-    text: 'Enemy buff removed skill buffs',
-    title: 'Enemy buff removed skill buffs',
-    content: `Using Skill to remove buff(s) increases the DMG of Pela's next attack by 20%.
-    ::BR::
-    E2: Using Skill to remove buff(s) increases SPD by 10% for 2 turn(s).`,
+    text: t('Content.2.text'),
+    title: t('Content.2.title'),
+    content: t('Content.2.content'),
   }, {
     formItem: 'switch',
     id: 'ultDefPenDebuff',
     name: 'ultDefPenDebuff',
-    text: 'Ult DEF shred debuff',
-    title: 'Ult DEF shred debuff',
-    content: `When Exposed, enemies' DEF is reduced by ${precisionRound(ultDefPenValue * 100)}% for 2 turn(s).`,
+    text: t('Content.3.text'),
+    title: t('Content.3.title'),
+    content: t('Content.3.content', { ultDefPenValue: TsUtils.precisionRound(100 * ultDefPenValue) }),
   }, {
     formItem: 'switch',
     id: 'e4SkillResShred',
     name: 'e4SkillResShred',
-    text: 'E4 skill Ice RES shred',
-    title: 'E4 skill Ice RES shred',
-    content: `E4: When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turn(s).`,
+    text: t('Content.4.text'),
+    title: t('Content.4.title'),
+    content: t('Content.4.content'),
     disabled: e < 4,
   }]
 

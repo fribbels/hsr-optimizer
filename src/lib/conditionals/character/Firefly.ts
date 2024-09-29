@@ -1,5 +1,5 @@
 import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -10,8 +10,12 @@ import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { FireflyConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Firefly')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -30,74 +34,67 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'enhancedStateActive',
       name: 'enhancedStateActive',
-      text: 'Enhanced state',
-      title: 'Enhanced state',
-      content: `Enters the Complete Combustion state, advances this unit's Action by 100%, and gains Enhanced Basic ATK 
-      and Enhanced Skill.`,
+      text: t('Content.0.text'),
+      title: t('Content.0.title'),
+      content: t('Content.0.content'),
     },
     {
       formItem: 'switch',
       id: 'enhancedStateSpdBuff',
       name: 'enhancedStateSpdBuff',
-      text: 'Enhanced SPD buff',
-      title: 'Enhanced SPD buff',
-      content: `While in Complete Combustion, increases SPD by ${ultSpdBuff}.`,
+      text: t('Content.1.text'),
+      title: t('Content.1.title'),
+      content: t('Content.1.content', { ultSpdBuff }),
     },
     {
       formItem: 'switch',
       id: 'superBreakDmg',
       name: 'superBreakDmg',
-      text: 'Super Break enabled',
-      title: 'Super Break enabled',
-      content: `When SAM is in Complete Combustion with a Break Effect that is equal to or greater than 200%/360%, 
-      attacking a Weakness-Broken enemy target will convert the Toughness Reduction of this attack into 1 instance of 
-      35%/50% Super Break DMG.`,
+      text: t('Content.2.text'),
+      title: t('Content.2.title'),
+      content: t('Content.2.content'),
     },
     {
       formItem: 'switch',
       id: 'atkToBeConversion',
       name: 'atkToBeConversion',
-      text: 'ATK to BE conversion',
-      title: 'ATK to BE conversion',
-      content: `For every 10 point(s) of SAM's ATK that exceeds 1800, increases this unit's Break Effect by 0.8%.`,
+      text: t('Content.3.text'),
+      title: t('Content.3.title'),
+      content: t('Content.3.content'),
     },
     {
       formItem: 'switch',
       id: 'talentDmgReductionBuff',
       name: 'talentDmgReductionBuff',
-      text: 'Max EHP buff',
-      title: 'Max EHP buff',
-      content: `The lower the HP, the less DMG received. When HP is 20% or lower, the DMG Reduction reaches its maximum 
-      effect, reducing up to ${precisionRound(talentDmgReductionBuff * 100)}%. During the Complete Combustion, the DMG 
-      Reduction remains at its maximum effect, and the Effect RES increases by ${precisionRound(talentResBuff * 100)}%.`,
+      text: t('Content.4.text'),
+      title: t('Content.4.title'),
+      content: t('Content.4.content', { talentResBuff: TsUtils.precisionRound(100 * talentResBuff), talentDmgReductionBuff: TsUtils.precisionRound(100 * talentDmgReductionBuff) }),
     },
     {
       formItem: 'switch',
       id: 'e1DefShred',
       name: 'e1DefShred',
-      text: 'E1 DEF shred',
-      title: 'E1 DEF shred',
-      content: `When using the Enhanced Skill, ignores 15% of the target's DEF. The Enhanced Skill does not consume 
-      Skill Points.`,
+      text: t('Content.5.text'),
+      title: t('Content.5.title'),
+      content: t('Content.5.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e4ResBuff',
       name: 'e4ResBuff',
-      text: 'E4 RES buff',
-      title: 'E4 RES buff',
-      content: `While in Complete Combustion, increases SAM's Effect RES by 50%.`,
+      text: t('Content.6.text'),
+      title: t('Content.6.title'),
+      content: t('Content.6.content'),
       disabled: e < 4,
     },
     {
       formItem: 'switch',
       id: 'e6Buffs',
       name: 'e6Buffs',
-      text: 'E6 buffs',
-      title: 'E6 buffs',
-      content: `While in Complete Combustion, increases SAM's Fire RES PEN by 20%. When using the Enhanced Basic ATK or 
-      Enhanced Skill, increases the Weakness Break efficiency by 50%.`,
+      text: t('Content.7.text'),
+      title: t('Content.7.title'),
+      content: t('Content.7.content'),
       disabled: e < 6,
     },
   ]

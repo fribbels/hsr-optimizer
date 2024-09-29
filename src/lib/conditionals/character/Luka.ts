@@ -1,13 +1,17 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Luka')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicEnhancedHitValue = basic(e, 0.20, 0.22)
@@ -24,25 +28,25 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'basicEnhanced',
       name: 'basicEnhanced',
-      text: 'Basic enhanced',
-      title: 'Basic enhanced: Sky-Shatter Fist',
-      content: `Enhances Basic ATK to deal additional damage, and has a chance to trigger extra hits.`,
+      text: t('Content.0.text'),
+      title: t('Content.0.title'),
+      content: t('Content.0.content'),
     },
     {
       formItem: 'switch',
       id: 'targetUltDebuffed',
       name: 'targetUltDebuffed',
-      text: 'Ult vulnerability debuff',
-      title: 'Ult vulnerability debuff',
-      content: `Increase the target's DMG received by ${precisionRound(targetUltDebuffDmgTakenValue * 100)}% for 3 turn(s)`,
+      text: t('Content.1.text'),
+      title: t('Content.1.title'),
+      content: t('Content.1.content', { targetUltDebuffDmgTakenValue: TsUtils.precisionRound(100 * targetUltDebuffDmgTakenValue) }),
     },
     {
       formItem: 'slider',
       id: 'basicEnhancedExtraHits',
       name: 'basicEnhancedExtraHits',
-      text: 'Enhanced basic extra hits',
-      title: 'Enhanced basic extra hits',
-      content: `Increases the number of hits of Basic Enhanced.`,
+      text: t('Content.2.text'),
+      title: t('Content.2.title'),
+      content: t('Content.2.content'),
       min: 0,
       max: 3,
     },
@@ -50,18 +54,18 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e1TargetBleeding',
       name: 'e1TargetBleeding',
-      text: 'E1 target bleeding',
-      title: 'E1 target bleeding',
-      content: `E1: When Luka takes action, if the target enemy is Bleeding, increases DMG dealt by Luka by 15% for 2 turn(s).`,
+      text: t('Content.3.text'),
+      title: t('Content.3.title'),
+      content: t('Content.3.content'),
       disabled: e < 1,
     },
     {
       formItem: 'slider',
       id: 'e4TalentStacks',
       name: 'e4TalentStacks',
-      text: 'E4 talent stacks',
-      title: 'E4 talent stacks',
-      content: `E4: For every stack of Fighting Will obtained, increases ATK by 5%, stacking up to 4 time(s).`,
+      text: t('Content.4.text'),
+      title: t('Content.4.title'),
+      content: t('Content.4.content'),
       min: 0,
       max: 4,
       disabled: e < 4,

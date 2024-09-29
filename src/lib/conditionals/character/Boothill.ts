@@ -1,5 +1,5 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -8,8 +8,12 @@ import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { BoothillConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { NumberToNumberMap } from 'types/Common'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Boothill')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const standoffVulnerabilityBoost = skill(e, 0.30, 0.33)
@@ -30,19 +34,17 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'standoffActive',
       name: 'standoffActive',
-      text: 'Standoff Active',
-      title: 'Standoff Active',
-      content: `Forces Boothill and a single target enemy into the Standoff state. Boothill's Basic ATK gets Enhanced, and he cannot use his Skill, lasting for 2 turn(s). This duration reduces by 1 at the start of Boothill's every turn.
-The enemy target in the Standoff becomes Taunted. When this enemy target/Boothill gets attacked by the other party in the Standoff, the DMG they receive increases by ${precisionRound(standoffVulnerabilityBoost * 100)}%/15%.`,
+      text: t('Content.0.text'),
+      title: t('Content.0.title'),
+      content: t('Content.0.content', { standoffVulnerabilityBoost: TsUtils.precisionRound(100 * standoffVulnerabilityBoost) }),
     },
     {
       formItem: 'slider',
       id: 'pocketTrickshotStacks',
       name: 'pocketTrickshotStacks',
-      text: 'Pocket Trickshots',
-      title: 'Pocket Trickshots',
-      content: `Each stack of Pocket Trickshot increases the Enhanced Basic Attack's Toughness Reduction by 50%, stacking up to 3 time(s).
-If the target is Weakness Broken while the Enhanced Basic ATK is being used, based on the number of Pocket Trickshot stacks`,
+      text: t('Content.1.text'),
+      title: t('Content.1.title'),
+      content: t('Content.1.content'),
       min: 0,
       max: 3,
     },
@@ -50,52 +52,52 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
       formItem: 'switch',
       id: 'beToCritBoost',
       name: 'beToCritBoost',
-      text: 'BE to CR / CD boost',
-      title: 'BE to CR / CD boost',
-      content: `Increase this character's CRIT Rate/CRIT DMG, by an amount equal to 10%/50% of Break Effect, up to a max increase of 30%/150%.`,
+      text: t('Content.2.text'),
+      title: t('Content.2.title'),
+      content: t('Content.2.content'),
     },
     {
       formItem: 'switch',
       id: 'talentBreakDmgScaling',
       name: 'talentBreakDmgScaling',
-      text: 'Talent Break DMG (force weakness break)',
-      title: 'Talent Break DMG',
-      content: `If the target is Weakness Broken while the Enhanced Basic ATK is being used, based on the number of Pocket Trickshot stacks, deals Break DMG to this target based on Boothill's Physical Break DMG. The max Toughness taken into account for this DMG cannot exceed 16 times the base Toughness Reduction of the Basic Attack "Skullcrush Spurs."`,
+      text: t('Content.3.text'),
+      title: t('Content.3.title'),
+      content: t('Content.3.content'),
     },
     {
       formItem: 'switch',
       id: 'e1DefShred',
       name: 'e1DefShred',
-      text: 'E1 DEF shred',
-      title: 'E1 DEF shred',
-      content: `When the battle starts, obtains 1 stack of Pocket Trickshot. When Boothill deals DMG, ignores 16% of the enemy target's DEF.`,
+      text: t('Content.4.text'),
+      title: t('Content.4.title'),
+      content: t('Content.4.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2BeBuff',
       name: 'e2BeBuff',
-      text: 'E2 BE buff',
-      title: 'E2 BE buff',
-      content: `When in Standoff and gaining Pocket Trickshot, recovers 1 Skill Point(s) and increases Break Effect by 30%, lasting for 2 turn(s). Can also trigger this effect when gaining Pocket Trickshot stacks that exceed the max limit. But cannot trigger repeatedly within one turn.`,
+      text: t('Content.5.text'),
+      title: t('Content.5.title'),
+      content: t('Content.5.content'),
       disabled: e < 2,
     },
     {
       formItem: 'switch',
       id: 'e4TargetStandoffVulnerability',
       name: 'e4TargetStandoffVulnerability',
-      text: 'E4 Skill vulnerability',
-      title: 'E4 Skill vulnerability',
-      content: `When the enemy target in the Standoff is attacked by Boothill, the DMG they receive additionally increases by 12%. When Boothill is attacked by the enemy target in the Standoff, the effect of him receiving increased DMG is offset by 12%.`,
+      text: t('Content.6.text'),
+      title: t('Content.6.title'),
+      content: t('Content.6.content'),
       disabled: e < 4,
     },
     {
       formItem: 'switch',
       id: 'e6AdditionalBreakDmg',
       name: 'e6AdditionalBreakDmg',
-      text: 'E6 Break DMG boost',
-      title: 'E6 Break DMG boost',
-      content: `When triggering the Talent's Break DMG, additionally deals Break DMG to the target equal to 40% of the original DMG multiplier and additionally deals Break DMG to adjacent targets equal to 70% of the original DMG multiplier.`,
+      text: t('Content.7.text'),
+      title: t('Content.7.title'),
+      content: t('Content.7.content'),
       disabled: e < 6,
     },
   ]

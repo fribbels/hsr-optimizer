@@ -1,11 +1,12 @@
 import { Drawer, Flex, Form, Popover, Select, Switch, Typography } from 'antd'
-import { BETA_UPDATE, Constants, setToId, UnreleasedSets } from 'lib/constants'
+import { Constants, CURRENT_DATA_VERSION, setToId, UnreleasedSets } from 'lib/constants'
 import { useMemo } from 'react'
 import { HeaderText } from 'components/HeaderText'
 import PropTypes from 'prop-types'
 import { Assets } from 'lib/assets'
 import { VerticalDivider } from 'components/Dividers'
 import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
 
 const { Text } = Typography
 
@@ -282,7 +283,7 @@ export function FormSetConditionals() {
             <ConditionalSetOption
               set={Constants.Sets.SacerdosRelivedOrdeal}
               description={t('RelicDescription', { id: 121 })}
-              conditional={BETA_UPDATE}
+              conditional={i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })}
               p4Checked
             />
           )}
@@ -290,7 +291,7 @@ export function FormSetConditionals() {
             <ConditionalSetOption
               set={Constants.Sets.ScholarLostInErudition}
               description={t('RelicDescription', { id: 122 })}
-              conditional={BETA_UPDATE}
+              conditional={i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })}
             />
           )}
         </Flex>

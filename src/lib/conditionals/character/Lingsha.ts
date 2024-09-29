@@ -5,12 +5,16 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { BETA_UPDATE, Stats } from 'lib/constants'
+import { Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
 import { LingshaConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Lingsha')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -30,43 +34,43 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'beConversion',
       name: 'beConversion',
-      text: 'BE to ATK/OHB',
-      title: 'BE to ATK/OHB',
-      content: BETA_UPDATE,
+      text: t('Content.0.text'),
+      title: t('Content.0.title'),
+      content: t('Content.0.content'),
     },
     {
       formItem: 'switch',
       id: 'befogState',
       name: 'befogState',
-      text: 'Befog state',
-      title: 'Befog state',
-      content: BETA_UPDATE,
+      text: t('Content.1.text'),
+      title: t('Content.1.title'),
+      content: t('Content.1.content', { BefogVulnerability: TsUtils.precisionRound(100 * ultBreakVulnerability) }),
     },
     {
       formItem: 'switch',
       id: 'e1DefShred',
       name: 'e1DefShred',
-      text: 'E1 weakness break buffs',
-      title: 'E1 weakness break buffs',
-      content: BETA_UPDATE,
+      text: t('Content.2.text'),
+      title: t('Content.2.title'),
+      content: t('Content.2.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2BeBuff',
       name: 'e2BeBuff',
-      text: 'E2 BE buff',
-      title: 'E2 BE buff',
-      content: BETA_UPDATE,
+      text: t('Content.3.text'),
+      title: t('Content.3.title'),
+      content: t('Content.3.content'),
       disabled: e < 2,
     },
     {
       formItem: 'switch',
       id: 'e6ResShred',
       name: 'e6ResShred',
-      text: 'E6 RES shred',
-      title: 'E6 RES shred',
-      content: BETA_UPDATE,
+      text: t('Content.4.text'),
+      title: t('Content.4.title'),
+      content: t('Content.4.content'),
       disabled: e < 6,
     },
   ]

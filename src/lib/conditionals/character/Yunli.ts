@@ -5,11 +5,15 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { BETA_UPDATE, Stats } from 'lib/constants'
+import { Stats } from 'lib/constants'
 import { buffAbilityCd, buffAbilityCr, buffAbilityDefPen, buffAbilityDmg, buffAbilityResPen } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Yunli')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -49,25 +53,25 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'blockActive',
       name: 'blockActive',
-      text: 'Parry active',
-      title: 'Parry active',
-      content: BETA_UPDATE,
+      text: t('Content.0.text'),
+      title: t('Content.0.title'),
+      content: t('Content.0.content'),
     },
     {
       formItem: 'switch',
       id: 'ultCull',
       name: 'ultCull',
-      text: 'Intuit: Cull enabled',
-      title: 'Intuit: Cull enabled',
-      content: BETA_UPDATE,
+      text: t('Content.1.text'),
+      title: t('Content.1.title'),
+      content: t('Content.1.content', { CullScaling: TsUtils.precisionRound(100 * ultCullScaling), CullAdjacentScaling: TsUtils.precisionRound(100 * 0.5 * ultCullScaling), CullAdditionalScaling: TsUtils.precisionRound(100 * ultCullHitsScaling) }),
     },
     {
       formItem: 'slider',
       id: 'ultCullHits',
       name: 'ultCullHits',
-      text: `Intuit: Cull hits`,
-      title: 'Intuit: Cull hits',
-      content: BETA_UPDATE,
+      text: t('Content.2.text'),
+      title: t('Content.2.title'),
+      content: t('Content.2.content', { CullScaling: TsUtils.precisionRound(100 * ultCullScaling), CullAdjacentScaling: TsUtils.precisionRound(100 * 0.5 * ultCullScaling), CullAdditionalScaling: TsUtils.precisionRound(100 * ultCullHitsScaling) }),
       min: 0,
       max: maxCullHits,
     },
@@ -75,44 +79,44 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'counterAtkBuff',
       name: 'counterAtkBuff',
-      text: 'Counter ATK buff',
-      title: 'Counter ATK buff',
-      content: BETA_UPDATE,
+      text: t('Content.3.text'),
+      title: t('Content.3.title'),
+      content: t('Content.3.content'),
     },
     {
       formItem: 'switch',
       id: 'e1UltBuff',
       name: 'e1UltBuff',
-      text: 'E1 Ult buff',
-      title: 'E1 Ult buff',
-      content: BETA_UPDATE,
+      text: t('Content.4.text'),
+      title: t('Content.4.title'),
+      content: t('Content.4.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2DefShred',
       name: 'e2DefShred',
-      text: 'E2 FUA DEF shred',
-      title: 'E2 FUA DEF shred',
-      content: BETA_UPDATE,
+      text: t('Content.5.text'),
+      title: t('Content.5.title'),
+      content: t('Content.5.content'),
       disabled: e < 2,
     },
     {
       formItem: 'switch',
       id: 'e4ResBuff',
       name: 'e4ResBuff',
-      text: 'E4 RES buff',
-      title: 'E4 RES buff',
-      content: BETA_UPDATE,
+      text: t('Content.6.text'),
+      title: t('Content.6.title'),
+      content: t('Content.6.content'),
       disabled: e < 4,
     },
     {
       formItem: 'switch',
       id: 'e6Buffs',
       name: 'e6Buffs',
-      text: 'E6 buffs',
-      title: 'E6 buffs',
-      content: BETA_UPDATE,
+      text: t('Content.7.text'),
+      title: t('Content.7.title'),
+      content: t('Content.7.content'),
       disabled: e < 6,
     },
   ]

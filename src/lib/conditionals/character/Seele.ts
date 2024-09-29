@@ -1,14 +1,18 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Seele')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const buffedStateDmgBuff = talent(e, 0.80, 0.88)
@@ -22,38 +26,33 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'buffedState',
     name: 'buffedState',
-    text: 'Buffed State',
-    title: 'Buffed State',
-    content: `
-      Enters the buffed state upon defeating an enemy with Basic ATK, Skill, or Ultimate, and receives an extra turn. While in the buffed state, the DMG of Seele's attacks increases by ${precisionRound(buffedStateDmgBuff * 100)}% for 1 turn(s).
-      ::BR::
-      While Seele is in the buffed state, her Quantum RES PEN increases by 20%.
-    `,
+    text: t('Content.0.text'),
+    title: t('Content.0.title'),
+    content: t('Content.0.content', { buffedStateDmgBuff: TsUtils.precisionRound(100 * buffedStateDmgBuff) }),
   }, {
     formItem: 'slider',
     id: 'speedBoostStacks',
     name: 'speedBoostStacks',
-    text: 'Speed boost stacks',
-    title: 'Speed boost stacks',
-    content: `Increases SPD by 25% per stack. Stacks up to ${precisionRound(speedBoostStacksMax)} time(s).`,
+    text: t('Content.1.text'),
+    title: t('Content.1.title'),
+    content: t('Content.1.content', { speedBoostStacksMax: speedBoostStacksMax }),
     min: 0,
     max: speedBoostStacksMax,
   }, {
     formItem: 'switch',
     id: 'e1EnemyHp80CrBoost',
     name: 'e1EnemyHp80CrBoost',
-    text: 'E1 Enemy HP ≤ 80% CR boost',
-    title: 'E1: Extirpating Slash',
-    content: `E1: When dealing DMG to an enemy whose HP percentage is 80% or lower, CRIT Rate increases by 15%.`,
+    text: t('Content.2.text'),
+    title: t('Content.2.title'),
+    content: t('Content.2.content'),
     disabled: e < 1,
   }, {
     formItem: 'switch',
     id: 'e6UltTargetDebuff',
     name: 'e6UltTargetDebuff',
-    text: 'E6 Butterfly Flurry',
-    title: 'E6 Shattering Shambles',
-    content: `E6: After Seele uses her Ultimate, inflict the target enemy with Butterfly Flurry for 1 turn(s). 
-    Enemies suffering from Butterfly Flurry will take Additional Quantum DMG equal to 15% of Seele's Ultimate DMG every time they are attacked.`,
+    text: t('Content.3.text'),
+    title: t('Content.3.title'),
+    content: t('Content.3.content'),
     disabled: e < 6,
   }]
 

@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
@@ -9,8 +9,12 @@ import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Lynx')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const skillHpPercentBuff = skill(e, 0.075, 0.08)
@@ -24,12 +28,9 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'skillBuff',
     name: 'skillBuff',
-    text: 'Skill max HP buff',
-    title: 'Skill max HP buff',
-    content: `
-    Applies "Survival Response" to a single target ally and increases their Max HP by ${precisionRound(skillHpPercentBuff * 100)}% of Lynx's Max HP plus ${precisionRound(skillHpFlatBuff)}.
-    ::BR::E4: When "Survival Response" is gained, increases the target's ATK by an amount equal to 3% of Lynx's Max HP for 1 turn(s).
-    ::BR::E6: Additionally boosts the Max HP increasing effect of "Survival Response" by an amount equal to 6% of Lynx's Max HP and increases Effect RES by 30%.`,
+    text: t('Content.0.text'),
+    title: t('Content.0.title'),
+    content: t('Content.0.content', { skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff), skillHpFlatBuff: skillHpFlatBuff }),
   }]
 
   const teammateContent: ContentItem[] = [
@@ -38,12 +39,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateHPValue',
       name: 'teammateHPValue',
-      text: `Lynx's HP`,
-      title: 'Dusk of Warm Campfire',
-      content: `
-      Applies "Survival Response" to a single target ally and increases their Max HP by ${precisionRound(skillHpPercentBuff * 100)}% of Lynx's Max HP plus ${precisionRound(skillHpFlatBuff)}.
-      ::BR::E4: When "Survival Response" is gained, increases the target's ATK by an amount equal to 3% of Lynx's Max HP for 1 turn(s).
-      ::BR::E6: Additionally boosts the Max HP increasing effect of "Survival Response" by an amount equal to 6% of Lynx's Max HP and increases Effect RES by 30%.`,
+      text: t('TeammateContent.0.text'),
+      title: t('TeammateContent.0.title'),
+      content: t('TeammateContent.0.content', { skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff), skillHpFlatBuff: skillHpFlatBuff }),
       min: 0,
       max: 10000,
     },

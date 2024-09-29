@@ -1355,909 +1355,909 @@ interface Resources {
       "Acheron": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Crimson Knot stacks",
+            "title": "Slashed Dream Cries in Red",
+            "content": "Rainblade: Deals Lightning DMG equal to {{RainbladeScaling}}% of Acheron's ATK to a single target enemy and removes up to 3 stacks of Crimson Knot from the target. When Crimson Knot is removed, immediately deals Lightning DMG equal to {{CrimsonKnotScaling}}% of Acheron's ATK to all enemies. For every stack of Crimson Knot removed, the DMG Multiplier for this is additionally increased.::BR::When the Rainblade from Acheron's Ultimate hits enemy targets with Crimson Knot, her DMG increases by 30%, stacking up to 3 time(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Nihility teammates",
+            "title": "The Abyss",
+            "content": "When there are 1 or 2 Nihility characters other than Acheron in the team, the DMG dealt by Acheron's Basic ATK, Skill, and Ultimate increases to 115% or 160% of the original DMG respectively.::BR::E2: The number of Nihility characters required for the Trace \"The Abyss\" to achieve its highest possible effect is reduced by 1. When this unit's turn starts, gains 1 point of Slashed Dream and inflicts 1 stack of Crimson Knot on the enemy with the most Crimson Knot stacks."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Thunder Core stacks",
+            "title": "Thunder Core",
+            "content": "When the Rainblade from Acheron's Ultimate hits enemy targets with Crimson Knot, her DMG increases by 30%, stacking up to 3 time(s) and lasting for 3 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Stygian Resurge hits",
+            "title": "Thunder Core",
+            "content": "When Stygian Resurge triggers, additionally deals DMG for 6 times. Each time deals Lightning DMG equal to 25% of Acheron's ATK to a single random enemy and is viewed as part of the Ultimate DMG."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 CR boost",
+            "title": "E1: Silenced Sky Spake Sooth",
+            "content": "When dealing DMG to debuffed enemies, increases the CRIT Rate by 18%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 ult vulnerability",
+            "title": "E4: Shrined Fire for Mirrored Soul",
+            "content": "When enemy targets enter combat, inflicts them with the Ultimate DMG Vulnerability, increasing the amount of Ultimate DMG they take by 8%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 ult buffs",
+            "title": "E6: Apocalypse, the Emancipator",
+            "content": "Increases the All-Type RES PEN for the Ultimate DMG dealt by Acheron by 20%. The DMG dealt by Basic ATK and Skill will also be considered as Ultimate DMG and can reduce enemy toughness regardless of Weakness Types. When breaking Weaknesses, triggers the Lightning Weakness Break effect."
           }
         ]
       },
       "Argenti": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enhanced ult",
+            "title": "Merit Bestowed in \"My\" Garden",
+            "content": "Consumes 180 Energy and deals Physical DMG equal to {{ultEnhancedScaling}}% of Argenti's ATK to all enemies, and further deals DMG for 6 extra time(s), with each time dealing Physical DMG equal to {{ultEnhancedExtraHitScaling}}% of Argenti's ATK to a random enemy."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enemy HP ≤ 50% DMG boost",
+            "title": "Courage",
+            "content": "Deals 15% more DMG to enemies whose HP percentage is 50% or less."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Apotheosis stacks",
+            "title": "Sublime Object",
+            "content": "Increases CR by {{talentCrStackValue}}% per stack, max of {{talentMaxStacks}} stacks."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enhanced ult extra hits on target",
+            "title": "Merit Bestowed in \"My\" Garden",
+            "content": "Enhanced Ult hits a random enemy for {{ultEnhancedExtraHitScaling}}% ATK per hit."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 ult ATK buff",
+            "title": "Agate's Humility",
+            "content": "E2: If the number of enemies on the field equals to 3 or more, increases ATK by 40% for 1 turn."
           }
         ]
       },
       "Arlan": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Self current HP%",
+            "title": "Pain and Anger",
+            "content": "Based on Arlan's current missing HP percentage, gains DMG bonus, up to a maximum increase of {{talentMissingHpDmgBoostMax}}% DMG dealt by Arlan."
           }
         ]
       },
       "Asta": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill extra hits",
+            "title": "Meteor Storm",
+            "content": "Deals 50% ATK DMG equal to a single enemy. Deals DMG for {{skillExtraDmgHitsMax}} extra times to a random enemy.::BR::E1: When using Skill, deals DMG for 1 extra time to a random enemy."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Talent ATK buff stacks",
+            "title": "Astrometry",
+            "content": "Increases allies' ATK by {{talentStacksAtkBuff}}% for every stack.::BR::E4: Asta's Energy Regeneration Rate increases by 15% when she has 2 or more Charging stacks."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult SPD buff active",
+            "title": "Astral Blessing",
+            "content": "Increases SPD of all allies by {{ultSpdBuffValue}} for 2 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Fire DMG boost",
+            "title": "Ignite",
+            "content": "When Asta is on the field, all allies' Fire DMG increases by 18%."
           }
         ]
       },
       "Aventurine": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "DEF to CR boost",
+            "title": "Leverage",
+            "content": "For every 100 of Aventurine's DEF that exceeds 1600, increases his own CRIT Rate by 2%, up to a maximum increase of 48%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Fortified Wager buff",
+            "title": "Cornerstone Deluxe",
+            "content": "For any single ally with Fortified Wager, their Effect RES increases by {{talentResScaling}}%, and when they get attacked, Aventurine gains 1 point of Blind Bet.::BR::E1: Increases CRIT DMG by 20% for allies with Fortified Wager. After using the Ultimate, provides all allies with a Fortified Wager shield, whose Shield effect is equal to 100% of the one provided by the Skill, lasting for 3 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enemy Unnerved",
+            "title": "Roulette Shark",
+            "content": "When an ally hits an Unnerved enemy target, the CRIT DMG dealt increases by {{ultCdBoost}}%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "FUA hits on target",
+            "title": "Bingo!",
+            "content": "Upon reaching 7 points of Blind Bet, Aventurine consumes the 7 points to launch a 7-hit follow-up attack, with each hit dealing Imaginary DMG equal to {{talentDmgScaling}}% of Aventurine's DEF to a single random enemy. Blind Bet is capped at 10 points.::BR::E4: When triggering his Talent's follow-up attack, first increases Aventurine's DEF by 40% for 2 turn(s), and additionally increases the Hits Per Action for his talent's follow-up attack by 3."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 RES shred",
+            "title": "Bounded Rationality",
+            "content": "When using the Basic ATK, reduces the target's All-Type RES by 12% for 3 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 DEF buff",
+            "title": "Unexpected Hanging Paradox",
+            "content": "E4: When triggering his Talent's follow-up attack, first increases Aventurine's DEF by 40% for 2 turn(s)"
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 shield stacks",
+            "title": "Stag Hunt Game",
+            "content": "E6: For every ally that holds a Shield, the DMG dealt by Aventurine increases by 50%, up to a maximum of 150%."
           }
         ]
       },
       "Bailu": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Healing max HP buff",
+            "title": "Qihuang Analects",
+            "content": "When Bailu heals a target ally above their normal Max HP, the target's Max HP increases by 10% for 2 turns."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Invigoration DMG reduction",
+            "title": "Aquatic Benediction",
+            "content": "Characters with Invigoration take 10% less DMG."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 ult healing buff",
+            "title": "Sylphic Slumber",
+            "content": "E2: Increases healing by 15% after Ultimate."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 skill healing DMG buff stacks",
+            "title": "Evil Excision",
+            "content": "E4: Every healing provided by Bailu's Skill makes the recipient deal 10% more DMG for 2 turns. This effect can stack up to 3 times."
           }
         ]
       },
       "BlackSwan": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "EHR to DMG boost",
+            "title": "Candleflame's Portent",
+            "content": "Increases this unit's DMG by an amount equal to 60% of Effect Hit Rate, up to a maximum DMG increase of 72%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Epiphany debuff",
+            "title": "Bliss of Otherworld's Embrace",
+            "content": "Enemies affected by Epiphany take {{epiphanyDmgTakenBoost}}% more DMG in their turn."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Def decrease debuff",
+            "title": "Decadence, False Twilight",
+            "content": "Enemies DEF is decreased by {{defShredValue}}"
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Arcana stacks",
+            "title": "Loom of Fate's Caprice",
+            "content": "While afflicted with Arcana, enemy targets receive Wind DoT equal to {{dotScaling}}% of Black Swan's ATK at the start of each turn. Each stack of Arcana increases this DoT DMG multiplier by {{arcanaStackMultiplier}}%. Arcana can stack up to 50 times.::BR::When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When there are 7 or more Arcana stacks, enables the current DoT dealt this time to ignore 20% of the target's and adjacent targets' DEF."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 RES reduction",
+            "title": "Seven Pillars of Wisdom",
+            "content": "E1: While Black Swan is active in battle, enemies afflicted with Wind Shear, Bleed, Burn, or Shock will have their corresponding Wind, Physical, Fire, or Lightning RES respectively reduced by 25%."
           }
         ]
       },
       "Blade": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Hellscape state",
+            "title": "Hellscape",
+            "content": "Increases DMG by {{enhancedStateDmgBoost}}% and his Basic ATK Shard Sword is enhanced to Forest of Swords for 3 turn(s).::BR::E2: Increases CRIT Rate by 15%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "HP% lost total",
+            "title": "Death Sentence",
+            "content": "Ultimate DMG scales off of the tally of Blade's HP loss in the current battle. The tally of Blade's HP loss in the current battle is capped at {{hpPercentLostTotalMax}}% of his Max HP."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 max HP stacks",
+            "title": "Rejected by Death, Infected With Life",
+            "content": "E4: Increases HP by 20%, stacks up to 2 times."
           }
         ]
       },
       "Boothill": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Standoff Active",
+            "title": "Sizzlin' Tango",
+            "content": "Forces Boothill and a single target enemy into the Standoff state. Boothill's Basic ATK gets Enhanced, and he cannot use his Skill, lasting for 2 turn(s). This duration reduces by 1 at the start of Boothill's every turn. The enemy target in the Standoff becomes Taunted. When this enemy target/Boothill gets attacked by the other party in the Standoff, the DMG they receive increases by {{standoffVulnerabilityBoost}}%/15%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Pocket Trickshots",
+            "title": "Five Peas in a Pod",
+            "content": "Each stack of Pocket Trickshot increases the Enhanced Basic Attack's Toughness Reduction by 50%, stacking up to 3 time(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "BE to CR / CD boost",
+            "title": "Ghost Load",
+            "content": "Increase this character's CRIT Rate/CRIT DMG, by an amount equal to 10%/50% of Break Effect, up to a max increase of 30%/150%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Talent Break DMG (force weakness break)",
+            "title": "Five Peas in a Pod",
+            "content": "If the target is Weakness Broken while the Enhanced Basic ATK is being used, based on the number of Pocket Trickshot stacks, deals Break DMG to this target based on Boothill's Physical Break DMG. The max Toughness taken into account for this DMG cannot exceed 16 times the base Toughness Reduction of the Basic Attack \"Skullcrush Spurs.\""
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 DEF shred",
+            "title": "Dusty Trail's Lone Star",
+            "content": "When the battle starts, obtains 1 stack of Pocket Trickshot. When Boothill deals DMG, ignores 16% of the enemy target's DEF."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 BE buff",
+            "title": "Milestonemonger",
+            "content": "When in Standoff and gaining Pocket Trickshot, recovers 1 Skill Point(s) and increases Break Effect by 30%, lasting for 2 turn(s). Can also trigger this effect when gaining Pocket Trickshot stacks that exceed the max limit. But cannot trigger repeatedly within one turn."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 Skill vulnerability",
+            "title": "Cold Cuts Chef",
+            "content": "When the enemy target in the Standoff is attacked by Boothill, the DMG they receive additionally increases by 12%. When Boothill is attacked by the enemy target in the Standoff, the effect of him receiving increased DMG is offset by 12%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 Break DMG boost",
+            "title": "Crowbar Hotel's Raccoon",
+            "content": "When triggering the Talent's Break DMG, additionally deals Break DMG to the target equal to 40% of the original DMG multiplier and additionally deals Break DMG to adjacent targets equal to 70% of the original DMG multiplier."
           }
         ]
       },
       "Bronya": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Team DMG buff",
+            "title": "Military Might",
+            "content": "When Bronya is on the field, all allies deal 10% more DMG."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill DMG buff",
+            "title": "Combat Redeployment",
+            "content": "Dispels a debuff from a single ally, allows them to immediately take action, and increases their DMG by {{skillDmgBoostValue}}% for 1 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult ATK/CD buffs",
+            "title": "The Belobog March",
+            "content": "Increases the ATK of all allies by {{ultAtkBoostValue}}% and CRIT DMG by {{ultCdBoostValue}}% of Bronya's CRIT DMG plus {{ultCdBoostBaseValue}}% for 2 turns."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Initial DEF buff",
+            "title": "Battlefield",
+            "content": "At the start of the battle, all allies' DEF increases by 20% for 2 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Technique ATK buff",
+            "title": "Banner of Command",
+            "content": "After using Bronya's Technique, at the start of the next battle, all allies' ATK increases by 15% for 2 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 skill SPD buff",
+            "title": "Quick March",
+            "content": "When using Skill, the target ally's SPD increases by 30% after taking action, lasting for 1 turn."
           }
         ]
       },
       "Clara": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult buff",
+            "title": "Promise, Not Command",
+            "content": "Increases Svarog Counter DMG by {{ultFuaExtraScaling}}% during Ultimate. DMG dealt to Clara is reduced by an extra {ultDmgReductionValue}}% for 2 turns"
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enemy marked",
+            "title": "Svarog Watches Over You",
+            "content": "Additionally deals Physical DMG equal to {{skillScaling}}% of Clara's ATK to enemies marked by Svarog with a Mark of Counter."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 ult ATK buff",
+            "title": "A Tight Embrace",
+            "content": "E2: After using Ultimate, increases ATK by 30% for 2 turns."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 DMG reduction buff",
+            "title": "Family's Warmth",
+            "content": "E4: Decreases DMG taken by 30%."
           }
         ]
       },
       "DanHeng": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Talent RES PEN buff",
+            "title": "Superiority of Reach",
+            "content": "When Dan Heng is the target of an ally's Ability, his next attack's Wind RES PEN increases by {{extraPenValue}}%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enemy slowed",
+            "title": "High Gale",
+            "content": "Basic ATK deals 40% more damage to Slowed enemies."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 enemy HP ≥ 50% CR boost",
+            "title": "The Higher You Fly, the Harder You Fall",
+            "content": "E1:When the target enemy's current HP percentage is greater than or equal to 50%, CRIT Rate increases by 12%."
           }
         ]
       },
       "DrRatio": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Summation stacks",
+            "title": "Summation",
+            "content": "When Dr. Ratio uses his Skill, for every debuff on the target, his CRIT Rate increases by 2.5% and CRIT DMG by 5%. This effect can stack up to {{summationStacksMax}} time(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enemy debuff stacks",
+            "title": "Cogito, Ergo Sum",
+            "content": "When using his Skill, Dr. Ratio has a 40% fixed chance of launching a follow-up attack against his target for 1 time, dealing Imaginary DMG equal to {{FuaScaling}}% of Dr. Ratio's ATK. For each debuff the target enemy has, the fixed chance of launching follow-up attack increases by 20%. If the target enemy is defeated before the follow-up attack triggers, the follow-up attack will be directed at a single random enemy instead.::BR::When dealing DMG to a target that has 3 or more debuff(s), for each debuff the target has, the DMG dealt by Dr. Ratio to this target increases by 10%, up to a maximum increase of 50%.::BR::E2: When his Talent's follow-up attack hits a target, for every debuff the target has, additionally deals Imaginary Additional DMG equal to 20% of Dr. Ratio's ATK. This effect can be triggered for a maximum of 4 times during each follow-up attack."
           }
         ]
       },
       "Feixiao": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Weakness broken ult (force weakness break)",
+            "title": "Weakness broken ult (force weakness break)",
+            "content": "Overrides weakness break to be enabled."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Talent DMG buff",
+            "title": "Thunderhunt",
+            "content": "After Feixiao's teammates attack enemy targets, Feixiao immediately launches follow-up attack against the primary target, dealing Wind DMG equal to {{FuaMultiplier}}% of Feixiao's ATK. If there is no primary target available to attack, Feixiao attacks a single random enemy instead. This effect can only trigger once per turn and the trigger count resets at the start of Feixiao's turn. When using this attack, increases DMG dealt by this unit by {{DmgBuff}}%, lasting for 2 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill ATK buff",
+            "title": "Boltcatch",
+            "content": "When using Skill, increases ATK by 48.0%, lasting for 3.0 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 original DMG boost",
+            "title": "Skyward I Quell",
+            "content": "E1: After launching \"Boltsunder Blitz\" or \"Waraxe Skyward,\" additionally increases the Ultimate DMG dealt by Feixiao by an amount equal to 10.0% of the original DMG, stacking up to 5.0 time(s) and lasting until the end of the Ultimate action."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 buffs",
+            "title": "Stormward I Hear",
+            "content": "The Toughness Reduction from the Talent's Follow-up ATK increases by 100.0% and, when launched, increases this unit's SPD by 8.0%, lasting for 2.0 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 buffs",
+            "title": "Homeward I Near",
+            "content": "Increases the All-Type RES PEN of Ultimate DMG dealt by Feixiao by 20.0%. Talent's follow-up attack DMG is considered as Ultimate DMG at the same time, and its DMG multiplier increases by 140.0%."
           }
         ]
       },
       "Firefly": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enhanced state",
+            "title": "Fyrefly Type-IV: Complete Combustion",
+            "content": "Enters the Complete Combustion state, advances this unit's Action by 100%, and gains Enhanced Basic ATK and Enhanced Skill."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enhanced SPD buff",
+            "title": "Fyrefly Type-IV: Complete Combustion",
+            "content": "While in Complete Combustion, increases SPD by {{ultSpdBuff}}."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Super Break enabled",
+            "title": "Module β: Autoreactive Armor",
+            "content": "When SAM is in Complete Combustion with a Break Effect that is equal to or greater than 200%/360%, attacking a Weakness-Broken enemy target will convert the Toughness Reduction of this attack into 1 instance of 35%/50% Super Break DMG."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "ATK to BE conversion",
+            "title": "Module γ: Core Overload",
+            "content": "For every 10 point(s) of SAM's ATK that exceeds 1800, increases this unit's Break Effect by 0.8%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Max EHP buff",
+            "title": "Chrysalid Pyronexus",
+            "content": "The lower the HP, the less DMG received. When HP is 20% or lower, the DMG Reduction reaches its maximum effect, reducing up to {{talentDmgReductionBuff}}%. During the Complete Combustion, the DMG Reduction remains at its maximum effect, and the Effect RES increases by {{talentResBuff}}%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 DEF shred",
+            "title": "In Reddened Chrysalis, I Once Rest",
+            "content": "When using the Enhanced Skill, ignores 15% of the target's DEF. The Enhanced Skill does not consume Skill Points."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 RES buff",
+            "title": "Upon Lighted Fyrefly, I Soon Gaze",
+            "content": "While in Complete Combustion, increases SAM's Effect RES by 50%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 buffs",
+            "title": "In Finalized Morrow, I Full Bloom",
+            "content": "While in Complete Combustion, increases SAM's Fire RES PEN by 20%. When using the Enhanced Basic ATK or Enhanced Skill, increases the Weakness Break efficiency by 50%."
           }
         ]
       },
       "FuXuan": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Team DMG reduction",
+            "title": "Bleak Breeds Bliss",
+            "content": "While Fu Xuan is still active in battle, Misfortune Avoidance is applied to the entire team. With Misfortune Avoidance, allies take ${precisionRound(talentDmgReductionValue * 100)}% less DMG."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill active",
+            "title": "Known by Stars, Shown by Hearts",
+            "content": "Activates Matrix of Prescience, via which other team members will Distribute 65% of the DMG they receive (before this DMG is mitigated by any Shields) to Fu Xuan for 3 turn(s). While affected by Matrix of Prescience, all team members gain the Knowledge effect, which increases their respective Max HP by {{skillHpBuffValue}}% of Fu Xuan's Max HP, and increases CRIT Rate by {{skillCrBuffValue}}%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 team HP lost",
+            "title": "Omnia Vita",
+            "content": "E6: Once Matrix of Prescience is activated, it will keep a tally of the total HP lost by all team members in the current battle. Fu Xuan's Ultimate DMG will increase by 200% of this tally of HP loss. This tally is also capped at 120% of Fu Xuan's Max HP."
           }
         ],
         "TeammateContent": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Fu Xuan's HP",
+            "title": "Known by Stars, Shown by Hearts",
+            "content": "While affected by Matrix of Prescience, all team members gain the Knowledge effect, which increases their respective Max HP by {{skillHpBuffValue}}% of Fu Xuan's Max HP"
           }
         ]
       },
       "Gallagher": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enhanced basic",
+            "title": "Nectar Blitz",
+            "content": "Ultimate enhances his next Basic ATK to Nectar Blitz."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "BE to OHB boost",
+            "title": "Novel Concoction",
+            "content": "Increases this unit's Outgoing Healing by an amount equal to 50% of Break Effect, up to a maximum Outgoing Healing increase of 75%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Target Besotted",
+            "title": "Tipsy Tussle",
+            "content": "The Besotted state makes targets receive {{talentBesottedScaling}}% more Break DMG."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 RES buff",
+            "title": "Salty Dog",
+            "content": "E1: When entering the battle, Gallagher regenerates 20 Energy and increases Effect RES by 50%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 RES buff",
+            "title": "Lion's Tail",
+            "content": "E2: When using the Skill, removes 1 debuff(s) from the target ally. At the same time, increases their Effect RES by 30%, lasting for 2 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 BE buff",
+            "title": "Blood and Sand",
+            "content": "E6: Increases Gallagher's Break Effect by 20% and Weakness Break Efficiency by 20%."
           }
         ]
       },
       "Gepard": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 Team RES buff",
+            "title": "Faith Moves Mountains",
+            "content": "E4: When Gepard is in battle, all allies' Effect RES increases by 20%."
           }
         ]
       },
       "Guinaifen": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enemy Firekiss stacks",
+            "title": "PatrAeon Benefits",
+            "content": "While inflicted with Firekiss, the enemy receives {{talentDebuffDmgIncreaseValue}}% increased DMG, which lasts for 3 turns and can stack up to {{talentDebuffMax}} times."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enemy burned",
+            "title": "Walking on Knives",
+            "content": "Increases DMG by 20% against enemies affected by Burn."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Use Skill DoT chance",
+            "title": "Use Skill DoT chance",
+            "content": "When enabled, uses the Skill's 100% DoT chance instead of the Basic's 80% DoT chance."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 Effect RES shred",
+            "title": "Slurping Noodles During Handstand",
+            "content": "E1: When Skill is used, there is a 100% base chance to reduce the attacked target enemy's Effect RES by 10% for 2 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 burn multi boost",
+            "title": "Brushing Teeth While Whistling",
+            "content": "E2: When an enemy target is Burned, Guinaifen's Basic ATK and Skill can increase the DMG multiplier of their Burn status by 40%."
           }
         ]
       },
       "Hanya": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult SPD/ATK buff",
+            "title": "Ten-Lords' Decree, All Shall Obey",
+            "content": "Increases the SPD of a target ally by {{ultSpdBuffValue}}% of Hanya's SPD and increases the same target ally's ATK by {{ultAtkBuffValue}}%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Target Burden debuff",
+            "title": "Sanction",
+            "content": "When an ally uses a Basic ATK, Skill, or Ultimate on an enemy inflicted with Burden, the DMG dealt increases by {{talentDmgBoostValue}}% for 2 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Burden ATK buff",
+            "title": "Scrivener",
+            "content": "Allies triggering Burden's Skill Point recovery effect have their ATK increased by 10% for 1 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 skill SPD buff",
+            "title": "Two Views",
+            "content": "E2: After Skill, increases SPD by 20% for 1 turn."
           }
         ],
         "TeammateContent": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Hanya's SPD",
+            "title": "Ten-Lords' Decree, All Shall Obey",
+            "content": "Increases the SPD of a target ally by {{ultSpdBuffValue}}% of Hanya's SPD and increases the same target ally's ATK by {{ultAtkBuffValue}}%."
           }
         ]
       },
       "Herta": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Followup attack hits",
+            "title": "Fine, I'll Do It Myself",
+            "content": "When an ally's attack causes an enemy's HP percentage to fall to 50% or lower, Herta will launch a follow-up attack, dealing Ice DMG."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Target frozen",
+            "title": "Icing",
+            "content": "When Ultimate is used, deals 20% more DMG to Frozen enemies."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill DMG boost",
+            "title": "One-Time Offer",
+            "content": "If the enemy's HP percentage is 50% or higher, DMG dealt to this target increases by 20%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Technique buff",
+            "title": "It Can Still Be Optimized",
+            "content": "Increases ATK by 40% for 3 turns."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 basic scaling boost",
+            "title": "Kick You When You're Down",
+            "content": "E1: If the enemy's HP percentage is at 50% or less, Herta's Basic ATK deals Additional Ice DMG equal to 40% of Herta's ATK."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 talent CR stacks",
+            "title": "Keep the Ball Rolling",
+            "content": "E2: Increases CRIT Rate by 3% per stack. Stacks up to 5 times."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 ult ATK buff",
+            "title": "No One Can Betray Me",
+            "content": "E6: After Ult, increases ATK by 25% for 1 turn."
           }
         ]
       },
       "Himeko": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Target burned",
+            "title": "Magma",
+            "content": "Skill deals 20% more DMG to enemies currently afflicted with Burn."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Self HP ≥ 80% CR boost",
+            "title": "Benchmark",
+            "content": "When current HP percentage is 80% or higher, CRIT Rate increases by 15%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 SPD buff",
+            "title": "Childhood",
+            "content": "E1: After Victory Rush is triggered, Himeko's SPD increases by 20% for 2 turns."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 enemy HP ≤ 50% DMG boost",
+            "title": "Convergence",
+            "content": "E2: Deals 15% more DMG to enemies whose HP percentage is 50% or less."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 ult extra hits",
+            "title": "Trailblaze!",
+            "content": "Ultimate deals DMG 2 extra times. Extra hits deals 40% of the original DMG per hit."
           }
         ]
       },
       "Hook": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enhanced skill",
+            "title": "Hey! Remember Hook?",
+            "content": "After using Ultimate, the next Skill to be used is Enhanced. Enhanced Skill deals Fire DMG equal to {{skillEnhancedScaling}}% of Hook's ATK to a single enemy and reduced DMG to adjacent enemies."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Target burned",
+            "title": "Ha! Oil to the Flames!",
+            "content": "When attacking a target afflicted with Burn, deals Additional Fire DMG equal to {{targetBurnedExtraScaling}}% of Hook's ATK.::BR::E6: Hook deals 20.0% more DMG to enemies afflicted with Burn."
           }
         ]
       },
       "Huohuo": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult ATK buff",
+            "title": "Tail: Spiritual Domination",
+            "content": "Increases all allies' ATK by {{ultBuffValue}}% for 2 turns after using Ultimate."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 SPD buff",
+            "title": "Anchored to Vessel, Specters Nestled",
+            "content": "E1: When Huohuo possesses Divine Provision, all allies' SPD increases by 12%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 DMG buff",
+            "title": "Woven Together, Cohere Forever",
+            "content": "E6: When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns."
           }
         ]
       },
       "ImbibitorLunae": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Basic enhancements",
+            "title": "Dracore Libre",
+            "content": "0 stack(s): Uses a 2-hit attack and deals Imaginary DMG equal to {{basicScaling}}% ATK to a single enemy target.::BR::1 stack(s): Uses a 3-hit attack and deals Imaginary DMG equal to {{(basicEnhanced1Scaling}}% ATK to a single enemy target.::BR::2 stack(s): Uses a 5-hit attack and deals Imaginary DMG equal to {{basicEnhanced2Scaling}}% ATK to a single enemy target and reduced DMG to adjacent targets.::BR::3 stack(s): Uses a 7-hit attack and deals Imaginary DMG equal to {{basicEnhanced3Scaling}}% ATK to a single enemy target and reduced DMG to adjacent targets."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Outroar stacks",
+            "title": "Dracore Libre",
+            "content": "Divine Spear or Fulgurant Leap, starting from the fourth hit, 1 stack of Outroar is gained before every hit. Each stack of Outroar increases Dan Heng • Imbibitor Lunae's CRIT DMG by {{outroarStackCdValue}}%, for a max of 4 stacks. (applied to all hits)"
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Righteous Heart stacks",
+            "title": "Righteous Heart",
+            "content": "After each hit dealt during an attack, Dan Heng • Imbibitor Lunae gains 1 stack of Righteous Heart, increasing his DMG by {{righteousHeartDmgValue}}%. (applied to all hits)"
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 RES PEN stacks",
+            "title": "Reign, Returned",
+            "content": "E6: After any other ally uses their Ultimate, the Imaginary RES PEN of Dan Heng • Imbibitor Lunae's next Fulgurant Leap attack increases by 20%, up to 3 stacks."
           }
         ]
       },
       "Jade": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enhanced Followup",
+            "title": "Vow of the Deep",
+            "content": "Jade enhances her Talent's follow-up attack, increasing its DMG multiplier by {{ultFuaScalingBuff}}%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Pawned Asset stacks",
+            "title": "Fang of Flare Flaying",
+            "content": "When launching her Talent's follow-up attack, Jade immediately gains 5 stack(s) of Pawned Asset, with each stack increasing CRIT DMG by {{pawnedAssetCdScaling}}%, stacking up to 50 times. Each Pawned Asset stack from the Talent additionally increases Jade's ATK by 0.5%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 FUA DMG boost",
+            "title": "Altruism? Nevertheless Tradable",
+            "content": "E1: The follow-up attack DMG from Jade's Talent increases by 32%. After the Debt Collector character attacks and the number of the enemy target(s) hit is either 2 or 1, Jade additionally gains 1 or 2 point(s) of Charge respectively."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 CR buff",
+            "title": "Morality? Herein Authenticated",
+            "content": "E2: When there are 15 stacks of Pawned Asset, Jade's CRIT Rate increases by 18%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 DEF shred buff",
+            "title": "Sincerity? Put Option Only",
+            "content": "E4: When using Ultimate, enables the DMG dealt by Jade to ignore 12% of enemy targets' DEF, lasting for 3 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 RES shred buff",
+            "title": "Equity? Pending Sponsorship",
+            "content": "E6: When the Debt Collector character exists on the field, Jade's Quantum RES PEN increases by 20%, and Jade gains the Debt Collector state."
           }
         ],
         "TeammateContent": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Debt Collector SPD buff",
+            "title": "Acquisition Surety",
+            "content": "Makes a single target ally become the Debt Collector and increases their SPD by 30, lasting for 3 turn(s)."
           }
         ]
       },
       "Jiaoqiu": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ashen Roast stacks",
+            "title": "Quartet Finesse, Octave Finery",
+            "content": "When Jiaoqiu hits an enemy with Basic ATK, Skill or Ultimate, there is a 100% base chance to inflict 1 stack of Ashen Roast on them. At 1 stack, increases DMG received by the enemy by {{AshenRoastInitialVulnerability}}%. Then, each subsequent stack increases this by {{AshenRoastAdditionalVulnerability}}%.::BR::Ashen Roast is capped at 5 stack(s) and lasts for 2 turn(s).::BR::When an enemy target is afflicted with Ashen Roast, they are also considered as being Burned at the same time, taking Fire DoT equal to {{AshenRoastDotMultiplier}}% of Jiaoqiu's ATK at the start of each turn."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult field active",
+            "title": "Pyrograph Arcanum",
+            "content": "Sets the number of \"Ashen Roast\" stacks on enemy targets to the highest number of \"Ashen Roast\" stacks present on the battlefield. Then, activates a Zone and deals Fire DMG equal to {{UltScaling}}% of Jiaoqiu's ATK to all enemies.::BR::While inside the Zone, enemy targets receive {{UltVulnerability}}% increased Ultimate DMG, with a {{ZoneDebuffChance}}% base chance of being inflicted with 1 stack of Ashen Roast when taking action. While the Zone exists, this effect can trigger up to 6 time(s). And for each enemy target, it can only trigger once per turn. This trigger count resets every time Jiaoqiu uses Ultimate."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "EHR to ATK boost",
+            "title": "Hearth Kindle",
+            "content": "For every 15.0% of Jiaoqiu's Effect Hit Rate that exceeds 80.0%, additionally increases ATK by 60.0%, up to 240.0%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 DMG boost",
+            "title": "Pentapathic Transference",
+            "content": "E1: Allies deal 40.0% increased DMG to enemy targets afflicted with Ashen Roast."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 DOT scaling",
+            "title": "From Savor Comes Suffer",
+            "content": "E2: When an enemy target is afflicted with Ashen Roast, increases the multiplier for the Fire DoT dealt by Ashen Roast to this target by 300.0%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 RES shred",
+            "title": "Nonamorphic Pyrobind",
+            "content": "E6: The maximum stack limit of Ashen Roast increases to 9.0, and each \"Ashen Roast\" stack reduces the target's All-Type RES by 3.0%."
           }
         ]
       },
       "Jingliu": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enhanced state",
+            "title": "Crescent Transmigration",
+            "content": "When Jingliu has 2 stacks of Syzygy, she enters the Spectral Transmigration state with her Action Advanced by 100% and her CRIT Rate increases by {{talentCrBuff}}%. Then, Jingliu's Skill \"Transcendent Flash\" becomes enhanced and turns into \"Moon On Glacial River,\" and becomes the only ability she can use in battle."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "HP drain ATK buff",
+            "title": "Crescent Transmigration",
+            "content": "When Jingliu uses an attack in the Spectral Transmigration state, she consumes HP from all other allies and Jingliu's ATK increases based on the total HP consumed from all allies in this attack, capped at {{talentHpDrainAtkBuffMax}}% of her base ATK, lasting until the current attack ends."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 ult active",
+            "title": "Moon Crashes Tianguan Gate",
+            "content": "E1: When using her Ultimate or Enhanced Skill, Jingliu's CRIT DMG increases by 24% for 1 turn. If only one enemy target is attacked, the target will additionally be dealt Ice DMG equal to 100% of Jingliu's ATK."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 skill buff",
+            "title": "Crescent Shadows Qixing Dipper",
+            "content": "E2: After using Ultimate, increases the DMG of the next Enhanced Skill by 80%."
           }
         ]
       },
       "JingYuan": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill CR buff",
+            "title": "War Marshal",
+            "content": "After using Skill, CRIT Rate increases by 10% for 2 turns."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Lightning Lord stacks",
+            "title": "Prana Extirpated",
+            "content": "Lightning Lord hits-per-action stack up to 10 times."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Lightning Lord hits on target",
+            "title": "Prana Extirpated",
+            "content": "Count of hits on target. Should usually be set to the same value as Lightning Lord Stacks."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 dmg buff",
+            "title": "Swing, Skies Squashed",
+            "content": "E2: After Lightning-Lord takes action, DMG caused by Jing Yuan's Basic ATK, Skill, and Ultimate increases by 20% for 2 turns."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 vulnerable stacks",
+            "title": "Sweep, Souls Slain",
+            "content": "E6: Each hit performed by the Lightning-Lord when it takes action will make the target enemy Vulnerable. While Vulnerable, enemies receive 12% more DMG until the end of the Lightning-Lord's current turn, stacking up to 3 time(s). (applies to all hits)"
           }
         ]
       },
       "Kafka": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 DoT DMG debuff",
+            "title": "Da Capo",
+            "content": "E1: When the Talent triggers a follow-up attack, there is a 100% base chance to increase the DoT received by the target by 30% for 2 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 Team DoT DMG boost",
+            "title": "Fortississimo",
+            "content": "E2: While Kafka is on the field, DoT dealt by all allies increases by 25%."
           }
         ]
       },
       "Lingsha": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "BE to ATK/OHB",
+            "title": "Vermilion Waft",
+            "content": "Increases this unit's ATK or Outgoing Healing by an amount equal to 25.0%/10.0% of Break Effect, up to a maximum increase of 50.0%/20.0% respectively."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Befog state",
+            "title": "Dripping Mistscape",
+            "content": "While in \"Befog,\" targets receive {{BefogVulnerability}}% increased Break DMG."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 weakness break buffs",
+            "title": "Bloom on Vileward Bouquet",
+            "content": "E1: When an enemy unit's Weakness is Broken, reduces their DEF by 20.0%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 BE buff",
+            "title": "Leisure in Carmine Smokeveil",
+            "content": "E2: When using Ultimate, increases all allies' Break Effect by 40.0%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 RES shred",
+            "title": "Arcadia Under Deep Seclusion",
+            "content": "E6: While \"Fuyuan\" is on the field, reduces all Enemy units' All-Type RES by 20.0%."
           }
         ]
       },
       "Luka": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Basic enhanced",
+            "title": "Sky-Shatter Fist",
+            "content": "Enhances Basic ATK to deal additional damage, and has a chance to trigger extra hits."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult vulnerability debuff",
+            "title": "Coup de Grâce",
+            "content": "Increase the target's DMG received by {{targetUltDebuffDmgTakenValue}}% for 3 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enhanced basic extra hits",
+            "title": "Sky-Shatter Fist",
+            "content": "Increases the number of hits of Basic Enhanced."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 target bleeding",
+            "title": "Fighting Endlessly",
+            "content": "E1: When Luka takes action, if the target enemy is Bleeding, increases DMG dealt by Luka by 15% for 2 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 talent stacks",
+            "title": "Never Turning Back",
+            "content": "E4: For every stack of Fighting Will obtained, increases ATK by 5%, stacking up to 4 time(s)."
           }
         ]
       },
       "Luocha": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Field active",
+            "title": "Ablution of the Quick",
+            "content": "E1: While the Field is active, ATK of all allies increases by 20%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 RES reduction",
+            "title": "Reunion With the Dust",
+            "content": "E6: When Ultimate is used, reduces all enemies' All-Type RES by 20% for 2 turn(s)."
           }
         ]
       },
       "Lynx": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill max HP buff",
+            "title": "Salted Camping Cans",
+            "content": "Applies \"Survival Response\" to a single target ally and increases their Max HP by {{skillHpPercentBuff}}% of Lynx's Max HP plus {{skillHpFlatBuff}}.::BR::E4: When \"Survival Response\" is gained, increases the target's ATK by an amount equal to 3% of Lynx's Max HP for 1 turn(s).::BR::E6: Additionally boosts the Max HP increasing effect of \"Survival Response\" by an amount equal to 6% of Lynx's Max HP and increases Effect RES by 30%."
           }
         ],
         "TeammateContent": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Lynx's HP",
+            "title": "Salted Camping Cans",
+            "content": "Applies \"Survival Response\" to a single target ally and increases their Max HP by {{skillHpPercentBuff}}% of Lynx's Max HP plus {{skillHpFlatBuff}}.::BR::E4: When \"Survival Response\" is gained, increases the target's ATK by an amount equal to 3% of Lynx's Max HP for 1 turn(s).::BR::E6: Additionally boosts the Max HP increasing effect of \"Survival Response\" by an amount equal to 6% of Lynx's Max HP and increases Effect RES by 30%."
           }
         ]
       },
@@ -2267,99 +2267,99 @@ interface Resources {
       "March7thImaginary": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enhanced Basic",
+            "title": "Brows Be Smitten, Heart Be Bitten",
+            "content": "Initially, deals 3 hits, each causing Imaginary DMG equal to {{BasicEnhancedScaling}}% of March 7th's ATK to a single target enemy. Whenever dealing the final hit, there is a 60% fixed chance to deal 1 additional hit of DMG, up to a max of 3 additional hit(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enhanced Basic hits",
+            "title": "Brows Be Smitten, Heart Be Bitten",
+            "content": "Initially, deals 3 hits, each causing Imaginary DMG equal to {{BasicEnhancedScaling}}% of March 7th's ATK to a single target enemy. Whenever dealing the final hit, there is a 60% fixed chance to deal 1 additional hit of DMG, up to a max of 3 additional hit(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "DPS Shifu buff",
+            "title": "Master, It's Tea Time!",
+            "content": "Whenever using Basic ATK or dealing 1 hit of Enhanced Basic ATK's DMG, deals Additional DMG equal to {{ShifuDmgBuff}}% of March 7th's ATK."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Support Shifu buff",
+            "title": "Master, It's Tea Time!",
+            "content": "Whenever using Basic ATK or dealing 1 hit of Enhanced Basic ATK's DMG, increases the Toughness Reduction of this instance of DMG by 100%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Talent Basic DMG buff",
+            "title": "Master, I've Ascended!",
+            "content": "After Shifu uses an attack or Ultimate, March 7th gains up to 1 point of Charge each time.::BR::Upon reaching 7 or more points of Charge, March 7th immediately takes action and increases the DMG she deals by {{TalentDmgBuff}}%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 self SPD buff",
+            "title": "My Sword Stirs Starlight",
+            "content": "E1: When Shifu is on the field, increases March 7th's SPD by 10.0%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 Basic CD buff",
+            "title": "Me, the Best Girl in Sight",
+            "content": "E6: After using Ultimate, increases the CRIT DMG dealt by the next Enhanced Basic ATK by 50.0%."
           }
         ],
         "TeammateContent": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Shifu buff",
+            "title": "Master, It's Tea Time!",
+            "content": "Designates a single ally (excluding this unit) as Shifu and increases Shifu's SPD by {{ShifuSpeedBuff}}%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Shifu CD / BE buffs",
+            "title": "Tide Tamer",
+            "content": "After using Enhanced Basic ATK, increases Shifu's CRIT DMG by 60.0% and Break Effect by 36.0%, lasting for 2.0 turn(s)."
           }
         ]
       },
       "Misha": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult hits on target",
+            "title": "G—Gonna Be Late!",
+            "content": "Number of Ultimate hits on the primary target, dealing DMG equal to {{ultStackScaling}}% ATK per hit."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enemy frozen",
+            "title": "Transmission",
+            "content": "When dealing DMG to Frozen enemies, increases CRIT DMG by 30%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 DEF reduction",
+            "title": "Yearning of Youth",
+            "content": "E2: Reduces the target's DEF by 16% for 3 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 ult DMG boost",
+            "title": "Estrangement of Dream",
+            "content": "E6: When using the Ultimate, increases own DMG by 30%, lasting until the end of the turn."
           }
         ]
       },
       "Moze": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Prey marked",
+            "title": "Cascading Featherblade",
+            "content": "When \"Prey\" exists on the field, Moze will enter the Departed state.::BR::After allies attack \"Prey,\" Moze will additionally deal 1 instance of Lightning Additional DMG equal to {{PreyAdditionalMultiplier}}% of his ATK and consumes 1 point of Charge. For every 3 point(s) of Charge consumed, Moze launches 1 follow-up attack to \"Prey,\" dealing Lightning DMG equal to {{FuaScaling}}% of his ATK. When Charge reaches 0, dispels the target's \"Prey\" state and resets the tally of Charge points required to launch follow-up attack."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 CD boost",
+            "title": "Wrathbearer",
+            "content": "E2: When all allies deal DMG to the enemy target marked as \"Prey,\" increases CRIT DMG by 40.0%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 DMG buff",
+            "title": "Heathprowler",
+            "content": "When using Ultimate, increases the DMG dealt by Moze by 30.0%, lasting for 2.0 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 FUA multiplier buff",
+            "title": "Faithbinder",
+            "content": "Increases the DMG multiplier of the Talent's follow-up attack by 25.0%."
           }
         ]
       },
@@ -2369,87 +2369,87 @@ interface Resources {
       "Pela": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Team EHR buff",
+            "title": "The Secret Strategy",
+            "content": "When Pela is on the battlefield, all allies' Effect Hit Rate increases by 10%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enemy debuffed",
+            "title": "Bash",
+            "content": "Deals 20% more DMG to debuffed enemies."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enemy buff removed skill buffs",
+            "title": "Wipe Out",
+            "content": "Using Skill to remove buff(s) increases the DMG of Pela's next attack by 20%.::BR::E2: Using Skill to remove buff(s) increases SPD by 10% for 2 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult DEF shred debuff",
+            "title": "Zone Suppression",
+            "content": "When Exposed, enemies' DEF is reduced by {{ultDefPenValue}}% for 2 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 skill Ice RES shred",
+            "title": "Full Analysis",
+            "content": "E4: When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turn(s)."
           }
         ]
       },
       "Qingque": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Basic enhanced",
+            "title": "Celestial Jade",
+            "content": "Qingque's ATK increases by {{talentAtkBuff}}%, and her Basic ATK \"Flower Pick\" is enhanced, becoming \"Cherry on Top!\""
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Basic enhanced SPD buff",
+            "title": "Winning Hand",
+            "content": "Qingque's SPD increases by 10% for 1 turn after using the Enhanced Basic ATK."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill DMG stacks",
+            "title": "A Scoop of Moon",
+            "content": "Immediately draws 2 jade tile(s) and increases DMG by {{skillStackDmg}}% until the end of the current turn. This effect can stack up to 4 time(s)."
           }
         ]
       },
       "Rappa": {
         "Content": [
           {
-            "text": "",
+            "text": "Sealform state (force weakness break)",
             "title": "",
             "content": ""
           },
           {
-            "text": "",
+            "text": "ATK to Break vulnerability",
             "title": "",
             "content": ""
           },
           {
-            "text": "",
+            "text": "E1 DEF pen",
             "title": "",
             "content": ""
           },
           {
-            "text": "",
+            "text": "E2 break buffs",
             "title": "",
             "content": ""
           },
           {
-            "text": "",
+            "text": "E4 SPD buff",
             "title": "",
             "content": ""
           }
         ],
         "TeammateContent": [
           {
-            "text": "",
+            "text": "Break vulnerability",
             "title": "",
             "content": ""
           },
           {
-            "text": "",
+            "text": "E4 SPD buff",
             "title": "",
             "content": ""
           }
@@ -2458,507 +2458,507 @@ interface Resources {
       "Robin": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Concerto active",
+            "title": "Vox Harmonique, Opus Cosmique",
+            "content": "While in the Concerto state, increases all allies' ATK by {{ultAtkBuffScalingValue}}% of Robin's ATK plus {{ultAtkBuffFlatValue}}. Moreover, after every attack by allies, Robin deals Additional Physical DMG equal to {{ultScaling}}% of her ATK for 1 time, with a fixed CRIT Rate for this damage set at 100% and fixed CRIT DMG set at 150%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill DMG buff",
+            "title": "Pinion's Aria",
+            "content": "Increase DMG dealt by all allies by {{skillDmgBuffValue}}%, lasting for 3 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Talent CD buff",
+            "title": "Tonal Resonance",
+            "content": "Increase all allies' CRIT DMG by {{talentCdBuffValue}}%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 Ult RES PEN",
+            "title": "Land of Smiles",
+            "content": "While the Concerto state is active, all allies' All-Type RES PEN increases by 24%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 RES team buff",
+            "title": "Raindrop Key",
+            "content": "When using the Ultimate, dispels Crowd Control debuffs from all allies. While Robin is in the Concerto state, increases the Effect RES of all allies by 50%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 Ult DMG CD boost",
+            "title": "Moonless Midnight",
+            "content": "While the Concerto state is active, the CRIT DMG for the Additional Physical DMG caused by the Ultimate increases by 450%. The effect of Moonless Midnight can trigger up to 8 time(s). And the trigger count resets each time the Ultimate is used."
           }
         ],
         "TeammateContent": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Robin's Combat ATK",
+            "title": "Vox Harmonique, Opus Cosmique",
+            "content": "While in the Concerto state, increases all allies' ATK by {{ultAtkBuffScalingValue}}% of Robin's ATK plus {{ultAtkBuffFlatValue}}::BR::Set this to the Robin's self ATK stat that she uses to buff teammates."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "FUA CD boost",
+            "title": "Impromptu Flourish",
+            "content": "While the Concerto state is active, the CRIT DMG dealt when all allies launch follow-up attacks increases by 25%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 Ult SPD buff",
+            "title": "Afternoon Tea For Two",
+            "content": "While the Concerto state is active, all allies' SPD increases by 16%."
           }
         ]
       },
       "RuanMei": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Overtone buff",
+            "title": "String Sings Slow Swirls",
+            "content": "After using her Skill, Ruan Mei gains Overtone, lasting for 3 turn(s). This duration decreases by 1 at the start of Ruan Mei's turn. When Ruan Mei has Overtone, all allies' DMG increases by {{skillScaling}}% and Weakness Break Efficiency increases by 50%"
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Team BE buff",
+            "title": "Inert Respiration",
+            "content": "Increases Break Effect by 20% for all allies."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult field active",
+            "title": "Petals to Stream, Repose in Dream",
+            "content": "While inside the field, all allies' All-Type RES PEN increases by {{fieldResPenValue}}%.::BR::E1: While the Ultimate's field is deployed, the DMG dealt by all allies ignores 20% of the target's DEF."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 weakness ATK buff",
+            "title": "Reedside Promenade",
+            "content": "E2: With Ruan Mei on the field, all allies increase their ATK by 40% when dealing DMG to enemies with Weakness Break."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 BE buff",
+            "title": "Chatoyant Éclat",
+            "content": "E4: When an enemy target's Weakness is Broken, Ruan Mei's Break Effect increases by 100% for 3 turn(s)."
           }
         ],
         "TeammateContent": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Team SPD buff",
+            "title": "Somatotypical Helix",
+            "content": "Increases SPD by {{talentSpdScaling}}% for the team (excluding this character)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "BE to DMG buff",
+            "title": "Candle Lights on Still Waters",
+            "content": "In battle, for every 10% of Ruan Mei's Break Effect that exceeds 120%, her Skill additionally increases allies' DMG by 6%, up to a maximum of 36%."
           }
         ]
       },
       "Sampo": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult DoT taken debuff",
+            "title": "Surprise Present",
+            "content": "When debuffed by Sampo's Ultimate, increase the targets' DoT taken by {{dotVulnerabilityValue}}% for 2 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill extra hits",
+            "title": "Ricochet Love",
+            "content": "Number of extra hits from Skill."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Target has wind shear",
+            "title": "Spice Up",
+            "content": "Enemies with Wind Shear effect deal 15% less damage to Sampo."
           }
         ]
       },
       "Seele": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Buffed State",
+            "title": "Resurgence",
+            "content": "Enters the buffed state upon defeating an enemy with Basic ATK, Skill, or Ultimate, and receives an extra turn. While in the buffed state, the DMG of Seele's attacks increases by {{buffedStateDmgBuff}}% for 1 turn(s).::BR::While Seele is in the buffed state, her Quantum RES PEN increases by 20%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Speed boost stacks",
+            "title": "Sheathed Blade",
+            "content": "Increases SPD by 25% per stack. Stacks up to {{speedBoostStacksMax}} time(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 Enemy HP ≤ 80% CR boost",
+            "title": "Extirpating Slash",
+            "content": "E1: When dealing DMG to an enemy whose HP percentage is 80% or lower, CRIT Rate increases by 15%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 Butterfly Flurry",
+            "title": "Shattering Shambles",
+            "content": "E6: After Seele uses her Ultimate, inflict the target enemy with Butterfly Flurry for 1 turn(s). Enemies suffering from Butterfly Flurry will take Additional Quantum DMG equal to 15% of Seele's Ultimate DMG every time they are attacked."
           }
         ]
       },
       "Serval": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Target shocked",
+            "title": "Galvanic Chords",
+            "content": "After Serval attacks, deals Additional Lightning DMG equal to {{talentExtraDmgScaling}}% of Serval's ATK to all Shocked enemies."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enemy defeated buff",
+            "title": "Mania",
+            "content": "Upon defeating an enemy, ATK increases by 20% for 2 turn(s)."
           }
         ]
       },
       "SilverWolf": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill All-Type RES shred",
+            "title": "Allow Changes?",
+            "content": "Decreases the target's All-Type RES of the enemy by {{skillResShredValue}}% for 2 turn(s).::BR::If there are 3 or more debuff(s) affecting the enemy when the Skill is used, then the Skill decreases the enemy's All-Type RES by an additional 3%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill weakness implanted RES shred",
+            "title": "Allow Changes?",
+            "content": "There is a chance to add 1 Weakness of an on-field character's Type to the target enemy. This also reduces the enemy's DMG RES to that Weakness Type by 20% for 2 turn(s). If the enemy already has that Type Weakness, the effect of DMG RES reduction to that Weakness Type will not be triggered."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Bug DEF shred",
+            "title": "Awaiting System Response...",
+            "content": "Silver Wolf's bug reduces the target's DEF by {{talentDefShredDebuffValue}}% for 3 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult DEF shred",
+            "title": "User Banned",
+            "content": "Decreases the target's DEF by {{ultDefShredValue}}% for 3 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Target debuffs",
+            "title": "Side Note",
+            "content": "If there are 3 or more debuff(s) affecting the enemy when the Skill is used, then the Skill decreases the enemy's All-Type RES by an additional 3%.::BR::E4: After using her Ultimate to attack enemies, deals Additional Quantum DMG equal to 20% of Silver Wolf's ATK for every debuff currently on the enemy target. This effect can be triggered for a maximum of 5 time(s) during each use of her Ultimate.::BR::E6: For every debuff the target enemy has, the DMG dealt by Silver Wolf increases by 20%, up to a limit of 100%."
           }
         ]
       },
       "Sparkle": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill CD buff",
+            "title": "Dreamdiver",
+            "content": "Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turn(s).::BR::E6: The CRIT DMG Boost effect of Sparkle's Skill additionally increases by 30% of Sparkle's CRIT DMG, and when she uses her Skill, the CRIT DMG Boost effect will apply to all allies currently with Cipher. When Sparkle uses her Ultimate, this effect will spread to all allies with Cipher should the allied target have the CRIT DMG increase effect provided by the Skill active on them."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Cipher buff",
+            "title": "The Hero with a Thousand Faces",
+            "content": "When allies with Cipher trigger the DMG Boost effect provided by Sparkle's Talent, each stack additionally increases its effect by {{cipherTalentStackBoost}}%, lasting for 2 turns.::BR::E1: The Cipher effect applied by the Ultimate lasts for 1 extra turn. All allies affected by Cipher have their ATK increased by 40%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Talent DMG stacks",
+            "title": "Red Herring",
+            "content": "Whenever an ally consumes 1 Skill Point, all allies' DMG increases by {talentBaseStackBoost}}%. This effect lasts for 2 turn(s) and can stack up to 3 time(s).::BR::E2: Each Talent stack allows allies to ignore 8% of the enemy target's DEF when dealing DMG to enemies."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Quantum allies",
+            "title": "Nocturne",
+            "content": "When there are 1/2/3 Quantum allies in your team, Quantum-Type allies' ATK are increased by 5%/15%/30%."
           }
         ],
         "TeammateContent": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Sparkle's Combat CD",
+            "title": "Skill: Dreamdiver",
+            "content": "Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turn(s)."
           }
         ]
       },
       "Sushang": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult buffed state",
+            "title": "Shape of Taixu: Dawn Herald",
+            "content": "Sushang's ATK increases by {{ultBuffedAtk}}% and using her Skill has 2 extra chances to trigger Sword Stance for 2 turn(s). Sword Stance triggered from the extra chances deals 50% of the original DMG."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill extra hits",
+            "title": "Cloudfencer Art: Mountainfall",
+            "content": "Increases the number of Sword Stance extra hits of the Skill."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill trigger stacks",
+            "title": "Riposte",
+            "content": "For every Sword Stance triggered, the DMG dealt by Sword Stance increases by 2.5%. Stacks up to 10 time(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Talent SPD buff stacks",
+            "title": "Dancing Blade",
+            "content": "When an enemy has their Weakness Broken on the field, Sushang's SPD increases by {{talentSpdBuffValue}}% per stack for 2 turn(s).::BR::E6: Talent's SPD Boost is stackable and can stack up to 2 times."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 DMG reduction buff",
+            "title": "Refine in Toil",
+            "content": "E2: After triggering Sword Stance, the DMG taken by Sushang is reduced by 20% for 1 turn."
           }
         ]
       },
       "Tingyun": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Benediction buff",
+            "title": "Soothing Melody",
+            "content": "Grants a single ally with Benediction to increase their ATK by {{skillAtkBoostScaling}}%, up to {{skillAtkBoostMax}}% of Tingyun's current ATK. When the ally with Benediction attacks, it deals lightning damage equal to {{skillLightningDmgBoostScaling}}% of that ally's ATK. This effect lasts for 3 turns."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill SPD buff",
+            "title": "Nourished Joviality",
+            "content": "Tingyun's SPD increases by 20% for 1 turn after using Skill."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult DMG buff",
+            "title": "Amidst the Rejoicing Clouds",
+            "content": "Regenerates 50 Energy for a single ally and increases the target's DMG by {{ultDmgBoost}}% for 2 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 ult SPD buff",
+            "title": "Windfall of Lucky Springs",
+            "content": "E1: After using their Ultimate, the ally with Benediction gains a 20% increase in SPD for 1 turn."
           }
         ],
         "TeammateContent": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill ATK buff value",
+            "title": "Soothing Melody",
+            "content": "Grants a single ally with Benediction to increase their ATK by {{skillAtkBoostScaling}}%, up to {{skillAtkBoostMax}}% of Tingyun's current ATK. When the ally with Benediction attacks, it deals lightning damage equal to {{skillLightningDmgBoostScaling}}% of that ally's ATK. This effect lasts for 3 turns."
           }
         ]
       },
       "Topaz": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Proof of Debt debuff",
+            "title": "Difficulty Paying?",
+            "content": "Inflicts a single target enemy with a Proof of Debt status, increasing the DMG it takes from follow-up attacks by {{proofOfDebtFuaVulnerability}}%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Numby enhanced state",
+            "title": "Turn a Profit!",
+            "content": "Numby enters the Windfall Bonanza! state and its DMG multiplier increases by {{enhancedStateFuaScalingBoost}}% and CRIT DMG increases by {{enhancedStateFuaCdBoost}}%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 Debtor stacks",
+            "title": "Future Market",
+            "content": "E1: When enemies afflicted with Proof of Debt receive follow-up attacks, they will enter the Debtor state. This can take effect only once within a single action. The Debtor state increases the CRIT DMG of follow-up attacks inflicted on the target enemies by 25%, stacking up to 2 time(s). When Proof of Debt is removed, the Debtor state is also removed."
           }
         ]
       },
       "TrailblazerDestruction": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "AoE ult",
+            "title": "Stardust Ace",
+            "content": "Choose between two attack modes to deliver a full strike. ::BR:: Blowout: (ST) Farewell Hit deals Physical DMG equal to {{ultScaling}}% of the Trailblazer's ATK to a single enemy.::BR::Blowout: (Blast) RIP Home Run deals Physical DMG equal to {{ultEnhancedScaling}}% of the Trailblazer's ATK to a single enemy, and Physical DMG equal to {{ultEnhancedScaling2}}% of the Trailblazer's ATK to enemies adjacent to it."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Talent stacks",
+            "title": "Perfect Pickoff",
+            "content": "Each time after this character inflicts Weakness Break on an enemy, ATK increases by {{talentAtkScalingValue}}% and DEF increases by 10%. This effect stacks up to 2 times."
           }
         ]
       },
       "TrailblazerHarmony": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Backup Dancer BE buff",
+            "title": "All-Out Footlight Parade",
+            "content": "Grants all allies the Backup Dancer effect, lasting for 3 turn(s). This duration reduces by 1 at the start of Trailblazer's every turn. Allies with the Backup Dancer effect have their Break Effect increased by {{ultBeScaling}}%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Super Break DMG calcs (force weakness break)",
+            "title": "All-Out Footlight Parade",
+            "content": "When allies with the Backup Dancer effect attack enemy targets that are in the Weakness Broken state, the Toughness Reduction of the attack will be converted into 1 instance of Super Break DMG.::BR::Super Break DMG is added to each of the BASIC / SKILL / ULT / FUA damage columns. For example when enabled, the SKILL column becomes the sum of base Skill damage + Super Break DMG based on the Skill's toughness damage. This option also overrides enemy weakness break to ON."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill extra hits on target",
+            "title": "Halftime to Make It Rain",
+            "content": "Deals Imaginary DMG to a single target enemy and additionally deals DMG for 4 times, with each time dealing Imaginary DMG to a random enemy."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 ERR buff",
+            "title": "Jailbreaking Rainbowwalk",
+            "content": "When the battle starts, the Trailblazer's Energy Regeneration Rate increases by 25%, lasting for 3 turn(s)."
           }
         ],
         "TeammateContent": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 Trailblazer's Combat BE",
+            "title": "Dove in Tophat",
+            "content": "While the Trailblazer is on the field, increases the Break Effect of all teammates (excluding the Trailblazer), by an amount equal to 15% of the Trailblazer's Break Effect."
           }
         ]
       },
       "TrailblazerPreservation": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enhanced basic",
+            "title": "Ice-Breaking Light",
+            "content": "Enhanced basic ATK deals Fire DMG equal to {{basicEnhancedAtkScaling}}% of the Trailblazer's ATK to a single enemy, and reduced damage to adjacent enemies."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill DMG reduction",
+            "title": "Ever-Burning Amber",
+            "content": "When the Skill is used, reduces DMG taken by {{skillDamageReductionValue}}%. Also reduces DMG taken by all allies by 15% for 1 turn."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Shield active",
+            "title": "Action Beats Overthinking",
+            "content": "When the shield is active, increases ATK by 15%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 def stacks",
+            "title": "City-Forging Bulwarks",
+            "content": "E6: Increases DEF by 10% per stack."
           }
         ]
       },
       "Welt": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult vulnerability debuff",
+            "title": "Retribution",
+            "content": "When using Ultimate, there is a 100% base chance to increase the DMG received by the targets by 12% for 2 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Enemy slowed",
+            "title": "Time Distortion",
+            "content": "When hitting an enemy that is already Slowed, Welt deals Additional Imaginary DMG equal to {{talentScaling}}% of his ATK to the enemy."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Skill extra hits on target",
+            "title": "Edge of the Void",
+            "content": "Deals Imaginary DMG equal to {{skillScaling}}% of Welt's ATK to a single enemy and further deals DMG 2 extra times, with each time dealing Imaginary DMG equal to {{skillScaling}}% of Welt's ATK to a random enemy."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 enhanced state",
+            "title": "Legacy of Honor",
+            "content": "E1: After Welt uses his Ultimate, his abilities are enhanced. The next 2 time(s) he uses his Basic ATK or Skill, deals Additional DMG to the target equal to 50% of his Basic ATK's DMG multiplier or 80% of his Skill's DMG multiplier respectively."
           }
         ]
       },
       "Xueyi": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "BE to DMG boost",
+            "title": "Clairvoyant Loom",
+            "content": "Increases DMG dealt by this unit by an amount equal to 100% of Break Effect, up to a maximum DMG increase of 240%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Intrepid Rollerbearings",
+            "title": "Intrepid Rollerbearings",
+            "content": "If the enemy target's Toughness is equal to or higher than 50% of their Max Toughness, deals 10% more DMG when using Ultimate."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ultimate DMG boost",
+            "title": "Divine Castigation",
+            "content": "When using Ultimate, the more Toughness is reduced, the higher the DMG will be dealt, up to a max of {{ultBoostMax}}% increase."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "FUA hits",
+            "title": "Karmic Perpetuation",
+            "content": "When Karma reaches the max number of stacks, consumes all current Karma stacks and immediately launches a follow-up attack against an enemy target, dealing DMG for 3 times, with each time dealing Quantum DMG equal to {{fuaScaling}}% of Xueyi's ATK to a single random enemy."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 BE buff",
+            "title": "Karma, Severed",
+            "content": "E4: When using Ultimate, increases Break Effect by 40% for 2 turn(s)."
           }
         ]
       },
       "Yanqing": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult buff active",
+            "title": "Amidst the Raining Bliss",
+            "content": "Increases Yanqing's CRIT Rate by 60%. When Soulsteel Sync is active, increases Yanqing's CRIT DMG by an extra {{ultCdBuffValue}}%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Soulsteel buff active",
+            "title": "One With the Sword",
+            "content": "When Soulsteel Sync is active, Yanqing's CRIT Rate increases by {{talentCrBuffValue}}% and his CRIT DMG increases by {{talentCdBuffValue}}%.::BR::Before using Ultimate, when Soulsteel Sync is active, increases Yanqing's CRIT DMG by an extra {{ultCdBuffValue}}%.::BR::When Soulsteel Sync is active, Effect RES increases by 20%.::BR::E2: When Soulsteel Sync is active, Energy Regeneration Rate increases by an extra 10%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Crit spd buff",
+            "title": "Gentle Blade",
+            "content": "When a CRIT Hit is triggered, increases SPD by 10% for 2 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 target frozen",
+            "title": "Svelte Saber",
+            "content": "E1: When Yanqing attacks a Frozen enemy, he deals Additional Ice DMG equal to 60% of his ATK."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 self HP ≥ 80% RES PEN buff",
+            "title": "Searing Sting",
+            "content": "E4: When the current HP percentage is 80% or higher, Ice RES PEN increases by 12%."
           }
         ]
       },
       "Yukong": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Team Imaginary DMG boost",
+            "title": "Bowmaster",
+            "content": "When Yukong is on the field, Imaginary DMG dealt by all allies increases by 12%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Roaring Bowstrings",
+            "title": "Emboldening Salvo",
+            "content": "When \"Roaring Bowstrings\" is active, the ATK of all allies increases by {{skillAtkBuffValue}}%.::BR::E4: When \"Roaring Bowstrings\" is active, Yukong deals 30% more DMG to enemies."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Ult CR/CD buffs",
+            "title": "Diving Kestrel",
+            "content": "If \"Roaring Bowstrings\" is active on Yukong when her Ultimate is used, additionally increases all allies' CRIT Rate by {{ultCrBuffValue}}% and CRIT DMG by {{ultCdBuffValue}}%. At the same time, deals Imaginary DMG equal to {{ultScaling}}% of Yukong's ATK to a single enemy."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 Initial SPD buff",
+            "title": "Aerial Marshal",
+            "content": "E1: At the start of battle, increases the SPD of all allies by 10% for 2 turn(s)."
           }
         ]
       },
       "Yunli": {
         "Content": [
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Parry active",
+            "title": "Demon Quell",
+            "content": "While in the Parry state, resists Crowd Control debuffs received and reduces DMG received by 20.0%."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Intuit: Cull enabled",
+            "title": "Earthbind, Etherbreak",
+            "content": "\"Intuit: Cull\": Deals Physical DMG equal to {{CullScaling}}% of Yunli's ATK to the target, and deals Physical DMG equal to {{CullAdjacentScaling}}% of Yunli's ATK to adjacent targets. Then, additionally deals 6 instances of DMG, each dealing Physical DMG equal to {{CullAdditionalScaling}}% of Yunli's ATK to a random single enemy."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Intuit: Cull hits",
+            "title": "Earthbind, Etherbreak",
+            "content": "\"Intuit: Cull\": Deals Physical DMG equal to {{CullScaling}}% of Yunli's ATK to the target, and deals Physical DMG equal to {{CullAdjacentScaling}}% of Yunli's ATK to adjacent targets. Then, additionally deals 6 instances of DMG, each dealing Physical DMG equal to {{CullAdditionalScaling}}% of Yunli's ATK to a random single enemy."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "Counter ATK buff",
+            "title": "True Sunder",
+            "content": "When using a Counter, increases Yunli's ATK by 30.0%, lasting for 1 turn."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E1 Ult buff",
+            "title": "Weathered Blade Does Not Sully",
+            "content": "E1: Increases DMG dealt by \"Intuit: Slash\" and \"Intuit: Cull\" by 20.0%. Increases the number of additional DMG instances for \"Intuit: Cull\" by 3.0."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E2 FUA DEF shred",
+            "title": "First Luster Breaks Dawn",
+            "content": "When dealing DMG via Counter, ignores 20.0% of the target's DEF."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E4 RES buff",
+            "title": "Artisan's Ironsong",
+            "content": "After launching \"Intuit: Slash\" or \"Intuit: Cull,\" increases this unit's Effect RES by 50.0%, lasting for 1.0 turn(s)."
           },
           {
-            "text": "",
-            "title": "",
-            "content": ""
+            "text": "E6 buffs",
+            "title": "Walk in Blade, Talk in Zither",
+            "content": "While Parry is active, if an enemy actively uses their abilities, regardless of whether it attacks Yunli or not, it will trigger \"Intuit: Cull\" and remove the \"Parry\" effect. When dealing DMG via \"Intuit: Slash\" or \"Intuit: Cull,\" increases CRIT Rate by 15.0% and Physical RES PEN by 20.0%."
           }
         ]
       }

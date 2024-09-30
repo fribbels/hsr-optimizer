@@ -260,7 +260,7 @@ fn main(
       0.04 * p4(x.sets.PioneerDiverOfDeadWaters) +
       0.04 * p2(x.sets.SigoniaTheUnclaimedDesolation) +
       0.06 * p4(x.sets.TheWindSoaringValorous) +
-      0.06 * p2(x.sets.ScholarLostInErudition)
+      0.08 * p2(x.sets.ScholarLostInErudition)
     );
 
     c.CD += (

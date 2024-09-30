@@ -105,7 +105,7 @@ export default (e: Eidolon): CharacterConditional => {
   const defaults = {
     sealformActive: true,
     atkToBreakVulnerability: true,
-    chargeStacks: maxChargeStacks,
+    chargeStacks: e >= 6 ? 10 : 5,
     e1DefPen: true,
     e2Buffs: true,
     e4SpdBuff: true,
@@ -138,7 +138,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BASIC_SUPER_BREAK_MODIFIER += (r.sealformActive) ? 0.60 : 0
 
-      x.BASIC_BREAK_DMG_MODIFIER = talentBreakDmgModifier * (1 + r.chargeStacks * talentChargeMultiplier)
+      x.BASIC_BREAK_DMG_MODIFIER = talentBreakDmgModifier + r.chargeStacks * talentChargeMultiplier
 
       x.BASIC_SCALING += (r.sealformActive) ? basicEnhancedScaling : basicScaling
       x.SKILL_SCALING += skillScaling

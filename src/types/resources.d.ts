@@ -2435,6 +2435,11 @@ interface Resources {
             "content": ""
           },
           {
+            "text": "Charge stacks",
+            "title": "Charge stacks",
+            "content": ""
+          },
+          {
             "text": "E1 DEF pen",
             "title": "",
             "content": ""

@@ -22,6 +22,11 @@ export default (e: Eidolon): CharacterConditional => {
 
   const ultBeBuff = ult(e, 0.30, 0.34)
 
+  const talentBreakDmgModifier = talent(e, 0.60, 0.66)
+  const talentChargeMultiplier = talent(e, 0.50, 0.55)
+
+  const maxChargeStacks = e >= 6 ? 15 : 10
+
   const content: ContentItem[] = [
     {
       formItem: 'switch',
@@ -38,6 +43,16 @@ export default (e: Eidolon): CharacterConditional => {
       text: t('Content.1.text'),
       title: t('Content.1.title'),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    {
+      name: 'chargeStacks',
+      id: 'chargeStacks',
+      formItem: 'slider',
+      text: 'Charge stacks',
+      title: 'Charge stacks',
+      content: BETA_UPDATE,
+      min: 0,
+      max: maxChargeStacks,
     },
     {
       formItem: 'switch',
@@ -77,7 +92,7 @@ export default (e: Eidolon): CharacterConditional => {
       title: t('TeammateContent.0.title'),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
-      max: 0.15,
+      max: 0.10,
       percent: true,
     },
     {
@@ -94,6 +109,7 @@ export default (e: Eidolon): CharacterConditional => {
   const defaults = {
     sealformActive: true,
     atkToBreakVulnerability: true,
+    chargeStacks: e >= 6 ? 10 : 5,
     e1DefPen: true,
     e2Buffs: true,
     e4SpdBuff: true,
@@ -104,7 +120,7 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => ({
-      teammateBreakVulnerability: 0.15,
+      teammateBreakVulnerability: 0.10,
       e4SpdBuff: true,
     }),
     initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
@@ -126,10 +142,12 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BASIC_SUPER_BREAK_MODIFIER += (r.sealformActive) ? 0.60 : 0
 
+      x.BASIC_BREAK_DMG_MODIFIER = talentBreakDmgModifier + r.chargeStacks * talentChargeMultiplier
+
       x.BASIC_SCALING += (r.sealformActive) ? basicEnhancedScaling : basicScaling
       x.SKILL_SCALING += skillScaling
 
-      x.BASIC_TOUGHNESS_DMG += (r.sealformActive) ? 75 : 30
+      x.BASIC_TOUGHNESS_DMG += (r.sealformActive) ? 75 + (2 + r.chargeStacks) * 3 : 30
       x.SKILL_TOUGHNESS_DMG += 30
 
       return x

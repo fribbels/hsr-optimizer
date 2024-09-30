@@ -128,7 +128,7 @@ export function calculateBaseStats(c: BasicStatsObject, request: Form, params: O
     + 0.04 * p4(sets.PioneerDiverOfDeadWaters)
     + 0.04 * p2(sets.SigoniaTheUnclaimedDesolation)
     + 0.06 * p4(sets.TheWindSoaringValorous)
-    + 0.06 * p2(sets.ScholarLostInErudition),
+    + 0.08 * p2(sets.ScholarLostInErudition),
   )
 
   c[Stats.CD] = sumPercentStat(Stats.CD, base, lc, trace, c,

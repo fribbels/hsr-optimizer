@@ -3,7 +3,7 @@ import gameData from 'data/game_data.json'
 
 export const CURRENT_OPTIMIZER_VERSION = 'v2.6.3'
 // Represents the data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '2.6v3'
+export const CURRENT_DATA_VERSION = '2.6v4'
 
 export const Stats = {
   ATK_P: 'ATK%',

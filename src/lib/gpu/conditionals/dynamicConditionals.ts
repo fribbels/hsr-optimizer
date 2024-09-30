@@ -291,8 +291,8 @@ export const RappaConversionConditional: DynamicConditional = {
     }
 
     const stateValue = params.conditionalState[this.id] || 0
-    const atkOverStacks = Math.floor(precisionRound((x[Stats.ATK] - 2000) / 100))
-    const buffValue = Math.min(0.12, Math.max(0, atkOverStacks) * 0.01) + 0.03
+    const atkOverStacks = Math.floor(precisionRound((x[Stats.ATK] - 2400) / 100))
+    const buffValue = Math.min(0.08, Math.max(0, atkOverStacks) * 0.01) + 0.02
 
     params.conditionalState[this.id] = buffValue
     x.BREAK_VULNERABILITY += buffValue - stateValue
@@ -306,8 +306,8 @@ if (${wgslFalse(r.atkToBreakVulnerability)}) {
 }
 let atk = (*p_x).ATK;
 let stateValue: f32 = (*p_state).RappaConversionConditional;
-let atkOverStacks: f32 = floor((x.ATK - 2000) / 100);
-let buffValue: f32 = min(0.12, max(0, atkOverStacks) * 0.01) + 0.03;
+let atkOverStacks: f32 = floor((x.ATK - 2400) / 100);
+let buffValue: f32 = min(0.08, max(0, atkOverStacks) * 0.01) + 0.02;
 
 (*p_state).RappaConversionConditional = buffValue;
 (*p_x).BREAK_VULNERABILITY += buffValue - stateValue;

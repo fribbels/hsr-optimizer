@@ -1,7 +1,7 @@
 import { Divider, Flex, Typography } from 'antd'
 import { defaultGap, iconSize } from 'lib/constantsUi'
 import { SimulationScore, SimulationStatUpgrade } from 'lib/characterScorer'
-import { ElementToDamage, Parts, Stats, StatsToReadable, SubStats } from 'lib/constants'
+import { ElementToDamage, Parts, Stats, SubStats } from 'lib/constants'
 import { Utils } from 'lib/utils'
 import { Assets } from 'lib/assets'
 import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
@@ -122,7 +122,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
       <Flex vertical style={{ marginTop: 80, width: 1000 }}>
         <h1 style={{ margin: 'auto' }}>{t('CharacterPreview.ScoringDetails.Header')}</h1>
         <Text style={{ fontSize: 18 }}>
-          <Trans t={t} i18nKey='CharacterPreview.ScoringDetails.Text'>
+          <Trans t={t} i18nKey='CharacterPreview.ScoringDetails.WhatIsDPSScore'>
             <h2>
               What is DPS Score?
             </h2>
@@ -148,7 +148,9 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
               <li>Super break</li>
               <li>...etc</li>
             </ul>
+          </Trans>
 
+          <Trans t={t} i18nKey='CharacterPreview.ScoringDetails.HowIsCalculatedPart1'>
             <h2>
               How is it calculated?
             </h2>
@@ -178,7 +180,9 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
               The original character's build is scored based on how its Combo DMG compares to the benchmark percentages.
               The benchmark and perfection builds will always match the original character's SPD.
             </p>
+          </Trans>
 
+          <Trans t={t} i18nKey='CharacterPreview.ScoringDetails.HowIsCalculatedPart2'>
             <h4>
               100% benchmark ruleset
             </h4>
@@ -220,7 +224,9 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
               <li>No diminishing returns penalty</li>
               <li>All substats are ideally distributed, but the build must still be possible to make</li>
             </ul>
+          </Trans>
 
+          <Trans t={t} i18nKey='CharacterPreview.ScoringDetails.HowIsCalculatedPart3' shouldUnescape>
             <h4>
               Score normalization
             </h4>
@@ -256,8 +262,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
             <ul>
               <li>
-                If DMG  {{ lesserThan: '<' }} 100% benchmark
-                {/* this feels really dumb but the < was nuking the rest of the line when I had it raw in the json and &lt: gets rendered as is */}
+                If DMG &lt; 100% benchmark
               </li>
               <ul style={{ paddingLeft: 20 }}>
                 <li>
@@ -308,7 +313,9 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
                 </ul>
               </Flex>
             </pre>
+          </Trans>
 
+          <Trans t={t} i18nKey='CharacterPreview.ScoringDetails.FAQ'>
             <h2>FAQs</h2>
 
             <h4>Why does the sim match speed?</h4>

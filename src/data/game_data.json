@@ -958,12 +958,12 @@
       "rarity": 5,
       "path": "Erudition",
       "element": "Imaginary",
-      "max_sp": 160,
+      "max_sp": 140,
       "stats": {
         "HP": 1086.624,
-        "ATK": 640.332,
+        "ATK": 717.948,
         "DEF": 460.845,
-        "SPD": 102,
+        "SPD": 96,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -2449,7 +2449,7 @@
     {
       "id": "315",
       "name": "Duran, Dynasty of Running Wolves",
-      "skills": "When a Party target uses a follow-up attack, the wearer gains 1 stack of \"Merit,\" stacking up to <b>5.0</b> time(s). Each stack of \"Merit\" increases the DMG dealt by the wearer's follow-up attacks by <b>5.0%</b>. When there are <b>5.0</b> stacks, additionally increases the wearer's CRIT DMG by <b>25.0%</b>."
+      "skills": "When an ally uses a follow-up attack, the wearer gains 1 stack of Merit, stacking up to <b>5.0</b> time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <b>5.0%</b>. When there are <b>5.0</b> stacks, additionally increases the wearer's CRIT DMG by <b>25.0%</b>."
     },
     {
       "id": "314",
@@ -2464,7 +2464,7 @@
     {
       "id": "312",
       "name": "Penacony, Land of the Dreams",
-      "skills": "Increases wearer's Energy Regeneration Rate by <b>5.0%</b>. Increases DMG by <b>10.0%</b> for all other Party targets that are of the same Type as the wearer."
+      "skills": "Increases wearer's Energy Regeneration Rate by <b>5.0%</b>. Increases DMG by <b>10.0%</b> for all other allies that are of the same Type as the wearer."
     },
     {
       "id": "311",
@@ -2474,7 +2474,7 @@
     {
       "id": "310",
       "name": "Broken Keel",
-      "skills": "Increases the wearer's Effect RES by <b>10.0%</b>. When the wearer's Effect RES is at <b>30.0%</b> or higher, all Party targets' CRIT DMG increases by <b>10.0%</b>."
+      "skills": "Increases the wearer's Effect RES by <b>10.0%</b>. When the wearer's Effect RES is at <b>30.0%</b> or higher, all allies' CRIT DMG increases by <b>10.0%</b>."
     },
     {
       "id": "309",
@@ -2514,7 +2514,7 @@
     {
       "id": "302",
       "name": "Fleet of the Ageless",
-      "skills": "Increases the wearer's Max HP by <b>12.0%</b>. When the wearer's SPD reaches <b>120.0</b> or higher, all Party targets' ATK increases by <b>8.0%</b>."
+      "skills": "Increases the wearer's Max HP by <b>12.0%</b>. When the wearer's SPD reaches <b>120.0</b> or higher, all allies' ATK increases by <b>8.0%</b>."
     },
     {
       "id": "301",
@@ -2524,12 +2524,12 @@
     {
       "id": "122",
       "name": "Scholar Lost in Erudition",
-      "skills": "Increases CRIT Rate by <b>6.0%</b>.,Increases DMG dealt by Ultimate and Skill by <b>20.0%</b>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <b>20.0%</b>."
+      "skills": "Increases CRIT Rate by <b>8.0%</b>.,Increases DMG dealt by Ultimate and Skill by <b>20.0%</b>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <b>25.0%</b>."
     },
     {
       "id": "121",
       "name": "Sacerdos' Relived Ordeal",
-      "skills": "Increases SPD by <b>6.0%</b>.,When using Skill or Ultimate on one Party target, increases the target's CRIT DMG by <b>20.0%</b>, lasting for <b>2.0</b> turn(s). This effect can stack up to <b>2.0</b> time(s)."
+      "skills": "Increases SPD by <b>6.0%</b>.,When using Skill or Ultimate on one ally target, increases the ability-using target's CRIT DMG by <b>18.0%</b>, lasting for <b>2.0</b> turn(s). This effect can stack up to <b>2.0</b> time(s)."
     },
     {
       "id": "120",
@@ -2544,7 +2544,7 @@
     {
       "id": "118",
       "name": "Watchmaker, Master of Dream Machinations",
-      "skills": "Increases Break Effect by <b>16.0%</b>.,When the wearer uses Ultimate on any Party character, increases all Party characters' Break Effect by <b>30.0%</b> for <b>2.0</b> turn(s). This effect cannot be stacked."
+      "skills": "Increases Break Effect by <b>16.0%</b>.,When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by <b>30.0%</b> for <b>2.0</b> turn(s). This effect cannot be stacked."
     },
     {
       "id": "117",
@@ -2564,7 +2564,7 @@
     {
       "id": "114",
       "name": "Messenger Traversing Hackerspace",
-      "skills": "Increases SPD by <b>6.0%</b>.,When the wearer uses Ultimate on any Party character, increases all Party characters' SPD by <b>12.0%</b> for <b>1.0</b> turn(s). This effect cannot be stacked."
+      "skills": "Increases SPD by <b>6.0%</b>.,When the wearer uses their Ultimate on an ally, SPD for all allies increases by <b>12.0%</b> for <b>1.0</b> turn(s). This effect cannot be stacked."
     },
     {
       "id": "113",

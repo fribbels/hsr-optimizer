@@ -425,3 +425,4 @@ export type ConditionalBuff =
   | 'e2Buffs'
   | 'e4SpdBuff'
   | 'teammateBreakVulnerability'
+  | 'chargeStacks'

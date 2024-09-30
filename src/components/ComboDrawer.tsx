@@ -1,24 +1,16 @@
-import { Drawer, Flex, Switch } from 'antd'
-import React, { useEffect, useState } from 'react'
-import { Rnd } from 'react-rnd'
-import FormCard from 'components/optimizerTab/FormCard'
+import { Drawer, Flex } from 'antd'
+import React from 'react'
+import Selecto from 'react-selecto'
+
+enum SELECT_STATE {
+  WAITING,
+  ADD,
+  REMOVE,
+}
 
 export function ComboDrawer() {
   const comboDrawerOpen = window.store((s) => s.comboDrawerOpen)
   const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
-  const [display, setDisplay] = useState()
-
-  useEffect(() => {
-    if (comboDrawerOpen == true) {
-      setDisplay(
-        <Flex vertical style={{ width: 400 }} gap={5}>
-          <DragTest row={0}/>
-          <DragTest row={1}/>
-          <DragTest row={2}/>
-        </Flex>,
-      )
-    }
-  }, [comboDrawerOpen])
 
   return (
     <Drawer
@@ -29,96 +21,51 @@ export function ComboDrawer() {
       width={1000}
       forceRender
     >
-      {display}
+      <div style={{ width: 800, height: '100%' }}>
+        <Flex style={{ width: '100%' }} wrap={true}>
+          {new Array(40).fill(0).map((_, index) => (
+            <div
+              className='selectable'
+              data-key={index}
+              key={index}
+              style={{ width: 100 }}
+            >
+            </div>
+          ))}
+        </Flex>
+        <Selecto
+          className='selecto-selection'
+          // The container to add a selection element
+          container={document.body}
+          // The area to drag selection element (default: container)
+          dragContainer={window}
+          // Targets to select. You can register a queryselector or an Element.
+          selectableTargets={['.selectable']}
+          // Whether to select by click (default: true)
+          selectByClick={true}
+          // Whether to select from the target inside (default: true)
+          selectFromInside={true}
+          // After the select, whether to select the next target with the selected target (deselected if the target is selected again).
+          continueSelect={true}
+          // Determines which key to continue selecting the next target via keydown and keyup.
+          toggleContinueSelect='shift'
+          // The container for keydown and keyup events
+          keyContainer={window}
+          // The rate at which the target overlaps the drag area to be selected. (default: 100)
+          hitRate={0}
+          onSelect={(e) => {
+            console.log('added', e.added)
+            console.log('removed', e.removed)
+            console.log(e)
+            e.added.forEach((el) => {
+              el.classList.add('selected')
+            })
+            e.removed.forEach((el) => {
+              el.classList.remove('selected')
+            })
+          }}
+        />
+      </div>
     </Drawer>
-  )
-}
-
-function DragTest(props: { row: number }) {
-  const className = `parent-drag-test-${props.row}`
-  return (
-    <Flex style={{ height: 50 }} className={className}>
-      <Rnd
-        default={{
-          x: 0,
-          y: 0,
-          width: 100,
-          height: 50,
-        }}
-        bounds={'.' + className}
-        dragGrid={[100, 1]}
-        resizeGrid={[100, 1]}
-        enableResizing={{
-          top: false,
-          right: true,
-          bottom: false,
-          left: true,
-          topRight: false,
-          bottomRight: false,
-          bottomLeft: false,
-          topLeft: false,
-        }}
-      >
-        <FormCard height={30} style={{ marginLeft: 20 }}>
-          <Flex vertical justify='center' style={{ height: 50 }} defaultChecked={true}>
-            <Switch style={{ width: 50 }}/>
-          </Flex>
-        </FormCard>
-      </Rnd>
-      <Rnd
-        default={{
-          x: 0,
-          y: 0,
-          width: 100,
-          height: 50,
-        }}
-        bounds={'.' + className}
-        dragGrid={[100, 1]}
-        resizeGrid={[100, 1]}
-        enableResizing={{
-          top: false,
-          right: true,
-          bottom: false,
-          left: true,
-          topRight: false,
-          bottomRight: false,
-          bottomLeft: false,
-          topLeft: false,
-        }}
-      >
-        <FormCard height={30} style={{ marginLeft: 20 }}>
-          <Flex vertical justify='center' style={{ height: 50 }} defaultChecked={true}>
-            <Switch style={{ width: 50 }}/>
-          </Flex>
-        </FormCard>
-      </Rnd>
-      <Rnd
-        default={{
-          x: 0,
-          y: 0,
-          width: 100,
-          height: 50,
-        }}
-        bounds={'.' + className}
-        dragGrid={[100, 1]}
-        resizeGrid={[100, 1]}
-        enableResizing={{
-          top: false,
-          right: true,
-          bottom: false,
-          left: true,
-          topRight: false,
-          bottomRight: false,
-          bottomLeft: false,
-          topLeft: false,
-        }}
-      >
-        <FormCard height={30} style={{ marginLeft: 20 }}>
-          <Flex vertical justify='center' style={{ height: 50 }} defaultChecked={true}>
-            <Switch style={{ width: 50 }}/>
-          </Flex>
-        </FormCard>
-      </Rnd>
-    </Flex>
   )
 }

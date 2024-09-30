@@ -92,7 +92,7 @@ window.store = create((set) => ({
   characters: [],
   charactersById: {},
   conditionalSetEffectsDrawerOpen: false,
-  comboDrawerOpen: false,
+  comboDrawerOpen: true,
   combatBuffsDrawerOpen: false,
   enemyConfigurationsDrawerOpen: false,
   settingsDrawerOpen: false,

@@ -470,3 +470,27 @@ a {
     padding-left: 5px !important;
     padding-right: 5px !important;
 }
+
+.selection-area {
+    background: rgba(46, 115, 252, 0.11);
+    border: 2px solid rgba(98, 155, 255, 0.81);
+    border-radius: 0.1em;
+}
+
+.selectable {
+    width: 50px;
+    height: 50px;
+    border: 1px solid black;
+}
+
+.container {
+    user-select: none;
+}
+
+.selected {
+    background: #2156a1;
+}
+
+.selecto-selection {
+    display: none !important; /* Red Color with half opacity */
+}

@@ -21,14 +21,14 @@ export function ComboDrawer() {
       width={1000}
       forceRender
     >
-      <div style={{ width: 800, height: '100%' }}>
+      <div style={{ width: 850, height: '100%' }}>
         <Flex style={{ width: '100%' }} wrap={true}>
           {new Array(40).fill(0).map((_, index) => (
             <div
               className='selectable'
               data-key={index}
               key={index}
-              style={{ width: 100 }}
+              style={{ width: 100, marginLeft: -1, marginTop: -1 }}
             >
             </div>
           ))}

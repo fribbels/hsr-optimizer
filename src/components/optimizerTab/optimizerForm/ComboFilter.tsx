@@ -92,11 +92,11 @@ export const ComboFilters = () => {
           +
         </Button>
         <Button
-          style={{ width: 200 }}
+          style={{ width: 200, marginTop: 20 }}
           onClick={() => setComboDrawerOpen(true)}
           icon={<SettingOutlined/>}
         >
-          Advanced COMBO
+          Custom COMBO rotation
         </Button>
         <ComboDrawer/>
       </Flex>

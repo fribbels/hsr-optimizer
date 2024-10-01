@@ -75,7 +75,7 @@ function SaveDataSubmenu() {
       )
 
       await saveFile(blob, 'fribbels-optimizer-save.json')
-      Message.success(t('SuccessMessage'))
+      Message.success(t('SuccessMessage')/* Done */)
     } catch (e) {
       console.warn(e)
     }
@@ -84,10 +84,10 @@ function SaveDataSubmenu() {
   return (
     <Flex vertical gap={5}>
       <Text>
-        {t('label')}
+        {t('label')/* Save your optimizer data to a file. */}
       </Text>
       <Button type='primary' onClick={saveClicked} icon={<DownloadOutlined/>} style={{ width: buttonWidth }}>
-        {t('ButtonText')}
+        {t('ButtonText')/* Save data */}
       </Button>
     </Flex>
   )

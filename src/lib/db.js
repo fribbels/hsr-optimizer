@@ -966,6 +966,8 @@ export const DB = {
       window.characterGrid.current.api.redrawRows()
     }
 
+    // Updated stats for ${updatedOldRelics.length} existing relics
+    // Added ${addedNewRelics.length} new relics
     if (updatedOldRelics.length) Message.success(i18next.t('importSaveTab:PartialImport.OldRelics', { count: updatedOldRelics.length }), 8)
     if (addedNewRelics.length) Message.success(i18next.t('importSaveTab:PartialImport.NewRelics', { count: addedNewRelics.length }), 8)
   },

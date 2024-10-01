@@ -239,51 +239,51 @@ export default function RelicFilterBar(props) {
     <Flex vertical gap={2}>
       <Flex gap={10}>
         <Flex vertical flex={1}>
-          <HeaderText>{t('RelicFilterBar.Part')}</HeaderText>
+          <HeaderText>{t('RelicFilterBar.Part')/* Part */}</HeaderText>
           <FilterRow name='part' tags={partsData} flexBasis='15%'/>
         </Flex>
         <Flex vertical style={{ height: '100%' }} flex={1}>
-          <HeaderText>{t('RelicFilterBar.Enhance')}</HeaderText>
+          <HeaderText>{t('RelicFilterBar.Enhance')/* Enhance */}</HeaderText>
           <FilterRow name='enhance' tags={enhanceData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.5}>
-          <HeaderText>{t('RelicFilterBar.Grade')}</HeaderText>
+          <HeaderText>{t('RelicFilterBar.Grade')/* Grade */}</HeaderText>
           <FilterRow name='grade' tags={gradeData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.25}>
-          <HeaderText>{t('RelicFilterBar.Verified')}</HeaderText>
+          <HeaderText>{t('RelicFilterBar.Verified')/* Verified */}</HeaderText>
           <FilterRow name='verified' tags={verifiedData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.25}>
-          <HeaderText>{t('RelicFilterBar.Equipped')}</HeaderText>
+          <HeaderText>{t('RelicFilterBar.Equipped')/* Equipped */}</HeaderText>
           <FilterRow name='equippedBy' tags={equippedByData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.4}>
-          <HeaderText>{t('RelicFilterBar.Clear')}</HeaderText>
+          <HeaderText>{t('RelicFilterBar.Clear')/* Clear */}</HeaderText>
           <Button icon={<ClearOutlined/>} onClick={clearClicked} style={{ flexGrow: 1, height: '100%' }}>
-            {t('RelicFilterBar.ClearButton')}
+            {t('RelicFilterBar.ClearButton')/* Clear all filters */}
           </Button>
         </Flex>
       </Flex>
 
       <Flex vertical>
-        <HeaderText>{t('RelicFilterBar.Set')}</HeaderText>
+        <HeaderText>{t('RelicFilterBar.Set')/* Set */}</HeaderText>
         <FilterRow name='set' tags={setsData} flexBasis={`${100 / Object.values(SetsRelics).length}%`}/>
       </Flex>
 
       <Flex vertical>
-        <HeaderText>{t('RelicFilterBar.Mainstat')}</HeaderText>
+        <HeaderText>{t('RelicFilterBar.Mainstat')/* Main stats */}</HeaderText>
         <FilterRow name='mainStats' tags={mainStatsData}/>
       </Flex>
 
       <Flex vertical>
-        <HeaderText>{t('RelicFilterBar.Substat')}</HeaderText>
+        <HeaderText>{t('RelicFilterBar.Substat')/* Substats */}</HeaderText>
         <FilterRow name='subStats' tags={subStatsData}/>
       </Flex>
 
       <Flex gap={10}>
         <Flex vertical flex={0.5}>
-          <HeaderText>{t('RelicFilterBar.RecommendationHeader')}</HeaderText>
+          <HeaderText>{t('RelicFilterBar.RecommendationHeader')/* Relic recommendation character */}</HeaderText>
           <Flex gap={10}>
             <CharacterSelect
               value={currentlySelectedCharacterId}
@@ -298,13 +298,13 @@ export default function RelicFilterBar(props) {
               onClick={rescoreClicked}
               style={{ flex: 1, padding: '0px' }}
             >
-              {t('RelicFilterBar.ReapplyButton')}
+              {t('RelicFilterBar.ReapplyButton')/* Reapply scores */}
             </Button>
             <Button
               onClick={scoringClicked}
               style={{ flex: 1, padding: '0px' }}
             >
-              {t('RelicFilterBar.ScoringButton')}
+              {t('RelicFilterBar.ScoringButton')/* Scoring algorithm */}
             </Button>
           </Flex>
         </Flex>
@@ -312,7 +312,7 @@ export default function RelicFilterBar(props) {
         <Flex vertical flex={0.25} gap={10}>
           <Flex vertical>
             <Flex justify='space-between' align='center'>
-              <HeaderText>{t('RelicFilterBar.Rating')}</HeaderText>
+              <HeaderText>{t('RelicFilterBar.Rating')/* Relic ratings */}</HeaderText>
               <TooltipImage type={Hint.valueColumns()}/>
             </Flex>
             <Flex gap={10}>
@@ -331,7 +331,7 @@ export default function RelicFilterBar(props) {
         </Flex>
 
         <Flex vertical flex={0.25}>
-          <HeaderText>{t('RelicFilterBar.CustomCharsHeader')}</HeaderText>
+          <HeaderText>{t('RelicFilterBar.CustomCharsHeader')/* Custom potential characters */}</HeaderText>
           <CharacterSelect
             value={window.store.getState().excludedRelicPotentialCharacters}
             selectStyle={{ flex: 1 }}

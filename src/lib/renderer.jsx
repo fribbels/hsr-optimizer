@@ -191,7 +191,7 @@ export const Renderer = {
         ? (
           <Tooltip
             mouseEnterDelay={0.4}
-            title={i18next.t('common:VerifiedRelicHoverText')}
+            title={i18next.t('common:VerifiedRelicHoverText')/* Relic substats verified by relic scorer (speed decimals) */}
           >
             <CheckCircleFilled
               style={{ fontSize: '14px', color: color }}

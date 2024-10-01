@@ -70,7 +70,7 @@ export default function RelicScorerTab() {
 
   function onFinish(x) {
     if (latestRefreshDate.current) {
-      Message.warning(t('Messages.ThrottleWarning', { seconds: Math.max(1, Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000)) }))
+      Message.warning(t('Messages.ThrottleWarning'/* Please wait {{seconds}} seconds before retrying */, { seconds: Math.max(1, Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000)) }))
       if (loading) {
         setLoading(false)
       }
@@ -89,7 +89,7 @@ export default function RelicScorerTab() {
 
     if (!id || id.length != 9) {
       setLoading(false)
-      Message.error(t('Messages.InvalidIdWarning'))
+      Message.error(t('Messages.InvalidIdWarning')/* Invalid ID */)
       return
     }
 
@@ -141,7 +141,7 @@ export default function RelicScorerTab() {
         } else {
           if (!data.detailInfo) {
             setLoading(false)
-            Message.error(t('Messages.IdLoadError'))
+            Message.error(t('Messages.IdLoadError')/* Error loading ID */)
             return 'ERROR'
           }
 
@@ -170,13 +170,13 @@ export default function RelicScorerTab() {
           setSelectedCharacter(converted[0])
         }
         setLoading(false)
-        Message.success(t('Messages.SuccessMsg'))
+        Message.success(t('Messages.SuccessMsg')/* Successfully loaded profile */)
         console.log(converted)
         scorerForm.setFieldValue('scorerId', id)
       })
       .catch((error) => {
         setTimeout(() => {
-          Message.warning(t('Messages.LookupError'))
+          Message.warning(t('Messages.LookupError')/* Error during lookup, please try again in a bit */)
           console.error('Fetch error:', error)
           setLoading(false)
         }, Math.max(0, throttleSeconds * 1000 - (new Date() - latestRefreshDate.current)))
@@ -204,6 +204,12 @@ export default function RelicScorerTab() {
         <Flex gap={10} vertical align='center'>
           <Text>
             {officialOnly ? t('Header.WithoutVersion') : t('Header.WithVersion', { beta_version: CURRENT_DATA_VERSION })}
+            {
+              /*
+              "WithVersion": "Enter your account UID to score your profile character at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}} )",
+              "WithoutVersion": "Enter your account UID to score your profile character at level 80 & maxed traces. Log out to refresh instantly."
+              */
+            }
           </Text>
         </Flex>
         <Form
@@ -213,7 +219,7 @@ export default function RelicScorerTab() {
         >
           <Flex style={{ margin: 10, width: 1100 }} justify='center' align='center' gap={10}>
             <Form.Item size='default' name='scorerId'>
-              <Input style={{ width: 150 }} placeholder={t('SubmissionBar.Placeholder')}/>
+              <Input style={{ width: 150 }} placeholder={t('SubmissionBar.Placeholder')/* Account UID */}/>
             </Form.Item>
             <Button
               type='primary'
@@ -221,13 +227,13 @@ export default function RelicScorerTab() {
               loading={loading}
               style={{ width: 150 }}
             >
-              {t('SubmissionBar.ButtonText')}
+              {t('SubmissionBar.ButtonText')/* Submit */}
             </Button>
             <Button
               style={{ width: 150 }}
               onClick={() => window.setIsScoringModalOpen(true)}
             >
-              {t('SubmissionBar.AlgorithmButton')}
+              {t('SubmissionBar.AlgorithmButton')/* Scoring algorithm */}
             </Button>
           </Flex>
         </Form>
@@ -260,11 +266,11 @@ function CharacterPreviewSelection(props) {
 
   const items = [
     {
-      label: <Flex gap={10}><ImportOutlined/>{t('ImportLabels.AllCharacters')}</Flex>,
+      label: <Flex gap={10}><ImportOutlined/>{t('ImportLabels.AllCharacters')/* Import all characters & all relics into optimizer */}</Flex>,
       key: 'import characters',
     },
     {
-      label: <Flex gap={10}><ImportOutlined/>{t('ImportLabels.SingleCharacter')}</Flex>,
+      label: <Flex gap={10}><ImportOutlined/>{t('ImportLabels.SingleCharacter')/* Import selected character & all relics into optimizer */}</Flex>,
       key: 'import single character',
     },
   ]
@@ -280,7 +286,7 @@ function CharacterPreviewSelection(props) {
         importCharacterClicked()
         break
       default:
-        Message.error('unknown button clicked')
+        Message.error(t('Messages.UnknownButtonClicked')/* 'unknown button clicked' */)
         break
     }
   }
@@ -333,10 +339,10 @@ function CharacterPreviewSelection(props) {
 
   function onCharacterModalOk(form) {
     if (!form.characterId) {
-      return Message.error(t('Messages.NoCharacterSelected'))
+      return Message.error(t('Messages.NoCharacterSelected')/* No selected character */)
     }
     if (props.availableCharacters.find((x) => x.id == form.characterId) && props.selectedCharacter.id != form.characterId) {
-      return Message.error(t('Messages.CharacterAlreadyExists'))
+      return Message.error(t('Messages.CharacterAlreadyExists')/* Selected character already exists */)
     }
 
     // Updates the selected segmented option
@@ -471,7 +477,7 @@ function CharacterPreviewSelection(props) {
           <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey}/>
           <Flex style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }} justify='space-between'>
             <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined/>} loading={screenshotLoading} type='primary'>
-              {t('CopyScreenshot')}
+              {t('CopyScreenshot')/* Copy screenshot */}
             </Button>
             <Button style={{ width: 40 }} icon={<DownloadOutlined/>} onClick={downloadClicked} loading={downloadLoading}/>
             <Dropdown.Button
@@ -480,13 +486,13 @@ function CharacterPreviewSelection(props) {
               menu={menuProps}
             >
               <ImportOutlined/>
-              {t('ImportLabels.Relics')}
+              {t('ImportLabels.Relics')/* Import relics into optimizer */}
             </Dropdown.Button>
             <Button icon={<ExperimentOutlined/>} onClick={simulateClicked} style={{ width: 280 }}>
-              {t('SimulateRelics')}
+              {t('SimulateRelics')/* Simulate relics on another character */}
             </Button>
             <Button icon={<LineChartOutlined/>} onClick={optimizeClicked} style={{ width: 228 }}>
-              {t('OptimizeOnCharacter')}
+              {t('OptimizeOnCharacter')/* Optimize character stats */}
             </Button>
           </Flex>
         </Flex>

@@ -53,7 +53,7 @@ export function ScannerImportSubmenu() {
       setLoading1(true)
 
       if (!json) {
-        throw new Error(t('Import.ErrorMsg.InvalidJson'))
+        throw new Error(t('Import.ErrorMsg.InvalidJson')/* Invalid JSON */)
       }
 
       if (json.data) {
@@ -78,7 +78,7 @@ export function ScannerImportSubmenu() {
       }
 
       if (!ValidScannerSources.includes(json.source)) {
-        throw new Error(t('Import.ErrorMsg.InvalidFile'))
+        throw new Error(t('Import.ErrorMsg.InvalidFile')/* Invalid scanner file */)
       }
 
       const parser = ScannerSourceToParser[json.source]
@@ -100,11 +100,11 @@ export function ScannerImportSubmenu() {
         setCurrentStage(Stages.CONFIRM_DATA)
       }, importerTabSpinnerMs)
     } catch (e) {
-      let message: string = t('Import.ErrorMsg.Unknown')
+      let message: string = t('Import.ErrorMsg.Unknown'/* Unknown Error */)
       if (e instanceof Error) message = e.message
 
       console.error(e)
-      Message.error(t('Import.ErrorMsg.Fragment') + message, 10)
+      Message.error(t('Import.ErrorMsg.Fragment'/* Error occurred while importing file: */) + message, 10)
 
       setTimeout(() => {
         setLoading1(false)

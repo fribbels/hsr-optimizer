@@ -120,7 +120,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   function ScoringDetails() {
     return (
       <Flex vertical style={{ marginTop: 80, width: 1000 }}>
-        <h1 style={{ margin: 'auto' }}>{t('CharacterPreview.ScoringDetails.Header')}</h1>
+        <h1 style={{ margin: 'auto' }}>{t('CharacterPreview.ScoringDetails.Header')/* DPS Score Calculation */}</h1>
         <Text style={{ fontSize: 18 }}>
           <Trans t={t} i18nKey='CharacterPreview.ScoringDetails.WhatIsDPSScore'>
             <h2>
@@ -437,14 +437,14 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <Flex justify='space-around'>
             <pre style={{ fontSize: 20, fontWeight: 'bold', color: highlight ? color : '' }}>
               <u>{t(`CharacterPreview.ScoringColumn.${props.type}.Header`, { score: Utils.truncate10ths(Utils.precisionRound(props.percent * 100)) })}</u>
-            </pre>
+            </pre>{/* Characet/Benchmark/Perfect build ({{score}}%) */}
           </Flex>
         </Flex>
 
         <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
           <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.BasicStats`)}
-          </pre>
+          </pre>{/* Character/100% benchmark/200% prefect basic stats */}
           <CharacterStatSummary
             finalStats={basicStats}
             elementalDmgValue={elementalDmgValue}
@@ -468,7 +468,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
         <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '10px auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.Substats`)}
-          </pre>
+          </pre>{/* Character subs (min rolls)/100% benchmark subs (min rolls)/200% perfect subs (max rolls) */}
           <Flex gap={5} justify='space-around'>
             <Flex vertical gap={defaultGap} style={{ width: 120 }}>
               <ScoringNumber label={t('CharacterPreview.ScoringColumn.PaddedStatLabels.ATKP')} number={request.stats[Stats.ATK_P]} precision={props.precision}/>
@@ -492,7 +492,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
         <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.Mainstats`)}
-          </pre>
+          </pre>{/* Character main stats/100% benchmark main stats/200% perfect main stats */}
           <Flex gap={defaultGap} justify='space-around'>
             <Flex vertical gap={10}>
               <ScoringStat stat={t(`common:ReadableStats.${request.simBody}`)} part={Parts.Body}/>
@@ -506,7 +506,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
         <Flex vertical gap={20}>
           <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
-          </pre>
+          </pre>{/* Character/100% benchmark/200% perfect ability damage */}
           <Flex gap={defaultGap} justify='space-around'>
             <Flex vertical gap={10}>
               <ScoringNumber label={t('CharacterPreview.ScoringColumn.PaddedDMGLabels.Basic')} number={simResult.BASIC}/>
@@ -526,13 +526,13 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     <Flex vertical gap={15} align='center'>
       <Flex justify='space-around' style={{ marginTop: 15 }}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-          {t('CharacterPreview.BuildAnalysis.Header')}
+          {t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
         </pre>
       </Flex>
       <Flex gap={40}>
         <Flex vertical gap={defaultGap} style={{ marginLeft: 10 }}>
           <pre style={{ margin: '5px auto' }}>
-            {t('CharacterPreview.BuildAnalysis.SimulationTeammates')}
+            {t('CharacterPreview.BuildAnalysis.SimulationTeammates')/* Simulation teammates */}
           </pre>
           <Flex gap={15}>
             <ScoringTeammate result={result} index={0}/>
@@ -545,7 +545,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '5px auto' }}>
-            {t('CharacterPreview.BuildAnalysis.SimulationSets')}
+            {t('CharacterPreview.BuildAnalysis.SimulationSets')/* Simulation sets */}
           </pre>
           <Flex vertical gap={defaultGap}>
             <Flex>
@@ -560,15 +560,15 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '5px auto' }}>
-            {t('CharacterPreview.BuildAnalysis.Formula.Header')}
+            {t('CharacterPreview.BuildAnalysis.Formula.Header')/* Formula */}
           </pre>
           <Flex vertical gap={defaultGap}>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.BASIC')} number={result.simulationMetadata.formula.BASIC} precision={0}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.SKILL')} number={result.simulationMetadata.formula.SKILL} precision={0}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.ULT')} number={result.simulationMetadata.formula.ULT} precision={0}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.FUA')} number={result.simulationMetadata.formula.FUA} precision={0}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.DOT')} number={result.simulationMetadata.formula.DOT} precision={0}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.BREAK')} number={result.simulationMetadata.formula.BREAK} precision={0}/>
+            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.BASIC')/* BASIC:     */} number={result.simulationMetadata.formula.BASIC} precision={0}/>
+            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.SKILL')/* SKILL:     */} number={result.simulationMetadata.formula.SKILL} precision={0}/>
+            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.ULT')/* ULT:       */} number={result.simulationMetadata.formula.ULT} precision={0}/>
+            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.FUA')/* FUA:       */} number={result.simulationMetadata.formula.FUA} precision={0}/>
+            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.DOT')/* DOT:       */} number={result.simulationMetadata.formula.DOT} precision={0}/>
+            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.BREAK')/* BREAK:     */} number={result.simulationMetadata.formula.BREAK} precision={0}/>
           </Flex>
         </Flex>
 
@@ -576,18 +576,18 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <Flex vertical gap={10}>
           <pre style={{ margin: '5px auto' }}>
-            {t('CharacterPreview.BuildAnalysis.CombatResults.Header')}
+            {t('CharacterPreview.BuildAnalysis.CombatResults.Header')/* Combat damage results */}
           </pre>
           <Flex vertical gap={10}>
             <ScoringText
-              label={t('CharacterPreview.BuildAnalysis.CombatResults.Primary')}
+              label={t('CharacterPreview.BuildAnalysis.CombatResults.Primary')/* Primary ability:     */}
               text={t(`CharacterPreview.BuildAnalysis.CombatResults.Abilities.${result.characterMetadata.scoringMetadata.sortOption.key}`)}
             />
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Character')} number={result.originalSimScore}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Baseline')} number={result.baselineSimScore}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Benchmark')} number={result.benchmarkSimScore}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Maximum')} number={result.maximumSimScore}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')} number={result.percent * 100} precision={2}/>
+            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Character')/* Character DMG:       */} number={result.originalSimScore}/>
+            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Baseline')/* Benchmark DMG:       */} number={result.baselineSimScore}/>
+            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Benchmark')/* Baseline DMG:        */} number={result.benchmarkSimScore}/>
+            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Maximum')/* Maximum DMG:         */} number={result.maximumSimScore}/>
+            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')/* DPS score %:         */} number={result.percent * 100} precision={2}/>
           </Flex>
         </Flex>
       </Flex>
@@ -622,7 +622,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
       <Flex gap={defaultGap} justify='space-around'>
         <Flex vertical gap={defaultGap}>
           <pre style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-            {t('CharacterPreview.SubstatUpgradeComparisons.Header')}
+            {t('CharacterPreview.SubstatUpgradeComparisons.Header')/* Substat upgrade comparisons */}
           </pre>
           <ScoringStatUpgrades/>
         </Flex>
@@ -724,7 +724,7 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
     <Flex vertical gap={1} align='center' style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
       <Flex vertical align='center'>
         <HeaderText style={{ fontSize: 16 }}>
-          {t('CombatStats')}
+          {t('CombatStats')/* Combat Stats */}
         </HeaderText>
       </Flex>
       {rows}
@@ -803,7 +803,7 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
     <Flex vertical gap={1} align='center' style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 0 }}>
       <Flex vertical align='center'>
         <HeaderText style={{ fontSize: 16 }}>
-          {t('charactersTab:CharacterPreview.DMGUpgrades')}
+          {t('charactersTab:CharacterPreview.DMGUpgrades')/* Damage Upgrades */}
         </HeaderText>
       </Flex>
       {rows}

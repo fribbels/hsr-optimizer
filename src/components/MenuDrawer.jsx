@@ -24,24 +24,24 @@ const MenuDrawer = () => {
   const setActiveKey = window.store((s) => s.setActiveKey)
 
   const items = useMemo(() => [
-    getItem(t('Showcase.Title'), 'subTools', <SunOutlined/>, [
+    getItem(t('Showcase.Title')/* Showcase */, 'subTools', <SunOutlined/>, [
       getItem(
         (
           <Flex>
             <StarFilled style={{ marginRight: 5, width: 16 }}/>
             {' '}
-            {t('Showcase.Scorer')}
+            {t('Showcase.Scorer')/* Relic Scorer */}
           </Flex>
         ),
         AppPages.RELIC_SCORER),
     ]),
-    getItem(t('Optimization.Title'), 'subOptimizer', <LineChartOutlined/>, [
+    getItem(t('Optimization.Title')/* Optimization */, 'subOptimizer', <LineChartOutlined/>, [
       getItem(
         (
           <Flex>
             <BarChartOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
-            {t('Optimization.Optimizer')}
+            {t('Optimization.Optimizer')/* Optimizer */}
           </Flex>
         ),
         AppPages.OPTIMIZER),
@@ -50,7 +50,7 @@ const MenuDrawer = () => {
           <Flex>
             <UserOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
-            {t('Optimization.Characters')}
+            {t('Optimization.Characters')/* Characters */}
           </Flex>
         ),
         AppPages.CHARACTERS),
@@ -59,7 +59,7 @@ const MenuDrawer = () => {
           <Flex>
             <RadarChartOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
-            {t('Optimization.Relics')}
+            {t('Optimization.Relics')/* Relics */}
           </Flex>
         ),
         AppPages.RELICS),
@@ -68,7 +68,7 @@ const MenuDrawer = () => {
           <Flex>
             <UploadOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
-            {t('Optimization.Import')}
+            {t('Optimization.Import')/* Import / Save */}
           </Flex>
         ),
         AppPages.IMPORT),
@@ -77,7 +77,7 @@ const MenuDrawer = () => {
           <Flex onClick={() => window.store.getState().setSettingsDrawerOpen(true)}>
             <SettingOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
-            {t('Optimization.Settings')}
+            {t('Optimization.Settings')/* Settings */}
           </Flex>
         ),
         'link settings',
@@ -87,18 +87,18 @@ const MenuDrawer = () => {
           <Flex>
             <BookOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
-            {t('Optimization.Start')}
+            {t('Optimization.Start')/* Get Started */}
           </Flex>
         ),
         AppPages.GETTING_STARTED),
     ]),
-    getItem(t('Links.Title'), 'subLinks', <BarsOutlined/>, [
+    getItem(t('Links.Title')/* Links */, 'subLinks', <BarsOutlined/>, [
       getItem(
         (
           <Typography.Link>
             <UnorderedListOutlined style={{ marginRight: 2, width: 16 }}/>
             {' '}
-            {t('Links.Changelog')}
+            {t('Links.Changelog')/* Changelog */}
           </Typography.Link>
         ),
         AppPages.CHANGELOG),
@@ -106,7 +106,7 @@ const MenuDrawer = () => {
         <Typography.Link href='https://ko-fi.com/fribbels' target='_blank' rel='noopener noreferrer'>
           <CoffeeIcon style={{ marginRight: 5 }}/>
           {' '}
-          {t('Links.Kofi')}
+          {t('Links.Kofi')/* Ko-fi */}
         </Typography.Link>,
         'link donate',
       ),
@@ -114,7 +114,7 @@ const MenuDrawer = () => {
         <Typography.Link href='https://discord.gg/rDmB4Un7qg' target='_blank' rel='noopener noreferrer'>
           <DiscordIcon style={{ marginRight: 5 }}/>
           {' '}
-          {t('Links.Discord')}
+          {t('Links.Discord')/* Discord */}
         </Typography.Link>,
         'link discord',
       ),
@@ -122,7 +122,7 @@ const MenuDrawer = () => {
         <Typography.Link href='https://github.com/fribbels/hsr-optimizer' target='_blank' rel='noopener noreferrer'>
           <GithubIcon style={{ marginRight: 5 }}/>
           {' '}
-          {t('Links.Github')}
+          {t('Links.Github')/* GitHub */}
         </Typography.Link>,
         'link github',
       ),
@@ -130,7 +130,7 @@ const MenuDrawer = () => {
         <Typography.Link href='https://starrailoptimizer.github.io/' target='_blank' rel='noopener noreferrer'>
           <LinkOutlined style={{ marginRight: 5 }}/>
           {' '}
-          {t('Links.Unleak')}
+          {t('Links.Unleak')/* No leaks */}
         </Typography.Link>,
         'link leaks free',
       ),

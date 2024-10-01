@@ -149,13 +149,13 @@ export default function ScoringModal() {
 
     return (
       <Popconfirm
-        title={t('Scoring.ResetAllConfirm.Title')}
-        description={t('Scoring.ResetAllConfirm.Description')}
+        title={t('Scoring.ResetAllConfirm.Title')/* Reset the scoring algorithm for all characters? */}
+        description={t('Scoring.ResetAllConfirm.Description')/* You will lose any custom scoring settings you have set on any character. */}
         onConfirm={resetAllCharacters}
-        okText={t('Scoring.ResetAllConfirm.Yes')}
-        cancelText={t('Scoring.ResetAllConfirm.No')}
+        okText={t('Scoring.ResetAllConfirm.Yes')/* Yes */}
+        cancelText={t('Scoring.ResetAllConfirm.No')/* No */}
       >
-        <Button danger>{t('Scoring.Footer.ResetAll')}</Button>
+        <Button danger>{t('Scoring.Footer.ResetAll')/* Reset all characters */}</Button>
       </Popconfirm>
     )
   }
@@ -375,14 +375,14 @@ export default function ScoringModal() {
       forceRender
       footer={[
         <Button key='back' onClick={handleCancel}>
-          {t('Scoring.Footer.Cancel')}
+          {t('Scoring.Footer.Cancel')/* Cancel */}
         </Button>,
         <Button key='default' onClick={handleResetDefault}>
-          {t('Scoring.Footer.Reset')}
+          {t('Scoring.Footer.Reset')/* Reset to default */}
         </Button>,
         <ResetAllCharactersButton key='resetAll'/>,
         <Button key='submit' type='primary' onClick={onModalOk}>
-          {t('Scoring.Footer.Save')}
+          {t('Scoring.Footer.Save')/* Save changes */}
         </Button>,
       ]}
     >
@@ -393,7 +393,7 @@ export default function ScoringModal() {
         onFinish={onFinish}
       >
 
-        <TitleDivider>{t('Scoring.StatWeightsHeader')}</TitleDivider>
+        <TitleDivider>{t('Scoring.StatWeightsHeader')/* Stat weights */}</TitleDivider>
 
         <Flex gap={10} vertical>
           <Flex gap={20} justify='space-between'>
@@ -434,7 +434,7 @@ export default function ScoringModal() {
           </Flex>
         </Flex>
 
-        <TitleDivider>{t('Scoring.MainstatsHeader')}</TitleDivider>
+        <TitleDivider>{t('Scoring.MainstatsHeader')/* Optimal mainstats */}</TitleDivider>
 
         <Flex justify='space-between'>
           <Flex vertical gap={defaultGap * 2}>
@@ -541,25 +541,25 @@ export default function ScoringModal() {
           </Flex>
         </Flex>
 
-        <TitleDivider>{t('Scoring.WeightMethodology.Header')}</TitleDivider>
+        <TitleDivider>{t('Scoring.WeightMethodology.Header')/* Substat weight methodology */}</TitleDivider>
 
         <Collapse
           ghost
           items={[{
             key: '1',
-            label: t('Scoring.WeightMethodology.RevealText'),
+            label: t('Scoring.WeightMethodology.RevealText')/* Click to show details */,
             children: weightMethodologyCollapse,
           }]}
         >
         </Collapse>
 
-        <TitleDivider>{t('Scoring.CalculationMethodology.Header')}</TitleDivider>
+        <TitleDivider>{t('Scoring.CalculationMethodology.Header')/* Calculations */}</TitleDivider>
 
         <Collapse
           ghost
           items={[{
             key: '1',
-            label: t('modals:Scoring.CalculationMethodology.RevealText'),
+            label: t('modals:Scoring.CalculationMethodology.RevealText')/* Click to show details */,
             children: calculationsMethodologyCollapse,
           }]}
         >

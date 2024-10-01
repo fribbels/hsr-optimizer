@@ -37,6 +37,8 @@
       }
     }
   },
+  "Confirm": "$t(common:Confirm, {\"capitalizeLength\": 1})",
+  "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1})",
   "CopyScreenshot": "Copy screenshot",
   "SearchPlaceholder": "Search character name",
   "GridHeaders": {

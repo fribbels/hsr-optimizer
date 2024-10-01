@@ -4,7 +4,7 @@ import { Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Utils } from 'lib/utils'
 import { Assets } from 'lib/assets'
 import DB from 'lib/db.js'
-import { CardGridItemContent, generatePathTags, generateRarityTags, SegmentedFilterRow } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
+import { CardGridItemContent, generatePathTags, generateRarityTags, SegmentedFilterRow } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents'
 import { useTranslation } from 'react-i18next'
 
 interface LightConeSelectProps {
@@ -101,7 +101,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
         style={selectStyle}
         value={value}
         options={withIcon ? labelledOptions : lightConeOptions}
-        placeholder={t('Placeholder')}
+        placeholder={t('Placeholder')/* Lightcone */}
         allowClear
         onClear={() => {
           if (onChange) onChange(null)
@@ -135,7 +135,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
               <Input
                 size='large'
                 style={{ height: 40 }}
-                placeholder={t('Placeholder')}
+                placeholder={t('Placeholder')/* Select a lightcone */}
                 ref={inputRef}
                 onChange={(e) => {
                   const newFilters = Utils.clone(currentFilters)

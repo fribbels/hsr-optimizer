@@ -51,10 +51,10 @@ export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacte
       onCancel={handleCancel}
       footer={[
         <Button key='back' onClick={handleCancel}>
-          {t('Cancel')}
+          {t('Cancel')/* Cancel */}
         </Button>,
         <Button key='submit' type='primary' onClick={onModalOk}>
-          {t('Save')}
+          {t('Save')/* Save */}
         </Button>,
       ]}
     >
@@ -64,7 +64,7 @@ export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacte
         layout='vertical'
       >
         <Flex justify='space-between' align='center'>
-          <HeaderText>{t('Title')}</HeaderText>
+          <HeaderText>{t('Title')/* Switch relics with character */}</HeaderText>
         </Flex>
 
         <Flex vertical gap={defaultGap}>

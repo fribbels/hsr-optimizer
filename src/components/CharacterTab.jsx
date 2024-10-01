@@ -122,26 +122,26 @@ export default function CharacterTab() {
     {
       key: 'character group',
       type: 'group',
-      label: t('CharacterMenu.Character.Label'),
+      label: t('CharacterMenu.Character.Label')/* Character */,
       children: [
         {
-          label: t('CharacterMenu.Character.Options.Add'),
+          label: t('CharacterMenu.Character.Options.Add')/* Add new character */,
           key: 'add',
         },
         {
-          label: t('CharacterMenu.Character.Options.Edit'),
+          label: t('CharacterMenu.Character.Options.Edit')/* Edit character / light cone */,
           key: 'edit',
         },
         {
-          label: t('CharacterMenu.Character.Options.Switch'),
+          label: t('CharacterMenu.Character.Options.Switch')/* Switch relics with */,
           key: 'switchRelics',
         },
         {
-          label: t('CharacterMenu.Character.Options.Unequip'),
+          label: t('CharacterMenu.Character.Options.Unequip')/* Unequip character */,
           key: 'unequip',
         },
         {
-          label: t('CharacterMenu.Character.Options.Delete'),
+          label: t('CharacterMenu.Character.Options.Delete')/* Delete character */,
           key: 'delete',
         },
       ],
@@ -149,14 +149,14 @@ export default function CharacterTab() {
     {
       key: 'builds group',
       type: 'group',
-      label: t('CharacterMenu.Build.Label'),
+      label: t('CharacterMenu.Build.Label')/* Builds */,
       children: [
         {
-          label: t('CharacterMenu.Build.Options.Save'),
+          label: t('CharacterMenu.Build.Options.Save')/* Save current build */,
           key: 'saveBuild',
         },
         {
-          label: t('CharacterMenu.Build.Options.View'),
+          label: t('CharacterMenu.Build.Options.View')/* View saved builds */,
           key: 'viewBuilds',
         },
       ],
@@ -164,10 +164,10 @@ export default function CharacterTab() {
     {
       key: 'scoring group',
       type: 'group',
-      label: t('CharacterMenu.Scoring.Label'),
+      label: t('CharacterMenu.Scoring.Label')/* Scoring */,
       children: [
         {
-          label: t('CharacterMenu.Scoring.Options.ScoringModal'),
+          label: t('CharacterMenu.Scoring.Options.ScoringModal')/* Scoring algorithm */,
           key: 'scoring',
         },
       ],
@@ -175,14 +175,14 @@ export default function CharacterTab() {
     {
       key: 'priority group',
       type: 'group',
-      label: t('CharacterMenu.Priority.Label'),
+      label: t('CharacterMenu.Priority.Label')/* Priority */,
       children: [
         {
-          label: t('CharacterMenu.Priority.Options.SortByScore'),
+          label: t('CharacterMenu.Priority.Options.SortByScore')/* Sort all characters by score */,
           key: 'sortByScore',
         },
         {
-          label: t('CharacterMenu.Priority.Options.MoveToTop'),
+          label: t('CharacterMenu.Priority.Options.MoveToTop')/* Move character to top */,
           key: 'moveToTop',
         },
       ],
@@ -215,9 +215,9 @@ export default function CharacterTab() {
   }
 
   const columnDefs = useMemo(() => [
-    { field: '', headerName: t('GridHeaders.Icon'), cellRenderer: cellImageRenderer, width: 52 },
-    { field: '', headerName: t('GridHeaders.Priority'), cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
-    { field: '', headerName: t('GridHeaders.Character'), flex: 1, cellRenderer: cellNameRenderer },
+    { field: '', headerName: t('GridHeaders.Icon')/* Icon */, cellRenderer: cellImageRenderer, width: 52 },
+    { field: '', headerName: t('GridHeaders.Priority')/* Priority */, cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
+    { field: '', headerName: t('GridHeaders.Character')/* Character */, flex: 1, cellRenderer: cellNameRenderer },
   ], [t])
 
   const gridOptions = useMemo(() => ({
@@ -319,7 +319,7 @@ export default function CharacterTab() {
 
     SaveState.save()
 
-    Message.success(t('Messages.RemoveSuccess'))
+    Message.success(t('Messages.RemoveSuccess')/* Successfully removed character */)
   }
 
   function unequipClicked() {
@@ -336,7 +336,7 @@ export default function CharacterTab() {
 
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
-    Message.success(t('Messages.UnequipSuccess'))
+    Message.success(t('Messages.UnequipSuccess')/* Successfully unequipped character */)
     window.relicsGrid.current.api.redrawRows()
 
     SaveState.save()
@@ -345,7 +345,7 @@ export default function CharacterTab() {
   // Reuse the same modal for both edit/add and scroll to the selected character
   function onCharacterModalOk(form) {
     if (!form.characterId) {
-      return Message.error(t('Messages.NoSelectedCharacter'))
+      return Message.error(t('Messages.NoSelectedCharacter')/* No selected character */)
     }
 
     const character = DB.addFromForm(form)
@@ -354,7 +354,7 @@ export default function CharacterTab() {
 
   function onSwitchRelicsModalOk(switchToCharacter) {
     if (!switchToCharacter) {
-      return Message.error(t('Messages.NoSelectedCharacter'))
+      return Message.error(t('Messages.NoSelectedCharacter')/* No selected character */)
     }
 
     DB.switchRelics(selectedCharacter.id, switchToCharacter.value)
@@ -362,7 +362,7 @@ export default function CharacterTab() {
 
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
-    Message.success(t('Messages.SwitchSuccess', { charid: switchToCharacter.value }))
+    Message.success(t('Messages.SwitchSuccess'/* Successfully switched relics to ${CharacterName} */, { charid: switchToCharacter.value }))
     window.relicsGrid.current.api.redrawRows()
   }
 
@@ -380,6 +380,7 @@ export default function CharacterTab() {
   async function sortByScoreClicked() {
     if (!await confirm(
       <>
+        {/* Are you sure you want to sort all characters? <0/>You will lose any custom rankings you have set. */}
         <Trans t={t} i18nKey='Messages.SortByScoreWarning'>
           <br/>
         </Trans>
@@ -431,14 +432,14 @@ export default function CharacterTab() {
       Message.error(res.error)
       return
     }
-    Message.success(t('charactersTab:Messages.SaveSuccess', { name: name }))
+    Message.success(t('charactersTab:Messages.SaveSuccess'/* Successfully saved build: {{name}} */, { name: name }))
     SaveState.save()
     setIsSaveBuildModalOpen(false)
   }
 
   const handleActionsMenuClick = async (e) => {
     if (!selectedCharacter && e.key != 'add' && e.key != 'scoring' && e.key != 'sortByScore') {
-      Message.error(t('Messages.NoSelectedCharacter'))
+      Message.error(t('Messages.NoSelectedCharacter')/* No selected character */)
       return
     }
 
@@ -457,11 +458,11 @@ export default function CharacterTab() {
         setSwitchRelicsModalOpen(true)
         break
       case 'unequip':
-        if (!await confirm(t('Messages.UnequipWarning', { charid: selectedCharacter.id }) + '?')) return
+        if (!await confirm(t('Messages.UnequipWarning'/* Are you sure you want to unequip $t(gameData:Characters.{{charid}}.Name)? */, { charid: selectedCharacter.id }))) return
         unequipClicked()
         break
       case 'delete':
-        if (!await confirm(t('Messages.DeleteWarning', { charid: selectedCharacter.id }) + '?')) return
+        if (!await confirm(t('Messages.DeleteWarning', { charid: selectedCharacter.id })/* Are you sure you want to delete $t(gameData:Characters.{{charid}}.Name)? */)) return
         removeClicked()
         break
       case 'saveBuild':
@@ -494,8 +495,8 @@ export default function CharacterTab() {
       title: 'Confirm',
       icon: <ExclamationCircleOutlined/>,
       content: content,
-      okText: 'Confirm',
-      cancelText: 'Cancel',
+      okText: t('Confirm'), // 'Confirm',
+      cancelText: t('Cancel'), // 'Cancel',
       centered: true,
     })
   }
@@ -520,7 +521,7 @@ export default function CharacterTab() {
               trigger={['hover']}
             >
               <Button style={{ width: '100%', height: '100%' }} icon={<UserOutlined/>} type='default'>
-                {t('CharacterMenu.ButtonText')}
+                {t('CharacterMenu.ButtonText')/* Character menu */}
                 <DownOutlined/>
               </Button>
             </Dropdown>
@@ -530,7 +531,7 @@ export default function CharacterTab() {
               allowClear
               size='large'
               style={{ height: 40 }}
-              placeholder={t('SearchPlaceholder')}
+              placeholder={t('SearchPlaceholder')/* Search character name */}
               onChange={(e) => {
                 nameFilter.current = e.target.value.toLowerCase()
                 externalFilterChanged()
@@ -593,7 +594,7 @@ export default function CharacterTab() {
                   type='primary'
                   loading={screenshotLoading}
                 >
-                  {t('CopyScreenshot')}
+                  {t('CopyScreenshot')/* Copy screenshot */}
                 </Button>
                 <Button
                   style={{ width: 40 }} type='primary' icon={<DownloadOutlined/>}

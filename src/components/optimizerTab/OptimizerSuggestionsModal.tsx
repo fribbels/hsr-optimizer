@@ -38,8 +38,8 @@ const ZeroPermRootCauseFixes: {
   }
 } = {
   [ZeroPermRootCause.IMPORT]: {
-    descriptionKey: '0Perms.RootCauses.IMPORT.Description',
-    buttonTextKey: '0Perms.RootCauses.IMPORT.ButtonText',
+    descriptionKey: '0Perms.RootCauses.IMPORT.Description', // Import relics from your account on the Importer tab
+    buttonTextKey: '0Perms.RootCauses.IMPORT.ButtonText', // Navigate to Importer tab
     applyFix: () => {
       window.store.getState().setActiveKey(AppPages.IMPORT)
       window.store.getState().setZeroPermutationsModalOpen(false)
@@ -52,8 +52,8 @@ const ZeroPermRootCauseFixes: {
   [ZeroPermRootCause.PLANAR_SPHERE_MAIN]: mainStatFixes(Parts.PlanarSphere),
   [ZeroPermRootCause.LINK_ROPE_MAIN]: mainStatFixes(Parts.LinkRope),
   [ZeroPermRootCause.RELIC_SETS]: {
-    descriptionKey: '0Perms.RootCauses.RELIC_SETS.Description',
-    buttonTextKey: '0Perms.RootCauses.RELIC_SETS.ButtonText',
+    descriptionKey: '0Perms.RootCauses.RELIC_SETS.Description', // The selected relic set filters might be too restrictive
+    buttonTextKey: '0Perms.RootCauses.RELIC_SETS.ButtonText', // Clear Relic set filters
     applyFix: () => {
       window.optimizerForm.setFieldValue('relicSets', [])
       // Message.success('Cleared relic set filters', 2)
@@ -272,7 +272,7 @@ export function ZeroPermutationsSuggestionsModal() {
 
   return (
     <Modal
-      title={t('0Perms.Title')}
+      title={t('0Perms.Title')/* Search generated 0 permutations */}
       open={zeroPermutationModalOpen}
       width={900}
       destroyOnClose
@@ -283,7 +283,7 @@ export function ZeroPermutationsSuggestionsModal() {
     >
       <Flex vertical gap={15} style={{ marginBottom: 15 }}>
         <Text>
-          {t('0Perms.Description')}
+          {t('0Perms.Description')/* This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar. */}
         </Text>
         <HorizontalDivider/>
         {rootCauseDisplay}
@@ -474,7 +474,7 @@ export function ZeroResultSuggestionModal() {
 
   return (
     <Modal
-      title={t('0Results.Title')}
+      title={t('0Results.Title')/* Search generated 0 results */}
       open={zeroResultModalOpen}
       width={900}
       destroyOnClose
@@ -486,7 +486,7 @@ export function ZeroResultSuggestionModal() {
       <Flex vertical gap={15} style={{ marginBottom: 15 }}>
         <Flex justify='space-between' align='center' style={{ height: 45 }}>
           <Text>
-            {t('0Results.ResetAll.Description')}
+            {t('0Results.ResetAll.Description')/* This means your stat and/or rating filters are too restrictive. */}
           </Text>
           <Button
             onClick={() => {
@@ -496,13 +496,13 @@ export function ZeroResultSuggestionModal() {
               }
               const setStatDisplay = window.store.getState().setStatDisplay
               setStatDisplay('combat')
-              Message.success(t('0Results.ResetAll.SuccessMessage'))
+              Message.success(t('0Results.ResetAll.SuccessMessage'))/* Cleared all filters */
               setZeroResultModalOpen(false)
             }}
             style={{ width: 250 }}
             type='primary'
           >
-            {t('0Results.ResetAll.ButtonText')}
+            {t('0Results.ResetAll.ButtonText')/* Reset all filters */}
           </Button>
         </Flex>
         <HorizontalDivider/>

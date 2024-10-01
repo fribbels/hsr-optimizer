@@ -35,18 +35,18 @@ const NameBuild: React.FC<NameBuildProps> = ({ open, setOpen, onOk }) => {
       onCancel={handleCancel}
       footer={[
         <Button key='back' onClick={handleCancel}>
-          {t('Cancel')}
+          {t('Cancel')/* Cancel */}
         </Button>,
         <Button key='submit' type='primary' onClick={onModalOk}>
-          {t('Save')}
+          {t('Save')/* Save */}
         </Button>,
       ]}
     >
       <Form form={characterForm} preserve={false} layout='vertical'>
         <Form.Item
           name='name'
-          label={t('Label')}
-          rules={[{ required: true, message: t('Rule') }]}
+          label={t('Label')/* Build name */}
+          rules={[{ required: true, message: t('Rule')/* Please input a name */ }]}
           style={{ width: panelWidth }}
         >
           <Input/>

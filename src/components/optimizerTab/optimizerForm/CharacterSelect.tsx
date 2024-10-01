@@ -115,11 +115,11 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         style={selectStyle}
         value={value}
         options={withIcon ? labelledOptions : characterOptions}
-        placeholder={multipleSelect ? t('MultiSelect.Placeholder') : t('SingleSelect.Placeholder')}
+        placeholder={multipleSelect ? t('MultiSelect.Placeholder')/* Customize characters */ : t('SingleSelect.Placeholder')/* Character */}
         allowClear
         maxTagCount={0}
         maxTagPlaceholder={() => (
-          <span>{t('MultiSelect.MaxTagPlaceholder', { count: excludedRelicPotentialCharacters.length })}</span>
+          <span>{t('MultiSelect.MaxTagPlaceholder', { count: excludedRelicPotentialCharacters.length })/* {count} characters excluded | all characters enabled */}</span>
         )}
         onClear={() => {
           if (onChange) onChange(null)
@@ -141,7 +141,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         destroyOnClose
         width='90%'
         style={{ height: '80%', maxWidth: 1450 }}
-        title={multipleSelect ? t('MultiSelect.ModalTitle') : t('SingleSelect.ModalTitle')}
+        title={multipleSelect ? t('MultiSelect.ModalTitle')/* select characters to exclude */ : t('SingleSelect.ModalTitle')/* select a character */}
         onCancel={() => {
           if (multipleSelect) {
             if (onChange) onChange(selected)
@@ -161,7 +161,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                   height: 40,
                   flex: 1,
                 }}
-                placeholder={t('SearchPlaceholder')}
+                placeholder={t('SearchPlaceholder')/* Search character name */}
                 ref={inputRef}
                 onChange={(e) => {
                   const newFilters = Utils.clone(currentFilters)
@@ -181,13 +181,13 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                     onClick={excludeAll}
                     style={{ height: '100%', width: 120 }}
                   >
-                    {t('ExcludeButton')}
+                    {t('ExcludeButton')/* Exclude all */}
                   </Button>
                   <Button
                     onClick={includeAll}
                     style={{ height: '100%', width: 120 }}
                   >
-                    {t('ClearButton')}
+                    {t('ClearButton')/* Clear */}
                   </Button>
                 </Flex>
               )}

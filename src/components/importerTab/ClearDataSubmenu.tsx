@@ -19,25 +19,25 @@ export function ClearDataSubmenu() {
       setLoading(false)
       DB.resetStore()
 
-      Message.success(t('ClearData.SuccessMessage'))
+      Message.success(t('ClearData.SuccessMessage')/* Cleared data */)
     }, importerTabSpinnerMs)
   }
 
   return (
     <Flex vertical gap={5}>
       <Text>
-        {t('ClearData.Label')}
+        {t('ClearData.Label')/* Clear all optimizer data. */}
       </Text>
       <Popconfirm
-        title={t('ClearData.WarningTitle')}
-        description={t('ClearData.WarningDescription')}
+        title={t('ClearData.WarningTitle')/* Erase all data */}
+        description={t('ClearData.WarningDescription')/* Are you sure you want to clear all relics and characters */}
         onConfirm={clearDataClicked}
         placement='bottom'
-        okText={t('common:Yes')}
-        cancelText={t('common:Cancel')}
+        okText={t('common:Yes')/* yes */}
+        cancelText={t('common:Cancel')/* cancel */}
       >
         <Button type='primary' icon={<DeleteOutlined/>} loading={loading} style={{ width: importerTabButtonWidth }}>
-          {t('ClearData.ButtonText')}
+          {t('ClearData.ButtonText')/* Clear data */}
         </Button>
       </Popconfirm>
     </Flex>

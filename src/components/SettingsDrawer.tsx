@@ -52,37 +52,37 @@ export const SettingsDrawer = () => {
   const optionsRelicEquippingBehavior = [
     {
       value: SettingOptions.RelicEquippingBehavior.Replace,
-      label: <span>{t('RelicEquippingBehaviour.Replace')}</span>,
+      label: <span>{t('RelicEquippingBehaviour.Replace')/* Default: Replace relics without swapping */}</span>,
     },
     {
       value: SettingOptions.RelicEquippingBehavior.Swap,
-      label: <span>{t('RelicEquippingBehaviour.Swap')}</span>,
+      label: <span>{t('RelicEquippingBehaviour.Swap')/* Swap relics with previous owner */}</span>,
     },
   ]
 
   const optionsPermutationsSidebarBehavior = [
     {
       value: SettingOptions.PermutationsSidebarBehavior.ShowXL,
-      label: <span>{t('PermutationSidebarBehaviour.XL')}</span>,
+      label: <span>{t('PermutationSidebarBehaviour.XL')/* Default: Minimize if most of the sidebar is hidden */}</span>,
     },
     {
       value: SettingOptions.PermutationsSidebarBehavior.ShowXXL,
-      label: <span>{t('PermutationSidebarBehaviour.XXL')}</span>,
+      label: <span>{t('PermutationSidebarBehaviour.XXL')/* Minimize if any of the sidebar is hidden */}</span>,
     },
     {
       value: SettingOptions.PermutationsSidebarBehavior.NoShow,
-      label: <span>{t('PermutationSidebarBehaviour.NoShow')}</span>,
+      label: <span>{t('PermutationSidebarBehaviour.NoShow')/* Always keep the sidebar on the right */}</span>,
     },
   ]
 
   const optionsRelicPotentialLoadBehavior = [
     {
       value: SettingOptions.RelicPotentialLoadBehavior.ScoreAtStartup,
-      label: <span>{t('RelicPotentialLoadBehaviour.OnStartup')}</span>,
+      label: <span>{t('RelicPotentialLoadBehaviour.OnStartup')/* Default: Automatically score relics on page load */}</span>,
     },
     {
       value: SettingOptions.RelicPotentialLoadBehavior.ManuallyClickReapplyScores,
-      label: <span>{t('RelicPotentialLoadBehaviour.Manual')}</span>,
+      label: <span>{t('RelicPotentialLoadBehaviour.Manual')/* Only score relics when \"Reapply scores\" is clicked (faster page load) */}</span>,
     },
   ]
 
@@ -105,7 +105,7 @@ export const SettingsDrawer = () => {
       onValuesChange={onValuesChange}
     >
       <Drawer
-        title='Settings'
+        title={t('Title')}/* 'Settings' */
         placement='right'
         onClose={() => setSettingsDrawerOpen(false)}
         open={settingsDrawerOpen}
@@ -114,13 +114,13 @@ export const SettingsDrawer = () => {
       >
         <Flex vertical gap={defaultGap}>
           <Flex justify='space-between' align='center'>
-            <Text>{t('RelicEquippingBehaviour.Label')}</Text>
+            <Text>{t('RelicEquippingBehaviour.Label')/* Equipping relics from another character */}</Text>
             <Form.Item name={SettingOptions.RelicEquippingBehavior.name}>
               <Select style={{ width: 500 }} options={optionsRelicEquippingBehavior}/>
             </Form.Item>
           </Flex>
           <Flex justify='space-between' align='center'>
-            <Text>{t('PermutationSidebarBehaviour.Label')}</Text>
+            <Text>{t('PermutationSidebarBehaviour.Label')/* Shrink optimizer sidebar on smaller screens */}</Text>
             <Form.Item name={SettingOptions.PermutationsSidebarBehavior.name}>
               <Select
                 style={{ width: 500 }}
@@ -130,7 +130,7 @@ export const SettingsDrawer = () => {
             </Form.Item>
           </Flex>
           <Flex justify='space-between' align='center'>
-            <Text>{t('RelicPotentialLoadBehaviour.Label')}</Text>
+            <Text>{t('RelicPotentialLoadBehaviour.Label')/* Relic potential scoring on load */}</Text>
             <Form.Item name={SettingOptions.RelicPotentialLoadBehavior.name}>
               <Select
                 style={{ width: 500 }}

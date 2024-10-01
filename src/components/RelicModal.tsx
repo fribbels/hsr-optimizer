@@ -193,13 +193,13 @@ export default function RelicModal(props: {
       relic.verified = false
     }
 
-    console.log(t('Relic.Messages.EditSuccess'), relic)
+    console.log(t('Relic.Messages.EditSuccess')/* Successfully edited relic */, relic)
 
     props.onOk(relic)
     props.setOpen(false)
   }
   const onFinishFailed = () => {
-    Message.error(t('Relic.Messages.SubmitFail'))
+    Message.error(t('Relic.Messages.SubmitFail')/* Submit failed! */)
     props.setOpen(false)
   }
   const onValuesChange = (formValues: RelicForm) => {
@@ -290,7 +290,7 @@ export default function RelicModal(props: {
           <Flex gap={10}>
             <Flex vertical gap={5}>
 
-              <HeaderText>{t('Relic.Part')}</HeaderText>
+              <HeaderText>{t('Relic.Part')/* Part */}</HeaderText>
 
               <Form.Item name='part'>
                 <Radio.Group buttonStyle='solid'>
@@ -303,7 +303,7 @@ export default function RelicModal(props: {
                 </Radio.Group>
               </Form.Item>
 
-              <HeaderText>{t('Relic.Set')}</HeaderText>
+              <HeaderText>{t('Relic.Set')/* Set */}</HeaderText>
               <Form.Item name='set'>
                 <Select
                   showSearch
@@ -318,7 +318,7 @@ export default function RelicModal(props: {
                 </Select>
               </Form.Item>
 
-              <HeaderText>{t('Relic.Enhance')}</HeaderText>
+              <HeaderText>{t('Relic.Enhance')/* Enhance */}</HeaderText>
 
               <Flex gap={10}>
                 <Form.Item name='enhance'>
@@ -348,7 +348,7 @@ export default function RelicModal(props: {
                 </Form.Item>
               </Flex>
 
-              <HeaderText>{t('Relic.Mainstat')}</HeaderText>
+              <HeaderText>{t('Relic.Mainstat')/* Main stat */}</HeaderText>
 
               <Flex gap={10}>
                 <Form.Item name='mainStatType'>
@@ -373,7 +373,7 @@ export default function RelicModal(props: {
             <div style={{ display: 'block', minWidth: 12 }}/>
 
             <Flex vertical gap={5} style={{}}>
-              <HeaderText>{t('Relic.Wearer')}</HeaderText>
+              <HeaderText>{t('Relic.Wearer')/* Equipped by */}</HeaderText>
               <Form.Item name='equippedBy'>
                 <Select
                   showSearch
@@ -396,9 +396,9 @@ export default function RelicModal(props: {
           <Flex gap={20}>
             <Flex vertical gap={5} style={{ width: '100%' }}>
               <Flex justify='space-between'>
-                <HeaderText>{t('Relic.Substat')}</HeaderText>
+                <HeaderText>{t('Relic.Substat')/* Substats */}</HeaderText>
                 <Flex style={{ width: 180 }}>
-                  <HeaderText>{t('Relic.Upgrades')}</HeaderText>
+                  <HeaderText>{t('Relic.Upgrades')/* Substat upgrades */}</HeaderText>
                 </Flex>
               </Flex>
               <SubstatInput index={0} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree}/>

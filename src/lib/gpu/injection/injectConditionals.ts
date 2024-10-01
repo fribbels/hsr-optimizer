@@ -25,18 +25,36 @@ export function injectConditionals(wgsl: string, request: Form, params: Optimize
   )
 
 
+  let conditionalConstantsStruct = '\n'
+  let conditionalConstantsValues = '\n'
+
   if (characterConditionals.gpuConstants) {
-    let characterConditionalConstants = ''
     for (const [key, value] of Object.entries(characterConditionals.gpuConstants(request, params))) {
       if (typeof value === 'number') {
-        characterConditionalConstants += `${key}: f32,\n`
+        conditionalConstantsStruct += `${key}: f32,\n`
+        conditionalConstantsValues += `${value}f,\n`
       }
       if (typeof value === 'boolean') {
-        characterConditionalConstants += `${key}: bool,\n`
+        conditionalConstantsStruct += `${key}: bool,\n`
+        conditionalConstantsValues += `${value},\n`
       }
     }
 
-    // INJECT CHARACTER CONDITIONAL CONSTANTS
+    if (characterConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
+      '/* INJECT CHARACTER CONDITIONAL CONSTANTS */',
+      `
+struct ConditionalConstants {
+${indent(conditionalConstantsStruct, 1)}
+}
+
+const conditionalConstants: array<ConditionalConstants, 1> = array<ConditionalConstants, 1>(
+  ConditionalConstants(
+${indent(conditionalConstantsValues, 2)}
+  ),
+);
+
+      `
+    )
   }
 
   wgsl += generateDynamicConditionals(conditionalRegistry, request, params)

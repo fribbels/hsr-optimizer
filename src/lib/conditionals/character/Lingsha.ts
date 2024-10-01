@@ -13,7 +13,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Lingsha')
@@ -189,7 +188,7 @@ const LingshaConversionConditional: DynamicConditional = {
     const r = request.characterConditionals
 
     return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.beConversion)}) {
+if (conditionalConstants[0].LingshaBeConversion == false) {
   return;
 }
 

@@ -452,33 +452,39 @@ fn main(
     let p_x = &x;
     let p_state = &state;
 
-    evaluateDependenciesSPD(p_x, p_state);
-    evaluateDependenciesBE(p_x, p_state);
-
-    evaluateDependenciesHP(p_x, p_state);
-    evaluateDependenciesATK(p_x, p_state);
-    evaluateDependenciesDEF(p_x, p_state);
-    evaluateDependenciesCR(p_x, p_state);
-    evaluateDependenciesCD(p_x, p_state);
-    evaluateDependenciesEHR(p_x, p_state);
-    evaluateDependenciesRES(p_x, p_state);
-    evaluateDependenciesOHB(p_x, p_state);
-    evaluateDependenciesERR(p_x, p_state);
-
-    evaluateDependenciesSPD(p_x, p_state);
-    evaluateDependenciesBE(p_x, p_state);
-
-    evaluateDependenciesHP(p_x, p_state);
-    evaluateDependenciesATK(p_x, p_state);
-    evaluateDependenciesDEF(p_x, p_state);
-    evaluateDependenciesCR(p_x, p_state);
-    evaluateDependenciesCD(p_x, p_state);
-    evaluateDependenciesEHR(p_x, p_state);
-    evaluateDependenciesRES(p_x, p_state);
-    evaluateDependenciesOHB(p_x, p_state);
-    evaluateDependenciesERR(p_x, p_state);
+    // TODOS above =====================
+    // Split out the set conditionals into per action
+    //
 
     for (var i = 0; i < 10; i++) {
+      var y = cloneComputedStats(x);
+      let p_x = &y;
+
+      evaluateDependenciesSPD(p_x, p_state);
+      evaluateDependenciesBE(p_x, p_state);
+
+      evaluateDependenciesHP(p_x, p_state);
+      evaluateDependenciesATK(p_x, p_state);
+      evaluateDependenciesDEF(p_x, p_state);
+      evaluateDependenciesCR(p_x, p_state);
+      evaluateDependenciesCD(p_x, p_state);
+      evaluateDependenciesEHR(p_x, p_state);
+      evaluateDependenciesRES(p_x, p_state);
+      evaluateDependenciesOHB(p_x, p_state);
+      evaluateDependenciesERR(p_x, p_state);
+
+      evaluateDependenciesSPD(p_x, p_state);
+      evaluateDependenciesBE(p_x, p_state);
+
+      evaluateDependenciesHP(p_x, p_state);
+      evaluateDependenciesATK(p_x, p_state);
+      evaluateDependenciesDEF(p_x, p_state);
+      evaluateDependenciesCR(p_x, p_state);
+      evaluateDependenciesCD(p_x, p_state);
+      evaluateDependenciesEHR(p_x, p_state);
+      evaluateDependenciesRES(p_x, p_state);
+      evaluateDependenciesOHB(p_x, p_state);
+      evaluateDependenciesERR(p_x, p_state);
 
 
       // START LIGHT CONE CONDITIONALS
@@ -651,6 +657,10 @@ fn main(
     // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
     // END RETURN VALUE
   }
+}
+
+fn cloneComputedStats(computedStats: ComputedStats) -> ComputedStats {
+  return computedStats;
 }
 
 fn p2(n: i32) -> f32 {

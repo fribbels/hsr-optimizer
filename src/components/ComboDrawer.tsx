@@ -1,6 +1,8 @@
 import { Drawer, Flex } from 'antd'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Selecto from 'react-selecto'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { Assets } from 'lib/assets'
 
 enum SELECT_STATE {
   WAITING,
@@ -11,6 +13,50 @@ enum SELECT_STATE {
 export function ComboDrawer() {
   const comboDrawerOpen = window.store((s) => s.comboDrawerOpen)
   const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
+  const [state, setState] = useState({
+    display: <></>,
+  })
+
+  useEffect(() => {
+    if (comboDrawerOpen) {
+      const newState = {
+        ...state,
+      }
+
+      const form = OptimizerTabController.getForm()
+      console.debug('form', form)
+      console.debug('combo', form.combo)
+
+      const cols = 4
+
+      const characters = [
+        form,
+        form.teammate0,
+        form.teammate1,
+        form.teammate2,
+      ].filter((x) => !!x)
+
+      console.debug('characters', characters)
+
+      let key = 0
+      const uiRows: JSX.Element[] = []
+      for (const character of characters) {
+        uiRows.push((
+          <Flex key={key++}>
+            <img src={Assets.getCharacterAvatarById(character.characterId)}/>
+          </Flex>
+        ))
+      }
+
+      newState.display = (
+        <Flex vertical>
+          {uiRows}
+        </Flex>
+      )
+
+      setState(newState)
+    }
+  }, [comboDrawerOpen])
 
   return (
     <Drawer
@@ -33,6 +79,7 @@ export function ComboDrawer() {
             </div>
           ))}
         </Flex>
+        {state.display}
         <Selecto
           className='selecto-selection'
           // The container to add a selection element

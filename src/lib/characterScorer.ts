@@ -378,7 +378,13 @@ export function scoreCharacterSimulation(
     // DEBUG
     candidateBenchmarkSim.key = JSON.stringify(candidateBenchmarkSim.request)
     candidateBenchmarkSim.name = ''
-    candidateBenchmarkSims.push(candidateBenchmarkSim)
+
+    if (partialSimulationWrapper.simulation.request.stats[Stats.SPD] > 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
+      // Reject non speed boot builds that exceed the speed cap. 48 - 11 * 2 = 26 max subs that can go in to SPD
+      console.log('Rejected candidate sim')
+    } else {
+      candidateBenchmarkSims.push(candidateBenchmarkSim)
+    }
   }
 
   // Try to minimize the penalty modifier before optimizing sim score
@@ -1013,7 +1019,8 @@ function generatePartialSimulations(
   originalBaseSpeed: number,
 ) {
   const characterSpdStat = calculateCharacterSpdStat(character)
-  const forceSpdBoots = originalBaseSpeed - characterSpdStat > 40 // 4 min spd rolls per piece
+  // const forceSpdBoots = originalBaseSpeed - characterSpdStat > 40 // 4 min spd rolls per piece
+  const forceSpdBoots = false // Always calculate both boots
   const feetParts: string[] = forceSpdBoots ? [Stats.SPD] : metadata.parts[Parts.Feet]
 
   const { relicSet1, relicSet2, ornamentSet } = simulationSets

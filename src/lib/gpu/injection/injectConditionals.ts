@@ -24,7 +24,22 @@ export function injectConditionals(wgsl: string, request: Form, params: Optimize
     indent(characterConditionals.gpuFinalizeCalculations(request, params), 2),
   )
 
-  wgsl += generateDynamicSetConditionals(conditionalRegistry, request, params)
+
+  if (characterConditionals.gpuConstants) {
+    let characterConditionalConstants = ''
+    for (const [key, value] of Object.entries(characterConditionals.gpuConstants(request, params))) {
+      if (typeof value === 'number') {
+        characterConditionalConstants += `${key}: f32,\n`
+      }
+      if (typeof value === 'boolean') {
+        characterConditionalConstants += `${key}: bool,\n`
+      }
+    }
+
+    // INJECT CHARACTER CONDITIONAL CONSTANTS
+  }
+
+  wgsl += generateDynamicConditionals(conditionalRegistry, request, params)
 
   return wgsl
 }
@@ -75,7 +90,11 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
   }
 }
 
-function generateDynamicSetConditionals(registeredConditionals: ConditionalRegistry, request: Form, params: OptimizerParams) {
+function generateDynamicConditionals(
+  registeredConditionals: ConditionalRegistry,
+  request: Form,
+  params: OptimizerParams,
+) {
   let wgsl = ''
 
   let conditionalEvaluators = '\n'

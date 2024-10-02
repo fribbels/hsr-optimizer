@@ -479,8 +479,12 @@ a {
 
 .selectable {
     width: 50px;
-    height: 50px;
-    border: 1px dotted #00000091;
+    border: 1px dashed #000000;
+    background: #0a1b4533;
+}
+
+.selectable:not(.selected):hover {
+    background: #68a6ff33;
 }
 
 .container {
@@ -488,7 +492,8 @@ a {
 }
 
 .selected {
-    background: #5282c4;
+    /*background: #5282c4;*/
+    background: #68a6ff;
 }
 
 .selecto-selection {

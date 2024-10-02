@@ -3,6 +3,11 @@ import React, { useEffect, useState } from 'react'
 import Selecto from 'react-selecto'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Assets } from 'lib/assets'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditionals } from 'lib/characterConditionals'
+import { LightConeConditional } from 'types/LightConeConditionals'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { ContentItem } from 'types/Conditionals'
 
 enum SELECT_STATE {
   WAITING,
@@ -27,7 +32,7 @@ export function ComboDrawer() {
       console.debug('form', form)
       console.debug('combo', form.combo)
 
-      const cols = 4
+      const cols = 6
 
       const characters = [
         form,
@@ -41,15 +46,76 @@ export function ComboDrawer() {
       let key = 0
       const uiRows: JSX.Element[] = []
       for (const character of characters) {
+        if (!character.characterId) continue
+
+        const originalCharacter = key == 0
+        const characterConditionals: CharacterConditional = CharacterConditionals.get(character)
+        const lightConeConditionals: LightConeConditional = LightConeConditionals.get(character)
+
+
+        console.log(characterConditionals)
+        console.log(lightConeConditionals)
+
+        const characterContent: JSX.Element[] = []
+        const lightConeContent: JSX.Element[] = []
+
+        function ContentDisplay(props: { content: ContentItem }) {
+          return (
+            <Flex key={key++} style={{ height: 40 }}>
+              <Flex style={{ width: 210 }} align='center'>
+                {props.content.text}
+              </Flex>
+              <Flex style={{}} wrap={true}>
+                {new Array(cols).fill(0).map((_, index) => (
+                  <div
+                    className='selectable'
+                    data-key={index}
+                    key={index}
+                    style={{ width: 75, marginLeft: -1, marginTop: -1 }}
+                  >
+                  </div>
+                ))}
+              </Flex>
+            </Flex>
+          )
+        }
+
+        for (const content of originalCharacter ? characterConditionals.content() : (characterConditionals?.teammateContent ? characterConditionals.teammateContent() : [])) {
+          if (content.formItem == 'switch' && !content.disabled) {
+            characterContent.push(
+              <ContentDisplay key={key++} content={content}/>
+            )
+          }
+        }
+
+        for (const content of originalCharacter ? lightConeConditionals.content() : (lightConeConditionals?.teammateContent ? lightConeConditionals.teammateContent() : [])) {
+          if (content.formItem == 'switch' && !content.disabled) {
+            lightConeContent.push(
+              <ContentDisplay key={key++} content={content}/>
+            )
+          }
+        }
+
         uiRows.push((
-          <Flex key={key++}>
-            <img src={Assets.getCharacterAvatarById(character.characterId)}/>
+          <Flex key={key++} gap={10} align='center' style={{ padding: 8, background: '#677dbd1c', borderRadius: 5 }}>
+            <img src={Assets.getCharacterAvatarById(character.characterId)} style={{ width: 80, height: 80 }}/>
+            <Flex vertical>
+              {characterContent}
+            </Flex>
+          </Flex>
+        ))
+        uiRows.push((
+          <Flex key={key++} gap={10} align='center' style={{ padding: 8, background: '#677dbd1c', borderRadius: 5 }}>
+            <img src={Assets.getLightConeIconById(character.lightCone)} style={{ width: 80, height: 80 }}/>
+            <Flex>
+              {lightConeContent}
+            </Flex>
           </Flex>
         ))
       }
 
       newState.display = (
-        <Flex vertical>
+        <Flex vertical gap={8}>
           {uiRows}
         </Flex>
       )
@@ -67,17 +133,17 @@ export function ComboDrawer() {
       width={1000}
       forceRender
     >
-      <div style={{ width: 850, height: '100%' }}>
-        <Flex style={{ width: '100%' }} wrap={true}>
-          {new Array(40).fill(0).map((_, index) => (
-            <div
-              className='selectable'
-              data-key={index}
-              key={index}
-              style={{ width: 100, marginLeft: -1, marginTop: -1 }}
-            >
-            </div>
-          ))}
+      <div style={{ width: 930, height: '100%' }}>
+        <Flex style={{ marginBottom: 10 }}>
+          <div style={{ width: 305 }}/>
+          <Flex>
+            <Flex style={{ width: 77 }} justify='space-around'>Skill</Flex>
+            <Flex style={{ width: 77 }} justify='space-around'>Skill</Flex>
+            <Flex style={{ width: 77 }} justify='space-around'>Ult</Flex>
+            <Flex style={{ width: 77 }} justify='space-around'>Skill</Flex>
+            <Flex style={{ width: 77 }} justify='space-around'>Skill</Flex>
+            <Flex style={{ width: 77 }} justify='space-around'>Skill</Flex>
+          </Flex>
         </Flex>
         {state.display}
         <Selecto

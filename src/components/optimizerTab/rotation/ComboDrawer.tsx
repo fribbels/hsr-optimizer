@@ -8,11 +8,50 @@ import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { ContentItem } from 'types/Conditionals'
+import { FormItemComponentMap } from 'components/optimizerTab/conditionals/DisplayFormControl'
+import ColorizeNumbers from 'components/common/ColorizeNumbers'
 
-enum SELECT_STATE {
-  WAITING,
-  ADD,
-  REMOVE,
+function ContentDisplay(props: { content: ContentItem, cols: number }) {
+  let key = 0
+  const content = props.content
+  const FormItemComponent = FormItemComponentMap[content.formItem]
+  const itemDisplay =
+    // @ts-ignore
+    <FormItemComponent
+      {...content}
+      name={content.id}
+      title={content.title}
+      content={ColorizeNumbers(content.content)}
+      text={content.text}
+    />
+
+  // @ts-ignore
+  return (
+    <Flex key={key++} style={{ height: 40 }}>
+      <Flex style={{ width: 210 }} align='center'>
+        {itemDisplay}
+      </Flex>
+      <Flex>
+        {
+          new Array(props.cols).fill(0).map((_, index) => (
+            <SelectableBox index={index}/>
+          ))
+        }
+      </Flex>
+    </Flex>
+  )
+}
+
+function SelectableBox(props: { index: number }) {
+  return (
+    <div
+      className='selectable'
+      data-key={props.index}
+      key={props.index}
+      style={{ width: 75, marginLeft: -1, marginTop: -1 }}
+    >
+    </div>
+  )
 }
 
 export function ComboDrawer() {
@@ -59,31 +98,10 @@ export function ComboDrawer() {
         const characterContent: JSX.Element[] = []
         const lightConeContent: JSX.Element[] = []
 
-        function ContentDisplay(props: { content: ContentItem }) {
-          return (
-            <Flex key={key++} style={{ height: 40 }}>
-              <Flex style={{ width: 210 }} align='center'>
-                {props.content.text}
-              </Flex>
-              <Flex style={{}} wrap={true}>
-                {new Array(cols).fill(0).map((_, index) => (
-                  <div
-                    className='selectable'
-                    data-key={index}
-                    key={index}
-                    style={{ width: 75, marginLeft: -1, marginTop: -1 }}
-                  >
-                  </div>
-                ))}
-              </Flex>
-            </Flex>
-          )
-        }
-
         for (const content of originalCharacter ? characterConditionals.content() : (characterConditionals?.teammateContent ? characterConditionals.teammateContent() : [])) {
           if (content.formItem == 'switch' && !content.disabled) {
             characterContent.push(
-              <ContentDisplay key={key++} content={content}/>
+              <ContentDisplay key={key++} content={content} cols={cols}/>
             )
           }
         }
@@ -91,7 +109,7 @@ export function ComboDrawer() {
         for (const content of originalCharacter ? lightConeConditionals.content() : (lightConeConditionals?.teammateContent ? lightConeConditionals.teammateContent() : [])) {
           if (content.formItem == 'switch' && !content.disabled) {
             lightConeContent.push(
-              <ContentDisplay key={key++} content={content}/>
+              <ContentDisplay key={key++} content={content} cols={cols}/>
             )
           }
         }

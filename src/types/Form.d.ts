@@ -23,7 +23,7 @@ export type Form = {
   characterId: string
   characterLevel: number
   enemyCount: number
-  enemyElementalWeak: number
+  enemyElementalWeak: boolean
   enemyLevel: number
   enemyMaxToughness: number
   enemyResistance: number

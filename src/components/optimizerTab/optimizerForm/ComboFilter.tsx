@@ -4,7 +4,7 @@ import { HeaderText } from 'components/HeaderText'
 import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled'
 import { useTranslation } from 'react-i18next'
 import { SettingOutlined } from '@ant-design/icons'
-import { ComboDrawer } from 'components/ComboDrawer'
+import { ComboDrawer } from 'components/optimizerTab/rotation/ComboDrawer'
 
 const { Text } = Typography
 

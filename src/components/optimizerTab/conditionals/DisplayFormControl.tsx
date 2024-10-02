@@ -6,7 +6,7 @@ import { FormSwitchWithPopover } from 'components/optimizerTab/conditionals/Form
 import { ContentComponentMap, ContentItem } from 'types/Conditionals'
 import { useTranslation } from 'react-i18next'
 
-const FormItemComponentMap: ContentComponentMap = {
+export const FormItemComponentMap: ContentComponentMap = {
   switch: FormSwitchWithPopover,
   slider: FormSliderWithPopover,
 }

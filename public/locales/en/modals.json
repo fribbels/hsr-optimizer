@@ -442,8 +442,8 @@
   "CharacterSelect": {
     "MultiSelect": {
       "Placeholder": "Customize $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0})",
-      "MaxTagPlaceholder_other": "{{count}} $t(common:Character, {\"count\": {{count}}, \"capitalizeLength\": 0}) excluded",
-      "MaxTagPlaceholder_zero": "All $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0}) enabled",
+      "MaxTagPlaceholderSome": "{{count}} $t(common:Character, {\"count\": {{count}}, \"capitalizeLength\": 0}) excluded",
+      "MaxTagPlaceholderNone": "All $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0}) enabled",
       "ModalTitle": "Select $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0}) to exclude"
     },
     "SingleSelect": {

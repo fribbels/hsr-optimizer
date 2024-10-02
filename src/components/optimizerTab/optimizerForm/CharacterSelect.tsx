@@ -119,7 +119,14 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         allowClear
         maxTagCount={0}
         maxTagPlaceholder={() => (
-          <span>{t('MultiSelect.MaxTagPlaceholder', { count: excludedRelicPotentialCharacters.length })/* {count} characters excluded | all characters enabled */}</span>
+          <span>
+            {
+              excludedRelicPotentialCharacters.length
+                ? t('MultiSelect.MaxTagPlaceholderSome', { count: excludedRelicPotentialCharacters.length })
+                : t('MultiSelect.MaxTagPlaceholderNone')
+              /* {count} characters excluded | all characters enabled */
+            }
+          </span>
         )}
         onClear={() => {
           if (onChange) onChange(null)

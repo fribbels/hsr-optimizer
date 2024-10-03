@@ -1,27 +1,54 @@
+/*
+  Required Files:
+  AvatarConfig.json
+  AvatarSkillConfig.json
+  EquipmentConfig.json
+  EquipmentSkillConfig.json
+  RelicSetConfig.json
+  RelicSetSkillConfig.json
+  DamageType.json
+  AvatarBaseType.json
+  AvatarRankConfig.json
+  AvatarStatusConfig.json
+  AvatarSkillTreeConfig.json
+  TextMapCHS.json
+  TextMapDE.json
+  TextMapEN.json
+  TextMapES.json
+  TextMapFR.json
+  TextMapID.json
+  TextMapJP.json
+  TextMapKR.json
+  TextMapPT.json
+  TextMapRU.json
+  TextMapTH.json
+  TextMapVI.json
+*/
+
 import { writeFile } from 'fs'
-import AvatarConfig from './AvatarConfig.json'
-import skillConfig from './AvatarSkillConfig.json'
-import lightconeConfig from './EquipmentConfig.json'
-import lightconeRankConfig from './EquipmentSkillConfig.json'
-import relicsetConfig from './RelicSetConfig.json'
-import relicEffectConfig from './RelicSetSkillConfig.json'
-import damageConfig from './DamageType.json'
-import pathConfig from './AvatarBaseType.json'
-import rankConfig from './AvatarRankConfig.json'
-import statusConfig from './AvatarStatusConfig.json'
-import traceConfig from './AvatarSkillTreeConfig.json'
-import TextMapZH from './TextMapCHS.json'
-import TextMapDE from './TextMapDE.json'
-import TextMapEN from './TextMapEN.json'
-import TextMapES from './TextMapES.json'
-import TextMapFR from './TextMapFR.json'
-import TextMapID from './TextMapID.json'
-import TextMapJP from './TextMapJP.json'
-import TextMapKR from './TextMapKR.json'
-import TextMapPT from './TextMapPT.json'
-import TextMapRU from './TextMapRU.json'
-import TextMapTH from './TextMapTH.json'
-import TextMapVI from './TextMapVI.json'
+import AvatarConfig from './AvatarConfig.json' assert {type: 'json'}
+import skillConfig from './AvatarSkillConfig.json' assert {type: 'json'}
+import lightconeConfig from './EquipmentConfig.json' assert {type: 'json'}
+import lightconeRankConfig from './EquipmentSkillConfig.json' assert {type: 'json'}
+import relicsetConfig from './RelicSetConfig.json' assert {type: 'json'}
+import relicEffectConfig from './RelicSetSkillConfig.json' assert {type: 'json'}
+import damageConfig from './DamageType.json' assert {type: 'json'}
+import pathConfig from './AvatarBaseType.json' assert {type: 'json'}
+import rankConfig from './AvatarRankConfig.json' assert {type: 'json'}
+import statusConfig from './AvatarStatusConfig.json' assert {type: 'json'}
+import traceConfig from './AvatarSkillTreeConfig.json' assert {type: 'json'}
+import TextMapZH from './TextMapCHS.json' assert {type: 'json'}
+import TextMapDE from './TextMapDE.json' assert {type: 'json'}
+import TextMapEN from './TextMapEN.json' assert {type: 'json'}
+import TextMapES from './TextMapES.json' assert {type: 'json'}
+import TextMapFR from './TextMapFR.json' assert {type: 'json'}
+import TextMapID from './TextMapID.json' assert {type: 'json'}
+import TextMapJP from './TextMapJP.json' assert {type: 'json'}
+import TextMapKR from './TextMapKR.json' assert {type: 'json'}
+import TextMapPT from './TextMapPT.json' assert {type: 'json'}
+import TextMapRU from './TextMapRU.json' assert {type: 'json'}
+import TextMapTH from './TextMapTH.json' assert {type: 'json'}
+import TextMapVI from './TextMapVI.json' assert {type: 'json'}
 
 function precisionRound(number) {
   const factor = Math.pow(10, 5)
@@ -29,7 +56,7 @@ function precisionRound(number) {
 }
 
 function formattingFixer(string) {
-  if (!string) return
+  if (!string) return ''
   string = string.replace(/<color=#([a-f]|[0-9]){8}>/g, "</span><span style='color:#f29e38ff'>").replace(/<\/color>/g, '</span><span>')
   string = string.replace(/<unbreak>/g, "<span style='whiteSpace: \"nowrap\"'>").replace(/<\/unbreak>/g, '</span>')
   string = string.replace(/\\n/g, '<br>')
@@ -37,7 +64,7 @@ function formattingFixer(string) {
 }
 
 function replaceParameters(string, parameters) {
-  if (!string) return
+  if (!string) return ''
   let output = string
   for (let i = 0; i < parameters.length; i++) {
     const regexstringpercent = `#${i + 1}\\[(i|f[1-9])\\]%`
@@ -52,7 +79,7 @@ function replaceParameters(string, parameters) {
 }
 
 function formatEffectParameters(string) {
-  if (!string) return
+  if (!string) return ''
   let output = string
   const paramMatcher = /\[(i|f[1-9]+)\]/g
   const matches = (string.match(paramMatcher) ?? []).length
@@ -71,7 +98,6 @@ function formatEffectParameters(string) {
 const trailblazerpaths = ['Warrior', 'Knight', 'Shaman']
 
 for (const locale of ['zh', 'de', 'en', 'es', 'fr', 'id', 'jp', 'kr', 'pt', 'ru', 'th', 'vi']) {
-
   const textmap = ((locale) => {
     switch (locale) {
       case 'zh':
@@ -156,7 +182,7 @@ for (const locale of ['zh', 'de', 'en', 'es', 'fr', 'id', 'jp', 'kr', 'pt', 'ru'
         }
       }
         break;
-    }*/
+    } */
   }
 
   const effectslist = []
@@ -166,7 +192,7 @@ for (const locale of ['zh', 'de', 'en', 'es', 'fr', 'id', 'jp', 'kr', 'pt', 'ru'
       Desc: formatEffectParameters(formattingFixer(textmap[effect.StatusDesc.Hash])),
       Effect: cleanString(locale, textmap[effect.StatusEffect.Hash]),
       Source: Number(String(effect.StatusID).slice(3, -1)),
-      ID: effect.StatusID
+      ID: effect.StatusID,
     })
   }
 
@@ -193,20 +219,20 @@ for (const locale of ['zh', 'de', 'en', 'es', 'fr', 'id', 'jp', 'kr', 'pt', 'ru'
     if (!setEffects[effect.SetID]) {
       setEffects[effect.SetID] = {
         effect2pc: '',
-        effect4pc: ''
+        effect4pc: '',
       }
     }
     if (effect.RequireNum === 2) {
       setEffects[effect.SetID].effect2pc = {
         description: translateKey(effect.SkillDesc, textmap),
-        values: effect.AbilityParamList.map((x) => x.Value)
+        values: effect.AbilityParamList.map((x) => x.Value),
       }
       setEffects[effect.SetID].effect2pc.description = replaceParameters(setEffects[effect.SetID].effect2pc.description, setEffects[effect.SetID].effect2pc.values)
       setEffects[effect.SetID].effect2pc = formattingFixer(setEffects[effect.SetID].effect2pc.description)
     } else {
       setEffects[effect.SetID].effect4pc = {
         description: translateKey(effect.SkillDesc, textmap),
-        values: effect.AbilityParamList.map((x) => x.Value)
+        values: effect.AbilityParamList.map((x) => x.Value),
       }
       setEffects[effect.SetID].effect4pc.description = replaceParameters(setEffects[effect.SetID].effect4pc.description, setEffects[effect.SetID].effect4pc.values)
       setEffects[effect.SetID].effect4pc = formattingFixer(setEffects[effect.SetID].effect4pc.description)
@@ -235,7 +261,7 @@ for (const locale of ['zh', 'de', 'en', 'es', 'fr', 'id', 'jp', 'kr', 'pt', 'ru'
         [avatar.RankIDList[5]]: eidolons[avatar.RankIDList[5]],
       },
     }
-    /*Effects: {},
+    /* Effects: {},
     Traces: {
       A2: {},
       A4: {},
@@ -263,7 +289,7 @@ for (const locale of ['zh', 'de', 'en', 'es', 'fr', 'id', 'jp', 'kr', 'pt', 'ru'
           break;
       }
     }
-  }*/
+  } */
   }
 
   for (const set of relicsetConfig) {
@@ -304,9 +330,9 @@ for (const locale of ['zh', 'de', 'en', 'es', 'fr', 'id', 'jp', 'kr', 'pt', 'ru'
 
   writeFile(`../../public/locales/${locale}/gameData.json`, JSON.stringify(output), (err) => {
     if (err)
-      console.log(err);
+      console.log(err)
     else {
-      console.log("File written successfully\n");
+      console.log('File written successfully\n')
     }
   })
 }
@@ -341,51 +367,51 @@ function getTbName(locale, isCaelus) {
   const TB_NAMES = {
     de: {
       stelle: 'Stelle',
-      caelus: 'Caelus'
+      caelus: 'Caelus',
     },
     en: {
       stelle: 'Stelle',
-      caelus: 'Caelus'
+      caelus: 'Caelus',
     },
     es: {
       stelle: 'Stelle',
-      caelus: 'Caelus'
+      caelus: 'Caelus',
     },
     fr: {
       stelle: 'Stelle',
-      caelus: 'Caelus'
+      caelus: 'Caelus',
     },
     id: {
       stelle: 'Stelle',
-      caelus: 'Caelus'
+      caelus: 'Caelus',
     },
     jp: {
       stelle: 'Stelle',
-      caelus: 'Caelus'
+      caelus: 'Caelus',
     },
     kr: {
       stelle: 'Stelle',
-      caelus: 'Caelus'
+      caelus: 'Caelus',
     },
     pt: {
       stelle: 'Stelle',
-      caelus: 'Caelus'
+      caelus: 'Caelus',
     },
     ru: {
       stelle: 'Stelle',
-      caelus: 'Caelus'
+      caelus: 'Caelus',
     },
     zh: {
       stelle: 'Stelle',
-      caelus: 'Caelus'
+      caelus: 'Caelus',
     },
     th: {
       stelle: 'Stelle',
-      caelus: 'Caelus'
+      caelus: 'Caelus',
     },
     vi: {
       stelle: 'Stelle',
-      caelus: 'Caelus'
+      caelus: 'Caelus',
     },
   }
   if (isCaelus) return TB_NAMES[locale].caelus
@@ -394,15 +420,15 @@ function getTbName(locale, isCaelus) {
 
 // from the readme on Dim's repo
 function getHash(key) {
-  var hash1 = 5381;
-  var hash2 = 5381;
+  var hash1 = 5381
+  var hash2 = 5381
   for (let i = 0; i < key.length; i += 2) {
-    hash1 = Math.imul((hash1 << 5) + hash1, 1) ^ key.charCodeAt(i);
+    hash1 = Math.imul((hash1 << 5) + hash1, 1) ^ key.charCodeAt(i)
     if (i === key.length - 1)
-      break;
-    hash2 = Math.imul((hash2 << 5) + hash2, 1) ^ key.charCodeAt(i + 1);
+      break
+    hash2 = Math.imul((hash2 << 5) + hash2, 1) ^ key.charCodeAt(i + 1)
   }
-  return Math.imul(hash1 + Math.imul(hash2, 1566083941), 1);
+  return Math.imul(hash1 + Math.imul(hash2, 1566083941), 1)
 }
 
 function translateHash(hash, textmap) {

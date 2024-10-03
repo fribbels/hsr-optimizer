@@ -134,7 +134,7 @@ const App = () => {
 
 export default function WrappedApp() {
   return (
-    // <Suspense fallback='...loading'>
+    // <Suspense fallback='...loading'> i18next strongly recommends using a suspense, seeing if we can get away with not using one
     <App/>
     // </Suspense>
   )

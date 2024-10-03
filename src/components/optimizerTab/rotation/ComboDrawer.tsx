@@ -15,21 +15,20 @@ function ContentDisplay(props: { content: ContentItem, cols: number }) {
   let key = 0
   const content = props.content
   const FormItemComponent = FormItemComponentMap[content.formItem]
-  const itemDisplay =
-    // @ts-ignore
-    <FormItemComponent
-      {...content}
-      name={content.id}
-      title={content.title}
-      content={ColorizeNumbers(content.content)}
-      text={content.text}
-    />
 
-  // @ts-ignore
   return (
     <Flex key={key++} style={{ height: 40 }}>
       <Flex style={{ width: 210 }} align='center'>
-        {itemDisplay}
+        {
+          // @ts-ignore
+          <FormItemComponent
+            {...content}
+            name={content.id}
+            title={content.title}
+            content={ColorizeNumbers(content.content)}
+            text={content.text}
+          />
+        }
       </Flex>
       <Flex>
         {

@@ -831,7 +831,7 @@ export function CharacterPreview(props) {
                         <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
                           {
                             `${t('common:LevelShort', { level: lightConeLevel })} ${t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })}`
-                            /* Character Score: {{score}} {{grade}} */
+                            /* Lv 80 S5 */
                           }
                         </StatText>
                       </Flex>

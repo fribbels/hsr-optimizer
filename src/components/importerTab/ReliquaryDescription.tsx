@@ -9,7 +9,7 @@ export function ReliquaryDescription(): ReactElement {
     <>
       {true && (
         <li>
-          <b>{t('Title')/* Kel-Z HSR Scanner */}</b> (
+          <b>{t('Title')/* (Recommended) IceDynamix Reliquary Archiver */}</b> (
           <ColorizedLink text={t('Link')/* Github */} url={ReliquaryArchiverConfig.releases}/>
           )
           <ul>

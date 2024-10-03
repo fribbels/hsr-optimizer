@@ -8513,7 +8513,7 @@ interface Resources {
       "LookupError": "Error during lookup, please try again in a bit",
       "NoCharacterSelected": "No selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0})",
       "CharacterAlreadyExists": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) already exists",
-      "UnknownButtonClicked": "unknown button clicked"
+      "UnknownButtonClicked": "Unknown button clicked"
     },
     "Header": {
       "DowntimeWarning": "The $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0}) scorer may be down for maintenance after the {{game_version}} patch, please try again later",

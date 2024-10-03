@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Button, Flex, Form, Image, Input, InputNumber, Modal, Radio, Select, theme } from 'antd'
 import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
-import { Constants, Stats, setToId, UnreleasedSets } from 'lib/constants'
+import { Constants, setToId, Stats, UnreleasedSets } from 'lib/constants'
 import { HeaderText } from './HeaderText'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
@@ -159,11 +159,12 @@ export default function RelicModal(props: {
     let mainStatOptions: MainStatOption[] = []
     if (props.selectedRelic?.part) {
       mainStatOptions = Object.entries(Constants.PartsMainStats[props.selectedRelic?.part]).map((entry) => ({
-        label:
-  <Flex align='center' gap={10}>
-    <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }}/>
-    {t(`common:Stats.${entry[1]}`)}
-  </Flex>,
+        label: (
+          <Flex align='center' gap={10}>
+            <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }}/>
+            {t(`common:Stats.${entry[1]}`)}
+          </Flex>
+        ),
         value: entry[1],
       }))
     }
@@ -206,11 +207,12 @@ export default function RelicModal(props: {
     let mainStatOptions: MainStatOption[] = []
     if (formValues.part) {
       mainStatOptions = Object.entries(Constants.PartsMainStats[formValues.part]).map((entry) => ({
-        label:
-  <Flex align='center' gap={10}>
-    <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }}/>
-    {t(`common:Stats.${entry[1]}`)}
-  </Flex>,
+        label: (
+          <Flex align='center' gap={10}>
+            <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }}/>
+            {t(`common:Stats.${entry[1]}`)}
+          </Flex>
+        ),
         value: entry[1],
       }))
       setMainStatOptions(mainStatOptions)
@@ -318,7 +320,7 @@ export default function RelicModal(props: {
                 </Select>
               </Form.Item>
 
-              <HeaderText>{t('Relic.Enhance')/* Enhance */}</HeaderText>
+              <HeaderText>{t('Relic.Enhance')/* Enhance / Grade */}</HeaderText>
 
               <Flex gap={10}>
                 <Form.Item name='enhance'>

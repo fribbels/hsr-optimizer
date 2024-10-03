@@ -286,7 +286,7 @@ function CharacterPreviewSelection(props) {
         importCharacterClicked()
         break
       default:
-        Message.error(t('Messages.UnknownButtonClicked')/* 'unknown button clicked' */)
+        Message.error(t('Messages.UnknownButtonClicked')/* 'Unknown button clicked' */)
         break
     }
   }
@@ -476,7 +476,7 @@ function CharacterPreviewSelection(props) {
         <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none', width: '100%' }}>
           <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey}/>
           <Flex style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }} justify='space-between'>
-            <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined/>} loading={screenshotLoading} type='primary'>
+            <Button onClick={clipboardClicked} style={{ width: 225 }} icon={<CameraOutlined/>} loading={screenshotLoading} type='primary'>
               {t('CopyScreenshot')/* Copy screenshot */}
             </Button>
             <Button style={{ width: 40 }} icon={<DownloadOutlined/>} onClick={downloadClicked} loading={downloadLoading}/>

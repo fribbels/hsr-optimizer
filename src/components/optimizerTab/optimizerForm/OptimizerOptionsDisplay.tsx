@@ -143,12 +143,12 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
               <Select
                 style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 options={[
-                  { value: 0, label: t('OptimizerOptions.MinEnhance.Label0') }, // '+0' },
-                  { value: 3, label: t('OptimizerOptions.MinEnhance.Label3') }, // '+3' },
-                  { value: 6, label: t('OptimizerOptions.MinEnhance.Label6') }, // '+6' },
-                  { value: 9, label: t('OptimizerOptions.MinEnhance.Label9') }, // '+9' },
-                  { value: 12, label: t('OptimizerOptions.MinEnhance.Label12') }, // '+12' },
-                  { value: 15, label: t('OptimizerOptions.MinEnhance.Label15') }, // '+15' },
+                  { value: 0, label: t('OptimizerOptions.MinEnhance.Label0') }, // '+0'
+                  { value: 3, label: t('OptimizerOptions.MinEnhance.Label3') }, // '+3'
+                  { value: 6, label: t('OptimizerOptions.MinEnhance.Label6') }, // '+6'
+                  { value: 9, label: t('OptimizerOptions.MinEnhance.Label9') }, // '+9'
+                  { value: 12, label: t('OptimizerOptions.MinEnhance.Label12') }, // '+12'
+                  { value: 15, label: t('OptimizerOptions.MinEnhance.Label15') }, // '+15'
                 ]}
               />
             </Form.Item>
@@ -162,10 +162,10 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
               <Select
                 style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 options={[
-                  { value: 2, label: t('OptimizerOptions.MinRarity.Label2') }, // '2 ★ +' },
-                  { value: 3, label: t('OptimizerOptions.MinRarity.Label3') }, // '3 ★ +' },
-                  { value: 4, label: t('OptimizerOptions.MinRarity.Label4') }, // '4 ★ +' },
-                  { value: 5, label: t('OptimizerOptions.MinRarity.Label5') }, // '5 ★' },
+                  { value: 2, label: t('OptimizerOptions.MinRarity.Label2') }, // '2 ★ +'
+                  { value: 3, label: t('OptimizerOptions.MinRarity.Label3') }, // '3 ★ +'
+                  { value: 4, label: t('OptimizerOptions.MinRarity.Label4') }, // '4 ★ +'
+                  { value: 5, label: t('OptimizerOptions.MinRarity.Label5') }, // '5 ★'
                 ]}
               />
             </Form.Item>
@@ -181,11 +181,11 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
               <Select
                 style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 options={[
-                  { value: 3, label: t('OptimizerOptions.BoostMain.Label3') }, // '+3' },
-                  { value: 6, label: t('OptimizerOptions.BoostMain.Label6') }, // '+6' },
-                  { value: 9, label: t('OptimizerOptions.BoostMain.Label9') }, // '+9' },
-                  { value: 12, label: t('OptimizerOptions.BoostMain.Label12') }, // '+12' },
-                  { value: 15, label: t('OptimizerOptions.BoostMain.Label15') }, // '+15' },
+                  { value: 3, label: t('OptimizerOptions.BoostMain.Label3') }, // '+3'
+                  { value: 6, label: t('OptimizerOptions.BoostMain.Label6') }, // '+6'
+                  { value: 9, label: t('OptimizerOptions.BoostMain.Label9') }, // '+9'
+                  { value: 12, label: t('OptimizerOptions.BoostMain.Label12') }, // '+12'
+                  { value: 15, label: t('OptimizerOptions.BoostMain.Label15') }, // '+15'
                 ]}
               />
             </Form.Item>

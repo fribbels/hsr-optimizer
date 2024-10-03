@@ -5,8 +5,8 @@
     "SkillDesc": "RelicDesc_1012",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "HealRatioBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "HealRatioBase",
+        "HPPEILAONGE": {
           "Value": 0.1
         }
       }
@@ -32,8 +32,8 @@
     "SkillDesc": "RelicDesc_1022",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "AttackAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "AttackAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.12
         }
       }
@@ -51,8 +51,8 @@
     "SkillDesc": "RelicDesc_1024",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "SpeedAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "SpeedAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.06
         }
       }
@@ -73,8 +73,8 @@
     "SkillDesc": "RelicDesc_1032",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "DefenceAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "DefenceAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.15
         }
       }
@@ -104,8 +104,8 @@
     "SkillDesc": "RelicDesc_1042",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "IceAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "IceAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.1
         }
       }
@@ -138,8 +138,8 @@
     "SkillDesc": "RelicDesc_1052",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "PhysicalAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "PhysicalAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.1
         }
       }
@@ -202,8 +202,8 @@
     "SkillDesc": "RelicDesc_1072",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "FireAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "FireAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.1
         }
       }
@@ -236,8 +236,8 @@
     "SkillDesc": "RelicDesc_1082",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "QuantumAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "QuantumAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.1
         }
       }
@@ -270,8 +270,8 @@
     "SkillDesc": "RelicDesc_1092",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "ThunderAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "ThunderAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.1
         }
       }
@@ -304,8 +304,8 @@
     "SkillDesc": "RelicDesc_1102",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "WindAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "WindAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.1
         }
       }
@@ -335,8 +335,8 @@
     "SkillDesc": "RelicDesc_1112",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "BreakDamageAddedRatioBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "BreakDamageAddedRatioBase",
+        "HPPEILAONGE": {
           "Value": 0.16
         }
       }
@@ -354,8 +354,8 @@
     "SkillDesc": "RelicDesc_1114",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "BreakDamageAddedRatioBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "BreakDamageAddedRatioBase",
+        "HPPEILAONGE": {
           "Value": 0.16
         }
       }
@@ -376,8 +376,8 @@
     "SkillDesc": "RelicDesc_1122",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "ImaginaryAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "ImaginaryAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.1
         }
       }
@@ -410,8 +410,8 @@
     "SkillDesc": "RelicDesc_3012",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "AttackAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "AttackAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.12
         }
       }
@@ -435,8 +435,8 @@
     "SkillDesc": "RelicDesc_3022",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "HPAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "HPAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.12
         }
       }
@@ -460,8 +460,8 @@
     "SkillDesc": "RelicDesc_3032",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "StatusProbabilityBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "StatusProbabilityBase",
+        "HPPEILAONGE": {
           "Value": 0.1
         }
       }
@@ -485,8 +485,8 @@
     "SkillDesc": "RelicDesc_3042",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "DefenceAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "DefenceAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.15
         }
       }
@@ -510,8 +510,8 @@
     "SkillDesc": "RelicDesc_3052",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "CriticalDamageBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "CriticalDamageBase",
+        "HPPEILAONGE": {
           "Value": 0.16
         }
       }
@@ -535,8 +535,8 @@
     "SkillDesc": "RelicDesc_3062",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "CriticalChanceBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "CriticalChanceBase",
+        "HPPEILAONGE": {
           "Value": 0.08
         }
       }
@@ -560,8 +560,8 @@
     "SkillDesc": "RelicDesc_3072",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "BreakDamageAddedRatioBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "BreakDamageAddedRatioBase",
+        "HPPEILAONGE": {
           "Value": 0.16
         }
       }
@@ -585,8 +585,8 @@
     "SkillDesc": "RelicDesc_3082",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "SPRatioBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "SPRatioBase",
+        "HPPEILAONGE": {
           "Value": 0.05
         }
       }
@@ -610,8 +610,8 @@
     "SkillDesc": "RelicDesc_3092",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "CriticalChanceBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "CriticalChanceBase",
+        "HPPEILAONGE": {
           "Value": 0.08
         }
       }
@@ -635,8 +635,8 @@
     "SkillDesc": "RelicDesc_3102",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "StatusResistanceBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "StatusResistanceBase",
+        "HPPEILAONGE": {
           "Value": 0.1
         }
       }
@@ -660,8 +660,8 @@
     "SkillDesc": "RelicDesc_1132",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "HPAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "HPAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.12
         }
       }
@@ -697,8 +697,8 @@
     "SkillDesc": "RelicDesc_1142",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "SpeedAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "SpeedAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.06
         }
       }
@@ -761,8 +761,8 @@
     "SkillDesc": "RelicDesc_1162",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "AttackAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "AttackAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.12
         }
       }
@@ -795,8 +795,8 @@
     "SkillDesc": "RelicDesc_3112",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "AttackAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "AttackAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.12
         }
       }
@@ -826,8 +826,8 @@
     "SkillDesc": "RelicDesc_3122",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "SPRatioBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "SPRatioBase",
+        "HPPEILAONGE": {
           "Value": 0.05
         }
       }
@@ -860,8 +860,8 @@
     "SkillDesc": "RelicDesc_1174",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "CriticalChanceBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "CriticalChanceBase",
+        "HPPEILAONGE": {
           "Value": 0.04
         }
       }
@@ -894,8 +894,8 @@
     "SkillDesc": "RelicDesc_1182",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "BreakDamageAddedRatioBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "BreakDamageAddedRatioBase",
+        "HPPEILAONGE": {
           "Value": 0.16
         }
       }
@@ -928,8 +928,8 @@
     "SkillDesc": "RelicDesc_3132",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "CriticalChanceBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "CriticalChanceBase",
+        "HPPEILAONGE": {
           "Value": 0.04
         }
       }
@@ -953,8 +953,8 @@
     "SkillDesc": "RelicDesc_3142",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "AttackAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "AttackAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.12
         }
       }
@@ -975,8 +975,8 @@
     "SkillDesc": "RelicDesc_1192",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "BreakDamageAddedRatioBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "BreakDamageAddedRatioBase",
+        "HPPEILAONGE": {
           "Value": 0.16
         }
       }
@@ -1015,8 +1015,8 @@
     "SkillDesc": "RelicDesc_1202",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "AttackAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "AttackAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.12
         }
       }
@@ -1034,8 +1034,8 @@
     "SkillDesc": "RelicDesc_1204",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "CriticalChanceBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "CriticalChanceBase",
+        "HPPEILAONGE": {
           "Value": 0.06
         }
       }
@@ -1077,8 +1077,8 @@
     "SkillDesc": "RelicDesc_3162",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "SpeedAddedRatio",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "SpeedAddedRatio",
+        "HPPEILAONGE": {
           "Value": 0.06
         }
       }
@@ -1102,8 +1102,8 @@
     "SkillDesc": "RelicDesc_3172",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "SPRatioBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "SPRatioBase",
+        "HPPEILAONGE": {
           "Value": 0.05
         }
       }
@@ -1124,8 +1124,8 @@
     "SkillDesc": "RelicDesc_3182",
     "PropertyList": [
       {
-        "NAGPGEGKCAI": "CriticalDamageBase",
-        "NLABNDMDIKM": {
+        "IFDCDKCNICO": "CriticalDamageBase",
+        "HPPEILAONGE": {
           "Value": 0.16
         }
       }
@@ -1137,6 +1137,77 @@
       },
       {
         "Value": 0.32
+      }
+    ]
+  },
+  {
+    "SetID": 121,
+    "RequireNum": 2,
+    "SkillDesc": "RelicDesc_1212",
+    "PropertyList": [
+      {
+        "IFDCDKCNICO": "SpeedAddedRatio",
+        "HPPEILAONGE": {
+          "Value": 0.06
+        }
+      }
+    ],
+    "AbilityName": "",
+    "AbilityParamList": [
+      {
+        "Value": 0.06
+      }
+    ]
+  },
+  {
+    "SetID": 121,
+    "RequireNum": 4,
+    "SkillDesc": "RelicDesc_1214",
+    "PropertyList": [],
+    "AbilityName": "Ability51211",
+    "AbilityParamList": [
+      {
+        "Value": 0.18
+      },
+      {
+        "Value": 2
+      },
+      {
+        "Value": 2
+      }
+    ]
+  },
+  {
+    "SetID": 122,
+    "RequireNum": 2,
+    "SkillDesc": "RelicDesc_1222",
+    "PropertyList": [
+      {
+        "IFDCDKCNICO": "CriticalChanceBase",
+        "HPPEILAONGE": {
+          "Value": 0.08
+        }
+      }
+    ],
+    "AbilityName": "",
+    "AbilityParamList": [
+      {
+        "Value": 0.08
+      }
+    ]
+  },
+  {
+    "SetID": 122,
+    "RequireNum": 4,
+    "SkillDesc": "RelicDesc_1224",
+    "PropertyList": [],
+    "AbilityName": "Ability51221",
+    "AbilityParamList": [
+      {
+        "Value": 0.2
+      },
+      {
+        "Value": 0.25
       }
     ]
   }

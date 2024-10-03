@@ -13915,6 +13915,156 @@
     ]
   },
   {
+    "SkillID": 21048,
+    "SkillName": {
+      "Hash": -351315548
+    },
+    "SkillDesc": {
+      "Hash": 2134096482
+    },
+    "Level": 1,
+    "AbilityName": "Ability21048",
+    "ParamList": [
+      {
+        "Value": 0.08
+      },
+      {
+        "Value": 3
+      },
+      {
+        "Value": 2
+      }
+    ],
+    "AbilityProperty": [
+      {
+        "PropertyType": "SpeedAddedRatio",
+        "Value": {
+          "Value": 0.08
+        }
+      }
+    ]
+  },
+  {
+    "SkillID": 21048,
+    "SkillName": {
+      "Hash": -754600075
+    },
+    "SkillDesc": {
+      "Hash": 2134096482
+    },
+    "Level": 2,
+    "AbilityName": "Ability21048",
+    "ParamList": [
+      {
+        "Value": 0.09
+      },
+      {
+        "Value": 3.5
+      },
+      {
+        "Value": 2
+      }
+    ],
+    "AbilityProperty": [
+      {
+        "PropertyType": "SpeedAddedRatio",
+        "Value": {
+          "Value": 0.09
+        }
+      }
+    ]
+  },
+  {
+    "SkillID": 21048,
+    "SkillName": {
+      "Hash": 811483866
+    },
+    "SkillDesc": {
+      "Hash": 2134096482
+    },
+    "Level": 3,
+    "AbilityName": "Ability21048",
+    "ParamList": [
+      {
+        "Value": 0.1
+      },
+      {
+        "Value": 4
+      },
+      {
+        "Value": 2
+      }
+    ],
+    "AbilityProperty": [
+      {
+        "PropertyType": "SpeedAddedRatio",
+        "Value": {
+          "Value": 0.1
+        }
+      }
+    ]
+  },
+  {
+    "SkillID": 21048,
+    "SkillName": {
+      "Hash": 408199339
+    },
+    "SkillDesc": {
+      "Hash": 2134096482
+    },
+    "Level": 4,
+    "AbilityName": "Ability21048",
+    "ParamList": [
+      {
+        "Value": 0.11
+      },
+      {
+        "Value": 4.5
+      },
+      {
+        "Value": 2
+      }
+    ],
+    "AbilityProperty": [
+      {
+        "PropertyType": "SpeedAddedRatio",
+        "Value": {
+          "Value": 0.11
+        }
+      }
+    ]
+  },
+  {
+    "SkillID": 21048,
+    "SkillName": {
+      "Hash": 1974283280
+    },
+    "SkillDesc": {
+      "Hash": 2134096482
+    },
+    "Level": 5,
+    "AbilityName": "Ability21048",
+    "ParamList": [
+      {
+        "Value": 0.12
+      },
+      {
+        "Value": 5
+      },
+      {
+        "Value": 2
+      }
+    ],
+    "AbilityProperty": [
+      {
+        "PropertyType": "SpeedAddedRatio",
+        "Value": {
+          "Value": 0.12
+        }
+      }
+    ]
+  },
+  {
     "SkillID": 22002,
     "SkillName": {
       "Hash": -1762943881
@@ -14895,6 +15045,306 @@
         "PropertyType": "BreakDamageAddedRatioBase",
         "Value": {
           "Value": 1
+        }
+      }
+    ]
+  },
+  {
+    "SkillID": 23033,
+    "SkillName": {
+      "Hash": 986143568
+    },
+    "SkillDesc": {
+      "Hash": -2113816714
+    },
+    "Level": 1,
+    "AbilityName": "Ability23033",
+    "ParamList": [
+      {
+        "Value": 0.6
+      },
+      {
+        "Value": 30
+      },
+      {
+        "Value": 0.5
+      }
+    ],
+    "AbilityProperty": [
+      {
+        "PropertyType": "BreakDamageAddedRatioBase",
+        "Value": {
+          "Value": 0.6
+        }
+      }
+    ]
+  },
+  {
+    "SkillID": 23033,
+    "SkillName": {
+      "Hash": 1389428095
+    },
+    "SkillDesc": {
+      "Hash": -2113816714
+    },
+    "Level": 2,
+    "AbilityName": "Ability23033",
+    "ParamList": [
+      {
+        "Value": 0.7
+      },
+      {
+        "Value": 32.5
+      },
+      {
+        "Value": 0.55
+      }
+    ],
+    "AbilityProperty": [
+      {
+        "PropertyType": "BreakDamageAddedRatioBase",
+        "Value": {
+          "Value": 0.7
+        }
+      }
+    ]
+  },
+  {
+    "SkillID": 23033,
+    "SkillName": {
+      "Hash": -176655846
+    },
+    "SkillDesc": {
+      "Hash": -2113816714
+    },
+    "Level": 3,
+    "AbilityName": "Ability23033",
+    "ParamList": [
+      {
+        "Value": 0.8
+      },
+      {
+        "Value": 35
+      },
+      {
+        "Value": 0.6
+      }
+    ],
+    "AbilityProperty": [
+      {
+        "PropertyType": "BreakDamageAddedRatioBase",
+        "Value": {
+          "Value": 0.8
+        }
+      }
+    ]
+  },
+  {
+    "SkillID": 23033,
+    "SkillName": {
+      "Hash": 582859041
+    },
+    "SkillDesc": {
+      "Hash": -2113816714
+    },
+    "Level": 4,
+    "AbilityName": "Ability23033",
+    "ParamList": [
+      {
+        "Value": 0.9
+      },
+      {
+        "Value": 37.5
+      },
+      {
+        "Value": 0.65
+      }
+    ],
+    "AbilityProperty": [
+      {
+        "PropertyType": "BreakDamageAddedRatioBase",
+        "Value": {
+          "Value": 0.9
+        }
+      }
+    ]
+  },
+  {
+    "SkillID": 23033,
+    "SkillName": {
+      "Hash": -983224900
+    },
+    "SkillDesc": {
+      "Hash": -2113816714
+    },
+    "Level": 5,
+    "AbilityName": "Ability23033",
+    "ParamList": [
+      {
+        "Value": 1
+      },
+      {
+        "Value": 40
+      },
+      {
+        "Value": 0.7
+      }
+    ],
+    "AbilityProperty": [
+      {
+        "PropertyType": "BreakDamageAddedRatioBase",
+        "Value": {
+          "Value": 1
+        }
+      }
+    ]
+  },
+  {
+    "SkillID": 22003,
+    "SkillName": {
+      "Hash": 986142450
+    },
+    "SkillDesc": {
+      "Hash": -2113816620
+    },
+    "Level": 1,
+    "AbilityName": "Ability22003",
+    "ParamList": [
+      {
+        "Value": 0.12
+      },
+      {
+        "Value": 0.18
+      },
+      {
+        "Value": 2
+      }
+    ],
+    "AbilityProperty": [
+      {
+        "PropertyType": "HPAddedRatio",
+        "Value": {
+          "Value": 0.12
+        }
+      }
+    ]
+  },
+  {
+    "SkillID": 22003,
+    "SkillName": {
+      "Hash": 1389426977
+    },
+    "SkillDesc": {
+      "Hash": -2113816620
+    },
+    "Level": 2,
+    "AbilityName": "Ability22003",
+    "ParamList": [
+      {
+        "Value": 0.15
+      },
+      {
+        "Value": 0.225
+      },
+      {
+        "Value": 2
+      }
+    ],
+    "AbilityProperty": [
+      {
+        "PropertyType": "HPAddedRatio",
+        "Value": {
+          "Value": 0.15
+        }
+      }
+    ]
+  },
+  {
+    "SkillID": 22003,
+    "SkillName": {
+      "Hash": -176656964
+    },
+    "SkillDesc": {
+      "Hash": -2113816620
+    },
+    "Level": 3,
+    "AbilityName": "Ability22003",
+    "ParamList": [
+      {
+        "Value": 0.18
+      },
+      {
+        "Value": 0.27
+      },
+      {
+        "Value": 2
+      }
+    ],
+    "AbilityProperty": [
+      {
+        "PropertyType": "HPAddedRatio",
+        "Value": {
+          "Value": 0.18
+        }
+      }
+    ]
+  },
+  {
+    "SkillID": 22003,
+    "SkillName": {
+      "Hash": 582857923
+    },
+    "SkillDesc": {
+      "Hash": -2113816620
+    },
+    "Level": 4,
+    "AbilityName": "Ability22003",
+    "ParamList": [
+      {
+        "Value": 0.21
+      },
+      {
+        "Value": 0.315
+      },
+      {
+        "Value": 2
+      }
+    ],
+    "AbilityProperty": [
+      {
+        "PropertyType": "HPAddedRatio",
+        "Value": {
+          "Value": 0.21
+        }
+      }
+    ]
+  },
+  {
+    "SkillID": 22003,
+    "SkillName": {
+      "Hash": -983226018
+    },
+    "SkillDesc": {
+      "Hash": -2113816620
+    },
+    "Level": 5,
+    "AbilityName": "Ability22003",
+    "ParamList": [
+      {
+        "Value": 0.24
+      },
+      {
+        "Value": 0.36
+      },
+      {
+        "Value": 2
+      }
+    ],
+    "AbilityProperty": [
+      {
+        "PropertyType": "HPAddedRatio",
+        "Value": {
+          "Value": 0.24
         }
       }
     ]

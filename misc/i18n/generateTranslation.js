@@ -1,27 +1,27 @@
 import { writeFile } from 'fs'
-import AvatarConfig from './AvatarConfig.json' assert {type: 'json'}
-import skillConfig from './AvatarSkillConfig.json' assert {type: 'json'}
-import lightconeConfig from './EquipmentConfig.json' assert {type: 'json'}
-import lightconeRankConfig from './EquipmentSkillConfig.json' assert {type: 'json'}
-import relicsetConfig from './RelicSetConfig.json' assert {type: 'json'}
-import relicEffectConfig from './RelicSetSkillConfig.json' assert {type: 'json'}
-import damageConfig from './DamageType.json' assert {type: 'json'}
-import pathConfig from './AvatarBaseType.json' assert {type: 'json'}
-import rankConfig from './AvatarRankConfig.json' assert {type: 'json'}
-import statusConfig from './AvatarStatusConfig.json' assert {type: 'json'}
-import traceConfig from './AvatarSkillTreeConfig.json' assert {type: 'json'}
-import TextMapZH from './TextMapCHS.json' assert {type: 'json'}
-import TextMapDE from './TextMapDE.json' assert {type: 'json'}
-import TextMapEN from './TextMapEN.json' assert {type: 'json'}
-import TextMapES from './TextMapES.json' assert {type: 'json'}
-import TextMapFR from './TextMapFR.json' assert {type: 'json'}
-import TextMapID from './TextMapID.json' assert {type: 'json'}
-import TextMapJP from './TextMapJP.json' assert {type: 'json'}
-import TextMapKR from './TextMapKR.json' assert {type: 'json'}
-import TextMapPT from './TextMapPT.json' assert {type: 'json'}
-import TextMapRU from './TextMapRU.json' assert {type: 'json'}
-import TextMapTH from './TextMapTH.json' assert {type: 'json'}
-import TextMapVI from './TextMapVI.json' assert {type: 'json'}
+import AvatarConfig from './AvatarConfig.json'
+import skillConfig from './AvatarSkillConfig.json'
+import lightconeConfig from './EquipmentConfig.json'
+import lightconeRankConfig from './EquipmentSkillConfig.json'
+import relicsetConfig from './RelicSetConfig.json'
+import relicEffectConfig from './RelicSetSkillConfig.json'
+import damageConfig from './DamageType.json'
+import pathConfig from './AvatarBaseType.json'
+import rankConfig from './AvatarRankConfig.json'
+import statusConfig from './AvatarStatusConfig.json'
+import traceConfig from './AvatarSkillTreeConfig.json'
+import TextMapZH from './TextMapCHS.json'
+import TextMapDE from './TextMapDE.json'
+import TextMapEN from './TextMapEN.json'
+import TextMapES from './TextMapES.json'
+import TextMapFR from './TextMapFR.json'
+import TextMapID from './TextMapID.json'
+import TextMapJP from './TextMapJP.json'
+import TextMapKR from './TextMapKR.json'
+import TextMapPT from './TextMapPT.json'
+import TextMapRU from './TextMapRU.json'
+import TextMapTH from './TextMapTH.json'
+import TextMapVI from './TextMapVI.json'
 
 function precisionRound(number) {
   const factor = Math.pow(10, 5)
@@ -39,9 +39,9 @@ function formattingFixer(string) {
 function replaceParameters(string, parameters) {
   if (!string) return
   let output = string
-  for (let i = 0; i<parameters.length; i++) {
-    const regexstringpercent = `#${i+1}\\[(i|f[1-9])\\]%`
-    const regexstring = `#${i+1}\\[(i|f[1-9])\\]<`
+  for (let i = 0; i < parameters.length; i++) {
+    const regexstringpercent = `#${i + 1}\\[(i|f[1-9])\\]%`
+    const regexstring = `#${i + 1}\\[(i|f[1-9])\\]<`
     const regex = new RegExp(regexstring, 'g')
     const regexpercent = new RegExp(regexstringpercent, 'g')
     output = output
@@ -57,8 +57,8 @@ function formatEffectParameters(string) {
   const paramMatcher = /\[(i|f[1-9]+)\]/g
   const matches = (string.match(paramMatcher) ?? []).length
   for (let i = 0; i < matches; i++) {
-    const regexstringpercent = `#${i+1}\\[(i|f[1-9])\\]%`
-    const regexstring = `#${i+1}\\[(i|f[1-9])\\]<`
+    const regexstringpercent = `#${i + 1}\\[(i|f[1-9])\\]%`
+    const regexstring = `#${i + 1}\\[(i|f[1-9])\\]<`
     const regex = new RegExp(regexstring, 'g')
     const regexpercent = new RegExp(regexstringpercent, 'g')
     output = output
@@ -70,39 +70,41 @@ function formatEffectParameters(string) {
 
 const trailblazerpaths = ['Warrior', 'Knight', 'Shaman']
 
-for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi']){
+for (const locale of ['zh', 'de', 'en', 'es', 'fr', 'id', 'jp', 'kr', 'pt', 'ru', 'th', 'vi']) {
 
-  const textmap = ((locale) => {switch (locale) {
-    case 'zh':
-      return TextMapZH
-    case 'de':
-      return TextMapDE
-    case 'en':
-      return TextMapEN
-    case 'es':
-      return TextMapES
-    case 'fr':
-      return TextMapFR
-    case 'id':
-      return TextMapID
-    case 'jp':
-      return TextMapJP
-    case 'kr':
-      return TextMapKR
-    case 'pt':
-      return TextMapPT
-    case 'ru':
-      return TextMapRU
-    case 'th':
-      return TextMapTH
-    case 'vi':
-      return TextMapVI
-  }})(locale)
+  const textmap = ((locale) => {
+    switch (locale) {
+      case 'zh':
+        return TextMapZH
+      case 'de':
+        return TextMapDE
+      case 'en':
+        return TextMapEN
+      case 'es':
+        return TextMapES
+      case 'fr':
+        return TextMapFR
+      case 'id':
+        return TextMapID
+      case 'jp':
+        return TextMapJP
+      case 'kr':
+        return TextMapKR
+      case 'pt':
+        return TextMapPT
+      case 'ru':
+        return TextMapRU
+      case 'th':
+        return TextMapTH
+      case 'vi':
+        return TextMapVI
+    }
+  })(locale)
 
   const eidolons = {}
   for (const eidolon of rankConfig) {
     eidolons[eidolon.RankID] = {
-      Name: cleanString(locale,translateKey(eidolon.Name, textmap)),
+      Name: cleanString(locale, translateKey(eidolon.Name, textmap)),
       Desc: translateKey(eidolon.Desc, textmap),
       Values: eidolon.Param.map((x) => x.Value),
     }
@@ -115,9 +117,9 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
   for (const ability of skillConfig) {
     if (!abilities[ability.SkillID]) {
       abilities[ability.SkillID] = {
-      Name: cleanString(locale,textmap[ability.SkillName.Hash]),
-      Desc: formattingFixer(replaceParameters(textmap[ability.SimpleSkillDesc.Hash], ability.SimpleParamList.map((x) => x.Value))),
-      Type: textmap[ability.SkillTypeDesc.Hash],
+        Name: cleanString(locale, textmap[ability.SkillName.Hash]),
+        Desc: formattingFixer(replaceParameters(textmap[ability.SimpleSkillDesc.Hash], ability.SimpleParamList.map((x) => x.Value))),
+        Type: textmap[ability.SkillTypeDesc.Hash],
       }
     }
     /*
@@ -163,14 +165,14 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
       Name: cleanString(locale, textmap[effect.StatusName.Hash]),
       Desc: formatEffectParameters(formattingFixer(textmap[effect.StatusDesc.Hash])),
       Effect: cleanString(locale, textmap[effect.StatusEffect.Hash]),
-      Source: Number(String(effect.StatusID).slice(3,-1)),
+      Source: Number(String(effect.StatusID).slice(3, -1)),
       ID: effect.StatusID
     })
   }
 
   const tracelist = []
   for (const trace of traceConfig) {
-    if (trace.PointType == 3){
+    if (trace.PointType == 3) {
       const formattedTrace = {
         Name: cleanString(locale, translateKey(trace.PointName, textmap)) ?? 'err',
         Desc: translateKey(trace.PointDesc, textmap) ?? 'err',
@@ -211,7 +213,7 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
     }
   }
 
-  const output = {Characters: {}, RelicSets: {}, Lightcones: {}, Paths: {}, Elements: {}}
+  const output = { Characters: {}, RelicSets: {}, Lightcones: {}, Paths: {}, Elements: {} }
 
   for (const avatar of AvatarConfig) {
     output.Characters[avatar.AvatarID] = {
@@ -233,35 +235,35 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
         [avatar.RankIDList[5]]: eidolons[avatar.RankIDList[5]],
       },
     }
-      /*Effects: {},
-      Traces: {
-        A2: {},
-        A4: {},
-        A6: {}
-      }
-    for (const effect of effectslist) {
-      if(effect.Source == avatar.AvatarID) {
-        output.Characters[avatar.AvatarID].Effects[effect.ID] = effect
+    /*Effects: {},
+    Traces: {
+      A2: {},
+      A4: {},
+      A6: {}
+    }
+  for (const effect of effectslist) {
+    if(effect.Source == avatar.AvatarID) {
+      output.Characters[avatar.AvatarID].Effects[effect.ID] = effect
+    }
+  }
+  for (const trace of tracelist) {
+    if (trace.Owner == avatar.AvatarID) {
+      switch (trace.Ascension) {
+        case 2:
+          output.Characters[avatar.AvatarID].Traces.A2 = trace
+          break;
+        case 4:
+          output.Characters[avatar.AvatarID].Traces.A4 = trace
+          break;
+        case 6:
+          output.Characters[avatar.AvatarID].Traces.A6 = trace
+          break;
+        default:
+          console.log('error: trace owned but not located')
+          break;
       }
     }
-    for (const trace of tracelist) {
-      if (trace.Owner == avatar.AvatarID) {
-        switch (trace.Ascension) {
-          case 2:
-            output.Characters[avatar.AvatarID].Traces.A2 = trace
-            break;
-          case 4:
-            output.Characters[avatar.AvatarID].Traces.A4 = trace
-            break;
-          case 6:
-            output.Characters[avatar.AvatarID].Traces.A6 = trace
-            break;
-          default:
-            console.log('error: trace owned but not located')
-            break;
-        }
-      }
-    }*/
+  }*/
   }
 
   for (const set of relicsetConfig) {
@@ -282,7 +284,7 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
     }
     lightconeRankConfig
       .filter((x) => x.SkillID == lightcone.SkillID)
-      .sort((a,b) => a.Level - b.Level)
+      .sort((a, b) => a.Level - b.Level)
       .forEach((x) => {
         const SkillName = cleanString(locale, textmap[x.SkillName.Hash])
         // const SkillDesc = formattingFixer(replaceParameters(cleanString(locale, textmap[x.SkillDesc.Hash]), x.ParamList.map((x) => x.Value)))
@@ -309,7 +311,7 @@ for (const locale of ['zh','de','en','es','fr','id','jp','kr','pt','ru','th','vi
   })
 }
 
-function cleanString (locale, string) {
+function cleanString(locale, string) {
   if (!string) return
   if (locale !== 'jp') {
     return string
@@ -318,9 +320,9 @@ function cleanString (locale, string) {
   return string.replace(regex, '')
 }
 
-function tbIdToNativeName (id, textmap, pathmap, locale) {
+function tbIdToNativeName(id, textmap, pathmap, locale) {
   const isCaelus = id % 2
-  const path = ((id)=>{
+  const path = ((id) => {
     const pathIndex = Math.ceil((id - 8000) / 2) - 1
     const pathT = trailblazerpaths[pathIndex]
     let hash = ''
@@ -335,7 +337,7 @@ function tbIdToNativeName (id, textmap, pathmap, locale) {
   return nativeName + ' ' + '(' + path + ')'
 }
 
-function getTbName (locale, isCaelus) {
+function getTbName(locale, isCaelus) {
   const TB_NAMES = {
     de: {
       stelle: 'Stelle',
@@ -389,12 +391,12 @@ function getTbName (locale, isCaelus) {
   if (isCaelus) return TB_NAMES[locale].caelus
   return TB_NAMES[locale].stelle
 }
+
 // from the readme on Dim's repo
 function getHash(key) {
   var hash1 = 5381;
   var hash2 = 5381;
-  for (let i = 0; i < key.length; i += 2)
-  {
+  for (let i = 0; i < key.length; i += 2) {
     hash1 = Math.imul((hash1 << 5) + hash1, 1) ^ key.charCodeAt(i);
     if (i === key.length - 1)
       break;
@@ -404,7 +406,7 @@ function getHash(key) {
 }
 
 function translateHash(hash, textmap) {
-    return textmap[hash]
+  return textmap[hash]
 }
 
 function translateKey(key, textmap) {

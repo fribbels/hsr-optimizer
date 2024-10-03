@@ -280,6 +280,34 @@
     "Release": true
   },
   {
+    "SetID": 121,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71038.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71038.png",
+    "SetName": {
+      "Hash": 581502204
+    },
+    "DisplayItemID": 81214,
+    "Release": true
+  },
+  {
+    "SetID": 122,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71039.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71039.png",
+    "SetName": {
+      "Hash": 178217677
+    },
+    "DisplayItemID": 81224,
+    "Release": true
+  },
+  {
     "SetID": 301,
     "SetSkillList": [
       2

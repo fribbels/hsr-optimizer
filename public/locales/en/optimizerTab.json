@@ -150,8 +150,8 @@
         "Experimental": "Switched compute engine to GPU (Experimental)"
       },
       "Display": {
-        "Experimental": "GPU acceleration: Enabled",
-        "Stable": "GPU acceleration: Enabled",
+        "GPU Experimental": "GPU acceleration: Enabled",
+        "GPU Stable": "GPU acceleration: Enabled",
         "CPU": "GPU acceleration: Disabled"
       }
     },

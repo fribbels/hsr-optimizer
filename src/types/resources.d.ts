@@ -6289,6 +6289,9 @@ interface Resources {
           }
         }
       },
+      "1317": {
+        "Name": "Rappa"
+      },
       "8001": {
         "Name": "Caelus (Destruction)",
         "Abilities": {
@@ -6745,6 +6748,16 @@ interface Resources {
         "Description2pc": "<span>Increases ATK by <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>",
         "Description4pc": "<span>Increases the wearer's CRIT Rate by <span style='whiteSpace: \"nowrap\"'>6%</span>. After the wearer uses a follow-up attack, increases DMG dealt by Ultimate by <span style='whiteSpace: \"nowrap\"'>36%</span>, lasting for <span style='whiteSpace: \"nowrap\"'>1</span> turn(s).</span>"
       },
+      "121": {
+        "Name": "Sacerdos' Relived Ordeal",
+        "Description2pc": "<span>Increases SPD by <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>",
+        "Description4pc": "<span>When using Skill or Ultimate on one ally target, increases the ability-using target's CRIT DMG by <span style='whiteSpace: \"nowrap\"'>18.0%</span>, lasting for 2 turn(s). This effect can stack up to 2 time(s).</span>"
+      },
+      "122": {
+        "Name": "Scholar Lost in Erudition",
+        "Description2pc": "<span>Increases CRIT Rate by <span style='whiteSpace: \"nowrap\"'>8.0%.</span>.</span>",
+        "Description4pc": "<span>Increases DMG dealt by Ultimate and Skill by <span style='whiteSpace: \"nowrap\"'>20.0%</span>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <span style='whiteSpace: \"nowrap\"'>25.0%</span>.</span>"
+      },
       "301": {
         "Name": "Space Sealing Station",
         "Description2pc": "<span>Increases the wearer's ATK by <span style='whiteSpace: \"nowrap\"'>12%</span>. When the wearer's SPD reaches <span style='whiteSpace: \"nowrap\"'>120</span> or higher, the wearer's ATK increases by an extra <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
@@ -7095,6 +7108,10 @@ interface Resources {
         "Name": "Shadowed by Night",
         "SkillName": "Concealment"
       },
+      "21048": {
+        "Name": "Dream's Montage",
+        "SkillName": "Academy-Style Edit"
+      },
       "22000": {
         "Name": "Before the Tutorial Mission Starts",
         "SkillName": "Quick on the Draw"
@@ -7106,6 +7123,10 @@ interface Resources {
       "22002": {
         "Name": "For Tomorrow's Journey",
         "SkillName": "Bonds"
+      },
+      "22003": {
+        "Name": "Ninja Record: Sound Hunt",
+        "SkillName": "Curtains Up!"
       },
       "23000": {
         "Name": "Night on the Milky Way",
@@ -7238,6 +7259,10 @@ interface Resources {
       "23032": {
         "Name": "Scent Alone Stays True",
         "SkillName": "Contentment"
+      },
+      "23033": {
+        "Name": "Ninjutsu Inscription: Dazzling Evilbreaker",
+        "SkillName": "Exorcism"
       },
       "24000": {
         "Name": "On the Fall of an Aeon",
@@ -8162,8 +8187,8 @@ interface Resources {
           "Experimental": "Switched compute engine to GPU (Experimental)"
         },
         "Display": {
-          "Experimental": "GPU acceleration: Enabled",
-          "Stable": "GPU acceleration: Enabled",
+          "GPU Experimental": "GPU acceleration: Enabled",
+          "GPU Stable": "GPU acceleration: Enabled",
           "CPU": "GPU acceleration: Disabled"
         }
       },

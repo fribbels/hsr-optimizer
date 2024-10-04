@@ -2,15 +2,15 @@ import { Button, Flex, Modal, Typography } from 'antd'
 import { ReactElement } from 'react'
 import { Optimizer } from 'lib/optimizer/optimizer'
 import { HorizontalDivider } from 'components/Dividers'
-import { Parts, SetsOrnaments, SetsRelics } from 'lib/constants'
+import { Parts } from 'lib/constants'
 import DB, { AppPages } from 'lib/db.js'
 import { Message } from 'lib/message.js'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
 import { Utils } from 'lib/utils.js'
 import { Relic } from 'types/Relic'
-import { CharacterId } from 'types/Character'
 import { useTranslation } from 'react-i18next'
 import { TFunction } from 'i18next'
+import { Form } from 'types/Form'
 
 const { Text } = Typography
 
@@ -134,8 +134,7 @@ function mainStatFixes(part: Parts) {
 let rootCauses: (ZeroPermRootCause | ZeroResultRootCause)[] = []
 
 // Generates the root causes of the issue before opening the modal
-export function activateZeroPermutationsSuggestionsModal(requestIn) {
-  const request = requestIn as Request
+export function activateZeroPermutationsSuggestionsModal(request: Form) {
   rootCauses = []
 
   const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request) as [
@@ -407,8 +406,7 @@ function filterFixes(filter: string) {
   }
 }
 
-export function activateZeroResultSuggestionsModal(requestIn) {
-  const request = requestIn as Request
+export function activateZeroResultSuggestionsModal(request: Form) {
   rootCauses = []
   // always suggest switching between combat/basic views
   if (window.store.getState().statDisplay == 'base') rootCauses.push(ZeroResultRootCause.STAT_VIEW)
@@ -510,60 +508,4 @@ export function ZeroResultSuggestionModal() {
       </Flex>
     </Modal>
   )
-}
-
-type Request = {
-  minHp: number
-  maxHp: number
-  minAtk: number
-  maxAtk: number
-  minDef: number
-  maxDef: number
-  minSpd: number
-  maxSpd: number
-  minCr: number
-  maxCr: number
-  minCd: number
-  maxCd: number
-  minEhr: number
-  maxEhr: number
-  minRes: number
-  maxRes: number
-  minBe: number
-  maxBe: number
-  minErr: number
-  maxErr: number
-  minWeight: number
-  maxWeight: number
-  minEhp: number
-  maxEhp: number
-  minBasic: number
-  maxBasic: number
-  minSkill: number
-  maxSkill: number
-  minUlt: number
-  maxUlt: number
-  minFua: number
-  maxFua: number
-  minDot: number
-  maxDot: number
-  minBreak: number
-  maxBreak: number
-  minCombo: number
-  maxCombo: number
-  mainBody: Relic[]
-  mainFeet: Relic[]
-  mainPlanarSphere: Relic[]
-  mainLinkRope: Relic[]
-  ornamentSets: SetsOrnaments[]
-  relicSets: SetsRelics[]
-  keepCurrentRelics: boolean
-  rank: number
-  exclude: CharacterId[]
-  includeEquippedRelics: boolean
-  weights: {
-    headHands: number
-    bodyFeet: number
-    sphereRope: number
-  }
 }

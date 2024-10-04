@@ -11,7 +11,6 @@ import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/opti
 import { Utils } from 'lib/utils.js'
 import { Assets } from 'lib/assets'
 import { generateCharacterList } from 'lib/displayUtils'
-import { CharacterId, MetadataCharacter } from '../../../types/Character'
 import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
@@ -28,7 +27,6 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
   }), [characters, optimizerTabFocusCharacter, i18n.resolvedLanguage])
 
   const characterPriorityOptions = useMemo(() => {
-    const characterMetadata = DB.getMetadata().characters as Record<CharacterId, MetadataCharacter>
     return characters.map((x) => {
       return {
         value: x.rank,

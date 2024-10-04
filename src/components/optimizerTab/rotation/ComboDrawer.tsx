@@ -10,6 +10,7 @@ import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { ContentItem } from 'types/Conditionals'
 import { FormItemComponentMap } from 'components/optimizerTab/conditionals/DisplayFormControl'
 import ColorizeNumbers from 'components/common/ColorizeNumbers'
+import { Form } from 'types/Form'
 
 function ContentDisplay(props: { content: ContentItem, cols: number }) {
   let key = 0
@@ -53,11 +54,78 @@ function SelectableBox(props: { index: number }) {
   )
 }
 
+export type ComboState = {
+  display: React.JSX.Element,
+  displayState: ComboDisplayState
+  // formState: ComboFormState
+}
+
+export type ComboConditionals = {
+  [key: string]: ComboBooleanConditional | ComboNumberConditional | ComboSelectConditional
+}
+
+export type ComboBooleanConditional = {
+  values: number[]
+}
+
+export type ComboSelectConditional = {
+  valuePartitions: ComboSubSelectConditional[]
+}
+
+export type ComboSubSelectConditional = {
+  index: number
+  values: boolean[]
+}
+
+export type ComboNumberConditional = {
+  valuePartitions: ComboSubNumberConditional[]
+}
+
+export type ComboSubNumberConditional = {
+  index: number
+  values: boolean[]
+}
+
+export type ComboCharacter = {
+  characterConditionals: ComboConditionals
+  lightConeConditionals: ComboConditionals
+  setConditionals: ComboConditionals
+}
+
+export type ComboTeammate = {
+  characterConditionals: ComboConditionals
+  lightConeConditionals: ComboConditionals
+}
+
+export type ComboDisplayState = {
+  comboCharacter: ComboCharacter
+  comboTeammate0: ComboTeammate
+  comboTeammate1: ComboTeammate
+  comboTeammate2: ComboTeammate
+}
+
+function buildComboState(request: Form) {
+  const comboDisplayState: Partial<ComboDisplayState> = {}
+  const comboState: Partial<ComboState> = {
+    display: <></>,
+    displayState: comboDisplayState as ComboDisplayState,
+  }
+
+  if (request.characterConditionals) {
+    comboDisplayState.comboCharacter = {
+      characterConditionals: request.characterConditionals,
+      lightConeConditionals: request.lightConeConditionals,
+      setConditionals: request.setConditionals,
+    }
+  }
+}
+
 export function ComboDrawer() {
   const comboDrawerOpen = window.store((s) => s.comboDrawerOpen)
   const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
   const [state, setState] = useState({
     display: <></>,
+
   })
 
   useEffect(() => {

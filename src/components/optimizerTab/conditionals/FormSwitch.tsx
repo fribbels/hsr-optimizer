@@ -24,6 +24,9 @@ export interface FormSwitchProps {
   text: string
   lc?: boolean
   teammateIndex?: number
+  removeForm?: boolean
+  onChange?: (checked: boolean) => void
+  value?: boolean
 }
 
 export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
@@ -32,17 +35,27 @@ export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
     itemName.unshift(`teammate${props.teammateIndex}`)
   }
 
+  const internalSwitch = (
+    <Switch
+      checkedChildren={<CheckOutlined/>}
+      unCheckedChildren={<CloseOutlined/>}
+      disabled={props.disabled}
+      style={{ width: 45, marginRight: 5 }}
+      onChange={props.onChange}
+      defaultChecked={props.value ?? undefined}
+    />
+  )
+
   return (
     <Flex justify={justify} align={align}>
-      <Form.Item name={itemName} valuePropName='checked'>
-        <Switch
-          checkedChildren={<CheckOutlined/>}
-          unCheckedChildren={<CloseOutlined/>}
-          disabled={props.disabled}
-          defaultChecked={false}
-          style={{ width: 45, marginRight: 5 }}
-        />
-      </Form.Item>
+      {
+        props.removeForm ?
+          internalSwitch
+          :
+          <Form.Item name={itemName} valuePropName="checked">
+            {internalSwitch}
+          </Form.Item>
+      }
       <Text>{props.text}</Text>
     </Flex>
   )

@@ -8,11 +8,12 @@ import React from 'react'
 import { defaultSetConditionals } from 'lib/defaultForm'
 import { ReactElement } from 'types/Components'
 import { Button, Flex } from 'antd'
-import { FormItemComponentMap } from 'components/optimizerTab/conditionals/DisplayFormControl'
 import ColorizeNumbers from 'components/common/ColorizeNumbers'
 import { SelectableBox } from 'components/optimizerTab/rotation/ComboDrawer'
 import { Assets } from 'lib/assets'
 import { MinusCircleOutlined } from '@ant-design/icons'
+import { FormSwitchWithPopover } from 'components/optimizerTab/conditionals/FormSwitch'
+import { FormSliderWithPopover } from 'components/optimizerTab/conditionals/FormSlider'
 
 export enum ConditionalType {
   BOOLEAN = 'boolean',
@@ -261,7 +262,6 @@ export function initializeComboState(request: Form) {
 
 function convertComboConditionalToDisplay(comboConditional: ComboConditionalCategory, contentItem: ContentItem, key: number, actionCount: number) {
   let result: ReactElement
-  const FormItemComponent = FormItemComponentMap[contentItem.formItem]
 
   if (contentItem.formItem == 'switch') {
     const booleanComboConditional = comboConditional as ComboBooleanConditional
@@ -272,12 +272,15 @@ function convertComboConditionalToDisplay(comboConditional: ComboConditionalCate
           <Flex style={{ width: 210 }} align='center'>
             {
               // @ts-ignore
-              <FormItemComponent
+              <FormSwitchWithPopover
                 {...contentItem}
                 name={contentItem.id}
                 title={contentItem.title}
                 content={ColorizeNumbers(contentItem.content)}
                 text={contentItem.text}
+                removeForm={true}
+                onChange={(x) => console.log(x)}
+                value={booleanComboConditional.activations[0]}
               />
             }
           </Flex>
@@ -306,12 +309,15 @@ function convertComboConditionalToDisplay(comboConditional: ComboConditionalCate
             <Flex style={{ width: 210 }} align='center'>
               {
                 // @ts-ignore
-                <FormItemComponent
+                <FormSliderWithPopover
                   {...contentItem}
                   name={contentItem.id}
                   title={contentItem.title}
                   content={ColorizeNumbers(contentItem.content)}
                   text={contentItem.text}
+                  onChange={(x) => console.log(x)}
+                  value={partition.value}
+                  removeForm={true}
                 />
               }
             </Flex>
@@ -371,7 +377,7 @@ function renderContent(
 }
 
 
-function convertDisplayStateToDisplay(displayState: ComboDisplayState, actionCount: number): ReactElement {
+export function convertDisplayStateToDisplay(displayState: ComboDisplayState, actionCount: number): ReactElement {
   const uiRows: ReactElement[] = []
   let key = 0
 
@@ -434,3 +440,7 @@ function convertDisplayStateToDisplay(displayState: ComboDisplayState, actionCou
   )
 }
 
+function updateStateSelection(events, comboState: ComboState) {
+
+  return comboState
+}

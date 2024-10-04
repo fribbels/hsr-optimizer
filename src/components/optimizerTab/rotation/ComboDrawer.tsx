@@ -2,7 +2,7 @@ import { Drawer, Flex } from 'antd'
 import React, { useEffect, useState } from 'react'
 import Selecto from 'react-selecto'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { initializeComboState } from 'lib/optimizer/rotation/rotationGenerator'
+import { ComboDisplayState, ComboState, convertDisplayStateToDisplay, initializeComboState } from 'lib/optimizer/rotation/rotationGenerator'
 
 export function SelectableBox(props: { active: boolean, index: number }) {
   const classnames = props.active ? 'selectable selected' : 'selectable'
@@ -19,25 +19,20 @@ export function SelectableBox(props: { active: boolean, index: number }) {
 export function ComboDrawer() {
   const comboDrawerOpen = window.store((s) => s.comboDrawerOpen)
   const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
-  const [state, setState] = useState({
+  const [state, setState] = useState<ComboState>({
     display: <></>,
-
+    displayState: {} as ComboDisplayState
   })
 
   useEffect(() => {
     if (comboDrawerOpen) {
-      const newState = {
-        ...state,
-      }
 
       const form = OptimizerTabController.getForm()
       console.debug('form', form)
       console.debug('combo', form.combo)
 
       const comboState = initializeComboState(form)
-      newState.display = comboState.display
-
-      setState(newState)
+      setState(comboState)
     }
   }, [comboDrawerOpen])
 
@@ -86,13 +81,26 @@ export function ComboDrawer() {
           onSelect={(e) => {
             console.log('added', e.added)
             console.log('removed', e.removed)
-            console.log(e)
+
             e.added.forEach((el) => {
-              el.classList.add('selected')
-            })
+              const dataKey = el.getAttribute('data-key'); // Get the data-key attribute
+              console.log('Added Element Data Key:', dataKey);
+            });
             e.removed.forEach((el) => {
-              el.classList.remove('selected')
-            })
+              const dataKey = el.getAttribute('data-key'); // Get the data-key attribute
+              console.log('Removed Element Data Key:', dataKey);
+            });
+
+            // Debug
+            // for (let i = 0; i < 4; i++) {
+            //   state.displayState.comboCharacter.characterConditionals['e1CdBuff'].activations[i] = Math.random() > 0.5 ? true : false
+            // }
+
+            const newState = {
+              ...state
+            }
+            newState.display = convertDisplayStateToDisplay(state.displayState, 4)
+            setState(newState)
           }}
         />
       </div>

@@ -214,7 +214,7 @@ export function initializeComboState(request: Form) {
     displayState: comboDisplayState as ComboDisplayState,
   } as ComboState
 
-  const actionCount = 4
+  const actionCount = 6
 
   const requestCharacterConditionals = request.characterConditionals
   const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(request)

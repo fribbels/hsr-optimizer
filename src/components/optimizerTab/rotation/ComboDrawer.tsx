@@ -82,6 +82,13 @@ export function ComboDrawer() {
             console.log('added', e.added)
             console.log('removed', e.removed)
 
+            // console.log(e)
+            e.added.forEach((el) => {
+              el.classList.add('selected')
+            })
+            e.removed.forEach((el) => {
+              el.classList.remove('selected')
+            })
             e.added.forEach((el) => {
               const dataKey = el.getAttribute('data-key'); // Get the data-key attribute
               console.log('Added Element Data Key:', dataKey);

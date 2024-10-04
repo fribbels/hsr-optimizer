@@ -8,15 +8,15 @@ export const languages = {
   zh: {
     locale: 'zh',
     nativeName: '中国人',
-  },
+  }, /*
   de: {
     locale: 'de',
     nativeName: 'Deutsch',
-  },
+  }, */
   en: {
     locale: 'en',
     nativeName: 'English',
-  },
+  }, /*
   es: {
     locale: 'es',
     nativeName: 'Español',
@@ -52,7 +52,7 @@ export const languages = {
   vi: {
     locale: 'vi',
     nativeName: 'tiếng việt',
-  },
+  }, */
 }
 
 export const supportedLanguages = Object.keys(languages)

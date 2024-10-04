@@ -2,122 +2,18 @@ import { Drawer, Flex } from 'antd'
 import React, { useEffect, useState } from 'react'
 import Selecto from 'react-selecto'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { Assets } from 'lib/assets'
-import { CharacterConditional } from 'types/CharacterConditional'
-import { CharacterConditionals } from 'lib/characterConditionals'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { ContentItem } from 'types/Conditionals'
-import { FormItemComponentMap } from 'components/optimizerTab/conditionals/DisplayFormControl'
-import ColorizeNumbers from 'components/common/ColorizeNumbers'
-import { Form } from 'types/Form'
+import { initializeComboState } from 'lib/optimizer/rotation/rotationGenerator'
 
-function ContentDisplay(props: { content: ContentItem, cols: number }) {
-  let key = 0
-  const content = props.content
-  const FormItemComponent = FormItemComponentMap[content.formItem]
-
-  return (
-    <Flex key={key++} style={{ height: 40 }}>
-      <Flex style={{ width: 210 }} align='center'>
-        {
-          // @ts-ignore
-          <FormItemComponent
-            {...content}
-            name={content.id}
-            title={content.title}
-            content={ColorizeNumbers(content.content)}
-            text={content.text}
-          />
-        }
-      </Flex>
-      <Flex>
-        {
-          new Array(props.cols).fill(0).map((_, index) => (
-            <SelectableBox index={index}/>
-          ))
-        }
-      </Flex>
-    </Flex>
-  )
-}
-
-function SelectableBox(props: { index: number }) {
+export function SelectableBox(props: { active: boolean, index: number }) {
+  const classnames = props.active ? 'selectable selected' : 'selectable'
   return (
     <div
-      className='selectable'
+      className={classnames}
       data-key={props.index}
-      key={props.index}
       style={{ width: 75, marginLeft: -1, marginTop: -1 }}
     >
     </div>
   )
-}
-
-export type ComboState = {
-  display: React.JSX.Element,
-  displayState: ComboDisplayState
-  // formState: ComboFormState
-}
-
-export type ComboConditionals = {
-  [key: string]: ComboBooleanConditional | ComboNumberConditional | ComboSelectConditional
-}
-
-export type ComboBooleanConditional = {
-  values: number[]
-}
-
-export type ComboSelectConditional = {
-  valuePartitions: ComboSubSelectConditional[]
-}
-
-export type ComboSubSelectConditional = {
-  index: number
-  values: boolean[]
-}
-
-export type ComboNumberConditional = {
-  valuePartitions: ComboSubNumberConditional[]
-}
-
-export type ComboSubNumberConditional = {
-  index: number
-  values: boolean[]
-}
-
-export type ComboCharacter = {
-  characterConditionals: ComboConditionals
-  lightConeConditionals: ComboConditionals
-  setConditionals: ComboConditionals
-}
-
-export type ComboTeammate = {
-  characterConditionals: ComboConditionals
-  lightConeConditionals: ComboConditionals
-}
-
-export type ComboDisplayState = {
-  comboCharacter: ComboCharacter
-  comboTeammate0: ComboTeammate
-  comboTeammate1: ComboTeammate
-  comboTeammate2: ComboTeammate
-}
-
-function buildComboState(request: Form) {
-  const comboDisplayState: Partial<ComboDisplayState> = {}
-  const comboState: Partial<ComboState> = {
-    display: <></>,
-    displayState: comboDisplayState as ComboDisplayState,
-  }
-
-  if (request.characterConditionals) {
-    comboDisplayState.comboCharacter = {
-      characterConditionals: request.characterConditionals,
-      lightConeConditionals: request.lightConeConditionals,
-      setConditionals: request.setConditionals,
-    }
-  }
 }
 
 export function ComboDrawer() {
@@ -138,72 +34,8 @@ export function ComboDrawer() {
       console.debug('form', form)
       console.debug('combo', form.combo)
 
-      const cols = 6
-
-      const characters = [
-        form,
-        form.teammate0,
-        form.teammate1,
-        form.teammate2,
-      ].filter((x) => !!x)
-
-      console.debug('characters', characters)
-
-      let key = 0
-      const uiRows: JSX.Element[] = []
-      for (const character of characters) {
-        if (!character.characterId) continue
-
-        const originalCharacter = key == 0
-        const characterConditionals: CharacterConditional = CharacterConditionals.get(character)
-        const lightConeConditionals: LightConeConditional = LightConeConditionals.get(character)
-
-
-        console.log(characterConditionals)
-        console.log(lightConeConditionals)
-
-        const characterContent: JSX.Element[] = []
-        const lightConeContent: JSX.Element[] = []
-
-        for (const content of originalCharacter ? characterConditionals.content() : (characterConditionals?.teammateContent ? characterConditionals.teammateContent() : [])) {
-          if (content.formItem == 'switch' && !content.disabled) {
-            characterContent.push(
-              <ContentDisplay key={key++} content={content} cols={cols}/>
-            )
-          }
-        }
-
-        for (const content of originalCharacter ? lightConeConditionals.content() : (lightConeConditionals?.teammateContent ? lightConeConditionals.teammateContent() : [])) {
-          if (content.formItem == 'switch' && !content.disabled) {
-            lightConeContent.push(
-              <ContentDisplay key={key++} content={content} cols={cols}/>
-            )
-          }
-        }
-
-        uiRows.push((
-          <Flex key={key++} gap={10} align='center' style={{ padding: 8, background: '#677dbd1c', borderRadius: 5 }}>
-            <img src={Assets.getCharacterAvatarById(character.characterId)} style={{ width: 80, height: 80 }}/>
-            <Flex vertical>
-              {characterContent}
-            </Flex>
-          </Flex>
-        ))
-        uiRows.push((
-          <Flex key={key++} gap={10} align='center' style={{ padding: 8, background: '#677dbd1c', borderRadius: 5 }}>
-            <img src={Assets.getLightConeIconById(character.lightCone)} style={{ width: 80, height: 80 }}/>
-            <Flex>
-              {lightConeContent}
-            </Flex>
-          </Flex>
-        ))
-      }
-
-      newState.display = (
-        <Flex vertical gap={8}>
-          {uiRows}
-        </Flex>
-      )
+      const comboState = initializeComboState(form)
+      newState.display = comboState.display
 
       setState(newState)
     }
@@ -220,14 +52,14 @@ export function ComboDrawer() {
     >
       <div style={{ width: 930, height: '100%' }}>
         <Flex style={{ marginBottom: 10 }}>
-          <div style={{ width: 305 }}/>
+          <div style={{ width: 365 }}/>
           <Flex>
-            <Flex style={{ width: 77 }} justify='space-around'>Skill</Flex>
-            <Flex style={{ width: 77 }} justify='space-around'>Skill</Flex>
-            <Flex style={{ width: 77 }} justify='space-around'>Ult</Flex>
-            <Flex style={{ width: 77 }} justify='space-around'>Skill</Flex>
-            <Flex style={{ width: 77 }} justify='space-around'>Skill</Flex>
-            <Flex style={{ width: 77 }} justify='space-around'>Skill</Flex>
+            <Flex style={{ width: 75 }} justify='space-around'>Skill</Flex>
+            <Flex style={{ width: 75 }} justify='space-around'>Skill</Flex>
+            <Flex style={{ width: 75 }} justify='space-around'>Ult</Flex>
+            <Flex style={{ width: 75 }} justify='space-around'>Skill</Flex>
+            <Flex style={{ width: 75 }} justify='space-around'>Skill</Flex>
+            <Flex style={{ width: 75 }} justify='space-around'>Skill</Flex>
           </Flex>
         </Flex>
         {state.display}

@@ -60,7 +60,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
   }, [props.min, props.max])
 
   return (
-    <Flex vertical gap={5} style={{ marginBottom: 0 }}>
+    <Flex vertical gap={1} style={{ marginBottom: 0 }}>
       <Flex justify={justify} align={align}>
         <div style={{ minWidth: inputWidth, display: 'block' }}>
           <Form.Item name={itemName}>

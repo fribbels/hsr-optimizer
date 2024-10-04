@@ -16,7 +16,9 @@ export type Teammate = {
   lightConeSuperimposition: number
   teamOrnamentSet?: string
   teamRelicSet?: string
-} | Form
+  characterConditionals?: CharacterConditionalMap
+  lightConeConditionals?: ConditionalLightConeMap
+} & Form
 
 export type Form = {
   characterEidolon: Eidolon

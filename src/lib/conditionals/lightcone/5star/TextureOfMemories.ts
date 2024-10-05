@@ -7,7 +7,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.TextureOfMemories')
   const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
   const sValuesShieldHp = [0.16, 0.2, 0.24, 0.28, 0.32]
@@ -17,9 +16,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'activeShieldDmgDecrease',
     name: 'activeShieldDmgDecrease',
     formItem: 'switch',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { ShieldHp: TsUtils.precisionRound(100 * sValuesShieldHp[s]), DmgReduction: TsUtils.precisionRound(100 * sValues[s]) }),
+    text: t('Content.activeShieldDmgDecrease.text'),
+    title: t('Content.activeShieldDmgDecrease.title'),
+    content: t('Content.activeShieldDmgDecrease.content', { ShieldHp: TsUtils.precisionRound(100 * sValuesShieldHp[s]), DmgReduction: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {

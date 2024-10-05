@@ -7,7 +7,6 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import i18next from 'i18next'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.Mediation')
   const sValues = [12, 14, 16, 18, 20]
   const content: ContentItem[] = [{
@@ -15,9 +14,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'initialSpdBuff',
     name: 'initialSpdBuff',
     formItem: 'switch',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { SpdBuff: sValues[s] }),
+    text: t('Content.initialSpdBuff.text'),
+    title: t('Content.initialSpdBuff.title'),
+    content: t('Content.initialSpdBuff.content', { SpdBuff: sValues[s] }),
   }]
 
   return {

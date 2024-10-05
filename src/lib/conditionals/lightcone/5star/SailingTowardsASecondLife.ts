@@ -12,7 +12,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.SailingTowardsASecondLife')
   const sValuesSpdBuff = [0.12, 0.14, 0.16, 0.18, 0.20]
   const sValuesDefShred = [0.20, 0.23, 0.26, 0.29, 0.32]
@@ -23,18 +22,18 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'breakDmgDefShred',
       name: 'breakDmgDefShred',
       formItem: 'switch',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefShred[s]) }),
+      text: t('Content.breakDmgDefShred.text'),
+      title: t('Content.breakDmgDefShred.title'),
+      content: t('Content.breakDmgDefShred.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefShred[s]) }),
     },
     {
       lc: true,
       id: 'spdBuffConditional',
       name: 'spdBuffConditional',
       formItem: 'switch',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpdBuff[s]) }),
+      text: t('Content.spdBuffConditional.text'),
+      title: t('Content.spdBuffConditional.title'),
+      content: t('Content.spdBuffConditional.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpdBuff[s]) }),
     },
   ]
 

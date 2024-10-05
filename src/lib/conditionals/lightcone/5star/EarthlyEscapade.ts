@@ -8,7 +8,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.EarthlyEscapade')
   const sValuesCr = [0.10, 0.11, 0.12, 0.13, 0.14]
   const sValuesCd = [0.28, 0.35, 0.42, 0.49, 0.56]
@@ -17,9 +16,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'maskActive',
     name: 'maskActive',
     formItem: 'switch',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { CritRateBuff: TsUtils.precisionRound(100 * sValuesCr[s]), CritDmgBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
+    text: t('Content.maskActive.text'),
+    title: t('Content.maskActive.title'),
+    content: t('Content.maskActive.content', { CritRateBuff: TsUtils.precisionRound(100 * sValuesCr[s]), CritDmgBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
   }]
 
   return {

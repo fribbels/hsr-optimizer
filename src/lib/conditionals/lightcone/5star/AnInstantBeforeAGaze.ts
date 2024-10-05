@@ -8,7 +8,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.AnInstantBeforeAGaze')
   const sValues = [0.0036, 0.0042, 0.0048, 0.0054, 0.006]
 
@@ -17,9 +16,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'maxEnergyUltDmgStacks',
     name: 'maxEnergyUltDmgStacks',
     formItem: 'slider',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { DmgStep: TsUtils.precisionRound(100 * sValues[s]) }),
+    text: t('Content.maxEnergyUltDmgStacks.text'),
+    title: t('Content.maxEnergyUltDmgStacks.title'),
+    content: t('Content.maxEnergyUltDmgStacks.content', { DmgStep: TsUtils.precisionRound(100 * sValues[s]) }),
     min: 0,
     max: 180,
   }]

@@ -7,7 +7,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.Swordplay')
   const sValues = [0.08, 0.10, 0.12, 0.14, 0.16]
   const content: ContentItem[] = [{
@@ -15,9 +14,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'sameTargetHitStacks',
     name: 'sameTargetHitStacks',
     formItem: 'slider',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+    text: t('Content.sameTargetHitStacks.text'),
+    title: t('Content.sameTargetHitStacks.title'),
+    content: t('Content.sameTargetHitStacks.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     min: 0,
     max: 5,
   }]

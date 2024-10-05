@@ -8,7 +8,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.NinjaRecordSoundHunt')
   const sValuesCd = [0.18, 0.225, 0.27, 0.315, 0.36]
 
@@ -18,8 +17,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'cdBuff',
       name: 'cdBuff',
       formItem: 'switch',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
+      text: t('Content.cdBuff.text'),
+      title: t('Content.cdBuff.title'),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
   ]

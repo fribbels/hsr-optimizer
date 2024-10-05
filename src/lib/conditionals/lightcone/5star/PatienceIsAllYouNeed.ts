@@ -8,7 +8,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.PatienceIsAllYouNeed')
   const sValuesDmg = [0.24, 0.28, 0.32, 0.36, 0.40]
   const sValuesSpd = [0.048, 0.056, 0.064, 0.072, 0.08]
@@ -19,9 +18,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'spdStacks',
     name: 'spdStacks',
     formItem: 'slider',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpd[s]) }),
+    text: t('Content.spdStacks.text'),
+    title: t('Content.spdStacks.title'),
+    content: t('Content.spdStacks.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpd[s]) }),
     min: 0,
     max: 3,
   }, {
@@ -29,9 +28,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'dotEffect',
     name: 'dotEffect',
     formItem: 'switch',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { Multiplier: TsUtils.precisionRound(100 * sValuesErode[s]) }),
+    text: t('Content.dotEffect.text'),
+    title: t('Content.dotEffect.title'),
+    content: t('Content.dotEffect.content', { Multiplier: TsUtils.precisionRound(100 * sValuesErode[s]) }),
   }]
 
   return {

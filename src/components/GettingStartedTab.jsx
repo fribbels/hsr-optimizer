@@ -57,7 +57,7 @@ export default function GettingStartedTab() {
 
           <Trans t={t} i18nKey='TryOut.Option 1'>
             <h3>
-              Option 1: Load a sample save THIS SHOULDN'T BE VISIBLE
+              Option 1: Load a sample save
             </h3>
             <p>
               If you would like to give the optimizer a try before doing any relic importing, use this to load a sample
@@ -80,7 +80,7 @@ export default function GettingStartedTab() {
 
           <Trans t={t} i18nKey='TryOut.Option 2'>
             <h3>
-              Option 2: One-click-optimize from the Relic Scorer THIS SHOULDN'T BE VISIBLE
+              Option 2: One-click-optimize from the Relic Scorer
             </h3>
 
             <img
@@ -113,7 +113,7 @@ export default function GettingStartedTab() {
 
           <Trans t={t} i18nKey='HowTo.Step 1'>
             <h2>
-              Step 1: Import relics THIS SHOULDN'T BE VISIBLE
+              Step 1: Import relics
             </h2>
 
             <p>
@@ -148,7 +148,7 @@ export default function GettingStartedTab() {
           </Trans>
           <Trans t={t} i18nKey='HowTo.Step 2'>
             <h2>
-              Step 2: Select a character THIS SHOULDN'T BE VISIBLE
+              Step 2: Select a character
             </h2>
 
             <img
@@ -187,7 +187,7 @@ export default function GettingStartedTab() {
           </Trans>
           <Trans t={t} i18nKey='HowTo.Step 3'>
             <h2>
-              Step 3: Apply filters THIS SHOULDN'T BE VISIBLE
+              Step 3: Apply filters
             </h2>
 
             <img
@@ -261,7 +261,7 @@ export default function GettingStartedTab() {
           </Trans>
           <Trans t={t} i18nKey='HowTo.Step 4'>
             <h2>
-              Step 4: Select teammates THIS SHOULDN'T BE VISIBLE
+              Step 4: Select teammates
             </h2>
 
             <img
@@ -286,7 +286,7 @@ export default function GettingStartedTab() {
 
           <Trans t={t} i18nKey='HowTo.Step 5'>
             <h2>
-              Step 5: Save results THIS SHOULDN'T BE VISIBLE
+              Step 5: Save results
             </h2>
 
             <img
@@ -350,7 +350,7 @@ export default function GettingStartedTab() {
 
           <Trans t={t} i18nKey='CharacterTab'>
             <h2>
-              Character tab THIS SHOULDN'T BE VISIBLE
+              Character tab
             </h2>
 
             <img
@@ -407,7 +407,7 @@ export default function GettingStartedTab() {
           {/* ======================================================================================================================= */}
           <Trans t={t} i18nKey='RelicsTab'>
             <h2>
-              Relics tab THIS SHOULDN'T BE VISIBLE
+              Relics tab
             </h2>
 
             <img

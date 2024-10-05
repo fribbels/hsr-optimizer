@@ -8,7 +8,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.HeyOverHere')
   const sValues = [0.16, 0.19, 0.22, 0.25, 0.28]
   const content: ContentItem[] = [{
@@ -16,9 +15,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'postSkillHealBuff',
     name: 'postSkillHealBuff',
     formItem: 'switch',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { HealingBoost: TsUtils.precisionRound(100 * sValues[s]) }),
+    text: t('Content.postSkillHealBuff.text'),
+    title: t('Content.postSkillHealBuff.title'),
+    content: t('Content.postSkillHealBuff.content', { HealingBoost: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {

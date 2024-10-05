@@ -8,7 +8,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.MakeTheWorldClamor')
   const sValues = [0.32, 0.40, 0.48, 0.56, 0.64]
   const sValuesEnergy = [20, 23, 26, 29, 32]
@@ -18,9 +17,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'ultDmgBuff',
     name: 'ultDmgBuff',
     formItem: 'switch',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { Energy: sValuesEnergy[s], DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+    text: t('Content.ultDmgBuff.text'),
+    title: t('Content.ultDmgBuff.title'),
+    content: t('Content.ultDmgBuff.content', { Energy: sValuesEnergy[s], DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {

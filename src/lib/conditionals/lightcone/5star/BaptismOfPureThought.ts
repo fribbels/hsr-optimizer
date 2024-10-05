@@ -9,7 +9,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.BaptismOfPureThought')
   const sValuesCd = [0.08, 0.09, 0.10, 0.11, 0.12]
   const sValuesDmg = [0.36, 0.42, 0.48, 0.54, 0.60]
@@ -20,9 +19,9 @@ const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => 
     formItem: 'slider',
     id: 'debuffCdStacks',
     name: 'debuffCdStacks',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { DmgStep: TsUtils.precisionRound(100 * sValuesCd[s]) }),
+    text: t('Content.debuffCdStacks.text'),
+    title: t('Content.debuffCdStacks.title'),
+    content: t('Content.debuffCdStacks.content', { DmgStep: TsUtils.precisionRound(100 * sValuesCd[s]) }),
     min: 0,
     max: 3,
   }, {
@@ -30,9 +29,9 @@ const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => 
     formItem: 'switch',
     id: 'postUltBuff',
     name: 'postUltBuff',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { DmgStep: TsUtils.precisionRound(100 * sValuesDmg[s]), DefIgnore: TsUtils.precisionRound(100 * sValuesFuaPen[s]) }),
+    text: t('Content.postUltBuff.text'),
+    title: t('Content.postUltBuff.title'),
+    content: t('Content.postUltBuff.content', { DmgStep: TsUtils.precisionRound(100 * sValuesDmg[s]), DefIgnore: TsUtils.precisionRound(100 * sValuesFuaPen[s]) }),
   }]
 
   return {

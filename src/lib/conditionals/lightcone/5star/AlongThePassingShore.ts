@@ -8,7 +8,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.AlongThePassingShore')
   const sValuesDmgBoost = [0.24, 0.28, 0.32, 0.36, 0.40]
   const sValuesUltDmgBoost = [0.24, 0.28, 0.32, 0.36, 0.40]
@@ -19,9 +18,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'emptyBubblesDebuff',
       name: 'emptyBubblesDebuff',
       formItem: 'switch',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content', { UltDmgBoost: TsUtils.precisionRound(100 * sValuesUltDmgBoost[s]), DmgBoost: TsUtils.precisionRound(100 * sValuesDmgBoost[s]) }),
+      text: t('Content.emptyBubblesDebuff.text'),
+      title: t('Content.emptyBubblesDebuff.title'),
+      content: t('Content.emptyBubblesDebuff.content', { UltDmgBoost: TsUtils.precisionRound(100 * sValuesUltDmgBoost[s]), DmgBoost: TsUtils.precisionRound(100 * sValuesDmgBoost[s]) }),
     },
   ]
 

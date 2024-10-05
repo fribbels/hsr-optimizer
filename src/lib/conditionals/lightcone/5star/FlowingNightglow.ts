@@ -9,7 +9,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.FlowingNightglow')
   const sValuesErr = [0.03, 0.035, 0.04, 0.045, 0.05]
   const sValuesAtkBuff = [0.48, 0.60, 0.72, 0.84, 0.96]
@@ -21,18 +20,18 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'cadenzaActive',
       name: 'cadenzaActive',
       formItem: 'switch',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content', { RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]), AtkBuff: TsUtils.precisionRound(100 * sValuesAtkBuff[s]), DmgBuff: TsUtils.precisionRound(100 * sValuesDmgBuff[s]) }),
+      text: t('Content.cadenzaActive.text'),
+      title: t('Content.cadenzaActive.title'),
+      content: t('Content.cadenzaActive.content', { RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]), AtkBuff: TsUtils.precisionRound(100 * sValuesAtkBuff[s]), DmgBuff: TsUtils.precisionRound(100 * sValuesDmgBuff[s]) }),
     },
     {
       lc: true,
       id: 'cantillationStacks',
       name: 'cantillationStacks',
       formItem: 'slider',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content', { RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]), AtkBuff: TsUtils.precisionRound(100 * sValuesAtkBuff[s]), DmgBuff: TsUtils.precisionRound(100 * sValuesDmgBuff[s]) }),
+      text: t('Content.cantillationStacks.text'),
+      title: t('Content.cantillationStacks.title'),
+      content: t('Content.cantillationStacks.content', { RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]), AtkBuff: TsUtils.precisionRound(100 * sValuesAtkBuff[s]), DmgBuff: TsUtils.precisionRound(100 * sValuesDmgBuff[s]) }),
       min: 0,
       max: 5,
     },

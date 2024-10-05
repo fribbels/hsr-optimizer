@@ -8,7 +8,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.TheSeriousnessOfBreakfast')
   const sValuesDmgBoost = [0.12, 0.15, 0.18, 0.21, 0.24]
   const sValuesStacks = [0.04, 0.05, 0.06, 0.07, 0.08]
@@ -18,17 +17,17 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'dmgBoost',
     name: 'dmgBoost',
     formItem: 'switch',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmgBoost[s]) }),
+    text: t('Content.dmgBoost.text'),
+    title: t('Content.dmgBoost.title'),
+    content: t('Content.dmgBoost.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmgBoost[s]) }),
   }, {
     lc: true,
     id: 'defeatedEnemyAtkStacks',
     name: 'defeatedEnemyAtkStacks',
     formItem: 'slider',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesStacks[s]) }),
+    text: t('Content.defeatedEnemyAtkStacks.text'),
+    title: t('Content.defeatedEnemyAtkStacks.title'),
+    content: t('Content.defeatedEnemyAtkStacks.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesStacks[s]) }),
     min: 0,
     max: 3,
   }]

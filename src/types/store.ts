@@ -3,7 +3,7 @@ import { Relic } from './Relic'
 import { LightCone } from './LightCone'
 import { StringToStringMap } from 'types/Common'
 import { Form } from 'types/Form'
-import { ComboState } from 'lib/optimizer/rotation/rotationGenerator'
+import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 
 type PermutationDetails = {
   Head: number

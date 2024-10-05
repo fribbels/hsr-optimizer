@@ -5,6 +5,7 @@ import { FormSliderWithPopoverProps } from 'components/optimizerTab/conditionals
 import { ComponentProps, ComponentType } from 'react'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { FormSelectWithPopoverProps } from 'components/optimizerTab/conditionals/FormSelect'
 
 export type ConditionalMap = {
   [key: string]: number | boolean | string | undefined
@@ -58,6 +59,7 @@ export interface Conditional {
 export type ContentComponentMap = {
   switch: ComponentType<FormSwitchWithPopoverProps>
   slider: ComponentType<FormSliderWithPopoverProps>
+  select: ComponentType<FormSelectWithPopoverProps>
 }
 
 // extracted content to apply to <DisplayFormControl />

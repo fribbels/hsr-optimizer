@@ -260,9 +260,14 @@ export function locateComboCategory(sourceKey: string, contentItemId: string, co
 
   if (sourceKey.includes('comboCharacter')) {
     const character = comboState.displayState.comboCharacter
-    comboConditionals = sourceKey.includes('LightCone')
-      ? character.lightConeConditionals
-      : character.characterConditionals
+
+    if (sourceKey.includes('RelicSets')) {
+      comboConditionals = character.setConditionals
+    } else if (sourceKey.includes('LightCone')) {
+      comboConditionals = character.lightConeConditionals
+    } else {
+      comboConditionals = character.characterConditionals
+    }
   } else if (sourceKey.includes('comboTeammate')) {
     const teammate: ComboTeammate = comboState.displayState[sourceKey.substring(0, 14)]
     if (sourceKey.includes('RelicSet')) {

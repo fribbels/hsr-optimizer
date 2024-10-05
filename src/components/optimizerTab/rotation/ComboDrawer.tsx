@@ -2,7 +2,7 @@ import { Button, Drawer, Flex, Select } from 'antd'
 import React, { useEffect, useMemo, useRef } from 'react'
 import Selecto from 'react-selecto'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboDisplayState, ComboNumberConditional, ComboSubNumberConditional, ComboTeammate, ConditionalType, initializeComboState, locateActivations, updateActivation, updateAddPartition, updateDeletePartition, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/rotationGenerator'
+import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboDisplayState, ComboNumberConditional, ComboSubNumberConditional, ComboTeammate, ConditionalType, initializeComboState, locateActivations, updateActivation, updateAddPartition, updateDeletePartition, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { Assets } from 'lib/assets'
@@ -492,7 +492,6 @@ function BooleanSwitch(props: { contentItem: ContentItem, value: boolean }) {
           />
         }
       </Flex>
-      {/*<Button type='text' shape='circle' icon={<PlusCircleOutlined/>} style={{ visibility: 'hidden' }}/>*/}
     </Flex>
   )
 }

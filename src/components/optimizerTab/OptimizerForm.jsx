@@ -98,6 +98,7 @@ export default function OptimizerForm() {
     window.store.getState().setPermutationDetails(permutationDetails)
     window.store.getState().setPermutations(relics.Head.length * relics.Hands.length * relics.Body.length * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length)
 
+    console.debug('???????????????', request)
     window.store.getState().setFormValues(request)
   }
   window.onOptimizerFormValuesChange = onValuesChange

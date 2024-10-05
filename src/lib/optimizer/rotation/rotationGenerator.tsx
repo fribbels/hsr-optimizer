@@ -4,16 +4,7 @@ import { Form, Teammate } from 'types/Form'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { ConditionalLightConeMap, LightConeConditional } from 'types/LightConeConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
-import React from 'react'
 import { defaultSetConditionals } from 'lib/defaultForm'
-import { ReactElement } from 'types/Components'
-import { Button, Flex } from 'antd'
-import ColorizeNumbers from 'components/common/ColorizeNumbers'
-import { SelectableBox } from 'components/optimizerTab/rotation/ComboDrawer'
-import { Assets } from 'lib/assets'
-import { MinusCircleOutlined } from '@ant-design/icons'
-import { FormSwitchWithPopover } from 'components/optimizerTab/conditionals/FormSwitch'
-import { FormSliderWithPopover } from 'components/optimizerTab/conditionals/FormSlider'
 
 export enum ConditionalType {
   BOOLEAN = 'boolean',
@@ -22,9 +13,7 @@ export enum ConditionalType {
 }
 
 export type ComboState = {
-  display: React.JSX.Element
   displayState: ComboDisplayState
-  // formState: ComboFormState
 }
 
 export type ComboConditionals = {
@@ -190,14 +179,14 @@ function generateComboTeammate(teammate: Teammate, actionCount: number) {
     },
     characterConditionals: generateComboConditionals(
       characterConditionals,
-      characterConditionalMetadata.teammateContent!(),
-      characterConditionalMetadata.teammateDefaults!(),
+      characterConditionalMetadata.teammateContent?.() ?? [],
+      characterConditionalMetadata.teammateDefaults?.() ?? {},
       actionCount,
     ),
     lightConeConditionals: generateComboConditionals(
       lightConeConditionals,
-      lightConeConditionalMetadata.teammateContent!(),
-      lightConeConditionalMetadata.teammateDefaults!(),
+      lightConeConditionalMetadata.teammateContent?.() ?? [],
+      lightConeConditionalMetadata.teammateDefaults?.() ?? {},
       actionCount,
     ),
     relicSetConditionals: relicSetConditionals,
@@ -210,7 +199,6 @@ function generateComboTeammate(teammate: Teammate, actionCount: number) {
 export function initializeComboState(request: Form) {
   const comboDisplayState: ComboDisplayState = {} as ComboDisplayState
   const comboState: ComboState = {
-    display: <></>,
     displayState: comboDisplayState,
   } as ComboState
 
@@ -255,261 +243,104 @@ export function initializeComboState(request: Form) {
   comboDisplayState.comboTeammate1 = generateComboTeammate(request.teammate1, actionCount)
   comboDisplayState.comboTeammate2 = generateComboTeammate(request.teammate2, actionCount)
 
-  // comboState.display = convertDisplayStateToDisplay(comboDisplayState, actionCount)
-
   console.debug('aa', comboDisplayState)
 
   return comboState
 }
 
-export function convertComboConditionalToDisplay(comboConditional: ComboConditionalCategory, contentItem: ContentItem, sourceKey: string, actionCount: number) {
-  let result: ReactElement
+export function locateComboCategory(sourceKey: string, contentItemId: string, comboState: ComboState) {
+  let comboConditionals: ComboConditionals
 
-  if (contentItem.formItem == 'switch') {
-    const booleanComboConditional = comboConditional as ComboBooleanConditional
-
-    result = (
-      <Flex key={contentItem.id} style={{ height: 45 }}>
-        <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={0}>
-          <Flex style={{ width: 210 }} align='center'>
-            {
-              // @ts-ignore
-              <FormSwitchWithPopover
-                {...contentItem}
-                name={contentItem.id}
-                title={contentItem.title}
-                content={ColorizeNumbers(contentItem.content)}
-                text={contentItem.text}
-                removeForm={true}
-                onChange={(x) => console.log(x)}
-                value={booleanComboConditional.activations[0]}
-              />
-            }
-          </Flex>
-          <Button type='text' shape='circle' icon={<MinusCircleOutlined/>} style={{ visibility: 'hidden' }}/>
-        </Flex>
-        <Flex>
-          {
-            booleanComboConditional.activations.map((value, index) => (
-              <SelectableBox
-                dataKey={JSON.stringify({
-                  id: contentItem.id,
-                  source: sourceKey,
-                  index: index,
-                })}
-                key={index}
-                active={value}
-              />
-            ))
-          }
-        </Flex>
-      </Flex>
-    )
-  } else if (contentItem.formItem == 'slider') {
-    const numberComboConditional = comboConditional as ComboNumberConditional
-    const rows = numberComboConditional.partitions.length
-
-    const partitionData: ReactElement[] = []
-
-    for (let partitionIndex = 0; partitionIndex < rows; partitionIndex++) {
-      const partition = numberComboConditional.partitions[partitionIndex]
-      partitionData.push(
-        <Flex key={partitionIndex} style={{ height: 45 }}>
-          <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={0}>
-            <Flex style={{ width: 210 }} align='center'>
-              {
-                // @ts-ignore
-                <FormSliderWithPopover
-                  {...contentItem}
-                  name={contentItem.id}
-                  title={contentItem.title}
-                  content={ColorizeNumbers(contentItem.content)}
-                  text={contentItem.text}
-                  onChange={(x) => console.log(x)}
-                  value={partition.value}
-                  removeForm={true}
-                />
-              }
-            </Flex>
-            <Button type='text' shape='circle' icon={<MinusCircleOutlined/>}/>
-          </Flex>
-          <Flex>
-            {
-              partition.activations.map((active, index) => (
-                <SelectableBox
-                  active={active}
-                  key={index}
-                  dataKey={JSON.stringify({
-                    id: contentItem.id,
-                    source: sourceKey,
-                    partitionIndex: partitionIndex,
-                    index: index,
-                  })}
-                />
-              ))
-            }
-          </Flex>
-        </Flex>,
-      )
+  if (sourceKey.includes('comboCharacter')) {
+    const character = comboState.displayState.comboCharacter
+    comboConditionals = sourceKey.includes('LightCone')
+      ? character.lightConeConditionals
+      : character.characterConditionals
+  } else if (sourceKey.includes('comboTeammate')) {
+    const teammate: ComboTeammate = comboState.displayState[sourceKey.substring(0, 14)]
+    if (sourceKey.includes('RelicSet')) {
+      comboConditionals = teammate.relicSetConditionals
+    } else if (sourceKey.includes('OrnamentSet')) {
+      comboConditionals = teammate.ornamentSetConditionals
+    } else if (sourceKey.includes('LightCone')) {
+      comboConditionals = teammate.lightConeConditionals
+    } else {
+      comboConditionals = teammate.characterConditionals
     }
+  } else {
+    return null
+  }
 
-    result = (
-      <Flex key={contentItem.id} vertical>
-        {partitionData}
-      </Flex>
-    )
+  return comboConditionals[contentItemId]
+}
+
+export function locateActivations(keyString: string, comboState: ComboState) {
+  const dataKey: ComboDataKey = JSON.parse(keyString)
+  if (!dataKey.id) return null
+
+  let comboCategory = locateComboCategory(dataKey.source, dataKey.id, comboState)
+  if (!comboCategory) return null
+
+  if (comboCategory.type == ConditionalType.BOOLEAN) {
+    const comboBooleanConditional = comboCategory as ComboBooleanConditional
+    const activations = comboBooleanConditional.activations
+    return {
+      comboConditional: comboBooleanConditional,
+      activations: activations,
+      index: dataKey.index,
+      value: activations[dataKey.index]
+    }
+  } else if (comboCategory.type == ConditionalType.NUMBER) {
+    const comboNumberConditional = comboCategory as ComboNumberConditional
+    const activations = comboNumberConditional.partitions[dataKey.partitionIndex].activations
+    return {
+      comboConditional: comboNumberConditional,
+      activations: activations,
+      index: dataKey.index,
+      value: activations[dataKey.index]
+    }
   } else {
     // No other types
-    result = <></>
   }
 
-  return result
-}
-
-function ComboGroupRow(props: { src: string; content: ReactElement[] }) {
-  return (
-    <Flex gap={10} align='center' style={{ padding: 8, background: '#677dbd1c', borderRadius: 5 }}>
-      <img src={props.src} style={{ width: 80, height: 80 }}/>
-      <Flex vertical>
-        {props.content}
-      </Flex>
-    </Flex>
-  )
-}
-
-export function renderContent(
-  contentItems: ContentItem[],
-  comboConditionals: ComboConditionals,
-  actionCount: number,
-  sourceKey: string,
-) {
-  const key = 0
-  const content: ReactElement[] = []
-  for (const contentItem of contentItems) {
-    const comboConditional = comboConditionals[contentItem.id]
-    if (comboConditional == null) continue
-
-    const display = convertComboConditionalToDisplay(comboConditional, contentItem, sourceKey, actionCount)
-    content.push(display)
-  }
-
-  return content
-}
-
-export function convertDisplayStateToDisplay(displayState: ComboDisplayState, actionCount: number): ReactElement {
-  const uiRows: ReactElement[] = []
-
-  if (displayState.comboCharacter) {
-    const comboCharacter = displayState.comboCharacter
-    const comboCharacterConditionals: ComboConditionals = comboCharacter.characterConditionals
-    const comboLightConeConditionals: ComboConditionals = comboCharacter.lightConeConditionals
-    const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(comboCharacter.metadata)
-    const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(comboCharacter.metadata)
-
-    uiRows.push((
-      <ComboGroupRow
-        key='comboCharacter'
-        src={Assets.getCharacterAvatarById(comboCharacter.metadata.characterId)}
-        // src={Assets.getBlank()}
-        content={
-          renderContent(
-            characterConditionalMetadata.content(),
-            comboCharacterConditionals,
-            actionCount,
-            'comboCharacter',
-          )
-        }
-      />
-    ))
-    uiRows.push((
-      <ComboGroupRow
-        key='comboCharacterLightCone'
-        src={Assets.getLightConeIconById(comboCharacter.metadata.lightCone)}
-        // src={Assets.getBlank()}
-        content={
-          renderContent(
-            lightConeConditionalMetadata.content(),
-            comboLightConeConditionals,
-            actionCount,
-            'comboCharacterLightCone',
-          )
-        }
-      />
-    ))
-  }
-
-  function renderTeammate(teammate: ComboTeammate, characterKey: string) {
-    if (!teammate) return
-
-    const comboCharacterConditionals: ComboConditionals = teammate.characterConditionals
-    const comboLightConeConditionals: ComboConditionals = teammate.lightConeConditionals
-    const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(teammate.metadata)
-    const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(teammate.metadata)
-
-    const teammateCharacterKey = `${characterKey}`
-    const teammateLightConeKey = `${characterKey}LightCone`
-
-    uiRows.push((
-      <ComboGroupRow
-        key={teammateCharacterKey}
-        // src={Assets.getBlank()}
-        src={Assets.getCharacterAvatarById(teammate.metadata.characterId)}
-        content={renderContent(characterConditionalMetadata.teammateContent!(), comboCharacterConditionals, actionCount, teammateCharacterKey)}
-      />
-    ))
-    uiRows.push((
-      <ComboGroupRow
-        key={teammateLightConeKey}
-        // src={Assets.getBlank()}
-        src={Assets.getLightConeIconById(teammate.metadata.lightCone)}
-        content={renderContent(lightConeConditionalMetadata.teammateContent!(), comboLightConeConditionals, actionCount, teammateLightConeKey)}
-      />
-    ))
-  }
-
-  renderTeammate(displayState.comboTeammate0, 'comboTeammate0')
-  renderTeammate(displayState.comboTeammate1, 'comboTeammate1')
-  renderTeammate(displayState.comboTeammate2, 'comboTeammate2')
-
-  return (
-    <Flex vertical gap={8}>
-      {uiRows}
-    </Flex>
-  )
+  return null
 }
 
 export function updateActivation(keyString: string, activate: boolean, comboState: ComboState) {
   const dataKey: ComboDataKey = JSON.parse(keyString)
   if (!dataKey.id) return
 
-  let comboConditionals: ComboConditionals
+  const locatedActivations = locateActivations(keyString, comboState)
+  if (!locatedActivations) return
 
-  if (dataKey.source.includes('comboCharacter')) {
-    const character = comboState.displayState.comboCharacter
-    comboConditionals = dataKey.source.includes('LightCone')
-      ? character.lightConeConditionals
-      : character.characterConditionals
-  } else if (dataKey.source.includes('comboTeammate')) {
-    const teammate: ComboTeammate = comboState.displayState[dataKey.source.substring(0, 14)]
-    comboConditionals = dataKey.source.includes('LightCone')
-      ? teammate.lightConeConditionals
-      : teammate.characterConditionals
+  if (locatedActivations.comboConditional.type == ConditionalType.NUMBER) {
+    // Numbers are activated onDrag
   } else {
-    return
+    locatedActivations.activations[locatedActivations.index] = activate
   }
+}
 
-  const comboCategory: ComboConditionalCategory = comboConditionals[dataKey.id]
-  if (comboCategory.type == ConditionalType.BOOLEAN) {
-    const comboBooleanConditional = comboConditionals[dataKey.id] as ComboBooleanConditional
-    comboBooleanConditional.activations[dataKey.index] = !comboBooleanConditional.activations[dataKey.index]
-  } else if (comboCategory.type == ConditionalType.NUMBER) {
-    const comboNumberConditional = comboConditionals[dataKey.id] as ComboNumberConditional
-    comboNumberConditional.partitions[dataKey.partitionIndex].activations[dataKey.index] = !comboNumberConditional.partitions[dataKey.partitionIndex].activations[dataKey.index]
-  } else {
-    // No other types
+export function updatePartitionActivation(keyString: string, comboState: ComboState) {
+  const dataKey: ComboDataKey = JSON.parse(keyString)
+  if (!dataKey.id) return
+
+  const locatedActivations = locateActivations(keyString, comboState)
+  if (!locatedActivations) return
+
+  if (locatedActivations.comboConditional.type == ConditionalType.NUMBER) {
+    const numberConditional = locatedActivations.comboConditional as ComboNumberConditional
+    const partitionIndex = dataKey.partitionIndex
+    const activationIndex = dataKey.index
+    for (let i = 0; i < numberConditional.partitions.length; i++) {
+      const partition = numberConditional.partitions[i]
+
+      partition.activations[activationIndex] = i == partitionIndex;
+    }
+
+    window.store.getState().setComboState({
+      ...comboState
+    })
   }
-
-  return comboState
 }
 
 export type ComboDataKey = {
@@ -517,4 +348,50 @@ export type ComboDataKey = {
   source: string
   partitionIndex: number
   index: number
+}
+
+export function updateAddPartition(sourceKey: string, contentItemId: string, partitionIndex: number) {
+  const state = window.store.getState().comboState
+
+  const comboCategory = locateComboCategory(sourceKey, contentItemId, state) as ComboNumberConditional
+  if (!comboCategory) return null
+
+  const selectedPartition = comboCategory.partitions[partitionIndex]
+
+  comboCategory.partitions.push({
+    value: selectedPartition.value,
+    activations: Array(selectedPartition.activations.length).fill(false)
+  })
+
+  window.store.getState().setComboState({
+    ...state
+  })
+}
+
+export function updateDeletePartition(sourceKey: string, contentItemId: string, partitionIndex: number) {
+  if (partitionIndex == 0) return
+
+  const state = window.store.getState().comboState
+  const comboCategory = locateComboCategory(sourceKey, contentItemId, state) as ComboNumberConditional
+  if (!comboCategory) return null
+
+  comboCategory.partitions.splice(partitionIndex, 1)
+
+  for (let i = 0; i < comboCategory.partitions[0].activations.length; i++) {
+    let hasValue = false
+    for (let j = 0; j < comboCategory.partitions.length; j++) {
+      if (comboCategory.partitions[j].activations[i]) {
+        hasValue = true
+        break
+      }
+    }
+
+    if (!hasValue) {
+      comboCategory.partitions[0].activations[i] = true
+    }
+  }
+
+  window.store.getState().setComboState({
+    ...state
+  })
 }

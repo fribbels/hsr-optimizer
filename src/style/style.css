@@ -484,7 +484,11 @@ a {
 }
 
 .selectable:not(.selected):hover {
-    background: #68a6ff33;
+    background: rgba(104, 166, 255, 0.09);
+}
+
+.selectable.selected:hover {
+    background: #5793ea;
 }
 
 .container {

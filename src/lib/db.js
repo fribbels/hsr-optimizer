@@ -81,6 +81,9 @@ window.store = create((set) => ({
 
   optimizerGrid: undefined,
 
+  comboState: {
+    displayState: {},
+  },
   optimizerTabFocusCharacter: undefined,
   characterTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
@@ -168,6 +171,7 @@ window.store = create((set) => ({
 
   settings: DefaultSettingOptions,
 
+  setComboState: (x) => set(() => ({ comboState: x })),
   setVersion: (x) => set(() => ({ version: x })),
   setActiveKey: (x) => set(() => ({ activeKey: x })),
   setFormValues: (x) => set(() => ({ formValues: x })),

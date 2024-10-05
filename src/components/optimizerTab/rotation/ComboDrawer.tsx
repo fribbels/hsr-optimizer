@@ -1,8 +1,8 @@
-import { Button, Drawer, Flex } from 'antd'
-import React, { useEffect, useMemo, useState } from 'react'
+import { Button, Drawer, Flex, Select } from 'antd'
+import React, { useEffect, useMemo, useRef } from 'react'
 import Selecto from 'react-selecto'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboDisplayState, ComboNumberConditional, ComboState, ComboSubNumberConditional, ComboTeammate, initializeComboState, updateActivation } from 'lib/optimizer/rotation/rotationGenerator'
+import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboDisplayState, ComboNumberConditional, ComboSubNumberConditional, ComboTeammate, initializeComboState, locateActivations, updateActivation, updateAddPartition, updateDeletePartition, updatePartitionActivation } from 'lib/optimizer/rotation/rotationGenerator'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { Assets } from 'lib/assets'
@@ -12,8 +12,11 @@ import { ContentItem } from 'types/Conditionals'
 import { ReactElement } from 'types/Components'
 import { FormSwitchWithPopover } from 'components/optimizerTab/conditionals/FormSwitch'
 import ColorizeNumbers from 'components/common/ColorizeNumbers'
-import { MinusCircleOutlined } from '@ant-design/icons'
+import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { FormSliderWithPopover } from 'components/optimizerTab/conditionals/FormSlider'
+import GenerateOrnamentsOptions from 'components/optimizerTab/optimizerForm/OrnamentsOptions'
+import { OrnamentSetTagRenderer } from 'components/optimizerTab/optimizerForm/OrnamentSetTagRenderer'
+import { GenerateBasicSetsOptions } from 'components/optimizerTab/optimizerForm/SetsOptions'
 
 export function SelectableBox(props: { active: boolean; dataKey: string }) {
   const classnames = props.active ? 'selectable selected' : 'selectable'
@@ -33,10 +36,12 @@ export function ComboDrawer() {
   const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
   const formValues = window.store((s) => s.formValues)
   const setFormValues = window.store((s) => s.setFormValues)
-  const [state, setState] = useState<ComboState>({
-    display: <></>,
-    displayState: {} as ComboDisplayState,
-  })
+
+  const comboState = window.store((s) => s.comboState)
+  const setComboState = window.store((s) => s.setComboState)
+
+  const selectActivationState = useRef(true);
+  const lastSelectedKeyState = useRef(undefined);
 
   useEffect(() => {
     if (comboDrawerOpen) {
@@ -46,9 +51,9 @@ export function ComboDrawer() {
       console.debug('combo', formValues.combo)
 
       const comboState = initializeComboState(formValues)
-      setState(comboState)
+      setComboState(comboState)
     }
-  }, [formValues])
+  }, [formValues, comboDrawerOpen])
 
   return (
     <Drawer
@@ -71,7 +76,7 @@ export function ComboDrawer() {
             <Flex style={{ width: 75 }} justify='space-around'>Skill</Flex>
           </Flex>
         </Flex>
-        <StateDisplay displayState={state.displayState}/>
+        <StateDisplay displayState={comboState.displayState}/>
         <Selecto
           className='selecto-selection'
           // The container to add a selection element
@@ -92,48 +97,94 @@ export function ComboDrawer() {
           keyContainer={window}
           // The rate at which the target overlaps the drag area to be selected. (default: 100)
           hitRate={0}
-          onDrag={() => {
-            // console.log('onDrag')
+          onDrag={(e) => {
+            const selectedKey = e.inputEvent.srcElement.getAttribute('data-key') ?? '{}'
+            if (selectedKey != lastSelectedKeyState.current) {
+              updatePartitionActivation(selectedKey, comboState)
+              lastSelectedKeyState.current = selectedKey
+            }
+          }}
+          onDragStart={(e) => {
+            const startKey = e.inputEvent.srcElement.getAttribute('data-key') ?? '{}'
+            const located = locateActivations(startKey, comboState)
+
+            console.log(located)
+
+            selectActivationState.current = !(located && located.value)
+            lastSelectedKeyState.current = undefined
           }}
           onSelect={(e) => {
-            // console.log('onSelect')
-            // if (e.added.length) console.log('added', e.added)
-            // if (e.removed.length) console.log('removed', e.removed)
-
-            // console.log(e)
-            // e.added.forEach((el) => {
-            //   el.classList.add('selected')
-            // })
-            // e.removed.forEach((el) => {
-            //   el.classList.remove('selected')
-            // })
-
             const newState = {
-              ...state,
+              ...comboState,
             }
 
             e.added.forEach((el) => {
-              const dataKey = el.getAttribute('data-key') ?? '{}' // Get the data-key attribute
-              // console.log('Added Element Data Key:', dataKey)
-              updateActivation(dataKey, true, newState)
+              updateActivation(elementToDataKey(el), selectActivationState.current, newState)
             })
             e.removed.forEach((el) => {
-              const dataKey = el.getAttribute('data-key') ?? '{}' // Get the data-key attribute
-              // console.log('Removed Element Data Key:', dataKey)
-              updateActivation(dataKey, false, newState)
+              updateActivation(elementToDataKey(el), selectActivationState.current, newState)
             })
 
-            // Debug
-            // for (let i = 0; i < 4; i++) {
-            //   state.displayState.comboCharacter.characterConditionals['e1CdBuff'].activations[i] = Math.random() > 0.5 ? true : false
-            // }
-            // newState.display = convertDisplayStateToDisplay(newState.displayState, 6)
+            const selectedKey = e.inputEvent.srcElement.getAttribute('data-key') ?? '{}'
+            if (selectedKey != lastSelectedKeyState.current) {
+              updatePartitionActivation(selectedKey, comboState)
+              lastSelectedKeyState.current = selectedKey
+            }
 
-            setState(newState)
+            setComboState(newState)
           }}
         />
       </div>
     </Drawer>
+  )
+}
+
+export function elementToDataKey(element: HTMLElement | SVGElement) {
+  return element.getAttribute('data-key') ?? '{}' // Get the data-key attribute
+}
+
+function GroupDivider() {
+  return (
+    <div style={{ width: '100%', height: 10 }}>
+
+    </div>
+  )
+}
+
+function RelicSelector() {
+  return (
+    <Select
+      dropdownStyle={{
+        width: 300,
+      }}
+      listHeight={800}
+      mode='multiple'
+      allowClear
+      style={{ flex: 1 }}
+      options={GenerateBasicSetsOptions()}
+      tagRender={OrnamentSetTagRenderer}
+      placeholder='Ornament set'
+      maxTagCount='responsive'
+    />
+  )
+}
+
+function OrnamentSelector() {
+  return (
+    <Select
+      dropdownStyle={{
+        width: 300,
+      }}
+      listHeight={800}
+      mode='multiple'
+      allowClear
+      style={{ flex: 1 }}
+      options={GenerateOrnamentsOptions()}
+      tagRender={OrnamentSetTagRenderer}
+      placeholder='Ornament set'
+      maxTagCount='responsive'
+    >
+    </Select>
   )
 }
 
@@ -142,12 +193,27 @@ function StateDisplay(props: { displayState: ComboDisplayState }) {
     <Flex vertical gap={8}>
       <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboCharacter} conditionalType='character' originKey='comboCharacter'/>
       <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboCharacter} conditionalType='lightCone' originKey='comboCharacterLightCone'/>
+      {/*<ComboConditionalsGroupRow comboOrigin={props.displayState?.comboCharacter} conditionalType='sets' originKey='comboCharacterSets'/>*/}
+      <GroupDivider/>
+      <Flex style={{ width: '100%' }} gap={10}>
+        <RelicSelector/>
+        <OrnamentSelector/>
+      </Flex>
+      <GroupDivider/>
       <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboTeammate0} conditionalType='character' originKey='comboTeammate0'/>
       <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboTeammate0} conditionalType='lightCone' originKey='comboTeammate0LightCone'/>
+      <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboTeammate0} conditionalType='lightCone' originKey='comboTeammate0RelicSet'/>
+      <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboTeammate0} conditionalType='lightCone' originKey='comboTeammate0OrnamentSet'/>
+      <GroupDivider/>
       <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboTeammate1} conditionalType='character' originKey='comboTeammate1'/>
       <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboTeammate1} conditionalType='lightCone' originKey='comboTeammate1LightCone'/>
+      <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboTeammate1} conditionalType='lightCone' originKey='comboTeammate1RelicSet'/>
+      <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboTeammate1} conditionalType='lightCone' originKey='comboTeammate1OrnamentSet'/>
+      <GroupDivider/>
       <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboTeammate2} conditionalType='character' originKey='comboTeammate2'/>
       <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboTeammate2} conditionalType='lightCone' originKey='comboTeammate2LightCone'/>
+      <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboTeammate2} conditionalType='lightCone' originKey='comboTeammate2RelicSet'/>
+      <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboTeammate2} conditionalType='lightCone' originKey='comboTeammate2OrnamentSet'/>
     </Flex>
   )
 }
@@ -158,24 +224,66 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
       return null
     }
 
-    let content
-    let src
-    let conditionals
+    let content: ContentItem[]
+    let src: string
+    let conditionals: ComboConditionals
+
+    const isTeammate = props.originKey.includes('Teammate')
+    const comboCharacter = props.comboOrigin as ComboCharacter
+    const comboTeammate = props.comboOrigin as ComboTeammate
+    const metadata = comboCharacter.metadata
 
     if (props.originKey.includes('LightCone')) {
-      const comboCharacter = props.comboOrigin as ComboCharacter
-      const metadata = comboCharacter.metadata
       const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(metadata)
 
-      content = lightConeConditionalMetadata.content()
+      content = isTeammate ? lightConeConditionalMetadata.teammateContent?.() ?? [] : lightConeConditionalMetadata.content()
       src = Assets.getLightConeIconById(metadata.lightCone)
       conditionals = comboCharacter.lightConeConditionals
+    } else if (props.originKey.includes('RelicSet')) {
+      const keys = Object.keys(comboTeammate.relicSetConditionals)
+      if (keys.length) {
+        const setName = keys[0]
+        content = [
+          {
+            formItem: 'switch',
+            id: setName,
+            name: setName,
+            text: setName,
+            title: setName,
+            content: setName,
+          }
+        ]
+        src = Assets.getSetImage(setName, null, true)
+        conditionals = comboTeammate.relicSetConditionals
+      } else {
+        return null
+      }
+    } else if (props.originKey.includes('OrnamentSet')) {
+      const keys = Object.keys(comboTeammate.ornamentSetConditionals)
+      if (keys.length) {
+        const setName = keys[0]
+        content = [
+          {
+            formItem: 'switch',
+            id: setName,
+            name: setName,
+            text: setName,
+            title: setName,
+            content: setName,
+          }
+        ]
+        src = Assets.getSetImage(setName, null, true)
+        conditionals = comboTeammate.ornamentSetConditionals
+      } else {
+        return null
+      }
+    } else if (props.originKey.includes('Sets')) {
+
     } else {
-      const comboCharacter = props.comboOrigin as ComboCharacter
-      const metadata = comboCharacter.metadata
+      // Character
       const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(metadata)
 
-      content = characterConditionalMetadata.content()
+      content = isTeammate ? characterConditionalMetadata.teammateContent?.() ?? [] : characterConditionalMetadata.content()
       src = Assets.getCharacterAvatarById(metadata.characterId)
       conditionals = comboCharacter.characterConditionals
     }
@@ -279,7 +387,7 @@ function NumberConditionalActivationRow(props: { comboConditional: ComboNumberCo
   }
 
   return (
-    <Flex>
+    <Flex vertical>
       {display}
     </Flex>
   )
@@ -300,7 +408,7 @@ function Partition(props: { partition: ComboSubNumberConditional, contentItem: C
 
   return (
     <Flex key={props.partitionIndex} style={{ height: 45 }}>
-      <NumberSlider contentItem={props.contentItem} value={props.partition.value}/>
+      <NumberSlider contentItem={props.contentItem} value={props.partition.value} sourceKey={props.sourceKey} partitionIndex={props.partitionIndex}/>
       <BoxArray activations={props.activations} dataKeys={dataKeys}/>
     </Flex>
   )
@@ -325,12 +433,12 @@ function BooleanSwitch(props: { contentItem: ContentItem, value: boolean }) {
           />
         }
       </Flex>
-      <Button type='text' shape='circle' icon={<MinusCircleOutlined/>} style={{ visibility: 'hidden' }}/>
+      {/*<Button type='text' shape='circle' icon={<PlusCircleOutlined/>} style={{ visibility: 'hidden' }}/>*/}
     </Flex>
   )
 }
 
-function NumberSlider(props: { contentItem: ContentItem, value: number }) {
+function NumberSlider(props: { contentItem: ContentItem, value: number, sourceKey: string, partitionIndex: number }) {
   const contentItem = props.contentItem
 
   return (
@@ -350,7 +458,13 @@ function NumberSlider(props: { contentItem: ContentItem, value: number }) {
           />
         }
       </Flex>
-      <Button type='text' shape='circle' icon={<MinusCircleOutlined/>}/>
+      <Button type='text' shape='circle' icon={props.partitionIndex == 0 ? <PlusCircleOutlined/> : <MinusCircleOutlined/>} onClick={() => {
+        if (props.partitionIndex == 0) {
+          updateAddPartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
+        } else {
+          updateDeletePartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
+        }
+      }}/>
     </Flex>
   )
 }

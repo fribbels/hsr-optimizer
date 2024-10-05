@@ -255,14 +255,14 @@ export function initializeComboState(request: Form) {
   comboDisplayState.comboTeammate1 = generateComboTeammate(request.teammate1, actionCount)
   comboDisplayState.comboTeammate2 = generateComboTeammate(request.teammate2, actionCount)
 
-  comboState.display = convertDisplayStateToDisplay(comboDisplayState, actionCount)
+  // comboState.display = convertDisplayStateToDisplay(comboDisplayState, actionCount)
 
   console.debug('aa', comboDisplayState)
 
   return comboState
 }
 
-function convertComboConditionalToDisplay(comboConditional: ComboConditionalCategory, contentItem: ContentItem, sourceKey: string, actionCount: number) {
+export function convertComboConditionalToDisplay(comboConditional: ComboConditionalCategory, contentItem: ContentItem, sourceKey: string, actionCount: number) {
   let result: ReactElement
 
   if (contentItem.formItem == 'switch') {
@@ -377,7 +377,7 @@ function ComboGroupRow(props: { src: string; content: ReactElement[] }) {
   )
 }
 
-function renderContent(
+export function renderContent(
   contentItems: ContentItem[],
   comboConditionals: ComboConditionals,
   actionCount: number,
@@ -409,8 +409,8 @@ export function convertDisplayStateToDisplay(displayState: ComboDisplayState, ac
     uiRows.push((
       <ComboGroupRow
         key='comboCharacter'
-        // src={Assets.getCharacterAvatarById(comboCharacter.metadata.characterId)}
-        src={Assets.getBlank()}
+        src={Assets.getCharacterAvatarById(comboCharacter.metadata.characterId)}
+        // src={Assets.getBlank()}
         content={
           renderContent(
             characterConditionalMetadata.content(),
@@ -424,8 +424,8 @@ export function convertDisplayStateToDisplay(displayState: ComboDisplayState, ac
     uiRows.push((
       <ComboGroupRow
         key='comboCharacterLightCone'
-        // src={Assets.getLightConeIconById(comboCharacter.metadata.lightCone)}
-        src={Assets.getBlank()}
+        src={Assets.getLightConeIconById(comboCharacter.metadata.lightCone)}
+        // src={Assets.getBlank()}
         content={
           renderContent(
             lightConeConditionalMetadata.content(),
@@ -452,16 +452,16 @@ export function convertDisplayStateToDisplay(displayState: ComboDisplayState, ac
     uiRows.push((
       <ComboGroupRow
         key={teammateCharacterKey}
-        src={Assets.getBlank()}
-        // src={Assets.getCharacterAvatarById(teammate.metadata.characterId)}
+        // src={Assets.getBlank()}
+        src={Assets.getCharacterAvatarById(teammate.metadata.characterId)}
         content={renderContent(characterConditionalMetadata.teammateContent!(), comboCharacterConditionals, actionCount, teammateCharacterKey)}
       />
     ))
     uiRows.push((
       <ComboGroupRow
         key={teammateLightConeKey}
-        src={Assets.getBlank()}
-        // src={Assets.getLightConeIconById(teammate.metadata.lightCone)}
+        // src={Assets.getBlank()}
+        src={Assets.getLightConeIconById(teammate.metadata.lightCone)}
         content={renderContent(lightConeConditionalMetadata.teammateContent!(), comboLightConeConditionals, actionCount, teammateLightConeKey)}
       />
     ))

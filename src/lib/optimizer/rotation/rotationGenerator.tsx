@@ -25,11 +25,13 @@ export type ComboConditionalCategory = ComboBooleanConditional | ComboNumberCond
 export type ComboBooleanConditional = {
   type: ConditionalType.BOOLEAN
   activations: boolean[]
+  display?: boolean
 }
 
 export type ComboNumberConditional = {
   type: ConditionalType.NUMBER
   partitions: ComboSubNumberConditional[]
+  display?: boolean
 }
 
 export type ComboSubNumberConditional = {
@@ -40,6 +42,7 @@ export type ComboSubNumberConditional = {
 export type ComboSelectConditional = {
   type: ConditionalType.SELECT
   partitions: ComboSubSelectConditional[]
+  display?: boolean
 }
 
 export type ComboSubSelectConditional = {
@@ -59,6 +62,8 @@ export type ComboCharacter = {
   characterConditionals: ComboConditionals
   lightConeConditionals: ComboConditionals
   setConditionals: ComboConditionals
+  displayedRelicSets: string[]
+  displayedOrnamentSets: string[]
 }
 
 export type ComboTeammate = {
@@ -237,6 +242,8 @@ export function initializeComboState(request: Form) {
       requestSetConditionals,
       actionCount,
     ),
+    displayedRelicSets: [],
+    displayedOrnamentSets: []
   }
 
   comboDisplayState.comboTeammate0 = generateComboTeammate(request.teammate0, actionCount)
@@ -394,4 +401,27 @@ export function updateDeletePartition(sourceKey: string, contentItemId: string, 
   window.store.getState().setComboState({
     ...state
   })
+}
+
+export function updateSelectedSets(sets: string[], isOrnaments: boolean) {
+  const state = window.store.getState().comboState
+
+  if (isOrnaments) {
+    state.displayState.comboCharacter.displayedOrnamentSets = sets
+  } else {
+    state.displayState.comboCharacter.displayedRelicSets = sets
+  }
+
+  for (const [key, value] of Object.entries(state.displayState.comboCharacter.setConditionals)) {
+    if (sets.includes(key)) {
+      value.display = true
+    } else {
+      value.display = false
+    }
+  }
+
+  window.store.getState().setComboState({
+    ...state
+  })
+  console.debug('!!', state, sets)
 }

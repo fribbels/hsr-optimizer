@@ -2,7 +2,7 @@ import { Button, Drawer, Flex, Select } from 'antd'
 import React, { useEffect, useMemo, useRef } from 'react'
 import Selecto from 'react-selecto'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboDisplayState, ComboNumberConditional, ComboSubNumberConditional, ComboTeammate, initializeComboState, locateActivations, updateActivation, updateAddPartition, updateDeletePartition, updatePartitionActivation } from 'lib/optimizer/rotation/rotationGenerator'
+import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboDisplayState, ComboNumberConditional, ComboSubNumberConditional, ComboTeammate, ConditionalType, initializeComboState, locateActivations, updateActivation, updateAddPartition, updateDeletePartition, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/rotationGenerator'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { Assets } from 'lib/assets'
@@ -151,7 +151,7 @@ function GroupDivider() {
   )
 }
 
-function RelicSelector() {
+function SetSelector(props: { selected: string[], options: { value: string; label: ReactElement }[], placeholder: string, submit: (arr: string[]) => void }) {
   return (
     <Select
       dropdownStyle={{
@@ -161,30 +161,62 @@ function RelicSelector() {
       mode='multiple'
       allowClear
       style={{ flex: 1 }}
-      options={GenerateBasicSetsOptions()}
+      options={props.options}
       tagRender={OrnamentSetTagRenderer}
-      placeholder='Ornament set'
+      placeholder={props.placeholder}
       maxTagCount='responsive'
+      placement='bottomRight'
+      value={props.selected ?? []}
+      onSelect={(value: string) => {
+        const selected = [...props.selected, value]
+        props.submit([...props.selected, value])
+      }}
+      onDeselect={(value: string) => {
+        const selected = props.selected.filter((selected) => selected !== value)
+        props.submit(selected)
+      }}
+      onClear={() => {
+        props.submit([])
+      }}
     />
   )
 }
 
-function OrnamentSelector() {
+function SetSelectors(props: { comboOrigin: ComboCharacter }) {
   return (
-    <Select
-      dropdownStyle={{
-        width: 300,
-      }}
-      listHeight={800}
-      mode='multiple'
-      allowClear
-      style={{ flex: 1 }}
-      options={GenerateOrnamentsOptions()}
-      tagRender={OrnamentSetTagRenderer}
-      placeholder='Ornament set'
-      maxTagCount='responsive'
-    >
-    </Select>
+    <Flex style={{ width: '100%' }} gap={10}>
+      <SetSelector
+        selected={props.comboOrigin?.displayedRelicSets}
+        options={GenerateBasicSetsOptions()}
+        placeholder='Relic set conditionals'
+        submit={(arr) => {
+          updateSelectedSets(arr, false)
+        }}
+      />
+      <SetSelector
+        selected={props.comboOrigin?.displayedOrnamentSets}
+        options={GenerateOrnamentsOptions()}
+        placeholder='Ornament set conditionals'
+        submit={(arr) => {
+          updateSelectedSets(arr, true)
+        }}
+      />
+    </Flex>
+  )
+}
+
+function SetDisplays(props: { comboOrigin: ComboCharacter, conditionalType: string, originKey: string }) {
+  const relicSets = props.comboOrigin?.displayedRelicSets || []
+  const setRender = relicSets.map(setName => {
+    return (
+      <ComboConditionalsGroupRow key={setName} comboOrigin={props.comboOrigin} conditionalType={setName} originKey={props.originKey}/>
+    )
+  })
+
+  return (
+    <Flex vertical gap={8}>
+      {setRender}
+    </Flex>
   )
 }
 
@@ -193,12 +225,10 @@ function StateDisplay(props: { displayState: ComboDisplayState }) {
     <Flex vertical gap={8}>
       <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboCharacter} conditionalType='character' originKey='comboCharacter'/>
       <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboCharacter} conditionalType='lightCone' originKey='comboCharacterLightCone'/>
-      {/*<ComboConditionalsGroupRow comboOrigin={props.displayState?.comboCharacter} conditionalType='sets' originKey='comboCharacterSets'/>*/}
+      <SetDisplays comboOrigin={props.displayState?.comboCharacter} conditionalType='relicSets' originKey='comboCharacterRelicSets'/>
+      {/*<ComboConditionalsGroupRow comboOrigin={props.displayState?.comboCharacter} conditionalType='relicSets' originKey='comboCharacterRelicSets'/>*/}
       <GroupDivider/>
-      <Flex style={{ width: '100%' }} gap={10}>
-        <RelicSelector/>
-        <OrnamentSelector/>
-      </Flex>
+      <SetSelectors comboOrigin={props.displayState?.comboCharacter}/>
       <GroupDivider/>
       <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboTeammate0} conditionalType='character' originKey='comboTeammate0'/>
       <ComboConditionalsGroupRow comboOrigin={props.displayState?.comboTeammate0} conditionalType='lightCone' originKey='comboTeammate0LightCone'/>
@@ -239,6 +269,37 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
       content = isTeammate ? lightConeConditionalMetadata.teammateContent?.() ?? [] : lightConeConditionalMetadata.content()
       src = Assets.getLightConeIconById(metadata.lightCone)
       conditionals = comboCharacter.lightConeConditionals
+    } else if (props.originKey.includes('comboCharacterRelicSets')) {
+      const setName = props.conditionalType
+      // const displayedKeys = comboCharacter.displayedRelicSets
+      // const keys = Object.keys(comboCharacter.setConditionals).filter(x => displayedKeys.includes(x))
+
+      const category: ComboConditionalCategory = comboCharacter.setConditionals[setName]
+      if (category.type == ConditionalType.BOOLEAN) {
+        content = [{
+          formItem: 'switch',
+          id: setName,
+          name: setName,
+          text: setName,
+          title: setName,
+          content: setName,
+        }]
+      } else if (category.type == ConditionalType.NUMBER) {
+        content = [{
+          formItem: 'slider',
+          id: setName,
+          name: setName,
+          text: setName,
+          title: setName,
+          content: setName,
+          min: 0,
+          max: 10
+        }]
+      } else {
+        return null
+      }
+      src = Assets.getSetImage(setName, null, true)
+      conditionals = comboCharacter.setConditionals
     } else if (props.originKey.includes('RelicSet')) {
       const keys = Object.keys(comboTeammate.relicSetConditionals)
       if (keys.length) {
@@ -277,8 +338,6 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
       } else {
         return null
       }
-    } else if (props.originKey.includes('Sets')) {
-
     } else {
       // Character
       const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(metadata)

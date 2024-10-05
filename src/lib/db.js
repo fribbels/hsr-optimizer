@@ -77,6 +77,8 @@ window.store = create((set) => ({
   version: CURRENT_OPTIMIZER_VERSION,
   colorTheme: Themes.BLUE,
 
+  formValues: undefined,
+
   optimizerGrid: undefined,
 
   optimizerTabFocusCharacter: undefined,
@@ -92,7 +94,7 @@ window.store = create((set) => ({
   characters: [],
   charactersById: {},
   conditionalSetEffectsDrawerOpen: false,
-  comboDrawerOpen: false,
+  comboDrawerOpen: true,
   combatBuffsDrawerOpen: false,
   enemyConfigurationsDrawerOpen: false,
   settingsDrawerOpen: false,
@@ -168,6 +170,7 @@ window.store = create((set) => ({
 
   setVersion: (x) => set(() => ({ version: x })),
   setActiveKey: (x) => set(() => ({ activeKey: x })),
+  setFormValues: (x) => set(() => ({ formValues: x })),
   setCharacters: (x) => set(() => ({ characters: x })),
   setCharactersById: (x) => set(() => ({ charactersById: x })),
   setInventoryWidth: (x) => set(() => ({ inventoryWidth: x })),

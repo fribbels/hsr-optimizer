@@ -2,6 +2,7 @@ import { Character, CharacterId } from './Character'
 import { Relic } from './Relic'
 import { LightCone } from './LightCone'
 import { StringToStringMap } from 'types/Common'
+import { Form } from 'types/Form'
 
 type PermutationDetails = {
   Head: number
@@ -38,6 +39,7 @@ export type HsrOptimizerStore = {
   characterTabFocusCharacter?: CharacterId
   scoringAlgorithmFocusCharacter?: CharacterId
 
+  formValues: Form
   activeKey: unknown
   inventoryWidth: number
   setInventoryWidth: (width: number) => void
@@ -71,6 +73,7 @@ export type HsrOptimizerStore = {
   setOptimizationId: (id: number) => void
   setSettingsDrawerOpen: (open: boolean) => void
   optimizerTabFocusCharacterSelectModalOpen: boolean
+  setFormValues: (form: Form) => void
   setCombatBuffsDrawerOpen: (open: boolean) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void
   setOptimizerTabFocusCharacter: (CharacterId: CharacterId) => void

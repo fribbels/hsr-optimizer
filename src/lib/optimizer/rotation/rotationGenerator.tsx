@@ -22,7 +22,7 @@ export enum ConditionalType {
 }
 
 export type ComboState = {
-  display: React.JSX.Element,
+  display: React.JSX.Element
   displayState: ComboDisplayState
   // formState: ComboFormState
 }
@@ -34,12 +34,12 @@ export type ComboConditionals = {
 export type ComboConditionalCategory = ComboBooleanConditional | ComboNumberConditional | ComboSelectConditional
 
 export type ComboBooleanConditional = {
-  type: ConditionalType.BOOLEAN,
+  type: ConditionalType.BOOLEAN
   activations: boolean[]
 }
 
 export type ComboNumberConditional = {
-  type: ConditionalType.NUMBER,
+  type: ConditionalType.NUMBER
   partitions: ComboSubNumberConditional[]
 }
 
@@ -49,7 +49,7 @@ export type ComboSubNumberConditional = {
 }
 
 export type ComboSelectConditional = {
-  type: ConditionalType.SELECT,
+  type: ConditionalType.SELECT
   partitions: ComboSubSelectConditional[]
 }
 
@@ -93,7 +93,7 @@ function generateComboConditionals(
   conditionals: CharacterConditionalMap,
   contents: ContentItem[],
   defaults: ConditionalMap,
-  actionCount: number
+  actionCount: number,
 ) {
   const output: ComboConditionals = {}
 
@@ -105,18 +105,18 @@ function generateComboConditionals(
       const activations: boolean[] = Array(actionCount).fill(value)
       output[content.id] = {
         type: ConditionalType.BOOLEAN,
-        activations: activations
+        activations: activations,
       }
     } else if (content.formItem == 'slider') {
       const value: number = conditionals[content.id] ? conditionals[content.id] : defaults[content.id]
       const activations: boolean[] = Array(actionCount).fill(true)
       const valuePartitions: ComboSubNumberConditional = {
         value: value,
-        activations: activations
+        activations: activations,
       }
       output[content.id] = {
         type: ConditionalType.NUMBER,
-        partitions: [valuePartitions]
+        partitions: [valuePartitions],
       }
     } else {
       // No other types for now
@@ -128,7 +128,7 @@ function generateComboConditionals(
 
 function generateSetComboConditionals(
   setConditionals: SetConditionals,
-  actionCount: number
+  actionCount: number,
 ) {
   const output: ComboConditionals = {}
 
@@ -138,18 +138,18 @@ function generateSetComboConditionals(
       const activations: boolean[] = Array(actionCount).fill(p4Value)
       output[setName] = {
         type: ConditionalType.BOOLEAN,
-        activations: activations
+        activations: activations,
       }
     } else if (typeof p4Value === 'number') {
       const value: number = p4Value
       const activations: boolean[] = Array(actionCount).fill(true)
       const valuePartitions: ComboSubNumberConditional = {
         value: value,
-        activations: activations
+        activations: activations,
       }
       output[setName] = {
         type: ConditionalType.NUMBER,
-        partitions: [valuePartitions]
+        partitions: [valuePartitions],
       }
     } else {
       // No other types for now
@@ -171,13 +171,13 @@ function generateComboTeammate(teammate: Teammate, actionCount: number) {
   if (teammate.teamRelicSet) {
     relicSetConditionals[teammate.teamRelicSet] = {
       type: ConditionalType.BOOLEAN,
-      activations: Array(actionCount).fill(true)
+      activations: Array(actionCount).fill(true),
     }
   }
   if (teammate.teamOrnamentSet) {
     ornamentSetConditionals[teammate.teamOrnamentSet] = {
       type: ConditionalType.BOOLEAN,
-      activations: Array(actionCount).fill(true)
+      activations: Array(actionCount).fill(true),
     }
   }
 
@@ -192,13 +192,13 @@ function generateComboTeammate(teammate: Teammate, actionCount: number) {
       characterConditionals,
       characterConditionalMetadata.teammateContent!(),
       characterConditionalMetadata.teammateDefaults!(),
-      actionCount
+      actionCount,
     ),
     lightConeConditionals: generateComboConditionals(
       lightConeConditionals,
       lightConeConditionalMetadata.teammateContent!(),
       lightConeConditionalMetadata.teammateDefaults!(),
-      actionCount
+      actionCount,
     ),
     relicSetConditionals: relicSetConditionals,
     ornamentSetConditionals: ornamentSetConditionals,
@@ -211,8 +211,10 @@ export function initializeComboState(request: Form) {
   const comboDisplayState: ComboDisplayState = {} as ComboDisplayState
   const comboState: ComboState = {
     display: <></>,
-    displayState: comboDisplayState as ComboDisplayState,
+    displayState: comboDisplayState,
   } as ComboState
+
+  if (!request.characterId) return comboState
 
   const actionCount = 6
 
@@ -235,17 +237,17 @@ export function initializeComboState(request: Form) {
       requestCharacterConditionals,
       characterConditionalMetadata.content(),
       characterConditionalMetadata.defaults(),
-      actionCount
+      actionCount,
     ),
     lightConeConditionals: generateComboConditionals(
       requestLightConeConditionals,
       lightConeConditionalMetadata.content(),
       lightConeConditionalMetadata.defaults(),
-      actionCount
+      actionCount,
     ),
     setConditionals: generateSetComboConditionals(
       requestSetConditionals,
-      actionCount
+      actionCount,
     ),
   }
 
@@ -260,15 +262,15 @@ export function initializeComboState(request: Form) {
   return comboState
 }
 
-function convertComboConditionalToDisplay(comboConditional: ComboConditionalCategory, contentItem: ContentItem, key: number, actionCount: number) {
+function convertComboConditionalToDisplay(comboConditional: ComboConditionalCategory, contentItem: ContentItem, sourceKey: string, actionCount: number) {
   let result: ReactElement
 
   if (contentItem.formItem == 'switch') {
     const booleanComboConditional = comboConditional as ComboBooleanConditional
 
     result = (
-      <Flex key={key} style={{ height: 45 }}>
-        <Flex style={{width: 250, marginRight: 10}} align='center' gap={0}>
+      <Flex key={contentItem.id} style={{ height: 45 }}>
+        <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={0}>
           <Flex style={{ width: 210 }} align='center'>
             {
               // @ts-ignore
@@ -284,12 +286,20 @@ function convertComboConditionalToDisplay(comboConditional: ComboConditionalCate
               />
             }
           </Flex>
-          <Button type="text" shape="circle" icon={<MinusCircleOutlined />} style={{visibility: 'hidden'}}/>
+          <Button type='text' shape='circle' icon={<MinusCircleOutlined/>} style={{ visibility: 'hidden' }}/>
         </Flex>
         <Flex>
           {
             booleanComboConditional.activations.map((value, index) => (
-              <SelectableBox index={index} key={index} active={value}/>
+              <SelectableBox
+                dataKey={JSON.stringify({
+                  id: contentItem.id,
+                  source: sourceKey,
+                  index: index,
+                })}
+                key={index}
+                active={value}
+              />
             ))
           }
         </Flex>
@@ -305,7 +315,7 @@ function convertComboConditionalToDisplay(comboConditional: ComboConditionalCate
       const partition = numberComboConditional.partitions[partitionIndex]
       partitionData.push(
         <Flex key={partitionIndex} style={{ height: 45 }}>
-          <Flex style={{width: 250, marginRight: 10}} align='center' gap={0}>
+          <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={0}>
             <Flex style={{ width: 210 }} align='center'>
               {
                 // @ts-ignore
@@ -321,21 +331,30 @@ function convertComboConditionalToDisplay(comboConditional: ComboConditionalCate
                 />
               }
             </Flex>
-            <Button type="text" shape="circle" icon={<MinusCircleOutlined />}/>
+            <Button type='text' shape='circle' icon={<MinusCircleOutlined/>}/>
           </Flex>
           <Flex>
             {
               partition.activations.map((active, index) => (
-                <SelectableBox active={active} index={index} key={index}/>
+                <SelectableBox
+                  active={active}
+                  key={index}
+                  dataKey={JSON.stringify({
+                    id: contentItem.id,
+                    source: sourceKey,
+                    partitionIndex: partitionIndex,
+                    index: index,
+                  })}
+                />
               ))
             }
           </Flex>
-        </Flex>
+        </Flex>,
       )
     }
 
     result = (
-      <Flex key={key} vertical>
+      <Flex key={contentItem.id} vertical>
         {partitionData}
       </Flex>
     )
@@ -347,7 +366,7 @@ function convertComboConditionalToDisplay(comboConditional: ComboConditionalCate
   return result
 }
 
-function ComboGroupRow(props: {src: string, content: ReactElement[]}) {
+function ComboGroupRow(props: { src: string; content: ReactElement[] }) {
   return (
     <Flex gap={10} align='center' style={{ padding: 8, background: '#677dbd1c', borderRadius: 5 }}>
       <img src={props.src} style={{ width: 80, height: 80 }}/>
@@ -361,25 +380,24 @@ function ComboGroupRow(props: {src: string, content: ReactElement[]}) {
 function renderContent(
   contentItems: ContentItem[],
   comboConditionals: ComboConditionals,
-  actionCount: number
+  actionCount: number,
+  sourceKey: string,
 ) {
-  let key = 0
+  const key = 0
   const content: ReactElement[] = []
   for (const contentItem of contentItems) {
     const comboConditional = comboConditionals[contentItem.id]
     if (comboConditional == null) continue
 
-    const display = convertComboConditionalToDisplay(comboConditional, contentItem, key++, actionCount)
+    const display = convertComboConditionalToDisplay(comboConditional, contentItem, sourceKey, actionCount)
     content.push(display)
   }
 
   return content
 }
 
-
 export function convertDisplayStateToDisplay(displayState: ComboDisplayState, actionCount: number): ReactElement {
   const uiRows: ReactElement[] = []
-  let key = 0
 
   if (displayState.comboCharacter) {
     const comboCharacter = displayState.comboCharacter
@@ -388,24 +406,39 @@ export function convertDisplayStateToDisplay(displayState: ComboDisplayState, ac
     const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(comboCharacter.metadata)
     const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(comboCharacter.metadata)
 
-
     uiRows.push((
       <ComboGroupRow
-        key={key++}
-        src={Assets.getCharacterAvatarById(comboCharacter.metadata.characterId)}
-        content={renderContent(characterConditionalMetadata.content(), comboCharacterConditionals, actionCount)}
+        key='comboCharacter'
+        // src={Assets.getCharacterAvatarById(comboCharacter.metadata.characterId)}
+        src={Assets.getBlank()}
+        content={
+          renderContent(
+            characterConditionalMetadata.content(),
+            comboCharacterConditionals,
+            actionCount,
+            'comboCharacter',
+          )
+        }
       />
     ))
     uiRows.push((
       <ComboGroupRow
-        key={key++}
-        src={Assets.getLightConeIconById(comboCharacter.metadata.lightCone)}
-        content={renderContent(lightConeConditionalMetadata.content(), comboLightConeConditionals, actionCount)}
+        key='comboCharacterLightCone'
+        // src={Assets.getLightConeIconById(comboCharacter.metadata.lightCone)}
+        src={Assets.getBlank()}
+        content={
+          renderContent(
+            lightConeConditionalMetadata.content(),
+            comboLightConeConditionals,
+            actionCount,
+            'comboCharacterLightCone',
+          )
+        }
       />
     ))
   }
 
-  function renderTeammate(teammate: ComboTeammate) {
+  function renderTeammate(teammate: ComboTeammate, characterKey: string) {
     if (!teammate) return
 
     const comboCharacterConditionals: ComboConditionals = teammate.characterConditionals
@@ -413,25 +446,30 @@ export function convertDisplayStateToDisplay(displayState: ComboDisplayState, ac
     const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(teammate.metadata)
     const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(teammate.metadata)
 
+    const teammateCharacterKey = `${characterKey}`
+    const teammateLightConeKey = `${characterKey}LightCone`
+
     uiRows.push((
       <ComboGroupRow
-        key={key++}
-        src={Assets.getCharacterAvatarById(teammate.metadata.characterId)}
-        content={renderContent(characterConditionalMetadata.teammateContent!(), comboCharacterConditionals, actionCount)}
+        key={teammateCharacterKey}
+        src={Assets.getBlank()}
+        // src={Assets.getCharacterAvatarById(teammate.metadata.characterId)}
+        content={renderContent(characterConditionalMetadata.teammateContent!(), comboCharacterConditionals, actionCount, teammateCharacterKey)}
       />
     ))
     uiRows.push((
       <ComboGroupRow
-        key={key++}
-        src={Assets.getLightConeIconById(teammate.metadata.lightCone)}
-        content={renderContent(lightConeConditionalMetadata.teammateContent!(), comboLightConeConditionals, actionCount)}
+        key={teammateLightConeKey}
+        src={Assets.getBlank()}
+        // src={Assets.getLightConeIconById(teammate.metadata.lightCone)}
+        content={renderContent(lightConeConditionalMetadata.teammateContent!(), comboLightConeConditionals, actionCount, teammateLightConeKey)}
       />
     ))
   }
 
-  renderTeammate(displayState.comboTeammate0)
-  renderTeammate(displayState.comboTeammate1)
-  renderTeammate(displayState.comboTeammate2)
+  renderTeammate(displayState.comboTeammate0, 'comboTeammate0')
+  renderTeammate(displayState.comboTeammate1, 'comboTeammate1')
+  renderTeammate(displayState.comboTeammate2, 'comboTeammate2')
 
   return (
     <Flex vertical gap={8}>
@@ -440,7 +478,43 @@ export function convertDisplayStateToDisplay(displayState: ComboDisplayState, ac
   )
 }
 
-function updateStateSelection(events, comboState: ComboState) {
+export function updateActivation(keyString: string, activate: boolean, comboState: ComboState) {
+  const dataKey: ComboDataKey = JSON.parse(keyString)
+  if (!dataKey.id) return
+
+  let comboConditionals: ComboConditionals
+
+  if (dataKey.source.includes('comboCharacter')) {
+    const character = comboState.displayState.comboCharacter
+    comboConditionals = dataKey.source.includes('LightCone')
+      ? character.lightConeConditionals
+      : character.characterConditionals
+  } else if (dataKey.source.includes('comboTeammate')) {
+    const teammate: ComboTeammate = comboState.displayState[dataKey.source.substring(0, 14)]
+    comboConditionals = dataKey.source.includes('LightCone')
+      ? teammate.lightConeConditionals
+      : teammate.characterConditionals
+  } else {
+    return
+  }
+
+  const comboCategory: ComboConditionalCategory = comboConditionals[dataKey.id]
+  if (comboCategory.type == ConditionalType.BOOLEAN) {
+    const comboBooleanConditional = comboConditionals[dataKey.id] as ComboBooleanConditional
+    comboBooleanConditional.activations[dataKey.index] = !comboBooleanConditional.activations[dataKey.index]
+  } else if (comboCategory.type == ConditionalType.NUMBER) {
+    const comboNumberConditional = comboConditionals[dataKey.id] as ComboNumberConditional
+    comboNumberConditional.partitions[dataKey.partitionIndex].activations[dataKey.index] = !comboNumberConditional.partitions[dataKey.partitionIndex].activations[dataKey.index]
+  } else {
+    // No other types
+  }
 
   return comboState
+}
+
+export type ComboDataKey = {
+  id: string
+  source: string
+  partitionIndex: number
+  index: number
 }

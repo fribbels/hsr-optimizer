@@ -2,14 +2,14 @@ import { Drawer, Flex } from 'antd'
 import React, { useEffect, useState } from 'react'
 import Selecto from 'react-selecto'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { ComboDisplayState, ComboState, convertDisplayStateToDisplay, initializeComboState } from 'lib/optimizer/rotation/rotationGenerator'
+import { ComboDisplayState, ComboState, convertDisplayStateToDisplay, initializeComboState, updateActivation } from 'lib/optimizer/rotation/rotationGenerator'
 
-export function SelectableBox(props: { active: boolean, index: number }) {
+export function SelectableBox(props: { active: boolean; dataKey: string }) {
   const classnames = props.active ? 'selectable selected' : 'selectable'
   return (
     <div
       className={classnames}
-      data-key={props.index}
+      data-key={props.dataKey}
       style={{ width: 75, marginLeft: -1, marginTop: -1 }}
     >
     </div>
@@ -19,22 +19,24 @@ export function SelectableBox(props: { active: boolean, index: number }) {
 export function ComboDrawer() {
   const comboDrawerOpen = window.store((s) => s.comboDrawerOpen)
   const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
+  const formValues = window.store((s) => s.formValues)
+  const setFormValues = window.store((s) => s.setFormValues)
   const [state, setState] = useState<ComboState>({
     display: <></>,
-    displayState: {} as ComboDisplayState
+    displayState: {} as ComboDisplayState,
   })
 
   useEffect(() => {
     if (comboDrawerOpen) {
-
+      if (!formValues?.characterId || !formValues.characterConditionals) return
       const form = OptimizerTabController.getForm()
       console.debug('form', form)
-      console.debug('combo', form.combo)
+      console.debug('combo', formValues.combo)
 
-      const comboState = initializeComboState(form)
+      const comboState = initializeComboState(formValues)
       setState(comboState)
     }
-  }, [comboDrawerOpen])
+  }, [formValues])
 
   return (
     <Drawer
@@ -73,30 +75,36 @@ export function ComboDrawer() {
           // After the select, whether to select the next target with the selected target (deselected if the target is selected again).
           continueSelect={true}
           // Determines which key to continue selecting the next target via keydown and keyup.
-          toggleContinueSelect='shift'
+          // toggleContinueSelect='shift'
           // The container for keydown and keyup events
           keyContainer={window}
           // The rate at which the target overlaps the drag area to be selected. (default: 100)
           hitRate={0}
+          onDrag={() => {
+            console.log('onDrag')
+          }}
           onSelect={(e) => {
-            console.log('added', e.added)
-            console.log('removed', e.removed)
+            console.log('onSelect')
+            // console.log('added', e.added)
+            // console.log('removed', e.removed)
 
             // console.log(e)
+            // e.added.forEach((el) => {
+            //   el.classList.add('selected')
+            // })
+            // e.removed.forEach((el) => {
+            //   el.classList.remove('selected')
+            // })
             e.added.forEach((el) => {
-              el.classList.add('selected')
+              const dataKey = el.getAttribute('data-key') ?? '{}' // Get the data-key attribute
+              // console.log('Added Element Data Key:', dataKey)
+              updateActivation(dataKey, true, state)
             })
             e.removed.forEach((el) => {
-              el.classList.remove('selected')
+              const dataKey = el.getAttribute('data-key') ?? '{}' // Get the data-key attribute
+              // console.log('Removed Element Data Key:', dataKey)
+              updateActivation(dataKey, false, state)
             })
-            e.added.forEach((el) => {
-              const dataKey = el.getAttribute('data-key'); // Get the data-key attribute
-              console.log('Added Element Data Key:', dataKey);
-            });
-            e.removed.forEach((el) => {
-              const dataKey = el.getAttribute('data-key'); // Get the data-key attribute
-              console.log('Removed Element Data Key:', dataKey);
-            });
 
             // Debug
             // for (let i = 0; i < 4; i++) {
@@ -104,7 +112,7 @@ export function ComboDrawer() {
             // }
 
             const newState = {
-              ...state
+              ...state,
             }
             newState.display = convertDisplayStateToDisplay(state.displayState, 4)
             setState(newState)

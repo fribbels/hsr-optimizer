@@ -80,6 +80,7 @@ export type ComboDisplayState = {
   comboTeammate0: ComboTeammate
   comboTeammate1: ComboTeammate
   comboTeammate2: ComboTeammate
+  comboDefinition: string[]
 }
 
 export type SetConditionals = typeof defaultSetConditionals
@@ -221,7 +222,8 @@ export function initializeComboState(request: Form) {
 
   if (!request.characterId) return comboState
 
-  const actionCount = 7
+  const actionCount = 11
+  comboDisplayState.comboDefinition = request['comboDefinition']?.filter(x => !!x) ?? ['SKILL', 'SKILL', 'ULT', 'SKILL', 'SKILL']
 
   const requestCharacterConditionals = request.characterConditionals
   const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(request)
@@ -376,9 +378,7 @@ export function updatePartitionActivation(keyString: string, comboState: ComboSt
       partition.activations[activationIndex] = i == partitionIndex;
     }
 
-    window.store.getState().setComboState({
-      ...comboState
-    })
+    window.store.getState().setComboState({ ...comboState })
   }
 }
 
@@ -390,9 +390,9 @@ export type ComboDataKey = {
 }
 
 export function updateAddPartition(sourceKey: string, contentItemId: string, partitionIndex: number) {
-  const state = window.store.getState().comboState
+  const comboState = window.store.getState().comboState
 
-  const comboCategory = locateComboCategory(sourceKey, contentItemId, state) as ComboNumberConditional
+  const comboCategory = locateComboCategory(sourceKey, contentItemId, comboState) as ComboNumberConditional
   if (!comboCategory) return null
 
   const selectedPartition = comboCategory.partitions[partitionIndex]
@@ -402,16 +402,14 @@ export function updateAddPartition(sourceKey: string, contentItemId: string, par
     activations: Array(selectedPartition.activations.length).fill(false)
   })
 
-  window.store.getState().setComboState({
-    ...state
-  })
+  window.store.getState().setComboState({ ...comboState })
 }
 
 export function updateDeletePartition(sourceKey: string, contentItemId: string, partitionIndex: number) {
   if (partitionIndex == 0) return
 
-  const state = window.store.getState().comboState
-  const comboCategory = locateComboCategory(sourceKey, contentItemId, state) as ComboNumberConditional
+  const comboState = window.store.getState().comboState
+  const comboCategory = locateComboCategory(sourceKey, contentItemId, comboState) as ComboNumberConditional
   if (!comboCategory) return null
 
   comboCategory.partitions.splice(partitionIndex, 1)
@@ -430,17 +428,15 @@ export function updateDeletePartition(sourceKey: string, contentItemId: string, 
     }
   }
 
-  window.store.getState().setComboState({
-    ...state
-  })
+  window.store.getState().setComboState({ ...comboState })
 }
 
 export function updateSelectedSets(sets: string[], isOrnaments: boolean) {
-  const state = window.store.getState().comboState
-  const setConditionals = state.displayState.comboCharacter.setConditionals
+  const comboState = window.store.getState().comboState
+  const setConditionals = comboState.displayState.comboCharacter.setConditionals
 
   if (isOrnaments) {
-    state.displayState.comboCharacter.displayedOrnamentSets = sets
+    comboState.displayState.comboCharacter.displayedOrnamentSets = sets
 
     for (const setName of Object.values(SetsOrnaments)) {
       if (sets.includes(setName)) {
@@ -450,7 +446,7 @@ export function updateSelectedSets(sets: string[], isOrnaments: boolean) {
       }
     }
   } else {
-    state.displayState.comboCharacter.displayedRelicSets = sets
+    comboState.displayState.comboCharacter.displayedRelicSets = sets
 
     for (const setName of Object.values(SetsRelics)) {
       if (sets.includes(setName)) {
@@ -461,21 +457,17 @@ export function updateSelectedSets(sets: string[], isOrnaments: boolean) {
     }
   }
 
-  window.store.getState().setComboState({
-    ...state
-  })
-  console.debug('!!', state, sets)
+  window.store.getState().setComboState({ ...comboState })
 }
 
 export function updateBooleanDefaultSelection(sourceKey: string, contentItemId: string, value: boolean) {
+  const comboState = window.store.getState().comboState
   const dataKey: ComboDataKey = {
     id: contentItemId,
     source: sourceKey,
     index: 0,
     partitionIndex: 0
   }
-
-  const comboState = window.store.getState().comboState
 
   const locatedActivations = locateActivationsDataKey(dataKey, comboState)
   if (!locatedActivations) return
@@ -487,8 +479,21 @@ export function updateBooleanDefaultSelection(sourceKey: string, contentItemId: 
       locatedActivations.activations[i] = value
     }
 
-    window.store.getState().setComboState({
-      ...comboState
-    })
+    window.store.getState().setComboState({ ...comboState })
   }
+}
+
+export function updateAbilityRotation(index: number, value: string) {
+  const comboState = window.store.getState().comboState
+  const comboDefinition = comboState.displayState.comboDefinition
+
+  if (index > comboDefinition.length) return
+  if (value == 'NONE') {
+    comboDefinition.splice(index, 1)
+    console.log('aaa', comboState)
+  } else {
+    comboDefinition[index] = value
+  }
+
+  window.store.getState().setComboState({ ...comboState })
 }

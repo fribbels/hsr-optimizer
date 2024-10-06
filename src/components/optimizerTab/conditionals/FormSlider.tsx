@@ -46,7 +46,6 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
   const maxRef = useRef(props.max)
 
   const itemName = [conditionalType(props), props.name]
-  console.debug('itemName', itemName)
   if (props.teammateIndex != null) {
     itemName.unshift(`teammate${props.teammateIndex}`)
   }

@@ -514,3 +514,17 @@ a {
     );
     background-blend-mode: overlay;
 }
+
+.disabledSelect {
+    /*background-image: repeating-linear-gradient(*/
+    /*        25deg,*/
+    /*        rgba(255, 255, 255, 0.33),*/
+    /*        rgba(255, 255, 255, 0.33) 4px,*/
+    /*        transparent 4px,*/
+    /*        transparent 8px*/
+    /*);*/
+    /*background-blend-mode: overlay;*/
+    width: 50px;
+    border: 1px dashed #000000;
+    background: #3b48678f;
+}

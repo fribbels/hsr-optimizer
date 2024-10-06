@@ -6,6 +6,7 @@ import { ConditionalLightConeMap, LightConeConditional } from 'types/LightConeCo
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { defaultSetConditionals } from 'lib/defaultForm'
 import { SetsOrnaments, SetsRelics } from 'lib/constants'
+import { SaveState } from 'lib/saveState'
 
 export enum ConditionalType {
   BOOLEAN = 'boolean',
@@ -80,6 +81,60 @@ export type ComboState = {
 }
 
 export type SetConditionals = typeof defaultSetConditionals
+
+export function initializeComboState(request: Form) {
+  const comboState = {} as ComboState
+
+  if (!request.characterId) return comboState
+
+  const actionCount = 11
+  comboState.comboDefinition = request['comboDefinition']?.filter(x => !!x) ?? ['DEFAULT', 'SKILL', 'SKILL', 'ULT', 'SKILL', 'SKILL']
+
+  const requestCharacterConditionals = request.characterConditionals
+  const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(request)
+
+  const requestLightConeConditionals = request.lightConeConditionals
+  const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(request)
+
+  const requestSetConditionals = request.setConditionals
+
+  comboState.comboCharacter = {
+    metadata: {
+      characterId: request.characterId,
+      characterEidolon: request.characterEidolon,
+      lightCone: request.lightCone,
+      lightConeSuperimposition: request.lightConeSuperimposition,
+    },
+    characterConditionals: generateComboConditionals(
+      requestCharacterConditionals,
+      characterConditionalMetadata.content(),
+      characterConditionalMetadata.defaults(),
+      actionCount,
+    ),
+    lightConeConditionals: generateComboConditionals(
+      requestLightConeConditionals,
+      lightConeConditionalMetadata.content(),
+      lightConeConditionalMetadata.defaults(),
+      actionCount,
+    ),
+    setConditionals: generateSetComboConditionals(
+      requestSetConditionals,
+      actionCount,
+    ),
+    displayedRelicSets: [],
+    displayedOrnamentSets: []
+  }
+
+  comboState.comboTeammate0 = generateComboTeammate(request.teammate0, actionCount)
+  comboState.comboTeammate1 = generateComboTeammate(request.teammate1, actionCount)
+  comboState.comboTeammate2 = generateComboTeammate(request.teammate2, actionCount)
+
+  if (request.json)
+
+    console.debug('aa', comboState)
+
+  return comboState
+}
 
 function generateComboConditionals(
   conditionals: CharacterConditionalMap,
@@ -208,58 +263,6 @@ function generateComboTeammate(teammate: Teammate, actionCount: number) {
   }
 
   return comboTeammate
-}
-
-export function initializeComboState(request: Form) {
-  const comboState = {} as ComboState
-
-  if (!request.characterId) return comboState
-
-  const actionCount = 11
-  comboState.comboDefinition = request['comboDefinition']?.filter(x => !!x) ?? ['DEFAULT', 'SKILL', 'SKILL', 'ULT', 'SKILL', 'SKILL']
-
-  const requestCharacterConditionals = request.characterConditionals
-  const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(request)
-
-  const requestLightConeConditionals = request.lightConeConditionals
-  const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(request)
-
-  const requestSetConditionals = request.setConditionals
-
-  comboState.comboCharacter = {
-    metadata: {
-      characterId: request.characterId,
-      characterEidolon: request.characterEidolon,
-      lightCone: request.lightCone,
-      lightConeSuperimposition: request.lightConeSuperimposition,
-    },
-    characterConditionals: generateComboConditionals(
-      requestCharacterConditionals,
-      characterConditionalMetadata.content(),
-      characterConditionalMetadata.defaults(),
-      actionCount,
-    ),
-    lightConeConditionals: generateComboConditionals(
-      requestLightConeConditionals,
-      lightConeConditionalMetadata.content(),
-      lightConeConditionalMetadata.defaults(),
-      actionCount,
-    ),
-    setConditionals: generateSetComboConditionals(
-      requestSetConditionals,
-      actionCount,
-    ),
-    displayedRelicSets: [],
-    displayedOrnamentSets: []
-  }
-
-  comboState.comboTeammate0 = generateComboTeammate(request.teammate0, actionCount)
-  comboState.comboTeammate1 = generateComboTeammate(request.teammate1, actionCount)
-  comboState.comboTeammate2 = generateComboTeammate(request.teammate2, actionCount)
-
-  console.debug('aa', comboState)
-
-  return comboState
 }
 
 export function locateComboCategory(sourceKey: string, contentItemId: string, comboState: ComboState) {
@@ -511,4 +514,12 @@ export function updateAbilityRotation(index: number, value: string) {
   }
 
   window.store.getState().setComboState({ ...comboState })
+}
+
+export function updateFormState(comboState: ComboState) {
+  window.optimizerForm.setFieldValue('comboStateJson', JSON.stringify(comboState));
+
+  console.debug('updated', window.optimizerForm.getFieldsValue())
+
+  SaveState.delayedSave(1000)
 }

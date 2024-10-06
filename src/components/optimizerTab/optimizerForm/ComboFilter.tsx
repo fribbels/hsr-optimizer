@@ -1,4 +1,4 @@
-import { Button, Flex, Form, Radio, Typography } from 'antd'
+import { Button, Flex, Form, Input, Radio, Typography } from 'antd'
 import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants'
 import { HeaderText } from 'components/HeaderText'
 import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled'
@@ -91,6 +91,15 @@ export const ComboFilters = () => {
         <Button size='small' variant='outlined' style={{ marginLeft: 30, width: 156 }}>
           +
         </Button>
+
+
+        <Form.Item name={'comboStateJson'}>
+          <Input
+            placeholder="This is a fake hidden input to save combo data into the form"
+            style={{ display: 'none' }}
+          />
+        </Form.Item>
+
         <Button
           style={{ width: 200, marginTop: 20 }}
           onClick={() => setComboDrawerOpen(true)}

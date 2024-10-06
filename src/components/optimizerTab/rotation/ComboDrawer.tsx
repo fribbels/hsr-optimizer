@@ -2,7 +2,7 @@ import { Button, Drawer, Flex, Select } from 'antd'
 import React, { useEffect, useMemo, useRef } from 'react'
 import Selecto from 'react-selecto'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState, ComboSubNumberConditional, ComboTeammate, ConditionalType, initializeComboState, locateActivations, updateAbilityRotation, updateActivation, updateAddPartition, updateBooleanDefaultSelection, updateDeletePartition, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
+import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState, ComboSubNumberConditional, ComboTeammate, ConditionalType, initializeComboState, locateActivations, updateAbilityRotation, updateActivation, updateAddPartition, updateBooleanDefaultSelection, updateDeletePartition, updateFormState, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { Assets } from 'lib/assets'
@@ -46,7 +46,7 @@ export function ComboDrawer() {
       const comboState = initializeComboState(form)
       setComboState(comboState)
     } else {
-
+      updateFormState(comboState)
     }
     console.debug('UseEFFECT')
   }, [formValues, comboDrawerOpen])

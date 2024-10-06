@@ -25,6 +25,12 @@ export const SaveState = {
     return stateString
   },
 
+  delayedSave: (ms) => {
+    setTimeout(() => {
+      SaveState.save()
+    }, ms)
+  },
+
   load: (autosave = true) => {
     try {
       const state = localStorage.state

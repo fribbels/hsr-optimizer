@@ -69,6 +69,8 @@ export type Form = {
   combo: {
     [key: string]: number
   }
+  comboStateJson: string
+  comboDefinition: string[]
 
   setConditionals: { [key: string]: any[] }
 

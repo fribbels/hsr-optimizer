@@ -13,10 +13,6 @@ export enum ConditionalType {
   SELECT = 'select',
 }
 
-export type ComboState = {
-  displayState: ComboDisplayState
-}
-
 export type ComboConditionals = {
   [key: string]: ComboConditionalCategory
 }
@@ -75,7 +71,7 @@ export type ComboTeammate = {
   ornamentSetConditionals: ComboConditionals
 }
 
-export type ComboDisplayState = {
+export type ComboState = {
   comboCharacter: ComboCharacter
   comboTeammate0: ComboTeammate
   comboTeammate1: ComboTeammate
@@ -215,15 +211,12 @@ function generateComboTeammate(teammate: Teammate, actionCount: number) {
 }
 
 export function initializeComboState(request: Form) {
-  const comboDisplayState: ComboDisplayState = {} as ComboDisplayState
-  const comboState: ComboState = {
-    displayState: comboDisplayState,
-  } as ComboState
+  const comboState = {} as ComboState
 
   if (!request.characterId) return comboState
 
   const actionCount = 11
-  comboDisplayState.comboDefinition = request['comboDefinition']?.filter(x => !!x) ?? ['DEFAULT', 'SKILL', 'SKILL', 'ULT', 'SKILL', 'SKILL']
+  comboState.comboDefinition = request['comboDefinition']?.filter(x => !!x) ?? ['DEFAULT', 'SKILL', 'SKILL', 'ULT', 'SKILL', 'SKILL']
 
   const requestCharacterConditionals = request.characterConditionals
   const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(request)
@@ -233,7 +226,7 @@ export function initializeComboState(request: Form) {
 
   const requestSetConditionals = request.setConditionals
 
-  comboDisplayState.comboCharacter = {
+  comboState.comboCharacter = {
     metadata: {
       characterId: request.characterId,
       characterEidolon: request.characterEidolon,
@@ -260,11 +253,11 @@ export function initializeComboState(request: Form) {
     displayedOrnamentSets: []
   }
 
-  comboDisplayState.comboTeammate0 = generateComboTeammate(request.teammate0, actionCount)
-  comboDisplayState.comboTeammate1 = generateComboTeammate(request.teammate1, actionCount)
-  comboDisplayState.comboTeammate2 = generateComboTeammate(request.teammate2, actionCount)
+  comboState.comboTeammate0 = generateComboTeammate(request.teammate0, actionCount)
+  comboState.comboTeammate1 = generateComboTeammate(request.teammate1, actionCount)
+  comboState.comboTeammate2 = generateComboTeammate(request.teammate2, actionCount)
 
-  console.debug('aa', comboDisplayState)
+  console.debug('aa', comboState)
 
   return comboState
 }
@@ -273,7 +266,7 @@ export function locateComboCategory(sourceKey: string, contentItemId: string, co
   let comboConditionals: ComboConditionals
 
   if (sourceKey.includes('comboCharacter')) {
-    const character = comboState.displayState.comboCharacter
+    const character = comboState.comboCharacter
 
     if (sourceKey.includes('RelicSets')) {
       comboConditionals = character.setConditionals
@@ -283,7 +276,7 @@ export function locateComboCategory(sourceKey: string, contentItemId: string, co
       comboConditionals = character.characterConditionals
     }
   } else if (sourceKey.includes('comboTeammate')) {
-    const teammate: ComboTeammate = comboState.displayState[sourceKey.substring(0, 14)]
+    const teammate: ComboTeammate = comboState[sourceKey.substring(0, 14)]
     if (sourceKey.includes('RelicSet')) {
       comboConditionals = teammate.relicSetConditionals
     } else if (sourceKey.includes('OrnamentSet')) {
@@ -433,10 +426,10 @@ export function updateDeletePartition(sourceKey: string, contentItemId: string, 
 
 export function updateSelectedSets(sets: string[], isOrnaments: boolean) {
   const comboState = window.store.getState().comboState
-  const setConditionals = comboState.displayState.comboCharacter.setConditionals
+  const setConditionals = comboState.comboCharacter.setConditionals
 
   if (isOrnaments) {
-    comboState.displayState.comboCharacter.displayedOrnamentSets = sets
+    comboState.comboCharacter.displayedOrnamentSets = sets
 
     for (const setName of Object.values(SetsOrnaments)) {
       if (sets.includes(setName)) {
@@ -446,7 +439,7 @@ export function updateSelectedSets(sets: string[], isOrnaments: boolean) {
       }
     }
   } else {
-    comboState.displayState.comboCharacter.displayedRelicSets = sets
+    comboState.comboCharacter.displayedRelicSets = sets
 
     for (const setName of Object.values(SetsRelics)) {
       if (sets.includes(setName)) {
@@ -505,7 +498,7 @@ function shiftAllActivations(obj: any, index: number): void {
 // Index is 0 indexed, and only includes the interactable elements, not including the [0] default
 export function updateAbilityRotation(index: number, value: string) {
   const comboState = window.store.getState().comboState
-  const comboDefinition = comboState.displayState.comboDefinition
+  const comboDefinition = comboState.comboDefinition
 
   if (index > comboDefinition.length) return
   if (value == 'NONE') {

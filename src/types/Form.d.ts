@@ -76,6 +76,8 @@ export type Form = {
   teammate1: Teammate
   teammate2: Teammate
 
+
+
   baseHp: number
   baseAtk: number
   baseDef: number

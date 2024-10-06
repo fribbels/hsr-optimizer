@@ -2,7 +2,7 @@ import { Button, Drawer, Flex, Select } from 'antd'
 import React, { useEffect, useMemo, useRef } from 'react'
 import Selecto from 'react-selecto'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboDisplayState, ComboNumberConditional, ComboSelectConditional, ComboSubNumberConditional, ComboTeammate, ConditionalType, initializeComboState, locateActivations, updateAbilityRotation, updateActivation, updateAddPartition, updateBooleanDefaultSelection, updateDeletePartition, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
+import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState, ComboSubNumberConditional, ComboTeammate, ConditionalType, initializeComboState, locateActivations, updateAbilityRotation, updateActivation, updateAddPartition, updateBooleanDefaultSelection, updateDeletePartition, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { Assets } from 'lib/assets'
@@ -22,19 +22,6 @@ import { generateSetConditionalContent } from 'lib/optimizer/rotation/setConditi
 
 const buttonStyle = {
   fontSize: 20,
-}
-
-export function SelectableBox(props: { active: boolean; dataKey: string }) {
-  const classnames = props.active ? 'selectable selected' : 'selectable'
-  console.log('SelectableBox')
-  return (
-    <div
-      className={classnames}
-      data-key={props.dataKey}
-      style={{ width: 75, marginLeft: -1, marginTop: -1 }}
-    >
-    </div>
-  )
 }
 
 export function ComboDrawer() {
@@ -58,6 +45,8 @@ export function ComboDrawer() {
 
       const comboState = initializeComboState(form)
       setComboState(comboState)
+    } else {
+
     }
     console.debug('UseEFFECT')
   }, [formValues, comboDrawerOpen])
@@ -74,12 +63,12 @@ export function ComboDrawer() {
       forceRender
       extra={
         <Flex style={{ width: 867 }} align='center'>
-          <ComboHeader displayState={comboState.displayState}/>
+          <ComboHeader comboState={comboState}/>
         </Flex>
       }
     >
       <div style={{ width: 1200, height: '100%' }}>
-        <StateDisplay displayState={comboState.displayState}/>
+        <StateDisplay comboState={comboState}/>
         <Selecto
           className='selecto-selection'
           // The container to add a selection element
@@ -197,8 +186,8 @@ function AbilitySelector(props: { comboDefinition: string[], index: number }) {
 const abilityWidth = 70
 const abilityGap = 6
 
-function ComboHeader(props: { displayState: ComboDisplayState }) {
-  const comboDefinition = props.displayState.comboDefinition
+function ComboHeader(props: { comboState: ComboState }) {
+  const comboDefinition = props.comboState.comboDefinition
 
   if (!comboDefinition) return <></>
 
@@ -298,19 +287,18 @@ function SetDisplays(props: { comboOrigin: ComboCharacter, conditionalType: stri
   )
 }
 
-function StateDisplay(props: { displayState: ComboDisplayState }) {
-  const comboCharacter = props.displayState?.comboCharacter
-  const comboTeammate0 = props.displayState?.comboTeammate0
-  const comboTeammate1 = props.displayState?.comboTeammate1
-  const comboTeammate2 = props.displayState?.comboTeammate2
-  const actionCount = props.displayState?.comboDefinition?.length || 0
+function StateDisplay(props: { comboState: ComboState }) {
+  const comboCharacter = props.comboState?.comboCharacter
+  const comboTeammate0 = props.comboState?.comboTeammate0
+  const comboTeammate1 = props.comboState?.comboTeammate1
+  const comboTeammate2 = props.comboState?.comboTeammate2
+  const actionCount = props.comboState?.comboDefinition?.length || 0
 
   return (
     <Flex vertical gap={8}>
       <ComboConditionalsGroupRow comboOrigin={comboCharacter} actionCount={actionCount} conditionalType='character' originKey='comboCharacter'/>
       <ComboConditionalsGroupRow comboOrigin={comboCharacter} actionCount={actionCount} conditionalType='lightCone' originKey='comboCharacterLightCone'/>
       <SetDisplays comboOrigin={comboCharacter} conditionalType='relicSets' actionCount={actionCount} originKey='comboCharacterRelicSets'/>
-      {/*<ComboConditionalsGroupRow comboOrigin={props.displayState?.comboCharacter} conditionalType='relicSets' originKey='comboCharacterRelicSets'/>*/}
       <GroupDivider/>
       <SetSelectors comboOrigin={comboCharacter}/>
       <GroupDivider/>

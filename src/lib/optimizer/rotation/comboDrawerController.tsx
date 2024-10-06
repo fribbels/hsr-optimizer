@@ -223,7 +223,7 @@ export function initializeComboState(request: Form) {
   if (!request.characterId) return comboState
 
   const actionCount = 11
-  comboDisplayState.comboDefinition = request['comboDefinition']?.filter(x => !!x) ?? ['SKILL', 'SKILL', 'ULT', 'SKILL', 'SKILL']
+  comboDisplayState.comboDefinition = request['comboDefinition']?.filter(x => !!x) ?? ['DEFAULT', 'SKILL', 'SKILL', 'ULT', 'SKILL', 'SKILL']
 
   const requestCharacterConditionals = request.characterConditionals
   const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(request)
@@ -483,13 +483,35 @@ export function updateBooleanDefaultSelection(sourceKey: string, contentItemId: 
   }
 }
 
+function shiftLeft(arr: boolean[], index: number) {
+  arr.splice(index, 1)
+  arr.push(arr[0])
+}
+
+function shiftAllActivations(obj: any, index: number): void {
+  for (const key in obj) {
+    if (!obj.hasOwnProperty(key)) continue;
+
+    if (key === 'activations' && Array.isArray(obj[key])) {
+      shiftLeft(obj[key], index);
+    }
+
+    if (typeof obj[key] === 'object' && obj[key] !== null) {
+      shiftAllActivations(obj[key], index);
+    }
+  }
+}
+
+// Index is 0 indexed, and only includes the interactable elements, not including the [0] default
 export function updateAbilityRotation(index: number, value: string) {
   const comboState = window.store.getState().comboState
   const comboDefinition = comboState.displayState.comboDefinition
 
   if (index > comboDefinition.length) return
   if (value == 'NONE') {
+    if (comboDefinition.length <= 2) return
     comboDefinition.splice(index, 1)
+    shiftAllActivations(comboState, index)
     console.log('aaa', comboState)
   } else {
     comboDefinition[index] = value

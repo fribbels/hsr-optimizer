@@ -3,6 +3,7 @@ import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
 import styled from 'styled-components'
 import WithPopover from 'components/common/WithPopover'
 import { precisionRound } from 'lib/conditionals/conditionalUtils'
+import { getItemName } from 'components/optimizerTab/conditionals/FormSwitch'
 
 const justify = 'flex-start'
 const align = 'center'
@@ -14,13 +15,6 @@ const Text = styled(Typography)`
     white-space: pre-line;
 `
 
-function conditionalType(props: FormSliderProps) {
-  if (props.lc) {
-    return 'lightConeConditionals'
-  }
-  return 'characterConditionals'
-}
-
 export interface FormSliderProps {
   disabled?: boolean
   min: number
@@ -29,6 +23,7 @@ export interface FormSliderProps {
   name: string
   percent?: boolean
   lc?: boolean
+  set?: boolean
   teammateIndex?: number
   removeForm?: boolean
   onChange?: (value: number) => void
@@ -45,10 +40,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
   const minRef = useRef(props.min)
   const maxRef = useRef(props.max)
 
-  const itemName = [conditionalType(props), props.name]
-  if (props.teammateIndex != null) {
-    itemName.unshift(`teammate${props.teammateIndex}`)
-  }
+  const itemName = getItemName(props)
 
   // Update the min and max values of the slider if eidolons change their bounds.
   useEffect(() => {

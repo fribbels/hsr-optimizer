@@ -3,6 +3,7 @@ import { Flex, Form, Select, Typography } from 'antd'
 import WithPopover from 'components/common/WithPopover'
 import { ComponentProps, ComponentType, useState } from 'react'
 import { SelectOptionContent } from 'lib/optimizer/rotation/setConditionalContent'
+import { getItemName } from 'components/optimizerTab/conditionals/FormSwitch'
 
 const justify = 'flex-start'
 const align = 'center'
@@ -23,6 +24,7 @@ export interface FormSelectProps {
   name: string
   text: string
   lc?: boolean
+  set?: boolean
   teammateIndex?: number
   removeForm?: boolean
   onChange?: (value: number) => void
@@ -33,15 +35,12 @@ export interface FormSelectProps {
 export const FormSelect: ComponentType<FormSelectProps> = (props) => {
   const [state, setState] = useState(props.value ?? undefined);
 
-  const itemName = [conditionalType(props), props.name]
-  if (props.teammateIndex != null) {
-    itemName.unshift(`teammate${props.teammateIndex}`)
-  }
+  const itemName = getItemName(props)
 
   const internalSelect = (
     <Select
       disabled={props.disabled}
-      style={{ minWidth: 80, marginRight: 5 }}
+      style={{ minWidth: 80, width: 80, marginRight: 5 }}
       optionLabelProp='display'
       listHeight={500}
       size='small'

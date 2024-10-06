@@ -42,11 +42,11 @@ const SelectionSets: { [key: string]: SetContent } = {
 
 function SetContentChampionOfStreetwiseBoxing() {
   const options: SelectOptionContent[] = []
-  for (let i = 0; i <= 3; i++) {
+  for (let i = 0; i <= 5; i++) {
     options.push({
       display: i + 'x',
       value: i,
-      label: `${i} stacks (+${6 * i}% DEF ignore)`,
+      label: `${i} stacks (+${i * 5}% ATK)`,
     })
   }
 

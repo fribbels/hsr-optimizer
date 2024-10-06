@@ -51,12 +51,12 @@ export function ComboDrawer() {
 
   useEffect(() => {
     if (comboDrawerOpen) {
-      if (!formValues?.characterId || !formValues.characterConditionals) return
       const form = OptimizerTabController.getForm()
+      if (!form?.characterId || !form.characterConditionals) return
       console.debug('form', form)
-      console.debug('combo', formValues.combo)
+      console.debug('combo', form.combo)
 
-      const comboState = initializeComboState(formValues)
+      const comboState = initializeComboState(form)
       setComboState(comboState)
     }
     console.debug('UseEFFECT')
@@ -169,6 +169,8 @@ export const abilitySelectOptions = [
 ]
 
 function AbilitySelector(props: { comboDefinition: string[], index: number }) {
+  if (props.comboDefinition[props.index] == 'DEFAULT') return <></>
+
   return (
     <Select
       dropdownStyle={{ width: 'fit-content' }}
@@ -178,6 +180,7 @@ function AbilitySelector(props: { comboDefinition: string[], index: number }) {
       options={abilitySelectOptions}
       placement='bottomLeft'
       value={props.comboDefinition[props.index]}
+      allowClear={true}
       onSelect={(value: string) => {
         updateAbilityRotation(props.index, value)
       }}
@@ -185,7 +188,7 @@ function AbilitySelector(props: { comboDefinition: string[], index: number }) {
 
       }}
       onClear={() => {
-
+        updateAbilityRotation(props.index, 'NONE')
       }}
     />
   )
@@ -596,6 +599,9 @@ function Partition(props: { partition: ComboSubNumberConditional, contentItem: C
 
 function BooleanSwitch(props: { contentItem: ContentItem, sourceKey: string, value: boolean }) {
   const contentItem = props.contentItem
+
+  console.debug(props.sourceKey)
+
   return (
     <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={0}>
       <Flex style={{ width: 210 }} align='center'>
@@ -609,6 +615,7 @@ function BooleanSwitch(props: { contentItem: ContentItem, sourceKey: string, val
             content={ColorizeNumbers(contentItem.content)}
             text={contentItem.text}
             removeForm={false}
+            set={props.sourceKey.includes('comboCharacterRelicSets')}
             onChange={(value) => updateBooleanDefaultSelection(props.sourceKey, contentItem.id, value)}
             value={props.value}
             disabled={props.sourceKey.includes('Teammate') && props.sourceKey.includes('Set')}
@@ -617,15 +624,6 @@ function BooleanSwitch(props: { contentItem: ContentItem, sourceKey: string, val
       </Flex>
     </Flex>
   )
-}
-
-function getFormName(sourceKey: string, id: string) {
-  switch (sourceKey) {
-    case 'comboTeammate2LightCone':
-      return ['teammate2', 'lightConeConditionals', id]
-    default:
-      return null
-  }
 }
 
 function getTeammateIndex(sourceKey: string) {
@@ -637,8 +635,6 @@ function getTeammateIndex(sourceKey: string) {
 
 function NumberSlider(props: { contentItem: ContentItem, value: number, sourceKey: string, partitionIndex: number, }) {
   const contentItem = props.contentItem
-
-  console.log('!!!!', getFormName(props.sourceKey, contentItem.id))
 
   return (
     <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={0}>
@@ -672,6 +668,18 @@ function NumberSlider(props: { contentItem: ContentItem, value: number, sourceKe
 function NumberSelect(props: { contentItem: ContentItem, value: number, sourceKey: string, partitionIndex: number }) {
   const contentItem = props.contentItem
 
+  //   <FormSwitchWithPopover
+  // {...contentItem}
+  // name={contentItem.id}
+  // title={contentItem.title}
+  // teammateIndex={getTeammateIndex(props.sourceKey)}
+  // content={ColorizeNumbers(contentItem.content)}
+  // text={contentItem.text}
+  // removeForm={false}
+  // set={props.sourceKey.includes('comboCharacterRelicSets')}
+  // onChange={(value) => updateBooleanDefaultSelection(props.sourceKey, contentItem.id, value)}
+  // value={props.value}
+  // disabled={props.sourceKey.includes('Teammate') && props.sourceKey.includes('Set')}
   return (
     <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={0}>
       <Flex style={{ width: 210 }} align='center'>
@@ -681,11 +689,13 @@ function NumberSelect(props: { contentItem: ContentItem, value: number, sourceKe
             {...contentItem}
             name={contentItem.id}
             title={contentItem.title}
+            teammateIndex={getTeammateIndex(props.sourceKey)}
             content={ColorizeNumbers(contentItem.content)}
             text={contentItem.text}
+            set={props.sourceKey.includes('comboCharacterRelicSets')}
             onChange={(x) => console.log(x)}
             value={props.value}
-            removeForm={true}
+            removeForm={false}
           />
         }
       </Flex>
@@ -709,7 +719,7 @@ function BoxArray(props: { activations: boolean[], actionCount: number, dataKeys
             dataKey={props.dataKeys[index]}
             key={index}
             active={value}
-            disabled={index > props.actionCount}
+            disabled={index >= props.actionCount}
             index={index}
           />
         ))

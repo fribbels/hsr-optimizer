@@ -11,7 +11,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Gallagher')
   const { basic, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -25,51 +24,51 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'basicEnhanced',
       name: 'basicEnhanced',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content'),
+      text: t('Content.basicEnhanced.text'),
+      title: t('Content.basicEnhanced.title'),
+      content: t('Content.basicEnhanced.content'),
     },
     {
       formItem: 'switch',
       id: 'breakEffectToOhbBoost',
       name: 'breakEffectToOhbBoost',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content'),
+      text: t('Content.breakEffectToOhbBoost.text'),
+      title: t('Content.breakEffectToOhbBoost.title'),
+      content: t('Content.breakEffectToOhbBoost.content'),
     },
     {
       formItem: 'switch',
       id: 'targetBesotted',
       name: 'targetBesotted',
-      text: t('Content.2.text'),
-      title: t('Content.2.title'),
-      content: t('Content.2.content', { talentBesottedScaling: TsUtils.precisionRound(100 * talentBesottedScaling) }),
+      text: t('Content.targetBesotted.text'),
+      title: t('Content.targetBesotted.title'),
+      content: t('Content.targetBesotted.content', { talentBesottedScaling: TsUtils.precisionRound(100 * talentBesottedScaling) }),
     },
     {
       formItem: 'switch',
       id: 'e1ResBuff',
       name: 'e1ResBuff',
-      text: t('Content.3.text'),
-      title: t('Content.3.title'),
-      content: t('Content.3.content'),
+      text: t('Content.e1ResBuff.text'),
+      title: t('Content.e1ResBuff.title'),
+      content: t('Content.e1ResBuff.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2ResBuff',
       name: 'e2ResBuff',
-      text: t('Content.4.text'),
-      title: t('Content.4.title'),
-      content: t('Content.4.content'),
+      text: t('Content.e2ResBuff.text'),
+      title: t('Content.e2ResBuff.title'),
+      content: t('Content.e2ResBuff.content'),
       disabled: e < 2,
     },
     {
       formItem: 'switch',
       id: 'e6BeBuff',
       name: 'e6BeBuff',
-      text: t('Content.5.text'),
-      title: t('Content.5.title'),
-      content: t('Content.5.content'),
+      text: t('Content.e6BeBuff.text'),
+      title: t('Content.e6BeBuff.title'),
+      content: t('Content.e6BeBuff.content'),
       disabled: e < 6,
     },
   ]

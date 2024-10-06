@@ -9,7 +9,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Guinaifen')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -26,9 +25,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'talentDebuffStacks',
       name: 'talentDebuffStacks',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content', { talentDebuffDmgIncreaseValue: TsUtils.precisionRound(talentDebuffDmgIncreaseValue), talentDebuffMax }),
+      text: t('Content.talentDebuffStacks.text'),
+      title: t('Content.talentDebuffStacks.title'),
+      content: t('Content.talentDebuffStacks.content', { talentDebuffDmgIncreaseValue: TsUtils.precisionRound(talentDebuffDmgIncreaseValue), talentDebuffMax }),
       min: 0,
       max: talentDebuffMax,
     },
@@ -36,34 +35,34 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'enemyBurned',
       name: 'enemyBurned',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content'),
+      text: t('Content.enemyBurned.text'),
+      title: t('Content.enemyBurned.title'),
+      content: t('Content.enemyBurned.content'),
     },
     {
       formItem: 'switch',
       id: 'skillDot',
       name: 'skillDot',
-      text: t('Content.2.text'),
-      title: t('Content.2.title'),
-      content: t('Content.2.content'),
+      text: t('Content.skillDot.text'),
+      title: t('Content.skillDot.title'),
+      content: t('Content.skillDot.content'),
     },
     {
       formItem: 'switch',
       id: 'e1EffectResShred',
       name: 'e1EffectResShred',
-      text: t('Content.3.text'),
-      title: t('Content.3.title'),
-      content: t('Content.3.content'),
+      text: t('Content.e1EffectResShred.text'),
+      title: t('Content.e1EffectResShred.title'),
+      content: t('Content.e1EffectResShred.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2BurnMultiBoost',
       name: 'e2BurnMultiBoost',
-      text: t('Content.4.text'),
-      title: t('Content.4.title'),
-      content: t('Content.4.content'),
+      text: t('Content.e2BurnMultiBoost.text'),
+      title: t('Content.e2BurnMultiBoost.title'),
+      content: t('Content.e2BurnMultiBoost.content'),
       disabled: e < 2,
     },
   ]

@@ -8,7 +8,6 @@ import { Form } from 'types/Form'
 import i18next from 'i18next'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Luocha')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -20,17 +19,17 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'fieldActive',
     name: 'fieldActive',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content'),
+    text: t('Content.fieldActive.text'),
+    title: t('Content.fieldActive.title'),
+    content: t('Content.fieldActive.content'),
     // disabled: e < 1, Not disabling this one since technically the field can be active at E0
   }, {
     formItem: 'switch',
     id: 'e6ResReduction',
     name: 'e6ResReduction',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content'),
+    text: t('Content.e6ResReduction.text'),
+    title: t('Content.e6ResReduction.title'),
+    content: t('Content.e6ResReduction.content'),
     disabled: e < 6,
   }]
 

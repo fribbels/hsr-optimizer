@@ -10,7 +10,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Hook')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -27,17 +26,17 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'enhancedSkill',
       name: 'enhancedSkill',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content', { skillEnhancedScaling: TsUtils.precisionRound(100 * skillEnhancedScaling) }),
+      text: t('Content.enhancedSkill.text'),
+      title: t('Content.enhancedSkill.title'),
+      content: t('Content.enhancedSkill.content', { skillEnhancedScaling: TsUtils.precisionRound(100 * skillEnhancedScaling) }),
     },
     {
       formItem: 'switch',
       id: 'targetBurned',
       name: 'targetBurned',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content', { targetBurnedExtraScaling: TsUtils.precisionRound(100 * targetBurnedExtraScaling) }),
+      text: t('Content.targetBurned.text'),
+      title: t('Content.targetBurned.title'),
+      content: t('Content.targetBurned.content', { targetBurnedExtraScaling: TsUtils.precisionRound(100 * targetBurnedExtraScaling) }),
     },
   ]
 

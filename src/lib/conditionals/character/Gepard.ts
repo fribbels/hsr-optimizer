@@ -9,7 +9,6 @@ import { GepardConversionConditional } from 'lib/gpu/conditionals/dynamicConditi
 import i18next from 'i18next'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Gepard')
   const { basic, skill } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
@@ -20,9 +19,9 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'e4TeamResBuff',
     name: 'e4TeamResBuff',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content'),
+    text: t('Content.e4TeamResBuff.text'),
+    title: t('Content.e4TeamResBuff.title'),
+    content: t('Content.e4TeamResBuff.content'),
     disabled: e < 4,
   }]
 

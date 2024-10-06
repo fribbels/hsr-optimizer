@@ -12,7 +12,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Clara')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -35,31 +34,31 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { ultFuaExtraScaling: TsUtils.precisionRound(100 * ultFuaExtraScaling) }),
+    text: t('Content.ultBuff.text'),
+    title: t('Content.ultBuff.title'),
+    content: t('Content.ultBuff.content', { ultFuaExtraScaling: TsUtils.precisionRound(100 * ultFuaExtraScaling) }),
   }, {
     formItem: 'switch',
     id: 'talentEnemyMarked',
     name: 'talentEnemyMarked',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
+    text: t('Content.talentEnemyMarked.text'),
+    title: t('Content.talentEnemyMarked.title'),
+    content: t('Content.talentEnemyMarked.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
   }, {
     formItem: 'switch',
     id: 'e2UltAtkBuff',
     name: 'e2UltAtkBuff',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content'),
+    text: t('Content.e2UltAtkBuff.text'),
+    title: t('Content.e2UltAtkBuff.title'),
+    content: t('Content.e2UltAtkBuff.content'),
     disabled: e < 2,
   }, {
     formItem: 'switch',
     id: 'e4DmgReductionBuff',
     name: 'e4DmgReductionBuff',
-    text: t('Content.3.text'),
-    title: t('Content.3.title'),
-    content: t('Content.3.content'),
+    text: t('Content.e4DmgReductionBuff.text'),
+    title: t('Content.e4DmgReductionBuff.title'),
+    content: t('Content.e4DmgReductionBuff.content'),
     disabled: e < 4,
   }]
 

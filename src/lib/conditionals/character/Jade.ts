@@ -12,7 +12,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Jade')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
@@ -47,17 +46,17 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'enhancedFollowUp',
       name: 'enhancedFollowUp',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content', { ultFuaScalingBuff: TsUtils.precisionRound(100 * ultFuaScalingBuff) }),
+      text: t('Content.enhancedFollowUp.text'),
+      title: t('Content.enhancedFollowUp.title'),
+      content: t('Content.enhancedFollowUp.content', { ultFuaScalingBuff: TsUtils.precisionRound(100 * ultFuaScalingBuff) }),
     },
     {
       formItem: 'slider',
       id: 'pawnedAssetStacks',
       name: 'pawnedAssetStacks',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content', { pawnedAssetCdScaling: TsUtils.precisionRound(100 * pawnedAssetCdScaling) }),
+      text: t('Content.pawnedAssetStacks.text'),
+      title: t('Content.pawnedAssetStacks.title'),
+      content: t('Content.pawnedAssetStacks.content', { pawnedAssetCdScaling: TsUtils.precisionRound(100 * pawnedAssetCdScaling) }),
       min: 0,
       max: 50,
     },
@@ -65,9 +64,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e1FuaDmgBoost',
       name: 'e1FuaDmgBoost',
-      text: t('Content.2.text'),
-      title: t('Content.2.title'),
-      content: t('Content.2.content'),
+      text: t('Content.e1FuaDmgBoost.text'),
+      title: t('Content.e1FuaDmgBoost.title'),
+      content: t('Content.e1FuaDmgBoost.content'),
       disabled: e < 1,
     },
     {
@@ -75,9 +74,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e2CrBuff',
       name: 'e2CrBuff',
-      text: t('Content.3.text'),
-      title: t('Content.3.title'),
-      content: t('Content.3.content'),
+      text: t('Content.e2CrBuff.text'),
+      title: t('Content.e2CrBuff.title'),
+      content: t('Content.e2CrBuff.content'),
       disabled: e < 2,
     },
     {
@@ -85,18 +84,18 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e4DefShredBuff',
       name: 'e4DefShredBuff',
-      text: t('Content.4.text'),
-      title: t('Content.4.title'),
-      content: t('Content.4.content'),
+      text: t('Content.e4DefShredBuff.text'),
+      title: t('Content.e4DefShredBuff.title'),
+      content: t('Content.e4DefShredBuff.content'),
       disabled: e < 4,
     },
     {
       formItem: 'switch',
       id: 'e6ResShredBuff',
       name: 'e6ResShredBuff',
-      text: t('Content.5.text'),
-      title: t('Content.5.title'),
-      content: t('Content.5.content'),
+      text: t('Content.e6ResShredBuff.text'),
+      title: t('Content.e6ResShredBuff.title'),
+      content: t('Content.e6ResShredBuff.content'),
       disabled: e < 6,
     },
   ]
@@ -106,9 +105,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'debtCollectorSpdBuff',
       name: 'debtCollectorSpdBuff',
-      text: t('TeammateContent.0.text'),
-      title: t('TeammateContent.0.title'),
-      content: t('TeammateContent.0.content'),
+      text: t('TeammateContent.debtCollectorSpdBuff.text'),
+      title: t('TeammateContent.debtCollectorSpdBuff.title'),
+      content: t('TeammateContent.debtCollectorSpdBuff.content'),
     },
   ]
 

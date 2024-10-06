@@ -10,7 +10,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Serval')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -26,17 +25,17 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'targetShocked',
       name: 'targetShocked',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content', { talentExtraDmgScaling: TsUtils.precisionRound(100 * talentExtraDmgScaling) }),
+      text: t('Content.targetShocked.text'),
+      title: t('Content.targetShocked.title'),
+      content: t('Content.targetShocked.content', { talentExtraDmgScaling: TsUtils.precisionRound(100 * talentExtraDmgScaling) }),
     },
     {
       formItem: 'switch',
       id: 'enemyDefeatedBuff',
       name: 'enemyDefeatedBuff',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content'),
+      text: t('Content.enemyDefeatedBuff.text'),
+      title: t('Content.enemyDefeatedBuff.title'),
+      content: t('Content.enemyDefeatedBuff.content'),
     },
   ]
 

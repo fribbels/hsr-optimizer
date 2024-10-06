@@ -15,7 +15,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Bronya')
   const { basic, skill, ult } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
@@ -33,44 +32,44 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'teamDmgBuff',
     name: 'teamDmgBuff',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content'),
+    text: t('Content.teamDmgBuff.text'),
+    title: t('Content.teamDmgBuff.title'),
+    content: t('Content.teamDmgBuff.content'),
   }, {
     formItem: 'switch',
     id: 'skillBuff',
     name: 'skillBuff',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { skillDmgBoostValue: TsUtils.precisionRound(100 * skillDmgBoostValue) }),
+    text: t('Content.skillBuff.text'),
+    title: t('Content.skillBuff.title'),
+    content: t('Content.skillBuff.content', { skillDmgBoostValue: TsUtils.precisionRound(100 * skillDmgBoostValue) }),
   }, {
     formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content', { ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue), ultCdBoostValue: TsUtils.precisionRound(100 * ultCdBoostValue), ultCdBoostBaseValue: TsUtils.precisionRound(100 * ultCdBoostBaseValue) }),
+    text: t('Content.ultBuff.text'),
+    title: t('Content.ultBuff.title'),
+    content: t('Content.ultBuff.content', { ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue), ultCdBoostValue: TsUtils.precisionRound(100 * ultCdBoostValue), ultCdBoostBaseValue: TsUtils.precisionRound(100 * ultCdBoostBaseValue) }),
   }, {
     formItem: 'switch',
     id: 'battleStartDefBuff',
     name: 'battleStartDefBuff',
-    text: t('Content.3.text'),
-    title: t('Content.3.title'),
-    content: t('Content.3.content'),
+    text: t('Content.battleStartDefBuff.text'),
+    title: t('Content.battleStartDefBuff.title'),
+    content: t('Content.battleStartDefBuff.content'),
   }, {
     formItem: 'switch',
     id: 'techniqueBuff',
     name: 'techniqueBuff',
-    text: t('Content.4.text'),
-    title: t('Content.4.title'),
-    content: t('Content.4.content'),
+    text: t('Content.techniqueBuff.text'),
+    title: t('Content.techniqueBuff.title'),
+    content: t('Content.techniqueBuff.content'),
   }, {
     formItem: 'switch',
     id: 'e2SkillSpdBuff',
     name: 'e2SkillSpdBuff',
-    text: t('Content.5.text'),
-    title: t('Content.5.title'),
-    content: t('Content.5.content'),
+    text: t('Content.e2SkillSpdBuff.text'),
+    title: t('Content.e2SkillSpdBuff.title'),
+    content: t('Content.e2SkillSpdBuff.content'),
     disabled: e < 2,
   }]
 
@@ -84,9 +83,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateCDValue',
       name: 'teammateCDValue',
-      text: t('TeammateContent.0.text'),
-      title: t('TeammateContent.0.title'),
-      content: t('TeammateContent.0.content', { ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue), ultCdBoostValue: TsUtils.precisionRound(100 * ultCdBoostValue), ultCdBoostBaseValue: TsUtils.precisionRound(100 * ultCdBoostBaseValue) }),
+      text: t('TeammateContent.teammateCDValue.text'),
+      title: t('TeammateContent.teammateCDValue.title'),
+      content: t('TeammateContent.teammateCDValue.content', { ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue), ultCdBoostValue: TsUtils.precisionRound(100 * ultCdBoostValue), ultCdBoostBaseValue: TsUtils.precisionRound(100 * ultCdBoostBaseValue) }),
       min: 0,
       max: 3.00,
       percent: true,

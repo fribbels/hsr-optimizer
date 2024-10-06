@@ -10,7 +10,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Arlan')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -24,9 +23,9 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'slider',
     id: 'selfCurrentHpPercent',
     name: 'selfCurrentHpPercent',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { talentMissingHpDmgBoostMax: TsUtils.precisionRound(100 * talentMissingHpDmgBoostMax) }),
+    text: t('Content.selfCurrentHpPercent.text'),
+    title: t('Content.selfCurrentHpPercent.title'),
+    content: t('Content.selfCurrentHpPercent.content', { talentMissingHpDmgBoostMax: TsUtils.precisionRound(100 * talentMissingHpDmgBoostMax) }),
     min: 0.01,
     max: 1.0,
     percent: true,

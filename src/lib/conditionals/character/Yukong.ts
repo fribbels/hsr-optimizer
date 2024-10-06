@@ -9,7 +9,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Yukong')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -26,30 +25,30 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'teamImaginaryDmgBoost',
     name: 'teamImaginaryDmgBoost',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content'),
+    text: t('Content.teamImaginaryDmgBoost.text'),
+    title: t('Content.teamImaginaryDmgBoost.title'),
+    content: t('Content.teamImaginaryDmgBoost.content'),
   }, {
     formItem: 'switch',
     id: 'roaringBowstringsActive',
     name: 'roaringBowstringsActive',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { skillAtkBuffValue: TsUtils.precisionRound(100 * skillAtkBuffValue) }),
+    text: t('Content.roaringBowstringsActive.text'),
+    title: t('Content.roaringBowstringsActive.title'),
+    content: t('Content.roaringBowstringsActive.content', { skillAtkBuffValue: TsUtils.precisionRound(100 * skillAtkBuffValue) }),
   }, {
     formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content', { ultCrBuffValue: TsUtils.precisionRound(100 * ultCrBuffValue), ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue), ultScaling: TsUtils.precisionRound(100 * ultScaling) }),
+    text: t('Content.ultBuff.text'),
+    title: t('Content.ultBuff.title'),
+    content: t('Content.ultBuff.content', { ultCrBuffValue: TsUtils.precisionRound(100 * ultCrBuffValue), ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue), ultScaling: TsUtils.precisionRound(100 * ultScaling) }),
   }, {
     formItem: 'switch',
     id: 'initialSpeedBuff',
     name: 'initialSpeedBuff',
-    text: t('Content.3.text'),
-    title: t('Content.3.title'),
-    content: t('Content.3.content'),
+    text: t('Content.initialSpeedBuff.text'),
+    title: t('Content.initialSpeedBuff.title'),
+    content: t('Content.initialSpeedBuff.content'),
     disabled: e < 1,
   }]
 

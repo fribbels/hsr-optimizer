@@ -11,7 +11,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Topaz')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -39,23 +38,23 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'enemyProofOfDebtDebuff',
     name: 'enemyProofOfDebtDebuff',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { proofOfDebtFuaVulnerability: TsUtils.precisionRound(100 * proofOfDebtFuaVulnerability) }),
+    text: t('Content.enemyProofOfDebtDebuff.text'),
+    title: t('Content.enemyProofOfDebtDebuff.title'),
+    content: t('Content.enemyProofOfDebtDebuff.content', { proofOfDebtFuaVulnerability: TsUtils.precisionRound(100 * proofOfDebtFuaVulnerability) }),
   }, {
     formItem: 'switch',
     id: 'numbyEnhancedState',
     name: 'numbyEnhancedState',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { enhancedStateFuaCdBoost: TsUtils.precisionRound(100 * enhancedStateFuaCdBoost), enhancedStateFuaScalingBoost: TsUtils.precisionRound(100 * enhancedStateFuaScalingBoost) }),
+    text: t('Content.numbyEnhancedState.text'),
+    title: t('Content.numbyEnhancedState.title'),
+    content: t('Content.numbyEnhancedState.content', { enhancedStateFuaCdBoost: TsUtils.precisionRound(100 * enhancedStateFuaCdBoost), enhancedStateFuaScalingBoost: TsUtils.precisionRound(100 * enhancedStateFuaScalingBoost) }),
   }, {
     formItem: 'slider',
     id: 'e1DebtorStacks',
     name: 'e1DebtorStacks',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content'),
+    text: t('Content.e1DebtorStacks.text'),
+    title: t('Content.e1DebtorStacks.title'),
+    content: t('Content.e1DebtorStacks.content'),
     min: 0,
     max: 2,
     disabled: e < 1,

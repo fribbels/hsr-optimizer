@@ -10,7 +10,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Asta')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
@@ -29,9 +28,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'skillExtraDmgHits',
       name: 'skillExtraDmgHits',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content', { skillExtraDmgHitsMax }),
+      text: t('Content.skillExtraDmgHits.text'),
+      title: t('Content.skillExtraDmgHits.title'),
+      content: t('Content.skillExtraDmgHits.content', { skillExtraDmgHitsMax }),
       min: 0,
       max: skillExtraDmgHitsMax,
     },
@@ -39,9 +38,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'talentBuffStacks',
       name: 'talentBuffStacks',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content', { talentStacksAtkBuff: TsUtils.precisionRound(100 * talentStacksAtkBuff) }),
+      text: t('Content.talentBuffStacks.text'),
+      title: t('Content.talentBuffStacks.title'),
+      content: t('Content.talentBuffStacks.content', { talentStacksAtkBuff: TsUtils.precisionRound(100 * talentStacksAtkBuff) }),
       min: 0,
       max: 5,
     },
@@ -49,17 +48,17 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'ultSpdBuff',
       name: 'ultSpdBuff',
-      text: t('Content.2.text'),
-      title: t('Content.2.title'),
-      content: t('Content.2.content', { ultSpdBuffValue }),
+      text: t('Content.ultSpdBuff.text'),
+      title: t('Content.ultSpdBuff.title'),
+      content: t('Content.ultSpdBuff.content', { ultSpdBuffValue }),
     },
     {
       formItem: 'switch',
       id: 'fireDmgBoost',
       name: 'fireDmgBoost',
-      text: t('Content.3.text'),
-      title: t('Content.3.title'),
-      content: t('Content.3.content'),
+      text: t('Content.fireDmgBoost.text'),
+      title: t('Content.fireDmgBoost.title'),
+      content: t('Content.fireDmgBoost.content'),
     },
   ]
 

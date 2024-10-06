@@ -10,7 +10,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.TrailblazerDestruction')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
@@ -26,16 +25,16 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'enhancedUlt',
     name: 'Enhanced Ult',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { ultScaling: TsUtils.precisionRound(100 * ultScaling), ultEnhancedScaling: TsUtils.precisionRound(100 * ultEnhancedScaling), ultEnhancedScaling2: TsUtils.precisionRound(100 * ultEnhancedScaling2) }),
+    text: t('Content.enhancedUlt.text'),
+    title: t('Content.enhancedUlt.title'),
+    content: t('Content.enhancedUlt.content', { ultScaling: TsUtils.precisionRound(100 * ultScaling), ultEnhancedScaling: TsUtils.precisionRound(100 * ultEnhancedScaling), ultEnhancedScaling2: TsUtils.precisionRound(100 * ultEnhancedScaling2) }),
   }, {
     formItem: 'slider',
     id: 'talentStacks',
     name: 'Talent stacks',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { talentAtkScalingValue: TsUtils.precisionRound(100 * talentAtkScalingValue) }),
+    text: t('Content.talentStacks.text'),
+    title: t('Content.talentStacks.title'),
+    content: t('Content.talentStacks.content', { talentAtkScalingValue: TsUtils.precisionRound(100 * talentAtkScalingValue) }),
     min: 0,
     max: 2,
   }]

@@ -11,7 +11,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Seele')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
@@ -26,33 +25,33 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'buffedState',
     name: 'buffedState',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { buffedStateDmgBuff: TsUtils.precisionRound(100 * buffedStateDmgBuff) }),
+    text: t('Content.buffedState.text'),
+    title: t('Content.buffedState.title'),
+    content: t('Content.buffedState.content', { buffedStateDmgBuff: TsUtils.precisionRound(100 * buffedStateDmgBuff) }),
   }, {
     formItem: 'slider',
     id: 'speedBoostStacks',
     name: 'speedBoostStacks',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { speedBoostStacksMax: speedBoostStacksMax }),
+    text: t('Content.speedBoostStacks.text'),
+    title: t('Content.speedBoostStacks.title'),
+    content: t('Content.speedBoostStacks.content', { speedBoostStacksMax: speedBoostStacksMax }),
     min: 0,
     max: speedBoostStacksMax,
   }, {
     formItem: 'switch',
     id: 'e1EnemyHp80CrBoost',
     name: 'e1EnemyHp80CrBoost',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content'),
+    text: t('Content.e1EnemyHp80CrBoost.text'),
+    title: t('Content.e1EnemyHp80CrBoost.title'),
+    content: t('Content.e1EnemyHp80CrBoost.content'),
     disabled: e < 1,
   }, {
     formItem: 'switch',
     id: 'e6UltTargetDebuff',
     name: 'e6UltTargetDebuff',
-    text: t('Content.3.text'),
-    title: t('Content.3.title'),
-    content: t('Content.3.content'),
+    text: t('Content.e6UltTargetDebuff.text'),
+    title: t('Content.e6UltTargetDebuff.title'),
+    content: t('Content.e6UltTargetDebuff.content'),
     disabled: e < 6,
   }]
 

@@ -9,7 +9,6 @@ import { ContentItem } from 'types/Conditionals'
 import i18next from 'i18next'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Bailu')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
@@ -21,31 +20,31 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'healingMaxHpBuff',
     name: 'healingMaxHpBuff',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content'),
+    text: t('Content.healingMaxHpBuff.text'),
+    title: t('Content.healingMaxHpBuff.title'),
+    content: t('Content.healingMaxHpBuff.content'),
   }, {
     formItem: 'switch',
     id: 'talentDmgReductionBuff',
     name: 'talentDmgReductionBuff',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content'),
+    text: t('Content.talentDmgReductionBuff.text'),
+    title: t('Content.talentDmgReductionBuff.title'),
+    content: t('Content.talentDmgReductionBuff.content'),
   }, {
     formItem: 'switch',
     id: 'e2UltHealingBuff',
     name: 'e2UltHealingBuff',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content'),
+    text: t('Content.e2UltHealingBuff.text'),
+    title: t('Content.e2UltHealingBuff.title'),
+    content: t('Content.e2UltHealingBuff.content'),
     disabled: e < 2,
   }, {
     formItem: 'slider',
     id: 'e4SkillHealingDmgBuffStacks',
     name: 'e4SkillHealingDmgBuffStacks',
-    text: t('Content.3.text'),
-    title: t('Content.3.title'),
-    content: t('Content.3.content'),
+    text: t('Content.e4SkillHealingDmgBuffStacks.text'),
+    title: t('Content.e4SkillHealingDmgBuffStacks.title'),
+    content: t('Content.e4SkillHealingDmgBuffStacks.content'),
     min: 0,
     max: 3,
     disabled: e < 4,

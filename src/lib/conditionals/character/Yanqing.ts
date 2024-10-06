@@ -10,7 +10,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Yanqing')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -29,38 +28,38 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'ultBuffActive',
     name: 'ultBuffActive',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
+    text: t('Content.ultBuffActive.text'),
+    title: t('Content.ultBuffActive.title'),
+    content: t('Content.ultBuffActive.content', { ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
   }, {
     formItem: 'switch',
     id: 'soulsteelBuffActive',
     name: 'soulsteelBuffActive',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { talentCdBuffValue: TsUtils.precisionRound(100 * talentCdBuffValue), talentCrBuffValue: TsUtils.precisionRound(100 * talentCrBuffValue), ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
+    text: t('Content.soulsteelBuffActive.text'),
+    title: t('Content.soulsteelBuffActive.title'),
+    content: t('Content.soulsteelBuffActive.content', { talentCdBuffValue: TsUtils.precisionRound(100 * talentCdBuffValue), talentCrBuffValue: TsUtils.precisionRound(100 * talentCrBuffValue), ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
   }, {
     formItem: 'switch',
     id: 'critSpdBuff',
     name: 'critSpdBuff',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content'),
+    text: t('Content.critSpdBuff.text'),
+    title: t('Content.critSpdBuff.title'),
+    content: t('Content.critSpdBuff.content'),
   }, {
     formItem: 'switch',
     id: 'e1TargetFrozen',
     name: 'e1TargetFrozen',
-    text: t('Content.3.text'),
-    title: t('Content.3.title'),
-    content: t('Content.3.content'),
+    text: t('Content.e1TargetFrozen.text'),
+    title: t('Content.e1TargetFrozen.title'),
+    content: t('Content.e1TargetFrozen.content'),
     disabled: (e < 1),
   }, {
     formItem: 'switch',
     id: 'e4CurrentHp80',
     name: 'e4CurrentHp80',
-    text: t('Content.4.text'),
-    title: t('Content.4.title'),
-    content: t('Content.4.content'),
+    text: t('Content.e4CurrentHp80.text'),
+    title: t('Content.e4CurrentHp80.title'),
+    content: t('Content.e4CurrentHp80.content'),
     disabled: (e < 4),
   }]
 

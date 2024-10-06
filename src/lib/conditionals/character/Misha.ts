@@ -10,7 +10,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Misha')
   const { basic, skill, ult } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
@@ -23,33 +22,33 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'slider',
     id: 'ultHitsOnTarget',
     name: 'ultHitsOnTarget',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { ultStackScaling: TsUtils.precisionRound(100 * ultStackScaling) }),
+    text: t('Content.ultHitsOnTarget.text'),
+    title: t('Content.ultHitsOnTarget.title'),
+    content: t('Content.ultHitsOnTarget.content', { ultStackScaling: TsUtils.precisionRound(100 * ultStackScaling) }),
     min: 1,
     max: 10,
   }, {
     formItem: 'switch',
     id: 'enemyFrozen',
     name: 'enemyFrozen',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content'),
+    text: t('Content.enemyFrozen.text'),
+    title: t('Content.enemyFrozen.title'),
+    content: t('Content.enemyFrozen.content'),
   }, {
     formItem: 'switch',
     id: 'e2DefReduction',
     name: 'e2DefReduction',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content'),
+    text: t('Content.e2DefReduction.text'),
+    title: t('Content.e2DefReduction.title'),
+    content: t('Content.e2DefReduction.content'),
     disabled: e < 2,
   }, {
     formItem: 'switch',
     id: 'e6UltDmgBoost',
     name: 'e6UltDmgBoost',
-    text: t('Content.3.text'),
-    title: t('Content.3.title'),
-    content: t('Content.3.content'),
+    text: t('Content.e6UltDmgBoost.text'),
+    title: t('Content.e6UltDmgBoost.title'),
+    content: t('Content.e6UltDmgBoost.content'),
     disabled: e < 6,
   }]
 

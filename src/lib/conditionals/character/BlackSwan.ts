@@ -11,7 +11,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.BlackSwan')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
@@ -34,33 +33,33 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'ehrToDmgBoost',
       name: 'ehrToDmgBoost',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content'),
+      text: t('Content.ehrToDmgBoost.text'),
+      title: t('Content.ehrToDmgBoost.title'),
+      content: t('Content.ehrToDmgBoost.content'),
     },
     {
       formItem: 'switch',
       id: 'epiphanyDebuff',
       name: 'epiphanyDebuff',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content', { epiphanyDmgTakenBoost: TsUtils.precisionRound(100 * epiphanyDmgTakenBoost) }),
+      text: t('Content.epiphanyDebuff.text'),
+      title: t('Content.epiphanyDebuff.title'),
+      content: t('Content.epiphanyDebuff.content', { epiphanyDmgTakenBoost: TsUtils.precisionRound(100 * epiphanyDmgTakenBoost) }),
     },
     {
       formItem: 'switch',
       id: 'defDecreaseDebuff',
       name: 'defDecreaseDebuff',
-      text: t('Content.2.text'),
-      title: t('Content.2.title'),
-      content: t('Content.2.content', { defShredValue: TsUtils.precisionRound(100 * defShredValue) }),
+      text: t('Content.defDecreaseDebuff.text'),
+      title: t('Content.defDecreaseDebuff.title'),
+      content: t('Content.defDecreaseDebuff.content', { defShredValue: TsUtils.precisionRound(100 * defShredValue) }),
     },
     {
       formItem: 'slider',
       id: 'arcanaStacks',
       name: 'arcanaStacks',
-      text: t('Content.3.text'),
-      title: t('Content.3.title'),
-      content: t('Content.3.content', { dotScaling: TsUtils.precisionRound(100 * dotScaling), arcanaStackMultiplier: TsUtils.precisionRound(100 * arcanaStackMultiplier) }),
+      text: t('Content.arcanaStacks.text'),
+      title: t('Content.arcanaStacks.title'),
+      content: t('Content.arcanaStacks.content', { dotScaling: TsUtils.precisionRound(100 * dotScaling), arcanaStackMultiplier: TsUtils.precisionRound(100 * arcanaStackMultiplier) }),
       min: 1,
       max: 50,
     },
@@ -68,9 +67,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e1ResReduction',
       name: 'e1ResReduction',
-      text: t('Content.4.text'),
-      title: t('Content.4.title'),
-      content: t('Content.4.content'),
+      text: t('Content.e1ResReduction.text'),
+      title: t('Content.e1ResReduction.title'),
+      content: t('Content.e1ResReduction.content'),
       disabled: e < 1,
     },
   ]

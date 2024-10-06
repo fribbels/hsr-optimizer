@@ -10,7 +10,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Sampo')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -28,17 +27,17 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'targetDotTakenDebuff',
       name: 'targetDotTakenDebuff',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content', { dotVulnerabilityValue: TsUtils.precisionRound(100 * dotVulnerabilityValue) }),
+      text: t('Content.targetDotTakenDebuff.text'),
+      title: t('Content.targetDotTakenDebuff.title'),
+      content: t('Content.targetDotTakenDebuff.content', { dotVulnerabilityValue: TsUtils.precisionRound(100 * dotVulnerabilityValue) }),
     },
     {
       formItem: 'slider',
       id: 'skillExtraHits',
       name: 'skillExtraHits',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content'),
+      text: t('Content.skillExtraHits.text'),
+      title: t('Content.skillExtraHits.title'),
+      content: t('Content.skillExtraHits.content'),
       min: 1,
       max: maxExtraHits,
     },
@@ -46,9 +45,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'targetWindShear',
       name: 'targetWindShear',
-      text: t('Content.2.text'),
-      title: t('Content.2.title'),
-      content: t('Content.2.content'),
+      text: t('Content.targetWindShear.text'),
+      title: t('Content.targetWindShear.title'),
+      content: t('Content.targetWindShear.content'),
     },
   ]
 

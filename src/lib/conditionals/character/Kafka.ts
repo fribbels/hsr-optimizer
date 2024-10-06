@@ -9,7 +9,6 @@ import { buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculat
 import i18next from 'i18next'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Kafka')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -27,18 +26,18 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e1DotDmgReceivedDebuff',
       name: 'e1DotDmgReceivedDebuff',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content'),
+      text: t('Content.e1DotDmgReceivedDebuff.text'),
+      title: t('Content.e1DotDmgReceivedDebuff.title'),
+      content: t('Content.e1DotDmgReceivedDebuff.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2TeamDotBoost',
       name: 'e2TeamDotBoost',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content'),
+      text: t('Content.e2TeamDotBoost.text'),
+      title: t('Content.e2TeamDotBoost.title'),
+      content: t('Content.e2TeamDotBoost.content'),
       disabled: e < 2,
     },
   ]

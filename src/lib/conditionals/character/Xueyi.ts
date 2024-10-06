@@ -14,7 +14,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Xueyi')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -36,25 +35,25 @@ export default (e: Eidolon): CharacterConditional => {
       id: 'beToDmgBoost',
       name: 'beToDmgBoost',
       formItem: 'switch',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content'),
+      text: t('Content.beToDmgBoost.text'),
+      title: t('Content.beToDmgBoost.title'),
+      content: t('Content.beToDmgBoost.content'),
     },
     {
       id: 'enemyToughness50',
       name: 'enemyToughness50',
       formItem: 'switch',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content'),
+      text: t('Content.enemyToughness50.text'),
+      title: t('Content.enemyToughness50.title'),
+      content: t('Content.enemyToughness50.content'),
     },
     {
       id: 'toughnessReductionDmgBoost',
       name: 'toughnessReductionDmgBoost',
       formItem: 'slider',
-      text: t('Content.2.text'),
-      title: t('Content.2.title'),
-      content: t('Content.2.content', { ultBoostMax: TsUtils.precisionRound(100 * ultBoostMax) }),
+      text: t('Content.toughnessReductionDmgBoost.text'),
+      title: t('Content.toughnessReductionDmgBoost.title'),
+      content: t('Content.toughnessReductionDmgBoost.content', { ultBoostMax: TsUtils.precisionRound(100 * ultBoostMax) }),
       min: 0,
       max: ultBoostMax,
       percent: true,
@@ -63,9 +62,9 @@ export default (e: Eidolon): CharacterConditional => {
       id: 'fuaHits',
       name: 'fuaHits',
       formItem: 'slider',
-      text: t('Content.3.text'),
-      title: t('Content.3.title'),
-      content: t('Content.3.content', { fuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
+      text: t('Content.fuaHits.text'),
+      title: t('Content.fuaHits.title'),
+      content: t('Content.fuaHits.content', { fuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
       min: 0,
       max: 3,
     },
@@ -73,9 +72,9 @@ export default (e: Eidolon): CharacterConditional => {
       id: 'e4BeBuff',
       name: 'e4BeBuff',
       formItem: 'switch',
-      text: t('Content.4.text'),
-      title: t('Content.4.title'),
-      content: t('Content.4.content'),
+      text: t('Content.e4BeBuff.text'),
+      title: t('Content.e4BeBuff.title'),
+      content: t('Content.e4BeBuff.content'),
       disabled: (e < 4),
     },
   ]

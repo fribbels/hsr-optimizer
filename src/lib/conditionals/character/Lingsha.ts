@@ -13,7 +13,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Lingsha')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
@@ -34,43 +33,43 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'beConversion',
       name: 'beConversion',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content'),
+      text: t('Content.beConversion.text'),
+      title: t('Content.beConversion.title'),
+      content: t('Content.beConversion.content'),
     },
     {
       formItem: 'switch',
       id: 'befogState',
       name: 'befogState',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content', { BefogVulnerability: TsUtils.precisionRound(100 * ultBreakVulnerability) }),
+      text: t('Content.befogState.text'),
+      title: t('Content.befogState.title'),
+      content: t('Content.befogState.content', { BefogVulnerability: TsUtils.precisionRound(100 * ultBreakVulnerability) }),
     },
     {
       formItem: 'switch',
       id: 'e1DefShred',
       name: 'e1DefShred',
-      text: t('Content.2.text'),
-      title: t('Content.2.title'),
-      content: t('Content.2.content'),
+      text: t('Content.e1DefShred.text'),
+      title: t('Content.e1DefShred.title'),
+      content: t('Content.e1DefShred.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2BeBuff',
       name: 'e2BeBuff',
-      text: t('Content.3.text'),
-      title: t('Content.3.title'),
-      content: t('Content.3.content'),
+      text: t('Content.e2BeBuff.text'),
+      title: t('Content.e2BeBuff.title'),
+      content: t('Content.e2BeBuff.content'),
       disabled: e < 2,
     },
     {
       formItem: 'switch',
       id: 'e6ResShred',
       name: 'e6ResShred',
-      text: t('Content.4.text'),
-      title: t('Content.4.title'),
-      content: t('Content.4.content'),
+      text: t('Content.e6ResShred.text'),
+      title: t('Content.e6ResShred.title'),
+      content: t('Content.e6ResShred.content'),
       disabled: e < 6,
     },
   ]

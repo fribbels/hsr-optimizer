@@ -12,7 +12,6 @@ import { TsUtils } from 'lib/TsUtils'
 
 // TODO: missing A4 SPD buff
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.DanHeng')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -28,25 +27,25 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'talentPenBuff',
       name: 'talentPenBuff',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content', { extraPenValue: TsUtils.precisionRound(100 * extraPenValue) }),
+      text: t('Content.talentPenBuff.text'),
+      title: t('Content.talentPenBuff.title'),
+      content: t('Content.talentPenBuff.content', { extraPenValue: TsUtils.precisionRound(100 * extraPenValue) }),
     },
     {
       formItem: 'switch',
       id: 'enemySlowed',
       name: 'enemySlowed',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content'),
+      text: t('Content.enemySlowed.text'),
+      title: t('Content.enemySlowed.title'),
+      content: t('Content.enemySlowed.content'),
     },
     {
       formItem: 'switch',
       id: 'e1EnemyHp50',
       name: 'e1EnemyHp50',
-      text: t('Content.2.text'),
-      title: t('Content.2.title'),
-      content: t('Content.2.content'),
+      text: t('Content.e1EnemyHp50.text'),
+      title: t('Content.e1EnemyHp50.title'),
+      content: t('Content.e1EnemyHp50.content'),
       disabled: e < 1,
     },
   ]

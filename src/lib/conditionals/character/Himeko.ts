@@ -11,7 +11,6 @@ import { NumberToNumberMap } from 'types/Common'
 import i18next from 'i18next'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Himeko')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -32,43 +31,43 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'targetBurned',
       name: 'targetBurned',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content'),
+      text: t('Content.targetBurned.text'),
+      title: t('Content.targetBurned.title'),
+      content: t('Content.targetBurned.content'),
     },
     {
       formItem: 'switch',
       id: 'selfCurrentHp80Percent',
       name: 'selfCurrentHp80Percent',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content'),
+      text: t('Content.selfCurrentHp80Percent.text'),
+      title: t('Content.selfCurrentHp80Percent.title'),
+      content: t('Content.selfCurrentHp80Percent.content'),
     },
     {
       formItem: 'switch',
       id: 'e1TalentSpdBuff',
       name: 'e1TalentSpdBuff',
-      text: t('Content.2.text'),
-      title: t('Content.2.title'),
-      content: t('Content.2.content'),
+      text: t('Content.e1TalentSpdBuff.text'),
+      title: t('Content.e1TalentSpdBuff.title'),
+      content: t('Content.e1TalentSpdBuff.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2EnemyHp50DmgBoost',
       name: 'e2EnemyHp50DmgBoost',
-      text: t('Content.3.text'),
-      title: t('Content.3.title'),
-      content: t('Content.3.content'),
+      text: t('Content.e2EnemyHp50DmgBoost.text'),
+      title: t('Content.e2EnemyHp50DmgBoost.title'),
+      content: t('Content.e2EnemyHp50DmgBoost.content'),
       disabled: e < 2,
     },
     {
       formItem: 'slider',
       id: 'e6UltExtraHits',
       name: 'e6UltExtraHits',
-      text: t('Content.4.text'),
-      title: t('Content.4.title'),
-      content: t('Content.4.content'),
+      text: t('Content.e6UltExtraHits.text'),
+      title: t('Content.e6UltExtraHits.title'),
+      content: t('Content.e6UltExtraHits.content'),
       min: 0,
       max: 2,
       disabled: e < 6,

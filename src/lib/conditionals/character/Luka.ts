@@ -10,7 +10,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Luka')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
@@ -28,25 +27,25 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'basicEnhanced',
       name: 'basicEnhanced',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content'),
+      text: t('Content.basicEnhanced.text'),
+      title: t('Content.basicEnhanced.title'),
+      content: t('Content.basicEnhanced.content'),
     },
     {
       formItem: 'switch',
       id: 'targetUltDebuffed',
       name: 'targetUltDebuffed',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content', { targetUltDebuffDmgTakenValue: TsUtils.precisionRound(100 * targetUltDebuffDmgTakenValue) }),
+      text: t('Content.targetUltDebuffed.text'),
+      title: t('Content.targetUltDebuffed.title'),
+      content: t('Content.targetUltDebuffed.content', { targetUltDebuffDmgTakenValue: TsUtils.precisionRound(100 * targetUltDebuffDmgTakenValue) }),
     },
     {
       formItem: 'slider',
       id: 'basicEnhancedExtraHits',
       name: 'basicEnhancedExtraHits',
-      text: t('Content.2.text'),
-      title: t('Content.2.title'),
-      content: t('Content.2.content'),
+      text: t('Content.basicEnhancedExtraHits.text'),
+      title: t('Content.basicEnhancedExtraHits.title'),
+      content: t('Content.basicEnhancedExtraHits.content'),
       min: 0,
       max: 3,
     },
@@ -54,18 +53,18 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e1TargetBleeding',
       name: 'e1TargetBleeding',
-      text: t('Content.3.text'),
-      title: t('Content.3.title'),
-      content: t('Content.3.content'),
+      text: t('Content.e1TargetBleeding.text'),
+      title: t('Content.e1TargetBleeding.title'),
+      content: t('Content.e1TargetBleeding.content'),
       disabled: e < 1,
     },
     {
       formItem: 'slider',
       id: 'e4TalentStacks',
       name: 'e4TalentStacks',
-      text: t('Content.4.text'),
-      title: t('Content.4.title'),
-      content: t('Content.4.content'),
+      text: t('Content.e4TalentStacks.text'),
+      title: t('Content.e4TalentStacks.title'),
+      content: t('Content.e4TalentStacks.content'),
       min: 0,
       max: 4,
       disabled: e < 4,

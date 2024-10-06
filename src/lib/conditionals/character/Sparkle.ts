@@ -14,7 +14,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Sparkle')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -38,32 +37,32 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'skillCdBuff',
     name: 'skillCdBuff',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling), skillCdBuffBase: TsUtils.precisionRound(100 * skillCdBuffBase) }),
+    text: t('Content.skillCdBuff.text'),
+    title: t('Content.skillCdBuff.title'),
+    content: t('Content.skillCdBuff.content', { skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling), skillCdBuffBase: TsUtils.precisionRound(100 * skillCdBuffBase) }),
   }, {
     formItem: 'switch',
     id: 'cipherBuff',
     name: 'cipherBuff',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { cipherTalentStackBoost: TsUtils.precisionRound(100 * cipherTalentStackBoost) }),
+    text: t('Content.cipherBuff.text'),
+    title: t('Content.cipherBuff.title'),
+    content: t('Content.cipherBuff.content', { cipherTalentStackBoost: TsUtils.precisionRound(100 * cipherTalentStackBoost) }),
   }, {
     formItem: 'slider',
     id: 'talentStacks',
     name: 'talentStacks',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content', { talentBaseStackBoost: TsUtils.precisionRound(100 * talentBaseStackBoost) }),
+    text: t('Content.talentStacks.text'),
+    title: t('Content.talentStacks.title'),
+    content: t('Content.talentStacks.content', { talentBaseStackBoost: TsUtils.precisionRound(100 * talentBaseStackBoost) }),
     min: 0,
     max: 3,
   }, {
     formItem: 'slider',
     id: 'quantumAllies',
     name: 'quantumAllies',
-    text: t('Content.3.text'),
-    title: t('Content.3.title'),
-    content: t('Content.3.content'),
+    text: t('Content.quantumAllies.text'),
+    title: t('Content.quantumAllies.title'),
+    content: t('Content.quantumAllies.content'),
     min: 0,
     max: 3,
   }]
@@ -74,9 +73,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateCDValue',
       name: 'teammateCDValue',
-      text: t('TeammateContent.0.text'),
-      title: t('TeammateContent.0.title'),
-      content: t('TeammateContent.0.content', { skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling), skillCdBuffBase: TsUtils.precisionRound(100 * skillCdBuffBase) }),
+      text: t('TeammateContent.teammateCDValue.text'),
+      title: t('TeammateContent.teammateCDValue.title'),
+      content: t('TeammateContent.teammateCDValue.content', { skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling), skillCdBuffBase: TsUtils.precisionRound(100 * skillCdBuffBase) }),
       min: 0,
       max: 3.50,
       percent: true,

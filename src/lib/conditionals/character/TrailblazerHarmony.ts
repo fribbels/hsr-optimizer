@@ -10,7 +10,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.TrailblazerHarmony')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
@@ -30,25 +29,25 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'backupDancer',
       name: 'backupDancer',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content', { ultBeScaling: TsUtils.precisionRound(100 * ultBeScaling) }),
+      text: t('Content.backupDancer.text'),
+      title: t('Content.backupDancer.title'),
+      content: t('Content.backupDancer.content', { ultBeScaling: TsUtils.precisionRound(100 * ultBeScaling) }),
     },
     {
       formItem: 'switch',
       id: 'superBreakDmg',
       name: 'superBreakDmg',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content'),
+      text: t('Content.superBreakDmg.text'),
+      title: t('Content.superBreakDmg.title'),
+      content: t('Content.superBreakDmg.content'),
     },
     {
       formItem: 'slider',
       id: 'skillHitsOnTarget',
       name: 'skillHitsOnTarget',
-      text: t('Content.2.text'),
-      title: t('Content.2.title'),
-      content: t('Content.2.content'),
+      text: t('Content.skillHitsOnTarget.text'),
+      title: t('Content.skillHitsOnTarget.title'),
+      content: t('Content.skillHitsOnTarget.content'),
       min: 0,
       max: skillMaxHits,
     },
@@ -56,9 +55,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e2EnergyRegenBuff',
       name: 'e2EnergyRegenBuff',
-      text: t('Content.3.text'),
-      title: t('Content.3.title'),
-      content: t('Content.3.content'),
+      text: t('Content.e2EnergyRegenBuff.text'),
+      title: t('Content.e2EnergyRegenBuff.title'),
+      content: t('Content.e2EnergyRegenBuff.content'),
       disabled: e < 2,
     },
   ]
@@ -70,9 +69,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateBeValue',
       name: 'teammateBeValue',
-      text: t('TeammateContent.0.text'),
-      title: t('TeammateContent.0.title'),
-      content: t('TeammateContent.0.content'),
+      text: t('TeammateContent.teammateBeValue.text'),
+      title: t('TeammateContent.teammateBeValue.title'),
+      content: t('TeammateContent.teammateBeValue.content'),
       min: 0,
       max: 4.00,
       percent: true,

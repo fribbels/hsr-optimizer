@@ -11,7 +11,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Moze')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
@@ -29,35 +28,35 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'preyMark',
       name: 'preyMark',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content', { PreyAdditionalMultiplier: TsUtils.precisionRound(100 * additionalDmgScaling), FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
+      text: t('Content.preyMark.text'),
+      title: t('Content.preyMark.title'),
+      content: t('Content.preyMark.content', { PreyAdditionalMultiplier: TsUtils.precisionRound(100 * additionalDmgScaling), FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
     },
     {
       formItem: 'switch',
       id: 'e2CdBoost',
       name: 'e2CdBoost',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content'),
+      text: t('Content.e2CdBoost.text'),
+      title: t('Content.e2CdBoost.title'),
+      content: t('Content.e2CdBoost.content'),
       disabled: e < 2,
     },
     {
       formItem: 'switch',
       id: 'e4DmgBuff',
       name: 'e4DmgBuff',
-      text: t('Content.2.text'),
-      title: t('Content.2.title'),
-      content: t('Content.2.content'),
+      text: t('Content.e4DmgBuff.text'),
+      title: t('Content.e4DmgBuff.title'),
+      content: t('Content.e4DmgBuff.content'),
       disabled: e < 4,
     },
     {
       formItem: 'switch',
       id: 'e6MultiplierIncrease',
       name: 'e6MultiplierIncrease',
-      text: t('Content.3.text'),
-      title: t('Content.3.title'),
-      content: t('Content.3.content'),
+      text: t('Content.e6MultiplierIncrease.text'),
+      title: t('Content.e6MultiplierIncrease.title'),
+      content: t('Content.e6MultiplierIncrease.content'),
       disabled: e < 6,
     },
   ]

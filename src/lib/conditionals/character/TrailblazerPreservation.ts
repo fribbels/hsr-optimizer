@@ -10,7 +10,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.TrailblazerPreservation')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
@@ -28,30 +27,30 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'enhancedBasic',
     name: 'enhancedBasic',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { basicEnhancedAtkScaling: TsUtils.precisionRound(100 * basicEnhancedAtkScaling) }),
+    text: t('Content.enhancedBasic.text'),
+    title: t('Content.enhancedBasic.title'),
+    content: t('Content.enhancedBasic.content', { basicEnhancedAtkScaling: TsUtils.precisionRound(100 * basicEnhancedAtkScaling) }),
   }, {
     formItem: 'switch',
     id: 'skillActive',
     name: 'skillActive',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { skillDamageReductionValue: TsUtils.precisionRound(100 * skillDamageReductionValue) }),
+    text: t('Content.skillActive.text'),
+    title: t('Content.skillActive.title'),
+    content: t('Content.skillActive.content', { skillDamageReductionValue: TsUtils.precisionRound(100 * skillDamageReductionValue) }),
   }, {
     formItem: 'switch',
     id: 'shieldActive',
     name: 'shieldActive',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content'),
+    text: t('Content.shieldActive.text'),
+    title: t('Content.shieldActive.title'),
+    content: t('Content.shieldActive.content'),
   }, {
     formItem: 'slider',
     id: 'e6DefStacks',
     name: 'e6DefStacks',
-    text: t('Content.3.text'),
-    title: t('Content.3.title'),
-    content: t('Content.3.content'),
+    text: t('Content.e6DefStacks.text'),
+    title: t('Content.e6DefStacks.title'),
+    content: t('Content.e6DefStacks.content'),
     min: 0,
     max: 3,
     disabled: e < 6,

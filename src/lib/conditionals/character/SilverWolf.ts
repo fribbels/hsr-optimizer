@@ -9,7 +9,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 const SilverWolf = (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.SilverWolf')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
@@ -25,38 +24,38 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'skillResShredDebuff',
     name: 'skillResShredDebuff',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { skillResShredValue: TsUtils.precisionRound(100 * skillResShredValue) }),
+    text: t('Content.skillResShredDebuff.text'),
+    title: t('Content.skillResShredDebuff.title'),
+    content: t('Content.skillResShredDebuff.content', { skillResShredValue: TsUtils.precisionRound(100 * skillResShredValue) }),
   }, {
     formItem: 'switch',
     id: 'skillWeaknessResShredDebuff',
     name: 'skillWeaknessResShredDebuff',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content'),
+    text: t('Content.skillWeaknessResShredDebuff.text'),
+    title: t('Content.skillWeaknessResShredDebuff.title'),
+    content: t('Content.skillWeaknessResShredDebuff.content'),
   }, {
     // TODO: should be talent
     formItem: 'switch',
     id: 'talentDefShredDebuff',
     name: 'talentDefShredDebuff',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content', { talentDefShredDebuffValue: TsUtils.precisionRound(100 * talentDefShredDebuffValue) }),
+    text: t('Content.talentDefShredDebuff.text'),
+    title: t('Content.talentDefShredDebuff.title'),
+    content: t('Content.talentDefShredDebuff.content', { talentDefShredDebuffValue: TsUtils.precisionRound(100 * talentDefShredDebuffValue) }),
   }, {
     formItem: 'switch',
     id: 'ultDefShredDebuff',
     name: 'ultDefShredDebuff',
-    text: t('Content.3.text'),
-    title: t('Content.3.title'),
-    content: t('Content.3.content', { ultDefShredValue: TsUtils.precisionRound(100 * ultDefShredValue) }),
+    text: t('Content.ultDefShredDebuff.text'),
+    title: t('Content.ultDefShredDebuff.title'),
+    content: t('Content.ultDefShredDebuff.content', { ultDefShredValue: TsUtils.precisionRound(100 * ultDefShredValue) }),
   }, {
     formItem: 'slider',
     id: 'targetDebuffs',
     name: 'targetDebuffs',
-    text: t('Content.4.text'),
-    title: t('Content.4.title'),
-    content: t('Content.4.content'),
+    text: t('Content.targetDebuffs.text'),
+    title: t('Content.targetDebuffs.title'),
+    content: t('Content.targetDebuffs.content'),
     min: 0,
     max: 5,
   }]

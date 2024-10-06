@@ -11,7 +11,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Sushang')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
@@ -28,34 +27,34 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'ultBuffedState',
     name: 'ultBuffedState',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { ultBuffedAtk: TsUtils.precisionRound(100 * ultBuffedAtk) }),
+    text: t('Content.ultBuffedState.text'),
+    title: t('Content.ultBuffedState.title'),
+    content: t('Content.ultBuffedState.content', { ultBuffedAtk: TsUtils.precisionRound(100 * ultBuffedAtk) }),
   }, {
     formItem: 'slider',
     id: 'skillExtraHits',
     name: 'skillExtraHits',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content'),
+    text: t('Content.skillExtraHits.text'),
+    title: t('Content.skillExtraHits.title'),
+    content: t('Content.skillExtraHits.content'),
     min: 0,
     max: 3,
   }, {
     formItem: 'slider',
     id: 'skillTriggerStacks',
     name: 'skillTriggerStacks',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content'),
+    text: t('Content.skillTriggerStacks.text'),
+    title: t('Content.skillTriggerStacks.title'),
+    content: t('Content.skillTriggerStacks.content'),
     min: 0,
     max: 10,
   }, {
     formItem: 'slider',
     id: 'talentSpdBuffStacks',
     name: 'talentSpdBuffStacks',
-    text: t('Content.3.text'),
-    title: t('Content.3.title'),
-    content: t('Content.3.content', { talentSpdBuffValue: TsUtils.precisionRound(100 * talentSpdBuffValue) }),
+    text: t('Content.talentSpdBuffStacks.text'),
+    title: t('Content.talentSpdBuffStacks.title'),
+    content: t('Content.talentSpdBuffStacks.content', { talentSpdBuffValue: TsUtils.precisionRound(100 * talentSpdBuffValue) }),
     min: 0,
     max: talentSpdBuffStacksMax,
   },
@@ -63,9 +62,9 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'e2DmgReductionBuff',
     name: 'e2DmgReductionBuff',
-    text: t('Content.4.text'),
-    title: t('Content.4.title'),
-    content: t('Content.4.content'),
+    text: t('Content.e2DmgReductionBuff.text'),
+    title: t('Content.e2DmgReductionBuff.title'),
+    content: t('Content.e2DmgReductionBuff.content'),
     disabled: e < 2,
   }]
 

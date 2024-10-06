@@ -11,7 +11,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Feixiao')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
@@ -48,51 +47,51 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'weaknessBrokenUlt',
       name: 'weaknessBrokenUlt',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content'),
+      text: t('Content.weaknessBrokenUlt.text'),
+      title: t('Content.weaknessBrokenUlt.title'),
+      content: t('Content.weaknessBrokenUlt.content'),
     },
     {
       formItem: 'switch',
       id: 'talentDmgBuff',
       name: 'talentDmgBuff',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content', { FuaMultiplier: TsUtils.precisionRound(100 * fuaScaling), DmgBuff: TsUtils.precisionRound(100 * talentDmgBuff) }),
+      text: t('Content.talentDmgBuff.text'),
+      title: t('Content.talentDmgBuff.title'),
+      content: t('Content.talentDmgBuff.content', { FuaMultiplier: TsUtils.precisionRound(100 * fuaScaling), DmgBuff: TsUtils.precisionRound(100 * talentDmgBuff) }),
     },
     {
       formItem: 'switch',
       id: 'skillAtkBuff',
       name: 'skillAtkBuff',
-      text: t('Content.2.text'),
-      title: t('Content.2.title'),
-      content: t('Content.2.content'),
+      text: t('Content.skillAtkBuff.text'),
+      title: t('Content.skillAtkBuff.title'),
+      content: t('Content.skillAtkBuff.content'),
     },
     {
       formItem: 'switch',
       id: 'e1OriginalDmgBoost',
       name: 'e1OriginalDmgBoost',
-      text: t('Content.3.text'),
-      title: t('Content.3.title'),
-      content: t('Content.3.content'),
+      text: t('Content.e1OriginalDmgBoost.text'),
+      title: t('Content.e1OriginalDmgBoost.title'),
+      content: t('Content.e1OriginalDmgBoost.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e4Buffs',
       name: 'e4Buffs',
-      text: t('Content.4.text'),
-      title: t('Content.4.title'),
-      content: t('Content.4.content'),
+      text: t('Content.e4Buffs.text'),
+      title: t('Content.e4Buffs.title'),
+      content: t('Content.e4Buffs.content'),
       disabled: e < 4,
     },
     {
       formItem: 'switch',
       id: 'e6Buffs',
       name: 'e6Buffs',
-      text: t('Content.5.text'),
-      title: t('Content.5.title'),
-      content: t('Content.5.content'),
+      text: t('Content.e6Buffs.text'),
+      title: t('Content.e6Buffs.title'),
+      content: t('Content.e6Buffs.content'),
       disabled: e < 6,
     },
   ]

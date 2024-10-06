@@ -10,7 +10,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Jingliu')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
@@ -27,17 +26,17 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'talentEnhancedState',
       id: 'talentEnhancedState',
       formItem: 'switch',
-      text: t('Content.0.text'),
-      title: t('Content.0.title'),
-      content: t('Content.0.content', { talentCrBuff: TsUtils.precisionRound(100 * talentCrBuff) }),
+      text: t('Content.talentEnhancedState.text'),
+      title: t('Content.talentEnhancedState.title'),
+      content: t('Content.talentEnhancedState.content', { talentCrBuff: TsUtils.precisionRound(100 * talentCrBuff) }),
     },
     {
       name: 'talentHpDrainAtkBuff',
       id: 'talentHpDrainAtkBuff',
       formItem: 'slider',
-      text: t('Content.1.text'),
-      title: t('Content.1.title'),
-      content: t('Content.1.content', { talentHpDrainAtkBuffMax: TsUtils.precisionRound(100 * talentHpDrainAtkBuffMax) }),
+      text: t('Content.talentHpDrainAtkBuff.text'),
+      title: t('Content.talentHpDrainAtkBuff.title'),
+      content: t('Content.talentHpDrainAtkBuff.content', { talentHpDrainAtkBuffMax: TsUtils.precisionRound(100 * talentHpDrainAtkBuffMax) }),
       min: 0,
       max: talentHpDrainAtkBuffMax,
       percent: true,
@@ -46,18 +45,18 @@ export default (e: Eidolon): CharacterConditional => {
       id: 'e1CdBuff',
       name: 'e1CdBuff',
       formItem: 'switch',
-      text: t('Content.2.text'),
-      title: t('Content.2.title'),
-      content: t('Content.2.content'),
+      text: t('Content.e1CdBuff.text'),
+      title: t('Content.e1CdBuff.title'),
+      content: t('Content.e1CdBuff.content'),
       disabled: e < 1,
     },
     {
       id: 'e2SkillDmgBuff',
       name: 'e2SkillDmgBuff',
       formItem: 'switch',
-      text: t('Content.3.text'),
-      title: t('Content.3.title'),
-      content: t('Content.3.content'),
+      text: t('Content.e2SkillDmgBuff.text'),
+      title: t('Content.e2SkillDmgBuff.title'),
+      content: t('Content.e2SkillDmgBuff.content'),
       disabled: e < 2,
     },
   ]

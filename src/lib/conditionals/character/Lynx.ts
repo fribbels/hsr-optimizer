@@ -13,7 +13,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Lynx')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -28,9 +27,9 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'skillBuff',
     name: 'skillBuff',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff), skillHpFlatBuff: skillHpFlatBuff }),
+    text: t('Content.skillBuff.text'),
+    title: t('Content.skillBuff.title'),
+    content: t('Content.skillBuff.content', { skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff), skillHpFlatBuff: skillHpFlatBuff }),
   }]
 
   const teammateContent: ContentItem[] = [
@@ -39,9 +38,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateHPValue',
       name: 'teammateHPValue',
-      text: t('TeammateContent.0.text'),
-      title: t('TeammateContent.0.title'),
-      content: t('TeammateContent.0.content', { skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff), skillHpFlatBuff: skillHpFlatBuff }),
+      text: t('TeammateContent.teammateHPValue.text'),
+      title: t('TeammateContent.teammateHPValue.title'),
+      content: t('TeammateContent.teammateHPValue.content', { skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff), skillHpFlatBuff: skillHpFlatBuff }),
       min: 0,
       max: 10000,
     },

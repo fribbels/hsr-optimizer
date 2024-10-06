@@ -10,7 +10,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Huohuo')
   const { basic, ult } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
@@ -21,24 +20,24 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { ultBuffValue: TsUtils.precisionRound(100 * ultBuffValue) }),
+    text: t('Content.ultBuff.text'),
+    title: t('Content.ultBuff.title'),
+    content: t('Content.ultBuff.content', { ultBuffValue: TsUtils.precisionRound(100 * ultBuffValue) }),
   }, {
     formItem: 'switch',
     id: 'skillBuff',
     name: 'skillBuff',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content'),
+    text: t('Content.skillBuff.text'),
+    title: t('Content.skillBuff.title'),
+    content: t('Content.skillBuff.content'),
     disabled: e < 1,
   }, {
     formItem: 'switch',
     id: 'e6DmgBuff',
     name: 'e6DmgBuff',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content'),
+    text: t('Content.e6DmgBuff.text'),
+    title: t('Content.e6DmgBuff.title'),
+    content: t('Content.e6DmgBuff.content'),
     disabled: e < 6,
   }]
 

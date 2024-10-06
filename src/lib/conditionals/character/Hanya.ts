@@ -14,7 +14,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Hanya')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -32,30 +31,30 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue), ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue) }),
+    text: t('Content.ultBuff.text'),
+    title: t('Content.ultBuff.title'),
+    content: t('Content.ultBuff.content', { ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue), ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue) }),
   }, {
     formItem: 'switch',
     id: 'targetBurdenActive',
     name: 'targetBurdenActive',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { talentDmgBoostValue: TsUtils.precisionRound(100 * talentDmgBoostValue) }),
+    text: t('Content.targetBurdenActive.text'),
+    title: t('Content.targetBurdenActive.title'),
+    content: t('Content.targetBurdenActive.content', { talentDmgBoostValue: TsUtils.precisionRound(100 * talentDmgBoostValue) }),
   }, {
     formItem: 'switch',
     id: 'burdenAtkBuff',
     name: 'burdenAtkBuff',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content'),
+    text: t('Content.burdenAtkBuff.text'),
+    title: t('Content.burdenAtkBuff.title'),
+    content: t('Content.burdenAtkBuff.content'),
   }, {
     formItem: 'switch',
     id: 'e2SkillSpdBuff',
     name: 'e2SkillSpdBuff',
-    text: t('Content.3.text'),
-    title: t('Content.3.title'),
-    content: t('Content.3.content'),
+    text: t('Content.e2SkillSpdBuff.text'),
+    title: t('Content.e2SkillSpdBuff.title'),
+    content: t('Content.e2SkillSpdBuff.content'),
     disabled: e < 2,
   }]
 
@@ -65,9 +64,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateSPDValue',
       name: 'teammateSPDValue',
-      text: t('TeammateContent.0.text'),
-      title: t('TeammateContent.0.title'),
-      content: t('TeammateContent.0.content', { ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue), ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue) }),
+      text: t('TeammateContent.teammateSPDValue.text'),
+      title: t('TeammateContent.teammateSPDValue.title'),
+      content: t('TeammateContent.teammateSPDValue.content', { ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue), ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue) }),
       min: 0,
       max: 200,
     },

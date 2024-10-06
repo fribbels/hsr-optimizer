@@ -12,7 +12,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 const DrRatio = (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.DrRatio')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
@@ -50,18 +49,18 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
     id: 'summationStacks',
     name: 'summationStacks',
     formItem: 'slider',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { summationStacksMax }),
+    text: t('Content.summationStacks.text'),
+    title: t('Content.summationStacks.title'),
+    content: t('Content.summationStacks.content', { summationStacksMax }),
     min: 0,
     max: summationStacksMax,
   }, {
     id: 'enemyDebuffStacks',
     name: 'enemyDebuffStacks',
     formItem: 'slider',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
+    text: t('Content.enemyDebuffStacks.text'),
+    title: t('Content.enemyDebuffStacks.title'),
+    content: t('Content.enemyDebuffStacks.content', { FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
     min: 0,
     max: debuffStacksMax,
   }]

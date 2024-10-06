@@ -9,7 +9,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Welt')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -24,32 +23,32 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'enemyDmgTakenDebuff',
     name: 'enemyDmgTakenDebuff',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content'),
+    text: t('Content.enemyDmgTakenDebuff.text'),
+    title: t('Content.enemyDmgTakenDebuff.title'),
+    content: t('Content.enemyDmgTakenDebuff.content'),
   }, {
     formItem: 'switch',
     id: 'enemySlowed',
     name: 'enemySlowed',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { talentScaling: TsUtils.precisionRound(100 * talentScaling) }),
+    text: t('Content.enemySlowed.text'),
+    title: t('Content.enemySlowed.title'),
+    content: t('Content.enemySlowed.content', { talentScaling: TsUtils.precisionRound(100 * talentScaling) }),
   }, {
     formItem: 'slider',
     id: 'skillExtraHits',
     name: 'skillExtraHits',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
+    text: t('Content.skillExtraHits.text'),
+    title: t('Content.skillExtraHits.title'),
+    content: t('Content.skillExtraHits.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
     min: 0,
     max: skillExtraHitsMax,
   }, {
     formItem: 'switch',
     id: 'e1EnhancedState',
     name: 'e1EnhancedState',
-    text: t('Content.3.text'),
-    title: t('Content.3.title'),
-    content: t('Content.3.content'),
+    text: t('Content.e1EnhancedState.text'),
+    title: t('Content.e1EnhancedState.title'),
+    content: t('Content.e1EnhancedState.content'),
     disabled: (e < 1),
   }]
 

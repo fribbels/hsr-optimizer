@@ -12,7 +12,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Pela')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -26,37 +25,37 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'teamEhrBuff',
     name: 'teamEhrBuff',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content'),
+    text: t('Content.teamEhrBuff.text'),
+    title: t('Content.teamEhrBuff.title'),
+    content: t('Content.teamEhrBuff.content'),
   }, {
     formItem: 'switch',
     id: 'enemyDebuffed',
     name: 'enemyDebuffed',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content'),
+    text: t('Content.enemyDebuffed.text'),
+    title: t('Content.enemyDebuffed.title'),
+    content: t('Content.enemyDebuffed.content'),
   }, {
     formItem: 'switch',
     id: 'skillRemovedBuff',
     name: 'skillRemovedBuff',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content'),
+    text: t('Content.skillRemovedBuff.text'),
+    title: t('Content.skillRemovedBuff.title'),
+    content: t('Content.skillRemovedBuff.content'),
   }, {
     formItem: 'switch',
     id: 'ultDefPenDebuff',
     name: 'ultDefPenDebuff',
-    text: t('Content.3.text'),
-    title: t('Content.3.title'),
-    content: t('Content.3.content', { ultDefPenValue: TsUtils.precisionRound(100 * ultDefPenValue) }),
+    text: t('Content.ultDefPenDebuff.text'),
+    title: t('Content.ultDefPenDebuff.title'),
+    content: t('Content.ultDefPenDebuff.content', { ultDefPenValue: TsUtils.precisionRound(100 * ultDefPenValue) }),
   }, {
     formItem: 'switch',
     id: 'e4SkillResShred',
     name: 'e4SkillResShred',
-    text: t('Content.4.text'),
-    title: t('Content.4.title'),
-    content: t('Content.4.content'),
+    text: t('Content.e4SkillResShred.text'),
+    title: t('Content.e4SkillResShred.title'),
+    content: t('Content.e4SkillResShred.content'),
     disabled: e < 4,
   }]
 

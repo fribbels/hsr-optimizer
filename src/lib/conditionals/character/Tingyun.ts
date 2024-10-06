@@ -15,7 +15,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Tingyun')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
@@ -33,30 +32,30 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'benedictionBuff',
     name: 'benedictionBuff',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling), skillAtkBoostMax: TsUtils.precisionRound(100 * skillAtkBoostMax), skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling) }),
+    text: t('Content.benedictionBuff.text'),
+    title: t('Content.benedictionBuff.title'),
+    content: t('Content.benedictionBuff.content', { skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling), skillAtkBoostMax: TsUtils.precisionRound(100 * skillAtkBoostMax), skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling) }),
   }, {
     formItem: 'switch',
     id: 'skillSpdBuff',
     name: 'skillSpdBuff',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content'),
+    text: t('Content.skillSpdBuff.text'),
+    title: t('Content.skillSpdBuff.title'),
+    content: t('Content.skillSpdBuff.content'),
   }, {
     formItem: 'switch',
     id: 'ultDmgBuff',
     name: 'ultDmgBuff',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content', { ultDmgBoost: TsUtils.precisionRound(100 * ultDmgBoost) }),
+    text: t('Content.ultDmgBuff.text'),
+    title: t('Content.ultDmgBuff.title'),
+    content: t('Content.ultDmgBuff.content', { ultDmgBoost: TsUtils.precisionRound(100 * ultDmgBoost) }),
   }, {
     formItem: 'switch',
     id: 'ultSpdBuff',
     name: 'ultSpdBuff',
-    text: t('Content.3.text'),
-    title: t('Content.3.title'),
-    content: t('Content.3.content'),
+    text: t('Content.ultSpdBuff.text'),
+    title: t('Content.ultSpdBuff.title'),
+    content: t('Content.ultSpdBuff.content'),
     disabled: e < 1,
   }]
 
@@ -66,9 +65,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateAtkBuffValue',
       name: 'teammateAtkBuffValue',
-      text: t('TeammateContent.0.text'),
-      title: t('TeammateContent.0.title'),
-      content: t('TeammateContent.0.content', { skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling), skillAtkBoostMax: TsUtils.precisionRound(100 * skillAtkBoostMax), skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling) }),
+      text: t('TeammateContent.teammateAtkBuffValue.text'),
+      title: t('TeammateContent.teammateAtkBuffValue.title'),
+      content: t('TeammateContent.teammateAtkBuffValue.content', { skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling), skillAtkBoostMax: TsUtils.precisionRound(100 * skillAtkBoostMax), skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling) }),
       min: 0,
       max: skillAtkBoostScaling,
       percent: true,

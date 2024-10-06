@@ -14,7 +14,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.FuXuan')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
@@ -30,23 +29,23 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'talentActive',
     name: 'talentActive',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { talentDmgReductionValue: TsUtils.precisionRound(100 * talentDmgReductionValue) }),
+    text: t('Content.talentActive.text'),
+    title: t('Content.talentActive.title'),
+    content: t('Content.talentActive.content', { talentDmgReductionValue: TsUtils.precisionRound(100 * talentDmgReductionValue) }),
   }, {
     formItem: 'switch',
     id: 'skillActive',
     name: 'skillActive',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue), skillCrBuffValue: TsUtils.precisionRound(100 * skillCrBuffValue) }),
+    text: t('Content.skillActive.text'),
+    title: t('Content.skillActive.title'),
+    content: t('Content.skillActive.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue), skillCrBuffValue: TsUtils.precisionRound(100 * skillCrBuffValue) }),
   }, {
     formItem: 'slider',
     id: 'e6TeamHpLostPercent',
     name: 'e6TeamHpLostPercent',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content'),
+    text: t('Content.e6TeamHpLostPercent.text'),
+    title: t('Content.e6TeamHpLostPercent.title'),
+    content: t('Content.e6TeamHpLostPercent.content'),
     min: 0,
     max: 1.2,
     percent: true,
@@ -60,9 +59,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateHPValue',
       name: 'teammateHPValue',
-      text: t('TeammateContent.0.text'),
-      title: t('TeammateContent.0.title'),
-      content: t('TeammateContent.0.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue) }),
+      text: t('TeammateContent.teammateHPValue.text'),
+      title: t('TeammateContent.teammateHPValue.title'),
+      content: t('TeammateContent.teammateHPValue.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue) }),
       min: 0,
       max: 10000,
     },

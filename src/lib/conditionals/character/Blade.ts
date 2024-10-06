@@ -13,7 +13,6 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
-  /* @ts-expect-error ts can't resolve the type 'Type instantiation is excessively deep and possibly infinite' */
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Blade')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
@@ -39,16 +38,16 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'enhancedStateActive',
     name: 'enhancedStateActive',
-    text: t('Content.0.text'),
-    title: t('Content.0.title'),
-    content: t('Content.0.content', { enhancedStateDmgBoost: TsUtils.precisionRound(100 * enhancedStateDmgBoost) }),
+    text: t('Content.enhancedStateActive.text'),
+    title: t('Content.enhancedStateActive.title'),
+    content: t('Content.enhancedStateActive.content', { enhancedStateDmgBoost: TsUtils.precisionRound(100 * enhancedStateDmgBoost) }),
   }, {
     formItem: 'slider',
     id: 'hpPercentLostTotal',
     name: 'hpPercentLostTotal',
-    text: t('Content.1.text'),
-    title: t('Content.1.title'),
-    content: t('Content.1.content', { hpPercentLostTotalMax: TsUtils.precisionRound(100 * hpPercentLostTotalMax) }),
+    text: t('Content.hpPercentLostTotal.text'),
+    title: t('Content.hpPercentLostTotal.title'),
+    content: t('Content.hpPercentLostTotal.content', { hpPercentLostTotalMax: TsUtils.precisionRound(100 * hpPercentLostTotalMax) }),
     min: 0,
     max: hpPercentLostTotalMax,
     percent: true,
@@ -56,9 +55,9 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'slider',
     id: 'e4MaxHpIncreaseStacks',
     name: 'e4MaxHpIncreaseStacks',
-    text: t('Content.2.text'),
-    title: t('Content.2.title'),
-    content: t('Content.2.content'),
+    text: t('Content.e4MaxHpIncreaseStacks.text'),
+    title: t('Content.e4MaxHpIncreaseStacks.title'),
+    content: t('Content.e4MaxHpIncreaseStacks.content'),
     min: 0,
     max: 2,
     disabled: e < 4,

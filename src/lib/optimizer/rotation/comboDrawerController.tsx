@@ -5,6 +5,7 @@ import { CharacterConditionals } from 'lib/characterConditionals'
 import { ConditionalLightConeMap, LightConeConditional } from 'types/LightConeConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { defaultSetConditionals } from 'lib/defaultForm'
+import { SetsOrnaments, SetsRelics } from 'lib/constants'
 
 export enum ConditionalType {
   BOOLEAN = 'boolean',
@@ -220,7 +221,7 @@ export function initializeComboState(request: Form) {
 
   if (!request.characterId) return comboState
 
-  const actionCount = 6
+  const actionCount = 7
 
   const requestCharacterConditionals = request.characterConditionals
   const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(request)
@@ -297,8 +298,7 @@ export function locateComboCategory(sourceKey: string, contentItemId: string, co
   return comboConditionals[contentItemId]
 }
 
-export function locateActivations(keyString: string, comboState: ComboState) {
-  const dataKey: ComboDataKey = JSON.parse(keyString)
+export function locateActivationsDataKey(dataKey: ComboDataKey, comboState: ComboState) {
   if (!dataKey.id) return null
 
   let comboCategory = locateComboCategory(dataKey.source, dataKey.id, comboState)
@@ -338,9 +338,15 @@ export function locateActivations(keyString: string, comboState: ComboState) {
   return null
 }
 
+export function locateActivations(keyString: string, comboState: ComboState) {
+  const dataKey: ComboDataKey = JSON.parse(keyString)
+  return locateActivationsDataKey(dataKey, comboState)
+}
+
 export function updateActivation(keyString: string, activate: boolean, comboState: ComboState) {
   const dataKey: ComboDataKey = JSON.parse(keyString)
   if (!dataKey.id) return
+  if (dataKey.index == 0) return
 
   const locatedActivations = locateActivations(keyString, comboState)
   if (!locatedActivations) return
@@ -355,6 +361,7 @@ export function updateActivation(keyString: string, activate: boolean, comboStat
 export function updatePartitionActivation(keyString: string, comboState: ComboState) {
   const dataKey: ComboDataKey = JSON.parse(keyString)
   if (!dataKey.id) return
+  if (dataKey.index == 0) return
 
   const locatedActivations = locateActivations(keyString, comboState)
   if (!locatedActivations) return
@@ -430,18 +437,27 @@ export function updateDeletePartition(sourceKey: string, contentItemId: string, 
 
 export function updateSelectedSets(sets: string[], isOrnaments: boolean) {
   const state = window.store.getState().comboState
+  const setConditionals = state.displayState.comboCharacter.setConditionals
 
   if (isOrnaments) {
     state.displayState.comboCharacter.displayedOrnamentSets = sets
+
+    for (const setName of Object.values(SetsOrnaments)) {
+      if (sets.includes(setName)) {
+        setConditionals[setName].display = true
+      } else {
+        setConditionals[setName].display = false
+      }
+    }
   } else {
     state.displayState.comboCharacter.displayedRelicSets = sets
-  }
 
-  for (const [key, value] of Object.entries(state.displayState.comboCharacter.setConditionals)) {
-    if (sets.includes(key)) {
-      value.display = true
-    } else {
-      value.display = false
+    for (const setName of Object.values(SetsRelics)) {
+      if (sets.includes(setName)) {
+        setConditionals[setName].display = true
+      } else {
+        setConditionals[setName].display = false
+      }
     }
   }
 
@@ -449,4 +465,30 @@ export function updateSelectedSets(sets: string[], isOrnaments: boolean) {
     ...state
   })
   console.debug('!!', state, sets)
+}
+
+export function updateBooleanDefaultSelection(sourceKey: string, contentItemId: string, value: boolean) {
+  const dataKey: ComboDataKey = {
+    id: contentItemId,
+    source: sourceKey,
+    index: 0,
+    partitionIndex: 0
+  }
+
+  const comboState = window.store.getState().comboState
+
+  const locatedActivations = locateActivationsDataKey(dataKey, comboState)
+  if (!locatedActivations) return
+
+  if (locatedActivations.comboConditional.type == ConditionalType.NUMBER || locatedActivations.comboConditional.type == ConditionalType.SELECT) {
+    // Default number is always active
+  } else {
+    for (let i = 0; i < locatedActivations.activations.length; i++) {
+      locatedActivations.activations[i] = value
+    }
+
+    window.store.getState().setComboState({
+      ...comboState
+    })
+  }
 }

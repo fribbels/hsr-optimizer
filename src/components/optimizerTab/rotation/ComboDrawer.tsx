@@ -2,7 +2,7 @@ import { Button, Drawer, Flex, Select } from 'antd'
 import React, { useEffect, useMemo, useRef } from 'react'
 import Selecto from 'react-selecto'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboDisplayState, ComboNumberConditional, ComboSelectConditional, ComboSubNumberConditional, ComboTeammate, ConditionalType, initializeComboState, locateActivations, updateActivation, updateAddPartition, updateDeletePartition, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
+import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboDisplayState, ComboNumberConditional, ComboSelectConditional, ComboSubNumberConditional, ComboTeammate, ConditionalType, initializeComboState, locateActivations, updateActivation, updateAddPartition, updateBooleanDefaultSelection, updateDeletePartition, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { Assets } from 'lib/assets'
@@ -68,8 +68,9 @@ export function ComboDrawer() {
     >
       <div style={{ width: 930, height: '100%' }}>
         <Flex style={{ marginBottom: 10 }}>
-          <div style={{ width: 365 }}/>
+          <div style={{ width: 360 }}/>
           <Flex>
+            <Flex style={{ width: 75 }} justify='space-around'>Default</Flex>
             <Flex style={{ width: 75 }} justify='space-around'>Skill</Flex>
             <Flex style={{ width: 75 }} justify='space-around'>Skill</Flex>
             <Flex style={{ width: 75 }} justify='space-around'>Ult</Flex>
@@ -109,8 +110,6 @@ export function ComboDrawer() {
           onDragStart={(e) => {
             const startKey = e.inputEvent.srcElement.getAttribute('data-key') ?? '{}'
             const located = locateActivations(startKey, comboState)
-
-            console.log(located)
 
             selectActivationState.current = !(located && located.value)
             lastSelectedKeyState.current = undefined
@@ -209,7 +208,8 @@ function SetSelectors(props: { comboOrigin: ComboCharacter }) {
 
 function SetDisplays(props: { comboOrigin: ComboCharacter, conditionalType: string, originKey: string }) {
   const relicSets = props.comboOrigin?.displayedRelicSets || []
-  const setRender = relicSets.map(setName => {
+  const ornamentSets = props.comboOrigin?.displayedOrnamentSets || []
+  const setRender = [...relicSets, ...ornamentSets].map(setName => {
     return (
       <ComboConditionalsGroupRow key={setName} comboOrigin={props.comboOrigin} conditionalType={setName} originKey={props.originKey}/>
     )
@@ -382,7 +382,7 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
       <ContentRows
         contentItems={renderData.content}
         comboConditionals={renderData.conditionals}
-        actionCount={6}
+        actionCount={7}
         sourceKey={props.originKey}
       />
     </Flex>
@@ -447,7 +447,7 @@ function BooleanConditionalActivationRow(props: { contentItem: ContentItem, acti
 
   return (
     <Flex key={props.contentItem.id} style={{ height: 45 }}>
-      <BooleanSwitch contentItem={props.contentItem} value={props.activations[0]}/>
+      <BooleanSwitch contentItem={props.contentItem} sourceKey={props.sourceKey} value={props.activations[0]}/>
       <BoxArray activations={props.activations} dataKeys={dataKeys}/>
     </Flex>
   )
@@ -515,7 +515,7 @@ function Partition(props: { partition: ComboSubNumberConditional, contentItem: C
   )
 }
 
-function BooleanSwitch(props: { contentItem: ContentItem, value: boolean }) {
+function BooleanSwitch(props: { contentItem: ContentItem, sourceKey: string, value: boolean }) {
   const contentItem = props.contentItem
   return (
     <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={0}>
@@ -526,11 +526,13 @@ function BooleanSwitch(props: { contentItem: ContentItem, value: boolean }) {
             {...contentItem}
             name={contentItem.id}
             title={contentItem.title}
+            teammateIndex={getTeammateIndex(props.sourceKey)}
             content={ColorizeNumbers(contentItem.content)}
             text={contentItem.text}
-            removeForm={true}
-            onChange={(x) => console.log(x)}
+            removeForm={false}
+            onChange={(value) => updateBooleanDefaultSelection(props.sourceKey, contentItem.id, value)}
             value={props.value}
+            disabled={props.sourceKey.includes('Teammate') && props.sourceKey.includes('Set')}
           />
         }
       </Flex>
@@ -538,8 +540,26 @@ function BooleanSwitch(props: { contentItem: ContentItem, value: boolean }) {
   )
 }
 
-function NumberSlider(props: { contentItem: ContentItem, value: number, sourceKey: string, partitionIndex: number }) {
+function getFormName(sourceKey: string, id: string) {
+  switch (sourceKey) {
+    case 'comboTeammate2LightCone':
+      return ['teammate2', 'lightConeConditionals', id]
+    default:
+      return null
+  }
+}
+
+function getTeammateIndex(sourceKey: string) {
+  if (sourceKey.includes('Teammate0')) return 0
+  if (sourceKey.includes('Teammate1')) return 1
+  if (sourceKey.includes('Teammate2')) return 2
+  return undefined
+}
+
+function NumberSlider(props: { contentItem: ContentItem, value: number, sourceKey: string, partitionIndex: number, }) {
   const contentItem = props.contentItem
+
+  console.log('!!!!', getFormName(props.sourceKey, contentItem.id))
 
   return (
     <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={0}>
@@ -551,10 +571,11 @@ function NumberSlider(props: { contentItem: ContentItem, value: number, sourceKe
             name={contentItem.id}
             title={contentItem.title}
             content={ColorizeNumbers(contentItem.content)}
+            teammateIndex={getTeammateIndex(props.sourceKey)}
             text={contentItem.text}
             onChange={(x) => console.log(x)}
             value={props.value}
-            removeForm={true}
+            removeForm={props.partitionIndex > 0}
           />
         }
       </Flex>
@@ -609,6 +630,7 @@ function BoxArray(props: { activations: boolean[], dataKeys: string[] }) {
             dataKey={props.dataKeys[index]}
             key={index}
             active={value}
+            index={index}
           />
         ))
       }
@@ -616,19 +638,25 @@ function BoxArray(props: { activations: boolean[], dataKeys: string[] }) {
   )
 }
 
-const BoxComponent = React.memo(function Box(props: { active: boolean, dataKey: string }) {
-  const classnames = props.active ? 'selectable selected' : 'selectable'
-  console.log('Box')
-  return (
-    <div
-      className={classnames}
-      data-key={props.dataKey}
-      style={{ width: 75, marginLeft: -1, marginTop: -1 }}
-    >
-    </div>
-  )
-}, (prevProps, nextProps) => {
-  // Prevent re-render if both `dataKey` and `active` props are unchanged
-  return prevProps.dataKey === nextProps.dataKey && prevProps.active === nextProps.active;
-});
+const BoxComponent = React.memo(
+  function Box(props: { active: boolean, index: number, dataKey: string }) {
+    let classnames = props.active ? 'selectable selected' : 'selectable'
+    if (props.index == 0) {
+      classnames += ' defaultShaded'
+    }
+
+    console.log('Box')
+    return (
+      <div
+        className={classnames}
+        data-key={props.dataKey}
+        style={{ width: 75, marginLeft: -1, marginTop: -1 }}
+      >
+      </div>
+    )
+  }, (prevProps, nextProps) => {
+    // Prevent re-render if both `dataKey` and `active` props are unchanged
+    return prevProps.dataKey === nextProps.dataKey && prevProps.active === nextProps.active;
+  }
+);
 

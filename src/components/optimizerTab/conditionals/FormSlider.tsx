@@ -46,6 +46,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
   const maxRef = useRef(props.max)
 
   const itemName = [conditionalType(props), props.name]
+  console.debug('itemName', itemName)
   if (props.teammateIndex != null) {
     itemName.unshift(`teammate${props.teammateIndex}`)
   }
@@ -79,7 +80,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
       disabled={props.disabled}
       onChange={(newValue) => {
         if (props.onChange) {
-          setState(newValue ?? 0)
+          props.onChange(state ?? 0)
         }
       }}
       onBlur={() => {

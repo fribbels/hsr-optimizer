@@ -51,26 +51,6 @@ export default (e: Eidolon): CharacterConditional => {
       content: t('Content.enhancedFollowUp.content', { ultFuaScalingBuff: TsUtils.precisionRound(100 * ultFuaScalingBuff) }),
     },
     {
-      formItem: 'select',
-      id: 'selectTest',
-      name: 'name',
-      text: 'text',
-      title: 'title',
-      content: `content`,
-      options: [
-        {
-          value: 0,
-          display: 'CR+CD',
-          label: 'labe111111111111l'
-        },
-        {
-          value: 1,
-          display: 'display1',
-          label: 'label11111111111112'
-        }
-      ]
-    },
-    {
       formItem: 'slider',
       id: 'pawnedAssetStacks',
       name: 'pawnedAssetStacks',

@@ -2,7 +2,7 @@ import { Button, Drawer, Flex, Select } from 'antd'
 import React, { useEffect, useMemo, useRef } from 'react'
 import Selecto from 'react-selecto'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboDisplayState, ComboNumberConditional, ComboSubNumberConditional, ComboTeammate, ConditionalType, initializeComboState, locateActivations, updateActivation, updateAddPartition, updateDeletePartition, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
+import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboDisplayState, ComboNumberConditional, ComboSelectConditional, ComboSubNumberConditional, ComboTeammate, ConditionalType, initializeComboState, locateActivations, updateActivation, updateAddPartition, updateDeletePartition, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { Assets } from 'lib/assets'
@@ -17,6 +17,8 @@ import { FormSliderWithPopover } from 'components/optimizerTab/conditionals/Form
 import GenerateOrnamentsOptions from 'components/optimizerTab/optimizerForm/OrnamentsOptions'
 import { OrnamentSetTagRenderer } from 'components/optimizerTab/optimizerForm/OrnamentSetTagRenderer'
 import { GenerateBasicSetsOptions } from 'components/optimizerTab/optimizerForm/SetsOptions'
+import { FormSelectWithPopover } from 'components/optimizerTab/conditionals/FormSelect'
+import { generateSetConditionalContent } from 'lib/optimizer/rotation/setConditionalContent'
 
 export function SelectableBox(props: { active: boolean; dataKey: string }) {
   const classnames = props.active ? 'selectable selected' : 'selectable'
@@ -249,6 +251,10 @@ function StateDisplay(props: { displayState: ComboDisplayState }) {
 }
 
 function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCharacter, conditionalType: string, originKey: string }) {
+  const setContent = useMemo(() => {
+    return generateSetConditionalContent()
+  }, [])
+
   let renderData = useMemo(() => {
     if (!props.comboOrigin) {
       return null
@@ -294,6 +300,16 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
           content: setName,
           min: 0,
           max: 10
+        }]
+      } else if (category.type == ConditionalType.SELECT) {
+        content = [{
+          formItem: 'select',
+          id: setName,
+          name: setName,
+          text: setName,
+          title: setName,
+          content: setName,
+          options: setContent[setName].options
         }]
       } else {
         return null
@@ -408,6 +424,10 @@ function ConditionalActivationRow(props: { contentItem: ContentItem, comboCondit
     return (
       <BooleanConditionalActivationRow contentItem={props.contentItem} activations={(props.comboConditional as ComboBooleanConditional).activations} sourceKey={props.sourceKey}/>
     )
+  } else if (props.contentItem.formItem == 'select') {
+    return (
+      <SelectConditionalActivationRow comboConditional={(props.comboConditional as ComboSelectConditional)} contentItem={props.contentItem} sourceKey={props.sourceKey}/>
+    )
   }
   return (
     <NumberConditionalActivationRow comboConditional={(props.comboConditional as ComboNumberConditional)} contentItem={props.contentItem} sourceKey={props.sourceKey}/>
@@ -452,6 +472,25 @@ function NumberConditionalActivationRow(props: { comboConditional: ComboNumberCo
   )
 }
 
+function SelectConditionalActivationRow(props: { comboConditional: ComboSelectConditional, contentItem: ContentItem, sourceKey: string }) {
+  const selectComboConditional = props.comboConditional
+  const rows = selectComboConditional.partitions.length
+  const display: ReactElement[] = []
+
+  for (let i = 0; i < selectComboConditional.partitions.length; i++) {
+    const x = selectComboConditional.partitions[i]
+    display.push(
+      <Partition key={i} partition={x} contentItem={props.contentItem} activations={x.activations} partitionIndex={i} sourceKey={props.sourceKey}/>
+    )
+  }
+
+  return (
+    <Flex vertical>
+      {display}
+    </Flex>
+  )
+}
+
 function Partition(props: { partition: ComboSubNumberConditional, contentItem: ContentItem, activations: boolean[], partitionIndex: number, sourceKey: string }) {
   const dataKeys: string[] = []
 
@@ -464,10 +503,13 @@ function Partition(props: { partition: ComboSubNumberConditional, contentItem: C
     }))
   }
 
+  const render = props.contentItem.formItem == 'slider'
+    ? <NumberSlider contentItem={props.contentItem} value={props.partition.value} sourceKey={props.sourceKey} partitionIndex={props.partitionIndex}/>
+    : <NumberSelect contentItem={props.contentItem} value={props.partition.value} sourceKey={props.sourceKey} partitionIndex={props.partitionIndex}/>
 
   return (
     <Flex key={props.partitionIndex} style={{ height: 45 }}>
-      <NumberSlider contentItem={props.contentItem} value={props.partition.value} sourceKey={props.sourceKey} partitionIndex={props.partitionIndex}/>
+      {render}
       <BoxArray activations={props.activations} dataKeys={dataKeys}/>
     </Flex>
   )
@@ -505,6 +547,37 @@ function NumberSlider(props: { contentItem: ContentItem, value: number, sourceKe
         {
           // @ts-ignore
           <FormSliderWithPopover
+            {...contentItem}
+            name={contentItem.id}
+            title={contentItem.title}
+            content={ColorizeNumbers(contentItem.content)}
+            text={contentItem.text}
+            onChange={(x) => console.log(x)}
+            value={props.value}
+            removeForm={true}
+          />
+        }
+      </Flex>
+      <Button type='text' shape='circle' icon={props.partitionIndex == 0 ? <PlusCircleOutlined/> : <MinusCircleOutlined/>} onClick={() => {
+        if (props.partitionIndex == 0) {
+          updateAddPartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
+        } else {
+          updateDeletePartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
+        }
+      }}/>
+    </Flex>
+  )
+}
+
+function NumberSelect(props: { contentItem: ContentItem, value: number, sourceKey: string, partitionIndex: number }) {
+  const contentItem = props.contentItem
+
+  return (
+    <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={0}>
+      <Flex style={{ width: 210 }} align='center'>
+        {
+          // @ts-ignore
+          <FormSelectWithPopover
             {...contentItem}
             name={contentItem.id}
             title={contentItem.title}

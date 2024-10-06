@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Flex, Form, Select, Typography } from 'antd'
 import WithPopover from 'components/common/WithPopover'
-import { ComponentProps, ComponentType } from 'react'
+import { ComponentProps, ComponentType, useState } from 'react'
 import { SelectOptionContent } from 'lib/optimizer/rotation/setConditionalContent'
 
 const justify = 'flex-start'
@@ -25,12 +25,14 @@ export interface FormSelectProps {
   lc?: boolean
   teammateIndex?: number
   removeForm?: boolean
-  onChange?: (checked: boolean) => void
+  onChange?: (value: number) => void
   value?: number
   options?: SelectOptionContent[]
 }
 
 export const FormSelect: ComponentType<FormSelectProps> = (props) => {
+  const [state, setState] = useState(props.value ?? undefined);
+
   const itemName = [conditionalType(props), props.name]
   if (props.teammateIndex != null) {
     itemName.unshift(`teammate${props.teammateIndex}`)
@@ -39,13 +41,23 @@ export const FormSelect: ComponentType<FormSelectProps> = (props) => {
   const internalSelect = (
     <Select
       disabled={props.disabled}
-      style={{ width: 80, marginRight: 5 }}
+      style={{ minWidth: 80, marginRight: 5 }}
       optionLabelProp='display'
       listHeight={500}
       size='small'
       dropdownStyle={{ width: 'fit-content' }}
       options={props.options}
-      onChange={props.onChange}
+      onChange={(newValue) => {
+        if (props.onChange) {
+          setState(newValue ?? 0)
+        }
+      }}
+      onBlur={() => {
+        if (props.onChange) {
+          props.onChange(state ?? 0)
+        }
+      }}
+      value={props.value == null ? undefined : state}
     />
   )
 

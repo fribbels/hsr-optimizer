@@ -112,6 +112,17 @@ function generateComboConditionals(
         type: ConditionalType.NUMBER,
         partitions: [valuePartitions],
       }
+    } else if (content.formItem == 'select') {
+      const value: number = conditionals[content.id] ? conditionals[content.id] : defaults[content.id]
+      const activations: boolean[] = Array(actionCount).fill(true)
+      const valuePartitions: ComboSubSelectConditional = {
+        value: value,
+        activations: activations,
+      }
+      output[content.id] = {
+        type: ConditionalType.SELECT,
+        partitions: [valuePartitions],
+      }
     } else {
       // No other types for now
     }
@@ -137,12 +148,12 @@ function generateSetComboConditionals(
     } else if (typeof p4Value === 'number') {
       const value: number = p4Value
       const activations: boolean[] = Array(actionCount).fill(true)
-      const valuePartitions: ComboSubNumberConditional = {
+      const valuePartitions: ComboSubSelectConditional = {
         value: value,
         activations: activations,
       }
       output[setName] = {
-        type: ConditionalType.NUMBER,
+        type: ConditionalType.SELECT,
         partitions: [valuePartitions],
       }
     } else {
@@ -311,6 +322,15 @@ export function locateActivations(keyString: string, comboState: ComboState) {
       index: dataKey.index,
       value: activations[dataKey.index]
     }
+  } else if (comboCategory.type == ConditionalType.SELECT) {
+    const comboSelectConditional = comboCategory as ComboSelectConditional
+    const activations = comboSelectConditional.partitions[dataKey.partitionIndex].activations
+    return {
+      comboConditional: comboSelectConditional,
+      activations: activations,
+      index: dataKey.index,
+      value: activations[dataKey.index]
+    }
   } else {
     // No other types
   }
@@ -325,7 +345,7 @@ export function updateActivation(keyString: string, activate: boolean, comboStat
   const locatedActivations = locateActivations(keyString, comboState)
   if (!locatedActivations) return
 
-  if (locatedActivations.comboConditional.type == ConditionalType.NUMBER) {
+  if (locatedActivations.comboConditional.type == ConditionalType.NUMBER || locatedActivations.comboConditional.type == ConditionalType.SELECT) {
     // Numbers are activated onDrag
   } else {
     locatedActivations.activations[locatedActivations.index] = activate
@@ -339,7 +359,7 @@ export function updatePartitionActivation(keyString: string, comboState: ComboSt
   const locatedActivations = locateActivations(keyString, comboState)
   if (!locatedActivations) return
 
-  if (locatedActivations.comboConditional.type == ConditionalType.NUMBER) {
+  if (locatedActivations.comboConditional.type == ConditionalType.NUMBER || locatedActivations.comboConditional.type == ConditionalType.SELECT) {
     const numberConditional = locatedActivations.comboConditional as ComboNumberConditional
     const partitionIndex = dataKey.partitionIndex
     const activationIndex = dataKey.index

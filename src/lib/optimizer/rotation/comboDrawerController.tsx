@@ -92,11 +92,11 @@ export function initializeComboState(request: Form) {
   const actionCount = 11
   comboState.comboDefinition = request['comboDefinition']?.filter(x => !!x) ?? ['DEFAULT', 'SKILL', 'SKILL', 'ULT', 'SKILL', 'SKILL']
 
-  const requestCharacterConditionals = request.characterConditionals
   const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(request)
-
-  const requestLightConeConditionals = request.lightConeConditionals
   const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(request)
+
+  const requestCharacterConditionals = request.characterConditionals
+  const requestLightConeConditionals = request.lightConeConditionals
 
   const requestSetConditionals = request.setConditionals
 
@@ -136,11 +136,44 @@ export function initializeComboState(request: Form) {
     const savedComboState = JSON.parse(request.comboStateJson) as ComboState
     comboState.comboCharacter.displayedOrnamentSets = savedComboState?.comboCharacter?.displayedOrnamentSets ?? []
     comboState.comboCharacter.displayedRelicSets = savedComboState?.comboCharacter?.displayedRelicSets ?? []
+
+    mergeComboStates(comboState, savedComboState)
   }
 
   console.debug('aa', comboState)
 
   return comboState
+}
+
+function mergeComboStates(base: ComboState, update: ComboState) {
+  if (base.comboCharacter.metadata.characterId != update?.comboCharacter?.metadata?.characterId) return
+
+  mergeConditionals(base.comboCharacter.characterConditionals, update?.comboCharacter?.characterConditionals)
+  mergeConditionals(base.comboCharacter.lightConeConditionals, update?.comboCharacter?.lightConeConditionals)
+  mergeConditionals(base.comboCharacter.setConditionals, update?.comboCharacter?.setConditionals)
+
+  mergeTeammate(base.comboTeammate0, update?.comboTeammate0)
+  mergeTeammate(base.comboTeammate1, update?.comboTeammate1)
+  mergeTeammate(base.comboTeammate2, update?.comboTeammate2)
+}
+
+function mergeTeammate(baseTeammate: ComboTeammate, updateTeammate: ComboTeammate) {
+  if (!baseTeammate || !updateTeammate) return
+  mergeConditionals(baseTeammate.characterConditionals, updateTeammate.characterConditionals)
+  mergeConditionals(baseTeammate.lightConeConditionals, updateTeammate.lightConeConditionals)
+  mergeConditionals(baseTeammate.relicSetConditionals, updateTeammate.relicSetConditionals)
+  mergeConditionals(baseTeammate.ornamentSetConditionals, updateTeammate.ornamentSetConditionals)
+}
+
+function mergeConditionals(baseConditionals: ComboConditionals, updateConditionals: ComboConditionals) {
+  if (!updateConditionals) return
+
+  for (const [key, conditional] of Object.entries(baseConditionals)) {
+    const updateConditional = updateConditionals[key]
+    if (updateConditional && conditional.type == updateConditional.type) {
+      baseConditionals[key] = updateConditional
+    }
+  }
 }
 
 function generateComboConditionals(

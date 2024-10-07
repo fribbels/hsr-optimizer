@@ -484,7 +484,7 @@ export function ContentRows(
 
   return (
     <Flex vertical>
-      {content.length == 0 ? <div>No conditional passives</div> : content}
+      {content.length == 0 ? <div style={{ marginLeft: 5 }}>No conditional passives</div> : content}
     </Flex>
   )
 }

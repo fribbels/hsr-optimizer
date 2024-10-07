@@ -503,6 +503,10 @@ a {
     background: #5085ff;
 }
 
+.partitionShaded.selected:not(.defaultShaded):hover {
+    background: #4476e8;
+}
+
 .selecto-selection {
     display: none !important; /* Red Color with half opacity */
 }

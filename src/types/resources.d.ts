@@ -758,7 +758,7 @@ interface Resources {
           routedVulnerability: {
             text: 'Routed Vulnerability'
             title: 'Metamorphosis'
-            content: 'When the wearer deals Break DMG to an enemy target, inflicts Routed on the enemy, lasting for 2 turn(s). Targets afflicted with Routed receive ${{Vulnerability}}% increased Break DMG from the wearer, and their SPD is lowered by 20%. Effects of the similar type cannot be stacked.'
+            content: 'When the wearer deals Break DMG to an enemy target, inflicts Routed on the enemy, lasting for 2 turn(s). Targets afflicted with Routed receive {{Vulnerability}}% increased Break DMG from the wearer, and their SPD is lowered by 20%. Effects of the similar type cannot be stacked.'
           }
         }
       }
@@ -8258,7 +8258,7 @@ interface Resources {
       ProgressText: {
         Progress: 'Progress'
         CalculatingETA: 'Progress  (calculating ETA..)'
-        TimeRemaining: '{{rate}} / sec — ${{timeRemaining}} left'
+        TimeRemaining: '{{rate}} / sec — {{timeRemaining}} left'
         Finished: '{{rate}} / sec — Finished'
       }
       ControlsGroup: {
@@ -8509,14 +8509,14 @@ interface Resources {
           Text: '30% BE'
         }
         Sacerdos1Stack: {
-          Desc: '4 Piece: $t(gameData:RelicSets.121.Name) (+20% CD)'
+          Desc: '4 Piece: $t(gameData:RelicSets.121.Name) (+18% CD)'
           Set: '$t(gameData:RelicSets.121.Name)'
-          Text: '20% CD'
+          Text: '18% CD'
         }
         Sacerdos2Stack: {
-          Desc: '4 Piece: $t(gameData:RelicSets.121.Name) (+40% CD)'
+          Desc: '4 Piece: $t(gameData:RelicSets.121.Name) (+36% CD)'
           Set: '$t(gameData:RelicSets.121.Name)'
-          Text: '40% CD'
+          Text: '36% CD'
         }
         Keel: {
           Desc: '$t(gameData:RelicSets.310.Name) (+10% CD)'

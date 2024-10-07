@@ -981,12 +981,12 @@ export function CharacterPreview(props) {
                 block
                 options={[
                   {
-                    label: t('CharacterPreview.DetailsSlider.CombatStats'), /* Combat Stats */
+                    label: t('CharacterPreview.DetailsSlider.Labels.CombatStats'), /* Combat Stats */
                     value: COMBAT_STATS,
                     disabled: characterMetadata.scoringMetadata.simulation == null || scoringType == CHARACTER_SCORE,
                   },
                   {
-                    label: t('CharacterPreview.DetailsSlider.DMGUpgrades'), /* Damage Upgrades */
+                    label: t('CharacterPreview.DetailsSlider.Labels.DMGUpgrades'), /* Damage Upgrades */
                     value: DAMAGE_UPGRADES,
                     disabled: characterMetadata.scoringMetadata.simulation == null || scoringType == CHARACTER_SCORE,
                   },

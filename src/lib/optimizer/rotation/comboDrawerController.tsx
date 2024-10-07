@@ -89,7 +89,7 @@ export function initializeComboState(request: Form) {
 
   if (!request.characterId) return comboState
 
-  const actionCount = 11
+  const actionCount = 9
   comboState.comboDefinition = request['comboDefinition']?.filter(x => !!x) ?? ['DEFAULT', 'SKILL', 'SKILL', 'ULT', 'SKILL', 'SKILL']
 
   const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(request)

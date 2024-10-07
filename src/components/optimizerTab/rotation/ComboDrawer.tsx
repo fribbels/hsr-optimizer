@@ -1,4 +1,4 @@
-import { Button, Drawer, Flex, Select } from 'antd'
+import { Button, Divider, Drawer, Flex, Select } from 'antd'
 import React, { useEffect, useMemo, useRef } from 'react'
 import Selecto from 'react-selecto'
 import { OptimizerTabController } from 'lib/optimizerTabController'
@@ -59,15 +59,15 @@ export function ComboDrawer() {
       placement='right'
       onClose={() => setComboDrawerOpen(false)}
       open={comboDrawerOpen}
-      width={1275}
+      width={1125}
       forceRender
       extra={
-        <Flex style={{ width: 867 }} align='center'>
+        <Flex style={{ width: 715 }} align='center'>
           <ComboHeader comboState={comboState}/>
         </Flex>
       }
     >
-      <div style={{ width: 1200, height: '100%' }}>
+      <div style={{ width: 1050, height: '100%' }}>
         <StateDisplay comboState={comboState}/>
         <Selecto
           className='selecto-selection'
@@ -193,7 +193,7 @@ function ComboHeader(props: { comboState: ComboState }) {
 
   const length = comboDefinition.length
   console.log('ComboHeader')
-  const render = Array(Math.min(10, length + 1)).fill(false).map((value, index) => (
+  const render = Array(Math.min(9, length + 1)).fill(false).map((value, index) => (
     <AbilitySelector comboDefinition={comboDefinition} index={index} key={index}/>
   ))
 
@@ -211,9 +211,7 @@ export function elementToDataKey(element: HTMLElement | SVGElement) {
 
 function GroupDivider() {
   return (
-    <div style={{ width: '100%', height: 10 }}>
-
-    </div>
+    <Divider/>
   )
 }
 
@@ -298,8 +296,8 @@ function StateDisplay(props: { comboState: ComboState }) {
     <Flex vertical gap={8}>
       <ComboConditionalsGroupRow comboOrigin={comboCharacter} actionCount={actionCount} conditionalType='character' originKey='comboCharacter'/>
       <ComboConditionalsGroupRow comboOrigin={comboCharacter} actionCount={actionCount} conditionalType='lightCone' originKey='comboCharacterLightCone'/>
-      <SetDisplays comboOrigin={comboCharacter} conditionalType='relicSets' actionCount={actionCount} originKey='comboCharacterRelicSets'/>
       <GroupDivider/>
+      <SetDisplays comboOrigin={comboCharacter} conditionalType='relicSets' actionCount={actionCount} originKey='comboCharacterRelicSets'/>
       <SetSelectors comboOrigin={comboCharacter}/>
       <GroupDivider/>
       <ComboConditionalsGroupRow comboOrigin={comboTeammate0} actionCount={actionCount} conditionalType='character' originKey='comboTeammate0'/>
@@ -683,7 +681,7 @@ function NumberSelect(props: { contentItem: ContentItem, value: number, sourceKe
             set={props.sourceKey.includes('comboCharacterRelicSets')}
             onChange={(x) => console.log(x)}
             value={props.value}
-            removeForm={false}
+            removeForm={props.partitionIndex > 0}
           />
         }
       </Flex>

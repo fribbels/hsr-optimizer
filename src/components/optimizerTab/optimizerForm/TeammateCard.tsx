@@ -128,22 +128,22 @@ const TeammateCard = (props: { index: number }) => {
       {
         value: Sets.MessengerTraversingHackerspace,
         desc: t('TeammateSets.Messenger.Desc'), // `4 Piece: ${Sets.MessengerTraversingHackerspace} (+12% SPD)`,
-        label: labelRender(t('TeammateSets.Messenger.Set'), t('TeammateSets.Messenger.Text')), // labelRender(Sets.MessengerTraversingHackerspace, '12% SPD'),
+        label: labelRender(Sets.MessengerTraversingHackerspace, t('TeammateSets.Messenger.Text')), // labelRender(Sets.MessengerTraversingHackerspace, '12% SPD'),
       },
       {
         value: Sets.WatchmakerMasterOfDreamMachinations,
         desc: t('TeammateSets.Watchmaker.Desc'), // `4 Piece: ${Sets.WatchmakerMasterOfDreamMachinations} (+30% BE)`,
-        label: labelRender(t('TeammateSets.Watchmaker.Set'), t('TeammateSets.Watchmaker.Text')), // labelRender(Sets.WatchmakerMasterOfDreamMachinations, '30% BE'),
+        label: labelRender(Sets.WatchmakerMasterOfDreamMachinations, t('TeammateSets.Watchmaker.Text')), // labelRender(Sets.WatchmakerMasterOfDreamMachinations, '30% BE'),
       },
       {
         value: SACERDOS_RELIVED_ORDEAL_1_STACK,
         desc: t('TeammateSets.Sacerdos1Stack.Desc'), // `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 1 stack (+20% CD)`,
-        label: labelRender(t('TeammateSets.Sacerdos1Stack.Set'), t('TeammateSets.Sacerdos1Stack.Text')), // labelRender(Sets.SacerdosRelivedOrdeal, '20% CD'),
+        label: labelRender(Sets.SacerdosRelivedOrdeal, t('TeammateSets.Sacerdos1Stack.Text')), // labelRender(Sets.SacerdosRelivedOrdeal, '20% CD'),
       },
       {
         value: SACERDOS_RELIVED_ORDEAL_2_STACK,
         desc: t('TeammateSets.Sacerdos2Stack.Desc'), // `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 2 stack (+40% CD)`,
-        label: labelRender(t('TeammateSets.Sacerdos2Stack.Set'), t('TeammateSets.Sacerdos2Stack.Text')), // labelRender(Sets.SacerdosRelivedOrdeal, '40% CD'),
+        label: labelRender(Sets.SacerdosRelivedOrdeal, t('TeammateSets.Sacerdos2Stack.Text')), // labelRender(Sets.SacerdosRelivedOrdeal, '40% CD'),
       },
     ]
   }, [t])
@@ -152,22 +152,22 @@ const TeammateCard = (props: { index: number }) => {
       {
         value: Sets.BrokenKeel,
         desc: t('TeammateSets.Keel.Desc'), // `${Sets.BrokenKeel} (+10% CD)`,
-        label: labelRender(t('TeammateSets.Keel.Set'), t('TeammateSets.Keel.Text')), // labelRender(Sets.BrokenKeel, '10% CD'),
+        label: labelRender(Sets.BrokenKeel, t('TeammateSets.Keel.Text')), // labelRender(Sets.BrokenKeel, '10% CD'),
       },
       {
         value: Sets.FleetOfTheAgeless,
         desc: t('TeammateSets.Ageless.Desc'), // `${Sets.FleetOfTheAgeless} (+8% ATK)`,
-        label: labelRender(t('TeammateSets.Ageless.Set'), t('TeammateSets.Ageless.Text')), // labelRender(Sets.FleetOfTheAgeless, '8% ATK'),
+        label: labelRender(Sets.FleetOfTheAgeless, t('TeammateSets.Ageless.Text')), // labelRender(Sets.FleetOfTheAgeless, '8% ATK'),
       },
       {
         value: Sets.PenaconyLandOfTheDreams,
         desc: t('TeammateSets.Penacony.Desc'), // `${Sets.PenaconyLandOfTheDreams} (+10% DMG for same element)`,
-        label: labelRender(t('TeammateSets.Penacony.Set'), t('TeammateSets.Penacony.Text')), // labelRender(Sets.PenaconyLandOfTheDreams, '10% DMG'),
+        label: labelRender(Sets.PenaconyLandOfTheDreams, t('TeammateSets.Penacony.Text')), // labelRender(Sets.PenaconyLandOfTheDreams, '10% DMG'),
       },
       {
         value: Sets.LushakaTheSunkenSeas,
         desc: t('TeammateSets.Lushaka.Desc'), // `${Sets.LushakaTheSunkenSeas} (+12% ATK)`,
-        label: labelRender(t('TeammateSets.Lushaka.Set'), t('TeammateSets.Lushaka.Text')), // labelRender(Sets.LushakaTheSunkenSeas, '12% ATK'),
+        label: labelRender(Sets.LushakaTheSunkenSeas, t('TeammateSets.Lushaka.Text')), // labelRender(Sets.LushakaTheSunkenSeas, '12% ATK'),
       },
     ]
   }, [t])

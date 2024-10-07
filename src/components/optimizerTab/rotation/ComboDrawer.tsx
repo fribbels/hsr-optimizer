@@ -484,7 +484,7 @@ export function ContentRows(
 
   return (
     <Flex vertical>
-      {content}
+      {content.length == 0 ? <div>No conditional passives</div> : content}
     </Flex>
   )
 }
@@ -518,7 +518,7 @@ function BooleanConditionalActivationRow(props: { contentItem: ContentItem, acti
   return (
     <Flex key={props.contentItem.id} style={{ height: 45 }}>
       <BooleanSwitch contentItem={props.contentItem} sourceKey={props.sourceKey} value={props.activations[0]}/>
-      <BoxArray activations={props.activations} actionCount={props.actionCount} dataKeys={dataKeys}/>
+      <BoxArray activations={props.activations} actionCount={props.actionCount} dataKeys={dataKeys} partition={false}/>
     </Flex>
   )
 }
@@ -580,7 +580,7 @@ function Partition(props: { partition: ComboSubNumberConditional, contentItem: C
   return (
     <Flex key={props.partitionIndex} style={{ height: 45 }}>
       {render}
-      <BoxArray activations={props.activations} actionCount={props.actionCount} dataKeys={dataKeys}/>
+      <BoxArray activations={props.activations} actionCount={props.actionCount} dataKeys={dataKeys} partition={true}/>
     </Flex>
   )
 }
@@ -698,7 +698,7 @@ function NumberSelect(props: { contentItem: ContentItem, value: number, sourceKe
   )
 }
 
-function BoxArray(props: { activations: boolean[], actionCount: number, dataKeys: string[] }) {
+function BoxArray(props: { activations: boolean[], actionCount: number, dataKeys: string[], partition: boolean }) {
   return (
     <Flex>
       {
@@ -709,6 +709,7 @@ function BoxArray(props: { activations: boolean[], actionCount: number, dataKeys
             active={value}
             disabled={index >= props.actionCount}
             index={index}
+            partition={props.partition}
           />
         ))
       }
@@ -717,7 +718,7 @@ function BoxArray(props: { activations: boolean[], actionCount: number, dataKeys
 }
 
 const BoxComponent = React.memo(
-  function Box(props: { active: boolean, index: number, disabled: boolean, dataKey: string }) {
+  function Box(props: { active: boolean, index: number, disabled: boolean, dataKey: string, partition: boolean }) {
     let classnames: string
     if (props.disabled) {
       classnames = 'disabledSelect'
@@ -725,6 +726,9 @@ const BoxComponent = React.memo(
       classnames = props.active ? 'selectable selected' : 'selectable'
       if (props.index == 0) {
         classnames += ' defaultShaded'
+      }
+      if (props.partition && props.active) {
+        classnames += ' partitionShaded'
       }
     }
 
@@ -738,7 +742,11 @@ const BoxComponent = React.memo(
       </div>
     )
   }, (prevProps, nextProps) => {
-    return prevProps.dataKey === nextProps.dataKey && prevProps.active === nextProps.active && prevProps.disabled === nextProps.disabled && prevProps.index === nextProps.index;
+    return prevProps.dataKey === nextProps.dataKey
+      && prevProps.active === nextProps.active
+      && prevProps.disabled === nextProps.disabled
+      && prevProps.index === nextProps.index
+      && prevProps.partition === nextProps.partition
   }
 );
 

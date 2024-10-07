@@ -496,8 +496,11 @@ a {
 }
 
 .selected {
-    /*background: #5282c4;*/
     background: #68a6ff;
+}
+
+.partitionShaded {
+    background: #5085ff;
 }
 
 .selecto-selection {

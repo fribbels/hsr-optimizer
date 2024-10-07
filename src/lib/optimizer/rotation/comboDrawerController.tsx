@@ -7,6 +7,8 @@ import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { defaultSetConditionals } from 'lib/defaultForm'
 import { SetsOrnaments, SetsRelics } from 'lib/constants'
 import { SaveState } from 'lib/saveState'
+import DB from 'lib/db'
+import { OptimizerTabController } from 'lib/optimizerTabController'
 
 export enum ConditionalType {
   BOOLEAN = 'boolean',
@@ -129,9 +131,14 @@ export function initializeComboState(request: Form) {
   comboState.comboTeammate1 = generateComboTeammate(request.teammate1, actionCount)
   comboState.comboTeammate2 = generateComboTeammate(request.teammate2, actionCount)
 
-  if (request.json)
+  if (request.comboStateJson) {
+    console.debug('!!!!!!!!!!!!!!! LOAD', request.comboStateJson)
+    const savedComboState = JSON.parse(request.comboStateJson) as ComboState
+    comboState.comboCharacter.displayedOrnamentSets = savedComboState?.comboCharacter?.displayedOrnamentSets ?? []
+    comboState.comboCharacter.displayedRelicSets = savedComboState?.comboCharacter?.displayedRelicSets ?? []
+  }
 
-    console.debug('aa', comboState)
+  console.debug('aa', comboState)
 
   return comboState
 }
@@ -453,6 +460,7 @@ export function updateSelectedSets(sets: string[], isOrnaments: boolean) {
     }
   }
 
+  updateFormState(comboState)
   window.store.getState().setComboState({ ...comboState })
 }
 
@@ -508,7 +516,6 @@ export function updateAbilityRotation(index: number, value: string) {
     if (comboDefinition.length <= 2) return
     comboDefinition.splice(index, 1)
     shiftAllActivations(comboState, index)
-    console.log('aaa', comboState)
   } else {
     comboDefinition[index] = value
   }
@@ -519,7 +526,8 @@ export function updateAbilityRotation(index: number, value: string) {
 export function updateFormState(comboState: ComboState) {
   window.optimizerForm.setFieldValue('comboStateJson', JSON.stringify(comboState));
 
-  console.debug('updated', window.optimizerForm.getFieldsValue())
+  const form = OptimizerTabController.getForm()
+  DB.replaceCharacterForm(form)
 
   SaveState.delayedSave(1000)
 }

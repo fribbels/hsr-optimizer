@@ -572,6 +572,16 @@ export const DB = {
     })
   },
 
+  replaceCharacterForm: (form) => {
+    let found = DB.getCharacterById(form.characterId)
+    if (found) {
+      found.form = {
+        ...found.form,
+        ...form,
+      }
+    }
+  },
+
   addFromForm: (form, autosave = true) => {
     const characters = DB.getCharacters()
     let found = DB.getCharacterById(form.characterId)

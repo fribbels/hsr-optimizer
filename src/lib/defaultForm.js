@@ -79,6 +79,7 @@ export function getDefaultForm(initialCharacter) {
       DOT: 0,
       BREAK: 0,
     },
+    comboStateJson: '{}',
     ...defaultEnemyOptions(),
   })
 

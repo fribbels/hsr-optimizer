@@ -53,7 +53,7 @@ export default function OptimizerForm() {
       || keys[0].startsWith('statDisplay')
       || keys[0].startsWith('statSim')
       || keys[0].startsWith('teammate')
-      || keys[0].startsWith('combo')
+      // || keys[0].startsWith('combo')
       || keys[0].startsWith('combatBuffs')
       || keys[0] == 'characterConditionals'
       || keys[0] == 'lightConeConditionals')) {
@@ -97,9 +97,6 @@ export default function OptimizerForm() {
     }
     window.store.getState().setPermutationDetails(permutationDetails)
     window.store.getState().setPermutations(relics.Head.length * relics.Hands.length * relics.Body.length * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length)
-
-    console.debug('???????????????', request)
-    window.store.getState().setFormValues(request)
   }
   window.onOptimizerFormValuesChange = onValuesChange
 

@@ -521,6 +521,10 @@ export const OptimizerTabController = {
       newForm.combo = {}
     }
 
+    if (!newForm.comboStateJson) {
+      newForm.comboStateJson = '{}'
+    }
+
     if (Object.values(newForm.combo).every((value) => !value)) {
       const formula = scoringMetadata?.simulation?.formula
       if (formula) {

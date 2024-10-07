@@ -78,11 +78,11 @@ export const ComboFilters = () => {
         <Flex gap={10}>
           <Flex vertical flex={1}>
             <HeaderText>Dots</HeaderText>
-            <NumberXInput/>
+            <NumberXInput name='comboDot'/>
           </Flex>
           <Flex vertical flex={1}>
             <HeaderText>Breaks</HeaderText>
-            <NumberXInput/>
+            <NumberXInput name='comboBreak'/>
           </Flex>
         </Flex>
 
@@ -217,8 +217,9 @@ function ComboRow(props: { title: string; name: string }) {
   )
 }
 
-function NumberXInput() {
+function NumberXInput(props: {name: string}) {
   return (
+    <Form.Item name={props.name}>
     <InputNumberStyled
       addonBefore='⨯'
       size='small'
@@ -226,5 +227,6 @@ function NumberXInput() {
       style={{ width: '100%' }}
       rootClassName='comboInputNumber'
     />
+    </Form.Item>
   )
 }

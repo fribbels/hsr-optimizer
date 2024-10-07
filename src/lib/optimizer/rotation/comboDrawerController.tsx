@@ -79,7 +79,7 @@ export type ComboState = {
   comboTeammate0: ComboTeammate
   comboTeammate1: ComboTeammate
   comboTeammate2: ComboTeammate
-  comboDefinition: string[]
+  comboAbilities: string[]
 }
 
 export type SetConditionals = typeof defaultSetConditionals
@@ -90,7 +90,13 @@ export function initializeComboState(request: Form) {
   if (!request.characterId) return comboState
 
   const actionCount = 9
-  comboState.comboDefinition = request['comboDefinition']?.filter(x => !!x) ?? ['DEFAULT', 'SKILL', 'SKILL', 'ULT', 'SKILL', 'SKILL']
+  comboState.comboAbilities = ['DEFAULT']
+  for (let i = 1; i <= 9; i++) {
+    const action = request.comboAbilities[i]
+    if (action == null) break
+
+    comboState.comboAbilities.push(action)
+  }
 
   const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(request)
   const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(request)
@@ -542,15 +548,15 @@ function shiftAllActivations(obj: any, index: number): void {
 // Index is 0 indexed, and only includes the interactable elements, not including the [0] default
 export function updateAbilityRotation(index: number, value: string) {
   const comboState = window.store.getState().comboState
-  const comboDefinition = comboState.comboDefinition
+  const comboAbilities = comboState.comboAbilities
 
-  if (index > comboDefinition.length) return
+  if (index > comboAbilities.length) return
   if (value == 'NONE') {
-    if (comboDefinition.length <= 2) return
-    comboDefinition.splice(index, 1)
+    if (comboAbilities.length <= 2) return
+    comboAbilities.splice(index, 1)
     shiftAllActivations(comboState, index)
   } else {
-    comboDefinition[index] = value
+    comboAbilities[index] = value
   }
 
   window.store.getState().setComboState({ ...comboState })
@@ -558,6 +564,7 @@ export function updateAbilityRotation(index: number, value: string) {
 
 export function updateFormState(comboState: ComboState) {
   window.optimizerForm.setFieldValue('comboStateJson', JSON.stringify(comboState));
+  window.optimizerForm.setFieldValue('comboAbilities', comboState.comboAbilities);
 
   const form = OptimizerTabController.getForm()
   DB.replaceCharacterForm(form)

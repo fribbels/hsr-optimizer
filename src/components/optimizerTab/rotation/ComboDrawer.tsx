@@ -157,8 +157,8 @@ export const abilitySelectOptions = [
   },
 ]
 
-function AbilitySelector(props: { comboDefinition: string[], index: number }) {
-  if (props.comboDefinition[props.index] == 'DEFAULT') return <></>
+function AbilitySelector(props: { comboAbilities: string[], index: number }) {
+  if (props.comboAbilities[props.index] == 'DEFAULT') return <></>
 
   return (
     <Select
@@ -168,7 +168,7 @@ function AbilitySelector(props: { comboDefinition: string[], index: number }) {
       optionLabelProp='display'
       options={abilitySelectOptions}
       placement='bottomLeft'
-      value={props.comboDefinition[props.index]}
+      value={props.comboAbilities[props.index]}
       allowClear={true}
       onSelect={(value: string) => {
         updateAbilityRotation(props.index, value)
@@ -187,14 +187,14 @@ const abilityWidth = 70
 const abilityGap = 6
 
 function ComboHeader(props: { comboState: ComboState }) {
-  const comboDefinition = props.comboState.comboDefinition
+  const comboAbilities = props.comboState.comboAbilities
 
-  if (!comboDefinition) return <></>
+  if (!comboAbilities) return <></>
 
-  const length = comboDefinition.length
+  const length = comboAbilities.length
   console.log('ComboHeader')
   const render = Array(Math.min(9, length + 1)).fill(false).map((value, index) => (
-    <AbilitySelector comboDefinition={comboDefinition} index={index} key={index}/>
+    <AbilitySelector comboAbilities={comboAbilities} index={index} key={index}/>
   ))
 
   return (
@@ -290,7 +290,7 @@ function StateDisplay(props: { comboState: ComboState }) {
   const comboTeammate0 = props.comboState?.comboTeammate0
   const comboTeammate1 = props.comboState?.comboTeammate1
   const comboTeammate2 = props.comboState?.comboTeammate2
-  const actionCount = props.comboState?.comboDefinition?.length || 0
+  const actionCount = props.comboState?.comboAbilities?.length || 0
 
   return (
     <Flex vertical gap={8}>

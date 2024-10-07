@@ -5,11 +5,13 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { BETA_UPDATE } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { JiaoqiuConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Jiaoqiu')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -30,9 +32,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'ashenRoastStacks',
       name: 'ashenRoastStacks',
-      text: `Ashen Roast stacks`,
-      title: 'Ashen Roast stacks',
-      content: BETA_UPDATE,
+      text: t('Content.ashenRoastStacks.text'),
+      title: t('Content.ashenRoastStacks.title'),
+      content: t('Content.ashenRoastStacks.content', { AshenRoastInitialVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityBase), AshenRoastAdditionalVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityScaling), AshenRoastDotMultiplier: TsUtils.precisionRound(100 * talentDotScaling) }),
       min: 0,
       max: maxAshenRoastStacks,
     },
@@ -40,43 +42,43 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'ultFieldActive',
       name: 'ultFieldActive',
-      text: 'Ult field active',
-      title: 'Ult field active',
-      content: BETA_UPDATE,
+      text: t('Content.ultFieldActive.text'),
+      title: t('Content.ultFieldActive.title'),
+      content: t('Content.ultFieldActive.content', { UltScaling: TsUtils.precisionRound(100 * ultScaling), UltVulnerability: TsUtils.precisionRound(100 * ultVulnerabilityScaling), ZoneDebuffChance: TsUtils.precisionRound(100 * ult(e, 0.6, 0.62)) }),
     },
     {
       formItem: 'switch',
       id: 'ehrToAtkBoost',
       name: 'ehrToAtkBoost',
-      text: 'EHR to ATK boost',
-      title: 'EHR to ATK boost',
-      content: BETA_UPDATE,
+      text: t('Content.ehrToAtkBoost.text'),
+      title: t('Content.ehrToAtkBoost.title'),
+      content: t('Content.ehrToAtkBoost.content'),
     },
     {
       formItem: 'switch',
       id: 'e1DmgBoost',
       name: 'e1DmgBoost',
-      text: 'E1 DMG boost',
-      title: 'E1 DMG boost',
-      content: BETA_UPDATE,
+      text: t('Content.e1DmgBoost.text'),
+      title: t('Content.e1DmgBoost.title'),
+      content: t('Content.e1DmgBoost.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2Dot',
       name: 'e2Dot',
-      text: 'E2 DOT scaling',
-      title: 'E2 DOT scaling',
-      content: BETA_UPDATE,
+      text: t('Content.e2Dot.text'),
+      title: t('Content.e2Dot.title'),
+      content: t('Content.e2Dot.content'),
       disabled: e < 2,
     },
     {
       formItem: 'switch',
       id: 'e6ResShred',
       name: 'e6ResShred',
-      text: 'E6 RES shred',
-      title: 'E6 RES shred',
-      content: BETA_UPDATE,
+      text: t('Content.e6ResShred.text'),
+      title: t('Content.e6ResShred.title'),
+      content: t('Content.e6ResShred.content'),
       disabled: e < 6,
     },
   ]

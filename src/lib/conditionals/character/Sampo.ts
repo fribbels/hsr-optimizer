@@ -1,13 +1,16 @@
 import { ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Sampo')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const dotVulnerabilityValue = ult(e, 0.30, 0.32)
@@ -24,17 +27,17 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'targetDotTakenDebuff',
       name: 'targetDotTakenDebuff',
-      text: 'Ult DoT taken debuff',
-      title: 'Ult Dot taken debuff',
-      content: `When debuffed by Sampo's Ultimate, increase the targets' DoT taken by ${precisionRound(dotVulnerabilityValue * 100)}% for 2 turn(s).`,
+      text: t('Content.targetDotTakenDebuff.text'),
+      title: t('Content.targetDotTakenDebuff.title'),
+      content: t('Content.targetDotTakenDebuff.content', { dotVulnerabilityValue: TsUtils.precisionRound(100 * dotVulnerabilityValue) }),
     },
     {
       formItem: 'slider',
       id: 'skillExtraHits',
       name: 'skillExtraHits',
-      text: 'Skill extra hits',
-      title: 'Skill extra hits',
-      content: `Number of extra hits from Skill.`,
+      text: t('Content.skillExtraHits.text'),
+      title: t('Content.skillExtraHits.title'),
+      content: t('Content.skillExtraHits.content'),
       min: 1,
       max: maxExtraHits,
     },
@@ -42,9 +45,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'targetWindShear',
       name: 'targetWindShear',
-      text: 'Target has wind shear',
-      title: 'Target has wind shear',
-      content: `Enemies with Wind Shear effect deal 15% less damage to Sampo.`,
+      text: t('Content.targetWindShear.text'),
+      title: t('Content.targetWindShear.title'),
+      content: t('Content.targetWindShear.content'),
     },
   ]
 

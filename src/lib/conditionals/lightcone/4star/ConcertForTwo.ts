@@ -2,10 +2,12 @@ import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.ConcertForTwo')
   const sValuesStackDmg = [0.04, 0.05, 0.06, 0.07, 0.08]
 
   const content: ContentItem[] = [
@@ -14,9 +16,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'teammateShieldStacks',
       name: 'teammateShieldStacks',
       formItem: 'slider',
-      text: 'Teammate shield DMG stacks',
-      title: 'Inspire',
-      content: `For every on-field character that has a Shield, the DMG dealt by the wearer increases by ${precisionRound(sValuesStackDmg[s] * 100)}%.`,
+      text: t('Content.teammateShieldStacks.text'),
+      title: t('Content.teammateShieldStacks.title'),
+      content: t('Content.teammateShieldStacks.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesStackDmg[s]) }),
       min: 0,
       max: 4,
     },

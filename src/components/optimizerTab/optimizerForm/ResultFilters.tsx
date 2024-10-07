@@ -2,32 +2,34 @@ import { Flex } from 'antd'
 import { HeaderText } from 'components/HeaderText.jsx'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { Hint } from 'lib/hint.jsx'
-import FilterRow from 'components/optimizerTab/optimizerForm/FilterRow.tsx'
-import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants.ts'
+import FilterRow from 'components/optimizerTab/optimizerForm/FilterRow'
+import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants'
+import { useTranslation } from 'react-i18next'
 import { CaretDownOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 
 export const MinMaxStatFilters = () => {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'MinMaxFilters' })
   const [view, setView] = useState('Stats')
 
   return (
     <div>
       <Flex vertical gap={optimizerTabDefaultGap} style={{ display: view == 'Stats' ? 'flex' : 'none' }}>
         <Flex justify='space-between' align='center'>
-          <HeaderText>Stat min / max filters</HeaderText>
+          <HeaderText>{t('StatHeader')/* Stat min / max filters */}</HeaderText>
           <TooltipImage type={Hint.statFilters()}/>
         </Flex>
         <Flex vertical gap={5}>
-          <FilterRow name='Hp' label='HP'/>
-          <FilterRow name='Atk' label='ATK'/>
-          <FilterRow name='Def' label='DEF'/>
-          <FilterRow name='Spd' label='SPD'/>
-          <FilterRow name='Cr' label='CR'/>
-          <FilterRow name='Cd' label='CD'/>
-          <FilterRow name='Ehr' label='EHR'/>
-          <FilterRow name='Res' label='RES'/>
-          <FilterRow name='Be' label='BE'/>
-          <FilterRow name='Err' label='ERR'/>
+          <FilterRow name='Hp' label={t('HPLabel')}/>
+          <FilterRow name='Atk' label={t('ATKLabel')}/>
+          <FilterRow name='Def' label={t('DEFLabel')}/>
+          <FilterRow name='Spd' label={t('SPDLabel')}/>
+          <FilterRow name='Cr' label={t('CRLabel')}/>
+          <FilterRow name='Cd' label={t('CDLabel')}/>
+          <FilterRow name='Ehr' label={t('EHRLabel')}/>
+          <FilterRow name='Res' label={t('RESLabel')}/>
+          <FilterRow name='Be' label={t('BELabel')}/>
+          <FilterRow name='Err' label={t('ERRLabel')}/>
         </Flex>
         <Flex
           style={{ height: 20, width: '100%', marginTop: -4, cursor: 'pointer' }}
@@ -41,19 +43,19 @@ export const MinMaxStatFilters = () => {
 
       <Flex vertical gap={optimizerTabDefaultGap} style={{ display: view == 'Ratings' ? 'flex' : 'none' }}>
         <Flex justify='space-between' align='center'>
-          <HeaderText>Rating min / max filters</HeaderText>
+          <HeaderText>{t('RatingHeader')/* Rating min / max filters */}</HeaderText>
           <TooltipImage type={Hint.ratingFilters()}/>
         </Flex>
 
-        <FilterRow name='Weight' label='WEIGHT'/>
-        <FilterRow name='Ehp' label='EHP'/>
-        <FilterRow name='Basic' label='BASIC'/>
-        <FilterRow name='Skill' label='SKILL'/>
-        <FilterRow name='Ult' label='ULT'/>
-        <FilterRow name='Fua' label='FUA'/>
-        <FilterRow name='Dot' label='DOT'/>
-        <FilterRow name='Break' label='BREAK'/>
-        <FilterRow name='Combo' label='COMBO'/>
+        <FilterRow name='Weight' label={t('WEIGHTLabel')}/>
+        <FilterRow name='Ehp' label={t('EHPLabel')}/>
+        <FilterRow name='Basic' label={t('BASICLabel')}/>
+        <FilterRow name='Skill' label={t('SKILLLabel')}/>
+        <FilterRow name='Ult' label={t('ULTLabel')}/>
+        <FilterRow name='Fua' label={t('FUALabel')}/>
+        <FilterRow name='Dot' label={t('DOTLabel')}/>
+        <FilterRow name='Break' label={t('BREAKLabel')}/>
+        <FilterRow name='Combo' label={t('COMBOLabel')}/>
         <Flex
           style={{ height: 20, width: '100%', marginTop: -4, cursor: 'pointer' }}
           justify='space-around'

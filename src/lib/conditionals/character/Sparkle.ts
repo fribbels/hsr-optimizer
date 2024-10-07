@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -10,8 +10,11 @@ import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/set
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Sparkle')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const skillCdBuffScaling = skill(e, 0.24, 0.264)
@@ -34,38 +37,32 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'skillCdBuff',
     name: 'skillCdBuff',
-    text: 'Skill CD buff',
-    title: 'Skill: Dreamdiver',
-    content: `Increases the CRIT DMG of a single ally by ${precisionRound(skillCdBuffScaling * 100)}% of Sparkle's CRIT DMG plus ${precisionRound(skillCdBuffBase * 100)}%, lasting for 1 turn(s).
-    ::BR::
-    E6: The CRIT DMG Boost effect of Sparkle's Skill additionally increases by 30% of Sparkle's CRIT DMG, and when she uses her Skill, the CRIT DMG Boost effect will apply to all allies currently with Cipher. When Sparkle uses her Ultimate, this effect will spread to all allies with Cipher should the allied target have the CRIT DMG increase effect provided by the Skill active on them.`,
+    text: t('Content.skillCdBuff.text'),
+    title: t('Content.skillCdBuff.title'),
+    content: t('Content.skillCdBuff.content', { skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling), skillCdBuffBase: TsUtils.precisionRound(100 * skillCdBuffBase) }),
   }, {
     formItem: 'switch',
     id: 'cipherBuff',
     name: 'cipherBuff',
-    text: 'Cipher buff',
-    title: 'Ultimate: The Hero with a Thousand Faces',
-    content: `When allies with Cipher trigger the DMG Boost effect provided by Sparkle's Talent, each stack additionally increases its effect by ${precisionRound(cipherTalentStackBoost * 100)}%, lasting for 2 turns.
-    ::BR::
-    E1: The Cipher effect applied by the Ultimate lasts for 1 extra turn. All allies affected by Cipher have their ATK increased by 40%.`,
+    text: t('Content.cipherBuff.text'),
+    title: t('Content.cipherBuff.title'),
+    content: t('Content.cipherBuff.content', { cipherTalentStackBoost: TsUtils.precisionRound(100 * cipherTalentStackBoost) }),
   }, {
     formItem: 'slider',
     id: 'talentStacks',
     name: 'talentStacks',
-    text: 'Talent DMG stacks',
-    title: 'Talent: Red Herring',
-    content: `Whenever an ally consumes 1 Skill Point, all allies' DMG increases by ${precisionRound(talentBaseStackBoost * 100)}%. This effect lasts for 2 turn(s) and can stack up to 3 time(s).
-    ::BR::
-    E2: Each Talent stack allows allies to ignore 8% of the enemy target's DEF when dealing DMG to enemies.`,
+    text: t('Content.talentStacks.text'),
+    title: t('Content.talentStacks.title'),
+    content: t('Content.talentStacks.content', { talentBaseStackBoost: TsUtils.precisionRound(100 * talentBaseStackBoost) }),
     min: 0,
     max: 3,
   }, {
     formItem: 'slider',
     id: 'quantumAllies',
     name: 'quantumAllies',
-    text: 'Quantum allies',
-    title: 'Trace: Nocturne',
-    content: `When there are 1/2/3 Quantum allies in your team, Quantum-Type allies' ATK are increased by 5%/15%/30%.`,
+    text: t('Content.quantumAllies.text'),
+    title: t('Content.quantumAllies.title'),
+    content: t('Content.quantumAllies.content'),
     min: 0,
     max: 3,
   }]
@@ -76,9 +73,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateCDValue',
       name: 'teammateCDValue',
-      text: `Sparkle's Combat CD`,
-      title: 'Skill: Dreamdiver',
-      content: `Increases the CRIT DMG of a single ally by ${precisionRound(skillCdBuffScaling * 100)}% of Sparkle's CRIT DMG plus ${precisionRound(skillCdBuffBase * 100)}%, lasting for 1 turn(s).`,
+      text: t('TeammateContent.teammateCDValue.text'),
+      title: t('TeammateContent.teammateCDValue.title'),
+      content: t('TeammateContent.teammateCDValue.content', { skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling), skillCdBuffBase: TsUtils.precisionRound(100 * skillCdBuffBase) }),
       min: 0,
       max: 3.50,
       percent: true,

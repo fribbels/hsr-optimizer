@@ -8,6 +8,7 @@ import RelicStatText from 'components/relicPreview/RelicStatText'
 import { Relic, StatRolls } from 'types/Relic'
 import { ReactElement } from 'react'
 import { RightIcon } from 'icons/RightIcon.jsx'
+import { useTranslation } from 'react-i18next'
 
 type Substat = {
   stat: SubStats
@@ -17,9 +18,10 @@ type Substat = {
 }
 
 export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
+  const { t } = useTranslation('common')
   if (!stat?.stat || stat.value == null) {
     return (
-      <Flex justify="space-between">
+      <Flex justify='space-between'>
         <Flex>
           <img
             src={Assets.getBlank()}
@@ -40,20 +42,20 @@ export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
   displayValue += Utils.isFlat(stat.stat) ? '' : '%'
 
   return (
-    <Flex justify="space-between" align="center">
+    <Flex justify='space-between' align='center'>
       <Flex>
         <img
           src={Assets.getStatIcon(stat.stat)}
           style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}
         >
         </img>
-        <RelicStatText>{Constants.StatsToReadable[stat.stat]}</RelicStatText>
+        <RelicStatText>{t(`ReadableStats.${stat.stat}`)}</RelicStatText>
       </Flex>
       {!main
         ? (
           // <Tooltip title={`Roll quality: ${RelicRollGrader.calculateStatSum(stat.rolls)}%`}>
-          <Flex justify="space-between" style={{ width: '41.5%' }}>
-            <Flex gap={0} align="center">
+          <Flex justify='space-between' style={{ width: '41.5%' }}>
+            <Flex gap={0} align='center'>
               {stat.addedRolls != null
               && generateRolls(stat)}
             </Flex>

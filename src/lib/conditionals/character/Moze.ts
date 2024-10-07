@@ -5,10 +5,13 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { BETA_UPDATE, Stats } from 'lib/constants'
+import { Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Moze')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -25,35 +28,35 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'preyMark',
       name: 'preyMark',
-      text: 'Prey marked',
-      title: 'Prey marked',
-      content: BETA_UPDATE,
+      text: t('Content.preyMark.text'),
+      title: t('Content.preyMark.title'),
+      content: t('Content.preyMark.content', { PreyAdditionalMultiplier: TsUtils.precisionRound(100 * additionalDmgScaling), FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
     },
     {
       formItem: 'switch',
       id: 'e2CdBoost',
       name: 'e2CdBoost',
-      text: 'E2 CD boost',
-      title: 'E2 CD boost',
-      content: BETA_UPDATE,
+      text: t('Content.e2CdBoost.text'),
+      title: t('Content.e2CdBoost.title'),
+      content: t('Content.e2CdBoost.content'),
       disabled: e < 2,
     },
     {
       formItem: 'switch',
       id: 'e4DmgBuff',
       name: 'e4DmgBuff',
-      text: 'E4 DMG buff',
-      title: 'E4 DMG buff',
-      content: BETA_UPDATE,
+      text: t('Content.e4DmgBuff.text'),
+      title: t('Content.e4DmgBuff.title'),
+      content: t('Content.e4DmgBuff.content'),
       disabled: e < 4,
     },
     {
       formItem: 'switch',
       id: 'e6MultiplierIncrease',
       name: 'e6MultiplierIncrease',
-      text: 'E6 FUA multiplier buff',
-      title: 'E6 FUA multiplier buff',
-      content: BETA_UPDATE,
+      text: t('Content.e6MultiplierIncrease.text'),
+      title: t('Content.e6MultiplierIncrease.title'),
+      content: t('Content.e6MultiplierIncrease.content'),
       disabled: e < 6,
     },
   ]

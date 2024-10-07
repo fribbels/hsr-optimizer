@@ -3,9 +3,12 @@ import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { BETA_UPDATE, Stats } from 'lib/constants'
+import { CURRENT_DATA_VERSION, Stats } from 'lib/constants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.NinjaRecordSoundHunt')
   const sValuesCd = [0.18, 0.225, 0.27, 0.315, 0.36]
 
   const content: ContentItem[] = [
@@ -14,9 +17,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'cdBuff',
       name: 'cdBuff',
       formItem: 'switch',
-      text: 'CD buff',
-      title: 'CD buff',
-      content: BETA_UPDATE,
+      text: t('Content.cdBuff.text'),
+      title: t('Content.cdBuff.title'),
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
   ]
 

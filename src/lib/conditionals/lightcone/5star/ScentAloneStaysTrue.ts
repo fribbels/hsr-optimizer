@@ -3,11 +3,14 @@ import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { BETA_UPDATE, Stats } from 'lib/constants'
+import { Stats } from 'lib/constants'
 import { findContentId } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.ScentAloneStaysTrue')
   const sValuesVulnerability = [0.10, 0.12, 0.14, 0.16, 0.18]
   const sValuesVulnerabilityAdditional = [0.08, 0.10, 0.12, 0.14, 0.16]
 
@@ -17,9 +20,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'woefreeState',
       name: 'woefreeState',
       formItem: 'switch',
-      text: 'Woefree vulnerability',
-      title: 'Woefree vulnerability',
-      content: BETA_UPDATE,
+      text: t('Content.woefreeState.text'),
+      title: t('Content.woefreeState.title'),
+      content: t('Content.woefreeState.content', { Vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]), AdditionalVulnerability: TsUtils.precisionRound(100 * sValuesVulnerabilityAdditional[s]) }),
     },
   ]
 
@@ -30,9 +33,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'additionalVulnerability',
       name: 'additionalVulnerability',
       formItem: 'switch',
-      text: 'Additional vulnerability',
-      title: 'Additional vulnerability',
-      content: BETA_UPDATE,
+      text: t('TeammateContent.additionalVulnerability.text'),
+      title: t('TeammateContent.additionalVulnerability.title'),
+      content: t('TeammateContent.additionalVulnerability.content', { Vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]), AdditionalVulnerability: TsUtils.precisionRound(100 * sValuesVulnerabilityAdditional[s]) }),
     },
   ]
 

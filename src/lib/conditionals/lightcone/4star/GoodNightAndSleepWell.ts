@@ -2,34 +2,21 @@ import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.GoodNightAndSleepWell')
   const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-  const lcRanks = {
-    id: '21001',
-    skill: 'Toiler',
-    desc: 'For every debuff the target enemy has, the DMG dealt by the wearer increases by #1[i]%, stacking up to #2[i] time(s). This effect also applies to DoT.',
-    params: [
-      [0.12, 3],
-      [0.15, 3],
-      [0.18, 3],
-      [0.21, 3],
-      [0.24, 3],
-    ],
-    properties: [
-      [], [], [], [], [],
-    ],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'debuffStacksDmgIncrease',
     name: 'debuffStacksDmgIncrease',
     formItem: 'slider',
-    text: 'Debuff stacks DMG increase',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.debuffStacksDmgIncrease.text'),
+    title: t('Content.debuffStacksDmgIncrease.title'),
+    content: t('Content.debuffStacksDmgIncrease.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     min: 0,
     max: 3,
   }]

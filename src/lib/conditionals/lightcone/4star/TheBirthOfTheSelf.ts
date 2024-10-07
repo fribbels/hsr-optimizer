@@ -2,36 +2,22 @@ import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.TheBirthOfTheSelf')
   const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-
-  const lcRanks = {
-    id: '21006',
-    skill: 'The Maiden in the Painting',
-    desc: 'If the current HP of the target enemy is below or equal to #2[i]%, increases DMG dealt by follow-up attacks by an extra #3[i]%.',
-    params: [
-      [0.24, 0.5, 0.24],
-      [0.3, 0.5, 0.3],
-      [0.36, 0.5, 0.36],
-      [0.42, 0.5, 0.42],
-      [0.48, 0.5, 0.48],
-    ],
-    properties: [
-      [], [], [], [], [],
-    ],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'enemyHp50FuaBuff',
     name: 'enemyHp50FuaBuff',
     formItem: 'switch',
-    text: 'Enemy HP < 50% fua buff',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.enemyHp50FuaBuff.text'),
+    title: t('Content.enemyHp50FuaBuff.title'),
+    content: t('Content.enemyHp50FuaBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {

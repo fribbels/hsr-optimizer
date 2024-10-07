@@ -1,9 +1,10 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ErrorBoundary } from 'react-error-boundary'
 import 'style/style.css'
 import 'style/hsro.css'
-import App from './App'
+import WrappedApp from './App'
+import 'lib/i18n'
+
 import { WorkerPool } from 'lib/workerPool'
 import { Constants } from 'lib/constants'
 import { DataParser } from 'lib/dataParser'
@@ -58,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   root.render(
     <ErrorBoundary fallbackRender={defaultErrorRender}>
-      <App/>
+      <WrappedApp/>
     </ErrorBoundary>,
   )
 })

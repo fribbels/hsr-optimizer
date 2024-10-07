@@ -1,13 +1,13 @@
 // import { } from "./Common";
 import { RelicEnhance, RelicGrade } from 'types/Relic'
-import { Eidolon } from 'types/Character'
+import { CharacterId, Eidolon } from 'types/Character'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { RelicSet } from 'types/RelicSet'
 import { ConditionalLightConeMap } from 'types/LightConeConditionals'
 import { CharacterConditionalMap } from 'types/CharacterConditional'
 
-type MIN_INT = 0 | number
-type MAX_INT = 2147483647 | number
+type MIN_INT = 0
+type MAX_INT = 2147483647
 
 export type Teammate = {
   characterId: string
@@ -29,20 +29,23 @@ export type Form = {
   enemyResistance: number
   enemyEffectResistance: number
   enemyWeaknessBroken: boolean
-  enhance: RelicEnhance | number
-  grade: RelicGrade | number
+  enhance: RelicEnhance
+  grade: RelicGrade
+  rank: number
+  exclude: CharacterId[]
+  includeEquippedRelics: boolean
   keepCurrentRelics: boolean
   lightCone: string
   lightConeConditionals: ConditionalLightConeMap
   lightConeLevel: number
   lightConeSuperimposition: SuperImpositionLevel
-  mainBody: any[]
-  mainFeet: any[]
-  mainHands: any[]
-  mainHead: any[]
-  mainLinkRope: any[]
-  mainPlanarSphere: any[]
-  ornamentSets: any[]
+  mainBody: Relic[]
+  mainFeet: Relic[]
+  mainHands: Relic[]
+  mainHead: Relic[]
+  mainLinkRope: Relic[]
+  mainPlanarSphere: Relic[]
+  ornamentSets: SetsOrnaments[]
   mainStatUpscaleLevel: number
   rankFilter: boolean
   relicSets: RelicSet[]

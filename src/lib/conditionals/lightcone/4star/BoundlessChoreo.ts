@@ -3,10 +3,12 @@ import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants'
-import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.BoundlessChoreo')
   const sValuesCd = [0.24, 0.30, 0.36, 0.42, 0.48]
 
   const content: ContentItem[] = [
@@ -15,9 +17,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'enemyDefReducedSlowed',
       name: 'enemyDefReducedSlowed',
       formItem: 'switch',
-      text: 'Enemy DEF reduced / slowed',
-      title: 'Enemy DEF reduced / slowed',
-      content: `The wearer deals ${precisionRound(sValuesCd[s] * 100)}% more CRIT DMG to enemies that are currently Slowed or have reduced DEF.`,
+      text: t('Content.enemyDefReducedSlowed.text'),
+      title: t('Content.enemyDefReducedSlowed.title'),
+      content: t('Content.enemyDefReducedSlowed.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
     },
   ]
 

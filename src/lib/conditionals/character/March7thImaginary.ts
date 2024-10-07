@@ -5,10 +5,13 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { BETA_UPDATE, Stats } from 'lib/constants'
+import { Stats } from 'lib/constants'
 import { buffAbilityCd, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.March7thImaginary')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -26,17 +29,17 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'enhancedBasic',
       name: 'enhancedBasic',
-      text: 'Enhanced Basic',
-      title: 'Enhanced Basic',
-      content: BETA_UPDATE,
+      text: t('Content.enhancedBasic.text'),
+      title: t('Content.enhancedBasic.title'),
+      content: t('Content.enhancedBasic.content', { BasicEnhancedScaling: TsUtils.precisionRound(100 * basicEnhancedScaling) }),
     },
     {
       formItem: 'slider',
       id: 'basicAttackHits',
       name: 'basicAttackHits',
-      text: `Enhanced Basic hits`,
-      title: 'Enhanced Basic hits',
-      content: BETA_UPDATE,
+      text: t('Content.basicAttackHits.text'),
+      title: t('Content.basicAttackHits.title'),
+      content: t('Content.basicAttackHits.content', { BasicEnhancedScaling: TsUtils.precisionRound(100 * basicEnhancedScaling) }),
       min: 3,
       max: 6,
     },
@@ -44,42 +47,42 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'masterAdditionalDmgBuff',
       name: 'masterAdditionalDmgBuff',
-      text: 'DPS Shifu buff',
-      title: 'DPS Shifu buff',
-      content: BETA_UPDATE,
+      text: t('Content.masterAdditionalDmgBuff.text'),
+      title: t('Content.masterAdditionalDmgBuff.title'),
+      content: t('Content.masterAdditionalDmgBuff.content', { ShifuDmgBuff: TsUtils.precisionRound(100 * basicExtraScalingMasterBuff) }),
     },
     {
       formItem: 'switch',
       id: 'masterToughnessRedBuff',
       name: 'masterToughnessRedBuff',
-      text: 'Support Shifu buff',
-      title: 'Shifu support buff',
-      content: BETA_UPDATE,
+      text: t('Content.masterToughnessRedBuff.text'),
+      title: t('Content.masterToughnessRedBuff.title'),
+      content: t('Content.masterToughnessRedBuff.content'),
     },
     {
       formItem: 'switch',
       id: 'talentDmgBuff',
       name: 'talentDmgBuff',
-      text: 'Talent Basic DMG buff',
-      title: 'Talent Basic DMG buff',
-      content: BETA_UPDATE,
+      text: t('Content.talentDmgBuff.text'),
+      title: t('Content.talentDmgBuff.title'),
+      content: t('Content.talentDmgBuff.content', { TalentDmgBuff: TsUtils.precisionRound(100 * talentDmgBuff) }),
     },
     {
       formItem: 'switch',
       id: 'selfSpdBuff',
       name: 'selfSpdBuff',
-      text: 'E1 self SPD buff',
-      title: 'E1 self SPD buff',
-      content: BETA_UPDATE,
+      text: t('Content.selfSpdBuff.text'),
+      title: t('Content.selfSpdBuff.title'),
+      content: t('Content.selfSpdBuff.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e6CdBuff',
       name: 'e6CdBuff',
-      text: 'E6 Basic CD buff',
-      title: 'E6 Basic CD buff',
-      content: BETA_UPDATE,
+      text: t('Content.e6CdBuff.text'),
+      title: t('Content.e6CdBuff.title'),
+      content: t('Content.e6CdBuff.content'),
       disabled: e < 6,
     },
   ]
@@ -89,17 +92,17 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'masterBuff',
       name: 'masterBuff',
-      text: 'Shifu buff',
-      title: 'Shifu buff',
-      content: BETA_UPDATE,
+      text: t('TeammateContent.masterBuff.text'),
+      title: t('TeammateContent.masterBuff.title'),
+      content: t('TeammateContent.masterBuff.content', { ShifuSpeedBuff: TsUtils.precisionRound(100 * skillSpdScaling) }),
     },
     {
       formItem: 'switch',
       id: 'masterCdBeBuffs',
       name: 'masterCdBeBuffs',
-      text: 'Shifu CD / BE buffs',
-      title: 'Shifu CD / BE buffs',
-      content: BETA_UPDATE,
+      text: t('TeammateContent.masterCdBeBuffs.text'),
+      title: t('TeammateContent.masterCdBeBuffs.title'),
+      content: t('TeammateContent.masterCdBeBuffs.content'),
     },
   ]
 

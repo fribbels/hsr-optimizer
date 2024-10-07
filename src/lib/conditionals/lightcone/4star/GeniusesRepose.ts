@@ -3,37 +3,21 @@ import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.GeniusesRepose')
   const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-  const lcRanks = {
-    id: '21020',
-    skill: 'Each Now Has a Role to Play',
-    desc: "When the wearer defeats an enemy, the wearer's CRIT DMG increases by #2[i]% for #3[i] turn(s).",
-    params: [
-      [0.16, 0.24, 3],
-      [0.2, 0.3, 3],
-      [0.24, 0.36, 3],
-      [0.28, 0.42, 3],
-      [0.32, 0.48, 3],
-    ],
-    properties: [
-      [{ type: 'AttackAddedRatio', value: 0.16 }],
-      [{ type: 'AttackAddedRatio', value: 0.2 }],
-      [{ type: 'AttackAddedRatio', value: 0.24 }],
-      [{ type: 'AttackAddedRatio', value: 0.28 }],
-      [{ type: 'AttackAddedRatio', value: 0.32 }]],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'defeatedEnemyCdBuff',
     name: 'defeatedEnemyCdBuff',
     formItem: 'switch',
-    text: 'Defeated enemy CD buff',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.defeatedEnemyCdBuff.text'),
+    title: t('Content.defeatedEnemyCdBuff.title'),
+    content: t('Content.defeatedEnemyCdBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {

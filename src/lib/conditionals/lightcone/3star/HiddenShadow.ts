@@ -1,27 +1,22 @@
 import { SuperImpositionLevel } from 'types/LightCone'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ContentItem } from 'types/Conditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.HiddenShadow')
   const sValues = [0.60, 0.75, 0.90, 1.05, 1.20]
-  const lcRanks = {
-    id: '20018',
-    skill: 'Mechanism',
-    desc: "After using Skill, the wearer's next Basic ATK deals Additional DMG equal to #1[i]% of ATK to the target enemy.",
-    params: [[0.6], [0.75], [0.9], [1.05], [1.2]],
-    properties: [[], [], [], [], []],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'basicAtkBuff',
     name: 'basicAtkBuff',
     formItem: 'switch',
-    text: 'Basic ATK Additional DMG',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.basicAtkBuff.text'),
+    title: t('Content.basicAtkBuff.title'),
+    content: t('Content.basicAtkBuff.content', { MultiplierBonus: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {

@@ -6,8 +6,10 @@ import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import i18next from 'i18next'
 
 export default (e: Eidolon): CharacterConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Kafka')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -24,18 +26,18 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e1DotDmgReceivedDebuff',
       name: 'e1DotDmgReceivedDebuff',
-      text: 'E1 DoT DMG debuff',
-      title: 'E1 DoT DMG debuff',
-      content: `E1: When the Talent triggers a follow-up attack, there is a 100% base chance to increase the DoT received by the target by 30% for 2 turn(s).`,
+      text: t('Content.e1DotDmgReceivedDebuff.text'),
+      title: t('Content.e1DotDmgReceivedDebuff.title'),
+      content: t('Content.e1DotDmgReceivedDebuff.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2TeamDotBoost',
       name: 'e2TeamDotBoost',
-      text: 'E2 Team DoT DMG boost',
-      title: 'E2 Team DoT DMG boost',
-      content: `E2: While Kafka is on the field, DoT dealt by all allies increases by 25%.`,
+      text: t('Content.e2TeamDotBoost.text'),
+      title: t('Content.e2TeamDotBoost.title'),
+      content: t('Content.e2TeamDotBoost.content'),
       disabled: e < 2,
     },
   ]

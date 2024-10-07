@@ -53,31 +53,47 @@ export type HsrOptimizerStore = {
   relicsById: Record<number, Relic>
   scorerId?: number
   scoringMetadataOverrides: unknown
-  statDisplay: string
+  statDisplay: 'combat' | 'base'
   optimizationInProgress: boolean
   optimizationId?: number
+  optimizerStartTime: number
+  optimizerEndTime: number
   teammateCount: number
   zeroPermutationModalOpen: boolean
+  zeroResultModalOpen: boolean
   menuSidebarOpen: boolean
   relicScorerSidebarOpen: boolean
   enemyConfigurationsDrawerOpen: boolean
+  settingsDrawerOpen: boolean
+  settings: unknown
+  setSettings: (settings: unknown) => void
+  setOptimizationId: (id: number) => void
+  setSettingsDrawerOpen: (open: boolean) => void
   optimizerTabFocusCharacterSelectModalOpen: boolean
   setCombatBuffsDrawerOpen: (open: boolean) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void
-  setOptimizationInProgress: (b: boolean) => void
-  setOptimizerStartTime: (n: number) => void
-  setOptimizerEndTime: (n: number) => void
+  setOptimizerTabFocusCharacter: (CharacterId: CharacterId) => void
+  setOptimizationInProgress: (open: boolean) => void
+  setOptimizerStartTime: (open: number) => void
+  setOptimizerEndTime: (open: number) => void
+  setMenuSidebarOpen: (open: boolean) => void
+  setRelicTabFilters: (filters: RelicTabFilters) => void
   setOptimizerRunningEngine: (s: string) => void
+  setExcludedRelicPotentialCharacters: (ids: CharacterId[]) => void
   optimizerFormCharacterEidolon: number
   optimizerFormSelectedLightCone: null | LightCone
   optimizerFormSelectedLightConeSuperimposition: number
   setPermutationsResults: (n: number) => void
   setPermutationsSearched: (n: number) => void
+  setZeroPermutationsModalOpen: (open: boolean) => void
+  setZeroResultModalOpen: (open: boolean) => void
   setRelicsById: (relicsById: Record<number, Relic>) => void
   setSavedSessionKey: (key: string, value: string) => void
   setActiveKey: (key: string) => void
+  setScoringAlgorithmFocusCharacter: (id: CharacterId) => void
   setConditionalSetEffectsDrawerOpen: (b: boolean) => void
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
+  setStatDisplay: (display: 'combat' | 'base') => void
 
   permutationDetails: PermutationDetails
 

@@ -3,35 +3,22 @@ import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.TodayIsAnotherPeacefulDay')
   const sValues = [0.002, 0.0025, 0.003, 0.0035, 0.004]
 
-  const lcRank = {
-    id: '21034',
-    skill: 'A Storm Is Coming',
-    desc: "After entering battle, increases the wearer's DMG based on their Max Energy. DMG increases by #1[i]% per point of Energy, up to #2[i] Energy.",
-    params: [
-      [0.002, 160],
-      [0.0025, 160],
-      [0.003, 160],
-      [0.0035, 160],
-      [0.004, 160],
-    ],
-    properties: [
-      [], [], [], [], [],
-    ],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'maxEnergyStacks',
     name: 'maxEnergyStacks',
     formItem: 'slider',
-    text: 'Max energy',
-    title: lcRank.skill,
-    content: getContentFromLCRanks(s, lcRank),
+    text: t('Content.maxEnergyStacks.text'),
+    title: t('Content.maxEnergyStacks.title'),
+    content: t('Content.maxEnergyStacks.content', { DmgStep: TsUtils.precisionRound(100 * sValues[s]) }),
     min: 0,
     max: 160,
   }]

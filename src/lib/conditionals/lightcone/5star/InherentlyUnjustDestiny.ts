@@ -4,9 +4,12 @@ import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
-import { findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { findContentId } from 'lib/conditionals/conditionalUtils'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.InherentlyUnjustDestiny')
   const sValuesCd = [0.40, 0.46, 0.52, 0.58, 0.64]
   const sValuesVulnerability = [0.10, 0.115, 0.13, 0.145, 0.16]
 
@@ -16,18 +19,18 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'shieldCdBuff',
       name: 'shieldCdBuff',
       formItem: 'switch',
-      text: 'Shield CD buff',
-      title: 'All-In',
-      content: `When the wearer provides a Shield to an ally, the wearer's CRIT DMG increases by ${precisionRound(sValuesCd[s] * 100)}%, lasting for 2 turn(s).`,
+      text: t('Content.shieldCdBuff.text'),
+      title: t('Content.shieldCdBuff.title'),
+      content: t('Content.shieldCdBuff.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
     },
     {
       lc: true,
       id: 'targetVulnerability',
       name: 'targetVulnerability',
       formItem: 'switch',
-      text: 'Target vulnerability debuff',
-      title: 'All-In',
-      content: `When the wearer's follow-up attack hits an enemy target, there is a 100% base chance to increase the DMG taken by the attacked enemy target by ${precisionRound(sValuesVulnerability[s] * 100)}%, lasting for 2 turn(s).`,
+      text: t('Content.targetVulnerability.text'),
+      title: t('Content.targetVulnerability.title'),
+      content: t('Content.targetVulnerability.content', { Vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]) }),
     },
   ]
 

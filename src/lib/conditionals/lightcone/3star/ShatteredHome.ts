@@ -1,35 +1,22 @@
 import { SuperImpositionLevel } from 'types/LightCone'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ContentItem } from 'types/Conditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.ShatteredHome')
   const sValues = [0.20, 0.25, 0.30, 0.35, 0.40]
-  const lcRanks = {
-    id: '20009',
-    skill: 'Eradication',
-    desc: 'The wearer deals #2[i]% more DMG to enemy targets whose HP percentage is greater than #1[i]%.',
-    params: [
-      [0.5, 0.2],
-      [0.5, 0.25],
-      [0.5, 0.3],
-      [0.5, 0.35],
-      [0.5, 0.4],
-    ],
-    properties: [
-      [], [], [], [], [],
-    ],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'enemyHp50Buff',
     name: 'enemyHp50Buff',
     formItem: 'switch',
-    text: 'Enemy HP > 50% DMG buff',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.enemyHp50Buff.text'),
+    title: t('Content.enemyHp50Buff.title'),
+    content: t('Content.enemyHp50Buff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {

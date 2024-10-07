@@ -1,5 +1,5 @@
 import { ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -7,8 +7,11 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDefPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { BlackSwanConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.BlackSwan')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const arcanaStackMultiplier = talent(e, 0.12, 0.132)
@@ -30,35 +33,33 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'ehrToDmgBoost',
       name: 'ehrToDmgBoost',
-      text: 'EHR to DMG boost',
-      title: 'EHR to DMG boost',
-      content: `Increases this unit's DMG by an amount equal to 60% of Effect Hit Rate, up to a maximum DMG increase of 72%.`,
+      text: t('Content.ehrToDmgBoost.text'),
+      title: t('Content.ehrToDmgBoost.title'),
+      content: t('Content.ehrToDmgBoost.content'),
     },
     {
       formItem: 'switch',
       id: 'epiphanyDebuff',
       name: 'epiphanyDebuff',
-      text: 'Epiphany debuff',
-      title: 'Epiphany debuff',
-      content: `Enemies affected by Epiphany take ${precisionRound(epiphanyDmgTakenBoost * 100)}% more DMG in their turn.`,
+      text: t('Content.epiphanyDebuff.text'),
+      title: t('Content.epiphanyDebuff.title'),
+      content: t('Content.epiphanyDebuff.content', { epiphanyDmgTakenBoost: TsUtils.precisionRound(100 * epiphanyDmgTakenBoost) }),
     },
     {
       formItem: 'switch',
       id: 'defDecreaseDebuff',
       name: 'defDecreaseDebuff',
-      text: 'Def decrease debuff',
-      title: 'Skill def decrease debuff',
-      content: `Enemies DEF is decreased by ${precisionRound(defShredValue * 100)}%.`,
+      text: t('Content.defDecreaseDebuff.text'),
+      title: t('Content.defDecreaseDebuff.title'),
+      content: t('Content.defDecreaseDebuff.content', { defShredValue: TsUtils.precisionRound(100 * defShredValue) }),
     },
     {
       formItem: 'slider',
       id: 'arcanaStacks',
       name: 'arcanaStacks',
-      text: 'Arcana stacks',
-      title: 'Arcana stacks',
-      content: `While afflicted with Arcana, enemy targets receive Wind DoT equal to ${precisionRound(dotScaling * 100)}% of Black Swan's ATK at the start of each turn. Each stack of Arcana increases this DoT DMG multiplier by ${precisionRound(arcanaStackMultiplier * 100)}%. Arcana can stack up to 50 times. 
-    ::BR::
-When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When there are 7 or more Arcana stacks, enables the current DoT dealt this time to ignore 20% of the target's and adjacent targets' DEF.`,
+      text: t('Content.arcanaStacks.text'),
+      title: t('Content.arcanaStacks.title'),
+      content: t('Content.arcanaStacks.content', { dotScaling: TsUtils.precisionRound(100 * dotScaling), arcanaStackMultiplier: TsUtils.precisionRound(100 * arcanaStackMultiplier) }),
       min: 1,
       max: 50,
     },
@@ -66,9 +67,9 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       formItem: 'switch',
       id: 'e1ResReduction',
       name: 'e1ResReduction',
-      text: 'E1 RES reduction',
-      title: 'E1 RES reduction',
-      content: `E1: While Black Swan is active in battle, enemies afflicted with Wind Shear, Bleed, Burn, or Shock will have their corresponding Wind, Physical, Fire, or Lightning RES respectively reduced by 25%.`,
+      text: t('Content.e1ResReduction.text'),
+      title: t('Content.e1ResReduction.title'),
+      content: t('Content.e1ResReduction.content'),
       disabled: e < 1,
     },
   ]

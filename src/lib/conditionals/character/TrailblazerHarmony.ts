@@ -1,13 +1,16 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.TrailblazerHarmony')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -26,27 +29,25 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'backupDancer',
       name: 'backupDancer',
-      text: 'Backup Dancer BE buff',
-      title: 'Backup Dancer BE buff',
-      content: `Grants all allies the Backup Dancer effect, lasting for 3 turn(s). This duration reduces by 1 at the start of Trailblazer's every turn. Allies with the Backup Dancer effect have their Break Effect increased by ${precisionRound(ultBeScaling * 100)}%.`,
+      text: t('Content.backupDancer.text'),
+      title: t('Content.backupDancer.title'),
+      content: t('Content.backupDancer.content', { ultBeScaling: TsUtils.precisionRound(100 * ultBeScaling) }),
     },
     {
       formItem: 'switch',
       id: 'superBreakDmg',
       name: 'superBreakDmg',
-      text: 'Super Break DMG calcs (force weakness break)',
-      title: 'Super Break DMG calcs (force weakness break)',
-      content: `When allies with the Backup Dancer effect attack enemy targets that are in the Weakness Broken state, the Toughness Reduction of the attack will be converted into 1 instance of Super Break DMG.
-      ::BR::
-      Super Break DMG is added to each of the BASIC / SKILL / ULT / FUA damage columns. For example when enabled, the SKILL column becomes the sum of base Skill damage + Super Break DMG based on the Skill's toughness damage. This option also overrides enemy weakness break to ON.`,
+      text: t('Content.superBreakDmg.text'),
+      title: t('Content.superBreakDmg.title'),
+      content: t('Content.superBreakDmg.content'),
     },
     {
       formItem: 'slider',
       id: 'skillHitsOnTarget',
       name: 'skillHitsOnTarget',
-      text: 'Skill extra hits on target',
-      title: 'Skill extra hits on target',
-      content: `Deals Imaginary DMG to a single target enemy and additionally deals DMG for 4 times, with each time dealing Imaginary DMG to a random enemy.`,
+      text: t('Content.skillHitsOnTarget.text'),
+      title: t('Content.skillHitsOnTarget.title'),
+      content: t('Content.skillHitsOnTarget.content'),
       min: 0,
       max: skillMaxHits,
     },
@@ -54,9 +55,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e2EnergyRegenBuff',
       name: 'e2EnergyRegenBuff',
-      text: 'E2 ERR buff',
-      title: 'E2 ERR buff',
-      content: `When the battle starts, the Trailblazer's Energy Regeneration Rate increases by 25%, lasting for 3 turn(s).`,
+      text: t('Content.e2EnergyRegenBuff.text'),
+      title: t('Content.e2EnergyRegenBuff.title'),
+      content: t('Content.e2EnergyRegenBuff.content'),
       disabled: e < 2,
     },
   ]
@@ -68,9 +69,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateBeValue',
       name: 'teammateBeValue',
-      text: `E4 Trailblazer's Combat BE`,
-      title: 'E4 Trailblazer\'s Combat BE',
-      content: `While the Trailblazer is on the field, increases the Break Effect of all teammates (excluding the Trailblazer), by an amount equal to 15% of the Trailblazer's Break Effect.`,
+      text: t('TeammateContent.teammateBeValue.text'),
+      title: t('TeammateContent.teammateBeValue.title'),
+      content: t('TeammateContent.teammateBeValue.content'),
       min: 0,
       max: 4.00,
       percent: true,

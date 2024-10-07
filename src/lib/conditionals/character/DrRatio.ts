@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, precisionRound, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
 
 import { Eidolon } from 'types/Character'
@@ -8,8 +8,11 @@ import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 const DrRatio = (e: Eidolon): CharacterConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.DrRatio')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const debuffStacksMax = 5
@@ -42,37 +45,22 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
       : baseHitMulti
   }
 
-  // TODO: Make consistent with the other code
-  const getContentWithTalentLevel = () => {
-    const base = [
-      'When using his Skill, Dr. Ratio has a 40% fixed chance of launching a follow-up attack against his target for 1 time,',
-      "dealing Imaginary DMG equal to {0}% of Dr. Ratio's ATK.",
-      'For each debuff the target enemy has, the fixed chance of launching follow-up attack increases by 20%.',
-      'If the target enemy is defeated before the follow-up attack triggers, the follow-up attack will be directed at a single random enemy instead.',
-      '::BR::When dealing DMG to a target that has 3 or more debuff(s), for each debuff the target has, the DMG dealt by Dr. Ratio to this target increases by 10%, up to a maximum increase of 50%.',
-      "::BR::E2: When his Talent's follow-up attack hits a target, for every debuff the target has, additionally deals Imaginary Additional DMG equal to 20% of Dr. Ratio's ATK. This effect can be triggered for a maximum of 4 times during each follow-up attack.",
-    ].join(' ')
-
-    // assume max talent level
-    return base.replace('{0}', (e >= 5) ? '297' : '270')
-  }
-
   const content: ContentItem[] = [{
     id: 'summationStacks',
     name: 'summationStacks',
     formItem: 'slider',
-    text: 'Summation stacks',
-    title: 'Summation stacks',
-    content: `When Dr. Ratio uses his Skill, for every debuff on the target, his CRIT Rate increases by 2.5% and CRIT DMG by 5%. This effect can stack up to ${precisionRound(summationStacksMax)} time(s).`,
+    text: t('Content.summationStacks.text'),
+    title: t('Content.summationStacks.title'),
+    content: t('Content.summationStacks.content', { summationStacksMax }),
     min: 0,
     max: summationStacksMax,
   }, {
     id: 'enemyDebuffStacks',
     name: 'enemyDebuffStacks',
     formItem: 'slider',
-    text: 'Enemy debuff stacks',
-    title: 'Talent: Cogito, Ergo Sum',
-    content: getContentWithTalentLevel(),
+    text: t('Content.enemyDebuffStacks.text'),
+    title: t('Content.enemyDebuffStacks.title'),
+    content: t('Content.enemyDebuffStacks.content', { FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
     min: 0,
     max: debuffStacksMax,
   }]

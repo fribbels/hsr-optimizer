@@ -14,7 +14,7 @@ const Rarity = ({
     )
   }
   return (
-    <Flex gap={0} align="center">
+    <Flex gap={0} align='center'>
       {children}
     </Flex>
   )

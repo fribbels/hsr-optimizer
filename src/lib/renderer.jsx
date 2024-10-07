@@ -1,9 +1,10 @@
 import { Flex, Image, Tooltip } from 'antd'
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
-import { Constants, StatsToReadableShort } from './constants.ts'
+import { Constants, StatsToReadable, StatsToReadableShort } from './constants.ts'
 import { Assets } from './assets'
 import { Utils } from './utils'
 import PropTypes from 'prop-types'
+import i18next from 'i18next'
 
 export const Renderer = {
   floor: (x) => {
@@ -108,12 +109,12 @@ export const Renderer = {
 
   readableStat: (x) => {
     if (x == undefined || x.value == undefined) return ''
-    return StatsToReadableShort[x.value]
+    return i18next.t(`common:ShortReadableStats.${x.value}`)
   },
 
   readablePart: (x) => {
     if (x == undefined || x.value == undefined) return ''
-    return Constants.PartsToReadable[x.value]
+    return i18next.t(`common:ReadableParts.${x.value}`)
   },
 
   partIcon: (x) => {
@@ -190,7 +191,7 @@ export const Renderer = {
         ? (
           <Tooltip
             mouseEnterDelay={0.4}
-            title='Relic substats verified by relic scorer (speed decimals)'
+            title={i18next.t('common:VerifiedRelicHoverText')/* Relic substats verified by relic scorer (speed decimals) */}
           >
             <CheckCircleFilled
               style={{ fontSize: '14px', color: color }}

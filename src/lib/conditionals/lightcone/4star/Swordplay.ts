@@ -2,34 +2,21 @@ import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.Swordplay')
   const sValues = [0.08, 0.10, 0.12, 0.14, 0.16]
-  const lcRanks = {
-    id: '21010',
-    skill: 'Answers of Their Own',
-    desc: 'For each time the wearer hits the same target, DMG dealt increases by #1[i]%, stacking up to #2[i] time(s). This effect will be dispelled when the wearer changes targets.',
-    params: [
-      [0.08, 5],
-      [0.1, 5],
-      [0.12, 5],
-      [0.14, 5],
-      [0.16, 5],
-    ],
-    properties: [
-      [], [], [], [], [],
-    ],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'sameTargetHitStacks',
     name: 'sameTargetHitStacks',
     formItem: 'slider',
-    text: 'Same target hit stacks',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.sameTargetHitStacks.text'),
+    title: t('Content.sameTargetHitStacks.title'),
+    content: t('Content.sameTargetHitStacks.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     min: 0,
     max: 5,
   }]

@@ -7,8 +7,10 @@ import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { buffAbilityCd, buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import i18next from 'i18next'
 
 export default (e: Eidolon): CharacterConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.JingYuan')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -46,42 +48,42 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'skillCritBuff',
     name: 'skillCritBuff',
-    text: 'Skill CR buff',
-    title: 'Skill CR buff',
-    content: `After using Skill, CRIT Rate increases by 10% for 2 turns.`,
+    text: t('Content.skillCritBuff.text'),
+    title: t('Content.skillCritBuff.title'),
+    content: t('Content.skillCritBuff.content'),
   }, {
     formItem: 'slider',
     id: 'talentHitsPerAction',
     name: 'talentHitsPerAction',
-    text: 'Lightning Lord stacks',
-    title: 'Lightning Lord stacks',
-    content: `Lightning Lord hits-per-action stack up to 10 times.`,
+    text: t('Content.talentHitsPerAction.text'),
+    title: t('Content.talentHitsPerAction.title'),
+    content: t('Content.talentHitsPerAction.content'),
     min: 3,
     max: 10,
   }, {
     formItem: 'slider',
     id: 'talentAttacks',
     name: 'talentAttacks',
-    text: 'Lightning Lord hits on target',
-    title: 'Lightning Lord hits on target',
-    content: `Count of hits on target. Should usually be set to the same value as Lightning Lord Stacks.`,
+    text: t('Content.talentAttacks.text'),
+    title: t('Content.talentAttacks.title'),
+    content: t('Content.talentAttacks.content'),
     min: 0,
     max: 10,
   }, {
     formItem: 'switch',
     id: 'e2DmgBuff',
     name: 'e2DmgBuff',
-    text: 'E2 dmg buff',
-    title: 'E2 dmg buff',
-    content: `E2: After Lightning-Lord takes action, DMG caused by Jing Yuan's Basic ATK, Skill, and Ultimate increases by 20% for 2 turns.`,
+    text: t('Content.e2DmgBuff.text'),
+    title: t('Content.e2DmgBuff.title'),
+    content: t('Content.e2DmgBuff.content'),
     disabled: e < 2,
   }, {
     formItem: 'slider',
     id: 'e6FuaVulnerabilityStacks',
     name: 'e6FuaVulnerabilityStacks',
-    text: 'E6 vulnerable stacks',
-    title: 'E6 vulnerable stacks',
-    content: `E6: Each hit performed by the Lightning-Lord when it takes action will make the target enemy Vulnerable. While Vulnerable, enemies receive 12% more DMG until the end of the Lightning-Lord's current turn, stacking up to 3 time(s). (applies to all hits)`,
+    text: t('Content.e6FuaVulnerabilityStacks.text'),
+    title: t('Content.e6FuaVulnerabilityStacks.title'),
+    content: t('Content.e6FuaVulnerabilityStacks.content'),
     min: 0,
     max: 3,
     disabled: e < 6,

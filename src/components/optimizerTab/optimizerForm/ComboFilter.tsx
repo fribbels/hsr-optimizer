@@ -1,22 +1,23 @@
 import { Flex, Form, Typography } from 'antd'
 import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants'
-import React from 'react'
 import { HeaderText } from 'components/HeaderText'
 import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled'
+import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
 
 export const ComboFilters = () => {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
-      <HeaderText>Rotation COMBO formula</HeaderText>
+      <HeaderText>{t('Header')/* Rotation COMBO formula */}</HeaderText>
       <Flex vertical gap={optimizerTabDefaultGap}>
-        <ComboRow title="Basic DMG" name="BASIC"/>
-        <ComboRow title="Skill DMG" name="SKILL"/>
-        <ComboRow title="Ult DMG" name="ULT"/>
-        <ComboRow title="Fua DMG" name="FUA"/>
-        <ComboRow title="Dot DMG" name="DOT"/>
-        <ComboRow title="Break DMG" name="BREAK"/>
+        <ComboRow title={t('BASIC')} name='BASIC'/>
+        <ComboRow title={t('SKILL')} name='SKILL'/>
+        <ComboRow title={t('ULT')} name='ULT'/>
+        <ComboRow title={t('FUA')} name='FUA'/>
+        <ComboRow title={t('DOT')} name='DOT'/>
+        <ComboRow title={t('BREAK')} name='BREAK'/>
       </Flex>
     </Flex>
   )
@@ -24,17 +25,17 @@ export const ComboFilters = () => {
 
 function ComboRow(props: { title: string; name: string }) {
   return (
-    <Flex justify="space-between">
+    <Flex justify='space-between'>
       <Text>
         {props.title}
       </Text>
       <Form.Item name={['combo', props.name]}>
         <InputNumberStyled
-          addonBefore="⨯"
-          size="small"
+          addonBefore='⨯'
+          size='small'
           controls={true}
           style={{ width: 90 }}
-          rootClassName="comboInputNumber"
+          rootClassName='comboInputNumber'
         />
       </Form.Item>
     </Flex>

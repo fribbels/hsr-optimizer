@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -9,8 +9,11 @@ import { ContentItem } from 'types/Conditionals'
 import { buffAbilityCd, buffAbilityCr } from 'lib/optimizer/calculateBuffs'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Robin')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_ULT_3_BASIC_TALENT_5
 
   const skillDmgBuffValue = skill(e, 0.50, 0.55)
@@ -26,51 +29,51 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'concertoActive',
       name: 'concertoActive',
-      text: 'Concerto active',
-      title: 'Concerto active',
-      content: `While in the Concerto state, increases all allies' ATK by ${precisionRound(ultAtkBuffScalingValue * 100)}% of Robin's ATK plus ${ultAtkBuffFlatValue}. Moreover, after every attack by allies, Robin deals Additional Physical DMG equal to ${precisionRound(ultScaling * 100)}% of her ATK for 1 time, with a fixed CRIT Rate for this damage set at 100% and fixed CRIT DMG set at 150%.`,
+      text: t('Content.concertoActive.text'),
+      title: t('Content.concertoActive.title'),
+      content: t('Content.concertoActive.content', { ultAtkBuffScalingValue: TsUtils.precisionRound(100 * ultAtkBuffScalingValue), ultAtkBuffFlatValue: ultAtkBuffFlatValue, ultScaling: TsUtils.precisionRound(100 * ultScaling) }),
     },
     {
       formItem: 'switch',
       id: 'skillDmgBuff',
       name: 'skillDmgBuff',
-      text: 'Skill DMG buff',
-      title: 'Skill DMG buff',
-      content: `Increase DMG dealt by all allies by ${precisionRound(skillDmgBuffValue * 100)}%, lasting for 3 turn(s).`,
+      text: t('Content.skillDmgBuff.text'),
+      title: t('Content.skillDmgBuff.title'),
+      content: t('Content.skillDmgBuff.content', { skillDmgBuffValue: TsUtils.precisionRound(100 * skillDmgBuffValue) }),
     },
     {
       formItem: 'switch',
       id: 'talentCdBuff',
       name: 'talentCdBuff',
-      text: 'Talent CD buff',
-      title: 'Talent CD buff',
-      content: `Increase all allies' CRIT DMG by ${precisionRound(talentCdBuffValue * 100)}%.`,
+      text: t('Content.talentCdBuff.text'),
+      title: t('Content.talentCdBuff.title'),
+      content: t('Content.talentCdBuff.content', { talentCdBuffValue: TsUtils.precisionRound(100 * talentCdBuffValue) }),
     },
     {
       formItem: 'switch',
       id: 'e1UltResPen',
       name: 'e1UltResPen',
-      text: 'E1 Ult RES PEN',
-      title: 'E1 Ult RES PEN',
-      content: `While the Concerto state is active, all allies' All-Type RES PEN increases by 24%.`,
+      text: t('Content.e1UltResPen.text'),
+      title: t('Content.e1UltResPen.title'),
+      content: t('Content.e1UltResPen.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e4TeamResBuff',
       name: 'e4TeamResBuff',
-      text: 'E4 RES team buff',
-      title: 'E4 RES team buff',
-      content: `When using the Ultimate, dispels Crowd Control debuffs from all allies. While Robin is in the Concerto state, increases the Effect RES of all allies by 50%.`,
+      text: t('Content.e4TeamResBuff.text'),
+      title: t('Content.e4TeamResBuff.title'),
+      content: t('Content.e4TeamResBuff.content'),
       disabled: e < 4,
     },
     {
       formItem: 'switch',
       id: 'e6UltCDBoost',
       name: 'e6UltCDBoost',
-      text: 'E6 Ult DMG CD boost',
-      title: 'E6 Ult DMG CD boost',
-      content: `While the Concerto state is active, the CRIT DMG for the Additional Physical DMG caused by the Ultimate increases by 450%. The effect of Moonless Midnight can trigger up to 8 time(s). And the trigger count resets each time the Ultimate is used.`,
+      text: t('Content.e6UltCDBoost.text'),
+      title: t('Content.e6UltCDBoost.title'),
+      content: t('Content.e6UltCDBoost.content'),
       disabled: e < 6,
     },
   ]
@@ -82,12 +85,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateATKValue',
       name: 'teammateATKValue',
-      text: `Robin's Combat ATK`,
-      title: 'Robin\'s Combat ATK',
-      content: `While in the Concerto state, increases all allies' ATK by ${precisionRound(ultAtkBuffScalingValue * 100)}% of Robin's ATK plus ${ultAtkBuffFlatValue}
-      ::BR::
-      Set this to the Robin's self ATK stat that she uses to buff teammates. 
-      `,
+      text: t('TeammateContent.teammateATKValue.text'),
+      title: t('TeammateContent.teammateATKValue.title'),
+      content: t('TeammateContent.teammateATKValue.content', { ultAtkBuffFlatValue: TsUtils.precisionRound(100 * ultAtkBuffFlatValue), ultAtkBuffScalingValue: ultAtkBuffScalingValue }),
       min: 0,
       max: 7000,
     },
@@ -96,18 +96,18 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'traceFuaCdBoost',
       name: 'traceFuaCdBoost',
-      text: 'FUA CD boost',
-      title: 'FUA CD boost',
-      content: `While the Concerto state is active, the CRIT DMG dealt when all allies launch follow-up attacks increases by 25%.`,
+      text: t('TeammateContent.traceFuaCdBoost.text'),
+      title: t('TeammateContent.traceFuaCdBoost.title'),
+      content: t('TeammateContent.traceFuaCdBoost.content'),
     },
     findContentId(content, 'e1UltResPen'),
     {
       formItem: 'switch',
       id: 'e2UltSpdBuff',
       name: 'e2UltSpdBuff',
-      text: 'E2 Ult SPD buff',
-      title: 'E2 Ult SPD buff',
-      content: `While the Concerto state is active, all allies' SPD increases by 16%.`,
+      text: t('TeammateContent.e2UltSpdBuff.text'),
+      title: t('TeammateContent.e2UltSpdBuff.title'),
+      content: t('TeammateContent.e2UltSpdBuff.content'),
       disabled: e < 2,
     },
   ]

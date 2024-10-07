@@ -1,0 +1,534 @@
+[
+  {
+    "SetID": 101,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71000.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71000.png",
+    "SetName": {
+      "Hash": 581502206
+    },
+    "DisplayItemID": 81014,
+    "Release": true
+  },
+  {
+    "SetID": 102,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71001.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71001.png",
+    "SetName": {
+      "Hash": 178217679
+    },
+    "DisplayItemID": 81024,
+    "Release": true
+  },
+  {
+    "SetID": 103,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71002.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71002.png",
+    "SetName": {
+      "Hash": 1744301620
+    },
+    "DisplayItemID": 81034,
+    "Release": true
+  },
+  {
+    "SetID": 104,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71003.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71003.png",
+    "SetName": {
+      "Hash": 984786733
+    },
+    "DisplayItemID": 81044,
+    "Release": true
+  },
+  {
+    "SetID": 105,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71004.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71004.png",
+    "SetName": {
+      "Hash": -1744096622
+    },
+    "DisplayItemID": 81054,
+    "Release": true
+  },
+  {
+    "SetID": 106,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71005.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71005.png",
+    "SetName": {
+      "Hash": -2147381149
+    },
+    "DisplayItemID": 81064,
+    "Release": true
+  },
+  {
+    "SetID": 107,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71006.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71006.png",
+    "SetName": {
+      "Hash": -581297208
+    },
+    "DisplayItemID": 81074,
+    "Release": true
+  },
+  {
+    "SetID": 108,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71007.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71007.png",
+    "SetName": {
+      "Hash": -1340812095
+    },
+    "DisplayItemID": 81084,
+    "Release": true
+  },
+  {
+    "SetID": 109,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71008.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71008.png",
+    "SetName": {
+      "Hash": 225271846
+    },
+    "DisplayItemID": 81094,
+    "Release": true
+  },
+  {
+    "SetID": 110,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71009.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71009.png",
+    "SetName": {
+      "Hash": -984581736
+    },
+    "DisplayItemID": 81104,
+    "Release": true
+  },
+  {
+    "SetID": 111,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71010.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71010.png",
+    "SetName": {
+      "Hash": 581502205
+    },
+    "DisplayItemID": 81114,
+    "Release": true
+  },
+  {
+    "SetID": 112,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71011.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71011.png",
+    "SetName": {
+      "Hash": 178217678
+    },
+    "DisplayItemID": 81124,
+    "Release": true
+  },
+  {
+    "SetID": 113,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71020.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71020.png",
+    "SetName": {
+      "Hash": 1744301619
+    },
+    "DisplayItemID": 81134,
+    "Release": true
+  },
+  {
+    "SetID": 114,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71021.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71021.png",
+    "SetName": {
+      "Hash": 984786732
+    },
+    "DisplayItemID": 81144,
+    "Release": true
+  },
+  {
+    "SetID": 115,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71024.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71024.png",
+    "SetName": {
+      "Hash": -1744096623
+    },
+    "DisplayItemID": 81154,
+    "Release": true
+  },
+  {
+    "SetID": 116,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71025.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71025.png",
+    "SetName": {
+      "Hash": -2147381150
+    },
+    "DisplayItemID": 81164,
+    "Release": true
+  },
+  {
+    "SetID": 117,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71028.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71028.png",
+    "SetName": {
+      "Hash": -581297209
+    },
+    "DisplayItemID": 81174,
+    "Release": true
+  },
+  {
+    "SetID": 118,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71029.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71029.png",
+    "SetName": {
+      "Hash": -1340812096
+    },
+    "DisplayItemID": 81184,
+    "Release": true
+  },
+  {
+    "SetID": 119,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71032.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71032.png",
+    "SetName": {
+      "Hash": 225271845
+    },
+    "DisplayItemID": 81194,
+    "Release": true
+  },
+  {
+    "SetID": 120,
+    "SetSkillList": [
+      2,
+      4
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71033.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71033.png",
+    "SetName": {
+      "Hash": -984581737
+    },
+    "DisplayItemID": 81204,
+    "Release": true
+  },
+  {
+    "SetID": 301,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71012.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71012.png",
+    "SetName": {
+      "Hash": 299177204
+    },
+    "DisplayItemID": 83014,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 302,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71013.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71013.png",
+    "SetName": {
+      "Hash": 1865261145
+    },
+    "DisplayItemID": 83024,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 303,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71014.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71014.png",
+    "SetName": {
+      "Hash": -863622210
+    },
+    "DisplayItemID": 83034,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 304,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71015.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71015.png",
+    "SetName": {
+      "Hash": 702461731
+    },
+    "DisplayItemID": 83044,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 305,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71016.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71016.png",
+    "SetName": {
+      "Hash": -2026421624
+    },
+    "DisplayItemID": 83054,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 306,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71017.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71017.png",
+    "SetName": {
+      "Hash": -460337683
+    },
+    "DisplayItemID": 83064,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 307,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71018.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71018.png",
+    "SetName": {
+      "Hash": 1105746258
+    },
+    "DisplayItemID": 83074,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 308,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71019.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71019.png",
+    "SetName": {
+      "Hash": -1623137097
+    },
+    "DisplayItemID": 83084,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 309,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71022.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71022.png",
+    "SetName": {
+      "Hash": -57053156
+    },
+    "DisplayItemID": 83094,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 310,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71023.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71023.png",
+    "SetName": {
+      "Hash": -1266906738
+    },
+    "DisplayItemID": 83104,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 311,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71026.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71026.png",
+    "SetName": {
+      "Hash": 299177203
+    },
+    "DisplayItemID": 83114,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 312,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71027.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71027.png",
+    "SetName": {
+      "Hash": 1865261144
+    },
+    "DisplayItemID": 83124,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 313,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71030.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71030.png",
+    "SetName": {
+      "Hash": -863622211
+    },
+    "DisplayItemID": 83134,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 314,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71031.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71031.png",
+    "SetName": {
+      "Hash": 702461730
+    },
+    "DisplayItemID": 83144,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 315,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71034.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71034.png",
+    "SetName": {
+      "Hash": -2026421625
+    },
+    "DisplayItemID": 83154,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 316,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71035.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71035.png",
+    "SetName": {
+      "Hash": -460337684
+    },
+    "DisplayItemID": 83164,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 317,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71036.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71036.png",
+    "SetName": {
+      "Hash": 1105746257
+    },
+    "DisplayItemID": 83174,
+    "Release": true,
+    "IsPlanarSuit": true
+  },
+  {
+    "SetID": 318,
+    "SetSkillList": [
+      2
+    ],
+    "SetIconPath": "SpriteOutput/ItemIcon/71037.png",
+    "SetIconFigurePath": "SpriteOutput/ItemFigures/71037.png",
+    "SetName": {
+      "Hash": -1623137098
+    },
+    "DisplayItemID": 83184,
+    "Release": true,
+    "IsPlanarSuit": true
+  }
+]

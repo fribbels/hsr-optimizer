@@ -1,13 +1,16 @@
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Arlan')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -20,9 +23,9 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'slider',
     id: 'selfCurrentHpPercent',
     name: 'selfCurrentHpPercent',
-    text: 'Self current HP%',
-    title: 'Self current HP%',
-    content: `Increases Arlan's DMG for every percent of HP below his Max HP, up to a max of ${precisionRound(talentMissingHpDmgBoostMax * 100)}% more DMG.`,
+    text: t('Content.selfCurrentHpPercent.text'),
+    title: t('Content.selfCurrentHpPercent.title'),
+    content: t('Content.selfCurrentHpPercent.content', { talentMissingHpDmgBoostMax: TsUtils.precisionRound(100 * talentMissingHpDmgBoostMax) }),
     min: 0.01,
     max: 1.0,
     percent: true,

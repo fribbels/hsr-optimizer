@@ -2,6 +2,7 @@ import { Button, Flex, Layout, theme, Typography } from 'antd'
 import { CloseOutlined, MenuOutlined } from '@ant-design/icons'
 import { Assets } from 'lib/assets.js'
 import { BASE_PATH } from '../lib/db'
+import { LanguageSelector } from './LanguageSelector'
 
 const { useToken } = theme
 const { Header } = Layout
@@ -49,6 +50,7 @@ export function LayoutHeader() {
           </a>
         </Flex>
         <Flex>
+          <LanguageSelector style={{ width: 60, marginRight: 6, height: 36 }} dropdownStyle={{ width: 210 }} flagOnly placement='bottomRight'/>
           <a href='https://ko-fi.com/fribbels' target='_blank' rel='noreferrer'>
             <Flex>
               <img src={Assets.getKofi()} style={{ height: 36, marginRight: 6, borderRadius: 5 }}></img>

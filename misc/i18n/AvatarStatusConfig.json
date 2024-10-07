@@ -1,0 +1,7165 @@
+[
+  {
+    "StatusID": 10010011,
+    "ModifierName": "MAvatar_March7th_00_BPSkill_Shield",
+    "StatusName": {
+      "Hash": 35401912
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1968458522
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffShield.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 683940322
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10010012,
+    "ModifierName": "MAvatar_March7th_00_Rank02_Shield",
+    "StatusName": {
+      "Hash": 35401911
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1968458521
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffShield.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 683940323
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10010013,
+    "ModifierName": "MAvatar_March7th_00_Passive_CanAttack",
+    "StatusName": {
+      "Hash": 35401910
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 1968458520
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1001Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10010021,
+    "ModifierName": "MAvatar_DanHeng_00_MazeSkill_AttackRatioUp",
+    "StatusName": {
+      "Hash": -1530682029
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1923224247
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -2044943033
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010022,
+    "ModifierName": "MAvatar_DanHeng_00_PointB2_SpeedUp",
+    "StatusName": {
+      "Hash": -1530682030
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1923224248
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -2044943032
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10010023,
+    "ModifierName": "MAvatar_DanHeng_00_BPSkill_SpeedDown",
+    "StatusName": {
+      "Hash": -1530682031
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -1923224249
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffSpeedDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -2044943031
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010024,
+    "ModifierName": "MAvatar_DanHeng_00_Passive_SelfBeingTargetEnhance",
+    "StatusName": {
+      "Hash": -1530682032
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1923224242
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1002Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -2044943038
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "DanHeng_PassivePene"
+    ]
+  },
+  {
+    "StatusID": 10010025,
+    "ModifierName": "MAvatar_DanHeng_00_Passive_BeginTargetEnhanceCD",
+    "StatusName": {
+      "Hash": -1530682033
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -1923224243
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1002Passive_Time.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10010026,
+    "ModifierName": "MAvatar_DanHeng_00_Passive_BeginTargetEnhance",
+    "StatusName": {
+      "Hash": -1530682034
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -1923224244
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1002Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10010027,
+    "ModifierName": "MAvatar_DanHeng_00_SkillTree_AggroDown",
+    "StatusName": {
+      "Hash": -1530682035
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1923224245
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffHatredDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -2044943035
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10010031,
+    "ModifierName": "MAvatar_Himeko_00_Passive_PursuitCD",
+    "StatusName": {
+      "Hash": 1198201326
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 805659108
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1003Passive_Time.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10010032,
+    "ModifierName": "MAvatar_Himeko_00_FireTakenRatio",
+    "StatusName": {
+      "Hash": 1198201325
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 805659107
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDamageTakenRatioFire.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -478859091
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010033,
+    "ModifierName": "MAvatar_Himeko_00_Passive_Pursuit",
+    "StatusName": {
+      "Hash": 1198201324
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 805659106
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1003Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_MaxLayer"
+    ]
+  },
+  {
+    "StatusID": 10010034,
+    "ModifierName": "MAvatar_Himeko_00_SkillRank01_SpeedUP",
+    "StatusName": {
+      "Hash": 1198201323
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 805659113
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -478859097
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010035,
+    "ModifierName": "MAvatar_Himeko_CriticalChance",
+    "StatusName": {
+      "Hash": 1198201322
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 805659112
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCritical.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -478859096
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010041,
+    "ModifierName": "MAvatar_Welt_00_BPSkill_SpeedDown",
+    "StatusName": {
+      "Hash": -724112975
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1208943635
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffSpeedDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1087224849
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10010042,
+    "ModifierName": "MAvatar_Welt_00_Rank01_Enhance",
+    "StatusName": {
+      "Hash": -724112976
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 1208943634
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1004Rank01.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10010043,
+    "ModifierName": "MAvatar_Welt_00_SkillTree01_AllDamageTypeTakenRatio",
+    "StatusName": {
+      "Hash": -724112977
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1208943633
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDamageTakenRatioElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1087224851
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10010051,
+    "ModifierName": "MAvatar_Kafka_00_Passive_CanAttack",
+    "StatusName": {
+      "Hash": 2004770380
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -357140306
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1005Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10010052,
+    "ModifierName": "MAvatar_Kafka_00_Passive_CanAttackCD",
+    "StatusName": {
+      "Hash": 2004770379
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -357140307
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1005Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10010053,
+    "ModifierName": "MAvatar_Kafka_PassiveDotDamage_Rank01",
+    "StatusName": {
+      "Hash": 2004770378
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -357140308
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDotDeepen.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1641658504
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_DotRatio"
+    ]
+  },
+  {
+    "StatusID": 10010054,
+    "ModifierName": "MAvatar_Kafka_PassiveDotDamage",
+    "StatusName": {
+      "Hash": 2004770377
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -357140301
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDotDeepen.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1641658511
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "SkillP01_P2_DotRatio"
+    ]
+  },
+  {
+    "StatusID": 10010055,
+    "ModifierName": "MAvatar_Kafka_Rank02_Sub",
+    "StatusName": {
+      "Hash": 2004770376
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -357140302
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDotDamageAddedRatio.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010061,
+    "ModifierName": "MAvatar_Silwolf_00_Normal_Bug1",
+    "StatusName": {
+      "Hash": 438686439
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 46144221
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffAttackDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -75574565
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010062,
+    "ModifierName": "MAvatar_Silwolf_00_Normal_Bug2",
+    "StatusName": {
+      "Hash": 438686438
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 46144220
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDefenceDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -75574564
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010063,
+    "ModifierName": "MAvatar_Silwolf_00_Normal_Bug3",
+    "StatusName": {
+      "Hash": 438686437
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 46144219
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffSpeedDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -75574563
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010064,
+    "ModifierName": "MAvatar_Silwolf_00_BPSkill_WeakType",
+    "StatusName": {
+      "Hash": 438686436
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 46144226
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffFoible.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -75574570
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010065,
+    "ModifierName": "MAvatar_Silwolf_00_BPSkill_WeakType_Extra",
+    "StatusName": {
+      "Hash": 438686435
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 46144225
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffFoible.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -75574569
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010066,
+    "ModifierName": "MAvatar_Silwolf_00_BPSkill_AllDamageTypeResistanceDown",
+    "StatusName": {
+      "Hash": 438686434
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 46144224
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageResistanceElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -75574568
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010067,
+    "ModifierName": "MAvatar_Silwolf_00_Rank02_StatusResistanceDown",
+    "StatusName": {
+      "Hash": 438686433
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 46144223
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageResistance.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -75574567
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010068,
+    "ModifierName": "MAvatar_Silwolf_00_Ultra_DefenceRatioDown",
+    "StatusName": {
+      "Hash": 438686432
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 46144214
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDefenceDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -75574574
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010069,
+    "ModifierName": "MAvatar_Silwolf_00_BPSkill_WeakType_Fire",
+    "StatusName": {
+      "Hash": 438686431
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 46144213
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffFoible.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 100100610,
+    "ModifierName": "MAvatar_Silwolf_00_BPSkill_WeakType_Ice",
+    "StatusName": {
+      "Hash": -1361479401
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -1242715571
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffFoible.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 100100611,
+    "ModifierName": "MAvatar_Silwolf_00_BPSkill_WeakType_Wind",
+    "StatusName": {
+      "Hash": 1367403954
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1486167784
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffFoible.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 100100612,
+    "ModifierName": "MAvatar_Silwolf_00_BPSkill_WeakType_Physical",
+    "StatusName": {
+      "Hash": 1770688481
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -79916157
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffFoible.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 100100613,
+    "ModifierName": "MAvatar_Silwolf_00_BPSkill_WeakType_Thunder",
+    "StatusName": {
+      "Hash": 204604540
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -1646000098
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffFoible.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 100100614,
+    "ModifierName": "MAvatar_Silwolf_00_BPSkill_WeakType_Quantum",
+    "StatusName": {
+      "Hash": 964119427
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1082883257
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffFoible.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 100100615,
+    "ModifierName": "MAvatar_Silwolf_00_BPSkill_WeakType_Imaginary",
+    "StatusName": {
+      "Hash": -601964514
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -483200684
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffFoible.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010081,
+    "ModifierName": "MAvatar_Arlan_00_Passive_DamageUp",
+    "StatusName": {
+      "Hash": 1245255493
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1116655193
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010082,
+    "ModifierName": "MAvatar_Arlan_00_PassiveSkill_UnDead",
+    "StatusName": {
+      "Hash": 1245255492
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1116655194
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1104Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "Modifier_Arlan_00_P03_Ratio",
+      "Modifier_Show_Count"
+    ]
+  },
+  {
+    "StatusID": 10010083,
+    "ModifierName": "BlockDamage_Count",
+    "StatusName": {
+      "Hash": 1245255491
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1116655195
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageCut.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1238373977
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10010091,
+    "ModifierName": "MAvatar_Asta_00_Passive_Charge",
+    "StatusName": {
+      "Hash": -320828448
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1612228162
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1009Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 327709962
+    },
+    "ReadParamList": [
+      "MDF_AttackAddedRatio",
+      "MDF_DefenceAddedRatio"
+    ]
+  },
+  {
+    "StatusID": 10010092,
+    "ModifierName": "MAvatar_Asta_00_TeamAttackUP",
+    "StatusName": {
+      "Hash": -320828449
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1612228161
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1009Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 327709963
+    },
+    "ReadParamList": [
+      "MDF_AttackAddedRatio"
+    ]
+  },
+  {
+    "StatusID": 10010093,
+    "ModifierName": "MAvatar_Asta_00_Ultra_SpeedUP",
+    "StatusName": {
+      "Hash": -320828450
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1612228160
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 327709964
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010094,
+    "ModifierName": "MAvatar_Asta_00_Passive_SPRatioUp",
+    "StatusName": {
+      "Hash": -320828451
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1612228167
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSPRatioUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 327709957
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010131,
+    "ModifierName": "MAvatar_Herta_00_MazeSkill_AttackRatioUp",
+    "StatusName": {
+      "Hash": 1198201359
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 805659141
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -478858997
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10010132,
+    "ModifierName": "MAvatar_Herta_SkillRank02_CriticalChance",
+    "StatusName": {
+      "Hash": 1198201356
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 805659138
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCritical.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -478858994
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_CriticalChance"
+    ]
+  },
+  {
+    "StatusID": 10010133,
+    "ModifierName": "MAvatar_Herta_SkillRank06_AttackUP",
+    "StatusName": {
+      "Hash": 1198201357
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 805659139
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -478858995
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_AttackAddRatio"
+    ]
+  },
+  {
+    "StatusID": 10011011,
+    "ModifierName": "MAvatar_Bronya_00_Ultra_PowerUp",
+    "StatusName": {
+      "Hash": 176564413
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2109621023
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffMarch.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 542777821
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_AttackAddedRatio",
+      "Bronya_CriticalDamage"
+    ]
+  },
+  {
+    "StatusID": 10011012,
+    "ModifierName": "MAvatar_Bronya_00_BPSkill_DamageUp",
+    "StatusName": {
+      "Hash": 176564412
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2109621022
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 542777822
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_DamageAddedRatio"
+    ]
+  },
+  {
+    "StatusID": 10011013,
+    "ModifierName": "MAvatar_Bronya_00_BPSkill_SpeedUp",
+    "StatusName": {
+      "Hash": 176564411
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2109621021
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 542777823
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "Bronya_SpeedUP_Ratio"
+    ]
+  },
+  {
+    "StatusID": 10011014,
+    "ModifierName": "MAvatar_Bronya_00_MazeSkill_AttackRatioUp",
+    "StatusName": {
+      "Hash": 176564410
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2109621028
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 542777816
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10011015,
+    "ModifierName": "MAvatar_Bronya_Rank01_CoolDown",
+    "StatusName": {
+      "Hash": 176564409
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 2109621027
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1101Rank01.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10011016,
+    "ModifierName": "Bronya_Tree02_DefenceUp",
+    "StatusName": {
+      "Hash": 176564408
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2109621026
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDefenceUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_DefenceAddedRatio"
+    ]
+  },
+  {
+    "StatusID": 10011021,
+    "ModifierName": "MAvatar_Seele_00_BPSkill_SpeedUp",
+    "StatusName": {
+      "Hash": -226720114
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -619262332
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 946062348
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10011022,
+    "ModifierName": "MAvatar_Seele_00_Passive_DamageUp",
+    "StatusName": {
+      "Hash": -226720115
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -619262333
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 946062349
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "seele_dmg_percent",
+      "MDF_Penetrate"
+    ]
+  },
+  {
+    "StatusID": 10011023,
+    "ModifierName": "MAvatar_Seele_00_BPSkill_SpeedUpRank02",
+    "StatusName": {
+      "Hash": -226720116
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -619262334
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 946062350
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10011024,
+    "ModifierName": "MAvatar_Seele_Rank06_Flag",
+    "StatusName": {
+      "Hash": -226720117
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -619262327
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1102Rank06.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 946062343
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10011025,
+    "ModifierName": "Local_Seele_PassiveActionModifier",
+    "StatusName": {
+      "Hash": -226720118
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -619262328
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1102Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10011026,
+    "ModifierName": "MAvatar_Seele_00_SkillTree_AggroDown",
+    "StatusName": {
+      "Hash": -226720119
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -619262329
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffHatredDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 946062345
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10011031,
+    "ModifierName": "MAvatar_Serval_00_Rank06_Check",
+    "StatusName": {
+      "Hash": 1339363827
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 946821609
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -620021593
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MAvatar_Serval_00_Rank06_ShowRatio"
+    ]
+  },
+  {
+    "StatusID": 10011032,
+    "ModifierName": "MAvatar_Serval_00_Tree03_AttackRatioUp",
+    "StatusName": {
+      "Hash": 1339363826
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 946821608
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -620021592
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10011041,
+    "ModifierName": "MAvatar_Gepard_00_Ultra_Shield",
+    "StatusName": {
+      "Hash": 579848940
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1782061746
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffShield.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -216737066
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10011042,
+    "ModifierName": "MAvatar_Gepard_00_PassiveSkill_UnDead",
+    "StatusName": {
+      "Hash": 579848939
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1782061747
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1104Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "Modifier_Gepard_00_Ratio",
+      "Modifier_Show_Count"
+    ]
+  },
+  {
+    "StatusID": 10011043,
+    "ModifierName": "MAvatar_Gepard_00_MazeSkill_DefenceDeltaUp",
+    "StatusName": {
+      "Hash": 579848938
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1782061748
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDefenceUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -216737064
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10011044,
+    "ModifierName": "MAvatar_Gepard_00_Rank01_Shield",
+    "StatusName": {
+      "Hash": 579848937
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1782061741
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffShield.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -216737071
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10011045,
+    "ModifierName": "MAvatar_Gepard_00_Rank02_SpeedDown",
+    "StatusName": {
+      "Hash": 579848936
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -1782061742
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffSpeedDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -216737070
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRaito"
+    ]
+  },
+  {
+    "StatusID": 10011046,
+    "ModifierName": "MAvatar_Gepard_00_Rank04_AddStatusResistance",
+    "StatusName": {
+      "Hash": 579848935
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1782061743
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageResistance.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_AddStatusResistance"
+    ]
+  },
+  {
+    "StatusID": 10011047,
+    "ModifierName": "MAvatar_Gepard_00_Rank06_AddCritical",
+    "StatusName": {
+      "Hash": 579848934
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1782061744
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCritical.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -216737068
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_AddCriticalRatio"
+    ]
+  },
+  {
+    "StatusID": 10011048,
+    "ModifierName": "MAvatar_Gepard_00_Rank06_AddSpeed",
+    "StatusName": {
+      "Hash": 579848933
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1782061753
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -216737075
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_AddSpeed"
+    ]
+  },
+  {
+    "StatusID": 10011051,
+    "ModifierName": "MAvatar_Natasha_00_Passive_FatigueRatio",
+    "StatusName": {
+      "Hash": 2145932881
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -215977805
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffFatigueRatio.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1782821007
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10011052,
+    "ModifierName": "MAvatar_Natasha_00_BPSkill_DefenceRatioUp",
+    "StatusName": {
+      "Hash": 2145932880
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -215977806
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDefenceUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1782821006
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10011053,
+    "ModifierName": "MAvatar_Natasha_00_Rank06_AddDamageAllTime",
+    "StatusName": {
+      "Hash": 2145932879
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -215977807
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1782821005
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "Modifier_Natasha_00_DamageAddedRatioAllTime"
+    ]
+  },
+  {
+    "StatusID": 10011054,
+    "ModifierName": "MAvatar_Natasha_00_Rank02_HOT_HPByMaxHP",
+    "StatusName": {
+      "Hash": 2145932878
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -215977800
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffHot.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1782821012
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10011055,
+    "ModifierName": "MAvatar_Natasha_00_HOT_HPByMaxHP",
+    "StatusName": {
+      "Hash": 2145932877
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -215977801
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffHot.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1782821011
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10011061,
+    "ModifierName": "MAvatar_Pela_00_Ultra_DroneAnalysis",
+    "StatusName": {
+      "Hash": 1742648354
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1350106136
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDefenceDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1379536480
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_DefenceDownRatio"
+    ]
+  },
+  {
+    "StatusID": 10011062,
+    "ModifierName": "MAvatar_Pela_SkillRank04_StanceBreakTaken",
+    "StatusName": {
+      "Hash": 1742648353
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1350106135
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffStanceRatioDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1379536479
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_StanceBreakTakenRatio"
+    ]
+  },
+  {
+    "StatusID": 10011063,
+    "ModifierName": "MAvatar_Pela_00_MazeSkill_DefenceRatioDown",
+    "StatusName": {
+      "Hash": 1742648352
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1350106134
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDefenceDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1379536478
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10011064,
+    "ModifierName": "MAvatar_Pela_SkillTree03_DamageAddedRatio",
+    "StatusName": {
+      "Hash": 1742648351
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1350106141
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1379536485
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_Pela_SkillTree03_DamageAddedRatio"
+    ]
+  },
+  {
+    "StatusID": 10011065,
+    "ModifierName": "MAvatar_Pela_SkillRank02_AddSpeedRatio",
+    "StatusName": {
+      "Hash": 1742648350
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1350106140
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1379536484
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_Pela_SkillRank02_P1_AddSpeedRatio"
+    ]
+  },
+  {
+    "StatusID": 10011066,
+    "ModifierName": "MAvatar_Pela_SkillRank04_IceResistanceDown",
+    "StatusName": {
+      "Hash": 1742648349
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1350106139
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDamageResistanceIceDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1379536483
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10011071,
+    "ModifierName": "MAvatar_Klara_00_Ultra_WarriorMode",
+    "StatusName": {
+      "Hash": -986235001
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1378777219
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffHatredUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1349346875
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_AggroAddedRatio"
+    ]
+  },
+  {
+    "StatusID": 10011072,
+    "ModifierName": "MAvatar_Klara_00_BPSkill_Revenge",
+    "StatusName": {
+      "Hash": -986235002
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -1378777220
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffRevenge.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10011073,
+    "ModifierName": "MAvatar_Klara_00_Passive_DamageReduce",
+    "StatusName": {
+      "Hash": -986235003
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1378777221
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageReduction.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10011074,
+    "ModifierName": "MAvatar_Klara_00_Rank04_DamageReduce",
+    "StatusName": {
+      "Hash": -986235004
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1378777214
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageReduction.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10011075,
+    "ModifierName": "MAvatar_Klara_00_MazeSkill_AggroUP",
+    "StatusName": {
+      "Hash": -986235005
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1378777215
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1107Maze.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10011076,
+    "ModifierName": "MAvatar_Klara_00_PassiveATKCount",
+    "StatusName": {
+      "Hash": -986235006
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1378777216
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1107Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10011077,
+    "ModifierName": "MAvatar_Klara_00_Rank02_AttackUP",
+    "StatusName": {
+      "Hash": -986235007
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1378777217
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1349346873
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_AttackUP"
+    ]
+  },
+  {
+    "StatusID": 10011081,
+    "ModifierName": "MAvatar_Sampo_00_Ultra_DOTTakenUp",
+    "StatusName": {
+      "Hash": -1745749888
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 187306722
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDotDeepen.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1752631402
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10011091,
+    "ModifierName": "MAvatar_Hook_00_BPSkillAlter_Enable",
+    "StatusName": {
+      "Hash": -179665947
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 1753390663
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1109BP.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 186547461
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10011101,
+    "ModifierName": "MAvatar_Lynx_00_HOT_HealByMaxHp",
+    "StatusName": {
+      "Hash": -1389519495
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 543537115
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffHot.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2108861857
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10011102,
+    "ModifierName": "MAvatar_Lynx_Tree03_AddSpeedRatio",
+    "StatusName": {
+      "Hash": -1389519498
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 543537112
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2108861860
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_Lynx_PointB1_AddSpeedRatio"
+    ]
+  },
+  {
+    "StatusID": 10011103,
+    "ModifierName": "MAvatar_Lynx_00_Rank04_AddAttackRatio",
+    "StatusName": {
+      "Hash": -1389519497
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 543537113
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2108861859
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10011104,
+    "ModifierName": "MAvatar_Lynx_00_HPAddedRatio01",
+    "StatusName": {
+      "Hash": -1389519500
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 543537118
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1110Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2108861854
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10011105,
+    "ModifierName": "MAvatar_Lynx_00_HPAddedRatio02",
+    "StatusName": {
+      "Hash": -1389519499
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 543537119
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1110Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2108861853
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue",
+      "MDF_AddStatusResistance"
+    ]
+  },
+  {
+    "StatusID": 10011106,
+    "ModifierName": "MAvatar_Lynx_00_Rank02_Resist",
+    "StatusName": {
+      "Hash": -1389519502
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 543537116
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffResistDebuff.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10011111,
+    "ModifierName": "MAvatar_Luka_Rank01_Sub",
+    "StatusName": {
+      "Hash": 176564446
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2109621056
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 542777916
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10011112,
+    "ModifierName": "MAvatar_Luka_Rank04",
+    "StatusName": {
+      "Hash": 176564443
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2109621053
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 542777919
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_AttackAdded"
+    ]
+  },
+  {
+    "StatusID": 10011114,
+    "ModifierName": "MAvatar_Luka_AllDamageTypeTakenRatio",
+    "StatusName": {
+      "Hash": 176564441
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 2109621059
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDamageTakenRatioElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 542777913
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10011115,
+    "ModifierName": "MAvatar_Luka_DOT_Tear",
+    "StatusName": {
+      "Hash": 176564442
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 2109621060
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDotLaceration.png",
+    "StatusIconPathHighSize": "SpriteOutput/BuffIcon/Inlevel/DotIcon/IconDotLaceration_B.png",
+    "StatusEffect": {
+      "Hash": 542777912
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10011121,
+    "ModifierName": "MAvatar_Topaz_00_UltraEnhance",
+    "StatusName": {
+      "Hash": -226720081
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -619262299
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1112Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "Skill03_P1_BEDamageRatio",
+      "Skill03_P2_CriticalChance",
+      "Skill03_P3_DelayRatio",
+      "Rank06_P2_PenRatio"
+    ]
+  },
+  {
+    "StatusID": 10011122,
+    "ModifierName": "MAvatar_Topaz_BETargetTag",
+    "StatusName": {
+      "Hash": -226720084
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -619262302
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1112BP.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 946062446
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue1_DamageAdd"
+    ]
+  },
+  {
+    "StatusID": 10011123,
+    "ModifierName": "MAvatar_Topaz_BETargetTag_CriticalDamageUp",
+    "StatusName": {
+      "Hash": -226720083
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -619262301
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1112Rank01.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 946062445
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue1_InsertCriticalDamageAddRatio",
+      "MDF_PropertyValue2_InsertCriticalDamageAddMaxLayer"
+    ]
+  },
+  {
+    "StatusID": 10011124,
+    "ModifierName": "MAvatar_Topaz_BE_UltraEnhance_Text",
+    "StatusName": {
+      "Hash": 371857150
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 371857150
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 946062440
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012011,
+    "ModifierName": "MAvatar_QingQue_Passive_Hu",
+    "StatusName": {
+      "Hash": -246923090
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -2044183772
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012012,
+    "ModifierName": "MAvatar_QingQue_00_BPSkill_DamageUp",
+    "StatusName": {
+      "Hash": -246923091
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -2044183773
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_DamageAddedRatio"
+    ]
+  },
+  {
+    "StatusID": 10012013,
+    "ModifierName": "MAvatar_Qingque_SpeedUpPointB3",
+    "StatusName": {
+      "Hash": -246923092
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -2044183774
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 966265326
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_SpeedUp"
+    ]
+  },
+  {
+    "StatusID": 10012014,
+    "ModifierName": "MAvatar_QingQue_00_Rank04_ATK",
+    "StatusName": {
+      "Hash": -246923093
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -2044183767
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1201Status.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012021,
+    "ModifierName": "MWAvatar_TingYun_00_BPSkill_AttackDelta",
+    "StatusName": {
+      "Hash": 156361437
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 684699583
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 562980797
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_AttackDelta"
+    ]
+  },
+  {
+    "StatusID": 10012022,
+    "ModifierName": "MAvatar_TingYun_00_Skill03DamageUp",
+    "StatusName": {
+      "Hash": 156361436
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 684699582
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 562980798
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_DamageAddedRatio"
+    ]
+  },
+  {
+    "StatusID": 10012023,
+    "ModifierName": "MAvatar_Tingyun_00_SkillTree_B1_SpeedUp",
+    "StatusName": {
+      "Hash": 156361435
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 684699581
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 562980799
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "Tingyun_SpeedUP_Ratio"
+    ]
+  },
+  {
+    "StatusID": 10012024,
+    "ModifierName": "MAvatar_Tingyun_00_Rank01_SpeedUp",
+    "StatusName": {
+      "Hash": 156361434
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 684699588
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 562980792
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_Rank01_SpeedUp_01"
+    ]
+  },
+  {
+    "StatusID": 10012031,
+    "ModifierName": "MAvatar_Luocha_00_Skill02_Shield",
+    "StatusName": {
+      "Hash": -1409722504
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -881384358
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffShield.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2129064738
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012032,
+    "ModifierName": "MAvatar_Luocha_00_Passive01Modifier",
+    "StatusName": {
+      "Hash": -1409722505
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -881384359
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1203Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012033,
+    "ModifierName": "MAvatar_Luocha_00_Passive01_HealHPSelf",
+    "StatusName": {
+      "Hash": -1409722506
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -881384360
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1203Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012034,
+    "ModifierName": "MAvatar_Luocha_00_Passive01_HealHPCD",
+    "StatusName": {
+      "Hash": -1409722507
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -881384353
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1203BP.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012035,
+    "ModifierName": "MAvatar_Luocha_00_Rank04_Fatigue",
+    "StatusName": {
+      "Hash": -1409722508
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -881384354
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffFatigueRatio.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2129064734
+    },
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10012036,
+    "ModifierName": "MAvatar_Luocha_00_Rank01_ATKUp",
+    "StatusName": {
+      "Hash": -1409722509
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -881384355
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2129064735
+    },
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10012037,
+    "ModifierName": "MAvatar_Luocha_00_Rank06_AllDamageTypeResistance",
+    "StatusName": {
+      "Hash": -1409722510
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -881384356
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageResistanceElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2129064736
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10012038,
+    "ModifierName": "MAvatar_Luocha_00_Passive01_HealHP",
+    "StatusName": {
+      "Hash": -1409722511
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -881384365
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1203Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012041,
+    "ModifierName": "MAvatar_JingYuan_00_BattleEvent_ATKCount",
+    "StatusName": {
+      "Hash": -1006437977
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 1491268637
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1204Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012042,
+    "ModifierName": "MAvatar_JingYuan_00_BattleEvent_UltraATKCount",
+    "StatusName": {
+      "Hash": -1006437978
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 1491268636
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1204Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012043,
+    "ModifierName": "MAvatar_JingYuan_00_Rank02_DamageAddedRatio",
+    "StatusName": {
+      "Hash": -1006437979
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1491268635
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_DamageAddedRatio"
+    ]
+  },
+  {
+    "StatusID": 10012044,
+    "ModifierName": "MAvatar_JingYuan_00_Tree03_CriticalChanceUp",
+    "StatusName": {
+      "Hash": -1006437980
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1491268642
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCritical.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1369549846
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012051,
+    "ModifierName": "MWAvatar_Ren_Attack_Transfer",
+    "StatusName": {
+      "Hash": 1722445378
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -74815304
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1205Attack02.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1359333504
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012052,
+    "ModifierName": "MWAvatar_Ren_Qi",
+    "StatusName": {
+      "Hash": 1722445377
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -74815305
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1205Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012053,
+    "ModifierName": "MWAvatar_Ren_Attack",
+    "StatusName": {
+      "Hash": 1722445376
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -74815306
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1359333502
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012054,
+    "ModifierName": "MWAvatar_Ren_SkillTree01",
+    "StatusName": {
+      "Hash": 1722445375
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -74815299
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffHealRatio.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1359333509
+    },
+    "ReadParamList": [
+      "MDF_HealEnhanceRatio"
+    ]
+  },
+  {
+    "StatusID": 10012055,
+    "ModifierName": "MWAvatar_Ren_Rank04",
+    "StatusName": {
+      "Hash": 1722445374
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -74815300
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffHPBoost.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1359333508
+    },
+    "ReadParamList": [
+      "MDF_HPIncrease"
+    ]
+  },
+  {
+    "StatusID": 10012056,
+    "ModifierName": "MWAvatar_Ren_Rank02",
+    "StatusName": {
+      "Hash": 1722445373
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -74815301
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCritical.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1359333507
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_CriticalIncrease"
+    ]
+  },
+  {
+    "StatusID": 10012057,
+    "ModifierName": "MAvatar_Ren_Rank06_CountDown",
+    "StatusName": {
+      "Hash": 1722445372
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -74815302
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1205Rank06.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1359333506
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012058,
+    "ModifierName": "MWAvatar_Ren_Skill03_Listen",
+    "StatusName": {
+      "Hash": 1722445371
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -74815311
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1205Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012061,
+    "ModifierName": "MAvatar_Sushang_00_UltraBuff",
+    "StatusName": {
+      "Hash": 2125729905
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1640899245
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffIntensify.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1762618031
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012062,
+    "ModifierName": "MAvatar_Sushang_00_P01",
+    "StatusName": {
+      "Hash": 2125729904
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1640899246
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1762618030
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012063,
+    "ModifierName": "MAvatar_Sushang_00_Rank02_Buff",
+    "StatusName": {
+      "Hash": 2125729903
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1640899247
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageReduction.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1762618029
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012064,
+    "ModifierName": "MAvatar_Sushang_00_PointB2_Buff",
+    "StatusName": {
+      "Hash": 2125729902
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1640899240
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSplintering.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue",
+      "MDF_Max_Layer"
+    ]
+  },
+  {
+    "StatusID": 10012065,
+    "ModifierName": "MAvatar_Sushang_00_P01_Rank06",
+    "StatusName": {
+      "Hash": 2125729901
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1640899241
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1762618035
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012066,
+    "ModifierName": "MAvatar_Sushang_00_SkillTree_AggroDown",
+    "StatusName": {
+      "Hash": 2125729900
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1640899242
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffHatredDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1762618034
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012071,
+    "ModifierName": "MAvatar_Yukong_00_Flower_ATK",
+    "StatusName": {
+      "Hash": 559645964
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1087984110
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1207BP.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -196534090
+    },
+    "ReadParamList": [
+      "MDF_RealAttack"
+    ]
+  },
+  {
+    "StatusID": 10012072,
+    "ModifierName": "MAvatar_Yukong_00_Flower_ATK_Crit",
+    "StatusName": {
+      "Hash": 559645963
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1087984109
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1207Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -196534089
+    },
+    "ReadParamList": [
+      "MDF_RealAttack",
+      "MDF_CritChanceUp",
+      "MDF_CritDamageUpRatio"
+    ]
+  },
+  {
+    "StatusID": 10012073,
+    "ModifierName": "MAvatar_Yukong_00_Passive_Bonus",
+    "StatusName": {
+      "Hash": 559645962
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1087984108
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1207Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_AddDamagePercentage",
+      "MDF_StanceBreakAddedRatio"
+    ]
+  },
+  {
+    "StatusID": 10012074,
+    "ModifierName": "MAvatar_Yukong_00_Point01_Resist",
+    "StatusName": {
+      "Hash": 559645961
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1087984115
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffResistDebuff.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012075,
+    "ModifierName": "MAvatar_Yukong_00_Rank01_SpeedUp",
+    "StatusName": {
+      "Hash": 559645960
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1087984114
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -196534094
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_SpeedUpRatio"
+    ]
+  },
+  {
+    "StatusID": 10012076,
+    "ModifierName": "MAvatar_Yukong_00_Rank04_Flower_Bonus",
+    "StatusName": {
+      "Hash": 559645959
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1087984113
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -196534093
+    },
+    "ReadParamList": [
+      "MDF_AddedRatio"
+    ]
+  },
+  {
+    "StatusID": 10012081,
+    "ModifierName": "MAvatar_FuXuan_00_JianZhi",
+    "StatusName": {
+      "Hash": 962930491
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -834330191
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffHPBoost.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -956048977
+    },
+    "ReadParamList": [
+      "MDF_MaxHPUpRatio",
+      "MDF_CritChanceUpRatio"
+    ]
+  },
+  {
+    "StatusID": 10012082,
+    "ModifierName": "MAvatar_FuXuan_00_HitDamageSplit",
+    "StatusName": {
+      "Hash": 962930490
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -834330192
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1208BP.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_SplitPercentage",
+      "MDF_DamageResistanceRatio"
+    ]
+  },
+  {
+    "StatusID": 10012083,
+    "ModifierName": "MAvatar_FuXuan_00_DamageReduce",
+    "StatusName": {
+      "Hash": 962930489
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -834330193
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageReduction.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_DamageResistanceRatio"
+    ]
+  },
+  {
+    "StatusID": 10012084,
+    "ModifierName": "MAvatar_FuXuan_00_ListenLifeTime",
+    "StatusName": {
+      "Hash": 962930488
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -834330186
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1208BP.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_DamageResistanceRatio"
+    ]
+  },
+  {
+    "StatusID": 10012085,
+    "ModifierName": "MAvatar_FuXuan_00_Rank02",
+    "StatusName": {
+      "Hash": 962930487
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -834330187
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffRebirth.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -956048981
+    },
+    "ReadParamList": [
+      "MDF_HealPercentage"
+    ]
+  },
+  {
+    "StatusID": 10012086,
+    "ModifierName": "MAvatar_FuXuan_00_Rank06",
+    "StatusName": {
+      "Hash": 962930486
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -834330188
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1208Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_FinalDamage"
+    ]
+  },
+  {
+    "StatusID": 10012087,
+    "ModifierName": "MAvatar_FuXuan_00_JianZhi_Rank01",
+    "StatusName": {
+      "Hash": 962930485
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -834330189
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffHPBoost.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -956048979
+    },
+    "ReadParamList": [
+      "MDF_MaxHPUpRatio",
+      "MDF_CritChanceUpRatio",
+      "MDF_CritDamageUpRatio"
+    ]
+  },
+  {
+    "StatusID": 10012088,
+    "ModifierName": "MAvatar_FuXuan_00_Tree02",
+    "StatusName": {
+      "Hash": 962930484
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -834330198
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffResistDebuff.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -956048986
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012091,
+    "ModifierName": "MAvatar_Yanqing_00_FrozenMark",
+    "StatusName": {
+      "Hash": -603153450
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1894553164
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1209BP.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 610034964
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_CriticalBoost",
+      "MDF_ALLCriticalDamage",
+      "MDF_StatusResistance"
+    ]
+  },
+  {
+    "StatusID": 10012092,
+    "ModifierName": "MAvatar_Yanqing_00_Skill03_Buff",
+    "StatusName": {
+      "Hash": -603153451
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1894553163
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCritical.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 610034965
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_CriticalBoost"
+    ]
+  },
+  {
+    "StatusID": 10012093,
+    "ModifierName": "MAvatar_Yanqing_Rank04_IcePenetrate",
+    "StatusName": {
+      "Hash": -603153452
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1894553162
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamagePenetrateIce.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 610034966
+    },
+    "ReadParamList": [
+      "MDF_IcePenetrate"
+    ]
+  },
+  {
+    "StatusID": 10012094,
+    "ModifierName": "MAvatar_Yanqing_00_MazeSkill_AttackRatioUp",
+    "StatusName": {
+      "Hash": -603153453
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1894553169
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1209Maze.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 610034959
+    },
+    "ReadParamList": [
+      "MDF_HPRatio",
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012095,
+    "ModifierName": "M_Yanqing_Tree03SpeedUP",
+    "StatusName": {
+      "Hash": -603153454
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1894553168
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 610034960
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_SpeedValue"
+    ]
+  },
+  {
+    "StatusID": 10012103,
+    "ModifierName": "MAvatar_Guinaifen_00_Oil_Sub",
+    "StatusName": {
+      "Hash": 1319160882
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -478099800
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffPreBurn.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -599818520
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012105,
+    "ModifierName": "MAvatar_Guinaifen_00_Rank01_StatusResistance",
+    "StatusName": {
+      "Hash": 1319160880
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -478099794
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageResistance.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -599818526
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012111,
+    "ModifierName": "MAvatar_Bailu_Heal_Mark",
+    "StatusName": {
+      "Hash": -246923057
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -2044183739
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1211Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 966265419
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012112,
+    "ModifierName": "MAvatar_Bailu_00_PointB1_HPIncrease",
+    "StatusName": {
+      "Hash": -246923060
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -2044183742
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffHPBoost.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 966265422
+    },
+    "ReadParamList": [
+      "MDF_HPIncrease"
+    ]
+  },
+  {
+    "StatusID": 10012113,
+    "ModifierName": "MAvatar_Bailu_00_PointB3",
+    "StatusName": {
+      "Hash": -246923059
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -2044183741
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageReduction.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 966265421
+    },
+    "ReadParamList": [
+      "MDF_DamageResistance"
+    ]
+  },
+  {
+    "StatusID": 10012114,
+    "ModifierName": "MAvatar_Bailu_00_Rank02",
+    "StatusName": {
+      "Hash": -246923062
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -2044183736
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffHealRatio.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 966265416
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012115,
+    "ModifierName": "MAvatar_Bailu_00_Rank04_AttackUp",
+    "StatusName": {
+      "Hash": -246923061
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -2044183735
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 966265415
+    },
+    "ReadParamList": [
+      "MDF_AttackUpRatio"
+    ]
+  },
+  {
+    "StatusID": 10012121,
+    "ModifierName": "MWAvatar_Jingliu_Attack_Transfer_AddATK",
+    "StatusName": {
+      "Hash": 156361470
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 684699616
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 562980892
+    },
+    "ReadParamList": [
+      "MDF_AttackDelta1"
+    ]
+  },
+  {
+    "StatusID": 10012122,
+    "ModifierName": "MAvatar_Jingliu_SkillTree_B2_SpeedUp",
+    "StatusName": {
+      "Hash": 156361467
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 684699613
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 562980895
+    },
+    "ReadParamList": [
+      "SkillTree_PointB2_P1_SpeedUp"
+    ]
+  },
+  {
+    "StatusID": 10012123,
+    "ModifierName": "MWAvatar_Jingliu_PointB3",
+    "StatusName": {
+      "Hash": 156361468
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 684699614
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 562980894
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012124,
+    "ModifierName": "MAvatar_Jingliu_SkillTree_B1_Resist",
+    "StatusName": {
+      "Hash": 156361465
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 684699619
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageResistance.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 562980889
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012125,
+    "ModifierName": "MAvatar_Jingliu_Rank06",
+    "StatusName": {
+      "Hash": 156361466
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 684699620
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCriticalDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 562980888
+    },
+    "ReadParamList": [
+      "MDF_CriticalDamage"
+    ]
+  },
+  {
+    "StatusID": 10012126,
+    "ModifierName": "MAvatar_Jingliu_Rank01_CriticalDamage",
+    "StatusName": {
+      "Hash": 156361463
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 684699617
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCriticalDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 562980891
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012127,
+    "ModifierName": "MAvatar_Jingliu_Passive_CriticalUp",
+    "StatusName": {
+      "Hash": 156361464
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 684699618
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCritical.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 562980890
+    },
+    "ReadParamList": [
+      "MDF_CriticalRatio"
+    ]
+  },
+  {
+    "StatusID": 10012128,
+    "ModifierName": "MAvatar_Jingliu_Rank02",
+    "StatusName": {
+      "Hash": 156361461
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 684699607
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012131,
+    "ModifierName": "MAvatar_DanHengIL_00_Skill02_CriticalDamage",
+    "StatusName": {
+      "Hash": -1409722471
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -881384325
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCriticalDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_AddCriticalDamage",
+      "MDF_MaxLayer"
+    ]
+  },
+  {
+    "StatusID": 10012132,
+    "ModifierName": "MAvatar_DanHengIL_00_BPCostChange",
+    "StatusName": {
+      "Hash": -1409722474
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -881384328
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1213Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_MaxLayer"
+    ]
+  },
+  {
+    "StatusID": 10012133,
+    "ModifierName": "MAvatar_DanHengIL_00_AllDamageTypeAddedRatio",
+    "StatusName": {
+      "Hash": -1409722473
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -881384327
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue",
+      "MDF_MaxLayer"
+    ]
+  },
+  {
+    "StatusID": 10012134,
+    "ModifierName": "MAvatar_DanHengIL_00_Rank06_ImaginaryPenetrate",
+    "StatusName": {
+      "Hash": -1409722476
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -881384322
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamagePenetrateImaginary.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2129064830
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012135,
+    "ModifierName": "MAvatar_DanHengIL_00_Rank06CD",
+    "StatusName": {
+      "Hash": -1409722475
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -881384321
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffCD.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012141,
+    "ModifierName": "MAvatar_Xueyi_Passive_SkillTree03",
+    "StatusName": {
+      "Hash": -1006437944
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 1491268670
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1214Tree03.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_Tree03Layer"
+    ]
+  },
+  {
+    "StatusID": 10012142,
+    "ModifierName": "MAvatar_Xueyi_00_BP_Passive01",
+    "StatusName": {
+      "Hash": -1006437947
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 1491268667
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1214Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012143,
+    "ModifierName": "MAvatar_Xueyi_SkillRank04",
+    "StatusName": {
+      "Hash": -1006437946
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1491268668
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffBreakDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1369549948
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_SkillRank04_BreakDamageAttackRatio"
+    ]
+  },
+  {
+    "StatusID": 10012151,
+    "ModifierName": "WMAvatar_Hanya_Skill03Buff",
+    "StatusName": {
+      "Hash": 1722445411
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -74815271
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1359333409
+    },
+    "ReadParamList": [
+      "MDF_AttackDelta",
+      "MDF_Speed"
+    ]
+  },
+  {
+    "StatusID": 10012152,
+    "ModifierName": "WMAvatar_Hanya_BpZhanYin",
+    "StatusName": {
+      "Hash": 1722445408
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -74815274
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1215BPStatus.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1359333406
+    },
+    "ReadParamList": [
+      "SkillP01_P1_Chance",
+      "MDF_DamageUp"
+    ]
+  },
+  {
+    "StatusID": 10012153,
+    "ModifierName": "MAvatar_Hanya_Rank06",
+    "StatusName": {
+      "Hash": 1722445409
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -74815273
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1359333407
+    },
+    "ReadParamList": [
+      "SkillRank_Rank06_P1_ATKRatio"
+    ]
+  },
+  {
+    "StatusID": 10012154,
+    "ModifierName": "MAvatar_Hanya_PointB1",
+    "StatusName": {
+      "Hash": 1722445406
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -74815268
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1359333412
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012155,
+    "ModifierName": "MAvatar_Hanya_Rank02",
+    "StatusName": {
+      "Hash": 1722445407
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -74815267
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1359333413
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012156,
+    "ModifierName": "MAvatar_Hanya_Passive_AddDamage",
+    "StatusName": {
+      "Hash": 1722445404
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -74815270
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1359333410
+    },
+    "ReadParamList": [
+      "MDF_DamageUp2"
+    ]
+  },
+  {
+    "StatusID": 10012172,
+    "ModifierName": "MAvatar_Huohuo_Passive_HealMark",
+    "StatusName": {
+      "Hash": 559645994
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1087984140
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1217Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -196533992
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_HPRatio",
+      "MDF_HPValue",
+      "MDF_LowHP",
+      "MDF_DispelCount"
+    ]
+  },
+  {
+    "StatusID": 10012173,
+    "ModifierName": "MAvatar_Huohuo_Skill03_AttackUP",
+    "StatusName": {
+      "Hash": 559645995
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1087984141
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -196533993
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_AttackUP"
+    ]
+  },
+  {
+    "StatusID": 10012174,
+    "ModifierName": "MAvatar_Huohuo_PointB1_SelfSPRatio",
+    "StatusName": {
+      "Hash": 559645992
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1087984146
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSPRatioUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -196533998
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_SPRatio"
+    ]
+  },
+  {
+    "StatusID": 10012175,
+    "ModifierName": "MAvatar_Huohuo_Rank06_DamageUp",
+    "StatusName": {
+      "Hash": 559645993
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1087984147
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -196533999
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_DamageAddedRatio"
+    ]
+  },
+  {
+    "StatusID": 10012176,
+    "ModifierName": "MAvatar_Huohuo_Rank01_SpeedUp",
+    "StatusName": {
+      "Hash": 559645990
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1087984144
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -196533996
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012177,
+    "ModifierName": "MAvatar_Huohuo_00_Maze_FatigueRatio",
+    "StatusName": {
+      "Hash": 559645991
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1087984145
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffFear.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -196533997
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012178,
+    "ModifierName": "MAvatar_Huohuo_Rank02_ReviveCount",
+    "StatusName": {
+      "Hash": 559645988
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1087984134
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffRebirth.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_HealRatio",
+      "MDF_ReviveCount"
+    ]
+  },
+  {
+    "StatusID": 10013011,
+    "ModifierName": "MWAvatar_Gallagher_00_Skill03_DeBuffModifier",
+    "StatusName": {
+      "Hash": -105760589
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -1903021271
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1301Debuff01.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 825102823
+    },
+    "ReadParamList": [
+      "MDF_BreakDamagTaken",
+      "#SkillP01_P2_HealAmount"
+    ]
+  },
+  {
+    "StatusID": 10013012,
+    "ModifierName": "MWAvatar_Gallagher_00_Skill11_AttackDownModifier",
+    "StatusName": {
+      "Hash": -105760590
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -1903021272
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffAttackDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 825102824
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "#Skill11_P2_AttackDownPercentage"
+    ]
+  },
+  {
+    "StatusID": 10013021,
+    "ModifierName": "MAvatar_Argenti_00_Passive_Charge",
+    "StatusName": {
+      "Hash": 1460323352
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1988661498
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1302Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -740981118
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_CritChance",
+      "MDF_CritDamage"
+    ]
+  },
+  {
+    "StatusID": 10013022,
+    "ModifierName": "MAvatar_Argenti_00_Rank02_AttackRatioUp",
+    "StatusName": {
+      "Hash": 1460323351
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1988661497
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -740981117
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013031,
+    "ModifierName": "RuanMei_Skill02_Area_Friend",
+    "StatusName": {
+      "Hash": -1268560003
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -740221857
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1303BP.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1987902237
+    },
+    "ReadParamList": [
+      "Skill02_P1_DamageAddedRatio_Friend",
+      "Skill02_P2_StanceBreakAddedRatio_Friend"
+    ]
+  },
+  {
+    "StatusID": 10013032,
+    "ModifierName": "RuanMei_Skill03_Area_Friend",
+    "StatusName": {
+      "Hash": -1268560004
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -740221858
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1303UltraBuff.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1987902238
+    },
+    "ReadParamList": [
+      "Skill03_P1_PenetrateRatio"
+    ]
+  },
+  {
+    "StatusID": 10013033,
+    "ModifierName": "MAvatar_RuanMei_PassiveArea_Enemy",
+    "StatusName": {
+      "Hash": -1268560005
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -740221859
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDebuffStanceRatioTime.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1987902239
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10013034,
+    "ModifierName": "MAvatar_RuanMei_00_MazeSkill_AttackRatioUp",
+    "StatusName": {
+      "Hash": -1268560006
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -740221852
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1987902232
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10013035,
+    "ModifierName": "MAvatar_RuanMei_Rank04_Passive_BreakDamageAddedUp",
+    "StatusName": {
+      "Hash": -1268560007
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -740221853
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffBreakDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1987902233
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "#SkillRank_Rank04_P1_BreakDamageAdded"
+    ]
+  },
+  {
+    "StatusID": 10013036,
+    "ModifierName": "buyong_rixiaoxiasichang",
+    "StatusName": {
+      "Hash": -1268560008
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -740221854
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffMaxSP.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10013037,
+    "ModifierName": "buyong",
+    "StatusName": {
+      "Hash": -1268560009
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -740221855
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10013038,
+    "ModifierName": "MAvatar_RuanMei_Passive_SpeedUp",
+    "StatusName": {
+      "Hash": -1268560010
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -740221864
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "#SkillP01_P1_SpeedUpRatio"
+    ]
+  },
+  {
+    "StatusID": 10013039,
+    "ModifierName": "RuanMei_Skill03_Area_Caster",
+    "StatusName": {
+      "Hash": -1268560011
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -740221865
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1303UltraBuff.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1987902229
+    },
+    "ReadParamList": [
+      "#Skill03_P1_PenetrateRatio"
+    ]
+  },
+  {
+    "StatusID": 100130310,
+    "ModifierName": "RuanMei_Skill02_Area_Caster",
+    "StatusName": {
+      "Hash": -420912723
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 22132047
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1303BP.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1565892109
+    },
+    "ReadParamList": [
+      "Skill02_P1_DamageAddedRatioFinal",
+      "#Skill02_P2_StanceBreakAddedRatio"
+    ]
+  },
+  {
+    "StatusID": 100130311,
+    "ModifierName": "RuanMei_Skill03_Area_Rank01_Friend",
+    "StatusName": {
+      "Hash": -1986996664
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1543951894
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1303UltraBuff.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1162991246
+    },
+    "ReadParamList": [
+      "Skill03_P1_PenetrateRatio",
+      "SkillRank_Rank01_P1_IgnoreDEFRatio_Friend"
+    ]
+  },
+  {
+    "StatusID": 100130312,
+    "ModifierName": "RuanMei_Skill03_Area_Rank01_Caster",
+    "StatusName": {
+      "Hash": 741886691
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1140667367
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1303UltraBuff.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 403092695
+    },
+    "ReadParamList": [
+      "#Skill03_P1_PenetrateRatio",
+      "#SkillRank_Rank01_P1_IgnoreDEFRatio"
+    ]
+  },
+  {
+    "StatusID": 100130313,
+    "ModifierName": "Avatar_RuanMei_AttackBreakEnemyAttackUp",
+    "StatusName": {
+      "Hash": -824197250
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1588215988
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "#SkillRank_Rank02_P1_AttackUpRatio"
+    ]
+  },
+  {
+    "StatusID": 100130314,
+    "ModifierName": "Avatar_RuanMei_BreakDamageAdded",
+    "StatusName": {
+      "Hash": 1548455745
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1991500515
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffBreakDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "SkillTree_PointB1_P1_BreakDamageAdded"
+    ]
+  },
+  {
+    "StatusID": 100130315,
+    "ModifierName": "buyong_luozhuzhaoshuiran",
+    "StatusName": {
+      "Hash": -17628196
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 425416574
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10013041,
+    "ModifierName": "MAvatar_Aventurine_00_Passive_AddDefence",
+    "StatusName": {
+      "Hash": 297523938
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1499736744
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDefenceUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 65587936
+    },
+    "ReadParamList": [
+      "MDF_DefencePercentage"
+    ]
+  },
+  {
+    "StatusID": 10013042,
+    "ModifierName": "MAvatar_Aventurine_00_ResistCtrlCD",
+    "StatusName": {
+      "Hash": 297523937
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -1499736745
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffCD.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10013043,
+    "ModifierName": "MAvatar_Aventurine_SkillTree01_Sub",
+    "StatusName": {
+      "Hash": 297523936
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1499736746
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCritical.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue2"
+    ]
+  },
+  {
+    "StatusID": 10013044,
+    "ModifierName": "MAvatar_Aventurine_00_Skill02_BlackJack",
+    "StatusName": {
+      "Hash": 297523935
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1499736739
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1304MazeSpadeShield.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 65587931
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013045,
+    "ModifierName": "MAvatar_Aventurine_00_Skill02_ShieldEffect2",
+    "StatusName": {
+      "Hash": 297523934
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1499736740
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffShield.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 65587932
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013046,
+    "ModifierName": "MAvatar_Aventurine_00_Skill02_ShieldEffect3",
+    "StatusName": {
+      "Hash": 297523933
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1499736741
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffShield.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 65587933
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013047,
+    "ModifierName": "MAvatar_Aventurine_00_Skill02_ShieldEffect4",
+    "StatusName": {
+      "Hash": 297523932
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1499736742
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffShield.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 65587934
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013048,
+    "ModifierName": "MAvatar_Aventurine_SkillTree03_Status",
+    "StatusName": {
+      "Hash": 297523931
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -1499736751
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1304SkillTree3.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013049,
+    "ModifierName": "MAvatar_Aventurine_Rank06_Sub",
+    "StatusName": {
+      "Hash": 297523930
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1499736752
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_AttackAddRatio"
+    ]
+  },
+  {
+    "StatusID": 100130410,
+    "ModifierName": "MAvatar_Aventurine_Rank02_ResistanceDown",
+    "StatusName": {
+      "Hash": -1724874638
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -717179864
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageResistanceElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1108905200
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 100130411,
+    "ModifierName": "MAvatar_Aventurine_00_Skill03_CoinAdd",
+    "StatusName": {
+      "Hash": 371857150
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 371857150
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1304SkillTree3.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -457178741
+    },
+    "ReadParamList": [
+      "MDF_Coin"
+    ]
+  },
+  {
+    "StatusID": 100130412,
+    "ModifierName": "MAvatar_Aventurine_00_Skill03_CritDmgIncrease",
+    "StatusName": {
+      "Hash": 1407293244
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 445619550
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCriticalDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -2023262682
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 100130413,
+    "ModifierName": "MAvatar_Aventurine_00_Maze_Defence",
+    "StatusName": {
+      "Hash": -1321590111
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2011703491
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDefenceUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 705620673
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013051,
+    "ModifierName": "MAvatar_Dr_Ratio_00_Passive_Buff_01",
+    "StatusName": {
+      "Hash": 1863607879
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 66347197
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1500496005
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013052,
+    "ModifierName": "MAvatar_Dr_Ratio_00_Passive_Buff_02",
+    "StatusName": {
+      "Hash": 1863607878
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 66347196
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1500496004
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013053,
+    "ModifierName": "MAvatar_Dr_Ratio_00_Passive_Buff_03",
+    "StatusName": {
+      "Hash": 1863607877
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 66347195
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCritical.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1500496003
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013054,
+    "ModifierName": "MAvatar_Dr_Ratio_00_Passive_Buff_04",
+    "StatusName": {
+      "Hash": 1863607876
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 66347202
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCriticalDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1500496010
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013055,
+    "ModifierName": "MAvatar_Dr_Ratio_00_Slow",
+    "StatusName": {
+      "Hash": 1863607875
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 66347201
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageResistance.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1500496009
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013056,
+    "ModifierName": "MAvatar_Dr_Ratio_00_Maze_SpeedDown",
+    "StatusName": {
+      "Hash": 1863607874
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 66347200
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffSpeedDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1500496008
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013057,
+    "ModifierName": "MAvatar_Dr_Ratio_00_Skill03_TheFool",
+    "StatusName": {
+      "Hash": 1863607873
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 66347199
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1305Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1500496007
+    },
+    "ReadParamList": [
+      "MDF_Skill03_InsertMaxCount"
+    ]
+  },
+  {
+    "StatusID": 10013058,
+    "ModifierName": "MAvatar_Dr_Ratio_00_PointB3_AddedRatio",
+    "StatusName": {
+      "Hash": 1863607872
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 66347190
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013059,
+    "ModifierName": "MAvatar_Dr_Ratio_00_Skill03_PointB1_Buff",
+    "StatusName": {
+      "Hash": 1863607871
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 66347189
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1305Tree03.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue01",
+      "MDF_PropertyValue02"
+    ]
+  },
+  {
+    "StatusID": 100130510,
+    "ModifierName": "MAvatar_Dr_Ratio_00_Passive_Buff",
+    "StatusName": {
+      "Hash": -138587721
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 869107053
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1305Tree03.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1882100181
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue01",
+      "MDF_PropertyValue02",
+      "MDF_PropertyValue03",
+      "MDF_PropertyValue04"
+    ]
+  },
+  {
+    "StatusID": 10013061,
+    "ModifierName": "MAvatar_Sparkle_Skill02_CritDmgAddedRatio02",
+    "StatusName": {
+      "Hash": -865275476
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -336937330
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCriticalDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue2"
+    ]
+  },
+  {
+    "StatusID": 10013062,
+    "ModifierName": "MAvatar_Sparkle_Skill03_PowerUp",
+    "StatusName": {
+      "Hash": -865275477
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -336937331
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1306Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1228387351
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue2",
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013063,
+    "ModifierName": "MAvatar_Sparkle_Skill02_CritDmgAddedRatio01",
+    "StatusName": {
+      "Hash": -865275478
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -336937332
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCriticalDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1228387352
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013064,
+    "ModifierName": "MAvatar_Sparkle_PassiveSkill_AllDamageAddedRatio02",
+    "StatusName": {
+      "Hash": -865275479
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -336937325
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1228387345
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue",
+      "MDF_DefenceAddedRatio2"
+    ]
+  },
+  {
+    "StatusID": 10013065,
+    "ModifierName": "MAvatar_Sparkle_Tree03",
+    "StatusName": {
+      "Hash": -865275480
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -336937326
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1228387346
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue3"
+    ]
+  },
+  {
+    "StatusID": 10013066,
+    "ModifierName": "MAvatar_Sparkle_Tree03CD",
+    "StatusName": {
+      "Hash": -865275481
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -336937327
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1306Tree03.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013067,
+    "ModifierName": "MAvatar_Sparkle_Rank04_HPIncrease",
+    "StatusName": {
+      "Hash": -865275482
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -336937328
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffHPBoost.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1228387348
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue2"
+    ]
+  },
+  {
+    "StatusID": 10013071,
+    "ModifierName": "MAvatar_BlackSwan_00_DOT",
+    "StatusName": {
+      "Hash": 700808465
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1229146611
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1307Dot.png",
+    "StatusIconPathHighSize": "SpriteOutput/BuffIcon/Inlevel/DotIcon/Icon1307Dot_B.png",
+    "StatusEffect": {
+      "Hash": -337696591
+    },
+    "ReadParamList": [
+      "MDF_MaxLayer"
+    ]
+  },
+  {
+    "StatusID": 10013072,
+    "ModifierName": "MAvatar_BlackSwan_00_DOT_Enhance",
+    "StatusName": {
+      "Hash": 700808464
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1229146610
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1307UItraEnhance.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -337696590
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue",
+      "MDF_ResistanceDown",
+      "MDF_Count"
+    ]
+  },
+  {
+    "StatusID": 10013073,
+    "ModifierName": "MAvatar_BlackSwan_00_DefenceDown",
+    "StatusName": {
+      "Hash": 700808463
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1229146609
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDefenceDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -337696589
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013074,
+    "ModifierName": "MAvatar_BlackSwan_00_Rank01_WindResistanceDown",
+    "StatusName": {
+      "Hash": 700808462
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1229146616
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDamageResistanceWindDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013075,
+    "ModifierName": "MAvatar_BlackSwan_00_Rank01_PhysicalResistanceDown",
+    "StatusName": {
+      "Hash": 700808461
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1229146615
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDamageResistancePhysicalDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013076,
+    "ModifierName": "MAvatar_BlackSwan_00_Rank01_FireResistanceDown",
+    "StatusName": {
+      "Hash": 700808460
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1229146614
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDamageResistanceFireDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013081,
+    "ModifierName": "MAvatar_Acheron_00_PassiveFlag01",
+    "StatusName": {
+      "Hash": -2028074890
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 469631724
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1308PassiveBuff.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2034956404
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue01",
+      "MDF_PropertyValue02"
+    ]
+  },
+  {
+    "StatusID": 10013082,
+    "ModifierName": "MAvatar_Acheron_00_AllDamageTypeResistance",
+    "StatusName": {
+      "Hash": -2028074891
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 469631723
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageResistanceElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2034956405
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013083,
+    "ModifierName": "MAvatar_Acheron_00_PointB3_DamageUp",
+    "StatusName": {
+      "Hash": -2028074892
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 469631722
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2034956406
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue",
+      "MDF_MaxLayer"
+    ]
+  },
+  {
+    "StatusID": 10013091,
+    "ModifierName": "MAvatar_Robin_00_Skill02_DmgUpCasterListener",
+    "StatusName": {
+      "Hash": -461990949
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2035715665
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1309BP.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 468872463
+    },
+    "ReadParamList": [
+      "Skill02_P1_DmgUpForShow"
+    ]
+  },
+  {
+    "StatusID": 10013092,
+    "ModifierName": "MAvatar_Robin_00_Skill02_DmgUpFriendListener",
+    "StatusName": {
+      "Hash": -461990950
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2035715664
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1309BP.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 468872464
+    },
+    "ReadParamList": [
+      "Skill02_P1_DmgUpForShow"
+    ]
+  },
+  {
+    "StatusID": 10013093,
+    "ModifierName": "MAvatar_Robin_Skill03_AtkUp_CasterForShow",
+    "StatusName": {
+      "Hash": -461990951
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2035715663
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1309Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 468872465
+    },
+    "ReadParamList": [
+      "BaseAttack_Total"
+    ]
+  },
+  {
+    "StatusID": 10013094,
+    "ModifierName": "MAvatar_Robin_Skill03_AtkUp_FriendForShow",
+    "StatusName": {
+      "Hash": -461990952
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2035715670
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1309Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 468872458
+    },
+    "ReadParamList": [
+      "BaseAttack_Total"
+    ]
+  },
+  {
+    "StatusID": 10013095,
+    "ModifierName": "MAvatar_Robin_00_SkillTree02_InsertDmgUp",
+    "StatusName": {
+      "Hash": -461990953
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2035715669
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCriticalDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 468872459
+    },
+    "ReadParamList": [
+      "SkillTree_PointB2_P1_Ratio"
+    ]
+  },
+  {
+    "StatusID": 10013096,
+    "ModifierName": "MAvatar_Robin_00_SkillRank01_Buff",
+    "StatusName": {
+      "Hash": -461990954
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2035715668
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamagePenetrateElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 468872460
+    },
+    "ReadParamList": [
+      "#SkillRank_Rank01_P1_Ratio"
+    ]
+  },
+  {
+    "StatusID": 10013121,
+    "ModifierName": "MAvatar_Misha_00_Rank06_DamageUp",
+    "StatusName": {
+      "Hash": 1460323385
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1988661531
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -740981023
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10013122,
+    "ModifierName": "MAvatar_Misha_00_EnergyCount",
+    "StatusName": {
+      "Hash": 1460323382
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 1988661528
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1312EnergBar01.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10013123,
+    "ModifierName": "MAvatar_Misha_00_Skill03_StatusProbabilityUp",
+    "StatusName": {
+      "Hash": 1460323383
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1988661529
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffStatusProbability.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -740981021
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10013124,
+    "ModifierName": "MAvatar_Misha_00_Rank02_DefenceDown",
+    "StatusName": {
+      "Hash": 1460323380
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1988661534
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDefenceDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -740981026
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10013125,
+    "ModifierName": "MAvatar_Misha_00_Rank06_RecoverBP",
+    "StatusName": {
+      "Hash": 1460323381
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1988661535
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffRecoverBP.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_Value"
+    ]
+  },
+  {
+    "StatusID": 10013151,
+    "ModifierName": "MAvatar_Boothill_00_SelfModification",
+    "StatusName": {
+      "Hash": 1863607912
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 66347230
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1315Energy.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1500495910
+    },
+    "ReadParamList": [
+      "MDF_MaxLayer",
+      "MDF_StanceAdded"
+    ]
+  },
+  {
+    "StatusID": 10013152,
+    "ModifierName": "MAvatar_Boothill_00_Ultra_PhysicalWeakness",
+    "StatusName": {
+      "Hash": 1863607909
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 66347227
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffFoible.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1500495907
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10013153,
+    "ModifierName": "MAvatar_Boothill_00_DuelTarget",
+    "StatusName": {
+      "Hash": 1863607910
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 66347228
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1315BPSelf.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1500495908
+    },
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10013154,
+    "ModifierName": "MAvatar_Boothill_00_DuelState",
+    "StatusName": {
+      "Hash": 1863607907
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 66347233
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1315BPSelf.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1500495913
+    },
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10013155,
+    "ModifierName": "MAvatar_Boothill_00_Rank02_Enhance",
+    "StatusName": {
+      "Hash": 1863607908
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 66347234
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffBreakDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10013156,
+    "ModifierName": "MAvatar_Boothill_00_Rank02_CD",
+    "StatusName": {
+      "Hash": 1863607905
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 66347231
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1315Rank02.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10013157,
+    "ModifierName": "MAvatar_Boothill_00_MazeSkill_Skill02",
+    "StatusName": {
+      "Hash": 1863607906
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 66347232
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1315Maze.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_Lifetime"
+    ]
+  },
+  {
+    "StatusID": 10080012,
+    "ModifierName": "MAvatar_PlayerWarrior_00_Passive_BreakAtkUp",
+    "StatusName": {
+      "Hash": 35394222
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1968450832
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 683930588
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_AttackAddedRatio",
+      "MDF_Max_Layer"
+    ]
+  },
+  {
+    "StatusID": 10080013,
+    "ModifierName": "MAvatar_PlayerWarrior_00_SkilTree02_BreakDefUp",
+    "StatusName": {
+      "Hash": 35394223
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1968450833
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDefenceUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 683930587
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_DefenceAddedRatio",
+      "MDF_Max_Layer"
+    ]
+  },
+  {
+    "StatusID": 10080022,
+    "ModifierName": "MAvatar_PlayerGirl_00_Passive_BreakAtkUp",
+    "StatusName": {
+      "Hash": -1530689719
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1923231937
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -2044952767
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_AttackAddedRatio",
+      "MDF_Max_Layer"
+    ]
+  },
+  {
+    "StatusID": 10080023,
+    "ModifierName": "MAvatar_PlayerGirl_00_SkilTree02_BreakDefUp",
+    "StatusName": {
+      "Hash": -1530689718
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1923231936
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDefenceUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -2044952768
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_DefenceAddedRatio",
+      "MDF_Max_Layer"
+    ]
+  },
+  {
+    "StatusID": 10080031,
+    "ModifierName": "MWAvatar_PlayerBoy_10_WeaponCharge",
+    "StatusName": {
+      "Hash": 1198193639
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 805651421
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon8003Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10080032,
+    "ModifierName": "MAvatar_PlayerBoy_10_WeaponCharge_Free",
+    "StatusName": {
+      "Hash": 1198193636
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 805651418
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon8003Attack02.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -478868826
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10080033,
+    "ModifierName": "MAvatar_PlayerBoy_10_MazeSkill_Shield",
+    "StatusName": {
+      "Hash": 1198193637
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 805651419
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffShield.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -478868827
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10080034,
+    "ModifierName": "MWAvatar_PlayerBoy_10_AttackRatioUp",
+    "StatusName": {
+      "Hash": 1198193634
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 805651424
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -478868832
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10080036,
+    "ModifierName": "MWAvatar_PlayerBoy_10_DamageResistance",
+    "StatusName": {
+      "Hash": 1198193632
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 805651422
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageReduction.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -478868830
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MWAvatar_PlayerBoy_10_DamageResistance_Value01"
+    ]
+  },
+  {
+    "StatusID": 10080037,
+    "ModifierName": "MWAvatar_PlayerBoy_10_Shield",
+    "StatusName": {
+      "Hash": 1198193633
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 805651423
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffShield.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -478868831
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10080038,
+    "ModifierName": "MAvatar_PlayerBoy_10_Rank06_Stack",
+    "StatusName": {
+      "Hash": 1198193646
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 805651428
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDefenceUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -478868820
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_DefenceAddedRatio",
+      "Rank06_Max_Layer"
+    ]
+  },
+  {
+    "StatusID": 10080039,
+    "ModifierName": "MAvatar_PlayerBoy_10_DamageResistance_Team",
+    "StatusName": {
+      "Hash": 1198193647
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 805651429
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageReduction.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -478868821
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MAvatar_PlayerBoy_10_DamageResistance_Team_Value01"
+    ]
+  },
+  {
+    "StatusID": 10080041,
+    "ModifierName": "MWAvatar_PlayerGirl_10_WeaponCharge",
+    "StatusName": {
+      "Hash": -724120662
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 1208935948
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon8003Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10080042,
+    "ModifierName": "MWAvatar_PlayerGirl_10_WeaponCharge_Free",
+    "StatusName": {
+      "Hash": -724120665
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 1208935945
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon8003Attack02.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1087215115
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10080043,
+    "ModifierName": "MWAvatar_PlayerGirl_10_MazeSkill_Shield",
+    "StatusName": {
+      "Hash": -724120664
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1208935946
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffShield.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1087215114
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10080044,
+    "ModifierName": "MWAvatar_PlayerGirl_10_DamageResistance",
+    "StatusName": {
+      "Hash": -724120667
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1208935951
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageReduction.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1087215109
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MWAvatar_PlayerGirl_10_DamageResistance_Value01"
+    ]
+  },
+  {
+    "StatusID": 10080045,
+    "ModifierName": "MWAvatar_PlayerGirl_10_Shield",
+    "StatusName": {
+      "Hash": -724120666
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1208935952
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffShield.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1087215108
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10080046,
+    "ModifierName": "MWAvatar_PlayerGirl_10_Rank06_Stack",
+    "StatusName": {
+      "Hash": -724120669
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1208935949
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDefenceUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1087215111
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_DefenceAddedRatio",
+      "Rank06_Max_Layer"
+    ]
+  },
+  {
+    "StatusID": 10080047,
+    "ModifierName": "MAvatar_PlayerGirl_10_DamageResistance_Team",
+    "StatusName": {
+      "Hash": -724120668
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1208935950
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageReduction.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1087215110
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MWAvatar_PlayerGirl_10_DamageResistance_Team_Value01"
+    ]
+  },
+  {
+    "StatusID": 10080048,
+    "ModifierName": "MWAvatar_PlayerGirl_10_AttackRatioUp",
+    "StatusName": {
+      "Hash": -724120655
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1208935955
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1087215121
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10080051,
+    "ModifierName": "MAvatar_PlayerBoy_20_Rank04_BreakDamageBuff",
+    "StatusName": {
+      "Hash": 2004762693
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -357147993
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffBreakDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_AddBreakDamageRatio"
+    ]
+  },
+  {
+    "StatusID": 10080052,
+    "ModifierName": "MAvatar_PlayerBoy_20_SkillP01_ListenBreakDamage",
+    "StatusName": {
+      "Hash": 2004762690
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -357147996
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon8005Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1641668240
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10080053,
+    "ModifierName": "MAvatar_PlayerBoy_20_MazeSkill_Buff",
+    "StatusName": {
+      "Hash": 2004762691
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -357147995
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffBreakDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1641668241
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_BreakDamageAddedRatio"
+    ]
+  },
+  {
+    "StatusID": 10013101,
+    "ModifierName": "MAvatar_Sam_00_PassiveSkill_RedMode",
+    "StatusName": {
+      "Hash": -1671844497
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 825862117
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1310Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1903780437
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_FinalDamageUP",
+      "MDF_SpeedUP",
+      "MDF_StatusResistance",
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013102,
+    "ModifierName": "MAvatar_Sam_00_PassiveSkill_AllDamageTypeResistance",
+    "StatusName": {
+      "Hash": -1671844500
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 825862114
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageReduction.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1903780434
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10080054,
+    "ModifierName": "MAvatar_PlayerBoy_20_Rank02",
+    "StatusName": {
+      "Hash": 2004762688
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -357147990
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSPRatioUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10080061,
+    "ModifierName": "MAvatar_PlayerGirl_20_Rank04_BreakDamageBuff",
+    "StatusName": {
+      "Hash": 438678752
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 46136534
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffBreakDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_AddBreakDamageRatio"
+    ]
+  },
+  {
+    "StatusID": 10080062,
+    "ModifierName": "MAvatar_PlayerGirl_20_SkillP01_ListenBreakDamage",
+    "StatusName": {
+      "Hash": 438678749
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 46136531
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon8005Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -75584299
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10080063,
+    "ModifierName": "MAvatar_PlayerGirl_20_MazeSkill_Buff",
+    "StatusName": {
+      "Hash": 438678750
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 46136532
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffBreakDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -75584300
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_BreakDamageAddedRatio"
+    ]
+  },
+  {
+    "StatusID": 10080064,
+    "ModifierName": "MAvatar_PlayerGirl_20_Rank02",
+    "StatusName": {
+      "Hash": 438678747
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 46136537
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSPRatioUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013141,
+    "ModifierName": "MAvatar_Jade_00_Passive_Rate",
+    "StatusName": {
+      "Hash": 297523971
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1499736711
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 65588031
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue",
+      "MDF_PropertyValue2"
+    ]
+  },
+  {
+    "StatusID": 10013142,
+    "ModifierName": "MAvatar_Jade_00_BPSkill",
+    "StatusName": {
+      "Hash": 297523968
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1499736714
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1314Skill02_Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 65588034
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013143,
+    "ModifierName": "MAvatar_Jade_00_BPSkillSelf",
+    "StatusName": {
+      "Hash": 297523969
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1499736713
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1314Skill02_Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 65588033
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10013144,
+    "ModifierName": "MAvatar_Jade_00_BPSkillListen",
+    "StatusName": {
+      "Hash": 297523966
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -1499736708
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1314Skill02_Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10013145,
+    "ModifierName": "MAvatar_Jade_00_Ultra_Insert",
+    "StatusName": {
+      "Hash": 297523967
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1499736707
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1314Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 65588027
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio",
+      "MDF_Count"
+    ]
+  },
+  {
+    "StatusID": 10013146,
+    "ModifierName": "MAvatar_Jade_00_Rank06_BPSkill",
+    "StatusName": {
+      "Hash": 297523964
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1499736710
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1314Skill02_Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 65588030
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013147,
+    "ModifierName": "MAvatar_Jade_00_Rank06_BPSkillSelf",
+    "StatusName": {
+      "Hash": 297523965
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1499736709
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1314Skill02_Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 65588029
+    },
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 100130414,
+    "ModifierName": "MAvatar_Aventurine_00_Passive_ReduceStatusProbability",
+    "StatusName": {
+      "Hash": 600724190
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1608418964
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffStatusProbability.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -860463268
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012241,
+    "ModifierName": "MAvatar_Mar_7th_10_Skill02_Master",
+    "StatusName": {
+      "Hash": -1006438043
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 1491268571
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1224BP.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1369549917
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012242,
+    "ModifierName": "MAvatar_Mar_7th_10_Energy",
+    "StatusName": {
+      "Hash": -1006438040
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 1491268574
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1224Energy.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyRatio",
+      "MDF_Count"
+    ]
+  },
+  {
+    "StatusID": 10012243,
+    "ModifierName": "MAvatar_Mar_7th_10_Skill02_Master_SpeedUp",
+    "StatusName": {
+      "Hash": -1006438041
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1491268573
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10012244,
+    "ModifierName": "MAvatar_Mar_7th_10_Skill03_Enhance_Normal",
+    "StatusName": {
+      "Hash": -1006438046
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 1491268576
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1224Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1369549912
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_Value",
+      "MDF_Chance",
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10012201,
+    "ModifierName": "MAvatar_Feixiao_00_InsertIsReady",
+    "StatusName": {
+      "Hash": 1319160785
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -478099897
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1220Energy.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012202,
+    "ModifierName": "MAvatar_Feixiao_00_DamageProperty",
+    "StatusName": {
+      "Hash": 1319160788
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -478099894
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -599818554
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10013103,
+    "ModifierName": "MAvatar_Sam_00_Skill21_FireWeakType",
+    "StatusName": {
+      "Hash": -1671844499
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 825862115
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffFoible.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1903780435
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10013077,
+    "ModifierName": "MAvatar_BlackSwan_00_Rank01_ThunderResistanceDown",
+    "StatusName": {
+      "Hash": 700808459
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 1229146613
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDamageResistanceThunderDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013104,
+    "ModifierName": "MAvatar_Sam_00_Rank02_BuffCD",
+    "StatusName": {
+      "Hash": -1671844502
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 825862120
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1310Rank02_Time.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10013084,
+    "ModifierName": "MAvatar_Acheron_00_Rank04_AllDamageTypeTakenRatio",
+    "StatusName": {
+      "Hash": -2028074893
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 469631729
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDamageTakenRatioElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2034956399
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012245,
+    "ModifierName": "MAvatar_Mar_7th_10_Rank02_CD",
+    "StatusName": {
+      "Hash": -1006438047
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 1491268575
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1224Rank02CD.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012211,
+    "ModifierName": "MAvatar_Yunli_00_Disqualification",
+    "StatusName": {
+      "Hash": -246923156
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -2044183838
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffRevenge.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 966265390
+    },
+    "ReadParamList": [
+      "MDF_ProbabilityValue"
+    ]
+  },
+  {
+    "StatusID": 10012212,
+    "ModifierName": "MAvatar_Yunli_00_Blocking",
+    "StatusName": {
+      "Hash": -246923153
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -2044183835
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1221PassiveBuff.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 966265387
+    },
+    "ReadParamList": [
+      "MDF_ProbabilityValue"
+    ]
+  },
+  {
+    "StatusID": 10012213,
+    "ModifierName": "MAvatar_Yunli_00_SkillTree03_Sub",
+    "StatusName": {
+      "Hash": -246923154
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -2044183836
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 966265388
+    },
+    "ReadParamList": [
+      "MDF_ProbabilityValue"
+    ]
+  },
+  {
+    "StatusID": 10012181,
+    "ModifierName": "MAvatar_Jiaoqiu_00_Debuff_Ultra",
+    "StatusName": {
+      "Hash": 962930524
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -834330158
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1218Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -956048882
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue",
+      "#Skill03_P2_Chance",
+      "#Skill03_P5_Value",
+      "_Max_Count_Left"
+    ]
+  },
+  {
+    "StatusID": 10012182,
+    "ModifierName": "MAvatar_Jiaoqiu_00_Rank04_AttackDown",
+    "StatusName": {
+      "Hash": 962930521
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -834330161
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffAttackDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -956048879
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012183,
+    "ModifierName": "BUYONG_MAvatar_Jiaoqiu_00_Ultra_FriendForShow",
+    "StatusName": {
+      "Hash": 962930522
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -834330160
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1218Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012184,
+    "ModifierName": "BUYONG_MAvatar_Jiaoqiu_00_Debuff_Flavor",
+    "StatusName": {
+      "Hash": 962930519
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -834330155
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1218Dot.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -956048885
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012185,
+    "ModifierName": "BUYONG_MAvatar_Jiaoqiu_00_Aura_SkillTree01_Debuff",
+    "StatusName": {
+      "Hash": 962930520
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -834330154
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffStatusProbability.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -956048886
+    },
+    "ReadParamList": [
+      "#SkillTree_PointB1_P1_Ratio",
+      "#SkillTree_PointB1_P2_Ratio"
+    ]
+  },
+  {
+    "StatusID": 10012186,
+    "ModifierName": "BUYONG_MAvatar_Jiaoqiu_00_Tree02_AttackUp",
+    "StatusName": {
+      "Hash": 962930517
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -834330157
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -956048883
+    },
+    "ReadParamList": [
+      "SkillTree_PointB2_StatusProbabilityValue"
+    ]
+  },
+  {
+    "StatusID": 10012187,
+    "ModifierName": "MAvatar_Jiaoqiu_00_SkillRank06_ResistDown",
+    "StatusName": {
+      "Hash": 962930518
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -834330156
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageResistanceElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "ResistDownRatio"
+    ]
+  },
+  {
+    "StatusID": 10012246,
+    "ModifierName": "MAvatar_Mar_7th_10_PointB3_Kill_Property",
+    "StatusName": {
+      "Hash": -1006438044
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1491268578
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCriticalDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1369549910
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10012247,
+    "ModifierName": "MAvatar_Mar_7th_10_PointB3_Break_Property",
+    "StatusName": {
+      "Hash": -1006438045
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1491268577
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffBreakDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1369549911
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10012248,
+    "ModifierName": "MAvatar_Mar_7th_10_Rank01_SpeedUp",
+    "StatusName": {
+      "Hash": -1006438050
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1491268564
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1369549908
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10013085,
+    "ModifierName": "MAvatar_Acheron_00_UltraSkillSpareCount",
+    "StatusName": {
+      "Hash": -2028074894
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 469631728
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1308Maze01.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013086,
+    "ModifierName": "MAvatar_Acheron_00_UltraSkillSpareCount_PointB1",
+    "StatusName": {
+      "Hash": -2028074895
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 469631727
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1308Maze01.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013013,
+    "ModifierName": "MWAvatar_Gallagher_00_Skill02_StatusResModifier",
+    "StatusName": {
+      "Hash": -105760591
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1903021273
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageResistance.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 825102825
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 100130415,
+    "ModifierName": "MAvatar_Aventurine_StackableShield",
+    "StatusName": {
+      "Hash": 371857150
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 371857150
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffShield.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 1868420087
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012231,
+    "ModifierName": "MAvatar_Moze_00_Skill02_ShadowTargetModifier",
+    "StatusName": {
+      "Hash": -1409722570
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -881384424
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1223Passive.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2129064804
+    },
+    "ReadParamList": [
+      "#SkillP01_P1_ExtraDamagePercentage",
+      "MDF_TotalDamage"
+    ]
+  },
+  {
+    "StatusID": 10012232,
+    "ModifierName": "MAvatar_Moze_00_Rank01Debuff",
+    "StatusName": {
+      "Hash": -1409722567
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -881384421
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDefenceUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2129064801
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012233,
+    "ModifierName": "MAvatar_Moze_00_Rank06Buff",
+    "StatusName": {
+      "Hash": -1409722568
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -881384422
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2129064802
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_DamageAdded"
+    ]
+  },
+  {
+    "StatusID": 10013097,
+    "ModifierName": "MAvatar_Robin_00_SkillRank02_Buff",
+    "StatusName": {
+      "Hash": -461990955
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2035715667
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 468872461
+    },
+    "ReadParamList": [
+      "#SkillRank_Rank02_P1_ExtraRatio"
+    ]
+  },
+  {
+    "StatusID": 100130416,
+    "ModifierName": "MAvatar_Aventurine_Rank01_Status",
+    "StatusName": {
+      "Hash": -562075224
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1523748918
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCriticalDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 302336146
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013098,
+    "ModifierName": "MAvatar_Robin_00_PassiveSkill_CritDmgUp",
+    "StatusName": {
+      "Hash": -461990956
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2035715658
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCriticalDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "#SkillP01_P1_Ratio"
+    ]
+  },
+  {
+    "StatusID": 10013148,
+    "ModifierName": "MAvatar_Jade_00_Rank04_DefPenetrate",
+    "StatusName": {
+      "Hash": 297523962
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1499736720
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1314Rank04.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 65588024
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013099,
+    "ModifierName": "MAvatar_Robin_00_SkillRank04_ResistAll",
+    "StatusName": {
+      "Hash": -461990957
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 2035715657
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageResistance.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 468872455
+    },
+    "ReadParamList": [
+      "#SkillRank_Rank04_P1_Ratio"
+    ]
+  },
+  {
+    "StatusID": 10012234,
+    "ModifierName": "MAvatar_Moze_00_MazeSkill_DamageUpModifier",
+    "StatusName": {
+      "Hash": -1409722573
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -881384419
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2129064799
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10013149,
+    "ModifierName": "MAvatar_Jade_00_Rank02_CriticalChance",
+    "StatusName": {
+      "Hash": 297523963
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -1499736719
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCritical.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 65588023
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012188,
+    "ModifierName": "BUYONG_MAvatar_Jiaoqiu_00_Rank01_DebuffForShow",
+    "StatusName": {
+      "Hash": 962930515
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -834330167
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDamageTakenRatioElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "#SkillRank_Rank01_P1_ExtraRatio"
+    ]
+  },
+  {
+    "StatusID": 10013105,
+    "ModifierName": "MAvatar_Sam_00_Rank06_UltraDamageTypeAddRatio",
+    "StatusName": {
+      "Hash": -1671844501
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 825862121
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamagePenetrateFire.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1903780441
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 100130910,
+    "ModifierName": "MAvatar_Robin_00_SkillRank06_ExtraRatioForShow",
+    "StatusName": {
+      "Hash": 426062283
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 1433757057
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCriticalDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -1317450177
+    },
+    "ReadParamList": [
+      "SkillRank_Rank06_P2_ExtraRatio",
+      "_Rank06_BigDmgCount"
+    ]
+  },
+  {
+    "StatusID": 10012221,
+    "ModifierName": "MAvatar_Lingsha_Rank01_DefenceRatioDown",
+    "StatusName": {
+      "Hash": 156361371
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 684699517
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDefenceDown.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 562980863
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012222,
+    "ModifierName": "MAvatar_Lingsha_BreakDamageUp",
+    "StatusName": {
+      "Hash": 156361374
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 684699520
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDamageTypeTakenRatioBreakDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 562980860
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012223,
+    "ModifierName": "MAvatar_Lingsha_00_PointB3_CD",
+    "StatusName": {
+      "Hash": 156361373
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": 684699519
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1222PassiveTreeCD.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012214,
+    "ModifierName": "MAvatar_Yunli_00_SkillTree02_ControlResist",
+    "StatusName": {
+      "Hash": -246923159
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -2044183833
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffResistDebuff.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 966265385
+    },
+    "ReadParamList": [
+      "MAvatar_Yunli_00_DamageResistance_Value01"
+    ]
+  },
+  {
+    "StatusID": 10012215,
+    "ModifierName": "MAvatar_Yunli_00_Rank02_Sub",
+    "StatusName": {
+      "Hash": -246923160
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -2044183834
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCritical.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 966265386
+    },
+    "ReadParamList": [
+      "MDF_CritRatio"
+    ]
+  },
+  {
+    "StatusID": 10080055,
+    "ModifierName": "MAvatar_PlayerBoy_20_SkillP01_ListenBreakDamage_Self",
+    "StatusName": {
+      "Hash": 371857150
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 371857150
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon8005Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10080065,
+    "ModifierName": "MAvatar_PlayerGirl_20_SkillP01_ListenBreakDamage_Self",
+    "StatusName": {
+      "Hash": 371857150
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 371857150
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon8005Ultra.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10013106,
+    "ModifierName": "MAvatar_Sam_00_SkillTree03_BreakDamageAddedRatio_Sub",
+    "StatusName": {
+      "Hash": -1671844504
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 825862118
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffBreakDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue2"
+    ]
+  },
+  {
+    "StatusID": 10012235,
+    "ModifierName": "MAvatar_Moze_00_Skill03_DamageAddModifier",
+    "StatusName": {
+      "Hash": -1409722574
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -881384420
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2129064800
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_DamageAddRatio"
+    ]
+  },
+  {
+    "StatusID": 10012224,
+    "ModifierName": "MAvatar_Lingsha_Rank02_BreakDamageAttackRatio",
+    "StatusName": {
+      "Hash": 156361368
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": 684699522
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffBreakDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 562980858
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012225,
+    "ModifierName": "MAvatar_Lingsha_Rank06_AllDamageTypeResistance",
+    "StatusName": {
+      "Hash": 156361367
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": 684699521
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageResistanceElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 562980859
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012189,
+    "ModifierName": "MAvatar_Jiaoqiu_00_Debuff_Flavor",
+    "StatusName": {
+      "Hash": 962930516
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -834330166
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1218Dot.png",
+    "StatusIconPathHighSize": "SpriteOutput/BuffIcon/Inlevel/DotIcon/Icon1218Dot_B.png",
+    "StatusEffect": {
+      "Hash": -956048890
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 100121810,
+    "ModifierName": "MAvatar_Jiaoqiu_00_Rank01_ListenDamage",
+    "StatusName": {
+      "Hash": -1241294836
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -233600062
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "#SkillRank_Rank01_P1_ExtraRatio"
+    ]
+  },
+  {
+    "StatusID": 10012236,
+    "ModifierName": "MAvatar_Moze_00_Rank02Buff",
+    "StatusName": {
+      "Hash": -1409722571
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -881384417
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2129064797
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_AttackRatio"
+    ]
+  },
+  {
+    "StatusID": 10012237,
+    "ModifierName": "MAvatar_Moze_00_Rank02_Buff",
+    "StatusName": {
+      "Hash": -1409722572
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -881384418
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2129064798
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012216,
+    "ModifierName": "MAvatar_Yunli_00_Rank04",
+    "StatusName": {
+      "Hash": -246923157
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -2044183831
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffDamageResistance.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 966265383
+    },
+    "ReadParamList": [
+      "MDF_ProbabilityValue"
+    ]
+  },
+  {
+    "StatusID": 10012217,
+    "ModifierName": "MAvatar_Yunli_00_Blocking_CritDamage",
+    "StatusName": {
+      "Hash": -246923158
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -2044183832
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffCriticalDamage.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 966265384
+    },
+    "ReadParamList": [
+      "MDF_CriticalDamage"
+    ]
+  },
+  {
+    "StatusID": 10012238,
+    "ModifierName": "MAvatar_Moze_00_Rank01_DeBuff",
+    "StatusName": {
+      "Hash": -1409722577
+    },
+    "StatusType": "Debuff",
+    "StatusDesc": {
+      "Hash": -881384431
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconDeBuffDamageTakenRatioElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 2129064795
+    },
+    "ReadParamList": [
+      "MDF_PropertyValue"
+    ]
+  },
+  {
+    "StatusID": 10012239,
+    "ModifierName": "MAvatar_Moze_00_Point01_CD",
+    "StatusName": {
+      "Hash": -1409722578
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -881384432
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1223PassiveTreeCD.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": []
+  },
+  {
+    "StatusID": 10012203,
+    "ModifierName": "MAvatar_Feixiao_00_AttackProperty",
+    "StatusName": {
+      "Hash": 1319160787
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -478099895
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -599818553
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10012204,
+    "ModifierName": "MAvatar_Feixiao_00_Rank04_Property",
+    "StatusName": {
+      "Hash": 1319160782
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -478099892
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffSpeedUp.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": -599818556
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10012205,
+    "ModifierName": "MAvatar_Feixiao_00_Rank01_Property",
+    "StatusName": {
+      "Hash": 1319160781
+    },
+    "StatusType": "Buff",
+    "StatusDesc": {
+      "Hash": -478099893
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/IconBuffAttackUpElement.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "CanDispel": true,
+    "ReadParamList": [
+      "MDF_PropertyRatio"
+    ]
+  },
+  {
+    "StatusID": 10012206,
+    "ModifierName": "MAvatar_Feixiao_00_Rank02_CD",
+    "StatusName": {
+      "Hash": 1319160784
+    },
+    "StatusType": "Other",
+    "StatusDesc": {
+      "Hash": -478099890
+    },
+    "StatusIconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1220Rank02.png",
+    "StatusIconPathHighSize": "",
+    "StatusEffect": {
+      "Hash": 371857150
+    },
+    "ReadParamList": [
+      "MDF_Count"
+    ]
+  }
+]

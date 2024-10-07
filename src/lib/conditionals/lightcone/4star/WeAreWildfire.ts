@@ -2,34 +2,22 @@ import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.WeAreWildfire')
   const sValues = [0.08, 0.10, 0.12, 0.14, 0.16]
-  const lcRanks = {
-    id: '21023',
-    skill: 'Teary-Eyed',
-    desc: "At the start of the battle, the DMG dealt to all allies decreases by #2[i]% for #3[i] turn(s). At the same time, immediately restores HP to all allies equal to #1[i]% of the respective HP difference between the characters' Max HP and current HP.",
-    params: [
-      [0.3, 0.08, 5],
-      [0.35, 0.1, 5],
-      [0.4, 0.12, 5],
-      [0.45, 0.14, 5],
-      [0.5, 0.16, 5],
-    ],
-    properties: [
-      [], [], [], [], [],
-    ],
-  }
+  const sValuesHealing = [0.3, 0.35, 0.4, 0.45, 0.5]
   const content: ContentItem[] = [{
     lc: true,
     id: 'initialDmgReductionBuff',
     name: 'initialDmgReductionBuff',
     formItem: 'switch',
-    text: 'Initial DMG reduction buff',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.initialDmgReductionBuff.text'),
+    title: t('Content.initialDmgReductionBuff.title'),
+    content: t('Content.initialDmgReductionBuff.content', { Healing: TsUtils.precisionRound(100 * sValuesHealing[s]), DmgReduction: sValues[s] }),
   }]
 
   return {

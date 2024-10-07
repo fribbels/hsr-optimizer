@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -10,8 +10,11 @@ import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/set
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Hanya')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const ultSpdBuffValue = ult(e, 0.20, 0.21)
@@ -28,30 +31,30 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
-    text: 'Ult SPD/ATK buff',
-    title: 'Ultimate: Ten-Lords\' Decree, All Shall Obey',
-    content: `Increases the SPD of a target ally by ${precisionRound(ultSpdBuffValue * 100)}% of Hanya's SPD and increases the same target ally's ATK by ${precisionRound(ultAtkBuffValue * 100)}%.`,
+    text: t('Content.ultBuff.text'),
+    title: t('Content.ultBuff.title'),
+    content: t('Content.ultBuff.content', { ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue), ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue) }),
   }, {
     formItem: 'switch',
     id: 'targetBurdenActive',
     name: 'targetBurdenActive',
-    text: 'Target Burden debuff',
-    title: 'Talent: Sanction',
-    content: `When an ally uses a Basic ATK, Skill, or Ultimate on an enemy inflicted with Burden, the DMG dealt increases by ${precisionRound(talentDmgBoostValue * 100)}% for 2 turn(s).`,
+    text: t('Content.targetBurdenActive.text'),
+    title: t('Content.targetBurdenActive.title'),
+    content: t('Content.targetBurdenActive.content', { talentDmgBoostValue: TsUtils.precisionRound(100 * talentDmgBoostValue) }),
   }, {
     formItem: 'switch',
     id: 'burdenAtkBuff',
     name: 'burdenAtkBuff',
-    text: 'Burden ATK buff',
-    title: 'Trace: Scrivener',
-    content: `Allies triggering Burden's Skill Point recovery effect have their ATK increased by 10% for 1 turn(s).`,
+    text: t('Content.burdenAtkBuff.text'),
+    title: t('Content.burdenAtkBuff.title'),
+    content: t('Content.burdenAtkBuff.content'),
   }, {
     formItem: 'switch',
     id: 'e2SkillSpdBuff',
     name: 'e2SkillSpdBuff',
-    text: 'E2 skill SPD buff',
-    title: 'E2: Two Views',
-    content: `E2: After Skill, increases SPD by ${precisionRound(0.20 * 100)}% for 1 turn.`,
+    text: t('Content.e2SkillSpdBuff.text'),
+    title: t('Content.e2SkillSpdBuff.title'),
+    content: t('Content.e2SkillSpdBuff.content'),
     disabled: e < 2,
   }]
 
@@ -61,9 +64,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateSPDValue',
       name: 'teammateSPDValue',
-      text: `Hanya's SPD`,
-      title: 'Ultimate: Ten-Lords\' Decree, All Shall Obey',
-      content: `Increases the SPD of a target ally by ${precisionRound(ultSpdBuffValue * 100)}% of Hanya's SPD and increases the same target ally's ATK by ${precisionRound(ultAtkBuffValue * 100)}%.`,
+      text: t('TeammateContent.teammateSPDValue.text'),
+      title: t('TeammateContent.teammateSPDValue.title'),
+      content: t('TeammateContent.teammateSPDValue.content', { ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue), ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue) }),
       min: 0,
       max: 200,
     },

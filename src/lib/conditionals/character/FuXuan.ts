@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardHpFinalizer, precisionRound, standardHpFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardHpFinalizer, standardHpFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -10,8 +10,11 @@ import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/set
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.FuXuan')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const skillCrBuffValue = skill(e, 0.12, 0.132)
@@ -26,25 +29,23 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'talentActive',
     name: 'talentActive',
-    text: 'Team DMG reduction',
-    title: 'Team DMG reduction',
-    content: `While Fu Xuan is still active in battle, Misfortune Avoidance is applied to the entire team. With Misfortune Avoidance, allies take ${precisionRound(talentDmgReductionValue * 100)}% less DMG.`,
+    text: t('Content.talentActive.text'),
+    title: t('Content.talentActive.title'),
+    content: t('Content.talentActive.content', { talentDmgReductionValue: TsUtils.precisionRound(100 * talentDmgReductionValue) }),
   }, {
     formItem: 'switch',
     id: 'skillActive',
     name: 'skillActive',
-    text: 'Skill active',
-    title: 'Skill active',
-    content: `Activates Matrix of Prescience, via which other team members will Distribute 65% of the DMG they receive (before this DMG is mitigated by any Shields) to Fu Xuan for 3 turn(s).
-    While affected by Matrix of Prescience, all team members gain the Knowledge effect, which increases their respective Max HP by ${precisionRound(skillHpBuffValue * 100)}% of Fu Xuan's Max HP, 
-    and increases CRIT Rate by ${precisionRound(skillCrBuffValue * 100)}%.`,
+    text: t('Content.skillActive.text'),
+    title: t('Content.skillActive.title'),
+    content: t('Content.skillActive.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue), skillCrBuffValue: TsUtils.precisionRound(100 * skillCrBuffValue) }),
   }, {
     formItem: 'slider',
     id: 'e6TeamHpLostPercent',
     name: 'e6TeamHpLostPercent',
-    text: 'E6 team HP lost',
-    title: 'E6 team HP lost',
-    content: `E6: Once Matrix of Prescience is activated, it will keep a tally of the total HP lost by all team members in the current battle. Fu Xuan's Ultimate DMG will increase by 200% of this tally of HP loss. This tally is also capped at 120% of Fu Xuan's Max HP.`,
+    text: t('Content.e6TeamHpLostPercent.text'),
+    title: t('Content.e6TeamHpLostPercent.title'),
+    content: t('Content.e6TeamHpLostPercent.content'),
     min: 0,
     max: 1.2,
     percent: true,
@@ -58,9 +59,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateHPValue',
       name: 'teammateHPValue',
-      text: `Fu Xuan's HP`,
-      title: 'Known by Stars, Shown by Hearts',
-      content: `While affected by Matrix of Prescience, all team members gain the Knowledge effect, which increases their respective Max HP by ${precisionRound(skillHpBuffValue * 100)}% of Fu Xuan's Max HP`,
+      text: t('TeammateContent.teammateHPValue.text'),
+      title: t('TeammateContent.teammateHPValue.title'),
+      content: t('TeammateContent.teammateHPValue.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue) }),
       min: 0,
       max: 10000,
     },

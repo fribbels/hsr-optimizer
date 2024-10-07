@@ -2,35 +2,22 @@ import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.SubscribeForMore')
   const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-  const lcRanks = {
-    id: '21017',
-    skill: 'Like Before You Leave!',
-    desc: "Increases the DMG of the wearer's Basic ATK and Skill by #1[i]%. This effect increases by an extra #2[i]% when the wearer's current Energy reaches its max level.",
-    params: [
-      [0.24, 0.24],
-      [0.3, 0.3],
-      [0.36, 0.36],
-      [0.42, 0.42],
-      [0.48, 0.48],
-    ],
-    properties: [
-      [], [], [], [], [],
-    ],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'maxEnergyDmgBoost',
     name: 'maxEnergyDmgBoost',
     formItem: 'switch',
-    text: 'Max energy DMG boost',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.maxEnergyDmgBoost.text'),
+    title: t('Content.maxEnergyDmgBoost.title'),
+    content: t('Content.maxEnergyDmgBoost.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {

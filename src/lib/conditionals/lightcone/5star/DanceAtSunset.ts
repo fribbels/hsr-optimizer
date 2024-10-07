@@ -3,10 +3,12 @@ import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
-import { BETA_UPDATE } from 'lib/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.DanceAtSunset')
   const sValuesFuaDmg = [0.36, 0.42, 0.48, 0.54, 0.60]
 
   const content: ContentItem[] = [
@@ -15,9 +17,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'fuaDmgStacks',
       name: 'fuaDmgStacks',
       formItem: 'slider',
-      text: 'FUA DMG stacks',
-      title: 'FUA DMG stacks',
-      content: BETA_UPDATE,
+      text: t('Content.fuaDmgStacks.text'),
+      title: t('Content.fuaDmgStacks.title'),
+      content: t('Content.fuaDmgStacks.content', { DmgBoost: TsUtils.precisionRound(100 * sValuesFuaDmg[s]) }),
       min: 0,
       max: 2,
     },

@@ -2,36 +2,20 @@ import { ContentItem } from 'types/Conditionals'
 
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  const lcRank = {
-    id: '21030',
-    skill: 'New Chapter',
-    desc: "Increases the DMG of the wearer when they use their Ultimate by #2[i]% of the wearer's DEF. This effect only applies 1 time per enemy target during each use of the wearer's Ultimate.",
-    params: [
-      [0.16, 0.6],
-      [0.2, 0.75],
-      [0.24, 0.9],
-      [0.28, 1.05],
-      [0.32, 1.2],
-    ],
-    properties: [
-      [{ type: 'DefenceAddedRatio', value: 0.16 }],
-      [{ type: 'DefenceAddedRatio', value: 0.2 }],
-      [{ type: 'DefenceAddedRatio', value: 0.24 }],
-      [{ type: 'DefenceAddedRatio', value: 0.28 }],
-      [{ type: 'DefenceAddedRatio', value: 0.32 }],
-    ],
-  }
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.ThisIsMe')
+  const sValues = [0.6, 0.75, 0.9, 1.05, 1.2]
   const content: ContentItem[] = [{
     lc: true,
     id: 'defScalingUltDmg',
     name: 'defScalingUltDmg',
     formItem: 'switch',
-    text: 'DEF scaling ult DMG (Not implemented)',
-    title: lcRank.skill,
-    content: getContentFromLCRanks(s, lcRank),
+    text: t('Content.defScalingUltDmg.text'),
+    title: t('Content.defScalingUltDmg.title'),
+    content: t('Content.defScalingUltDmg.content', { Multiplier: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {

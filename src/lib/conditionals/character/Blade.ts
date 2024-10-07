@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -9,8 +9,11 @@ import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Blade')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const enhancedStateDmgBoost = skill(e, 0.40, 0.456)
@@ -35,21 +38,16 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'enhancedStateActive',
     name: 'enhancedStateActive',
-    text: 'Hellscape state',
-    title: 'Hellscape state',
-    content: `
-      Increases DMG by ${precisionRound(enhancedStateDmgBoost * 100)}% and his Basic ATK Shard Sword is enhanced to Forest of Swords for 3 turn(s).
-      ::BR::
-      E2: Increases CRIT Rate by ${precisionRound(0.15 * 100)}%.
-    `,
+    text: t('Content.enhancedStateActive.text'),
+    title: t('Content.enhancedStateActive.title'),
+    content: t('Content.enhancedStateActive.content', { enhancedStateDmgBoost: TsUtils.precisionRound(100 * enhancedStateDmgBoost) }),
   }, {
     formItem: 'slider',
     id: 'hpPercentLostTotal',
     name: 'hpPercentLostTotal',
-    text: 'HP% lost total',
-    title: 'HP% lost total',
-    content: `Ultimate DMG scales off of the tally of Blade's HP loss in the current battle. 
-    The tally of Blade's HP loss in the current battle is capped at ${precisionRound(hpPercentLostTotalMax * 100)}% of his Max HP.`,
+    text: t('Content.hpPercentLostTotal.text'),
+    title: t('Content.hpPercentLostTotal.title'),
+    content: t('Content.hpPercentLostTotal.content', { hpPercentLostTotalMax: TsUtils.precisionRound(100 * hpPercentLostTotalMax) }),
     min: 0,
     max: hpPercentLostTotalMax,
     percent: true,
@@ -57,9 +55,9 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'slider',
     id: 'e4MaxHpIncreaseStacks',
     name: 'e4MaxHpIncreaseStacks',
-    text: 'E4 max HP stacks',
-    title: 'E4 max HP stacks',
-    content: `E4: Increases HP by ${precisionRound(0.20 * 100)}%, stacks up to 2 times.`,
+    text: t('Content.e4MaxHpIncreaseStacks.text'),
+    title: t('Content.e4MaxHpIncreaseStacks.title'),
+    content: t('Content.e4MaxHpIncreaseStacks.content'),
     min: 0,
     max: 2,
     disabled: e < 4,

@@ -2,35 +2,22 @@ import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ContentItem } from 'types/Conditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.Void')
   const sValues = [0.20, 0.25, 0, 30, 0.35, 0.40]
-  const lcRanks = {
-    id: '20004',
-    skill: 'Fallen',
-    desc: "At the start of the battle, the wearer's Effect Hit Rate increases by #1[i]% for #2[i] turn(s).",
-    params: [
-      [0.2, 3],
-      [0.25, 3],
-      [0.3, 3],
-      [0.35, 3],
-      [0.4, 3],
-    ],
-    properties: [
-      [], [], [], [], [],
-    ],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'initialEhrBuff',
     name: 'initialEhrBuff',
     formItem: 'switch',
-    text: 'Initial EHR buff',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.initialEhrBuff.text'),
+    title: t('Content.initialEhrBuff.title'),
+    content: t('Content.initialEhrBuff.content', { EhrBuff: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {

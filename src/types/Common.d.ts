@@ -2,8 +2,7 @@ export type HoyoverseId = number // 600015194
 export type DataMineId = string // "60012"
 export type Unknown = unknown
 export type LANGUAGE =
-  'cht' |
-  'cn' |
+  'zh' |
   'de' |
   'en' |
   'es' |

@@ -1,13 +1,16 @@
 import { Stats } from 'lib/constants'
-import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (e: Eidolon): CharacterConditional => {
+  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Jingliu')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const talentCrBuff = talent(e, 0.50, 0.52)
@@ -23,19 +26,17 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'talentEnhancedState',
       id: 'talentEnhancedState',
       formItem: 'switch',
-      text: 'Enhanced state',
-      title: 'Crescent Transmigration',
-      content: `When Jingliu has 2 stacks of Syzygy, she enters the Spectral Transmigration state with her Action Advanced by 100% and her CRIT Rate increases by ${precisionRound(talentCrBuff * 100)}%. 
-      Then, Jingliu's Skill "Transcendent Flash" becomes enhanced and turns into "Moon On Glacial River," and becomes the only ability she can use in battle.`,
+      text: t('Content.talentEnhancedState.text'),
+      title: t('Content.talentEnhancedState.title'),
+      content: t('Content.talentEnhancedState.content', { talentCrBuff: TsUtils.precisionRound(100 * talentCrBuff) }),
     },
     {
       name: 'talentHpDrainAtkBuff',
       id: 'talentHpDrainAtkBuff',
       formItem: 'slider',
-      text: 'HP drain ATK buff',
-      title: 'Crescent Transmigration - ATK Bonus',
-      content: `When Jingliu uses an attack in the Spectral Transmigration state, she consumes HP from all other allies and Jingliu's ATK increases based on the total HP consumed from all allies in this attack, 
-      capped at ${precisionRound(talentHpDrainAtkBuffMax * 100)}% of her base ATK, lasting until the current attack ends.`,
+      text: t('Content.talentHpDrainAtkBuff.text'),
+      title: t('Content.talentHpDrainAtkBuff.title'),
+      content: t('Content.talentHpDrainAtkBuff.content', { talentHpDrainAtkBuffMax: TsUtils.precisionRound(100 * talentHpDrainAtkBuffMax) }),
       min: 0,
       max: talentHpDrainAtkBuffMax,
       percent: true,
@@ -44,18 +45,18 @@ export default (e: Eidolon): CharacterConditional => {
       id: 'e1CdBuff',
       name: 'e1CdBuff',
       formItem: 'switch',
-      text: 'E1 ult active',
-      title: 'E1 Moon Crashes Tianguan Gate',
-      content: `E1: When using her Ultimate or Enhanced Skill, Jingliu's CRIT DMG increases by 24% for 1 turn. If only one enemy target is attacked, the target will additionally be dealt Ice DMG equal to 100% of Jingliu's ATK.`,
+      text: t('Content.e1CdBuff.text'),
+      title: t('Content.e1CdBuff.title'),
+      content: t('Content.e1CdBuff.content'),
       disabled: e < 1,
     },
     {
       id: 'e2SkillDmgBuff',
       name: 'e2SkillDmgBuff',
       formItem: 'switch',
-      text: 'E2 skill buff',
-      title: 'E2 Crescent Shadows Qixing Dipper',
-      content: `E2: After using Ultimate, increases the DMG of the next Enhanced Skill by 80%.`,
+      text: t('Content.e2SkillDmgBuff.text'),
+      title: t('Content.e2SkillDmgBuff.title'),
+      content: t('Content.e2SkillDmgBuff.content'),
       disabled: e < 2,
     },
   ]

@@ -169,7 +169,7 @@
     "ProgressText": {
       "Progress": "Progress",
       "CalculatingETA": "Progress  (calculating ETA..)",
-      "TimeRemaining": "{{rate}} / sec — ${{timeRemaining}} left",
+      "TimeRemaining": "{{rate}} / sec — {{timeRemaining}} left",
       "Finished": "{{rate}} / sec — Finished"
     },
     "ControlsGroup": {
@@ -420,14 +420,14 @@
         "Text": "30% BE"
       },
       "Sacerdos1Stack": {
-        "Desc": "4 Piece: $t(gameData:RelicSets.121.Name) (+20% CD)",
+        "Desc": "4 Piece: $t(gameData:RelicSets.121.Name) (+18% CD)",
         "Set": "$t(gameData:RelicSets.121.Name)",
-        "Text": "20% CD"
+        "Text": "18% CD"
       },
       "Sacerdos2Stack": {
-        "Desc": "4 Piece: $t(gameData:RelicSets.121.Name) (+40% CD)",
+        "Desc": "4 Piece: $t(gameData:RelicSets.121.Name) (+36% CD)",
         "Set": "$t(gameData:RelicSets.121.Name)",
-        "Text": "40% CD"
+        "Text": "36% CD"
       },
       "Keel": {
         "Desc": "$t(gameData:RelicSets.310.Name) (+10% CD)",

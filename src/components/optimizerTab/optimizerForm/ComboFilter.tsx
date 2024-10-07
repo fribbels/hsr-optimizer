@@ -28,7 +28,7 @@ export const ComboFilters = () => {
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
       <HeaderText>{t('Header')/* Rotation COMBO formula */}</HeaderText>
-      <Flex vertical gap={optimizerTabDefaultGap}>
+      <Flex vertical gap={optimizerTabDefaultGap} style={{ display: 'none' }}>
         <ComboRow title={t('BASIC')} name='BASIC'/>
         <ComboRow title={t('SKILL')} name='SKILL'/>
         <ComboRow title={t('ULT')} name='ULT'/>

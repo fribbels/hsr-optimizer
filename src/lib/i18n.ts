@@ -7,7 +7,7 @@ import { BASE_PATH } from './db'
 export const languages = {
   zh: {
     locale: 'zh',
-    nativeName: '中国人',
+    nativeName: '中文',
   }, /*
   de: {
     locale: 'de',
@@ -29,12 +29,12 @@ export const languages = {
     locale: 'id',
     nativeName: 'Bahasa Indonesia',
   },
-  jp: {
-    locale: 'jp',
+  ja: {
+    locale: 'ja',
     nativeName: '日本語',
   },
   kr: {
-    locale: 'kr',
+    locale: 'ko',
     nativeName: '한국인',
   },
   pt: {
@@ -47,7 +47,7 @@ export const languages = {
   },
   th: {
     locale: 'th',
-    nativeName: 'แบบไทย',
+    nativeName: ' ไทย',
   },
   vi: {
     locale: 'vi',

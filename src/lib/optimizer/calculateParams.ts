@@ -8,7 +8,6 @@ import { calculateConditionals, ConditionalRegistry } from 'lib/optimizer/calcul
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { generateContext } from 'lib/optimizer/context/calculateContext'
 
 export type CharacterStats = {
   base: { [key: string]: number }
@@ -62,8 +61,6 @@ export type OptimizerParams = {
  */
 export function generateParams(request: Form): OptimizerParams {
   const params: Partial<OptimizerParams> = {}
-
-  generateContext(request)
 
   generateCharacterBaseParams(request, params)
   generateSetConditionalParams(request, params)

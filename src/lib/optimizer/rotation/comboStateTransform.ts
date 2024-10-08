@@ -7,6 +7,7 @@ import { SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets,
 import { baseComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateConditionals'
 
 export type ComboForm = {
 
@@ -76,6 +77,7 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
   action.teammate2.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate2.lightConeConditionals) as LightConeConditional
 
   precomputeConditionals(action, comboState)
+  calculateContextConditionalRegistry(action, comboState)
 
   console.log({ action })
 }

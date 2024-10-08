@@ -8,6 +8,8 @@ import { ConditionalSets } from 'lib/gpu/conditionals/setConditionals'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { LightConeConditional } from 'types/LightConeConditionals'
+import { OptimizerAction } from 'types/Optimizer'
+import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 
 export function calculateConditionals(request: Form, params: Partial<OptimizerParams>) {
   const characterConditionals: CharacterConditional = CharacterConditionals.get(request)
@@ -68,6 +70,20 @@ export function calculateConditionalRegistry(request: Form, params: Partial<Opti
 
   params.conditionalRegistry = conditionalRegistry
   params.conditionalState = {}
+}
+
+export function calculateContextConditionalRegistry(action: OptimizerAction, comboState: ComboState) {
+  const characterConditionals: CharacterConditional = CharacterConditionals.get(comboState.comboCharacter.metadata as unknown as Form)
+  const lightConeConditionals: LightConeConditional = LightConeConditionals.get(comboState.comboCharacter.metadata as unknown as Form)
+
+  const conditionalRegistry: ConditionalRegistry = emptyRegistry()
+
+  registerConditionals(conditionalRegistry, lightConeConditionals.dynamicConditionals ?? [])
+  registerConditionals(conditionalRegistry, characterConditionals.dynamicConditionals ?? [])
+  registerConditionals(conditionalRegistry, ConditionalSets || [])
+
+  action.conditionalRegistry = conditionalRegistry
+  action.conditionalState = {}
 }
 
 export type ConditionalRegistry = {

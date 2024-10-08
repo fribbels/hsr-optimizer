@@ -13,8 +13,9 @@ import { SortOption } from 'lib/optimizer/sortOptions'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { Constants } from 'lib/constants'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
+import { OptimizerContext } from 'types/Optimizer'
 
-export function generateWgsl(params: OptimizerParams, request: Form, gpuParams: GpuConstants) {
+export function generateWgsl(params: OptimizerParams, context: OptimizerContext, request: Form, gpuParams: GpuConstants) {
   calculateConditionals(request, params)
   calculateConditionalRegistry(request, params)
   calculateTeammates(request, params)

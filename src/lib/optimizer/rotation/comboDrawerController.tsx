@@ -647,6 +647,7 @@ function change(changeConditional: { [key: string]: any }, originalConditional: 
     if (comboCategory.type == 'boolean') {
       for (let i = 0; i <= 8; i++) {
         if (set) {
+          // Set conditionals use legacy [undefined, value] format
           comboCategory.activations[i] = value[1]
         } else {
           comboCategory.activations[i] = value

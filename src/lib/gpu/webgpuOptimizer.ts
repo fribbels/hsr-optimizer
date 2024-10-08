@@ -11,8 +11,10 @@ import { Message } from 'lib/message'
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { OptimizerContext } from 'types/Optimizer'
 
 export async function gpuOptimize(props: {
+  context: OptimizerContext
   params: OptimizerParams
   request: Form
   relics: RelicsByPart

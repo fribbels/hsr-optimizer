@@ -6,11 +6,13 @@ import { Form } from 'types/Form'
 import postComputeShader from 'lib/gpu/wgsl/postComputeShader.wgsl?raw'
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants'
 import { GpuExecutionContext, GpuResult, RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { OptimizerContext } from 'types/Optimizer'
 
 export function initializeGpuPipeline(
   device: GPUDevice,
   relics: RelicsByPart,
   request: Form,
+  context: OptimizerContext,
   params: OptimizerParams,
   permutations: number,
   computeEngine: string,
@@ -24,7 +26,7 @@ export function initializeGpuPipeline(
   const RESULTS_LIMIT = request.resultsLimit ?? 1024
   const DEBUG = debug
 
-  const wgsl = generateWgsl(params, request, {
+  const wgsl = generateWgsl(params, context, request, {
     WORKGROUP_SIZE,
     BLOCK_SIZE,
     CYCLES_PER_INVOCATION,

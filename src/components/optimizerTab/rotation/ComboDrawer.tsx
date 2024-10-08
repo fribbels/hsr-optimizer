@@ -2,7 +2,7 @@ import { Button, Divider, Drawer, Flex, Select } from 'antd'
 import React, { useEffect, useMemo, useRef } from 'react'
 import Selecto from 'react-selecto'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState, ComboSubNumberConditional, ComboTeammate, ConditionalType, initializeComboState, locateActivations, updateAbilityRotation, updateActivation, updateAddPartition, updateBooleanDefaultSelection, updateDeletePartition, updateFormState, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
+import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState, ComboSubNumberConditional, ComboTeammate, ConditionalType, initializeComboState, locateActivations, updateAbilityRotation, updateActivation, updateAddPartition, updateBooleanDefaultSelection, updateDeletePartition, updateFormState, updateNumberDefaultSelection, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { Assets } from 'lib/assets'
@@ -634,7 +634,7 @@ function NumberSlider(props: { contentItem: ContentItem, value: number, sourceKe
             content={ColorizeNumbers(contentItem.content)}
             teammateIndex={getTeammateIndex(props.sourceKey)}
             text={contentItem.text}
-            onChange={(x) => console.log(x)}
+            onChange={(value) => updateNumberDefaultSelection(props.sourceKey, contentItem.id, props.partitionIndex, value)}
             value={props.value}
             removeForm={props.partitionIndex > 0}
           />
@@ -654,18 +654,6 @@ function NumberSlider(props: { contentItem: ContentItem, value: number, sourceKe
 function NumberSelect(props: { contentItem: ContentItem, value: number, sourceKey: string, partitionIndex: number }) {
   const contentItem = props.contentItem
 
-  //   <FormSwitchWithPopover
-  // {...contentItem}
-  // name={contentItem.id}
-  // title={contentItem.title}
-  // teammateIndex={getTeammateIndex(props.sourceKey)}
-  // content={ColorizeNumbers(contentItem.content)}
-  // text={contentItem.text}
-  // removeForm={false}
-  // set={props.sourceKey.includes('comboCharacterRelicSets')}
-  // onChange={(value) => updateBooleanDefaultSelection(props.sourceKey, contentItem.id, value)}
-  // value={props.value}
-  // disabled={props.sourceKey.includes('Teammate') && props.sourceKey.includes('Set')}
   return (
     <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={0}>
       <Flex style={{ width: 210 }} align='center'>
@@ -679,7 +667,7 @@ function NumberSelect(props: { contentItem: ContentItem, value: number, sourceKe
             content={ColorizeNumbers(contentItem.content)}
             text={contentItem.text}
             set={props.sourceKey.includes('comboCharacterRelicSets')}
-            onChange={(x) => console.log(x)}
+            onChange={(value) => updateNumberDefaultSelection(props.sourceKey, contentItem.id, props.partitionIndex, value)}
             value={props.value}
             removeForm={props.partitionIndex > 0}
           />

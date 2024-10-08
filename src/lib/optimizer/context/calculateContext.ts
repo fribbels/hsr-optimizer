@@ -4,11 +4,10 @@ import DB from 'lib/db'
 import { emptyLightCone } from 'lib/optimizer/optimizerUtils'
 import { ElementToDamage, ElementToResPenType, Stats } from 'lib/constants'
 import { CharacterStats } from 'lib/characterStats'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
-import { calculateConditionals } from 'lib/optimizer/calculateConditionals'
+import { transformComboState } from 'lib/optimizer/rotation/comboStateTransform'
 
 export function generateContext(request: Form): OptimizerContext {
-  const context: Partial<OptimizerContext> = {}
+  const context: OptimizerContext = {} as OptimizerContext
 
   generateEnemyContext(request, context)
   generateBaseStatsContext(request, context)
@@ -19,8 +18,8 @@ export function generateContext(request: Form): OptimizerContext {
   return context as OptimizerContext
 }
 
-function calculateconditionals(request: Form, params: Partial<OptimizerParams>) {
-
+function calculateConditionals(request: Form, context: OptimizerContext) {
+  transformComboState(request, context)
 }
 
 export const ElementToBreakScaling = {

@@ -526,6 +526,29 @@ export function updateBooleanDefaultSelection(sourceKey: string, contentItemId: 
   }
 }
 
+export function updateNumberDefaultSelection(sourceKey: string, contentItemId: string, partitionIndex: number, value: number) {
+  const comboState = window.store.getState().comboState
+  const dataKey: ComboDataKey = {
+    id: contentItemId,
+    source: sourceKey,
+    index: 0,
+    partitionIndex: partitionIndex
+  }
+
+  const locatedActivations = locateActivationsDataKey(dataKey, comboState)
+  if (!locatedActivations) return
+
+  if (locatedActivations.comboConditional.type == ConditionalType.NUMBER || locatedActivations.comboConditional.type == ConditionalType.SELECT) {
+    // Default number is always active
+    const comboNumberConditional = locatedActivations.comboConditional as ComboNumberConditional
+    comboNumberConditional.partitions[partitionIndex].value = value
+
+    window.store.getState().setComboState({ ...comboState })
+  } else {
+    //
+  }
+}
+
 function shiftLeft(arr: boolean[], index: number) {
   arr.splice(index, 1)
   arr.push(arr[0])

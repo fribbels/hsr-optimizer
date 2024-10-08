@@ -127,8 +127,6 @@ function minus(formInstance: FormInstance) {
 }
 
 function reset(formInstance: FormInstance) {
-  const form = formInstance.getFieldsValue()
-
   for (let i = 2; i <= 10; i++) {
     formInstance.setFieldValue(['comboAbilities', i], null)
   }

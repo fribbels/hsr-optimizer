@@ -13,8 +13,10 @@ export type OptimizerAction = {
   conditionalRegistry: ConditionalRegistry
   conditionalState: { [key: string]: number }
 
+  actionType: string
   // Teammate data all gets precomputed, only the non-precomputable values go in here
 }
+
 
 export type SetConditional = {
   enabledHunterOfGlacialForest: number

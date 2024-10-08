@@ -15,9 +15,17 @@ export type OptimizerAction = {
 
   actionType: string
   actionIndex: number
+
+  teammate0: TeammateAction
+  teammate1: TeammateAction
+  teammate2: TeammateAction
   // Teammate data all gets precomputed, only the non-precomputable values go in here
 }
 
+export type TeammateAction = {
+  characterConditionals: CharacterConditional
+  lightConeConditionals: LightConeConditional
+}
 
 export type SetConditional = {
   enabledHunterOfGlacialForest: number

@@ -10,6 +10,7 @@ import { CharacterStats } from './characterStats'
 import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultForm, getDefaultWeights } from 'lib/defaultForm'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
+import { initializeComboState } from 'lib/optimizer/rotation/comboDrawerController'
 
 let relics
 let consts
@@ -706,6 +707,9 @@ export const OptimizerTabController = {
     const form = character ? character.form : getDefaultForm({ id: characterId })
     const displayFormValues = OptimizerTabController.getDisplayFormValues(form)
     window.optimizerForm.setFieldsValue(displayFormValues)
+
+    const comboState = initializeComboState(displayFormValues, true)
+    window.store.getState().setComboState(comboState)
 
     // Setting timeout so this doesn't lag the modal close animation. The delay is mostly hidden by the animation
     setTimeout(() => {

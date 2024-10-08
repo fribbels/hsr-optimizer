@@ -1,6 +1,6 @@
-import { ComboBooleanConditional, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState } from 'lib/optimizer/rotation/comboDrawerController'
+import { ComboBooleanConditional, ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { Form } from 'types/Form'
-import { OptimizerAction, OptimizerContext, SetConditional } from 'types/Optimizer'
+import { OptimizerAction, OptimizerContext, SetConditional, TeammateAction } from 'types/Optimizer'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets, Stats } from 'lib/constants'
@@ -18,11 +18,12 @@ export function transformComboState(request: Form, context: OptimizerContext) {
   console.debug(context)
 
   if (!request.comboStateJson || request.comboStateJson == '{}') return
-  const comboState = JSON.parse(request.comboStateJson) as ComboState
 
   if (request.comboType == 'advanced') {
+    const comboState = initializeComboState(request, true)
     simpleTransform(comboState, request, context)
   } else {
+    const comboState = initializeComboState(request, false)
     simpleTransform(comboState, request, context)
   }
 }
@@ -43,6 +44,18 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
     characterConditionals: {},
     lightConeConditionals: {},
     setConditionals: {},
+    teammate0: {
+      characterConditionals: {},
+      lightConeConditionals: {},
+    },
+    teammate1: {
+      characterConditionals: {},
+      lightConeConditionals: {},
+    },
+    teammate2: {
+      characterConditionals: {},
+      lightConeConditionals: {},
+    },
   } as OptimizerAction
   action.actionIndex = actionIndex
   action.actionType = comboAbilities[actionIndex]
@@ -52,6 +65,15 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
   action.setConditionals = transformSetConditionals(actionIndex, comboState.comboCharacter.setConditionals) as SetConditional
 
   action.precomputedX = Object.assign({}, baseComputedStatsObject)
+
+  action.teammate0.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate0.characterConditionals) as CharacterConditional
+  action.teammate0.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate0.lightConeConditionals) as LightConeConditional
+
+  action.teammate1.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate1.characterConditionals) as CharacterConditional
+  action.teammate1.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate1.lightConeConditionals) as LightConeConditional
+
+  action.teammate2.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate2.characterConditionals) as CharacterConditional
+  action.teammate2.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate2.lightConeConditionals) as LightConeConditional
 
   precomputeConditionals(action, comboState)
 
@@ -90,6 +112,7 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState)
   lightConeConditionals.precomputeMutualEffects?.(x, action as unknown as Form)
   characterConditionals.precomputeMutualEffects?.(x, action as unknown as Form)
 
+  precomputeTeammates(action, comboState)
   // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
   // x.ENEMY_WEAKNESS_BROKEN = x.ENEMY_WEAKNESS_BROKEN || (request.enemyWeaknessBroken ? 1 : 0) // TODO
 }
@@ -108,14 +131,22 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState) {
     // teammates[i].lightCone = teammates[i].lightCone || null
     const teammateRequest = Object.assign({}, teammates[i])
 
+    // const teammateCharacterConditional = transformConditionals(action.actionIndex, teammates[i].characterConditionals) as CharacterConditional
+    // const teammateLightConeConditional = transformConditionals(action.actionIndex, teammates[i].lightConeConditionals) as LightConeConditional
+
+    const teammateAction: TeammateAction = {
+      characterConditionals: transformConditionals(action.actionIndex, teammates[i].characterConditionals) as CharacterConditional,
+      lightConeConditionals: transformConditionals(action.actionIndex, teammates[i].lightConeConditionals) as LightConeConditional
+    }
+
     const teammateCharacterConditionals = CharacterConditionals.get(teammates[i].metadata) as CharacterConditional
     const teammateLightConeConditionals = LightConeConditionals.get(teammates[i].metadata) as LightConeConditional
 
-    if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateRequest as unknown as Form)
-    if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateRequest as unknown as Form)
+    if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateAction as unknown as Form)
+    if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateAction as unknown as Form)
 
-    if (teammateLightConeConditionals.precomputeMutualEffects) teammateLightConeConditionals.precomputeMutualEffects(x, teammateRequest as unknown as Form)
-    if (teammateLightConeConditionals.precomputeTeammateEffects) teammateLightConeConditionals.precomputeTeammateEffects(x, teammateRequest as unknown as Form)
+    if (teammateLightConeConditionals.precomputeMutualEffects) teammateLightConeConditionals.precomputeMutualEffects(x, teammateAction as unknown as Form)
+    if (teammateLightConeConditionals.precomputeTeammateEffects) teammateLightConeConditionals.precomputeTeammateEffects(x, teammateAction as unknown as Form)
 
 
     for (const [key, value] of [...Object.entries(teammateRequest.relicSetConditionals), ...Object.entries(teammateRequest.ornamentSetConditionals)]) {
@@ -125,8 +156,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState) {
           continue
         }
       } else {
-        const numberComboConditional = value as ComboNumberConditional
-        
+        continue
       }
       switch (key) {
         case Sets.BrokenKeel:
@@ -159,11 +189,10 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState) {
           break
         default:
       }
-    }
 
-    // Track unique buffs
-    teammateSetEffects[teammateRequest.teamOrnamentSet] = true
-    teammateSetEffects[teammateRequest.teamRelicSet] = true
+      // Track unique buffs
+      teammateSetEffects[key] = true
+    }
   }
 }
 

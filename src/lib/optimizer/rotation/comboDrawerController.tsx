@@ -84,7 +84,8 @@ export type ComboState = {
 
 export type SetConditionals = typeof defaultSetConditionals
 
-export function initializeComboState(request: Form) {
+export function initializeComboState(request: Form, merge: boolean) {
+  console.log('initializeComboState')
   const comboState = {} as ComboState
 
   if (!request.characterId) return comboState
@@ -137,7 +138,7 @@ export function initializeComboState(request: Form) {
   comboState.comboTeammate1 = generateComboTeammate(request.teammate1, actionCount)
   comboState.comboTeammate2 = generateComboTeammate(request.teammate2, actionCount)
 
-  if (request.comboStateJson) {
+  if (request.comboStateJson && merge) {
     console.debug('!!!!!!!!!!!!!!! LOAD', request.comboStateJson)
     const savedComboState = JSON.parse(request.comboStateJson) as ComboState
     comboState.comboCharacter.displayedOrnamentSets = savedComboState?.comboCharacter?.displayedOrnamentSets ?? []
@@ -152,6 +153,7 @@ export function initializeComboState(request: Form) {
 }
 
 function mergeComboStates(base: ComboState, update: ComboState) {
+  console.log('mergeComboStates')
   if (base.comboCharacter.metadata.characterId != update?.comboCharacter?.metadata?.characterId) return
 
   mergeConditionals(base.comboCharacter.characterConditionals, update?.comboCharacter?.characterConditionals)
@@ -177,7 +179,19 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
   for (const [key, conditional] of Object.entries(baseConditionals)) {
     const updateConditional = updateConditionals[key]
     if (updateConditional && conditional.type == updateConditional.type) {
-      baseConditionals[key] = updateConditional
+      // The initial value must always match the form
+      if (conditional.type == 'boolean') {
+        const booleanBaseConditional = conditional as ComboBooleanConditional
+        const booleanUpdateConditional = updateConditional as ComboBooleanConditional
+        booleanUpdateConditional.activations[0] = booleanBaseConditional.activations[0]
+        baseConditionals[key] = updateConditional
+      } else {
+        const numberBaseConditional = conditional as ComboNumberConditional
+        const numberUpdateConditional = updateConditional as ComboNumberConditional
+        numberUpdateConditional.partitions[0].value = numberBaseConditional.partitions[0].value
+        numberUpdateConditional.partitions[0].activations[0] = numberBaseConditional.partitions[0].activations[0]
+        baseConditionals[key] = updateConditional
+      }
     }
   }
 }
@@ -194,14 +208,14 @@ function generateComboConditionals(
     if (content.disabled) continue
 
     if (content.formItem == 'switch') {
-      const value: boolean = conditionals[content.id] ? conditionals[content.id] : defaults[content.id]
+      const value: boolean = conditionals[content.id] != null ? conditionals[content.id] : defaults[content.id]
       const activations: boolean[] = Array(actionCount).fill(value)
       output[content.id] = {
         type: ConditionalType.BOOLEAN,
         activations: activations,
       }
     } else if (content.formItem == 'slider') {
-      const value: number = conditionals[content.id] ? conditionals[content.id] : defaults[content.id]
+      const value: number = conditionals[content.id] != null ? conditionals[content.id] : defaults[content.id]
       const activations: boolean[] = Array(actionCount).fill(true)
       const valuePartitions: ComboSubNumberConditional = {
         value: value,
@@ -212,7 +226,7 @@ function generateComboConditionals(
         partitions: [valuePartitions],
       }
     } else if (content.formItem == 'select') {
-      const value: number = conditionals[content.id] ? conditionals[content.id] : defaults[content.id]
+      const value: number = conditionals[content.id] != null ? conditionals[content.id] : defaults[content.id]
       const activations: boolean[] = Array(actionCount).fill(true)
       const valuePartitions: ComboSubSelectConditional = {
         value: value,
@@ -403,6 +417,7 @@ export function updateActivation(keyString: string, activate: boolean, comboStat
 }
 
 export function updatePartitionActivation(keyString: string, comboState: ComboState) {
+  console.log('updatePartitionActivation')
   const dataKey: ComboDataKey = JSON.parse(keyString)
   if (!dataKey.id) return
   if (dataKey.index == 0) return
@@ -432,6 +447,7 @@ export type ComboDataKey = {
 }
 
 export function updateAddPartition(sourceKey: string, contentItemId: string, partitionIndex: number) {
+  console.log('updateAddPartition')
   const comboState = window.store.getState().comboState
 
   const comboCategory = locateComboCategory(sourceKey, contentItemId, comboState) as ComboNumberConditional
@@ -448,6 +464,7 @@ export function updateAddPartition(sourceKey: string, contentItemId: string, par
 }
 
 export function updateDeletePartition(sourceKey: string, contentItemId: string, partitionIndex: number) {
+  console.log('updateDeletePartition')
   if (partitionIndex == 0) return
 
   const comboState = window.store.getState().comboState
@@ -474,6 +491,7 @@ export function updateDeletePartition(sourceKey: string, contentItemId: string, 
 }
 
 export function updateSelectedSets(sets: string[], isOrnaments: boolean) {
+  console.log('updateSelectedSets')
   const comboState = window.store.getState().comboState
   const setConditionals = comboState.comboCharacter.setConditionals
 
@@ -504,6 +522,7 @@ export function updateSelectedSets(sets: string[], isOrnaments: boolean) {
 }
 
 export function updateBooleanDefaultSelection(sourceKey: string, contentItemId: string, value: boolean) {
+  console.log('updateBooleanDefaultSelection')
   const comboState = window.store.getState().comboState
   const dataKey: ComboDataKey = {
     id: contentItemId,
@@ -527,6 +546,7 @@ export function updateBooleanDefaultSelection(sourceKey: string, contentItemId: 
 }
 
 export function updateNumberDefaultSelection(sourceKey: string, contentItemId: string, partitionIndex: number, value: number) {
+  console.log('updateNumberDefaultSelection')
   const comboState = window.store.getState().comboState
   const dataKey: ComboDataKey = {
     id: contentItemId,
@@ -568,8 +588,23 @@ function shiftAllActivations(obj: any, index: number): void {
   }
 }
 
+function setActivationIndexToDefault(obj: any, index: number): void {
+  for (const key in obj) {
+    if (!obj.hasOwnProperty(key)) continue;
+
+    if (key === 'activations' && Array.isArray(obj[key])) {
+      obj[key][index] = obj[key][0]
+    }
+
+    if (typeof obj[key] === 'object' && obj[key] !== null) {
+      setActivationIndexToDefault(obj[key], index);
+    }
+  }
+}
+
 // Index is 0 indexed, and only includes the interactable elements, not including the [0] default
 export function updateAbilityRotation(index: number, value: string) {
+  console.log('updateAbilityRotation')
   const comboState = window.store.getState().comboState
   const comboAbilities = comboState.comboAbilities
 
@@ -580,12 +615,14 @@ export function updateAbilityRotation(index: number, value: string) {
     shiftAllActivations(comboState, index)
   } else {
     comboAbilities[index] = value
+    setActivationIndexToDefault(comboState, index)
   }
 
   window.store.getState().setComboState({ ...comboState })
 }
 
 export function updateFormState(comboState: ComboState) {
+  console.log('updateFormState')
   window.optimizerForm.setFieldValue('comboStateJson', JSON.stringify(comboState));
   window.optimizerForm.setFieldValue('comboAbilities', comboState.comboAbilities);
 
@@ -593,4 +630,50 @@ export function updateFormState(comboState: ComboState) {
   DB.replaceCharacterForm(form)
 
   SaveState.delayedSave(1000)
+}
+
+type ChangeEvent = {
+  characterConditionals: { [key: string]: any },
+  lightConeConditionals: { [key: string]: any },
+  setConditionals: { [key: string]: any },
+  teammate0: { [key: string]: any },
+  teammate1: { [key: string]: any },
+  teammate2: { [key: string]: any },
+}
+
+function change(changeConditional: { [key: string]: any }, originalConditional: ComboConditionals, set: boolean = false) {
+  for (const [key, value] of Object.entries(changeConditional)) {
+    const comboCategory = originalConditional[key]
+    if (comboCategory.type == 'boolean') {
+      for (let i = 0; i <= 8; i++) {
+        if (set) {
+          comboCategory.activations[i] = value[1]
+        } else {
+          comboCategory.activations[i] = value
+        }
+      }
+    }
+  }
+}
+
+export function updateConditionalChange(changeEvent: ChangeEvent) {
+  console.log('updateConditionalChange', changeEvent)
+
+  const comboState = window.store.getState().comboState
+
+  if (changeEvent.characterConditionals) change(changeEvent.characterConditionals, comboState.comboCharacter.characterConditionals)
+  if (changeEvent.lightConeConditionals) change(changeEvent.lightConeConditionals, comboState.comboCharacter.lightConeConditionals)
+  if (changeEvent.setConditionals) change(changeEvent.setConditionals, comboState.comboCharacter.setConditionals, true)
+
+  if (changeEvent.teammate0?.characterConditionals) change(changeEvent.teammate0.characterConditionals, comboState.comboTeammate0.characterConditionals)
+  if (changeEvent.teammate0?.lightConeConditionals) change(changeEvent.teammate0.lightConeConditionals, comboState.comboTeammate0.lightConeConditionals)
+
+  if (changeEvent.teammate1?.characterConditionals) change(changeEvent.teammate1.characterConditionals, comboState.comboTeammate1.characterConditionals)
+  if (changeEvent.teammate1?.lightConeConditionals) change(changeEvent.teammate1.lightConeConditionals, comboState.comboTeammate1.lightConeConditionals)
+
+  if (changeEvent.teammate2?.characterConditionals) change(changeEvent.teammate2.characterConditionals, comboState.comboTeammate2.characterConditionals)
+  if (changeEvent.teammate2?.lightConeConditionals) change(changeEvent.teammate2.lightConeConditionals, comboState.comboTeammate2.lightConeConditionals)
+
+  window.store.getState().setComboState({ ...comboState })
+  updateFormState(comboState)
 }

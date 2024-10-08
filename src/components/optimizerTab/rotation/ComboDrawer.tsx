@@ -2,7 +2,7 @@ import { Button, Divider, Drawer, Flex, Select } from 'antd'
 import React, { useEffect, useMemo, useRef } from 'react'
 import Selecto from 'react-selecto'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState, ComboSubNumberConditional, ComboTeammate, ConditionalType, initializeComboState, locateActivations, updateAbilityRotation, updateActivation, updateAddPartition, updateBooleanDefaultSelection, updateDeletePartition, updateFormState, updateNumberDefaultSelection, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
+import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState, ComboSubNumberConditional, ComboTeammate, ConditionalType, initializeComboState, locateActivations, updateAbilityRotation, updateActivation, updateAddPartition, updateDeletePartition, updateFormState, updateNumberDefaultSelection, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { Assets } from 'lib/assets'
@@ -43,7 +43,7 @@ export function ComboDrawer() {
       console.debug('form', form)
       console.debug('combo', form.combo)
 
-      const comboState = initializeComboState(form)
+      const comboState = initializeComboState(form, true)
       setComboState(comboState)
     } else {
       updateFormState(comboState)
@@ -602,7 +602,7 @@ function BooleanSwitch(props: { contentItem: ContentItem, sourceKey: string, val
             text={contentItem.text}
             removeForm={false}
             set={props.sourceKey.includes('comboCharacterRelicSets')}
-            onChange={(value) => updateBooleanDefaultSelection(props.sourceKey, contentItem.id, value)}
+            // onChange={(value) => updateBooleanDefaultSelection(props.sourceKey, contentItem.id, value)}
             value={props.value}
             disabled={props.sourceKey.includes('Teammate') && props.sourceKey.includes('Set')}
           />

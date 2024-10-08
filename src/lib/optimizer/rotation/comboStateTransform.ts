@@ -1,8 +1,12 @@
-import { ComboBooleanConditional, ComboConditionals, ComboSelectConditional, ComboState } from 'lib/optimizer/rotation/comboDrawerController'
+import { ComboBooleanConditional, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { Form } from 'types/Form'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { OptimizerAction, OptimizerContext, SetConditional } from 'types/Optimizer'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { LightConeConditional } from 'types/LightConeConditionals'
+import { SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets, Stats } from 'lib/constants'
+import { baseComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { CharacterConditionals } from 'lib/characterConditionals'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
 
 export type ComboForm = {
 
@@ -17,7 +21,7 @@ export function transformComboState(request: Form, context: OptimizerContext) {
   const comboState = JSON.parse(request.comboStateJson) as ComboState
 
   if (request.comboType == 'advanced') {
-
+    simpleTransform(comboState, request, context)
   } else {
     simpleTransform(comboState, request, context)
   }
@@ -30,7 +34,6 @@ function advancedTransform() {
 function simpleTransform(comboState: ComboState, request: Form, context: OptimizerContext) {
   const comboAbilities = getComboAbilities(request.comboAbilities)
   for (let i = 0; i < comboAbilities.length; i++) {
-    const ability = comboAbilities[i]
     transformAction(i, comboState, comboAbilities)
   }
 }
@@ -41,35 +44,178 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
     lightConeConditionals: {},
     setConditionals: {},
   } as OptimizerAction
+  action.actionIndex = actionIndex
   action.actionType = comboAbilities[actionIndex]
 
-  const characterConditionals = comboState.comboCharacter.characterConditionals
-
   action.characterConditionals = transformConditionals(actionIndex, comboState.comboCharacter.characterConditionals) as CharacterConditional
-  action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.characterConditionals) as LightConeConditional
-  // action.setConditionals = transformConditionals(actionIndex, comboState.comboCharacter.characterConditionals) as SetConditionals
+  action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.lightConeConditionals) as LightConeConditional
+  action.setConditionals = transformSetConditionals(actionIndex, comboState.comboCharacter.setConditionals) as SetConditional
+
+  action.precomputedX = Object.assign({}, baseComputedStatsObject)
+
+  precomputeConditionals(action, comboState)
 
   console.log({ action })
 }
 
-function transformConditionals(actionIndex: number, conditionals: ComboConditionals) {
-  const transformedConditionals = {}
-  for (const [key, category] of Object.entries(conditionals)) {
-    if (category.type == 'boolean') {
-      const booleanCategory = category as ComboBooleanConditional
-      transformedConditionals[key] = booleanCategory.activations[actionIndex]
-    } else {
-      const partitionCategory = category as ComboSelectConditional
-      for (let i = 0; i < partitionCategory.partitions.length; i++) {
-        const partition = partitionCategory.partitions[i]
-        if (partition.activations[actionIndex]) {
-          transformedConditionals[key] = partition.value
+function precomputeConditionals(action: OptimizerAction, comboState: ComboState) {
+  const characterConditionals: CharacterConditional = CharacterConditionals.get(comboState.comboCharacter.metadata)
+  const lightConeConditionals: LightConeConditional = LightConeConditionals.get(comboState.comboCharacter.metadata)
+
+  const x = action.precomputedX
+
+  lightConeConditionals.initializeConfigurations?.(x, action as unknown as Form) // TODO
+  characterConditionals.initializeConfigurations?.(x, action as unknown as Form) // TODO
+
+  const teammates = [
+    comboState.comboTeammate0,
+    comboState.comboTeammate1,
+    comboState.comboTeammate2,
+  ].filter((x) => !!x?.metadata?.characterId)
+  for (let i = 0; i < teammates.length; i++) {
+    const teammateRequest = Object.assign({}, teammates[i])
+
+    const teammateCharacterConditionals = CharacterConditionals.get(teammates[i].metadata) as CharacterConditional
+    const teammateLightConeConditionals = LightConeConditionals.get(teammates[i].metadata) as LightConeConditional
+
+    teammateCharacterConditionals.initializeTeammateConfigurations?.(x, teammateRequest as unknown as Form)
+    teammateLightConeConditionals.initializeTeammateConfigurations?.(x, teammateRequest as unknown as Form)
+  }
+
+  // Precompute stage
+  lightConeConditionals.precomputeEffects?.(x, action as unknown as Form)
+  characterConditionals.precomputeEffects?.(x, action as unknown as Form)
+
+  // Precompute mutual stage
+  lightConeConditionals.precomputeMutualEffects?.(x, action as unknown as Form)
+  characterConditionals.precomputeMutualEffects?.(x, action as unknown as Form)
+
+  // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
+  // x.ENEMY_WEAKNESS_BROKEN = x.ENEMY_WEAKNESS_BROKEN || (request.enemyWeaknessBroken ? 1 : 0) // TODO
+}
+
+function precomputeTeammates(action: OptimizerAction, comboState: ComboState) {
+  // Precompute teammate effects
+  const x = action.precomputedX
+  const teammateSetEffects = {}
+  const teammates = [
+    comboState.comboTeammate0,
+    comboState.comboTeammate1,
+    comboState.comboTeammate2,
+  ].filter((x) => !!x?.metadata?.characterId)
+  for (let i = 0; i < teammates.length; i++) {
+    // This is set to null so empty light cones don't get overwritten by the main lc. TODO: There's probably a better place for this
+    // teammates[i].lightCone = teammates[i].lightCone || null
+    const teammateRequest = Object.assign({}, teammates[i])
+
+    const teammateCharacterConditionals = CharacterConditionals.get(teammates[i].metadata) as CharacterConditional
+    const teammateLightConeConditionals = LightConeConditionals.get(teammates[i].metadata) as LightConeConditional
+
+    if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateRequest as unknown as Form)
+    if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateRequest as unknown as Form)
+
+    if (teammateLightConeConditionals.precomputeMutualEffects) teammateLightConeConditionals.precomputeMutualEffects(x, teammateRequest as unknown as Form)
+    if (teammateLightConeConditionals.precomputeTeammateEffects) teammateLightConeConditionals.precomputeTeammateEffects(x, teammateRequest as unknown as Form)
+
+
+    for (const [key, value] of [...Object.entries(teammateRequest.relicSetConditionals), ...Object.entries(teammateRequest.ornamentSetConditionals)]) {
+      if (value.type == 'boolean') {
+        const booleanComboConditional = value as ComboBooleanConditional
+        if (!booleanComboConditional.activations[action.actionIndex]) {
+          continue
         }
+      } else {
+        const numberComboConditional = value as ComboNumberConditional
+        
+      }
+      switch (key) {
+        case Sets.BrokenKeel:
+          x[Stats.CD] += 0.10
+          break
+        case Sets.FleetOfTheAgeless:
+          x[Stats.ATK_P] += 0.08
+          break
+        case Sets.PenaconyLandOfTheDreams:
+          // TODO
+          // if (teammateRequest.ELEMENTAL_DMG_TYPE != params.ELEMENTAL_DMG_TYPE) break
+          // x.ELEMENTAL_DMG += 0.10
+          break
+        case Sets.LushakaTheSunkenSeas:
+          x[Stats.ATK_P] += 0.12
+          break
+        case Sets.MessengerTraversingHackerspace:
+          if (teammateSetEffects[Sets.MessengerTraversingHackerspace]) break
+          x[Stats.SPD_P] += 0.12
+          break
+        case Sets.WatchmakerMasterOfDreamMachinations:
+          if (teammateSetEffects[Sets.WatchmakerMasterOfDreamMachinations]) break
+          x[Stats.BE] += 0.30
+          break
+        case SACERDOS_RELIVED_ORDEAL_1_STACK:
+          x[Stats.CD] += 0.18
+          break
+        case SACERDOS_RELIVED_ORDEAL_2_STACK:
+          x[Stats.CD] += 0.36
+          break
+        default:
+      }
+    }
+
+    // Track unique buffs
+    teammateSetEffects[teammateRequest.teamOrnamentSet] = true
+    teammateSetEffects[teammateRequest.teamRelicSet] = true
+  }
+}
+
+function transformConditionals(actionIndex: number, conditionals: ComboConditionals) {
+  const result = {}
+  for (const [key, category] of Object.entries(conditionals)) {
+    result[key] = transformConditional(category, actionIndex)
+  }
+
+  return result
+}
+
+function transformConditional(category: ComboConditionalCategory, actionIndex: number) {
+  if (category.type == 'boolean') {
+    const booleanCategory = category as ComboBooleanConditional
+    return booleanCategory.activations[actionIndex]
+  } else {
+    const partitionCategory = category as ComboSelectConditional
+    for (let i = 0; i < partitionCategory.partitions.length; i++) {
+      const partition = partitionCategory.partitions[i]
+      if (partition.activations[actionIndex]) {
+        return partition.value
       }
     }
   }
 
-  return transformedConditionals
+  return 0
+}
+
+function transformSetConditionals(actionIndex: number, conditionals: ComboConditionals) {
+  return {
+    enabledHunterOfGlacialForest: transformConditional(conditionals[Sets.HunterOfGlacialForest], actionIndex),
+    enabledFiresmithOfLavaForging: transformConditional(conditionals[Sets.FiresmithOfLavaForging], actionIndex),
+    enabledGeniusOfBrilliantStars: transformConditional(conditionals[Sets.GeniusOfBrilliantStars], actionIndex),
+    enabledBandOfSizzlingThunder: transformConditional(conditionals[Sets.BandOfSizzlingThunder], actionIndex),
+    enabledMessengerTraversingHackerspace: transformConditional(conditionals[Sets.MessengerTraversingHackerspace], actionIndex),
+    enabledCelestialDifferentiator: transformConditional(conditionals[Sets.CelestialDifferentiator], actionIndex),
+    enabledWatchmakerMasterOfDreamMachinations: transformConditional(conditionals[Sets.WatchmakerMasterOfDreamMachinations], actionIndex),
+    enabledIzumoGenseiAndTakamaDivineRealm: transformConditional(conditionals[Sets.IzumoGenseiAndTakamaDivineRealm], actionIndex),
+    enabledForgeOfTheKalpagniLantern: transformConditional(conditionals[Sets.ForgeOfTheKalpagniLantern], actionIndex),
+    enabledTheWindSoaringValorous: transformConditional(conditionals[Sets.TheWindSoaringValorous], actionIndex),
+    enabledTheWondrousBananAmusementPark: transformConditional(conditionals[Sets.TheWondrousBananAmusementPark], actionIndex),
+    enabledScholarLostInErudition: transformConditional(conditionals[Sets.ScholarLostInErudition], actionIndex),
+    valueChampionOfStreetwiseBoxing: transformConditional(conditionals[Sets.ChampionOfStreetwiseBoxing], actionIndex),
+    valueWastelanderOfBanditryDesert: transformConditional(conditionals[Sets.WastelanderOfBanditryDesert], actionIndex),
+    valueLongevousDisciple: transformConditional(conditionals[Sets.LongevousDisciple], actionIndex),
+    valueTheAshblazingGrandDuke: transformConditional(conditionals[Sets.TheAshblazingGrandDuke], actionIndex),
+    valuePrisonerInDeepConfinement: transformConditional(conditionals[Sets.PrisonerInDeepConfinement], actionIndex),
+    valuePioneerDiverOfDeadWaters: transformConditional(conditionals[Sets.PioneerDiverOfDeadWaters], actionIndex),
+    valueSigoniaTheUnclaimedDesolation: transformConditional(conditionals[Sets.SigoniaTheUnclaimedDesolation], actionIndex),
+    valueDuranDynastyOfRunningWolves: transformConditional(conditionals[Sets.DuranDynastyOfRunningWolves], actionIndex),
+  }
 }
 
 function getComboAbilities(comboAbilities: string[]) {

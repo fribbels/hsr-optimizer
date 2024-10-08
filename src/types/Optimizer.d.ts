@@ -14,6 +14,7 @@ export type OptimizerAction = {
   conditionalState: { [key: string]: number }
 
   actionType: string
+  actionIndex: number
   // Teammate data all gets precomputed, only the non-precomputable values go in here
 }
 

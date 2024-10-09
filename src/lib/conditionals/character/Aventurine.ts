@@ -9,8 +9,7 @@ import { AventurineConversionConditional } from 'lib/gpu/conditionals/dynamicCon
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Aventurine')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -22,77 +21,84 @@ export default (e: Eidolon): CharacterConditional => {
 
   const fuaHits = (e >= 4) ? 10 : 7
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'defToCrBoost',
-      name: 'defToCrBoost',
-      text: t('Content.defToCrBoost.text'),
-      title: t('Content.defToCrBoost.title'),
-      content: t('Content.defToCrBoost.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'fortifiedWagerBuff',
-      name: 'fortifiedWagerBuff',
-      text: t('Content.fortifiedWagerBuff.text'),
-      title: t('Content.fortifiedWagerBuff.title'),
-      content: t('Content.fortifiedWagerBuff.content', { talentResScaling: TsUtils.precisionRound(100 * talentResScaling) }),
-    },
-    {
-      formItem: 'switch',
-      id: 'enemyUnnervedDebuff',
-      name: 'enemyUnnervedDebuff',
-      text: t('Content.enemyUnnervedDebuff.text'),
-      title: t('Content.enemyUnnervedDebuff.title'),
-      content: t('Content.enemyUnnervedDebuff.content', { ultCdBoost: TsUtils.precisionRound(100 * ultCdBoost) }),
-    },
-    {
-      formItem: 'slider',
-      id: 'fuaHitsOnTarget',
-      name: 'fuaHitsOnTarget',
-      text: t('Content.fuaHitsOnTarget.text'),
-      title: t('Content.fuaHitsOnTarget.title'),
-      content: t('Content.fuaHitsOnTarget.content', { talentDmgScaling: TsUtils.precisionRound(100 * talentDmgScaling) }),
-      min: 0,
-      max: fuaHits,
-    },
-    {
-      formItem: 'switch',
-      id: 'e2ResShred',
-      name: 'e2ResShred',
-      text: t('Content.e2ResShred.text'),
-      title: t('Content.e2ResShred.title'),
-      content: t('Content.e2ResShred.content'),
-      disabled: e < 2,
-    },
-    {
-      formItem: 'switch',
-      id: 'e4DefBuff',
-      name: 'e4DefBuff',
-      text: t('Content.e4DefBuff.text'),
-      title: t('Content.e4DefBuff.title'),
-      content: t('Content.e4DefBuff.content'),
-      disabled: e < 4,
-    },
-    {
-      formItem: 'slider',
-      id: 'e6ShieldStacks',
-      name: 'e6ShieldStacks',
-      text: t('Content.e6ShieldStacks.text'),
-      title: t('Content.e6ShieldStacks.title'),
-      content: t('Content.e6ShieldStacks.content'),
-      min: 0,
-      max: 3,
-      disabled: e < 6,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Aventurine.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'defToCrBoost',
+        name: 'defToCrBoost',
+        text: t('defToCrBoost.text'),
+        title: t('defToCrBoost.title'),
+        content: t('defToCrBoost.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'fortifiedWagerBuff',
+        name: 'fortifiedWagerBuff',
+        text: t('fortifiedWagerBuff.text'),
+        title: t('fortifiedWagerBuff.title'),
+        content: t('fortifiedWagerBuff.content', { talentResScaling: TsUtils.precisionRound(100 * talentResScaling) }),
+      },
+      {
+        formItem: 'switch',
+        id: 'enemyUnnervedDebuff',
+        name: 'enemyUnnervedDebuff',
+        text: t('enemyUnnervedDebuff.text'),
+        title: t('enemyUnnervedDebuff.title'),
+        content: t('enemyUnnervedDebuff.content', { ultCdBoost: TsUtils.precisionRound(100 * ultCdBoost) }),
+      },
+      {
+        formItem: 'slider',
+        id: 'fuaHitsOnTarget',
+        name: 'fuaHitsOnTarget',
+        text: t('fuaHitsOnTarget.text'),
+        title: t('fuaHitsOnTarget.title'),
+        content: t('fuaHitsOnTarget.content', { talentDmgScaling: TsUtils.precisionRound(100 * talentDmgScaling) }),
+        min: 0,
+        max: fuaHits,
+      },
+      {
+        formItem: 'switch',
+        id: 'e2ResShred',
+        name: 'e2ResShred',
+        text: t('e2ResShred.text'),
+        title: t('e2ResShred.title'),
+        content: t('e2ResShred.content'),
+        disabled: e < 2,
+      },
+      {
+        formItem: 'switch',
+        id: 'e4DefBuff',
+        name: 'e4DefBuff',
+        text: t('e4DefBuff.text'),
+        title: t('e4DefBuff.title'),
+        content: t('e4DefBuff.content'),
+        disabled: e < 4,
+      },
+      {
+        formItem: 'slider',
+        id: 'e6ShieldStacks',
+        name: 'e6ShieldStacks',
+        text: t('e6ShieldStacks.text'),
+        title: t('e6ShieldStacks.title'),
+        content: t('e6ShieldStacks.content'),
+        min: 0,
+        max: 3,
+        disabled: e < 6,
+      },
+    ]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'fortifiedWagerBuff'),
-    findContentId(content, 'enemyUnnervedDebuff'),
-    findContentId(content, 'e2ResShred'),
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    return [
+      findContentId(content, 'fortifiedWagerBuff'),
+      findContentId(content, 'enemyUnnervedDebuff'),
+      findContentId(content, 'e2ResShred'),
+    ]
+  })()
 
   return {
     content: () => content,

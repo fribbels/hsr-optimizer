@@ -11,8 +11,7 @@ import { NumberToNumberMap } from 'types/Common'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Qingque')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const skillStackDmg = skill(e, 0.38, 0.408)
@@ -38,30 +37,34 @@ export default (e: Eidolon): CharacterConditional => {
       : hitMultiSingle
   }
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'basicEnhanced',
-    name: 'basicEnhanced',
-    text: t('Content.basicEnhanced.text'),
-    title: t('Content.basicEnhanced.title'),
-    content: t('Content.basicEnhanced.content', { talentAtkBuff: TsUtils.precisionRound(100 * talentAtkBuff) }),
-  }, {
-    formItem: 'switch',
-    id: 'basicEnhancedSpdBuff',
-    name: 'basicEnhancedSpdBuff',
-    text: t('Content.basicEnhancedSpdBuff.text'),
-    title: t('Content.basicEnhancedSpdBuff.title'),
-    content: t('Content.basicEnhancedSpdBuff.content'),
-  }, {
-    formItem: 'slider',
-    id: 'skillDmgIncreaseStacks',
-    name: 'skillDmgIncreaseStacks',
-    text: t('Content.skillDmgIncreaseStacks.text'),
-    title: t('Content.skillDmgIncreaseStacks.title'),
-    content: t('Content.skillDmgIncreaseStacks.content', { skillStackDmg: TsUtils.precisionRound(100 * skillStackDmg) }),
-    min: 0,
-    max: 4,
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Qingque.Content')
+    return [{
+      formItem: 'switch',
+      id: 'basicEnhanced',
+      name: 'basicEnhanced',
+      text: t('basicEnhanced.text'),
+      title: t('basicEnhanced.title'),
+      content: t('basicEnhanced.content', { talentAtkBuff: TsUtils.precisionRound(100 * talentAtkBuff) }),
+    }, {
+      formItem: 'switch',
+      id: 'basicEnhancedSpdBuff',
+      name: 'basicEnhancedSpdBuff',
+      text: t('basicEnhancedSpdBuff.text'),
+      title: t('basicEnhancedSpdBuff.title'),
+      content: t('basicEnhancedSpdBuff.content'),
+    }, {
+      formItem: 'slider',
+      id: 'skillDmgIncreaseStacks',
+      name: 'skillDmgIncreaseStacks',
+      text: t('skillDmgIncreaseStacks.text'),
+      title: t('skillDmgIncreaseStacks.title'),
+      content: t('skillDmgIncreaseStacks.content', { skillStackDmg: TsUtils.precisionRound(100 * skillStackDmg) }),
+      min: 0,
+      max: 4,
+    }]
+  })()
 
   return {
     content: () => content,

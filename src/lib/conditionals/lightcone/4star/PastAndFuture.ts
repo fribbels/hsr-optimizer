@@ -6,19 +6,22 @@ import { SuperImpositionLevel } from 'types/LightCone'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.PastAndFuture')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValues = [0.16, 0.20, 0.24, 0.28, 0.32]
 
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'postSkillDmgBuff',
-    name: 'postSkillDmgBuff',
-    formItem: 'switch',
-    text: t('Content.postSkillDmgBuff.text'),
-    title: t('Content.postSkillDmgBuff.title'),
-    content: t('Content.postSkillDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.PastAndFuture.Content')
+    return [{
+      lc: true,
+      id: 'postSkillDmgBuff',
+      name: 'postSkillDmgBuff',
+      formItem: 'switch',
+      text: t('postSkillDmgBuff.text'),
+      title: t('postSkillDmgBuff.title'),
+      content: t('postSkillDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+    }]
+  })()
 
   return {
     content: () => [],

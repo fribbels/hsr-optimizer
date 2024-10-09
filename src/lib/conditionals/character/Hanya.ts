@@ -13,8 +13,7 @@ import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Hanya')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const ultSpdBuffValue = ult(e, 0.20, 0.21)
@@ -27,52 +26,60 @@ export default (e: Eidolon): CharacterConditional => {
   const skillScaling = skill(e, 2.40, 2.64)
   const ultScaling = ult(e, 0, 0)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'ultBuff',
-    name: 'ultBuff',
-    text: t('Content.ultBuff.text'),
-    title: t('Content.ultBuff.title'),
-    content: t('Content.ultBuff.content', { ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue), ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'targetBurdenActive',
-    name: 'targetBurdenActive',
-    text: t('Content.targetBurdenActive.text'),
-    title: t('Content.targetBurdenActive.title'),
-    content: t('Content.targetBurdenActive.content', { talentDmgBoostValue: TsUtils.precisionRound(100 * talentDmgBoostValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'burdenAtkBuff',
-    name: 'burdenAtkBuff',
-    text: t('Content.burdenAtkBuff.text'),
-    title: t('Content.burdenAtkBuff.title'),
-    content: t('Content.burdenAtkBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'e2SkillSpdBuff',
-    name: 'e2SkillSpdBuff',
-    text: t('Content.e2SkillSpdBuff.text'),
-    title: t('Content.e2SkillSpdBuff.title'),
-    content: t('Content.e2SkillSpdBuff.content'),
-    disabled: e < 2,
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Hanya.Content')
+    return [{
+      formItem: 'switch',
+      id: 'ultBuff',
+      name: 'ultBuff',
+      text: t('ultBuff.text'),
+      title: t('ultBuff.title'),
+      content: t('ultBuff.content', { ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue), ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue) }),
+    }, {
+      formItem: 'switch',
+      id: 'targetBurdenActive',
+      name: 'targetBurdenActive',
+      text: t('targetBurdenActive.text'),
+      title: t('targetBurdenActive.title'),
+      content: t('targetBurdenActive.content', { talentDmgBoostValue: TsUtils.precisionRound(100 * talentDmgBoostValue) }),
+    }, {
+      formItem: 'switch',
+      id: 'burdenAtkBuff',
+      name: 'burdenAtkBuff',
+      text: t('burdenAtkBuff.text'),
+      title: t('burdenAtkBuff.title'),
+      content: t('burdenAtkBuff.content'),
+    }, {
+      formItem: 'switch',
+      id: 'e2SkillSpdBuff',
+      name: 'e2SkillSpdBuff',
+      text: t('e2SkillSpdBuff.text'),
+      title: t('e2SkillSpdBuff.title'),
+      content: t('e2SkillSpdBuff.content'),
+      disabled: e < 2,
+    }]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'ultBuff'),
-    {
-      formItem: 'slider',
-      id: 'teammateSPDValue',
-      name: 'teammateSPDValue',
-      text: t('TeammateContent.teammateSPDValue.text'),
-      title: t('TeammateContent.teammateSPDValue.title'),
-      content: t('TeammateContent.teammateSPDValue.content', { ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue), ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue) }),
-      min: 0,
-      max: 200,
-    },
-    findContentId(content, 'targetBurdenActive'),
-    findContentId(content, 'burdenAtkBuff'),
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Hanya.TeammateContent')
+    return [
+      findContentId(content, 'ultBuff'),
+      {
+        formItem: 'slider',
+        id: 'teammateSPDValue',
+        name: 'teammateSPDValue',
+        text: t('teammateSPDValue.text'),
+        title: t('teammateSPDValue.title'),
+        content: t('teammateSPDValue.content', { ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue), ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue) }),
+        min: 0,
+        max: 200,
+      },
+      findContentId(content, 'targetBurdenActive'),
+      findContentId(content, 'burdenAtkBuff'),
+    ]
+  })()
 
   return {
     content: () => content,

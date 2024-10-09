@@ -9,8 +9,7 @@ import { ContentItem } from 'types/Conditionals'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Serval')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const talentExtraDmgScaling = talent(e, 0.72, 0.792)
@@ -20,24 +19,28 @@ export default (e: Eidolon): CharacterConditional => {
   const ultScaling = ult(e, 1.80, 1.944)
   const dotScaling = skill(e, 1.04, 1.144)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'targetShocked',
-      name: 'targetShocked',
-      text: t('Content.targetShocked.text'),
-      title: t('Content.targetShocked.title'),
-      content: t('Content.targetShocked.content', { talentExtraDmgScaling: TsUtils.precisionRound(100 * talentExtraDmgScaling) }),
-    },
-    {
-      formItem: 'switch',
-      id: 'enemyDefeatedBuff',
-      name: 'enemyDefeatedBuff',
-      text: t('Content.enemyDefeatedBuff.text'),
-      title: t('Content.enemyDefeatedBuff.title'),
-      content: t('Content.enemyDefeatedBuff.content'),
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Serval.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'targetShocked',
+        name: 'targetShocked',
+        text: t('targetShocked.text'),
+        title: t('targetShocked.title'),
+        content: t('targetShocked.content', { talentExtraDmgScaling: TsUtils.precisionRound(100 * talentExtraDmgScaling) }),
+      },
+      {
+        formItem: 'switch',
+        id: 'enemyDefeatedBuff',
+        name: 'enemyDefeatedBuff',
+        text: t('enemyDefeatedBuff.text'),
+        title: t('enemyDefeatedBuff.title'),
+        content: t('enemyDefeatedBuff.content'),
+      },
+    ]
+  })()
 
   return {
     content: () => content,

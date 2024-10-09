@@ -14,8 +14,7 @@ import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Tingyun')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const skillAtkBoostMax = skill(e, 0.25, 0.27)
@@ -28,53 +27,61 @@ export default (e: Eidolon): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 0, 0)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'benedictionBuff',
-    name: 'benedictionBuff',
-    text: t('Content.benedictionBuff.text'),
-    title: t('Content.benedictionBuff.title'),
-    content: t('Content.benedictionBuff.content', { skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling), skillAtkBoostMax: TsUtils.precisionRound(100 * skillAtkBoostMax), skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling) }),
-  }, {
-    formItem: 'switch',
-    id: 'skillSpdBuff',
-    name: 'skillSpdBuff',
-    text: t('Content.skillSpdBuff.text'),
-    title: t('Content.skillSpdBuff.title'),
-    content: t('Content.skillSpdBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'ultDmgBuff',
-    name: 'ultDmgBuff',
-    text: t('Content.ultDmgBuff.text'),
-    title: t('Content.ultDmgBuff.title'),
-    content: t('Content.ultDmgBuff.content', { ultDmgBoost: TsUtils.precisionRound(100 * ultDmgBoost) }),
-  }, {
-    formItem: 'switch',
-    id: 'ultSpdBuff',
-    name: 'ultSpdBuff',
-    text: t('Content.ultSpdBuff.text'),
-    title: t('Content.ultSpdBuff.title'),
-    content: t('Content.ultSpdBuff.content'),
-    disabled: e < 1,
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Tingyun.Content')
+    return [{
+      formItem: 'switch',
+      id: 'benedictionBuff',
+      name: 'benedictionBuff',
+      text: t('benedictionBuff.text'),
+      title: t('benedictionBuff.title'),
+      content: t('benedictionBuff.content', { skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling), skillAtkBoostMax: TsUtils.precisionRound(100 * skillAtkBoostMax), skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling) }),
+    }, {
+      formItem: 'switch',
+      id: 'skillSpdBuff',
+      name: 'skillSpdBuff',
+      text: t('skillSpdBuff.text'),
+      title: t('skillSpdBuff.title'),
+      content: t('skillSpdBuff.content'),
+    }, {
+      formItem: 'switch',
+      id: 'ultDmgBuff',
+      name: 'ultDmgBuff',
+      text: t('ultDmgBuff.text'),
+      title: t('ultDmgBuff.title'),
+      content: t('ultDmgBuff.content', { ultDmgBoost: TsUtils.precisionRound(100 * ultDmgBoost) }),
+    }, {
+      formItem: 'switch',
+      id: 'ultSpdBuff',
+      name: 'ultSpdBuff',
+      text: t('ultSpdBuff.text'),
+      title: t('ultSpdBuff.title'),
+      content: t('ultSpdBuff.content'),
+      disabled: e < 1,
+    }]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'benedictionBuff'),
-    {
-      formItem: 'slider',
-      id: 'teammateAtkBuffValue',
-      name: 'teammateAtkBuffValue',
-      text: t('TeammateContent.teammateAtkBuffValue.text'),
-      title: t('TeammateContent.teammateAtkBuffValue.title'),
-      content: t('TeammateContent.teammateAtkBuffValue.content', { skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling), skillAtkBoostMax: TsUtils.precisionRound(100 * skillAtkBoostMax), skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling) }),
-      min: 0,
-      max: skillAtkBoostScaling,
-      percent: true,
-    },
-    findContentId(content, 'ultDmgBuff'),
-    findContentId(content, 'ultSpdBuff'),
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Tingyun.TeammateContent')
+    return [
+      findContentId(content, 'benedictionBuff'),
+      {
+        formItem: 'slider',
+        id: 'teammateAtkBuffValue',
+        name: 'teammateAtkBuffValue',
+        text: t('teammateAtkBuffValue.text'),
+        title: t('teammateAtkBuffValue.title'),
+        content: t('teammateAtkBuffValue.content', { skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling), skillAtkBoostMax: TsUtils.precisionRound(100 * skillAtkBoostMax), skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling) }),
+        min: 0,
+        max: skillAtkBoostScaling,
+        percent: true,
+      },
+      findContentId(content, 'ultDmgBuff'),
+      findContentId(content, 'ultSpdBuff'),
+    ]
+  })()
 
   return {
     content: () => content,

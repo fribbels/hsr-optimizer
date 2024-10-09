@@ -7,23 +7,26 @@ import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.DanceAtSunset')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValuesFuaDmg = [0.36, 0.42, 0.48, 0.54, 0.60]
 
-  const content: ContentItem[] = [
-    {
-      lc: true,
-      id: 'fuaDmgStacks',
-      name: 'fuaDmgStacks',
-      formItem: 'slider',
-      text: t('Content.fuaDmgStacks.text'),
-      title: t('Content.fuaDmgStacks.title'),
-      content: t('Content.fuaDmgStacks.content', { DmgBoost: TsUtils.precisionRound(100 * sValuesFuaDmg[s]) }),
-      min: 0,
-      max: 2,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.DanceAtSunset.Content')
+    return [
+      {
+        lc: true,
+        id: 'fuaDmgStacks',
+        name: 'fuaDmgStacks',
+        formItem: 'slider',
+        text: t('fuaDmgStacks.text'),
+        title: t('fuaDmgStacks.title'),
+        content: t('fuaDmgStacks.content', { DmgBoost: TsUtils.precisionRound(100 * sValuesFuaDmg[s]) }),
+        min: 0,
+        max: 2,
+      },
+    ]
+  })()
 
   return {
     content: () => content,

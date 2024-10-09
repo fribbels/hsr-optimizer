@@ -7,20 +7,23 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.EchoesOfTheCoffin')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValues = [12, 14, 16, 18, 20]
   const sValuesEnergy = [3, 3.5, 4, 4.5, 5]
 
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'postUltSpdBuff',
-    name: 'postUltSpdBuff',
-    formItem: 'switch',
-    text: t('Content.postUltSpdBuff.text'),
-    title: t('Content.postUltSpdBuff.title'),
-    content: t('Content.postUltSpdBuff.content', { EnergyRecovered: TsUtils.precisionRound(sValuesEnergy[s]), SpdBuff: TsUtils.precisionRound(sValues[s]) }),
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.EchoesOfTheCoffin.Content')
+    return [{
+      lc: true,
+      id: 'postUltSpdBuff',
+      name: 'postUltSpdBuff',
+      formItem: 'switch',
+      text: t('postUltSpdBuff.text'),
+      title: t('postUltSpdBuff.title'),
+      content: t('postUltSpdBuff.content', { EnergyRecovered: TsUtils.precisionRound(sValuesEnergy[s]), SpdBuff: TsUtils.precisionRound(sValues[s]) }),
+    }]
+  })()
 
   return {
     content: () => content,

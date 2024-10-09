@@ -128,6 +128,6 @@ export const characterOptionMapping = {
 export const CharacterConditionals = {
   get: (request) => {
     const characterFn = characterOptionMapping[request.characterId]
-    return characterFn(request.characterEidolon)
+    return characterFn(request.characterEidolon, true)
   },
 }

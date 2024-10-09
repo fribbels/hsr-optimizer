@@ -8,37 +8,40 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.CarveTheMoonWeaveTheClouds')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValuesAtk = [0.10, 0.125, 0.15, 0.175, 0.20]
   const sValuesCd = [0.12, 0.15, 0.18, 0.21, 0.24]
   const sValuesErr = [0.06, 0.075, 0.09, 0.105, 0.12]
 
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'atkBuffActive',
-    name: 'atkBuffActive',
-    formItem: 'switch',
-    text: t('Content.atkBuffActive.text'),
-    title: t('Content.atkBuffActive.title'),
-    content: t('Content.atkBuffActive.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]), CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]), RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]) }),
-  }, {
-    lc: true,
-    id: 'cdBuffActive',
-    name: 'cdBuffActive',
-    formItem: 'switch',
-    text: t('Content.cdBuffActive.text'),
-    title: t('Content.cdBuffActive.title'),
-    content: t('Content.cdBuffActive.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]), CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]), RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]) }),
-  }, {
-    lc: true,
-    id: 'errBuffActive',
-    name: 'errBuffActive',
-    formItem: 'switch',
-    text: t('Content.errBuffActive.text'),
-    title: t('Content.errBuffActive.title'),
-    content: t('Content.errBuffActive.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]), CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]), RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]) }),
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.CarveTheMoonWeaveTheClouds.Content')
+    return [{
+      lc: true,
+      id: 'atkBuffActive',
+      name: 'atkBuffActive',
+      formItem: 'switch',
+      text: t('atkBuffActive.text'),
+      title: t('atkBuffActive.title'),
+      content: t('atkBuffActive.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]), CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]), RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]) }),
+    }, {
+      lc: true,
+      id: 'cdBuffActive',
+      name: 'cdBuffActive',
+      formItem: 'switch',
+      text: t('cdBuffActive.text'),
+      title: t('cdBuffActive.title'),
+      content: t('cdBuffActive.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]), CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]), RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]) }),
+    }, {
+      lc: true,
+      id: 'errBuffActive',
+      name: 'errBuffActive',
+      formItem: 'switch',
+      text: t('errBuffActive.text'),
+      title: t('errBuffActive.title'),
+      content: t('errBuffActive.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]), CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]), RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]) }),
+    }]
+  })()
 
   return {
     content: () => content,

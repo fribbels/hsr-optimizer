@@ -11,8 +11,7 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 // TODO: missing A4 SPD buff
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.DanHeng')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const extraPenValue = talent(e, 0.36, 0.396)
@@ -22,33 +21,37 @@ export default (e: Eidolon): CharacterConditional => {
   const ultScaling = ult(e, 4.00, 4.32)
   const ultExtraScaling = ult(e, 1.20, 1.296)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'talentPenBuff',
-      name: 'talentPenBuff',
-      text: t('Content.talentPenBuff.text'),
-      title: t('Content.talentPenBuff.title'),
-      content: t('Content.talentPenBuff.content', { extraPenValue: TsUtils.precisionRound(100 * extraPenValue) }),
-    },
-    {
-      formItem: 'switch',
-      id: 'enemySlowed',
-      name: 'enemySlowed',
-      text: t('Content.enemySlowed.text'),
-      title: t('Content.enemySlowed.title'),
-      content: t('Content.enemySlowed.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'e1EnemyHp50',
-      name: 'e1EnemyHp50',
-      text: t('Content.e1EnemyHp50.text'),
-      title: t('Content.e1EnemyHp50.title'),
-      content: t('Content.e1EnemyHp50.content'),
-      disabled: e < 1,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.DanHeng.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'talentPenBuff',
+        name: 'talentPenBuff',
+        text: t('talentPenBuff.text'),
+        title: t('talentPenBuff.title'),
+        content: t('talentPenBuff.content', { extraPenValue: TsUtils.precisionRound(100 * extraPenValue) }),
+      },
+      {
+        formItem: 'switch',
+        id: 'enemySlowed',
+        name: 'enemySlowed',
+        text: t('enemySlowed.text'),
+        title: t('enemySlowed.title'),
+        content: t('enemySlowed.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'e1EnemyHp50',
+        name: 'e1EnemyHp50',
+        text: t('e1EnemyHp50.text'),
+        title: t('e1EnemyHp50.title'),
+        content: t('e1EnemyHp50.content'),
+        disabled: e < 1,
+      },
+    ]
+  })()
 
   return {
     content: () => content,

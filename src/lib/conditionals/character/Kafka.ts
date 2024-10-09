@@ -8,8 +8,7 @@ import { Form } from 'types/Form'
 import { buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import i18next from 'i18next'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Kafka')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -21,31 +20,38 @@ export default (e: Eidolon): CharacterConditional => {
   const hitMulti = ASHBLAZING_ATK_STACK
     * (1 * 0.15 + 2 * 0.15 + 3 * 0.15 + 4 * 0.15 + 5 * 0.15 + 6 * 0.25)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'e1DotDmgReceivedDebuff',
-      name: 'e1DotDmgReceivedDebuff',
-      text: t('Content.e1DotDmgReceivedDebuff.text'),
-      title: t('Content.e1DotDmgReceivedDebuff.title'),
-      content: t('Content.e1DotDmgReceivedDebuff.content'),
-      disabled: e < 1,
-    },
-    {
-      formItem: 'switch',
-      id: 'e2TeamDotBoost',
-      name: 'e2TeamDotBoost',
-      text: t('Content.e2TeamDotBoost.text'),
-      title: t('Content.e2TeamDotBoost.title'),
-      content: t('Content.e2TeamDotBoost.content'),
-      disabled: e < 2,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Kafka.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'e1DotDmgReceivedDebuff',
+        name: 'e1DotDmgReceivedDebuff',
+        text: t('e1DotDmgReceivedDebuff.text'),
+        title: t('e1DotDmgReceivedDebuff.title'),
+        content: t('e1DotDmgReceivedDebuff.content'),
+        disabled: e < 1,
+      },
+      {
+        formItem: 'switch',
+        id: 'e2TeamDotBoost',
+        name: 'e2TeamDotBoost',
+        text: t('e2TeamDotBoost.text'),
+        title: t('e2TeamDotBoost.title'),
+        content: t('e2TeamDotBoost.content'),
+        disabled: e < 2,
+      },
+    ]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'e1DotDmgReceivedDebuff'),
-    findContentId(content, 'e2TeamDotBoost'),
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    return [
+      findContentId(content, 'e1DotDmgReceivedDebuff'),
+      findContentId(content, 'e2TeamDotBoost'),
+    ]
+  })()
 
   return {
     content: () => content,

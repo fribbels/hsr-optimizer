@@ -8,8 +8,7 @@ import { ContentItem } from 'types/Conditionals'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Welt')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const skillExtraHitsMax = (e >= 6) ? 3 : 2
@@ -19,38 +18,42 @@ export default (e: Eidolon): CharacterConditional => {
   const ultScaling = ult(e, 1.50, 1.62)
   const talentScaling = talent(e, 0.60, 0.66)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'enemyDmgTakenDebuff',
-    name: 'enemyDmgTakenDebuff',
-    text: t('Content.enemyDmgTakenDebuff.text'),
-    title: t('Content.enemyDmgTakenDebuff.title'),
-    content: t('Content.enemyDmgTakenDebuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'enemySlowed',
-    name: 'enemySlowed',
-    text: t('Content.enemySlowed.text'),
-    title: t('Content.enemySlowed.title'),
-    content: t('Content.enemySlowed.content', { talentScaling: TsUtils.precisionRound(100 * talentScaling) }),
-  }, {
-    formItem: 'slider',
-    id: 'skillExtraHits',
-    name: 'skillExtraHits',
-    text: t('Content.skillExtraHits.text'),
-    title: t('Content.skillExtraHits.title'),
-    content: t('Content.skillExtraHits.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
-    min: 0,
-    max: skillExtraHitsMax,
-  }, {
-    formItem: 'switch',
-    id: 'e1EnhancedState',
-    name: 'e1EnhancedState',
-    text: t('Content.e1EnhancedState.text'),
-    title: t('Content.e1EnhancedState.title'),
-    content: t('Content.e1EnhancedState.content'),
-    disabled: (e < 1),
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Welt.Content')
+    return [{
+      formItem: 'switch',
+      id: 'enemyDmgTakenDebuff',
+      name: 'enemyDmgTakenDebuff',
+      text: t('enemyDmgTakenDebuff.text'),
+      title: t('enemyDmgTakenDebuff.title'),
+      content: t('enemyDmgTakenDebuff.content'),
+    }, {
+      formItem: 'switch',
+      id: 'enemySlowed',
+      name: 'enemySlowed',
+      text: t('enemySlowed.text'),
+      title: t('enemySlowed.title'),
+      content: t('enemySlowed.content', { talentScaling: TsUtils.precisionRound(100 * talentScaling) }),
+    }, {
+      formItem: 'slider',
+      id: 'skillExtraHits',
+      name: 'skillExtraHits',
+      text: t('skillExtraHits.text'),
+      title: t('skillExtraHits.title'),
+      content: t('skillExtraHits.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
+      min: 0,
+      max: skillExtraHitsMax,
+    }, {
+      formItem: 'switch',
+      id: 'e1EnhancedState',
+      name: 'e1EnhancedState',
+      text: t('e1EnhancedState.text'),
+      title: t('e1EnhancedState.title'),
+      content: t('e1EnhancedState.content'),
+      disabled: (e < 1),
+    }]
+  })()
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'enemyDmgTakenDebuff'),

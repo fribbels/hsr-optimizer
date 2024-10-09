@@ -10,21 +10,24 @@ import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.ItsShowtime')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValuesDmg = [0.06, 0.07, 0.08, 0.09, 0.10]
   const sValuesAtkBuff = [0.20, 0.24, 0.28, 0.32, 0.36]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'trickStacks',
-    name: 'trickStacks',
-    formItem: 'slider',
-    text: t('Content.trickStacks.text'),
-    title: t('Content.trickStacks.title'),
-    content: t('Content.trickStacks.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]), AtkBuff: TsUtils.precisionRound(100 * sValuesAtkBuff[s]) }),
-    min: 0,
-    max: 3,
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.ItsShowtime.Content')
+    return [{
+      lc: true,
+      id: 'trickStacks',
+      name: 'trickStacks',
+      formItem: 'slider',
+      text: t('trickStacks.text'),
+      title: t('trickStacks.title'),
+      content: t('trickStacks.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]), AtkBuff: TsUtils.precisionRound(100 * sValuesAtkBuff[s]) }),
+      min: 0,
+      max: 3,
+    }]
+  })()
 
   return {
     content: () => content,

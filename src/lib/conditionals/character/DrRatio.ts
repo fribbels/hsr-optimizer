@@ -11,8 +11,7 @@ import { NumberToNumberMap } from 'types/Common'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-const DrRatio = (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.DrRatio')
+const DrRatio = (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const debuffStacksMax = 5
@@ -45,25 +44,29 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
       : baseHitMulti
   }
 
-  const content: ContentItem[] = [{
-    id: 'summationStacks',
-    name: 'summationStacks',
-    formItem: 'slider',
-    text: t('Content.summationStacks.text'),
-    title: t('Content.summationStacks.title'),
-    content: t('Content.summationStacks.content', { summationStacksMax }),
-    min: 0,
-    max: summationStacksMax,
-  }, {
-    id: 'enemyDebuffStacks',
-    name: 'enemyDebuffStacks',
-    formItem: 'slider',
-    text: t('Content.enemyDebuffStacks.text'),
-    title: t('Content.enemyDebuffStacks.title'),
-    content: t('Content.enemyDebuffStacks.content', { FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
-    min: 0,
-    max: debuffStacksMax,
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.DrRatio.Content')
+    return [{
+      id: 'summationStacks',
+      name: 'summationStacks',
+      formItem: 'slider',
+      text: t('summationStacks.text'),
+      title: t('summationStacks.title'),
+      content: t('summationStacks.content', { summationStacksMax }),
+      min: 0,
+      max: summationStacksMax,
+    }, {
+      id: 'enemyDebuffStacks',
+      name: 'enemyDebuffStacks',
+      formItem: 'slider',
+      text: t('enemyDebuffStacks.text'),
+      title: t('enemyDebuffStacks.title'),
+      content: t('enemyDebuffStacks.content', { FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
+      min: 0,
+      max: debuffStacksMax,
+    }]
+  })()
 
   return {
     content: () => content,

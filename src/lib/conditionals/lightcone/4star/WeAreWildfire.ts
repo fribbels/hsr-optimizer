@@ -6,19 +6,22 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.WeAreWildfire')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValues = [0.08, 0.10, 0.12, 0.14, 0.16]
   const sValuesHealing = [0.3, 0.35, 0.4, 0.45, 0.5]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'initialDmgReductionBuff',
-    name: 'initialDmgReductionBuff',
-    formItem: 'switch',
-    text: t('Content.initialDmgReductionBuff.text'),
-    title: t('Content.initialDmgReductionBuff.title'),
-    content: t('Content.initialDmgReductionBuff.content', { Healing: TsUtils.precisionRound(100 * sValuesHealing[s]), DmgReduction: sValues[s] }),
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.WeAreWildfire.Content')
+    return [{
+      lc: true,
+      id: 'initialDmgReductionBuff',
+      name: 'initialDmgReductionBuff',
+      formItem: 'switch',
+      text: t('initialDmgReductionBuff.text'),
+      title: t('initialDmgReductionBuff.title'),
+      content: t('initialDmgReductionBuff.content', { Healing: TsUtils.precisionRound(100 * sValuesHealing[s]), DmgReduction: sValues[s] }),
+    }]
+  })()
 
   return {
     content: () => content,

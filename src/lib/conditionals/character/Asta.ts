@@ -9,8 +9,7 @@ import { ContentItem } from 'types/Conditionals'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Asta')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const ultSpdBuffValue = ult(e, 50, 52.8)
@@ -23,50 +22,57 @@ export default (e: Eidolon): CharacterConditional => {
   const ultScaling = ult(e, 0, 0)
   const dotScaling = basic(e, 0.50, 0.55)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'slider',
-      id: 'skillExtraDmgHits',
-      name: 'skillExtraDmgHits',
-      text: t('Content.skillExtraDmgHits.text'),
-      title: t('Content.skillExtraDmgHits.title'),
-      content: t('Content.skillExtraDmgHits.content', { skillExtraDmgHitsMax }),
-      min: 0,
-      max: skillExtraDmgHitsMax,
-    },
-    {
-      formItem: 'slider',
-      id: 'talentBuffStacks',
-      name: 'talentBuffStacks',
-      text: t('Content.talentBuffStacks.text'),
-      title: t('Content.talentBuffStacks.title'),
-      content: t('Content.talentBuffStacks.content', { talentStacksAtkBuff: TsUtils.precisionRound(100 * talentStacksAtkBuff) }),
-      min: 0,
-      max: 5,
-    },
-    {
-      formItem: 'switch',
-      id: 'ultSpdBuff',
-      name: 'ultSpdBuff',
-      text: t('Content.ultSpdBuff.text'),
-      title: t('Content.ultSpdBuff.title'),
-      content: t('Content.ultSpdBuff.content', { ultSpdBuffValue }),
-    },
-    {
-      formItem: 'switch',
-      id: 'fireDmgBoost',
-      name: 'fireDmgBoost',
-      text: t('Content.fireDmgBoost.text'),
-      title: t('Content.fireDmgBoost.title'),
-      content: t('Content.fireDmgBoost.content'),
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Asta.Content')
+    return [
+      {
+        formItem: 'slider',
+        id: 'skillExtraDmgHits',
+        name: 'skillExtraDmgHits',
+        text: t('skillExtraDmgHits.text'),
+        title: t('skillExtraDmgHits.title'),
+        content: t('skillExtraDmgHits.content', { skillExtraDmgHitsMax }),
+        min: 0,
+        max: skillExtraDmgHitsMax,
+      },
+      {
+        formItem: 'slider',
+        id: 'talentBuffStacks',
+        name: 'talentBuffStacks',
+        text: t('talentBuffStacks.text'),
+        title: t('talentBuffStacks.title'),
+        content: t('talentBuffStacks.content', { talentStacksAtkBuff: TsUtils.precisionRound(100 * talentStacksAtkBuff) }),
+        min: 0,
+        max: 5,
+      },
+      {
+        formItem: 'switch',
+        id: 'ultSpdBuff',
+        name: 'ultSpdBuff',
+        text: t('ultSpdBuff.text'),
+        title: t('ultSpdBuff.title'),
+        content: t('ultSpdBuff.content', { ultSpdBuffValue }),
+      },
+      {
+        formItem: 'switch',
+        id: 'fireDmgBoost',
+        name: 'fireDmgBoost',
+        text: t('fireDmgBoost.text'),
+        title: t('fireDmgBoost.title'),
+        content: t('fireDmgBoost.content'),
+      },
+    ]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'talentBuffStacks'),
-    findContentId(content, 'ultSpdBuff'),
-    findContentId(content, 'fireDmgBoost'),
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    return [
+      findContentId(content, 'talentBuffStacks'),
+      findContentId(content, 'ultSpdBuff'),
+      findContentId(content, 'fireDmgBoost'),
+    ]
+  })()
 
   return {
     content: () => content,

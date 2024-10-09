@@ -8,22 +8,25 @@ import { Form } from 'types/Form'
 import { GepardConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import i18next from 'i18next'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Gepard')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 2.00, 2.20)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'e4TeamResBuff',
-    name: 'e4TeamResBuff',
-    text: t('Content.e4TeamResBuff.text'),
-    title: t('Content.e4TeamResBuff.title'),
-    content: t('Content.e4TeamResBuff.content'),
-    disabled: e < 4,
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Gepard.Content')
+    return [{
+      formItem: 'switch',
+      id: 'e4TeamResBuff',
+      name: 'e4TeamResBuff',
+      text: t('e4TeamResBuff.text'),
+      title: t('e4TeamResBuff.title'),
+      content: t('e4TeamResBuff.content'),
+      disabled: e < 4,
+    }]
+  })()
 
   return {
     content: () => content,

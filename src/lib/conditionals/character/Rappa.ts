@@ -10,8 +10,7 @@ import { RappaConversionConditional } from 'lib/gpu/conditionals/dynamicConditio
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Rappa')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5 // TODO
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -26,84 +25,92 @@ export default (e: Eidolon): CharacterConditional => {
 
   const maxChargeStacks = e >= 6 ? 15 : 10
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'sealformActive',
-      name: 'sealformActive',
-      text: t('Content.sealformActive.text'),
-      title: t('Content.sealformActive.title'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    },
-    {
-      formItem: 'switch',
-      id: 'atkToBreakVulnerability',
-      name: 'atkToBreakVulnerability',
-      text: t('Content.atkToBreakVulnerability.text'),
-      title: t('Content.atkToBreakVulnerability.title'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    },
-    {
-      name: 'chargeStacks',
-      id: 'chargeStacks',
-      formItem: 'slider',
-      text: t('Content.chargeStacks.text'),
-      title: t('Content.chargeStacks.title'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 0,
-      max: maxChargeStacks,
-    },
-    {
-      formItem: 'switch',
-      id: 'e1DefPen',
-      name: 'e1DefPen',
-      text: t('Content.e1DefPen.text'),
-      title: t('Content.e1DefPen.title'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 1,
-    },
-    {
-      formItem: 'switch',
-      id: 'e2Buffs',
-      name: 'e2Buffs',
-      text: t('Content.e2Buffs.text'),
-      title: t('Content.e2Buffs.title'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 2,
-    },
-    {
-      formItem: 'switch',
-      id: 'e4SpdBuff',
-      name: 'e4SpdBuff',
-      text: t('Content.e4SpdBuff.text'),
-      title: t('Content.e4SpdBuff.title'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 4,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Rappa.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'sealformActive',
+        name: 'sealformActive',
+        text: t('sealformActive.text'),
+        title: t('sealformActive.title'),
+        content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      },
+      {
+        formItem: 'switch',
+        id: 'atkToBreakVulnerability',
+        name: 'atkToBreakVulnerability',
+        text: t('atkToBreakVulnerability.text'),
+        title: t('atkToBreakVulnerability.title'),
+        content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      },
+      {
+        name: 'chargeStacks',
+        id: 'chargeStacks',
+        formItem: 'slider',
+        text: t('chargeStacks.text'),
+        title: t('chargeStacks.title'),
+        content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+        min: 0,
+        max: maxChargeStacks,
+      },
+      {
+        formItem: 'switch',
+        id: 'e1DefPen',
+        name: 'e1DefPen',
+        text: t('e1DefPen.text'),
+        title: t('e1DefPen.title'),
+        content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+        disabled: e < 1,
+      },
+      {
+        formItem: 'switch',
+        id: 'e2Buffs',
+        name: 'e2Buffs',
+        text: t('e2Buffs.text'),
+        title: t('e2Buffs.title'),
+        content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+        disabled: e < 2,
+      },
+      {
+        formItem: 'switch',
+        id: 'e4SpdBuff',
+        name: 'e4SpdBuff',
+        text: t('e4SpdBuff.text'),
+        title: t('e4SpdBuff.title'),
+        content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+        disabled: e < 4,
+      },
+    ]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    {
-      formItem: 'slider',
-      id: 'teammateBreakVulnerability',
-      name: 'teammateBreakVulnerability',
-      text: t('TeammateContent.teammateBreakVulnerability.text'),
-      title: t('TeammateContent.teammateBreakVulnerability.title'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 0,
-      max: 0.10,
-      percent: true,
-    },
-    {
-      formItem: 'switch',
-      id: 'e4SpdBuff',
-      name: 'e4SpdBuff',
-      text: t('TeammateContent.e4SpdBuff.text'),
-      title: t('TeammateContent.e4SpdBuff.title'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 4,
-    },
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Rappa.TeammateContent')
+    return [
+      {
+        formItem: 'slider',
+        id: 'teammateBreakVulnerability',
+        name: 'teammateBreakVulnerability',
+        text: t('teammateBreakVulnerability.text'),
+        title: t('teammateBreakVulnerability.title'),
+        content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+        min: 0,
+        max: 0.10,
+        percent: true,
+      },
+      {
+        formItem: 'switch',
+        id: 'e4SpdBuff',
+        name: 'e4SpdBuff',
+        text: t('e4SpdBuff.text'),
+        title: t('e4SpdBuff.title'),
+        content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+        disabled: e < 4,
+      },
+    ]
+  })()
 
   const defaults = {
     sealformActive: true,

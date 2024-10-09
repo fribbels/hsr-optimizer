@@ -7,28 +7,31 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.CruisingInTheStellarSea')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValuesCr = [0.08, 0.10, 0.12, 0.14, 0.16]
   const sValuesAtk = [0.20, 0.25, 0.30, 0.35, 0.40]
 
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'enemyHp50CrBoost',
-    name: 'enemyHp50CrBoost',
-    formItem: 'switch',
-    text: t('Content.enemyHp50CrBoost.text'),
-    title: t('Content.enemyHp50CrBoost.title'),
-    content: t('Content.enemyHp50CrBoost.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCr[s]) }),
-  }, {
-    lc: true,
-    id: 'enemyDefeatedAtkBuff',
-    name: 'enemyDefeatedAtkBuff',
-    formItem: 'switch',
-    text: t('Content.enemyDefeatedAtkBuff.text'),
-    title: t('Content.enemyDefeatedAtkBuff.title'),
-    content: t('Content.enemyDefeatedAtkBuff.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]) }),
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.CruisingInTheStellarSea.Content')
+    return [{
+      lc: true,
+      id: 'enemyHp50CrBoost',
+      name: 'enemyHp50CrBoost',
+      formItem: 'switch',
+      text: t('enemyHp50CrBoost.text'),
+      title: t('enemyHp50CrBoost.title'),
+      content: t('enemyHp50CrBoost.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCr[s]) }),
+    }, {
+      lc: true,
+      id: 'enemyDefeatedAtkBuff',
+      name: 'enemyDefeatedAtkBuff',
+      formItem: 'switch',
+      text: t('enemyDefeatedAtkBuff.text'),
+      title: t('enemyDefeatedAtkBuff.title'),
+      content: t('enemyDefeatedAtkBuff.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]) }),
+    }]
+  })()
 
   return {
     content: () => content,

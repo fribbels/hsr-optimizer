@@ -7,37 +7,40 @@ import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.DreamvilleAdventure')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValues = [0.12, 0.14, 0.16, 0.18, 0.20]
-  const content: ContentItem[] = [
-    {
-      lc: true,
-      id: 'ultDmgBuff',
-      name: 'ultDmgBuff',
-      formItem: 'switch',
-      text: t('Content.ultDmgBuff.text'),
-      title: t('Content.ultDmgBuff.title'),
-      content: t('Content.ultDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
-    },
-    {
-      lc: true,
-      id: 'skillDmgBuff',
-      name: 'skillDmgBuff',
-      formItem: 'switch',
-      text: t('Content.skillDmgBuff.text'),
-      title: t('Content.skillDmgBuff.title'),
-      content: t('Content.skillDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
-    }, {
-      lc: true,
-      id: 'basicDmgBuff',
-      name: 'basicDmgBuff',
-      formItem: 'switch',
-      text: t('Content.basicDmgBuff.text'),
-      title: t('Content.basicDmgBuff.title'),
-      content: t('Content.basicDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.DreamvilleAdventure.Content')
+    return [
+      {
+        lc: true,
+        id: 'ultDmgBuff',
+        name: 'ultDmgBuff',
+        formItem: 'switch',
+        text: t('ultDmgBuff.text'),
+        title: t('ultDmgBuff.title'),
+        content: t('ultDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+      },
+      {
+        lc: true,
+        id: 'skillDmgBuff',
+        name: 'skillDmgBuff',
+        formItem: 'switch',
+        text: t('skillDmgBuff.text'),
+        title: t('skillDmgBuff.title'),
+        content: t('skillDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+      }, {
+        lc: true,
+        id: 'basicDmgBuff',
+        name: 'basicDmgBuff',
+        formItem: 'switch',
+        text: t('basicDmgBuff.text'),
+        title: t('basicDmgBuff.title'),
+        content: t('basicDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+      },
+    ]
+  })()
 
   return {
     content: () => content,

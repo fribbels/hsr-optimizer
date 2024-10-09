@@ -11,8 +11,7 @@ import { NumberToNumberMap } from 'types/Common'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Jade')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicScaling = basic(e, 0.90, 0.99)
@@ -41,75 +40,83 @@ export default (e: Eidolon): CharacterConditional => {
       : unenhancedHitMultiByTargets[request.enemyCount]
   }
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'enhancedFollowUp',
-      name: 'enhancedFollowUp',
-      text: t('Content.enhancedFollowUp.text'),
-      title: t('Content.enhancedFollowUp.title'),
-      content: t('Content.enhancedFollowUp.content', { ultFuaScalingBuff: TsUtils.precisionRound(100 * ultFuaScalingBuff) }),
-    },
-    {
-      formItem: 'slider',
-      id: 'pawnedAssetStacks',
-      name: 'pawnedAssetStacks',
-      text: t('Content.pawnedAssetStacks.text'),
-      title: t('Content.pawnedAssetStacks.title'),
-      content: t('Content.pawnedAssetStacks.content', { pawnedAssetCdScaling: TsUtils.precisionRound(100 * pawnedAssetCdScaling) }),
-      min: 0,
-      max: 50,
-    },
-    {
-      formItem: 'switch',
-      id: 'e1FuaDmgBoost',
-      name: 'e1FuaDmgBoost',
-      text: t('Content.e1FuaDmgBoost.text'),
-      title: t('Content.e1FuaDmgBoost.title'),
-      content: t('Content.e1FuaDmgBoost.content'),
-      disabled: e < 1,
-    },
-    {
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Jade.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'enhancedFollowUp',
+        name: 'enhancedFollowUp',
+        text: t('enhancedFollowUp.text'),
+        title: t('enhancedFollowUp.title'),
+        content: t('enhancedFollowUp.content', { ultFuaScalingBuff: TsUtils.precisionRound(100 * ultFuaScalingBuff) }),
+      },
+      {
+        formItem: 'slider',
+        id: 'pawnedAssetStacks',
+        name: 'pawnedAssetStacks',
+        text: t('pawnedAssetStacks.text'),
+        title: t('pawnedAssetStacks.title'),
+        content: t('pawnedAssetStacks.content', { pawnedAssetCdScaling: TsUtils.precisionRound(100 * pawnedAssetCdScaling) }),
+        min: 0,
+        max: 50,
+      },
+      {
+        formItem: 'switch',
+        id: 'e1FuaDmgBoost',
+        name: 'e1FuaDmgBoost',
+        text: t('e1FuaDmgBoost.text'),
+        title: t('e1FuaDmgBoost.title'),
+        content: t('e1FuaDmgBoost.content'),
+        disabled: e < 1,
+      },
+      {
 
-      formItem: 'switch',
-      id: 'e2CrBuff',
-      name: 'e2CrBuff',
-      text: t('Content.e2CrBuff.text'),
-      title: t('Content.e2CrBuff.title'),
-      content: t('Content.e2CrBuff.content'),
-      disabled: e < 2,
-    },
-    {
+        formItem: 'switch',
+        id: 'e2CrBuff',
+        name: 'e2CrBuff',
+        text: t('e2CrBuff.text'),
+        title: t('e2CrBuff.title'),
+        content: t('e2CrBuff.content'),
+        disabled: e < 2,
+      },
+      {
 
-      formItem: 'switch',
-      id: 'e4DefShredBuff',
-      name: 'e4DefShredBuff',
-      text: t('Content.e4DefShredBuff.text'),
-      title: t('Content.e4DefShredBuff.title'),
-      content: t('Content.e4DefShredBuff.content'),
-      disabled: e < 4,
-    },
-    {
-      formItem: 'switch',
-      id: 'e6ResShredBuff',
-      name: 'e6ResShredBuff',
-      text: t('Content.e6ResShredBuff.text'),
-      title: t('Content.e6ResShredBuff.title'),
-      content: t('Content.e6ResShredBuff.content'),
-      disabled: e < 6,
-    },
-  ]
+        formItem: 'switch',
+        id: 'e4DefShredBuff',
+        name: 'e4DefShredBuff',
+        text: t('e4DefShredBuff.text'),
+        title: t('e4DefShredBuff.title'),
+        content: t('e4DefShredBuff.content'),
+        disabled: e < 4,
+      },
+      {
+        formItem: 'switch',
+        id: 'e6ResShredBuff',
+        name: 'e6ResShredBuff',
+        text: t('e6ResShredBuff.text'),
+        title: t('e6ResShredBuff.title'),
+        content: t('e6ResShredBuff.content'),
+        disabled: e < 6,
+      },
+    ]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'debtCollectorSpdBuff',
-      name: 'debtCollectorSpdBuff',
-      text: t('TeammateContent.debtCollectorSpdBuff.text'),
-      title: t('TeammateContent.debtCollectorSpdBuff.title'),
-      content: t('TeammateContent.debtCollectorSpdBuff.content'),
-    },
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Jade.TeammateContent')
+    return [
+      {
+        formItem: 'switch',
+        id: 'debtCollectorSpdBuff',
+        name: 'debtCollectorSpdBuff',
+        text: t('debtCollectorSpdBuff.text'),
+        title: t('debtCollectorSpdBuff.title'),
+        content: t('debtCollectorSpdBuff.content'),
+      },
+    ]
+  })()
 
   const defaults = {
     enhancedFollowUp: true,

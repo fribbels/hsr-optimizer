@@ -12,8 +12,7 @@ import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Lynx')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const skillHpPercentBuff = skill(e, 0.075, 0.08)
@@ -23,28 +22,36 @@ export default (e: Eidolon): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 0, 0)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'skillBuff',
-    name: 'skillBuff',
-    text: t('Content.skillBuff.text'),
-    title: t('Content.skillBuff.title'),
-    content: t('Content.skillBuff.content', { skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff), skillHpFlatBuff: skillHpFlatBuff }),
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Lynx.Content')
+    return [{
+      formItem: 'switch',
+      id: 'skillBuff',
+      name: 'skillBuff',
+      text: t('skillBuff.text'),
+      title: t('skillBuff.title'),
+      content: t('skillBuff.content', { skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff), skillHpFlatBuff: skillHpFlatBuff }),
+    }]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'skillBuff'),
-    {
-      formItem: 'slider',
-      id: 'teammateHPValue',
-      name: 'teammateHPValue',
-      text: t('TeammateContent.teammateHPValue.text'),
-      title: t('TeammateContent.teammateHPValue.title'),
-      content: t('TeammateContent.teammateHPValue.content', { skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff), skillHpFlatBuff: skillHpFlatBuff }),
-      min: 0,
-      max: 10000,
-    },
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Lynx.TeammateContent')
+    return [
+      findContentId(content, 'skillBuff'),
+      {
+        formItem: 'slider',
+        id: 'teammateHPValue',
+        name: 'teammateHPValue',
+        text: t('teammateHPValue.text'),
+        title: t('teammateHPValue.title'),
+        content: t('teammateHPValue.content', { skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff), skillHpFlatBuff: skillHpFlatBuff }),
+        min: 0,
+        max: 10000,
+      },
+    ]
+  })()
 
   return {
     content: () => content,

@@ -33,7 +33,7 @@ export const languages = {
     locale: 'ja',
     nativeName: '日本語',
   },
-  kr: {
+  ko: {
     locale: 'ko',
     nativeName: '한국인',
   },

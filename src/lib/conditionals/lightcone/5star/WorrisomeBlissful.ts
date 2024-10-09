@@ -8,21 +8,24 @@ import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.WorrisomeBlissful')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValuesFuaDmg = [0.30, 0.35, 0.40, 0.45, 0.50]
   const sValuesCd = [0.12, 0.14, 0.16, 0.18, 0.20]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'targetTameStacks',
-    name: 'targetTameStacks',
-    formItem: 'slider',
-    text: t('Content.targetTameStacks.text'),
-    title: t('Content.targetTameStacks.title'),
-    content: t('Content.targetTameStacks.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }), // getContentFromLCRanks(s, lcRank2),
-    min: 0,
-    max: 2,
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.WorrisomeBlissful.Content')
+    return [{
+      lc: true,
+      id: 'targetTameStacks',
+      name: 'targetTameStacks',
+      formItem: 'slider',
+      text: t('targetTameStacks.text'),
+      title: t('targetTameStacks.title'),
+      content: t('targetTameStacks.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }), // getContentFromLCRanks(s, lcRank2),
+      min: 0,
+      max: 2,
+    }]
+  })()
 
   return {
     content: () => content,

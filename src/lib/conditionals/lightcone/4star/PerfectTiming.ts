@@ -10,19 +10,22 @@ import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicCo
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.PerfectTiming')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValues = [0.33, 0.36, 0.39, 0.42, 0.45]
   const sMaxValues = [0.15, 0.18, 0.21, 0.24, 0.27]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'resToHealingBoost',
-    name: 'resToHealingBoost',
-    formItem: 'switch',
-    text: t('Content.resToHealingBoost.text'),
-    title: t('Content.resToHealingBoost.title'),
-    content: t('Content.resToHealingBoost.content', { Scaling: TsUtils.precisionRound(100 * sValues[s]), Limit: TsUtils.precisionRound(100 * sMaxValues[s]) }),
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.PerfectTiming.Content')
+    return [{
+      lc: true,
+      id: 'resToHealingBoost',
+      name: 'resToHealingBoost',
+      formItem: 'switch',
+      text: t('resToHealingBoost.text'),
+      title: t('resToHealingBoost.title'),
+      content: t('resToHealingBoost.content', { Scaling: TsUtils.precisionRound(100 * sValues[s]), Limit: TsUtils.precisionRound(100 * sMaxValues[s]) }),
+    }]
+  })()
 
   return {
     content: () => content,

@@ -7,19 +7,22 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.MomentOfVictory')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValues = [0.24, 0.28, 0.32, 0.36, 0.40]
 
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'selfAttackedDefBuff',
-    name: 'selfAttackedDefBuff',
-    formItem: 'switch',
-    text: t('Content.selfAttackedDefBuff.text'),
-    title: t('Content.selfAttackedDefBuff.title'),
-    content: t('Content.selfAttackedDefBuff.content', { DefBuff: TsUtils.precisionRound(100 * sValues[s]) }),
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.MomentOfVictory.Content')
+    return [{
+      lc: true,
+      id: 'selfAttackedDefBuff',
+      name: 'selfAttackedDefBuff',
+      formItem: 'switch',
+      text: t('selfAttackedDefBuff.text'),
+      title: t('selfAttackedDefBuff.title'),
+      content: t('selfAttackedDefBuff.content', { DefBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+    }]
+  })()
 
   return {
     content: () => content,

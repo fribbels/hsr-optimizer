@@ -11,8 +11,7 @@ import { NumberToNumberMap } from 'types/Common'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Boothill')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const standoffVulnerabilityBoost = skill(e, 0.30, 0.33)
@@ -28,78 +27,82 @@ export default (e: Eidolon): CharacterConditional => {
     3: talent(e, 1.70, 1.87),
   }
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'standoffActive',
-      name: 'standoffActive',
-      text: t('Content.standoffActive.text'),
-      title: t('Content.standoffActive.title'),
-      content: t('Content.standoffActive.content', { standoffVulnerabilityBoost: TsUtils.precisionRound(100 * standoffVulnerabilityBoost) }),
-    },
-    {
-      formItem: 'slider',
-      id: 'pocketTrickshotStacks',
-      name: 'pocketTrickshotStacks',
-      text: t('Content.pocketTrickshotStacks.text'),
-      title: t('Content.pocketTrickshotStacks.title'),
-      content: t('Content.pocketTrickshotStacks.content'),
-      min: 0,
-      max: 3,
-    },
-    {
-      formItem: 'switch',
-      id: 'beToCritBoost',
-      name: 'beToCritBoost',
-      text: t('Content.beToCritBoost.text'),
-      title: t('Content.beToCritBoost.title'),
-      content: t('Content.beToCritBoost.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'talentBreakDmgScaling',
-      name: 'talentBreakDmgScaling',
-      text: t('Content.talentBreakDmgScaling.text'),
-      title: t('Content.talentBreakDmgScaling.title'),
-      content: t('Content.talentBreakDmgScaling.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'e1DefShred',
-      name: 'e1DefShred',
-      text: t('Content.e1DefShred.text'),
-      title: t('Content.e1DefShred.title'),
-      content: t('Content.e1DefShred.content'),
-      disabled: e < 1,
-    },
-    {
-      formItem: 'switch',
-      id: 'e2BeBuff',
-      name: 'e2BeBuff',
-      text: t('Content.e2BeBuff.text'),
-      title: t('Content.e2BeBuff.title'),
-      content: t('Content.e2BeBuff.content'),
-      disabled: e < 2,
-    },
-    {
-      formItem: 'switch',
-      id: 'e4TargetStandoffVulnerability',
-      name: 'e4TargetStandoffVulnerability',
-      text: t('Content.e4TargetStandoffVulnerability.text'),
-      title: t('Content.e4TargetStandoffVulnerability.title'),
-      content: t('Content.e4TargetStandoffVulnerability.content'),
-      disabled: e < 4,
-    },
-    {
-      formItem: 'switch',
-      id: 'e6AdditionalBreakDmg',
-      name: 'e6AdditionalBreakDmg',
-      text: t('Content.e6AdditionalBreakDmg.text'),
-      title: t('Content.e6AdditionalBreakDmg.title'),
-      content: t('Content.e6AdditionalBreakDmg.content'),
-      disabled: e < 6,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Boothill.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'standoffActive',
+        name: 'standoffActive',
+        text: t('standoffActive.text'),
+        title: t('standoffActive.title'),
+        content: t('standoffActive.content', { standoffVulnerabilityBoost: TsUtils.precisionRound(100 * standoffVulnerabilityBoost) }),
+      },
+      {
+        formItem: 'slider',
+        id: 'pocketTrickshotStacks',
+        name: 'pocketTrickshotStacks',
+        text: t('pocketTrickshotStacks.text'),
+        title: t('pocketTrickshotStacks.title'),
+        content: t('pocketTrickshotStacks.content'),
+        min: 0,
+        max: 3,
+      },
+      {
+        formItem: 'switch',
+        id: 'beToCritBoost',
+        name: 'beToCritBoost',
+        text: t('beToCritBoost.text'),
+        title: t('beToCritBoost.title'),
+        content: t('beToCritBoost.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'talentBreakDmgScaling',
+        name: 'talentBreakDmgScaling',
+        text: t('talentBreakDmgScaling.text'),
+        title: t('talentBreakDmgScaling.title'),
+        content: t('talentBreakDmgScaling.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'e1DefShred',
+        name: 'e1DefShred',
+        text: t('e1DefShred.text'),
+        title: t('e1DefShred.title'),
+        content: t('e1DefShred.content'),
+        disabled: e < 1,
+      },
+      {
+        formItem: 'switch',
+        id: 'e2BeBuff',
+        name: 'e2BeBuff',
+        text: t('e2BeBuff.text'),
+        title: t('e2BeBuff.title'),
+        content: t('e2BeBuff.content'),
+        disabled: e < 2,
+      },
+      {
+        formItem: 'switch',
+        id: 'e4TargetStandoffVulnerability',
+        name: 'e4TargetStandoffVulnerability',
+        text: t('e4TargetStandoffVulnerability.text'),
+        title: t('e4TargetStandoffVulnerability.title'),
+        content: t('e4TargetStandoffVulnerability.content'),
+        disabled: e < 4,
+      },
+      {
+        formItem: 'switch',
+        id: 'e6AdditionalBreakDmg',
+        name: 'e6AdditionalBreakDmg',
+        text: t('e6AdditionalBreakDmg.text'),
+        title: t('e6AdditionalBreakDmg.title'),
+        content: t('e6AdditionalBreakDmg.content'),
+        disabled: e < 6,
+      },
+    ]
+  })()
 
   const teammateContent: ContentItem[] = []
 

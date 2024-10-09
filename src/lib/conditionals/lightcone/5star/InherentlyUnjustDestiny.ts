@@ -8,35 +8,41 @@ import { findContentId } from 'lib/conditionals/conditionalUtils'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.InherentlyUnjustDestiny')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValuesCd = [0.40, 0.46, 0.52, 0.58, 0.64]
   const sValuesVulnerability = [0.10, 0.115, 0.13, 0.145, 0.16]
 
-  const content: ContentItem[] = [
-    {
-      lc: true,
-      id: 'shieldCdBuff',
-      name: 'shieldCdBuff',
-      formItem: 'switch',
-      text: t('Content.shieldCdBuff.text'),
-      title: t('Content.shieldCdBuff.title'),
-      content: t('Content.shieldCdBuff.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
-    },
-    {
-      lc: true,
-      id: 'targetVulnerability',
-      name: 'targetVulnerability',
-      formItem: 'switch',
-      text: t('Content.targetVulnerability.text'),
-      title: t('Content.targetVulnerability.title'),
-      content: t('Content.targetVulnerability.content', { Vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]) }),
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.InherentlyUnjustDestiny.Content')
+    return [
+      {
+        lc: true,
+        id: 'shieldCdBuff',
+        name: 'shieldCdBuff',
+        formItem: 'switch',
+        text: t('shieldCdBuff.text'),
+        title: t('shieldCdBuff.title'),
+        content: t('shieldCdBuff.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
+      },
+      {
+        lc: true,
+        id: 'targetVulnerability',
+        name: 'targetVulnerability',
+        formItem: 'switch',
+        text: t('targetVulnerability.text'),
+        title: t('targetVulnerability.title'),
+        content: t('targetVulnerability.content', { Vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]) }),
+      },
+    ]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'targetVulnerability'),
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    return [
+      findContentId(content, 'targetVulnerability'),
+    ]
+  })()
 
   return {
     content: () => content,

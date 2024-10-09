@@ -9,8 +9,7 @@ import { ContentItem } from 'types/Conditionals'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.TrailblazerHarmony')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -24,60 +23,68 @@ export default (e: Eidolon): CharacterConditional => {
     5: 1.20,
   }
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'backupDancer',
-      name: 'backupDancer',
-      text: t('Content.backupDancer.text'),
-      title: t('Content.backupDancer.title'),
-      content: t('Content.backupDancer.content', { ultBeScaling: TsUtils.precisionRound(100 * ultBeScaling) }),
-    },
-    {
-      formItem: 'switch',
-      id: 'superBreakDmg',
-      name: 'superBreakDmg',
-      text: t('Content.superBreakDmg.text'),
-      title: t('Content.superBreakDmg.title'),
-      content: t('Content.superBreakDmg.content'),
-    },
-    {
-      formItem: 'slider',
-      id: 'skillHitsOnTarget',
-      name: 'skillHitsOnTarget',
-      text: t('Content.skillHitsOnTarget.text'),
-      title: t('Content.skillHitsOnTarget.title'),
-      content: t('Content.skillHitsOnTarget.content'),
-      min: 0,
-      max: skillMaxHits,
-    },
-    {
-      formItem: 'switch',
-      id: 'e2EnergyRegenBuff',
-      name: 'e2EnergyRegenBuff',
-      text: t('Content.e2EnergyRegenBuff.text'),
-      title: t('Content.e2EnergyRegenBuff.title'),
-      content: t('Content.e2EnergyRegenBuff.content'),
-      disabled: e < 2,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.TrailblazerHarmony.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'backupDancer',
+        name: 'backupDancer',
+        text: t('backupDancer.text'),
+        title: t('backupDancer.title'),
+        content: t('backupDancer.content', { ultBeScaling: TsUtils.precisionRound(100 * ultBeScaling) }),
+      },
+      {
+        formItem: 'switch',
+        id: 'superBreakDmg',
+        name: 'superBreakDmg',
+        text: t('superBreakDmg.text'),
+        title: t('superBreakDmg.title'),
+        content: t('superBreakDmg.content'),
+      },
+      {
+        formItem: 'slider',
+        id: 'skillHitsOnTarget',
+        name: 'skillHitsOnTarget',
+        text: t('skillHitsOnTarget.text'),
+        title: t('skillHitsOnTarget.title'),
+        content: t('skillHitsOnTarget.content'),
+        min: 0,
+        max: skillMaxHits,
+      },
+      {
+        formItem: 'switch',
+        id: 'e2EnergyRegenBuff',
+        name: 'e2EnergyRegenBuff',
+        text: t('e2EnergyRegenBuff.text'),
+        title: t('e2EnergyRegenBuff.title'),
+        content: t('e2EnergyRegenBuff.content'),
+        disabled: e < 2,
+      },
+    ]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'backupDancer'),
-    findContentId(content, 'superBreakDmg'),
-    {
-      formItem: 'slider',
-      id: 'teammateBeValue',
-      name: 'teammateBeValue',
-      text: t('TeammateContent.teammateBeValue.text'),
-      title: t('TeammateContent.teammateBeValue.title'),
-      content: t('TeammateContent.teammateBeValue.content'),
-      min: 0,
-      max: 4.00,
-      percent: true,
-      disabled: e < 4,
-    },
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.TrailblazerHarmony.TeammateContent')
+    return [
+      findContentId(content, 'backupDancer'),
+      findContentId(content, 'superBreakDmg'),
+      {
+        formItem: 'slider',
+        id: 'teammateBeValue',
+        name: 'teammateBeValue',
+        text: t('teammateBeValue.text'),
+        title: t('teammateBeValue.title'),
+        content: t('teammateBeValue.content'),
+        min: 0,
+        max: 4.00,
+        percent: true,
+        disabled: e < 4,
+      },
+    ]
+  })()
 
   const defaults = {
     skillHitsOnTarget: skillMaxHits,

@@ -9,8 +9,7 @@ import { Form } from 'types/Form'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Yanqing')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const ultCdBuffValue = ult(e, 0.50, 0.54)
@@ -24,44 +23,48 @@ export default (e: Eidolon): CharacterConditional => {
 
   const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'ultBuffActive',
-    name: 'ultBuffActive',
-    text: t('Content.ultBuffActive.text'),
-    title: t('Content.ultBuffActive.title'),
-    content: t('Content.ultBuffActive.content', { ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'soulsteelBuffActive',
-    name: 'soulsteelBuffActive',
-    text: t('Content.soulsteelBuffActive.text'),
-    title: t('Content.soulsteelBuffActive.title'),
-    content: t('Content.soulsteelBuffActive.content', { talentCdBuffValue: TsUtils.precisionRound(100 * talentCdBuffValue), talentCrBuffValue: TsUtils.precisionRound(100 * talentCrBuffValue), ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'critSpdBuff',
-    name: 'critSpdBuff',
-    text: t('Content.critSpdBuff.text'),
-    title: t('Content.critSpdBuff.title'),
-    content: t('Content.critSpdBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'e1TargetFrozen',
-    name: 'e1TargetFrozen',
-    text: t('Content.e1TargetFrozen.text'),
-    title: t('Content.e1TargetFrozen.title'),
-    content: t('Content.e1TargetFrozen.content'),
-    disabled: (e < 1),
-  }, {
-    formItem: 'switch',
-    id: 'e4CurrentHp80',
-    name: 'e4CurrentHp80',
-    text: t('Content.e4CurrentHp80.text'),
-    title: t('Content.e4CurrentHp80.title'),
-    content: t('Content.e4CurrentHp80.content'),
-    disabled: (e < 4),
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Yanqing.Content')
+    return [{
+      formItem: 'switch',
+      id: 'ultBuffActive',
+      name: 'ultBuffActive',
+      text: t('ultBuffActive.text'),
+      title: t('ultBuffActive.title'),
+      content: t('ultBuffActive.content', { ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
+    }, {
+      formItem: 'switch',
+      id: 'soulsteelBuffActive',
+      name: 'soulsteelBuffActive',
+      text: t('soulsteelBuffActive.text'),
+      title: t('soulsteelBuffActive.title'),
+      content: t('soulsteelBuffActive.content', { talentCdBuffValue: TsUtils.precisionRound(100 * talentCdBuffValue), talentCrBuffValue: TsUtils.precisionRound(100 * talentCrBuffValue), ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
+    }, {
+      formItem: 'switch',
+      id: 'critSpdBuff',
+      name: 'critSpdBuff',
+      text: t('critSpdBuff.text'),
+      title: t('critSpdBuff.title'),
+      content: t('critSpdBuff.content'),
+    }, {
+      formItem: 'switch',
+      id: 'e1TargetFrozen',
+      name: 'e1TargetFrozen',
+      text: t('e1TargetFrozen.text'),
+      title: t('e1TargetFrozen.title'),
+      content: t('e1TargetFrozen.content'),
+      disabled: (e < 1),
+    }, {
+      formItem: 'switch',
+      id: 'e4CurrentHp80',
+      name: 'e4CurrentHp80',
+      text: t('e4CurrentHp80.text'),
+      title: t('e4CurrentHp80.title'),
+      content: t('e4CurrentHp80.content'),
+      disabled: (e < 4),
+    }]
+  })()
 
   return {
     content: () => content,

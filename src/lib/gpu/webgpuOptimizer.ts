@@ -23,7 +23,7 @@ export async function gpuOptimize(props: {
   relicSetSolutions: number[]
   ornamentSetSolutions: number[]
 }) {
-  const { params, request, relics, permutations, computeEngine, relicSetSolutions, ornamentSetSolutions } = props
+  const { context, params, request, relics, permutations, computeEngine, relicSetSolutions, ornamentSetSolutions } = props
 
   const device = await getWebgpuDevice()
   if (device == null) {
@@ -45,6 +45,7 @@ export async function gpuOptimize(props: {
     device,
     relics,
     request,
+    context,
     params,
     permutations,
     computeEngine,
@@ -56,7 +57,7 @@ export async function gpuOptimize(props: {
     Message.warning('Debug mode is ON', 5)
   }
 
-  console.log('Raw inputs', { params, request, relics, permutations })
+  console.log('Raw inputs', { context, params, request, relics, permutations })
   // console.log('GPU execution context', gpuContext)
 
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {

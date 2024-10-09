@@ -35,9 +35,11 @@ function advancedTransform() {
 
 function simpleTransform(comboState: ComboState, request: Form, context: OptimizerContext) {
   const comboAbilities = getComboAbilities(request.comboAbilities)
+  const actions: OptimizerAction[] = []
   for (let i = 0; i < comboAbilities.length; i++) {
-    transformAction(i, comboState, comboAbilities)
+    actions.push(transformAction(i, comboState, comboAbilities))
   }
+  context.actions = actions
 }
 
 function transformAction(actionIndex: number, comboState: ComboState, comboAbilities: string[]) {
@@ -80,6 +82,8 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
   calculateContextConditionalRegistry(action, comboState)
 
   console.log({ action })
+
+  return action
 }
 
 function precomputeConditionals(action: OptimizerAction, comboState: ComboState) {

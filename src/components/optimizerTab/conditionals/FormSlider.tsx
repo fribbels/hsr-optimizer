@@ -80,7 +80,6 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
         }
       }}
       value={props.value == null ? undefined : state}
-      defaultValue={props.value ?? undefined}
     />
   )
 
@@ -110,7 +109,6 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
         }
       }}
       value={props.value == null ? undefined : state}
-      defaultValue={props.value ?? undefined}
     />
   )
 

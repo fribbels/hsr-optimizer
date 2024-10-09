@@ -1,5 +1,3 @@
-
-
 // START CHARACTER CONDITIONAL CONSTANTS
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
 /* INJECT CHARACTER CONDITIONAL CONSTANTS */

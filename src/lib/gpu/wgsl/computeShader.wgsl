@@ -123,6 +123,7 @@ fn main(
     let relicSetIndex: u32 = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount;
     let ornamentSetIndex: u32 = setP + setL * ornamentSetCount;
 
+    var broken = false;
 
 
     // START SET FILTERS
@@ -497,7 +498,6 @@ fn main(
     // TODOS above =====================
     // Split out the set conditionals into per action
     //
-
     var combo = 0.0;
     for (var i = actionCount - 1; i >= 0; i--) {
       var x = actions[i].x;
@@ -711,9 +711,8 @@ fn main(
         + DOT_COMBO * x.DOT_DMG
         + BREAK_COMBO * x.BREAK_DMG;
 
-      combo += x.DOT_DMG;
-
       if (i == 0) {
+        actions[i].x = x;
     // START COMBAT STAT FILTERS
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
     /* INJECT COMBAT STAT FILTERS */
@@ -727,14 +726,6 @@ fn main(
     /* INJECT BASIC STAT FILTERS */
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
     // END BASIC STAT FILTERS
-      }
-    }
-
-    var x = actions[0].x;
-    x.COMBO_DMG = combo;
-
-
-
 
 
     // START RETURN VALUE
@@ -742,6 +733,8 @@ fn main(
     /* INJECT RETURN VALUE */
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
     // END RETURN VALUE
+      }
+    }
   }
 }
 

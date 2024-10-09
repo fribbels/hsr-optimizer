@@ -68,6 +68,7 @@ function injectSetFilters(wgsl: string, gpuParams: GpuConstants) {
   return wgsl.replace('/* INJECT SET FILTERS */', indent(`
 if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[ornamentSetIndex] < 1) {
   results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
+  broken = true;
   continue;
 }
   `, 2))
@@ -111,6 +112,7 @@ if (statDisplay == 1) {
 ${format(basicFilters)}
   ) {
     results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
+    broken = true;
     continue;
   }
 }
@@ -172,6 +174,7 @@ if (statDisplay == 0) {
 ${format(combatFilters)}
   ) {
     results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
+    broken = true;
     continue;
   }
 }

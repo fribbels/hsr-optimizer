@@ -7,8 +7,10 @@ import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { ConditionalRegistry } from 'lib/optimizer/calculateConditionals'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
+import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomputedStats'
+import { OptimizerContext } from 'types/Optimizer'
 
-export function injectConditionals(wgsl: string, request: Form, params: OptimizerParams) {
+export function injectConditionals(wgsl: string, request: Form, params: OptimizerParams, context: OptimizerContext) {
   const characterConditionals: CharacterConditional = CharacterConditionals.get(request) as CharacterConditional
   const lightConeConditionals: LightConeConditional = LightConeConditionals.get(request) as LightConeConditional
 
@@ -58,6 +60,52 @@ ${indent(conditionalConstantsValues, 2)}
   }
 
   wgsl += generateDynamicConditionals(conditionalRegistry, request, params)
+
+  // Actions
+  const length = context.actions.length
+  let actionsDefinition = `
+var actions: array<Action, ${length}> = array<Action, ${length}>(`
+  for (const action of context.actions) {
+    actionsDefinition += `
+  Action( // ${action.actionIndex}
+    SetConditionals(
+      ${action.setConditionals.enabledHunterOfGlacialForest}, // enabledHunterOfGlacialForest
+      ${action.setConditionals.enabledFiresmithOfLavaForging}, // enabledFiresmithOfLavaForging
+      ${action.setConditionals.enabledGeniusOfBrilliantStars}, // enabledGeniusOfBrilliantStars
+      ${action.setConditionals.enabledBandOfSizzlingThunder}, // enabledBandOfSizzlingThunder
+      ${action.setConditionals.enabledMessengerTraversingHackerspace}, // enabledMessengerTraversingHackerspace
+      ${action.setConditionals.enabledCelestialDifferentiator}, // enabledCelestialDifferentiator
+      ${action.setConditionals.enabledWatchmakerMasterOfDreamMachinations}, // enabledWatchmakerMasterOfDreamMachinations
+      ${action.setConditionals.enabledIzumoGenseiAndTakamaDivineRealm}, // enabledIzumoGenseiAndTakamaDivineRealm
+      ${action.setConditionals.enabledForgeOfTheKalpagniLantern}, // enabledForgeOfTheKalpagniLantern
+      ${action.setConditionals.enabledTheWindSoaringValorous}, // enabledTheWindSoaringValorous
+      ${action.setConditionals.enabledTheWondrousBananAmusementPark}, // enabledTheWondrousBananAmusementPark
+      ${action.setConditionals.enabledScholarLostInErudition}, // enabledScholarLostInErudition
+      ${action.setConditionals.valueChampionOfStreetwiseBoxing}, // valueChampionOfStreetwiseBoxing
+      ${action.setConditionals.valueWastelanderOfBanditryDesert}, // valueWastelanderOfBanditryDesert
+      ${action.setConditionals.valueLongevousDisciple}, // valueLongevousDisciple
+      ${action.setConditionals.valueTheAshblazingGrandDuke}, // valueTheAshblazingGrandDuke
+      ${action.setConditionals.valuePrisonerInDeepConfinement}, // valuePrisonerInDeepConfinement
+      ${action.setConditionals.valuePioneerDiverOfDeadWaters}, // valuePioneerDiverOfDeadWaters
+      ${action.setConditionals.valueSigoniaTheUnclaimedDesolation}, // valueSigoniaTheUnclaimedDesolation
+      ${action.setConditionals.valueDuranDynastyOfRunningWolves}, // valueDuranDynastyOfRunningWolves
+    ),
+    ComputedStats(${injectPrecomputedStatsContext(action)}
+    ),
+    ConditionalState(
+    ),
+  ),`
+  }
+
+  actionsDefinition += `
+);
+  `
+
+  wgsl = wgsl.replace('/* INJECT ACTIONS DEFINITION */', actionsDefinition)
+
+  wgsl += `
+const actionCount = ${context.actions.length};
+`
 
   return wgsl
 }

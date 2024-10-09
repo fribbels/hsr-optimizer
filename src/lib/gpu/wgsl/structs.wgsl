@@ -119,7 +119,7 @@ struct SetConditionals {
 
 struct Action {
   setConditionals: SetConditionals,
-  precomputedX: ComputedStats,
+  x: ComputedStats,
   state: ConditionalState,
 }
 

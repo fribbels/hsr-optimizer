@@ -132,7 +132,7 @@ export function injectPrecomputedStats(wgsl: string, params: OptimizerParams) {
   x.EHP = 0
 
   const computedStatsWgsl = `
-    var x: ComputedStats = ComputedStats(  
+    var cachedSetEffects: ComputedStats = ComputedStats(  
       ${x[Stats.HP_P]}, // Stats.HP_P
       ${x[Stats.ATK_P]}, // Stats.ATK_P
       ${x[Stats.DEF_P]}, // Stats.DEF_P

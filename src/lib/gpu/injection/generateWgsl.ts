@@ -4,8 +4,6 @@ import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { Form } from 'types/Form'
-import { calculateConditionalRegistry, calculateConditionals } from 'lib/optimizer/calculateConditionals'
-import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectPrecomputedStats } from 'lib/gpu/injection/injectPrecomputedStats'
 import { injectUtils } from 'lib/gpu/injection/injectUtils'
@@ -14,14 +12,17 @@ import { indent } from 'lib/gpu/injection/wgslUtils'
 import { Constants } from 'lib/constants'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import { OptimizerContext } from 'types/Optimizer'
+import { calculateConditionalRegistry, calculateConditionals } from 'lib/optimizer/calculateConditionals'
+import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 
 export function generateWgsl(params: OptimizerParams, context: OptimizerContext, request: Form, gpuParams: GpuConstants) {
   calculateConditionals(request, params)
   calculateConditionalRegistry(request, params)
   calculateTeammates(request, params)
+
   let wgsl = ''
 
-  wgsl = injectSettings(wgsl, params, request)
+  wgsl = injectSettings(wgsl, params, context, request)
   wgsl = injectComputeShader(wgsl)
   wgsl = injectConditionals(wgsl, request, params)
   wgsl = injectPrecomputedStats(wgsl, params)

@@ -9,6 +9,7 @@ import { SetsOrnaments, SetsRelics } from 'lib/constants'
 import { SaveState } from 'lib/saveState'
 import DB from 'lib/db'
 import { OptimizerTabController } from 'lib/optimizerTabController'
+import { SelectionSets } from 'lib/optimizer/rotation/setConditionalContent'
 
 export enum ConditionalType {
   BOOLEAN = 'boolean',
@@ -139,7 +140,6 @@ export function initializeComboState(request: Form, merge: boolean) {
   comboState.comboTeammate2 = generateComboTeammate(request.teammate2, actionCount)
 
   if (request.comboStateJson && merge) {
-    console.debug('!!!!!!!!!!!!!!! LOAD', request.comboStateJson)
     const savedComboState = JSON.parse(request.comboStateJson) as ComboState
     comboState.comboCharacter.displayedOrnamentSets = savedComboState?.comboCharacter?.displayedOrnamentSets ?? []
     comboState.comboCharacter.displayedRelicSets = savedComboState?.comboCharacter?.displayedRelicSets ?? []
@@ -252,14 +252,8 @@ function generateSetComboConditionals(
 
   for (const [setName, setConditionalValue] of Object.entries(setConditionals)) {
     const p4Value = setConditionalValue[1]
-    if (typeof p4Value === 'boolean') {
-      const activations: boolean[] = Array(actionCount).fill(p4Value)
-      output[setName] = {
-        type: ConditionalType.BOOLEAN,
-        activations: activations,
-      }
-    } else if (typeof p4Value === 'number') {
-      const value: number = p4Value
+    if (SelectionSets[setName]) {
+      const value: number = p4Value as number
       const activations: boolean[] = Array(actionCount).fill(true)
       const valuePartitions: ComboSubSelectConditional = {
         value: value,
@@ -270,7 +264,11 @@ function generateSetComboConditionals(
         partitions: [valuePartitions],
       }
     } else {
-      // No other types for now
+      const activations: boolean[] = Array(actionCount).fill(p4Value)
+      output[setName] = {
+        type: ConditionalType.BOOLEAN,
+        activations: activations,
+      }
     }
   }
 

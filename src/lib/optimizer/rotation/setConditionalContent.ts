@@ -29,7 +29,7 @@ export function generateSetConditionalContent() {
 }
 
 
-const SelectionSets: { [key: string]: SetContent } = {
+export const SelectionSets: { [key: string]: SetContent } = {
   [Sets.ChampionOfStreetwiseBoxing]: SetContentChampionOfStreetwiseBoxing(),
   [Sets.WastelanderOfBanditryDesert]: SetContentWastelanderOfBanditryDesert(),
   [Sets.LongevousDisciple]: SetContentLongevousDisciple(),

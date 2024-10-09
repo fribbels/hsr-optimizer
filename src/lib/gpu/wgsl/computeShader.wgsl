@@ -469,9 +469,9 @@ fn main(
     //
 
     var combo = 0.0;
-    for (var i = 0; i < 10; i++) {
-      var cloned_x = cloneComputedStats(x);
-      var cloned_state = cloneConditionalState(state);
+    for (var i = 0; i < actionCount; i++) {
+      var cloned_x = cloneComputedStats(actions[i].precomputedX);
+      var cloned_state = cloneConditionalState(actions[i].state);
       let p_x = &cloned_x;
       let p_state = &cloned_state;
 

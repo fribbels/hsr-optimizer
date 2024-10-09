@@ -105,7 +105,7 @@ async function generateTranslations(){
           return await importTextmap('ID')
         case 'ja':
           return await importTextmap('JP')
-        case 'kr':
+        case 'ko':
           return await importTextmap('KR')
         case 'pt':
           return await importTextmap('PT')

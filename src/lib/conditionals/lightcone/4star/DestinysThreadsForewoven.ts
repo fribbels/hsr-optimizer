@@ -4,7 +4,7 @@ import { SuperImpositionLevel } from 'types/LightCone'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Form } from 'types/Form'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   const sValues = [0.008, 0.009, 0.01, 0.011, 0.012]
   const sValuesMax = [0.32, 0.36, 0.40, 0.44, 0.48]
 

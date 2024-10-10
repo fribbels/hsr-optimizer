@@ -6,7 +6,7 @@ import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const { basic } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)

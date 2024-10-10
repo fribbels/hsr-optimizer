@@ -4,11 +4,10 @@ import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.PatienceIsAllYouNeed')
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PatienceIsAllYouNeed')
   const sValuesDmg = [0.24, 0.28, 0.32, 0.36, 0.40]
   const sValuesSpd = [0.048, 0.056, 0.064, 0.072, 0.08]
   const sValuesErode = [0.6, 0.7, 0.8, 0.9, 1]

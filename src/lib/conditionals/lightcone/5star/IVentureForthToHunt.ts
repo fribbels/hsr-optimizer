@@ -4,11 +4,10 @@ import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.IVentureForthToHunt')
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.IVentureForthToHunt')
   const sValuesDefShred = [0.27, 0.30, 0.33, 0.36, 0.39]
 
   const content: ContentItem[] = [

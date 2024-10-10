@@ -7,11 +7,10 @@ import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/set
 import { Form } from 'types/Form'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.PerfectTiming')
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PerfectTiming')
   const sValues = [0.33, 0.36, 0.39, 0.42, 0.45]
   const sMaxValues = [0.15, 0.18, 0.21, 0.24, 0.27]
   const content: ContentItem[] = [{

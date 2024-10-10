@@ -9,7 +9,7 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 const SilverWolf = (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.SilverWolf')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SilverWolf')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const skillResShredValue = skill(e, 0.10, 0.105)

@@ -7,8 +7,8 @@ import { CURRENT_DATA_VERSION, Stats } from 'lib/constants'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.NinjaRecordSoundHunt')
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.NinjaRecordSoundHunt')
   const sValuesCd = [0.18, 0.225, 0.27, 0.315, 0.36]
 
   const content: ContentItem[] = [

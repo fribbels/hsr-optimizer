@@ -12,7 +12,7 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 const DrRatio = (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.DrRatio')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.DrRatio')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const debuffStacksMax = 5

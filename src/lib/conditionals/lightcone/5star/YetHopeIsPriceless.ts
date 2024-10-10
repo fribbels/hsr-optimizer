@@ -7,10 +7,9 @@ import { Stats } from 'lib/constants'
 import { TsUtils } from 'lib/TsUtils'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import i18next from 'i18next'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.YetHopeIsPriceless')
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.YetHopeIsPriceless')
   const sValuesFuaDmg = [0.12, 0.14, 0.16, 0.18, 0.20]
   const sValuesUltFuaDefShred = [0.20, 0.24, 0.28, 0.32, 0.36]
 

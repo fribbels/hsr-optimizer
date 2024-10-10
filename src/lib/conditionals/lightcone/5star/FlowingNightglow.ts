@@ -5,11 +5,10 @@ import { LightConeConditional } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { findContentId } from 'lib/conditionals/conditionalUtils'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.FlowingNightglow')
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.FlowingNightglow')
   const sValuesErr = [0.03, 0.035, 0.04, 0.045, 0.05]
   const sValuesAtkBuff = [0.48, 0.60, 0.72, 0.84, 0.96]
   const sValuesDmgBuff = [0.24, 0.28, 0.32, 0.36, 0.40]

@@ -3,11 +3,10 @@ import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.InTheNameOfTheWorld')
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.InTheNameOfTheWorld')
   const sValuesDmg = [0.24, 0.28, 0.32, 0.36, 0.40]
   const sValuesAtk = [0.24, 0.28, 0.32, 0.36, 0.40]
   const sValuesEhr = [0.18, 0.21, 0.24, 0.27, 0.3]

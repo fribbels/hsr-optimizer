@@ -9,7 +9,7 @@ import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
 const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.BaptismOfPureThought')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.BaptismOfPureThought')
   const sValuesCd = [0.08, 0.09, 0.10, 0.11, 0.12]
   const sValuesDmg = [0.36, 0.42, 0.48, 0.54, 0.60]
   const sValuesFuaPen = [0.24, 0.28, 0.32, 0.36, 0.40]

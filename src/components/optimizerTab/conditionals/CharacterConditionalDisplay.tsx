@@ -32,7 +32,7 @@ export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }:
 
   const characterFn = characterOptionMapping[characterId]
 
-  const character = characterFn(eidolon)
+  const character = characterFn(eidolon, true)
   const content = teammateIndex != null
     ? (character.teammateContent ? character.teammateContent() : undefined)
     : character.content()

@@ -338,7 +338,7 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
     const metadata = comboCharacter.metadata
 
     if (props.originKey.includes('LightCone')) {
-      const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(metadata)
+      const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(metadata, true)
 
       content = isTeammate ? lightConeConditionalMetadata.teammateContent?.() ?? [] : lightConeConditionalMetadata.content()
       src = Assets.getLightConeIconById(metadata.lightCone)
@@ -424,7 +424,7 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
       }
     } else {
       // Character
-      const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(metadata)
+      const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(metadata, true)
 
       content = isTeammate ? characterConditionalMetadata.teammateContent?.() ?? [] : characterConditionalMetadata.content()
       src = Assets.getCharacterAvatarById(metadata.characterId)

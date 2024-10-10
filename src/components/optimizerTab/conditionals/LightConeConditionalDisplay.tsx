@@ -36,7 +36,7 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
   }
 
   const lcFn = lightConeOptionMapping[lightConeId]
-  const lightCone = lcFn(superImposition - 1)
+  const lightCone = lcFn(superImposition - 1, true)
 
   const content = teammateIndex != null
     ? (lightCone.teammateContent ? lightCone.teammateContent() : undefined)

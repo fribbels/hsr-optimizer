@@ -65,3 +65,7 @@ export type StringToNumberMap = {
 export type StringToStringMap = {
   [key: string]: string
 }
+
+export type StringToBooleanMap = {
+  [key: string]: string
+}

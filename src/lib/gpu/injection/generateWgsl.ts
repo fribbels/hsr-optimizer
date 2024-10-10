@@ -4,8 +4,6 @@ import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { Form } from 'types/Form'
-import { calculateConditionalRegistry, calculateConditionals } from 'lib/optimizer/calculateConditionals'
-import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectPrecomputedStats } from 'lib/gpu/injection/injectPrecomputedStats'
 import { injectUtils } from 'lib/gpu/injection/injectUtils'
@@ -13,16 +11,20 @@ import { SortOption } from 'lib/optimizer/sortOptions'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { Constants } from 'lib/constants'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
+import { OptimizerContext } from 'types/Optimizer'
+import { calculateConditionalRegistry, calculateConditionals } from 'lib/optimizer/calculateConditionals'
+import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 
-export function generateWgsl(params: OptimizerParams, request: Form, gpuParams: GpuConstants) {
+export function generateWgsl(params: OptimizerParams, context: OptimizerContext, request: Form, gpuParams: GpuConstants) {
   calculateConditionals(request, params)
   calculateConditionalRegistry(request, params)
   calculateTeammates(request, params)
+
   let wgsl = ''
 
-  wgsl = injectSettings(wgsl, params, request)
+  wgsl = injectSettings(wgsl, params, context, request)
   wgsl = injectComputeShader(wgsl)
-  wgsl = injectConditionals(wgsl, request, params)
+  wgsl = injectConditionals(wgsl, request, params, context)
   wgsl = injectPrecomputedStats(wgsl, params)
   wgsl = injectUtils(wgsl)
   wgsl = injectGpuParams(wgsl, request, gpuParams)
@@ -66,6 +68,7 @@ function injectSetFilters(wgsl: string, gpuParams: GpuConstants) {
   return wgsl.replace('/* INJECT SET FILTERS */', indent(`
 if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[ornamentSetIndex] < 1) {
   results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
+  broken = true;
   continue;
 }
   `, 2))
@@ -109,6 +112,7 @@ if (statDisplay == 1) {
 ${format(basicFilters)}
   ) {
     results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
+    broken = true;
     continue;
   }
 }
@@ -170,6 +174,7 @@ if (statDisplay == 0) {
 ${format(combatFilters)}
   ) {
     results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
+    broken = true;
     continue;
   }
 }

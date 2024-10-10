@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid'
 import { Constants } from './constants.ts'
 import { RelicRollFixer } from './relicRollFixer'
 import { Utils } from './utils'
@@ -35,7 +34,7 @@ export const RelicAugmenter = {
     }
 
     if (!relic.id) {
-      relic.id = uuidv4()
+      relic.id = Utils.randomId()
     }
 
     relic.augmentedStats = augmentedStats

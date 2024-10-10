@@ -2734,7 +2734,7 @@ interface Resources {
         }
         TeammateContent: {
           teammateBeValue: {
-            text: "E4 Trailblazer's Combat BE"
+            text: "E4 Combat BE"
             title: 'Dove in Tophat'
             content: "While the Trailblazer is on the field, increases the Break Effect of all teammates (excluding the Trailblazer), by an amount equal to 15% of the Trailblazer's Break Effect."
           }

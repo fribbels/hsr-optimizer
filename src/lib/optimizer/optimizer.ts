@@ -16,6 +16,7 @@ import { Message } from 'lib/message'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
+import { generateContext } from 'lib/optimizer/context/calculateContext'
 
 let CANCEL = false
 
@@ -118,6 +119,7 @@ export const Optimizer = {
     window.optimizerGrid.current.api.showLoadingOverlay()
 
     const params = generateParams(request)
+    const context = generateContext(request)
 
     // Create a special optimization request for the top row, ignoring filters and with a custom callback
     calculateCurrentlyEquippedRow(request)
@@ -136,6 +138,7 @@ export const Optimizer = {
     const maxSize = Constants.THREAD_BUFFER_LENGTH
 
     const clonedParams = Utils.clone(params) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
+    // const clonedContext = Utils.clone(context) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
 
     let computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
 
@@ -220,6 +223,7 @@ export const Optimizer = {
       }
     } else {
       gpuOptimize({
+        context: context,
         params: params,
         request: request,
         relics: relics,

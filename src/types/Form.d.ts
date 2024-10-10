@@ -1,10 +1,11 @@
 // import { } from "./Common";
-import { RelicEnhance, RelicGrade } from 'types/Relic'
+import { Relic, RelicEnhance, RelicGrade } from 'types/Relic'
 import { CharacterId, Eidolon } from 'types/Character'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { RelicSet } from 'types/RelicSet'
 import { ConditionalLightConeMap } from 'types/LightConeConditionals'
 import { CharacterConditionalMap } from 'types/CharacterConditional'
+import { SetsOrnaments } from 'lib/constants'
 
 type MIN_INT = 0
 type MAX_INT = 2147483647
@@ -16,14 +17,16 @@ export type Teammate = {
   lightConeSuperimposition: number
   teamOrnamentSet?: string
   teamRelicSet?: string
-} | Form
+  characterConditionals?: CharacterConditionalMap
+  lightConeConditionals?: ConditionalLightConeMap
+} & Form
 
 export type Form = {
   characterEidolon: Eidolon
   characterId: string
   characterLevel: number
   enemyCount: number
-  enemyElementalWeak: number
+  enemyElementalWeak: boolean
   enemyLevel: number
   enemyMaxToughness: number
   enemyResistance: number
@@ -67,12 +70,19 @@ export type Form = {
   combo: {
     [key: string]: number
   }
+  comboStateJson: string
+  comboAbilities: string[]
+  comboType: string
+  comboDot: number
+  comboBreak: number
 
   setConditionals: { [key: string]: any[] }
 
   teammate0: Teammate
   teammate1: Teammate
   teammate2: Teammate
+
+
 
   baseHp: number
   baseAtk: number

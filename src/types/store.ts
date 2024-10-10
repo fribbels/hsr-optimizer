@@ -2,6 +2,8 @@ import { Character, CharacterId } from './Character'
 import { Relic } from './Relic'
 import { LightCone } from './LightCone'
 import { StringToStringMap } from 'types/Common'
+import { Form } from 'types/Form'
+import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 
 type PermutationDetails = {
   Head: number
@@ -38,6 +40,8 @@ export type HsrOptimizerStore = {
   characterTabFocusCharacter?: CharacterId
   scoringAlgorithmFocusCharacter?: CharacterId
 
+  comboState: ComboState
+  formValues: Form
   activeKey: unknown
   inventoryWidth: number
   setInventoryWidth: (width: number) => void
@@ -47,6 +51,7 @@ export type HsrOptimizerStore = {
   charactersById: Record<CharacterId, Character>
   characterTabBlur: boolean
   conditionalSetEffectsDrawerOpen: boolean
+  comboDrawerOpen: boolean
   permutations: number
   permutationsResults: number
   permutationsSearched: number
@@ -70,6 +75,8 @@ export type HsrOptimizerStore = {
   setOptimizationId: (id: number) => void
   setSettingsDrawerOpen: (open: boolean) => void
   optimizerTabFocusCharacterSelectModalOpen: boolean
+  setComboState: (state: ComboState) => void
+  setFormValues: (form: Form) => void
   setCombatBuffsDrawerOpen: (open: boolean) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void
   setOptimizerTabFocusCharacter: (CharacterId: CharacterId) => void
@@ -92,6 +99,7 @@ export type HsrOptimizerStore = {
   setActiveKey: (key: string) => void
   setScoringAlgorithmFocusCharacter: (id: CharacterId) => void
   setConditionalSetEffectsDrawerOpen: (b: boolean) => void
+  setComboDrawerOpen: (b: boolean) => void
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
   setStatDisplay: (display: 'combat' | 'base') => void
 

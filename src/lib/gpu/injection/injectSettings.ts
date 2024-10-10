@@ -1,9 +1,10 @@
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { Stats } from 'lib/constants'
 import { Form } from 'types/Form'
+import { OptimizerContext } from 'types/Optimizer'
 
-export function injectSettings(wgsl: string, params: OptimizerParams, request: Form) {
-  wgsl += generateSetConditionals(params)
+export function injectSettings(wgsl: string, params: OptimizerParams, context: OptimizerContext, request: Form) {
+  wgsl += generateSetConditionals(params, context)
   wgsl += generateCharacterStats(params.character.base, 'character')
   wgsl += generateCharacterStats(params.character.lightCone, 'lc')
   wgsl += generateCharacterStats(params.character.traces, 'trace')
@@ -25,7 +26,7 @@ const baseSPD = characterSPD + lcSPD;
   `
 }
 
-function generateSetConditionals(params: OptimizerParams) {
+function generateSetConditionals(params: OptimizerParams, context: OptimizerContext) {
   let wgsl = '\n'
 
   // Define the set conditional params

@@ -5,6 +5,8 @@ import { FormSliderWithPopoverProps } from 'components/optimizerTab/conditionals
 import { ComponentProps, ComponentType } from 'react'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { FormSelectWithPopoverProps } from 'components/optimizerTab/conditionals/FormSelect'
+import { OptimizerContext } from 'types/Optimizer'
 
 export type ConditionalMap = {
   [key: string]: number | boolean | string | undefined
@@ -26,7 +28,7 @@ export interface Conditional {
 
   // Individual effects that apply only for the primary character
   // e.g. Self buffs
-  precomputeEffects: (x: ComputedStatsObject, request: Form) => void
+  precomputeEffects: (x: ComputedStatsObject, request: Form, context: OptimizerContext) => void
 
   // Shared effects that apply both as a teammate and as the primary character
   // e.g. AOE team buff
@@ -46,6 +48,9 @@ export interface Conditional {
   // WGSL implementation of finalizeCalculations to run on GPU
   gpuFinalizeCalculations?: (request: Form, params: OptimizerParams) => string
 
+  // Injected constant values
+  gpuConstants?: (request: Form, params: OptimizerParams) => { [key: string]: number | boolean }
+
   // Dynamic conditionals are ones that cannot be precomputed, and can trigger at any point in the compute pipeline
   // These are dependent on other stats, usually in the form of 'when x.stat >= value, then buff x.other' and will
   // evaluate each time that dependent stat changes. These are executed after the precomputes, but before finalizing.
@@ -55,16 +60,17 @@ export interface Conditional {
 export type ContentComponentMap = {
   switch: ComponentType<FormSwitchWithPopoverProps>
   slider: ComponentType<FormSliderWithPopoverProps>
+  select: ComponentType<FormSelectWithPopoverProps>
 }
 
 // extracted content to apply to <DisplayFormControl />
 export type ContentItem = {
   [K in keyof ContentComponentMap]: {
-    formItem: K
-    id: string
-    content: string
-    teammateIndex?: number
-  } & Omit<ComponentProps<ContentComponentMap[K]>, 'content'>
+  formItem: K
+  id: string
+  content: string
+  teammateIndex?: number
+} & Omit<ComponentProps<ContentComponentMap[K]>, 'content'>
 }[keyof ContentComponentMap]
 
 export type ConditionalBuff =

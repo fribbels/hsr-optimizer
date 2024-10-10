@@ -2,6 +2,7 @@ import { Constants, Stats } from 'lib/constants'
 import { ContentItem } from 'types/Conditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Form } from 'types/Form'
+import { indent } from 'lib/gpu/injection/wgslUtils'
 
 export const precisionRound = (number: number, precision: number = 8): number => {
   const factor = Math.pow(10, precision)
@@ -74,13 +75,13 @@ export function standardAtkFinalizer(x: ComputedStatsObject) {
 }
 
 export function gpuStandardAtkFinalizer() {
-  return `
+  return indent(`
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * x.ATK;
 x.FUA_DMG += x.FUA_SCALING * x.ATK;
 x.DOT_DMG += x.DOT_SCALING * x.ATK;
-    `
+    `, 2)
 }
 
 export function standardHpFinalizer(x: ComputedStatsObject) {
@@ -92,13 +93,13 @@ export function standardHpFinalizer(x: ComputedStatsObject) {
 }
 
 export function gpuStandardHpFinalizer() {
-  return `
+  return indent(`
 x.BASIC_DMG += x.BASIC_SCALING * x.HP;
 x.SKILL_DMG += x.SKILL_SCALING * x.HP;
 x.ULT_DMG += x.ULT_SCALING * x.HP;
 x.FUA_DMG += x.FUA_SCALING * x.HP;
 x.DOT_DMG += x.DOT_SCALING * x.HP;
-    `
+    `, 2)
 }
 
 export function standardFuaAtkFinalizer(x: ComputedStatsObject, request: Form, hitMulti: number) {

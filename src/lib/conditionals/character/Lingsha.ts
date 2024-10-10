@@ -8,9 +8,11 @@ import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
-import { LingshaConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { buffStat, conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
 export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
@@ -76,17 +78,6 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       },
     ]
   })()
-
-  const teammateContent: ContentItem[] = (() => {
-    if (withoutContent) return []
-    return [
-      findContentId(content, 'befogState'),
-      findContentId(content, 'e1DefShred'),
-      findContentId(content, 'e2BeBuff'),
-      findContentId(content, 'e6ResShred'),
-    ]
-  })()
-
   const defaults = {
     beConversion: true,
     befogState: true,
@@ -101,6 +92,16 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
     e2BeBuff: true,
     e6ResShred: true,
   }
+
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    return [
+      findContentId(content, 'befogState'),
+      findContentId(content, 'e1DefShred'),
+      findContentId(content, 'e2BeBuff'),
+      findContentId(content, 'e6ResShred'),
+    ]
+  })()
 
   return {
     content: () => content,
@@ -146,6 +147,68 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
     gpuFinalizeCalculations: (request: Form) => {
       return gpuStandardFuaAtkFinalizer(hitMultiByTargets[request.enemyCount])
     },
+    gpuConstants: (request: Form) => {
+      const r = request.characterConditionals
+      return {
+        LingshaBeConversion: r.beConversion,
+      }
+    },
     dynamicConditionals: [LingshaConversionConditional],
   }
+}
+
+const LingshaConversionConditional: DynamicConditional = {
+  id: 'LingshaConversionConditional',
+  type: ConditionalType.ABILITY,
+  activation: ConditionalActivation.CONTINUOUS,
+  dependsOn: [Stats.BE],
+  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    return true
+  },
+  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    const r = request.characterConditionals
+    if (!r.beConversion) {
+      return
+    }
+
+    const stateValue = params.conditionalState[this.id] || 0
+    const buffValueAtk = Math.min(0.50, 0.25 * x[Stats.BE]) * request.baseAtk
+    const buffValueOhb = Math.min(0.20, 0.10 * x[Stats.BE])
+
+    const stateBuffValueAtk = Math.min(0.50, 0.25 * stateValue) * request.baseAtk
+    const stateBuffValueOhb = Math.min(0.20, 0.10 * stateValue)
+
+    params.conditionalState[this.id] = x[Stats.BE]
+
+    const finalBuffAtk = buffValueAtk - (stateValue ? stateBuffValueAtk : 0)
+    const finalBuffOhb = buffValueOhb - (stateValue ? stateBuffValueOhb : 0)
+
+    buffStat(x, request, params, Stats.ATK, finalBuffAtk)
+    buffStat(x, request, params, Stats.OHB, finalBuffOhb)
+  },
+  gpu: function (request: Form, _params: OptimizerParams) {
+    const r = request.characterConditionals
+
+    return conditionalWgslWrapper(this, `
+if (conditionalConstants[0].LingshaBeConversion == false) {
+  return;
+}
+
+let stateValue: f32 = (*p_state).LingshaConversionConditional;
+
+let buffValueAtk = min(0.50, 0.25 * x.BE) * baseATK;
+let buffValueOhb = min(0.20, 0.10 * x.BE);
+
+let stateBuffValueAtk = min(0.50, 0.25 * stateValue) * baseATK;
+let stateBuffValueOhb = min(0.20, 0.10 * stateValue);
+
+(*p_state).LingshaConversionConditional = (*p_x).BE;
+
+let finalBuffAtk = buffValueAtk - select(0, stateBuffValueAtk, stateValue > 0);
+let finalBuffOhb = buffValueOhb - select(0, stateBuffValueOhb, stateValue > 0);
+
+buffDynamicATK(finalBuffAtk, p_x, p_state);
+buffDynamicOHB(finalBuffOhb, p_x, p_state);
+    `)
+  },
 }

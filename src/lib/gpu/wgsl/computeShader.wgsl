@@ -670,10 +670,8 @@ fn main(
         + DOT_COMBO * x.DOT_DMG
         + BREAK_COMBO * x.BREAK_DMG;
 
-      combo = x.SKILL_DMG;
-
       if (i == 0) {
-      x.COMBO_DMG = combo;
+        x.COMBO_DMG = combo;
     // START COMBAT STAT FILTERS
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
     /* INJECT COMBAT STAT FILTERS */
@@ -695,6 +693,25 @@ fn main(
     /* INJECT RETURN VALUE */
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
     // END RETURN VALUE
+      } else {
+        let actionType = actions[i].abilityType;
+        switch (actionType) {
+          case 1: {
+            combo += x.BASIC_DMG;
+          }
+          case 2: {
+            combo += x.SKILL_DMG;
+          }
+          case 4: {
+            combo += x.ULT_DMG;
+          }
+          case 8: {
+            combo += x.FUA_DMG;
+          }
+          default: {
+
+          }
+        }
       }
     }
 

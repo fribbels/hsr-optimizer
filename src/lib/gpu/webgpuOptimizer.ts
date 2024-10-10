@@ -51,7 +51,7 @@ export async function gpuOptimize(props: {
     computeEngine,
     relicSetSolutions,
     ornamentSetSolutions,
-    false
+    true
   )
 
   if (gpuContext.DEBUG) {

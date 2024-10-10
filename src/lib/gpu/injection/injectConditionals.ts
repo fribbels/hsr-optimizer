@@ -9,6 +9,7 @@ import { LightConeConditional } from 'types/LightConeConditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomputedStats'
 import { OptimizerContext } from 'types/Optimizer'
+import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 
 export function injectConditionals(wgsl: string, request: Form, params: OptimizerParams, context: OptimizerContext) {
   const characterConditionals: CharacterConditional = CharacterConditionals.get(request) as CharacterConditional
@@ -71,6 +72,7 @@ const actions: array<Action, ${length}> = array<Action, ${length}>(`
   for (const action of context.actions) {
     actionsDefinition += `
   Action( // ${action.actionIndex}
+    ${getActionTypeToWgslMapping(action.actionType)},
     SetConditionals(
       ${action.setConditionals.enabledHunterOfGlacialForest}, // enabledHunterOfGlacialForest
       ${action.setConditionals.enabledFiresmithOfLavaForging}, // enabledFiresmithOfLavaForging
@@ -204,4 +206,15 @@ ${indent(conditionalStateDefinition, 1)}
   `
 
   return wgsl
+}
+
+const actionTypeToWgslMapping = {
+  'BASIC': BASIC_TYPE,
+  'SKILL': SKILL_TYPE,
+  'ULT': ULT_TYPE,
+  'FUA': FUA_TYPE,
+}
+
+function getActionTypeToWgslMapping(actionType: string) {
+  return actionTypeToWgslMapping[actionType] ?? 0
 }

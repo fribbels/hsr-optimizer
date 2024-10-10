@@ -11,6 +11,12 @@ import { TsUtils } from 'lib/TsUtils'
 import { OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+  const t = withoutContent
+    ? function (x?: any, y?: any, z?: any) {
+      return ''
+    }
+    : i18next.getFixedT(null, 'conditionals', 'Characters.Jingliu.Content')
+
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const talentCrBuff = talent(e, 0.50, 0.52)
@@ -21,49 +27,45 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const skillEnhancedScaling = skill(e, 2.50, 2.75)
   const ultScaling = ult(e, 3.00, 3.24)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Jingliu.Content')
-    return [
-      {
-        name: 'talentEnhancedState',
-        id: 'talentEnhancedState',
-        formItem: 'switch',
-        text: t('talentEnhancedState.text'),
-        title: t('talentEnhancedState.title'),
-        content: t('talentEnhancedState.content', { talentCrBuff: TsUtils.precisionRound(100 * talentCrBuff) }),
-      },
-      {
-        name: 'talentHpDrainAtkBuff',
-        id: 'talentHpDrainAtkBuff',
-        formItem: 'slider',
-        text: t('talentHpDrainAtkBuff.text'),
-        title: t('talentHpDrainAtkBuff.title'),
-        content: t('talentHpDrainAtkBuff.content', { talentHpDrainAtkBuffMax: TsUtils.precisionRound(100 * talentHpDrainAtkBuffMax) }),
-        min: 0,
-        max: talentHpDrainAtkBuffMax,
-        percent: true,
-      },
-      {
-        id: 'e1CdBuff',
-        name: 'e1CdBuff',
-        formItem: 'switch',
-        text: t('e1CdBuff.text'),
-        title: t('e1CdBuff.title'),
-        content: t('e1CdBuff.content'),
-        disabled: e < 1,
-      },
-      {
-        id: 'e2SkillDmgBuff',
-        name: 'e2SkillDmgBuff',
-        formItem: 'switch',
-        text: t('e2SkillDmgBuff.text'),
-        title: t('e2SkillDmgBuff.title'),
-        content: t('e2SkillDmgBuff.content'),
-        disabled: e < 2,
-      },
-    ]
-  })()
+  const content: ContentItem[] = [
+    {
+      name: 'talentEnhancedState',
+      id: 'talentEnhancedState',
+      formItem: 'switch',
+      text: t('talentEnhancedState.text'),
+      title: t('talentEnhancedState.title'),
+      content: t('talentEnhancedState.content', { talentCrBuff: TsUtils.precisionRound(100 * talentCrBuff) }),
+    },
+    {
+      name: 'talentHpDrainAtkBuff',
+      id: 'talentHpDrainAtkBuff',
+      formItem: 'slider',
+      text: t('talentHpDrainAtkBuff.text'),
+      title: t('talentHpDrainAtkBuff.title'),
+      content: t('talentHpDrainAtkBuff.content', { talentHpDrainAtkBuffMax: TsUtils.precisionRound(100 * talentHpDrainAtkBuffMax) }),
+      min: 0,
+      max: talentHpDrainAtkBuffMax,
+      percent: true,
+    },
+    {
+      id: 'e1CdBuff',
+      name: 'e1CdBuff',
+      formItem: 'switch',
+      text: t('e1CdBuff.text'),
+      title: t('e1CdBuff.title'),
+      content: t('e1CdBuff.content'),
+      disabled: e < 1,
+    },
+    {
+      id: 'e2SkillDmgBuff',
+      name: 'e2SkillDmgBuff',
+      formItem: 'switch',
+      text: t('e2SkillDmgBuff.text'),
+      title: t('e2SkillDmgBuff.title'),
+      content: t('e2SkillDmgBuff.content'),
+      disabled: e < 2,
+    },
+  ]
 
   return {
     content: () => content,

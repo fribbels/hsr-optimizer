@@ -11,15 +11,15 @@ export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeCond
 
   const content: ContentItem[] = (() => {
     if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.ButTheBattleIsntOver.Content')
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.ButTheBattleIsntOver')
     return [{
       lc: true,
       id: 'postSkillDmgBuff',
       name: 'postSkillDmgBuff',
       formItem: 'switch',
-      text: t('postSkillDmgBuff.text'),
-      title: t('postSkillDmgBuff.title'),
-      content: t('postSkillDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]) }),
+      text: t('Content.postSkillDmgBuff.text'),
+      title: t('Content.postSkillDmgBuff.title'),
+      content: t('Content.postSkillDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]) }),
     }]
   })()
 

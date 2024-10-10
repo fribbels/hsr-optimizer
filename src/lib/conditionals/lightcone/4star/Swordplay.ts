@@ -6,20 +6,23 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.Swordplay')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValues = [0.08, 0.10, 0.12, 0.14, 0.16]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'sameTargetHitStacks',
-    name: 'sameTargetHitStacks',
-    formItem: 'slider',
-    text: t('Content.sameTargetHitStacks.text'),
-    title: t('Content.sameTargetHitStacks.title'),
-    content: t('Content.sameTargetHitStacks.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
-    min: 0,
-    max: 5,
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.Swordplay.Content')
+    return [{
+      lc: true,
+      id: 'sameTargetHitStacks',
+      name: 'sameTargetHitStacks',
+      formItem: 'slider',
+      text: t('sameTargetHitStacks.text'),
+      title: t('sameTargetHitStacks.title'),
+      content: t('sameTargetHitStacks.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+      min: 0,
+      max: 5,
+    }]
+  })()
 
   return {
     content: () => content,

@@ -253,6 +253,6 @@ export const LightConeConditionals = {
         teammateDefaults: () => ({}),
       }
     }
-    return lcFn(request.lightConeSuperimposition - 1)
+    return lcFn(request.lightConeSuperimposition - 1, true)
   },
 }

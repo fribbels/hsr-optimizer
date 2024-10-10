@@ -13,8 +13,7 @@ import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.FuXuan')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const skillCrBuffValue = skill(e, 0.12, 0.132)
@@ -25,47 +24,55 @@ export default (e: Eidolon): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 1.00, 1.08)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'talentActive',
-    name: 'talentActive',
-    text: t('Content.talentActive.text'),
-    title: t('Content.talentActive.title'),
-    content: t('Content.talentActive.content', { talentDmgReductionValue: TsUtils.precisionRound(100 * talentDmgReductionValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'skillActive',
-    name: 'skillActive',
-    text: t('Content.skillActive.text'),
-    title: t('Content.skillActive.title'),
-    content: t('Content.skillActive.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue), skillCrBuffValue: TsUtils.precisionRound(100 * skillCrBuffValue) }),
-  }, {
-    formItem: 'slider',
-    id: 'e6TeamHpLostPercent',
-    name: 'e6TeamHpLostPercent',
-    text: t('Content.e6TeamHpLostPercent.text'),
-    title: t('Content.e6TeamHpLostPercent.title'),
-    content: t('Content.e6TeamHpLostPercent.content'),
-    min: 0,
-    max: 1.2,
-    percent: true,
-    disabled: e < 6,
-  }]
-
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'talentActive'),
-    findContentId(content, 'skillActive'),
-    {
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.FuXuan.Content')
+    return [{
+      formItem: 'switch',
+      id: 'talentActive',
+      name: 'talentActive',
+      text: t('talentActive.text'),
+      title: t('talentActive.title'),
+      content: t('talentActive.content', { talentDmgReductionValue: TsUtils.precisionRound(100 * talentDmgReductionValue) }),
+    }, {
+      formItem: 'switch',
+      id: 'skillActive',
+      name: 'skillActive',
+      text: t('skillActive.text'),
+      title: t('skillActive.title'),
+      content: t('skillActive.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue), skillCrBuffValue: TsUtils.precisionRound(100 * skillCrBuffValue) }),
+    }, {
       formItem: 'slider',
-      id: 'teammateHPValue',
-      name: 'teammateHPValue',
-      text: t('TeammateContent.teammateHPValue.text'),
-      title: t('TeammateContent.teammateHPValue.title'),
-      content: t('TeammateContent.teammateHPValue.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue) }),
+      id: 'e6TeamHpLostPercent',
+      name: 'e6TeamHpLostPercent',
+      text: t('e6TeamHpLostPercent.text'),
+      title: t('e6TeamHpLostPercent.title'),
+      content: t('e6TeamHpLostPercent.content'),
       min: 0,
-      max: 10000,
-    },
-  ]
+      max: 1.2,
+      percent: true,
+      disabled: e < 6,
+    }]
+  })()
+
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.FuXuan.TeammateContent')
+    return [
+      findContentId(content, 'talentActive'),
+      findContentId(content, 'skillActive'),
+      {
+        formItem: 'slider',
+        id: 'teammateHPValue',
+        name: 'teammateHPValue',
+        text: t('teammateHPValue.text'),
+        title: t('teammateHPValue.title'),
+        content: t('teammateHPValue.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue) }),
+        min: 0,
+        max: 10000,
+      },
+    ]
+  })()
 
   return {
     content: () => content,

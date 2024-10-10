@@ -11,31 +11,34 @@ import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/set
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.SailingTowardsASecondLife')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValuesSpdBuff = [0.12, 0.14, 0.16, 0.18, 0.20]
   const sValuesDefShred = [0.20, 0.23, 0.26, 0.29, 0.32]
 
-  const content: ContentItem[] = [
-    {
-      lc: true,
-      id: 'breakDmgDefShred',
-      name: 'breakDmgDefShred',
-      formItem: 'switch',
-      text: t('Content.breakDmgDefShred.text'),
-      title: t('Content.breakDmgDefShred.title'),
-      content: t('Content.breakDmgDefShred.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefShred[s]) }),
-    },
-    {
-      lc: true,
-      id: 'spdBuffConditional',
-      name: 'spdBuffConditional',
-      formItem: 'switch',
-      text: t('Content.spdBuffConditional.text'),
-      title: t('Content.spdBuffConditional.title'),
-      content: t('Content.spdBuffConditional.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpdBuff[s]) }),
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.SailingTowardsASecondLife.Content')
+    return [
+      {
+        lc: true,
+        id: 'breakDmgDefShred',
+        name: 'breakDmgDefShred',
+        formItem: 'switch',
+        text: t('breakDmgDefShred.text'),
+        title: t('breakDmgDefShred.title'),
+        content: t('breakDmgDefShred.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefShred[s]) }),
+      },
+      {
+        lc: true,
+        id: 'spdBuffConditional',
+        name: 'spdBuffConditional',
+        formItem: 'switch',
+        text: t('spdBuffConditional.text'),
+        title: t('spdBuffConditional.title'),
+        content: t('spdBuffConditional.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpdBuff[s]) }),
+      },
+    ]
+  })()
 
   return {
     content: () => content,

@@ -6,18 +6,21 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.PlanetaryRendezvous')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'alliesSameElement',
-    name: 'alliesSameElement',
-    formItem: 'switch',
-    text: t('Content.alliesSameElement.text'),
-    title: t('Content.alliesSameElement.title'),
-    content: t('Content.alliesSameElement.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.PlanetaryRendezvous.Content')
+    return [{
+      lc: true,
+      id: 'alliesSameElement',
+      name: 'alliesSameElement',
+      formItem: 'switch',
+      text: t('alliesSameElement.text'),
+      title: t('alliesSameElement.title'),
+      content: t('alliesSameElement.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+    }]
+  })()
 
   return {
     content: () => content,

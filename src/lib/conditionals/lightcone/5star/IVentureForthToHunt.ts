@@ -7,23 +7,26 @@ import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.IVentureForthToHunt')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValuesDefShred = [0.27, 0.30, 0.33, 0.36, 0.39]
 
-  const content: ContentItem[] = [
-    {
-      lc: true,
-      formItem: 'slider',
-      id: 'luminfluxUltStacks',
-      name: 'luminfluxUltStacks',
-      text: t('Content.luminfluxUltStacks.text'),
-      title: t('Content.luminfluxUltStacks.title'),
-      content: t('Content.luminfluxUltStacks.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefShred[s]) }),
-      min: 0,
-      max: 2,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.IVentureForthToHunt.Content')
+    return [
+      {
+        lc: true,
+        formItem: 'slider',
+        id: 'luminfluxUltStacks',
+        name: 'luminfluxUltStacks',
+        text: t('luminfluxUltStacks.text'),
+        title: t('luminfluxUltStacks.title'),
+        content: t('luminfluxUltStacks.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefShred[s]) }),
+        min: 0,
+        max: 2,
+      },
+    ]
+  })()
 
   return {
     content: () => content,

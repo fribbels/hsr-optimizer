@@ -9,8 +9,7 @@ import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.TrailblazerPreservation')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const skillDamageReductionValue = skill(e, 0.50, 0.52)
@@ -23,42 +22,49 @@ export default (e: Eidolon): CharacterConditional => {
   const ultAtkScaling = ult(e, 1.00, 1.10)
   const ultDefScaling = ult(e, 1.50, 1.65)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'enhancedBasic',
-    name: 'enhancedBasic',
-    text: t('Content.enhancedBasic.text'),
-    title: t('Content.enhancedBasic.title'),
-    content: t('Content.enhancedBasic.content', { basicEnhancedAtkScaling: TsUtils.precisionRound(100 * basicEnhancedAtkScaling) }),
-  }, {
-    formItem: 'switch',
-    id: 'skillActive',
-    name: 'skillActive',
-    text: t('Content.skillActive.text'),
-    title: t('Content.skillActive.title'),
-    content: t('Content.skillActive.content', { skillDamageReductionValue: TsUtils.precisionRound(100 * skillDamageReductionValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'shieldActive',
-    name: 'shieldActive',
-    text: t('Content.shieldActive.text'),
-    title: t('Content.shieldActive.title'),
-    content: t('Content.shieldActive.content'),
-  }, {
-    formItem: 'slider',
-    id: 'e6DefStacks',
-    name: 'e6DefStacks',
-    text: t('Content.e6DefStacks.text'),
-    title: t('Content.e6DefStacks.title'),
-    content: t('Content.e6DefStacks.content'),
-    min: 0,
-    max: 3,
-    disabled: e < 6,
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.TrailblazerPreservation.Content')
+    return [{
+      formItem: 'switch',
+      id: 'enhancedBasic',
+      name: 'enhancedBasic',
+      text: t('enhancedBasic.text'),
+      title: t('enhancedBasic.title'),
+      content: t('enhancedBasic.content', { basicEnhancedAtkScaling: TsUtils.precisionRound(100 * basicEnhancedAtkScaling) }),
+    }, {
+      formItem: 'switch',
+      id: 'skillActive',
+      name: 'skillActive',
+      text: t('skillActive.text'),
+      title: t('skillActive.title'),
+      content: t('skillActive.content', { skillDamageReductionValue: TsUtils.precisionRound(100 * skillDamageReductionValue) }),
+    }, {
+      formItem: 'switch',
+      id: 'shieldActive',
+      name: 'shieldActive',
+      text: t('shieldActive.text'),
+      title: t('shieldActive.title'),
+      content: t('shieldActive.content'),
+    }, {
+      formItem: 'slider',
+      id: 'e6DefStacks',
+      name: 'e6DefStacks',
+      text: t('e6DefStacks.text'),
+      title: t('e6DefStacks.title'),
+      content: t('e6DefStacks.content'),
+      min: 0,
+      max: 3,
+      disabled: e < 6,
+    }]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'skillActive'),
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    return [
+      findContentId(content, 'skillActive'),
+    ]
+  })()
 
   return {
     content: () => content,

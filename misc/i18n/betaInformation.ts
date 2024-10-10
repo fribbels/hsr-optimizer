@@ -94,7 +94,7 @@ export const betaInformation: betaInformation = {
         value: {
           Name: "Sacerdos' Relived Ordeal",
           Description2pc: "<span>Increases SPD by <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>",
-          Description4pc: "<span>When using Skill or Ultimate on one ally target, increases the ability-using target's CRIT DMG by <span style='whiteSpace: \"nowrap\"'>18%</span>, lasting for <span style='whiteSpace: \"nowrap\"'>2</span> turn(s). This effect can stack up to <span style='whiteSpace: \"nowrap\"'>2</span> time(s).</span>"
+          Description4pc: "<span>When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by <span style='whiteSpace: \"nowrap\"'>18%</span>, lasting for <span style='whiteSpace: \"nowrap\"'>2</span> turn(s). This effect can stack up to <span style='whiteSpace: \"nowrap\"'>2</span> time(s).</span>"
         }
       },
       {
@@ -102,7 +102,7 @@ export const betaInformation: betaInformation = {
         value: {
           Name: "Scholar Lost in Erudition",
           Description2pc: "<span>Increases CRIT Rate by <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>",
-          Description4pc: "<span>Increases DMG dealt by Ultimate and Skill by <span style='whiteSpace: \"nowrap\"'>20%</span>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+          Description4pc: "<span>Increases DMG dealt by Skill and Ultimate by <span style='whiteSpace: \"nowrap\"'>20%</span>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
         }
       }
     ],

@@ -10,8 +10,7 @@ import { NumberToNumberMap } from 'types/Common'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Acheron')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -32,79 +31,86 @@ export default (e: Eidolon): CharacterConditional => {
     2: 0.60,
   }
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'slider',
-      id: 'crimsonKnotStacks',
-      name: 'crimsonKnotStacks',
-      text: t('Content.crimsonKnotStacks.text'),
-      title: t('Content.crimsonKnotStacks.title'),
-      content: t('Content.crimsonKnotStacks.content', { RainbladeScaling: TsUtils.precisionRound(100 * ultRainbladeScaling), CrimsonKnotScaling: TsUtils.precisionRound(100 * ultCrimsonKnotScaling) }),
-      min: 0,
-      max: maxCrimsonKnotStacks,
-    },
-    {
-      formItem: 'slider',
-      id: 'nihilityTeammates',
-      name: 'nihilityTeammates',
-      text: t('Content.nihilityTeammates.text'),
-      title: t('Content.nihilityTeammates.title'),
-      content: t('Content.nihilityTeammates.content'),
-      min: 0,
-      max: maxNihilityTeammates,
-    },
-    {
-      formItem: 'slider',
-      id: 'thunderCoreStacks',
-      name: 'thunderCoreStacks',
-      text: t('Content.thunderCoreStacks.text'),
-      title: t('Content.thunderCoreStacks.title'),
-      content: t('Content.thunderCoreStacks.content'),
-      min: 0,
-      max: 3,
-    },
-    {
-      formItem: 'slider',
-      id: 'stygianResurgeHitsOnTarget',
-      name: 'stygianResurgeHitsOnTarget',
-      text: t('Content.stygianResurgeHitsOnTarget.text'),
-      title: t('Content.stygianResurgeHitsOnTarget.title'),
-      content: t('Content.stygianResurgeHitsOnTarget.content'),
-      min: 0,
-      max: 6,
-    },
-    {
-      formItem: 'switch',
-      id: 'e1EnemyDebuffed',
-      name: 'e1EnemyDebuffed',
-      text: t('Content.e1EnemyDebuffed.text'),
-      title: t('Content.e1EnemyDebuffed.title'),
-      content: t('Content.e1EnemyDebuffed.content'),
-      disabled: e < 1,
-    },
-    {
-      formItem: 'switch',
-      id: 'e4UltVulnerability',
-      name: 'e4UltVulnerability',
-      text: t('Content.e4UltVulnerability.text'),
-      title: t('Content.e4UltVulnerability.title'),
-      content: t('Content.e4UltVulnerability.content'),
-      disabled: e < 4,
-    },
-    {
-      formItem: 'switch',
-      id: 'e6UltBuffs',
-      name: 'e6UltBuffs',
-      text: t('Content.e6UltBuffs.text'),
-      title: t('Content.e6UltBuffs.title'),
-      content: t('Content.e6UltBuffs.content'),
-      disabled: e < 6,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Acheron.Content')
+    return [
+      {
+        formItem: 'slider',
+        id: 'crimsonKnotStacks',
+        name: 'crimsonKnotStacks',
+        text: t('crimsonKnotStacks.text'),
+        title: t('crimsonKnotStacks.title'),
+        content: t('crimsonKnotStacks.content', { RainbladeScaling: TsUtils.precisionRound(100 * ultRainbladeScaling), CrimsonKnotScaling: TsUtils.precisionRound(100 * ultCrimsonKnotScaling) }),
+        min: 0,
+        max: maxCrimsonKnotStacks,
+      },
+      {
+        formItem: 'slider',
+        id: 'nihilityTeammates',
+        name: 'nihilityTeammates',
+        text: t('nihilityTeammates.text'),
+        title: t('nihilityTeammates.title'),
+        content: t('nihilityTeammates.content'),
+        min: 0,
+        max: maxNihilityTeammates,
+      },
+      {
+        formItem: 'slider',
+        id: 'thunderCoreStacks',
+        name: 'thunderCoreStacks',
+        text: t('thunderCoreStacks.text'),
+        title: t('thunderCoreStacks.title'),
+        content: t('thunderCoreStacks.content'),
+        min: 0,
+        max: 3,
+      },
+      {
+        formItem: 'slider',
+        id: 'stygianResurgeHitsOnTarget',
+        name: 'stygianResurgeHitsOnTarget',
+        text: t('stygianResurgeHitsOnTarget.text'),
+        title: t('stygianResurgeHitsOnTarget.title'),
+        content: t('stygianResurgeHitsOnTarget.content'),
+        min: 0,
+        max: 6,
+      },
+      {
+        formItem: 'switch',
+        id: 'e1EnemyDebuffed',
+        name: 'e1EnemyDebuffed',
+        text: t('e1EnemyDebuffed.text'),
+        title: t('e1EnemyDebuffed.title'),
+        content: t('e1EnemyDebuffed.content'),
+        disabled: e < 1,
+      },
+      {
+        formItem: 'switch',
+        id: 'e4UltVulnerability',
+        name: 'e4UltVulnerability',
+        text: t('e4UltVulnerability.text'),
+        title: t('e4UltVulnerability.title'),
+        content: t('e4UltVulnerability.content'),
+        disabled: e < 4,
+      },
+      {
+        formItem: 'switch',
+        id: 'e6UltBuffs',
+        name: 'e6UltBuffs',
+        text: t('e6UltBuffs.text'),
+        title: t('e6UltBuffs.title'),
+        content: t('e6UltBuffs.content'),
+        disabled: e < 6,
+      },
+    ]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'e4UltVulnerability'),
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    return [
+      findContentId(content, 'e4UltVulnerability'),
+    ]
+  })()
 
   return {
     content: () => content,

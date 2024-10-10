@@ -1,4 +1,4 @@
-import { Flex, Select } from 'antd'
+import { Button, Flex, Select } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { languages } from './../lib/i18n'
 import { ReactElement } from 'react'
@@ -47,6 +47,18 @@ export function LanguageSelector(props: { style: React.CSSProperties; dropdownSt
       dropdownStyle={props.dropdownStyle}
       defaultValue={i18n.resolvedLanguage}
       placement={props.placement}
+      dropdownRender={(menu) => (
+        <Flex gap={4} vertical>
+          {menu}
+          <Button
+            type='primary'
+            style={{ borderRadius: 5, height: 40 }}
+            onClick={() => window.open('https://discord.gg/rDmB4Un7qg')}
+          >
+            Help translate the website!
+          </Button>
+        </Flex>
+      )}
     />
   )
 }

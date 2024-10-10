@@ -10,8 +10,7 @@ import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
 import i18next from 'i18next'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Himeko')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -26,53 +25,57 @@ export default (e: Eidolon): CharacterConditional => {
     5: ASHBLAZING_ATK_STACK * (3 * 0.20 + 8 * 0.20 + 8 * 0.20 + 8 * 0.40), // 0.42
   }
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'targetBurned',
-      name: 'targetBurned',
-      text: t('Content.targetBurned.text'),
-      title: t('Content.targetBurned.title'),
-      content: t('Content.targetBurned.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'selfCurrentHp80Percent',
-      name: 'selfCurrentHp80Percent',
-      text: t('Content.selfCurrentHp80Percent.text'),
-      title: t('Content.selfCurrentHp80Percent.title'),
-      content: t('Content.selfCurrentHp80Percent.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'e1TalentSpdBuff',
-      name: 'e1TalentSpdBuff',
-      text: t('Content.e1TalentSpdBuff.text'),
-      title: t('Content.e1TalentSpdBuff.title'),
-      content: t('Content.e1TalentSpdBuff.content'),
-      disabled: e < 1,
-    },
-    {
-      formItem: 'switch',
-      id: 'e2EnemyHp50DmgBoost',
-      name: 'e2EnemyHp50DmgBoost',
-      text: t('Content.e2EnemyHp50DmgBoost.text'),
-      title: t('Content.e2EnemyHp50DmgBoost.title'),
-      content: t('Content.e2EnemyHp50DmgBoost.content'),
-      disabled: e < 2,
-    },
-    {
-      formItem: 'slider',
-      id: 'e6UltExtraHits',
-      name: 'e6UltExtraHits',
-      text: t('Content.e6UltExtraHits.text'),
-      title: t('Content.e6UltExtraHits.title'),
-      content: t('Content.e6UltExtraHits.content'),
-      min: 0,
-      max: 2,
-      disabled: e < 6,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Himeko.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'targetBurned',
+        name: 'targetBurned',
+        text: t('targetBurned.text'),
+        title: t('targetBurned.title'),
+        content: t('targetBurned.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'selfCurrentHp80Percent',
+        name: 'selfCurrentHp80Percent',
+        text: t('selfCurrentHp80Percent.text'),
+        title: t('selfCurrentHp80Percent.title'),
+        content: t('selfCurrentHp80Percent.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'e1TalentSpdBuff',
+        name: 'e1TalentSpdBuff',
+        text: t('e1TalentSpdBuff.text'),
+        title: t('e1TalentSpdBuff.title'),
+        content: t('e1TalentSpdBuff.content'),
+        disabled: e < 1,
+      },
+      {
+        formItem: 'switch',
+        id: 'e2EnemyHp50DmgBoost',
+        name: 'e2EnemyHp50DmgBoost',
+        text: t('e2EnemyHp50DmgBoost.text'),
+        title: t('e2EnemyHp50DmgBoost.title'),
+        content: t('e2EnemyHp50DmgBoost.content'),
+        disabled: e < 2,
+      },
+      {
+        formItem: 'slider',
+        id: 'e6UltExtraHits',
+        name: 'e6UltExtraHits',
+        text: t('e6UltExtraHits.text'),
+        title: t('e6UltExtraHits.title'),
+        content: t('e6UltExtraHits.content'),
+        min: 0,
+        max: 2,
+        disabled: e < 6,
+      },
+    ]
+  })()
 
   return {
     content: () => content,

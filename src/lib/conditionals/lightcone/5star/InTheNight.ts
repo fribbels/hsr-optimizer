@@ -9,20 +9,23 @@ import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.InTheNight')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValuesDmg = [0.06, 0.07, 0.08, 0.09, 0.10]
   const sValuesCd = [0.12, 0.14, 0.16, 0.18, 0.20]
 
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'spdScalingBuffs',
-    name: 'spdScalingBuffs',
-    formItem: 'switch',
-    text: t('Content.spdScalingBuffs.text'),
-    title: t('Content.spdScalingBuffs.title'),
-    content: t('Content.spdScalingBuffs.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]), CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.InTheNight.Content')
+    return [{
+      lc: true,
+      id: 'spdScalingBuffs',
+      name: 'spdScalingBuffs',
+      formItem: 'switch',
+      text: t('spdScalingBuffs.text'),
+      title: t('spdScalingBuffs.title'),
+      content: t('spdScalingBuffs.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]), CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
+    }]
+  })()
 
   return {
     content: () => content,

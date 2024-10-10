@@ -10,8 +10,7 @@ import { buffAbilityCd } from 'lib/optimizer/calculateBuffs'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Feixiao')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -42,59 +41,63 @@ export default (e: Eidolon): CharacterConditional => {
       : ASHBLAZING_ATK_STACK * ultHitCountMulti
   }
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'weaknessBrokenUlt',
-      name: 'weaknessBrokenUlt',
-      text: t('Content.weaknessBrokenUlt.text'),
-      title: t('Content.weaknessBrokenUlt.title'),
-      content: t('Content.weaknessBrokenUlt.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'talentDmgBuff',
-      name: 'talentDmgBuff',
-      text: t('Content.talentDmgBuff.text'),
-      title: t('Content.talentDmgBuff.title'),
-      content: t('Content.talentDmgBuff.content', { FuaMultiplier: TsUtils.precisionRound(100 * fuaScaling), DmgBuff: TsUtils.precisionRound(100 * talentDmgBuff) }),
-    },
-    {
-      formItem: 'switch',
-      id: 'skillAtkBuff',
-      name: 'skillAtkBuff',
-      text: t('Content.skillAtkBuff.text'),
-      title: t('Content.skillAtkBuff.title'),
-      content: t('Content.skillAtkBuff.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'e1OriginalDmgBoost',
-      name: 'e1OriginalDmgBoost',
-      text: t('Content.e1OriginalDmgBoost.text'),
-      title: t('Content.e1OriginalDmgBoost.title'),
-      content: t('Content.e1OriginalDmgBoost.content'),
-      disabled: e < 1,
-    },
-    {
-      formItem: 'switch',
-      id: 'e4Buffs',
-      name: 'e4Buffs',
-      text: t('Content.e4Buffs.text'),
-      title: t('Content.e4Buffs.title'),
-      content: t('Content.e4Buffs.content'),
-      disabled: e < 4,
-    },
-    {
-      formItem: 'switch',
-      id: 'e6Buffs',
-      name: 'e6Buffs',
-      text: t('Content.e6Buffs.text'),
-      title: t('Content.e6Buffs.title'),
-      content: t('Content.e6Buffs.content'),
-      disabled: e < 6,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Feixiao.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'weaknessBrokenUlt',
+        name: 'weaknessBrokenUlt',
+        text: t('weaknessBrokenUlt.text'),
+        title: t('weaknessBrokenUlt.title'),
+        content: t('weaknessBrokenUlt.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'talentDmgBuff',
+        name: 'talentDmgBuff',
+        text: t('talentDmgBuff.text'),
+        title: t('talentDmgBuff.title'),
+        content: t('talentDmgBuff.content', { FuaMultiplier: TsUtils.precisionRound(100 * fuaScaling), DmgBuff: TsUtils.precisionRound(100 * talentDmgBuff) }),
+      },
+      {
+        formItem: 'switch',
+        id: 'skillAtkBuff',
+        name: 'skillAtkBuff',
+        text: t('skillAtkBuff.text'),
+        title: t('skillAtkBuff.title'),
+        content: t('skillAtkBuff.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'e1OriginalDmgBoost',
+        name: 'e1OriginalDmgBoost',
+        text: t('e1OriginalDmgBoost.text'),
+        title: t('e1OriginalDmgBoost.title'),
+        content: t('e1OriginalDmgBoost.content'),
+        disabled: e < 1,
+      },
+      {
+        formItem: 'switch',
+        id: 'e4Buffs',
+        name: 'e4Buffs',
+        text: t('e4Buffs.text'),
+        title: t('e4Buffs.title'),
+        content: t('e4Buffs.content'),
+        disabled: e < 4,
+      },
+      {
+        formItem: 'switch',
+        id: 'e6Buffs',
+        name: 'e6Buffs',
+        text: t('e6Buffs.text'),
+        title: t('e6Buffs.title'),
+        content: t('e6Buffs.content'),
+        disabled: e < 6,
+      },
+    ]
+  })()
 
   const teammateContent: ContentItem[] = []
 

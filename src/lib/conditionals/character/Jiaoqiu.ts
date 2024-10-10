@@ -10,8 +10,7 @@ import { JiaoqiuConversionConditional } from 'lib/gpu/conditionals/dynamicCondit
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Jiaoqiu')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -27,68 +26,75 @@ export default (e: Eidolon): CharacterConditional => {
 
   const maxAshenRoastStacks = e >= 6 ? 9 : 5
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'slider',
-      id: 'ashenRoastStacks',
-      name: 'ashenRoastStacks',
-      text: t('Content.ashenRoastStacks.text'),
-      title: t('Content.ashenRoastStacks.title'),
-      content: t('Content.ashenRoastStacks.content', { AshenRoastInitialVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityBase), AshenRoastAdditionalVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityScaling), AshenRoastDotMultiplier: TsUtils.precisionRound(100 * talentDotScaling) }),
-      min: 0,
-      max: maxAshenRoastStacks,
-    },
-    {
-      formItem: 'switch',
-      id: 'ultFieldActive',
-      name: 'ultFieldActive',
-      text: t('Content.ultFieldActive.text'),
-      title: t('Content.ultFieldActive.title'),
-      content: t('Content.ultFieldActive.content', { UltScaling: TsUtils.precisionRound(100 * ultScaling), UltVulnerability: TsUtils.precisionRound(100 * ultVulnerabilityScaling), ZoneDebuffChance: TsUtils.precisionRound(100 * ult(e, 0.6, 0.62)) }),
-    },
-    {
-      formItem: 'switch',
-      id: 'ehrToAtkBoost',
-      name: 'ehrToAtkBoost',
-      text: t('Content.ehrToAtkBoost.text'),
-      title: t('Content.ehrToAtkBoost.title'),
-      content: t('Content.ehrToAtkBoost.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'e1DmgBoost',
-      name: 'e1DmgBoost',
-      text: t('Content.e1DmgBoost.text'),
-      title: t('Content.e1DmgBoost.title'),
-      content: t('Content.e1DmgBoost.content'),
-      disabled: e < 1,
-    },
-    {
-      formItem: 'switch',
-      id: 'e2Dot',
-      name: 'e2Dot',
-      text: t('Content.e2Dot.text'),
-      title: t('Content.e2Dot.title'),
-      content: t('Content.e2Dot.content'),
-      disabled: e < 2,
-    },
-    {
-      formItem: 'switch',
-      id: 'e6ResShred',
-      name: 'e6ResShred',
-      text: t('Content.e6ResShred.text'),
-      title: t('Content.e6ResShred.title'),
-      content: t('Content.e6ResShred.content'),
-      disabled: e < 6,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Jiaoqiu.Content')
+    return [
+      {
+        formItem: 'slider',
+        id: 'ashenRoastStacks',
+        name: 'ashenRoastStacks',
+        text: t('ashenRoastStacks.text'),
+        title: t('ashenRoastStacks.title'),
+        content: t('ashenRoastStacks.content', { AshenRoastInitialVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityBase), AshenRoastAdditionalVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityScaling), AshenRoastDotMultiplier: TsUtils.precisionRound(100 * talentDotScaling) }),
+        min: 0,
+        max: maxAshenRoastStacks,
+      },
+      {
+        formItem: 'switch',
+        id: 'ultFieldActive',
+        name: 'ultFieldActive',
+        text: t('ultFieldActive.text'),
+        title: t('ultFieldActive.title'),
+        content: t('ultFieldActive.content', { UltScaling: TsUtils.precisionRound(100 * ultScaling), UltVulnerability: TsUtils.precisionRound(100 * ultVulnerabilityScaling), ZoneDebuffChance: TsUtils.precisionRound(100 * ult(e, 0.6, 0.62)) }),
+      },
+      {
+        formItem: 'switch',
+        id: 'ehrToAtkBoost',
+        name: 'ehrToAtkBoost',
+        text: t('ehrToAtkBoost.text'),
+        title: t('ehrToAtkBoost.title'),
+        content: t('ehrToAtkBoost.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'e1DmgBoost',
+        name: 'e1DmgBoost',
+        text: t('e1DmgBoost.text'),
+        title: t('e1DmgBoost.title'),
+        content: t('e1DmgBoost.content'),
+        disabled: e < 1,
+      },
+      {
+        formItem: 'switch',
+        id: 'e2Dot',
+        name: 'e2Dot',
+        text: t('e2Dot.text'),
+        title: t('e2Dot.title'),
+        content: t('e2Dot.content'),
+        disabled: e < 2,
+      },
+      {
+        formItem: 'switch',
+        id: 'e6ResShred',
+        name: 'e6ResShred',
+        text: t('e6ResShred.text'),
+        title: t('e6ResShred.title'),
+        content: t('e6ResShred.content'),
+        disabled: e < 6,
+      },
+    ]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'ashenRoastStacks'),
-    findContentId(content, 'ultFieldActive'),
-    findContentId(content, 'e1DmgBoost'),
-    findContentId(content, 'e6ResShred'),
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    return [
+      findContentId(content, 'ashenRoastStacks'),
+      findContentId(content, 'ultFieldActive'),
+      findContentId(content, 'e1DmgBoost'),
+      findContentId(content, 'e6ResShred'),
+    ]
+  })()
 
   const defaults = {
     ashenRoastStacks: maxAshenRoastStacks,

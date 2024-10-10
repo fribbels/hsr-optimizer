@@ -7,21 +7,24 @@ import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConst
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.AnInstantBeforeAGaze')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValues = [0.0036, 0.0042, 0.0048, 0.0054, 0.006]
 
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'maxEnergyUltDmgStacks',
-    name: 'maxEnergyUltDmgStacks',
-    formItem: 'slider',
-    text: t('Content.maxEnergyUltDmgStacks.text'),
-    title: t('Content.maxEnergyUltDmgStacks.title'),
-    content: t('Content.maxEnergyUltDmgStacks.content', { DmgStep: TsUtils.precisionRound(100 * sValues[s]) }),
-    min: 0,
-    max: 180,
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.AnInstantBeforeAGaze.Content')
+    return [{
+      lc: true,
+      id: 'maxEnergyUltDmgStacks',
+      name: 'maxEnergyUltDmgStacks',
+      formItem: 'slider',
+      text: t('maxEnergyUltDmgStacks.text'),
+      title: t('maxEnergyUltDmgStacks.title'),
+      content: t('maxEnergyUltDmgStacks.content', { DmgStep: TsUtils.precisionRound(100 * sValues[s]) }),
+      min: 0,
+      max: 180,
+    }]
+  })()
 
   return {
     content: () => content,

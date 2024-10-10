@@ -14,8 +14,7 @@ import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Bronya')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const skillDmgBoostValue = skill(e, 0.66, 0.726)
@@ -28,70 +27,78 @@ export default (e: Eidolon): CharacterConditional => {
 
   const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'teamDmgBuff',
-    name: 'teamDmgBuff',
-    text: t('Content.teamDmgBuff.text'),
-    title: t('Content.teamDmgBuff.title'),
-    content: t('Content.teamDmgBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'skillBuff',
-    name: 'skillBuff',
-    text: t('Content.skillBuff.text'),
-    title: t('Content.skillBuff.title'),
-    content: t('Content.skillBuff.content', { skillDmgBoostValue: TsUtils.precisionRound(100 * skillDmgBoostValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'ultBuff',
-    name: 'ultBuff',
-    text: t('Content.ultBuff.text'),
-    title: t('Content.ultBuff.title'),
-    content: t('Content.ultBuff.content', { ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue), ultCdBoostValue: TsUtils.precisionRound(100 * ultCdBoostValue), ultCdBoostBaseValue: TsUtils.precisionRound(100 * ultCdBoostBaseValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'battleStartDefBuff',
-    name: 'battleStartDefBuff',
-    text: t('Content.battleStartDefBuff.text'),
-    title: t('Content.battleStartDefBuff.title'),
-    content: t('Content.battleStartDefBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'techniqueBuff',
-    name: 'techniqueBuff',
-    text: t('Content.techniqueBuff.text'),
-    title: t('Content.techniqueBuff.title'),
-    content: t('Content.techniqueBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'e2SkillSpdBuff',
-    name: 'e2SkillSpdBuff',
-    text: t('Content.e2SkillSpdBuff.text'),
-    title: t('Content.e2SkillSpdBuff.title'),
-    content: t('Content.e2SkillSpdBuff.content'),
-    disabled: e < 2,
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Bronya.Content')
+    return [{
+      formItem: 'switch',
+      id: 'teamDmgBuff',
+      name: 'teamDmgBuff',
+      text: t('teamDmgBuff.text'),
+      title: t('teamDmgBuff.title'),
+      content: t('teamDmgBuff.content'),
+    }, {
+      formItem: 'switch',
+      id: 'skillBuff',
+      name: 'skillBuff',
+      text: t('skillBuff.text'),
+      title: t('skillBuff.title'),
+      content: t('skillBuff.content', { skillDmgBoostValue: TsUtils.precisionRound(100 * skillDmgBoostValue) }),
+    }, {
+      formItem: 'switch',
+      id: 'ultBuff',
+      name: 'ultBuff',
+      text: t('ultBuff.text'),
+      title: t('ultBuff.title'),
+      content: t('ultBuff.content', { ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue), ultCdBoostValue: TsUtils.precisionRound(100 * ultCdBoostValue), ultCdBoostBaseValue: TsUtils.precisionRound(100 * ultCdBoostBaseValue) }),
+    }, {
+      formItem: 'switch',
+      id: 'battleStartDefBuff',
+      name: 'battleStartDefBuff',
+      text: t('battleStartDefBuff.text'),
+      title: t('battleStartDefBuff.title'),
+      content: t('battleStartDefBuff.content'),
+    }, {
+      formItem: 'switch',
+      id: 'techniqueBuff',
+      name: 'techniqueBuff',
+      text: t('techniqueBuff.text'),
+      title: t('techniqueBuff.title'),
+      content: t('techniqueBuff.content'),
+    }, {
+      formItem: 'switch',
+      id: 'e2SkillSpdBuff',
+      name: 'e2SkillSpdBuff',
+      text: t('e2SkillSpdBuff.text'),
+      title: t('e2SkillSpdBuff.title'),
+      content: t('e2SkillSpdBuff.content'),
+      disabled: e < 2,
+    }]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'teamDmgBuff'),
-    findContentId(content, 'skillBuff'),
-    findContentId(content, 'ultBuff'),
-    findContentId(content, 'battleStartDefBuff'),
-    findContentId(content, 'techniqueBuff'),
-    {
-      formItem: 'slider',
-      id: 'teammateCDValue',
-      name: 'teammateCDValue',
-      text: t('TeammateContent.teammateCDValue.text'),
-      title: t('TeammateContent.teammateCDValue.title'),
-      content: t('TeammateContent.teammateCDValue.content', { ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue), ultCdBoostValue: TsUtils.precisionRound(100 * ultCdBoostValue), ultCdBoostBaseValue: TsUtils.precisionRound(100 * ultCdBoostBaseValue) }),
-      min: 0,
-      max: 3.00,
-      percent: true,
-    },
-    findContentId(content, 'e2SkillSpdBuff'),
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Bronya.TeammateContent')
+    return [
+      findContentId(content, 'teamDmgBuff'),
+      findContentId(content, 'skillBuff'),
+      findContentId(content, 'ultBuff'),
+      findContentId(content, 'battleStartDefBuff'),
+      findContentId(content, 'techniqueBuff'),
+      {
+        formItem: 'slider',
+        id: 'teammateCDValue',
+        name: 'teammateCDValue',
+        text: t('teammateCDValue.text'),
+        title: t('teammateCDValue.title'),
+        content: t('teammateCDValue.content', { ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue), ultCdBoostValue: TsUtils.precisionRound(100 * ultCdBoostValue), ultCdBoostBaseValue: TsUtils.precisionRound(100 * ultCdBoostBaseValue) }),
+        min: 0,
+        max: 3.00,
+        percent: true,
+      },
+      findContentId(content, 'e2SkillSpdBuff'),
+    ]
+  })()
 
   const defaults = {
     teamDmgBuff: true,

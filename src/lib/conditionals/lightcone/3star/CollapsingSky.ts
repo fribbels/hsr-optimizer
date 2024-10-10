@@ -7,18 +7,21 @@ import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/co
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.CollapsingSky')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValues = [0.20, 0.25, 0.30, 0.35, 0.40]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'basicSkillDmgBuff',
-    name: 'basicSkillDmgBuff',
-    formItem: 'switch',
-    text: t('Content.basicSkillDmgBuff.text'),
-    title: t('Content.basicSkillDmgBuff.title'),
-    content: t('Content.basicSkillDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.CollapsingSky.Content')
+    return [{
+      lc: true,
+      id: 'basicSkillDmgBuff',
+      name: 'basicSkillDmgBuff',
+      formItem: 'switch',
+      text: t('basicSkillDmgBuff.text'),
+      title: t('basicSkillDmgBuff.title'),
+      content: t('basicSkillDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+    }]
+  })()
 
   return {
     content: () => content,

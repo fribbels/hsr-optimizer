@@ -9,8 +9,7 @@ import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Sampo')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const dotVulnerabilityValue = ult(e, 0.30, 0.32)
@@ -22,38 +21,45 @@ export default (e: Eidolon): CharacterConditional => {
 
   const maxExtraHits = e < 1 ? 4 : 5
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'targetDotTakenDebuff',
-      name: 'targetDotTakenDebuff',
-      text: t('Content.targetDotTakenDebuff.text'),
-      title: t('Content.targetDotTakenDebuff.title'),
-      content: t('Content.targetDotTakenDebuff.content', { dotVulnerabilityValue: TsUtils.precisionRound(100 * dotVulnerabilityValue) }),
-    },
-    {
-      formItem: 'slider',
-      id: 'skillExtraHits',
-      name: 'skillExtraHits',
-      text: t('Content.skillExtraHits.text'),
-      title: t('Content.skillExtraHits.title'),
-      content: t('Content.skillExtraHits.content'),
-      min: 1,
-      max: maxExtraHits,
-    },
-    {
-      formItem: 'switch',
-      id: 'targetWindShear',
-      name: 'targetWindShear',
-      text: t('Content.targetWindShear.text'),
-      title: t('Content.targetWindShear.title'),
-      content: t('Content.targetWindShear.content'),
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Sampo.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'targetDotTakenDebuff',
+        name: 'targetDotTakenDebuff',
+        text: t('targetDotTakenDebuff.text'),
+        title: t('targetDotTakenDebuff.title'),
+        content: t('targetDotTakenDebuff.content', { dotVulnerabilityValue: TsUtils.precisionRound(100 * dotVulnerabilityValue) }),
+      },
+      {
+        formItem: 'slider',
+        id: 'skillExtraHits',
+        name: 'skillExtraHits',
+        text: t('skillExtraHits.text'),
+        title: t('skillExtraHits.title'),
+        content: t('skillExtraHits.content'),
+        min: 1,
+        max: maxExtraHits,
+      },
+      {
+        formItem: 'switch',
+        id: 'targetWindShear',
+        name: 'targetWindShear',
+        text: t('targetWindShear.text'),
+        title: t('targetWindShear.title'),
+        content: t('targetWindShear.content'),
+      },
+    ]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'targetDotTakenDebuff'),
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    return [
+      findContentId(content, 'targetDotTakenDebuff'),
+    ]
+  })()
 
   return {
     content: () => content,

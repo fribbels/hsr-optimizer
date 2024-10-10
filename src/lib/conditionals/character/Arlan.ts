@@ -9,8 +9,7 @@ import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Arlan')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -19,17 +18,21 @@ export default (e: Eidolon): CharacterConditional => {
 
   const talentMissingHpDmgBoostMax = talent(e, 0.72, 0.792)
 
-  const content: ContentItem[] = [{
-    formItem: 'slider',
-    id: 'selfCurrentHpPercent',
-    name: 'selfCurrentHpPercent',
-    text: t('Content.selfCurrentHpPercent.text'),
-    title: t('Content.selfCurrentHpPercent.title'),
-    content: t('Content.selfCurrentHpPercent.content', { talentMissingHpDmgBoostMax: TsUtils.precisionRound(100 * talentMissingHpDmgBoostMax) }),
-    min: 0.01,
-    max: 1.0,
-    percent: true,
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Arlan.Content')
+    return [{
+      formItem: 'slider',
+      id: 'selfCurrentHpPercent',
+      name: 'selfCurrentHpPercent',
+      text: t('selfCurrentHpPercent.text'),
+      title: t('selfCurrentHpPercent.title'),
+      content: t('selfCurrentHpPercent.content', { talentMissingHpDmgBoostMax: TsUtils.precisionRound(100 * talentMissingHpDmgBoostMax) }),
+      min: 0.01,
+      max: 1.0,
+      percent: true,
+    }]
+  })()
 
   return {
     content: () => content,

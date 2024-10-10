@@ -10,8 +10,7 @@ import { GallagherConversionConditional } from 'lib/gpu/conditionals/dynamicCond
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Gallagher')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -19,63 +18,70 @@ export default (e: Eidolon): CharacterConditional => {
   const ultScaling = basic(e, 1.50, 1.65)
   const talentBesottedScaling = talent(e, 0.12, 0.132)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'basicEnhanced',
-      name: 'basicEnhanced',
-      text: t('Content.basicEnhanced.text'),
-      title: t('Content.basicEnhanced.title'),
-      content: t('Content.basicEnhanced.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'breakEffectToOhbBoost',
-      name: 'breakEffectToOhbBoost',
-      text: t('Content.breakEffectToOhbBoost.text'),
-      title: t('Content.breakEffectToOhbBoost.title'),
-      content: t('Content.breakEffectToOhbBoost.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'targetBesotted',
-      name: 'targetBesotted',
-      text: t('Content.targetBesotted.text'),
-      title: t('Content.targetBesotted.title'),
-      content: t('Content.targetBesotted.content', { talentBesottedScaling: TsUtils.precisionRound(100 * talentBesottedScaling) }),
-    },
-    {
-      formItem: 'switch',
-      id: 'e1ResBuff',
-      name: 'e1ResBuff',
-      text: t('Content.e1ResBuff.text'),
-      title: t('Content.e1ResBuff.title'),
-      content: t('Content.e1ResBuff.content'),
-      disabled: e < 1,
-    },
-    {
-      formItem: 'switch',
-      id: 'e2ResBuff',
-      name: 'e2ResBuff',
-      text: t('Content.e2ResBuff.text'),
-      title: t('Content.e2ResBuff.title'),
-      content: t('Content.e2ResBuff.content'),
-      disabled: e < 2,
-    },
-    {
-      formItem: 'switch',
-      id: 'e6BeBuff',
-      name: 'e6BeBuff',
-      text: t('Content.e6BeBuff.text'),
-      title: t('Content.e6BeBuff.title'),
-      content: t('Content.e6BeBuff.content'),
-      disabled: e < 6,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Gallagher.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'basicEnhanced',
+        name: 'basicEnhanced',
+        text: t('basicEnhanced.text'),
+        title: t('basicEnhanced.title'),
+        content: t('basicEnhanced.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'breakEffectToOhbBoost',
+        name: 'breakEffectToOhbBoost',
+        text: t('breakEffectToOhbBoost.text'),
+        title: t('breakEffectToOhbBoost.title'),
+        content: t('breakEffectToOhbBoost.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'targetBesotted',
+        name: 'targetBesotted',
+        text: t('targetBesotted.text'),
+        title: t('targetBesotted.title'),
+        content: t('targetBesotted.content', { talentBesottedScaling: TsUtils.precisionRound(100 * talentBesottedScaling) }),
+      },
+      {
+        formItem: 'switch',
+        id: 'e1ResBuff',
+        name: 'e1ResBuff',
+        text: t('e1ResBuff.text'),
+        title: t('e1ResBuff.title'),
+        content: t('e1ResBuff.content'),
+        disabled: e < 1,
+      },
+      {
+        formItem: 'switch',
+        id: 'e2ResBuff',
+        name: 'e2ResBuff',
+        text: t('e2ResBuff.text'),
+        title: t('e2ResBuff.title'),
+        content: t('e2ResBuff.content'),
+        disabled: e < 2,
+      },
+      {
+        formItem: 'switch',
+        id: 'e6BeBuff',
+        name: 'e6BeBuff',
+        text: t('e6BeBuff.text'),
+        title: t('e6BeBuff.title'),
+        content: t('e6BeBuff.content'),
+        disabled: e < 6,
+      },
+    ]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'targetBesotted'),
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    return [
+      findContentId(content, 'targetBesotted'),
+    ]
+  })()
 
   return {
     content: () => content,

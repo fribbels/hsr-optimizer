@@ -9,8 +9,7 @@ import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Hook')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const targetBurnedExtraScaling = talent(e, 1.00, 1.10)
@@ -21,24 +20,28 @@ export default (e: Eidolon): CharacterConditional => {
   const ultScaling = ult(e, 4.00, 4.32)
   const dotScaling = skill(e, 0.65, 0.715)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'enhancedSkill',
-      name: 'enhancedSkill',
-      text: t('Content.enhancedSkill.text'),
-      title: t('Content.enhancedSkill.title'),
-      content: t('Content.enhancedSkill.content', { skillEnhancedScaling: TsUtils.precisionRound(100 * skillEnhancedScaling) }),
-    },
-    {
-      formItem: 'switch',
-      id: 'targetBurned',
-      name: 'targetBurned',
-      text: t('Content.targetBurned.text'),
-      title: t('Content.targetBurned.title'),
-      content: t('Content.targetBurned.content', { targetBurnedExtraScaling: TsUtils.precisionRound(100 * targetBurnedExtraScaling) }),
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Hook.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'enhancedSkill',
+        name: 'enhancedSkill',
+        text: t('enhancedSkill.text'),
+        title: t('enhancedSkill.title'),
+        content: t('enhancedSkill.content', { skillEnhancedScaling: TsUtils.precisionRound(100 * skillEnhancedScaling) }),
+      },
+      {
+        formItem: 'switch',
+        id: 'targetBurned',
+        name: 'targetBurned',
+        text: t('targetBurned.text'),
+        title: t('targetBurned.title'),
+        content: t('targetBurned.content', { targetBurnedExtraScaling: TsUtils.precisionRound(100 * targetBurnedExtraScaling) }),
+      },
+    ]
+  })()
 
   return {
     content: () => content,

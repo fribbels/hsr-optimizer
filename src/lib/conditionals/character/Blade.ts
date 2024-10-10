@@ -12,8 +12,7 @@ import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Blade')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const enhancedStateDmgBoost = skill(e, 0.40, 0.456)
@@ -34,34 +33,38 @@ export default (e: Eidolon): CharacterConditional => {
     5: ASHBLAZING_ATK_STACK * (3 * 0.33 + 8 * 0.33 + 8 * 0.34),
   }
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'enhancedStateActive',
-    name: 'enhancedStateActive',
-    text: t('Content.enhancedStateActive.text'),
-    title: t('Content.enhancedStateActive.title'),
-    content: t('Content.enhancedStateActive.content', { enhancedStateDmgBoost: TsUtils.precisionRound(100 * enhancedStateDmgBoost) }),
-  }, {
-    formItem: 'slider',
-    id: 'hpPercentLostTotal',
-    name: 'hpPercentLostTotal',
-    text: t('Content.hpPercentLostTotal.text'),
-    title: t('Content.hpPercentLostTotal.title'),
-    content: t('Content.hpPercentLostTotal.content', { hpPercentLostTotalMax: TsUtils.precisionRound(100 * hpPercentLostTotalMax) }),
-    min: 0,
-    max: hpPercentLostTotalMax,
-    percent: true,
-  }, {
-    formItem: 'slider',
-    id: 'e4MaxHpIncreaseStacks',
-    name: 'e4MaxHpIncreaseStacks',
-    text: t('Content.e4MaxHpIncreaseStacks.text'),
-    title: t('Content.e4MaxHpIncreaseStacks.title'),
-    content: t('Content.e4MaxHpIncreaseStacks.content'),
-    min: 0,
-    max: 2,
-    disabled: e < 4,
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Blade.Content')
+    return [{
+      formItem: 'switch',
+      id: 'enhancedStateActive',
+      name: 'enhancedStateActive',
+      text: t('enhancedStateActive.text'),
+      title: t('enhancedStateActive.title'),
+      content: t('enhancedStateActive.content', { enhancedStateDmgBoost: TsUtils.precisionRound(100 * enhancedStateDmgBoost) }),
+    }, {
+      formItem: 'slider',
+      id: 'hpPercentLostTotal',
+      name: 'hpPercentLostTotal',
+      text: t('hpPercentLostTotal.text'),
+      title: t('hpPercentLostTotal.title'),
+      content: t('hpPercentLostTotal.content', { hpPercentLostTotalMax: TsUtils.precisionRound(100 * hpPercentLostTotalMax) }),
+      min: 0,
+      max: hpPercentLostTotalMax,
+      percent: true,
+    }, {
+      formItem: 'slider',
+      id: 'e4MaxHpIncreaseStacks',
+      name: 'e4MaxHpIncreaseStacks',
+      text: t('e4MaxHpIncreaseStacks.text'),
+      title: t('e4MaxHpIncreaseStacks.title'),
+      content: t('e4MaxHpIncreaseStacks.content'),
+      min: 0,
+      max: 2,
+      disabled: e < 4,
+    }]
+  })()
 
   return {
     content: () => content,

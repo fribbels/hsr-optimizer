@@ -16,7 +16,7 @@ import relicEffectConfig from './RelicSetSkillConfig.json'
 
 const precisionRound = TsUtils.precisionRound
 
-const Locales = ['zh', 'de', 'en', 'es', 'fr', 'id', 'jp', 'kr', 'pt', 'ru', 'th', 'vi']
+const Locales = ['zh', 'de', 'en', 'es', 'fr', 'id', 'ja', 'ko', 'pt', 'ru', 'th', 'vi']
 
 const TrailblazerPaths = ['Warrior', 'Knight', 'Shaman']
 
@@ -27,8 +27,8 @@ const outputLocalesMapping = {
   es: ['es'],
   fr: ['fr'],
   id: ['id'],
-  jp: ['jp'],
-  kr: ['kr'],
+  ja: ['ja'],
+  ko: ['ko'],
   pt: ['pt'],
   ru: ['ru'],
   th: ['th'],
@@ -77,7 +77,7 @@ function formatEffectParameters(string: string) {
 
 function cleanString(locale: string, string: string): string {
   if (!string) return ''
-  if (locale !== 'jp') {
+  if (locale !== 'ja') {
     return string
   }
   const regex = /({[^}]*})/g
@@ -103,9 +103,9 @@ async function generateTranslations(){
           return await importTextmap('FR')
         case 'id':
           return await importTextmap('ID')
-        case 'jp':
+        case 'ja':
           return await importTextmap('JP')
-        case 'kr':
+        case 'ko':
           return await importTextmap('KR')
         case 'pt':
           return await importTextmap('PT')
@@ -385,11 +385,11 @@ function getTbName(locale: string, isCaelus: boolean): string {
       stelle: 'Stelle',
       caelus: 'Caelus',
     },
-    jp: {
+    ja: {
       stelle: 'Stelle',
       caelus: 'Caelus',
     },
-    kr: {
+    ko: {
       stelle: 'Stelle',
       caelus: 'Caelus',
     },

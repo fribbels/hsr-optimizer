@@ -10,8 +10,7 @@ import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Moze')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -23,48 +22,55 @@ export default (e: Eidolon): CharacterConditional => {
 
   const fuaHitCountMulti = ASHBLAZING_ATK_STACK * (1 * 0.08 + 2 * 0.08 + 3 * 0.08 + 4 * 0.08 + 5 * 0.08 + 6 * 0.6)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'preyMark',
-      name: 'preyMark',
-      text: t('Content.preyMark.text'),
-      title: t('Content.preyMark.title'),
-      content: t('Content.preyMark.content', { PreyAdditionalMultiplier: TsUtils.precisionRound(100 * additionalDmgScaling), FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
-    },
-    {
-      formItem: 'switch',
-      id: 'e2CdBoost',
-      name: 'e2CdBoost',
-      text: t('Content.e2CdBoost.text'),
-      title: t('Content.e2CdBoost.title'),
-      content: t('Content.e2CdBoost.content'),
-      disabled: e < 2,
-    },
-    {
-      formItem: 'switch',
-      id: 'e4DmgBuff',
-      name: 'e4DmgBuff',
-      text: t('Content.e4DmgBuff.text'),
-      title: t('Content.e4DmgBuff.title'),
-      content: t('Content.e4DmgBuff.content'),
-      disabled: e < 4,
-    },
-    {
-      formItem: 'switch',
-      id: 'e6MultiplierIncrease',
-      name: 'e6MultiplierIncrease',
-      text: t('Content.e6MultiplierIncrease.text'),
-      title: t('Content.e6MultiplierIncrease.title'),
-      content: t('Content.e6MultiplierIncrease.content'),
-      disabled: e < 6,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Moze.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'preyMark',
+        name: 'preyMark',
+        text: t('preyMark.text'),
+        title: t('preyMark.title'),
+        content: t('preyMark.content', { PreyAdditionalMultiplier: TsUtils.precisionRound(100 * additionalDmgScaling), FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
+      },
+      {
+        formItem: 'switch',
+        id: 'e2CdBoost',
+        name: 'e2CdBoost',
+        text: t('e2CdBoost.text'),
+        title: t('e2CdBoost.title'),
+        content: t('e2CdBoost.content'),
+        disabled: e < 2,
+      },
+      {
+        formItem: 'switch',
+        id: 'e4DmgBuff',
+        name: 'e4DmgBuff',
+        text: t('e4DmgBuff.text'),
+        title: t('e4DmgBuff.title'),
+        content: t('e4DmgBuff.content'),
+        disabled: e < 4,
+      },
+      {
+        formItem: 'switch',
+        id: 'e6MultiplierIncrease',
+        name: 'e6MultiplierIncrease',
+        text: t('e6MultiplierIncrease.text'),
+        title: t('e6MultiplierIncrease.title'),
+        content: t('e6MultiplierIncrease.content'),
+        disabled: e < 6,
+      },
+    ]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'preyMark'),
-    findContentId(content, 'e2CdBoost'),
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    return [
+      findContentId(content, 'preyMark'),
+      findContentId(content, 'e2CdBoost'),
+    ]
+  })()
 
   const defaults = {
     preyMark: true,

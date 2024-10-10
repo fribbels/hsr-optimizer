@@ -10,8 +10,7 @@ import { buffAbilityResPen } from 'lib/optimizer/calculateBuffs'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.ImbibitorLunae')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const righteousHeartStackMax = (e >= 1) ? 10 : 6
@@ -25,44 +24,48 @@ export default (e: Eidolon): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 3.00, 3.24)
 
-  const content: ContentItem[] = [{
-    formItem: 'slider',
-    id: 'basicEnhanced',
-    name: 'basicEnhanced',
-    text: t('Content.basicEnhanced.text'),
-    title: t('Content.basicEnhanced.title'),
-    content: t('Content.basicEnhanced.content', { basicScaling: TsUtils.precisionRound(100 * basicScaling), basicEnhanced1Scaling: TsUtils.precisionRound(100 * basicEnhanced1Scaling), basicEnhanced2Scaling: TsUtils.precisionRound(100 * basicEnhanced2Scaling), basicEnhanced3Scaling: TsUtils.precisionRound(100 * basicEnhanced3Scaling) }),
-    min: 0,
-    max: 3,
-  }, {
-    formItem: 'slider',
-    id: 'skillOutroarStacks',
-    name: 'skillOutroarStacks',
-    text: t('Content.skillOutroarStacks.text'),
-    title: t('Content.skillOutroarStacks.title'),
-    content: t('Content.skillOutroarStacks.content', { outroarStackCdValue: TsUtils.precisionRound(100 * outroarStackCdValue) }),
-    min: 0,
-    max: 4,
-  }, {
-    formItem: 'slider',
-    id: 'talentRighteousHeartStacks',
-    name: 'talentRighteousHeartStacks',
-    text: t('Content.talentRighteousHeartStacks.text'),
-    title: t('Content.talentRighteousHeartStacks.title'),
-    content: t('Content.talentRighteousHeartStacks.content', { righteousHeartDmgValue: TsUtils.precisionRound(100 * righteousHeartDmgValue) }),
-    min: 0,
-    max: righteousHeartStackMax,
-  }, {
-    formItem: 'slider',
-    id: 'e6ResPenStacks',
-    name: 'e6ResPenStacks',
-    text: t('Content.e6ResPenStacks.text'),
-    title: t('Content.e6ResPenStacks.title'),
-    content: t('Content.e6ResPenStacks.content'),
-    min: 0,
-    max: 3,
-    disabled: e < 6,
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.ImbibitorLunae.Content')
+    return [{
+      formItem: 'slider',
+      id: 'basicEnhanced',
+      name: 'basicEnhanced',
+      text: t('basicEnhanced.text'),
+      title: t('basicEnhanced.title'),
+      content: t('basicEnhanced.content', { basicScaling: TsUtils.precisionRound(100 * basicScaling), basicEnhanced1Scaling: TsUtils.precisionRound(100 * basicEnhanced1Scaling), basicEnhanced2Scaling: TsUtils.precisionRound(100 * basicEnhanced2Scaling), basicEnhanced3Scaling: TsUtils.precisionRound(100 * basicEnhanced3Scaling) }),
+      min: 0,
+      max: 3,
+    }, {
+      formItem: 'slider',
+      id: 'skillOutroarStacks',
+      name: 'skillOutroarStacks',
+      text: t('skillOutroarStacks.text'),
+      title: t('skillOutroarStacks.title'),
+      content: t('skillOutroarStacks.content', { outroarStackCdValue: TsUtils.precisionRound(100 * outroarStackCdValue) }),
+      min: 0,
+      max: 4,
+    }, {
+      formItem: 'slider',
+      id: 'talentRighteousHeartStacks',
+      name: 'talentRighteousHeartStacks',
+      text: t('talentRighteousHeartStacks.text'),
+      title: t('talentRighteousHeartStacks.title'),
+      content: t('talentRighteousHeartStacks.content', { righteousHeartDmgValue: TsUtils.precisionRound(100 * righteousHeartDmgValue) }),
+      min: 0,
+      max: righteousHeartStackMax,
+    }, {
+      formItem: 'slider',
+      id: 'e6ResPenStacks',
+      name: 'e6ResPenStacks',
+      text: t('e6ResPenStacks.text'),
+      title: t('e6ResPenStacks.title'),
+      content: t('e6ResPenStacks.content'),
+      min: 0,
+      max: 3,
+      disabled: e < 6,
+    }]
+  })()
 
   return {
     content: () => content,

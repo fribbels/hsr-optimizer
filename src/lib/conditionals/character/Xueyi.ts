@@ -13,8 +13,7 @@ import { NumberToNumberMap } from 'types/Common'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Xueyi')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const ultBoostMax = ult(e, 0.60, 0.648)
@@ -30,54 +29,58 @@ export default (e: Eidolon): CharacterConditional => {
     3: ASHBLAZING_ATK_STACK * (1 * 1 / 3 + 2 * 1 / 3 + 3 * 1 / 3), // 0.12
   }
 
-  const content: ContentItem[] = [
-    {
-      id: 'beToDmgBoost',
-      name: 'beToDmgBoost',
-      formItem: 'switch',
-      text: t('Content.beToDmgBoost.text'),
-      title: t('Content.beToDmgBoost.title'),
-      content: t('Content.beToDmgBoost.content'),
-    },
-    {
-      id: 'enemyToughness50',
-      name: 'enemyToughness50',
-      formItem: 'switch',
-      text: t('Content.enemyToughness50.text'),
-      title: t('Content.enemyToughness50.title'),
-      content: t('Content.enemyToughness50.content'),
-    },
-    {
-      id: 'toughnessReductionDmgBoost',
-      name: 'toughnessReductionDmgBoost',
-      formItem: 'slider',
-      text: t('Content.toughnessReductionDmgBoost.text'),
-      title: t('Content.toughnessReductionDmgBoost.title'),
-      content: t('Content.toughnessReductionDmgBoost.content', { ultBoostMax: TsUtils.precisionRound(100 * ultBoostMax) }),
-      min: 0,
-      max: ultBoostMax,
-      percent: true,
-    },
-    {
-      id: 'fuaHits',
-      name: 'fuaHits',
-      formItem: 'slider',
-      text: t('Content.fuaHits.text'),
-      title: t('Content.fuaHits.title'),
-      content: t('Content.fuaHits.content', { fuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
-      min: 0,
-      max: 3,
-    },
-    {
-      id: 'e4BeBuff',
-      name: 'e4BeBuff',
-      formItem: 'switch',
-      text: t('Content.e4BeBuff.text'),
-      title: t('Content.e4BeBuff.title'),
-      content: t('Content.e4BeBuff.content'),
-      disabled: (e < 4),
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Xueyi.Content')
+    return [
+      {
+        id: 'beToDmgBoost',
+        name: 'beToDmgBoost',
+        formItem: 'switch',
+        text: t('beToDmgBoost.text'),
+        title: t('beToDmgBoost.title'),
+        content: t('beToDmgBoost.content'),
+      },
+      {
+        id: 'enemyToughness50',
+        name: 'enemyToughness50',
+        formItem: 'switch',
+        text: t('enemyToughness50.text'),
+        title: t('enemyToughness50.title'),
+        content: t('enemyToughness50.content'),
+      },
+      {
+        id: 'toughnessReductionDmgBoost',
+        name: 'toughnessReductionDmgBoost',
+        formItem: 'slider',
+        text: t('toughnessReductionDmgBoost.text'),
+        title: t('toughnessReductionDmgBoost.title'),
+        content: t('toughnessReductionDmgBoost.content', { ultBoostMax: TsUtils.precisionRound(100 * ultBoostMax) }),
+        min: 0,
+        max: ultBoostMax,
+        percent: true,
+      },
+      {
+        id: 'fuaHits',
+        name: 'fuaHits',
+        formItem: 'slider',
+        text: t('fuaHits.text'),
+        title: t('fuaHits.title'),
+        content: t('fuaHits.content', { fuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
+        min: 0,
+        max: 3,
+      },
+      {
+        id: 'e4BeBuff',
+        name: 'e4BeBuff',
+        formItem: 'switch',
+        text: t('e4BeBuff.text'),
+        title: t('e4BeBuff.title'),
+        content: t('e4BeBuff.content'),
+        disabled: (e < 4),
+      },
+    ]
+  })()
 
   return {
     content: () => content,

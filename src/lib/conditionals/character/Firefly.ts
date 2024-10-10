@@ -13,8 +13,7 @@ import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Firefly')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -28,75 +27,79 @@ export default (e: Eidolon): CharacterConditional => {
   const talentResBuff = talent(e, 0.30, 0.34)
   const talentDmgReductionBuff = talent(e, 0.40, 0.44)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'enhancedStateActive',
-      name: 'enhancedStateActive',
-      text: t('Content.enhancedStateActive.text'),
-      title: t('Content.enhancedStateActive.title'),
-      content: t('Content.enhancedStateActive.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'enhancedStateSpdBuff',
-      name: 'enhancedStateSpdBuff',
-      text: t('Content.enhancedStateSpdBuff.text'),
-      title: t('Content.enhancedStateSpdBuff.title'),
-      content: t('Content.enhancedStateSpdBuff.content', { ultSpdBuff }),
-    },
-    {
-      formItem: 'switch',
-      id: 'superBreakDmg',
-      name: 'superBreakDmg',
-      text: t('Content.superBreakDmg.text'),
-      title: t('Content.superBreakDmg.title'),
-      content: t('Content.superBreakDmg.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'atkToBeConversion',
-      name: 'atkToBeConversion',
-      text: t('Content.atkToBeConversion.text'),
-      title: t('Content.atkToBeConversion.title'),
-      content: t('Content.atkToBeConversion.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'talentDmgReductionBuff',
-      name: 'talentDmgReductionBuff',
-      text: t('Content.talentDmgReductionBuff.text'),
-      title: t('Content.talentDmgReductionBuff.title'),
-      content: t('Content.talentDmgReductionBuff.content', { talentResBuff: TsUtils.precisionRound(100 * talentResBuff), talentDmgReductionBuff: TsUtils.precisionRound(100 * talentDmgReductionBuff) }),
-    },
-    {
-      formItem: 'switch',
-      id: 'e1DefShred',
-      name: 'e1DefShred',
-      text: t('Content.e1DefShred.text'),
-      title: t('Content.e1DefShred.title'),
-      content: t('Content.e1DefShred.content'),
-      disabled: e < 1,
-    },
-    {
-      formItem: 'switch',
-      id: 'e4ResBuff',
-      name: 'e4ResBuff',
-      text: t('Content.e4ResBuff.text'),
-      title: t('Content.e4ResBuff.title'),
-      content: t('Content.e4ResBuff.content'),
-      disabled: e < 4,
-    },
-    {
-      formItem: 'switch',
-      id: 'e6Buffs',
-      name: 'e6Buffs',
-      text: t('Content.e6Buffs.text'),
-      title: t('Content.e6Buffs.title'),
-      content: t('Content.e6Buffs.content'),
-      disabled: e < 6,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Firefly.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'enhancedStateActive',
+        name: 'enhancedStateActive',
+        text: t('enhancedStateActive.text'),
+        title: t('enhancedStateActive.title'),
+        content: t('enhancedStateActive.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'enhancedStateSpdBuff',
+        name: 'enhancedStateSpdBuff',
+        text: t('enhancedStateSpdBuff.text'),
+        title: t('enhancedStateSpdBuff.title'),
+        content: t('enhancedStateSpdBuff.content', { ultSpdBuff }),
+      },
+      {
+        formItem: 'switch',
+        id: 'superBreakDmg',
+        name: 'superBreakDmg',
+        text: t('superBreakDmg.text'),
+        title: t('superBreakDmg.title'),
+        content: t('superBreakDmg.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'atkToBeConversion',
+        name: 'atkToBeConversion',
+        text: t('atkToBeConversion.text'),
+        title: t('atkToBeConversion.title'),
+        content: t('atkToBeConversion.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'talentDmgReductionBuff',
+        name: 'talentDmgReductionBuff',
+        text: t('talentDmgReductionBuff.text'),
+        title: t('talentDmgReductionBuff.title'),
+        content: t('talentDmgReductionBuff.content', { talentResBuff: TsUtils.precisionRound(100 * talentResBuff), talentDmgReductionBuff: TsUtils.precisionRound(100 * talentDmgReductionBuff) }),
+      },
+      {
+        formItem: 'switch',
+        id: 'e1DefShred',
+        name: 'e1DefShred',
+        text: t('e1DefShred.text'),
+        title: t('e1DefShred.title'),
+        content: t('e1DefShred.content'),
+        disabled: e < 1,
+      },
+      {
+        formItem: 'switch',
+        id: 'e4ResBuff',
+        name: 'e4ResBuff',
+        text: t('e4ResBuff.text'),
+        title: t('e4ResBuff.title'),
+        content: t('e4ResBuff.content'),
+        disabled: e < 4,
+      },
+      {
+        formItem: 'switch',
+        id: 'e6Buffs',
+        name: 'e6Buffs',
+        text: t('e6Buffs.text'),
+        title: t('e6Buffs.title'),
+        content: t('e6Buffs.content'),
+        disabled: e < 6,
+      },
+    ]
+  })()
 
   const teammateContent: ContentItem[] = []
 

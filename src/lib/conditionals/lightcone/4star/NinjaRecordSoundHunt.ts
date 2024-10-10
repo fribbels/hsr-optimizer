@@ -7,21 +7,24 @@ import { CURRENT_DATA_VERSION, Stats } from 'lib/constants'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.NinjaRecordSoundHunt')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValuesCd = [0.18, 0.225, 0.27, 0.315, 0.36]
 
-  const content: ContentItem[] = [
-    {
-      lc: true,
-      id: 'cdBuff',
-      name: 'cdBuff',
-      formItem: 'switch',
-      text: t('Content.cdBuff.text'),
-      title: t('Content.cdBuff.title'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.NinjaRecordSoundHunt.Content')
+    return [
+      {
+        lc: true,
+        id: 'cdBuff',
+        name: 'cdBuff',
+        formItem: 'switch',
+        text: t('cdBuff.text'),
+        title: t('cdBuff.title'),
+        content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      },
+    ]
+  })()
 
   return {
     content: () => content,

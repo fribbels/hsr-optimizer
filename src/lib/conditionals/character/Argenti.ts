@@ -10,8 +10,7 @@ import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Argenti')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const talentMaxStacks = (e >= 4) ? 12 : 10
@@ -23,53 +22,57 @@ export default (e: Eidolon): CharacterConditional => {
   const ultEnhancedExtraHitScaling = ult(e, 0.95, 1.026)
   const talentCrStackValue = talent(e, 0.025, 0.028)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'ultEnhanced',
-      name: 'ultEnhanced',
-      text: t('Content.ultEnhanced.text'),
-      title: t('Content.ultEnhanced.title'),
-      content: t('Content.ultEnhanced.content', { ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling), ultEnhancedScaling: TsUtils.precisionRound(100 * ultEnhancedScaling) }),
-    },
-    {
-      formItem: 'switch',
-      id: 'enemyHp50',
-      name: 'enemyHp50',
-      text: t('Content.enemyHp50.text'),
-      title: t('Content.enemyHp50.title'),
-      content: t('Content.enemyHp50.content'),
-    },
-    {
-      formItem: 'slider',
-      id: 'talentStacks',
-      name: 'talentStacks',
-      text: t('Content.talentStacks.text'),
-      title: t('Content.talentStacks.title'),
-      content: t('Content.talentStacks.content', { talentMaxStacks: TsUtils.precisionRound(100 * talentMaxStacks), talentCrStackValue: TsUtils.precisionRound(100 * talentCrStackValue) }),
-      min: 0,
-      max: talentMaxStacks,
-    },
-    {
-      formItem: 'slider',
-      id: 'ultEnhancedExtraHits',
-      name: 'ultEnhancedExtraHits',
-      text: t('Content.ultEnhancedExtraHits.text'),
-      title: t('Content.ultEnhancedExtraHits.title'),
-      content: t('Content.ultEnhancedExtraHits.content', { ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling) }),
-      min: 0,
-      max: 6,
-    },
-    {
-      formItem: 'switch',
-      id: 'e2UltAtkBuff',
-      name: 'e2UltAtkBuff',
-      text: t('Content.e2UltAtkBuff.text'),
-      title: t('Content.e2UltAtkBuff.title'),
-      content: t('Content.e2UltAtkBuff.content'),
-      disabled: e < 2,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Argenti.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'ultEnhanced',
+        name: 'ultEnhanced',
+        text: t('ultEnhanced.text'),
+        title: t('ultEnhanced.title'),
+        content: t('ultEnhanced.content', { ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling), ultEnhancedScaling: TsUtils.precisionRound(100 * ultEnhancedScaling) }),
+      },
+      {
+        formItem: 'switch',
+        id: 'enemyHp50',
+        name: 'enemyHp50',
+        text: t('enemyHp50.text'),
+        title: t('enemyHp50.title'),
+        content: t('enemyHp50.content'),
+      },
+      {
+        formItem: 'slider',
+        id: 'talentStacks',
+        name: 'talentStacks',
+        text: t('talentStacks.text'),
+        title: t('talentStacks.title'),
+        content: t('talentStacks.content', { talentMaxStacks: TsUtils.precisionRound(100 * talentMaxStacks), talentCrStackValue: TsUtils.precisionRound(100 * talentCrStackValue) }),
+        min: 0,
+        max: talentMaxStacks,
+      },
+      {
+        formItem: 'slider',
+        id: 'ultEnhancedExtraHits',
+        name: 'ultEnhancedExtraHits',
+        text: t('ultEnhancedExtraHits.text'),
+        title: t('ultEnhancedExtraHits.title'),
+        content: t('ultEnhancedExtraHits.content', { ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling) }),
+        min: 0,
+        max: 6,
+      },
+      {
+        formItem: 'switch',
+        id: 'e2UltAtkBuff',
+        name: 'e2UltAtkBuff',
+        text: t('e2UltAtkBuff.text'),
+        title: t('e2UltAtkBuff.title'),
+        content: t('e2UltAtkBuff.content'),
+        disabled: e < 2,
+      },
+    ]
+  })()
 
   return {
     content: () => content,

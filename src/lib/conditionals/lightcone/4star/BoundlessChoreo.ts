@@ -7,21 +7,24 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.BoundlessChoreo')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValuesCd = [0.24, 0.30, 0.36, 0.42, 0.48]
 
-  const content: ContentItem[] = [
-    {
-      lc: true,
-      id: 'enemyDefReducedSlowed',
-      name: 'enemyDefReducedSlowed',
-      formItem: 'switch',
-      text: t('Content.enemyDefReducedSlowed.text'),
-      title: t('Content.enemyDefReducedSlowed.title'),
-      content: t('Content.enemyDefReducedSlowed.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.BoundlessChoreo.Content')
+    return [
+      {
+        lc: true,
+        id: 'enemyDefReducedSlowed',
+        name: 'enemyDefReducedSlowed',
+        formItem: 'switch',
+        text: t('enemyDefReducedSlowed.text'),
+        title: t('enemyDefReducedSlowed.title'),
+        content: t('enemyDefReducedSlowed.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
+      },
+    ]
+  })()
 
   return {
     content: () => content,

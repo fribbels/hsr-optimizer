@@ -13,8 +13,7 @@ import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Sparkle')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const skillCdBuffScaling = skill(e, 0.24, 0.264)
@@ -33,57 +32,65 @@ export default (e: Eidolon): CharacterConditional => {
     3: 0.30,
   }
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'skillCdBuff',
-    name: 'skillCdBuff',
-    text: t('Content.skillCdBuff.text'),
-    title: t('Content.skillCdBuff.title'),
-    content: t('Content.skillCdBuff.content', { skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling), skillCdBuffBase: TsUtils.precisionRound(100 * skillCdBuffBase) }),
-  }, {
-    formItem: 'switch',
-    id: 'cipherBuff',
-    name: 'cipherBuff',
-    text: t('Content.cipherBuff.text'),
-    title: t('Content.cipherBuff.title'),
-    content: t('Content.cipherBuff.content', { cipherTalentStackBoost: TsUtils.precisionRound(100 * cipherTalentStackBoost) }),
-  }, {
-    formItem: 'slider',
-    id: 'talentStacks',
-    name: 'talentStacks',
-    text: t('Content.talentStacks.text'),
-    title: t('Content.talentStacks.title'),
-    content: t('Content.talentStacks.content', { talentBaseStackBoost: TsUtils.precisionRound(100 * talentBaseStackBoost) }),
-    min: 0,
-    max: 3,
-  }, {
-    formItem: 'slider',
-    id: 'quantumAllies',
-    name: 'quantumAllies',
-    text: t('Content.quantumAllies.text'),
-    title: t('Content.quantumAllies.title'),
-    content: t('Content.quantumAllies.content'),
-    min: 0,
-    max: 3,
-  }]
-
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'skillCdBuff'),
-    {
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Sparkle.Content')
+    return [{
+      formItem: 'switch',
+      id: 'skillCdBuff',
+      name: 'skillCdBuff',
+      text: t('skillCdBuff.text'),
+      title: t('skillCdBuff.title'),
+      content: t('skillCdBuff.content', { skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling), skillCdBuffBase: TsUtils.precisionRound(100 * skillCdBuffBase) }),
+    }, {
+      formItem: 'switch',
+      id: 'cipherBuff',
+      name: 'cipherBuff',
+      text: t('cipherBuff.text'),
+      title: t('cipherBuff.title'),
+      content: t('cipherBuff.content', { cipherTalentStackBoost: TsUtils.precisionRound(100 * cipherTalentStackBoost) }),
+    }, {
       formItem: 'slider',
-      id: 'teammateCDValue',
-      name: 'teammateCDValue',
-      text: t('TeammateContent.teammateCDValue.text'),
-      title: t('TeammateContent.teammateCDValue.title'),
-      content: t('TeammateContent.teammateCDValue.content', { skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling), skillCdBuffBase: TsUtils.precisionRound(100 * skillCdBuffBase) }),
+      id: 'talentStacks',
+      name: 'talentStacks',
+      text: t('talentStacks.text'),
+      title: t('talentStacks.title'),
+      content: t('talentStacks.content', { talentBaseStackBoost: TsUtils.precisionRound(100 * talentBaseStackBoost) }),
       min: 0,
-      max: 3.50,
-      percent: true,
-    },
-    findContentId(content, 'cipherBuff'),
-    findContentId(content, 'talentStacks'),
-    findContentId(content, 'quantumAllies'),
-  ]
+      max: 3,
+    }, {
+      formItem: 'slider',
+      id: 'quantumAllies',
+      name: 'quantumAllies',
+      text: t('quantumAllies.text'),
+      title: t('quantumAllies.title'),
+      content: t('quantumAllies.content'),
+      min: 0,
+      max: 3,
+    }]
+  })()
+
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Sparkle.TeammateContent')
+    return [
+      findContentId(content, 'skillCdBuff'),
+      {
+        formItem: 'slider',
+        id: 'teammateCDValue',
+        name: 'teammateCDValue',
+        text: t('teammateCDValue.text'),
+        title: t('teammateCDValue.title'),
+        content: t('teammateCDValue.content', { skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling), skillCdBuffBase: TsUtils.precisionRound(100 * skillCdBuffBase) }),
+        min: 0,
+        max: 3.50,
+        percent: true,
+      },
+      findContentId(content, 'cipherBuff'),
+      findContentId(content, 'talentStacks'),
+      findContentId(content, 'quantumAllies'),
+    ]
+  })()
 
   const defaults = {
     skillCdBuff: false,

@@ -6,18 +6,21 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.WoofWalkTime')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValues = [0.16, 0.20, 0.24, 0.28, 0.32]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'atkBoost',
-    name: 'atkBoost',
-    formItem: 'switch',
-    text: t('Content.atkBoost.text'),
-    title: t('Content.atkBoost.title'),
-    content: t('Content.atkBoost.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.WoofWalkTime.Content')
+    return [{
+      lc: true,
+      id: 'atkBoost',
+      name: 'atkBoost',
+      formItem: 'switch',
+      text: t('atkBoost.text'),
+      title: t('atkBoost.title'),
+      content: t('atkBoost.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+    }]
+  })()
 
   return {
     content: () => content,

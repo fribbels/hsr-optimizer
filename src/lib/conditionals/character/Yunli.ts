@@ -11,8 +11,7 @@ import { NumberToNumberMap } from 'types/Common'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Yunli')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -47,78 +46,82 @@ export default (e: Eidolon): CharacterConditional => {
       : fuaHitCountMultiByTargets[request.enemyCount]
   }
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'blockActive',
-      name: 'blockActive',
-      text: t('Content.blockActive.text'),
-      title: t('Content.blockActive.title'),
-      content: t('Content.blockActive.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'ultCull',
-      name: 'ultCull',
-      text: t('Content.ultCull.text'),
-      title: t('Content.ultCull.title'),
-      content: t('Content.ultCull.content', { CullScaling: TsUtils.precisionRound(100 * ultCullScaling), CullAdjacentScaling: TsUtils.precisionRound(100 * 0.5 * ultCullScaling), CullAdditionalScaling: TsUtils.precisionRound(100 * ultCullHitsScaling) }),
-    },
-    {
-      formItem: 'slider',
-      id: 'ultCullHits',
-      name: 'ultCullHits',
-      text: t('Content.ultCullHits.text'),
-      title: t('Content.ultCullHits.title'),
-      content: t('Content.ultCullHits.content', { CullScaling: TsUtils.precisionRound(100 * ultCullScaling), CullAdjacentScaling: TsUtils.precisionRound(100 * 0.5 * ultCullScaling), CullAdditionalScaling: TsUtils.precisionRound(100 * ultCullHitsScaling) }),
-      min: 0,
-      max: maxCullHits,
-    },
-    {
-      formItem: 'switch',
-      id: 'counterAtkBuff',
-      name: 'counterAtkBuff',
-      text: t('Content.counterAtkBuff.text'),
-      title: t('Content.counterAtkBuff.title'),
-      content: t('Content.counterAtkBuff.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'e1UltBuff',
-      name: 'e1UltBuff',
-      text: t('Content.e1UltBuff.text'),
-      title: t('Content.e1UltBuff.title'),
-      content: t('Content.e1UltBuff.content'),
-      disabled: e < 1,
-    },
-    {
-      formItem: 'switch',
-      id: 'e2DefShred',
-      name: 'e2DefShred',
-      text: t('Content.e2DefShred.text'),
-      title: t('Content.e2DefShred.title'),
-      content: t('Content.e2DefShred.content'),
-      disabled: e < 2,
-    },
-    {
-      formItem: 'switch',
-      id: 'e4ResBuff',
-      name: 'e4ResBuff',
-      text: t('Content.e4ResBuff.text'),
-      title: t('Content.e4ResBuff.title'),
-      content: t('Content.e4ResBuff.content'),
-      disabled: e < 4,
-    },
-    {
-      formItem: 'switch',
-      id: 'e6Buffs',
-      name: 'e6Buffs',
-      text: t('Content.e6Buffs.text'),
-      title: t('Content.e6Buffs.title'),
-      content: t('Content.e6Buffs.content'),
-      disabled: e < 6,
-    },
-  ]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Yunli.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'blockActive',
+        name: 'blockActive',
+        text: t('blockActive.text'),
+        title: t('blockActive.title'),
+        content: t('blockActive.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'ultCull',
+        name: 'ultCull',
+        text: t('ultCull.text'),
+        title: t('ultCull.title'),
+        content: t('ultCull.content', { CullScaling: TsUtils.precisionRound(100 * ultCullScaling), CullAdjacentScaling: TsUtils.precisionRound(100 * 0.5 * ultCullScaling), CullAdditionalScaling: TsUtils.precisionRound(100 * ultCullHitsScaling) }),
+      },
+      {
+        formItem: 'slider',
+        id: 'ultCullHits',
+        name: 'ultCullHits',
+        text: t('ultCullHits.text'),
+        title: t('ultCullHits.title'),
+        content: t('ultCullHits.content', { CullScaling: TsUtils.precisionRound(100 * ultCullScaling), CullAdjacentScaling: TsUtils.precisionRound(100 * 0.5 * ultCullScaling), CullAdditionalScaling: TsUtils.precisionRound(100 * ultCullHitsScaling) }),
+        min: 0,
+        max: maxCullHits,
+      },
+      {
+        formItem: 'switch',
+        id: 'counterAtkBuff',
+        name: 'counterAtkBuff',
+        text: t('counterAtkBuff.text'),
+        title: t('counterAtkBuff.title'),
+        content: t('counterAtkBuff.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'e1UltBuff',
+        name: 'e1UltBuff',
+        text: t('e1UltBuff.text'),
+        title: t('e1UltBuff.title'),
+        content: t('e1UltBuff.content'),
+        disabled: e < 1,
+      },
+      {
+        formItem: 'switch',
+        id: 'e2DefShred',
+        name: 'e2DefShred',
+        text: t('e2DefShred.text'),
+        title: t('e2DefShred.title'),
+        content: t('e2DefShred.content'),
+        disabled: e < 2,
+      },
+      {
+        formItem: 'switch',
+        id: 'e4ResBuff',
+        name: 'e4ResBuff',
+        text: t('e4ResBuff.text'),
+        title: t('e4ResBuff.title'),
+        content: t('e4ResBuff.content'),
+        disabled: e < 4,
+      },
+      {
+        formItem: 'switch',
+        id: 'e6Buffs',
+        name: 'e6Buffs',
+        text: t('e6Buffs.text'),
+        title: t('e6Buffs.title'),
+        content: t('e6Buffs.content'),
+        disabled: e < 6,
+      },
+    ]
+  })()
 
   const teammateContent: ContentItem[] = []
 

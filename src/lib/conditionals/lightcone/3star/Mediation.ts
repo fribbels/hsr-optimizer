@@ -6,18 +6,21 @@ import { ContentItem } from 'types/Conditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import i18next from 'i18next'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.Mediation')
+export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
   const sValues = [12, 14, 16, 18, 20]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'initialSpdBuff',
-    name: 'initialSpdBuff',
-    formItem: 'switch',
-    text: t('Content.initialSpdBuff.text'),
-    title: t('Content.initialSpdBuff.title'),
-    content: t('Content.initialSpdBuff.content', { SpdBuff: sValues[s] }),
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.Mediation.Content')
+    return [{
+      lc: true,
+      id: 'initialSpdBuff',
+      name: 'initialSpdBuff',
+      formItem: 'switch',
+      text: t('initialSpdBuff.text'),
+      title: t('initialSpdBuff.title'),
+      content: t('initialSpdBuff.content', { SpdBuff: sValues[s] }),
+    }]
+  })()
 
   return {
     content: () => content,

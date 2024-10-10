@@ -14,8 +14,7 @@ import { TsUtils } from 'lib/TsUtils'
 import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Lingsha')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -30,6 +29,55 @@ export default (e: Eidolon): CharacterConditional => {
     5: ASHBLAZING_ATK_STACK * (3 * 1 / 2 + 4 * 1 / 2),
   }
 
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Lingsha.Content')
+    return [
+      {
+        formItem: 'switch',
+        id: 'beConversion',
+        name: 'beConversion',
+        text: t('beConversion.text'),
+        title: t('beConversion.title'),
+        content: t('beConversion.content'),
+      },
+      {
+        formItem: 'switch',
+        id: 'befogState',
+        name: 'befogState',
+        text: t('befogState.text'),
+        title: t('befogState.title'),
+        content: t('befogState.content', { BefogVulnerability: TsUtils.precisionRound(100 * ultBreakVulnerability) }),
+      },
+      {
+        formItem: 'switch',
+        id: 'e1DefShred',
+        name: 'e1DefShred',
+        text: t('e1DefShred.text'),
+        title: t('e1DefShred.title'),
+        content: t('e1DefShred.content'),
+        disabled: e < 1,
+      },
+      {
+        formItem: 'switch',
+        id: 'e2BeBuff',
+        name: 'e2BeBuff',
+        text: t('e2BeBuff.text'),
+        title: t('e2BeBuff.title'),
+        content: t('e2BeBuff.content'),
+        disabled: e < 2,
+      },
+      {
+        formItem: 'switch',
+        id: 'e6ResShred',
+        name: 'e6ResShred',
+        text: t('e6ResShred.text'),
+        title: t('e6ResShred.title'),
+        content: t('e6ResShred.content'),
+        disabled: e < 6,
+      },
+    ]
+  })()
   const defaults = {
     beConversion: true,
     befogState: true,
@@ -45,61 +93,15 @@ export default (e: Eidolon): CharacterConditional => {
     e6ResShred: true,
   }
 
-  type LingshaConditionalConstants = typeof defaults
-  type LingshaTeammateConditionalConstants = typeof teammateDefaults
-
-  const content: (ContentItem & { id: keyof LingshaConditionalConstants })[] = [
-    {
-      formItem: 'switch',
-      id: 'beConversion',
-      name: 'beConversion',
-      text: t('Content.beConversion.text'),
-      title: t('Content.beConversion.title'),
-      content: t('Content.beConversion.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'befogState',
-      name: 'befogState',
-      text: t('Content.befogState.text'),
-      title: t('Content.befogState.title'),
-      content: t('Content.befogState.content', { BefogVulnerability: TsUtils.precisionRound(100 * ultBreakVulnerability) }),
-    },
-    {
-      formItem: 'switch',
-      id: 'e1DefShred',
-      name: 'e1DefShred',
-      text: t('Content.e1DefShred.text'),
-      title: t('Content.e1DefShred.title'),
-      content: t('Content.e1DefShred.content'),
-      disabled: e < 1,
-    },
-    {
-      formItem: 'switch',
-      id: 'e2BeBuff',
-      name: 'e2BeBuff',
-      text: t('Content.e2BeBuff.text'),
-      title: t('Content.e2BeBuff.title'),
-      content: t('Content.e2BeBuff.content'),
-      disabled: e < 2,
-    },
-    {
-      formItem: 'switch',
-      id: 'e6ResShred',
-      name: 'e6ResShred',
-      text: t('Content.e6ResShred.text'),
-      title: t('Content.e6ResShred.title'),
-      content: t('Content.e6ResShred.content'),
-      disabled: e < 6,
-    },
-  ]
-
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'befogState'),
-    findContentId(content, 'e1DefShred'),
-    findContentId(content, 'e2BeBuff'),
-    findContentId(content, 'e6ResShred'),
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    return [
+      findContentId(content, 'befogState'),
+      findContentId(content, 'e1DefShred'),
+      findContentId(content, 'e2BeBuff'),
+      findContentId(content, 'e6ResShred'),
+    ]
+  })()
 
   return {
     content: () => content,
@@ -146,7 +148,7 @@ export default (e: Eidolon): CharacterConditional => {
       return gpuStandardFuaAtkFinalizer(hitMultiByTargets[request.enemyCount])
     },
     gpuConstants: (request: Form) => {
-      const r = request.characterConditionals as unknown as LingshaConditionalConstants
+      const r = request.characterConditionals
       return {
         LingshaBeConversion: r.beConversion,
       }

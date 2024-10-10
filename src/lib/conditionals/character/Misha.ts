@@ -9,8 +9,7 @@ import { ContentItem } from 'types/Conditionals'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Misha')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -18,43 +17,50 @@ export default (e: Eidolon): CharacterConditional => {
   let ultStackScaling = ult(e, 0.60, 0.65)
   ultStackScaling += (e >= 4 ? 0.06 : 0)
 
-  const content: ContentItem[] = [{
-    formItem: 'slider',
-    id: 'ultHitsOnTarget',
-    name: 'ultHitsOnTarget',
-    text: t('Content.ultHitsOnTarget.text'),
-    title: t('Content.ultHitsOnTarget.title'),
-    content: t('Content.ultHitsOnTarget.content', { ultStackScaling: TsUtils.precisionRound(100 * ultStackScaling) }),
-    min: 1,
-    max: 10,
-  }, {
-    formItem: 'switch',
-    id: 'enemyFrozen',
-    name: 'enemyFrozen',
-    text: t('Content.enemyFrozen.text'),
-    title: t('Content.enemyFrozen.title'),
-    content: t('Content.enemyFrozen.content'),
-  }, {
-    formItem: 'switch',
-    id: 'e2DefReduction',
-    name: 'e2DefReduction',
-    text: t('Content.e2DefReduction.text'),
-    title: t('Content.e2DefReduction.title'),
-    content: t('Content.e2DefReduction.content'),
-    disabled: e < 2,
-  }, {
-    formItem: 'switch',
-    id: 'e6UltDmgBoost',
-    name: 'e6UltDmgBoost',
-    text: t('Content.e6UltDmgBoost.text'),
-    title: t('Content.e6UltDmgBoost.title'),
-    content: t('Content.e6UltDmgBoost.content'),
-    disabled: e < 6,
-  }]
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Misha.Content')
+    return [{
+      formItem: 'slider',
+      id: 'ultHitsOnTarget',
+      name: 'ultHitsOnTarget',
+      text: t('ultHitsOnTarget.text'),
+      title: t('ultHitsOnTarget.title'),
+      content: t('ultHitsOnTarget.content', { ultStackScaling: TsUtils.precisionRound(100 * ultStackScaling) }),
+      min: 1,
+      max: 10,
+    }, {
+      formItem: 'switch',
+      id: 'enemyFrozen',
+      name: 'enemyFrozen',
+      text: t('enemyFrozen.text'),
+      title: t('enemyFrozen.title'),
+      content: t('enemyFrozen.content'),
+    }, {
+      formItem: 'switch',
+      id: 'e2DefReduction',
+      name: 'e2DefReduction',
+      text: t('e2DefReduction.text'),
+      title: t('e2DefReduction.title'),
+      content: t('e2DefReduction.content'),
+      disabled: e < 2,
+    }, {
+      formItem: 'switch',
+      id: 'e6UltDmgBoost',
+      name: 'e6UltDmgBoost',
+      text: t('e6UltDmgBoost.text'),
+      title: t('e6UltDmgBoost.title'),
+      content: t('e6UltDmgBoost.content'),
+      disabled: e < 6,
+    }]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'e2DefReduction'),
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    return [
+      findContentId(content, 'e2DefReduction'),
+    ]
+  })()
 
   return {
     content: () => content,

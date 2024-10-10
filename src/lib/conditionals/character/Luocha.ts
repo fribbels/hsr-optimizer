@@ -7,36 +7,42 @@ import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import i18next from 'i18next'
 
-export default (e: Eidolon): CharacterConditional => {
-  const t = i18next.getFixedT(null, 'conditionals', 'Characters.Luocha')
+export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 2.00, 2.16)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'fieldActive',
-    name: 'fieldActive',
-    text: t('Content.fieldActive.text'),
-    title: t('Content.fieldActive.title'),
-    content: t('Content.fieldActive.content'),
+  const content: ContentItem[] = (() => {
+    if (withoutContent) return []
+    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Luocha.Content')
+    return [{
+      formItem: 'switch',
+      id: 'fieldActive',
+      name: 'fieldActive',
+      text: t('fieldActive.text'),
+      title: t('fieldActive.title'),
+      content: t('fieldActive.content'),
     // disabled: e < 1, Not disabling this one since technically the field can be active at E0
-  }, {
-    formItem: 'switch',
-    id: 'e6ResReduction',
-    name: 'e6ResReduction',
-    text: t('Content.e6ResReduction.text'),
-    title: t('Content.e6ResReduction.title'),
-    content: t('Content.e6ResReduction.content'),
-    disabled: e < 6,
-  }]
+    }, {
+      formItem: 'switch',
+      id: 'e6ResReduction',
+      name: 'e6ResReduction',
+      text: t('e6ResReduction.text'),
+      title: t('e6ResReduction.title'),
+      content: t('e6ResReduction.content'),
+      disabled: e < 6,
+    }]
+  })()
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'fieldActive'),
-    findContentId(content, 'e6ResReduction'),
-  ]
+  const teammateContent: ContentItem[] = (() => {
+    if (withoutContent) return []
+    return [
+      findContentId(content, 'fieldActive'),
+      findContentId(content, 'e6ResReduction'),
+    ]
+  })()
 
   return {
     content: () => content,

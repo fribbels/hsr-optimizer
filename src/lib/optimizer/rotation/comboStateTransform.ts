@@ -37,12 +37,12 @@ function simpleTransform(comboState: ComboState, request: Form, context: Optimiz
   const comboAbilities = getComboAbilities(request.comboAbilities)
   const actions: OptimizerAction[] = []
   for (let i = 0; i < comboAbilities.length; i++) {
-    actions.push(transformAction(i, comboState, comboAbilities))
+    actions.push(transformAction(i, comboState, comboAbilities, context))
   }
   context.actions = actions
 }
 
-function transformAction(actionIndex: number, comboState: ComboState, comboAbilities: string[]) {
+function transformAction(actionIndex: number, comboState: ComboState, comboAbilities: string[], context: OptimizerContext) {
   const action: OptimizerAction = {
     characterConditionals: {},
     lightConeConditionals: {},
@@ -78,7 +78,7 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
   action.teammate2.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate2.characterConditionals) as CharacterConditional
   action.teammate2.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate2.lightConeConditionals) as LightConeConditional
 
-  precomputeConditionals(action, comboState)
+  precomputeConditionals(action, comboState, context)
   calculateContextConditionalRegistry(action, comboState)
 
   console.log({ action })
@@ -86,7 +86,7 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
   return action
 }
 
-function precomputeConditionals(action: OptimizerAction, comboState: ComboState) {
+function precomputeConditionals(action: OptimizerAction, comboState: ComboState, context: OptimizerContext) {
   const characterConditionals: CharacterConditional = CharacterConditionals.get(comboState.comboCharacter.metadata)
   const lightConeConditionals: LightConeConditional = LightConeConditionals.get(comboState.comboCharacter.metadata)
 
@@ -111,8 +111,8 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState)
   }
 
   // Precompute stage
-  lightConeConditionals.precomputeEffects?.(x, action as unknown as Form)
-  characterConditionals.precomputeEffects?.(x, action as unknown as Form)
+  lightConeConditionals.precomputeEffects?.(x, action as unknown as Form, context)
+  characterConditionals.precomputeEffects?.(x, action as unknown as Form, context)
 
   // Precompute mutual stage
   lightConeConditionals.precomputeMutualEffects?.(x, action as unknown as Form)

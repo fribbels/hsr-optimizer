@@ -8,6 +8,7 @@ import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon): CharacterConditional => {
   const t = i18next.getFixedT(null, 'conditionals', 'Characters.Jingliu')
@@ -71,7 +72,7 @@ export default (e: Eidolon): CharacterConditional => {
       e2SkillDmgBuff: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form, context: OptimizerContext) => {
       const r: CharacterConditionalMap = request.characterConditionals
 
       // Skills
@@ -90,10 +91,10 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_SCALING += basicScaling
 
       x.SKILL_SCALING += (r.talentEnhancedState) ? skillEnhancedScaling : skillScaling
-      x.SKILL_SCALING += (e >= 1 && r.talentEnhancedState && request.enemyCount == 1) ? 1 : 0
+      x.SKILL_SCALING += (e >= 1 && r.talentEnhancedState && (request.enemyCount ?? context.enemyCount) == 1) ? 1 : 0
 
       x.ULT_SCALING += ultScaling
-      x.ULT_SCALING += (e >= 1 && request.enemyCount == 1) ? 1 : 0
+      x.ULT_SCALING += (e >= 1 && (request.enemyCount ?? context.enemyCount) == 1) ? 1 : 0
 
       x.FUA_SCALING += 0
 

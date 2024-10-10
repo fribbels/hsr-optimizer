@@ -6,6 +6,7 @@ import { ComponentProps, ComponentType } from 'react'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { FormSelectWithPopoverProps } from 'components/optimizerTab/conditionals/FormSelect'
+import { OptimizerContext } from 'types/Optimizer'
 
 export type ConditionalMap = {
   [key: string]: number | boolean | string | undefined
@@ -27,7 +28,7 @@ export interface Conditional {
 
   // Individual effects that apply only for the primary character
   // e.g. Self buffs
-  precomputeEffects: (x: ComputedStatsObject, request: Form) => void
+  precomputeEffects: (x: ComputedStatsObject, request: Form, context: OptimizerContext) => void
 
   // Shared effects that apply both as a teammate and as the primary character
   // e.g. AOE team buff

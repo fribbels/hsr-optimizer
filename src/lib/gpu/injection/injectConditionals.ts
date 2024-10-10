@@ -63,8 +63,11 @@ ${indent(conditionalConstantsValues, 2)}
 
   // Actions
   const length = context.actions.length
+
+//   let actionsDefinition = `
+// var actions: array<Action, ${length}> = array<Action, ${length}>(`
   let actionsDefinition = `
-var actions: array<Action, ${length}> = array<Action, ${length}>(`
+const actions: array<Action, ${length}> = array<Action, ${length}>(`
   for (const action of context.actions) {
     actionsDefinition += `
   Action( // ${action.actionIndex}

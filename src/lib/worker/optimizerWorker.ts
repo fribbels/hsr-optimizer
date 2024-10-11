@@ -9,6 +9,7 @@ import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateConditionals'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
@@ -68,9 +69,9 @@ self.onmessage = function (e: MessageEvent) {
   params.characterConditionals = CharacterConditionals.get(request)
   params.lightConeConditionals = LightConeConditionals.get(request)
 
-  // TODO: Can move teammates into precompute step as well
-  // calculateConditionals(request, params)
-  // calculateTeammates(request, params)
+  for (const action of context.actions) {
+    calculateContextConditionalRegistry(action, context)
+  }
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
@@ -116,6 +117,7 @@ self.onmessage = function (e: MessageEvent) {
 
     c.relicSetIndex = relicSetIndex
     c.ornamentSetIndex = ornamentSetIndex
+    // @ts-ignore
     c.x = {}
 
     calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope)
@@ -259,6 +261,7 @@ function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) 
   const action = {
     characterConditionals: originalAction.characterConditionals,
     lightConeConditionals: originalAction.characterConditionals,
+    setConditionals: originalAction.setConditionals,
     conditionalRegistry: originalAction.conditionalRegistry,
     actionType: originalAction.actionType,
     precomputedX: ax,

@@ -165,6 +165,7 @@ export function calculateBaseStats(c: BasicStatsObject, request: Form, params: O
 }
 
 export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  const setConditionals = action.setConditionals
   if (!params.characterConditionals) {
     params.characterConditionals = CharacterConditionals.get(request)
   }
@@ -186,7 +187,7 @@ export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObje
   x[Stats.BE] += c[Stats.BE]
   x[Stats.ERR] += c[Stats.ERR]
   x[Stats.OHB] += c[Stats.OHB]
-  x[params.ELEMENTAL_DMG_TYPE] += c.ELEMENTAL_DMG
+  x[context.elementalDamageType] += c.ELEMENTAL_DMG
 
   // Combat buffs
   x[Stats.ATK] += request.combatBuffs.ATK + request.combatBuffs.ATK_P * request.baseAtk
@@ -203,7 +204,7 @@ export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObje
 
   // SPD
 
-  if (p4(sets.MessengerTraversingHackerspace) && params.enabledMessengerTraversingHackerspace) {
+  if (p4(sets.MessengerTraversingHackerspace) && setConditionals.enabledMessengerTraversingHackerspace) {
     x[Stats.SPD_P] += 0.12
   }
   x[Stats.SPD] += x[Stats.SPD_P] * request.baseSpd
@@ -211,13 +212,13 @@ export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObje
   // ATK
 
   if (p4(sets.ChampionOfStreetwiseBoxing)) {
-    x[Stats.ATK_P] += 0.05 * params.valueChampionOfStreetwiseBoxing
+    x[Stats.ATK_P] += 0.05 * setConditionals.valueChampionOfStreetwiseBoxing
   }
-  if (p4(sets.BandOfSizzlingThunder) && params.enabledBandOfSizzlingThunder) {
+  if (p4(sets.BandOfSizzlingThunder) && setConditionals.enabledBandOfSizzlingThunder) {
     x[Stats.ATK_P] += 0.20
   }
   if (p4(sets.TheAshblazingGrandDuke)) {
-    x[Stats.ATK_P] += 0.06 * params.valueTheAshblazingGrandDuke
+    x[Stats.ATK_P] += 0.06 * setConditionals.valueTheAshblazingGrandDuke
   }
   x[Stats.ATK] += x[Stats.ATK_P] * request.baseAtk
 
@@ -231,48 +232,46 @@ export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObje
 
   // CD
 
-  if (p4(sets.HunterOfGlacialForest) && params.enabledHunterOfGlacialForest) {
+  if (p4(sets.HunterOfGlacialForest) && setConditionals.enabledHunterOfGlacialForest) {
     x[Stats.CD] += 0.25
   }
   if (p4(sets.WastelanderOfBanditryDesert)) {
-    x[Stats.CD] += 0.10 * (params.valueWastelanderOfBanditryDesert == 2 ? 1 : 0)
+    x[Stats.CD] += 0.10 * (setConditionals.valueWastelanderOfBanditryDesert == 2 ? 1 : 0)
   }
   if (p4(sets.PioneerDiverOfDeadWaters)) {
-    x[Stats.CD] += pioneerSetIndexToCd[params.valuePioneerDiverOfDeadWaters]
+    x[Stats.CD] += pioneerSetIndexToCd[setConditionals.valuePioneerDiverOfDeadWaters]
   }
   if (p2(sets.SigoniaTheUnclaimedDesolation)) {
-    x[Stats.CD] += 0.04 * (params.valueSigoniaTheUnclaimedDesolation)
+    x[Stats.CD] += 0.04 * (setConditionals.valueSigoniaTheUnclaimedDesolation)
   }
-  if (p2(sets.DuranDynastyOfRunningWolves) && params.valueDuranDynastyOfRunningWolves >= 5) {
+  if (p2(sets.DuranDynastyOfRunningWolves) && setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
     x[Stats.CD] += 0.25
   }
-  if (p2(sets.TheWondrousBananAmusementPark) && params.enabledTheWondrousBananAmusementPark) {
+  if (p2(sets.TheWondrousBananAmusementPark) && setConditionals.enabledTheWondrousBananAmusementPark) {
     x[Stats.CD] += 0.32
   }
 
   // CR
 
-  if (p4(sets.WastelanderOfBanditryDesert) && params.valueWastelanderOfBanditryDesert > 0) {
+  if (p4(sets.WastelanderOfBanditryDesert) && setConditionals.valueWastelanderOfBanditryDesert > 0) {
     x[Stats.CR] += 0.10
   }
   if (p4(sets.LongevousDisciple)) {
-    x[Stats.CR] += 0.08 * params.valueLongevousDisciple
+    x[Stats.CR] += 0.08 * setConditionals.valueLongevousDisciple
   }
-  if (p4(sets.PioneerDiverOfDeadWaters) && params.valuePioneerDiverOfDeadWaters > 2) {
+  if (p4(sets.PioneerDiverOfDeadWaters) && setConditionals.valuePioneerDiverOfDeadWaters > 2) {
     x[Stats.CR] += 0.04
   }
-  if (p2(sets.IzumoGenseiAndTakamaDivineRealm) && params.enabledIzumoGenseiAndTakamaDivineRealm) {
+  if (p2(sets.IzumoGenseiAndTakamaDivineRealm) && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm) {
     x[Stats.CR] += 0.12
   }
 
-  // calculatePassiveStatConversions(c, request, params)
-
   // BE
 
-  if (p4(sets.WatchmakerMasterOfDreamMachinations) && params.enabledWatchmakerMasterOfDreamMachinations) {
+  if (p4(sets.WatchmakerMasterOfDreamMachinations) && setConditionals.enabledWatchmakerMasterOfDreamMachinations) {
     x[Stats.BE] += 0.30
   }
-  if (p2(sets.ForgeOfTheKalpagniLantern) && params.enabledForgeOfTheKalpagniLantern) {
+  if (p2(sets.ForgeOfTheKalpagniLantern) && setConditionals.enabledForgeOfTheKalpagniLantern) {
     x[Stats.BE] += 0.40
   }
 
@@ -286,31 +285,31 @@ export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObje
 
   // Fua boost
   p2(sets.TheAshblazingGrandDuke) && buffAbilityDmg(x, FUA_TYPE, 0.20)
-  p2(sets.DuranDynastyOfRunningWolves) && buffAbilityDmg(x, FUA_TYPE, 0.05 * params.valueDuranDynastyOfRunningWolves)
+  p2(sets.DuranDynastyOfRunningWolves) && buffAbilityDmg(x, FUA_TYPE, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves)
 
   // Ult boost
-  p4(sets.TheWindSoaringValorous) && buffAbilityDmg(x, ULT_TYPE, 0.36 * params.enabledTheWindSoaringValorous)
+  p4(sets.TheWindSoaringValorous) && buffAbilityDmg(x, ULT_TYPE, 0.36 * setConditionals.enabledTheWindSoaringValorous)
   p4(sets.ScholarLostInErudition) && buffAbilityDmg(x, ULT_TYPE | SKILL_TYPE, 0.20)
 
   if (p4(sets.GeniusOfBrilliantStars)) {
-    x.DEF_PEN += params.enabledGeniusOfBrilliantStars ? 0.20 : 0.10
+    x.DEF_PEN += setConditionals.enabledGeniusOfBrilliantStars ? 0.20 : 0.10
   }
 
   if (p4(sets.PrisonerInDeepConfinement)) {
-    x.DEF_PEN += 0.06 * params.valuePrisonerInDeepConfinement
+    x.DEF_PEN += 0.06 * setConditionals.valuePrisonerInDeepConfinement
   }
 
-  if (p2(sets.PioneerDiverOfDeadWaters) && params.valuePioneerDiverOfDeadWaters >= 0) {
+  if (p2(sets.PioneerDiverOfDeadWaters) && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
     x.ELEMENTAL_DMG += 0.12
   }
 
   // Elemental DMG
 
-  if (p2(sets.FiresmithOfLavaForging) && params.enabledFiresmithOfLavaForging) {
+  if (p2(sets.FiresmithOfLavaForging) && setConditionals.enabledFiresmithOfLavaForging) {
     x[Stats.Fire_DMG] += 0.12
   }
 
-  if (p4(sets.ScholarLostInErudition) && params.enabledScholarLostInErudition) {
+  if (p4(sets.ScholarLostInErudition) && setConditionals.enabledScholarLostInErudition) {
     buffAbilityDmg(x, SKILL_TYPE, 0.25)
   }
 
@@ -378,6 +377,7 @@ const pioneerSetIndexToCd = {
   4: 0.24,
 }
 
+// @ts-ignore
 export const baseCharacterStats: BasicStatsObject = {
   [Stats.HP_P]: 0,
   [Stats.ATK_P]: 0,

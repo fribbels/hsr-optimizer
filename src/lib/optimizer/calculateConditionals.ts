@@ -9,7 +9,7 @@ import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/c
 import { CharacterConditional } from 'types/CharacterConditional'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction } from 'types/Optimizer'
-import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
+import { ComboCharacterMetadata } from 'lib/optimizer/rotation/comboDrawerController'
 
 export function calculateConditionals(request: Form, params: Partial<OptimizerParams>) {
   const characterConditionals: CharacterConditional = CharacterConditionals.get(request)
@@ -72,9 +72,9 @@ export function calculateConditionalRegistry(request: Form, params: Partial<Opti
   params.conditionalState = {}
 }
 
-export function calculateContextConditionalRegistry(action: OptimizerAction, comboState: ComboState) {
-  const characterConditionals: CharacterConditional = CharacterConditionals.get(comboState.comboCharacter.metadata as unknown as Form)
-  const lightConeConditionals: LightConeConditional = LightConeConditionals.get(comboState.comboCharacter.metadata as unknown as Form)
+export function calculateContextConditionalRegistry(action: OptimizerAction, comboCharacterMetadata: ComboCharacterMetadata) {
+  const characterConditionals: CharacterConditional = CharacterConditionals.get(comboCharacterMetadata)
+  const lightConeConditionals: LightConeConditional = LightConeConditionals.get(comboCharacterMetadata)
 
   const conditionalRegistry: ConditionalRegistry = emptyRegistry()
 

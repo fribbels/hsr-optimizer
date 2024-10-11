@@ -8,6 +8,7 @@ import { Form } from 'types/Form'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PerfectTiming')
@@ -38,16 +39,16 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.RES],
-        condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-          const r = request.lightConeConditionals
+        condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.lightConeConditionals
 
           return r.resToHealingBoost
         },
-        effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => {
+        effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) => {
           const boost = Math.min(sMaxValues[s], sValues[s] * x[Stats.RES])
-          buffStat(x, request, params, Stats.OHB, boost)
+          buffStat(x, request, params, Stats.OHB, boost, action, context)
         },
-        gpu: function () {
+        gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
           return conditionalWgslWrapper(this, `
 if (
   (*p_state).PerfectTimingConditional == 0.0

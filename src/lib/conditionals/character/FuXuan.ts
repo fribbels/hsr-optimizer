@@ -11,6 +11,7 @@ import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.FuXuan')
@@ -125,27 +126,27 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         condition: function () {
           return true
         },
-        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-          const r = request.characterConditionals
+        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals
           if (!r.skillActive) {
             return
           }
 
-          const stateValue = params.conditionalState[this.id] || 0
+          const stateValue = action.conditionalState[this.id] || 0
           const convertibleHpValue = x[Stats.HP] - x.RATIO_BASED_HP_BUFF
 
           const buffHP = skillHpBuffValue * convertibleHpValue
           const stateBuffHP = skillHpBuffValue * stateValue
 
-          params.conditionalState[this.id] = x[Stats.HP]
+          action.conditionalState[this.id] = x[Stats.HP]
 
           const finalBuffHp = buffHP - (stateValue ? stateBuffHP : 0)
           x.RATIO_BASED_HP_BUFF += finalBuffHp
 
-          buffStat(x, request, params, Stats.HP, finalBuffHp)
+          buffStat(x, request, params, Stats.HP, finalBuffHp, action, context)
         },
-        gpu: function (request: Form, _params: OptimizerParams) {
-          const r = request.characterConditionals
+        gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.skillActive)}) {

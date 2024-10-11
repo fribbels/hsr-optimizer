@@ -10,6 +10,7 @@ import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/set
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lynx')
@@ -99,13 +100,13 @@ x.BASIC_DMG += x.BASIC_SCALING * x.HP;
       condition: function () {
         return true
       },
-      effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-        const r = request.characterConditionals
+      effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+        const r = action.characterConditionals
         if (!r.skillBuff) {
           return
         }
 
-        const stateValue = params.conditionalState[this.id] || 0
+        const stateValue = action.conditionalState[this.id] || 0
         let buffHP = 0
         let buffATK = 0
         let stateBuffHP = 0
@@ -125,17 +126,17 @@ x.BASIC_DMG += x.BASIC_SCALING * x.HP;
           stateBuffHP += 0.06 * stateValue
         }
 
-        params.conditionalState[this.id] = x[Stats.HP]
+        action.conditionalState[this.id] = x[Stats.HP]
 
         const finalBuffHp = buffHP - (stateValue ? stateBuffHP : 0)
         const finalBuffAtk = buffATK - (stateValue ? stateBuffATK : 0)
         x.RATIO_BASED_HP_BUFF += finalBuffHp
 
-        buffStat(x, request, params, Stats.HP, finalBuffHp)
-        buffStat(x, request, params, Stats.ATK, finalBuffAtk)
+        buffStat(x, request, params, Stats.HP, finalBuffHp, action, context)
+        buffStat(x, request, params, Stats.ATK, finalBuffAtk, action, context)
       },
-      gpu: function (request: Form, _params: OptimizerParams) {
-        const r = request.characterConditionals
+      gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+        const r = action.characterConditionals
 
         return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.skillBuff)}) {

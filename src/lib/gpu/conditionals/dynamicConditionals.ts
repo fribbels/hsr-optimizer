@@ -116,7 +116,7 @@ export const XueyiConversionConditional: DynamicConditional = {
     action.conditionalState[this.id] = buffValue
     x.ELEMENTAL_DMG += buffValue - stateValue
   },
-  gpu: function (request: Form, params: OptimizerParams) {
+  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
     return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.beToDmgBoost)}) {
@@ -339,7 +339,7 @@ export const GallagherConversionConditional: DynamicConditional = {
     action.conditionalState[this.id] = buffValue
     buffStat(x, request, params, Stats.OHB, buffValue - stateValue, action, context)
   },
-  gpu: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `

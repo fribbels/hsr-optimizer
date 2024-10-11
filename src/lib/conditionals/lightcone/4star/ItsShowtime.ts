@@ -8,6 +8,7 @@ import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicCo
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ItsShowtime')
@@ -43,19 +44,19 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.EHR],
-        condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+        condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
           return x[Stats.EHR] >= 0.80
         },
-        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-          const r = request.characterConditionals
+        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals
 
-          const stateValue = params.conditionalState[this.id] || 0
-          const buffValue = sValuesAtkBuff[s] * request.baseAtk
+          const stateValue = action.conditionalState[this.id] || 0
+          const buffValue = sValuesAtkBuff[s] * context.baseATK
 
-          params.conditionalState[this.id] = buffValue
-          buffStat(x, request, params, Stats.ATK, buffValue - stateValue)
+          action.conditionalState[this.id] = buffValue
+          buffStat(x, request, params, Stats.ATK, buffValue - stateValue, action, context)
         },
-        gpu: function (request: Form, params: OptimizerParams) {
+        gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
           return conditionalWgslWrapper(this, `
 if (x.EHR < 0.80) {
   return;

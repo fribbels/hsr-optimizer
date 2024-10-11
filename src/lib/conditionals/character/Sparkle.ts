@@ -11,6 +11,7 @@ import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sparkle')
@@ -137,29 +138,29 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         condition: function () {
           return true
         },
-        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-          const r = request.characterConditionals
+        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals
           if (!r.skillCdBuff) {
             return
           }
 
           const buffScalingValue = (skillCdBuffScaling + (e >= 6 ? 0.30 : 0))
 
-          const stateValue = params.conditionalState[this.id] || 0
+          const stateValue = action.conditionalState[this.id] || 0
           const convertibleCdValue = x[Stats.CD] - x.RATIO_BASED_CD_BUFF
 
           const buffCD = buffScalingValue * convertibleCdValue + skillCdBuffBase
           const stateBuffCD = buffScalingValue * stateValue + skillCdBuffBase
 
-          params.conditionalState[this.id] = x[Stats.CD]
+          action.conditionalState[this.id] = x[Stats.CD]
 
           const finalBuffCd = buffCD - (stateValue ? stateBuffCD : 0)
           x.RATIO_BASED_CD_BUFF += finalBuffCd
 
-          buffStat(x, request, params, Stats.CD, finalBuffCd)
+          buffStat(x, request, params, Stats.CD, finalBuffCd, action, context)
         },
-        gpu: function (request: Form, _params: OptimizerParams) {
-          const r = request.characterConditionals
+        gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals
           const buffScalingValue = (skillCdBuffScaling + (e >= 6 ? 0.30 : 0))
 
           return conditionalWgslWrapper(this, `

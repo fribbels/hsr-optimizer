@@ -12,6 +12,7 @@ import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Tingyun')
@@ -151,27 +152,27 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
         condition: function () {
           return true
         },
-        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-          const r = request.characterConditionals
+        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals
           if (!r.benedictionBuff) {
             return
           }
 
-          const stateValue = params.conditionalState[this.id] || 0
+          const stateValue = action.conditionalState[this.id] || 0
           const convertibleAtkValue = x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF
 
           const buffATK = skillAtkBoostMax * convertibleAtkValue
           const stateBuffATK = skillAtkBoostMax * stateValue
 
-          params.conditionalState[this.id] = x[Stats.ATK]
+          action.conditionalState[this.id] = x[Stats.ATK]
 
           const finalBuffAtk = buffATK - (stateValue ? stateBuffATK : 0)
           x.RATIO_BASED_ATK_BUFF += finalBuffAtk
 
-          buffStat(x, request, params, Stats.ATK, finalBuffAtk)
+          buffStat(x, request, params, Stats.ATK, finalBuffAtk, action, context)
         },
-        gpu: function (request: Form, _params: OptimizerParams) {
-          const r = request.characterConditionals
+        gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.benedictionBuff)}) {

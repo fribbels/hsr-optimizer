@@ -11,6 +11,7 @@ import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hanya')
@@ -130,27 +131,27 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         condition: function () {
           return true
         },
-        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-          const r = request.characterConditionals
+        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals
           if (!r.ultBuff) {
             return
           }
 
-          const stateValue = params.conditionalState[this.id] || 0
+          const stateValue = action.conditionalState[this.id] || 0
           const convertibleSpdValue = x[Stats.SPD] - x.RATIO_BASED_SPD_BUFF
 
           const buffSPD = ultSpdBuffValue * convertibleSpdValue
           const stateBuffSPD = ultSpdBuffValue * stateValue
 
-          params.conditionalState[this.id] = x[Stats.SPD]
+          action.conditionalState[this.id] = x[Stats.SPD]
 
           const finalBuffSpd = buffSPD - (stateValue ? stateBuffSPD : 0)
           x.RATIO_BASED_SPD_BUFF += finalBuffSpd
 
-          buffStat(x, request, params, Stats.SPD, finalBuffSpd)
+          buffStat(x, request, params, Stats.SPD, finalBuffSpd, action, context)
         },
-        gpu: function (request: Form, _params: OptimizerParams) {
-          const r = request.characterConditionals
+        gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.ultBuff)}) {

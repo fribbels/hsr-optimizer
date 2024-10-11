@@ -146,7 +146,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+      const m = action.characterConditionals
 
       x[Stats.CD] += (m.talentCdBuff) ? talentCdBuffValue : 0
       x[Stats.RES] += (e >= 4 && m.concertoActive && m.e4TeamResBuff) ? 0.50 : 0
@@ -155,7 +155,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.RES_PEN += (e >= 1 && m.concertoActive && m.e1UltResPen) ? 0.24 : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
-      const t = request.characterConditionals
+      const t = action.characterConditionals
 
       x[Stats.ATK] += (t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
       x.RATIO_BASED_ATK_BUFF += (t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue : 0

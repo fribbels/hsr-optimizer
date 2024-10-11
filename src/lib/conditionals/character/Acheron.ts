@@ -3,7 +3,6 @@ import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/condi
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { Stats } from 'lib/constants'
 import { buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
@@ -121,7 +120,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     teammateDefaults: () => ({
       e4UltVulnerability: true,
     }),
-    initializeConfigurations: (x: ComputedStatsObject, request: Form, action: OptimizerAction, context: OptimizerContext) => {
+    initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       if (e >= 6 && r.e6UltBuffs) {
@@ -129,7 +128,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         x.SKILL_DMG_TYPE = ULT_TYPE | SKILL_TYPE
       }
     },
-    precomputeEffects: (x: ComputedStatsObject, request: Form, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       x[Stats.CR] += (e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0
@@ -158,8 +157,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form, action: OptimizerAction, context: OptimizerContext) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       buffAbilityVulnerability(x, ULT_TYPE, 0.08, (e >= 4 && m.e4UltVulnerability))
     },

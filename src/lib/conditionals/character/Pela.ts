@@ -100,7 +100,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+      const m = action.characterConditionals
 
       x[Stats.EHR] += (m.teamEhrBuff) ? 0.10 : 0
 

@@ -124,7 +124,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.FUA_TOUGHNESS_DMG += (e >= 4) ? 30 : 0
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+      const m = action.characterConditionals
 
       x[Stats.DEF_P] += (m.battleStartDefBuff) ? 0.20 : 0
       x[Stats.SPD_P] += (m.e2SkillSpdBuff) ? 0.30 : 0
@@ -135,7 +135,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ELEMENTAL_DMG += (m.skillBuff) ? skillDmgBoostValue : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
-      const t = request.characterConditionals
+      const t = action.characterConditionals
 
       x[Stats.CD] += (t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0
       x[Stats.CD] += (t.ultBuff) ? ultCdBoostBaseValue : 0

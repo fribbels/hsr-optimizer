@@ -110,14 +110,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+      const m = action.characterConditionals
 
       x[Stats.SPD_P] += (e >= 1 && m.ultSpdBuff) ? 0.20 : 0
 
       x.ELEMENTAL_DMG += (m.ultDmgBuff) ? ultDmgBoost : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
-      const t = request.characterConditionals
+      const t = action.characterConditionals
 
       x[Stats.ATK_P] += (t.benedictionBuff) ? t.teammateAtkBuffValue : 0
     },

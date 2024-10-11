@@ -154,7 +154,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
-      const t = request.characterConditionals
+      const t = action.characterConditionals
 
       x.BREAK_VULNERABILITY += t.teammateBreakVulnerability
 

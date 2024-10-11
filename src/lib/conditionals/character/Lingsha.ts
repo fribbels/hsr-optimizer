@@ -126,7 +126,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+      const m = action.characterConditionals
 
       if (x.ENEMY_WEAKNESS_BROKEN) {
         x.DEF_PEN += (e >= 1 && m.e1DefShred) ? 0.20 : 0

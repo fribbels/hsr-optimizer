@@ -105,7 +105,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+      const m = action.characterConditionals
 
       x.RES_PEN += (m.skillWeaknessResShredDebuff) ? 0.20 : 0
       x.RES_PEN += (m.skillResShredDebuff) ? skillResShredValue : 0

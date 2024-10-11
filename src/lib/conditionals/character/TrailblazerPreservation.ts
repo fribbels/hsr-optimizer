@@ -91,7 +91,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+      const m = action.characterConditionals
 
       // This EHR buff applies to all
       x.DMG_RED_MULTI *= (m.skillActive) ? (1 - 0.15) : 1

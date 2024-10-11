@@ -85,7 +85,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+      const m = action.characterConditionals
 
       x.DEF_PEN += (e >= 2 && m.e2DefReduction) ? 0.16 : 0
     },

@@ -94,7 +94,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+      const m = action.characterConditionals
 
       x[Stats.CR] += (m.skillActive) ? skillCrBuffValue : 0
       x[Stats.CD] += (e >= 1 && m.skillActive) ? 0.30 : 0
@@ -103,7 +103,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.DMG_RED_MULTI *= (m.talentActive) ? (1 - talentDmgReductionValue) : 1
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
-      const t = request.characterConditionals
+      const t = action.characterConditionals
 
       x[Stats.HP] += (t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0
 

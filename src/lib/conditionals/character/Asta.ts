@@ -102,7 +102,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+      const m = action.characterConditionals
 
       x[Stats.SPD] += (m.ultSpdBuff) ? ultSpdBuffValue : 0
       x[Stats.ATK_P] += (m.talentBuffStacks) * talentStacksAtkBuff

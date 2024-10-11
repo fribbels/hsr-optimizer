@@ -153,7 +153,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
-      const t = request.characterConditionals
+      const t = action.characterConditionals
 
       x[Stats.SPD] += (t.debtCollectorSpdBuff) ? 30 : 0
     },

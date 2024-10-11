@@ -107,7 +107,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+      const m = action.characterConditionals
 
       x[Stats.ATK_P] += (m.ultBuff) ? ultAtkBuffValue : 0
       x[Stats.ATK_P] += (m.burdenAtkBuff) ? 0.10 : 0
@@ -115,7 +115,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ELEMENTAL_DMG += (m.targetBurdenActive) ? talentDmgBoostValue : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
-      const t = request.characterConditionals
+      const t = action.characterConditionals
 
       x[Stats.SPD] += (t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0
     },

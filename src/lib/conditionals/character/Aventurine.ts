@@ -127,7 +127,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+      const m = action.characterConditionals
 
       x[Stats.RES] += (m.fortifiedWagerBuff) ? talentResScaling : 0
       x[Stats.CD] += (m.enemyUnnervedDebuff) ? ultCdBoost : 0

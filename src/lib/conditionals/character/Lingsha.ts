@@ -188,7 +188,7 @@ const LingshaConversionConditional: DynamicConditional = {
     const r = request.characterConditionals
 
     return conditionalWgslWrapper(this, `
-if (conditionalConstants[0].LingshaBeConversion == false) {
+if (conditionalConstants[(*p_state).actionIndex].LingshaBeConversion == false) {
   return;
 }
 

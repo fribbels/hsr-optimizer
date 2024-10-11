@@ -339,6 +339,7 @@ fn main(
       var x = actions[i].x;
       let setConditionals = actions[i].setConditionals;
       var state = ConditionalState();
+      state.actionIndex = i;
 
 //      var x = cloneComputedStats(actions[i].x);
 //      var state = cloneConditionalState(actions[i].state);

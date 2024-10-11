@@ -26,6 +26,11 @@ export function injectConditionals(wgsl: string, request: Form, params: Optimize
   )
 
 
+  wgsl += generateDynamicConditionals(request, params, context)
+
+  // Actions
+  const length = context.actions.length
+
   let conditionalConstantsStruct = '\n'
   let conditionalConstantsValues = '\n'
 
@@ -33,12 +38,28 @@ export function injectConditionals(wgsl: string, request: Form, params: Optimize
     for (const [key, value] of Object.entries(characterConditionals.gpuConstants(request, params, context))) {
       if (typeof value === 'number') {
         conditionalConstantsStruct += `${key}: f32,\n`
-        conditionalConstantsValues += `${value}f,\n`
       }
       if (typeof value === 'boolean') {
         conditionalConstantsStruct += `${key}: bool,\n`
-        conditionalConstantsValues += `${value},\n`
       }
+    }
+
+
+    for (const action of context.actions) {
+      let actionValues = ``
+      for (const [key, value] of Object.entries(characterConditionals.gpuConstants(action as unknown as Form, params, context))) {
+        if (typeof value === 'number') {
+          actionValues += `${value}f,\n`
+        }
+        if (typeof value === 'boolean') {
+          actionValues += `${value},\n`
+        }
+      }
+      conditionalConstantsValues += `
+  ConditionalConstants(
+    ${actionValues}
+  ),
+      `
     }
 
     if (characterConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
@@ -48,20 +69,14 @@ struct ConditionalConstants {
 ${indent(conditionalConstantsStruct, 1)}
 }
 
-const conditionalConstants: array<ConditionalConstants, 1> = array<ConditionalConstants, 1>(
-  ConditionalConstants(
-${indent(conditionalConstantsValues, 2)}
-  ),
+const conditionalConstants: array<ConditionalConstants, ${length}> = array<ConditionalConstants, ${length}>(
+${indent(conditionalConstantsValues, 1)}
 );
 
       `
     )
   }
 
-  wgsl += generateDynamicConditionals(request, params, context)
-
-  // Actions
-  const length = context.actions.length
 
 //   let actionsDefinition = `
 // var actions: array<Action, ${length}> = array<Action, ${length}>(`
@@ -201,6 +216,7 @@ function generateDynamicConditionals(
 
   wgsl += `
 struct ConditionalState {
+${indent('actionIndex: i32,', 1)}
 ${indent(conditionalStateDefinition, 1)}
 }
   `

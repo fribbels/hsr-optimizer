@@ -3,7 +3,7 @@ import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'l
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
@@ -72,7 +72,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     }),
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsObject, request: Form, context: OptimizerContext) => {
-      const r: CharacterConditionalMap = request.characterConditionals
+      const r = request.characterConditionals
 
       // Skills
       x[Stats.CR] += (r.talentEnhancedState) ? talentCrBuff : 0

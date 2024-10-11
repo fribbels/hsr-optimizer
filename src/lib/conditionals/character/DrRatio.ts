@@ -8,10 +8,9 @@ import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-const DrRatio = (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.DrRatio')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
@@ -107,5 +106,3 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
     },
   }
 }
-
-export default DrRatio

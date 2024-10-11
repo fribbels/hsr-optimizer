@@ -5,10 +5,9 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-const SilverWolf = (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SilverWolf')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
@@ -118,5 +117,3 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }
-
-export default SilverWolf

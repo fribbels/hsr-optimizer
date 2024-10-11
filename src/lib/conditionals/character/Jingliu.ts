@@ -72,7 +72,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     }),
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsObject, request: Form, context: OptimizerContext) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Skills
       x[Stats.CR] += (r.talentEnhancedState) ? talentCrBuff : 0

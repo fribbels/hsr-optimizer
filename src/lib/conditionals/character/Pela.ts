@@ -80,7 +80,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e4SkillResShred: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.SPD_P] += (e >= 2 && r.skillRemovedBuff) ? 0.10 : 0

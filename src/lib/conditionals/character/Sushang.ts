@@ -79,7 +79,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     }),
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.BE] += (e >= 4) ? 0.40 : 0

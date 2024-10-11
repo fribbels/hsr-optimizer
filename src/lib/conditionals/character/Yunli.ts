@@ -40,7 +40,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   }
 
   function getHitMulti(request: Form) {
-    const r = request.characterConditionals
+    const r = action.characterConditionals
     return (r.blockActive && r.ultCull)
       ? cullHitCountMultiByTargets[request.enemyCount]
       : fuaHitCountMultiByTargets[request.enemyCount]
@@ -138,13 +138,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defaults: () => (defaults),
     teammateDefaults: () => ({}),
     initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
       if (r.blockActive && r.ultCull) {
         x.FUA_DMG_TYPE = ULT_TYPE | FUA_TYPE
       }
     },
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       if (r.blockActive) {
         if (r.ultCull) {

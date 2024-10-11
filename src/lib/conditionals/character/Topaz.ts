@@ -81,7 +81,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.SKILL_DMG_TYPE = SKILL_TYPE | FUA_TYPE
     },
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       buffAbilityCd(x, SKILL_TYPE | FUA_TYPE, enhancedStateFuaCdBoost, (r.numbyEnhancedState))
       buffAbilityResPen(x, SKILL_TYPE | FUA_TYPE, 0.10, (e >= 6))
@@ -113,7 +113,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       buffAbilityCd(x, FUA_TYPE, 0.25 * m.e1DebtorStacks, (e >= 1 && m.enemyProofOfDebtDebuff))
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
       const basicAshblazingAtk = calculateAshblazingSet(x, request, basicHitCountMulti)
@@ -123,7 +123,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.SKILL_DMG = x.FUA_DMG
     },
     gpuFinalizeCalculations: (request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
 
       return `

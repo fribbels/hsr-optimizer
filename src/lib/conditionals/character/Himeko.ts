@@ -85,7 +85,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     }),
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.CR] += (r.selfCurrentHp80Percent) ? 0.15 : 0

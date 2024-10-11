@@ -88,7 +88,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       targetUltDebuffed: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += (e >= 4) ? r.e4TalentStacks * 0.05 : 0

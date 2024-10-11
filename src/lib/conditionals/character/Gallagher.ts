@@ -91,7 +91,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       targetBesotted: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       x[Stats.RES] += (e >= 1 && r.e1ResBuff) ? 0.50 : 0
       x[Stats.RES] += (e >= 2 && r.e2ResBuff) ? 0.30 : 0

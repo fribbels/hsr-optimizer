@@ -71,7 +71,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e4SkillHealingDmgBuffStacks: 3,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.OHB] += (e >= 2 && r.e2UltHealingBuff) ? 0.15 : 0

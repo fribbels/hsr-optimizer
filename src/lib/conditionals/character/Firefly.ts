@@ -116,14 +116,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defaults: () => (defaults),
     teammateDefaults: () => ({}),
     initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       if (r.superBreakDmg) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
     },
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       x[Stats.RES] += (r.enhancedStateActive) ? talentResBuff : 0
       x[Stats.SPD] += (r.enhancedStateActive && r.enhancedStateSpdBuff) ? ultSpdBuff : 0
@@ -148,7 +148,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       buffAbilityVulnerability(x, BREAK_TYPE, ultWeaknessBrokenBreakVulnerability, (r.enhancedStateActive && x.ENEMY_WEAKNESS_BROKEN))
 
@@ -161,7 +161,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
     },
     gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
       // TODO:
       // if (r.atkToBeConversion) {
       //   evaluateConditional(FireflyConversionConditional, x, request, params)

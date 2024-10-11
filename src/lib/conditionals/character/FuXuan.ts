@@ -81,7 +81,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       teammateHPValue: 8000,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Scaling
       x.BASIC_SCALING += basicScaling

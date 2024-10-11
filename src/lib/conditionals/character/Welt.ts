@@ -68,7 +68,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       enemyDmgTakenDebuff: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Stats
       x.ELEMENTAL_DMG += (x.ENEMY_WEAKNESS_BROKEN) ? 0.20 : 0

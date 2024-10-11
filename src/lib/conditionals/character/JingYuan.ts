@@ -19,7 +19,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const fuaScaling = talent(e, 0.66, 0.726)
 
   function getHitMulti(request: Form) {
-    const r = request.characterConditionals
+    const r = action.characterConditionals
 
     let hitMulti = 0
     const stacks = r.talentHitsPerAction
@@ -101,7 +101,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     }),
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       r.talentHitsPerAction = Math.max(r.talentHitsPerAction, r.talentAttacks)
 

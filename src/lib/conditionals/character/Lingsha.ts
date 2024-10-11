@@ -107,7 +107,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -146,7 +146,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return gpuStandardFuaAtkFinalizer(hitMultiByTargets[request.enemyCount])
     },
     gpuConstants: (request: Form) => {
-      const r = request.characterConditionals as unknown as LingshaConditionalConstants
+      const r = action.characterConditionals as unknown as LingshaConditionalConstants
       return {
         LingshaBeConversion: r.beConversion,
       }

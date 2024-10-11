@@ -92,7 +92,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       teammateAtkBuffValue: skillAtkBoostScaling,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.SPD_P] += (r.skillSpdBuff) ? 0.20 : 0
@@ -122,7 +122,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x[Stats.ATK_P] += (t.benedictionBuff) ? t.teammateAtkBuffValue : 0
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // x[Stats.ATK] += (r.benedictionBuff) ? x[Stats.ATK] * skillAtkBoostMax : 0
 
@@ -131,7 +131,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
     gpuFinalizeCalculations: (request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 if (${wgslTrue(r.benedictionBuff)}) {

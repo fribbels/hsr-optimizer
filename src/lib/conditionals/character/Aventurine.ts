@@ -111,7 +111,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e2ResShred: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       x[Stats.DEF_P] += (e >= 4 && r.e4DefBuff) ? 0.40 : 0
       x.ELEMENTAL_DMG += (e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0

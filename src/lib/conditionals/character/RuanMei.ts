@@ -109,7 +109,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       teamDmgBuff: 0.36,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += (e >= 2 && r.e2AtkBoost) ? 0.40 : 0

@@ -111,7 +111,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defaults: () => (defaults),
     teammateDefaults: () => (teammateDefaults),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling

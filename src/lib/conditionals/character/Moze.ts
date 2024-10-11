@@ -86,7 +86,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
     },
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       x.ELEMENTAL_DMG += (e >= 4 && r.e4DmgBuff) ? 0.30 : 0
 

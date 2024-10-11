@@ -82,7 +82,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       fireDmgBoost: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.DEF_P] += (r.talentBuffStacks) * talentStacksDefBuff

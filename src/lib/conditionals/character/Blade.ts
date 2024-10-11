@@ -72,7 +72,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     }),
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.CR] += (e >= 2 && r.enhancedStateActive) ? 0.15 : 0
@@ -95,7 +95,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       if (r.enhancedStateActive) {
         x.BASIC_DMG += basicEnhancedAtkScaling * x[Stats.ATK]
@@ -117,7 +117,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.FUA_DMG += (e >= 6) ? 0.50 * x[Stats.HP] : 0
     },
     gpuFinalizeCalculations: (request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       return `
 if (${wgslTrue(r.enhancedStateActive)}) {

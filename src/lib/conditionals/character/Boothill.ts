@@ -119,14 +119,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defaults: () => (defaults),
     teammateDefaults: () => ({}),
     initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       if (r.talentBreakDmgScaling) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
     },
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       x[Stats.BE] += (e >= 2 && r.e2BeBuff) ? 0.30 : 0
       x.VULNERABILITY += (r.standoffActive) ? standoffVulnerabilityBoost : 0

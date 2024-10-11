@@ -85,7 +85,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       targetDebuffs: 5,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Stats
 

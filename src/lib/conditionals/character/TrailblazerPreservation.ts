@@ -72,7 +72,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       skillActive: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.DEF_P] += (e >= 6) ? r.e6DefStacks * 0.10 : 0
@@ -97,7 +97,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.DMG_RED_MULTI *= (m.skillActive) ? (1 - 0.15) : 1
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       if (r.enhancedBasic) {
         x.BASIC_DMG += basicEnhancedAtkScaling * x[Stats.ATK]
@@ -113,7 +113,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_DMG += ultDefScaling * x[Stats.DEF]
     },
     gpuFinalizeCalculations: (request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       return `
 if (${wgslTrue(r.enhancedBasic)}) {

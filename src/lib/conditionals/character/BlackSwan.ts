@@ -96,7 +96,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling

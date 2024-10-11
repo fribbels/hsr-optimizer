@@ -72,7 +72,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     }),
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += (e >= 2 && r.e2UltAtkBuff) ? 0.30 : 0
@@ -100,12 +100,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
       const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[request.enemyCount] : hitMultiSingle
       standardFuaAtkFinalizer(x, request, hitMulti)
     },
     gpuFinalizeCalculations: (request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
       const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[request.enemyCount] : hitMultiSingle
       return gpuStandardFuaAtkFinalizer(hitMulti)
     },

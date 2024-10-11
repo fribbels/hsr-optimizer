@@ -126,7 +126,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defaults: () => (defaults),
     teammateDefaults: () => (teammateDefaults),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       x[Stats.SPD_P] += (e >= 1 && r.selfSpdBuff) ? 0.10 : 0
       buffAbilityDmg(x, BASIC_TYPE, talentDmgBuff, (r.talentDmgBuff))

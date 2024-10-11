@@ -135,7 +135,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e4TeamResBuff: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       x.BASIC_SCALING += basicScaling
       x.ULT_SCALING += (r.concertoActive) ? ultScaling : 0
@@ -164,7 +164,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       buffAbilityCd(x, FUA_TYPE, 0.25, (t.traceFuaCdBoost && t.concertoActive))
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       x[Stats.ATK] += (r.concertoActive) ? x[Stats.ATK] * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
 
@@ -175,7 +175,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
     gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
       return `
 if (${wgslTrue(r.concertoActive)}) {
   buffDynamicATK(x.ATK * ${ultAtkBuffScalingValue} + ${ultAtkBuffFlatValue}, p_x, p_state);

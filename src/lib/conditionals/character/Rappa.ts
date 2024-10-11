@@ -123,14 +123,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e4SpdBuff: true,
     }),
     initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       if (r.sealformActive) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
     },
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       x[Stats.BE] += (r.sealformActive) ? ultBeBuff : 0
       x.BREAK_EFFICIENCY_BOOST += (r.sealformActive) ? 0.50 : 0

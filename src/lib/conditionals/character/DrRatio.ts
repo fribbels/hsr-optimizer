@@ -38,7 +38,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   }
 
   function getHitMulti(request: Form) {
-    const r = request.characterConditionals
+    const r = action.characterConditionals
     return e >= 2
       ? fuaMultiByDebuffs[Math.min(4, r.enemyDebuffStacks)]
       : baseHitMulti
@@ -73,7 +73,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     }),
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.CR] += r.summationStacks * 0.025

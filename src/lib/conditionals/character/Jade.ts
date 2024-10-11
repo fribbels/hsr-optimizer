@@ -34,7 +34,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   }
 
   function getHitMulti(request: Form) {
-    const r = request.characterConditionals
+    const r = action.characterConditionals
     return r.enhancedFollowUp
       ? enhancedHitMultiByTargets[request.enemyCount]
       : unenhancedHitMultiByTargets[request.enemyCount]
@@ -129,7 +129,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defaults: () => (defaults),
     teammateDefaults: () => (teammateDefaults),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       x[Stats.CD] += r.pawnedAssetStacks * pawnedAssetCdScaling
       x[Stats.ATK_P] += r.pawnedAssetStacks * 0.005

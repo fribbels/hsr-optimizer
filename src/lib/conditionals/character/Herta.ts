@@ -56,7 +56,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   }
 
   function getHitMulti(request: Form) {
-    const r = request.characterConditionals
+    const r = action.characterConditionals
 
     const hitMultiStacks = getHitMultiByTargetsAndHits(r.fuaStacks, request)
     const hitMultiByTargets: NumberToNumberMap = {
@@ -148,7 +148,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     }),
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += (r.techniqueBuff) ? 0.40 : 0

@@ -96,19 +96,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       teammateBeValue: 2.00,
     }),
     initializeConfigurations: (x: ComputedStatsObject, request: Form, context: OptimizerContext) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
       if (r.superBreakDmg) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
     },
     initializeTeammateConfigurations: (x: ComputedStatsObject, request: Form, context: OptimizerContext) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
       if (r.superBreakDmg) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
     },
     precomputeEffects: (x: ComputedStatsObject, request: Form, context: OptimizerContext) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.ERR] += (e >= 2 && r.e2EnergyRegenBuff) ? 0.25 : 0

@@ -86,7 +86,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e1EffectResShred: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       // Scaling
       x.BASIC_SCALING += basicScaling

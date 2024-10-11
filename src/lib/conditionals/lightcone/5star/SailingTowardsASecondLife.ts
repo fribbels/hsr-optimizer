@@ -44,7 +44,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       spdBuffConditional: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
       buffAbilityDefPen(x, BREAK_TYPE, sValuesDefShred[s], (r.breakDmgDefShred))
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {

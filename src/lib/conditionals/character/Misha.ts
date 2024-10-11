@@ -68,7 +68,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e2DefReduction: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+      const r = action.characterConditionals
 
       x[Stats.CD] += (r.enemyFrozen) ? 0.30 : 0
 

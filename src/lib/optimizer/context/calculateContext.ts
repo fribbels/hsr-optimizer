@@ -12,10 +12,20 @@ export function generateContext(request: Form): OptimizerContext {
   generateEnemyContext(request, context)
   generateBaseStatsContext(request, context)
   generateCharacterMetadataContext(request, context)
+  generateCombatBuffsContext(request, context)
+  generateFiltersContext(request, context)
 
   calculateConditionals(request, context)
 
   return context as OptimizerContext
+}
+
+function generateCombatBuffsContext(request: OptimizerContext, context: OptimizerContext) {
+
+}
+
+function generateFiltersContext(request: OptimizerContext, context: OptimizerContext) {
+  
 }
 
 function calculateConditionals(request: Form, context: OptimizerContext) {

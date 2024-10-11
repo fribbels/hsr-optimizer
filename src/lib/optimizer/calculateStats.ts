@@ -165,8 +165,12 @@ export function calculateBaseStats(c: BasicStatsObject, request: Form, params: O
 }
 
 export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
-  params.characterConditionals = CharacterConditionals.get(request)
-  params.lightConeConditionals = LightConeConditionals.get(request)
+  if (!params.characterConditionals) {
+    params.characterConditionals = CharacterConditionals.get(request)
+  }
+  if (!params.lightConeConditionals) {
+    params.lightConeConditionals = LightConeConditionals.get(request)
+  }
 
   const sets = x.sets
 

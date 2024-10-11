@@ -33,10 +33,6 @@ type OptimizerEventData = {
   skip: number
 }
 
-function clone() {
-
-}
-
 self.onmessage = function (e: MessageEvent) {
   // console.log('Message received from main script', e.data)
   // console.log("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
@@ -120,7 +116,7 @@ self.onmessage = function (e: MessageEvent) {
 
     c.relicSetIndex = relicSetIndex
     c.ornamentSetIndex = ornamentSetIndex
-    c.x = { ...params.precomputedX }
+    c.x = {}
 
     calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope)
     calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
@@ -151,16 +147,8 @@ self.onmessage = function (e: MessageEvent) {
 
     let combo = 0
     for (let i = context.actions.length - 1; i >= 0; i--) {
-      const originalAction = context.actions[i]
-      const action = {
-        characterConditionals: originalAction.characterConditionals,
-        lightConeConditionals: originalAction.characterConditionals,
-        conditionalRegistry: originalAction.conditionalRegistry,
-        precomputedX: { ...originalAction.precomputedX },
-        conditionalState: {}
-      } as OptimizerAction
+      const action = setupAction(c, i, context)
       const ax = action.precomputedX
-      ax.sets = c.x.sets
 
       calculateComputedStats(c, ax, request, params, action, context)
       calculateBaseMultis(ax, request, params, action, context)
@@ -178,7 +166,6 @@ self.onmessage = function (e: MessageEvent) {
       if (action.actionType === 'FUA') {
         combo += ax.FUA_DMG
       }
-
 
       if (i === 0) {
         c.x = ax
@@ -263,4 +250,26 @@ function generateResultMinFilter(request: Form, combatDisplay: string) {
       failsCombatFilter: () => false,
     }
   }
+}
+
+function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) {
+  const originalAction = context.actions[i]
+  const ax = cloneX(originalAction)
+  ax.sets = c.x.sets
+  const action = {
+    characterConditionals: originalAction.characterConditionals,
+    lightConeConditionals: originalAction.characterConditionals,
+    conditionalRegistry: originalAction.conditionalRegistry,
+    actionType: originalAction.actionType,
+    precomputedX: ax,
+    conditionalState: {}
+  } as OptimizerAction
+
+  return action
+}
+
+function cloneX(originalAction: OptimizerAction) {
+  const x = originalAction.precomputedX
+  return {...x}
+  // return Object.assign({}, x) // Firefox
 }

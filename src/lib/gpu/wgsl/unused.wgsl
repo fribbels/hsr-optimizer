@@ -430,7 +430,7 @@ function startTests2() {
    // 8937ms - StructuredClone
    // 2662ms - Assign
    // 3014ms - Custom
-   // 17ms - Create
+   // 17ms - N/A - Creation time
 
    // Firefox
    // 7191ms - Stringify
@@ -439,7 +439,7 @@ function startTests2() {
    // 10590ms - StructuredClone
    // 241ms - Assign
    // 1060ms - Custom
-   // 177ms - Create
+   // 177ms - N/A - Creation time
 
    // Opera
    // 6103ms - Stringify
@@ -448,6 +448,6 @@ function startTests2() {
    // 8401ms - StructuredClone
    // 2386ms - Assign
    // 2620ms - Custom
-   // 16ms - Create
+   // 16ms - N/A - Creation time
 }
 */

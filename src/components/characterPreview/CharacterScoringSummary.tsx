@@ -495,10 +495,10 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </pre>{/* Character main stats/100% benchmark main stats/200% perfect main stats */}
           <Flex gap={defaultGap} justify='space-around'>
             <Flex vertical gap={10}>
-              <ScoringStat stat={t(`common:ReadableStats.${request.simBody}`)} part={Parts.Body}/>
-              <ScoringStat stat={t(`common:ReadableStats.${request.simFeet}`)} part={Parts.Feet}/>
-              <ScoringStat stat={t(`common:ReadableStats.${request.simPlanarSphere}`)} part={Parts.PlanarSphere}/>
-              <ScoringStat stat={t(`common:ReadableStats.${request.simLinkRope}`)} part={Parts.LinkRope}/>
+              <ScoringStat stat={request.simBody !== 'NONE' ? t(`common:ReadableStats.${request.simBody}`) : ''} part={Parts.Body}/>
+              <ScoringStat stat={request.simFeet !== 'NONE' ? t(`common:ReadableStats.${request.simFeet}`) : ''} part={Parts.Feet}/>
+              <ScoringStat stat={request.simPlanarSphere !== 'NONE' ? t(`common:ReadableStats.${request.simPlanarSphere}`) : ''} part={Parts.PlanarSphere}/>
+              <ScoringStat stat={request.simLinkRope !== 'NONE' ? t(`common:ReadableStats.${request.simLinkRope}`) : ''} part={Parts.LinkRope}/>
             </Flex>
           </Flex>
         </Flex>

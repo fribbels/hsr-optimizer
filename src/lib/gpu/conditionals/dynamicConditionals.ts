@@ -79,7 +79,7 @@ export const AventurineConversionConditional: DynamicConditional = {
 
     return buffValue
   },
-  gpu: function (request: Form, _params: OptimizerParams) {
+  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
@@ -266,7 +266,7 @@ export const BlackSwanConversionConditional: DynamicConditional = {
     action.conditionalState[this.id] = buffValue
     x.ELEMENTAL_DMG += buffValue - stateValue
   },
-  gpu: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
@@ -304,7 +304,7 @@ export const RappaConversionConditional: DynamicConditional = {
     action.conditionalState[this.id] = buffValue
     x.BREAK_VULNERABILITY += buffValue - stateValue
   },
-  gpu: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
@@ -371,7 +371,7 @@ export const RuanMeiConversionConditional: DynamicConditional = {
     action.conditionalState[this.id] = buffValue
     x.ELEMENTAL_DMG += buffValue - stateValue
   },
-  gpu: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
@@ -406,7 +406,7 @@ export const JiaoqiuConversionConditional: DynamicConditional = {
     action.conditionalState[this.id] = buffValue
     buffStat(x, request, params, Stats.ATK, buffValue - stateValue, action, context)
   },
-  gpu: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `

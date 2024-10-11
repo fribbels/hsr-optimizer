@@ -1,8 +1,8 @@
 import { ComboBooleanConditional, ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { Form } from 'types/Form'
 import { OptimizerAction, OptimizerContext, SetConditional, TeammateAction } from 'types/Optimizer'
-import { CharacterConditional } from 'types/CharacterConditional'
-import { LightConeConditional } from 'types/LightConeConditionals'
+import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterConditional'
+import { LightConeConditional, LightConeConditionalMap } from 'types/LightConeConditionals'
 import { SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets, Stats } from 'lib/constants'
 import { baseComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { CharacterConditionals } from 'lib/characterConditionals'
@@ -65,25 +65,25 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
   action.actionIndex = actionIndex
   action.actionType = comboAbilities[actionIndex]
 
-  action.characterConditionals = transformConditionals(actionIndex, comboState.comboCharacter.characterConditionals) as CharacterConditional
-  action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.lightConeConditionals) as LightConeConditional
+  action.characterConditionals = transformConditionals(actionIndex, comboState.comboCharacter.characterConditionals) as CharacterConditionalMap
+  action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.lightConeConditionals) as LightConeConditionalMap
   action.setConditionals = transformSetConditionals(actionIndex, comboState.comboCharacter.setConditionals) as SetConditional
 
   action.precomputedX = Object.assign({}, baseComputedStatsObject)
 
   if (comboState.comboTeammate0) {
-    action.teammate0.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate0.characterConditionals) as CharacterConditional
-    action.teammate0.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate0.lightConeConditionals) as LightConeConditional
+    action.teammate0.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate0.characterConditionals) as CharacterConditionalMap
+    action.teammate0.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate0.lightConeConditionals) as LightConeConditionalMap
   }
 
   if (comboState.comboTeammate1) {
-    action.teammate1.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate1.characterConditionals) as CharacterConditional
-    action.teammate1.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate1.lightConeConditionals) as LightConeConditional
+    action.teammate1.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate1.characterConditionals) as CharacterConditionalMap
+    action.teammate1.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate1.lightConeConditionals) as LightConeConditionalMap
   }
 
   if (comboState.comboTeammate2) {
-    action.teammate2.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate2.characterConditionals) as CharacterConditional
-    action.teammate2.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate2.lightConeConditionals) as LightConeConditional
+    action.teammate2.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate2.characterConditionals) as CharacterConditionalMap
+    action.teammate2.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate2.lightConeConditionals) as LightConeConditionalMap
   }
 
   precomputeConditionals(action, comboState, context)
@@ -149,12 +149,12 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
     // const teammateLightConeConditional = transformConditionals(action.actionIndex, teammates[i].lightConeConditionals) as LightConeConditional
 
     const teammateAction: TeammateAction = {
-      characterConditionals: transformConditionals(action.actionIndex, teammates[i].characterConditionals) as CharacterConditional,
-      lightConeConditionals: transformConditionals(action.actionIndex, teammates[i].lightConeConditionals) as LightConeConditional
+      characterConditionals: transformConditionals(action.actionIndex, teammates[i].characterConditionals) as CharacterConditionalMap,
+      lightConeConditionals: transformConditionals(action.actionIndex, teammates[i].lightConeConditionals) as CharacterConditionalMap
     }
 
     const teammateCharacterConditionals = CharacterConditionals.get(teammates[i].metadata) as CharacterConditional
-    const teammateLightConeConditionals = LightConeConditionals.get(teammates[i].metadata) as LightConeConditional
+    const teammateLightConeConditionals = LightConeConditionals.get(teammates[i].metadata) as CharacterConditional
 
     if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateAction as unknown as Form, context)
     if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateAction as unknown as Form, context)

@@ -20,12 +20,12 @@ export function generateContext(request: Form): OptimizerContext {
   return context as OptimizerContext
 }
 
-function generateCombatBuffsContext(request: OptimizerContext, context: OptimizerContext) {
+function generateCombatBuffsContext(request: Form, context: OptimizerContext) {
 
 }
 
-function generateFiltersContext(request: OptimizerContext, context: OptimizerContext) {
-  
+function generateFiltersContext(request: Form, context: OptimizerContext) {
+
 }
 
 function calculateConditionals(request: Form, context: OptimizerContext) {

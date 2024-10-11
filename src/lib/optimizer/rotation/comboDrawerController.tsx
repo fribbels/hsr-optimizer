@@ -2,7 +2,7 @@ import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterCo
 import { ConditionalMap, ContentItem } from 'types/Conditionals'
 import { Form, Teammate } from 'types/Form'
 import { CharacterConditionals } from 'lib/characterConditionals'
-import { ConditionalLightConeMap, LightConeConditional } from 'types/LightConeConditionals'
+import { LightConeConditional, LightConeConditionalMap } from 'types/LightConeConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { defaultSetConditionals } from 'lib/defaultForm'
 import { SetsOrnaments, SetsRelics } from 'lib/constants'
@@ -291,7 +291,7 @@ function generateComboTeammate(teammate: Teammate, actionCount: number) {
   if (!teammate?.characterId) return null
 
   const characterConditionals = teammate.characterConditionals || {} as CharacterConditionalMap
-  const lightConeConditionals = teammate.lightConeConditionals || {} as ConditionalLightConeMap
+  const lightConeConditionals = teammate.lightConeConditionals || {} as LightConeConditionalMap
 
   const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(teammate)
   const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(teammate)

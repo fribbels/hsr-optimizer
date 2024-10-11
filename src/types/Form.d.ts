@@ -3,7 +3,7 @@ import { Relic, RelicEnhance, RelicGrade } from 'types/Relic'
 import { CharacterId, Eidolon } from 'types/Character'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { RelicSet } from 'types/RelicSet'
-import { ConditionalLightConeMap } from 'types/LightConeConditionals'
+import { LightConeConditionalMap } from 'types/LightConeConditionals'
 import { CharacterConditionalMap } from 'types/CharacterConditional'
 import { SetsOrnaments } from 'lib/constants'
 
@@ -18,7 +18,7 @@ export type Teammate = {
   teamOrnamentSet?: string
   teamRelicSet?: string
   characterConditionals?: CharacterConditionalMap
-  lightConeConditionals?: ConditionalLightConeMap
+  lightConeConditionals?: LightConeConditionalMap
 } & Form
 
 export type Form = {
@@ -39,7 +39,7 @@ export type Form = {
   includeEquippedRelics: boolean
   keepCurrentRelics: boolean
   lightCone: string
-  lightConeConditionals: ConditionalLightConeMap
+  lightConeConditionals: LightConeConditionalMap
   lightConeLevel: number
   lightConeSuperimposition: SuperImpositionLevel
   mainBody: Relic[]

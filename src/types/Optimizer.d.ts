@@ -1,13 +1,13 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { CharacterConditional } from 'types/CharacterConditional'
-import { LightConeConditional } from 'types/LightConeConditionals'
+import { CharacterConditionalMap } from 'types/CharacterConditional'
+import { LightConeConditionalMap } from 'types/LightConeConditionals'
 import { ConditionalRegistry } from 'lib/optimizer/calculateConditionals'
 
 export type OptimizerAction = {
   precomputedX: ComputedStatsObject
 
-  characterConditionals: CharacterConditional
-  lightConeConditionals: LightConeConditional
+  characterConditionals: CharacterConditionalMap
+  lightConeConditionals: LightConeConditionalMap
   setConditionals: SetConditional
 
   conditionalRegistry: ConditionalRegistry
@@ -23,8 +23,8 @@ export type OptimizerAction = {
 }
 
 export type TeammateAction = {
-  characterConditionals: CharacterConditional
-  lightConeConditionals: LightConeConditional
+  characterConditionals: CharacterConditionalMap
+  lightConeConditionals: LightConeConditionalMap
 }
 
 export type SetConditional = {

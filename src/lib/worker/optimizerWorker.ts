@@ -1,17 +1,14 @@
 import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants'
 import { BufferPacker } from '../bufferPacker.js'
-import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats.ts'
+import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
-import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
-import { calculateConditionalRegistry, calculateConditionals } from 'lib/optimizer/calculateConditionals'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { Form } from 'types/Form'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { OptimizerContext } from 'types/Optimizer'
+import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
@@ -36,9 +33,13 @@ type OptimizerEventData = {
   skip: number
 }
 
+function clone() {
+
+}
+
 self.onmessage = function (e: MessageEvent) {
-  console.log('Message received from main script', e.data)
-  console.log("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
+  // console.log('Message received from main script', e.data)
+  // console.log("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
 
   const data: OptimizerEventData = e.data
   const request: Form = data.request
@@ -65,14 +66,15 @@ self.onmessage = function (e: MessageEvent) {
   const {
     failsBasicFilter,
     failsCombatFilter,
+    // @ts-ignore
   } = generateResultMinFilter(request, combatDisplay)
 
   params.characterConditionals = CharacterConditionals.get(request)
   params.lightConeConditionals = LightConeConditionals.get(request)
 
   // TODO: Can move teammates into precompute step as well
-  calculateConditionals(request, params)
-  calculateTeammates(request, params)
+  // calculateConditionals(request, params)
+  // calculateTeammates(request, params)
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
@@ -83,7 +85,7 @@ self.onmessage = function (e: MessageEvent) {
       break
     }
 
-    calculateConditionalRegistry(request, params)
+    // calculateConditionalRegistry(request, params)
 
     const l = (index % lSize)
     const p = (((index - l) / lSize) % pSize)
@@ -115,11 +117,10 @@ self.onmessage = function (e: MessageEvent) {
     }
 
     const c: BasicStatsObject = { ...baseCharacterStats } as BasicStatsObject
-    const x: ComputedStatsObject = { ...params.precomputedX }
 
     c.relicSetIndex = relicSetIndex
     c.ornamentSetIndex = ornamentSetIndex
-    c.x = x
+    c.x = { ...params.precomputedX }
 
     calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope)
     calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
@@ -148,58 +149,44 @@ self.onmessage = function (e: MessageEvent) {
       }
     }
 
-    const actions = [
-      {
-        type: 'COMBAT',
-        buffs: [],
-      },
-      {
-        type: 'ULT',
-        buffs: [],
-      },
-      {
-        type: 'SKILL',
-        buffs: [],
-      },
-      {
-        type: 'SKILL',
-        buffs: [],
-      },
-      {
-        type: 'SKILL',
-        buffs: [],
-      },
-    ]
-
-    calculateComputedStats(c, request, params, actions)
-
     let combo = 0
-    for (const action of actions) {
-      const ax = {
-        ...x,
+    for (let i = context.actions.length - 1; i >= 0; i--) {
+      const originalAction = context.actions[i]
+      const action = {
+        characterConditionals: originalAction.characterConditionals,
+        lightConeConditionals: originalAction.characterConditionals,
+        conditionalRegistry: originalAction.conditionalRegistry,
+        precomputedX: { ...originalAction.precomputedX },
+        conditionalState: {}
+      } as OptimizerAction
+      const ax = action.precomputedX
+      ax.sets = c.x.sets
+
+      calculateComputedStats(c, ax, request, params, action, context)
+      calculateBaseMultis(ax, request, params, action, context)
+      calculateDamage(ax, request, params, action, context)
+
+      if (action.actionType === 'BASIC') {
+        combo += ax.BASIC_DMG
       }
-
-      for (const buff of action.buffs) {
-        if (buff.stat == 'Ability DMG') {
-          buffAbilityDmg(ax, buff.dmgType, buff.value)
-        }
-      }
-
-      calculateBaseMultis(ax, request, params)
-      calculateDamage(ax, request, params)
-
-      if (action.type == 'SKILL') {
+      if (action.actionType === 'SKILL') {
         combo += ax.SKILL_DMG
       }
-      if (action.type == 'ULT') {
+      if (action.actionType === 'ULT') {
         combo += ax.ULT_DMG
+      }
+      if (action.actionType === 'FUA') {
+        combo += ax.FUA_DMG
+      }
+
+
+      if (i === 0) {
+        c.x = ax
       }
     }
 
-    calculateBaseMultis(x, request, params)
-    calculateDamage(x, request, params)
-
-    x.COMBO_DMG = combo
+    c.x.COMBO_DMG = combo
+    let x = c.x
 
     if (failsCombatFilter(x)) {
       continue
@@ -251,7 +238,9 @@ self.onmessage = function (e: MessageEvent) {
 }
 
 function generateResultMinFilter(request: Form, combatDisplay: string) {
+  // @ts-ignore
   const filter = request.resultMinFilter
+  // @ts-ignore
   const sortOption = SortOption[request.resultSort]
   const isComputedRating = sortOption.isComputedRating
 

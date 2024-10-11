@@ -1,7 +1,7 @@
 import { Stats } from 'lib/constants'
 import { p2 } from 'lib/optimizer/optimizerUtils'
 
-export function calculateBaseMultis(x, request, params, context) {
+export function calculateBaseMultis(x, request, params, action, context) {
   const lightConeConditionals = params.lightConeConditionals
   const characterConditionals = params.characterConditionals
 
@@ -9,7 +9,7 @@ export function calculateBaseMultis(x, request, params, context) {
   if (characterConditionals.finalizeCalculations) characterConditionals.finalizeCalculations(x, request, context)
 }
 
-export function calculateDamage(x, request, params, context) {
+export function calculateDamage(x, request, params, action, context) {
   const sets = x.sets
   const cLevel = 80
   const eLevel = request.enemyLevel

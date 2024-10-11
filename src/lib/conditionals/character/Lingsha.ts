@@ -12,6 +12,7 @@ import { buffStat, conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/co
 import { TsUtils } from 'lib/TsUtils'
 import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lingsha')
@@ -159,31 +160,31 @@ const LingshaConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.BE],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
     return true
   },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-    const r = request.characterConditionals
+  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+    const r = action.characterConditionals
     if (!r.beConversion) {
       return
     }
 
-    const stateValue = params.conditionalState[this.id] || 0
-    const buffValueAtk = Math.min(0.50, 0.25 * x[Stats.BE]) * request.baseAtk
+    const stateValue = action.conditionalState[this.id] || 0
+    const buffValueAtk = Math.min(0.50, 0.25 * x[Stats.BE]) * context.baseATK
     const buffValueOhb = Math.min(0.20, 0.10 * x[Stats.BE])
 
-    const stateBuffValueAtk = Math.min(0.50, 0.25 * stateValue) * request.baseAtk
+    const stateBuffValueAtk = Math.min(0.50, 0.25 * stateValue) * context.baseATK
     const stateBuffValueOhb = Math.min(0.20, 0.10 * stateValue)
 
-    params.conditionalState[this.id] = x[Stats.BE]
+    action.conditionalState[this.id] = x[Stats.BE]
 
     const finalBuffAtk = buffValueAtk - (stateValue ? stateBuffValueAtk : 0)
     const finalBuffOhb = buffValueOhb - (stateValue ? stateBuffValueOhb : 0)
 
-    buffStat(x, request, params, Stats.ATK, finalBuffAtk)
-    buffStat(x, request, params, Stats.OHB, finalBuffOhb)
+    buffStat(x, request, params, Stats.ATK, finalBuffAtk, action, context)
+    buffStat(x, request, params, Stats.OHB, finalBuffOhb, action, context)
   },
-  gpu: function (request: Form, _params: OptimizerParams) {
+  gpu: function (request: Form, _params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
     const r = request.characterConditionals
 
     return conditionalWgslWrapper(this, `

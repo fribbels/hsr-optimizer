@@ -11,6 +11,7 @@ import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { OptimizerContext } from 'types/Optimizer'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
@@ -26,6 +27,7 @@ type OptimizerEventData = {
   }
   request: Form
   params: OptimizerParams
+  context: OptimizerContext
   buffer: ArrayBuffer
   relicSetSolutions: number[]
   ornamentSetSolutions: number[]
@@ -35,12 +37,13 @@ type OptimizerEventData = {
 }
 
 self.onmessage = function (e: MessageEvent) {
-  // console.log('Message received from main script', e.data)
-  // console.log("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
+  console.log('Message received from main script', e.data)
+  console.log("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
 
   const data: OptimizerEventData = e.data
   const request: Form = data.request
   const params: OptimizerParams = data.params
+  const context: OptimizerContext = data.context
 
   const relics = data.relics
   const arr = new Float64Array(data.buffer)
@@ -70,11 +73,6 @@ self.onmessage = function (e: MessageEvent) {
   // TODO: Can move teammates into precompute step as well
   calculateConditionals(request, params)
   calculateTeammates(request, params)
-
-  type OptimizerActions = {
-    type: string
-    buffs: string[]
-  }
 
   const limit = Math.min(data.permutations, data.WIDTH)
 

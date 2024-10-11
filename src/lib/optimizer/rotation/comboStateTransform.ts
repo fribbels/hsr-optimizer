@@ -18,7 +18,9 @@ export function transformComboState(request: Form, context: OptimizerContext) {
   console.debug(request)
   console.debug(context)
 
-  if (!request.comboStateJson || request.comboStateJson == '{}') return
+  if (!request.comboStateJson || request.comboStateJson == '{}') {
+    request.comboType = 'simple'
+  }
 
   if (request.comboType == 'advanced') {
     const comboState = initializeComboState(request, true)
@@ -92,8 +94,8 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
 
   const x = action.precomputedX
 
-  lightConeConditionals.initializeConfigurations?.(x, action as unknown as Form) // TODO
-  characterConditionals.initializeConfigurations?.(x, action as unknown as Form) // TODO
+  lightConeConditionals.initializeConfigurations?.(x, action as unknown as Form, context) // TODO
+  characterConditionals.initializeConfigurations?.(x, action as unknown as Form, context) // TODO
 
   const teammates = [
     comboState.comboTeammate0,
@@ -106,8 +108,8 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
     const teammateCharacterConditionals = CharacterConditionals.get(teammates[i].metadata) as CharacterConditional
     const teammateLightConeConditionals = LightConeConditionals.get(teammates[i].metadata) as LightConeConditional
 
-    teammateCharacterConditionals.initializeTeammateConfigurations?.(x, teammateRequest as unknown as Form)
-    teammateLightConeConditionals.initializeTeammateConfigurations?.(x, teammateRequest as unknown as Form)
+    teammateCharacterConditionals.initializeTeammateConfigurations?.(x, teammateRequest as unknown as Form, context)
+    teammateLightConeConditionals.initializeTeammateConfigurations?.(x, teammateRequest as unknown as Form, context)
   }
 
   // Precompute stage
@@ -115,15 +117,15 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
   characterConditionals.precomputeEffects?.(x, action as unknown as Form, context)
 
   // Precompute mutual stage
-  lightConeConditionals.precomputeMutualEffects?.(x, action as unknown as Form)
-  characterConditionals.precomputeMutualEffects?.(x, action as unknown as Form)
+  lightConeConditionals.precomputeMutualEffects?.(x, action as unknown as Form, context)
+  characterConditionals.precomputeMutualEffects?.(x, action as unknown as Form, context)
 
-  precomputeTeammates(action, comboState)
+  precomputeTeammates(action, comboState, context)
   // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
   // x.ENEMY_WEAKNESS_BROKEN = x.ENEMY_WEAKNESS_BROKEN || (request.enemyWeaknessBroken ? 1 : 0) // TODO
 }
 
-function precomputeTeammates(action: OptimizerAction, comboState: ComboState) {
+function precomputeTeammates(action: OptimizerAction, comboState: ComboState, context: OptimizerContext) {
   // Precompute teammate effects
   const x = action.precomputedX
   const teammateSetEffects = {}
@@ -148,11 +150,11 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState) {
     const teammateCharacterConditionals = CharacterConditionals.get(teammates[i].metadata) as CharacterConditional
     const teammateLightConeConditionals = LightConeConditionals.get(teammates[i].metadata) as LightConeConditional
 
-    if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateAction as unknown as Form)
-    if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateAction as unknown as Form)
+    if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateAction as unknown as Form, context)
+    if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateAction as unknown as Form, context)
 
-    if (teammateLightConeConditionals.precomputeMutualEffects) teammateLightConeConditionals.precomputeMutualEffects(x, teammateAction as unknown as Form)
-    if (teammateLightConeConditionals.precomputeTeammateEffects) teammateLightConeConditionals.precomputeTeammateEffects(x, teammateAction as unknown as Form)
+    if (teammateLightConeConditionals.precomputeMutualEffects) teammateLightConeConditionals.precomputeMutualEffects(x, teammateAction as unknown as Form, context)
+    if (teammateLightConeConditionals.precomputeTeammateEffects) teammateLightConeConditionals.precomputeTeammateEffects(x, teammateAction as unknown as Form, context)
 
 
     for (const [key, value] of [...Object.entries(teammateRequest.relicSetConditionals), ...Object.entries(teammateRequest.ornamentSetConditionals)]) {

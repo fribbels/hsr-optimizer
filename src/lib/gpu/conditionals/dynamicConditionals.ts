@@ -5,27 +5,28 @@ import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { indent, wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Form } from 'types/Form'
 import { precisionRound } from 'lib/conditionals/conditionalUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export type DynamicConditional = {
   id: string
   type: number
   activation: number
   dependsOn: string[]
-  condition: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => boolean | number
-  effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => void
-  gpu: (request: Form, params: OptimizerParams) => string
+  condition: (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) => boolean | number
+  effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) => void
+  gpu: (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) => string
   ratioConversion?: boolean
 }
 
-export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
   if (conditional.activation == ConditionalActivation.SINGLE) {
-    if (!params.conditionalState[conditional.id] && conditional.condition(x, request, params)) {
-      params.conditionalState[conditional.id] = 1
-      conditional.effect(x, request, params)
+    if (!action.conditionalState[conditional.id] && conditional.condition(x, request, params, action, context)) {
+      action.conditionalState[conditional.id] = 1
+      conditional.effect(x, request, params, action, context)
     }
   } else if (conditional.activation == ConditionalActivation.CONTINUOUS) {
-    if (conditional.condition(x, request, params)) {
-      conditional.effect(x, request, params)
+    if (conditional.condition(x, request, params, action, context)) {
+      conditional.effect(x, request, params, action, context)
     }
   } else {
 
@@ -41,7 +42,7 @@ ${indent(wgsl.trim(), 1)}
   `
 }
 
-export function buffStat(x: ComputedStatsObject, request: Form, params: OptimizerParams, stat: string, value: number) {
+export function buffStat(x: ComputedStatsObject, request: Form, params: OptimizerParams, stat: string, value: number, action: OptimizerAction, context: OptimizerContext) {
   // Self buffing stats will asymptotically reach 0
   if (value < 0.0001) {
     return
@@ -49,8 +50,8 @@ export function buffStat(x: ComputedStatsObject, request: Form, params: Optimize
 
   x[stat] += value
 
-  for (const conditional of params.conditionalRegistry[stat] || []) {
-    evaluateConditional(conditional, x, request, params)
+  for (const conditional of action.conditionalRegistry[stat] || []) {
+    evaluateConditional(conditional, x, request, params, action, context)
   }
 }
 

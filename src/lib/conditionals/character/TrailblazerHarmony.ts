@@ -7,6 +7,7 @@ import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerHarmony')
@@ -94,19 +95,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       superBreakDmg: true,
       teammateBeValue: 2.00,
     }),
-    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
+    initializeConfigurations: (x: ComputedStatsObject, request: Form, context: OptimizerContext) => {
       const r = request.characterConditionals
       if (r.superBreakDmg) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
     },
-    initializeTeammateConfigurations: (x: ComputedStatsObject, request: Form) => {
+    initializeTeammateConfigurations: (x: ComputedStatsObject, request: Form, context: OptimizerContext) => {
       const r = request.characterConditionals
       if (r.superBreakDmg) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
     },
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form, context: OptimizerContext) => {
       const r = request.characterConditionals
 
       // Stats
@@ -122,13 +123,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form, context: OptimizerContext) => {
       const m = request.characterConditionals
 
       x[Stats.BE] += (m.backupDancer) ? ultBeScaling : 0
-      x.SUPER_BREAK_HMC_MODIFIER += (m.backupDancer && m.superBreakDmg) ? targetsToSuperBreakMulti[request.enemyCount] : 0
+      x.SUPER_BREAK_HMC_MODIFIER += (m.backupDancer && m.superBreakDmg) ? targetsToSuperBreakMulti[context.enemyCount] : 0
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form, context: OptimizerContext) => {
       const t = request.characterConditionals
 
       x[Stats.BE] += (e >= 4) ? 0.15 * t.teammateBeValue : 0

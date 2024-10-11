@@ -12,13 +12,11 @@ import { indent } from 'lib/gpu/injection/wgslUtils'
 import { Constants } from 'lib/constants'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import { OptimizerContext } from 'types/Optimizer'
-import { calculateConditionalRegistry, calculateConditionals } from 'lib/optimizer/calculateConditionals'
-import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 
 export function generateWgsl(params: OptimizerParams, context: OptimizerContext, request: Form, gpuParams: GpuConstants) {
-  calculateConditionals(request, params)
-  calculateConditionalRegistry(request, params)
-  calculateTeammates(request, params)
+  // calculateConditionals(request, params)
+  // calculateConditionalRegistry(request, params)
+  // calculateTeammates(request, params)
 
   let wgsl = ''
 

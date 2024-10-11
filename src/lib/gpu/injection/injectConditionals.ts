@@ -15,16 +15,14 @@ export function injectConditionals(wgsl: string, request: Form, params: Optimize
   const characterConditionals: CharacterConditional = CharacterConditionals.get(request) as CharacterConditional
   const lightConeConditionals: LightConeConditional = LightConeConditionals.get(request) as LightConeConditional
 
-  const conditionalRegistry = params.conditionalRegistry
-
   if (lightConeConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
     '/* INJECT LIGHT CONE CONDITIONALS */',
-    indent(lightConeConditionals.gpuFinalizeCalculations(request, params), 2),
+    indent(lightConeConditionals.gpuFinalizeCalculations(request, params, context), 2),
   )
 
   if (characterConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
     '/* INJECT CHARACTER CONDITIONALS */',
-    indent(characterConditionals.gpuFinalizeCalculations(request, params), 2),
+    indent(characterConditionals.gpuFinalizeCalculations(request, params, context), 2),
   )
 
 
@@ -32,7 +30,7 @@ export function injectConditionals(wgsl: string, request: Form, params: Optimize
   let conditionalConstantsValues = '\n'
 
   if (characterConditionals.gpuConstants) {
-    for (const [key, value] of Object.entries(characterConditionals.gpuConstants(request, params))) {
+    for (const [key, value] of Object.entries(characterConditionals.gpuConstants(request, params, context))) {
       if (typeof value === 'number') {
         conditionalConstantsStruct += `${key}: f32,\n`
         conditionalConstantsValues += `${value}f,\n`
@@ -60,7 +58,7 @@ ${indent(conditionalConstantsValues, 2)}
     )
   }
 
-  wgsl += generateDynamicConditionals(conditionalRegistry, request, params)
+  wgsl += generateDynamicConditionals(request, params, context)
 
   // Actions
   const length = context.actions.length
@@ -162,9 +160,9 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
 }
 
 function generateDynamicConditionals(
-  registeredConditionals: ConditionalRegistry,
   request: Form,
   params: OptimizerParams,
+  context: OptimizerContext
 ) {
   let wgsl = ''
 
@@ -183,6 +181,8 @@ function generateDynamicConditionals(
     conditionalDefinitionsWgsl += conditionalWgsl.conditionalDefinitionsWgsl
     conditionalStateDefinition += conditionalWgsl.conditionalStateDefinition
   }
+
+  const registeredConditionals = context.actions[0].conditionalRegistry
 
   inject(generateDependencyEvaluator(registeredConditionals, Stats.HP, 'HP', request, params))
   inject(generateDependencyEvaluator(registeredConditionals, Stats.ATK, 'ATK', request, params))

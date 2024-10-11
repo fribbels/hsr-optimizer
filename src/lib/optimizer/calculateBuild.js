@@ -1,6 +1,4 @@
 import { generateParams } from 'lib/optimizer/calculateParams.ts'
-import { calculateConditionalRegistry, calculateConditionals } from 'lib/optimizer/calculateConditionals.ts'
-import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { OrnamentSetCount, OrnamentSetToIndex, RelicSetCount, RelicSetToIndex } from 'lib/constants'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats.ts'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
@@ -9,7 +7,8 @@ import { Constants } from 'lib/constants.ts'
 import { Utils } from 'lib/utils'
 import { RelicFilters } from 'lib/relicFilters'
 import DB from 'lib/db'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { generateContext } from 'lib/optimizer/context/calculateContext'
+import { transformComboState } from 'lib/optimizer/rotation/comboStateTransform'
 
 export function calculateBuildByCharacterEquippedIds(character) {
   console.log('character', character)
@@ -40,12 +39,18 @@ export function calculateBuild(request, relics, cachedParams = null, reuseReques
   }
 
   const params = cachedParams ?? generateParams(request)
+  // ============== Context
+
+  const context = generateContext(request)
+  transformComboState(request, context)
+
+  // ==============
 
   // The conditional registry gets used during each sim and needs to be regenerated
-  calculateConditionalRegistry(request, params)
+  // calculateConditionalRegistry(request, params)
   if (!cachedParams) {
-    calculateConditionals(request, params)
-    calculateTeammates(request, params)
+    // calculateConditionals(request, params)
+    // calculateTeammates(request, params)
   }
 
   // Compute
@@ -79,59 +84,37 @@ export function calculateBuild(request, relics, cachedParams = null, reuseReques
   calculateBaseStats(c, request, params)
   calculateElementalStats(c, request, params)
 
-  const actions = [
-    {
-      type: 'COMBAT',
-      buffs: [],
-    },
-    {
-      type: 'ULT',
-      buffs: [],
-    },
-    {
-      type: 'SKILL',
-      buffs: [],
-    },
-    {
-      type: 'SKILL',
-      buffs: [],
-    },
-    {
-      type: 'SKILL',
-      buffs: [],
-    },
-  ]
-
-  calculateComputedStats(c, request, params, actions)
-
   let combo = 0
-  for (const action of actions) {
+  for (let i = context.actions.length - 1; i >= 0; i--) {
+    const action = context.actions[i]
     const ax = {
-      ...x,
+      ...action.precomputedX,
     }
+    ax.sets = c.x.sets
 
-    for (const buff of action.buffs) {
-      if (buff.stat == 'Ability DMG') {
-        buffAbilityDmg(ax, buff.dmgType, buff.value)
-      }
+    calculateComputedStats(c, ax, request, params, action, context)
+    calculateBaseMultis(ax, request, params, action, context)
+    calculateDamage(ax, request, params, action, context)
+
+    if (action.actionType === 'BASIC') {
+      combo += ax.BASIC_DMG
     }
-
-    calculateBaseMultis(ax, request, params)
-    calculateDamage(ax, request, params)
-
-    if (action.type == 'SKILL') {
+    if (action.actionType === 'SKILL') {
       combo += ax.SKILL_DMG
     }
-    if (action.type == 'ULT') {
+    if (action.actionType === 'ULT') {
       combo += ax.ULT_DMG
+    }
+    if (action.actionType === 'FUA') {
+      combo += ax.FUA_DMG
+    }
+
+    if (i === 0) {
+      c.x = ax
     }
   }
 
-  calculateBaseMultis(x, request, params)
-  calculateDamage(x, request, params)
-
-  x.COMBO_DMG = combo
-
+  c.x.COMBO_DMG = combo
   return c
 }
 

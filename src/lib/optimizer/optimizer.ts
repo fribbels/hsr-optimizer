@@ -138,7 +138,7 @@ export const Optimizer = {
     const maxSize = Constants.THREAD_BUFFER_LENGTH
 
     const clonedParams = Utils.clone(params) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
-    // const clonedContext = Utils.clone(context) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
+    const clonedContext = Utils.clone(context) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
 
     let computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
 
@@ -168,6 +168,7 @@ export const Optimizer = {
         const task = {
           input: {
             params: clonedParams,
+            context: clonedContext,
             request: request,
             relics: relics,
             WIDTH: run.runSize,

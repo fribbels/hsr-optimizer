@@ -275,7 +275,21 @@ function generateSetComboConditionals(
   return output
 }
 
+function emptyTeammate() {
+  const comboTeammate: ComboTeammate = {
+    metadata: {} as ComboCharacterMetadata,
+    characterConditionals: {},
+    lightConeConditionals: {},
+    relicSetConditionals: {},
+    ornamentSetConditionals: {},
+  }
+
+  return comboTeammate
+}
+
 function generateComboTeammate(teammate: Teammate, actionCount: number) {
+  if (!teammate?.characterId) return null
+
   const characterConditionals = teammate.characterConditionals || {} as CharacterConditionalMap
   const lightConeConditionals = teammate.lightConeConditionals || {} as ConditionalLightConeMap
 

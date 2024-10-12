@@ -52,7 +52,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
       buffAbilityDmg(x, FUA_TYPE, sValuesFuaDmg[s] * Math.min(4, Math.floor(x[Stats.CD] - 1.20) / 0.20), (r.fuaDmgBoost))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+    gpuFinalizeCalculations: (context: OptimizerContext) => {
       const r = action.lightConeConditionals
 
       return `

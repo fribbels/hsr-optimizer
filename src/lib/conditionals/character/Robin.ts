@@ -175,7 +175,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+    gpuFinalizeCalculations: (context: OptimizerContext) => {
       const r = action.characterConditionals
       return `
 if (${wgslTrue(r.concertoActive)}) {

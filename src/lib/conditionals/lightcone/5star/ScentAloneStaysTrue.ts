@@ -65,7 +65,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
       x.VULNERABILITY += (r.woefreeState && x[Stats.BE] >= 1.50) ? sValuesVulnerabilityAdditional[s] : 0
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+    gpuFinalizeCalculations: (context: OptimizerContext) => {
       const r = action.lightConeConditionals
 
       return `

@@ -44,7 +44,7 @@ export interface Conditional {
   finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => void
 
   // WGSL implementation of finalizeCalculations to run on GPU
-  gpuFinalizeCalculations?: (action: OptimizerAction, context: OptimizerContext) => string
+  gpuFinalizeCalculations?: (context: OptimizerContext) => string
 
   // Injected constant values
   gpuConstants?: (action: OptimizerAction, context: OptimizerContext) => { [key: string]: number | boolean }

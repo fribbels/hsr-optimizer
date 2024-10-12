@@ -24,7 +24,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     defaults: () => ({
       hp50DefBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
 
       x[Stats.DEF_P] += (r.hp50DefBuff) ? sValues[s] : 0

@@ -3,11 +3,11 @@ import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } f
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { buffAbilityCd, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.March7thImaginary')
@@ -125,7 +125,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => (teammateDefaults),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       x[Stats.SPD_P] += (e >= 1 && r.selfSpdBuff) ? 0.10 : 0
@@ -146,9 +146,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals
 
       x[Stats.SPD_P] += (t.masterBuff) ? skillSpdScaling : 0
@@ -156,10 +156,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x[Stats.CD] += (t.masterBuff && t.masterCdBeBuffs) ? 0.60 : 0
       x[Stats.BE] += (t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, fuaHitCountMulti)
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, fuaHitCountMulti)
     },
-    gpuFinalizeCalculations: (request: Form) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardFuaAtkFinalizer(fuaHitCountMulti)
     },
   }

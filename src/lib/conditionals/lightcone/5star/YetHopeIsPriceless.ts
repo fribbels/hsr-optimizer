@@ -42,12 +42,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       fuaDmgBoost: true,
       ultFuaDefShred: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
 
       buffAbilityDefPen(x, ULT_TYPE | FUA_TYPE, sValuesUltFuaDefShred[s], (r.ultFuaDefShred))
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
 
       buffAbilityDmg(x, FUA_TYPE, sValuesFuaDmg[s] * Math.min(4, Math.floor(x[Stats.CD] - 1.20) / 0.20), (r.fuaDmgBoost))

@@ -39,7 +39,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       eclipseStacks: 3,
       maxStackDefPen: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
       x.ELEMENTAL_DMG += r.eclipseStacks * sValuesStackDmg[s]
       x.DEF_PEN += (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0

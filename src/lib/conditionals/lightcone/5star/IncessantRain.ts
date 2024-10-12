@@ -44,12 +44,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     teammateDefaults: () => ({
       targetCodeDebuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
 
       x[Stats.CR] += (r.enemy3DebuffsCrBoost) ? sValuesCr[s] : 0
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = request.lightConeConditionals
 
       x.VULNERABILITY += (m.targetCodeDebuff) ? sValuesDmg[s] : 0

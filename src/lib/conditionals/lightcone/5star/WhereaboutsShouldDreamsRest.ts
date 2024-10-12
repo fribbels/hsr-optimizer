@@ -28,7 +28,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     defaults: () => ({
       routedVulnerability: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
 
       x.VULNERABILITY += (r.routedVulnerability) ? sValuesVulnerability[s] : 0

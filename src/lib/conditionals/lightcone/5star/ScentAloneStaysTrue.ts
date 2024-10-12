@@ -48,19 +48,19 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       woefreeState: true,
       additionalVulnerability: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = request.lightConeConditionals
 
       x.VULNERABILITY += (m.woefreeState) ? sValuesVulnerability[s] : 0
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const t = request.lightConeConditionals
 
       x.VULNERABILITY += (t.woefreeState && t.additionalVulnerability) ? sValuesVulnerabilityAdditional[s] : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
 
       x.VULNERABILITY += (r.woefreeState && x[Stats.BE] >= 1.50) ? sValuesVulnerabilityAdditional[s] : 0

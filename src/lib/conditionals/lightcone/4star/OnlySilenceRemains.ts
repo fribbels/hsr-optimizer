@@ -24,7 +24,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     defaults: () => ({
       enemies2CrBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
 
       x[Stats.CR] += (r.enemies2CrBuff && request.enemyCount <= 2) ? sValues[s] : 0

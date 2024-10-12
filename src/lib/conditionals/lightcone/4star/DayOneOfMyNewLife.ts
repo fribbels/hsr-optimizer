@@ -29,7 +29,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     }),
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = request.lightConeConditionals
 
       // TODO: This is technically a DMG RES buff not a DMG Reduction buff

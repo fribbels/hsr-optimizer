@@ -35,7 +35,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       enemyHp50CrBoost: false,
       enemyDefeatedAtkBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
 
       x[Stats.CR] += (r.enemyHp50CrBoost) ? sValuesCr[s] : 0

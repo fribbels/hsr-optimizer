@@ -64,7 +64,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e6UltTargetDebuff: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       // Stats
@@ -86,10 +86,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       // TODO: Seele's E6 should have a teammate effect but its kinda hard to calc
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]

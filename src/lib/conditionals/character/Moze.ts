@@ -3,11 +3,11 @@ import { AbilityEidolon, findContentId, gpuStandardFuaAtkFinalizer, standardFuaA
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Moze')
@@ -82,10 +82,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
+    initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
     },
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       x.ELEMENTAL_DMG += (e >= 4 && r.e4DmgBuff) ? 0.30 : 0
@@ -103,19 +103,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals
 
       buffAbilityVulnerability(x, FUA_TYPE, 0.25, (m.preyMark))
 
       x[Stats.CD] += (e >= 2 && m.preyMark && m.e2CdBoost) ? 0.40 : 0
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, fuaHitCountMulti)
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, fuaHitCountMulti)
-    },
-    gpuFinalizeCalculations: (request: Form) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardFuaAtkFinalizer(fuaHitCountMulti)
     },
   }

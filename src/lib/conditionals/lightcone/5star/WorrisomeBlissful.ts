@@ -35,7 +35,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsObject, _request: Form) => {
       buffAbilityDmg(x, FUA_TYPE, sValuesFuaDmg[s])
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = request.lightConeConditionals
 
       x[Stats.CD] += m.targetTameStacks * sValuesCd[s]

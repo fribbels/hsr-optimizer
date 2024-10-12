@@ -137,13 +137,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => ({}),
-    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
+    initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
       if (r.blockActive && r.ultCull) {
         x.FUA_DMG_TYPE = ULT_TYPE | FUA_TYPE
       }
     },
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       if (r.blockActive) {
@@ -177,11 +177,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, request, getHitMulti(request))
     },
     gpuFinalizeCalculations: (request: Form) => {

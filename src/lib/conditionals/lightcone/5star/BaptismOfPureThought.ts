@@ -40,7 +40,7 @@ const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => 
       debuffCdStacks: 3,
       postUltBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
 
       x[Stats.CD] += r.debuffCdStacks * sValuesCd[s]

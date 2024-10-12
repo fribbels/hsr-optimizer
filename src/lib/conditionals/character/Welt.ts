@@ -67,7 +67,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     teammateDefaults: () => ({
       enemyDmgTakenDebuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       // Stats
@@ -93,7 +93,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals
 
       x.VULNERABILITY += (m.enemyDmgTakenDebuff) ? 0.12 : 0

@@ -27,12 +27,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     teammateDefaults: () => ({
       alliesSameElement: true,
     }),
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
 
       x.ELEMENTAL_DMG += (r.alliesSameElement) ? sValues[s] : 0
     },
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
 
       x.ELEMENTAL_DMG += (r.alliesSameElement) ? sValues[s] : 0

@@ -89,7 +89,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e4BeBuff: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       // Stats
@@ -113,9 +113,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, request, hitMultiByFuaHits[request.characterConditionals.fuaHits])
     },
     gpuFinalizeCalculations: (request: Form) => {

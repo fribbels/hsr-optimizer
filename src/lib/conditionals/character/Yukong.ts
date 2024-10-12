@@ -73,7 +73,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       ultBuff: true,
       initialSpeedBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       // Scaling
@@ -90,7 +90,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals
 
       x[Stats.ATK_P] += (m.roaringBowstringsActive) ? skillAtkBuffValue : 0

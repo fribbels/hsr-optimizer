@@ -35,7 +35,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       enemyDebuffedDmgBoost: true,
       skillAtkBoost: false,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
 
       x.ELEMENTAL_DMG += (r.enemyDebuffedDmgBoost) ? sValuesDmg[s] : 0

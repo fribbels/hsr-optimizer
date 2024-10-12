@@ -108,7 +108,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e2AtkBoost: false,
       teamDmgBuff: 0.36,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       // Stats
@@ -122,7 +122,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals
 
       x[Stats.BE] += (m.teamBEBuff) ? 0.20 : 0
@@ -133,7 +133,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.RES_PEN += (m.ultFieldActive) ? fieldResPenValue : 0
       x.DEF_PEN += (e >= 1 && m.ultFieldActive) ? 0.20 : 0
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals
 
       x[Stats.SPD_P] += (t.teamSpdBuff) ? talentSpdScaling : 0

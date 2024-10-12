@@ -48,12 +48,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     teammateDefaults: () => ({
       cadenzaActive: true,
     }),
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const t = request.lightConeConditionals
 
       x.ELEMENTAL_DMG += (t.cadenzaActive) ? sValuesDmgBuff[s] : 0
     },
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
 
       x[Stats.ERR] += r.cantillationStacks * sValuesErr[s]

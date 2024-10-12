@@ -31,7 +31,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     }),
     precomputeEffects: () => {
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const t = request.lightConeConditionals
 
       x[Stats.CR] += (t.maskActive) ? sValuesCr[s] : 0

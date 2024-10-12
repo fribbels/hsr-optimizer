@@ -30,7 +30,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     }),
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = request.lightConeConditionals
 
       x.ELEMENTAL_DMG += (m.postUltDmgBuff) ? sValues[s] : 0

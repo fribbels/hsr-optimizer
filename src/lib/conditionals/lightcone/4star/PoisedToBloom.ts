@@ -33,7 +33,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     }),
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = request.lightConeConditionals
 
       x[Stats.CD] += (m.cdBuff) ? sValuesCd[s] : 0

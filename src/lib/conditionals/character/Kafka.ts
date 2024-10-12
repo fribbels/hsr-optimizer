@@ -4,9 +4,9 @@ import { AbilityEidolon, findContentId, gpuStandardFuaAtkFinalizer, standardFuaA
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
 import { buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Kafka')
@@ -58,7 +58,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e1DotDmgReceivedDebuff: true,
       e2TeamDotBoost: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -78,16 +78,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals
 
       buffAbilityVulnerability(x, DOT_TYPE, 0.30, (e >= 1 && m.e1DotDmgReceivedDebuff))
       buffAbilityDmg(x, DOT_TYPE, 0.25, (e >= 2 && m.e2TeamDotBoost))
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, hitMulti)
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, hitMulti)
     },
-    gpuFinalizeCalculations: (request: Form) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardFuaAtkFinalizer(hitMulti)
     },
   }

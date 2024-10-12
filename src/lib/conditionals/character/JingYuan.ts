@@ -5,9 +5,9 @@ import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } f
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
 import { buffAbilityCd, buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.JingYuan')
@@ -18,15 +18,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultScaling = ult(e, 2.00, 2.16)
   const fuaScaling = talent(e, 0.66, 0.726)
 
-  function getHitMulti(request: Form) {
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     let hitMulti = 0
     const stacks = r.talentHitsPerAction
     const hits = r.talentAttacks
-    const stacksPerMiss = (request.enemyCount >= 3) ? 2 : 0
-    const stacksPerHit = (request.enemyCount >= 3) ? 3 : 1
-    const stacksPreHit = (request.enemyCount >= 3) ? 2 : 1
+    const stacksPerMiss = (context.enemyCount >= 3) ? 2 : 0
+    const stacksPerHit = (context.enemyCount >= 3) ? 3 : 1
+    const stacksPreHit = (context.enemyCount >= 3) ? 2 : 1
 
     // Calc stacks on miss
     let ashblazingStacks = stacksPerMiss * (stacks - hits)
@@ -100,7 +100,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e6FuaVulnerabilityStacks: 3,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       r.talentHitsPerAction = Math.max(r.talentHitsPerAction, r.talentAttacks)
@@ -129,14 +129,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       // TODO: Technically E6 has a vulnerability but its kinda hard to calc
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, getHitMulti(request))
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      return gpuStandardFuaAtkFinalizer(getHitMulti(request))
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuStandardFuaAtkFinalizer(getHitMulti(action, context))
     },
   }
 }

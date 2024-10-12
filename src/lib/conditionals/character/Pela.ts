@@ -79,7 +79,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       ultDefPenDebuff: true,
       e4SkillResShred: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       // Stats
@@ -99,7 +99,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals
 
       x[Stats.EHR] += (m.teamEhrBuff) ? 0.10 : 0
@@ -107,7 +107,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.DEF_PEN += (m.ultDefPenDebuff) ? ultDefPenValue : 0
       x.ICE_RES_PEN += (e >= 4 && m.e4SkillResShred) ? 0.12 : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]

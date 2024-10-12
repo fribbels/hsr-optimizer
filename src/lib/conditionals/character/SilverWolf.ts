@@ -84,7 +84,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       ultDefShredDebuff: true,
       targetDebuffs: 5,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       // Stats
@@ -104,7 +104,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals
 
       x.RES_PEN += (m.skillWeaknessResShredDebuff) ? 0.20 : 0

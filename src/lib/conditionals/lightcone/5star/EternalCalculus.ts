@@ -40,7 +40,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       atkBuffStacks: 5,
       spdBuff: false,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
 
       x[Stats.ATK_P] += r.atkBuffStacks * sValuesAtkBuff[s]

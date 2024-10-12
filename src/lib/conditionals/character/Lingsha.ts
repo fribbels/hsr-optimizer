@@ -106,7 +106,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       x.BASIC_SCALING += basicScaling
@@ -125,7 +125,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals
 
       if (x.ENEMY_WEAKNESS_BROKEN) {
@@ -137,15 +137,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x[Stats.BE] += (e >= 2 && m.e2BeBuff) ? 0.40 : 0
       x.RES_PEN += (e >= 6 && m.e6ResShred) ? 0.20 : 0
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, hitMultiByTargets[context.enemyCount])
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, hitMultiByTargets[request.enemyCount])
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuStandardFuaAtkFinalizer(hitMultiByTargets[context.enemyCount])
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      return gpuStandardFuaAtkFinalizer(hitMultiByTargets[request.enemyCount])
-    },
-    gpuConstants: (request: Form) => {
+    gpuConstants: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as unknown as LingshaConditionalConstants
       return {
         LingshaBeConversion: r.beConversion,

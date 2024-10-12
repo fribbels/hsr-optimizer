@@ -47,12 +47,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     teammateDefaults: () => ({
       targetVulnerability: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
 
       x[Stats.CD] += (r.shieldCdBuff) ? sValuesCd[s] : 0
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = request.lightConeConditionals
 
       x.VULNERABILITY += (m.targetVulnerability) ? sValuesVulnerability[s] : 0

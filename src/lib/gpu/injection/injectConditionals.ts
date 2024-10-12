@@ -15,15 +15,15 @@ export function injectConditionals(wgsl: string, request: Form, context: Optimiz
   const lightConeConditionals: LightConeConditional = LightConeConditionals.get(request) as LightConeConditional
 
   // TODO
-  // if (lightConeConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
-  //   '/* INJECT LIGHT CONE CONDITIONALS */',
-  //   indent(lightConeConditionals.gpuFinalizeCalculations(action, context), 2),
-  // )
-  //
-  // if (characterConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
-  //   '/* INJECT CHARACTER CONDITIONALS */',
-  //   indent(characterConditionals.gpuFinalizeCalculations(action, context), 2),
-  // )
+  if (lightConeConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
+    '/* INJECT LIGHT CONE CONDITIONALS */',
+    indent(lightConeConditionals.gpuFinalizeCalculations(context), 2),
+  )
+
+  if (characterConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
+    '/* INJECT CHARACTER CONDITIONALS */',
+    indent(characterConditionals.gpuFinalizeCalculations(context), 2),
+  )
 
 
   wgsl += generateDynamicConditionals(request, context)

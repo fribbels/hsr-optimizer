@@ -4,8 +4,7 @@ import { LightConeConditional } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction } from 'types/Optimizer'
-import { request } from '@playwright/test'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.NightOnTheMilkyWay')
@@ -39,7 +38,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals
 
-      x[Stats.ATK_P] += (r.enemyCountAtkBuff) ? request.enemyCount * sValuesAtk[s] : 0
+      x[Stats.ATK_P] += (r.enemyCountAtkBuff) ? context.enemyCount * sValuesAtk[s] : 0
       x.ELEMENTAL_DMG += (r.enemyWeaknessBreakDmgBuff) ? sValuesDmg[s] : 0
     },
     finalizeCalculations: () => {

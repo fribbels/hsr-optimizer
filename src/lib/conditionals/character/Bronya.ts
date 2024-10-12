@@ -112,7 +112,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         teammateCDValue: 2.50,
       },
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       // Stats
       buffAbilityCr(x, BASIC_TYPE, 1.00)
 
@@ -123,7 +123,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_TOUGHNESS_DMG += 30
       x.FUA_TOUGHNESS_DMG += (e >= 4) ? 30 : 0
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals
 
       x[Stats.DEF_P] += (m.battleStartDefBuff) ? 0.20 : 0
@@ -134,16 +134,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ELEMENTAL_DMG += (m.teamDmgBuff) ? 0.10 : 0
       x.ELEMENTAL_DMG += (m.skillBuff) ? skillDmgBoostValue : 0
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals
 
       x[Stats.CD] += (t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0
       x[Stats.CD] += (t.ultBuff) ? ultCdBoostBaseValue : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, hitMulti)
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, hitMulti)
     },
-    gpuFinalizeCalculations: (request: Form) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardFuaAtkFinalizer(hitMulti)
     },
     dynamicConditionals: [

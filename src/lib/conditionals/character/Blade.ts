@@ -4,12 +4,12 @@ import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/conditi
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Blade')
@@ -71,7 +71,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e4MaxHpIncreaseStacks: 2,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       // Stats
@@ -80,7 +80,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       // Scaling
       x.BASIC_SCALING += basicScaling
-      // Rest of the scalings are calculated dynamically
 
       // Boost
       x.ELEMENTAL_DMG += r.enhancedStateActive ? enhancedStateDmgBoost : 0
@@ -92,9 +91,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       if (r.enhancedStateActive) {
@@ -107,16 +106,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_DMG += ultAtkScaling * x[Stats.ATK]
       x.ULT_DMG += ultHpScaling * x[Stats.HP]
       x.ULT_DMG += ultLostHpScaling * r.hpPercentLostTotal * x[Stats.HP]
-      x.ULT_DMG += (e >= 1 && request.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal * x[Stats.HP] : 0
+      x.ULT_DMG += (e >= 1 && context.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal * x[Stats.HP] : 0
 
-      const hitMulti = hitMultiByTargets[request.enemyCount]
-      const ashblazingAtk = calculateAshblazingSet(x, request, hitMulti)
+      const hitMulti = hitMultiByTargets[context.enemyCount]
+      const ashblazingAtk = calculateAshblazingSet(x, action, context, hitMulti)
       x.FUA_DMG += fuaAtkScaling * (x[Stats.ATK] + ashblazingAtk)
 
       x.FUA_DMG += fuaHpScaling * x[Stats.HP]
       x.FUA_DMG += (e >= 6) ? 0.50 * x[Stats.HP] : 0
     },
-    gpuFinalizeCalculations: (request: Form) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       return `
@@ -131,11 +130,11 @@ x.ULT_DMG += ${ultAtkScaling} * x.ATK;
 x.ULT_DMG += ${ultHpScaling} * x.HP;
 x.ULT_DMG += ${ultLostHpScaling * r.hpPercentLostTotal} * x.HP;
 
-if (${wgslTrue(e >= 1 && request.enemyCount == 1)}) {
+if (${wgslTrue(e >= 1 && context.enemyCount == 1)}) {
   x.ULT_DMG += 1.50 * ${r.hpPercentLostTotal} * x.HP;
 }
 
-x.FUA_DMG += ${fuaAtkScaling} * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMultiByTargets[request.enemyCount]}));
+x.FUA_DMG += ${fuaAtkScaling} * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMultiByTargets[context.enemyCount]}));
 x.FUA_DMG += ${fuaHpScaling} * x.HP;
 
 if (e >= 6) {

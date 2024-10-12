@@ -4,10 +4,10 @@ import { AbilityEidolon } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Seele')
@@ -100,7 +100,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.SKILL_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
       x.ULT_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
     },
-    gpuFinalizeCalculations: (request: Form) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;

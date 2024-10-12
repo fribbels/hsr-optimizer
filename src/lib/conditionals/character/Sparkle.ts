@@ -115,7 +115,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals
 
-      x[Stats.ATK_P] += 0.15 + (request.PRIMARY_ELEMENTAL_DMG_TYPE == Stats.Quantum_DMG ? (atkBoostByQuantumAllies[m.quantumAllies] || 0) : 0)
+      // TODO: Whose elemental damage type does this refer to?
+      x[Stats.ATK_P] += 0.15 + (context.elementalDamageType == Stats.Quantum_DMG ? (atkBoostByQuantumAllies[m.quantumAllies] || 0) : 0)
       x[Stats.ATK_P] += (e >= 1 && m.cipherBuff) ? 0.40 : 0
 
       x.ELEMENTAL_DMG += (m.cipherBuff) ? m.talentStacks * (talentBaseStackBoost + cipherTalentStackBoost) : m.talentStacks * talentBaseStackBoost

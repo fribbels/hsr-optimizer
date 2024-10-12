@@ -3,12 +3,12 @@ import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'l
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { CURRENT_DATA_VERSION, Stats } from 'lib/constants'
 import { RappaConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Rappa')

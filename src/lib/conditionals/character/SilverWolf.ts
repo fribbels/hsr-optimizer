@@ -3,9 +3,9 @@ import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFina
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SilverWolf')

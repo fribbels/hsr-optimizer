@@ -4,9 +4,9 @@ import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'l
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerDestruction')
@@ -68,8 +68,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_TOUGHNESS_DMG += (r.enhancedUlt) ? 60 : 90
 
       return x
-    },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
     finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

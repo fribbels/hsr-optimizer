@@ -4,10 +4,10 @@ import { AbilityEidolon, calculateAshblazingSet, findContentId } from 'lib/condi
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityCd, buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Topaz')
@@ -98,7 +98,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.FUA_SCALING += (r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0
 
       // Boost
-      x.ELEMENTAL_DMG += (request.enemyElementalWeak) ? 0.15 : 0
+      x.ELEMENTAL_DMG += (context.enemyElementalWeak) ? 0.15 : 0
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60
@@ -116,13 +116,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       const r = action.characterConditionals
 
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
-      const basicAshblazingAtk = calculateAshblazingSet(x, request, basicHitCountMulti)
-      const fuaAshblazingAtk = calculateAshblazingSet(x, request, hitMulti)
+      const basicAshblazingAtk = calculateAshblazingSet(x, action, context, basicHitCountMulti)
+      const fuaAshblazingAtk = calculateAshblazingSet(x, action, context, hitMulti)
       x.BASIC_DMG += x.BASIC_SCALING * (x[Stats.ATK] + basicAshblazingAtk)
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + fuaAshblazingAtk)
       x.SKILL_DMG = x.FUA_DMG
     },
-    gpuFinalizeCalculations: (request: Form) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
 

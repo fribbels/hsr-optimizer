@@ -1,5 +1,4 @@
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
@@ -7,6 +6,8 @@ import { Stats } from 'lib/constants'
 import { TsUtils } from 'lib/TsUtils'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { request } from '@playwright/test'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.YetHopeIsPriceless')
@@ -52,7 +53,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
       buffAbilityDmg(x, FUA_TYPE, sValuesFuaDmg[s] * Math.min(4, Math.floor(x[Stats.CD] - 1.20) / 0.20), (r.fuaDmgBoost))
     },
-    gpuFinalizeCalculations: (request: Form) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = request.lightConeConditionals
 
       return `

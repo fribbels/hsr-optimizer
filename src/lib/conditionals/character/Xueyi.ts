@@ -4,13 +4,13 @@ import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'l
 
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 
 import { Eidolon } from 'types/Character'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { XueyiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { NumberToNumberMap } from 'types/Common'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Xueyi')
@@ -116,10 +116,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      standardFuaAtkFinalizer(x, request, hitMultiByFuaHits[request.characterConditionals.fuaHits])
+      standardFuaAtkFinalizer(x, action, context, hitMultiByFuaHits[action.characterConditionals.fuaHits])
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      return gpuStandardFuaAtkFinalizer(hitMultiByFuaHits[request.characterConditionals.fuaHits])
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuStandardFuaAtkFinalizer(hitMultiByFuaHits[action.characterConditionals.fuaHits])
     },
     dynamicConditionals: [XueyiConversionConditional],
   }

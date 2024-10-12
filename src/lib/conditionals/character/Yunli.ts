@@ -3,12 +3,12 @@ import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } f
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { buffAbilityCd, buffAbilityCr, buffAbilityDefPen, buffAbilityDmg, buffAbilityResPen } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yunli')
@@ -39,11 +39,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     5: ASHBLAZING_ATK_STACK * (3 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.16), // 0.444
   }
 
-  function getHitMulti(request: Form) {
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
     return (r.blockActive && r.ultCull)
-      ? cullHitCountMultiByTargets[request.enemyCount]
-      : fuaHitCountMultiByTargets[request.enemyCount]
+      ? cullHitCountMultiByTargets[context.enemyCount]
+      : fuaHitCountMultiByTargets[context.enemyCount]
   }
 
   const content: ContentItem[] = [
@@ -182,10 +182,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      standardFuaAtkFinalizer(x, request, getHitMulti(request))
+      standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      return gpuStandardFuaAtkFinalizer(getHitMulti(request))
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuStandardFuaAtkFinalizer(getHitMulti(action, context))
     },
   }
 }

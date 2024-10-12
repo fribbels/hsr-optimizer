@@ -5,10 +5,10 @@ import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Pela')

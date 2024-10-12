@@ -4,9 +4,9 @@ import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils
 import { ContentItem } from 'types/Conditionals'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerPreservation')
@@ -112,7 +112,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_DMG += ultAtkScaling * x[Stats.ATK]
       x.ULT_DMG += ultDefScaling * x[Stats.DEF]
     },
-    gpuFinalizeCalculations: (request: Form) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       return `

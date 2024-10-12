@@ -10,6 +10,7 @@ import { buffAbilityCd, buffAbilityCr } from 'lib/optimizer/calculateBuffs'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Robin')
@@ -174,7 +175,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
-    gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
       return `
 if (${wgslTrue(r.concertoActive)}) {

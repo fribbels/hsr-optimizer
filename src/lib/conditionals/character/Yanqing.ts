@@ -5,8 +5,8 @@ import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } f
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yanqing')
@@ -91,10 +91,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_SCALING += ultScaling
       x.FUA_SCALING += fuaScaling
 
-      x.BASIC_SCALING += (request.enemyElementalWeak) ? 0.30 : 0
-      x.SKILL_SCALING += (request.enemyElementalWeak) ? 0.30 : 0
-      x.ULT_SCALING += (request.enemyElementalWeak) ? 0.30 : 0
-      x.FUA_SCALING += (request.enemyElementalWeak) ? 0.30 : 0
+      x.BASIC_SCALING += (context.enemyElementalWeak) ? 0.30 : 0
+      x.SKILL_SCALING += (context.enemyElementalWeak) ? 0.30 : 0
+      x.ULT_SCALING += (context.enemyElementalWeak) ? 0.30 : 0
+      x.FUA_SCALING += (context.enemyElementalWeak) ? 0.30 : 0
 
       x.BASIC_SCALING += (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
       x.SKILL_SCALING += (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
@@ -114,9 +114,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      standardFuaAtkFinalizer(x, request, hitMulti)
+      standardFuaAtkFinalizer(x, action, context, hitMulti)
     },
-    gpuFinalizeCalculations: (request: Form) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardFuaAtkFinalizer(hitMulti)
     },
   }

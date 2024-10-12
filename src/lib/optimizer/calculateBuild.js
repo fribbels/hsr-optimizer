@@ -91,7 +91,7 @@ export function calculateBuild(request, relics, cachedParams = null, reuseReques
     }
     ax.sets = c.x.sets
 
-    calculateComputedStats(c, ax, request, params, action, context)
+    calculateComputedStats(c, ax, action, context)
     calculateBaseMultis(ax, request, params, action, context)
     calculateDamage(ax, request, params, action, context)
 

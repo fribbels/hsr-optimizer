@@ -1,11 +1,9 @@
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
 import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
 import { TsUtils } from 'lib/TsUtils'
@@ -55,15 +53,15 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.BE],
-        condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+        condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
           const r = action.lightConeConditionals
 
           return r.spdBuffConditional && x[Stats.BE] >= 1.50
         },
-        effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) => {
-          buffStat(x, request, params, Stats.SPD, (sValuesSpdBuff[s]) * context.baseSPD, action, context)
+        effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+          buffStat(x, Stats.SPD, (sValuesSpdBuff[s]) * context.baseSPD, action, context)
         },
-        gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
           return conditionalWgslWrapper(this, `
 if (
   (*p_state).SailingTowardsASecondLifeConditional == 0.0 &&

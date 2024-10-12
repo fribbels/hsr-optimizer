@@ -1,9 +1,7 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
 import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { indent, wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { Form } from 'types/Form'
 import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
@@ -12,24 +10,21 @@ export type DynamicConditional = {
   type: number
   activation: number
   dependsOn: string[]
-  condition: (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) => boolean | number
-  effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) => void
-  gpu: (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) => string
+  condition: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => boolean | number
+  effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => void
+  gpu: (action: OptimizerAction, context: OptimizerContext) => string
   ratioConversion?: boolean
 }
 
-export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
-  // if (typeof conditional.condition != 'function') {
-  //   console.error('!!')
-  // }
+export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
   if (conditional.activation == ConditionalActivation.SINGLE) {
-    if (!action.conditionalState[conditional.id] && conditional.condition(x, request, params, action, context)) {
+    if (!action.conditionalState[conditional.id] && conditional.condition(x, action, context)) {
       action.conditionalState[conditional.id] = 1
-      conditional.effect(x, request, params, action, context)
+      conditional.effect(x, action, context)
     }
   } else if (conditional.activation == ConditionalActivation.CONTINUOUS) {
-    if (conditional.condition(x, request, params, action, context)) {
-      conditional.effect(x, request, params, action, context)
+    if (conditional.condition(x, action, context)) {
+      conditional.effect(x, action, context)
     }
   } else {
 
@@ -45,7 +40,7 @@ ${indent(wgsl.trim(), 1)}
   `
 }
 
-export function buffStat(x: ComputedStatsObject, request: Form, params: OptimizerParams, stat: string, value: number, action: OptimizerAction, context: OptimizerContext) {
+export function buffStat(x: ComputedStatsObject, stat: string, value: number, action: OptimizerAction, context: OptimizerContext) {
   // Self buffing stats will asymptotically reach 0
   if (value < 0.0001) {
     return
@@ -53,11 +48,8 @@ export function buffStat(x: ComputedStatsObject, request: Form, params: Optimize
 
   x[stat] += value
 
-  // if (!action) {
-  //   console.error('!!')
-  // }
   for (const conditional of action.conditionalRegistry[stat] || []) {
-    evaluateConditional(conditional, x, request, params, action, context)
+    evaluateConditional(conditional, x, action, context)
   }
 }
 
@@ -66,20 +58,20 @@ export const AventurineConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.DEF],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
     return r.defToCrBoost && x[Stats.DEF] > 1600
   },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
     const buffValue = Math.min(0.48, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100))
 
     action.conditionalState[this.id] = buffValue
-    buffStat(x, request, params, Stats.CR, buffValue - stateValue, action, context)
+    buffStat(x, Stats.CR, buffValue - stateValue, action, context)
 
     return buffValue
   },
-  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
@@ -104,19 +96,19 @@ export const XueyiConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.BE],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return r.beToDmgBoost
   },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
     const buffValue = Math.min(2.40, x[Stats.BE])
 
     action.conditionalState[this.id] = buffValue
     x.ELEMENTAL_DMG += buffValue - stateValue
   },
-  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
     return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.beToDmgBoost)}) {
@@ -137,20 +129,20 @@ export const FireflyConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.ATK],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return x[Stats.ATK] > 1800
   },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
     const trueAtk = x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF - x.RATIO_BASED_ATK_P_BUFF * context.baseATK
     const buffValue = 0.008 * Math.floor((trueAtk - 1800) / 10)
 
     action.conditionalState[this.id] = buffValue
-    buffStat(x, request, params, Stats.BE, buffValue - stateValue, action, context)
+    buffStat(x, Stats.BE, buffValue - stateValue, action, context)
 
     return buffValue
   },
-  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
@@ -176,12 +168,12 @@ export const BoothillConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.BE],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return r.beToCritBoost
   },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
 
     const stateCrBuffValue = Math.min(0.30, 0.10 * stateValue)
@@ -192,10 +184,10 @@ export const BoothillConversionConditional: DynamicConditional = {
 
     action.conditionalState[this.id] = x[Stats.BE]
 
-    buffStat(x, request, params, Stats.CR, crBuffValue - stateCrBuffValue, action, context)
-    buffStat(x, request, params, Stats.CD, cdBuffValue - stateCdBuffValue, action, context)
+    buffStat(x, Stats.CR, crBuffValue - stateCrBuffValue, action, context)
+    buffStat(x, Stats.CD, cdBuffValue - stateCdBuffValue, action, context)
   },
-  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
@@ -225,15 +217,15 @@ export const GepardConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.DEF],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return true
   },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
     const buffValue = 0.35 * x[Stats.DEF]
 
     action.conditionalState[this.id] = buffValue
-    buffStat(x, request, params, Stats.ATK, buffValue - stateValue, action, context)
+    buffStat(x, Stats.ATK, buffValue - stateValue, action, context)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -252,10 +244,10 @@ export const BlackSwanConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.EHR],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return true
   },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
     if (!r.ehrToDmgBoost) {
       return
@@ -266,7 +258,7 @@ export const BlackSwanConversionConditional: DynamicConditional = {
     action.conditionalState[this.id] = buffValue
     x.ELEMENTAL_DMG += buffValue - stateValue
   },
-  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
@@ -288,10 +280,10 @@ export const RappaConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.ATK],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return true
   },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
     if (!r.atkToBreakVulnerability) {
       return
@@ -304,7 +296,7 @@ export const RappaConversionConditional: DynamicConditional = {
     action.conditionalState[this.id] = buffValue
     x.BREAK_VULNERABILITY += buffValue - stateValue
   },
-  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
@@ -327,19 +319,19 @@ export const GallagherConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.BE],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return true
   },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     const stateValue = action.conditionalState[this.id] || 0
     const buffValue = Math.min(0.75, 0.50 * x[Stats.BE])
 
     action.conditionalState[this.id] = buffValue
-    buffStat(x, request, params, Stats.OHB, buffValue - stateValue, action, context)
+    buffStat(x, Stats.OHB, buffValue - stateValue, action, context)
   },
-  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
@@ -358,10 +350,10 @@ export const RuanMeiConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.BE],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return true
   },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     const stateValue = action.conditionalState[this.id] || 0
@@ -371,7 +363,7 @@ export const RuanMeiConversionConditional: DynamicConditional = {
     action.conditionalState[this.id] = buffValue
     x.ELEMENTAL_DMG += buffValue - stateValue
   },
-  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
@@ -391,10 +383,10 @@ export const JiaoqiuConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.EHR],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return true
   },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
     if (!r.ehrToAtkBoost || x[Stats.EHR] <= 0.80) {
       return
@@ -404,9 +396,9 @@ export const JiaoqiuConversionConditional: DynamicConditional = {
     const buffValue = Math.min(2.40, 0.60 * Math.floor((x[Stats.EHR] - 0.80) / 0.15)) * context.baseATK
 
     action.conditionalState[this.id] = buffValue
-    buffStat(x, request, params, Stats.ATK, buffValue - stateValue, action, context)
+    buffStat(x, Stats.ATK, buffValue - stateValue, action, context)
   },
-  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `

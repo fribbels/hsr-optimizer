@@ -3,7 +3,6 @@ import { AbilityEidolon, findContentId, gpuStandardFuaAtkFinalizer, standardFuaA
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
@@ -11,7 +10,6 @@ import { NumberToNumberMap } from 'types/Common'
 import { buffStat, conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { TsUtils } from 'lib/TsUtils'
 import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -158,10 +156,10 @@ const LingshaConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.BE],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return true
   },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
     if (!r.beConversion) {
       return
@@ -179,10 +177,10 @@ const LingshaConversionConditional: DynamicConditional = {
     const finalBuffAtk = buffValueAtk - (stateValue ? stateBuffValueAtk : 0)
     const finalBuffOhb = buffValueOhb - (stateValue ? stateBuffValueOhb : 0)
 
-    buffStat(x, request, params, Stats.ATK, finalBuffAtk, action, context)
-    buffStat(x, request, params, Stats.OHB, finalBuffOhb, action, context)
+    buffStat(x, Stats.ATK, finalBuffAtk, action, context)
+    buffStat(x, Stats.OHB, finalBuffOhb, action, context)
   },
-  gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+  gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `

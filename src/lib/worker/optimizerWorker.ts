@@ -152,7 +152,7 @@ self.onmessage = function (e: MessageEvent) {
       const action = setupAction(c, i, context)
       const ax = action.precomputedX
 
-      calculateComputedStats(c, ax, request, params, action, context)
+      calculateComputedStats(c, ax, action, context)
       calculateBaseMultis(ax, request, params, action, context)
       calculateDamage(ax, request, params, action, context)
 

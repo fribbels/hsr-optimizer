@@ -4,10 +4,8 @@ import { AbilityEidolon, findContentId, gpuStandardHpFinalizer, standardHpFinali
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
@@ -126,7 +124,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         condition: function () {
           return true
         },
-        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+        effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals
           if (!r.skillActive) {
             return
@@ -143,9 +141,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           const finalBuffHp = buffHP - (stateValue ? stateBuffHP : 0)
           x.RATIO_BASED_HP_BUFF += finalBuffHp
 
-          buffStat(x, request, params, Stats.HP, finalBuffHp, action, context)
+          buffStat(x, Stats.HP, finalBuffHp, action, context)
         },
-        gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals
 
           return conditionalWgslWrapper(this, `

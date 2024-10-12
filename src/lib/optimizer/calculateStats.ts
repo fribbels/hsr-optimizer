@@ -162,7 +162,7 @@ export function calculateBaseStats(c: BasicStatsObject, _request: Form, _params:
   )
 }
 
-export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObject, _request: Form, _params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
   const setConditionals = action.setConditionals
   // if (!params.characterConditionals) {
   //   params.characterConditionals = CharacterConditionals.get(context)
@@ -313,28 +313,28 @@ export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObje
 
   // Dynamic - still need implementing
 
-  p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, context, params, action, context)
-  p2(sets.RutilantArena) && evaluateConditional(RutilantArenaConditional, x, context, params, action, context)
-  p2(sets.InertSalsotto) && evaluateConditional(InertSalsottoConditional, x, context, params, action, context)
-  p2(sets.FleetOfTheAgeless) && evaluateConditional(FleetOfTheAgelessConditional, x, context, params, action, context)
-  p2(sets.BelobogOfTheArchitects) && evaluateConditional(BelobogOfTheArchitectsConditional, x, context, params, action, context)
-  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge150Conditional, x, context, params, action, context)
-  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge250Conditional, x, context, params, action, context)
-  p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, context, params, action, context)
-  p2(sets.BrokenKeel) && evaluateConditional(BrokenKeelConditional, x, context, params, action, context)
-  p2(sets.CelestialDifferentiator) && evaluateConditional(CelestialDifferentiatorConditional, x, context, params, action, context)
-  p2(sets.TaliaKingdomOfBanditry) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, context, params, action, context)
-  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth135Conditional, x, context, params, action, context)
-  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth160Conditional, x, context, params, action, context)
+  p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, action, context)
+  p2(sets.RutilantArena) && evaluateConditional(RutilantArenaConditional, x, action, context)
+  p2(sets.InertSalsotto) && evaluateConditional(InertSalsottoConditional, x, action, context)
+  p2(sets.FleetOfTheAgeless) && evaluateConditional(FleetOfTheAgelessConditional, x, action, context)
+  p2(sets.BelobogOfTheArchitects) && evaluateConditional(BelobogOfTheArchitectsConditional, x, action, context)
+  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge150Conditional, x, action, context)
+  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge250Conditional, x, action, context)
+  p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, action, context)
+  p2(sets.BrokenKeel) && evaluateConditional(BrokenKeelConditional, x, action, context)
+  p2(sets.CelestialDifferentiator) && evaluateConditional(CelestialDifferentiatorConditional, x, action, context)
+  p2(sets.TaliaKingdomOfBanditry) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, action, context)
+  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth135Conditional, x, action, context)
+  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth160Conditional, x, action, context)
 
   const characterConditionalController = context.characterConditionalController
   const lightConeConditionalController = context.lightConeConditionalController
 
   for (const conditional of characterConditionalController.dynamicConditionals || []) {
-    evaluateConditional(conditional, x, context, params, action, context)
+    evaluateConditional(conditional, x, action, context)
   }
   for (const conditional of lightConeConditionalController.dynamicConditionals || []) {
-    evaluateConditional(conditional, x, context, params, action, context)
+    evaluateConditional(conditional, x, action, context)
   }
 
   return x

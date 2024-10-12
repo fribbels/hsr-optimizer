@@ -4,11 +4,9 @@ import { AbilityEidolon, findContentId, gpuStandardFuaAtkFinalizer, standardFuaA
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityCr } from 'lib/optimizer/calculateBuffs'
 import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
@@ -153,10 +151,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CD],
         ratioConversion: true,
-        condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+        condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
           return true
         },
-        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+        effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals
           if (!r.ultBuff) {
             return
@@ -173,9 +171,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           const finalBuffCd = buffCD - (stateValue ? stateBuffCD : 0)
           x.RATIO_BASED_CD_BUFF += finalBuffCd
 
-          buffStat(x, request, params, Stats.CD, finalBuffCd, action, context)
+          buffStat(x, Stats.CD, finalBuffCd, action, context)
         },
-        gpu: function (request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals
 
           return conditionalWgslWrapper(this, `

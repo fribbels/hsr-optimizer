@@ -254,7 +254,7 @@ export const CelestialDifferentiatorConditional: DynamicConditional = {
     return conditionalWgslWrapper(this, `
 if (
   p2((*p_x).sets.CelestialDifferentiator) >= 1 &&
-  enabledCelestialDifferentiator >= 1 &&
+  actions[(*p_state).actionIndex].setConditionals.enabledCelestialDifferentiator == true &&
   (*p_state).CelestialDifferentiatorConditional == 0.0 &&
   (*p_x).CD >= 1.20
 ) {

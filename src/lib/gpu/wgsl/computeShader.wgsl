@@ -986,7 +986,7 @@ fn calculateAshblazingSet(
   hitMulti: f32,
 ) -> f32 {
   if (p4((*p_x).sets.TheAshblazingGrandDuke) >= 1) {
-    let ashblazingAtk = 0.06 * f32(valueTheAshblazingGrandDuke) * baseATK;
+    let ashblazingAtk = 0.06 * f32(actions[(*p_state).actionIndex].setConditionals.valueTheAshblazingGrandDuke) * baseATK;
     let ashblazingMulti = hitMulti * baseATK;
 
     return ashblazingMulti - ashblazingAtk;

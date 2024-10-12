@@ -109,13 +109,19 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
     comboState.comboTeammate2,
   ].filter((x) => !!x?.metadata?.characterId)
   for (let i = 0; i < teammates.length; i++) {
+    const teammate = teammates[i]!
     const teammateRequest = Object.assign({}, teammates[i])
 
-    const teammateCharacterConditionals = CharacterConditionals.get(teammates[i].metadata) as CharacterConditional
-    const teammateLightConeConditionals = LightConeConditionals.get(teammates[i].metadata) as LightConeConditional
+    const teammateAction = {
+      characterConditionals: transformConditionals(action.actionIndex, teammate.characterConditionals) as CharacterConditionalMap,
+      lightConeConditionals: transformConditionals(action.actionIndex, teammate.lightConeConditionals) as CharacterConditionalMap
+    } as OptimizerAction
 
-    teammateCharacterConditionals.initializeTeammateConfigurations?.(x, action, context)
-    teammateLightConeConditionals.initializeTeammateConfigurations?.(x, action, context)
+    const teammateCharacterConditionals = CharacterConditionals.get(teammate.metadata) as CharacterConditional
+    const teammateLightConeConditionals = LightConeConditionals.get(teammate.metadata) as LightConeConditional
+
+    teammateCharacterConditionals.initializeTeammateConfigurations?.(x, teammateAction, context)
+    teammateLightConeConditionals.initializeTeammateConfigurations?.(x, teammateAction, context)
   }
 
   // Precompute stage
@@ -128,7 +134,7 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
 
   precomputeTeammates(action, comboState, context)
   // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
-  // x.ENEMY_WEAKNESS_BROKEN = x.ENEMY_WEAKNESS_BROKEN || (request.enemyWeaknessBroken ? 1 : 0) // TODO
+  x.ENEMY_WEAKNESS_BROKEN = x.ENEMY_WEAKNESS_BROKEN || (context.enemyWeaknessBroken ? 1 : 0)
 }
 
 function precomputeTeammates(action: OptimizerAction, comboState: ComboState, context: OptimizerContext) {

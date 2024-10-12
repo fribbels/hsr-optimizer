@@ -1,7 +1,5 @@
 import { Stats } from 'lib/constants'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
-import { CharacterConditionals } from 'lib/characterConditionals'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { BASIC_TYPE, BasicStatsObject, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { BelobogOfTheArchitectsConditional, BrokenKeelConditional, CelestialDifferentiatorConditional, FirmamentFrontlineGlamoth135Conditional, FirmamentFrontlineGlamoth160Conditional, FleetOfTheAgelessConditional, InertSalsottoConditional, IronCavalryAgainstTheScourge150Conditional, IronCavalryAgainstTheScourge250Conditional, PanCosmicCommercialEnterpriseConditional, RutilantArenaConditional, SpaceSealingStationConditional, TaliaKingdomOfBanditryConditional } from 'lib/gpu/conditionals/setConditionals'
@@ -57,16 +55,16 @@ export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: numb
   return c.x.sets
 }
 
-export function calculateElementalStats(c: BasicStatsObject, request: Form, params: OptimizerParams) {
-  const base = params.character.base
-  const trace = params.character.traces
-  const lc = params.character.lightCone
+export function calculateElementalStats(c: BasicStatsObject, _request: Form, _params: OptimizerParams, context: OptimizerContext) {
+  const base = context.characterStatsBreakdown.base
+  const lc = context.characterStatsBreakdown.lightCone
+  const trace = context.characterStatsBreakdown.traces
   const sets = c.x.sets
 
   // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
   // This is mostly because there isnt a need to split out damage types while we're calculating display stats.
   c.ELEMENTAL_DMG = 0
-  switch (params.ELEMENTAL_DMG_TYPE) {
+  switch (context.elementalDamageType) {
     case Stats.Physical_DMG:
       c.ELEMENTAL_DMG = sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0.10 * p2(sets.ChampionOfStreetwiseBoxing))
       break
@@ -91,25 +89,25 @@ export function calculateElementalStats(c: BasicStatsObject, request: Form, para
   }
 }
 
-export function calculateBaseStats(c: BasicStatsObject, request: Form, params: OptimizerParams) {
-  const base = params.character.base
-  const lc = params.character.lightCone
-  const trace = params.character.traces
+export function calculateBaseStats(c: BasicStatsObject, _request: Form, _params: OptimizerParams, context: OptimizerContext) {
+  const base =  context.characterStatsBreakdown.base
+  const lc = context.characterStatsBreakdown.lightCone
+  const trace = context.characterStatsBreakdown.traces
 
   const sets = c.x.sets
-  c[Stats.SPD] = sumFlatStat(Stats.SPD, Stats.SPD_P, request.baseSpd, lc, trace, c,
+  c[Stats.SPD] = sumFlatStat(Stats.SPD, Stats.SPD_P, context.baseSPD, lc, trace, c,
     0.06 * p2(sets.MessengerTraversingHackerspace)
     + 0.06 * p2(sets.ForgeOfTheKalpagniLantern)
     + 0.06 * p4(sets.MusketeerOfWildWheat)
     + 0.06 * p2(sets.SacerdosRelivedOrdeal),
   )
 
-  c[Stats.HP] = sumFlatStat(Stats.HP, Stats.HP_P, request.baseHp, lc, trace, c,
+  c[Stats.HP] = sumFlatStat(Stats.HP, Stats.HP_P, context.baseHP, lc, trace, c,
     0.12 * p2(sets.FleetOfTheAgeless)
     + 0.12 * p2(sets.LongevousDisciple),
   )
 
-  c[Stats.ATK] = sumFlatStat(Stats.ATK, Stats.ATK_P, request.baseAtk, lc, trace, c,
+  c[Stats.ATK] = sumFlatStat(Stats.ATK, Stats.ATK_P, context.baseATK, lc, trace, c,
     0.12 * p2(sets.SpaceSealingStation)
     + 0.12 * p2(sets.FirmamentFrontlineGlamoth)
     + 0.12 * p2(sets.MusketeerOfWildWheat)
@@ -118,7 +116,7 @@ export function calculateBaseStats(c: BasicStatsObject, request: Form, params: O
     + 0.12 * p2(sets.TheWindSoaringValorous),
   )
 
-  c[Stats.DEF] = sumFlatStat(Stats.DEF, Stats.DEF_P, request.baseDef, lc, trace, c,
+  c[Stats.DEF] = sumFlatStat(Stats.DEF, Stats.DEF_P, context.baseDEF, lc, trace, c,
     0.15 * p2(sets.BelobogOfTheArchitects)
     + 0.15 * p2(sets.KnightOfPurityPalace),
   )
@@ -164,14 +162,14 @@ export function calculateBaseStats(c: BasicStatsObject, request: Form, params: O
   )
 }
 
-export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObject, request: Form, params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
+export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObject, _request: Form, _params: OptimizerParams, action: OptimizerAction, context: OptimizerContext) {
   const setConditionals = action.setConditionals
-  if (!params.characterConditionals) {
-    params.characterConditionals = CharacterConditionals.get(request)
-  }
-  if (!params.lightConeConditionals) {
-    params.lightConeConditionals = LightConeConditionals.get(request)
-  }
+  // if (!params.characterConditionals) {
+  //   params.characterConditionals = CharacterConditionals.get(context)
+  // }
+  // if (!params.lightConeConditionals) {
+  //   params.lightConeConditionals = LightConeConditionals.get(context)
+  // }
 
   const sets = x.sets
 
@@ -190,24 +188,24 @@ export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObje
   x[context.elementalDamageType] += c.ELEMENTAL_DMG
 
   // Combat buffs
-  x[Stats.ATK] += request.combatBuffs.ATK + request.combatBuffs.ATK_P * request.baseAtk
-  x[Stats.DEF] += request.combatBuffs.DEF + request.combatBuffs.DEF_P * request.baseDef
-  x[Stats.HP] += request.combatBuffs.HP + request.combatBuffs.HP_P * request.baseHp
-  x[Stats.CD] += request.combatBuffs.CD
-  x[Stats.CR] += request.combatBuffs.CR
-  x[Stats.SPD] += request.combatBuffs.SPD_P * request.baseSpd + request.combatBuffs.SPD
-  x[Stats.BE] += request.combatBuffs.BE
-  x.ELEMENTAL_DMG += request.combatBuffs.DMG_BOOST
-  x.EFFECT_RES_PEN += request.combatBuffs.EFFECT_RES_PEN
-  x.VULNERABILITY += request.combatBuffs.VULNERABILITY
-  x.BREAK_EFFICIENCY_BOOST += request.combatBuffs.BREAK_EFFICIENCY
+  x[Stats.ATK] += context.combatBuffs.ATK + context.combatBuffs.ATK_P * context.baseATK
+  x[Stats.DEF] += context.combatBuffs.DEF + context.combatBuffs.DEF_P * context.baseDEF
+  x[Stats.HP] += context.combatBuffs.HP + context.combatBuffs.HP_P * context.baseHP
+  x[Stats.CD] += context.combatBuffs.CD
+  x[Stats.CR] += context.combatBuffs.CR
+  x[Stats.SPD] += context.combatBuffs.SPD_P * context.baseSPD + context.combatBuffs.SPD
+  x[Stats.BE] += context.combatBuffs.BE
+  x.ELEMENTAL_DMG += context.combatBuffs.DMG_BOOST
+  x.EFFECT_RES_PEN += context.combatBuffs.EFFECT_RES_PEN
+  x.VULNERABILITY += context.combatBuffs.VULNERABILITY
+  x.BREAK_EFFICIENCY_BOOST += context.combatBuffs.BREAK_EFFICIENCY
 
   // SPD
 
   if (p4(sets.MessengerTraversingHackerspace) && setConditionals.enabledMessengerTraversingHackerspace) {
     x[Stats.SPD_P] += 0.12
   }
-  x[Stats.SPD] += x[Stats.SPD_P] * request.baseSpd
+  x[Stats.SPD] += x[Stats.SPD_P] * context.baseSPD
 
   // ATK
 
@@ -220,15 +218,15 @@ export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObje
   if (p4(sets.TheAshblazingGrandDuke)) {
     x[Stats.ATK_P] += 0.06 * setConditionals.valueTheAshblazingGrandDuke
   }
-  x[Stats.ATK] += x[Stats.ATK_P] * request.baseAtk
+  x[Stats.ATK] += x[Stats.ATK_P] * context.baseATK
 
   // DEF
 
-  x[Stats.DEF] += x[Stats.DEF_P] * request.baseDef
+  x[Stats.DEF] += x[Stats.DEF_P] * context.baseDEF
 
   // HP
 
-  x[Stats.HP] += x[Stats.HP_P] * request.baseHp
+  x[Stats.HP] += x[Stats.HP_P] * context.baseHP
 
   // CD
 
@@ -315,28 +313,28 @@ export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObje
 
   // Dynamic - still need implementing
 
-  p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, request, params, action, context)
-  p2(sets.RutilantArena) && evaluateConditional(RutilantArenaConditional, x, request, params, action, context)
-  p2(sets.InertSalsotto) && evaluateConditional(InertSalsottoConditional, x, request, params, action, context)
-  p2(sets.FleetOfTheAgeless) && evaluateConditional(FleetOfTheAgelessConditional, x, request, params, action, context)
-  p2(sets.BelobogOfTheArchitects) && evaluateConditional(BelobogOfTheArchitectsConditional, x, request, params, action, context)
-  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge150Conditional, x, request, params, action, context)
-  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge250Conditional, x, request, params, action, context)
-  p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, request, params, action, context)
-  p2(sets.BrokenKeel) && evaluateConditional(BrokenKeelConditional, x, request, params, action, context)
-  p2(sets.CelestialDifferentiator) && evaluateConditional(CelestialDifferentiatorConditional, x, request, params, action, context)
-  p2(sets.TaliaKingdomOfBanditry) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, request, params, action, context)
-  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth135Conditional, x, request, params, action, context)
-  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth160Conditional, x, request, params, action, context)
+  p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, context, params, action, context)
+  p2(sets.RutilantArena) && evaluateConditional(RutilantArenaConditional, x, context, params, action, context)
+  p2(sets.InertSalsotto) && evaluateConditional(InertSalsottoConditional, x, context, params, action, context)
+  p2(sets.FleetOfTheAgeless) && evaluateConditional(FleetOfTheAgelessConditional, x, context, params, action, context)
+  p2(sets.BelobogOfTheArchitects) && evaluateConditional(BelobogOfTheArchitectsConditional, x, context, params, action, context)
+  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge150Conditional, x, context, params, action, context)
+  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge250Conditional, x, context, params, action, context)
+  p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, context, params, action, context)
+  p2(sets.BrokenKeel) && evaluateConditional(BrokenKeelConditional, x, context, params, action, context)
+  p2(sets.CelestialDifferentiator) && evaluateConditional(CelestialDifferentiatorConditional, x, context, params, action, context)
+  p2(sets.TaliaKingdomOfBanditry) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, context, params, action, context)
+  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth135Conditional, x, context, params, action, context)
+  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth160Conditional, x, context, params, action, context)
 
-  const characterConditionals = params.characterConditionals
-  const lightConeConditionals = params.lightConeConditionals
+  const characterConditionalController = context.characterConditionalController
+  const lightConeConditionalController = context.lightConeConditionalController
 
-  for (const conditional of characterConditionals.dynamicConditionals || []) {
-    evaluateConditional(conditional, x, request, params, action, context)
+  for (const conditional of characterConditionalController.dynamicConditionals || []) {
+    evaluateConditional(conditional, x, context, params, action, context)
   }
-  for (const conditional of lightConeConditionals.dynamicConditionals || []) {
-    evaluateConditional(conditional, x, request, params, action, context)
+  for (const conditional of lightConeConditionalController.dynamicConditionals || []) {
+    evaluateConditional(conditional, x, context, params, action, context)
   }
 
   return x

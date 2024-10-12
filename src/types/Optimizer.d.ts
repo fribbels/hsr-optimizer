@@ -1,6 +1,6 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { CharacterConditionalMap } from 'types/CharacterConditional'
-import { LightConeConditionalMap } from 'types/LightConeConditionals'
+import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterConditional'
+import { LightConeConditional, LightConeConditionalMap } from 'types/LightConeConditionals'
 import { ConditionalRegistry } from 'lib/optimizer/calculateConditionals'
 
 export type OptimizerAction = {
@@ -94,9 +94,30 @@ export type OptimizerContext = {
   weaknessBrokenMultiplier: number
 
   actions: OptimizerAction[]
+
+  characterConditionalController: CharacterConditional
+  lightConeConditionalController: LightConeConditional
 }
 
 export type OptimizerMinFilters = {}
 export type OptimizerMaxFilters = {}
 
-export type OptimizerCombatBuffs = {}
+export type OptimizerCombatBuffs = {
+  ATK: number
+  ATK_P: number
+  HP: number
+  HP_P: number
+  DEF: number
+  DEF_P: number
+  CR: number
+  CD: number
+  SPD: number
+  SPD_P: number
+  BE: number
+  DMG_BOOST: number
+  DEF_PEN: number
+  RES_PEN: number
+  EFFECT_RES_PEN: number
+  VULNERABILITY: number
+  BREAK_EFFICIENCY: number
+}

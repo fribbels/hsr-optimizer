@@ -122,8 +122,8 @@ self.onmessage = function (e: MessageEvent) {
 
     calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope)
     calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
-    calculateBaseStats(c, request, params)
-    calculateElementalStats(c, request, params)
+    calculateBaseStats(c, request, params, context)
+    calculateElementalStats(c, request, params, context)
 
     // Exit early on base display filters failing
     if (baseDisplay) {

@@ -1,4 +1,3 @@
-import { generateParams } from 'lib/optimizer/calculateParams.ts'
 import { OrnamentSetCount, OrnamentSetToIndex, RelicSetCount, RelicSetToIndex } from 'lib/constants'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats.ts'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
@@ -38,7 +37,7 @@ export function calculateBuild(request, relics, cachedParams = null, reuseReques
     request = Utils.clone(request)
   }
 
-  const params = cachedParams ?? generateParams(request)
+  // const params = cachedParams ?? generateParams(request)
   // ============== Context
 
   const context = generateContext(request)
@@ -71,7 +70,7 @@ export function calculateBuild(request, relics, cachedParams = null, reuseReques
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount
 
-  const x = Object.assign({}, params.precomputedX)
+  const x = {}
   const c = {
     ...baseCharacterStats,
     x: x,
@@ -81,8 +80,8 @@ export function calculateBuild(request, relics, cachedParams = null, reuseReques
 
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)
   calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
-  calculateBaseStats(c, request, params)
-  calculateElementalStats(c, request, params)
+  calculateBaseStats(c, request, params, context)
+  calculateElementalStats(c, request, params, context)
 
   let combo = 0
   for (let i = context.actions.length - 1; i >= 0; i--) {

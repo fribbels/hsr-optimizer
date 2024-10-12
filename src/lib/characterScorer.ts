@@ -620,6 +620,7 @@ function generateFullDefaultForm(
   const lightConeConditionalsRequest = { lightCone: lightCone, eidolon: lightConeSuperimposition }
 
   const simulationForm: Form = getDefaultForm({ id: characterId })
+
   simulationForm.characterId = characterId
   simulationForm.characterEidolon = characterEidolon
   simulationForm.lightCone = lightCone

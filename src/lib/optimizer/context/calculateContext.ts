@@ -21,7 +21,25 @@ export function generateContext(request: Form): OptimizerContext {
 }
 
 function generateCombatBuffsContext(request: Form, context: OptimizerContext) {
-
+  context.combatBuffs = {
+    ATK: request.combatBuffs.ATK,
+    ATK_P: request.combatBuffs.ATK_P,
+    HP: request.combatBuffs.HP,
+    HP_P: request.combatBuffs.HP_P,
+    DEF: request.combatBuffs.DEF,
+    DEF_P: request.combatBuffs.DEF_P,
+    CR: request.combatBuffs.CR,
+    CD: request.combatBuffs.CD,
+    SPD: request.combatBuffs.SPD,
+    SPD_P: request.combatBuffs.SPD_P,
+    BE: request.combatBuffs.BE,
+    DMG_BOOST: request.combatBuffs.DMG_BOOST,
+    DEF_PEN: request.combatBuffs.DEF_PEN,
+    RES_PEN: request.combatBuffs.RES_PEN,
+    EFFECT_RES_PEN: request.combatBuffs.EFFECT_RES_PEN,
+    VULNERABILITY: request.combatBuffs.VULNERABILITY,
+    BREAK_EFFICIENCY: request.combatBuffs.BREAK_EFFICIENCY,
+  }
 }
 
 function generateFiltersContext(request: Form, context: OptimizerContext) {

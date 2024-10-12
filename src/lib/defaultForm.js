@@ -98,6 +98,12 @@ export function getDefaultForm(initialCharacter) {
     }
   }
 
+  if (scoringMetadata?.simulation?.comboAbilities) {
+    defaultForm.comboAbilities = scoringMetadata.simulation.comboAbilities
+    defaultForm.comboDot = scoringMetadata.simulation.comboDot
+    defaultForm.comboBreak = scoringMetadata.simulation.comboBreak
+  }
+
   return defaultForm
 }
 

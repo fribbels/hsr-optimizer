@@ -5,8 +5,7 @@ import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { findContentId } from 'lib/conditionals/conditionalUtils'
 import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction } from 'types/Optimizer'
-import { request } from '@playwright/test'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.FlowingNightglow')
@@ -50,7 +49,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       cadenzaActive: true,
     }),
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = request.lightConeConditionals
+      const t = action.lightConeConditionals
 
       x.ELEMENTAL_DMG += (t.cadenzaActive) ? sValuesDmgBuff[s] : 0
     },

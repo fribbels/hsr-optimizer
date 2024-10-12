@@ -57,7 +57,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.VULNERABILITY += (m.woefreeState) ? sValuesVulnerability[s] : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = request.lightConeConditionals
+      const t = action.lightConeConditionals
 
       x.VULNERABILITY += (t.woefreeState && t.additionalVulnerability) ? sValuesVulnerabilityAdditional[s] : 0
     },

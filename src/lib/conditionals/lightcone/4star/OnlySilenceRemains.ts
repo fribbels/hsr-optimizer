@@ -4,8 +4,7 @@ import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction } from 'types/Optimizer'
-import { request } from '@playwright/test'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.OnlySilenceRemains')
@@ -28,7 +27,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals
 
-      x[Stats.CR] += (r.enemies2CrBuff && request.enemyCount <= 2) ? sValues[s] : 0
+      x[Stats.CR] += (r.enemies2CrBuff && context.enemyCount <= 2) ? sValues[s] : 0
     },
     finalizeCalculations: () => {
     },

@@ -1,10 +1,10 @@
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.EarthlyEscapade')
@@ -32,7 +32,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: () => {
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = request.lightConeConditionals
+      const t = action.lightConeConditionals
 
       x[Stats.CR] += (t.maskActive) ? sValuesCr[s] : 0
       x[Stats.CD] += (t.maskActive) ? sValuesCd[s] : 0

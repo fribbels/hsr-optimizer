@@ -17,12 +17,12 @@ export function injectConditionals(wgsl: string, request: Form, params: Optimize
 
   if (lightConeConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
     '/* INJECT LIGHT CONE CONDITIONALS */',
-    indent(lightConeConditionals.gpuFinalizeCalculations(request, params, context), 2),
+    indent(lightConeConditionals.gpuFinalizeCalculations(action, context), 2),
   )
 
   if (characterConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
     '/* INJECT CHARACTER CONDITIONALS */',
-    indent(characterConditionals.gpuFinalizeCalculations(request, params, context), 2),
+    indent(characterConditionals.gpuFinalizeCalculations(action, context), 2),
   )
 
 

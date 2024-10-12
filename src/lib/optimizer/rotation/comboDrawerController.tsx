@@ -77,9 +77,9 @@ export type ComboTeammate = {
 
 export type ComboState = {
   comboCharacter: ComboCharacter
-  comboTeammate0: ComboTeammate
-  comboTeammate1: ComboTeammate
-  comboTeammate2: ComboTeammate
+  comboTeammate0: ComboTeammate | null
+  comboTeammate1: ComboTeammate | null
+  comboTeammate2: ComboTeammate | null
   comboAbilities: string[]
 }
 
@@ -165,7 +165,7 @@ function mergeComboStates(base: ComboState, update: ComboState) {
   mergeTeammate(base.comboTeammate2, update?.comboTeammate2)
 }
 
-function mergeTeammate(baseTeammate: ComboTeammate, updateTeammate: ComboTeammate) {
+function mergeTeammate(baseTeammate: ComboTeammate | null, updateTeammate: ComboTeammate | null) {
   if (!baseTeammate || !updateTeammate) return
   mergeConditionals(baseTeammate.characterConditionals, updateTeammate.characterConditionals)
   mergeConditionals(baseTeammate.lightConeConditionals, updateTeammate.lightConeConditionals)
@@ -678,14 +678,14 @@ export function updateConditionalChange(changeEvent: ChangeEvent) {
   if (changeEvent.lightConeConditionals) change(changeEvent.lightConeConditionals, comboState.comboCharacter.lightConeConditionals)
   if (changeEvent.setConditionals) change(changeEvent.setConditionals, comboState.comboCharacter.setConditionals, true)
 
-  if (changeEvent.teammate0?.characterConditionals) change(changeEvent.teammate0.characterConditionals, comboState.comboTeammate0.characterConditionals)
-  if (changeEvent.teammate0?.lightConeConditionals) change(changeEvent.teammate0.lightConeConditionals, comboState.comboTeammate0.lightConeConditionals)
+  if (changeEvent.teammate0?.characterConditionals) change(changeEvent.teammate0.characterConditionals, comboState.comboTeammate0?.characterConditionals || {})
+  if (changeEvent.teammate0?.lightConeConditionals) change(changeEvent.teammate0.lightConeConditionals, comboState.comboTeammate0?.lightConeConditionals || {})
 
-  if (changeEvent.teammate1?.characterConditionals) change(changeEvent.teammate1.characterConditionals, comboState.comboTeammate1.characterConditionals)
-  if (changeEvent.teammate1?.lightConeConditionals) change(changeEvent.teammate1.lightConeConditionals, comboState.comboTeammate1.lightConeConditionals)
+  if (changeEvent.teammate1?.characterConditionals) change(changeEvent.teammate1.characterConditionals, comboState.comboTeammate1?.characterConditionals || {})
+  if (changeEvent.teammate1?.lightConeConditionals) change(changeEvent.teammate1.lightConeConditionals, comboState.comboTeammate1?.lightConeConditionals || {})
 
-  if (changeEvent.teammate2?.characterConditionals) change(changeEvent.teammate2.characterConditionals, comboState.comboTeammate2.characterConditionals)
-  if (changeEvent.teammate2?.lightConeConditionals) change(changeEvent.teammate2.lightConeConditionals, comboState.comboTeammate2.lightConeConditionals)
+  if (changeEvent.teammate2?.characterConditionals) change(changeEvent.teammate2.characterConditionals, comboState.comboTeammate2?.characterConditionals || {})
+  if (changeEvent.teammate2?.lightConeConditionals) change(changeEvent.teammate2.lightConeConditionals, comboState.comboTeammate2?.lightConeConditionals || {})
 
   window.store.getState().setComboState({ ...comboState })
   updateFormState(comboState)

@@ -15,8 +15,6 @@ import { StatCalculator } from 'lib/statCalculator'
 import { Conditional } from 'types/Conditionals'
 import { TsUtils } from 'lib/TsUtils'
 import { generateParams, OptimizerParams } from 'lib/optimizer/calculateParams'
-import { calculateConditionalRegistry, calculateConditionals } from 'lib/optimizer/calculateConditionals'
-import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 
 const cachedSims: { [key: string]: SimulationScore } = {}
 
@@ -297,9 +295,9 @@ export function scoreCharacterSimulation(
 
   // Cache form/params for reuse
   const cachedOptimizerParams = generateParams(simulationForm)
-  calculateConditionalRegistry(simulationForm, cachedOptimizerParams)
-  calculateConditionals(simulationForm, cachedOptimizerParams)
-  calculateTeammates(simulationForm, cachedOptimizerParams)
+  // calculateConditionalRegistry(simulationForm, cachedOptimizerParams) // TODO
+  // calculateConditionals(simulationForm, cachedOptimizerParams) // TODO
+  // calculateTeammates(simulationForm, cachedOptimizerParams) // TODO
 
   // Generate scoring function
   const formula = metadata.formula

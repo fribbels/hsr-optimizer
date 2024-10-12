@@ -1,6 +1,6 @@
 import { ComboBooleanConditional, ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { Form } from 'types/Form'
-import { OptimizerAction, OptimizerContext, SetConditional, TeammateAction } from 'types/Optimizer'
+import { OptimizerAction, OptimizerContext, SetConditional } from 'types/Optimizer'
 import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterConditional'
 import { LightConeConditional, LightConeConditionalMap } from 'types/LightConeConditionals'
 import { SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets, Stats } from 'lib/constants'
@@ -100,8 +100,8 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
 
   const x = action.precomputedX
 
-  lightConeConditionals.initializeConfigurations?.(x, action as unknown as Form, context) // TODO
-  characterConditionals.initializeConfigurations?.(x, action as unknown as Form, context) // TODO
+  lightConeConditionals.initializeConfigurations?.(x, action, context)
+  characterConditionals.initializeConfigurations?.(x, action, context)
 
   const teammates = [
     comboState.comboTeammate0,
@@ -114,17 +114,17 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
     const teammateCharacterConditionals = CharacterConditionals.get(teammates[i].metadata) as CharacterConditional
     const teammateLightConeConditionals = LightConeConditionals.get(teammates[i].metadata) as LightConeConditional
 
-    teammateCharacterConditionals.initializeTeammateConfigurations?.(x, teammateRequest as unknown as Form, context)
-    teammateLightConeConditionals.initializeTeammateConfigurations?.(x, teammateRequest as unknown as Form, context)
+    teammateCharacterConditionals.initializeTeammateConfigurations?.(x, action, context)
+    teammateLightConeConditionals.initializeTeammateConfigurations?.(x, action, context)
   }
 
   // Precompute stage
-  lightConeConditionals.precomputeEffects?.(x, action as unknown as Form, context)
-  characterConditionals.precomputeEffects?.(x, action as unknown as Form, context)
+  lightConeConditionals.precomputeEffects?.(x, action, context)
+  characterConditionals.precomputeEffects?.(x, action, context)
 
   // Precompute mutual stage
-  lightConeConditionals.precomputeMutualEffects?.(x, action as unknown as Form, context)
-  characterConditionals.precomputeMutualEffects?.(x, action as unknown as Form, context)
+  lightConeConditionals.precomputeMutualEffects?.(x, action, context)
+  characterConditionals.precomputeMutualEffects?.(x, action, context)
 
   precomputeTeammates(action, comboState, context)
   // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
@@ -141,6 +141,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
     comboState.comboTeammate2,
   ].filter((x) => !!x?.metadata?.characterId)
   for (let i = 0; i < teammates.length; i++) {
+    const teammate = teammates[i]!
     // This is set to null so empty light cones don't get overwritten by the main lc. TODO: There's probably a better place for this
     // teammates[i].lightCone = teammates[i].lightCone || null
     const teammateRequest = Object.assign({}, teammates[i])
@@ -148,19 +149,21 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
     // const teammateCharacterConditional = transformConditionals(action.actionIndex, teammates[i].characterConditionals) as CharacterConditional
     // const teammateLightConeConditional = transformConditionals(action.actionIndex, teammates[i].lightConeConditionals) as LightConeConditional
 
-    const teammateAction: TeammateAction = {
-      characterConditionals: transformConditionals(action.actionIndex, teammates[i].characterConditionals) as CharacterConditionalMap,
-      lightConeConditionals: transformConditionals(action.actionIndex, teammates[i].lightConeConditionals) as CharacterConditionalMap
-    }
+    const teammateAction = {
+      characterConditionals: transformConditionals(action.actionIndex, teammate.characterConditionals) as CharacterConditionalMap,
+      lightConeConditionals: transformConditionals(action.actionIndex, teammate.lightConeConditionals) as CharacterConditionalMap
+    } as OptimizerAction
 
-    const teammateCharacterConditionals = CharacterConditionals.get(teammates[i].metadata) as CharacterConditional
-    const teammateLightConeConditionals = LightConeConditionals.get(teammates[i].metadata) as CharacterConditional
+    const teammateCharacterConditionals = CharacterConditionals.get(teammate.metadata) as CharacterConditional
+    const teammateLightConeConditionals = LightConeConditionals.get(teammate.metadata) as CharacterConditional
 
-    if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateAction as unknown as Form, context)
-    if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateAction as unknown as Form, context)
 
-    if (teammateLightConeConditionals.precomputeMutualEffects) teammateLightConeConditionals.precomputeMutualEffects(x, teammateAction as unknown as Form, context)
-    if (teammateLightConeConditionals.precomputeTeammateEffects) teammateLightConeConditionals.precomputeTeammateEffects(x, teammateAction as unknown as Form, context)
+
+    if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateAction, context)
+    if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateAction, context)
+
+    if (teammateLightConeConditionals.precomputeMutualEffects) teammateLightConeConditionals.precomputeMutualEffects(x, teammateAction, context)
+    if (teammateLightConeConditionals.precomputeTeammateEffects) teammateLightConeConditionals.precomputeTeammateEffects(x, teammateAction, context)
 
 
     for (const [key, value] of [...Object.entries(teammateRequest.relicSetConditionals), ...Object.entries(teammateRequest.ornamentSetConditionals)]) {

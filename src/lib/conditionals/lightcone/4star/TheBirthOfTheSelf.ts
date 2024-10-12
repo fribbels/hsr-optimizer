@@ -1,10 +1,10 @@
 import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction } from 'types/Optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TheBirthOfTheSelf')
@@ -25,7 +25,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       enemyHp50FuaBuff: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = request.lightConeConditionals
+      const r = action.lightConeConditionals
 
       buffAbilityDmg(x, FUA_TYPE, sValues[s])
       buffAbilityDmg(x, FUA_TYPE, sValues[s], (r.enemyHp50FuaBuff))

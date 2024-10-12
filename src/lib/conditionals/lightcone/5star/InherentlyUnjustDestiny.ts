@@ -1,11 +1,11 @@
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
 import { findContentId } from 'lib/conditionals/conditionalUtils'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.InherentlyUnjustDestiny')
@@ -48,12 +48,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       targetVulnerability: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = request.lightConeConditionals
+      const r = action.lightConeConditionals
 
       x[Stats.CD] += (r.shieldCdBuff) ? sValuesCd[s] : 0
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = request.lightConeConditionals
+      const m = action.lightConeConditionals
 
       x.VULNERABILITY += (m.targetVulnerability) ? sValuesVulnerability[s] : 0
     },

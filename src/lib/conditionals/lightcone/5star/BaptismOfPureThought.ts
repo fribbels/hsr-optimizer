@@ -1,12 +1,11 @@
 import { SuperImpositionLevel } from 'types/LightCone'
-import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ContentItem } from 'types/Conditionals'
 import { ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
 import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction } from 'types/Optimizer'
 
 const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.BaptismOfPureThought')
@@ -41,7 +40,7 @@ const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => 
       postUltBuff: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = request.lightConeConditionals
+      const r = action.lightConeConditionals
 
       x[Stats.CD] += r.debuffCdStacks * sValuesCd[s]
       x.ELEMENTAL_DMG += r.postUltBuff ? sValuesDmg[s] : 0

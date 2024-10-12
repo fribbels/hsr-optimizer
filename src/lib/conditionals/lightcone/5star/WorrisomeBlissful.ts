@@ -6,6 +6,7 @@ import { ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConst
 import { Stats } from 'lib/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction } from 'types/Optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.WorrisomeBlissful')
@@ -36,7 +37,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       buffAbilityDmg(x, FUA_TYPE, sValuesFuaDmg[s])
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = request.lightConeConditionals
+      const m = action.lightConeConditionals
 
       x[Stats.CD] += m.targetTameStacks * sValuesCd[s]
     },

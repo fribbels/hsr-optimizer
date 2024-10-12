@@ -1,6 +1,5 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Stats } from 'lib/constants'
-import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { indent, wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'

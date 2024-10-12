@@ -1,19 +1,19 @@
 import { Stats } from 'lib/constants'
 import { p2 } from 'lib/optimizer/optimizerUtils'
 
-export function calculateBaseMultis(x, request, params, action, context) {
-  const lightConeConditionals = params.lightConeConditionals
-  const characterConditionals = params.characterConditionals
+export function calculateBaseMultis(x, action, context) {
+  const lightConeConditionalController = context.lightConeConditionalController
+  const characterConditionalController = context.characterConditionalController
 
-  if (lightConeConditionals.finalizeCalculations) lightConeConditionals.finalizeCalculations(x, request, context)
-  if (characterConditionals.finalizeCalculations) characterConditionals.finalizeCalculations(x, request, context)
+  if (lightConeConditionalController.finalizeCalculations) lightConeConditionalController.finalizeCalculations(x, action, context)
+  if (characterConditionalController.finalizeCalculations) characterConditionalController.finalizeCalculations(x, action, context)
 }
 
-export function calculateDamage(x, request, params, action, context) {
+export function calculateDamage(x, action, context) {
   const sets = x.sets
   const cLevel = 80
   const eLevel = context.enemyLevel
-  const defReduction = x.DEF_PEN + request.combatBuffs.DEF_PEN
+  const defReduction = x.DEF_PEN + context.combatBuffs.DEF_PEN
   const defIgnore = 0
 
   x.ELEMENTAL_DMG += x[context.elementalDamageType]

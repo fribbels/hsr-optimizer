@@ -80,8 +80,8 @@ export function calculateBuild(request, relics, cachedParams = null, reuseReques
 
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)
   calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
-  calculateBaseStats(c, request, params, context)
-  calculateElementalStats(c, request, params, context)
+  calculateBaseStats(c, context)
+  calculateElementalStats(c, context)
 
   let combo = 0
   for (let i = context.actions.length - 1; i >= 0; i--) {
@@ -92,8 +92,8 @@ export function calculateBuild(request, relics, cachedParams = null, reuseReques
     ax.sets = c.x.sets
 
     calculateComputedStats(c, ax, action, context)
-    calculateBaseMultis(ax, request, params, action, context)
-    calculateDamage(ax, request, params, action, context)
+    calculateBaseMultis(ax, action, context)
+    calculateDamage(ax, action, context)
 
     if (action.actionType === 'BASIC') {
       combo += ax.BASIC_DMG

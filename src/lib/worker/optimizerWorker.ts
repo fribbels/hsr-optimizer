@@ -5,11 +5,11 @@ import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDam
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { Form } from 'types/Form'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
-import { CharacterConditionals } from 'lib/characterConditionals'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateConditionals'
+import { CharacterConditionals } from 'lib/characterConditionals'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
@@ -40,7 +40,7 @@ self.onmessage = function (e: MessageEvent) {
 
   const data: OptimizerEventData = e.data
   const request: Form = data.request
-  const params: OptimizerParams = data.params
+  // const params: OptimizerParams = data.params
   const context: OptimizerContext = data.context
 
   const relics = data.relics
@@ -66,12 +66,14 @@ self.onmessage = function (e: MessageEvent) {
     // @ts-ignore
   } = generateResultMinFilter(request, combatDisplay)
 
-  params.characterConditionals = CharacterConditionals.get(request)
-  params.lightConeConditionals = LightConeConditionals.get(request)
+  // params.characterConditionals = CharacterConditionals.get(request)
+  // params.lightConeConditionals = LightConeConditionals.get(request)
 
   for (const action of context.actions) {
     calculateContextConditionalRegistry(action, context)
   }
+  context.characterConditionalController = CharacterConditionals.get(context)
+  context.lightConeConditionalController = LightConeConditionals.get(context)
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
@@ -122,8 +124,8 @@ self.onmessage = function (e: MessageEvent) {
 
     calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope)
     calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
-    calculateBaseStats(c, request, params, context)
-    calculateElementalStats(c, request, params, context)
+    calculateBaseStats(c, context)
+    calculateElementalStats(c, context)
 
     // Exit early on base display filters failing
     if (baseDisplay) {
@@ -153,8 +155,8 @@ self.onmessage = function (e: MessageEvent) {
       const ax = action.precomputedX
 
       calculateComputedStats(c, ax, action, context)
-      calculateBaseMultis(ax, request, params, action, context)
-      calculateDamage(ax, request, params, action, context)
+      calculateBaseMultis(ax, action, context)
+      calculateDamage(ax, action, context)
 
       if (action.actionType === 'BASIC') {
         combo += ax.BASIC_DMG

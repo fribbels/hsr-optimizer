@@ -1,4 +1,4 @@
-import { Constants, Stats } from 'lib/constants'
+import { Stats } from 'lib/constants'
 import { ContentItem } from 'types/Conditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { indent } from 'lib/gpu/injection/wgslUtils'
@@ -12,7 +12,7 @@ export const precisionRound = (number: number, precision: number = 8): number =>
 // Remove the ashblazing set atk bonus only when calc-ing fua attacks
 export const calculateAshblazingSet = (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext, hitMulti: number): number => {
   const enabled = p4(x.sets.TheAshblazingGrandDuke)
-  const valueTheAshblazingGrandDuke = action.setConditionals[Constants.Sets.TheAshblazingGrandDuke][1] as number
+  const valueTheAshblazingGrandDuke = action.setConditionals.valueTheAshblazingGrandDuke
   const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled * context.baseATK
   const ashblazingMulti = hitMulti * enabled * context.baseATK
 

@@ -1,21 +1,9 @@
-import { Stats } from 'lib/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { BASIC_TYPE, BREAK_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, SUPER_BREAK_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { buffStat, conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
-import { Form } from 'types/Form'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
-
-export const ConditionalType = {
-  SET: 0,
-  ABILITY: 1,
-}
-
-export const ConditionalActivation = {
-  SINGLE: 0,
-  CONTINUOUS: 1,
-}
+import { buffStat, conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 
 export const RutilantArenaConditional: DynamicConditional = {
   id: 'RutilantArenaConditional',

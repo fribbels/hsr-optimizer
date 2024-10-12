@@ -4,8 +4,6 @@ import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { BASIC_TYPE, BasicStatsObject, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { BelobogOfTheArchitectsConditional, BrokenKeelConditional, CelestialDifferentiatorConditional, FirmamentFrontlineGlamoth135Conditional, FirmamentFrontlineGlamoth160Conditional, FleetOfTheAgelessConditional, InertSalsottoConditional, IronCavalryAgainstTheScourge150Conditional, IronCavalryAgainstTheScourge250Conditional, PanCosmicCommercialEnterpriseConditional, RutilantArenaConditional, SpaceSealingStationConditional, TaliaKingdomOfBanditryConditional } from 'lib/gpu/conditionals/setConditionals'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { Form } from 'types/Form'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: number, setB: number, setF: number, setP: number, setL: number) {
@@ -55,7 +53,7 @@ export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: numb
   return c.x.sets
 }
 
-export function calculateElementalStats(c: BasicStatsObject, _request: Form, _params: OptimizerParams, context: OptimizerContext) {
+export function calculateElementalStats(c: BasicStatsObject, context: OptimizerContext) {
   const base = context.characterStatsBreakdown.base
   const lc = context.characterStatsBreakdown.lightCone
   const trace = context.characterStatsBreakdown.traces
@@ -89,7 +87,7 @@ export function calculateElementalStats(c: BasicStatsObject, _request: Form, _pa
   }
 }
 
-export function calculateBaseStats(c: BasicStatsObject, _request: Form, _params: OptimizerParams, context: OptimizerContext) {
+export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContext) {
   const base =  context.characterStatsBreakdown.base
   const lc = context.characterStatsBreakdown.lightCone
   const trace = context.characterStatsBreakdown.traces

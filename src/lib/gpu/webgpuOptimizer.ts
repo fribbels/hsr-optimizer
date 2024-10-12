@@ -1,4 +1,3 @@
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { Form } from 'types/Form'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
@@ -15,7 +14,6 @@ import { OptimizerContext } from 'types/Optimizer'
 
 export async function gpuOptimize(props: {
   context: OptimizerContext
-  params: OptimizerParams
   request: Form
   relics: RelicsByPart
   permutations: number
@@ -23,7 +21,7 @@ export async function gpuOptimize(props: {
   relicSetSolutions: number[]
   ornamentSetSolutions: number[]
 }) {
-  const { context, params, request, relics, permutations, computeEngine, relicSetSolutions, ornamentSetSolutions } = props
+  const { context, request, relics, permutations, computeEngine, relicSetSolutions, ornamentSetSolutions } = props
 
   const device = await getWebgpuDevice()
   if (device == null) {
@@ -46,7 +44,6 @@ export async function gpuOptimize(props: {
     relics,
     request,
     context,
-    params,
     permutations,
     computeEngine,
     relicSetSolutions,
@@ -58,7 +55,7 @@ export async function gpuOptimize(props: {
     Message.warning('Debug mode is ON', 5)
   }
 
-  console.log('Raw inputs', { context, params, request, relics, permutations })
+  console.log('Raw inputs', { context, request, relics, permutations })
   // console.log('GPU execution context', gpuContext)
 
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {
@@ -189,7 +186,6 @@ function outputResults(gpuContext: GpuExecutionContext) {
     const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
     const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
 
-    const cachedParams = gpuContext.params
     const c = calculateBuild(
       gpuContext.request,
       {
@@ -200,7 +196,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
         PlanarSphere: relics.PlanarSphere[p],
         LinkRope: relics.LinkRope[l],
       },
-      cachedParams,
+      null,
       true,
     )
 

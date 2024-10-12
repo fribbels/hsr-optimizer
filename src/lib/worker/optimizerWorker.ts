@@ -66,9 +66,6 @@ self.onmessage = function (e: MessageEvent) {
     // @ts-ignore
   } = generateResultMinFilter(request, combatDisplay)
 
-  // params.characterConditionals = CharacterConditionals.get(request)
-  // params.lightConeConditionals = LightConeConditionals.get(request)
-
   for (const action of context.actions) {
     calculateContextConditionalRegistry(action, context)
   }
@@ -83,8 +80,6 @@ self.onmessage = function (e: MessageEvent) {
     if (index >= data.permutations) {
       break
     }
-
-    // calculateConditionalRegistry(request, params)
 
     const l = (index % lSize)
     const p = (((index - l) / lSize) % pSize)

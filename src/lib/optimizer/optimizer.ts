@@ -5,7 +5,6 @@ import DB from 'lib/db'
 import { WorkerPool } from 'lib/workerPool'
 import { RelicFilters } from 'lib/relicFilters'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimizer/relicSetSolver'
-import { generateParams } from 'lib/optimizer/calculateParams.ts'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
@@ -118,7 +117,6 @@ export const Optimizer = {
 
     window.optimizerGrid.current.api.showLoadingOverlay()
 
-    const params = generateParams(request)
     const context = generateContext(request)
 
     // Create a special optimization request for the top row, ignoring filters and with a custom callback
@@ -137,7 +135,6 @@ export const Optimizer = {
     let runSize = 0
     const maxSize = Constants.THREAD_BUFFER_LENGTH
 
-    const clonedParams = Utils.clone(params) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
     const clonedContext = Utils.clone(context) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
 
     let computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
@@ -167,7 +164,6 @@ export const Optimizer = {
       for (const run of runs) {
         const task = {
           input: {
-            params: clonedParams,
             context: clonedContext,
             request: request,
             relics: relics,
@@ -225,7 +221,6 @@ export const Optimizer = {
     } else {
       gpuOptimize({
         context: context,
-        params: params,
         request: request,
         relics: relics,
         permutations: permutations,

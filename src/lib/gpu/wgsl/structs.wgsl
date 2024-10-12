@@ -122,6 +122,7 @@ struct Action {
   setConditionals: SetConditionals,
   x: ComputedStats,
   state: ConditionalState,
+  constants: ConditionalConstants,
 }
 
 struct Params {

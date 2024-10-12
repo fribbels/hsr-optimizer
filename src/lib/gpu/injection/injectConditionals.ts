@@ -3,51 +3,55 @@ import { indent } from 'lib/gpu/injection/wgslUtils'
 import { Form } from 'types/Form'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { ConditionalRegistry } from 'lib/optimizer/calculateConditionals'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomputedStats'
-import { OptimizerContext } from 'types/Optimizer'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 
-export function injectConditionals(wgsl: string, request: Form, params: OptimizerParams, context: OptimizerContext) {
+export function injectConditionals(wgsl: string, request: Form, context: OptimizerContext) {
   const characterConditionals: CharacterConditional = CharacterConditionals.get(request) as CharacterConditional
   const lightConeConditionals: LightConeConditional = LightConeConditionals.get(request) as LightConeConditional
 
-  if (lightConeConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
-    '/* INJECT LIGHT CONE CONDITIONALS */',
-    indent(lightConeConditionals.gpuFinalizeCalculations(action, context), 2),
-  )
+  // TODO
+  // if (lightConeConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
+  //   '/* INJECT LIGHT CONE CONDITIONALS */',
+  //   indent(lightConeConditionals.gpuFinalizeCalculations(action, context), 2),
+  // )
+  //
+  // if (characterConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
+  //   '/* INJECT CHARACTER CONDITIONALS */',
+  //   indent(characterConditionals.gpuFinalizeCalculations(action, context), 2),
+  // )
 
-  if (characterConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
-    '/* INJECT CHARACTER CONDITIONALS */',
-    indent(characterConditionals.gpuFinalizeCalculations(action, context), 2),
-  )
 
-
-  wgsl += generateDynamicConditionals(request, params, context)
+  wgsl += generateDynamicConditionals(request, context)
 
   // Actions
   const length = context.actions.length
 
-  let conditionalConstantsStruct = '\n'
-  let conditionalConstantsValues = '\n'
 
-  if (characterConditionals.gpuConstants) {
-    for (const [key, value] of Object.entries(characterConditionals.gpuConstants(request, params, context))) {
-      if (typeof value === 'number') {
-        conditionalConstantsStruct += `${key}: f32,\n`
+
+  // TODO!!
+
+  function injectConditionalConstants(action: OptimizerAction) {
+    let conditionalConstantsStruct = '\n'
+    let conditionalConstantsValues = '\n'
+
+    if (characterConditionals.gpuConstants) {
+      for (const [key, value] of Object.entries(characterConditionals.gpuConstants(action, context))) {
+        if (typeof value === 'number') {
+          conditionalConstantsStruct += `${key}: f32,\n`
+        }
+        if (typeof value === 'boolean') {
+          conditionalConstantsStruct += `${key}: bool,\n`
+        }
       }
-      if (typeof value === 'boolean') {
-        conditionalConstantsStruct += `${key}: bool,\n`
-      }
-    }
 
 
-    for (const action of context.actions) {
       let actionValues = ``
-      for (const [key, value] of Object.entries(characterConditionals.gpuConstants(action as unknown as Form, params, context))) {
+      for (const [key, value] of Object.entries(characterConditionals.gpuConstants(action, context))) {
         if (typeof value === 'number') {
           actionValues += `${value}f,\n`
         }
@@ -56,27 +60,21 @@ export function injectConditionals(wgsl: string, request: Form, params: Optimize
         }
       }
       conditionalConstantsValues += `
-  ConditionalConstants(
     ${actionValues}
-  ),
       `
-    }
 
-    if (characterConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
-      '/* INJECT CHARACTER CONDITIONAL CONSTANTS */',
-      `
+      if (characterConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
+        '/* INJECT CHARACTER CONDITIONAL CONSTANTS */',
+        `
 struct ConditionalConstants {
 ${indent(conditionalConstantsStruct, 1)}
 }
-
-const conditionalConstants: array<ConditionalConstants, ${length}> = array<ConditionalConstants, ${length}>(
-${indent(conditionalConstantsValues, 1)}
-);
-
       `
-    )
-  }
+      )
+    }
 
+    return conditionalConstantsValues
+  }
 
 //   let actionsDefinition = `
 // var actions: array<Action, ${length}> = array<Action, ${length}>(`
@@ -111,6 +109,8 @@ const actions: array<Action, ${length}> = array<Action, ${length}>(`
     ComputedStats(${injectPrecomputedStatsContext(action)}
     ),
     ConditionalState(
+    ),
+    ConditionalConstants(${injectConditionalConstants(action)}
     ),
   ),`
   }
@@ -148,7 +148,7 @@ ${indent(conditionalCallsWgsl, 1)}
   `
 }
 
-function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: string, statName: string, request: Form, params: OptimizerParams) {
+function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: string, statName: string, request: Form, context: OptimizerContext) {
   let conditionalEvaluators = ''
   let conditionalDefinitionsWgsl = ''
   let conditionalCallsWgsl = ''
@@ -161,7 +161,7 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
     .filter((x) => !x.ratioConversion)
     .map((conditional) => generateDependencyCall(conditional.id)).join('\n')
   conditionalDefinitionsWgsl += registeredConditionals[stat]
-    .map((conditional) => conditional.gpu(request, params)).join('\n')
+    .map((conditional) => conditional.gpu(request as unknown as OptimizerAction, context)).join('\n') // TODO!!
   conditionalStateDefinition += registeredConditionals[stat]
     .map((x) => x.id + ': f32,\n').join('')
   conditionalEvaluators += generateConditionalEvaluator(statName, conditionalCallsWgsl)
@@ -176,7 +176,6 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
 
 function generateDynamicConditionals(
   request: Form,
-  params: OptimizerParams,
   context: OptimizerContext
 ) {
   let wgsl = ''
@@ -199,17 +198,17 @@ function generateDynamicConditionals(
 
   const registeredConditionals = context.actions[0].conditionalRegistry
 
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.HP, 'HP', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.ATK, 'ATK', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.DEF, 'DEF', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.SPD, 'SPD', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.CR, 'CR', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.CD, 'CD', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.EHR, 'EHR', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.RES, 'RES', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.BE, 'BE', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.OHB, 'OHB', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.ERR, 'ERR', request, params))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.HP, 'HP', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.ATK, 'ATK', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.DEF, 'DEF', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.SPD, 'SPD', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.CR, 'CR', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.CD, 'CD', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.EHR, 'EHR', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.RES, 'RES', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.BE, 'BE', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.OHB, 'OHB', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.ERR, 'ERR', request, context))
 
   wgsl += conditionalDefinitionsWgsl
   wgsl += conditionalEvaluators

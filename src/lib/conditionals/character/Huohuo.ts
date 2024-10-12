@@ -5,8 +5,8 @@ import { AbilityEidolon, findContentId, gpuStandardHpFinalizer, standardHpFinali
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Huohuo')
@@ -59,7 +59,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       skillBuff: true,
       e6DmgBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       // Scaling
       x.BASIC_SCALING += basicScaling
 
@@ -67,7 +67,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals
 
       x[Stats.ATK_P] += (m.ultBuff) ? ultBuffValue : 0
@@ -75,7 +75,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       x.ELEMENTAL_DMG += (e >= 6 && m.e6DmgBuff) ? 0.50 : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardHpFinalizer(x)
     },
     gpuFinalizeCalculations: () => {

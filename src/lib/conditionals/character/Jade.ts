@@ -3,12 +3,12 @@ import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } f
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jade')
@@ -33,11 +33,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     5: ASHBLAZING_ATK_STACK * (3 * 0.10 + 8 * 0.10 + 8 * 0.10 + 8 * 0.10 + 8 * 0.60), // 0.45
   }
 
-  function getHitMulti(request: Form) {
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
     return r.enhancedFollowUp
-      ? enhancedHitMultiByTargets[request.enemyCount]
-      : unenhancedHitMultiByTargets[request.enemyCount]
+      ? enhancedHitMultiByTargets[context.enemyCount]
+      : unenhancedHitMultiByTargets[context.enemyCount]
   }
 
   const content: ContentItem[] = [
@@ -128,7 +128,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => (teammateDefaults),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       x[Stats.CD] += r.pawnedAssetStacks * pawnedAssetCdScaling
@@ -150,18 +150,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals
 
       x[Stats.SPD] += (t.debtCollectorSpdBuff) ? 30 : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, getHitMulti(request))
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      return gpuStandardFuaAtkFinalizer(getHitMulti(request))
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuStandardFuaAtkFinalizer(getHitMulti(action, context))
     },
   }
 }

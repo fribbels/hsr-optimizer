@@ -4,11 +4,11 @@ import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } f
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Herta')
@@ -19,10 +19,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultScaling = ult(e, 2.00, 2.16)
   const fuaScaling = talent(e, 0.40, 0.43)
 
-  function getHitMultiByTargetsAndHits(hits: number, request: Form) {
+  function getHitMultiByTargetsAndHits(hits: number, context: OptimizerContext) {
     const div = 1 / hits
 
-    if (request.enemyCount == 1) {
+    if (context.enemyCount == 1) {
       let stacks = 1
       let multi = 0
       for (let i = 0; i < hits; i++) {
@@ -32,7 +32,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return multi
     }
 
-    if (request.enemyCount == 3) {
+    if (context.enemyCount == 3) {
       let stacks = 2
       let multi = 0
       for (let i = 0; i < hits; i++) {
@@ -42,7 +42,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return multi
     }
 
-    if (request.enemyCount == 5) {
+    if (context.enemyCount == 5) {
       let stacks = 3
       let multi = 0
       for (let i = 0; i < hits; i++) {
@@ -55,17 +55,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     return 1
   }
 
-  function getHitMulti(request: Form) {
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
-    const hitMultiStacks = getHitMultiByTargetsAndHits(r.fuaStacks, request)
+    const hitMultiStacks = getHitMultiByTargetsAndHits(r.fuaStacks, context)
     const hitMultiByTargets: NumberToNumberMap = {
       1: ASHBLAZING_ATK_STACK * hitMultiStacks,
       3: ASHBLAZING_ATK_STACK * hitMultiStacks,
       5: ASHBLAZING_ATK_STACK * hitMultiStacks,
     }
 
-    return hitMultiByTargets[request.enemyCount]
+    return hitMultiByTargets[context.enemyCount]
   }
 
   const content: ContentItem[] = [
@@ -147,7 +147,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       enemyHpLte50: false,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       // Stats
@@ -175,13 +175,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, getHitMulti(request))
-    },
-    gpuFinalizeCalculations: (request: Form) => {
-      return gpuStandardFuaAtkFinalizer(getHitMulti(request))
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuStandardFuaAtkFinalizer(getHitMulti(action, context))
     },
   }
 }

@@ -80,7 +80,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       talentActive: true,
       teammateHPValue: 8000,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       // Scaling
@@ -93,7 +93,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals
 
       x[Stats.CR] += (m.skillActive) ? skillCrBuffValue : 0
@@ -102,7 +102,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       // Talent ehp buff is shared
       x.DMG_RED_MULTI *= (m.talentActive) ? (1 - talentDmgReductionValue) : 1
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals
 
       x[Stats.HP] += (t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0
@@ -110,7 +110,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       // Skill ehp buff only applies to teammates
       x.DMG_RED_MULTI *= (t.skillActive) ? (1 - 0.65) : 1
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardHpFinalizer(x)
     },
     gpuFinalizeCalculations: () => {

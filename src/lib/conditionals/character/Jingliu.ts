@@ -4,10 +4,9 @@ import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/cond
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
-import { OptimizerContext } from 'types/Optimizer'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jingliu')
@@ -71,7 +70,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e2SkillDmgBuff: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form, context: OptimizerContext) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       // Skills
@@ -90,10 +89,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_SCALING += basicScaling
 
       x.SKILL_SCALING += (r.talentEnhancedState) ? skillEnhancedScaling : skillScaling
-      x.SKILL_SCALING += (e >= 1 && r.talentEnhancedState && (request.enemyCount ?? context.enemyCount) == 1) ? 1 : 0
+      x.SKILL_SCALING += (e >= 1 && r.talentEnhancedState && (context.enemyCount ?? context.enemyCount) == 1) ? 1 : 0
 
       x.ULT_SCALING += ultScaling
-      x.ULT_SCALING += (e >= 1 && (request.enemyCount ?? context.enemyCount) == 1) ? 1 : 0
+      x.ULT_SCALING += (e >= 1 && (context.enemyCount ?? context.enemyCount) == 1) ? 1 : 0
 
       x.FUA_SCALING += 0
 
@@ -105,8 +104,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_TOUGHNESS_DMG += 60
 
       return x
-    },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
     finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

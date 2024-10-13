@@ -205,9 +205,11 @@ export function elementToDataKey(element: HTMLElement | SVGElement) {
   return element.getAttribute('data-key') ?? '{}' // Get the data-key attribute
 }
 
-function GroupDivider() {
+function GroupDivider(props: {text: string}) {
   return (
-    <Divider/>
+    <Divider plain>
+      {props.text}
+    </Divider>
   )
 }
 
@@ -292,20 +294,20 @@ function StateDisplay(props: { comboState: ComboState }) {
     <Flex vertical gap={8}>
       <ComboConditionalsGroupRow comboOrigin={comboCharacter} actionCount={actionCount} conditionalType='character' originKey='comboCharacter'/>
       <ComboConditionalsGroupRow comboOrigin={comboCharacter} actionCount={actionCount} conditionalType='lightCone' originKey='comboCharacterLightCone'/>
-      <GroupDivider/>
-      <SetDisplays comboOrigin={comboCharacter} conditionalType='relicSets' actionCount={actionCount} originKey='comboCharacterRelicSets'/>
+      <GroupDivider text='Relic / Ornament set conditionals'/>
       <SetSelectors comboOrigin={comboCharacter}/>
-      <GroupDivider/>
+      <SetDisplays comboOrigin={comboCharacter} conditionalType='relicSets' actionCount={actionCount} originKey='comboCharacterRelicSets'/>
+      <GroupDivider text='Teammate 1 conditionals'/>
       <ComboConditionalsGroupRow comboOrigin={comboTeammate0} actionCount={actionCount} conditionalType='character' originKey='comboTeammate0'/>
       <ComboConditionalsGroupRow comboOrigin={comboTeammate0} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate0LightCone'/>
       <ComboConditionalsGroupRow comboOrigin={comboTeammate0} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate0RelicSet'/>
       <ComboConditionalsGroupRow comboOrigin={comboTeammate0} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate0OrnamentSet'/>
-      <GroupDivider/>
+      <GroupDivider text='Teammate 2 conditionals'/>
       <ComboConditionalsGroupRow comboOrigin={comboTeammate1} actionCount={actionCount} conditionalType='character' originKey='comboTeammate1'/>
       <ComboConditionalsGroupRow comboOrigin={comboTeammate1} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate1LightCone'/>
       <ComboConditionalsGroupRow comboOrigin={comboTeammate1} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate1RelicSet'/>
       <ComboConditionalsGroupRow comboOrigin={comboTeammate1} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate1OrnamentSet'/>
-      <GroupDivider/>
+      <GroupDivider text='Teammate 3 conditionals'/>
       <ComboConditionalsGroupRow comboOrigin={comboTeammate2} actionCount={actionCount} conditionalType='character' originKey='comboTeammate2'/>
       <ComboConditionalsGroupRow comboOrigin={comboTeammate2} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate2LightCone'/>
       <ComboConditionalsGroupRow comboOrigin={comboTeammate2} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate2RelicSet'/>
@@ -314,7 +316,7 @@ function StateDisplay(props: { comboState: ComboState }) {
   )
 }
 
-function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCharacter, conditionalType: string, actionCount: number, originKey: string }) {
+function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCharacter | null, conditionalType: string, actionCount: number, originKey: string }) {
   const setContent = useMemo(() => {
     return generateSetConditionalContent()
   }, [])

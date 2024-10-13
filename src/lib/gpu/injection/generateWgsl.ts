@@ -109,7 +109,7 @@ ${format(basicFilters)}
     continue;
   }
 }
-  `, 2))
+  `, 4))
 
   return wgsl
 }
@@ -170,7 +170,7 @@ ${format(combatFilters)}
     continue;
   }
 }
-  `, 2))
+  `, 4))
 
   return wgsl
 }
@@ -215,7 +215,7 @@ if (statDisplay == 0) {
   results[index] = ${valueString};
   failures = 1;
 }
-    `, 2))
+    `, 4))
   }
 
   return wgsl

@@ -82,6 +82,7 @@ fn main(
   var failures: f32 = 1;
 
   for (var i = 0; i < CYCLES_PER_INVOCATION; i++) {
+
     // Calculate global_invocation_index
 
     let index = indexGlobal * CYCLES_PER_INVOCATION + i;
@@ -138,7 +139,6 @@ fn main(
     /* INJECT SET FILTERS */
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
     // END SET FILTERS
-
 
 
     // Calculate relic set counts
@@ -307,21 +307,6 @@ fn main(
       0.10 * p2(sets.PasserbyOfWanderingCloud)
     );
 
-    // Add base to computed
-
-    // ATK
-
-    // Set effects
-
-    // Dynamic stat conditionals
-
-//    let p_x = &x;
-//    let p_state = &state;
-
-    // TODOS above =====================
-    // Split out the set conditionals into per action
-    //
-
     let diffATK = c.ATK + combatBuffsATK + combatBuffsATK_P * baseATK;
     let diffDEF = c.DEF + combatBuffsDEF + combatBuffsDEF_P * baseDEF;
     let diffHP = c.HP   + combatBuffsHP  + combatBuffsHP_P  * baseHP;
@@ -335,14 +320,12 @@ fn main(
     let diffOHB = c.OHB;
 
     var combo = 0.0;
-    for (var i = actionCount - 1; i >= 0; i--) {
-      var x = actions[i].x;
-      let setConditionals = actions[i].setConditionals;
-      var state = ConditionalState();
-      state.actionIndex = i;
 
-//      var x = cloneComputedStats(actions[i].x);
-//      var state = cloneConditionalState(actions[i].state);
+    for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
+      var x = actions[actionIndex].x;
+      let setConditionals = actions[actionIndex].setConditionals;
+      var state = ConditionalState();
+      state.actionIndex = actionIndex;
 
       let p_x = &x;
       let p_state = &state;
@@ -352,7 +335,7 @@ fn main(
         x.SPD_P += 0.12;
       }
 
-      // DEF
+      // ATK
 
       if (p4(sets.ChampionOfStreetwiseBoxing) >= 1) {
         x.ATK_P += 0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing);
@@ -526,20 +509,11 @@ fn main(
       evaluateDependenciesERR(p_x, p_state);
 
 
-      // START LIGHT CONE CONDITIONALS
+      // START ACTION CONDITIONALS
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-      /* INJECT LIGHT CONE CONDITIONALS */
+      /* INJECT ACTION CONDITIONALS */
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-      // END LIGHT CONE CONDITIONALS
-
-
-
-
-      // START CHARACTER CONDITIONALS
-      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-      /* INJECT CHARACTER CONDITIONALS */
-      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-      // END CHARACTER CONDITIONALS
+      // END ACTION CONDITIONALS
 
 
       // Calculate damage
@@ -663,39 +637,33 @@ fn main(
         * (1.0 - (baseResistance - x.DOT_RES_PEN))
         * dotEhrMultiplier;
 
-      x.COMBO_DMG
-        = BASIC_COMBO * x.BASIC_DMG
-        + SKILL_COMBO * x.SKILL_DMG
-        + ULT_COMBO * x.ULT_DMG
-        + FUA_COMBO * x.FUA_DMG
-        + DOT_COMBO * x.DOT_DMG
-        + BREAK_COMBO * x.BREAK_DMG;
-
-      if (i == 0) {
+      if (actionIndex == 0) {
         x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
-    // START COMBAT STAT FILTERS
-    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-    /* INJECT COMBAT STAT FILTERS */
-    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-    // END COMBAT STAT FILTERS
+
+        // START COMBAT STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT COMBAT STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END COMBAT STAT FILTERS
 
 
 
-    // START BASIC STAT FILTERS
-    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-    /* INJECT BASIC STAT FILTERS */
-    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-    // END BASIC STAT FILTERS
+        // START BASIC STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT BASIC STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END BASIC STAT FILTERS
 
 
 
-    // START RETURN VALUE
-    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-    /* INJECT RETURN VALUE */
-    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-    // END RETURN VALUE
+        // START RETURN VALUE
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT RETURN VALUE */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END RETURN VALUE
+
       } else {
-        let actionType = actions[i].abilityType;
+        let actionType = actions[actionIndex].abilityType;
         switch (actionType) {
           case 1: {
             combo += x.BASIC_DMG;
@@ -715,9 +683,6 @@ fn main(
         }
       }
     }
-
-//    var x = actions[0].x;
-//    x.COMBO_DMG = combo;
   }
 }
 

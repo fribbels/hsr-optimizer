@@ -21,7 +21,7 @@ switch i {
     const action = context.actions[i]
 
     let characterConditionalWgsl = '  // Character conditionals\n'
-    let lightConeConditionalWgsl = '  // LightCone conditionals\n'
+    let lightConeConditionalWgsl = '  // Light cone conditionals\n'
 
     if (characterConditionals.gpuFinalizeCalculations) {
       characterConditionalWgsl += indent(characterConditionals.gpuFinalizeCalculations(action, context), 1)
@@ -47,7 +47,7 @@ ${lightConeConditionalWgsl}
 `
 
   wgsl = wgsl.replace(
-    '/* INJECT CHARACTER CONDITIONALS */',
+    '/* INJECT ACTION CONDITIONALS */',
     indent(conditionalsWgsl, 3),
   )
 

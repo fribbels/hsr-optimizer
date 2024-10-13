@@ -1,7 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ContentItem } from 'types/Conditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { indent } from 'lib/gpu/injection/wgslUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export const precisionRound = (number: number, precision: number = 8): number => {
@@ -75,13 +74,13 @@ export function standardAtkFinalizer(x: ComputedStatsObject) {
 }
 
 export function gpuStandardAtkFinalizer() {
-  return indent(`
+  return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * x.ATK;
 x.FUA_DMG += x.FUA_SCALING * x.ATK;
 x.DOT_DMG += x.DOT_SCALING * x.ATK;
-    `, 2)
+`
 }
 
 export function standardHpFinalizer(x: ComputedStatsObject) {
@@ -93,13 +92,13 @@ export function standardHpFinalizer(x: ComputedStatsObject) {
 }
 
 export function gpuStandardHpFinalizer() {
-  return indent(`
+  return `
 x.BASIC_DMG += x.BASIC_SCALING * x.HP;
 x.SKILL_DMG += x.SKILL_SCALING * x.HP;
 x.ULT_DMG += x.ULT_SCALING * x.HP;
 x.FUA_DMG += x.FUA_SCALING * x.HP;
 x.DOT_DMG += x.DOT_SCALING * x.HP;
-    `, 2)
+`
 }
 
 export function standardFuaAtkFinalizer(x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext, hitMulti: number) {
@@ -117,5 +116,5 @@ x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * x.ATK;
 x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMulti}));
 x.DOT_DMG += x.DOT_SCALING * x.ATK;
-    `
+`
 }

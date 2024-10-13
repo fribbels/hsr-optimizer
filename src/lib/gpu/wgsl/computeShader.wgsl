@@ -355,7 +355,7 @@ fn main(
       // DEF
 
       if (p4(sets.ChampionOfStreetwiseBoxing) >= 1) {
-        x.SPD_P += 0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing);
+        x.ATK_P += 0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing);
       }
       if (p4(sets.BandOfSizzlingThunder) >= 1 && setConditionals.enabledBandOfSizzlingThunder == true) {
         x.ATK_P += 0.20;

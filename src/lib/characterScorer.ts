@@ -609,7 +609,7 @@ function generateStatImprovements(
   return { substatUpgradeResults, setUpgradeResults, mainUpgradeResults }
 }
 
-function generateFullDefaultForm(
+export function generateFullDefaultForm(
   characterId: string,
   lightCone: string,
   characterEidolon: number,
@@ -640,6 +640,17 @@ function generateFullDefaultForm(
   } else {
     if (characterConditionals.defaults) Utils.mergeUndefinedValues(simulationForm.characterConditionals, characterConditionals.defaults())
     if (lightConeConditionals.defaults) Utils.mergeUndefinedValues(simulationForm.lightConeConditionals, lightConeConditionals.defaults())
+  }
+
+  const simulationMetadata = DB.getMetadata().characters[characterId].scoringMetadata?.simulation
+  if (simulationMetadata) {
+    simulationForm.comboAbilities = [...simulationMetadata.comboAbilities]
+    simulationForm.comboDot = simulationMetadata.comboDot
+    simulationForm.comboBreak = simulationMetadata.comboBreak
+  } else {
+    simulationForm.comboAbilities = [null, 'BASIC']
+    simulationForm.comboDot = 0
+    simulationForm.comboBreak = 0
   }
 
   return simulationForm

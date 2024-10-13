@@ -7,7 +7,7 @@ import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.BaptismOfPureThought')
   const sValuesCd = [0.08, 0.09, 0.10, 0.11, 0.12]
   const sValuesDmg = [0.36, 0.42, 0.48, 0.54, 0.60]
@@ -51,5 +51,3 @@ const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => 
     },
   }
 }
-
-export default BaptismOfPureThought

@@ -1,5 +1,4 @@
 import { Form } from 'types/Form'
-import { generateParams } from 'lib/optimizer/calculateParams'
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, SetsOrnaments, SetsRelics } from 'lib/constants'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
@@ -7,9 +6,10 @@ import { debugWebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { generateContext } from 'lib/optimizer/context/calculateContext'
 
 export async function runTestRequest(request: Form, relics: RelicsByPart, device: GPUDevice) {
-  const params = generateParams(request)
+  const context = generateContext(request)
 
   const relicSetSolutions = new Array<number>(Math.pow(Object.keys(SetsRelics).length, 4)).fill(1)
   const ornamentSetSolutions = new Array<number>(Math.pow(Object.keys(SetsOrnaments).length, 2)).fill(1)
@@ -19,7 +19,7 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
     device,
     relics,
     request,
-    params,
+    context,
     permutations,
     COMPUTE_ENGINE_GPU_EXPERIMENTAL,
     relicSetSolutions,
@@ -33,6 +33,7 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
   const array = new Float32Array(arrayBuffer)
 
   const gpuComputedStats: ComputedStatsObject = debugWebgpuComputedStats(array)
+  // @ts-ignore
   const cpuComputedStats: ComputedStatsObject = calculateBuild(request, {
     Head: relics.Head[0],
     Hands: relics.Hands[0],

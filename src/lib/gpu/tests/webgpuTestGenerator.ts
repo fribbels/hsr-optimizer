@@ -1,12 +1,12 @@
-import { getDefaultForm } from 'lib/defaultForm'
 import { Form } from 'types/Form'
-import { OptimizerTabController } from 'lib/optimizerTabController'
 import { generateTestRelics, StatDeltaAnalysis, testWrapper } from 'lib/gpu/tests/webgpuTestUtils'
 import DB from 'lib/db'
 import { SetsOrnamentsNames, SetsRelicsNames } from 'lib/constants'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { LightCone } from 'types/LightCone'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { generateFullDefaultForm } from 'lib/characterScorer'
+import { OptimizerTabController } from 'lib/optimizerTabController'
 
 export type WebgpuTest = {
   name: string
@@ -168,23 +168,19 @@ export function generateRelicSetTests(device: GPUDevice) {
 }
 
 export function generateE0S1CharacterTest(characterId: string, lightConeId: string, device: GPUDevice) {
-  const request = OptimizerTabController.fixForm(getDefaultForm({
-    id: characterId,
-  })) as Form
-  request.lightCone = lightConeId
+  const request = OptimizerTabController.fixForm(generateFullDefaultForm(characterId, lightConeId, 0, 1))
   const relics = generateTestRelics()
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return testWrapper(`E0S1 ${cache.metadata.characters[characterId].displayName} — ${cache.metadata.lightCones[lightConeId].displayName}`, request, relics, device)
 }
 
+export function fillDefaultRequestConditionals(request: Form) {
+
+}
+
 export function generateE6S5CharacterTest(characterId: string, lightConeId: string, device: GPUDevice) {
-  const request = OptimizerTabController.fixForm(getDefaultForm({
-    id: characterId,
-  })) as Form
-  request.characterEidolon = 6
-  request.lightCone = lightConeId
-  request.lightConeSuperimposition = 5
+  const request = OptimizerTabController.fixForm(generateFullDefaultForm(characterId, lightConeId, 6, 5))
   const relics = generateTestRelics()
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

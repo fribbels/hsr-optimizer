@@ -128,12 +128,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
-    gpuConstants: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
-      return {
-        BlackSwanEhrToDmgBoost: r.ehrToDmgBoost,
-      }
-    },
     dynamicConditionals: [BlackSwanConversionConditional],
   }
 }

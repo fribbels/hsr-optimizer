@@ -7,6 +7,7 @@ import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityCr } from 'lib/optimizer/calculateBuffs'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
@@ -142,14 +143,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     gpuFinalizeCalculations: (context: OptimizerContext) => {
       return gpuStandardFuaAtkFinalizer(hitMulti)
     },
-    gpuConstants: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
-      return {
-        BronyaUltBuff: r.ultBuff,
-        BronyaUltCdBoostValue: ultCdBoostValue,
-        BronyaUltCdBoostBaseValue: ultCdBoostBaseValue,
-      }
-    },
     dynamicConditionals: [
       {
         id: 'BronyaCdConditional',
@@ -183,16 +176,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           const r = action.characterConditionals
 
           return conditionalWgslWrapper(this, `
-if (actions[(*p_state).actionIndex].constants.BronyaUltBuff == false) {
+if (${wgslFalse(r.ultBuff)}) {
   return;
 }
 
-let constants: ConditionalConstants = actions[(*p_state).actionIndex].constants;
 let stateValue: f32 = (*p_state).BronyaCdConditional;
 let convertibleCdValue: f32 = (*p_x).CD - (*p_x).RATIO_BASED_CD_BUFF;
 
-var buffCD: f32 = constants.BronyaUltCdBoostValue * convertibleCdValue + constants.BronyaUltCdBoostBaseValue;
-var stateBuffCD: f32 = constants.BronyaUltCdBoostValue * stateValue + constants.BronyaUltCdBoostBaseValue;
+var buffCD: f32 = ${ultCdBoostValue} * convertibleCdValue + ${ultCdBoostBaseValue};
+var stateBuffCD: f32 = ${ultCdBoostValue} * stateValue + ${ultCdBoostBaseValue};
 
 (*p_state).BronyaCdConditional = (*p_x).CD;
 

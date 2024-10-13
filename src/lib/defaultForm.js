@@ -86,8 +86,8 @@ export function getDefaultForm(initialCharacter) {
   // Disable elemental conditions by default if the character is not of the same element
   const element = DB.getMetadata().characters[initialCharacter?.id]?.element
   if (element) {
-    defaultForm.setConditionals[Sets.GeniusOfBrilliantStars][1] = element == 'Quantum'
-    defaultForm.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = element == 'Fire'
+    defaultForm.setConditionals[Sets.GeniusOfBrilliantStars][1] = element === 'Quantum'
+    defaultForm.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = element === 'Fire'
   }
 
   // TODO: very gross, dedupe

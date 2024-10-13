@@ -4,8 +4,8 @@ import { Form, Teammate } from 'types/Form'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditional, LightConeConditionalMap } from 'types/LightConeConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { defaultSetConditionals } from 'lib/defaultForm'
-import { SetsOrnaments, SetsRelics } from 'lib/constants'
+import { defaultSetConditionals, getDefaultForm } from 'lib/defaultForm'
+import { SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants'
 import { SaveState } from 'lib/saveState'
 import DB from 'lib/db'
 import { OptimizerTabController } from 'lib/optimizerTabController'
@@ -147,7 +147,51 @@ export function initializeComboState(request: Form, merge: boolean) {
     mergeComboStates(comboState, savedComboState)
   }
 
+  displayModifiedSets(request, comboState)
+
   return comboState
+}
+
+function displayModifiedSets(request: Form, comboState: ComboState) {
+  const defaultForm = getDefaultForm(request.characterId)
+  const presets = DB.getMetadata().characters[request.characterId].scoringMetadata.presets || []
+  for (const applyPreset of presets) {
+    applyPreset(defaultForm)
+  }
+
+  // comboState.comboCharacter.setConditionals
+
+  const modified: string[] = []
+
+  for (const [key, value] of Object.entries(defaultForm.setConditionals)) {
+    // @ts-ignore
+    const defaultValue = value[1]
+    const comboSet = comboState.comboCharacter.setConditionals[key]
+    if (!comboSet) {
+      modified.push(key)
+    } else if (comboSet.type == ConditionalDataType.BOOLEAN) {
+      for (const activation of comboSet.activations) {
+        if (activation == null) break
+        if (activation != defaultValue) {
+          modified.push(key)
+          break;
+        }
+      }
+    } else if (comboSet.type == ConditionalDataType.SELECT) {
+      for (const partition of comboSet.partitions) {
+        if (partition.value != defaultValue) {
+          modified.push(key)
+          break;
+        }
+      }
+    }
+  }
+
+  const modifiedRelics = modified.filter(set => SetsRelicsNames.includes(set))
+  const modifiedOrnaments = modified.filter(set => SetsOrnamentsNames.includes(set))
+
+  comboState.comboCharacter.displayedRelicSets = Array.from(new Set([...modifiedRelics, ...comboState.comboCharacter.displayedRelicSets]))
+  comboState.comboCharacter.displayedOrnamentSets = Array.from(new Set([...modifiedOrnaments, ...comboState.comboCharacter.displayedOrnamentSets]))
 }
 
 function mergeComboStates(base: ComboState, update: ComboState) {

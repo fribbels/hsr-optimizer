@@ -115,17 +115,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.FUA_DMG += fuaHpScaling * x[Stats.HP]
       x.FUA_DMG += (e >= 6) ? 0.50 * x[Stats.HP] : 0
     },
-    gpuConstants: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
-      return {
-        BladeEnhancedStateActive: r.enhancedStateActive,
-        BladeHpPercentLostTotal: r.hpPercentLostTotal,
-      }
-    },
     gpuFinalizeCalculations: (context: OptimizerContext) => {
+      const r = action.characterConditionals
+
       return `
-let constants: ConditionalConstants = actions[(*p_state).actionIndex].constants;
-if (constants.BladeEnhancedStateActive == true) {
+if (${wgslTrue(r.enhancedStateActive)}) {
   x.BASIC_DMG += ${basicEnhancedAtkScaling} * x.ATK;
   x.BASIC_DMG += ${basicEnhancedHpScaling} * x.HP;
 } else {
@@ -134,10 +128,10 @@ if (constants.BladeEnhancedStateActive == true) {
 
 x.ULT_DMG += ${ultAtkScaling} * x.ATK;
 x.ULT_DMG += ${ultHpScaling} * x.HP;
-x.ULT_DMG += ${ultLostHpScaling} * constants.BladeHpPercentLostTotal * x.HP;
+x.ULT_DMG += ${ultLostHpScaling * r.hpPercentLostTotal} * x.HP;
 
 if (${wgslTrue(e >= 1 && context.enemyCount == 1)}) {
-  x.ULT_DMG += 1.50 * constants.BladeHpPercentLostTotal * x.HP;
+  x.ULT_DMG += 1.50 * ${r.hpPercentLostTotal} * x.HP;
 }
 
 x.FUA_DMG += ${fuaAtkScaling} * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMultiByTargets[context.enemyCount]}));

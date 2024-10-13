@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -102,24 +102,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[context.enemyCount] : hitMultiSingle
       standardFuaAtkFinalizer(x, action, context, hitMulti)
     },
-    gpuConstants: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
-      return {
-        ClaraUltBuff: r.ultBuff,
-      }
-    },
     gpuFinalizeCalculations: (context: OptimizerContext) => {
-      return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * x.ATK;
-
-if (actions[(*p_state).actionIndex].constants.ClaraUltBuff == true) {
-  x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMultiByTargetsBlast[context.enemyCount]}));
-} else {
-  x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMultiSingle}));
-}
-`
+      const r = action.characterConditionals
+      const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[context.enemyCount] : hitMultiSingle
+      return gpuStandardFuaAtkFinalizer(hitMulti)
     },
   }
 }

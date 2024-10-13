@@ -174,19 +174,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-if (actions[(*p_state).actionIndex].constants.FeixiaoWeaknessBrokenUlt == true) {
-  x.ULT_DMG += x.ULT_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${ASHBLAZING_ATK_STACK * ultBrokenHitCountMulti}));
-} else {
-  x.ULT_DMG += x.ULT_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${ASHBLAZING_ATK_STACK * ultHitCountMulti}));
-}
+x.ULT_DMG += x.ULT_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${getUltHitMulti(action, context)}));
 x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${ASHBLAZING_ATK_STACK * (1 * 1.00)}));
+x.DOT_DMG += x.DOT_SCALING * x.ATK;
     `
-    },
-    gpuConstants: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
-      return {
-        FeixiaoWeaknessBrokenUlt: r.weaknessBrokenUlt,
-      }
     },
   }
 }

@@ -6,6 +6,7 @@ import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
@@ -126,21 +127,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
     gpuFinalizeCalculations: (context: OptimizerContext) => {
+      const r = action.characterConditionals
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-if (actions[(*p_state).actionIndex].constants.TingyunBenedictionBuff == true) {
+if (${wgslTrue(r.benedictionBuff)}) {
   x.BASIC_DMG += (${skillLightningDmgBoostScaling + talentScaling}) * x.ATK;
 }
 
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * x.ATK;
     `
-    },
-    gpuConstants: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
-      return {
-        TingyunBenedictionBuff: r.benedictionBuff,
-      }
     },
     dynamicConditionals: [
       {
@@ -172,8 +168,10 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
           buffStat(x, Stats.ATK, finalBuffAtk, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals
+
           return conditionalWgslWrapper(this, `
-if (actions[(*p_state).actionIndex].constants.TingyunBenedictionBuff == false) {
+if (${wgslFalse(r.benedictionBuff)}) {
   return;
 }
 

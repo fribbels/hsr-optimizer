@@ -21,6 +21,7 @@ export const ComboFilters = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const form = Form.useFormInstance() // Get the form instance
   const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
+  const comboType = Form.useWatch('comboType', form);
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
@@ -61,6 +62,7 @@ export const ComboFilters = () => {
           -
         </Button>
       </Flex>
+
       <ComboBasicDefinition/>
 
       <Flex vertical gap={8} style={{ marginTop: 5 }}>
@@ -78,6 +80,7 @@ export const ComboFilters = () => {
         <Button
           onClick={() => setComboDrawerOpen(true)}
           icon={<SettingOutlined/>}
+          disabled={comboType == 'simple'}
         >
           Advanced rotation
         </Button>

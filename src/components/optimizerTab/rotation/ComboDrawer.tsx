@@ -57,6 +57,7 @@ export function ComboDrawer() {
       open={comboDrawerOpen}
       width={1125}
       forceRender
+      className='.comboDrawer'
       extra={(
         <Flex style={{ width: 716 }} align='center'>
           <ComboHeader comboState={comboState}/>
@@ -68,9 +69,9 @@ export function ComboDrawer() {
         <Selecto
           className='selecto-selection'
           // The container to add a selection element
-          container={document.body}
+          container={'.comboDrawer'}
           // The area to drag selection element (default: container)
-          dragContainer={window}
+          // dragContainer={window}
           // Targets to select. You can register a queryselector or an Element.
           selectableTargets={['.selectable']}
           // Whether to select by click (default: true)

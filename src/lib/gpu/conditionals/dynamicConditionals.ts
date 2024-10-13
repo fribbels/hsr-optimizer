@@ -299,7 +299,7 @@ export const RappaConversionConditional: DynamicConditional = {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
-if (actions[(*p_state).actionIndex].constants.RappaAtkToBreakVulnerability == false) {
+if (${wgslFalse(r.atkToBreakVulnerability)}) {
   return;
 }
 let atk = (*p_x).ATK;
@@ -363,6 +363,8 @@ export const RuanMeiConversionConditional: DynamicConditional = {
     x.ELEMENTAL_DMG += buffValue - stateValue
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
+    const r = action.characterConditionals
+
     return conditionalWgslWrapper(this, `
 let be = (*p_x).BE;
 let stateValue: f32 = (*p_state).RuanMeiConversionConditional;
@@ -396,6 +398,8 @@ export const JiaoqiuConversionConditional: DynamicConditional = {
     buffStat(x, Stats.ATK, buffValue - stateValue, action, context)
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
+    const r = action.characterConditionals
+
     return conditionalWgslWrapper(this, `
 let ehr = (*p_x).EHR;
 let stateValue: f32 = (*p_state).JiaoqiuConversionConditional;

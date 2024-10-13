@@ -180,6 +180,8 @@ const LingshaConversionConditional: DynamicConditional = {
     buffStat(x, Stats.OHB, finalBuffOhb, action, context)
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
+    const r = action.characterConditionals
+
     return conditionalWgslWrapper(this, `
 if (actions[(*p_state).actionIndex].constants.LingshaBeConversion == false) {
   return;

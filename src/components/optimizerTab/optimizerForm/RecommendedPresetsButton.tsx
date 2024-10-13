@@ -176,7 +176,7 @@ export function applySpdPreset(spd, characterId) {
   if (!characterId) return
 
   const character = DB.getMetadata().characters[characterId]
-  let metadata = Utils.clone(character.scoringMetadata)
+  const metadata = Utils.clone(character.scoringMetadata)
 
   // Using the user's current form so we don't overwrite their other numeric filter values
   const form = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
@@ -185,7 +185,8 @@ export function applySpdPreset(spd, characterId) {
 
   const overrides = window.store.getState().scoringMetadataOverrides[characterId]
   if (overrides) {
-    metadata = Utils.mergeDefinedValues(metadata, overrides)
+    Utils.mergeDefinedValues(metadata.parts, overrides.parts)
+    Utils.mergeDefinedValues(metadata.stats, overrides.stats)
   }
   form.minSpd = spd
 
@@ -216,8 +217,10 @@ export function applyMetadataPresetToForm(form, scoringMetadata) {
   Utils.mergeUndefinedValues(form, getDefaultForm())
   Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
 
-  const formula = scoringMetadata?.simulation?.formula || {}
-  Utils.mergeUndefinedValues(form.combo, formula)
+  form.comboAbilities = scoringMetadata?.simulation?.comboAbilities || [null, 'BASIC']
+  form.comboDot = scoringMetadata?.simulation?.comboDot || 0
+  form.comboBreak = scoringMetadata?.simulation?.comboBreak || 0
+
   Object.keys(form.combo).map((key) => form.combo[key] = form.combo[key] || null)
 
   form.maxSpd = undefined

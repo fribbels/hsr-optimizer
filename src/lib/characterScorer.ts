@@ -298,20 +298,10 @@ export function scoreCharacterSimulation(
   const context = generateContext(simulationForm)
 
   // Generate scoring function
-  const formula = metadata.formula
   const applyScoringFunction: ScoringFunction = (result: SimulationResult, penalty = true) => {
     if (!result) return
 
-    const score = (
-      result.BASIC * formula.BASIC
-      + result.SKILL * formula.SKILL
-      + result.ULT * formula.ULT
-      + result.FUA * formula.FUA
-      + result.DOT * formula.DOT
-      + result.BREAK * formula.BREAK
-    )
-
-    result.unpenalizedSimScore = score
+    result.unpenalizedSimScore = result.x.COMBO_DMG
     result.penaltyMultiplier = calculatePenaltyMultiplier(result, metadata.breakpoints, benchmarkScoringParams)
     result.simScore = result.unpenalizedSimScore * (penalty ? result.penaltyMultiplier : 1)
   }

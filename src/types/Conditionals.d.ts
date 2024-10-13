@@ -46,9 +46,6 @@ export interface Conditional {
   // WGSL implementation of finalizeCalculations to run on GPU
   gpuFinalizeCalculations?: (action: OptimizerAction, context: OptimizerContext) => string
 
-  // Injected constant values
-  gpuConstants?: (action: OptimizerAction, context: OptimizerContext) => { [key: string]: number | boolean }
-
   // Dynamic conditionals are ones that cannot be precomputed, and can trigger at any point in the compute pipeline
   // These are dependent on other stats, usually in the form of 'when x.stat >= value, then buff x.other' and will
   // evaluate each time that dependent stat changes. These are executed after the precomputes, but before finalizing.

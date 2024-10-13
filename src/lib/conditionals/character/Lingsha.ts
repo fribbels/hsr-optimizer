@@ -10,6 +10,7 @@ import { NumberToNumberMap } from 'types/Common'
 import { buffStat, conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lingsha')
@@ -140,12 +141,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardFuaAtkFinalizer(hitMultiByTargets[context.enemyCount])
     },
-    gpuConstants: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as unknown as LingshaConditionalConstants
-      return {
-        LingshaBeConversion: r.beConversion,
-      }
-    },
     dynamicConditionals: [LingshaConversionConditional],
   }
 }
@@ -183,7 +178,7 @@ const LingshaConversionConditional: DynamicConditional = {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
-if (actions[(*p_state).actionIndex].constants.LingshaBeConversion == false) {
+if (${wgslFalse(r.beConversion)}) {
   return;
 }
 

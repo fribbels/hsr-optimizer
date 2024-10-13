@@ -2,7 +2,7 @@ import { Button, Divider, Drawer, Flex, Select } from 'antd'
 import React, { useEffect, useMemo, useRef } from 'react'
 import Selecto from 'react-selecto'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState, ComboSubNumberConditional, ComboTeammate, ConditionalType, initializeComboState, locateActivations, updateAbilityRotation, updateActivation, updateAddPartition, updateDeletePartition, updateFormState, updateNumberDefaultSelection, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
+import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState, ComboSubNumberConditional, ComboTeammate, ConditionalDataType, initializeComboState, locateActivations, updateAbilityRotation, updateActivation, updateAddPartition, updateDeletePartition, updateFormState, updateNumberDefaultSelection, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { Assets } from 'lib/assets'
@@ -341,7 +341,7 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
       // const keys = Object.keys(comboCharacter.setConditionals).filter(x => displayedKeys.includes(x))
 
       const category: ComboConditionalCategory = comboCharacter.setConditionals[setName]
-      if (category.type == ConditionalType.BOOLEAN) {
+      if (category.type == ConditionalDataType.BOOLEAN) {
         content = [{
           formItem: 'switch',
           id: setName,
@@ -350,7 +350,7 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
           title: setName,
           content: setName,
         }]
-      } else if (category.type == ConditionalType.NUMBER) {
+      } else if (category.type == ConditionalDataType.NUMBER) {
         content = [{
           formItem: 'slider',
           id: setName,
@@ -361,7 +361,7 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
           min: 0,
           max: 10,
         }]
-      } else if (category.type == ConditionalType.SELECT) {
+      } else if (category.type == ConditionalDataType.SELECT) {
         content = [{
           formItem: 'select',
           id: setName,

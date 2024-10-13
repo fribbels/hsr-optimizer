@@ -11,7 +11,7 @@ import DB from 'lib/db'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { SelectionSets } from 'lib/optimizer/rotation/setConditionalContent'
 
-export enum ConditionalType {
+export enum ConditionalDataType {
   BOOLEAN = 'boolean',
   NUMBER = 'number',
   SELECT = 'select',
@@ -24,13 +24,13 @@ export type ComboConditionals = {
 export type ComboConditionalCategory = ComboBooleanConditional | ComboNumberConditional | ComboSelectConditional
 
 export type ComboBooleanConditional = {
-  type: ConditionalType.BOOLEAN
+  type: ConditionalDataType.BOOLEAN
   activations: boolean[]
   display?: boolean
 }
 
 export type ComboNumberConditional = {
-  type: ConditionalType.NUMBER
+  type: ConditionalDataType.NUMBER
   partitions: ComboSubNumberConditional[]
   display?: boolean
 }
@@ -41,7 +41,7 @@ export type ComboSubNumberConditional = {
 }
 
 export type ComboSelectConditional = {
-  type: ConditionalType.SELECT
+  type: ConditionalDataType.SELECT
   partitions: ComboSubSelectConditional[]
   display?: boolean
 }
@@ -178,7 +178,7 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
     const updateConditional = updateConditionals[key]
     if (updateConditional && conditional.type == updateConditional.type) {
       // The initial value must always match the form
-      if (conditional.type == 'boolean') {
+      if (conditional.type == ConditionalDataType.BOOLEAN) {
         const booleanBaseConditional = conditional
         const booleanUpdateConditional = updateConditional as ComboBooleanConditional
         booleanUpdateConditional.activations[0] = booleanBaseConditional.activations[0]
@@ -206,32 +206,32 @@ function generateComboConditionals(
     if (content.disabled) continue
 
     if (content.formItem == 'switch') {
-      const value: boolean = conditionals[content.id] != null ? conditionals[content.id] : defaults[content.id]
+      const value: boolean = conditionals[content.id] ?? defaults[content.id]
       const activations: boolean[] = Array(actionCount).fill(value)
       output[content.id] = {
-        type: ConditionalType.BOOLEAN,
+        type: ConditionalDataType.BOOLEAN,
         activations: activations,
       }
     } else if (content.formItem == 'slider') {
-      const value: number = conditionals[content.id] != null ? conditionals[content.id] : defaults[content.id]
+      const value: number = conditionals[content.id] ?? defaults[content.id]
       const activations: boolean[] = Array(actionCount).fill(true)
       const valuePartitions: ComboSubNumberConditional = {
         value: value,
         activations: activations,
       }
       output[content.id] = {
-        type: ConditionalType.NUMBER,
+        type: ConditionalDataType.NUMBER,
         partitions: [valuePartitions],
       }
     } else if (content.formItem == 'select') {
-      const value: number = conditionals[content.id] != null ? conditionals[content.id] : defaults[content.id]
+      const value: number = conditionals[content.id] ?? defaults[content.id]
       const activations: boolean[] = Array(actionCount).fill(true)
       const valuePartitions: ComboSubSelectConditional = {
         value: value,
         activations: activations,
       }
       output[content.id] = {
-        type: ConditionalType.SELECT,
+        type: ConditionalDataType.SELECT,
         partitions: [valuePartitions],
       }
     } else {
@@ -258,31 +258,19 @@ function generateSetComboConditionals(
         activations: activations,
       }
       output[setName] = {
-        type: ConditionalType.SELECT,
+        type: ConditionalDataType.SELECT,
         partitions: [valuePartitions],
       }
     } else {
       const activations: boolean[] = Array(actionCount).fill(p4Value)
       output[setName] = {
-        type: ConditionalType.BOOLEAN,
+        type: ConditionalDataType.BOOLEAN,
         activations: activations,
       }
     }
   }
 
   return output
-}
-
-function emptyTeammate() {
-  const comboTeammate: ComboTeammate = {
-    metadata: {} as ComboCharacterMetadata,
-    characterConditionals: {},
-    lightConeConditionals: {},
-    relicSetConditionals: {},
-    ornamentSetConditionals: {},
-  }
-
-  return comboTeammate
 }
 
 function generateComboTeammate(teammate: Teammate, actionCount: number) {
@@ -298,13 +286,13 @@ function generateComboTeammate(teammate: Teammate, actionCount: number) {
   const ornamentSetConditionals: ComboConditionals = {}
   if (teammate.teamRelicSet) {
     relicSetConditionals[teammate.teamRelicSet] = {
-      type: ConditionalType.BOOLEAN,
+      type: ConditionalDataType.BOOLEAN,
       activations: Array(actionCount).fill(true),
     }
   }
   if (teammate.teamOrnamentSet) {
     ornamentSetConditionals[teammate.teamOrnamentSet] = {
-      type: ConditionalType.BOOLEAN,
+      type: ConditionalDataType.BOOLEAN,
       activations: Array(actionCount).fill(true),
     }
   }
@@ -372,7 +360,7 @@ export function locateActivationsDataKey(dataKey: ComboDataKey, comboState: Comb
   const comboCategory = locateComboCategory(dataKey.source, dataKey.id, comboState)
   if (!comboCategory) return null
 
-  if (comboCategory.type == ConditionalType.BOOLEAN) {
+  if (comboCategory.type == ConditionalDataType.BOOLEAN) {
     const comboBooleanConditional = comboCategory
     const activations = comboBooleanConditional.activations
     return {
@@ -381,7 +369,7 @@ export function locateActivationsDataKey(dataKey: ComboDataKey, comboState: Comb
       index: dataKey.index,
       value: activations[dataKey.index],
     }
-  } else if (comboCategory.type == ConditionalType.NUMBER) {
+  } else if (comboCategory.type == ConditionalDataType.NUMBER) {
     const comboNumberConditional = comboCategory
     const activations = comboNumberConditional.partitions[dataKey.partitionIndex].activations
     return {
@@ -390,7 +378,7 @@ export function locateActivationsDataKey(dataKey: ComboDataKey, comboState: Comb
       index: dataKey.index,
       value: activations[dataKey.index],
     }
-  } else if (comboCategory.type == ConditionalType.SELECT) {
+  } else if (comboCategory.type == ConditionalDataType.SELECT) {
     const comboSelectConditional = comboCategory
     const activations = comboSelectConditional.partitions[dataKey.partitionIndex].activations
     return {
@@ -419,7 +407,7 @@ export function updateActivation(keyString: string, activate: boolean, comboStat
   const locatedActivations = locateActivations(keyString, comboState)
   if (!locatedActivations) return
 
-  if (locatedActivations.comboConditional.type == ConditionalType.NUMBER || locatedActivations.comboConditional.type == ConditionalType.SELECT) {
+  if (locatedActivations.comboConditional.type == ConditionalDataType.NUMBER || locatedActivations.comboConditional.type == ConditionalDataType.SELECT) {
     // Numbers are activated onDrag
   } else {
     locatedActivations.activations[locatedActivations.index] = activate
@@ -435,7 +423,7 @@ export function updatePartitionActivation(keyString: string, comboState: ComboSt
   const locatedActivations = locateActivations(keyString, comboState)
   if (!locatedActivations) return
 
-  if (locatedActivations.comboConditional.type == ConditionalType.NUMBER || locatedActivations.comboConditional.type == ConditionalType.SELECT) {
+  if (locatedActivations.comboConditional.type == ConditionalDataType.NUMBER || locatedActivations.comboConditional.type == ConditionalDataType.SELECT) {
     const numberConditional = locatedActivations.comboConditional as ComboNumberConditional
     const partitionIndex = dataKey.partitionIndex
     const activationIndex = dataKey.index
@@ -544,7 +532,7 @@ export function updateBooleanDefaultSelection(sourceKey: string, contentItemId: 
   const locatedActivations = locateActivationsDataKey(dataKey, comboState)
   if (!locatedActivations) return
 
-  if (locatedActivations.comboConditional.type == ConditionalType.NUMBER || locatedActivations.comboConditional.type == ConditionalType.SELECT) {
+  if (locatedActivations.comboConditional.type == ConditionalDataType.NUMBER || locatedActivations.comboConditional.type == ConditionalDataType.SELECT) {
     // Default number is always active
   } else {
     for (let i = 0; i < locatedActivations.activations.length; i++) {
@@ -568,7 +556,7 @@ export function updateNumberDefaultSelection(sourceKey: string, contentItemId: s
   const locatedActivations = locateActivationsDataKey(dataKey, comboState)
   if (!locatedActivations) return
 
-  if (locatedActivations.comboConditional.type == ConditionalType.NUMBER || locatedActivations.comboConditional.type == ConditionalType.SELECT) {
+  if (locatedActivations.comboConditional.type == ConditionalDataType.NUMBER || locatedActivations.comboConditional.type == ConditionalDataType.SELECT) {
     // Default number is always active
     const comboNumberConditional = locatedActivations.comboConditional as ComboNumberConditional
     comboNumberConditional.partitions[partitionIndex].value = value
@@ -584,29 +572,32 @@ function shiftLeft(arr: boolean[], index: number) {
   arr.push(arr[0])
 }
 
-function shiftAllActivations(obj: any, index: number): void {
+function shiftAllActivations(obj: ComboState, index: number): void {
   for (const key in obj) {
-    if (!obj.hasOwnProperty(key)) continue
+    if (!Object.prototype.hasOwnProperty.call(obj, key)) continue
 
     if (key === 'activations' && Array.isArray(obj[key])) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       shiftLeft(obj[key], index)
     }
 
     if (typeof obj[key] === 'object' && obj[key] !== null) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       shiftAllActivations(obj[key], index)
     }
   }
 }
 
-function setActivationIndexToDefault(obj: any, index: number): void {
+function setActivationIndexToDefault(obj: ComboState, index: number): void {
   for (const key in obj) {
-    if (!obj.hasOwnProperty(key)) continue
+    if (!Object.prototype.hasOwnProperty.call(obj, key)) continue
 
     if (key === 'activations' && Array.isArray(obj[key])) {
       obj[key][index] = obj[key][0]
     }
 
     if (typeof obj[key] === 'object' && obj[key] !== null) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       setActivationIndexToDefault(obj[key], index)
     }
   }
@@ -643,21 +634,23 @@ export function updateFormState(comboState: ComboState) {
 }
 
 type ChangeEvent = {
-  characterConditionals: { [key: string]: any }
-  lightConeConditionals: { [key: string]: any }
-  setConditionals: { [key: string]: any }
-  teammate0: { [key: string]: any }
-  teammate1: { [key: string]: any }
-  teammate2: { [key: string]: any }
+  characterConditionals: { [key: string]: object }
+  lightConeConditionals: { [key: string]: object }
+  setConditionals: { [key: string]: object }
+  teammate0: { [key: string]: object }
+  teammate1: { [key: string]: object }
+  teammate2: { [key: string]: object }
 }
 
+// eslint-disable-next-line
 function change(changeConditional: { [key: string]: any }, originalConditional: ComboConditionals, set: boolean = false) {
   for (const [key, value] of Object.entries(changeConditional)) {
     const comboCategory = originalConditional[key]
-    if (comboCategory.type == 'boolean') {
+    if (comboCategory.type == ConditionalDataType.BOOLEAN) {
       for (let i = 0; i <= 8; i++) {
         if (set) {
           // Set conditionals use legacy [undefined, value] format
+          // eslint-disable-next-line
           comboCategory.activations[i] = value[1]
         } else {
           comboCategory.activations[i] = value
@@ -676,14 +669,14 @@ export function updateConditionalChange(changeEvent: ChangeEvent) {
   if (changeEvent.lightConeConditionals) change(changeEvent.lightConeConditionals, comboState.comboCharacter.lightConeConditionals)
   if (changeEvent.setConditionals) change(changeEvent.setConditionals, comboState.comboCharacter.setConditionals, true)
 
-  if (changeEvent.teammate0?.characterConditionals) change(changeEvent.teammate0.characterConditionals, comboState.comboTeammate0?.characterConditionals || {})
-  if (changeEvent.teammate0?.lightConeConditionals) change(changeEvent.teammate0.lightConeConditionals, comboState.comboTeammate0?.lightConeConditionals || {})
+  if (changeEvent.teammate0?.characterConditionals) change(changeEvent.teammate0.characterConditionals, comboState.comboTeammate0?.characterConditionals ?? {})
+  if (changeEvent.teammate0?.lightConeConditionals) change(changeEvent.teammate0.lightConeConditionals, comboState.comboTeammate0?.lightConeConditionals ?? {})
 
-  if (changeEvent.teammate1?.characterConditionals) change(changeEvent.teammate1.characterConditionals, comboState.comboTeammate1?.characterConditionals || {})
-  if (changeEvent.teammate1?.lightConeConditionals) change(changeEvent.teammate1.lightConeConditionals, comboState.comboTeammate1?.lightConeConditionals || {})
+  if (changeEvent.teammate1?.characterConditionals) change(changeEvent.teammate1.characterConditionals, comboState.comboTeammate1?.characterConditionals ?? {})
+  if (changeEvent.teammate1?.lightConeConditionals) change(changeEvent.teammate1.lightConeConditionals, comboState.comboTeammate1?.lightConeConditionals ?? {})
 
-  if (changeEvent.teammate2?.characterConditionals) change(changeEvent.teammate2.characterConditionals, comboState.comboTeammate2?.characterConditionals || {})
-  if (changeEvent.teammate2?.lightConeConditionals) change(changeEvent.teammate2.lightConeConditionals, comboState.comboTeammate2?.lightConeConditionals || {})
+  if (changeEvent.teammate2?.characterConditionals) change(changeEvent.teammate2.characterConditionals, comboState.comboTeammate2?.characterConditionals ?? {})
+  if (changeEvent.teammate2?.lightConeConditionals) change(changeEvent.teammate2.lightConeConditionals, comboState.comboTeammate2?.lightConeConditionals ?? {})
 
   window.store.getState().setComboState({ ...comboState })
   updateFormState(comboState)

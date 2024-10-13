@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { SettingOutlined } from '@ant-design/icons'
 import { ComboDrawer } from 'components/optimizerTab/rotation/ComboDrawer'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
+import DB from 'lib/db'
 
 const { Text } = Typography
 
@@ -115,10 +116,20 @@ function minus(formInstance: FormInstance) {
 }
 
 function reset(formInstance: FormInstance) {
-  for (let i = 2; i <= 10; i++) {
-    formInstance.setFieldValue(['comboAbilities', i], null)
+  const characterId = window.store.getState().optimizerTabFocusCharacter as string
+  const characterMetadata = DB.getMetadata().characters[characterId]
+
+  if (!characterMetadata) return
+
+  const defaultComboAbilities = characterMetadata.scoringMetadata?.simulation?.comboAbilities ?? [null, 'BASIC']
+  const defaultComboDot = characterMetadata.scoringMetadata?.simulation?.comboDot ?? 0
+  const defaultComboBreak = characterMetadata.scoringMetadata?.simulation?.comboBreak ?? 0
+
+  for (let i = 0; i <= 10; i++) {
+    formInstance.setFieldValue(['comboAbilities', i], defaultComboAbilities[i] ?? null)
   }
-  formInstance.setFieldValue(['comboAbilities', 1], 'BASIC')
+  formInstance.setFieldValue(['comboDot'], defaultComboDot)
+  formInstance.setFieldValue(['comboBreak'], defaultComboBreak)
 }
 
 function ComboBasicDefinition(props: {}) {

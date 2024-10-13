@@ -402,32 +402,32 @@ fn main(
 
       // Basic boost
       if (p4(sets.MusketeerOfWildWheat) >= 1) {
-        buffAbilityDmg(&(x), BASIC_TYPE, 0.10, 1);
+        buffAbilityDmg(&x, BASIC_TYPE, 0.10, 1);
       }
 
       // Skill boost
       if (p4(sets.FiresmithOfLavaForging) >= 1) {
-        buffAbilityDmg(&(x), SKILL_TYPE, 0.12, 1);
+        buffAbilityDmg(&x, SKILL_TYPE, 0.12, 1);
       }
 
       // Fua boost
       if (p2(sets.TheAshblazingGrandDuke) >= 1) {
-        buffAbilityDmg(&(x), FUA_TYPE, 0.20, 1);
+        buffAbilityDmg(&x, FUA_TYPE, 0.20, 1);
       }
       if (p2(sets.DuranDynastyOfRunningWolves) >= 1) {
-        buffAbilityDmg(&(x), FUA_TYPE, 0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves), 1);
+        buffAbilityDmg(&x, FUA_TYPE, 0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves), 1);
       }
 
       // Ult boost
       if (p4(sets.TheWindSoaringValorous) >= 1) {
-        buffAbilityDmg(&(x), ULT_TYPE, 0.36 * f32(setConditionals.enabledTheWindSoaringValorous), 1);
+        buffAbilityDmg(&x, ULT_TYPE, 0.36 * f32(setConditionals.enabledTheWindSoaringValorous), 1);
       }
 
       if (p4(sets.ScholarLostInErudition) >= 1) {
-        buffAbilityDmg(&(x), SKILL_TYPE | ULT_TYPE, 0.20, 1);
+        buffAbilityDmg(&x, SKILL_TYPE | ULT_TYPE, 0.20, 1);
 
         if (setConditionals.enabledScholarLostInErudition == true) {
-          buffAbilityDmg(&(x), SKILL_TYPE, 0.25, 1);
+          buffAbilityDmg(&x, SKILL_TYPE, 0.25, 1);
         }
       }
 

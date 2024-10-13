@@ -16,7 +16,7 @@ export function injectConditionals(wgsl: string, request: Form, context: Optimiz
   const lightConeConditionals: LightConeConditional = LightConeConditionals.get(request) as LightConeConditional
 
   let conditionalsWgsl = `
-switch i {
+switch (actionIndex) {
 `
   for (let i = 0; i < context.actions.length; i++) {
     const action = context.actions[i]

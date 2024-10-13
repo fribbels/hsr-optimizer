@@ -31,15 +31,6 @@ function generateRequest(request: Form) {
   wgsl += `const statDisplay: i32 = ${request.statDisplay == 'combat' ? 0 : 1};\n`
   wgsl += '\n'
 
-  // Combo
-  wgsl += `const BASIC_COMBO: f32 = ${request.combo.BASIC};\n`
-  wgsl += `const SKILL_COMBO: f32 = ${request.combo.SKILL};\n`
-  wgsl += `const ULT_COMBO: f32 = ${request.combo.ULT};\n`
-  wgsl += `const FUA_COMBO: f32 = ${request.combo.FUA};\n`
-  wgsl += `const DOT_COMBO: f32 = ${request.combo.DOT};\n`
-  wgsl += `const BREAK_COMBO: f32 = ${request.combo.BREAK};\n`
-  wgsl += '\n'
-
   // Enemy
   wgsl += `const enemyCount: i32 = ${request.enemyCount};\n`
   wgsl += `const enemyElementalWeak: i32 = ${request.enemyElementalWeak ? 1 : 0};\n`

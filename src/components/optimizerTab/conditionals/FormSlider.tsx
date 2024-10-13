@@ -31,7 +31,7 @@ export interface FormSliderProps {
 }
 
 export const FormSlider: ComponentType<FormSliderProps> = (props) => {
-  const [state, setState] = useState(props.value ?? undefined);
+  const [state, setState] = useState(props.value ?? undefined)
 
   const multiplier = (props.percent ? 100 : 1)
   const step = props.percent ? 0.01 : 1
@@ -56,13 +56,12 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
     maxRef.current = props.max
   }, [props.min, props.max])
 
-
   const internalInputNumber = (
     <InputNumber
       min={props.min}
       max={props.max}
       controls={false}
-      size="small"
+      size='small'
       style={{
         width: numberWidth,
       }}
@@ -117,12 +116,13 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
       <Flex justify={justify} align={align}>
         <div style={{ minWidth: inputWidth, display: 'block' }}>
           {
-            props.removeForm ?
-              internalInputNumber
-              :
-              <Form.Item name={itemName}>
-                {internalInputNumber}
-              </Form.Item>
+            props.removeForm
+              ? internalInputNumber
+              : (
+                <Form.Item name={itemName}>
+                  {internalInputNumber}
+                </Form.Item>
+              )
           }
         </div>
         <Text>
@@ -130,14 +130,15 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
         </Text>
       </Flex>
 
-      <Flex align="center" justify="flex-start" gap={5} style={{ height: 14 }}>
+      <Flex align='center' justify='flex-start' gap={5} style={{ height: 14 }}>
         {
-          props.removeForm ?
-            internalSlider
-            :
-            <Form.Item name={itemName}>
-              {internalSlider}
-            </Form.Item>
+          props.removeForm
+            ? internalSlider
+            : (
+              <Form.Item name={itemName}>
+                {internalSlider}
+              </Form.Item>
+            )
         }
         <Text style={{
           minWidth: 20,

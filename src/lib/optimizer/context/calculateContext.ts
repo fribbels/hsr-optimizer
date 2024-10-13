@@ -19,7 +19,7 @@ export function generateContext(request: Form): OptimizerContext {
 
   calculateConditionals(request, context)
 
-  return context as OptimizerContext
+  return context
 }
 
 function generateCombatBuffsContext(request: Form, context: OptimizerContext) {

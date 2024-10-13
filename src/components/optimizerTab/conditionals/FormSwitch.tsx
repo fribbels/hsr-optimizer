@@ -65,12 +65,13 @@ export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
   return (
     <Flex justify={justify} align={align}>
       {
-        props.removeForm ?
-          internalSwitch
-          :
-          <Form.Item name={itemName} valuePropName="checked">
-            {internalSwitch}
-          </Form.Item>
+        props.removeForm
+          ? internalSwitch
+          : (
+            <Form.Item name={itemName} valuePropName='checked'>
+              {internalSwitch}
+            </Form.Item>
+          )
       }
       <Text>{props.text}</Text>
     </Flex>

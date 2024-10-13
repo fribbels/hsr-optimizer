@@ -39,7 +39,7 @@ export const TsUtils = {
     return {
       get: withContent
         ? i18next.getFixedT
-        : getEmptyT
+        : getEmptyT,
     }
   },
 }
@@ -47,7 +47,7 @@ export const TsUtils = {
 const getEmptyT = <
   Ns extends Namespace | null = DefaultNamespace,
   TKPrefix extends KeyPrefix<ActualNs> = undefined,
-  ActualNs extends Namespace = Ns extends null ? DefaultNamespace : Ns
+  ActualNs extends Namespace = Ns extends null ? DefaultNamespace : Ns,
 >(
   ...args:
     | [lng: string | readonly string[], ns?: Ns, keyPrefix?: TKPrefix]
@@ -55,5 +55,5 @@ const getEmptyT = <
 ): TFunction<ActualNs, TKPrefix> => {
   return ((...args: any) => {
     return ''
-  }) as TFunction<ActualNs, TKPrefix>;
+  }) as TFunction<ActualNs, TKPrefix>
 }

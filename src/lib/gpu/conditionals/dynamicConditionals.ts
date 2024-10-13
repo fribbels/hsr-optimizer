@@ -398,8 +398,6 @@ export const JiaoqiuConversionConditional: DynamicConditional = {
     buffStat(x, Stats.ATK, buffValue - stateValue, action, context)
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
-
     return conditionalWgslWrapper(this, `
 let ehr = (*p_x).EHR;
 let stateValue: f32 = (*p_state).JiaoqiuConversionConditional;

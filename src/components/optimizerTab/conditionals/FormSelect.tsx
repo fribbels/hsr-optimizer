@@ -12,13 +12,6 @@ const Text = styled(Typography)`
     white-space: pre-line;
 `
 
-function conditionalType(props: FormSelectProps) {
-  if (props.lc) {
-    return 'lightConeConditionals'
-  }
-  return 'characterConditionals'
-}
-
 export interface FormSelectProps {
   disabled?: boolean
   name: string
@@ -33,7 +26,7 @@ export interface FormSelectProps {
 }
 
 export const FormSelect: ComponentType<FormSelectProps> = (props) => {
-  const [state, setState] = useState(props.value ?? undefined);
+  const [state, setState] = useState(props.value ?? undefined)
 
   const itemName = getItemName(props)
 
@@ -63,12 +56,13 @@ export const FormSelect: ComponentType<FormSelectProps> = (props) => {
   return (
     <Flex justify={justify} align={align}>
       {
-        props.removeForm ?
-          internalSelect
-          :
-          <Form.Item name={itemName}>
-            {internalSelect}
-          </Form.Item>
+        props.removeForm
+          ? internalSelect
+          : (
+            <Form.Item name={itemName}>
+              {internalSelect}
+            </Form.Item>
+          )
       }
       <Text>{props.text}</Text>
     </Flex>

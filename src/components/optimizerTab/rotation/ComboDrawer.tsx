@@ -33,8 +33,8 @@ export function ComboDrawer() {
   const comboState = window.store((s) => s.comboState)
   const setComboState = window.store((s) => s.setComboState)
 
-  const selectActivationState = useRef(true);
-  const lastSelectedKeyState = useRef(undefined);
+  const selectActivationState = useRef(true)
+  const lastSelectedKeyState = useRef(undefined)
 
   useEffect(() => {
     console.log('UseEFFECT', comboDrawerOpen)
@@ -57,11 +57,11 @@ export function ComboDrawer() {
       open={comboDrawerOpen}
       width={1125}
       forceRender
-      extra={
-        <Flex style={{ width: 715 }} align='center'>
+      extra={(
+        <Flex style={{ width: 716 }} align='center'>
           <ComboHeader comboState={comboState}/>
         </Flex>
-      }
+      )}
     >
       <div style={{ width: 1050, height: '100%' }}>
         <StateDisplay comboState={comboState}/>
@@ -127,11 +127,6 @@ export function ComboDrawer() {
 
 export const abilitySelectOptions = [
   {
-    value: 'NONE',
-    label: 'None',
-    display: ' ',
-  },
-  {
     value: 'BASIC',
     label: 'Basic',
     display: 'Basic',
@@ -153,8 +148,8 @@ export const abilitySelectOptions = [
   },
 ]
 
-function AbilitySelector(props: { comboAbilities: string[], index: number }) {
-  if (props.comboAbilities[props.index] == 'DEFAULT') return <></>
+function AbilitySelector(props: { comboAbilities: string[]; index: number }) {
+  if (props.comboAbilities[props.index] == null) return <></>
 
   return (
     <Select
@@ -173,7 +168,7 @@ function AbilitySelector(props: { comboAbilities: string[], index: number }) {
 
       }}
       onClear={() => {
-        updateAbilityRotation(props.index, 'NONE')
+        updateAbilityRotation(props.index, null)
       }}
     />
   )
@@ -188,7 +183,6 @@ function ComboHeader(props: { comboState: ComboState }) {
   if (!comboAbilities) return <></>
 
   const length = comboAbilities.length
-  console.log('ComboHeader')
   const render = Array(Math.min(9, length + 1)).fill(false).map((value, index) => (
     <AbilitySelector comboAbilities={comboAbilities} index={index} key={index}/>
   ))
@@ -205,7 +199,7 @@ export function elementToDataKey(element: HTMLElement | SVGElement) {
   return element.getAttribute('data-key') ?? '{}' // Get the data-key attribute
 }
 
-function GroupDivider(props: {text: string}) {
+function GroupDivider(props: { text: string }) {
   return (
     <Divider plain>
       {props.text}
@@ -213,7 +207,7 @@ function GroupDivider(props: {text: string}) {
   )
 }
 
-function SetSelector(props: { selected: string[], options: { value: string; label: ReactElement }[], placeholder: string, submit: (arr: string[]) => void }) {
+function SetSelector(props: { selected: string[]; options: { value: string; label: ReactElement }[]; placeholder: string; submit: (arr: string[]) => void }) {
   return (
     <Select
       dropdownStyle={{
@@ -267,10 +261,10 @@ function SetSelectors(props: { comboOrigin: ComboCharacter }) {
   )
 }
 
-function SetDisplays(props: { comboOrigin: ComboCharacter, conditionalType: string, actionCount: number, originKey: string }) {
+function SetDisplays(props: { comboOrigin: ComboCharacter; conditionalType: string; actionCount: number; originKey: string }) {
   const relicSets = props.comboOrigin?.displayedRelicSets || []
   const ornamentSets = props.comboOrigin?.displayedOrnamentSets || []
-  const setRender = [...relicSets, ...ornamentSets].map(setName => {
+  const setRender = [...relicSets, ...ornamentSets].map((setName) => {
     return (
       <ComboConditionalsGroupRow key={setName} comboOrigin={props.comboOrigin} conditionalType={setName} actionCount={props.actionCount} originKey={props.originKey}/>
     )
@@ -316,12 +310,12 @@ function StateDisplay(props: { comboState: ComboState }) {
   )
 }
 
-function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCharacter | null, conditionalType: string, actionCount: number, originKey: string }) {
+function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCharacter | null; conditionalType: string; actionCount: number; originKey: string }) {
   const setContent = useMemo(() => {
     return generateSetConditionalContent()
   }, [])
 
-  let renderData = useMemo(() => {
+  const renderData = useMemo(() => {
     if (!props.comboOrigin) {
       return null
     }
@@ -365,7 +359,7 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
           title: setName,
           content: setName,
           min: 0,
-          max: 10
+          max: 10,
         }]
       } else if (category.type == ConditionalType.SELECT) {
         content = [{
@@ -375,7 +369,7 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
           text: setName,
           title: setName,
           content: setName,
-          options: setContent[setName].options
+          options: setContent[setName].options,
         }]
       } else {
         return null
@@ -394,7 +388,7 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
             text: setName,
             title: setName,
             content: setName,
-          }
+          },
         ]
         src = Assets.getSetImage(setName, null, true)
         conditionals = comboTeammate.relicSetConditionals
@@ -413,7 +407,7 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
             text: setName,
             title: setName,
             content: setName,
-          }
+          },
         ]
         src = Assets.getSetImage(setName, null, true)
         conditionals = comboTeammate.ornamentSetConditionals
@@ -436,11 +430,9 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
     }
   }, [props.comboOrigin])
 
-
   if (!renderData) {
     return <></>
   }
-
 
   return (
     <Flex gap={10} align='center' style={{ padding: 8, background: '#677dbd1c', borderRadius: 5 }}>
@@ -457,11 +449,11 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
 
 export function ContentRows(
   props: {
-    contentItems: ContentItem[],
-    comboConditionals: ComboConditionals,
-    actionCount: number,
-    sourceKey: string,
-  }
+    contentItems: ContentItem[]
+    comboConditionals: ComboConditionals
+    actionCount: number
+    sourceKey: string
+  },
 ) {
   const content = useMemo(() => {
     const content: ReactElement[] = []
@@ -485,7 +477,7 @@ export function ContentRows(
   )
 }
 
-function ConditionalActivationRow(props: { contentItem: ContentItem, comboConditional: ComboConditionalCategory, actionCount: number, sourceKey: string }) {
+function ConditionalActivationRow(props: { contentItem: ContentItem; comboConditional: ComboConditionalCategory; actionCount: number; sourceKey: string }) {
   if (props.contentItem.formItem == 'switch') {
     return (
       <BooleanConditionalActivationRow contentItem={props.contentItem} activations={(props.comboConditional as ComboBooleanConditional).activations} actionCount={props.actionCount} sourceKey={props.sourceKey}/>
@@ -500,7 +492,7 @@ function ConditionalActivationRow(props: { contentItem: ContentItem, comboCondit
   )
 }
 
-function BooleanConditionalActivationRow(props: { contentItem: ContentItem, activations: boolean[], actionCount: number, sourceKey: string }) {
+function BooleanConditionalActivationRow(props: { contentItem: ContentItem; activations: boolean[]; actionCount: number; sourceKey: string }) {
   const dataKeys: string[] = []
 
   for (let i = 0; i < props.activations.length; i++) {
@@ -519,7 +511,7 @@ function BooleanConditionalActivationRow(props: { contentItem: ContentItem, acti
   )
 }
 
-function NumberConditionalActivationRow(props: { comboConditional: ComboNumberConditional, contentItem: ContentItem, actionCount: number, sourceKey: string }) {
+function NumberConditionalActivationRow(props: { comboConditional: ComboNumberConditional; contentItem: ContentItem; actionCount: number; sourceKey: string }) {
   const numberComboConditional = props.comboConditional
   const rows = numberComboConditional.partitions.length
   const display: ReactElement[] = []
@@ -527,7 +519,7 @@ function NumberConditionalActivationRow(props: { comboConditional: ComboNumberCo
   for (let i = 0; i < numberComboConditional.partitions.length; i++) {
     const x = numberComboConditional.partitions[i]
     display.push(
-      <Partition key={i} partition={x} contentItem={props.contentItem} activations={x.activations} partitionIndex={i} actionCount={props.actionCount} sourceKey={props.sourceKey}/>
+      <Partition key={i} partition={x} contentItem={props.contentItem} activations={x.activations} partitionIndex={i} actionCount={props.actionCount} sourceKey={props.sourceKey}/>,
     )
   }
 
@@ -538,7 +530,7 @@ function NumberConditionalActivationRow(props: { comboConditional: ComboNumberCo
   )
 }
 
-function SelectConditionalActivationRow(props: { comboConditional: ComboSelectConditional, contentItem: ContentItem, actionCount: number, sourceKey: string }) {
+function SelectConditionalActivationRow(props: { comboConditional: ComboSelectConditional; contentItem: ContentItem; actionCount: number; sourceKey: string }) {
   const selectComboConditional = props.comboConditional
   const rows = selectComboConditional.partitions.length
   const display: ReactElement[] = []
@@ -546,7 +538,7 @@ function SelectConditionalActivationRow(props: { comboConditional: ComboSelectCo
   for (let i = 0; i < selectComboConditional.partitions.length; i++) {
     const x = selectComboConditional.partitions[i]
     display.push(
-      <Partition key={i} partition={x} contentItem={props.contentItem} activations={x.activations} partitionIndex={i} actionCount={props.actionCount} sourceKey={props.sourceKey}/>
+      <Partition key={i} partition={x} contentItem={props.contentItem} activations={x.activations} partitionIndex={i} actionCount={props.actionCount} sourceKey={props.sourceKey}/>,
     )
   }
 
@@ -557,7 +549,7 @@ function SelectConditionalActivationRow(props: { comboConditional: ComboSelectCo
   )
 }
 
-function Partition(props: { partition: ComboSubNumberConditional, contentItem: ContentItem, activations: boolean[], partitionIndex: number, actionCount: number, sourceKey: string }) {
+function Partition(props: { partition: ComboSubNumberConditional; contentItem: ContentItem; activations: boolean[]; partitionIndex: number; actionCount: number; sourceKey: string }) {
   const dataKeys: string[] = []
 
   for (let i = 0; i < props.activations.length; i++) {
@@ -581,7 +573,7 @@ function Partition(props: { partition: ComboSubNumberConditional, contentItem: C
   )
 }
 
-function BooleanSwitch(props: { contentItem: ContentItem, sourceKey: string, value: boolean }) {
+function BooleanSwitch(props: { contentItem: ContentItem; sourceKey: string; value: boolean }) {
   const contentItem = props.contentItem
 
   // console.debug(props.sourceKey)
@@ -600,7 +592,6 @@ function BooleanSwitch(props: { contentItem: ContentItem, sourceKey: string, val
             text={contentItem.text}
             removeForm={false}
             set={props.sourceKey.includes('comboCharacterRelicSets')}
-            // onChange={(value) => updateBooleanDefaultSelection(props.sourceKey, contentItem.id, value)}
             value={props.value}
             disabled={props.sourceKey.includes('Teammate') && props.sourceKey.includes('Set')}
           />
@@ -617,7 +608,7 @@ function getTeammateIndex(sourceKey: string) {
   return undefined
 }
 
-function NumberSlider(props: { contentItem: ContentItem, value: number, sourceKey: string, partitionIndex: number, }) {
+function NumberSlider(props: { contentItem: ContentItem; value: number; sourceKey: string; partitionIndex: number }) {
   const contentItem = props.contentItem
 
   return (
@@ -638,18 +629,21 @@ function NumberSlider(props: { contentItem: ContentItem, value: number, sourceKe
           />
         }
       </Flex>
-      <Button type='text' shape='circle' icon={props.partitionIndex == 0 ? <PlusCircleOutlined style={buttonStyle}/> : <MinusCircleOutlined style={buttonStyle}/>} onClick={() => {
-        if (props.partitionIndex == 0) {
-          updateAddPartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
-        } else {
-          updateDeletePartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
-        }
-      }}/>
+      <Button
+        type='text' shape='circle' icon={props.partitionIndex == 0 ? <PlusCircleOutlined style={buttonStyle}/> : <MinusCircleOutlined style={buttonStyle}/>}
+        onClick={() => {
+          if (props.partitionIndex == 0) {
+            updateAddPartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
+          } else {
+            updateDeletePartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
+          }
+        }}
+      />
     </Flex>
   )
 }
 
-function NumberSelect(props: { contentItem: ContentItem, value: number, sourceKey: string, partitionIndex: number }) {
+function NumberSelect(props: { contentItem: ContentItem; value: number; sourceKey: string; partitionIndex: number }) {
   const contentItem = props.contentItem
 
   return (
@@ -671,18 +665,21 @@ function NumberSelect(props: { contentItem: ContentItem, value: number, sourceKe
           />
         }
       </Flex>
-      <Button type='text' shape='circle' icon={props.partitionIndex == 0 ? <PlusCircleOutlined style={buttonStyle}/> : <MinusCircleOutlined style={buttonStyle}/>} onClick={() => {
-        if (props.partitionIndex == 0) {
-          updateAddPartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
-        } else {
-          updateDeletePartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
-        }
-      }}/>
+      <Button
+        type='text' shape='circle' icon={props.partitionIndex == 0 ? <PlusCircleOutlined style={buttonStyle}/> : <MinusCircleOutlined style={buttonStyle}/>}
+        onClick={() => {
+          if (props.partitionIndex == 0) {
+            updateAddPartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
+          } else {
+            updateDeletePartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
+          }
+        }}
+      />
     </Flex>
   )
 }
 
-function BoxArray(props: { activations: boolean[], actionCount: number, dataKeys: string[], partition: boolean }) {
+function BoxArray(props: { activations: boolean[]; actionCount: number; dataKeys: string[]; partition: boolean }) {
   return (
     <Flex>
       {
@@ -702,7 +699,7 @@ function BoxArray(props: { activations: boolean[], actionCount: number, dataKeys
 }
 
 const BoxComponent = React.memo(
-  function Box(props: { active: boolean, index: number, disabled: boolean, dataKey: string, partition: boolean }) {
+  function Box(props: { active: boolean; index: number; disabled: boolean; dataKey: string; partition: boolean }) {
     let classnames: string
     if (props.disabled) {
       classnames = 'disabledSelect'
@@ -731,6 +728,5 @@ const BoxComponent = React.memo(
       && prevProps.disabled === nextProps.disabled
       && prevProps.index === nextProps.index
       && prevProps.partition === nextProps.partition
-  }
-);
-
+  },
+)

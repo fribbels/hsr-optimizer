@@ -9,6 +9,7 @@ import { CharacterConditional } from 'types/CharacterConditional'
 import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomputedStats'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { StringToNumberMap } from 'types/Common'
 
 export function injectConditionals(wgsl: string, request: Form, context: OptimizerContext) {
   const characterConditionals: CharacterConditional = CharacterConditionals.get(request) as CharacterConditional
@@ -50,7 +51,6 @@ ${lightConeConditionalWgsl}
     '/* INJECT ACTION CONDITIONALS */',
     indent(conditionalsWgsl, 3),
   )
-
 
   wgsl += generateDynamicConditionals(request, context)
 
@@ -155,7 +155,7 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
 
 function generateDynamicConditionals(
   request: Form,
-  context: OptimizerContext
+  context: OptimizerContext,
 ) {
   let wgsl = ''
 
@@ -202,11 +202,11 @@ ${indent(conditionalStateDefinition, 1)}
   return wgsl
 }
 
-const actionTypeToWgslMapping = {
-  'BASIC': BASIC_TYPE,
-  'SKILL': SKILL_TYPE,
-  'ULT': ULT_TYPE,
-  'FUA': FUA_TYPE,
+const actionTypeToWgslMapping: StringToNumberMap = {
+  BASIC: BASIC_TYPE,
+  SKILL: SKILL_TYPE,
+  ULT: ULT_TYPE,
+  FUA: FUA_TYPE,
 }
 
 function getActionTypeToWgslMapping(actionType: string) {

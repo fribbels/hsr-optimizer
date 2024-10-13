@@ -294,12 +294,8 @@ export function scoreCharacterSimulation(
   simulationForm.teammate1 = simulationFormT1
   simulationForm.teammate2 = simulationFormT2
 
-  // Cache form/params for reuse
+  // Cache context for reuse
   const context = generateContext(simulationForm)
-  // const cachedOptimizerParams = generateParams(simulationForm)
-  // calculateConditionalRegistry(simulationForm, cachedOptimizerParams) // TODO
-  // calculateConditionals(simulationForm, cachedOptimizerParams) // TODO
-  // calculateTeammates(simulationForm, cachedOptimizerParams) // TODO
 
   // Generate scoring function
   const formula = metadata.formula

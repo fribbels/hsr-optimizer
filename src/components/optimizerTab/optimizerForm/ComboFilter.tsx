@@ -9,10 +9,6 @@ import { FormInstance } from 'antd/es/form/hooks/useForm'
 
 const { Text } = Typography
 
-function SimpleAdvancedToggle(props: {}) {
-
-}
-
 const radioStyle = {
   display: 'flex',
   flex: 1,
@@ -22,7 +18,7 @@ const radioStyle = {
 
 export const ComboFilters = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
-  const form = Form.useFormInstance();  // Get the form instance
+  const form = Form.useFormInstance() // Get the form instance
   const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
 
   return (
@@ -92,9 +88,9 @@ export const ComboFilters = () => {
         >
           Advanced rotation
         </Button>
-        <Form.Item name={'comboStateJson'}>
+        <Form.Item name='comboStateJson'>
           <Input
-            placeholder="This is a fake hidden input to save combo data into the form"
+            placeholder='This is a fake hidden input to save combo data into the form'
             style={{ display: 'none' }}
           />
         </Form.Item>
@@ -159,41 +155,24 @@ function ComboOptionRow(props: { index: number }) {
   return (
     <Form.Item
       shouldUpdate={(prevValues, currentValues) =>
-        prevValues.comboAbilities !== currentValues.comboAbilities
-      }
+        prevValues.comboAbilities !== currentValues.comboAbilities}
       noStyle
     >
       {({ getFieldValue }) => {
-        const comboAbilities = getFieldValue('comboAbilities') || [];
-        const shouldRenderSegmented = comboAbilities[props.index] != null || props.index < 2;
+        const comboAbilities = getFieldValue('comboAbilities') || []
+        const shouldRenderSegmented = comboAbilities[props.index] != null || props.index < 2
 
-        return shouldRenderSegmented ? (
-          <Form.Item noStyle name={['comboAbilities', props.index]}>
-            <Segmented className="comboSegmented" block size="small" options={comboOptions}/>
-          </Form.Item>
-        ) : null;
+        return shouldRenderSegmented
+          ? (
+            <Form.Item noStyle name={['comboAbilities', props.index]}>
+              <Segmented className='comboSegmented' block size='small' options={comboOptions}/>
+            </Form.Item>
+          )
+          : null
       }}
     </Form.Item>
-  );
+  )
 }
-
-// function ComboOptionRow(props: { index: number }) {
-//   const form = Form.useFormInstance();  // Get the form instance
-//   const [comboAbilities, setComboAbilities] = useState([]);
-//
-//   useEffect(() => {
-//     const currentComboAbilities = form.getFieldValue('comboAbilities') || [];
-//     setComboAbilities(currentComboAbilities);
-//   }, [form]);
-//
-//   const shouldRenderSegmented = comboAbilities[props.index] != null || props.index < 2;
-//
-//   return shouldRenderSegmented ? (
-//     <Form.Item noStyle name={['comboAbilities', props.index]}>
-//       <Segmented className="comboSegmented" block size="small" options={comboOptions}/>
-//     </Form.Item>
-//   ) : null;
-// }
 
 function ComboRow(props: { title: string; name: string }) {
   return (
@@ -214,16 +193,16 @@ function ComboRow(props: { title: string; name: string }) {
   )
 }
 
-function NumberXInput(props: {name: string}) {
+function NumberXInput(props: { name: string }) {
   return (
     <Form.Item name={props.name}>
-    <InputNumberStyled
-      addonBefore='⨯'
-      size='small'
-      controls={true}
-      style={{ width: '100%' }}
-      rootClassName='comboInputNumber'
-    />
+      <InputNumberStyled
+        addonBefore='⨯'
+        size='small'
+        controls={true}
+        style={{ width: '100%' }}
+        rootClassName='comboInputNumber'
+      />
     </Form.Item>
   )
 }

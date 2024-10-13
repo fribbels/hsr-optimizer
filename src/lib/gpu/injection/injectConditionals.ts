@@ -57,53 +57,6 @@ ${lightConeConditionalWgsl}
   // Actions
   const length = context.actions.length
 
-
-
-  // TODO!!
-
-  function injectConditionalConstants(action: OptimizerAction) {
-    let conditionalConstantsStruct = '\n'
-    let conditionalConstantsValues = '\n'
-
-    if (characterConditionals.gpuConstants) {
-      for (const [key, value] of Object.entries(characterConditionals.gpuConstants(action, context))) {
-        if (typeof value === 'number') {
-          conditionalConstantsStruct += `${key}: f32,\n`
-        }
-        if (typeof value === 'boolean') {
-          conditionalConstantsStruct += `${key}: bool,\n`
-        }
-      }
-
-
-      let actionValues = ``
-      for (const [key, value] of Object.entries(characterConditionals.gpuConstants(action, context))) {
-        if (typeof value === 'number') {
-          actionValues += `${value}f,\n`
-        }
-        if (typeof value === 'boolean') {
-          actionValues += `${value},\n`
-        }
-      }
-      conditionalConstantsValues += `
-    ${actionValues}
-      `
-
-      if (characterConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
-        '/* INJECT CHARACTER CONDITIONAL CONSTANTS */',
-        `
-struct ConditionalConstants {
-${indent(conditionalConstantsStruct, 1)}
-}
-      `
-      )
-    }
-
-    return conditionalConstantsValues
-  }
-
-//   let actionsDefinition = `
-// var actions: array<Action, ${length}> = array<Action, ${length}>(`
   let actionsDefinition = `
 const comboDot: f32 = ${context.comboDot};
 const comboBreak: f32 = ${context.comboBreak};

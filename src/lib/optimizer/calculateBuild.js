@@ -113,6 +113,7 @@ export function calculateBuild(request, relics, cachedContext /* optional */, re
     }
 
     if (i === 0) {
+      combo += context.comboDot * ax.DOT_DMG + context.comboBreak * ax.BREAK_DMG
       c.x = ax
     }
   }

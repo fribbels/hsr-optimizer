@@ -167,6 +167,7 @@ self.onmessage = function (e: MessageEvent) {
       }
 
       if (i === 0) {
+        combo += context.comboDot * ax.DOT_DMG + context.comboBreak * ax.BREAK_DMG
         c.x = ax
       }
     }

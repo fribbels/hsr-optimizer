@@ -87,7 +87,7 @@ function generateEnemyContext(request: Form, context: Partial<OptimizerContext>)
   context.enemyDamageResistance = request.enemyElementalWeak ? 0 : request.enemyResistance
   context.enemyEffectResistance = request.enemyEffectResistance
   context.enemyElementalWeak = request.enemyElementalWeak
-  context.enemyWeaknessBroken = request.enemyElementalWeak
+  context.enemyWeaknessBroken = request.enemyWeaknessBroken
   context.weaknessBrokenMultiplier = request.enemyWeaknessBroken ? 1 : 0.9 // TODO: Remove?
 }
 

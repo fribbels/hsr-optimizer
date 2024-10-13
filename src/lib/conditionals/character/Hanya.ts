@@ -6,7 +6,6 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
@@ -118,6 +117,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    gpuConstants: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
+      return {
+        HanyaUltBuff: r.ultBuff,
+        HanyaUltSpdBuffValue: ultSpdBuffValue,
+      }
+    },
     dynamicConditionals: [
       {
         id: 'HanyaSpdConditional',
@@ -151,15 +157,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           const r = action.characterConditionals
 
           return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.ultBuff)}) {
+if (actions[(*p_state).actionIndex].constants.HanyaUltBuff == false) {
   return;
 }
 
+let constants: ConditionalConstants = actions[(*p_state).actionIndex].constants;
 let stateValue: f32 = (*p_state).HanyaSpdConditional;
 let convertibleSpdValue: f32 = (*p_x).SPD - (*p_x).RATIO_BASED_SPD_BUFF;
 
-var buffSPD: f32 = ${ultSpdBuffValue} * convertibleSpdValue;
-var stateBuffSPD: f32 = ${ultSpdBuffValue} * stateValue;
+var buffSPD: f32 = constants.HanyaUltSpdBuffValue * convertibleSpdValue;
+var stateBuffSPD: f32 = constants.HanyaUltSpdBuffValue * stateValue;
 
 (*p_state).HanyaSpdConditional = (*p_x).SPD;
 

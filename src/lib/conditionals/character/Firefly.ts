@@ -167,7 +167,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     gpuFinalizeCalculations: (context: OptimizerContext) => {
       return `
-
 let constants: ConditionalConstants = actions[(*p_state).actionIndex].constants;
 buffAbilityVulnerability(p_x, BREAK_TYPE, constants.FireflyUltWeaknessBrokenBreakVulnerability, select(0, 1, constants.FireflyEnhancedStateActive == true && x.ENEMY_WEAKNESS_BROKEN >= 1));
 

@@ -5,7 +5,7 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
@@ -82,11 +82,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
     },
     gpuFinalizeCalculations: (context: OptimizerContext) => {
-      const r = action.characterConditionals
-
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.HP;
       `
+    },
+    gpuConstants: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
+      return {
+        LynxSkillBuff: r.skillBuff,
+      }
     },
     dynamicConditionals: [{
       id: 'LynxConversionConditional',
@@ -133,13 +137,12 @@ x.BASIC_DMG += x.BASIC_SCALING * x.HP;
         buffStat(x, Stats.ATK, finalBuffAtk, action, context)
       },
       gpu: function (action: OptimizerAction, context: OptimizerContext) {
-        const r = action.characterConditionals
-
         return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.skillBuff)}) {
+if (actions[(*p_state).actionIndex].constants.LynxSkillBuff == false) {
   return;
 }
 
+let constants: ConditionalConstants = actions[(*p_state).actionIndex].constants;
 let stateValue: f32 = (*p_state).LynxConversionConditional;
 let convertibleHpValue: f32 = (*p_x).HP - (*p_x).RATIO_BASED_HP_BUFF;
 

@@ -6,7 +6,6 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
@@ -126,6 +125,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    gpuConstants: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
+      return {
+        SparkleSkillCdBuff: r.skillCdBuff,
+        SparkleSkillCdBuffBase: skillCdBuffBase,
+      }
+    },
     dynamicConditionals: [
       {
         id: 'SparkleCdConditional',
@@ -158,11 +164,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           buffStat(x, Stats.CD, finalBuffCd, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
           const buffScalingValue = (skillCdBuffScaling + (e >= 6 ? 0.30 : 0))
 
           return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.skillCdBuff)}) {
+if (actions[(*p_state).actionIndex].constants.SparkleSkillCdBuff == false) {
   return;
 }
 

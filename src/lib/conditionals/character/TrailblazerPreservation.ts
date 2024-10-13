@@ -112,7 +112,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_DMG += ultAtkScaling * x[Stats.ATK]
       x.ULT_DMG += ultDefScaling * x[Stats.DEF]
     },
-    gpuFinalizeCalculations: (context: OptimizerContext) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       return `

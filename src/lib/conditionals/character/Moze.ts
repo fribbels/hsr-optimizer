@@ -113,7 +113,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, fuaHitCountMulti)
     },
-    gpuFinalizeCalculations: (context: OptimizerContext) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardFuaAtkFinalizer(fuaHitCountMulti)
     },
   }

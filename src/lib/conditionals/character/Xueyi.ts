@@ -118,7 +118,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, hitMultiByFuaHits[action.characterConditionals.fuaHits])
     },
-    gpuFinalizeCalculations: (context: OptimizerContext) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardFuaAtkFinalizer(hitMultiByFuaHits[action.characterConditionals.fuaHits])
     },
     dynamicConditionals: [XueyiConversionConditional],

@@ -115,7 +115,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.FUA_DMG += fuaHpScaling * x[Stats.HP]
       x.FUA_DMG += (e >= 6) ? 0.50 * x[Stats.HP] : 0
     },
-    gpuFinalizeCalculations: (context: OptimizerContext) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       return `

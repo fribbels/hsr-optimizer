@@ -102,7 +102,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[context.enemyCount] : hitMultiSingle
       standardFuaAtkFinalizer(x, action, context, hitMulti)
     },
-    gpuFinalizeCalculations: (context: OptimizerContext) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
       const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[context.enemyCount] : hitMultiSingle
       return gpuStandardFuaAtkFinalizer(hitMulti)

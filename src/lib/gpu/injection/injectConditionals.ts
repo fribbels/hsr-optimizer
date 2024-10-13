@@ -14,15 +14,41 @@ export function injectConditionals(wgsl: string, request: Form, context: Optimiz
   const characterConditionals: CharacterConditional = CharacterConditionals.get(request) as CharacterConditional
   const lightConeConditionals: LightConeConditional = LightConeConditionals.get(request) as LightConeConditional
 
-  // TODO
-  if (lightConeConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
-    '/* INJECT LIGHT CONE CONDITIONALS */',
-    indent(lightConeConditionals.gpuFinalizeCalculations(context), 2),
-  )
+  let conditionalsWgsl = `
+switch i {
+`
+  for (let i = 0; i < context.actions.length; i++) {
+    const action = context.actions[i]
 
-  if (characterConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
+    let characterConditionalWgsl = '  // Character conditionals\n'
+    let lightConeConditionalWgsl = '  // LightCone conditionals\n'
+
+    if (characterConditionals.gpuFinalizeCalculations) {
+      characterConditionalWgsl += indent(characterConditionals.gpuFinalizeCalculations(action, context), 1)
+    }
+    if (lightConeConditionals.gpuFinalizeCalculations) {
+      lightConeConditionalWgsl += indent(lightConeConditionals.gpuFinalizeCalculations(action, context), 1)
+    }
+
+    conditionalsWgsl += indent(`
+case ${i}: {
+
+${characterConditionalWgsl}
+${lightConeConditionalWgsl}
+}
+`, 1)
+  }
+
+  conditionalsWgsl += `
+  default: {
+  
+  }
+}
+`
+
+  wgsl = wgsl.replace(
     '/* INJECT CHARACTER CONDITIONALS */',
-    indent(characterConditionals.gpuFinalizeCalculations(context), 2),
+    indent(conditionalsWgsl, 3),
   )
 
 
@@ -109,8 +135,6 @@ const actions: array<Action, ${length}> = array<Action, ${length}>(`
     ComputedStats(${injectPrecomputedStatsContext(action)}
     ),
     ConditionalState(
-    ),
-    ConditionalConstants(${injectConditionalConstants(action)}
     ),
   ),`
   }

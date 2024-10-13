@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -178,8 +178,66 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
+    gpuConstants: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
+      return {
+        HertaFuaStacks: r.fuaStacks,
+      }
+    },
     gpuFinalizeCalculations: (context: OptimizerContext) => {
-      return gpuStandardFuaAtkFinalizer(getHitMulti(action, context))
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * x.ATK;
+
+let constants: ConditionalConstants = actions[(*p_state).actionIndex].constants;
+
+switch i32(constants.HertaFuaStacks) {
+  case 1: {
+    switch enemyCount {
+      case 1: { x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, 0.06 * 1)); }
+      case 3: { x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, 0.06 * 2)); }
+      case 5: { x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, 0.06 * 3)); }
+      default: { }
+    }
+  }
+  case 2: {
+    switch enemyCount {
+      case 1: { x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, 0.06 * 1.5)); }
+      case 3: { x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, 0.06 * 3.5)); }
+      case 5: { x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, 0.06 * 5.5)); }
+      default: { }
+    }
+  }
+  case 3: {
+    switch enemyCount {
+      case 1: { x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, 0.06 * 2)); }
+      case 3: { x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, 0.06 * 5)); }
+      case 5: { x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, 0.06 * 6.3333333)); }
+      default: { }
+    }
+  }
+  case 4: {
+    switch enemyCount {
+      case 1: { x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, 0.06 * 2.5)); }
+      case 3: { x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, 0.06 * 5.75)); }
+      case 5: { x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, 0.06 * 6.75)); }
+      default: { }
+    }
+  }
+  case 5: {
+    switch enemyCount {
+      case 1: { x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, 0.06 * 3)); }
+      case 3: { x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, 0.06 * 6.2)); }
+      case 5: { x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, 0.06 * 7)); }
+      default: { }
+    }
+  }
+  default: {
+  
+  }
+}
+`
     },
   }
 }

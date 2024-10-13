@@ -331,8 +331,6 @@ export const GallagherConversionConditional: DynamicConditional = {
     buffStat(x, Stats.OHB, buffValue - stateValue, action, context)
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
-
     return conditionalWgslWrapper(this, `
 let be = (*p_x).BE;
 let stateValue: f32 = (*p_state).GallagherConversionConditional;

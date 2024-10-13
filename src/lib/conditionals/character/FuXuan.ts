@@ -149,8 +149,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           buffStat(x, Stats.HP, finalBuffHp, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
-
           return conditionalWgslWrapper(this, `
 if (actions[(*p_state).actionIndex].constants.FuXuanSkillActive == false) {
   return;

@@ -4,7 +4,6 @@ import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils
 import { ContentItem } from 'types/Conditionals'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
@@ -113,10 +112,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_DMG += ultDefScaling * x[Stats.DEF]
     },
     gpuFinalizeCalculations: (context: OptimizerContext) => {
-      const r = action.characterConditionals
-
       return `
-if (${wgslTrue(r.enhancedBasic)}) {
+if (actions[(*p_state).actionIndex].constants.TrailblazerPreservationEnhancedBasic == true) {
   x.BASIC_DMG += ${basicEnhancedAtkScaling} * x.ATK;
   x.BASIC_DMG += ${basicEnhancedDefScaling} * x.DEF;
 } else {
@@ -129,6 +126,12 @@ x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
 x.ULT_DMG += ${ultAtkScaling} * x.ATK;
 x.ULT_DMG += ${ultDefScaling} * x.DEF;
     `
+    },
+    gpuConstants: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
+      return {
+        TrailblazerPreservationEnhancedBasic: r.enhancedBasic,
+      }
     },
   }
 }

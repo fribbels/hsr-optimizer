@@ -1,5 +1,5 @@
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -160,8 +160,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
+    gpuConstants: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
+      return {
+        JadeEnhancedFollowUp: r.enhancedFollowUp,
+      }
+    },
     gpuFinalizeCalculations: (context: OptimizerContext) => {
-      return gpuStandardFuaAtkFinalizer(getHitMulti(action, context))
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * x.ATK;
+
+if (actions[(*p_state).actionIndex].constants.JadeEnhancedFollowUp == true) {
+  x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${enhancedHitMultiByTargets[context.enemyCount]}));
+} else {
+  x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${unenhancedHitMultiByTargets[context.enemyCount]}));
+}
+    `
     },
   }
 }

@@ -74,7 +74,7 @@ export const AventurineConversionConditional: DynamicConditional = {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.defToCrBoost)}) {
+if (actions[(*p_state).actionIndex].constants.AventurineDefToCrBoost == false) {
   return;
 }
 let def = (*p_x).DEF;
@@ -145,7 +145,7 @@ export const FireflyConversionConditional: DynamicConditional = {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.atkToBeConversion)}) {
+if (actions[(*p_state).actionIndex].constants.FireflyAtkToBeConversion == false) {
   return;
 }
 let atk = (*p_x).ATK;
@@ -190,7 +190,7 @@ export const BoothillConversionConditional: DynamicConditional = {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.beToCritBoost)}) {
+if (actions[(*p_state).actionIndex].constants.BoothillBeToCritBoost == false) {
   return;
 }
 
@@ -261,7 +261,7 @@ export const BlackSwanConversionConditional: DynamicConditional = {
     const r = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.ehrToDmgBoost)}) {
+if (actions[(*p_state).actionIndex].constants.BlackSwanEhrToDmgBoost == false) {
   return;
 }
 let ehr = (*p_x).EHR;

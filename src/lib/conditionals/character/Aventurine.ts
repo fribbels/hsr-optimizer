@@ -139,6 +139,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_DMG += x.ULT_SCALING * x[Stats.DEF]
       x.FUA_DMG += x.FUA_SCALING * x[Stats.DEF]
     },
+    gpuConstants: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
+      return {
+        AventurineDefToCrBoost: r.defToCrBoost,
+      }
+    },
     gpuFinalizeCalculations: () => {
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.DEF;

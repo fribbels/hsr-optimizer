@@ -7,7 +7,6 @@ import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { FireflyConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
@@ -155,26 +154,34 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
     },
-    gpuFinalizeCalculations: (context: OptimizerContext) => {
+    gpuConstants: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
-      // TODO:
-      // if (r.atkToBeConversion) {
-      //   evaluateConditional(FireflyConversionConditional, x, request, params)
-      // }
+      return {
+        FireflyAtkToBeConversion: r.atkToBeConversion,
+        FireflyEnhancedStateActive: r.enhancedStateActive,
+        FireflySuperBreakDmg: r.superBreakDmg,
+        FireflyUltWeaknessBrokenBreakVulnerability: ultWeaknessBrokenBreakVulnerability,
+        FireflySkillEnhancedAtkScaling: skillEnhancedAtkScaling,
+        FireflySkillScaling: skillScaling,
+      }
+    },
+    gpuFinalizeCalculations: (context: OptimizerContext) => {
       return `
-buffAbilityVulnerability(p_x, BREAK_TYPE, ${ultWeaknessBrokenBreakVulnerability}, select(0, 1, ${wgslTrue(r.enhancedStateActive)} && x.ENEMY_WEAKNESS_BROKEN >= 1));
 
-if (x.BE >= 2.00 && ${wgslTrue(r.superBreakDmg && r.enhancedStateActive)}) {
+let constants: ConditionalConstants = actions[(*p_state).actionIndex].constants;
+buffAbilityVulnerability(p_x, BREAK_TYPE, constants.FireflyUltWeaknessBrokenBreakVulnerability, select(0, 1, constants.FireflyEnhancedStateActive == true && x.ENEMY_WEAKNESS_BROKEN >= 1));
+
+if (x.BE >= 2.00 && constants.FireflySuperBreakDmg == true && constants.FireflyEnhancedStateActive == true) {
   x.SUPER_BREAK_MODIFIER += 0.35;
 }
-if (x.BE >= 3.60 && ${wgslTrue(r.superBreakDmg && r.enhancedStateActive)}) {
+if (x.BE >= 3.60 && constants.FireflySuperBreakDmg == true && constants.FireflyEnhancedStateActive == true) {
   x.SUPER_BREAK_MODIFIER += 0.15;
 }
 
-if (${wgslTrue(r.enhancedStateActive)}) {
-  x.SKILL_SCALING += 0.2 * min(3.60, x.BE) + ${skillEnhancedAtkScaling};
+if (constants.FireflyEnhancedStateActive == true) {
+  x.SKILL_SCALING += 0.2 * min(3.60, x.BE) + constants.FireflySkillEnhancedAtkScaling;
 } else {
-  x.SKILL_SCALING += ${skillScaling};
+  x.SKILL_SCALING += constants.FireflySkillScaling;
 }
 
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;

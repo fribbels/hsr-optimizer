@@ -32,7 +32,7 @@ function generateUnusedSets(relics) {
   return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
 }
 
-export function calculateBuild(request, relics, cachedContext /* optional */, reuseRequest = false) {
+export function calculateBuild(request, relics, cachedContext /* optional */, reuseRequest = false, reuseComboState = false) {
   if (!reuseRequest) {
     request = Utils.clone(request)
   }
@@ -41,7 +41,15 @@ export function calculateBuild(request, relics, cachedContext /* optional */, re
   // ============== Context
 
   const context = cachedContext ?? generateContext(request)
-  transformComboState(request, context)
+  if (reuseComboState) {
+    // Clean combo state
+    for (const action of context.actions) {
+      action.conditionalState = {}
+    }
+    const c = 1 + 2
+  } else {
+    transformComboState(request, context)
+  }
 
   // ==============
 

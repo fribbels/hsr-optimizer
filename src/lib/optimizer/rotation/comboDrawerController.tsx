@@ -86,7 +86,6 @@ export type ComboState = {
 export type SetConditionals = typeof defaultSetConditionals
 
 export function initializeComboState(request: Form, merge: boolean) {
-  console.log('initializeComboState')
   const comboState = {} as ComboState
 
   if (!request.characterId) return comboState
@@ -146,8 +145,6 @@ export function initializeComboState(request: Form, merge: boolean) {
 
     mergeComboStates(comboState, savedComboState)
   }
-
-  console.debug('aa', comboState)
 
   return comboState
 }

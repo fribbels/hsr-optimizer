@@ -14,9 +14,9 @@ export type ComboForm = {
 }
 
 export function transformComboState(request: Form, context: OptimizerContext) {
-  console.debug('transformComboState')
-  console.debug(request)
-  console.debug(context)
+  console.log('transformComboState')
+  // console.debug(request)
+  // console.debug(context)
 
   if (!request.comboStateJson || request.comboStateJson == '{}') {
     request.comboType = 'simple'
@@ -42,6 +42,8 @@ function simpleTransform(comboState: ComboState, request: Form, context: Optimiz
     actions.push(transformAction(i, comboState, comboAbilities, context))
   }
   context.actions = actions
+  context.comboDot = request.comboDot || 0
+  context.comboBreak = request.comboBreak || 0
 }
 
 function transformAction(actionIndex: number, comboState: ComboState, comboAbilities: string[], context: OptimizerContext) {
@@ -88,8 +90,6 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
 
   precomputeConditionals(action, comboState, context)
   calculateContextConditionalRegistry(action, comboState.comboCharacter.metadata)
-
-  console.log({ action })
 
   return action
 }

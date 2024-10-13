@@ -105,6 +105,8 @@ ${indent(conditionalConstantsStruct, 1)}
 //   let actionsDefinition = `
 // var actions: array<Action, ${length}> = array<Action, ${length}>(`
   let actionsDefinition = `
+const comboDot: f32 = ${context.comboDot};
+const comboBreak: f32 = ${context.comboBreak};
 const actions: array<Action, ${length}> = array<Action, ${length}>(`
   for (const action of context.actions) {
     actionsDefinition += `

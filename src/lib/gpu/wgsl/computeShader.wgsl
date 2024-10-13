@@ -672,7 +672,7 @@ fn main(
         + BREAK_COMBO * x.BREAK_DMG;
 
       if (i == 0) {
-        x.COMBO_DMG = combo;
+        x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
     // START COMBAT STAT FILTERS
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
     /* INJECT COMBAT STAT FILTERS */

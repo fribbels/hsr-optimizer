@@ -156,7 +156,6 @@ const comboOptions = [
 ]
 
 function ComboOptionRow(props: { index: number }) {
-  console.log('ComboOptionRow')
   return (
     <Form.Item
       shouldUpdate={(prevValues, currentValues) =>

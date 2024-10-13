@@ -37,21 +37,17 @@ export function ComboDrawer() {
   const lastSelectedKeyState = useRef(undefined);
 
   useEffect(() => {
+    console.log('UseEFFECT', comboDrawerOpen)
     if (comboDrawerOpen) {
       const form = OptimizerTabController.getForm()
       if (!form?.characterId || !form.characterConditionals) return
-      console.debug('form', form)
-      console.debug('combo', form.combo)
 
       const comboState = initializeComboState(form, true)
       setComboState(comboState)
     } else {
       updateFormState(comboState)
     }
-    console.debug('UseEFFECT')
   }, [formValues, comboDrawerOpen])
-
-  console.debug('RENDER', comboState)
 
   return (
     <Drawer
@@ -586,7 +582,7 @@ function Partition(props: { partition: ComboSubNumberConditional, contentItem: C
 function BooleanSwitch(props: { contentItem: ContentItem, sourceKey: string, value: boolean }) {
   const contentItem = props.contentItem
 
-  console.debug(props.sourceKey)
+  // console.debug(props.sourceKey)
 
   return (
     <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={0}>
@@ -718,7 +714,7 @@ const BoxComponent = React.memo(
       }
     }
 
-    console.log('Box')
+    // console.log('Box')
     return (
       <div
         className={classnames}

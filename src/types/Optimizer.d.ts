@@ -94,6 +94,8 @@ export type OptimizerContext = {
   weaknessBrokenMultiplier: number
 
   actions: OptimizerAction[]
+  comboBreak: number
+  comboDot: number
 
   characterConditionalController: CharacterConditional
   lightConeConditionalController: LightConeConditional

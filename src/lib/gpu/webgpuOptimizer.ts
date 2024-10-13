@@ -174,6 +174,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
   window.store.getState().setOptimizationInProgress(false)
   window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
 
+  const optimizerContext = gpuContext.context
   const resultArray = gpuContext.resultsQueue.toArray().sort((a, b) => b.value - a.value)
   const outputs: any[] = []
   for (let i = 0; i < resultArray.length; i++) {
@@ -196,8 +197,9 @@ function outputResults(gpuContext: GpuExecutionContext) {
         PlanarSphere: relics.PlanarSphere[p],
         LinkRope: relics.LinkRope[l],
       },
-      null,
+      optimizerContext,
       true,
+      true
     )
 
     c.id = index

@@ -82,7 +82,7 @@ export const OptimizerTabController = {
     Message.success('Equipped relics')
     OptimizerTabController.setTopRow(row)
     window.setOptimizerBuild(build)
-    SaveState.save()
+    SaveState.delayedSave()
     OptimizerTabController.updateFilters()
   },
 
@@ -684,7 +684,7 @@ export const OptimizerTabController = {
     window.optimizerForm.setFieldValue('characterId', id)
 
     window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, id)
-    setTimeout(() => SaveState.save(), 1000)
+    SaveState.delayedSave()
   },
 
   // Update form values with the character

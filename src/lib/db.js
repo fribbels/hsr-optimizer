@@ -378,7 +378,7 @@ export const DB = {
     }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
-    SaveState.save()
+    SaveState.delayedSave()
   },
   updateSimulationScoreOverrides: (id, updatedSimulation) => {
     if (!updatedSimulation) return
@@ -393,9 +393,7 @@ export const DB = {
     }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
-    setTimeout(() => {
-      SaveState.save()
-    }, 2000)
+    SaveState.delayedSave()
   },
 
   setStore: (x, autosave = true) => {
@@ -562,7 +560,7 @@ export const DB = {
     DB.refreshRelics()
 
     if (autosave) {
-      SaveState.save()
+      SaveState.delayedSave()
     }
   },
   resetStore: () => {
@@ -614,7 +612,7 @@ export const DB = {
     }
 
     if (autosave) {
-      SaveState.save()
+      SaveState.delayedSave()
     }
 
     return found

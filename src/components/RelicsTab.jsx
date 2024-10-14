@@ -361,7 +361,7 @@ export default function RelicsTab() {
     DB.setRelic(relic)
     window.forceCharacterTabUpdate()
     setRelicRows(DB.getRelics())
-    SaveState.save()
+    SaveState.delayedSave()
 
     setSelectedRelic(relic)
 
@@ -406,7 +406,7 @@ export default function RelicsTab() {
 
     setRelicRows(DB.getRelics())
     setSelectedRelic(undefined)
-    SaveState.save()
+    SaveState.delayedSave()
 
     Message.success(t('Messages.DeleteRelicSuccess')/* Successfully deleted relic */)
   }
@@ -463,9 +463,9 @@ export default function RelicsTab() {
         {!gridDestroyed && (
           <div
             id='relicGrid' className='ag-theme-balham-dark' style={{
-              ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
-              ...getGridTheme(token),
-            }}
+            ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
+            ...getGridTheme(token),
+          }}
           >
 
             <AgGridReact
@@ -525,7 +525,7 @@ export default function RelicsTab() {
             trigger='click'
             onOpenChange={(open) => {
               if (!open) {
-                SaveState.save()
+                SaveState.delayedSave()
               }
             }}
             content={(
@@ -713,10 +713,10 @@ export default function RelicsTab() {
                           <svg width={10} height={10}>
                             <rect
                               width={10} height={10} style={{
-                                fill: x.color,
-                                strokeWidth: 1,
-                                stroke: 'rgb(0,0,0)',
-                              }}
+                              fill: x.color,
+                              strokeWidth: 1,
+                              stroke: 'rgb(0,0,0)',
+                            }}
                             />
                           </svg>
                         )

@@ -94,7 +94,7 @@ export default function RelicScorerTab() {
     }
 
     setScorerId(id)
-    SaveState.save()
+    SaveState.delayedSave()
 
     window.history.replaceState({ id: id }, `profile: ${id}`, PageToRoute[AppPages.RELIC_SCORER] + `?id=${id}`)
 
@@ -370,7 +370,7 @@ function CharacterPreviewSelection(props) {
 
     console.log('importClicked', props.availableCharacters, newRelics)
     DB.mergePartialRelicsWithState(newRelics)
-    SaveState.save()
+    SaveState.delayedSave()
   }
 
   function importCharactersClicked() {
@@ -384,7 +384,7 @@ function CharacterPreviewSelection(props) {
 
     console.log('importCharactersClicked', props.availableCharacters, newRelics)
     DB.mergePartialRelicsWithState(newRelics, props.availableCharacters)
-    SaveState.save()
+    SaveState.delayedSave()
   }
 
   function importCharacterClicked() {
@@ -395,7 +395,7 @@ function CharacterPreviewSelection(props) {
       .filter((x) => !!x)
     console.log('importCharacterClicked', props.selectedCharacter, newRelics)
     DB.mergePartialRelicsWithState(newRelics, [props.selectedCharacter])
-    SaveState.save()
+    SaveState.delayedSave()
   }
 
   async function clipboardClicked() {
@@ -539,7 +539,7 @@ function Sidebar(props) {
 
   useEffect(() => {
     window.store.getState().setSavedSessionKey(SavedSessionKeys.relicScorerSidebarOpen, open)
-    setTimeout(() => SaveState.save(), 1000)
+    SaveState.delayedSave()
   }, [open])
 
   const dropdownDisplay = useMemo(() => {

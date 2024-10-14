@@ -119,7 +119,7 @@ export function ScannerImportSubmenu() {
     setLoading2(true)
     setTimeout(() => {
       DB.mergeRelicsWithState(currentRelics)
-      SaveState.save()
+      SaveState.delayedSave()
 
       setTimeout(() => {
         setLoading2(false)
@@ -132,7 +132,7 @@ export function ScannerImportSubmenu() {
     setLoading2(true)
     setTimeout(() => {
       DB.mergeRelicsWithState(currentRelics, currentCharacters)
-      SaveState.save()
+      SaveState.delayedSave()
 
       setTimeout(() => {
         setLoading2(false)

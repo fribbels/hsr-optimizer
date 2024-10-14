@@ -411,7 +411,7 @@ export function startOptimizerStatSimulation() {
 function autosave() {
   const form = OptimizerTabController.getForm()
   DB.addFromForm(form)
-  SaveState.save()
+  SaveState.delayedSave()
 }
 
 export function importOptimizerBuild() {

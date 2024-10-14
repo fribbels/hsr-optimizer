@@ -280,7 +280,7 @@ export default function CharacterTab() {
   function drag(event, index) {
     const dragged = event.node.data
     DB.insertCharacter(dragged.id, index)
-    SaveState.save()
+    SaveState.delayedSave()
     characterGrid.current.api.redrawRows()
   }
 
@@ -317,7 +317,7 @@ export default function CharacterTab() {
       window.relicsGrid.current.api.redrawRows()
     }
 
-    SaveState.save()
+    SaveState.delayedSave()
 
     Message.success(t('Messages.RemoveSuccess')/* Successfully removed character */)
   }
@@ -339,7 +339,7 @@ export default function CharacterTab() {
     Message.success(t('Messages.UnequipSuccess')/* Successfully unequipped character */)
     window.relicsGrid.current.api.redrawRows()
 
-    SaveState.save()
+    SaveState.delayedSave()
   }
 
   // Reuse the same modal for both edit/add and scroll to the selected character
@@ -358,7 +358,7 @@ export default function CharacterTab() {
     }
 
     DB.switchRelics(selectedCharacter.id, switchToCharacter.value)
-    SaveState.save()
+    SaveState.delayedSave()
 
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
@@ -374,7 +374,7 @@ export default function CharacterTab() {
   function moveToTopClicked() {
     DB.insertCharacter(characterTabFocusCharacter, 0)
     DB.refreshCharacters()
-    SaveState.save()
+    SaveState.delayedSave()
   }
 
   async function sortByScoreClicked() {
@@ -398,7 +398,7 @@ export default function CharacterTab() {
 
     DB.setCharacters(scoredCharacters)
     DB.refreshCharacters()
-    SaveState.save()
+    SaveState.delayedSave()
   }
 
   function clipboardClicked() {
@@ -433,7 +433,7 @@ export default function CharacterTab() {
       return
     }
     Message.success(t('charactersTab:Messages.SaveSuccess'/* Successfully saved build: {{name}} */, { name: name }))
-    SaveState.save()
+    SaveState.delayedSave()
     setIsSaveBuildModalOpen(false)
   }
 
@@ -561,9 +561,9 @@ export default function CharacterTab() {
           <Flex vertical gap={8} style={{ marginRight: selectedCharacter ? 6 : 8 }}>
             <div
               id='characterGrid' className='ag-theme-balham-dark' style={{
-                ...{ display: 'block', width: 230, height: parentH - 38 },
-                ...getGridTheme(token),
-              }}
+              ...{ display: 'block', width: 230, height: parentH - 38 },
+              ...getGridTheme(token),
+            }}
             >
               <AgGridReact
                 ref={characterGrid}

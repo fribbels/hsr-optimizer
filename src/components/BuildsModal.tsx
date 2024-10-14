@@ -19,10 +19,10 @@ interface BuildsModalProps {
 }
 
 const BuildsModal: React.FC<BuildsModalProps> = ({
-  open,
-  setOpen,
-  selectedCharacter,
-}) => {
+                                                   open,
+                                                   setOpen,
+                                                   selectedCharacter,
+                                                 }) => {
   const { t } = useTranslation(['modals', 'gameData'])
   const [confirmationModal, contextHolder] = Modal.useModal()
   const [selectedBuild, setSelectedBuild] = React.useState<null | number>(null)
@@ -109,7 +109,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
       setSelectedBuild(null)
       DB.clearCharacterBuilds(selectedCharacter?.id)
       window.forceCharacterTabUpdate()
-      SaveState.save()
+      SaveState.delayedSave()
       Message.success(t('Builds.ConfirmDelete.SuccessMessageAll', { characterName: characterName })/* Successfully deleted all builds for {{characterName}} */)
       setOpen(false)
     }
@@ -121,7 +121,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
       setSelectedBuild(null)
       DB.deleteCharacterBuild(selectedCharacter?.id, name)
       window.forceCharacterTabUpdate()
-      SaveState.save()
+      SaveState.delayedSave()
       Message.success(t('Builds.ConfirmDelete.SuccessMessageSingle', { name: name })/* Successfully deleted build: {{name}} */)
 
       if (selectedCharacter?.Builds.length == 0) {
@@ -138,7 +138,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
         selectedCharacter?.id,
       )
       window.forceCharacterTabUpdate()
-      SaveState.save()
+      SaveState.delayedSave()
       Message.success(t('Builds.ConfirmEquip.SuccessMessage', { buildName: build.name })/* Successfully equipped build: {{buildName}} */)
       handleCancel()
     }

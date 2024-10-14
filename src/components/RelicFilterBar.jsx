@@ -340,7 +340,7 @@ export default function RelicFilterBar(props) {
                 .filter((entry) => entry[1] == true)
                 .map((entry) => entry[0])
               window.store.getState().setExcludedRelicPotentialCharacters(excludedCharacterIds)
-              SaveState.save()
+              SaveState.delayedSave()
               setTimeout(() => rescoreClicked(), 100)
             }}
             multipleSelect={true}

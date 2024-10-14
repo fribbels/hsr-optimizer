@@ -119,7 +119,7 @@ export function CharacterPreview(props) {
   function onAddOk(relic) {
     DB.setRelic(relic)
     setRelicRows(DB.getRelics())
-    SaveState.save()
+    SaveState.delayedSave()
 
     setSelectedRelic(relic)
 
@@ -133,13 +133,13 @@ export function CharacterPreview(props) {
         setCustomPortrait({ ...portrait })
         DB.saveCharacterPortrait(character.id, portrait)
         Message.success(t('CharacterPreview.Messages.SavedPortrait')/* Successfully saved portrait */)
-        SaveState.save()
+        SaveState.delayedSave()
         break
       case 'delete':
         DB.deleteCharacterPortrait(character.id)
         setCustomPortrait(null)
         Message.success(t('CharacterPreview.Messages.RevertedPortrait')/* Successfully reverted portrait */)
-        SaveState.save()
+        SaveState.delayedSave()
         break
       default:
         console.error(`Payload of type '${type}' is not valid!`)
@@ -952,7 +952,7 @@ export function CharacterPreview(props) {
                 onChange={(selection) => {
                   setScoringType(selection)
                   window.store.getState().setSavedSessionKey(SavedSessionKeys.scoringType, selection)
-                  setTimeout(() => SaveState.save(), 1000)
+                  SaveState.delayedSave()
                 }}
                 value={scoringType}
                 block
@@ -982,7 +982,7 @@ export function CharacterPreview(props) {
                 onChange={(selection) => {
                   setCombatScoreDetails(selection)
                   window.store.getState().setSavedSessionKey(SavedSessionKeys.combatScoreDetails, selection)
-                  setTimeout(() => SaveState.save(), 1000)
+                  SaveState.delayedSave()
                 }}
                 value={combatScoreDetails}
                 block

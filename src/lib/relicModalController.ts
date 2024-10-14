@@ -23,7 +23,7 @@ export const RelicModalController = {
     Message.success(i18next.t('modals:Relic.Messages.EditSuccess')/* Successfully edited relic */)
 
     setTimeout(() => {
-      SaveState.save()
+      SaveState.delayedSave()
       window.forceCharacterTabUpdate()
     }, 200)
 

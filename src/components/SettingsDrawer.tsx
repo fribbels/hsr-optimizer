@@ -96,7 +96,7 @@ export const SettingsDrawer = () => {
 
   const onValuesChange = (_changedValues, allValues) => {
     setSettings(allValues)
-    SaveState.save()
+    SaveState.delayedSave()
   }
 
   return (

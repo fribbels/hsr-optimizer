@@ -70,7 +70,7 @@ export default function OptimizerForm() {
 
     if (keys[0] === 'characterId') {
       window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, changedValues.characterId)
-      setTimeout(() => SaveState.save(), 1000)
+      SaveState.delayedSave()
     }
 
     // Add any new characters to the list only if the user changed any value other than the characterId
@@ -121,7 +121,7 @@ export default function OptimizerForm() {
     window.store.getState().setOptimizationInProgress(true)
 
     DB.addFromForm(form)
-    SaveState.save()
+    SaveState.delayedSave()
 
     const optimizationId = Utils.randomId()
     window.store.getState().setOptimizationId(optimizationId)

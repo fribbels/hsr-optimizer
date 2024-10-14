@@ -642,22 +642,14 @@ fn main(
         * dotEhrMultiplier;
 
       if (actionIndex > 0) {
-        switch (action.abilityType) {
-          case 1: {
-            combo += x.BASIC_DMG;
-          }
-          case 2: {
-            combo += x.SKILL_DMG;
-          }
-          case 4: {
-            combo += x.ULT_DMG;
-          }
-          case 8: {
-            combo += x.FUA_DMG;
-          }
-          default: {
-
-          }
+        if (action.abilityType == 1) {
+          combo += x.BASIC_DMG;
+        } else if (action.abilityType == 2) {
+          combo += x.SKILL_DMG;
+        } else if (action.abilityType == 4) {
+          combo += x.ULT_DMG;
+        } else if (action.abilityType == 8) {
+          combo += x.FUA_DMG;
         }
       } else {
         x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;

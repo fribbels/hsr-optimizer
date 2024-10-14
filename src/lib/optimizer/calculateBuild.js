@@ -101,14 +101,11 @@ export function calculateBuild(request, relics, cachedContext /* optional */, re
 
     if (action.actionType === 'BASIC') {
       combo += ax.BASIC_DMG
-    }
-    if (action.actionType === 'SKILL') {
+    } else if (action.actionType === 'SKILL') {
       combo += ax.SKILL_DMG
-    }
-    if (action.actionType === 'ULT') {
+    } else if (action.actionType === 'ULT') {
       combo += ax.ULT_DMG
-    }
-    if (action.actionType === 'FUA') {
+    } else if (action.actionType === 'FUA') {
       combo += ax.FUA_DMG
     }
 

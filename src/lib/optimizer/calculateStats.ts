@@ -88,7 +88,7 @@ export function calculateElementalStats(c: BasicStatsObject, context: OptimizerC
 }
 
 export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContext) {
-  const base =  context.characterStatsBreakdown.base
+  const base = context.characterStatsBreakdown.base
   const lc = context.characterStatsBreakdown.lightCone
   const trace = context.characterStatsBreakdown.traces
 
@@ -347,7 +347,7 @@ export function calculateRelicStats(c: BasicStatsObject, head, hands, body, feet
     }
   }
 
-  c.x.WEIGHT
+  c.WEIGHT
     = head.weightScore
     + hands.weightScore
     + body.weightScore

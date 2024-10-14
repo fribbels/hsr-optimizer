@@ -131,7 +131,7 @@ export function getBaseColumnDefs(t: TFunction<'optimizerTab', undefined>) {
       field: 'ULT',
       valueFormatter: Renderer.floor,
       width: DIGITS_5,
-      headerName: t('Grid.Headers.Basic.CR'), // 'ULT\nDMG',
+      headerName: t('Grid.Headers.Basic.ULT'), // 'ULT\nDMG',
     },
     {
       field: 'FUA',

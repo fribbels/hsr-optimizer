@@ -189,6 +189,7 @@ export type BasicStatsObject = {
   ['Quantum DMG Boost']: number
   ['Imaginary DMG Boost']: number
   ELEMENTAL_DMG: number // ?
+  WEIGHT: number // ?
 
   relicSetIndex: number
   ornamentSetIndex: number

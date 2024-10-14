@@ -139,6 +139,7 @@ self.onmessage = function (e: MessageEvent) {
         || c[Stats.RES] < request.minRes || c[Stats.RES] > request.maxRes
         || c[Stats.BE] < request.minBe || c[Stats.BE] > request.maxBe
         || c[Stats.ERR] < request.minErr || c[Stats.ERR] > request.maxErr
+        || c.WEIGHT < request.minWeight || c.WEIGHT > request.maxWeight
       if (fail) {
         continue
       }
@@ -200,7 +201,6 @@ self.onmessage = function (e: MessageEvent) {
 
     // Rating filters
     const fail = x.EHP < request.minEhp || x.EHP > request.maxEhp
-      || x.WEIGHT < request.minWeight || x.WEIGHT > request.maxWeight
       || x.BASIC_DMG < request.minBasic || x.BASIC_DMG > request.maxBasic
       || x.SKILL_DMG < request.minSkill || x.SKILL_DMG > request.maxSkill
       || x.ULT_DMG < request.minUlt || x.ULT_DMG > request.maxUlt

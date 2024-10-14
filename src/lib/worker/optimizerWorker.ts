@@ -12,6 +12,7 @@ import { LightConeConditionals } from 'lib/lightConeConditionals'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
+let isFirefox = false
 
 type OptimizerEventData = {
   relics: {
@@ -30,6 +31,7 @@ type OptimizerEventData = {
   permutations: number
   WIDTH: number
   skip: number
+  isFirefox: boolean
 }
 
 self.onmessage = function (e: MessageEvent) {
@@ -56,6 +58,8 @@ self.onmessage = function (e: MessageEvent) {
   const combatDisplay = request.statDisplay == 'combat'
   const baseDisplay = !combatDisplay
   let passCount = 0
+
+  isFirefox = data.isFirefox
 
   const {
     failsBasicFilter,
@@ -267,6 +271,5 @@ function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) 
 
 function cloneX(originalAction: OptimizerAction) {
   const x = originalAction.precomputedX
-  return { ...x }
-  // return Object.assign({}, x) // Firefox
+  return isFirefox ? Object.assign({}, x) : { ...x }
 }

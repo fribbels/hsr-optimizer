@@ -18,6 +18,7 @@ import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
 
 let CANCEL = false
+let isFirefox = typeof navigator !== "undefined" && navigator.userAgent.toLowerCase().indexOf('firefox') > -1
 
 export function calculateCurrentlyEquippedRow(request) {
   let relics = Utils.clone(DB.getRelics())
@@ -172,6 +173,7 @@ export const Optimizer = {
             permutations: permutations,
             relicSetSolutions: relicSetSolutions,
             ornamentSetSolutions: ornamentSetSolutions,
+            isFirefox: isFirefox,
           },
           getMinFilter: () => {
             return queueResults.size() && queueResults.size() >= request.resultsLimit ? queueResults.top()[gridSortColumn] : 0

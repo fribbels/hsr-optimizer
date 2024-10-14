@@ -225,7 +225,7 @@ export function applyMetadataPresetToForm(form, scoringMetadata) {
   form.mainFeet = scoringMetadata.parts[Constants.Parts.Feet]
   form.mainPlanarSphere = scoringMetadata.parts[Constants.Parts.PlanarSphere]
   form.mainLinkRope = scoringMetadata.parts[Constants.Parts.LinkRope]
-  form.weights = scoringMetadata.stats
+  form.weights = { ...form.weights, ...scoringMetadata.stats }
   form.weights.headHands = form.weights.headHands || 0
   form.weights.bodyFeet = form.weights.bodyFeet || 0
   form.weights.sphereRope = form.weights.sphereRope || 0

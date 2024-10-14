@@ -11,6 +11,7 @@ import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaul
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { initializeComboState } from 'lib/optimizer/rotation/comboDrawerController'
+import { SelectionSets } from 'lib/optimizer/rotation/setConditionalContent'
 
 let relics
 let consts
@@ -525,11 +526,26 @@ export const OptimizerTabController = {
     }
 
     if (!newForm.comboAbilities) {
-      newForm.comboAbilities = ['DEFAULT', 'BASIC', null, null, null, null, null, null, null]
+      const simulation = metadata.scoringMetadata?.simulation
+      newForm.comboAbilities = simulation?.comboAbilities ?? [null, 'BASIC']
+      newForm.comboDot = simulation?.comboDot ?? 0
+      newForm.comboBreak = simulation?.comboBreak ?? 0
     }
 
     if (!newForm.comboType) {
       newForm.comboType = 'simple'
+    }
+
+    for (const [key, value] of Object.entries(newForm.setConditionals)) {
+      if (SelectionSets[key]) {
+        if (typeof value[1] != 'number') {
+          newForm.setConditionals[key][1] = defaultSetConditionals[key][1]
+        }
+      } else {
+        if (typeof value[1] != 'boolean') {
+          newForm.setConditionals[key][1] = defaultSetConditionals[key][1]
+        }
+      }
     }
 
     // console.log('Form update', newForm)

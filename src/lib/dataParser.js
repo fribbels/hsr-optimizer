@@ -1863,7 +1863,7 @@ function getScoringMetadata() {
           DOT: 16,
           BREAK: 0,
         },
-        comboAbilities: [null, ULT, SKILL, SKILL],
+        comboAbilities: [null, ULT, SKILL, FUA, SKILL, FUA],
         comboDot: 16,
         comboBreak: 0,
         relicSets: [

@@ -7,6 +7,7 @@ import { LightCone } from 'types/LightCone'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { generateFullDefaultForm } from 'lib/characterScorer'
 import { OptimizerTabController } from 'lib/optimizerTabController'
+import { SortOption } from 'lib/optimizer/sortOptions'
 
 export type WebgpuTest = {
   name: string
@@ -170,18 +171,16 @@ export function generateRelicSetTests(device: GPUDevice) {
 export function generateE0S1CharacterTest(characterId: string, lightConeId: string, device: GPUDevice) {
   const request = OptimizerTabController.fixForm(generateFullDefaultForm(characterId, lightConeId, 0, 1))
   const relics = generateTestRelics()
+  request.sortOption = SortOption.COMBO.key
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return testWrapper(`E0S1 ${cache.metadata.characters[characterId].displayName} — ${cache.metadata.lightCones[lightConeId].displayName}`, request, relics, device)
 }
 
-export function fillDefaultRequestConditionals(request: Form) {
-
-}
-
 export function generateE6S5CharacterTest(characterId: string, lightConeId: string, device: GPUDevice) {
   const request = OptimizerTabController.fixForm(generateFullDefaultForm(characterId, lightConeId, 6, 5))
   const relics = generateTestRelics()
+  request.sortOption = SortOption.COMBO.key
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return testWrapper(`E6S5 ${cache.metadata.characters[characterId].displayName} — ${cache.metadata.lightCones[lightConeId].displayName}`, request, relics, device)

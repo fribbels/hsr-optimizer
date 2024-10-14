@@ -10,15 +10,19 @@ import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomput
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { StringToNumberMap } from 'types/Common'
+import { SortOption } from 'lib/optimizer/sortOptions'
 
 export function injectConditionals(wgsl: string, request: Form, context: OptimizerContext) {
   const characterConditionals: CharacterConditional = CharacterConditionals.get(request) as CharacterConditional
   const lightConeConditionals: LightConeConditional = LightConeConditionals.get(request) as LightConeConditional
 
+  // Actions
+  const actionLength = context.resultSort == SortOption.COMBO.key ? context.actions.length : 1
+
   let conditionalsWgsl = `
 switch (actionIndex) {
 `
-  for (let i = 0; i < context.actions.length; i++) {
+  for (let i = 0; i < actionLength; i++) {
     const action = context.actions[i]
 
     let characterConditionalWgsl = '  // Character conditionals\n'
@@ -54,14 +58,13 @@ ${lightConeConditionalWgsl}
 
   wgsl += generateDynamicConditionals(request, context)
 
-  // Actions
-  const length = context.actions.length
-
   let actionsDefinition = `
 const comboDot: f32 = ${context.comboDot};
 const comboBreak: f32 = ${context.comboBreak};
-const actions: array<Action, ${length}> = array<Action, ${length}>(`
-  for (const action of context.actions) {
+const actions: array<Action, ${actionLength}> = array<Action, ${actionLength}>(`
+  for (let i = 0; i < actionLength; i++) {
+    const action = context.actions[i]
+
     actionsDefinition += `
   Action( // ${action.actionIndex}
     ${getActionTypeToWgslMapping(action.actionType)},
@@ -101,7 +104,7 @@ const actions: array<Action, ${length}> = array<Action, ${length}>(`
   wgsl = wgsl.replace('/* INJECT ACTIONS DEFINITION */', actionsDefinition)
 
   wgsl += `
-const actionCount = ${context.actions.length};
+const actionCount = ${actionLength};
 `
 
   return wgsl

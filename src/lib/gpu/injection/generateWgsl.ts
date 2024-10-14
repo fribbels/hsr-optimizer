@@ -12,10 +12,6 @@ import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import { OptimizerContext } from 'types/Optimizer'
 
 export function generateWgsl(context: OptimizerContext, request: Form, gpuParams: GpuConstants) {
-  // calculateConditionals(request, params)
-  // calculateConditionalRegistry(request, params)
-  // calculateTeammates(request, params)
-
   let wgsl = ''
 
   wgsl = injectSettings(wgsl, context, request)
@@ -176,12 +172,25 @@ ${format(combatFilters)}
 function injectGpuParams(wgsl: string, request: Form, gpuParams: GpuConstants) {
   const cyclesPerInvocation = gpuParams.DEBUG ? 1 : gpuParams.CYCLES_PER_INVOCATION
 
+  let debugValues = ''
+
+  if (gpuParams.DEBUG) {
+    debugValues = `
+const DEBUG_BASIC_COMBO: f32 = ${request.comboAbilities.filter(x => x == 'BASIC').length};
+const DEBUG_SKILL_COMBO: f32 = ${request.comboAbilities.filter(x => x == 'SKILL').length};
+const DEBUG_ULT_COMBO: f32 = ${request.comboAbilities.filter(x => x == 'ULT').length};
+const DEBUG_FUA_COMBO: f32 = ${request.comboAbilities.filter(x => x == 'FUA').length};
+`
+  }
+
   wgsl = wgsl.replace('/* INJECT GPU PARAMS */', `
 const WORKGROUP_SIZE = ${gpuParams.WORKGROUP_SIZE};
 const BLOCK_SIZE = ${gpuParams.BLOCK_SIZE};
 const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
 const DEBUG = ${gpuParams.DEBUG ? 1 : 0};
+${debugValues}
   `)
+
 
   if (gpuParams.DEBUG) {
     wgsl = wgsl.replace('/* INJECT RESULTS BUFFER */', `
@@ -202,8 +211,9 @@ const DEBUG = ${gpuParams.DEBUG ? 1 : 0};
   // CTRL+ F: RESULTS ASSIGNMENT
   if (gpuParams.DEBUG) {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
+x.COMBO_DMG += DEBUG_BASIC_COMBO * x.BASIC_DMG + DEBUG_SKILL_COMBO * x.SKILL_DMG + DEBUG_ULT_COMBO * x.ULT_DMG + DEBUG_FUA_COMBO * x.FUA_DMG;
 results[index] = x; // DEBUG
-    `, 2))
+    `, 4))
   } else {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
 if (statDisplay == 0) {

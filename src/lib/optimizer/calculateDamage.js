@@ -28,7 +28,7 @@ export function calculateDamage(x, action, context) {
   let brokenMultiplier = x.ENEMY_WEAKNESS_BROKEN ? 1 : 0.9
 
   const universalMulti = dmgReductionMultiplier * brokenMultiplier
-  const baseResistance = context.enemyDamageResistance - x.RES_PEN - x[context.elementalResPenType]
+  const baseResistance = context.enemyDamageResistance - x.RES_PEN - context.combatBuffs.RES_PEN - x[context.elementalResPenType]
 
   const ULT_CD = x.ULT_CD_OVERRIDE || (x[Stats.CD] + x.ULT_CD_BOOST) // Robin overrides ULT CD
 

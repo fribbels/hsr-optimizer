@@ -18,7 +18,7 @@ export function generateWgsl(context: OptimizerContext, request: Form, gpuParams
   wgsl = injectComputeShader(wgsl)
   wgsl = injectConditionals(wgsl, request, context)
   wgsl = injectUtils(wgsl)
-  wgsl = injectGpuParams(wgsl, request, gpuParams)
+  wgsl = injectGpuParams(wgsl, request, context, gpuParams)
   wgsl = injectBasicFilters(wgsl, request, gpuParams)
   wgsl = injectCombatFilters(wgsl, request, gpuParams)
   wgsl = injectSetFilters(wgsl, gpuParams)
@@ -69,7 +69,10 @@ function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants
   const sortOptionComputed = SortOption[request.resultSort!].isComputedRating
   const filter = filterFn(request)
 
-  const sortString = sortOptionComputed ? `x.${sortOption} < threshold` : `c.${sortOption} < threshold`
+  let sortString = sortOptionComputed ? `x.${sortOption} < threshold` : `c.${sortOption} < threshold`
+  if (sortOption == SortOption.COMBO.key) {
+    sortString = ''
+  }
 
   const basicFilters = [
     filter('c.SPD < minSpd'),
@@ -151,7 +154,7 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.DOT_DMG > maxDot'),
     filter('x.BREAK_DMG < minBreak'),
     filter('x.BREAK_DMG > maxBreak'),
-    filter(`x.${sortOption} < threshold`),
+    sortOption == SortOption.COMBO.key ? '' : filter(`x.${sortOption} < threshold`),
   ].filter((str) => str.length > 0).join(' ||\n')
 
   // CTRL+ F: RESULTS ASSIGNMENT
@@ -169,7 +172,7 @@ ${format(combatFilters)}
   return wgsl
 }
 
-function injectGpuParams(wgsl: string, request: Form, gpuParams: GpuConstants) {
+function injectGpuParams(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const cyclesPerInvocation = gpuParams.DEBUG ? 1 : gpuParams.CYCLES_PER_INVOCATION
 
   let debugValues = ''
@@ -228,17 +231,28 @@ if (statDisplay == 0) {
 
 
   // CTRL+ F: RESULTS ASSIGNMENT
-  if (gpuParams.DEBUG) {
+  // if (gpuParams.DEBUG) {
+  //
+  // } else {
+  //   if (context.resultSort == SortOption.COMBO.key) {
+  //     wgsl = wgsl.replace('/* INJECT COMBO FILTERS */', indent(`
+  //         if (
+  //           x.COMBO_DMG < threshold
+  //         ) {
+  //           results[index] = -failures; failures = failures + 1;
+  //           break;
+  //         }
+  //   `, 4))
+  //   }
+  // }
 
+  if (context.resultSort == SortOption.COMBO.key) {
+    wgsl = wgsl.replace('/* INJECT ACTION ITERATOR */', indent(`
+for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
+    `, 4))
   } else {
-    wgsl = wgsl.replace('/* INJECT COMBO FILTERS */', indent(`
-if (statDisplay == 0) {
-  results[index] = x.${sortOption};
-  failures = 1;
-} else {
-  results[index] = ${valueString};
-  failures = 1;
-}
+    wgsl = wgsl.replace('/* INJECT ACTION ITERATOR */', indent(`
+for (var actionIndex = 0; actionIndex < actionCount; actionIndex++) {
     `, 4))
   }
 

@@ -25,8 +25,8 @@ import { generateElementTags, generatePathTags, SegmentedFilterRow } from 'compo
 import i18next from 'i18next'
 import { Trans, useTranslation } from 'react-i18next'
 
-const { useToken } = theme
-const { Text } = Typography
+const {useToken} = theme
+const {Text} = Typography
 
 function cellImageRenderer(params) {
   const data = params.data
@@ -37,7 +37,7 @@ function cellImageRenderer(params) {
       preview={false}
       width={50}
       src={characterIconSrc}
-      style={{ flex: '0 0 auto', maxWidth: '100%', minWidth: 50 }}
+      style={{flex: '0 0 auto', maxWidth: '100%', minWidth: 50}}
     />
   )
 }
@@ -47,7 +47,7 @@ function cellRankRenderer(params) {
   const character = DB.getCharacters().find((x) => x.id == data.id)
 
   return (
-    <Text style={{ height: '100%' }}>
+    <Text style={{height: '100%'}}>
       {character.rank + 1}
     </Text>
   )
@@ -63,7 +63,7 @@ function cellNameRenderer(params) {
   if (equippedNumber < 1) color = '#d72f2f'
 
   return (
-    <Flex align='center' justify='flex-start' style={{ height: '100%', width: '100%' }}>
+    <Flex align='center' justify='flex-start' style={{height: '100%', width: '100%'}}>
       <Text style={{
         margin: 'auto',
         padding: '0px 5px',
@@ -78,7 +78,7 @@ function cellNameRenderer(params) {
       >
         {characterName}
       </Text>
-      <Flex style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }}>
+      <Flex style={{display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2}}>
 
       </Flex>
     </Flex>
@@ -91,7 +91,7 @@ const defaultFilters = {
 }
 
 export default function CharacterTab() {
-  const { token } = useToken()
+  const {token} = useToken()
 
   const [confirmationModal, contextHolder] = Modal.useModal()
   const [screenshotLoading, setScreenshotLoading] = useState(false)
@@ -107,7 +107,7 @@ export default function CharacterTab() {
 
   const [characterFilters, setCharacterFilters] = useState(defaultFilters)
 
-  const { t } = useTranslation('charactersTab')
+  const {t} = useTranslation('charactersTab')
 
   console.log('======================================================================= RENDER CharacterTab')
 
@@ -215,19 +215,13 @@ export default function CharacterTab() {
   }
 
   const columnDefs = useMemo(() => [
-    { field: '', headerName: t('GridHeaders.Icon')/* Icon */, cellRenderer: cellImageRenderer, width: 52 },
-    { field: '', headerName: t('GridHeaders.Priority')/* Priority */, cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
-    { field: '', headerName: t('GridHeaders.Character')/* Character */, flex: 1, cellRenderer: cellNameRenderer },
+    {field: '', headerName: t('GridHeaders.Icon')/* Icon */, cellRenderer: cellImageRenderer, width: 52},
+    {field: '', headerName: t('GridHeaders.Priority')/* Priority */, cellRenderer: cellRankRenderer, width: 50, rowDrag: true},
+    {field: '', headerName: t('GridHeaders.Character')/* Character */, flex: 1, cellRenderer: cellNameRenderer},
   ], [t])
 
   const gridOptions = useMemo(() => ({
     rowHeight: 50,
-    selection: {
-      mode: 'singleRow',
-      headerCheckbox: false,
-      checkboxes: false,
-      enableClickSelection: true,
-    },
     rowDragManaged: true,
     animateRows: true,
     suppressDragLeaveHidesColumns: true,
@@ -236,7 +230,7 @@ export default function CharacterTab() {
 
   const defaultColDef = useMemo(() => ({
     sortable: false,
-    cellStyle: { display: 'flex' },
+    cellStyle: {display: 'flex'},
   }), [])
 
   const externalFilterChanged = useCallback(() => {
@@ -367,7 +361,7 @@ export default function CharacterTab() {
 
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
-    Message.success(t('Messages.SwitchSuccess'/* Successfully switched relics to ${CharacterName} */, { charid: switchToCharacter.value }))
+    Message.success(t('Messages.SwitchSuccess'/* Successfully switched relics to ${CharacterName} */, {charid: switchToCharacter.value}))
     window.relicsGrid.current.api.redrawRows()
   }
 
@@ -397,9 +391,9 @@ export default function CharacterTab() {
     const characterList = DB.getCharacters()
 
     const scoredCharacters = characterList
-      .map((x) => ({ score: RelicScorer.scoreCharacter(x), character: x }))
-      .sort((a, b) => b.score.totalScore - a.score.totalScore)
-      .map((x) => x.character)
+    .map((x) => ({score: RelicScorer.scoreCharacter(x), character: x}))
+    .sort((a, b) => b.score.totalScore - a.score.totalScore)
+    .map((x) => x.character)
 
     DB.setCharacters(scoredCharacters)
     DB.refreshCharacters()
@@ -437,7 +431,7 @@ export default function CharacterTab() {
       Message.error(res.error)
       return
     }
-    Message.success(t('charactersTab:Messages.SaveSuccess'/* Successfully saved build: {{name}} */, { name: name }))
+    Message.success(t('charactersTab:Messages.SaveSuccess'/* Successfully saved build: {{name}} */, {name: name}))
     SaveState.delayedSave()
     setIsSaveBuildModalOpen(false)
   }
@@ -463,11 +457,11 @@ export default function CharacterTab() {
         setSwitchRelicsModalOpen(true)
         break
       case 'unequip':
-        if (!await confirm(t('Messages.UnequipWarning'/* Are you sure you want to unequip $t(gameData:Characters.{{charid}}.Name)? */, { charid: selectedCharacter.id }))) return
+        if (!await confirm(t('Messages.UnequipWarning'/* Are you sure you want to unequip $t(gameData:Characters.{{charid}}.Name)? */, {charid: selectedCharacter.id}))) return
         unequipClicked()
         break
       case 'delete':
-        if (!await confirm(t('Messages.DeleteWarning', { charid: selectedCharacter.id })/* Are you sure you want to delete $t(gameData:Characters.{{charid}}.Name)? */)) return
+        if (!await confirm(t('Messages.DeleteWarning', {charid: selectedCharacter.id})/* Are you sure you want to delete $t(gameData:Characters.{{charid}}.Name)? */)) return
         removeClicked()
         break
       case 'saveBuild':
@@ -518,24 +512,24 @@ export default function CharacterTab() {
       }}
     >
       <Flex vertical gap={defaultGap}>
-        <Flex gap={6} style={{ width: '100%', marginBottom: 0, paddingRight: 1 }}>
-          <Flex justify='space-between' gap={8} style={{ width: 230, height: '100%' }}>
+        <Flex gap={6} style={{width: '100%', marginBottom: 0, paddingRight: 1}}>
+          <Flex justify='space-between' gap={8} style={{width: 230, height: '100%'}}>
             <Dropdown
               placement='topLeft'
               menu={actionsMenuProps}
               trigger={['hover']}
             >
-              <Button style={{ width: '100%', height: '100%' }} icon={<UserOutlined/>} type='default'>
+              <Button style={{width: '100%', height: '100%'}} icon={<UserOutlined/>} type='default'>
                 {t('CharacterMenu.ButtonText')/* Character menu */}
                 <DownOutlined/>
               </Button>
             </Dropdown>
           </Flex>
-          <Flex style={{ width: 242 }}>
+          <Flex style={{width: 242}}>
             <Input
               allowClear
               size='large'
-              style={{ height: 40 }}
+              style={{height: 40}}
               placeholder={t('SearchPlaceholder')/* Search character name */}
               onChange={(e) => {
                 nameFilter.current = e.target.value.toLowerCase()
@@ -543,7 +537,7 @@ export default function CharacterTab() {
               }}
             />
           </Flex>
-          <Flex style={{ flex: 1 }}>
+          <Flex style={{flex: 1}}>
             <SegmentedFilterRow
               name='path'
               tags={generatePathTags()}
@@ -552,7 +546,7 @@ export default function CharacterTab() {
               setCurrentFilters={setCharacterFilters}
             />
           </Flex>
-          <Flex style={{ flex: 1 }}>
+          <Flex style={{flex: 1}}>
             <SegmentedFilterRow
               name='element'
               tags={generateElementTags()}
@@ -562,11 +556,11 @@ export default function CharacterTab() {
             />
           </Flex>
         </Flex>
-        <Flex style={{ height: '100%' }}>
-          <Flex vertical gap={8} style={{ marginRight: selectedCharacter ? 6 : 8 }}>
+        <Flex style={{height: '100%'}}>
+          <Flex vertical gap={8} style={{marginRight: selectedCharacter ? 6 : 8}}>
             <div
               id='characterGrid' className='ag-theme-balham-dark' style={{
-              ...{ display: 'block', width: 230, height: parentH - 38 },
+              ...{display: 'block', width: 230, height: parentH - 38},
               ...getGridTheme(token),
             }}
             >
@@ -590,19 +584,25 @@ export default function CharacterTab() {
                 navigateToNextCell={navigateToNextCell}
                 isExternalFilterPresent={isExternalFilterPresent}
                 doesExternalFilterPass={doesExternalFilterPass}
+                rowSelection={{
+                  mode: 'singleRow',
+                  headerCheckbox: false,
+                  checkboxes: false,
+                  enableClickSelection: true
+                }}
               />
             </div>
             <Flex vertical gap={8}>
               <Flex gap={8}>
                 <Button
-                  style={{ flex: 'auto' }} icon={<CameraOutlined/>} onClick={clipboardClicked}
+                  style={{flex: 'auto'}} icon={<CameraOutlined/>} onClick={clipboardClicked}
                   type='primary'
                   loading={screenshotLoading}
                 >
                   {t('CopyScreenshot')/* Copy screenshot */}
                 </Button>
                 <Button
-                  style={{ width: 40 }} type='primary' icon={<DownloadOutlined/>}
+                  style={{width: 40}} type='primary' icon={<DownloadOutlined/>}
                   onClick={downloadClicked}
                   loading={downloadLoading}
                 />

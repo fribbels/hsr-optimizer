@@ -317,12 +317,6 @@ export const gridOptions = {
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,
-  selection: {
-    mode: 'singleRow',
-    headerCheckbox: false,
-    checkboxes: false,
-    enableClickSelection: true,
-  },
   getRowId: (params: GetRowIdParams) => String(params.data.id || Utils.randomId()),
 }
 

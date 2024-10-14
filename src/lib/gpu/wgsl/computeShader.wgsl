@@ -11,6 +11,7 @@
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 // END LIGHT CONE CONDITIONAL CONSTANTS
 
+
 // START GPU PARAMS
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
 /* INJECT GPU PARAMS */
@@ -23,6 +24,7 @@
 /* INJECT ACTIONS DEFINITION */
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 // END ACTIONS DEFINITION
+
 
 const BASIC_TYPE = 1;
 const SKILL_TYPE = 2;
@@ -323,8 +325,9 @@ fn main(
     var combo = 0.0;
 
     for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
-      var x = actions[actionIndex].x;
-      let setConditionals = actions[actionIndex].setConditionals;
+      let action = actions[actionIndex];
+      var x = action.x;
+      let setConditionals = action.setConditionals;
       var state = ConditionalState();
       state.actionIndex = actionIndex;
 
@@ -432,7 +435,7 @@ fn main(
         }
       }
 
-      //
+      // Other boosts
 
       if (p4(sets.GeniusOfBrilliantStars) >= 1) {
         if (setConditionals.enabledGeniusOfBrilliantStars == true) {
@@ -638,7 +641,25 @@ fn main(
         * (1.0 - (baseResistance - x.DOT_RES_PEN))
         * dotEhrMultiplier;
 
-      if (actionIndex == 0) {
+      if (actionIndex > 0) {
+        switch (action.abilityType) {
+          case 1: {
+            combo += x.BASIC_DMG;
+          }
+          case 2: {
+            combo += x.SKILL_DMG;
+          }
+          case 4: {
+            combo += x.ULT_DMG;
+          }
+          case 8: {
+            combo += x.FUA_DMG;
+          }
+          default: {
+
+          }
+        }
+      } else {
         x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
 
         // START COMBAT STAT FILTERS
@@ -662,26 +683,6 @@ fn main(
         /* INJECT RETURN VALUE */
         // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
         // END RETURN VALUE
-
-      } else {
-        let actionType = actions[actionIndex].abilityType;
-        switch (actionType) {
-          case 1: {
-            combo += x.BASIC_DMG;
-          }
-          case 2: {
-            combo += x.SKILL_DMG;
-          }
-          case 4: {
-            combo += x.ULT_DMG;
-          }
-          case 8: {
-            combo += x.FUA_DMG;
-          }
-          default: {
-
-          }
-        }
       }
     }
   }

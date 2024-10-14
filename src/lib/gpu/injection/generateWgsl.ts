@@ -16,7 +16,7 @@ export function generateWgsl(context: OptimizerContext, request: Form, gpuParams
 
   wgsl = injectSettings(wgsl, context, request)
   wgsl = injectComputeShader(wgsl)
-  wgsl = injectConditionals(wgsl, request, context)
+  wgsl = injectConditionals(wgsl, request, context, gpuParams)
   wgsl = injectUtils(wgsl)
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
   wgsl = injectBasicFilters(wgsl, request, gpuParams)

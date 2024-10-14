@@ -11,8 +11,9 @@ import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { StringToNumberMap } from 'types/Common'
 import { SortOption } from 'lib/optimizer/sortOptions'
+import { GpuConstants } from 'lib/gpu/webgpuTypes'
 
-export function injectConditionals(wgsl: string, request: Form, context: OptimizerContext) {
+export function injectConditionals(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const characterConditionals: CharacterConditional = CharacterConditionals.get(request) as CharacterConditional
   const lightConeConditionals: LightConeConditional = LightConeConditionals.get(request) as LightConeConditional
 
@@ -69,28 +70,28 @@ const actions: array<Action, ${actionLength}> = array<Action, ${actionLength}>(`
   Action( // ${action.actionIndex}
     ${getActionTypeToWgslMapping(action.actionType)},
     SetConditionals(
-      ${action.setConditionals.enabledHunterOfGlacialForest}, // enabledHunterOfGlacialForest
-      ${action.setConditionals.enabledFiresmithOfLavaForging}, // enabledFiresmithOfLavaForging
-      ${action.setConditionals.enabledGeniusOfBrilliantStars}, // enabledGeniusOfBrilliantStars
-      ${action.setConditionals.enabledBandOfSizzlingThunder}, // enabledBandOfSizzlingThunder
-      ${action.setConditionals.enabledMessengerTraversingHackerspace}, // enabledMessengerTraversingHackerspace
-      ${action.setConditionals.enabledCelestialDifferentiator}, // enabledCelestialDifferentiator
-      ${action.setConditionals.enabledWatchmakerMasterOfDreamMachinations}, // enabledWatchmakerMasterOfDreamMachinations
-      ${action.setConditionals.enabledIzumoGenseiAndTakamaDivineRealm}, // enabledIzumoGenseiAndTakamaDivineRealm
-      ${action.setConditionals.enabledForgeOfTheKalpagniLantern}, // enabledForgeOfTheKalpagniLantern
-      ${action.setConditionals.enabledTheWindSoaringValorous}, // enabledTheWindSoaringValorous
-      ${action.setConditionals.enabledTheWondrousBananAmusementPark}, // enabledTheWondrousBananAmusementPark
-      ${action.setConditionals.enabledScholarLostInErudition}, // enabledScholarLostInErudition
-      ${action.setConditionals.valueChampionOfStreetwiseBoxing}, // valueChampionOfStreetwiseBoxing
-      ${action.setConditionals.valueWastelanderOfBanditryDesert}, // valueWastelanderOfBanditryDesert
-      ${action.setConditionals.valueLongevousDisciple}, // valueLongevousDisciple
-      ${action.setConditionals.valueTheAshblazingGrandDuke}, // valueTheAshblazingGrandDuke
-      ${action.setConditionals.valuePrisonerInDeepConfinement}, // valuePrisonerInDeepConfinement
-      ${action.setConditionals.valuePioneerDiverOfDeadWaters}, // valuePioneerDiverOfDeadWaters
-      ${action.setConditionals.valueSigoniaTheUnclaimedDesolation}, // valueSigoniaTheUnclaimedDesolation
-      ${action.setConditionals.valueDuranDynastyOfRunningWolves}, // valueDuranDynastyOfRunningWolves
+      ${action.setConditionals.enabledHunterOfGlacialForest},${gpuParams.DEBUG ? ' // enabledHunterOfGlacialForest' : ''}
+      ${action.setConditionals.enabledFiresmithOfLavaForging},${gpuParams.DEBUG ? ' // enabledFiresmithOfLavaForging' : ''}
+      ${action.setConditionals.enabledGeniusOfBrilliantStars},${gpuParams.DEBUG ? ' // enabledGeniusOfBrilliantStars' : ''}
+      ${action.setConditionals.enabledBandOfSizzlingThunder},${gpuParams.DEBUG ? ' // enabledBandOfSizzlingThunder' : ''}
+      ${action.setConditionals.enabledMessengerTraversingHackerspace},${gpuParams.DEBUG ? ' // enabledMessengerTraversingHackerspace' : ''}
+      ${action.setConditionals.enabledCelestialDifferentiator},${gpuParams.DEBUG ? ' // enabledCelestialDifferentiator' : ''}
+      ${action.setConditionals.enabledWatchmakerMasterOfDreamMachinations},${gpuParams.DEBUG ? ' // enabledWatchmakerMasterOfDreamMachinations' : ''}
+      ${action.setConditionals.enabledIzumoGenseiAndTakamaDivineRealm},${gpuParams.DEBUG ? ' // enabledIzumoGenseiAndTakamaDivineRealm' : ''}
+      ${action.setConditionals.enabledForgeOfTheKalpagniLantern},${gpuParams.DEBUG ? ' // enabledForgeOfTheKalpagniLantern' : ''}
+      ${action.setConditionals.enabledTheWindSoaringValorous},${gpuParams.DEBUG ? ' // enabledTheWindSoaringValorous' : ''}
+      ${action.setConditionals.enabledTheWondrousBananAmusementPark},${gpuParams.DEBUG ? ' // enabledTheWondrousBananAmusementPark' : ''}
+      ${action.setConditionals.enabledScholarLostInErudition},${gpuParams.DEBUG ? ' // enabledScholarLostInErudition' : ''}
+      ${action.setConditionals.valueChampionOfStreetwiseBoxing},${gpuParams.DEBUG ? ' // valueChampionOfStreetwiseBoxing' : ''}
+      ${action.setConditionals.valueWastelanderOfBanditryDesert},${gpuParams.DEBUG ? ' // valueWastelanderOfBanditryDesert' : ''}
+      ${action.setConditionals.valueLongevousDisciple},${gpuParams.DEBUG ? ' // valueLongevousDisciple' : ''}
+      ${action.setConditionals.valueTheAshblazingGrandDuke},${gpuParams.DEBUG ? ' // valueTheAshblazingGrandDuke' : ''}
+      ${action.setConditionals.valuePrisonerInDeepConfinement},${gpuParams.DEBUG ? ' // valuePrisonerInDeepConfinement' : ''}
+      ${action.setConditionals.valuePioneerDiverOfDeadWaters},${gpuParams.DEBUG ? ' // valuePioneerDiverOfDeadWaters' : ''}
+      ${action.setConditionals.valueSigoniaTheUnclaimedDesolation},${gpuParams.DEBUG ? ' // valueSigoniaTheUnclaimedDesolation' : ''}
+      ${action.setConditionals.valueDuranDynastyOfRunningWolves},${gpuParams.DEBUG ? ' // valueDuranDynastyOfRunningWolves' : ''}
     ),
-    ComputedStats(${injectPrecomputedStatsContext(action)}
+    ComputedStats(${injectPrecomputedStatsContext(action, gpuParams)}
     ),
     ConditionalState(
     ),

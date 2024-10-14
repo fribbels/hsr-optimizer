@@ -11,6 +11,6 @@ test('Delete character from Characters tab', async ({ page }) => {
   await page.getByText('Delete character').click()
   await page.getByRole('button', { name: 'Confirm' }).click()
 
-  await expect(page.getByRole('gridcell', { name: 'Jingliu' }).locator('div')).toHaveCount(0)
+  await expect(page.locator('#characterGrid').getByRole('row', { name: 'Jingliu' })).toHaveCount(0)
   await expect(page.locator('body')).toContainText('Successfully removed character')
 })

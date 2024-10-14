@@ -1673,7 +1673,7 @@
           "content": "Sets the number of \"Ashen Roast\" stacks on enemy targets to the highest number of \"Ashen Roast\" stacks present on the battlefield. Then, activates a Zone and deals Fire DMG equal to {{UltScaling}}% of Jiaoqiu's ATK to all enemies.::BR::While inside the Zone, enemy targets receive {{UltVulnerability}}% increased Ultimate DMG, with a {{ZoneDebuffChance}}% base chance of being inflicted with 1 stack of Ashen Roast when taking action. While the Zone exists, this effect can trigger up to 6 time(s). And for each enemy target, it can only trigger once per turn. This trigger count resets every time Jiaoqiu uses Ultimate."
         },
         "ehrToAtkBoost": {
-          "text": "EHR to ATK boost",
+          "text": "EHR to ATK buff",
           "title": "Hearth Kindle",
           "content": "For every 15.0% of Jiaoqiu's Effect Hit Rate that exceeds 80.0%, additionally increases ATK by 60.0%, up to 240.0%."
         },
@@ -1683,7 +1683,7 @@
           "content": "E1: Allies deal 40.0% increased DMG to enemy targets afflicted with Ashen Roast."
         },
         "e2Dot": {
-          "text": "E2 DOT scaling",
+          "text": "E2 DoT scaling",
           "title": "From Savor Comes Suffer",
           "content": "E2: When an enemy target is afflicted with Ashen Roast, increases the multiplier for the Fire DoT dealt by Ashen Roast to this target by 300.0%."
         },
@@ -1707,12 +1707,12 @@
           "content": "When Jingliu uses an attack in the Spectral Transmigration state, she consumes HP from all other allies and Jingliu's ATK increases based on the total HP consumed from all allies in this attack, capped at {{talentHpDrainAtkBuffMax}}% of her base ATK, lasting until the current attack ends."
         },
         "e1CdBuff": {
-          "text": "E1 ult active",
+          "text": "E1 Ult active",
           "title": "Moon Crashes Tianguan Gate",
           "content": "E1: When using her Ultimate or Enhanced Skill, Jingliu's CRIT DMG increases by 24% for 1 turn. If only one enemy target is attacked, the target will additionally be dealt Ice DMG equal to 100% of Jingliu's ATK."
         },
         "e2SkillDmgBuff": {
-          "text": "E2 skill buff",
+          "text": "E2 Skill buff",
           "title": "Crescent Shadows Qixing Dipper",
           "content": "E2: After using Ultimate, increases the DMG of the next Enhanced Skill by 80%."
         }
@@ -1736,12 +1736,12 @@
           "content": "Count of hits on target. Should usually be set to the same value as Lightning Lord Stacks."
         },
         "e2DmgBuff": {
-          "text": "E2 dmg buff",
+          "text": "E2 DMG boost",
           "title": "Swing, Skies Squashed",
           "content": "E2: After Lightning-Lord takes action, DMG caused by Jing Yuan's Basic ATK, Skill, and Ultimate increases by 20% for 2 turns."
         },
         "e6FuaVulnerabilityStacks": {
-          "text": "E6 vulnerable stacks",
+          "text": "E6 Vulnerable stacks",
           "title": "Sweep, Souls Slain",
           "content": "E6: Each hit performed by the Lightning-Lord when it takes action will make the target enemy Vulnerable. While Vulnerable, enemies receive 12% more DMG until the end of the Lightning-Lord's current turn, stacking up to 3 time(s). (applies to all hits)"
         }
@@ -1750,7 +1750,7 @@
     "Kafka": {
       "Content": {
         "e1DotDmgReceivedDebuff": {
-          "text": "E1 DoT DMG debuff",
+          "text": "E1 DoT vulnerability",
           "title": "Da Capo",
           "content": "E1: When the Talent triggers a follow-up attack, there is a 100% base chance to increase the DoT received by the target by 30% for 2 turn(s)."
         },
@@ -1764,7 +1764,7 @@
     "Lingsha": {
       "Content": {
         "beConversion": {
-          "text": "BE to ATK/OHB",
+          "text": "BE to ATK / OHB buff",
           "title": "Vermilion Waft",
           "content": "Increases this unit's ATK or Outgoing Healing by an amount equal to 25.0%/10.0% of Break Effect, up to a maximum increase of 50.0%/20.0% respectively."
         },
@@ -1776,7 +1776,7 @@
         "e1DefShred": {
           "text": "E1 weakness break buffs",
           "title": "Bloom on Vileward Bouquet",
-          "content": "E1: When an enemy unit's Weakness is Broken, reduces their DEF by 20.0%."
+          "content": "E1: Lingsha's Weakness Break Efficiency increases by 50%. When an enemy unit's Weakness is Broken, reduces their DEF by 20%."
         },
         "e2BeBuff": {
           "text": "E2 BE buff",
@@ -1793,7 +1793,7 @@
     "Luka": {
       "Content": {
         "basicEnhanced": {
-          "text": "Basic enhanced",
+          "text": "Enhanced Basic",
           "title": "Sky-Shatter Fist",
           "content": "Enhances Basic ATK to deal additional damage, and has a chance to trigger extra hits."
         },
@@ -1813,7 +1813,7 @@
           "content": "E1: When Luka takes action, if the target enemy is Bleeding, increases DMG dealt by Luka by 15% for 2 turn(s)."
         },
         "e4TalentStacks": {
-          "text": "E4 talent stacks",
+          "text": "E4 Talent stacks",
           "title": "Never Turning Back",
           "content": "E4: For every stack of Fighting Will obtained, increases ATK by 5%, stacking up to 4 time(s)."
         }
@@ -1827,7 +1827,7 @@
           "content": "E1: While the Field is active, ATK of all allies increases by 20%."
         },
         "e6ResReduction": {
-          "text": "E6 RES reduction",
+          "text": "E6 RES shred",
           "title": "Reunion With the Dust",
           "content": "E6: When Ultimate is used, reduces all enemies' All-Type RES by 20% for 2 turn(s)."
         }
@@ -1877,12 +1877,12 @@
           "content": "After Shifu uses an attack or Ultimate, March 7th gains up to 1 point of Charge each time.::BR::Upon reaching 7 or more points of Charge, March 7th immediately takes action and increases the DMG she deals by {{TalentDmgBuff}}%."
         },
         "selfSpdBuff": {
-          "text": "E1 self SPD buff",
+          "text": "E1 SPD buff",
           "title": "My Sword Stirs Starlight",
           "content": "E1: When Shifu is on the field, increases March 7th's SPD by 10.0%."
         },
         "e6CdBuff": {
-          "text": "E6 Basic CD buff",
+          "text": "E6 Basic CD boost",
           "title": "Me, the Best Girl in Sight",
           "content": "E6: After using Ultimate, increases the CRIT DMG dealt by the next Enhanced Basic ATK by 50.0%."
         }
@@ -1913,12 +1913,12 @@
           "content": "When dealing DMG to Frozen enemies, increases CRIT DMG by 30%."
         },
         "e2DefReduction": {
-          "text": "E2 DEF reduction",
+          "text": "E2 DEF shred",
           "title": "Yearning of Youth",
           "content": "E2: Reduces the target's DEF by 16% for 3 turn(s)."
         },
         "e6UltDmgBoost": {
-          "text": "E6 ult DMG boost",
+          "text": "E6 Ult DMG boost",
           "title": "Estrangement of Dream",
           "content": "E6: When using the Ultimate, increases own DMG by 30%, lasting until the end of the turn."
         }
@@ -1961,17 +1961,17 @@
           "content": "Deals 20% more DMG to debuffed enemies."
         },
         "skillRemovedBuff": {
-          "text": "Enemy buff removed skill buffs",
+          "text": "Enemy buff removed Skill buffs",
           "title": "Wipe Out",
           "content": "Using Skill to remove buff(s) increases the DMG of Pela's next attack by 20%.::BR::E2: Using Skill to remove buff(s) increases SPD by 10% for 2 turn(s)."
         },
         "ultDefPenDebuff": {
-          "text": "Ult DEF shred debuff",
+          "text": "Ult DEF shred",
           "title": "Zone Suppression",
           "content": "When Exposed, enemies' DEF is reduced by {{ultDefPenValue}}% for 2 turn(s)."
         },
         "e4SkillResShred": {
-          "text": "E4 skill Ice RES shred",
+          "text": "E4 Skill Ice RES shred",
           "title": "Full Analysis",
           "content": "E4: When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turn(s)."
         }
@@ -1980,17 +1980,17 @@
     "Qingque": {
       "Content": {
         "basicEnhanced": {
-          "text": "Basic enhanced",
+          "text": "Enhanced Basic",
           "title": "Celestial Jade",
           "content": "Qingque's ATK increases by {{talentAtkBuff}}%, and her Basic ATK \"Flower Pick\" is enhanced, becoming \"Cherry on Top!\""
         },
         "basicEnhancedSpdBuff": {
-          "text": "Basic enhanced SPD buff",
+          "text": "Enhanced Basic SPD buff",
           "title": "Winning Hand",
           "content": "Qingque's SPD increases by 10% for 1 turn after using the Enhanced Basic ATK."
         },
         "skillDmgIncreaseStacks": {
-          "text": "Skill DMG stacks",
+          "text": "Skill DMG boost stacks",
           "title": "A Scoop of Moon",
           "content": "Immediately draws 2 jade tile(s) and increases DMG by {{skillStackDmg}}% until the end of the current turn. This effect can stack up to 4 time(s)."
         }
@@ -2014,7 +2014,7 @@
           "content": ""
         },
         "e1DefPen": {
-          "text": "E1 DEF pen",
+          "text": "E1 DEF PEN",
           "title": "",
           "content": ""
         },
@@ -2065,7 +2065,7 @@
           "content": "While the Concerto state is active, all allies' All-Type RES PEN increases by 24%."
         },
         "e4TeamResBuff": {
-          "text": "E4 RES team buff",
+          "text": "E4 team RES buff",
           "title": "Raindrop Key",
           "content": "When using the Ultimate, dispels Crowd Control debuffs from all allies. While Robin is in the Concerto state, increases the Effect RES of all allies by 50%."
         },
@@ -2111,7 +2111,7 @@
           "content": "While inside the field, all allies' All-Type RES PEN increases by {{fieldResPenValue}}%.::BR::E1: While the Ultimate's field is deployed, the DMG dealt by all allies ignores 20% of the target's DEF."
         },
         "e2AtkBoost": {
-          "text": "E2 weakness ATK buff",
+          "text": "E2 weakness ATK boost",
           "title": "Reedside Promenade",
           "content": "E2: With Ruan Mei on the field, all allies increase their ATK by 40% when dealing DMG to enemies with Weakness Break."
         },
@@ -2128,7 +2128,7 @@
           "content": "Increases SPD by {{talentSpdScaling}}% for the team (excluding this character)."
         },
         "teamDmgBuff": {
-          "text": "BE to DMG buff",
+          "text": "BE to DMG boost",
           "title": "Candle Lights on Still Waters",
           "content": "In battle, for every 10% of Ruan Mei's Break Effect that exceeds 120%, her Skill additionally increases allies' DMG by 6%, up to a maximum of 36%."
         }
@@ -2137,7 +2137,7 @@
     "Sampo": {
       "Content": {
         "targetDotTakenDebuff": {
-          "text": "Ult DoT taken debuff",
+          "text": "Ult DoT vulnerability",
           "title": "Surprise Present",
           "content": "When debuffed by Sampo's Ultimate, increase the targets' DoT taken by {{dotVulnerabilityValue}}% for 2 turn(s)."
         },
@@ -2147,7 +2147,7 @@
           "content": "Number of extra hits from Skill."
         },
         "targetWindShear": {
-          "text": "Target has wind shear",
+          "text": "Target wind sheared",
           "title": "Spice Up",
           "content": "Enemies with Wind Shear effect deal 15% less damage to Sampo."
         }
@@ -2156,17 +2156,17 @@
     "Seele": {
       "Content": {
         "buffedState": {
-          "text": "Buffed State",
+          "text": "Buffed state",
           "title": "Resurgence",
           "content": "Enters the buffed state upon defeating an enemy with Basic ATK, Skill, or Ultimate, and receives an extra turn. While in the buffed state, the DMG of Seele's attacks increases by {{buffedStateDmgBuff}}% for 1 turn(s).::BR::While Seele is in the buffed state, her Quantum RES PEN increases by 20%."
         },
         "speedBoostStacks": {
-          "text": "Speed boost stacks",
+          "text": "Speed buff stacks",
           "title": "Sheathed Blade",
           "content": "Increases SPD by 25% per stack. Stacks up to {{speedBoostStacksMax}} time(s)."
         },
         "e1EnemyHp80CrBoost": {
-          "text": "E1 Enemy HP ≤ 80% CR boost",
+          "text": "E1 enemy HP ≤ 80% CR boost",
           "title": "Extirpating Slash",
           "content": "E1: When dealing DMG to an enemy whose HP percentage is 80% or lower, CRIT Rate increases by 15%."
         },
@@ -2194,7 +2194,7 @@
     "SilverWolf": {
       "Content": {
         "skillResShredDebuff": {
-          "text": "Skill All-Type RES shred",
+          "text": "Skill RES shred",
           "title": "Allow Changes?",
           "content": "Decreases the target's All-Type RES of the enemy by {{skillResShredValue}}% for 2 turn(s).::BR::If there are 3 or more debuff(s) affecting the enemy when the Skill is used, then the Skill decreases the enemy's All-Type RES by an additional 3%."
         },
@@ -2298,7 +2298,7 @@
           "content": "Regenerates 50 Energy for a single ally and increases the target's DMG by {{ultDmgBoost}}% for 2 turn(s)."
         },
         "ultSpdBuff": {
-          "text": "E1 ult SPD buff",
+          "text": "E1 Ult SPD buff",
           "title": "Windfall of Lucky Springs",
           "content": "E1: After using their Ultimate, the ally with Benediction gains a 20% increase in SPD for 1 turn."
         }
@@ -2333,7 +2333,7 @@
     "TrailblazerDestruction": {
       "Content": {
         "enhancedUlt": {
-          "text": "AoE ult",
+          "text": "AoE Ult",
           "title": "Stardust Ace",
           "content": "Choose between two attack modes to deliver a full strike. ::BR:: Blowout: (ST) Farewell Hit deals Physical DMG equal to {{ultScaling}}% of the Trailblazer's ATK to a single enemy.::BR::Blowout: (Blast) RIP Home Run deals Physical DMG equal to {{ultEnhancedScaling}}% of the Trailblazer's ATK to a single enemy, and Physical DMG equal to {{ultEnhancedScaling2}}% of the Trailblazer's ATK to enemies adjacent to it."
         },
@@ -2352,7 +2352,7 @@
           "content": "Grants all allies the Backup Dancer effect, lasting for 3 turn(s). This duration reduces by 1 at the start of Trailblazer's every turn. Allies with the Backup Dancer effect have their Break Effect increased by {{ultBeScaling}}%."
         },
         "superBreakDmg": {
-          "text": "Super Break DMG calcs (force weakness break)",
+          "text": "Super Break DMG (force weakness break)",
           "title": "All-Out Footlight Parade",
           "content": "When allies with the Backup Dancer effect attack enemy targets that are in the Weakness Broken state, the Toughness Reduction of the attack will be converted into 1 instance of Super Break DMG.::BR::Super Break DMG is added to each of the BASIC / SKILL / ULT / FUA damage columns. For example when enabled, the SKILL column becomes the sum of base Skill damage + Super Break DMG based on the Skill's toughness damage. This option also overrides enemy weakness break to ON."
         },
@@ -2378,7 +2378,7 @@
     "TrailblazerPreservation": {
       "Content": {
         "enhancedBasic": {
-          "text": "Enhanced basic",
+          "text": "Enhanced Basic",
           "title": "Ice-Breaking Light",
           "content": "Enhanced basic ATK deals Fire DMG equal to {{basicEnhancedAtkScaling}}% of the Trailblazer's ATK to a single enemy, and reduced damage to adjacent enemies."
         },
@@ -2393,7 +2393,7 @@
           "content": "When the shield is active, increases ATK by 15%."
         },
         "e6DefStacks": {
-          "text": "E6 def stacks",
+          "text": "E6 DEF buff stacks",
           "title": "City-Forging Bulwarks",
           "content": "E6: Increases DEF by 10% per stack."
         }
@@ -2465,12 +2465,12 @@
           "content": "When Soulsteel Sync is active, Yanqing's CRIT Rate increases by {{talentCrBuffValue}}% and his CRIT DMG increases by {{talentCdBuffValue}}%.::BR::Before using Ultimate, when Soulsteel Sync is active, increases Yanqing's CRIT DMG by an extra {{ultCdBuffValue}}%.::BR::When Soulsteel Sync is active, Effect RES increases by 20%.::BR::E2: When Soulsteel Sync is active, Energy Regeneration Rate increases by an extra 10%."
         },
         "critSpdBuff": {
-          "text": "Crit spd buff",
+          "text": "SPD buff",
           "title": "Gentle Blade",
           "content": "When a CRIT Hit is triggered, increases SPD by 10% for 2 turn(s)."
         },
         "e1TargetFrozen": {
-          "text": "E1 target frozen",
+          "text": "E1 enemy frozen",
           "title": "Svelte Saber",
           "content": "E1: When Yanqing attacks a Frozen enemy, he deals Additional Ice DMG equal to 60% of his ATK."
         },
@@ -2494,12 +2494,12 @@
           "content": "When \"Roaring Bowstrings\" is active, the ATK of all allies increases by {{skillAtkBuffValue}}%.::BR::E4: When \"Roaring Bowstrings\" is active, Yukong deals 30% more DMG to enemies."
         },
         "ultBuff": {
-          "text": "Ult CR/CD buffs",
+          "text": "Ult CR / CD buffs",
           "title": "Diving Kestrel",
           "content": "If \"Roaring Bowstrings\" is active on Yukong when her Ultimate is used, additionally increases all allies' CRIT Rate by {{ultCrBuffValue}}% and CRIT DMG by {{ultCdBuffValue}}%. At the same time, deals Imaginary DMG equal to {{ultScaling}}% of Yukong's ATK to a single enemy."
         },
         "initialSpeedBuff": {
-          "text": "E1 Initial SPD buff",
+          "text": "E1 initial SPD buff",
           "title": "Aerial Marshal",
           "content": "E1: At the start of battle, increases the SPD of all allies by 10% for 2 turn(s)."
         }
@@ -2533,7 +2533,7 @@
           "content": "E1: Increases DMG dealt by \"Intuit: Slash\" and \"Intuit: Cull\" by 20.0%. Increases the number of additional DMG instances for \"Intuit: Cull\" by 3.0."
         },
         "e2DefShred": {
-          "text": "E2 FUA DEF shred",
+          "text": "E2 FUA DEF PEN",
           "title": "First Luster Breaks Dawn",
           "content": "When dealing DMG via Counter, ignores 20.0% of the target's DEF."
         },

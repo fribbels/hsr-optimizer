@@ -546,7 +546,7 @@ a {
     background: #5d8dff4a !important;
 }
 
-.comboSegmented.ant-segmented-item-label {
+.comboSegmented .ant-segmented-item-label {
     padding: 0 0px;
     min-height: 18px !important;
     line-height: 18px !important;

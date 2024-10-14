@@ -176,7 +176,7 @@ export function generatePipeline(device: GPUDevice, wgsl: string) {
     code: wgsl,
   })
 
-  console.log(wgsl)
+  // console.log(wgsl)
 
   return device.createComputePipeline({
     layout: device.createPipelineLayout({

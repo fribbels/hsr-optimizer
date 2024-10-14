@@ -12,7 +12,7 @@ import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { OptimizerContext } from 'types/Optimizer'
 
-window.WEBGPU_DEBUG = false
+window.WEBGPU_DEBUG = true
 
 export async function gpuOptimize(props: {
   context: OptimizerContext

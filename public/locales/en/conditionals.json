@@ -13,7 +13,7 @@
     "AnInstantBeforeAGaze": {
       "Content": {
         "maxEnergyUltDmgStacks": {
-          "text": "Max Energy",
+          "text": "Max energy",
           "title": "A Knight's Pilgrimage",
           "content": "When the wearer uses Ultimate, increases the wearer's Ultimate DMG based on their Max Energy. Each point of Energy increases the Ultimate DMG by {{DmgStep}}%, up to 180 points of Energy."
         }
@@ -22,12 +22,12 @@
     "BaptismOfPureThought": {
       "Content": {
         "debuffCdStacks": {
-          "text": "Debuff crit dmg stacks",
+          "text": "Debuff CD stacks",
           "title": "Mental Training",
           "content": "For every debuff on the enemy target, the wearer's CRIT DMG dealt against this target increases by {{DmgStep}}%, stacking up to 3 times."
         },
         "postUltBuff": {
-          "text": "Disputation ult CD / FUA DEF PEN buff",
+          "text": "Disputation buffs",
           "title": "Mental Training",
           "content": "When using Ultimate to attack the enemy target, the wearer receives the Disputation effect, which increases DMG dealt by {{DmgStep}}% and enables their follow-up attacks to ignore {{DefIgnore}}% of the target's DEF. This effect lasts for 2 turns."
         }
@@ -54,7 +54,7 @@
     "ButTheBattleIsntOver": {
       "Content": {
         "postSkillDmgBuff": {
-          "text": "Post skill DMG buff",
+          "text": "Post Skill DMG buff",
           "title": "Heir",
           "content": "When the wearer uses their Skill, the next ally taking action (except the wearer) deals {{DmgBuff}}% more DMG for 1 turn(s)."
         }
@@ -95,7 +95,7 @@
     "EchoesOfTheCoffin": {
       "Content": {
         "postUltSpdBuff": {
-          "text": "Post ult SPD buff",
+          "text": "Post Ult SPD buff",
           "title": "Thorns",
           "content": "After the wearer uses an attack, for each different enemy target the wearer hits, regenerates {{EnergyRecovered}} Energy. Each attack can regenerate Energy up to 3 time(s) this way. After the wearer uses their Ultimate, all allies gain {{SpdBuff}} SPD for 1 turn."
         }
@@ -132,7 +132,7 @@
     "IncessantRain": {
       "Content": {
         "enemy3DebuffsCrBoost": {
-          "text": "Enemy ≤ 3 debuffs CR buff",
+          "text": "Enemy ≤ 3 debuffs CR boost",
           "title": "Mirage of Reality",
           "content": "When the wearer deals DMG to an enemy that currently has 3 or more debuffs, increases the wearer's CRIT Rate by {{CritBuff}}%."
         },
@@ -174,7 +174,7 @@
     "InTheNight": {
       "Content": {
         "spdScalingBuffs": {
-          "text": "Speed scaling buffs enabled",
+          "text": "SPD conversion buffs",
           "title": "Flowers and Butterflies",
           "content": "While the wearer is in battle, for every 10 SPD that exceeds 100, the DMG of the wearer's Basic ATK and Skill is increased by {{DmgBuff}}% and the CRIT DMG of their Ultimate is increased by {{CritBuff}}%. This effect can stack up to 6 time(s)."
         }
@@ -188,7 +188,7 @@
           "content": "When an ally (excluding the wearer) gets attacked or loses HP, the wearer gains 1 stack of Eclipse, up to a max of 3 stack(s). Each stack of Eclipse increases the DMG of the wearer's next attack by {{DmgBuff}}%."
         },
         "maxStackDefPen": {
-          "text": "Max stack DEF pen",
+          "text": "Max stack DEF PEN",
           "title": "With This Evening Jade",
           "content": "When 3 stack(s) are reached, additionally enables that attack to ignore {{DefIgnore}}% of the enemy's DEF. This effect will be removed after the wearer uses an attack."
         }
@@ -224,12 +224,12 @@
     "NightOnTheMilkyWay": {
       "Content": {
         "enemyCountAtkBuff": {
-          "text": "Enemy count atk buff",
+          "text": "Enemy count ATK buff",
           "title": "Meteor Swarm",
           "content": "For every enemy on the field, increases the wearer's ATK by {{AtkBuff}}%, up to 5 stacks."
         },
         "enemyWeaknessBreakDmgBuff": {
-          "text": "Enemy weakness break dmg buff",
+          "text": "Enemy broken DMG buff",
           "title": "Meteor Swarm",
           "content": "When an enemy is inflicted with Weakness Break, the DMG dealt by the wearer increases by {{DmgBuff}}% for 1 turn."
         }
@@ -238,7 +238,7 @@
     "OnTheFallOfAnAeon": {
       "Content": {
         "atkBoostStacks": {
-          "text": "ATK boost stacks",
+          "text": "ATK buff stacks",
           "title": "Moth to Flames",
           "content": "Whenever the wearer attacks, their ATK is increased by {{AtkBuff}}% in this battle. This effect can stack up to 4 time(s)."
         },
@@ -261,12 +261,12 @@
     "PatienceIsAllYouNeed": {
       "Content": {
         "spdStacks": {
-          "text": "SPD Stacks",
+          "text": "SPD stacks",
           "title": "Spider Web",
           "content": "After every attack launched by wearer, their SPD increases by {{SpdBuff}}%, stacking up to 3 times."
         },
         "dotEffect": {
-          "text": "DoT Effect (not implemented)",
+          "text": "DoT effect (not implemented)",
           "title": "Spider Web",
           "content": "If the wearer hits an enemy target that is not afflicted by Erode, there is a 100% base chance to inflict Erode to the target. Enemies afflicted with Erode are also considered to be Shocked and will receive Lightning DoT at the start of each turn equal to {{Multiplier}}% of the wearer's ATK, lasting for 1 turn(s)."
         }
@@ -323,7 +323,7 @@
     "SleepLikeTheDead": {
       "Content": {
         "missedCritCrBuff": {
-          "text": "Missed crit CR buff",
+          "text": "Missed Crit CR buff",
           "title": "Sweet Dreams",
           "content": "When the wearer's Basic ATK or Skill does not result in a CRIT Hit, increases their CRIT Rate by {{CritBuff}}% for 1 turn(s). This effect can only trigger once every 3 turn(s)."
         }
@@ -332,7 +332,7 @@
     "SolitaryHealing": {
       "Content": {
         "postUltDotDmgBuff": {
-          "text": "Post ult DoT DMG buff",
+          "text": "Post Ult DoT DMG buff",
           "title": "Chaos Elixir",
           "content": "When the wearer uses their Ultimate, increases DoT dealt by the wearer by {{DmgBuff}}%, lasting for 2 turn(s)."
         }
@@ -341,7 +341,7 @@
     "SomethingIrreplaceable": {
       "Content": {
         "dmgBuff": {
-          "text": "Enemy defeated or self hit DMG buff",
+          "text": "Enemy defeated / self hit DMG buff",
           "title": "Kinship",
           "content": "When the wearer defeats an enemy or is hit, immediately restores HP equal to {{Multiplier}}% of the wearer's ATK. At the same time, the wearer's DMG is increased by {{DmgBuff}}% until the end of their next turn. This effect cannot stack and can only trigger 1 time per turn."
         }
@@ -359,7 +359,7 @@
     "TheUnreachableSide": {
       "Content": {
         "dmgBuff": {
-          "text": "HP consumed or attacked DMG buff",
+          "text": "HP consumed / attacked DMG buff",
           "title": "Unfulfilled Yearning",
           "content": "When the wearer is attacked or consumes their own HP, their DMG increases by {{DmgBuff}}%. This effect is removed after the wearer uses an attack."
         }
@@ -382,7 +382,7 @@
     "TimeWaitsForNoOne": {
       "Content": {
         "healingBasedDmgProc": {
-          "text": "Healing based dmg proc (Not implemented)",
+          "text": "Healing based DMG proc (Not implemented)",
           "title": "Morn, Noon, Dusk, and Night",
           "content": "When the wearer heals allies, record the amount of Outgoing Healing. When any ally launches an attack, a random attacked enemy takes Additional DMG equal to {{Multiplier}}% of the recorded Outgoing Healing value. The type of this Additional DMG is of the same Type as the wearer's. This Additional DMG is not affected by other buffs, and can only occur 1 time per turn."
         }
@@ -391,7 +391,7 @@
     "WhereaboutsShouldDreamsRest": {
       "Content": {
         "routedVulnerability": {
-          "text": "Routed Vulnerability",
+          "text": "Routed vulnerability",
           "title": "Metamorphosis",
           "content": "When the wearer deals Break DMG to an enemy target, inflicts Routed on the enemy, lasting for 2 turn(s). Targets afflicted with Routed receive {{Vulnerability}}% increased Break DMG from the wearer, and their SPD is lowered by 20%. Effects of the similar type cannot be stacked."
         }
@@ -414,7 +414,7 @@
           "content": "While the wearer is in battle, for every 20% CRIT DMG that exceeds 120%, the DMG dealt by follow-up attack increases by {{DmgBuff}}%. This effect can stack up to 4 time(s)."
         },
         "ultFuaDefShred": {
-          "text": "Ult / FUA DEF shred",
+          "text": "Ult / FUA DEF PEN",
           "title": "Promise",
           "content": "When the battle starts or after the wearer uses their Basic ATK, enables Ultimate or the DMG dealt by follow-up attack to ignore {{DefShred}}% of the target's DEF, lasting for 2 turn(s)."
         }
@@ -432,7 +432,7 @@
     "ASecretVow": {
       "Content": {
         "enemyHpHigherDmgBoost": {
-          "text": "Enemy HP % higher DMG boost",
+          "text": "Enemy HP% higher DMG boost",
           "title": "Spare No Effort",
           "content": "The wearer also deals an extra {{DmgBuff}}% of DMG to enemies whose current HP percentage is equal to or higher than the wearer's current HP percentage."
         }
@@ -478,7 +478,7 @@
     "DayOneOfMyNewLife": {
       "Content": {
         "dmgResBuff": {
-          "text": "Dmg RES buff",
+          "text": "DMG RES buff",
           "title": "At This Very Moment",
           "content": "After entering battle, increases All-Type RES of all allies by {{ResBuff}}%. Effects of the same type cannot stack."
         }
@@ -487,17 +487,17 @@
     "DreamvilleAdventure": {
       "Content": {
         "ultDmgBuff": {
-          "text": "Ult DMG buff'",
+          "text": "Ult DMG boost'",
           "title": "Solidarity",
           "content": "After the wearer uses a certain type of ability such as Basic ATK, Skill, or Ultimate, all allies gain Childishness, which increases allies' DMG for the same type of ability as used by the wearer by {{DmgBuff}}%. Childishness only takes effect for the most recent type of ability the wearer used and cannot be stacked."
         },
         "skillDmgBuff": {
-          "text": "Skill DMG buff",
+          "text": "Skill DMG boost",
           "title": "Solidarity",
           "content": "After the wearer uses a certain type of ability such as Basic ATK, Skill, or Ultimate, all allies gain Childishness, which increases allies' DMG for the same type of ability as used by the wearer by {{DmgBuff}}%. Childishness only takes effect for the most recent type of ability the wearer used and cannot be stacked."
         },
         "basicDmgBuff": {
-          "text": "Basic DMG buff",
+          "text": "Basic DMG boost",
           "title": "Solidarity",
           "content": "After the wearer uses a certain type of ability such as Basic ATK, Skill, or Ultimate, all allies gain Childishness, which increases allies' DMG for the same type of ability as used by the wearer by {{DmgBuff}}%. Childishness only takes effect for the most recent type of ability the wearer used and cannot be stacked."
         }
@@ -524,7 +524,7 @@
     "FlamesAfar": {
       "Content": {
         "dmgBuff": {
-          "text": "DMG increased buff",
+          "text": "DMG buff",
           "title": "Deflagration",
           "content": "When the cumulative HP loss of the wearer during a single attack exceeds 25% of their Max HP, or if the amount of their own HP they consume at one time is greater than 25% of their Max HP, immediately heals the wearer for 15% of their Max HP, and at the same time, increases the DMG they deal by {{DmgBuff}}% for 2 turn(s). This effect can only be triggered once every 3 turn(s)."
         }
@@ -560,7 +560,7 @@
     "HeyOverHere": {
       "Content": {
         "postSkillHealBuff": {
-          "text": "Post skill heal buff",
+          "text": "Post Skill heal buff",
           "title": "I'm Not Afraid!",
           "content": "When the wearer uses their Skill, increases Outgoing Healing by {{HealingBoost}}%, lasting for 2 turn(s)."
         }
@@ -614,7 +614,7 @@
     "PastAndFuture": {
       "Content": {
         "postSkillDmgBuff": {
-          "text": "Post skill DMG buff",
+          "text": "Post Skill DMG buff",
           "title": "Kites From the Past",
           "content": "When the wearer uses their Skill, the next ally taking action (except the wearer) deals {{DmgBuff}}% increased DMG for 1 turn(s)."
         }
@@ -745,7 +745,7 @@
     "ThisIsMe": {
       "Content": {
         "defScalingUltDmg": {
-          "text": "DEF scaling ult DMG (Not implemented)",
+          "text": "DEF scaling Ult DMG (Not implemented)",
           "title": "New Chapter",
           "content": "Increases the DMG of the wearer when they use their Ultimate by {{Multiplier}}% of the wearer's DEF. This effect only applies 1 time per enemy target during each use of the wearer's Ultimate."
         }
@@ -790,7 +790,7 @@
     "WoofWalkTime": {
       "Content": {
         "atkBoost": {
-          "text": "Enemy Burn/Bleed ATK boost",
+          "text": "Enemy burn / bleed DMG boost",
           "title": "Run!",
           "content": "Increases the wearer's DMG to enemies afflicted with Burn or Bleed by {{DmgBuff}}%. This also applies to DoT."
         }
@@ -835,7 +835,7 @@
     "CollapsingSky": {
       "Content": {
         "basicSkillDmgBuff": {
-          "text": "Basic/Skill DMG buff",
+          "text": "Basic / Skill DMG buff",
           "title": "Havoc",
           "content": "Increases the wearer's Basic ATK and Skill DMG by {{DmgBuff}}%."
         }
@@ -871,7 +871,7 @@
     "HiddenShadow": {
       "Content": {
         "basicAtkBuff": {
-          "text": "Basic ATK Additional DMG",
+          "text": "Basic ATK additional DMG",
           "title": "Mechanism",
           "content": "After using Skill, the wearer's next Basic ATK deals Additional DMG equal to {{MultiplierBonus}}% of ATK to the target enemy."
         }
@@ -907,7 +907,7 @@
     "Sagacity": {
       "Content": {
         "postUltAtkBuff": {
-          "text": "Post ult ATK buff",
+          "text": "Post Ult ATK buff",
           "title": "Genius",
           "content": "When the wearer uses their Ultimate, increases ATK by {{AtkBuff}}% for 2 turn(s)."
         }

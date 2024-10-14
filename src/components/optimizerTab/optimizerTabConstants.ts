@@ -308,7 +308,6 @@ export function getCombatColumnDefs(t: TFunction<'optimizerTab', undefined>) {
 export const gridOptions = {
   rowHeight: 33,
   pagination: true,
-  rowSelection: 'single',
   rowModelType: 'infinite',
   datasource: null,
   paginationPageSize: 500,
@@ -318,6 +317,12 @@ export const gridOptions = {
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,
+  selection: {
+    mode: 'singleRow',
+    headerCheckbox: false,
+    checkboxes: false,
+    enableClickSelection: true,
+  },
   getRowId: (params: GetRowIdParams) => String(params.data.id || Utils.randomId()),
 }
 

@@ -307,11 +307,15 @@ export default function RelicsTab() {
 
   const gridOptions = useMemo(() => ({
     rowHeight: 33,
-    rowSelection: 'single',
     suppressDragLeaveHidesColumns: true,
     suppressScrollOnNewData: true,
-    enableRangeSelection: false,
     suppressMultiSort: true,
+    selection: {
+      mode: 'multiRow',
+      headerCheckbox: false,
+      checkboxes: false,
+      enableClickSelection: true,
+    },
     getRowId: (params) => String(params.data.id),
   }), [])
 
@@ -479,7 +483,6 @@ export default function RelicsTab() {
 
               animateRows={true}
               headerHeight={24}
-              rowSelection='multiple'
 
               pagination={true}
               paginationPageSizeSelector={false}

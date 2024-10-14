@@ -222,7 +222,12 @@ export default function CharacterTab() {
 
   const gridOptions = useMemo(() => ({
     rowHeight: 50,
-    rowSelection: 'single',
+    selection: {
+      mode: 'singleRow',
+      headerCheckbox: false,
+      checkboxes: false,
+      enableClickSelection: true,
+    },
     rowDragManaged: true,
     animateRows: true,
     suppressDragLeaveHidesColumns: true,

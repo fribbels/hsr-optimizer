@@ -4,7 +4,6 @@ import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calcula
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { Form } from 'types/Form'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateConditionals'
@@ -24,7 +23,6 @@ type OptimizerEventData = {
     Head: any[]
   }
   request: Form
-  params: OptimizerParams
   context: OptimizerContext
   buffer: ArrayBuffer
   relicSetSolutions: number[]
@@ -40,7 +38,6 @@ self.onmessage = function (e: MessageEvent) {
 
   const data: OptimizerEventData = e.data
   const request: Form = data.request
-  // const params: OptimizerParams = data.params
   const context: OptimizerContext = data.context
 
   const relics = data.relics

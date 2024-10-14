@@ -9,9 +9,7 @@ import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateConditionals'
 
-export type ComboForm = {
-
-}
+export type ComboForm = {}
 
 export function transformComboState(request: Form, context: OptimizerContext) {
   console.log('transformComboState')
@@ -164,7 +162,6 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
     const teammateLightConeConditionals = LightConeConditionals.get(teammate.metadata) as CharacterConditional
 
 
-
     if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateAction, context)
     if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateAction, context)
 
@@ -192,6 +189,14 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
           // TODO
           // if (teammateRequest.ELEMENTAL_DMG_TYPE != params.ELEMENTAL_DMG_TYPE) break
           // x.ELEMENTAL_DMG += 0.10
+
+          /*
+          Old version
+      case Sets.PenaconyLandOfTheDreams:
+        if (teammateRequest.ELEMENTAL_DMG_TYPE != params.ELEMENTAL_DMG_TYPE) break
+        precomputedX.ELEMENTAL_DMG += 0.10
+        break
+           */
           break
         case Sets.LushakaTheSunkenSeas:
           x[Stats.ATK_P] += 0.12

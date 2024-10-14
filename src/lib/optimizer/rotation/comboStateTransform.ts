@@ -186,17 +186,8 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
           x[Stats.ATK_P] += 0.08
           break
         case Sets.PenaconyLandOfTheDreams:
-          // TODO
-          // if (teammateRequest.ELEMENTAL_DMG_TYPE != params.ELEMENTAL_DMG_TYPE) break
-          // x.ELEMENTAL_DMG += 0.10
-
-          /*
-          Old version
-      case Sets.PenaconyLandOfTheDreams:
-        if (teammateRequest.ELEMENTAL_DMG_TYPE != params.ELEMENTAL_DMG_TYPE) break
-        precomputedX.ELEMENTAL_DMG += 0.10
-        break
-           */
+          if (comboState.comboCharacter.metadata.element != teammateRequest.metadata.element) break
+          x.ELEMENTAL_DMG += 0.10
           break
         case Sets.LushakaTheSunkenSeas:
           x[Stats.ATK_P] += 0.12

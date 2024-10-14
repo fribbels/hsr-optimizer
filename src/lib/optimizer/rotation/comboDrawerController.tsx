@@ -56,6 +56,7 @@ export type ComboCharacterMetadata = {
   characterEidolon: number
   lightCone: string
   lightConeSuperimposition: number
+  element: string
 }
 
 export type ComboCharacter = {
@@ -108,12 +109,15 @@ export function initializeComboState(request: Form, merge: boolean) {
 
   const requestSetConditionals = request.setConditionals
 
+  const dbCharacters = DB.getMetadata().characters
+
   comboState.comboCharacter = {
     metadata: {
       characterId: request.characterId,
       characterEidolon: request.characterEidolon,
       lightCone: request.lightCone,
       lightConeSuperimposition: request.lightConeSuperimposition,
+      element: dbCharacters[request.characterId].element
     },
     characterConditionals: generateComboConditionals(
       requestCharacterConditionals,
@@ -135,9 +139,9 @@ export function initializeComboState(request: Form, merge: boolean) {
     displayedOrnamentSets: [],
   }
 
-  comboState.comboTeammate0 = generateComboTeammate(request.teammate0, actionCount)
-  comboState.comboTeammate1 = generateComboTeammate(request.teammate1, actionCount)
-  comboState.comboTeammate2 = generateComboTeammate(request.teammate2, actionCount)
+  comboState.comboTeammate0 = generateComboTeammate(request.teammate0, actionCount, dbCharacters)
+  comboState.comboTeammate1 = generateComboTeammate(request.teammate1, actionCount, dbCharacters)
+  comboState.comboTeammate2 = generateComboTeammate(request.teammate2, actionCount, dbCharacters)
 
   if (request.comboStateJson && merge) {
     const savedComboState = JSON.parse(request.comboStateJson) as ComboState
@@ -317,7 +321,7 @@ function generateSetComboConditionals(
   return output
 }
 
-function generateComboTeammate(teammate: Teammate, actionCount: number) {
+function generateComboTeammate(teammate: Teammate, actionCount: number, dbCharacters: any) {
   if (!teammate?.characterId) return null
 
   const characterConditionals = teammate.characterConditionals || {} as CharacterConditionalMap
@@ -347,6 +351,7 @@ function generateComboTeammate(teammate: Teammate, actionCount: number) {
       characterEidolon: teammate.characterEidolon,
       lightCone: teammate.lightCone,
       lightConeSuperimposition: teammate.lightConeSuperimposition,
+      element: dbCharacters[teammate.characterId].element
     },
     characterConditionals: generateComboConditionals(
       characterConditionals,

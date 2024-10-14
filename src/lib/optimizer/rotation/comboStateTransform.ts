@@ -12,7 +12,7 @@ import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateCond
 export type ComboForm = {}
 
 export function transformComboState(request: Form, context: OptimizerContext) {
-  console.log('transformComboState')
+  // console.log('transformComboState')
   // console.debug(request)
   // console.debug(context)
 

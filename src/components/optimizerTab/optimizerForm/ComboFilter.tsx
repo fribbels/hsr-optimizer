@@ -1,4 +1,4 @@
-import { Button, Flex, Form, Input, Radio, Segmented, Typography } from 'antd'
+import { Button, Flex, Form, Input, Popconfirm, Radio, Segmented, Typography } from 'antd'
 import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants'
 import { HeaderText } from 'components/HeaderText'
 import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled'
@@ -18,14 +18,14 @@ const radioStyle = {
 }
 
 export const ComboFilters = () => {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
+  const { t } = useTranslation(['optimizerTab', 'common'])
   const form = Form.useFormInstance() // Get the form instance
   const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
   const comboType = Form.useWatch('comboType', form);
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
-      <HeaderText>{t('Header')/* Rotation COMBO formula */}</HeaderText>
+      <HeaderText>{t('ComboFilter.Header')/* Rotation COMBO formula */}</HeaderText>
       <Form.Item name='comboType'>
         <Radio.Group
           size='small'
@@ -55,9 +55,18 @@ export const ComboFilters = () => {
         <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => add(form)}>
           +
         </Button>
-        <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => reset(form)}>
-          Reset
-        </Button>
+        <Popconfirm
+          title={t('common:Confirm', 'Confirm', { capitalizeLength: 1 })}
+          description={'Reset all Simple / Advanced rotation settings to default?'}
+          onConfirm={() => reset(form)}
+          placement='bottom'
+          okText={t('common:Yes', 'Yes', { capitalizeLength: 1 })}
+          cancelText={t('common:Cancel', 'Cancel', { capitalizeLength: 1 })}
+        >
+          <Button size='small' variant='outlined' style={{ flex: 1 }}>
+            Reset
+          </Button>
+        </Popconfirm>
         <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => minus(form)}>
           -
         </Button>
@@ -133,6 +142,7 @@ function reset(formInstance: FormInstance) {
   }
   formInstance.setFieldValue(['comboDot'], defaultComboDot)
   formInstance.setFieldValue(['comboBreak'], defaultComboBreak)
+  formInstance.setFieldValue(['comboStateJson'], '{}')
 }
 
 function ComboBasicDefinition(props: {}) {

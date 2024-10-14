@@ -37,7 +37,6 @@ export function ComboDrawer() {
   const lastSelectedKeyState = useRef(undefined)
 
   useEffect(() => {
-    console.log('UseEFFECT', comboDrawerOpen)
     if (comboDrawerOpen) {
       const form = OptimizerTabController.getForm()
       if (!form?.characterId || !form.characterConditionals) return
@@ -51,7 +50,7 @@ export function ComboDrawer() {
 
   return (
     <Drawer
-      title='Advanced COMBO Rotation'
+      title='Advanced Rotation'
       placement='right'
       onClose={() => setComboDrawerOpen(false)}
       open={comboDrawerOpen}

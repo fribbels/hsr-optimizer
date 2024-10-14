@@ -321,7 +321,7 @@ fn main(
 
     var combo = 0.0;
 
-    for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
+    for (var actionIndex = 0; actionIndex < actionCount; actionIndex++) {
       var x = actions[actionIndex].x;
       let setConditionals = actions[actionIndex].setConditionals;
       var state = ConditionalState();
@@ -681,6 +681,14 @@ fn main(
 
           }
         }
+      }
+
+      if (actionIndex == actionCount - 1) {
+        // START COMBO FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT COMBO FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END COMBO FILTERS
       }
     }
   }

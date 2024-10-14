@@ -106,7 +106,7 @@ if (statDisplay == 1) {
 ${format(basicFilters)}
   ) {
     results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
-    continue;
+    break;
   }
 }
   `, 4))
@@ -155,8 +155,6 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.DOT_DMG > maxDot'),
     filter('x.BREAK_DMG < minBreak'),
     filter('x.BREAK_DMG > maxBreak'),
-    filter('x.COMBO_DMG < minCombo'),
-    filter('x.COMBO_DMG > maxCombo'),
     filter(`x.${sortOption} < threshold`),
   ].filter((str) => str.length > 0).join(' ||\n')
 
@@ -167,7 +165,7 @@ if (statDisplay == 0) {
 ${format(combatFilters)}
   ) {
     results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
-    continue;
+    break;
   }
 }
   `, 4))
@@ -208,6 +206,22 @@ results[index] = x; // DEBUG
     `, 2))
   } else {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
+if (statDisplay == 0) {
+  results[index] = x.${sortOption};
+  failures = 1;
+} else {
+  results[index] = ${valueString};
+  failures = 1;
+}
+    `, 4))
+  }
+
+
+  // CTRL+ F: RESULTS ASSIGNMENT
+  if (gpuParams.DEBUG) {
+
+  } else {
+    wgsl = wgsl.replace('/* INJECT COMBO FILTERS */', indent(`
 if (statDisplay == 0) {
   results[index] = x.${sortOption};
   failures = 1;

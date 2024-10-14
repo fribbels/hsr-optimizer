@@ -207,7 +207,6 @@ self.onmessage = function (e: MessageEvent) {
       || x.FUA_DMG < request.minFua || x.FUA_DMG > request.maxFua
       || x.DOT_DMG < request.minDot || x.DOT_DMG > request.maxDot
       || x.BREAK_DMG < request.minBreak || x.BREAK_DMG > request.maxBreak
-      || x.COMBO_DMG < request.minCombo || x.COMBO_DMG > request.maxCombo
     if (fail) {
       continue
     }
@@ -271,6 +270,6 @@ function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) 
 
 function cloneX(originalAction: OptimizerAction) {
   const x = originalAction.precomputedX
-  return {...x}
+  return { ...x }
   // return Object.assign({}, x) // Firefox
 }

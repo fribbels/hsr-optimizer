@@ -55,7 +55,6 @@ export const MinMaxStatFilters = () => {
         <FilterRow name='Fua' label={t('FUALabel')}/>
         <FilterRow name='Dot' label={t('DOTLabel')}/>
         <FilterRow name='Break' label={t('BREAKLabel')}/>
-        <FilterRow name='Combo' label={t('COMBOLabel')}/>
         <Flex
           style={{ height: 20, width: '100%', marginTop: -4, cursor: 'pointer' }}
           justify='space-around'

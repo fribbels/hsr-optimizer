@@ -328,8 +328,6 @@ export const OptimizerTabController = {
     newForm.minDot = unsetMin(form.minDot)
     newForm.maxBreak = unsetMax(form.maxBreak)
     newForm.minBreak = unsetMin(form.minBreak)
-    newForm.maxCombo = unsetMax(form.maxCombo)
-    newForm.minCombo = unsetMin(form.minCombo)
 
     newForm.combatBuffs = {}
     if (!form.combatBuffs) form.combatBuffs = {}
@@ -618,8 +616,6 @@ export const OptimizerTabController = {
     x.minDot = fixValue(x.minDot, 0)
     x.maxBreak = fixValue(x.maxBreak, MAX_INT)
     x.minBreak = fixValue(x.minBreak, 0)
-    x.maxCombo = fixValue(x.maxCombo, MAX_INT)
-    x.minCombo = fixValue(x.minCombo, 0)
 
     if (!x.combatBuffs) x.combatBuffs = {}
     for (const buff of Object.values(CombatBuffs)) {
@@ -831,7 +827,6 @@ function filter(filterModel) {
         && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
         && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
         && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
-        && row.COMBO >= filterModel.minCombo && row.COMBO <= filterModel.maxCombo
       if (valid) {
         indices.push(i)
       }
@@ -858,7 +853,6 @@ function filter(filterModel) {
         && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
         && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
         && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
-        && row.COMBO >= filterModel.minCombo && row.COMBO <= filterModel.maxCombo
       if (valid) {
         indices.push(i)
       }

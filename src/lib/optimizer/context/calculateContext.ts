@@ -45,7 +45,7 @@ function generateCombatBuffsContext(request: Form, context: OptimizerContext) {
 }
 
 function generateFiltersContext(request: Form, context: OptimizerContext) {
-
+  context.resultSort = request.resultSort
 }
 
 function calculateConditionals(request: Form, context: OptimizerContext) {

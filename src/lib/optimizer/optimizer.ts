@@ -116,7 +116,7 @@ export const Optimizer = {
 
     OptimizerTabController.scrollToGrid()
 
-    window.optimizerGrid.current.api.showLoadingOverlay()
+    window.optimizerGrid.current.api.setGridOption("loading", true)
 
     const context = generateContext(request)
 

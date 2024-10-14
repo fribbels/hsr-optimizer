@@ -198,7 +198,7 @@ export const OptimizerTabController = {
 
         // fast clickers can race unmount/remount and cause NPE here.
         if (window?.optimizerGrid?.current?.api) {
-          window.optimizerGrid.current.api.showLoadingOverlay()
+          window.optimizerGrid.current.api.setGridOption("loading", true)
         }
 
         // Give it time to show the loading page before we block
@@ -226,7 +226,7 @@ export const OptimizerTabController = {
 
           // cannot assume a fast click race-condition didn't happen
           if (window?.optimizerGrid?.current?.api) {
-            window.optimizerGrid.current.api.hideOverlay()
+            window.optimizerGrid.current.api.setGridOption("loading", false)
           }
           OptimizerTabController.redrawRows()
         })

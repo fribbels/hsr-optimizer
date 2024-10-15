@@ -488,12 +488,7 @@ export default function RelicsTab() {
               onRowClicked={rowClickedListener}
               onRowDoubleClicked={onRowDoubleClickedListener}
               navigateToNextCell={navigateToNextCell}
-              selection={{
-                mode: 'multiRow',
-                headerCheckbox: false,
-                checkboxes: false,
-                enableClickSelection: true
-              }}
+              rowSelection='multiple'
             />
           </div>
         )}

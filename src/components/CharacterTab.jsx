@@ -584,12 +584,7 @@ export default function CharacterTab() {
                 navigateToNextCell={navigateToNextCell}
                 isExternalFilterPresent={isExternalFilterPresent}
                 doesExternalFilterPass={doesExternalFilterPass}
-                selection={{
-                  mode: 'singleRow',
-                  headerCheckbox: false,
-                  checkboxes: false,
-                  enableClickSelection: true
-                }}
+                rowSelection='single'
               />
             </div>
             <Flex vertical gap={8}>

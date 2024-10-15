@@ -79,12 +79,7 @@ export function OptimizerGrid() {
             paginationNumberFormatter={(param) => param.value.toLocaleString(i18n.resolvedLanguage)}
             getLocaleText={getLocaleText}
             navigateToNextCell={navigateToNextCell}
-            selection={{
-              mode: 'singleRow',
-              headerCheckbox: false,
-              checkboxes: false,
-              enableClickSelection: true
-            }}
+            rowSelection='single'
           />
         </div>
       )}

@@ -1,17 +1,17 @@
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
 import { generateBaseParamsArray, generateParamsMatrix, mergeRelicsIntoArray } from 'lib/gpu/webgpuDataTransform'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { Form } from 'types/Form'
 import postComputeShader from 'lib/gpu/wgsl/postComputeShader.wgsl?raw'
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants'
 import { GpuExecutionContext, GpuResult, RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { OptimizerContext } from 'types/Optimizer'
 
 export function initializeGpuPipeline(
   device: GPUDevice,
   relics: RelicsByPart,
   request: Form,
-  params: OptimizerParams,
+  context: OptimizerContext,
   permutations: number,
   computeEngine: string,
   relicSetSolutions: number[],
@@ -24,7 +24,7 @@ export function initializeGpuPipeline(
   const RESULTS_LIMIT = request.resultsLimit ?? 1024
   const DEBUG = debug
 
-  const wgsl = generateWgsl(params, request, {
+  const wgsl = generateWgsl(context, request, {
     WORKGROUP_SIZE,
     BLOCK_SIZE,
     CYCLES_PER_INVOCATION,
@@ -38,7 +38,7 @@ export function initializeGpuPipeline(
 
   const computePipeline = generatePipeline(device, wgsl)
   const postComputePipeline = generatePostComputePipeline(device)
-  const baseParamsArray = generateBaseParamsArray(relics, params)
+  const baseParamsArray = generateBaseParamsArray(relics, context)
 
   const resultMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * BLOCK_SIZE * CYCLES_PER_INVOCATION
   const resultMatrixBuffer = device.createBuffer({
@@ -88,7 +88,7 @@ export function initializeGpuPipeline(
     DEBUG,
 
     request,
-    params,
+    context,
 
     resultMatrixBufferSize,
     permutations,

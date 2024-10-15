@@ -1,26 +1,23 @@
 import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ContentItem } from 'types/Conditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.Mediation')
   const sValues = [12, 14, 16, 18, 20]
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.Mediation.Content')
-    return [{
-      lc: true,
-      id: 'initialSpdBuff',
-      name: 'initialSpdBuff',
-      formItem: 'switch',
-      text: t('initialSpdBuff.text'),
-      title: t('initialSpdBuff.title'),
-      content: t('initialSpdBuff.content', { SpdBuff: sValues[s] }),
-    }]
-  })()
+  const content: ContentItem[] = [{
+    lc: true,
+    id: 'initialSpdBuff',
+    name: 'initialSpdBuff',
+    formItem: 'switch',
+    text: t('Content.initialSpdBuff.text'),
+    title: t('Content.initialSpdBuff.title'),
+    content: t('Content.initialSpdBuff.content', { SpdBuff: sValues[s] }),
+  }]
 
   return {
     content: () => content,
@@ -33,8 +30,8 @@ export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeCond
     }),
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals
 
       x[Stats.SPD] += (m.initialSpdBuff) ? sValues[s] : 0
     },

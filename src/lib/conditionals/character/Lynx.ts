@@ -1,18 +1,16 @@
-import { Stats } from 'lib/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
-import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lynx')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const skillHpPercentBuff = skill(e, 0.075, 0.08)
@@ -22,36 +20,28 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 0, 0)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Lynx.Content')
-    return [{
-      formItem: 'switch',
-      id: 'skillBuff',
-      name: 'skillBuff',
-      text: t('skillBuff.text'),
-      title: t('skillBuff.title'),
-      content: t('skillBuff.content', { skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff), skillHpFlatBuff: skillHpFlatBuff }),
-    }]
-  })()
+  const content: ContentItem[] = [{
+    formItem: 'switch',
+    id: 'skillBuff',
+    name: 'skillBuff',
+    text: t('Content.skillBuff.text'),
+    title: t('Content.skillBuff.title'),
+    content: t('Content.skillBuff.content', { skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff), skillHpFlatBuff: skillHpFlatBuff }),
+  }]
 
-  const teammateContent: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Lynx.TeammateContent')
-    return [
-      findContentId(content, 'skillBuff'),
-      {
-        formItem: 'slider',
-        id: 'teammateHPValue',
-        name: 'teammateHPValue',
-        text: t('teammateHPValue.text'),
-        title: t('teammateHPValue.title'),
-        content: t('teammateHPValue.content', { skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff), skillHpFlatBuff: skillHpFlatBuff }),
-        min: 0,
-        max: 10000,
-      },
-    ]
-  })()
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'skillBuff'),
+    {
+      formItem: 'slider',
+      id: 'teammateHPValue',
+      name: 'teammateHPValue',
+      text: t('TeammateContent.teammateHPValue.text'),
+      title: t('TeammateContent.teammateHPValue.title'),
+      content: t('TeammateContent.teammateHPValue.content', { skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff), skillHpFlatBuff: skillHpFlatBuff }),
+      min: 0,
+      max: 10000,
+    },
+  ]
 
   return {
     content: () => content,
@@ -63,7 +53,7 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       skillBuff: true,
       teammateHPValue: 6000,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -73,13 +63,13 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x[Stats.RES] += (e >= 6 && m.skillBuff) ? 0.30 : 0
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
-      const t = request.characterConditionals
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const t = action.characterConditionals
 
       x[Stats.HP] += (t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0
       x[Stats.HP] += (e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0
@@ -88,11 +78,11 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       const atkBuffValue = (e >= 4 && t.skillBuff) ? 0.03 * t.teammateHPValue : 0
       x[Stats.ATK] += atkBuffValue
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
     },
-    gpuFinalizeCalculations: (request: Form, _params: OptimizerParams) => {
-      const r = request.characterConditionals
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.HP;
@@ -107,13 +97,13 @@ x.BASIC_DMG += x.BASIC_SCALING * x.HP;
       condition: function () {
         return true
       },
-      effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-        const r = request.characterConditionals
+      effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+        const r = action.characterConditionals
         if (!r.skillBuff) {
           return
         }
 
-        const stateValue = params.conditionalState[this.id] || 0
+        const stateValue = action.conditionalState[this.id] || 0
         let buffHP = 0
         let buffATK = 0
         let stateBuffHP = 0
@@ -133,17 +123,17 @@ x.BASIC_DMG += x.BASIC_SCALING * x.HP;
           stateBuffHP += 0.06 * stateValue
         }
 
-        params.conditionalState[this.id] = x[Stats.HP]
+        action.conditionalState[this.id] = x[Stats.HP]
 
         const finalBuffHp = buffHP - (stateValue ? stateBuffHP : 0)
         const finalBuffAtk = buffATK - (stateValue ? stateBuffATK : 0)
         x.RATIO_BASED_HP_BUFF += finalBuffHp
 
-        buffStat(x, request, params, Stats.HP, finalBuffHp)
-        buffStat(x, request, params, Stats.ATK, finalBuffAtk)
+        buffStat(x, Stats.HP, finalBuffHp, action, context)
+        buffStat(x, Stats.ATK, finalBuffAtk, action, context)
       },
-      gpu: function (request: Form, _params: OptimizerParams) {
-        const r = request.characterConditionals
+      gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        const r = action.characterConditionals
 
         return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.skillBuff)}) {

@@ -4,12 +4,12 @@ import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'l
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerDestruction')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const talentAtkScalingValue = talent(e, 0.20, 0.22)
@@ -20,27 +20,23 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const ultEnhancedScaling = ult(e, 2.70, 2.88)
   const ultEnhancedScaling2 = ult(e, 1.62, 1.728)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.TrailblazerDestruction.Content')
-    return [{
-      formItem: 'switch',
-      id: 'enhancedUlt',
-      name: 'Enhanced Ult',
-      text: t('enhancedUlt.text'),
-      title: t('enhancedUlt.title'),
-      content: t('enhancedUlt.content', { ultScaling: TsUtils.precisionRound(100 * ultScaling), ultEnhancedScaling: TsUtils.precisionRound(100 * ultEnhancedScaling), ultEnhancedScaling2: TsUtils.precisionRound(100 * ultEnhancedScaling2) }),
-    }, {
-      formItem: 'slider',
-      id: 'talentStacks',
-      name: 'Talent stacks',
-      text: t('talentStacks.text'),
-      title: t('talentStacks.title'),
-      content: t('talentStacks.content', { talentAtkScalingValue: TsUtils.precisionRound(100 * talentAtkScalingValue) }),
-      min: 0,
-      max: 2,
-    }]
-  })()
+  const content: ContentItem[] = [{
+    formItem: 'switch',
+    id: 'enhancedUlt',
+    name: 'Enhanced Ult',
+    text: t('Content.enhancedUlt.text'),
+    title: t('Content.enhancedUlt.title'),
+    content: t('Content.enhancedUlt.content', { ultScaling: TsUtils.precisionRound(100 * ultScaling), ultEnhancedScaling: TsUtils.precisionRound(100 * ultEnhancedScaling), ultEnhancedScaling2: TsUtils.precisionRound(100 * ultEnhancedScaling2) }),
+  }, {
+    formItem: 'slider',
+    id: 'talentStacks',
+    name: 'Talent stacks',
+    text: t('Content.talentStacks.text'),
+    title: t('Content.talentStacks.title'),
+    content: t('Content.talentStacks.content', { talentAtkScalingValue: TsUtils.precisionRound(100 * talentAtkScalingValue) }),
+    min: 0,
+    max: 2,
+  }]
 
   return {
     content: () => content,
@@ -50,8 +46,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       talentStacks: 2,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += r.talentStacks * talentAtkScalingValue
@@ -72,8 +68,6 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       x.ULT_TOUGHNESS_DMG += (r.enhancedUlt) ? 60 : 90
 
       return x
-    },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
     finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

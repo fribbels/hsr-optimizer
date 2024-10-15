@@ -4,14 +4,14 @@ import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } f
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Qingque')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const skillStackDmg = skill(e, 0.38, 0.408)
@@ -30,41 +30,37 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
   const hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
-  function getHitMulti(request: Form) {
-    const r = request.characterConditionals
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    const r = action.characterConditionals
     return r.basicEnhanced
-      ? hitMultiByTargetsBlast[request.enemyCount]
+      ? hitMultiByTargetsBlast[context.enemyCount]
       : hitMultiSingle
   }
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Qingque.Content')
-    return [{
-      formItem: 'switch',
-      id: 'basicEnhanced',
-      name: 'basicEnhanced',
-      text: t('basicEnhanced.text'),
-      title: t('basicEnhanced.title'),
-      content: t('basicEnhanced.content', { talentAtkBuff: TsUtils.precisionRound(100 * talentAtkBuff) }),
-    }, {
-      formItem: 'switch',
-      id: 'basicEnhancedSpdBuff',
-      name: 'basicEnhancedSpdBuff',
-      text: t('basicEnhancedSpdBuff.text'),
-      title: t('basicEnhancedSpdBuff.title'),
-      content: t('basicEnhancedSpdBuff.content'),
-    }, {
-      formItem: 'slider',
-      id: 'skillDmgIncreaseStacks',
-      name: 'skillDmgIncreaseStacks',
-      text: t('skillDmgIncreaseStacks.text'),
-      title: t('skillDmgIncreaseStacks.title'),
-      content: t('skillDmgIncreaseStacks.content', { skillStackDmg: TsUtils.precisionRound(100 * skillStackDmg) }),
-      min: 0,
-      max: 4,
-    }]
-  })()
+  const content: ContentItem[] = [{
+    formItem: 'switch',
+    id: 'basicEnhanced',
+    name: 'basicEnhanced',
+    text: t('Content.basicEnhanced.text'),
+    title: t('Content.basicEnhanced.title'),
+    content: t('Content.basicEnhanced.content', { talentAtkBuff: TsUtils.precisionRound(100 * talentAtkBuff) }),
+  }, {
+    formItem: 'switch',
+    id: 'basicEnhancedSpdBuff',
+    name: 'basicEnhancedSpdBuff',
+    text: t('Content.basicEnhancedSpdBuff.text'),
+    title: t('Content.basicEnhancedSpdBuff.title'),
+    content: t('Content.basicEnhancedSpdBuff.content'),
+  }, {
+    formItem: 'slider',
+    id: 'skillDmgIncreaseStacks',
+    name: 'skillDmgIncreaseStacks',
+    text: t('Content.skillDmgIncreaseStacks.text'),
+    title: t('Content.skillDmgIncreaseStacks.title'),
+    content: t('Content.skillDmgIncreaseStacks.content', { skillStackDmg: TsUtils.precisionRound(100 * skillStackDmg) }),
+    min: 0,
+    max: 4,
+  }]
 
   return {
     content: () => content,
@@ -75,8 +71,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       skillDmgIncreaseStacks: 4,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += (r.basicEnhanced) ? talentAtkBuff : 0
@@ -98,13 +94,13 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, getHitMulti(request))
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      return gpuStandardFuaAtkFinalizer(getHitMulti(request))
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuStandardFuaAtkFinalizer(getHitMulti(action, context))
     },
   }
 }

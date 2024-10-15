@@ -4,11 +4,11 @@ import { Stats } from 'lib/constants'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yukong')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const skillAtkBuffValue = skill(e, 0.80, 0.88)
@@ -20,50 +20,43 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 3.80, 4.104)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Yukong.Content')
-    return [{
-      formItem: 'switch',
-      id: 'teamImaginaryDmgBoost',
-      name: 'teamImaginaryDmgBoost',
-      text: t('teamImaginaryDmgBoost.text'),
-      title: t('teamImaginaryDmgBoost.title'),
-      content: t('teamImaginaryDmgBoost.content'),
-    }, {
-      formItem: 'switch',
-      id: 'roaringBowstringsActive',
-      name: 'roaringBowstringsActive',
-      text: t('roaringBowstringsActive.text'),
-      title: t('roaringBowstringsActive.title'),
-      content: t('roaringBowstringsActive.content', { skillAtkBuffValue: TsUtils.precisionRound(100 * skillAtkBuffValue) }),
-    }, {
-      formItem: 'switch',
-      id: 'ultBuff',
-      name: 'ultBuff',
-      text: t('ultBuff.text'),
-      title: t('ultBuff.title'),
-      content: t('ultBuff.content', { ultCrBuffValue: TsUtils.precisionRound(100 * ultCrBuffValue), ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue), ultScaling: TsUtils.precisionRound(100 * ultScaling) }),
-    }, {
-      formItem: 'switch',
-      id: 'initialSpeedBuff',
-      name: 'initialSpeedBuff',
-      text: t('initialSpeedBuff.text'),
-      title: t('initialSpeedBuff.title'),
-      content: t('initialSpeedBuff.content'),
-      disabled: e < 1,
-    }]
-  })()
+  const content: ContentItem[] = [{
+    formItem: 'switch',
+    id: 'teamImaginaryDmgBoost',
+    name: 'teamImaginaryDmgBoost',
+    text: t('Content.teamImaginaryDmgBoost.text'),
+    title: t('Content.teamImaginaryDmgBoost.title'),
+    content: t('Content.teamImaginaryDmgBoost.content'),
+  }, {
+    formItem: 'switch',
+    id: 'roaringBowstringsActive',
+    name: 'roaringBowstringsActive',
+    text: t('Content.roaringBowstringsActive.text'),
+    title: t('Content.roaringBowstringsActive.title'),
+    content: t('Content.roaringBowstringsActive.content', { skillAtkBuffValue: TsUtils.precisionRound(100 * skillAtkBuffValue) }),
+  }, {
+    formItem: 'switch',
+    id: 'ultBuff',
+    name: 'ultBuff',
+    text: t('Content.ultBuff.text'),
+    title: t('Content.ultBuff.title'),
+    content: t('Content.ultBuff.content', { ultCrBuffValue: TsUtils.precisionRound(100 * ultCrBuffValue), ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue), ultScaling: TsUtils.precisionRound(100 * ultScaling) }),
+  }, {
+    formItem: 'switch',
+    id: 'initialSpeedBuff',
+    name: 'initialSpeedBuff',
+    text: t('Content.initialSpeedBuff.text'),
+    title: t('Content.initialSpeedBuff.title'),
+    content: t('Content.initialSpeedBuff.content'),
+    disabled: e < 1,
+  }]
 
-  const teammateContent: ContentItem[] = (() => {
-    if (withoutContent) return []
-    return [
-      findContentId(content, 'teamImaginaryDmgBoost'),
-      findContentId(content, 'roaringBowstringsActive'),
-      findContentId(content, 'ultBuff'),
-      findContentId(content, 'initialSpeedBuff'),
-    ]
-  })()
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'teamImaginaryDmgBoost'),
+    findContentId(content, 'roaringBowstringsActive'),
+    findContentId(content, 'ultBuff'),
+    findContentId(content, 'initialSpeedBuff'),
+  ]
 
   return {
     content: () => content,
@@ -80,8 +73,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       ultBuff: true,
       initialSpeedBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -97,8 +90,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x[Stats.ATK_P] += (m.roaringBowstringsActive) ? skillAtkBuffValue : 0
       x[Stats.CR] += (m.ultBuff && m.roaringBowstringsActive) ? ultCrBuffValue : 0

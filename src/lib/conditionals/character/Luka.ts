@@ -5,11 +5,11 @@ import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFina
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Luka')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicEnhancedHitValue = basic(e, 0.20, 0.22)
@@ -21,65 +21,58 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const ultScaling = ult(e, 3.30, 3.564)
   const dotScaling = skill(e, 3.38, 3.718)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Luka.Content')
-    return [
-      {
-        formItem: 'switch',
-        id: 'basicEnhanced',
-        name: 'basicEnhanced',
-        text: t('basicEnhanced.text'),
-        title: t('basicEnhanced.title'),
-        content: t('basicEnhanced.content'),
-      },
-      {
-        formItem: 'switch',
-        id: 'targetUltDebuffed',
-        name: 'targetUltDebuffed',
-        text: t('targetUltDebuffed.text'),
-        title: t('targetUltDebuffed.title'),
-        content: t('targetUltDebuffed.content', { targetUltDebuffDmgTakenValue: TsUtils.precisionRound(100 * targetUltDebuffDmgTakenValue) }),
-      },
-      {
-        formItem: 'slider',
-        id: 'basicEnhancedExtraHits',
-        name: 'basicEnhancedExtraHits',
-        text: t('basicEnhancedExtraHits.text'),
-        title: t('basicEnhancedExtraHits.title'),
-        content: t('basicEnhancedExtraHits.content'),
-        min: 0,
-        max: 3,
-      },
-      {
-        formItem: 'switch',
-        id: 'e1TargetBleeding',
-        name: 'e1TargetBleeding',
-        text: t('e1TargetBleeding.text'),
-        title: t('e1TargetBleeding.title'),
-        content: t('e1TargetBleeding.content'),
-        disabled: e < 1,
-      },
-      {
-        formItem: 'slider',
-        id: 'e4TalentStacks',
-        name: 'e4TalentStacks',
-        text: t('e4TalentStacks.text'),
-        title: t('e4TalentStacks.title'),
-        content: t('e4TalentStacks.content'),
-        min: 0,
-        max: 4,
-        disabled: e < 4,
-      },
-    ]
-  })()
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'basicEnhanced',
+      name: 'basicEnhanced',
+      text: t('Content.basicEnhanced.text'),
+      title: t('Content.basicEnhanced.title'),
+      content: t('Content.basicEnhanced.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'targetUltDebuffed',
+      name: 'targetUltDebuffed',
+      text: t('Content.targetUltDebuffed.text'),
+      title: t('Content.targetUltDebuffed.title'),
+      content: t('Content.targetUltDebuffed.content', { targetUltDebuffDmgTakenValue: TsUtils.precisionRound(100 * targetUltDebuffDmgTakenValue) }),
+    },
+    {
+      formItem: 'slider',
+      id: 'basicEnhancedExtraHits',
+      name: 'basicEnhancedExtraHits',
+      text: t('Content.basicEnhancedExtraHits.text'),
+      title: t('Content.basicEnhancedExtraHits.title'),
+      content: t('Content.basicEnhancedExtraHits.content'),
+      min: 0,
+      max: 3,
+    },
+    {
+      formItem: 'switch',
+      id: 'e1TargetBleeding',
+      name: 'e1TargetBleeding',
+      text: t('Content.e1TargetBleeding.text'),
+      title: t('Content.e1TargetBleeding.title'),
+      content: t('Content.e1TargetBleeding.content'),
+      disabled: e < 1,
+    },
+    {
+      formItem: 'slider',
+      id: 'e4TalentStacks',
+      name: 'e4TalentStacks',
+      text: t('Content.e4TalentStacks.text'),
+      title: t('Content.e4TalentStacks.title'),
+      content: t('Content.e4TalentStacks.content'),
+      min: 0,
+      max: 4,
+      disabled: e < 4,
+    },
+  ]
 
-  const teammateContent: ContentItem[] = (() => {
-    if (withoutContent) return []
-    return [
-      findContentId(content, 'targetUltDebuffed'),
-    ]
-  })()
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'targetUltDebuffed'),
+  ]
 
   return {
     content: () => content,
@@ -94,8 +87,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
     teammateDefaults: () => ({
       targetUltDebuffed: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += (e >= 4) ? r.e4TalentStacks * 0.05 : 0
@@ -118,8 +111,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x.VULNERABILITY += (m.targetUltDebuffed) ? targetUltDebuffDmgTakenValue : 0
     },

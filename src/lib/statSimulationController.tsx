@@ -17,9 +17,9 @@ import { SaveState } from 'lib/saveState'
 import DB from 'lib/db'
 import { Form } from 'types/Form'
 import { SimulationResult } from 'lib/characterScorer'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { useTranslation } from 'react-i18next'
 import i18next from 'i18next'
+import { OptimizerContext } from 'types/Optimizer'
 
 export type Simulation = {
   name?: string
@@ -268,7 +268,7 @@ export type RunSimulationsParams = {
 
 export function runSimulations(
   form: Form,
-  cachedOptimizerParams: OptimizerParams | null,
+  context: OptimizerContext,
   simulations: Simulation[],
   inputParams: Partial<RunSimulationsParams> = {},
 ): SimulationResult[] {
@@ -372,7 +372,7 @@ export function runSimulations(
 
     RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
 
-    const c = calculateBuild(form, relics, cachedOptimizerParams, true)
+    const c = calculateBuild(form, relics, context, true, true)
 
     renameFields(c)
     // For optimizer grid syncing with sim table
@@ -411,7 +411,7 @@ export function startOptimizerStatSimulation() {
 function autosave() {
   const form = OptimizerTabController.getForm()
   DB.addFromForm(form)
-  SaveState.save()
+  SaveState.delayedSave()
 }
 
 export function importOptimizerBuild() {

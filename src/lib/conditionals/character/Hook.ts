@@ -3,13 +3,13 @@ import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'l
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hook')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const targetBurnedExtraScaling = talent(e, 1.00, 1.10)
@@ -20,28 +20,24 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const ultScaling = ult(e, 4.00, 4.32)
   const dotScaling = skill(e, 0.65, 0.715)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Hook.Content')
-    return [
-      {
-        formItem: 'switch',
-        id: 'enhancedSkill',
-        name: 'enhancedSkill',
-        text: t('enhancedSkill.text'),
-        title: t('enhancedSkill.title'),
-        content: t('enhancedSkill.content', { skillEnhancedScaling: TsUtils.precisionRound(100 * skillEnhancedScaling) }),
-      },
-      {
-        formItem: 'switch',
-        id: 'targetBurned',
-        name: 'targetBurned',
-        text: t('targetBurned.text'),
-        title: t('targetBurned.title'),
-        content: t('targetBurned.content', { targetBurnedExtraScaling: TsUtils.precisionRound(100 * targetBurnedExtraScaling) }),
-      },
-    ]
-  })()
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'enhancedSkill',
+      name: 'enhancedSkill',
+      text: t('Content.enhancedSkill.text'),
+      title: t('Content.enhancedSkill.title'),
+      content: t('Content.enhancedSkill.content', { skillEnhancedScaling: TsUtils.precisionRound(100 * skillEnhancedScaling) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'targetBurned',
+      name: 'targetBurned',
+      text: t('Content.targetBurned.text'),
+      title: t('Content.targetBurned.title'),
+      content: t('Content.targetBurned.content', { targetBurnedExtraScaling: TsUtils.precisionRound(100 * targetBurnedExtraScaling) }),
+    },
+  ]
 
   return {
     content: () => content,
@@ -51,8 +47,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       targetBurned: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
 
@@ -77,7 +73,7 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

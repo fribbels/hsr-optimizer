@@ -77,8 +77,13 @@ window.store = create((set) => ({
   version: CURRENT_OPTIMIZER_VERSION,
   colorTheme: Themes.BLUE,
 
+  formValues: undefined,
+
   optimizerGrid: undefined,
 
+  comboState: {
+    displayState: {},
+  },
   optimizerTabFocusCharacter: undefined,
   characterTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
@@ -92,6 +97,7 @@ window.store = create((set) => ({
   characters: [],
   charactersById: {},
   conditionalSetEffectsDrawerOpen: false,
+  comboDrawerOpen: false,
   combatBuffsDrawerOpen: false,
   enemyConfigurationsDrawerOpen: false,
   settingsDrawerOpen: false,
@@ -165,13 +171,16 @@ window.store = create((set) => ({
 
   settings: DefaultSettingOptions,
 
+  setComboState: (x) => set(() => ({ comboState: x })),
   setVersion: (x) => set(() => ({ version: x })),
   setActiveKey: (x) => set(() => ({ activeKey: x })),
+  setFormValues: (x) => set(() => ({ formValues: x })),
   setCharacters: (x) => set(() => ({ characters: x })),
   setCharactersById: (x) => set(() => ({ charactersById: x })),
   setInventoryWidth: (x) => set(() => ({ inventoryWidth: x })),
   setRowLimit: (x) => set(() => ({ rowLimit: x })),
   setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
+  setComboDrawerOpen: (x) => set(() => ({ comboDrawerOpen: x })),
   setCombatBuffsDrawerOpen: (x) => set(() => ({ combatBuffsDrawerOpen: x })),
   setEnemyConfigurationsDrawerOpen: (x) => set(() => ({ enemyConfigurationsDrawerOpen: x })),
   setSettingsDrawerOpen: (x) => set(() => ({ settingsDrawerOpen: x })),
@@ -369,7 +378,7 @@ export const DB = {
     }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
-    SaveState.save()
+    SaveState.delayedSave()
   },
   updateSimulationScoreOverrides: (id, updatedSimulation) => {
     if (!updatedSimulation) return
@@ -384,9 +393,7 @@ export const DB = {
     }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
-    setTimeout(() => {
-      SaveState.save()
-    }, 2000)
+    SaveState.delayedSave()
   },
 
   setStore: (x, autosave = true) => {
@@ -553,7 +560,7 @@ export const DB = {
     DB.refreshRelics()
 
     if (autosave) {
-      SaveState.save()
+      SaveState.delayedSave()
     }
   },
   resetStore: () => {
@@ -561,6 +568,16 @@ export const DB = {
       relics: [],
       characters: [],
     })
+  },
+
+  replaceCharacterForm: (form) => {
+    let found = DB.getCharacterById(form.characterId)
+    if (found) {
+      found.form = {
+        ...found.form,
+        ...form,
+      }
+    }
   },
 
   addFromForm: (form, autosave = true) => {
@@ -595,7 +612,7 @@ export const DB = {
     }
 
     if (autosave) {
-      SaveState.save()
+      SaveState.delayedSave()
     }
 
     return found

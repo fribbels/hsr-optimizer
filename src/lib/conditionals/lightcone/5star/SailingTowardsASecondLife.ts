@@ -1,44 +1,38 @@
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Stats } from 'lib/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.SailingTowardsASecondLife')
   const sValuesSpdBuff = [0.12, 0.14, 0.16, 0.18, 0.20]
   const sValuesDefShred = [0.20, 0.23, 0.26, 0.29, 0.32]
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.SailingTowardsASecondLife.Content')
-    return [
-      {
-        lc: true,
-        id: 'breakDmgDefShred',
-        name: 'breakDmgDefShred',
-        formItem: 'switch',
-        text: t('breakDmgDefShred.text'),
-        title: t('breakDmgDefShred.title'),
-        content: t('breakDmgDefShred.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefShred[s]) }),
-      },
-      {
-        lc: true,
-        id: 'spdBuffConditional',
-        name: 'spdBuffConditional',
-        formItem: 'switch',
-        text: t('spdBuffConditional.text'),
-        title: t('spdBuffConditional.title'),
-        content: t('spdBuffConditional.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpdBuff[s]) }),
-      },
-    ]
-  })()
+  const content: ContentItem[] = [
+    {
+      lc: true,
+      id: 'breakDmgDefShred',
+      name: 'breakDmgDefShred',
+      formItem: 'switch',
+      text: t('Content.breakDmgDefShred.text'),
+      title: t('Content.breakDmgDefShred.title'),
+      content: t('Content.breakDmgDefShred.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefShred[s]) }),
+    },
+    {
+      lc: true,
+      id: 'spdBuffConditional',
+      name: 'spdBuffConditional',
+      formItem: 'switch',
+      text: t('Content.spdBuffConditional.text'),
+      title: t('Content.spdBuffConditional.title'),
+      content: t('Content.spdBuffConditional.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpdBuff[s]) }),
+    },
+  ]
 
   return {
     content: () => content,
@@ -46,11 +40,11 @@ export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeCond
       breakDmgDefShred: true,
       spdBuffConditional: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
       buffAbilityDefPen(x, BREAK_TYPE, sValuesDefShred[s], (r.breakDmgDefShred))
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
     dynamicConditionals: [
       {
@@ -58,15 +52,15 @@ export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeCond
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.BE],
-        condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-          const r = request.lightConeConditionals
+        condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.lightConeConditionals
 
           return r.spdBuffConditional && x[Stats.BE] >= 1.50
         },
-        effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => {
-          buffStat(x, request, params, Stats.SPD, (sValuesSpdBuff[s]) * request.baseSpd)
+        effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+          buffStat(x, Stats.SPD, (sValuesSpdBuff[s]) * context.baseSPD, action, context)
         },
-        gpu: function () {
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
           return conditionalWgslWrapper(this, `
 if (
   (*p_state).SailingTowardsASecondLifeConditional == 0.0 &&

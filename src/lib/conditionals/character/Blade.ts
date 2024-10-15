@@ -4,15 +4,15 @@ import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/conditi
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Blade')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const enhancedStateDmgBoost = skill(e, 0.40, 0.456)
@@ -33,38 +33,34 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
     5: ASHBLAZING_ATK_STACK * (3 * 0.33 + 8 * 0.33 + 8 * 0.34),
   }
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Blade.Content')
-    return [{
-      formItem: 'switch',
-      id: 'enhancedStateActive',
-      name: 'enhancedStateActive',
-      text: t('enhancedStateActive.text'),
-      title: t('enhancedStateActive.title'),
-      content: t('enhancedStateActive.content', { enhancedStateDmgBoost: TsUtils.precisionRound(100 * enhancedStateDmgBoost) }),
-    }, {
-      formItem: 'slider',
-      id: 'hpPercentLostTotal',
-      name: 'hpPercentLostTotal',
-      text: t('hpPercentLostTotal.text'),
-      title: t('hpPercentLostTotal.title'),
-      content: t('hpPercentLostTotal.content', { hpPercentLostTotalMax: TsUtils.precisionRound(100 * hpPercentLostTotalMax) }),
-      min: 0,
-      max: hpPercentLostTotalMax,
-      percent: true,
-    }, {
-      formItem: 'slider',
-      id: 'e4MaxHpIncreaseStacks',
-      name: 'e4MaxHpIncreaseStacks',
-      text: t('e4MaxHpIncreaseStacks.text'),
-      title: t('e4MaxHpIncreaseStacks.title'),
-      content: t('e4MaxHpIncreaseStacks.content'),
-      min: 0,
-      max: 2,
-      disabled: e < 4,
-    }]
-  })()
+  const content: ContentItem[] = [{
+    formItem: 'switch',
+    id: 'enhancedStateActive',
+    name: 'enhancedStateActive',
+    text: t('Content.enhancedStateActive.text'),
+    title: t('Content.enhancedStateActive.title'),
+    content: t('Content.enhancedStateActive.content', { enhancedStateDmgBoost: TsUtils.precisionRound(100 * enhancedStateDmgBoost) }),
+  }, {
+    formItem: 'slider',
+    id: 'hpPercentLostTotal',
+    name: 'hpPercentLostTotal',
+    text: t('Content.hpPercentLostTotal.text'),
+    title: t('Content.hpPercentLostTotal.title'),
+    content: t('Content.hpPercentLostTotal.content', { hpPercentLostTotalMax: TsUtils.precisionRound(100 * hpPercentLostTotalMax) }),
+    min: 0,
+    max: hpPercentLostTotalMax,
+    percent: true,
+  }, {
+    formItem: 'slider',
+    id: 'e4MaxHpIncreaseStacks',
+    name: 'e4MaxHpIncreaseStacks',
+    text: t('Content.e4MaxHpIncreaseStacks.text'),
+    title: t('Content.e4MaxHpIncreaseStacks.title'),
+    content: t('Content.e4MaxHpIncreaseStacks.content'),
+    min: 0,
+    max: 2,
+    disabled: e < 4,
+  }]
 
   return {
     content: () => content,
@@ -75,8 +71,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       e4MaxHpIncreaseStacks: 2,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.CR] += (e >= 2 && r.enhancedStateActive) ? 0.15 : 0
@@ -84,7 +80,6 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       // Scaling
       x.BASIC_SCALING += basicScaling
-      // Rest of the scalings are calculated dynamically
 
       // Boost
       x.ELEMENTAL_DMG += r.enhancedStateActive ? enhancedStateDmgBoost : 0
@@ -96,10 +91,10 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       if (r.enhancedStateActive) {
         x.BASIC_DMG += basicEnhancedAtkScaling * x[Stats.ATK]
@@ -111,17 +106,17 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       x.ULT_DMG += ultAtkScaling * x[Stats.ATK]
       x.ULT_DMG += ultHpScaling * x[Stats.HP]
       x.ULT_DMG += ultLostHpScaling * r.hpPercentLostTotal * x[Stats.HP]
-      x.ULT_DMG += (e >= 1 && request.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal * x[Stats.HP] : 0
+      x.ULT_DMG += (e >= 1 && context.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal * x[Stats.HP] : 0
 
-      const hitMulti = hitMultiByTargets[request.enemyCount]
-      const ashblazingAtk = calculateAshblazingSet(x, request, hitMulti)
+      const hitMulti = hitMultiByTargets[context.enemyCount]
+      const ashblazingAtk = calculateAshblazingSet(x, action, context, hitMulti)
       x.FUA_DMG += fuaAtkScaling * (x[Stats.ATK] + ashblazingAtk)
 
       x.FUA_DMG += fuaHpScaling * x[Stats.HP]
       x.FUA_DMG += (e >= 6) ? 0.50 * x[Stats.HP] : 0
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      const r = request.characterConditionals
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       return `
 if (${wgslTrue(r.enhancedStateActive)}) {
@@ -135,11 +130,11 @@ x.ULT_DMG += ${ultAtkScaling} * x.ATK;
 x.ULT_DMG += ${ultHpScaling} * x.HP;
 x.ULT_DMG += ${ultLostHpScaling * r.hpPercentLostTotal} * x.HP;
 
-if (${wgslTrue(e >= 1 && request.enemyCount == 1)}) {
+if (${wgslTrue(e >= 1 && context.enemyCount == 1)}) {
   x.ULT_DMG += 1.50 * ${r.hpPercentLostTotal} * x.HP;
 }
 
-x.FUA_DMG += ${fuaAtkScaling} * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMultiByTargets[request.enemyCount]}));
+x.FUA_DMG += ${fuaAtkScaling} * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMultiByTargets[context.enemyCount]}));
 x.FUA_DMG += ${fuaHpScaling} * x.HP;
 
 if (e >= 6) {

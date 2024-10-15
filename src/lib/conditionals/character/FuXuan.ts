@@ -1,19 +1,17 @@
-import { Stats } from 'lib/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, findContentId, gpuStandardHpFinalizer, standardHpFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.FuXuan')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const skillCrBuffValue = skill(e, 0.12, 0.132)
@@ -24,55 +22,47 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 1.00, 1.08)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.FuXuan.Content')
-    return [{
-      formItem: 'switch',
-      id: 'talentActive',
-      name: 'talentActive',
-      text: t('talentActive.text'),
-      title: t('talentActive.title'),
-      content: t('talentActive.content', { talentDmgReductionValue: TsUtils.precisionRound(100 * talentDmgReductionValue) }),
-    }, {
-      formItem: 'switch',
-      id: 'skillActive',
-      name: 'skillActive',
-      text: t('skillActive.text'),
-      title: t('skillActive.title'),
-      content: t('skillActive.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue), skillCrBuffValue: TsUtils.precisionRound(100 * skillCrBuffValue) }),
-    }, {
-      formItem: 'slider',
-      id: 'e6TeamHpLostPercent',
-      name: 'e6TeamHpLostPercent',
-      text: t('e6TeamHpLostPercent.text'),
-      title: t('e6TeamHpLostPercent.title'),
-      content: t('e6TeamHpLostPercent.content'),
-      min: 0,
-      max: 1.2,
-      percent: true,
-      disabled: e < 6,
-    }]
-  })()
+  const content: ContentItem[] = [{
+    formItem: 'switch',
+    id: 'talentActive',
+    name: 'talentActive',
+    text: t('Content.talentActive.text'),
+    title: t('Content.talentActive.title'),
+    content: t('Content.talentActive.content', { talentDmgReductionValue: TsUtils.precisionRound(100 * talentDmgReductionValue) }),
+  }, {
+    formItem: 'switch',
+    id: 'skillActive',
+    name: 'skillActive',
+    text: t('Content.skillActive.text'),
+    title: t('Content.skillActive.title'),
+    content: t('Content.skillActive.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue), skillCrBuffValue: TsUtils.precisionRound(100 * skillCrBuffValue) }),
+  }, {
+    formItem: 'slider',
+    id: 'e6TeamHpLostPercent',
+    name: 'e6TeamHpLostPercent',
+    text: t('Content.e6TeamHpLostPercent.text'),
+    title: t('Content.e6TeamHpLostPercent.title'),
+    content: t('Content.e6TeamHpLostPercent.content'),
+    min: 0,
+    max: 1.2,
+    percent: true,
+    disabled: e < 6,
+  }]
 
-  const teammateContent: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.FuXuan.TeammateContent')
-    return [
-      findContentId(content, 'talentActive'),
-      findContentId(content, 'skillActive'),
-      {
-        formItem: 'slider',
-        id: 'teammateHPValue',
-        name: 'teammateHPValue',
-        text: t('teammateHPValue.text'),
-        title: t('teammateHPValue.title'),
-        content: t('teammateHPValue.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue) }),
-        min: 0,
-        max: 10000,
-      },
-    ]
-  })()
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'talentActive'),
+    findContentId(content, 'skillActive'),
+    {
+      formItem: 'slider',
+      id: 'teammateHPValue',
+      name: 'teammateHPValue',
+      text: t('TeammateContent.teammateHPValue.text'),
+      title: t('TeammateContent.teammateHPValue.title'),
+      content: t('TeammateContent.teammateHPValue.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue) }),
+      min: 0,
+      max: 10000,
+    },
+  ]
 
   return {
     content: () => content,
@@ -87,8 +77,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       talentActive: true,
       teammateHPValue: 8000,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -100,8 +90,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x[Stats.CR] += (m.skillActive) ? skillCrBuffValue : 0
       x[Stats.CD] += (e >= 1 && m.skillActive) ? 0.30 : 0
@@ -109,15 +99,15 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       // Talent ehp buff is shared
       x.DMG_RED_MULTI *= (m.talentActive) ? (1 - talentDmgReductionValue) : 1
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
-      const t = request.characterConditionals
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const t = action.characterConditionals
 
       x[Stats.HP] += (t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0
 
       // Skill ehp buff only applies to teammates
       x.DMG_RED_MULTI *= (t.skillActive) ? (1 - 0.65) : 1
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardHpFinalizer(x)
     },
     gpuFinalizeCalculations: () => {
@@ -133,27 +123,27 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
         condition: function () {
           return true
         },
-        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-          const r = request.characterConditionals
+        effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals
           if (!r.skillActive) {
             return
           }
 
-          const stateValue = params.conditionalState[this.id] || 0
+          const stateValue = action.conditionalState[this.id] || 0
           const convertibleHpValue = x[Stats.HP] - x.RATIO_BASED_HP_BUFF
 
           const buffHP = skillHpBuffValue * convertibleHpValue
           const stateBuffHP = skillHpBuffValue * stateValue
 
-          params.conditionalState[this.id] = x[Stats.HP]
+          action.conditionalState[this.id] = x[Stats.HP]
 
           const finalBuffHp = buffHP - (stateValue ? stateBuffHP : 0)
           x.RATIO_BASED_HP_BUFF += finalBuffHp
 
-          buffStat(x, request, params, Stats.HP, finalBuffHp)
+          buffStat(x, Stats.HP, finalBuffHp, action, context)
         },
-        gpu: function (request: Form, _params: OptimizerParams) {
-          const r = request.characterConditionals
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.skillActive)}) {

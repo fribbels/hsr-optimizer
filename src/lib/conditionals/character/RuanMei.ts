@@ -1,6 +1,5 @@
 import { Stats } from 'lib/constants'
 import { Eidolon } from 'types/Character'
-import { Form } from 'types/Form'
 
 import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
@@ -8,10 +7,11 @@ import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { RuanMeiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.RuanMei')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const fieldResPenValue = ult(e, 0.25, 0.27)
@@ -19,84 +19,76 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0.32, 0.352)
   const talentSpdScaling = talent(e, 0.10, 0.104)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.RuanMei.Content')
-    return [
-      {
-        formItem: 'switch',
-        id: 'skillOvertoneBuff',
-        name: 'skillOvertoneBuff',
-        text: t('skillOvertoneBuff.text'),
-        title: t('skillOvertoneBuff.title'),
-        content: t('skillOvertoneBuff.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
-      },
-      {
-        formItem: 'switch',
-        id: 'teamBEBuff',
-        name: 'teamBEBuff',
-        text: t('teamBEBuff.text'),
-        title: t('teamBEBuff.title'),
-        content: t('teamBEBuff.content'),
-      },
-      {
-        formItem: 'switch',
-        id: 'ultFieldActive',
-        name: 'ultFieldActive',
-        text: t('ultFieldActive.text'),
-        title: t('ultFieldActive.title'),
-        content: t('ultFieldActive.content', { fieldResPenValue: TsUtils.precisionRound(100 * fieldResPenValue) }),
-      },
-      {
-        formItem: 'switch',
-        id: 'e2AtkBoost',
-        name: 'e2AtkBoost',
-        text: t('e2AtkBoost.text'),
-        title: t('e2AtkBoost.title'),
-        content: t('e2AtkBoost.content'),
-        disabled: (e < 2),
-      },
-      {
-        formItem: 'switch',
-        id: 'e4BeBuff',
-        name: 'e4BeBuff',
-        text: t('e4BeBuff.text'),
-        title: t('e4BeBuff.title'),
-        content: t('e4BeBuff.content'),
-        disabled: (e < 4),
-      },
-    ]
-  })()
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'skillOvertoneBuff',
+      name: 'skillOvertoneBuff',
+      text: t('Content.skillOvertoneBuff.text'),
+      title: t('Content.skillOvertoneBuff.title'),
+      content: t('Content.skillOvertoneBuff.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'teamBEBuff',
+      name: 'teamBEBuff',
+      text: t('Content.teamBEBuff.text'),
+      title: t('Content.teamBEBuff.title'),
+      content: t('Content.teamBEBuff.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'ultFieldActive',
+      name: 'ultFieldActive',
+      text: t('Content.ultFieldActive.text'),
+      title: t('Content.ultFieldActive.title'),
+      content: t('Content.ultFieldActive.content', { fieldResPenValue: TsUtils.precisionRound(100 * fieldResPenValue) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'e2AtkBoost',
+      name: 'e2AtkBoost',
+      text: t('Content.e2AtkBoost.text'),
+      title: t('Content.e2AtkBoost.title'),
+      content: t('Content.e2AtkBoost.content'),
+      disabled: (e < 2),
+    },
+    {
+      formItem: 'switch',
+      id: 'e4BeBuff',
+      name: 'e4BeBuff',
+      text: t('Content.e4BeBuff.text'),
+      title: t('Content.e4BeBuff.title'),
+      content: t('Content.e4BeBuff.content'),
+      disabled: (e < 4),
+    },
+  ]
 
-  const teammateContent: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.RuanMei.TeammateContent')
-    return [
-      findContentId(content, 'skillOvertoneBuff'),
-      {
-        formItem: 'switch',
-        id: 'teamSpdBuff',
-        name: 'teamSpdBuff',
-        text: t('teamSpdBuff.text'),
-        title: t('teamSpdBuff.title'),
-        content: t('teamSpdBuff.content', { talentSpdScaling: TsUtils.precisionRound(100 * talentSpdScaling) }),
-      },
-      findContentId(content, 'teamBEBuff'),
-      {
-        formItem: 'slider',
-        id: 'teamDmgBuff',
-        name: 'teamDmgBuff',
-        text: t('teamDmgBuff.text'),
-        title: t('teamDmgBuff.title'),
-        content: t('teamDmgBuff.content'),
-        min: 0,
-        max: 0.36,
-        percent: true,
-      },
-      findContentId(content, 'ultFieldActive'),
-      findContentId(content, 'e2AtkBoost'),
-    ]
-  })()
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'skillOvertoneBuff'),
+    {
+      formItem: 'switch',
+      id: 'teamSpdBuff',
+      name: 'teamSpdBuff',
+      text: t('TeammateContent.teamSpdBuff.text'),
+      title: t('TeammateContent.teamSpdBuff.title'),
+      content: t('TeammateContent.teamSpdBuff.content', { talentSpdScaling: TsUtils.precisionRound(100 * talentSpdScaling) }),
+    },
+    findContentId(content, 'teamBEBuff'),
+    {
+      formItem: 'slider',
+      id: 'teamDmgBuff',
+      name: 'teamDmgBuff',
+      text: t('TeammateContent.teamDmgBuff.text'),
+      title: t('TeammateContent.teamDmgBuff.title'),
+      content: t('TeammateContent.teamDmgBuff.content'),
+      min: 0,
+      max: 0.36,
+      percent: true,
+    },
+    findContentId(content, 'ultFieldActive'),
+    findContentId(content, 'e2AtkBoost'),
+  ]
 
   return {
     content: () => content,
@@ -116,8 +108,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       e2AtkBoost: false,
       teamDmgBuff: 0.36,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += (e >= 2 && r.e2AtkBoost) ? 0.40 : 0
@@ -130,8 +122,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x[Stats.BE] += (m.teamBEBuff) ? 0.20 : 0
 
@@ -141,8 +133,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       x.RES_PEN += (m.ultFieldActive) ? fieldResPenValue : 0
       x.DEF_PEN += (e >= 1 && m.ultFieldActive) ? 0.20 : 0
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
-      const t = request.characterConditionals
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const t = action.characterConditionals
 
       x[Stats.SPD_P] += (t.teamSpdBuff) ? talentSpdScaling : 0
       x.ELEMENTAL_DMG += t.teamDmgBuff

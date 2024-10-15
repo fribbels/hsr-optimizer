@@ -3,15 +3,15 @@ import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } f
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { buffAbilityCd, buffAbilityCr, buffAbilityDefPen, buffAbilityDmg, buffAbilityResPen } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yunli')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -39,89 +39,85 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
     5: ASHBLAZING_ATK_STACK * (3 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.16), // 0.444
   }
 
-  function getHitMulti(request: Form) {
-    const r = request.characterConditionals
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    const r = action.characterConditionals
     return (r.blockActive && r.ultCull)
-      ? cullHitCountMultiByTargets[request.enemyCount]
-      : fuaHitCountMultiByTargets[request.enemyCount]
+      ? cullHitCountMultiByTargets[context.enemyCount]
+      : fuaHitCountMultiByTargets[context.enemyCount]
   }
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Yunli.Content')
-    return [
-      {
-        formItem: 'switch',
-        id: 'blockActive',
-        name: 'blockActive',
-        text: t('blockActive.text'),
-        title: t('blockActive.title'),
-        content: t('blockActive.content'),
-      },
-      {
-        formItem: 'switch',
-        id: 'ultCull',
-        name: 'ultCull',
-        text: t('ultCull.text'),
-        title: t('ultCull.title'),
-        content: t('ultCull.content', { CullScaling: TsUtils.precisionRound(100 * ultCullScaling), CullAdjacentScaling: TsUtils.precisionRound(100 * 0.5 * ultCullScaling), CullAdditionalScaling: TsUtils.precisionRound(100 * ultCullHitsScaling) }),
-      },
-      {
-        formItem: 'slider',
-        id: 'ultCullHits',
-        name: 'ultCullHits',
-        text: t('ultCullHits.text'),
-        title: t('ultCullHits.title'),
-        content: t('ultCullHits.content', { CullScaling: TsUtils.precisionRound(100 * ultCullScaling), CullAdjacentScaling: TsUtils.precisionRound(100 * 0.5 * ultCullScaling), CullAdditionalScaling: TsUtils.precisionRound(100 * ultCullHitsScaling) }),
-        min: 0,
-        max: maxCullHits,
-      },
-      {
-        formItem: 'switch',
-        id: 'counterAtkBuff',
-        name: 'counterAtkBuff',
-        text: t('counterAtkBuff.text'),
-        title: t('counterAtkBuff.title'),
-        content: t('counterAtkBuff.content'),
-      },
-      {
-        formItem: 'switch',
-        id: 'e1UltBuff',
-        name: 'e1UltBuff',
-        text: t('e1UltBuff.text'),
-        title: t('e1UltBuff.title'),
-        content: t('e1UltBuff.content'),
-        disabled: e < 1,
-      },
-      {
-        formItem: 'switch',
-        id: 'e2DefShred',
-        name: 'e2DefShred',
-        text: t('e2DefShred.text'),
-        title: t('e2DefShred.title'),
-        content: t('e2DefShred.content'),
-        disabled: e < 2,
-      },
-      {
-        formItem: 'switch',
-        id: 'e4ResBuff',
-        name: 'e4ResBuff',
-        text: t('e4ResBuff.text'),
-        title: t('e4ResBuff.title'),
-        content: t('e4ResBuff.content'),
-        disabled: e < 4,
-      },
-      {
-        formItem: 'switch',
-        id: 'e6Buffs',
-        name: 'e6Buffs',
-        text: t('e6Buffs.text'),
-        title: t('e6Buffs.title'),
-        content: t('e6Buffs.content'),
-        disabled: e < 6,
-      },
-    ]
-  })()
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'blockActive',
+      name: 'blockActive',
+      text: t('Content.blockActive.text'),
+      title: t('Content.blockActive.title'),
+      content: t('Content.blockActive.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'ultCull',
+      name: 'ultCull',
+      text: t('Content.ultCull.text'),
+      title: t('Content.ultCull.title'),
+      content: t('Content.ultCull.content', { CullScaling: TsUtils.precisionRound(100 * ultCullScaling), CullAdjacentScaling: TsUtils.precisionRound(100 * 0.5 * ultCullScaling), CullAdditionalScaling: TsUtils.precisionRound(100 * ultCullHitsScaling) }),
+    },
+    {
+      formItem: 'slider',
+      id: 'ultCullHits',
+      name: 'ultCullHits',
+      text: t('Content.ultCullHits.text'),
+      title: t('Content.ultCullHits.title'),
+      content: t('Content.ultCullHits.content', { CullScaling: TsUtils.precisionRound(100 * ultCullScaling), CullAdjacentScaling: TsUtils.precisionRound(100 * 0.5 * ultCullScaling), CullAdditionalScaling: TsUtils.precisionRound(100 * ultCullHitsScaling) }),
+      min: 0,
+      max: maxCullHits,
+    },
+    {
+      formItem: 'switch',
+      id: 'counterAtkBuff',
+      name: 'counterAtkBuff',
+      text: t('Content.counterAtkBuff.text'),
+      title: t('Content.counterAtkBuff.title'),
+      content: t('Content.counterAtkBuff.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'e1UltBuff',
+      name: 'e1UltBuff',
+      text: t('Content.e1UltBuff.text'),
+      title: t('Content.e1UltBuff.title'),
+      content: t('Content.e1UltBuff.content'),
+      disabled: e < 1,
+    },
+    {
+      formItem: 'switch',
+      id: 'e2DefShred',
+      name: 'e2DefShred',
+      text: t('Content.e2DefShred.text'),
+      title: t('Content.e2DefShred.title'),
+      content: t('Content.e2DefShred.content'),
+      disabled: e < 2,
+    },
+    {
+      formItem: 'switch',
+      id: 'e4ResBuff',
+      name: 'e4ResBuff',
+      text: t('Content.e4ResBuff.text'),
+      title: t('Content.e4ResBuff.title'),
+      content: t('Content.e4ResBuff.content'),
+      disabled: e < 4,
+    },
+    {
+      formItem: 'switch',
+      id: 'e6Buffs',
+      name: 'e6Buffs',
+      text: t('Content.e6Buffs.text'),
+      title: t('Content.e6Buffs.title'),
+      content: t('Content.e6Buffs.content'),
+      disabled: e < 6,
+    },
+  ]
 
   const teammateContent: ContentItem[] = []
 
@@ -141,14 +137,14 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => ({}),
-    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
       if (r.blockActive && r.ultCull) {
         x.FUA_DMG_TYPE = ULT_TYPE | FUA_TYPE
       }
     },
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       if (r.blockActive) {
         if (r.ultCull) {
@@ -181,15 +177,15 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, getHitMulti(request))
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      return gpuStandardFuaAtkFinalizer(getHitMulti(request))
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuStandardFuaAtkFinalizer(getHitMulti(action, context))
     },
   }
 }

@@ -82,5 +82,7 @@ declare global {
     LightConeConditionals: typeof LightConeConditionals
     BufferPacker: typeof BufferPacker
     RelicRollFixer: typeof RelicRollFixer
+
+    WEBGPU_DEBUG: boolean
   }
 }

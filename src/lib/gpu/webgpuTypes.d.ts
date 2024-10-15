@@ -1,8 +1,8 @@
 import { Form } from 'types/Form'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { RelicsByPart } from 'lib/gpu/webgpuDataTransform'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { Relic } from 'types/Relic'
+import { OptimizerContext } from 'types/Optimizer'
 
 export type GpuResult = {
   index: number
@@ -27,7 +27,7 @@ export type GpuExecutionContext = {
 
   // Inputs
   request: Form
-  params: OptimizerParams
+  context: OptimizerContext
 
   // Cached execution data
   resultMatrixBufferSize: number

@@ -131,7 +131,7 @@ export function getBaseColumnDefs(t: TFunction<'optimizerTab', undefined>) {
       field: 'ULT',
       valueFormatter: Renderer.floor,
       width: DIGITS_5,
-      headerName: t('Grid.Headers.Basic.CR'), // 'ULT\nDMG',
+      headerName: t('Grid.Headers.Basic.ULT'), // 'ULT\nDMG',
     },
     {
       field: 'FUA',
@@ -308,7 +308,6 @@ export function getCombatColumnDefs(t: TFunction<'optimizerTab', undefined>) {
 export const gridOptions = {
   rowHeight: 33,
   pagination: true,
-  rowSelection: 'single',
   rowModelType: 'infinite',
   datasource: null,
   paginationPageSize: 500,

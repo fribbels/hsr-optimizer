@@ -94,6 +94,36 @@ struct Sets {
   TheWondrousBananAmusementPark: i32,
 }
 
+struct SetConditionals {
+  enabledHunterOfGlacialForest: bool,
+  enabledFiresmithOfLavaForging: bool,
+  enabledGeniusOfBrilliantStars: bool,
+  enabledBandOfSizzlingThunder: bool,
+  enabledMessengerTraversingHackerspace: bool,
+  enabledCelestialDifferentiator: bool,
+  enabledWatchmakerMasterOfDreamMachinations: bool,
+  enabledIzumoGenseiAndTakamaDivineRealm: bool,
+  enabledForgeOfTheKalpagniLantern: bool,
+  enabledTheWindSoaringValorous: bool,
+  enabledTheWondrousBananAmusementPark: bool,
+  enabledScholarLostInErudition: bool,
+  valueChampionOfStreetwiseBoxing: i32,
+  valueWastelanderOfBanditryDesert: i32,
+  valueLongevousDisciple: i32,
+  valueTheAshblazingGrandDuke: i32,
+  valuePrisonerInDeepConfinement: i32,
+  valuePioneerDiverOfDeadWaters: i32,
+  valueSigoniaTheUnclaimedDesolation: i32,
+  valueDuranDynastyOfRunningWolves: i32,
+}
+
+struct Action {
+  abilityType: i32,
+  setConditionals: SetConditionals,
+  x: ComputedStats,
+  state: ConditionalState,
+}
+
 struct Params {
   lSize: f32,
   pSize: f32,

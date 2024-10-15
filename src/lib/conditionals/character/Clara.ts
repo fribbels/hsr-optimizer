@@ -4,14 +4,14 @@ import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } f
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Clara')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const ultDmgReductionValue = ult(e, 0.25, 0.27)
@@ -29,41 +29,37 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
   const hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Clara.Content')
-    return [{
-      formItem: 'switch',
-      id: 'ultBuff',
-      name: 'ultBuff',
-      text: t('ultBuff.text'),
-      title: t('ultBuff.title'),
-      content: t('ultBuff.content', { ultFuaExtraScaling: TsUtils.precisionRound(100 * ultFuaExtraScaling) }),
-    }, {
-      formItem: 'switch',
-      id: 'talentEnemyMarked',
-      name: 'talentEnemyMarked',
-      text: t('talentEnemyMarked.text'),
-      title: t('talentEnemyMarked.title'),
-      content: t('talentEnemyMarked.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
-    }, {
-      formItem: 'switch',
-      id: 'e2UltAtkBuff',
-      name: 'e2UltAtkBuff',
-      text: t('e2UltAtkBuff.text'),
-      title: t('e2UltAtkBuff.title'),
-      content: t('e2UltAtkBuff.content'),
-      disabled: e < 2,
-    }, {
-      formItem: 'switch',
-      id: 'e4DmgReductionBuff',
-      name: 'e4DmgReductionBuff',
-      text: t('e4DmgReductionBuff.text'),
-      title: t('e4DmgReductionBuff.title'),
-      content: t('e4DmgReductionBuff.content'),
-      disabled: e < 4,
-    }]
-  })()
+  const content: ContentItem[] = [{
+    formItem: 'switch',
+    id: 'ultBuff',
+    name: 'ultBuff',
+    text: t('Content.ultBuff.text'),
+    title: t('Content.ultBuff.title'),
+    content: t('Content.ultBuff.content', { ultFuaExtraScaling: TsUtils.precisionRound(100 * ultFuaExtraScaling) }),
+  }, {
+    formItem: 'switch',
+    id: 'talentEnemyMarked',
+    name: 'talentEnemyMarked',
+    text: t('Content.talentEnemyMarked.text'),
+    title: t('Content.talentEnemyMarked.title'),
+    content: t('Content.talentEnemyMarked.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
+  }, {
+    formItem: 'switch',
+    id: 'e2UltAtkBuff',
+    name: 'e2UltAtkBuff',
+    text: t('Content.e2UltAtkBuff.text'),
+    title: t('Content.e2UltAtkBuff.title'),
+    content: t('Content.e2UltAtkBuff.content'),
+    disabled: e < 2,
+  }, {
+    formItem: 'switch',
+    id: 'e4DmgReductionBuff',
+    name: 'e4DmgReductionBuff',
+    text: t('Content.e4DmgReductionBuff.text'),
+    title: t('Content.e4DmgReductionBuff.title'),
+    content: t('Content.e4DmgReductionBuff.content'),
+    disabled: e < 4,
+  }]
 
   return {
     content: () => content,
@@ -75,8 +71,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       e4DmgReductionBuff: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += (e >= 2 && r.e2UltAtkBuff) ? 0.30 : 0
@@ -101,16 +97,14 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
+      const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[context.enemyCount] : hitMultiSingle
+      standardFuaAtkFinalizer(x, action, context, hitMulti)
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
-      const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[request.enemyCount] : hitMultiSingle
-      standardFuaAtkFinalizer(x, request, hitMulti)
-    },
-    gpuFinalizeCalculations: (request: Form) => {
-      const r = request.characterConditionals
-      const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[request.enemyCount] : hitMultiSingle
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
+      const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[context.enemyCount] : hitMultiSingle
       return gpuStandardFuaAtkFinalizer(hitMulti)
     },
   }

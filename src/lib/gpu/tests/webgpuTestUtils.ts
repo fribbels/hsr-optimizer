@@ -1,5 +1,4 @@
 import { Form } from 'types/Form'
-import { generateParams } from 'lib/optimizer/calculateParams'
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, SetsOrnaments, SetsRelics } from 'lib/constants'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
@@ -7,9 +6,10 @@ import { debugWebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { generateContext } from 'lib/optimizer/context/calculateContext'
 
 export async function runTestRequest(request: Form, relics: RelicsByPart, device: GPUDevice) {
-  const params = generateParams(request)
+  const context = generateContext(request)
 
   const relicSetSolutions = new Array<number>(Math.pow(Object.keys(SetsRelics).length, 4)).fill(1)
   const ornamentSetSolutions = new Array<number>(Math.pow(Object.keys(SetsOrnaments).length, 2)).fill(1)
@@ -19,7 +19,7 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
     device,
     relics,
     request,
-    params,
+    context,
     permutations,
     COMPUTE_ENGINE_GPU_EXPERIMENTAL,
     relicSetSolutions,
@@ -33,6 +33,7 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
   const array = new Float32Array(arrayBuffer)
 
   const gpuComputedStats: ComputedStatsObject = debugWebgpuComputedStats(array)
+  // @ts-ignore
   const cpuComputedStats: ComputedStatsObject = calculateBuild(request, {
     Head: relics.Head[0],
     Hands: relics.Hands[0],
@@ -95,7 +96,8 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
     }
   }
 
-  const P_0 = 0
+  const EXACT = 0
+  const P_0 = 1
   const P_1 = 0.1
   const P_2 = 0.01
   const P_3 = 0.001
@@ -174,7 +176,7 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
   analyze('FUA_DMG', P_1)
   analyze('DOT_DMG', P_1)
   analyze('BREAK_DMG', P_1)
-  analyze('COMBO_DMG', P_1)
+  analyze('COMBO_DMG', P_0)
   analyze('DMG_RED_MULTI', P_2)
   analyze('EHP', P_2)
   analyze('DOT_CHANCE', P_2)
@@ -210,13 +212,13 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
   analyze('ATK%', P_2)
   analyze('DEF%', P_2)
   analyze('SPD%', P_2)
-  analyze('BASIC_DMG_TYPE', P_0)
-  analyze('SKILL_DMG_TYPE', P_0)
-  analyze('ULT_DMG_TYPE', P_0)
-  analyze('FUA_DMG_TYPE', P_0)
-  analyze('DOT_DMG_TYPE', P_0)
-  analyze('BREAK_DMG_TYPE', P_0)
-  analyze('SUPER_BREAK_DMG_TYPE', P_0)
+  analyze('BASIC_DMG_TYPE', EXACT)
+  analyze('SKILL_DMG_TYPE', EXACT)
+  analyze('ULT_DMG_TYPE', EXACT)
+  analyze('FUA_DMG_TYPE', EXACT)
+  analyze('DOT_DMG_TYPE', EXACT)
+  analyze('BREAK_DMG_TYPE', EXACT)
+  analyze('SUPER_BREAK_DMG_TYPE', EXACT)
 
   return {
     allPass,

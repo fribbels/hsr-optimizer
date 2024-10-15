@@ -1,27 +1,23 @@
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PastSelfInTheMirror')
   const sValues = [0.24, 0.28, 0.32, 0.36, 0.40]
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.PastSelfInTheMirror.Content')
-    return [{
-      lc: true,
-      id: 'postUltDmgBuff',
-      name: 'postUltDmgBuff',
-      formItem: 'switch',
-      text: t('postUltDmgBuff.text'),
-      title: t('postUltDmgBuff.title'),
-      content: t('postUltDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
-    }]
-  })()
+  const content: ContentItem[] = [{
+    lc: true,
+    id: 'postUltDmgBuff',
+    name: 'postUltDmgBuff',
+    formItem: 'switch',
+    text: t('Content.postUltDmgBuff.text'),
+    title: t('Content.postUltDmgBuff.title'),
+    content: t('Content.postUltDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+  }]
 
   return {
     content: () => content,
@@ -34,8 +30,8 @@ export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeCond
     }),
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals
 
       x.ELEMENTAL_DMG += (m.postUltDmgBuff) ? sValues[s] : 0
     },

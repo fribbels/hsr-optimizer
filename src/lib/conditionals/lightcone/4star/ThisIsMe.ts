@@ -2,24 +2,20 @@ import { ContentItem } from 'types/Conditionals'
 
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
 
-export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThisIsMe')
   const sValues = [0.6, 0.75, 0.9, 1.05, 1.2]
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.ThisIsMe.Content')
-    return [{
-      lc: true,
-      id: 'defScalingUltDmg',
-      name: 'defScalingUltDmg',
-      formItem: 'switch',
-      text: t('defScalingUltDmg.text'),
-      title: t('defScalingUltDmg.title'),
-      content: t('defScalingUltDmg.content', { Multiplier: TsUtils.precisionRound(100 * sValues[s]) }),
-    }]
-  })()
+  const content: ContentItem[] = [{
+    lc: true,
+    id: 'defScalingUltDmg',
+    name: 'defScalingUltDmg',
+    formItem: 'switch',
+    text: t('Content.defScalingUltDmg.text'),
+    title: t('Content.defScalingUltDmg.title'),
+    content: t('Content.defScalingUltDmg.content', { Multiplier: TsUtils.precisionRound(100 * sValues[s]) }),
+  }]
 
   return {
     content: () => content,

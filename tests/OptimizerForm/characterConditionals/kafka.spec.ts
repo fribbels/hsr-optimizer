@@ -6,7 +6,7 @@ test('test', async ({ page }) => {
   await page.getByRole('menuitem', { name: 'Characters' }).click()
   await page.locator('#characterGrid').getByText('Kafka').dblclick()
 
-  await page.getByText('E1 DoT DMG Debuff').hover()
-  const t1 = await page.locator('.ant-popover-content').getByText('E1 DoT DMG Debuff')
+  await page.getByText('E1 DoT vulnerability').hover()
+  const t1 = await page.locator('.ant-popover-content').getByText('E1 DoT vulnerability')
   expect(t1).toBeTruthy()
 })

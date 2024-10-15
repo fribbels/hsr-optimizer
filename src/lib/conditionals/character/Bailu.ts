@@ -4,63 +4,57 @@ import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFina
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Bailu')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicScaling = basic(e, 1.0, 1.1)
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 0, 0)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Bailu.Content')
-    return [{
-      formItem: 'switch',
-      id: 'healingMaxHpBuff',
-      name: 'healingMaxHpBuff',
-      text: t('healingMaxHpBuff.text'),
-      title: t('healingMaxHpBuff.title'),
-      content: t('healingMaxHpBuff.content'),
-    }, {
-      formItem: 'switch',
-      id: 'talentDmgReductionBuff',
-      name: 'talentDmgReductionBuff',
-      text: t('talentDmgReductionBuff.text'),
-      title: t('talentDmgReductionBuff.title'),
-      content: t('talentDmgReductionBuff.content'),
-    }, {
-      formItem: 'switch',
-      id: 'e2UltHealingBuff',
-      name: 'e2UltHealingBuff',
-      text: t('e2UltHealingBuff.text'),
-      title: t('e2UltHealingBuff.title'),
-      content: t('e2UltHealingBuff.content'),
-      disabled: e < 2,
-    }, {
-      formItem: 'slider',
-      id: 'e4SkillHealingDmgBuffStacks',
-      name: 'e4SkillHealingDmgBuffStacks',
-      text: t('e4SkillHealingDmgBuffStacks.text'),
-      title: t('e4SkillHealingDmgBuffStacks.title'),
-      content: t('e4SkillHealingDmgBuffStacks.content'),
-      min: 0,
-      max: 3,
-      disabled: e < 4,
-    }]
-  })()
+  const content: ContentItem[] = [{
+    formItem: 'switch',
+    id: 'healingMaxHpBuff',
+    name: 'healingMaxHpBuff',
+    text: t('Content.healingMaxHpBuff.text'),
+    title: t('Content.healingMaxHpBuff.title'),
+    content: t('Content.healingMaxHpBuff.content'),
+  }, {
+    formItem: 'switch',
+    id: 'talentDmgReductionBuff',
+    name: 'talentDmgReductionBuff',
+    text: t('Content.talentDmgReductionBuff.text'),
+    title: t('Content.talentDmgReductionBuff.title'),
+    content: t('Content.talentDmgReductionBuff.content'),
+  }, {
+    formItem: 'switch',
+    id: 'e2UltHealingBuff',
+    name: 'e2UltHealingBuff',
+    text: t('Content.e2UltHealingBuff.text'),
+    title: t('Content.e2UltHealingBuff.title'),
+    content: t('Content.e2UltHealingBuff.content'),
+    disabled: e < 2,
+  }, {
+    formItem: 'slider',
+    id: 'e4SkillHealingDmgBuffStacks',
+    name: 'e4SkillHealingDmgBuffStacks',
+    text: t('Content.e4SkillHealingDmgBuffStacks.text'),
+    title: t('Content.e4SkillHealingDmgBuffStacks.title'),
+    content: t('Content.e4SkillHealingDmgBuffStacks.content'),
+    min: 0,
+    max: 3,
+    disabled: e < 4,
+  }]
 
-  const teammateContent: ContentItem[] = (() => {
-    if (withoutContent) return []
-    return [
-      findContentId(content, 'healingMaxHpBuff'),
-      findContentId(content, 'talentDmgReductionBuff'),
-      findContentId(content, 'e4SkillHealingDmgBuffStacks'),
-    ]
-  })()
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'healingMaxHpBuff'),
+    findContentId(content, 'talentDmgReductionBuff'),
+    findContentId(content, 'e4SkillHealingDmgBuffStacks'),
+  ]
 
   return {
     content: () => content,
@@ -76,8 +70,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       talentDmgReductionBuff: true,
       e4SkillHealingDmgBuffStacks: 3,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.OHB] += (e >= 2 && r.e2UltHealingBuff) ? 0.15 : 0
@@ -91,8 +85,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x[Stats.HP_P] += (m.healingMaxHpBuff) ? 0.10 : 0
 

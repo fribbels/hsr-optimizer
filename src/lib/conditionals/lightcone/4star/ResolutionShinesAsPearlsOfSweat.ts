@@ -1,26 +1,22 @@
 import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ResolutionShinesAsPearlsOfSweat')
   const sValues = [0.12, 0.13, 0.14, 0.15, 0.16]
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Lightcones.ResolutionShinesAsPearlsOfSweat.Content')
-    return [{
-      lc: true,
-      id: 'targetEnsnared',
-      name: 'targetEnsnared',
-      formItem: 'switch',
-      text: t('targetEnsnared.text'),
-      title: t('targetEnsnared.title'),
-      content: t('targetEnsnared.content', { DefShred: TsUtils.precisionRound(100 * sValues[s]) }),
-    }]
-  })()
+  const content: ContentItem[] = [{
+    lc: true,
+    id: 'targetEnsnared',
+    name: 'targetEnsnared',
+    formItem: 'switch',
+    text: t('Content.targetEnsnared.text'),
+    title: t('Content.targetEnsnared.title'),
+    content: t('Content.targetEnsnared.content', { DefShred: TsUtils.precisionRound(100 * sValues[s]) }),
+  }]
 
   return {
     content: () => content,
@@ -33,8 +29,8 @@ export default (s: SuperImpositionLevel, withoutContent: boolean): LightConeCond
     }),
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals
 
       x.DEF_PEN += (m.targetEnsnared) ? sValues[s] : 0
     },

@@ -3,12 +3,12 @@ import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFina
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-const SilverWolf = (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SilverWolf')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const skillResShredValue = skill(e, 0.10, 0.105)
@@ -19,60 +19,53 @@ const SilverWolf = (e: Eidolon, withoutContent: boolean): CharacterConditional =
   const skillScaling = skill(e, 1.96, 2.156)
   const ultScaling = ult(e, 3.80, 4.104)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.SilverWolf.Content')
-    return [{
-      formItem: 'switch',
-      id: 'skillResShredDebuff',
-      name: 'skillResShredDebuff',
-      text: t('skillResShredDebuff.text'),
-      title: t('skillResShredDebuff.title'),
-      content: t('skillResShredDebuff.content', { skillResShredValue: TsUtils.precisionRound(100 * skillResShredValue) }),
-    }, {
-      formItem: 'switch',
-      id: 'skillWeaknessResShredDebuff',
-      name: 'skillWeaknessResShredDebuff',
-      text: t('skillWeaknessResShredDebuff.text'),
-      title: t('skillWeaknessResShredDebuff.title'),
-      content: t('skillWeaknessResShredDebuff.content'),
-    }, {
+  const content: ContentItem[] = [{
+    formItem: 'switch',
+    id: 'skillResShredDebuff',
+    name: 'skillResShredDebuff',
+    text: t('Content.skillResShredDebuff.text'),
+    title: t('Content.skillResShredDebuff.title'),
+    content: t('Content.skillResShredDebuff.content', { skillResShredValue: TsUtils.precisionRound(100 * skillResShredValue) }),
+  }, {
+    formItem: 'switch',
+    id: 'skillWeaknessResShredDebuff',
+    name: 'skillWeaknessResShredDebuff',
+    text: t('Content.skillWeaknessResShredDebuff.text'),
+    title: t('Content.skillWeaknessResShredDebuff.title'),
+    content: t('Content.skillWeaknessResShredDebuff.content'),
+  }, {
     // TODO: should be talent
-      formItem: 'switch',
-      id: 'talentDefShredDebuff',
-      name: 'talentDefShredDebuff',
-      text: t('talentDefShredDebuff.text'),
-      title: t('talentDefShredDebuff.title'),
-      content: t('talentDefShredDebuff.content', { talentDefShredDebuffValue: TsUtils.precisionRound(100 * talentDefShredDebuffValue) }),
-    }, {
-      formItem: 'switch',
-      id: 'ultDefShredDebuff',
-      name: 'ultDefShredDebuff',
-      text: t('ultDefShredDebuff.text'),
-      title: t('ultDefShredDebuff.title'),
-      content: t('ultDefShredDebuff.content', { ultDefShredValue: TsUtils.precisionRound(100 * ultDefShredValue) }),
-    }, {
-      formItem: 'slider',
-      id: 'targetDebuffs',
-      name: 'targetDebuffs',
-      text: t('targetDebuffs.text'),
-      title: t('targetDebuffs.title'),
-      content: t('targetDebuffs.content'),
-      min: 0,
-      max: 5,
-    }]
-  })()
+    formItem: 'switch',
+    id: 'talentDefShredDebuff',
+    name: 'talentDefShredDebuff',
+    text: t('Content.talentDefShredDebuff.text'),
+    title: t('Content.talentDefShredDebuff.title'),
+    content: t('Content.talentDefShredDebuff.content', { talentDefShredDebuffValue: TsUtils.precisionRound(100 * talentDefShredDebuffValue) }),
+  }, {
+    formItem: 'switch',
+    id: 'ultDefShredDebuff',
+    name: 'ultDefShredDebuff',
+    text: t('Content.ultDefShredDebuff.text'),
+    title: t('Content.ultDefShredDebuff.title'),
+    content: t('Content.ultDefShredDebuff.content', { ultDefShredValue: TsUtils.precisionRound(100 * ultDefShredValue) }),
+  }, {
+    formItem: 'slider',
+    id: 'targetDebuffs',
+    name: 'targetDebuffs',
+    text: t('Content.targetDebuffs.text'),
+    title: t('Content.targetDebuffs.title'),
+    content: t('Content.targetDebuffs.content'),
+    min: 0,
+    max: 5,
+  }]
 
-  const teammateContent: ContentItem[] = (() => {
-    if (withoutContent) return []
-    return [
-      findContentId(content, 'skillResShredDebuff'),
-      findContentId(content, 'skillWeaknessResShredDebuff'),
-      findContentId(content, 'talentDefShredDebuff'),
-      findContentId(content, 'ultDefShredDebuff'),
-      findContentId(content, 'targetDebuffs'),
-    ]
-  })()
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'skillResShredDebuff'),
+    findContentId(content, 'skillWeaknessResShredDebuff'),
+    findContentId(content, 'talentDefShredDebuff'),
+    findContentId(content, 'ultDefShredDebuff'),
+    findContentId(content, 'targetDebuffs'),
+  ]
 
   return {
     content: () => content,
@@ -91,8 +84,8 @@ const SilverWolf = (e: Eidolon, withoutContent: boolean): CharacterConditional =
       ultDefShredDebuff: true,
       targetDebuffs: 5,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
 
@@ -111,8 +104,8 @@ const SilverWolf = (e: Eidolon, withoutContent: boolean): CharacterConditional =
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x.RES_PEN += (m.skillWeaknessResShredDebuff) ? 0.20 : 0
       x.RES_PEN += (m.skillResShredDebuff) ? skillResShredValue : 0
@@ -124,5 +117,3 @@ const SilverWolf = (e: Eidolon, withoutContent: boolean): CharacterConditional =
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }
-
-export default SilverWolf

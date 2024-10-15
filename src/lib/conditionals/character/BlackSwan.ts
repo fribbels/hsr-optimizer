@@ -3,14 +3,14 @@ import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFina
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDefPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { BlackSwanConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.BlackSwan')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const arcanaStackMultiplier = talent(e, 0.12, 0.132)
@@ -27,64 +27,57 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   // e6 100%
   // skill 100%
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.BlackSwan.Content')
-    return [
-      {
-        formItem: 'switch',
-        id: 'ehrToDmgBoost',
-        name: 'ehrToDmgBoost',
-        text: t('ehrToDmgBoost.text'),
-        title: t('ehrToDmgBoost.title'),
-        content: t('ehrToDmgBoost.content'),
-      },
-      {
-        formItem: 'switch',
-        id: 'epiphanyDebuff',
-        name: 'epiphanyDebuff',
-        text: t('epiphanyDebuff.text'),
-        title: t('epiphanyDebuff.title'),
-        content: t('epiphanyDebuff.content', { epiphanyDmgTakenBoost: TsUtils.precisionRound(100 * epiphanyDmgTakenBoost) }),
-      },
-      {
-        formItem: 'switch',
-        id: 'defDecreaseDebuff',
-        name: 'defDecreaseDebuff',
-        text: t('defDecreaseDebuff.text'),
-        title: t('defDecreaseDebuff.title'),
-        content: t('defDecreaseDebuff.content', { defShredValue: TsUtils.precisionRound(100 * defShredValue) }),
-      },
-      {
-        formItem: 'slider',
-        id: 'arcanaStacks',
-        name: 'arcanaStacks',
-        text: t('arcanaStacks.text'),
-        title: t('arcanaStacks.title'),
-        content: t('arcanaStacks.content', { dotScaling: TsUtils.precisionRound(100 * dotScaling), arcanaStackMultiplier: TsUtils.precisionRound(100 * arcanaStackMultiplier) }),
-        min: 1,
-        max: 50,
-      },
-      {
-        formItem: 'switch',
-        id: 'e1ResReduction',
-        name: 'e1ResReduction',
-        text: t('e1ResReduction.text'),
-        title: t('e1ResReduction.title'),
-        content: t('e1ResReduction.content'),
-        disabled: e < 1,
-      },
-    ]
-  })()
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'ehrToDmgBoost',
+      name: 'ehrToDmgBoost',
+      text: t('Content.ehrToDmgBoost.text'),
+      title: t('Content.ehrToDmgBoost.title'),
+      content: t('Content.ehrToDmgBoost.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'epiphanyDebuff',
+      name: 'epiphanyDebuff',
+      text: t('Content.epiphanyDebuff.text'),
+      title: t('Content.epiphanyDebuff.title'),
+      content: t('Content.epiphanyDebuff.content', { epiphanyDmgTakenBoost: TsUtils.precisionRound(100 * epiphanyDmgTakenBoost) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'defDecreaseDebuff',
+      name: 'defDecreaseDebuff',
+      text: t('Content.defDecreaseDebuff.text'),
+      title: t('Content.defDecreaseDebuff.title'),
+      content: t('Content.defDecreaseDebuff.content', { defShredValue: TsUtils.precisionRound(100 * defShredValue) }),
+    },
+    {
+      formItem: 'slider',
+      id: 'arcanaStacks',
+      name: 'arcanaStacks',
+      text: t('Content.arcanaStacks.text'),
+      title: t('Content.arcanaStacks.title'),
+      content: t('Content.arcanaStacks.content', { dotScaling: TsUtils.precisionRound(100 * dotScaling), arcanaStackMultiplier: TsUtils.precisionRound(100 * arcanaStackMultiplier) }),
+      min: 1,
+      max: 50,
+    },
+    {
+      formItem: 'switch',
+      id: 'e1ResReduction',
+      name: 'e1ResReduction',
+      text: t('Content.e1ResReduction.text'),
+      title: t('Content.e1ResReduction.title'),
+      content: t('Content.e1ResReduction.content'),
+      disabled: e < 1,
+    },
+  ]
 
-  const teammateContent: ContentItem[] = (() => {
-    if (withoutContent) return []
-    return [
-      findContentId(content, 'epiphanyDebuff'),
-      findContentId(content, 'defDecreaseDebuff'),
-      findContentId(content, 'e1ResReduction'),
-    ]
-  })()
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'epiphanyDebuff'),
+    findContentId(content, 'defDecreaseDebuff'),
+    findContentId(content, 'e1ResReduction'),
+  ]
 
   return {
     content: () => content,
@@ -101,9 +94,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       defDecreaseDebuff: true,
       e1ResReduction: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -122,8 +114,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       // TODO: Technically this isnt a DoT vulnerability but rather vulnerability to damage on the enemy's turn which includes ults/etc.
       buffAbilityVulnerability(x, DOT_TYPE, epiphanyDmgTakenBoost, (m.epiphanyDebuff))

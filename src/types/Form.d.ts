@@ -1,10 +1,11 @@
 // import { } from "./Common";
-import { RelicEnhance, RelicGrade } from 'types/Relic'
+import { Relic, RelicEnhance, RelicGrade } from 'types/Relic'
 import { CharacterId, Eidolon } from 'types/Character'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { RelicSet } from 'types/RelicSet'
-import { ConditionalLightConeMap } from 'types/LightConeConditionals'
+import { LightConeConditionalMap } from 'types/LightConeConditionals'
 import { CharacterConditionalMap } from 'types/CharacterConditional'
+import { SetsOrnaments } from 'lib/constants'
 
 type MIN_INT = 0
 type MAX_INT = 2147483647
@@ -16,14 +17,16 @@ export type Teammate = {
   lightConeSuperimposition: number
   teamOrnamentSet?: string
   teamRelicSet?: string
-} | Form
+  characterConditionals?: CharacterConditionalMap
+  lightConeConditionals?: LightConeConditionalMap
+} & Form
 
 export type Form = {
   characterEidolon: Eidolon
   characterId: string
   characterLevel: number
   enemyCount: number
-  enemyElementalWeak: number
+  enemyElementalWeak: boolean
   enemyLevel: number
   enemyMaxToughness: number
   enemyResistance: number
@@ -36,7 +39,7 @@ export type Form = {
   includeEquippedRelics: boolean
   keepCurrentRelics: boolean
   lightCone: string
-  lightConeConditionals: ConditionalLightConeMap
+  lightConeConditionals: LightConeConditionalMap
   lightConeLevel: number
   lightConeSuperimposition: SuperImpositionLevel
   mainBody: Relic[]
@@ -67,12 +70,19 @@ export type Form = {
   combo: {
     [key: string]: number
   }
+  comboStateJson: string
+  comboAbilities: string[]
+  comboType: string
+  comboDot: number
+  comboBreak: number
 
   setConditionals: { [key: string]: any[] }
 
   teammate0: Teammate
   teammate1: Teammate
   teammate2: Teammate
+
+
 
   baseHp: number
   baseAtk: number
@@ -88,7 +98,6 @@ export type Form = {
   maxDmg: MAX_INT
   maxDot: MAX_INT
   maxBreak: MAX_INT
-  maxCombo: MAX_INT
   maxEhp: MAX_INT
   maxEhr: MAX_INT
   maxErr: MAX_INT
@@ -109,7 +118,6 @@ export type Form = {
   minDmg: MIN_INT
   minDot: MIN_INT
   minBreak: MIN_INT
-  minCombo: MIN_INT
   minEhp: MIN_INT
   minEhr: MIN_INT
   minErr: MIN_INT

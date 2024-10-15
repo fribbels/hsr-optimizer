@@ -5,11 +5,11 @@ import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } f
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yanqing')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const ultCdBuffValue = ult(e, 0.50, 0.54)
@@ -23,48 +23,44 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
   const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Yanqing.Content')
-    return [{
-      formItem: 'switch',
-      id: 'ultBuffActive',
-      name: 'ultBuffActive',
-      text: t('ultBuffActive.text'),
-      title: t('ultBuffActive.title'),
-      content: t('ultBuffActive.content', { ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
-    }, {
-      formItem: 'switch',
-      id: 'soulsteelBuffActive',
-      name: 'soulsteelBuffActive',
-      text: t('soulsteelBuffActive.text'),
-      title: t('soulsteelBuffActive.title'),
-      content: t('soulsteelBuffActive.content', { talentCdBuffValue: TsUtils.precisionRound(100 * talentCdBuffValue), talentCrBuffValue: TsUtils.precisionRound(100 * talentCrBuffValue), ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
-    }, {
-      formItem: 'switch',
-      id: 'critSpdBuff',
-      name: 'critSpdBuff',
-      text: t('critSpdBuff.text'),
-      title: t('critSpdBuff.title'),
-      content: t('critSpdBuff.content'),
-    }, {
-      formItem: 'switch',
-      id: 'e1TargetFrozen',
-      name: 'e1TargetFrozen',
-      text: t('e1TargetFrozen.text'),
-      title: t('e1TargetFrozen.title'),
-      content: t('e1TargetFrozen.content'),
-      disabled: (e < 1),
-    }, {
-      formItem: 'switch',
-      id: 'e4CurrentHp80',
-      name: 'e4CurrentHp80',
-      text: t('e4CurrentHp80.text'),
-      title: t('e4CurrentHp80.title'),
-      content: t('e4CurrentHp80.content'),
-      disabled: (e < 4),
-    }]
-  })()
+  const content: ContentItem[] = [{
+    formItem: 'switch',
+    id: 'ultBuffActive',
+    name: 'ultBuffActive',
+    text: t('Content.ultBuffActive.text'),
+    title: t('Content.ultBuffActive.title'),
+    content: t('Content.ultBuffActive.content', { ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
+  }, {
+    formItem: 'switch',
+    id: 'soulsteelBuffActive',
+    name: 'soulsteelBuffActive',
+    text: t('Content.soulsteelBuffActive.text'),
+    title: t('Content.soulsteelBuffActive.title'),
+    content: t('Content.soulsteelBuffActive.content', { talentCdBuffValue: TsUtils.precisionRound(100 * talentCdBuffValue), talentCrBuffValue: TsUtils.precisionRound(100 * talentCrBuffValue), ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
+  }, {
+    formItem: 'switch',
+    id: 'critSpdBuff',
+    name: 'critSpdBuff',
+    text: t('Content.critSpdBuff.text'),
+    title: t('Content.critSpdBuff.title'),
+    content: t('Content.critSpdBuff.content'),
+  }, {
+    formItem: 'switch',
+    id: 'e1TargetFrozen',
+    name: 'e1TargetFrozen',
+    text: t('Content.e1TargetFrozen.text'),
+    title: t('Content.e1TargetFrozen.title'),
+    content: t('Content.e1TargetFrozen.content'),
+    disabled: (e < 1),
+  }, {
+    formItem: 'switch',
+    id: 'e4CurrentHp80',
+    name: 'e4CurrentHp80',
+    text: t('Content.e4CurrentHp80.text'),
+    title: t('Content.e4CurrentHp80.title'),
+    content: t('Content.e4CurrentHp80.content'),
+    disabled: (e < 4),
+  }]
 
   return {
     content: () => content,
@@ -77,8 +73,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       e4CurrentHp80: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.CR] += (r.ultBuffActive) ? 0.60 : 0
@@ -95,10 +91,10 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       x.ULT_SCALING += ultScaling
       x.FUA_SCALING += fuaScaling
 
-      x.BASIC_SCALING += (request.enemyElementalWeak) ? 0.30 : 0
-      x.SKILL_SCALING += (request.enemyElementalWeak) ? 0.30 : 0
-      x.ULT_SCALING += (request.enemyElementalWeak) ? 0.30 : 0
-      x.FUA_SCALING += (request.enemyElementalWeak) ? 0.30 : 0
+      x.BASIC_SCALING += (context.enemyElementalWeak) ? 0.30 : 0
+      x.SKILL_SCALING += (context.enemyElementalWeak) ? 0.30 : 0
+      x.ULT_SCALING += (context.enemyElementalWeak) ? 0.30 : 0
+      x.FUA_SCALING += (context.enemyElementalWeak) ? 0.30 : 0
 
       x.BASIC_SCALING += (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
       x.SKILL_SCALING += (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
@@ -115,12 +111,12 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, hitMulti)
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, hitMulti)
     },
-    gpuFinalizeCalculations: (request: Form) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardFuaAtkFinalizer(hitMulti)
     },
   }

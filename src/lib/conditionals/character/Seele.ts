@@ -4,13 +4,13 @@ import { AbilityEidolon } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Seele')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const buffedStateDmgBuff = talent(e, 0.80, 0.88)
@@ -20,43 +20,39 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 2.20, 2.42)
   const ultScaling = ult(e, 4.25, 4.59)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Seele.Content')
-    return [{
-      formItem: 'switch',
-      id: 'buffedState',
-      name: 'buffedState',
-      text: t('buffedState.text'),
-      title: t('buffedState.title'),
-      content: t('buffedState.content', { buffedStateDmgBuff: TsUtils.precisionRound(100 * buffedStateDmgBuff) }),
-    }, {
-      formItem: 'slider',
-      id: 'speedBoostStacks',
-      name: 'speedBoostStacks',
-      text: t('speedBoostStacks.text'),
-      title: t('speedBoostStacks.title'),
-      content: t('speedBoostStacks.content', { speedBoostStacksMax: speedBoostStacksMax }),
-      min: 0,
-      max: speedBoostStacksMax,
-    }, {
-      formItem: 'switch',
-      id: 'e1EnemyHp80CrBoost',
-      name: 'e1EnemyHp80CrBoost',
-      text: t('e1EnemyHp80CrBoost.text'),
-      title: t('e1EnemyHp80CrBoost.title'),
-      content: t('e1EnemyHp80CrBoost.content'),
-      disabled: e < 1,
-    }, {
-      formItem: 'switch',
-      id: 'e6UltTargetDebuff',
-      name: 'e6UltTargetDebuff',
-      text: t('e6UltTargetDebuff.text'),
-      title: t('e6UltTargetDebuff.title'),
-      content: t('e6UltTargetDebuff.content'),
-      disabled: e < 6,
-    }]
-  })()
+  const content: ContentItem[] = [{
+    formItem: 'switch',
+    id: 'buffedState',
+    name: 'buffedState',
+    text: t('Content.buffedState.text'),
+    title: t('Content.buffedState.title'),
+    content: t('Content.buffedState.content', { buffedStateDmgBuff: TsUtils.precisionRound(100 * buffedStateDmgBuff) }),
+  }, {
+    formItem: 'slider',
+    id: 'speedBoostStacks',
+    name: 'speedBoostStacks',
+    text: t('Content.speedBoostStacks.text'),
+    title: t('Content.speedBoostStacks.title'),
+    content: t('Content.speedBoostStacks.content', { speedBoostStacksMax: speedBoostStacksMax }),
+    min: 0,
+    max: speedBoostStacksMax,
+  }, {
+    formItem: 'switch',
+    id: 'e1EnemyHp80CrBoost',
+    name: 'e1EnemyHp80CrBoost',
+    text: t('Content.e1EnemyHp80CrBoost.text'),
+    title: t('Content.e1EnemyHp80CrBoost.title'),
+    content: t('Content.e1EnemyHp80CrBoost.content'),
+    disabled: e < 1,
+  }, {
+    formItem: 'switch',
+    id: 'e6UltTargetDebuff',
+    name: 'e6UltTargetDebuff',
+    text: t('Content.e6UltTargetDebuff.text'),
+    title: t('Content.e6UltTargetDebuff.title'),
+    content: t('Content.e6UltTargetDebuff.content'),
+    disabled: e < 6,
+  }]
 
   return {
     content: () => content,
@@ -68,8 +64,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       e6UltTargetDebuff: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.CR] += (e >= 1 && r.e1EnemyHp80CrBoost) ? 0.15 : 0
@@ -90,11 +86,11 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       // TODO: Seele's E6 should have a teammate effect but its kinda hard to calc
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -104,8 +100,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       x.SKILL_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
       x.ULT_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      const r = request.characterConditionals
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;

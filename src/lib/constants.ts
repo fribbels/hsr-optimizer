@@ -743,3 +743,20 @@ export const COMPUTE_ENGINE_GPU_EXPERIMENTAL = 'GPU Experimental'
 
 export const SACERDOS_RELIVED_ORDEAL_1_STACK = 'Sacerdos\' Relived Ordeal 1x'
 export const SACERDOS_RELIVED_ORDEAL_2_STACK = 'Sacerdos\' Relived Ordeal 2x'
+
+
+export const ConditionalType = {
+  SET: 0,
+  ABILITY: 1,
+}
+
+export const ConditionalActivation = {
+  SINGLE: 0,
+  CONTINUOUS: 1,
+}
+
+export enum ConditionalDataType {
+  BOOLEAN = 'boolean',
+  NUMBER = 'number',
+  SELECT = 'select',
+}

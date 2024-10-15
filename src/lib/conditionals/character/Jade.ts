@@ -3,15 +3,15 @@ import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } f
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jade')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicScaling = basic(e, 0.90, 0.99)
@@ -33,90 +33,82 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
     5: ASHBLAZING_ATK_STACK * (3 * 0.10 + 8 * 0.10 + 8 * 0.10 + 8 * 0.10 + 8 * 0.60), // 0.45
   }
 
-  function getHitMulti(request: Form) {
-    const r = request.characterConditionals
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    const r = action.characterConditionals
     return r.enhancedFollowUp
-      ? enhancedHitMultiByTargets[request.enemyCount]
-      : unenhancedHitMultiByTargets[request.enemyCount]
+      ? enhancedHitMultiByTargets[context.enemyCount]
+      : unenhancedHitMultiByTargets[context.enemyCount]
   }
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Jade.Content')
-    return [
-      {
-        formItem: 'switch',
-        id: 'enhancedFollowUp',
-        name: 'enhancedFollowUp',
-        text: t('enhancedFollowUp.text'),
-        title: t('enhancedFollowUp.title'),
-        content: t('enhancedFollowUp.content', { ultFuaScalingBuff: TsUtils.precisionRound(100 * ultFuaScalingBuff) }),
-      },
-      {
-        formItem: 'slider',
-        id: 'pawnedAssetStacks',
-        name: 'pawnedAssetStacks',
-        text: t('pawnedAssetStacks.text'),
-        title: t('pawnedAssetStacks.title'),
-        content: t('pawnedAssetStacks.content', { pawnedAssetCdScaling: TsUtils.precisionRound(100 * pawnedAssetCdScaling) }),
-        min: 0,
-        max: 50,
-      },
-      {
-        formItem: 'switch',
-        id: 'e1FuaDmgBoost',
-        name: 'e1FuaDmgBoost',
-        text: t('e1FuaDmgBoost.text'),
-        title: t('e1FuaDmgBoost.title'),
-        content: t('e1FuaDmgBoost.content'),
-        disabled: e < 1,
-      },
-      {
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'enhancedFollowUp',
+      name: 'enhancedFollowUp',
+      text: t('Content.enhancedFollowUp.text'),
+      title: t('Content.enhancedFollowUp.title'),
+      content: t('Content.enhancedFollowUp.content', { ultFuaScalingBuff: TsUtils.precisionRound(100 * ultFuaScalingBuff) }),
+    },
+    {
+      formItem: 'slider',
+      id: 'pawnedAssetStacks',
+      name: 'pawnedAssetStacks',
+      text: t('Content.pawnedAssetStacks.text'),
+      title: t('Content.pawnedAssetStacks.title'),
+      content: t('Content.pawnedAssetStacks.content', { pawnedAssetCdScaling: TsUtils.precisionRound(100 * pawnedAssetCdScaling) }),
+      min: 0,
+      max: 50,
+    },
+    {
+      formItem: 'switch',
+      id: 'e1FuaDmgBoost',
+      name: 'e1FuaDmgBoost',
+      text: t('Content.e1FuaDmgBoost.text'),
+      title: t('Content.e1FuaDmgBoost.title'),
+      content: t('Content.e1FuaDmgBoost.content'),
+      disabled: e < 1,
+    },
+    {
 
-        formItem: 'switch',
-        id: 'e2CrBuff',
-        name: 'e2CrBuff',
-        text: t('e2CrBuff.text'),
-        title: t('e2CrBuff.title'),
-        content: t('e2CrBuff.content'),
-        disabled: e < 2,
-      },
-      {
+      formItem: 'switch',
+      id: 'e2CrBuff',
+      name: 'e2CrBuff',
+      text: t('Content.e2CrBuff.text'),
+      title: t('Content.e2CrBuff.title'),
+      content: t('Content.e2CrBuff.content'),
+      disabled: e < 2,
+    },
+    {
 
-        formItem: 'switch',
-        id: 'e4DefShredBuff',
-        name: 'e4DefShredBuff',
-        text: t('e4DefShredBuff.text'),
-        title: t('e4DefShredBuff.title'),
-        content: t('e4DefShredBuff.content'),
-        disabled: e < 4,
-      },
-      {
-        formItem: 'switch',
-        id: 'e6ResShredBuff',
-        name: 'e6ResShredBuff',
-        text: t('e6ResShredBuff.text'),
-        title: t('e6ResShredBuff.title'),
-        content: t('e6ResShredBuff.content'),
-        disabled: e < 6,
-      },
-    ]
-  })()
+      formItem: 'switch',
+      id: 'e4DefShredBuff',
+      name: 'e4DefShredBuff',
+      text: t('Content.e4DefShredBuff.text'),
+      title: t('Content.e4DefShredBuff.title'),
+      content: t('Content.e4DefShredBuff.content'),
+      disabled: e < 4,
+    },
+    {
+      formItem: 'switch',
+      id: 'e6ResShredBuff',
+      name: 'e6ResShredBuff',
+      text: t('Content.e6ResShredBuff.text'),
+      title: t('Content.e6ResShredBuff.title'),
+      content: t('Content.e6ResShredBuff.content'),
+      disabled: e < 6,
+    },
+  ]
 
-  const teammateContent: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Jade.TeammateContent')
-    return [
-      {
-        formItem: 'switch',
-        id: 'debtCollectorSpdBuff',
-        name: 'debtCollectorSpdBuff',
-        text: t('debtCollectorSpdBuff.text'),
-        title: t('debtCollectorSpdBuff.title'),
-        content: t('debtCollectorSpdBuff.content'),
-      },
-    ]
-  })()
+  const teammateContent: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'debtCollectorSpdBuff',
+      name: 'debtCollectorSpdBuff',
+      text: t('TeammateContent.debtCollectorSpdBuff.text'),
+      title: t('TeammateContent.debtCollectorSpdBuff.title'),
+      content: t('TeammateContent.debtCollectorSpdBuff.content'),
+    },
+  ]
 
   const defaults = {
     enhancedFollowUp: true,
@@ -136,8 +128,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => (teammateDefaults),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       x[Stats.CD] += r.pawnedAssetStacks * pawnedAssetCdScaling
       x[Stats.ATK_P] += r.pawnedAssetStacks * 0.005
@@ -158,18 +150,18 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
-      const t = request.characterConditionals
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const t = action.characterConditionals
 
       x[Stats.SPD] += (t.debtCollectorSpdBuff) ? 30 : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, getHitMulti(request))
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      return gpuStandardFuaAtkFinalizer(getHitMulti(request))
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuStandardFuaAtkFinalizer(getHitMulti(action, context))
     },
   }
 }

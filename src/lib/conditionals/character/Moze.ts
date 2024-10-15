@@ -3,14 +3,14 @@ import { AbilityEidolon, findContentId, gpuStandardFuaAtkFinalizer, standardFuaA
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Moze')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -22,55 +22,48 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
   const fuaHitCountMulti = ASHBLAZING_ATK_STACK * (1 * 0.08 + 2 * 0.08 + 3 * 0.08 + 4 * 0.08 + 5 * 0.08 + 6 * 0.6)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Moze.Content')
-    return [
-      {
-        formItem: 'switch',
-        id: 'preyMark',
-        name: 'preyMark',
-        text: t('preyMark.text'),
-        title: t('preyMark.title'),
-        content: t('preyMark.content', { PreyAdditionalMultiplier: TsUtils.precisionRound(100 * additionalDmgScaling), FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
-      },
-      {
-        formItem: 'switch',
-        id: 'e2CdBoost',
-        name: 'e2CdBoost',
-        text: t('e2CdBoost.text'),
-        title: t('e2CdBoost.title'),
-        content: t('e2CdBoost.content'),
-        disabled: e < 2,
-      },
-      {
-        formItem: 'switch',
-        id: 'e4DmgBuff',
-        name: 'e4DmgBuff',
-        text: t('e4DmgBuff.text'),
-        title: t('e4DmgBuff.title'),
-        content: t('e4DmgBuff.content'),
-        disabled: e < 4,
-      },
-      {
-        formItem: 'switch',
-        id: 'e6MultiplierIncrease',
-        name: 'e6MultiplierIncrease',
-        text: t('e6MultiplierIncrease.text'),
-        title: t('e6MultiplierIncrease.title'),
-        content: t('e6MultiplierIncrease.content'),
-        disabled: e < 6,
-      },
-    ]
-  })()
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'preyMark',
+      name: 'preyMark',
+      text: t('Content.preyMark.text'),
+      title: t('Content.preyMark.title'),
+      content: t('Content.preyMark.content', { PreyAdditionalMultiplier: TsUtils.precisionRound(100 * additionalDmgScaling), FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'e2CdBoost',
+      name: 'e2CdBoost',
+      text: t('Content.e2CdBoost.text'),
+      title: t('Content.e2CdBoost.title'),
+      content: t('Content.e2CdBoost.content'),
+      disabled: e < 2,
+    },
+    {
+      formItem: 'switch',
+      id: 'e4DmgBuff',
+      name: 'e4DmgBuff',
+      text: t('Content.e4DmgBuff.text'),
+      title: t('Content.e4DmgBuff.title'),
+      content: t('Content.e4DmgBuff.content'),
+      disabled: e < 4,
+    },
+    {
+      formItem: 'switch',
+      id: 'e6MultiplierIncrease',
+      name: 'e6MultiplierIncrease',
+      text: t('Content.e6MultiplierIncrease.text'),
+      title: t('Content.e6MultiplierIncrease.title'),
+      content: t('Content.e6MultiplierIncrease.content'),
+      disabled: e < 6,
+    },
+  ]
 
-  const teammateContent: ContentItem[] = (() => {
-    if (withoutContent) return []
-    return [
-      findContentId(content, 'preyMark'),
-      findContentId(content, 'e2CdBoost'),
-    ]
-  })()
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'preyMark'),
+    findContentId(content, 'e2CdBoost'),
+  ]
 
   const defaults = {
     preyMark: true,
@@ -89,11 +82,11 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
+    initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
     },
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       x.ELEMENTAL_DMG += (e >= 4 && r.e4DmgBuff) ? 0.30 : 0
 
@@ -110,19 +103,17 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       buffAbilityVulnerability(x, FUA_TYPE, 0.25, (m.preyMark))
 
       x[Stats.CD] += (e >= 2 && m.preyMark && m.e2CdBoost) ? 0.40 : 0
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, fuaHitCountMulti)
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, fuaHitCountMulti)
-    },
-    gpuFinalizeCalculations: (request: Form) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardFuaAtkFinalizer(fuaHitCountMulti)
     },
   }

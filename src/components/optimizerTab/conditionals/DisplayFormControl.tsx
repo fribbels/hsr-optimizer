@@ -5,10 +5,12 @@ import { FormSliderWithPopover } from 'components/optimizerTab/conditionals/Form
 import { FormSwitchWithPopover } from 'components/optimizerTab/conditionals/FormSwitch'
 import { ContentComponentMap, ContentItem } from 'types/Conditionals'
 import { useTranslation } from 'react-i18next'
+import { FormSelectWithPopover } from 'components/optimizerTab/conditionals/FormSelect'
 
-const FormItemComponentMap: ContentComponentMap = {
+export const FormItemComponentMap: ContentComponentMap = {
   switch: FormSwitchWithPopover,
   slider: FormSliderWithPopover,
+  select: FormSelectWithPopover,
 }
 
 export interface DisplayFormControlProps {

@@ -3,12 +3,12 @@ import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFina
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Guinaifen')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const talentDebuffDmgIncreaseValue = talent(e, 0.07, 0.076)
@@ -19,64 +19,57 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const ultScaling = ult(e, 1.20, 1.296)
   const dotScaling = skill(e, 2.182, 2.40)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Guinaifen.Content')
-    return [
-      {
-        formItem: 'slider',
-        id: 'talentDebuffStacks',
-        name: 'talentDebuffStacks',
-        text: t('talentDebuffStacks.text'),
-        title: t('talentDebuffStacks.title'),
-        content: t('talentDebuffStacks.content', { talentDebuffDmgIncreaseValue: TsUtils.precisionRound(talentDebuffDmgIncreaseValue), talentDebuffMax }),
-        min: 0,
-        max: talentDebuffMax,
-      },
-      {
-        formItem: 'switch',
-        id: 'enemyBurned',
-        name: 'enemyBurned',
-        text: t('enemyBurned.text'),
-        title: t('enemyBurned.title'),
-        content: t('enemyBurned.content'),
-      },
-      {
-        formItem: 'switch',
-        id: 'skillDot',
-        name: 'skillDot',
-        text: t('skillDot.text'),
-        title: t('skillDot.title'),
-        content: t('skillDot.content'),
-      },
-      {
-        formItem: 'switch',
-        id: 'e1EffectResShred',
-        name: 'e1EffectResShred',
-        text: t('e1EffectResShred.text'),
-        title: t('e1EffectResShred.title'),
-        content: t('e1EffectResShred.content'),
-        disabled: e < 1,
-      },
-      {
-        formItem: 'switch',
-        id: 'e2BurnMultiBoost',
-        name: 'e2BurnMultiBoost',
-        text: t('e2BurnMultiBoost.text'),
-        title: t('e2BurnMultiBoost.title'),
-        content: t('e2BurnMultiBoost.content'),
-        disabled: e < 2,
-      },
-    ]
-  })()
+  const content: ContentItem[] = [
+    {
+      formItem: 'slider',
+      id: 'talentDebuffStacks',
+      name: 'talentDebuffStacks',
+      text: t('Content.talentDebuffStacks.text'),
+      title: t('Content.talentDebuffStacks.title'),
+      content: t('Content.talentDebuffStacks.content', { talentDebuffDmgIncreaseValue: TsUtils.precisionRound(talentDebuffDmgIncreaseValue), talentDebuffMax }),
+      min: 0,
+      max: talentDebuffMax,
+    },
+    {
+      formItem: 'switch',
+      id: 'enemyBurned',
+      name: 'enemyBurned',
+      text: t('Content.enemyBurned.text'),
+      title: t('Content.enemyBurned.title'),
+      content: t('Content.enemyBurned.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'skillDot',
+      name: 'skillDot',
+      text: t('Content.skillDot.text'),
+      title: t('Content.skillDot.title'),
+      content: t('Content.skillDot.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'e1EffectResShred',
+      name: 'e1EffectResShred',
+      text: t('Content.e1EffectResShred.text'),
+      title: t('Content.e1EffectResShred.title'),
+      content: t('Content.e1EffectResShred.content'),
+      disabled: e < 1,
+    },
+    {
+      formItem: 'switch',
+      id: 'e2BurnMultiBoost',
+      name: 'e2BurnMultiBoost',
+      text: t('Content.e2BurnMultiBoost.text'),
+      title: t('Content.e2BurnMultiBoost.title'),
+      content: t('Content.e2BurnMultiBoost.content'),
+      disabled: e < 2,
+    },
+  ]
 
-  const teammateContent: ContentItem[] = (() => {
-    if (withoutContent) return []
-    return [
-      findContentId(content, 'talentDebuffStacks'),
-      findContentId(content, 'e1EffectResShred'),
-    ]
-  })()
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'talentDebuffStacks'),
+    findContentId(content, 'e1EffectResShred'),
+  ]
 
   return {
     content: () => content,
@@ -92,8 +85,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       talentDebuffStacks: talentDebuffMax,
       e1EffectResShred: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -113,8 +106,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x.VULNERABILITY += m.talentDebuffStacks * talentDebuffDmgIncreaseValue
       x.EFFECT_RES_PEN += m.e1EffectResShred ? 0.10 : 0

@@ -11,6 +11,7 @@ import { ImportOutlined } from '@ant-design/icons'
 import { ColorizedLink } from 'components/common/ColorizedLink'
 import { ReliquaryDescription } from './importerTab/ReliquaryDescription'
 import { Trans, useTranslation } from 'react-i18next'
+import { SaveState } from 'lib/saveState'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -33,7 +34,8 @@ export default function GettingStartedTab() {
   console.log('======================================================================= RENDER GettingStartedTab')
 
   function tryItOutClicked() {
-    DB.setStore(JSON.parse(JSON.stringify(sampleSave)))
+    DB.setStore(JSON.parse(JSON.stringify(sampleSave)), false)
+    SaveState.save()
 
     Message.success(t('TryOut.SuccessMessage'))// 'Successfully loaded data'
   }

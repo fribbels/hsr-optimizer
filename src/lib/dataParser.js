@@ -6,6 +6,11 @@ import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
 import { SortOption } from 'lib/optimizer/sortOptions'
 
+const BASIC = 'BASIC'
+const SKILL = 'SKILL'
+const ULT = 'ULT'
+const FUA = 'FUA'
+
 const characters = gameData.characters
 const lightCones = gameData.lightCones
 
@@ -1516,6 +1521,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -1626,6 +1634,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, FUA, SKILL, FUA, SKILL, FUA],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -1738,6 +1749,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -1849,6 +1863,9 @@ function getScoringMetadata() {
           DOT: 16,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, SKILL, FUA, SKILL, FUA],
+        comboDot: 16,
+        comboBreak: 0,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
         ],
@@ -2003,6 +2020,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.BandOfSizzlingThunder, Sets.BandOfSizzlingThunder],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -2150,6 +2170,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, FUA, SKILL, FUA, SKILL, FUA],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
@@ -2297,6 +2320,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [SetsRelics.GeniusOfBrilliantStars, SetsRelics.GeniusOfBrilliantStars],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -2406,6 +2432,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.BandOfSizzlingThunder, Sets.BandOfSizzlingThunder],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -2649,6 +2678,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, SKILL, FUA, FUA, FUA],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -2760,6 +2792,9 @@ function getScoringMetadata() {
           DOT: 60,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboDot: 60,
+        comboBreak: 0,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
         ],
@@ -2866,6 +2901,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -3020,6 +3058,9 @@ function getScoringMetadata() {
           DOT: 5,
           BREAK: 1,
         },
+        comboAbilities: [null, ULT, SKILL, BASIC, BASIC],
+        comboDot: 5,
+        comboBreak: 1,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -3131,6 +3172,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, SKILL, FUA, FUA],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -3240,6 +3284,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, BASIC, FUA, BASIC, FUA],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -3444,6 +3491,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, SKILL, SKILL, SKILL, FUA],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -3555,6 +3605,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, BASIC, FUA, BASIC],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.LongevousDisciple, Sets.LongevousDisciple],
         ],
@@ -3663,6 +3716,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 1,
         },
+        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboDot: 0,
+        comboBreak: 1,
         relicSets: [
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
@@ -3866,6 +3922,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, SKILL, FUA, SKILL, FUA, SKILL],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
@@ -4061,7 +4120,11 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
@@ -4169,6 +4232,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, BASIC, BASIC],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
           [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
@@ -4282,6 +4348,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 1,
         },
+        comboAbilities: [null, ULT, FUA, SKILL, FUA, SKILL, FUA],
+        comboDot: 0,
+        comboBreak: 1,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -4514,6 +4583,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, SKILL, FUA, FUA, SKILL, FUA, FUA, ULT, ULT],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.TheWindSoaringValorous, Sets.TheWindSoaringValorous],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -4625,6 +4697,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, SKILL, FUA],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.TheWindSoaringValorous, Sets.TheWindSoaringValorous],
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
@@ -4790,6 +4865,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, SKILL, ULT, FUA, FUA],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
@@ -4903,6 +4981,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, BASIC, FUA],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
           [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
@@ -5050,6 +5131,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -5203,6 +5287,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, BASIC, FUA, BASIC, FUA],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.KnightOfPurityPalace, Sets.KnightOfPurityPalace],
@@ -5320,6 +5407,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, SKILL, FUA, FUA, SKILL, FUA, FUA],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -5471,6 +5561,9 @@ function getScoringMetadata() {
           DOT: 16,
           BREAK: 0,
         },
+        comboAbilities: [null, SKILL, ULT, BASIC, BASIC],
+        comboDot: 16,
+        comboBreak: 0,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
         ],
@@ -5578,6 +5671,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, SKILL, SKILL],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -5725,6 +5821,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 1,
         },
+        comboAbilities: [null, SKILL, SKILL, SKILL],
+        comboDot: 0,
+        comboBreak: 1,
         relicSets: [
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
         ],
@@ -5831,6 +5930,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
@@ -5942,6 +6044,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
+        comboAbilities: [null, ULT, FUA, BASIC, FUA, BASIC],
+        comboDot: 0,
+        comboBreak: 0,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -6043,6 +6148,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 1,
         },
+        comboAbilities: [null, ULT, BASIC, BASIC, BASIC],
+        comboDot: 0,
+        comboBreak: 1,
         relicSets: [
           [Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations],
           RELICS_2P_BREAK_EFFECT_SPEED,
@@ -6146,6 +6254,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 1,
         },
+        comboAbilities: [null, SKILL, BASIC, BASIC, BASIC],
+        comboDot: 0,
+        comboBreak: 1,
         relicSets: [
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
         ],
@@ -6252,6 +6363,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 1,
         },
+        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboDot: 0,
+        comboBreak: 1,
         relicSets: [
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -6360,6 +6474,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 1,
         },
+        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboDot: 0,
+        comboBreak: 1,
         relicSets: [
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,

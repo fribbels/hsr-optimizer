@@ -4,14 +4,14 @@ import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'l
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 // TODO: missing A4 SPD buff
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.DanHeng')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const extraPenValue = talent(e, 0.36, 0.396)
@@ -21,37 +21,33 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const ultScaling = ult(e, 4.00, 4.32)
   const ultExtraScaling = ult(e, 1.20, 1.296)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.DanHeng.Content')
-    return [
-      {
-        formItem: 'switch',
-        id: 'talentPenBuff',
-        name: 'talentPenBuff',
-        text: t('talentPenBuff.text'),
-        title: t('talentPenBuff.title'),
-        content: t('talentPenBuff.content', { extraPenValue: TsUtils.precisionRound(100 * extraPenValue) }),
-      },
-      {
-        formItem: 'switch',
-        id: 'enemySlowed',
-        name: 'enemySlowed',
-        text: t('enemySlowed.text'),
-        title: t('enemySlowed.title'),
-        content: t('enemySlowed.content'),
-      },
-      {
-        formItem: 'switch',
-        id: 'e1EnemyHp50',
-        name: 'e1EnemyHp50',
-        text: t('e1EnemyHp50.text'),
-        title: t('e1EnemyHp50.title'),
-        content: t('e1EnemyHp50.content'),
-        disabled: e < 1,
-      },
-    ]
-  })()
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'talentPenBuff',
+      name: 'talentPenBuff',
+      text: t('Content.talentPenBuff.text'),
+      title: t('Content.talentPenBuff.title'),
+      content: t('Content.talentPenBuff.content', { extraPenValue: TsUtils.precisionRound(100 * extraPenValue) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'enemySlowed',
+      name: 'enemySlowed',
+      text: t('Content.enemySlowed.text'),
+      title: t('Content.enemySlowed.title'),
+      content: t('Content.enemySlowed.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'e1EnemyHp50',
+      name: 'e1EnemyHp50',
+      text: t('Content.e1EnemyHp50.text'),
+      title: t('Content.e1EnemyHp50.title'),
+      content: t('Content.e1EnemyHp50.content'),
+      disabled: e < 1,
+    },
+  ]
 
   return {
     content: () => content,
@@ -62,8 +58,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       e1EnemyHp50: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.CR] += (e >= 1 && r.e1EnemyHp50) ? 0.12 : 0

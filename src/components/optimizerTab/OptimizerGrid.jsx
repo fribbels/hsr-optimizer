@@ -1,7 +1,7 @@
 import { AgGridReact } from 'ag-grid-react'
-import { getBaseColumnDefs, getCombatColumnDefs, defaultColDef, gridOptions } from 'components/optimizerTab/optimizerTabConstants.ts'
+import { defaultColDef, getBaseColumnDefs, getCombatColumnDefs, gridOptions } from 'components/optimizerTab/optimizerTabConstants.ts'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
-import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Flex, theme } from 'antd'
 import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 import { getGridTheme } from 'lib/theme'
@@ -76,10 +76,15 @@ export function OptimizerGrid() {
             headerHeight={24}
             onCellClicked={OptimizerTabController.cellClicked}
             ref={optimizerGrid}
-            rowSelection='single'
             paginationNumberFormatter={(param) => param.value.toLocaleString(i18n.resolvedLanguage)}
             getLocaleText={getLocaleText}
             navigateToNextCell={navigateToNextCell}
+            selection={{
+              mode: 'singleRow',
+              headerCheckbox: false,
+              checkboxes: false,
+              enableClickSelection: true
+            }}
           />
         </div>
       )}

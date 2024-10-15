@@ -446,8 +446,6 @@ export function activateZeroResultSuggestionsModal(request: Form) {
   if (request.maxDot < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_DOT)
   if (request.minBreak) rootCauses.push(ZeroResultRootCause.MIN_BREAK)
   if (request.maxBreak < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_BREAK)
-  if (request.minCombo) rootCauses.push(ZeroResultRootCause.MIN_COMBO)
-  if (request.maxCombo < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_COMBO)
 
   window.store.getState().setZeroResultModalOpen(true)
 }

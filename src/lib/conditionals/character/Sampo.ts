@@ -3,13 +3,13 @@ import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFina
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sampo')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const dotVulnerabilityValue = ult(e, 0.30, 0.32)
@@ -21,45 +21,38 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
   const maxExtraHits = e < 1 ? 4 : 5
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Sampo.Content')
-    return [
-      {
-        formItem: 'switch',
-        id: 'targetDotTakenDebuff',
-        name: 'targetDotTakenDebuff',
-        text: t('targetDotTakenDebuff.text'),
-        title: t('targetDotTakenDebuff.title'),
-        content: t('targetDotTakenDebuff.content', { dotVulnerabilityValue: TsUtils.precisionRound(100 * dotVulnerabilityValue) }),
-      },
-      {
-        formItem: 'slider',
-        id: 'skillExtraHits',
-        name: 'skillExtraHits',
-        text: t('skillExtraHits.text'),
-        title: t('skillExtraHits.title'),
-        content: t('skillExtraHits.content'),
-        min: 1,
-        max: maxExtraHits,
-      },
-      {
-        formItem: 'switch',
-        id: 'targetWindShear',
-        name: 'targetWindShear',
-        text: t('targetWindShear.text'),
-        title: t('targetWindShear.title'),
-        content: t('targetWindShear.content'),
-      },
-    ]
-  })()
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'targetDotTakenDebuff',
+      name: 'targetDotTakenDebuff',
+      text: t('Content.targetDotTakenDebuff.text'),
+      title: t('Content.targetDotTakenDebuff.title'),
+      content: t('Content.targetDotTakenDebuff.content', { dotVulnerabilityValue: TsUtils.precisionRound(100 * dotVulnerabilityValue) }),
+    },
+    {
+      formItem: 'slider',
+      id: 'skillExtraHits',
+      name: 'skillExtraHits',
+      text: t('Content.skillExtraHits.text'),
+      title: t('Content.skillExtraHits.title'),
+      content: t('Content.skillExtraHits.content'),
+      min: 1,
+      max: maxExtraHits,
+    },
+    {
+      formItem: 'switch',
+      id: 'targetWindShear',
+      name: 'targetWindShear',
+      text: t('Content.targetWindShear.text'),
+      title: t('Content.targetWindShear.title'),
+      content: t('Content.targetWindShear.content'),
+    },
+  ]
 
-  const teammateContent: ContentItem[] = (() => {
-    if (withoutContent) return []
-    return [
-      findContentId(content, 'targetDotTakenDebuff'),
-    ]
-  })()
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'targetDotTakenDebuff'),
+  ]
 
   return {
     content: () => content,
@@ -72,8 +65,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
     teammateDefaults: () => ({
       targetDotTakenDebuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
 
@@ -96,8 +89,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       buffAbilityVulnerability(x, DOT_TYPE, dotVulnerabilityValue, (m.targetDotTakenDebuff))
     },

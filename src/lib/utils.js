@@ -54,6 +54,8 @@ export const Utils = {
   },
 
   mergeDefinedValues: (target, source) => {
+    if (!source) return target
+
     for (const key of Object.keys(target)) {
       if (source[key] != null) {
         target[key] = source[key]

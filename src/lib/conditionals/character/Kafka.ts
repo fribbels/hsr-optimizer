@@ -4,11 +4,12 @@ import { AbilityEidolon, findContentId, gpuStandardFuaAtkFinalizer, standardFuaA
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
 import { buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Kafka')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -20,38 +21,31 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const hitMulti = ASHBLAZING_ATK_STACK
     * (1 * 0.15 + 2 * 0.15 + 3 * 0.15 + 4 * 0.15 + 5 * 0.15 + 6 * 0.25)
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Kafka.Content')
-    return [
-      {
-        formItem: 'switch',
-        id: 'e1DotDmgReceivedDebuff',
-        name: 'e1DotDmgReceivedDebuff',
-        text: t('e1DotDmgReceivedDebuff.text'),
-        title: t('e1DotDmgReceivedDebuff.title'),
-        content: t('e1DotDmgReceivedDebuff.content'),
-        disabled: e < 1,
-      },
-      {
-        formItem: 'switch',
-        id: 'e2TeamDotBoost',
-        name: 'e2TeamDotBoost',
-        text: t('e2TeamDotBoost.text'),
-        title: t('e2TeamDotBoost.title'),
-        content: t('e2TeamDotBoost.content'),
-        disabled: e < 2,
-      },
-    ]
-  })()
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'e1DotDmgReceivedDebuff',
+      name: 'e1DotDmgReceivedDebuff',
+      text: t('Content.e1DotDmgReceivedDebuff.text'),
+      title: t('Content.e1DotDmgReceivedDebuff.title'),
+      content: t('Content.e1DotDmgReceivedDebuff.content'),
+      disabled: e < 1,
+    },
+    {
+      formItem: 'switch',
+      id: 'e2TeamDotBoost',
+      name: 'e2TeamDotBoost',
+      text: t('Content.e2TeamDotBoost.text'),
+      title: t('Content.e2TeamDotBoost.title'),
+      content: t('Content.e2TeamDotBoost.content'),
+      disabled: e < 2,
+    },
+  ]
 
-  const teammateContent: ContentItem[] = (() => {
-    if (withoutContent) return []
-    return [
-      findContentId(content, 'e1DotDmgReceivedDebuff'),
-      findContentId(content, 'e2TeamDotBoost'),
-    ]
-  })()
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'e1DotDmgReceivedDebuff'),
+    findContentId(content, 'e2TeamDotBoost'),
+  ]
 
   return {
     content: () => content,
@@ -64,7 +58,7 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       e1DotDmgReceivedDebuff: true,
       e2TeamDotBoost: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -84,16 +78,16 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       buffAbilityVulnerability(x, DOT_TYPE, 0.30, (e >= 1 && m.e1DotDmgReceivedDebuff))
       buffAbilityDmg(x, DOT_TYPE, 0.25, (e >= 2 && m.e2TeamDotBoost))
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, hitMulti)
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, hitMulti)
     },
-    gpuFinalizeCalculations: (request: Form) => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardFuaAtkFinalizer(hitMulti)
     },
   }

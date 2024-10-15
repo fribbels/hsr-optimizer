@@ -4,6 +4,7 @@ import { ImportOutlined, UploadOutlined } from '@ant-design/icons'
 import { importerTabButtonWidth, importerTabSpinnerMs } from './importerTabUiConstants'
 import DB from 'lib/db.js'
 import { useTranslation } from 'react-i18next'
+import { SaveState } from 'lib/saveState'
 
 const { Text } = Typography
 
@@ -62,12 +63,13 @@ export function LoadDataSubmenu() {
   function loadConfirmed() {
     setLoading2(true)
     setTimeout(() => {
-      DB.setStore(currentSave)
+      DB.setStore(currentSave, false)
       window.refreshRelicsScore()
 
       setTimeout(() => {
         setCurrentStage(Stages.FINISHED)
         setLoading2(false)
+        SaveState.save()
       }, importerTabSpinnerMs)
     }, importerTabSpinnerMs)
   }

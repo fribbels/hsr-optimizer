@@ -4,13 +4,14 @@ import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } f
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
-import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Herta')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -18,10 +19,10 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
   const ultScaling = ult(e, 2.00, 2.16)
   const fuaScaling = talent(e, 0.40, 0.43)
 
-  function getHitMultiByTargetsAndHits(hits: number, request: Form) {
+  function getHitMultiByTargetsAndHits(hits: number, context: OptimizerContext) {
     const div = 1 / hits
 
-    if (request.enemyCount == 1) {
+    if (context.enemyCount == 1) {
       let stacks = 1
       let multi = 0
       for (let i = 0; i < hits; i++) {
@@ -31,7 +32,7 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       return multi
     }
 
-    if (request.enemyCount == 3) {
+    if (context.enemyCount == 3) {
       let stacks = 2
       let multi = 0
       for (let i = 0; i < hits; i++) {
@@ -41,7 +42,7 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       return multi
     }
 
-    if (request.enemyCount == 5) {
+    if (context.enemyCount == 5) {
       let stacks = 3
       let multi = 0
       for (let i = 0; i < hits; i++) {
@@ -54,88 +55,84 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
     return 1
   }
 
-  function getHitMulti(request: Form) {
-    const r = request.characterConditionals
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    const r = action.characterConditionals
 
-    const hitMultiStacks = getHitMultiByTargetsAndHits(r.fuaStacks, request)
+    const hitMultiStacks = getHitMultiByTargetsAndHits(r.fuaStacks, context)
     const hitMultiByTargets: NumberToNumberMap = {
       1: ASHBLAZING_ATK_STACK * hitMultiStacks,
       3: ASHBLAZING_ATK_STACK * hitMultiStacks,
       5: ASHBLAZING_ATK_STACK * hitMultiStacks,
     }
 
-    return hitMultiByTargets[request.enemyCount]
+    return hitMultiByTargets[context.enemyCount]
   }
 
-  const content: ContentItem[] = (() => {
-    if (withoutContent) return []
-    const t = i18next.getFixedT(null, 'conditionals', 'Characters.Herta.Content')
-    return [
-      {
-        formItem: 'slider',
-        id: 'fuaStacks',
-        name: 'fuaStacks',
-        text: t('fuaStacks.text'),
-        title: t('fuaStacks.title'),
-        content: t('fuaStacks.content'),
-        min: 1,
-        max: 5,
-      },
-      {
-        formItem: 'switch',
-        id: 'targetFrozen',
-        name: 'targetFrozen',
-        text: t('targetFrozen.text'),
-        title: t('targetFrozen.title'),
-        content: t('targetFrozen.content'),
-      },
-      {
-        formItem: 'switch',
-        id: 'enemyHpGte50',
-        name: 'enemyHpGte50',
-        text: t('enemyHpGte50.text'),
-        title: t('enemyHpGte50.title'),
-        content: t('enemyHpGte50.content'),
-      },
-      {
-        formItem: 'switch',
-        id: 'techniqueBuff',
-        name: 'techniqueBuff',
-        text: t('techniqueBuff.text'),
-        title: t('techniqueBuff.title'),
-        content: t('techniqueBuff.content'),
-      },
-      {
-        formItem: 'switch',
-        id: 'enemyHpLte50',
-        name: 'enemyHpLte50',
-        text: t('enemyHpLte50.text'),
-        title: t('enemyHpLte50.title'),
-        content: t('enemyHpLte50.content'),
-        disabled: e < 1,
-      },
-      {
-        formItem: 'slider',
-        id: 'e2TalentCritStacks',
-        name: 'e2TalentCritStacks',
-        text: t('e2TalentCritStacks.text'),
-        title: t('e2TalentCritStacks.title'),
-        content: t('e2TalentCritStacks.content'),
-        min: 0,
-        max: 5,
-        disabled: e < 2,
-      },
-      {
-        formItem: 'switch',
-        id: 'e6UltAtkBuff',
-        name: 'e6UltAtkBuff',
-        text: t('e6UltAtkBuff.text'),
-        title: t('e6UltAtkBuff.title'),
-        content: t('e6UltAtkBuff.content'),
-        disabled: e < 6,
-      },
-    ]
-  })()
+  const content: ContentItem[] = [
+    {
+      formItem: 'slider',
+      id: 'fuaStacks',
+      name: 'fuaStacks',
+      text: t('Content.fuaStacks.text'),
+      title: t('Content.fuaStacks.title'),
+      content: t('Content.fuaStacks.content'),
+      min: 1,
+      max: 5,
+    },
+    {
+      formItem: 'switch',
+      id: 'targetFrozen',
+      name: 'targetFrozen',
+      text: t('Content.targetFrozen.text'),
+      title: t('Content.targetFrozen.title'),
+      content: t('Content.targetFrozen.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'enemyHpGte50',
+      name: 'enemyHpGte50',
+      text: t('Content.enemyHpGte50.text'),
+      title: t('Content.enemyHpGte50.title'),
+      content: t('Content.enemyHpGte50.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'techniqueBuff',
+      name: 'techniqueBuff',
+      text: t('Content.techniqueBuff.text'),
+      title: t('Content.techniqueBuff.title'),
+      content: t('Content.techniqueBuff.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'enemyHpLte50',
+      name: 'enemyHpLte50',
+      text: t('Content.enemyHpLte50.text'),
+      title: t('Content.enemyHpLte50.title'),
+      content: t('Content.enemyHpLte50.content'),
+      disabled: e < 1,
+    },
+    {
+      formItem: 'slider',
+      id: 'e2TalentCritStacks',
+      name: 'e2TalentCritStacks',
+      text: t('Content.e2TalentCritStacks.text'),
+      title: t('Content.e2TalentCritStacks.title'),
+      content: t('Content.e2TalentCritStacks.content'),
+      min: 0,
+      max: 5,
+      disabled: e < 2,
+    },
+    {
+      formItem: 'switch',
+      id: 'e6UltAtkBuff',
+      name: 'e6UltAtkBuff',
+      text: t('Content.e6UltAtkBuff.text'),
+      title: t('Content.e6UltAtkBuff.title'),
+      content: t('Content.e6UltAtkBuff.content'),
+      disabled: e < 6,
+    },
+  ]
 
   return {
     content: () => content,
@@ -150,8 +147,8 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
       enemyHpLte50: false,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += (r.techniqueBuff) ? 0.40 : 0
@@ -178,13 +175,11 @@ export default (e: Eidolon, withoutContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, getHitMulti(request))
-    },
-    gpuFinalizeCalculations: (request: Form) => {
-      return gpuStandardFuaAtkFinalizer(getHitMulti(request))
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuStandardFuaAtkFinalizer(getHitMulti(action, context))
     },
   }
 }

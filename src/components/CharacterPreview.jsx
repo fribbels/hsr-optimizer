@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button, Card, Flex, Image, Segmented, theme, Typography } from 'antd'
 import PropTypes from 'prop-types'
 import { RelicScorer } from 'lib/relicScorerPotential'
-import { DB } from 'lib/db'
+import { AppPages, DB } from 'lib/db'
 import { Assets } from 'lib/assets'
 import { CHARACTER_SCORE, COMBAT_STATS, Constants, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, ElementToDamage, SETTINGS_TEAM, SIMULATION_SCORE } from 'lib/constants.ts'
 import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleColumnWidth, parentH, parentW } from 'lib/constantsUi'
@@ -73,6 +73,7 @@ export function CharacterPreview(props) {
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState()
   const [redrawTeammates, setRedrawTeammates] = useState()
+  const activeKey = window.store((s) => s.activeKey)
 
   // We need to track the previously selected character in order to know which state to put the sim team in.
   const prevCharId = useRef(null)
@@ -96,6 +97,12 @@ export function CharacterPreview(props) {
     }
   }, [character])
 
+  if (isScorer && activeKey != AppPages.RELIC_SCORER) {
+    return <></>
+  } else if (!isScorer && activeKey != AppPages.CHARACTERS) {
+    return <></>
+  }
+
   function getArtistName() {
     const artistName = character?.portrait?.artistName || DB.getCharacterById(character?.id)?.portrait?.artistName
     if (!artistName) return null
@@ -112,7 +119,7 @@ export function CharacterPreview(props) {
   function onAddOk(relic) {
     DB.setRelic(relic)
     setRelicRows(DB.getRelics())
-    SaveState.save()
+    SaveState.delayedSave()
 
     setSelectedRelic(relic)
 
@@ -126,13 +133,13 @@ export function CharacterPreview(props) {
         setCustomPortrait({ ...portrait })
         DB.saveCharacterPortrait(character.id, portrait)
         Message.success(t('CharacterPreview.Messages.SavedPortrait')/* Successfully saved portrait */)
-        SaveState.save()
+        SaveState.delayedSave()
         break
       case 'delete':
         DB.deleteCharacterPortrait(character.id)
         setCustomPortrait(null)
         Message.success(t('CharacterPreview.Messages.RevertedPortrait')/* Successfully reverted portrait */)
-        SaveState.save()
+        SaveState.delayedSave()
         break
       default:
         console.error(`Payload of type '${type}' is not valid!`)
@@ -945,7 +952,7 @@ export function CharacterPreview(props) {
                 onChange={(selection) => {
                   setScoringType(selection)
                   window.store.getState().setSavedSessionKey(SavedSessionKeys.scoringType, selection)
-                  setTimeout(() => SaveState.save(), 1000)
+                  SaveState.delayedSave()
                 }}
                 value={scoringType}
                 block
@@ -975,7 +982,7 @@ export function CharacterPreview(props) {
                 onChange={(selection) => {
                   setCombatScoreDetails(selection)
                   window.store.getState().setSavedSessionKey(SavedSessionKeys.combatScoreDetails, selection)
-                  setTimeout(() => SaveState.save(), 1000)
+                  SaveState.delayedSave()
                 }}
                 value={combatScoreDetails}
                 block

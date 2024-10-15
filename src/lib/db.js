@@ -417,6 +417,11 @@ export const DB = {
       character.form.characterLevel = 80
       character.form.lightConeLevel = 80
 
+      // Previously there was a weight sort which is now removed, arbitrarily replaced with SPD if the user had used it
+      if (character.form.resultSort === 'WEIGHT') {
+        character.form.resultSort = 'SPD'
+      }
+
       // Previously the relic sets were different from what they are now, delete the deprecated options for users with old save files
       const relicSetsOptions = character.form.relicSets || []
       for (let i = relicSetsOptions.length - 1; i >= 0; i--) {

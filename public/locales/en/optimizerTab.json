@@ -38,8 +38,7 @@
     "OHB": "Sorted by $t(common:ReadableStats.Outgoing Healing Boost)",
     "ERR": "Sorted by $t(common:ReadableStats.Energy Regeneration Rate)",
     "DMG": "Sorted by Elemental DMG",
-    "EHP": "Sorted by Effective HP",
-    "WEIGHT": "Sorted by Weight"
+    "EHP": "Sorted by Effective HP"
   },
   "OptimizerOptions": {
     "Header": "Optimizer options",
@@ -472,10 +471,10 @@
       "Conditionals": "Conditional set effects"
     },
     "DeletePopup": {
-      "Title":"Erase stat simulations",
-      "Description":"Are you sure you want to clear all of this character's saved simulations?",
-      "OkText":"Yes",
-      "CancelText":"Cancel"
+      "Title": "Erase stat simulations",
+      "Description": "Are you sure you want to clear all of this character's saved simulations?",
+      "OkText": "Yes",
+      "CancelText": "Cancel"
     },
     "SimulationNamePlaceholder": "Simulation name (Optional)",
     "OptionsHeader": "Options",

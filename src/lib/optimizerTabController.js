@@ -313,8 +313,6 @@ export const OptimizerTabController = {
     newForm.maxErr = unsetMax(form.maxErr, true)
     newForm.minErr = unsetMin(form.minErr, true)
 
-    newForm.maxWeight = unsetMax(form.maxWeight)
-    newForm.minWeight = unsetMin(form.minWeight)
     newForm.maxEhp = unsetMax(form.maxEhp)
     newForm.minEhp = unsetMin(form.minEhp)
     newForm.maxBasic = unsetMax(form.maxBasic)
@@ -837,7 +835,6 @@ function filter(filterModel) {
         && row.xBE >= filterModel.minBe && row.xBE <= filterModel.maxBe
         && row.xERR >= filterModel.minErr && row.xERR <= filterModel.maxErr
         && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
-        && row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight
         && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic
         && row.SKILL >= filterModel.minSkill && row.SKILL <= filterModel.maxSkill
         && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
@@ -863,7 +860,6 @@ function filter(filterModel) {
         && row[Constants.Stats.BE] >= filterModel.minBe && row[Constants.Stats.BE] <= filterModel.maxBe
         && row[Constants.Stats.ERR] >= filterModel.minErr && row[Constants.Stats.ERR] <= filterModel.maxErr
         && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
-        && row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight
         && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic
         && row.SKILL >= filterModel.minSkill && row.SKILL <= filterModel.maxSkill
         && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt

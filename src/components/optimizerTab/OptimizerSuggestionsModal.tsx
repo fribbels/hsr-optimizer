@@ -430,8 +430,6 @@ export function activateZeroResultSuggestionsModal(request: Form) {
   if (request.maxBe < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_BE)
   if (request.minErr) rootCauses.push(ZeroResultRootCause.MIN_ERR)
   if (request.maxErr < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_ERR)
-  if (request.minWeight) rootCauses.push(ZeroResultRootCause.MIN_WEIGHT)
-  if (request.maxWeight < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_WEIGHT)
   if (request.minEhp) rootCauses.push(ZeroResultRootCause.MIN_EHP)
   if (request.maxEhp < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_EHP)
   if (request.minBasic) rootCauses.push(ZeroResultRootCause.MIN_BASIC)

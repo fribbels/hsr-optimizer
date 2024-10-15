@@ -535,7 +535,11 @@ export const OptimizerTabController = {
     }
 
     for (const [key, value] of Object.entries(newForm.setConditionals)) {
-
+      if (!ConditionalSetMetadata[key]) {
+        delete form.setConditionals[key]
+        delete newForm.setConditionals[key]
+        continue
+      }
       if (ConditionalSetMetadata[key].type === ConditionalDataType.SELECT) {
         if (typeof value[1] != 'number') {
           newForm.setConditionals[key][1] = defaultSetConditionals[key][1]

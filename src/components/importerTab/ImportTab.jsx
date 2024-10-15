@@ -65,6 +65,7 @@ const saveFile = async (blob, suggestedName) => {
 
 function SaveDataSubmenu() {
   const { t } = useTranslation('importSaveTab', { keyPrefix: 'SaveData' })
+
   async function saveClicked() {
     try {
       const stateString = SaveState.save()
@@ -84,7 +85,7 @@ function SaveDataSubmenu() {
   return (
     <Flex vertical gap={5}>
       <Text>
-        {t('label')/* Save your optimizer data to a file. */}
+        {t('Label')/* Save your optimizer data to a file. */}
       </Text>
       <Button type='primary' onClick={saveClicked} icon={<DownloadOutlined/>} style={{ width: buttonWidth }}>
         {t('ButtonText')/* Save data */}

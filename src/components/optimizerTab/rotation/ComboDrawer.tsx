@@ -149,7 +149,7 @@ export const abilitySelectOptions = [
 ]
 
 function AbilitySelector(props: { comboAbilities: string[]; index: number }) {
-  if (props.comboAbilities[props.index] == null) return <></>
+  if (props.index == 0) return <></>
 
   return (
     <Select

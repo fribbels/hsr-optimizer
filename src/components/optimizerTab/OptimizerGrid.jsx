@@ -7,13 +7,13 @@ import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 import { getGridTheme } from 'lib/theme'
 import { useTranslation } from 'react-i18next'
 
-const {useToken} = theme
+const { useToken } = theme
 
 export function OptimizerGrid() {
   console.log('======================================================================= RENDER OptimizerGrid')
 
-  const {token} = useToken()
-  const {t, i18n} = useTranslation('optimizerTab')
+  const { token } = useToken()
+  const { t, i18n } = useTranslation('optimizerTab')
   const optimizerGrid = useRef()
   window.optimizerGrid = optimizerGrid
   const [gridDestroyed, setGridDestroyed] = useState(false)
@@ -79,7 +79,7 @@ export function OptimizerGrid() {
             paginationNumberFormatter={(param) => param.value.toLocaleString(i18n.resolvedLanguage)}
             getLocaleText={getLocaleText}
             navigateToNextCell={navigateToNextCell}
-            rowSelection={{
+            selection={{
               mode: 'singleRow',
               headerCheckbox: false,
               checkboxes: false,

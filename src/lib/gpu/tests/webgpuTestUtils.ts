@@ -277,7 +277,6 @@ export function generateTestRelics() {
         },
         id: 'cd85c14c-a662-4413-a149-a379e6d538d3',
         equippedBy: '1212',
-        weightScore: 42.767999999999994,
         condensedStats: [
           ['CRIT Rate', 0.11016 + 0.25],
           ['CRIT DMG', 0.10368],
@@ -299,7 +298,6 @@ export function generateTestRelics() {
         },
         id: '798657c8-5c5c-4b44-9c5f-f5f094414289',
         equippedBy: '1212',
-        weightScore: 43.416,
         condensedStats: [
           ['HP%', 0.03456],
           ['SPD', 4],
@@ -321,7 +319,6 @@ export function generateTestRelics() {
         },
         id: 'b3376a19-62f9-489e-80e6-8f98335af158',
         equippedBy: '1212',
-        weightScore: 38.370734301091446,
         condensedStats: [
           ['HP', 114.31138],
           ['ATK%', 0.07344],
@@ -343,7 +340,6 @@ export function generateTestRelics() {
         },
         id: '92c53d06-80d0-43a8-b896-2feeda419674',
         equippedBy: '1212',
-        weightScore: 43.16174737167594,
         condensedStats: [
           ['ATK', 21.16877],
           ['ATK%', 0.11664],
@@ -365,7 +361,6 @@ export function generateTestRelics() {
         },
         id: '80abbd56-b1a0-4587-a349-754c33627217',
         equippedBy: '1212',
-        weightScore: 38.971971552257266,
         condensedStats: [
           ['DEF', 74.09071],
           ['CRIT Rate', 0.05508],
@@ -387,7 +382,6 @@ export function generateTestRelics() {
         },
         id: 'c521dc03-6c6e-45ef-9933-811367312441',
         equippedBy: '1212',
-        weightScore: 37.249627764127766,
         condensedStats: [
           ['HP', 80.44134],
           ['CRIT Rate', 0.08424],

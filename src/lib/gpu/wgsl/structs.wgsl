@@ -21,8 +21,7 @@ struct Relic {
   Wind_DMG: f32,
   Quantum_DMG: f32,
   Imaginary_DMG: f32,
-  relicSet: f32,
-  weightScore: f32, // 23
+  relicSet: f32, // 22
 }
 
 struct BasicStats {
@@ -48,7 +47,6 @@ struct BasicStats {
   Wind_DMG: f32,
   Quantum_DMG: f32,
   Imaginary_DMG: f32,
-  weightScore: f32,
 }
 
 struct Sets {

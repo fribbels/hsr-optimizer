@@ -312,8 +312,6 @@ enum ZeroResultRootCause {
   MAX_BE = 'MAX_BE',
   MIN_ERR = 'MIN_ERR',
   MAX_ERR = 'MAX_ERR',
-  MIN_WEIGHT = 'MIN_WEIGHT',
-  MAX_WEIGHT = 'MAX_WEIGHT',
   MIN_EHP = 'MIN_EHP',
   MAX_EHP = 'MAX_EHP',
   MIN_BASIC = 'MIN_BASIC',
@@ -361,8 +359,6 @@ const ZeroResultRootCauseFixes: {
   [ZeroResultRootCause.MIN_BE]: filterFixes(ZeroResultRootCause.MIN_BE),
   [ZeroResultRootCause.MAX_ERR]: filterFixes(ZeroResultRootCause.MAX_ERR),
   [ZeroResultRootCause.MIN_ERR]: filterFixes(ZeroResultRootCause.MIN_ERR),
-  [ZeroResultRootCause.MAX_WEIGHT]: filterFixes(ZeroResultRootCause.MAX_WEIGHT),
-  [ZeroResultRootCause.MIN_WEIGHT]: filterFixes(ZeroResultRootCause.MIN_WEIGHT),
   [ZeroResultRootCause.MAX_EHP]: filterFixes(ZeroResultRootCause.MAX_EHP),
   [ZeroResultRootCause.MIN_EHP]: filterFixes(ZeroResultRootCause.MIN_EHP),
   [ZeroResultRootCause.MAX_BASIC]: filterFixes(ZeroResultRootCause.MAX_BASIC),
@@ -430,8 +426,6 @@ export function activateZeroResultSuggestionsModal(request: Form) {
   if (request.maxBe < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_BE)
   if (request.minErr) rootCauses.push(ZeroResultRootCause.MIN_ERR)
   if (request.maxErr < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_ERR)
-  if (request.minWeight) rootCauses.push(ZeroResultRootCause.MIN_WEIGHT)
-  if (request.maxWeight < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_WEIGHT)
   if (request.minEhp) rootCauses.push(ZeroResultRootCause.MIN_EHP)
   if (request.maxEhp < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_EHP)
   if (request.minBasic) rootCauses.push(ZeroResultRootCause.MIN_BASIC)

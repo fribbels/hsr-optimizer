@@ -105,7 +105,7 @@ export function mergeRelicsIntoArray(relics: RelicsByPart) {
   ])
 }
 
-const RELIC_ARG_SIZE = 24
+const RELIC_ARG_SIZE = 23
 
 function relicsToArray(relics: Relic[]) {
   const output: number[] = []
@@ -143,8 +143,7 @@ function relicsToArray(relics: Relic[]) {
     output[startIndex + j++] = uncondensedStats[Stats.Wind_DMG] || 0
     output[startIndex + j++] = uncondensedStats[Stats.Quantum_DMG] || 0 // 20
     output[startIndex + j++] = uncondensedStats[Stats.Imaginary_DMG] || 0
-    output[startIndex + j++] = relicSetToIndex(relic)
-    output[startIndex + j++] = relic.weightScore // 23
+    output[startIndex + j++] = relicSetToIndex(relic) // 22
   }
 
   return output

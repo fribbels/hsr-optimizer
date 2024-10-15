@@ -140,8 +140,6 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.ERR > maxErr'),
     filter('x.EHP < minEhp'),
     filter('x.EHP > maxEhp'),
-    filter('x.WEIGHT < minWeight'),
-    filter('x.WEIGHT > maxWeight'),
     filter('x.BASIC_DMG < minBasic'),
     filter('x.BASIC_DMG > maxBasic'),
     filter('x.SKILL_DMG < minSkill'),

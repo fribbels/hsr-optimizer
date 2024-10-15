@@ -1,4 +1,4 @@
-import { Flex, Form, Select, Typography } from 'antd'
+import { Flex, Form, Select } from 'antd'
 import { HeaderText } from 'components/HeaderText.jsx'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { Hint } from 'lib/hint.jsx'
@@ -84,7 +84,6 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
           { value: SortOption.ERR.key, label: t('SortOptions.ERR') }, // resultSortString(StatsToReadable[Stats.ERR]) },
           { value: SortOption.ELEMENTAL_DMG.key, label: t('SortOptions.DMG') }, // resultSortString('Elemental DMG') },
           { value: SortOption.EHP.key, label: t('SortOptions.EHP') }, // resultSortString('Effective HP') },
-          { value: SortOption.WEIGHT.key, label: t('SortOptions.WEIGHT') }, // resultSortString('Weight') },
         ],
       },
     ]

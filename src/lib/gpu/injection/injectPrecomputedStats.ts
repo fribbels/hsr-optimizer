@@ -121,7 +121,6 @@ export function injectPrecomputedStatsContext(action: OptimizerAction, gpuParams
       ${x.DOT_DMG_TYPE},${gpuParams.DEBUG ? ' // DOT_DMG_TYPE' : ''}
       ${x.BREAK_DMG_TYPE},${gpuParams.DEBUG ? ' // BREAK_DMG_TYPE' : ''}
       ${x.SUPER_BREAK_DMG_TYPE},${gpuParams.DEBUG ? ' // SUPER_BREAK_DMG_TYPE' : ''}
-      ${x.WEIGHT},${gpuParams.DEBUG ? ' // WEIGHT' : ''}
       Sets(),`
 
   return computedStatsWgsl

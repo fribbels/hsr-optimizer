@@ -140,7 +140,6 @@ self.onmessage = function (e: MessageEvent) {
         || c[Stats.RES] < request.minRes || c[Stats.RES] > request.maxRes
         || c[Stats.BE] < request.minBe || c[Stats.BE] > request.maxBe
         || c[Stats.ERR] < request.minErr || c[Stats.ERR] > request.maxErr
-        || c.WEIGHT < request.minWeight || c.WEIGHT > request.maxWeight
       if (fail) {
         continue
       }

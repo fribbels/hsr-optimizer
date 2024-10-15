@@ -40,7 +40,6 @@ export const MinMaxRatingFilters = () => {
         <TooltipImage type={Hint.ratingFilters()}/>
       </Flex>
 
-      <FilterRow name='Weight' label={t('WEIGHTLabel')}/>
       <FilterRow name='Ehp' label={t('EHPLabel')}/>
       <FilterRow name='Basic' label={t('BASICLabel')}/>
       <FilterRow name='Skill' label={t('SKILLLabel')}/>

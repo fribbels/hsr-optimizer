@@ -320,7 +320,6 @@ fn main(
     let diffBE = c.BE   + combatBuffsBE;
     let diffERR = c.ERR;
     let diffOHB = c.OHB;
-    let diffWEIGHT = head.weightScore + hands.weightScore + body.weightScore + feet.weightScore + planarSphere.weightScore + linkRope.weightScore;
 
     var combo = 0.0;
 
@@ -470,7 +469,6 @@ fn main(
       x.BE  += diffBE;
       x.ERR += diffERR;
       x.OHB += diffOHB;
-      x.WEIGHT += diffWEIGHT;
 
       addElementalDmg(&c, &x);
 

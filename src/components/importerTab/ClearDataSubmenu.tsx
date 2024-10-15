@@ -33,8 +33,8 @@ export function ClearDataSubmenu() {
         description={t('ClearData.WarningDescription')/* Are you sure you want to clear all relics and characters */}
         onConfirm={clearDataClicked}
         placement='bottom'
-        okText={t('common:Yes')/* yes */}
-        cancelText={t('common:Cancel')/* cancel */}
+        okText={t('common:Yes', { capitalizeLength: 1 })/* Yes */}
+        cancelText={t('common:Cancel', { capitalizeLength: 1 })/* Cancel */}
       >
         <Button type='primary' icon={<DeleteOutlined/>} loading={loading} style={{ width: importerTabButtonWidth }}>
           {t('ClearData.ButtonText')/* Clear data */}

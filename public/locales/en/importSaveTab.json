@@ -53,7 +53,7 @@
         "ButtonText": "Import $t(common:Relic, {\"count\": 123, \"capitalizeLength\": 0})"
       },
       "CharactersImport": {
-        "Label": "Import $t(common:Relic, {\"count\": 123, \"capitalizeLength\": 0}) only. Updates the optimizer with the new dataset of $t(common:Relic, {\"count\": 123, \"capitalizeLength\": 0}) and doesn't overwrite builds.",
+        "Label": "Import $t(common:Relic, {\"count\": 123, \"capitalizeLength\": 0}) and $t(common:Character, {\"count\": 123, \"capitalizeLength\": 0}). Replaces the optimizer builds with ingame builds.",
         "ButtonText": "Import $t(common:Relic, {\"count\": 123, \"capitalizeLength\": 0}) & $t(common:Character, {\"count\": 123, \"capitalizeLength\": 0})",
         "WarningTitle": "Overwrite optimizer builds",
         "WarningDescription": "Are you sure you want to overwrite your optimizer builds with ingame builds?"

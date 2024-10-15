@@ -483,6 +483,12 @@ a {
     background: #0a1b4533;
 }
 
+.unselectable {
+    width: 50px;
+    border: 1px dashed #000000;
+    background: #0a1b4533;
+}
+
 .selectable:not(.selected):not(.defaultShaded):hover {
     background: rgba(104, 166, 255, 0.09);
 }

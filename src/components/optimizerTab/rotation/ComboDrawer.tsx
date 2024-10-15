@@ -18,7 +18,7 @@ import GenerateOrnamentsOptions from 'components/optimizerTab/optimizerForm/Orna
 import { OrnamentSetTagRenderer } from 'components/optimizerTab/optimizerForm/OrnamentSetTagRenderer'
 import { GenerateBasicSetsOptions } from 'components/optimizerTab/optimizerForm/SetsOptions'
 import { FormSelectWithPopover } from 'components/optimizerTab/conditionals/FormSelect'
-import { generateSetConditionalContent } from 'lib/optimizer/rotation/setConditionalContent'
+import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimizer/rotation/setConditionalContent'
 import { ConditionalDataType } from 'lib/constants'
 
 const buttonStyle = {
@@ -338,13 +338,13 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
       conditionals = comboCharacter.lightConeConditionals
     } else if (props.originKey.includes('comboCharacterRelicSets')) {
       const setName = props.conditionalType
-      // const displayedKeys = comboCharacter.displayedRelicSets
-      // const keys = Object.keys(comboCharacter.setConditionals).filter(x => displayedKeys.includes(x))
+      const disabled = !ConditionalSetMetadata[setName].modifiable
 
       const category: ComboConditionalCategory = comboCharacter.setConditionals[setName]
       if (category.type == ConditionalDataType.BOOLEAN) {
         content = [{
           formItem: 'switch',
+          disabled: disabled,
           id: setName,
           name: setName,
           text: setName,
@@ -354,6 +354,7 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
       } else if (category.type == ConditionalDataType.NUMBER) {
         content = [{
           formItem: 'slider',
+          disabled: disabled,
           id: setName,
           name: setName,
           text: setName,
@@ -365,6 +366,7 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
       } else if (category.type == ConditionalDataType.SELECT) {
         content = [{
           formItem: 'select',
+          disabled: disabled,
           id: setName,
           name: setName,
           text: setName,
@@ -507,7 +509,7 @@ function BooleanConditionalActivationRow(props: { contentItem: ContentItem; acti
   return (
     <Flex key={props.contentItem.id} style={{ height: 45 }}>
       <BooleanSwitch contentItem={props.contentItem} sourceKey={props.sourceKey} value={props.activations[0]}/>
-      <BoxArray activations={props.activations} actionCount={props.actionCount} dataKeys={dataKeys} partition={false}/>
+      <BoxArray activations={props.activations} actionCount={props.actionCount} dataKeys={dataKeys} partition={false} unselectable={props.contentItem.disabled}/>
     </Flex>
   )
 }
@@ -594,7 +596,7 @@ function BooleanSwitch(props: { contentItem: ContentItem; sourceKey: string; val
             removeForm={false}
             set={props.sourceKey.includes('comboCharacterRelicSets')}
             value={props.value}
-            disabled={props.sourceKey.includes('Teammate') && props.sourceKey.includes('Set')}
+            disabled={props.sourceKey.includes('Teammate') && props.sourceKey.includes('Set') || props.contentItem.disabled}
           />
         }
       </Flex>
@@ -680,7 +682,7 @@ function NumberSelect(props: { contentItem: ContentItem; value: number; sourceKe
   )
 }
 
-function BoxArray(props: { activations: boolean[]; actionCount: number; dataKeys: string[]; partition: boolean }) {
+function BoxArray(props: { activations: boolean[]; actionCount: number; dataKeys: string[]; partition: boolean; unselectable?: boolean }) {
   return (
     <Flex>
       {
@@ -692,6 +694,7 @@ function BoxArray(props: { activations: boolean[]; actionCount: number; dataKeys
             disabled={index >= props.actionCount}
             index={index}
             partition={props.partition}
+            unselectable={props.unselectable}
           />
         ))
       }
@@ -700,12 +703,16 @@ function BoxArray(props: { activations: boolean[]; actionCount: number; dataKeys
 }
 
 const BoxComponent = React.memo(
-  function Box(props: { active: boolean; index: number; disabled: boolean; dataKey: string; partition: boolean }) {
+  function Box(props: { active: boolean; index: number; disabled: boolean; dataKey: string; partition: boolean, unselectable?: boolean }) {
     let classnames: string
     if (props.disabled) {
       classnames = 'disabledSelect'
     } else {
-      classnames = props.active ? 'selectable selected' : 'selectable'
+      if (props.unselectable) {
+        classnames = props.active ? 'unselectable selected defaultShaded' : 'unselectable defaultShaded'
+      } else {
+        classnames = props.active ? 'selectable selected' : 'selectable'
+      }
       if (props.index == 0) {
         classnames += ' defaultShaded'
       }
@@ -729,5 +736,6 @@ const BoxComponent = React.memo(
       && prevProps.disabled === nextProps.disabled
       && prevProps.index === nextProps.index
       && prevProps.partition === nextProps.partition
+      && prevProps.unselectable === nextProps.unselectable
   },
 )

@@ -2,7 +2,7 @@ import { inPlaceSort } from 'fast-sort'
 import DB from './db'
 import { Message } from './message'
 import { SaveState } from './saveState'
-import { CombatBuffs, Constants, DamageKeys, DEFAULT_STAT_DISPLAY } from './constants.ts'
+import { CombatBuffs, ConditionalDataType, Constants, DamageKeys, DEFAULT_STAT_DISPLAY } from './constants.ts'
 import { Utils } from './utils'
 import { LightConeConditionals } from './lightConeConditionals'
 import { CharacterConditionals } from './characterConditionals'
@@ -11,7 +11,7 @@ import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaul
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { initializeComboState } from 'lib/optimizer/rotation/comboDrawerController'
-import { SelectionSets } from 'lib/optimizer/rotation/setConditionalContent'
+import { ConditionalSetMetadata } from 'lib/optimizer/rotation/setConditionalContent'
 
 let relics
 let consts
@@ -537,7 +537,8 @@ export const OptimizerTabController = {
     }
 
     for (const [key, value] of Object.entries(newForm.setConditionals)) {
-      if (SelectionSets[key]) {
+
+      if (ConditionalSetMetadata[key].type === ConditionalDataType.SELECT) {
         if (typeof value[1] != 'number') {
           newForm.setConditionals[key][1] = defaultSetConditionals[key][1]
         }

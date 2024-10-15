@@ -5,17 +5,11 @@ import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditional, LightConeConditionalMap } from 'types/LightConeConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { defaultSetConditionals, getDefaultForm } from 'lib/defaultForm'
-import { SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants'
+import { ConditionalDataType, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants'
 import { SaveState } from 'lib/saveState'
 import DB from 'lib/db'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { SelectionSets } from 'lib/optimizer/rotation/setConditionalContent'
-
-export enum ConditionalDataType {
-  BOOLEAN = 'boolean',
-  NUMBER = 'number',
-  SELECT = 'select',
-}
+import { ConditionalSetMetadata } from 'lib/optimizer/rotation/setConditionalContent'
 
 export type ComboConditionals = {
   [key: string]: ComboConditionalCategory
@@ -299,7 +293,7 @@ function generateSetComboConditionals(
 
   for (const [setName, setConditionalValue] of Object.entries(setConditionals)) {
     const p4Value = setConditionalValue[1]
-    if (SelectionSets[setName]) {
+    if (ConditionalSetMetadata[setName].type == ConditionalDataType.SELECT) {
       const value: number = p4Value as number
       const activations: boolean[] = Array(actionCount).fill(true)
       const valuePartitions: ComboSubSelectConditional = {

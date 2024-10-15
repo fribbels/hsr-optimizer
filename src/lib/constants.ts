@@ -754,3 +754,9 @@ export const ConditionalActivation = {
   SINGLE: 0,
   CONTINUOUS: 1,
 }
+
+export enum ConditionalDataType {
+  BOOLEAN = 'boolean',
+  NUMBER = 'number',
+  SELECT = 'select',
+}

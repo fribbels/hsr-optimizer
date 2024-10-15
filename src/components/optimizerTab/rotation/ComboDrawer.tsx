@@ -2,7 +2,7 @@ import { Button, Divider, Drawer, Flex, Select } from 'antd'
 import React, { useEffect, useMemo, useRef } from 'react'
 import Selecto from 'react-selecto'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState, ComboSubNumberConditional, ComboTeammate, ConditionalDataType, initializeComboState, locateActivations, updateAbilityRotation, updateActivation, updateAddPartition, updateDeletePartition, updateFormState, updateNumberDefaultSelection, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
+import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState, ComboSubNumberConditional, ComboTeammate, initializeComboState, locateActivations, updateAbilityRotation, updateActivation, updateAddPartition, updateDeletePartition, updateFormState, updateNumberDefaultSelection, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { Assets } from 'lib/assets'
@@ -19,6 +19,7 @@ import { OrnamentSetTagRenderer } from 'components/optimizerTab/optimizerForm/Or
 import { GenerateBasicSetsOptions } from 'components/optimizerTab/optimizerForm/SetsOptions'
 import { FormSelectWithPopover } from 'components/optimizerTab/conditionals/FormSelect'
 import { generateSetConditionalContent } from 'lib/optimizer/rotation/setConditionalContent'
+import { ConditionalDataType } from 'lib/constants'
 
 const buttonStyle = {
   fontSize: 20,
@@ -168,6 +169,7 @@ function AbilitySelector(props: { comboAbilities: string[]; index: number }) {
 
       }}
       onClear={() => {
+        // @ts-ignore
         updateAbilityRotation(props.index, null)
       }}
     />
@@ -369,7 +371,7 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
           text: setName,
           title: setName,
           content: setName,
-          options: setContent[setName].options,
+          options: setContent[setName],
         }]
       } else {
         return null

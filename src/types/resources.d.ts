@@ -7828,16 +7828,6 @@ interface Resources {
           "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.Energy Regeneration Rate) may be too high",
           "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) $t(common:Stats.Energy Regeneration Rate) filter"
         },
-        "MAX_WEIGHT": {
-          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) Weight filter",
-          "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) weight may be too low",
-          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) Weight filter"
-        },
-        "MIN_WEIGHT": {
-          "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) Weight filter",
-          "Description": "$t(common:Minimum, {\"capitalizeLength\": 1}) weight may be too high",
-          "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Minimum, {\"capitalizeLength\": 1}) Weight filter"
-        },
         "MAX_EHP": {
           "SuccessMessage": "$t(common:Reset, {\"capitalizeLength\": 1}) $t(common:Maximum, {\"capitalizeLength\": 1}) EHP filter",
           "Description": "$t(common:Maximum, {\"capitalizeLength\": 1}) EHP may be too low",

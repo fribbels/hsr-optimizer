@@ -4496,7 +4496,10 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [],
-        [Constants.Parts.LinkRope]: [],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.ERR,
+        ],
       },
       presets: [
         PresetEffects.PRISONER_SET,

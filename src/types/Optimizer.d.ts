@@ -28,18 +28,18 @@ export type TeammateAction = {
 }
 
 export type SetConditional = {
-  enabledHunterOfGlacialForest: number
-  enabledFiresmithOfLavaForging: number
-  enabledGeniusOfBrilliantStars: number
-  enabledBandOfSizzlingThunder: number
-  enabledMessengerTraversingHackerspace: number
-  enabledCelestialDifferentiator: number
-  enabledWatchmakerMasterOfDreamMachinations: number
-  enabledIzumoGenseiAndTakamaDivineRealm: number
-  enabledForgeOfTheKalpagniLantern: number
-  enabledTheWindSoaringValorous: number
-  enabledTheWondrousBananAmusementPark: number
-  enabledScholarLostInErudition: number
+  enabledHunterOfGlacialForest: boolean
+  enabledFiresmithOfLavaForging: boolean
+  enabledGeniusOfBrilliantStars: boolean
+  enabledBandOfSizzlingThunder: boolean
+  enabledMessengerTraversingHackerspace: boolean
+  enabledCelestialDifferentiator: boolean
+  enabledWatchmakerMasterOfDreamMachinations: boolean
+  enabledIzumoGenseiAndTakamaDivineRealm: boolean
+  enabledForgeOfTheKalpagniLantern: boolean
+  enabledTheWindSoaringValorous: boolean
+  enabledTheWondrousBananAmusementPark: boolean
+  enabledScholarLostInErudition: boolean
   valueChampionOfStreetwiseBoxing: number
   valueWastelanderOfBanditryDesert: number
   valueLongevousDisciple: number

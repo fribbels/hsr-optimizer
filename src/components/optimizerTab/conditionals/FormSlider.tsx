@@ -112,7 +112,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
   )
 
   return (
-    <Flex vertical gap={1} style={{ marginBottom: 0 }}>
+    <Flex vertical gap={0} style={{ marginBottom: 0 }}>
       <Flex justify={justify} align={align}>
         <div style={{ minWidth: inputWidth, display: 'block' }}>
           {

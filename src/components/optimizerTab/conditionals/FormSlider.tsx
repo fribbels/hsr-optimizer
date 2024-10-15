@@ -125,7 +125,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
               )
           }
         </div>
-        <Text>
+        <Text style={{ lineHeight: '16px' }}>
           {props.text}
         </Text>
       </Flex>

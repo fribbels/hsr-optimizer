@@ -157,7 +157,7 @@ export function initializeComboState(request: Form, merge: boolean) {
 }
 
 function displayModifiedSets(request: Form, comboState: ComboState) {
-  const defaultForm = getDefaultForm(request.characterId)
+  const defaultForm = getDefaultForm({ id: request.characterId })
   const presets = DB.getMetadata().characters[request.characterId].scoringMetadata.presets || []
   for (const applyPreset of presets) {
     applyPreset(defaultForm)
@@ -174,7 +174,8 @@ function displayModifiedSets(request: Form, comboState: ComboState) {
     if (!comboSet) {
       modified.push(key)
     } else if (comboSet.type == ConditionalDataType.BOOLEAN) {
-      for (const activation of comboSet.activations) {
+      for (let i = 0; i < comboState.comboAbilities.length; i++) {
+        const activation = comboSet.activations[i]
         if (activation == null) break
         if (activation != defaultValue) {
           modified.push(key)

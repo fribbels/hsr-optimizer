@@ -13,8 +13,6 @@ export type ComboForm = {}
 
 export function transformComboState(request: Form, context: OptimizerContext) {
   // console.log('transformComboState')
-  // console.debug(request)
-  // console.debug(context)
 
   if (!request.comboStateJson || request.comboStateJson == '{}') {
     request.comboType = 'simple'
@@ -22,23 +20,20 @@ export function transformComboState(request: Form, context: OptimizerContext) {
 
   if (request.comboType == 'advanced') {
     const comboState = initializeComboState(request, true)
-    simpleTransform(comboState, request, context)
+    transformStateActions(comboState, request, context)
   } else {
     const comboState = initializeComboState(request, false)
-    simpleTransform(comboState, request, context)
+    transformStateActions(comboState, request, context)
   }
 }
 
-function advancedTransform() {
-
-}
-
-function simpleTransform(comboState: ComboState, request: Form, context: OptimizerContext) {
+function transformStateActions(comboState: ComboState, request: Form, context: OptimizerContext) {
   const comboAbilities = getComboAbilities(request.comboAbilities)
   const actions: OptimizerAction[] = []
   for (let i = 0; i < comboAbilities.length; i++) {
     actions.push(transformAction(i, comboState, comboAbilities, context))
   }
+
   context.actions = actions
   context.comboDot = request.comboDot || 0
   context.comboBreak = request.comboBreak || 0
@@ -147,11 +142,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
   for (let i = 0; i < teammates.length; i++) {
     const teammate = teammates[i]!
     // This is set to null so empty light cones don't get overwritten by the main lc. TODO: There's probably a better place for this
-    // teammates[i].lightCone = teammates[i].lightCone || null
     const teammateRequest = Object.assign({}, teammates[i])
-
-    // const teammateCharacterConditional = transformConditionals(action.actionIndex, teammates[i].characterConditionals) as CharacterConditional
-    // const teammateLightConeConditional = transformConditionals(action.actionIndex, teammates[i].lightConeConditionals) as LightConeConditional
 
     const teammateAction = {
       characterConditionals: transformConditionals(action.actionIndex, teammate.characterConditionals) as CharacterConditionalMap,
@@ -161,13 +152,11 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
     const teammateCharacterConditionals = CharacterConditionals.get(teammate.metadata) as CharacterConditional
     const teammateLightConeConditionals = LightConeConditionals.get(teammate.metadata) as CharacterConditional
 
-
     if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateAction, context)
     if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateAction, context)
 
     if (teammateLightConeConditionals.precomputeMutualEffects) teammateLightConeConditionals.precomputeMutualEffects(x, teammateAction, context)
     if (teammateLightConeConditionals.precomputeTeammateEffects) teammateLightConeConditionals.precomputeTeammateEffects(x, teammateAction, context)
-
 
     for (const [key, value] of [...Object.entries(teammateRequest.relicSetConditionals), ...Object.entries(teammateRequest.ornamentSetConditionals)]) {
       if (value.type == 'boolean') {

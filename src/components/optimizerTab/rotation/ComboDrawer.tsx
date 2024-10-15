@@ -29,7 +29,6 @@ export function ComboDrawer() {
   const comboDrawerOpen = window.store((s) => s.comboDrawerOpen)
   const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
   const formValues = window.store((s) => s.formValues)
-  const setFormValues = window.store((s) => s.setFormValues)
 
   const comboState = window.store((s) => s.comboState)
   const setComboState = window.store((s) => s.setComboState)
@@ -69,7 +68,7 @@ export function ComboDrawer() {
         <Selecto
           className='selecto-selection'
           // The container to add a selection element
-          container={'.comboDrawer'}
+          // container={'.comboDrawer'}
           // The area to drag selection element (default: container)
           // dragContainer={window}
           // Targets to select. You can register a queryselector or an Element.

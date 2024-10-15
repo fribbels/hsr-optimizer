@@ -23,6 +23,8 @@ export function generateSetConditionalContent() {
 }
 
 export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
+  // Relics
+
   [Sets.PasserbyOfWanderingCloud]: {
     type: ConditionalDataType.BOOLEAN,
   },

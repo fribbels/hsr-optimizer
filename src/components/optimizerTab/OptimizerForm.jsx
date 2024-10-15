@@ -17,7 +17,7 @@ import TeammateCard from 'components/optimizerTab/optimizerForm/TeammateCard'
 import CharacterSelectorDisplay from 'components/optimizerTab/optimizerForm/CharacterSelectorDisplay.tsx'
 import RelicMainSetFilters from 'components/optimizerTab/optimizerForm/RelicMainSetFilters'
 import { SubstatWeightFilters } from 'components/optimizerTab/optimizerForm/SubstatWeightFilters'
-import { MinMaxStatFilters } from 'components/optimizerTab/optimizerForm/ResultFilters'
+import { MinMaxRatingFilters, MinMaxStatFilters } from 'components/optimizerTab/optimizerForm/ResultFilters'
 import { CombatBuffsDrawer } from 'components/optimizerTab/optimizerForm/CombatBuffsDrawer'
 import { OptimizerTabCharacterPanel } from 'components/optimizerTab/optimizerForm/OptimizerTabCharacterPanel'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
@@ -185,6 +185,7 @@ export default function OptimizerForm() {
             </FormCard>
 
             <FormCard>
+              <MinMaxRatingFilters/>
             </FormCard>
 
             <FormCard>

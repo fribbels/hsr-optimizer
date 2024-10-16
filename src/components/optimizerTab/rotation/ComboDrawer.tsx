@@ -12,7 +12,7 @@ import { ContentItem } from 'types/Conditionals'
 import { ReactElement } from 'types/Components'
 import { FormSwitchWithPopover } from 'components/optimizerTab/conditionals/FormSwitch'
 import ColorizeNumbers from 'components/common/ColorizeNumbers'
-import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { ExportOutlined, MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { FormSliderWithPopover } from 'components/optimizerTab/conditionals/FormSlider'
 import GenerateOrnamentsOptions from 'components/optimizerTab/optimizerForm/OrnamentsOptions'
 import { OrnamentSetTagRenderer } from 'components/optimizerTab/optimizerForm/OrnamentSetTagRenderer'
@@ -50,7 +50,7 @@ export function ComboDrawer() {
 
   return (
     <Drawer
-      title='Advanced Rotation'
+      title={<ComboDrawerTitle/>}
       placement='right'
       onClose={() => setComboDrawerOpen(false)}
       open={comboDrawerOpen}
@@ -122,6 +122,19 @@ export function ComboDrawer() {
         />
       </div>
     </Drawer>
+  )
+}
+
+function ComboDrawerTitle() {
+  return (
+    <div style={{ width: 'fit-content' }}>
+      <a href='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/advanced-rotations.md' target='_blank'>
+        <Flex gap={8} style={{ color: '#91bfff', textDecoration: 'underline', fontSize: 18 }}>
+          {'Advanced Rotation User Guide'}
+          <ExportOutlined/>
+        </Flex>
+      </a>
+    </div>
   )
 }
 

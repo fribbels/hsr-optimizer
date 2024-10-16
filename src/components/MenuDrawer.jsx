@@ -74,7 +74,7 @@ const MenuDrawer = () => {
         AppPages.IMPORT),
       getItem(
         (
-          <Flex onClick={() => window.store.getState().setSettingsDrawerOpen(true)}>
+          <Flex onClick={() => window.store.getState().setSettingsDrawerOpen(true)} style={{ width: '100%' }}>
             <SettingOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
             {t('Optimization.Settings')/* Settings */}

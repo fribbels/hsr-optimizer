@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import { Assets } from 'lib/assets'
 import { KelzScannerConfig } from 'lib/importer/importConfig'
 import { ImportOutlined } from '@ant-design/icons'
-import { ColorizedLink } from 'components/common/ColorizedLink'
+import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
 import { ReliquaryDescription } from './importerTab/ReliquaryDescription'
 import { Trans, useTranslation } from 'react-i18next'
 import { SaveState } from 'lib/saveState'
@@ -99,7 +99,7 @@ export default function GettingStartedTab() {
             />
 
             <p>
-              From the <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}><ColorizedLink/></span> tab, clicking on the Optimize Character Stats button will automatically import and run the
+              From the <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}><ColorizedLinkWithIcon linkIcon={true}/></span> tab, clicking on the Optimize Character Stats button will automatically import and run the
               optimizer on your selected character. This option will only be able to use the relics from your profile's
               showcase characters, so it is still recommended to use a scanner to import your full inventory of relics,
               but this allows for a quick calculation of character stats in combat.
@@ -127,7 +127,7 @@ export default function GettingStartedTab() {
 
               <li>
                 Kel-Z HSR Scanner (
-                <ColorizedLink url={KelzScannerConfig.releases}/>
+                <ColorizedLinkWithIcon linkIcon={true} url={KelzScannerConfig.releases}/>
                 )
                 <ul>
                   <li>OCR scanner</li>
@@ -138,7 +138,7 @@ export default function GettingStartedTab() {
               <li>
                 Relic Scorer Import (
                 <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}>
-                  <ColorizedLink/>
+                  <ColorizedLinkWithIcon linkIcon={true}/>
                 </span>
                 )
                 <ul>

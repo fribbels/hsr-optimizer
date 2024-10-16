@@ -2606,7 +2606,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, SKILL, FUA, FUA, FUA],
+        comboAbilities: [null, ULT, SKILL, FUA, FUA, FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -3068,7 +3068,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, SKILL, FUA, FUA],
+        comboAbilities: [null, ULT, SKILL, FUA, FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -4516,7 +4516,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, SKILL, FUA],
+        comboAbilities: [null, ULT, SKILL, FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -5576,7 +5576,7 @@ function getScoringMetadata() {
         ],
         breakpoints: {},
         maxBonusRolls: {},
-        comboAbilities: [null, SKILL, SKILL, SKILL],
+        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
@@ -5977,7 +5977,7 @@ function getScoringMetadata() {
         breakpoints: {
           [Stats.ATK]: 3200,
         },
-        comboAbilities: [null, SKILL, BASIC, BASIC, BASIC],
+        comboAbilities: [null, ULT, BASIC, BASIC, BASIC, SKILL],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [

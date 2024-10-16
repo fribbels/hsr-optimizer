@@ -164,14 +164,6 @@ export type SimulationMetadata = {
   breakpoints: {
     [stat: string]: number
   }
-  formula: {
-    BASIC: number
-    SKILL: number
-    ULT: number
-    FUA: number
-    DOT: number
-    BREAK: number
-  }
   comboAbilities: string[]
   comboDot: number
   comboBreak: number
@@ -255,8 +247,8 @@ export function scoreCharacterSimulation(
 
   // Special handling for break effect carries
   let addBreakEffect = false
-  if (metadata.formula.BREAK > 0) {
-    // Add break if the formula uses it
+  if (metadata.comboBreak > 0) {
+    // Add break if the combo uses it
     addBreakEffect = true
   }
   if (defaultMetadata.teammates.find((x) => x.characterId == '8005' || x.characterId == '8006')) {

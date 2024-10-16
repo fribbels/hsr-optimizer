@@ -172,6 +172,9 @@ export type SimulationMetadata = {
     DOT: number
     BREAK: number
   }
+  comboAbilities: string[]
+  comboDot: number
+  comboBreak: number
   relicSets: string[][]
   ornamentSets: string[]
   maxBonusRolls: {

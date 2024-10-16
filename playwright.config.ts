@@ -15,7 +15,7 @@ export default defineConfig({
   fullyParallel: true, // Run all tests in parallel.
   forbidOnly: !!process.env.CI, // Fail the build on CI if you accidentally left test.only in the source code.
   retries: process.env.CI ? 1 : 0, // Retry on CI only.
-  workers: process.env.CI ? 5 : undefined, // Opt out of parallel tests on CI.
+  workers: process.env.CI ? 15 : undefined, // Opt out of parallel tests on CI.
 
   expect: {
     timeout: 5000, // Maximum time expect() should wait for the condition to be met.

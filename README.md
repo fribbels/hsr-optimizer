@@ -4,11 +4,13 @@ Tools for optimizing your Honkai Star Rail builds, including the Character Optim
 
 ### Optimizer https://fribbels.github.io/hsr-optimizer/
 
-![image](https://github.com/fribbels/hsr-optimizer/assets/7908525/0f2cffcb-00dd-4a17-8a07-dcb847f9214b)
+![image](https://github.com/user-attachments/assets/fccde7c3-c2ec-4d26-bd94-ed36b6f4c231)
+
 
 ### Relic scorer https://fribbels.github.io/hsr-optimizer/#scorer
 
-<img width="1209" alt="image" src="https://github.com/fribbels/hsr-optimizer/assets/7908525/2602f445-a93d-411d-b2e3-59346bd9a782">
+![image](https://github.com/user-attachments/assets/08729229-da7d-459f-b969-538b07672d50)
+
 
 ### Relic organizer and recommendations
 

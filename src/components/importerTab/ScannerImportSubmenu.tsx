@@ -6,7 +6,7 @@ import { UploadOutlined } from '@ant-design/icons'
 import DB, { AppPages } from 'lib/db.js'
 import { importerTabButtonWidth, importerTabSpinnerMs } from 'components/importerTab/importerTabUiConstants'
 import { Relic } from 'types/Relic'
-import { ColorizedLink } from 'components/common/ColorizedLink'
+import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
 import { ReliquaryDescription } from 'components/importerTab/ReliquaryDescription'
 import { hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
 import { Message } from 'lib/message'
@@ -153,7 +153,7 @@ export function ScannerImportSubmenu() {
               <ReliquaryDescription/>
               <li>
                 {t('Import.Stage1.KelzDesc.Title')} (
-                <ColorizedLink text={t('Import.Stage1.KelzDesc.Link')} url={KelzScannerConfig.releases}/>
+                <ColorizedLinkWithIcon text={t('Import.Stage1.KelzDesc.Link')} url={KelzScannerConfig.releases} linkIcon={true}/>
                 )
                 <ul>
                   <li>{t('Import.Stage1.KelzDesc.l1')}</li>
@@ -162,18 +162,14 @@ export function ScannerImportSubmenu() {
               </li>
               <li>
                 {t('Import.Stage1.ScorerDesc.Title')} (
-                <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}>
-                  <ColorizedLink text={t('Import.Stage1.ScorerDesc.Link')}/>
-                </span>
+                <ColorizedLinkWithIcon text={t('Import.Stage1.ScorerDesc.Link')} linkIcon={true} onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}/>
                 )
                 <ul>
                   <li>{t('Import.Stage1.ScorerDesc.l1')}</li>
                   <li>{t('Import.Stage1.ScorerDesc.l2')}</li>
                 </ul>
               </li>
-              <li>{t('Import.Stage1.HoyolabDesc.Title')} (
-                <ColorizedLink text={t('Import.Stage1.HoyolabDesc.Link')} url='https://github.com/fribbels/hsr-optimizer/discussions/403'/>
-                )
+              <li>{t('Import.Stage1.HoyolabDesc.Title')} (<ColorizedLinkWithIcon text={t('Import.Stage1.HoyolabDesc.Link')} url='https://github.com/fribbels/hsr-optimizer/discussions/403' linkIcon={true}/>)
                 <ul>
                   <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
                   <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>

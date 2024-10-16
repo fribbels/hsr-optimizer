@@ -2,7 +2,7 @@ import React, { ReactElement, useMemo } from 'react'
 import { Flex, List, theme, Typography } from 'antd'
 import { AppPages } from 'lib/db.js'
 import { Assets } from 'lib/assets'
-import { ColorizedLink } from './common/ColorizedLink'
+import { ColorizedLinkWithIcon } from './common/ColorizedLink'
 import { officialOnly } from 'lib/constants'
 
 const { useToken } = theme
@@ -41,7 +41,7 @@ export default function ChangelogTab(): React.JSX.Element {
       } else if (entry.startsWith('https')) {
         display.push(
           <li key={i++}>
-            <ColorizedLink
+            <ColorizedLinkWithIcon
               text={entry}
               url={entry}
               key={i++}

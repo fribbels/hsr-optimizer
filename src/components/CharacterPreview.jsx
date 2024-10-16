@@ -948,7 +948,7 @@ export function CharacterPreview(props) {
                 {t('CharacterPreview.AlgorithmSlider.Title')/* Scoring algorithm: */}
               </Text>
               <Segmented
-                style={{ width: 300, height: 30 }}
+                style={{ width: 325, height: 30 }}
                 onChange={(selection) => {
                   setScoringType(selection)
                   window.store.getState().setSavedSessionKey(SavedSessionKeys.scoringType, selection)
@@ -978,7 +978,7 @@ export function CharacterPreview(props) {
                 {t('CharacterPreview.DetailsSlider.Title')/* Combat score details: */}
               </Text>
               <Segmented
-                style={{ width: 300, height: 30 }}
+                style={{ width: 325, height: 30 }}
                 onChange={(selection) => {
                   setCombatScoreDetails(selection)
                   window.store.getState().setSavedSessionKey(SavedSessionKeys.combatScoreDetails, selection)

@@ -26,7 +26,7 @@ export const AdvancedOptionsPanel = () => {
         icon={<SettingOutlined/>}
       >
         {
-          buffsActive ? t('CombatBuffsButtonText') : t('CombatBuffsButtonTextNone')
+          buffsActive ? t('CombatBuffsButtonText', { activeCount: buffsActive }) : t('CombatBuffsButtonTextNone')
           // Extra combat buffs (activeCount) / Extra combat buffs
         }
       </Button>

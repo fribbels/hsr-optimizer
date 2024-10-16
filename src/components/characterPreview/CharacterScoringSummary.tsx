@@ -16,7 +16,7 @@ import { Simulation } from 'lib/statSimulationController'
 import { damageStats } from 'components/characterPreview/StatRow'
 import { UpArrow } from 'icons/UpArrow'
 import { SortOption } from 'lib/optimizer/sortOptions'
-import { useTranslation, Trans } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 
 const { Text } = Typography
 
@@ -59,6 +59,27 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
       <Flex align='center' gap={15}>
         <pre style={{ margin: 0 }}>{props.label}</pre>
         <pre style={{ margin: 0 }}>{show && value.toFixed(precision)}</pre>
+      </Flex>
+    )
+  }
+
+  function ScoringInteger(props: { label: string; number: number }) {
+    const value = props.number ?? 0
+    return (
+      <Flex align='center' gap={1}>
+        <pre style={{ margin: 0 }}>{props.label}</pre>
+        <pre style={{ margin: 0 }}>{value}</pre>
+      </Flex>
+    )
+  }
+
+  function ScoringAbility(props: { comboAbilities: string[], index: number }) {
+    const displayValue = props.comboAbilities[props.index]
+    if (displayValue == null) return <></>
+
+    return (
+      <Flex align='center' gap={15}>
+        <pre style={{ margin: 0 }}>{`#${props.index} - ${displayValue}`}</pre>
       </Flex>
     )
   }
@@ -437,14 +458,16 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <Flex justify='space-around'>
             <pre style={{ fontSize: 20, fontWeight: 'bold', color: highlight ? color : '' }}>
               <u>{t(`CharacterPreview.ScoringColumn.${props.type}.Header`, { score: Utils.truncate10ths(Utils.precisionRound(props.percent * 100)) })}</u>
-            </pre>{/* Characet/Benchmark/Perfect build ({{score}}%) */}
+            </pre>
+            {/* Characet/Benchmark/Perfect build ({{score}}%) */}
           </Flex>
         </Flex>
 
         <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
           <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.BasicStats`)}
-          </pre>{/* Character/100% benchmark/200% prefect basic stats */}
+          </pre>
+          {/* Character/100% benchmark/200% prefect basic stats */}
           <CharacterStatSummary
             finalStats={basicStats}
             elementalDmgValue={elementalDmgValue}
@@ -468,7 +491,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
         <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '10px auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.Substats`)}
-          </pre>{/* Character subs (min rolls)/100% benchmark subs (min rolls)/200% perfect subs (max rolls) */}
+          </pre>
+          {/* Character subs (min rolls)/100% benchmark subs (min rolls)/200% perfect subs (max rolls) */}
           <Flex gap={5} justify='space-around'>
             <Flex vertical gap={defaultGap} style={{ width: 120 }}>
               <ScoringNumber label={t('CharacterPreview.ScoringColumn.PaddedStatLabels.ATKP')} number={request.stats[Stats.ATK_P]} precision={props.precision}/>
@@ -492,7 +516,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
         <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.Mainstats`)}
-          </pre>{/* Character main stats/100% benchmark main stats/200% perfect main stats */}
+          </pre>
+          {/* Character main stats/100% benchmark main stats/200% perfect main stats */}
           <Flex gap={defaultGap} justify='space-around'>
             <Flex vertical gap={10}>
               <ScoringStat stat={request.simBody !== 'NONE' ? t(`common:ReadableStats.${request.simBody}`) : ''} part={Parts.Body}/>
@@ -506,7 +531,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
         <Flex vertical gap={20}>
           <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
-          </pre>{/* Character/100% benchmark/200% perfect ability damage */}
+          </pre>
+          {/* Character/100% benchmark/200% perfect ability damage */}
           <Flex gap={defaultGap} justify='space-around'>
             <Flex vertical gap={10}>
               <ScoringNumber label={t('CharacterPreview.ScoringColumn.PaddedDMGLabels.Basic')} number={simResult.BASIC}/>
@@ -529,7 +555,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           {t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
         </pre>
       </Flex>
-      <Flex gap={40}>
+      <Flex gap={30}>
         <Flex vertical gap={defaultGap} style={{ marginLeft: 10 }}>
           <pre style={{ margin: '5px auto' }}>
             {t('CharacterPreview.BuildAnalysis.SimulationTeammates')/* Simulation teammates */}
@@ -560,15 +586,23 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '5px auto' }}>
-            {t('CharacterPreview.BuildAnalysis.Formula.Header')/* Formula */}
+            {t('CharacterPreview.BuildAnalysis.Rotation.Header')/* Formula */}
           </pre>
-          <Flex vertical gap={defaultGap}>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.BASIC')/* BASIC:     */} number={result.simulationMetadata.formula.BASIC} precision={0}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.SKILL')/* SKILL:     */} number={result.simulationMetadata.formula.SKILL} precision={0}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.ULT')/* ULT:       */} number={result.simulationMetadata.formula.ULT} precision={0}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.FUA')/* FUA:       */} number={result.simulationMetadata.formula.FUA} precision={0}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.DOT')/* DOT:       */} number={result.simulationMetadata.formula.DOT} precision={0}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.Formula.BREAK')/* BREAK:     */} number={result.simulationMetadata.formula.BREAK} precision={0}/>
+          <Flex gap={30}>
+            <Flex vertical gap={2}>
+              <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={1}/>
+              <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={2}/>
+              <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={3}/>
+              <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={4}/>
+              <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={5}/>
+              <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={6}/>
+              <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={7}/>
+              <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={8}/>
+            </Flex>
+            <Flex vertical gap={2}>
+              <ScoringInteger label={'DOTS:   '} number={result.simulationMetadata.comboDot}/>
+              <ScoringInteger label={'BREAKS: '} number={result.simulationMetadata.comboBreak}/>
+            </Flex>
           </Flex>
         </Flex>
 

@@ -8,7 +8,6 @@ import { Utils } from 'lib/utils'
 
 import StatText from 'components/characterPreview/StatText'
 import { useTranslation } from 'react-i18next'
-import i18next from 'i18next'
 
 const checkSpeedInBreakpoint = (speedValue: number): boolean => {
   const breakpointPresets = [
@@ -66,18 +65,18 @@ const StatRow = (props: { stat: string; finalStats: object; value?: number }): J
   let value1000thsPrecision
 
   if (stat == 'CV') {
-    valueDisplay = Utils.truncate10ths(props.value).toFixed(1)
-    value1000thsPrecision = Utils.truncate1000ths(props.value).toFixed(3)
+    valueDisplay = Utils.precisionRound(props.value).toFixed(1)
+    value1000thsPrecision = Utils.precisionRound(props.value).toFixed(3)
   } else if (stat == 'simScore') {
     valueDisplay = `${Utils.truncate10ths(Utils.precisionRound((props.value ?? 0) / 1000)).toFixed(1)}${t('ThousandsSuffix')}`
-    value1000thsPrecision = Utils.truncate1000ths(props.value).toFixed(3)
+    value1000thsPrecision = Utils.precisionRound(props.value).toFixed(3)
   } else if (stat == Constants.Stats.SPD) {
     const is1000thSpeed = checkSpeedInBreakpoint(value)
-    valueDisplay = is1000thSpeed ? Utils.truncate1000ths(value).toFixed(3) : valueDisplay = Utils.truncate10ths(value).toFixed(1)
-    value1000thsPrecision = Utils.truncate1000ths(value).toFixed(3)
+    valueDisplay = is1000thSpeed ? Utils.precisionRound(value).toFixed(3) : valueDisplay = Utils.precisionRound(value).toFixed(1)
+    value1000thsPrecision = Utils.precisionRound(value).toFixed(3)
   } else if (Utils.isFlat(stat)) {
     valueDisplay = Math.floor(value)
-    value1000thsPrecision = Utils.truncate1000ths(value).toFixed(3)
+    value1000thsPrecision = Utils.precisionRound(value).toFixed(3)
   } else {
     valueDisplay = Utils.truncate10ths(Utils.precisionRound(value * 100)).toFixed(1)
     value1000thsPrecision = Utils.truncate1000ths(Utils.precisionRound(value * 100)).toFixed(3)

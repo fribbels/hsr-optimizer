@@ -5,11 +5,12 @@ import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditional, LightConeConditionalMap } from 'types/LightConeConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { defaultSetConditionals, getDefaultForm } from 'lib/defaultForm'
-import { ConditionalDataType, Sets, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants'
+import { ConditionalDataType, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants'
 import { SaveState } from 'lib/saveState'
 import DB from 'lib/db'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { ConditionalSetMetadata } from 'lib/optimizer/rotation/setConditionalContent'
+import { precomputeConditionalActivations } from 'lib/optimizer/rotation/rotationPreprocessor'
 
 export type ComboConditionals = {
   [key: string]: ComboConditionalCategory
@@ -145,35 +146,11 @@ export function initializeComboState(request: Form, merge: boolean) {
     mergeComboStates(comboState, savedComboState)
   }
 
-  preprocessSetConditionals(comboState, request)
+  precomputeConditionalActivations(comboState, request)
 
   displayModifiedSets(request, comboState)
 
   return comboState
-}
-
-function preprocessSetConditionals(comboState: ComboState, request: Form) {
-  if (request.characterId != '1212') return
-
-  console.log('Scholar conditional preprocessor', comboState, request)
-
-  let scholarActivated = false
-  for (let i = 1; i < comboState.comboAbilities.length; i++) {
-    const action = comboState.comboAbilities[i]
-
-    if (action == 'ULT') {
-      scholarActivated = true
-    }
-
-    const category: ComboConditionalCategory = comboState.comboCharacter.setConditionals[Sets.ScholarLostInErudition] as ComboBooleanConditional
-
-    if (action == 'SKILL' && scholarActivated) {
-      scholarActivated = false
-      category.activations[i] = true
-    } else {
-      category.activations[i] = false
-    }
-  }
 }
 
 function displayModifiedSets(request: Form, comboState: ComboState) {

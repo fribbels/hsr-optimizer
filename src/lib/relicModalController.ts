@@ -7,9 +7,10 @@ import { Constants, Stats, SubStatValues } from 'lib/constants'
 import { RelicAugmenter } from 'lib/relicAugmenter'
 import { Utils } from 'lib/utils'
 import { RelicRollFixer } from 'lib/relicRollFixer'
+import i18next from 'i18next'
 
 export const RelicModalController = {
-  onEditOk: (selectedRelic, relic) => {
+  onEditOk: (selectedRelic: Relic, relic: Relic) => {
     relic.id = selectedRelic.id
 
     const updatedRelic = { ...selectedRelic, ...relic }
@@ -19,10 +20,10 @@ export const RelicModalController = {
     window.setRelicRows(DB.getRelics())
 
     console.log('onEditOk', updatedRelic)
-    Message.success('Successfully edited relic')
+    Message.success(i18next.t('modals:Relic.Messages.EditSuccess')/* Successfully edited relic */)
 
     setTimeout(() => {
-      SaveState.save()
+      SaveState.delayedSave()
       window.forceCharacterTabUpdate()
     }, 200)
 
@@ -54,86 +55,86 @@ export type RelicForm = {
 export function validateRelic(relicForm: RelicForm): Relic | void {
   console.log('Form finished', relicForm)
   if (!relicForm.part) {
-    return Message.error('Part field is missing')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.PartMissing')/* Part field is missing */)
   }
   if (!relicForm.mainStatType) {
-    return Message.error('Main stat is missing')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.MainstatMissing')/* Main stat is missing */)
   }
   if (!relicForm.mainStatValue) {
-    return Message.error('Main stat is missing')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.MainstatMissing')/* Main stat is missing */)
   }
   if (!relicForm.set) {
-    return Message.error('Set field is missing')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SetMissing')/* Set field is missing */)
   }
   if (relicForm.enhance == undefined) {
-    return Message.error('Enhance field is missing')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.EnhanceMissing')/* Enhance field is missing */)
   }
   if (relicForm.grade == undefined) {
-    return Message.error('Grade field is missing')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.GradeMissing')/* Grade field is missing */)
   }
   if (relicForm.grade > 5 || relicForm.grade < 2) {
-    return Message.error('Grade value is invalid')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.GradeInvalid')/* Grade value is invalid */)
   }
   if (relicForm.enhance > 15 || relicForm.enhance < 0) {
-    return Message.error('Enhance value is invalid')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.EnhanceInvalid')/* Enhance value is invalid */)
   }
   if (relicForm.enhance > relicForm.grade * 3) {
-    return Message.error('Enhance value is too high for this grade')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.EnhanceTooHigh')/* Enhance value is too high for this grade */)
   }
   if (!Constants.SetsRelicsNames.includes(relicForm.set) && !Constants.SetsOrnamentsNames.includes(relicForm.set)) {
-    return Message.error('Set value is invalid')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SetInvalid')/* Set value is invalid */)
   }
   if (Constants.SetsRelicsNames.includes(relicForm.set) && (relicForm.part == Constants.Parts.PlanarSphere || relicForm.part == Constants.Parts.LinkRope)) {
-    return Message.error('The selected set is not an ornament set')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SetNotOrnament')/* The selected set is not an ornament set */)
   }
   if (Constants.SetsOrnamentsNames.includes(relicForm.set) && (relicForm.part == Constants.Parts.Head
     || relicForm.part == Constants.Parts.Hands
     || relicForm.part == Constants.Parts.Body
     || relicForm.part == Constants.Parts.Feet)) {
-    return Message.error('The selected set is not a relic set')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SetNotRelic')/* The selected set is not a relic set */)
   }
   if (relicForm.substatType0 != undefined && relicForm.substatValue0 == undefined || relicForm.substatType0 == undefined && relicForm.substatValue0 != undefined) {
-    return Message.error('Substat 1 is invalid')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubNInvalid', { number: 1 })/* Substat 1 is invalid */)
   }
   if (relicForm.substatType1 != undefined && relicForm.substatValue1 == undefined || relicForm.substatType1 == undefined && relicForm.substatValue1 != undefined) {
-    return Message.error('Substat 2 is invalid')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubNInvalid', { number: 2 })/* Substat 2 is invalid */)
   }
   if (relicForm.substatType2 != undefined && relicForm.substatValue2 == undefined || relicForm.substatType2 == undefined && relicForm.substatValue2 != undefined) {
-    return Message.error('Substat 3 is invalid')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubNInvalid', { number: 3 })/* Substat 3 is invalid */)
   }
   if (relicForm.substatType3 != undefined && relicForm.substatValue3 == undefined || relicForm.substatType3 == undefined && relicForm.substatValue3 != undefined) {
-    return Message.error('Substat 4 is invalid')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubNInvalid', { number: 4 })/* Substat 4 is invalid */)
   }
 
   if (relicForm.substatType3 != undefined && (relicForm.substatType0 == undefined || relicForm.substatType1 == undefined || relicForm.substatType2 == undefined)) {
-    return Message.error('Substats are out of order')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubsOutOfOrder')/* Substats are out of order */)
   }
   if (relicForm.substatType2 != undefined && (relicForm.substatType0 == undefined || relicForm.substatType1 == undefined)) {
-    return Message.error('Substats are out of order')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubsOutOfOrder')/* Substats are out of order */)
   }
   if (relicForm.substatType1 != undefined && (relicForm.substatType0 == undefined)) {
-    return Message.error('Substats are out of order')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubsOutOfOrder')/* Substats are out of order */)
   }
 
   const substatTypes = [relicForm.substatType0, relicForm.substatType1, relicForm.substatType2, relicForm.substatType3].filter((x) => x != undefined)
   if (new Set(substatTypes).size !== substatTypes.length) {
-    return Message.error('Duplicate substats, only one of each type is allowed')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.DuplicateSubs')/* Duplicate substats, only one of each type is allowed */)
   }
   if (substatTypes.includes(relicForm.mainStatType)) {
-    return Message.error('Substat type is the same as the main stat')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.MainAsSub')/* Substat type is the same as the main stat */)
   }
 
   if (relicForm.substatValue0 >= 1000 || relicForm.substatValue1 >= 1000 || relicForm.substatValue2 >= 1000 || relicForm.substatValue3 >= 1000) {
-    return Message.error('Substat value is too big')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubTooBig')/* Substat value is too big */)
   }
   if (relicForm.mainStatValue >= 1000) {
-    return Message.error('Main stat value is too big')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.MainTooBig')/* Main stat value is too big */)
   }
   if (relicForm.substatValue0 <= 0 || relicForm.substatValue1 <= 0 || relicForm.substatValue2 <= 0 || relicForm.substatValue3 <= 0) {
-    return Message.error('Substat values should be positive')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.SubTooSmall')/* Substat values should be positive */)
   }
   if (relicForm.mainStatValue <= 0) {
-    return Message.error('Main stat values should be positive')
+    return Message.error(i18next.t('modals:Relic.Messages.Error.MainTooSmall')/* Main stat values should be positive */)
   }
 
   const relic: Relic = {

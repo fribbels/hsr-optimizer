@@ -1,15 +1,17 @@
 import { Stats } from 'lib/constants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, precisionRound, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-const DrRatio = (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.DrRatio')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const debuffStacksMax = 5
@@ -20,7 +22,7 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
   const ultScaling = ult(e, 2.40, 2.592)
   const fuaScaling = talent(e, 2.70, 2.97)
 
-  function e2FuaRatio(procs, fua = true) {
+  function e2FuaRatio(procs: number, fua = true) {
     return fua
       ? fuaScaling / (fuaScaling + 0.20 * procs) // for fua dmg
       : 0.20 / (fuaScaling + 0.20 * procs) // for each e2 proc
@@ -35,44 +37,29 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
     4: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(4, true) + 14 * e2FuaRatio(4, false)), // 2 + 3 + 4 + 5
   }
 
-  function getHitMulti(request: Form) {
-    const r = request.characterConditionals
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    const r = action.characterConditionals
     return e >= 2
       ? fuaMultiByDebuffs[Math.min(4, r.enemyDebuffStacks)]
       : baseHitMulti
-  }
-
-  // TODO: Make consistent with the other code
-  const getContentWithTalentLevel = () => {
-    const base = [
-      'When using his Skill, Dr. Ratio has a 40% fixed chance of launching a follow-up attack against his target for 1 time,',
-      "dealing Imaginary DMG equal to {0}% of Dr. Ratio's ATK.",
-      'For each debuff the target enemy has, the fixed chance of launching follow-up attack increases by 20%.',
-      'If the target enemy is defeated before the follow-up attack triggers, the follow-up attack will be directed at a single random enemy instead.',
-      '::BR::When dealing DMG to a target that has 3 or more debuff(s), for each debuff the target has, the DMG dealt by Dr. Ratio to this target increases by 10%, up to a maximum increase of 50%.',
-      "::BR::E2: When his Talent's follow-up attack hits a target, for every debuff the target has, additionally deals Imaginary Additional DMG equal to 20% of Dr. Ratio's ATK. This effect can be triggered for a maximum of 4 times during each follow-up attack.",
-    ].join(' ')
-
-    // assume max talent level
-    return base.replace('{0}', (e >= 5) ? '297' : '270')
   }
 
   const content: ContentItem[] = [{
     id: 'summationStacks',
     name: 'summationStacks',
     formItem: 'slider',
-    text: 'Summation stacks',
-    title: 'Summation stacks',
-    content: `When Dr. Ratio uses his Skill, for every debuff on the target, his CRIT Rate increases by 2.5% and CRIT DMG by 5%. This effect can stack up to ${precisionRound(summationStacksMax)} time(s).`,
+    text: t('Content.summationStacks.text'),
+    title: t('Content.summationStacks.title'),
+    content: t('Content.summationStacks.content', { summationStacksMax }),
     min: 0,
     max: summationStacksMax,
   }, {
     id: 'enemyDebuffStacks',
     name: 'enemyDebuffStacks',
     formItem: 'slider',
-    text: 'Enemy debuff stacks',
-    title: 'Talent: Cogito, Ergo Sum',
-    content: getContentWithTalentLevel(),
+    text: t('Content.enemyDebuffStacks.text'),
+    title: t('Content.enemyDebuffStacks.title'),
+    content: t('Content.enemyDebuffStacks.content', { FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
     min: 0,
     max: debuffStacksMax,
   }]
@@ -85,8 +72,8 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
       summationStacks: summationStacksMax,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.CR] += r.summationStacks * 0.025
@@ -109,15 +96,11 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, getHitMulti(request))
-    },
-    gpuFinalizeCalculations: (request: Form) => {
-      return gpuStandardFuaAtkFinalizer(getHitMulti(request))
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuStandardFuaAtkFinalizer(getHitMulti(action, context))
     },
   }
 }
-
-export default DrRatio

@@ -1,13 +1,15 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Misha')
   const { basic, skill, ult } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -19,33 +21,33 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'slider',
     id: 'ultHitsOnTarget',
     name: 'ultHitsOnTarget',
-    text: 'Ult hits on target',
-    title: 'Ult hits on target',
-    content: `Number of Ultimate hits on the primary target, dealing DMG equal to ${precisionRound(ultStackScaling * 100)}% ATK per hit.`,
+    text: t('Content.ultHitsOnTarget.text'),
+    title: t('Content.ultHitsOnTarget.title'),
+    content: t('Content.ultHitsOnTarget.content', { ultStackScaling: TsUtils.precisionRound(100 * ultStackScaling) }),
     min: 1,
     max: 10,
   }, {
     formItem: 'switch',
     id: 'enemyFrozen',
     name: 'enemyFrozen',
-    text: 'Enemy frozen',
-    title: 'Enemy frozen',
-    content: `When dealing DMG to Frozen enemies, increases CRIT DMG by 30%.`,
+    text: t('Content.enemyFrozen.text'),
+    title: t('Content.enemyFrozen.title'),
+    content: t('Content.enemyFrozen.content'),
   }, {
     formItem: 'switch',
     id: 'e2DefReduction',
     name: 'e2DefReduction',
-    text: 'E2 DEF reduction',
-    title: 'E2 DEF reduction',
-    content: `E2: Reduces the target's DEF by 16% for 3 turn(s).`,
+    text: t('Content.e2DefReduction.text'),
+    title: t('Content.e2DefReduction.title'),
+    content: t('Content.e2DefReduction.content'),
     disabled: e < 2,
   }, {
     formItem: 'switch',
     id: 'e6UltDmgBoost',
     name: 'e6UltDmgBoost',
-    text: 'E6 ult DMG boost',
-    title: 'E6 ult DMG boost',
-    content: `E6: When using the Ultimate, increases own DMG by 30%, lasting until the end of the turn.`,
+    text: t('Content.e6UltDmgBoost.text'),
+    title: t('Content.e6UltDmgBoost.title'),
+    content: t('Content.e6UltDmgBoost.content'),
     disabled: e < 6,
   }]
 
@@ -65,8 +67,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
       e2DefReduction: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       x[Stats.CD] += (r.enemyFrozen) ? 0.30 : 0
 
@@ -82,12 +84,12 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x.DEF_PEN += (e >= 2 && m.e2DefReduction) ? 0.16 : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

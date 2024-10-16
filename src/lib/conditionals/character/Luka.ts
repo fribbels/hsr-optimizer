@@ -1,13 +1,15 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Luka')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicEnhancedHitValue = basic(e, 0.20, 0.22)
@@ -24,25 +26,25 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'basicEnhanced',
       name: 'basicEnhanced',
-      text: 'Basic enhanced',
-      title: 'Basic enhanced: Sky-Shatter Fist',
-      content: `Enhances Basic ATK to deal additional damage, and has a chance to trigger extra hits.`,
+      text: t('Content.basicEnhanced.text'),
+      title: t('Content.basicEnhanced.title'),
+      content: t('Content.basicEnhanced.content'),
     },
     {
       formItem: 'switch',
       id: 'targetUltDebuffed',
       name: 'targetUltDebuffed',
-      text: 'Ult vulnerability debuff',
-      title: 'Ult vulnerability debuff',
-      content: `Increase the target's DMG received by ${precisionRound(targetUltDebuffDmgTakenValue * 100)}% for 3 turn(s)`,
+      text: t('Content.targetUltDebuffed.text'),
+      title: t('Content.targetUltDebuffed.title'),
+      content: t('Content.targetUltDebuffed.content', { targetUltDebuffDmgTakenValue: TsUtils.precisionRound(100 * targetUltDebuffDmgTakenValue) }),
     },
     {
       formItem: 'slider',
       id: 'basicEnhancedExtraHits',
       name: 'basicEnhancedExtraHits',
-      text: 'Enhanced basic extra hits',
-      title: 'Enhanced basic extra hits',
-      content: `Increases the number of hits of Basic Enhanced.`,
+      text: t('Content.basicEnhancedExtraHits.text'),
+      title: t('Content.basicEnhancedExtraHits.title'),
+      content: t('Content.basicEnhancedExtraHits.content'),
       min: 0,
       max: 3,
     },
@@ -50,18 +52,18 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e1TargetBleeding',
       name: 'e1TargetBleeding',
-      text: 'E1 target bleeding',
-      title: 'E1 target bleeding',
-      content: `E1: When Luka takes action, if the target enemy is Bleeding, increases DMG dealt by Luka by 15% for 2 turn(s).`,
+      text: t('Content.e1TargetBleeding.text'),
+      title: t('Content.e1TargetBleeding.title'),
+      content: t('Content.e1TargetBleeding.content'),
       disabled: e < 1,
     },
     {
       formItem: 'slider',
       id: 'e4TalentStacks',
       name: 'e4TalentStacks',
-      text: 'E4 talent stacks',
-      title: 'E4 talent stacks',
-      content: `E4: For every stack of Fighting Will obtained, increases ATK by 5%, stacking up to 4 time(s).`,
+      text: t('Content.e4TalentStacks.text'),
+      title: t('Content.e4TalentStacks.title'),
+      content: t('Content.e4TalentStacks.content'),
       min: 0,
       max: 4,
       disabled: e < 4,
@@ -85,8 +87,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
       targetUltDebuffed: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += (e >= 4) ? r.e4TalentStacks * 0.05 : 0
@@ -109,8 +111,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x.VULNERABILITY += (m.targetUltDebuffed) ? targetUltDebuffDmgTakenValue : 0
     },

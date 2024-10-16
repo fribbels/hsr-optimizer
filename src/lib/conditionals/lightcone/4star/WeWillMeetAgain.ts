@@ -1,36 +1,22 @@
 import { ContentItem } from 'types/Conditionals'
 
 import { SuperImpositionLevel } from 'types/LightCone'
-import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.WeWillMeetAgain')
   const sValues = [0.48, 0.60, 0.72, 0.84, 0.96]
-  const lcRank = {
-    id: '21029',
-    skill: 'A Discourse in Arms',
-    desc: "After the wearer uses Basic ATK or Skill, deals Additional DMG equal to #1[i]% of the wearer's ATK to a random enemy that has been attacked.",
-    params: [
-      [0.48],
-      [0.60],
-      [0.72],
-      [0.84],
-      [0.96],
-    ],
-    properties: [
-      [], [], [], [], [],
-    ],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'extraDmgProc',
     name: 'extraDmgProc',
     formItem: 'switch',
-    text: 'Additional DMG proc',
-    title: lcRank.skill,
-    content: getContentFromLCRanks(s, lcRank),
+    text: t('Content.extraDmgProc.text'),
+    title: t('Content.extraDmgProc.title'),
+    content: t('Content.extraDmgProc.content', { Multiplier: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {
@@ -38,8 +24,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
       extraDmgProc: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.lightConeConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals
 
       x.BASIC_SCALING += (r.extraDmgProc) ? sValues[s] : 0
       x.SKILL_SCALING += (r.extraDmgProc) ? sValues[s] : 0

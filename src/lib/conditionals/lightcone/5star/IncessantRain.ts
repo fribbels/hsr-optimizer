@@ -1,56 +1,33 @@
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals'
+import { LightConeConditional } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { findContentId } from 'lib/conditionals/conditionalUtils'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.IncessantRain')
   const sValuesCr = [0.12, 0.14, 0.16, 0.18, 0.20]
   const sValuesDmg = [0.12, 0.14, 0.16, 0.18, 0.20]
-
-  const lcRank: LightConeRawRank = {
-    id: '23007',
-    skill: 'Mirage of Reality',
-    desc: "When the wearer deals DMG to an enemy that currently has #4[i] or more debuffs, increases the wearer's CRIT Rate by #5[i]%.",
-    params: [
-      [0.24, 1, 0.12, 3, 0.12],
-      [0.28, 1, 0.14, 3, 0.14],
-      [0.32, 1, 0.16, 3, 0.16],
-      [0.36, 1, 0.18, 3, 0.18],
-      [0.4, 1, 0.2, 3, 0.2],
-    ],
-    properties: [
-      [{ type: 'StatusProbabilityBase', value: 0.24 }],
-      [{ type: 'StatusProbabilityBase', value: 0.28 }],
-      [{ type: 'StatusProbabilityBase', value: 0.32 }],
-      [{ type: 'StatusProbabilityBase', value: 0.36 }],
-      [{ type: 'StatusProbabilityBase', value: 0.4 }],
-    ],
-  }
-  const lcRank2: LightConeRawRank = {
-    ...lcRank,
-    desc: `After the wearer uses their Basic ATK, Skill, or Ultimate, there is a chance to implant Aether Code on a random hit target that does not yet have it. Targets with Aether Code receive #3[i]% increased DMG for 1 turn.`,
-  }
 
   const content: ContentItem[] = [{
     lc: true,
     id: 'enemy3DebuffsCrBoost',
     name: 'enemy3DebuffsCrBoost',
     formItem: 'switch',
-    text: 'Enemy ≤ 3 debuffs CR buff',
-    title: lcRank.skill,
-    content: getContentFromLCRanks(s, lcRank),
+    text: t('Content.enemy3DebuffsCrBoost.text'),
+    title: t('Content.enemy3DebuffsCrBoost.title'),
+    content: t('Content.enemy3DebuffsCrBoost.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCr[s]) }),
   }, {
     lc: true,
     id: 'targetCodeDebuff',
     name: 'targetCodeDebuff',
     formItem: 'switch',
-    text: 'Target Aether Code debuff',
-    title: lcRank.skill,
-    content: getContentFromLCRanks(s, lcRank2),
+    text: t('Content.targetCodeDebuff.text'),
+    title: t('Content.targetCodeDebuff.title'),
+    content: t('Content.targetCodeDebuff.content', { DmgIncrease: TsUtils.precisionRound(100 * sValuesDmg[s]) }),
   }]
 
   const teammateContent: ContentItem[] = [
@@ -67,13 +44,13 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     teammateDefaults: () => ({
       targetCodeDebuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.lightConeConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals
 
       x[Stats.CR] += (r.enemy3DebuffsCrBoost) ? sValuesCr[s] : 0
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals
 
       x.VULNERABILITY += (m.targetCodeDebuff) ? sValuesDmg[s] : 0
     },

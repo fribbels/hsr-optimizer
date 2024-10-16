@@ -3,12 +3,15 @@ import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'l
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { BETA_UPDATE, Stats } from 'lib/constants'
+import { CURRENT_DATA_VERSION, Stats } from 'lib/constants'
 import { RappaConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Rappa')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5 // TODO
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -28,25 +31,25 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'sealformActive',
       name: 'sealformActive',
-      text: 'Sealform state (force weakness break)',
-      title: 'Sealform state (force weakness break)',
-      content: BETA_UPDATE,
+      text: t('Content.sealformActive.text'),
+      title: t('Content.sealformActive.title'),
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
       formItem: 'switch',
       id: 'atkToBreakVulnerability',
       name: 'atkToBreakVulnerability',
-      text: 'ATK to Break vulnerability',
-      title: 'ATK to Break vulnerability',
-      content: BETA_UPDATE,
+      text: t('Content.atkToBreakVulnerability.text'),
+      title: t('Content.atkToBreakVulnerability.title'),
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
       name: 'chargeStacks',
       id: 'chargeStacks',
       formItem: 'slider',
-      text: 'Charge stacks',
-      title: 'Charge stacks',
-      content: BETA_UPDATE,
+      text: t('Content.chargeStacks.text'),
+      title: t('Content.chargeStacks.title'),
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
       max: maxChargeStacks,
     },
@@ -54,27 +57,27 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e1DefPen',
       name: 'e1DefPen',
-      text: 'E1 DEF pen',
-      title: 'E1 DEF pen',
-      content: BETA_UPDATE,
+      text: t('Content.e1DefPen.text'),
+      title: t('Content.e1DefPen.title'),
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2Buffs',
       name: 'e2Buffs',
-      text: 'E2 break buffs',
-      title: 'E2 break buffs',
-      content: BETA_UPDATE,
+      text: t('Content.e2Buffs.text'),
+      title: t('Content.e2Buffs.title'),
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
     },
     {
       formItem: 'switch',
       id: 'e4SpdBuff',
       name: 'e4SpdBuff',
-      text: 'E4 SPD buff',
-      title: 'E4 SPD buff',
-      content: BETA_UPDATE,
+      text: t('Content.e4SpdBuff.text'),
+      title: t('Content.e4SpdBuff.title'),
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 4,
     },
   ]
@@ -84,9 +87,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateBreakVulnerability',
       name: 'teammateBreakVulnerability',
-      text: `Break vulnerability`,
-      title: 'Break vulnerability',
-      content: BETA_UPDATE,
+      text: t('TeammateContent.teammateBreakVulnerability.text'),
+      title: t('TeammateContent.teammateBreakVulnerability.title'),
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
       max: 0.10,
       percent: true,
@@ -95,9 +98,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e4SpdBuff',
       name: 'e4SpdBuff',
-      text: 'E4 SPD buff',
-      title: 'E4 SPD buff',
-      content: BETA_UPDATE,
+      text: t('TeammateContent.e4SpdBuff.text'),
+      title: t('TeammateContent.e4SpdBuff.title'),
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 4,
     },
   ]
@@ -119,15 +122,15 @@ export default (e: Eidolon): CharacterConditional => {
       teammateBreakVulnerability: 0.10,
       e4SpdBuff: true,
     }),
-    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       if (r.sealformActive) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
     },
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       x[Stats.BE] += (r.sealformActive) ? ultBeBuff : 0
       x.BREAK_EFFICIENCY_BOOST += (r.sealformActive) ? 0.50 : 0
@@ -148,10 +151,10 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
-      const t = request.characterConditionals
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const t = action.characterConditionals
 
       x.BREAK_VULNERABILITY += t.teammateBreakVulnerability
 

@@ -5,17 +5,20 @@ import { defaultGap } from 'lib/constantsUi'
 import { Utils } from 'lib/utils'
 import PropTypes from 'prop-types'
 import { generateCharacterList } from 'lib/displayUtils'
+import { useTranslation } from 'react-i18next'
 
 export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacter }) {
   const [characterForm] = Form.useForm()
   window.characterForm = characterForm
   const characters = window.store((s) => s.characters)
 
+  const { t } = useTranslation('modals', { keyPrefix: 'SwitchRelics' })
+
   const characterOptions = useMemo(() => generateCharacterList({
     currentCharacters: characters,
     excludeCharacters: [currentCharacter],
     withNobodyOption: false,
-  }), [characters, currentCharacter])
+  }), [characters, currentCharacter, t])
 
   useEffect(() => {
     if (!open) return
@@ -47,26 +50,26 @@ export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacte
       onOk={onModalOk}
       onCancel={handleCancel}
       footer={[
-        <Button key="back" onClick={handleCancel}>
-          Cancel
+        <Button key='back' onClick={handleCancel}>
+          {t('Cancel')/* Cancel */}
         </Button>,
-        <Button key="submit" type="primary" onClick={onModalOk}>
-          Save
+        <Button key='submit' type='primary' onClick={onModalOk}>
+          {t('Save')/* Save */}
         </Button>,
       ]}
     >
       <Form
         form={characterForm}
         preserve={false}
-        layout="vertical"
+        layout='vertical'
       >
-        <Flex justify="space-between" align="center">
-          <HeaderText>Switch relics with character</HeaderText>
+        <Flex justify='space-between' align='center'>
+          <HeaderText>{t('Title')/* Switch relics with character */}</HeaderText>
         </Flex>
 
         <Flex vertical gap={defaultGap}>
           <Flex gap={defaultGap}>
-            <Form.Item size="default" name="selectedCharacter">
+            <Form.Item size='default' name='selectedCharacter'>
               <Select
                 labelInValue
                 showSearch

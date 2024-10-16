@@ -1,15 +1,17 @@
 import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, precisionRound, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Clara')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const ultDmgReductionValue = ult(e, 0.25, 0.27)
@@ -31,31 +33,31 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
-    text: 'Ult buff',
-    title: 'Ult buff',
-    content: `Increases Svarog Counter DMG by ${precisionRound(ultFuaExtraScaling * 100)}% during Ultimate. DMG dealt to Clara is reduced by an extra ${precisionRound(ultDmgReductionValue * 100)}% for 2 turns`,
+    text: t('Content.ultBuff.text'),
+    title: t('Content.ultBuff.title'),
+    content: t('Content.ultBuff.content', { ultFuaExtraScaling: TsUtils.precisionRound(100 * ultFuaExtraScaling) }),
   }, {
     formItem: 'switch',
     id: 'talentEnemyMarked',
     name: 'talentEnemyMarked',
-    text: 'Enemy marked',
-    title: 'Enemy marked',
-    content: `Additionally deals Physical DMG equal to ${precisionRound(skillScaling * 100)}% of Clara's ATK to enemies marked by Svarog with a Mark of Counter.`,
+    text: t('Content.talentEnemyMarked.text'),
+    title: t('Content.talentEnemyMarked.title'),
+    content: t('Content.talentEnemyMarked.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
   }, {
     formItem: 'switch',
     id: 'e2UltAtkBuff',
     name: 'e2UltAtkBuff',
-    text: 'E2 ult ATK buff',
-    title: 'E2 ult ATK buff',
-    content: `E2: After using Ultimate, increases ATK by ${precisionRound(0.30 * 100)}% for 2 turns.`,
+    text: t('Content.e2UltAtkBuff.text'),
+    title: t('Content.e2UltAtkBuff.title'),
+    content: t('Content.e2UltAtkBuff.content'),
     disabled: e < 2,
   }, {
     formItem: 'switch',
     id: 'e4DmgReductionBuff',
     name: 'e4DmgReductionBuff',
-    text: 'E4 DMG reduction buff',
-    title: 'E4 DMG reduction buff',
-    content: `E4: Decreases DMG taken by ${precisionRound(0.30 * 100)}%.`,
+    text: t('Content.e4DmgReductionBuff.text'),
+    title: t('Content.e4DmgReductionBuff.title'),
+    content: t('Content.e4DmgReductionBuff.content'),
     disabled: e < 4,
   }]
 
@@ -69,8 +71,8 @@ export default (e: Eidolon): CharacterConditional => {
       e4DmgReductionBuff: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += (e >= 2 && r.e2UltAtkBuff) ? 0.30 : 0
@@ -95,16 +97,14 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
+      const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[context.enemyCount] : hitMultiSingle
+      standardFuaAtkFinalizer(x, action, context, hitMulti)
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
-      const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[request.enemyCount] : hitMultiSingle
-      standardFuaAtkFinalizer(x, request, hitMulti)
-    },
-    gpuFinalizeCalculations: (request: Form) => {
-      const r = request.characterConditionals
-      const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[request.enemyCount] : hitMultiSingle
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
+      const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[context.enemyCount] : hitMultiSingle
       return gpuStandardFuaAtkFinalizer(hitMulti)
     },
   }

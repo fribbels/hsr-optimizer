@@ -1,8 +1,9 @@
-import { ComponentProps, ComponentType, useEffect, useRef } from 'react'
+import { ComponentProps, ComponentType, useEffect, useRef, useState } from 'react'
 import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
 import styled from 'styled-components'
-import WithPopover from 'components/common/WithPopover.tsx'
+import WithPopover from 'components/common/WithPopover'
 import { precisionRound } from 'lib/conditionals/conditionalUtils'
+import { getItemName } from 'components/optimizerTab/conditionals/FormSwitch'
 
 const justify = 'flex-start'
 const align = 'center'
@@ -14,13 +15,6 @@ const Text = styled(Typography)`
     white-space: pre-line;
 `
 
-function conditionalType(props: FormSliderProps) {
-  if (props.lc) {
-    return 'lightConeConditionals'
-  }
-  return 'characterConditionals'
-}
-
 export interface FormSliderProps {
   disabled?: boolean
   min: number
@@ -29,10 +23,16 @@ export interface FormSliderProps {
   name: string
   percent?: boolean
   lc?: boolean
+  set?: boolean
   teammateIndex?: number
+  removeForm?: boolean
+  onChange?: (value: number) => void
+  value?: number
 }
 
 export const FormSlider: ComponentType<FormSliderProps> = (props) => {
+  const [state, setState] = useState(props.value ?? undefined)
+
   const multiplier = (props.percent ? 100 : 1)
   const step = props.percent ? 0.01 : 1
   const symbol = props.percent ? '%' : ''
@@ -40,10 +40,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
   const minRef = useRef(props.min)
   const maxRef = useRef(props.max)
 
-  const itemName = [conditionalType(props), props.name]
-  if (props.teammateIndex != null) {
-    itemName.unshift(`teammate${props.teammateIndex}`)
-  }
+  const itemName = getItemName(props)
 
   // Update the min and max values of the slider if eidolons change their bounds.
   useEffect(() => {
@@ -59,48 +56,90 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
     maxRef.current = props.max
   }, [props.min, props.max])
 
+  const internalInputNumber = (
+    <InputNumber
+      min={props.min}
+      max={props.max}
+      controls={false}
+      size='small'
+      style={{
+        width: numberWidth,
+      }}
+      parser={(value) => value == null || value == '' ? 0 : precisionRound(parseFloat(value) / multiplier)}
+      formatter={(value) => `${precisionRound((value ?? 0) * multiplier)}${symbol}`}
+      disabled={props.disabled}
+      onChange={(newValue) => {
+        if (props.onChange) {
+          props.onChange(state ?? 0)
+        }
+      }}
+      onBlur={() => {
+        if (props.onChange) {
+          props.onChange(state ?? 0)
+        }
+      }}
+      value={props.value == null ? undefined : state}
+    />
+  )
+
+  const internalSlider = (
+    <Slider
+      min={props.min}
+      max={props.max}
+      step={step}
+      style={{
+        minWidth: sliderWidth,
+        marginTop: 0,
+        marginBottom: 0,
+        marginLeft: 1,
+      }}
+      tooltip={{
+        formatter: (value) => `${precisionRound((value ?? 0) * multiplier)}${symbol}`,
+      }}
+      disabled={props.disabled}
+      onChange={(newValue) => {
+        if (props.onChange) {
+          setState(newValue)
+        }
+      }}
+      onChangeComplete={(newValue) => {
+        if (props.onChange) {
+          props.onChange(newValue)
+        }
+      }}
+      value={props.value == null ? undefined : state}
+    />
+  )
+
   return (
-    <Flex vertical gap={5} style={{ marginBottom: 0 }}>
+    <Flex vertical gap={0} style={{ marginBottom: 0 }}>
       <Flex justify={justify} align={align}>
         <div style={{ minWidth: inputWidth, display: 'block' }}>
-          <Form.Item name={itemName}>
-            <InputNumber
-              min={props.min}
-              max={props.max}
-              controls={false}
-              size="small"
-              style={{
-                width: numberWidth,
-              }}
-              parser={(value) => value == null || value == '' ? 0 : precisionRound(parseFloat(value) / multiplier)}
-              formatter={(value) => `${precisionRound((value ?? 0) * multiplier)}${symbol}`}
-              disabled={props.disabled}
-            />
-          </Form.Item>
+          {
+            props.removeForm
+              ? internalInputNumber
+              : (
+                <Form.Item name={itemName}>
+                  {internalInputNumber}
+                </Form.Item>
+              )
+          }
         </div>
-        <Text>
+        <Text style={{ lineHeight: '16px' }}>
           {props.text}
         </Text>
       </Flex>
 
-      <Flex align="center" justify="flex-start" gap={5} style={{ height: 14 }}>
-        <Form.Item name={itemName}>
-          <Slider
-            min={props.min}
-            max={props.max}
-            step={step}
-            style={{
-              minWidth: sliderWidth,
-              marginTop: 0,
-              marginBottom: 0,
-              marginLeft: 1,
-            }}
-            tooltip={{
-              formatter: (value) => `${precisionRound((value ?? 0) * multiplier)}${symbol}`,
-            }}
-            disabled={props.disabled}
-          />
-        </Form.Item>
+      <Flex align='center' justify='flex-start' gap={5} style={{ height: 14 }}>
+        {
+          props.removeForm
+            ? internalSlider
+            : (
+              <Form.Item name={itemName}>
+                {internalSlider}
+              </Form.Item>
+            )
+        }
         <Text style={{
           minWidth: 20,
           marginBottom: 2,

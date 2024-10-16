@@ -26,7 +26,7 @@ export default function FormCard(props: {
 }) {
   const { token } = useToken()
 
-  const size = props.size || 'small'
+  const size = props.size ?? 'small'
   const width = dimsBySize[size]
 
   return (
@@ -34,7 +34,7 @@ export default function FormCard(props: {
       style={{
         borderRadius: 5,
         backgroundColor: token.colorBgContainer,
-        height: props.height || 350,
+        height: props.height ?? 350,
         padding: defaultPadding,
         boxShadow: shadow,
         overflow: props.style?.overflow,
@@ -42,13 +42,13 @@ export default function FormCard(props: {
     >
       <Flex
         style={{ width: width }}
-        justify={props.justify || undefined}
+        justify={props.justify ?? undefined}
       >
         <Flex
           vertical
           style={{ width: width - 0.5 }}
           gap={defaultGap}
-          justify={props.justify || undefined}
+          justify={props.justify ?? undefined}
         >
           {props.children}
         </Flex>

@@ -1,14 +1,13 @@
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { Stats } from 'lib/constants'
 import { Form } from 'types/Form'
+import { OptimizerContext } from 'types/Optimizer'
 
-export function injectSettings(wgsl: string, params: OptimizerParams, request: Form) {
-  wgsl += generateSetConditionals(params)
-  wgsl += generateCharacterStats(params.character.base, 'character')
-  wgsl += generateCharacterStats(params.character.lightCone, 'lc')
-  wgsl += generateCharacterStats(params.character.traces, 'trace')
+export function injectSettings(wgsl: string, context: OptimizerContext, request: Form) {
+  wgsl += generateCharacterStats(context.characterStatsBreakdown.base, 'character')
+  wgsl += generateCharacterStats(context.characterStatsBreakdown.lightCone, 'lc')
+  wgsl += generateCharacterStats(context.characterStatsBreakdown.traces, 'trace')
   wgsl += generateAggregateStats()
-  wgsl += generateElement(params)
+  wgsl += generateElement(context)
   wgsl += generateRequest(request)
 
   wgsl += '\n'
@@ -25,37 +24,11 @@ const baseSPD = characterSPD + lcSPD;
   `
 }
 
-function generateSetConditionals(params: OptimizerParams) {
-  let wgsl = '\n'
-
-  // Define the set conditional params
-  for (const [key, value] of Object.entries(params)) {
-    if (key.startsWith('enabled')) {
-      wgsl += `const ${key}: i32 = ${value ? 1 : 0};\n`
-    }
-
-    if (key.startsWith('value')) {
-      wgsl += `const ${key}: i32 = ${value};\n`
-    }
-  }
-
-  return wgsl
-}
-
 function generateRequest(request: Form) {
   let wgsl = '\n'
 
   // "combat" == 0 / "base" == 1
   wgsl += `const statDisplay: i32 = ${request.statDisplay == 'combat' ? 0 : 1};\n`
-  wgsl += '\n'
-
-  // Combo
-  wgsl += `const BASIC_COMBO: f32 = ${request.combo.BASIC};\n`
-  wgsl += `const SKILL_COMBO: f32 = ${request.combo.SKILL};\n`
-  wgsl += `const ULT_COMBO: f32 = ${request.combo.ULT};\n`
-  wgsl += `const FUA_COMBO: f32 = ${request.combo.FUA};\n`
-  wgsl += `const DOT_COMBO: f32 = ${request.combo.DOT};\n`
-  wgsl += `const BREAK_COMBO: f32 = ${request.combo.BREAK};\n`
   wgsl += '\n'
 
   // Enemy
@@ -74,7 +47,7 @@ function generateRequest(request: Form) {
 
   // Filters
   for (const [key, value] of Object.entries(request)) {
-    if (key.startsWith('min') || key.startsWith('max')) {
+    if (!key.includes('Weight') && (key.startsWith('min') || key.startsWith('max'))) {
       wgsl += `const ${key}: f32 = ${value};\n`
     }
   }
@@ -93,11 +66,11 @@ function generateRequest(request: Form) {
   return wgsl
 }
 
-function generateElement(params: OptimizerParams) {
+function generateElement(context: OptimizerContext) {
   let wgsl = '\n'
 
-  wgsl += `const ELEMENT_INDEX: i32 = ${paramElementToIndex[params.ELEMENTAL_DMG_TYPE]};\n`
-  wgsl += `const ELEMENTAL_BREAK_SCALING: f32 = ${params.ELEMENTAL_BREAK_SCALING};\n`
+  wgsl += `const ELEMENT_INDEX: i32 = ${paramElementToIndex[context.elementalDamageType]};\n`
+  wgsl += `const ELEMENTAL_BREAK_SCALING: f32 = ${context.elementalBreakScaling};\n`
 
   return wgsl
 }

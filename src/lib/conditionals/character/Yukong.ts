@@ -1,12 +1,14 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yukong')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const skillAtkBuffValue = skill(e, 0.80, 0.88)
@@ -22,32 +24,30 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'teamImaginaryDmgBoost',
     name: 'teamImaginaryDmgBoost',
-    text: 'Team Imaginary DMG boost',
-    title: `Trace: Bowmaster`,
-    content: `When Yukong is on the field, Imaginary DMG dealt by all allies increases by 12%.`,
+    text: t('Content.teamImaginaryDmgBoost.text'),
+    title: t('Content.teamImaginaryDmgBoost.title'),
+    content: t('Content.teamImaginaryDmgBoost.content'),
   }, {
     formItem: 'switch',
     id: 'roaringBowstringsActive',
     name: 'roaringBowstringsActive',
-    text: 'Roaring Bowstrings',
-    title: `Roaring Bowstrings`,
-    content: `When "Roaring Bowstrings" is active, the ATK of all allies increases by ${precisionRound(skillAtkBuffValue * 100)}%.
-    ::BR::
-    E4: When "Roaring Bowstrings" is active, Yukong deals 30% more DMG to enemies.`,
+    text: t('Content.roaringBowstringsActive.text'),
+    title: t('Content.roaringBowstringsActive.title'),
+    content: t('Content.roaringBowstringsActive.content', { skillAtkBuffValue: TsUtils.precisionRound(100 * skillAtkBuffValue) }),
   }, {
     formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
-    text: 'Ult CR/CD buffs',
-    title: `Ult: Diving Kestrel`,
-    content: `If "Roaring Bowstrings" is active on Yukong when her Ultimate is used, additionally increases all allies' CRIT Rate by ${precisionRound(ultCrBuffValue * 100)}% and CRIT DMG by ${precisionRound(ultCdBuffValue * 100)}%. At the same time, deals Imaginary DMG equal to ${precisionRound(ultScaling * 100)}% of Yukong's ATK to a single enemy.`,
+    text: t('Content.ultBuff.text'),
+    title: t('Content.ultBuff.title'),
+    content: t('Content.ultBuff.content', { ultCrBuffValue: TsUtils.precisionRound(100 * ultCrBuffValue), ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue), ultScaling: TsUtils.precisionRound(100 * ultScaling) }),
   }, {
     formItem: 'switch',
     id: 'initialSpeedBuff',
     name: 'initialSpeedBuff',
-    text: 'E1 Initial SPD buff',
-    title: 'E1 Initial SPD buff',
-    content: `E1: At the start of battle, increases the SPD of all allies by 10% for 2 turn(s).`,
+    text: t('Content.initialSpeedBuff.text'),
+    title: t('Content.initialSpeedBuff.title'),
+    content: t('Content.initialSpeedBuff.content'),
     disabled: e < 1,
   }]
 
@@ -73,8 +73,8 @@ export default (e: Eidolon): CharacterConditional => {
       ultBuff: true,
       initialSpeedBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -90,8 +90,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x[Stats.ATK_P] += (m.roaringBowstringsActive) ? skillAtkBuffValue : 0
       x[Stats.CR] += (m.ultBuff && m.roaringBowstringsActive) ? ultCrBuffValue : 0

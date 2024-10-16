@@ -1,35 +1,21 @@
 import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ResolutionShinesAsPearlsOfSweat')
   const sValues = [0.12, 0.13, 0.14, 0.15, 0.16]
-  const lcRanks = {
-    id: '21015',
-    skill: 'Glance Back',
-    desc: "When the wearer hits an enemy and if the hit enemy is not already Ensnared, then there is a chance to Ensnare the hit enemy. Ensnared enemies' DEF decreases by #2[i]% for #3[i] turn(s).",
-    params: [
-      [0.6, 0.12, 1],
-      [0.7, 0.13, 1],
-      [0.8, 0.14, 1],
-      [0.9, 0.15, 1],
-      [1, 0.16, 1],
-    ],
-    properties: [
-      [], [], [], [], [],
-    ],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'targetEnsnared',
     name: 'targetEnsnared',
     formItem: 'switch',
-    text: 'Target ensnared',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.targetEnsnared.text'),
+    title: t('Content.targetEnsnared.title'),
+    content: t('Content.targetEnsnared.content', { DefShred: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {
@@ -43,8 +29,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     }),
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals
 
       x.DEF_PEN += (m.targetEnsnared) ? sValues[s] : 0
     },

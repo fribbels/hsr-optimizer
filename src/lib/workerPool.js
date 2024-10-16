@@ -2,6 +2,7 @@ import { BufferPacker } from 'lib/bufferPacker'
 import { Constants } from 'lib/constants'
 import OptimizerWorker from 'lib/worker/optimizerWorker.ts?worker&inline'
 
+// const poolSize = 10
 const poolSize = Math.min(8, Math.max(1, (navigator.hardwareConcurrency || 4) - 1))
 let initializedWorkers = 0
 console.log('Using pool size ' + poolSize)

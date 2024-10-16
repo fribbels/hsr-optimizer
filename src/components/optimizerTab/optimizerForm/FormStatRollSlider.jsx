@@ -13,12 +13,12 @@ const Text = styled(Typography)`
 export function FormStatRollSlider(props) {
   return (
     <Flex>
-      <Flex justify="flex-start" style={{ width: 45, marginRight: 10 }}>
+      <Flex justify='flex-start' style={{ width: 45, marginRight: 10 }}>
         <Text>
           {props.text}
         </Text>
       </Flex>
-      <Flex align="center">
+      <Flex align='center'>
         <Form.Item name={['weights', props.name]}>
           <Slider
             min={0}
@@ -68,13 +68,13 @@ export function FormStatRollSliderTopPercent(props) {
   }
 
   return (
-    <Flex gap={5} style={{ marginBottom: 0 }} align="center">
-      <Flex gap={5} justify="flex-start" style={{ minWidth: 50 }}>
+    <Flex gap={5} style={{ marginBottom: 0 }} align='center'>
+      <Flex gap={5} justify='flex-start' style={{ minWidth: 50 }}>
         <img src={Assets.getPart(parts[0])} style={{ width: 18 }}/>
         <img src={Assets.getPart(parts[1])} style={{ width: 18 }}/>
       </Flex>
 
-      <Flex align="center" justify="flex-start" gap={10}>
+      <Flex align='center' justify='flex-start' gap={10}>
         <Form.Item name={['weights', name]}>
           <Slider
             min={0}
@@ -101,8 +101,8 @@ export function FormStatRollSliderTopPercent(props) {
 
       <Form.Item name={['weights', name]}>
         <InputNumber
-          size="small"
-          className="center-input-text"
+          size='small'
+          className='center-input-text'
           style={{
             width: 40,
           }}
@@ -110,7 +110,7 @@ export function FormStatRollSliderTopPercent(props) {
           min={0}
           max={MAX_ROLLS}
           // variant="filled"
-          variant="borderless"
+          variant='borderless'
           onChange={(x) => {
             onChange(x)
             window.onOptimizerFormValuesChange(x, window.optimizerForm.getFieldsValue(), true)

@@ -138,7 +138,5 @@ struct ComputedStats {
   BREAK_DMG_TYPE: f32,
   SUPER_BREAK_DMG_TYPE: f32,
 
-  WEIGHT: f32,
-
   sets: Sets,
 }

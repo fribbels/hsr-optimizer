@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { SaveState } from 'lib/saveState'
 import { Utils } from 'lib/utils'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
 
@@ -46,40 +47,42 @@ export const SettingsDrawer = () => {
   const settings = window.store((s) => s.settings)
   const setSettings = window.store((s) => s.setSettings)
 
+  const { t } = useTranslation('settings')
+
   const optionsRelicEquippingBehavior = [
     {
       value: SettingOptions.RelicEquippingBehavior.Replace,
-      label: <span>Default: Replace relics without swapping</span>,
+      label: <span>{t('RelicEquippingBehaviour.Replace')/* Default: Replace relics without swapping */}</span>,
     },
     {
       value: SettingOptions.RelicEquippingBehavior.Swap,
-      label: <span>Swap relics with previous owner</span>,
+      label: <span>{t('RelicEquippingBehaviour.Swap')/* Swap relics with previous owner */}</span>,
     },
   ]
 
   const optionsPermutationsSidebarBehavior = [
     {
       value: SettingOptions.PermutationsSidebarBehavior.ShowXL,
-      label: <span>Default: Minimize if most of the sidebar is hidden</span>,
+      label: <span>{t('PermutationSidebarBehaviour.XL')/* Default: Minimize if most of the sidebar is hidden */}</span>,
     },
     {
       value: SettingOptions.PermutationsSidebarBehavior.ShowXXL,
-      label: <span>Minimize if any of the sidebar is hidden</span>,
+      label: <span>{t('PermutationSidebarBehaviour.XXL')/* Minimize if any of the sidebar is hidden */}</span>,
     },
     {
       value: SettingOptions.PermutationsSidebarBehavior.NoShow,
-      label: <span>Always keep the sidebar on the right</span>,
+      label: <span>{t('PermutationSidebarBehaviour.NoShow')/* Always keep the sidebar on the right */}</span>,
     },
   ]
 
   const optionsRelicPotentialLoadBehavior = [
     {
       value: SettingOptions.RelicPotentialLoadBehavior.ScoreAtStartup,
-      label: <span>Default: Automatically score relics on page load</span>,
+      label: <span>{t('RelicPotentialLoadBehaviour.OnStartup')/* Default: Automatically score relics on page load */}</span>,
     },
     {
       value: SettingOptions.RelicPotentialLoadBehavior.ManuallyClickReapplyScores,
-      label: <span>Only score relics when "Reapply scores" is clicked (faster page load)</span>,
+      label: <span>{t('RelicPotentialLoadBehaviour.Manual')/* Only score relics when \"Reapply scores\" is clicked (faster page load) */}</span>,
     },
   ]
 
@@ -93,7 +96,7 @@ export const SettingsDrawer = () => {
 
   const onValuesChange = (_changedValues, allValues) => {
     setSettings(allValues)
-    SaveState.save()
+    SaveState.delayedSave()
   }
 
   return (
@@ -102,7 +105,7 @@ export const SettingsDrawer = () => {
       onValuesChange={onValuesChange}
     >
       <Drawer
-        title='Settings'
+        title={t('Title')}/* 'Settings' */
         placement='right'
         onClose={() => setSettingsDrawerOpen(false)}
         open={settingsDrawerOpen}
@@ -111,15 +114,13 @@ export const SettingsDrawer = () => {
       >
         <Flex vertical gap={defaultGap}>
           <Flex justify='space-between' align='center'>
-            <Text>
-              Equipping relics from another character
-            </Text>
+            <Text>{t('RelicEquippingBehaviour.Label')/* Equipping relics from another character */}</Text>
             <Form.Item name={SettingOptions.RelicEquippingBehavior.name}>
               <Select style={{ width: 500 }} options={optionsRelicEquippingBehavior}/>
             </Form.Item>
           </Flex>
           <Flex justify='space-between' align='center'>
-            <Text>Shrink optimizer sidebar on smaller screens</Text>
+            <Text>{t('PermutationSidebarBehaviour.Label')/* Shrink optimizer sidebar on smaller screens */}</Text>
             <Form.Item name={SettingOptions.PermutationsSidebarBehavior.name}>
               <Select
                 style={{ width: 500 }}
@@ -129,7 +130,7 @@ export const SettingsDrawer = () => {
             </Form.Item>
           </Flex>
           <Flex justify='space-between' align='center'>
-            <Text>Relic potential scoring on load</Text>
+            <Text>{t('RelicPotentialLoadBehaviour.Label')/* Relic potential scoring on load */}</Text>
             <Form.Item name={SettingOptions.RelicPotentialLoadBehavior.name}>
               <Select
                 style={{ width: 500 }}

@@ -5,10 +5,12 @@ import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } f
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
 import { buffAbilityCd, buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.JingYuan')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -16,15 +18,15 @@ export default (e: Eidolon): CharacterConditional => {
   const ultScaling = ult(e, 2.00, 2.16)
   const fuaScaling = talent(e, 0.66, 0.726)
 
-  function getHitMulti(request: Form) {
-    const r = request.characterConditionals
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    const r = action.characterConditionals
 
     let hitMulti = 0
     const stacks = r.talentHitsPerAction
     const hits = r.talentAttacks
-    const stacksPerMiss = (request.enemyCount >= 3) ? 2 : 0
-    const stacksPerHit = (request.enemyCount >= 3) ? 3 : 1
-    const stacksPreHit = (request.enemyCount >= 3) ? 2 : 1
+    const stacksPerMiss = (context.enemyCount >= 3) ? 2 : 0
+    const stacksPerHit = (context.enemyCount >= 3) ? 3 : 1
+    const stacksPreHit = (context.enemyCount >= 3) ? 2 : 1
 
     // Calc stacks on miss
     let ashblazingStacks = stacksPerMiss * (stacks - hits)
@@ -46,42 +48,42 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'skillCritBuff',
     name: 'skillCritBuff',
-    text: 'Skill CR buff',
-    title: 'Skill CR buff',
-    content: `After using Skill, CRIT Rate increases by 10% for 2 turns.`,
+    text: t('Content.skillCritBuff.text'),
+    title: t('Content.skillCritBuff.title'),
+    content: t('Content.skillCritBuff.content'),
   }, {
     formItem: 'slider',
     id: 'talentHitsPerAction',
     name: 'talentHitsPerAction',
-    text: 'Lightning Lord stacks',
-    title: 'Lightning Lord stacks',
-    content: `Lightning Lord hits-per-action stack up to 10 times.`,
+    text: t('Content.talentHitsPerAction.text'),
+    title: t('Content.talentHitsPerAction.title'),
+    content: t('Content.talentHitsPerAction.content'),
     min: 3,
     max: 10,
   }, {
     formItem: 'slider',
     id: 'talentAttacks',
     name: 'talentAttacks',
-    text: 'Lightning Lord hits on target',
-    title: 'Lightning Lord hits on target',
-    content: `Count of hits on target. Should usually be set to the same value as Lightning Lord Stacks.`,
+    text: t('Content.talentAttacks.text'),
+    title: t('Content.talentAttacks.title'),
+    content: t('Content.talentAttacks.content'),
     min: 0,
     max: 10,
   }, {
     formItem: 'switch',
     id: 'e2DmgBuff',
     name: 'e2DmgBuff',
-    text: 'E2 dmg buff',
-    title: 'E2 dmg buff',
-    content: `E2: After Lightning-Lord takes action, DMG caused by Jing Yuan's Basic ATK, Skill, and Ultimate increases by 20% for 2 turns.`,
+    text: t('Content.e2DmgBuff.text'),
+    title: t('Content.e2DmgBuff.title'),
+    content: t('Content.e2DmgBuff.content'),
     disabled: e < 2,
   }, {
     formItem: 'slider',
     id: 'e6FuaVulnerabilityStacks',
     name: 'e6FuaVulnerabilityStacks',
-    text: 'E6 vulnerable stacks',
-    title: 'E6 vulnerable stacks',
-    content: `E6: Each hit performed by the Lightning-Lord when it takes action will make the target enemy Vulnerable. While Vulnerable, enemies receive 12% more DMG until the end of the Lightning-Lord's current turn, stacking up to 3 time(s). (applies to all hits)`,
+    text: t('Content.e6FuaVulnerabilityStacks.text'),
+    title: t('Content.e6FuaVulnerabilityStacks.title'),
+    content: t('Content.e6FuaVulnerabilityStacks.content'),
     min: 0,
     max: 3,
     disabled: e < 6,
@@ -98,8 +100,8 @@ export default (e: Eidolon): CharacterConditional => {
       e6FuaVulnerabilityStacks: 3,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       r.talentHitsPerAction = Math.max(r.talentHitsPerAction, r.talentAttacks)
 
@@ -127,14 +129,14 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       // TODO: Technically E6 has a vulnerability but its kinda hard to calc
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, getHitMulti(request))
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      return gpuStandardFuaAtkFinalizer(getHitMulti(request))
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuStandardFuaAtkFinalizer(getHitMulti(action, context))
     },
   }
 }

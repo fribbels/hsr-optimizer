@@ -1,37 +1,23 @@
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.RiverFlowsInSpring')
   const sValuesSpd = [0.08, 0.09, 0.10, 0.11, 0.12]
   const sValuesDmg = [0.12, 0.15, 0.18, 0.21, 0.24]
-  const lcRanks = {
-    id: '21024',
-    skill: 'Stave Off the Lingering Cold',
-    desc: "After entering battle, increases the wearer's SPD by #1[i]% and DMG by #2[i]%. When the wearer takes DMG, this effect will disappear. This effect will resume after the end of the wearer's next turn.",
-    params: [
-      [0.08, 0.12],
-      [0.09, 0.15],
-      [0.1, 0.18],
-      [0.11, 0.21],
-      [0.12, 0.24],
-    ],
-    properties: [
-      [], [], [], [], [],
-    ],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'spdDmgBuff',
     name: 'spdDmgBuff',
     formItem: 'switch',
-    text: 'SPD / DMG buff active',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.spdDmgBuff.text'),
+    title: t('Content.spdDmgBuff.title'),
+    content: t('Content.spdDmgBuff.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpd[s]), DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]) }),
   }]
 
   return {
@@ -39,8 +25,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
       spdDmgBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.lightConeConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals
 
       x[Stats.SPD_P] += (r.spdDmgBuff) ? sValuesSpd[s] : 0
       x.ELEMENTAL_DMG += (r.spdDmgBuff) ? sValuesDmg[s] : 0

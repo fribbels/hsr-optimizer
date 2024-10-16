@@ -1,35 +1,21 @@
 import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.GoodNightAndSleepWell')
   const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-  const lcRanks = {
-    id: '21001',
-    skill: 'Toiler',
-    desc: 'For every debuff the target enemy has, the DMG dealt by the wearer increases by #1[i]%, stacking up to #2[i] time(s). This effect also applies to DoT.',
-    params: [
-      [0.12, 3],
-      [0.15, 3],
-      [0.18, 3],
-      [0.21, 3],
-      [0.24, 3],
-    ],
-    properties: [
-      [], [], [], [], [],
-    ],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'debuffStacksDmgIncrease',
     name: 'debuffStacksDmgIncrease',
     formItem: 'slider',
-    text: 'Debuff stacks DMG increase',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.debuffStacksDmgIncrease.text'),
+    title: t('Content.debuffStacksDmgIncrease.title'),
+    content: t('Content.debuffStacksDmgIncrease.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     min: 0,
     max: 3,
   }]
@@ -39,8 +25,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
       debuffStacksDmgIncrease: 3,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.lightConeConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals
 
       x.ELEMENTAL_DMG += r.debuffStacksDmgIncrease * sValues[s]
     },

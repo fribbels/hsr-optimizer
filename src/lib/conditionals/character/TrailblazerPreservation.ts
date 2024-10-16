@@ -1,13 +1,15 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
 import { ContentItem } from 'types/Conditionals'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerPreservation')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const skillDamageReductionValue = skill(e, 0.50, 0.52)
@@ -24,30 +26,30 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'enhancedBasic',
     name: 'enhancedBasic',
-    text: 'Enhanced basic',
-    title: `Enhanced basic`,
-    content: `Enhanced basic ATK deals Fire DMG equal to ${precisionRound(basicEnhancedAtkScaling * 100)}% of the Trailblazer's ATK to a single enemy, and reduced damage to adjacent enemies.`,
+    text: t('Content.enhancedBasic.text'),
+    title: t('Content.enhancedBasic.title'),
+    content: t('Content.enhancedBasic.content', { basicEnhancedAtkScaling: TsUtils.precisionRound(100 * basicEnhancedAtkScaling) }),
   }, {
     formItem: 'switch',
     id: 'skillActive',
     name: 'skillActive',
-    text: 'Skill DMG reduction',
-    title: `Skill DMG reduction`,
-    content: `When the Skill is used, reduces DMG taken by ${precisionRound(skillDamageReductionValue * 100)}%. Also reduces DMG taken by all allies by 15% for 1 turn.`,
+    text: t('Content.skillActive.text'),
+    title: t('Content.skillActive.title'),
+    content: t('Content.skillActive.content', { skillDamageReductionValue: TsUtils.precisionRound(100 * skillDamageReductionValue) }),
   }, {
     formItem: 'switch',
     id: 'shieldActive',
     name: 'shieldActive',
-    text: 'Shield active',
-    title: 'Shield active',
-    content: `When the shield is active, increases ATK by 15%.`,
+    text: t('Content.shieldActive.text'),
+    title: t('Content.shieldActive.title'),
+    content: t('Content.shieldActive.content'),
   }, {
     formItem: 'slider',
     id: 'e6DefStacks',
     name: 'e6DefStacks',
-    text: 'E6 def stacks',
-    title: 'E6 def stacks: Increases DEF by 10%',
-    content: `E6: Increases DEF by 10% per stack.`,
+    text: t('Content.e6DefStacks.text'),
+    title: t('Content.e6DefStacks.title'),
+    content: t('Content.e6DefStacks.content'),
     min: 0,
     max: 3,
     disabled: e < 6,
@@ -69,8 +71,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
       skillActive: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.DEF_P] += (e >= 6) ? r.e6DefStacks * 0.10 : 0
@@ -88,14 +90,14 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       // This EHR buff applies to all
       x.DMG_RED_MULTI *= (m.skillActive) ? (1 - 0.15) : 1
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       if (r.enhancedBasic) {
         x.BASIC_DMG += basicEnhancedAtkScaling * x[Stats.ATK]
@@ -110,8 +112,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_DMG += ultAtkScaling * x[Stats.ATK]
       x.ULT_DMG += ultDefScaling * x[Stats.DEF]
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      const r = request.characterConditionals
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       return `
 if (${wgslTrue(r.enhancedBasic)}) {

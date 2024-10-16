@@ -5,7 +5,6 @@ import DB from 'lib/db'
 import { WorkerPool } from 'lib/workerPool'
 import { RelicFilters } from 'lib/relicFilters'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimizer/relicSetSolver'
-import { generateParams } from 'lib/optimizer/calculateParams.ts'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
@@ -16,8 +15,10 @@ import { Message } from 'lib/message'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
+import { generateContext } from 'lib/optimizer/context/calculateContext'
 
 let CANCEL = false
+let isFirefox = typeof navigator !== "undefined" && navigator.userAgent.toLowerCase().indexOf('firefox') > -1
 
 export function calculateCurrentlyEquippedRow(request) {
   let relics = Utils.clone(DB.getRelics())
@@ -115,9 +116,9 @@ export const Optimizer = {
 
     OptimizerTabController.scrollToGrid()
 
-    window.optimizerGrid.current.api.showLoadingOverlay()
+    window.optimizerGrid.current.api.setGridOption("loading", true)
 
-    const params = generateParams(request)
+    const context = generateContext(request)
 
     // Create a special optimization request for the top row, ignoring filters and with a custom callback
     calculateCurrentlyEquippedRow(request)
@@ -135,7 +136,7 @@ export const Optimizer = {
     let runSize = 0
     const maxSize = Constants.THREAD_BUFFER_LENGTH
 
-    const clonedParams = Utils.clone(params) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
+    const clonedContext = Utils.clone(context) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
 
     let computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
 
@@ -164,7 +165,7 @@ export const Optimizer = {
       for (const run of runs) {
         const task = {
           input: {
-            params: clonedParams,
+            context: clonedContext,
             request: request,
             relics: relics,
             WIDTH: run.runSize,
@@ -172,6 +173,7 @@ export const Optimizer = {
             permutations: permutations,
             relicSetSolutions: relicSetSolutions,
             ornamentSetSolutions: ornamentSetSolutions,
+            isFirefox: isFirefox,
           },
           getMinFilter: () => {
             return queueResults.size() && queueResults.size() >= request.resultsLimit ? queueResults.top()[gridSortColumn] : 0
@@ -220,7 +222,7 @@ export const Optimizer = {
       }
     } else {
       gpuOptimize({
-        params: params,
+        context: context,
         request: request,
         relics: relics,
         permutations: permutations,
@@ -242,7 +244,6 @@ export function renameFields(c) {
   c.DOT = c.x.DOT_DMG
   c.BREAK = c.x.BREAK_DMG
   c.COMBO = c.x.COMBO_DMG
-  c.WEIGHT = c.x.WEIGHT
   c.EHP = c.x.EHP
   c.xHP = c.x[Stats.HP]
   c.xATK = c.x[Stats.ATK]

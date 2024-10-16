@@ -3,7 +3,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Button, Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Utils } from 'lib/utils.js'
 import { Assets } from 'lib/assets.js'
-import { CardGridItemContent, generateElementTags, generatePathTags, SegmentedFilterRow } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
+import { CardGridItemContent, generateElementTags, generatePathTags, SegmentedFilterRow } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents'
+import { useTranslation } from 'react-i18next'
 
 interface CharacterSelectProps {
   value
@@ -33,9 +34,10 @@ const defaultFilters = {
 const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle, multipleSelect, withIcon, externalOpen, setExternalOpen }) => {
   // console.log('==================================== CHARACTER SELECT')
   const inputRef = useRef<InputRef>(null)
+  const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
   const [open, setOpen] = useState(false)
   const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
-  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
+  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [t])
   const [selected, setSelected] = useState<Map<string, boolean>>(new Map())
   const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
 
@@ -113,11 +115,18 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         style={selectStyle}
         value={value}
         options={withIcon ? labelledOptions : characterOptions}
-        placeholder={multipleSelect ? 'Customize characters' : 'Character'}
+        placeholder={multipleSelect ? t('MultiSelect.Placeholder')/* Customize characters */ : t('SingleSelect.Placeholder')/* Character */}
         allowClear
         maxTagCount={0}
         maxTagPlaceholder={() => (
-          <span>{excludedRelicPotentialCharacters.length ? `${excludedRelicPotentialCharacters.length} characters excluded` : 'All characters enabled'}</span>
+          <span>
+            {
+              excludedRelicPotentialCharacters.length
+                ? t('MultiSelect.MaxTagPlaceholderSome', { count: excludedRelicPotentialCharacters.length })
+                : t('MultiSelect.MaxTagPlaceholderNone')
+              /* {count} characters excluded | all characters enabled */
+            }
+          </span>
         )}
         onClear={() => {
           if (onChange) onChange(null)
@@ -139,7 +148,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         destroyOnClose
         width='90%'
         style={{ height: '80%', maxWidth: 1450 }}
-        title={multipleSelect ? 'Select characters to exclude' : 'Select a character'}
+        title={multipleSelect ? t('MultiSelect.ModalTitle')/* select characters to exclude */ : t('SingleSelect.ModalTitle')/* select a character */}
         onCancel={() => {
           if (multipleSelect) {
             if (onChange) onChange(selected)
@@ -159,7 +168,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                   height: 40,
                   flex: 1,
                 }}
-                placeholder='Search character name'
+                placeholder={t('SearchPlaceholder')/* Search character name */}
                 ref={inputRef}
                 onChange={(e) => {
                   const newFilters = Utils.clone(currentFilters)
@@ -179,13 +188,13 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                     onClick={excludeAll}
                     style={{ height: '100%', width: 120 }}
                   >
-                    Exclude all
+                    {t('ExcludeButton')/* Exclude all */}
                   </Button>
                   <Button
                     onClick={includeAll}
                     style={{ height: '100%', width: 120 }}
                   >
-                    Clear
+                    {t('ClearButton')/* Clear */}
                   </Button>
                 </Flex>
               )}
@@ -238,7 +247,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                     styles={{ body: { padding: 1 } }}
                     onMouseDown={() => handleClick(option.id)}
                   >
-                    <CardGridItemContent imgSrc={Assets.getCharacterPreviewById(option.id)} text={option.displayName} innerW={innerW} innerH={innerH} rows={1}/>
+                    <CardGridItemContent imgSrc={Assets.getCharacterPreviewById(option.id)} text={option.label} innerW={innerW} innerH={innerH} rows={1}/>
                   </Card>
                 ))
             }

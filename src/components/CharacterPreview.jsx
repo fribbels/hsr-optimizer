@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button, Card, Flex, Image, Segmented, theme, Typography } from 'antd'
 import PropTypes from 'prop-types'
 import { RelicScorer } from 'lib/relicScorerPotential'
-import { DB } from 'lib/db'
+import { AppPages, DB } from 'lib/db'
 import { Assets } from 'lib/assets'
 import { CHARACTER_SCORE, COMBAT_STATS, Constants, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, ElementToDamage, SETTINGS_TEAM, SIMULATION_SCORE } from 'lib/constants.ts'
 import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleColumnWidth, parentH, parentW } from 'lib/constantsUi'
@@ -27,6 +27,7 @@ import { SavedSessionKeys } from 'lib/constantsSession'
 import { HeaderText } from 'components/HeaderText.jsx'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
+import { useTranslation } from 'react-i18next'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -50,6 +51,8 @@ export function CharacterPreview(props) {
 
   const { token } = useToken()
 
+  const { t } = useTranslation(['charactersTab', 'modals', 'common'])
+
   const { source, character, setOriginalCharacterModalOpen, setOriginalCharacterModalInitialCharacter, setCharacterModalAdd } = props
 
   const isScorer = source == 'scorer'
@@ -70,6 +73,7 @@ export function CharacterPreview(props) {
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState()
   const [redrawTeammates, setRedrawTeammates] = useState()
+  const activeKey = window.store((s) => s.activeKey)
 
   // We need to track the previously selected character in order to know which state to put the sim team in.
   const prevCharId = useRef(null)
@@ -93,6 +97,12 @@ export function CharacterPreview(props) {
     }
   }, [character])
 
+  if (isScorer && activeKey != AppPages.RELIC_SCORER) {
+    return <></>
+  } else if (!isScorer && activeKey != AppPages.CHARACTERS) {
+    return <></>
+  }
+
   function getArtistName() {
     const artistName = character?.portrait?.artistName || DB.getCharacterById(character?.id)?.portrait?.artistName
     if (!artistName) return null
@@ -109,11 +119,11 @@ export function CharacterPreview(props) {
   function onAddOk(relic) {
     DB.setRelic(relic)
     setRelicRows(DB.getRelics())
-    SaveState.save()
+    SaveState.delayedSave()
 
     setSelectedRelic(relic)
 
-    Message.success('Successfully added relic')
+    Message.success(t('CharacterPreview.Messages.AddedRelic')/* Successfully added relic */)
   }
 
   function onEditPortraitOk(portraitPayload) {
@@ -122,14 +132,14 @@ export function CharacterPreview(props) {
       case 'add':
         setCustomPortrait({ ...portrait })
         DB.saveCharacterPortrait(character.id, portrait)
-        Message.success('Successfully saved portrait')
-        SaveState.save()
+        Message.success(t('CharacterPreview.Messages.SavedPortrait')/* Successfully saved portrait */)
+        SaveState.delayedSave()
         break
       case 'delete':
         DB.deleteCharacterPortrait(character.id)
         setCustomPortrait(null)
-        Message.success('Successfully reverted portrait')
-        SaveState.save()
+        Message.success(t('CharacterPreview.Messages.RevertedPortrait')/* Successfully reverted portrait */)
+        SaveState.delayedSave()
         break
       default:
         console.error(`Payload of type '${type}' is not valid!`)
@@ -254,12 +264,12 @@ export function CharacterPreview(props) {
   const lightConeLevel = 80
   const lightConeSuperimposition = character.form.lightConeSuperimposition
   const lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
-  const lightConeName = lightConeMetadata?.name || ''
+  const lightConeName = lightConeId ? t(`gameData:Lightcones.${lightConeId}.Name`) : ''
   const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata) || ''
 
   const characterLevel = 80
   const characterEidolon = character.form.characterEidolon
-  const characterName = characterMetadata.displayName
+  const characterName = characterId ? t(`gameData:Characters.${characterId}.Name`) : ''
   const characterPath = characterMetadata.path
   // console.log(displayRelics)
 
@@ -286,10 +296,10 @@ export function CharacterPreview(props) {
   // Teammate character modal OK
   function onCharacterModalOk(form) {
     if (!form.characterId) {
-      return Message.error('No selected character')
+      return Message.error(t('CharacterPreview.Messages.NoSelectedCharacter')/* No selected character */)
     }
     if (!form.lightCone) {
-      return Message.error('No selected character')
+      return Message.error(t('CharacterPreview.Messages.NoSelectedCharacter')/* No selected character */)
     }
 
     const scoringMetadata = Utils.clone(DB.getScoringMetadata(characterId))
@@ -318,10 +328,13 @@ export function CharacterPreview(props) {
     const textDisplay = (
       <Flex align='center' vertical style={{ marginBottom: 4, paddingTop: 3, paddingBottom: 3 }}>
         <StatText style={textStyle}>
-          Combat Sim
+          {t('CharacterPreview.ScoreHeader.Title')/* Combat Sim */}
         </StatText>
         <StatText style={textStyle}>
-          {`DPS Score: ${Utils.truncate10ths(Math.max(0, result.percent * 100)).toFixed(1)}% (${getSimScoreGrade(result.percent)})`}
+          {
+            t('CharacterPreview.ScoreHeader.Score', { score: Utils.truncate10ths(Math.max(0, result.percent * 100)).toFixed(1), grade: getSimScoreGrade(result.percent) })
+            /* DPS Score {{score}}% {{grade}} */
+          }
         </StatText>
       </Flex>
     )
@@ -342,11 +355,12 @@ export function CharacterPreview(props) {
             window.modalApi.info({
               icon: null,
               width: 400,
+              okText: t('common:Ok', { capitalizeLength: -1 }),
               maskClosable: true,
               content: (
                 <div style={{ width: '100%' }}>
                   <Flex vertical gap={10}>
-                    <HeaderText>Combat sim scoring settings</HeaderText>
+                    <HeaderText>{t('modals:ScoreFooter.ModalTitle')/* Combat sim scoring settings */}</HeaderText>
                     <Button
                       icon={<SyncOutlined/>}
                       onClick={() => {
@@ -358,10 +372,10 @@ export function CharacterPreview(props) {
                         setTeamSelection(DEFAULT_TEAM)
                         setRedrawTeammates(Math.random())
 
-                        Message.success('Reset to default teams')
+                        Message.success(t('modals:ScoreFooter.ResetSuccessMsg')/* Reset to default teams */)
                       }}
                     >
-                      Reset custom team to default
+                      {t('modals:ScoreFooter.ResetButtonText')/* Reset custom team to default */}
                     </Button>
                     <Button
                       icon={<SwapOutlined/>}
@@ -384,10 +398,10 @@ export function CharacterPreview(props) {
                         setTeamSelection(CUSTOM_TEAM)
                         setRedrawTeammates(Math.random())
 
-                        Message.success('Synced teammates')
+                        Message.success(t('modals:ScoreFooter.SyncSuccessMsg')/* Synced teammates */)
                       }}
                     >
-                      Sync imported eidolons / light cones
+                      {t('modals:ScoreFooter.SyncButtonText')/* Sync imported eidolons / light cones */}
                     </Button>
                   </Flex>
                 </div>
@@ -400,7 +414,10 @@ export function CharacterPreview(props) {
         value={teamSelection}
         block
         options={[
-          DEFAULT_TEAM,
+          {
+            value: DEFAULT_TEAM,
+            label: t('modals:ScoreFooter.TeamOptions.Default')/* Default */,
+          },
           {
             label: (
               <SettingOutlined/>
@@ -408,7 +425,10 @@ export function CharacterPreview(props) {
             value: SETTINGS_TEAM,
             className: 'short-segmented',
           },
-          CUSTOM_TEAM,
+          {
+            value: CUSTOM_TEAM,
+            label: t('modals:ScoreFooter.TeamOptions.Custom')/* Custom */,
+          },
         ]}
       />
     )
@@ -454,9 +474,9 @@ export function CharacterPreview(props) {
               outline: '1px solid rgba(255, 255, 255, 0.3)',
             }}
           />
-          <OverlayText text={`E${teammate.characterEidolon}`} top={-12}/>
+          <OverlayText text={t('common:EidolonNShort', { eidolon: teammate.characterEidolon })} top={-12}/>
           <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: -3 }}/>
-          <OverlayText text={`S${teammate.lightConeSuperimposition}`} top={-18}/>
+          <OverlayText text={t('common:SuperimpositionNShort', { superimposition: teammate.lightConeSuperimposition })} top={-18}/>
         </Flex>
       </Card.Grid>
     )
@@ -540,7 +560,7 @@ export function CharacterPreview(props) {
                       }}
                       type='primary'
                     >
-                      Edit character
+                      {t('CharacterPreview.EditCharacter')/* Edit character */}
                     </Button>
                   )}
                   {isScorer && (
@@ -557,7 +577,7 @@ export function CharacterPreview(props) {
                       }}
                       type='primary'
                     >
-                      Edit character
+                      {t('CharacterPreview.EditCharacter')/* Edit character */}
                     </Button>
                   )}
                   <Button
@@ -570,10 +590,10 @@ export function CharacterPreview(props) {
                     onClick={() => setEditPortraitModalOpen(true)}
                     type='primary'
                   >
-                    Edit portrait
+                    {t('CharacterPreview.EditPortrait')/* Edit portrait */}
                   </Button>
                   <EditImageModal
-                    title='portrait'
+                    title={t('CharacterPreview.EditPortrait')/* Edit portrait */}
                     aspectRatio={parentW / parentH}
                     existingConfig={customPortrait ?? character.portrait}
                     open={editPortraitModalOpen}
@@ -608,7 +628,7 @@ export function CharacterPreview(props) {
                       textShadow: '0px 0px 10px black',
                     }}
                   >
-                    Art by {getArtistName() || ''}
+                    {t('CharacterPreview.ArtBy', { artistName: getArtistName() || '' })/* Art by {{artistName}} */}
                   </Text>
                 </Flex>
               </div>
@@ -649,7 +669,7 @@ export function CharacterPreview(props) {
                           boxShadow: shadow,
                         }}
                       >
-                        {`S${lightConeSuperimposition} - ${lightConeName}`}
+                        {`${t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })} - ${lightConeName}`}
                       </Text>
                     </Flex>
                   )}
@@ -716,7 +736,7 @@ export function CharacterPreview(props) {
                       {characterName}
                     </StatText>
                     <StatText style={{ fontSize: 16, fontWeight: 400, textAlign: 'center' }}>
-                      {`Lv${characterLevel} E${characterEidolon}`}
+                      {`${t('common:LevelShort', { level: characterLevel })} ${t('common:EidolonNShort', { eidolon: characterEidolon })}`}
                     </StatText>
                   </Flex>
                 </Flex>
@@ -798,7 +818,7 @@ export function CharacterPreview(props) {
                   && (
                     <Flex vertical>
                       <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
-                        {`Character Score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')'}`}
+                        {t('CharacterPreview.CharacterScore', { score: scoringResults.totalScore.toFixed(0), grade: scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')' })}
                       </StatText>
                     </Flex>
                   )
@@ -816,7 +836,10 @@ export function CharacterPreview(props) {
                           &nbsp;
                         </StatText>
                         <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
-                          {`Lv${lightConeLevel} S${lightConeSuperimposition}`}
+                          {
+                            `${t('common:LevelShort', { level: lightConeLevel })} ${t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })}`
+                            /* Lv 80 S5 */
+                          }
                         </StatText>
                       </Flex>
                       <div
@@ -922,25 +945,27 @@ export function CharacterPreview(props) {
           <Flex justify='center' gap={25}>
             <Flex justify='center' style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: token.colorBgContainer + '85' }} align='center'>
               <Text style={{ width: 150 }}>
-                Scoring algorithm:
+                {t('CharacterPreview.AlgorithmSlider.Title')/* Scoring algorithm: */}
               </Text>
               <Segmented
-                style={{ width: 300, height: 30 }}
+                style={{ width: 325, height: 30 }}
                 onChange={(selection) => {
                   setScoringType(selection)
                   window.store.getState().setSavedSessionKey(SavedSessionKeys.scoringType, selection)
-                  setTimeout(() => SaveState.save(), 1000)
+                  SaveState.delayedSave()
                 }}
                 value={scoringType}
                 block
                 options={[
                   {
-                    label: `Combat Score${characterMetadata.scoringMetadata.simulation == null ? ' (TBD)' : ''}`,
+                    label: characterMetadata.scoringMetadata.simulation == null
+                      ? t('CharacterPreview.AlgorithmSlider.Labels.CombatScoreTBD')/* Combat Score (TBD) */
+                      : t('CharacterPreview.AlgorithmSlider.Labels.CombatScore'), /* Combat Score */
                     value: SIMULATION_SCORE,
                     disabled: false,
                   },
                   {
-                    label: 'Stat Score',
+                    label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'), /* Stat Score */
                     value: CHARACTER_SCORE,
                     disabled: false,
                   },
@@ -950,25 +975,25 @@ export function CharacterPreview(props) {
 
             <Flex justify='center' style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: token.colorBgContainer + '85' }} align='center'>
               <Text style={{ width: 150 }}>
-                Combat score details:
+                {t('CharacterPreview.DetailsSlider.Title')/* Combat score details: */}
               </Text>
               <Segmented
-                style={{ width: 300, height: 30 }}
+                style={{ width: 325, height: 30 }}
                 onChange={(selection) => {
                   setCombatScoreDetails(selection)
                   window.store.getState().setSavedSessionKey(SavedSessionKeys.combatScoreDetails, selection)
-                  setTimeout(() => SaveState.save(), 1000)
+                  SaveState.delayedSave()
                 }}
                 value={combatScoreDetails}
                 block
                 options={[
                   {
-                    label: 'Combat Stats',
+                    label: t('CharacterPreview.DetailsSlider.Labels.CombatStats'), /* Combat Stats */
                     value: COMBAT_STATS,
                     disabled: characterMetadata.scoringMetadata.simulation == null || scoringType == CHARACTER_SCORE,
                   },
                   {
-                    label: `Damage Upgrades`,
+                    label: t('CharacterPreview.DetailsSlider.Labels.DMGUpgrades'), /* Damage Upgrades */
                     value: DAMAGE_UPGRADES,
                     disabled: characterMetadata.scoringMetadata.simulation == null || scoringType == CHARACTER_SCORE,
                   },

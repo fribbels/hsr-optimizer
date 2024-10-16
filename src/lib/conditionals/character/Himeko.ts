@@ -1,15 +1,17 @@
 import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, precisionRound, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Himeko')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -29,43 +31,43 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'targetBurned',
       name: 'targetBurned',
-      text: 'Target burned',
-      title: 'Target burned',
-      content: `Skill deals 20% more DMG to enemies currently afflicted with Burn.`,
+      text: t('Content.targetBurned.text'),
+      title: t('Content.targetBurned.title'),
+      content: t('Content.targetBurned.content'),
     },
     {
       formItem: 'switch',
       id: 'selfCurrentHp80Percent',
       name: 'selfCurrentHp80Percent',
-      text: 'Self HP ≥ 80% CR boost',
-      title: 'Self HP ≥ 80% CR boost',
-      content: `When current HP percentage is 80% or higher, CRIT Rate increases by 15%.`,
+      text: t('Content.selfCurrentHp80Percent.text'),
+      title: t('Content.selfCurrentHp80Percent.title'),
+      content: t('Content.selfCurrentHp80Percent.content'),
     },
     {
       formItem: 'switch',
       id: 'e1TalentSpdBuff',
       name: 'e1TalentSpdBuff',
-      text: 'E1 SPD buff',
-      title: 'E1 SPD buff',
-      content: `E1: After Victory Rush is triggered, Himeko's SPD increases by 20% for 2 turns.`,
+      text: t('Content.e1TalentSpdBuff.text'),
+      title: t('Content.e1TalentSpdBuff.title'),
+      content: t('Content.e1TalentSpdBuff.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2EnemyHp50DmgBoost',
       name: 'e2EnemyHp50DmgBoost',
-      text: 'E2 enemy HP ≤ 50% DMG boost',
-      title: 'E2: Convergence',
-      content: `E2: Deals 15% more DMG to enemies whose HP percentage is 50% or less.`,
+      text: t('Content.e2EnemyHp50DmgBoost.text'),
+      title: t('Content.e2EnemyHp50DmgBoost.title'),
+      content: t('Content.e2EnemyHp50DmgBoost.content'),
       disabled: e < 2,
     },
     {
       formItem: 'slider',
       id: 'e6UltExtraHits',
       name: 'e6UltExtraHits',
-      text: 'E6 ult extra hits',
-      title: 'E6 ult extra hits',
-      content: `Ultimate deals DMG 2 extra times. Extra hits deals ${precisionRound(0.40 * 100)}% of the original DMG per hit.`,
+      text: t('Content.e6UltExtraHits.text'),
+      title: t('Content.e6UltExtraHits.title'),
+      content: t('Content.e6UltExtraHits.content'),
       min: 0,
       max: 2,
       disabled: e < 6,
@@ -82,8 +84,8 @@ export default (e: Eidolon): CharacterConditional => {
       e6UltExtraHits: 2,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.CR] += (r.selfCurrentHp80Percent) ? 0.15 : 0
@@ -110,13 +112,13 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, hitMultiByTargets[request.enemyCount])
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, hitMultiByTargets[context.enemyCount])
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      return gpuStandardFuaAtkFinalizer(hitMultiByTargets[request.enemyCount])
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuStandardFuaAtkFinalizer(hitMultiByTargets[context.enemyCount])
     },
   }
 }

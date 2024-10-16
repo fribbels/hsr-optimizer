@@ -1,34 +1,34 @@
 import { Stats } from 'lib/constants'
 import { p2 } from 'lib/optimizer/optimizerUtils'
 
-export function calculateBaseMultis(x, request, params) {
-  const lightConeConditionals = params.lightConeConditionals
-  const characterConditionals = params.characterConditionals
+export function calculateBaseMultis(x, action, context) {
+  const lightConeConditionalController = context.lightConeConditionalController
+  const characterConditionalController = context.characterConditionalController
 
-  if (lightConeConditionals.finalizeCalculations) lightConeConditionals.finalizeCalculations(x, request)
-  if (characterConditionals.finalizeCalculations) characterConditionals.finalizeCalculations(x, request)
+  if (lightConeConditionalController.finalizeCalculations) lightConeConditionalController.finalizeCalculations(x, action, context)
+  if (characterConditionalController.finalizeCalculations) characterConditionalController.finalizeCalculations(x, action, context)
 }
 
-export function calculateDamage(x, request, params) {
+export function calculateDamage(x, action, context) {
   const sets = x.sets
   const cLevel = 80
-  const eLevel = request.enemyLevel
-  const defReduction = x.DEF_PEN + request.combatBuffs.DEF_PEN
+  const eLevel = context.enemyLevel
+  const defReduction = x.DEF_PEN + context.combatBuffs.DEF_PEN
   const defIgnore = 0
 
-  x.ELEMENTAL_DMG += x[params.ELEMENTAL_DMG_TYPE]
+  x.ELEMENTAL_DMG += x[context.elementalDamageType]
   const dmgBoostMultiplier = 1 + x.ELEMENTAL_DMG
   const dmgReductionMultiplier = 1
 
-  let ehp = x[Stats.HP] / (1 - x[Stats.DEF] / (x[Stats.DEF] + 200 + 10 * request.enemyLevel))
+  let ehp = x[Stats.HP] / (1 - x[Stats.DEF] / (x[Stats.DEF] + 200 + 10 * context.enemyLevel))
   ehp *= 1 / ((1 - 0.08 * p2(sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI)
   x.EHP = ehp
 
   // Reapply broken multiplier here since certain conditionals can force weakness
-  params.brokenMultiplier = x.ENEMY_WEAKNESS_BROKEN ? 1 : 0.9
+  let brokenMultiplier = x.ENEMY_WEAKNESS_BROKEN ? 1 : 0.9
 
-  const universalMulti = dmgReductionMultiplier * params.brokenMultiplier
-  const baseResistance = params.resistance - x.RES_PEN - x[params.RES_PEN_TYPE]
+  const universalMulti = dmgReductionMultiplier * brokenMultiplier
+  const baseResistance = context.enemyDamageResistance - x.RES_PEN - context.combatBuffs.RES_PEN - x[context.elementalResPenType]
 
   const ULT_CD = x.ULT_CD_OVERRIDE || (x[Stats.CD] + x.ULT_CD_BOOST) // Robin overrides ULT CD
 
@@ -39,7 +39,7 @@ export function calculateDamage(x, request, params) {
   const fuaVulnerability = 1 + x.VULNERABILITY + x.FUA_VULNERABILITY
   const dotVulnerability = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY
 
-  const ENEMY_EFFECT_RES = request.enemyEffectResistance
+  const ENEMY_EFFECT_RES = context.enemyEffectResistance
   // const ENEMY_DEBUFF_RES = 0 // Ignored debuff res for now
 
   // For stacking dots where the first stack has extra value
@@ -50,12 +50,12 @@ export function calculateDamage(x, request, params) {
     : effectiveDotChance
 
   // BREAK
-  const maxToughness = request.enemyMaxToughness
+  const maxToughness = context.enemyMaxToughness
 
   x.BREAK_DMG
     = universalMulti
     * 3767.5533
-    * params.ELEMENTAL_BREAK_SCALING
+    * context.elementalBreakScaling
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN)
     * (0.5 + maxToughness / 120)
     * breakVulnerability
@@ -133,13 +133,13 @@ export function calculateDamage(x, request, params) {
     * (1 - (baseResistance - x.DOT_RES_PEN))
     * dotEhrMultiplier
 
-  x.COMBO_DMG
-    = request.combo.BASIC * x.BASIC_DMG
-    + request.combo.SKILL * x.SKILL_DMG
-    + request.combo.ULT * x.ULT_DMG
-    + request.combo.FUA * x.FUA_DMG
-    + request.combo.DOT * x.DOT_DMG
-    + request.combo.BREAK * x.BREAK_DMG
+  // x.COMBO_DMG
+  //   = request.combo.BASIC * x.BASIC_DMG
+  //   + request.combo.SKILL * x.SKILL_DMG
+  //   + request.combo.ULT * x.ULT_DMG
+  //   + request.combo.FUA * x.FUA_DMG
+  //   + request.combo.DOT * x.DOT_DMG
+  //   + request.combo.BREAK * x.BREAK_DMG
 }
 
 function calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, additionalPen) {

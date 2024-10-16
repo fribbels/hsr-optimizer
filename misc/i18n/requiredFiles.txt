@@ -1,0 +1,25 @@
+Files needed to run generateTranslations.ts
+AvatarBaseType.json
+AvatarConfig.json
+AvatarRankConfig.json
+AvatarSkillConfig.json
+AvatarSkillTreeConfig.json
+AvatarStatusConfig.json
+DamageType.json
+EquipmentConfig.json
+EquipmentSkillConfig.json
+RelicSetConfig.json
+RelicSetSkillConfig.json
+TextMapCHS.json
+TextMapCHT.json
+TextMapDE.json
+TextMapEN.json
+TextMapES.json
+TextMapFR.json
+TextMapID.json
+TextMapJP.json
+TextMapKR.json
+TextMapPT.json
+TextMapRU.json
+TextMapTH.json
+TextMapVI.json

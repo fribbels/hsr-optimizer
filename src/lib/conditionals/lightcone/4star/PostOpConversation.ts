@@ -1,28 +1,22 @@
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PostOpConversation')
   const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-  const lcRanks = {
-    id: '21000',
-    skill: 'Mutual Healing',
-    desc: "Increases the wearer's Outgoing Healing when they use their Ultimate by #2[i]%.",
-    params: [[0.08, 0.12], [0.1, 0.15], [0.12, 0.18], [0.14, 0.21], [0.16, 0.24]],
-    properties: [[{ type: 'SPRatioBase', value: 0.08 }], [{ type: 'SPRatioBase', value: 0.1 }], [{ type: 'SPRatioBase', value: 0.12 }], [{ type: 'SPRatioBase', value: 0.14 }], [{ type: 'SPRatioBase', value: 0.16 }]],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'postUltHealingBoost',
     name: 'postUltHealingBoost',
     formItem: 'switch',
-    text: 'Ult healing boost',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.postUltHealingBoost.text'),
+    title: t('Content.postUltHealingBoost.title'),
+    content: t('Content.postUltHealingBoost.content', { HealingBoost: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {
@@ -30,8 +24,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
       postUltHealingBoost: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.lightConeConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals
 
       x[Stats.OHB] += (r.postUltHealingBoost) ? sValues[s] : 0
     },

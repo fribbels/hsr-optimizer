@@ -1,13 +1,13 @@
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { Utils } from 'lib/utils'
-import { Constants, Parts, SetsOrnamentsNames, SetsRelicsNames, Stats, StatsToShort, SubStats } from 'lib/constants'
+import { Constants, Parts, SetsOrnamentsNames, SetsRelicsNames, Stats, SubStats } from 'lib/constants'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { StatCalculator } from 'lib/statCalculator'
 import { Relic, Stat } from 'types/Relic'
 import { RelicFilters } from 'lib/relicFilters'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { calculateCurrentlyEquippedRow, renameFields } from 'lib/optimizer/optimizer.ts'
+import { calculateCurrentlyEquippedRow, renameFields } from 'lib/optimizer/optimizer'
 import { Assets } from 'lib/assets'
 import { Flex, Tag } from 'antd'
 import { Message } from 'lib/message'
@@ -17,7 +17,9 @@ import { SaveState } from 'lib/saveState'
 import DB from 'lib/db'
 import { Form } from 'types/Form'
 import { SimulationResult } from 'lib/characterScorer'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
+import { OptimizerContext } from 'types/Optimizer'
 
 export type Simulation = {
   name?: string
@@ -83,7 +85,7 @@ export function saveStatSimulationRequest(simRequest: SimulationRequest, simType
     const existingHash = hashSim(sim)
 
     if (hash == existingHash) {
-      Message.error('Identical stat simulation already exists')
+      Message.error(i18next.t('optimizerTab:StatSimulation.DuplicateSimMessage'))// 'Identical stat simulation already exists')
       return
     }
   }
@@ -117,7 +119,7 @@ function hashSim(sim: Simulation) {
 
 function validateRequest(request: SimulationRequest) {
   if (!request.simBody || !request.simFeet || !request.simLinkRope || !request.simPlanarSphere) {
-    Message.error('Missing simulation main stats')
+    Message.error(i18next.t('optimizerTab:StatSimulation.MissingMainstatsMessage'))// 'Missing simulation main stats'
     return false
   }
 
@@ -195,6 +197,7 @@ const substatToPriority = {
 }
 
 function SimSubstatsDisplay(props: { sim: Simulation }) {
+  const { t } = useTranslation('common', { keyPrefix: 'ShortStats' })
   const renderArray: Stat[] = []
   const substats = props.sim.request.stats
   for (const stat of Constants.SubStats) {
@@ -211,8 +214,8 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
 
   function renderStat(x: Stat) {
     return props.sim.simType == StatSimTypes.SubstatRolls
-      ? `${StatsToShort[x.stat]} x ${x.value}`
-      : `${StatsToShort[x.stat]} ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`
+      ? `${t([x.stat])} x ${x.value}`
+      : `${t([x.stat])} ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`
   }
 
   return (
@@ -265,7 +268,7 @@ export type RunSimulationsParams = {
 
 export function runSimulations(
   form: Form,
-  cachedOptimizerParams: OptimizerParams | null,
+  context: OptimizerContext,
   simulations: Simulation[],
   inputParams: Partial<RunSimulationsParams> = {},
 ): SimulationResult[] {
@@ -369,7 +372,7 @@ export function runSimulations(
 
     RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
 
-    const c = calculateBuild(form, relics, cachedOptimizerParams, true)
+    const c = calculateBuild(form, relics, context, true, true)
 
     renameFields(c)
     // For optimizer grid syncing with sim table
@@ -408,19 +411,19 @@ export function startOptimizerStatSimulation() {
 function autosave() {
   const form = OptimizerTabController.getForm()
   DB.addFromForm(form)
-  SaveState.save()
+  SaveState.delayedSave()
 }
 
 export function importOptimizerBuild() {
   const selectedRow = window.optimizerGrid.current!.api.getSelectedRows()[0]
 
   if (!selectedRow) {
-    Message.warning('Run the optimizer first, then select a row from the optimizer results to import')
+    Message.warning(i18next.t('optimizerTab:StatSimulation.NothingToImport'))// 'Run the optimizer first, then select a row from the optimizer results to import'
     return
   }
 
   if (selectedRow.statSim) {
-    Message.warning('The selected optimizer build is already a simulation')
+    Message.warning(i18next.t('optimizerTab:StatSimulation.BuildAlreadyImported'))// 'The selected optimizer build is already a simulation'
     return
   }
 

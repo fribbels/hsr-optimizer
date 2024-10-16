@@ -1,7 +1,21 @@
-import { Typography } from 'antd'
+import { Flex } from 'antd'
+import { ExportOutlined, LinkOutlined } from '@ant-design/icons'
+import React from 'react'
 
-export function ColorizedLink(props: { text: string; url?: string }) {
+export function ColorizedLinkWithIcon(props: {
+  text: string;
+  url?: string;
+  externalIcon?: boolean;
+  linkIcon?: boolean;
+  onClick?: () => void
+}) {
   return (
-    <Typography.Link target="_blank" style={{ color: '#3f8eff' }} href={props.url}>{props.text}</Typography.Link>
+    <a href={props.url} target='_blank' style={{ display: 'inline-block' }} onClick={props.onClick}>
+      <Flex gap={4} style={{ color: '#91bfff', textDecoration: 'underline' }}>
+        {props.text}
+        {props.linkIcon && <LinkOutlined/>}
+        {props.externalIcon && <ExportOutlined/>}
+      </Flex>
+    </a>
   )
 }

@@ -3,6 +3,7 @@ import { Character, CharacterId } from 'types/Character'
 import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/Relic'
 import { Utils } from 'lib/utils'
 import DB from './db.js'
+import i18next from 'i18next'
 
 // Define the fields we care about, until DB+dataParser are typed and can be inferred in this file
 type ScoringMetadata = {
@@ -474,7 +475,7 @@ export class RelicScorer {
       if (relic.substats.length < 4) {
         for (const [stat, weight] of availableSubstats) {
           if (weight >= availableSubstats[availableSubstats.length - 1][1]) {
-            bestAddedStats.push(stat)
+            bestAddedStats.push(i18next.t(`common:Stats.${stat}`))
           }
         }
       }
@@ -490,7 +491,7 @@ export class RelicScorer {
       const bestWeight = upgradeCandidates[0][1]
       for (const [stat, weight] of upgradeCandidates) {
         if (validUpgrades[stat] && weight >= bestWeight) {
-          bestUpgradedStats.push(stat)
+          bestUpgradedStats.push(i18next.t(`common:Stats.${stat}`))
         }
       }
       levelupMetadata = {

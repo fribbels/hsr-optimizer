@@ -4,10 +4,12 @@ import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'l
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
 import { GepardConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Gepard')
   const { basic, skill } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -17,9 +19,9 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'e4TeamResBuff',
     name: 'e4TeamResBuff',
-    text: 'E4 Team RES buff',
-    title: 'E4 Team RES buff',
-    content: `E4: When Gepard is in battle, all allies' Effect RES increases by 20%.`,
+    text: t('Content.e4TeamResBuff.text'),
+    title: t('Content.e4TeamResBuff.title'),
+    content: t('Content.e4TeamResBuff.content'),
     disabled: e < 4,
   }]
 
@@ -32,7 +34,7 @@ export default (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
       e4TeamResBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -42,8 +44,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x[Stats.RES] += (e >= 4 && m.e4TeamResBuff) ? 0.20 : 0
     },

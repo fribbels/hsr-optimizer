@@ -1,38 +1,21 @@
 import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.Fermata')
   const sValues = [0.16, 0.20, 0.24, 0.28, 0.32]
-  const lcRanks = {
-    id: '21022',
-    skill: 'Semibreve Rest',
-    desc: "Increases the wearer's DMG to enemies afflicted with Shock or Wind Shear by #2[i]%. This also applies to DoT.",
-    params: [
-      [0.16, 0.16],
-      [0.2, 0.2],
-      [0.24, 0.24],
-      [0.28, 0.28],
-      [0.32, 0.32],
-    ],
-    properties: [
-      [{ type: 'BreakDamageAddedRatioBase', value: 0.16 }],
-      [{ type: 'BreakDamageAddedRatioBase', value: 0.20 }],
-      [{ type: 'BreakDamageAddedRatioBase', value: 0.24 }],
-      [{ type: 'BreakDamageAddedRatioBase', value: 0.28 }],
-      [{ type: 'BreakDamageAddedRatioBase', value: 0.32 }]],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'enemyShockWindShear',
     name: 'enemyShockWindShear',
     formItem: 'switch',
-    text: 'Enemy shocked / wind sheared',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.enemyShockWindShear.text'),
+    title: t('Content.enemyShockWindShear.title'),
+    content: t('Content.enemyShockWindShear.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {
@@ -40,8 +23,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
       enemyShockWindShear: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.lightConeConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals
 
       x.ELEMENTAL_DMG += (r.enemyShockWindShear) ? sValues[s] : 0
     },

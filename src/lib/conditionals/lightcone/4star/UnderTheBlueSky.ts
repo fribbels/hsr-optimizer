@@ -1,40 +1,22 @@
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.UnderTheBlueSky')
   const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-  const lcRanks = {
-    id: '21019',
-    skill: 'Rye Under the Sun',
-    desc: "When the wearer defeats an enemy, the wearer's CRIT Rate increases by #2[i]% for #3[i] turn(s).",
-    params: [
-      [0.16, 0.12, 3],
-      [0.2, 0.15, 3],
-      [0.24, 0.18, 3],
-      [0.28, 0.21, 3],
-      [0.32, 0.24, 3],
-    ],
-    properties: [
-      [{ type: 'AttackAddedRatio', value: 0.16 }],
-      [{ type: 'AttackAddedRatio', value: 0.2 }],
-      [{ type: 'AttackAddedRatio', value: 0.24 }],
-      [{ type: 'AttackAddedRatio', value: 0.28 }],
-      [{ type: 'AttackAddedRatio', value: 0.32 }],
-    ],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'defeatedEnemyCrBuff',
     name: 'defeatedEnemyCrBuff',
     formItem: 'switch',
-    text: 'Defeated enemy CR buff',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.defeatedEnemyCrBuff.text'),
+    title: t('Content.defeatedEnemyCrBuff.title'),
+    content: t('Content.defeatedEnemyCrBuff.content', { CritBuff: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {
@@ -42,8 +24,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
       defeatedEnemyCrBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.lightConeConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals
 
       x[Stats.CR] += (r.defeatedEnemyCrBuff) ? sValues[s] : 0
     },

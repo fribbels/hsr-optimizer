@@ -1,15 +1,17 @@
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, precisionRound, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jade')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicScaling = basic(e, 0.90, 0.99)
@@ -31,11 +33,11 @@ export default (e: Eidolon): CharacterConditional => {
     5: ASHBLAZING_ATK_STACK * (3 * 0.10 + 8 * 0.10 + 8 * 0.10 + 8 * 0.10 + 8 * 0.60), // 0.45
   }
 
-  function getHitMulti(request: Form) {
-    const r = request.characterConditionals
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    const r = action.characterConditionals
     return r.enhancedFollowUp
-      ? enhancedHitMultiByTargets[request.enemyCount]
-      : unenhancedHitMultiByTargets[request.enemyCount]
+      ? enhancedHitMultiByTargets[context.enemyCount]
+      : unenhancedHitMultiByTargets[context.enemyCount]
   }
 
   const content: ContentItem[] = [
@@ -43,20 +45,17 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'enhancedFollowUp',
       name: 'enhancedFollowUp',
-      text: 'Enhanced Followup',
-      title: 'Enhanced Followup',
-      content: `Jade enhances her Talent's follow-up attack, increasing its DMG multiplier 
-      by ${precisionRound(ultFuaScalingBuff * 100)}%.`,
+      text: t('Content.enhancedFollowUp.text'),
+      title: t('Content.enhancedFollowUp.title'),
+      content: t('Content.enhancedFollowUp.content', { ultFuaScalingBuff: TsUtils.precisionRound(100 * ultFuaScalingBuff) }),
     },
     {
       formItem: 'slider',
       id: 'pawnedAssetStacks',
       name: 'pawnedAssetStacks',
-      text: 'Pawned Asset stacks',
-      title: 'Pawned Asset stacks',
-      content: `When launching her Talent's follow-up attack, Jade immediately gains 5 stack(s) of Pawned Asset, 
-      with each stack increasing CRIT DMG by ${precisionRound(pawnedAssetCdScaling * 100)}%, stacking up to 50 times. 
-      Each Pawned Asset stack from the Talent additionally increases Jade's ATK by 0.5%.`,
+      text: t('Content.pawnedAssetStacks.text'),
+      title: t('Content.pawnedAssetStacks.title'),
+      content: t('Content.pawnedAssetStacks.content', { pawnedAssetCdScaling: TsUtils.precisionRound(100 * pawnedAssetCdScaling) }),
       min: 0,
       max: 50,
     },
@@ -64,11 +63,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e1FuaDmgBoost',
       name: 'e1FuaDmgBoost',
-      text: 'E1 FUA DMG boost',
-      title: 'E1 FUA DMG boost',
-      content: `The follow-up attack DMG from Jade's Talent increases by 32%. After the Debt Collector character 
-      attacks and the number of the enemy target(s) hit is either 2 or 1, Jade additionally gains 1 or 2 point(s) of 
-      Charge respectively.`,
+      text: t('Content.e1FuaDmgBoost.text'),
+      title: t('Content.e1FuaDmgBoost.title'),
+      content: t('Content.e1FuaDmgBoost.content'),
       disabled: e < 1,
     },
     {
@@ -76,9 +73,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e2CrBuff',
       name: 'e2CrBuff',
-      text: 'E2 CR buff',
-      title: 'E2 CR buff',
-      content: `When there are 15 stacks of Pawned Asset, Jade's CRIT Rate increases by 18%.`,
+      text: t('Content.e2CrBuff.text'),
+      title: t('Content.e2CrBuff.title'),
+      content: t('Content.e2CrBuff.content'),
       disabled: e < 2,
     },
     {
@@ -86,20 +83,18 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e4DefShredBuff',
       name: 'e4DefShredBuff',
-      text: 'E4 DEF shred buff',
-      title: 'E4 DEF shred buff',
-      content: `When using Ultimate, enables the DMG dealt by Jade to ignore 12% of enemy targets' DEF, lasting 
-      for 3 turn(s).`,
+      text: t('Content.e4DefShredBuff.text'),
+      title: t('Content.e4DefShredBuff.title'),
+      content: t('Content.e4DefShredBuff.content'),
       disabled: e < 4,
     },
     {
       formItem: 'switch',
       id: 'e6ResShredBuff',
       name: 'e6ResShredBuff',
-      text: 'E6 RES shred buff',
-      title: 'E6 RES shred buff',
-      content: `When the Debt Collector character exists on the field, Jade's Quantum RES PEN increases by 20%, 
-      and Jade gains the Debt Collector state.`,
+      text: t('Content.e6ResShredBuff.text'),
+      title: t('Content.e6ResShredBuff.title'),
+      content: t('Content.e6ResShredBuff.content'),
       disabled: e < 6,
     },
   ]
@@ -109,9 +104,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'debtCollectorSpdBuff',
       name: 'debtCollectorSpdBuff',
-      text: 'Debt Collector SPD buff',
-      title: 'Debt Collector SPD buff',
-      content: `Makes a single target ally become the Debt Collector and increases their SPD by 30, lasting for 3 turn(s).`,
+      text: t('TeammateContent.debtCollectorSpdBuff.text'),
+      title: t('TeammateContent.debtCollectorSpdBuff.title'),
+      content: t('TeammateContent.debtCollectorSpdBuff.content'),
     },
   ]
 
@@ -133,8 +128,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => (teammateDefaults),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       x[Stats.CD] += r.pawnedAssetStacks * pawnedAssetCdScaling
       x[Stats.ATK_P] += r.pawnedAssetStacks * 0.005
@@ -155,18 +150,18 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
-      const t = request.characterConditionals
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const t = action.characterConditionals
 
       x[Stats.SPD] += (t.debtCollectorSpdBuff) ? 30 : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, getHitMulti(request))
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      return gpuStandardFuaAtkFinalizer(getHitMulti(request))
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuStandardFuaAtkFinalizer(getHitMulti(action, context))
     },
   }
 }

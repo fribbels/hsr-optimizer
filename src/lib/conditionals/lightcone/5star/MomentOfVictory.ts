@@ -1,41 +1,23 @@
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals'
+import { LightConeConditional } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.MomentOfVictory')
   const sValues = [0.24, 0.28, 0.32, 0.36, 0.40]
-
-  const lcRank: LightConeRawRank = {
-    id: '23005',
-    skill: 'Verdict',
-    desc: "Increases the chance for the wearer to be attacked by enemies. When the wearer is attacked, increase their DEF by an extra #3[i]% until the end of the wearer's turn.",
-    params: [
-      [2, 0.24, 0.24, 0.24],
-      [2, 0.28, 0.28, 0.28],
-      [2, 0.32, 0.32, 0.32],
-      [2, 0.36, 0.36, 0.36],
-      [2, 0.4, 0.4, 0.4],
-    ],
-    properties: [
-      [{ type: 'DefenceAddedRatio', value: 0.24 }, { type: 'StatusProbabilityBase', value: 0.24 }],
-      [{ type: 'DefenceAddedRatio', value: 0.28 }, { type: 'StatusProbabilityBase', value: 0.28 }],
-      [{ type: 'DefenceAddedRatio', value: 0.32 }, { type: 'StatusProbabilityBase', value: 0.32 }],
-      [{ type: 'DefenceAddedRatio', value: 0.36 }, { type: 'StatusProbabilityBase', value: 0.36 }],
-      [{ type: 'DefenceAddedRatio', value: 0.4 }, { type: 'StatusProbabilityBase', value: 0.4 }]],
-  }
 
   const content: ContentItem[] = [{
     lc: true,
     id: 'selfAttackedDefBuff',
     name: 'selfAttackedDefBuff',
     formItem: 'switch',
-    text: 'Self attacked DEF buff',
-    title: lcRank.skill,
-    content: getContentFromLCRanks(s, lcRank),
+    text: t('Content.selfAttackedDefBuff.text'),
+    title: t('Content.selfAttackedDefBuff.title'),
+    content: t('Content.selfAttackedDefBuff.content', { DefBuff: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {
@@ -43,8 +25,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
       selfAttackedDefBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.lightConeConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals
 
       x[Stats.DEF_P] += (r.selfAttackedDefBuff) ? sValues[s] : 0
     },

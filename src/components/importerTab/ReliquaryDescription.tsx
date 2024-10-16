@@ -1,23 +1,23 @@
 import { ReactElement } from 'react'
 import { ReliquaryArchiverConfig } from 'lib/importer/importConfig'
-import { ColorizedLink } from '../common/ColorizedLink'
+import { useTranslation } from 'react-i18next'
+import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
 
 export function ReliquaryDescription(): ReactElement {
+  const { t } = useTranslation('importSaveTab', { keyPrefix: 'Import.Stage1.ReliquaryDesc' })
   return (
     <>
-      {true && (
-        <li>
-          <b>(Recommended) IceDynamix Reliquary Archiver</b> (
-          <ColorizedLink text='Github' url={ReliquaryArchiverConfig.releases}/>
-          )
-          <ul>
-            {/* <li><b style={{ color: '#ffaa4f' }}>***** Status: Down for maintenance after 2.5 patch *****</b></li> */}
-            <li><b style={{ color: '#82e192' }}>Status: Updated for patch 2.5 — New download required</b></li>
-            <li>Accurate speed decimals, instant scan</li>
-            <li>Imports full inventory and character roster</li>
-          </ul>
-        </li>
-      )}
+      <li>
+        <b>{t('Title')/* (Recommended) IceDynamix Reliquary Archiver */}</b> (
+        <ColorizedLinkWithIcon text={t('Link')/* Github */} url={ReliquaryArchiverConfig.releases} linkIcon={true}/>
+        )
+        <ul>
+          {/* <li><b style={{ color: '#ffaa4f' }}>{t('OfflineMsg', { version: 2.5 })}</b></li> */}
+          <li><b style={{ color: '#82e192' }}>{t('OnlineMsg', { version: 2.5 })}</b></li>
+          <li>{t('l1')/* Inaccurate speed decimals, 5-10 minutes OCR scan */}</li>
+          <li>{t('l2')/* Imports full inventory and character roster */}</li>
+        </ul>
+      </li>
     </>
   )
 }

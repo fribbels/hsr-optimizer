@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import stringify from 'json-stable-stringify'
 
 import * as htmlToImage from 'html-to-image'
+import i18next from 'i18next'
 
 console.debug = (...args) => {
   let messageConfig = '%c%s '
@@ -53,6 +54,8 @@ export const Utils = {
   },
 
   mergeDefinedValues: (target, source) => {
+    if (!source) return target
+
     for (const key of Object.keys(target)) {
       if (source[key] != null) {
         target[key] = source[key]
@@ -142,8 +145,8 @@ export const Utils = {
 
     function handleBlob(blob) {
       const prefix = characterName || 'Hsr-optimizer'
-      const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
-      const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
+      const date = new Date().toLocaleDateString(i18next.resolvedLanguage).replace(/[^apm\d]+/gi, '-')
+      const time = new Date().toLocaleTimeString(i18next.resolvedLanguage).replace(/[^apm\d]+/gi, '-')
       const filename = `${prefix}_${date}_${time}.png`
 
       if (action == 'clipboard') {
@@ -157,16 +160,18 @@ export const Utils = {
             })
           } else {
             Message.error('Unable to save screenshot to clipboard, try the download button to the right')
+            // 'Unable to save screenshot to clipboard, try the download button to the right'
           }
         } else {
           try {
             const data = [new window.ClipboardItem({ [blob.type]: blob })]
             navigator.clipboard.write(data).then(() => {
-              Message.success('Copied screenshot to clipboard')
+              Message.success(i18next.t('charactersTab:ScreenshotMessages.ScreenshotSuccess'))// 'Copied screenshot to clipboard'
             })
           } catch (e) {
             console.error(e)
-            Message.error('Unable to save screenshot to clipboard, try the download button to the right')
+            Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed'))
+            // 'Unable to save screenshot to clipboard, try the download button to the right'
           }
         }
       }
@@ -181,7 +186,7 @@ export const Utils = {
         anchorElement.click()
         anchorElement.remove()
         window.URL.revokeObjectURL(fileUrl)
-        Message.success('Downloaded screenshot')
+        Message.success(i18next.t('charactersTab:ScreenshotMessages.DownloadSuccess')) // 'Downloaded screenshot'
       }
     }
 
@@ -263,7 +268,7 @@ export const Utils = {
 
     for (const value of Object.values(characterData)) {
       value.value = value.id
-      value.label = value.displayName
+      value.label = i18next.t(`gameData:Characters.${value.id}.Name`)
     }
 
     return Object.values(characterData).sort((a, b) => a.displayName.localeCompare(b.displayName))
@@ -281,31 +286,12 @@ export const Utils = {
 
     for (const value of Object.values(lcData)) {
       value.value = value.id
-      value.label = value.name
+      value.label = i18next.t(`gameData:Lightcones.${value.id}.Name`)
     }
 
     return Object.values(lcData)
       .filter((lc) => !pathFilter || lc.path === pathFilter)
-      .sort((a, b) => a.label.localeCompare(b.label))
-  },
-
-  // Character selector options from current characters with some customization parameters
-  generateCurrentCharacterOptions: (currentCharacters, excludeCharacters = [], withNobodyOption = true) => {
-    const characterData = DB.getMetadata().characters
-
-    const options = currentCharacters
-      .filter((character) => !excludeCharacters.includes(character))
-      .map((character) => ({
-        value: character.id,
-        label: characterData[character.id].displayName,
-      }))
-      .sort((a, b) => a.label.localeCompare(b.label))
-
-    if (withNobodyOption) {
-      options.unshift({ value: 'None', label: 'Nobody' })
-    }
-
-    return options
+      .sort((a, b) => a.label.localeCompare(b.label, window.locale))
   },
 
   // Used to convert output formats for relic scorer, snake-case to camelCase

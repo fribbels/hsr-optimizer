@@ -28,7 +28,6 @@ export function debugExportWebgpuResult(array: Float32Array) {
     DOT: array[73],
     BREAK: array[74],
     COMBO: array[75],
-    WEIGHT: array[113],
     EHP: array[77],
     xHP: array[4],
     xATK: array[5],
@@ -169,7 +168,6 @@ export function debugWebgpuComputedStats(array: Float32Array): ComputedStatsObje
     DOT_DMG_TYPE: array[111],
     BREAK_DMG_TYPE: array[112],
     SUPER_BREAK_DMG_TYPE: array[113],
-    WEIGHT: array[114],
   } as ComputedStatsObject
 }
 

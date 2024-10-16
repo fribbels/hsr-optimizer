@@ -1,18 +1,17 @@
-import { Stats } from 'lib/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
 import { Eidolon } from 'types/Character'
-
-import { Form } from 'types/Form'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Tingyun')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const skillAtkBoostMax = skill(e, 0.25, 0.27)
@@ -29,30 +28,30 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'benedictionBuff',
     name: 'benedictionBuff',
-    text: 'Benediction buff',
-    title: 'Benediction buff',
-    content: `Grants a single ally with Benediction to increase their ATK by ${precisionRound(skillAtkBoostScaling * 100)}%, up to ${precisionRound(skillAtkBoostMax * 100)}% of Tingyun's current ATK. When the ally with Benediction attacks, it deals lightning damage equal to ${precisionRound(skillLightningDmgBoostScaling * 100)}% of that ally's ATK. This effect lasts for 3 turns.`,
+    text: t('Content.benedictionBuff.text'),
+    title: t('Content.benedictionBuff.title'),
+    content: t('Content.benedictionBuff.content', { skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling), skillAtkBoostMax: TsUtils.precisionRound(100 * skillAtkBoostMax), skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling) }),
   }, {
     formItem: 'switch',
     id: 'skillSpdBuff',
     name: 'skillSpdBuff',
-    text: 'Skill SPD buff',
-    title: 'Skill SPD buff',
-    content: `Tingyun's SPD increases by 20% for 1 turn after using Skill.`,
+    text: t('Content.skillSpdBuff.text'),
+    title: t('Content.skillSpdBuff.title'),
+    content: t('Content.skillSpdBuff.content'),
   }, {
     formItem: 'switch',
     id: 'ultDmgBuff',
     name: 'ultDmgBuff',
-    text: 'Ult DMG buff',
-    title: 'Ult DMG buff',
-    content: `Regenerates 50 Energy for a single ally and increases the target's DMG by ${precisionRound(ultDmgBoost * 100)}% for 2 turn(s).`,
+    text: t('Content.ultDmgBuff.text'),
+    title: t('Content.ultDmgBuff.title'),
+    content: t('Content.ultDmgBuff.content', { ultDmgBoost: TsUtils.precisionRound(100 * ultDmgBoost) }),
   }, {
     formItem: 'switch',
     id: 'ultSpdBuff',
     name: 'ultSpdBuff',
-    text: 'E1 ult SPD buff',
-    title: 'E1 ult SPD buff',
-    content: `E1: After using their Ultimate, the ally with Benediction gains a 20% increase in SPD for 1 turn.`,
+    text: t('Content.ultSpdBuff.text'),
+    title: t('Content.ultSpdBuff.title'),
+    content: t('Content.ultSpdBuff.content'),
     disabled: e < 1,
   }]
 
@@ -62,9 +61,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateAtkBuffValue',
       name: 'teammateAtkBuffValue',
-      text: `Skill ATK buff value`,
-      title: 'Benediction buff',
-      content: `Grants a single ally with Benediction to increase their ATK by ${precisionRound(skillAtkBoostScaling * 100)}%, up to ${precisionRound(skillAtkBoostMax * 100)}% of Tingyun's current ATK. When the ally with Benediction attacks, it deals lightning damage equal to ${precisionRound(skillLightningDmgBoostScaling * 100)}% of that ally's ATK. This effect lasts for 3 turns.`,
+      text: t('TeammateContent.teammateAtkBuffValue.text'),
+      title: t('TeammateContent.teammateAtkBuffValue.title'),
+      content: t('TeammateContent.teammateAtkBuffValue.content', { skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling), skillAtkBoostMax: TsUtils.precisionRound(100 * skillAtkBoostMax), skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling) }),
       min: 0,
       max: skillAtkBoostScaling,
       percent: true,
@@ -88,8 +87,8 @@ export default (e: Eidolon): CharacterConditional => {
       ultDmgBuff: true,
       teammateAtkBuffValue: skillAtkBoostScaling,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.SPD_P] += (r.skillSpdBuff) ? 0.20 : 0
@@ -106,20 +105,20 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x[Stats.SPD_P] += (e >= 1 && m.ultSpdBuff) ? 0.20 : 0
 
       x.ELEMENTAL_DMG += (m.ultDmgBuff) ? ultDmgBoost : 0
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
-      const t = request.characterConditionals
+    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const t = action.characterConditionals
 
       x[Stats.ATK_P] += (t.benedictionBuff) ? t.teammateAtkBuffValue : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // x[Stats.ATK] += (r.benedictionBuff) ? x[Stats.ATK] * skillAtkBoostMax : 0
 
@@ -127,8 +126,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      const r = request.characterConditionals
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 if (${wgslTrue(r.benedictionBuff)}) {
@@ -149,27 +148,27 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
         condition: function () {
           return true
         },
-        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-          const r = request.characterConditionals
+        effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals
           if (!r.benedictionBuff) {
             return
           }
 
-          const stateValue = params.conditionalState[this.id] || 0
+          const stateValue = action.conditionalState[this.id] || 0
           const convertibleAtkValue = x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF
 
           const buffATK = skillAtkBoostMax * convertibleAtkValue
           const stateBuffATK = skillAtkBoostMax * stateValue
 
-          params.conditionalState[this.id] = x[Stats.ATK]
+          action.conditionalState[this.id] = x[Stats.ATK]
 
           const finalBuffAtk = buffATK - (stateValue ? stateBuffATK : 0)
           x.RATIO_BASED_ATK_BUFF += finalBuffAtk
 
-          buffStat(x, request, params, Stats.ATK, finalBuffAtk)
+          buffStat(x, Stats.ATK, finalBuffAtk, action, context)
         },
-        gpu: function (request: Form, _params: OptimizerParams) {
-          const r = request.characterConditionals
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.benedictionBuff)}) {

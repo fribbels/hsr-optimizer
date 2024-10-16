@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { ConfigProvider, Layout, message, Modal, notification, theme } from 'antd'
 import Tabs from 'components/Tabs'
 import { LayoutHeader } from 'components/LayoutHeader.tsx'
 import { LayoutSider } from 'components/LayoutSider.tsx'
 import { SettingsDrawer } from 'components/SettingsDrawer'
 import { checkForUpdatesNotification } from 'lib/notifications'
+import { useTranslation } from 'react-i18next'
 
 const { useToken, getDesignToken } = theme
 const { Content } = Layout
@@ -13,6 +14,7 @@ const App = () => {
   const [messageApi, messageContextHolder] = message.useMessage()
   const [notificationApi, notificationContextHolder] = notification.useNotification()
   const [modalApi, modalContextHolder] = Modal.useModal()
+  const { t, i18n } = useTranslation()
 
   window.messageApi = messageApi
   window.notificationApi = notificationApi
@@ -29,6 +31,9 @@ const App = () => {
     checkForUpdatesNotification(DB.getState().version)
   }, [])
 
+  useEffect(() => {
+    console.log('setting language to:', i18n.resolvedLanguage)
+  }, [i18n.resolvedLanguage])
   return (
     <ConfigProvider
       theme={{
@@ -127,4 +132,10 @@ const App = () => {
   )
 }
 
-export default App
+export default function WrappedApp() {
+  return (
+    // <Suspense fallback='...loading'> i18next strongly recommends using a suspense, seeing if we can get away with not using one
+    <App/>
+    // </Suspense>
+  )
+}

@@ -1,17 +1,19 @@
 import { Stats } from 'lib/constants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, precisionRound, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 
 import { Eidolon } from 'types/Character'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { XueyiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { NumberToNumberMap } from 'types/Common'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Xueyi')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const ultBoostMax = ult(e, 0.60, 0.648)
@@ -31,26 +33,26 @@ export default (e: Eidolon): CharacterConditional => {
     {
       id: 'beToDmgBoost',
       name: 'beToDmgBoost',
-      text: 'BE to DMG boost',
       formItem: 'switch',
-      title: 'Clairvoyant Loom',
-      content: 'Increases DMG dealt by this unit by an amount equal to 100% of Break Effect, up to a maximum DMG increase of 240%.',
+      text: t('Content.beToDmgBoost.text'),
+      title: t('Content.beToDmgBoost.title'),
+      content: t('Content.beToDmgBoost.content'),
     },
     {
       id: 'enemyToughness50',
       name: 'enemyToughness50',
-      text: 'Intrepid Rollerbearings',
       formItem: 'switch',
-      title: 'Intrepid Rollerbearings',
-      content: "If the enemy target's Toughness is equal to or higher than 50% of their Max Toughness, deals 10% more DMG when using Ultimate.",
+      text: t('Content.enemyToughness50.text'),
+      title: t('Content.enemyToughness50.title'),
+      content: t('Content.enemyToughness50.content'),
     },
     {
       id: 'toughnessReductionDmgBoost',
       name: 'toughnessReductionDmgBoost',
-      text: 'Ultimate DMG boost',
       formItem: 'slider',
-      title: 'Ultimate: Divine Castigation',
-      content: `When using Ultimate, the more Toughness is reduced, the higher the DMG will be dealt, up to a max of ${precisionRound(ultBoostMax * 100)}% increase.`,
+      text: t('Content.toughnessReductionDmgBoost.text'),
+      title: t('Content.toughnessReductionDmgBoost.title'),
+      content: t('Content.toughnessReductionDmgBoost.content', { ultBoostMax: TsUtils.precisionRound(100 * ultBoostMax) }),
       min: 0,
       max: ultBoostMax,
       percent: true,
@@ -58,21 +60,20 @@ export default (e: Eidolon): CharacterConditional => {
     {
       id: 'fuaHits',
       name: 'fuaHits',
-      text: 'FUA hits',
       formItem: 'slider',
-      title: 'Talent: Karmic Perpetuation',
-      content: `When Karma reaches the max number of stacks, consumes all current Karma stacks and immediately launches a follow-up attack against an enemy target, 
-      dealing DMG for 3 times, with each time dealing Quantum DMG equal to ${precisionRound(fuaScaling * 100)}% of Xueyi's ATK to a single random enemy.`,
+      text: t('Content.fuaHits.text'),
+      title: t('Content.fuaHits.title'),
+      content: t('Content.fuaHits.content', { fuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
       min: 0,
       max: 3,
     },
     {
       id: 'e4BeBuff',
       name: 'e4BeBuff',
-      text: 'E4 BE buff',
       formItem: 'switch',
-      title: 'E4 break effect buff',
-      content: 'E4: When using Ultimate, increases Break Effect by 40% for 2 turn(s).',
+      text: t('Content.e4BeBuff.text'),
+      title: t('Content.e4BeBuff.title'),
+      content: t('Content.e4BeBuff.content'),
       disabled: (e < 4),
     },
   ]
@@ -88,8 +89,8 @@ export default (e: Eidolon): CharacterConditional => {
       e4BeBuff: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.BE] += (e >= 4 && r.e4BeBuff) ? 0.40 : 0
@@ -112,13 +113,13 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, hitMultiByFuaHits[request.characterConditionals.fuaHits])
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, hitMultiByFuaHits[action.characterConditionals.fuaHits])
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      return gpuStandardFuaAtkFinalizer(hitMultiByFuaHits[request.characterConditionals.fuaHits])
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuStandardFuaAtkFinalizer(hitMultiByFuaHits[action.characterConditionals.fuaHits])
     },
     dynamicConditionals: [XueyiConversionConditional],
   }

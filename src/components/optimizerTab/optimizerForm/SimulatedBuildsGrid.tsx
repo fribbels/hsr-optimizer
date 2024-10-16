@@ -1,10 +1,11 @@
 import { Empty, Flex, Table, TableColumnsType } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import { STAT_SIMULATION_GRID_WIDTH } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
-import { deleteStatSimulationBuild, renderDefaultSimulationName } from 'lib/statSimulationController.tsx'
+import { deleteStatSimulationBuild, renderDefaultSimulationName } from 'lib/statSimulationController'
 import { IRowNode } from 'ag-grid-community'
 import { useEffect } from 'react'
 import { Utils } from 'lib/utils'
+import { useTranslation } from 'react-i18next'
 
 interface DataType {
   key: React.Key
@@ -57,6 +58,7 @@ function zeroesToNull(obj) {
 }
 
 export function SimulatedBuildsGrid() {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
   const statSimulations = window.store((s) => s.statSimulations)
   const selectedStatSimulations = window.store((s) => s.selectedStatSimulations)
   const setSelectedStatSimulations = window.store((s) => s.setSelectedStatSimulations)
@@ -100,7 +102,7 @@ export function SimulatedBuildsGrid() {
   return (
     <Table
       showHeader={false}
-      locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='No custom stat simulations selected'/> }}
+      locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('NoStatSimulations')}/* 'No custom stat simulations selected' *//> }}
       rowSelection={{
         selectedRowKeys: selectedStatSimulations,
         type: 'radio',

@@ -26,6 +26,7 @@ import { StatSimulationDisplay } from 'components/optimizerTab/optimizerForm/Sta
 import { ComboFilters } from 'components/optimizerTab/optimizerForm/ComboFilter'
 import { EnemyConfigurationsDrawer } from 'components/optimizerTab/optimizerForm/EnemyConfigurationsDrawer'
 import { AdvancedOptionsPanel } from 'components/optimizerTab/optimizerForm/AdvancedOptionsPanel'
+import { updateConditionalChange } from 'lib/optimizer/rotation/comboDrawerController'
 
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')
@@ -43,6 +44,10 @@ export default function OptimizerForm() {
     if (!changedValues || !allValues || !allValues.characterId) return
     const keys = Object.keys(changedValues)
 
+    if (keys.length == 1 && (keys[0] == 'characterConditionals' || keys[0] == 'lightConeConditionals' || keys[0] == 'setConditionals' || keys[0].startsWith('teammate'))) {
+      updateConditionalChange(changedValues)
+    }
+
     if (bypass) {
       // Only allow certain values to refresh permutations.
       // Sliders should only update at the end of the drag
@@ -53,7 +58,7 @@ export default function OptimizerForm() {
       || keys[0].startsWith('statDisplay')
       || keys[0].startsWith('statSim')
       || keys[0].startsWith('teammate')
-      || keys[0].startsWith('combo')
+      // || keys[0].startsWith('combo')
       || keys[0].startsWith('combatBuffs')
       || keys[0] == 'characterConditionals'
       || keys[0] == 'lightConeConditionals')) {
@@ -65,7 +70,7 @@ export default function OptimizerForm() {
 
     if (keys[0] === 'characterId') {
       window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, changedValues.characterId)
-      setTimeout(() => SaveState.save(), 1000)
+      SaveState.delayedSave()
     }
 
     // Add any new characters to the list only if the user changed any value other than the characterId
@@ -116,7 +121,7 @@ export default function OptimizerForm() {
     window.store.getState().setOptimizationInProgress(true)
 
     DB.addFromForm(form)
-    SaveState.save()
+    SaveState.delayedSave()
 
     const optimizationId = Utils.randomId()
     window.store.getState().setOptimizationId(optimizationId)

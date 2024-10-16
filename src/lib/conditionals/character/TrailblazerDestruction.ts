@@ -1,13 +1,15 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerDestruction')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const talentAtkScalingValue = talent(e, 0.20, 0.22)
@@ -22,17 +24,16 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'enhancedUlt',
     name: 'Enhanced Ult',
-    text: 'AoE ult',
-    title: 'AoE ULT - Split DMG to adjacent enemies',
-    content: `Choose between two attack modes to deliver a full strike. ::BR:: Blowout: (ST) Farewell Hit deals Physical DMG equal to ${precisionRound(ultScaling * 100)}% of the Trailblazer's ATK to a single enemy. 
-    ::BR::Blowout: (Blast) RIP Home Run deals Physical DMG equal to ${precisionRound(ultEnhancedScaling * 100)}% of the Trailblazer's ATK to a single enemy, and Physical DMG equal to ${precisionRound(ultEnhancedScaling2 * 100)}% of the Trailblazer's ATK to enemies adjacent to it.`,
+    text: t('Content.enhancedUlt.text'),
+    title: t('Content.enhancedUlt.title'),
+    content: t('Content.enhancedUlt.content', { ultScaling: TsUtils.precisionRound(100 * ultScaling), ultEnhancedScaling: TsUtils.precisionRound(100 * ultEnhancedScaling), ultEnhancedScaling2: TsUtils.precisionRound(100 * ultEnhancedScaling2) }),
   }, {
     formItem: 'slider',
     id: 'talentStacks',
     name: 'Talent stacks',
-    text: 'Talent stacks',
-    title: `Talent stacks`,
-    content: `Each time after this character inflicts Weakness Break on an enemy, ATK increases by ${precisionRound(talentAtkScalingValue * 100)}% and DEF increases by 10%. This effect stacks up to 2 times.`,
+    text: t('Content.talentStacks.text'),
+    title: t('Content.talentStacks.title'),
+    content: t('Content.talentStacks.content', { talentAtkScalingValue: TsUtils.precisionRound(100 * talentAtkScalingValue) }),
     min: 0,
     max: 2,
   }]
@@ -45,8 +46,8 @@ export default (e: Eidolon): CharacterConditional => {
       talentStacks: 2,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += r.talentStacks * talentAtkScalingValue
@@ -67,8 +68,6 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_TOUGHNESS_DMG += (r.enhancedUlt) ? 60 : 90
 
       return x
-    },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
     finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

@@ -1,8 +1,9 @@
 // Represents the version of the latest info, which should be the beta leaks version at the time of the major update
 import gameData from 'data/game_data.json'
 
+// Semver defined optimizer version
 export const CURRENT_OPTIMIZER_VERSION = 'v2.6.3'
-// Represents the data content version, used for display but not for update notifications
+// Represents the beta data content version, used for display but not for update notifications
 export const CURRENT_DATA_VERSION = '2.6v4'
 
 export const Stats = {

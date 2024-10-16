@@ -11,7 +11,7 @@
   },
   "Header": {
     "DowntimeWarning": "The $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0}) scorer may be down for maintenance after the {{game_version}} patch, please try again later",
-    "WithVersion": "Enter your account UID to score your profile $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}} )",
+    "WithVersion": "Enter your account UID to score your profile $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}})",
     "WithoutVersion": "Enter your account UID to score your profile $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) at level 80 & maxed traces. Log out to refresh instantly."
   },
   "SubmissionBar": {

@@ -12,7 +12,7 @@ import { ContentItem } from 'types/Conditionals'
 import { ReactElement } from 'types/Components'
 import { FormSwitchWithPopover } from 'components/optimizerTab/conditionals/FormSwitch'
 import ColorizeNumbers from 'components/common/ColorizeNumbers'
-import { ExportOutlined, MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { FormSliderWithPopover } from 'components/optimizerTab/conditionals/FormSlider'
 import GenerateOrnamentsOptions from 'components/optimizerTab/optimizerForm/OrnamentsOptions'
 import { OrnamentSetTagRenderer } from 'components/optimizerTab/optimizerForm/OrnamentSetTagRenderer'
@@ -20,6 +20,7 @@ import { GenerateBasicSetsOptions } from 'components/optimizerTab/optimizerForm/
 import { FormSelectWithPopover } from 'components/optimizerTab/conditionals/FormSelect'
 import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimizer/rotation/setConditionalContent'
 import { ConditionalDataType } from 'lib/constants'
+import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
 
 const buttonStyle = {
   fontSize: 20,
@@ -128,12 +129,10 @@ export function ComboDrawer() {
 function ComboDrawerTitle() {
   return (
     <div style={{ width: 'fit-content' }}>
-      <a href='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/advanced-rotations.md' target='_blank'>
-        <Flex gap={8} style={{ color: '#91bfff', textDecoration: 'underline', fontSize: 18 }}>
-          {'Advanced Rotation User Guide'}
-          <ExportOutlined/>
-        </Flex>
-      </a>
+      <ColorizedLinkWithIcon
+        text='Advanced Rotation User Guide'
+        url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/advanced-rotations.md'
+      />
     </div>
   )
 }

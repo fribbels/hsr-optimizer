@@ -3,7 +3,7 @@ import semver from 'semver'
 import { AppPages } from 'lib/db'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants'
 import { UnorderedListOutlined } from '@ant-design/icons'
-import { ColorizedLink } from 'components/common/ColorizedLink'
+import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
 import { Trans } from 'react-i18next'
 import i18next from 'i18next'
 
@@ -20,9 +20,9 @@ export function checkForUpdatesNotification(version: string) {
       <Space>
         <Button
           type='primary' icon={<UnorderedListOutlined/>} onClick={() => {
-            window.notificationApi.destroy()
-            window.store.getState().setActiveKey(AppPages.CHANGELOG)
-          }}
+          window.notificationApi.destroy()
+          window.store.getState().setActiveKey(AppPages.CHANGELOG)
+        }}
         >
           {
             i18next.t('notifications:Changelog.View')
@@ -59,7 +59,7 @@ export function webgpuNotSupportedNotification() {
           <div>
             {
               i18next.t('notifications:GPU.Description.l1')
-            // Please use one of the following supported environments in order to enable GPU acceleration:
+              // Please use one of the following supported environments in order to enable GPU acceleration:
             }
           </div>
           <div>
@@ -67,7 +67,7 @@ export function webgpuNotSupportedNotification() {
               <li>{i18next.t('notifications:GPU.Description.l2')/* Windows & Mac — Chrome, Opera, Edge */}</li>
               <li>
                 {/* @ts-ignore colorized link takes text prop from translation */}
-                <Trans t={i18next.t} i18nKey='notifications:GPU.Description.l3' components={{ CustomLink: <ColorizedLink url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status'/> }}/>
+                <Trans t={i18next.t} i18nKey='notifications:GPU.Description.l3' components={{ CustomLink: <ColorizedLinkWithIcon url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status' linkIcon={true}/> }}/>
                 {/* Linux — <ColorizedLink text='Behind a flag' url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status'/> */}
               </li>
             </ul>
@@ -76,7 +76,7 @@ export function webgpuNotSupportedNotification() {
           <div>
             {
               i18next.t('notifications:GPU.Description.l4')
-            // If you're on one of the supported browsers and it doesn't work, try another browser, or try switching your browser to use your dedicated graphics card instead of integrated.
+              // If you're on one of the supported browsers and it doesn't work, try another browser, or try switching your browser to use your dedicated graphics card instead of integrated.
             }
           </div>
         </Flex>

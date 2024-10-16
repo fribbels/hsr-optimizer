@@ -4410,7 +4410,7 @@ function getScoringMetadata() {
         ],
         breakpoints: {},
         maxBonusRolls: {},
-        comboAbilities: [null, SKILL, FUA, FUA, SKILL, FUA, FUA, ULT, ULT],
+        comboAbilities: [null, ULT, SKILL, FUA, FUA, ULT, SKILL, FUA, FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [

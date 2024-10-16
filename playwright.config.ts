@@ -59,7 +59,7 @@ export default defineConfig({
   webServer: {
     command: 'npm run start',
     url: 'http://localhost:3000/hsr-optimizer',
-    reuseExistingServer: true,
+    reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000, // 2min max to startup
   },
   reporter: [['html', { open: 'never' }]],

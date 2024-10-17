@@ -557,3 +557,34 @@ a {
     min-height: 18px !important;
     line-height: 18px !important;
 }
+
+/* Body scrollbar with overlayscrollbars */
+.os-scrollbar {
+    --os-handle-bg: #95959552 !important;
+    --os-size: 8px !important;
+}
+
+/* Hides pinned bar scrollbar */
+.ag-floating-top {
+    overflow-y: hidden !important;
+}
+
+/* Sets small scrollbar */
+.ag-body-vertical-scroll,
+.ag-body-vertical-scroll-viewport,
+.ag-body-vertical-scroll-container {
+    width: 4px !important;
+    max-width: 4px !important;
+    min-width: 4px !important;
+    margin-right: 2px !important;
+}
+
+/* Customize scrollbar */
+.ag-body-vertical-scroll-viewport::-webkit-scrollbar {
+    width: 4px;
+}
+
+.ag-body-vertical-scroll-viewport::-webkit-scrollbar-thumb {
+    background-color: #95959552;
+    border-radius: 4px !important;
+}

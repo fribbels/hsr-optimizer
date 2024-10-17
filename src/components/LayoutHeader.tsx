@@ -56,9 +56,14 @@ export function LayoutHeader() {
               <img src={Assets.getKofi()} style={{ height: 36, marginRight: 6, borderRadius: 5 }}></img>
             </Flex>
           </a>
+          <a href='https://github.com/fribbels/hsr-optimizer' target='_blank' rel='noreferrer'>
+            <Flex>
+              <img src={Assets.getGithub()} style={{ height: 36, marginRight: 6, borderRadius: 5 }}></img>
+            </Flex>
+          </a>
           <a href='https://discord.gg/rDmB4Un7qg' target='_blank' rel='noreferrer'>
             <Flex>
-              <img src={Assets.getDiscord()} style={{ height: 36, marginRight: 6, borderRadius: 5 }}></img>
+              <img src={Assets.getDiscord()} style={{ height: 36, marginRight: 8, borderRadius: 5 }}></img>
             </Flex>
           </a>
         </Flex>

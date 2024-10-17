@@ -212,7 +212,7 @@ ${debugValues}
   // CTRL+ F: RESULTS ASSIGNMENT
   if (gpuParams.DEBUG) {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
-x.COMBO_DMG += DEBUG_BASIC_COMBO * x.BASIC_DMG + DEBUG_SKILL_COMBO * x.SKILL_DMG + DEBUG_ULT_COMBO * x.ULT_DMG + DEBUG_FUA_COMBO * x.FUA_DMG;
+x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
 results[index] = x; // DEBUG
     `, 4))
   } else {
@@ -226,23 +226,6 @@ if (statDisplay == 0) {
 }
     `, 4))
   }
-
-
-  // CTRL+ F: RESULTS ASSIGNMENT
-  // if (gpuParams.DEBUG) {
-  //
-  // } else {
-  //   if (context.resultSort == SortOption.COMBO.key) {
-  //     wgsl = wgsl.replace('/* INJECT COMBO FILTERS */', indent(`
-  //         if (
-  //           x.COMBO_DMG < threshold
-  //         ) {
-  //           results[index] = -failures; failures = failures + 1;
-  //           break;
-  //         }
-  //   `, 4))
-  //   }
-  // }
 
   if (context.resultSort == SortOption.COMBO.key) {
     wgsl = wgsl.replace('/* INJECT ACTION ITERATOR */', indent(`

@@ -173,7 +173,7 @@ function addToPinned() {
 
 function clearPinned() {
   const currentPinned = window.optimizerGrid.current.api.getGridOption('pinnedTopRowData')
-  if (currentPinned.length) {
+  if (currentPinned?.length) {
     window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [currentPinned[0]] })
   }
 }
@@ -572,8 +572,8 @@ function calculateProgressText(startTime, optimizerEndTime, permutations, permut
   return optimizationInProgress
     ? i18next.t('optimizerTab:Sidebar.ProgressText.TimeRemaining', { rate: Math.floor(perSecond).toLocaleString(), timeRemaining: Utils.msToReadable(msRemaining) })
     : i18next.t('optimizerTab:Sidebar.ProgressText.Finished', { rate: Math.floor(perSecond).toLocaleString() })
-    // {{rate}} / sec — ${{timeRemaining}} left
-    // {{rate}} / sec — Finished
+  // {{rate}} / sec — ${{timeRemaining}} left
+  // {{rate}} / sec — Finished
 }
 
 function ManyPermsModal(props) {

@@ -26,6 +26,8 @@ import { Typography } from 'antd'
 import { RelicRollFixer } from 'lib/relicRollFixer'
 import { Themes } from 'lib/theme'
 import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
+import 'overlayscrollbars/overlayscrollbars.css';
+import { OverlayScrollbars } from 'overlayscrollbars';
 
 window.WorkerPool = WorkerPool
 window.Constants = Constants
@@ -47,6 +49,8 @@ window.BufferPacker = BufferPacker
 window.RelicRollFixer = RelicRollFixer
 
 window.colorTheme = Themes.BLUE
+
+OverlayScrollbars(document.body, {});
 
 DataParser.parse()
 SaveState.load(false)

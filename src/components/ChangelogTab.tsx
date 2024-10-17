@@ -107,6 +107,26 @@ function getChangelogContent() {
   const changelog: ChangelogContent[] = [
     {
       title: '',
+      date: '10-19-2024',
+      content: [
+        `Added a new ability rotation calculation methodology, where damage abilities are evaluated sequentially for buff activation`,
+        `rotation.webp`,
+        `Added an Advanced Rotation panel for full customizability of buff uptime and in-battle conditional calculations for the entire team`,
+        `Simple mode will automatically apply presets, while Advanced mode grants full control. Improved preset accuracy is under development`,
+        `advanced.webp`,
+        `DPS score now shows the combo rotation abilities`,
+        `abilities.webp`,
+        `Added i18n support, looking for contributors to help translate the website`,
+        `i18n.webp`,
+        `Removed Stat Weight sort and filter options for optimizer simplification. The stat weight column still remains`,
+        `Fix: The Recommended Presets button no longer resets weighted rolls per relic`,
+        `Balance: DPS score overvalued ATK boots in certain situations with large amount of speed buffs, mostly affects ATK boots Kafka S1 builds`,
+        `Balance: Jiaoqiu is now recommended ATK / ERR rope by default`,
+        `Balance: Shadowed by Night light cone now has SPD buff enabled by default`
+      ],
+    },
+    {
+      title: '',
       date: '09-20-2024',
       content: [
         `Added a Relic Locator tool to the Relics tab for finding the relic's row / column in the inventory`,

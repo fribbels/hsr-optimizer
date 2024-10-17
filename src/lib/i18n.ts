@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import Backend from 'i18next-http-backend'
 import { BASE_PATH } from './db'
+import yaml from 'js-yaml';
 
 export const languages = {
   zh: {
@@ -87,7 +88,10 @@ void i18next
       escapeValue: false, // not needed for react as it escapes by default
     },
     backend: {
-      loadPath: BASE_PATH + '/locales/{{lng}}/{{ns}}.json',
+      loadPath: BASE_PATH + '/locales/{{lng}}/{{ns}}.yaml',
+      parse: function (data) {
+        return yaml.load(data)
+      },
     },
   })
 

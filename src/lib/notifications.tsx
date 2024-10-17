@@ -2,7 +2,7 @@ import { Button, Flex, Space } from 'antd'
 import semver from 'semver'
 import { AppPages } from 'lib/db'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants'
-import { UnorderedListOutlined } from '@ant-design/icons'
+import { DiscordOutlined, UnorderedListOutlined } from '@ant-design/icons'
 import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
 import { Trans } from 'react-i18next'
 import i18next from 'i18next'
@@ -37,6 +37,31 @@ export function checkForUpdatesNotification(version: string) {
         </Button>
       </Space>
     )
+
+    const translationsBtn = (
+      <Space>
+        <Button
+          type='primary' icon={<DiscordOutlined/>} onClick={() => {
+          window.notificationApi.destroy()
+          window.open('https://discord.gg/rDmB4Un7qg', '_blank')
+        }}
+        >
+          Discord
+        </Button>
+        <Button type='default' onClick={() => window.notificationApi.destroy()}>
+          {
+            i18next.t('notifications:Changelog.Dismiss')
+          }
+        </Button>
+      </Space>
+    )
+
+    window.notificationApi.success({
+      message: 'I18N coming soon!',
+      description: 'Looking for contributors to help to translate content into other languages. Check out the Discord server for more info!',
+      btn: translationsBtn,
+      duration: 30,
+    })
 
     window.notificationApi.success({
       message: i18next.t('notifications:Changelog.Message'), // 'New updates!',

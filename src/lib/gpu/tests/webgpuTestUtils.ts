@@ -7,8 +7,10 @@ import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
+import { SortOption } from 'lib/optimizer/sortOptions'
 
 export async function runTestRequest(request: Form, relics: RelicsByPart, device: GPUDevice) {
+  request.resultSort = SortOption.COMBO.key
   const context = generateContext(request)
 
   const relicSetSolutions = new Array<number>(Math.pow(Object.keys(SetsRelics).length, 4)).fill(1)

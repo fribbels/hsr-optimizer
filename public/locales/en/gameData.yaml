@@ -65,7 +65,7 @@ Characters:
           <span>Skill Lv. +2, up to a maximum of Lv. 15.<br>Talent Lv. +2, up to
           a maximum of Lv. 15.</span>
       '100106':
-        Name: 'Just Like This, Always...'
+        Name: Just Like This, Always...
         Desc: >-
           <span>Allies under the protection of the Shield granted by the Skill
           restore HP equal to 4% of their Max HP plus 106 at the beginning of
@@ -108,12 +108,12 @@ Characters:
         Type: Technique
     Eidolons:
       '100201':
-        Name: 'The Higher You Fly, the Harder You Fall'
+        Name: The Higher You Fly, the Harder You Fall
         Desc: >-
           <span>When the target enemy's current HP percentage is greater than or
           equal to 50%, CRIT Rate increases by 12%.</span>
       '100202':
-        Name: 'Quell the Venom Octet, Quench the Vice O''Flame'
+        Name: Quell the Venom Octet, Quench the Vice O'Flame
         Desc: <span>Reduces Talent cooldown by 1 turn.</span>
       '100203':
         Name: Seen and Unseen
@@ -257,7 +257,7 @@ Characters:
           multiplier.</span>
       '100402':
         Name: Conflux of Stars
-        Desc: '<span>When his Talent is triggered, Welt regenerates 3 Energy.</span>'
+        Desc: <span>When his Talent is triggered, Welt regenerates 3 Energy.</span>
       '100403':
         Name: Prayer of Peace
         Desc: >-
@@ -572,11 +572,11 @@ Characters:
           receive increased DMG.</span>
         Type: Skill
       '101303':
-        Name: 'It''s Magic, I Added Some Magic'
+        Name: It's Magic, I Added Some Magic
         Desc: <span>Deals Ice DMG to all enemies.</span>
         Type: Ultimate
       '101304':
-        Name: 'Fine, I''ll Do It Myself'
+        Name: Fine, I'll Do It Myself
         Desc: >-
           <span>When any ally's attack reduces the Enemy target's current HP
           percentage to </span><span style='color:#f29e38ff'><span
@@ -612,7 +612,7 @@ Characters:
           to a maximum of Lv. 10.</span>
       '101304':
         Name: Hit Where It Hurts
-        Desc: '<span>When Talent is triggered, DMG increases by 10%.</span>'
+        Desc: <span>When Talent is triggered, DMG increases by 10%.</span>
       '101305':
         Name: Cuss Big or Cuss Nothing
         Desc: >-
@@ -799,7 +799,7 @@ Characters:
         Name: Attack
         Desc: ''
       '110307':
-        Name: 'Good Night, Belobog'
+        Name: Good Night, Belobog
         Desc: >-
           <span>Attacks the enemy. After entering battle, deals minor Lightning
           DMG to a random single enemy, with a high chance to </span><span
@@ -817,7 +817,7 @@ Characters:
           <span>Every time Serval's Talent is triggered to deal Additional DMG,
           she regenerates 4 Energy.</span>
       '110303':
-        Name: 'Listen, the Heartbeat of the Gears'
+        Name: Listen, the Heartbeat of the Gears
         Desc: >-
           <span>Skill Lv. +2, up to a maximum of Lv. 15.<br>Basic ATK Lv. +1, up
           to a maximum of Lv. 10.</span>
@@ -911,7 +911,7 @@ Characters:
         Desc: <span>Deals minor Physical DMG to a single enemy.</span>
         Type: Basic ATK
       '110502':
-        Name: 'Love, Heal, and Choose'
+        Name: Love, Heal, and Choose
         Desc: >-
           <span></span><span style='color:#f29e38ff'>Restores HP</span><span>
           for a single ally and provides </span><span
@@ -961,7 +961,7 @@ Characters:
           to a maximum of Lv. 10.</span>
       '110504':
         Name: Miracle Cure
-        Desc: '<span>After being attacked, regenerates 5 extra Energy.</span>'
+        Desc: <span>After being attacked, regenerates 5 extra Energy.</span>
       '110505':
         Name: Preventive Treatment
         Desc: >-
@@ -1012,7 +1012,7 @@ Characters:
     Eidolons:
       '110601':
         Name: Victory Report
-        Desc: '<span>When an enemy is defeated, Pela regenerates 5 Energy.</span>'
+        Desc: <span>When an enemy is defeated, Pela regenerates 5 Energy.</span>
       '110602':
         Name: Adamant Charge
         Desc: >-
@@ -1053,7 +1053,7 @@ Characters:
           to targets with Marks of Counter.</span>
         Type: Skill
       '110703':
-        Name: 'Promise, Not Command'
+        Name: Promise, Not Command
         Desc: >-
           <span></span><span style='color:#f29e38ff'>Reduces DMG
           received</span><span>, increases chance to be attacked by enemies, and
@@ -1165,7 +1165,7 @@ Characters:
           <span>Skill Lv. +2, up to a maximum of Lv. 15.<br>Basic ATK Lv. +1, up
           to a maximum of Lv. 10.</span>
       '110804':
-        Name: 'The Deeper the Love, the Stronger the Hate'
+        Name: The Deeper the Love, the Stronger the Hate
         Desc: >-
           <span>When Skill hits an enemy with 5 or more stack(s) of Wind Shear,
           the enemy immediately takes 8% of current Wind Shear DMG.</span>
@@ -1217,15 +1217,15 @@ Characters:
         Type: Technique
     Eidolons:
       '110901':
-        Name: 'Early to Bed, Early to Rise'
+        Name: Early to Bed, Early to Rise
         Desc: <span>Enhanced Skill deals 20% increased DMG.</span>
       '110902':
-        Name: 'Happy Tummy, Happy Body'
+        Name: Happy Tummy, Happy Body
         Desc: >-
           <span>Extends the duration of Burn caused by Skill by 1
           turn(s).</span>
       '110903':
-        Name: 'Don''t Be Picky, Nothing''s Icky'
+        Name: Don't Be Picky, Nothing's Icky
         Desc: >-
           <span>Skill Lv. +2, up to a maximum of Lv. 15.<br>Basic ATK Lv. +1, up
           to a maximum of Lv. 10.</span>
@@ -1365,7 +1365,7 @@ Characters:
           <span>When Luka takes action, if the target enemy is Bleeding,
           increases DMG dealt by Luka by 15% for 2 turn(s).</span>
       '111102':
-        Name: 'The Enemy is Weak, I am Strong'
+        Name: The Enemy is Weak, I am Strong
         Desc: >-
           <span>If the Skill hits an enemy target with Physical Weakness, gain 1
           stack(s) of Fighting Will.</span>
@@ -1587,7 +1587,7 @@ Characters:
           <span>After using their Ultimate, the ally with Benediction gains a
           20% increase in SPD for 1 turn.</span>
       '120202':
-        Name: 'Gainfully Gives, Givingly Gains'
+        Name: Gainfully Gives, Givingly Gains
         Desc: >-
           <span>The ally with Benediction regenerates 5 Energy after defeating
           an enemy. This effect can only be triggered once per turn.</span>
@@ -1723,34 +1723,34 @@ Characters:
         Type: Technique
     Eidolons:
       '120401':
-        Name: 'Slash, Seas Split'
+        Name: Slash, Seas Split
         Desc: >-
           <span>When Lightning-Lord attacks, the DMG multiplier on enemies
           adjacent to the target enemy increases by an extra amount equal to 25%
           of the DMG multiplier against the primary target enemy.</span>
       '120402':
-        Name: 'Swing, Skies Squashed'
+        Name: Swing, Skies Squashed
         Desc: >-
           <span>After Lightning-Lord takes action, DMG dealt by Jing Yuan's
           Basic ATK, Skill, and Ultimate increases by 20%, lasting for 2
           turn(s).</span>
       '120403':
-        Name: 'Strike, Suns Subdued'
+        Name: Strike, Suns Subdued
         Desc: >-
           <span>Ultimate Lv. +2, up to a maximum of Lv. 15.<br>Basic ATK Lv. +1,
           up to a maximum of Lv. 10.</span>
       '120404':
-        Name: 'Spin, Stars Sieged'
+        Name: Spin, Stars Sieged
         Desc: >-
           <span>For each hit performed by the Lightning-Lord when it takes
           action, Jing Yuan regenerates 2 Energy.</span>
       '120405':
-        Name: 'Stride, Spoils Seized'
+        Name: Stride, Spoils Seized
         Desc: >-
           <span>Skill Lv. +2, up to a maximum of Lv. 15.<br>Talent Lv. +2, up to
           a maximum of Lv. 15.</span>
       '120406':
-        Name: 'Sweep, Souls Slain'
+        Name: Sweep, Souls Slain
         Desc: >-
           <span>Each hit performed by the Lightning-Lord when it takes action
           will make the target enemy Vulnerable.<br>While Vulnerable, enemies
@@ -1816,7 +1816,7 @@ Characters:
           <span>Ultimate Lv. +2, up to a maximum of Lv. 15.<br>Talent Lv. +2, up
           to a maximum of Lv. 15.</span>
       '120504':
-        Name: 'Rejected by Death, Infected With Life'
+        Name: Rejected by Death, Infected With Life
         Desc: >-
           <span>When Blade's current HP percentage drops to 50% or lower of his
           Max HP, increases his Max HP by 20%. Stacks up to 2 time(s).</span>
@@ -1922,7 +1922,7 @@ Characters:
           single enemy.</span>
         Type: Ultimate
       '120704':
-        Name: 'Seven Layers, One Arrow'
+        Name: Seven Layers, One Arrow
         Desc: >-
           <span>Basic Attack additionally deals minor DMG, and the Toughness
           Reduction of this Basic Attack is increased. This effect can be
@@ -1979,7 +1979,7 @@ Characters:
         Desc: <span>Deals minor Quantum DMG to a single enemy.</span>
         Type: Basic ATK
       '120802':
-        Name: 'Known by Stars, Shown by Hearts'
+        Name: Known by Stars, Shown by Hearts
         Desc: >-
           <span>Activates Matrix of Prescience. </span><span
           style='color:#f29e38ff'>DMG received by Fu Xuan's allies is
@@ -2200,7 +2200,7 @@ Characters:
         Type: Basic ATK
       '121102':
         Name: Singing Among Clouds
-        Desc: '<span>Restores HP for a single ally, then heals random allies.</span>'
+        Desc: <span>Restores HP for a single ally, then heals random allies.</span>
         Type: Skill
       '121103':
         Name: Felicitous Thunderleap
@@ -2413,7 +2413,7 @@ Characters:
           <span>Ultimate Lv. +2, up to a maximum of Lv. 15.<br>Talent Lv. +2, up
           to a maximum of Lv. 15.</span>
       '121306':
-        Name: 'Reign, Returned'
+        Name: Reign, Returned
         Desc: >-
           <span>After any other ally uses their Ultimate, the Imaginary RES PEN
           of Dan Heng • Imbibitor Lunae's next Fulgurant Leap attack increases
@@ -2460,34 +2460,34 @@ Characters:
         Type: Technique
     Eidolons:
       '121401':
-        Name: 'Dvesha, Inhibited'
+        Name: Dvesha, Inhibited
         Desc: >-
           <span>Increases the DMG dealt by the Talent's follow-up attack by
           40%.</span>
       '121402':
-        Name: 'Klesha, Breached'
+        Name: Klesha, Breached
         Desc: >-
           <span>Talent's follow-up attack reduces enemy Toughness regardless of
           Weakness types. At the same time, restores Xueyi's HP by an amount
           equal to 5% of her Max HP. When breaking Weakness, triggers the
           Quantum Break Effect.</span>
       '121403':
-        Name: 'Duḥkha, Ceased'
+        Name: Duḥkha, Ceased
         Desc: >-
           <span>Skill Lv. +2, up to a maximum of Lv. 15.<br>Basic ATK Lv. +1, up
           to a maximum of Lv. 10.</span>
       '121404':
-        Name: 'Karma, Severed'
+        Name: Karma, Severed
         Desc: >-
           <span>When using Ultimate, increases Break Effect by 40% for 2
           turn(s).</span>
       '121405':
-        Name: 'Deva, Enthralled'
+        Name: Deva, Enthralled
         Desc: >-
           <span>Ultimate Lv. +2, up to a maximum of Lv. 15.<br>Talent Lv. +2, up
           to a maximum of Lv. 15.</span>
       '121406':
-        Name: 'Saṃsāra, Mastered'
+        Name: Saṃsāra, Mastered
         Desc: <span>The max stack limit for Karma decreases to 6.</span>
   '1215':
     Name: Hanya
@@ -2497,7 +2497,7 @@ Characters:
         Desc: <span>Deals minor Physical DMG to a single enemy.</span>
         Type: Basic ATK
       '121502':
-        Name: 'Samsara, Locked'
+        Name: Samsara, Locked
         Desc: >-
           <span>Deals Physical DMG to a single enemy and applies Burden to them.
           For every 2 Basic ATKs, Skills, or Ultimates allies use on an enemy
@@ -2505,7 +2505,7 @@ Characters:
           Skill Point</span><span>.</span>
         Type: Skill
       '121503':
-        Name: 'Ten-Lords'' Decree, All Shall Obey'
+        Name: Ten-Lords' Decree, All Shall Obey
         Desc: >-
           <span>Increases an ally's </span><span style='color:#f29e38ff'>SPD and
           ATK</span><span>.</span>
@@ -2605,13 +2605,13 @@ Characters:
         Type: Technique
     Eidolons:
       '121701':
-        Name: 'Anchored to Vessel, Specters Nestled'
+        Name: Anchored to Vessel, Specters Nestled
         Desc: >-
           <span>The duration of Divine Provision produced by the Talent is
           extended by 1 turn(s). When Huohuo possesses Divine Provision, all
           allies' SPD increases by 12%.</span>
       '121702':
-        Name: 'Sealed in Tail, Wraith Subdued'
+        Name: Sealed in Tail, Wraith Subdued
         Desc: >-
           <span>If Huohuo possesses Divine Provision when an ally is struck by a
           killing blow, the ally will not be knocked down, and their HP will
@@ -2619,24 +2619,24 @@ Characters:
           This reduces the duration of Divine Provision by 1 turn. This effect
           can only be triggered 2 time(s) per battle.</span>
       '121703':
-        Name: 'Cursed by Fate, Moths to Flame'
+        Name: Cursed by Fate, Moths to Flame
         Desc: >-
           <span>Ultimate Lv. +2, up to a maximum of Lv. 15.<br>Talent Lv. +2, up
           to a maximum of Lv. 15.</span>
       '121704':
-        Name: 'Tied in Life, Bound to Strife'
+        Name: Tied in Life, Bound to Strife
         Desc: >-
           <span>When healing a target ally via Skill or Talent, the less HP the
           target ally currently has, the higher the amount of healing they will
           receive. The maximum increase in healing provided by Huohuo is
           80%.</span>
       '121705':
-        Name: 'Mandated by Edict, Evils Evicted'
+        Name: Mandated by Edict, Evils Evicted
         Desc: >-
           <span>Skill Lv. +2, up to a maximum of Lv. 15.<br>Basic ATK Lv. +1, up
           to a maximum of Lv. 10.</span>
       '121706':
-        Name: 'Woven Together, Cohere Forever'
+        Name: Woven Together, Cohere Forever
         Desc: >-
           <span>When healing a target ally, increases the target ally's DMG
           dealt by 50% for 2 turn(s).</span>
@@ -2665,7 +2665,7 @@ Characters:
           with 1 stack of Ashen Roast when taking action.</span>
         Type: Ultimate
       '121804':
-        Name: 'Quartet Finesse, Octave Finery'
+        Name: Quartet Finesse, Octave Finery
         Desc: >-
           <span>After attacking, there is a high chance to inflict 1 stack of
           Ashen Roast on the target, causing the enemy to take increased DMG and
@@ -2701,10 +2701,10 @@ Characters:
           <span>Skill Lv. +2, up to a maximum of Lv. 15.<br>Basic ATK Lv. +1, up
           to a maximum of Lv. 10.</span>
       '121804':
-        Name: 'Leisure In, Luster Out'
-        Desc: '<span>When the Zone exists, reduces enemy target''s ATK by 15%.</span>'
+        Name: Leisure In, Luster Out
+        Desc: <span>When the Zone exists, reduces enemy target's ATK by 15%.</span>
       '121805':
-        Name: 'Duel in Dawn, Dash in Dusk'
+        Name: Duel in Dawn, Dash in Dusk
         Desc: >-
           <span>Ultimate Lv. +2, up to a maximum of Lv. 15.<br>Talent Lv. +2, up
           to a maximum of Lv. 15.</span>
@@ -2823,7 +2823,7 @@ Characters:
           enemy and adjacent targets.</span>
         Type: Skill
       '122103':
-        Name: 'Earthbind, Etherbreak'
+        Name: Earthbind, Etherbreak
         Desc: >-
           <span>Enters "Parry" and taunts all enemies. When attacked during this
           period, triggers </span><span style='color:#f29e38ff'>powerful
@@ -2880,7 +2880,7 @@ Characters:
           <span>Skill Lv. +2, up to a maximum of Lv. 15.<br>Talent Lv. +2, up to
           a maximum of Lv. 15.</span>
       '122106':
-        Name: 'Walk in Blade, Talk in Zither'
+        Name: Walk in Blade, Talk in Zither
         Desc: >-
           <span>While Parry is active, if an enemy actively uses their
           abilities, regardless of whether it attacks Yunli or not, it will
@@ -2984,7 +2984,7 @@ Characters:
           "nowrap"'>9</span></span><span> points of Charge.</span>
         Type: Skill
       '122303':
-        Name: '<unbreak>Dash In,</unbreak> <unbreak>Gash Out</unbreak>'
+        Name: <unbreak>Dash In,</unbreak> <unbreak>Gash Out</unbreak>
         Desc: >-
           <span>Deals Lightning DMG to a single enemy, and launches Talent's
           </span><span style='color:#f29e38ff'><u>follow-up
@@ -3056,7 +3056,7 @@ Characters:
           "nowrap"'>1</span></span><span> point(s) of Charge.</span>
         Type: Basic ATK
       '122402':
-        Name: 'Master, It''s Tea Time!'
+        Name: Master, It's Tea Time!
         Desc: >-
           <span>Makes a single ally become Shifu. When using Basic ATK or
           dealing Enhanced Basic ATK's DMG, triggers the corresponding effect
@@ -3069,7 +3069,7 @@ Characters:
           increases.</span>
         Type: Skill
       '122403':
-        Name: 'March 7th, the Apex Heroine'
+        Name: March 7th, the Apex Heroine
         Desc: >-
           <span>Deals Imaginary DMG to a single enemy and </span><span
           style='color:#f29e38ff'>increases</span><span> the Hits Per Action and
@@ -3077,7 +3077,7 @@ Characters:
           Basic ATK</span><span>.</span>
         Type: Ultimate
       '122404':
-        Name: 'Master, I''ve Ascended!'
+        Name: Master, I've Ascended!
         Desc: >-
           <span>After </span><span style='color:#f29e38ff'>Shifu uses an attack
           or Ultimate</span><span>, March 7th gains Charge. When reaching
@@ -3119,14 +3119,14 @@ Characters:
           to a maximum of Lv. 10.</span>
       '122404':
         Name: Being Fabulous Never Frights
-        Desc: '<span>At the start of the turn, regenerates 5 Energy.</span>'
+        Desc: <span>At the start of the turn, regenerates 5 Energy.</span>
       '122405':
-        Name: 'Sword Delights, Sugar Blights'
+        Name: Sword Delights, Sugar Blights
         Desc: >-
           <span>Ultimate Lv. +2, up to a maximum of Lv. 15.<br>Talent Lv. +2, up
           to a maximum of Lv. 15.</span>
       '122406':
-        Name: 'Me, the Best Girl in Sight'
+        Name: Me, the Best Girl in Sight
         Desc: >-
           <span>After using Ultimate, increases the CRIT DMG dealt by the next
           Enhanced Basic ATK by 50%.</span>
@@ -3206,11 +3206,11 @@ Characters:
         Desc: <span>Deals minor Physical DMG to a single enemy.</span>
         Type: Basic ATK
       '130202':
-        Name: 'Justice, Hereby Blooms'
+        Name: Justice, Hereby Blooms
         Desc: <span>Deals minor Physical DMG to all enemies.</span>
         Type: Skill
       '130203':
-        Name: 'For In This Garden, Supreme Beauty Bestows'
+        Name: For In This Garden, Supreme Beauty Bestows
         Desc: >-
           <span>Consumes </span><span style='color:#f29e38ff'><span
           style='whiteSpace: "nowrap"'>90</span></span><span> Energy and deals
@@ -3256,13 +3256,13 @@ Characters:
           <span>At the start of battle, gains 2 stack(s) of Apotheosis and
           increases the maximum stack limit of the Talent's effect by 2.</span>
       '130205':
-        Name: 'Snow, From Somewhere in Cosmos'
+        Name: Snow, From Somewhere in Cosmos
         Desc: >-
           <span>Ultimate Lv. +2, up to a maximum of Lv. 15.<br>Basic ATK Lv. +1,
           up to a maximum of Lv. 10.</span>
       '130206':
         Name: '"Your" Resplendence'
-        Desc: '<span>When using Ultimate, ignores 30% of enemy targets'' DEF.</span>'
+        Desc: <span>When using Ultimate, ignores 30% of enemy targets' DEF.</span>
   '1303':
     Name: Ruan Mei
     Abilities:
@@ -3279,7 +3279,7 @@ Characters:
           style='color:#f29e38ff'>Weakness Break Efficiency</span><span>.</span>
         Type: Skill
       '130303':
-        Name: 'Petals to Stream, Repose in Dream'
+        Name: Petals to Stream, Repose in Dream
         Desc: >-
           <span>Increases </span><span style='color:#f29e38ff'>All-Type RES
           PEN</span><span> for all allies, and their attacks apply Thanatoplum
@@ -3439,7 +3439,7 @@ Characters:
           target.</span>
         Type: Ultimate
       '130504':
-        Name: 'Cogito, Ergo Sum'
+        Name: Cogito, Ergo Sum
         Desc: >-
           <span>When using the Skill, there is a chance of launching a
           </span><span style='color:#f29e38ff'><u>follow-up
@@ -3569,7 +3569,7 @@ Characters:
     Name: Black Swan
     Abilities:
       '130701':
-        Name: 'Percipience, Silent Dawn'
+        Name: Percipience, Silent Dawn
         Desc: >-
           <span>Deals minor Wind DMG to a single enemy and has a chance of
           applying <u>Arcana</u> to the target. After attacking a target that
@@ -3579,7 +3579,7 @@ Characters:
           <u>Arcana</u></span><span>.</span>
         Type: Basic ATK
       '130702':
-        Name: 'Decadence, False Twilight'
+        Name: Decadence, False Twilight
         Desc: >-
           <span>Deals minor Wind DMG to a single enemy target and any adjacent
           targets, with a high chance of </span><span
@@ -3625,13 +3625,13 @@ Characters:
           Wind Shear, Bleed, Burn, or Shock will have their corresponding Wind,
           Physical, Fire, or Lightning RES respectively reduced by 25%.</span>
       '130702':
-        Name: 'Weep Not For Me, My Lamb'
+        Name: Weep Not For Me, My Lamb
         Desc: >-
           <span>When an enemy target afflicted with Arcana is defeated, there is
           a 100% base chance of inflicting 6 stack(s) of Arcana on adjacent
           targets.</span>
       '130703':
-        Name: 'As Above, So Below'
+        Name: As Above, So Below
         Desc: >-
           <span>Skill Lv. +2, up to a maximum of Lv. 15.<br>Talent Lv. +2, up to
           a maximum of Lv. 15.</span>
@@ -3650,7 +3650,7 @@ Characters:
           <span>Ultimate Lv. +2, up to a maximum of Lv. 15.<br>Basic ATK Lv. +1,
           up to a maximum of Lv. 10.</span>
       '130706':
-        Name: 'Pantheon Merciful, Masses Pitiful'
+        Name: Pantheon Merciful, Masses Pitiful
         Desc: >-
           <span>When an enemy target gets attacked by Black Swan's allies, Black
           Swan has a 65% base chance of inflicting 1 stack of Arcana on the
@@ -3739,7 +3739,7 @@ Characters:
           <span>Skill Lv. +2, up to a maximum of Lv. 15.<br>Talent Lv. +2, up to
           a maximum of Lv. 15.</span>
       '130806':
-        Name: 'Apocalypse, the Emancipator'
+        Name: Apocalypse, the Emancipator
         Desc: >-
           <span>Increases the All-Type RES PEN for the Ultimate DMG dealt by
           Acheron by 20%. The DMG dealt by Basic ATK and Skill will also be
@@ -3760,7 +3760,7 @@ Characters:
           dealt</span><span> by all allies.</span>
         Type: Skill
       '130903':
-        Name: 'Vox Harmonique, Opus Cosmique'
+        Name: Vox Harmonique, Opus Cosmique
         Desc: >-
           <span>Enters the Concerto state, </span><span
           style='color:#f29e38ff'>increases all allies' ATK</span><span>, and
@@ -3879,34 +3879,34 @@ Characters:
         Type: Technique
     Eidolons:
       '131001':
-        Name: 'In Reddened Chrysalis, I Once Rest'
+        Name: In Reddened Chrysalis, I Once Rest
         Desc: >-
           <span>When using the Enhanced Skill, ignores 15% of the target's DEF.
           The Enhanced Skill does not consume Skill Points.</span>
       '131002':
-        Name: 'From Shattered Sky, I Free Fall'
+        Name: From Shattered Sky, I Free Fall
         Desc: >-
           <span>While in Complete Combustion, using the Enhanced Basic ATK or
           the Enhanced Skill to defeat an enemy target or to break their
           Weakness allows SAM to immediately gain 1 extra turn. This effect can
           trigger again after 1 turn(s).</span>
       '131003':
-        Name: 'Amidst Silenced Stars, I Deep Sleep'
+        Name: Amidst Silenced Stars, I Deep Sleep
         Desc: >-
           <span>Skill Lv. +2, up to a maximum of Lv. 15.<br>Basic ATK Lv. +1, up
           to a maximum of Lv. 10.</span>
       '131004':
-        Name: 'Upon Lighted Fyrefly, I Soon Gaze'
+        Name: Upon Lighted Fyrefly, I Soon Gaze
         Desc: >-
           <span>While in Complete Combustion, increases SAM's Effect RES by
           50%.</span>
       '131005':
-        Name: 'From Undreamt Night, I Thence Shine'
+        Name: From Undreamt Night, I Thence Shine
         Desc: >-
           <span>Ultimate Lv. +2, up to a maximum of Lv. 15.<br>Talent Lv. +2, up
           to a maximum of Lv. 15.</span>
       '131006':
-        Name: 'In Finalized Morrow, I Full Bloom'
+        Name: In Finalized Morrow, I Full Bloom
         Desc: >-
           <span>While in Complete Combustion, increases SAM's Fire RES PEN by
           20%. When using the Enhanced Basic ATK or Enhanced Skill, increases
@@ -3915,7 +3915,7 @@ Characters:
     Name: Misha
     Abilities:
       '131201':
-        Name: 'E—Excuse Me, Please!'
+        Name: E—Excuse Me, Please!
         Desc: <span>Deals minor Ice DMG to a single enemy.</span>
         Type: Basic ATK
       '131202':
@@ -3949,7 +3949,7 @@ Characters:
         Name: Attack
         Desc: ''
       '131207':
-        Name: 'Wait, You Are So Beautiful!'
+        Name: Wait, You Are So Beautiful!
         Desc: >-
           <span>Creates a Special Dimension that stops all enemies within. Upon
           entering battle against enemies within the dimension, Misha's
@@ -4589,7 +4589,7 @@ Characters:
           <span>Ultimate Lv. +2, up to a maximum of Lv. 15.<br>Basic ATK Lv. +1,
           up to a maximum of Lv. 10.</span>
       '800506':
-        Name: 'Tomorrow, Rest in Spotlight'
+        Name: Tomorrow, Rest in Spotlight
         Desc: >-
           <span>The number of additional DMG applications by the Skill increases
           by 2.</span>
@@ -4658,7 +4658,7 @@ Characters:
           <span>Ultimate Lv. +2, up to a maximum of Lv. 15.<br>Basic ATK Lv. +1,
           up to a maximum of Lv. 10.</span>
       '800606':
-        Name: 'Tomorrow, Rest in Spotlight'
+        Name: Tomorrow, Rest in Spotlight
         Desc: >-
           <span>The number of additional DMG applications by the Skill increases
           by 2.</span>
@@ -4832,7 +4832,7 @@ RelicSets:
       style='whiteSpace: "nowrap"'>100%</span>, lasting for <span
       style='whiteSpace: "nowrap"'>1</span> turn(s).</span>
   '118':
-    Name: 'Watchmaker, Master of Dream Machinations'
+    Name: Watchmaker, Master of Dream Machinations
     Description2pc: >-
       <span>Increases Break Effect by <span style='whiteSpace:
       "nowrap"'>16%</span>.</span>
@@ -4971,14 +4971,14 @@ RelicSets:
       "nowrap"'>12%</span>/<span style='whiteSpace: "nowrap"'>18%</span> more
       DMG.</span>
   '312':
-    Name: 'Penacony, Land of the Dreams'
+    Name: Penacony, Land of the Dreams
     Description2pc: >-
       <span>Increases wearer's Energy Regeneration Rate by <span
       style='whiteSpace: "nowrap"'>5%</span>. Increases DMG by <span
       style='whiteSpace: "nowrap"'>10%</span> for all other allies that are of
       the same Type as the wearer.</span>
   '313':
-    Name: 'Sigonia, the Unclaimed Desolation'
+    Name: Sigonia, the Unclaimed Desolation
     Description2pc: >-
       <span>Increases the wearer's CRIT Rate by <span style='whiteSpace:
       "nowrap"'>4%</span>. When an enemy target gets defeated, the wearer's CRIT
@@ -4992,7 +4992,7 @@ RelicSets:
       follows the same Path as the wearer, then the wearer's CRIT Rate increases
       by <span style='whiteSpace: "nowrap"'>12%</span>.</span>
   '315':
-    Name: 'Duran, Dynasty of Running Wolves'
+    Name: Duran, Dynasty of Running Wolves
     Description2pc: >-
       <span>When an ally uses a follow-up attack, the wearer gains 1 stack of
       Merit, stacking up to <span style='whiteSpace: "nowrap"'>5</span> time(s).
@@ -5010,7 +5010,7 @@ RelicSets:
       "nowrap"'>40%</span>, lasting for <span style='whiteSpace:
       "nowrap"'>1</span> turn(s).</span>
   '317':
-    Name: 'Lushaka, the Sunken Seas'
+    Name: Lushaka, the Sunken Seas
     Description2pc: >-
       <span>Increases the wearer's Energy Regeneration Rate by <span
       style='whiteSpace: "nowrap"'>5%</span>. If the wearer is not the first
@@ -5185,7 +5185,7 @@ Lightcones:
     Name: Return to Darkness
     SkillName: Raging Waves
   '21032':
-    Name: 'Carve the Moon, Weave the Clouds'
+    Name: Carve the Moon, Weave the Clouds
     SkillName: Secret
   '21033':
     Name: Nowhere to Run
@@ -5228,7 +5228,7 @@ Lightcones:
     SkillName: Quiescence
   '21046':
     Name: Poised to Bloom
-    SkillName: 'Lose Not, Forget Not'
+    SkillName: Lose Not, Forget Not
   '21047':
     Name: Shadowed by Night
     SkillName: Concealment
@@ -5239,7 +5239,7 @@ Lightcones:
     Name: Before the Tutorial Mission Starts
     SkillName: Quick on the Draw
   '22001':
-    Name: 'Hey, Over Here'
+    Name: Hey, Over Here
     SkillName: I'm Not Afraid!
   '22002':
     Name: For Tomorrow's Journey
@@ -5288,7 +5288,7 @@ Lightcones:
     SkillName: Sweet Dreams
   '23013':
     Name: Time Waits for No One
-    SkillName: 'Morn, Noon, Dusk, and Night'
+    SkillName: Morn, Noon, Dusk, and Night
   '23014':
     Name: I Shall Be My Own Sword
     SkillName: With This Evening Jade
@@ -5296,11 +5296,11 @@ Lightcones:
     Name: Brighter Than the Sun
     SkillName: Defiant Till Death
   '23016':
-    Name: 'Worrisome, Blissful'
+    Name: Worrisome, Blissful
     SkillName: One At A Time
   '23017':
     Name: Night of Fright
-    SkillName: 'Deep, Deep Breaths'
+    SkillName: Deep, Deep Breaths
   '23018':
     Name: An Instant Before A Gaze
     SkillName: A Knight's Pilgrimage

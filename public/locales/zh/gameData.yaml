@@ -8,22 +8,15 @@ Characters:
         Type: 普攻
       '100102':
         Name: 可爱即是正义
-        Desc: >-
-          <span>对我方单体</span><span
-          style='color:#f29e38ff'>施加护盾</span><span>。</span>
+        Desc: <span>对我方单体</span><span style='color:#f29e38ff'>施加护盾</span><span>。</span>
         Type: 战技
       '100103':
         Name: 冰刻箭雨之时
-        Desc: >-
-          <span>对敌方</span><span
-          style='color:#f29e38ff'>全体</span><span>造成冰属性伤害，有</span><span
-          style='color:#f29e38ff'>概率施加冻结状态</span><span>。</span>
+        Desc: <span>对敌方</span><span style='color:#f29e38ff'>全体</span><span>造成冰属性伤害，有</span><span style='color:#f29e38ff'>概率施加冻结状态</span><span>。</span>
         Type: 终结技
       '100104':
         Name: 少女的特权
-        Desc: >-
-          <span>持有护盾的我方目标受到敌方攻击后，三月七</span><span
-          style='color:#f29e38ff'>立即对其<u>反击</u></span><span>，造成少量冰属性伤害。</span>
+        Desc: <span>持有护盾的我方目标受到敌方攻击后，三月七</span><span style='color:#f29e38ff'>立即对其<u>反击</u></span><span>，造成少量冰属性伤害。</span>
         Type: 天赋
       '100106':
         Name: 攻击
@@ -69,9 +62,7 @@ Characters:
         Type: 终结技
       '100204':
         Name: 寸长寸强
-        Desc: >-
-          <span>成为我方技能施放目标时，下一次攻击</span><span
-          style='color:#f29e38ff'>风属性<u>抗性穿透</u>提高</span><span>。该效果2回合后可再次触发。</span>
+        Desc: <span>成为我方技能施放目标时，下一次攻击</span><span style='color:#f29e38ff'>风属性<u>抗性穿透</u>提高</span><span>。该效果2回合后可再次触发。</span>
         Type: 天赋
       '100206':
         Name: 攻击
@@ -117,10 +108,7 @@ Characters:
         Type: 终结技
       '100304':
         Name: 乘胜追击
-        Desc: >-
-          <span>敌人弱点被击破时获得充能。<br>我方目标攻击后，若充能达到上限则</span><span
-          style='color:#f29e38ff'>立即发动<u>追加攻击</u></span><span>，对</span><span
-          style='color:#f29e38ff'>敌方全体</span><span>造成火属性伤害并消耗全部充能。<br>战斗开始时获得1点充能。</span>
+        Desc: <span>敌人弱点被击破时获得充能。<br>我方目标攻击后，若充能达到上限则</span><span style='color:#f29e38ff'>立即发动<u>追加攻击</u></span><span>，对</span><span style='color:#f29e38ff'>敌方全体</span><span>造成火属性伤害并消耗全部充能。<br>战斗开始时获得1点充能。</span>
         Type: 天赋
       '100306':
         Name: 攻击
@@ -128,9 +116,7 @@ Characters:
         Type: dev_连携
       '100307':
         Name: 不完全燃烧
-        Desc: >-
-          <span>制造特殊领域。与领域内敌人进入战斗后，大概率使敌方目标</span><span
-          style='color:#f29e38ff'>受到的火属性伤害提高</span><span>。</span>
+        Desc: <span>制造特殊领域。与领域内敌人进入战斗后，大概率使敌方目标</span><span style='color:#f29e38ff'>受到的火属性伤害提高</span><span>。</span>
         Type: 秘技
     Eidolons:
       '100301':
@@ -160,21 +146,15 @@ Characters:
         Type: 普攻
       '100402':
         Name: 虚空断界
-        Desc: >-
-          <span>对敌方单体造成少量虚数属性伤害，共弹射3次，有概率对目标</span><span
-          style='color:#f29e38ff'>施加减速状态</span><span>。</span>
+        Desc: <span>对敌方单体造成少量虚数属性伤害，共弹射3次，有概率对目标</span><span style='color:#f29e38ff'>施加减速状态</span><span>。</span>
         Type: 战技
       '100403':
         Name: 拟似黑洞
-        Desc: >-
-          <span>对敌方全体造成虚数属性伤害，</span><span
-          style='color:#f29e38ff'>大概率施加禁锢效果</span><span>。</span>
+        Desc: <span>对敌方全体造成虚数属性伤害，</span><span style='color:#f29e38ff'>大概率施加禁锢效果</span><span>。</span>
         Type: 终结技
       '100404':
         Name: 时空扭曲
-        Desc: >-
-          <span>击中处于减速状态的敌方目标时，</span><span
-          style='color:#f29e38ff'>额外造成少量虚数属性<u>附加伤害</u></span><span>。</span>
+        Desc: <span>击中处于减速状态的敌方目标时，</span><span style='color:#f29e38ff'>额外造成少量虚数属性<u>附加伤害</u></span><span>。</span>
         Type: 天赋
       '100406':
         Name: 攻击
@@ -182,15 +162,12 @@ Characters:
         Type: dev_连携
       '100407':
         Name: 画地为牢
-        Desc: >-
-          <span>制造特殊领域。领域内敌人移动速度降低。与领域内敌人进入战斗后，</span><span
-          style='color:#f29e38ff'>大概率使敌方目标陷入禁锢状态</span><span>。</span>
+        Desc: <span>制造特殊领域。领域内敌人移动速度降低。与领域内敌人进入战斗后，</span><span style='color:#f29e38ff'>大概率使敌方目标陷入禁锢状态</span><span>。</span>
         Type: 秘技
     Eidolons:
       '100401':
         Name: 名的传承
-        Desc: >-
-          <span>施放终结技后，瓦尔特获得强化，在随后2次施放普攻或战技时额外对敌方目标造成1次附加伤害。施放普攻造成的附加伤害等同于普攻伤害倍率的50%，施放战技造成的附加伤害等同于战技伤害倍率的80%。</span>
+        Desc: <span>施放终结技后，瓦尔特获得强化，在随后2次施放普攻或战技时额外对敌方目标造成1次附加伤害。施放普攻造成的附加伤害等同于普攻伤害倍率的50%，施放战技造成的附加伤害等同于战技伤害倍率的80%。</span>
       '100402':
         Name: 星的凝聚
         Desc: <span>触发天赋时，瓦尔特恢复3点能量。</span>
@@ -215,22 +192,15 @@ Characters:
         Type: 普攻
       '100502':
         Name: 月光摩挲连绵
-        Desc: >-
-          <span>对敌方单体造成雷属性伤害，对相邻目标造成少量雷属性伤害。<br>若主目标处于持续伤害类负面状态，则使持续伤害类负面状态</span><span
-          style='color:#f29e38ff'>额外产生1次伤害</span><span>。</span>
+        Desc: <span>对敌方单体造成雷属性伤害，对相邻目标造成少量雷属性伤害。<br>若主目标处于持续伤害类负面状态，则使持续伤害类负面状态</span><span style='color:#f29e38ff'>额外产生1次伤害</span><span>。</span>
         Type: 战技
       '100503':
         Name: 悲剧尽头的颤音
-        Desc: >-
-          <span>对敌方全体造成少量雷属性伤害，大概率</span><span
-          style='color:#f29e38ff'>施加触电状态</span><span>。<br>若敌方目标处于触电状态，则使触电状态</span><span
-          style='color:#f29e38ff'>额外产生1次伤害</span><span>。</span>
+        Desc: <span>对敌方全体造成少量雷属性伤害，大概率</span><span style='color:#f29e38ff'>施加触电状态</span><span>。<br>若敌方目标处于触电状态，则使触电状态</span><span style='color:#f29e38ff'>额外产生1次伤害</span><span>。</span>
         Type: 终结技
       '100504':
         Name: 温柔亦同残酷
-        Desc: >-
-          <span>当队友对敌方目标施放普攻后，卡芙卡立即发动<u>追加攻击</u>，对该目标造成雷属性伤害，并有大概率</span><span
-          style='color:#f29e38ff'>施加触电状态</span><span>。该效果每回合只能触发1次。</span>
+        Desc: <span>当队友对敌方目标施放普攻后，卡芙卡立即发动<u>追加攻击</u>，对该目标造成雷属性伤害，并有大概率</span><span style='color:#f29e38ff'>施加触电状态</span><span>。该效果每回合只能触发1次。</span>
         Type: 天赋
       '100506':
         Name: 攻击
@@ -238,9 +208,7 @@ Characters:
         Type: dev_连携
       '100507':
         Name: 宽恕无关慈悲
-        Desc: >-
-          <span>攻击范围内的所有敌人，进入战斗后对敌方全体造成少量雷属性伤害，大概率</span><span
-          style='color:#f29e38ff'>施加触电状态</span><span>。</span>
+        Desc: <span>攻击范围内的所有敌人，进入战斗后对敌方全体造成少量雷属性伤害，大概率</span><span style='color:#f29e38ff'>施加触电状态</span><span>。</span>
         Type: 秘技
     Eidolons:
       '100501':
@@ -270,21 +238,15 @@ Characters:
         Type: 普攻
       '100602':
         Name: 是否允许更改？
-        Desc: >-
-          <span>大概率为敌方单体</span><span
-          style='color:#f29e38ff'>添加额外的弱点</span><span>，并对其造成量子属性伤害。</span>
+        Desc: <span>大概率为敌方单体</span><span style='color:#f29e38ff'>添加额外的弱点</span><span>，并对其造成量子属性伤害。</span>
         Type: 战技
       '100603':
         Name: '|账号已封禁|'
-        Desc: >-
-          <span>大概率使敌方单体</span><span
-          style='color:#f29e38ff'>防御力降低</span><span>，并对其造成大量量子属性伤害。</span>
+        Desc: <span>大概率使敌方单体</span><span style='color:#f29e38ff'>防御力降低</span><span>，并对其造成大量量子属性伤害。</span>
         Type: 终结技
       '100604':
         Name: 等待程序响应…
-        Desc: >-
-          <span>攻击后有概率给目标植入1个随机</span><span
-          style='color:#f29e38ff'>【缺陷】</span><span>。</span>
+        Desc: <span>攻击后有概率给目标植入1个随机</span><span style='color:#f29e38ff'>【缺陷】</span><span>。</span>
         Type: 天赋
       '100606':
         Name: 攻击
@@ -306,8 +268,7 @@ Characters:
         Desc: <span>战技等级+2，最多不超过15级；天赋等级+2，最多不超过15级。</span>
       '100604':
         Name: 反弹端口
-        Desc: >-
-          <span>施放终结技攻击敌方目标后，目标每有1个负面效果，则额外造成等同于银狼20%攻击力的量子属性附加伤害。该效果在每次终结技攻击中最多触发5次。</span>
+        Desc: <span>施放终结技攻击敌方目标后，目标每有1个负面效果，则额外造成等同于银狼20%攻击力的量子属性附加伤害。该效果在每次终结技攻击中最多触发5次。</span>
       '100605':
         Name: 暴力破解
         Desc: <span>终结技等级+2，最多不超过15级；普攻等级+1，最多不超过10级。</span>
@@ -331,10 +292,7 @@ Characters:
         Type: 终结技
       '100804':
         Name: 至痛至怒
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>根据</span><span>自身</span><span
-          style='color:#f29e38ff'>当前已损失的生命值百分比提高伤害</span><span>。</span>
+        Desc: <span></span><span style='color:#f29e38ff'>根据</span><span>自身</span><span style='color:#f29e38ff'>当前已损失的生命值百分比提高伤害</span><span>。</span>
         Type: 天赋
       '100806':
         Name: 攻击
@@ -356,8 +314,7 @@ Characters:
         Desc: <span>战技等级+2，最多不超过15级；普攻等级+1，最多不超过10级。</span>
       '100804':
         Name: 绝处反击
-        Desc: >-
-          <span>进入战斗后，受到致命攻击时阿兰不会陷入无法战斗状态，并立即回复至自身生命上限的25%。该效果在触发1次后或持续2回合后自动解除。</span>
+        Desc: <span>进入战斗后，受到致命攻击时阿兰不会陷入无法战斗状态，并立即回复至自身生命上限的25%。该效果在触发1次后或持续2回合后自动解除。</span>
       '100805':
         Name: 全力倾注
         Desc: <span>终结技等级+2，最多不超过15级；天赋等级+2，最多不超过15级。</span>
@@ -377,9 +334,7 @@ Characters:
         Type: 战技
       '100903':
         Name: 星空祝言
-        Desc: >-
-          <span>使我方全体</span><span
-          style='color:#f29e38ff'>速度提高</span><span>。</span>
+        Desc: <span>使我方全体</span><span style='color:#f29e38ff'>速度提高</span><span>。</span>
         Type: 终结技
       '100904':
         Name: 天象学
@@ -429,11 +384,7 @@ Characters:
         Type: 终结技
       '101304':
         Name: 还是我来吧
-        Desc: >-
-          <span>当任意我方目标的攻击使敌方目标的当前生命值百分比小于等于</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>50%</span></span><span>时，黑塔立即发动</span><span
-          style='color:#f29e38ff'><u>追加攻击</u></span><span>，对敌方全体造成少量冰属性伤害。</span>
+        Desc: '<span>当任意我方目标的攻击使敌方目标的当前生命值百分比小于等于</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>50%</span></span><span>时，黑塔立即发动</span><span style=''color:#f29e38ff''><u>追加攻击</u></span><span>，对敌方全体造成少量冰属性伤害。</span>'
         Type: 天赋
       '101306':
         Name: 攻击
@@ -471,19 +422,11 @@ Characters:
         Type: 普攻
       '110102':
         Name: 作战再部署
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>解除</span><span>我方单体1个</span><span
-          style='color:#f29e38ff'><u>负面效果</u></span><span>，使其</span><span
-          style='color:#f29e38ff'>造成的伤害提高</span><span>，并</span><span
-          style='color:#f29e38ff'>立刻行动</span><span>。</span>
+        Desc: <span></span><span style='color:#f29e38ff'>解除</span><span>我方单体1个</span><span style='color:#f29e38ff'><u>负面效果</u></span><span>，使其</span><span style='color:#f29e38ff'>造成的伤害提高</span><span>，并</span><span style='color:#f29e38ff'>立刻行动</span><span>。</span>
         Type: 战技
       '110103':
         Name: 贝洛伯格进行曲
-        Desc: >-
-          <span>使我方全体</span><span
-          style='color:#f29e38ff'>攻击力提高</span><span>，</span><span
-          style='color:#f29e38ff'>暴击伤害提高</span><span>。</span>
+        Desc: <span>使我方全体</span><span style='color:#f29e38ff'>攻击力提高</span><span>，</span><span style='color:#f29e38ff'>暴击伤害提高</span><span>。</span>
         Type: 终结技
       '110104':
         Name: 先人一步
@@ -509,8 +452,7 @@ Characters:
         Desc: <span>终结技等级+2，最多不超过15级；天赋等级+2，最多不超过15级。</span>
       '110104':
         Name: 攻其不备
-        Desc: >-
-          <span>我方其他角色对弱点为风属性的敌方目标施放普攻后，布洛妮娅立即进行1次追加攻击，对该目标造成等同于普攻伤害80%的风属性伤害，该效果每回合可触发1次。</span>
+        Desc: <span>我方其他角色对弱点为风属性的敌方目标施放普攻后，布洛妮娅立即进行1次追加攻击，对该目标造成等同于普攻伤害80%的风属性伤害，该效果每回合可触发1次。</span>
       '110105':
         Name: 所向克捷
         Desc: <span>战技等级+2，最多不超过15级；普攻等级+1，最多不超过10级。</span>
@@ -530,16 +472,11 @@ Characters:
         Type: 战技
       '110203':
         Name: 乱蝶
-        Desc: >-
-          <span>进入</span><span
-          style='color:#f29e38ff'>增幅状态</span><span>，对敌方单体造成大量量子属性伤害。</span>
+        Desc: <span>进入</span><span style='color:#f29e38ff'>增幅状态</span><span>，对敌方单体造成大量量子属性伤害。</span>
         Type: 终结技
       '110204':
         Name: 再现
-        Desc: >-
-          <span>施放普攻、战技、终结技</span><span
-          style='color:#f29e38ff'>消灭敌方目标</span><span>时获得</span><span
-          style='color:#f29e38ff'><u>额外回合</u>并进入增幅状态</span><span>，增幅状态下自身造成的伤害提高。</span>
+        Desc: <span>施放普攻、战技、终结技</span><span style='color:#f29e38ff'>消灭敌方目标</span><span>时获得</span><span style='color:#f29e38ff'><u>额外回合</u>并进入增幅状态</span><span>，增幅状态下自身造成的伤害提高。</span>
         Type: 天赋
       '110206':
         Name: 攻击
@@ -547,10 +484,7 @@ Characters:
         Type: dev_连携
       '110207':
         Name: 幻身
-        Desc: >-
-          <span>进入</span><span
-          style='color:#f29e38ff'>隐身</span><span>状态。攻击敌人进入战斗后立即进入</span><span
-          style='color:#f29e38ff'>增幅状态</span><span>。</span>
+        Desc: <span>进入</span><span style='color:#f29e38ff'>隐身</span><span>状态。攻击敌人进入战斗后立即进入</span><span style='color:#f29e38ff'>增幅状态</span><span>。</span>
         Type: 秘技
     Eidolons:
       '110201':
@@ -570,8 +504,7 @@ Characters:
         Desc: <span>终结技等级+2，最多不超过15级；普攻等级+1，最多不超过10级。</span>
       '110206':
         Name: 离析
-        Desc: >-
-          <span>施放终结技后使受到攻击的敌方单体陷入【乱蝶】状态，持续1回合。【乱蝶】状态下的敌方目标受到攻击后，额外受到1次等同于希儿终结技伤害15%的量子属性附加伤害。若该目标被我方其他目标触发【乱蝶】状态的附加伤害消灭，将不会触发希儿的天赋。<br>当希儿陷入无法战斗状态时，敌方目标的【乱蝶】状态被解除。</span>
+        Desc: <span>施放终结技后使受到攻击的敌方单体陷入【乱蝶】状态，持续1回合。【乱蝶】状态下的敌方目标受到攻击后，额外受到1次等同于希儿终结技伤害15%的量子属性附加伤害。若该目标被我方其他目标触发【乱蝶】状态的附加伤害消灭，将不会触发希儿的天赋。<br>当希儿陷入无法战斗状态时，敌方目标的【乱蝶】状态被解除。</span>
   '1103':
     Name: 希露瓦
     Abilities:
@@ -581,9 +514,7 @@ Characters:
         Type: 普攻
       '110302':
         Name: 电光石火间
-        Desc: >-
-          <span>对敌方单体及其相邻目标造成少量雷属性伤害，有大概率对目标</span><span
-          style='color:#f29e38ff'>施加触电状态</span><span>。</span>
+        Desc: <span>对敌方单体及其相邻目标造成少量雷属性伤害，有大概率对目标</span><span style='color:#f29e38ff'>施加触电状态</span><span>。</span>
         Type: 战技
       '110303':
         Name: 机械热潮登场！
@@ -591,9 +522,7 @@ Characters:
         Type: 终结技
       '110304':
         Name: 燃情和弦
-        Desc: >-
-          <span>施放攻击后，对所有触电状态敌方目标</span><span
-          style='color:#f29e38ff'>造成少量<u>附加伤害</u></span><span>。</span>
+        Desc: <span>施放攻击后，对所有触电状态敌方目标</span><span style='color:#f29e38ff'>造成少量<u>附加伤害</u></span><span>。</span>
         Type: 天赋
       '110306':
         Name: 攻击
@@ -601,9 +530,7 @@ Characters:
         Type: dev_连携
       '110307':
         Name: 晚安，贝洛伯格
-        Desc: >-
-          <span>攻击敌人，进战后对敌方随机单体造成少量雷属性伤害，并有大概率使敌方每个单体目标</span><span
-          style='color:#f29e38ff'>陷入触电状态</span><span>。</span>
+        Desc: <span>攻击敌人，进战后对敌方随机单体造成少量雷属性伤害，并有大概率使敌方每个单体目标</span><span style='color:#f29e38ff'>陷入触电状态</span><span>。</span>
         Type: 秘技
     Eidolons:
       '110301':
@@ -633,21 +560,15 @@ Characters:
         Type: 普攻
       '110402':
         Name: 震慑之击
-        Desc: >-
-          <span>对敌方单体造成冰属性伤害，</span><span
-          style='color:#f29e38ff'>有概率对目标施加冻结状态</span><span>。</span>
+        Desc: <span>对敌方单体造成冰属性伤害，</span><span style='color:#f29e38ff'>有概率对目标施加冻结状态</span><span>。</span>
         Type: 战技
       '110403':
         Name: 永屹之壁
-        Desc: >-
-          <span>为我方全体</span><span
-          style='color:#f29e38ff'>提供护盾</span><span>。</span>
+        Desc: <span>为我方全体</span><span style='color:#f29e38ff'>提供护盾</span><span>。</span>
         Type: 终结技
       '110404':
         Name: 不屈之身
-        Desc: >-
-          <span>受到致命攻击时</span><span
-          style='color:#f29e38ff'>不会陷入<u>无法战斗状态</u></span><span>，立即回复生命值。单场战斗中仅触发1次。</span>
+        Desc: <span>受到致命攻击时</span><span style='color:#f29e38ff'>不会陷入<u>无法战斗状态</u></span><span>，立即回复生命值。单场战斗中仅触发1次。</span>
         Type: 天赋
       '110406':
         Name: 攻击
@@ -685,16 +606,11 @@ Characters:
         Type: 普攻
       '110502':
         Name: 爱，救护与抉择
-        Desc: >-
-          <span>为我方单体</span><span
-          style='color:#f29e38ff'>回复生命值</span><span>，并使目标</span><span
-          style='color:#f29e38ff'>持续回复生命值</span><span>。</span>
+        Desc: <span>为我方单体</span><span style='color:#f29e38ff'>回复生命值</span><span>，并使目标</span><span style='color:#f29e38ff'>持续回复生命值</span><span>。</span>
         Type: 战技
       '110503':
         Name: 新生之礼
-        Desc: >-
-          <span>为我方全体</span><span
-          style='color:#f29e38ff'>回复生命值</span><span>。</span>
+        Desc: <span>为我方全体</span><span style='color:#f29e38ff'>回复生命值</span><span>。</span>
         Type: 终结技
       '110504':
         Name: 生机焕发
@@ -711,12 +627,10 @@ Characters:
     Eidolons:
       '110501':
         Name: 遍识药理
-        Desc: >-
-          <span>受到攻击后，若当前生命值百分比小于等于30%，对自身施放1次治疗，回复等同于自身15%生命上限+400的生命值。该效果单场战斗中只能触发1次。</span>
+        Desc: <span>受到攻击后，若当前生命值百分比小于等于30%，对自身施放1次治疗，回复等同于自身15%生命上限+400的生命值。该效果单场战斗中只能触发1次。</span>
       '110502':
         Name: 临床研学
-        Desc: >-
-          <span>施放终结技时，对当前生命值百分比小于等于30%的我方目标附加1回合的持续治疗效果，目标回合开始时为其回复等同于娜塔莎6%生命上限+160的生命值。</span>
+        Desc: <span>施放终结技时，对当前生命值百分比小于等于30%的我方目标附加1回合的持续治疗效果，目标回合开始时为其回复等同于娜塔莎6%生命上限+160的生命值。</span>
       '110503':
         Name: 对症下药
         Desc: <span>战技等级+2，最多不超过15级；普攻等级+1，最多不超过10级。</span>
@@ -738,16 +652,11 @@ Characters:
         Type: 普攻
       '110602':
         Name: 低温妨害
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>解除</span><span>敌方单体1个</span><span
-          style='color:#f29e38ff'><u>增益效果</u></span><span>，对敌方单体造成冰属性伤害。</span>
+        Desc: <span></span><span style='color:#f29e38ff'>解除</span><span>敌方单体1个</span><span style='color:#f29e38ff'><u>增益效果</u></span><span>，对敌方单体造成冰属性伤害。</span>
         Type: 战技
       '110603':
         Name: 领域压制
-        Desc: >-
-          <span>大概率使敌方目标</span><span
-          style='color:#f29e38ff'>防御力降低</span><span>，并对敌方全体造成少量冰属性伤害。</span>
+        Desc: <span>大概率使敌方目标</span><span style='color:#f29e38ff'>防御力降低</span><span>，并对敌方全体造成少量冰属性伤害。</span>
         Type: 终结技
       '110604':
         Name: 数据采集
@@ -789,22 +698,15 @@ Characters:
         Type: 普攻
       '110702':
         Name: 史瓦罗在看着你
-        Desc: >-
-          <span>对敌方全体造成物理属性伤害，对持有【反击标记】的目标</span><span
-          style='color:#f29e38ff'>额外造成物理伤害</span><span>。</span>
+        Desc: <span>对敌方全体造成物理属性伤害，对持有【反击标记】的目标</span><span style='color:#f29e38ff'>额外造成物理伤害</span><span>。</span>
         Type: 战技
       '110703':
         Name: 是约定不是命令
-        Desc: >-
-          <span>自身</span><span
-          style='color:#f29e38ff'>受到的伤害降低</span><span>，被攻击的概率提高，并强化<u>反击</u>的效果。</span>
+        Desc: <span>自身</span><span style='color:#f29e38ff'>受到的伤害降低</span><span>，被攻击的概率提高，并强化<u>反击</u>的效果。</span>
         Type: 终结技
       '110704':
         Name: 因为我们是家人
-        Desc: >-
-          <span>自身</span><span
-          style='color:#f29e38ff'>受到敌方目标攻击的伤害降低</span><span>。施放攻击的敌方目标会被标上【反击标记】，并</span><span
-          style='color:#f29e38ff'>遭到史瓦罗的<u>反击</u></span><span>，造成物理属性伤害。</span>
+        Desc: <span>自身</span><span style='color:#f29e38ff'>受到敌方目标攻击的伤害降低</span><span>。施放攻击的敌方目标会被标上【反击标记】，并</span><span style='color:#f29e38ff'>遭到史瓦罗的<u>反击</u></span><span>，造成物理属性伤害。</span>
         Type: 天赋
       '110706':
         Name: 攻击
@@ -832,8 +734,7 @@ Characters:
         Desc: <span>终结技等级+2，最多不超过15级；天赋等级+2，最多不超过15级。</span>
       '110706':
         Name: 长久的陪伴
-        Desc: >-
-          <span>我方其他目标遭到攻击后，史瓦罗也有50%的固定概率触发对攻击者的反击，并对攻击目标添加【反击标记】。施放终结技时，额外增加1次强化反击的次数。</span>
+        Desc: <span>我方其他目标遭到攻击后，史瓦罗也有50%的固定概率触发对攻击者的反击，并对攻击目标添加【反击标记】。施放终结技时，额外增加1次强化反击的次数。</span>
   '1108':
     Name: 桑博
     Abilities:
@@ -847,15 +748,11 @@ Characters:
         Type: 战技
       '110803':
         Name: 惊喜礼盒
-        Desc: >-
-          <span>对敌方全体造成风属性伤害，大概率使其</span><span
-          style='color:#f29e38ff'>受到的持续伤害提高</span><span>。</span>
+        Desc: <span>对敌方全体造成风属性伤害，大概率使其</span><span style='color:#f29e38ff'>受到的持续伤害提高</span><span>。</span>
         Type: 终结技
       '110804':
         Name: 撕风的匕首
-        Desc: >-
-          <span>自身击中敌方目标后有概率使目标</span><span
-          style='color:#f29e38ff'>陷入风化状态</span><span>。</span>
+        Desc: <span>自身击中敌方目标后有概率使目标</span><span style='color:#f29e38ff'>陷入风化状态</span><span>。</span>
         Type: 天赋
       '110806':
         Name: 攻击
@@ -897,15 +794,11 @@ Characters:
         Type: 战技
       '110903':
         Name: 轰！飞来焰火
-        Desc: >-
-          <span>对敌方单体造成大量火属性伤害，并</span><span
-          style='color:#f29e38ff'>强化自身下一次的战技</span><span>。</span>
+        Desc: <span>对敌方单体造成大量火属性伤害，并</span><span style='color:#f29e38ff'>强化自身下一次的战技</span><span>。</span>
         Type: 终结技
       '110904':
         Name: 哈！火上浇油
-        Desc: >-
-          <span>攻击处于灼烧状态的敌方目标时，</span><span
-          style='color:#f29e38ff'>造成少量火属性<u>附加伤害</u></span><span>并额外恢复能量。</span>
+        Desc: <span>攻击处于灼烧状态的敌方目标时，</span><span style='color:#f29e38ff'>造成少量火属性<u>附加伤害</u></span><span>并额外恢复能量。</span>
         Type: 天赋
       '110906':
         Name: 攻击
@@ -943,21 +836,15 @@ Characters:
         Type: 普攻
       '111002':
         Name: 盐渍野营罐头
-        Desc: >-
-          <span>使我方单体获得【求生反应】，使其</span><span
-          style='color:#f29e38ff'>生命上限提高</span><span>，同时为其回复生命值。</span>
+        Desc: <span>使我方单体获得【求生反应】，使其</span><span style='color:#f29e38ff'>生命上限提高</span><span>，同时为其回复生命值。</span>
         Type: 战技
       '111003':
         Name: 雪原急救方案
-        Desc: >-
-          <span>解除</span><span
-          style='color:#f29e38ff'>我方全体1个<u>负面效果</u></span><span>，为我方全体回复生命值。</span>
+        Desc: <span>解除</span><span style='color:#f29e38ff'>我方全体1个<u>负面效果</u></span><span>，为我方全体回复生命值。</span>
         Type: 终结技
       '111004':
         Name: 户外生存经验
-        Desc: >-
-          <span>施放战技或终结技时，使我方目标获得</span><span
-          style='color:#f29e38ff'>持续回复生命值</span><span>效果，若目标持有【求生反应】持续回复生命值效果额外提高。</span>
+        Desc: <span>施放战技或终结技时，使我方目标获得</span><span style='color:#f29e38ff'>持续回复生命值</span><span>效果，若目标持有【求生反应】持续回复生命值效果额外提高。</span>
         Type: 天赋
       '111006':
         Name: 攻击
@@ -995,22 +882,15 @@ Characters:
         Type: 普攻
       '111102':
         Name: 裂伤拳
-        Desc: >-
-          <span>对敌方单体造成物理属性伤害，大概率对目标</span><span
-          style='color:#f29e38ff'>施加裂伤状态</span><span>。</span>
+        Desc: <span>对敌方单体造成物理属性伤害，大概率对目标</span><span style='color:#f29e38ff'>施加裂伤状态</span><span>。</span>
         Type: 战技
       '111103':
         Name: 制胜一击
-        Desc: >-
-          <span>获得</span><span style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>2</span></span><span>层【斗志】，大概率使敌方单体受到的伤害提高，并对其造成大量物理属性伤害。</span>
+        Desc: '<span>获得</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>2</span></span><span>层【斗志】，大概率使敌方单体受到的伤害提高，并对其造成大量物理属性伤害。</span>'
         Type: 终结技
       '111104':
         Name: 火花四溅
-        Desc: >-
-          <span>施放普攻【直冲拳】和战技【裂伤拳】后，获得1层【斗志】。当持有的【斗志】大于等于2层时，</span><span
-          style='color:#f29e38ff'>获得强化普攻</span><span>。<br>若敌方目标处于裂伤状态，则强化普攻</span><span
-          style='color:#f29e38ff'>使裂伤状态额外产生1次伤害</span><span>。</span>
+        Desc: <span>施放普攻【直冲拳】和战技【裂伤拳】后，获得1层【斗志】。当持有的【斗志】大于等于2层时，</span><span style='color:#f29e38ff'>获得强化普攻</span><span>。<br>若敌方目标处于裂伤状态，则强化普攻</span><span style='color:#f29e38ff'>使裂伤状态额外产生1次伤害</span><span>。</span>
         Type: 天赋
       '111106':
         Name: 攻击
@@ -1018,9 +898,7 @@ Characters:
         Type: dev_连携
       '111107':
         Name: 抢先者
-        Desc: >-
-          <span>攻击敌人，进战后对敌方随机单体造成少量物理属性伤害，并有大概率使目标</span><span
-          style='color:#f29e38ff'>陷入裂伤状态</span><span>，随后额外获得1层【斗志】。</span>
+        Desc: <span>攻击敌人，进战后对敌方随机单体造成少量物理属性伤害，并有大概率使目标</span><span style='color:#f29e38ff'>陷入裂伤状态</span><span>，随后额外获得1层【斗志】。</span>
         Type: 秘技
     Eidolons:
       '111101':
@@ -1040,8 +918,7 @@ Characters:
         Desc: <span>终结技等级+2，最多不超过15级；普攻等级+1，最多不超过10级。</span>
       '111106':
         Name: 冠军应得的喝彩
-        Desc: >-
-          <span>施放强化普攻的【碎天拳】击中陷入裂伤状态下的敌方目标后，本次强化普攻使用的【直冲拳】每施放过1段攻击，则额外使其当前承受的裂伤状态立即产生1次相当于原伤害8%的伤害。</span>
+        Desc: <span>施放强化普攻的【碎天拳】击中陷入裂伤状态下的敌方目标后，本次强化普攻使用的【直冲拳】每施放过1段攻击，则额外使其当前承受的裂伤状态立即产生1次相当于原伤害8%的伤害。</span>
   '1112':
     Name: 托帕&账账
     Abilities:
@@ -1051,23 +928,15 @@ Characters:
         Type: 普攻
       '111202':
         Name: 支付困难？
-        Desc: >-
-          <span>使敌方单体陷入【负债证明】状态，</span><span
-          style='color:#f29e38ff'>受到的追加攻击伤害提高</span><span>。账账对目标造成火属性伤害。</span>
+        Desc: <span>使敌方单体陷入【负债证明】状态，</span><span style='color:#f29e38ff'>受到的追加攻击伤害提高</span><span>。账账对目标造成火属性伤害。</span>
         Type: 战技
       '111203':
         Name: 扭亏为盈！
-        Desc: >-
-          <span>使账账进入【涨幅惊人！】状态，</span><span
-          style='color:#f29e38ff'>伤害倍率与暴击伤害提高</span><span>。</span>
+        Desc: <span>使账账进入【涨幅惊人！】状态，</span><span style='color:#f29e38ff'>伤害倍率与暴击伤害提高</span><span>。</span>
         Type: 终结技
       '111204':
         Name: 猪市？！
-        Desc: >-
-          <span>战斗开始时</span><span
-          style='color:#f29e38ff'>召唤账账</span><span>，账账行动时</span><span
-          style='color:#f29e38ff'>对陷入【负债证明】的敌方单体发动追加攻击</span><span>。陷入【负债证明】的敌人受到追加攻击时账账</span><span
-          style='color:#f29e38ff'>行动提前</span><span>。</span>
+        Desc: <span>战斗开始时</span><span style='color:#f29e38ff'>召唤账账</span><span>，账账行动时</span><span style='color:#f29e38ff'>对陷入【负债证明】的敌方单体发动追加攻击</span><span>。陷入【负债证明】的敌人受到追加攻击时账账</span><span style='color:#f29e38ff'>行动提前</span><span>。</span>
         Type: 天赋
       '111206':
         Name: 攻击
@@ -1075,16 +944,12 @@ Characters:
         Type: dev_连携
       '111207':
         Name: 明补
-        Desc: >-
-          <span>迷宫内</span><span
-          style='color:#f29e38ff'>召唤账账跟随移动</span><span>，账账会自动</span><span
-          style='color:#f29e38ff'>搜寻附近的普通战利品和扑满</span><span>。施放秘技使下一场战斗中账账首次攻击后，托帕恢复能量。</span>
+        Desc: <span>迷宫内</span><span style='color:#f29e38ff'>召唤账账跟随移动</span><span>，账账会自动</span><span style='color:#f29e38ff'>搜寻附近的普通战利品和扑满</span><span>。施放秘技使下一场战斗中账账首次攻击后，托帕恢复能量。</span>
         Type: 秘技
     Eidolons:
       '111201':
         Name: 未来市场
-        Desc: >-
-          <span>陷入【负债证明】状态下的敌方目标受到追加攻击时，将会陷入【被执行】状态，单次攻击内最多生效1次。<br>【被执行】使敌方目标受到的追加攻击的暴击伤害提高25%，最多叠加2层。【负债证明】被移除时，【被执行】也会被移除。</span>
+        Desc: <span>陷入【负债证明】状态下的敌方目标受到追加攻击时，将会陷入【被执行】状态，单次攻击内最多生效1次。<br>【被执行】使敌方目标受到的追加攻击的暴击伤害提高25%，最多叠加2层。【负债证明】被移除时，【被执行】也会被移除。</span>
       '111202':
         Name: 善意收购
         Desc: <span>账账自身行动并发动攻击后，托帕恢复5点能量。</span>
@@ -1109,10 +974,7 @@ Characters:
         Type: 普攻
       '120102':
         Name: 海底捞月
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>抽牌</span><span>，使自身造成的伤害提高，且</span><span
-          style='color:#f29e38ff'>本回合不会结束</span><span>。</span>
+        Desc: <span></span><span style='color:#f29e38ff'>抽牌</span><span>，使自身造成的伤害提高，且</span><span style='color:#f29e38ff'>本回合不会结束</span><span>。</span>
         Type: 战技
       '120103':
         Name: 四幺暗刻？和！
@@ -1120,9 +982,7 @@ Characters:
         Type: 终结技
       '120104':
         Name: 帝垣琼玉
-        Desc: >-
-          <span>我方目标回合开始时，抽牌。自身回合开始时，若持有4张同花色牌，则清空已有牌并</span><span
-          style='color:#f29e38ff'>强化本次普攻</span><span>，同时使自身攻击力提高。</span>
+        Desc: <span>我方目标回合开始时，抽牌。自身回合开始时，若持有4张同花色牌，则清空已有牌并</span><span style='color:#f29e38ff'>强化本次普攻</span><span>，同时使自身攻击力提高。</span>
         Type: 天赋
       '120106':
         Name: 攻击
@@ -1144,8 +1004,7 @@ Characters:
         Desc: <span>终结技等级+2，最多不超过15级；天赋等级+2，最多不超过15级。</span>
       '120104':
         Name: 帝垣翔鳞和绝张
-        Desc: >-
-          <span>施放战技后，有24%的固定概率获得【不求人】状态，持续至本回合结束。<br>【不求人】状态下，施放普攻或施放强化普攻后立即进行1次追加攻击，对该目标造成等同于普攻或强化普攻伤害100%的量子属性伤害。</span>
+        Desc: <span>施放战技后，有24%的固定概率获得【不求人】状态，持续至本回合结束。<br>【不求人】状态下，施放普攻或施放强化普攻后立即进行1次追加攻击，对该目标造成等同于普攻或强化普攻伤害100%的量子属性伤害。</span>
       '120105':
         Name: 七星流离全不靠
         Desc: <span>战技等级+2，最多不超过15级；普攻等级+1，最多不超过10级。</span>
@@ -1161,17 +1020,11 @@ Characters:
         Type: 普攻
       '120202':
         Name: 祥音和韵
-        Desc: >-
-          <span>使我方单体</span><span
-          style='color:#f29e38ff'>攻击力提高</span><span>，并获得【赐福】。【赐福】状态下攻击时额外造成少量</span><span
-          style='color:#f29e38ff'>雷属性<u>附加伤害</u></span><span>。</span>
+        Desc: <span>使我方单体</span><span style='color:#f29e38ff'>攻击力提高</span><span>，并获得【赐福】。【赐福】状态下攻击时额外造成少量</span><span style='color:#f29e38ff'>雷属性<u>附加伤害</u></span><span>。</span>
         Type: 战技
       '120203':
         Name: 庆云光覆仪祷
-        Desc: >-
-          <span>为我方单体</span><span
-          style='color:#f29e38ff'>恢复能量</span><span>，并使其</span><span
-          style='color:#f29e38ff'>造成的伤害提高</span><span>。</span>
+        Desc: <span>为我方单体</span><span style='color:#f29e38ff'>恢复能量</span><span>，并使其</span><span style='color:#f29e38ff'>造成的伤害提高</span><span>。</span>
         Type: 终结技
       '120204':
         Name: 紫电扶摇
@@ -1213,23 +1066,15 @@ Characters:
         Type: 普攻
       '120302':
         Name: 白花的祈望
-        Desc: >-
-          <span>为我方单体</span><span
-          style='color:#f29e38ff'>回复</span><span>生命值，获得1层【白花之刻】。</span>
+        Desc: <span>为我方单体</span><span style='color:#f29e38ff'>回复</span><span>生命值，获得1层【白花之刻】。</span>
         Type: 战技
       '120303':
         Name: 归葬的遂愿
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>解除</span><span>敌方全体1个</span><span
-          style='color:#f29e38ff'><u>增益效果</u></span><span>，并对敌方全体造成虚数属性伤害，获得1层【白花之刻】。</span>
+        Desc: <span></span><span style='color:#f29e38ff'>解除</span><span>敌方全体1个</span><span style='color:#f29e38ff'><u>增益效果</u></span><span>，并对敌方全体造成虚数属性伤害，获得1层【白花之刻】。</span>
         Type: 终结技
       '120304':
         Name: 生息的轮转
-        Desc: >-
-          <span>当【白花之刻】2层时</span><span
-          style='color:#f29e38ff'>展开结界</span><span>。结界存在时我方</span><span
-          style='color:#f29e38ff'>攻击后回复</span><span>生命值。</span>
+        Desc: <span>当【白花之刻】2层时</span><span style='color:#f29e38ff'>展开结界</span><span>。结界存在时我方</span><span style='color:#f29e38ff'>攻击后回复</span><span>生命值。</span>
         Type: 天赋
       '120306':
         Name: 攻击
@@ -1245,8 +1090,7 @@ Characters:
         Desc: <span>结界生效时我方全体攻击力提高20%。</span>
       '120302':
         Name: 净庭赐礼
-        Desc: >-
-          <span>触发战技效果时，若指定我方目标当前生命值百分比小于50%，则罗刹提供的治疗量提高30%；若指定我方目标当前生命值百分比大于等于50%，则为其提供能够抵消等同于罗刹18%攻击力+240伤害的护盾，持续2回合。</span>
+        Desc: <span>触发战技效果时，若指定我方目标当前生命值百分比小于50%，则罗刹提供的治疗量提高30%；若指定我方目标当前生命值百分比大于等于50%，则为其提供能够抵消等同于罗刹18%攻击力+240伤害的护盾，持续2回合。</span>
       '120303':
         Name: 愚人试探
         Desc: <span>战技等级+2，最多不超过15级；普攻等级+1，最多不超过10级。</span>
@@ -1268,22 +1112,15 @@ Characters:
         Type: 普攻
       '120402':
         Name: 紫霄震曜
-        Desc: >-
-          <span>对敌方全体造成少量雷属性伤害，</span><span
-          style='color:#f29e38ff'>增加【神君】的攻击段数</span><span>。</span>
+        Desc: <span>对敌方全体造成少量雷属性伤害，</span><span style='color:#f29e38ff'>增加【神君】的攻击段数</span><span>。</span>
         Type: 战技
       '120403':
         Name: 吾身光明
-        Desc: >-
-          <span>对敌方全体造成雷属性伤害，</span><span
-          style='color:#f29e38ff'>增加【神君】的攻击段数</span><span>。</span>
+        Desc: <span>对敌方全体造成雷属性伤害，</span><span style='color:#f29e38ff'>增加【神君】的攻击段数</span><span>。</span>
         Type: 终结技
       '120404':
         Name: 斩勘神形
-        Desc: >-
-          <span>战斗开始时召唤【神君】，【神君】</span><span
-          style='color:#f29e38ff'>自动</span><span>对随机敌方单体及其相邻目标</span><span
-          style='color:#f29e38ff'>造成少量雷属性伤害</span><span>。</span>
+        Desc: <span>战斗开始时召唤【神君】，【神君】</span><span style='color:#f29e38ff'>自动</span><span>对随机敌方单体及其相邻目标</span><span style='color:#f29e38ff'>造成少量雷属性伤害</span><span>。</span>
         Type: 天赋
       '120406':
         Name: 攻击
@@ -1291,9 +1128,7 @@ Characters:
         Type: dev_连携
       '120407':
         Name: 摄召威灵
-        Desc: >-
-          <span>使用秘技，下一次进战时</span><span
-          style='color:#f29e38ff'>增加【神君】的攻击段数</span><span>。</span>
+        Desc: <span>使用秘技，下一次进战时</span><span style='color:#f29e38ff'>增加【神君】的攻击段数</span><span>。</span>
         Type: 秘技
     Eidolons:
       '120401':
@@ -1313,8 +1148,7 @@ Characters:
         Desc: <span>战技等级+2，最多不超过15级；天赋等级+2，最多不超过15级。</span>
       '120406':
         Name: 威灵有应破敌雠
-        Desc: >-
-          <span>【神君】每段攻击后会使指定敌方目标额外陷入易伤状态。<br>易伤状态下的敌方目标受到的伤害提高12%，持续至【神君】本次攻击结束，该效果最多叠加3层。</span>
+        Desc: <span>【神君】每段攻击后会使指定敌方目标额外陷入易伤状态。<br>易伤状态下的敌方目标受到的伤害提高12%，持续至【神君】本次攻击结束，该效果最多叠加3层。</span>
   '1205':
     Name: 刃
     Abilities:
@@ -1324,21 +1158,15 @@ Characters:
         Type: 普攻
       '120502':
         Name: 地狱变
-        Desc: >-
-          <span>消耗自身生命值，</span><span
-          style='color:#f29e38ff'>获得强化普攻</span><span>，且本回合不会结束。</span>
+        Desc: <span>消耗自身生命值，</span><span style='color:#f29e38ff'>获得强化普攻</span><span>，且本回合不会结束。</span>
         Type: 战技
       '120503':
         Name: 大辟万死
-        Desc: >-
-          <span>将当前生命值转化为生命上限的<span style='whiteSpace:
-          "nowrap"'>50%</span>，并对敌方单体造成大量风属性伤害，对相邻目标造成风属性伤害。</span>
+        Desc: '<span>将当前生命值转化为生命上限的<span style=''whiteSpace: "nowrap"''>50%</span>，并对敌方单体造成大量风属性伤害，对相邻目标造成风属性伤害。</span>'
         Type: 终结技
       '120504':
         Name: 倏忽恩赐
-        Desc: >-
-          <span>刃的生命值降低时，获得1层充能。当充能叠加至上限时，</span><span
-          style='color:#f29e38ff'>立即对敌方全体造成风属性伤害</span><span>并回复生命值，随后消耗所有充能。</span>
+        Desc: <span>刃的生命值降低时，获得1层充能。当充能叠加至上限时，</span><span style='color:#f29e38ff'>立即对敌方全体造成风属性伤害</span><span>并回复生命值，随后消耗所有充能。</span>
         Type: 天赋
       '120506':
         Name: 攻击
@@ -1351,8 +1179,7 @@ Characters:
     Eidolons:
       '120501':
         Name: 剑录大限，地狱变相
-        Desc: >-
-          <span>终结技对指定敌方单体造成的伤害额外提高，提高数值等同于刃150%本场战斗中累计的已损失生命值。<br>本场战斗中累计已损失生命值最高不超过刃生命上限的90%，施放终结技后会清空并进行重新累计。</span>
+        Desc: <span>终结技对指定敌方单体造成的伤害额外提高，提高数值等同于刃150%本场战斗中累计的已损失生命值。<br>本场战斗中累计已损失生命值最高不超过刃生命上限的90%，施放终结技后会清空并进行重新累计。</span>
       '120502':
         Name: 支离旧梦，万端遗恨
         Desc: <span>刃处于【地狱变】状态时，暴击率提高15%。</span>
@@ -1377,16 +1204,11 @@ Characters:
         Type: 普攻
       '120602':
         Name: "云骑剑经\_•\_山倾"
-        Desc: >-
-          <span>对敌方单体造成物理属性伤害，有</span><span
-          style='color:#f29e38ff'>小概率发动【剑势】</span><span>。若目标处于<u>弱点击破状态</u>则</span><span
-          style='color:#f29e38ff'>【剑势】必定发动</span><span>。</span>
+        Desc: <span>对敌方单体造成物理属性伤害，有</span><span style='color:#f29e38ff'>小概率发动【剑势】</span><span>。若目标处于<u>弱点击破状态</u>则</span><span style='color:#f29e38ff'>【剑势】必定发动</span><span>。</span>
         Type: 战技
       '120603':
         Name: "太虚形蕴\_•\_烛夜"
-        Desc: >-
-          <span>对敌方单体造成大量物理属性伤害，强化【剑势】效果并</span><span
-          style='color:#f29e38ff'>立即行动</span><span>。</span>
+        Desc: <span>对敌方单体造成大量物理属性伤害，强化【剑势】效果并</span><span style='color:#f29e38ff'>立即行动</span><span>。</span>
         Type: 终结技
       '120604':
         Name: 游刃若水
@@ -1428,15 +1250,11 @@ Characters:
         Type: 普攻
       '120702':
         Name: 天阙鸣弦
-        Desc: >-
-          <span>获得2层【鸣弦号令】，自身持有【鸣弦号令】时我方全体</span><span
-          style='color:#f29e38ff'>攻击力提高</span><span>。</span>
+        Desc: <span>获得2层【鸣弦号令】，自身持有【鸣弦号令】时我方全体</span><span style='color:#f29e38ff'>攻击力提高</span><span>。</span>
         Type: 战技
       '120703':
         Name: 贯云饮羽
-        Desc: >-
-          <span>自身持有【鸣弦号令】时我方全体</span><span
-          style='color:#f29e38ff'>暴击率和暴击伤害提高</span><span>，并对敌方单体造成大量虚数属性伤害。</span>
+        Desc: <span>自身持有【鸣弦号令】时我方全体</span><span style='color:#f29e38ff'>暴击率和暴击伤害提高</span><span>，并对敌方单体造成大量虚数属性伤害。</span>
         Type: 终结技
       '120704':
         Name: 箭彻七札
@@ -1448,9 +1266,7 @@ Characters:
         Type: dev_连携
       '120707':
         Name: 云鸢逐风
-        Desc: >-
-          <span>使自身</span><span
-          style='color:#f29e38ff'>移动速度提高</span><span>。攻击敌人进战后获得2层【鸣弦号令】。</span>
+        Desc: <span>使自身</span><span style='color:#f29e38ff'>移动速度提高</span><span>。攻击敌人进战后获得2层【鸣弦号令】。</span>
         Type: 秘技
     Eidolons:
       '120701':
@@ -1458,8 +1274,7 @@ Characters:
         Desc: <span>进入战斗时，我方全体速度提高10%，持续2回合。</span>
       '120702':
         Name: 青霄驰骋，驱驭苍穹
-        Desc: >-
-          <span>当我方任意单体当前能量值等于其能量上限时，驭空额外恢复5点能量。该效果我方每个单体仅可触发1次，当驭空施放终结技后，重置该效果触发次数。</span>
+        Desc: <span>当我方任意单体当前能量值等于其能量上限时，驭空额外恢复5点能量。该效果我方每个单体仅可触发1次，当驭空施放终结技后，重置该效果触发次数。</span>
       '120703':
         Name: 危弓未辍，执射不宁
         Desc: <span>战技等级+2，最多不超过15级；普攻等级+1，最多不超过10级。</span>
@@ -1481,10 +1296,7 @@ Characters:
         Type: 普攻
       '120802':
         Name: 太微行棋，灵台示影
-        Desc: >-
-          <span>开启【穷观阵】，队友</span><span
-          style='color:#f29e38ff'>所受伤害<u>分摊</u></span><span>给符玄。并使我方全体生命上限、</span><span
-          style='color:#f29e38ff'>暴击率提高</span><span>。</span>
+        Desc: <span>开启【穷观阵】，队友</span><span style='color:#f29e38ff'>所受伤害<u>分摊</u></span><span>给符玄。并使我方全体生命上限、</span><span style='color:#f29e38ff'>暴击率提高</span><span>。</span>
         Type: 战技
       '120803':
         Name: 天律大衍，历劫归一
@@ -1492,10 +1304,7 @@ Characters:
         Type: 终结技
       '120804':
         Name: 乾清坤夷，否极泰来
-        Desc: >-
-          <span>当符玄处于可战斗状态时，我方全体受到的伤害降低。<br>生命值较低时</span><span
-          style='color:#f29e38ff'>自动</span><span>按已损失生命值百分比</span><span
-          style='color:#f29e38ff'>回复自身生命</span><span>。该效果最多拥有2次触发次数。</span>
+        Desc: <span>当符玄处于可战斗状态时，我方全体受到的伤害降低。<br>生命值较低时</span><span style='color:#f29e38ff'>自动</span><span>按已损失生命值百分比</span><span style='color:#f29e38ff'>回复自身生命</span><span>。该效果最多拥有2次触发次数。</span>
         Type: 天赋
       '120806':
         Name: 攻击
@@ -1511,8 +1320,7 @@ Characters:
         Desc: <span>【鉴知】使暴击伤害提高30%。</span>
       '120802':
         Name: 柔兆
-        Desc: >-
-          <span>【穷观阵】开启时，若我方目标受到致命伤害，则本次行动中所有受到致命伤害的我方目标都不会陷入无法战斗状态，并立即回复等同于其自身生命上限70%的生命值。该效果单场战斗中可以触发1次。</span>
+        Desc: <span>【穷观阵】开启时，若我方目标受到致命伤害，则本次行动中所有受到致命伤害的我方目标都不会陷入无法战斗状态，并立即回复等同于其自身生命上限70%的生命值。该效果单场战斗中可以触发1次。</span>
       '120803':
         Name: 直符
         Desc: <span>战技等级+2，最多不超过15级；天赋等级+2，最多不超过15级。</span>
@@ -1524,8 +1332,7 @@ Characters:
         Desc: <span>终结技等级+2，最多不超过15级；普攻等级+1，最多不超过10级。</span>
       '120806':
         Name: 种陵
-        Desc: >-
-          <span>【穷观阵】开启时，会累计我方全体本场战斗中的已损失生命值。符玄施放终结技造成的伤害提高，提高数值等同于本场战斗中累计已损失生命值的200%。<br>本场战斗中累计已损失生命值最高不超过符玄生命上限的120%，施放终结技后会清空并进行重新累计。</span>
+        Desc: <span>【穷观阵】开启时，会累计我方全体本场战斗中的已损失生命值。符玄施放终结技造成的伤害提高，提高数值等同于本场战斗中累计已损失生命值的200%。<br>本场战斗中累计已损失生命值最高不超过符玄生命上限的120%，施放终结技后会清空并进行重新累计。</span>
   '1209':
     Name: 彦卿
     Abilities:
@@ -1543,11 +1350,7 @@ Characters:
         Type: 终结技
       '120904':
         Name: 呼剑如影
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>处于【智剑连心】时</span><span>受到攻击的概率降低，自身</span><span
-          style='color:#f29e38ff'>暴击率和暴击伤害提高</span><span>。对敌方目标</span><span
-          style='color:#f29e38ff'>施放攻击后</span><span>，有概率发动<u>追加攻击</u>，对其造成冰属性伤害并有概率使其陷入冻结状态。<br>自身受到伤害后，【智剑连心】消失。</span>
+        Desc: <span></span><span style='color:#f29e38ff'>处于【智剑连心】时</span><span>受到攻击的概率降低，自身</span><span style='color:#f29e38ff'>暴击率和暴击伤害提高</span><span>。对敌方目标</span><span style='color:#f29e38ff'>施放攻击后</span><span>，有概率发动<u>追加攻击</u>，对其造成冰属性伤害并有概率使其陷入冻结状态。<br>自身受到伤害后，【智剑连心】消失。</span>
         Type: 天赋
       '120906':
         Name: 攻击
@@ -1555,9 +1358,7 @@ Characters:
         Type: dev_连携
       '120907':
         Name: 御剑真诀
-        Desc: >-
-          <span>使用秘技，下一次战斗开始时自身对生命值百分比大于等于<span style='whiteSpace:
-          "nowrap"'>50%</span>的敌方目标造成的伤害提高。</span>
+        Desc: '<span>使用秘技，下一次战斗开始时自身对生命值百分比大于等于<span style=''whiteSpace: "nowrap"''>50%</span>的敌方目标造成的伤害提高。</span>'
         Type: 秘技
     Eidolons:
       '120901':
@@ -1587,9 +1388,7 @@ Characters:
         Type: 普攻
       '121002':
         Name: 迎面开门红
-        Desc: >-
-          <span>对敌方单体造成火属性伤害，对相邻目标造成少量火属性伤害，大概率施加</span><span
-          style='color:#f29e38ff'>灼烧状态</span><span>。</span>
+        Desc: <span>对敌方单体造成火属性伤害，对相邻目标造成少量火属性伤害，大概率施加</span><span style='color:#f29e38ff'>灼烧状态</span><span>。</span>
         Type: 战技
       '121003':
         Name: 给您来段看家戏
@@ -1597,10 +1396,7 @@ Characters:
         Type: 终结技
       '121004':
         Name: 古来君子养艺人
-        Desc: >-
-          <span>敌方受到的</span><span
-          style='color:#f29e38ff'>灼烧状态触发伤害后</span><span>，大概率施加</span><span
-          style='color:#f29e38ff'>【吞火】状态</span><span>。</span>
+        Desc: <span>敌方受到的</span><span style='color:#f29e38ff'>灼烧状态触发伤害后</span><span>，大概率施加</span><span style='color:#f29e38ff'>【吞火】状态</span><span>。</span>
         Type: 天赋
       '121006':
         Name: 攻击
@@ -1608,9 +1404,7 @@ Characters:
         Type: dev_连携
       '121007':
         Name: 耍耍把式卖卖艺
-        Desc: >-
-          <span>攻击敌人，进战后对敌方单体造成少量火属性伤害并施加</span><span
-          style='color:#f29e38ff'>【吞火】状态</span><span>，共弹射4次。</span>
+        Desc: <span>攻击敌人，进战后对敌方单体造成少量火属性伤害并施加</span><span style='color:#f29e38ff'>【吞火】状态</span><span>，共弹射4次。</span>
         Type: 秘技
     Eidolons:
       '121001':
@@ -1648,12 +1442,7 @@ Characters:
         Type: 终结技
       '121104':
         Name: 奔走悬壶济世长
-        Desc: >-
-          <span>拥有</span><span
-          style='color:#f29e38ff'>【生息】</span><span>的我方目标受到攻击后会</span><span
-          style='color:#f29e38ff'>回复生命值</span><span>。<br>当队友</span><span
-          style='color:#f29e38ff'>受到致命攻击时</span><span>，白露</span><span
-          style='color:#f29e38ff'>立即为其回复生命值</span><span>。该效果单场战斗中可以触发1次。</span>
+        Desc: <span>拥有</span><span style='color:#f29e38ff'>【生息】</span><span>的我方目标受到攻击后会</span><span style='color:#f29e38ff'>回复生命值</span><span>。<br>当队友</span><span style='color:#f29e38ff'>受到致命攻击时</span><span>，白露</span><span style='color:#f29e38ff'>立即为其回复生命值</span><span>。该效果单场战斗中可以触发1次。</span>
         Type: 天赋
       '121106':
         Name: 攻击
@@ -1691,25 +1480,15 @@ Characters:
         Type: 普攻
       '121202':
         Name: 无罅飞光
-        Desc: >-
-          <span>对指定敌方单体造成冰属性伤害，并获得</span><span
-          style='color:#f29e38ff'>1层【朔望】</span><span>。</span>
+        Desc: <span>对指定敌方单体造成冰属性伤害，并获得</span><span style='color:#f29e38ff'>1层【朔望】</span><span>。</span>
         Type: 战技
       '121203':
         Name: 昙华生灭，天河泻梦
-        Desc: >-
-          <span>对指定敌方单体造成大量冰属性伤害，对相邻目标造成冰属性伤害，并</span><span
-          style='color:#f29e38ff'>获得1层【朔望】</span><span>。</span>
+        Desc: <span>对指定敌方单体造成大量冰属性伤害，对相邻目标造成冰属性伤害，并</span><span style='color:#f29e38ff'>获得1层【朔望】</span><span>。</span>
         Type: 终结技
       '121204':
         Name: 澹月转魄
-        Desc: >-
-          <span>当拥有</span><span style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>2</span></span><span>层【朔望】时，进入【转魄】状态，</span><span
-          style='color:#f29e38ff'>使行动提前<span style='whiteSpace:
-          "nowrap"'>100%</span></span><span>、提高自身暴击率，并获得</span><span
-          style='color:#f29e38ff'>强化战技</span><span>。施放攻击时，消耗队友的生命值并根据消耗总量</span><span
-          style='color:#f29e38ff'>提升镜流的攻击力</span><span>。当【朔望】层数为0时，退出【转魄】状态。</span>
+        Desc: '<span>当拥有</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>2</span></span><span>层【朔望】时，进入【转魄】状态，</span><span style=''color:#f29e38ff''>使行动提前<span style=''whiteSpace: "nowrap"''>100%</span></span><span>、提高自身暴击率，并获得</span><span style=''color:#f29e38ff''>强化战技</span><span>。施放攻击时，消耗队友的生命值并根据消耗总量</span><span style=''color:#f29e38ff''>提升镜流的攻击力</span><span>。当【朔望】层数为0时，退出【转魄】状态。</span>'
         Type: 天赋
       '121206':
         Name: 攻击
@@ -1717,16 +1496,12 @@ Characters:
         Type: dev_连携
       '121207':
         Name: 古镜照神
-        Desc: >-
-          <span>在自身周围制造特殊领域。领域内敌人陷入</span><span
-          style='color:#f29e38ff'>冻结状态</span><span>。与领域内敌人进入战斗后，恢复能量、获得1层朔望并大概率使敌方目标陷入</span><span
-          style='color:#f29e38ff'>冻结状态</span><span>。</span>
+        Desc: <span>在自身周围制造特殊领域。领域内敌人陷入</span><span style='color:#f29e38ff'>冻结状态</span><span>。与领域内敌人进入战斗后，恢复能量、获得1层朔望并大概率使敌方目标陷入</span><span style='color:#f29e38ff'>冻结状态</span><span>。</span>
         Type: 秘技
     Eidolons:
       '121201':
         Name: 月犯天关
-        Desc: >-
-          <span>施放终结技或强化战技时，镜流的暴击伤害提高24%，持续1回合。若只攻击了1个敌方目标，则额外对该目标造成1次等同于镜流100%攻击力的冰属性伤害。</span>
+        Desc: <span>施放终结技或强化战技时，镜流的暴击伤害提高24%，持续1回合。若只攻击了1个敌方目标，则额外对该目标造成1次等同于镜流100%攻击力的冰属性伤害。</span>
       '121202':
         Name: 朔晕七星
         Desc: <span>施放终结技后，下一次强化战技的伤害提高80%。</span>
@@ -1735,8 +1510,7 @@ Characters:
         Desc: <span>终结技等级+2，最多不超过15级；天赋等级+2，最多不超过15级。</span>
       '121204':
         Name: 持秉玄烛
-        Desc: >-
-          <span>【转魄】状态下消耗队友生命值获得的攻击力额外提高，提高数值等同于我方全体生命值消耗总量的90%，获得的攻击力上限提高30%。</span>
+        Desc: <span>【转魄】状态下消耗队友生命值获得的攻击力额外提高，提高数值等同于我方全体生命值消耗总量的90%，获得的攻击力上限提高30%。</span>
       '121205':
         Name: 晦入三台
         Desc: <span>战技等级+2，最多不超过15级；普攻等级+1，最多不超过10级。</span>
@@ -1752,17 +1526,11 @@ Characters:
         Type: 普攻
       '121302':
         Name: 龙力自在
-        Desc: >-
-          <span>使普攻【泽芝】</span><span
-          style='color:#f29e38ff'>分别强化为【瞬华】</span><span>、</span><span
-          style='color:#f29e38ff'>【天矢阴】或【盘拏耀跃】</span><span>。</span>
+        Desc: <span>使普攻【泽芝】</span><span style='color:#f29e38ff'>分别强化为【瞬华】</span><span>、</span><span style='color:#f29e38ff'>【天矢阴】或【盘拏耀跃】</span><span>。</span>
         Type: 战技
       '121303':
         Name: 苍龙傲睨，劫水濯世
-        Desc: >-
-          <span>对敌方单体造成大量虚数属性伤害，对相邻目标造成虚数属性伤害。获得2个【逆鳞】：可</span><span
-          style='color:#f29e38ff'>抵扣</span><span>丹恒•饮月的</span><span
-          style='color:#f29e38ff'>战技点消耗</span><span>且视为消耗战技点。</span>
+        Desc: <span>对敌方单体造成大量虚数属性伤害，对相邻目标造成虚数属性伤害。获得2个【逆鳞】：可</span><span style='color:#f29e38ff'>抵扣</span><span>丹恒•饮月的</span><span style='color:#f29e38ff'>战技点消耗</span><span>且视为消耗战技点。</span>
         Type: 终结技
       '121304':
         Name: 亢心
@@ -1774,8 +1542,7 @@ Characters:
         Type: dev_连携
       '121307':
         Name: 掣空如虹
-        Desc: >-
-          <span>进入【蟠跃】状态，使用攻击会快速向前移动一段距离并攻击接触到的敌人。攻击敌人进战后，对敌方全体造成虚数属性伤害，并获得1个【逆鳞】。</span>
+        Desc: <span>进入【蟠跃】状态，使用攻击会快速向前移动一段距离并攻击接触到的敌人。攻击敌人进战后，对敌方全体造成虚数属性伤害，并获得1个【逆鳞】。</span>
         Type: 秘技
     Eidolons:
       '121301':
@@ -1809,15 +1576,11 @@ Characters:
         Type: 战技
       '121403':
         Name: 天罚贯身
-        Desc: >-
-          <span>对敌方单体造成大量量子属性伤害，本次攻击</span><span
-          style='color:#f29e38ff'>无视弱点属性</span><span>削减敌方单体的韧性，削减的韧性越多造成的伤害越高。</span>
+        Desc: <span>对敌方单体造成大量量子属性伤害，本次攻击</span><span style='color:#f29e38ff'>无视弱点属性</span><span>削减敌方单体的韧性，削减的韧性越多造成的伤害越高。</span>
         Type: 终结技
       '121404':
         Name: 十王圣断，业报恒常
-        Desc: >-
-          <span>雪衣施放攻击时或雪衣的队友施放攻击后削减敌方韧性，雪衣会叠加【恶报】。当【恶报】叠加至上限时，</span><span
-          style='color:#f29e38ff'>立即发动<u>追加攻击</u></span><span>，对敌方单体造成少量量子属性伤害，共弹射3次，并消耗全部【恶报】。</span>
+        Desc: <span>雪衣施放攻击时或雪衣的队友施放攻击后削减敌方韧性，雪衣会叠加【恶报】。当【恶报】叠加至上限时，</span><span style='color:#f29e38ff'>立即发动<u>追加攻击</u></span><span>，对敌方单体造成少量量子属性伤害，共弹射3次，并消耗全部【恶报】。</span>
         Type: 天赋
       '121406':
         Name: 攻击
@@ -1833,8 +1596,7 @@ Characters:
         Desc: <span>天赋的追加攻击造成的伤害提高40%。</span>
       '121402':
         Name: 破五尘
-        Desc: >-
-          <span>天赋的追加攻击无视弱点属性削减敌方的韧性，同时为自身恢复等同于雪衣5%生命上限的生命值。击破弱点时，触发量子属性的弱点击破效果。</span>
+        Desc: <span>天赋的追加攻击无视弱点属性削减敌方的韧性，同时为自身恢复等同于雪衣5%生命上限的生命值。击破弱点时，触发量子属性的弱点击破效果。</span>
       '121403':
         Name: 止苦谛
         Desc: <span>战技等级+2，最多不超过15级；普攻等级+1，最多不超过10级。</span>
@@ -1856,15 +1618,11 @@ Characters:
         Type: 普攻
       '121502':
         Name: 生灭系缚
-        Desc: >-
-          <span>对敌方单体造成物理属性伤害，并使其陷入【承负】状态。每当我方目标对【承负】状态下的敌方目标施放2次普攻、战技、终结技后，</span><span
-          style='color:#f29e38ff'>恢复1个战技点</span><span>。</span>
+        Desc: <span>对敌方单体造成物理属性伤害，并使其陷入【承负】状态。每当我方目标对【承负】状态下的敌方目标施放2次普攻、战技、终结技后，</span><span style='color:#f29e38ff'>恢复1个战技点</span><span>。</span>
         Type: 战技
       '121503':
         Name: 十王敕令，遍土遵行
-        Desc: >-
-          <span>使我方单体</span><span
-          style='color:#f29e38ff'>速度提高，攻击力提高</span><span>。</span>
+        Desc: <span>使我方单体</span><span style='color:#f29e38ff'>速度提高，攻击力提高</span><span>。</span>
         Type: 终结技
       '121504':
         Name: 罚恶
@@ -1906,25 +1664,15 @@ Characters:
         Type: 普攻
       '121702':
         Name: 灵符•保命护身
-        Desc: >-
-          <span>解除我方单体1个<u>负面效果</u>，并为我方单体及其相邻目标</span><span
-          style='color:#f29e38ff'>回复生命值</span><span>。</span>
+        Desc: <span>解除我方单体1个<u>负面效果</u>，并为我方单体及其相邻目标</span><span style='color:#f29e38ff'>回复生命值</span><span>。</span>
         Type: 战技
       '121703':
         Name: 尾巴•遣神役鬼
-        Desc: >-
-          <span>为除自身以外的队友</span><span
-          style='color:#f29e38ff'>恢复能量</span><span>，并使其</span><span
-          style='color:#f29e38ff'>攻击力提高</span><span>。</span>
+        Desc: <span>为除自身以外的队友</span><span style='color:#f29e38ff'>恢复能量</span><span>，并使其</span><span style='color:#f29e38ff'>攻击力提高</span><span>。</span>
         Type: 终结技
       '121704':
         Name: 凭附•气通天真
-        Desc: >-
-          <span>施放战技后藿藿获得【禳命】。当藿藿拥有【禳命】时，我方目标回合开始或施放终结技时</span><span
-          style='color:#f29e38ff'>回复自身生命值</span><span>，同时对</span><span
-          style='color:#f29e38ff'>每个</span><span>生命值较低的</span><span
-          style='color:#f29e38ff'>我方目标各产生1次回复效果</span><span>。触发【禳命】为我方目标提供治疗时，</span><span
-          style='color:#f29e38ff'>解除该目标1个<u>负面效果</u></span><span>。</span>
+        Desc: <span>施放战技后藿藿获得【禳命】。当藿藿拥有【禳命】时，我方目标回合开始或施放终结技时</span><span style='color:#f29e38ff'>回复自身生命值</span><span>，同时对</span><span style='color:#f29e38ff'>每个</span><span>生命值较低的</span><span style='color:#f29e38ff'>我方目标各产生1次回复效果</span><span>。触发【禳命】为我方目标提供治疗时，</span><span style='color:#f29e38ff'>解除该目标1个<u>负面效果</u></span><span>。</span>
         Type: 天赋
       '121706':
         Name: 攻击
@@ -1932,9 +1680,7 @@ Characters:
         Type: dev_连携
       '121707':
         Name: 凶煞•劾压鬼物
-        Desc: >-
-          <span>使周围的敌人陷入【魄散】状态。与陷入【魄散】状态的敌人进入战斗后，大概率使敌方目标</span><span
-          style='color:#f29e38ff'>攻击力降低</span><span>。</span>
+        Desc: <span>使周围的敌人陷入【魄散】状态。与陷入【魄散】状态的敌人进入战斗后，大概率使敌方目标</span><span style='color:#f29e38ff'>攻击力降低</span><span>。</span>
         Type: 秘技
     Eidolons:
       '121701':
@@ -1942,8 +1688,7 @@ Characters:
         Desc: <span>天赋产生的【禳命】持续时间延长1回合，且当藿藿拥有【禳命】时我方全体提高12%的速度。</span>
       '121702':
         Name: 判官书符，镇尾锁灵
-        Desc: >-
-          <span>当藿藿拥有【禳命】时，若我方目标受到致命攻击，不会陷入无法战斗状态，并立即回复等同于其自身生命上限50%的生命值，使【禳命】的持续回合数减1。该效果单场战斗中可以触发2次。</span>
+        Desc: <span>当藿藿拥有【禳命】时，若我方目标受到致命攻击，不会陷入无法战斗状态，并立即回复等同于其自身生命上限50%的生命值，使【禳命】的持续回合数减1。该效果单场战斗中可以触发2次。</span>
       '121703':
         Name: 贞凶体质，烛火招萤
         Desc: <span>终结技等级+2，最多不超过15级；天赋等级+2，最多不超过15级。</span>
@@ -1969,9 +1714,7 @@ Characters:
         Type: 战技
       '121803':
         Name: 鼎阵妙法，奇正相生
-        Desc: >-
-          <span>将敌方目标具有的【烬煨】层数统一设置为场上【烬煨】层数的最高值，随后开启结界并对敌方全体造成火属性伤害。处于结界中时，敌方目标</span><span
-          style='color:#f29e38ff'>受到的终结技伤害提高</span><span>，且行动时有概率被施加1层【烬煨】。</span>
+        Desc: <span>将敌方目标具有的【烬煨】层数统一设置为场上【烬煨】层数的最高值，随后开启结界并对敌方全体造成火属性伤害。处于结界中时，敌方目标</span><span style='color:#f29e38ff'>受到的终结技伤害提高</span><span>，且行动时有概率被施加1层【烬煨】。</span>
         Type: 终结技
       '121804':
         Name: 四示八权，纤滋精味
@@ -1988,8 +1731,7 @@ Characters:
     Eidolons:
       '121801':
         Name: 五味五走，生熟有定
-        Desc: >-
-          <span>我方目标对处于【烬煨】状态的敌方目标造成的伤害提高40%。每当触发天赋效果使敌方目标陷入【烬煨】状态时，使本次叠加的【烬煨】层数额外提高1层。</span>
+        Desc: <span>我方目标对处于【烬煨】状态的敌方目标造成的伤害提高40%。每当触发天赋效果使敌方目标陷入【烬煨】状态时，使本次叠加的【烬煨】层数额外提高1层。</span>
       '121802':
         Name: 爽口作疾，厚味措毒
         Desc: <span>敌方目标处于【烬煨】状态时，【烬煨】对其造成的火属性持续伤害倍率提高300%。</span>
@@ -2004,8 +1746,7 @@ Characters:
         Desc: <span>终结技等级+2，最多不超过15级；天赋等级+2，最多不超过15级。</span>
       '121806':
         Name: 九沸九变，火为之纪
-        Desc: >-
-          <span>敌方目标被消灭时，其持有的【烬煨】会叠加给场上存活的【烬煨】层数最低的敌人。【烬煨】的层数上限提升至9，每层【烬煨】会使目标的全属性抗性降低3%。</span>
+        Desc: <span>敌方目标被消灭时，其持有的【烬煨】会叠加给场上存活的【烬煨】层数最低的敌人。【烬煨】的层数上限提升至9，每层【烬煨】会使目标的全属性抗性降低3%。</span>
   '1220':
     Name: 飞霄
     Abilities:
@@ -2019,26 +1760,11 @@ Characters:
         Type: 战技
       '122003':
         Name: 凿破大荒
-        Desc: >-
-          <span>终结技期间可</span><span
-          style='color:#f29e38ff'>无视弱点属性</span><span>削减敌方韧性，目标未被击破时飞霄</span><span
-          style='color:#f29e38ff'>弱点击破效率提高</span><span>。<br>对敌方单体发动</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>6</span></span><span>次【闪裂刃舞】或【钺贯天冲】，最后造成风属性伤害。</span>
+        Desc: '<span>终结技期间可</span><span style=''color:#f29e38ff''>无视弱点属性</span><span>削减敌方韧性，目标未被击破时飞霄</span><span style=''color:#f29e38ff''>弱点击破效率提高</span><span>。<br>对敌方单体发动</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>6</span></span><span>次【闪裂刃舞】或【钺贯天冲】，最后造成风属性伤害。</span>'
         Type: 终结技
       '122004':
         Name: 雷狩
-        Desc: >-
-          <span>【飞黄】达到</span><span style='color:#f29e38ff'><span
-          style='whiteSpace:
-          "nowrap"'>6</span></span><span>点时可激活终结技，最多累计</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>12</span></span><span>点。我方目标每施放</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>2</span></span><span>次攻击，飞霄获得</span><span
-          style='color:#f29e38ff'>【飞黄】</span><span>。<br>队友施放攻击后，飞霄对主目标发动</span><span
-          style='color:#f29e38ff'><u>追加攻击</u></span><span>，造成风属性伤害。该效果每回合最多触发1次，发动此攻击时使自身</span><span
-          style='color:#f29e38ff'>造成的伤害提高</span><span>。</span>
+        Desc: '<span>【飞黄】达到</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>6</span></span><span>点时可激活终结技，最多累计</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>12</span></span><span>点。我方目标每施放</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>2</span></span><span>次攻击，飞霄获得</span><span style=''color:#f29e38ff''>【飞黄】</span><span>。<br>队友施放攻击后，飞霄对主目标发动</span><span style=''color:#f29e38ff''><u>追加攻击</u></span><span>，造成风属性伤害。该效果每回合最多触发1次，发动此攻击时使自身</span><span style=''color:#f29e38ff''>造成的伤害提高</span><span>。</span>'
         Type: 天赋
       '122006':
         Name: 攻击
@@ -2046,15 +1772,12 @@ Characters:
         Type: dev_连携
       '122007':
         Name: 岚身
-        Desc: >-
-          <span>进入【陷锋】状态，持续牵引敌人且移动速度提高，进战后获得【飞黄】。<br>【陷锋】状态下可主动攻击所有牵引的敌人，每个波次开始时对敌方全体造成风属性伤害，该伤害必定暴击。</span><span
-          style='color:#f29e38ff'>牵引敌人越多，伤害倍率越高</span><span>。</span>
+        Desc: <span>进入【陷锋】状态，持续牵引敌人且移动速度提高，进战后获得【飞黄】。<br>【陷锋】状态下可主动攻击所有牵引的敌人，每个波次开始时对敌方全体造成风属性伤害，该伤害必定暴击。</span><span style='color:#f29e38ff'>牵引敌人越多，伤害倍率越高</span><span>。</span>
         Type: 秘技
     Eidolons:
       '122001':
         Name: 镇绥天钧
-        Desc: >-
-          <span>发动【闪裂刃舞】或【钺贯天冲】后，使飞霄造成的终结技伤害额外提高，提高数值等同于原伤害的10%，最多叠加5层，持续至终结技行动结束。</span>
+        Desc: <span>发动【闪裂刃舞】或【钺贯天冲】后，使飞霄造成的终结技伤害额外提高，提高数值等同于原伤害的10%，最多叠加5层，持续至终结技行动结束。</span>
       '122002':
         Name: 礼辰祷月
         Desc: <span>天赋效果中，我方目标每施放1次追加攻击即可使飞霄获得1点【飞黄】。该效果每回合最多触发6次。</span>
@@ -2083,10 +1806,7 @@ Characters:
         Type: 战技
       '122103':
         Name: 剑为地纪，刃惊天宗
-        Desc: >-
-          <span>进入【格挡】并嘲讽敌方全体，期间受到攻击后触发</span><span
-          style='color:#f29e38ff'>强力<u>反击</u></span><span>，对攻击者与其相邻目标</span><span
-          style='color:#f29e38ff'>造成物理属性伤害</span><span>，随后对敌方单体造成少量物理属性伤害，共弹射6次。若【格挡】状态期间没有触发反击，状态结束时对随机敌方目标与其相邻目标造成物理属性伤害。</span>
+        Desc: <span>进入【格挡】并嘲讽敌方全体，期间受到攻击后触发</span><span style='color:#f29e38ff'>强力<u>反击</u></span><span>，对攻击者与其相邻目标</span><span style='color:#f29e38ff'>造成物理属性伤害</span><span>，随后对敌方单体造成少量物理属性伤害，共弹射6次。若【格挡】状态期间没有触发反击，状态结束时对随机敌方目标与其相邻目标造成物理属性伤害。</span>
         Type: 终结技
       '122104':
         Name: 闪铄
@@ -2098,9 +1818,7 @@ Characters:
         Type: dev_连携
       '122107':
         Name: 后发先至
-        Desc: >-
-          <span>使自身获得【招架】效果，持续<span style='whiteSpace:
-          "nowrap"'>20</span>秒，期间攻击敌人或受到攻击进入战斗后，立即对随机敌方单体施放【勘破•灭】。</span>
+        Desc: '<span>使自身获得【招架】效果，持续<span style=''whiteSpace: "nowrap"''>20</span>秒，期间攻击敌人或受到攻击进入战斗后，立即对随机敌方单体施放【勘破•灭】。</span>'
         Type: 秘技
     Eidolons:
       '122101':
@@ -2120,8 +1838,7 @@ Characters:
         Desc: <span>战技等级+2，最多不超过15级；天赋等级+2，最多不超过15级。</span>
       '122106':
         Name: 剑胆琴心
-        Desc: >-
-          <span>【格挡】状态期间，敌方主动施放技能时无论是否攻击云璃，都会触发【勘破•灭】同时移除【格挡】效果，发动【勘破•斩】或【勘破•灭】造成伤害时暴击率提高15%，物理属性抗性穿透提高20%。</span>
+        Desc: <span>【格挡】状态期间，敌方主动施放技能时无论是否攻击云璃，都会触发【勘破•灭】同时移除【格挡】效果，发动【勘破•斩】或【勘破•灭】造成伤害时暴击率提高15%，物理属性抗性穿透提高20%。</span>
   '1222':
     Name: 灵砂
     Abilities:
@@ -2131,23 +1848,15 @@ Characters:
         Type: 普攻
       '122202':
         Name: 识烟飞彩
-        Desc: >-
-          <span>对敌方全体造成少量火属性伤害，同时为我方全体</span><span
-          style='color:#f29e38ff'>回复生命值</span><span>，使【浮元】<u>行动提前</u>。</span>
+        Desc: <span>对敌方全体造成少量火属性伤害，同时为我方全体</span><span style='color:#f29e38ff'>回复生命值</span><span>，使【浮元】<u>行动提前</u>。</span>
         Type: 战技
       '122203':
         Name: 幔亭缭霞
-        Desc: >-
-          <span>使敌方全体</span><span
-          style='color:#f29e38ff'>受到的击破伤害提高</span><span>，对敌方全体造成火属性伤害，同时为我方全体</span><span
-          style='color:#f29e38ff'>回复生命值</span><span>，使【浮元】<u>行动提前</u>。</span>
+        Desc: <span>使敌方全体</span><span style='color:#f29e38ff'>受到的击破伤害提高</span><span>，对敌方全体造成火属性伤害，同时为我方全体</span><span style='color:#f29e38ff'>回复生命值</span><span>，使【浮元】<u>行动提前</u>。</span>
         Type: 终结技
       '122204':
         Name: 烟斜雾横，氛氲化生
-        Desc: >-
-          <span>施放战技召唤【浮元】：行动时发动</span><span
-          style='color:#f29e38ff'><u>追加攻击</u></span><span>，对敌方全体造成少量火属性伤害。额外对随机敌方单体造成少量火属性伤害，优先选择韧性值大于0且有火属性弱点的目标。解除我方全体1个<u>负面效果</u>并</span><span
-          style='color:#f29e38ff'>回复生命值</span><span>。<br>重复施放战技会增加【浮元】行动次数。</span>
+        Desc: <span>施放战技召唤【浮元】：行动时发动</span><span style='color:#f29e38ff'><u>追加攻击</u></span><span>，对敌方全体造成少量火属性伤害。额外对随机敌方单体造成少量火属性伤害，优先选择韧性值大于0且有火属性弱点的目标。解除我方全体1个<u>负面效果</u>并</span><span style='color:#f29e38ff'>回复生命值</span><span>。<br>重复施放战技会增加【浮元】行动次数。</span>
         Type: 天赋
       '122206':
         Name: 攻击
@@ -2155,9 +1864,7 @@ Characters:
         Type: dev_连携
       '122207':
         Name: 流翠散云
-        Desc: >-
-          <span>使用秘技，下一次战斗开始时立即召唤【浮元】并使敌方全体</span><span
-          style='color:#f29e38ff'>受到的击破伤害提高</span><span>。</span>
+        Desc: <span>使用秘技，下一次战斗开始时立即召唤【浮元】并使敌方全体</span><span style='color:#f29e38ff'>受到的击破伤害提高</span><span>。</span>
         Type: 秘技
     Eidolons:
       '122201':
@@ -2177,8 +1884,7 @@ Characters:
         Desc: <span>战技等级+2，最多不超过15级；普攻等级+1，最多不超过10级。</span>
       '122206':
         Name: 晓兰深藏，宿香暗贮
-        Desc: >-
-          <span>【浮元】在场时，使敌方全体全属性抗性降低20%，【浮元】攻击时，额外造成4次伤害，每次伤害对随机敌方单体造成等同于灵砂50%攻击力的火属性伤害和5点削韧值，优先选择韧性值大于0且有火属性弱点的目标。</span>
+        Desc: <span>【浮元】在场时，使敌方全体全属性抗性降低20%，【浮元】攻击时，额外造成4次伤害，每次伤害对随机敌方单体造成等同于灵砂50%攻击力的火属性伤害和5点削韧值，优先选择韧性值大于0且有火属性弱点的目标。</span>
   '1223':
     Name: 貊泽
     Abilities:
@@ -2188,27 +1894,15 @@ Characters:
         Type: 普攻
       '122302':
         Name: 迅羽掠袭
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>使敌方单体成为【猎物】</span><span>，对其造成雷属性伤害，并获得</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>9</span></span><span>点充能。</span>
+        Desc: '<span></span><span style=''color:#f29e38ff''>使敌方单体成为【猎物】</span><span>，对其造成雷属性伤害，并获得</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>9</span></span><span>点充能。</span>'
         Type: 战技
       '122303':
         Name: 锋入幽渺，影出凌厉
-        Desc: >-
-          <span>对敌方单体造成雷属性伤害，并发动天赋的</span><span
-          style='color:#f29e38ff'><u>追加攻击</u></span><span>。</span>
+        Desc: <span>对敌方单体造成雷属性伤害，并发动天赋的</span><span style='color:#f29e38ff'><u>追加攻击</u></span><span>。</span>
         Type: 终结技
       '122304':
         Name: 伸天卑飞，折翅为芒
-        Desc: >-
-          <span>场上存在【猎物】时，貊泽会进入</span><span
-          style='color:#f29e38ff'><u>离场</u></span><span>状态。<br>我方目标攻击【猎物】后，貊泽造成雷属性</span><span
-          style='color:#f29e38ff'><u>附加伤害</u></span><span>，并消耗1点充能。每消耗</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>3</span></span><span>点充能，貊泽会对【猎物】发动</span><span
-          style='color:#f29e38ff'><u>追加攻击</u></span><span>，造成雷属性伤害，当充能为0时，解除目标【猎物】状态。</span>
+        Desc: '<span>场上存在【猎物】时，貊泽会进入</span><span style=''color:#f29e38ff''><u>离场</u></span><span>状态。<br>我方目标攻击【猎物】后，貊泽造成雷属性</span><span style=''color:#f29e38ff''><u>附加伤害</u></span><span>，并消耗1点充能。每消耗</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>3</span></span><span>点充能，貊泽会对【猎物】发动</span><span style=''color:#f29e38ff''><u>追加攻击</u></span><span>，造成雷属性伤害，当充能为0时，解除目标【猎物】状态。</span>'
         Type: 天赋
       '122306':
         Name: 攻击
@@ -2242,33 +1936,19 @@ Characters:
     Abilities:
       '122401':
         Name: 荡涤妖邪琉璃剑
-        Desc: >-
-          <span>对敌方单体造成少量虚数属性伤害，获得</span><span style='color:#f29e38ff'><span
-          style='whiteSpace: "nowrap"'>1</span></span><span>点充能。</span>
+        Desc: '<span>对敌方单体造成少量虚数属性伤害，获得</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>1</span></span><span>点充能。</span>'
         Type: 普攻
       '122402':
         Name: 师父，请喝茶！
-        Desc: >-
-          <span>使我方单体成为【师父】。施放普攻或造成强化普攻的伤害时，根据</span><span
-          style='color:#f29e38ff'>【师父】命途</span><span>触发对应效果：<br>「智识」、「毁灭」、「巡猎」：额外造成基于【师父】属性的</span><span
-          style='color:#f29e38ff'><u>附加伤害</u></span><span>。<br>「同谐」、「虚无」、「存护」、「丰饶」：</span><span
-          style='color:#f29e38ff'>削韧值</span><span>提高。</span>
+        Desc: <span>使我方单体成为【师父】。施放普攻或造成强化普攻的伤害时，根据</span><span style='color:#f29e38ff'>【师父】命途</span><span>触发对应效果：<br>「智识」、「毁灭」、「巡猎」：额外造成基于【师父】属性的</span><span style='color:#f29e38ff'><u>附加伤害</u></span><span>。<br>「同谐」、「虚无」、「存护」、「丰饶」：</span><span style='color:#f29e38ff'>削韧值</span><span>提高。</span>
         Type: 战技
       '122403':
         Name: 盖世女侠三月七
-        Desc: >-
-          <span>对敌方单体造成虚数属性伤害，并使</span><span
-          style='color:#f29e38ff'>下一次强化普攻</span><span>的段数和造成伤害的概率</span><span
-          style='color:#f29e38ff'>提高</span><span>。</span>
+        Desc: <span>对敌方单体造成虚数属性伤害，并使</span><span style='color:#f29e38ff'>下一次强化普攻</span><span>的段数和造成伤害的概率</span><span style='color:#f29e38ff'>提高</span><span>。</span>
         Type: 终结技
       '122404':
         Name: 师父，我悟了！
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>【师父】施放攻击或终结技</span><span>后，三月七获得充能。充能达到</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>7</span></span><span>点时立即行动，造成的伤害提高，</span><span
-          style='color:#f29e38ff'>普攻获得强化</span><span>。</span>
+        Desc: '<span></span><span style=''color:#f29e38ff''>【师父】施放攻击或终结技</span><span>后，三月七获得充能。充能达到</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>7</span></span><span>点时立即行动，造成的伤害提高，</span><span style=''color:#f29e38ff''>普攻获得强化</span><span>。</span>'
         Type: 天赋
       '122406':
         Name: 攻击
@@ -2284,8 +1964,7 @@ Characters:
         Desc: <span>场上存在【师父】时，三月七的速度提高10%。</span>
       '122402':
         Name: 白刃耀雪舞骇浪
-        Desc: >-
-          <span>每当【师父】施放普攻或战技攻击敌方目标后，三月七立即发动追加攻击，对本次攻击的主目标造成等同于三月七60%攻击力的虚数属性伤害，并根据【师父】的命途触发对应效果，随后获得1点充能。若不存在可攻击的主目标，则攻击敌方随机单体。该效果每回合最多触发1次。</span>
+        Desc: <span>每当【师父】施放普攻或战技攻击敌方目标后，三月七立即发动追加攻击，对本次攻击的主目标造成等同于三月七60%攻击力的虚数属性伤害，并根据【师父】的命途触发对应效果，随后获得1点充能。若不存在可攻击的主目标，则攻击敌方随机单体。该效果每回合最多触发1次。</span>
       '122403':
         Name: 头脑机灵本领强
         Desc: <span>战技等级+2，最多不超过15级；普攻等级+1，最多不超过10级。</span>
@@ -2311,16 +1990,11 @@ Characters:
         Type: 战技
       '130103':
         Name: 香槟仪礼
-        Desc: >-
-          <span>使敌方全体</span><span
-          style='color:#f29e38ff'>陷入【酩酊】状态</span><span>，同时对敌方全体造成火属性伤害。下一次普攻强化为【酒花奔涌】。</span>
+        Desc: <span>使敌方全体</span><span style='color:#f29e38ff'>陷入【酩酊】状态</span><span>，同时对敌方全体造成火属性伤害。下一次普攻强化为【酒花奔涌】。</span>
         Type: 终结技
       '130104':
         Name: 鏖战正酣
-        Desc: >-
-          <span>【酩酊】使目标</span><span
-          style='color:#f29e38ff'>受到的击破伤害提高</span><span>，目标每次受到我方角色攻击后，</span><span
-          style='color:#f29e38ff'>攻击者回复生命值</span><span>。</span>
+        Desc: <span>【酩酊】使目标</span><span style='color:#f29e38ff'>受到的击破伤害提高</span><span>，目标每次受到我方角色攻击后，</span><span style='color:#f29e38ff'>攻击者回复生命值</span><span>。</span>
         Type: 天赋
       '130106':
         Name: 攻击
@@ -2328,9 +2002,7 @@ Characters:
         Type: dev_连携
       '130107':
         Name: 亲启佳酿
-        Desc: >-
-          <span>攻击敌人，进战后使敌方全体</span><span
-          style='color:#f29e38ff'>陷入【酩酊】状态</span><span>，并对敌方全体造成少量火属性伤害。</span>
+        Desc: <span>攻击敌人，进战后使敌方全体</span><span style='color:#f29e38ff'>陷入【酩酊】状态</span><span>，并对敌方全体造成少量火属性伤害。</span>
         Type: 秘技
     Eidolons:
       '130101':
@@ -2364,16 +2036,11 @@ Characters:
         Type: 战技
       '130203':
         Name: 驻于花庭，赐与尽美
-        Desc: >-
-          <span>消耗</span><span style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>90</span></span><span>点能量，对敌方全体造成物理属性伤害。</span>
+        Desc: '<span>消耗</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>90</span></span><span>点能量，对敌方全体造成物理属性伤害。</span>'
         Type: 终结技
       '130204':
         Name: 崇高的客体
-        Desc: >-
-          <span>施放普攻、战技、终结技时，每击中1个敌方目标，为银枝</span><span
-          style='color:#f29e38ff'>恢复能量</span><span>并提高自身</span><span
-          style='color:#f29e38ff'>暴击率</span><span>。</span>
+        Desc: <span>施放普攻、战技、终结技时，每击中1个敌方目标，为银枝</span><span style='color:#f29e38ff'>恢复能量</span><span>并提高自身</span><span style='color:#f29e38ff'>暴击率</span><span>。</span>
         Type: 天赋
       '130206':
         Name: 攻击
@@ -2411,23 +2078,15 @@ Characters:
         Type: 普攻
       '130302':
         Name: 慢捻抹复挑
-        Desc: >-
-          <span>施放战技后阮•梅获得【弦外音】。当阮•梅拥有【弦外音】时，提高我方全体的</span><span
-          style='color:#f29e38ff'>伤害</span><span>和</span><span
-          style='color:#f29e38ff'>弱点击破效率</span><span>。</span>
+        Desc: <span>施放战技后阮•梅获得【弦外音】。当阮•梅拥有【弦外音】时，提高我方全体的</span><span style='color:#f29e38ff'>伤害</span><span>和</span><span style='color:#f29e38ff'>弱点击破效率</span><span>。</span>
         Type: 战技
       '130303':
         Name: 摇花缎水，沾衣不摘
-        Desc: >-
-          <span>使我方全体</span><span
-          style='color:#f29e38ff'>全属性抗性穿透</span><span>提高，且攻击后对敌方目标施加【残梅绽】。</span>
+        Desc: <span>使我方全体</span><span style='color:#f29e38ff'>全属性抗性穿透</span><span>提高，且攻击后对敌方目标施加【残梅绽】。</span>
         Type: 终结技
       '130304':
         Name: 分型的螺旋
-        Desc: >-
-          <span>使除自身以外的队友</span><span
-          style='color:#f29e38ff'>速度</span><span>提高，击破敌方目标弱点时对其</span><span
-          style='color:#f29e38ff'>额外造成冰属性击破伤害</span><span>。</span>
+        Desc: <span>使除自身以外的队友</span><span style='color:#f29e38ff'>速度</span><span>提高，击破敌方目标弱点时对其</span><span style='color:#f29e38ff'>额外造成冰属性击破伤害</span><span>。</span>
         Type: 天赋
       '130306':
         Name: 攻击
@@ -2435,11 +2094,7 @@ Characters:
         Type: dev_连携
       '130307':
         Name: 拭琴抚罗袂
-        Desc: >-
-          <span>下一次进战后自动触发</span><span style='color:#f29e38ff'><span
-          style='whiteSpace:
-          "nowrap"'>1</span></span><span>次战技。使用秘技后，我方攻击模拟宇宙、差分宇宙的敌人总视为弱点进战，且</span><span
-          style='color:#f29e38ff'>无视弱点属性</span><span>削减韧性。每拥有1个祝福，削韧值提高且击破时额外造成击破伤害。</span>
+        Desc: '<span>下一次进战后自动触发</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>1</span></span><span>次战技。使用秘技后，我方攻击模拟宇宙、差分宇宙的敌人总视为弱点进战，且</span><span style=''color:#f29e38ff''>无视弱点属性</span><span>削减韧性。每拥有1个祝福，削韧值提高且击破时额外造成击破伤害。</span>'
         Type: 秘技
     Eidolons:
       '130301':
@@ -2469,21 +2124,15 @@ Characters:
         Type: 普攻
       '130402':
         Name: 繁荣基石
-        Desc: >-
-          <span>为我方全体提供</span><span
-          style='color:#f29e38ff'>可叠加护盾量</span><span>的护盾【坚垣筹码】。</span>
+        Desc: <span>为我方全体提供</span><span style='color:#f29e38ff'>可叠加护盾量</span><span>的护盾【坚垣筹码】。</span>
         Type: 战技
       '130403':
         Name: 轮盘勋爵
-        Desc: >-
-          <span>随机获得【盲注】，使敌方单体陷入【惊惶】状态，并对目标造成虚数属性伤害，我方目标击中【惊惶】状态下的敌方目标时，造成的</span><span
-          style='color:#f29e38ff'>暴击伤害提高</span><span>。</span>
+        Desc: <span>随机获得【盲注】，使敌方单体陷入【惊惶】状态，并对目标造成虚数属性伤害，我方目标击中【惊惶】状态下的敌方目标时，造成的</span><span style='color:#f29e38ff'>暴击伤害提高</span><span>。</span>
         Type: 终结技
       '130404':
         Name: 枪口以右
-        Desc: >-
-          <span>持有【坚垣筹码】的我方单体效果抵抗提高，并在受到攻击时，为砂金积攒【盲注】，砂金持有【坚垣筹码】时能抵抗<u>控制类负面状态</u>。【盲注】达到7点后，砂金会消耗7点【盲注】发动</span><span
-          style='color:#f29e38ff'><u>追加攻击</u></span><span>，对随机敌方单体造成少量虚数属性伤害，共弹射7次。</span>
+        Desc: <span>持有【坚垣筹码】的我方单体效果抵抗提高，并在受到攻击时，为砂金积攒【盲注】，砂金持有【坚垣筹码】时能抵抗<u>控制类负面状态</u>。【盲注】达到7点后，砂金会消耗7点【盲注】发动</span><span style='color:#f29e38ff'><u>追加攻击</u></span><span>，对随机敌方单体造成少量虚数属性伤害，共弹射7次。</span>
         Type: 天赋
       '130406':
         Name: 攻击
@@ -2496,8 +2145,7 @@ Characters:
     Eidolons:
       '130401':
         Name: 囚徒博弈
-        Desc: >-
-          <span>持有【坚垣筹码】的我方目标暴击伤害提高20%。施放终结技后，为我方全体提供护盾【坚垣筹码】，护盾量等同于战技提供的护盾量的100%，持续3回合。</span>
+        Desc: <span>持有【坚垣筹码】的我方目标暴击伤害提高20%。施放终结技后，为我方全体提供护盾【坚垣筹码】，护盾量等同于战技提供的护盾量的100%，持续3回合。</span>
       '130402':
         Name: 有限理性
         Desc: <span>施放普攻时使目标的全属性抗性降低12%，持续3回合。</span>
@@ -2526,15 +2174,11 @@ Characters:
         Type: 战技
       '130503':
         Name: 三段悖论
-        Desc: >-
-          <span>对指定敌方单体造成虚数属性伤害，为其附上【智者的短见】，真理医生的队友攻击持有【智者的短见】的目标时，真理医生对该目标发动1次</span><span
-          style='color:#f29e38ff'><u>追加攻击</u></span><span>。</span>
+        Desc: <span>对指定敌方单体造成虚数属性伤害，为其附上【智者的短见】，真理医生的队友攻击持有【智者的短见】的目标时，真理医生对该目标发动1次</span><span style='color:#f29e38ff'><u>追加攻击</u></span><span>。</span>
         Type: 终结技
       '130504':
         Name: 我思故我在
-        Desc: >-
-          <span>施放战技时，有概率对该目标发动1次</span><span
-          style='color:#f29e38ff'><u>追加攻击</u></span><span>。</span>
+        Desc: <span>施放战技时，有概率对该目标发动1次</span><span style='color:#f29e38ff'><u>追加攻击</u></span><span>。</span>
         Type: 天赋
       '130506':
         Name: 攻击
@@ -2542,9 +2186,7 @@ Characters:
         Type: dev_连携
       '130507':
         Name: 偶像塑造
-        Desc: >-
-          <span>制造特殊领域。领域内敌人受到嘲讽。与领域内敌人进入战斗后，大概率使敌方目标</span><span
-          style='color:#f29e38ff'>速度降低</span><span>。</span>
+        Desc: <span>制造特殊领域。领域内敌人受到嘲讽。与领域内敌人进入战斗后，大概率使敌方目标</span><span style='color:#f29e38ff'>速度降低</span><span>。</span>
         Type: 秘技
     Eidolons:
       '130501':
@@ -2552,8 +2194,7 @@ Characters:
         Desc: <span>行迹【归纳】的叠加层数上限提高4层。战斗开始时，立即获得4层【归纳】。需要先解锁行迹【归纳】。</span>
       '130502':
         Name: 显微而阐幽
-        Desc: >-
-          <span>天赋的追加攻击击中目标时，目标每有1个负面效果，则额外造成等同于真理医生20%攻击力的虚数属性附加伤害。该效果在每次追加攻击中最多触发4次。</span>
+        Desc: <span>天赋的追加攻击击中目标时，目标每有1个负面效果，则额外造成等同于真理医生20%攻击力的虚数属性附加伤害。该效果在每次追加攻击中最多触发4次。</span>
       '130503':
         Name: 认识你自己
         Desc: <span>终结技等级+2，最多不超过15级；普攻等级+1，最多不超过10级。</span>
@@ -2575,22 +2216,15 @@ Characters:
         Type: 普攻
       '130602':
         Name: 梦游鱼
-        Desc: >-
-          <span>使我方单体</span><span
-          style='color:#f29e38ff'>暴击伤害</span><span>提高，并使该目标行动提前。</span>
+        Desc: <span>使我方单体</span><span style='color:#f29e38ff'>暴击伤害</span><span>提高，并使该目标行动提前。</span>
         Type: 战技
       '130603':
         Name: 一人千役
-        Desc: >-
-          <span>为我方恢复</span><span
-          style='color:#f29e38ff'>战技点</span><span>，使触发花火天赋的伤害提高效果额外提高。</span>
+        Desc: <span>为我方恢复</span><span style='color:#f29e38ff'>战技点</span><span>，使触发花火天赋的伤害提高效果额外提高。</span>
         Type: 终结技
       '130604':
         Name: 叙述性诡计
-        Desc: >-
-          <span>我方的</span><span
-          style='color:#f29e38ff'>战技点上限</span><span>提高，我方目标消耗战技点时，使我方全体</span><span
-          style='color:#f29e38ff'>造成的伤害</span><span>提高。</span>
+        Desc: <span>我方的</span><span style='color:#f29e38ff'>战技点上限</span><span>提高，我方目标消耗战技点时，使我方全体</span><span style='color:#f29e38ff'>造成的伤害</span><span>提高。</span>
         Type: 天赋
       '130606':
         Name: 攻击
@@ -2598,9 +2232,7 @@ Characters:
         Type: dev_连携
       '130607':
         Name: 不可靠叙事者
-        Desc: >-
-          <span>使用秘技后，我方全体进入【迷误】状态。【迷误】状态下不会被敌人发现。【迷误】状态期间进入战斗时为我方恢复</span><span
-          style='color:#f29e38ff'>战技点</span><span>。</span>
+        Desc: <span>使用秘技后，我方全体进入【迷误】状态。【迷误】状态下不会被敌人发现。【迷误】状态期间进入战斗时为我方恢复</span><span style='color:#f29e38ff'>战技点</span><span>。</span>
         Type: 秘技
     Eidolons:
       '130601':
@@ -2620,36 +2252,25 @@ Characters:
         Desc: <span>终结技等级+2，最多不超过15级；天赋等级+2，最多不超过15级。</span>
       '130606':
         Name: 多重解答
-        Desc: >-
-          <span>战技的暴击伤害提高效果额外提高，提高数值等同于花火暴击伤害的30%，花火施放战技时，使战技的暴击伤害提高效果对持有【谜诡】的队友都会生效，花火施放终结技时，若我方单体中有目标持有战技的暴击伤害提高效果，使该效果扩散至持有【谜诡】的队友。</span>
+        Desc: <span>战技的暴击伤害提高效果额外提高，提高数值等同于花火暴击伤害的30%，花火施放战技时，使战技的暴击伤害提高效果对持有【谜诡】的队友都会生效，花火施放终结技时，若我方单体中有目标持有战技的暴击伤害提高效果，使该效果扩散至持有【谜诡】的队友。</span>
   '1307':
     Name: 黑天鹅
     Abilities:
       '130701':
         Name: 洞见，缄默的黎明
-        Desc: >-
-          <span>对敌方单体造成少量风属性伤害，有概率对目标施加【<u>奥迹</u>】。攻击陷入</span><span
-          style='color:#f29e38ff'>风化、裂伤、灼烧、触电</span><span>状态的目标后，分别有概率</span><span
-          style='color:#f29e38ff'>额外施加【<u>奥迹</u>】</span><span>。</span>
+        Desc: <span>对敌方单体造成少量风属性伤害，有概率对目标施加【<u>奥迹</u>】。攻击陷入</span><span style='color:#f29e38ff'>风化、裂伤、灼烧、触电</span><span>状态的目标后，分别有概率</span><span style='color:#f29e38ff'>额外施加【<u>奥迹</u>】</span><span>。</span>
         Type: 普攻
       '130702':
         Name: 失坠，伪神的黄昏
-        Desc: >-
-          <span>对敌方单体及其相邻目标造成少量风属性伤害，大概率对目标</span><span
-          style='color:#f29e38ff'>施加【<u>奥迹</u>】</span><span>，并有大概率使目标防御力降低。</span>
+        Desc: <span>对敌方单体及其相邻目标造成少量风属性伤害，大概率对目标</span><span style='color:#f29e38ff'>施加【<u>奥迹</u>】</span><span>，并有大概率使目标防御力降低。</span>
         Type: 战技
       '130703':
         Name: 沉醉于彼界的臂湾
-        Desc: >-
-          <span>对敌方全体施加【揭露】状态，使目标回合内受到的伤害提高，并</span><span
-          style='color:#f29e38ff'>将【<u>奥迹</u>】视为风化、裂伤、灼烧、触电</span><span>状态，此外使【<u>奥迹</u>】下一次回合开始造成伤害后不重置层数。对敌方全体造成风属性伤害。</span>
+        Desc: <span>对敌方全体施加【揭露】状态，使目标回合内受到的伤害提高，并</span><span style='color:#f29e38ff'>将【<u>奥迹</u>】视为风化、裂伤、灼烧、触电</span><span>状态，此外使【<u>奥迹</u>】下一次回合开始造成伤害后不重置层数。对敌方全体造成风属性伤害。</span>
         Type: 终结技
       '130704':
         Name: 无端命运的机杼
-        Desc: >-
-          <span>敌方目标每回合开始受到持续伤害时，有概率陷入【<u>奥迹</u>】，在回合开始时受到</span><span
-          style='color:#f29e38ff'>风属性持续伤害</span><span>，并且黑天鹅根据【<u>奥迹</u>】层数触发</span><span
-          style='color:#f29e38ff'>额外效果</span><span>。</span>
+        Desc: <span>敌方目标每回合开始受到持续伤害时，有概率陷入【<u>奥迹</u>】，在回合开始时受到</span><span style='color:#f29e38ff'>风属性持续伤害</span><span>，并且黑天鹅根据【<u>奥迹</u>】层数触发</span><span style='color:#f29e38ff'>额外效果</span><span>。</span>
         Type: 天赋
       '130706':
         Name: 攻击
@@ -2657,9 +2278,7 @@ Characters:
         Type: dev_连携
       '130707':
         Name: 取此真相，弃舍表征
-        Desc: >-
-          <span>使用秘技后，下一次战斗开始时大概率对敌方每个单体目标</span><span
-          style='color:#f29e38ff'>施加【<u>奥迹</u>】，重复数次直到施加失败</span><span>。</span>
+        Desc: <span>使用秘技后，下一次战斗开始时大概率对敌方每个单体目标</span><span style='color:#f29e38ff'>施加【<u>奥迹</u>】，重复数次直到施加失败</span><span>。</span>
         Type: 秘技
     Eidolons:
       '130701':
@@ -2673,15 +2292,13 @@ Characters:
         Desc: <span>战技等级+2，最多不超过15级，天赋等级+2，最多不超过15级。</span>
       '130704':
         Name: 泪水，亦是礼物
-        Desc: >-
-          <span>【揭露】状态下，敌方目标效果抵抗降低10%，且每回合开始时或被消灭时使黑天鹅恢复8点能量。能量恢复效果在【揭露】状态持续时间内最多触发1次，再次陷入【揭露】状态会刷新触发次数。</span>
+        Desc: <span>【揭露】状态下，敌方目标效果抵抗降低10%，且每回合开始时或被消灭时使黑天鹅恢复8点能量。能量恢复效果在【揭露】状态持续时间内最多触发1次，再次陷入【揭露】状态会刷新触发次数。</span>
       '130705':
         Name: 候鸟之路
         Desc: <span>终结技等级+2，最多不超过15级，普攻等级+1，最多不超过10级。</span>
       '130706':
         Name: 万神皆善，苦役者未知
-        Desc: >-
-          <span>当敌方目标受到黑天鹅的队友的攻击时，黑天鹅有65%的基础概率使目标陷入1层【奥迹】。<br>每当黑天鹅使敌方目标陷入【奥迹】时，有50%的固定概率使本次叠加的【奥迹】层数额外提高1层。</span>
+        Desc: <span>当敌方目标受到黑天鹅的队友的攻击时，黑天鹅有65%的基础概率使目标陷入1层【奥迹】。<br>每当黑天鹅使敌方目标陷入【奥迹】时，有50%的固定概率使本次叠加的【奥迹】层数额外提高1层。</span>
   '1308':
     Name: 黄泉
     Abilities:
@@ -2691,24 +2308,15 @@ Characters:
         Type: 普攻
       '130802':
         Name: 八雷飞渡
-        Desc: >-
-          <span>获得</span><span style='color:#f29e38ff'></span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>1</span></span><span>点【残梦】</span><span>，为敌方单体附上</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>1</span></span><span>层【集真赤】，对其造成雷属性伤害，对相邻目标造成少量雷属性伤害。</span>
+        Desc: '<span>获得</span><span style=''color:#f29e38ff''></span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>1</span></span><span>点【残梦】</span><span>，为敌方单体附上</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>1</span></span><span>层【集真赤】，对其造成雷属性伤害，对相邻目标造成少量雷属性伤害。</span>'
         Type: 战技
       '130803':
         Name: 残梦尽染，一刀缭断
-        Desc: >-
-          <span>对敌方单体造成3段少量雷属性伤害，若消去目标【集真赤】则对敌方全体造成少量雷属性伤害。最后对敌方全体造成1段雷属性伤害并移除所有【集真赤】。</span>
+        Desc: <span>对敌方单体造成3段少量雷属性伤害，若消去目标【集真赤】则对敌方全体造成少量雷属性伤害。最后对敌方全体造成1段雷属性伤害并移除所有【集真赤】。</span>
         Type: 终结技
       '130804':
         Name: 红叶时雨，万倾一空
-        Desc: >-
-          <span>【残梦】达到上限时可激活终结技。终结技期间可</span><span
-          style='color:#f29e38ff'>无视弱点属性</span><span>削减敌方韧性，并使敌方全体</span><span
-          style='color:#f29e38ff'>全属性抗性降低</span><span>。<br>任意单位施放技能期间使敌方目标陷入负面效果，黄泉获得【残梦】并为敌方目标附上【集真赤】。</span>
+        Desc: <span>【残梦】达到上限时可激活终结技。终结技期间可</span><span style='color:#f29e38ff'>无视弱点属性</span><span>削减敌方韧性，并使敌方全体</span><span style='color:#f29e38ff'>全属性抗性降低</span><span>。<br>任意单位施放技能期间使敌方目标陷入负面效果，黄泉获得【残梦】并为敌方目标附上【集真赤】。</span>
         Type: 天赋
       '130806':
         Name: 攻击
@@ -2716,10 +2324,7 @@ Characters:
         Type: dev_连携
       '130807':
         Name: 四相断我
-        Desc: >-
-          <span>攻击敌人，每个波次开始时获得【四相断我】，对敌方全体造成雷属性伤害，并</span><span
-          style='color:#f29e38ff'>无视弱点属性</span><span>削减韧性。<br>若攻击普通敌人则</span><span
-          style='color:#f29e38ff'>立即将其消灭</span><span>，不会进入战斗。未击中敌人时不消耗秘技点。</span>
+        Desc: <span>攻击敌人，每个波次开始时获得【四相断我】，对敌方全体造成雷属性伤害，并</span><span style='color:#f29e38ff'>无视弱点属性</span><span>削减韧性。<br>若攻击普通敌人则</span><span style='color:#f29e38ff'>立即将其消灭</span><span>，不会进入战斗。未击中敌人时不消耗秘技点。</span>
         Type: 秘技
     Eidolons:
       '130801':
@@ -2727,8 +2332,7 @@ Characters:
         Desc: <span>对处于负面效果的敌方目标造成伤害时暴击率提高18%。</span>
       '130802':
         Name: 霆鼓俱寂，瑟风亦止
-        Desc: >-
-          <span>行迹【奈落】最高数值所需求「虚无」命途角色的数量减少1名，自身回合开始时获得1点【残梦】，同时为【集真赤】最多的敌方附上1层【集真赤】。</span>
+        Desc: <span>行迹【奈落】最高数值所需求「虚无」命途角色的数量减少1名，自身回合开始时获得1点【残梦】，同时为【集真赤】最多的敌方附上1层【集真赤】。</span>
       '130803':
         Name: 寒肃惊永蛰
         Desc: <span>终结技等级+2，最多不超过15级，普攻等级+1，最多不超过10级。</span>
@@ -2740,8 +2344,7 @@ Characters:
         Desc: <span>战技等级+2，最多不超过15级，天赋等级+2，最多不超过15级。</span>
       '130806':
         Name: 灾咎解桎梏
-        Desc: >-
-          <span>黄泉造成的终结技伤害全属性抗性穿透提高20%，施放普攻、战技造成的伤害同时视为终结技伤害，并无视弱点属性削减敌方韧性。击破弱点时，触发雷属性的弱点击破效果。</span>
+        Desc: <span>黄泉造成的终结技伤害全属性抗性穿透提高20%，施放普攻、战技造成的伤害同时视为终结技伤害，并无视弱点属性削减敌方韧性。击破弱点时，触发雷属性的弱点击破效果。</span>
   '1309':
     Name: 知更鸟
     Abilities:
@@ -2751,22 +2354,15 @@ Characters:
         Type: 普攻
       '130902':
         Name: 翎之咏叹调
-        Desc: >-
-          <span>使我方全体</span><span
-          style='color:#f29e38ff'>伤害提高</span><span>。</span>
+        Desc: <span>使我方全体</span><span style='color:#f29e38ff'>伤害提高</span><span>。</span>
         Type: 战技
       '130903':
         Name: 千音迭奏，群星赋格
-        Desc: >-
-          <span>进入【协奏】状态，使我方全体</span><span
-          style='color:#f29e38ff'>攻击力提高</span><span>，并使队友立即行动，攻击后知更鸟额外造成</span><span
-          style='color:#f29e38ff'>物理属性<u>附加伤害</u></span><span>。【协奏】状态期间自身免疫<u>控制类负面状态</u>，状态结束前不会进入自己回合且无法行动，直至倒计时结束。</span>
+        Desc: <span>进入【协奏】状态，使我方全体</span><span style='color:#f29e38ff'>攻击力提高</span><span>，并使队友立即行动，攻击后知更鸟额外造成</span><span style='color:#f29e38ff'>物理属性<u>附加伤害</u></span><span>。【协奏】状态期间自身免疫<u>控制类负面状态</u>，状态结束前不会进入自己回合且无法行动，直至倒计时结束。</span>
         Type: 终结技
       '130904':
         Name: 调性合颂
-        Desc: >-
-          <span>使我方全体</span><span
-          style='color:#f29e38ff'>暴击伤害</span><span>提高，且我方角色攻击敌方后知更鸟额外恢复能量。</span>
+        Desc: <span>使我方全体</span><span style='color:#f29e38ff'>暴击伤害</span><span>提高，且我方角色攻击敌方后知更鸟额外恢复能量。</span>
         Type: 天赋
       '130906':
         Name: 攻击
@@ -2774,10 +2370,7 @@ Characters:
         Type: dev_连携
       '130907':
         Name: 酣醉序曲
-        Desc: >-
-          <span>在自身周围制造特殊领域。领域内敌人不会攻击知更鸟。领域展开期间进入战斗后，每个波次开始时知更鸟额外恢复</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>5</span></span><span>点能量。</span>
+        Desc: '<span>在自身周围制造特殊领域。领域内敌人不会攻击知更鸟。领域展开期间进入战斗后，每个波次开始时知更鸟额外恢复</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>5</span></span><span>点能量。</span>'
         Type: 秘技
     Eidolons:
       '130901':
@@ -2797,8 +2390,7 @@ Characters:
         Desc: <span>普攻等级+1，最多不超过10级，天赋等级+2，最多不超过15级。</span>
       '130906':
         Name: 月隐的午夜
-        Desc: >-
-          <span>处于【协奏】状态时，终结技造成的物理属性附加伤害的暴击伤害额外提高450%。【月隐的午夜】效果最多触发8次，每次施放终结技时重置触发次数。</span>
+        Desc: <span>处于【协奏】状态时，终结技造成的物理属性附加伤害的暴击伤害额外提高450%。【月隐的午夜】效果最多触发8次，每次施放终结技时重置触发次数。</span>
   '1310':
     Name: 流萤
     Abilities:
@@ -2812,21 +2404,11 @@ Characters:
         Type: 战技
       '131003':
         Name: 火萤Ⅳ型-完全燃烧
-        Desc: >-
-          <span>进入「完全燃烧」状态，</span><span style='color:#f29e38ff'>使自身行动提前<span
-          style='whiteSpace: "nowrap"'>100%</span></span><span>，获得</span><span
-          style='color:#f29e38ff'>强化普攻</span><span>和</span><span
-          style='color:#f29e38ff'>强化战技</span><span>，并提高自身</span><span
-          style='color:#f29e38ff'>速度、弱点击破效率和敌方目标受到的击破伤害</span><span>，直至倒计时结束。</span>
+        Desc: '<span>进入「完全燃烧」状态，</span><span style=''color:#f29e38ff''>使自身行动提前<span style=''whiteSpace: "nowrap"''>100%</span></span><span>，获得</span><span style=''color:#f29e38ff''>强化普攻</span><span>和</span><span style=''color:#f29e38ff''>强化战技</span><span>，并提高自身</span><span style=''color:#f29e38ff''>速度、弱点击破效率和敌方目标受到的击破伤害</span><span>，直至倒计时结束。</span>'
         Type: 终结技
       '131004':
         Name: 茧式源火中枢
-        Desc: >-
-          <span>生命值越低受到的伤害越低。「完全燃烧」状态下减伤效果维持最大值，效果抵抗提高。战斗开始时若能量不足</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>50%</span></span><span>则使其恢复至</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>50%</span></span><span>。当能量恢复至上限时解除自身所有<u>负面效果</u>。</span>
+        Desc: '<span>生命值越低受到的伤害越低。「完全燃烧」状态下减伤效果维持最大值，效果抵抗提高。战斗开始时若能量不足</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>50%</span></span><span>则使其恢复至</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>50%</span></span><span>。当能量恢复至上限时解除自身所有<u>负面效果</u>。</span>'
         Type: 天赋
       '131006':
         Name: 攻击
@@ -2834,10 +2416,7 @@ Characters:
         Type: dev_连携
       '131007':
         Name: Δ指令-焦土陨击
-        Desc: >-
-          <span>跳跃至空中并自由移动，移动数秒后下落并攻击范围内的所有敌人，</span><span
-          style='color:#f29e38ff'>每个波次</span><span>开始时为敌方全体</span><span
-          style='color:#f29e38ff'>添加火属性弱点</span><span>，并对敌方全体造成火属性伤害。</span>
+        Desc: <span>跳跃至空中并自由移动，移动数秒后下落并攻击范围内的所有敌人，</span><span style='color:#f29e38ff'>每个波次</span><span>开始时为敌方全体</span><span style='color:#f29e38ff'>添加火属性弱点</span><span>，并对敌方全体造成火属性伤害。</span>
         Type: 秘技
     Eidolons:
       '131001':
@@ -2845,8 +2424,7 @@ Characters:
         Desc: <span>施放强化战技时无视目标15%的防御，且强化战技不消耗战技点。</span>
       '131002':
         Name: 自破碎的天空坠落
-        Desc: >-
-          <span>「完全燃烧」状态下施放强化普攻、强化战技消灭敌方目标或使目标陷入弱点击破状态时，装甲「萨姆」立即获得1个额外回合。该效果在1回合后可再次触发。</span>
+        Desc: <span>「完全燃烧」状态下施放强化普攻、强化战技消灭敌方目标或使目标陷入弱点击破状态时，装甲「萨姆」立即获得1个额外回合。该效果在1回合后可再次触发。</span>
       '131003':
         Name: 沉睡在静默的星河
         Desc: <span>战技等级+2，最多不超过15级，普攻等级+1，最多不超过10级。</span>
@@ -2868,25 +2446,15 @@ Characters:
         Type: 普攻
       '131202':
         Name: 客…客房服务！
-        Desc: >-
-          <span>对敌方单体造成冰属性伤害，对相邻目标造成少量冰属性伤害，增加米沙下一次</span><span
-          style='color:#f29e38ff'>终结技的攻击段数</span><span>。</span>
+        Desc: <span>对敌方单体造成冰属性伤害，对相邻目标造成少量冰属性伤害，增加米沙下一次</span><span style='color:#f29e38ff'>终结技的攻击段数</span><span>。</span>
         Type: 战技
       '131203':
         Name: 要…要迟到了！
-        Desc: >-
-          <span>对敌方单体造成少量冰属性伤害，初始共弹射</span><span style='color:#f29e38ff'><span
-          style='whiteSpace: "nowrap"'>3</span></span><span>次，最多共弹射</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>10</span></span><span>次。每段攻击前小概率使目标</span><span
-          style='color:#f29e38ff'>冻结</span><span>。</span>
+        Desc: '<span>对敌方单体造成少量冰属性伤害，初始共弹射</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>3</span></span><span>次，最多共弹射</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>10</span></span><span>次。每段攻击前小概率使目标</span><span style=''color:#f29e38ff''>冻结</span><span>。</span>'
         Type: 终结技
       '131204':
         Name: 擒纵机构
-        Desc: >-
-          <span>我方全体每</span><span
-          style='color:#f29e38ff'>消耗1个战技点</span><span>，增加米沙下一次</span><span
-          style='color:#f29e38ff'>终结技的攻击段数</span><span>，同时米沙恢复能量。</span>
+        Desc: <span>我方全体每</span><span style='color:#f29e38ff'>消耗1个战技点</span><span>，增加米沙下一次</span><span style='color:#f29e38ff'>终结技的攻击段数</span><span>，同时米沙恢复能量。</span>
         Type: 天赋
       '131206':
         Name: 攻击
@@ -2894,9 +2462,7 @@ Characters:
         Type: dev_连携
       '131207':
         Name: 停一停吧，你真美丽！
-        Desc: >-
-          <span>制造特殊领域。领域内敌人行动停止。与领域内敌人进入战斗后，增加米沙下一次</span><span
-          style='color:#f29e38ff'>终结技的攻击段数</span><span>。</span>
+        Desc: <span>制造特殊领域。领域内敌人行动停止。与领域内敌人进入战斗后，增加米沙下一次</span><span style='color:#f29e38ff'>终结技的攻击段数</span><span>。</span>
         Type: 秘技
     Eidolons:
       '131201':
@@ -2926,30 +2492,15 @@ Characters:
         Type: 普攻
       '131402':
         Name: 恣肆吞併的担保
-        Desc: >-
-          <span>使我方单体成为</span><span
-          style='color:#f29e38ff'>【收债人】</span><span>，使其速度提高。</span><span
-          style='color:#f29e38ff'>【收债人】</span><span>施放攻击后，对每个击中的敌方目标造成少量量子属性<u>附加伤害</u>并消耗自身生命值。翡翠成为【收债人】时，无法获得速度提高效果且攻击后不消耗生命值。</span>
+        Desc: <span>使我方单体成为</span><span style='color:#f29e38ff'>【收债人】</span><span>，使其速度提高。</span><span style='color:#f29e38ff'>【收债人】</span><span>施放攻击后，对每个击中的敌方目标造成少量量子属性<u>附加伤害</u>并消耗自身生命值。翡翠成为【收债人】时，无法获得速度提高效果且攻击后不消耗生命值。</span>
         Type: 战技
       '131403':
         Name: 堕此欲渊，立此狱契
-        Desc: >-
-          <span>对敌方全体造成量子属性伤害，使自身获得</span><span
-          style='color:#f29e38ff'><u>追加攻击</u></span><span>伤害倍率提高。</span>
+        Desc: <span>对敌方全体造成量子属性伤害，使自身获得</span><span style='color:#f29e38ff'><u>追加攻击</u></span><span>伤害倍率提高。</span>
         Type: 终结技
       '131404':
         Name: 剔烁之牙
-        Desc: >-
-          <span>翡翠或成为</span><span
-          style='color:#f29e38ff'>【收债人】</span><span>的目标施放攻击后，每击中1个敌方目标均可获得1点充能。当充能到达</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>8</span></span><span>点后，消耗</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>8</span></span><span>点充能，发动1次</span><span
-          style='color:#f29e38ff'><u>追加攻击</u></span><span>，对敌方全体造成量子属性伤害。<br>翡翠发动</span><span
-          style='color:#f29e38ff'><u>追加攻击</u></span><span>时获得【当品】，使暴击伤害提高，最多叠加</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>50</span></span><span>层。</span>
+        Desc: '<span>翡翠或成为</span><span style=''color:#f29e38ff''>【收债人】</span><span>的目标施放攻击后，每击中1个敌方目标均可获得1点充能。当充能到达</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>8</span></span><span>点后，消耗</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>8</span></span><span>点充能，发动1次</span><span style=''color:#f29e38ff''><u>追加攻击</u></span><span>，对敌方全体造成量子属性伤害。<br>翡翠发动</span><span style=''color:#f29e38ff''><u>追加攻击</u></span><span>时获得【当品】，使暴击伤害提高，最多叠加</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>50</span></span><span>层。</span>'
         Type: 天赋
       '131406':
         Name: 攻击
@@ -2957,16 +2508,12 @@ Characters:
         Type: dev_连携
       '131407':
         Name: 猎手的视界
-        Desc: >-
-          <span>使一定区域内敌人陷入【盲从】状态。攻击陷入【盲从】状态敌人，使所有处于【盲从】状态的敌人同时进入战斗，进入战斗后对敌方全体造成少量量子属性伤害，立即获得</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>15</span></span><span>层【当品】。</span>
+        Desc: '<span>使一定区域内敌人陷入【盲从】状态。攻击陷入【盲从】状态敌人，使所有处于【盲从】状态的敌人同时进入战斗，进入战斗后对敌方全体造成少量量子属性伤害，立即获得</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>15</span></span><span>层【当品】。</span>'
         Type: 秘技
     Eidolons:
       '131401':
         Name: 无私？亦可交割
-        Desc: >-
-          <span>翡翠天赋的追加攻击伤害提高32%，持有【收债人】状态的角色施放攻击后击中敌方目标数量等于2/1名时，翡翠额外获得1/2点充能。</span>
+        Desc: <span>翡翠天赋的追加攻击伤害提高32%，持有【收债人】状态的角色施放攻击后击中敌方目标数量等于2/1名时，翡翠额外获得1/2点充能。</span>
       '131402':
         Name: 道德？谨此核押
         Desc: <span>【当品】叠加至15层时，翡翠暴击率提高18%。</span>
@@ -2991,24 +2538,15 @@ Characters:
         Type: 普攻
       '131502':
         Name: 炽砾舞者的探戈
-        Desc: >-
-          <span>开启</span><span
-          style='color:#f29e38ff'>【绝命对峙】</span><span>，【绝命对峙】的目标</span><span
-          style='color:#f29e38ff'>被消灭或弱点被击破</span><span>后，波提欧获得【优势口袋】并解除【绝命对峙】。使自身</span><span
-          style='color:#f29e38ff'>获得强化普攻</span><span>，且本回合不会结束。</span>
+        Desc: <span>开启</span><span style='color:#f29e38ff'>【绝命对峙】</span><span>，【绝命对峙】的目标</span><span style='color:#f29e38ff'>被消灭或弱点被击破</span><span>后，波提欧获得【优势口袋】并解除【绝命对峙】。使自身</span><span style='color:#f29e38ff'>获得强化普攻</span><span>，且本回合不会结束。</span>
         Type: 战技
       '131503':
         Name: 尘魔舞者的日落秀
-        Desc: >-
-          <span>为敌方单体</span><span
-          style='color:#f29e38ff'>添加物理弱点</span><span>，并对其造成大量物理属性伤害，使目标行动延后。</span>
+        Desc: <span>为敌方单体</span><span style='color:#f29e38ff'>添加物理弱点</span><span>，并对其造成大量物理属性伤害，使目标行动延后。</span>
         Type: 终结技
       '131504':
         Name: 轮中五豆
-        Desc: >-
-          <span>【优势口袋】使强化普攻削韧值提高，并对</span><span
-          style='color:#f29e38ff'>被击破的敌人</span><span>额外造成物理属性</span><span
-          style='color:#f29e38ff'>击破伤害</span><span>。战斗胜利后，将【优势口袋】保留至下一次战斗中。</span>
+        Desc: <span>【优势口袋】使强化普攻削韧值提高，并对</span><span style='color:#f29e38ff'>被击破的敌人</span><span>额外造成物理属性</span><span style='color:#f29e38ff'>击破伤害</span><span>。战斗胜利后，将【优势口袋】保留至下一次战斗中。</span>
         Type: 天赋
       '131506':
         Name: 攻击
@@ -3016,9 +2554,7 @@ Characters:
         Type: dev_连携
       '131507':
         Name: 三乘九的微笑
-        Desc: >-
-          <span>使用秘技，下一次进战首次施放战技为敌方单体</span><span
-          style='color:#f29e38ff'>添加物理弱点</span><span>。</span>
+        Desc: <span>使用秘技，下一次进战首次施放战技为敌方单体</span><span style='color:#f29e38ff'>添加物理弱点</span><span>。</span>
         Type: 秘技
     Eidolons:
       '131501':
@@ -3026,22 +2562,19 @@ Characters:
         Desc: <span>战斗开始时，获得1层【优势口袋】。波提欧造成伤害时无视敌方目标16%的防御力。</span>
       '131502':
         Name: 里程碑贩子
-        Desc: >-
-          <span>处于【绝命对峙】并获得【优势口袋】时，恢复1个战技点，并且击破特攻提高30%，持续2回合。该效果单个回合内不可重复触发，在获得溢出的【优势口袋】时也会触发。</span>
+        Desc: <span>处于【绝命对峙】并获得【优势口袋】时，恢复1个战技点，并且击破特攻提高30%，持续2回合。该效果单个回合内不可重复触发，在获得溢出的【优势口袋】时也会触发。</span>
       '131503':
         Name: 大理石果园守卫
         Desc: <span>终结技等级+2，最多不超过15级，普攻等级+1，最多不超过10级。</span>
       '131504':
         Name: 冷肉名厨
-        Desc: >-
-          <span>处于【绝命对峙】的敌方目标受到波提欧攻击时，受到的伤害额外提高12%。波提欧受到处于【绝命对峙】的敌方目标的攻击时，受到的伤害提高效果降低12%。</span>
+        Desc: <span>处于【绝命对峙】的敌方目标受到波提欧攻击时，受到的伤害额外提高12%。波提欧受到处于【绝命对峙】的敌方目标的攻击时，受到的伤害提高效果降低12%。</span>
       '131505':
         Name: 树桩演说家
         Desc: <span>战技等级+2，最多不超过15级，天赋等级+2，最多不超过15级。</span>
       '131506':
         Name: 撬棍旅馆的浣熊
-        Desc: >-
-          <span>触发天赋造成击破伤害时，对目标额外造成等同于原伤害倍率40%的击破伤害，对相邻目标额外造成等同于原伤害倍率70%的击破伤害。</span>
+        Desc: <span>触发天赋造成击破伤害时，对目标额外造成等同于原伤害倍率40%的击破伤害，对相邻目标额外造成等同于原伤害倍率70%的击破伤害。</span>
   '8001':
     Name: Caelus (毁灭)
     Abilities:
@@ -3067,9 +2600,7 @@ Characters:
         Type: dev_连携
       '800107':
         Name: 不灭三振
-        Desc: >-
-          <span>使用秘技后立即为我方全体</span><span
-          style='color:#f29e38ff'>回复生命值</span><span>。</span>
+        Desc: <span>使用秘技后立即为我方全体</span><span style='color:#f29e38ff'>回复生命值</span><span>。</span>
         Type: 秘技
     Eidolons:
       '800101':
@@ -3115,9 +2646,7 @@ Characters:
         Type: dev_连携
       '800207':
         Name: 不灭三振
-        Desc: >-
-          <span>使用秘技后立即为我方全体</span><span
-          style='color:#f29e38ff'>回复生命值</span><span>。</span>
+        Desc: <span>使用秘技后立即为我方全体</span><span style='color:#f29e38ff'>回复生命值</span><span>。</span>
         Type: 秘技
     Eidolons:
       '800201':
@@ -3155,9 +2684,7 @@ Characters:
         Type: 终结技
       '800304':
         Name: 筑城者遗宝
-        Desc: >-
-          <span>被攻击时叠加【灼热意志】，【灼热意志】不低于4层时，普攻获得</span><span
-          style='color:#f29e38ff'>强化</span><span>。施放普攻、战技、终结技后，为我方全体提供护盾。</span>
+        Desc: <span>被攻击时叠加【灼热意志】，【灼热意志】不低于4层时，普攻获得</span><span style='color:#f29e38ff'>强化</span><span>。施放普攻、战技、终结技后，为我方全体提供护盾。</span>
         Type: 天赋
       '800306':
         Name: 攻击
@@ -3170,8 +2697,7 @@ Characters:
     Eidolons:
       '800301':
         Name: 大地芯髓的鸣动
-        Desc: >-
-          <span>施放普攻时，额外造成等同于开拓者25%防御力的火属性伤害；施放强化普攻时，额外造成等同于开拓者50%防御力的火属性伤害。</span>
+        Desc: <span>施放普攻时，额外造成等同于开拓者25%防御力的火属性伤害；施放强化普攻时，额外造成等同于开拓者50%防御力的火属性伤害。</span>
       '800302':
         Name: 古老寒铁的坚守
         Desc: <span>触发天赋时，为我方全体提供的护盾能够额外抵消等同于开拓者防御力2%+27的伤害。</span>
@@ -3204,9 +2730,7 @@ Characters:
         Type: 终结技
       '800404':
         Name: 筑城者遗宝
-        Desc: >-
-          <span>被攻击时叠加【灼热意志】，【灼热意志】不低于4层时，普攻获得</span><span
-          style='color:#f29e38ff'>强化</span><span>。施放普攻、战技、终结技后，为我方全体提供护盾。</span>
+        Desc: <span>被攻击时叠加【灼热意志】，【灼热意志】不低于4层时，普攻获得</span><span style='color:#f29e38ff'>强化</span><span>。施放普攻、战技、终结技后，为我方全体提供护盾。</span>
         Type: 天赋
       '800406':
         Name: 攻击
@@ -3219,8 +2743,7 @@ Characters:
     Eidolons:
       '800401':
         Name: 大地芯髓的鸣动
-        Desc: >-
-          <span>施放普攻时，额外造成等同于开拓者25%防御力的火属性伤害；施放强化普攻时，额外造成等同于开拓者50%防御力的火属性伤害。</span>
+        Desc: <span>施放普攻时，额外造成等同于开拓者25%防御力的火属性伤害；施放强化普攻时，额外造成等同于开拓者50%防御力的火属性伤害。</span>
       '800402':
         Name: 古老寒铁的坚守
         Desc: <span>触发天赋时，为我方全体提供的护盾能够额外抵消等同于开拓者防御力2%+27的伤害。</span>
@@ -3249,10 +2772,7 @@ Characters:
         Type: 战技
       '800503':
         Name: 喧嚣的舞灯巡游
-        Desc: >-
-          <span>为我方全体施加【伴舞】效果。持有【伴舞】的我方目标</span><span
-          style='color:#f29e38ff'>击破特攻提高</span><span>，并且攻击处于<u>弱点击破状态</u>下的敌方目标后，额外造成1次</span><span
-          style='color:#f29e38ff'><u>超击破伤害</u></span><span>。</span>
+        Desc: <span>为我方全体施加【伴舞】效果。持有【伴舞】的我方目标</span><span style='color:#f29e38ff'>击破特攻提高</span><span>，并且攻击处于<u>弱点击破状态</u>下的敌方目标后，额外造成1次</span><span style='color:#f29e38ff'><u>超击破伤害</u></span><span>。</span>
         Type: 终结技
       '800504':
         Name: 全屏段的高空踏歌
@@ -3298,10 +2818,7 @@ Characters:
         Type: 战技
       '800603':
         Name: 喧嚣的舞灯巡游
-        Desc: >-
-          <span>为我方全体施加【伴舞】效果。持有【伴舞】的我方目标</span><span
-          style='color:#f29e38ff'>击破特攻提高</span><span>，并且攻击处于<u>弱点击破状态</u>下的敌方目标后，额外造成1次</span><span
-          style='color:#f29e38ff'><u>超击破伤害</u></span><span>。</span>
+        Desc: <span>为我方全体施加【伴舞】效果。持有【伴舞】的我方目标</span><span style='color:#f29e38ff'>击破特攻提高</span><span>，并且攻击处于<u>弱点击破状态</u>下的敌方目标后，额外造成1次</span><span style='color:#f29e38ff'><u>超击破伤害</u></span><span>。</span>
         Type: 终结技
       '800604':
         Name: 全屏段的高空踏歌
@@ -3342,9 +2859,7 @@ RelicSets:
   '102':
     Name: 野穗伴行的快枪手
     Description2pc: '<span>攻击力提高<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
-    Description4pc: >-
-      <span>使装备者的速度提高<span style='whiteSpace: "nowrap"'>6%</span>，普攻造成的伤害提高<span
-      style='whiteSpace: "nowrap"'>10%</span>。</span>
+    Description4pc: '<span>使装备者的速度提高<span style=''whiteSpace: "nowrap"''>6%</span>，普攻造成的伤害提高<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
   '103':
     Name: 净庭教宗的圣骑士
     Description2pc: '<span>防御力提高<span style=''whiteSpace: "nowrap"''>15%</span>。</span>'
@@ -3352,257 +2867,125 @@ RelicSets:
   '104':
     Name: 密林卧雪的猎人
     Description2pc: '<span>冰属性伤害提高<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
-    Description4pc: >-
-      <span>当装备者施放终结技时，暴击伤害提高<span style='whiteSpace:
-      "nowrap"'>25%</span>，持续<span style='whiteSpace:
-      "nowrap"'>2</span>回合。</span>
+    Description4pc: '<span>当装备者施放终结技时，暴击伤害提高<span style=''whiteSpace: "nowrap"''>25%</span>，持续<span style=''whiteSpace: "nowrap"''>2</span>回合。</span>'
   '105':
     Name: 街头出身的拳王
     Description2pc: '<span>物理属性伤害提高<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
-    Description4pc: >-
-      <span>当装备者施放攻击或受到攻击后，其在本场战斗中攻击力提高<span style='whiteSpace:
-      "nowrap"'>5%</span>，最多叠加<span style='whiteSpace:
-      "nowrap"'>5</span>层。</span>
+    Description4pc: '<span>当装备者施放攻击或受到攻击后，其在本场战斗中攻击力提高<span style=''whiteSpace: "nowrap"''>5%</span>，最多叠加<span style=''whiteSpace: "nowrap"''>5</span>层。</span>'
   '106':
     Name: 戍卫风雪的铁卫
     Description2pc: '<span>受到伤害降低<span style=''whiteSpace: "nowrap"''>8%</span>。</span>'
-    Description4pc: >-
-      <span>回合开始时，如果装备者当前生命值百分比小于等于<span style='whiteSpace:
-      "nowrap"'>50%</span>，则回复等同于自身生命上限<span style='whiteSpace:
-      "nowrap"'>8%</span>的生命值，并恢复<span style='whiteSpace:
-      "nowrap"'>5</span>点能量。</span>
+    Description4pc: '<span>回合开始时，如果装备者当前生命值百分比小于等于<span style=''whiteSpace: "nowrap"''>50%</span>，则回复等同于自身生命上限<span style=''whiteSpace: "nowrap"''>8%</span>的生命值，并恢复<span style=''whiteSpace: "nowrap"''>5</span>点能量。</span>'
   '107':
     Name: 熔岩锻铸的火匠
     Description2pc: '<span>火属性伤害提高<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
-    Description4pc: >-
-      <span>使装备者战技造成的伤害提高<span style='whiteSpace:
-      "nowrap"'>12%</span>，并使施放终结技后的下一次攻击造成的火属性伤害提高<span style='whiteSpace:
-      "nowrap"'>12%</span>。</span>
+    Description4pc: '<span>使装备者战技造成的伤害提高<span style=''whiteSpace: "nowrap"''>12%</span>，并使施放终结技后的下一次攻击造成的火属性伤害提高<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
   '108':
     Name: 繁星璀璨的天才
     Description2pc: '<span>量子属性伤害提高<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
-    Description4pc: >-
-      <span>当装备者对敌方目标造成伤害时，无视其<span style='whiteSpace:
-      "nowrap"'>10%</span>的防御力。若目标拥有量子属性弱点，额外无视其<span style='whiteSpace:
-      "nowrap"'>10%</span>的防御力。</span>
+    Description4pc: '<span>当装备者对敌方目标造成伤害时，无视其<span style=''whiteSpace: "nowrap"''>10%</span>的防御力。若目标拥有量子属性弱点，额外无视其<span style=''whiteSpace: "nowrap"''>10%</span>的防御力。</span>'
   '109':
     Name: 激奏雷电的乐队
     Description2pc: '<span>雷属性伤害提高<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
-    Description4pc: >-
-      <span>当装备者施放战技时，使装备者的攻击力提高<span style='whiteSpace:
-      "nowrap"'>20%</span>，持续<span style='whiteSpace:
-      "nowrap"'>1</span>回合。</span>
+    Description4pc: '<span>当装备者施放战技时，使装备者的攻击力提高<span style=''whiteSpace: "nowrap"''>20%</span>，持续<span style=''whiteSpace: "nowrap"''>1</span>回合。</span>'
   '110':
     Name: 晨昏交界的翔鹰
     Description2pc: '<span>风属性伤害提高<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
-    Description4pc: >-
-      <span>当装备者施放终结技后，使其行动提前<span style='whiteSpace:
-      "nowrap"'>25%</span>。</span>
+    Description4pc: '<span>当装备者施放终结技后，使其行动提前<span style=''whiteSpace: "nowrap"''>25%</span>。</span>'
   '111':
     Name: 流星追迹的怪盗
     Description2pc: '<span>击破特攻提高<span style=''whiteSpace: "nowrap"''>16%</span>。</span>'
-    Description4pc: >-
-      <span>使装备者的击破特攻提高<span style='whiteSpace:
-      "nowrap"'>16%</span>。当装备者击破敌方目标弱点后，恢复<span style='whiteSpace:
-      "nowrap"'>3</span>点能量。</span>
+    Description4pc: '<span>使装备者的击破特攻提高<span style=''whiteSpace: "nowrap"''>16%</span>。当装备者击破敌方目标弱点后，恢复<span style=''whiteSpace: "nowrap"''>3</span>点能量。</span>'
   '112':
     Name: 盗匪荒漠的废土客
     Description2pc: '<span>虚数属性伤害提高<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
-    Description4pc: >-
-      <span>装备者对陷入负面效果的敌方目标造成伤害时暴击率提高<span style='whiteSpace:
-      "nowrap"'>10%</span>，对陷入禁锢状态的敌方目标造成伤害时暴击伤害提高<span style='whiteSpace:
-      "nowrap"'>20%</span>。</span>
+    Description4pc: '<span>装备者对陷入负面效果的敌方目标造成伤害时暴击率提高<span style=''whiteSpace: "nowrap"''>10%</span>，对陷入禁锢状态的敌方目标造成伤害时暴击伤害提高<span style=''whiteSpace: "nowrap"''>20%</span>。</span>'
   '113':
     Name: 宝命长存的莳者
     Description2pc: '<span>生命上限提高<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
-    Description4pc: >-
-      <span>当装备者受到攻击或被我方目标消耗生命值后，暴击率提高<span style='whiteSpace:
-      "nowrap"'>8%</span>，持续<span style='whiteSpace:
-      "nowrap"'>2</span>回合，该效果最多叠加<span style='whiteSpace:
-      "nowrap"'>2</span>层。</span>
+    Description4pc: '<span>当装备者受到攻击或被我方目标消耗生命值后，暴击率提高<span style=''whiteSpace: "nowrap"''>8%</span>，持续<span style=''whiteSpace: "nowrap"''>2</span>回合，该效果最多叠加<span style=''whiteSpace: "nowrap"''>2</span>层。</span>'
   '114':
     Name: 骇域漫游的信使
     Description2pc: '<span>速度提高<span style=''whiteSpace: "nowrap"''>6%</span>。</span>'
-    Description4pc: >-
-      <span>当装备者对我方目标施放终结技时，我方全体速度提高<span style='whiteSpace:
-      "nowrap"'>12%</span>，持续<span style='whiteSpace:
-      "nowrap"'>1</span>回合，该效果无法叠加。</span>
+    Description4pc: '<span>当装备者对我方目标施放终结技时，我方全体速度提高<span style=''whiteSpace: "nowrap"''>12%</span>，持续<span style=''whiteSpace: "nowrap"''>1</span>回合，该效果无法叠加。</span>'
   '115':
     Name: 毁烬焚骨的大公
     Description2pc: '<span>追加攻击造成的伤害提高<span style=''whiteSpace: "nowrap"''>20%</span>。</span>'
-    Description4pc: >-
-      <span>装备者施放追加攻击时，根据追加攻击造成伤害的次数，每次造成伤害时使装备者的攻击力提高<span style='whiteSpace:
-      "nowrap"'>6%</span>，最多叠加<span style='whiteSpace:
-      "nowrap"'>8</span>次，持续<span style='whiteSpace:
-      "nowrap"'>3</span>回合。该效果在装备者下一次施放追加攻击时移除。</span>
+    Description4pc: '<span>装备者施放追加攻击时，根据追加攻击造成伤害的次数，每次造成伤害时使装备者的攻击力提高<span style=''whiteSpace: "nowrap"''>6%</span>，最多叠加<span style=''whiteSpace: "nowrap"''>8</span>次，持续<span style=''whiteSpace: "nowrap"''>3</span>回合。该效果在装备者下一次施放追加攻击时移除。</span>'
   '116':
     Name: 幽锁深牢的系囚
     Description2pc: '<span>攻击力提高<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
-    Description4pc: >-
-      <span>敌方目标每承受1个持续伤害效果，装备者对其造成伤害时就无视其<span style='whiteSpace:
-      "nowrap"'>6%</span>的防御力，最多计入<span style='whiteSpace:
-      "nowrap"'>3</span>个持续伤害效果。</span>
+    Description4pc: '<span>敌方目标每承受1个持续伤害效果，装备者对其造成伤害时就无视其<span style=''whiteSpace: "nowrap"''>6%</span>的防御力，最多计入<span style=''whiteSpace: "nowrap"''>3</span>个持续伤害效果。</span>'
   '117':
     Name: 死水深潜的先驱
-    Description2pc: >-
-      <span>对受负面状态影响的敌人造成的伤害提高<span style='whiteSpace:
-      "nowrap"'>12%</span>。</span>
-    Description4pc: >-
-      <span>暴击率提高<span style='whiteSpace: "nowrap"'>4%</span>，装备者对陷入不少于<span
-      style='whiteSpace: "nowrap"'>2</span>/<span style='whiteSpace:
-      "nowrap"'>3</span>个负面效果的敌方目标造成的暴击伤害提高<span style='whiteSpace:
-      "nowrap"'>8%</span>/<span style='whiteSpace:
-      "nowrap"'>12%</span>。装备者对敌方目标施加负面效果后，上述效果提高<span style='whiteSpace:
-      "nowrap"'>100%</span>，持续<span style='whiteSpace:
-      "nowrap"'>1</span>回合。</span>
+    Description2pc: '<span>对受负面状态影响的敌人造成的伤害提高<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
+    Description4pc: '<span>暴击率提高<span style=''whiteSpace: "nowrap"''>4%</span>，装备者对陷入不少于<span style=''whiteSpace: "nowrap"''>2</span>/<span style=''whiteSpace: "nowrap"''>3</span>个负面效果的敌方目标造成的暴击伤害提高<span style=''whiteSpace: "nowrap"''>8%</span>/<span style=''whiteSpace: "nowrap"''>12%</span>。装备者对敌方目标施加负面效果后，上述效果提高<span style=''whiteSpace: "nowrap"''>100%</span>，持续<span style=''whiteSpace: "nowrap"''>1</span>回合。</span>'
   '118':
     Name: 机心戏梦的钟表匠
     Description2pc: '<span>击破特攻提高<span style=''whiteSpace: "nowrap"''>16%</span>。</span>'
-    Description4pc: >-
-      <span>当装备者对我方目标施放终结技时，我方全体击破特攻提高<span style='whiteSpace:
-      "nowrap"'>30%</span>，持续<span style='whiteSpace:
-      "nowrap"'>2</span>回合，该效果无法叠加。</span>
+    Description4pc: '<span>当装备者对我方目标施放终结技时，我方全体击破特攻提高<span style=''whiteSpace: "nowrap"''>30%</span>，持续<span style=''whiteSpace: "nowrap"''>2</span>回合，该效果无法叠加。</span>'
   '119':
     Name: 荡除蠹灾的铁骑
     Description2pc: '<span>击破特攻提高<span style=''whiteSpace: "nowrap"''>16%</span>。</span>'
-    Description4pc: >-
-      <span>当装备者的击破特攻大于等于<span style='whiteSpace:
-      "nowrap"'>150%</span>时，对敌方目标造成的击破伤害无视其<span style='whiteSpace:
-      "nowrap"'>10%</span>的防御力。当装备者的击破特攻大于等于<span style='whiteSpace:
-      "nowrap"'>250%</span>时，对敌方目标造成的超击破伤害额外无视其<span style='whiteSpace:
-      "nowrap"'>15%</span>的防御力。</span>
+    Description4pc: '<span>当装备者的击破特攻大于等于<span style=''whiteSpace: "nowrap"''>150%</span>时，对敌方目标造成的击破伤害无视其<span style=''whiteSpace: "nowrap"''>10%</span>的防御力。当装备者的击破特攻大于等于<span style=''whiteSpace: "nowrap"''>250%</span>时，对敌方目标造成的超击破伤害额外无视其<span style=''whiteSpace: "nowrap"''>15%</span>的防御力。</span>'
   '120':
     Name: 风举云飞的勇烈
     Description2pc: '<span>攻击力提高<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
-    Description4pc: >-
-      <span>使装备者的暴击率提高<span style='whiteSpace:
-      "nowrap"'>6%</span>，装备者施放追加攻击时，使终结技造成的伤害提高<span style='whiteSpace:
-      "nowrap"'>36%</span>，持续<span style='whiteSpace:
-      "nowrap"'>1</span>回合。</span>
+    Description4pc: '<span>使装备者的暴击率提高<span style=''whiteSpace: "nowrap"''>6%</span>，装备者施放追加攻击时，使终结技造成的伤害提高<span style=''whiteSpace: "nowrap"''>36%</span>，持续<span style=''whiteSpace: "nowrap"''>1</span>回合。</span>'
   '301':
     Name: 太空封印站
-    Description2pc: >-
-      <span>使装备者的攻击力提高<span style='whiteSpace:
-      "nowrap"'>12%</span>。当装备者的速度大于等于<span style='whiteSpace:
-      "nowrap"'>120</span>时，攻击力额外提高<span style='whiteSpace:
-      "nowrap"'>12%</span>。</span>
+    Description2pc: '<span>使装备者的攻击力提高<span style=''whiteSpace: "nowrap"''>12%</span>。当装备者的速度大于等于<span style=''whiteSpace: "nowrap"''>120</span>时，攻击力额外提高<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
   '302':
     Name: 不老者的仙舟
-    Description2pc: >-
-      <span>使装备者的生命上限提高<span style='whiteSpace:
-      "nowrap"'>12%</span>。当装备者的速度大于等于<span style='whiteSpace:
-      "nowrap"'>120</span>时，我方全体攻击力提高<span style='whiteSpace:
-      "nowrap"'>8%</span>。</span>
+    Description2pc: '<span>使装备者的生命上限提高<span style=''whiteSpace: "nowrap"''>12%</span>。当装备者的速度大于等于<span style=''whiteSpace: "nowrap"''>120</span>时，我方全体攻击力提高<span style=''whiteSpace: "nowrap"''>8%</span>。</span>'
   '303':
     Name: 泛银河商业公司
-    Description2pc: >-
-      <span>使装备者的效果命中提高<span style='whiteSpace:
-      "nowrap"'>10%</span>。同时提高装备者等同于当前效果命中<span style='whiteSpace:
-      "nowrap"'>25%</span>的攻击力，最多提高<span style='whiteSpace:
-      "nowrap"'>25%</span>。</span>
+    Description2pc: '<span>使装备者的效果命中提高<span style=''whiteSpace: "nowrap"''>10%</span>。同时提高装备者等同于当前效果命中<span style=''whiteSpace: "nowrap"''>25%</span>的攻击力，最多提高<span style=''whiteSpace: "nowrap"''>25%</span>。</span>'
   '304':
     Name: 筑城者的贝洛伯格
-    Description2pc: >-
-      <span>使装备者的防御力提高<span style='whiteSpace:
-      "nowrap"'>15%</span>。当装备者的效果命中大于等于<span style='whiteSpace:
-      "nowrap"'>50%</span>时，防御力额外提高<span style='whiteSpace:
-      "nowrap"'>15%</span>。</span>
+    Description2pc: '<span>使装备者的防御力提高<span style=''whiteSpace: "nowrap"''>15%</span>。当装备者的效果命中大于等于<span style=''whiteSpace: "nowrap"''>50%</span>时，防御力额外提高<span style=''whiteSpace: "nowrap"''>15%</span>。</span>'
   '305':
     Name: 星体差分机
-    Description2pc: >-
-      <span>使装备者的暴击伤害提高<span style='whiteSpace:
-      "nowrap"'>16%</span>。当装备者的暴击伤害大于等于<span style='whiteSpace:
-      "nowrap"'>120%</span>时，进入战斗后装备者的暴击率提高<span style='whiteSpace:
-      "nowrap"'>60%</span>，持续到施放首次攻击后结束。</span>
+    Description2pc: '<span>使装备者的暴击伤害提高<span style=''whiteSpace: "nowrap"''>16%</span>。当装备者的暴击伤害大于等于<span style=''whiteSpace: "nowrap"''>120%</span>时，进入战斗后装备者的暴击率提高<span style=''whiteSpace: "nowrap"''>60%</span>，持续到施放首次攻击后结束。</span>'
   '306':
     Name: 停转的萨尔索图
-    Description2pc: >-
-      <span>使装备者的暴击率提高<span style='whiteSpace:
-      "nowrap"'>8%</span>。当装备者当前暴击率大于等于<span style='whiteSpace:
-      "nowrap"'>50%</span>时，终结技和追加攻击造成的伤害提高<span style='whiteSpace:
-      "nowrap"'>15%</span>。</span>
+    Description2pc: '<span>使装备者的暴击率提高<span style=''whiteSpace: "nowrap"''>8%</span>。当装备者当前暴击率大于等于<span style=''whiteSpace: "nowrap"''>50%</span>时，终结技和追加攻击造成的伤害提高<span style=''whiteSpace: "nowrap"''>15%</span>。</span>'
   '307':
     Name: 盗贼公国塔利亚
-    Description2pc: >-
-      <span>使装备者的击破特攻提高<span style='whiteSpace:
-      "nowrap"'>16%</span>。当装备者的速度大于等于<span style='whiteSpace:
-      "nowrap"'>145</span>时，击破特攻额外提高<span style='whiteSpace:
-      "nowrap"'>20%</span>。</span>
+    Description2pc: '<span>使装备者的击破特攻提高<span style=''whiteSpace: "nowrap"''>16%</span>。当装备者的速度大于等于<span style=''whiteSpace: "nowrap"''>145</span>时，击破特攻额外提高<span style=''whiteSpace: "nowrap"''>20%</span>。</span>'
   '308':
     Name: 生命的翁瓦克
-    Description2pc: >-
-      <span>使装备者的能量恢复效率提高<span style='whiteSpace:
-      "nowrap"'>5%</span>。当装备者的速度大于等于<span style='whiteSpace:
-      "nowrap"'>120</span>时，进入战斗时立刻使行动提前<span style='whiteSpace:
-      "nowrap"'>40%</span>。</span>
+    Description2pc: '<span>使装备者的能量恢复效率提高<span style=''whiteSpace: "nowrap"''>5%</span>。当装备者的速度大于等于<span style=''whiteSpace: "nowrap"''>120</span>时，进入战斗时立刻使行动提前<span style=''whiteSpace: "nowrap"''>40%</span>。</span>'
   '309':
     Name: 繁星竞技场
-    Description2pc: >-
-      <span>使装备者的暴击率提高<span style='whiteSpace:
-      "nowrap"'>8%</span>。当装备者的当前暴击率大于等于<span style='whiteSpace:
-      "nowrap"'>70%</span>时，普攻和战技造成的伤害提高<span style='whiteSpace:
-      "nowrap"'>20%</span>。</span>
+    Description2pc: '<span>使装备者的暴击率提高<span style=''whiteSpace: "nowrap"''>8%</span>。当装备者的当前暴击率大于等于<span style=''whiteSpace: "nowrap"''>70%</span>时，普攻和战技造成的伤害提高<span style=''whiteSpace: "nowrap"''>20%</span>。</span>'
   '310':
     Name: 折断的龙骨
-    Description2pc: >-
-      <span>使装备者的效果抵抗提高<span style='whiteSpace:
-      "nowrap"'>10%</span>。当装备者的效果抵抗大于等于<span style='whiteSpace:
-      "nowrap"'>30%</span>时，我方全体暴击伤害提高<span style='whiteSpace:
-      "nowrap"'>10%</span>。</span>
+    Description2pc: '<span>使装备者的效果抵抗提高<span style=''whiteSpace: "nowrap"''>10%</span>。当装备者的效果抵抗大于等于<span style=''whiteSpace: "nowrap"''>30%</span>时，我方全体暴击伤害提高<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
   '311':
     Name: 苍穹战线格拉默
-    Description2pc: >-
-      <span>使装备者的攻击力提高<span style='whiteSpace:
-      "nowrap"'>12%</span>。当装备者的速度大于等于<span style='whiteSpace:
-      "nowrap"'>135</span>/<span style='whiteSpace:
-      "nowrap"'>160</span>时，使装备者造成的伤害提高<span style='whiteSpace:
-      "nowrap"'>12%</span>/<span style='whiteSpace: "nowrap"'>18%</span>。</span>
+    Description2pc: '<span>使装备者的攻击力提高<span style=''whiteSpace: "nowrap"''>12%</span>。当装备者的速度大于等于<span style=''whiteSpace: "nowrap"''>135</span>/<span style=''whiteSpace: "nowrap"''>160</span>时，使装备者造成的伤害提高<span style=''whiteSpace: "nowrap"''>12%</span>/<span style=''whiteSpace: "nowrap"''>18%</span>。</span>'
   '312':
     Name: 梦想之地匹诺康尼
-    Description2pc: >-
-      <span>使装备者的能量恢复效率提高<span style='whiteSpace:
-      "nowrap"'>5%</span>。使队伍中与装备者属性相同的我方其他角色造成的伤害提高<span style='whiteSpace:
-      "nowrap"'>10%</span>。</span>
+    Description2pc: '<span>使装备者的能量恢复效率提高<span style=''whiteSpace: "nowrap"''>5%</span>。使队伍中与装备者属性相同的我方其他角色造成的伤害提高<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
   '313':
     Name: 无主荒星茨冈尼亚
-    Description2pc: >-
-      <span>使装备者的暴击率提高<span style='whiteSpace:
-      "nowrap"'>4%</span>。当敌方目标被消灭时，装备者暴击伤害提高<span style='whiteSpace:
-      "nowrap"'>4%</span>，最多叠加<span style='whiteSpace:
-      "nowrap"'>10</span>层。</span>
+    Description2pc: '<span>使装备者的暴击率提高<span style=''whiteSpace: "nowrap"''>4%</span>。当敌方目标被消灭时，装备者暴击伤害提高<span style=''whiteSpace: "nowrap"''>4%</span>，最多叠加<span style=''whiteSpace: "nowrap"''>10</span>层。</span>'
   '314':
     Name: 出云显世与高天神国
-    Description2pc: >-
-      <span>使装备者的攻击力提高<span style='whiteSpace:
-      "nowrap"'>12%</span>。进入战斗时，若至少存在一名与装备者命途相同的队友，装备者的暴击率提高<span
-      style='whiteSpace: "nowrap"'>12%</span>。</span>
+    Description2pc: '<span>使装备者的攻击力提高<span style=''whiteSpace: "nowrap"''>12%</span>。进入战斗时，若至少存在一名与装备者命途相同的队友，装备者的暴击率提高<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
   '315':
     Name: 奔狼的都蓝王朝
-    Description2pc: >-
-      <span>我方角色施放追加攻击时，装备者获得一层【功勋】，最多叠加<span style='whiteSpace:
-      "nowrap"'>5</span>层，每层【功勋】使装备者追加攻击造成的伤害提高<span style='whiteSpace:
-      "nowrap"'>5%</span>，叠满<span style='whiteSpace:
-      "nowrap"'>5</span>层时，额外使装备者的暴击伤害提高<span style='whiteSpace:
-      "nowrap"'>25%</span>。</span>
+    Description2pc: '<span>我方角色施放追加攻击时，装备者获得一层【功勋】，最多叠加<span style=''whiteSpace: "nowrap"''>5</span>层，每层【功勋】使装备者追加攻击造成的伤害提高<span style=''whiteSpace: "nowrap"''>5%</span>，叠满<span style=''whiteSpace: "nowrap"''>5</span>层时，额外使装备者的暴击伤害提高<span style=''whiteSpace: "nowrap"''>25%</span>。</span>'
   '316':
     Name: 劫火莲灯铸炼宫
-    Description2pc: >-
-      <span>使装备者的速度提高<span style='whiteSpace:
-      "nowrap"'>6%</span>。当装备者击中拥有火属性弱点的敌方目标时，击破特攻提高<span style='whiteSpace:
-      "nowrap"'>40%</span>，持续<span style='whiteSpace:
-      "nowrap"'>1</span>回合。</span>
+    Description2pc: '<span>使装备者的速度提高<span style=''whiteSpace: "nowrap"''>6%</span>。当装备者击中拥有火属性弱点的敌方目标时，击破特攻提高<span style=''whiteSpace: "nowrap"''>40%</span>，持续<span style=''whiteSpace: "nowrap"''>1</span>回合。</span>'
   '317':
     Name: 沉陆海域露莎卡
-    Description2pc: >-
-      <span>使装备者的能量恢复效率提高<span style='whiteSpace:
-      "nowrap"'>5%</span>，如果装备者不是编队中的第一位角色，使编队中的第一位角色攻击力提高<span
-      style='whiteSpace: "nowrap"'>12%</span>。</span>
+    Description2pc: '<span>使装备者的能量恢复效率提高<span style=''whiteSpace: "nowrap"''>5%</span>，如果装备者不是编队中的第一位角色，使编队中的第一位角色攻击力提高<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
   '318':
     Name: 奇想蕉乐园
-    Description2pc: >-
-      <span>使装备者的暴击伤害提高<span style='whiteSpace:
-      "nowrap"'>16%</span>，当存在装备者召唤的目标时，暴击伤害额外提高<span style='whiteSpace:
-      "nowrap"'>32%</span>。</span>
+    Description2pc: '<span>使装备者的暴击伤害提高<span style=''whiteSpace: "nowrap"''>16%</span>，当存在装备者召唤的目标时，暴击伤害额外提高<span style=''whiteSpace: "nowrap"''>32%</span>。</span>'
 Lightcones:
   '20000':
     Name: 锋镝

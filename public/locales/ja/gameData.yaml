@@ -8,22 +8,15 @@ Characters:
         Type: 通常攻撃
       '100102':
         Name: 可愛いは正義
-        Desc: >-
-          <span>味方単体に</span><span
-          style='color:#f29e38ff'>バリアを付与</span><span>。</span>
+        Desc: <span>味方単体に</span><span style='color:#f29e38ff'>バリアを付与</span><span>。</span>
         Type: 戦闘スキル
       '100103':
         Name: 氷刻矢雨の時
-        Desc: >-
-          <span>敵</span><span
-          style='color:#f29e38ff'>全体</span><span>に氷属性ダメージを与え、</span><span
-          style='color:#f29e38ff'>確率で凍結状態にする</span><span>。</span>
+        Desc: <span>敵</span><span style='color:#f29e38ff'>全体</span><span>に氷属性ダメージを与え、</span><span style='color:#f29e38ff'>確率で凍結状態にする</span><span>。</span>
         Type: 必殺技
       '100104':
         Name: 少女の特権
-        Desc: >-
-          <span>バリアを持つ味方が敵に攻撃された後、三月なのかは</span><span
-          style='color:#f29e38ff'>即座に攻撃者に<u>カウンター</u></span><span>を発動し、少量の氷属性ダメージを与える。</span>
+        Desc: <span>バリアを持つ味方が敵に攻撃された後、三月なのかは</span><span style='color:#f29e38ff'>即座に攻撃者に<u>カウンター</u></span><span>を発動し、少量の氷属性ダメージを与える。</span>
         Type: 天賦
       '100106':
         Name: 攻撃
@@ -38,15 +31,13 @@ Characters:
         Desc: <span>必殺技が敵1体を凍結状態にするたび、三月なのかはEPを6回復する。</span>
       '100102':
         Name: 記憶の中のあの子
-        Desc: >-
-          <span>戦闘に入る時、残りHP割合が最も低い味方に、三月なのかの防御力24%+320の耐久値を持つバリアを付与する、3ターン継続。</span>
+        Desc: <span>戦闘に入る時、残りHP割合が最も低い味方に、三月なのかの防御力24%+320の耐久値を持つバリアを付与する、3ターン継続。</span>
       '100103':
         Name: 記憶の中の全て
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
       '100104':
         Name: もう失いたくない
-        Desc: >-
-          <span>ターンが回ってくるたび、天賦のカウンター効果を発動できる回数+1。カウンターのダメージ基礎値が、三月なのかの防御力30%分アップする。</span>
+        Desc: <span>ターンが回ってくるたび、天賦のカウンター効果を発動できる回数+1。カウンターのダメージ基礎値が、三月なのかの防御力30%分アップする。</span>
       '100105':
         Name: もう忘れたくない
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
@@ -70,9 +61,7 @@ Characters:
         Type: 必殺技
       '100204':
         Name: 寸長寸強
-        Desc: >-
-          <span>味方スキルのターゲットになった時、次の攻撃の</span><span
-          style='color:#f29e38ff'>風属性<u>耐性貫通</u>をアップ</span><span>する。この効果は2ターン後に再度発動できる。</span>
+        Desc: <span>味方スキルのターゲットになった時、次の攻撃の</span><span style='color:#f29e38ff'>風属性<u>耐性貫通</u>をアップ</span><span>する。この効果は2ターン後に再度発動できる。</span>
         Type: 天賦
       '100206':
         Name: 攻撃
@@ -117,19 +106,14 @@ Characters:
         Type: 必殺技
       '100304':
         Name: 乗勝追撃
-        Desc: >-
-          <span>敵が弱点撃破された時にチャージを得る。<br>味方が攻撃を行った後、チャージが上限に達した場合、</span><span
-          style='color:#f29e38ff'><u>追加攻撃</u>を行い</span><span>、</span><span
-          style='color:#f29e38ff'>敵全体</span><span>に炎属性ダメージを与え、すべてのチャージを消費する。<br>戦闘開始時にチャージを1獲得する。</span>
+        Desc: <span>敵が弱点撃破された時にチャージを得る。<br>味方が攻撃を行った後、チャージが上限に達した場合、</span><span style='color:#f29e38ff'><u>追加攻撃</u>を行い</span><span>、</span><span style='color:#f29e38ff'>敵全体</span><span>に炎属性ダメージを与え、すべてのチャージを消費する。<br>戦闘開始時にチャージを1獲得する。</span>
         Type: 天賦
       '100306':
         Name: 攻撃
         Desc: ''
       '100307':
         Name: 不完全燃焼
-        Desc: >-
-          <span>特殊領域を作り出す。領域内の敵と戦闘に入った後、高確率で敵の</span><span
-          style='color:#f29e38ff'>受ける炎属性ダメージをアップする</span><span>。</span>
+        Desc: <span>特殊領域を作り出す。領域内の敵と戦闘に入った後、高確率で敵の</span><span style='color:#f29e38ff'>受ける炎属性ダメージをアップする</span><span>。</span>
         Type: 秘技
     Eidolons:
       '100301':
@@ -149,8 +133,7 @@ Characters:
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '100306':
         Name: 開拓！
-        Desc: >-
-          <span>必殺技を発動した時、さらに2ヒットし、1ヒットごとにランダムな敵単体に本来のダメージ40%分の炎属性ダメージを与える。</span>
+        Desc: <span>必殺技を発動した時、さらに2ヒットし、1ヒットごとにランダムな敵単体に本来のダメージ40%分の炎属性ダメージを与える。</span>
   '1004':
     Name: ヴェルト
     Abilities:
@@ -160,36 +143,27 @@ Characters:
         Type: 通常攻撃
       '100402':
         Name: 虚空断界
-        Desc: >-
-          <span>敵単体に少量の虚数属性ダメージを与える、3回バウンドし、確率で敵に</span><span
-          style='color:#f29e38ff'>減速状態を付与する</span><span>。</span>
+        Desc: <span>敵単体に少量の虚数属性ダメージを与える、3回バウンドし、確率で敵に</span><span style='color:#f29e38ff'>減速状態を付与する</span><span>。</span>
         Type: 戦闘スキル
       '100403':
         Name: 疑似ブラックホール
-        Desc: >-
-          <span>敵全体に虚数属性ダメージを与え、</span><span
-          style='color:#f29e38ff'>高確率で禁錮状態にする</span><span>。</span>
+        Desc: <span>敵全体に虚数属性ダメージを与え、</span><span style='color:#f29e38ff'>高確率で禁錮状態にする</span><span>。</span>
         Type: 必殺技
       '100404':
         Name: 時空の歪み
-        Desc: >-
-          <span>攻撃が減速状態の敵に命中した時、</span><span
-          style='color:#f29e38ff'>さらに少量の虚数属性<u>付加ダメージ</u>を与える</span><span>。</span>
+        Desc: <span>攻撃が減速状態の敵に命中した時、</span><span style='color:#f29e38ff'>さらに少量の虚数属性<u>付加ダメージ</u>を与える</span><span>。</span>
         Type: 天賦
       '100406':
         Name: 攻撃
         Desc: ''
       '100407':
         Name: 画地為牢
-        Desc: >-
-          <span>特殊領域を作り出す。領域内の敵の移動速度をダウンさせる。領域内の敵と戦闘に入った後、</span><span
-          style='color:#f29e38ff'>高確率で敵を禁錮状態にする</span><span>。</span>
+        Desc: <span>特殊領域を作り出す。領域内の敵の移動速度をダウンさせる。領域内の敵と戦闘に入った後、</span><span style='color:#f29e38ff'>高確率で敵を禁錮状態にする</span><span>。</span>
         Type: 秘技
     Eidolons:
       '100401':
         Name: 名の継承
-        Desc: >-
-          <span>必殺技を発動した後、ヴェルトは強化を獲得、以後2回の通常攻撃/戦闘スキルはさらに敵に付加ダメージを1回与える。通常攻撃による付加ダメージは通常攻撃のダメージ倍率の50%、戦闘スキルによる付加ダメージは戦闘スキルのダメージ倍率の80%となる。</span>
+        Desc: <span>必殺技を発動した後、ヴェルトは強化を獲得、以後2回の通常攻撃/戦闘スキルはさらに敵に付加ダメージを1回与える。通常攻撃による付加ダメージは通常攻撃のダメージ倍率の50%、戦闘スキルによる付加ダメージは戦闘スキルのダメージ倍率の80%となる。</span>
       '100402':
         Name: 星の凝集
         Desc: <span>天賦発動時、ヴェルトはEPを3回復する。</span>
@@ -214,31 +188,22 @@ Characters:
         Type: 通常攻撃
       '100502':
         Name: 月明かりが撫でる連綿
-        Desc: >-
-          <span>敵単体に雷属性ダメージを与え、隣接する敵に少量の雷属性ダメージを与える。<br>メインターゲットに持続ダメージ系デバフがある場合、持続ダメージ系デバフが</span><span
-          style='color:#f29e38ff'>さらにダメージを1回発生</span><span>する。</span>
+        Desc: <span>敵単体に雷属性ダメージを与え、隣接する敵に少量の雷属性ダメージを与える。<br>メインターゲットに持続ダメージ系デバフがある場合、持続ダメージ系デバフが</span><span style='color:#f29e38ff'>さらにダメージを1回発生</span><span>する。</span>
         Type: 戦闘スキル
       '100503':
         Name: 悲劇最果ての顫音
-        Desc: >-
-          <span>敵全体に少量の雷属性ダメージを与え、高確率で</span><span
-          style='color:#f29e38ff'>感電状態を付与</span><span>する。<br>敵が感電状態の場合、感電状態が</span><span
-          style='color:#f29e38ff'>さらにダメージを1回発生</span><span>する。</span>
+        Desc: <span>敵全体に少量の雷属性ダメージを与え、高確率で</span><span style='color:#f29e38ff'>感電状態を付与</span><span>する。<br>敵が感電状態の場合、感電状態が</span><span style='color:#f29e38ff'>さらにダメージを1回発生</span><span>する。</span>
         Type: 必殺技
       '100504':
         Name: 優しさもまた残酷
-        Desc: >-
-          <span>カフカ以外の味方が敵に通常攻撃を行った後、カフカは<u>追加攻撃</u>を行い、その敵に雷属性ダメージを与え、高確率で</span><span
-          style='color:#f29e38ff'>感電状態を付与</span><span>する。この効果はターンが回ってくるたびに1回まで発動できる。</span>
+        Desc: <span>カフカ以外の味方が敵に通常攻撃を行った後、カフカは<u>追加攻撃</u>を行い、その敵に雷属性ダメージを与え、高確率で</span><span style='color:#f29e38ff'>感電状態を付与</span><span>する。この効果はターンが回ってくるたびに1回まで発動できる。</span>
         Type: 天賦
       '100506':
         Name: 攻撃
         Desc: ''
       '100507':
         Name: 許しは慈悲に非ず
-        Desc: >-
-          <span>範囲内のすべての敵を攻撃。戦闘に入った後、敵全体に少量の雷属性ダメージを与え、高確率で</span><span
-          style='color:#f29e38ff'>感電状態を付与</span><span>する。</span>
+        Desc: <span>範囲内のすべての敵を攻撃。戦闘に入った後、敵全体に少量の雷属性ダメージを与え、高確率で</span><span style='color:#f29e38ff'>感電状態を付与</span><span>する。</span>
         Type: 秘技
     Eidolons:
       '100501':
@@ -268,21 +233,15 @@ Characters:
         Type: 通常攻撃
       '100602':
         Name: 変更を許可しますか？
-        Desc: >-
-          <span>高確率で敵単体に</span><span
-          style='color:#f29e38ff'>追加の弱点を付与</span><span>し、量子属性ダメージを与える。</span>
+        Desc: <span>高確率で敵単体に</span><span style='color:#f29e38ff'>追加の弱点を付与</span><span>し、量子属性ダメージを与える。</span>
         Type: 戦闘スキル
       '100603':
         Name: '|アカウントがBANされた|'
-        Desc: >-
-          <span>高確率で敵単体の</span><span
-          style='color:#f29e38ff'>防御力をダウン</span><span>させ、大量の量子属性ダメージを与える。</span>
+        Desc: <span>高確率で敵単体の</span><span style='color:#f29e38ff'>防御力をダウン</span><span>させ、大量の量子属性ダメージを与える。</span>
         Type: 必殺技
       '100604':
         Name: プログラム応答なし…
-        Desc: >-
-          <span>攻撃後、確率で敵に</span><span
-          style='color:#f29e38ff'>「欠陥」</span><span>を1つ埋め込む。</span>
+        Desc: <span>攻撃後、確率で敵に</span><span style='color:#f29e38ff'>「欠陥」</span><span>を1つ埋め込む。</span>
         Type: 天賦
       '100606':
         Name: 攻撃
@@ -294,8 +253,7 @@ Characters:
     Eidolons:
       '100601':
         Name: 社会工学
-        Desc: >-
-          <span>必殺技で敵を攻撃した後、敵にデバフが1つあるごとに、銀狼はEPを7回復する。この効果は一回の必殺技発動につき、最大で5回発動できる。</span>
+        Desc: <span>必殺技で敵を攻撃した後、敵にデバフが1つあるごとに、銀狼はEPを7回復する。この効果は一回の必殺技発動につき、最大で5回発動できる。</span>
       '100602':
         Name: ボットネット
         Desc: <span>敵が戦闘に入る時、効果抵抗-20%。</span>
@@ -304,8 +262,7 @@ Characters:
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '100604':
         Name: バウンス攻撃
-        Desc: >-
-          <span>必殺技で敵を攻撃した後、その敵にあるデバフ1つにつき、さらに銀狼の攻撃力20%分の量子属性付加ダメージを与える。この効果は1回の必殺技で、最大で5回発動できる。</span>
+        Desc: <span>必殺技で敵を攻撃した後、その敵にあるデバフ1つにつき、さらに銀狼の攻撃力20%分の量子属性付加ダメージを与える。この効果は1回の必殺技で、最大で5回発動できる。</span>
       '100605':
         Name: 総当たり攻撃
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
@@ -329,9 +286,7 @@ Characters:
         Type: 必殺技
       '100804':
         Name: 痛みと怒りの極み
-        Desc: >-
-          <span>自身の</span><span
-          style='color:#f29e38ff'>失ったHPの割合に応じて与ダメージをアップ</span><span>する。</span>
+        Desc: <span>自身の</span><span style='color:#f29e38ff'>失ったHPの割合に応じて与ダメージをアップ</span><span>する。</span>
         Type: 天賦
       '100806':
         Name: 攻撃
@@ -352,15 +307,13 @@ Characters:
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
       '100804':
         Name: 絶境の反撃
-        Desc: >-
-          <span>戦闘に入った後、アーランはHPが0になる攻撃を受けても戦闘不能状態にならず、HPを25%まで回復する。この効果は1回発動した後、または2ターン以降に自動解除される。</span>
+        Desc: <span>戦闘に入った後、アーランはHPが0になる攻撃を受けても戦闘不能状態にならず、HPを25%まで回復する。この効果は1回発動した後、または2ターン以降に自動解除される。</span>
       '100805':
         Name: 全力傾注
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '100806':
         Name: 献身的な先導
-        Desc: >-
-          <span>残りHPが50%以下の時、必殺技によるダメージ+20%、隣接する敵に対するダメージ倍率がメインターゲットと同じになる。</span>
+        Desc: <span>残りHPが50%以下の時、必殺技によるダメージ+20%、隣接する敵に対するダメージ倍率がメインターゲットと同じになる。</span>
   '1009':
     Name: アスター
     Abilities:
@@ -374,14 +327,11 @@ Characters:
         Type: 戦闘スキル
       '100903':
         Name: 星空祝言
-        Desc: >-
-          <span>味方全体の</span><span
-          style='color:#f29e38ff'>速度をアップさせる</span><span>。</span>
+        Desc: <span>味方全体の</span><span style='color:#f29e38ff'>速度をアップさせる</span><span>。</span>
         Type: 必殺技
       '100904':
         Name: 天象学
-        Desc: >-
-          <span>攻撃が異なる敵に命中するごとに蓄エネを1層獲得、最大で5層。蓄エネの層数に応じて味方全体の攻撃力アップ。自身のターン開始時に蓄エネ層数ダウン。</span>
+        Desc: <span>攻撃が異なる敵に命中するごとに蓄エネを1層獲得、最大で5層。蓄エネの層数に応じて味方全体の攻撃力アップ。自身のターン開始時に蓄エネ層数ダウン。</span>
         Type: 天賦
       '100906':
         Name: 攻撃
@@ -426,11 +376,7 @@ Characters:
         Type: 必殺技
       '101304':
         Name: やっぱり私がやる
-        Desc: >-
-          <span>任意の味方の攻撃によって敵の残りHPが</span><span style='color:#f29e38ff'><span
-          style='whiteSpace:
-          "nowrap"'>50%</span></span><span>以下になった時、ヘルタは即座に</span><span
-          style='color:#f29e38ff'><u>追加攻撃</u></span><span>を行い、敵全体に少量の氷属性ダメージを与える。</span>
+        Desc: '<span>任意の味方の攻撃によって敵の残りHPが</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>50%</span></span><span>以下になった時、ヘルタは即座に</span><span style=''color:#f29e38ff''><u>追加攻撃</u></span><span>を行い、敵全体に少量の氷属性ダメージを与える。</span>'
         Type: 天賦
       '101306':
         Name: 攻撃
@@ -442,8 +388,7 @@ Characters:
     Eidolons:
       '101301':
         Name: 弱みは付け込み
-        Desc: >-
-          <span>通常攻撃を行った時、指定した敵単体の残りHPが50%以下の場合、さらにヘルタの攻撃力40%分の氷属性付加ダメージを与える。</span>
+        Desc: <span>通常攻撃を行った時、指定した敵単体の残りHPが50%以下の場合、さらにヘルタの攻撃力40%分の氷属性付加ダメージを与える。</span>
       '101302':
         Name: 勝てば追い打ち
         Desc: <span>天賦が1回発動するごとに、自身の会心率+3%、この効果は最大で5回累積できる。</span>
@@ -468,19 +413,11 @@ Characters:
         Type: 通常攻撃
       '110102':
         Name: 作戦再展開
-        Desc: >-
-          <span>味方単体の</span><span
-          style='color:#f29e38ff'><u>デバフ</u></span><span>を1つ</span><span
-          style='color:#f29e38ff'>解除</span><span>し、</span><span
-          style='color:#f29e38ff'>与ダメージをアップ</span><span>させ、</span><span
-          style='color:#f29e38ff'>即座に行動させる</span><span>。</span>
+        Desc: <span>味方単体の</span><span style='color:#f29e38ff'><u>デバフ</u></span><span>を1つ</span><span style='color:#f29e38ff'>解除</span><span>し、</span><span style='color:#f29e38ff'>与ダメージをアップ</span><span>させ、</span><span style='color:#f29e38ff'>即座に行動させる</span><span>。</span>
         Type: 戦闘スキル
       '110103':
         Name: ベロブルグ行進曲
-        Desc: >-
-          <span>味方全体の</span><span
-          style='color:#f29e38ff'>攻撃力</span><span>と</span><span
-          style='color:#f29e38ff'>会心ダメージをアップ</span><span>する。</span>
+        Desc: <span>味方全体の</span><span style='color:#f29e38ff'>攻撃力</span><span>と</span><span style='color:#f29e38ff'>会心ダメージをアップ</span><span>する。</span>
         Type: 必殺技
       '110104':
         Name: 先人一歩
@@ -505,8 +442,7 @@ Characters:
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '110104':
         Name: 不意打ち
-        Desc: >-
-          <span>他の味方が、弱点が風属性の敵に通常攻撃を行った後、ブローニャは追加攻撃を行い、その敵に通常攻撃ダメージ80%分の風属性ダメージを与える、この効果はターンが回ってくるたびに1回発動できる。</span>
+        Desc: <span>他の味方が、弱点が風属性の敵に通常攻撃を行った後、ブローニャは追加攻撃を行い、その敵に通常攻撃ダメージ80%分の風属性ダメージを与える、この効果はターンが回ってくるたびに1回発動できる。</span>
       '110105':
         Name: 向かう所敵なし
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
@@ -526,26 +462,18 @@ Characters:
         Type: 戦闘スキル
       '110203':
         Name: 乱れ蝶
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>増幅状態</span><span>になり、敵単体に大量の量子属性ダメージを与える。</span>
+        Desc: <span></span><span style='color:#f29e38ff'>増幅状態</span><span>になり、敵単体に大量の量子属性ダメージを与える。</span>
         Type: 必殺技
       '110204':
         Name: 再現
-        Desc: >-
-          <span>通常攻撃、戦闘スキル、必殺技で</span><span
-          style='color:#f29e38ff'>敵を倒した</span><span>時、</span><span
-          style='color:#f29e38ff'><u>追加ターン</u>を獲得し、かつ増幅状態になる</span><span>。増幅状態では、自身の与ダメージがアップする。</span>
+        Desc: <span>通常攻撃、戦闘スキル、必殺技で</span><span style='color:#f29e38ff'>敵を倒した</span><span>時、</span><span style='color:#f29e38ff'><u>追加ターン</u>を獲得し、かつ増幅状態になる</span><span>。増幅状態では、自身の与ダメージがアップする。</span>
         Type: 天賦
       '110206':
         Name: 攻撃
         Desc: ''
       '110207':
         Name: 幻身
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>ステルス</span><span>状態になる。敵を攻撃し戦闘に入ると、即座に</span><span
-          style='color:#f29e38ff'>増幅状態</span><span>になる。</span>
+        Desc: <span></span><span style='color:#f29e38ff'>ステルス</span><span>状態になる。敵を攻撃し戦闘に入ると、即座に</span><span style='color:#f29e38ff'>増幅状態</span><span>になる。</span>
         Type: 秘技
     Eidolons:
       '110201':
@@ -565,8 +493,7 @@ Characters:
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
       '110206':
         Name: 離析
-        Desc: >-
-          <span>必殺技を発動した後、攻撃を受けた敵単体を「乱れ蝶」状態にする、1ターン継続。乱れ蝶状態の敵が攻撃を受けた後、ゼーレの必殺技ダメージ15%分の量子属性付加ダメージを1回受ける。その敵が、他の味方に「乱れ蝶」の付加ダメージを触発され倒された時、ゼーレの天賦は発動しない。<br>ゼーレが戦闘不能状態になった時、敵の「乱れ蝶」状態が解除される。</span>
+        Desc: <span>必殺技を発動した後、攻撃を受けた敵単体を「乱れ蝶」状態にする、1ターン継続。乱れ蝶状態の敵が攻撃を受けた後、ゼーレの必殺技ダメージ15%分の量子属性付加ダメージを1回受ける。その敵が、他の味方に「乱れ蝶」の付加ダメージを触発され倒された時、ゼーレの天賦は発動しない。<br>ゼーレが戦闘不能状態になった時、敵の「乱れ蝶」状態が解除される。</span>
   '1103':
     Name: セーバル
     Abilities:
@@ -576,9 +503,7 @@ Characters:
         Type: 通常攻撃
       '110302':
         Name: スパーク
-        Desc: >-
-          <span>敵単体および隣接する敵に少量の雷属性ダメージを与え、高確率で</span><span
-          style='color:#f29e38ff'>感電状態を付与</span><span>する。</span>
+        Desc: <span>敵単体および隣接する敵に少量の雷属性ダメージを与え、高確率で</span><span style='color:#f29e38ff'>感電状態を付与</span><span>する。</span>
         Type: 戦闘スキル
       '110303':
         Name: 機械ブーム登場！
@@ -586,18 +511,14 @@ Characters:
         Type: 必殺技
       '110304':
         Name: 情熱コード
-        Desc: >-
-          <span>攻撃を行った後、感電状態にあるすべての敵に</span><span
-          style='color:#f29e38ff'>少量の<u>付加ダメージ</u>を与える</span><span>。</span>
+        Desc: <span>攻撃を行った後、感電状態にあるすべての敵に</span><span style='color:#f29e38ff'>少量の<u>付加ダメージ</u>を与える</span><span>。</span>
         Type: 天賦
       '110306':
         Name: 攻撃
         Desc: ''
       '110307':
         Name: おやすみ、ベロブルグ
-        Desc: >-
-          <span>敵を攻撃。戦闘に入った後、ランダムな敵単体に少量の雷属性ダメージを与え、高確率で敵それぞれを</span><span
-          style='color:#f29e38ff'>感電状態</span><span>にする。</span>
+        Desc: <span>敵を攻撃。戦闘に入った後、ランダムな敵単体に少量の雷属性ダメージを与え、高確率で敵それぞれを</span><span style='color:#f29e38ff'>感電状態</span><span>にする。</span>
         Type: 秘技
     Eidolons:
       '110301':
@@ -627,21 +548,15 @@ Characters:
         Type: 通常攻撃
       '110402':
         Name: 震撼の一撃
-        Desc: >-
-          <span>敵単体に氷属性ダメージを与え、</span><span
-          style='color:#f29e38ff'>確率で敵を凍結状態にする</span><span>。</span>
+        Desc: <span>敵単体に氷属性ダメージを与え、</span><span style='color:#f29e38ff'>確率で敵を凍結状態にする</span><span>。</span>
         Type: 戦闘スキル
       '110403':
         Name: 永屹の壁
-        Desc: >-
-          <span>味方全体に</span><span
-          style='color:#f29e38ff'>バリアを付与</span><span>する。</span>
+        Desc: <span>味方全体に</span><span style='color:#f29e38ff'>バリアを付与</span><span>する。</span>
         Type: 必殺技
       '110404':
         Name: 不屈の体躯
-        Desc: >-
-          <span>HPが0になる攻撃を受けても</span><span
-          style='color:#f29e38ff'><u>戦闘不能状態</u>にならず</span><span>、HPを回復する。一度の戦闘で1回まで発動できる。</span>
+        Desc: <span>HPが0になる攻撃を受けても</span><span style='color:#f29e38ff'><u>戦闘不能状態</u>にならず</span><span>、HPを回復する。一度の戦闘で1回まで発動できる。</span>
         Type: 天賦
       '110406':
         Name: 攻撃
@@ -678,16 +593,11 @@ Characters:
         Type: 通常攻撃
       '110502':
         Name: 愛、救済と選択
-        Desc: >-
-          <span>味方単体の</span><span
-          style='color:#f29e38ff'>HPを回復</span><span>し、その味方に</span><span
-          style='color:#f29e38ff'>HP継続回復</span><span>効果を付与する。</span>
+        Desc: <span>味方単体の</span><span style='color:#f29e38ff'>HPを回復</span><span>し、その味方に</span><span style='color:#f29e38ff'>HP継続回復</span><span>効果を付与する。</span>
         Type: 戦闘スキル
       '110503':
         Name: 新生の礼
-        Desc: >-
-          <span>味方全体の</span><span
-          style='color:#f29e38ff'>HPを回復</span><span>する。</span>
+        Desc: <span>味方全体の</span><span style='color:#f29e38ff'>HPを回復</span><span>する。</span>
         Type: 必殺技
       '110504':
         Name: 生命の輝き
@@ -703,12 +613,10 @@ Characters:
     Eidolons:
       '110501':
         Name: 薬理遍識
-        Desc: >-
-          <span>攻撃を受けた後、残りHPが30%以下の場合、自身に治癒を1回行い、自身の最大HP15%+400のHPを回復する。この効果は一度の戦闘で1回まで発動できる。</span>
+        Desc: <span>攻撃を受けた後、残りHPが30%以下の場合、自身に治癒を1回行い、自身の最大HP15%+400のHPを回復する。この効果は一度の戦闘で1回まで発動できる。</span>
       '110502':
         Name: 臨床研学
-        Desc: >-
-          <span>必殺技を発動した時、残りHPが30%以下の味方に1ターン継続する持続治癒効果を付与する。その味方のターンが回ってきた時、ナターシャの最大HP6%+160のHPを回復する。</span>
+        Desc: <span>必殺技を発動した時、残りHPが30%以下の味方に1ターン継続する持続治癒効果を付与する。その味方のターンが回ってきた時、ナターシャの最大HP6%+160のHPを回復する。</span>
       '110503':
         Name: 因病投薬
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
@@ -730,16 +638,11 @@ Characters:
         Type: 通常攻撃
       '110602':
         Name: 低温妨害
-        Desc: >-
-          <span>敵単体の</span><span
-          style='color:#f29e38ff'><u>バフ</u></span><span>を1つ</span><span
-          style='color:#f29e38ff'>解除</span><span>し、敵単体に氷属性ダメージを与える。</span>
+        Desc: <span>敵単体の</span><span style='color:#f29e38ff'><u>バフ</u></span><span>を1つ</span><span style='color:#f29e38ff'>解除</span><span>し、敵単体に氷属性ダメージを与える。</span>
         Type: 戦闘スキル
       '110603':
         Name: 領域制圧
-        Desc: >-
-          <span>高確率で敵の</span><span
-          style='color:#f29e38ff'>防御力をダウン</span><span>し、敵全体に少量の氷属性ダメージを与える。</span>
+        Desc: <span>高確率で敵の</span><span style='color:#f29e38ff'>防御力をダウン</span><span>し、敵全体に少量の氷属性ダメージを与える。</span>
         Type: 必殺技
       '110604':
         Name: データ採取
@@ -780,22 +683,15 @@ Characters:
         Type: 通常攻撃
       '110702':
         Name: スヴァローグが見てる
-        Desc: >-
-          <span>敵全体に物理属性ダメージを与え、「反撃の印」がある敵には</span><span
-          style='color:#f29e38ff'>さらに物理属性ダメージを与える</span><span>。</span>
+        Desc: <span>敵全体に物理属性ダメージを与え、「反撃の印」がある敵には</span><span style='color:#f29e38ff'>さらに物理属性ダメージを与える</span><span>。</span>
         Type: 戦闘スキル
       '110703':
         Name: 命令じゃなくて約束
-        Desc: >-
-          <span>自身の</span><span
-          style='color:#f29e38ff'>受けるダメージダウン</span><span>、攻撃される確率アップ、<u>カウンター</u>を強化。</span>
+        Desc: <span>自身の</span><span style='color:#f29e38ff'>受けるダメージダウン</span><span>、攻撃される確率アップ、<u>カウンター</u>を強化。</span>
         Type: 必殺技
       '110704':
         Name: 家族なんだから
-        Desc: >-
-          <span>自身の</span><span
-          style='color:#f29e38ff'>受けるダメージがダウンする</span><span>。攻撃者は「反撃の印」を付与され、</span><span
-          style='color:#f29e38ff'>スヴァローグの<u>カウンター</u>を受け</span><span>、物理属性ダメージを受ける。</span>
+        Desc: <span>自身の</span><span style='color:#f29e38ff'>受けるダメージがダウンする</span><span>。攻撃者は「反撃の印」を付与され、</span><span style='color:#f29e38ff'>スヴァローグの<u>カウンター</u>を受け</span><span>、物理属性ダメージを受ける。</span>
         Type: 天賦
       '110706':
         Name: 攻撃
@@ -822,8 +718,7 @@ Characters:
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '110706':
         Name: 長い間の付き添い
-        Desc: >-
-          <span>他の味方が攻撃された後も、スヴァローグは50%の固定確率で攻撃者にカウンターを行い、その敵に「反撃の印」を付与する。必殺技を発動した時、さらに強化反撃の回数+1。</span>
+        Desc: <span>他の味方が攻撃された後も、スヴァローグは50%の固定確率で攻撃者にカウンターを行い、その敵に「反撃の印」を付与する。必殺技を発動した時、さらに強化反撃の回数+1。</span>
   '1108':
     Name: サンポ
     Abilities:
@@ -837,23 +732,18 @@ Characters:
         Type: 戦闘スキル
       '110803':
         Name: サプライズボックス
-        Desc: >-
-          <span>敵全体に風属性ダメージを与え、高確率で敵の</span><span
-          style='color:#f29e38ff'>受ける持続ダメージをアップ</span><span>する。</span>
+        Desc: <span>敵全体に風属性ダメージを与え、高確率で敵の</span><span style='color:#f29e38ff'>受ける持続ダメージをアップ</span><span>する。</span>
         Type: 必殺技
       '110804':
         Name: 風を切り裂く匕首
-        Desc: >-
-          <span>自身の攻撃が敵に命中した後、確率で敵を</span><span
-          style='color:#f29e38ff'>風化状態</span><span>にする。</span>
+        Desc: <span>自身の攻撃が敵に命中した後、確率で敵を</span><span style='color:#f29e38ff'>風化状態</span><span>にする。</span>
         Type: 天賦
       '110806':
         Name: 攻撃
         Desc: ''
       '110807':
         Name: 一番の輝きをあなたへ
-        Desc: >-
-          <span>一定範囲内の敵をブラインド状態にする。ブラインド状態の敵を攻撃して戦闘に入った後、高確率で敵それぞれの<u>行動順を遅らせる</u>。</span>
+        Desc: <span>一定範囲内の敵をブラインド状態にする。ブラインド状態の敵を攻撃して戦闘に入った後、高確率で敵それぞれの<u>行動順を遅らせる</u>。</span>
         Type: 秘技
     Eidolons:
       '110801':
@@ -867,8 +757,7 @@ Characters:
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
       '110804':
         Name: 愛する程恨む
-        Desc: >-
-          <span>戦闘スキルが風化状態5層以上の敵に命中した時、その敵が受けている風化状態が本来のダメージ8%分のダメージを発生する。</span>
+        Desc: <span>戦闘スキルが風化状態5層以上の敵に命中した時、その敵が受けている風化状態が本来のダメージ8%分のダメージを発生する。</span>
       '110805':
         Name: 超大儲け！
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
@@ -888,15 +777,11 @@ Characters:
         Type: 戦闘スキル
       '110903':
         Name: ドカン！飛んでけ花火！
-        Desc: >-
-          <span>敵単体に大量の炎属性ダメージを与え、</span><span
-          style='color:#f29e38ff'>次に発動する戦闘スキルを強化する</span><span>。</span>
+        Desc: <span>敵単体に大量の炎属性ダメージを与え、</span><span style='color:#f29e38ff'>次に発動する戦闘スキルを強化する</span><span>。</span>
         Type: 必殺技
       '110904':
         Name: はっ！火に油を注ぐ
-        Desc: >-
-          <span>燃焼状態の敵を攻撃する時、</span><span
-          style='color:#f29e38ff'>少量の炎属性<u>付加ダメージ</u>を与え</span><span>、さらにEPを回復する。</span>
+        Desc: <span>燃焼状態の敵を攻撃する時、</span><span style='color:#f29e38ff'>少量の炎属性<u>付加ダメージ</u>を与え</span><span>、さらにEPを回復する。</span>
         Type: 天賦
       '110906':
         Name: 攻撃
@@ -933,21 +818,15 @@ Characters:
         Type: 通常攻撃
       '111002':
         Name: 塩漬け野営缶詰
-        Desc: >-
-          <span>味方単体に「サバイバル反応」を与え、</span><span
-          style='color:#f29e38ff'>最大HPをアップ</span><span>し、HPを回復する。</span>
+        Desc: <span>味方単体に「サバイバル反応」を与え、</span><span style='color:#f29e38ff'>最大HPをアップ</span><span>し、HPを回復する。</span>
         Type: 戦闘スキル
       '111003':
         Name: 雪原救急処置
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>味方全体の<u>デバフ</u>を1つ解除し</span><span>、味方全体のHPを回復する。</span>
+        Desc: <span></span><span style='color:#f29e38ff'>味方全体の<u>デバフ</u>を1つ解除し</span><span>、味方全体のHPを回復する。</span>
         Type: 必殺技
       '111004':
         Name: 野外サバイバル経験
-        Desc: >-
-          <span>戦闘スキルまたは必殺技を発動した時、味方に</span><span
-          style='color:#f29e38ff'>持続HP回復効果</span><span>を付与し、その味方が「サバイバル反応」を有している場合、持続回復効果がアップする。</span>
+        Desc: <span>戦闘スキルまたは必殺技を発動した時、味方に</span><span style='color:#f29e38ff'>持続HP回復効果</span><span>を付与し、その味方が「サバイバル反応」を有している場合、持続回復効果がアップする。</span>
         Type: 天賦
       '111006':
         Name: 攻撃
@@ -974,8 +853,7 @@ Characters:
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '111006':
         Name: 製図中に迎える夜明け
-        Desc: >-
-          <span>「サバイバル反応」の最大HPアップ効果が、さらにリンクスの最大HPの6%分アップする。「サバイバル反応」を持つ味方の効果抵抗+30%。</span>
+        Desc: <span>「サバイバル反応」の最大HPアップ効果が、さらにリンクスの最大HPの6%分アップする。「サバイバル反応」を持つ味方の効果抵抗+30%。</span>
   '1111':
     Name: ルカ
     Abilities:
@@ -985,32 +863,22 @@ Characters:
         Type: 通常攻撃
       '111102':
         Name: 裂創拳
-        Desc: >-
-          <span>敵単体に物理属性ダメージを与え、高確率で敵を</span><span
-          style='color:#f29e38ff'>裂創状態</span><span>にする。</span>
+        Desc: <span>敵単体に物理属性ダメージを与え、高確率で敵を</span><span style='color:#f29e38ff'>裂創状態</span><span>にする。</span>
         Type: 戦闘スキル
       '111103':
         Name: 勝利の一撃
-        Desc: >-
-          <span>「闘志」を</span><span style='color:#f29e38ff'><span
-          style='whiteSpace:
-          "nowrap"'>2</span></span><span>層獲得する。高確率で敵単体の受けるダメージをアップし、大量の物理属性ダメージを与える。</span>
+        Desc: '<span>「闘志」を</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>2</span></span><span>層獲得する。高確率で敵単体の受けるダメージをアップし、大量の物理属性ダメージを与える。</span>'
         Type: 必殺技
       '111104':
         Name: 飛び散る火花
-        Desc: >-
-          <span>通常攻撃「裂地拳」または戦闘スキル「裂創拳」を発動した後、「闘志」を1層獲得。「闘志」が2層以上の時、</span><span
-          style='color:#f29e38ff'>通常攻撃を強化</span><span>する。<br>敵が裂創状態の場合、強化通常攻撃「砕天拳」により</span><span
-          style='color:#f29e38ff'>裂創状態がダメージを1回発生</span><span>する。</span>
+        Desc: <span>通常攻撃「裂地拳」または戦闘スキル「裂創拳」を発動した後、「闘志」を1層獲得。「闘志」が2層以上の時、</span><span style='color:#f29e38ff'>通常攻撃を強化</span><span>する。<br>敵が裂創状態の場合、強化通常攻撃「砕天拳」により</span><span style='color:#f29e38ff'>裂創状態がダメージを1回発生</span><span>する。</span>
         Type: 天賦
       '111106':
         Name: 攻撃
         Desc: ''
       '111107':
         Name: 先を行く者
-        Desc: >-
-          <span>敵を攻撃。戦闘に入った後、ランダムな敵単体に少量の物理属性ダメージを与え、高確率でその敵を</span><span
-          style='color:#f29e38ff'>裂創状態</span><span>にする。その後、「闘志」をさらに1層獲得する。</span>
+        Desc: <span>敵を攻撃。戦闘に入った後、ランダムな敵単体に少量の物理属性ダメージを与え、高確率でその敵を</span><span style='color:#f29e38ff'>裂創状態</span><span>にする。その後、「闘志」をさらに1層獲得する。</span>
         Type: 秘技
     Eidolons:
       '111101':
@@ -1030,8 +898,7 @@ Characters:
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
       '111106':
         Name: チャンピオンに相応しい喝采
-        Desc: >-
-          <span>強化通常攻撃の「砕天拳」が裂創状態の敵に命中した後、その回の攻撃で「裂地拳」を1段行ったごとに、敵に付与された裂創状態が、さらに本来のダメージ8%分のダメージを1回発生する。</span>
+        Desc: <span>強化通常攻撃の「砕天拳」が裂創状態の敵に命中した後、その回の攻撃で「裂地拳」を1段行ったごとに、敵に付与された裂創状態が、さらに本来のダメージ8%分のダメージを1回発生する。</span>
   '1112':
     Name: トパーズ&カブ
     Abilities:
@@ -1041,39 +908,27 @@ Characters:
         Type: 通常攻撃
       '111202':
         Name: 支払困難？
-        Desc: >-
-          <span>敵単体を「負債証明」状態にし、</span><span
-          style='color:#f29e38ff'>受ける追加攻撃ダメージをアップさせる</span><span>。カブはその敵に炎属性ダメージを与える。</span>
+        Desc: <span>敵単体を「負債証明」状態にし、</span><span style='color:#f29e38ff'>受ける追加攻撃ダメージをアップさせる</span><span>。カブはその敵に炎属性ダメージを与える。</span>
         Type: 戦闘スキル
       '111203':
         Name: 赤字を黒字に！
-        Desc: >-
-          <span>カブを「心躍る上昇幅！」状態にし、</span><span
-          style='color:#f29e38ff'>ダメージ倍率と会心ダメージをアップする</span><span>。</span>
+        Desc: <span>カブを「心躍る上昇幅！」状態にし、</span><span style='color:#f29e38ff'>ダメージ倍率と会心ダメージをアップする</span><span>。</span>
         Type: 必殺技
       '111204':
         Name: ピッグ・マーケット！？
-        Desc: >-
-          <span>戦闘開始時</span><span
-          style='color:#f29e38ff'>カブを召喚し</span><span>、カブの行動時に</span><span
-          style='color:#f29e38ff'>「負債証明」を付与された敵単体に追加攻撃を行う</span><span>。「負債証明」を付与された敵が追加攻撃を受けると、カブの</span><span
-          style='color:#f29e38ff'>行動順が早まる</span><span>。</span>
+        Desc: <span>戦闘開始時</span><span style='color:#f29e38ff'>カブを召喚し</span><span>、カブの行動時に</span><span style='color:#f29e38ff'>「負債証明」を付与された敵単体に追加攻撃を行う</span><span>。「負債証明」を付与された敵が追加攻撃を受けると、カブの</span><span style='color:#f29e38ff'>行動順が早まる</span><span>。</span>
         Type: 天賦
       '111206':
         Name: 攻撃
         Desc: ''
       '111207':
         Name: 公的支援金
-        Desc: >-
-          <span>マップで</span><span
-          style='color:#f29e38ff'>カブを召喚する</span><span>。カブは自動で</span><span
-          style='color:#f29e38ff'>近くにある普通の戦利品とプーマンを捜索する</span><span>。秘技を発動すると、次の戦闘中にカブが初めて攻撃を行った後、トパーズはEPを回復する。</span>
+        Desc: <span>マップで</span><span style='color:#f29e38ff'>カブを召喚する</span><span>。カブは自動で</span><span style='color:#f29e38ff'>近くにある普通の戦利品とプーマンを捜索する</span><span>。秘技を発動すると、次の戦闘中にカブが初めて攻撃を行った後、トパーズはEPを回復する。</span>
         Type: 秘技
     Eidolons:
       '111201':
         Name: フューチャーズ\nマーケット
-        Desc: >-
-          <span>「負債証明」状態の敵が追加攻撃ダメージを受ける時、「強制執行」状態を付与される。この効果は1回の攻撃で1回まで付与できる。<br>「強制執行」状態の敵が受ける追加攻撃ダメージの会心ダメージ+25%、最大で2層累積できる。「負債証明」が解除される時、「強制執行」も解除される。</span>
+        Desc: <span>「負債証明」状態の敵が追加攻撃ダメージを受ける時、「強制執行」状態を付与される。この効果は1回の攻撃で1回まで付与できる。<br>「強制執行」状態の敵が受ける追加攻撃ダメージの会心ダメージ+25%、最大で2層累積できる。「負債証明」が解除される時、「強制執行」も解除される。</span>
       '111202':
         Name: 友好的買収
         Desc: <span>カブ自身が行動し、攻撃を行った後、トパーズのEPを5回復する。</span>
@@ -1098,10 +953,7 @@ Characters:
         Type: 通常攻撃
       '120102':
         Name: 海底撈月
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>牌を取り</span><span>、自身の与ダメージをアップする。</span><span
-          style='color:#f29e38ff'>ターンは終了しない</span><span>。</span>
+        Desc: <span></span><span style='color:#f29e38ff'>牌を取り</span><span>、自身の与ダメージをアップする。</span><span style='color:#f29e38ff'>ターンは終了しない</span><span>。</span>
         Type: 戦闘スキル
       '120103':
         Name: 幺魚暗カン？アガリ！
@@ -1109,9 +961,7 @@ Characters:
         Type: 必殺技
       '120104':
         Name: 帝垣美玉
-        Desc: >-
-          <span>味方のターンが回ってきた時、牌を取る。自身のターンが回ってきた時、同じ絵柄の牌が4つある場合、牌を全部消費してその回の</span><span
-          style='color:#f29e38ff'>通常攻撃を強化</span><span>し、自身の攻撃力をアップする。</span>
+        Desc: <span>味方のターンが回ってきた時、牌を取る。自身のターンが回ってきた時、同じ絵柄の牌が4つある場合、牌を全部消費してその回の</span><span style='color:#f29e38ff'>通常攻撃を強化</span><span>し、自身の攻撃力をアップする。</span>
         Type: 天賦
       '120106':
         Name: 攻撃
@@ -1132,8 +982,7 @@ Characters:
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '120104':
         Name: 地獄待ちも穏やかに
-        Desc: >-
-          <span>戦闘スキルを発動した後、24%の固定確率で「門前ツモ」状態に入る、このターンが終了するまで継続。<br>「門前ツモ」状態では、通常攻撃または強化通常攻撃を行った後に追加攻撃を1回行い、敵にその通常攻撃または強化通常攻撃ダメージ100%分の量子属性ダメージを与える。</span>
+        Desc: <span>戦闘スキルを発動した後、24%の固定確率で「門前ツモ」状態に入る、このターンが終了するまで継続。<br>「門前ツモ」状態では、通常攻撃または強化通常攻撃を行った後に追加攻撃を1回行い、敵にその通常攻撃または強化通常攻撃ダメージ100%分の量子属性ダメージを与える。</span>
       '120105':
         Name: 世渡りは豪運任せ
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
@@ -1149,17 +998,11 @@ Characters:
         Type: 通常攻撃
       '120202':
         Name: 祥音和韻
-        Desc: >-
-          <span>味方単体の</span><span
-          style='color:#f29e38ff'>攻撃力をアップ</span><span>させ、「賜福」を与える。「賜福」がある味方は攻撃を行った時に少量の</span><span
-          style='color:#f29e38ff'>雷属性<u>付加ダメージ</u></span><span>を与える。</span>
+        Desc: <span>味方単体の</span><span style='color:#f29e38ff'>攻撃力をアップ</span><span>させ、「賜福」を与える。「賜福」がある味方は攻撃を行った時に少量の</span><span style='color:#f29e38ff'>雷属性<u>付加ダメージ</u></span><span>を与える。</span>
         Type: 戦闘スキル
       '120203':
         Name: 慶雲光覆儀祷
-        Desc: >-
-          <span>味方単体の</span><span
-          style='color:#f29e38ff'>EPを回復</span><span>し、その味方の</span><span
-          style='color:#f29e38ff'>与ダメージをアップ</span><span>する。</span>
+        Desc: <span>味方単体の</span><span style='color:#f29e38ff'>EPを回復</span><span>し、その味方の</span><span style='color:#f29e38ff'>与ダメージをアップ</span><span>する。</span>
         Type: 必殺技
       '120204':
         Name: 揺れる紫電
@@ -1178,8 +1021,7 @@ Characters:
         Desc: <span>「賜福」を与えられた味方単体は、必殺技を発動した後に速度+20%、1ターン継続。</span>
       '120202':
         Name: 君子の恩恵\n微笑みを以て承るべき
-        Desc: >-
-          <span>「賜福」を与えられた味方単体は、敵を倒した時にEPを5回復する、この効果はターンが回ってくるたびに1回まで発動できる。</span>
+        Desc: <span>「賜福」を与えられた味方単体は、敵を倒した時にEPを5回復する、この効果はターンが回ってくるたびに1回まで発動できる。</span>
       '120203':
         Name: 青丘の遺恩
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
@@ -1201,24 +1043,15 @@ Characters:
         Type: 通常攻撃
       '120302':
         Name: 白花の祈望
-        Desc: >-
-          <span>味方単体のHPを</span><span
-          style='color:#f29e38ff'>回復</span><span>し、「白花の刻」を1層獲得。</span>
+        Desc: <span>味方単体のHPを</span><span style='color:#f29e38ff'>回復</span><span>し、「白花の刻」を1層獲得。</span>
         Type: 戦闘スキル
       '120303':
         Name: 帰葬の成就
-        Desc: >-
-          <span>敵全体の</span><span
-          style='color:#f29e38ff'><u>バフ</u></span><span>を1つ</span><span
-          style='color:#f29e38ff'>解除</span><span>し、敵全体に虚数属性ダメージを与え、「白花の刻」を1層獲得する。</span>
+        Desc: <span>敵全体の</span><span style='color:#f29e38ff'><u>バフ</u></span><span>を1つ</span><span style='color:#f29e38ff'>解除</span><span>し、敵全体に虚数属性ダメージを与え、「白花の刻」を1層獲得する。</span>
         Type: 必殺技
       '120304':
         Name: 生命の輪廻
-        Desc: >-
-          <span>「白花の刻」が2層になると</span><span
-          style='color:#f29e38ff'>結界を展開する</span><span>。結界が展開されている間、味方は</span><span
-          style='color:#f29e38ff'>攻撃後</span><span>にHPを</span><span
-          style='color:#f29e38ff'>回復</span><span>する。</span>
+        Desc: <span>「白花の刻」が2層になると</span><span style='color:#f29e38ff'>結界を展開する</span><span>。結界が展開されている間、味方は</span><span style='color:#f29e38ff'>攻撃後</span><span>にHPを</span><span style='color:#f29e38ff'>回復</span><span>する。</span>
         Type: 天賦
       '120306':
         Name: 攻撃
@@ -1233,8 +1066,7 @@ Characters:
         Desc: <span>結界が展開されている間、味方全体の攻撃力+20%。</span>
       '120302':
         Name: 純庭の礼賜
-        Desc: >-
-          <span>戦闘スキルの効果が発動された時、指定した味方の残りHPが50%未満の場合、羅刹の治癒量+30%。指定した味方の残りHPが50%以上の場合、その味方に羅刹の攻撃力18%+240の耐久値を持つバリアを付与する、2ターン継続。</span>
+        Desc: <span>戦闘スキルの効果が発動された時、指定した味方の残りHPが50%未満の場合、羅刹の治癒量+30%。指定した味方の残りHPが50%以上の場合、その味方に羅刹の攻撃力18%+240の耐久値を持つバリアを付与する、2ターン継続。</span>
       '120303':
         Name: 愚者の模索
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
@@ -1256,37 +1088,27 @@ Characters:
         Type: 通常攻撃
       '120402':
         Name: 紫霄の雷鳴
-        Desc: >-
-          <span>敵全体に少量の雷属性ダメージを与え、</span><span
-          style='color:#f29e38ff'>「神君」の攻撃段数をアップさせる</span><span>。</span>
+        Desc: <span>敵全体に少量の雷属性ダメージを与え、</span><span style='color:#f29e38ff'>「神君」の攻撃段数をアップさせる</span><span>。</span>
         Type: 戦闘スキル
       '120403':
         Name: 我が身の輝き
-        Desc: >-
-          <span>敵全体に雷属性ダメージを与え、</span><span
-          style='color:#f29e38ff'>「神君」の攻撃段数をアップさせる</span><span>。</span>
+        Desc: <span>敵全体に雷属性ダメージを与え、</span><span style='color:#f29e38ff'>「神君」の攻撃段数をアップさせる</span><span>。</span>
         Type: 必殺技
       '120404':
         Name: 退魔の形神
-        Desc: >-
-          <span>戦闘開始時に「神君」を召喚する。「神君」は</span><span
-          style='color:#f29e38ff'>自動</span><span>でランダムな敵単体および隣接する敵に</span><span
-          style='color:#f29e38ff'>少量の雷属性ダメージを与える</span><span>。</span>
+        Desc: <span>戦闘開始時に「神君」を召喚する。「神君」は</span><span style='color:#f29e38ff'>自動</span><span>でランダムな敵単体および隣接する敵に</span><span style='color:#f29e38ff'>少量の雷属性ダメージを与える</span><span>。</span>
         Type: 天賦
       '120406':
         Name: 攻撃
         Desc: ''
       '120407':
         Name: 摂召威霊
-        Desc: >-
-          <span>秘技を使用すると、次の戦闘開始時に</span><span
-          style='color:#f29e38ff'>「神君」の攻撃段数がアップする</span><span>。</span>
+        Desc: <span>秘技を使用すると、次の戦闘開始時に</span><span style='color:#f29e38ff'>「神君」の攻撃段数がアップする</span><span>。</span>
         Type: 秘技
     Eidolons:
       '120401':
         Name: 流星雷霆\n山をも砕く
-        Desc: >-
-          <span>「神君」が攻撃を行う時、指定した敵単体に隣接する敵に対するダメージ倍率が、メインターゲットに対するダメージ倍率25%分アップする。</span>
+        Desc: <span>「神君」が攻撃を行う時、指定した敵単体に隣接する敵に対するダメージ倍率が、メインターゲットに対するダメージ倍率25%分アップする。</span>
       '120402':
         Name: 振るいし矛\n地動かし天開く
         Desc: <span>「神君」が行動した後、景元の通常攻撃、戦闘スキル、および必殺技によるダメージ+20%、2ターン継続。</span>
@@ -1301,8 +1123,7 @@ Characters:
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '120406':
         Name: 威光纏う神霊\n敵屠る
-        Desc: >-
-          <span>「神君」が1段の攻撃を行うたびに、メインターゲットを被ダメージアップ状態にする。<br>被ダメージアップ状態の敵の受けるダメージ+12%、「神君」のその回の攻撃が終了するまで継続、最大で3回累積できる。</span>
+        Desc: <span>「神君」が1段の攻撃を行うたびに、メインターゲットを被ダメージアップ状態にする。<br>被ダメージアップ状態の敵の受けるダメージ+12%、「神君」のその回の攻撃が終了するまで継続、最大で3回累積できる。</span>
   '1205':
     Name: 刃
     Abilities:
@@ -1312,21 +1133,15 @@ Characters:
         Type: 通常攻撃
       '120502':
         Name: 地獄変
-        Desc: >-
-          <span>自身のHPを消費し、</span><span
-          style='color:#f29e38ff'>通常攻撃を強化</span><span>する。ターンは終了しない。</span>
+        Desc: <span>自身のHPを消費し、</span><span style='color:#f29e38ff'>通常攻撃を強化</span><span>する。ターンは終了しない。</span>
         Type: 戦闘スキル
       '120503':
         Name: 大辟万死
-        Desc: >-
-          <span>残りHPを最大HPの<span style='whiteSpace:
-          "nowrap"'>50%</span>にし、敵単体に大量の風属性ダメージを与え、隣接する敵に風属性ダメージを与える。</span>
+        Desc: '<span>残りHPを最大HPの<span style=''whiteSpace: "nowrap"''>50%</span>にし、敵単体に大量の風属性ダメージを与え、隣接する敵に風属性ダメージを与える。</span>'
         Type: 必殺技
       '120504':
         Name: 倏忽の恩賜
-        Desc: >-
-          <span>刃のHPが減った時、チャージを1層獲得する。チャージが上限に達した時、</span><span
-          style='color:#f29e38ff'>敵全体に風属性ダメージを与え</span><span>、HPを回復する。その後、チャージをすべて消費する。</span>
+        Desc: <span>刃のHPが減った時、チャージを1層獲得する。チャージが上限に達した時、</span><span style='color:#f29e38ff'>敵全体に風属性ダメージを与え</span><span>、HPを回復する。その後、チャージをすべて消費する。</span>
         Type: 天賦
       '120506':
         Name: 攻撃
@@ -1338,8 +1153,7 @@ Characters:
     Eidolons:
       '120501':
         Name: 形寿記せし剣身\n地獄変の如く
-        Desc: >-
-          <span>指定した敵単体に対する必殺技によるダメージが、刃の戦闘中失ったHPの累計150%分アップする。<br>戦闘中失ったHPの累計のカウントは、刃の最大HPの90%を超えず、必殺技を発動した後にリセットされる。</span>
+        Desc: <span>指定した敵単体に対する必殺技によるダメージが、刃の戦闘中失ったHPの累計150%分アップする。<br>戦闘中失ったHPの累計のカウントは、刃の最大HPの90%を超えず、必殺技を発動した後にリセットされる。</span>
       '120502':
         Name: 支離の旧夢\n万事が遺恨
         Desc: <span>刃が「地獄変」状態の時、会心率+15%。</span>
@@ -1364,16 +1178,11 @@ Characters:
         Type: 通常攻撃
       '120602':
         Name: 雲騎剣経・山傾
-        Desc: >-
-          <span>敵単体に物理属性ダメージを与え、</span><span
-          style='color:#f29e38ff'>低確率で「剣勢」を発動</span><span>する。敵が<u>弱点撃破状態</u>なら</span><span
-          style='color:#f29e38ff'>「剣勢」は必ず発動</span><span>する。</span>
+        Desc: <span>敵単体に物理属性ダメージを与え、</span><span style='color:#f29e38ff'>低確率で「剣勢」を発動</span><span>する。敵が<u>弱点撃破状態</u>なら</span><span style='color:#f29e38ff'>「剣勢」は必ず発動</span><span>する。</span>
         Type: 戦闘スキル
       '120603':
         Name: 太虚形蘊・燭夜
-        Desc: >-
-          <span>敵単体に大量の物理属性ダメージを与え、「剣勢」の効果を強化して</span><span
-          style='color:#f29e38ff'>即座に行動</span><span>する。</span>
+        Desc: <span>敵単体に大量の物理属性ダメージを与え、「剣勢」の効果を強化して</span><span style='color:#f29e38ff'>即座に行動</span><span>する。</span>
         Type: 必殺技
       '120604':
         Name: 游刃若水
@@ -1414,15 +1223,11 @@ Characters:
         Type: 通常攻撃
       '120702':
         Name: 天宮に鳴り響む弦
-        Desc: >-
-          <span>「鳴弦号令」を2層獲得。自身に「鳴弦号令」がある場合、味方全体の</span><span
-          style='color:#f29e38ff'>攻撃力アップ</span><span>。</span>
+        Desc: <span>「鳴弦号令」を2層獲得。自身に「鳴弦号令」がある場合、味方全体の</span><span style='color:#f29e38ff'>攻撃力アップ</span><span>。</span>
         Type: 戦闘スキル
       '120703':
         Name: 貫雲箭
-        Desc: >-
-          <span>自身に「鳴弦号令」がある時、味方全体の</span><span
-          style='color:#f29e38ff'>会心率と会心ダメージアップ</span><span>。敵単体に大量の虚数属性ダメージを与える。</span>
+        Desc: <span>自身に「鳴弦号令」がある時、味方全体の</span><span style='color:#f29e38ff'>会心率と会心ダメージアップ</span><span>。敵単体に大量の虚数属性ダメージを与える。</span>
         Type: 必殺技
       '120704':
         Name: 徹札矢
@@ -1433,9 +1238,7 @@ Characters:
         Desc: ''
       '120707':
         Name: 風追う雲鳶
-        Desc: >-
-          <span>自身の</span><span
-          style='color:#f29e38ff'>移動速度アップ</span><span>。敵を先制攻撃して戦闘に入った後、「鳴弦号令」を2層獲得。</span>
+        Desc: <span>自身の</span><span style='color:#f29e38ff'>移動速度アップ</span><span>。敵を先制攻撃して戦闘に入った後、「鳴弦号令」を2層獲得。</span>
         Type: 秘技
     Eidolons:
       '120701':
@@ -1443,8 +1246,7 @@ Characters:
         Desc: <span>戦闘に入る時、味方全体の速度+10%、2ターン継続。</span>
       '120702':
         Name: 青霄を駆け\n蒼穹を御す
-        Desc: >-
-          <span>任意の味方のEPが満タンの時、御空はさらにEPを5回復する。この効果は味方1名につき1回まで発動できる。御空が必殺技を発動した後、この効果の発動可能回数がリセットされる。</span>
+        Desc: <span>任意の味方のEPが満タンの時、御空はさらにEPを5回復する。この効果は味方1名につき1回まで発動できる。御空が必殺技を発動した後、この効果の発動可能回数がリセットされる。</span>
       '120703':
         Name: 断絶せぬ危弓\n止まぬ飛矢
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
@@ -1466,10 +1268,7 @@ Characters:
         Type: 通常攻撃
       '120802':
         Name: 太微の行棋、影示す霊台
-        Desc: >-
-          <span>「窮観の陣」を起動し、味方が</span><span
-          style='color:#f29e38ff'>受けたダメージを符玄が<u>分担</u></span><span>する。味方全体の最大HP、</span><span
-          style='color:#f29e38ff'>会心率</span><span>をアップさせる。</span>
+        Desc: <span>「窮観の陣」を起動し、味方が</span><span style='color:#f29e38ff'>受けたダメージを符玄が<u>分担</u></span><span>する。味方全体の最大HP、</span><span style='color:#f29e38ff'>会心率</span><span>をアップさせる。</span>
         Type: 戦闘スキル
       '120803':
         Name: 天律大衍、歴劫帰一
@@ -1477,9 +1276,7 @@ Characters:
         Type: 必殺技
       '120804':
         Name: 乾坤清夷、一陽来復
-        Desc: >-
-          <span>符玄が戦闘可能状態の時、味方全体の受けるダメージダウン。<br>残りHPが少ない時、失ったHPの割合に応じて、</span><span
-          style='color:#f29e38ff'>自動で自身のHPを回復</span><span>する。この効果の発動可能回数は最大で2回累積できる。</span>
+        Desc: <span>符玄が戦闘可能状態の時、味方全体の受けるダメージダウン。<br>残りHPが少ない時、失ったHPの割合に応じて、</span><span style='color:#f29e38ff'>自動で自身のHPを回復</span><span>する。この効果の発動可能回数は最大で2回累積できる。</span>
         Type: 天賦
       '120806':
         Name: 攻撃
@@ -1494,8 +1291,7 @@ Characters:
         Desc: <span>「鑑知」状態の味方の会心ダメージ+30%。</span>
       '120802':
         Name: 柔兆
-        Desc: >-
-          <span>「窮観の陣」が起動している時、味方がHPが0になるダメージを受けても、今回の行動でHPが0になるダメージを受けたすべての味方は戦闘不能状態にならず、自身の最大HP70%分のHPを回復する。この効果は一度の戦闘で1回まで発動できる。</span>
+        Desc: <span>「窮観の陣」が起動している時、味方がHPが0になるダメージを受けても、今回の行動でHPが0になるダメージを受けたすべての味方は戦闘不能状態にならず、自身の最大HP70%分のHPを回復する。この効果は一度の戦闘で1回まで発動できる。</span>
       '120803':
         Name: 直符
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
@@ -1507,8 +1303,7 @@ Characters:
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
       '120806':
         Name: 種陵
-        Desc: >-
-          <span>「窮観の陣」が起動している時、味方全体が戦闘中失った累計HPをカウントする。符玄の必殺技によるダメージが、戦闘中失った累計HP200%分アップする。<br>戦闘中失った累計HPのカウントは、符玄の最大HPの120%を超えず、必殺技を発動した後にリセットされる。</span>
+        Desc: <span>「窮観の陣」が起動している時、味方全体が戦闘中失った累計HPをカウントする。符玄の必殺技によるダメージが、戦闘中失った累計HP200%分アップする。<br>戦闘中失った累計HPのカウントは、符玄の最大HPの120%を超えず、必殺技を発動した後にリセットされる。</span>
   '1209':
     Name: 彦卿
     Abilities:
@@ -1526,20 +1321,14 @@ Characters:
         Type: 必殺技
       '120904':
         Name: 呼影剣
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>「智剣連心」がある時</span><span>、攻撃を受ける確率がダウンし、自身の</span><span
-          style='color:#f29e38ff'>会心率と会心ダメージがアップする</span><span>。敵に</span><span
-          style='color:#f29e38ff'>攻撃を行った後</span><span>、確率で<u>追加攻撃</u>を発動して氷属性ダメージを与え、確率で凍結状態にする。<br>自身がダメージを受けた後、「智剣連心」は解除される。</span>
+        Desc: <span></span><span style='color:#f29e38ff'>「智剣連心」がある時</span><span>、攻撃を受ける確率がダウンし、自身の</span><span style='color:#f29e38ff'>会心率と会心ダメージがアップする</span><span>。敵に</span><span style='color:#f29e38ff'>攻撃を行った後</span><span>、確率で<u>追加攻撃</u>を発動して氷属性ダメージを与え、確率で凍結状態にする。<br>自身がダメージを受けた後、「智剣連心」は解除される。</span>
         Type: 天賦
       '120906':
         Name: 攻撃
         Desc: ''
       '120907':
         Name: 御剣真訣
-        Desc: >-
-          <span>秘技を使用、次の戦闘開始時、残りHPが<span style='whiteSpace:
-          "nowrap"'>50%</span>以上の敵に対して、自身の与ダメージがアップする。</span>
+        Desc: '<span>秘技を使用、次の戦闘開始時、残りHPが<span style=''whiteSpace: "nowrap"''>50%</span>以上の敵に対して、自身の与ダメージがアップする。</span>'
         Type: 秘技
     Eidolons:
       '120901':
@@ -1569,9 +1358,7 @@ Characters:
         Type: 通常攻撃
       '121002':
         Name: 出だし好調
-        Desc: >-
-          <span>敵単体に炎属性ダメージを与え、隣接する敵に少量の炎属性ダメージを与え、高確率で</span><span
-          style='color:#f29e38ff'>燃焼状態</span><span>を付与する。</span>
+        Desc: <span>敵単体に炎属性ダメージを与え、隣接する敵に少量の炎属性ダメージを与え、高確率で</span><span style='color:#f29e38ff'>燃焼状態</span><span>を付与する。</span>
         Type: 戦闘スキル
       '121003':
         Name: 十八番を披露するね
@@ -1579,19 +1366,14 @@ Characters:
         Type: 必殺技
       '121004':
         Name: 古来、芸人は君子に頼る
-        Desc: >-
-          <span>敵に付与された</span><span
-          style='color:#f29e38ff'>燃焼状態がダメージを発生すると</span><span>、高確率で</span><span
-          style='color:#f29e38ff'>「火喰い」状態</span><span>を付与する。</span>
+        Desc: <span>敵に付与された</span><span style='color:#f29e38ff'>燃焼状態がダメージを発生すると</span><span>、高確率で</span><span style='color:#f29e38ff'>「火喰い」状態</span><span>を付与する。</span>
         Type: 天賦
       '121006':
         Name: 攻撃
         Desc: ''
       '121007':
         Name: 大道芸
-        Desc: >-
-          <span>敵を攻撃。戦闘に入った後、敵単体に少量の炎属性ダメージを与え、</span><span
-          style='color:#f29e38ff'>「火喰い」状態</span><span>を付与する。4回バウンドする。</span>
+        Desc: <span>敵を攻撃。戦闘に入った後、敵単体に少量の炎属性ダメージを与え、</span><span style='color:#f29e38ff'>「火喰い」状態</span><span>を付与する。4回バウンドする。</span>
         Type: 秘技
     Eidolons:
       '121001':
@@ -1629,12 +1411,7 @@ Characters:
         Type: 必殺技
       '121104':
         Name: 懸壺済世
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>「生生」</span><span>を持つ味方は攻撃を受けた後に</span><span
-          style='color:#f29e38ff'>HPを回復する</span><span>。<br>白露以外の味方が、</span><span
-          style='color:#f29e38ff'>HPが0になる攻撃を受けた時</span><span>、白露は</span><span
-          style='color:#f29e38ff'>その味方のHPを回復する</span><span>。この効果は一度の戦闘で1回まで発動できる。</span>
+        Desc: <span></span><span style='color:#f29e38ff'>「生生」</span><span>を持つ味方は攻撃を受けた後に</span><span style='color:#f29e38ff'>HPを回復する</span><span>。<br>白露以外の味方が、</span><span style='color:#f29e38ff'>HPが0になる攻撃を受けた時</span><span>、白露は</span><span style='color:#f29e38ff'>その味方のHPを回復する</span><span>。この効果は一度の戦闘で1回まで発動できる。</span>
         Type: 天賦
       '121106':
         Name: 攻撃
@@ -1671,42 +1448,27 @@ Characters:
         Type: 通常攻撃
       '121202':
         Name: 無罅の飛光
-        Desc: >-
-          <span>指定した敵単体に氷属性ダメージを与え、</span><span
-          style='color:#f29e38ff'>「朔望」を1層</span><span>獲得する。</span>
+        Desc: <span>指定した敵単体に氷属性ダメージを与え、</span><span style='color:#f29e38ff'>「朔望」を1層</span><span>獲得する。</span>
         Type: 戦闘スキル
       '121203':
         Name: 曇華生滅、夢瀉す天河
-        Desc: >-
-          <span>指定した敵単体に大量の氷属性ダメージを与え、隣接する敵に氷属性ダメージを与える。</span><span
-          style='color:#f29e38ff'>「朔望」を1層獲得する</span><span>。</span>
+        Desc: <span>指定した敵単体に大量の氷属性ダメージを与え、隣接する敵に氷属性ダメージを与える。</span><span style='color:#f29e38ff'>「朔望」を1層獲得する</span><span>。</span>
         Type: 必殺技
       '121204':
         Name: 淡月転魄
-        Desc: >-
-          <span>「朔望」を</span><span style='color:#f29e38ff'><span
-          style='whiteSpace:
-          "nowrap"'>2</span></span><span>層持つと「転魄」状態に入り、</span><span
-          style='color:#f29e38ff'>行動順を<span style='whiteSpace:
-          "nowrap"'>100%</span>早め</span><span>、自身の会心率をアップして</span><span
-          style='color:#f29e38ff'>戦闘スキルを強化</span><span>する。攻撃を行った時、自身以外の味方のHPを消費し、消費したHPに応じて</span><span
-          style='color:#f29e38ff'>鏡流の攻撃力をアップ</span><span>する。「朔望」が0層になると「転魄」状態は終了する。</span>
+        Desc: '<span>「朔望」を</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>2</span></span><span>層持つと「転魄」状態に入り、</span><span style=''color:#f29e38ff''>行動順を<span style=''whiteSpace: "nowrap"''>100%</span>早め</span><span>、自身の会心率をアップして</span><span style=''color:#f29e38ff''>戦闘スキルを強化</span><span>する。攻撃を行った時、自身以外の味方のHPを消費し、消費したHPに応じて</span><span style=''color:#f29e38ff''>鏡流の攻撃力をアップ</span><span>する。「朔望」が0層になると「転魄」状態は終了する。</span>'
         Type: 天賦
       '121206':
         Name: 攻撃
         Desc: ''
       '121207':
         Name: 神識照らす月影
-        Desc: >-
-          <span>自身の周囲に特殊領域を作り出す。領域内の敵は</span><span
-          style='color:#f29e38ff'>凍結状態</span><span>になる。領域内の敵と戦闘に入った後、EPを回復し、朔望を1層獲得して高確率で敵を</span><span
-          style='color:#f29e38ff'>凍結状態</span><span>にする。</span>
+        Desc: <span>自身の周囲に特殊領域を作り出す。領域内の敵は</span><span style='color:#f29e38ff'>凍結状態</span><span>になる。領域内の敵と戦闘に入った後、EPを回復し、朔望を1層獲得して高確率で敵を</span><span style='color:#f29e38ff'>凍結状態</span><span>にする。</span>
         Type: 秘技
     Eidolons:
       '121201':
         Name: 天関を犯す月
-        Desc: >-
-          <span>必殺技または強化戦闘スキルを発動した時、鏡流の会心ダメージ+24%、1ターン継続。敵1体のみを攻撃した場合、さらにその敵に鏡流の攻撃力100%分の氷属性ダメージを1回与える。</span>
+        Desc: <span>必殺技または強化戦闘スキルを発動した時、鏡流の会心ダメージ+24%、1ターン継続。敵1体のみを攻撃した場合、さらにその敵に鏡流の攻撃力100%分の氷属性ダメージを1回与える。</span>
       '121202':
         Name: 月暈に七星
         Desc: <span>必殺技を発動した後、次の強化戦闘スキルによるダメージ+80%。</span>
@@ -1715,15 +1477,13 @@ Characters:
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '121204':
         Name: 掌の月光
-        Desc: >-
-          <span>「転魄」状態で味方のHPを消費して獲得する攻撃力が、さらに味方全体が消費したHPの90%分アップする。獲得できる攻撃力の上限+30%。</span>
+        Desc: <span>「転魄」状態で味方のHPを消費して獲得する攻撃力が、さらに味方全体が消費したHPの90%分アップする。獲得できる攻撃力の上限+30%。</span>
       '121205':
         Name: 三台を蝕む玉鏡
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
       '121206':
         Name: 婁宿を蝕む氷輪
-        Desc: >-
-          <span>鏡流が「転魄」状態に入った時、「朔望」の上限+1層、鏡流がさらに「朔望」を1層獲得する。「転魄」状態の時、会心ダメージ+50%。</span>
+        Desc: <span>鏡流が「転魄」状態に入った時、「朔望」の上限+1層、鏡流がさらに「朔望」を1層獲得する。「転魄」状態の時、会心ダメージ+50%。</span>
   '1213':
     Name: 丹恒・飲月
     Abilities:
@@ -1733,17 +1493,11 @@ Characters:
         Type: 通常攻撃
       '121302':
         Name: 龍力自在
-        Desc: >-
-          <span>通常攻撃「水華」を</span><span
-          style='color:#f29e38ff'>それぞれ「瞬華」</span><span>、</span><span
-          style='color:#f29e38ff'>「天矢陰」または「躍動せし耀鱗」に強化する</span><span>。</span>
+        Desc: <span>通常攻撃「水華」を</span><span style='color:#f29e38ff'>それぞれ「瞬華」</span><span>、</span><span style='color:#f29e38ff'>「天矢陰」または「躍動せし耀鱗」に強化する</span><span>。</span>
         Type: 戦闘スキル
       '121303':
         Name: 傲睨せし蒼龍、世を濯ぐ劫水
-        Desc: >-
-          <span>敵単体に大量の虚数属性ダメージを与え、隣接する敵に虚数属性ダメージを与える。「逆鱗」を2獲得する。「逆鱗」は丹恒・飲月の</span><span
-          style='color:#f29e38ff'>SP消費</span><span>の</span><span
-          style='color:#f29e38ff'>代わりとして消費</span><span>できる。「逆鱗」消費はSP消費と見なされる。</span>
+        Desc: <span>敵単体に大量の虚数属性ダメージを与え、隣接する敵に虚数属性ダメージを与える。「逆鱗」を2獲得する。「逆鱗」は丹恒・飲月の</span><span style='color:#f29e38ff'>SP消費</span><span>の</span><span style='color:#f29e38ff'>代わりとして消費</span><span>できる。「逆鱗」消費はSP消費と見なされる。</span>
         Type: 必殺技
       '121304':
         Name: 亢心
@@ -1754,8 +1508,7 @@ Characters:
         Desc: ''
       '121307':
         Name: 掣空、虹の如し
-        Desc: >-
-          <span>「遊龍」状態に入り、攻撃すると素早く前方に一定距離移動し、触れた敵を攻撃する。敵を先制攻撃して戦闘に入った後、敵全体に虚数属性ダメージを与え、「逆鱗」を1獲得する。</span>
+        Desc: <span>「遊龍」状態に入り、攻撃すると素早く前方に一定距離移動し、触れた敵を攻撃する。敵を先制攻撃して戦闘に入った後、敵全体に虚数属性ダメージを与え、「逆鱗」を1獲得する。</span>
         Type: 秘技
     Eidolons:
       '121301':
@@ -1775,8 +1528,7 @@ Characters:
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '121306':
         Name: 黄龍
-        Desc: >-
-          <span>丹恒・飲月以外の味方が必殺技を発動した後、丹恒・飲月が発動する次の「躍動せし耀鱗」の虚数属性耐性貫通+20%。この効果は最大で3層累積できる。</span>
+        Desc: <span>丹恒・飲月以外の味方が必殺技を発動した後、丹恒・飲月が発動する次の「躍動せし耀鱗」の虚数属性耐性貫通+20%。この効果は最大で3層累積できる。</span>
   '1214':
     Name: 雪衣
     Abilities:
@@ -1790,15 +1542,11 @@ Characters:
         Type: 戦闘スキル
       '121403':
         Name: 身を貫く天罰
-        Desc: >-
-          <span>敵単体に大量の量子属性ダメージを与える。その回の攻撃は</span><span
-          style='color:#f29e38ff'>弱点属性を無視</span><span>して敵単体の靭性を削る。削った靭性が多いほど、与ダメージがアップする。</span>
+        Desc: <span>敵単体に大量の量子属性ダメージを与える。その回の攻撃は</span><span style='color:#f29e38ff'>弱点属性を無視</span><span>して敵単体の靭性を削る。削った靭性が多いほど、与ダメージがアップする。</span>
         Type: 必殺技
       '121404':
         Name: 十王の聖裁、業報は常に在り
-        Desc: >-
-          <span>雪衣または雪衣以外の味方が攻撃を行って敵の靭性を削ると、雪衣は「悪業」を獲得する。「悪業」が上限に達した時、</span><span
-          style='color:#f29e38ff'>即座に<u>追加攻撃</u>を行い</span><span>、敵単体に少量の量子属性ダメージを与える、3回バウンドし、すべての「悪業」を消費する。</span>
+        Desc: <span>雪衣または雪衣以外の味方が攻撃を行って敵の靭性を削ると、雪衣は「悪業」を獲得する。「悪業」が上限に達した時、</span><span style='color:#f29e38ff'>即座に<u>追加攻撃</u>を行い</span><span>、敵単体に少量の量子属性ダメージを与える、3回バウンドし、すべての「悪業」を消費する。</span>
         Type: 天賦
       '121406':
         Name: 攻撃
@@ -1813,8 +1561,7 @@ Characters:
         Desc: <span>天賦による追加攻撃ダメージ+40%。</span>
       '121402':
         Name: 五塵破り
-        Desc: >-
-          <span>天賦の追加攻撃は敵の弱点属性を無視して靭性を削り、自身の最大HP5%分のHPを回復する。敵を弱点撃破した時、量子属性の弱点撃破効果を発動する。</span>
+        Desc: <span>天賦の追加攻撃は敵の弱点属性を無視して靭性を削り、自身の最大HP5%分のHPを回復する。敵を弱点撃破した時、量子属性の弱点撃破効果を発動する。</span>
       '121403':
         Name: 苦諦止め
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
@@ -1836,15 +1583,11 @@ Characters:
         Type: 通常攻撃
       '121502':
         Name: 生滅捕縛
-        Desc: >-
-          <span>敵単体に「承負」状態を付与して、物理属性ダメージを与える。味方が「承負」状態の敵に通常攻撃、戦闘スキルまたは必殺技のうち任意のスキルを合わせて2回発動した後、</span><span
-          style='color:#f29e38ff'>SPを1回復</span><span>する。</span>
+        Desc: <span>敵単体に「承負」状態を付与して、物理属性ダメージを与える。味方が「承負」状態の敵に通常攻撃、戦闘スキルまたは必殺技のうち任意のスキルを合わせて2回発動した後、</span><span style='color:#f29e38ff'>SPを1回復</span><span>する。</span>
         Type: 戦闘スキル
       '121503':
         Name: 十王の勅令、遍く遵行せよ
-        Desc: >-
-          <span>味方単体の</span><span
-          style='color:#f29e38ff'>速度と攻撃力をアップ</span><span>する。</span>
+        Desc: <span>味方単体の</span><span style='color:#f29e38ff'>速度と攻撃力をアップ</span><span>する。</span>
         Type: 必殺技
       '121504':
         Name: 懲悪
@@ -1860,8 +1603,7 @@ Characters:
     Eidolons:
       '121501':
         Name: 一心
-        Desc: >-
-          <span>寒鴉の必殺技のバフを持つ味方が敵を倒した時、寒鴉の行動順が15%早まる。この効果はターンが回ってくるたびに1回まで発動できる。</span>
+        Desc: <span>寒鴉の必殺技のバフを持つ味方が敵を倒した時、寒鴉の行動順が15%早まる。この効果はターンが回ってくるたびに1回まで発動できる。</span>
       '121502':
         Name: 二観
         Desc: <span>戦闘スキルを発動した後、速度+20%、1ターン継続。</span>
@@ -1886,34 +1628,22 @@ Characters:
         Type: 通常攻撃
       '121702':
         Name: 霊符・護身
-        Desc: >-
-          <span>味方単体の<u>デバフ</u>を1つ解除し、その味方および隣接する味方の</span><span
-          style='color:#f29e38ff'>HPを回復</span><span>する。</span>
+        Desc: <span>味方単体の<u>デバフ</u>を1つ解除し、その味方および隣接する味方の</span><span style='color:#f29e38ff'>HPを回復</span><span>する。</span>
         Type: 戦闘スキル
       '121703':
         Name: シッポ・神鬼使役
-        Desc: >-
-          <span>自身以外の味方の</span><span
-          style='color:#f29e38ff'>EPを回復</span><span>し、それら味方の</span><span
-          style='color:#f29e38ff'>攻撃力をアップ</span><span>する。</span>
+        Desc: <span>自身以外の味方の</span><span style='color:#f29e38ff'>EPを回復</span><span>し、それら味方の</span><span style='color:#f29e38ff'>攻撃力をアップ</span><span>する。</span>
         Type: 必殺技
       '121704':
         Name: 憑依・真気通天
-        Desc: >-
-          <span>戦闘スキルを発動した後、フォフォは「厄払い」を獲得する。フォフォに「厄払い」がある場合、味方のターンが回ってきた時、または味方が必殺技を発動した時に、</span><span
-          style='color:#f29e38ff'>自身のHPを回復</span><span>し、同時にHPが低い味方</span><span
-          style='color:#f29e38ff'>それぞれ</span><span>に</span><span
-          style='color:#f29e38ff'>回復効果を1回発動</span><span>する。「厄払い」が発動され、味方が治癒された時、</span><span
-          style='color:#f29e38ff'>その味方に付与された<u>デバフ</u>を1つ解除する</span><span>。</span>
+        Desc: <span>戦闘スキルを発動した後、フォフォは「厄払い」を獲得する。フォフォに「厄払い」がある場合、味方のターンが回ってきた時、または味方が必殺技を発動した時に、</span><span style='color:#f29e38ff'>自身のHPを回復</span><span>し、同時にHPが低い味方</span><span style='color:#f29e38ff'>それぞれ</span><span>に</span><span style='color:#f29e38ff'>回復効果を1回発動</span><span>する。「厄払い」が発動され、味方が治癒された時、</span><span style='color:#f29e38ff'>その味方に付与された<u>デバフ</u>を1つ解除する</span><span>。</span>
         Type: 天賦
       '121706':
         Name: 攻撃
         Desc: ''
       '121707':
         Name: 凶相・鬼物圧伏
-        Desc: >-
-          <span>周囲の敵を「魂魄飛散」状態にする。「魂魄飛散」状態の敵と戦闘に入った後、高確率で敵の</span><span
-          style='color:#f29e38ff'>攻撃力をダウン</span><span>する。</span>
+        Desc: <span>周囲の敵を「魂魄飛散」状態にする。「魂魄飛散」状態の敵と戦闘に入った後、高確率で敵の</span><span style='color:#f29e38ff'>攻撃力をダウン</span><span>する。</span>
         Type: 秘技
     Eidolons:
       '121701':
@@ -1921,15 +1651,13 @@ Characters:
         Desc: <span>天賦による「厄払い」の継続時間+1ターン。フォフォに「厄払い」がある時、味方全体の速度+12%。</span>
       '121702':
         Name: 邪霊を宿した尻尾
-        Desc: >-
-          <span>フォフォに「厄払い」がある時、味方はHPが0になるダメージを受けても戦闘不能状態にならず、自身の最大HP50%分のHPを回復する。この効果を発動した後、「厄払い」の継続時間-1ターン。この効果は一度の戦闘で2回まで発動できる。</span>
+        Desc: <span>フォフォに「厄払い」がある時、味方はHPが0になるダメージを受けても戦闘不能状態にならず、自身の最大HP50%分のHPを回復する。この効果を発動した後、「厄払い」の継続時間-1ターン。この効果は一度の戦闘で2回まで発動できる。</span>
       '121703':
         Name: 貞凶の燭火
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '121704':
         Name: 離れぬ悪鬼\n絶えぬ揉め事
-        Desc: >-
-          <span>戦闘スキルまたは天賦を発動し、味方に治癒を行った時、その味方の残りHPが少ないほど治癒量がアップする、最大でフォフォの治癒量+80%。</span>
+        Desc: <span>戦闘スキルまたは天賦を発動し、味方に治癒を行った時、その味方の残りHPが少ないほど治癒量がアップする、最大でフォフォの治癒量+80%。</span>
       '121705':
         Name: 勅令のままに妖魔退治
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
@@ -1945,33 +1673,27 @@ Characters:
         Type: 通常攻撃
       '121802':
         Name: 燎原奔襲
-        Desc: >-
-          <span>敵単体に炎属性ダメージを与え、隣接する敵に少量の炎属性ダメージを与える。高確率でメインターゲットに「焼尽」を1層付与する。</span>
+        Desc: <span>敵単体に炎属性ダメージを与え、隣接する敵に少量の炎属性ダメージを与える。高確率でメインターゲットに「焼尽」を1層付与する。</span>
         Type: 戦闘スキル
       '121803':
         Name: 炊陣妙法、詭正相生
-        Desc: >-
-          <span>敵それぞれにある「焼尽」状態の層数を、フィールド上で最高層数の「焼尽」状態の層数と同じにする。その後、結界を展開し、敵全体に炎属性ダメージを与える。結界が展開されている間、敵の</span><span
-          style='color:#f29e38ff'>受ける必殺技ダメージがアップ</span><span>する。敵が行動する時、確率で「焼尽」を1層付与される。</span>
+        Desc: <span>敵それぞれにある「焼尽」状態の層数を、フィールド上で最高層数の「焼尽」状態の層数と同じにする。その後、結界を展開し、敵全体に炎属性ダメージを与える。結界が展開されている間、敵の</span><span style='color:#f29e38ff'>受ける必殺技ダメージがアップ</span><span>する。敵が行動する時、確率で「焼尽」を1層付与される。</span>
         Type: 必殺技
       '121804':
         Name: 詭正転変、至微精妙
-        Desc: >-
-          <span>攻撃を行った後、高確率で敵に「焼尽」を1層付与し、その敵の受けるダメージをアップし、同時に燃焼状態にあると見なされるようにする。</span>
+        Desc: <span>攻撃を行った後、高確率で敵に「焼尽」を1層付与し、その敵の受けるダメージをアップし、同時に燃焼状態にあると見なされるようにする。</span>
         Type: 天賦
       '121806':
         Name: 攻撃
         Desc: ''
       '121807':
         Name: 旺火却乱
-        Desc: >-
-          <span>特殊領域を作り出す。領域内の敵と戦闘に入った後、敵全体に少量の炎属性ダメージを与え、高確率で「焼尽」を1層付与する。</span>
+        Desc: <span>特殊領域を作り出す。領域内の敵と戦闘に入った後、敵全体に少量の炎属性ダメージを与え、高確率で「焼尽」を1層付与する。</span>
         Type: 秘技
     Eidolons:
       '121801':
         Name: 五味五臓
-        Desc: >-
-          <span>「焼尽」状態の敵に対する味方の与ダメージ+40%。天賦を発動して敵に「焼尽」状態を付与する時、さらにその回に付与する「焼尽」状態層数+1層。</span>
+        Desc: <span>「焼尽」状態の敵に対する味方の与ダメージ+40%。天賦を発動して敵に「焼尽」状態を付与する時、さらにその回に付与する「焼尽」状態層数+1層。</span>
       '121802':
         Name: 厚味、万病の元
         Desc: <span>敵が「焼尽」状態にある時、「焼尽」状態による炎属性持続ダメージの倍率+300%。</span>
@@ -1986,8 +1708,7 @@ Characters:
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '121806':
         Name: 九沸九変
-        Desc: >-
-          <span>敵が倒される時、その敵にある「焼尽」状態の層数が、フィールド上の「焼尽」状態層数が最も低い敵に移る。「焼尽」状態の累積上限が9層にアップする。「焼尽」1層につき、敵の全属性耐性-3%。</span>
+        Desc: <span>敵が倒される時、その敵にある「焼尽」状態の層数が、フィールド上の「焼尽」状態層数が最も低い敵に移る。「焼尽」状態の累積上限が9層にアップする。「焼尽」1層につき、敵の全属性耐性-3%。</span>
   '1220':
     Name: 飛霄
     Abilities:
@@ -2001,45 +1722,26 @@ Characters:
         Type: 戦闘スキル
       '122003':
         Name: 大荒滅破砕
-        Desc: >-
-          <span>必殺技発動中、</span><span
-          style='color:#f29e38ff'>弱点属性を無視</span><span>して敵の靭性を削る。敵が弱点撃破状態にない時、飛霄の</span><span
-          style='color:#f29e38ff'>弱点撃破効率がアップ</span><span>する。<br>敵単体に「閃裂刃舞」または「斧貫衝天」を合計で</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>6</span></span><span>回発動し、最後に風属性ダメージを与える。</span>
+        Desc: '<span>必殺技発動中、</span><span style=''color:#f29e38ff''>弱点属性を無視</span><span>して敵の靭性を削る。敵が弱点撃破状態にない時、飛霄の</span><span style=''color:#f29e38ff''>弱点撃破効率がアップ</span><span>する。<br>敵単体に「閃裂刃舞」または「斧貫衝天」を合計で</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>6</span></span><span>回発動し、最後に風属性ダメージを与える。</span>'
         Type: 必殺技
       '122004':
         Name: 雷狩
-        Desc: >-
-          <span>「飛黄」が</span><span style='color:#f29e38ff'><span
-          style='whiteSpace:
-          "nowrap"'>6</span></span><span>層に達すると必殺技が発動可能になる。「飛黄」は最大で</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>12</span></span><span>層累積できる。味方が</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>2</span></span><span>回攻撃を行うたびに、飛霄は</span><span
-          style='color:#f29e38ff'>「飛黄」</span><span>を獲得する。<br>自身以外の味方が攻撃を行った後、味方のメインターゲットとなった敵に飛霄が</span><span
-          style='color:#f29e38ff'><u>追加攻撃</u></span><span>を発動し、風属性ダメージを与える。この効果はターンが回ってくるたびに1回まで発動できる。また、この攻撃を発動する時、自身の</span><span
-          style='color:#f29e38ff'>与ダメージがアップする</span><span>。</span>
+        Desc: '<span>「飛黄」が</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>6</span></span><span>層に達すると必殺技が発動可能になる。「飛黄」は最大で</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>12</span></span><span>層累積できる。味方が</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>2</span></span><span>回攻撃を行うたびに、飛霄は</span><span style=''color:#f29e38ff''>「飛黄」</span><span>を獲得する。<br>自身以外の味方が攻撃を行った後、味方のメインターゲットとなった敵に飛霄が</span><span style=''color:#f29e38ff''><u>追加攻撃</u></span><span>を発動し、風属性ダメージを与える。この効果はターンが回ってくるたびに1回まで発動できる。また、この攻撃を発動する時、自身の</span><span style=''color:#f29e38ff''>与ダメージがアップする</span><span>。</span>'
         Type: 天賦
       '122006':
         Name: 攻撃
         Desc: ''
       '122007':
         Name: 嵐身
-        Desc: >-
-          <span>「陥陣」状態に入り、一定範囲内の敵を継続的に引き寄せ、自身の移動速度をアップする。戦闘に入った後、「飛黄」を獲得する。<br>「陥陣」状態では引き寄せたすべての敵を攻撃でき、各ウェーブ開始時、敵全体に風属性ダメージを与える。このダメージは必ず会心が発生する。なお、</span><span
-          style='color:#f29e38ff'>引き寄せた敵が多いほど、ダメージ倍率がアップ</span><span>する。</span>
+        Desc: <span>「陥陣」状態に入り、一定範囲内の敵を継続的に引き寄せ、自身の移動速度をアップする。戦闘に入った後、「飛黄」を獲得する。<br>「陥陣」状態では引き寄せたすべての敵を攻撃でき、各ウェーブ開始時、敵全体に風属性ダメージを与える。このダメージは必ず会心が発生する。なお、</span><span style='color:#f29e38ff'>引き寄せた敵が多いほど、ダメージ倍率がアップ</span><span>する。</span>
         Type: 秘技
     Eidolons:
       '122001':
         Name: 極地鎮定
-        Desc: >-
-          <span>「閃裂刃舞」または「斧貫衝天」を発動した後、飛霄の与える必殺技ダメージがさらに本来のダメージの10%分アップする。最大5層累積でき、必殺技の行動終了まで継続する。</span>
+        Desc: <span>「閃裂刃舞」または「斧貫衝天」を発動した後、飛霄の与える必殺技ダメージがさらに本来のダメージの10%分アップする。最大5層累積でき、必殺技の行動終了まで継続する。</span>
       '122002':
         Name: 月桂礼賛
-        Desc: >-
-          <span>天賦効果が強化される。味方の行った攻撃が追加攻撃だった場合、飛霄は直接「飛黄」を1層獲得する。この効果はターンが回ってくるたびに6回まで発動できる。</span>
+        Desc: <span>天賦効果が強化される。味方の行った攻撃が追加攻撃だった場合、飛霄は直接「飛黄」を1層獲得する。この効果はターンが回ってくるたびに6回まで発動できる。</span>
       '122003':
         Name: 移ろいゆく景星
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
@@ -2051,8 +1753,7 @@ Characters:
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '122006':
         Name: 狐死首丘
-        Desc: >-
-          <span>飛霄が与える必殺技ダメージの全属性耐性貫通+20%。天賦による追加攻撃ダメージが同時に必殺技ダメージと見なされ、ダメージ倍率+140%。</span>
+        Desc: <span>飛霄が与える必殺技ダメージの全属性耐性貫通+20%。天賦による追加攻撃ダメージが同時に必殺技ダメージと見なされ、ダメージ倍率+140%。</span>
   '1221':
     Name: 雲璃
     Abilities:
@@ -2066,10 +1767,7 @@ Characters:
         Type: 戦闘スキル
       '122103':
         Name: 天を揺るがす大地の剣
-        Desc: >-
-          <span>「構え」状態に入り敵全体を挑発する。「構え」状態の継続期間中に攻撃を受けると、</span><span
-          style='color:#f29e38ff'>強力な<u>カウンター</u></span><span>を発動し、攻撃者と隣接する敵に</span><span
-          style='color:#f29e38ff'>物理属性ダメージを与える</span><span>。その後、敵単体に少量の物理属性ダメージを与える。計6回バウンドする。「構え」状態の継続期間中にカウンターが発動しなかった場合、状態が終了する時にランダムな敵と隣接する敵に物理属性ダメージを与える。</span>
+        Desc: <span>「構え」状態に入り敵全体を挑発する。「構え」状態の継続期間中に攻撃を受けると、</span><span style='color:#f29e38ff'>強力な<u>カウンター</u></span><span>を発動し、攻撃者と隣接する敵に</span><span style='color:#f29e38ff'>物理属性ダメージを与える</span><span>。その後、敵単体に少量の物理属性ダメージを与える。計6回バウンドする。「構え」状態の継続期間中にカウンターが発動しなかった場合、状態が終了する時にランダムな敵と隣接する敵に物理属性ダメージを与える。</span>
         Type: 必殺技
       '122104':
         Name: 閃熔
@@ -2080,9 +1778,7 @@ Characters:
         Desc: ''
       '122107':
         Name: 後の先
-        Desc: >-
-          <span>自身に「迎撃」状態を付与する、<span style='whiteSpace:
-          "nowrap"'>20</span>秒継続。効果期間中、敵を先制攻撃、または攻撃を受けて戦闘に入った後、即座にランダムな敵単体に「看破・滅」を発動する。</span>
+        Desc: '<span>自身に「迎撃」状態を付与する、<span style=''whiteSpace: "nowrap"''>20</span>秒継続。効果期間中、敵を先制攻撃、または攻撃を受けて戦闘に入った後、即座にランダムな敵単体に「看破・滅」を発動する。</span>'
         Type: 秘技
     Eidolons:
       '122101':
@@ -2102,8 +1798,7 @@ Characters:
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '122106':
         Name: 琴心剣胆
-        Desc: >-
-          <span>「構え」状態の間、敵が能動的にスキルを発動する時、雲璃を攻撃していなくても雲璃は「看破・滅」を発動し、「構え」状態を解除する。「看破・斬」または「看破・滅」を発動してダメージを与える時、会心率+15%、物理属性耐性貫通+20%。</span>
+        Desc: <span>「構え」状態の間、敵が能動的にスキルを発動する時、雲璃を攻撃していなくても雲璃は「看破・滅」を発動し、「構え」状態を解除する。「看破・斬」または「看破・滅」を発動してダメージを与える時、会心率+15%、物理属性耐性貫通+20%。</span>
   '1222':
     Name: 霊砂
     Abilities:
@@ -2113,32 +1808,22 @@ Characters:
         Type: 通常攻撃
       '122202':
         Name: 彩煙
-        Desc: >-
-          <span>敵全体に少量の炎属性ダメージを与えると同時に、味方全体の</span><span
-          style='color:#f29e38ff'>HPを回復</span><span>し、「浮元」の<u>行動順を早める</u>。</span>
+        Desc: <span>敵全体に少量の炎属性ダメージを与えると同時に、味方全体の</span><span style='color:#f29e38ff'>HPを回復</span><span>し、「浮元」の<u>行動順を早める</u>。</span>
         Type: 戦闘スキル
       '122203':
         Name: 彩雲の如く巡る霞
-        Desc: >-
-          <span>敵全体の</span><span
-          style='color:#f29e38ff'>受ける弱点撃破ダメージをアップ</span><span>させる。また、敵全体に炎属性ダメージを与えると同時に、味方全体の</span><span
-          style='color:#f29e38ff'>HPを回復</span><span>し、「浮元」の<u>行動順を早める</u>。</span>
+        Desc: <span>敵全体の</span><span style='color:#f29e38ff'>受ける弱点撃破ダメージをアップ</span><span>させる。また、敵全体に炎属性ダメージを与えると同時に、味方全体の</span><span style='color:#f29e38ff'>HPを回復</span><span>し、「浮元」の<u>行動順を早める</u>。</span>
         Type: 必殺技
       '122204':
         Name: 紅霧より出づる煙獣
-        Desc: >-
-          <span>戦闘スキルを発動する時、「浮元」を召喚する。「浮元」が行動する時は</span><span
-          style='color:#f29e38ff'><u>追加攻撃</u></span><span>を行い、敵全体に少量の炎属性ダメージを与える。さらに、ランダムな敵単体に少量の炎属性ダメージを与える。この時、「浮元」は炎属性弱点を持ち、かつ残り靭性値が0より大きいいずれかの敵を優先的にターゲットにする。また、味方それぞれの<u>デバフ</u>を1つ解除し、</span><span
-          style='color:#f29e38ff'>HPを回復</span><span>させる。<br>「浮元」がフィールド上にいる時に戦闘スキルを発動すると、「浮元」の行動回数がアップする。</span>
+        Desc: <span>戦闘スキルを発動する時、「浮元」を召喚する。「浮元」が行動する時は</span><span style='color:#f29e38ff'><u>追加攻撃</u></span><span>を行い、敵全体に少量の炎属性ダメージを与える。さらに、ランダムな敵単体に少量の炎属性ダメージを与える。この時、「浮元」は炎属性弱点を持ち、かつ残り靭性値が0より大きいいずれかの敵を優先的にターゲットにする。また、味方それぞれの<u>デバフ</u>を1つ解除し、</span><span style='color:#f29e38ff'>HPを回復</span><span>させる。<br>「浮元」がフィールド上にいる時に戦闘スキルを発動すると、「浮元」の行動回数がアップする。</span>
         Type: 天賦
       '122206':
         Name: 攻撃
         Desc: ''
       '122207':
         Name: 流翠散雲
-        Desc: >-
-          <span>秘技を使用、次の戦闘開始時、即座に「浮元」を召喚し、敵全体の</span><span
-          style='color:#f29e38ff'>受ける弱点撃破ダメージ</span><span>をアップする。</span>
+        Desc: <span>秘技を使用、次の戦闘開始時、即座に「浮元」を召喚し、敵全体の</span><span style='color:#f29e38ff'>受ける弱点撃破ダメージ</span><span>をアップする。</span>
         Type: 秘技
     Eidolons:
       '122201':
@@ -2158,8 +1843,7 @@ Characters:
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
       '122206':
         Name: 春蘭の宿香
-        Desc: >-
-          <span>「浮元」がフィールド上に存在する時、敵全体の全属性耐性-20%。「浮元」が攻撃を行う時、さらに4ヒットする。<br>1ヒットにつき、ランダムな敵単体に霊砂の攻撃力50%分の炎属性ダメージを与える。この時、「浮元」は炎属性弱点を持ち、かつ残り靭性値が0より大きい敵を優先的にターゲットにする。なお、このダメージの削靭値は1ヒットにつき5。</span>
+        Desc: <span>「浮元」がフィールド上に存在する時、敵全体の全属性耐性-20%。「浮元」が攻撃を行う時、さらに4ヒットする。<br>1ヒットにつき、ランダムな敵単体に霊砂の攻撃力50%分の炎属性ダメージを与える。この時、「浮元」は炎属性弱点を持ち、かつ残り靭性値が0より大きい敵を優先的にターゲットにする。なお、このダメージの削靭値は1ヒットにつき5。</span>
   '1223':
     Name: モゼ
     Abilities:
@@ -2169,27 +1853,15 @@ Characters:
         Type: 通常攻撃
       '122302':
         Name: 急襲する迅羽
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>敵単体を「獲物」状態にし</span><span>、雷属性ダメージを与え、チャージを</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>9</span></span><span>獲得する。</span>
+        Desc: '<span></span><span style=''color:#f29e38ff''>敵単体を「獲物」状態にし</span><span>、雷属性ダメージを与え、チャージを</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>9</span></span><span>獲得する。</span>'
         Type: 戦闘スキル
       '122303':
         Name: 潜む刃、鋭い影
-        Desc: >-
-          <span>敵単体に雷属性ダメージを与え、天賦による</span><span
-          style='color:#f29e38ff'><u>追加攻撃</u></span><span>を発動する。</span>
+        Desc: <span>敵単体に雷属性ダメージを与え、天賦による</span><span style='color:#f29e38ff'><u>追加攻撃</u></span><span>を発動する。</span>
         Type: 必殺技
       '122304':
         Name: 翼を折りて鋒鋩とす
-        Desc: >-
-          <span>フィールド上に「獲物」状態の敵がいる時、モゼは</span><span
-          style='color:#f29e38ff'><u>一時離脱</u></span><span>状態に入る。<br>味方が「獲物」状態の敵を攻撃した後、モゼはその敵に雷属性</span><span
-          style='color:#f29e38ff'><u>付加ダメージ</u></span><span>を与え、チャージを1消費する。チャージを</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>3</span></span><span>消費するたびに、モゼは「獲物」状態の敵に</span><span
-          style='color:#f29e38ff'><u>追加攻撃</u></span><span>を行い、雷属性ダメージを与える。チャージが0になると、敵の「獲物」状態が解除される。</span>
+        Desc: '<span>フィールド上に「獲物」状態の敵がいる時、モゼは</span><span style=''color:#f29e38ff''><u>一時離脱</u></span><span>状態に入る。<br>味方が「獲物」状態の敵を攻撃した後、モゼはその敵に雷属性</span><span style=''color:#f29e38ff''><u>付加ダメージ</u></span><span>を与え、チャージを1消費する。チャージを</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>3</span></span><span>消費するたびに、モゼは「獲物」状態の敵に</span><span style=''color:#f29e38ff''><u>追加攻撃</u></span><span>を行い、雷属性ダメージを与える。チャージが0になると、敵の「獲物」状態が解除される。</span>'
         Type: 天賦
       '122306':
         Name: 攻撃
@@ -2222,42 +1894,26 @@ Characters:
     Abilities:
       '122401':
         Name: 妖魔を祓う瑠璃剣
-        Desc: >-
-          <span>敵単体に少量の虚数属性ダメージを与え、チャージを</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>1</span></span><span>獲得する。</span>
+        Desc: '<span>敵単体に少量の虚数属性ダメージを与え、チャージを</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>1</span></span><span>獲得する。</span>'
         Type: 通常攻撃
       '122402':
         Name: 師匠、お茶をどうぞ！
-        Desc: >-
-          <span>味方単体を「師匠」にする。通常攻撃、または強化通常攻撃を行ってダメージを与える時、</span><span
-          style='color:#f29e38ff'>「師匠」の運命</span><span>に応じて以下の効果を発動する：<br>「師匠」の運命が「知恵」、「壊滅」、「巡狩」の場合：「師匠」の属性に応じた</span><span
-          style='color:#f29e38ff'><u>付加ダメージ</u></span><span>をさらに与える。<br>「師匠」の運命が「調和」、「虚無」、「存護」、「豊穣」の場合：</span><span
-          style='color:#f29e38ff'>削靭値</span><span>がアップする。</span>
+        Desc: <span>味方単体を「師匠」にする。通常攻撃、または強化通常攻撃を行ってダメージを与える時、</span><span style='color:#f29e38ff'>「師匠」の運命</span><span>に応じて以下の効果を発動する：<br>「師匠」の運命が「知恵」、「壊滅」、「巡狩」の場合：「師匠」の属性に応じた</span><span style='color:#f29e38ff'><u>付加ダメージ</u></span><span>をさらに与える。<br>「師匠」の運命が「調和」、「虚無」、「存護」、「豊穣」の場合：</span><span style='color:#f29e38ff'>削靭値</span><span>がアップする。</span>
         Type: 戦闘スキル
       '122403':
         Name: 蓋世の傑物、三月なのか
-        Desc: >-
-          <span>敵単体に虚数属性ダメージを与え、</span><span
-          style='color:#f29e38ff'>次の強化通常攻撃</span><span>の攻撃段数、および段数が増加する確率が</span><span
-          style='color:#f29e38ff'>アップ</span><span>する。</span>
+        Desc: <span>敵単体に虚数属性ダメージを与え、</span><span style='color:#f29e38ff'>次の強化通常攻撃</span><span>の攻撃段数、および段数が増加する確率が</span><span style='color:#f29e38ff'>アップ</span><span>する。</span>
         Type: 必殺技
       '122404':
         Name: 師匠、わかりました！
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>「師匠」が攻撃を行う、または必殺技を発動した後</span><span>、三月なのかはチャージを獲得する。チャージが</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>7</span></span><span>に達すると即座に行動して与ダメージをアップし、</span><span
-          style='color:#f29e38ff'>通常攻撃を強化</span><span>する。</span>
+        Desc: '<span></span><span style=''color:#f29e38ff''>「師匠」が攻撃を行う、または必殺技を発動した後</span><span>、三月なのかはチャージを獲得する。チャージが</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>7</span></span><span>に達すると即座に行動して与ダメージをアップし、</span><span style=''color:#f29e38ff''>通常攻撃を強化</span><span>する。</span>'
         Type: 天賦
       '122406':
         Name: 攻撃
         Desc: ''
       '122407':
         Name: 一気に三食
-        Desc: >-
-          <span>自身以外の味方が秘技を使用するたびに、次の戦闘開始時、三月なのかはチャージを獲得する。秘技を使用すると、次の戦闘開始時にEPを回復する。</span>
+        Desc: <span>自身以外の味方が秘技を使用するたびに、次の戦闘開始時、三月なのかはチャージを獲得する。秘技を使用すると、次の戦闘開始時にEPを回復する。</span>
         Type: 秘技
     Eidolons:
       '122401':
@@ -2265,8 +1921,7 @@ Characters:
         Desc: <span>フィールド上に「師匠」が存在する時、三月なのかの速度+10%。</span>
       '122402':
         Name: 雪白の刃は怒涛の如く
-        Desc: >-
-          <span>「師匠」が通常攻撃または戦闘スキルを発動して敵に攻撃を行った後、三月なのかは追加攻撃を行い、その回の攻撃のメインターゲットに三月なのかの攻撃力60%分の虚数属性ダメージを与え、「師匠」の運命に応じた戦闘スキル効果を発動し、チャージを1獲得する。攻撃できるメインターゲットが存在しない場合、ランダムな敵単体に攻撃を行う。この効果はターンが回ってくるたびに1回まで発動できる。</span>
+        Desc: <span>「師匠」が通常攻撃または戦闘スキルを発動して敵に攻撃を行った後、三月なのかは追加攻撃を行い、その回の攻撃のメインターゲットに三月なのかの攻撃力60%分の虚数属性ダメージを与え、「師匠」の運命に応じた戦闘スキル効果を発動し、チャージを1獲得する。攻撃できるメインターゲットが存在しない場合、ランダムな敵単体に攻撃を行う。この効果はターンが回ってくるたびに1回まで発動できる。</span>
       '122403':
         Name: 冴えた頭と優れた腕前
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
@@ -2292,25 +1947,18 @@ Characters:
         Type: 戦闘スキル
       '130103':
         Name: シャンパン・マナー
-        Desc: >-
-          <span>敵全体を</span><span
-          style='color:#f29e38ff'>「酩酊」状態</span><span>にし、敵全体に炎属性ダメージを与える。次の通常攻撃を「極上の泡立ち」に強化する。</span>
+        Desc: <span>敵全体を</span><span style='color:#f29e38ff'>「酩酊」状態</span><span>にし、敵全体に炎属性ダメージを与える。次の通常攻撃を「極上の泡立ち」に強化する。</span>
         Type: 必殺技
       '130104':
         Name: 飲み比べ
-        Desc: >-
-          <span>「酩酊」状態の敵が</span><span
-          style='color:#f29e38ff'>受ける弱点撃破ダメージがアップ</span><span>する。「酩酊」状態の敵が味方の攻撃を受けた後、</span><span
-          style='color:#f29e38ff'>攻撃者のHPを回復</span><span>する。</span>
+        Desc: <span>「酩酊」状態の敵が</span><span style='color:#f29e38ff'>受ける弱点撃破ダメージがアップ</span><span>する。「酩酊」状態の敵が味方の攻撃を受けた後、</span><span style='color:#f29e38ff'>攻撃者のHPを回復</span><span>する。</span>
         Type: 天賦
       '130106':
         Name: 攻撃
         Desc: ''
       '130107':
         Name: ヴィンテージ開封
-        Desc: >-
-          <span>敵を攻撃。戦闘に入った後、敵全体を</span><span
-          style='color:#f29e38ff'>「酩酊」状態</span><span>にし、敵全体に少量の炎属性ダメージを与える。</span>
+        Desc: <span>敵を攻撃。戦闘に入った後、敵全体を</span><span style='color:#f29e38ff'>「酩酊」状態</span><span>にし、敵全体に少量の炎属性ダメージを与える。</span>
         Type: 秘技
     Eidolons:
       '130101':
@@ -2344,24 +1992,18 @@ Characters:
         Type: 戦闘スキル
       '130203':
         Name: 花園にて捧げる美の際限
-        Desc: >-
-          <span>EPを</span><span style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>90</span></span><span>消費し、敵全体に物理属性ダメージを与える。</span>
+        Desc: '<span>EPを</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>90</span></span><span>消費し、敵全体に物理属性ダメージを与える。</span>'
         Type: 必殺技
       '130204':
         Name: 崇高なる客体
-        Desc: >-
-          <span>通常攻撃、戦闘スキル、または必殺技を発動した時、攻撃が敵1体に命中するごとにアルジェンティの</span><span
-          style='color:#f29e38ff'>EPを回復</span><span>し、</span><span
-          style='color:#f29e38ff'>会心率</span><span>をアップする。</span>
+        Desc: <span>通常攻撃、戦闘スキル、または必殺技を発動した時、攻撃が敵1体に命中するごとにアルジェンティの</span><span style='color:#f29e38ff'>EPを回復</span><span>し、</span><span style='color:#f29e38ff'>会心率</span><span>をアップする。</span>
         Type: 天賦
       '130206':
         Name: 攻撃
         Desc: ''
       '130207':
         Name: 純粋で高潔なる宣言
-        Desc: >-
-          <span>一定範囲内の敵を目眩状態にする。目眩状態の敵を攻撃して戦闘に入った後、敵全体に少量の物理属性ダメージを与え、アルジェンティのEPを回復する。</span>
+        Desc: <span>一定範囲内の敵を目眩状態にする。目眩状態の敵を攻撃して戦闘に入った後、敵全体に少量の物理属性ダメージを与え、アルジェンティのEPを回復する。</span>
         Type: 秘技
     Eidolons:
       '130201':
@@ -2391,34 +2033,22 @@ Characters:
         Type: 通常攻撃
       '130302':
         Name: 緩く捻りて
-        Desc: >-
-          <span>戦闘スキルを発動した後に「弦外の音」を獲得する。ルアン・メェイに「弦外の音」がある時、味方全体の</span><span
-          style='color:#f29e38ff'>与ダメージ</span><span>と</span><span
-          style='color:#f29e38ff'>弱点撃破効率</span><span>をアップする。</span>
+        Desc: <span>戦闘スキルを発動した後に「弦外の音」を獲得する。ルアン・メェイに「弦外の音」がある時、味方全体の</span><span style='color:#f29e38ff'>与ダメージ</span><span>と</span><span style='color:#f29e38ff'>弱点撃破効率</span><span>をアップする。</span>
         Type: 戦闘スキル
       '130303':
         Name: 花に濡れても雫は払わず
-        Desc: >-
-          <span>味方全体の</span><span
-          style='color:#f29e38ff'>全属性耐性貫通</span><span>をアップし、味方が攻撃を行った後、敵に「残梅」を付与する。</span>
+        Desc: <span>味方全体の</span><span style='color:#f29e38ff'>全属性耐性貫通</span><span>をアップし、味方が攻撃を行った後、敵に「残梅」を付与する。</span>
         Type: 必殺技
       '130304':
         Name: フラクタルの螺旋
-        Desc: >-
-          <span>自身以外の味方の</span><span
-          style='color:#f29e38ff'>速度</span><span>をアップする。味方が敵を弱点撃破した時、</span><span
-          style='color:#f29e38ff'>さらに氷属性弱点撃破ダメージを与える</span><span>。</span>
+        Desc: <span>自身以外の味方の</span><span style='color:#f29e38ff'>速度</span><span>をアップする。味方が敵を弱点撃破した時、</span><span style='color:#f29e38ff'>さらに氷属性弱点撃破ダメージを与える</span><span>。</span>
         Type: 天賦
       '130306':
         Name: 攻撃
         Desc: ''
       '130307':
         Name: 琴拭い、霓裳撫でる
-        Desc: >-
-          <span>次の戦闘開始後、自動で戦闘スキルを</span><span style='color:#f29e38ff'><span
-          style='whiteSpace:
-          "nowrap"'>1</span></span><span>回発動する。秘技を使用した後、味方が模擬宇宙、階差宇宙内の敵を先制攻撃して戦闘に入る場合、弱点属性を攻撃して戦闘に入ったと見なされ、</span><span
-          style='color:#f29e38ff'>弱点属性を無視して</span><span>靭性を削る。所持する祝福1つにつき、削靭値がアップし、弱点撃破した時に追加で弱点撃破ダメージを与える。</span>
+        Desc: '<span>次の戦闘開始後、自動で戦闘スキルを</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>1</span></span><span>回発動する。秘技を使用した後、味方が模擬宇宙、階差宇宙内の敵を先制攻撃して戦闘に入る場合、弱点属性を攻撃して戦闘に入ったと見なされ、</span><span style=''color:#f29e38ff''>弱点属性を無視して</span><span>靭性を削る。所持する祝福1つにつき、削靭値がアップし、弱点撃破した時に追加で弱点撃破ダメージを与える。</span>'
         Type: 秘技
     Eidolons:
       '130301':
@@ -2448,35 +2078,27 @@ Characters:
         Type: 通常攻撃
       '130402':
         Name: 繁栄の基石
-        Desc: >-
-          <span>味方全体に</span><span
-          style='color:#f29e38ff'>耐久値を累積できる</span><span>「堅固なチップ」バリアを付与する。</span>
+        Desc: <span>味方全体に</span><span style='color:#f29e38ff'>耐久値を累積できる</span><span>「堅固なチップ」バリアを付与する。</span>
         Type: 戦闘スキル
       '130403':
         Name: ロード・オブ・ルーレット
-        Desc: >-
-          <span>ランダムで「ブラインドベット」を獲得し、敵単体を「動揺」状態にして、その敵に虚数属性ダメージを与える。味方が「動揺」状態の敵を攻撃した時、与える</span><span
-          style='color:#f29e38ff'>会心ダメージがアップ</span><span>する。</span>
+        Desc: <span>ランダムで「ブラインドベット」を獲得し、敵単体を「動揺」状態にして、その敵に虚数属性ダメージを与える。味方が「動揺」状態の敵を攻撃した時、与える</span><span style='color:#f29e38ff'>会心ダメージがアップ</span><span>する。</span>
         Type: 必殺技
       '130404':
         Name: 銃口の右には…
-        Desc: >-
-          <span>「堅固なチップ」を持つ味方単体の効果抵抗がアップし、攻撃を受けた後にアベンチュリンの「ブラインドベット」がアップする。アベンチュリンに「堅固なチップ」がある時、<u>行動制限系デバフ</u>に抵抗できる。「ブラインドベット」が7に到達した後、アベンチュリンは「ブラインドベット」を7消費して</span><span
-          style='color:#f29e38ff'><u>追加攻撃</u></span><span>を行い、ランダムな敵単体に少量の虚数属性ダメージを与える、7回バウンドする。</span>
+        Desc: <span>「堅固なチップ」を持つ味方単体の効果抵抗がアップし、攻撃を受けた後にアベンチュリンの「ブラインドベット」がアップする。アベンチュリンに「堅固なチップ」がある時、<u>行動制限系デバフ</u>に抵抗できる。「ブラインドベット」が7に到達した後、アベンチュリンは「ブラインドベット」を7消費して</span><span style='color:#f29e38ff'><u>追加攻撃</u></span><span>を行い、ランダムな敵単体に少量の虚数属性ダメージを与える、7回バウンドする。</span>
         Type: 天賦
       '130406':
         Name: 攻撃
         Desc: ''
       '130407':
         Name: 赤と黒の狭間で
-        Desc: >-
-          <span>秘技を使用すると、3種類の防御力アップ効果の中からランダムで1つ獲得する。次の戦闘開始時、味方全体の防御力を対応する数値分アップさせる。</span>
+        Desc: <span>秘技を使用すると、3種類の防御力アップ効果の中からランダムで1つ獲得する。次の戦闘開始時、味方全体の防御力を対応する数値分アップさせる。</span>
         Type: 秘技
     Eidolons:
       '130401':
         Name: 囚人のジレンマ
-        Desc: >-
-          <span>「堅固なチップ」を持つ味方の会心ダメージ+20%。必殺技を発動した後、味方全体に「堅固なチップ」バリアを付与する、3ターン継続。バリア耐久値は戦闘スキルで付与できるバリア耐久値の100%。</span>
+        Desc: <span>「堅固なチップ」を持つ味方の会心ダメージ+20%。必殺技を発動した後、味方全体に「堅固なチップ」バリアを付与する、3ターン継続。バリア耐久値は戦闘スキルで付与できるバリア耐久値の100%。</span>
       '130402':
         Name: 限定合理性
         Desc: <span>通常攻撃を行う時、ターゲットの全属性耐性-12%、3ターン継続。</span>
@@ -2505,24 +2127,18 @@ Characters:
         Type: 戦闘スキル
       '130503':
         Name: 三段階のパラドックス
-        Desc: >-
-          <span>指定した敵単体に虚数属性ダメージを与え、「智者の短慮」を付与する。Dr.レイシオ以外の味方が「智者の短慮」を持つ敵に攻撃を行う時、Dr.レイシオはその敵に</span><span
-          style='color:#f29e38ff'><u>追加攻撃</u></span><span>を1回行う。</span>
+        Desc: <span>指定した敵単体に虚数属性ダメージを与え、「智者の短慮」を付与する。Dr.レイシオ以外の味方が「智者の短慮」を持つ敵に攻撃を行う時、Dr.レイシオはその敵に</span><span style='color:#f29e38ff'><u>追加攻撃</u></span><span>を1回行う。</span>
         Type: 必殺技
       '130504':
         Name: 我思う、故に我あり
-        Desc: >-
-          <span>戦闘スキルを発動する時、確率でターゲットに</span><span
-          style='color:#f29e38ff'><u>追加攻撃</u></span><span>を1回行う。</span>
+        Desc: <span>戦闘スキルを発動する時、確率でターゲットに</span><span style='color:#f29e38ff'><u>追加攻撃</u></span><span>を1回行う。</span>
         Type: 天賦
       '130506':
         Name: 攻撃
         Desc: ''
       '130507':
         Name: 偶像の誕生
-        Desc: >-
-          <span>特殊領域を作り出す。領域内の敵を挑発する。領域内の敵と戦闘に入った後、高確率で敵の</span><span
-          style='color:#f29e38ff'>速度をダウン</span><span>する。</span>
+        Desc: <span>特殊領域を作り出す。領域内の敵を挑発する。領域内の敵と戦闘に入った後、高確率で敵の</span><span style='color:#f29e38ff'>速度をダウン</span><span>する。</span>
         Type: 秘技
     Eidolons:
       '130501':
@@ -2530,8 +2146,7 @@ Characters:
         Desc: <span>軌跡「帰納」の累積可能層数+4。戦闘開始時、「帰納」を4層獲得する。先に軌跡「帰納」を覚醒する必要あり。</span>
       '130502':
         Name: 微を顕にして幽を闡く
-        Desc: >-
-          <span>天賦の追加攻撃が命中した時、敵にあるデバフ1つにつき、さらにDr.レイシオの攻撃力20%の虚数属性付加ダメージを与える。この効果は1回の追加攻撃で4回まで発動できる。</span>
+        Desc: <span>天賦の追加攻撃が命中した時、敵にあるデバフ1つにつき、さらにDr.レイシオの攻撃力20%の虚数属性付加ダメージを与える。この効果は1回の追加攻撃で4回まで発動できる。</span>
       '130503':
         Name: 己を知れ
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
@@ -2553,31 +2168,22 @@ Characters:
         Type: 通常攻撃
       '130602':
         Name: 夢を泳ぐ魚
-        Desc: >-
-          <span>味方単体の</span><span
-          style='color:#f29e38ff'>会心ダメージ</span><span>をアップし、その味方の行動順を早める。</span>
+        Desc: <span>味方単体の</span><span style='color:#f29e38ff'>会心ダメージ</span><span>をアップし、その味方の行動順を早める。</span>
         Type: 戦闘スキル
       '130603':
         Name: 一人千役
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>SP</span><span>を回復し、花火の天賦による与ダメージアップ効果を強化する。</span>
+        Desc: <span></span><span style='color:#f29e38ff'>SP</span><span>を回復し、花火の天賦による与ダメージアップ効果を強化する。</span>
         Type: 必殺技
       '130604':
         Name: 叙述トリック
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>最大SP</span><span>がアップする。味方がSPを消費する時、味方全体の</span><span
-          style='color:#f29e38ff'>与ダメージ</span><span>をアップする。</span>
+        Desc: <span></span><span style='color:#f29e38ff'>最大SP</span><span>がアップする。味方がSPを消費する時、味方全体の</span><span style='color:#f29e38ff'>与ダメージ</span><span>をアップする。</span>
         Type: 天賦
       '130606':
         Name: 攻撃
         Desc: ''
       '130607':
         Name: 信用できない語り手
-        Desc: >-
-          <span>秘技を使用した後、味方全体は「ミスリード」状態になる。「ミスリード」状態になると敵に発見されなくなり、敵を先制攻撃して戦闘に入る時、</span><span
-          style='color:#f29e38ff'>SP</span><span>を回復する。</span>
+        Desc: <span>秘技を使用した後、味方全体は「ミスリード」状態になる。「ミスリード」状態になると敵に発見されなくなり、敵を先制攻撃して戦闘に入る時、</span><span style='color:#f29e38ff'>SP</span><span>を回復する。</span>
         Type: 秘技
     Eidolons:
       '130601':
@@ -2597,51 +2203,37 @@ Characters:
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '130606':
         Name: 重なる解答
-        Desc: >-
-          <span>戦闘スキルの会心ダメージアップ効果が、さらに花火の会心ダメージ30%分アップする。花火が戦闘スキルを発動する時、戦闘スキルの会心ダメージアップ効果が、「奇怪な謎」を持つすべての味方に対して有効になる。花火が必殺技を発動する時、花火の戦闘スキルによる会心ダメージアップ効果を持つ味方が存在する場合、「奇怪な謎」を持つ味方にその効果を拡散する。</span>
+        Desc: <span>戦闘スキルの会心ダメージアップ効果が、さらに花火の会心ダメージ30%分アップする。花火が戦闘スキルを発動する時、戦闘スキルの会心ダメージアップ効果が、「奇怪な謎」を持つすべての味方に対して有効になる。花火が必殺技を発動する時、花火の戦闘スキルによる会心ダメージアップ効果を持つ味方が存在する場合、「奇怪な謎」を持つ味方にその効果を拡散する。</span>
   '1307':
     Name: ブラックスワン
     Abilities:
       '130701':
         Name: 洞察、緘黙の黎明
-        Desc: >-
-          <span>敵単体に少量の風属性ダメージを与え、確率で敵に「<u>アルカナ</u>」を付与する。</span><span
-          style='color:#f29e38ff'>風化、裂創、燃焼、または感電</span><span>状態の敵に攻撃を行った後、それぞれ確率で</span><span
-          style='color:#f29e38ff'>さらに「<u>アルカナ</u>」を付与</span><span>する。</span>
+        Desc: <span>敵単体に少量の風属性ダメージを与え、確率で敵に「<u>アルカナ</u>」を付与する。</span><span style='color:#f29e38ff'>風化、裂創、燃焼、または感電</span><span>状態の敵に攻撃を行った後、それぞれ確率で</span><span style='color:#f29e38ff'>さらに「<u>アルカナ</u>」を付与</span><span>する。</span>
         Type: 通常攻撃
       '130702':
         Name: 失墜、偽神の黄昏
-        Desc: >-
-          <span>敵単体および隣接する敵に少量の風属性ダメージを与え、高確率で敵に</span><span
-          style='color:#f29e38ff'>「<u>アルカナ</u>」を付与</span><span>し、高確率で敵の防御力をダウンさせる。</span>
+        Desc: <span>敵単体および隣接する敵に少量の風属性ダメージを与え、高確率で敵に</span><span style='color:#f29e38ff'>「<u>アルカナ</u>」を付与</span><span>し、高確率で敵の防御力をダウンさせる。</span>
         Type: 戦闘スキル
       '130703':
         Name: 彼方の抱擁に酔いしれて
-        Desc: >-
-          <span>敵全体に「開示」状態を付与する。「開示」状態の敵は自身のターンでの受けるダメージがアップし、付与されている</span><span
-          style='color:#f29e38ff'>「<u>アルカナ</u>」を風化、裂創、燃焼、感電</span><span>状態と見なす。敵のターンが回って「<u>アルカナ</u>」がダメージを発生した後、層数がリセットされなくなる。敵全体に風属性ダメージを与える。</span>
+        Desc: <span>敵全体に「開示」状態を付与する。「開示」状態の敵は自身のターンでの受けるダメージがアップし、付与されている</span><span style='color:#f29e38ff'>「<u>アルカナ</u>」を風化、裂創、燃焼、感電</span><span>状態と見なす。敵のターンが回って「<u>アルカナ</u>」がダメージを発生した後、層数がリセットされなくなる。敵全体に風属性ダメージを与える。</span>
         Type: 必殺技
       '130704':
         Name: 果てなき運命の機織り
-        Desc: >-
-          <span>敵のターンが回ってきた時、その敵が持続ダメージを受けた場合、確率で「<u>アルカナ</u>」を付与され、ターンが回ってくるたびに</span><span
-          style='color:#f29e38ff'>風属性持続ダメージ</span><span>を受ける。また、ブラックスワンは「<u>アルカナ</u>」の層数に応じて</span><span
-          style='color:#f29e38ff'>追加効果</span><span>を発動する。</span>
+        Desc: <span>敵のターンが回ってきた時、その敵が持続ダメージを受けた場合、確率で「<u>アルカナ</u>」を付与され、ターンが回ってくるたびに</span><span style='color:#f29e38ff'>風属性持続ダメージ</span><span>を受ける。また、ブラックスワンは「<u>アルカナ</u>」の層数に応じて</span><span style='color:#f29e38ff'>追加効果</span><span>を発動する。</span>
         Type: 天賦
       '130706':
         Name: 攻撃
         Desc: ''
       '130707':
         Name: 真相を取り、表象を捨てる
-        Desc: >-
-          <span>秘技を使用した後、次の戦闘開始時、高確率で敵それぞれに</span><span
-          style='color:#f29e38ff'>「<u>アルカナ</u>」を付与する。「アルカナ」の付与は失敗するまで繰り返される。</span><span></span>
+        Desc: <span>秘技を使用した後、次の戦闘開始時、高確率で敵それぞれに</span><span style='color:#f29e38ff'>「<u>アルカナ</u>」を付与する。「アルカナ」の付与は失敗するまで繰り返される。</span><span></span>
         Type: 秘技
     Eidolons:
       '130701':
         Name: 知恵の七柱
-        Desc: >-
-          <span>ブラックスワンが戦闘可能状態の時、風化、裂創、燃焼、感電状態の敵の対応する風、物理、炎、雷属性の耐性がそれぞれ25%ダウンする。</span>
+        Desc: <span>ブラックスワンが戦闘可能状態の時、風化、裂創、燃焼、感電状態の敵の対応する風、物理、炎、雷属性の耐性がそれぞれ25%ダウンする。</span>
       '130702':
         Name: 子羊よ、\n私のために泣くなかれ
         Desc: <span>「アルカナ」状態の敵が倒された時、100%の基礎確率で隣接する敵に「アルカナ」を6層付与する。</span>
@@ -2650,15 +2242,13 @@ Characters:
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '130704':
         Name: 涙もまた贈り物
-        Desc: >-
-          <span>「開示」状態の敵の効果抵抗-10%。「開示」状態の敵のターンが回ってきた時、または倒された時、ブラックスワンのEPを8回復する。EP回復効果は「開示」状態の継続時間内に1回まで発動できる。再度「開示」状態を付与すると、発動可能回数がリセットされる。</span>
+        Desc: <span>「開示」状態の敵の効果抵抗-10%。「開示」状態の敵のターンが回ってきた時、または倒された時、ブラックスワンのEPを8回復する。EP回復効果は「開示」状態の継続時間内に1回まで発動できる。再度「開示」状態を付与すると、発動可能回数がリセットされる。</span>
       '130705':
         Name: 渡り鳥の道
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
       '130706':
         Name: 神は善、\n苦役者は未だ知らず
-        Desc: >-
-          <span>ブラックスワン以外の味方が敵に攻撃を行った後、ブラックスワンは65%の基礎確率で敵に「アルカナ」を1層付与する。<br>ブラックスワンが敵に「アルカナ」を付与する時、50%の固定確率でその回に付与する「アルカナ」の層数+1層。</span>
+        Desc: <span>ブラックスワン以外の味方が敵に攻撃を行った後、ブラックスワンは65%の基礎確率で敵に「アルカナ」を1層付与する。<br>ブラックスワンが敵に「アルカナ」を付与する時、50%の固定確率でその回に付与する「アルカナ」の層数+1層。</span>
   '1308':
     Name: 黄泉
     Abilities:
@@ -2668,35 +2258,22 @@ Characters:
         Type: 通常攻撃
       '130802':
         Name: 八雷渡り
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>「残夢」</span><span>を</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>1</span></span><span>層獲得する。敵単体に「集真赤」を</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>1</span></span><span>層付与し、雷属性ダメージを与え、隣接する敵に少量の雷属性ダメージを与える。</span>
+        Desc: '<span></span><span style=''color:#f29e38ff''>「残夢」</span><span>を</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>1</span></span><span>層獲得する。敵単体に「集真赤」を</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>1</span></span><span>層付与し、雷属性ダメージを与え、隣接する敵に少量の雷属性ダメージを与える。</span>'
         Type: 戦闘スキル
       '130803':
         Name: 残夢染める繚乱の一太刀
-        Desc: >-
-          <span>敵単体に3段の攻撃を行い、それぞれ少量の雷属性ダメージを与える。敵にある「集真赤」を消去した場合、敵全体に少量の雷属性ダメージを与える。最後に敵全体に1段の攻撃を行い、雷属性ダメージを与え、すべての「集真赤」をクリアする。</span>
+        Desc: <span>敵単体に3段の攻撃を行い、それぞれ少量の雷属性ダメージを与える。敵にある「集真赤」を消去した場合、敵全体に少量の雷属性ダメージを与える。最後に敵全体に1段の攻撃を行い、雷属性ダメージを与え、すべての「集真赤」をクリアする。</span>
         Type: 必殺技
       '130804':
         Name: 紅葉に時雨、万里の空
-        Desc: >-
-          <span>「残夢」が上限に達すると必殺技を発動できる。必殺技の発動中は</span><span
-          style='color:#f29e38ff'>弱点属性を無視して</span><span>敵の靭性を削ることができ、敵全体の</span><span
-          style='color:#f29e38ff'>全属性耐性をダウンさせる</span><span>。<br>任意のユニットがスキル発動期間中に敵にデバフを付与すると、黄泉は「残夢」を獲得し、敵に「集真赤」を付与する。</span>
+        Desc: <span>「残夢」が上限に達すると必殺技を発動できる。必殺技の発動中は</span><span style='color:#f29e38ff'>弱点属性を無視して</span><span>敵の靭性を削ることができ、敵全体の</span><span style='color:#f29e38ff'>全属性耐性をダウンさせる</span><span>。<br>任意のユニットがスキル発動期間中に敵にデバフを付与すると、黄泉は「残夢」を獲得し、敵に「集真赤」を付与する。</span>
         Type: 天賦
       '130806':
         Name: 攻撃
         Desc: ''
       '130807':
         Name: 四相断我
-        Desc: >-
-          <span>敵を攻撃。各ウェーブ開始時、「四相断我」を獲得する。敵全体に雷属性ダメージを与え、</span><span
-          style='color:#f29e38ff'>弱点属性を無視して</span><span>靭性を削る。<br>通常エネミーを攻撃する時</span><span
-          style='color:#f29e38ff'>ターゲットはその場で倒され</span><span>、戦闘に入らない。敵に命中しなかった場合、秘技PTは消費されない。</span>
+        Desc: <span>敵を攻撃。各ウェーブ開始時、「四相断我」を獲得する。敵全体に雷属性ダメージを与え、</span><span style='color:#f29e38ff'>弱点属性を無視して</span><span>靭性を削る。<br>通常エネミーを攻撃する時</span><span style='color:#f29e38ff'>ターゲットはその場で倒され</span><span>、戦闘に入らない。敵に命中しなかった場合、秘技PTは消費されない。</span>
         Type: 秘技
     Eidolons:
       '130801':
@@ -2704,8 +2281,7 @@ Characters:
         Desc: <span>デバフ状態の敵にダメージを与える時、会心率+18%。</span>
       '130802':
         Name: 雷霆静まり、秋風止む
-        Desc: >-
-          <span>軌跡「奈落」の効果の最大値に達するために必要な「虚無」の運命を歩むキャラクターの数-1名。自身のターンが回ってきた時、「残夢」を1層獲得し、「集真赤」が最も多い敵に「集真赤」を1層付与する。</span>
+        Desc: <span>軌跡「奈落」の効果の最大値に達するために必要な「虚無」の運命を歩むキャラクターの数-1名。自身のターンが回ってきた時、「残夢」を1層獲得し、「集真赤」が最も多い敵に「集真赤」を1層付与する。</span>
       '130803':
         Name: 永蟄を脅かす寒風
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
@@ -2717,8 +2293,7 @@ Characters:
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '130806':
         Name: 束縛を解く災い
-        Desc: >-
-          <span>黄泉が与える必殺技ダメージの全属性耐性貫通+20%。通常攻撃ダメージ、戦闘スキルダメージが同時に必殺技ダメージと見なされ、弱点属性を無視して敵の靭性を削る。敵を弱点撃破した時、雷属性の弱点撃破効果を触発する。</span>
+        Desc: <span>黄泉が与える必殺技ダメージの全属性耐性貫通+20%。通常攻撃ダメージ、戦闘スキルダメージが同時に必殺技ダメージと見なされ、弱点属性を無視して敵の靭性を削る。敵を弱点撃破した時、雷属性の弱点撃破効果を触発する。</span>
   '1309':
     Name: ロビン
     Abilities:
@@ -2728,32 +2303,22 @@ Characters:
         Type: 通常攻撃
       '130902':
         Name: 飛翔のアリア
-        Desc: >-
-          <span>味方全体の</span><span
-          style='color:#f29e38ff'>与ダメージをアップ</span><span>する。</span>
+        Desc: <span>味方全体の</span><span style='color:#f29e38ff'>与ダメージをアップ</span><span>する。</span>
         Type: 戦闘スキル
       '130903':
         Name: 千の音で、群星にフーガを
-        Desc: >-
-          <span>「協奏」状態に入り、味方全体の</span><span
-          style='color:#f29e38ff'>攻撃力をアップ</span><span>し、自身以外の味方を即座に行動させる。味方が攻撃を行った後、ロビンは</span><span
-          style='color:#f29e38ff'>物理属性<u>付加ダメージ</u></span><span>を敵に与える。「協奏」状態の間、自身は<u>行動制限系デバフ</u>に抵抗できる。ロビンは「協奏」状態が終了するまで自身のターンに入らず、行動できない。</span>
+        Desc: <span>「協奏」状態に入り、味方全体の</span><span style='color:#f29e38ff'>攻撃力をアップ</span><span>し、自身以外の味方を即座に行動させる。味方が攻撃を行った後、ロビンは</span><span style='color:#f29e38ff'>物理属性<u>付加ダメージ</u></span><span>を敵に与える。「協奏」状態の間、自身は<u>行動制限系デバフ</u>に抵抗できる。ロビンは「協奏」状態が終了するまで自身のターンに入らず、行動できない。</span>
         Type: 必殺技
       '130904':
         Name: 調和の純正律
-        Desc: >-
-          <span>味方全体の</span><span
-          style='color:#f29e38ff'>会心ダメージ</span><span>をアップする。味方が敵に攻撃を行った後、ロビンのEPが回復する。</span>
+        Desc: <span>味方全体の</span><span style='color:#f29e38ff'>会心ダメージ</span><span>をアップする。味方が敵に攻撃を行った後、ロビンのEPが回復する。</span>
         Type: 天賦
       '130906':
         Name: 攻撃
         Desc: ''
       '130907':
         Name: 酩酊のオーバーチュア
-        Desc: >-
-          <span>自身の周囲に特殊領域を作り出す。領域内の敵はロビンを攻撃しない。領域展開中に戦闘に入った後、各ウェーブ開始時にロビンはEPを</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>5</span></span><span>回復する。</span>
+        Desc: '<span>自身の周囲に特殊領域を作り出す。領域内の敵はロビンを攻撃しない。領域展開中に戦闘に入った後、各ウェーブ開始時にロビンはEPを</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>5</span></span><span>回復する。</span>'
         Type: 秘技
     Eidolons:
       '130901':
@@ -2773,8 +2338,7 @@ Characters:
         Desc: <span>通常攻撃のLv.+1、最大Lv.10まで。天賦のLv.+2、最大Lv.15まで。</span>
       '130906':
         Name: 月隠りの真夜中
-        Desc: >-
-          <span>「協奏」状態の時、必殺技による物理属性付加ダメージの会心ダメージ+450%。「月隠りの真夜中」の効果は8回まで発動できる。必殺技を発動すると、この効果の発動可能回数がリセットされる。</span>
+        Desc: <span>「協奏」状態の時、必殺技による物理属性付加ダメージの会心ダメージ+450%。「月隠りの真夜中」の効果は8回まで発動できる。必殺技を発動すると、この効果の発動可能回数がリセットされる。</span>
   '1310':
     Name: ホタル
     Abilities:
@@ -2784,46 +2348,30 @@ Characters:
         Type: 通常攻撃
       '131002':
         Name: コマンド-天火轟撃
-        Desc: >-
-          <span>自身のHPを一部消費してEPを回復し、指定した敵単体に炎属性ダメージを与える。自身の次の<u>行動順を早める</u>。</span>
+        Desc: <span>自身のHPを一部消費してEPを回復し、指定した敵単体に炎属性ダメージを与える。自身の次の<u>行動順を早める</u>。</span>
         Type: 戦闘スキル
       '131003':
         Name: ファイアフライ-IV-完全燃焼
-        Desc: >-
-          <span>「完全燃焼」状態に入り、</span><span style='color:#f29e38ff'>自身の行動順を<span
-          style='whiteSpace: "nowrap"'>100%</span>早める</span><span>。</span><span
-          style='color:#f29e38ff'>強化通常攻撃</span><span>と</span><span
-          style='color:#f29e38ff'>強化戦闘スキル</span><span>を獲得し、カウントダウンが終了するまで自身の</span><span
-          style='color:#f29e38ff'>速度、弱点撃破効率、敵の受ける弱点撃破ダメージ</span><span>をアップする。</span>
+        Desc: '<span>「完全燃焼」状態に入り、</span><span style=''color:#f29e38ff''>自身の行動順を<span style=''whiteSpace: "nowrap"''>100%</span>早める</span><span>。</span><span style=''color:#f29e38ff''>強化通常攻撃</span><span>と</span><span style=''color:#f29e38ff''>強化戦闘スキル</span><span>を獲得し、カウントダウンが終了するまで自身の</span><span style=''color:#f29e38ff''>速度、弱点撃破効率、敵の受ける弱点撃破ダメージ</span><span>をアップする。</span>'
         Type: 必殺技
       '131004':
         Name: ホタル式源火中枢
-        Desc: >-
-          <span>残りHPが少ないほど受けるダメージがダウンする。「完全燃焼」状態の時、ダメージ軽減効果は最大値を維持し、効果抵抗がアップする。戦闘開始時、EPが</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>50%</span></span><span>未満の場合、EPを</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>50%</span></span><span>まで回復する。EPが満タンになる時、自身にある<u>デバフ</u>をすべて解除する。</span>
+        Desc: '<span>残りHPが少ないほど受けるダメージがダウンする。「完全燃焼」状態の時、ダメージ軽減効果は最大値を維持し、効果抵抗がアップする。戦闘開始時、EPが</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>50%</span></span><span>未満の場合、EPを</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>50%</span></span><span>まで回復する。EPが満タンになる時、自身にある<u>デバフ</u>をすべて解除する。</span>'
         Type: 天賦
       '131006':
         Name: 攻撃
         Desc: ''
       '131007':
         Name: Δコマンド-焦土隕撃
-        Desc: >-
-          <span>空中に跳び上がって自由に移動する。数秒移動した後、着地して範囲内のすべての敵を攻撃する。</span><span
-          style='color:#f29e38ff'>各ウェーブ</span><span>開始時、敵全体に</span><span
-          style='color:#f29e38ff'>炎属性弱点を付与し</span><span>、敵全体に炎属性ダメージを与える。</span>
+        Desc: <span>空中に跳び上がって自由に移動する。数秒移動した後、着地して範囲内のすべての敵を攻撃する。</span><span style='color:#f29e38ff'>各ウェーブ</span><span>開始時、敵全体に</span><span style='color:#f29e38ff'>炎属性弱点を付与し</span><span>、敵全体に炎属性ダメージを与える。</span>
         Type: 秘技
     Eidolons:
       '131001':
         Name: かつて安眠せし\n赤染の繭
-        Desc: >-
-          <span>強化戦闘スキル「ファイアフライ-IV-死星オーバーロード」を発動する時、ターゲットの防御力を15%無視し、SPを消費しない。</span>
+        Desc: <span>強化戦闘スキル「ファイアフライ-IV-死星オーバーロード」を発動する時、ターゲットの防御力を15%無視し、SPを消費しない。</span>
       '131002':
         Name: 砕かれし空からの墜落
-        Desc: >-
-          <span>「完全燃焼」状態で強化通常攻撃「ファイアフライ-IV-底火斬撃」か強化戦闘スキル「ファイアフライ-IV-死星オーバーロード」を発動して敵を倒す、または敵を弱点撃破状態にする時、装甲「サム」が追加ターンを1獲得する。この効果は1ターン後に再度発動できる。</span>
+        Desc: <span>「完全燃焼」状態で強化通常攻撃「ファイアフライ-IV-底火斬撃」か強化戦闘スキル「ファイアフライ-IV-死星オーバーロード」を発動して敵を倒す、または敵を弱点撃破状態にする時、装甲「サム」が追加ターンを1獲得する。この効果は1ターン後に再度発動できる。</span>
       '131003':
         Name: 静かな星の川で眠る
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
@@ -2835,8 +2383,7 @@ Characters:
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '131006':
         Name: 終わりの明日に\n咲き誇る
-        Desc: >-
-          <span>「完全燃焼」状態の時、装甲「サム」の炎属性耐性貫通+20%。強化通常攻撃「ファイアフライ-IV-底火斬撃」または強化戦闘スキル「ファイアフライ-IV-死星オーバーロード」を発動する時、弱点撃破効率+50%。</span>
+        Desc: <span>「完全燃焼」状態の時、装甲「サム」の炎属性耐性貫通+20%。強化通常攻撃「ファイアフライ-IV-底火斬撃」または強化戦闘スキル「ファイアフライ-IV-死星オーバーロード」を発動する時、弱点撃破効率+50%。</span>
   '1312':
     Name: ミーシャ
     Abilities:
@@ -2846,35 +2393,22 @@ Characters:
         Type: 通常攻撃
       '131202':
         Name: ル…ルームサービスです！
-        Desc: >-
-          <span>敵単体に氷属性ダメージを与える。隣接する敵に少量の氷属性ダメージを与え、ミーシャの次の</span><span
-          style='color:#f29e38ff'>必殺技の攻撃段数をアップ</span><span>する。</span>
+        Desc: <span>敵単体に氷属性ダメージを与える。隣接する敵に少量の氷属性ダメージを与え、ミーシャの次の</span><span style='color:#f29e38ff'>必殺技の攻撃段数をアップ</span><span>する。</span>
         Type: 戦闘スキル
       '131203':
         Name: ち…遅刻する！
-        Desc: >-
-          <span>敵単体に少量の氷属性ダメージを与える。初期状態では</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>3</span></span><span>回バウンドする。最大で</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>10</span></span><span>回バウンドできる。各段攻撃の前に、低確率で敵を</span><span
-          style='color:#f29e38ff'>凍結</span><span>状態にする。</span>
+        Desc: '<span>敵単体に少量の氷属性ダメージを与える。初期状態では</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>3</span></span><span>回バウンドする。最大で</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>10</span></span><span>回バウンドできる。各段攻撃の前に、低確率で敵を</span><span style=''color:#f29e38ff''>凍結</span><span>状態にする。</span>'
         Type: 必殺技
       '131204':
         Name: 脱進機
-        Desc: >-
-          <span>味方が</span><span
-          style='color:#f29e38ff'>SPを1消費</span><span>するたびに、ミーシャの次の</span><span
-          style='color:#f29e38ff'>必殺技の攻撃段数</span><span>がアップし、ミーシャのEPを回復する。</span>
+        Desc: <span>味方が</span><span style='color:#f29e38ff'>SPを1消費</span><span>するたびに、ミーシャの次の</span><span style='color:#f29e38ff'>必殺技の攻撃段数</span><span>がアップし、ミーシャのEPを回復する。</span>
         Type: 天賦
       '131206':
         Name: 攻撃
         Desc: ''
       '131207':
         Name: 時よ止まれ、アナタは美しい
-        Desc: >-
-          <span>特殊領域を作り出す。領域内の敵は行動を停止する。領域内の敵と戦闘に入った後、ミーシャの次の</span><span
-          style='color:#f29e38ff'>必殺技の攻撃段数</span><span>がアップする。</span>
+        Desc: <span>特殊領域を作り出す。領域内の敵は行動を停止する。領域内の敵と戦闘に入った後、ミーシャの次の</span><span style='color:#f29e38ff'>必殺技の攻撃段数</span><span>がアップする。</span>
         Type: 秘技
     Eidolons:
       '131201':
@@ -2894,8 +2428,7 @@ Characters:
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '131206':
         Name: 久しく忘れていた憧れ
-        Desc: >-
-          <span>必殺技を発動する時、自身の与ダメージ+30%、自身の次のターンが終了するまで継続。次の戦闘スキルを発動した後、SPを1回復する。</span>
+        Desc: <span>必殺技を発動する時、自身の与ダメージ+30%、自身の次のターンが終了するまで継続。次の戦闘スキルを発動した後、SPを1回復する。</span>
   '1314':
     Name: ジェイド
     Abilities:
@@ -2905,46 +2438,27 @@ Characters:
         Type: 通常攻撃
       '131402':
         Name: ほしいままに呑み込む買収
-        Desc: >-
-          <span>味方単体を</span><span
-          style='color:#f29e38ff'>「債権回収者」</span><span>状態にし、その味方の速度をアップさせる。</span><span
-          style='color:#f29e38ff'>「債権回収者」</span><span>状態の味方は攻撃を行った後にHPを消費し、命中した敵に少量の量子属性<u>付加ダメージ</u>を与える。ジェイドが「債権回収者」状態の時、速度アップ効果を獲得せず、攻撃後もHPを消費しない。</span>
+        Desc: <span>味方単体を</span><span style='color:#f29e38ff'>「債権回収者」</span><span>状態にし、その味方の速度をアップさせる。</span><span style='color:#f29e38ff'>「債権回収者」</span><span>状態の味方は攻撃を行った後にHPを消費し、命中した敵に少量の量子属性<u>付加ダメージ</u>を与える。ジェイドが「債権回収者」状態の時、速度アップ効果を獲得せず、攻撃後もHPを消費しない。</span>
         Type: 戦闘スキル
       '131403':
         Name: 欲望の淵での地獄の契り
-        Desc: >-
-          <span>敵全体に量子属性ダメージを与え、自身の</span><span
-          style='color:#f29e38ff'><u>追加攻撃</u></span><span>ダメージ倍率をアップする。</span>
+        Desc: <span>敵全体に量子属性ダメージを与え、自身の</span><span style='color:#f29e38ff'><u>追加攻撃</u></span><span>ダメージ倍率をアップする。</span>
         Type: 必殺技
       '131404':
         Name: 富を削ぐ毒牙
-        Desc: >-
-          <span>ジェイドまたは</span><span
-          style='color:#f29e38ff'>「債権回収者」</span><span>状態の味方が攻撃を行った後、命中した敵1体につき、チャージを1獲得する。チャージが</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>8</span></span><span>に到達した後、チャージを</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>8</span></span><span>消費して</span><span
-          style='color:#f29e38ff'><u>追加攻撃</u></span><span>を1回行い、敵全体に量子属性ダメージを与える。<br>ジェイドが</span><span
-          style='color:#f29e38ff'><u>追加攻撃</u></span><span>を行う時、「質草」を獲得し、会心ダメージがアップする、最大で</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>50</span></span><span>層累積できる。</span>
+        Desc: '<span>ジェイドまたは</span><span style=''color:#f29e38ff''>「債権回収者」</span><span>状態の味方が攻撃を行った後、命中した敵1体につき、チャージを1獲得する。チャージが</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>8</span></span><span>に到達した後、チャージを</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>8</span></span><span>消費して</span><span style=''color:#f29e38ff''><u>追加攻撃</u></span><span>を1回行い、敵全体に量子属性ダメージを与える。<br>ジェイドが</span><span style=''color:#f29e38ff''><u>追加攻撃</u></span><span>を行う時、「質草」を獲得し、会心ダメージがアップする、最大で</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>50</span></span><span>層累積できる。</span>'
         Type: 天賦
       '131406':
         Name: 攻撃
         Desc: ''
       '131407':
         Name: ハンターの視界
-        Desc: >-
-          <span>一定範囲内の敵を「盲従」状態にする。「盲従」状態の敵を攻撃すると、すべての「盲従」状態の敵と戦闘に入る。戦闘に入った後、敵全体に少量の量子属性ダメージを与え、「質草」を</span><span
-          style='color:#f29e38ff'><span style='whiteSpace:
-          "nowrap"'>15</span></span><span>層獲得する。</span>
+        Desc: '<span>一定範囲内の敵を「盲従」状態にする。「盲従」状態の敵を攻撃すると、すべての「盲従」状態の敵と戦闘に入る。戦闘に入った後、敵全体に少量の量子属性ダメージを与え、「質草」を</span><span style=''color:#f29e38ff''><span style=''whiteSpace: "nowrap"''>15</span></span><span>層獲得する。</span>'
         Type: 秘技
     Eidolons:
       '131401':
         Name: 無私？\nそれは交渉次第
-        Desc: >-
-          <span>ジェイドの天賦による追加攻撃ダメージ+32%。「債権回収者」状態の味方キャラが攻撃を行い、命中した敵の数が2体/1体の時、ジェイドはチャージを追加で1/2獲得する。</span>
+        Desc: <span>ジェイドの天賦による追加攻撃ダメージ+32%。「債権回収者」状態の味方キャラが攻撃を行い、命中した敵の数が2体/1体の時、ジェイドはチャージを追加で1/2獲得する。</span>
       '131402':
         Name: 道徳？\n謹んで捺印
         Desc: <span>「質草」が15層以上の時、ジェイドの会心率+18%。</span>
@@ -2959,8 +2473,7 @@ Characters:
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
       '131406':
         Name: 公平？\nなおも担保が必須
-        Desc: >-
-          <span>フィールド上に「債権回収者」状態のキャラがいる時、ジェイドの量子属性耐性貫通+20%。同時にジェイドも「債権回収者」状態を獲得する。</span>
+        Desc: <span>フィールド上に「債権回収者」状態のキャラがいる時、ジェイドの量子属性耐性貫通+20%。同時にジェイドも「債権回収者」状態を獲得する。</span>
   '1315':
     Name: ブートヒル
     Abilities:
@@ -2970,33 +2483,22 @@ Characters:
         Type: 通常攻撃
       '131502':
         Name: 熱砂のタンゴ
-        Desc: >-
-          <span></span><span
-          style='color:#f29e38ff'>「九死の決闘」</span><span>を始める。「九死の決闘」のターゲットが</span><span
-          style='color:#f29e38ff'>倒される、または弱点撃破された</span><span>後、ブートヒルは「ポケットアドバンテージ」を獲得し、「九死の決闘」を解除する。</span><span
-          style='color:#f29e38ff'>通常攻撃を強化</span><span>する。ターンは終了しない。</span>
+        Desc: <span></span><span style='color:#f29e38ff'>「九死の決闘」</span><span>を始める。「九死の決闘」のターゲットが</span><span style='color:#f29e38ff'>倒される、または弱点撃破された</span><span>後、ブートヒルは「ポケットアドバンテージ」を獲得し、「九死の決闘」を解除する。</span><span style='color:#f29e38ff'>通常攻撃を強化</span><span>する。ターンは終了しない。</span>
         Type: 戦闘スキル
       '131503':
         Name: ダストデビル・ダンサー
-        Desc: >-
-          <span>敵単体に</span><span
-          style='color:#f29e38ff'>物理属性弱点を付与</span><span>し、大量の物理属性ダメージを与え、行動順を遅延させる。</span>
+        Desc: <span>敵単体に</span><span style='color:#f29e38ff'>物理属性弱点を付与</span><span>し、大量の物理属性ダメージを与え、行動順を遅延させる。</span>
         Type: 必殺技
       '131504':
         Name: 5発の銃弾
-        Desc: >-
-          <span>「ポケットアドバンテージ」は「ファニング」の削靭値をアップし、</span><span
-          style='color:#f29e38ff'>弱点撃破された敵</span><span>にさらに物理属性</span><span
-          style='color:#f29e38ff'>弱点撃破ダメージ</span><span>を与える。戦闘に勝利した後、「ポケットアドバンテージ」を次の戦闘に持ち越せる。</span>
+        Desc: <span>「ポケットアドバンテージ」は「ファニング」の削靭値をアップし、</span><span style='color:#f29e38ff'>弱点撃破された敵</span><span>にさらに物理属性</span><span style='color:#f29e38ff'>弱点撃破ダメージ</span><span>を与える。戦闘に勝利した後、「ポケットアドバンテージ」を次の戦闘に持ち越せる。</span>
         Type: 天賦
       '131506':
         Name: 攻撃
         Desc: ''
       '131507':
         Name: ビッグ・スマイル
-        Desc: >-
-          <span>秘技を使用、次の戦闘で初めて戦闘スキルを発動する時、敵単体に</span><span
-          style='color:#f29e38ff'>物理属性弱点を付与</span><span>する。</span>
+        Desc: <span>秘技を使用、次の戦闘で初めて戦闘スキルを発動する時、敵単体に</span><span style='color:#f29e38ff'>物理属性弱点を付与</span><span>する。</span>
         Type: 秘技
     Eidolons:
       '131501':
@@ -3004,22 +2506,19 @@ Characters:
         Desc: <span>戦闘開始時、「ポケットアドバンテージ」を1層獲得する。ブートヒルがダメージを与える時、敵の防御力を16%無視する。</span>
       '131502':
         Name: マイルストーン・\nマンガー
-        Desc: >-
-          <span>「九死の決闘」状態で「ポケットアドバンテージ」を獲得する時、SPを1回復する。同時に撃破特効+30%、2ターン継続。この効果はターンが回ってくるたびに1回まで発動でき、獲得する「ポケットアドバンテージ」が上限を超える時にも触発される。</span>
+        Desc: <span>「九死の決闘」状態で「ポケットアドバンテージ」を獲得する時、SPを1回復する。同時に撃破特効+30%、2ターン継続。この効果はターンが回ってくるたびに1回まで発動でき、獲得する「ポケットアドバンテージ」が上限を超える時にも触発される。</span>
       '131503':
         Name: 墓守
         Desc: <span>必殺技のLv.+2、最大Lv.15まで。通常攻撃のLv.+1、最大Lv.10まで。</span>
       '131504':
         Name: 冷めた肉の料理人
-        Desc: >-
-          <span>「九死の決闘」状態の敵がブートヒルの攻撃を受ける時、被ダメージアップ効果さらに+12%。ブートヒルが「九死の決闘」状態の敵の攻撃を受ける時、被ダメージアップ効果-12%。</span>
+        Desc: <span>「九死の決闘」状態の敵がブートヒルの攻撃を受ける時、被ダメージアップ効果さらに+12%。ブートヒルが「九死の決闘」状態の敵の攻撃を受ける時、被ダメージアップ効果-12%。</span>
       '131505':
         Name: 切り株の演説家
         Desc: <span>戦闘スキルのLv.+2、最大Lv.15まで。天賦のLv.+2、最大Lv.15まで。</span>
       '131506':
         Name: 鉄格子ホテルの常連
-        Desc: >-
-          <span>天賦を触発して弱点撃破ダメージを与える時、ターゲットに対してさらに本来のダメージ倍率40%分の弱点撃破ダメージを与え、隣接する敵に本来のダメージ倍率70%分の弱点撃破ダメージを与える。</span>
+        Desc: <span>天賦を触発して弱点撃破ダメージを与える時、ターゲットに対してさらに本来のダメージ倍率40%分の弱点撃破ダメージを与え、隣接する敵に本来のダメージ倍率70%分の弱点撃破ダメージを与える。</span>
   '8001':
     Name: Caelus (壊滅)
     Abilities:
@@ -3044,9 +2543,7 @@ Characters:
         Desc: ''
       '800107':
         Name: 不滅三振
-        Desc: >-
-          <span>秘技を使用した後、味方全体の</span><span
-          style='color:#f29e38ff'>HPを回復</span><span>する。</span>
+        Desc: <span>秘技を使用した後、味方全体の</span><span style='color:#f29e38ff'>HPを回復</span><span>する。</span>
         Type: 秘技
     Eidolons:
       '800101':
@@ -3091,9 +2588,7 @@ Characters:
         Desc: ''
       '800207':
         Name: 不滅三振
-        Desc: >-
-          <span>秘技を使用した後、味方全体の</span><span
-          style='color:#f29e38ff'>HPを回復</span><span>する。</span>
+        Desc: <span>秘技を使用した後、味方全体の</span><span style='color:#f29e38ff'>HPを回復</span><span>する。</span>
         Type: 秘技
     Eidolons:
       '800201':
@@ -3131,9 +2626,7 @@ Characters:
         Type: 必殺技
       '800304':
         Name: 建創者の失われし宝
-        Desc: >-
-          <span>攻撃を受けると「灼熱意志」を獲得する。「灼熱意志」が4層以上の時、通常攻撃が</span><span
-          style='color:#f29e38ff'>強化</span><span>される。通常攻撃、戦闘スキル、または必殺技を発動した後、味方全体にバリアを付与する。</span>
+        Desc: <span>攻撃を受けると「灼熱意志」を獲得する。「灼熱意志」が4層以上の時、通常攻撃が</span><span style='color:#f29e38ff'>強化</span><span>される。通常攻撃、戦闘スキル、または必殺技を発動した後、味方全体にバリアを付与する。</span>
         Type: 天賦
       '800306':
         Name: 攻撃
@@ -3145,8 +2638,7 @@ Characters:
     Eidolons:
       '800301':
         Name: 大地芯髄の鳴動
-        Desc: >-
-          <span>通常攻撃を行った時、さらに開拓者の防御力25%分の炎属性ダメージを与える。強化通常攻撃を行った時、さらに開拓者の防御力50%分の炎属性ダメージを与える。</span>
+        Desc: <span>通常攻撃を行った時、さらに開拓者の防御力25%分の炎属性ダメージを与える。強化通常攻撃を行った時、さらに開拓者の防御力50%分の炎属性ダメージを与える。</span>
       '800302':
         Name: 古き寒鉄の堅守
         Desc: <span>天賦発動時、味方全体に付与するバリアの耐久値が、開拓者の防御力2%+27アップする。</span>
@@ -3179,9 +2671,7 @@ Characters:
         Type: 必殺技
       '800404':
         Name: 建創者の失われし宝
-        Desc: >-
-          <span>攻撃を受けると「灼熱意志」を獲得する。「灼熱意志」が4層以上の時、通常攻撃が</span><span
-          style='color:#f29e38ff'>強化</span><span>される。通常攻撃、戦闘スキル、または必殺技を発動した後、味方全体にバリアを付与する。</span>
+        Desc: <span>攻撃を受けると「灼熱意志」を獲得する。「灼熱意志」が4層以上の時、通常攻撃が</span><span style='color:#f29e38ff'>強化</span><span>される。通常攻撃、戦闘スキル、または必殺技を発動した後、味方全体にバリアを付与する。</span>
         Type: 天賦
       '800406':
         Name: 攻撃
@@ -3193,8 +2683,7 @@ Characters:
     Eidolons:
       '800401':
         Name: 大地芯髄の鳴動
-        Desc: >-
-          <span>通常攻撃を行った時、さらに開拓者の防御力25%分の炎属性ダメージを与える。強化通常攻撃を行った時、さらに開拓者の防御力50%分の炎属性ダメージを与える。</span>
+        Desc: <span>通常攻撃を行った時、さらに開拓者の防御力25%分の炎属性ダメージを与える。強化通常攻撃を行った時、さらに開拓者の防御力50%分の炎属性ダメージを与える。</span>
       '800402':
         Name: 古き寒鉄の堅守
         Desc: <span>天賦発動時、味方全体に付与するバリアの耐久値が、開拓者の防御力2%+27アップする。</span>
@@ -3223,10 +2712,7 @@ Characters:
         Type: 戦闘スキル
       '800503':
         Name: 賑やかなパレード
-        Desc: >-
-          <span>味方全体に「バックダンス」を付与する。「バックダンス」を持つ味方の</span><span
-          style='color:#f29e38ff'>撃破特効がアップする</span><span>。また、<u>弱点撃破状態</u>の敵に攻撃を行った後、さらに</span><span
-          style='color:#f29e38ff'><u>超撃破ダメージ</u></span><span>を1回与える。</span>
+        Desc: <span>味方全体に「バックダンス」を付与する。「バックダンス」を持つ味方の</span><span style='color:#f29e38ff'>撃破特効がアップする</span><span>。また、<u>弱点撃破状態</u>の敵に攻撃を行った後、さらに</span><span style='color:#f29e38ff'><u>超撃破ダメージ</u></span><span>を1回与える。</span>
         Type: 必殺技
       '800504':
         Name: エアリアルステップ
@@ -3271,10 +2757,7 @@ Characters:
         Type: 戦闘スキル
       '800603':
         Name: 賑やかなパレード
-        Desc: >-
-          <span>味方全体に「バックダンス」を付与する。「バックダンス」を持つ味方の</span><span
-          style='color:#f29e38ff'>撃破特効がアップする</span><span>。また、<u>弱点撃破状態</u>の敵に攻撃を行った後、さらに</span><span
-          style='color:#f29e38ff'><u>超撃破ダメージ</u></span><span>を1回与える。</span>
+        Desc: <span>味方全体に「バックダンス」を付与する。「バックダンス」を持つ味方の</span><span style='color:#f29e38ff'>撃破特効がアップする</span><span>。また、<u>弱点撃破状態</u>の敵に攻撃を行った後、さらに</span><span style='color:#f29e38ff'><u>超撃破ダメージ</u></span><span>を1回与える。</span>
         Type: 必殺技
       '800604':
         Name: エアリアルステップ
@@ -3314,269 +2797,133 @@ RelicSets:
   '102':
     Name: 草の穂ガンマン
     Description2pc: '<span>攻撃力+<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
-    Description4pc: >-
-      <span>装備キャラの速度+<span style='whiteSpace:
-      "nowrap"'>6%</span>、通常攻撃によるダメージ+<span style='whiteSpace:
-      "nowrap"'>10%</span>。</span>
+    Description4pc: '<span>装備キャラの速度+<span style=''whiteSpace: "nowrap"''>6%</span>、通常攻撃によるダメージ+<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
   '103':
     Name: 純庭教会の聖騎士
     Description2pc: '<span>防御力+<span style=''whiteSpace: "nowrap"''>15%</span>。</span>'
-    Description4pc: >-
-      <span>装備キャラが付与するバリアの耐久値+<span style='whiteSpace:
-      "nowrap"'>20%</span>。</span>
+    Description4pc: '<span>装備キャラが付与するバリアの耐久値+<span style=''whiteSpace: "nowrap"''>20%</span>。</span>'
   '104':
     Name: 雪の密林の狩人
     Description2pc: '<span>氷属性ダメージ+<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
-    Description4pc: >-
-      <span>装備キャラが必殺技を発動した時、会心ダメージ+<span style='whiteSpace:
-      "nowrap"'>25%</span>、<span style='whiteSpace:
-      "nowrap"'>2</span>ターン継続。</span>
+    Description4pc: '<span>装備キャラが必殺技を発動した時、会心ダメージ+<span style=''whiteSpace: "nowrap"''>25%</span>、<span style=''whiteSpace: "nowrap"''>2</span>ターン継続。</span>'
   '105':
     Name: 成り上がりチャンピオン
     Description2pc: '<span>物理属性ダメージ+<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
-    Description4pc: >-
-      <span>装備キャラが攻撃を行う、または攻撃を受けた後、今回の戦闘中の攻撃力+<span style='whiteSpace:
-      "nowrap"'>5%</span>、最大で<span style='whiteSpace:
-      "nowrap"'>5</span>層累積できる。</span>
+    Description4pc: '<span>装備キャラが攻撃を行う、または攻撃を受けた後、今回の戦闘中の攻撃力+<span style=''whiteSpace: "nowrap"''>5%</span>、最大で<span style=''whiteSpace: "nowrap"''>5</span>層累積できる。</span>'
   '106':
     Name: 吹雪と対峙する兵士
     Description2pc: '<span>受けるダメージ-<span style=''whiteSpace: "nowrap"''>8%</span>。</span>'
-    Description4pc: >-
-      <span>ターンが回ってきた時、装備キャラの残りHPが<span style='whiteSpace:
-      "nowrap"'>50%</span>以下の場合、HPを最大HP<span style='whiteSpace:
-      "nowrap"'>8%</span>分回復し、EPを<span style='whiteSpace:
-      "nowrap"'>5</span>回復する。</span>
+    Description4pc: '<span>ターンが回ってきた時、装備キャラの残りHPが<span style=''whiteSpace: "nowrap"''>50%</span>以下の場合、HPを最大HP<span style=''whiteSpace: "nowrap"''>8%</span>分回復し、EPを<span style=''whiteSpace: "nowrap"''>5</span>回復する。</span>'
   '107':
     Name: 溶岩で鍛造する火匠
     Description2pc: '<span>炎属性ダメージ+<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
-    Description4pc: >-
-      <span>装備キャラの戦闘スキルによるダメージ+<span style='whiteSpace:
-      "nowrap"'>12%</span>。必殺技を発動した後、次の攻撃の炎属性ダメージ+<span style='whiteSpace:
-      "nowrap"'>12%</span>。</span>
+    Description4pc: '<span>装備キャラの戦闘スキルによるダメージ+<span style=''whiteSpace: "nowrap"''>12%</span>。必殺技を発動した後、次の攻撃の炎属性ダメージ+<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
   '108':
     Name: 星の如く輝く天才
     Description2pc: '<span>量子属性ダメージ+<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
-    Description4pc: >-
-      <span>装備キャラが敵にダメージを与えた時、敵の防御力を<span style='whiteSpace:
-      "nowrap"'>10%</span>無視する。敵に量子属性の弱点がある場合、さらに防御力を<span style='whiteSpace:
-      "nowrap"'>10%</span>無視する。</span>
+    Description4pc: '<span>装備キャラが敵にダメージを与えた時、敵の防御力を<span style=''whiteSpace: "nowrap"''>10%</span>無視する。敵に量子属性の弱点がある場合、さらに防御力を<span style=''whiteSpace: "nowrap"''>10%</span>無視する。</span>'
   '109':
     Name: 雷鳴轟くバンド
     Description2pc: '<span>雷属性ダメージ+<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
-    Description4pc: >-
-      <span>装備キャラが戦闘スキルを発動した時、装備キャラの攻撃力+<span style='whiteSpace:
-      "nowrap"'>20%</span>、<span style='whiteSpace:
-      "nowrap"'>1</span>ターン継続。</span>
+    Description4pc: '<span>装備キャラが戦闘スキルを発動した時、装備キャラの攻撃力+<span style=''whiteSpace: "nowrap"''>20%</span>、<span style=''whiteSpace: "nowrap"''>1</span>ターン継続。</span>'
   '110':
     Name: 昼夜の狭間を翔ける鷹
     Description2pc: '<span>風属性ダメージ+<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
-    Description4pc: >-
-      <span>装備キャラが必殺技を発動した後、行動順が<span style='whiteSpace:
-      "nowrap"'>25%</span>早まる。</span>
+    Description4pc: '<span>装備キャラが必殺技を発動した後、行動順が<span style=''whiteSpace: "nowrap"''>25%</span>早まる。</span>'
   '111':
     Name: 流星の跡を追う怪盗
     Description2pc: '<span>撃破特効+<span style=''whiteSpace: "nowrap"''>16%</span>。</span>'
-    Description4pc: >-
-      <span>装備キャラの撃破特効+<span style='whiteSpace:
-      "nowrap"'>16%</span>。装備キャラが敵を弱点撃破した後、EPを<span style='whiteSpace:
-      "nowrap"'>3</span>回復する。</span>
+    Description4pc: '<span>装備キャラの撃破特効+<span style=''whiteSpace: "nowrap"''>16%</span>。装備キャラが敵を弱点撃破した後、EPを<span style=''whiteSpace: "nowrap"''>3</span>回復する。</span>'
   '112':
     Name: 荒地で盗みを働く廃土客
     Description2pc: '<span>虚数属性ダメージ+<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
-    Description4pc: >-
-      <span>デバフ状態の敵にダメージを与えた時、装備キャラの会心率+<span style='whiteSpace:
-      "nowrap"'>10%</span>。禁錮状態の敵にダメージを与えた時、会心ダメージ+<span style='whiteSpace:
-      "nowrap"'>20%</span>。</span>
+    Description4pc: '<span>デバフ状態の敵にダメージを与えた時、装備キャラの会心率+<span style=''whiteSpace: "nowrap"''>10%</span>。禁錮状態の敵にダメージを与えた時、会心ダメージ+<span style=''whiteSpace: "nowrap"''>20%</span>。</span>'
   '113':
     Name: 宝命長存の蒔者
     Description2pc: '<span>最大HP+<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
-    Description4pc: >-
-      <span>装備キャラが攻撃を受ける、または味方によってHPを消費させられた後、会心率+<span style='whiteSpace:
-      "nowrap"'>8%</span>、<span style='whiteSpace:
-      "nowrap"'>2</span>ターン継続。この効果は最大で<span style='whiteSpace:
-      "nowrap"'>2</span>層累積できる。</span>
+    Description4pc: '<span>装備キャラが攻撃を受ける、または味方によってHPを消費させられた後、会心率+<span style=''whiteSpace: "nowrap"''>8%</span>、<span style=''whiteSpace: "nowrap"''>2</span>ターン継続。この効果は最大で<span style=''whiteSpace: "nowrap"''>2</span>層累積できる。</span>'
   '114':
     Name: 仮想空間を漫遊するメッセンジャー
     Description2pc: '<span>速度+<span style=''whiteSpace: "nowrap"''>6%</span>。</span>'
-    Description4pc: >-
-      <span>装備キャラが味方に対して必殺技を発動した時、味方全体の速度+<span style='whiteSpace:
-      "nowrap"'>12%</span>、<span style='whiteSpace:
-      "nowrap"'>1</span>ターン継続。この効果は累積できない。</span>
+    Description4pc: '<span>装備キャラが味方に対して必殺技を発動した時、味方全体の速度+<span style=''whiteSpace: "nowrap"''>12%</span>、<span style=''whiteSpace: "nowrap"''>1</span>ターン継続。この効果は累積できない。</span>'
   '115':
     Name: 灰燼を燃やし尽くす大公
     Description2pc: '<span>追加攻撃ダメージ+<span style=''whiteSpace: "nowrap"''>20%</span>。</span>'
-    Description4pc: >-
-      <span>装備キャラが追加攻撃を行った時、追加攻撃のヒット数に応じて、ダメージを与えるたびに装備キャラの攻撃力+<span
-      style='whiteSpace: "nowrap"'>6%</span>、最大<span style='whiteSpace:
-      "nowrap"'>8</span>回まで累積でき、<span style='whiteSpace:
-      "nowrap"'>3</span>ターン継続。この効果は、装備キャラが次の追加攻撃を行った時に解除される。</span>
+    Description4pc: '<span>装備キャラが追加攻撃を行った時、追加攻撃のヒット数に応じて、ダメージを与えるたびに装備キャラの攻撃力+<span style=''whiteSpace: "nowrap"''>6%</span>、最大<span style=''whiteSpace: "nowrap"''>8</span>回まで累積でき、<span style=''whiteSpace: "nowrap"''>3</span>ターン継続。この効果は、装備キャラが次の追加攻撃を行った時に解除される。</span>'
   '116':
     Name: 深い牢獄の囚人
     Description2pc: '<span>攻撃力+<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
-    Description4pc: >-
-      <span>敵に付与された持続ダメージ系デバフが1つにつき、装備キャラがその敵にダメージを与える時に防御力を<span
-      style='whiteSpace: "nowrap"'>6%</span>無視する。持続ダメージ系デバフは最大で<span
-      style='whiteSpace: "nowrap"'>3</span>つまでカウントされる。</span>
+    Description4pc: '<span>敵に付与された持続ダメージ系デバフが1つにつき、装備キャラがその敵にダメージを与える時に防御力を<span style=''whiteSpace: "nowrap"''>6%</span>無視する。持続ダメージ系デバフは最大で<span style=''whiteSpace: "nowrap"''>3</span>つまでカウントされる。</span>'
   '117':
     Name: 死水に潜る先駆者
-    Description2pc: >-
-      <span>デバフの影響を受けている敵への与ダメージ+<span style='whiteSpace:
-      "nowrap"'>12%</span>。</span>
-    Description4pc: >-
-      <span>会心率+<span style='whiteSpace: "nowrap"'>4%</span>。デバフを<span
-      style='whiteSpace: "nowrap"'>2</span>/<span style='whiteSpace:
-      "nowrap"'>3</span>つ以上付与されている敵に対する、装備キャラの会心ダメージ+<span style='whiteSpace:
-      "nowrap"'>8%</span>/<span style='whiteSpace:
-      "nowrap"'>12%</span>。装備キャラが敵にデバフを付与した後、上記の効果が2倍になる、<span
-      style='whiteSpace: "nowrap"'>1</span>ターン継続。</span>
+    Description2pc: '<span>デバフの影響を受けている敵への与ダメージ+<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
+    Description4pc: '<span>会心率+<span style=''whiteSpace: "nowrap"''>4%</span>。デバフを<span style=''whiteSpace: "nowrap"''>2</span>/<span style=''whiteSpace: "nowrap"''>3</span>つ以上付与されている敵に対する、装備キャラの会心ダメージ+<span style=''whiteSpace: "nowrap"''>8%</span>/<span style=''whiteSpace: "nowrap"''>12%</span>。装備キャラが敵にデバフを付与した後、上記の効果が2倍になる、<span style=''whiteSpace: "nowrap"''>1</span>ターン継続。</span>'
   '118':
     Name: 夢を弄ぶ時計屋
     Description2pc: '<span>撃破特効+<span style=''whiteSpace: "nowrap"''>16%</span>。</span>'
-    Description4pc: >-
-      <span>装備キャラが味方に対して必殺技を発動する時、味方全体の撃破特効+<span style='whiteSpace:
-      "nowrap"'>30%</span>、<span style='whiteSpace:
-      "nowrap"'>2</span>ターン継続。この効果は累積できない。</span>
+    Description4pc: '<span>装備キャラが味方に対して必殺技を発動する時、味方全体の撃破特効+<span style=''whiteSpace: "nowrap"''>30%</span>、<span style=''whiteSpace: "nowrap"''>2</span>ターン継続。この効果は累積できない。</span>'
   '119':
     Name: 蝗害を一掃せし鉄騎
     Description2pc: '<span>撃破特効+<span style=''whiteSpace: "nowrap"''>16%</span>。</span>'
-    Description4pc: >-
-      <span>装備キャラの撃破特効が<span style='whiteSpace:
-      "nowrap"'>150%</span>以上の時、敵に与える弱点撃破ダメージが防御力を<span style='whiteSpace:
-      "nowrap"'>10%</span>無視する。装備キャラの撃破特効が<span style='whiteSpace:
-      "nowrap"'>250%</span>以上の時、さらに敵に与える超撃破ダメージが防御力を<span style='whiteSpace:
-      "nowrap"'>15%</span>無視する。</span>
+    Description4pc: '<span>装備キャラの撃破特効が<span style=''whiteSpace: "nowrap"''>150%</span>以上の時、敵に与える弱点撃破ダメージが防御力を<span style=''whiteSpace: "nowrap"''>10%</span>無視する。装備キャラの撃破特効が<span style=''whiteSpace: "nowrap"''>250%</span>以上の時、さらに敵に与える超撃破ダメージが防御力を<span style=''whiteSpace: "nowrap"''>15%</span>無視する。</span>'
   '120':
     Name: 風雲を薙ぎ払う勇烈
     Description2pc: '<span>攻撃力+<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
-    Description4pc: >-
-      <span>装備キャラの会心率+<span style='whiteSpace:
-      "nowrap"'>6%</span>。装備キャラが追加攻撃を行う時、必殺技によるダメージ+<span style='whiteSpace:
-      "nowrap"'>36%</span>、<span style='whiteSpace:
-      "nowrap"'>1</span>ターン継続。</span>
+    Description4pc: '<span>装備キャラの会心率+<span style=''whiteSpace: "nowrap"''>6%</span>。装備キャラが追加攻撃を行う時、必殺技によるダメージ+<span style=''whiteSpace: "nowrap"''>36%</span>、<span style=''whiteSpace: "nowrap"''>1</span>ターン継続。</span>'
   '301':
     Name: 宇宙封印ステーション
-    Description2pc: >-
-      <span>装備キャラの攻撃力+<span style='whiteSpace:
-      "nowrap"'>12%</span>。装備キャラの速度が<span style='whiteSpace:
-      "nowrap"'>120</span>以上の場合、さらに攻撃力+<span style='whiteSpace:
-      "nowrap"'>12%</span>。</span>
+    Description2pc: '<span>装備キャラの攻撃力+<span style=''whiteSpace: "nowrap"''>12%</span>。装備キャラの速度が<span style=''whiteSpace: "nowrap"''>120</span>以上の場合、さらに攻撃力+<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
   '302':
     Name: 老いぬ者の仙舟
-    Description2pc: >-
-      <span>装備キャラの最大HP+<span style='whiteSpace:
-      "nowrap"'>12%</span>。装備キャラの速度が<span style='whiteSpace:
-      "nowrap"'>120</span>以上の場合、味方全体の攻撃力+<span style='whiteSpace:
-      "nowrap"'>8%</span>。</span>
+    Description2pc: '<span>装備キャラの最大HP+<span style=''whiteSpace: "nowrap"''>12%</span>。装備キャラの速度が<span style=''whiteSpace: "nowrap"''>120</span>以上の場合、味方全体の攻撃力+<span style=''whiteSpace: "nowrap"''>8%</span>。</span>'
   '303':
     Name: 汎銀河商事会社
-    Description2pc: >-
-      <span>装備キャラの効果命中+<span style='whiteSpace:
-      "nowrap"'>10%</span>。装備キャラの攻撃力が、現在の効果命中<span style='whiteSpace:
-      "nowrap"'>25%</span>分アップ、最大で+<span style='whiteSpace:
-      "nowrap"'>25%</span>。</span>
+    Description2pc: '<span>装備キャラの効果命中+<span style=''whiteSpace: "nowrap"''>10%</span>。装備キャラの攻撃力が、現在の効果命中<span style=''whiteSpace: "nowrap"''>25%</span>分アップ、最大で+<span style=''whiteSpace: "nowrap"''>25%</span>。</span>'
   '304':
     Name: 建創者のベロブルグ
-    Description2pc: >-
-      <span>装備キャラの防御力+<span style='whiteSpace:
-      "nowrap"'>15%</span>。装備キャラの効果命中が<span style='whiteSpace:
-      "nowrap"'>50%</span>以上の場合、さらに防御力+<span style='whiteSpace:
-      "nowrap"'>15%</span>。</span>
+    Description2pc: '<span>装備キャラの防御力+<span style=''whiteSpace: "nowrap"''>15%</span>。装備キャラの効果命中が<span style=''whiteSpace: "nowrap"''>50%</span>以上の場合、さらに防御力+<span style=''whiteSpace: "nowrap"''>15%</span>。</span>'
   '305':
     Name: 天体階差機関
-    Description2pc: >-
-      <span>装備キャラの会心ダメージ+<span style='whiteSpace:
-      "nowrap"'>16%</span>。装備キャラの会心ダメージが<span style='whiteSpace:
-      "nowrap"'>120%</span>以上の場合、戦闘に入った後、装備キャラの会心率+<span style='whiteSpace:
-      "nowrap"'>60%</span>、初回の攻撃が終了するまで継続。</span>
+    Description2pc: '<span>装備キャラの会心ダメージ+<span style=''whiteSpace: "nowrap"''>16%</span>。装備キャラの会心ダメージが<span style=''whiteSpace: "nowrap"''>120%</span>以上の場合、戦闘に入った後、装備キャラの会心率+<span style=''whiteSpace: "nowrap"''>60%</span>、初回の攻撃が終了するまで継続。</span>'
   '306':
     Name: 自転が止まったサルソット
-    Description2pc: >-
-      <span>装備キャラの会心率+<span style='whiteSpace:
-      "nowrap"'>8%</span>。装備キャラの会心率が<span style='whiteSpace:
-      "nowrap"'>50%</span>以上の場合、追加攻撃ダメージと必殺技によるダメージ+<span style='whiteSpace:
-      "nowrap"'>15%</span>。</span>
+    Description2pc: '<span>装備キャラの会心率+<span style=''whiteSpace: "nowrap"''>8%</span>。装備キャラの会心率が<span style=''whiteSpace: "nowrap"''>50%</span>以上の場合、追加攻撃ダメージと必殺技によるダメージ+<span style=''whiteSpace: "nowrap"''>15%</span>。</span>'
   '307':
     Name: 盗賊公国タリア
-    Description2pc: >-
-      <span>装備キャラの撃破特効+<span style='whiteSpace:
-      "nowrap"'>16%</span>。装備キャラの速度が<span style='whiteSpace:
-      "nowrap"'>145</span>以上の場合、さらに撃破特効+<span style='whiteSpace:
-      "nowrap"'>20%</span>。</span>
+    Description2pc: '<span>装備キャラの撃破特効+<span style=''whiteSpace: "nowrap"''>16%</span>。装備キャラの速度が<span style=''whiteSpace: "nowrap"''>145</span>以上の場合、さらに撃破特効+<span style=''whiteSpace: "nowrap"''>20%</span>。</span>'
   '308':
     Name: 生命のウェンワーク
-    Description2pc: >-
-      <span>装備キャラのEP回復効率+<span style='whiteSpace:
-      "nowrap"'>5%</span>。装備キャラの速度が<span style='whiteSpace:
-      "nowrap"'>120</span>以上の場合、戦闘に入る時、行動順が<span style='whiteSpace:
-      "nowrap"'>40%</span>早まる。</span>
+    Description2pc: '<span>装備キャラのEP回復効率+<span style=''whiteSpace: "nowrap"''>5%</span>。装備キャラの速度が<span style=''whiteSpace: "nowrap"''>120</span>以上の場合、戦闘に入る時、行動順が<span style=''whiteSpace: "nowrap"''>40%</span>早まる。</span>'
   '309':
     Name: 星々の競技場
-    Description2pc: >-
-      <span>装備キャラの会心率+<span style='whiteSpace:
-      "nowrap"'>8%</span>。装備キャラの会心率が<span style='whiteSpace:
-      "nowrap"'>70%</span>以上の時、通常攻撃と戦闘スキルによるダメージ+<span style='whiteSpace:
-      "nowrap"'>20%</span>。</span>
+    Description2pc: '<span>装備キャラの会心率+<span style=''whiteSpace: "nowrap"''>8%</span>。装備キャラの会心率が<span style=''whiteSpace: "nowrap"''>70%</span>以上の時、通常攻撃と戦闘スキルによるダメージ+<span style=''whiteSpace: "nowrap"''>20%</span>。</span>'
   '310':
     Name: 折れた竜骨
-    Description2pc: >-
-      <span>装備キャラの効果抵抗+<span style='whiteSpace:
-      "nowrap"'>10%</span>。装備キャラの効果抵抗が<span style='whiteSpace:
-      "nowrap"'>30%</span>以上の時、味方全体の会心ダメージ+<span style='whiteSpace:
-      "nowrap"'>10%</span>。</span>
+    Description2pc: '<span>装備キャラの効果抵抗+<span style=''whiteSpace: "nowrap"''>10%</span>。装備キャラの効果抵抗が<span style=''whiteSpace: "nowrap"''>30%</span>以上の時、味方全体の会心ダメージ+<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
   '311':
     Name: 蒼穹戦線グラモス
-    Description2pc: >-
-      <span>装備キャラの攻撃力+<span style='whiteSpace:
-      "nowrap"'>12%</span>。装備キャラの速度が<span style='whiteSpace:
-      "nowrap"'>135</span>/<span style='whiteSpace:
-      "nowrap"'>160</span>以上の時、装備キャラの与ダメージ+<span style='whiteSpace:
-      "nowrap"'>12%</span>/<span style='whiteSpace: "nowrap"'>18%</span>。</span>
+    Description2pc: '<span>装備キャラの攻撃力+<span style=''whiteSpace: "nowrap"''>12%</span>。装備キャラの速度が<span style=''whiteSpace: "nowrap"''>135</span>/<span style=''whiteSpace: "nowrap"''>160</span>以上の時、装備キャラの与ダメージ+<span style=''whiteSpace: "nowrap"''>12%</span>/<span style=''whiteSpace: "nowrap"''>18%</span>。</span>'
   '312':
     Name: 夢の地ピノコニー
-    Description2pc: >-
-      <span>装備キャラのEP回復効率+<span style='whiteSpace:
-      "nowrap"'>5%</span>。パーティ中の装備キャラと同じ属性の味方の与ダメージ+<span style='whiteSpace:
-      "nowrap"'>10%</span>。</span>
+    Description2pc: '<span>装備キャラのEP回復効率+<span style=''whiteSpace: "nowrap"''>5%</span>。パーティ中の装備キャラと同じ属性の味方の与ダメージ+<span style=''whiteSpace: "nowrap"''>10%</span>。</span>'
   '313':
     Name: 荒涼の惑星ツガンニヤ
-    Description2pc: >-
-      <span>装備キャラの会心率+<span style='whiteSpace:
-      "nowrap"'>4%</span>。敵が倒された時、装備キャラの会心ダメージ+<span style='whiteSpace:
-      "nowrap"'>4%</span>、最大で<span style='whiteSpace:
-      "nowrap"'>10</span>回累積できる。</span>
+    Description2pc: '<span>装備キャラの会心率+<span style=''whiteSpace: "nowrap"''>4%</span>。敵が倒された時、装備キャラの会心ダメージ+<span style=''whiteSpace: "nowrap"''>4%</span>、最大で<span style=''whiteSpace: "nowrap"''>10</span>回累積できる。</span>'
   '314':
     Name: 顕世の出雲と高天の神国
-    Description2pc: >-
-      <span>装備キャラの攻撃力+<span style='whiteSpace:
-      "nowrap"'>12%</span>。戦闘に入る時、装備キャラと同じ運命のキャラが他に存在する場合、装備キャラの会心率+<span
-      style='whiteSpace: "nowrap"'>12%</span>。</span>
+    Description2pc: '<span>装備キャラの攻撃力+<span style=''whiteSpace: "nowrap"''>12%</span>。戦闘に入る時、装備キャラと同じ運命のキャラが他に存在する場合、装備キャラの会心率+<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
   '315':
     Name: 奔狼の都藍王朝
-    Description2pc: >-
-      <span>味方が追加攻撃を行う時、装備キャラは「勲功」を1層獲得する、最大で<span style='whiteSpace:
-      "nowrap"'>5</span>層累積できる。「勲功」1層につき、装備キャラの追加攻撃ダメージ+<span style='whiteSpace:
-      "nowrap"'>5%</span>。「勲功」が<span style='whiteSpace:
-      "nowrap"'>5</span>層に達する時、さらに装備キャラの会心ダメージ+<span style='whiteSpace:
-      "nowrap"'>25%</span>。</span>
+    Description2pc: '<span>味方が追加攻撃を行う時、装備キャラは「勲功」を1層獲得する、最大で<span style=''whiteSpace: "nowrap"''>5</span>層累積できる。「勲功」1層につき、装備キャラの追加攻撃ダメージ+<span style=''whiteSpace: "nowrap"''>5%</span>。「勲功」が<span style=''whiteSpace: "nowrap"''>5</span>層に達する時、さらに装備キャラの会心ダメージ+<span style=''whiteSpace: "nowrap"''>25%</span>。</span>'
   '316':
     Name: 劫火と蓮灯の鋳煉宮
-    Description2pc: >-
-      <span>装備キャラの速度+<span style='whiteSpace:
-      "nowrap"'>6%</span>。装備キャラの攻撃が炎属性弱点を持つ敵に命中する時、撃破特効+<span style='whiteSpace:
-      "nowrap"'>40%</span>、<span style='whiteSpace:
-      "nowrap"'>1</span>ターン継続。</span>
+    Description2pc: '<span>装備キャラの速度+<span style=''whiteSpace: "nowrap"''>6%</span>。装備キャラの攻撃が炎属性弱点を持つ敵に命中する時、撃破特効+<span style=''whiteSpace: "nowrap"''>40%</span>、<span style=''whiteSpace: "nowrap"''>1</span>ターン継続。</span>'
   '317':
     Name: 海に沈んだルサカ
-    Description2pc: >-
-      <span>装備キャラのEP回復効率+<span style='whiteSpace:
-      "nowrap"'>5%</span>。装備キャラがパーティの1枠目のキャラでない場合、1枠目のキャラの攻撃力+<span
-      style='whiteSpace: "nowrap"'>12%</span>。</span>
+    Description2pc: '<span>装備キャラのEP回復効率+<span style=''whiteSpace: "nowrap"''>5%</span>。装備キャラがパーティの1枠目のキャラでない場合、1枠目のキャラの攻撃力+<span style=''whiteSpace: "nowrap"''>12%</span>。</span>'
   '318':
     Name: 奇想天外のバナダイス
-    Description2pc: >-
-      <span>装備キャラの会心ダメージ+<span style='whiteSpace:
-      "nowrap"'>16%</span>。装備キャラが召喚したターゲットがフィールド上にいる場合、さらに会心ダメージ+<span
-      style='whiteSpace: "nowrap"'>32%</span>。</span>
+    Description2pc: '<span>装備キャラの会心ダメージ+<span style=''whiteSpace: "nowrap"''>16%</span>。装備キャラが召喚したターゲットがフィールド上にいる場合、さらに会心ダメージ+<span style=''whiteSpace: "nowrap"''>32%</span>。</span>'
 Lightcones:
   '20000':
     Name: 矢じり

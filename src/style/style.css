@@ -557,3 +557,8 @@ a {
     min-height: 18px !important;
     line-height: 18px !important;
 }
+
+.os-scrollbar {
+    --os-handle-bg: #95959552 !important;
+    --os-size: 8px !important;
+}

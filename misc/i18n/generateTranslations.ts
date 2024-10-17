@@ -1,5 +1,6 @@
 import {writeFile} from "fs"
 import { readFile } from "fs/promises"
+import yaml from "js-yaml"
 import { TsUtils } from '../../src/lib/TsUtils'
 import { betaInformation } from "./betaInformation"
 import pathConfig from './AvatarBaseType.json'
@@ -333,11 +334,11 @@ async function generateTranslations(){
     }
 
     for (const outputLocale of outputLocalesMapping[locale]) {
-      writeFile(`./public/locales/${outputLocale}/gameData.json`, JSON.stringify(output), (err) => {
+      writeFile(`./public/locales/${outputLocale}/gameData.yaml`, yaml.dump(output, {lineWidth: -1, quotingType: "\""}), (err) => {
         if (err)
           console.log(err)
         else {
-          console.log(`Wrote locale ${locale} to public/locales/${outputLocale}/gameData.json successfully\n`)
+          console.log(`Wrote locale ${locale} to public/locales/${outputLocale}/gameData.yaml successfully\n`)
         }
       })
     }

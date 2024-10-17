@@ -1,0 +1,3274 @@
+Characters:
+  "1001":
+    Name: 7. März
+    Abilities:
+      "100101":
+        Name: Bitterkalter Pfeil
+        Desc: <span>Fügt einem Gegner geringen Eis-SCH zu.</span>
+        Type: Standardangriff
+      "100102":
+        Name: Die Macht der Niedlichkeit
+        Desc: <span>Gewährt einem Verbündeten einen </span><span style='color:#f29e38ff'>Schild</span><span>.</span>
+        Type: Fertigkeit
+      "100103":
+        Name: Gletscherkaskade
+        Desc: <span>Fügt </span><span style='color:#f29e38ff'>allen Gegnern</span><span> Eis-SCH zu und </span><span style='color:#f29e38ff'>hat eine Chance, sie einzufrieren</span><span>.</span>
+        Type: Ultimate
+      "100104":
+        Name: Mädchenpower
+        Desc: <span>Nachdem ein Verbündeter mit Schild von einem Gegner angegriffen wird, startet 7. März </span><span style='color:#f29e38ff'>sofort einen <u>Konter</u></span><span> gegen den Angreifer, der geringen Eis-SCH verursacht.</span>
+        Type: Talent
+      "100106":
+        Name: Angriff
+        Desc: ""
+      "100107":
+        Name: Eiskalte Schönheit
+        Desc: <span>Greift den Gegner an. Hat eine hohe Chance, einen zufälligen Gegner nach Kampfeintritt einzufrieren.</span>
+        Type: Technik
+    Eidolons:
+      "100101":
+        Name: Erinnerung an dich
+        Desc: <span>Für jedes Ziel, das 7. März mit ihrem Ultimate einfriert, wird ihre Energie um 6 Pkt. wiederhergestellt.</span>
+      "100102":
+        Name: Erinnerung an es
+        Desc: "<span>Gewährt beim Kampfeintritt dem Verbündeten mit den wenigsten LP einen Schild in Höhe von 24% von 7. März’ VTD plus 320 für 3\_Rd.</span>"
+      "100103":
+        Name: Erinnerung an alles
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "100104":
+        Name: Ich will nicht verlieren
+        Desc: <span>Erhöht die Auslösungsanzahl des Konters durch Talent pro Runde um 1. Erhöht den durch Konter verursachten SCH um 30% von 7. März’ VTD.</span>
+      "100105":
+        Name: Ich will nicht vergessen
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "100106":
+        Name: "Immer so weiter\_..."
+        Desc: <span>Verbündete, die durch den Schild der Fertigkeit geschützt sind, werden zu Beginn jeder Runde LP in Höhe von 4% ihrer max. LP plus 106 wiederhergestellt.</span>
+  "1002":
+    Name: Dan Heng
+    Abilities:
+      "100201":
+        Name: "Ritter-Speertechnik: Nordwind"
+        Desc: <span>Fügt einem Gegner geringen Wind-SCH zu.</span>
+        Type: Standardangriff
+      "100202":
+        Name: "Ritter-Speertechnik: Sturzflut"
+        Desc: <span>Fügt einem Gegner Wind-SCH zu. Nach einem KRIT wird das Ziel mit hoher Wahrscheinlichkeit verlangsamt.</span>
+        Type: Fertigkeit
+      "100203":
+        Name: Ätherischer Traum
+        Desc: <span>Fügt einem Gegner massiven Wind-SCH zu. Wenn der Gegner verlangsamt wird, steigt der verursachte SCH.</span>
+        Type: Ultimate
+      "100204":
+        Name: Überlegene Reichweite
+        Desc: <span>Ist Dan Heng Ziel einer Fähigkeit eines Verbündeten, so </span><span style='color:#f29e38ff'>steigt die <u>Wind-WDS-DUR</u></span><span> seines nächsten Angriffs. Dieser Effekt kann nach 2 Rd. erneut ausgelöst werden.</span>
+        Type: Talent
+      "100206":
+        Name: Angriff
+        Desc: ""
+      "100207":
+        Name: Spaltende Speerspitze
+        Desc: <span>Nach dem Einsatz der Technik wird der ANG zu Beginn des nächsten Kampfs erhöht.</span>
+        Type: Technik
+    Eidolons:
+      "100201":
+        Name: Wer hoch steigt, fällt tief
+        Desc: <span>Wenn der anvisierte Gegner aktuell min. 50% seiner LP hat, steigt Dan Hengs KRIT-Rate um 12%.</span>
+      "100202":
+        Name: Bosheit kontrollieren, Flamme löschen
+        Desc: <span>Verringert die Abklingzeit des Talents um 1 Rd.</span>
+      "100203":
+        Name: Sichtbar und unsichtbar
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "100204":
+        Name: Gleichgewicht wie die Sonne am Himmel
+        Desc: <span>Nachdem Dan Heng einen Gegner mit seinem Ultimate besiegt hat, wird er sofort wieder in Aktion treten.</span>
+      "100205":
+        Name: Ein Regentropfen speist einen Sturzbach
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "100206":
+        Name: Die geplagte Seele liegt auf der Lauer
+        Desc: <span>Die durch die Fertigkeit ausgelöste Verlangsamung reduziert die GES des Gegners zusätzlich um 8%.</span>
+  "1003":
+    Name: Himeko
+    Abilities:
+      "100301":
+        Name: Sägeblatt-Justierung
+        Desc: <span>Fügt einem Gegner geringen Feuer-SCH zu.</span>
+        Type: Standardangriff
+      "100302":
+        Name: Geschmolzene Explosion
+        Desc: <span>Fügt einem Gegner Feuer-SCH zu und fügt den angrenzenden Zielen geringen Feuer-SCH zu.</span>
+        Type: Fertigkeit
+      "100303":
+        Name: Himmlisches Leuchtsignal
+        Desc: <span>Fügt allen Gegnern Feuer-SCH zu und stellt Energie beim Besiegen des Gegners wieder her.</span>
+        Type: Ultimate
+      "100304":
+        Name: Siegesrausch
+        Desc: <span>Erhält 1 Aufladung, wenn die Schwäche eines Gegners gebrochen wird.<br>Nach einem voll aufgeladenen Angriff eines Verbündeten führt dieser </span><span style='color:#f29e38ff'>sofort</span><span> einen <u>Folgeangriff</u> aus und fügt </span><span style='color:#f29e38ff'>allen Gegnern</span><span> Feuer-SCH zu, wobei alle Aufladungen verbraucht werden.<br>Erhält zu Beginn jedes Kampfes 1 Aufladung.</span>
+        Type: Talent
+      "100306":
+        Name: Angriff
+        Desc: ""
+      "100307":
+        Name: Unvollständige Verbrennung
+        Desc: <span>Erschafft eine Dimension. Wenn du mit Gegnern in der Dimension kämpfst, besteht eine hohe Chance, dass </span><span style='color:#f29e38ff'>der ihnen zugefügte Feuer-SCH erhöht wird</span><span>.</span>
+        Type: Technik
+    Eidolons:
+      "100301":
+        Name: Kindheit
+        Desc: "<span>Erhöht Himekos GES nach Auslösung von „Siegesrausch“ für 2\_Rd. um 20%.</span>"
+      "100302":
+        Name: Konvergenz
+        Desc: <span>Verursacht 15% mehr SCH bei Gegnern mit LP-Prozentzahl von 50% oder weniger.</span>
+      "100303":
+        Name: Selbstsicherheit
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "100304":
+        Name: Hingabe
+        Desc: <span>Verursacht die Fertigkeit bei Gegnern Schwächebruch, erhält Himeko zusätzlich 1 Pkt. Aufladung.</span>
+      "100305":
+        Name: Bestrebung
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "100306":
+        Name: Trailblaze!
+        Desc: <span>Der Ultimate verursacht zweimal zusätzlichen SCH und fügt zufälligen Gegnern jedes Mal Feuer-SCH in Höhe von 40% des ursprünglichen SCH zu.</span>
+  "1004":
+    Name: Welt
+    Abilities:
+      "100401":
+        Name: Schwerkraftunterdrückung
+        Desc: <span>Fügt einem Gegner geringen imaginären SCH zu.</span>
+        Type: Standardangriff
+      "100402":
+        Name: Rand der Leere
+        Desc: <span>Fügt einem Gegner geringen imaginären SCH zu. Dieser Angriff kann 3-mal abprallen und hat eine Chance, betroffene Ziele zu </span><span style='color:#f29e38ff'>verlangsamen</span><span>.</span>
+        Type: Fertigkeit
+      "100403":
+        Name: Synthetisches Schwarzes Loch
+        Desc: <span>Fügt allen Gegnern imaginären SCH zu und </span><span style='color:#f29e38ff'>verursacht mit hoher Chance Gefangenschaft</span><span>.</span>
+        Type: Ultimate
+      "100404":
+        Name: Zeitverzerrung
+        Desc: <span>Fügt einem verlangsamten Gegner </span><span style='color:#f29e38ff'>zusätzlich geringen <u>imaginären SCH</u></span><span> zu.</span>
+        Type: Talent
+      "100406":
+        Name: Angriff
+        Desc: ""
+      "100407":
+        Name: Gravitationsgefängnis
+        Desc: <span>Erschafft eine Dimension. Gegner in dieser Dimension haben reduzierte Bewegungs-GES. Wenn du mit Gegnern in der Dimension kämpfst, </span><span style='color:#f29e38ff'>besteht eine hohe Chance, dass sie in Gefangenschaft geraten</span><span>.</span>
+        Type: Technik
+    Eidolons:
+      "100401":
+        Name: Nachlass der Ehre
+        Desc: <span>Nach dem Einsatz des Ultimates wird Welt verstärkt. Die nächsten 2 Einsätze seines Standardangriffs oder seiner Fertigkeit fügen dem Gegner 1-mal zusätzlichen SCH in Höhe von 50% seines Multiplikators von Standardangriff-SCH bzw. 80% des SCH-Multiplikators seiner Fertigkeit zu.</span>
+      "100402":
+        Name: Sternenzufluss
+        Desc: <span>Bei Auslösung des Talents erhält Welt 3 Pkt. Energie zurück.</span>
+      "100403":
+        Name: Friedensgebet
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "100404":
+        Name: Anruf der Gerechtigkeit
+        Desc: <span>Erhöht die Grundchance, einen angegriffenen Gegner beim Einsatz der Fertigkeit zu verlangsamen, um 35%.</span>
+      "100405":
+        Name: Macht der Güte
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "100406":
+        Name: Glänzende Aussichten
+        Desc: <span>Fügt einem zufälligen Gegner beim Einsatz der Fertigkeit 1-mal zusätzlichen SCH zu.</span>
+  "1005":
+    Name: Kafka
+    Abilities:
+      "100501":
+        Name: Mitternächtlicher Tumult
+        Desc: <span>Fügt einem Gegner geringen Blitz-SCH zu.</span>
+        Type: Standardangriff
+      "100502":
+        Name: Streichelndes Mondlicht
+        Desc: <span>Verursacht Blitz-SCH bei einem Gegner und geringen Blitz-SCH bei angrenzenden Einheiten.<br>Befindet das Hauptziel sich momentan unter Einfluss von DoT, so erleidet es sofort </span><span style='color:#f29e38ff'>1-mal zusätzlichen SCH</span><span>.</span>
+        Type: Fertigkeit
+      "100503":
+        Name: Dämmerungstriller
+        Desc: <span>Fügt allen Gegnern </span><span style='color:#f29e38ff'>geringen Blitz-SCH</span><span> zu mit einer hohen Chance, bei ihnen Schock zu verursachen.<br>Wenn die Gegner gerade geschockt sind, fügt der Schock </span><span style='color:#f29e38ff'>1-mal zusätzlichen SCH</span><span> zu.</span>
+        Type: Ultimate
+      "100504":
+        Name: Sanft, aber grausam
+        Desc: <span>Nach dem Einsatz des Standardangriffs von einem Verbündeten führt Kafka sofort einen <u>Folgeangriff</u> aus und fügt diesem Ziel Blitz-SCH zu. Es besteht eine hohe Chance, den </span><span style='color:#f29e38ff'>Status Schock zuzufügen</span><span>. Dieser Effekt kann nur 1-mal pro Runde ausgelöst werden.</span>
+        Type: Talent
+      "100506":
+        Name: Angriff
+        Desc: ""
+      "100507":
+        Name: Gnade ist nicht Vergebung
+        Desc: <span>Greift alle Gegner in Reichweite an. Fügt nach Kampfeintritt allen Gegnern geringen Blitz-SCH zu und hat eine hohe Chance, ihnen </span><span style='color:#f29e38ff'>Schock zuzufügen</span><span>.</span>
+        Type: Technik
+    Eidolons:
+      "100501":
+        Name: Da capo
+        Desc: <span>Bei Auslösung eines Folgeangriffs durch das Talent besteht eine Grundchance von 100%, den erlittenen DoT des Ziels für 2 Rd. um 30% zu erhöhen.</span>
+      "100502":
+        Name: Fortississimo
+        Desc: <span>Erhöht den von allen Verbündeten verursachten DoT um 25%, wenn Kafka mitkämpft.</span>
+      "100503":
+        Name: Capriccio
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "100504":
+        Name: Rezitativ
+        Desc: <span>Wenn ein Gegner SCH durch den von Kafka verursachten Schock-Status erleidet, wird die Energie von Kafka zusätzlich um 2 Pkt. wiederhergestellt.</span>
+      "100505":
+        Name: Doloroso
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "100506":
+        Name: Leggiero
+        Desc: <span>Erhöht den SCH-Multiplikator des Status Schock durch Ultimate, Technik und Folgeangriffe des Talents um 156% und verlängert den Status Schock um 1 Rd.</span>
+  "1006":
+    Name: Silberwolf
+    Abilities:
+      "100601":
+        Name: Systemwarnung
+        Desc: <span>Fügt einem Gegner geringen Quanten-SCH zu.</span>
+        Type: Standardangriff
+      "100602":
+        Name: Änderungen zulassen?
+        Desc: <span>Es besteht eine hohe Chance, einem Gegner </span><span style='color:#f29e38ff'>zusätzliche Schwächen</span><span> und Quanten-SCH zuzufügen.</span>
+        Type: Fertigkeit
+      "100603":
+        Name: Benutzer gebannt
+        Desc: <span>Hat eine hohe Chance, die </span><span style='color:#f29e38ff'>VTD</span><span> eines Gegners zu </span><span style='color:#f29e38ff'>reduzieren</span><span> und ihm massiven Quanten-SCH zuzufügen.</span>
+        Type: Ultimate
+      "100604":
+        Name: "Warten auf Systemantwort\_..."
+        Desc: <span>Nach einem Angriff besteht eine Chance, dem Ziel 1 zufälligen </span><span style='color:#f29e38ff'>Fehler</span><span> zu implantieren.</span>
+        Type: Talent
+      "100606":
+        Name: Angriff
+        Desc: ""
+      "100607":
+        Name: Programmschließung erzwingen
+        Desc: <span>Greift Gegner an. Nach Kampfeintritt wird allen Gegner geringer SCH zugefügt und ungeachtet des Schwächetyps Widerstand reduziert.</span>
+        Type: Technik
+    Eidolons:
+      "100601":
+        Name: Social Engineering
+        Desc: <span>Nachdem Silberwolf mit ihrem Ultimate einen Gegner angegriffen hat, stellt sie für jeden Debuff des Ziels 7 Pkt. Energie wieder her. Dieser Effekt kann bei jedem Einsatz ihres Ultimates bis zu 5-mal ausgelöst werden.</span>
+      "100602":
+        Name: Zombienetzwerk
+        Desc: <span>Tritt ein Gegner in den Kampf ein, wird sein Effekt-WDS um 20% reduziert.</span>
+      "100603":
+        Name: Sprengladung
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "100604":
+        Name: Bounce-Angriff
+        Desc: <span>Nachdem Silberwolf mit ihrem Ultimate einen Gegner angegriffen hat, fügt sie für jeden Debuff des Ziels zusätzlichen Quanten-SCH in Höhe von 20% von Silberwolfs ANG zu. Dieser Effekt kann bei jedem Einsatz ihres Ultimates bis zu 5-mal ausgelöst werden.</span>
+      "100605":
+        Name: Brute-Force-Angriff
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "100606":
+        Name: Overlay-Netzwerk
+        Desc: <span>Erhöht den von Silberwolf verursachten SCH für jeden Debuff des Gegners um 20% bis zu max. 100%.</span>
+  "1008":
+    Name: Arlan
+    Abilities:
+      "100801":
+        Name: Blitzrausch
+        Desc: <span>Fügt einem Gegner geringen Blitz-SCH zu.</span>
+        Type: Standardangriff
+      "100802":
+        Name: Kettensprenger
+        Desc: <span>Verbraucht einen Teil von Arlans LP, um einem Gegner Blitz-SCH zuzufügen.</span>
+        Type: Fertigkeit
+      "100803":
+        Name: Rasende Strafe
+        Desc: <span>Fügt einem Gegner massiven Blitz-SCH und angrenzenden Zielen Blitz-SCH zu.</span>
+        Type: Ultimate
+      "100804":
+        Name: Schmerz und Wut
+        Desc: <span></span><span style='color:#f29e38ff'>Erhöht den SCH</span><span> basierend auf dem </span><span style='color:#f29e38ff'>Prozentsatz der verlorenen LP</span><span>.</span>
+        Type: Talent
+      "100806":
+        Name: Angriff
+        Desc: ""
+      "100807":
+        Name: Rasche Ernte
+        Desc: <span>Greift den Gegner an. Fügt nach Kampfeintritt allen Gegnern geringen Blitz-SCH zu.</span>
+        Type: Technik
+    Eidolons:
+      "100801":
+        Name: Bis zum bitteren Ende
+        Desc: "<span>Liegt der LP-Prozentsatz bei 50\_% oder weniger, wird der durch die Fertigkeit verursachte SCH um 10% erhöht.</span>"
+      "100802":
+        Name: Befreiung
+        Desc: <span>Entfernt beim Einsatz der Fertigkeit oder des Ultimates 1 Debuff von Arlan.</span>
+      "100803":
+        Name: Gewaltsamer Durchbruch
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "100804":
+        Name: Rollentausch
+        Desc: <span>Erleidet Arlan nach Kampfeintritt einen Todesstoß, stellt er seine LP sofort auf 25% seiner max. LP wieder her, anstatt handlungsunfähig zu werden. Dieser Effekt wird automatisch nach 1-mal Auslösung oder nach 2 Rd. entfernt.</span>
+      "100805":
+        Name: Die Fetzen fliegen
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "100806":
+        Name: Selbstaufopferung
+        Desc: "<span>Liegt Arlans LP-Prozentsatz bei 50\_% oder weniger, verursacht der Ultimate 20% mehr SCH und angrenzende Ziele erhalten denselben SCH-Multiplikator wie der anvisierte Gegner.</span>"
+  "1009":
+    Name: Asta
+    Abilities:
+      "100901":
+        Name: Spektralstrahl
+        Desc: <span>Fügt einem Gegner geringen Feuer-SCH zu.</span>
+        Type: Standardangriff
+      "100902":
+        Name: Meteoritensturm
+        Desc: <span>Fügt einem Gegner mit insgesamt 5-mal Abprall geringen Feuer-SCH zu.</span>
+        Type: Fertigkeit
+      "100903":
+        Name: Astraler Segen
+        Desc: <span></span><span style='color:#f29e38ff'>Erhöht die GES</span><span> aller Verbündeten.</span>
+        Type: Ultimate
+      "100904":
+        Name: Astrometrie
+        Desc: <span>Erhält 1 Aufladestapelung für jeden verschiedenen angegriffenen Gegner, bis max. 5 Stapelungen. Für jede Aufladestapelung wird der ANG aller Verbündeten erhöht. Zu Beginn ihrer Runde wird die Aufladestapelung reduziert.</span>
+        Type: Talent
+      "100906":
+        Name: Angriff
+        Desc: ""
+      "100907":
+        Name: Wunderblitz
+        Desc: <span>Greift Gegner an. Fügt nach Kampfeintritt allen Gegnern geringen SCH zu.</span>
+        Type: Technik
+    Eidolons:
+      "100901":
+        Name: Das wortlose Lied eines Sterns
+        Desc: <span>Fügt beim Einsatz der Fertigkeit einem zufälligen Gegner 1-mal zusätzlichen SCH zu.</span>
+      "100902":
+        Name: Der Mond versteht seinen Zyklus
+        Desc: <span>Beim Einsatz des Ultimates werden Astas Aufladestapelungen für die nächste Runde nicht verringert.</span>
+      "100903":
+        Name: Der Wandel des ekliptischen Meteoriten
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "100904":
+        Name: Wenn die Morgenröte sich manifestiert
+        Desc: <span>Erhöht Astas Energie- Wiederherstellungsrate um 15%, wenn sie 2 oder mehr Aufladestapelungen hat.</span>
+      "100905":
+        Name: Geheimnis ferner Objekte im All
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "100906":
+        Name: Schlafen unter der Milchstraße
+        Desc: <span>Die Aufladestapelungen des Talents werden pro Runde um 1 weniger verringert.</span>
+  "1013":
+    Name: Herta
+    Abilities:
+      "101301":
+        Name: Was schaust du so?
+        Desc: <span>Fügt einem Gegner geringen Eis-SCH zu.</span>
+        Type: Standardangriff
+      "101302":
+        Name: Einmaliges Angebot
+        Desc: <span>Fügt allen Gegnern geringen Eis-SCH zu. Ziele mit höheren LP erleiden mehr SCH.</span>
+        Type: Fertigkeit
+      "101303":
+        Name: Ich arbeite mit Magie
+        Desc: <span>Fügt allen Gegnern Eis-SCH zu.</span>
+        Type: Ultimate
+      "101304":
+        Name: Muss man alles selbst machen?
+        Desc: "<span>Wenn der LP-Prozentsatz eines Gegners durch den Angriff eines Verbündeten auf </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>50%</span></span><span> fällt, führt Herta sofort einen </span><span style='color:#f29e38ff'><u>Folgeangriff</u></span><span> aus, der allen Gegnern geringen Eis-SCH zufügt.</span>"
+        Type: Talent
+      "101306":
+        Name: Angriff
+        Desc: ""
+      "101307":
+        Name: Das kann noch optimiert werden
+        Desc: <span>Nach dem Einsatz der Technik wird der ANG dieser Einheit zu Beginn des nächsten Kampfes erhöht.</span>
+        Type: Technik
+    Eidolons:
+      "101301":
+        Name: Tritt dich, wenn du am Boden liegst
+        Desc: <span>Liegt der LP-Prozentsatz des anvisierten Gegners bei 50% oder weniger, verursacht Hertas Standardangriff zusätzlichen Eis-SCH in Höhe von 40% von Hertas ANG.</span>
+      "101302":
+        Name: Triumph und Verfolgung
+        Desc: <span>Erhöht für jede Auslösung des Talents die KRIT-Rate von Herta um 3%. Dieser Effekt ist bis zu 5-mal stapelbar.</span>
+      "101303":
+        Name: So bin ich nun mal
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "101304":
+        Name: Hinlangen, wo es weh tut
+        Desc: <span>Verursacht bei der Auslösung des Talents 10% mehr SCH.</span>
+      "101305":
+        Name: Fluch ordentlich oder lass es bleiben
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "101306":
+        Name: Keiner kann mich betrügen
+        Desc: "<span>Erhöht ANG nach dem Einsatz des Ultimates für 1\_Rd. um 25%.</span>"
+  "1101":
+    Name: Bronya
+    Abilities:
+      "110101":
+        Name: Windreiterkugel
+        Desc: <span>Fügt einem Gegner geringen Wind-SCH zu.</span>
+        Type: Standardangriff
+      "110102":
+        Name: Erneuter Kampfeinsatz
+        Desc: <span></span><span style='color:#f29e38ff'>Entfernt</span><span> 1 </span><span style='color:#f29e38ff'><u>Debuff</u></span><span> von einem Verbündeten, erhöht dessen </span><span style='color:#f29e38ff'>SCH</span><span> und er </span><span style='color:#f29e38ff'>tritt sofort in Aktion</span><span>.</span>
+        Type: Fertigkeit
+      "110103":
+        Name: Der Belobog-Marsch
+        Desc: <span>Erhöht den </span><span style='color:#f29e38ff'>ANG</span><span> und </span><span style='color:#f29e38ff'>KRIT-SCH</span><span> aller Verbündeten.</span>
+        Type: Ultimate
+      "110104":
+        Name: Allen voran
+        Desc: <span>Nach dem Einsatz des Standardangriffs wird die nächste eigene <u>Aktion vorgezogen</u>.</span>
+        Type: Talent
+      "110106":
+        Name: Angriff
+        Desc: ""
+      "110107":
+        Name: Banner der Führung
+        Desc: <span>Nach dem Einsatz der Technik wird der ANG aller Verbündeten zu Beginn des nächsten Kampfes erhöht.</span>
+        Type: Technik
+    Eidolons:
+      "110101":
+        Name: Stärke erhöhen
+        Desc: <span>Beim Einsatz der Fertigkeit besteht eine feste Chance von 50%, 1 Fertigkeitspunkt wiederherzustellen. Dieser Effekt hat eine Abklingzeit von 1 Rd.</span>
+      "110102":
+        Name: Eilmarsch
+        Desc: "<span>Erhöht beim Einsatz der Fertigkeit die GES eines anvisierten Verbündeten für 1\_Rd. um 30%, wenn er eine Aktion ausführt.</span>"
+      "110103":
+        Name: Bombardement
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "110104":
+        Name: Überraschungsangriff
+        Desc: <span>Nach einem Standardangriff eines Verbündeten auf einen Gegner mit Wind-Schwäche startet Bronya unmittelbar einen Folgeangriff und fügt dem Ziel Wind-SCH in Höhe von 80% des Standardangriff-SCH zu. Dieser Effekt kann nur 1-mal pro Runde ausgelöst werden.</span>
+      "110105":
+        Name: Unaufhaltsam
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "110106":
+        Name: Durchdringender Regenbogen
+        Desc: <span>Verlängert die Dauer des erhöhten SCH durch Fertigkeit auf dem anvisierten Verbündeten um 1 Rd.</span>
+  "1102":
+    Name: Seele
+    Abilities:
+      "110201":
+        Name: Prügel
+        Desc: <span>Fügt einem Gegner geringen Quanten-SCH zu.</span>
+        Type: Standardangriff
+      "110202":
+        Name: Ungezückte Klinge
+        Desc: <span>Fügt einem Gegner Quanten-SCH zu und erhöht die GES.</span>
+        Type: Fertigkeit
+      "110203":
+        Name: Schmetterlingssturm
+        Desc: <span>Tritt in den </span><span style='color:#f29e38ff'>verstärkten Zustand</span><span> ein und fügt einem Gegner massiven Quanten-SCH zu.</span>
+        Type: Ultimate
+      "110204":
+        Name: Erneute Erscheinung
+        Desc: <span>Seele tritt beim </span><span style='color:#f29e38ff'>Besiegen eines Gegners</span><span> durch Standardangriff, Fertigkeit oder Ultimate </span><span style='color:#f29e38ff'>in den verstärkten Zustand ein und erhält unmittelbar eine <u>zusätzliche Runde</u></span><span>. Während des verstärkten Zustands wird ihr SCH erhöht.</span>
+        Type: Talent
+      "110206":
+        Name: Angriff
+        Desc: ""
+      "110207":
+        Name: Phantomillusion
+        Desc: <span>Tritt in den Zustand </span><span style='color:#f29e38ff'>Tarnung</span><span> ein. Seele tritt zu Beginn des Kampfs sofort in den </span><span style='color:#f29e38ff'>verstärkten Zustand</span><span> ein, wenn sie einen Gegner aktiv angreift.</span>
+        Type: Technik
+    Eidolons:
+      "110201":
+        Name: Abgeschnitten
+        Desc: <span>Wenn Seele einem Gegner mit LP-Prozentsatz 80% oder niedriger SCH zufügt, steigt ihre KRIT-Rate um 15%.</span>
+      "110202":
+        Name: Schmetterlingstanz
+        Desc: <span>Der Effekt der GES-Erhöhung von der Fertigkeit ist bis zu 2-mal stapelbar.</span>
+      "110203":
+        Name: Geblendet
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "110204":
+        Name: Ein kurzer Blick
+        Desc: <span>Besiegt Seele einen Gegner, erhält sie 15 Pkt. Energie zurück.</span>
+      "110205":
+        Name: Scharfe Sinne, scharfer Geist
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "110206":
+        Name: Trennung
+        Desc: "<span>Der Ultimate verursacht beim getroffenen Gegner für 1\_Rd. den Status „Schmetterlingssturm“. Gegner im Schmetterlingssturm erleiden bei Treffern 1-mal zusätzlich Quanten-SCH in Höhe von 15% von Seeles Ultimate-SCH. Wenn ein anderer Verbündeter das Ziel durch den zusätzlichen SCH von „Schmetterlingssturm“ besiegt, wird Seeles Talent nicht ausgelöst.<br>Ist Seele handlungsunfähig, wird der Status „Schmetterlingssturm“ vom Gegner entfernt.</span>"
+  "1103":
+    Name: Serval
+    Abilities:
+      "110301":
+        Name: Grollender Donner
+        Desc: <span>Fügt einem Gegner geringen Blitz-SCH zu.</span>
+        Type: Standardangriff
+      "110302":
+        Name: Heller Blitz
+        Desc: <span>Fügt einem Gegner und angrenzenden Einheiten geringen Blitz-SCH zu und bewirkt bei den Gegnern mit hoher Chance </span><span style='color:#f29e38ff'>Schock</span><span>.</span>
+        Type: Fertigkeit
+      "110303":
+        Name: Hier kommt das mechanische Fieber
+        Desc: <span>Fügt allen Gegnern Blitz-SCH zu und verlängert die Dauer von Schock.</span>
+        Type: Ultimate
+      "110304":
+        Name: Galvanische Bänder
+        Desc: <span>Fügt nach dem Angriff allen geschockten Gegnern </span><span style='color:#f29e38ff'>geringen <u>zusätzlichen SCH</u></span><span> zu.</span>
+        Type: Talent
+      "110306":
+        Name: Angriff
+        Desc: ""
+      "110307":
+        Name: Gute Nacht, Belobog
+        Desc: <span>Greift den Gegner an. Fügt nach Kampfeintritt einem zufälligen Gegner geringen Blitz-SCH zu und hat eine hohe Chance, jedem Gegner </span><span style='color:#f29e38ff'>Schock zuzufügen</span><span>.</span>
+        Type: Technik
+    Eidolons:
+      "110301":
+        Name: Kraftvoll und durchschlagend
+        Desc: <span>Der Standardangriff fügt einem zufälligen angrenzenden Gegner Blitz-SCH in Höhe von 60% des Standardangriff-SCH von Serval zu.</span>
+      "110302":
+        Name: Zugabe!
+        Desc: <span>Jedes Mal, wenn ihr Talent zusätzlichen SCH verursacht, erhält Serval 4 Pkt. Energie zurück.</span>
+      "110303":
+        Name: Dem Herzschlag der Zahnräder lauschen
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "110304":
+        Name: Etwas Lärm, bitte!
+        Desc: <span>Beim Einsatz des Ultimates besteht eine Grundchance von 100%, bei nicht geschockten Gegnern Schock zu verursachen. Dieser Effekt ist derselbe wie bei der Fertigkeit.</span>
+      "110305":
+        Name: Belobogs lautestes Dröhnen!
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "110306":
+        Name: Dieses Lied hallt durch den Himmel!
+        Desc: <span>Serval fügt geschockten Gegnern 30% mehr SCH zu.</span>
+  "1104":
+    Name: Gepard
+    Abilities:
+      "110401":
+        Name: Faust der Überzeugung
+        Desc: <span>Fügt einem Gegner geringen Eis-SCH zu.</span>
+        Type: Standardangriff
+      "110402":
+        Name: Einschüchternder Schlag
+        Desc: <span>Fügt einem Gegner Eis-SCH zu und </span><span style='color:#f29e38ff'>verursacht beim Ziel mit einer Chance Gefroren</span><span>.</span>
+        Type: Fertigkeit
+      "110403":
+        Name: Emporragendes Bollwerk
+        Desc: <span>Gewährt allen Verbündeten einen </span><span style='color:#f29e38ff'>Schild</span><span>.</span>
+        Type: Ultimate
+      "110404":
+        Name: Unnachgiebiger Wille
+        Desc: <span>Wenn von einem Todesstoß getroffen, werden die eigenen LP sofort wiederhergestellt, </span><span style='color:#f29e38ff'>anstatt <u>handlungsunfähig</u> zu werden</span><span>. Dieser Effekt kann nur 1-mal pro Kampf ausgelöst werden.</span>
+        Type: Talent
+      "110406":
+        Name: Angriff
+        Desc: ""
+      "110407":
+        Name: Kameradschaft
+        Desc: <span>Nach dem Einsatz der Technik erhalten alle Verbündeten zu Beginn des nächsten Kampfes einen Schild.</span>
+        Type: Technik
+    Eidolons:
+      "110401":
+        Name: Sorgfaltspflicht
+        Desc: <span>Erhöht beim Einsatz der Fertigkeit die Grundchance, das Ziel einzufrieren, um 35%.</span>
+      "110402":
+        Name: Hartnäckige Kälte
+        Desc: "<span>Wenn der durch die Fertigkeit eingefrorene Gegner sich von „Gefroren“ erholt, sinkt seine GES für 1\_Rd. um 20%.</span>"
+      "110403":
+        Name: Niemals aufgeben
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "110404":
+        Name: Der Glaube versetzt Berge
+        Desc: <span>Erhöht den Effekt-WDS aller Verbündeten um 20%, wenn Gepard mitkämpft.</span>
+      "110405":
+        Name: Kalte Eisenfaust
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "110406":
+        Name: Unnachgiebige Entschlossenheit
+        Desc: <span>Bei Auslösung des Talents wird Gepard sofort in Aktion treten und seine LP-Wiederherstellung wird zusätzlich um 50% seiner max. LP erhöht.</span>
+  "1105":
+    Name: Natasha
+    Abilities:
+      "110501":
+        Name: Freundliche Fassade
+        Desc: <span>Fügt einem Gegner geringen physischen SCH zu.</span>
+        Type: Standardangriff
+      "110502":
+        Name: Lieben, heilen und wählen
+        Desc: <span>Stellt LP </span><span style='color:#f29e38ff'>eines einzelnen Verbündeten</span><span> wieder her und </span><span style='color:#f29e38ff'>heilt ihn kontinuierlich</span><span>.</span>
+        Type: Fertigkeit
+      "110503":
+        Name: Geschenk der Wiedergeburt
+        Desc: <span></span><span style='color:#f29e38ff'>Stellt die LP aller Verbündeten wieder her</span><span>.</span>
+        Type: Ultimate
+      "110504":
+        Name: Innervation
+        Desc: <span>Wenn Verbündete mit wenig LP geheilt werden, wird die bewirkte Heilung erhöht. Dieser Effekt gilt auch für kontinuierliche Heilung.</span>
+        Type: Talent
+      "110506":
+        Name: Angriff
+        Desc: ""
+      "110507":
+        Name: Hypnoseforschung
+        Desc: <span>Greift den Gegner an. Fügt nach Kampfeintritt einem zufälligen Gegner geringen physischen SCH zu, mit einer hohen Chance, allen gegnerischen Zielen Schwächung zuzufügen.</span>
+        Type: Technik
+    Eidolons:
+      "110501":
+        Name: Pharmakologisches Fachwissen
+        Desc: <span>Wenn Natashas LP-Prozentsatz nach einem gegnerischen Angriff 30% oder niedriger ist, heilt sie sich 1-mal und erhält 15% ihrer max. LP plus 400 zurück. Dieser Effekt kann nur einmal pro Kampf ausgelöst werden.</span>
+      "110502":
+        Name: Klinische Forschung
+        Desc: <span>Der Ultimate gewährt Verbündeten, deren LP-Prozentsatz 30% oder niedriger ist, für 1 Rd. kontinuierliche Heilung. Zu Beginn ihrer Runde werden ihre LP um 6% von Natashas max. LP plus 160 wiederhergestellt.</span>
+      "110503":
+        Name: Das richtige Heilmittel
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "110504":
+        Name: Wundermittel
+        Desc: <span>Wird Natasha angegriffen, erhält sie zusätzlich 5 Pkt. Energie zurück.</span>
+      "110505":
+        Name: Vorbeugende Behandlung
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "110506":
+        Name: Ärztliche Gnade
+        Desc: <span>Der Standardangriff verursacht zusätzlichen physischen SCH in Höhe von 40% von Natashas max. LP.</span>
+  "1106":
+    Name: Pela
+    Abilities:
+      "110601":
+        Name: Frostschuss
+        Desc: <span>Fügt einem Gegner geringen Eis-SCH zu.</span>
+        Type: Standardangriff
+      "110602":
+        Name: Frostbeule
+        Desc: <span></span><span style='color:#f29e38ff'>Entfernt</span><span> 1 </span><span style='color:#f29e38ff'><u>Buff</u></span><span> eines Gegners und fügt einem Gegner Eis-SCH zu.</span>
+        Type: Fertigkeit
+      "110603":
+        Name: Zonenunterdrückung
+        Desc: <span>Hat eine hohe Chance, die </span><span style='color:#f29e38ff'>VTD</span><span> aller Gegner zu </span><span style='color:#f29e38ff'>reduzieren</span><span> und fügt allen Gegnern geringen Eis-SCH zu.</span>
+        Type: Ultimate
+      "110604":
+        Name: Datensammlung
+        Desc: <span>Wenn der Gegner nach Pelas Angriff einen <u>Debuff</u> hat, stellt Pela Energie wieder her.</span>
+        Type: Talent
+      "110606":
+        Name: Angriff
+        Desc: ""
+      "110607":
+        Name: Präventivschlag
+        Desc: <span>Greift Gegner an. Fügt nach Kampfeintritt einem zufälligen Gegner geringen Eis-SCH zu und hat eine hohe Chance, die VTD aller Gegner zu reduzieren.</span>
+        Type: Technik
+    Eidolons:
+      "110601":
+        Name: Siegesbericht
+        Desc: <span>Wird ein Gegner besiegt, erhält Pela 5 Pkt. Energie zurück.</span>
+      "110602":
+        Name: Hartnäckige Ladung
+        Desc: <span>Nach Einsatz der Fertigkeit zum Entfernen eines gegnerischen Buffs wird ihre GES für 2 Rd. um 10% erhöht.</span>
+      "110603":
+        Name: Unterdrückungskraft
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "110604":
+        Name: Vollständige Analyse
+        Desc: <span>Beim Einsatz der Fertigkeit besteht eine Grundchance von 100%, den Eis-WDS des Gegners für 2 Rd. um 12% zu reduzieren.</span>
+      "110605":
+        Name: Absolute Gefährdung
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "110606":
+        Name: Schwache Verfolgung
+        Desc: <span>Wenn der Gegner nach Pelas Angriff einen Debuff hat, fügt sie ihm zusätzlichen Eis-SCH in Höhe von 40% von Pelas ANG zu.</span>
+  "1107":
+    Name: Clara
+    Abilities:
+      "110701":
+        Name: Ich will helfen
+        Desc: <span>Fügt einem Gegner geringen physischen SCH zu.</span>
+        Type: Standardangriff
+      "110702":
+        Name: Svarogs Auge ruht auf dir
+        Desc: <span>Fügt allen Gegnern physischen SCH zu. Bei Gegnern mit Kontermarkierung wird zusätzlich </span><span style='color:#f29e38ff'>physischer SCH bewirkt</span><span>.</span>
+        Type: Fertigkeit
+      "110703":
+        Name: Ein Versprechen, kein Befehl
+        Desc: <span></span><span style='color:#f29e38ff'>Reduziert den selbst erlittenen SCH</span><span> und erhöht die Chance, angegriffen zu werden. Der Effekt von <u>Konter</u> wird verstärkt.</span>
+        Type: Ultimate
+      "110704":
+        Name: Weil wir eine Familie sind
+        Desc: <span></span><span style='color:#f29e38ff'>Der von gegnerischen Angriffen erhaltene SCH wird reduziert</span><span>. Gegner, die Clara angreifen, werden mit einer Kontermarkierung markiert und </span><span style='color:#f29e38ff'>von Svarogs <u>Konter</u> getroffen</span><span>, der physischen SCH zufügt.</span>
+        Type: Talent
+      "110706":
+        Name: Angriff
+        Desc: ""
+      "110707":
+        Name: Ein geringer Preis für den Sieg
+        Desc: <span>Greift den Gegner an. Nach Kampfeintritt wird die Chance erhöht, von Gegnern angegriffen zu werden.</span>
+        Type: Technik
+    Eidolons:
+      "110701":
+        Name: Eine große Figur
+        Desc: <span>Nach dem Einsatz der Fertigkeit werden keine „Kontermarkierungen“ von Gegnern entfernt.</span>
+      "110702":
+        Name: Eine enge Umarmung
+        Desc: "<span>Erhöht nach dem Einsatz des Ultimates den ANG für 2\_Rd. um 30%.</span>"
+      "110703":
+        Name: Rüstung aus kaltem Stahl
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "110704":
+        Name: Wärme der Familie
+        Desc: <span>Wird Clara angegriffen, sinkt ihr erlittener SCH um 30%. Dieser Effekt hält bis zum Beginn ihrer nächsten Runde an.</span>
+      "110705":
+        Name: Ein kleines Versprechen
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "110706":
+        Name: Langfristige Begleitung
+        Desc: <span>Wird ein anderer Verbündeter angegriffen, führt Svarog mit einer festen Chance von 50% einen Konter aus und markiert den Angreifer mit „Kontermarkierung“. Beim Einsatz des Ultimates wird die Anzahl der verstärkten Konter zusätzlich um 1 erhöht.</span>
+  "1108":
+    Name: Sampo
+    Abilities:
+      "110801":
+        Name: Schwirrende Klingen
+        Desc: <span>Fügt einem Gegner geringen Wind-SCH zu.</span>
+        Type: Standardangriff
+      "110802":
+        Name: Zurückprallende Liebe
+        Desc: <span>Fügt einem Gegner geringen Wind-SCH zu und prallt insgesamt 5-mal ab.</span>
+        Type: Fertigkeit
+      "110803":
+        Name: Überraschungsgeschenk
+        Desc: <span>Fügt allen Gegnern Wind-SCH zu. Hat eine hohe Chance, </span><span style='color:#f29e38ff'>den erlittenen DoT zu erhöhen</span><span>.</span>
+        Type: Ultimate
+      "110804":
+        Name: Windzerschlissener Dolch
+        Desc: <span>Nach dem Treffen eines Gegners besteht die Chance, dass beim Gegner </span><span style='color:#f29e38ff'>Windscherung verursacht wird</span><span>.</span>
+        Type: Talent
+      "110806":
+        Name: Angriff
+        Desc: ""
+      "110807":
+        Name: Helles Leuchten
+        Desc: <span>Gegner in einem bestimmten Gebiet werden geblendet. Beim Kämpfen gegen einen geblendeten Gegner besteht eine hohe Chance, nach Kampfeintritt die Aktionen aller Gegner zu <u>verzögern</u>.</span>
+        Type: Technik
+    Eidolons:
+      "110801":
+        Name: Aufsteigende Liebe
+        Desc: <span>Die Fertigkeit fügt einem zufälligen Gegner zusätzlich 1-mal SCH zu.</span>
+      "110802":
+        Name: Ansteckender Enthusiasmus
+        Desc: <span>Wird ein von Windscherung betroffener Gegner besiegt, besteht eine Grundchance von 100%, bei allen Gegnern 1-mal Windscherung gleich Sampos Talent zu verursachen.</span>
+      "110803":
+        Name: Große Summe!
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "110804":
+        Name: Je inniger die Liebe, desto stärker der Hass
+        Desc: <span>Trifft die Fertigkeit einen Gegner mit min. 5 Stapelungen Windscherung, verursacht die aktuelle Windscherung sofort 8% des ursprünglichen SCH.</span>
+      "110805":
+        Name: Riesensumme!
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "110806":
+        Name: Erhöhte Ausgaben
+        Desc: <span>Erhöht den SCH-Multiplikator der Windscherung durch das Talent um 15%.</span>
+  "1109":
+    Name: Hook
+    Abilities:
+      "110901":
+        Name: Hey! Verbrenn dich nicht!
+        Desc: <span>Fügt einem Gegner geringen Feuer-SCH zu.</span>
+        Type: Standardangriff
+      "110902":
+        Name: Hey! Erinnerst du dich an Hook?
+        Desc: <span>Fügt einem Gegner Feuer-SCH zu und verursacht dem Ziel mit hoher Chance Brennen.</span>
+        Type: Fertigkeit
+      "110903":
+        Name: Bumm! Hier kommt das Feuer!
+        Desc: <span>Fügt einem Gegner massiven Feuer-SCH zu und </span><span style='color:#f29e38ff'>verstärkt Hooks nächste Fertigkeit</span><span>.</span>
+        Type: Ultimate
+      "110904":
+        Name: Ha! Öl ins Feuer!
+        Desc: <span>Fügt einem Gegner im Status Brennen </span><span style='color:#f29e38ff'><u>zusätzlich</u> geringen Feuer-SCH</span><span> zu und stellt zusätzlich Energie wiederher.</span>
+        Type: Talent
+      "110906":
+        Name: Angriff
+        Desc: ""
+      "110907":
+        Name: Puh! Sieh sich einer das Chaos an!
+        Desc: <span>Greift den Gegner an. Fügt nach Kampfeintritt einem zufälligen Gegner Feuer-SCH zu, mit einer hohen Chance, allen Gegnern Brennen zuzufügen.</span>
+        Type: Technik
+    Eidolons:
+      "110901":
+        Name: Früh zu Bett, früh aus den Federn
+        Desc: <span>Die verstärkte Fertigkeit verursacht 20% mehr SCH.</span>
+      "110902":
+        Name: Glücklicher Bauch, glücklicher Körper
+        Desc: "<span>Verlängert die Dauer des durch Fertigkeit verursachten Brennens um 1\_Rd.</span>"
+      "110903":
+        Name: Nicht wählerisch sein, schmeckt alles fein
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "110904":
+        Name: Nichts wissen macht auch nichts
+        Desc: <span>Bei Auslösung des Talents besteht eine Grundchance von 100%, dass angrenzende Ziele des anvisierten Gegners von Brennen betroffen werden, das durch Fertigkeit verursacht wird.</span>
+      "110905":
+        Name: Für den Ruhm der Maulwürfe
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "110906":
+        Name: Immer bereit zum Schlagen und Treten
+        Desc: <span>Hook fügt brennenden Gegnern 20% mehr SCH zu.</span>
+  "1110":
+    Name: Lynx
+    Abilities:
+      "111001":
+        Name: Steigeisentechnik
+        Desc: <span>Fügt einem Gegner geringen Quanten-SCH zu.</span>
+        Type: Standardangriff
+      "111002":
+        Name: Gesalzenes Dosenfutter
+        Desc: <span>Wendet „Überlebensreaktion“ auf einen Verbündeten an, </span><span style='color:#f29e38ff'>erhöht seine max. LP</span><span> und stellt seine LP wieder her.</span>
+        Type: Fertigkeit
+      "111003":
+        Name: Ersthilfeplan in der Schneewüste
+        Desc: <span>Entfernt </span><span style='color:#f29e38ff'>1 <u>Debuff</u> von allen Verbündeten</span><span> und stellt ihre LP wieder her.</span>
+        Type: Ultimate
+      "111004":
+        Name: Überleben in der Wildnis
+        Desc: <span>Beim Einsatz der Fertigkeit oder des Ultimates wird </span><span style='color:#f29e38ff'>kontinuierliche Heilung</span><span> auf Verbündete angewendet. Bei Verbündeten mit „Überlebensreaktion“ wird der Effekt der kontinuierlichen Heilung zusätzlich erhöht.</span>
+        Type: Talent
+      "111006":
+        Name: Angriff
+        Desc: ""
+      "111007":
+        Name: Schoko-Energieriegel
+        Desc: <span>Nach dem Einsatz der Technik erhalten alle Verbündeten zu Beginn des nächsten Kampfes kontinuierliche Heilung.</span>
+        Type: Technik
+    Eidolons:
+      "111001":
+        Name: Ein Morgen mit frischem Schnee
+        Desc: <span>Heilt Lynx Verbündete mit LP in Höhe von 50% oder niedriger, wird die bewirkte Heilung um 20% erhöht. Dieser Effekt wirkt auch bei der kontinuierlichen Heilung.</span>
+      "111002":
+        Name: Ein Mittag am tragbaren Herd
+        Desc: <span>Ein Verbündeter mit „Überlebensreaktion“ kann 1-mal der Wirkung eines Debuffs widerstehen.</span>
+      "111003":
+        Name: Ein Nachmittag mit Lawinenleuchtfeuer
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "111004":
+        Name: Ein Sonnenuntergang am Lagerfeuer
+        Desc: <span>Wenn „Überlebensreaktion“ erlangt wird, erhöht sich der ANG des Ziels für 1 Rd. um 3% der max. LP von Lynx.</span>
+      "111005":
+        Name: Eine Nacht mit Tee und Polarlicht
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "111006":
+        Name: Ein Sonnenaufgang mit Kartografiepapier
+        Desc: <span>Die Erhöhung der max. LP durch „Überlebensreaktion“ wird zusätzlich um 6% der max. LP von Lynx weiter erhöht. Erhöht auch den Effekt-WDS um 30%.</span>
+  "1111":
+    Name: Luka
+    Abilities:
+      "111101":
+        Name: Gerader Haken
+        Desc: <span>Fügt einem Gegner geringen physischen SCH zu.</span>
+        Type: Standardangriff
+      "111102":
+        Name: Schredderfaust
+        Desc: <span>Fügt einem Gegner physischen SCH zu und bewirkt bei ihm mit hoher Chance </span><span style='color:#f29e38ff'>Bluten</span><span>.</span>
+        Type: Fertigkeit
+      "111103":
+        Name: Gnadenstoß
+        Desc: "<span>Luka erhält </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>2</span></span><span> Stapelungen „Kampfeswille“ mit einer hohen Chance, den vom Gegner erlittenen SCH zu erhöhen, und fügt dem Ziel massiven physischen SCH zu.</span>"
+        Type: Ultimate
+      "111104":
+        Name: Fliegende Funken
+        Desc: <span>Luka erhält nach Einsatz von Standardangriff „Gerader Haken“ oder Fertigkeit „Schredderfaust“ 1 Stapelung „Kampfeswille“. Ab 2 Stapelungen „Kampfeswille“ wird der </span><span style='color:#f29e38ff'>Standardangriff verstärkt</span><span>.<br>Wenn der Gegner blutet, </span><span style='color:#f29e38ff'>verursacht der verstärkte Standardangriff 1-mal zusätzlichen Bluten-SCH</span><span>.</span>
+        Type: Talent
+      "111106":
+        Name: Angriff
+        Desc: ""
+      "111107":
+        Name: Vorausdenker
+        Desc: <span>Greift den Gegner an. Fügt nach Kampfeintritt einem zufälligen Gegner geringen physischen SCH zu und hat eine hohe Chance, dem Ziel </span><span style='color:#f29e38ff'>Bluten zuzufügen</span><span>. Luka erhält dann zusätzlich 1 Stapelung „Kampfeswille“.</span>
+        Type: Technik
+    Eidolons:
+      "111101":
+        Name: Endloser Kampf
+        Desc: <span>Wenn Luka eine Aktion ausführt und der anvisierte Gegner von Bluten betroffen ist, wird der von Luka verursachte SCH für 2 Rd. um 15% erhöht.</span>
+      "111102":
+        Name: Der Feind ist schwach, ich bin stark
+        Desc: <span>Wenn die Fertigkeit einen Gegner mit physischer Schwäche trifft, erhält Luka 1 Stapelung „Kampfeswille“.</span>
+      "111103":
+        Name: Geboren für den Ring
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "111104":
+        Name: Keine Umkehr
+        Desc: <span>Erhöht ANG für jede Stapelung „Kampfeswille“ um 5%. Dieser Effekt ist bis zu 4-fach stapelbar.</span>
+      "111105":
+        Name: Der Geist von Wildfeuer
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "111106":
+        Name: Applaus für den Champion
+        Desc: <span>Nachdem der verstärkte Standardangriff „Himmelsbrecher-Faust“ einen blutenden Gegner getroffen hat, verursacht das Bluten sofort 1-mal SCH in Höhe von 8% des ursprünglichen SCH für jeden Treffer von „Gerader Haken“, der in diesem verstärkten Standardangriff verwendet wird.</span>
+  "1112":
+    Name: Topaz & Kontie
+    Abilities:
+      "111201":
+        Name: Defizit ...
+        Desc: <span>Fügt einem Gegner geringen Feuer-SCH zu.</span>
+        Type: Standardangriff
+      "111202":
+        Name: Schwierigkeiten beim Bezahlen?
+        Desc: <span>Verursacht bei einem Gegner „Schuldennachweis“ und lässt ihn </span><span style='color:#f29e38ff'>mehr Folgeangriff-SCH erleiden</span><span>. Kontie fügt dem Ziel Feuer-SCH zu.</span>
+        Type: Fertigkeit
+      "111203":
+        Name: Vom Verlust zum Gewinn!
+        Desc: <span>Kontie tritt in den Status „Erstaunlicher Aufstieg!“ ein und sein </span><span style='color:#f29e38ff'>SCH-Multiplikator und KRIT-SCH werden</span><span> erhöht.</span>
+        Type: Ultimate
+      "111204":
+        Name: Sparschweinmarkt?!
+        Desc: <span></span><span style='color:#f29e38ff'>Beschwört Kontie</span><span> zu Beginn des Kampfes. Wenn Kontie eine Aktion ausführt, </span><span style='color:#f29e38ff'>startet es einen Folgeangriff auf einen Gegner mit „Schuldennachweis“</span><span>. Wenn Gegner mit „Schuldennachweis“ Folgeangriffe eines Verbündeten erhalten, wird Konties </span><span style='color:#f29e38ff'>Aktion vorgezogen</span><span>.</span>
+        Type: Talent
+      "111206":
+        Name: Angriff
+        Desc: ""
+      "111207":
+        Name: Explizite Subvention
+        Desc: <span></span><span style='color:#f29e38ff'>Beschwört Kontie, sich in einem Labyrinth anzuschließen</span><span>. Kontie wird automatisch </span><span style='color:#f29e38ff'>nach gewöhnlichen Schätzen und Sparschweinen in der Nähe suchen</span><span>. Beim Einsatz der Technik wird die Energie für Topaz nach Konties erstem Angriff im nächsten Kampf wiederhergestellt.</span>
+        Type: Technik
+    Eidolons:
+      "111201":
+        Name: Markt der Zukunft
+        Desc: <span>Wenn Gegner mit „Schuldennachweis“ von Folgeangriffen getroffen werden, gehen sie in den Status „Schuldner“ über. Dies kann nur 1-mal in einem einzigen Angriff wirksam werden.<br>„Schuldner“ erhöht den KRIT-SCH von Folgeangriffen, der den betroffenen Gegnern zugefügt wird, um 25%, bis zu 2-fach stapelbar. Wenn „Schuldennachweis“ entfernt wird, wird auch der Status „Schuldner“ entfernt.</span>
+      "111202":
+        Name: Freundliche Übernahme
+        Desc: <span>Nachdem Kontie eine Aktion ausgeführt und einen Angriff gestartet hat, wird Topaz’ Energie um 5 Pkt. wiederhergestellt.</span>
+      "111203":
+        Name: Vorrangsteuerung
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe. +1 bis max. St. 10.</span>
+      "111204":
+        Name: Schnelle Handhabung
+        Desc: <span>Wenn Konties Runde beginnt, wird Topaz’ Aktion um 20% vorgezogen.</span>
+      "111205":
+        Name: Überhöhte Nachfrage
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "111206":
+        Name: Anreizmechanismen
+        Desc: <span>Erhöht Konties Trefferzahl im Status „Erstaunlicher Aufstieg!“ um 1. Erhöht seine Feuer-WDS-DUR beim Angriff um 10%.</span>
+  "1201":
+    Name: Qingque
+    Abilities:
+      "120101":
+        Name: Selbstgezogener Sieg
+        Desc: <span>Wirft 1 Stein und fügt einem anvisierten Gegner geringen Quanten-SCH zu.</span>
+        Type: Standardangriff
+      "120102":
+        Name: Letzten Stein eingeholt
+        Desc: <span></span><span style='color:#f29e38ff'>Zieht einen Stein</span><span> und erhöht den zugefügten SCH. </span><span style='color:#f29e38ff'>Die Runde wird nicht beendet</span><span>.</span>
+        Type: Fertigkeit
+      "120103":
+        Name: Vier verborgene Fische? Gewonnen!
+        Desc: <span>Fügt allen Gegnern Quanten-SCH zu und zieht dann 4 Jadesteine derselben Farbe.</span>
+        Type: Ultimate
+      "120104":
+        Name: Himmelische Jade
+        Desc: <span>Zu Beginn der Runde eines Verbündeten zieht Qingque Steine. Wenn sie zu Beginn ihrer Runde 4 Steine derselben Farbe hat, werden alle Steine verbraucht und </span><span style='color:#f29e38ff'>ihr Standardangriff wird verstärkt</span><span>. Gleichzeitig wird ihr ANG erhöht.</span>
+        Type: Talent
+      "120106":
+        Name: Angriff
+        Desc: ""
+      "120107":
+        Name: Mich selbst herausfordern
+        Desc: <span>Nach dem Einsatz der Technik wird zu Beginn des nächsten Kampfs ein Stein gezogen.</span>
+        Type: Technik
+    Eidolons:
+      "120101":
+        Name: Bauer umgewandelt, Preis erhalten
+        Desc: <span>Der Ultimate verursacht 10% mehr SCH.</span>
+      "120102":
+        Name: Zeit für ein Nickerchen, direkt auf dem Schachbrett
+        Desc: <span>Jedes Mal, wenn Qingque einen Stein zieht, erhält sie sofort 1 Pkt. Energie zurück.</span>
+      "120103":
+        Name: Auf die Spielsteine konzentrieren, auf das Ziehen verlassen
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "120104":
+        Name: Glückliche Kombination, der letzte Stein wartet
+        Desc: "<span>Nach dem Einsatz der Fertigkeit besteht eine feste Chance von 24%, den Status „Autarkie“ zu erhalten. Dieser Status hält bis zum Ende dieser Runde.<br>Im Status Autarkie führt Qingque nach dem Einsatz des Standardangriffs oder verstärkten Standardangriffs sofort einen Folgeangriff aus und fügt dem Ziel Quanten-SCH in Höhe von 100\_% des Standardangriff-SCH oder verstärkten Standardangriff-SCH zu.</span>"
+      "120105":
+        Name: Selbst gezogene Steine, das Glück verschmäht
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "120106":
+        Name: Ruhig und gefasst, bereit für den Sieg
+        Desc: <span>Stellt beim Einsatz des verstärkten Standardangriffs 1 Fertigkeitspunkt wieder her.</span>
+  "1202":
+    Name: Tingyun
+    Abilities:
+      "120201":
+        Name: Ausquartierung
+        Desc: <span>Fügt einem Gegner geringen Blitz-SCH zu.</span>
+        Type: Standardangriff
+      "120202":
+        Name: Beruhigende Melodie
+        Desc: <span>Segnet einen Verbündeten und </span><span style='color:#f29e38ff'>verstärkt seinen ANG</span><span>. Der gesegnete Verbündete verursacht geringen </span><span style='color:#f29e38ff'><u>zusätzlichen</u> Blitz-SCH</span><span>.</span>
+        Type: Fertigkeit
+      "120203":
+        Name: Ritual der Glückswolke
+        Desc: <span>Stellt für einen Verbündeten </span><span style='color:#f29e38ff'>Energie wieder her</span><span> und </span><span style='color:#f29e38ff'>erhöht seinen zugefügten SCH</span><span>.</span>
+        Type: Ultimate
+      "120204":
+        Name: Violetter Funkenwirbel
+        Desc: <span>Nachdem Tingyun einen Gegner angegriffen hat, fügt der gesegnete Verbündete dem Gegner sofort geringen <u>zusätzlichen</u> Blitz-SCH zu.</span>
+        Type: Talent
+      "120206":
+        Name: Angriff
+        Desc: ""
+      "120207":
+        Name: Sanfte Brise
+        Desc: <span>Nach der Anwendung der Technik stellt diese Figur sofort Energie für sich selbst wieder her.</span>
+        Type: Technik
+    Eidolons:
+      "120201":
+        Name: Glücksfall von Frühlingswind
+        Desc: <span>Nachdem ein gesegneter Verbündeter sein Ultimate eingesetzt hat, wird seine GES für 1 Rd. um 20% erhöht.</span>
+      "120202":
+        Name: Ein dankbarer Nutznießer
+        Desc: <span>Besiegt ein gesegneter Verbündeter einen Gegner, erhält er 5 Pkt. Energie zurück. Dieser Effekt kann nur einmal pro Runde ausgelöst werden.</span>
+      "120203":
+        Name: Vermächtnis der gesegneten Tage
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "120204":
+        Name: Joviale Vielseitigkeit
+        Desc: <span>Erhöht SCH-Multiplikator des „Segens“ um 20%.</span>
+      "120205":
+        Name: Flanierende Kokotte
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "120206":
+        Name: Frieden bringt Wohlstand für alle
+        Desc: <span>Erhöht die durch Ultimate wiederhergestellte Energie für einen Verbündeten um 10.</span>
+  "1203":
+    Name: Luocha
+    Abilities:
+      "120301":
+        Name: Dornen des Abgrunds
+        Desc: <span>Fügt einem Gegner geringen imaginären SCH zu.</span>
+        Type: Standardangriff
+      "120302":
+        Name: Gebet der Abgrundblume
+        Desc: <span></span><span style='color:#f29e38ff'>Stellt</span><span> LP eines Verbündeten </span><span style='color:#f29e38ff'>wieder her</span><span> und erhält 1-fach „Abgrundblume“.</span>
+        Type: Fertigkeit
+      "120303":
+        Name: Todestrieb
+        Desc: <span></span><span style='color:#f29e38ff'>Entfernt</span><span> 1 </span><span style='color:#f29e38ff'><u>Buff</u></span><span> von allen Gegnern, fügt ihnen imaginären SCH zu und erhält 1 Stapelung „Abgrundblume“.</span>
+        Type: Ultimate
+      "120304":
+        Name: Zyklus des Lebens
+        Desc: <span>Wenn „Abgrundblume“ 2-fach gestapelt wird, wird ein </span><span style='color:#f29e38ff'>Feld erzeugt</span><span>. Solange das Feld aktiv ist, werden die LP der Verbündeten wiederhergestellt, </span><span style='color:#f29e38ff'>nachdem sie einen Angriff ausgeführt</span><span> haben.</span>
+        Type: Talent
+      "120306":
+        Name: Angriff
+        Desc: ""
+      "120307":
+        Name: Gnade eines Narren
+        Desc: <span>Nach dem Einsatz der Technik wird zu Beginn des nächsten Kampfs der Effekt des Talents sofort ausgelöst.</span>
+        Type: Technik
+    Eidolons:
+      "120301":
+        Name: Taufe der Lebenden
+        Desc: <span>Ist das Feld aktiv, wird der ANG aller Verbündeten um 20% erhöht.</span>
+      "120302":
+        Name: Reine Hingabe
+        Desc: "<span>Wenn der Effekt der Fertigkeit ausgelöst wird und der LP-Prozentsatz des anvisierten Verbündeten unter 50\_% liegt, wird Luochas bewirkte Heilung um 30% erhöht. Liegt der LP-Prozentsatz des anvisierten Verbündeten bei 50\_% oder höher, gewährt Luocha ihm einen Schild, der für 2\_Rd. SCH in Höhe von 18% von Luochas ANG plus 240 absorbiert.</span>"
+      "120303":
+        Name: Ein närrischer Versuch
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "120304":
+        Name: Urteil der Dornenkrone
+        Desc: <span>Ist das Feld aktiv, werden Gegner geschwächt und sie verursachen 12% weniger SCH.</span>
+      "120305":
+        Name: Opfermal
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "120306":
+        Name: Staub zu Staub
+        Desc: "<span>Beim Einsatz des Ultimates besteht eine feste Chance von 100%, den WDS aller Typen von allen Gegnern für 2\_Rd. um 20% zu reduzieren.</span>"
+  "1204":
+    Name: Jing Yuan
+    Abilities:
+      "120401":
+        Name: Gleißendes Licht
+        Desc: <span>Fügt einem Gegner geringen Blitz-SCH zu.</span>
+        Type: Standardangriff
+      "120402":
+        Name: Gespaltener Zenit
+        Desc: <span>Fügt allen Gegnern geringen Blitz-SCH zu und </span><span style='color:#f29e38ff'>erhöht die Trefferzahl des Blitz-Lords</span><span>.</span>
+        Type: Fertigkeit
+      "120403":
+        Name: Lichtbringer
+        Desc: <span>Fügt allen Gegnern Blitz-SCH zu und </span><span style='color:#f29e38ff'>erhöht die Trefferzahl des Blitz-Lords</span><span>.</span>
+        Type: Ultimate
+      "120404":
+        Name: Prana ausgemerzt
+        Desc: <span>Beschwört den Blitz-Lord zu Beginn des Kampfes. Dieser fügt </span><span style='color:#f29e38ff'>automatisch</span><span> einem zufälligen Gegner und angrenzenden Einheiten </span><span style='color:#f29e38ff'>geringen Blitz-SCH</span><span> zu.</span>
+        Type: Talent
+      "120406":
+        Name: Angriff
+        Desc: ""
+      "120407":
+        Name: Geisterbeschwörung
+        Desc: <span></span><span style='color:#f29e38ff'>Erhöht</span><span> nach dem Einsatz der Technik </span><span style='color:#f29e38ff'>die Trefferzahl des Blitz-Lords</span><span> zu Beginn des nächsten Kampfs.</span>
+        Type: Technik
+    Eidolons:
+      "120401":
+        Name: Blitz, gespaltene Klippen
+        Desc: <span>Erhöht beim Angriff des Blitz-Lords den SCH-Multiplikator für angrenzende Ziele um einen zusätzlichen Wert in Höhe von 25% des SCH-Multiplikators für den anvisierten Gegner.</span>
+      "120402":
+        Name: Phalanx, blockierte Sonnen
+        Desc: "<span>Nach der Aktion des Blitz-Lords verursachen Jing Yuans Standardangriff, Fertigkeit und Ultimate für 2\_Rd. 20% mehr SCH.</span>"
+      "120403":
+        Name: Schlag, zerbrochenes Licht
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "120404":
+        Name: Klinge, gefällte Sterne
+        Desc: <span>Jing Yuan erhält bei jedem Treffer des Blitz-Lords 2 Pkt. Energie zurück.</span>
+      "120405":
+        Name: Veteran, besiegter Tod
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "120406":
+        Name: Zauber, bezwungene Feinde
+        Desc: <span>Jeder Treffer des Blitz-Lords verursacht bei den Gegnern zusätzlich Anfälligkeit.<br>Anfällige Ziele erleiden bis zum Ende dieses Angriffs des Blitz-Lords 12% mehr SCH. Dieser Effekt ist bis zu 3-mal stapelbar.</span>
+  "1205":
+    Name: Blade
+    Abilities:
+      "120501":
+        Name: Scherbenschwert
+        Desc: <span>Fügt einem Gegner geringen Wind-SCH zu.</span>
+        Type: Standardangriff
+      "120502":
+        Name: Höllenqual
+        Desc: <span>Verbraucht LP, um den </span><span style='color:#f29e38ff'>Standardangriff zu verstärken</span><span>. Nach dem Einsatz der Fertigkeit wird die aktuelle Runde nicht beendet.</span>
+        Type: Fertigkeit
+      "120503":
+        Name: Todesurteil
+        Desc: "<span>Setzt die aktuellen LP auf <span style='whiteSpace: \"nowrap\"'>50</span>\_% der max. LP. Fügt einem Gegner massiven Wind-SCH und angrenzenden Einheiten Wind-SCH zu.</span>"
+        Type: Ultimate
+      "120504":
+        Name: Shuhus Geschenk
+        Desc: <span>Wenn Blades LP sinken, erhält er 1 Aufladung. Wenn die maximale Aufladungsanzahl erreicht wird, fügt er sofort </span><span style='color:#f29e38ff'>allen Gegnern Wind-SCH zu</span><span> und stellt seine LP wieder her. Dadurch werden alle Aufladungen verbraucht.</span>
+        Type: Talent
+      "120506":
+        Name: Angriff
+        Desc: ""
+      "120507":
+        Name: Karmawind
+        Desc: <span>Greift den Gegner an. Verbraucht nach Kampfeintritt eigene LP und fügt allen Gegnern Wind-SCH zu.</span>
+        Type: Technik
+    Eidolons:
+      "120501":
+        Name: Eine Schwertlänge, tausend Höllentiefen
+        Desc: <span>Blades Ultimate verursacht bei einem anvisierten Gegner zusätzlich erhöhten SCH, wobei der erhöhte Betrag 150% seiner gesamten im aktuellen Kampf verlorenen LP beträgt.<br>Die berechneten LP, die Blade im aktuellen Kampf insgesamt verloren hat, werden auf 90% seiner max. LP begrenzt. Nachdem er seinen Ultimate eingesetzt hat, wird dieser Wert zurückgesetzt und neu berechnet.</span>
+      "120502":
+        Name: Verpasste Träume, unendliches Bedauern
+        Desc: <span>Wenn „Höllenqual“ aktiv ist, wird die KRIT-Rate um 15% erhöht.</span>
+      "120503":
+        Name: Geschmolzener Stahl, gemahlenes Korn
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "120504":
+        Name: Vom Tod abgewiesen, vom Leben heimgesucht
+        Desc: "<span>Werden Blades aktuelle LP auf 50\_% oder niedriger reduziert, werden seine max. LP um 20% erhöht. Dieser Effekt ist bis zu 2-fach stapelbar.</span>"
+      "120505":
+        Name: Todesurteil, Karmavollstreckung
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "120506":
+        Name: Wie Körper, so Seele
+        Desc: <span>Die maximale Aufladungsanzahl wird auf 4 reduziert. Der durch Folgeangriffe verursachte SCH von Blades Talent wird zusätzlich um 50% seiner max. LP erhöht.</span>
+  "1206":
+    Name: Sushang
+    Abilities:
+      "120601":
+        Name: "Ritter-Schwertkunst: Stellarer Halo"
+        Desc: <span>Fügt einem Gegner geringen physischen SCH zu.</span>
+        Type: Standardangriff
+      "120602":
+        Name: "Ritter-Schwertkunst: Bergfall"
+        Desc: <span>Fügt einem Gegner physischen SCH zu und </span><span style='color:#f29e38ff'>besteht eine geringe Chance, „Schwerthaltung“ auszulösen</span><span>. Bei Gegner mit <u>Schwächebruch</u> wird die </span><span style='color:#f29e38ff'>„Schwerthaltung“ garantiert ausgelöst</span><span>.</span>
+        Type: Fertigkeit
+      "120603":
+        Name: "Die Gestalt von Taixu: Herold der Morgenröte"
+        Desc: <span>Fügt einem Gegner massiven physischen SCH zu, verstärkt den Effekt der „Schwerthaltung“ und gewährt Sushang </span><span style='color:#f29e38ff'>eine sofortige Aktion</span><span>.</span>
+        Type: Ultimate
+      "120604":
+        Name: Fließende Klinge
+        Desc: <span>Erhöht die eigene GES, wenn ein Gegner im Kampf Schwächebruch erleidet.</span>
+        Type: Talent
+      "120606":
+        Name: Angriff
+        Desc: ""
+      "120607":
+        Name: "Ritter-Schwertkunst: Ansturm"
+        Desc: <span>Greift den Gegner an. Fügt nach Kampfeintritt allen Gegnern geringen physischen SCH zu.</span>
+        Type: Technik
+    Eidolons:
+      "120601":
+        Name: Mit Leichtigkeit schneiden
+        Desc: <span>Stellt beim Einsatz der Fertigkeit gegen Gegner mit Schwächebruch 1 Fertigkeitspunkt wieder her.</span>
+      "120602":
+        Name: Kultivierter Körper
+        Desc: "<span>Nach Auslösung der „Schwerthaltung“ erleidet Sushang für 1\_Rd. 20% weniger SCH.</span>"
+      "120603":
+        Name: Uralter Schwertstil
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "120604":
+        Name: Scharfer Verstand
+        Desc: <span>Erhöht Sushangs Brucheffekt um 40%.</span>
+      "120605":
+        Name: Der Wille von Taixu
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "120606":
+        Name: Anpassen wie Wasser
+        Desc: <span>Die GES-Erhöhung von Sushangs Talent ist bis zu 2-fach stapelbar. Außerdem erhält Sushang unmittelbar nach Kampfeintritt 1-fach GES-Erhöhung .</span>
+  "1207":
+    Name: Yukong
+    Abilities:
+      "120701":
+        Name: Heldin mit Pfeil und Bogen
+        Desc: <span>Fügt einem Gegner geringen imaginären SCH zu.</span>
+        Type: Standardangriff
+      "120702":
+        Name: Ermutigende Salve
+        Desc: <span>Erhält 2-fach „Surrende Bogensehnen“. Wenn „Surrende Bogensehnen“ aktiv ist, wird der </span><span style='color:#f29e38ff'>ANG</span><span> aller Verbündeten erhöht.</span>
+        Type: Fertigkeit
+      "120703":
+        Name: Turmfalke im Sturzflug
+        Desc: <span>Wenn „Surrende Bogensehnen“ aktiv ist, werden die </span><span style='color:#f29e38ff'>KRIT-Rate und der KRIT-SCH</span><span> aller Verbündeten erhöht. Fügt gleichzeitig einem Gegner massiven imaginären SCH zu.</span>
+        Type: Ultimate
+      "120704":
+        Name: Sieben Schichten, ein Pfeil
+        Desc: <span>Der Standardangriff fügt geringen zusätzlichen imaginären SCH zu und erhöht die WDS-Reduzierung dieses Angriffs. Dieser Effekt kann nach 1 Rd. erneut ausgelöst werden.</span>
+        Type: Talent
+      "120706":
+        Name: Angriff
+        Desc: ""
+      "120707":
+        Name: Jagd nach dem Wind
+        Desc: <span>Erhöht ihre </span><span style='color:#f29e38ff'>Bewegungs-GES</span><span>. Gewährt 2-fach „Surrende Bogensehnen“, wenn sie durch Angriff auf den Gegner einen Kampf einleitet.</span>
+        Type: Technik
+    Eidolons:
+      "120701":
+        Name: Geflügelte Kundschafterin
+        Desc: "<span>Erhöht beim Kampfeintritt die GES aller Verbündeten für 2\_Rd. um 10%.</span>"
+      "120702":
+        Name: Streitwagen des Firmaments
+        Desc: <span>Wenn die aktuelle Energie eines Verbündeten seinem Energielimit entspricht, stellt Yukong zusätzlich 5 Pkt. Energie wieder her. Dieser Effekt kann für jeden Verbündeten nur 1-mal ausgelöst werden. Die Auslösungsanzahl wird zurückgesetzt, nachdem Yukong ihren Ultimate eingesetzt hat.</span>
+      "120703":
+        Name: Stürzender Pfeilregen
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "120704":
+        Name: Echo des Westwinds
+        Desc: <span>Wenn „Surrende Bogensehnen“ aktiv ist, fügt Yukong Gegnern 30% mehr SCH zu.</span>
+      "120705":
+        Name: Schnell und präzise
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "120706":
+        Name: Blitzschlag der Bogensehne
+        Desc: <span>Beim Einsatz des Ultimates erhält Yukong sofort 1-fach „Surrende Bogensehnen“.</span>
+  "1208":
+    Name: Fu Xuan
+    Abilities:
+      "120801":
+        Name: Sternschlag
+        Desc: <span>Fügt einem Gegner geringen Quanten-SCH zu.</span>
+        Type: Standardangriff
+      "120802":
+        Name: Astronomisches Wunder
+        Desc: <span>Aktiviert die „Matrix der Voraussicht“, wodurch </span><span style='color:#f29e38ff'>der erlittene SCH</span><span> von Verbündeten mit Fu Xuan <u>geteilt</u> wird. </span><span style='color:#f29e38ff'>Erhöht die KRIT-Rate</span><span> und die max. LP aller Verbündeten.</span>
+        Type: Fertigkeit
+      "120803":
+        Name: Ultimative Evolution
+        Desc: <span>Fügt allen Gegnern Quanten-SCH zu und erhöht die Auslösungsanzahl von Fu Xuans Talent.</span>
+        Type: Ultimate
+      "120804":
+        Name: Nach Weh kommt Wohl
+        Desc: <span>Solange Fu Xuan kampffähig ist, wird der von allen Verbündeten erlittene SCH reduziert.<br>Wenn die LP niedrig sind, werden </span><span style='color:#f29e38ff'>automatisch</span><span> LP anhand des Prozentsatzes der verlorenen LP </span><span style='color:#f29e38ff'>wiederhergestellt</span><span>. Dieser Effekt kann höchstens 2-mal ausgelöst werden.</span>
+        Type: Talent
+      "120806":
+        Name: Angriff
+        Desc: ""
+      "120807":
+        Name: Die Gunst des Schicksals
+        Desc: <span>Aktiviert eine Barriere. Verbündete treten nicht in den Kampf ein, wenn sie von Gegnern angegriffen werden. Beim Kampfeintritt wird die „Matrix der Voraussicht“ automatisch aktiviert.</span>
+        Type: Technik
+    Eidolons:
+      "120801":
+        Name: Zyklus von Leben und Tod
+        Desc: <span>„Wissen“ erhöht KRIT-SCH um 30%.</span>
+      "120802":
+        Name: Verheißungsvolles Omen
+        Desc: <span>Wenn ein Verbündeter von einem Todesstoß getroffen wird, während die Matrix der Voraussicht aktiv ist, bleiben alle Verbündeten, die während dieser Aktion von einem Todesstoß getroffen wurden, davon nicht handlungsunfähig und 70% ihrer max. LP werden sofort wiederhergestellt. Dieser Effekt kann 1-mal pro Kampf ausgelöst werden.</span>
+      "120803":
+        Name: Gottheit der Pflicht
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "120804":
+        Name: Gunstvoller Stern
+        Desc: <span>Wenn andere Verbündete unter „Matrix der Vorraussicht“ angegriffen werden, stellt Fu Xuan 5 Pkt. Energie wieder her.</span>
+      "120805":
+        Name: Wahre Wahrsagerin
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "120806":
+        Name: Wiederaufleben
+        Desc: <span>Sobald die „Matrix der Voraussicht“ aktiviert ist, werden die gesamten LP, die alle Verbündeten im aktuellen Kampf verloren haben, addiert. Der durch Ultimate von Fu Xuan verursachte SCH erhöht sich um 200% der gesamten LP, die alle Verbündeten im aktuellen Kampf verloren haben.<br>Die von allen Verbündeten im aktuellen Kampf verlorenen LP sind auf 120% der max. LP von Fu Xuan begrenzt. Dieser Wert wird zurückgesetzt und neu angesammelt, nachdem Fu Xuans Ultimate eingesetzt wurde.</span>
+  "1209":
+    Name: Yanqing
+    Abilities:
+      "120901":
+        Name: Kaltes Licht, kalte Klinge
+        Desc: <span>Fügt einem Gegner geringen Eis-SCH zu.</span>
+        Type: Standardangriff
+      "120902":
+        Name: Schwertwurf
+        Desc: <span>Fügt einem Gegner Eis-SCH zu und aktiviert „Empathische Schwertverbindung“.</span>
+        Type: Fertigkeit
+      "120903":
+        Name: Regenreiche Schwalbenjagd
+        Desc: <span>Erhöht KRIT-Rate, verstärkt „Empathische Schwertverbindung“ und fügt einem Gegner massiven Eis-SCH zu.</span>
+        Type: Ultimate
+      "120904":
+        Name: Scharfer Gefährte
+        Desc: <span>Verringert </span><span style='color:#f29e38ff'>während „Empathische Schwertverbindung“</span><span> die Chance, angegriffen zu werden und </span><span style='color:#f29e38ff'>erhöht die KRIT-Rate und den KRIT-SCH</span><span> der Figur. </span><span style='color:#f29e38ff'>Nach einem Angriff</span><span> auf einen Gegner kann die Figur einen <u>Folgeangriff</u> auslösen, der Eis-SCH verursacht und die Chance hat, den Gegner einzufrieren. <br>„Empathische Schwertverbindung“ wird entfernt, sobald diese Figur Schaden erleidet.</span>
+        Type: Talent
+      "120906":
+        Name: Angriff
+        Desc: ""
+      "120907":
+        Name: Meisterfechter
+        Desc: "<span>Der Einsatz der Technik erhöht zu Beginn des nächsten Kampfes den verursachten SCH bei Gegnern mit LP-Prozentsatz von <span style='whiteSpace: \"nowrap\"'>50</span> % oder höher.</span>"
+        Type: Technik
+    Eidolons:
+      "120901":
+        Name: Saubere Klinge
+        Desc: <span>Greift Yanqing gefrorene Gegner an, fügt er ihnen zusätzlichen Eis-SCH in Höhe von 60% seines ANG zu.</span>
+      "120902":
+        Name: Leere des Geistes
+        Desc: <span>Ist „Empathische Schwertverbindung“ aktiv, steigt die Wiederherstellungsrate der Energie zusätzlich um 10%.</span>
+      "120903":
+        Name: Begabter Schwertkämpfer
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "120904":
+        Name: Reifspieß
+        Desc: <span>Liegt der LP-Prozentsatz bei 80% oder höher, wird die Eis-WDS-DUR um 12% erhöht.</span>
+      "120905":
+        Name: Zum Kämpfen geboren
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "120906":
+        Name: Leichtigkeit
+        Desc: <span>Hat Yanqing beim Besiegen eines Gegners aktive Buffs von „Empathische Schwertverbindung“ oder vom Ultimate, wird die Dauer der Buffs um 1 Rd. verlängert.</span>
+  "1210":
+    Name: Guinaifen
+    Abilities:
+      "121001":
+        Name: Stehende Ovation
+        Desc: <span>Fügt einem Gegner geringen Feuer-SCH zu.</span>
+        Type: Standardangriff
+      "121002":
+        Name: Herzliche Begrüßung
+        Desc: <span>Fügt einem Gegner Feuer-SCH und angrenzenden Einheiten geringen Feuer-SCH zu. Verursacht mit hoher Chance </span><span style='color:#f29e38ff'>Brennen</span><span>.</span>
+        Type: Fertigkeit
+      "121003":
+        Name: Erstklassige Show
+        Desc: <span>Fügt allen Gegnern Feuer-SCH zu. Gegner mit dem Status Brennen erleiden zusätzlich 1-mal SCH durch Brennen.</span>
+        Type: Ultimate
+      "121004":
+        Name: Vorteile für Gönner
+        Desc: <span>Nachdem der </span><span style='color:#f29e38ff'>Status Brennen SCH beim Gegner ausgelöst</span><span> hat, besteht eine hohe Chance, </span><span style='color:#f29e38ff'>„Feuer spucken“</span><span> auf den Gegner anzuwenden.</span>
+        Type: Talent
+      "121006":
+        Name: Angriff
+        Desc: ""
+      "121007":
+        Name: Demonstration der Fähigkeiten
+        Desc: <span>Greift den Gegner an. Fügt nach Kampfeintritt einem Gegner geringen Feuer-SCH zu und verursacht </span><span style='color:#f29e38ff'>„Feuer spucken“</span><span>. Dieser Angriff prallt 4-mal ab.</span>
+        Type: Technik
+    Eidolons:
+      "121001":
+        Name: Nudeln kopfüber essen
+        Desc: <span>Beim Einsatz der Fertigkeit besteht eine Grundchance von 100%, den Effekt-WDS des angegriffenen Gegners für 2 Rd. um 10% zu reduzieren.</span>
+      "121002":
+        Name: Zähne putzen und dabei pfeifen
+        Desc: <span>Wenn der Gegner von Brennen betroffen ist, erhöhen Guinaifens Standardangriff und Fertigkeit den SCH-Multiplikator seines Status Brennen um 40%.</span>
+      "121003":
+        Name: Felsbrocken auf der Brust zerschmettern
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "121004":
+        Name: Speer balancieren
+        Desc: <span>Jedes Mal, wenn ein Gegner SCH durch von Guinaifen verursachtes Brennen erleidet, wird Energie für Guinaifen um 2 Pkt. wiederhergestellt.</span>
+      "121005":
+        Name: Schwert schlucken
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "121006":
+        Name: Kugeln mit den Händen fangen
+        Desc: <span>Erhöht die Anzahl der möglichen Stapelungen von „Feuer spucken“ um 1.</span>
+  "1211":
+    Name: Bailu
+    Abilities:
+      "121101":
+        Name: Diagnosetritt
+        Desc: <span>Fügt einem Gegner geringen Blitz-SCH zu.</span>
+        Type: Standardangriff
+      "121102":
+        Name: Unter den Wolken singen
+        Desc: <span>Stellt LP für einen Verbündeten wieder her und heilt dann einen weiteren zufälligen Verbündeten.</span>
+        Type: Fertigkeit
+      "121103":
+        Name: Sprung des Sumpfdrachen
+        Desc: <span>Stellt LP für alle Verbündeten wieder her. Belebt die Verbündeten oder verlängert die Dauer der „Belebung“.</span>
+        Type: Ultimate
+      "121104":
+        Name: Flaschenkürbis voller Elixier
+        Desc: <span>Verbündete mit </span><span style='color:#f29e38ff'>Belebung</span><span> stellen ihre </span><span style='color:#f29e38ff'>LP</span><span> wieder her, nachdem sie angegriffen wurden.<br>Wenn ein Verbündeter einen </span><span style='color:#f29e38ff'>Todesstoß erleidet</span><span>, stellt Bailu </span><span style='color:#f29e38ff'>sofort seine LP</span><span> wieder her. Dieser Effekt kann nur 1-mal pro Kampf ausgelöst werden.</span>
+        Type: Talent
+      "121106":
+        Name: Angriff
+        Desc: ""
+      "121107":
+        Name: Im Regen spazieren
+        Desc: <span>Nach dem Einsatz der Technik erhalten alle Verbündeten zu Beginn des nächsten Kampfes „Belebung“.</span>
+        Type: Technik
+    Eidolons:
+      "121101":
+        Name: "Meridian-Aufguss: Ambrosia-Aqua"
+        Desc: <span>Wenn die „Belebung“ endet und die LP des Verbündeten vollständig sind, wird für ihn zusätzlich 8 Pkt. Energie wiederhergestellt.</span>
+      "121102":
+        Name: Topf des schlummernden Drachen
+        Desc: "<span>Erhöht nach dem Einsatz des Ultimates die bewirkte Heilung von Bailu für 2\_Rd. um 15%.</span>"
+      "121103":
+        Name: Rätselhaftes Wunder
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "121104":
+        Name: Bedrohung ausgetrieben
+        Desc: "<span>Jede Heilung durch die Fertigkeit erhöht den vom Empfänger verursachten SCH für 2\_Rd. um 10%. Dieser Effekt ist bis zu 3-mal stapelbar.</span>"
+      "121105":
+        Name: Beseitigung irdischer Probleme
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "121106":
+        Name: Triefender Tropfen drakonischer Göttlichkeit
+        Desc: <span>Erhöht die Anzahl der Verbündeten, die durch Bailu in einem einzigen Kampf nach Todesstößen geheilt werden können, um 1.</span>
+  "1212":
+    Name: Jingliu
+    Abilities:
+      "121201":
+        Name: Strahlendes Mondleuchten
+        Desc: <span>Fügt einem anvisierten Gegner geringen Eis-SCH zu.</span>
+        Type: Standardangriff
+      "121202":
+        Name: Transzendenter Blitz
+        Desc: <span>Fügt einem anvisierten Gegner Eis-SCH zu und erhält </span><span style='color:#f29e38ff'>1 Stapelung „Lunation“</span><span>.</span>
+        Type: Fertigkeit
+      "121203":
+        Name: Traum der vergänglichen Blüten
+        Desc: <span>Fügt einem anvisierten Gegner massiven Eis-SCH und angrenzenden Einheiten Eis-SCH zu. Erhält </span><span style='color:#f29e38ff'>1 Stapelung „Lunation“</span><span>.</span>
+        Type: Ultimate
+      "121204":
+        Name: Seelenwanderung der Mondsichel
+        Desc: "<span>Wenn Jingliu über </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>2</span></span><span> Stapelungen „Lunation“ verfügt, tritt sie in den Status „Seelenwanderung“ ein, wobei ihre </span><span style='color:#f29e38ff'>Aktion um <span style='whiteSpace: \"nowrap\"'>100</span> % vorgezogen</span><span> und ihre KRIT-Rate erhöht wird. Außerdem erhält sie eine </span><span style='color:#f29e38ff'>verstärkte Fertigkeit</span><span>. Beim Angriff verbraucht sie die LP ihrer Verbündeten und </span><span style='color:#f29e38ff'>ihr ANG</span><span> wird basierend auf den insgesamt verbrauchten Menge der LP </span><span style='color:#f29e38ff'>erhöht</span><span>. Wenn keine Stapelungen von „Lunation“ vorhanden sind, wird der Status „Seelenwanderung“ beendet.</span>"
+        Type: Talent
+      "121206":
+        Name: Angriff
+        Desc: ""
+      "121207":
+        Name: Glanz des Inneren
+        Desc: <span>Erzeugt eine spezielle Dimension um Jingliu herum. Gegner innerhalb dieser Dimension werden </span><span style='color:#f29e38ff'>eingefroren</span><span>. Nach Kampfeintritt mit Gegnern in dieser Dimension erhält Jingliu Energie, 1 Stapelung Lunation und hat eine hohe Chance, Gegner </span><span style='color:#f29e38ff'>einzufrieren</span><span>.</span>
+        Type: Technik
+    Eidolons:
+      "121201":
+        Name: Mondsturm auf die Himmelspforte
+        Desc: <span>Beim Einsatz des Ultimates oder der verstärkten Fertigkeit wird Jinglius KRIT-SCH für 1 Rd. um 24% erhöht. Wenn nur ein Gegner angegriffen wird, wird dem Ziel zusätzlich 1-mal Eis-SCH in Höhe von 100% von Jinglius ANG zugefügt.</span>
+      "121202":
+        Name: Neumondschatten über Himmelswagen
+        Desc: <span>Erhöht nach dem Einsatz des Ultimates den SCH der nächsten verstärkten Fertigkeit um 80%.</span>
+      "121203":
+        Name: Lunare Sehnsucht
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "121204":
+        Name: Hochgehaltenes Mondlicht
+        Desc: <span>Im Status „Seelenwanderung“ wird der ANG, der durch den Verbrauch der LP von Verbündeten erhalten wird, zusätzlich um 90% der insgesamt verbrauchten Menge der LP aller Verbündeten erhöht. Die Obergrenze für den auf diese Weise verstärkten ANG wird um 30% erhöht.</span>
+      "121205":
+        Name: Obskurität über den Sternen
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe. +1 bis max. St. 10.</span>
+      "121206":
+        Name: Finsternis zum Nichts
+        Desc: <span>Wenn Jingliu in den Status „Seelenwanderung“ eintritt, wird das Stapelungslimit von „Lunation“ um 1 erhöht und sie erhält 1 Stapelung „Lunation“. Im Status „Seelenwanderung“ wird ihr KRIT-SCH um 50% erhöht.</span>
+  "1213":
+    Name: Dan Heng – Imbibitor Lunae
+    Abilities:
+      "121301":
+        Name: Segensreicher Lotus
+        Desc: <span>Fügt einem Gegner geringen imaginären SCH zu.</span>
+        Type: Standardangriff
+      "121302":
+        Name: Zügellos
+        Desc: <span>Verstärkt den Standardangriff Segensreicher Lotus zu </span><span style='color:#f29e38ff'>Transzendenz</span><span>, </span><span style='color:#f29e38ff'>Himmlischer Speer</span><span> oder </span><span style='color:#f29e38ff'>Blitzartiger Sprung</span><span>.</span>
+        Type: Fertigkeit
+      "121303":
+        Name: Säuberung der Welt
+        Desc: <span>Fügt einem Gegner massiven imaginären SCH zu, fügt angrenzenden Einheiten imaginären SCH zu und verleiht Dan Heng – Imbibitor Lunae 2 „Unantastbare Schuppen“. Dan Heng – Imbibitor Lunae kann </span><span style='color:#f29e38ff'>anstelle von Fertigkeitspunkten</span><span> die gleiche Anzahl von Unantastbaren Schuppen verbrauchen. Der Verbrauch von „Unantastbaren Schuppen“ wird mit dem </span><span style='color:#f29e38ff'>Verbrauch von Fertigkeitspunkten</span><span> gleichgesetzt.</span>
+        Type: Ultimate
+      "121304":
+        Name: Aufrichtiges Herz
+        Desc: <span>Erhöht den verursachten SCH nach jedem Treffer. Dieser Effekt ist stapelbar und hält bis zum Ende der Runde dieser Figur an.</span>
+        Type: Talent
+      "121306":
+        Name: Angriff
+        Desc: ""
+      "121307":
+        Name: Blitz des Regenbogens
+        Desc: <span>Geht in den Status „Springender Drache“ über. Beim Einsatz des Angriffs bewegt sich Dan Heng – Imbibitor Lunae beim Einsatz seines Angriffs eine bestimmte Strecke schnell vorwärts und greift Gegner an, die er berührt. Wenn er durch Angriff auf den Gegner einen Kampf einleitet, fügt er allen Gegnern imaginären SCH zu und erhält 1 „Unantastbare Schuppe“.</span>
+        Type: Technik
+    Eidolons:
+      "121301":
+        Name: Fessel des Himmels
+        Desc: <span>Erhöht die Anzahl der möglichen Stapelungen von „Aufrichtiges Herz“ um 4. Erhält für jeden Treffer 1 zusätzliche Stapelung von „Aufrichtiges Herz“.</span>
+      "121302":
+        Name: Banner der Herrschaft
+        Desc: "<span>Nach dem Einsatz seines Ultimates wird Dan Heng – Imbibitor Lunaes Aktion um 100\_% vorgezogen und er erhält 1 zusätzliche „Unantastbare Schuppe“.</span>"
+      "121303":
+        Name: Wolkenbanner
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "121304":
+        Name: Ausfliegendes Drachenkind
+        Desc: <span>Die Buffs von „Beherrschendes Gebrüll“ bleiben bis zum Ende der nächsten Runde dieser Figur erhalten.</span>
+      "121305":
+        Name: Erhöhte Arroganz
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "121306":
+        Name: Rückkehr des Drachen
+        Desc: <span>Nachdem ein anderer Verbündeter seinen Ultimate eingesetzt hat, wird Dan Heng – Imbibitor Lunaes imaginäre WDS-DUR beim nächsten Einsatz von „Blitzartiger Sprung“ um 20% erhöht. Dieser Effekt ist bis zu 3-fach stapelbar.</span>
+  "1214":
+    Name: Xueyi
+    Abilities:
+      "121401":
+        Name: Marabrecher-Ahle
+        Desc: <span>Fügt einem Gegner geringen Quanten-SCH zu.</span>
+        Type: Standardangriff
+      "121402":
+        Name: Vernichtung des Frevels
+        Desc: <span>Fügt einem Gegner Quanten-SCH zu und fügt angrenzenden Einheiten geringen Quanten-SCH zu.</span>
+        Type: Fertigkeit
+      "121403":
+        Name: Göttliche Geißelung
+        Desc: <span>Fügt einem Gegner massiven Quanten-SCH zu. Dieser Angriff verringert den WDS des Gegners </span><span style='color:#f29e38ff'>unabhängig vom Schwächetyp</span><span>. Je mehr WDS verringert wird, desto höher ist der zugefügte SCH.</span>
+        Type: Ultimate
+      "121404":
+        Name: Karmischer Kreislauf
+        Desc: <span>Wenn Xueyi einen Angriff ausführt oder ihre Verbündeten den WDS des Ziels aufbrauchen, fügt sie ihm Stapelungen von „Karma“ zu. Wenn „Karma“ maximal gestapelt wurde, </span><span style='color:#f29e38ff'>führt sie sofort einen <u>Folgeangriff</u> aus</span><span>, der einem anvisierten Gegner geringen Quanten-SCH zufügt, 3-mal abprallt und das gesamte „Karma“ verbraucht.</span>
+        Type: Talent
+      "121406":
+        Name: Angriff
+        Desc: ""
+      "121407":
+        Name: Kurzschluss-Exekution
+        Desc: <span>Greift den Gegner an. Fügt nach Kampfeintritt allen Gegnern geringen Quanten-SCH zu.</span>
+        Type: Technik
+    Eidolons:
+      "121401":
+        Name: Dvesha, gefesselt
+        Desc: <span>Erhöht den durch Folgeangriffe verursachten SCH des Talents um 40%.</span>
+      "121402":
+        Name: Klesha, durchbrochen
+        Desc: "<span>Der Folgeangriff des Talents verringert den WDS unabhängig vom Schwächetyp und stellt gleichzeitig Xueyis LP in Höhe von 5% ihrer max. LP wieder her. Wenn die Schwäche gebrochen wird, wird der Effekt „Schwächebruch: Quanten“ ausgelöst.</span>"
+      "121403":
+        Name: Duhkha, ruhend
+        Desc: <span>Fertigkeitsstufe +2 bis zu max. St. 15. Standardangriff-Stufe. +1 bis zu max. St. 10.</span>
+      "121404":
+        Name: Karma, durchtrennt
+        Desc: "<span>Erhöht den Brucheffekt beim Einsatz des Ultimates für 2\_Rd. um 40%.</span>"
+      "121405":
+        Name: Deva, beschwingt
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "121406":
+        Name: Samsara, gemeistert
+        Desc: <span>Verringert die maximale Stapelung von „Karma“ auf 6.</span>
+  "1215":
+    Name: Hanya
+    Abilities:
+      "121501":
+        Name: Schrift des Orakels
+        Desc: <span>Fügt einem Gegner geringen physischen SCH zu.</span>
+        Type: Standardangriff
+      "121502":
+        Name: Die Fesseln des Samsara
+        Desc: <span>Fügt einem Gegner physischen SCH zu und belegt ihn mit „Aufbürden“. Jedes Mal, wenn Verbündete 2 Standardangriffe, Fertigkeiten oder Ultimates gegen einen mit Aufbürden belegten Gegner einsetzen, erhält das Team </span><span style='color:#f29e38ff'>1 Fertigkeitspunkt zurück</span><span>.</span>
+        Type: Fertigkeit
+      "121503":
+        Name: Bedingungsloser Gehorsam
+        Desc: <span></span><span style='color:#f29e38ff'>Erhöht den ANG und die GES</span><span> eines Verbündeten.</span>
+        Type: Ultimate
+      "121504":
+        Name: Sanktion
+        Desc: <span>Verbündete fügen Gegnern, die mit „Aufbürden“ belegt wurden, mehr SCH zu.</span>
+        Type: Talent
+      "121506":
+        Name: Angriff
+        Desc: ""
+      "121507":
+        Name: Urteil der Unterwelt
+        Desc: <span>Greift den Gegner an. Belegt nach Kampfeintritt einen zufälligen Gegner entsprechend der Fertigkeit mit „Aufbürden“.</span>
+        Type: Technik
+    Eidolons:
+      "121501":
+        Name: Ein Herz
+        Desc: <span>Besiegt ein Verbündeter einen Gegner mit Hanyas Ultimate, wird Hanyas Aktion um 15% vorgezogen. Dieser Effekt kann nur 1-mal pro Runde ausgelöst werden.</span>
+      "121502":
+        Name: Zwei Ansichten
+        Desc: <span>Erhöht die GES nach dem Einsatz der Fertigkeit für 1 Rd. um 20%.</span>
+      "121503":
+        Name: Drei Versuchungen
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "121504":
+        Name: Vier Wahrheiten
+        Desc: <span>Verlängert die Dauer des Ultimates zusätzlich um 1 Rd.</span>
+      "121505":
+        Name: Fünf Skandhas
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "121506":
+        Name: Sechs Ehrerbietungen
+        Desc: <span>Die SCH-Erhöhung des Talents wird zusätzlich um 10% erhöht.</span>
+  "1217":
+    Name: Huohuo
+    Abilities:
+      "121701":
+        Name: "Banner: Durch Wind und Regen"
+        Desc: <span>Fügt einem Gegner geringen Wind-SCH zu.</span>
+        Type: Standardangriff
+      "121702":
+        Name: "Talisman: Schutz des Lebens"
+        Desc: <span>Entfernt 1 <u>Debuff</u> von einem Verbündeten und </span><span style='color:#f29e38ff'>stellt die LP</span><span> dieses Verbündeten und angrenzender Verbündeter wieder her.</span>
+        Type: Fertigkeit
+      "121703":
+        Name: "Schweif: Unterwerfung von Teufeln"
+        Desc: <span></span><span style='color:#f29e38ff'>Energie-Wiederherstellung</span><span> für alle Verbündeten außer Huohuo und </span><span style='color:#f29e38ff'>ANG-Erhöhung</span><span>.</span>
+        Type: Ultimate
+      "121704":
+        Name: "Besessenheit: Metaphysische Verbindung"
+        Desc: <span>Nach dem Einsatz der Fertigkeit erhält Huohuo „Gesegnete Heilung“. Besitzt Huohuo Gesegnete Heilung, wird zu Beginn jeder Runde eines Verbündeten oder beim Einsatz eines Ultimates </span><span style='color:#f29e38ff'>seine LP wiederhergestellt</span><span> und gleichzeitig </span><span style='color:#f29e38ff'>alle Verbündeten</span><span> mit niedrigen LP </span><span style='color:#f29e38ff'>1-mal geheilt</span><span>.Wird ein Verbündeter durch den Einsatz von Gesegnete Heilung geheilt, </span><span style='color:#f29e38ff'>wird 1 <u>Debuff</u> von ihm entfernt</span><span>.</span>
+        Type: Talent
+      "121706":
+        Name: Angriff
+        Desc: ""
+      "121707":
+        Name: "Unhold: Unterdrückung von Dämonen"
+        Desc: <span>Angrenzende Gegner werden von Verängstigung gepackt. Nach Kampfbeginn gegen verängstigte Gegner besteht eine hohe Chance, bei gegnerischen Zielen </span><span style='color:#f29e38ff'>ANG-Reduktion</span><span> zu verursachen.</span>
+        Type: Technik
+    Eidolons:
+      "121701":
+        Name: Von Heliobi besessen, vom Bösen ergriffen
+        Desc: <span>Die Dauer von „Gesegnete Heilung“, das vom Talent bewirkt wird, wird um 1 Runden verlängert. Wenn Huohuo Gesegnete Heilung besitzt, wird die GES aller Verbündeten um 12% erhöht.</span>
+      "121702":
+        Name: Im Schweif versiegelt, Geister besiegt
+        Desc: <span>Wenn Huohuo „Gesegnete Heilung“ besitzt und ein Verbündeter von einem Todesstoß getroffen wird, wird der Verbündete nicht handlungsunfähig, sondern werden seine LP sofort in Höhe von 50% seiner max. LP wiederhergestellt. Dies reduziert die Dauer von Gesegnete Heilung um 1 Rd. Dieser Effekt kann 2-mal pro Kampf ausgelöst werden.</span>
+      "121703":
+        Name: Verfluchtes Schicksal, wie Motten im Licht
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "121704":
+        Name: Gefesselt im Leben, gebunden im Streit
+        Desc: <span>Wenn sie einen Verbündeten mit ihrer Fertigkeit heilt oder der Effekt ihres Talents ausgelöst wird, erhöht sich Huohuos bewirkte Heilung abhängig davon, wie niedrig die LP des Verbündeten sind, jedoch bis zu 80%.</span>
+      "121705":
+        Name: Vertreibung des Bösen, im Namen der Zehn Fürsten
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "121706":
+        Name: Einmal verwoben, auf ewig vereint
+        Desc: <span>Erhöht den zugefügten SCH eines Verbündeten für 2 Rd. um 50%, wenn dieser geheilt wird.</span>
+  "1218":
+    Name: Jiaoqiu
+    Abilities:
+      "121801":
+        Name: Entflammen des Herzens
+        Desc: <span>Fügt einem Gegner geringen Feuer-SCH zu.</span>
+        Type: Standardangriff
+      "121802":
+        Name: Lodernder Angriff
+        Desc: <span>Fügt einem Gegner Feuer-SCH und angrenzenden Einheiten geringen Feuer-SCH zu. Verursacht beim Hauptziel mit hoher Chance 1 Stapelung </span><span style='color:#f29e38ff'>Aschenbrennen</span><span>.</span>
+        Type: Fertigkeit
+      "121803":
+        Name: Formation durch Einfallsreichtum
+        Desc: <span>Setzt die Stapelzahl von „Aschenbrennen“ der Gegner einheitlich auf die höchste Stapelzahl von Aschenbrennen auf dem Kampffeld. Aktiviert dann ein Feld und fügt allen Gegnern Feuer-SCH zu. Solange sich ein Gegner in diesem Feld befindet, wird sein </span><span style='color:#f29e38ff'>erlittener Ultimate-SCH erhöht</span><span> und es besteht die Chance, dass er bei seiner Aktion mit 1 Stapelung Aschenbrennen belegt wird.</span>
+        Type: Ultimate
+      "121804":
+        Name: Strategeme und List, Köstlichkeiten und Gift
+        Desc: <span>Nach einem Angriff besteht eine hohe Chance, das Ziel mit 1 Stapelung „Aschenbrennen“ zu belegen, wodurch der Gegner mehr SCH erleidet und gleichzeitig als im Status Brennen betrachtet wird.</span>
+        Type: Talent
+      "121806":
+        Name: Angriff
+        Desc: ""
+      "121807":
+        Name: Feuriger Aufruhr
+        Desc: <span>Erzeugt eine spezielle Dimension. Nach Kampfeintritt mit Gegnern in dieser Dimension wird allen Gegnern geringer Feuer-SCH zugefügt und sie werden mit hoher Chance mit 1 Stapelung „Aschenbrennen“ belegt.</span>
+        Type: Technik
+    Eidolons:
+      "121801":
+        Name: Vorbestimmung der Geschmäcke
+        Desc: <span>Verbündete fügen Gegnern mit dem Status „Aschenbrennen“ 40% mehr SCH zu. Jedes Mal, wenn der Effekt des Talents ausgelöst und ein Gegner mit Aschenbrennen belegt wird, werden die Stapelungen von Aschenbrennen dieses Mal zusätzlich um 1 erhöht.</span>
+      "121802":
+        Name: Köstliche Gifte
+        Desc: <span>Wenn der Gegner sich im Status „Aschenbrennen“ befindet, wird der Feuer-DoT-Multiplikator von Aschenbrennen an ihm um 300% erhöht.</span>
+      "121803":
+        Name: Unaufhaltsame Harmonie des Geschmacks
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "121804":
+        Name: Innerer Frieden, blühende Lebenskraft
+        Desc: <span>Solange das Feld aktiv ist, wird der ANG der Gegner um 15% reduziert.</span>
+      "121805":
+        Name: Kollision von Licht und Schatten
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "121806":
+        Name: Feuer in neun Stufen
+        Desc: <span>Wenn ein Gegner besiegt wird, werden seine Stapelungen „Aschenbrennen“ auf den Gegner mit der niedrigsten verbleibenden Stapelzahl von Aschenbrennen auf dem Kampffeld übertragen. Das Stapelungslimit von Aschenbrennen wird auf 9 erhöht. Jede Stapelung von Aschenbrennen reduziert den WDS aller Typen des Ziels um 3%.</span>
+  "1220":
+    Name: Feixiao
+    Abilities:
+      "122001":
+        Name: Schneidender Blitz
+        Desc: <span>Fügt einem Gegner geringen Wind-SCH zu.</span>
+        Type: Standardangriff
+      "122002":
+        Name: Spaltender Hieb
+        Desc: <span>Fügt einem Gegner Wind-SCH zu und startet zusätzlich 1-mal den <u>Folgeangriff</u> des Talents.</span>
+        Type: Fertigkeit
+      "122003":
+        Name: Zertrümmern der Ungebändigten
+        Desc: "<span>Während des Ultimates wird der WDS des Gegners </span><span style='color:#f29e38ff'>unabhängig vom Schwächetyp</span><span> reduziert. Solange das Ziel sich nicht im Schwächebruch befindet, wird Feixiaos </span><span style='color:#f29e38ff'>Schwächebruch-Effizienz</span><span> erhöht.<br>Setzt gegen einen Gegner </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>6</span></span><span>-mal „Schneidender Blitz im Tanz“ oder „Spaltender Hieb gen Himmel“ ein und verursacht schließlich Wind-SCH.</span>"
+        Type: Ultimate
+      "122004":
+        Name: Donnerjagd
+        Desc: "<span>Wenn „Fliegender Aureus“ </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>6</span></span><span> Pkt. erreicht, kann der Ultimate aktiviert werden, bis zu </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>12</span></span><span> Pkt. Feixiao erhält </span><span style='color:#f29e38ff'>Fliegender Aureus</span><span> nach je </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>2</span></span><span> Angriffen von Verbündeten.<br>Nachdem ihre Teammitglieder angegriffen haben, startet Feixiao einen </span><span style='color:#f29e38ff'><u>Folgeangriff</u></span><span> auf das Hauptziel, der Wind-SCH verursacht. Dieser Effekt kann nur 1-mal pro Runde ausgelöst werden. Beim Einsatz dieses Angriffs wird </span><span style='color:#f29e38ff'>Feixiaos verursachter SCH erhöht</span><span>.</span>"
+        Type: Talent
+      "122006":
+        Name: Angriff
+        Desc: ""
+      "122007":
+        Name: Corpus des Sturms
+        Desc: <span>Tritt in den Status „Angestürmt“ ein, was Gegner fortlaufend mitzieht und die eigene Bewegungs-GES erhöht. Erhält nach Kampfeintritt „Fliegender Aureus“.<br>Im Status Angestürmt können alle mitgezogenen Gegner angegriffen werden. Zu Beginn jeder Kampfwelle wird allen Gegnern Wind-SCH zugefügt. Dieser SCH ist garantiert ein kritischer Treffer. </span><span style='color:#f29e38ff'>Je mehr Gegner mitgezogen werden, desto höher ist der SCH-Multiplikator.</span><span></span>
+        Type: Technik
+    Eidolons:
+      "122001":
+        Name: Gipfelbezwinger
+        Desc: <span>Nach dem Einsatz von „Schneidender Blitz im Tanz“ oder „Spaltender Hieb gen Himmel“ wird Feixiaos verursachter Ultimate-SCH zusätzlich erhöht. Die Erhöhung entspricht 10% des ursprünglichen SCH. Dieser Effekt ist bis zu 5-fach stapelbar und hält bis zum Ende der Aktion des Ultimates an.</span>
+      "122002":
+        Name: Mondritual
+        Desc: <span>Beim Talenteffekt erhält Feixiao jedes Mal, wenn ein Verbündeter 1 Folgeangriff ausgeführt hat, 1 Pkt. „Fliegender Aureus“. Diese Effekt kann bis zu 6-mal pro Runde ausgelöst werden.</span>
+      "122003":
+        Name: Erscheinen des Glückssterns
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "122004":
+        Name: Wachsamkeit des Sturms
+        Desc: <span>Erhöht den WDS-Reduzierungswert der Folgeangriffe des Talents um 100%. Beim Auslösen der Folgeangriffe wird die GES dieser Einheit für 2 Rd. um 8% erhöht.</span>
+      "122005":
+        Name: Auf den Zenit
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "122006":
+        Name: Heimwärts immerdar
+        Desc: <span>Erhöht die WDS-DUR aller Typen von Feixiaos verursachtem Ultimate-SCH um 20%. Der Folgeangriff-SCH des Talents wird als Ultimate-SCH betrachtet und sein SCH-Multiplikator um 140% erhöht.</span>
+  "1221":
+    Name: Yunli
+    Abilities:
+      "122101":
+        Name: Windumkehr in der Sonne
+        Desc: <span>Fügt einem Gegner geringen physischen SCH zu.</span>
+        Type: Standardangriff
+      "122102":
+        Name: Schockwellen-Schlag
+        Desc: <span>Stellt die eigenen LP wieder her und fügt einem Gegner sowie angrenzenden Einheiten geringen physischen SCH zu.</span>
+        Type: Fertigkeit
+      "122103":
+        Name: Himmlische Verkündung der Klinge
+        Desc: <span>Tritt in den Status „Parade“ ein und verspottet alle Gegner. Wird während der Dauer des Status angegriffen, wird der </span><span style='color:#f29e38ff'>verstärkte <u>Konter</u></span><span> ausgelöst und dem Angreifer sowie angrenzenden Einheiten </span><span style='color:#f29e38ff'>physischer SCH</span><span> zugefügt. Fügt danach einem Gegner geringen physischen SCH zu und prallt insgesamt 6-mal ab. Wenn kein Konter ausgelöst wird, während der Status Parade aktiv ist, wird zufälligen Gegnern sowie angrenzenden Einheiten physischer SCH zugefügt, wenn der Status endet.</span>
+        Type: Ultimate
+      "122104":
+        Name: Glimmender Glanz
+        Desc: <span>Wenn Yunli von Gegnern angegriffen wird, wird zusätzlich Energie wiederhergestellt und gegen den Angreifer sowie angrenzende Einheiten sofort ein <u>Konter</u> ausgelöst.</span>
+        Type: Talent
+      "122106":
+        Name: Angriff
+        Desc: ""
+      "122107":
+        Name: Angriff der Abwendung
+        Desc: "<span>Erhält für <span style='whiteSpace: \"nowrap\"'>20</span> Sek. den Effekt „Abwehr“. Nach Kampfeintritt durch einen Angriff auf Gegner oder durch einen erlittenen Angriff wird sofort einem zufälligen Gegner „Intuition: Auslöschen“ zugefügt.</span>"
+        Type: Technik
+    Eidolons:
+      "122101":
+        Name: Polierter Stahl
+        Desc: "<span>Erhöht den SCH durch „Intuition: Abtrennen“ und „Intuition: Auslöschen“ um 20%. Erhöht die Anzahl des zusätzlichen SCH durch „Intuition: Auslöschen“ um 3.</span>"
+      "122102":
+        Name: Erwachter Schimmer
+        Desc: <span>Wenn durch einen Konter SCH verursacht wird, werden 20% der VTD des Ziels ignoriert.</span>
+      "122103":
+        Name: Bergspalter-Kluft
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "122104":
+        Name: Meisterschlag
+        Desc: "<span>Nach dem Einsatz von „Intuition: Abtrennen“ oder „Intuition: Auslöschen“ wird der eigene Effekt-WDS für 1 Rd. um 50% erhöht.</span>"
+      "122105":
+        Name: Beharrliche Waffen
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "122106":
+        Name: Mut des Schwerts, Wille der Zither
+        Desc: "<span>Wenn ein Gegner während des Status „Parade“ Fähigkeiten einsetzt, wird „Intuition: Auslöschen“ ausgelöst und Parade entfernt, unabhängig davon, ob Yunli angegriffen wird oder nicht. Wenn Intuition: Abtrennen oder Intuition: Auslöschen SCH verursacht, wird die KRIT-Rate um 15% und die physische WDS-DUR um 20% erhöht.</span>"
+  "1222":
+    Name: Lingsha
+    Abilities:
+      "122201":
+        Name: Entzündeter Duft
+        Desc: <span>Fügt einem Gegner geringen Feuer-SCH zu.</span>
+        Type: Standardangriff
+      "122202":
+        Name: Schillernder Dunst
+        Desc: <span>Fügt allen Gegnern geringen Feuer-SCH zu, </span><span style='color:#f29e38ff'>stellt gleichzeitig bei allen Verbündeten LP wieder her</span><span> und die Aktion von Fuyuan wird <u>vorgezogen</u>.</span>
+        Type: Fertigkeit
+      "122203":
+        Name: Nebellandschaft
+        Desc: <span></span><span style='color:#f29e38ff'>Erhöht den erlittenen Bruch-SCH</span><span> aller Gegner. Fügt allen Gegnern Feuer-SCH zu und </span><span style='color:#f29e38ff'>stellt gleichzeitig bei allen Verbündeten LP wieder her</span><span>. Die Aktion von Fuyuan wird <u>vorgezogen</u>.</span>
+        Type: Ultimate
+      "122204":
+        Name: Nebulöses Manifest
+        Desc: "<span>Beschwört Fuyuan durch Einsatz der Fertigkeit: Bei Fuyuans Aktion führt es </span><span style='color:#f29e38ff'><u>Folgeangriff</u></span><span> aus, der allen Gegnern geringen Feuer-SCH zufügt. Fügt zusätzlich einem zufälligen Gegner geringen Feuer-SCH zu, wobei Ziele mit Feuer-Schwäche und einem WDS von über 0 vorrangig getroffen werden. Entfernt 1 <u>Debuff</u> von allen Verbündeten und stellt bei ihnen </span><span style='color:#f29e38ff'>LP wieder her</span><span>.<br>Beim wiederholten Einsatz der Fertigkeit wird die Aktionsanzahl von Fuyuan erhöht.</span>"
+        Type: Talent
+      "122206":
+        Name: Angriff
+        Desc: ""
+      "122207":
+        Name: Flüsternder Smaragd
+        Desc: <span>Beschwört nach dem Einsatz der Technik zu Beginn des nächsten Kampfes sofort Fuyuan und erhöht </span><span style='color:#f29e38ff'>den erlittenen Bruch-SCH aller Gegner</span><span>.</span>
+        Type: Technik
+    Eidolons:
+      "122201":
+        Name: Austreibung durch Blumenaroma
+        Desc: <span>Erhöht Lingshas Schwächebruch-Effizienz um 50%. Wenn ein Gegner Schwächebruch erleidet, wird seine VTD um 20% verringert.</span>
+      "122202":
+        Name: Roter Rauchschleier
+        Desc: <span>Erhöht den Brucheffekt aller Verbündeten beim Einsatz des Ultimates für 3 Rd. um 40%.</span>
+      "122203":
+        Name: Staubblatt als Kerzendocht
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "122204":
+        Name: Duftendes Bankett
+        Desc: <span>Stellt während Fuyuans Aktion die LP des Verbündeten mit den aktuell niedrigsten LP um 40% von Lingshas ANG wieder her.</span>
+      "122205":
+        Name: Quintessenz des Gleichgewichts
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "122206":
+        Name: Duft der Nacht, verborgen im Dunkeln
+        Desc: <span>Wenn Fuyuan auf dem Feld ist, wird der WDS aller Typen aller Gegner um 20% reduziert. Wenn Fuyuan angreift, verursacht es zusätzlich 4-mal SCH, wobei jeder Treffer einem zufälligen Gegner Feuer-SCH in Höhe von 50% von Lingshas ANG zufügt und den Widerstandswert um 5 Pkt. reduziert. Ziele mit Feuer-Schwäche und einem WDS von über 0 werden vorrangig ausgewählt.</span>
+  "1223":
+    Name: Moze
+    Abilities:
+      "122301":
+        Name: Fliegende Säge
+        Desc: <span>Fügt einem Gegner geringen Blitz-SCH zu.</span>
+        Type: Standardangriff
+      "122302":
+        Name: Federschneller Angriff
+        Desc: "<span></span><span style='color:#f29e38ff'>Markiert einen Gegner als Beute</span><span> und fügt ihm Blitz-SCH zu. Erhält </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>9</span></span><span> Pkt. Aufladung.</span>"
+        Type: Fertigkeit
+      "122303":
+        Name: Spitze Schatten verborgener Klingen
+        Desc: <span>Fügt einem Gegner Blitz-SCH zu und startet den </span><span style='color:#f29e38ff'><u>Folgeangriff</u></span><span> des Talents.</span>
+        Type: Ultimate
+      "122304":
+        Name: Federstich im Sturzflug
+        Desc: "<span>Wenn sich „Beute“ auf dem Feld befindet, tritt Moze in den Status </span><span style='color:#f29e38ff'><u>Abgang</u></span><span> ein.<br>Nachdem ein Verbündeter die Beute angegriffen hat, verursacht Moze </span><span style='color:#f29e38ff'><u>zusätzlichen Blitz-SCH</u></span><span> und verbraucht 1 Pkt. Aufladung. Für je </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>3</span></span><span> Pkt. verbrauchte Aufladung startet Moze einen </span><span style='color:#f29e38ff'><u>Folgeangriff</u></span><span> auf die Beute, der Blitz-SCH verursacht. Wenn die Aufladung 0 erreicht, wird der Status Beute vom Ziel entfernt.</span>"
+        Type: Talent
+      "122306":
+        Name: Angriff
+        Desc: ""
+      "122307":
+        Name: Unsichtbare Flügel
+        Desc: <span>Tritt in den Status Tarnung ein. Wenn in diesem Status durch Angriff auf den Gegner ein Kampf eingeleitet wird, wird der verursachte SCH erhöht.</span>
+        Type: Technik
+    Eidolons:
+      "122301":
+        Name: Eidschwur
+        Desc: <span>Nach Kampfeintritt stellt Moze 20 Pkt. Energie wieder her. Jedes Mal, wenn zusätzlicher SCH des Talents verursacht wird, stellt er 2 Pkt. Energie wieder her.</span>
+      "122302":
+        Name: Geißelung
+        Desc: <span>Erhöht den von allen Verbündeten verursachten KRIT-SCH gegen Ziele, die als „Beute“ markiert sind, um 40%.</span>
+      "122303":
+        Name: Verfolger
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "122304":
+        Name: Camouflage
+        Desc: <span>Erhöht beim Einsatz des Ultimates Mozes verursachten SCH für 2 Rd. um 30%.</span>
+      "122305":
+        Name: Täuschung
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "122306":
+        Name: Loyalität
+        Desc: <span>Erhöht den SCH-Multiplikator des Folgeangriffs des Talents um 25%.</span>
+  "1224":
+    Name: 7. März
+    Abilities:
+      "122401":
+        Name: Kristallschwert der Geisteraustreibung
+        Desc: "<span>Fügt einem Gegner geringen imaginären SCH zu. Erhält </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>1</span></span><span> Pkt. Aufladung.</span>"
+        Type: Standardangriff
+      "122402":
+        Name: Meister, trink etwas Tee!
+        Desc: "<span>Lässt einen Verbündeten zum „Meister“ werden. Wenn er seinen Standardangriff einsetzt oder SCH durch einen verstärkten Standardangriff verursacht, wird basierend auf dem </span><span style='color:#f29e38ff'>Pfad des Meisters</span><span> der entsprechende Effekt ausgelöst.<br>Die Gelehrsamkeit, Die Zerstörung, Die Jagd: Verursacht basierend auf dem Typ des Meisters </span><span style='color:#f29e38ff'><u>zusätzlichen SCH</u></span><span>.<br>Die Harmonie, Die Nichtigkeit, Die Bewahrung, Der Überfluss: Erhöht </span><span style='color:#f29e38ff'>WDS-Reduzierungswert</span><span>.</span>"
+        Type: Fertigkeit
+      "122403":
+        Name: 7. März, Heldin der Welt
+        Desc: <span>Fügt einem Gegner imaginären SCH zu und </span><span style='color:#f29e38ff'>erhöht</span><span> die Trefferzahl und die Chance auf SCH des </span><span style='color:#f29e38ff'>nächsten verstärkten Standardangriffs</span><span>.</span>
+        Type: Ultimate
+      "122404":
+        Name: Meister, jetzt verstehe ich!
+        Desc: "<span>Nachdem der </span><span style='color:#f29e38ff'>Meister einen Angriff oder seinen Ultimate eingesetzt</span><span> hat, erhält 7. März eine Aufladung. Wenn die Aufladung </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>7</span></span><span> Pkt. erreicht, führt 7. März sofort eine Aktion aus, wobei ihr verursachter SCH erhöht und ihr </span><span style='color:#f29e38ff'>Standardangriff verstärkt</span><span> wird.</span>"
+        Type: Talent
+      "122406":
+        Name: Angriff
+        Desc: ""
+      "122407":
+        Name: Drei Mahlzeiten in einem Zug
+        Desc: <span>Jedes Mal, wenn ein Teammitglied seine Technik einsetzt, erhält 7. März beim nächsten Kampfeintritt Aufladung. Nach Einsatz der Technik stellt sie beim nächsten Kampfeintritt Energie wieder her.</span>
+        Type: Technik
+    Eidolons:
+      "122401":
+        Name: Mein Schwert rührt das Sternenlicht
+        Desc: <span>Wenn sich der „Meister“ auf dem Kampffeld befindet, wird 7. März’ GES um 10% erhöht.</span>
+      "122402":
+        Name: Klingentanz im Schnee
+        Desc: <span>Jedes Mal, wenn der „Meister“ einen Standardangriff oder eine Fertigkeit gegen einen Gegner einsetzt, startet 7. März sofort einen Folgeangriff, der dem Hauptziel dieses Angriffs imaginären SCH in Höhe von 60% von 7. März’ ANG zufügt und den entsprechenden Effekt basierend auf dem Pfad des Meisters auslöst. 7. März erhält danach 1 Pkt. Aufladung. Greift bei nicht vorhandenem Hauptziel einen zufälligen Gegner an. Dieser Effekt kann nur 1-mal pro Runde ausgelöst werden.</span>
+      "122403":
+        Name: Kluge Köpfe und starke Fähigkeiten
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "122404":
+        Name: Auch Drachen können süß sein
+        Desc: <span>Stellt zu Beginn der Runde 5 Pkt. Energie wieder her.</span>
+      "122405":
+        Name: Mehr Kampfkunst, weniger Süßigkeiten
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "122406":
+        Name: Das beste Mädchen der Welt
+        Desc: <span>Erhöht nach dem Einsatz des Ultimates den verursachten KRIT-SCH des nächsten verstärkten Standardangriffs um 50%.</span>
+  "1301":
+    Name: Gallagher
+    Abilities:
+      "130101":
+        Name: Entkorkungsgebühr
+        Desc: <span>Fügt einem Gegner geringen Feuer-SCH zu.</span>
+        Type: Standardangriff
+      "130102":
+        Name: Spezialmischung in der Dose
+        Desc: <span>Stellt sofort die LP eines Verbündeten wieder her.</span>
+        Type: Fertigkeit
+      "130103":
+        Name: Champagner-Zeremonie
+        Desc: <span>Belegt alle Gegner mit </span><span style='color:#f29e38ff'>Berauschung</span><span> und fügt ihnen Feuer-SCH zu. Verstärkt den nächsten Standardangriff zu „Hopfenschwall“.</span>
+        Type: Ultimate
+      "130104":
+        Name: Trunken vom Kampf
+        Desc: <span>„Berauschung“ erhöht den von Zielen </span><span style='color:#f29e38ff'>erlittenen Bruch-SCH</span><span>. Wenn Verbündete das Ziel angreifen, </span><span style='color:#f29e38ff'>werden ihre LP wiederhergestellt</span><span>.</span>
+        Type: Talent
+      "130106":
+        Name: Angriff
+        Desc: ""
+      "130107":
+        Name: Edler Tropfen
+        Desc: <span>Greift den Gegner an. Belegt nach Kampfeintritt alle Gegner mit </span><span style='color:#f29e38ff'>Berauschung</span><span> und fügt ihnen geringen Feuer-SCH zu.</span>
+        Type: Technik
+    Eidolons:
+      "130101":
+        Name: Salty Dog
+        Desc: <span>Stellt 20 Pkt. Energie wieder her, nachdem Gallagher in den Kampf eintritt, und erhöht seinen Effekt-WDS um 50%.</span>
+      "130102":
+        Name: Löwenschwanz
+        Desc: <span>Entfernt beim Einsatz der Fertigkeit 1 Debuff von einem anvisierten Verbündeten. Erhöht gleichzeitig seinen Effekt-WDS für 2 Rd. um 30%.</span>
+      "130103":
+        Name: Wiederbelebung der Toten
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "130104":
+        Name: Letzte Worte
+        Desc: <span>Verlängert die Dauer des durch Gallaghers Ultimate verursachten Status „Berauschung“ um 1 Rd.</span>
+      "130105":
+        Name: Tod nach Mittag
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "130106":
+        Name: Blut und Sand
+        Desc: <span>Erhöht Gallaghers Brucheffekt um 20% und die Schwächebruch-Effizienz um 20%.</span>
+  "1302":
+    Name: Argenti
+    Abilities:
+      "130201":
+        Name: Flüchtiger Duft
+        Desc: <span>Fügt einem Gegner geringen physischen SCH zu.</span>
+        Type: Standardangriff
+      "130202":
+        Name: Gerechtigkeit erblüht hier
+        Desc: <span>Fügt allen Gegnern geringen physischen SCH zu.</span>
+        Type: Fertigkeit
+      "130203":
+        Name: Denn dieser Garten schenkt höchste Schönheit
+        Desc: "<span>Verbraucht </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>90</span></span><span> Pkt. Energie und fügt allen Gegnern physischen SCH zu.</span>"
+        Type: Ultimate
+      "130204":
+        Name: Erhabene Moral
+        Desc: <span>Beim Einsatz des Standardangriffs, der Fertigkeit oder des Ultimates wird Argenti für jeden getroffenen Gegner </span><span style='color:#f29e38ff'>Energie wiederhergestellt</span><span> und seine </span><span style='color:#f29e38ff'>KRIT-Rate</span><span> erhöht.</span>
+        Type: Talent
+      "130206":
+        Name: Angriff
+        Desc: ""
+      "130207":
+        Name: Manifest der reinen Tugend
+        Desc: <span>Verursacht bei Gegnern in einem bestimmten Bereich Schwindel. Beim Angriff eines von Schwindel betroffenen Gegners verursacht Argenti nach Kampfeintritt bei allen Gegnern geringen physischen SCH und stellt Energie wieder her.</span>
+        Type: Technik
+    Eidolons:
+      "130201":
+        Name: Ein Makel im Reich der Ästhetik
+        Desc: <span>Jede Stapelung „Apotheose“ erhöht den KRIT-SCH zusätzlich um 4%.</span>
+      "130202":
+        Name: Achats Bescheidenheit
+        Desc: <span>Beim Einsatz des Ultimates wird, wenn die Anzahl der Gegner 3 oder mehr beträgt, für 1 Rd. der ANG um 40% erhöht.</span>
+      "130203":
+        Name: Ruhm des Dornenwegs
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "130204":
+        Name: Fanfare der Widmung
+        Desc: <span>Erhält zu Beginn des Kampfes 2 Stapelung(en) „Apotheose“ und erhöht die max. Stapelung für das Talent um 2.</span>
+      "130205":
+        Name: Schnee von irgendwo im Universum
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "130206":
+        Name: Deine strahlende Pracht
+        Desc: <span>Nach dem Einsatz des Ultimates wird 30% der VTD des Zieles ignoriert.</span>
+  "1303":
+    Name: Ruan Mei
+    Abilities:
+      "130301":
+        Name: Orchideennadel
+        Desc: <span>Fügt einem Gegner geringen Eis-SCH zu.</span>
+        Type: Standardangriff
+      "130302":
+        Name: Wiederholungsschleife
+        Desc: <span>Nachdem Ruan Mei ihre Fertigkeit einsetzt, erhält sie „Oberton“, was </span><span style='color:#f29e38ff'>SCH</span><span> und </span><span style='color:#f29e38ff'>Schwächebruch-Effizienz</span><span> aller Verbündeten erhöht.</span>
+        Type: Fertigkeit
+      "130303":
+        Name: Blütenblätter im Wasserwirbel
+        Desc: <span>Erhöht die </span><span style='color:#f29e38ff'>WDS-DUR aller Typen</span><span> der Verbündeten und fügt nach einem Angriff auf ein Ziel „Überreife“ zu.</span>
+        Type: Ultimate
+      "130304":
+        Name: Gespaltene Spirale
+        Desc: <span>Erhöht die </span><span style='color:#f29e38ff'>GES</span><span> aller Verbündeten (außer der Figur selbst). Wird bei einem Gegner Schwächebruch ausgelöst, erleidet er </span><span style='color:#f29e38ff'>zusätzlich Eis-Bruch-SCH</span><span>.</span>
+        Type: Talent
+      "130306":
+        Name: Angriff
+        Desc: ""
+      "130307":
+        Name: Wisch die Zither, streich die Ärmel
+        Desc: "<span>Beim nächsten Kampfeintritt wird die Fertigkeit </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>1</span></span><span>-mal automatisch ausgelöst. Wenn Verbündete Gegner in der Universum-Simulation oder in Divergentes Universum angreifen, nachdem die Technik angewendet wurde, wird dies als Angriff auf die Schwäche der Gegner betrachtet und </span><span style='color:#f29e38ff'>ungeachtet ihres Schwächetyps</span><span> ihr Widerstand reduziert. Mit jedem Segen im Besitz wird die WDS-Reduzierung erhöht und beim Verursachen von Schwächebruch zusätzlich Bruch-SCH zugefügt.</span>"
+        Type: Technik
+    Eidolons:
+      "130301":
+        Name: Neuralstickerei
+        Desc: <span>Während das Feld des Ultimates aktiv ist, ignoriert der von Verbündeten verursachte SCH 20% der VTD des Zieles.</span>
+      "130302":
+        Name: Schilfspaziergang
+        Desc: <span>Wenn Ruan Mei am Kampf teilnimmt, wird der ANG von Verbündeten bei Angriffen auf Gegner mit Schwächebruch um 40% erhöht.</span>
+      "130303":
+        Name: Schillernd tanzendes Grün
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "130304":
+        Name: Göttliche Suche im bronzenen Spiegel
+        Desc: <span>Wird die Schwäche eines Gegners gebrochen, steigt Ruan Meis Brucheffekt für 3 Rd. um 100%.</span>
+      "130305":
+        Name: Haarnadel des trägen Handwerkers
+        Desc: <span>Fertigkeitsstufe +2 bis zu max. St. 15. Standardangriff-Stufe. +1 bis zu max. St. 10.</span>
+      "130306":
+        Name: Vom Schleier halb bedeckt
+        Desc: <span>Verlängert die aktive Dauer des vom Ultimate erzeugten Felds um 1 Rd. Der SCH-Multiplikator ihres Talents wird zusätzlich um 200% erhöht.</span>
+  "1304":
+    Name: Aventurin
+    Abilities:
+      "130401":
+        Name: Intuitiver Einsatz
+        Desc: <span>Fügt einem anvisierten Gegner geringen imaginären SCH zu.</span>
+        Type: Standardangriff
+      "130402":
+        Name: Eckpfeiler des Wohlstands
+        Desc: <span>Gewährt allen Verbündeten den </span><span style='color:#f29e38ff'>stapelbaren Schild</span><span> „Verstärkter Einsatz“.</span>
+        Type: Fertigkeit
+      "130403":
+        Name: Lord Roulette
+        Desc: <span>Erhält zufällig „Blinde Wette“. Verursacht bei einem Gegner „Panik“ und fügt ihm imaginären SCH zu. Wenn ein Verbündeter einen Gegner im Status Panik angreift, wird der verursachte </span><span style='color:#f29e38ff'>KRIT-SCH</span><span> erhöht.</span>
+        Type: Ultimate
+      "130404":
+        Name: Ziele nach rechts
+        Desc: <span>Besitzt ein Verbündeter „Verstärkter Einsatz“, wird sein Effekt-WDS erhöht. Wenn er angegriffen wird, sammelt er für Aventurin „Blinde Wette“. Besitzt Aventurin Verstärkter Einsatz, kann er <u>Mengenkontrolle-Debuffs</u> widerstehen. Wenn Blinde Wette 7 Pkt. erreicht, verbraucht Aventurin diese Punkte, um einen </span><span style='color:#f29e38ff'><u>Folgeangriff</u></span><span> zu starten und einem zufälligen Gegner geringen imaginären SCH zuzufügen, wobei der Angriff 7-mal abprallt.</span>
+        Type: Talent
+      "130406":
+        Name: Angriff
+        Desc: ""
+      "130407":
+        Name: Zwischen Rot und Schwarz
+        Desc: <span>Der Einsatz der Technik gewährt zufällig 1 von 3 Arten von Effekten zur VTD-Erhöhung. Nach dem nächsten Kampfeintritt wird die VTD aller Verbündeten entsprechend erhöht.</span>
+        Type: Technik
+    Eidolons:
+      "130401":
+        Name: Spiel der Gefangenen
+        Desc: <span>Erhöht den KRIT-SCH von Verbündeten mit „Verstärkter Einsatz“ um 20%. Gewährt nach dem Einsatz des Ultimates für 3 Rd. den Schild Verstärkter Einsatz für alle Verbündeten. Die Schildmenge entspricht 100% der durch die Fertigkeit gewährten Schildmenge.</span>
+      "130402":
+        Name: Begrenzte Rationalität
+        Desc: <span>Beim Einsatz des Standardangriffs wird der WDS aller Typen des Ziels für 3 Rd. um 12% reduziert.</span>
+      "130403":
+        Name: Höchster Multiplikator
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "130404":
+        Name: Unerwartete Hinrichtung
+        Desc: <span>Wenn der Folgeangriff des Talents ausgelöst wird, wird Aventurins VTD zunächst für 2 Rd. um 40% erhöht. Die Trefferzahl des durch das Talent ausgelösten Folgeangriffs wird zusätzlich um 3 erhöht.</span>
+      "130405":
+        Name: Vage Abneigung
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "130406":
+        Name: Hirschjagd
+        Desc: <span>Erhöht Aventurins verursachten SCH um 50% für jeden Verbündeten mit Schild, bis zu 150%.</span>
+  "1305":
+    Name: Dr. Wahrheit
+    Abilities:
+      "130501":
+        Name: Wissen ist Macht
+        Desc: <span>Fügt einem anvisierten Gegner geringen imaginären SCH zu.</span>
+        Type: Standardangriff
+      "130502":
+        Name: Geistige Geburtshilfe
+        Desc: <span>Fügt einem anvisierten Gegner imaginären SCH zu.</span>
+        Type: Fertigkeit
+      "130503":
+        Name: Dreiteiliges Paradoxon
+        Desc: <span>Fügt einem anvisierten Gegner imaginären SCH zu und verursacht „Torheit der Weisen“. Wenn Dr. Wahrheits Verbündete mit Torheit der Weisen belegte Gegner angreifen, wird 1-mal ein </span><span style='color:#f29e38ff'><u>Folgeangriff</u></span><span> auf sie ausgelöst.</span>
+        Type: Ultimate
+      "130504":
+        Name: Ich denke, also bin ich
+        Desc: <span>Beim Einsatz der Fertigkeit besteht eine Chance, dass 1-mal ein </span><span style='color:#f29e38ff'><u>Folgeangriff</u></span><span> auf das Ziel ausgelöst wird.</span>
+        Type: Talent
+      "130506":
+        Name: Angriff
+        Desc: ""
+      "130507":
+        Name: Muster eines Idols
+        Desc: <span>Erschafft eine Dimension. Gegner in dieser Dimension werden mit Verspotten belegt. Nach Kampfeintritt mit Gegnern in der Dimension besteht eine hohe Chance, dass den Gegnern </span><span style='color:#f29e38ff'>GES-Reduktion</span><span> zugefügt wird.</span>
+        Type: Technik
+    Eidolons:
+      "130501":
+        Name: Fluch des Hochmuts
+        Desc: <span>Das Stapelungslimit für die Spur „Induktion“ wird um 4 erhöht. Gewährt zu Beginn des Kampfes sofort 4 Stapelung(en) Induktion. Induktion muss zuerst freigeschaltet sein.</span>
+      "130502":
+        Name: Mikroskopisch doch tiefgründig
+        Desc: <span>Wenn Dr. Wahrheit mit einem Folgeangriff seines Talents einen Gegner angreift, fügt er für jeden Debuff des Ziels zusätzlichen imaginären SCH in Höhe von 20% von Dr. Wahrheits ANG zu. Dieser Effekt kann bei jedem Einsatz eines Folgeangriffs seines Talents bis zu 4-mal ausgelöst werden.</span>
+      "130503":
+        Name: Kenne dich selbst
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "130504":
+        Name: Unwissen zeugt Dummheit
+        Desc: <span>Wenn Dr. Wahrheits Talent ausgelöst wird, stellt er zusätzlich 15 Pkt. Energie wieder her.</span>
+      "130505":
+        Name: Ruderlos auf dem Ozean
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "130506":
+        Name: Ewige Wahrheit
+        Desc: <span>Erhöht die Auslösungsanzahl für „Torheit der Weisen“ um 1. Der durch Folgeangriffe verursachte SCH des Talents wird um 50% erhöht.</span>
+  "1306":
+    Name: Sparkle
+    Abilities:
+      "130601":
+        Name: Monodrama
+        Desc: <span>Fügt einem Gegner geringen Quanten-SCH zu.</span>
+        Type: Standardangriff
+      "130602":
+        Name: Schlafschwimmer
+        Desc: <span>Erhöht den </span><span style='color:#f29e38ff'>KRIT-SCH</span><span> eines Verbündeten und zieht seine Aktion vor.</span>
+        Type: Fertigkeit
+      "130603":
+        Name: Ein Leben in tausend Rollen
+        Desc: <span>Stellt </span><span style='color:#f29e38ff'>Fertigkeitspunkte</span><span> wieder her und erhöht zusätzlich die SCH-Erhöhung von Sparkles Talent.</span>
+        Type: Ultimate
+      "130604":
+        Name: Narrative Intrige
+        Desc: <span>Erhöht die </span><span style='color:#f29e38ff'>max. Anzahl der Fertigkeitspunkte</span><span>. Wenn ein Verbündeter Fertigkeitspunkte verbraucht, wird der </span><span style='color:#f29e38ff'>verursachte SCH</span><span> aller Verbündeten erhöht.</span>
+        Type: Talent
+      "130606":
+        Name: Angriff
+        Desc: ""
+      "130607":
+        Name: Unzuverlässiger Erzähler
+        Desc: <span>Nach dem Einsatz der Technik erhalten alle Verbündeten den Status „Irreführung“, der sie für Gegner unsichtbar macht. Stellt beim Kampfeintritt mit Irreführung </span><span style='color:#f29e38ff'>Fertigkeitspunkte</span><span> wieder her.</span>
+        Type: Technik
+    Eidolons:
+      "130601":
+        Name: Am Rande des Zweifels
+        Desc: <span>Verlängert die Dauer von „Rätselhaft“, das durch den Ultimate verursacht wurde, zusätzlich um 1 Rd. Der ANG der Verbündeten mit Rätselhaft wird um 40% erhöht.</span>
+      "130602":
+        Name: Sinnleere Fiktion
+        Desc: <span>Jede Stapelung des Talents lässt Verbündete 8% der VTD des Ziels ignorieren.</span>
+      "130603":
+        Name: Fantasieblase
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe. +1 bis max. St. 10.</span>
+      "130604":
+        Name: Das Leben ist ein Spiel
+        Desc: <span>Der Ultimate stellt zusätzlich 1 Fertigkeitspunkt wieder her. Das Talent erhöht die max. Anzahl an Fertigkeitspunkten zusätzlich um 1.</span>
+      "130605":
+        Name: Zweigesichtige Wahrheit
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "130606":
+        Name: Mehrfachauswahl
+        Desc: <span>Die KRIT-SCH-Erhöhung der Fertigkeit wird zusätzlich um 30% von Sparkles KRIT-SCH erhöht. Wenn sie ihre Fertigkeit einsetzt, wirkt der Effekt der KRIT-SCH-Erhöhung für Sparkles Teammitglieder mit „Rätselhaft“. Wenn Sparkle ihren Ultimate einsetzt und ein Verbündeter den von der Fertigkeit verursachten Effekt der KRIT-SCH-Erhöhung besitzt, wird dieser Effekt auf alle Sparkles Teammitglieder mit Rätselhaft ausgedehnt.</span>
+  "1307":
+    Name: Schwarzer Schwan
+    Abilities:
+      "130701":
+        Name: Einblick, stilles Morgengrauen
+        Desc: <span>Fügt einem Gegner geringen Wind-SCH zu und hat die Chance, das Ziel mit <u>Arkana</u> zu belegen. Nachdem das Ziel in den Status </span><span style='color:#f29e38ff'>Windscherung, Bluten, Brennen oder Schock</span><span> eingetreten ist, besteht jeweils die Chance, es </span><span style='color:#f29e38ff'>zusätzlich mit <u>Arkana</u> zu belegen</span><span>.</span>
+        Type: Standardangriff
+      "130702":
+        Name: Verlust, falsche Abenddämmerung
+        Desc: <span>Fügt einem Gegner und angrenzenden Einheiten geringen Wind-SCH zu. Es besteht eine hohe Chance, dass die Ziele </span><span style='color:#f29e38ff'>mit <u>Arkana</u> belegt werden</span><span> und ihre VTD reduziert wird.</span>
+        Type: Fertigkeit
+      "130703":
+        Name: Schwelgend in den Armen der Anderwelt
+        Desc: <span>Belegt alle Gegner mit dem Status „Enthüllung“, wodurch der erlittene SCH während ihrer Runde erhöht wird. Zudem </span><span style='color:#f29e38ff'>wird <u>Arkana</u> als gleichwertig mit den Status Windscherung, Bluten, Brennen und Schock betrachtet</span><span>. Wenn <u>Arkana</u> zu Beginn der nächsten Runde SCH verursacht, wird außerdem die Stapelzahl nicht zurückgesetzt. Fügt allen Gegnern Wind-SCH zu.</span>
+        Type: Ultimate
+      "130704":
+        Name: Die Launen des sinnlosen Schicksals
+        Desc: <span>Wenn ein Gegner zu Beginn der Runde DoT erleidet, besteht eine Chance, dass er mit <u>Arkana</u> belegt wird, sodass er zu Beginn der Runde </span><span style='color:#f29e38ff'>Wind-DoT</span><span> erleidet. Basierend auf der Stapelzahl von <u>Arkana</u> löst Schwarzer Schwan </span><span style='color:#f29e38ff'>zusätzliche Effekte</span><span> aus.</span>
+        Type: Talent
+      "130706":
+        Name: Angriff
+        Desc: ""
+      "130707":
+        Name: Her mit Wahrheit, weg mit Fassade
+        Desc: <span>Nach dem Einsatz der Technik besteht zu Beginn des nächsten Kampfes eine hohe Chance, jeden Gegner </span><span style='color:#f29e38ff'>mit <u>Arkana</u> zu belegen und dies zu wiederholen, bis die Anwendung fehlschlägt</span><span>.</span>
+        Type: Technik
+    Eidolons:
+      "130701":
+        Name: Drei Steine, sieben Säulen
+        Desc: <span>Wenn Schwarzer Schwan kampffähig ist, wird jeweils der WDS des Typs Wind, Physisch, Feuer und Blitz von Gegnern mit Windscherung, Bluten, Brennen und Schock um 25% reduziert.</span>
+      "130702":
+        Name: Lämmchen, weine nicht um mich
+        Desc: <span>Wird ein von „Arkana“ betroffener Gegner besiegt, besteht eine Grundchance von 100%, angrenzende Einheiten mit 6 Stapelungen Arkana zu belegen.</span>
+      "130703":
+        Name: Wie im Himmel, so auf Erden
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "130704":
+        Name: Tränen, ein Geschenk
+        Desc: <span>Der Effekt-WDS von Gegnern mit dem Status Enthüllung wird um 10% reduziert. Schwarzer Schwan stellt zu Beginn jeder Runde des betroffenen Ziels oder wenn es besiegt wird 8 Pkt. Energie wieder her. Dieser Effekt der Energiewiederherstellung kann während der Dauer von Enthüllung nur 1-mal ausgelöst werden. Die Auslösungsanzahl wird aktualisiert, wenn der Gegner erneut mit Enthüllung belegt wird.</span>
+      "130705":
+        Name: Weg des Zugvogels
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "130706":
+        Name: Gnädiges Pantheon, unbekannte Diener
+        Desc: <span>Wenn Verbündete von Schwarzer Schwan Gegner angreifen, hat Schwarzer Schwan eine Grundchance von 65%, das Ziel mit 1 Stapelung „Arkana“ zu belegen.<br>Jedes Mal, wenn Schwarzer Schwan einen Gegner mit Arkana belegt, besteht eine feste Chance von 50%, die bei diesem Mal zugefügte Stapelung von Arkana zusätzlich um 1 zu erhöhen.</span>
+  "1308":
+    Name: Acheron
+    Abilities:
+      "130801":
+        Name: Welke Pfade der Schreckenstriade
+        Desc: <span>Fügt einem Gegner geringen Blitz-SCH zu.</span>
+        Type: Standardangriff
+      "130802":
+        Name: Oktett des Donners
+        Desc: "<span>Erhält </span><span style='color:#f29e38ff'></span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>1</span></span><span> Pkt. „Zerbrochener Traum“</span><span>. Belegt einen Gegner mit </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>1</span></span><span> Stapelung „Karminroter Knoten“ und fügt ihm Blitz-SCH sowie angrenzenden Einheiten geringen Blitz-SCH zu.</span>"
+        Type: Fertigkeit
+      "130803":
+        Name: Verblassende Träume, ein Klingenstreich
+        Desc: <span>Fügt einem Gegner 3-mal geringen Blitz-SCH zu. Wenn „Karminroter Knoten“ vom Ziel entfernt wird, erleiden alle Gegner geringen Blitz-SCH. Fügt schließlich allen Gegnern 1-mal Blitz-SCH zu und entfernt alle Stapelungen Karminroter Knoten.</span>
+        Type: Ultimate
+      "130804":
+        Name: Tropfen auf den roten Blättern, Leere
+        Desc: <span>Wenn „Zerbrochener Traum“ die max. Anzahl erreicht, kann der Ultimate aktiviert werden. Der Ultimate </span><span style='color:#f29e38ff'>ignoriert Schwächetypen</span><span>, verringert den Widerstand aller Gegner und reduziert ihren </span><span style='color:#f29e38ff'>WDS aller Typen</span><span>.<br>Wenn eine beliebige Einheit mit ihrer Fähigkeit einem gegnerischen Ziel einen Debuff zufügt, erhält Acheron Zerbrochener Traum und belegt ein Ziel mit „Karminroter Knoten“.</span>
+        Type: Talent
+      "130806":
+        Name: Angriff
+        Desc: ""
+      "130807":
+        Name: Vier Phasen des Ich
+        Desc: <span>Greift den Gegner an. Erhält zu Beginn jeder Kampfwelle „Vier Phasen des Ich“ und fügt allen Gegnern Blitz-SCH zu, der </span><span style='color:#f29e38ff'>Schwächetypen ignoriert</span><span> und Widerstand reduziert.<br>Wenn gewöhnliche Gegner angegriffen werden, werden sie </span><span style='color:#f29e38ff'>sofort besiegt</span><span>, ohne den Kampf zu betreten. Der Technikpunkt wird nicht verbraucht, wenn der Angriff keinen Gegner trifft.</span>
+        Type: Technik
+    Eidolons:
+      "130801":
+        Name: Wahre Worte aus dem Himmel
+        Desc: <span>Erhöht die KRIT-Rate bei Angriffen auf Gegner mit Debuff um 18%.</span>
+      "130802":
+        Name: Donner schweigt, Winde ruhen
+        Desc: <span>Reduziert die Anzahl der Figuren auf dem Pfad der Nichtigkeit um 1, die für den max. Wert der Spur „Unterwelt“ benötigt wird. Erhält zu Beginn der eigenen Runde 1 Pkt. „Zerbrochener Traum“ und gleichzeitig wird der Gegner mit den meisten Stapelungen „Karminroter Knoten“ mit 1 weiterer Stapelung Karminroter Knoten belegt.</span>
+      "130803":
+        Name: Ewiger Winterschlaf in bitterer Kälte
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "130804":
+        Name: Flammen erleuchten den Menschen im Spiegel
+        Desc: <span>Wenn Gegner in den Kampf eintreten, wird ihnen Ultimate-SCH-Anfälligkeit zugefügt. Ihr erlittener Ultimate-SCH wird um 8% erhöht.</span>
+      "130805":
+        Name: Klippen bröckeln, Seelen schweifen
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "130806":
+        Name: Gespaltene Fesseln des Verhängnisses
+        Desc: "<span>Erhöht die WDS-DUR aller Typen für den von Acheron verursachten Ultimate-SCH um 20%. Der durch Standardangriff und Fertigkeit verursachte SCH wird ebenfalls als Ultimate-SCH betrachtet und kann den WDS des Gegners unabhängig vom Schwächetyp reduzieren. Beim Schwächebruch wird der Effekt „Schwächebruch: Blitz“ ausgelöst.</span>"
+  "1309":
+    Name: Robin
+    Abilities:
+      "130901":
+        Name: Flügelflattern
+        Desc: <span>Fügt einem Gegner geringen physischen SCH zu.</span>
+        Type: Standardangriff
+      "130902":
+        Name: Arie der Feder
+        Desc: <span></span><span style='color:#f29e38ff'>Erhöht den verursachten SCH</span><span> aller Verbündeten.</span>
+        Type: Fertigkeit
+      "130903":
+        Name: Sternenfuge mit tausend Klängen
+        Desc: <span>Tritt in den Status „Konzert“ ein. Der </span><span style='color:#f29e38ff'>ANG aller Verbündeten wird erhöht</span><span> und Robins Teammitglieder können sofort eine Aktion ausführen. Robin fügt nach einem Angriff eines Verbündeten </span><span style='color:#f29e38ff'><u>zusätzlich</u> physischen SCH</span><span> zu. Der Status Konzert verleiht Robin Immunität gegen <u>Mengenkontrolle-Debuffs</u>. Solange der Status aktiv ist, wird Robin bis zum Ende des Countdowns keine Runde haben und keine Aktion ausführen.</span>
+        Type: Ultimate
+      "130904":
+        Name: Harmonische Ode
+        Desc: <span>Erhöht den </span><span style='color:#f29e38ff'>KRIT-SCH</span><span> aller Verbündeten. Nach einem Angriff eines Verbündeten stellt Robin zusätzlich Energie wieder her.</span>
+        Type: Talent
+      "130906":
+        Name: Angriff
+        Desc: ""
+      "130907":
+        Name: Berauschte Ouvertüre
+        Desc: "<span>Erzeugt eine spezielle Dimension um Robin herum. Gegner innerhalb dieser Dimension werden Robin nicht angreifen. Nach Kampfeintritt mit dieser Dimension stellt Robin zu Beginn jeder Kampfwelle zusätzlich </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>5</span></span><span> Pkt. Energie wieder her.</span>"
+        Type: Technik
+    Eidolons:
+      "130901":
+        Name: Land des Lächelns
+        Desc: <span>Im Status „Konzert“ wird die WDS-DUR aller Typen für alle Verbündeten um 24% erhöht.</span>
+      "130902":
+        Name: Mittagstee für zwei
+        Desc: <span>Im Status „Konzert“ wird die GES aller Verbündeten um 16% erhöht. Die Energie-Wiederherstellung des Talents wird zusätzlich um 1 Pkt. erhöht.</span>
+      "130903":
+        Name: Verdrehte Saiten
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Ultimate-Stufe +2 bis max. St. 15.</span>
+      "130904":
+        Name: Schlüssel des Regentropfens
+        Desc: <span>Beim Einsatz des Ultimates werden Mengenkontrolle-Debuffs von allen Verbündeten entfernt. Während Robin sich im Status „Konzert“ befindet, wird der Effekt-WDS aller Verbündeten um 50% erhöht.</span>
+      "130905":
+        Name: Tränen des einsamen Sterns
+        Desc: <span>Standardangriff-Stufe +1 bis max. St. 10. Talentstufe +2 bis max. St. 15.</span>
+      "130906":
+        Name: Mondlose Mitternacht
+        Desc: <span>Im Status „Konzert“ wird der KRIT-SCH des vom Ultimate verursachten zusätzlichen physischen SCH zusätzlich um 450% erhöht. „Mondlose Mitternacht“ kann bis zu 8-mal ausgelöst werden. Beim Einsatz des Ultimates wird die Auslösungszahl zurückgesetzt.</span>
+  "1310":
+    Name: Glühwürmchen
+    Abilities:
+      "131001":
+        Name: "Befehl: Fackelantrieb"
+        Desc: <span>Fügt einem Gegner geringen Feuer-SCH zu.</span>
+        Type: Standardangriff
+      "131002":
+        Name: "Befehl: Luftbombardierung"
+        Desc: <span>Verbraucht einen Teil der eigenen LP und stellt Energie wieder her, um einem Gegner Feuer-SCH zuzufügen. Die nächste Aktion wird <u>vorgezogen</u>.</span>
+        Type: Fertigkeit
+      "131003":
+        Name: "PyroFly Typ IV: Vollständige Verbrennung"
+        Desc: "<span>Tritt in den Status „Vollständige Verbrennung“ ein. </span><span style='color:#f29e38ff'>Zieht die eigene Aktion um <span style='whiteSpace: \"nowrap\"'>100</span>\_% </span><span> und erhält den </span><span style='color:#f29e38ff'>verstärkten Standardangriff</span><span> sowie die </span><span style='color:#f29e38ff'>verstärkte Fertigkeit</span><span>. Erhöht außerdem </span><span style='color:#f29e38ff'>die GES, Schwächebruch-Effizienz und den von Gegnern erlittenen Bruch-SCH</span><span>, bis zum Ende des Countdowns.</span>"
+        Type: Ultimate
+      "131004":
+        Name: Kokon-Pyronexus
+        Desc: "<span>Je niedriger die LP sind, desto geringer wird der erlittene SCH. Im Status „Vollständige Verbrennung“ ist die SCH-Reduktion stets maximal wirksam und der Effekt-WDS wird erhöht. Wenn die Energie beim Kampfbeginn unter </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>50%</span></span><span> liegt, wird sie auf </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>50%</span></span><span> wiederhergestellt. Sobald die Energie vollständig wiederhergestellt ist, werden alle <u>Debuffs</u> entfernt.</span>"
+        Type: Talent
+      "131006":
+        Name: Angriff
+        Desc: ""
+      "131007":
+        Name: "Δ Befehl: Verbrannter Meteorit"
+        Desc: <span>Springt in die Luft und bewegt sich ohne Einschränkungen. Steigt herab und greift nach einigen Sekunden der Bewegung alle Gegner im Wirkungsbereich an. </span><span style='color:#f29e38ff'>Implantiert</span><span> allen Gegnern zu Beginn </span><span style='color:#f29e38ff'>jeder Kampfwelle Feuer-Schwäche</span><span> und fügt ihnen dann Feuer-SCH zu.</span>
+        Type: Technik
+    Eidolons:
+      "131001":
+        Name: Im geröteten Kokon schlief ich einst
+        Desc: <span>Beim Einsatz der verstärkten Fertigkeit werden 15% der VTD des Ziels ignoriert und keine Fertigkeitspunkte verbraucht.</span>
+      "131002":
+        Name: Fall aus zerbrochenem Himmel
+        Desc: <span>Wenn im Status „Vollständige Verbrennung“ durch den Einsatz des verstärkten Standardangriffs oder der verstärkten Fertigkeit ein Gegner besiegt oder seine Schwäche gebrochen wird, erhält SAM sofort eine zusätzliche Runde. Dieser Effekt kann nach 1 Rd. wieder ausgelöst werden.</span>
+      "131003":
+        Name: Schlummern in der totenstillen Galaxie
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "131004":
+        Name: Ich sehe sie bald, die Flamme des Glühwürmchens
+        Desc: <span>Erhöht im Status „Vollständige Verbrennung“ SAMs Effekt-WDS um 50%.</span>
+      "131005":
+        Name: Entfacht aus traumloser Nacht
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "131006":
+        Name: Erblüht aus endgültigem Morgen
+        Desc: <span>Erhöht im Status „Vollständige Verbrennung“ SAMs Feuer-WDS-DUR um 20%. Beim Einsatz des verstärkten Standardangriffs und der verstärkten Fertigkeit wird die Schwächebruch-Effizienz um 50% erhöht.</span>
+  "1312":
+    Name: Misha
+    Abilities:
+      "131201":
+        Name: Entschuldigung! Aus dem Weg, bitte ...!
+        Desc: <span>Fügt einem Gegner geringen Eis-SCH zu.</span>
+        Type: Standardangriff
+      "131202":
+        Name: Zi... Zimmerservice!
+        Desc: <span>Fügt einem Gegner Eis-SCH zu und angrenzenden Einheiten geringen Eis-SCH zu. Erhöht die </span><span style='color:#f29e38ff'>Trefferzahl von Mishas nächstem Ultimate</span><span>.</span>
+        Type: Fertigkeit
+      "131203":
+        Name: Ich bin spät dran!
+        Desc: "<span>Fügt einem Gegner geringen Eis-SCH zu. Der Angriff prallt zunächst </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>3</span></span><span>-mal und max. </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>10</span></span><span>-mal ab. Vor jedem Treffer besteht eine geringe Chance, das Ziel </span><span style='color:#f29e38ff'>einzufrieren</span><span>.</span>"
+        Type: Ultimate
+      "131204":
+        Name: Hemmungsvorrichtung
+        Desc: <span>Für </span><span style='color:#f29e38ff'>jeden verbrauchten Fertigkeitspunkt</span><span> des Teams wird die </span><span style='color:#f29e38ff'>Trefferzahl von Mishas nächstem Ultimate</span><span> erhöht und er stellt Energie wieder her.</span>
+        Type: Talent
+      "131206":
+        Name: Angriff
+        Desc: ""
+      "131207":
+        Name: Verweile doch, du bist so schön!
+        Desc: <span>Erschafft eine spezielle Dimension, die alle Gegner in ihr anhält. Nach Kampfeintritt mit Gegnern in der Dimension wird die </span><span style='color:#f29e38ff'>Trefferzahl von Mishas nächstem Ultimate</span><span> erhöht.</span>
+        Type: Technik
+    Eidolons:
+      "131201":
+        Name: Flatterhaftes Trugbild
+        Desc: <span>Beim Einsatz des Ultimates wird seine Trefferzahl für jeden Gegner im Kampf zusätzlich um 1 erhöht, bis zu max. 5 Treffer.</span>
+      "131202":
+        Name: Jugendliche Sehnsucht
+        Desc: <span>Der Ultimate hat vor jedem Treffer eine Grundchance von 24%, die VTD des Ziels für 3 Rd. um 16% zu reduzieren.</span>
+      "131203":
+        Name: Schatten glücklicher Jahre
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "131204":
+        Name: Vertraute Erscheinung
+        Desc: <span>Erhöht den SCH-Multiplikator von jedem Treffer des Ultimates um 6%.</span>
+      "131205":
+        Name: Erste Liebe und Freundschaft
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "131206":
+        Name: Verblasste Sehnsucht
+        Desc: <span>Nach dem Einsatz des Ultimates wird sein verursachter SCH um 30% bis zum Ende der eigenen Runde erhöht. Stellt nach dem nächsten Einsatz der Fertigkeit 1 Fertigkeitspunkt für das Team wieder her.</span>
+  "1314":
+    Name: Jade
+    Abilities:
+      "131401":
+        Name: Peitsche des Reichtums
+        Desc: <span>Fügt einem Gegner geringen Quanten-SCH zu und fügt angrenzenden Einheiten geringen Quanten-SCH zu.</span>
+        Type: Standardangriff
+      "131402":
+        Name: Garantie der Annexion
+        Desc: <span>Lässt einen Verbündeten zum </span><span style='color:#f29e38ff'>Schuldeneintreiber</span><span> werden und erhöht seine GES. Nachdem der </span><span style='color:#f29e38ff'>Schuldeneintreiber</span><span> angegriffen hat, verbraucht er seine eigenen LP und fügt allen getroffenen Gegnern geringen <u>zusätzlichen Quanten-SCH</u> zu. Wenn Jade zur Schuldeneintreiberin wird, kann sie den Effekt der GES-Erhöhung nicht erhalten und ihre Angriffe verbrauchen keine LP.</span>
+        Type: Fertigkeit
+      "131403":
+        Name: Vertrag im Abgrund
+        Desc: <span>Fügt allen Gegnern Quanten-SCH zu und erhält einen erhöhten SCH-Multiplikator für </span><span style='color:#f29e38ff'><u>Folgeangriffe</u></span><span>.</span>
+        Type: Ultimate
+      "131404":
+        Name: Reißender Fangzahn
+        Desc: "<span>Nachdem Jade oder der </span><span style='color:#f29e38ff'>Schuldeneintreiber</span><span> angegriffen hat, erhält Jade für jeden getroffenen Gegner 1 Pkt. Aufladung. Wenn die Aufladung </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>8</span></span><span> Pkt. erreicht, werden </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>8</span></span><span> Pkt. Aufladungen verbraucht, um 1-mal einen </span><span style='color:#f29e38ff'><u>Folgeangriff</u></span><span> auszuführen, der allen Gegnern Quanten-SCH zufügt.<br>Wenn Jade den </span><span style='color:#f29e38ff'><u>Folgeangriff</u></span><span> startet, erhält sie „Verpfändung“, wodurch ihr KRIT-SCH erhöht wird. Dieser Effekt ist bis zu </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>50</span></span><span>-fach stapelbar.</span>"
+        Type: Talent
+      "131406":
+        Name: Angriff
+        Desc: ""
+      "131407":
+        Name: Sichtfeld des Jägers
+        Desc: "<span>Belegt Gegner in einem bestimmten Wirkungsbereich mit „Blindlings“. Beim Angriff auf Gegner mit Blindlings treten alle Gegner mit diesem Status gleichzeitig in den Kampf ein. Fügt nach Kampfeintritt allen Gegnern geringen Quanten-SCH zu und Jade erhält sofort </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>15</span></span><span>-fach „Verpfändung“.</span>"
+        Type: Technik
+    Eidolons:
+      "131401":
+        Name: Uneigennützigkeit? Auch handelbar
+        Desc: <span>Erhöht den Folgeangriff-SCH von Jades Talent um 32%. Wenn ein Verbündeter als „Schuldeneintreiber“ angreift und 2/1 Gegner trifft, erhält Jade zusätzlich 1/2 Pkt. Aufladung.</span>
+      "131402":
+        Name: Moralität? Hiermit bescheinigt
+        Desc: <span>Wenn „Verpfändung“ 15 Stapelungen erreicht, wird Jades KRIT-Rate um 18% erhöht.</span>
+      "131403":
+        Name: Ehrlichkeit? Bald verpfändet
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "131404":
+        Name: Aufrichtigkeit? Nur mit Verkaufsoption
+        Desc: <span>Beim Einsatz des Ultimates ignoriert der von Jade verursachte SCH für 3 Rd. 12% der VTD der Gegner.</span>
+      "131405":
+        Name: Hoffnung? Bereits ausverkauft
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "131406":
+        Name: Gerechtigkeit? Ausstehender Sponsor
+        Desc: <span>Wenn sich ein Verbündeter als „Schuldeneintreiber“ auf dem Feld befindet, wird Jades Quanten-WDS-DUR um 20% erhöht und sie tritt in den Status Schuldeneintreiber ein.</span>
+  "1315":
+    Name: Boothill
+    Abilities:
+      "131501":
+        Name: Schädelsplitter-Hufeisen
+        Desc: <span>Fügt einem Gegner geringen physischen SCH zu.</span>
+        Type: Standardangriff
+      "131502":
+        Name: Tango des Tänzers auf brennendem Kies
+        Desc: <span>Aktiviert </span><span style='color:#f29e38ff'>Tödliche Konfrontation</span><span>. Nachdem das Ziel von Tödliche Konfrontation </span><span style='color:#f29e38ff'>besiegt wurde oder Schwächebruch erlitten hat</span><span>, erhält Boothill „Trumpf in der Tasche“ und Tödliche Konfrontation wird aufgehoben. Boothill </span><span style='color:#f29e38ff'>erhält einen verstärkten Standardangriff</span><span> und die aktuelle Runde wird nicht beendet.</span>
+        Type: Fertigkeit
+      "131503":
+        Name: Staubteufels Tanz bei Sonnenuntergang
+        Desc: <span>Fügt einem Gegner eine </span><span style='color:#f29e38ff'>physische Schwäche</span><span> hinzu, verursacht beim Ziel massiven physischen SCH und verzögert dessen Aktion.</span>
+        Type: Ultimate
+      "131504":
+        Name: Fünf Bohnen, eine Schote
+        Desc: <span>„Trumpf in der Tasche“ erhöht den WDS-Reduzierungswert des verstärkten Standardangriffs und fügt </span><span style='color:#f29e38ff'>Gegnern mit Schwächebruch</span><span> zusätzlichen physischen </span><span style='color:#f29e38ff'>Bruch-SCH</span><span> zu. Nach einem gewonnenen Kampf wird Trumpf in der Tasche bis zum nächsten Kampf beibehalten.</span>
+        Type: Talent
+      "131506":
+        Name: Angriff
+        Desc: ""
+      "131507":
+        Name: Drei-mal-Neun-Lächeln
+        Desc: <span>Nach dem Einsatz der Technik wird im nächsten Kampf beim ersten Einsatz der Fertigkeit einem Gegner eine </span><span style='color:#f29e38ff'>physische Schwäche hinzugefügt</span><span>.</span>
+        Type: Technik
+    Eidolons:
+      "131501":
+        Name: Einsamer Stern im Staub
+        Desc: <span>Erhält zu Beginn des Kampfes 1 Stapelung „Trumpf in der Tasche“. Boothill verursacht SCH, der 16% der VTD des gegnerischen Ziels ignoriert.</span>
+      "131502":
+        Name: Meilenstein-Händler
+        Desc: <span>Stellt beim Erhalt von „Trumpf in der Tasche“ im Status „Tödliche Konfrontation“ 1 Fertigkeitspunkt wieder her und erhöht für 2 Rd. den Brucheffekt um 30%. Dieser Effekt kann in einer einzelnen Runde nicht wiederholt ausgelöst werden. Er wird auch ausgelöst, wenn Stapelungen von Trumpf in der Tasche erhalten werden, die die max. Stapelzahl überschreiten.</span>
+      "131503":
+        Name: Wächter des marmornen Obstgartens
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "131504":
+        Name: Aufschnittskoch
+        Desc: <span>Wenn Gegner mit „Tödliche Konfrontation“ von Boothill angegriffen werden, wird der erlittene SCH zusätzlich um 12% erhöht. Wenn Boothill von Gegnern mit Tödliche Konfrontation angegriffen wird, wird der Effekt der erlittenen SCH-Erhöhung um 12% reduziert.</span>
+      "131505":
+        Name: Baumstumpfredner
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "131506":
+        Name: Waschbär im Hotel Brecheisen
+        Desc: <span>Wenn durch das Talent Bruch-SCH verursacht wird, wird dem Ziel zusätzlich Bruch-SCH in Höhe von 40% des ursprünglichen SCH-Multiplikators und angrenzenden Einheiten zusätzlich Bruch-SCH in Höhe von 70% des ursprünglichen SCH-Multiplikators zugefügt.</span>
+  "8001":
+    Name: Caelus (Die Zerstörung)
+    Abilities:
+      "800101":
+        Name: Abschiedstreffer
+        Desc: <span>Fügt einem Gegner geringen physischen SCH zu.</span>
+        Type: Standardangriff
+      "800102":
+        Name: Todes-Homerun
+        Desc: <span>Fügt einem Gegner und angrenzenden Zielen physischen SCH zu.</span>
+        Type: Fertigkeit
+      "800103":
+        Name: Sternenstaub-Ass
+        Desc: <span>Verwendet Einzelangriff oder Ausdehnung, um einen vollen Schlag auszuführen.</span>
+        Type: Ultimate
+      "800104":
+        Name: Perfekte Abnahme
+        Desc: <span>Jedes Mal, wenn die Schwäche eines Gegners gebrochen wird, wird der ANG erhöht.</span>
+        Type: Talent
+      "800106":
+        Name: Angriff
+        Desc: ""
+      "800107":
+        Name: Unsterblicher dritter Schlag
+        Desc: <span>Nach dem Einsatz der Technik wird bei allen Verbündeten </span><span style='color:#f29e38ff'>LP wiederhergestellt</span><span>.</span>
+        Type: Technik
+    Eidolons:
+      "800101":
+        Name: Verstreute Sterne
+        Desc: <span>Wird ein Gegner durch das Ultimate besiegt, stellt {M#der Trailblazer}{F#die Trailblazerin} zusätzlich 10 Pkt. Energie wieder her. Dieser Effekt kann nur einmal pro Angriff ausgelöst werden.</span>
+      "800102":
+        Name: Ein perfekter Gastgeber
+        Desc: <span>Ein Angriff auf Gegner mit physischer Schwäche stellt LP in Höhe von 5% des ANG {M#des Trailblazers}{F#der Trailblazerin} wieder her.</span>
+      "800103":
+        Name: Der Geist, der den Weg führt
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "800104":
+        Name: Dem Moment der Zerstörung ins Auge sehen
+        Desc: <span>Erhöht beim Angriff auf Gegner mit Schwächebruch die KRIT-Rate um 25%.</span>
+      "800105":
+        Name: Die Hoffnung auf Überleben
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "800106":
+        Name: Trailblaze-Wille
+        Desc: <span>Das Talent wird auch ausgelöst, wenn {M#der Trailblazer}{F#die Trailblazerin} einen Gegner besiegt.</span>
+  "8002":
+    Name: Stelle (Die Zerstörung)
+    Abilities:
+      "800201":
+        Name: Abschiedstreffer
+        Desc: <span>Fügt einem Gegner geringen physischen SCH zu.</span>
+        Type: Standardangriff
+      "800202":
+        Name: Todes-Homerun
+        Desc: <span>Fügt einem Gegner und angrenzenden Zielen physischen SCH zu.</span>
+        Type: Fertigkeit
+      "800203":
+        Name: Sternenstaub-Ass
+        Desc: <span>Verwendet Einzelangriff oder Ausdehnung, um einen vollen Schlag auszuführen.</span>
+        Type: Ultimate
+      "800204":
+        Name: Perfekte Abnahme
+        Desc: <span>Jedes Mal, wenn die Schwäche eines Gegners gebrochen wird, wird der ANG erhöht.</span>
+        Type: Talent
+      "800206":
+        Name: Angriff
+        Desc: ""
+      "800207":
+        Name: Unsterblicher dritter Schlag
+        Desc: <span>Nach dem Einsatz der Technik wird bei allen Verbündeten </span><span style='color:#f29e38ff'>LP wiederhergestellt</span><span>.</span>
+        Type: Technik
+    Eidolons:
+      "800201":
+        Name: Verstreute Sterne
+        Desc: <span>Wird ein Gegner durch das Ultimate besiegt, stellt {M#der Trailblazer}{F#die Trailblazerin} zusätzlich 10 Pkt. Energie wieder her. Dieser Effekt kann nur einmal pro Angriff ausgelöst werden.</span>
+      "800202":
+        Name: Ein perfekter Gastgeber
+        Desc: <span>Ein Angriff auf Gegner mit physischer Schwäche stellt LP in Höhe von 5% des ANG {M#des Trailblazers}{F#der Trailblazerin} wieder her.</span>
+      "800203":
+        Name: Der Geist, der den Weg führt
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "800204":
+        Name: Dem Moment der Zerstörung ins Auge sehen
+        Desc: <span>Erhöht beim Angriff auf Gegner mit Schwächebruch die KRIT-Rate um 25%.</span>
+      "800205":
+        Name: Die Hoffnung auf Überleben
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "800206":
+        Name: Trailblaze-Wille
+        Desc: <span>Das Talent wird auch ausgelöst, wenn {M#der Trailblazer}{F#die Trailblazerin} einen Gegner besiegt.</span>
+  "8003":
+    Name: Caelus (Die Bewahrung)
+    Abilities:
+      "800301":
+        Name: Eisbrechendes Licht
+        Desc: <span>Fügt einem Gegner geringen Feuer-SCH zu und erhält „Magma-Wille“.</span>
+        Type: Standardangriff
+      "800302":
+        Name: Ewig brennender Bernstein
+        Desc: <span>Verringert den erlittenen SCH und erhält „Magma-Wille“. Hat eine hohe Chance, bei allen Gegner Verspotten zu verursachen.</span>
+        Type: Fertigkeit
+      "800303":
+        Name: Flammenlanze hinter den gegnerischen Linien
+        Desc: <span>Fügt allen Gegnern Feuer-SCH zu und verstärkt den nächsten Standardangriff.</span>
+        Type: Ultimate
+      "800304":
+        Name: Schatz der Architekten
+        Desc: <span>Bei erlittenen Angriffen wird „Magma-Wille“ gestapelt. Bei nicht weniger als 4 Stapelungen Magma-Wille wird der Standardangriff </span><span style='color:#f29e38ff'>verstärkt</span><span>. Nach dem Einsatz von Standardangriff, Fertigkeit oder Ultimate wird allen Verbündeten ein Schild gewährt.</span>
+        Type: Talent
+      "800306":
+        Name: Angriff
+        Desc: ""
+      "800307":
+        Name: Ruf des Wächters
+        Desc: <span>Nach dem Einsatz der Technik wird dieser Einheit zu Beginn des nächsten Kampfes ein Schild verliehen.</span>
+        Type: Technik
+    Eidolons:
+      "800301":
+        Name: Resonanz mit dem Erdkern
+        Desc: <span>Der Standardangriff verursacht zusätzlich Feuer-SCH in Höhe von 25% von der VTD {M#des Trailblazers}{F#der Trailblazerin}. Der verstärkte Standardangriff verursacht zusätzlich Feuer-SCH in Höhe von 50% von der VTD {M#des Trailblazers}{F#der Trailblazerin}.</span>
+      "800302":
+        Name: Beharrlichkeit des alten kalten Eisens
+        Desc: <span>Der Schild, den alle Verbündeten erhalten, wenn das Talent ausgelöst wird, kann zusätzlich SCH in Höhe von 2% von der VTD {M#des Trailblazers}{F#der Trailblazerin} plus 27 blockieren.</span>
+      "800303":
+        Name: Entwürfe für die Zukunft
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "800304":
+        Name: Schwur der verweilenden Zivilisation
+        Desc: <span>Erhält beim Kampfeintritt unmittelbar 4-fach „Magma-Wille“.</span>
+      "800305":
+        Name: Mut, die Flamme zu entzünden
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "800306":
+        Name: Wallanlagen der Emporragenden Zitadelle
+        Desc: <span>Erhöht nach dem Einsatz des verstärkten Standardangriffs oder Ultimates die VTD {M#des Trailblazers}{F#der Trailblazerin} um 10%. Dieser Effekt ist bis zu 3-fach stapelbar.</span>
+  "8004":
+    Name: Stelle (Die Bewahrung)
+    Abilities:
+      "800401":
+        Name: Eisbrechendes Licht
+        Desc: <span>Fügt einem Gegner geringen Feuer-SCH zu und erhält „Magma-Wille“.</span>
+        Type: Standardangriff
+      "800402":
+        Name: Ewig brennender Bernstein
+        Desc: <span>Verringert den erlittenen SCH und erhält „Magma-Wille“. Hat eine hohe Chance, bei allen Gegner Verspotten zu verursachen.</span>
+        Type: Fertigkeit
+      "800403":
+        Name: Flammenlanze hinter den gegnerischen Linien
+        Desc: <span>Fügt allen Gegnern Feuer-SCH zu und verstärkt den nächsten Standardangriff.</span>
+        Type: Ultimate
+      "800404":
+        Name: Schatz der Architekten
+        Desc: <span>Bei erlittenen Angriffen wird „Magma-Wille“ gestapelt. Bei nicht weniger als 4 Stapelungen Magma-Wille wird der Standardangriff </span><span style='color:#f29e38ff'>verstärkt</span><span>. Nach dem Einsatz von Standardangriff, Fertigkeit oder Ultimate wird allen Verbündeten ein Schild gewährt.</span>
+        Type: Talent
+      "800406":
+        Name: Angriff
+        Desc: ""
+      "800407":
+        Name: Ruf des Wächters
+        Desc: <span>Nach dem Einsatz der Technik wird dieser Einheit zu Beginn des nächsten Kampfes ein Schild verliehen.</span>
+        Type: Technik
+    Eidolons:
+      "800401":
+        Name: Resonanz mit dem Erdkern
+        Desc: <span>Der Standardangriff verursacht zusätzlich Feuer-SCH in Höhe von 25% von der VTD {M#des Trailblazers}{F#der Trailblazerin}. Der verstärkte Standardangriff verursacht zusätzlich Feuer-SCH in Höhe von 50% von der VTD {M#des Trailblazers}{F#der Trailblazerin}.</span>
+      "800402":
+        Name: Beharrlichkeit des alten kalten Eisens
+        Desc: <span>Der Schild, den alle Verbündeten erhalten, wenn das Talent ausgelöst wird, kann zusätzlich SCH in Höhe von 2% von der VTD {M#des Trailblazers}{F#der Trailblazerin} plus 27 blockieren.</span>
+      "800403":
+        Name: Entwürfe für die Zukunft
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "800404":
+        Name: Schwur der verweilenden Zivilisation
+        Desc: <span>Erhält beim Kampfeintritt unmittelbar 4-fach „Magma-Wille“.</span>
+      "800405":
+        Name: Mut, die Flamme zu entzünden
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "800406":
+        Name: Wallanlagen der Emporragenden Zitadelle
+        Desc: <span>Erhöht nach dem Einsatz des verstärkten Standardangriffs oder Ultimates die VTD {M#des Trailblazers}{F#der Trailblazerin} um 10%. Dieser Effekt ist bis zu 3-fach stapelbar.</span>
+  "8005":
+    Name: Caelus (Die Harmonie)
+    Abilities:
+      "800501":
+        Name: Swing-Etikette
+        Desc: <span>Fügt einem Gegner geringen imaginären SCH zu.</span>
+        Type: Standardangriff
+      "800502":
+        Name: Regen im Intermezzo
+        Desc: <span>Fügt einem Gegner geringen imaginären SCH zu und prallt insgesamt 5-mal ab.</span>
+        Type: Fertigkeit
+      "800503":
+        Name: Lärmende Laternenparade
+        Desc: <span>Verleiht allen Verbündeten den Effekt „Backup-Tänzer“. </span><span style='color:#f29e38ff'>Erhöht den Brucheffekt</span><span> von Verbündeten mit diesem Effekt. Wenn sie einen Gegner im Status <u>Schwächebruch</u> angreifen, wird 1-mal zusätzlich </span><span style='color:#f29e38ff'><u>Super-Bruch-SCH</u></span><span> verursacht.</span>
+        Type: Ultimate
+      "800504":
+        Name: Tanzlieder auf ganzem Spektrum
+        Desc: <span>Wenn die Schwäche eines Gegners gebrochen wird, stellt {F#die Trailblazerin}{M#der Trailblazer} Energie wieder her.</span>
+        Type: Talent
+      "800506":
+        Name: Angriff
+        Desc: ""
+      "800507":
+        Name: Jetzt! Solo-Truppe!
+        Desc: <span>Erhöht zu Beginn des nächsten Kampfs den Brucheffekt aller Verbündeten.</span>
+        Type: Technik
+    Eidolons:
+      "800501":
+        Name: Dein bester Sitzplatz
+        Desc: <span>Stellt sofort 1 Fertigkeitspunkt wieder her, wenn die Fertigkeit zum ersten Mal eingesetzt wird.</span>
+      "800502":
+        Name: Gefängnisausbruch des Regenbogens
+        Desc: <span>Erhöht zu Beginn des Kampfes die Energie-Wiederherstellungsrate {F#der Trailblazerin}{M#des Trailblazers} für 3 Rd. um 25%.</span>
+      "800503":
+        Name: Sanatorium des Pausenzeichens
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "800504":
+        Name: Die weiße Taube schützende Krone
+        Desc: <span>Wenn {F#die Trailblazerin}{M#der Trailblazer} auf dem Kampffeld ist, wird der Brucheffekt aller Verbündeten außer {F#ihr}{M#ihm} selbst um 15% {F#ihres}{M#seines} Brucheffekts erhöht.</span>
+      "800505":
+        Name: Gedicht der alten Takte
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "800506":
+        Name: Morgen, Nisten unter dem Rampenlicht
+        Desc: <span>Erhöht die Anzahl des zusätzlichen SCH der Fertigkeit um 2.</span>
+  "8006":
+    Name: Stelle (Die Harmonie)
+    Abilities:
+      "800601":
+        Name: Swing-Etikette
+        Desc: <span>Fügt einem Gegner geringen imaginären SCH zu.</span>
+        Type: Standardangriff
+      "800602":
+        Name: Regen im Intermezzo
+        Desc: <span>Fügt einem Gegner geringen imaginären SCH zu und prallt insgesamt 5-mal ab.</span>
+        Type: Fertigkeit
+      "800603":
+        Name: Lärmende Laternenparade
+        Desc: <span>Verleiht allen Verbündeten den Effekt „Backup-Tänzer“. </span><span style='color:#f29e38ff'>Erhöht den Brucheffekt</span><span> von Verbündeten mit diesem Effekt. Wenn sie einen Gegner im Status <u>Schwächebruch</u> angreifen, wird 1-mal zusätzlich </span><span style='color:#f29e38ff'><u>Super-Bruch-SCH</u></span><span> verursacht.</span>
+        Type: Ultimate
+      "800604":
+        Name: Tanzlieder auf ganzem Spektrum
+        Desc: <span>Wenn die Schwäche eines Gegners gebrochen wird, stellt {F#die Trailblazerin}{M#der Trailblazer} Energie wieder her.</span>
+        Type: Talent
+      "800606":
+        Name: Angriff
+        Desc: ""
+      "800607":
+        Name: Jetzt! Solo-Truppe!
+        Desc: <span>Erhöht zu Beginn des nächsten Kampfs den Brucheffekt aller Verbündeten.</span>
+        Type: Technik
+    Eidolons:
+      "800601":
+        Name: Dein bester Sitzplatz
+        Desc: <span>Stellt sofort 1 Fertigkeitspunkt wieder her, wenn die Fertigkeit zum ersten Mal eingesetzt wird.</span>
+      "800602":
+        Name: Gefängnisausbruch des Regenbogens
+        Desc: <span>Erhöht zu Beginn des Kampfes die Energie-Wiederherstellungsrate {F#der Trailblazerin}{M#des Trailblazers} für 3 Rd. um 25%.</span>
+      "800603":
+        Name: Sanatorium des Pausenzeichens
+        Desc: <span>Fertigkeitsstufe +2 bis max. St. 15. Talentstufe +2 bis max. St. 15.</span>
+      "800604":
+        Name: Die weiße Taube schützende Krone
+        Desc: <span>Wenn {F#die Trailblazerin}{M#der Trailblazer} auf dem Kampffeld ist, wird der Brucheffekt aller Verbündeten außer {F#ihr}{M#ihm} selbst um 15% {F#ihres}{M#seines} Brucheffekts erhöht.</span>
+      "800605":
+        Name: Gedicht der alten Takte
+        Desc: <span>Ultimate-Stufe +2 bis max. St. 15. Standardangriff-Stufe +1 bis max. St. 10.</span>
+      "800606":
+        Name: Morgen, Nisten unter dem Rampenlicht
+        Desc: <span>Erhöht die Anzahl des zusätzlichen SCH der Fertigkeit um 2.</span>
+RelicSets:
+  "101":
+    Name: Wanderer der vorbeiziehenden Wolke
+    Description2pc: "<span>Erhöht bewirkte Heilung um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: <span>Stellt zu Kampfbeginn sofort 1 Fertigkeitspunkt wieder her.</span>
+  "102":
+    Name: Musketierin des wilden Weizens
+    Description2pc: "<span>Erhöht ANG um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Erhöht die GES des Trägers um <span style='whiteSpace: \"nowrap\"'>6%</span> und den durch Standardangriffe verursachten SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+  "103":
+    Name: Ritterin vom Palast der Reinheit
+    Description2pc: "<span>Erhöht VTD um <span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
+    Description4pc: "<span>Erhöht die vom Träger gewährte Schildmenge um <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+  "104":
+    Name: Jäger aus dem Gletscherwald
+    Description2pc: "<span>Erhöht Eis-SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Erhöht beim Einsatz des Ultimates den KRIT-SCH des Trägers für <span style='whiteSpace: \"nowrap\"'>2</span>\_Rd. um <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+  "105":
+    Name: Champion des Straßenboxens
+    Description2pc: "<span>Erhöht physischen SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Wenn der Träger einen Angriff ausführt oder getroffen wird, wird sein ANG im aktuellen Kampf um <span style='whiteSpace: \"nowrap\"'>5%</span> erhöht. Dieser Effekt ist bis zu <span style='whiteSpace: \"nowrap\"'>5</span>-fach stapelbar.</span>"
+  "106":
+    Name: Wachen des stürmischen Schnees
+    Description2pc: "<span>Verringert erlittenen SCH um <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
+    Description4pc: "<span>Liegt der LP-Prozentsatz des Trägers zu Beginn seiner Runde bei <span style='whiteSpace: \"nowrap\"'>50%</span> oder niedriger, werden LP in Höhe von <span style='whiteSpace: \"nowrap\"'>8%</span> seiner max. LP und <span style='whiteSpace: \"nowrap\"'>5</span> Pkt. Energie wiederhergestellt.</span>"
+  "107":
+    Name: Feuerschmied der Lavaglut
+    Description2pc: "<span>Erhöht Feuer-SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Erhöht den durch Fertigkeiten verursachten SCH des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span>. Erhöht nach dem Einsatz des Ultimates den verursachten Feuer-SCH durch den nächsten Angriff um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+  "108":
+    Name: Genie der strahlenden Sterne
+    Description2pc: "<span>Erhöht Quanten-SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Wenn der Träger einem Gegner SCH zufügt, ignoriert er <span style='whiteSpace: \"nowrap\"'>10%</span> der VTD des Gegners. Wenn das Ziel Quanten-Schwäche hat, ignoriert der Träger zusätzlich <span style='whiteSpace: \"nowrap\"'>10%</span> der VTD des Gegners.</span>"
+  "109":
+    Name: Band des knisternden Donners
+    Description2pc: "<span>Erhöht Blitz-SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Erhöht beim Einsatz der Fertigkeit den ANG des Trägers für <span style='whiteSpace: \"nowrap\"'>1</span>\_Rd. um <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+  "110":
+    Name: Adler des Zwielichts
+    Description2pc: "<span>Erhöht Wind-SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Nach dem Einsatz des Ultimates wird die Aktion des Trägers um <span style='whiteSpace: \"nowrap\"'>25%</span> vorgezogen.</span>"
+  "111":
+    Name: Dieb des fallenden Meteors
+    Description2pc: "<span>Erhöht Brucheffekt um <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
+    Description4pc: "<span>Erhöht den Brucheffekt des Trägers um <span style='whiteSpace: \"nowrap\"'>16%</span>. Wenn der Träger bei einem Gegner Schwächebruch verursacht, wird <span style='whiteSpace: \"nowrap\"'>3</span> Pkt. Energie wiederhergestellt.</span>"
+  "112":
+    Name: Ödländer aus der Räuberwüste
+    Description2pc: "<span>Erhöht imaginären SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Wenn der Träger Gegnern mit Debuff SCH zufügt, wird KRIT-Rate um <span style='whiteSpace: \"nowrap\"'>10%</span> erhöht. Wenn der Träger Gegnern im Status Gefangenschaft SCH zufügt, wird KRIT-SCH um <span style='whiteSpace: \"nowrap\"'>20%</span> erhöht.</span>"
+  "113":
+    Name: Langlebige Jüngerin
+    Description2pc: "<span>Erhöht die max. LP um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Wenn der Träger getroffen wird oder seine LP von einem Verbündeten verbraucht werden, wird seine KRIT-Rate für <span style='whiteSpace: \"nowrap\"'>2</span>\_Rd. um <span style='whiteSpace: \"nowrap\"'>8%</span> erhöht. Dieser Effekt ist bis zu <span style='whiteSpace: \"nowrap\"'>2</span>-fach stapelbar.</span>"
+  "114":
+    Name: Bote im Hackerspace
+    Description2pc: "<span>Erhöht GES um <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
+    Description4pc: "<span>Wenn der Träger ein Ultimate auf einen Verbündeten anwendet, erhöht sich die GES aller Verbündeten für <span style='whiteSpace: \"nowrap\"'>1</span>\_Rd. um <span style='whiteSpace: \"nowrap\"'>12%</span>. Dieser Effekt ist nicht stapelbar.</span>"
+  "115":
+    Name: Der eingeäscherte Erzherzog
+    Description2pc: "<span>Erhöht den durch Folgeangriffe verursachte SCH um <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+    Description4pc: "<span>Wenn der Träger einen Folgeangriff einsetzt, wird sein ANG für jedes Mal, das der Folgeangriff SCH zufügt, um <span style='whiteSpace: \"nowrap\"'>6%</span> erhöht. Dieser Effekt ist bis zu <span style='whiteSpace: \"nowrap\"'>8</span>-mal stapelbar und hält <span style='whiteSpace: \"nowrap\"'>3</span> Rd. an. Das nächste Mal, dass der Träger einen Folgeangriff einsetzt, wird der Effekt entfernt.</span>"
+  "116":
+    Name: Gefangene in tiefem Gewahrsam
+    Description2pc: "<span>Erhöht den ANG um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Für jeden DoT-Effekt, den der Gegner erleidet, ignoriert der Träger <span style='whiteSpace: \"nowrap\"'>6%</span> der VTD dieses Gegners, wenn er diesem SCH zufügt. Bis zu <span style='whiteSpace: \"nowrap\"'>3</span> DoT-Effekte werden gezählt.</span>"
+  "117":
+    Name: Pioniertaucherin toter Gewässer
+    Description2pc: "<span>Erhöht den bei Gegnern mit Debuff verursachten SCH um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Erhöht die KRIT-Rate um <span style='whiteSpace: \"nowrap\"'>4%</span>. Der bei Gegnern mit nicht weniger als <span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span> Debuffs verursachte KRIT-SCH des Trägers wird um jeweils <span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span> erhöht. Nachdem er dem Gegner einen Debuff zugefügt hat, werden diese Effekte für <span style='whiteSpace: \"nowrap\"'>1</span> Rd. um <span style='whiteSpace: \"nowrap\"'>100</span>\_% erhöht.</span>"
+  "118":
+    Name: Uhrmacher der maschinellen Traumspiele
+    Description2pc: "<span>Erhöht Brucheffekt um <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
+    Description4pc: "<span>Wenn der Träger seinen Ultimate auf einen Verbündeten anwendet, wird der Brucheffekt aller Verbündeten für <span style='whiteSpace: \"nowrap\"'>2</span> Rd. um <span style='whiteSpace: \"nowrap\"'>30%</span> erhöht. Dieser Effekt ist nicht stapelbar.</span>"
+  "119":
+    Name: Eiserne Kavallerie gegen die Plage
+    Description2pc: "<span>Erhöht Brucheffekt um <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
+    Description4pc: "<span>Wenn der Brucheffekt des Trägers <span style='whiteSpace: \"nowrap\"'>150%</span> oder mehr beträgt, wird beim Verursachen von Bruch-SCH <span style='whiteSpace: \"nowrap\"'>10%</span> der VTD des gegnerischen Ziels ignoriert. Wenn der Brucheffekt des Trägers <span style='whiteSpace: \"nowrap\"'>250%</span> oder mehr beträgt, wird beim Verursachen von Super-Bruch-SCH zusätzlich <span style='whiteSpace: \"nowrap\"'>15%</span> der VTD des gegnerischen Ziels ignoriert.</span>"
+  "120":
+    Name: Tapferer Krieger des Winds
+    Description2pc: "<span>Erhöht den ANG um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Erhöht die KRIT-Rate des Trägers um <span style='whiteSpace: \"nowrap\"'>6%</span>. Wenn der Träger einen Folgeangriff einsetzt, wird der durch Ultimates verursachte SCH für <span style='whiteSpace: \"nowrap\"'>1</span> Rd. um <span style='whiteSpace: \"nowrap\"'>36%</span> erhöht.</span>"
+  "301":
+    Name: Raumstation für Versiegelung
+    Description2pc: "<span>Erhöht ANG des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span>. Wenn die GES des Trägers <span style='whiteSpace: \"nowrap\"'>120</span> oder höher erreicht, wird sein ANG zusätzlich um <span style='whiteSpace: \"nowrap\"'>12%</span> erhöht.</span>"
+  "302":
+    Name: Flotte der Alterslosen
+    Description2pc: "<span>Erhöht die max. LP des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span>. Wenn die GES des Trägers <span style='whiteSpace: \"nowrap\"'>120</span> oder höher erreicht, wird der ANG aller Verbündeten zusätzlich um <span style='whiteSpace: \"nowrap\"'>8%</span> erhöht.</span>"
+  "303":
+    Name: Pangalaktische Handelsgesellschaft
+    Description2pc: "<span>Erhöht die Effekt-Trefferrate des Trägers um <span style='whiteSpace: \"nowrap\"'>10%</span>. Erhöht gleichzeitig den ANG des Trägers in Höhe von <span style='whiteSpace: \"nowrap\"'>25%</span> der Effekt-Trefferrate, bis zu einem Höchstwert von <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+  "304":
+    Name: Belobog der Architekten
+    Description2pc: "<span>Erhöht die VTD des Trägers um <span style='whiteSpace: \"nowrap\"'>15%</span>. Wenn die Effekt-Trefferrate des Trägers <span style='whiteSpace: \"nowrap\"'>50%</span> oder höher erreicht, wird seine VTD zusätzlich um <span style='whiteSpace: \"nowrap\"'>15%</span> erhöht.</span>"
+  "305":
+    Name: Himmlischer Differenziator
+    Description2pc: "<span>Erhöht den KRIT-SCH des Trägers um <span style='whiteSpace: \"nowrap\"'>16%</span>. Wenn der aktuelle KRIT-SCH des Trägers <span style='whiteSpace: \"nowrap\"'>120%</span> oder höher erreicht, wird die KRIT-Rate nach Kampfeintritt um <span style='whiteSpace: \"nowrap\"'>60%</span> erhöht, bis zum Ende seines ersten Angriffs.</span>"
+  "306":
+    Name: Regloses Salsotto
+    Description2pc: "<span>Erhöht die KRIT-Rate des Trägers um <span style='whiteSpace: \"nowrap\"'>8%</span>. Wenn die aktuelle KRIT-Rate des Trägers <span style='whiteSpace: \"nowrap\"'>50%</span> oder höher erreicht, wird der durch Ultimates und Folgeangriffe verursachte SCH um <span style='whiteSpace: \"nowrap\"'>15%</span> erhöht.</span>"
+  "307":
+    Name: Talia – Königreich der Banditen
+    Description2pc: "<span>Erhöht den Brucheffekt des Trägers um <span style='whiteSpace: \"nowrap\"'>16%</span>. Wenn die GES des Trägers <span style='whiteSpace: \"nowrap\"'>145</span> oder höher erreicht, wird der Brucheffekt des Trägers zusätzlich um <span style='whiteSpace: \"nowrap\"'>20%</span> erhöht.</span>"
+  "308":
+    Name: Lebhaftes Vonwacq
+    Description2pc: "<span>Erhöht die Energie-Wiederherstellungsrate des Trägers um <span style='whiteSpace: \"nowrap\"'>5%</span>. Wenn die GES des Trägers <span style='whiteSpace: \"nowrap\"'>120</span> oder höher erreicht, wird seine Aktion beim Kampfeintritt um <span style='whiteSpace: \"nowrap\"'>40%</span> vorgezogen.</span>"
+  "309":
+    Name: Sternenarena
+    Description2pc: "<span>Erhöht die KRIT-Rate des Trägers um <span style='whiteSpace: \"nowrap\"'>8%</span>. Wenn die aktuelle KRIT-Rate des Trägers einen Wert von <span style='whiteSpace: \"nowrap\"'>70%</span> oder höher erreicht, wird der durch Standardangriffe und Fertigkeiten verursachte SCH um <span style='whiteSpace: \"nowrap\"'>20%</span> erhöht.</span>"
+  "310":
+    Name: Gebrochener Kiel
+    Description2pc: "<span>Der Effekt-WDS des Trägers wird um <span style='whiteSpace: \"nowrap\"'>10%</span> erhöht. Wenn der Effekt-WDS des Trägers <span style='whiteSpace: \"nowrap\"'>30%</span> oder mehr beträgt, wird der KRIT-SCH aller Verbündeten um <span style='whiteSpace: \"nowrap\"'>10%</span> erhöht.</span>"
+  "311":
+    Name: Himmelsfront Glamoth
+    Description2pc: "<span>Erhöht den ANG des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span>. Wenn die GES des Trägers <span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span> oder höher erreicht, wird sein verursachter SCH um <span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span> erhöht.</span>"
+  "312":
+    Name: Penacony, Land der Träume
+    Description2pc: "<span>Erhöht die Energie-Wiederherstellungsrate des Trägers um <span style='whiteSpace: \"nowrap\"'>5%</span>. Erhöht den SCH aller anderen Verbündeten im Team mit dem gleichen Typ wie der Träger um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+  "313":
+    Name: Verlassenes Sigonien
+    Description2pc: "<span>Erhöht die KRIT-Rate des Trägers um <span style='whiteSpace: \"nowrap\"'>4%</span>. Wenn Gegner besiegt werden, wird der KRIT-SCH des Trägers bis zu <span style='whiteSpace: \"nowrap\"'>10</span>-mal um <span style='whiteSpace: \"nowrap\"'>4%</span> erhöht.</span>"
+  "314":
+    Name: Izumo-Gensei und Takama-Himmelreich
+    Description2pc: "<span>Erhöht den ANG des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span>. Wenn beim Kampfeintritt mindestens ein Verbündeter dem gleichen Pfad wie der Träger folgt, wird die KRIT-Rate des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span> erhöht.</span>"
+  "315":
+    Name: Duran, Dynastie der rennenden Wölfe
+    Description2pc: "<span>Wenn ein Verbündeter einen Folgeangriff ausführt, erhält der Träger 1 Stapelung „Verdienst“, bis zu <span style='whiteSpace: \"nowrap\"'>5</span> Stapelungen. Jede Stapelung Verdienst erhöht den durch Folgeangriffe verursachten SCH des Trägers um <span style='whiteSpace: \"nowrap\"'>5%</span>. Werden <span style='whiteSpace: \"nowrap\"'>5</span> Stapelungen erreicht, wird der KRIT-SCH des Trägers zusätzlich um <span style='whiteSpace: \"nowrap\"'>25%</span> erhöht.</span>"
+  "316":
+    Name: Schmiede der Kalpagni-Laterne
+    Description2pc: "<span>Erhöht die GES des Trägers um <span style='whiteSpace: \"nowrap\"'>6%</span>. Trifft der Träger einen Gegner mit Feuer-Schwäche, wird sein Brucheffekt für <span style='whiteSpace: \"nowrap\"'>1</span> Rd. um <span style='whiteSpace: \"nowrap\"'>40%</span> erhöht.</span>"
+  "317":
+    Name: Lushaka, die versunkenen See
+    Description2pc: "<span>Erhöht Die Energie-Wiederherstellungsrate des Trägers um <span style='whiteSpace: \"nowrap\"'>5%</span>. Wenn der Träger nicht die erste Figur in der Teamformation ist, wird der ANG der ersten Figur in der Teamformation um <span style='whiteSpace: \"nowrap\"'>12%</span> erhöht.</span>"
+  "318":
+    Name: Wunbanana-Park
+    Description2pc: "<span>Erhöht den KRIT-SCH des Trägers um <span style='whiteSpace: \"nowrap\"'>16%</span>. Befindet sich ein vom Träger beschworenes Ziel auf dem Kampffeld, wird der KRIT-SCH zusätzlich um <span style='whiteSpace: \"nowrap\"'>32%</span> erhöht.</span>"
+Lightcones:
+  "20000":
+    Name: Pfeile
+    SkillName: Krise
+  "20001":
+    Name: Füllhorn
+    SkillName: Gedeihen
+  "20002":
+    Name: Zusammenbruch des Himmels
+    SkillName: Verwüstung
+  "20003":
+    Name: Bernstein
+    SkillName: Stillstand
+  "20004":
+    Name: Leere
+    SkillName: Niedergang
+  "20005":
+    Name: Chor
+    SkillName: Vereint
+  "20006":
+    Name: Datenbank
+    SkillName: Gelehrt
+  "20007":
+    Name: Wurfpfeil
+    SkillName: Kriegsschrei
+  "20008":
+    Name: Feines Obst
+    SkillName: Geschmack
+  "20009":
+    Name: Zerstörtes Zuhause
+    SkillName: Ausrottung
+  "20010":
+    Name: Verteidigung
+    SkillName: Wiederbelebung
+  "20011":
+    Name: Schleife
+    SkillName: Verfolgung
+  "20012":
+    Name: Einklang der Zahnräder
+    SkillName: Schneller Sieg
+  "20013":
+    Name: Generalschlüssel
+    SkillName: Erleuchtung
+  "20014":
+    Name: Gegensätzliches
+    SkillName: Allianz
+  "20015":
+    Name: Aufschwung
+    SkillName: Wesen des Überflusses
+  "20016":
+    Name: Gemeinsamer Untergang
+    SkillName: Legion
+  "20017":
+    Name: Pionierarbeit
+    SkillName: IFK
+  "20018":
+    Name: Verborgener Schatten
+    SkillName: Mechanismus
+  "20019":
+    Name: Vermittlung
+    SkillName: Familie
+  "20020":
+    Name: Weisheit
+    SkillName: Genie
+  "21000":
+    Name: Ein Gespräch nach der OP
+    SkillName: Gegenseitiges Heilen
+  "21001":
+    Name: Gute Nacht, schlaf schön
+    SkillName: Malocher
+  "21002":
+    Name: Der erste Tag meines neuen Lebens
+    SkillName: Genau in diesem Moment
+  "21003":
+    Name: Nur die Stille bleibt
+    SkillName: Aufzeichnung
+  "21004":
+    Name: Erinnerungen an die Vergangenheit
+    SkillName: Altes Foto
+  "21005":
+    Name: Die Maulwürfe heißen dich willkommen
+    SkillName: Fantastisches Abenteuer
+  "21006":
+    Name: Die Geburt des Selbst
+    SkillName: Die Jungfrau im Gemälde
+  "21007":
+    Name: Gefühl der Gemeinsamkeit
+    SkillName: Heilung und Reparatur
+  "21008":
+    Name: Die Augen der Beute
+    SkillName: Selbstvertrauen
+  "21009":
+    Name: Landaus Wahl
+    SkillName: Die Zeit fliegt davon
+  "21010":
+    Name: Schwertkampf
+    SkillName: Eigene Antworten
+  "21011":
+    Name: Planetarisches Rendezvous
+    SkillName: Abreise
+  "21012":
+    Name: Ein geheimes Gelübde
+    SkillName: Keine Mühen scheuen
+  "21013":
+    Name: Die Welt in Aufruhr versetzen
+    SkillName: Die Macht des Klangs
+  "21014":
+    Name: Perfektes Timing
+    SkillName: Brechung der Sichtlinie
+  "21015":
+    Name: Die Entschlusskraft glitzert als Schweißperlen
+    SkillName: Zurückblicken
+  "21016":
+    Name: Trend des universellen Markts
+    SkillName: Für eine neue Runde mischen
+  "21017":
+    Name: Abonniere für mehr!
+    SkillName: Gib uns einen Like, bevor du gehst!
+  "21018":
+    Name: Tanz! Tanz! Tanz!
+    SkillName: Unaufhaltsam!
+  "21019":
+    Name: Unter dem blauen Himmel
+    SkillName: Wogender Weizen unter der Sonne
+  "21020":
+    Name: Die Rast der Genies
+    SkillName: Jeder muss jetzt eine Rolle spielen
+  "21021":
+    Name: Quid pro quo
+    SkillName: Im Rausch genießen
+  "21022":
+    Name: Fermate
+    SkillName: Semibrevis-Pause
+  "21023":
+    Name: Wir sind Wildfeuer
+    SkillName: Mit tränenden Augen
+  "21024":
+    Name: Flüsse plätschern im Frühling
+    SkillName: Die nachklingende Kälte abwehren
+  "21025":
+    Name: Vergangenheit und Zukunft
+    SkillName: Drachen aus der Vergangenheit
+  "21026":
+    Name: Wuff! Zeit zum Laufen!
+    SkillName: Lauf!
+  "21027":
+    Name: Die Ernsthaftigkeit des Frühstücks
+    SkillName: Mach dich bereit
+  "21028":
+    Name: Warme Nächte dauern nicht lange
+    SkillName: Kleines Licht
+  "21029":
+    Name: Wir werden uns wiedersehen
+    SkillName: Ein Diskurs in Waffen
+  "21030":
+    Name: Das bin ich!
+    SkillName: Neues Kapitel
+  "21031":
+    Name: Rückkehr in die Dunkelheit
+    SkillName: Tosende Wellen
+  "21032":
+    Name: Den Mond schnitzen, die Wolken weben
+    SkillName: Geheimnis
+  "21033":
+    Name: Nirgends zu fliehen
+    SkillName: Krise
+  "21034":
+    Name: Heute ist wieder ein friedlicher Tag
+    SkillName: Ein Sturm zieht auf
+  "21035":
+    Name: Sache der Wahrheit
+    SkillName: Hypothese
+  "21036":
+    Name: Abenteuer in Traumstadt
+    SkillName: Solidarität
+  "21037":
+    Name: Endgültiger Sieger
+    SkillName: Die Wette gilt
+  "21038":
+    Name: Feuer in der Ferne
+    SkillName: Deflagration
+  "21039":
+    Name: Schicksalsfaden
+    SkillName: Einblick
+  "21040":
+    Name: Tag des kosmischen Kollapses
+    SkillName: Strategem
+  "21041":
+    Name: Vorhang auf
+    SkillName: Selbstbelustigung
+  "21042":
+    Name: Verewigtes Versprechen
+    SkillName: Erbe
+  "21043":
+    Name: Konzert für zwei
+    SkillName: Inspirieren
+  "21044":
+    Name: Grenzenloser Tanz
+    SkillName: Prüfen
+  "21045":
+    Name: Nach dem Fall der Harmonie
+    SkillName: Stille
+  "21046":
+    Name: Jugend in Erwartung der Entflammung
+    SkillName: Verliere nicht, vergiss nicht
+  "21047":
+    Name: Die Nacht der langen Schatten
+    SkillName: Verstecken
+  "22000":
+    Name: Bevor das Tutorial beginnt
+    SkillName: Flinke Hände
+  "22001":
+    Name: Hey, ich bin hier
+    SkillName: Hab keine Angst
+  "22002":
+    Name: Für die Reise von morgen
+    SkillName: Verketten
+  "23000":
+    Name: Nacht auf der Milchstraße
+    SkillName: Meteoritenschwarm
+  "23001":
+    Name: In der Nacht
+    SkillName: Blumen und Schmetterlinge
+  "23002":
+    Name: Etwas Unersetzliches
+    SkillName: Teil der Familie
+  "23003":
+    Name: Der Kampf ist nicht vorbei
+    SkillName: Erbin
+  "23004":
+    Name: Im Namen der Welt
+    SkillName: Nachkomme
+  "23005":
+    Name: Moment des Sieges
+    SkillName: Urteilsspruch
+  "23006":
+    Name: Nur Geduld
+    SkillName: Spinnennetz
+  "23007":
+    Name: Unaufhörlicher Regen
+    SkillName: Trugbild der Realität
+  "23008":
+    Name: Echos des Sarges
+    SkillName: Dornen
+  "23009":
+    Name: Unerreichbares Jenseits
+    SkillName: Unerfüllte Sehnsucht
+  "23010":
+    Name: Vor der Dämmerung
+    SkillName: Lange Nacht
+  "23011":
+    Name: Ihre Augen sind bereits geschlossen
+    SkillName: Sicht
+  "23012":
+    Name: Schlafen wie die Toten
+    SkillName: Süßer Traum
+  "23013":
+    Name: Die Zeit wartet auf niemanden
+    SkillName: Morgens, mittags, abends und nachts
+  "23014":
+    Name: Eins mit dem Schwert
+    SkillName: Mit dieser Abendjade
+  "23015":
+    Name: Heller als die Sonne
+    SkillName: Dem Tode trotzend
+  "23016":
+    Name: Besorgt doch glückselig
+    SkillName: Einer nach dem Anderen
+  "23017":
+    Name: Nacht der Angst
+    SkillName: Atme tief durch
+  "23018":
+    Name: Ein unvergesslicher Augenblick
+    SkillName: Ritterreise
+  "23019":
+    Name: Das Ich im Spiegel
+    SkillName: Pflaumenduft
+  "23020":
+    Name: Taufe des reinen Denkens
+    SkillName: Denktraining
+  "23021":
+    Name: Eskapade auf Erden
+    SkillName: Wankelmut
+  "23022":
+    Name: Restaurierte Erinnerung
+    SkillName: Kristallisiert
+  "23023":
+    Name: Ungerechtes Schicksal
+    SkillName: Alles auf den Tisch
+  "23024":
+    Name: Entlang am vorbeiziehenden Ufer
+    SkillName: Fährmann
+  "23025":
+    Name: Wohin sollen die Träume gehen
+    SkillName: Metamorphose
+  "23026":
+    Name: Schillernde Nacht
+    SkillName: Trösten
+  "23027":
+    Name: Auf zu einem zweiten Leben
+    SkillName: Starker Wellengang
+  "23028":
+    Name: Doch Hoffnung ist unbezahlbar
+    SkillName: Versprechen
+  "23029":
+    Name: Jene unzähligen Frühlinge
+    SkillName: Weltliches hinterlässt keine Spur
+  "23030":
+    Name: Tanz im Sonnenuntergang
+    SkillName: Tief versunken
+  "23031":
+    Name: Ich wage die Jagd
+    SkillName: Einschüchtern
+  "23032":
+    Name: Nur ein Duft bleibt zurück
+    SkillName: Erleichterung
+  "24000":
+    Name: Der Niedergang eines Äons
+    SkillName: Wie Motten ins Licht
+  "24001":
+    Name: Fahrt durch das Sternenmeer
+    SkillName: Jagen
+  "24002":
+    Name: Textur der Erinnerungen
+    SkillName: Schätzen
+  "24003":
+    Name: Einzelne Heilung
+    SkillName: Chaoselixier
+  "24004":
+    Name: Unermüdliche Berechnung
+    SkillName: Gedanken ohne Grenzen
+Paths:
+  Warrior: Die Zerstörung
+  Rogue: Die Jagd
+  Mage: Die Gelehrsamkeit
+  Shaman: Die Harmonie
+  Warlock: Die Nichtigkeit
+  Knight: Die Bewahrung
+  Priest: Der Überfluss
+  Unknown: Universal
+Elements:
+  Physical: Physisch
+  Fire: Feuer
+  Ice: Eis
+  Thunder: Blitz
+  Wind: Wind
+  Quantum: Quanten
+  Imaginary: Imaginär

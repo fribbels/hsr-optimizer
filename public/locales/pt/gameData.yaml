@@ -1,0 +1,3274 @@
+Characters:
+  "1001":
+    Name: 7 de Março
+    Abilities:
+      "100101":
+        Name: Flecha Glacial
+        Desc: <span>Causa Dano de Gelo leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "100102":
+        Name: O Poder da Fofura
+        Desc: <span></span><span style='color:#f29e38ff'>Aplica um Escudo</span><span> em um único aliado.</span>
+        Type: Perícia
+      "100103":
+        Name: Cascata Glacial
+        Desc: <span>Causa Dano de Gelo a </span><span style='color:#f29e38ff'>todos os inimigos</span><span>, com </span><span style='color:#f29e38ff'>uma chance de aplicar o efeito de Congelamento</span><span> a eles.</span>
+        Type: Perícia Suprema
+      "100104":
+        Name: Poder Feminino
+        Desc: <span>Depois que um aliado com Escudo é atacado por um inimigo, 7 de Março </span><span style='color:#f29e38ff'>realiza imediatamente um <u>Contra-Ataque</u></span><span> contra o atacante, causando Dano de Gelo leve.</span>
+        Type: Talento
+      "100106":
+        Name: Ataque
+        Desc: ""
+      "100107":
+        Name: Beleza Glacial
+        Desc: <span>Ataca o inimigo. Depois de entrar em batalha, existe uma alta chance de infligir Congelamento em um inimigo aleatório.</span>
+        Type: Técnica
+    Eidolons:
+      "100101":
+        Name: Memória de Você
+        Desc: <span>Sempre que a Perícia Suprema de 7 de Março Congelar um alvo, ela regenera 6 de Energia.</span>
+      "100102":
+        Name: Memória de Ser
+        Desc: <span>Ao entrar na batalha, concede um Escudo igual a 24% da DEF de 7 de Março + 320 ao aliado com a menor porcentagem de PV, durando por 3 rodada(s).</span>
+      "100103":
+        Name: Memória de Tudo
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "100104":
+        Name: Nunca se Renda de Novo
+        Desc: <span>O efeito Contra-Ataque do Talento pode ser ativado 1 vez mais em cada rodada. O Dano causado por Contra-Ataques aumenta em 30% da DEF de 7 de Março.</span>
+      "100105":
+        Name: Nunca se Esqueça de Novo
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "100106":
+        Name: É Sempre Assim...
+        Desc: <span>Aliados sob a proteção do Escudo concedido pela Perícia restauram PV equivalentes a 4% de seus PV máximos + 106 no início de cada rodada.</span>
+  "1002":
+    Name: Dan Heng
+    Abilities:
+      "100201":
+        Name: "Arte de Lanceiro das Nuvens: Ventos do Norte"
+        Desc: <span>Causa Dano de Vento leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "100202":
+        Name: "Arte de Lanceiro das Nuvens: Enxurrada"
+        Desc: <span>Causa Dano de Vento a um único inimigo. Ao realizar um Acerto CRIT, há altas chances de causar Lentidão no inimigo.</span>
+        Type: Perícia
+      "100203":
+        Name: Sonho Etéreo
+        Desc: <span>Causa Dano de Vento massivo a um inimigo. Se o inimigo estiver sofrendo de Lentidão, o multiplicador de Dano causado será maior.</span>
+        Type: Perícia Suprema
+      "100204":
+        Name: Superioridade de Alcance
+        Desc: <span>Quando esta unidade se torna o alvo de uma habilidade de um aliado, a <u>PEN de RES</u> a </span><span style='color:#f29e38ff'>Vento</span><span> do próximo ataque dessa unidade aumenta. Este efeito pode ser ativado novamente depois de 2 rodadas.</span>
+        Type: Talento
+      "100206":
+        Name: Ataque
+        Desc: ""
+      "100207":
+        Name: Ponta de Lança Divisora
+        Desc: <span>Após usar a sua Técnica, seu ATQ é aumentado no início da próxima batalha.</span>
+        Type: Técnica
+    Eidolons:
+      "100201":
+        Name: Quanto Mais Alto Você Voa, De Mais Alto Você Cai
+        Desc: <span>Quando o inimigo-alvo atacado tem 50% ou mais de PV, a Chance de CRIT aumenta em 12%.</span>
+      "100202":
+        Name: Amainar o Octeto Venenoso, Saciar o Vício das Chamas
+        Desc: <span>Reduz a recarga do Talento em 1 rodada.</span>
+      "100203":
+        Name: Visível e Despercebido
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "100204":
+        Name: Dragão Rugindo e Sol Crescente
+        Desc: <span>Quando Dan Heng usa sua Perícia Suprema para derrotar um inimigo, ele agirá novamente imediatamente.</span>
+      "100205":
+        Name: Uma Gota de Chuva Alimenta Uma Torrente
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "100206":
+        Name: A Alma Inquieta Aguarda
+        Desc: <span>O estado de Lentidão ativado pela Perícia reduz a VEL do inimigo em mais 8%.</span>
+  "1003":
+    Name: Himeko
+    Abilities:
+      "100301":
+        Name: Ajuste de Lâmina de Serra
+        Desc: <span>Causa Dano de Fogo leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "100302":
+        Name: Detonação por Fusão
+        Desc: <span>Causa Dano de Fogo a um único inimigo e Dano de Fogo leve a inimigos adjacentes a ele.</span>
+        Type: Perícia
+      "100303":
+        Name: Chama Celestial
+        Desc: <span>Causa Dano de Fogo a todos os inimigos. Se inimigos forem derrotados, regenera Energia.</span>
+        Type: Perícia Suprema
+      "100304":
+        Name: Corrida da Vitória
+        Desc: <span>Ganha Carga quando um inimigo sofre a Quebra de Fraqueza.<br>Depois que um aliado realiza um ataque, se estiver completamente Carregado, </span><span style='color:#f29e38ff'>realiza imediatamente um <u>Ataque Extra</u></span><span> e causa Dano de Fogo a </span><span style='color:#f29e38ff'>todos os inimigos</span><span>, consumindo todos os pontos de Carga.<br>Ganha 1 ponto de Carga no início de cada batalha.</span>
+        Type: Talento
+      "100306":
+        Name: Ataque
+        Desc: ""
+      "100307":
+        Name: Combustão Incompleta
+        Desc: <span>Cria uma dimensão especial. Depois de entrar em combate com inimigos na dimensão, existe uma alta chance de </span><span style='color:#f29e38ff'>aumentar o Dano de Fogo recebido pelos inimigos</span><span>.</span>
+        Type: Técnica
+    Eidolons:
+      "100301":
+        Name: Infância
+        Desc: <span>Após a "Corrida da Vitória" ser ativada, a VEL de Himeko tem um aumento de 20% por 2 rodada(s).</span>
+      "100302":
+        Name: Convergência
+        Desc: <span>Causa 15% de Dano extra a inimigos cuja porcentagem de PV for igual ou menor que 50%.</span>
+      "100303":
+        Name: Equilíbrio
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "100304":
+        Name: Dedicação
+        Desc: <span>Quando a Perícia de Himeko infligir Quebra de Fraqueza em um inimigo, ela ganha 1 ponto(s) extras de Carga.</span>
+      "100305":
+        Name: Aspiração
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "100306":
+        Name: Desbravamento!
+        Desc: <span>A Perícia Suprema causa dano mais duas vezes, causando também Dano de Fogo igual a 40% do Dano original a um inimigo aleatório.</span>
+  "1004":
+    Name: Welt
+    Abilities:
+      "100401":
+        Name: Supressão Gravitacional
+        Desc: <span>Causa Dano Imaginário leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "100402":
+        Name: Borda do Vazio
+        Desc: <span>Causa Dano Imaginário leve a um único inimigo. Este ataque pode ser Rebatido 3 vezes, com chance de causar </span><span style='color:#f29e38ff'>Lentidão</span><span> aos inimigos atingidos.</span>
+        Type: Perícia
+      "100403":
+        Name: Buraco Negro Sintético
+        Desc: <span>Causa Dano Imaginário a todos os inimigos, com </span><span style='color:#f29e38ff'>altas chances de também causar Aprisionamento</span><span>.</span>
+        Type: Perícia Suprema
+      "100404":
+        Name: Distorção Temporal
+        Desc: <span>Ao golpear um inimigo com Lentidão, </span><span style='color:#f29e38ff'>adicionalmente causa <u>Dano Adicional</u></span><span> Imaginário leve.</span>
+        Type: Talento
+      "100406":
+        Name: Ataque
+        Desc: ""
+      "100407":
+        Name: Aprisionamento Gravitacional
+        Desc: <span>Cria uma dimensão especial. Inimigos nessa dimensão têm sua VEL de Movimento reduzida. Depois de entrar em combate com inimigos na dimensão, existe uma </span><span style='color:#f29e38ff'>alta chance dos inimigos sofrerem de Aprisionamento.</span><span></span>
+        Type: Técnica
+    Eidolons:
+      "100401":
+        Name: Legado de Honra
+        Desc: <span>Depois de usar sua Perícia Suprema, Welt é aprimorado. Então, a(s) próxima(s) 2 vez(es) que ele usar seu ATQ Básico ou Perícia, causa 1 instância extra de Dano Adicional ao inimigo-alvo. O Dano Adicional causado ao utilizar o ATQ Básico é igual a 50% do Multiplicador de Dano do ATQ Básico. O Dano Adicional causado ao utilizar a Perícia é igual a 80% do Multiplicador de Dano da Perícia.</span>
+      "100402":
+        Name: Confluência Estelar
+        Desc: <span>Quando seu Talento é ativado, Welt regenera 3 de Energia.</span>
+      "100403":
+        Name: Prece da Paz
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "100404":
+        Name: Apelação da Justiça
+        Desc: <span>A chance-base para a Perícia infligir Redução de VEL aumenta em 35%.</span>
+      "100405":
+        Name: Poder da Bondade
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "100406":
+        Name: Perspectiva Brilhante
+        Desc: <span>Ao usar a Perícia, causa Dano 1 vez a mais a um inimigo aleatório.</span>
+  "1005":
+    Name: Kafka
+    Abilities:
+      "100501":
+        Name: Tumulto da Meia-noite
+        Desc: <span>Causa Dano de Raio leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "100502":
+        Name: Luar Carinhoso
+        Desc: <span>Causa Dano de Raio a um único inimigo e Dano de Raio leve a alvos adjacentes.<br>Se o inimigo-alvo principal estiver atualmente infligido com efeito de Dano Contínuo, este efeito </span><span style='color:#f29e38ff'>causa Dano mais 1 vez</span><span>.</span>
+        Type: Perícia
+      "100503":
+        Name: Vibração do Crepúsculo
+        Desc: <span>Causa Dano de Raio leve a todos os inimigos, com altas chances de causar </span><span style='color:#f29e38ff'>Choque</span><span>.<br>Se os inimigos já estiverem com Choque, o estado de Choque </span><span style='color:#f29e38ff'>causa Dano mais 1 vez</span><span>.</span>
+        Type: Perícia Suprema
+      "100504":
+        Name: Gentil, Mas Cruel
+        Desc: <span>Após um aliado usar um ATQ Básico em um inimigo, Kafka realiza imediatamente um <u>Ataque Extra</u> e causa Dano de Raio, com altas chances de </span><span style='color:#f29e38ff'>infligir Choque</span><span> a este alvo. Este efeito só pode ser ativado 1 vez por rodada.</span>
+        Type: Talento
+      "100506":
+        Name: Ataque
+        Desc: ""
+      "100507":
+        Name: Misericórdia Não É Perdão
+        Desc: <span>Ataca todos os inimigos num certo alcance. Depois de entrar em batalha, causa Dano de Raio leve a todos os inimigos com alta chance de </span><span style='color:#f29e38ff'>infligir Choque</span><span> neles.</span>
+        Type: Técnica
+    Eidolons:
+      "100501":
+        Name: Da Capo
+        Desc: <span>Quando o Talento ativa um Ataque Extra, há 100% de chance-base de aumentar o Dano Contínuo recebido pelo alvo em 30% por 2 rodada(s).</span>
+      "100502":
+        Name: Fortississimo
+        Desc: <span>Enquanto Kafka está no campo, o Dano Contínuo causado por todos os aliados aumenta em 25%.</span>
+      "100503":
+        Name: Capriccio
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "100504":
+        Name: Recitativo
+        Desc: <span>Quando um inimigo-alvo recebe Dano do status de Choque infligido por Kafka, Kafka regenera adicionalmente 2 de Energia.</span>
+      "100505":
+        Name: Doloroso
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "100506":
+        Name: Leggiero
+        Desc: <span>O Choque causado no inimigo pela Perícia Suprema, pela Técnica, ou pelo Ataque Extra acionado pelo Talento tem um aumento de 156% no multiplicador de Dano, e dura 1 rodada(s) a mais.</span>
+  "1006":
+    Name: Loba Prateada
+    Abilities:
+      "100601":
+        Name: Aviso do Sistema
+        Desc: <span>Causa Dano Quântico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "100602":
+        Name: Permitir Mudanças?
+        Desc: <span>Existe uma chance alta de </span><span style='color:#f29e38ff'>aplicar Fraquezas de Tipo adicionais</span><span> a um único inimigo e causa Dano Quântico a este inimigo-alvo.</span>
+        Type: Perícia
+      "100603":
+        Name: Usuário Banido
+        Desc: <span>Tem uma chance alta de </span><span style='color:#f29e38ff'>diminuir a DEF de um único inimigo</span><span> e causa Dano Quântico massivo a este inimigo-alvo.</span>
+        Type: Perícia Suprema
+      "100604":
+        Name: Esperando Resposta do Sistema...
+        Desc: <span>Após esta unidade atacar, existe a chance de infligir 1 </span><span style='color:#f29e38ff'>Erro</span><span> aleatório no inimigo atacado.</span>
+        Type: Talento
+      "100606":
+        Name: Ataque
+        Desc: ""
+      "100607":
+        Name: Fechar o Programa
+        Desc: <span>Ataca o inimigo. Após entrar na batalha, causa uma pequena quantidade de Dano a todos os inimigos e reduz a Tenacidade deles independentemente de seus Tipos de Fraquezas.</span>
+        Type: Técnica
+    Eidolons:
+      "100601":
+        Name: Engenharia Social
+        Desc: <span>Após usar sua Perícia Suprema para atacar inimigos, Loba Prateada regenera 7 de Energia para cada penalidade que o inimigo-alvo possui no momento. Este efeito pode ser ativado até 5 vez(es) cada vez que a Perícia Suprema da Loba Prateada for utilizada.</span>
+      "100602":
+        Name: Rede de Zumbis
+        Desc: <span>Quando um inimigo entra na batalha, reduz a RES a Efeito dele em 20%.</span>
+      "100603":
+        Name: Carga Explosiva
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "100604":
+        Name: Ataque Rebote
+        Desc: <span>Após usar sua Perícia Suprema para atacar inimigos, causa Dano Quântico Adicional igual a 20% do ATQ da Loba Prateada para cada penalidade que o inimigo-alvo possui no momento. Este efeito pode ser ativado até 5 vez(es) cada vez que a Perícia Suprema dela for utilizada.</span>
+      "100605":
+        Name: Ataque de Força Bruta
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "100606":
+        Name: Rede Sobreposta
+        Desc: <span>Para cada penalidade do inimigo-alvo, o Dano causado pela Loba Prateada aumenta em 20%, até um limite de 100%.</span>
+  "1008":
+    Name: Arlan
+    Abilities:
+      "100801":
+        Name: Descarga de Raio
+        Desc: <span>Causa Dano de Raio leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "100802":
+        Name: Quebra-Grilhões
+        Desc: <span>Consome uma porção dos PV para causar Dano de Raio a um único inimigo.</span>
+        Type: Perícia
+      "100803":
+        Name: Punição Frenética
+        Desc: <span>Causa Dano de Raio massivo a um único inimigo e Dano de Raio pequeno a inimigos adjacentes a ele.</span>
+        Type: Perícia Suprema
+      "100804":
+        Name: Dor e Raiva
+        Desc: <span>Ganha bônus de Dano </span><span style='color:#f29e38ff'>baseado na</span><span> </span><span style='color:#f29e38ff'>porcentagem atual de PV perdidos</span><span>.</span>
+        Type: Talento
+      "100806":
+        Name: Ataque
+        Desc: ""
+      "100807":
+        Name: Colheita Rápida
+        Desc: <span>Ataca o inimigo. Após entrar na batalha, causa Dano de Raio leve a todos os inimigos.</span>
+        Type: Técnica
+    Eidolons:
+      "100801":
+        Name: Até o Amargo Fim
+        Desc: <span>Quando a porcentagem dos PV estiverem abaixo ou iguais a 50% dos PV máximos, o Dano da Perícia aumenta em 10%.</span>
+      "100802":
+        Name: Libertação
+        Desc: <span>Usar a Perícia ou a Perícia Suprema remove 1 penalidade de si mesmo.</span>
+      "100803":
+        Name: Superação
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "100804":
+        Name: Virando o Jogo
+        Desc: <span>Ao ser atingido por um golpe fatal depois de entrar em batalha, Arlan restaura seus PV igual a 25% de seus PV máximos ao invés de ser derrubado. Esse efeito é removido automaticamente após ser ativado uma vez ou depois que 2 rodada(s) tiverem passado.</span>
+      "100805":
+        Name: Fogo da Forja
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "100806":
+        Name: Autossacrifício
+        Desc: <span>Quando a porcentagem atual de PV cai para 50% ou menos, a Perícia Suprema causa 20% a mais de Dano e o multiplicador de Dano para alvos adjacentes é elevado ao mesmo nível que o do alvo principal.</span>
+  "1009":
+    Name: Asta
+    Abilities:
+      "100901":
+        Name: Raio Espectral
+        Desc: <span>Causa Dano de Fogo leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "100902":
+        Name: Tempestade de Meteoros
+        Desc: <span>Causa Dano de Fogo leve a alvos únicos inimigos e é rebatido 5 vezes.</span>
+        Type: Perícia
+      "100903":
+        Name: Bênção Astral
+        Desc: <span></span><span style='color:#f29e38ff'>Aumenta a VEL</span><span> de todos os aliados.</span>
+        Type: Perícia Suprema
+      "100904":
+        Name: Astrometria
+        Desc: <span>O personagem receberá 1 acúmulo de Carga para cada inimigo diferente que atacar, com um máximo de 5 acúmulos. Cada acúmulo de Carga aumenta o ATQ de todos os aliados. Os acúmulos de Carga são reduzidos no início de cada rodada.</span>
+        Type: Talento
+      "100906":
+        Name: Ataque
+        Desc: ""
+      "100907":
+        Name: Lampejo Milagroso
+        Desc: <span>Ataca o inimigo. Depois de entrar em batalha, causa Dano leve a todos os inimigos.</span>
+        Type: Técnica
+    Eidolons:
+      "100901":
+        Name: As Estrelas Cantam Sem Versos ou Vocais
+        Desc: <span>Ao usar a Perícia, causa Dano 1 vez a mais a um inimigo aleatório.</span>
+      "100902":
+        Name: A Lua Fala com Uma Voz Inconstante
+        Desc: <span>Ao usar sua Perícia Suprema, os acúmulos de Carga de Asta não serão reduzidos na próxima rodada.</span>
+      "100903":
+        Name: Chuva de Meteoros do Desejo
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "100904":
+        Name: A Aurora Aquece com Beleza e Alegria
+        Desc: <span>A Taxa de Regeneração de Energia de Asta aumenta em 15% quando ela tem 2 ou mais acúmulos de Carga.</span>
+      "100905":
+        Name: A Nebulosa se Isola em Runas e Enigmas
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "100906":
+        Name: Sonhos Cósmicos Tranquilos e Confortáveis
+        Desc: <span>A perda de acúmulo(s) de carregamento a cada rodada é diminuída em 1.</span>
+  "1013":
+    Name: Herta
+    Abilities:
+      "101301":
+        Name: Está Olhando o Quê?
+        Desc: <span>Causa Dano de Gelo leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "101302":
+        Name: Oferta Única
+        Desc: <span>Causa Dano de Gelo leve a todos os inimigos. Alvos com mais PV recebem mais Dano.</span>
+        Type: Perícia
+      "101303":
+        Name: É Magia, Eu Adicionei Magia
+        Desc: <span>Causa Dano de Gelo a todos os inimigos.</span>
+        Type: Perícia Suprema
+      "101304":
+        Name: Está Bem, Eu Cuido Disso
+        Desc: "<span>Quando o ataque de qualquer aliado reduz a porcentagem dos PV do inimigo-alvo para </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>50%</span></span><span> ou menos, Herta imediatamente desfere </span><span style='color:#f29e38ff'><u>Ataque Extra</u></span><span>, causando Dano de Gelo leve a todas as unidades inimigas.</span>"
+        Type: Talento
+      "101306":
+        Name: Ataque
+        Desc: ""
+      "101307":
+        Name: Ainda É Possível Otimizar
+        Desc: <span>Depois de usar a Técnica, aumenta o ATQ desta unidade no início da próxima batalha.</span>
+        Type: Técnica
+    Eidolons:
+      "101301":
+        Name: Vai Ficar Ainda Pior
+        Desc: <span>Se o percentual de PV do inimigo for 50% ou menos, o ATQ Básico de Herta causa Dano de Gelo Adicional igual a 40% do ATQ dela.</span>
+      "101302":
+        Name: Dar o Pontapé Inicial
+        Desc: <span>Sempre que o Talento for ativado, a chance de CRIT deste personagem aumenta em 3%. Este efeito pode se acumular até 5 vez(es).</span>
+      "101303":
+        Name: Eu Sou Este Tipo de Garota
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "101304":
+        Name: Dedo na Ferida
+        Desc: <span>O Dano aumenta em 10% quando o Talento for ativado.</span>
+      "101305":
+        Name: Se For Xingar, Xingue Direito
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "101306":
+        Name: Ninguém Pode Me Trair
+        Desc: <span>Após usar a Perícia Suprema, o ATQ deste personagem aumenta em 25% por 1 rodada(s).</span>
+  "1101":
+    Name: Bronya
+    Abilities:
+      "110101":
+        Name: Munição de Ventos Fortes
+        Desc: <span>Causa Dano de Vento leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "110102":
+        Name: Redistribuição de Combate
+        Desc: <span></span><span style='color:#f29e38ff'>Remove</span><span> 1 </span><span style='color:#f29e38ff'><u>penalidade</u></span><span> de um único aliado, </span><span style='color:#f29e38ff'>aumenta o dano que ele causa</span><span> e permite que ele </span><span style='color:#f29e38ff'>aja imediatamente</span><span>.</span>
+        Type: Perícia
+      "110103":
+        Name: A Marcha de Belobog
+        Desc: <span>Aumenta o </span><span style='color:#f29e38ff'>ATQ</span><span> e o </span><span style='color:#f29e38ff'>Dano CRIT</span><span> de todos os aliados.</span>
+        Type: Perícia Suprema
+      "110104":
+        Name: Liderança
+        Desc: <span>Depois que esta personagem usa o ATQ Básico, a próxima ação dela será <u>Avançada Adiante</u>.</span>
+        Type: Talento
+      "110106":
+        Name: Ataque
+        Desc: ""
+      "110107":
+        Name: Bandeira de Comando
+        Desc: <span>Depois que esta personagem usa a Técnica, aumenta o ATQ de todos os aliados no início da próxima batalha.</span>
+        Type: Técnica
+    Eidolons:
+      "110101":
+        Name: Aprimore Sua Força
+        Desc: <span>Ao usar a Perícia, há 50% de chance fixa de recuperar 1 Ponto de Perícia. Este efeito tem recarga de 1 rodada.</span>
+      "110102":
+        Name: Marcha Rápida
+        Desc: <span>Ao usar a Perícia, a VEL do aliado-alvo aumenta em 30% depois de realizar a ação, e dura 1 rodada.</span>
+      "110103":
+        Name: Bombardeio
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "110104":
+        Name: Pegue de Surpresa
+        Desc: <span>Após qualquer outro aliado usar um ATQ Básico em um inimigo-alvo com Fraqueza contra Vento, Bronya realiza 1 Ataque Extra imediatamente contra o alvo, causando Dano de Vento equivalente a 80% do Dano do ATQ Básico. Este efeito só pode ser ativado 1 vez por rodada.</span>
+      "110105":
+        Name: Incontrolável
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "110106":
+        Name: Arco-íris Perfurante
+        Desc: <span>A duração do efeito de Bônus de Dano da Perícia no aliado-alvo aumenta em 1 rodada(s).</span>
+  "1102":
+    Name: Seele
+    Abilities:
+      "110201":
+        Name: Agressão
+        Desc: <span>Causa Dano Quântico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "110202":
+        Name: Lâmina Embainhada
+        Desc: <span>Causa Dano Quântico a um único inimigo e aumenta a VEL.</span>
+        Type: Perícia
+      "110203":
+        Name: Enxurrada de Borboletas
+        Desc: <span>Entra no </span><span style='color:#f29e38ff'>modo Amplificação</span><span> e causa Dano Quântico massivo a um único inimigo.</span>
+        Type: Perícia Suprema
+      "110204":
+        Name: Ressurgimento
+        Desc: <span>Ao </span><span style='color:#f29e38ff'>derrotar inimigos-alvo</span><span> com um ATQ Básico, Perícia ou Perícia Suprema, ganha uma </span><span style='color:#f29e38ff'><u>rodada extra</u> e entra no estado de Amplificação</span><span>. Enquanto estiver em Amplificação, o Dano causado por esta unidade é aumentado.</span>
+        Type: Talento
+      "110206":
+        Name: Ataque
+        Desc: ""
+      "110207":
+        Name: Ilusão Factícia
+        Desc: <span>Entra no modo de </span><span style='color:#f29e38ff'>Furtividade</span><span>. Após atacar um inimigo e entrar em batalha, entra no </span><span style='color:#f29e38ff'>modo Amplificação</span><span>.</span>
+        Type: Técnica
+    Eidolons:
+      "110201":
+        Name: Golpe Extirpador
+        Desc: <span>Ao causar Dano a um inimigo com 80% ou menos de PV, a Chance de CRIT aumenta em 15%.</span>
+      "110202":
+        Name: Borboleta Dançarina
+        Desc: <span>O Bônus de VEL da Perícia de Seele pode acumular até 2 vez(es).</span>
+      "110203":
+        Name: Tumulto Deslumbrante
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "110204":
+        Name: Fantasma Esvoaçante
+        Desc: <span>Seele regenera 15 de Energia quando derrota um inimigo.</span>
+      "110205":
+        Name: Estilhaços Perfurantes
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "110206":
+        Name: Confusão Devastadora
+        Desc: <span>Após Seele usar sua Perícia Suprema, inflige Enxurrada de Borboletas ao inimigo-alvo por 1 rodada(s). Inimigos afetados recebem Dano Adicional igual a 15% do Dano da Perícia Suprema de Seele como Dano Quântico cada vez que forem atacados. Se o inimigo-alvo for derrotado pelo Dano de Enxurrada de Borboletas ativado pelo ataque de outros aliados, o Talento de Seele não poderá ser ativado.<br>Quando Seele é derrubada, a Enxurrada de Borboletas infligida aos inimigos será removida.</span>
+  "1103":
+    Name: Serval
+    Abilities:
+      "110301":
+        Name: Trovoada Estrondosa
+        Desc: <span>Causa Dano de Raio leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "110302":
+        Name: Clarão de Raio
+        Desc: <span>Causa Dano de Raio leve a um único inimigo e quaisquer alvos adjacentes, com uma alta chance de causar </span><span style='color:#f29e38ff'>Choque</span><span>.</span>
+        Type: Perícia
+      "110303":
+        Name: A Febre Mecânica Ataca
+        Desc: <span>Causa Dano de Raio a todos os inimigos e aumenta a duração de Choque.</span>
+        Type: Perícia Suprema
+      "110304":
+        Name: Cordas Galvânicas
+        Desc: <span>Após atacar, causa </span><span style='color:#f29e38ff'>uma pequena quantidade de <u>Dano Adicional</u></span><span> a todos os inimigos com Choque.</span>
+        Type: Talento
+      "110306":
+        Name: Ataque
+        Desc: ""
+      "110307":
+        Name: Boa Noite, Belobog
+        Desc: <span>Ataca o inimigo. Após entrar na batalha, causa Dano de Raio leve a um inimigo aleatório, com altas chances de infligir </span><span style='color:#f29e38ff'>Choque</span><span> a todos os inimigos-alvo.</span>
+        Type: Técnica
+    Eidolons:
+      "110301":
+        Name: Câmara do Eco
+        Desc: <span>O ATQ Básico causa Dano de Raio igual a 60% do Dano do ATQ Básico a um inimigo-alvo aleatório adjacente ao inimigo-alvo.</span>
+      "110302":
+        Name: Bis!
+        Desc: <span>Sempre que o Talento de Serval ativar Dano Adicional, ela regenera 4 de Energia.</span>
+      "110303":
+        Name: Ouça o Batimento das Engrenagens
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "110304":
+        Name: Faça Barulho!
+        Desc: <span>A Perícia Suprema tem uma chance-base de 100% de causar Choque em inimigos que ainda não tiverem esse estado. Esse estado de Choque tem os mesmos efeitos daquele causado pela Perícia.</span>
+      "110305":
+        Name: O Rugido Mais Alto de Belobog!
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "110306":
+        Name: Essa Música Abala os Céus!
+        Desc: <span>Serval causa 30% a mais de Dano a inimigos afligidos com Choque.</span>
+  "1104":
+    Name: Gepard
+    Abilities:
+      "110401":
+        Name: Punho da Condenação
+        Desc: <span>Causa Dano de Gelo leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "110402":
+        Name: Golpe Intimidador
+        Desc: <span>Causa Dano de Gelo a um único inimigo, </span><span style='color:#f29e38ff'>com uma chance de causar Congelamento</span><span>.</span>
+        Type: Perícia
+      "110403":
+        Name: Muralha Resistente
+        Desc: <span></span><span style='color:#f29e38ff'>Fornece um Escudo</span><span> para todos os aliados.</span>
+        Type: Perícia Suprema
+      "110404":
+        Name: Vontade Inabalável
+        Desc: <span>Ao ser alvo de um golpe fatal, </span><span style='color:#f29e38ff'>ao invés de ser <u>derrubado</u></span><span>, restaura PV imediatamente. Este efeito só pode ser ativado 1 vez por batalha.</span>
+        Type: Talento
+      "110406":
+        Name: Ataque
+        Desc: ""
+      "110407":
+        Name: Camaradagem
+        Desc: <span>Depois que este personagem usa a Técnica, todos os aliados ganham um Escudo no início da próxima batalha.</span>
+        Type: Técnica
+    Eidolons:
+      "110401":
+        Name: Esforço Necessário
+        Desc: <span>Ao usar a Perícia, aumenta a chance-base de causar Congelamento no inimigo-alvo em 35%.</span>
+      "110402":
+        Name: Frio Perdurante
+        Desc: <span>Depois que um inimigo Congelado pela Perícia descongela, a VEL dele é reduzida em 20% por 1 rodada(s).</span>
+      "110403":
+        Name: Nunca Se Renda
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "110404":
+        Name: A Fé Move Montanhas
+        Desc: <span>Quando Gepard estiver em batalha, a RES a Efeito de todos os aliados aumenta em 20%.</span>
+      "110405":
+        Name: Punho de Ferro Gélido
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "110406":
+        Name: Determinação Inabalável
+        Desc: <span>Quando seu Talento for ativado, Gepard age imediatamente e restaura 50% de seus PV máximos como PV extras.</span>
+  "1105":
+    Name: Natasha
+    Abilities:
+      "110501":
+        Name: Além da Bondade
+        Desc: <span>Causa Dano Físico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "110502":
+        Name: Amor, Cura e Escolha
+        Desc: <span></span><span style='color:#f29e38ff'>Restaura PV </span><span>de um único aliado e concede a </span><span style='color:#f29e38ff'>Cura Periódica</span><span> a ele.</span>
+        Type: Perícia
+      "110503":
+        Name: Presente do Renascimento
+        Desc: <span></span><span style='color:#f29e38ff'>Restaura PV</span><span> de todos os aliados.</span>
+        Type: Perícia Suprema
+      "110504":
+        Name: Enervação
+        Desc: <span>Ao curar aliados com porcentagem dos PV baixa, aumenta a Cura Realizada. Esse efeito também funciona em curas contínuas.</span>
+        Type: Talento
+      "110506":
+        Name: Ataque
+        Desc: ""
+      "110507":
+        Name: Pesquisa Hipnótica
+        Desc: <span>Ataca o inimigo. Depois de entrar em batalha, causa Dano Físico leve a um único inimigo aleatório, com uma alta chance de infligir Fraqueza a todos os inimigos-alvo.</span>
+        Type: Técnica
+    Eidolons:
+      "110501":
+        Name: Especialista em Farmacologia
+        Desc: <span>Após sofrer um ataque, se os PV atuais estiverem em 30% ou menos, cura a si mesma 1 vez para restaurar 15% de seus PV máximos + 400. Este efeito só pode ser ativado uma vez por batalha.</span>
+      "110502":
+        Name: Pesquisa Clínica
+        Desc: <span>Usar a sua Perícia Suprema concede cura contínua por 1 rodada(s) aos aliados com 30% de porcentagem de PV ou menos. No início das suas rodadas, os PV dos aliados são restaurados em 6% dos PV máximos de Natasha + 160.</span>
+      "110503":
+        Name: A Cura Correta
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "110504":
+        Name: Cura Milagrosa
+        Desc: <span>Após sofrer um ataque, 5 de Energia extra.</span>
+      "110505":
+        Name: Tratamento Preventivo
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "110506":
+        Name: Graça da Médica
+        Desc: <span>O ATQ Básico de Natasha adicionalmente causa Dano Físico igual a 40% dos PV máximos dela.</span>
+  "1106":
+    Name: Pela
+    Abilities:
+      "110601":
+        Name: Tiro Gélido
+        Desc: <span>Causa Dano de Gelo leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "110602":
+        Name: Geladura
+        Desc: <span></span><span style='color:#f29e38ff'>Remove</span><span> 1 </span><span style='color:#f29e38ff'><u>melhoria</u></span><span> de um único inimigo-alvo e causa Dano de Gelo ao inimigo-alvo.</span>
+        Type: Perícia
+      "110603":
+        Name: Supressão de Zona
+        Desc: <span>Tem altas chances de </span><span style='color:#f29e38ff'>reduzir a DEF dos inimigos</span><span>, além de causar Dano de Gelo leve a todos os inimigos.</span>
+        Type: Perícia Suprema
+      "110604":
+        Name: Coleta de Dados
+        Desc: <span>Após usar um ataque, se o inimigo-alvo estiver com alguma <u>penalidade</u>, Pela regenera Energia.</span>
+        Type: Talento
+      "110606":
+        Name: Ataque
+        Desc: ""
+      "110607":
+        Name: Ataque Premeditado
+        Desc: <span>Ataca o inimigo. Após entrar na batalha, causa uma pequena quantidade de Dano a um inimigo aleatório, com alta chance de diminuir a DEF de todos os inimigos-alvo.</span>
+        Type: Técnica
+    Eidolons:
+      "110601":
+        Name: Relatório de Vitória
+        Desc: <span>Quando um inimigo é derrotado, Pela regenera 5 de Energia.</span>
+      "110602":
+        Name: Carregamento Rígido
+        Desc: <span>Usar a Perícia para remover uma melhoria aumenta a VEL em 10% por 2 rodada(s).</span>
+      "110603":
+        Name: Força Supressiva
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "110604":
+        Name: Análise Completa
+        Desc: <span>Ao usar a Perícia, há 100% de chance-base de reduzir a RES a Gelo do inimigo-alvo em 12% por 2 rodada(s).</span>
+      "110605":
+        Name: Perigo Total
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "110606":
+        Name: Busca Fraca
+        Desc: <span>Quando Pela ataca um inimigo com alguma penalidade, ela causa Dano de Gelo Adicional igual a 40% do ATQ dela ao inimigo.</span>
+  "1107":
+    Name: Clara
+    Abilities:
+      "110701":
+        Name: Eu Quero Ajudar
+        Desc: <span>Causa Dano Físico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "110702":
+        Name: Svarog Cuida de Você
+        Desc: <span>Causa Dano Físico a todos os inimigos. </span><span style='color:#f29e38ff'>Adicionalmente, causa Dano Físico</span><span> a alvos com Marcas do Contra-Ataque.</span>
+        Type: Perícia
+      "110703":
+        Name: É Uma Promessa, Não Uma Ordem
+        Desc: <span></span><span style='color:#f29e38ff'>Reduz o Dano recebido</span><span>, aumenta as chances de receber ataques de inimigos, e aprimora <u>Contra-Ataques</u>.</span>
+        Type: Perícia Suprema
+      "110704":
+        Name: Porque Somos Uma Família
+        Desc: <span></span><span style='color:#f29e38ff'>O Dano recebido de ataques inimigos é reduzido</span><span>. Inimigos que atacarem Clara serão marcados com uma Marca do Contra-Ataque, e </span><span style='color:#f29e38ff'>receberão um <u>Contra-Ataque</u></span><span> de Svarog que causa Dano Físico.</span>
+        Type: Talento
+      "110706":
+        Name: Ataque
+        Desc: ""
+      "110707":
+        Name: Um Preço Baixo pela Vitória
+        Desc: <span>Ataca o inimigo. Depois de entrar em batalha, a chance desta personagem ser atacada por inimigos aumenta.</span>
+        Type: Técnica
+    Eidolons:
+      "110701":
+        Name: Uma Figura Alta
+        Desc: <span>Usar a Perícia não removerá Marcas do Contra-Ataque do inimigo.</span>
+      "110702":
+        Name: Um Abraço Apertado
+        Desc: <span>Após usar a Perícia Suprema, o ATQ aumenta em 30% por 2 rodada(s).</span>
+      "110703":
+        Name: Armadura de Aço Fria
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "110704":
+        Name: Aconchego Familiar
+        Desc: <span>Após sofrer um ataque, o Dano recebido por Clara é reduzido em 30%. Este efeito dura até o início da rodada seguinte.</span>
+      "110705":
+        Name: Uma Pequena Promessa
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "110706":
+        Name: Longa Companhia
+        Desc: <span>Quando outros aliados são atingidos, Svarog também tem 50% de chance fixa de ativar um Contra-Ataque no atacante e marcá-lo com uma Marca do Contra-Ataque. Ao usar a Perícia Suprema, o número de Contra-Ataque(s) Aprimorado(s) aumenta em 1.</span>
+  "1108":
+    Name: Sampo
+    Abilities:
+      "110801":
+        Name: Lâminas Ofuscantes
+        Desc: <span>Causa Dano de Vento leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "110802":
+        Name: Amor Ricochete
+        Desc: <span>Causa Dano de Vento leve a inimigos-alvo únicos e é Rebatido 5 vezes.</span>
+        Type: Perícia
+      "110803":
+        Name: Presente Surpresa
+        Desc: <span>Causa Dano de Vento a todos os inimigos, com altas chances de causar </span><span style='color:#f29e38ff'>Dano Contínuo aumentado</span><span> a eles.</span>
+        Type: Perícia Suprema
+      "110804":
+        Name: Adaga da Ventania
+        Desc: <span>Depois golpear um inimigo, existe uma chance de infligir </span><span style='color:#f29e38ff'>Cisalhamento de Vento</span><span> no alvo.</span>
+        Type: Talento
+      "110806":
+        Name: Ataque
+        Desc: ""
+      "110807":
+        Name: Brilho Ofuscante
+        Desc: <span>Inimigos em uma determinada área recebem Cegueira. Ao iniciar uma batalha contra um inimigo com Cegueira, existe uma alta chance de <u>atrasar</u> todas as ações inimigas.</span>
+        Type: Técnica
+    Eidolons:
+      "110801":
+        Name: Amor Crescente
+        Desc: <span>Ao usar a Perícia, causa Dano 1 vez(es) a mais a um inimigo aleatório.</span>
+      "110802":
+        Name: Entusiasmo Infeccioso
+        Desc: <span>Derrotar um inimigo com Cisalhamento de Vento concede 100% de chance-base de infligir 1 acúmulo(s) de Cisalhamento de Vento a todos os inimigos, equivalente ao Cisalhamento de Vento do Talento.</span>
+      "110803":
+        Name: Riquinho!
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "110804":
+        Name: Quanto Maior o Amor, Maior o Ódio
+        Desc: <span>Quando a Perícia atinge um inimigo com 5 ou mais acúmulo(s) de Cisalhamento de Vento, o inimigo imediatamente sofre 8% do Dano atual do Cisalhamento de Vento.</span>
+      "110805":
+        Name: Cheeeeio de Grana!
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "110806":
+        Name: Aumento de Gasto
+        Desc: <span>O multiplicador de Dano do Talento para Cisalhamento de Vento aumenta em 15%.</span>
+  "1109":
+    Name: Hook
+    Abilities:
+      "110901":
+        Name: Hehe! Não Vai se Queimar!
+        Desc: <span>Causa Dano de Fogo leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "110902":
+        Name: Ei! Lembra da Hook?
+        Desc: <span>Causa Dano de Fogo a um único inimigo, com altas chances de infligir Queimadura nele.</span>
+        Type: Perícia
+      "110903":
+        Name: Bum! Lá Vem Fogo!
+        Desc: <span>Causa Dano de Fogo massivo a um único inimigo e </span><span style='color:#f29e38ff'>Aprimora a próxima Perícia dessa unidade</span><span>.</span>
+        Type: Perícia Suprema
+      "110904":
+        Name: Ha! Óleo nas Chamas!
+        Desc: <span>Ao atacar um inimigo com Queimadura, </span><span style='color:#f29e38ff'>causa uma quantidade moderada de Dano de Fogo <u>Adicional</u></span><span>, e adicionalmente regenera Energia.</span>
+        Type: Talento
+      "110906":
+        Name: Ataque
+        Desc: ""
+      "110907":
+        Name: Argh! Olha Essa Bagunça!
+        Desc: <span>Ataca o inimigo. Depois de entrar em batalha, causa Dano de Fogo a um único inimigo aleatório, com uma alta chance de infligir Queimadura a todos os inimigos-alvo.</span>
+        Type: Técnica
+    Eidolons:
+      "110901":
+        Name: Deus Ajuda Quem Cedo Madruga
+        Desc: <span>A Perícia Aprimorada causa 20% a mais de Dano.</span>
+      "110902":
+        Name: Barriga Sã, Corpo São
+        Desc: <span>Estende a duração de Queimadura causada pela Perícia em 1 rodada(s).</span>
+      "110903":
+        Name: Não Seja Implicante, Nada É Deselegante
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "110904":
+        Name: Tudo Bem Não Saber
+        Desc: <span>Quando o Talento é ativado, há uma chance-base de 100% de infligir Queimadura equivalente à da Perícia aos inimigos adjacentes ao inimigo-alvo.</span>
+      "110905":
+        Name: Conheçam os Feitos das Toupeiras
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "110906":
+        Name: Sempre a Postos Para Atacar
+        Desc: <span>Hook causa 20% a mais de Dano a inimigos atingidos por Queimadura.</span>
+  "1110":
+    Name: Lynx
+    Abilities:
+      "111001":
+        Name: Técnica de Grampos de Neve
+        Desc: <span>Causa Dano Quântico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "111002":
+        Name: Latas de Acampamento Salgadas
+        Desc: <span>Aplica "Resposta de Sobrevivência" a um único aliado, </span><span style='color:#f29e38ff'>aumentando os PV máximos</span><span>, e restaurando os PV dele.</span>
+        Type: Perícia
+      "111003":
+        Name: Primeiros Socorros do Campo de Neve
+        Desc: <span>Remove </span><span style='color:#f29e38ff'>1 <u>penalidade</u> de todos os aliados</span><span> e restaura seus PV.</span>
+        Type: Perícia Suprema
+      "111004":
+        Name: Experiência de Sobrevivência na Neve
+        Desc: <span>Ao usar a Perícia ou a Perícia Suprema, aplica </span><span style='color:#f29e38ff'>cura contínua</span><span> ao aliado-alvo. Se o alvo tiver uma "Resposta de Sobrevivência" ativa, então o efeito da cura contínua aumenta adicionalmente.</span>
+        Type: Talento
+      "111006":
+        Name: Ataque
+        Desc: ""
+      "111007":
+        Name: Barra de Chocolate Energética
+        Desc: <span>Depois que esta personagem usa sua Técnica, no início da próxima batalha, todos os aliados recebem um efeito de cura contínua.</span>
+        Type: Técnica
+    Eidolons:
+      "111001":
+        Name: Madrugada da Caminhada na Neve
+        Desc: <span>Ao curar aliados com porcentagem de PV igual ou menor que 50%, a Cura Realizada de Lynx aumenta em 20%. Este efeito também funciona em curas contínuas.</span>
+      "111002":
+        Name: Manhã da Fornalha Portátil
+        Desc: <span>Um alvo com "Resposta de Sobrevivência" pode resistir a aplicação de penalidade por 1 vez(es).</span>
+      "111003":
+        Name: Tarde do Sinalizador de Avalanche
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "111004":
+        Name: Crepúsculo da Fogueira Acolhedora
+        Desc: <span>Quando a "Resposta de Sobrevivência" é recebida, aumenta o ATQ do alvo em uma quantidade igual a 3% dos PV máximos de Lynx por 1 rodada(s).</span>
+      "111005":
+        Name: Noite do Chá de Aurora
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "111006":
+        Name: Amanhecer do Mapa dos Exploradores
+        Desc: <span>Melhora adicionalmente o efeito de aumento de PV máximos da "Resposta de Sobrevivência" em uma quantidade igual a 6% dos PV máximos de Lynx e aumenta a RES a Efeito em 30%.</span>
+  "1111":
+    Name: Luka
+    Abilities:
+      "111101":
+        Name: Punho Certeiro
+        Desc: <span>Causa Dano Físico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "111102":
+        Name: Punho Lacerante
+        Desc: <span>Causa Dano Físico a um único inimigo, com uma alta chance de causar </span><span style='color:#f29e38ff'>Sangramento</span><span>.</span>
+        Type: Perícia
+      "111103":
+        Name: Golpe de Misericórdia
+        Desc: "<span>Recebe </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>2</span></span><span> acúmulo(s) de Desejo de Lutar, com uma alta chance de aumentar o Dano recebido pelo alvo, e causa Dano Físico massivo ao alvo.</span>"
+        Type: Perícia Suprema
+      "111104":
+        Name: Faíscas Voadoras
+        Desc: <span>Após usar seu ATQ Básico "Punho Certeiro" ou sua Perícia "Punho Lacerante", recebe 1 acúmulo de Desejo de Lutar. Quando 2 ou mais acúmulos de Desejo de Lutar estão presentes, o </span><span style='color:#f29e38ff'>ATQ Básico se torna Aprimorado</span><span>.<br>Se o inimigo estiver com Sangramento, o ATQ Básico Aprimorado </span><span style='color:#f29e38ff'>causa Dano extra de Sangramento 1 vez</span><span>.</span>
+        Type: Talento
+      "111106":
+        Name: Ataque
+        Desc: ""
+      "111107":
+        Name: Antecipador
+        Desc: <span>Ataca o inimigo. Depois de entrar em batalha, causa Dano Físico leve a um único inimigo aleatório, com uma alta chance de infligir </span><span style='color:#f29e38ff'>Sangramento</span><span> ao alvo. Depois, ganha 1 acúmulo de Desejo de Lutar.</span>
+        Type: Técnica
+    Eidolons:
+      "111101":
+        Name: Lutando Infinitamente
+        Desc: <span>Quando Luka age, se o inimigo-alvo estiver com Sangramento, aumenta o Dano causado por Luka em 15% por 2 rodada(s).</span>
+      "111102":
+        Name: O Inimigo é Fraco, Eu Sou Forte
+        Desc: <span>Se a Perícia atingir um inimigo-alvo com Fraqueza contra Físico, ganha 1 acúmulo(s) de Desejo de Lutar.</span>
+      "111103":
+        Name: Nascido Para o Ringue
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "111104":
+        Name: Nunca Recuar
+        Desc: <span>Para cada acúmulo de Desejo de Lutar obtido, aumenta o ATQ em 5%, acumulando até 4 vez(es).</span>
+      "111105":
+        Name: O Espírito da Fogo Vivo
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "111106":
+        Name: Aplausos de um Campeão
+        Desc: <span>Depois que o "Gancho Ascendente" do ATQ Básico Aprimorado atinge um inimigo-alvo com Sangramento, o status de Sangramento imediatamente causará Dano 1 vez. O Dano causado é igual a 8% do Dano original para cada golpe de Punho Certeiro já usado pelo ATQ Básico Aprimorado atual.</span>
+  "1112":
+    Name: Topaz e Dinheirinho
+    Abilities:
+      "111201":
+        Name: Déficit...
+        Desc: <span>Causa Dano de Fogo leve a um inimigo.</span>
+        Type: ATQ Básico
+      "111202":
+        Name: Dificuldade para Pagar?
+        Desc: <span>Inflige o estado de Prova de Débito a um único inimigo e faz com que ele </span><span style='color:#f29e38ff'>receba mais Dano de Ataques Extras</span><span>. Dinheirinho causa Dano de Fogo a este alvo.</span>
+        Type: Perícia
+      "111203":
+        Name: Lucrar!
+        Desc: <span>Dinheirinho entra no estado de "Bonança Inesperada!" e </span><span style='color:#f29e38ff'>aumenta seu multiplicador de Dano e seu Dano CRIT</span><span>.</span>
+        Type: Perícia Suprema
+      "111204":
+        Name: Mercado de Cofrinhos?!
+        Desc: <span>No início da batalha, invoca </span><span style='color:#f29e38ff'>Dinheirinho</span><span>. Quando Dinheirinho age, </span><span style='color:#f29e38ff'>Dinheirinho usa Ataques Extras contra um único inimigo com Prova de Débito</span><span>. Quando um inimigo com Prova de Débito recebe Dano de Ataques Extras, Dinheirinho tem a sua </span><span style='color:#f29e38ff'>ação Avançada Adiante</span><span>.</span>
+        Type: Talento
+      "111206":
+        Name: Ataque
+        Desc: ""
+      "111207":
+        Name: Subsídio Explícito
+        Desc: <span></span><span style='color:#f29e38ff'>Invoca Dinheirinho para acompanhar</span><span> em um mapa. Dinheirinho </span><span style='color:#f29e38ff'>procurará automaticamente por Tesouros Básicos e Cofrinhos por perto</span><span>. Usar a Técnica regenerará a Energia de Topaz após o primeiro ataque de Dinheirinho na próxima batalha.</span>
+        Type: Técnica
+    Eidolons:
+      "111201":
+        Name: Mercado Futuro
+        Desc: <span>Quando inimigos afligidos com Prova de Débito recebem Ataques Extras, eles entrarão no estado de Devedor. Este efeito só pode ser ativado 1 única vez por ataque.<br>O estado de Devedor aumenta em 25% o Dano CRIT de Ataques Extras infligidos aos inimigos-alvo, acumulando até 2 vez(es). Quando a Prova de Débito é removida, o estado de Devedor também é removido.</span>
+      "111202":
+        Name: Aquisição Genuína
+        Desc: <span>Após Dinheirinho agir ou realizar um ataque, Topaz regenera 5 de Energia.</span>
+      "111203":
+        Name: Prenda os Grandes e Liberte os Pequenos
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "111204":
+        Name: Operação Ágil
+        Desc: <span>Após o início da rodada de Dinheirinho, a ação de Topaz é Avançada Adiante em 20%.</span>
+      "111205":
+        Name: Demanda Inflacionária
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "111206":
+        Name: Mecanismo de Incentivo
+        Desc: <span>A contagem de ataque de Dinheirinho durante o estado de "Bonança Inesperada!" aumenta em 1, e sua PEN de RES a Fogo aumenta em 10% ao atacar.</span>
+  "1201":
+    Name: Qingque
+    Abilities:
+      "120101":
+        Name: Colher Flores
+        Desc: <span>Lança uma peça que causa Dano Quântico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "120102":
+        Name: Uma Colherada da Lua
+        Desc: <span></span><span style='color:#f29e38ff'>Pega peças</span><span> e aumenta o Dano causado. </span><span style='color:#f29e38ff'>Esta rodada não termina</span><span> após esta ação.</span>
+        Type: Perícia
+      "120103":
+        Name: Um Quarteto? Uhul!
+        Desc: <span>Causa Dano Quântico a todos os inimigos, depois obtêm 4 peças do mesmo naipe.</span>
+        Type: Perícia Suprema
+      "120104":
+        Name: Jade Celestial
+        Desc: <span>Pega uma peça no início da rodada de qualquer aliado. No início da rodada deste personagem, se este personagem possuir 4 peças de um mesmo naipe, remove todas as peças em posse e </span><span style='color:#f29e38ff'>Aprimora o ATQ Básico</span><span> enquanto aumenta o ATQ deste personagem.</span>
+        Type: Talento
+      "120106":
+        Name: Ataque
+        Desc: ""
+      "120107":
+        Name: Jogo de Paciência
+        Desc: <span>Após usar sua Técnica, pega peça(s) no início da próxima batalha.</span>
+        Type: Técnica
+    Eidolons:
+      "120101":
+        Name: Surgir Pelas Peças
+        Desc: <span>A Perícia Suprema causa 10% a mais de Dano.</span>
+      "120102":
+        Name: Dormir nas Peças
+        Desc: <span>Sempre que Pegar Peça é ativado, Qingque imediatamente regenera 1 de Energia.</span>
+      "120103":
+        Name: Ler Entre as Peças
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "120104":
+        Name: Bem nas Peças
+        Desc: <span>Depois que a Perícia deste personagem é usada, tem 24% de chance fixa de ganhar Autarquia, que dura até o fim da rodada.<br>Com Autarquia, usar o ATQ Básico ou o ATQ Básico Aprimorado ativa imediatamente 1 Ataque Extra no mesmo alvo, causando Dano Quântico igual a 100% do Dano do ATQ Básico ou do ATQ Básico Aprimorado.</span>
+      "120105":
+        Name: Estratégia para as Peças
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "120106":
+        Name: Prevalecer Além das Peças
+        Desc: <span>Recupera 1 Ponto de Perícia após usar um ATQ Básico Aprimorado.</span>
+  "1202":
+    Name: Tingyun
+    Abilities:
+      "120201":
+        Name: Expulsão
+        Desc: <span>Causa Dano de Raio leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "120202":
+        Name: Melodia Calmante
+        Desc: <span></span><span style='color:#f29e38ff'>Aumenta o ATQ</span><span> de um único aliado e concede Bênção a ele. O aliado com Bênção causa adicionalmente </span><span style='color:#f29e38ff'><u>Dano Adicional</u> de Raio</span><span> leve ao atacar.</span>
+        Type: Perícia
+      "120203":
+        Name: Em Meio às Nuvens Alegres
+        Desc: <span>Regenera a </span><span style='color:#f29e38ff'>Energia</span><span> de um aliado-alvo e </span><span style='color:#f29e38ff'>aumenta o Dano</span><span> causado por ele.</span>
+        Type: Perícia Suprema
+      "120204":
+        Name: Tornafagulha Violeta
+        Desc: <span>Quando um inimigo é atacado por Tingyun, o aliado com Bênção causa imediatamente <u>Dano de Raio Adicional</u> leve ao mesmo inimigo.</span>
+        Type: Talento
+      "120206":
+        Name: Ataque
+        Desc: ""
+      "120207":
+        Name: Brisa Suave
+        Desc: <span>Depois de usar esta Técnica, este personagem regenera Energia para si imediatamente.</span>
+        Type: Técnica
+    Eidolons:
+      "120201":
+        Name: A Sorte Sorri com Bondade
+        Desc: <span>Após usar a Perícia Suprema, o aliado com Bênção ganha 20% de aumento de VEL por 1 rodada.</span>
+      "120202":
+        Name: Dá os Ganhos, Ganha o que Dá
+        Desc: <span>O aliado com Bênção regenera 5 de Energia após derrotar um inimigo. Esse efeito só pode ser ativado uma vez por rodada.</span>
+      "120203":
+        Name: Legado de Alcíone
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "120204":
+        Name: Versatilidade Jovial
+        Desc: <span>O multiplicador de Dano concedido pela Bênção aumenta em 20%.</span>
+      "120205":
+        Name: Astúcia Tranquila
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "120206":
+        Name: A Paz Traz Riqueza a Todos
+        Desc: <span>A Perícia Suprema regenera mais 10 de Energia para o aliado-alvo.</span>
+  "1203":
+    Name: Luocha
+    Abilities:
+      "120301":
+        Name: Espinhos do Abismo
+        Desc: <span>Causa Dano Imaginário leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "120302":
+        Name: Prece da Flor do Abismo
+        Desc: <span></span><span style='color:#f29e38ff'>Restaura</span><span> PV de um único aliado e ganha 1 acúmulo de Flor do Abismo.</span>
+        Type: Perícia
+      "120303":
+        Name: Desejo de Morte
+        Desc: <span></span><span style='color:#f29e38ff'>Remove </span><span>1</span><span style='color:#f29e38ff'> <u>melhoria</u> </span><span>de todos os inimigos, causa Dano Imaginário a todos os inimigos, e ganha 1 acúmulo de Flor do Abismo.</span>
+        Type: Perícia Suprema
+      "120304":
+        Name: Ciclo da Vida
+        Desc: <span>Cria um </span><span style='color:#f29e38ff'>Campo</span><span> ao obter 2 acúmulos de Flor do Abismo. Enquanto o Campo estiver ativo, os aliados</span><span style='color:#f29e38ff'> restauram PV após atacar</span><span>.</span>
+        Type: Talento
+      "120306":
+        Name: Ataque
+        Desc: ""
+      "120307":
+        Name: Misericórdia dos Tolos
+        Desc: <span>Após a Técnica ser utilizada, ativa imediatamente o efeito do Talento no início da próxima batalha.</span>
+        Type: Técnica
+    Eidolons:
+      "120301":
+        Name: Ablução da Rapidez
+        Desc: <span>Enquanto o Campo estiver ativo, o ATQ de todos os aliados aumenta em 20%.</span>
+      "120302":
+        Name: Concessão da Pureza
+        Desc: <span>Quando sua Perícia é ativada, se a porcentagem dos PV do aliado-alvo forem inferiores a 50%, a Cura Realizada por Luocha aumenta em 30%. Se o aliado-alvo tiver 50% ou mais de PV, o aliado recebe um Escudo que pode absorver Dano igual a 18% do ATQ de Luocha + 240, que dura por 2 rodadas.</span>
+      "120303":
+        Name: Questionamento pelos Tolos
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "120304":
+        Name: O Peso da Coroa
+        Desc: <span>Quando o Campo de Luocha está ativo, inimigos recebem Enfraquecimento e causam 12% a menos de Dano.</span>
+      "120305":
+        Name: Cicatriz Abaixo da Dor
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "120306":
+        Name: De Volta ao Pó
+        Desc: <span>Ao usar a Perícia Suprema, há uma chance fixa de 100% de reduzir a RES a Todos os Tipos de todos os inimigos em 20% por 2 rodada(s).</span>
+  "1204":
+    Name: Jing Yuan
+    Abilities:
+      "120401":
+        Name: Fulgor Radiante
+        Desc: <span>Causa Dano de Raio leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "120402":
+        Name: Zênite Rompido
+        Desc: <span>Causa Dano de Raio leve a todos os inimigos e </span><span style='color:#f29e38ff'>aumenta os Golpes por Ação do Senhor dos Raios</span><span>.</span>
+        Type: Perícia
+      "120403":
+        Name: Portador da Luz
+        Desc: <span>Causa Dano de Raio a todos os inimigos e </span><span style='color:#f29e38ff'>aumenta os Golpes por Ação do Senhor dos Raios</span><span>.</span>
+        Type: Perícia Suprema
+      "120404":
+        Name: Prana Extirpado
+        Desc: <span>Invoca o Senhor dos Raios no início da batalha. O Senhor dos Raios </span><span style='color:#f29e38ff'>causa Dano de Raio leve</span><span> </span><span style='color:#f29e38ff'>automaticamente</span><span> a um inimigo aleatório e os inimigos adjacentes a ele.</span>
+        Type: Talento
+      "120406":
+        Name: Ataque
+        Desc: ""
+      "120407":
+        Name: Invocação de Spiritus
+        Desc: <span>Após usar a Técnica, na próxima batalha, </span><span style='color:#f29e38ff'>aumenta os Golpes por Ação do Senhor dos Raios</span><span>.</span>
+        Type: Técnica
+    Eidolons:
+      "120401":
+        Name: Corte, Mares Partidos
+        Desc: <span>Quando o Senhor dos Raios ataca, o multiplicador de Dano nos inimigos adjacentes ao inimigo-alvo aumenta em uma quantidade extra igual a 25% do multiplicador de Dano contra o inimigo-alvo principal.</span>
+      "120402":
+        Name: Golpe, Céus Esmagados
+        Desc: <span>Depois que o Senhor dos Raios age, o Dano causado pelo ATQ Básico, pela Perícia e pela Perícia Suprema de Jing Yuan aumenta em 20% por 2 rodada(s).</span>
+      "120403":
+        Name: Ataque, Sóis Subjulgados
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "120404":
+        Name: Giro, Estrelas Cercadas
+        Desc: <span>A cada golpe do Senhor dos Raios quando ele age, Jing Yuan regenera 2 de Energia.</span>
+      "120405":
+        Name: Marcha, Bens Saqueados
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "120406":
+        Name: Varrer, Almas Ceifadas
+        Desc: <span>Cada golpe lançado pelo Senhor dos Raios ao agir tornará o inimigo-alvo Vulnerável.<br>Quando Vulneráveis, inimigos recebem 12% a mais de Dano até o final da rodada atual do Senhor dos Raios, acumulando em até 3 vez(es).</span>
+  "1205":
+    Name: Blade
+    Abilities:
+      "120501":
+        Name: Espada Fragmentada
+        Desc: <span>Causa Dano de Vento leve a um inimigo.</span>
+        Type: ATQ Básico
+      "120502":
+        Name: Paisagem Infernal
+        Desc: <span>Consome PV para </span><span style='color:#f29e38ff'>aprimorar o ATQ Básico</span><span>, e a rodada atual não termina ao usar essa Perícia.</span>
+        Type: Perícia
+      "120503":
+        Name: Sentença de Morte
+        Desc: "<span>Faz com que os PV atuais fiquem em <span style='whiteSpace: \"nowrap\"'>50%</span> dos PV máximos, causa Dano de Vento massivo a um único inimigo e Dano de Vento aos alvos adjacentes.</span>"
+        Type: Perícia Suprema
+      "120504":
+        Name: Presente de Shuhu
+        Desc: <span>Quando os PV de Blade são diminuídos, ele ganha 1 acúmulo de Carga. Quando o máximo de acúmulos de Carga é atingido, Blade </span><span style='color:#f29e38ff'>imediatamente causa Dano de Vento a todos os inimigos </span><span>e restaura PV. Então, todas as Cargas são consumidas.</span>
+        Type: Talento
+      "120506":
+        Name: Ataque
+        Desc: ""
+      "120507":
+        Name: Vento do Carma
+        Desc: <span>Ataca o inimigo. Após entrar em combate, consome seus próprios PV para causar Dano de Vento a todos os inimigos.</span>
+        Type: Técnica
+    Eidolons:
+      "120501":
+        Name: A Lâmina Corta Mais Fundo no Inferno
+        Desc: <span>A Perícia Suprema de Blade causa Dano aumentado adicional a um único inimigo-alvo, com um aumento igual a 150% do total de PV que Blade perdeu na batalha atual. O total de PV que Blade perdeu na batalha atual tem um limite de 90% de seus PV máximos. Este valor será redefinido e reacumulado após usar sua Perícia Suprema.</span>
+      "120502":
+        Name: Dez Mil Mágoas de Um Sonho Destruído
+        Desc: <span>Quando Blade está no estado de Paisagem Infernal, sua Chance de CRIT aumenta em 15%.</span>
+      "120503":
+        Name: A Lâmina Temperada Sangra da Tonalidade Mais Gelada
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "120504":
+        Name: Rejeitado pela Morte, Infectado com Vida
+        Desc: <span>Quando a porcentagem dos PV atuais de Blade chegam a 50% ou menos de seus PV máximos, aumenta os PV máximos dele em 20%. Acumula até 2 vez(es).</span>
+      "120505":
+        Name: Morte Pelo Olhar dos Dez Senhores
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "120506":
+        Name: Renascido em uma Casca Vazia
+        Desc: <span>O número máximo de acúmulos de Carga é reduzido para 4. O Dano de um Ataque Extra acionado pelo Talento é aumentado adicionalmente em 50% dos PV máximos de Blade.</span>
+  "1206":
+    Name: Sushang
+    Abilities:
+      "120601":
+        Name: "Arte do Espadachim das Nuvens: Brilho Estelar"
+        Desc: <span>Causa Dano Físico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "120602":
+        Name: "Arte do Espadachim das Nuvens: Queda Montanhosa"
+        Desc: <span>Causa Dano Físico a um inimigo, com</span><span style='color:#f29e38ff'> poucas chances de ativar Postura da Espada</span><span>. Se o inimigo tiver <u>Quebra de Fraqueza</u>, </span><span style='color:#f29e38ff'>a ativação da Postura da Espada é garantida</span><span>.</span>
+        Type: Perícia
+      "120603":
+        Name: "Forma de Taixu: Anúncio do Amanhecer"
+        Desc: <span>Causa Dano Físico massivo a um único inimigo, aprimora o efeito da Postura da Espada e </span><span style='color:#f29e38ff'>realiza uma ação imediatamente</span><span>.</span>
+        Type: Perícia Suprema
+      "120604":
+        Name: Lâmina Dançante
+        Desc: <span>Quando um inimigo no campo tem sua Fraqueza Quebrada, a VEL desta personagem aumenta.</span>
+        Type: Talento
+      "120606":
+        Name: Ataque
+        Desc: ""
+      "120607":
+        Name: "Arte do Espadachim das Nuvens: Grito de Guerra"
+        Desc: <span>Ataca o inimigo. Depois de entrar em batalha, causa Dano Físico leve a todos os inimigos.</span>
+        Type: Técnica
+    Eidolons:
+      "120601":
+        Name: Cortar Facilmente
+        Desc: <span>Após usar a Perícia contra um inimigo com a Fraqueza quebrada, regenera 1 Ponto de Perícia.</span>
+      "120602":
+        Name: Refino pela Labuta
+        Desc: <span>Depois que a Postura da Espada é ativada, o Dano recebido por Sushang é reduzido em 20% por 1 rodada.</span>
+      "120603":
+        Name: Surgir da Fama
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "120604":
+        Name: Golpeie com o Coração
+        Desc: <span>Aumenta em 40% o Efeito de Quebra de Sushang.</span>
+      "120605":
+        Name: Prevalecer por Taixu
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "120606":
+        Name: Permanecer Como Água
+        Desc: <span>O Bônus de VEL do Talento é acumulável e pode acumular até 2 vezes. Adicionalmente, após entrar em batalha, Sushang imediatamente ganha 1 acúmulo do Bônus de VEL do seu Talento.</span>
+  "1207":
+    Name: Yukong
+    Abilities:
+      "120701":
+        Name: Atiradora de Flechas
+        Desc: <span>Causa Dano Imaginário leve a um inimigo.</span>
+        Type: ATQ Básico
+      "120702":
+        Name: Saudação Encorajadora
+        Desc: <span>Obtêm 2 acúmulos de Arco Estrondoso. </span><span style='color:#f29e38ff'>Aumenta o ATQ</span><span> de todos os aliados quando Arco Estrondoso está ativo nesta personagem.</span>
+        Type: Perícia
+      "120703":
+        Name: Mergulho do Falcão
+        Desc: <span>Quando Arco Estrondoso estiver ativo nesta personagem, </span><span style='color:#f29e38ff'>aumenta a Chance de CRIT e o Dano CRIT</span><span> de todos os aliados e causa Dano Imaginário massivo a um único inimigo.</span>
+        Type: Perícia Suprema
+      "120704":
+        Name: Sete Camadas, Uma Flecha
+        Desc: <span>O ATQ Básico adicionalmente causa Dano leve, e o Dano de Redução de Tenacidade do seu ATQ Básico é aumentada. Esse efeito pode ser ativado novamente após 1 rodada passar.</span>
+        Type: Talento
+      "120706":
+        Name: Ataque
+        Desc: ""
+      "120707":
+        Name: Caçador de Ventos
+        Desc: <span></span><span style='color:#f29e38ff'>Aumenta a VEL de Movimento</span><span> da unidade. Após atacar um inimigo e entrar na batalha, recebe 2 acúmulos de "Arco Estrondoso".</span>
+        Type: Técnica
+    Eidolons:
+      "120701":
+        Name: Marechala Aérea
+        Desc: <span>No início da batalha, aumenta a VEL de todos os aliados em 10% por 2 rodada(s).</span>
+      "120702":
+        Name: Comando Celeste
+        Desc: <span>Quando a energia atual de um aliado é igual ao seu limite de energia, Yukong regenera 5 de energia adicional. Este efeito só pode ser ativado uma vez para cada aliado. A contagem de ativação é reiniciada após Yukong utilizar sua Perícia Suprema.</span>
+      "120703":
+        Name: Saraivada Torrencial
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "120704":
+        Name: Ecos Zefirinos
+        Desc: <span>Quando o "Arco Estrondoso" está ativado, Yukong causa 30% a mais de Dano a inimigos.</span>
+      "120705":
+        Name: Tiro Mortal Majestoso
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "120706":
+        Name: Arco da Trovoada
+        Desc: <span>Quando Yukong usa sua Perícia Suprema, ela ganha imediatamente 1 acúmulo(s) de "Arco Estrondoso".</span>
+  "1208":
+    Name: Fu Xuan
+    Abilities:
+      "120801":
+        Name: Explosão Supernova
+        Desc: <span>Causa Dano Quântico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "120802":
+        Name: Conhecida pelas Estrelas, Exibida pelos Corações
+        Desc: <span>Ativa a Matriz de Presciência. </span><span style='color:#f29e38ff'>O Dano recebido pelos aliados de Fu Xuan é <u>Distribuído</u></span><span> com ela. Além disso, </span><span style='color:#f29e38ff'>aumenta a Chance de CRIT</span><span> e os PV máximos de todos os aliados.</span>
+        Type: Perícia
+      "120803":
+        Name: Os Lamentos de Muitos Transformaram-se em Um
+        Desc: <span>Causa Dano Quântico a todos os inimigos e aumenta a contagem de ativação do Talento de Fu Xuan.</span>
+        Type: Perícia Suprema
+      "120804":
+        Name: Das Sombras à Alegria
+        Desc: <span>Enquanto Fu Xuan estiver ativa em batalha, o Dano recebido pela equipe inteira é reduzido.<br>Quando os PV dela estiverem baixos, ela </span><span style='color:#f29e38ff'>automaticamente</span><span> </span><span style='color:#f29e38ff'>restaura seus próprios PV</span><span> com base na porcentagem de PV já perdidos. Este efeito pode ter até 2 contagens de ativação em qualquer momento.</span>
+        Type: Talento
+      "120806":
+        Name: Ataque
+        Desc: ""
+      "120807":
+        Name: Da Sorte Vem o Destino
+        Desc: <span>Ativa uma Barreira. Aliados não entrarão em batalha quando forem atacados por inimigos. Entrar em batalha ativará a Matriz de Presciência automaticamente.</span>
+        Type: Técnica
+    Eidolons:
+      "120801":
+        Name: Dominus Pacis
+        Desc: <span>O efeito de Conhecimento aumenta o Dano CRIT em 30%.</span>
+      "120802":
+        Name: Optimus Felix
+        Desc: <span>Se qualquer membro da equipe for atingido por um golpe fatal enquanto a Matriz de Presciência estiver ativa, todos os aliados que forem atingidos por um golpe fatal durante esta ação não serão derrubados e 70% de seus PV máximos serão restaurados imediatamente. Este efeito pode ser acionado 1 vez por batalha.</span>
+      "120803":
+        Name: Ápice da Ligação
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "120804":
+        Name: Fortuna Stellaris
+        Desc: <span>Quando outros aliados sob a Matriz de Presciência são atacados, Fu Xuan regenera 5 de Energia.</span>
+      "120805":
+        Name: Árbitra Primordial
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "120806":
+        Name: Omnia Vita
+        Desc: <span>Assim que a Matriz de Presciência é ativada, ela manterá um registro com o valor total de PV perdidos por todos os membros da equipe na batalha atual. O Dano causado pela Perícia Suprema de Fu Xuan aumentará em 200% desse valor de PV perdidos.<br>Esse valor também é limitado a 120% dos PV máximos de Fu Xuan e o valor registrado será reiniciado e reacumulado após a Perícia Suprema de Fu Xuan ser utilizada.</span>
+  "1209":
+    Name: Yanqing
+    Abilities:
+      "120901":
+        Name: Espinho Congelado
+        Desc: <span>Causa Dano de Gelo leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "120902":
+        Name: Espinho de Ferro Veloz
+        Desc: <span>Causa Dano de Gelo a um único inimigo e ativa a Sincronia d'Alma de Ferro.</span>
+        Type: Perícia
+      "120903":
+        Name: Em Meio à Chuva de Bênçãos
+        Desc: <span>Aumenta a Chance de CRIT de Yanqing. Aprimora a Sincronia d'Alma de Ferro e causa Dano de Gelo massivo a um único inimigo.</span>
+        Type: Perícia Suprema
+      "120904":
+        Name: Eu e a Espada Somos Um
+        Desc: <span></span><span style='color:#f29e38ff'>Durante Sincronia d'Alma de Ferro</span><span>, reduz a chance deste personagem ser atacado e </span><span style='color:#f29e38ff'>aumenta a Chance de CRIT e Dano CRIT</span><span>. </span><span style='color:#f29e38ff'>Depois de atacar um inimigo</span><span>, tem uma chance de realizar um <u>Ataque Extra</u>, causando Dano de Gelo com uma chance de causar Congelamento ao alvo.<br>Sincronia d'Alma de Ferro será removida depois que este personagem recebe Dano.</span>
+        Type: Talento
+      "120906":
+        Name: Ataque
+        Desc: ""
+      "120907":
+        Name: A Verdadeira Espada
+        Desc: "<span>Depois que este personagem usa sua Técnica, no início da próxima batalha, aumenta o Dano causado por este personagem a inimigos-alvo com PV em <span style='whiteSpace: \"nowrap\"'>50%</span> ou mais.</span>"
+        Type: Técnica
+    Eidolons:
+      "120901":
+        Name: Sabre Esbelto
+        Desc: <span>Quando Yanqing ataca um inimigo com Congelamento, ele causa 60% de seu ATQ como Dano de Gelo Adicional.</span>
+      "120902":
+        Name: Serenata do Supino
+        Desc: <span>Quando a Sincronia d'Alma de Ferro estiver ativa, a Taxa de Regeneração de Energia aumenta em 10% extra.</span>
+      "120903":
+        Name: Espada Erudita
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "120904":
+        Name: Perfuração Flamejante
+        Desc: <span>Quando os PV atuais estiverem em 80% ou mais, a PEN de RES a Gelo aumenta em 12%.</span>
+      "120905":
+        Name: Conflito Crescente
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "120906":
+        Name: Ataque Rápido
+        Desc: <span>Se as melhorias de Sincronia d'Alma de Ferro ou da Perícia Suprema estiverem em efeito quando o inimigo for derrotado, a duração desses bônus é estendida em 1 rodada.</span>
+  "1210":
+    Name: Guinaifen
+    Abilities:
+      "121001":
+        Name: Chuva de Aplausos
+        Desc: <span>Causa Dano de Fogo leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "121002":
+        Name: Recepção Escaldante
+        Desc: <span>Causa Dano de Fogo a um único inimigo e Dano de Fogo leve a inimigos adjacentes, com altas chances de causar </span><span style='color:#f29e38ff'>Queimadura</span><span> a eles.</span>
+        Type: Perícia
+      "121003":
+        Name: Se Liga Nisso
+        Desc: <span>Causa Dano de Fogo a todos os inimigos. Se os inimigos já estiverem com Queimadura, o estado de Queimadura causa Dano 1 vez extra.</span>
+        Type: Perícia Suprema
+      "121004":
+        Name: Benefícios do PatrAeon
+        Desc: <span>Após o </span><span style='color:#f29e38ff'>estado de Queimadura causar Dano</span><span> no inimigo, há altas chances de aplicar </span><span style='color:#f29e38ff'>Beijo de Fogo</span><span> no inimigo.</span>
+        Type: Talento
+      "121006":
+        Name: Ataque
+        Desc: ""
+      "121007":
+        Name: Demonstração de Habilidades
+        Desc: <span>Ataca o inimigo. Depois de entrar em batalha, causa Dano de Fogo leve a um único alvo e aplica </span><span style='color:#f29e38ff'>Beijo de Fogo</span><span>, rebatendo um total de 4 vezes.</span>
+        Type: Técnica
+    Eidolons:
+      "121001":
+        Name: Comendo Macarrão Plantando Bananeira
+        Desc: <span>Ao usar a Perícia, há 100% de chance-base de reduzir a RES a Efeito do inimigo-alvo atacado em 10% por 2 rodada(s).</span>
+      "121002":
+        Name: Escovando os Dentes Enquanto Assovia
+        Desc: <span>Quando um inimigo-alvo estiver com Queimadura, o multiplicador de Dano do estado de Queimadura aplicado pelo ATQ Básico ou Perícia de Guinaifen aumenta em 40%.</span>
+      "121003":
+        Name: Destruindo Pedras com o Peito
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "121004":
+        Name: Bloqueando Lanças com o Pescoço
+        Desc: <span>Toda vez que o estado de Queimadura infligido por Guinaifen causar Dano, Guinaifen regenera 2 de Energia.</span>
+      "121005":
+        Name: Engolindo Espadas
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "121006":
+        Name: Pegando Projéteis com as Mãos
+        Desc: <span>Aumenta o acúmulo máximo de Beijo de Fogo em 1.</span>
+  "1211":
+    Name: Bailu
+    Abilities:
+      "121101":
+        Name: Chute de Diagnóstico
+        Desc: <span>Causa Dano de Raio leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "121102":
+        Name: Cantoria Entre as Nuvens
+        Desc: <span>Restaura os PV de um único aliado, depois cura aleatoriamente outros aliados.</span>
+        Type: Perícia
+      "121103":
+        Name: Trovão Oportuno
+        Desc: <span>Restaura os PV e concede Revigoramento ou prolonga a duração de Revigoramento de todos os aliados.</span>
+        Type: Perícia Suprema
+      "121104":
+        Name: Cabaça Cheia de Elixir
+        Desc: <span>Quando um aliado com </span><span style='color:#f29e38ff'>Revigoramento</span><span> é atacado, </span><span style='color:#f29e38ff'>restaura PV</span><span> do aliado.<br>Quando um aliado sofre um </span><span style='color:#f29e38ff'>golpe fatal</span><span>, Bailu </span><span style='color:#f29e38ff'>restaura imediatamente os PV dele</span><span>. Este efeito só pode ser ativado 1 vez por batalha.</span>
+        Type: Talento
+      "121106":
+        Name: Ataque
+        Desc: ""
+      "121107":
+        Name: Passeio na Chuva
+        Desc: <span>Depois que esta personagem usa sua Técnica, no início da próxima batalha, todos os aliados recebem Revigoramento.</span>
+        Type: Técnica
+    Eidolons:
+      "121101":
+        Name: Aqua Ambrosiana
+        Desc: <span>Se os PV atuais do aliado-alvo forem igual aos PV máximos dele quando o Revigoramento acabar, regenera 8 de Energia extra para esse alvo.</span>
+      "121102":
+        Name: Sono Sílfico
+        Desc: <span>Após usar sua Perícia Suprema, aumenta em mais 15% a Cura Realizada de Bailu por 2 rodada(s).</span>
+      "121103":
+        Name: Opulência Onisciente
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "121104":
+        Name: Extração Maléfica
+        Desc: <span>Toda a cura fornecida pela Perícia faz com que o recipiente cause 10% a mais de Dano por 2 rodada(s). Este efeito pode se acumular até 3 vez(es).</span>
+      "121105":
+        Name: Preocupações Minguantes
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "121106":
+        Name: Gota de Divindade Dracônica
+        Desc: <span>Bailu pode curar aliados que recebem um golpe fatal mais 1 vez(es) em uma única batalha.</span>
+  "1212":
+    Name: Jingliu
+    Abilities:
+      "121201":
+        Name: Brilho da Lua Luzente
+        Desc: <span>Causa Dano de Gelo leve a um único inimigo-alvo.</span>
+        Type: ATQ Básico
+      "121202":
+        Name: Clarão Transcendente
+        Desc: <span>Causa Dano de Gelo a um inimigo-alvo e obtém </span><span style='color:#f29e38ff'>1 acúmulo de Sizígia</span><span>.</span>
+        Type: Perícia
+      "121203":
+        Name: Fluxonírico Florefêmero
+        Desc: <span>Causa Dano de Gelo massivo a um inimigo-alvo e causa Dano de Gelo aos alvos adjacentes. Obtém </span><span style='color:#f29e38ff'>1 acúmulo de Sizígia</span><span>.</span>
+        Type: Perícia Suprema
+      "121204":
+        Name: Transmigração Crescente
+        Desc: "<span>Ao estar em posse de </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>2</span></span><span> acúmulos de Sizígia, Jingliu entra no estado de Transmigração Espectral Avançando </span><span style='color:#f29e38ff'> Ação em <span style='whiteSpace: \"nowrap\"'>100%</span></span><span>, aumentando sua Chance de CRIT e </span><span style='color:#f29e38ff'>Aprimorando sua Perícia</span><span>. Usar um ataque neste estado consome os PV de todos os outros aliados e </span><span style='color:#f29e38ff'>aumenta o ATQ de Jingliu</span><span> de acordo com o total de PV consumido. Quando os acúmulos de Sizígia chegam a 0, sai do estado de Transmigração Espectral.</span>"
+        Type: Talento
+      "121206":
+        Name: Ataque
+        Desc: ""
+      "121207":
+        Name: Brilho da Verdade
+        Desc: <span>Cria uma dimensão especial em volta do personagem. Inimigos dentro desta dimensão sofrerão </span><span style='color:#f29e38ff'>Congelamento</span><span>. Após entrar em combate com inimigos nesta dimensão, este personagem recupera Energia e obtém 1 acúmulo de Sizígia com altas chances de aplicar </span><span style='color:#f29e38ff'>Congelamento</span><span> nos inimigos.</span>
+        Type: Técnica
+    Eidolons:
+      "121201":
+        Name: Queda Lunar nos Portões de Tianguan
+        Desc: <span>Aumenta o Dano CRIT de Jingliu em 24% pela(s) próxima(s) 1 rodada(s) quando usa sua Perícia Aprimorada ou sua Perícia Suprema. Se apenas um alvo inimigo for atacado, o alvo receberá adicionalmente Dano de Gelo igual a 100% do ATQ de Jingliu.</span>
+      "121202":
+        Name: Sombras Crescentes Sobre a Constelação de Qixing
+        Desc: <span>Após usar a Perícia Suprema, aumenta o Dano da próxima Perícia Aprimorada em 80%.</span>
+      "121203":
+        Name: Neblina Mercurial da Crescente
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "121204":
+        Name: Brilho da Lança Lunar
+        Desc: <span>Durante o estado de Transmigração Espectral, o ATQ obtido por consumir os PV dos aliados é adicionalmente aumentado em 90% do total de PV consumido por toda a equipe. O limite para o aumento de ATQ feito dessa forma também aumenta em 30%.</span>
+      "121205":
+        Name: Brilho Noturno Estelar
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "121206":
+        Name: Esfera Esvaziada pelo Vazio
+        Desc: <span>Quando Jingliu entra no estado de Transmigração Espectral, o limite de acúmulos de Sizígia aumenta em 1, e Jingliu obtém 1 acúmulo(s) de Sizígia. Enquanto estiver no estado de Transmigração Espectral, seu Dano CRIT aumenta em 50%.</span>
+  "1213":
+    Name: Dan Heng - Embebidor Lunae
+    Abilities:
+      "121301":
+        Name: Lótus Beneficente
+        Desc: <span>Causa Dano Imaginário leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "121302":
+        Name: Dracore Libre
+        Desc: <span>Aprimora o ATQ Básico Lótus Beneficente para </span><span style='color:#f29e38ff'>Transcendência</span><span>, </span><span style='color:#f29e38ff'>Lança Divina</span><span> ou </span><span style='color:#f29e38ff'>Salto Fulgurante</span><span>.</span>
+        Type: Perícia
+      "121303":
+        Name: A Água Celeste Ablui Tudo
+        Desc: <span>Causa Dano Imaginário massivo a um único inimigo, causa Dano Imaginário a alvos adjacentes, e ganha 2 Squama Sacrosancta, que podem </span><span style='color:#f29e38ff'>anular</span><span> o </span><span style='color:#f29e38ff'>consumo de Pontos de Perícia</span><span> de Dan Heng - Embebidor Lunae. Consumir Squama Sacrosancta é considerado o equivalente a consumir pontos de Perícia.</span>
+        Type: Perícia Suprema
+      "121304":
+        Name: Coração Íntegro
+        Desc: <span>Aumenta o Dano para cada golpe realizado. Este efeito é acumulável e dura até o fim da rodada deste personagem.</span>
+        Type: Talento
+      "121306":
+        Name: Ataque
+        Desc: ""
+      "121307":
+        Name: Prismadracônico Amaina-Céus
+        Desc: <span>Entra no estado de Dragão Saltitante. Atacar fará com que esse personagem se mova para frente rapidamente uma certa distância e ataque todos os inimigos tocados. Após entrar em combate ao atacar inimigos, causa Dano Imaginário a todos os inimigos, e ganha 1 Squama Sacrosancta.</span>
+        Type: Técnica
+    Eidolons:
+      "121301":
+        Name: Conectado ao Céu
+        Desc: <span>Aumenta a contagem acumulável de Coração Íntegro em 4, e ganha 1 acúmulo extra de Coração Íntegro por cada golpe durante o ataque.</span>
+      "121302":
+        Name: Império nas Nuvens
+        Desc: <span>Depois de usar sua Perícia Suprema, a ação de Dan Heng - Embebidor Lunae é Avançada Adiante em 100% e ganha 1 Squama Sacrosancta extra.</span>
+      "121303":
+        Name: Trajado com Nuvens
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "121304":
+        Name: Bênção Zefirina
+        Desc: <span>O efeito de melhoria concedido por Rugido Soberano dura até o final da próxima rodada deste personagem.</span>
+      "121305":
+        Name: A Queda é o Orgulho
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "121306":
+        Name: Reinado, Retornado
+        Desc: <span>Depois que qualquer aliado usa a Perícia Suprema, a PEN de RES a Imaginário do próximo Salto Fulgurante de Dan Heng - Embebidor Lunae aumenta em 20%. Este efeito pode acumular até 3 vez(es).</span>
+  "1214":
+    Name: Xueyi
+    Abilities:
+      "121401":
+        Name: Sovela Quebra-mara
+        Desc: <span>Causa Dano Quântico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "121402":
+        Name: Obliteração de Iniquidade
+        Desc: <span>Causa Dano Quântico a um único inimigo e Dano Quântico leve a inimigos adjacentes a ele.</span>
+        Type: Perícia
+      "121403":
+        Name: Castigo Divino
+        Desc: <span>Causa Dano Quântico massivo a um único inimigo. Este ataque </span><span style='color:#f29e38ff'>ignora Tipos de Fraqueza</span><span> e reduz a Tenacidade do alvo. Quanto mais Tenacidade é reduzida, mais alto é o Dano causado.</span>
+        Type: Perícia Suprema
+      "121404":
+        Name: Perpetuação Cármica
+        Desc: <span>Quando Xueyi ou seus aliados reduzem a Tenacidade do inimigo, ela ganha acúmulos de Carma. Quando Carma atingir o número máximo de acúmulos, </span><span style='color:#f29e38ff'>ativa imediatamente um <u>Ataque Extra</u></span><span> causando Dano Quântico leve a um único inimigo-alvo, saltando por 3 vezes e consumindo todo o Carma.</span>
+        Type: Talento
+      "121406":
+        Name: Ataque
+        Desc: ""
+      "121407":
+        Name: Execução Sumária
+        Desc: <span>Ataca o inimigo. Depois de entrar em batalha, causa Dano Quântico leve a todos os inimigos.</span>
+        Type: Técnica
+    Eidolons:
+      "121401":
+        Name: Dvesha, Inibida
+        Desc: <span>Aumenta em 40% o Dano causado pelo Ataque Extra do Talento.</span>
+      "121402":
+        Name: Klesha, Rompida
+        Desc: <span>O Ataque Extra do Talento reduz a Tenacidade inimiga independente dos Tipos de Fraqueza. Ao mesmo tempo, recupera os PV de Xueyi em uma quantidade igual a 5% dos PV máximos dela. Ao aplicar Quebra de Fraqueza, ativa o Efeito de Quebra Quântico.</span>
+      "121403":
+        Name: Duhkha, Cessada
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "121404":
+        Name: Carma, Partido
+        Desc: <span>Ao usar a Perícia Suprema, o Efeito de Quebra aumenta em 40% por 2 rodada(s).</span>
+      "121405":
+        Name: Deva, Encantada
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "121406":
+        Name: Samsara, Dominada
+        Desc: <span>O limite de acúmulo máximo para Carma reduzido para 6.</span>
+  "1215":
+    Name: Hanya
+    Abilities:
+      "121501":
+        Name: Pincel do Oráculo
+        Desc: <span>Causa Dano Físico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "121502":
+        Name: Samsara, Bloqueada
+        Desc: <span>Causa Dano Físico a um único inimigo e aplica Fardo a ele. Para cada 2 ATQs Básicos, Perícias ou Perícias Supremas que aliados utilizarem contra um inimigo com Fardo, os aliados </span><span style='color:#f29e38ff'>recuperarão 1 Ponto de Perícia</span><span>.</span>
+        Type: Perícia
+      "121503":
+        Name: Decreto dos Três Senhores, Todos Devem Obedecer
+        Desc: <span>Aumenta a </span><span style='color:#f29e38ff'>VEL e o ATQ</span><span> de um aliado.</span>
+        Type: Perícia Suprema
+      "121504":
+        Name: Sanção
+        Desc: <span>Aliados causam mais Dano ao atacar inimigos infligidos com Fardo.</span>
+        Type: Talento
+      "121506":
+        Name: Ataque
+        Desc: ""
+      "121507":
+        Name: Julgamento do Submundo
+        Desc: <span>Ataca o inimigo. Ao entrar na batalha, aplica Fardo equivalente ao aplicado pela Perícia a um inimigo aleatório.</span>
+        Type: Técnica
+    Eidolons:
+      "121501":
+        Name: Um Coração
+        Desc: <span>Quando um aliado com o efeito da Perícia Suprema de Hanya derrotar um inimigo, a ação de Hanya é Avançada Adiante em 15%. Esse efeito só pode ser ativado 1 vez(es) por rodada.</span>
+      "121502":
+        Name: Duas Visualizações
+        Desc: <span>Após usar a Perícia, a VEL deste personagem aumenta em 20% por 1 rodada(s).</span>
+      "121503":
+        Name: Três Tentações
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "121504":
+        Name: Quatro Verdades
+        Desc: <span>A duração da Perícia Suprema é estendida por mais 1 rodada(s).</span>
+      "121505":
+        Name: Cinco Skandhas
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "121506":
+        Name: Seis Reverências
+        Desc: <span>Aumenta o efeito de Bônus de Dano do Talento em um adicional de 10%.</span>
+  "1217":
+    Name: Huohuo
+    Abilities:
+      "121701":
+        Name: "Estandarte: Invoca-Tempestades"
+        Desc: <span>Causa Dano de Vento leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "121702":
+        Name: "Talismã: Proteção"
+        Desc: <span>Remove 1 <u>penalidade</u> de um aliado e </span><span style='color:#f29e38ff'>restaura PV</span><span> daquele aliado e dos aliados adjacentes a ele.</span>
+        Type: Perícia
+      "121703":
+        Name: "Rabin: Dominação Espiritual"
+        Desc: <span></span><span style='color:#f29e38ff'>Regenera a Energia</span><span> de todos os aliados (excluindo este personagem) e </span><span style='color:#f29e38ff'>aumenta o ATQ</span><span> deles.</span>
+        Type: Perícia Suprema
+      "121704":
+        Name: "Possessão: Metafluxo Etéreo"
+        Desc: <span>Huohuo ganha Provisão Divina depois de usar sua Perícia. Se Huohuo possuir Vida Sacrificada no início da rodada de um aliado ou quando um aliado usa sua Perícia Suprema, </span><span style='color:#f29e38ff'>restaura os PV do aliado</span><span>. Ao mesmo tempo, </span><span style='color:#f29e38ff'>todos os aliados</span><span> com PV baixos </span><span style='color:#f29e38ff'>recebem uma cura</span><span>. Quando Provisão Divina é ativada para curar um aliado, </span><span style='color:#f29e38ff'>remove 1 <u>penalidade</u> daquele aliado</span><span>.</span>
+        Type: Talento
+      "121706":
+        Name: Ataque
+        Desc: ""
+      "121707":
+        Name: "Demônio: Destituição do Mal"
+        Desc: <span>Deixa inimigos próximos Horrorizados. Ao entrar numa luta com inimigos Horrorizados, há altas chances de aplicar </span><span style='color:#f29e38ff'>redução de ATQ</span><span> nos inimigos-alvos.</span>
+        Type: Técnica
+    Eidolons:
+      "121701":
+        Name: Ancorada ao Receptáculo, Espectros Aninhados
+        Desc: <span>A duração da Provisão Divina produzida pelo Talento é estendida em 1 rodada(s). Quando Huohuo possui Provisão Divina, a VEL de todos os aliados aumenta em 12%.</span>
+      "121702":
+        Name: Selada no Rabin, Espectro Subjugado
+        Desc: <span>Se Huohuo possuir Provisão Divina quando um aliado for atingido por um golpe fatal, o aliado não será derrubado, e seus PV serão imediatamente restaurados em uma quantidade igual a 50% dos seus PV máximos. Isso reduz a duração da Provisão Divina em 1 rodada. Este efeito só pode ser ativado 2 vez(es) por batalha.</span>
+      "121703":
+        Name: Amaldiçoada pelo Destino, Mariposas às Chamas
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "121704":
+        Name: Presa à Vida, Atada à Contenda
+        Desc: <span>Ao curar um aliado-alvo com a Perícia ou o Talento, quanto menos PV o aliado-alvo tiver no momento, maior a cura que ele receberá. O aumento máximo de cura fornecido por Huohuo é 80%.</span>
+      "121705":
+        Name: Exigido pelo Decreto, Males Expulsos
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "121706":
+        Name: Tecido em Conjunto, Adesão Eterna
+        Desc: <span>Ao curar um aliado-alvo, aumenta o Dano causado pelo aliado-alvo em 50% por 2 rodada(s).</span>
+  "1218":
+    Name: Jiaoqiu
+    Abilities:
+      "121801":
+        Name: Coração em Chamas
+        Desc: <span>Causa Dano de Fogo leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "121802":
+        Name: Massacre em Brasas
+        Desc: <span>Causa Dano de Fogo a um único inimigo e Dano de Fogo leve a alvos adjacentes, com altas chances de infligir 1 acúmulo de Assado Acinzentado ao alvo principal.</span>
+        Type: Perícia
+      "121803":
+        Name: Arcano do Pirógrafo
+        Desc: <span>Define o número de acúmulos de "Assado Acinzentado" nos inimigos-alvo para o maior número de acúmulos de "Assado Acinzentado" presente no campo de batalha no momento. Então, ativa um Campo e causa Dano de Fogo a todos os inimigos. Enquanto estiverem dentro do Campo, inimigos-alvo </span><span style='color:#f29e38ff'>recebem mais Dano de Perícia Suprema</span><span>, com uma chance de serem afligidos com 1 acúmulo de Assado Acinzentado ao agir.</span>
+        Type: Perícia Suprema
+      "121804":
+        Name: Fineza de um Quarteto, Elegância de um Octeto
+        Desc: <span>Após atacar, há uma chance alta de infligir 1 acúmulo de Assado Acinzentado no alvo, fazendo com que o inimigo receba Dano aumentado e também seja considerado com efeito de Queimadura ao mesmo tempo.</span>
+        Type: Talento
+      "121806":
+        Name: Ataque
+        Desc: ""
+      "121807":
+        Name: Amainador de Chamas
+        Desc: <span>Cria uma dimensão especial. Depois de iniciar uma batalha contra inimigos nesta dimensão, causa Dano de Fogo leve a todos os inimigos, com uma alta chance de aplicar 1 acúmulo de "Assado Acinzentado".</span>
+        Type: Técnica
+    Eidolons:
+      "121801":
+        Name: Transferência Pentapática
+        Desc: <span>Aliados causam 40% de Dano a mais aos inimigos-alvo afligidos com Assado Acinzentado. Sempre que infligir Assado Acinzentado em um inimigo-alvo através do acionamento do efeito do Talento, adicionalmente aumenta o número acúmulos de Assado Acinzentado aplicado desta vez em 1.</span>
+      "121802":
+        Name: Do Sabor Vem o Sofrimento
+        Desc: <span>Quando um inimigo-alvo é infligido com Assado Acinzentado, aumenta o Multiplicador do Dano de Fogo Contínuo causado pelo Assado Acinzentado ao alvo em 300%.</span>
+      "121803":
+        Name: Eufonia Saborosa Reina Soberana
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "121804":
+        Name: Tranquilo por Dentro, Brilhante por Fora
+        Desc: <span>Enquanto o Campo estiver ativo, reduz o ATQ do inimigo-alvo em 15%.</span>
+      "121805":
+        Name: Duelo ao Amanhecer, Fuga ao Entardecer
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "121806":
+        Name: Enlace de Fogo Nonamórfico
+        Desc: <span>Quando um inimigo-alvo é derrotado, os acúmulos de "Assado Acinzentado" dele serão transferidos ao inimigo com o menor número de acúmulos de "Assado Acinzentado" no campo de batalha. O limite máximo de acúmulos de Assado Acinzentado aumenta para 9, e cada acúmulo de "Assado Acinzentado" reduz a RES a Todos os Tipos do alvo em 3%.</span>
+  "1220":
+    Name: Feixiao
+    Abilities:
+      "122001":
+        Name: Trovão Descendente
+        Desc: <span>Causa Dano de Vento leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "122002":
+        Name: Fissura do Machado
+        Desc: <span>Causa Dano de Vento a um inimigo, e utiliza adicionalmente o <u>Ataque Extra</u> do Talento 1 vez.</span>
+        Type: Perícia
+      "122003":
+        Name: Rompeterra
+        Desc: "<span>Durante a Perícia Suprema, pode </span><span style='color:#f29e38ff'>ignorar o Tipo de Fraqueza</span><span> para reduzir a Tenacidade do inimigo. Quando o alvo não estiver infligido com Quebra de Fraqueza, a </span><span style='color:#f29e38ff'>Eficiência de Quebra de Fraqueza</span><span> de Feixiao aumenta.<br>Utiliza Trovão Descendente ou Fissura do Machado Celestial em um único inimigo </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>6</span></span><span> vez(es). Causa Dano de Vento no final.</span>"
+        Type: Perícia Suprema
+      "122004":
+        Name: Caça aos Trovões
+        Desc: "<span>A Perícia Suprema pode ser ativada quando \"Aureus Voador\" atingir </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>6</span></span><span> pontos, acumulando até um máximo de </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>12</span></span><span> pontos. Para cada </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>2</span></span><span> ataques utilizados considerando todos os aliados-alvo, Feixiao ganha </span><span style='color:#f29e38ff'>\"Aureus Voador\"</span><span>.<br>Depois que companheiros de equipe usarem um ataque, Feixiao desfere um</span><span style='color:#f29e38ff'><u>Ataque Extra</u></span><span> contra o alvo principal, causando Dano de Vento. Este efeito pode ser ativado 1 vez por rodada. Ao utilizar esse ataque, aumenta </span><span style='color:#f29e38ff'>o Dano causado por esta unidade</span><span>.</span>"
+        Type: Talento
+      "122006":
+        Name: Ataque
+        Desc: ""
+      "122007":
+        Name: Advinda da Tempestade
+        Desc: <span>Entra no estado de "Investida". Puxa continuamente inimigos e a velocidade de movimento aumenta. Ganha "Aureus Voador" depois de entrar em batalha.<br>Enquanto estiver em "Investida", pode atacar ativamente todos os inimigos puxados. No início de cada onda, causa Dano de Vento a todos os inimigos. Este Dano tem CRIT garantido. </span><span style='color:#f29e38ff'>Quanto mais inimigos forem puxados, maior será o Multiplicador de Dano</span><span>.</span>
+        Type: Técnica
+    Eidolons:
+      "122001":
+        Name: Aos Céus eu Amaino
+        Desc: <span>Após usar Trovão Descendente ou Fissura do Machado Celestial, o Dano de Perícia Suprema causado por Feixiao aumenta adicionalmente em uma quantidade igual a 10% do Dano original, acumulando até 5 vez(es) e durando até o final da ação da Perícia Suprema.</span>
+      "122002":
+        Name: À Lua Eu Desejo
+        Desc: <span>No efeito do Talento, cada vez que um aliado desfere 1 Ataque Extra, Feixiao ganha 1 ponto de "Aureus Voador". Esse efeito pode ser ativado até 6 vez(es) por rodada.</span>
+      "122003":
+        Name: Às Estrelas Eu Prevejo
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "122004":
+        Name: À Tempestade Eu Ouço
+        Desc: <span>O Ataque Extra do Talento tem sua Redução de Tenacidade aumentada em 100%, e ao ser desferido, aumenta a VEL desta unidade em 8%, com duração de 2 rodada(s).</span>
+      "122005":
+        Name: Ao Paraíso Eu Salto
+        Desc: <span>Nv. da Perícia + 2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "122006":
+        Name: Do Lar Me Aproximo
+        Desc: <span>Aumenta a PEN de RES a todos os Tipos do Dano de Perícia Suprema causado por Feixiao em 20%. O Dano do Ataque Extra do Talento é considerado como Dano de Perícia Suprema ao mesmo tempo, e aumenta seu multiplicador de Dano em 140%.</span>
+  "1221":
+    Name: Yunli
+    Abilities:
+      "122101":
+        Name: Salto dos Ventos Rodopiantes
+        Desc: <span>Causa Dano Físico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "122102":
+        Name: Terremoto de Lâminas
+        Desc: <span>Restaura os PV dessa unidade e causa Dano Físico leve a um único inimigo e seus alvos adjacentes.</span>
+        Type: Perícia
+      "122103":
+        Name: Amarras da Terra, Quebra de Éter
+        Desc: <span>Entra em "Apara" e provoca todos os inimigos. Ao atacar durante este período, ativa um </span><span style='color:#f29e38ff'><u>Contra-Ataque</u> poderoso</span><span> e </span><span style='color:#f29e38ff'>causa Dano Físico</span><span> ao atacante e alvos adjacentes. Então, causa Dano Físico leve a um único inimigo-alvo que ricocheteia 6 vezes. Se nenhum Contra-Ataque for acionado durante o estado de Apara, causa Dano Físico a um inimigo-alvo aleatório e alvos adjacentes quando Apara acaba.</span>
+        Type: Perícia Suprema
+      "122104":
+        Name: Forja Fulgurante
+        Desc: <span>Quando Yunli é atacada por um inimigo-alvo, adicionalmente regenera Energia e imediatamente desfere um <u>Contra-Ataque</u> contra o atacante e alvos adjacentes.</span>
+        Type: Talento
+      "122106":
+        Name: Ataque
+        Desc: ""
+      "122107":
+        Name: Predecessor Posterior
+        Desc: "<span>Esta unidade ganha o efeito de Sentinela, durando por <span style='whiteSpace: \"nowrap\"'>20</span> segundos. Durante este tempo, ao entrar em combate atacando inimigos ou recebendo um ataque, utiliza imediatamente \"Intuito: Abatedora\" em um inimigo aleatório.</span>"
+        Type: Técnica
+    Eidolons:
+      "122101":
+        Name: Lâmina Experiente Livre de Mácula
+        Desc: "<span>Aumenta o Dano causado por \"Intuito: Corte\" e \"Intuito: Abatedora\" em 20%. Aumenta o número de ocorrências adicionais de Dano para \"Intuito: Abatedora\" em 3.</span>"
+      "122102":
+        Name: Primeira Luz do Alvorecer
+        Desc: <span>Ao causar Dano ao utilizar um Contra-Ataque, ignora 20% da DEF do alvo.</span>
+      "122103":
+        Name: Domínio do Ferro
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "122104":
+        Name: Canção de Ferro do Artesão
+        Desc: "<span>Após utilizar \"Intuito: Corte\" ou \"Intuito: Abatedora\", aumenta a RES a Efeito dessa unidade em 50%, durando por 1 rodada(s).</span>"
+      "122105":
+        Name: A Lâmina Ancestral Sobrevive a Tudo
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "122106":
+        Name: Caminho da Lâmina, Vozes da Cítara
+        Desc: "<span>Enquanto Apara está ativa, se um inimigo usar ativamente suas habilidades, independentemente se ele atacar Yunli ou não, \"Intuito: Abatedora\" será ativado e o efeito de \"Apara\" será removido. Ao causar Dano através do \"Intuito: Corte\" ou \"Intuito: Abatedora\", aumenta a Chance de CRIT em 15% e a PEN de RES a Físico em 20%.</span>"
+  "1222":
+    Name: Lingsha
+    Abilities:
+      "122201":
+        Name: Incenso de Votos
+        Desc: <span>Causa Dano de Fogo leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "122202":
+        Name: Fumaça e Esplendor
+        Desc: <span>Causa Dano de Fogo leve a todos os inimigos e, ao mesmo tempo, </span><span style='color:#f29e38ff'>restaura PV</span><span> para todos os aliados. A ação de Fuyuan é <u>Avançada Adiante</u>.</span>
+        Type: Perícia
+      "122203":
+        Name: Respingos Enevoados
+        Desc: <span>Aumenta o </span><span style='color:#f29e38ff'>Dano de Quebra recebido</span><span> por todos os inimigos, causa Dano de Fogo a todos os inimigos ao mesmo tempo, </span><span style='color:#f29e38ff'>restaura os PV</span><span> de todos os aliados e a ação de Fuyuan é <u>Avançada Adiante</u>.</span>
+        Type: Perícia Suprema
+      "122204":
+        Name: Manifesto da Dança da Névoa
+        Desc: "<span>Usar a Perícia invoca Fuyuan: Ao realizar uma ação, desfere um </span><span style='color:#f29e38ff'><u>Ataque Extra</u></span><span> e causa Dano de Fogo leve a todos os inimigos. Além disso, causa Dano de Fogo leve a um único inimigo aleatório, priorizando alvos que possuam Tenacidade maior que 0 e Fraqueza contra Fogo. Remove 1 <u>penalidade</u> de todos os aliados e </span><span style='color:#f29e38ff'>restaura os PV</span><span> deles.<br>Usar a Perícia repetidamente aumentará o contador de ação de Fuyuan.</span>"
+        Type: Talento
+      "122206":
+        Name: Ataque
+        Desc: ""
+      "122207":
+        Name: Chamas de Aurora
+        Desc: <span>Após usar a Técnica, invoca Fuyuan imediatamente no começo da próxima batalha e aumenta o </span><span style='color:#f29e38ff'>Dano de Quebra recebido</span><span> por todos os inimigos.</span>
+        Type: Técnica
+    Eidolons:
+      "122201":
+        Name: Floreio no Buquê do Vilarejo
+        Desc: <span>A Eficiência de Quebra de Fraqueza de Lingsha aumenta em 50%. Quando uma unidade inimiga é afligida com Quebra de Fraqueza, sua defesa é reduzida em 20%.</span>
+      "122202":
+        Name: Lazer Sob o Véu de Fumaça Carmim
+        Desc: <span>Ao usar a Perícia Suprema, aumenta o Efeito de Quebra de todos os aliados em 40%, durando por 3 rodada(s).</span>
+      "122203":
+        Name: Brilho do Pavio Floral
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "122204":
+        Name: Aroma do Banquete Adornado
+        Desc: <span>Quando Fuyuan age, restaura PV igual a 40% do ATQ de Lingsha para o aliado com menos PV no momento.</span>
+      "122205":
+        Name: Aprumo Diante de Reviravoltas
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "122206":
+        Name: Arcádia Sob Profunda Reclusão
+        Desc: <span>Enquanto Fuyuan estiver no campo, reduz a RES a Todos os Tipos de todos os inimigos em 20%. Quando Fuyuan ataca, desfere adicionalmente 4 instância(s) de Dano, com cada instância causando Dano de Fogo igual a 50% do ATQ de Lingsha e uma Redução de Tenacidade de 5 a um único inimigo aleatório. Isso prioriza alvos que possuam Tenacidade maior que 0 e Fraqueza contra Fogo.</span>
+  "1223":
+    Name: Moze
+    Abilities:
+      "122301":
+        Name: Atirar Espinhos
+        Desc: <span>Causa Dano de Raio leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "122302":
+        Name: Invasão Alada Veloz
+        Desc: "<span></span><span style='color:#f29e38ff'>Marca um único inimigo como \"Presa\"</span><span> e causa Dano de Raio a ele. Ganha </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>9</span></span><span> ponto(s) de Carga.</span>"
+        Type: Perícia
+      "122303":
+        Name: <unbreak>Invadir,</unbreak> <unbreak>Fugir</unbreak>
+        Desc: <span>Causa Dano de Raio a um único inimigo e utiliza o </span><span style='color:#f29e38ff'><u>Ataque Extra</u></span><span> do Talento.</span>
+        Type: Perícia Suprema
+      "122304":
+        Name: Cascata de Lâminas Emplumadas
+        Desc: "<span>Enquanto houver uma \"Presa\" no campo, Moze entrará no estado de </span><span style='color:#f29e38ff'><u>Partida</u></span><span>.<br>Depois que aliados atacam a \"Presa\", Moze causa </span><span style='color:#f29e38ff'><u>Dano Adicional</u></span><span> de Raio e consome 1 ponto de Carga. Para cada </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>3</span></span><span> ponto(s) de Carga consumido(s), Moze utiliza </span><span style='color:#f29e38ff'><u>Ataque Extra</u></span><span> conta a \"Presa\", causando Dano de Raio. Quando a Carga está em 0, remove o estado de \"Presa\" do alvo.</span>"
+        Type: Talento
+      "122306":
+        Name: Ataque
+        Desc: ""
+      "122307":
+        Name: Asas Abatidas
+        Desc: <span>Entra no estado de Furtividade. Atacar inimigos para iniciar o combate enquanto no modo de Furtividade aumenta o Dano.</span>
+        Type: Técnica
+    Eidolons:
+      "122301":
+        Name: Mantenedor de Promessas
+        Desc: <span>Após entrar em batalha, Moze restaura 20 de Energia. Cada vez que o Dano Adicional de seu Talento for ativado, Moze restaura 2 de Energia.</span>
+      "122302":
+        Name: Sustento da Ira
+        Desc: <span>Quando aliados causam Dano ao inimigo-alvo marcado como "Presa", aumenta o Dano CRIT em 40%.</span>
+      "122303":
+        Name: Perseguidor da Morte
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "122304":
+        Name: Predador Selvagem
+        Desc: <span>Ao usar a Perícia Suprema, aumenta o Dano causado por Moze em 30%, durando por 2 rodada(s).</span>
+      "122305":
+        Name: Dobrador de Verdades
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "122306":
+        Name: Vinculador de Fé
+        Desc: <span>Aumenta em 25% o multiplicador de Dano do Ataque Extra do Talento.</span>
+  "1224":
+    Name: 7 de Março
+    Abilities:
+      "122401":
+        Name: Minha Espada Eletrocuta Demônios
+        Desc: "<span>Causa Dano Imaginário leve a um único inimigo e ganha </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>1</span></span><span> ponto(s) de Carga.</span>"
+        Type: ATQ Básico
+      "122402":
+        Name: Shifu, É Hora do Chá!
+        Desc: "<span>Faz com que um único aliado se torne Shifu. Ao utilizar ATQ Básico ou causar Dano de ATQ Básico Aprimorado, aciona o efeito correspondente ao </span><span style='color:#f29e38ff'>Caminho do Shifu</span><span>:<br>A Erudição, A Destruição, A Caça: causa </span><span style='color:#f29e38ff'><u>Dano Adicional</u></span><span> com base no Tipo do Shifu.<br>A Harmonia, A Inexistência, A Preservação, A Abundância: a </span><span style='color:#f29e38ff'>Redução de Tenacidade</span><span> aumenta.</span>"
+        Type: Perícia
+      "122403":
+        Name: 7 de Março, a Maior das Heroínas
+        Desc: <span>Causa Dano Imaginário a um único inimigo e </span><span style='color:#f29e38ff'>aumenta</span><span> os Golpes por Ação e a chance de Dano do </span><span style='color:#f29e38ff'>próximo ATQ Básico Aprimorado</span><span>.</span>
+        Type: Perícia Suprema
+      "122404":
+        Name: Shifu, Eu Ascendi!
+        Desc: "<span>Depois que </span><span style='color:#f29e38ff'>o Shifu usa um ataque ou Perícia Suprema</span><span>, 7 de Março ganha Carga. Quando os pontos de Carga atingem </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>7</span></span><span>, 7 de Março age imediatamente e aumenta o Dano causado por ela. </span><span style='color:#f29e38ff'>O ATQ Básico dela é Aprimorado</span><span>.</span>"
+        Type: Talento
+      "122406":
+        Name: Ataque
+        Desc: ""
+      "122407":
+        Name: Banquete de Uma Só Vez
+        Desc: <span>Sempre que um aliado usa uma Técnica, 7 de Março ganha uma Carga ao entrar na próxima batalha. Utilizar a Técnica regenera Energia ao entrar na próxima batalha.</span>
+        Type: Técnica
+    Eidolons:
+      "122401":
+        Name: Minha Espada Agita o Brilho Estelar
+        Desc: <span>Quando o Shifu estiver em campo, aumenta a VEL de 7 de Março em 10%.</span>
+      "122402":
+        Name: Lâmina que Dança na Luta de Ondas
+        Desc: <span>Depois que o Shifu usar ATQ Básico ou Perícia para atacar um inimigo-alvo, 7 de Março utiliza um Ataque Extra imediatamente e causa Dano Imaginário igual a 60% do ATQ de 7 de Março ao alvo principal deste ataque. Adicionalmente, ativa o efeito correspondente ao Caminho do Shifu e então ganha 1 ponto(s) de Carga. Se não houver nenhum alvo principal que possa ser atacado, então ataca um único inimigo aleatório em seu lugar. Esse efeito só pode ser ativado uma vez por rodada.</span>
+      "122403":
+        Name: Astúcia Afiada na Valentia Marcial
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "122404":
+        Name: Ser Fabulosa Nunca Assusta
+        Desc: <span>No início da rodada, regenera 5 de Energia.</span>
+      "122405":
+        Name: Doçuras da Lâmina, Amargores do Açúcar
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "122406":
+        Name: Eu, a Maioral à Vista
+        Desc: <span>Depois de usar a Perícia Suprema, aumenta o Dano CRIT causado pelo próximo ATQ Básico Aprimorado em 50%.</span>
+  "1301":
+    Name: Gallagher
+    Abilities:
+      "130101":
+        Name: Taxa de Rolha
+        Desc: <span>Causa Dano de Fogo leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "130102":
+        Name: Bebida Especial
+        Desc: <span>Imediatamente recupera os PV de um aliado.</span>
+        Type: Perícia
+      "130103":
+        Name: Etiqueta de Champanhe
+        Desc: <span></span><span style='color:#f29e38ff'>Inflige Inebriação</span><span> a todos os inimigos e causa Dano de Fogo a eles ao mesmo tempo. Aprimora o próximo ATQ Básico para Blitz de Néctar.</span>
+        Type: Perícia Suprema
+      "130104":
+        Name: Luta Embriagante
+        Desc: <span>O estado de Inebriação </span><span style='color:#f29e38ff'>faz com que alvos recebam mais Dano de Quebra</span><span>. Sempre que o alvo é atacado por um aliado, </span><span style='color:#f29e38ff'>os PV do atacante são restaurados</span><span>.</span>
+        Type: Talento
+      "130106":
+        Name: Ataque
+        Desc: ""
+      "130107":
+        Name: Artesão de Elixires
+        Desc: <span>Ataca o inimigo. Depois de entrar em batalha, </span><span style='color:#f29e38ff'>inflige Inebriação</span><span> a todos os inimigos e causa Dano de Fogo leve a todos os inimigos.</span>
+        Type: Técnica
+    Eidolons:
+      "130101":
+        Name: Cão Salgado
+        Desc: <span>Regenera 20 de Energia quando Gallagher entra em batalha e aumenta a RES a Efeito dele em 50%.</span>
+      "130102":
+        Name: Cauda de Leão
+        Desc: <span>Ao usar a Perícia, remove 1 Penalidade(s) de um aliado-alvo. Ao mesmo tempo, aumenta a sua RES a Efeito em 30%, durando por 2 rodada(s).</span>
+      "130103":
+        Name: Reanimador de Cadáveres
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "130104":
+        Name: Última Palavra
+        Desc: <span>Estende em 1 rodada(s) a duração do estado de Inebriação infligido pela Perícia Suprema de Gallagher.</span>
+      "130105":
+        Name: Morte ao Meio-Dia
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "130106":
+        Name: Sangue e Areia
+        Desc: <span>Aumenta o Efeito de Quebra de Gallagher em 20% e a Eficiência de Quebra de Fraqueza em 20%.</span>
+  "1302":
+    Name: Argenti
+    Abilities:
+      "130201":
+        Name: Perfume Efêmero
+        Desc: <span>Causa Dano Físico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "130202":
+        Name: Justiça, Aqui Floresce
+        Desc: <span>Causa Dano Físico leve a todos os inimigos.</span>
+        Type: Perícia
+      "130203":
+        Name: Pois Neste Jardim, a Beleza Suprema Concede
+        Desc: "<span>Consome </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>90</span></span><span> de Energia e causa Dano Físico a todos os inimigos.</span>"
+        Type: Perícia Suprema
+      "130204":
+        Name: Objeto Sublime
+        Desc: <span>Quando Argenti usa seu ATQ Básico, Perícia ou Perícia Suprema, ele </span><span style='color:#f29e38ff'>regenera Energia</span><span> e aumenta sua </span><span style='color:#f29e38ff'>Chance de CRIT</span><span> para cada inimigo-alvo atingido.</span>
+        Type: Talento
+      "130206":
+        Name: Ataque
+        Desc: ""
+      "130207":
+        Name: Manifesto da Mais Pura Virtude
+        Desc: <span>Inflige Confusão em todos os inimigos em uma área definida. Ao atacar um inimigo com Confusão para entrar em combate, causa Dano Físico leve a todos os inimigos e regenera energia de Argenti.</span>
+        Type: Técnica
+    Eidolons:
+      "130201":
+        Name: Uma Lacuna no Reino da Estética
+        Desc: <span>Cada acúmulo de Apoteose aumenta o Dano CRIT adicionalmente em 4%.</span>
+      "130202":
+        Name: Humildade de Ágata
+        Desc: <span>Se o número de inimigos no campo é igual a 3 ou mais quando utilizar a Perícia Suprema, o ATQ aumenta em 40% por 1 rodada(s).</span>
+      "130203":
+        Name: Glória do Caminho de Espinhos
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "130204":
+        Name: Devoção do Clarim
+        Desc: <span>No início da batalha, ganha 2 acúmulo(s) de Apoteose e aumenta o limite máximo de acúmulos do efeito do Talento em 2.</span>
+      "130205":
+        Name: Neve, de Algum Lugar no Cosmos
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "130206":
+        Name: "\"Vossa\" Resplandecência"
+        Desc: <span>Ao usar a Perícia Suprema, ignora 30% da DEF do inimigo-alvo.</span>
+  "1303":
+    Name: Ruan Mei
+    Abilities:
+      "130301":
+        Name: Fios de Perfume
+        Desc: <span>Causa Dano de Gelo leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "130302":
+        Name: Cordas Cantam Lentos Sons
+        Desc: <span>Após usar sua Perícia, Ruan Mei ganha Tom Acima. Quando Ruan Mei possuir Tom Acima, o </span><span style='color:#f29e38ff'>Dano</span><span> e a </span><span style='color:#f29e38ff'>Eficiência de Quebra de Fraqueza</span><span> de todos os aliados é aumentada.</span>
+        Type: Perícia
+      "130303":
+        Name: Pétalas na Corrente, Repouso Indolente
+        Desc: <span>Aumenta a </span><span style='color:#f29e38ff'>PEN de RES a Todos os Tipos</span><span> para todos os aliados, e seus ataques aplicam Reflorescer da Ameixa aos inimigos atingidos.</span>
+        Type: Perícia Suprema
+      "130304":
+        Name: Hélice Somatotípica
+        Desc: <span>Aumenta a </span><span style='color:#f29e38ff'>VEL</span><span> para todos os aliados (com exceção deste personagem). Quebrar a Fraqueza de um inimigo-alvo </span><span style='color:#f29e38ff'>causará adicionalmente Dano de Quebra de Gelo</span><span>.</span>
+        Type: Talento
+      "130306":
+        Name: Ataque
+        Desc: ""
+      "130307":
+        Name: Serenata de Seda
+        Desc: "<span>Da próxima vez que entrar em batalha, ativa automaticamente a Perícia por </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>1</span></span><span> vez(es). Depois de usar a Técnica, aliados atacando inimigos no Universo Simulado ou no Universo Divergente sempre serão considerados como se estivessem atacando a Fraqueza para entrar em batalha, e sua Tenacidade é reduzida </span><span style='color:#f29e38ff'>independente dos Tipos de Fraqueza</span><span>. Para cada Bênção em posse, aumenta a Redução de Tenacidade e causa adicionalmente Dano de Quebra ao infligir Quebra de Fraqueza.</span>"
+        Type: Técnica
+    Eidolons:
+      "130301":
+        Name: Bordado Neurônico
+        Desc: <span>Quando o Campo da Perícia Suprema é ativado, o Dano causado por todos os aliados ignora 20% da DEF do alvo.</span>
+      "130302":
+        Name: Passeio Pela Relva
+        Desc: <span>Com Ruan Mei no campo, todos os aliados aumentam seus ATQs em 40% ao causar Dano a inimigos com Quebra de Fraqueza.</span>
+      "130303":
+        Name: Pirueta Viridescente
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "130304":
+        Name: Chatoyant Éclat
+        Desc: <span>Quando um inimigo-alvo sofrer de Quebra de Fraqueza, o Efeito de Quebra de Ruan Mei aumenta em 100% por 3 rodada(s).</span>
+      "130305":
+        Name: Presilha Lânguida
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "130306":
+        Name: Cascada de Lenços
+        Desc: <span>Estende a duração do Campo da Perícia Suprema por 1 rodada(s). O multiplicador do Dano de Quebra do Talento aumenta adicionalmente em 200%.</span>
+  "1304":
+    Name: Aventurine
+    Abilities:
+      "130401":
+        Name: Aposta Direta
+        Desc: <span>Causa Dano Imaginário leve a um único inimigo-alvo.</span>
+        Type: ATQ Básico
+      "130402":
+        Name: Alicerce de Luxo
+        Desc: <span>Fornece um escudo de Aposta Fortificada para todos os aliados, </span><span style='color:#f29e38ff'>cujo efeito de Escudo é acumulável</span><span>.</span>
+        Type: Perícia
+      "130403":
+        Name: Tubarão das Apostas
+        Desc: <span>Ganha um número aleatório de pontos na Aposta Cega e inflige Perturbação em um único inimigo, causando Dano Imaginário. Quando um aliado golpeia um inimigo com Perturbação, aumenta o </span><span style='color:#f29e38ff'>Dano CRIT causado</span><span>.</span>
+        Type: Perícia Suprema
+      "130404":
+        Name: Bem na Mira
+        Desc: <span>Para qualquer único aliado com Aposta Fortificada, sua RES a Efeito aumenta e, quando ele é atacado, Aventurine acumula Aposta Cega. Quando Aventurine possui Aposta Fortificada, ele pode resistir a <u>penalidades de Controle Negativo</u>. Ao alcançar 7 pontos de Aposta Cega, Aventurine consome os 7 pontos para realizar um </span><span style='color:#f29e38ff'><u>Ataque Extra</u></span><span> que causa Dano Imaginário leve a inimigos aleatórios, ricocheteando um total de 7 vezes.</span>
+        Type: Talento
+      "130406":
+        Name: Ataque
+        Desc: ""
+      "130407":
+        Name: O Vermelho ou o Preto
+        Desc: <span>Usar a Técnica concederá 1 de 3 tipos de efeitos de Bônus de DEF de diferentes valores de melhoria aleatoriamente. Depois de entrar na próxima batalha, a DEF de todos os aliados aumenta pelo valor correspondente.</span>
+        Type: Técnica
+    Eidolons:
+      "130401":
+        Name: Dilema do Prisioneiro
+        Desc: <span>Aumenta o Dano CRIT dos aliados com Aposta Fortificada em 20%. Após utilizar a Perícia Suprema, fornece um Escudo de Aposta Fortificada para a equipe inteira, cujo efeito de Escudo é igual a 100% ao daquele fornecido pela Perícia, durando por 3 rodada(s).</span>
+      "130402":
+        Name: Racionalidade Limitada
+        Desc: <span>Ao usar o ATQ Básico, reduz a RES a Todos os Tipos do alvo em 12% por 3 rodada(s).</span>
+      "130403":
+        Name: Taxa Máxima
+        Desc: <span>Nv. de Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. de ATQ Básico +1, até no máximo Nv. 10.</span>
+      "130404":
+        Name: Paradoxo Suspenso Inesperado
+        Desc: <span>Ao ativar os Ataques Extras do Talento dele, primeiro a DEF de Aventurine aumenta em 40% por 2 rodada(s), e aumenta adicionalmente os Golpes por Ação do Ataque Extra ativados pelo Talento dele em 3.</span>
+      "130405":
+        Name: Aversão Ambígua
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "130406":
+        Name: Caça ao Cervo
+        Desc: <span>Para cada aliado com um Escudo, o Dano causado por Aventurine aumenta em 50%, até um máximo de 150%.</span>
+  "1305":
+    Name: Dr. Ratio
+    Abilities:
+      "130501":
+        Name: A Mente É Poderosa
+        Desc: <span>Causa Dano Imaginário leve a um único inimigo-alvo.</span>
+        Type: ATQ Básico
+      "130502":
+        Name: Obstetrícia Intelectual
+        Desc: <span>Causa Dano Imaginário a um único inimigo.</span>
+        Type: Perícia
+      "130503":
+        Name: Paradoxo Silogístico
+        Desc: <span>Causa Dano Imaginário a um único inimigo-alvo e aplica Tolice do Sábio. Quando os aliados do Dr. Ratio atacam um alvo afligido com Tolice do Sábio, o Dr. Ratio realiza 1 </span><span style='color:#f29e38ff'><u>Ataque Extra</u></span><span> contra este alvo.</span>
+        Type: Perícia Suprema
+      "130504":
+        Name: Cogito, Ergo Sum
+        Desc: <span>Ao usar a Perícia, há uma chance de realizar 1 </span><span style='color:#f29e38ff'><u>Ataque Extra</u></span><span> contra o alvo 1 vez.</span>
+        Type: Talento
+      "130506":
+        Name: Ataque
+        Desc: ""
+      "130507":
+        Name: Molde da Idolatria
+        Desc: <span>Cria uma dimensão especial. Inimigos dentro dessa dimensão sofrem Provocação. Após entrar em combate com inimigos nesta dimensão, há uma alta chance de reduzir a </span><span style='color:#f29e38ff'>VEL</span><span> dos inimigos-alvo.</span>
+        Type: Técnica
+    Eidolons:
+      "130501":
+        Name: Quanto Maior a Subida, Maior a Queda
+        Desc: <span>A contagem máxima de acúmulos para o Rastro "Soma" aumenta em 4. Quando uma batalha começa, obtém imediatamente 4 acúmulos de Soma. É necessário desbloquear Soma antes.</span>
+      "130502":
+        Name: O Divino Está nos Detalhes
+        Desc: <span>Quando o Ataque Extra do seu Talento atinge um alvo, para cada penalidade no alvo, causa Dano Imaginário Adicional igual a 20% do ATQ do Dr. Ratio. Este efeito pode ser acionado até um máximo de 4 vez(es) durante cada Ataque Extra.</span>
+      "130503":
+        Name: Conhece-te a Ti Mesmo
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "130504":
+        Name: Ignorância É Uma Bênção
+        Desc: <span>Ao ativar o Talento, adicionalmente regenera 15 de Energia do Dr. Ratio.</span>
+      "130505":
+        Name: Sic Itur Ad Astra
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "130506":
+        Name: Vincit Omnia Veritas
+        Desc: <span>Aumenta adicionalmente a contagem ativável para Tolice do Sábio em 1. O Dano causado pelo Ataque Extra do Talento aumenta em 50%.</span>
+  "1306":
+    Name: Sparkle
+    Abilities:
+      "130601":
+        Name: Monodrama
+        Desc: <span>Causa Dano Quântico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "130602":
+        Name: Mergulhadora de Sonhos
+        Desc: <span>Aumenta o </span><span style='color:#f29e38ff'>Dano CRIT</span><span> de um aliado e sua ação é Avançada Adiante.</span>
+        Type: Perícia
+      "130603":
+        Name: A Heroína de Mil Faces
+        Desc: <span>Recupera </span><span style='color:#f29e38ff'>Pontos de Perícia</span><span> para a equipe e habilita que o Bônus de Dano provido pelo Talento de Sparkle seja adicionalmente aprimorado.</span>
+        Type: Perícia Suprema
+      "130604":
+        Name: Pista Falsa
+        Desc: <span>Aumenta o </span><span style='color:#f29e38ff'>máximo de Pontos de Perícia</span><span> da equipe. Sempre que um aliado consome Pontos de Perícia, permite que todos os aliados </span><span style='color:#f29e38ff'>causem mais Dano</span><span>.</span>
+        Type: Talento
+      "130606":
+        Name: Ataque
+        Desc: ""
+      "130607":
+        Name: Narradora Nada Confiável
+        Desc: <span>Usar a Técnica oferece a todos os aliados Desorientação. Personagens com Desorientação não serão detectados pelos inimigos, e entrar em batalha enquanto em Desorientação recupera </span><span style='color:#f29e38ff'>Pontos de Perícia</span><span> para os aliados.</span>
+        Type: Técnica
+    Eidolons:
+      "130601":
+        Name: Suspensão de Descrença
+        Desc: <span>O efeito de Criptografia concedido pela Perícia Suprema dura por 1 rodada extra. Todos os aliados com Criptografia têm seu ATQ aumentado em 40%.</span>
+      "130602":
+        Name: Puramente Fictício
+        Desc: <span>Cada acúmulo do efeito do Talento permite que os aliados ignorem adicionalmente 8% da DEF do alvo ao causar Dano.</span>
+      "130603":
+        Name: Sonho Impossível
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "130604":
+        Name: A Vida É uma Aposta
+        Desc: <span>A Perícia Suprema recupera mais 1 de Ponto de Perícia. O Talento ainda aumenta adicionalmente o máximo de Pontos de Perícia em 1.</span>
+      "130605":
+        Name: Verdade Paraláctica
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "130606":
+        Name: Narrativa Polissêmica
+        Desc: <span>O efeito de Bônus de Dano CRIT fornecido pela Perícia aumenta adicionalmente em uma quantidade igual a 30% do Dano CRIT de Sparkle. Quando Sparkle usa sua Perícia, o efeito de Bônus de Dano CRIT da Perícia dela será aplicado a todos os aliados com Criptografia. Quando Sparkle usa sua Perícia Suprema, qualquer aliado único que se beneficie do Bônus de Dano CRIT da Perícia dela espalhará esse efeito para aliados com Criptografia.</span>
+  "1307":
+    Name: Cisne Negro
+    Abilities:
+      "130701":
+        Name: Percepção, Amanhecer Silencioso
+        Desc: <span>Causa Dano de Vento leve a um único inimigo e tem uma chance de aplicar <u>Arcana</u> ao alvo. Depois de atacar um alvo afligido com </span><span style='color:#f29e38ff'>Cisalhamento de Vento, Sangramento, Queimadura ou Choque</span><span>, existe uma chance respectiva de </span><span style='color:#f29e38ff'>aplicar <u>Arcana</u> adicionalmente</span><span>.</span>
+        Type: ATQ Básico
+      "130702":
+        Name: Decadência, Falso Crepúsculo
+        Desc: <span>Causa Dano de Vento leve a um único inimigo-alvo e a quaisquer alvos adjacentes, com uma alta chance de </span><span style='color:#f29e38ff'>infligir <u>Arcana</u> nos alvos</span><span> e reduzir a DEF deles.</span>
+        Type: Perícia
+      "130703":
+        Name: Bênção do Abraço de Outro Mundo
+        Desc: <span>Inflige Epifania em todos os inimigos, aumentando o Dano que os alvos recebem em suas rodadas. Adicionalmente, </span><span style='color:#f29e38ff'>possuir <u>Arcana</u> é considerado como possuir Cisalhamento de Vento, Sangramento, Queimadura ou Choque</span><span>. Além disso, os acúmulos de <u>Arcana</u> não serão redefinidos depois de causar Dano no início da próxima rodada. Causa Dano de Vento a todos os inimigos.</span>
+        Type: Perícia Suprema
+      "130704":
+        Name: Capricho do Tear do Destino
+        Desc: <span>Quando um inimigo-alvo recebe Dano Contínuo no início de cada rodada, há uma chance de ele ser afligido com <u>Arcana</u>. Ele recebe </span><span style='color:#f29e38ff'>Dano de Vento Contínuo</span><span> no início da rodada e Cisne Negro ativa </span><span style='color:#f29e38ff'>efeitos adicionais</span><span> com base no número de acúmulos de <u>Arcana</u>.</span>
+        Type: Talento
+      "130706":
+        Name: Ataque
+        Desc: ""
+      "130707":
+        Name: De Farsa à Verdade
+        Desc: <span>Depois que essa Técnica é utilizada, no início da próxima batalha há uma chance alta de cada inimigo ser </span><span style='color:#f29e38ff'>afligido com Arcana até que a aplicação de <u>Arcana</u> falhe</span><span>.</span>
+        Type: Técnica
+    Eidolons:
+      "130701":
+        Name: Sete Pilares da Sabedoria
+        Desc: <span>Enquanto Cisne Negro estiver ativa em batalha, inimigos com o estado de Cisalhamento de Vento, Sangramento, Queimadura ou Choque têm, respectivamente, sua RES a Vento, Físico, Fogo ou Raio reduzida em 25%.</span>
+      "130702":
+        Name: Não Chore por Mim, Cordeirinho
+        Desc: <span>Quando um inimigo-alvo afligido por Arcana for derrotado, há uma chance-base de 100% de infligir 6 acúmulo(s) de Arcana a alvos adjacentes.</span>
+      "130703":
+        Name: Assim na Terra como no Céu
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "130704":
+        Name: Em Lágrimas, Nós Presenteamos
+        Desc: <span>Enquanto estiverem no estado de Epifania, a RES a Efeito dos inimigos-alvo é reduzida em 10% e Cisne Negro regenera 8 de Energia no início da rodada desses alvos ou quando eles são derrotados. Essa Regeneração de Energia só pode ativar 1 vez enquanto Epifania durar. A contagem de ativação é redefinida quando Epifania é aplicada novamente.</span>
+      "130705":
+        Name: Voo Migratório
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "130706":
+        Name: Panteão Misericordioso, Massas Lamentáveis
+        Desc: <span>Quando um inimigo-alvo é atacado pelos aliados da Cisne Negro, Cisne Negro tem uma chance-base de 65% de infligir 1 acúmulo de Arcana no alvo.<br>Sempre que Cisne Negro infligir Arcana em um inimigo-alvo, há uma chance fixa de 50% de aumentar adicionalmente o número de Arcana acumulados desta vez em 1.</span>
+  "1308":
+    Name: Acheron
+    Abilities:
+      "130801":
+        Name: Caminhos Definhados Trilaterais
+        Desc: <span>Causa Dano de Raio leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "130802":
+        Name: Brilho de Oito Trovões
+        Desc: "<span>Ganha </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>1</span></span><span> ponto(s) de Sonho Retalhado. Inflige </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>1</span></span><span> acúmulo(s) de Nó Rubro a um único inimigo e causa Dano de Raio a ele, assim como Dano de Raio leve a alvos adjacentes.</span>"
+        Type: Perícia
+      "130803":
+        Name: Lágrimas Vermelhas do Sonho Retalhado
+        Desc: <span>Causa 3 golpes de Dano de Raio Leve a um único inimigo. Se Nó Rubro for removido do alvo, então causa Dano de Raio leve a todos os inimigos. Finalmente, causa 1 golpe de Dano de Raio a todos os inimigos e remove Nó Rubro.</span>
+        Type: Perícia Suprema
+      "130804":
+        Name: As Folhas de Outono Carregam Singularidades
+        Desc: <span>Quando Sonho Retalhado chega ao seu máximo, a Perícia Suprema pode ser utilizada. Durante a Perícia Suprema, exaure a Tenacidade dos inimigos </span><span style='color:#f29e38ff'>independentemente dos Tipos de Fraqueza</span><span> e reduz a </span><span style='color:#f29e38ff'>RES a Todos os Tipos</span><span> de todos os inimigos.<br>Quando qualquer unidade inflige penalidades em um inimigo-alvo enquanto usa uma habilidade, Acheron ganha Sonho Retalhado e inflige Nó Rubro no inimigo-alvo.</span>
+        Type: Talento
+      "130806":
+        Name: Ataque
+        Desc: ""
+      "130807":
+        Name: Ascendência Quadrivalente
+        Desc: <span>Ataca o inimigo. Recebe Ascendência Quadrivalente no início de cada onda, causando Dano de Raio a todos os inimigos e reduzindo sua Tenacidade </span><span style='color:#f29e38ff'>independentemente dos Tipos de Fraqueza</span><span>.<br>Se estiver atacando um inimigo comum, </span><span style='color:#f29e38ff'>imediatamente o derrota</span><span> sem entrar em combate. O Ponto de Técnica não é gasto se o ataque não atingir um inimigo.</span>
+        Type: Técnica
+    Eidolons:
+      "130801":
+        Name: Verdadeiras Palavras do Céu
+        Desc: <span>Ao causar Dano a inimigos com penalidade, aumenta a Chance de CRIT em 18%.</span>
+      "130802":
+        Name: Trovões Mudos na Tempestade Amainada
+        Desc: <span>O número de personagens no Caminho da Inexistência necessário para alcançar o maior efeito possível do Rastro "O Abismo" é reduzido por 1. No início da rodada desta unidade, ganha 1 ponto de Sonho Retalhado e inflige 1 acúmulo de Nó Rubro a um inimigo com mais acúmulos de Nó Rubro.</span>
+      "130803":
+        Name: Mordidas Gélidas na Morte
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "130804":
+        Name: Fogo Sagrado da Alma Refletida
+        Desc: <span>Quando o inimigo-alvo entra em combate, inflige a ele Vulnerabilidade a Dano da Perícia Suprema, aumentando a quantidade de Dano da Perícia Suprema recebido em 8%.</span>
+      "130805":
+        Name: Almas Espalhadas em Terras Apagadas
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "130806":
+        Name: Apocalipse, o Emancipador
+        Desc: <span>Aumenta a PEN de RES a Todos os Tipos do Dano de Perícia Suprema causado por Acheron em 20%. O Dano causado pelo ATQ Básico e pela Perícia também será considerado Dano de Perícia Suprema e pode reduzir a Tenacidade do inimigo independentemente dos Tipos de Fraqueza. Ao aplicar Quebra de Fraqueza, aciona o efeito de Quebra de Fraqueza contra Raio.</span>
+  "1309":
+    Name: Robin
+    Abilities:
+      "130901":
+        Name: Bater de Asas Silencioso
+        Desc: <span>Causa Dano Físico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "130902":
+        Name: Ária das Penas
+        Desc: <span></span><span style='color:#f29e38ff'>Aumenta o Dano causado</span><span> por todos os aliados.</span>
+        Type: Perícia
+      "130903":
+        Name: Vox Harmonique, Opus Cosmique
+        Desc: <span>Entra no estado de Concerto, </span><span style='color:#f29e38ff'>aumenta o ATQ de todos os aliados</span><span> e faz com que todos os companheiros de equipe ajam imediatamente. Depois de um ataque, Robin causa </span><span style='color:#f29e38ff'><u>Dano Físico Adicional</u></span><span>. Enquanto Concerto dura, Robin é imune a <u>penalidades de Controle Negativo</u>. Antes de Concerto terminar, Robin não pode agir nem iniciar sua rodada até o final da contagem regressiva.</span>
+        Type: Perícia Suprema
+      "130904":
+        Name: Ressonância Tonal
+        Desc: <span>Aumenta o </span><span style='color:#f29e38ff'>Dano CRIT</span><span> de todos os aliados e Robin regenera adicionalmente Energia após aliados atacarem inimigos.</span>
+        Type: Talento
+      "130906":
+        Name: Ataque
+        Desc: ""
+      "130907":
+        Name: Prelúdio da Inebriação
+        Desc: "<span>Cria uma dimensão especial ao seu redor. Inimigos dentro dessa dimensão não atacarão Robin. Depois de entrar em batalha enquanto a dimensão está ativa, Robin regenera adicionalmente </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>5</span></span><span> de Energia no início de cada onda.</span>"
+        Type: Técnica
+    Eidolons:
+      "130901":
+        Name: Terra dos Sorrisos
+        Desc: <span>Enquanto estiverem no estado de Concerto, a PEN de RES a Todos os Tipos de todos os aliados aumenta em 24%.</span>
+      "130902":
+        Name: Chá da Tarde para Dois
+        Desc: <span>Enquanto estiver no estado de Concerto, a VEL de todos os aliados aumenta em 16%. O efeito de Regeneração de Energia do Talento aumenta adicionalmente em 1.</span>
+      "130903":
+        Name: Afinação Inversa
+        Desc: <span>Nv. de Perícia +2, até no máximo Nv. 15.<br>Nv. de Perícia Suprema +2, até no máximo Nv. 15.</span>
+      "130904":
+        Name: Chave da Chuva
+        Desc: <span>Ao usar sua Perícia Suprema, remove penalidades de Controle Negativo de todos os aliados. Enquanto Robin estiver no estado de Concerto, aumenta a RES a Efeito de todos os aliados em 50%.</span>
+      "130905":
+        Name: Lamento da Estrela Solitária
+        Desc: <span>Nv. do ATQ Básico +1, até no máximo Nv. 10.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "130906":
+        Name: Meia-Noite Sem Lua
+        Desc: <span>Enquanto o estado de Concerto estiver ativo, o Dano CRIT do Dano Físico Adicional causado pela Perícia Suprema aumenta em 450%. O efeito da Meia-Noite Sem Lua pode ser acionado até 8 vez(es). A contagem de ativação reinicia cada vez que a Perícia Suprema é usada.</span>
+  "1310":
+    Name: Vaga-lume
+    Abilities:
+      "131001":
+        Name: "Ordem: Propulsão de Chamas"
+        Desc: <span>Causa Dano de Fogo leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "131002":
+        Name: "Ordem: Bombardeio Aéreo"
+        Desc: <span>Consome uma parte dos PV desta unidade para regenerar Energia. Causa Dano de Fogo a um único inimigo. Faz com que a próxima ação do personagem seja <u>Avançada Adiante</u>.</span>
+        Type: Perícia
+      "131003":
+        Name: "Vaga-lume Tipo-IV: Combustão Completa"
+        Desc: "<span>Entra no estado de Combustão Completa. A Ação de SAM é </span><span style='color:#f29e38ff'>Avançada Adiante em <span style='whiteSpace: \"nowrap\"'>100%</span></span><span>, ganha </span><span style='color:#f29e38ff'>ATQ Básico Aprimorado</span><span> e </span><span style='color:#f29e38ff'>Perícia Aprimorada</span><span>. Aumenta a </span><span style='color:#f29e38ff'>VEL e Eficiência de Quebra de Fraqueza</span><span> desta unidade, e aumenta o Dano de Quebra recebido pelos inimigos-alvo, durando até o fim da contagem regressiva.</span>"
+        Type: Perícia Suprema
+      "131004":
+        Name: Pironexus de Crisálida
+        Desc: "<span>Quanto menores os PV, menor o Dano recebido. Durante o estado de Combustão Completa, o efeito de redução de Dano permanece em sua duração máxima, e a RES a Efeitos aumenta. Se a Energia estiver abaixo de </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>50%</span></span><span> quando a batalha começar, a Energia será regenerada até </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>50%</span></span><span>. Quando a energia for regenerada ao máximo, todas as <u>penalidades</u> desta unidade serão dissipadas.</span>"
+        Type: Talento
+      "131006":
+        Name: Ataque
+        Desc: ""
+      "131007":
+        Name: "Ordem Δ: Incineração Meteórica"
+        Desc: <span>Salta no ar e se move livremente. Após alguns segundos de movimento, mergulha e ataca todos os inimigos dentro do alcance. No início de </span><span style='color:#f29e38ff'>cada onda</span><span>, </span><span style='color:#f29e38ff'>aplica Fraqueza contra Fogo</span><span> a todos os inimigos e causa Dano de Fogo a eles.</span>
+        Type: Técnica
+    Eidolons:
+      "131001":
+        Name: Em Crisálidas Avermelhadas, Já Tive Meu Descanso
+        Desc: <span>Ao usar a Perícia Aprimorada, ignora 15% da DEF do alvo. A Perícia Aprimorada não consome Pontos de Perícia.</span>
+      "131002":
+        Name: Em Queda Livre no Céu Estilhaçado
+        Desc: <span>Enquanto está em Combustão Completa, usar o ATQ Básico Aprimorado ou a Perícia Aprimorada para derrotar um inimigo-alvo ou aplicar Quebra de Fraqueza a ele faz com que SAM ganhe imediatamente 1 rodada extra. Esse efeito pode ser ativado novamente após 1 rodada(s).</span>
+      "131003":
+        Name: Sono Profundo Entre os Astros
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "131004":
+        Name: Sobre os Vaga-lumes Iluminados, Eu Logo Olho
+        Desc: <span>Enquanto está no estado de Combustão Completa, aumenta a RES de Efeito de SAM em 50%.</span>
+      "131005":
+        Name: Das Noites Sem Sonhos, Eu Então Brilho
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "131006":
+        Name: No Amanhã Findado, Eu Floresço
+        Desc: <span>Enquanto estiver em Combustão Completa, aumenta a PEN de RES a Fogo em 20%. Ao usar o ATQ Básico Aprimorado ou a Perícia Aprimorada, aumenta a eficiência da Quebra de Fraqueza em 50%.</span>
+  "1312":
+    Name: Misha
+    Abilities:
+      "131201":
+        Name: C-Com Licença, Por Favor!
+        Desc: <span>Causa Dano de Gelo leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "131202":
+        Name: S-Serviço de Quarto!
+        Desc: <span>Causa Dano de Gelo a um inimigo e Dano de Gelo leve a inimigos adjacentes a ele. Além disso, aumenta os </span><span style='color:#f29e38ff'>Golpes por Ação da próxima Perícia Suprema</span><span> de Misha.</span>
+        Type: Perícia
+      "131203":
+        Name: V-Vou me Atrasar!
+        Desc: "<span>Causa Dano de Gelo leve a inimigos únicos. O ataque ricocheteia </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>3</span></span><span> vezes por padrão, até um máximo de </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>10</span></span><span> vezes. Antes que cada golpe acerte, há uma pequena chance de infligir </span><span style='color:#f29e38ff'>Congelamento</span><span> no alvo.</span>"
+        Type: Perícia Suprema
+      "131204":
+        Name: Escapada Horológica
+        Desc: <span>Para </span><span style='color:#f29e38ff'>cada 1 Ponto de Perícia consumido por aliados</span><span>, a próxima Perícia Suprema de Misha </span><span style='color:#f29e38ff'>realiza mais Golpes por Ação</span><span>, e Misha regenera sua Energia.</span>
+        Type: Talento
+      "131206":
+        Name: Ataque
+        Desc: ""
+      "131207":
+        Name: Espere, Você É Tão Linda!
+        Desc: <span>Cria uma dimensão especial que para todos os inimigos que estiverem dentro dela. Ao entrar em batalha contra inimigos na dimensão, </span><span style='color:#f29e38ff'>a próxima Perícia Suprema de Misha causa mais Golpes por Ação</span><span>.</span>
+        Type: Técnica
+    Eidolons:
+      "131201":
+        Name: Capricho Extravagante
+        Desc: <span>Ao usar a Perícia Suprema, para cada inimigo no campo, aumenta adicionalmente os Golpes por Ação da Perícia Suprema atual em 1 golpe(s), até um aumento máximo de 5 golpe(s).</span>
+      "131202":
+        Name: Anseio da Juventude
+        Desc: <span>Antes do acerto de cada golpe da Perícia Suprema, existe uma chance-base de 24% de reduzir a DEF do alvo em 16% por 3 rodada(s).</span>
+      "131203":
+        Name: Vestígio de Felicidade
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "131204":
+        Name: Visão de Afinidade
+        Desc: <span>Aumenta o Multiplicador de Dano de cada golpe da Perícia Suprema em 6%.</span>
+      "131205":
+        Name: Gênesis do Primeiro Amor
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "131206":
+        Name: Alienação do Sonho
+        Desc: <span>Ao usar a Perícia Suprema, aumenta o próprio Dano em 30%, durando até o final da rodada. Além disso, da próxima vez que a Perícia for utilizada, recupera 1 Ponto(s) de Perícia para a equipe.</span>
+  "1314":
+    Name: Jade
+    Abilities:
+      "131401":
+        Name: Chicote de Riquezas
+        Desc: <span>Causa Dano Quântico leve a um único inimigo e Dano Quântico leve a inimigos adjacentes a ele.</span>
+        Type: ATQ Básico
+      "131402":
+        Name: Fiança de Aquisição
+        Desc: <span>Faz com que um único aliado se torne o </span><span style='color:#f29e38ff'>Coletor de Dívidas</span><span> e aumente sua VEL. Após um </span><span style='color:#f29e38ff'>Coletor de Dívidas</span><span> atacar, ele causa Dano Quântico leve <u>Adicional</u> a cada inimigo-alvo atingido e consome seus próprios PV. Quando Jade se torna a Coletora de Dívidas, ela não pode ganhar o efeito de bônus de VEL, e seus ataques não consomem PV.</span>
+        Type: Perícia
+      "131403":
+        Name: Voto das Profundezas
+        Desc: <span>Causa Dano Quântico a todos os inimigos e o Multiplicador de Dano de </span><span style='color:#f29e38ff'><u>Ataque Extra</u></span><span> desta unidade aumenta.</span>
+        Type: Perícia Suprema
+      "131404":
+        Name: Presa do Esfolador em Chamas
+        Desc: "<span>Depois que Jade ou uma unidade com </span><span style='color:#f29e38ff'>Coletor de Dívidas</span><span> ataca, Jade ganha 1 ponto de Carga para cada inimigo-alvo atingido. Quando a Carga atinge </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>8</span></span><span> pontos, consome </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>8</span></span><span> ponto(s) para realizar 1 </span><span style='color:#f29e38ff'><u>Ataque Extra</u></span><span>, causando Dano Quântico a todos os inimigos.<br>Quando Jade realiza o </span><span style='color:#f29e38ff'><u>Ataque Extra</u></span><span>, ganha Ativo Penhorado e aumenta o Dano CRIT, acumulando até </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>50</span></span><span> vezes.</span>"
+        Type: Talento
+      "131406":
+        Name: Ataque
+        Desc: ""
+      "131407":
+        Name: Predação Visual
+        Desc: "<span>Inflige Fidelidade Cega a todos os inimigos dentro de uma área definida. Atacar um inimigo com Fidelidade Cega faz com que todos os inimigos com Fidelidade Cega entrem em combate simultaneamente. Ao entrar em combate, causa Dano Quântico leve a todos os inimigos e ganha imediatamente </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>15</span></span><span> acúmulo(s) de Ativo Penhorado.</span>"
+        Type: Técnica
+    Eidolons:
+      "131401":
+        Name: Altruísmo? Algo Vendável
+        Desc: <span>O Dano do Ataque Extra do Talento de Jade aumenta em 32%. Após um personagem no estado de Coletor de Dívidas atacar e a quantidade de inimigos-alvo atingidos for 2 ou 1, Jade adicionalmente ganha 1 ou 2 ponto(s) de Carga respectivamente.</span>
+      "131402":
+        Name: Moralidade? Eis Aqui Autenticada
+        Desc: <span>Quando houver 15 acúmulo(s) de Ativo Penhorado, a Chance de CRIT de Jade aumenta em 18%.</span>
+      "131403":
+        Name: Honestidade? Em Breve Hipotecada
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "131404":
+        Name: Sinceridade? Apenas Opcional
+        Desc: <span>Ao usar a Perícia Suprema, permite que o Dano causado por Jade ignore 12% da DEF do inimigo-alvo, durando por 3 rodada(s).</span>
+      "131405":
+        Name: Esperança? Doravante Abdicada
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "131406":
+        Name: Equidade? Patrocínio Pendente
+        Desc: <span>Quando há personagens com Coletor de Dívidas em campo, a PEN de RES a Quântico de Jade aumenta em 20%, e Jade ganha o estado Coletor de Dívidas.</span>
+  "1315":
+    Name: Boothill
+    Abilities:
+      "131501":
+        Name: Esporas Esmaga-Crânio
+        Desc: <span>Causa Dano Físico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "131502":
+        Name: Tango Crepitante
+        Desc: <span>Inicia </span><span style='color:#f29e38ff'>Confronto</span><span>. Depois que o alvo no Confronto for </span><span style='color:#f29e38ff'>derrotado ou sofrer Quebra de Fraqueza</span><span>, Boothill recebe Truque de Bolso e desfaz o Confronto. Boothill </span><span style='color:#f29e38ff'>ganha ATQs Básicos Aprimorados</span><span> e esta rodada não termina.</span>
+        Type: Perícia
+      "131503":
+        Name: Rodeio Crepuscular do Demônio da Areia
+        Desc: <span></span><span style='color:#f29e38ff'>Aplica Fraqueza contra Físico</span><span> a um único inimigo, causa uma quantidade massiva de Dano Físico e atrasa suas ações.</span>
+        Type: Perícia Suprema
+      "131504":
+        Name: Cinco Balas no Tambor
+        Desc: <span>O Truque de Bolso aumenta a Redução de Tenacidade do ATQ Básico Aprimorado e causa </span><span style='color:#f29e38ff'>Dano de Quebra</span><span> de Físico adicional ao </span><span style='color:#f29e38ff'>inimigo que sofreu Quebra de Fraqueza</span><span>. Após vencer a batalha, mantém o Truque de Bolso para a próxima batalha.</span>
+        Type: Talento
+      "131506":
+        Name: Ataque
+        Desc: ""
+      "131507":
+        Name: Sorriso 3x9
+        Desc: <span>Depois que a Técnica é utilizada,</span><span style='color:#f29e38ff'> aplica Fraqueza contra Físico</span><span> contra um único inimigo ao usar a Perícia pela primeira vez na próxima batalha.</span>
+        Type: Técnica
+    Eidolons:
+      "131501":
+        Name: Estrela Solitária da Trilha Empoeirada
+        Desc: <span>No início da batalha, obtém 1 acúmulo de Truque de Bolso. Quando Boothill causa Dano, ignora 16% da DEF do inimigo-alvo.</span>
+      "131502":
+        Name: Revendedor de Conquistas
+        Desc: <span>Quando em Confronto e obtendo Truque de Bolso, recupera 1 Ponto(s) de Perícia e aumenta o Efeito de Quebra em 30%, com duração de 2 rodada(s). Este efeito também pode ser ativado ao obter acúmulos de Truque de Bolso que excedam o limite máximo. No entanto, não pode ser ativado repetidamente em uma única rodada.</span>
+      "131503":
+        Name: Guarda do Jardim de Mármore
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "131504":
+        Name: Chef de Carnes Frias
+        Desc: <span>Quando o inimigo-alvo que estiver em Confronto for atacado por Boothill, o Dano recebido por ele aumenta em 12%. Quando Boothill é atacado pelo inimigo-alvo em Confronto, o efeito de receber mais Dano é reduzido em 12% nele.</span>
+      "131505":
+        Name: Discurso do Tronco
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "131506":
+        Name: Guaxinim do Hotel Pé de Cabra
+        Desc: <span>Ao ativar o Dano de Quebra do Talento, adicionalmente causa Dano de Quebra ao inimigo-alvo igual a 40% do multiplicador de Dano original e causa Dano de Quebra a alvos adjacentes igual a 70% do multiplicador de Dano original a alvos adjacentes.</span>
+  "8001":
+    Name: Caelus (A Destruição)
+    Abilities:
+      "800101":
+        Name: Golpe de Despedida
+        Desc: <span>Causa Dano Físico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "800102":
+        Name: Home Run Fatal
+        Desc: <span>Causa Dano Físico a um único inimigo e aos inimigos adjacentes a ele.</span>
+        Type: Perícia
+      "800103":
+        Name: Ás de Poeira Estelar
+        Desc: <span>Usa ATQ de alvo único ou uma Explosão para realizar um golpe com força máxima.</span>
+        Type: Perícia Suprema
+      "800104":
+        Name: Arremesso Perfeito
+        Desc: <span>Toda vez que essa unidade causa Quebra de Fraqueza a um inimigo-alvo, o ATQ aumenta.</span>
+        Type: Talento
+      "800106":
+        Name: Ataque
+        Desc: ""
+      "800107":
+        Name: Terceiro Golpe Imortal
+        Desc: <span>Após usar a Técnica, imediatamente </span><span style='color:#f29e38ff'>restaura PV</span><span> para a equipe.</span>
+        Type: Técnica
+    Eidolons:
+      "800101":
+        Name: Uma Estrela Cadente
+        Desc: <span>Quando inimigos são derrotados pela Perícia Suprema d{M#o}{F#a} Desbrava{M#dor}{F#dora}, {M#o}{F#a} Desbrava{M#dor}{F#dora} regenera 10 de Energia extra. Esse efeito só pode ser ativado uma vez por ataque.</span>
+      "800102":
+        Name: Um Anfitrião Indisposto
+        Desc: <span>Atacar inimigos com Fraqueza contra Físico restaura uma quantidade de PV igual a 5% do ATQ {F#da Desbravadora}{M#do Desbravador}.</span>
+      "800103":
+        Name: Um Sussurro Condutor
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "800104":
+        Name: Um Olhar Destruidor
+        Desc: <span>Ao atacar um inimigo com Quebra de Fraqueza, a Chance de CRIT aumenta em 25%.</span>
+      "800105":
+        Name: Uma Esperança Sobrevivente
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "800106":
+        Name: Um Desejo de Exploração
+        Desc: <span>O Talento {F#da Desbravadora}{M#do Desbravador} também é ativado quando {M#ele}{F#ela} derrota um inimigo.</span>
+  "8002":
+    Name: Stelle (A Destruição)
+    Abilities:
+      "800201":
+        Name: Golpe de Despedida
+        Desc: <span>Causa Dano Físico leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "800202":
+        Name: Home Run Fatal
+        Desc: <span>Causa Dano Físico a um único inimigo e aos inimigos adjacentes a ele.</span>
+        Type: Perícia
+      "800203":
+        Name: Ás de Poeira Estelar
+        Desc: <span>Usa ATQ de alvo único ou uma Explosão para realizar um golpe com força máxima.</span>
+        Type: Perícia Suprema
+      "800204":
+        Name: Arremesso Perfeito
+        Desc: <span>Toda vez que essa unidade causa Quebra de Fraqueza a um inimigo-alvo, o ATQ aumenta.</span>
+        Type: Talento
+      "800206":
+        Name: Ataque
+        Desc: ""
+      "800207":
+        Name: Terceiro Golpe Imortal
+        Desc: <span>Após usar a Técnica, imediatamente </span><span style='color:#f29e38ff'>restaura PV</span><span> para a equipe.</span>
+        Type: Técnica
+    Eidolons:
+      "800201":
+        Name: Uma Estrela Cadente
+        Desc: <span>Quando inimigos são derrotados pela Perícia Suprema d{M#o}{F#a} Desbrava{M#dor}{F#dora}, {M#o}{F#a} Desbrava{M#dor}{F#dora} regenera 10 de Energia extra. Esse efeito só pode ser ativado uma vez por ataque.</span>
+      "800202":
+        Name: Um Anfitrião Forçado
+        Desc: <span>Atacar inimigos com Fraqueza contra Físico restaura uma quantidade de PV igual a 5% do ATQ {F#da Desbravadora}{M#do Desbravador}.</span>
+      "800203":
+        Name: Um Sussurro Guia
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "800204":
+        Name: Um Olhar Destruidor
+        Desc: <span>Ao atacar um inimigo com Quebra de Fraqueza, a Chance de CRIT aumenta em 25%.</span>
+      "800205":
+        Name: Uma Esperança Sobrevivente
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "800206":
+        Name: Um Desejo de Exploração
+        Desc: <span>O Talento {F#da Desbravadora}{M#do Desbravador} também é ativado quando {M#ele}{F#ela} derrota um inimigo.</span>
+  "8003":
+    Name: Caelus (A Preservação)
+    Abilities:
+      "800301":
+        Name: Luz Quebra-Gelo
+        Desc: <span>Causa Dano de Fogo leve a um único inimigo e ganha Vontade de Magma.</span>
+        Type: ATQ Básico
+      "800302":
+        Name: Âmbar Ardente
+        Desc: <span>Reduz o Dano recebido e recebe Vontade de Magma, com uma alta chance de Provocar todos os inimigos.</span>
+        Type: Perícia
+      "800303":
+        Name: Lança das Chamas da Guerra
+        Desc: <span>Causa Dano de Fogo a todos os inimigos e aprimora o próximo ATQ Básico desta unidade.</span>
+        Type: Perícia Suprema
+      "800304":
+        Name: Tesouro dos Arquitetos
+        Desc: <span>Ao receber um ataque, acumula "Vontade de Magma". Quando "Vontade de Magma" possuir ao menos 4 acúmulos, o ATQ Básico é </span><span style='color:#f29e38ff'>aprimorado</span><span>. Após usar o ATQ Básico, a Perícia ou a Perícia Suprema, fornece um Escudo para a Equipe.</span>
+        Type: Talento
+      "800306":
+        Name: Ataque
+        Desc: ""
+      "800307":
+        Name: Chamado do Guardião
+        Desc: <span>Depois de usar a Técnica, concede um Escudo para esta unidade no início da próxima batalha.</span>
+        Type: Técnica
+    Eidolons:
+      "800301":
+        Name: Ressonância Sísmica
+        Desc: <span>Quando {F#a Desbravadora}{M#o Desbravador} usa seu ATQ Básico, adicionalmente causa Dano de Fogo igual a 25% da DEF {F#da Desbravadora}{M#do Desbravador}. Ao usar seu ATQ Básico Aprimorado, {F#a Desbravadora}{M#o Desbravador} adicionalmente causa Dano de Fogo igual a 50% de sua DEF.</span>
+      "800302":
+        Name: Tenacidade que Desafia o Tempo
+        Desc: <span>O Escudo aplicado a todos os aliados pelo Talento {F#da Desbravadora}{M#do Desbravador} bloqueará Dano extra igual a 2% da DEF {F#da Desbravadora}{M#do Desbravador} + 27.</span>
+      "800303":
+        Name: Projeto de Desbravamento
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "800304":
+        Name: Juramento Fundador de Nações
+        Desc: <span>No início da batalha, ganha 4 acúmulo(s) de Vontade de Magma imediatamente.</span>
+      "800305":
+        Name: Chama Aquece-Espírito
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "800306":
+        Name: Bastião Forja-Cidades
+        Desc: <span>Após {M#o Desbravador}{F#a Desbravadora} usar um ATQ Básico aprimorado ou a Perícia Suprema aprimorada, a DEF {M#dele}{F#dela} aumenta em 10%. Acumula até 3 vez(es).</span>
+  "8004":
+    Name: Stelle (A Preservação)
+    Abilities:
+      "800401":
+        Name: Luz Quebra-Gelo
+        Desc: <span>Causa Dano de Fogo leve a um único inimigo e ganha Vontade de Magma.</span>
+        Type: ATQ Básico
+      "800402":
+        Name: Âmbar Ardente
+        Desc: <span>Reduz o Dano recebido e recebe Vontade de Magma, com uma alta chance de Provocar todos os inimigos.</span>
+        Type: Perícia
+      "800403":
+        Name: Lança das Chamas da Guerra
+        Desc: <span>Causa Dano de Fogo a todos os inimigos e aprimora o próximo ATQ Básico desta unidade.</span>
+        Type: Perícia Suprema
+      "800404":
+        Name: Tesouro dos Arquitetos
+        Desc: <span>Ao receber um ataque, acumula "Vontade de Magma". Quando "Vontade de Magma" possuir ao menos 4 acúmulos, o ATQ Básico é </span><span style='color:#f29e38ff'>aprimorado</span><span>. Após usar o ATQ Básico, a Perícia ou a Perícia Suprema, fornece um Escudo para a Equipe.</span>
+        Type: Talento
+      "800406":
+        Name: Ataque
+        Desc: ""
+      "800407":
+        Name: Chamado do Guardião
+        Desc: <span>Depois de usar a Técnica, concede um Escudo para esta unidade no início da próxima batalha.</span>
+        Type: Técnica
+    Eidolons:
+      "800401":
+        Name: Ressonância Sísmica
+        Desc: <span>Quando {F#a Desbravadora}{M#o Desbravador} usa seu ATQ Básico, adicionalmente causa Dano de Fogo igual a 25% da DEF {F#da Desbravadora}{M#do Desbravador}. Ao usar seu ATQ Básico Aprimorado, {F#a Desbravadora}{M#o Desbravador} adicionalmente causa Dano de Fogo igual a 50% de sua DEF.</span>
+      "800402":
+        Name: Tenacidade que Desafia o Tempo
+        Desc: <span>O Escudo aplicado a todos os aliados pelo Talento {F#da Desbravadora}{M#do Desbravador} bloqueará Dano extra igual a 2% da DEF {F#da Desbravadora}{M#do Desbravador} + 27.</span>
+      "800403":
+        Name: Projeto de Desbravamento
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "800404":
+        Name: Juramento Fundador de Nações
+        Desc: <span>No início da batalha, ganha 4 acúmulo(s) de Vontade de Magma imediatamente.</span>
+      "800405":
+        Name: Chama Aquece-Espírito
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "800406":
+        Name: Bastião Forja-Cidades
+        Desc: <span>Após {M#o Desbravador}{F#a Desbravadora} usar um ATQ Básico aprimorado ou a Perícia Suprema aprimorada, a DEF {M#dele}{F#dela} aumenta em 10%. Acumula até 3 vez(es).</span>
+  "8005":
+    Name: Caelus (A Harmonia)
+    Abilities:
+      "800501":
+        Name: Etiqueta da Dança de Swing
+        Desc: <span>Causa Dano Imaginário leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "800502":
+        Name: Temporal no Intervalo
+        Desc: <span>Causa Dano Imaginário leve a inimigos-alvo únicos e é Rebatido 5 vezes.</span>
+        Type: Perícia
+      "800503":
+        Name: Desfile Clamoroso das Luzes
+        Desc: <span>Concede a todos os aliados o efeito de Dançarino de Apoio. Aliados com Dançarino de Apoio têm seus </span><span style='color:#f29e38ff'>Efeitos de Quebra</span><span> aumentados e causam adicionalmente </span><span style='color:#f29e38ff'><u>Super Dano de Quebra</u></span><span> 1 vez quando atacam inimigos-alvo que estão com <u>Quebra de Fraqueza</u>.</span>
+        Type: Perícia Suprema
+      "800504":
+        Name: Dança Aérea Absoluta
+        Desc: <span>{F#A Desbravadora}{M#O Desbravador} regenera Energia quando um inimigo-alvo tem sua Fraqueza Quebrada.</span>
+        Type: Talento
+      "800506":
+        Name: Ataque
+        Desc: ""
+      "800507":
+        Name: Agora! Eu sou a Banda!
+        Desc: <span>No início da próxima batalha, aumenta o Efeito de Quebra de todos os aliados.</span>
+        Type: Técnica
+    Eidolons:
+      "800501":
+        Name: Melhor Assento da Casa
+        Desc: <span>Recupera 1 Ponto(s) de Perícia depois de usar a Perícia pela primeira vez.</span>
+      "800502":
+        Name: Marcha Arco-Íris da Libertação
+        Desc: <span>No início da batalha, aumenta em </span><span style='color:#f29e38ff'>25%</span><span> a Taxa de Regeneração de Energia {F#da Desbravadora}{M#do Desbravador} por 3 rodada(s).</span>
+      "800503":
+        Name: Sanatório do Descanso
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "800504":
+        Name: Pomba na Cartola
+        Desc: <span>Enquanto {F#a Desbravadora}{M#o Desbravador} está em campo, aumenta o Efeito de Quebra de todos os aliados exceto o {F#da Desbravadora}{M#do Desbravador}. O aumento é igual a 15% do Efeito de Quebra {F#da Desbravadora}{M#do Desbravador}.</span>
+      "800505":
+        Name: Os Poemas Favorecem os Ritmos do Passado
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "800506":
+        Name: Amanhã, Descanse no Holofote
+        Desc: <span>O número de aplicações adicionais de Dano pela Perícia aumenta em 2.</span>
+  "8006":
+    Name: Stelle (A Harmonia)
+    Abilities:
+      "800601":
+        Name: Etiqueta da Dança de Swing
+        Desc: <span>Causa Dano Imaginário leve a um único inimigo.</span>
+        Type: ATQ Básico
+      "800602":
+        Name: Temporal no Intervalo
+        Desc: <span>Causa Dano Imaginário leve a inimigos-alvo únicos e é Rebatido 5 vezes.</span>
+        Type: Perícia
+      "800603":
+        Name: Desfile Clamoroso das Luzes
+        Desc: <span>Concede a todos os aliados o efeito de Dançarino de Apoio. Aliados com Dançarino de Apoio têm seus </span><span style='color:#f29e38ff'>Efeitos de Quebra</span><span> aumentados e causam adicionalmente </span><span style='color:#f29e38ff'><u>Super Dano de Quebra</u></span><span> 1 vez quando atacam inimigos-alvo que estão com <u>Quebra de Fraqueza</u>.</span>
+        Type: Perícia Suprema
+      "800604":
+        Name: Dança Aérea Absoluta
+        Desc: <span>{F#A Desbravadora}{M#O Desbravador} regenera Energia quando um inimigo-alvo tem sua Fraqueza Quebrada.</span>
+        Type: Talento
+      "800606":
+        Name: Ataque
+        Desc: ""
+      "800607":
+        Name: Agora! Eu sou a Banda!
+        Desc: <span>No início da próxima batalha, aumenta o Efeito de Quebra de todos os aliados.</span>
+        Type: Técnica
+    Eidolons:
+      "800601":
+        Name: Melhor Assento da Casa
+        Desc: <span>Recupera 1 Ponto(s) de Perícia depois de usar a Perícia pela primeira vez.</span>
+      "800602":
+        Name: Marcha Arco-Íris da Libertação
+        Desc: <span>No início da batalha, aumenta em </span><span style='color:#f29e38ff'>25%</span><span> a Taxa de Regeneração de Energia {F#da Desbravadora}{M#do Desbravador} por 3 rodada(s).</span>
+      "800603":
+        Name: Sanatório do Descanso
+        Desc: <span>Nv. da Perícia +2, até no máximo Nv. 15.<br>Nv. do Talento +2, até no máximo Nv. 15.</span>
+      "800604":
+        Name: Pomba na Cartola
+        Desc: <span>Enquanto {F#a Desbravadora}{M#o Desbravador} está em campo, aumenta o Efeito de Quebra de todos os aliados exceto o {F#da Desbravadora}{M#do Desbravador}. O aumento é igual a 15% do Efeito de Quebra {F#da Desbravadora}{M#do Desbravador}.</span>
+      "800605":
+        Name: Os Poemas Favorecem os Ritmos do Passado
+        Desc: <span>Nv. da Perícia Suprema +2, até no máximo Nv. 15.<br>Nv. do ATQ Básico +1, até no máximo Nv. 10.</span>
+      "800606":
+        Name: Amanhã, Descanse no Holofote
+        Desc: <span>O número de aplicações adicionais de Dano pela Perícia aumenta em 2.</span>
+RelicSets:
+  "101":
+    Name: Transeunte da Nuvem Errante
+    Description2pc: "<span>Aumenta Cura Realizada em <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: <span>No início da batalha, regenera imediatamente 1 Ponto de Perícia.</span>
+  "102":
+    Name: Mosqueteira do Trigo Selvagem
+    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>12%</span> o ATQ.</span>"
+    Description4pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>6%</span> a VEL e em <span style='whiteSpace: \"nowrap\"'>10%</span> o Dano causado pelo ATQ Básico do usuário.</span>"
+  "103":
+    Name: Cavaleira do Palácio da Pureza
+    Description2pc: "<span>Aumenta a DEF em <span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
+    Description4pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>20%</span> o Dano máximo que pode ser absorvido pelo Escudo criado pelo usuário.</span>"
+  "104":
+    Name: Caçador da Floresta Glacial
+    Description2pc: "<span>Aumenta o Dano de Gelo em <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Após o usuário utilizar sua Perícia Suprema, aumenta em <span style='whiteSpace: \"nowrap\"'>25%</span> o Dano CRIT por <span style='whiteSpace: \"nowrap\"'>2</span> rodada(s).</span>"
+  "105":
+    Name: Campeã de Boxe de Rua
+    Description2pc: "<span>Aumenta o Dano Físico em <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Depois que o usuário ataca ou é atingido, aumenta em <span style='whiteSpace: \"nowrap\"'>5%</span> seu ATQ durante todo o resto da batalha. Este efeito pode acumular até <span style='whiteSpace: \"nowrap\"'>5</span> vez(es).</span>"
+  "106":
+    Name: Guarda da Neve Uivante
+    Description2pc: "<span>Reduz o Dano recebido em <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
+    Description4pc: "<span>No início da rodada, se a porcentagem dos PV do usuário for igual ou inferior a <span style='whiteSpace: \"nowrap\"'>50%</span>, restaura PV igual a <span style='whiteSpace: \"nowrap\"'>8%</span> de seus PV máximos e regenera <span style='whiteSpace: \"nowrap\"'>5</span> de Energia.</span>"
+  "107":
+    Name: Artesão de Fogo da Forja de Lava
+    Description2pc: "<span>Aumenta o Dano de Fogo em <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Aumenta o Dano da Perícia do usuário em <span style='whiteSpace: \"nowrap\"'>12%</span>. Após usar a Perícia Suprema, aumenta o Dano de Fogo do próximo ataque do usuário em <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+  "108":
+    Name: Gênio das Estrelas Brilhantes
+    Description2pc: "<span>Aumenta o Dano Quântico em <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Quando o usuário causa Dano ao inimigo-alvo, ignora <span style='whiteSpace: \"nowrap\"'>10%</span> de DEF. Se o inimigo-alvo tiver Fraqueza contra Quântico, o usuário ignora adicionalmente <span style='whiteSpace: \"nowrap\"'>10%</span> de DEF.</span>"
+  "109":
+    Name: Banda Trovão Crepitante
+    Description2pc: "<span>Aumenta o Dano de Raio em <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Quando o usuário usa a Perícia, aumenta o ATQ em <span style='whiteSpace: \"nowrap\"'>20%</span> por <span style='whiteSpace: \"nowrap\"'>1</span> rodada(s).</span>"
+  "110":
+    Name: Águia da Linha do Crepúsculo
+    Description2pc: "<span>Aumenta o Dano de Vento em <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Após o usuário usar a Perícia Suprema, sua ação é Avançada Adiante em <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+  "111":
+    Name: Ladrão da Chuva de Meteoros
+    Description2pc: "<span>Aumenta o Efeito de Quebra em <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
+    Description4pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>16%</span> o Efeito de Quebra do usuário. Depois que o usuário inflige Quebra de Fraqueza em um inimigo, regenera <span style='whiteSpace: \"nowrap\"'>3</span> de Energia.</span>"
+  "112":
+    Name: Andarilho do Deserto da Bandidagem
+    Description2pc: "<span>Aumenta o Dano Imaginário em <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Ao atacar inimigos com penalidades, a Chance de CRIT do usuário aumenta em <span style='whiteSpace: \"nowrap\"'>10%</span>, e seu Dano CRIT aumenta em <span style='whiteSpace: \"nowrap\"'>20%</span> contra inimigos Aprisionados.</span>"
+  "113":
+    Name: Discípula Longeva
+    Description2pc: "<span>Aumenta os PV máximos em <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Quando o usuário recebe um golpe ou tem seus PV consumidos por um aliado ou por si próprio, a Chance de CRIT dele aumenta em <span style='whiteSpace: \"nowrap\"'>8%</span> por <span style='whiteSpace: \"nowrap\"'>2</span> rodada(s) e até <span style='whiteSpace: \"nowrap\"'>2</span> acúmulos.</span>"
+  "114":
+    Name: Mensageira Atravessando o Hackerspace
+    Description2pc: "<span>Aumenta a VEL em <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
+    Description4pc: "<span>Quando o usuário usa a sua Perícia Suprema em um aliado, a VEL de todos os aliados aumenta em <span style='whiteSpace: \"nowrap\"'>12%</span> por <span style='whiteSpace: \"nowrap\"'>1</span> rodada(s). Este efeito não pode acumular.</span>"
+  "115":
+    Name: Grão-Duque em Brasas
+    Description2pc: "<span>Aumenta o Dano causado pelos Ataques Extras em <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+    Description4pc: "<span>Quando o usuário usa um Ataque Extra, aumenta o ATQ do usuário em <span style='whiteSpace: \"nowrap\"'>6%</span> a cada vez que o Ataque Extra causa Dano. Este efeito pode ser chegar até um máximo de <span style='whiteSpace: \"nowrap\"'>8</span> acúmulo(s) e dura por <span style='whiteSpace: \"nowrap\"'>3</span> rodada(s). Este efeito é removido na próxima vez que o usuário utilizar um Ataque Extra.</span>"
+  "116":
+    Name: Prisioneiro em Confinamento Profundo
+    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>12%</span> o ATQ.</span>"
+    Description4pc: "<span>Para cada Dano Contínuo aplicado ao inimigo-alvo, o usuário ignorará <span style='whiteSpace: \"nowrap\"'>6%</span> de sua DEF ao causar Dano. Este efeito é válido por um máximo de <span style='whiteSpace: \"nowrap\"'>3</span> Danos Contínuos.</span>"
+  "117":
+    Name: Mergulhadora Pioneira de Águas Mortas
+    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>12%</span> o Dano causado a inimigos com penalidades.</span>"
+    Description4pc: "<span>Aumenta a Chance de CRIT em <span style='whiteSpace: \"nowrap\"'>4%</span>. O usuário causa <span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span> de Dano CRIT aumentado em inimigos com pelo menos <span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span> penalidades. Após o usuário infligir uma penalidade nos inimigos-alvo, os efeitos mencionados anteriormente aumentam em <span style='whiteSpace: \"nowrap\"'>100%</span>, durando por <span style='whiteSpace: \"nowrap\"'>1</span> rodada(s).</span>"
+  "118":
+    Name: Relojoeiro, Mestre de Maquinações de Sonhos
+    Description2pc: "<span>Aumenta o Efeito de Quebra em <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
+    Description4pc: "<span>Quando o usuário usa sua Perícia Suprema em um aliado, o Efeito de Quebra de todos os aliados aumenta em <span style='whiteSpace: \"nowrap\"'>30%</span> por <span style='whiteSpace: \"nowrap\"'>2</span> rodada(s). Esse efeito não pode ser acumulado.</span>"
+  "119":
+    Name: Cavalaria de Ferro Contra a Praga
+    Description2pc: "<span>Aumenta o Efeito de Quebra em <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
+    Description4pc: "<span>Se o Efeito de Quebra do usuário for <span style='whiteSpace: \"nowrap\"'>150%</span> ou maior, o Dano de Quebra causado ao inimigo ignora <span style='whiteSpace: \"nowrap\"'>10%</span> da sua DEF. Se o Efeito de Quebra do usuário for <span style='whiteSpace: \"nowrap\"'>250%</span> ou maior, o Super Dano de Quebra causado ao inimigo-alvo ignora adicionalmente <span style='whiteSpace: \"nowrap\"'>15%</span> de sua DEF.</span>"
+  "120":
+    Name: Coragem Como Vento e Nuvem
+    Description2pc: "<span>Aumenta o ATQ em <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Aumenta a Chance de CRIT do usuário em <span style='whiteSpace: \"nowrap\"'>6%</span>. Depois que o usuário utiliza um Ataque Extra, aumenta o Dano causado pela Perícia Suprema em <span style='whiteSpace: \"nowrap\"'>36%</span>, durando por <span style='whiteSpace: \"nowrap\"'>1</span> rodada(s).</span>"
+  "301":
+    Name: Estação de Vedação Espacial
+    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>12%</span> o ATQ do usuário. Quando a VEL do usuário chegar a <span style='whiteSpace: \"nowrap\"'>120</span> ou mais, aumenta em um extra de <span style='whiteSpace: \"nowrap\"'>12%</span> o ATQ do usuário.</span>"
+  "302":
+    Name: Frota dos Eternos
+    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>12%</span> os PV máximos do usuário. Quando a VEL do usuário chegar a <span style='whiteSpace: \"nowrap\"'>120</span> ou mais, aumenta em <span style='whiteSpace: \"nowrap\"'>8%</span> o ATQ de todos os aliados.</span>"
+  "303":
+    Name: Empresa Mercantil Pan-Cósmica
+    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>10%</span> a Taxa de Acerto de Efeito do usuário. Além disso, aumenta o ATQ do usuário em <span style='whiteSpace: \"nowrap\"'>25%</span> da Taxa de Acerto de Efeito atual, até um máximo de <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+  "304":
+    Name: Belobog dos Arquitetos
+    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>15%</span> a DEF do usuário. Quando a Taxa de Acerto de Efeito do usuário é de <span style='whiteSpace: \"nowrap\"'>50%</span> ou maior, ele ganha mais <span style='whiteSpace: \"nowrap\"'>15%</span> de DEF.</span>"
+  "305":
+    Name: Diferenciador Celestial
+    Description2pc: "<span>Aumenta o Dano CRIT do usuário em <span style='whiteSpace: \"nowrap\"'>16%</span>. Quando o Dano CRIT atual do usuário atingir <span style='whiteSpace: \"nowrap\"'>120%</span> ou mais, após entrar na batalha, a Chance de CRIT do usuário aumenta em <span style='whiteSpace: \"nowrap\"'>60%</span> até o fim de seu primeiro ataque.</span>"
+  "306":
+    Name: Salsotto Inerte
+    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>8%</span> a Chance de CRIT do usuário. Quando a Chance de CRIT atual chegar a <span style='whiteSpace: \"nowrap\"'>50%</span> ou mais, aumenta em <span style='whiteSpace: \"nowrap\"'>15%</span> o Dano causado pelo Ataque Extra e pela Perícia Suprema do usuário.</span>"
+  "307":
+    Name: "Talia: Reino do Banditismo"
+    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>16%</span> o Efeito de Quebra do usuário. Quando a VEL do usuário chegar a <span style='whiteSpace: \"nowrap\"'>145</span> ou mais, aumenta em mais <span style='whiteSpace: \"nowrap\"'>20%</span> o Efeito de Quebra do usuário.</span>"
+  "308":
+    Name: Vonwacq Vivaz
+    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>5%</span> a Taxa de Regeneração de Energia do usuário. Quando a VEL do usuário chegar a <span style='whiteSpace: \"nowrap\"'>120</span> ou mais, a ação do usuário é Avançada Adiante em <span style='whiteSpace: \"nowrap\"'>40%</span> imediatamente ao entrar na batalha.</span>"
+  "309":
+    Name: Arena Rutilante
+    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>8%</span> a Chance de CRIT do usuário. Quando a Chance de CRIT chegar a <span style='whiteSpace: \"nowrap\"'>70%</span> ou mais, aumenta em <span style='whiteSpace: \"nowrap\"'>20%</span> o Dano causado pelo ATQ Básico e pela Perícia do usuário.</span>"
+  "310":
+    Name: Quilha Quebrada
+    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>10%</span> a RES a Efeito do usuário. Quando a RES a Efeito do usuário chegar em <span style='whiteSpace: \"nowrap\"'>30%</span> ou mais, aumenta em <span style='whiteSpace: \"nowrap\"'>10%</span> o Dano CRIT de todos os aliados.</span>"
+  "311":
+    Name: "Linha de Frente: Firmamento de Glamoth"
+    Description2pc: "<span>Aumenta o ATQ do usuário em <span style='whiteSpace: \"nowrap\"'>12%</span>. Quando a VEL é igual ou maior a <span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span>, o usuário causa <span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span> a mais de Dano.</span>"
+  "312":
+    Name: Penacony, Terra dos Sonhos
+    Description2pc: "<span>Aumenta a Taxa de Regeneração de Energia do usuário em <span style='whiteSpace: \"nowrap\"'>5%</span>. Aumenta em <span style='whiteSpace: \"nowrap\"'>10%</span> o Dano para todos os outros aliados com o mesmo Tipo de Dano que o usuário.</span>"
+  "313":
+    Name: Sigonia, a Desolação Abandonada
+    Description2pc: "<span>Aumenta a Chance de CRIT do usuário em <span style='whiteSpace: \"nowrap\"'>4%</span>. Quando um inimigo-alvo é derrotado, o Dano CRIT do usuário aumenta em <span style='whiteSpace: \"nowrap\"'>4%</span>, acumulando até <span style='whiteSpace: \"nowrap\"'>10</span> vez(es).</span>"
+  "314":
+    Name: Izumo Gensei e Reino Divino de Takama
+    Description2pc: "<span>Aumenta o ATQ do usuário em <span style='whiteSpace: \"nowrap\"'>12%</span>. Ao entrar em batalha, se ao menos um outro aliado seguir o mesmo Caminho que o usuário, a Chance de CRIT do usuário aumenta em <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+  "315":
+    Name: Duran, Dinastia dos Lobos Errantes
+    Description2pc: "<span>Quando um aliado utiliza um Ataque Extra, o usuário recebe 1 acúmulo de Mérito, acumulando até <span style='whiteSpace: \"nowrap\"'>5</span> vez(es). Cada acúmulo de Mérito aumenta o Dano causado pelos Ataques Extras do usuário em <span style='whiteSpace: \"nowrap\"'>5%</span>. Com <span style='whiteSpace: \"nowrap\"'>5</span> acúmulos, aumenta adicionalmente o Dano CRIT do usuário em <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+  "316":
+    Name: Forja da Lanterna Kalpagni
+    Description2pc: "<span>Aumenta a VEL do usuário em <span style='whiteSpace: \"nowrap\"'>6%</span>. Quando o usuário atinge um inimigo-alvo com Fraqueza contra Fogo, o Efeito de Quebra do usuário aumenta em <span style='whiteSpace: \"nowrap\"'>40%</span>, durando por <span style='whiteSpace: \"nowrap\"'>1</span> rodada(s).</span>"
+  "317":
+    Name: Lushaka, os Mares Submersos
+    Description2pc: "<span>Aumenta a Taxa de Regeneração de Energia do usuário em <span style='whiteSpace: \"nowrap\"'>5%</span>. Se o usuário não for o primeiro personagem na Formação de Equipe, então aumenta o ATQ do primeiro personagem na Formação de Equipe em <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+  "318":
+    Name: O Maravilhoso Parque Bananalândia
+    Description2pc: "<span>Aumenta o Dano CRIT do usuário em <span style='whiteSpace: \"nowrap\"'>16%</span>. Quando um alvo invocado pelo usuário está em campo, o Dano CRIT aumenta adicionalmente em <span style='whiteSpace: \"nowrap\"'>32%</span>.</span>"
+Lightcones:
+  "20000":
+    Name: Flechas
+    SkillName: Crise
+  "20001":
+    Name: Cornucópia
+    SkillName: Prosperidade
+  "20002":
+    Name: Céu Colapsado
+    SkillName: Devastação
+  "20003":
+    Name: Âmbar
+    SkillName: Estase
+  "20004":
+    Name: Vazio
+    SkillName: Caído
+  "20005":
+    Name: Refrão
+    SkillName: Sinergia
+  "20006":
+    Name: Banco de Dados
+    SkillName: Aprendizado
+  "20007":
+    Name: Flecha Veloz
+    SkillName: Grito de Guerra
+  "20008":
+    Name: Fruta Delicada
+    SkillName: Saborear
+  "20009":
+    Name: Casa Destruída
+    SkillName: Erradicação
+  "20010":
+    Name: Defesa
+    SkillName: Revitalização
+  "20011":
+    Name: Loop
+    SkillName: Busca
+  "20012":
+    Name: Rede de Engrenagens
+    SkillName: Triunfo da Frota
+  "20013":
+    Name: Chave Mestra
+    SkillName: Epifania
+  "20014":
+    Name: Antagonista
+    SkillName: Aliança
+  "20015":
+    Name: Multiplicação
+    SkillName: Cidadãos da Abundância
+  "20016":
+    Name: Morte Mútua
+    SkillName: Legião
+  "20017":
+    Name: Pioneirismo
+    SkillName: CPI
+  "20018":
+    Name: Sombra Oculta
+    SkillName: Mecanismo
+  "20019":
+    Name: Mediação
+    SkillName: Família
+  "20020":
+    Name: Sagacidade
+    SkillName: Gênio
+  "21000":
+    Name: Conversa Pós-Operatória
+    SkillName: Cura Mútua
+  "21001":
+    Name: Boa Noite e Durma Bem
+    SkillName: Diligente
+  "21002":
+    Name: Primeiro Dia da Minha Vida Nova
+    SkillName: Neste Exato Momento
+  "21003":
+    Name: Apenas o Silêncio Sobrou
+    SkillName: Registro
+  "21004":
+    Name: Memórias do Passado
+    SkillName: Foto Antiga
+  "21005":
+    Name: As Toupeiras Te Dão Boas-vindas
+    SkillName: Aventura Fantástica
+  "21006":
+    Name: Meu Próprio Nascimento
+    SkillName: A Donzela no Retrato
+  "21007":
+    Name: Sentimento Compartilhado
+    SkillName: Cura e Reparação
+  "21008":
+    Name: Olhos da Presa
+    SkillName: Autoconfiança
+  "21009":
+    Name: A Escolha dos Landau
+    SkillName: O Tempo Voa
+  "21010":
+    Name: Jogo de Espadas
+    SkillName: Suas Próprias Respostas
+  "21011":
+    Name: Encontro Planetário
+    SkillName: Partida
+  "21012":
+    Name: Um Voto Secreto
+    SkillName: Não Poupe Esforços
+  "21013":
+    Name: Faça o Mundo Clamar
+    SkillName: O Poder do Som
+  "21014":
+    Name: Momento Perfeito
+    SkillName: Refração da Visão
+  "21015":
+    Name: A Determinação Brilha Como Gotas de Suor
+    SkillName: Olhe Para Trás
+  "21016":
+    Name: Tendência do Mercado Universal
+    SkillName: Um Novo Embaralhamento
+  "21017":
+    Name: Inscreva-se Para Mais!
+    SkillName: Curta Antes de Sair!
+  "21018":
+    Name: Dance! Dance! Dance!
+    SkillName: Impossível Parar!
+  "21019":
+    Name: Sob o Céu Azul
+    SkillName: Centeio Sob o Sol
+  "21020":
+    Name: Repouso dos Gênios
+    SkillName: Cada Um Tem Um Papel a Ser Feito
+  "21021":
+    Name: Quid Pro Quo
+    SkillName: Desfrute com Euforia
+  "21022":
+    Name: Fermata
+    SkillName: Descanso Semibreve
+  "21023":
+    Name: Somos Fogo Vivo
+    SkillName: Olhos Lacrimejantes
+  "21024":
+    Name: O Rio Corre na Primavera
+    SkillName: Combata o Frio Persistente
+  "21025":
+    Name: Passado e Futuro
+    SkillName: Pipas do Passado
+  "21026":
+    Name: Au! Hora de Passear!
+    SkillName: Corra!
+  "21027":
+    Name: A Solenidade do Café da Manhã
+    SkillName: Prepare-se
+  "21028":
+    Name: O Calor Encurta as Noites Geladas
+    SkillName: Luz Minúscula
+  "21029":
+    Name: Ainda nos Veremos de Novo
+    SkillName: A Luta é um Diálogo
+  "21030":
+    Name: Essa Sou Eu!
+    SkillName: Capítulo Novo
+  "21031":
+    Name: Retorno à Escuridão
+    SkillName: Ondas Furiosas
+  "21032":
+    Name: Esculpindo a Lua, Tecendo as Nuvens
+    SkillName: Segredo
+  "21033":
+    Name: Sem Escapatória
+    SkillName: Tempos Desesperados
+  "21034":
+    Name: Hoje é Mais um Dia de Paz
+    SkillName: Uma Tempestade se Aproxima
+  "21035":
+    Name: O Que É Real?
+    SkillName: Hipótese
+  "21036":
+    Name: Aventura de Sonhópolis
+    SkillName: Solidariedade
+  "21037":
+    Name: O Último Vencedor
+    SkillName: Apostar
+  "21038":
+    Name: Chamas Distantes
+    SkillName: Deflagração
+  "21039":
+    Name: Fios Forjados do Destino
+    SkillName: Conhecimento
+  "21040":
+    Name: O Dia em que o Cosmos Caiu
+    SkillName: Artimanha
+  "21041":
+    Name: É Hora do Show
+    SkillName: Auto-entretenimento
+  "21042":
+    Name: Promessa Indelével
+    SkillName: Herança
+  "21043":
+    Name: Concerto para Dois
+    SkillName: Inspirar
+  "21044":
+    Name: Dança Ilimitada
+    SkillName: Escrutinar
+  "21045":
+    Name: Depois que a Harmonia se Dissipa
+    SkillName: Quietude
+  "21046":
+    Name: Prestes a Florescer
+    SkillName: Não Perder, Não Esquecer
+  "21047":
+    Name: Sombreado pela Noite
+    SkillName: Ocultação
+  "22000":
+    Name: Antes do Início da Missão do Tutorial
+    SkillName: Rápido no Gatilho
+  "22001":
+    Name: Ei, Estou Aqui!
+    SkillName: Não Tenho Medo!
+  "22002":
+    Name: Pela Jornada do Amanhã
+    SkillName: Laços
+  "23000":
+    Name: Noite na Via Láctea
+    SkillName: Enxame de Meteoros
+  "23001":
+    Name: Na Noite
+    SkillName: Flores e Borboletas
+  "23002":
+    Name: Algo Insubstituível
+    SkillName: Afinidade
+  "23003":
+    Name: Mas a Batalha Não Acabou
+    SkillName: Sucessão
+  "23004":
+    Name: Em Nome do Mundo
+    SkillName: Herança
+  "23005":
+    Name: Momento de Vitória
+    SkillName: Veredito
+  "23006":
+    Name: Você Só Precisa de Paciência
+    SkillName: Teia de Aranha
+  "23007":
+    Name: Chuva Constante
+    SkillName: Miragem da Realidade
+  "23008":
+    Name: Ecos do Caixão
+    SkillName: Espinhos
+  "23009":
+    Name: O Lado Inacessível
+    SkillName: Desejo Não Realizado
+  "23010":
+    Name: Antes do Amanhecer
+    SkillName: Longa Noite
+  "23011":
+    Name: Ela Já Fechou Seus Olhos
+    SkillName: Visioscape
+  "23012":
+    Name: Sono Profundo
+    SkillName: Bons Sonhos
+  "23013":
+    Name: O Tempo Não Espera por Ninguém
+    SkillName: Manhã, Tarde, Crepúsculo e Noite
+  "23014":
+    Name: Eu Serei Minha Própria Espada
+    SkillName: Com Este Jade Vespertino
+  "23015":
+    Name: Mais Claro do que o Sol
+    SkillName: Petulante Até a Morte
+  "23016":
+    Name: Inquietante, Extasiante
+    SkillName: Um De Cada Vez
+  "23017":
+    Name: Noite Aterrorizante
+    SkillName: Respirações Profundas
+  "23018":
+    Name: Um Instante Eternamente Adorado
+    SkillName: Peregrinação de um Cavaleiro
+  "23019":
+    Name: Meu Passado no Espelho
+    SkillName: A Fragrância de Ameixa em Meus Ossos
+  "23020":
+    Name: O Batismo de Pensamento Puro
+    SkillName: Treinamento Mental
+  "23021":
+    Name: Fuga Terrena
+    SkillName: Caprichosidade
+  "23022":
+    Name: Recordação Reforjada
+    SkillName: Cristalização
+  "23023":
+    Name: Destino Inerentemente Injusto
+    SkillName: Vale Tudo
+  "23024":
+    Name: Ao Longo da Margem Transitória
+    SkillName: Navegante
+  "23025":
+    Name: Onde os Sonhos Deveriam Repousar
+    SkillName: Metamorfose
+  "23026":
+    Name: Luzes Noturnas
+    SkillName: Pacificar
+  "23027":
+    Name: Velejando em Direção a uma Segunda Vida
+    SkillName: Mar Bravo
+  "23028":
+    Name: A Esperança é Inestimável
+    SkillName: Promessa
+  "23029":
+    Name: Aquelas Incontáveis Primaveras
+    SkillName: Assuntos Mundanos Não Deixam Marcas
+  "23030":
+    Name: Dança ao Pôr do Sol
+    SkillName: Profundamente Absorvido
+  "23031":
+    Name: Eu Me Aventuro para Caçar
+    SkillName: Intimidação
+  "23032":
+    Name: Só a Fragrância Permanece
+    SkillName: Contentamento
+  "24000":
+    Name: Na Queda de Um Aeon
+    SkillName: Mariposa às Chamas
+  "24001":
+    Name: Percorrendo o Mar Estelar
+    SkillName: Perseguição
+  "24002":
+    Name: Textura de Memórias
+    SkillName: Tesouro
+  "24003":
+    Name: Cura Solitária
+    SkillName: Elixir do Caos
+  "24004":
+    Name: Cálculo Ininterrupto
+    SkillName: Pensamento Irrefreável
+Paths:
+  Warrior: A Destruição
+  Rogue: A Caça
+  Mage: A Erudição
+  Shaman: A Harmonia
+  Warlock: A Inexistência
+  Knight: A Preservação
+  Priest: A Abundância
+  Unknown: Geral
+Elements:
+  Physical: Físico
+  Fire: Fogo
+  Ice: Gelo
+  Thunder: Raio
+  Wind: Vento
+  Quantum: Quântico
+  Imaginary: Imaginário

@@ -132,6 +132,7 @@ function ComboDrawerTitle() {
       <ColorizedLinkWithIcon
         text='Advanced Rotation User Guide'
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/advanced-rotations.md'
+        linkIcon={true}
       />
     </div>
   )

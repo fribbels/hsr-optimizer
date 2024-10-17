@@ -334,7 +334,7 @@ async function generateTranslations(){
     }
 
     for (const outputLocale of outputLocalesMapping[locale]) {
-      writeFile(`./public/locales/${outputLocale}/gameData.yaml`, yaml.dump(output, {lineWidth: -1}), (err) => {
+      writeFile(`./public/locales/${outputLocale}/gameData.yaml`, yaml.dump(output, {lineWidth: -1, quotingType: "\""}), (err) => {
         if (err)
           console.log(err)
         else {

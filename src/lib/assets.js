@@ -1,4 +1,4 @@
-import { Constants, setToId, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK } from './constants.ts'
+import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, setToId } from './constants.ts'
 import { BASE_PATH } from 'lib/db.js'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;

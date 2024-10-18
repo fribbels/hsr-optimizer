@@ -7,8 +7,6 @@ import { Sets } from 'lib/constants'
  * Use the simulation ability rotation to precompute when their activations are active.
  */
 export function precomputeConditionalActivations(comboState: ComboState, request: Form) {
-  console.log('Scholar conditional preprocessor', comboState, request)
-
   const setPreprocessors = [
     scholarLostInEruditionPreprocessor(comboState, request)
     // Hunter of Glacial Forest

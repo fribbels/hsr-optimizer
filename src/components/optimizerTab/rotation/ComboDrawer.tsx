@@ -21,7 +21,7 @@ import { FormSelectWithPopover } from 'components/optimizerTab/conditionals/Form
 import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimizer/rotation/setConditionalContent'
 import { ConditionalDataType } from 'lib/constants'
 import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
-import { lockScroll, scrollToTop, unlockScroll } from 'lib/scrollController'
+import { lockScroll, unlockScroll } from 'lib/scrollController'
 
 const buttonStyle = {
   fontSize: 20,
@@ -41,7 +41,6 @@ export function ComboDrawer() {
   useEffect(() => {
     if (comboDrawerOpen) {
       lockScroll()
-      scrollToTop()
       const form = OptimizerTabController.getForm()
       if (!form?.characterId || !form.characterConditionals) return
 
@@ -51,8 +50,6 @@ export function ComboDrawer() {
       unlockScroll()
       updateFormState(comboState)
     }
-
-    return () => unlockScroll();
   }, [formValues, comboDrawerOpen])
 
   return (

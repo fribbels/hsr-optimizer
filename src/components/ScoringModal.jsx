@@ -61,7 +61,7 @@ export default function ScoringModal() {
       scoringMetadata = getScoringValuesForDisplay(scoringMetadata)
       scoringAlgorithmForm.setFieldsValue(scoringMetadata)
 
-      console.log('Scoring modal opening set as:', scoringMetadata)
+      // console.log('Scoring modal opening set as:', scoringMetadata)
     }
   }, [scoringAlgorithmFocusCharacter, isScoringModalOpen, scoringAlgorithmForm])
 
@@ -171,7 +171,7 @@ export default function ScoringModal() {
       <PStyled style={{ margin: '7px 0px' }}>
         {
           t('Scoring.WeightMethodology.Paragraph1')
-        // Substat weights are graded on a 0.0 to 1.0 scale in increments of 0.25, based on how valuable each stat is to the character. Weights are evaluated based on the following general ruleset:
+          // Substat weights are graded on a 0.0 to 1.0 scale in increments of 0.25, based on how valuable each stat is to the character. Weights are evaluated based on the following general ruleset:
         }
       </PStyled>
 
@@ -201,7 +201,7 @@ export default function ScoringModal() {
       <PStyled style={{ margin: '7px 0px' }}>
         {
           t('Scoring.WeightMethodology.Paragraph3')
-        // These weights are the defaults, but each player may have different preferences. Feel free to adjust the weights to fit a certain playstyle. DPS characters should rely on the optimizer and Combat Score to evaluate their performance in combat, since substats scores don't take into account external factors like team buffs or passive effects.
+          // These weights are the defaults, but each player may have different preferences. Feel free to adjust the weights to fit a certain playstyle. DPS characters should rely on the optimizer and Combat Score to evaluate their performance in combat, since substats scores don't take into account external factors like team buffs or passive effects.
         }
       </PStyled>
     </Text>
@@ -214,7 +214,7 @@ export default function ScoringModal() {
         <Trans t={t} i18nKey='Scoring.CalculationMethodology.Paragraph1'>
           Relic scores are calculated by
           {' '}
-          <code>Score = substatScore / idealScore * { { percentToScore } }</code>
+          <code>Score = substatScore / idealScore * {{ percentToScore }}</code>
           .
           This allows for characters with fewer desired stats to achieve scores comparable to characters with many desired stats.
         </Trans>
@@ -222,7 +222,7 @@ export default function ScoringModal() {
       <PStyled style={{ margin: '7px 0px' }}>
         {
           t('Scoring.CalculationMethodology.Paragraph2')
-        // The idealScore is the substatScore for a theoretical perfect relic. By adjusting the score to the maximum possible relic, this means that when a weighted substat is occupied by the main stat, the score value of the remaining substat weights increases.
+          // The idealScore is the substatScore for a theoretical perfect relic. By adjusting the score to the maximum possible relic, this means that when a weighted substat is occupied by the main stat, the score value of the remaining substat weights increases.
         }
       </PStyled>
       <PStyled style={{ margin: '7px 0px' }}>
@@ -358,7 +358,7 @@ export default function ScoringModal() {
       <PStyled style={{ margin: '7px 0px' }}>
         {
           t('Scoring.CalculationMethodology.Paragraph11')
-        // This scoring method is still experimental and subject to change, please come by the discord server to share any feedback!
+          // This scoring method is still experimental and subject to change, please come by the discord server to share any feedback!
         }
       </PStyled>
     </Text>

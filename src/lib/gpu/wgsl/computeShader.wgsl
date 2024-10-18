@@ -133,8 +133,6 @@ fn main(
     let relicSetIndex: u32 = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount;
     let ornamentSetIndex: u32 = setP + setL * ornamentSetCount;
 
-    var broken = false;
-
 
     // START SET FILTERS
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗

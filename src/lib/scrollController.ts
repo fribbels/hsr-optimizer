@@ -16,10 +16,3 @@ export function unlockScroll() {
   document.body.style.width = '';
   window.scrollTo(0, scrollY);
 }
-
-export function scrollToTop() {
-  const drawerContent = document.querySelector('.ant-drawer-body');
-  if (drawerContent) {
-    drawerContent.scrollTop = 0;
-  }
-}

@@ -119,9 +119,11 @@ function getChangelogContent() {
         `Added i18n support, looking for contributors to help translate the website`,
         `i18n.webp`,
         `Removed Stat Weight sort and filter options for optimizer simplification. The stat weight column still remains`,
+        `Sacerdos has been added as a personal relic set conditional for characters with self buffs`,
         `Fix: The Recommended Presets button no longer resets weighted rolls per relic`,
         `Balance: DPS score overvalued ATK boots in certain situations with large amount of speed buffs, mostly affects ATK boots Kafka S1 builds`,
         `Balance: Jiaoqiu is now recommended ATK / ERR rope by default`,
+        `Balance: Ruan Mei can now use all mains stats for feet`,
         `Balance: Shadowed by Night light cone now has SPD buff enabled by default`
       ],
     },

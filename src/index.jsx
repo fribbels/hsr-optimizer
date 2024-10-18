@@ -50,8 +50,6 @@ window.RelicRollFixer = RelicRollFixer
 
 window.colorTheme = Themes.BLUE
 
-OverlayScrollbars(document.body, {});
-
 DataParser.parse()
 SaveState.load(false)
 void verifyWebgpuSupport(false)
@@ -60,6 +58,8 @@ const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {err
 
 document.addEventListener('DOMContentLoaded', function () {
   const root = ReactDOM.createRoot(document.getElementById('root'))
+
+  OverlayScrollbars(document.body, {});
 
   root.render(
     <ErrorBoundary fallbackRender={defaultErrorRender}>

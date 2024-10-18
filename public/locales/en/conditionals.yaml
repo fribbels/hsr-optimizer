@@ -486,7 +486,7 @@ Lightcones:
       cdBuff:
         text: CD buff
         title: Curtains Up!
-        content: "
+        content:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
@@ -1618,37 +1618,37 @@ Characters:
     Content:
       sealformActive:
         text: Sealform state (force weakness break)
-        title: "
-        content: "
+        title:
+        content:
       atkToBreakVulnerability:
         text: ATK to Break vulnerability
-        title: "
-        content: "
+        title:
+        content:
       chargeStacks:
         text: Charge stacks
         title: Charge stacks
-        content: "
+        content:
       e1DefPen:
         text: E1 DEF PEN
-        title: "
-        content: "
+        title:
+        content:
       e2Buffs:
         text: E2 break buffs
-        title: "
-        content: "
+        title:
+        content:
       e4SpdBuff:
         text: E4 SPD buff
-        title: "
-        content: "
+        title:
+        content:
     TeammateContent:
       teammateBreakVulnerability:
         text: Break vulnerability
-        title: "
-        content: "
+        title:
+        content:
       e4SpdBuff:
         text: E4 SPD buff
-        title: "
-        content: "
+        title:
+        content:
   Robin:
     Content:
       concertoActive:

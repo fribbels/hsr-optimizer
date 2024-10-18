@@ -263,6 +263,9 @@ SetConditionals:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} stacks (+{{buffValue}}% FUA DMG)'
       Label5: 5 stacks (+25% FUA DMG +25% CD)
+    Sacerdos:
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} stacks (+{{buffValue}}% CD)'
   Conditionals:
     DefaultMessage: Enabled by default - effects will apply to combat calculations.
     Hunter: When enabled, CRIT DMG buff is applied to Combat stat calculations.
@@ -287,6 +290,7 @@ SetConditionals:
     Kalpagni: When enabled, applies the Break Effect buff to combat stat calculations.
     Lushaka: The selected buff is applied to damage calculations.
     Banana: The selected buff is applied to damage calculations.
+    Sacerdos: The selected buff is applied to damage calculations. Characters who buff themselves can trigger this effect.
 Presets:
   SpdValues:
     SPD0: No minimum speed

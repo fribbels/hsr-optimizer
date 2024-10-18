@@ -34,6 +34,11 @@ export const PresetEffects = {
       form.setConditionals[Sets.PioneerDiverOfDeadWaters][1] = value
     }
   },
+  fnSacerdosSet: (value) => {
+    return (form) => {
+      form.setConditionals[Sets.SacerdosRelivedOrdeal][1] = value
+    }
+  },
   PRISONER_SET: (form) => {
     form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 3
   },

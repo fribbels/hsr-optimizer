@@ -246,6 +246,9 @@ export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObje
   if (p2(sets.TheWondrousBananAmusementPark) && setConditionals.enabledTheWondrousBananAmusementPark) {
     x[Stats.CD] += 0.32
   }
+  if (p4(sets.SacerdosRelivedOrdeal)) {
+    x[Stats.CD] += 0.18 * setConditionals.valueSacerdosRelivedOrdeal
+  }
 
   // CR
 
@@ -284,7 +287,7 @@ export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObje
   p2(sets.DuranDynastyOfRunningWolves) && buffAbilityDmg(x, FUA_TYPE, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves)
 
   // Ult boost
-  p4(sets.TheWindSoaringValorous) && buffAbilityDmg(x, ULT_TYPE, 0.36 * setConditionals.enabledTheWindSoaringValorous)
+  p4(sets.TheWindSoaringValorous) && buffAbilityDmg(x, ULT_TYPE, 0.36, setConditionals.enabledTheWindSoaringValorous)
   p4(sets.ScholarLostInErudition) && buffAbilityDmg(x, ULT_TYPE | SKILL_TYPE, 0.20)
 
   if (p4(sets.GeniusOfBrilliantStars)) {

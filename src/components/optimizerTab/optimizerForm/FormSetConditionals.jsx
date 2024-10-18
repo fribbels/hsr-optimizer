@@ -1,12 +1,11 @@
 import { Drawer, Flex, Form, Popover, Select, Switch, Typography } from 'antd'
-import { Constants, CURRENT_DATA_VERSION, setToId, UnreleasedSets } from 'lib/constants'
+import { Constants, setToId } from 'lib/constants'
 import { useMemo } from 'react'
 import { HeaderText } from 'components/HeaderText'
 import PropTypes from 'prop-types'
 import { Assets } from 'lib/assets'
 import { VerticalDivider } from 'components/Dividers'
 import { useTranslation } from 'react-i18next'
-import i18next from 'i18next'
 
 const { Text } = Typography
 
@@ -50,6 +49,18 @@ export function FormSetConditionals() {
         label: t('SelectOptions.Wastelander.Imprisoned.Label'), // 'Imprisoned (+10% CR | +20% CD)',
       },
     ]
+  }, [t])
+  const setSacerdosRelivedOrdealOptions = useMemo(() => {
+    const options = []
+    for (let i = 0; i <= 2; i++) {
+      options.push({
+        display: t('SelectOptions.Sacerdos.Display', { stackCount: i }), // i + 'x',
+        value: i,
+        label: t('SelectOptions.Sacerdos.Label', { stackCount: i, buffValue: 18 * i }), // `${i} stacks (+${i * 8}% CR)`,
+      })
+    }
+
+    return options
   }, [t])
   const setLongevousDiscipleOptions = useMemo(() => {
     const options = []
@@ -279,21 +290,17 @@ export function FormSetConditionals() {
             description={t('RelicDescription', { id: 120 })}
             conditional={t('Conditionals.Valorous')} // 'The CRIT Rate buff is always on by default. The selected buff is applied to damage calculations based on the number of stacks.'
           />
-          {!UnreleasedSets[Constants.SetsRelics.SacerdosRelivedOrdeal] && (
-            <ConditionalSetOption
-              set={Constants.Sets.SacerdosRelivedOrdeal}
-              description={t('RelicDescription', { id: 121 })}
-              conditional={i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })}
-              p4Checked
-            />
-          )}
-          {!UnreleasedSets[Constants.SetsRelics.ScholarLostInErudition] && (
-            <ConditionalSetOption
-              set={Constants.Sets.ScholarLostInErudition}
-              description={t('RelicDescription', { id: 122 })}
-              conditional={i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })}
-            />
-          )}
+          <ConditionalSetOption
+            set={Constants.Sets.SacerdosRelivedOrdeal}
+            selectOptions={setSacerdosRelivedOrdealOptions}
+            description={t('RelicDescription', { id: 121 })}
+            conditional={t('Conditionals.Sacerdos')}
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.ScholarLostInErudition}
+            description={t('RelicDescription', { id: 122 })}
+            conditional={t('Conditionals.DefaultMessage')}
+          />
         </Flex>
 
         <VerticalDivider/>

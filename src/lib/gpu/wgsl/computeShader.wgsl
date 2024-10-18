@@ -374,6 +374,9 @@ fn main(
       if (p2(sets.TheWondrousBananAmusementPark) >= 1 && setConditionals.enabledTheWondrousBananAmusementPark == true) {
         x.CD += 0.32;
       }
+      if (p4(sets.SacerdosRelivedOrdeal) >= 1) {
+        x.CD += 0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal);
+      }
 
       // CR
 

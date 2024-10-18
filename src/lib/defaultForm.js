@@ -153,7 +153,7 @@ export const defaultSetConditionals = {
   [Constants.Sets.WatchmakerMasterOfDreamMachinations]: [undefined, false],
   [Constants.Sets.IronCavalryAgainstTheScourge]: [undefined, true],
   [Constants.Sets.TheWindSoaringValorous]: [undefined, false],
-  [Constants.Sets.SacerdosRelivedOrdeal]: [undefined, true],
+  [Constants.Sets.SacerdosRelivedOrdeal]: [undefined, 0],
   [Constants.Sets.ScholarLostInErudition]: [undefined, true],
 
   [Constants.Sets.SpaceSealingStation]: [undefined, true],

@@ -18,6 +18,7 @@ body,
     margin: 0;
     height: 100vh !important;
     min-width: fit-content !important;
+    overflow: visible !important;
 }
 
 .test {
@@ -72,7 +73,6 @@ body,
 }
 
 .ag-icon {
-    line-height: 14px !important;
     font-weight: 400 !important;
 }
 

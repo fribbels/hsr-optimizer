@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { ConfigProvider, Layout, message, Modal, notification, theme } from 'antd'
 import Tabs from 'components/Tabs'
 import { LayoutHeader } from 'components/LayoutHeader.tsx'
@@ -52,9 +52,10 @@ const App = () => {
         components: {
           // OptimizerForm.js
           Cascader: {
-            dropdownHeight: 800,
+            dropdownHeight: 700,
             controlItemWidth: 100,
             controlWidth: 100,
+            optionPadding: '2px 12px'
           },
 
           Collapse: {

@@ -133,8 +133,6 @@ fn main(
     let relicSetIndex: u32 = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount;
     let ornamentSetIndex: u32 = setP + setL * ornamentSetCount;
 
-    var broken = false;
-
 
     // START SET FILTERS
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -375,6 +373,9 @@ fn main(
       }
       if (p2(sets.TheWondrousBananAmusementPark) >= 1 && setConditionals.enabledTheWondrousBananAmusementPark == true) {
         x.CD += 0.32;
+      }
+      if (p4(sets.SacerdosRelivedOrdeal) >= 1) {
+        x.CD += 0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal);
       }
 
       // CR

@@ -449,6 +449,11 @@ export const DB = {
       if (character.form.setConditionals?.[Sets.DuranDynastyOfRunningWolves]?.[1] > 5) {
         character.form.setConditionals[Sets.DuranDynastyOfRunningWolves][1] = 5
       }
+
+      // In beta, it was later discovered Sacerdos could apply to self buffs
+      if (typeof character.form.setConditionals?.[Sets.SacerdosRelivedOrdeal]?.[1] == 'boolean') {
+        character.form.setConditionals[Sets.SacerdosRelivedOrdeal][1] = 0
+      }
     }
 
     for (const character of Object.values(dbCharacters)) {

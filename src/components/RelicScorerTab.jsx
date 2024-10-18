@@ -171,7 +171,6 @@ export default function RelicScorerTab() {
         }
         setLoading(false)
         Message.success(t('Messages.SuccessMsg')/* Successfully loaded profile */)
-        console.log(converted)
         scorerForm.setFieldValue('scorerId', id)
       })
       .catch((error) => {

@@ -2579,6 +2579,7 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(2),
+        PresetEffects.fnSacerdosSet(1),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -3041,6 +3042,7 @@ function getScoringMetadata() {
         PresetEffects.fnAshblazingSet(0),
         PresetEffects.BANANA_SET,
         PresetEffects.fnPioneerSet(4),
+        PresetEffects.fnSacerdosSet(1),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -3145,6 +3147,7 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.VALOROUS_SET,
+        PresetEffects.fnSacerdosSet(2),
       ],
       sortOption: SortOption.BASIC,
       simulation: {
@@ -3449,6 +3452,7 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.VALOROUS_SET,
+        PresetEffects.fnSacerdosSet(1),
       ],
       sortOption: SortOption.BASIC,
       simulation: {
@@ -3658,6 +3662,7 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.WASTELANDER_SET,
+        PresetEffects.fnSacerdosSet(1),
       ],
       sortOption: SortOption.ULT,
     },
@@ -4986,9 +4991,7 @@ function getScoringMetadata() {
       },
       parts: {
         [Parts.Body]: [],
-        [Parts.Feet]: [
-          Stats.SPD,
-        ],
+        [Parts.Feet]: [],
         [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.ERR,

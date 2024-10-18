@@ -11,7 +11,7 @@ LightconePassives: Light cone passives
 CharacterPassives: Character passives
 NoConditionals: No conditional passives
 NoTeamConditionals: No conditional team passives
-ResultLimitN: 'Find top {{limit}} results'
+ResultLimitN: Find top {{limit}} results
 MainStats: Main stats
 Sets: Sets
 SortOptions:
@@ -24,17 +24,17 @@ SortOptions:
   FUA: Sorted by Follow-up DMG
   DOT: Sorted by DoT DMG
   BREAK: Sorted by Break DMG
-  HP: 'Sorted by $t(common:ReadableStats.HP)'
-  ATK: 'Sorted by $t(common:ReadableStats.ATK)'
-  DEF: 'Sorted by $t(common:ReadableStats.DEF)'
-  SPD: 'Sorted by $t(common:ReadableStats.SPD)'
-  CR: 'Sorted by $t(common:ReadableStats.CRIT Rate)'
-  CD: 'Sorted by $t(common:ReadableStats.CRIT DMG)'
-  EHR: 'Sorted by $t(common:ReadableStats.Effect Hit Rate)'
-  RES: 'Sorted by $t(common:ReadableStats.Effect RES)'
-  BE: 'Sorted by $t(common:ReadableStats.Break Effect)'
-  OHB: 'Sorted by $t(common:ReadableStats.Outgoing Healing Boost)'
-  ERR: 'Sorted by $t(common:ReadableStats.Energy Regeneration Rate)'
+  HP: Sorted by $t(common:ReadableStats.HP)
+  ATK: Sorted by $t(common:ReadableStats.ATK)
+  DEF: Sorted by $t(common:ReadableStats.DEF)
+  SPD: Sorted by $t(common:ReadableStats.SPD)
+  CR: Sorted by $t(common:ReadableStats.CRIT Rate)
+  CD: Sorted by $t(common:ReadableStats.CRIT DMG)
+  EHR: Sorted by $t(common:ReadableStats.Effect Hit Rate)
+  RES: Sorted by $t(common:ReadableStats.Effect RES)
+  BE: Sorted by $t(common:ReadableStats.Break Effect)
+  OHB: Sorted by $t(common:ReadableStats.Outgoing Healing Boost)
+  ERR: Sorted by $t(common:ReadableStats.Energy Regeneration Rate)
   DMG: Sorted by Elemental DMG
   EHP: Sorted by Effective HP
 OptimizerOptions:
@@ -72,7 +72,7 @@ AdvancedOptions:
   Header: Advanced options
   EnemyConfigButtonText: Enemy configurations
   CombatBuffsButtonTextNone: 'Extra combat buffs '
-  CombatBuffsButtonText: 'Extra combat buffs ({{activeCount}})'
+  CombatBuffsButtonText: Extra combat buffs ({{activeCount}})
 Grid:
   To: to
   Of: of
@@ -201,7 +201,7 @@ Sidebar:
     Pin: Pin builds
     Clear: Clear pins
 TeammateRow:
-  Header: 'Teammates {{teammateCount}}'
+  Header: Teammates {{teammateCount}}
 FormRowLabels:
   Character options: Character options
   Relic & stat filters: Relic & stat filters
@@ -211,9 +211,9 @@ SetConditionals:
   Title: Conditional set effects
   DescriptionHeader: Set description
   EffectHeader: Enabled effect
-  SetName: '$t(gameData:RelicSets.{{id}}.Name)'
-  RelicDescription: '$t(gameData:RelicSets.{{id}}.Description4pc)'
-  PlanarDescription: '$t(gameData:RelicSets.{{id}}.Description2pc)'
+  SetName: $t(gameData:RelicSets.{{id}}.Name)
+  RelicDescription: $t(gameData:RelicSets.{{id}}.Description4pc)
+  PlanarDescription: $t(gameData:RelicSets.{{id}}.Description2pc)
   SelectOptions:
     Streetwise:
       Display: '{{stackCount}}x'
@@ -252,10 +252,10 @@ SetConditionals:
         Label: 3 debuffs (+12% DMG | +4% base CR | +12% CD)
       2+Debuff:
         Display: 2x+
-        Label: '2 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +16% CD)'
+        Label: 2 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +16% CD)
       3+Debuff:
         Display: 3x+
-        Label: '3 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +24% CD)'
+        Label: 3 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +24% CD)
     Sigonia:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} stacks (+{{buffValue}}% CD)'
@@ -263,72 +263,50 @@ SetConditionals:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} stacks (+{{buffValue}}% FUA DMG)'
       Label5: 5 stacks (+25% FUA DMG +25% CD)
+    Sacerdos:
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} stacks (+{{buffValue}}% CD)'
   Conditionals:
     DefaultMessage: Enabled by default - effects will apply to combat calculations.
-    Hunter: 'When enabled, CRIT DMG buff is applied to Combat stat calculations.'
-    Streetwise:
-      The selected ATK% buff is applied to Combat stat calculations based on the
-      number of stacks.
-    Firesmith: >-
-      The Skill DMG increase is always active by default. When enabled, the Fire
-      DMG buff is applied to Combat stat calculations.
-    Genius: >-
-      The 10% DEF pen increase is always active by default. When enabled, treats
-      the enemy as having Quantum Weakness and penetrates 10% more DEF.
-    Thunder: 'When enabled, ATK% buff is applied to Combat stat calculations.'
+    Hunter: When enabled, CRIT DMG buff is applied to Combat stat calculations.
+    Streetwise: The selected ATK% buff is applied to Combat stat calculations based on the number of stacks.
+    Firesmith: The Skill DMG increase is always active by default. When enabled, the Fire DMG buff is applied to Combat stat calculations.
+    Genius: The 10% DEF pen increase is always active by default. When enabled, treats the enemy as having Quantum Weakness and penetrates 10% more DEF.
+    Thunder: When enabled, ATK% buff is applied to Combat stat calculations.
     Wastelander: Applies the selected buffs to Combat stat calculations.
-    Longevous: >-
-      The selected CR buff is applied to Combat stat calculations based on the
-      number of stacks.
-    Messenger: 'When enabled, SPD% buff is applied to Combat stat calculations.'
+    Longevous: The selected CR buff is applied to Combat stat calculations based on the number of stacks.
+    Messenger: When enabled, SPD% buff is applied to Combat stat calculations.
     Ashblazing: >-
-      The selected ATK% buff is applied to all calculations except for Follow-up
-      attacks. Follow-up attack calculations instead will start at 0% ATK buff
-      and stack up based on the number of hits performed by the attack. Hits
-      will increase based on the enemy count and assumes the target is
-      positioned in the center for blast / aoe attacks.
-    Prisoner: >-
-      The selected DEF% pen buff is applied to damage calculations based on the
-      number of stacks.
-    Diver: >-
-      The 2 piece effect can be disabled by selecting the 0x option. For 4
-      piece, different CRIT buffs are applied to Combat stat calculations
-      depending on the selected option.
-    Watchmaker: >-
-      When enabled, the Break Effect buff is applied to Combat stat
-      calculations.
-    Valorous: >-
-      The CRIT Rate buff is always on by default. The selected buff is applied
-      to damage calculations based on the number of stacks.
-    Differentiator: 'When enabled, the CRIT Rate buff is applied to Combat stat calculations.'
-    Sigonia: >-
-      The selected CRIT DMG buff is applied to Combat stat calculations,
-      assuming the character has defeated that number of enemies.
-    Izumo: >-
-      When enabled, assumes there is another ally with the same path, and
-      applies the 12% CRIT Rate buff to Combat stat calculations.
-    Duran: >-
-      The selected buff is applied to damage calculations based on the number of
-      stacks.
-    Kalpagni: 'When enabled, applies the Break Effect buff to combat stat calculations.'
+      The selected ATK% buff is applied to all calculations except for Follow-up attacks. Follow-up attack calculations instead will start at 0% ATK buff and stack up based on the number of hits
+      performed by the attack. Hits will increase based on the enemy count and assumes the target is positioned in the center for blast / aoe attacks.
+    Prisoner: The selected DEF% pen buff is applied to damage calculations based on the number of stacks.
+    Diver: The 2 piece effect can be disabled by selecting the 0x option. For 4 piece, different CRIT buffs are applied to Combat stat calculations depending on the selected option.
+    Watchmaker: When enabled, the Break Effect buff is applied to Combat stat calculations.
+    Valorous: The CRIT Rate buff is always on by default. The selected buff is applied to damage calculations based on the number of stacks.
+    Differentiator: When enabled, the CRIT Rate buff is applied to Combat stat calculations.
+    Sigonia: The selected CRIT DMG buff is applied to Combat stat calculations, assuming the character has defeated that number of enemies.
+    Izumo: When enabled, assumes there is another ally with the same path, and applies the 12% CRIT Rate buff to Combat stat calculations.
+    Duran: The selected buff is applied to damage calculations based on the number of stacks.
+    Kalpagni: When enabled, applies the Break Effect buff to combat stat calculations.
     Lushaka: The selected buff is applied to damage calculations.
     Banana: The selected buff is applied to damage calculations.
+    Sacerdos: The selected buff is applied to damage calculations. Characters who buff themselves can trigger this effect.
 Presets:
   SpdValues:
     SPD0: No minimum speed
     SPD111: 111.112 SPD - 5 actions in first four cycles
     SPD114: 114.286 SPD - 4 actions in first three cycles
     SPD120: 120.000 SPD - 3 actions in first two cycles
-    SPD133: '133.334 SPD - 2 actions in first cycle, 6 actions in first four cycles'
+    SPD133: 133.334 SPD - 2 actions in first cycle, 6 actions in first four cycles
     SPD142: 142.858 SPD - 5 actions in first three cycles
     SPD155: 155.556 SPD - 7 actions in first four cycles
     SPD160: 160.000 SPD - 4 actions in first two cycles
     SPD171: 171.429 SPD - 6 actions in first three cycles
     SPD177: 177.778 SPD - 8 actions in first four cycles
     SPD200: 200.000 SPD - 3 actions in first cycle
-  StandardLabel: 'Standard $t(gameData:Characters.{{id}}.Name)'
+  StandardLabel: Standard $t(gameData:Characters.{{id}}.Name)
   RecommendedPresets: Recommended presets
-  PresetNotAvailable: 'Preset not available, please select another option'
+  PresetNotAvailable: Preset not available, please select another option
 CombatBuffs:
   ATK: ATK
   ATK_P: ATK %
@@ -351,12 +329,12 @@ CombatBuffs:
 Target_one: target
 Target_other: targets
 EnemyConfiguration:
-  Title: Enemy configurations
-  LevelOptionLabel: 'Lv. {{level}} - {{defense}} DEF'
+  LevelOptionLabel: Lv. {{level}} - {{defense}} DEF
   CountOptionLabel: '{{targetCount}} $t(optimizerTab:Target, {"count": {{targetCount}}})'
   EffResOptionLabel: '{{resistance}}% Effect RES'
   DmgResOptionLabel: '{{resistance}}% Damage RES'
   ToughnessOptionLabel: '{{toughness}} max toughness'
+  Title: Enemy configurations
   StatHeader: Enemy stat options
   WeaknessLabel: Elemental weakness
   BrokenLabel: Weakness broken
@@ -413,35 +391,35 @@ TeammateCard:
   TeammateSets:
     Messenger:
       Desc: '4 Piece: $t(gameData:RelicSets.114.Name) (+12% SPD)'
-      Set: '$t(gameData:RelicSets.114.Name)'
+      Set: $t(gameData:RelicSets.114.Name)
       Text: 12% SPD
     Watchmaker:
       Desc: '4 Piece: $t(gameData:RelicSets.118.Name) (+30% BE)'
-      Set: '$t(gameData:RelicSets.118.Name)'
+      Set: $t(gameData:RelicSets.118.Name)
       Text: 30% BE
     Sacerdos1Stack:
       Desc: '4 Piece: $t(gameData:RelicSets.121.Name) (+18% CD)'
-      Set: '$t(gameData:RelicSets.121.Name)'
+      Set: $t(gameData:RelicSets.121.Name)
       Text: 18% CD
     Sacerdos2Stack:
       Desc: '4 Piece: $t(gameData:RelicSets.121.Name) (+36% CD)'
-      Set: '$t(gameData:RelicSets.121.Name)'
+      Set: $t(gameData:RelicSets.121.Name)
       Text: 36% CD
     Keel:
-      Desc: '$t(gameData:RelicSets.310.Name) (+10% CD)'
-      Set: '$t(gameData:RelicSets.310.Name)'
+      Desc: $t(gameData:RelicSets.310.Name) (+10% CD)
+      Set: $t(gameData:RelicSets.310.Name)
       Text: 10% CD
     Ageless:
-      Desc: '$t(gameData:RelicSets.302.Name) (+8% ATK)'
-      Set: '$t(gameData:RelicSets.302.Name)'
+      Desc: $t(gameData:RelicSets.302.Name) (+8% ATK)
+      Set: $t(gameData:RelicSets.302.Name)
       Text: 8% ATK
     Penacony:
-      Desc: '$t(gameData:RelicSets.312.Name) (+10% DMG for same element)'
-      Set: '$t(gameData:RelicSets.312.Name)'
+      Desc: $t(gameData:RelicSets.312.Name) (+10% DMG for same element)
+      Set: $t(gameData:RelicSets.312.Name)
       Text: 10% DMG
     Lushaka:
-      Desc: '$t(gameData:RelicSets.317.Name) (+12% ATK)'
-      Set: '$t(gameData:RelicSets.317.Name)'
+      Desc: $t(gameData:RelicSets.317.Name) (+12% ATK)
+      Set: $t(gameData:RelicSets.317.Name)
       Text: 12% ATK
 StatSimulation:
   DuplicateSimMessage: Identical stat simulation already exists
@@ -452,7 +430,7 @@ StatSimulation:
   RelicSetPlaceholder: Relic set
   OrnamentSetPlaceholder: Ornament set
   TotalRolls: Total rolls
-  SubstatSelectorLabel: '$t(common:Stats.{{stat}})'
+  SubstatSelectorLabel: $t(common:Stats.{{stat}})
   ModeSelector:
     'Off': 'Off'
     RollCount: Simulate custom substat rolls
@@ -476,5 +454,5 @@ StatSimulation:
     FeetPlaceholder: Feet
     SpherePlaceholder: Sphere
     RopePlaceholder: Rope
-    ShortStat: '$t(common:ShortReadableStats.{{stat}})'
-    LabelStat: '$t(common:ReadableStats.{{stat}})'
+    ShortStat: $t(common:ShortReadableStats.{{stat}})
+    LabelStat: $t(common:ReadableStats.{{stat}})

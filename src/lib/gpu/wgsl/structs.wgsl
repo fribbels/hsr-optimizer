@@ -113,6 +113,7 @@ struct SetConditionals {
   valuePioneerDiverOfDeadWaters: i32,
   valueSigoniaTheUnclaimedDesolation: i32,
   valueDuranDynastyOfRunningWolves: i32,
+  valueSacerdosRelivedOrdeal: i32
 }
 
 struct Action {

@@ -30,7 +30,9 @@ RelicGrid:
     Mainstat: |-
       Main
       Stat
-    Mainvalue: Main Value
+    Mainvalue: |-
+      Main
+      Value
     hpP: HP %
     atkP: ATK %
     defP: DEF %

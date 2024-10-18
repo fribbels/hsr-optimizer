@@ -5,6 +5,8 @@ import Backend from 'i18next-http-backend'
 import { BASE_PATH } from './db'
 import yaml from 'js-yaml';
 
+window.yaml = yaml
+
 export const languages = {
   zh: {
     locale: 'zh',

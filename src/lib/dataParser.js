@@ -4991,9 +4991,7 @@ function getScoringMetadata() {
       },
       parts: {
         [Parts.Body]: [],
-        [Parts.Feet]: [
-          Stats.SPD,
-        ],
+        [Parts.Feet]: [],
         [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.ERR,

@@ -327,8 +327,8 @@ Target_other: targets
 EnemyConfiguration:
   LevelOptionLabel: Lv. {{level}} - {{defense}} DEF
   CountOptionLabel: '{{targetCount}} $t(optimizerTab:Target, {"count": {{targetCount}}})'
-  ResOptionLabel: '{{resistance}}% Effect RES'
-  EfresOptionLabel: '{{resistance}}% Damage RES'
+  EffResOptionLabel: '{{resistance}}% Effect RES'
+  DmgResOptionLabel: '{{resistance}}% Damage RES'
   ToughnessOptionLabel: '{{toughness}} max toughness'
   Title: Enemy configurations
   StatHeader: Enemy stat options

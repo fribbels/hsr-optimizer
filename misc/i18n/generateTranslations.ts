@@ -36,6 +36,15 @@ const outputLocalesMapping = {
   vi: ['vi'],
 }
 
+const Overrides: {[key: string]: {key: string; value: string}[]} = {
+  en: [
+    {
+      key: 'Characters.1213.Name',
+      value: 'Imbibitor Lunae',
+    }
+  ]
+}
+
 function formattingFixer(string: string) {
   if (!string) return ''
   string = string.replace(/<color=#([a-f]|[0-9]){8}>/g, "</span><span style='color:#f29e38ff'>").replace(/<\/color>/g, '</span><span>')
@@ -333,6 +342,8 @@ async function generateTranslations(){
       output.Elements[element.ID] = cleanString(locale, textmap[element.DamageTypeName.Hash])
     }
 
+    applyOverrides(output, locale)
+
     for (const outputLocale of outputLocalesMapping[locale]) {
       writeFile(`./public/locales/${outputLocale}/gameData.yaml`, yaml.dump(output, {lineWidth: -1, quotingType: "\""}), (err) => {
         if (err)
@@ -345,6 +356,21 @@ async function generateTranslations(){
   }
 }
 
+function applyOverrides(output: object, locale: string) {
+  if (!Overrides[locale]) return
+  for (const override of Overrides[locale]) {
+    const path = (override.key).split('.')
+    let target = output, index = -1
+    while (++index < path.length) {
+      let key = path[index]
+      if (index != path.length - 1) {
+        target = target[key]
+      } else {
+        target[key] = override.value
+      }
+    }
+  }
+}
 
 function tbIdToNativeName(id: number, textmap: TextMap, pathmap: Path[], locale: string) {
   const isCaelus = id % 2 ? true : false

@@ -1485,7 +1485,7 @@ Characters:
         Name: Eclipse Hollows Corporeal Husk
         Desc: <span>When Jingliu enters the Spectral Transmigration state, the Syzygy stack limit increases by 1, and Jingliu obtains 1 stack(s) of Syzygy. While she is in the Spectral Transmigration state, her CRIT DMG increases by 50%.</span>
   "1213":
-    Name: Dan Heng • Imbibitor Lunae
+    Name: Imbibitor Lunae
     Abilities:
       "121301":
         Name: Beneficent Lotus
@@ -2920,7 +2920,7 @@ RelicSets:
     Description2pc: "<span>Increases SPD by <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
     Description4pc: "<span>When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by <span style='whiteSpace: \"nowrap\"'>18%</span>, lasting for <span style='whiteSpace: \"nowrap\"'>2</span> turn(s). This effect can stack up to <span style='whiteSpace: \"nowrap\"'>2</span> time(s).</span>"
   "122":
-    Name: Scholar Lost in Erudition
+    Name: DooDoo
     Description2pc: "<span>Increases CRIT Rate by <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
     Description4pc: "<span>Increases DMG dealt by Skill and Ultimate by <span style='whiteSpace: \"nowrap\"'>20%</span>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
   "301":

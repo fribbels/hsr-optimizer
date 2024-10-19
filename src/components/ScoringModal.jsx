@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Collapse, Divider, Flex, Form, InputNumber, Modal, Popconfirm, Select, Typography } from 'antd'
+import { Button, Divider, Flex, Form, InputNumber, Modal, Popconfirm, Select, Typography } from 'antd'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
@@ -11,6 +11,7 @@ import { usePublish } from 'hooks/usePublish'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 import { dmgOrbMainstatBonus, mainStatBonuses, minRollValue, percentToScore } from 'lib/relicScorerPotential'
 import { Trans, useTranslation } from 'react-i18next'
+import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
 
 const { Text } = Typography
 
@@ -541,29 +542,9 @@ export default function ScoringModal() {
           </Flex>
         </Flex>
 
-        <TitleDivider>{t('Scoring.WeightMethodology.Header')/* Substat weight methodology */}</TitleDivider>
-
-        <Collapse
-          ghost
-          items={[{
-            key: '1',
-            label: t('Scoring.WeightMethodology.RevealText')/* Click to show details */,
-            children: weightMethodologyCollapse,
-          }]}
-        >
-        </Collapse>
-
-        <TitleDivider>{t('Scoring.CalculationMethodology.Header')/* Calculations */}</TitleDivider>
-
-        <Collapse
-          ghost
-          items={[{
-            key: '1',
-            label: t('modals:Scoring.CalculationMethodology.RevealText')/* Click to show details */,
-            children: calculationsMethodologyCollapse,
-          }]}
-        >
-        </Collapse>
+        <Divider style={{ marginTop: 10, marginBottom: 40 }}>
+          <ColorizedLinkWithIcon text={t('Scoring.WeightMethodology.Header')} linkIcon={true} url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'/>
+        </Divider>
       </Form>
     </Modal>
   )

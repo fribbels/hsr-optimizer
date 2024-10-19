@@ -373,7 +373,7 @@ MinMaxFilters:
   BREAKLabel: BREAK
   COMBOLabel: COMBO
 ComboFilter:
-  Header: Rotation COMBO formula
+  Header: Combo DMG calculation
   BASIC: Basic DMG
   SKILL: Skill DMG
   ULT: Ult DMG

@@ -13,7 +13,7 @@ The two modes which can be selected from the Combo DMG calculation menu are Simp
     * Most buffs are considered as full uptime, however the optimizer will automatically try to precompute when some buffs should be disabled
 * Advanced mode
     * Open the Advanced rotation menu for full control over character / light cone / teammate / set effects buff uptime
-    * Buffs values can be changed between abilities
+    * Buff values can be changed between abilities
     * The optimizer will automatically try to precompute when some buffs should be disabled
 
 Advanced mode is powerful but should be used with care, as it requires an in depth understanding of buff timings in combat to use correctly.
@@ -32,7 +32,7 @@ In the Advanced menu, the character abilities are shown in the header, and the r
 
 DoT and Break triggers are not impacted by the advanced rotation, as their timings are difficult to control in actual battles.
 They are calculated using the main optimizer page's damage conditionals.
-DoT / Break damage can added to the rotation menu and the damage is multiplied by their defined stack counts.
+DoT / Break damage can be added to the rotation menu and the damage is multiplied by their defined stack counts.
 
 Note: This Break limitation only applies to the Weakness Break trigger, and does not apply other sources of Break damage such as Super Break or Boothill's enhanced basic.
 

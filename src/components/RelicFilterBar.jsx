@@ -7,7 +7,7 @@ import { TooltipImage } from './TooltipImage'
 import DB from '../lib/db'
 import { Hint } from 'lib/hint'
 import { Utils } from 'lib/utils'
-import { Constants, SetsRelics, Stats, UnreleasedSets } from 'lib/constants'
+import { Constants, SetsRelics, setToId, Stats, UnreleasedSets } from 'lib/constants'
 import { Assets } from 'lib/assets'
 import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
@@ -16,6 +16,7 @@ import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSele
 import { ClearOutlined } from '@ant-design/icons'
 import { SaveState } from 'lib/saveState'
 import { SettingOptions } from 'components/SettingsDrawer'
+import { useTranslation } from 'react-i18next'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -30,6 +31,8 @@ export default function RelicFilterBar(props) {
   const setRelicsTabFocusCharacter = window.store((s) => s.setRelicsTabFocusCharacter)
 
   const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
+
+  const { t, i18n } = useTranslation(['relicsTab', 'common', 'gameData'])
 
   const characterOptions = useMemo(() => {
     return Utils.generateCharacterOptions()
@@ -54,7 +57,7 @@ export default function RelicFilterBar(props) {
 
       return tooltip
         ? (
-          <Tooltip title={key} mouseEnterDelay={0.2}>
+          <Tooltip title={i18n.exists(`common:Stats.${key}`) ? t(`common:Stats.${key}`) : t(`gameData:RelicSets.${setToId[key]}.Name`)} mouseEnterDelay={0.2}>
             <img style={{ width: width }} src={src}/>
           </Tooltip>
         )
@@ -236,51 +239,51 @@ export default function RelicFilterBar(props) {
     <Flex vertical gap={2}>
       <Flex gap={10}>
         <Flex vertical flex={1}>
-          <HeaderText>Part</HeaderText>
+          <HeaderText>{t('RelicFilterBar.Part')/* Part */}</HeaderText>
           <FilterRow name='part' tags={partsData} flexBasis='15%'/>
         </Flex>
         <Flex vertical style={{ height: '100%' }} flex={1}>
-          <HeaderText>Enhance</HeaderText>
+          <HeaderText>{t('RelicFilterBar.Enhance')/* Enhance */}</HeaderText>
           <FilterRow name='enhance' tags={enhanceData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.5}>
-          <HeaderText>Grade</HeaderText>
+          <HeaderText>{t('RelicFilterBar.Grade')/* Grade */}</HeaderText>
           <FilterRow name='grade' tags={gradeData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.25}>
-          <HeaderText>Verified</HeaderText>
+          <HeaderText>{t('RelicFilterBar.Verified')/* Verified */}</HeaderText>
           <FilterRow name='verified' tags={verifiedData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.25}>
-          <HeaderText>Equipped</HeaderText>
+          <HeaderText>{t('RelicFilterBar.Equipped')/* Equipped */}</HeaderText>
           <FilterRow name='equippedBy' tags={equippedByData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.4}>
-          <HeaderText>Clear</HeaderText>
+          <HeaderText>{t('RelicFilterBar.Clear')/* Clear */}</HeaderText>
           <Button icon={<ClearOutlined/>} onClick={clearClicked} style={{ flexGrow: 1, height: '100%' }}>
-            Clear all filters
+            {t('RelicFilterBar.ClearButton')/* Clear all filters */}
           </Button>
         </Flex>
       </Flex>
 
       <Flex vertical>
-        <HeaderText>Set</HeaderText>
+        <HeaderText>{t('RelicFilterBar.Set')/* Set */}</HeaderText>
         <FilterRow name='set' tags={setsData} flexBasis={`${100 / Object.values(SetsRelics).length}%`}/>
       </Flex>
 
       <Flex vertical>
-        <HeaderText>Main stats</HeaderText>
+        <HeaderText>{t('RelicFilterBar.Mainstat')/* Main stats */}</HeaderText>
         <FilterRow name='mainStats' tags={mainStatsData}/>
       </Flex>
 
       <Flex vertical>
-        <HeaderText>Substats</HeaderText>
+        <HeaderText>{t('RelicFilterBar.Substat')/* Substats */}</HeaderText>
         <FilterRow name='subStats' tags={subStatsData}/>
       </Flex>
 
       <Flex gap={10}>
         <Flex vertical flex={0.5}>
-          <HeaderText>Relic recommendation character</HeaderText>
+          <HeaderText>{t('RelicFilterBar.RecommendationHeader')/* Relic recommendation character */}</HeaderText>
           <Flex gap={10}>
             <CharacterSelect
               value={currentlySelectedCharacterId}
@@ -295,13 +298,13 @@ export default function RelicFilterBar(props) {
               onClick={rescoreClicked}
               style={{ flex: 1, padding: '0px' }}
             >
-              Reapply scores
+              {t('RelicFilterBar.ReapplyButton')/* Reapply scores */}
             </Button>
             <Button
               onClick={scoringClicked}
               style={{ flex: 1, padding: '0px' }}
             >
-              Scoring algorithm
+              {t('RelicFilterBar.ScoringButton')/* Scoring algorithm */}
             </Button>
           </Flex>
         </Flex>
@@ -309,7 +312,7 @@ export default function RelicFilterBar(props) {
         <Flex vertical flex={0.25} gap={10}>
           <Flex vertical>
             <Flex justify='space-between' align='center'>
-              <HeaderText>Relic ratings</HeaderText>
+              <HeaderText>{t('RelicFilterBar.Rating')/* Relic ratings */}</HeaderText>
               <TooltipImage type={Hint.valueColumns()}/>
             </Flex>
             <Flex gap={10}>
@@ -328,7 +331,7 @@ export default function RelicFilterBar(props) {
         </Flex>
 
         <Flex vertical flex={0.25}>
-          <HeaderText>Custom potential characters</HeaderText>
+          <HeaderText>{t('RelicFilterBar.CustomCharsHeader')/* Custom potential characters */}</HeaderText>
           <CharacterSelect
             value={window.store.getState().excludedRelicPotentialCharacters}
             selectStyle={{ flex: 1 }}
@@ -337,7 +340,7 @@ export default function RelicFilterBar(props) {
                 .filter((entry) => entry[1] == true)
                 .map((entry) => entry[0])
               window.store.getState().setExcludedRelicPotentialCharacters(excludedCharacterIds)
-              SaveState.save()
+              SaveState.delayedSave()
               setTimeout(() => rescoreClicked(), 100)
             }}
             multipleSelect={true}

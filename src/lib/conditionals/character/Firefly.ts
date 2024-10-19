@@ -1,17 +1,18 @@
 import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { FireflyConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Firefly')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -30,74 +31,67 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'enhancedStateActive',
       name: 'enhancedStateActive',
-      text: 'Enhanced state',
-      title: 'Enhanced state',
-      content: `Enters the Complete Combustion state, advances this unit's Action by 100%, and gains Enhanced Basic ATK 
-      and Enhanced Skill.`,
+      text: t('Content.enhancedStateActive.text'),
+      title: t('Content.enhancedStateActive.title'),
+      content: t('Content.enhancedStateActive.content'),
     },
     {
       formItem: 'switch',
       id: 'enhancedStateSpdBuff',
       name: 'enhancedStateSpdBuff',
-      text: 'Enhanced SPD buff',
-      title: 'Enhanced SPD buff',
-      content: `While in Complete Combustion, increases SPD by ${ultSpdBuff}.`,
+      text: t('Content.enhancedStateSpdBuff.text'),
+      title: t('Content.enhancedStateSpdBuff.title'),
+      content: t('Content.enhancedStateSpdBuff.content', { ultSpdBuff }),
     },
     {
       formItem: 'switch',
       id: 'superBreakDmg',
       name: 'superBreakDmg',
-      text: 'Super Break enabled',
-      title: 'Super Break enabled',
-      content: `When SAM is in Complete Combustion with a Break Effect that is equal to or greater than 200%/360%, 
-      attacking a Weakness-Broken enemy target will convert the Toughness Reduction of this attack into 1 instance of 
-      35%/50% Super Break DMG.`,
+      text: t('Content.superBreakDmg.text'),
+      title: t('Content.superBreakDmg.title'),
+      content: t('Content.superBreakDmg.content'),
     },
     {
       formItem: 'switch',
       id: 'atkToBeConversion',
       name: 'atkToBeConversion',
-      text: 'ATK to BE conversion',
-      title: 'ATK to BE conversion',
-      content: `For every 10 point(s) of SAM's ATK that exceeds 1800, increases this unit's Break Effect by 0.8%.`,
+      text: t('Content.atkToBeConversion.text'),
+      title: t('Content.atkToBeConversion.title'),
+      content: t('Content.atkToBeConversion.content'),
     },
     {
       formItem: 'switch',
       id: 'talentDmgReductionBuff',
       name: 'talentDmgReductionBuff',
-      text: 'Max EHP buff',
-      title: 'Max EHP buff',
-      content: `The lower the HP, the less DMG received. When HP is 20% or lower, the DMG Reduction reaches its maximum 
-      effect, reducing up to ${precisionRound(talentDmgReductionBuff * 100)}%. During the Complete Combustion, the DMG 
-      Reduction remains at its maximum effect, and the Effect RES increases by ${precisionRound(talentResBuff * 100)}%.`,
+      text: t('Content.talentDmgReductionBuff.text'),
+      title: t('Content.talentDmgReductionBuff.title'),
+      content: t('Content.talentDmgReductionBuff.content', { talentResBuff: TsUtils.precisionRound(100 * talentResBuff), talentDmgReductionBuff: TsUtils.precisionRound(100 * talentDmgReductionBuff) }),
     },
     {
       formItem: 'switch',
       id: 'e1DefShred',
       name: 'e1DefShred',
-      text: 'E1 DEF shred',
-      title: 'E1 DEF shred',
-      content: `When using the Enhanced Skill, ignores 15% of the target's DEF. The Enhanced Skill does not consume 
-      Skill Points.`,
+      text: t('Content.e1DefShred.text'),
+      title: t('Content.e1DefShred.title'),
+      content: t('Content.e1DefShred.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e4ResBuff',
       name: 'e4ResBuff',
-      text: 'E4 RES buff',
-      title: 'E4 RES buff',
-      content: `While in Complete Combustion, increases SAM's Effect RES by 50%.`,
+      text: t('Content.e4ResBuff.text'),
+      title: t('Content.e4ResBuff.title'),
+      content: t('Content.e4ResBuff.content'),
       disabled: e < 4,
     },
     {
       formItem: 'switch',
       id: 'e6Buffs',
       name: 'e6Buffs',
-      text: 'E6 buffs',
-      title: 'E6 buffs',
-      content: `While in Complete Combustion, increases SAM's Fire RES PEN by 20%. When using the Enhanced Basic ATK or 
-      Enhanced Skill, increases the Weakness Break efficiency by 50%.`,
+      text: t('Content.e6Buffs.text'),
+      title: t('Content.e6Buffs.title'),
+      content: t('Content.e6Buffs.content'),
       disabled: e < 6,
     },
   ]
@@ -120,15 +114,15 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => ({}),
-    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       if (r.superBreakDmg) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
     },
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       x[Stats.RES] += (r.enhancedStateActive) ? talentResBuff : 0
       x[Stats.SPD] += (r.enhancedStateActive && r.enhancedStateSpdBuff) ? ultSpdBuff : 0
@@ -148,12 +142,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-    },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
-    },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       buffAbilityVulnerability(x, BREAK_TYPE, ultWeaknessBrokenBreakVulnerability, (r.enhancedStateActive && x.ENEMY_WEAKNESS_BROKEN))
 
@@ -165,8 +155,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
     },
-    gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
-      const r = request.characterConditionals
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
       // TODO:
       // if (r.atkToBeConversion) {
       //   evaluateConditional(FireflyConversionConditional, x, request, params)

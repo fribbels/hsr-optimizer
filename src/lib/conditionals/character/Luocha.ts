@@ -4,9 +4,11 @@ import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFina
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Luocha')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -17,19 +19,17 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'fieldActive',
     name: 'fieldActive',
-    text: 'Field active',
-    title: 'Field active',
-    content: `
-      E1: While the Field is active, ATK of all allies increases by 20%.
-    `,
+    text: t('Content.fieldActive.text'),
+    title: t('Content.fieldActive.title'),
+    content: t('Content.fieldActive.content'),
     // disabled: e < 1, Not disabling this one since technically the field can be active at E0
   }, {
     formItem: 'switch',
     id: 'e6ResReduction',
     name: 'e6ResReduction',
-    text: 'E6 RES reduction',
-    title: 'E6 RES reduction',
-    content: `E6: When Ultimate is used, reduces all enemies' All-Type RES by 20% for 2 turn(s).`,
+    text: t('Content.e6ResReduction.text'),
+    title: t('Content.e6ResReduction.title'),
+    content: t('Content.e6ResReduction.content'),
     disabled: e < 6,
   }]
 
@@ -49,7 +49,7 @@ export default (e: Eidolon): CharacterConditional => {
       fieldActive: true,
       e6ResReduction: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -60,8 +60,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x[Stats.ATK_P] += (e >= 1 && m.fieldActive) ? 0.20 : 0
 

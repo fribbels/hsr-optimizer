@@ -3,28 +3,111 @@ import { indent } from 'lib/gpu/injection/wgslUtils'
 import { Form } from 'types/Form'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { ConditionalRegistry } from 'lib/optimizer/calculateConditionals'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
+import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomputedStats'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { StringToNumberMap } from 'types/Common'
+import { SortOption } from 'lib/optimizer/sortOptions'
+import { GpuConstants } from 'lib/gpu/webgpuTypes'
 
-export function injectConditionals(wgsl: string, request: Form, params: OptimizerParams) {
+export function injectConditionals(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const characterConditionals: CharacterConditional = CharacterConditionals.get(request) as CharacterConditional
   const lightConeConditionals: LightConeConditional = LightConeConditionals.get(request) as LightConeConditional
 
-  const conditionalRegistry = params.conditionalRegistry
+  // Actions
+  const actionLength = context.resultSort == SortOption.COMBO.key ? context.actions.length : 1
 
-  if (lightConeConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
-    '/* INJECT LIGHT CONE CONDITIONALS */',
-    indent(lightConeConditionals.gpuFinalizeCalculations(request, params), 2),
+  let conditionalsWgsl = `
+switch (actionIndex) {
+`
+  for (let i = 0; i < actionLength; i++) {
+    const action = context.actions[i]
+
+    let characterConditionalWgsl = '  // Character conditionals\n'
+    let lightConeConditionalWgsl = '  // Light cone conditionals\n'
+
+    if (characterConditionals.gpuFinalizeCalculations) {
+      characterConditionalWgsl += indent(characterConditionals.gpuFinalizeCalculations(action, context), 1)
+    }
+    if (lightConeConditionals.gpuFinalizeCalculations) {
+      lightConeConditionalWgsl += indent(lightConeConditionals.gpuFinalizeCalculations(action, context), 1)
+    }
+
+    conditionalsWgsl += indent(`
+case ${i}: {
+
+${characterConditionalWgsl}
+${lightConeConditionalWgsl}
+}
+`, 1)
+  }
+
+  conditionalsWgsl += `
+  default: {
+  
+  }
+}
+`
+
+  wgsl = wgsl.replace(
+    '/* INJECT ACTION CONDITIONALS */',
+    indent(conditionalsWgsl, 3),
   )
 
-  if (characterConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace(
-    '/* INJECT CHARACTER CONDITIONALS */',
-    indent(characterConditionals.gpuFinalizeCalculations(request, params), 2),
-  )
+  wgsl += generateDynamicConditionals(request, context)
 
-  wgsl += generateDynamicSetConditionals(conditionalRegistry, request, params)
+  let actionsDefinition = `
+const comboDot: f32 = ${context.comboDot};
+const comboBreak: f32 = ${context.comboBreak};
+const actions: array<Action, ${actionLength}> = array<Action, ${actionLength}>(`
+  for (let i = 0; i < actionLength; i++) {
+    const action = context.actions[i]
+
+    actionsDefinition += `
+  Action( // ${action.actionIndex}
+    ${getActionTypeToWgslMapping(action.actionType)},
+    SetConditionals(
+      ${action.setConditionals.enabledHunterOfGlacialForest},${gpuParams.DEBUG ? ' // enabledHunterOfGlacialForest' : ''}
+      ${action.setConditionals.enabledFiresmithOfLavaForging},${gpuParams.DEBUG ? ' // enabledFiresmithOfLavaForging' : ''}
+      ${action.setConditionals.enabledGeniusOfBrilliantStars},${gpuParams.DEBUG ? ' // enabledGeniusOfBrilliantStars' : ''}
+      ${action.setConditionals.enabledBandOfSizzlingThunder},${gpuParams.DEBUG ? ' // enabledBandOfSizzlingThunder' : ''}
+      ${action.setConditionals.enabledMessengerTraversingHackerspace},${gpuParams.DEBUG ? ' // enabledMessengerTraversingHackerspace' : ''}
+      ${action.setConditionals.enabledCelestialDifferentiator},${gpuParams.DEBUG ? ' // enabledCelestialDifferentiator' : ''}
+      ${action.setConditionals.enabledWatchmakerMasterOfDreamMachinations},${gpuParams.DEBUG ? ' // enabledWatchmakerMasterOfDreamMachinations' : ''}
+      ${action.setConditionals.enabledIzumoGenseiAndTakamaDivineRealm},${gpuParams.DEBUG ? ' // enabledIzumoGenseiAndTakamaDivineRealm' : ''}
+      ${action.setConditionals.enabledForgeOfTheKalpagniLantern},${gpuParams.DEBUG ? ' // enabledForgeOfTheKalpagniLantern' : ''}
+      ${action.setConditionals.enabledTheWindSoaringValorous},${gpuParams.DEBUG ? ' // enabledTheWindSoaringValorous' : ''}
+      ${action.setConditionals.enabledTheWondrousBananAmusementPark},${gpuParams.DEBUG ? ' // enabledTheWondrousBananAmusementPark' : ''}
+      ${action.setConditionals.enabledScholarLostInErudition},${gpuParams.DEBUG ? ' // enabledScholarLostInErudition' : ''}
+      ${action.setConditionals.valueChampionOfStreetwiseBoxing},${gpuParams.DEBUG ? ' // valueChampionOfStreetwiseBoxing' : ''}
+      ${action.setConditionals.valueWastelanderOfBanditryDesert},${gpuParams.DEBUG ? ' // valueWastelanderOfBanditryDesert' : ''}
+      ${action.setConditionals.valueLongevousDisciple},${gpuParams.DEBUG ? ' // valueLongevousDisciple' : ''}
+      ${action.setConditionals.valueTheAshblazingGrandDuke},${gpuParams.DEBUG ? ' // valueTheAshblazingGrandDuke' : ''}
+      ${action.setConditionals.valuePrisonerInDeepConfinement},${gpuParams.DEBUG ? ' // valuePrisonerInDeepConfinement' : ''}
+      ${action.setConditionals.valuePioneerDiverOfDeadWaters},${gpuParams.DEBUG ? ' // valuePioneerDiverOfDeadWaters' : ''}
+      ${action.setConditionals.valueSigoniaTheUnclaimedDesolation},${gpuParams.DEBUG ? ' // valueSigoniaTheUnclaimedDesolation' : ''}
+      ${action.setConditionals.valueDuranDynastyOfRunningWolves},${gpuParams.DEBUG ? ' // valueDuranDynastyOfRunningWolves' : ''}
+      ${action.setConditionals.valueSacerdosRelivedOrdeal},${gpuParams.DEBUG ? ' // valueSacerdosRelivedOrdeal' : ''}
+    ),
+    ComputedStats(${injectPrecomputedStatsContext(action, gpuParams)}
+    ),
+    ConditionalState(
+    ),
+  ),`
+  }
+
+  actionsDefinition += `
+);
+  `
+
+  wgsl = wgsl.replace('/* INJECT ACTIONS DEFINITION */', actionsDefinition)
+
+  wgsl += `
+const actionCount = ${actionLength};
+`
 
   return wgsl
 }
@@ -49,7 +132,7 @@ ${indent(conditionalCallsWgsl, 1)}
   `
 }
 
-function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: string, statName: string, request: Form, params: OptimizerParams) {
+function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: string, statName: string, request: Form, context: OptimizerContext) {
   let conditionalEvaluators = ''
   let conditionalDefinitionsWgsl = ''
   let conditionalCallsWgsl = ''
@@ -62,7 +145,7 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
     .filter((x) => !x.ratioConversion)
     .map((conditional) => generateDependencyCall(conditional.id)).join('\n')
   conditionalDefinitionsWgsl += registeredConditionals[stat]
-    .map((conditional) => conditional.gpu(request, params)).join('\n')
+    .map((conditional) => conditional.gpu(request as unknown as OptimizerAction, context)).join('\n') // TODO!!
   conditionalStateDefinition += registeredConditionals[stat]
     .map((x) => x.id + ': f32,\n').join('')
   conditionalEvaluators += generateConditionalEvaluator(statName, conditionalCallsWgsl)
@@ -75,7 +158,10 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
   }
 }
 
-function generateDynamicSetConditionals(registeredConditionals: ConditionalRegistry, request: Form, params: OptimizerParams) {
+function generateDynamicConditionals(
+  request: Form,
+  context: OptimizerContext,
+) {
   let wgsl = ''
 
   let conditionalEvaluators = '\n'
@@ -94,26 +180,40 @@ function generateDynamicSetConditionals(registeredConditionals: ConditionalRegis
     conditionalStateDefinition += conditionalWgsl.conditionalStateDefinition
   }
 
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.HP, 'HP', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.ATK, 'ATK', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.DEF, 'DEF', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.SPD, 'SPD', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.CR, 'CR', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.CD, 'CD', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.EHR, 'EHR', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.RES, 'RES', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.BE, 'BE', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.OHB, 'OHB', request, params))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.ERR, 'ERR', request, params))
+  const registeredConditionals = context.actions[0].conditionalRegistry
+
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.HP, 'HP', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.ATK, 'ATK', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.DEF, 'DEF', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.SPD, 'SPD', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.CR, 'CR', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.CD, 'CD', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.EHR, 'EHR', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.RES, 'RES', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.BE, 'BE', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.OHB, 'OHB', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.ERR, 'ERR', request, context))
 
   wgsl += conditionalDefinitionsWgsl
   wgsl += conditionalEvaluators
 
   wgsl += `
 struct ConditionalState {
+${indent('actionIndex: i32,', 1)}
 ${indent(conditionalStateDefinition, 1)}
 }
   `
 
   return wgsl
+}
+
+const actionTypeToWgslMapping: StringToNumberMap = {
+  BASIC: BASIC_TYPE,
+  SKILL: SKILL_TYPE,
+  ULT: ULT_TYPE,
+  FUA: FUA_TYPE,
+}
+
+function getActionTypeToWgslMapping(actionType: string) {
+  return actionTypeToWgslMapping[actionType] ?? 0
 }

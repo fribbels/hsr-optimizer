@@ -1,0 +1,413 @@
+Scoring:
+  StatWeightsHeader: Stat weights
+  MainstatsHeader: Optimal mainstats
+  WeightMethodology:
+    Header: Substat weight methodology
+    RevealText: Click to show details
+    Paragraph1: 'Substat weights are graded on a 0.0 to 1.0 scale in increments of 0.25, based on how valuable each stat is to the character. Weights are evaluated based on the following general ruleset:'
+    Paragraph2: >-
+      <0><0>Speed weight:</0></0><1>— SPD is given a value of 1.0 for every character. This is due to the importance of speed tuning in team compositions, and the optimizer should be used to maximize
+      each character's stats at a certain speed breakpoint.</1><2/><3><0>CRIT Rate / CRIT Damage weight:</0></3><4>— Crit DPS in general are given the weights 0.75 ATK | 1.0 SPD | 1.0 CR | 1.0 CD,
+      unless they have any other special scaling.</4><5>— ATK is weighted slightly than CR and CD rolls because in general crit substats will provide a higher boost to damage.</5><6/><7><0>HP / DEF
+      weight:</0></7><8>— Defensive supports are given 2.0 weight to distribute between HP and DEF.</8><9>— For each additional (0.75 | 1.0) stat weight that they scale with, deduct 0.5 down to a
+      minimum of 1.0.</9><10>— If 2.0 still remains and one of the stats is worth more than the other (Huohuo and HP% for example), assign a 1.0 / 0.75 split.</10><11>— Offensive supports follow the
+      same ruleset, except they start with 1.5 weight to distribute between HP and DEF.</11><12/><13><0>RES weight:</0></13><14>— Support characters are granted 0.5 RES weight by default, with an
+      additional 0.25 weight if they have synergy with RES or have critical team-saving abilities.</14>
+    Paragraph3: >-
+      These weights are the defaults, but each player may have different preferences. Feel free to adjust the weights to fit a certain playstyle. DPS characters should rely on the optimizer and Combat
+      Score to evaluate their performance in combat, since substats scores don't take into account external factors like team buffs or passive effects.
+  CalculationMethodology:
+    Header: Calculations
+    RevealText: Click to show details
+    Paragraph1: >-
+      Relic scores are calculated by <2>Score = substatScore / idealScore * {{percentToScore}}</2>. This allows for characters with fewer desired stats to achieve scores comparable to characters with
+      many desired stats.
+    Paragraph2: >-
+      The idealScore is the substatScore for a theoretical perfect relic. By adjusting the score to the maximum possible relic, this means that when a weighted substat is occupied by the main stat,
+      the score value of the remaining substat weights increases.
+    Paragraph3: >-
+      The substatScore is calculated by <2>SubstatScore = weight * normalization * value</2>. The weight of each stat is defined above, on a scale of 0 to 1. The normalization of each stat is
+      calculated based on the ratio of their main stat values to Crit DMG with max value <5>64.8</5>:
+    Paragraph4: >-
+      <0><0><0>$t(common:ShortStats.CRIT DMG) $t(common:ShortStats.Break Effect) = 64.8 / 64.8 == 1.0</0></0><1><0>$t(common:ShortStats.DEF%) = 64.8 / 54.0 ==
+      1.2</0></1><2><0>$t(common:ShortStats.HP%) $t(common:ShortStats.ATK%) $t(common:ShortStats.Effect Hit Rate) $t(common:ShortStats.Effect RES) = 64.8 / 43.2 ==
+      1.5</0></2><3><0>$t(common:ShortStats.CRIT Rate) = 64.8 / 32.4 == 2</0></3></0><1><0><0>$t(common:ShortStats.SPD) = 64.8 / 25.032 == 2.59</0></0><1><0>$t(common:ShortStats.Outgoing Healing
+      Boost) = 64.8 / 34.561 == 1.87</0></1><2><0>$t(common:ShortStats.Energy Regeneration Rate) = 64.8 / 19.439 == 3.33</0></2><3><0>ELEMENTAL DMG = 64.8 / 38.88 == 1.67</0></3></1>
+    Paragraph5: >-
+      Flat ATK/HP/DEF have a separate calculation: Their weights are automatically calculated based on the weights given to their respective % counterparts<3> % stat weight * flat stat low roll /
+      (baseStats[stat] * 2 * % stat low roll)</3>the weight calculation for flat atk for Seele for example would be:<5> 0.75 * 19 / (baseStats.ATK * 2 * 0.03888) = 0.75 * 19 / (640.33 * 2 * 0.03888) =
+      0.28619</5>.
+    Paragraph6: >-
+      The normalization is calculated based on the normalization for the respective % counterparts:<1><0>64.8 / % main stat value * % stat high roll value / flat stat high roll value</0>. In
+      combination with the adjusted weights, this allows for flat stats to be accurately scored when compared against their % counterparts.</1>
+    Paragraph7: |-
+      A letter grade is assigned based on the number of normalized min rolls of each substat. The score for each min roll is equivalent to <2>{{minRollValue}}</2>
+      The general scale for grade by rolls is<5>F=1, D=2, C=3, B=4, A=5, S=6, SS=7, SSS=8, WTF=9</5> with a <9>+</9> assigned for an additional half roll.
+    Paragraph8: >-
+      Character scores are calculated by <2>Score = sum(relic scores) + sum(main stat scores)</2>. Only the feet/body/sphere/rope relics have main stat scores. The main stat score for a 5 star maxed
+      relic is <5>64.8</5> if the main stat is optimal, otherwise scaled down by the stat weight. Non 5 star relic scores are also scaled down by their maximum enhance. Characters are expected to have
+      3 full sets, so 3 rolls worth of score is deducted for each missing set.
+    Paragraph9: >-
+      Relics with main stats (body/feet/sphere/rope) are granted extra rolls to compensate for the difficulty of obtaining optimal main stats with desired substats. These numbers were calculated by a
+      simulation of relic rolls accounting for main stat drop rate and expected substat value. These rolls are first multiplied by the min roll value of <2>{{minRollValue}}</2> and then, if the main
+      stat is not optimal, scaled down by the stat weight to obtain the bonus score value.
+    Paragraph10: >-
+      <0><0><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.HP%): {{mainStatBonusBodyHPP}}</0></0><1><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.ATK%):
+      {{mainStatBonusBodyATKP}}</0></1><2><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.DEF%): {{mainStatBonusBodyDEFP}}</0></2><3><0>$t(common:ReadableParts.Body) —
+      $t(common:ShortSpacedStats.CRIT Rate): {{mainStatBonusBodyCR}}</0></3><4><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.CRIT DMG):
+      {{mainStatBonusBodyCD}}</0></4></0><1><0><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.Outgoing Healing Boost):
+      {{mainStatBonusBodyOHB}}</0></0><1><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.Effect Hit Rate): {{mainStatBonusBodyEHR}}</0></1><2><0>$t(common:ReadableParts.Feet) —
+      $t(common:ShortSpacedStats.HP%): {{mainStatBonusFeetHPP}}</0></2><3><0>$t(common:ReadableParts.Feet) — $t(common:ShortSpacedStats.ATK%):
+      {{mainStatBonusFeetATKP}}</0></3><4><0>$t(common:ReadableParts.Feet) — $t(common:ShortSpacedStats.DEF%): {{mainStatBonusFeetDEFP}}</0></4></1><2><0><0>$t(common:ReadableParts.Feet) —
+      $t(common:ShortSpacedStats.SPD): {{mainStatBonusFeetSPD}}</0></0><1><0>$t(common:ReadableParts.PlanarSphere) — $t(common:ShortSpacedStats.HP%):
+      {{mainStatBonusSphereHPP}}</0></1><2><0>$t(common:ReadableParts.PlanarSphere) — $t(common:ShortSpacedStats.ATK%): {{mainStatBonusSphereATKP}}</0></2><3><0>$t(common:ReadableParts.PlanarSphere) —
+      $t(common:ShortSpacedStats.DEF%): {{mainStatBonusSphereDEFP}}</0></3><4><0>$t(common:ReadableParts.PlanarSphere) — Elemental DMG %:
+      {{mainStatBonusSphereElem}}</0></4></2><3><0><0>$t(common:ReadableParts.LinkRope) — $t(common:ShortSpacedStats.HP%): {{mainStatBonusRopeHPP}}</0></0><1><0>$t(common:ReadableParts.LinkRope) —
+      $t(common:ShortSpacedStats.ATK%): {{mainStatBonusRopeATKP}}</0></1><2><0>$t(common:ReadableParts.LinkRope) — $t(common:ShortSpacedStats.DEF%):
+      {{mainStatBonusRopeDEFP}}</0></2><3><0>$t(common:ReadableParts.LinkRope) — $t(common:ShortSpacedStats.Break Effect): {{mainStatBonusRopeBE}}</0></3><4><0>$t(common:ReadableParts.LinkRope) —
+      $t(common:ShortSpacedStats.Energy Regeneration Rate): {{mainStatBonusRopeERR}}</0></4></3>
+    Paragraph11: This scoring method is still experimental and subject to change, please come by the discord server to share any feedback!
+  Footer:
+    Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+    Reset: '$t(common:Reset, {"capitalizeLength": 1}) to default'
+    ResetAll: '$t(common:Reset, {"capitalizeLength": 1}) all $t(common:Character, {"count": 35, "capitalizeLength": 0})'
+    Save: '$t(common:Save, {"capitalizeLength": 1}) changes'
+  ResetAllConfirm:
+    Title: '$t(common:Reset, {"capitalizeLength": 1}) the scoring algorithm for all characters?'
+    Description: You will lose any custom scoring settings you have set on any character.
+    'Yes': '$t(common:Yes, {"capitalizeLength": 1})'
+    'No': '$t(common:No, {"capitalizeLength": 1})'
+0Perms:
+  Title: Search generated 0 permutations
+  Description: This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar.
+  RootCauses:
+    IMPORT:
+      Description: Import relics from your account on the Importer tab
+      ButtonText: Navigate to Importer tab
+      SuccessMessage: Choose an import method and import your relics and characters
+    Body_MAIN:
+      Description: The main stat for the $t(common:Parts.Body) filter might be too restrictive
+      ButtonText: Clear $t(common:Parts.Body) main stat filters
+      SuccessMessage: Cleared $t(common:Parts.Body) main stat filters
+    Feet_MAIN:
+      Description: The main stat for the $t(common:Parts.Feet) filter might be too restrictive
+      ButtonText: Clear $t(common:Parts.Feet) main stat filters
+      SuccessMessage: Cleared $t(common:Parts.Feet) main stat filters
+    PlanarSphere_MAIN:
+      Description: The main stat for the $t(common:Parts.PlanarSphere) filter might be too restrictive
+      ButtonText: Clear $t(common:Parts.PlanarSphere) main stat filters
+      SuccessMessage: Cleared $t(common:Parts.PlanarSphere) main stat filters
+    LinkRope_MAIN:
+      Description: The main stat for the $t(common:Parts.LinkRope) filter might be too restrictive
+      ButtonText: Clear $t(common:Parts.LinkRope) main stat filters
+      SuccessMessage: Cleared $t(common:Parts.LinkRope) main stat filters
+    RELIC_SETS:
+      Description: The selected relic set filters might be too restrictive
+      ButtonText: Clear Relic set filters
+      SuccessMessage: Cleared relic set filters
+    ORNAMENT_SETS:
+      Description: The selected ornament set filters might be too restrictive
+      ButtonText: Clear Ornament set filters
+      SuccessMessage: Cleared ornament set filters
+    KEEP_CURRENT:
+      Description: The "Keep current relics" option is enabled, which forces any currently equipped relics on the character to be unchanged in the search
+      ButtonText: Disable "Keep current relics"
+      SuccessMessage: Disabled "Keep current relics"
+    PRIORITY:
+      Description: The character is ranked below other characters on the priority list. When the "Character priority filter" is enabled, characters may only take lower priority characters' relics
+      ButtonText: 'Move character to priority #1'
+      SuccessMessage: 'Moved character to priority #1'
+    EXCLUDE_ENABLED:
+      Description: The "Exclude" filter has some selected characters, which means this character cannot take relics from the selected characters
+      ButtonText: Clear excluded characters
+      SuccessMessage: Cleared excluded characters
+    EQUIPPED_DISABLED:
+      Description: The "Include equipped relics" filter is disabled, which means this character cannot take any relics belonging to other characters
+      ButtonText: Enable "Include equipped relics"
+      SuccessMessage: Enabled "Include equipped relics"
+    MINIMUM_ROLLS:
+      Description: The substat weight filter has a minimum roll threshold that might be too high
+      ButtonText: Set minimum rolls to 0
+      SuccessMessage: Set minimum rolls to 0
+0Results:
+  Title: Search generated 0 results
+  ResetAll:
+    ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) all filters'
+    SuccessMessage: Cleared all filters
+    Description: This means your stat and/or rating filters are too restrictive.
+  RootCauses:
+    StatView:
+      SuccessMessage: Switched to Combat stats view
+      Description: Your stat filters are configured for basic stats, which does not include buffs. The Combat stats view will show buffed stats from abilities / teammates / relics / etc.
+      ButtonText: Switch to Combat stats view
+    MAX_HP:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.HP) filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.HP) may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.HP) filter'
+    MIN_HP:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.HP) filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.HP) may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.HP) filter'
+    MAX_ATK:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.ATK) filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.ATK) may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.ATK) filter'
+    MIN_ATK:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.ATK) filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.ATK) may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.ATK) filter'
+    MAX_DEF:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.DEF) filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.DEF) may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.DEF) filter'
+    MIN_DEF:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.DEF) filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.DEF) may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.DEF) filter'
+    MAX_SPD:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.SPD) filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.SPD) may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.SPD) filter'
+    MIN_SPD:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.SPD) filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.SPD) may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.SPD) filter'
+    MAX_CR:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.CRIT Rate) filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.CRIT Rate) may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.CRIT Rate) filter'
+    MIN_CR:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.CRIT Rate) filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.CRIT Rate) may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.CRIT Rate) filter'
+    MAX_CD:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.CRIT DMG) filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.CRIT DMG) may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.CRIT DMG) filter'
+    MIN_CD:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.CRIT DMG) filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.CRIT DMG) may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.CRIT DMG) filter'
+    MAX_EHR:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Effect Hit Rate) filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Effect Hit Rate) may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Effect Hit Rate) filter'
+    MIN_EHR:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Effect Hit Rate) filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Effect Hit Rate) may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Effect Hit Rate) filter'
+    MAX_RES:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Effect RES) filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Effect RES) may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Effect RES) filter'
+    MIN_RES:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Effect RES) filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Effect RES) may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Effect RES) filter'
+    MAX_BE:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Break Effect) filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Break Effect) may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Break Effect) filter'
+    MIN_BE:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Break Effect) filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Break Effect) may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Break Effect) filter'
+    MAX_ERR:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Energy Regeneration Rate) filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Energy Regeneration Rate) may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Energy Regeneration Rate) filter'
+    MIN_ERR:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Energy Regeneration Rate) filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Energy Regeneration Rate) may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Energy Regeneration Rate) filter'
+    MAX_EHP:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) EHP filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) EHP may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) EHP filter'
+    MIN_EHP:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) EHP filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) EHP may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) EHP filter'
+    MAX_BASIC:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) Basic filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) basic attack damage may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) Basic filter'
+    MIN_BASIC:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) Basic filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) basic attack damage may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) Basic filter'
+    MAX_SKILL:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) Skill filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) skill damage may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) Skill filter'
+    MIN_SKILL:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) Skill filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) skill damage may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) Skill filter'
+    MAX_ULT:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) ULT filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) ultimate damage may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) ULT filter'
+    MIN_ULT:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) ULT filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) ultimate damage may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) ULT filter'
+    MAX_FUA:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) FUA filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) follow-up attack damage may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) FUA filter'
+    MIN_FUA:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) FUA filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) follow-up attack damage may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) FUA filter'
+    MAX_DOT:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) DOT filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) DOT damage may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) DOT filter'
+    MIN_DOT:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) DOT filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) DOT damage may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) DOT filter'
+    MAX_BREAK:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) Break filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) break damage may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) Break filter'
+    MIN_BREAK:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) Break filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) break damage may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) Break filter'
+    MAX_COMBO:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) Combo filter'
+      Description: '$t(common:Maximum, {"capitalizeLength": 1}) combo damage may be too low'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) Combo filter'
+    MIN_COMBO:
+      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) Combo filter'
+      Description: '$t(common:Minimum, {"capitalizeLength": 1}) combo damage may be too high'
+      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) Combo filter'
+ManyPerms:
+  Title: Very large search requested
+  Text: >-
+    This optimization search will take a substantial amount of time to finish. You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats, or use the
+    Substat weight filter to reduce the number of permutations.
+  Cancel: '$t(common:Cancel, {"capitalizeLength": 1}) search'
+  Proceed: Proceed with search
+EditCharacter:
+  EidolonButton: $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
+  SuperimpositionButton: $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
+  Character: '$t(common:Character, {"count": 1, "capitalizeLength": 1})'
+  Lightcone: '$t(common:Lightcone, {"count": 1, "capitalizeLength": 1})'
+  Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+  Save: '$t(common:Save, {"capitalizeLength": 1})'
+Relic:
+  Part: Part
+  Wearer: Equipped by
+  Set: Set
+  Enhance: Enhance / Grade
+  Mainstat: Main stat
+  Substat: Substats
+  Upgrades: Substat upgrades
+  Messages:
+    SubmitFail: Submit failed!
+    RelicCompleted: 'Completed $t(common:Relic, {"count": 1, "capitalizeLength": 0})'
+    EditSuccess: 'Successfully edited $t(common:Relic, {"count": 1, "capitalizeLength": 0})'
+    Error:
+      PartMissing: Part field is missing
+      MainstatMissing: Main stat is missing
+      SetMissing: Set field is missing
+      EnhanceMissing: Enhance field is missing
+      GradeMissing: Grade field is missing
+      EnhanceInvalid: Enhance value is invalid
+      GradeInvalid: Grade value is invalid
+      EnhanceTooHigh: Enhance value is too high for this grade
+      SetInvalid: Set value is invalid
+      SetNotOrnament: The selected set is not an ornament set
+      SetNotRelic: 'The selected set is not a $t(common:Relic, {"count": 1, "capitalizeLength": 0}) set'
+      SubNInvalid: Substat {{number}} is invalid
+      SubsOutOfOrder: Substats are out of order
+      DuplicateSubs: Duplicate substats, only one of each type is allowed
+      MainAsSub: Substat type is the same as the main stat
+      SubTooBig: Substat value is too big
+      MainTooBig: Main stat value is too big
+      SubTooSmall: Substat values should be positive
+      MainTooSmall: Main stat values should be positive
+EditImage:
+  DefaultTitle: Edit image
+  Upload:
+    Title: Provide image
+    Radio:
+      Upload: Upload image
+      Url: Enter image URL
+      Default: Use default image
+    Upload:
+      Method: Click or drag image file to this area to upload
+      Limit: 'Accepts .jpg .jpeg .png .gif (Max: 20MB)'
+    Url:
+      Label: Image
+      Rule: Please input a valid image URL
+  Edit:
+    Title: Crop image
+    Zoom: Zoom
+    Drag: Drag to move
+    Pinch: Pinch or scroll to zoom
+    ArtBy: '(Optional) Art by:'
+    CreditPlaceholder: Credit the artist if possible
+  Footer:
+    Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+    Change: Change image
+    Previous: Previous
+    Next: Next
+    Submit: '$t(common:Submit, {"capitalizeLength": 1})'
+SaveBuild:
+  Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+  Save: '$t(common:Save, {"capitalizeLength": 1})'
+  Label: Build name
+  Rule: Please input a name
+SwitchRelics:
+  Title: Switch relics with character
+  Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+  Save: '$t(common:Save, {"capitalizeLength": 1})'
+Builds:
+  DeleteAll: Delete All
+  Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+  Equip: Equip
+  Score: '$t(common:Score, {"capitalizeLength": 1})'
+  ConfirmModal:
+    ConfirmButton: '$t(common:Confirm, {"capitalizeLength": 1})'
+    CancelButton: '$t(common:Cancel, {"capitalizeLength": 1})'
+    Title: '$t(common:Confirm, {"capitalizeLength": 1})'
+  ConfirmEquip:
+    Content: Equipping this will unequip characters that use the relics in this build
+    SuccessMessage: 'Successfully equipped build: {{buildName}}'
+  ConfirmDelete:
+    DeleteAll: Are you sure you want to delete all builds?
+    DeleteSingle: Are you sure you want to delete {{name}}?
+    SuccessMessageAll: Successfully deleted all builds for {{characterName}}
+    SuccessMessageSingle: 'Successfully deleted build: {{name}}'
+  NoBuilds:
+    Ok: '$t(common:Ok, {"capitalizeLength": 1})'
+    Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+    NoneSaved: No saved builds
+ScoreFooter:
+  ModalTitle: Combat sim scoring settings
+  ResetButtonText: '$t(common:Reset, {"capitalizeLength": 1}) custom team to default'
+  ResetSuccessMsg: '$t(common:Reset, {"capitalizeLength": 1}) to default teams'
+  SyncButtonText: Sync imported eidolons / light cones
+  SyncSuccessMsg: Synced teammates
+  TeamOptions:
+    Default: Default
+    Custom: Custom
+CharacterSelect:
+  MultiSelect:
+    Placeholder: 'Customize $t(common:Character, {"count": 12, "capitalizeLength": 0})'
+    MaxTagPlaceholderSome: '{{count}} $t(common:Character, {"count": {{count}}, "capitalizeLength": 0}) excluded'
+    MaxTagPlaceholderNone: 'All $t(common:Character, {"count": 12, "capitalizeLength": 0}) enabled'
+    ModalTitle: 'Select $t(common:Character, {"count": 12, "capitalizeLength": 0}) to exclude'
+  SingleSelect:
+    Placeholder: '$t(common:Character, {"count": 1, "capitalizeLength": 1})'
+    ModalTitle: 'Select a $t(common:Character, {"count": 1, "capitalizeLength": 0})'
+  SearchPlaceholder: 'Search $t(common:Character, {"count": 1, "capitalizeLength": 0}) name'
+  ExcludeButton: Exclude all
+  ClearButton: Clear
+LightconeSelect:
+  Placeholder: '$t(common:Lightcone, {"count": 1, "capitalizeLength": 1})'
+  Title: 'Select a $t(common:Lightcone, {"count": 1, "capitalizeLength": 0})'

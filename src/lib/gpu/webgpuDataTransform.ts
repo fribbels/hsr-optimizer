@@ -1,9 +1,9 @@
 import { Relic } from 'types/Relic'
 import { createGpuBuffer } from 'lib/gpu/webgpuInternals'
 import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats } from 'lib/constants'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { StringToNumberMap } from 'types/Common'
 import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { OptimizerContext } from 'types/Optimizer'
 
 export const StatsToWebgpuIndex = {
   [Stats.HP_P]: 0,
@@ -62,7 +62,7 @@ export function generateParamsMatrix(
   return createGpuBuffer(device, new Float32Array(paramsArray), GPUBufferUsage.STORAGE)
 }
 
-export function generateBaseParamsArray(relics: RelicsByPart, params: OptimizerParams) {
+export function generateBaseParamsArray(relics: RelicsByPart, context: OptimizerContext) {
   const paramsArray = [
     relics.LinkRope.length,
     relics.PlanarSphere.length,
@@ -82,13 +82,13 @@ export function generateBaseParamsArray(relics: RelicsByPart, params: OptimizerP
   ]
 
   for (const stat of Object.values(Constants.Stats)) {
-    paramsArray[15 + StatsToWebgpuIndex[stat]] = params.character.base[stat]
+    paramsArray[15 + StatsToWebgpuIndex[stat]] = context.characterStatsBreakdown.base[stat]
   }
   for (const stat of Object.values(Constants.Stats)) {
-    paramsArray[37 + StatsToWebgpuIndex[stat]] = params.character.lightCone[stat]
+    paramsArray[37 + StatsToWebgpuIndex[stat]] = context.characterStatsBreakdown.lightCone[stat]
   }
   for (const stat of Object.values(Constants.Stats)) {
-    paramsArray[59 + StatsToWebgpuIndex[stat]] = params.character.traces[stat]
+    paramsArray[59 + StatsToWebgpuIndex[stat]] = context.characterStatsBreakdown.traces[stat]
   }
 
   return paramsArray
@@ -105,7 +105,7 @@ export function mergeRelicsIntoArray(relics: RelicsByPart) {
   ])
 }
 
-const RELIC_ARG_SIZE = 24
+const RELIC_ARG_SIZE = 23
 
 function relicsToArray(relics: Relic[]) {
   const output: number[] = []
@@ -143,8 +143,7 @@ function relicsToArray(relics: Relic[]) {
     output[startIndex + j++] = uncondensedStats[Stats.Wind_DMG] || 0
     output[startIndex + j++] = uncondensedStats[Stats.Quantum_DMG] || 0 // 20
     output[startIndex + j++] = uncondensedStats[Stats.Imaginary_DMG] || 0
-    output[startIndex + j++] = relicSetToIndex(relic)
-    output[startIndex + j++] = relic.weightScore // 23
+    output[startIndex + j++] = relicSetToIndex(relic) // 22
   }
 
   return output

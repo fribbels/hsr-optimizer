@@ -125,9 +125,23 @@ export const characterOptionMapping = {
   8006: trailblazerharmony,
 }
 
+/**
+ * Writing conditional text guidelines:
+ *
+ * DEF shred for debuffs, DEF PEN for buffs. Same for RES shred / RES PEN
+ * Basic / Skill / Ult / DoT / FuA
+ * Stats uppercased HP / DEF / ATK / CR / SPD / etc
+ * Buff for actual stat buffs that last x turns or named buffs. Boost for DMG boost or other non visible buffs.
+ * (force weakness break) on abilities that require broken targets / super break
+ * Spaces between slashes CR / CD
+ * Default RES is (dmg) RES, eff res is Effect RES
+ * RNG hits are “x extra hits”
+ * If a conditional has more than one buff effect, just consolidate as “buffs”
+ * Techniques / start of fight buffs are called Initial buffs
+ */
 export const CharacterConditionals = {
-  get: (request) => {
+  get: (request, withContent = false) => {
     const characterFn = characterOptionMapping[request.characterId]
-    return characterFn(request.characterEidolon)
+    return characterFn(request.characterEidolon, withContent)
   },
 }

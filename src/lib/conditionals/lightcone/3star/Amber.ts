@@ -1,39 +1,22 @@
 import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ContentItem } from 'types/Conditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.Amber')
   const sValues = [0.16, 0.20, 0.24, 0.28, 0.32]
-  const lcRanks = {
-    id: '20003',
-    skill: 'Stasis',
-    desc: "If the wearer's current HP is lower than #2[i]%, increases their DEF by a further #3[i]%.",
-    params: [
-      [0.16, 0.5, 0.16],
-      [0.2, 0.5, 0.2],
-      [0.24, 0.5, 0.24],
-      [0.28, 0.5, 0.28],
-      [0.32, 0.5, 0.32],
-    ],
-    properties: [
-      [{ type: 'DefenceAddedRatio', value: 0.16 }],
-      [{ type: 'DefenceAddedRatio', value: 0.2 }],
-      [{ type: 'DefenceAddedRatio', value: 0.24 }],
-      [{ type: 'DefenceAddedRatio', value: 0.28 }],
-      [{ type: 'DefenceAddedRatio', value: 0.32 }]],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'hp50DefBuff',
     name: 'hp50DefBuff',
     formItem: 'switch',
-    text: 'HP < 50% DEF buff',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.hp50DefBuff.text'),
+    title: t('Content.hp50DefBuff.title'),
+    content: t('Content.hp50DefBuff.content', { DefBuff: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {
@@ -41,8 +24,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
       hp50DefBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.lightConeConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals
 
       x[Stats.DEF_P] += (r.hp50DefBuff) ? sValues[s] : 0
     },

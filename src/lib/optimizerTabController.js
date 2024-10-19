@@ -2,7 +2,7 @@ import { inPlaceSort } from 'fast-sort'
 import DB from './db'
 import { Message } from './message'
 import { SaveState } from './saveState'
-import { CombatBuffs, Constants, DamageKeys, DEFAULT_STAT_DISPLAY } from './constants.ts'
+import { CombatBuffs, ConditionalDataType, Constants, DamageKeys, DEFAULT_STAT_DISPLAY } from './constants.ts'
 import { Utils } from './utils'
 import { LightConeConditionals } from './lightConeConditionals'
 import { CharacterConditionals } from './characterConditionals'
@@ -10,6 +10,8 @@ import { CharacterStats } from './characterStats'
 import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultForm, getDefaultWeights } from 'lib/defaultForm'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
+import { initializeComboState } from 'lib/optimizer/rotation/comboDrawerController'
+import { ConditionalSetMetadata } from 'lib/optimizer/rotation/setConditionalContent'
 
 let relics
 let consts
@@ -81,7 +83,7 @@ export const OptimizerTabController = {
     Message.success('Equipped relics')
     OptimizerTabController.setTopRow(row)
     window.setOptimizerBuild(build)
-    SaveState.save()
+    SaveState.delayedSave()
     OptimizerTabController.updateFilters()
   },
 
@@ -196,7 +198,7 @@ export const OptimizerTabController = {
 
         // fast clickers can race unmount/remount and cause NPE here.
         if (window?.optimizerGrid?.current?.api) {
-          window.optimizerGrid.current.api.showLoadingOverlay()
+          window.optimizerGrid.current.api.setGridOption("loading", true)
         }
 
         // Give it time to show the loading page before we block
@@ -224,7 +226,7 @@ export const OptimizerTabController = {
 
           // cannot assume a fast click race-condition didn't happen
           if (window?.optimizerGrid?.current?.api) {
-            window.optimizerGrid.current.api.hideOverlay()
+            window.optimizerGrid.current.api.setGridOption("loading", false)
           }
           OptimizerTabController.redrawRows()
         })
@@ -311,8 +313,6 @@ export const OptimizerTabController = {
     newForm.maxErr = unsetMax(form.maxErr, true)
     newForm.minErr = unsetMin(form.minErr, true)
 
-    newForm.maxWeight = unsetMax(form.maxWeight)
-    newForm.minWeight = unsetMin(form.minWeight)
     newForm.maxEhp = unsetMax(form.maxEhp)
     newForm.minEhp = unsetMin(form.minEhp)
     newForm.maxBasic = unsetMax(form.maxBasic)
@@ -327,8 +327,6 @@ export const OptimizerTabController = {
     newForm.minDot = unsetMin(form.minDot)
     newForm.maxBreak = unsetMax(form.maxBreak)
     newForm.minBreak = unsetMin(form.minBreak)
-    newForm.maxCombo = unsetMax(form.maxCombo)
-    newForm.minCombo = unsetMin(form.minCombo)
 
     newForm.combatBuffs = {}
     if (!form.combatBuffs) form.combatBuffs = {}
@@ -521,13 +519,34 @@ export const OptimizerTabController = {
       newForm.combo = {}
     }
 
-    if (Object.values(newForm.combo).every((value) => !value)) {
-      const formula = scoringMetadata?.simulation?.formula
-      if (formula) {
-        for (const key of DamageKeys) {
-          if (formula[key]) {
-            newForm.combo[key] = formula[key]
-          }
+    if (!newForm.comboStateJson) {
+      newForm.comboStateJson = '{}'
+    }
+
+    if (!newForm.comboAbilities) {
+      const simulation = metadata.scoringMetadata?.simulation
+      newForm.comboAbilities = simulation?.comboAbilities ?? [null, 'BASIC']
+      newForm.comboDot = simulation?.comboDot ?? 0
+      newForm.comboBreak = simulation?.comboBreak ?? 0
+    }
+
+    if (!newForm.comboType) {
+      newForm.comboType = 'simple'
+    }
+
+    for (const [key, value] of Object.entries(newForm.setConditionals)) {
+      if (!ConditionalSetMetadata[key]) {
+        delete form.setConditionals[key]
+        delete newForm.setConditionals[key]
+        continue
+      }
+      if (ConditionalSetMetadata[key].type === ConditionalDataType.SELECT) {
+        if (typeof value[1] != 'number') {
+          newForm.setConditionals[key][1] = defaultSetConditionals[key][1]
+        }
+      } else {
+        if (typeof value[1] != 'boolean') {
+          newForm.setConditionals[key][1] = defaultSetConditionals[key][1]
         }
       }
     }
@@ -616,8 +635,6 @@ export const OptimizerTabController = {
     x.minDot = fixValue(x.minDot, 0)
     x.maxBreak = fixValue(x.maxBreak, MAX_INT)
     x.minBreak = fixValue(x.minBreak, 0)
-    x.maxCombo = fixValue(x.maxCombo, MAX_INT)
-    x.minCombo = fixValue(x.minCombo, 0)
 
     if (!x.combatBuffs) x.combatBuffs = {}
     for (const buff of Object.values(CombatBuffs)) {
@@ -682,7 +699,7 @@ export const OptimizerTabController = {
     window.optimizerForm.setFieldValue('characterId', id)
 
     window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, id)
-    setTimeout(() => SaveState.save(), 1000)
+    SaveState.delayedSave()
   },
 
   // Update form values with the character
@@ -694,6 +711,9 @@ export const OptimizerTabController = {
     const form = character ? character.form : getDefaultForm({ id: characterId })
     const displayFormValues = OptimizerTabController.getDisplayFormValues(form)
     window.optimizerForm.setFieldsValue(displayFormValues)
+
+    const comboState = initializeComboState(displayFormValues, true)
+    window.store.getState().setComboState(comboState)
 
     // Setting timeout so this doesn't lag the modal close animation. The delay is mostly hidden by the animation
     setTimeout(() => {
@@ -710,7 +730,7 @@ export const OptimizerTabController = {
   },
 
   redrawRows: () => {
-    window.optimizerGrid.current.api.refreshCells({ force: true })
+    window.optimizerGrid.current?.api.refreshCells({ force: true })
   },
 
   applyRowFilters: () => {
@@ -819,14 +839,12 @@ function filter(filterModel) {
         && row.xBE >= filterModel.minBe && row.xBE <= filterModel.maxBe
         && row.xERR >= filterModel.minErr && row.xERR <= filterModel.maxErr
         && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
-        && row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight
         && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic
         && row.SKILL >= filterModel.minSkill && row.SKILL <= filterModel.maxSkill
         && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
         && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
         && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
         && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
-        && row.COMBO >= filterModel.minCombo && row.COMBO <= filterModel.maxCombo
       if (valid) {
         indices.push(i)
       }
@@ -846,14 +864,12 @@ function filter(filterModel) {
         && row[Constants.Stats.BE] >= filterModel.minBe && row[Constants.Stats.BE] <= filterModel.maxBe
         && row[Constants.Stats.ERR] >= filterModel.minErr && row[Constants.Stats.ERR] <= filterModel.maxErr
         && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
-        && row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight
         && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic
         && row.SKILL >= filterModel.minSkill && row.SKILL <= filterModel.maxSkill
         && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
         && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
         && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
         && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
-        && row.COMBO >= filterModel.minCombo && row.COMBO <= filterModel.maxCombo
       if (valid) {
         indices.push(i)
       }

@@ -7,6 +7,7 @@ import { iconSize } from 'lib/constantsUi'
 import { Utils } from 'lib/utils'
 
 import StatText from 'components/characterPreview/StatText'
+import { useTranslation } from 'react-i18next'
 
 const checkSpeedInBreakpoint = (speedValue: number): boolean => {
   const breakpointPresets = [
@@ -52,27 +53,30 @@ export const displayTextMap = {
   'DOT': 'DoT Damage',
 }
 
-const StatRow = (props: { stat: string; finalStats: any; value?: number }): JSX.Element => {
+const StatRow = (props: { stat: string; finalStats: object; value?: number }): JSX.Element => {
   const { stat, finalStats } = props
-  const readableStat = displayTextMap[stat] || stat
   const value = Utils.precisionRound(finalStats[stat])
+
+  const { t, i18n } = useTranslation('common')
+
+  const readableStat = (displayTextMap[stat] || stat == 'CV') ? (i18n.exists(`ReadableStats.${stat}`) ? t(`ReadableStats.${stat}`) : t(`DMGTypes.${stat}`)) : t(`Stats.${stat}`)
 
   let valueDisplay
   let value1000thsPrecision
 
   if (stat == 'CV') {
-    valueDisplay = Utils.truncate10ths(props.value).toFixed(1)
-    value1000thsPrecision = Utils.truncate1000ths(props.value).toFixed(3)
+    valueDisplay = Utils.precisionRound(props.value).toFixed(1)
+    value1000thsPrecision = Utils.precisionRound(props.value).toFixed(3)
   } else if (stat == 'simScore') {
-    valueDisplay = `${Utils.truncate10ths(Utils.precisionRound(props.value / 1000)).toFixed(1)}K`
-    value1000thsPrecision = Utils.truncate1000ths(props.value).toFixed(3)
+    valueDisplay = `${Utils.truncate10ths(Utils.precisionRound((props.value ?? 0) / 1000)).toFixed(1)}${t('ThousandsSuffix')}`
+    value1000thsPrecision = Utils.precisionRound(props.value).toFixed(3)
   } else if (stat == Constants.Stats.SPD) {
     const is1000thSpeed = checkSpeedInBreakpoint(value)
-    valueDisplay = is1000thSpeed ? Utils.truncate1000ths(value).toFixed(3) : valueDisplay = Utils.truncate10ths(value).toFixed(1)
-    value1000thsPrecision = Utils.truncate1000ths(value).toFixed(3)
+    valueDisplay = is1000thSpeed ? Utils.precisionRound(value).toFixed(3) : valueDisplay = Utils.precisionRound(value).toFixed(1)
+    value1000thsPrecision = Utils.precisionRound(value).toFixed(3)
   } else if (Utils.isFlat(stat)) {
     valueDisplay = Math.floor(value)
-    value1000thsPrecision = Utils.truncate1000ths(value).toFixed(3)
+    value1000thsPrecision = Utils.precisionRound(value).toFixed(3)
   } else {
     valueDisplay = Utils.truncate10ths(Utils.precisionRound(value * 100)).toFixed(1)
     value1000thsPrecision = Utils.truncate1000ths(Utils.precisionRound(value * 100)).toFixed(3)
@@ -83,7 +87,7 @@ const StatRow = (props: { stat: string; finalStats: any; value?: number }): JSX.
     return (<div></div>)
   }
   return (
-    <Flex justify="space-between" align="center" title={value1000thsPrecision}>
+    <Flex justify='space-between' align='center' title={value1000thsPrecision}>
       <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
       <StatText>{readableStat}</StatText>
       <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>

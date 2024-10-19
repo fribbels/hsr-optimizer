@@ -1,30 +1,19 @@
-import { Stats } from 'lib/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { BASIC_TYPE, BREAK_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, SUPER_BREAK_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { buffStat, conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
-import { Form } from 'types/Form'
-
-export const ConditionalType = {
-  SET: 0,
-  ABILITY: 1,
-}
-
-export const ConditionalActivation = {
-  SINGLE: 0,
-  CONTINUOUS: 1,
-}
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { buffStat, conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 
 export const RutilantArenaConditional: DynamicConditional = {
   id: 'RutilantArenaConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.CR],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.sets.RutilantArena) && x[Stats.CR] >= 0.70
   },
-  effect: (x: ComputedStatsObject) => {
+  effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, 0.20)
   },
   gpu: function () {
@@ -47,10 +36,10 @@ export const InertSalsottoConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.CR],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.sets.InertSalsotto) && x[Stats.CR] >= 0.50
   },
-  effect: (x: ComputedStatsObject) => {
+  effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     buffAbilityDmg(x, ULT_TYPE | FUA_TYPE, 0.15)
   },
   gpu: function () {
@@ -73,11 +62,11 @@ export const SpaceSealingStationConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.sets.SpaceSealingStation) && x[Stats.SPD] >= 120
   },
-  effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => {
-    buffStat(x, request, params, Stats.ATK, 0.12 * params.baseATK)
+  effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    buffStat(x, Stats.ATK, 0.12 * context.baseATK, action, context)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -98,11 +87,11 @@ export const FleetOfTheAgelessConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.sets.FleetOfTheAgeless) && x[Stats.SPD] >= 120
   },
-  effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => {
-    buffStat(x, request, params, Stats.ATK, 0.08 * params.baseATK)
+  effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    buffStat(x, Stats.ATK, 0.08 * context.baseATK, action, context)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -123,11 +112,11 @@ export const BelobogOfTheArchitectsConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.EHR],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.sets.BelobogOfTheArchitects) && x[Stats.EHR] >= 0.50
   },
-  effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => {
-    buffStat(x, request, params, Stats.DEF, 0.15 * params.baseDEF)
+  effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    buffStat(x, Stats.DEF, 0.15 * context.baseDEF, action, context)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -148,10 +137,10 @@ export const IronCavalryAgainstTheScourge150Conditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.BE],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return p4(x.sets.IronCavalryAgainstTheScourge) && x[Stats.BE] >= 1.50
   },
-  effect: (x: ComputedStatsObject) => {
+  effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     buffAbilityDefPen(x, BREAK_TYPE, 0.10)
   },
   gpu: function () {
@@ -173,10 +162,10 @@ export const IronCavalryAgainstTheScourge250Conditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.BE],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return p4(x.sets.IronCavalryAgainstTheScourge) && x[Stats.BE] >= 2.50
   },
-  effect: (x: ComputedStatsObject) => {
+  effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     buffAbilityDefPen(x, SUPER_BREAK_TYPE, 0.15)
   },
   gpu: function () {
@@ -198,15 +187,15 @@ export const PanCosmicCommercialEnterpriseConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.EHR],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.sets.PanCosmicCommercialEnterprise)
   },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-    const stateValue = params.conditionalState[this.id] || 0
-    const buffValue = Math.min(0.25, 0.25 * x[Stats.EHR]) * params.baseATK
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+    const stateValue = action.conditionalState[this.id] || 0
+    const buffValue = Math.min(0.25, 0.25 * x[Stats.EHR]) * context.baseATK
 
-    params.conditionalState[this.id] = buffValue
-    buffStat(x, request, params, Stats.ATK, buffValue - stateValue)
+    action.conditionalState[this.id] = buffValue
+    buffStat(x, Stats.ATK, buffValue - stateValue, action, context)
 
     return buffValue
   },
@@ -230,11 +219,11 @@ export const BrokenKeelConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.RES],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.sets.BrokenKeel) && x[Stats.RES] >= 0.30
   },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-    buffStat(x, request, params, Stats.CD, 0.10)
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+    buffStat(x, Stats.CD, 0.10, action, context)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -255,17 +244,17 @@ export const CelestialDifferentiatorConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.CD],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-    return p2(x.sets.CelestialDifferentiator) && params.enabledCelestialDifferentiator && x[Stats.CD] >= 1.20
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+    return p2(x.sets.CelestialDifferentiator) && action.setConditionals.enabledCelestialDifferentiator && x[Stats.CD] >= 1.20
   },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-    buffStat(x, request, params, Stats.CR, 0.60)
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+    buffStat(x, Stats.CR, 0.60, action, context)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
   p2((*p_x).sets.CelestialDifferentiator) >= 1 &&
-  enabledCelestialDifferentiator >= 1 &&
+  actions[(*p_state).actionIndex].setConditionals.enabledCelestialDifferentiator == true &&
   (*p_state).CelestialDifferentiatorConditional == 0.0 &&
   (*p_x).CD >= 1.20
 ) {
@@ -281,11 +270,11 @@ export const TaliaKingdomOfBanditryConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.sets.TaliaKingdomOfBanditry) && x[Stats.SPD] >= 145
   },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-    buffStat(x, request, params, Stats.BE, 0.20)
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+    buffStat(x, Stats.BE, 0.20, action, context)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -306,10 +295,10 @@ export const FirmamentFrontlineGlamoth135Conditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.sets.FirmamentFrontlineGlamoth) && x[Stats.SPD] >= 135
   },
-  effect: function (x: ComputedStatsObject) {
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     x.ELEMENTAL_DMG += 0.12
   },
   gpu: function () {
@@ -331,10 +320,10 @@ export const FirmamentFrontlineGlamoth160Conditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
-  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.sets.FirmamentFrontlineGlamoth) && x[Stats.SPD] >= 160
   },
-  effect: function (x: ComputedStatsObject) {
+  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
     x.ELEMENTAL_DMG += 0.06
   },
   gpu: function () {

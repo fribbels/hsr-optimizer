@@ -1,14 +1,16 @@
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { GallagherConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Gallagher')
   const { basic, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -21,51 +23,51 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'basicEnhanced',
       name: 'basicEnhanced',
-      text: 'Enhanced basic',
-      title: 'Nectar Blitz',
-      content: `Ultimate enhances his next Basic ATK to Nectar Blitz.`,
+      text: t('Content.basicEnhanced.text'),
+      title: t('Content.basicEnhanced.title'),
+      content: t('Content.basicEnhanced.content'),
     },
     {
       formItem: 'switch',
       id: 'breakEffectToOhbBoost',
       name: 'breakEffectToOhbBoost',
-      text: 'BE to OHB boost',
-      title: 'Novel Concoction',
-      content: `Increases this unit's Outgoing Healing by an amount equal to 50% of Break Effect, up to a maximum Outgoing Healing increase of 75%.`,
+      text: t('Content.breakEffectToOhbBoost.text'),
+      title: t('Content.breakEffectToOhbBoost.title'),
+      content: t('Content.breakEffectToOhbBoost.content'),
     },
     {
       formItem: 'switch',
       id: 'targetBesotted',
       name: 'targetBesotted',
-      text: 'Target Besotted',
-      title: 'Target Besotted',
-      content: `The Besotted state makes targets receive ${precisionRound(100 * talentBesottedScaling)}% more Break DMG.`,
+      text: t('Content.targetBesotted.text'),
+      title: t('Content.targetBesotted.title'),
+      content: t('Content.targetBesotted.content', { talentBesottedScaling: TsUtils.precisionRound(100 * talentBesottedScaling) }),
     },
     {
       formItem: 'switch',
       id: 'e1ResBuff',
       name: 'e1ResBuff',
-      text: 'E1 RES buff',
-      title: 'E1: Salty Dog',
-      content: `When entering the battle, Gallagher regenerates 20 Energy and increases Effect RES by 50%.`,
+      text: t('Content.e1ResBuff.text'),
+      title: t('Content.e1ResBuff.title'),
+      content: t('Content.e1ResBuff.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2ResBuff',
       name: 'e2ResBuff',
-      text: 'E2 RES buff',
-      title: 'E2: Lion\'s Tail',
-      content: `When using the Skill, removes 1 debuff(s) from the target ally. At the same time, increases their Effect RES by 30%, lasting for 2 turn(s).`,
+      text: t('Content.e2ResBuff.text'),
+      title: t('Content.e2ResBuff.title'),
+      content: t('Content.e2ResBuff.content'),
       disabled: e < 2,
     },
     {
       formItem: 'switch',
       id: 'e6BeBuff',
       name: 'e6BeBuff',
-      text: 'E6 BE buff',
-      title: 'E6: Blood and Sand',
-      content: `Increases Gallagher's Break Effect by 20% and Weakness Break Efficiency by 20%.`,
+      text: t('Content.e6BeBuff.text'),
+      title: t('Content.e6BeBuff.title'),
+      content: t('Content.e6BeBuff.content'),
       disabled: e < 6,
     },
   ]
@@ -88,8 +90,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
       targetBesotted: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       x[Stats.RES] += (e >= 1 && r.e1ResBuff) ? 0.50 : 0
       x[Stats.RES] += (e >= 2 && r.e2ResBuff) ? 0.30 : 0
@@ -105,8 +107,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       buffAbilityVulnerability(x, BREAK_TYPE, talentBesottedScaling, (m.targetBesotted))
     },

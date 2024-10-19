@@ -1,13 +1,15 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Asta')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const ultSpdBuffValue = ult(e, 50, 52.8)
@@ -25,11 +27,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'skillExtraDmgHits',
       name: 'skillExtraDmgHits',
-      text: 'Skill extra hits',
-      title: 'Skill: Meteor Storm',
-      content: `Deals 50% ATK DMG equal to a single enemy. Deals DMG for ${precisionRound(skillExtraDmgHitsMax)} extra times to a random enemy.
-    ::BR::
-    E1: When using Skill, deals DMG for 1 extra time to a random enemy.`,
+      text: t('Content.skillExtraDmgHits.text'),
+      title: t('Content.skillExtraDmgHits.title'),
+      content: t('Content.skillExtraDmgHits.content', { skillExtraDmgHitsMax }),
       min: 0,
       max: skillExtraDmgHitsMax,
     },
@@ -37,11 +37,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'talentBuffStacks',
       name: 'talentBuffStacks',
-      text: 'Talent ATK buff stacks',
-      title: 'Talent: Astrometry',
-      content: `Increases allies' ATK by ${precisionRound(talentStacksAtkBuff * 100)}% for every stack.
-    ::BR::
-    E4: Asta's Energy Regeneration Rate increases by 15% when she has 2 or more Charging stacks.`,
+      text: t('Content.talentBuffStacks.text'),
+      title: t('Content.talentBuffStacks.title'),
+      content: t('Content.talentBuffStacks.content', { talentStacksAtkBuff: TsUtils.precisionRound(100 * talentStacksAtkBuff) }),
       min: 0,
       max: 5,
     },
@@ -49,17 +47,17 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'ultSpdBuff',
       name: 'ultSpdBuff',
-      text: 'Ult SPD buff active',
-      title: 'Ultimate: Astral Blessing',
-      content: `Increases SPD of all allies by ${precisionRound(ultSpdBuffValue)} for 2 turn(s).`,
+      text: t('Content.ultSpdBuff.text'),
+      title: t('Content.ultSpdBuff.title'),
+      content: t('Content.ultSpdBuff.content', { ultSpdBuffValue }),
     },
     {
       formItem: 'switch',
       id: 'fireDmgBoost',
       name: 'fireDmgBoost',
-      text: 'Fire DMG boost',
-      title: 'Trace: Ignite',
-      content: `When Asta is on the field, all allies' Fire DMG increases by 18%.`,
+      text: t('Content.fireDmgBoost.text'),
+      title: t('Content.fireDmgBoost.title'),
+      content: t('Content.fireDmgBoost.content'),
     },
   ]
 
@@ -83,8 +81,8 @@ export default (e: Eidolon): CharacterConditional => {
       ultSpdBuff: true,
       fireDmgBoost: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.DEF_P] += (r.talentBuffStacks) * talentStacksDefBuff
@@ -103,8 +101,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x[Stats.SPD] += (m.ultSpdBuff) ? ultSpdBuffValue : 0
       x[Stats.ATK_P] += (m.talentBuffStacks) * talentStacksAtkBuff

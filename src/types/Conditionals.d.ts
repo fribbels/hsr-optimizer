@@ -1,10 +1,10 @@
-import { Form } from 'types/Form'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { FormSwitchWithPopoverProps } from 'components/optimizerTab/conditionals/FormSwitch'
 import { FormSliderWithPopoverProps } from 'components/optimizerTab/conditionals/FormSlider'
 import { ComponentProps, ComponentType } from 'react'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { FormSelectWithPopoverProps } from 'components/optimizerTab/conditionals/FormSelect'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export type ConditionalMap = {
   [key: string]: number | boolean | string | undefined
@@ -21,30 +21,30 @@ export interface Conditional {
 
   // Configuration changes to the character & combat environment executed before the precompute steps
   // This can include things like ability damage type switches, weakness break overrides, etc
-  initializeConfigurations?: (x: ComputedStatsObject, request: Form) => void
-  initializeTeammateConfigurations?: (x: ComputedStatsObject, request: Form) => void
+  initializeConfigurations?: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => void
+  initializeTeammateConfigurations?: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => void
 
   // Individual effects that apply only for the primary character
   // e.g. Self buffs
-  precomputeEffects: (x: ComputedStatsObject, request: Form) => void
+  precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => void
 
   // Shared effects that apply both as a teammate and as the primary character
   // e.g. AOE team buff
-  precomputeMutualEffects?: (x: ComputedStatsObject, request: Form) => void
+  precomputeMutualEffects?: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => void
 
   // DEPRECATE
-  postPreComputeMutualEffects?: (x: ComputedStatsObject, request: Form) => void
+  postPreComputeMutualEffects?: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => void
 
   // Effects that only apply as a teammate, onto the primary character
   // e.g. Targeted teammate buff
-  precomputeTeammateEffects?: (x: ComputedStatsObject, request: Form) => void
+  precomputeTeammateEffects?: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => void
 
   // Multipliers that can be evaluated after all stat modifications are complete
   // No changes to stats should occur at this stage
-  finalizeCalculations: (x: ComputedStatsObject, request: Form) => void
+  finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => void
 
   // WGSL implementation of finalizeCalculations to run on GPU
-  gpuFinalizeCalculations?: (request: Form, params: OptimizerParams) => string
+  gpuFinalizeCalculations?: (action: OptimizerAction, context: OptimizerContext) => string
 
   // Dynamic conditionals are ones that cannot be precomputed, and can trigger at any point in the compute pipeline
   // These are dependent on other stats, usually in the form of 'when x.stat >= value, then buff x.other' and will
@@ -55,16 +55,17 @@ export interface Conditional {
 export type ContentComponentMap = {
   switch: ComponentType<FormSwitchWithPopoverProps>
   slider: ComponentType<FormSliderWithPopoverProps>
+  select: ComponentType<FormSelectWithPopoverProps>
 }
 
 // extracted content to apply to <DisplayFormControl />
 export type ContentItem = {
   [K in keyof ContentComponentMap]: {
-    formItem: K
-    id: string
-    content: string
-    teammateIndex?: number
-  } & Omit<ComponentProps<ContentComponentMap[K]>, 'content'>
+  formItem: K
+  id: string
+  content: string
+  teammateIndex?: number
+} & Omit<ComponentProps<ContentComponentMap[K]>, 'content'>
 }[keyof ContentComponentMap]
 
 export type ConditionalBuff =

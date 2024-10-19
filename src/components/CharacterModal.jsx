@@ -5,15 +5,17 @@ import PropTypes from 'prop-types'
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 import DB from 'lib/db'
+import { useTranslation } from 'react-i18next'
 
 export default function CharacterModal(props) {
   const [characterForm] = Form.useForm()
   window.characterForm = characterForm
 
+  const { t } = useTranslation('modals', { keyPrefix: 'EditCharacter' })
+
   const [characterId, setCharacterId] = useState(props.initialCharacter?.form.characterId || '')
   const [eidolon, setEidolon] = useState(props.initialCharacter?.form.characterEidolon || 0)
   const [superimposition, setSuperimposition] = useState(props.initialCharacter?.form.lightConeSuperimposition || 1)
-  const characterMetadata = useMemo(() => DB.getMetadata().characters, [])
 
   useEffect(() => {
     if (!props.open) return
@@ -52,25 +54,25 @@ export default function CharacterModal(props) {
       onOk={onModalOk}
       onCancel={handleCancel}
       footer={[
-        <Button key="back" onClick={handleCancel}>
-          Cancel
+        <Button key='back' onClick={handleCancel}>
+          {t('Cancel')}
         </Button>,
-        <Button key="submit" type="primary" onClick={onModalOk}>
-          Save
+        <Button key='submit' type='primary' onClick={onModalOk}>
+          {t('Save')}
         </Button>,
       ]}
     >
       <Form
         form={characterForm}
         preserve={false}
-        layout="vertical"
+        layout='vertical'
       >
         <Flex vertical gap={10}>
           <Flex vertical gap={5}>
-            <HeaderText>Character</HeaderText>
-            <Form.Item size="default" name="characterId">
+            <HeaderText>{t('Character')}</HeaderText>
+            <Form.Item size='default' name='characterId'>
               <CharacterSelect
-                value=""
+                value=''
                 withIcon={true}
                 onChange={(x) => {
                   setCharacterId(x)
@@ -79,28 +81,28 @@ export default function CharacterModal(props) {
                 }}
               />
             </Form.Item>
-            <Form.Item size="default" name="characterEidolon">
+            <Form.Item size='default' name='characterEidolon'>
               <Radio.Group
                 value={eidolon}
-                buttonStyle="solid"
+                buttonStyle='solid'
                 style={{ width: '100%', display: 'flex' }}
               >
-                <RadioButton text="E0" value={0}/>
-                <RadioButton text="E1" value={1}/>
-                <RadioButton text="E2" value={2}/>
-                <RadioButton text="E3" value={3}/>
-                <RadioButton text="E4" value={4}/>
-                <RadioButton text="E5" value={5}/>
-                <RadioButton text="E6" value={6}/>
+                <RadioButton text={t('EidolonButton', { eidolon: 0 })} value={0}/>
+                <RadioButton text={t('EidolonButton', { eidolon: 1 })} value={1}/>
+                <RadioButton text={t('EidolonButton', { eidolon: 2 })} value={2}/>
+                <RadioButton text={t('EidolonButton', { eidolon: 3 })} value={3}/>
+                <RadioButton text={t('EidolonButton', { eidolon: 4 })} value={4}/>
+                <RadioButton text={t('EidolonButton', { eidolon: 5 })} value={5}/>
+                <RadioButton text={t('EidolonButton', { eidolon: 6 })} value={6}/>
               </Radio.Group>
             </Form.Item>
           </Flex>
 
           <Flex vertical gap={5}>
-            <HeaderText>Light cone</HeaderText>
-            <Form.Item size="default" name="lightCone">
+            <HeaderText>{t('Lightcone')}</HeaderText>
+            <Form.Item size='default' name='lightCone'>
               <LightConeSelect
-                value=""
+                value=''
                 withIcon={true}
                 characterId={characterId}
                 onChange={() => {
@@ -108,18 +110,18 @@ export default function CharacterModal(props) {
                 }}
               />
             </Form.Item>
-            <Form.Item size="default" name="lightConeSuperimposition">
+            <Form.Item size='default' name='lightConeSuperimposition'>
               <Radio.Group
                 value={superimposition}
                 onChange={(e) => setSuperimposition(e.target.value)}
-                buttonStyle="solid"
+                buttonStyle='solid'
                 style={{ width: '100%', display: 'flex' }}
               >
-                <RadioButton text="S1" value={1}/>
-                <RadioButton text="S2" value={2}/>
-                <RadioButton text="S3" value={3}/>
-                <RadioButton text="S4" value={4}/>
-                <RadioButton text="S5" value={5}/>
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 1 })} value={1}/>
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 2 })} value={2}/>
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 3 })} value={3}/>
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 4 })} value={4}/>
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 5 })} value={5}/>
               </Radio.Group>
             </Form.Item>
           </Flex>

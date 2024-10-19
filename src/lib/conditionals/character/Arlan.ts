@@ -1,13 +1,15 @@
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Arlan')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -20,9 +22,9 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'slider',
     id: 'selfCurrentHpPercent',
     name: 'selfCurrentHpPercent',
-    text: 'Self current HP%',
-    title: 'Self current HP%',
-    content: `Increases Arlan's DMG for every percent of HP below his Max HP, up to a max of ${precisionRound(talentMissingHpDmgBoostMax * 100)}% more DMG.`,
+    text: t('Content.selfCurrentHpPercent.text'),
+    title: t('Content.selfCurrentHpPercent.title'),
+    content: t('Content.selfCurrentHpPercent.content', { talentMissingHpDmgBoostMax: TsUtils.precisionRound(100 * talentMissingHpDmgBoostMax) }),
     min: 0.01,
     max: 1.0,
     percent: true,
@@ -35,8 +37,8 @@ export default (e: Eidolon): CharacterConditional => {
       selfCurrentHpPercent: 1.00,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x.ELEMENTAL_DMG += Math.min(talentMissingHpDmgBoostMax, 1 - r.selfCurrentHpPercent)
@@ -55,8 +57,6 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_TOUGHNESS_DMG += 60
 
       return x
-    },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
     finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

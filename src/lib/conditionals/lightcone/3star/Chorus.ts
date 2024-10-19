@@ -1,36 +1,22 @@
 import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { ContentItem } from 'types/Conditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.Chorus')
   const sValues = [0.08, 0.09, 0.10, 0.11, 0.12]
-  const lcRanks = {
-    id: '20005',
-    skill: 'Concerted',
-    desc: 'After entering battle, increases the ATK of all allies by #1[i]%. Effects of the same type cannot stack.',
-    params: [
-      [0.08],
-      [0.09],
-      [0.1],
-      [0.11],
-      [0.12],
-    ],
-    properties: [
-      [], [], [], [], [],
-    ],
-  }
   const content: ContentItem[] = [{
     lc: true,
     id: 'inBattleAtkBuff',
     name: 'inBattleAtkBuff',
     formItem: 'switch',
-    text: 'Initial ATK buff',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
+    text: t('Content.inBattleAtkBuff.text'),
+    title: t('Content.inBattleAtkBuff.title'),
+    content: t('Content.inBattleAtkBuff.content', { AtkBuff: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {
@@ -44,8 +30,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     }),
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals
 
       x[Stats.ATK_P] += (m.inBattleAtkBuff) ? sValues[s] : 0
     },

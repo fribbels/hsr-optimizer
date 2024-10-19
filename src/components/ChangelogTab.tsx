@@ -2,7 +2,7 @@ import React, { ReactElement, useMemo } from 'react'
 import { Flex, List, theme, Typography } from 'antd'
 import { AppPages } from 'lib/db.js'
 import { Assets } from 'lib/assets'
-import { ColorizedLink } from './common/ColorizedLink'
+import { ColorizedLinkWithIcon } from './common/ColorizedLink'
 import { officialOnly } from 'lib/constants'
 
 const { useToken } = theme
@@ -41,7 +41,7 @@ export default function ChangelogTab(): React.JSX.Element {
       } else if (entry.startsWith('https')) {
         display.push(
           <li key={i++}>
-            <ColorizedLink
+            <ColorizedLinkWithIcon
               text={entry}
               url={entry}
               key={i++}
@@ -105,6 +105,29 @@ NOTES:
 
 function getChangelogContent() {
   const changelog: ChangelogContent[] = [
+    {
+      title: '',
+      date: '10-19-2024',
+      content: [
+        `Added a new ability rotation calculation methodology, where damage abilities are evaluated sequentially for buff activation`,
+        `rotation.webp`,
+        `Added an Advanced Rotation panel for full customizability of buff uptime and in-battle conditional calculations for the entire team`,
+        `Simple mode will automatically apply presets, while Advanced mode grants full control. Improved preset accuracy is under development`,
+        `advanced.webp`,
+        `DPS score now shows the combo rotation abilities`,
+        `abilities.webp`,
+        `Added i18n support, looking for contributors to help translate the website`,
+        `i18n.webp`,
+        `Removed Stat Weight sort and filter options for optimizer simplification. The stat weight column still remains`,
+        `Sacerdos has been added as a personal relic set conditional for characters with self buffs`,
+        `Fix: The Recommended Presets button no longer resets weighted rolls per relic`,
+        `Fix: Improved Firefox optimizer search performance`,
+        `Balance: DPS score overvalued ATK boots in certain situations with large amount of speed buffs, mostly affects ATK boots Kafka S1 builds`,
+        `Balance: Jiaoqiu is now recommended ATK / ERR rope by default`,
+        `Balance: Ruan Mei can now use all mains stats for feet`,
+        `Balance: Shadowed by Night light cone now has SPD buff enabled by default`
+      ],
+    },
     {
       title: '',
       date: '09-20-2024',

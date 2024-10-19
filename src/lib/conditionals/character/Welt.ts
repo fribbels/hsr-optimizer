@@ -1,12 +1,14 @@
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
 import { Eidolon } from 'types/Character'
-import { Form } from 'types/Form'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Welt')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const skillExtraHitsMax = (e >= 6) ? 3 : 2
@@ -20,32 +22,32 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'enemyDmgTakenDebuff',
     name: 'enemyDmgTakenDebuff',
-    text: 'Ult vulnerability debuff',
-    title: 'Retribution',
-    content: 'When using Ultimate, there is a 100% base chance to increase the DMG received by the targets by 12% for 2 turn(s).',
+    text: t('Content.enemyDmgTakenDebuff.text'),
+    title: t('Content.enemyDmgTakenDebuff.title'),
+    content: t('Content.enemyDmgTakenDebuff.content'),
   }, {
     formItem: 'switch',
     id: 'enemySlowed',
     name: 'enemySlowed',
-    text: 'Enemy slowed',
-    title: 'Time Distortion',
-    content: `When hitting an enemy that is already Slowed, Welt deals Additional Imaginary DMG equal to ${precisionRound(talentScaling * 100)}% of his ATK to the enemy.`,
+    text: t('Content.enemySlowed.text'),
+    title: t('Content.enemySlowed.title'),
+    content: t('Content.enemySlowed.content', { talentScaling: TsUtils.precisionRound(100 * talentScaling) }),
   }, {
     formItem: 'slider',
     id: 'skillExtraHits',
     name: 'skillExtraHits',
-    text: 'Skill extra hits on target',
-    title: 'Edge of the Void',
-    content: `Deals Imaginary DMG equal to ${precisionRound(skillScaling * 100)}% of Welt's ATK to a single enemy and further deals DMG 2 extra times, with each time dealing Imaginary DMG equal to ${precisionRound(skillScaling * 100)}% of Welt's ATK to a random enemy.`,
+    text: t('Content.skillExtraHits.text'),
+    title: t('Content.skillExtraHits.title'),
+    content: t('Content.skillExtraHits.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
     min: 0,
     max: skillExtraHitsMax,
   }, {
     formItem: 'switch',
     id: 'e1EnhancedState',
     name: 'e1EnhancedState',
-    text: 'E1 enhanced state',
-    title: 'E1 Legacy of Honor',
-    content: "E1: After Welt uses his Ultimate, his abilities are enhanced. The next 2 time(s) he uses his Basic ATK or Skill, deals Additional DMG to the target equal to 50% of his Basic ATK's DMG multiplier or 80% of his Skill's DMG multiplier respectively.",
+    text: t('Content.e1EnhancedState.text'),
+    title: t('Content.e1EnhancedState.title'),
+    content: t('Content.e1EnhancedState.content'),
     disabled: (e < 1),
   }]
 
@@ -65,8 +67,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
       enemyDmgTakenDebuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x.ELEMENTAL_DMG += (x.ENEMY_WEAKNESS_BROKEN) ? 0.20 : 0
@@ -91,8 +93,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x.VULNERABILITY += (m.enemyDmgTakenDebuff) ? 0.12 : 0
     },

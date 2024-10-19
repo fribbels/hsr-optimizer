@@ -1,15 +1,16 @@
 import { useState } from 'react'
 import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig.js'
 import { SaveState } from 'lib/saveState.js'
-import { Button, Divider, Flex, Form, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
+import { Button, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import DB, { AppPages } from 'lib/db.js'
-import { importerTabButtonWidth, importerTabSpinnerMs } from 'components/importerTab/importerTabUiConstants.ts'
+import { importerTabButtonWidth, importerTabSpinnerMs } from 'components/importerTab/importerTabUiConstants'
 import { Relic } from 'types/Relic'
-import { ColorizedLink } from 'components/common/ColorizedLink.tsx'
-import { ReliquaryDescription } from 'components/importerTab/ReliquaryDescription.tsx'
+import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
+import { ReliquaryDescription } from 'components/importerTab/ReliquaryDescription'
 import { hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
 import { Message } from 'lib/message'
+import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
 
@@ -30,23 +31,7 @@ export function ScannerImportSubmenu() {
   const [currentCharacters, setCurrentCharacters] = useState<ParsedCharacter[] | undefined>([])
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
-  const [form] = Form.useForm()
-
-  const hoyolabSubmit = () => {
-    const json = form.getFieldValue('json input')
-    const out = hoyolabParser(json)
-    const relics: Relic[] = out.relics
-    let characters = out.characters
-    // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
-    characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
-    characters.map((c) => {
-      c.characterLevel = 80
-      c.lightConeLevel = 80
-    })
-    setCurrentCharacters(characters)
-    setCurrentRelics(relics)
-    setCurrentStage(Stages.CONFIRM_DATA)
-  }
+  const { t } = useTranslation(['importSaveTab', 'common'])
 
   function beforeUpload(file): Promise<any> {
     return new Promise(() => {
@@ -68,7 +53,7 @@ export function ScannerImportSubmenu() {
       setLoading1(true)
 
       if (!json) {
-        throw new Error('Invalid JSON')
+        throw new Error(t('Import.ErrorMsg.InvalidJson')/* Invalid JSON */)
       }
 
       if (json.data) {
@@ -93,7 +78,7 @@ export function ScannerImportSubmenu() {
       }
 
       if (!ValidScannerSources.includes(json.source)) {
-        throw new Error('Invalid scanner file')
+        throw new Error(t('Import.ErrorMsg.InvalidFile')/* Invalid scanner file */)
       }
 
       const parser = ScannerSourceToParser[json.source]
@@ -115,11 +100,11 @@ export function ScannerImportSubmenu() {
         setCurrentStage(Stages.CONFIRM_DATA)
       }, importerTabSpinnerMs)
     } catch (e) {
-      let message = 'Unknown Error'
+      let message: string = t('Import.ErrorMsg.Unknown'/* Unknown Error */)
       if (e instanceof Error) message = e.message
 
       console.error(e)
-      Message.error('Error occurred while importing file: ' + message, 10)
+      Message.error(t('Import.ErrorMsg.Fragment'/* Error occurred while importing file: */) + message, 10)
 
       setTimeout(() => {
         setLoading1(false)
@@ -134,7 +119,7 @@ export function ScannerImportSubmenu() {
     setLoading2(true)
     setTimeout(() => {
       DB.mergeRelicsWithState(currentRelics)
-      SaveState.save()
+      SaveState.delayedSave()
 
       setTimeout(() => {
         setLoading2(false)
@@ -147,7 +132,7 @@ export function ScannerImportSubmenu() {
     setLoading2(true)
     setTimeout(() => {
       DB.mergeRelicsWithState(currentRelics, currentCharacters)
-      SaveState.save()
+      SaveState.delayedSave()
 
       setTimeout(() => {
         setLoading2(false)
@@ -161,37 +146,33 @@ export function ScannerImportSubmenu() {
       <Flex style={{ minHeight: 100, marginBottom: 30 }} gap={30}>
         <Flex vertical gap={10}>
           <Text>
-            Install and run one of the relic scanner options:
+            {t('Import.Stage1.Header')}
           </Text>
           <Text>
             <ul>
               <ReliquaryDescription/>
               <li>
-                Kel-Z HSR Scanner (
-                <ColorizedLink text='Github' url={KelzScannerConfig.releases}/>
+                {t('Import.Stage1.KelzDesc.Title')} (
+                <ColorizedLinkWithIcon text={t('Import.Stage1.KelzDesc.Link')} url={KelzScannerConfig.releases} linkIcon={true}/>
                 )
                 <ul>
-                  <li>Inaccurate speed decimals, 5-10 minutes OCR scan</li>
-                  <li>Imports full inventory and character roster</li>
+                  <li>{t('Import.Stage1.KelzDesc.l1')}</li>
+                  <li>{t('Import.Stage1.KelzDesc.l2')}</li>
                 </ul>
               </li>
               <li>
-                Relic Scorer Import (
-                <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}>
-                  <ColorizedLink text='Relic scorer'/>
-                </span>
+                {t('Import.Stage1.ScorerDesc.Title')} (
+                <ColorizedLinkWithIcon text={t('Import.Stage1.ScorerDesc.Link')} linkIcon={true} onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}/>
                 )
                 <ul>
-                  <li>Accurate speed decimals, instant scan</li>
-                  <li>No download needed, but limited to relics from the 8 characters on profile showcase</li>
+                  <li>{t('Import.Stage1.ScorerDesc.l1')}</li>
+                  <li>{t('Import.Stage1.ScorerDesc.l2')}</li>
                 </ul>
               </li>
-              <li>HoyoLab Import (
-                <ColorizedLink text='Instructions' url='https://github.com/fribbels/hsr-optimizer/discussions/403'/>
-                )
+              <li>{t('Import.Stage1.HoyolabDesc.Title')} (<ColorizedLinkWithIcon text={t('Import.Stage1.HoyolabDesc.Link')} url='https://github.com/fribbels/hsr-optimizer/discussions/403' linkIcon={true}/>)
                 <ul>
-                  <li>Inaccurate speed decimals, instant scan</li>
-                  <li>No download needed, but limited to ingame characters' equipped relics</li>
+                  <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
+                  <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>
                 </ul>
               </li>
             </ul>
@@ -209,11 +190,11 @@ export function ScannerImportSubmenu() {
                   loading={loading1}
                   onClick={() => setCurrentStage(Stages.LOAD_FILE)}
                 >
-                  Upload scanner json file
+                  {t('Import.Stage1.ButtonText')}
                 </Button>
               </Upload>
 
-              or
+              {t('Import.Stage1.Or')}
 
               <Input
                 style={{ width: importerTabButtonWidth }}
@@ -243,7 +224,7 @@ export function ScannerImportSubmenu() {
       return (
         <Flex style={{ minHeight: 100 }}>
           <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
-            Invalid scanner file, please try a different file
+            {t('Import.Stage2.NoRelics')}
           </Flex>
         </Flex>
       )
@@ -253,32 +234,32 @@ export function ScannerImportSubmenu() {
       <Flex style={{ minHeight: 250 }}>
         <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
           <Text>
-            {`File contains ${currentRelics.length || 0} relics and ${currentCharacters?.length || 0} characters.`}
+            {t('Import.Stage2.FileInfo', { reliccount: currentRelics.length || 0, charactercount: currentCharacters?.length || 0 })}
           </Text>
 
           <Text>
-            Import relics only. Updates the optimizer with the new dataset of relics and doesn't overwrite builds.
+            {t('Import.Stage2.RelicsImport.Label')}
           </Text>
 
           <Button style={{ width: importerTabButtonWidth }} type='primary' onClick={mergeRelicsConfirmed} loading={loading2}>
-            Import relics
+            {t('Import.Stage2.RelicsImport.ButtonText')}
           </Button>
 
-          <Divider><Text style={{ fontSize: 12 }}>OR</Text></Divider>
+          <Divider><Text style={{ fontSize: 12 }}>{t('Import.Stage2.Or')}</Text></Divider>
           <Text>
-            Import relics and characters. Replaces the optimizer builds with ingame builds.
+            {t('Import.Stage2.CharactersImport.Label')}
           </Text>
 
           <Popconfirm
-            title='Overwrite optimizer builds'
-            description='Are you sure you want to overwrite your optimizer builds with ingame builds?'
+            title={t('Import.Stage2.CharactersImport.WarningTitle')}
+            description={t('Import.Stage2.CharactersImport.WarningDescription')}
             onConfirm={mergeCharactersConfirmed}
             placement='bottom'
-            okText='Yes'
-            cancelText='Cancel'
+            okText={t('common:Yes', { capitalizeLength: 1 })}
+            cancelText={t('common:Cancel', { capitalizeLength: 1 })}
           >
             <Button style={{ width: importerTabButtonWidth }} type='primary' loading={loading2}>
-              Import relics & characters
+              {t('Import.Stage2.CharactersImport.ButtonText')}
             </Button>
           </Popconfirm>
         </Flex>
@@ -291,7 +272,7 @@ export function ScannerImportSubmenu() {
       <Flex style={{ minHeight: 100 }}>
         <Flex vertical gap={10} style={{ display: currentStage >= 2 ? 'flex' : 'none' }}>
           <Text>
-            Done!
+            {t('Import.Stage3.SuccessMessage')}
           </Text>
         </Flex>
       </Flex>

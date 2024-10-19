@@ -1,42 +1,23 @@
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals'
+import { LightConeConditional } from 'types/LightConeConditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.AnInstantBeforeAGaze')
   const sValues = [0.0036, 0.0042, 0.0048, 0.0054, 0.006]
-
-  const lcRank: LightConeRawRank = {
-    id: '23018',
-    skill: "A Knight's Pilgrimage",
-    desc: "When the wearer uses Ultimate, increases the wearer's Ultimate DMG based on their Max Energy. Each point of Energy increases the Ultimate DMG by #2[f2]%, up to #3[i] points of Energy.",
-    params: [
-      [0.36, 0.0036, 180],
-      [0.42, 0.0042, 180],
-      [0.48, 0.0048, 180],
-      [0.54, 0.0054, 180],
-      [0.6, 0.006, 180],
-    ],
-    properties: [
-      [{ type: 'CriticalDamageBase', value: 0.36 }],
-      [{ type: 'CriticalDamageBase', value: 0.42 }],
-      [{ type: 'CriticalDamageBase', value: 0.48 }],
-      [{ type: 'CriticalDamageBase', value: 0.54 }],
-      [{ type: 'CriticalDamageBase', value: 0.6 }],
-    ],
-  }
 
   const content: ContentItem[] = [{
     lc: true,
     id: 'maxEnergyUltDmgStacks',
     name: 'maxEnergyUltDmgStacks',
     formItem: 'slider',
-    text: 'Max Energy',
-    title: lcRank.skill,
-    content: getContentFromLCRanks(s, lcRank),
+    text: t('Content.maxEnergyUltDmgStacks.text'),
+    title: t('Content.maxEnergyUltDmgStacks.title'),
+    content: t('Content.maxEnergyUltDmgStacks.content', { DmgStep: TsUtils.precisionRound(100 * sValues[s]) }),
     min: 0,
     max: 180,
   }]
@@ -46,8 +27,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
       maxEnergyUltDmgStacks: 180,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.lightConeConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals
 
       buffAbilityDmg(x, ULT_TYPE, r.maxEnergyUltDmgStacks * sValues[s])
     },

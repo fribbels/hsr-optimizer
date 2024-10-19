@@ -1,35 +1,35 @@
-import { Flex, Typography } from 'antd'
+import { Flex } from 'antd'
 import { HeaderText } from 'components/HeaderText.jsx'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { Hint } from 'lib/hint.jsx'
 import { FormStatRollSlider, FormStatRollSliderTopPercent } from 'components/optimizerTab/optimizerForm/FormStatRollSlider.jsx'
-import { Constants } from 'lib/constants.ts'
-
-const { Text } = Typography
+import { Constants } from 'lib/constants'
+import { useTranslation } from 'react-i18next'
 
 export const SubstatWeightFilters = () => {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'WeightFilter' })
   return (
     <Flex vertical gap={4}>
 
       <Flex vertical gap={0}>
-        <Flex justify="space-between" align="center">
-          <HeaderText>Substat weight filter</HeaderText>
+        <Flex justify='space-between' align='center'>
+          <HeaderText>{t('WeightFilterHeader')/* Substat weight filter */}</HeaderText>
           <TooltipImage type={Hint.substatWeightFilter()}/>
         </Flex>
 
-        <FormStatRollSlider text="HP" name={Constants.Stats.HP_P}/>
-        <FormStatRollSlider text="ATK" name={Constants.Stats.ATK_P}/>
-        <FormStatRollSlider text="DEF" name={Constants.Stats.DEF_P}/>
-        <FormStatRollSlider text="SPD" name={Constants.Stats.SPD}/>
-        <FormStatRollSlider text="CR" name={Constants.Stats.CR}/>
-        <FormStatRollSlider text="CD" name={Constants.Stats.CD}/>
-        <FormStatRollSlider text="EHR" name={Constants.Stats.EHR}/>
-        <FormStatRollSlider text="RES" name={Constants.Stats.RES}/>
-        <FormStatRollSlider text="BE" name={Constants.Stats.BE}/>
+        <FormStatRollSlider text={t('HPFilterText')} name={Constants.Stats.HP_P}/>
+        <FormStatRollSlider text={t('ATKFilterText')} name={Constants.Stats.ATK_P}/>
+        <FormStatRollSlider text={t('DEFFilterText')} name={Constants.Stats.DEF_P}/>
+        <FormStatRollSlider text={t('SPDFilterText')} name={Constants.Stats.SPD}/>
+        <FormStatRollSlider text={t('CRFilterText')} name={Constants.Stats.CR}/>
+        <FormStatRollSlider text={t('CDFilterText')} name={Constants.Stats.CD}/>
+        <FormStatRollSlider text={t('EHRFilterText')} name={Constants.Stats.EHR}/>
+        <FormStatRollSlider text={t('RESFilterText')} name={Constants.Stats.RES}/>
+        <FormStatRollSlider text={t('BEFilterText')} name={Constants.Stats.BE}/>
       </Flex>
 
       <Flex vertical gap={3}>
-        <HeaderText>Weighted rolls per relic</HeaderText>
+        <HeaderText>{t('RollFilterHeader')/* Weighted rolls per relic */}</HeaderText>
         <Flex vertical gap={5}>
           <FormStatRollSliderTopPercent index={0}/>
           <FormStatRollSliderTopPercent index={1}/>

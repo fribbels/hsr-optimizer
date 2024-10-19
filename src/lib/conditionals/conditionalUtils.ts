@@ -1,7 +1,7 @@
-import { Constants, Stats } from 'lib/constants'
+import { Stats } from 'lib/constants'
 import { ContentItem } from 'types/Conditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Form } from 'types/Form'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export const precisionRound = (number: number, precision: number = 8): number => {
   const factor = Math.pow(10, precision)
@@ -9,11 +9,11 @@ export const precisionRound = (number: number, precision: number = 8): number =>
 }
 
 // Remove the ashblazing set atk bonus only when calc-ing fua attacks
-export const calculateAshblazingSet = (x: ComputedStatsObject, request: Form, hitMulti: number): number => {
+export const calculateAshblazingSet = (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext, hitMulti: number): number => {
   const enabled = p4(x.sets.TheAshblazingGrandDuke)
-  const valueTheAshblazingGrandDuke = request.setConditionals[Constants.Sets.TheAshblazingGrandDuke][1] as number
-  const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled * request.baseAtk
-  const ashblazingMulti = hitMulti * enabled * request.baseAtk
+  const valueTheAshblazingGrandDuke = action.setConditionals.valueTheAshblazingGrandDuke
+  const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled * context.baseATK
+  const ashblazingMulti = hitMulti * enabled * context.baseATK
 
   return ashblazingMulti - ashblazingAtk
 }
@@ -80,7 +80,7 @@ x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * x.ATK;
 x.FUA_DMG += x.FUA_SCALING * x.ATK;
 x.DOT_DMG += x.DOT_SCALING * x.ATK;
-    `
+`
 }
 
 export function standardHpFinalizer(x: ComputedStatsObject) {
@@ -98,14 +98,14 @@ x.SKILL_DMG += x.SKILL_SCALING * x.HP;
 x.ULT_DMG += x.ULT_SCALING * x.HP;
 x.FUA_DMG += x.FUA_SCALING * x.HP;
 x.DOT_DMG += x.DOT_SCALING * x.HP;
-    `
+`
 }
 
-export function standardFuaAtkFinalizer(x: ComputedStatsObject, request: Form, hitMulti: number) {
+export function standardFuaAtkFinalizer(x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext, hitMulti: number) {
   x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
   x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
   x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-  x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + calculateAshblazingSet(x, request, hitMulti))
+  x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + calculateAshblazingSet(x, action, context, hitMulti))
   x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
 }
 
@@ -116,5 +116,5 @@ x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * x.ATK;
 x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMulti}));
 x.DOT_DMG += x.DOT_SCALING * x.ATK;
-    `
+`
 }

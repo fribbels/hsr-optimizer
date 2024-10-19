@@ -1,15 +1,17 @@
 import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, precisionRound, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Qingque')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const skillStackDmg = skill(e, 0.38, 0.408)
@@ -28,10 +30,10 @@ export default (e: Eidolon): CharacterConditional => {
 
   const hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
-  function getHitMulti(request: Form) {
-    const r = request.characterConditionals
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    const r = action.characterConditionals
     return r.basicEnhanced
-      ? hitMultiByTargetsBlast[request.enemyCount]
+      ? hitMultiByTargetsBlast[context.enemyCount]
       : hitMultiSingle
   }
 
@@ -39,23 +41,23 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'basicEnhanced',
     name: 'basicEnhanced',
-    text: 'Basic enhanced',
-    title: 'Basic enhanced',
-    content: `Qingque's ATK increases by ${precisionRound(talentAtkBuff * 100)}%, and her Basic ATK "Flower Pick" is enhanced, becoming "Cherry on Top!"`,
+    text: t('Content.basicEnhanced.text'),
+    title: t('Content.basicEnhanced.title'),
+    content: t('Content.basicEnhanced.content', { talentAtkBuff: TsUtils.precisionRound(100 * talentAtkBuff) }),
   }, {
     formItem: 'switch',
     id: 'basicEnhancedSpdBuff',
     name: 'basicEnhancedSpdBuff',
-    text: 'Basic enhanced SPD buff',
-    title: 'Basic enhanced SPD buff',
-    content: `Qingque's SPD increases by 10% for 1 turn after using the Enhanced Basic ATK.`,
+    text: t('Content.basicEnhancedSpdBuff.text'),
+    title: t('Content.basicEnhancedSpdBuff.title'),
+    content: t('Content.basicEnhancedSpdBuff.content'),
   }, {
     formItem: 'slider',
     id: 'skillDmgIncreaseStacks',
     name: 'skillDmgIncreaseStacks',
-    text: 'Skill DMG stacks',
-    title: 'Skill DMG stacks',
-    content: `Immediately draws 2 jade tile(s) and increases DMG by ${precisionRound(skillStackDmg * 100)}% until the end of the current turn. This effect can stack up to 4 time(s).`,
+    text: t('Content.skillDmgIncreaseStacks.text'),
+    title: t('Content.skillDmgIncreaseStacks.title'),
+    content: t('Content.skillDmgIncreaseStacks.content', { skillStackDmg: TsUtils.precisionRound(100 * skillStackDmg) }),
     min: 0,
     max: 4,
   }]
@@ -69,8 +71,8 @@ export default (e: Eidolon): CharacterConditional => {
       skillDmgIncreaseStacks: 4,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += (r.basicEnhanced) ? talentAtkBuff : 0
@@ -92,13 +94,13 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      standardFuaAtkFinalizer(x, request, getHitMulti(request))
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      return gpuStandardFuaAtkFinalizer(getHitMulti(request))
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuStandardFuaAtkFinalizer(getHitMulti(action, context))
     },
   }
 }

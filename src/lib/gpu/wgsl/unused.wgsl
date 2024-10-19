@@ -179,3 +179,275 @@ const traceLightning_DMG = 0;
 const traceWind_DMG = 0;
 const traceQuantum_DMG = 0;
 const traceImaginary_DMG = 0;
+/*
+
+
+function copy(aObject) {
+  // Prevent undefined objects
+  // if (!aObject) return aObject;
+
+  const bObject = Array.isArray(aObject) ? [] : {}
+
+  let value
+  for (const key in aObject) {
+    // Prevent self-references to parent object
+    // if (Object.is(aObject[key], aObject)) continue;
+
+    value = aObject[key]
+
+    bObject[key] = (typeof value === 'object') ? copy(value) : value
+  }
+
+  return bObject
+}
+
+function startTests2() {
+  const original = baseComputedStatsObject
+
+  function measure(testFn) {
+    const start = Date.now()
+    testFn()
+    const end = Date.now()
+
+    return end - start
+  }
+
+  function test1() {
+    return measure(() => {
+      for (let i = 0; i < 1000000; i++) {
+        const copy = JSON.parse(JSON.stringify(original))
+      }
+    })
+  }
+
+  function test2() {
+    return measure(() => {
+      for (let i = 0; i < 1000000; i++) {
+        const copy = {
+          ...original,
+        }
+      }
+    })
+  }
+
+  function test3() {
+    return measure(() => {
+      for (let i = 0; i < 1000000; i++) {
+        const copy = cloneDeep(original)
+      }
+    })
+  }
+
+  function test4() {
+    return measure(() => {
+      for (let i = 0; i < 1000000; i++) {
+        const copy = structuredClone(original)
+      }
+    })
+  }
+
+  function test5() {
+    return measure(() => {
+      for (let i = 0; i < 1000000; i++) {
+        const copy = Object.assign({}, original)
+      }
+    })
+  }
+
+  function test6() {
+    return measure(() => {
+      for (let i = 0; i < 1000000; i++) {
+        const x = copy(original)
+      }
+    })
+  }
+
+  function test7() {
+    return measure(() => {
+      for (let i = 0; i < 1000000; i++) {
+        const x = {
+          BASIC_DMG_TYPE: BASIC_TYPE,
+          SKILL_DMG_TYPE: SKILL_TYPE,
+          ULT_DMG_TYPE: ULT_TYPE,
+          FUA_DMG_TYPE: FUA_TYPE,
+          DOT_DMG_TYPE: DOT_TYPE,
+          BREAK_DMG_TYPE: BREAK_TYPE,
+          SUPER_BREAK_DMG_TYPE: SUPER_BREAK_TYPE,
+
+          ['HP%']: 0,
+          ['ATK%']: 0,
+          ['DEF%']: 0,
+          ['SPD%']: 0,
+          ['HP']: 0,
+          ['ATK']: 0,
+          ['DEF']: 0,
+          ['SPD']: 0.0001,
+          ['CRIT DMG']: 0,
+          ['CRIT Rate']: 0,
+          ['Effect Hit Rate']: 0,
+          ['Effect RES']: 0,
+          ['Break Effect']: 0,
+          ['Energy Regeneration Rate']: 0,
+          ['Outgoing Healing Boost']: 0,
+
+          ['Physical DMG Boost']: 0,
+          ['Fire DMG Boost']: 0,
+          ['Ice DMG Boost']: 0,
+          ['Lightning DMG Boost']: 0,
+          ['Wind DMG Boost']: 0,
+          ['Quantum DMG Boost']: 0,
+          ['Imaginary DMG Boost']: 0,
+
+          ELEMENTAL_DMG: 0,
+
+          BASIC_SCALING: 0,
+          SKILL_SCALING: 0,
+          ULT_SCALING: 0,
+          FUA_SCALING: 0,
+          DOT_SCALING: 0,
+
+          BASIC_CR_BOOST: 0,
+          SKILL_CR_BOOST: 0,
+          ULT_CR_BOOST: 0,
+          FUA_CR_BOOST: 0,
+
+          BASIC_CD_BOOST: 0,
+          SKILL_CD_BOOST: 0,
+          ULT_CD_BOOST: 0,
+          FUA_CD_BOOST: 0,
+
+          // These are unused
+          BASIC_BOOST: 0,
+          SKILL_BOOST: 0,
+          ULT_BOOST: 0,
+          FUA_BOOST: 0,
+          DOT_BOOST: 0,
+
+          VULNERABILITY: 0,
+          BASIC_VULNERABILITY: 0,
+          SKILL_VULNERABILITY: 0,
+          ULT_VULNERABILITY: 0,
+          FUA_VULNERABILITY: 0,
+          DOT_VULNERABILITY: 0,
+          BREAK_VULNERABILITY: 0,
+
+          DEF_PEN: 0,
+          BASIC_DEF_PEN: 0,
+          SKILL_DEF_PEN: 0,
+          ULT_DEF_PEN: 0,
+          FUA_DEF_PEN: 0,
+          DOT_DEF_PEN: 0,
+          BREAK_DEF_PEN: 0,
+          SUPER_BREAK_DEF_PEN: 0,
+
+          RES_PEN: 0,
+          PHYSICAL_RES_PEN: 0,
+          FIRE_RES_PEN: 0,
+          ICE_RES_PEN: 0,
+          LIGHTNING_RES_PEN: 0,
+          WIND_RES_PEN: 0,
+          QUANTUM_RES_PEN: 0,
+          IMAGINARY_RES_PEN: 0,
+
+          // These should technically be split by element but they are rare enough to ignore imo (e.g. DHIL basic attack)
+          BASIC_RES_PEN: 0,
+          SKILL_RES_PEN: 0,
+          ULT_RES_PEN: 0,
+          FUA_RES_PEN: 0,
+          DOT_RES_PEN: 0,
+
+          BASIC_DMG: 0,
+          SKILL_DMG: 0,
+          ULT_DMG: 0,
+          FUA_DMG: 0,
+          DOT_DMG: 0,
+          BREAK_DMG: 0,
+          COMBO_DMG: 0,
+
+          DMG_RED_MULTI: 1, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi)
+          EHP: 0,
+
+          DOT_CHANCE: 0,
+          EFFECT_RES_PEN: 0,
+
+          // Black swan's stacking DoTs, the initial DoT has full value but subsequent stacks have reduced (DOT_SPLIT) value
+          DOT_SPLIT: 0,
+          DOT_STACKS: 0,
+
+          ENEMY_WEAKNESS_BROKEN: 0,
+
+          SUPER_BREAK_MODIFIER: 0,
+          BASIC_SUPER_BREAK_MODIFIER: 0,
+          SUPER_BREAK_HMC_MODIFIER: 0,
+          BASIC_TOUGHNESS_DMG: 0,
+          SKILL_TOUGHNESS_DMG: 0,
+          ULT_TOUGHNESS_DMG: 0,
+          FUA_TOUGHNESS_DMG: 0,
+
+          // e.g. Acheron multiplier
+          BASIC_ORIGINAL_DMG_BOOST: 0,
+          SKILL_ORIGINAL_DMG_BOOST: 0,
+          ULT_ORIGINAL_DMG_BOOST: 0,
+
+          // Boothill
+          BASIC_BREAK_DMG_MODIFIER: 0,
+
+          // Robin
+          ULT_CD_OVERRIDE: 0,
+          ULT_BOOSTS_MULTI: 1,
+
+          RATIO_BASED_HP_BUFF: 0,
+          RATIO_BASED_HP_P_BUFF: 0,
+          RATIO_BASED_ATK_BUFF: 0,
+          RATIO_BASED_ATK_P_BUFF: 0,
+          RATIO_BASED_DEF_BUFF: 0,
+          RATIO_BASED_DEF_P_BUFF: 0,
+          RATIO_BASED_SPD_BUFF: 0,
+          RATIO_BASED_CD_BUFF: 0,
+
+          BREAK_EFFICIENCY_BOOST: 0,
+          BASIC_BREAK_EFFICIENCY_BOOST: 0, // Boothill
+          ULT_BREAK_EFFICIENCY_BOOST: 0, // Feixiao
+
+          WEIGHT: 0,
+        }
+      }
+    })
+  }
+
+  console.log(`${test1()}ms - Stringify`)
+  console.log(`${test2()}ms - Spread`)
+  console.log(`${test3()}ms - Lodash`)
+  console.log(`${test4()}ms - StructuredClone`)
+  console.log(`${test5()}ms - Assign`)
+  console.log(`${test6()}ms - Custom`)
+  console.log(`${test7()}ms - Create`)
+
+   // Chrome
+   // 6302ms - Stringify
+   // 106ms - Spread
+   // 7987ms - Lodash
+   // 8937ms - StructuredClone
+   // 2662ms - Assign
+   // 3014ms - Custom
+   // 17ms - N/A - Creation time
+
+   // Firefox
+   // 7191ms - Stringify
+   // 1519ms - Spread
+   // 4535ms - Lodash
+   // 10590ms - StructuredClone
+   // 241ms - Assign
+   // 1060ms - Custom
+   // 177ms - N/A - Creation time
+
+   // Opera
+   // 6103ms - Stringify
+   // 99ms - Spread
+   // 7110ms - Lodash
+   // 8401ms - StructuredClone
+   // 2386ms - Assign
+   // 2620ms - Custom
+   // 16ms - N/A - Creation time
+}
+*/

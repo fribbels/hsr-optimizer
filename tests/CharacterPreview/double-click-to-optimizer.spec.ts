@@ -9,7 +9,7 @@ test('Double-clicking character renders Optimizer with character in focus.', asy
   await expect(page.locator('#optimizerGridContainer')).toBeVisible()
   await expect(page.getByRole('main')).toContainText('Kafka')
   // chacater passives rendered
-  await expect(page.getByRole('main')).toContainText('E1 DoT DMG debuff')
+  await expect(page.getByRole('main')).toContainText('E1 DoT vulnerability')
   // lightcone passives rendered
   await expect(page.getByRole('main')).toContainText('Enemy shocked / wind sheared')
   // enemy options rendered

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Button, Form, FormInstance, Input, Modal } from 'antd'
+import { useTranslation } from 'react-i18next'
 
 interface NameBuildProps {
   open: boolean
@@ -10,6 +11,8 @@ interface NameBuildProps {
 const NameBuild: React.FC<NameBuildProps> = ({ open, setOpen, onOk }) => {
   const [characterForm] = Form.useForm()
   window.characterForm = characterForm
+
+  const { t } = useTranslation('modals', { keyPrefix: 'SaveBuild' })
 
   function onModalOk() {
     const formValues = characterForm.getFieldsValue()
@@ -31,19 +34,19 @@ const NameBuild: React.FC<NameBuildProps> = ({ open, setOpen, onOk }) => {
       onOk={onModalOk}
       onCancel={handleCancel}
       footer={[
-        <Button key="back" onClick={handleCancel}>
-          Cancel
+        <Button key='back' onClick={handleCancel}>
+          {t('Cancel')/* Cancel */}
         </Button>,
-        <Button key="submit" type="primary" onClick={onModalOk}>
-          Save
+        <Button key='submit' type='primary' onClick={onModalOk}>
+          {t('Save')/* Save */}
         </Button>,
       ]}
     >
-      <Form form={characterForm} preserve={false} layout="vertical">
+      <Form form={characterForm} preserve={false} layout='vertical'>
         <Form.Item
-          name="name"
-          label="Build name"
-          rules={[{ required: true, message: 'Please input a name' }]}
+          name='name'
+          label={t('Label')/* Build name */}
+          rules={[{ required: true, message: t('Rule')/* Please input a name */ }]}
           style={{ width: panelWidth }}
         >
           <Input/>

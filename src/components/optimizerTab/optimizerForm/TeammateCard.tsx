@@ -2,18 +2,19 @@ import { useEffect, useMemo, useState } from 'react'
 import FormCard from 'components/optimizerTab/FormCard.js'
 import { SyncOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Select, SelectProps, Typography } from 'antd'
-import { Constants, eidolonOptions, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets, superimpositionOptions } from 'lib/constants.ts'
+import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants'
 import { Assets } from 'lib/assets.js'
 import { CharacterConditionals } from 'lib/characterConditionals.js'
 import { LightConeConditionals } from 'lib/lightConeConditionals.js'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
-import { CharacterConditionalDisplay } from 'components/optimizerTab/conditionals/CharacterConditionalDisplay.tsx'
-import { LightConeConditionalDisplay } from 'components/optimizerTab/conditionals/LightConeConditionalDisplay.tsx'
+import { CharacterConditionalDisplay } from 'components/optimizerTab/conditionals/CharacterConditionalDisplay'
+import { LightConeConditionalDisplay } from 'components/optimizerTab/conditionals/LightConeConditionalDisplay'
 import DB from 'lib/db.js'
 import { Character } from 'types/Character'
 import { Message } from 'lib/message.js'
-import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect.tsx'
-import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect.tsx'
+import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect'
+import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
+import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
 
@@ -58,55 +59,6 @@ const labelRender = (set: string, text: string) => (
     </Text>
   </Flex>
 )
-
-const teammateRelicSetOptions: SelectProps['options'] = (() => {
-  return [
-    {
-      value: Sets.MessengerTraversingHackerspace,
-      desc: `4 Piece: ${Sets.MessengerTraversingHackerspace} (+12% SPD)`,
-      label: labelRender(Sets.MessengerTraversingHackerspace, '12% SPD'),
-    },
-    {
-      value: Sets.WatchmakerMasterOfDreamMachinations,
-      desc: `4 Piece: ${Sets.WatchmakerMasterOfDreamMachinations} (+30% BE)`,
-      label: labelRender(Sets.WatchmakerMasterOfDreamMachinations, '30% BE'),
-    },
-    {
-      value: SACERDOS_RELIVED_ORDEAL_1_STACK,
-      desc: `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 1 stack (+18% CD)`,
-      label: labelRender(Sets.SacerdosRelivedOrdeal, '18% CD'),
-    },
-    {
-      value: SACERDOS_RELIVED_ORDEAL_2_STACK,
-      desc: `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 2 stack (+36% CD)`,
-      label: labelRender(Sets.SacerdosRelivedOrdeal, '36% CD'),
-    },
-  ]
-})()
-const teammateOrnamentSetOptions = (() => {
-  return [
-    {
-      value: Sets.BrokenKeel,
-      desc: `${Sets.BrokenKeel} (+10% CD)`,
-      label: labelRender(Sets.BrokenKeel, '10% CD'),
-    },
-    {
-      value: Sets.FleetOfTheAgeless,
-      desc: `${Sets.FleetOfTheAgeless} (+8% ATK)`,
-      label: labelRender(Sets.FleetOfTheAgeless, '8% ATK'),
-    },
-    {
-      value: Sets.PenaconyLandOfTheDreams,
-      desc: `${Sets.PenaconyLandOfTheDreams} (+10% DMG for same element)`,
-      label: labelRender(Sets.PenaconyLandOfTheDreams, '10% DMG'),
-    },
-    {
-      value: Sets.LushakaTheSunkenSeas,
-      desc: `${Sets.LushakaTheSunkenSeas} (+12% ATK)`,
-      label: labelRender(Sets.LushakaTheSunkenSeas, '12% ATK'),
-    },
-  ]
-})()
 
 function getTeammateProperty(index: number) {
   return `teammate${index}`
@@ -157,6 +109,7 @@ function countTeammates() {
 }
 
 const TeammateCard = (props: { index: number }) => {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
   const teammateProperty = useMemo(() => getTeammateProperty(props.index), [props.index])
   const teammateCharacterId = Form.useWatch([teammateProperty, 'characterId'], window.optimizerForm)
   const teammateEidolon = Form.useWatch([teammateProperty, 'characterEidolon'], window.optimizerForm)
@@ -169,6 +122,71 @@ const TeammateCard = (props: { index: number }) => {
   const [teammateLightConeSelectOpen, setTeammateLightConeSelectOpen] = useState(false)
 
   const disabled = teammateCharacterId == null
+
+  const teammateRelicSetOptions: SelectProps['options'] = useMemo(() => {
+    return [
+      {
+        value: Sets.MessengerTraversingHackerspace,
+        desc: t('TeammateSets.Messenger.Desc'), // `4 Piece: ${Sets.MessengerTraversingHackerspace} (+12% SPD)`,
+        label: labelRender(Sets.MessengerTraversingHackerspace, t('TeammateSets.Messenger.Text')), // labelRender(Sets.MessengerTraversingHackerspace, '12% SPD'),
+      },
+      {
+        value: Sets.WatchmakerMasterOfDreamMachinations,
+        desc: t('TeammateSets.Watchmaker.Desc'), // `4 Piece: ${Sets.WatchmakerMasterOfDreamMachinations} (+30% BE)`,
+        label: labelRender(Sets.WatchmakerMasterOfDreamMachinations, t('TeammateSets.Watchmaker.Text')), // labelRender(Sets.WatchmakerMasterOfDreamMachinations, '30% BE'),
+      },
+      {
+        value: SACERDOS_RELIVED_ORDEAL_1_STACK,
+        desc: t('TeammateSets.Sacerdos1Stack.Desc'), // `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 1 stack (+20% CD)`,
+        label: labelRender(Sets.SacerdosRelivedOrdeal, t('TeammateSets.Sacerdos1Stack.Text')), // labelRender(Sets.SacerdosRelivedOrdeal, '20% CD'),
+      },
+      {
+        value: SACERDOS_RELIVED_ORDEAL_2_STACK,
+        desc: t('TeammateSets.Sacerdos2Stack.Desc'), // `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 2 stack (+40% CD)`,
+        label: labelRender(Sets.SacerdosRelivedOrdeal, t('TeammateSets.Sacerdos2Stack.Text')), // labelRender(Sets.SacerdosRelivedOrdeal, '40% CD'),
+      },
+    ]
+  }, [t])
+  const teammateOrnamentSetOptions = useMemo(() => {
+    return [
+      {
+        value: Sets.BrokenKeel,
+        desc: t('TeammateSets.Keel.Desc'), // `${Sets.BrokenKeel} (+10% CD)`,
+        label: labelRender(Sets.BrokenKeel, t('TeammateSets.Keel.Text')), // labelRender(Sets.BrokenKeel, '10% CD'),
+      },
+      {
+        value: Sets.FleetOfTheAgeless,
+        desc: t('TeammateSets.Ageless.Desc'), // `${Sets.FleetOfTheAgeless} (+8% ATK)`,
+        label: labelRender(Sets.FleetOfTheAgeless, t('TeammateSets.Ageless.Text')), // labelRender(Sets.FleetOfTheAgeless, '8% ATK'),
+      },
+      {
+        value: Sets.PenaconyLandOfTheDreams,
+        desc: t('TeammateSets.Penacony.Desc'), // `${Sets.PenaconyLandOfTheDreams} (+10% DMG for same element)`,
+        label: labelRender(Sets.PenaconyLandOfTheDreams, t('TeammateSets.Penacony.Text')), // labelRender(Sets.PenaconyLandOfTheDreams, '10% DMG'),
+      },
+      {
+        value: Sets.LushakaTheSunkenSeas,
+        desc: t('TeammateSets.Lushaka.Desc'), // `${Sets.LushakaTheSunkenSeas} (+12% ATK)`,
+        label: labelRender(Sets.LushakaTheSunkenSeas, t('TeammateSets.Lushaka.Text')), // labelRender(Sets.LushakaTheSunkenSeas, '12% ATK'),
+      },
+    ]
+  }, [t])
+
+  const superimpositionOptions = useMemo(() => {
+    const options: { value: number; label: string }[] = []
+    for (let i = 1; i <= 5; i++) {
+      options.push({ value: i, label: t('SuperimpositionN', { superimposition: i }) })
+    }
+    return options
+  }, [t])
+
+  const eidolonOptions = useMemo(() => {
+    const options: { value: number; label: string }[] = []
+    for (let i = 0; i <= 6; i++) {
+      options.push({ value: i, label: t('EidolonN', { eidolon: i }) })
+    }
+    return options
+  }, [t])
 
   function updateTeammate() {
     window.store.getState().setTeammateCount(countTeammates())
@@ -246,7 +264,7 @@ const TeammateCard = (props: { index: number }) => {
             disabled={disabled}
             onClick={() => {
               updateTeammate()
-              Message.success('Synced teammate info')
+              Message.success(t('TeammateSyncSuccessMessage'))// 'Synced teammate info')
             }}
           />
 
@@ -255,7 +273,7 @@ const TeammateCard = (props: { index: number }) => {
               showSearch
               style={{ width: 110 }}
               options={eidolonOptions}
-              placeholder='Eidolon'
+              placeholder={t('EidolonPlaceholder')}// 'Eidolon'
               disabled={disabled}
             />
           </Form.Item>
@@ -285,7 +303,7 @@ const TeammateCard = (props: { index: number }) => {
                 className='teammate-set-select'
                 style={{ width: 110 }}
                 options={teammateRelicSetOptions}
-                placeholder='Relics'
+                placeholder={t('RelicsPlaceholder')}// 'Relics'
                 allowClear
                 popupMatchSelectWidth={false}
                 optionLabelProp='label'
@@ -299,7 +317,7 @@ const TeammateCard = (props: { index: number }) => {
                 className='teammate-set-select'
                 style={{ width: 110 }}
                 options={teammateOrnamentSetOptions}
-                placeholder='Ornaments'
+                placeholder={t('OrnamentsPlaceholder')}// 'Ornaments'
                 allowClear
                 popupMatchSelectWidth={false}
                 optionLabelProp='label'
@@ -328,7 +346,7 @@ const TeammateCard = (props: { index: number }) => {
               showSearch
               style={{ width: 110 }}
               options={superimpositionOptions}
-              placeholder='Superimposition'
+              placeholder={t('SuperimpositionPlaceholder')}// 'Superimposition'
               disabled={disabled}
             />
           </Form.Item>

@@ -20,8 +20,8 @@ function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithP
     )
     return (
       <Popover
-        trigger="hover"
-        placement="left"
+        trigger='hover'
+        placement='left'
         content={content}
         title={props.title}
         open={open}

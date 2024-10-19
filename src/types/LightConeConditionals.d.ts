@@ -4,7 +4,7 @@ import { Conditional, ConditionalBuff } from 'types/Conditionals'
 export interface LightConeConditional extends Conditional {
 }
 
-export type ConditionalLightConeMap = {
+export type LightConeConditionalMap = {
   [key in ConditionalBuff]: number;
 }
 

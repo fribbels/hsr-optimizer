@@ -1,13 +1,15 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Serval')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const talentExtraDmgScaling = talent(e, 0.72, 0.792)
@@ -22,17 +24,17 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'targetShocked',
       name: 'targetShocked',
-      text: 'Target shocked',
-      title: 'Target shocked',
-      content: `After Serval attacks, deals Additional Lightning DMG equal to ${precisionRound(talentExtraDmgScaling * 100)}% of Serval's ATK to all Shocked enemies.`,
+      text: t('Content.targetShocked.text'),
+      title: t('Content.targetShocked.title'),
+      content: t('Content.targetShocked.content', { talentExtraDmgScaling: TsUtils.precisionRound(100 * talentExtraDmgScaling) }),
     },
     {
       formItem: 'switch',
       id: 'enemyDefeatedBuff',
       name: 'enemyDefeatedBuff',
-      text: 'Enemy defeated buff',
-      title: 'Enemy defeated buff',
-      content: `Upon defeating an enemy, ATK increases by 20% for 2 turn(s).`,
+      text: t('Content.enemyDefeatedBuff.text'),
+      title: t('Content.enemyDefeatedBuff.title'),
+      content: t('Content.enemyDefeatedBuff.content'),
     },
   ]
 
@@ -44,8 +46,8 @@ export default (e: Eidolon): CharacterConditional => {
       enemyDefeatedBuff: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += (r.enemyDefeatedBuff) ? 0.20 : 0
@@ -70,8 +72,6 @@ export default (e: Eidolon): CharacterConditional => {
       x.DOT_CHANCE = 0.65
 
       return x
-    },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
     finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

@@ -1,7 +1,7 @@
-import DB from 'lib/db'
 import { Flex } from 'antd'
 import { Assets } from 'lib/assets'
 import { Character } from 'types/Character'
+import i18next from 'i18next'
 
 type GenerateCharacterListProps = {
   currentCharacters: Character[]
@@ -25,23 +25,21 @@ export function generateCharacterList(
     ...props,
   }
 
-  const characterData = DB.getMetadata().characters
-
   const options = currentCharacters
     .filter((character) => !excludeCharacters.includes(character))
     .map((character) => ({
       value: character.id,
       label:
         (
-          <Flex gap={5} align="center">
+          <Flex gap={5} align='center'>
             <img
               src={Assets.getCharacterAvatarById(character.id)}
               style={{ height: 22, marginRight: 4 }}
             />
-            {characterData[character.id].displayName}
+            {i18next.t(`gameData:Characters.${character.id}.Name`)}
           </Flex>
         ),
-      title: characterData[character.id].displayName,
+      title: i18next.t(`gameData:Characters.${character.id}.Name`),
     }))
     .sort((a, b) => a.title.localeCompare(b.title))
 

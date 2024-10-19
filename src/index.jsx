@@ -1,9 +1,10 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ErrorBoundary } from 'react-error-boundary'
 import 'style/style.css'
 import 'style/hsro.css'
-import App from './App'
+import WrappedApp from './App'
+import 'lib/i18n'
+
 import { WorkerPool } from 'lib/workerPool'
 import { Constants } from 'lib/constants'
 import { DataParser } from 'lib/dataParser'
@@ -25,6 +26,8 @@ import { Typography } from 'antd'
 import { RelicRollFixer } from 'lib/relicRollFixer'
 import { Themes } from 'lib/theme'
 import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
+import 'overlayscrollbars/overlayscrollbars.css';
+import { OverlayScrollbars } from 'overlayscrollbars';
 
 window.WorkerPool = WorkerPool
 window.Constants = Constants
@@ -56,9 +59,11 @@ const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {err
 document.addEventListener('DOMContentLoaded', function () {
   const root = ReactDOM.createRoot(document.getElementById('root'))
 
+  OverlayScrollbars(document.body, {});
+
   root.render(
     <ErrorBoundary fallbackRender={defaultErrorRender}>
-      <App/>
+      <WrappedApp/>
     </ErrorBoundary>,
   )
 })

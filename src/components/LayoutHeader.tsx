@@ -49,14 +49,21 @@ export function LayoutHeader() {
           </a>
         </Flex>
         <Flex>
+          {/* Disabling temporarily until translations are done */}
+          {/*<LanguageSelector style={{ width: 60, marginRight: 6, height: 36 }} dropdownStyle={{ width: 210 }} flagOnly placement='bottomRight'/>*/}
           <a href='https://ko-fi.com/fribbels' target='_blank' rel='noreferrer'>
             <Flex>
               <img src={Assets.getKofi()} style={{ height: 36, marginRight: 6, borderRadius: 5 }}></img>
             </Flex>
           </a>
+          <a href='https://github.com/fribbels/hsr-optimizer' target='_blank' rel='noreferrer'>
+            <Flex>
+              <img src={Assets.getGithub()} style={{ height: 36, marginRight: 6, borderRadius: 5 }}></img>
+            </Flex>
+          </a>
           <a href='https://discord.gg/rDmB4Un7qg' target='_blank' rel='noreferrer'>
             <Flex>
-              <img src={Assets.getDiscord()} style={{ height: 36, marginRight: 6, borderRadius: 5 }}></img>
+              <img src={Assets.getDiscord()} style={{ height: 36, marginRight: 8, borderRadius: 5 }}></img>
             </Flex>
           </a>
         </Flex>

@@ -1,42 +1,24 @@
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
-import getContentFromLCRanks from '../getContentFromLCRank'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals'
+import { LightConeConditional } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.EchoesOfTheCoffin')
   const sValues = [12, 14, 16, 18, 20]
-
-  const lcRank: LightConeRawRank = {
-    id: '23008',
-    skill: 'Thorns',
-    desc: 'After the wearer uses an attack, for each different enemy target the wearer hits, regenerates #3[f1] Energy. Each attack can regenerate Energy up to #4[i] time(s) this way. After the wearer uses their Ultimate, all allies gain #2[i] SPD for 1 turn.',
-    params: [
-      [0.24, 12, 3, 3],
-      [0.28, 14, 3.5, 3],
-      [0.32, 16, 4, 3],
-      [0.36, 18, 4.5, 3],
-      [0.4, 20, 5, 3],
-    ],
-    properties: [
-      [{ type: 'AttackAddedRatio', value: 0.24 }],
-      [{ type: 'AttackAddedRatio', value: 0.28 }],
-      [{ type: 'AttackAddedRatio', value: 0.32 }],
-      [{ type: 'AttackAddedRatio', value: 0.36 }],
-      [{ type: 'AttackAddedRatio', value: 0.4 }],
-    ],
-  }
+  const sValuesEnergy = [3, 3.5, 4, 4.5, 5]
 
   const content: ContentItem[] = [{
     lc: true,
     id: 'postUltSpdBuff',
     name: 'postUltSpdBuff',
     formItem: 'switch',
-    text: 'Post ult SPD buff',
-    title: lcRank.skill,
-    content: getContentFromLCRanks(s, lcRank),
+    text: t('Content.postUltSpdBuff.text'),
+    title: t('Content.postUltSpdBuff.title'),
+    content: t('Content.postUltSpdBuff.content', { EnergyRecovered: TsUtils.precisionRound(sValuesEnergy[s]), SpdBuff: TsUtils.precisionRound(sValues[s]) }),
   }]
 
   return {
@@ -50,8 +32,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     }),
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals
 
       x[Stats.SPD] += (m.postUltSpdBuff) ? sValues[s] : 0
     },

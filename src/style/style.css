@@ -18,6 +18,7 @@ body,
     margin: 0;
     height: 100vh !important;
     min-width: fit-content !important;
+    overflow: visible !important;
 }
 
 .test {
@@ -72,7 +73,6 @@ body,
 }
 
 .ag-icon {
-    line-height: 14px !important;
     font-weight: 400 !important;
 }
 
@@ -469,4 +469,122 @@ a {
 .teamSelectionCard > .ant-card-body {
     padding-left: 5px !important;
     padding-right: 5px !important;
+}
+
+.selection-area {
+    background: rgba(46, 115, 252, 0.11);
+    border: 2px solid rgba(98, 155, 255, 0.81);
+    border-radius: 0.1em;
+}
+
+.selectable {
+    width: 50px;
+    border: 1px dashed #000000;
+    background: #0a1b4533;
+}
+
+.unselectable {
+    width: 50px;
+    border: 1px dashed #000000;
+    background: #0a1b4533;
+}
+
+.selectable:not(.selected):not(.defaultShaded):hover {
+    background: rgba(104, 166, 255, 0.09);
+}
+
+.selectable.selected:not(.defaultShaded):hover {
+    background: #5793ea;
+}
+
+.container {
+    user-select: none;
+}
+
+.selected {
+    background: #68a6ff;
+}
+
+.partitionShaded {
+    background: #5085ff;
+}
+
+.partitionShaded.selected:not(.defaultShaded):hover {
+    background: #4476e8;
+}
+
+.selecto-selection {
+    display: none !important; /* Red Color with half opacity */
+}
+
+.defaultShaded {
+    background-image: repeating-linear-gradient(
+            25deg,
+            rgba(255, 255, 255, 0.33),
+            rgba(255, 255, 255, 0.33) 4px,
+            transparent 4px,
+            transparent 8px
+    );
+    background-blend-mode: overlay;
+}
+
+.disabledSelect {
+    /*background-image: repeating-linear-gradient(*/
+    /*        25deg,*/
+    /*        rgba(255, 255, 255, 0.33),*/
+    /*        rgba(255, 255, 255, 0.33) 4px,*/
+    /*        transparent 4px,*/
+    /*        transparent 8px*/
+    /*);*/
+    /*background-blend-mode: overlay;*/
+    width: 50px;
+    border: 1px dashed #000000;
+    background: #3b48678f;
+}
+
+.comboSegmented {
+    background: rgba(0, 0, 0, 0);
+    color: rgba(232, 232, 232, 0.15)
+}
+
+.comboSegmented label.ant-segmented-item-selected {
+    color: #ffffff !important;
+    background: #5d8dff4a !important;
+}
+
+.comboSegmented .ant-segmented-item-label {
+    padding: 0 0px;
+    min-height: 18px !important;
+    line-height: 18px !important;
+}
+
+/* Body scrollbar with overlayscrollbars */
+.os-scrollbar {
+    --os-handle-bg: #95959552 !important;
+    --os-size: 8px !important;
+}
+
+/* Hides pinned bar scrollbar */
+.ag-floating-top {
+    overflow-y: hidden !important;
+}
+
+/* Sets small scrollbar */
+.ag-body-vertical-scroll,
+.ag-body-vertical-scroll-viewport,
+.ag-body-vertical-scroll-container {
+    width: 4px !important;
+    max-width: 4px !important;
+    min-width: 4px !important;
+    margin-right: 2px !important;
+}
+
+/* Customize scrollbar */
+.ag-body-vertical-scroll-viewport::-webkit-scrollbar {
+    width: 4px;
+}
+
+.ag-body-vertical-scroll-viewport::-webkit-scrollbar-thumb {
+    background-color: #95959552;
+    border-radius: 4px !important;
 }

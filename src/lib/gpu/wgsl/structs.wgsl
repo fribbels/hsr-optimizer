@@ -21,8 +21,7 @@ struct Relic {
   Wind_DMG: f32,
   Quantum_DMG: f32,
   Imaginary_DMG: f32,
-  relicSet: f32,
-  weightScore: f32, // 23
+  relicSet: f32, // 22
 }
 
 struct BasicStats {
@@ -48,7 +47,6 @@ struct BasicStats {
   Wind_DMG: f32,
   Quantum_DMG: f32,
   Imaginary_DMG: f32,
-  weightScore: f32,
 }
 
 struct Sets {
@@ -92,6 +90,37 @@ struct Sets {
   ForgeOfTheKalpagniLantern: i32,
   LushakaTheSunkenSeas: i32,
   TheWondrousBananAmusementPark: i32,
+}
+
+struct SetConditionals {
+  enabledHunterOfGlacialForest: bool,
+  enabledFiresmithOfLavaForging: bool,
+  enabledGeniusOfBrilliantStars: bool,
+  enabledBandOfSizzlingThunder: bool,
+  enabledMessengerTraversingHackerspace: bool,
+  enabledCelestialDifferentiator: bool,
+  enabledWatchmakerMasterOfDreamMachinations: bool,
+  enabledIzumoGenseiAndTakamaDivineRealm: bool,
+  enabledForgeOfTheKalpagniLantern: bool,
+  enabledTheWindSoaringValorous: bool,
+  enabledTheWondrousBananAmusementPark: bool,
+  enabledScholarLostInErudition: bool,
+  valueChampionOfStreetwiseBoxing: i32,
+  valueWastelanderOfBanditryDesert: i32,
+  valueLongevousDisciple: i32,
+  valueTheAshblazingGrandDuke: i32,
+  valuePrisonerInDeepConfinement: i32,
+  valuePioneerDiverOfDeadWaters: i32,
+  valueSigoniaTheUnclaimedDesolation: i32,
+  valueDuranDynastyOfRunningWolves: i32,
+  valueSacerdosRelivedOrdeal: i32
+}
+
+struct Action {
+  abilityType: i32,
+  setConditionals: SetConditionals,
+  x: ComputedStats,
+  state: ConditionalState,
 }
 
 struct Params {

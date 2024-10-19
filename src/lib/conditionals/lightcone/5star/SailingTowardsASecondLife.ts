@@ -1,16 +1,15 @@
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Stats } from 'lib/constants'
-import { precisionRound } from 'lib/conditionals/conditionalUtils'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.SailingTowardsASecondLife')
   const sValuesSpdBuff = [0.12, 0.14, 0.16, 0.18, 0.20]
   const sValuesDefShred = [0.20, 0.23, 0.26, 0.29, 0.32]
 
@@ -20,18 +19,18 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'breakDmgDefShred',
       name: 'breakDmgDefShred',
       formItem: 'switch',
-      text: 'Break DMG DEF shred',
-      title: 'Break DMG DEF shred',
-      content: `The Break DMG dealt by the wearer ignores ${precisionRound(sValuesDefShred[s] * 100)}% of the target's DEF.`,
+      text: t('Content.breakDmgDefShred.text'),
+      title: t('Content.breakDmgDefShred.title'),
+      content: t('Content.breakDmgDefShred.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefShred[s]) }),
     },
     {
       lc: true,
       id: 'spdBuffConditional',
       name: 'spdBuffConditional',
       formItem: 'switch',
-      text: 'BE ≥ 150 SPD buff',
-      title: 'BE ≥ 150 SPD buff',
-      content: `When the wearer's Break Effect in battle is at 150% or greater, increases their SPD by ${precisionRound(sValuesSpdBuff[s] * 100)}%.`,
+      text: t('Content.spdBuffConditional.text'),
+      title: t('Content.spdBuffConditional.title'),
+      content: t('Content.spdBuffConditional.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpdBuff[s]) }),
     },
   ]
 
@@ -41,11 +40,11 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       breakDmgDefShred: true,
       spdBuffConditional: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
       buffAbilityDefPen(x, BREAK_TYPE, sValuesDefShred[s], (r.breakDmgDefShred))
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
     dynamicConditionals: [
       {
@@ -53,15 +52,15 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.BE],
-        condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-          const r = request.lightConeConditionals
+        condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.lightConeConditionals
 
           return r.spdBuffConditional && x[Stats.BE] >= 1.50
         },
-        effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => {
-          buffStat(x, request, params, Stats.SPD, (sValuesSpdBuff[s]) * request.baseSpd)
+        effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+          buffStat(x, Stats.SPD, (sValuesSpdBuff[s]) * context.baseSPD, action, context)
         },
-        gpu: function () {
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
           return conditionalWgslWrapper(this, `
 if (
   (*p_state).SailingTowardsASecondLifeConditional == 0.0 &&

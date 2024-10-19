@@ -1,0 +1,170 @@
+CapitalizeString: '{{string, capitalize}}'
+Relic_one: '$t(CapitalizeString, {"string": "relic"})'
+Relic_other: '$t(CapitalizeString, {"string": "relics"})'
+RelicWithCount_one: '{{count}} $t(CapitalizeString, {"string": "relic"})'
+RelicWithCount_other: '{{count}} $t(CapitalizeString, {"string": "relics"})'
+Lightcone_one: '$t(CapitalizeString, {"string": "light cone"})'
+Lightcone_other: '$t(CapitalizeString, {"string": "light cones"})'
+LightconeWithCount_one: '{{count}} $t(CapitalizeString, {"string": "light cone"})'
+LightconeWithCount_other: '{{count}} $t(CapitalizeString, {"string": "light cones"})'
+ThousandsSuffix: K
+DecimalSeparator: .
+ThousandsSeparator: ','
+I18nNumber: '{{value, number}}'
+Cancel: '$t(CapitalizeString, {"string": "cancel"})'
+Confirm: '$t(CapitalizeString, {"string": "confirm"})'
+Submit: '$t(CapitalizeString, {"string": "submit"})'
+Ok: '$t(CapitalizeString, {"string": "ok"})'
+'Yes': '$t(CapitalizeString, {"string": "yes"})'
+'No': '$t(CapitalizeString, {"string": "no"})'
+Save: '$t(CapitalizeString, {"string": "save"})'
+Score: '$t(CapitalizeString, {"string": "score"})'
+Reset: '$t(CapitalizeString, {"string": "reset"})'
+Maximum: '$t(CapitalizeString, {"string": "maximum"})'
+Minimum: '$t(CapitalizeString, {"string": "minimum"})'
+EidolonNShort: E{{eidolon}}
+SuperimpositionNShort: S{{superimposition}}
+LevelShort: Lv{{level}}
+CharacterWithCount_one: '{{count}} $t(CapitalizeString, {"string": "character"})'
+CharacterWithCount_other: '{{count}} $t(CapitalizeString, {"string": "characters"})'
+Character_one: '$t(CapitalizeString, {"string": "character"})'
+Character_other: '$t(CapitalizeString, {"string": "characters"})'
+VerifiedRelicHoverText: Relic substats verified by relic scorer (speed decimals)
+CombatStats: Combat Stats
+Parts:
+  Head: Head
+  Hands: Hands
+  Body: Body
+  Feet: Feet
+  PlanarSphere: Planar Sphere
+  LinkRope: Link Rope
+ReadableParts:
+  Head: Head
+  Hands: Hands
+  Body: Body
+  Feet: Feet
+  PlanarSphere: Sphere
+  LinkRope: Rope
+Stats:
+  HP%: HP%
+  HP: HP
+  ATK%: ATK%
+  ATK: ATK
+  DEF%: DEF%
+  DEF: DEF
+  SPD%: SPD%
+  SPD: SPD
+  CRIT Rate: CRIT Rate
+  CRIT DMG: CRIT DMG
+  Effect Hit Rate: Effect Hit Rate
+  Effect RES: Effect RES
+  Break Effect: Break Effect
+  Energy Regeneration Rate: Energy Regeneration Rate
+  Outgoing Healing Boost: Outgoing Healing Boost
+  Physical DMG Boost: $t(gameData:Elements.Physical) DMG Boost
+  Fire DMG Boost: $t(gameData:Elements.Fire) DMG Boost
+  Ice DMG Boost: $t(gameData:Elements.Ice) DMG Boost
+  Lightning DMG Boost: $t(gameData:Elements.Thunder) DMG Boost
+  Wind DMG Boost: $t(gameData:Elements.Wind) DMG Boost
+  Quantum DMG Boost: $t(gameData:Elements.Quantum) DMG Boost
+  Imaginary DMG Boost: $t(gameData:Elements.Imaginary) DMG Boost
+ShortStats:
+  HP%: HP%
+  HP: HP
+  ATK%: ATK%
+  ATK: ATK
+  DEF%: DEF%
+  DEF: DEF
+  SPD%: SPD%
+  SPD: SPD
+  CRIT Rate: CR
+  CRIT DMG: CD
+  Effect Hit Rate: EHR
+  Effect RES: RES
+  Break Effect: BE
+  Energy Regeneration Rate: ERR
+  Outgoing Healing Boost: OHB
+  Physical DMG Boost: $t(gameData:Elements.Physical)
+  Fire DMG Boost: $t(gameData:Elements.Fire)
+  Ice DMG Boost: $t(gameData:Elements.Ice)
+  Lightning DMG Boost: $t(gameData:Elements.Thunder)
+  Wind DMG Boost: $t(gameData:Elements.Wind)
+  Quantum DMG Boost: $t(gameData:Elements.Quantum)
+  Imaginary DMG Boost: $t(gameData:Elements.Imaginary)
+ShortSpacedStats:
+  HP%: HP %
+  HP: HP
+  ATK%: ATK %
+  ATK: ATK
+  DEF%: DEF %
+  DEF: DEF
+  SPD%: SPD %
+  SPD: SPD
+  CRIT Rate: CR
+  CRIT DMG: CD
+  Effect Hit Rate: EHR
+  Effect RES: RES
+  Break Effect: BE
+  Energy Regeneration Rate: ERR
+  Outgoing Healing Boost: OHB
+  Physical DMG Boost: $t(gameData:Elements.Physical)
+  Fire DMG Boost: $t(gameData:Elements.Fire)
+  Ice DMG Boost: $t(gameData:Elements.Ice)
+  Lightning DMG Boost: $t(gameData:Elements.Thunder)
+  Wind DMG Boost: $t(gameData:Elements.Wind)
+  Quantum DMG Boost: $t(gameData:Elements.Quantum)
+  Imaginary DMG Boost: $t(gameData:Elements.Imaginary)
+ReadableStats:
+  HP%: HP %
+  HP: HP
+  ATK%: ATK %
+  ATK: ATK
+  DEF%: DEF %
+  DEF: DEF
+  SPD%: SPD %
+  SPD: SPD
+  CRIT Rate: CRIT Rate
+  CRIT DMG: CRIT DMG
+  Effect Hit Rate: Effect HIT
+  Effect RES: Effect RES
+  Break Effect: Break Effect
+  Energy Regeneration Rate: Energy Regen
+  Outgoing Healing Boost: Healing Boost
+  Physical DMG Boost: $t(gameData:Elements.Physical) DMG
+  Fire DMG Boost: $t(gameData:Elements.Fire) DMG
+  Ice DMG Boost: $t(gameData:Elements.Ice) DMG
+  Lightning DMG Boost: $t(gameData:Elements.Thunder) DMG
+  Wind DMG Boost: $t(gameData:Elements.Wind) DMG
+  Quantum DMG Boost: $t(gameData:Elements.Quantum) DMG
+  Imaginary DMG Boost: $t(gameData:Elements.Imaginary) DMG
+ShortReadableStats:
+  HP%: HP %
+  HP: HP
+  ATK%: ATK %
+  ATK: ATK
+  DEF%: DEF %
+  DEF: DEF
+  SPD%: SPD %
+  SPD: SPD
+  CRIT Rate: CRIT Rate
+  CRIT DMG: CRIT DMG
+  Effect Hit Rate: HIT
+  Effect RES: RES
+  Break Effect: Break
+  Energy Regeneration Rate: Energy
+  Outgoing Healing Boost: Healing
+  Physical DMG Boost: $t(gameData:Elements.Physical)
+  Fire DMG Boost: $t(gameData:Elements.Fire)
+  Ice DMG Boost: $t(gameData:Elements.Ice)
+  Lightning DMG Boost: $t(gameData:Elements.Thunder)
+  Wind DMG Boost: $t(gameData:Elements.Wind)
+  Quantum DMG Boost: $t(gameData:Elements.Quantum)
+  Imaginary DMG Boost: $t(gameData:Elements.Imaginary)
+DMGTypes:
+  simScore: Combo DMG
+  BASIC: Basic Damage
+  ULT: Ult Damage
+  SKILL: Skill Damage
+  FUA: FUA Damage
+  DOT: DoT Damage
+  CV: CV

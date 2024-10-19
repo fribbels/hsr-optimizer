@@ -1,14 +1,16 @@
 import { Stats } from 'lib/constants'
 import { BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityResPen } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.ImbibitorLunae')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const righteousHeartStackMax = (e >= 1) ? 10 : 6
@@ -26,40 +28,36 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'slider',
     id: 'basicEnhanced',
     name: 'basicEnhanced',
-    text: 'Basic enhancements',
-    title: 'Basic enhancements',
-    content: `0 stack(s): Uses a 2-hit attack and deals Imaginary DMG equal to ${precisionRound(basicScaling * 100)}% ATK to a single enemy target.
-    ::BR::1 stack(s): Uses a 3-hit attack and deals Imaginary DMG equal to ${precisionRound(basicEnhanced1Scaling * 100)}% ATK to a single enemy target.
-    ::BR::2 stack(s): Uses a 5-hit attack and deals Imaginary DMG equal to ${precisionRound(basicEnhanced2Scaling * 100)}% ATK to a single enemy target and reduced DMG to adjacent targets.
-    ::BR::3 stack(s): Uses a 7-hit attack and deals Imaginary DMG equal to ${precisionRound(basicEnhanced3Scaling * 100)}% ATK to a single enemy target and reduced DMG to adjacent targets.`,
+    text: t('Content.basicEnhanced.text'),
+    title: t('Content.basicEnhanced.title'),
+    content: t('Content.basicEnhanced.content', { basicScaling: TsUtils.precisionRound(100 * basicScaling), basicEnhanced1Scaling: TsUtils.precisionRound(100 * basicEnhanced1Scaling), basicEnhanced2Scaling: TsUtils.precisionRound(100 * basicEnhanced2Scaling), basicEnhanced3Scaling: TsUtils.precisionRound(100 * basicEnhanced3Scaling) }),
     min: 0,
     max: 3,
   }, {
     formItem: 'slider',
     id: 'skillOutroarStacks',
     name: 'skillOutroarStacks',
-    text: 'Outroar stacks',
-    title: 'Outroar stacks',
-    content: `Divine Spear or Fulgurant Leap, starting from the fourth hit, 1 stack of Outroar is gained before every hit. 
-    Each stack of Outroar increases Dan Heng • Imbibitor Lunae's CRIT DMG by ${precisionRound(outroarStackCdValue * 100)}%, for a max of 4 stacks. (applied to all hits)`,
+    text: t('Content.skillOutroarStacks.text'),
+    title: t('Content.skillOutroarStacks.title'),
+    content: t('Content.skillOutroarStacks.content', { outroarStackCdValue: TsUtils.precisionRound(100 * outroarStackCdValue) }),
     min: 0,
     max: 4,
   }, {
     formItem: 'slider',
     id: 'talentRighteousHeartStacks',
     name: 'talentRighteousHeartStacks',
-    text: 'Righteous Heart stacks',
-    title: 'Righteous Heart stacks',
-    content: `After each hit dealt during an attack, Dan Heng • Imbibitor Lunae gains 1 stack of Righteous Heart, increasing his DMG by ${precisionRound(righteousHeartDmgValue * 100)}%. (applied to all hits)`,
+    text: t('Content.talentRighteousHeartStacks.text'),
+    title: t('Content.talentRighteousHeartStacks.title'),
+    content: t('Content.talentRighteousHeartStacks.content', { righteousHeartDmgValue: TsUtils.precisionRound(100 * righteousHeartDmgValue) }),
     min: 0,
     max: righteousHeartStackMax,
   }, {
     formItem: 'slider',
     id: 'e6ResPenStacks',
     name: 'e6ResPenStacks',
-    text: 'E6 RES PEN stacks',
-    title: 'E6 RES PEN stacks',
-    content: `E6: After any other ally uses their Ultimate, the Imaginary RES PEN of Dan Heng • Imbibitor Lunae's next Fulgurant Leap attack increases by 20%, up to 3 stacks.`,
+    text: t('Content.e6ResPenStacks.text'),
+    title: t('Content.e6ResPenStacks.title'),
+    content: t('Content.e6ResPenStacks.content'),
     min: 0,
     max: 3,
     disabled: e < 6,
@@ -75,11 +73,11 @@ export default (e: Eidolon): CharacterConditional => {
       e6ResPenStacks: 3,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
-      x[Stats.CD] += (request.enemyElementalWeak) ? 0.24 : 0
+      x[Stats.CD] += (context.enemyElementalWeak) ? 0.24 : 0
       x[Stats.CD] += r.skillOutroarStacks * outroarStackCdValue
 
       // Scaling
@@ -101,7 +99,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
     finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

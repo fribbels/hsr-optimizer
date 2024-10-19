@@ -2,30 +2,23 @@ import structs from 'lib/gpu/wgsl/structs.wgsl?raw'
 import structComputedStats from 'lib/gpu/wgsl/structComputedStats.wgsl?raw'
 import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { Form } from 'types/Form'
-import { calculateConditionalRegistry, calculateConditionals } from 'lib/optimizer/calculateConditionals'
-import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
-import { injectPrecomputedStats } from 'lib/gpu/injection/injectPrecomputedStats'
 import { injectUtils } from 'lib/gpu/injection/injectUtils'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { Constants } from 'lib/constants'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
+import { OptimizerContext } from 'types/Optimizer'
 
-export function generateWgsl(params: OptimizerParams, request: Form, gpuParams: GpuConstants) {
-  calculateConditionals(request, params)
-  calculateConditionalRegistry(request, params)
-  calculateTeammates(request, params)
+export function generateWgsl(context: OptimizerContext, request: Form, gpuParams: GpuConstants) {
   let wgsl = ''
 
-  wgsl = injectSettings(wgsl, params, request)
+  wgsl = injectSettings(wgsl, context, request)
   wgsl = injectComputeShader(wgsl)
-  wgsl = injectConditionals(wgsl, request, params)
-  wgsl = injectPrecomputedStats(wgsl, params)
+  wgsl = injectConditionals(wgsl, request, context, gpuParams)
   wgsl = injectUtils(wgsl)
-  wgsl = injectGpuParams(wgsl, request, gpuParams)
+  wgsl = injectGpuParams(wgsl, request, context, gpuParams)
   wgsl = injectBasicFilters(wgsl, request, gpuParams)
   wgsl = injectCombatFilters(wgsl, request, gpuParams)
   wgsl = injectSetFilters(wgsl, gpuParams)
@@ -76,7 +69,10 @@ function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants
   const sortOptionComputed = SortOption[request.resultSort!].isComputedRating
   const filter = filterFn(request)
 
-  const sortString = sortOptionComputed ? `x.${sortOption} < threshold` : `c.${sortOption} < threshold`
+  let sortString = sortOptionComputed ? `x.${sortOption} < threshold` : `c.${sortOption} < threshold`
+  if (sortOption == SortOption.COMBO.key) {
+    sortString = ''
+  }
 
   const basicFilters = [
     filter('c.SPD < minSpd'),
@@ -109,10 +105,10 @@ if (statDisplay == 1) {
 ${format(basicFilters)}
   ) {
     results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
-    continue;
+    break;
   }
 }
-  `, 2))
+  `, 4))
 
   return wgsl
 }
@@ -144,8 +140,6 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.ERR > maxErr'),
     filter('x.EHP < minEhp'),
     filter('x.EHP > maxEhp'),
-    filter('x.WEIGHT < minWeight'),
-    filter('x.WEIGHT > maxWeight'),
     filter('x.BASIC_DMG < minBasic'),
     filter('x.BASIC_DMG > maxBasic'),
     filter('x.SKILL_DMG < minSkill'),
@@ -158,9 +152,7 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.DOT_DMG > maxDot'),
     filter('x.BREAK_DMG < minBreak'),
     filter('x.BREAK_DMG > maxBreak'),
-    filter('x.COMBO_DMG < minCombo'),
-    filter('x.COMBO_DMG > maxCombo'),
-    filter(`x.${sortOption} < threshold`),
+    sortOption == SortOption.COMBO.key ? '' : filter(`x.${sortOption} < threshold`),
   ].filter((str) => str.length > 0).join(' ||\n')
 
   // CTRL+ F: RESULTS ASSIGNMENT
@@ -170,23 +162,36 @@ if (statDisplay == 0) {
 ${format(combatFilters)}
   ) {
     results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
-    continue;
+    break;
   }
 }
-  `, 2))
+  `, 4))
 
   return wgsl
 }
 
-function injectGpuParams(wgsl: string, request: Form, gpuParams: GpuConstants) {
+function injectGpuParams(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const cyclesPerInvocation = gpuParams.DEBUG ? 1 : gpuParams.CYCLES_PER_INVOCATION
+
+  let debugValues = ''
+
+  if (gpuParams.DEBUG) {
+    debugValues = `
+const DEBUG_BASIC_COMBO: f32 = ${request.comboAbilities.filter(x => x == 'BASIC').length};
+const DEBUG_SKILL_COMBO: f32 = ${request.comboAbilities.filter(x => x == 'SKILL').length};
+const DEBUG_ULT_COMBO: f32 = ${request.comboAbilities.filter(x => x == 'ULT').length};
+const DEBUG_FUA_COMBO: f32 = ${request.comboAbilities.filter(x => x == 'FUA').length};
+`
+  }
 
   wgsl = wgsl.replace('/* INJECT GPU PARAMS */', `
 const WORKGROUP_SIZE = ${gpuParams.WORKGROUP_SIZE};
 const BLOCK_SIZE = ${gpuParams.BLOCK_SIZE};
 const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
 const DEBUG = ${gpuParams.DEBUG ? 1 : 0};
+${debugValues}
   `)
+
 
   if (gpuParams.DEBUG) {
     wgsl = wgsl.replace('/* INJECT RESULTS BUFFER */', `
@@ -207,8 +212,9 @@ const DEBUG = ${gpuParams.DEBUG ? 1 : 0};
   // CTRL+ F: RESULTS ASSIGNMENT
   if (gpuParams.DEBUG) {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
+x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
 results[index] = x; // DEBUG
-    `, 2))
+    `, 4))
   } else {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
 if (statDisplay == 0) {
@@ -218,7 +224,17 @@ if (statDisplay == 0) {
   results[index] = ${valueString};
   failures = 1;
 }
-    `, 2))
+    `, 4))
+  }
+
+  if (context.resultSort == SortOption.COMBO.key) {
+    wgsl = wgsl.replace('/* INJECT ACTION ITERATOR */', indent(`
+for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
+    `, 4))
+  } else {
+    wgsl = wgsl.replace('/* INJECT ACTION ITERATOR */', indent(`
+for (var actionIndex = 0; actionIndex < actionCount; actionIndex++) {
+    `, 4))
   }
 
   return wgsl

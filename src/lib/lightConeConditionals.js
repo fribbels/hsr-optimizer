@@ -243,7 +243,7 @@ export const lightConeOptionMapping = {
 }
 
 export const LightConeConditionals = {
-  get: (request) => {
+  get: (request, withContent = false) => {
     const lcFn = lightConeOptionMapping[request.lightCone]
     if (!lcFn) {
       return {
@@ -253,6 +253,6 @@ export const LightConeConditionals = {
         teammateDefaults: () => ({}),
       }
     }
-    return lcFn(request.lightConeSuperimposition - 1)
+    return lcFn(request.lightConeSuperimposition - 1, withContent)
   },
 }

@@ -1,0 +1,3274 @@
+Characters:
+  "1001":
+    Name: March 7th
+    Abilities:
+      "100101":
+        Name: Frigid Cold Arrow
+        Desc: <span>Mengakibatkan Ice DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "100102":
+        Name: The Power of Cuteness
+        Desc: <span></span><span style='color:#f29e38ff'>Memberikan Shield</span><span> pada 1 rekan tim.</span>
+        Type: Skill
+      "100103":
+        Name: Glacial Cascade
+        Desc: <span>Mengakibatkan Ice DMG pada </span><span style='color:#f29e38ff'>seluruh</span><span> musuh, dan </span><span style='color:#f29e38ff'>berpeluang untuk mengakibatkan status Frozen</span><span>.</span>
+        Type: Ultimate
+      "100104":
+        Name: Girl Power
+        Desc: <span>Saat rekan tim yang dilindungi Shield terkena serangan musuh, March 7th akan </span><span style='color:#f29e38ff'>segera melancarkan <u>Serangan Balasan</u> pada penyerang</span><span>, yang akan mengakibatkan Ice DMG dalam jumlah kecil.</span>
+        Type: Talent
+      "100106":
+        Name: Attack
+        Desc: ""
+      "100107":
+        Name: Freezing Beauty
+        Desc: <span>Menyerang musuh dan berpeluang besar untuk membuat 1 musuh secara acak memasuki status Frozen setelah memasuki pertempuran.</span>
+        Type: Technique
+    Eidolons:
+      "100101":
+        Name: Memory of You
+        Desc: <span>Memulihkan 6 Energy March 7th setiap kali Ultimate membekukan 1 target.</span>
+      "100102":
+        Name: Memory of It
+        Desc: <span>Saat memasuki pertempuran, memberikan Shield sebesar 24% DEF March 7th +320 pada rekan tim dengan persentase HP terendah selama 3 giliran.</span>
+      "100103":
+        Name: Memory of Everything
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "100104":
+        Name: Never Forfeit Again
+        Desc: <span>Jumlah efek Serangan Balasan dari Talent yang dapat dipicu setiap giliran bertambah 1 kali. Meningkatkan DMG dari Serangan Balasan sebesar 30% DEF March 7th.</span>
+      "100105":
+        Name: Never Forget Again
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "100106":
+        Name: "Just Like This, Always\_..."
+        Desc: <span>Rekan tim yang dilindungi Shield dari Skill ini akan memulihkan HP sebesar 4% Max HP masing-masing +106 setiap saat gilirannya dimulai.</span>
+  "1002":
+    Name: Dan Heng
+    Abilities:
+      "100201":
+        Name: "Cloudlancer Art: North Wind"
+        Desc: <span>Mengakibatkan Wind DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "100202":
+        Name: "Cloudlancer Art: Torrent"
+        Desc: <span>Mengakibatkan Wind DMG pada 1 musuh. Berpeluang memberikan status Slow jika memicu CRIT Hit.</span>
+        Type: Skill
+      "100203":
+        Name: Ethereal Dream
+        Desc: <span>Mengakibatkan Wind DMG dalam jumlah besar pada 1 musuh, meningkatkan DMG Multiplier jika musuh berstatus Slow.</span>
+        Type: Ultimate
+      "100204":
+        Name: Superiority of Reach
+        Desc: <span>Saat menjadi target Kemampuan rekan tim, </span><span style='color:#f29e38ff'>Wind <u>RES PEN</u> dari serangan berikutnya akan meningkat</span><span>. Efek ini dapat terpicu lagi setelah 2 giliran.</span>
+        Type: Talent
+      "100206":
+        Name: Attack
+        Desc: ""
+      "100207":
+        Name: Splitting Spearhead
+        Desc: <span>Saat menggunakan Technique, ATK akan meningkat setelah memasuki pertempuran berikutnya.</span>
+        Type: Technique
+    Eidolons:
+      "100201":
+        Name: The Higher You Fly, the Harder You Fall
+        Desc: <span>Saat persentase HP target musuh yang diserang lebih dari atau sama dengan 50%, CRIT Rate meningkat 12%.</span>
+      "100202":
+        Name: Quell the Venom Octet, Quench the Vice O'Flame
+        Desc: <span>Durasi CD Talent berkurang 1 giliran.</span>
+      "100203":
+        Name: Seen and Unseen
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "100204":
+        Name: Roaring Dragon and Soaring Sun
+        Desc: <span>Saat Dan Heng melancarkan Ultimate untuk mengalahkan target musuh, Dan Heng akan segera beraksi kembali.</span>
+      "100205":
+        Name: A Drop of Rain Feeds a Torrent
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "100206":
+        Name: The Troubled Soul Lies in Wait
+        Desc: <span>Status Slow yang dipicu Skill mengurangi 8% SPD tambahan pada musuh.</span>
+  "1003":
+    Name: Himeko
+    Abilities:
+      "100301":
+        Name: Sawblade Tuning
+        Desc: <span>Mengakibatkan Fire DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "100302":
+        Name: Molten Detonation
+        Desc: <span>Mengakibatkan Fire DMG pada 1 target musuh dan Fire DMG dalam jumlah kecil pada musuh di sekitar target.</span>
+        Type: Skill
+      "100303":
+        Name: Heavenly Flare
+        Desc: <span>Mengakibatkan Fire DMG pada seluruh musuh dan memulihkan Energy jika ada musuh yang dikalahkan.</span>
+        Type: Ultimate
+      "100304":
+        Name: Victory Rush
+        Desc: <span>Mendapatkan Charge saat ada musuh yang terkena Weakness Break.<br>Jika Charge penuh setelah rekan tim menyerang, akan </span><span style='color:#f29e38ff'>segera memicu <u>Serangan Lanjutan</u></span><span> yang mengakibatkan Fire DMG pada </span><span style='color:#f29e38ff'>seluruh musuh</span><span> dan mengonsumsi semua poin Charge.<br>Memperoleh 1 Charge saat pertempuran dimulai.</span>
+        Type: Talent
+      "100306":
+        Name: Attack
+        Desc: ""
+      "100307":
+        Name: Incomplete Combustion
+        Desc: <span>Menciptakan dimensi khusus. Setelah memasuki pertempuran dengan musuh dalam dimensi khusus, berpeluang besar untuk </span><span style='color:#f29e38ff'>meningkatkan Fire DMG yang diterima</span><span> oleh target musuh.</span>
+        Type: Technique
+    Eidolons:
+      "100301":
+        Name: Childhood
+        Desc: <span>Setelah "Victory Rush" terpicu, meningkatkan 20% SPD Himeko selama 2 giliran.</span>
+      "100302":
+        Name: Convergence
+        Desc: <span>Meningkatkan 15% DMG pada target musuh yang persentase HP-nya kurang dari atau sama dengan 50%.</span>
+      "100303":
+        Name: Poised
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "100304":
+        Name: Dedication
+        Desc: <span>Saat Skill mengakibatkan Weakness Break pada target musuh, Himeko akan memperoleh 1 Charge tambahan.</span>
+      "100305":
+        Name: Aspiration
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "100306":
+        Name: Trailblaze!
+        Desc: <span>Ultimate mengakibatkan 2 kali tambahan DMG pada musuh secara acak, masing-masing mengakibatkan Fire DMG sebesar 40% dari DMG aslinya.</span>
+  "1004":
+    Name: Welt
+    Abilities:
+      "100401":
+        Name: Gravity Suppression
+        Desc: <span>Mengakibatkan Imaginary DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "100402":
+        Name: Edge of the Void
+        Desc: <span>Mengakibatkan Imaginary DMG dalam jumlah kecil pada 1 musuh, total Bounce 3 kali dan berpeluang untuk </span><span style='color:#f29e38ff'>memberikan status Slow</span><span> pada target.</span>
+        Type: Skill
+      "100403":
+        Name: Synthetic Black Hole
+        Desc: <span>Mengakibatkan Imaginary DMG pada seluruh musuh dan </span><span style='color:#f29e38ff'>berpeluang besar memberikan status Imprisonment pada musuh</span><span>.</span>
+        Type: Ultimate
+      "100404":
+        Name: Time Distortion
+        Desc: <span>Saat menyerang target musuh berstatus Slow, akan </span><span style='color:#f29e38ff'>mengakibatkan Imaginary <u>DMG Tambahan</u> dalam jumlah kecil</span><span>.</span>
+        Type: Talent
+      "100406":
+        Name: Attack
+        Desc: ""
+      "100407":
+        Name: Gravitational Imprisonment
+        Desc: <span>Menciptakan dimensi khusus. Movement SPD musuh dalam dimensi khusus akan berkurang. Setelah memasuki pertempuran dengan musuh dalam dimensi khusus, </span><span style='color:#f29e38ff'>berpeluang besar untuk membuat target musuh memasuki status Imprisonment</span><span>.</span>
+        Type: Technique
+    Eidolons:
+      "100401":
+        Name: Legacy of Honor
+        Desc: <span>Setelah melancarkan Ultimate, Welt akan mendapat peningkatan kekuatan. 2 Basic Attack atau Skill setelahnya akan mengakibatkan 1 kali DMG Tambahan pada target musuh. DMG Multiplier dari DMG Tambahan yang disebabkan Basic Attack adalah 50% dari DMG Multiplier Basic Attack Welt, sedangkan DMG Multiplier dari DMG Tambahan yang disebabkan Skill adalah 80% dari DMG Multiplier Skill Welt.</span>
+      "100402":
+        Name: Conflux of Stars
+        Desc: <span>Memulihkan 3 Energy Welt saat Talent terpicu.</span>
+      "100403":
+        Name: Prayer of Peace
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "100404":
+        Name: Appellation of Justice
+        Desc: <span>Saat melancarkan Skill, meningkatkan 35% peluang dasar untuk mengurangi SPD target musuh yang terkena serangan.</span>
+      "100405":
+        Name: Power of Kindness
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "100406":
+        Name: Prospect of Glory
+        Desc: <span>Saat melancarkan Skill, mengakibatkan 1 kali DMG tambahan pada musuh secara acak.</span>
+  "1005":
+    Name: Kafka
+    Abilities:
+      "100501":
+        Name: Midnight Tumult
+        Desc: <span>Mengakibatkan Lightning DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "100502":
+        Name: Caressing Moonlight
+        Desc: <span>Mengakibatkan Lightning DMG pada 1 musuh dan mengakibatkan Lightning DMG dalam jumlah kecil pada target di sekitarnya.<br>Jika target utama berada dalam status DoT Debuff, maka DoT Debuff yang dimilikinya akan </span><span style='color:#f29e38ff'>mengakibatkan 1 kali DMG tambahan</span><span>.</span>
+        Type: Skill
+      "100503":
+        Name: Twilight Trill
+        Desc: <span>Mengakibatkan Lightning DMG dalam jumlah kecil pada seluruh musuh, berpeluang besar </span><span style='color:#f29e38ff'>menambahkan status Shock</span><span> pada musuh.<br>Jika target musuh berstatus Shock, maka status Shock tersebut akan </span><span style='color:#f29e38ff'>mengakibatkan 1 kali DMG tambahan</span><span>.</span>
+        Type: Ultimate
+      "100504":
+        Name: Gentle but Cruel
+        Desc: <span>Setelah rekan Kafka melancarkan Basic ATK pada target musuh, Kafka akan segera memicu <u>Serangan Lanjutan</u> yang mengakibatkan Lightning DMG pada target, serta berpeluang besar untuk </span><span style='color:#f29e38ff'>menambahkan status Shock</span><span> padanya. Efek ini hanya dapat dipicu 1 kali setiap giliran.</span>
+        Type: Talent
+      "100506":
+        Name: Attack
+        Desc: ""
+      "100507":
+        Name: Mercy Is Not Forgiveness
+        Desc: <span>Menyerang seluruh musuh dalam cakupan area, setelah memasuki pertempuran, mengakibatkan Lightning DMG dalam jumlah kecil pada seluruh musuh, serta berpeluang besar </span><span style='color:#f29e38ff'>menambahkan status Shock</span><span>.</span>
+        Type: Technique
+    Eidolons:
+      "100501":
+        Name: Da Capo
+        Desc: <span>Saat Serangan Lanjutan dari Talent terpicu, ada 100% peluang dasar untuk meningkatkan DoT yang diterima target sebesar 30% selama 2 giliran.</span>
+      "100502":
+        Name: Fortississimo
+        Desc: <span>Saat Kafka berada di medan pertempuran, DoT yang diakibatkan seluruh rekan tim meningkat 25%.</span>
+      "100503":
+        Name: Capriccio
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "100504":
+        Name: Recitativo
+        Desc: <span>Saat status Shock yang diakibatkan Kafka pada target musuh mengakibatkan DMG, Kafka akan memulihkan 2 Energy tambahan.</span>
+      "100505":
+        Name: Doloroso
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "100506":
+        Name: Leggiero
+        Desc: <span>Meningkatkan 156% DMG Multiplier dari status Shock yang diakibatkan Ultimate, Technique, dan Serangan Lanjutan yang dipicu Talent, serta memperpanjang durasi status Shock sebanyak 1 giliran.</span>
+  "1006":
+    Name: Silver Wolf
+    Abilities:
+      "100601":
+        Name: System Warning
+        Desc: <span>Mengakibatkan Quantum DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "100602":
+        Name: Allow Changes?
+        Desc: <span>Berpeluang besar untuk </span><span style='color:#f29e38ff'>memberikan Weakness tambahan</span><span> pada 1 musuh dan mengakibatkan Quantum DMG pada musuh tersebut.</span>
+        Type: Skill
+      "100603":
+        Name: User Banned
+        Desc: <span>Berpeluang besar untuk </span><span style='color:#f29e38ff'>mengurangi DEF</span><span> dan mengakibatkan Quantum DMG dalam jumlah besar pada 1 musuh.</span>
+        Type: Ultimate
+      "100604":
+        Name: "Awaiting System Response\_..."
+        Desc: <span>Setelah menyerang, memiliki peluang untuk memberikan 1 </span><span style='color:#f29e38ff'>"Bug"</span><span> secara acak pada target.</span>
+        Type: Talent
+      "100606":
+        Name: Attack
+        Desc: ""
+      "100607":
+        Name: Force Quit Program
+        Desc: <span>Setelah menyerang musuh dan memasuki pertempuran, mengakibatkan DMG dalam jumlah kecil, mengabaikan Tipe Weakness dan mengurangi Toughness seluruh musuh.</span>
+        Type: Technique
+    Eidolons:
+      "100601":
+        Name: Social Engineering
+        Desc: <span>Setelah Silver Wolf melancarkan Ultimate untuk menyerang target musuh, setiap 1 efek Debuff yang dimiliki target musuh akan memulihkan 7 Energy Silver Wolf. Efek ini dapat dipicu maksimal 5 kali setiap kali melancarkan Ultimate.</span>
+      "100602":
+        Name: Zombie Network
+        Desc: <span>Saat target musuh memasuki pertempuran, Effect RES target berkurang 20%.</span>
+      "100603":
+        Name: Payload
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "100604":
+        Name: Bounce Attack
+        Desc: <span>Setelah Silver Wolf melancarkan Ultimate untuk menyerang target musuh, setiap 1 efek Debuff yang dimiliki target musuh akan mengakibatkan Quantum DMG tambahan sebesar 20% ATK Silver Wolf. Efek ini dapat dipicu maksimal 5 kali setiap kali melancarkan Ultimate.</span>
+      "100605":
+        Name: Brute Force Attack
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "100606":
+        Name: Overlay Network
+        Desc: <span>Setiap 1 status Debuff target musuh akan meningkatkan 20% DMG Silver Wolf pada target tersebut, maksimal hingga 100%.</span>
+  "1008":
+    Name: Arlan
+    Abilities:
+      "100801":
+        Name: Lightning Rush
+        Desc: <span>Mengakibatkan Lightning DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "100802":
+        Name: Shackle Breaker
+        Desc: <span>Mengonsumsi sebagian HP diri sendiri dan mengakibatkan Lightning DMG pada 1 musuh.</span>
+        Type: Skill
+      "100803":
+        Name: Frenzied Punishment
+        Desc: <span>Mengakibatkan Lightning DMG dalam jumlah besar pada 1 musuh, dan mengakibatkan Lightning DMG pada musuh di sekitar target.</span>
+        Type: Ultimate
+      "100804":
+        Name: Pain and Anger
+        Desc: <span></span><span style='color:#f29e38ff'>Meningkatkan DMG berdasarkan persentase HP</span><span> diri sendiri </span><span style='color:#f29e38ff'>yang berkurang</span><span>.</span>
+        Type: Talent
+      "100806":
+        Name: Attack
+        Desc: ""
+      "100807":
+        Name: Swift Harvest
+        Desc: <span>Menyerang musuh dan mengakibatkan Lightning DMG dalam jumlah kecil pada seluruh musuh setelah memasuki pertempuran.</span>
+        Type: Technique
+    Eidolons:
+      "100801":
+        Name: To the Bitter End
+        Desc: <span>Saat persentase HP saat ini kurang dari atau sama dengan 50%, DMG yang diakibatkan Skill meningkat 10%.</span>
+      "100802":
+        Name: Breaking Free
+        Desc: <span>Saat melancarkan Skill dan Ultimate, menghapus 1 status Debuff dirinya.</span>
+      "100803":
+        Name: Power Through
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "100804":
+        Name: Turn the Tables
+        Desc: <span>Setelah memasuki pertempuran, jika Arlan menerima serangan mematikan, Arlan tidak gugur dan akan segera memulihkan HP sebesar 25% Max HP dirinya. Efek ini akan terhapus otomatis setelah dipicu sekali atau setelah 2 giliran berlalu.</span>
+      "100805":
+        Name: Hammer and Tongs
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "100806":
+        Name: Self-Sacrifice
+        Desc: <span>Saat persentase HP saat ini kurang dari atau sama dengan 50%, meningkatkan 20% DMG yang diakibatkan Ultimate dan DMG Multiplier pada musuh di sekitar target akan meningkat hingga sebesar DMG Multiplier pada target utama.</span>
+  "1009":
+    Name: Asta
+    Abilities:
+      "100901":
+        Name: Spectrum Beam
+        Desc: <span>Mengakibatkan Fire DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "100902":
+        Name: Meteor Storm
+        Desc: <span>Mengakibatkan Fire DMG dalam jumlah kecil pada 1 musuh, total Bounce 5 kali.</span>
+        Type: Skill
+      "100903":
+        Name: Astral Blessing
+        Desc: <span>Meningkatkan </span><span style='color:#f29e38ff'>SPD</span><span> seluruh rekan tim.</span>
+        Type: Ultimate
+      "100904":
+        Name: Astrometry
+        Desc: <span>Memperoleh 1 lapis Charge setiap kali menyerang 1 musuh yang berbeda, maksimal 5 lapis. Setiap lapis Charge mingkatkan ATK seluruh rekan tim. Saat giliran dirinya dimulai, jumlah Charge akan dikurangi.</span>
+        Type: Talent
+      "100906":
+        Name: Attack
+        Desc: ""
+      "100907":
+        Name: Miracle Flash
+        Desc: <span>Setelah menyerang musuh dan memasuki pertempuran, akan mengakibatkan DMG dalam jumlah kecil pada seluruh musuh.</span>
+        Type: Technique
+    Eidolons:
+      "100901":
+        Name: Star Sings Sans Verses or Vocals
+        Desc: <span>Saat melancarkan Skill, mengakibatkan 1 kali DMG tambahan pada satu musuh secara acak.</span>
+      "100902":
+        Name: Moon Speaks in Wax and Wane
+        Desc: <span>Saat melancarkan Ultimate, Asta tidak akan mengurangi lapisan Charge-nya pada giliran berikutnya.</span>
+      "100903":
+        Name: Meteor Showers for Wish and Want
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "100904":
+        Name: Aurora Basks in Beauty and Bliss
+        Desc: <span>Saat lapisan Charge Talent Asta lebih dari atau sama dengan 2, meningkatkan 15% Energy Regeneration Rate Asta.</span>
+      "100905":
+        Name: Nebula Secludes in Runes and Riddles
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "100906":
+        Name: Galaxy Dreams in Calm and Comfort
+        Desc: <span>Lapisan Charge Talent yang berkurang di setiap giliran akan dikurangi 1.</span>
+  "1013":
+    Name: Herta
+    Abilities:
+      "101301":
+        Name: What Are You Looking At?
+        Desc: <span>Mengakibatkan Ice DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "101302":
+        Name: One-Time Offer
+        Desc: <span>Mengakibatkan Ice DMG dalam jumlah kecil pada seluruh musuh, DMG yang diakibatkan akan lebih tinggi pada target yang persentase HP-nya tinggi.</span>
+        Type: Skill
+      "101303":
+        Name: It's Magic, I Added Some Magic
+        Desc: <span>Mengakibatkan Ice DMG pada seluruh musuh.</span>
+        Type: Ultimate
+      "101304":
+        Name: Fine, I'll Do It Myself
+        Desc: "<span>Saat rekan tim mana pun melancarkan serangan dan membuat persentase HP target musuh saat ini menjadi kurang dari atau sama dengan </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>50%</span></span><span>, Herta akan segera melancarkan </span><span style='color:#f29e38ff'><u>Serangan Lanjutan</u></span><span>, mengakibatkan Ice DMG dalam jumlah kecil pada seluruh musuh.</span>"
+        Type: Talent
+      "101306":
+        Name: Attack
+        Desc: ""
+      "101307":
+        Name: It Can Still Be Optimized
+        Desc: <span>Setelah menggunakan Technique, akan meningkatkan ATK diri sendiri saat pertempuran berikutnya dimulai.</span>
+        Type: Technique
+    Eidolons:
+      "101301":
+        Name: Kick You When You're Down
+        Desc: <span>Saat melancarkan Basic Attack, jika persentase HP musuh yang ditarget kurang dari atau sama dengan 50%, maka akan mengakibatkan Ice DMG tambahan sebesar 40% ATK Herta.</span>
+      "101302":
+        Name: Keep the Ball Rolling
+        Desc: <span>Setiap kali Talent terpicu, CRIT Rate Herta akan meningkat 3%, efek ini dapat ditumpuk hingga 5 lapis.</span>
+      "101303":
+        Name: That's the Kind of Girl I Am
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "101304":
+        Name: Hit Where It Hurts
+        Desc: <span>Meningkatkan 10% DMG yang diakibatkan saat Talent terpicu.</span>
+      "101305":
+        Name: Cuss Big or Cuss Nothing
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "101306":
+        Name: No One Can Betray Me
+        Desc: <span>Setelah melancarkan Ultimate, meningkatkan 25% ATK selama 1 giliran.</span>
+  "1101":
+    Name: Bronya
+    Abilities:
+      "110101":
+        Name: Windrider Bullet
+        Desc: <span>Mengakibatkan Wind DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "110102":
+        Name: Combat Redeployment
+        Desc: <span></span><span style='color:#f29e38ff'>Menghapus</span><span> 1 </span><span style='color:#f29e38ff'><u>efek Debuff</u></span><span> dari 1 rekan tim, dan </span><span style='color:#f29e38ff'>meningkatkan DMG yang diakibatkan</span><span> rekan tersebut, serta membuatnya </span><span style='color:#f29e38ff'>segera beraksi</span><span>.</span>
+        Type: Skill
+      "110103":
+        Name: The Belobog March
+        Desc: <span>Meningkatkan </span><span style='color:#f29e38ff'>ATK</span><span> dan </span><span style='color:#f29e38ff'>CRIT DMG</span><span> seluruh rekan tim</span>
+        Type: Ultimate
+      "110104":
+        Name: Leading the Way
+        Desc: <span>Setelah melancarkan Basic ATK, aksi dirinya yang berikutnya akan <u>didahulukan</u>.</span>
+        Type: Talent
+      "110106":
+        Name: Attack
+        Desc: ""
+      "110107":
+        Name: Banner of Command
+        Desc: <span>Setelah menggunakan Technique, meningkatkan ATK seluruh rekan tim saat pertempuran selanjutnya dimulai.</span>
+        Type: Technique
+    Eidolons:
+      "110101":
+        Name: Hone Your Strength
+        Desc: <span>Saat melancarkan Skill, terdapat 50% peluang tetap untuk memulihkan 1 Poin Skill. Efek ini memiliki durasi CD selama 1 giliran.</span>
+      "110102":
+        Name: Quick March
+        Desc: <span>Saat melancarkan Skill, SPD rekan yang dijadikan target akan meningkat 30% setelah beraksi, berlangsung selama 1 giliran.</span>
+      "110103":
+        Name: Bombardment
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "110104":
+        Name: Take by Surprise
+        Desc: <span>Setelah karakter lain melancarkan Basic Attack pada target musuh dengan Wind Weakness, Bronya akan segera melancarkan 1 kali Serangan Lanjutan yang mengakibatkan Wind DMG sebesar 80% Basic Attack DMG Bronya pada target tersebut. Efek ini dapat dipicu sekali setiap giliran.</span>
+      "110105":
+        Name: Unstoppable
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "110106":
+        Name: Piercing Rainbow
+        Desc: <span>Durasi efek peningkatan DMG yang diberikan Skill Bronya pada rekan tim akan bertambah 1 giliran.</span>
+  "1102":
+    Name: Seele
+    Abilities:
+      "110201":
+        Name: Thwack
+        Desc: <span>Mengakibatkan Quantum DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "110202":
+        Name: Sheathed Blade
+        Desc: <span>Mengakibatkan Quantum DMG pada 1 musuh dan meningkatkan SPD diri sendiri.</span>
+        Type: Skill
+      "110203":
+        Name: Butterfly Flurry
+        Desc: <span>Memasuki </span><span style='color:#f29e38ff'>status Buff</span><span> dan mengakibatkan Quantum DMG dalam jumlah besar pada 1 musuh.</span>
+        Type: Ultimate
+      "110204":
+        Name: Resurgence
+        Desc: <span>Saat </span><span style='color:#f29e38ff'>mengalahkan target musuh</span><span> dengan melancarkan Basic Attack, Skill, atau Ultimate, akan memperoleh </span><span style='color:#f29e38ff'><u>giliran tambahan</u> dan memasuki status Buff</span><span>. DMG yang diakibatkan dalam status Buff akan meningkat.</span>
+        Type: Talent
+      "110206":
+        Name: Attack
+        Desc: ""
+      "110207":
+        Name: Phantom Illusion
+        Desc: <span>Memasuki status </span><span style='color:#f29e38ff'>Stealth</span><span>. Setelah menyerang musuh dan memasuki pertempuran, akan langsung memasuki </span><span style='color:#f29e38ff'>status Buff</span><span>.</span>
+        Type: Technique
+    Eidolons:
+      "110201":
+        Name: Extirpating Slash
+        Desc: <span>Saat mengakibatkan DMG pada target musuh dengan persentase HP saat ini kurang dari atau sama dengan 80%, CRIT Rate meningkat 15%.</span>
+      "110202":
+        Name: Dancing Butterfly
+        Desc: <span>Efek peningkatan SPD pada Skill dapat ditumpuk hingga 2 lapis.</span>
+      "110203":
+        Name: Dazzling Tumult
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "110204":
+        Name: Flitting Phantasm
+        Desc: <span>Saat Seele mengalahkan target musuh, dia akan memulihkan 15 Energy.</span>
+      "110205":
+        Name: Piercing Shards
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "110206":
+        Name: Shattering Shambles
+        Desc: <span>Setelah melancarkan Ultimate, musuh yang diserang akan memasuki status "Butterfly Flurry" selama 1 giliran. Target musuh yang berada dalam status "Butterfly Flurry" akan menerima Quantum DMG tambahan sebesar 15% dari Ultimate DMG Seele setiap kali terkena serangan. Jika target tersebut gugur akibat DMG Tambahan dari "Butterfly Flurry" yang dipicu oleh rekan lain, maka Talent Seele tidak akan terpicu.<br>Jika Seele gugur, maka status "Butterfly Flurry" yang ada pada musuh akan dihapus.</span>
+  "1103":
+    Name: Serval
+    Abilities:
+      "110301":
+        Name: Roaring Thunderclap
+        Desc: <span>Mengakibatkan Lightning DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "110302":
+        Name: Lightning Flash
+        Desc: <span>Mengakibatkan Lightning DMG dalam jumlah kecil terhadap 1 musuh dan target di sekitarnya, dan berpeluang besar </span><span style='color:#f29e38ff'>menambahkan status Shock</span><span> pada target.</span>
+        Type: Skill
+      "110303":
+        Name: Here Comes the Mechanical Fever
+        Desc: <span>Mengakibatkan Lightning DMG pada seluruh musuh dan memperpanjang durasi status Shock musuh.</span>
+        Type: Ultimate
+      "110304":
+        Name: Galvanic Chords
+        Desc: <span>Setelah melancarkan serangan, </span><span style='color:#f29e38ff'>mengakibatkan <u>DMG tambahan</u> dalam jumlah kecil</span><span> terhadap seluruh target musuh yang berstatus Shock.</span>
+        Type: Talent
+      "110306":
+        Name: Attack
+        Desc: ""
+      "110307":
+        Name: Good Night, Belobog
+        Desc: <span>Menyerang musuh. Setelah memasuki pertempuran, mengakibatkan Lightning DMG dalam jumlah kecil pada musuh secara acak, dan berpeluang besar membuat setiap target musuh </span><span style='color:#f29e38ff'>memasuki status Shock</span><span>.</span>
+        Type: Technique
+    Eidolons:
+      "110301":
+        Name: Echo Chamber
+        Desc: <span>Basic Attack mengakibatkan Lightning DMG sebesar 60% dari Basic Attack DMG pada 1 musuh di sekitar target secara acak.</span>
+      "110302":
+        Name: Encore!
+        Desc: <span>Setiap kali DMG tambahan dari Talent Serval terpicu, akan memulihkan 4 Energy Serval.</span>
+      "110303":
+        Name: Listen, the Heartbeat of the Gears
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "110304":
+        Name: Make Some Noise!
+        Desc: <span>Saat melancarkan Ultimate, ada 100% peluang dasar untuk membuat target musuh yang tidak berstatus Shock memasuki status Shock yang serupa dengan Skill.</span>
+      "110305":
+        Name: Belobog's Loudest Roar!
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "110306":
+        Name: This Song Rocks to Heaven!
+        Desc: <span>Meningkatkan 30% DMG yang diakibatkan Serval pada target musuh yang berstatus Shock.</span>
+  "1104":
+    Name: Gepard
+    Abilities:
+      "110401":
+        Name: Fist of Conviction
+        Desc: <span>Mengakibatkan Ice DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "110402":
+        Name: Daunting Smite
+        Desc: <span>Mengakibatkan Ice DMG pada 1 musuh dan </span><span style='color:#f29e38ff'>berpeluang untuk memberikan status Frozen pada target</span><span>.</span>
+        Type: Skill
+      "110403":
+        Name: Enduring Bulwark
+        Desc: <span></span><span style='color:#f29e38ff'>Memberikan Shield</span><span> pada seluruh rekan tim.</span>
+        Type: Ultimate
+      "110404":
+        Name: Unyielding Will
+        Desc: <span></span><span style='color:#f29e38ff'>Tidak akan <u>gugur</u></span><span> saat terkena serangan mematikan dan akan segera memulihkan HP. Hanya dapat dipicu 1 kali dalam setiap pertempuran.</span>
+        Type: Talent
+      "110406":
+        Name: Attack
+        Desc: ""
+      "110407":
+        Name: Comradery
+        Desc: <span>Setelah menggunakan Technique, seluruh rekan tim memperoleh Shield saat pertempuran selanjutnya dimulai.</span>
+        Type: Technique
+    Eidolons:
+      "110401":
+        Name: Due Diligence
+        Desc: <span>Saat melancarkan skill, meningkatkan 35% peluang dasar untuk membuat target musuh memasuki status Frozen.</span>
+      "110402":
+        Name: Lingering Cold
+        Desc: <span>Setelah status Frozen yang disebabkan oleh Skill Gepard pada target musuh terhapus, SPD target akan berkurang 20% selama 1 giliran.</span>
+      "110403":
+        Name: Never Surrender
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "110404":
+        Name: Faith Moves Mountains
+        Desc: <span>Saat Gepard berada di medan pertempuran, Effect RES seluruh rekan tim meningkat 20%.</span>
+      "110405":
+        Name: Cold Iron Fist
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "110406":
+        Name: Unyielding Resolve
+        Desc: <span>Saat Talent Gepard terpicu, Gepard akan segera beraksi lagi dan memberikan pemulihan HP tambahan sebesar 50% Max HP-nya.</span>
+  "1105":
+    Name: Natasha
+    Abilities:
+      "110501":
+        Name: Behind the Kindness
+        Desc: <span>Mengakibatkan Physical DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "110502":
+        Name: Love, Heal, and Choose
+        Desc: <span></span><span style='color:#f29e38ff'>Memulihkan HP</span><span> 1 rekan tim, dan memberikan target </span><span style='color:#f29e38ff'>Pemulihan Berkelanjutan</span><span>.</span>
+        Type: Skill
+      "110503":
+        Name: Gift of Rebirth
+        Desc: <span></span><span style='color:#f29e38ff'>Memulihkan HP</span><span> seluruh rekan tim.</span>
+        Type: Ultimate
+      "110504":
+        Name: Innervation
+        Desc: <span>Meningkatkan pemulihan yang diberikan pada rekan tim yang persentase HP-nya rendah. Efek ini juga berlaku pada efek pemulihan berkelanjutan.</span>
+        Type: Talent
+      "110506":
+        Name: Attack
+        Desc: ""
+      "110507":
+        Name: Hypnosis Research
+        Desc: <span>Menyerang musuh dan mengakibatkan Physical DMG dalam jumlah kecil pada musuh secara acak. Berpeluang besar untuk membuat setiap target memasuki status Weaken.</span>
+        Type: Technique
+    Eidolons:
+      "110501":
+        Name: Pharmacology Expertise
+        Desc: <span>Setelah terkena serangan, jika persentase HP Natasha saat ini kurang dari atau sama dengan 30%, Natasha akan menyembuhkan dirinya 1 kali, memulihkan HP sebesar 15% Max HP Natasha + 400. Efek ini hanya dapat dipicu sekali dalam 1 pertempuran.</span>
+      "110502":
+        Name: Clinical Research
+        Desc: <span>Saat melancarkan Ultimate, akan memberikan efek pemulihan berkelanjutan selama 1 giliran pada rekan tim dengan persentase HP saat ini kurang dari atau sama dengan 30%. Saat giliran mereka dimulai, memulihkan HP mereka sebesar 6% Max HP Natasha + 160.</span>
+      "110503":
+        Name: The Right Cure
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "110504":
+        Name: Miracle Cure
+        Desc: <span>Memulihkan 5 Energy tambahan setelah diserang musuh.</span>
+      "110505":
+        Name: Preventive Treatment
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "110506":
+        Name: Doctor's Grace
+        Desc: <span>Saat melancarkan Basic Attack, mengakibatkan Physical DMG tambahan sebesar 40% Max HP Natasha.</span>
+  "1106":
+    Name: Pela
+    Abilities:
+      "110601":
+        Name: Frost Shot
+        Desc: <span>Mengakibatkan Ice DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "110602":
+        Name: Frostbite
+        Desc: <span></span><span style='color:#f29e38ff'>Menghapus</span><span> 1 efek </span><span style='color:#f29e38ff'><u>Buff</u></span><span> dari 1 musuh, dan mengakibatkan Ice DMG pada target tersebut.</span>
+        Type: Skill
+      "110603":
+        Name: Zone Suppression
+        Desc: <span>Berpeluang besar untuk </span><span style='color:#f29e38ff'>mengurangi DEF</span><span> target musuh, serta mengakibatkan Ice DMG dalam jumlah kecil pada seluruh musuh.</span>
+        Type: Ultimate
+      "110604":
+        Name: Data Collecting
+        Desc: <span>Setelah melancarkan serangan, jika target musuh memasuki status <u>Debuff</u>, Energy Pela akan dipulihkan.</span>
+        Type: Talent
+      "110606":
+        Name: Attack
+        Desc: ""
+      "110607":
+        Name: Preemptive Strike
+        Desc: <span>Setelah menyerang musuh dan memasuki pertempuran, akan mengakibatkan DMG dalam jumlah kecil pada musuh secara acak dan berpeluang besar mengurangi DEF setiap target musuh.</span>
+        Type: Technique
+    Eidolons:
+      "110601":
+        Name: Victory Report
+        Desc: <span>Saat ada target musuh yang dikalahkan, Pela akan memulihkan 5 Energy.</span>
+      "110602":
+        Name: Adamant Charge
+        Desc: <span>Setelah melancarkan Skill untuk menghapus efek Buff, SPD meningkat 10% selama 2 giliran.</span>
+      "110603":
+        Name: Suppressive Force
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "110604":
+        Name: Full Analysis
+        Desc: <span>Saat melancarkan Skill, memiliki 100% peluang dasar untuk mengurangi 12% Ice RES target musuh selama 2 giliran.</span>
+      "110605":
+        Name: Absolute Jeopardy
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "110606":
+        Name: Feeble Pursuit
+        Desc: <span>Jika Pela melancarkan serangan pada target musuh yang terkena efek Debuff, Pela akan mengakibatkan Ice DMG tambahan sebesar 40% ATK Pela.</span>
+  "1107":
+    Name: Clara
+    Abilities:
+      "110701":
+        Name: I Want to Help
+        Desc: <span>Mengakibatkan Physical DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "110702":
+        Name: Svarog Watches Over You
+        Desc: <span>Mengakibatkan Physical DMG pada seluruh musuh dan </span><span style='color:#f29e38ff'>mengakibatkan Physical DMG tambahan</span><span> pada target dengan "Mark of Counter".</span>
+        Type: Skill
+      "110703":
+        Name: Promise, Not Command
+        Desc: <span></span><span style='color:#f29e38ff'>Mengurangi DMG yang diterima</span><span> diri sendiri, meningkatkan peluang terkena serangan, dan meningkatkan efek <u>Serangan Balasan</u>.</span>
+        Type: Ultimate
+      "110704":
+        Name: Because We're Family
+        Desc: <span></span><span style='color:#f29e38ff'>Mengurangi DMG yang diterima dari serangan musuh</span><span> pada diri sendiri. Musuh yang menyerang akan ditandai dengan "Mark of Counter" dan </span><span style='color:#f29e38ff'>menerima <u>Serangan Balasan</u> dari Svarog</span><span> yang mengakibatkan Physical DMG.</span>
+        Type: Talent
+      "110706":
+        Name: Attack
+        Desc: ""
+      "110707":
+        Name: A Small Price for Victory
+        Desc: <span>Menyerang musuh dan meningkatkan peluang untuk diserang oleh musuh setelah memasuki pertempuran.</span>
+        Type: Technique
+    Eidolons:
+      "110701":
+        Name: A Tall Figure
+        Desc: <span>Setelah melancarkan Skill, "Mark of Counter" yang ada pada target musuh tidak akan dihapus.</span>
+      "110702":
+        Name: A Tight Embrace
+        Desc: <span>Setelah melancarkan Ultimate, meningkatkan 30% ATK selama 2 giliran.</span>
+      "110703":
+        Name: Cold Steel Armor
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "110704":
+        Name: Family's Warmth
+        Desc: <span>Setelah terkena serangan, mengurangi 30% DMG yang diterima Clara. Efek ini berlanjut sampai giliran Clara yang berikutnya dimulai.</span>
+      "110705":
+        Name: A Small Promise
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "110706":
+        Name: Long Company
+        Desc: <span>Setelah rekan tim yang lain terkena serangan, Svarog juga memiliki 50% peluang tetap untuk memicu serangan balasan dan menambahkan "Mark of Counter" pada penyerang. Saat melancarkan Ultimate, jumlah serangan balasan yang diperkuat akan bertambah 1.</span>
+  "1108":
+    Name: Sampo
+    Abilities:
+      "110801":
+        Name: Dazzling Blades
+        Desc: <span>Mengakibatkan Wind DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "110802":
+        Name: Ricochet Love
+        Desc: <span>Mengakibatkan Wind DMG dalam jumlah kecil pada 1 musuh. Total Bounce 5 kali.</span>
+        Type: Skill
+      "110803":
+        Name: Surprise Present
+        Desc: <span>Mengakibatkan Wind DMG pada seluruh musuh dan berpeluang besar </span><span style='color:#f29e38ff'>meningkatkan DoT yang diterima musuh</span><span>.</span>
+        Type: Ultimate
+      "110804":
+        Name: Windtorn Dagger
+        Desc: <span>Setelah dirinya menyerang target musuh, berpeluang untuk membuat target memasuki </span><span style='color:#f29e38ff'>status Wind Shear</span><span>.</span>
+        Type: Talent
+      "110806":
+        Name: Attack
+        Desc: ""
+      "110807":
+        Name: Shining Bright
+        Desc: <span>Membuat musuh dalam jangkauan tertentu memasuki status Blind dan berpeluang besar untuk <u>menunda</u> aksi setiap target musuh setelah memasuki pertempuran.</span>
+        Type: Technique
+    Eidolons:
+      "110801":
+        Name: Rising Love
+        Desc: <span>Saat melancarkan Skill, jumlah DMG tambahan yang diakibatkan pada musuh secara acak bertambah 1.</span>
+      "110802":
+        Name: Infectious Enthusiasm
+        Desc: <span>Saat mengalahkan musuh yang berada dalam status Wind Shear, Sampo memiliki 100% peluang dasar untuk menambah 1 lapis Wind Shear yang sebanding dengan Talent pada seluruh musuh.</span>
+      "110803":
+        Name: Big Money!
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "110804":
+        Name: The Deeper the Love, the Stronger the Hate
+        Desc: <span>Saat Skill mengenai target musuh yang jumlah lapisan status Wind Shear-nya lebih dari atau sama dengan 5 lapis, maka status Wind Shear yang dimilikinya saat ini akan segera mengakibatkan DMG sebesar 8% dari DMG aslinya.</span>
+      "110805":
+        Name: Huuuuge Money!
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "110806":
+        Name: Increased Spending
+        Desc: <span>Meningkatkan 15% DMG Multiplier status Wind Shear yang diberikan Talent.</span>
+  "1109":
+    Name: Hook
+    Abilities:
+      "110901":
+        Name: Hehe! Don't Get Burned!
+        Desc: <span>Mengakibatkan Fire DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "110902":
+        Name: Hey! Remember Hook?
+        Desc: <span>Mengakibatkan Fire DMG pada 1 musuh dan berpeluang besar memberikan status Burn pada target.</span>
+        Type: Skill
+      "110903":
+        Name: Boom! Here Comes the Fire!
+        Desc: <span>Mengakibatkan Fire DMG dalam jumlah besar pada 1 musuh dan </span><span style='color:#f29e38ff'>memperkuat Skill Hook yang berikutnya</span><span>.</span>
+        Type: Ultimate
+      "110904":
+        Name: Ha! Oil to the Flames!
+        Desc: <span>Saat menyerang target musuh berstatus Burn, akan </span><span style='color:#f29e38ff'>mengakibatkan Fire <u>DMG tambahan</u> dalam jumlah kecil</span><span> serta memulihkan Energy tambahan.</span>
+        Type: Talent
+      "110906":
+        Name: Attack
+        Desc: ""
+      "110907":
+        Name: Ack! Look at This Mess!
+        Desc: <span>Menyerang musuh dan mengakibatkan Fire DMG pada musuh secara acak, dan berpeluang besar untuk membuat setiap target musuh memasuki status Burn.</span>
+        Type: Technique
+    Eidolons:
+      "110901":
+        Name: Early to Bed, Early to Rise
+        Desc: <span>Meningkatkan 20% DMG dari Skill yang diperkuat.</span>
+      "110902":
+        Name: Happy Tummy, Happy Body
+        Desc: <span>Durasi status Burn yang disebabkan Skill pada musuh bertambah 1 giliran.</span>
+      "110903":
+        Name: Don't Be Picky, Nothing's Icky
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "110904":
+        Name: It's Okay to Not Know
+        Desc: <span>Saat talent terpicu, ada 100% peluang dasar untuk membuat musuh di sekitar target utama juga memasuki status Burn yang sama dari Skill Hook.</span>
+      "110905":
+        Name: Let the Moles' Deeds Be Known
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "110906":
+        Name: Always Ready to Punch and Kick
+        Desc: <span>Meningkatkan 20% DMG Hook pada musuh berstatus Burn.</span>
+  "1110":
+    Name: Lynx
+    Abilities:
+      "111001":
+        Name: Ice Crampon Technique
+        Desc: <span>Mengakibatkan Quantum DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "111002":
+        Name: Salted Camping Cans
+        Desc: <span>Memberikan "Survival Response" pada 1 rekan tim, </span><span style='color:#f29e38ff'>meningkatkan Max HP-nya</span><span>, dan di saat yang bersamaan juga memulihkan HP-nya.</span>
+        Type: Skill
+      "111003":
+        Name: Snowfield First Aid
+        Desc: <span>Menghapus masing-masing </span><span style='color:#f29e38ff'>1 efek <u>Debuff</u> dari seluruh rekan tim</span><span>, serta memulihkan HP seluruh rekan tim.</span>
+        Type: Ultimate
+      "111004":
+        Name: Outdoor Survival Experience
+        Desc: <span>Saat Lynx melancarkan Skill atau Ultimate, rekan tim yang dijadikan target Skill atau Ultimate Lynx akan mendapatkan efek </span><span style='color:#f29e38ff'>pemulihan berkelanjutan</span><span>. Jika target memiliki "Survival Response", maka efek pemulihan berkelanjutan akan meningkat.</span>
+        Type: Talent
+      "111006":
+        Name: Attack
+        Desc: ""
+      "111007":
+        Name: Chocolate Energy Bar
+        Desc: <span>Setelah menggunakan Technique, seluruh rekan tim akan mendapatkan efek pemulihan berkelanjutan saat pertempuran berikutnya dimulai.</span>
+        Type: Technique
+    Eidolons:
+      "111001":
+        Name: Morning of Snow Hike
+        Desc: <span>Saat memberi pemulihan pada rekan tim dengan persentase HP kurang dari atau sama dengan 50%, Outgoing Healing Lynx akan meningkat 20%. Efek ini juga berlaku untuk pemulihan berkelanjutan.</span>
+      "111002":
+        Name: Noon of Portable Furnace
+        Desc: <span>Target yang memiliki "Survival Response" dapat menahan 1 kali efek Debuff yang dilancarkan padanya.</span>
+      "111003":
+        Name: Afternoon of Avalanche Beacon
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "111004":
+        Name: Dusk of Warm Campfire
+        Desc: <span>Saat target mendapatkan "Survival Response", ATK target tersebut akan meningkat sebesar 3% Max HP Lynx selama 1 giliran.</span>
+      "111005":
+        Name: Night of Aurora Tea
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "111006":
+        Name: Dawn of Explorers' Chart
+        Desc: <span>Peningkatan Max HP dari "Survival Response" akan meningkat lagi sebesar 6% Max HP Lynx, serta meningkatkan Effect RES sebesar 30%.</span>
+  "1111":
+    Name: Luka
+    Abilities:
+      "111101":
+        Name: Direct Punch
+        Desc: <span>Mengakibatkan Physical DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "111102":
+        Name: Lacerating Fist
+        Desc: <span>Mengakibatkan Physical DMG pada 1 musuh, dan berpeluang besar untuk </span><span style='color:#f29e38ff'>memberikan status Bleed</span><span> pada target.</span>
+        Type: Skill
+      "111103":
+        Name: Coup de Grâce
+        Desc: "<span>Mendapatkan </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>2</span></span><span> lapis \"Fighting Will\". Berpeluang besar untuk meningkatkan DMG yang diterima oleh 1 musuh, serta mengakibatkan Physical DMG dalam jumlah besar.</span>"
+        Type: Ultimate
+      "111104":
+        Name: Flying Sparks
+        Desc: <span>Setelah melancarkan Basic Attack "Direct Punch" atau Skill "Lacerating Fist", Luka akan memperoleh 1 lapis "Fighting Will". Saat "Fighting Will" yang dimiliki lebih dari atau sama dengan 2 lapis, Basic Attack akan menjadi </span><span style='color:#f29e38ff'>Enhanced Basic Attack</span><span>.<br>Jika target musuh sedang dalam status Bleed, Enhanced Basic Attack akan </span><span style='color:#f29e38ff'>membuat status Bleed menghasilkan 1 kali DMG tambahan</span><span>.</span>
+        Type: Talent
+      "111106":
+        Name: Attack
+        Desc: ""
+      "111107":
+        Name: Anticipator
+        Desc: <span>Menyerang musuh, dan setelah memasuki pertempuran, mengakibatkan Physical DMG dalam jumlah kecil pada 1 musuh secara acak, kemudian berpeluang besar membuat target </span><span style='color:#f29e38ff'>memasuki status Bleed</span><span>. Setelah itu, akan memperoleh 1 lapis "Fighting Will" tambahan.</span>
+        Type: Technique
+    Eidolons:
+      "111101":
+        Name: Fighting Endlessly
+        Desc: <span>Saat Luka beraksi, jika target musuh sedang berstatus Bleed, DMG yang diakibatkan Luka akan meningkat 15% selama 2 giliran.</span>
+      "111102":
+        Name: The Enemy is Weak, I am Strong
+        Desc: <span>Jika Skill mengenai target musuh dengan Physical Weakness, Luka akan memperoleh 1 lapis "Fighting Will".</span>
+      "111103":
+        Name: Born for the Ring
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "111104":
+        Name: Never Turning Back
+        Desc: <span>Setiap 1 lapis "Fighting Will" yang diperoleh akan meningkatkan 5% ATK. Efek ini dapat ditumpuk hingga 4 lapis.</span>
+      "111105":
+        Name: The Spirit of Wildfire
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "111106":
+        Name: A Champion's Applause
+        Desc: <span>Setelah "Rising Uppercut" dari Enhanced Basic Attack mengenai target musuh berstatus Bleed, maka setiap 1 serangan "Direct Punch" yang dilancarkan Enhanced Basic Attack kali ini akan membuat status Bleed musuh segera menghasilkan 1 kali DMG sebesar 8% dari DMG aslinya.</span>
+  "1112":
+    Name: Topaz & Numby
+    Abilities:
+      "111201":
+        Name: Deficit...
+        Desc: <span>Mengakibatkan Fire DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "111202":
+        Name: Difficulty Paying?
+        Desc: <span>Mengakibatkan 1 musuh memasuki status "Proof of Debt", dan </span><span style='color:#f29e38ff'>DMG Serangan Lanjutan yang diterimanya akan meningkat</span><span>. Numby mengakibatkan Fire DMG pada target.</span>
+        Type: Skill
+      "111203":
+        Name: Turn a Profit!
+        Desc: <span>Membuat Numby memasuki status "Windfall Bonanza!" dan </span><span style='color:#f29e38ff'>mendapatkan peningkatan DMG Multiplier dan CRIT DMG</span><span>.</span>
+        Type: Ultimate
+      "111204":
+        Name: Trotter Market!?
+        Desc: <span></span><span style='color:#f29e38ff'>Memanggil Numby</span><span> saat pertempuran dimulai. Saat Numby beraksi, ia akan </span><span style='color:#f29e38ff'>melancarkan Serangan Lanjutan pada 1 musuh yang berstatus "Proof of Debt"</span><span>. Saat musuh dengan "Proof of Debt" terkena Serangan Lanjutan, </span><span style='color:#f29e38ff'>aksi Numby akan didahulukan</span><span>.</span>
+        Type: Talent
+      "111206":
+        Name: Attack
+        Desc: ""
+      "111207":
+        Name: Explicit Subsidy
+        Desc: <span></span><span style='color:#f29e38ff'>Memanggil Numby untuk mengikuti pergerakanmu</span><span> di dalam latar tempat. Numby akan </span><span style='color:#f29e38ff'>mencari Peti Harta biasa dan Trotter di sekitar</span><span> secara otomatis. Melancarkan Technique akan membuat Topaz memulihkan Energy setelah Numby melancarkan serangan pertamanya pada pertempuran berikutnya.</span>
+        Type: Technique
+    Eidolons:
+      "111201":
+        Name: Future Market
+        Desc: <span>Saat target musuh berstatus "Proof of Debt" terkena Serangan Lanjutan, target tersebut akan memasuki status "Debtor". Dalam 1 serangan, efek ini hanya akan terpicu 1 kali.<br>"Debtor" akan meningkatkan 25% CRIT DMG dari Serangan Lanjutan yang diterima target musuh, dapat ditumpuk hingga 2 lapis. Saat "Proof of Debt" dihapus, "Debtor" juga akan dihapus.</span>
+      "111202":
+        Name: Bona Fide Acquisition
+        Desc: <span>Setelah Numby beraksi dan melancarkan serangan, Topaz akan memulihkan 5 Energy.</span>
+      "111203":
+        Name: Seize the Big and Free the Small
+        Desc: <span>Level Skill +2, maksimum Lv. 15. Level Basic Attack +1, maksimum Lv. 10.</span>
+      "111204":
+        Name: Agile Operation
+        Desc: <span>Saat giliran Numby dimulai, aksi Topaz akan didahulukan sebesar 20%.</span>
+      "111205":
+        Name: Inflationary Demand
+        Desc: <span>Level Ultimate +2, maksimum Lv. 15. Level Talent +2, maksimum Lv. 15.</span>
+      "111206":
+        Name: Incentive Mechanism
+        Desc: <span>Jumlah serangan Numby saat berada dalam status "Windfall Bonanza!" bertambah 1 kali, dan Fire RES PEN saat melancarkan serangan meningkat 10%.</span>
+  "1201":
+    Name: Qingque
+    Abilities:
+      "120101":
+        Name: Flower Pick
+        Desc: <span>Melemparkan 1 lembar Jade Tile dan mengakibatkan Quantum DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "120102":
+        Name: A Scoop of Moon
+        Desc: <span></span><span style='color:#f29e38ff'>Menarik Jade Tile</span><span>, meningkatkan DMG yang diakibatkan dirinya, dan </span><span style='color:#f29e38ff'>giliran kali ini tidak akan berakhir</span><span>.</span>
+        Type: Skill
+      "120103":
+        Name: A Quartet? Woo-hoo!
+        Desc: <span>Mengakibatkan Quantum DMG pada seluruh musuh, serta mendapatkan 4 lembar Jade Tile dengan pola yang sama.</span>
+        Type: Ultimate
+      "120104":
+        Name: Celestial Jade
+        Desc: <span>Mengambil Jade Tile saat giliran rekan tim dimulai. Saat giliran dirinya dimulai, jika memiliki 4 Jade Tile dengan pola yang sama, kartu akan dikonsumsi dan </span><span style='color:#f29e38ff'>Basic Attack kali ini akan mengalami peningkatan</span><span>. ATK dirinya juga akan meningkat.</span>
+        Type: Talent
+      "120106":
+        Name: Attack
+        Desc: ""
+      "120107":
+        Name: Game Solitaire
+        Desc: <span>Setelah menggunakan Technique, akan mengambil kartu saat memasuki pertempuran berikutnya.</span>
+        Type: Technique
+    Eidolons:
+      "120101":
+        Name: Rise Through the Tiles
+        Desc: <span>Meningkatkan 10% DMG yang diakibatkan Ultimate.</span>
+      "120102":
+        Name: Sleep on the Tiles
+        Desc: <span>Segera memulihkan 1 Energy Qingque setiap Qingque memicu pengambilan kartu.</span>
+      "120103":
+        Name: Read Between the Tiles
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "120104":
+        Name: Right on the Tiles
+        Desc: <span>Setelah melancarkan Skill, memiliki 24% peluang tetap untuk memperoleh status "Self-Sufficer" hingga akhir giliran saat ini.<br>Setelah melancarkan Basic Attack atau Enhanced Basic Attack dalam status "Self-Sufficer", Qingque akan langsung melancarkan 1 Serangan Lanjutan yang mengakibatkan Quantum DMG pada target sebesar 100% dari Basic Attack DMG atau Enhanced Basic Attack DMG.</span>
+      "120105":
+        Name: Gambit for the Tiles
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "120106":
+        Name: Prevail Beyond the Tiles
+        Desc: <span>Memulihkan 1 Poin Skill setelah melancarkan Enhanced Basic Attack.</span>
+  "1202":
+    Name: Tingyun
+    Abilities:
+      "120201":
+        Name: Dislodged
+        Desc: <span>Mengakibatkan Lightning DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "120202":
+        Name: Soothing Melody
+        Desc: <span></span><span style='color:#f29e38ff'>Meningkatkan ATK</span><span> 1 rekan tim dan memberinya "Benediction". Saat rekan berstatus "Benediction" melancarkan serangan, akan mengakibatkan </span><span style='color:#f29e38ff'>Lightning <u>DMG tambahan</u></span><span> dalam jumlah kecil.</span>
+        Type: Skill
+      "120203":
+        Name: Amidst the Rejoicing Clouds
+        Desc: <span></span><span style='color:#f29e38ff'>Memulihkan Energy</span><span> 1 rekan tim dan </span><span style='color:#f29e38ff'>meningkatkan DMG yang diakibatkan</span><span> rekan tersebut.</span>
+        Type: Ultimate
+      "120204":
+        Name: Violet Sparknado
+        Desc: <span>Setelah musuh terkena serangan dari Tingyun, target berstatus "Benediction" akan segera mengakibatkan Lightning <u>DMG tambahan</u> dalam jumlah kecil pada musuh tersebut.</span>
+        Type: Talent
+      "120206":
+        Name: Attack
+        Desc: ""
+      "120207":
+        Name: Gentle Breeze
+        Desc: <span>Akan segera memulihkan Energy dirinya setelah menggunakan Technique.</span>
+        Type: Technique
+    Eidolons:
+      "120201":
+        Name: Windfall of Lucky Springs
+        Desc: <span>Setelah rekan yang mendapatkan "Benediction" melancarkan Ultimate, SPD rekan tersebut akan meningkat 20% selama 1 giliran.</span>
+      "120202":
+        Name: Gainfully Gives, Givingly Gains
+        Desc: <span>Memulihkan 5 Energy rekan tim yang mendapatkan "Benediction" setelah rekan tersebut mengalahkan target musuh. Efek ini hanya dapat dipicu sekali setiap giliran.</span>
+      "120203":
+        Name: Halcyon Bequest
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "120204":
+        Name: Jovial Versatility
+        Desc: <span>Meningkatkan 20% DMG Multiplier dari "Benediction".</span>
+      "120205":
+        Name: Sauntering Coquette
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "120206":
+        Name: Peace Brings Wealth to All
+        Desc: <span>Jumlah Energy yang dipulihkan Ultimate Tingyun pada rekan tim meningkat sebanyak 10.</span>
+  "1203":
+    Name: Luocha
+    Abilities:
+      "120301":
+        Name: Thorns of the Abyss
+        Desc: <span>Mengakibatkan Imaginary DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "120302":
+        Name: Prayer of Abyss Flower
+        Desc: <span></span><span style='color:#f29e38ff'>Memulihkan</span><span> HP 1 rekan tim dan memperoleh 1 lapis "Abyss Flower".</span>
+        Type: Skill
+      "120303":
+        Name: Death Wish
+        Desc: <span></span><span style='color:#f29e38ff'>Menghapus</span><span> masing-masing 1 </span><span style='color:#f29e38ff'><u>efek Buff</u></span><span> dari seluruh musuh dan mengakibatkan Imaginary DMG pada seluruh musuh, serta memperoleh 1 lapis "Abyss Flower".</span>
+        Type: Ultimate
+      "120304":
+        Name: Cycle of Life
+        Desc: <span>Saat memiliki 2 lapis "Abyss Flower", </span><span style='color:#f29e38ff'>sebuah area pembatas akan dihasilkan</span><span>. Selama durasi area pembatas, </span><span style='color:#f29e38ff'>setiap rekan yang menyerang akan memperoleh pemulihan HP</span><span>.</span>
+        Type: Talent
+      "120306":
+        Name: Attack
+        Desc: ""
+      "120307":
+        Name: Mercy of a Fool
+        Desc: <span>Setelah menggunakan Technique, efek Talent akan segera dipicu setelah memasuki pertempuran berikutnya.</span>
+        Type: Technique
+    Eidolons:
+      "120301":
+        Name: Ablution of the Quick
+        Desc: <span>Meningkatkan 20% ATK seluruh rekan tim saat area pembatas aktif.</span>
+      "120302":
+        Name: Bestowal From the Pure
+        Desc: <span>Saat memicu efek Skill, jika persentase HP rekan tim yang ditargetkan kurang dari 50%, maka pemulihan yang diberikan Luocha akan meningkat 30%. Jika persentase HP rekan tim yang ditargetkan lebih dari atau sama dengan 50%, maka Luocha akan memberikan Shield yang menahan DMG sebesar 18% ATK Luocha +240 selama 2 giliran.</span>
+      "120303":
+        Name: Surveyal by the Fool
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "120304":
+        Name: Heavy Lies the Crown
+        Desc: <span>Membuat target musuh memasuki status Weaken saat area pembatas aktif, mengurangi 12% DMG yang diakibatkannya.</span>
+      "120305":
+        Name: Cicatrix 'Neath the Pain
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "120306":
+        Name: Reunion With the Dust
+        Desc: <span>Saat melancarkan Ultimate, ada 100% peluang tetap untuk mengurangi 20% RES seluruh tipe seluruh musuh selama 2 giliran.</span>
+  "1204":
+    Name: Jing Yuan
+    Abilities:
+      "120401":
+        Name: Glistening Light
+        Desc: <span>Mengakibatkan Lightning DMG dalam jumlah kecil pada satu musuh.</span>
+        Type: Basic ATK
+      "120402":
+        Name: Rifting Zenith
+        Desc: <span>Mengakibatkan Lightning DMG dalam jumlah kecil pada seluruh musuh dan </span><span style='color:#f29e38ff'>menambah Hits Per Action milik Lightning-Lord</span><span>.</span>
+        Type: Skill
+      "120403":
+        Name: Lightbringer
+        Desc: <span>Mengakibatkan Lightning DMG pada seluruh musuh dan </span><span style='color:#f29e38ff'>menambah Hits Per Action milik Lightning-Lord</span><span>.</span>
+        Type: Ultimate
+      "120404":
+        Name: Prana Extirpated
+        Desc: <span>Memanggil Lightning-Lord saat pertempuran dimulai. Lightning-Lord akan </span><span style='color:#f29e38ff'>secara otomatis</span><span> menyerang dan </span><span style='color:#f29e38ff'>mengakibatkan Lightning DMG dalam jumlah kecil</span><span> pada 1 musuh secara acak dan target di sekitarnya.</span>
+        Type: Talent
+      "120406":
+        Name: Attack
+        Desc: ""
+      "120407":
+        Name: Spiritus Invocation
+        Desc: <span>Setelah menggunakan Technique, akan menambah </span><span style='color:#f29e38ff'>Hits Per Action dari Lightning-Lord</span><span> saat memasuki pertempuran berikutnya.</span>
+        Type: Technique
+    Eidolons:
+      "120401":
+        Name: Slash, Seas Split
+        Desc: <span>Saat "Lightning-Lord" melancarkan serangan, DMG Multiplier pada musuh di sekitar target utama akan meningkat sebesar 25% DMG Multiplier pada target utama.</span>
+      "120402":
+        Name: Swing, Skies Squashed
+        Desc: <span>Setelah "Lightning-Lord" beraksi, meningkatkan 20% DMG yang diakibatkan Basic Attack, Skill, dan Ultimate Jing Yuan selama 2 giliran.</span>
+      "120403":
+        Name: Strike, Suns Subdued
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "120404":
+        Name: Spin, Stars Sieged
+        Desc: <span>Setiap Hit yang dilancarkan Lightning-Lord akan memulihkan 2 Energy Jing Yuan.</span>
+      "120405":
+        Name: Stride, Spoils Seized
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "120406":
+        Name: Sweep, Souls Slain
+        Desc: <span>Setiap Hit yang dilancarkan Lightning-Lord akan mengakibatkan target musuh terkena status Vulnerability.<br>Saat terkena status Vulnerability, target musuh akan menerima 12% DMG lebih banyak hingga akhir giliran Lightning-Lord saat ini, efek ini dapat ditumpuk hingga 3 lapis.</span>
+  "1205":
+    Name: Blade
+    Abilities:
+      "120501":
+        Name: Shard Sword
+        Desc: <span>Mengakibatkan Wind DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "120502":
+        Name: Hellscape
+        Desc: <span>Mengonsumsi HP diri, </span><span style='color:#f29e38ff'>memperoleh penguatan Basic Attack</span><span>, dan giliran kali ini tidak akan berakhir.</span>
+        Type: Skill
+      "120503":
+        Name: Death Sentence
+        Desc: "<span>Mengonversi HP saat ini menjadi <span style='whiteSpace: \"nowrap\"'>50%</span> Max HP, dan mengakibatkan Wind DMG dalam jumlah besar pada 1 musuh, serta Wind DMG pada target di sekitarnya.</span>"
+        Type: Ultimate
+      "120504":
+        Name: Shuhu's Gift
+        Desc: <span>Saat HP Blade berkurang, Blade akan memperoleh 1 lapis Charge. Saat Charge ditumpuk hingga batas maksimum, Blade akan </span><span style='color:#f29e38ff'>segera mengakibatkan Wind DMG pada seluruh musuh</span><span> dan memulihkan HP, kemudian mengonsumsi seluruh Charge.</span>
+        Type: Talent
+      "120506":
+        Name: Attack
+        Desc: ""
+      "120507":
+        Name: Karma Wind
+        Desc: <span>Menyerang musuh. Setelah memasuki pertempuran, mengonsumsi HP diri sendiri dan mengakibatkan Wind DMG pada seluruh musuh.</span>
+        Type: Technique
+    Eidolons:
+      "120501":
+        Name: Blade Cuts the Deepest in Hell
+        Desc: <span>Ultimate DMG yang diakibatkan pada musuh yang ditarget akan meningkat lagi sebanyak 150% perhitungan akumulasi jumlah HP Blade yang berkurang dalam pertempuran ini.<br>Perhitungan jumlah akumulasi HP Blade yang berkurang di pertempuran saat ini maksimal tidak dapat melebihi 90% Max HP Blade. Setelah melancarkan Ultimate, perhitungan jumlah akumulasi akan direset ulang dan diakumulasi kembali.</span>
+      "120502":
+        Name: Ten Thousand Sorrows From One Broken Dream
+        Desc: <span>Saat Blade memasuki status "Hellscape", CRIT Rate dia meningkat 15%.</span>
+      "120503":
+        Name: Hardened Blade Bleeds Coldest Shade
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "120504":
+        Name: Rejected by Death, Infected With Life
+        Desc: <span>Saat persentase HP Blade saat ini turun dari 50% ke atas menjadi kurang dari atau sama dengan 50% Max HP dirinya, Max HP Blade akan meningkat 20%. Efek ini dapat ditumpuk hingga 2 lapis.</span>
+      "120505":
+        Name: Death By Ten Lords' Gaze
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "120506":
+        Name: Reborn Into an Empty Husk
+        Desc: <span>Jumlah maksimum lapisan Charge berkurang menjadi 4 lapis. DMG yang diakibatkan Serangan Lanjutan yang dipicu Talent meningkat sebesar 50% Max HP Blade.</span>
+  "1206":
+    Name: Sushang
+    Abilities:
+      "120601":
+        Name: "Cloudfencer Art: Starshine"
+        Desc: <span>Mengakibatkan Physical DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "120602":
+        Name: "Cloudfencer Art: Mountainfall"
+        Desc: <span>Mengakibatkan Physical DMG pada 1 musuh dan memiliki </span><span style='color:#f29e38ff'>peluang kecil untuk melancarkan "Sword Stance"</span><span>. Jika target dalam <u>status Weakness Break</u>, maka </span><span style='color:#f29e38ff'>dijamin akan melancarkan "Sword Stance"</span><span>.</span>
+        Type: Skill
+      "120603":
+        Name: "Shape of Taixu: Dawn Herald"
+        Desc: <span>Mengakibatkan Physical DMG dalam jumlah besar pada 1 musuh, meningkatkan efek "Sword Stance", dan </span><span style='color:#f29e38ff'>segera beraksi</span><span>.</span>
+        Type: Ultimate
+      "120604":
+        Name: Dancing Blade
+        Desc: <span>Saat ada musuh yang berstatus Weakness Break, SPD dirinya akan meningkat.</span>
+        Type: Talent
+      "120606":
+        Name: Attack
+        Desc: ""
+      "120607":
+        Name: "Cloudfencer Art: Warcry"
+        Desc: <span>Menyerang musuh dan mengakibatkan Physical DMG dalam jumlah kecil pada seluruh musuh setelah memasuki pertempuran.</span>
+        Type: Technique
+    Eidolons:
+      "120601":
+        Name: Cut With Ease
+        Desc: <span>Memulihkan 1 Poin Skill setelah melancarkan Skill pada musuh dengan status Weakness Break.</span>
+      "120602":
+        Name: Refine in Toil
+        Desc: <span>Setelah memicu "Sword Stance", DMG yang diterima Sushang berkurang 20% selama 1 giliran.</span>
+      "120603":
+        Name: Rise From Fame
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "120604":
+        Name: Cleave With Heart
+        Desc: <span>Meningkatkan 40% Break Effect milik Sushang.</span>
+      "120605":
+        Name: Prevail via Taixu
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "120606":
+        Name: Dwell Like Water
+        Desc: <span>Efek peningkatan SPD dari Talent dapat ditumpuk hingga 2 lapis. Selain itu, Sushang akan segera mendapatkan 1 lapis efek peningkatan SPD dari Talent saat memasuki pertempuran.</span>
+  "1207":
+    Name: Yukong
+    Abilities:
+      "120701":
+        Name: Arrowslinger
+        Desc: <span>Mengakibatkan Imaginary DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "120702":
+        Name: Emboldening Salvo
+        Desc: <span>Memperoleh 2 lapis "Roaring Bowstrings". </span><span style='color:#f29e38ff'>Meningkatkan ATK</span><span> seluruh rekan tim saat memiliki "Roaring Bowstrings".</span>
+        Type: Skill
+      "120703":
+        Name: Diving Kestrel
+        Desc: <span>Saat Yukong memiliki "Roaring Bowstrings", </span><span style='color:#f29e38ff'>meningkatkan CRIT Rate dan CRIT DMG</span><span> seluruh rekan tim, serta mengakibatkan Imaginary DMG dalam jumlah besar pada 1 musuh.</span>
+        Type: Ultimate
+      "120704":
+        Name: Seven Layers, One Arrow
+        Desc: <span>Membuat Basic Attack mengakibatkan DMG tambahan dalam jumlah kecil dan meningkatkan Pengurangan Toughness dari Basic Attack kali ini. Efek ini dapat dipicu lagi setelah 1 giliran.</span>
+        Type: Talent
+      "120706":
+        Name: Attack
+        Desc: ""
+      "120707":
+        Name: Chasing the Wind
+        Desc: <span></span><span style='color:#f29e38ff'>Meningkatkan Movement SPD</span><span> diri sendiri. Setelah menyerang musuh dan memasuki pertempuran, akan memperoleh 2 lapis "Roaring Bowstrings".</span>
+        Type: Technique
+    Eidolons:
+      "120701":
+        Name: Aerial Marshal
+        Desc: <span>Saat memasuki pertempuran, meningkatkan 10% SPD seluruh rekan tim selama 2 giliran.</span>
+      "120702":
+        Name: Skyward Command
+        Desc: <span>Saat Energy dari salah satu rekan tim terisi penuh, Yukong akan memulihkan 5 Energy tambahan. Efek ini hanya dapat terpicu 1 kali untuk setiap rekan tim. Setelah Yukong melancarkan Ultimate, jumlah perhitungan efek yang terpicu akan di-reset.</span>
+      "120703":
+        Name: Torrential Fusillade
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic ATK +1, maksimal Lv. 10.</span>
+      "120704":
+        Name: Zephyrean Echoes
+        Desc: <span>Saat memiliki "Roaring Bowstrings", DMG yang diakibatkan Yukong meningkat 30%.</span>
+      "120705":
+        Name: August Deadshot
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "120706":
+        Name: Bowstring Thunderclap
+        Desc: <span>Saat Yukong melancarkan Ultimate, dia akan langsung mendapatkan 1 lapis "Roaring Bowstrings" sebelum memulai serangannya.</span>
+  "1208":
+    Name: Fu Xuan
+    Abilities:
+      "120801":
+        Name: Novaburst
+        Desc: <span>Mengakibatkan Quantum DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "120802":
+        Name: Known by Stars, Shown by Hearts
+        Desc: <span>Mengaktifkan "Matrix of Prescience", </span><span style='color:#f29e38ff'><u>membagi</u> sebagian DMG yang diterima</span><span> seluruh rekan tim Fu Xuan kepada Fu Xuan. Selain itu juga akan meningkatkan Max HP dan </span><span style='color:#f29e38ff'>CRIT Rate</span><span> seluruh rekan tim.</span>
+        Type: Skill
+      "120803":
+        Name: Woes of Many Morphed to One
+        Desc: <span>Mengakibatkan Quantum DMG pada seluruh musuh dan menambah jumlah kesempatan terpicunya Talent Fu Xuan.</span>
+        Type: Ultimate
+      "120804":
+        Name: Bleak Breeds Bliss
+        Desc: <span>Saat Fu Xuan berada dalam kondisi siap bertempur (tidak gugur), DMG yang diterima seluruh rekan tim akan berkurang.<br>Saat persentase HP Fu Xuan rendah, </span><span style='color:#f29e38ff'>secara otomatis</span><span> memulihkan HP dirinya berdasarkan </span><span style='color:#f29e38ff'>persentase HP dirinya yang sudah berkurang</span><span>. Efek ini maksimal dapat menyimpan 2 kali jumlah kesempatan terpicu.</span>
+        Type: Talent
+      "120806":
+        Name: Attack
+        Desc: ""
+      "120807":
+        Name: Of Fortune Comes Fate
+        Desc: <span>Mengaktifkan Barrier yang akan mencegahmu memasuki pertempuran saat diserang musuh. Memasuki pertempuran akan otomatis mengaktifkan "Matrix of Prescience".</span>
+        Type: Technique
+    Eidolons:
+      "120801":
+        Name: Dominus Pacis
+        Desc: <span>"Knowledge" meningkatkan 30% CRIT DMG.</span>
+      "120802":
+        Name: Optimus Felix
+        Desc: <span>Saat "Matrix of Prescience" aktif, jika ada rekan tim yang menerima serangan mematikan, maka seluruh rekan tim yang menerima serangan mematikan pada aksi kali ini tidak akan gugur, dan akan segera memulihkan HP-nya sebesar 70% Max HP masing-masing. Efek ini dapat dipicu sekali dalam 1 pertempuran.</span>
+      "120803":
+        Name: Apex Nexus
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "120804":
+        Name: Fortuna Stellaris
+        Desc: <span>Setelah rekan tim lain yang berada dalam efek "Matrix of Prescience" terkena serangan, Fu Xuan akan memulihkan 5 Energy.</span>
+      "120805":
+        Name: Arbiter Primus
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "120806":
+        Name: Omnia Vita
+        Desc: <span>Saat "Matrix of Prescience" aktif, ia akan menghitung akumulasi jumlah HP yang berkurang dari seluruh rekan tim dalam pertempuran kali ini. DMG yang diakibatkan Ultimate Fu Xuan akan meningkat sebesar 200% dari perhitungan akumulasi jumlah HP seluruh rekan tim yang berkurang di pertempuran kali ini.<br>Jumlah perhitungan akumulasi HP yang berkurang dari seluruh rekan tim tidak dapat melebihi 120% Max HP Fu Xuan. Setelah melancarkan Ultimate, perhitungan jumlah akumulasi akan direset ulang dan diakumulasi kembali.</span>
+  "1209":
+    Name: Yanqing
+    Abilities:
+      "120901":
+        Name: Frost Thorn
+        Desc: <span>Mengakibatkan Ice DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "120902":
+        Name: Darting Ironthorn
+        Desc: <span>Mengakibatkan Ice DMG pada 1 musuh dan mengaktifkan "Soulsteel Sync" pada diri sendiri.</span>
+        Type: Skill
+      "120903":
+        Name: Amidst the Raining Bliss
+        Desc: <span>Meningkatkan CRIT Rate dan memperkuat "Soulsteel Sync" Yanqing, mengakibatkan Ice DMG dalam jumlah besar pada 1 musuh.</span>
+        Type: Ultimate
+      "120904":
+        Name: One With the Sword
+        Desc: <span></span><span style='color:#f29e38ff'>Saat berada dalam status "Soulsteel Sync"</span><span>, kemungkinan diserang akan berkurang dan </span><span style='color:#f29e38ff'>meningkatkan CRIT Rate dan CRIT DMG</span><span> dirinya. Setelah </span><span style='color:#f29e38ff'>melancarkan serangan</span><span> pada target musuh, ada peluang untuk memicu <u>Serangan Lanjutan</u> yang mengakibatkan Ice DMG serta berpeluang untuk membuat target memasuki status Frozen.<br>"Soulsteel Sync" akan hilang setelah dirinya terkena serangan.</span>
+        Type: Talent
+      "120906":
+        Name: Attack
+        Desc: ""
+      "120907":
+        Name: The One True Sword
+        Desc: "<span>Setelah menggunakan Technique, meningkatkan DMG yang diakibatkan oleh dirinya pada target musuh dengan persentase HP lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>50%</span> saat pertempuran berikutnya dimulai.</span>"
+        Type: Technique
+    Eidolons:
+      "120901":
+        Name: Svelte Saber
+        Desc: <span>Saat Yanqing menyerang target musuh, jika target berstatus Frozen, Yanqing akan segera mengakibatkan Ice DMG tambahan sebesar 60% ATK-nya.</span>
+      "120902":
+        Name: Supine Serenade
+        Desc: <span>Saat "Soulsteel Sync" aktif, meningkatkan 10% Energy Regeneration Rate tambahan.</span>
+      "120903":
+        Name: Sword Savant
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "120904":
+        Name: Searing Sting
+        Desc: <span>Saat persentase HP saat ini lebih dari atau sama dengan 80%, Ice RES PEN dirinya meningkat 12%.</span>
+      "120905":
+        Name: Surging Strife
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "120906":
+        Name: Swift Swoop
+        Desc: <span>Jika efek "Soulsteel Sync" atau efek Buff Ultimate sedang aktif saat mengalahkan target musuh, maka durasi seluruh efek Buff tersebut akan diperpanjang selama 1 giliran.</span>
+  "1210":
+    Name: Guinaifen
+    Abilities:
+      "121001":
+        Name: Standing Ovation
+        Desc: <span>Mengakibatkan Fire DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "121002":
+        Name: Blazing Welcome
+        Desc: <span>Mengakibatkan Fire DMG pada 1 musuh, dan mengakibatkan Fire DMG dalam jumlah kecil pada musuh di sekitar target. Berpeluang besar untuk menambahkan </span><span style='color:#f29e38ff'>status Burn</span><span>.</span>
+        Type: Skill
+      "121003":
+        Name: Watch This Showstopper
+        Desc: <span>Mengakibatkan Fire DMG dalam jumlah kecil pada seluruh musuh.<br>Jika target musuh berstatus Burn, maka status Burn tersebut akan mengakibatkan 1 kali DMG tambahan.</span>
+        Type: Ultimate
+      "121004":
+        Name: PatrAeon Benefits
+        Desc: <span>Setelah </span><span style='color:#f29e38ff'>status Burn yang diterima musuh memicu DMG</span><span>, berpeluang besar untuk memberikan </span><span style='color:#f29e38ff'>status "Firekiss"</span><span>.</span>
+        Type: Talent
+      "121006":
+        Name: Attack
+        Desc: ""
+      "121007":
+        Name: Skill Showcase
+        Desc: <span>Setelah menyerang musuh dan memasuki pertempuran, mengakibatkan Fire DMG dalam jumlah kecil pada 1 musuh, dan memberikan </span><span style='color:#f29e38ff'>status "Firekiss"</span><span>. Total Bounce 4 kali.</span>
+        Type: Technique
+    Eidolons:
+      "121001":
+        Name: Slurping Noodles During Handstand
+        Desc: <span>Saat melancarkan Skill, memiliki 100% peluang dasar untuk mengurangi 10% Effect RES target musuh yang terkena serangan selama 2 giliran.</span>
+      "121002":
+        Name: Brushing Teeth While Whistling
+        Desc: <span>Saat target musuh berstatus Burn, Basic Attack dan Skill Guinaifen akan mengakibatkan DMG Multiplier status Burn yang ditambahkan Guinaifen pada target musuh tersebut meningkat 40%.</span>
+      "121003":
+        Name: Smashing Boulder on Chest
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "121004":
+        Name: Blocking Pike with Neck
+        Desc: <span>Setiap kali status Burn yang diberikan Guinaifen memicu DMG, Guinaifen akan memulihkan 2 Energy.</span>
+      "121005":
+        Name: Swallowing Sword to Stomach
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "121006":
+        Name: Catching Bullet with Hands
+        Desc: <span>Meningkatkan jumlah batas maksimal lapisan "Firekiss" sebanyak 1 lapis.</span>
+  "1211":
+    Name: Bailu
+    Abilities:
+      "121101":
+        Name: Diagnostic Kick
+        Desc: <span>Mengakibatkan Lightning DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "121102":
+        Name: Singing Among Clouds
+        Desc: <span>Memulihkan HP 1 rekan tim, lalu memulihkan rekan yang lain secara acak.</span>
+        Type: Skill
+      "121103":
+        Name: Felicitous Thunderleap
+        Desc: <span>Memulihkan HP seluruh rekan tim, memberikan "Invigoration" atau menambah durasi "Invigoration".</span>
+        Type: Ultimate
+      "121104":
+        Name: Gourdful of Elixir
+        Desc: <span>Rekan tim yang memiliki </span><span style='color:#f29e38ff'>"Invigoration"</span><span> akan </span><span style='color:#f29e38ff'>memulihkan HP</span><span> setelah terkena serangan.<br>Saat rekan tim </span><span style='color:#f29e38ff'>terkena serangan mematikan</span><span>, Bailu akan </span><span style='color:#f29e38ff'>segera memulihkan HP rekan tersebut</span><span>. Efek ini hanya dapat dipicu 1 kali dalam setiap pertempuran.</span>
+        Type: Talent
+      "121106":
+        Name: Attack
+        Desc: ""
+      "121107":
+        Name: Saunter in the Rain
+        Desc: <span>Setelah menggunakan Technique, seluruh rekan tim akan mendapatkan "Invigoration" saat pertempuran berikutnya dimulai.</span>
+        Type: Technique
+    Eidolons:
+      "121101":
+        Name: Ambrosial Aqua
+        Desc: <span>Saat efek "Invigoration" berakhir, jika HP rekan saat ini sudah pulih sepenuhnya, maka akan memulihkan 8 Energy tambahan untuknya.</span>
+      "121102":
+        Name: Sylphic Slumber
+        Desc: <span>Setelah melancarkan Ultimate, meningkatkan 15% Outgoing Healing selama 2 giliran.</span>
+      "121103":
+        Name: Omniscient Opulence
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "121104":
+        Name: Evil Excision
+        Desc: <span>Setiap pemulihan dari Skill akan meningkatkan 10% DMG penerima pemulihan. Dapat ditumpuk 3 lapis selama 2 giliran.</span>
+      "121105":
+        Name: Waning Worries
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "121106":
+        Name: Drooling Drop of Draconic Divinity
+        Desc: <span>Dalam satu pertempuran, jumlah pemulihan Bailu terhadap rekan tim yang terkena serangan mematikan bertambah 1 kali.</span>
+  "1212":
+    Name: Jingliu
+    Abilities:
+      "121201":
+        Name: Lucent Moonglow
+        Desc: <span>Mengakibatkan Ice DMG dalam jumlah kecil pada 1 musuh yang ditargetkan.</span>
+        Type: Basic ATK
+      "121202":
+        Name: Transcendent Flash
+        Desc: <span>Mengakibatkan Ice DMG pada 1 musuh yang ditarget dan memperoleh </span><span style='color:#f29e38ff'>1 lapis "Syzygy"</span><span>.</span>
+        Type: Skill
+      "121203":
+        Name: Florephemeral Dreamflux
+        Desc: <span>Mengakibatkan Ice DMG dalam jumlah besar pada 1 musuh yang ditarget dan mengakibatkan Ice DMG pada musuh di sekitar target, serta </span><span style='color:#f29e38ff'>memperoleh 1 lapis "Syzygy"</span><span>.</span>
+        Type: Ultimate
+      "121204":
+        Name: Crescent Transmigration
+        Desc: "<span>Saat memiliki </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>2</span></span><span> lapis \"Syzygy\", Jingliu akan memasuki status \"Spectral Transmigration\" dan </span><span style='color:#f29e38ff'>mendahulukan aksinya sebesar <span style='whiteSpace: \"nowrap\"'>100%</span></span><span>, meningkatkan CRIT Rate dirinya, serta memperoleh </span><span style='color:#f29e38ff'>Enhanced Skill</span><span>. Saat melancarkan serangan, akan mengonsumsi HP rekan tim, dan </span><span style='color:#f29e38ff'>meningkatkan ATK Jingliu</span><span> berdasarkan jumlah total HP rekan tim yang dikonsumsi. Saat jumlah lapisan \"Syzygy\" mencapai 0, Jingliu akan keluar dari status \"Spectral Transmigration\".</span>"
+        Type: Talent
+      "121206":
+        Name: Attack
+        Desc: ""
+      "121207":
+        Name: Shine of Truth
+        Desc: <span>Menciptakan dimensi khusus di sekelilingnya. Musuh yang berada dalam dimensi khusus akan memasuki </span><span style='color:#f29e38ff'>status Frozen</span><span>. Setelah memasuki pertempuran dengan musuh dalam dimensi khusus, akan memulihkan Energy diri sendiri, memperoleh 1 lapis Syzygy, dan berpeluang besar membuat target musuh memasuki </span><span style='color:#f29e38ff'>status Frozen</span><span>.</span>
+        Type: Technique
+    Eidolons:
+      "121201":
+        Name: Moon Crashes Tianguan Gate
+        Desc: <span>Saat melancarkan Ultimate atau Enhanced Skill, CRIT DMG Jingliu meningkat 24%, berlangsung selama 1 giliran. Jika hanya menyerang 1 target musuh, akan mengakibatkan 1 kali Ice DMG tambahan sebesar 100% ATK Jingliu.</span>
+      "121202":
+        Name: Crescent Shadows Qixing Dipper
+        Desc: <span>Setelah melancarkan Ultimate, DMG dari Enhanced Skill yang dilancarkan berikutnya meningkat 80%.</span>
+      "121203":
+        Name: Halfmoon Gapes Mercurial Haze
+        Desc: <span>Level Ultimate +2, maksimum Lv. 15. Level Talent +2, maksimum Lv. 15.</span>
+      "121204":
+        Name: Lunarlance Shines Skyward Dome
+        Desc: <span>Saat berstatus "Spectral Transmigration", ATK yang diperoleh dari mengonsumsi HP rekan tim akan meningkat lagi. Peningkatannya sebesar 90% total jumlah HP yang dikonsumsi dari seluruh rekan tim, dan batas maksimal peningkatan ATK yang diperoleh meningkat 30%.</span>
+      "121205":
+        Name: Night Shades Astral Radiance
+        Desc: <span>Level Skill +2, maksimum Lv. 15. Level Basic Attack +1, maksimum Lv. 10.</span>
+      "121206":
+        Name: Eclipse Hollows Corporeal Husk
+        Desc: <span>Saat Jingliu memasuki status "Spectral Transmigration", batas maksimal lapisan "Syzygy" meningkat 1 lapis, serta memperoleh 1 lapis "Syzygy" tambahan. Saat berstatus "Spectral Transmigration", CRIT DMG meningkat 50%.</span>
+  "1213":
+    Name: Dan Heng · Imbibitor Lunae
+    Abilities:
+      "121301":
+        Name: Beneficent Lotus
+        Desc: <span>Mengakibatkan Imaginary DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "121302":
+        Name: Dracore Libre
+        Desc: <span>Memperkuat Basic Attack "Beneficent Lotus" menjadi </span><span style='color:#f29e38ff'>"Transcendence"</span><span>, </span><span style='color:#f29e38ff'>"Divine Spear" atau "Fulgurant Leap"</span><span>.</span>
+        Type: Skill
+      "121303":
+        Name: Azure's Aqua Ablutes All
+        Desc: "<span>Mengakibatkan Imaginary DMG dalam jumlah besar pada 1 musuh dan mengakibatkan Imaginary DMG pada musuh di sekitar target. Mendapatkan 2 \"Squama Sacrosancta\": Dapat digunakan untuk </span><span style='color:#f29e38ff'>Mengurangi</span><span> konsumsi Poin Skill dari Dan Heng · Imbibitor Lunae. Mengonsumsi \"Squama Sacrosancta\" dianggap sama dengan </span><span style='color:#f29e38ff'>mengonsumsi Poin Skill</span><span>.</span>"
+        Type: Ultimate
+      "121304":
+        Name: Righteous Heart
+        Desc: <span>Setiap Hit serangan yang dilancarkan dapat meningkatkan DMG yang diakibatkan diri sendiri. Efek ini dapat ditumpuk dan berlangsung hingga giliran dirinya berakhir.</span>
+        Type: Talent
+      "121306":
+        Name: Attack
+        Desc: ""
+      "121307":
+        Name: Heaven-Quelling Prismadrakon
+        Desc: <span>Memasuki status "Leaping Dragon". Melancarkan serangan dapat bergerak maju dengan cepat dan serangan akan langsung mengenai musuh. Setelah memasuki pertempuran dengan menyerang musuh, akan mengakibatkan Imaginary DMG pada seluruh musuh, dan mendapatkan 1 "Squama Sacrosancta".</span>
+        Type: Technique
+    Eidolons:
+      "121301":
+        Name: Tethered to Sky
+        Desc: <span>Meningkatkan jumlah maksimal lapisan "Righteous Heart" sebanyak 4 lapis, dan akan memperoleh 1 lapis "Righteous Heart" tambahan untuk setiap Hit serangan.</span>
+      "121302":
+        Name: Imperium On Cloud Nine
+        Desc: <span>Setelah Dan Heng · Imbibitor Lunae melancarkan Ultimate, aksi dirinya akan didahulukan 100%, dan memperoleh 1 "Squama Sacrosancta" tambahan.</span>
+      "121303":
+        Name: Clothed in Clouds
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "121304":
+        Name: Zephyr's Bliss
+        Desc: <span>Efek Buff dari "Outroar" akan berlangsung hingga akhir giliran berikutnya dari karakter ini.</span>
+      "121305":
+        Name: Fall is the Pride
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "121306":
+        Name: Reign, Returned
+        Desc: <span>Setelah rekan tim lain melancarkan Ultimate, Imaginary RES PEN Dan Heng • Imbibitor Lunae untuk serangan "Fulgurant Leap" yang berikutnya akan meningkat 20%. Efek ini dapat ditumpuk hingga 3 lapis.</span>
+  "1214":
+    Name: Xueyi
+    Abilities:
+      "121401":
+        Name: Mara-Sunder Awl
+        Desc: <span>Mengakibatkan Quantum DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "121402":
+        Name: Iniquity Obliteration
+        Desc: <span>Mengakibatkan Quantum DMG pada satu musuh, dan Quantum DMG dalam jumlah kecil pada target di sekitarnya.</span>
+        Type: Skill
+      "121403":
+        Name: Divine Castigation
+        Desc: <span>Mengakibatkan Quantum DMG dalam jumlah besar pada satu musuh. Serangan ini </span><span style='color:#f29e38ff'>mengabaikan Tipe Weakness</span><span> dan mengurangi Toughness musuh tersebut. Semakin banyak Toughness yang berkurang, semakin tinggi DMG yang diakibatkan.</span>
+        Type: Ultimate
+      "121404":
+        Name: Karmic Perpetuation
+        Desc: <span>Saat serangan yang dilancarkan Xueyi atau setelah serangan yang dilancarkan rekan tim Xueyi mengurangi Toughness musuh, Xueyi akan memperoleh lapisan "Karma". Saat tumpukan "Karma" mencapai batas maksimum, Xueyi akan </span><span style='color:#f29e38ff'>segera melancarkan <u>Serangan Lanjutan</u></span><span> yang mengakibatkan Quantum DMG dalam jumlah kecil pada 1 musuh, total Bounce 3 kali dan mengonsumsi semua "Karma."</span>
+        Type: Talent
+      "121406":
+        Name: Attack
+        Desc: ""
+      "121407":
+        Name: Summary Execution
+        Desc: <span>Menyerang musuh dan mengakibatkan Quantum DMG dalam jumlah kecil pada seluruh musuh setelah memasuki pertempuran.</span>
+        Type: Technique
+    Eidolons:
+      "121401":
+        Name: Dvesha, Inhibited
+        Desc: <span>Meningkatkan 40% DMG yang diakibatkan Serangan Lanjutan Talent.</span>
+      "121402":
+        Name: Klesha, Breached
+        Desc: <span>Serangan Lanjutan dari Talent akan mengabaikan Tipe Weakness dan mengurangi Toughness musuh, dan pada saat yang sama memulihkan HP Xueyi sebesar 5% Max HP-nya. Jika mengakibatkan Weakness Break dengan cara ini, maka akan memicu efek Quantum Weakness Break.</span>
+      "121403":
+        Name: Duḥkha, Ceased
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "121404":
+        Name: Karma, Severed
+        Desc: <span>Saat melancarkan Ultimate, Break Effect karakter ini meningkat sebesar 40% selama 2 giliran.</span>
+      "121405":
+        Name: Deva, Enthralled
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "121406":
+        Name: Saṃsāra, Mastered
+        Desc: <span>Mengurangi batas maksimal lapisan "Karma" menjadi 6 lapis.</span>
+  "1215":
+    Name: Hanya
+    Abilities:
+      "121501":
+        Name: Oracle Brush
+        Desc: <span>Mengakibatkan Physical DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "121502":
+        Name: Samsara, Locked
+        Desc: <span>Mengakibatkan Physical DMG pada 1 musuh, serta membuat target tersebut memasuki status "Burden". Saat setelah rekan tim melancarkan 2 kali serangan (Basic ATK, Skill, atau Ultimate) pada target musuh yang berstatus "Burden", akan segera memulihkan </span><span style='color:#f29e38ff'>1 Poin Skill</span><span> untuk rekan tim.</span>
+        Type: Skill
+      "121503":
+        Name: Ten-Lords' Decree, All Shall Obey
+        Desc: <span></span><span style='color:#f29e38ff'>Meningkatkan SPD dan ATK</span><span> 1 rekan tim.</span>
+        Type: Ultimate
+      "121504":
+        Name: Sanction
+        Desc: <span>Saat rekan tim melancarkan serangan pada target musuh berstatus "Burden", DMG yang diakibatkan akan meningkat.</span>
+        Type: Talent
+      "121506":
+        Name: Attack
+        Desc: ""
+      "121507":
+        Name: Netherworld Judgment
+        Desc: <span>Menyerang musuh. Setelah memasuki pertempuran, akan menambahkan efek "Burden" yang sama dengan Skill pada musuh secara acak.</span>
+        Type: Technique
+    Eidolons:
+      "121501":
+        Name: One Heart
+        Desc: <span>Ketika rekan tim dengan efek Ultimate Hanya mengalahkan target musuh, aksi Hanya akan didahulukan sebesar 15%. Efek ini cuma dapat dipicu 1 kali per giliran.</span>
+      "121502":
+        Name: Two Views
+        Desc: <span>Setelah melancarkan Skill, meningkatkan 20% SPD selama 1 giliran.</span>
+      "121503":
+        Name: Three Temptations
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "121504":
+        Name: Four Truths
+        Desc: <span>Durasi Ultimate bertambah 1 giliran.</span>
+      "121505":
+        Name: Five Skandhas
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "121506":
+        Name: Six Reverences
+        Desc: <span>Efek peningkatan DMG dari Talent akan meningkat ekstra 10%.</span>
+  "1217":
+    Name: Huohuo
+    Abilities:
+      "121701":
+        Name: "Banner: Stormcaller"
+        Desc: <span>Mengakibatkan Wind DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "121702":
+        Name: "Talisman: Protection"
+        Desc: <span>Menghapus 1 <u>Debuff</u> milik 1 rekan tim dan </span><span style='color:#f29e38ff'>memulihkan HP</span><span> rekan tersebut dan target di sekitarnya.</span>
+        Type: Skill
+      "121703":
+        Name: "Tail: Spiritual Domination"
+        Desc: <span></span><span style='color:#f29e38ff'>Memulihkan Energy</span><span> untuk rekan tim selain diri sendiri, serta </span><span style='color:#f29e38ff'>meningkatkan ATK</span><span> mereka.</span>
+        Type: Ultimate
+      "121704":
+        Name: "Possession: Ethereal Metaflow"
+        Desc: <span>Setelah melancarkan Skill, Huohuo akan memperoleh "Divine Provision". Saat Huohuo memiliki "Divine Provision", saat giliran rekan tim dimulai atau saat rekan tim melancarkan Ultimate, akan </span><span style='color:#f29e38ff'>memulihkan HP rekan tersebut</span><span>. Di saat yang bersamaan, akan </span><span style='color:#f29e38ff'>menciptakan 1 kali efek pemulihan</span><span> pada </span><span style='color:#f29e38ff'>setiap rekan tim</span><span> yang persentase HP-nya agak rendah. Saat memicu "Divine Provision" untuk memberikan efek pemulihan pada rekan tim, akan </span><span style='color:#f29e38ff'>menghapus 1 efek <u>Debuff</u> dari rekan tersebut</span><span>.</span>
+        Type: Talent
+      "121706":
+        Name: Attack
+        Desc: ""
+      "121707":
+        Name: "Fiend: Impeachment of Evil"
+        Desc: <span>Membuat musuh di sekitarnya memasuki status "Horror-Struck". Setelah memasuki pertempuran dengan musuh yang berstatus "Horror-Struck", berpeluang besar </span><span style='color:#f29e38ff'>mengurangi ATK</span><span> target musuh.</span>
+        Type: Technique
+    Eidolons:
+      "121701":
+        Name: Anchored to Vessel, Specters Nestled
+        Desc: <span>Durasi "Divine Provision" yang dihasilkan Talent bertambah 1 giliran, dan saat Huohuo memiliki "Divine Provision", SPD seluruh rekan tim meningkat 12%.</span>
+      "121702":
+        Name: Sealed in Tail, Wraith Subdued
+        Desc: <span>Saat Huohuo memiliki "Divine Provision", jika rekan tim terkena serangan mematikan, rekan tersebut tidak akan gugur dan HP-nya akan segera dipulihkan sebesar 50% Max HP rekan tersebut. Hal ini akan mengurangi durasi "Divine Provision" sebanyak 1 giliran. Efek ini dapat terpicu 2 kali dalam 1 pertempuran.</span>
+      "121703":
+        Name: Cursed by Fate, Moths to Flame
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "121704":
+        Name: Tied in Life, Bound to Strife
+        Desc: <span>Saat melancarkan Skill atau memicu Talent untuk memulihkan rekan tim, semakin rendah HP target saat ini, maka semakin tinggi pemulihannya. Maksimal meningkatkan Outgoing Healing (pemulihan) yang diberikan Huohuo hingga 80%.</span>
+      "121705":
+        Name: Mandated by Edict, Evils Evicted
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "121706":
+        Name: Woven Together, Cohere Forever
+        Desc: <span>Saat memulihkan rekan tim, meningkatkan 50% DMG yang diakibatkan target selama 2 giliran.</span>
+  "1218":
+    Name: Jiaoqiu
+    Abilities:
+      "121801":
+        Name: Heart Afire
+        Desc: <span>Mengakibatkan Fire DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "121802":
+        Name: Scorch Onslaught
+        Desc: <span>Mengakibatkan Fire DMG pada 1 musuh, dan mengakibatkan Fire DMG dalam jumlah kecil pada musuh di sekitar target. Berpeluang besar untuk menambahkan 1 lapis "Ashen Roast" pada target utama.</span>
+        Type: Skill
+      "121803":
+        Name: Pyrograph Arcanum
+        Desc: <span>Menyesuaikan jumlah lapisan "Ashen Roast" yang dimiliki target musuh menjadi jumlah lapisan "Ashen Roast" tertinggi yang ada di medan pertempuran. Setelah itu, akan mengaktifkan area pembatas dan mengakibatkan Fire DMG pada seluruh musuh. Saat target musuh berada di dalam area pembatas, </span><span style='color:#f29e38ff'>Ultimate DMG yang diterima target musuh akan meningkat</span><span>, dan memiliki peluang untuk menambahkan 1 lapis "Ashen Roast" pada target musuh saat target beraksi.</span>
+        Type: Ultimate
+      "121804":
+        Name: Quartet Finesse, Octave Finery
+        Desc: <span>Setelah menyerang, berpeluang besar untuk menambahkan 1 lapis "Ashen Roast" pada target, membuat DMG yang diterima musuh meningkat, dan juga akan dianggap memasuki status Burn.</span>
+        Type: Talent
+      "121806":
+        Name: Attack
+        Desc: ""
+      "121807":
+        Name: Fiery Queller
+        Desc: <span>Menciptakan sebuah dimensi khusus. Setelah memasuki pertempuran dengan musuh di dalam dimensi khusus, akan mengakibatkan Fire DMG dalam jumlah kecil pada seluruh musuh, dan berpeluang besar untuk menambahkan 1 lapis "Ashen Roast".</span>
+        Type: Technique
+    Eidolons:
+      "121801":
+        Name: Pentapathic Transference
+        Desc: <span>Meningkatkan 40% DMG yang diakibatkan rekan tim pada target musuh berstatus "Ashen Roast". Setiap kali membuat target musuh memasuki status "Ashen Roast" melalui efek Talent, maka jumlah lapisan "Ashen Roast" yang ditambahkan kali ini bertambah ekstra 1 lapis.</span>
+      "121802":
+        Name: From Savor Comes Suffer
+        Desc: <span>Saat target musuh berada dalam status "Ashen Roast", DMG Multiplier dari Fire DoT yang diakibatkan "Ashen Roast" pada target tersebut meningkat 300%.</span>
+      "121803":
+        Name: Flavored Euphony Reigns Supreme
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "121804":
+        Name: Leisure In, Luster Out
+        Desc: <span>Selama area pembatas ada, ATK target musuh berkurang 15%.</span>
+      "121805":
+        Name: Duel in Dawn, Dash in Dusk
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "121806":
+        Name: Nonamorphic Pyrobind
+        Desc: <span>Saat target musuh dikalahkan, lapisan "Ashen Roast" yang dimilikinya akan ditumpuk ke musuh dengan jumlah lapisan "Ashen Roast" tersedikit yang masih hidup di medan pertempuran. Batas maksimum jumlah lapisan "Ashen Roast" bertambah menjadi 9, dan setiap lapis "Ashen Roast" akan membuat RES Seluruh Tipe target berkurang 3%.</span>
+  "1220":
+    Name: Feixiao
+    Abilities:
+      "122001":
+        Name: Boltsunder
+        Desc: <span>Mengakibatkan Wind DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "122002":
+        Name: Waraxe
+        Desc: <span>Mengakibatkan Wind DMG pada 1 musuh, lalu melancarkan 1 kali <u>Serangan Lanjutan</u> dari Talent.</span>
+        Type: Skill
+      "122003":
+        Name: Terrasplit
+        Desc: "<span>Selama Ultimate berlangsung, dapat mengurangi Toughness musuh </span><span style='color:#f29e38ff'>tanpa memedulikan tipe Weakness-nya</span><span>. Jika target tidak berstatus Weakness Break, maka </span><span style='color:#f29e38ff'>Weakness Break Efficiency Feixiao akan meningkat</span><span>.<br>Melancarkan </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>6</span></span><span> kali \"Boltsunder Blitz\" atau \"Waraxe Skyward\" pada 1 musuh, lalu terakhir mengakibatkan Wind DMG.</span>"
+        Type: Ultimate
+      "122004":
+        Name: Thunderhunt
+        Desc: "<span>Ultimate dapat diaktifkan saat \"Flying Aureus\" mencapai </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>6</span></span><span> poin, maksimal dapat mengakumulasi hingga </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>12</span></span><span> poin. Setiap kali rekan tim melancarkan </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>2</span></span><span> kali serangan, Feixiao akan memperoleh </span><span style='color:#f29e38ff'>\"Flying Aureus\"</span><span>.<br>Setelah rekan tim Feixiao melancarkan serangan, Feixiao akan melancarkan </span><span style='color:#f29e38ff'><u>Serangan Lanjutan</u></span><span> pada target utama, mengakibatkan Wind DMG. Efek ini maksimal dapat terpicu 1 kali di setiap giliran. Saat melancarkan serangan ini, </span><span style='color:#f29e38ff'>DMG yang diakibatkan diri sendiri akan meningkat</span><span>.</span>"
+        Type: Talent
+      "122006":
+        Name: Attack
+        Desc: ""
+      "122007":
+        Name: Stormborn
+        Desc: <span>Memasuki status "Onrush", terus-menerus menarik musuh dan meningkatkan Movement SPD diri sendiri, serta akan memperoleh "Flying Aureus" setelah memasuki pertempuran.<br>Saat berstatus "Onrush", dapat secara aktif menyerang seluruh musuh yang tertarik, serta mengakibatkan Wind DMG yang dijamin akan CRIT Hit pada seluruh musuh saat setiap gelombang pertempuran dimulai. </span><span style='color:#f29e38ff'>Semakin banyak musuh yang tertarik, maka DMG Multiplier akan semakin tinggi</span><span>.</span>
+        Type: Technique
+    Eidolons:
+      "122001":
+        Name: Skyward I Quell
+        Desc: <span>Setelah melancarkan "Boltsunder Blitz" atau "Waraxe Skyward", Ultimate DMG yang diakibatkan Feixiao akan meningkat ekstra, peningkatannya adalah sebesar 10% dari DMG aslinya. Efek ini maksimal dapat ditumpuk hingga 5 lapis, dan berlangsung hingga aksi Ultimate berakhir.</span>
+      "122002":
+        Name: Moonward I Wish
+        Desc: <span>Pada efek Talent, setiap kali rekan tim melancarkan 1 kali Serangan Lanjutan akan membuat Feixiao memperoleh 1 poin "Flying Aureus". Efek ini maksimal dapat dipicu 6 kali setiap giliran.</span>
+      "122003":
+        Name: Starward I Bode
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "122004":
+        Name: Stormward I Hear
+        Desc: <span>Pengurangan Toughness dari Serangan Lanjutan Talent meningkat 100%, dan saat melancarkannya, SPD diri sendiri akan meningkat 8% selama 2 giliran.</span>
+      "122005":
+        Name: Heavenward I Leap
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "122006":
+        Name: Homeward I Near
+        Desc: <span>RES PEN Seluruh Tipe dari Ultimate DMG yang diakibatkan Feixiao meningkat 20%. DMG Serangan Lanjutan yang diakibatkan Talent akan dianggap sebagai Ultimate DMG, dan DMG Multiplier-nya meningkat 140%.</span>
+  "1221":
+    Name: Yunli
+    Abilities:
+      "122101":
+        Name: Galespin Summersault
+        Desc: <span>Mengakibatkan Physical DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "122102":
+        Name: Bladeborne Quake
+        Desc: <span>Memulihkan HP diri sendiri, dan mengakibatkan Physical DMG dalam jumlah kecil pada 1 musuh dan target di sekitarnya.</span>
+        Type: Skill
+      "122103":
+        Name: Earthbind, Etherbreak
+        Desc: <span>Memasuki status "Parry" dan membuat seluruh musuh memasuki status Taunt. Selama durasi "Parry", setelah terkena serangan akan memicu </span><span style='color:#f29e38ff'><u>Serangan Balasan</u> yang kuat</span><span>, </span><span style='color:#f29e38ff'>mengakibatkan Physical DMG</span><span> pada penyerang dan target di sekitarnya. Kemudian, akan mengakibatkan Physical DMG dalam jumlah kecil pada 1 musuh, total Bounce sebanyak 6 kali. Jika tidak memicu Serangan Balasan saat status "Parry" berlangsung, maka saat status berakhir akan mengakibatkan Physical DMG pada target musuh acak dan musuh di sekitarnya.</span>
+        Type: Ultimate
+      "122104":
+        Name: Flashforge
+        Desc: <span>Saat Yunli terkena serangan dari target musuh, akan memulihkan Energy tambahan dan segera melancarkan <u>Serangan Balasan</u> pada penyerang dan target di sekitarnya.</span>
+        Type: Talent
+      "122106":
+        Name: Attack
+        Desc: ""
+      "122107":
+        Name: Posterior Precedence
+        Desc: "<span>Membuat diri sendiri memperoleh efek \"Ward\" selama <span style='whiteSpace: \"nowrap\"'>20</span> detik. Selama durasi tersebut, setelah menyerang musuh atau terkena serangan untuk memasuki pertempuran, akan segera melancarkan \"Intuit: Cull\" pada musuh acak.</span>"
+        Type: Technique
+    Eidolons:
+      "122101":
+        Name: Weathered Blade Does Not Sully
+        Desc: "<span>DMG yang diakibatkan \"Intuit: Slash\" dan \"Intuit: Cull\" meningkat 20%, jumlah tambahan DMG dari \"Intuit: Cull\" bertambah 3.</span>"
+      "122102":
+        Name: First Luster Breaks Dawn
+        Desc: <span>Saat mengakibatkan DMG dengan melancarkan Serangan Balasan, akan mengabaikan 20% DEF target musuh.</span>
+      "122103":
+        Name: Mastlength Twirls Mountweight
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "122104":
+        Name: Artisan's Ironsong
+        Desc: "<span>Setelah melancarkan \"Intuit: Slash\" atau \"Intuit: Cull\", akan meningkatkan 50% Effect RES diri sendiri, berlangsung selama 1 giliran.</span>"
+      "122105":
+        Name: Blade of Old Outlasts All
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "122106":
+        Name: Walk in Blade, Talk in Zither
+        Desc: "<span>Selama durasi \"Parry\", saat musuh melancarkan kemampuan secara aktif, \"Intuit: Cull\" akan terpicu dan menghapus efek \"Parry\" tanpa peduli apakah musuh tersebut menyerang Yunli atau tidak. Saat melancarkan \"Intuit: Slash\" atau \"Intuit: Cull\" untuk mengakibatkan DMG, CRIT Rate Yunli akan meningkat 15%, dan Physical RES PEN akan meningkat 20%.</span>"
+  "1222":
+    Name: Lingsha
+    Abilities:
+      "122201":
+        Name: Votive Incense
+        Desc: <span>Mengakibatkan Fire DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "122202":
+        Name: Smoke and Splendor
+        Desc: <span>Mengakibatkan Fire DMG dalam jumlah kecil pada seluruh musuh, pada saat bersamaan </span><span style='color:#f29e38ff'>memulihkan HP</span><span> seluruh rekan tim, membuat "Fuyuan" mengalami <u>Pendahuluan Aksi</u>.</span>
+        Type: Skill
+      "122203":
+        Name: Dripping Mistscape
+        Desc: <span>Membuat </span><span style='color:#f29e38ff'>Break DMG yang diterima seluruh musuh meningkat</span><span>, mengakibatkan Fire DMG pada seluruh musuh, dan pada saat bersamaan </span><span style='color:#f29e38ff'>memulihkan HP</span><span> seluruh rekan tim, membuat "Fuyuan" mengalami <u>Pendahuluan Aksi</u>.</span>
+        Type: Ultimate
+      "122204":
+        Name: Mistdance Manifest
+        Desc: "<span>Memanggil \"Fuyuan\" saat melancarkan Skill: Saat \"Fuyuan\" beraksi, akan melancarkan </span><span style='color:#f29e38ff'><u>Serangan Lanjutan</u></span><span>, mengakibatkan Fire DMG dalam jumlah kecil pada seluruh musuh. Mengakibatkan tambahan Fire DMG dalam jumlah kecil pada 1 musuh acak, memprioritaskan target yang Toughness-nya lebih dari 0 dan memiliki Fire Weakness. Menghapus masing-masing 1 <u>efek Debuff</u> dari seluruh rekan tim dan </span><span style='color:#f29e38ff'>memulihkan HP</span><span>.<br>Melancarkan Skill lagi dapat menambah jumlah aksi \"Fuyuan\".</span>"
+        Type: Talent
+      "122206":
+        Name: Attack
+        Desc: ""
+      "122207":
+        Name: Wisps of Aurora
+        Desc: <span>Setelah menggunakan Technique, akan segera memanggil "Fuyuan" saat pertempuran berikutnya dimulai dan </span><span style='color:#f29e38ff'>meningkatkan Break DMG yang diterima</span><span> seluruh musuh.</span>
+        Type: Technique
+    Eidolons:
+      "122201":
+        Name: Bloom on Vileward Bouquet
+        Desc: <span>Weakness Break Efficiency Lingsha meningkat 50%. Saat ada unit musuh yang terkena Weakness Break, DEF musuh tersebut akan berkurang 20%.</span>
+      "122202":
+        Name: Leisure in Carmine Smokeveil
+        Desc: <span>Saat melancarkan Ultimate, Break Effect seluruh rekan tim meningkat 40%, berlangsung selama 3 giliran.</span>
+      "122203":
+        Name: Shine of Floral Wick
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "122204":
+        Name: Redolence from Canopied Banquet
+        Desc: <span>Saat "Fuyuan" beraksi, akan memulihkan HP rekan tim yang HP-nya saat ini paling rendah sebesar 40% ATK Lingsha.</span>
+      "122205":
+        Name: Poise Atop Twists and Turns
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "122206":
+        Name: Arcadia Under Deep Seclusion
+        Desc: <span>Saat "Fuyuan" berada di medan pertempuran, RES Seluruh Tipe milik seluruh musuh berkurang 20%. Saat "Fuyuan" menyerang, akan mengakibatkan ekstra 4 kali DMG, yang setiap DMG-nya akan mengakibatkan Fire DMG sebesar 50% ATK Lingsha dan Pengurangan Toughness sebesar 5 pada musuh acak, memprioritaskan target yang Toughness-nya lebih dari 0 dan memiliki Fire Weakness.</span>
+  "1223":
+    Name: Moze
+    Abilities:
+      "122301":
+        Name: Hurlthorn
+        Desc: <span>Mengakibatkan Lightning DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "122302":
+        Name: Fleetwinged Raid
+        Desc: "<span></span><span style='color:#f29e38ff'>Menjadikan 1 musuh sebagai \"Prey\"</span><span> dan mengakibatkan Lightning DMG padanya, serta memperoleh </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>9</span></span><span> poin Charge.</span>"
+        Type: Skill
+      "122303":
+        Name: Dash In, Gash Out
+        Desc: <span>Mengakibatkan Lightning DMG pada 1 musuh, serta melancarkan </span><span style='color:#f29e38ff'><u>Serangan Lanjutan</u></span><span> dari Talent.</span>
+        Type: Ultimate
+      "122304":
+        Name: Cascading Featherblade
+        Desc: "<span>Saat terdapat \"Prey\" di medan pertempuran, Moze akan memasuki status </span><span style='color:#f29e38ff'><u>Departed</u></span><span>.<br>Setelah rekan tim menyerang \"Prey\", Moze akan mengakibatkan Lightning </span><span style='color:#f29e38ff'><u>DMG Tambahan</u></span><span> dan mengonsumsi 1 poin Charge. Setiap mengonsumsi </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>3</span></span><span> poin Charge, Moze akan melancarkan </span><span style='color:#f29e38ff'><u>Serangan Lanjutan</u></span><span> pada \"Prey\", mengakibatkan Lightning DMG. Saat poin Charge berjumlah 0, akan menghapus status \"Prey\" dari target.</span>"
+        Type: Talent
+      "122306":
+        Name: Attack
+        Desc: ""
+      "122307":
+        Name: Bated Wings
+        Desc: <span>Memasuki status Stealth. Saat menyerang musuh ketika berstatus Stealth untuk memasuki pertempuran, DMG yang diakibatkan Moze akan meningkat.</span>
+        Type: Technique
+    Eidolons:
+      "122301":
+        Name: Oathkeeper
+        Desc: <span>Setelah memasuki pertempuran, Moze akan memulihkan 20 poin Energy. Setiap memicu 1 kali DMG Tambahan dari Talent miliknya, Moze akan memulihkan 2 poin Energy.</span>
+      "122302":
+        Name: Wrathbearer
+        Desc: <span>Saat rekan tim mengakibatkan DMG pada target musuh yang menjadi "Prey", CRIT DMG akan meningkat 40%.</span>
+      "122303":
+        Name: Deathchaser
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "122304":
+        Name: Heathprowler
+        Desc: <span>Saat melancarkan Ultimate, DMG yang diakibatkan Moze meningkat 30%, berlangsung selama 2 giliran.</span>
+      "122305":
+        Name: Truthbender
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "122306":
+        Name: Faithbinder
+        Desc: <span>DMG Multiplier Serangan Lanjutan dari Talent meningkat 25%.</span>
+  "1224":
+    Name: March 7th
+    Abilities:
+      "122401":
+        Name: My Sword Zaps Demons
+        Desc: "<span>Mengakibatkan Imaginary DMG dalam jumlah kecil pada 1 musuh dan memperoleh </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>1</span></span><span> poin Charge.</span>"
+        Type: Basic ATK
+      "122402":
+        Name: Master, It's Tea Time!
+        Desc: "<span>Membuat 1 rekan tim menjadi \"Shifu\". Saat melancarkan Basic Attack atau mengakibatkan Enhanced Basic Attack DMG, akan memicu efek berikut berdasarkan </span><span style='color:#f29e38ff'>Path \"Shifu\"</span><span>:<br>\"Erudition\", \"Destruction\", \"Hunt\": mengakibatkan </span><span style='color:#f29e38ff'><u>DMG Tambahan</u></span><span> berdasarkan Tipe \"Shifu\".<br>\"Harmony\", \"Nihility\", \"Preservation\", \"Abundance\": </span><span style='color:#f29e38ff'>Pengurangan Toughness</span><span> meningkat.</span>"
+        Type: Skill
+      "122403":
+        Name: March 7th, the Apex Heroine
+        Desc: <span>Mengakibatkan Imaginary DMG pada 1 musuh, serta </span><span style='color:#f29e38ff'>meningkatkan</span><span> jumlah Hit dan peluang mengakibatkan DMG dari pelancaran </span><span style='color:#f29e38ff'>Enhanced Basic Attack yang berikutnya</span><span>.</span>
+        Type: Ultimate
+      "122404":
+        Name: Master, I've Ascended!
+        Desc: "<span>Setelah </span><span style='color:#f29e38ff'>\"Shifu\" melancarkan serangan atau Ultimate</span><span>, March 7th akan memperoleh Charge. Saat poin Charge mencapai </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>7</span></span><span>, March 7th akan segera beraksi, DMG yang diakibatkan akan meningkat, dan </span><span style='color:#f29e38ff'>Basic Attack akan diperkuat</span><span>.</span>"
+        Type: Talent
+      "122406":
+        Name: Attack
+        Desc: ""
+      "122407":
+        Name: Feast in One Go
+        Desc: <span>Setiap kali rekan tim (selain March 7th) melancarkan Technique, March 7th akan memperoleh Charge setelah memasuki pertempuran berikutnya. Setelah melancarkan Technique, March 7th akan memulihkan Energy setelah memasuki pertempuran berikutnya.</span>
+        Type: Technique
+    Eidolons:
+      "122401":
+        Name: My Sword Stirs Starlight
+        Desc: <span>Saat "Shifu" berada di medan pertempuran, SPD March 7th akan meningkat 10%.</span>
+      "122402":
+        Name: Blade Dances on Waves' Fight
+        Desc: <span>Setiap kali setelah "Shifu" melancarkan Basic Attack atau Skill untuk menyerang target musuh, March 7th akan segera melancarkan Serangan Lanjutan, mengakibatkan Imaginary DMG sebesar 60% ATK March 7th pada target utama serangan kali ini, dan memicu efek yang sesuai dengan Path "Shifu", lalu memperoleh 1 poin Charge. Jika tidak ada target utama yang dapat diserang, maka akan menyerang 1 musuh secara acak. Efek ini maksimal dapat dipicu 1 kali di setiap giliran.</span>
+      "122403":
+        Name: Sharp Wit in Martial Might
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "122404":
+        Name: Being Fabulous Never Frights
+        Desc: <span>Saat giliran dimulai, akan memulihkan 5 Energy.</span>
+      "122405":
+        Name: Sword Delights, Sugar Blights
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "122406":
+        Name: Me, the Best Girl in Sight
+        Desc: <span>Setelah melancarkan Ultimate, CRIT DMG yang diakibatkan Enhanced Basic Attack berikutnya akan meningkat 50%.</span>
+  "1301":
+    Name: Gallagher
+    Abilities:
+      "130101":
+        Name: Corkage Fee
+        Desc: <span>Mengakibatkan Fire DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "130102":
+        Name: Special Brew
+        Desc: <span>Segera memulihkan HP 1 rekan tim.</span>
+        Type: Skill
+      "130103":
+        Name: Champagne Etiquette
+        Desc: <span>Membuat seluruh musuh memasuki </span><span style='color:#f29e38ff'>status "Besotted"</span><span>, dan di saat yang bersamaan mengakibatkan Fire DMG pada seluruh musuh. Basic Attack berikutnya akan diperkuat menjadi "Nectar Blitz".</span>
+        Type: Ultimate
+      "130104":
+        Name: Tipsy Tussle
+        Desc: <span>"Besotted" </span><span style='color:#f29e38ff'>meningkatkan Break DMG yang diterima</span><span> target. Setiap kali setelah target berstatus "Besotted" terkena serangan rekan tim, akan </span><span style='color:#f29e38ff'>memulihkan HP penyerang</span><span>.</span>
+        Type: Talent
+      "130106":
+        Name: Attack
+        Desc: ""
+      "130107":
+        Name: Artisan Elixir
+        Desc: <span>Menyerang musuh. Setelah memasuki pertempuran, membuat seluruh musuh </span><span style='color:#f29e38ff'>memasuki status "Besotted"</span><span>, serta mengakibatkan Fire DMG dalam jumlah kecil pada seluruh musuh.</span>
+        Type: Technique
+    Eidolons:
+      "130101":
+        Name: Salty Dog
+        Desc: <span>Gallagher akan memulihkan 20 Energy setelah memasuki pertempuran, dan meningkatkan 50% Effect RES dirinya.</span>
+      "130102":
+        Name: Lion's Tail
+        Desc: <span>Saat melancarkan Skill, akan menghilangkan 1 Debuff dari 1 rekan tim yang ditargetkan. Di saat bersamaan, akan meningkatkan 30% Effect RES rekan tersebut, berlangsung selama 2 giliran.</span>
+      "130103":
+        Name: Corpse Reviver
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "130104":
+        Name: Last Word
+        Desc: <span>Meningkatkan durasi status "Besotted" yang diakibatkan Ultimate Gallagher sebanyak 1 giliran.</span>
+      "130105":
+        Name: Death in the Afternoon
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "130106":
+        Name: Blood and Sand
+        Desc: <span>Meningkatkan 20% Break Effect dan 20% Weakness Break Efficiency Gallagher.</span>
+  "1302":
+    Name: Argenti
+    Abilities:
+      "130201":
+        Name: Fleeting Fragrance
+        Desc: <span>Mengakibatkan Physical DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "130202":
+        Name: Justice, Hereby Blooms
+        Desc: <span>Mengakibatkan Physical DMG dalam jumlah kecil pada seluruh musuh.</span>
+        Type: Skill
+      "130203":
+        Name: For In This Garden, Supreme Beauty Bestows
+        Desc: "<span>Mengonsumsi </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>90</span></span><span> Energy dan mengakibatkan Physical DMG pada seluruh musuh.</span>"
+        Type: Ultimate
+      "130204":
+        Name: Sublime Object
+        Desc: <span>Saat melancarkan Basic Attack, Skill, atau Ultimate, setiap mengenai 1 target musuh akan </span><span style='color:#f29e38ff'>memulihkan Energy</span><span> Argenti dan meningkatkan </span><span style='color:#f29e38ff'>CRIT Rate</span><span> dirinya.</span>
+        Type: Talent
+      "130206":
+        Name: Attack
+        Desc: ""
+      "130207":
+        Name: Manifesto of Purest Virtue
+        Desc: <span>Membuat musuh dalam area tertentu memasuki status Daze. Jika menyerang musuh berstatus Daze, setelah memasuki pertempuran, Argenti akan mengakibatkan Physical DMG dalam jumlah kecil pada seluruh musuh, dan memulihkan Energy-nya.</span>
+        Type: Technique
+    Eidolons:
+      "130201":
+        Name: A Lacuna in Kingdom of Aesthetics
+        Desc: <span>Setiap lapis "Apotheosis" akan meningkatkan 4% CRIT DMG.</span>
+      "130202":
+        Name: Agate's Humility
+        Desc: <span>Saat melancarkan Ultimate, jika jumlah target musuh lebih dari atau sama dengan 3, ATK akan meningkat 40% selama 1 giliran.</span>
+      "130203":
+        Name: Thorny Road's Glory
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "130204":
+        Name: Trumpet's Dedication
+        Desc: <span>Saat pertempuran dimulai, memperoleh 2 lapis "Apotheosis" dan meningkatkan batas tumpukan efek Talent sebanyak 2 lapis.</span>
+      "130205":
+        Name: Snow, From Somewhere in Cosmos
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "130206":
+        Name: "\"Your\" Resplendence"
+        Desc: <span>Saat melancarkan Ultimate, mengabaikan 30% DEF target musuh.</span>
+  "1303":
+    Name: Ruan Mei
+    Abilities:
+      "130301":
+        Name: Threading Fragrance
+        Desc: <span>Mengakibatkan Ice DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "130302":
+        Name: String Sings Slow Swirls
+        Desc: <span>Setelah melancarkan Skill-nya, Ruan Mei akan memperoleh "Overtone". Saat Ruan Mei memiliki "Overtone", </span><span style='color:#f29e38ff'>DMG</span><span> dan </span><span style='color:#f29e38ff'>Weakness Break Efficiency</span><span> seluruh rekan tim meningkat.</span>
+        Type: Skill
+      "130303":
+        Name: Petals to Stream, Repose in Dream
+        Desc: <span>Meningkatkan </span><span style='color:#f29e38ff'>RES PEN Seluruh Tipe</span><span> dari seluruh rekan tim. Setelah menyerang, akan menambahkan "Thanatoplum Rebloom" pada target musuh.</span>
+        Type: Ultimate
+      "130304":
+        Name: Somatotypical Helix
+        Desc: <span>Meningkatkan </span><span style='color:#f29e38ff'>SPD</span><span> seluruh rekan tim selain diri sendiri. Saat mengakibatkan Weakness Break pada target musuh, akan mengakibatkan </span><span style='color:#f29e38ff'>Ice Break DMG tambahan</span><span> pada musuh tersebut.</span>
+        Type: Talent
+      "130306":
+        Name: Attack
+        Desc: ""
+      "130307":
+        Name: Silken Serenade
+        Desc: "<span>Saat memasuki pertempuran berikutnya, akan otomatis memicu Skill sebanyak </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>1</span></span><span> kali. Setelah melancarkan Technique, saat menyerang musuh di Simulated Universe atau Divergent Universe, akan selalu dianggap menyerang Weakness saat memasuki pertempuran, dan serangan kali ini akan mengurangi Toughness musuh </span><span style='color:#f29e38ff'>tanpa memedulikan tipe Weakness-nya</span><span>. Untuk setiap 1 Blessing yang dimiliki, Pengurangan Toughness akan meningkat dan jika serangan ini mengakibatkan Weakness Break, maka akan mengakibatkan Break DMG tambahan.</span>"
+        Type: Technique
+    Eidolons:
+      "130301":
+        Name: Neuronic Embroidery
+        Desc: <span>Selama area pembatas dari Ultimate berlangsung, DMG yang diakibatkan seluruh rekan tim akan mengabaikan 20% DEF target.</span>
+      "130302":
+        Name: Reedside Promenade
+        Desc: <span>Saat Ruan Mei berada di medan pertempuran, ATK seluruh rekan tim akan meningkat 40% saat mengakibatkan DMG pada target musuh berstatus Weakness Break.</span>
+      "130303":
+        Name: Viridescent Pirouette
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "130304":
+        Name: Chatoyant Éclat
+        Desc: <span>Saat target musuh terkena Weakness Break, Break Effect Ruan Mei akan meningkat 100%, berlangsung selama 3 giliran.</span>
+      "130305":
+        Name: Languid Barrette
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "130306":
+        Name: Sash Cascade
+        Desc: <span>Durasi area pembatas dari Ultimate diperpanjang 1 giliran. DMG Multiplier dari Break DMG yang diakibatkan Talent meningkat ekstra 200%.</span>
+  "1304":
+    Name: Aventurine
+    Abilities:
+      "130401":
+        Name: Straight Bet
+        Desc: <span>Mengakibatkan Imaginary DMG dalam jumlah kecil pada 1 musuh yang ditargetkan.</span>
+        Type: Basic ATK
+      "130402":
+        Name: Cornerstone Deluxe
+        Desc: <span>Memberikan Shield "Fortified Wager" yang </span><span style='color:#f29e38ff'>kekuatan Shield-nya dapat ditumpuk</span><span> pada seluruh rekan tim.</span>
+        Type: Skill
+      "130403":
+        Name: Roulette Shark
+        Desc: <span>Memperoleh poin "Blind Bet" secara acak dan membuat 1 musuh memasuki status "Unnerved", serta mengakibatkan Imaginary DMG pada musuh tersebut. Saat rekan tim menyerang target musuh berstatus "Unnerved", </span><span style='color:#f29e38ff'>CRIT DMG yang diakibatkan akan meningkat</span><span>.</span>
+        Type: Ultimate
+      "130404":
+        Name: Shot Loaded Right
+        Desc: <span>Effect RES rekan tim yang memiliki "Fortified Wager" akan meningkat, dan Aventurine akan mengakumulasi "Blind Bet" saat rekan tim yang memiliki "Fortified Wager" terkena serangan. Saat Aventurine memiliki "Fortified Wager", dia dapat menahan <u>Crowd Control Debuff</u>. Setelah "Blind Bet" mencapai 7 poin, Aventurine akan mengonsumsi 7 poin tersebut untuk melancarkan </span><span style='color:#f29e38ff'><u>Serangan Lanjutan</u></span><span>, yang mengakibatkan Imaginary DMG dalam jumlah kecil pada musuh secara acak, total Bounce 7 kali.</span>
+        Type: Talent
+      "130406":
+        Name: Attack
+        Desc: ""
+      "130407":
+        Name: The Red or the Black
+        Desc: <span>Setelah menggunakan Technique, akan memperoleh 1 dari 3 jenis efek peningkatan DEF secara acak. Saat pertempuran berikutnya dimulai, DEF seluruh rekan tim akan meningkat sesuai dengan nilai DEF yang terkait.</span>
+        Type: Technique
+    Eidolons:
+      "130401":
+        Name: Prisoner's Dilemma
+        Desc: <span>CRIT DMG dari rekan tim yang memiliki "Fortified Wager" meningkat 20%. Setelah melancarkan Ultimate, akan memberikan Shield "Fortified Wager" pada seluruh rekan tim. Kekuatan Shield tersebut sebesar 100% dari kekuatan Shield yang diberikan Skill Aventurine, berlangsung selama 3 giliran.</span>
+      "130402":
+        Name: Bounded Rationality
+        Desc: <span>Saat melancarkan Basic Attack, RES Seluruh Tipe milik target musuh berkurang 12% selama 3 giliran.</span>
+      "130403":
+        Name: Droprate Maxing
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "130404":
+        Name: Unexpected Hanging Paradox
+        Desc: <span>Saat memicu Serangan Lanjutan dari Talent Aventurine, DEF Aventurine akan meningkat 40% terlebih dahulu selama 2 giliran, serta menambah 3 Hits Per Action dari Serangan Lanjutan Talent-nya.</span>
+      "130405":
+        Name: Ambiguity Aversion
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "130406":
+        Name: Stag Hunt Game
+        Desc: <span>Untuk setiap 1 rekan tim Aventurine yang memiliki Shield, DMG yang diakibatkan Aventurine akan meningkat 50%, maksimal tidak melebihi 150%.</span>
+  "1305":
+    Name: Dr. Ratio
+    Abilities:
+      "130501":
+        Name: Mind is Might
+        Desc: <span>Mengakibatkan Imaginary DMG dalam jumlah kecil pada 1 musuh yang ditargetkan.</span>
+        Type: Basic ATK
+      "130502":
+        Name: Intellectual Midwifery
+        Desc: <span>Mengakibatkan Imaginary DMG pada 1 musuh yang ditargetkan.</span>
+        Type: Skill
+      "130503":
+        Name: Syllogistic Paradox
+        Desc: <span>Mengakibatkan Imaginary DMG pada satu musuh yang ditarget dan menambahkan status "Wiseman's Folly" pada target. Saat rekan tim Dr. Ratio menyerang target berstatus "Wiseman's Folly", Dr. Ratio akan memicu 1 kali </span><span style='color:#f29e38ff'><u>Serangan Lanjutan</u></span><span> pada target tersebut.</span>
+        Type: Ultimate
+      "130504":
+        Name: Cogito, Ergo Sum
+        Desc: <span>Saat melancarkan Skill, ada peluang untuk melancarkan 1 kali </span><span style='color:#f29e38ff'><u>Serangan Lanjutan</u></span><span> pada target tersebut.</span>
+        Type: Talent
+      "130506":
+        Name: Attack
+        Desc: ""
+      "130507":
+        Name: Mold of Idolatry
+        Desc: <span>Menciptakan sebuah dimensi khusus. Musuh di dalam dimensi khusus akan terpancing (terkena Taunt). Setelah memasuki pertempuran dengan musuh di dalam dimensi khusus, berpeluang besar untuk </span><span style='color:#f29e38ff'>mengurangi SPD</span><span> target musuh.</span>
+        Type: Technique
+    Eidolons:
+      "130501":
+        Name: Pride Comes Before a Fall
+        Desc: <span>Batas jumlah lapisan Trace "Summation" bertambah 4. Saat pertempuran dimulai, akan segera memperoleh 4 lapis "Summation". Perlu mengaktifkan Trace "Summation" terlebih dahulu.</span>
+      "130502":
+        Name: The Divine Is in the Details
+        Desc: <span>Saat Serangan Lanjutan dari Talent miliknya menyerang target, untuk setiap 1 efek Debuff yang dimiliki target, akan mengakibatkan Imaginary DMG Tambahan pada target sebesar 20% ATK Dr. Ratio. Dalam setiap Serangan Lanjutan miliknya, efek ini maksimal terpicu 4 kali.</span>
+      "130503":
+        Name: Know Thyself
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "130504":
+        Name: Ignorance Is Blight
+        Desc: <span>Saat memicu Talent, akan memulihkan ekstra 15 Energy untuk Dr. Ratio.</span>
+      "130505":
+        Name: Sic Itur Ad Astra
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "130506":
+        Name: Vincit Omnia Veritas
+        Desc: <span>Efek terpicunya "Wiseman's Folly" bertambah ekstra 1 kali. DMG yang diakibatkan Serangan Lanjutan dari Talent meningkat 50%.</span>
+  "1306":
+    Name: Sparkle
+    Abilities:
+      "130601":
+        Name: Monodrama
+        Desc: <span>Mengakibatkan Quantum DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "130602":
+        Name: Dreamdiver
+        Desc: <span>Meningkatkan </span><span style='color:#f29e38ff'>CRIT DMG</span><span> 1 rekan tim dan mendahulukan aksi rekan tersebut.</span>
+        Type: Skill
+      "130603":
+        Name: The Hero with a Thousand Faces
+        Desc: <span>Memulihkan </span><span style='color:#f29e38ff'>Poin Skill</span><span> rekan tim dan membuat efek peningkatan DMG dari terpicunya Talent Sparkle meningkat ekstra.</span>
+        Type: Ultimate
+      "130604":
+        Name: Red Herring
+        Desc: <span>Meningkatkan </span><span style='color:#f29e38ff'>batas maksimum Poin Skill </span><span> rekan tim. Saat rekan tim mengonsumsi Poin Skill, akan meningkatkan </span><span style='color:#f29e38ff'>DMG yang diakibatkan</span><span> seluruh rekan tim.</span>
+        Type: Talent
+      "130606":
+        Name: Attack
+        Desc: ""
+      "130607":
+        Name: Unreliable Narrator
+        Desc: <span>Setelah menggunakan Technique, seluruh rekan tim akan memasuki status "Misdirect". Rekan tim dalam status "Misdirect" tidak akan terdeteksi musuh. Saat memasuki pertempuran selama durasi status "Misdirect", akan memulihkan </span><span style='color:#f29e38ff'>Poin Skill</span><span> untuk tim.</span>
+        Type: Technique
+    Eidolons:
+      "130601":
+        Name: Suspension of Disbelief
+        Desc: <span>Durasi "Cipher" yang diberikan oleh Ultimate bertambah ekstra 1 giliran. Rekan tim yang memiliki "Cipher" akan mengalami peningkatan 40% ATK.</span>
+      "130602":
+        Name: Purely Fictitious
+        Desc: <span>Setiap lapis efek Talent akan membuat rekan tim mengabaikan 8% DEF target saat mengakibatkan DMG pada musuh.</span>
+      "130603":
+        Name: Pipedream
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "130604":
+        Name: Life Is a Gamble
+        Desc: <span>Ultimate dapat memulihkan ekstra 1 Poin Skill. Efek peningkatan batas maksimum Poin Skill dari Talent bertambah 1.</span>
+      "130605":
+        Name: Parallax Truth
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "130606":
+        Name: Narrative Polysemy
+        Desc: <span>Efek peningkatan CRIT DMG dari Skill Sparkle meningkat ekstra, peningkatannya sebesar 30% CRIT DMG Sparkle, dan saat Sparkle melancarkan Skill-nya, efek peningkatan CRIT DMG akan efektif untuk seluruh rekan (selain Sparkle) yang memiliki efek "Cipher". Saat Sparkle melancarkan Ultimate, jika terdapat rekan tim yang memiliki efek peningkatan CRIT DMG dari Skill Sparkle, maka efek tersebut akan menyebar ke seluruh rekan (selain Sparkle) yang memiliki efek "Cipher".</span>
+  "1307":
+    Name: Black Swan
+    Abilities:
+      "130701":
+        Name: Percipience, Silent Dawn
+        Desc: <span>Mengakibatkan Wind DMG dalam jumlah kecil pada 1 musuh dan berpeluang untuk menambahkan "<u>Arcana</u>" pada target. Jika menyerang target yang </span><span style='color:#f29e38ff'>berstatus Wind Shear/Bleed/Burn/Shock</span><span>, maka masing-masing berpeluang untuk </span><span style='color:#f29e38ff'>menambahkan ekstra "<u>Arcana</u>"</span><span>.</span>
+        Type: Basic ATK
+      "130702":
+        Name: Decadence, False Twilight
+        Desc: <span>Mengakibatkan Wind DMG dalam jumlah kecil pada 1 musuh dan target di sekitarnya, berpeluang besar untuk </span><span style='color:#f29e38ff'>menambahkan "<u>Arcana</u>"</span><span> pada target, dan berpeluang besar untuk mengurangi DEF target.</span>
+        Type: Skill
+      "130703":
+        Name: Bliss of Otherworld's Embrace
+        Desc: <span>Menambahkan status "Epiphany" pada seluruh musuh, yang akan meningkatkan DMG yang diterima target saat giliran target berlangsung, serta </span><span style='color:#f29e38ff'>membuat efek "<u>Arcana</u>" dianggap sama dengan status Wind Shear, Bleed, Burn, Shock</span><span>. Selain itu, setelah "<u>Arcana</u>" mengakibatkan DMG saat giliran yang berikutnya dimulai, jumlah lapisannya tidak akan di-reset. Mengakibatkan Wind DMG pada seluruh musuh.</span>
+        Type: Ultimate
+      "130704":
+        Name: Loom of Fate's Caprice
+        Desc: <span>Saat target musuh menerima DoT saat setiap gilirannya dimulai, musuh tersebut berpeluang memasuki status "<u>Arcana</u>". Pada saat gilirannya dimulai, musuh akan menerima </span><span style='color:#f29e38ff'>Wind DoT</span><span> dan Black Swan akan memicu </span><span style='color:#f29e38ff'>efek tambahan</span><span> berdasarkan jumlah lapisan "<u>Arcana</u>".</span>
+        Type: Talent
+      "130706":
+        Name: Attack
+        Desc: ""
+      "130707":
+        Name: From Façade to Vérité
+        Desc: <span>Setelah menggunakan Technique, saat pertempuran berikutnya dimulai, berpeluang besar untuk </span><span style='color:#f29e38ff'>menambahkan "<u>Arcana</u>" secara berulang terus-menerus sampai gagal</span><span> pada setiap target musuh.</span>
+        Type: Technique
+    Eidolons:
+      "130701":
+        Name: Seven Pillars of Wisdom
+        Desc: <span>Saat Black Swan berada dalam kondisi siap bertempur (tidak gugur), target musuh yang berstatus Wind Shear/Bleed/Burn/Shock akan mengalami pengurangan 25% RES Tipe terkait (Wind/Physical/Fire/Lightning RES sesuai urutan dengan jenis status di atas).</span>
+      "130702":
+        Name: Weep Not For Me, My Lamb
+        Desc: <span>Saat target musuh berstatus "Arcana" dikalahkan, ada 100% Peluang Dasar untuk membuat musuh di sekitar target memasuki 6 lapis "Arcana".</span>
+      "130703":
+        Name: As Above, So Below
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "130704":
+        Name: In Tears We Gift
+        Desc: <span>Saat berstatus "Epiphany", Effect RES target musuh akan berkurang 10%, dan Black Swan akan memulihkan 8 Energy setiap saat giliran target dimulai atau saat target dikalahkan. Efek pemulihan Energy ini maksimal terpicu 1 kali selama durasi "Epiphany" berlangsung. Saat target memasuki ulang status "Epiphany", jumlah batas terpicu akan di-refresh.</span>
+      "130705":
+        Name: Linnutee Flyway
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "130706":
+        Name: Pantheon Merciful, Masses Pitiful
+        Desc: <span>Saat target musuh menerima serangan dari rekan tim Black Swan, Black Swan memiliki 65% Peluang Dasar untuk membuat target tersebut memasuki 1 lapis "Arcana".<br>Setiap kali saat Black Swan membuat target musuh memasuki status "Arcana", ada 50% Peluang Tetap untuk membuat jumlah lapisan "Arcana" yang ditambahkan pada kali ini bertambah ekstra 1 lapis.</span>
+  "1308":
+    Name: Acheron
+    Abilities:
+      "130801":
+        Name: Trilateral Wiltcross
+        Desc: <span>Mengakibatkan Lightning DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "130802":
+        Name: Octobolt Flash
+        Desc: "<span>Memperoleh </span><span style='color:#f29e38ff'></span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>1</span></span><span> poin \"Slashed Dream\"</span><span>. Menambahkan </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>1</span></span><span> lapis \"Crimson Knot\" pada 1 musuh dan mengakibatkan Lightning DMG pada musuh tersebut, serta mengakibatkan Lightning DMG dalam jumlah kecil pada target di sekitar musuh tersebut.</span>"
+        Type: Skill
+      "130803":
+        Name: Slashed Dream Cries in Red
+        Desc: <span>Mengakibatkan 3 Hit Lightning DMG dalam jumlah kecil kepada 1 musuh. Jika "Crimson Knot" target dihilangkan, akan mengakibatkan Lightning DMG dalam jumlah kecil kepada seluruh musuh. Terakhir, akan mengakibatkan 1 Hit Lightning DMG pada seluruh musuh dan menghapus seluruh "Crimson Knot".</span>
+        Type: Ultimate
+      "130804":
+        Name: Atop Rainleaf Hangs Oneness
+        Desc: <span>Saat "Slashed Dream" mencapai batas maksimal, Ultimate dapat diaktifkan. Selama Ultimate berlangsung, dapat </span><span style='color:#f29e38ff'>mengabaikan Tipe Weakness</span><span> dan mengurangi Toughness musuh, serta </span><span style='color:#f29e38ff'>mengurangi RES Seluruh Tipe</span><span> milik seluruh musuh.<br>Saat unit mana pun melancarkan kemampuan dan kemampuan tersebut membuat target musuh memasuki status Debuff, Acheron akan memperoleh "Slashed Dream", dan menambahkan "Crimson Knot" pada target musuh.</span>
+        Type: Talent
+      "130806":
+        Name: Attack
+        Desc: ""
+      "130807":
+        Name: Quadrivalent Ascendance
+        Desc: <span>Menyerang musuh. Saat setiap gelombang pertempuran dimulai, akan memperoleh "Quadrivalent Ascendance", mengakibatkan Lightning DMG pada seluruh musuh, </span><span style='color:#f29e38ff'>mengabaikan Tipe Weakness</span><span> dan mengurangi Toughness.<br>Jika menyerang musuh biasa, maka akan </span><span style='color:#f29e38ff'>langsung mengalahkan musuh biasa tersebut</span><span> tanpa perlu memasuki pertempuran. Jika serangan ini tidak mengenai musuh, maka Poin Technique tidak akan terkonsumsi.</span>
+        Type: Technique
+    Eidolons:
+      "130801":
+        Name: Silenced Sky Spake Sooth
+        Desc: <span>Saat mengakibatkan DMG pada target musuh berstatus Debuff, CRIT Rate meningkat 18%.</span>
+      "130802":
+        Name: Mute Thunder in Still Tempest
+        Desc: <span>Syarat jumlah karakter Path "Nihility" yang diperlukan untuk nilai maksimal Trace "The Abyss" berkurang 1. Saat giliran Acheron dimulai, akan memperoleh 1 poin "Slashed Dream", dan di saat yang bersamaan akan menambahkan 1 lapis "Crimson Knot" pada musuh dengan lapisan "Crimson Knot" terbanyak.</span>
+      "130803":
+        Name: Frost Bites in Death
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "130804":
+        Name: Shrined Fire for Mirrored Soul
+        Desc: <span>Saat target musuh memasuki pertempuran, akan membuatnya memasuki status Ultimate DMG Vulnerability, meningkatkan 8% Ultimate DMG yang diterimanya.</span>
+      "130805":
+        Name: Strewn Souls on Erased Earths
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "130806":
+        Name: Apocalypse, the Emancipator
+        Desc: <span>Meningkatkan 20% RES PEN Seluruh Tipe dari Ultimate DMG yang diakibatkan Acheron. DMG yang diakibatkan Basic Attack dan Skill Acheron juga akan dianggap sebagai Ultimate DMG, dan mengabaikan Tipe Weakness musuh untuk mengurangi Toughness. Saat mengakibatkan Weakness Break, akan memicu efek Lightning Weakness Break.</span>
+  "1309":
+    Name: Robin
+    Abilities:
+      "130901":
+        Name: Wingflip White Noise
+        Desc: <span>Mengakibatkan Physical DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "130902":
+        Name: Pinion's Aria
+        Desc: <span></span><span style='color:#f29e38ff'>Meningkatkan DMG</span><span> seluruh rekan tim.</span>
+        Type: Skill
+      "130903":
+        Name: Vox Harmonique, Opus Cosmique
+        Desc: <span>Memasuki status "Concerto" dan </span><span style='color:#f29e38ff'>meningkatkan ATK</span><span> seluruh rekan tim, serta membuat seluruh rekan tim selain dirinya sendiri segera beraksi. Setelah rekan tim menyerang, Robin akan mengakibatkan </span><span style='color:#f29e38ff'>Physical <u>DMG Tambahan</u></span><span>. Selama berstatus "Concerto", Robin kebal terhadap <u>Crowd Control Debuff</u>, dan Robin tidak akan memasuki gilirannya serta tidak dapat beraksi hingga hitung mundur berakhir.</span>
+        Type: Ultimate
+      "130904":
+        Name: Tonal Resonance
+        Desc: <span>Meningkatkan </span><span style='color:#f29e38ff'>CRIT DMG</span><span> seluruh rekan tim, dan Robin akan memulihkan Energy tambahan setelah rekan tim menyerang musuh.</span>
+        Type: Talent
+      "130906":
+        Name: Attack
+        Desc: ""
+      "130907":
+        Name: Overture of Inebriation
+        Desc: "<span>Menciptakan dimensi khusus di sekitar Robin. Musuh yang berada dalam dimensi khusus tidak akan menyerang Robin. Setelah memasuki pertempuran dengan musuh saat dimensi khusus aktif, Robin akan memulihkan </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>5</span></span><span> Energy tambahan saat setiap gelombang pertempuran dimulai.</span>"
+        Type: Technique
+    Eidolons:
+      "130901":
+        Name: Land of Smiles
+        Desc: <span>Saat berstatus "Concerto", RES PEN Seluruh Tipe dari seluruh rekan tim meningkat 24%.</span>
+      "130902":
+        Name: Afternoon Tea For Two
+        Desc: <span>Saat berstatus "Concerto", SPD seluruh rekan tim meningkat 16%. Efek pemulihan Energy dari Talent meningkat 1 poin.</span>
+      "130903":
+        Name: Inverted Tuning
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Ultimate +2, maksimal Lv. 15.</span>
+      "130904":
+        Name: Raindrop Key
+        Desc: <span>Saat Robin melancarkan Ultimate, akan menghapus status Crowd Control Debuff dari seluruh rekan tim. Saat Robin berada dalam status "Concerto", Effect RES seluruh rekan tim meningkat 50%.</span>
+      "130905":
+        Name: Lonestar's Lament
+        Desc: <span>Level Basic Attack +1, maksimal Lv. 10. Level Talent +2, maksimal Lv. 15.</span>
+      "130906":
+        Name: Moonless Midnight
+        Desc: <span>Saat berstatus "Concerto", CRIT DMG dari Physical DMG Tambahan yang diakibatkan Ultimate akan meningkat ekstra 450%. Efek "Moonless Midnight" maksimal terpicu 8 kali, dan jumlah terpicu akan reset setiap kali melancarkan Ultimate karakter ini.</span>
+  "1310":
+    Name: Firefly
+    Abilities:
+      "131001":
+        Name: "Order: Flare Propulsion"
+        Desc: <span>Mengakibatkan Fire DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "131002":
+        Name: "Order: Aerial Bombardment"
+        Desc: <span>Mengonsumsi sebagian HP diri sendiri dan memulihkan Energy, serta mengakibatkan Fire DMG pada 1 musuh. Membuat aksi dirinya yang berikutnya <u>didahulukan</u>.</span>
+        Type: Skill
+      "131003":
+        Name: "Fyrefly Type-IV: Complete Combustion"
+        Desc: "<span>Memasuki status \"Complete Combustion\", </span><span style='color:#f29e38ff'>mendahulukan aksi diri sendiri sebesar <span style='whiteSpace: \"nowrap\"'>100%</span></span><span>, memperoleh </span><span style='color:#f29e38ff'>Enhanced Basic Attack</span><span> dan </span><span style='color:#f29e38ff'>Enhanced Skill</span><span>, serta meningkatkan </span><span style='color:#f29e38ff'>SPD dirinya, Weakness Break Efficiency dirinya, dan Break DMG yang diterima target musuh</span><span>, berlangsung hingga hitung mundur berakhir.</span>"
+        Type: Ultimate
+      "131004":
+        Name: Chrysalid Pyronexus
+        Desc: "<span>Semakin rendah HP, maka semakin rendah DMG yang diterima. Dalam status \"Complete Combustion\", efek pengurangan DMG ini akan selalu dalam nilai maksimal, dan Effect RES akan meningkat. Saat pertempuran dimulai, jika Energy kurang dari </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>50%</span></span><span>, maka akan memulihkan Energy hingga </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>50%</span></span><span>. Saat Energy pulih hingga batas maksimal, akan menghapus semua <u>efek Debuff</u> pada diri sendiri.</span>"
+        Type: Talent
+      "131006":
+        Name: Attack
+        Desc: ""
+      "131007":
+        Name: "Δ Order: Meteoric Incineration"
+        Desc: <span>Melompat ke udara dan bergerak dengan bebas. Setelah bergerak bebas selama beberapa detik, akan turun dan menyerang semua musuh dalam jangkauan. Saat </span><span style='color:#f29e38ff'>setiap gelombang pertempuran</span><span> dimulai, </span><span style='color:#f29e38ff'>menambahkan Fire Weakness</span><span> pada seluruh musuh dan mengakibatkan Fire DMG pada seluruh musuh.</span>
+        Type: Technique
+    Eidolons:
+      "131001":
+        Name: In Reddened Chrysalis, I Once Rest
+        Desc: <span>Saat melancarkan Enhanced Skill, akan mengabaikan 15% DEF target, dan Enhanced Skill tidak mengonsumsi Poin Skill.</span>
+      "131002":
+        Name: From Shattered Sky, I Free Fall
+        Desc: <span>Saat berstatus "Complete Combustion", jika Enhanced Basic Attack atau Enhanced Skill yang dilancarkan mengalahkan target musuh atau membuat target musuh memasuki status Weakness Break, maka SAM akan segera memperoleh 1 giliran tambahan. Efek ini dapat dipicu lagi setelah 1 giliran.</span>
+      "131003":
+        Name: Amidst Silenced Stars, I Deep Sleep
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "131004":
+        Name: Upon Lighted Fyrefly, I Soon Gaze
+        Desc: <span>Saat berstatus "Complete Combustion", Effect RES milik SAM meningkat 50%.</span>
+      "131005":
+        Name: From Undreamt Night, I Thence Shine
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "131006":
+        Name: In Finalized Morrow, I Full Bloom
+        Desc: <span>Fire RES PEN milik SAM saat berstatus "Complete Combustion" meningkat 20%. Saat melancarkan Enhanced Basic Attack atau Enhanced Skill, Weakness Break Efficiency meningkat 50%.</span>
+  "1312":
+    Name: Misha
+    Abilities:
+      "131201":
+        Name: E—Excuse Me, Please!
+        Desc: <span>Mengakibatkan Ice DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "131202":
+        Name: R—Room Service!
+        Desc: <span>Mengakibatkan Ice DMG pada 1 musuh dan mengakibatkan Ice DMG dalam jumlah kecil pada target di sekitarnya, serta menambah </span><span style='color:#f29e38ff'>jumlah Hits Per Action untuk Ultimate</span><span> Misha yang berikutnya.</span>
+        Type: Skill
+      "131203":
+        Name: G—Gonna Be Late!
+        Desc: "<span>Mengakibatkan Ice DMG dalam jumlah kecil pada 1 musuh. Total dapat Bounce </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>3</span></span><span> kali secara default, maksimal dapat Bounce </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>10</span></span><span> kali. Sebelum setiap Hit-nya mengenai target, berpeluang kecil untuk </span><span style='color:#f29e38ff'>membuat target memasuki status Frozen</span><span>.</span>"
+        Type: Ultimate
+      "131204":
+        Name: Horological Escapement
+        Desc: <span>Setiap </span><span style='color:#f29e38ff'>1 Poin Skill yang dikonsumsi</span><span> seluruh rekan tim akan menambah </span><span style='color:#f29e38ff'>jumlah Hits Per Action untuk Ultimate</span><span> Misha yang berikutnya, dan juga memulihkan Energy Misha.</span>
+        Type: Talent
+      "131206":
+        Name: Attack
+        Desc: ""
+      "131207":
+        Name: Wait, You Are So Beautiful!
+        Desc: <span>Menciptakan sebuah dimensi khusus. Aksi musuh dalam dimensi khusus akan terhenti. Setelah memasuki pertempuran melawan musuh dalam dimensi khusus, akan menambah </span><span style='color:#f29e38ff'>jumlah Hits Per Action untuk Ultimate</span><span> Misha yang berikutnya.</span>
+        Type: Technique
+    Eidolons:
+      "131201":
+        Name: Whimsicality of Fancy
+        Desc: <span>Saat melancarkan Ultimate, untuk setiap 1 target musuh yang ada di medan pertempuran, akan menambah ekstra 1 Hit untuk Hits Per Action dari Ultimate kali ini, maksimal hingga ekstra 5 Hit.</span>
+      "131202":
+        Name: Yearning of Youth
+        Desc: <span>Sebelum setiap Hit dari Ultimate mengenai target, memiliki 24% Peluang Dasar untuk mengurangi 16% DEF target selama 3 giliran.</span>
+      "131203":
+        Name: Vestige of Happiness
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "131204":
+        Name: Visage of Kinship
+        Desc: <span>Meningkatkan 6% DMG Multiplier dari setiap Hit Ultimate.</span>
+      "131205":
+        Name: Genesis of First Love
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "131206":
+        Name: Estrangement of Dream
+        Desc: <span>Saat melancarkan Ultimate, meningkatkan 30% DMG yang diakibatkan diri sendiri hingga giliran berakhir. Dan pada pelancaran Skill Misha yang berikutnya, akan memulihkan 1 Poin Skill untuk rekan tim.</span>
+  "1314":
+    Name: Jade
+    Abilities:
+      "131401":
+        Name: Lash of Riches
+        Desc: <span>Mengakibatkan Quantum DMG dalam jumlah kecil pada 1 musuh, dan Quantum DMG dalam jumlah kecil pada target di sekitarnya.</span>
+        Type: Basic ATK
+      "131402":
+        Name: Acquisition Surety
+        Desc: <span>Membuat 1 rekan tim menjadi </span><span style='color:#f29e38ff'>"Debt Collector"</span><span> dan meningkatkan SPD-nya. Setelah </span><span style='color:#f29e38ff'>"Debt Collector"</span><span> melancarkan serangan, akan mengakibatkan Quantum <u>DMG tambahan</u> dalam jumlah kecil pada setiap target musuh yang terkena serangan dan mengonsumsi HP Debt Collector. Jika yang menjadi "Debt Collector" adalah Jade, dia tidak akan memperoleh efek peningkatan SPD, dan HP-nya tidak akan terkonsumsi setelah menyerang.</span>
+        Type: Skill
+      "131403":
+        Name: Vow of the Deep
+        Desc: <span>Mengakibatkan Quantum DMG pada seluruh musuh, dan membuat dirinya memperoleh peningkatan DMG Multiplier </span><span style='color:#f29e38ff'><u>Serangan Lanjutan</u></span><span>.</span>
+        Type: Ultimate
+      "131404":
+        Name: Fang of Flare Flaying
+        Desc: "<span>Setelah Jade atau target yang menjadi </span><span style='color:#f29e38ff'>\"Debt Collector\"</span><span> melancarkan serangan, akan memperoleh 1 poin Charge untuk setiap 1 target musuh yang terkena serangan. Saat Charge mencapai </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>8</span></span><span> poin, akan mengonsumsi </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>8</span></span><span> poin Charge dan melancarkan 1 kali </span><span style='color:#f29e38ff'><u>Serangan Lanjutan</u></span><span> yang mengakibatkan Quantum DMG pada seluruh musuh.<br>Saat Jade melancarkan </span><span style='color:#f29e38ff'><u>Serangan Lanjutan</u></span><span>, Jade akan memperoleh \"Pawned Asset\" dan meningkatkan CRIT DMG dirinya, efek ini dapat ditumpuk hingga </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>50</span></span><span> lapis.</span>"
+        Type: Talent
+      "131406":
+        Name: Attack
+        Desc: ""
+      "131407":
+        Name: Visionary Predation
+        Desc: "<span>Membuat musuh di dalam jangkauan tertentu memasuki status \"Blind Fealty\". Menyerang musuh yang berstatus \"Blind Fealty\" dapat membuat semua musuh yang berstatus \"Blind Fealty\" memasuki pertempuran secara bersamaan. Setelah memasuki pertempuran, mengakibatkan Quantum DMG dalam jumlah kecil pada seluruh musuh, dan Jade akan segera memperoleh </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>15</span></span><span> lapis \"Pawned Asset\".</span>"
+        Type: Technique
+    Eidolons:
+      "131401":
+        Name: Altruism? Nevertheless Tradable
+        Desc: <span>DMG Serangan Lanjutan dari Talent Jade meningkat 32%. Setelah karakter yang berstatus "Debt Collector" melancarkan serangan, jika jumlah target musuh yang terkena serangan adalah 2/1, maka Jade akan memperoleh ekstra 1/2 poin Charge.</span>
+      "131402":
+        Name: Morality? Herein Authenticated
+        Desc: <span>Saat "Pawned Asset" mencapai 15 lapis, CRIT Rate Jade akan meningkat 18%.</span>
+      "131403":
+        Name: Honesty? Soon Mortgaged
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "131404":
+        Name: Sincerity? Put Option Only
+        Desc: <span>Saat melancarkan Ultimate, membuat DMG yang diakibatkan Jade mengabaikan 12% DEF target musuh, berlangsung selama 3 giliran.</span>
+      "131405":
+        Name: Hope? Hitherto Forfeited
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "131406":
+        Name: Equity? Pending Sponsorship
+        Desc: <span>Saat di medan pertempuran terdapat karakter yang berstatus "Debt Collector", Quantum RES PEN Jade akan meningkat 20%, dan Jade juga akan memperoleh status "Debt Collector".</span>
+  "1315":
+    Name: Boothill
+    Abilities:
+      "131501":
+        Name: Skullcrush Spurs
+        Desc: <span>Mengakibatkan Physical DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "131502":
+        Name: Sizzlin' Tango
+        Desc: <span>Mengaktifkan </span><span style='color:#f29e38ff'>"Standoff"</span><span>. Setelah target berstatus "Standoff" </span><span style='color:#f29e38ff'>dikalahkan atau terkena Weakness Break</span><span>, Boothill akan memperoleh "Pocket Trickshot" dan menghapus "Standoff". Membuat Boothill </span><span style='color:#f29e38ff'>memperoleh penguatan Basic Attack</span><span> dan giliran kali ini tidak akan berakhir.</span>
+        Type: Skill
+      "131503":
+        Name: Dust Devil's Sunset Rodeo
+        Desc: <span></span><span style='color:#f29e38ff'>Menambahkan Physical Weakness</span><span> pada 1 musuh dan mengakibatkan Physical DMG dalam jumlah besar pada musuh tersebut serta menunda aksinya.</span>
+        Type: Ultimate
+      "131504":
+        Name: Five Peas in a Pod
+        Desc: <span>"Pocket Trickshot" membuat Enhanced Basic Attack karakter ini mengurangi lebih banyak nilai Toughness dan mengakibatkan </span><span style='color:#f29e38ff'>Physical Break DMG</span><span> tambahan pada </span><span style='color:#f29e38ff'>target musuh yang berstatus Weakness Break</span><span>. Setelah memenangkan pertempuran, "Pocket Trickshot" akan disimpan hingga pertempuran berikutnya.</span>
+        Type: Talent
+      "131506":
+        Name: Attack
+        Desc: ""
+      "131507":
+        Name: 3-9× Smile
+        Desc: <span>Setelah melancarkan Technique, akan </span><span style='color:#f29e38ff'>menambahkan Physical Weakness</span><span> pada 1 musuh setelah melancarkan Skill unit ini untuk pertama kalinya dalam pertempuran berikutnya.</span>
+        Type: Technique
+    Eidolons:
+      "131501":
+        Name: Dusty Trail's Lone Star
+        Desc: <span>Saat pertempuran dimulai, akan memperoleh 1 lapis "Pocket Trickshot". Saat Boothill mengakibatkan DMG, akan mengabaikan 16% DEF target musuh.</span>
+      "131502":
+        Name: Milestonemonger
+        Desc: <span>Saat memperoleh "Pocket Trickshot" ketika berada dalam status "Standoff", akan memulihkan 1 Poin Skill dan meningkatkan 30% Break Effect, berlangsung selama 2 giliran. Efek ini tidak dapat terpicu berulang kali dalam satu giliran, dan tetap akan terpicu saat memperoleh "Pocket Trickshot" yang melebihi batas maksimal.</span>
+      "131503":
+        Name: Marble Orchard's Guard
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "131504":
+        Name: Cold Cuts Chef
+        Desc: <span>Saat target musuh berstatus "Standoff" terkena serangan Boothill, DMG yang diterimanya akan meningkat ekstra 12%. Saat Boothill terkena serangan target musuh berstatus "Standoff", efek peningkatan DMG yang diterimanya akan berkurang 12%.</span>
+      "131505":
+        Name: Stump Speech
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "131506":
+        Name: Crowbar Hotel's Raccoon
+        Desc: <span>Saat memicu Break DMG yang diakibatkan Talent, akan mengakibatkan Break DMG tambahan pada target sebesar 40% dari DMG Multiplier aslinya, dan mengakibatkan Break DMG tambahan pada musuh di sekitar target sebesar 70% dari DMG Multiplier aslinya.</span>
+  "8001":
+    Name: Caelus (Destruction)
+    Abilities:
+      "800101":
+        Name: Farewell Hit
+        Desc: <span>Mengakibatkan Physical DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "800102":
+        Name: RIP Home Run
+        Desc: <span>Mengakibatkan Physical DMG pada 1 musuh dan target di sekitarnya.</span>
+        Type: Skill
+      "800103":
+        Name: Stardust Ace
+        Desc: <span>Pilih serangan Single Target atau Blast untuk melancarkan satu serangan penuh.</span>
+        Type: Ultimate
+      "800104":
+        Name: Perfect Pickoff
+        Desc: <span>Setiap kali setelah mengakibatkan Weakness Break pada target musuh, ATK meningkat.</span>
+        Type: Talent
+      "800106":
+        Name: Attack
+        Desc: ""
+      "800107":
+        Name: Immortal Third Strike
+        Desc: <span>Setelah menggunakan Technique, akan segera </span><span style='color:#f29e38ff'>memulihkan HP</span><span> seluruh rekan tim.</span>
+        Type: Technique
+    Eidolons:
+      "800101":
+        Name: A Falling Star
+        Desc: <span>Memulihkan 10 Energy tambahan pada Trailblazer saat mengalahkan musuh dengan cara melancarkan Ultimate. Efek ini hanya dapat terpicu 1 kali dalam setiap serangan.</span>
+      "800102":
+        Name: An Unwilling Host
+        Desc: <span>Menyerang musuh dengan Physical Weakness akan memulihkan HP Trailblazer sebesar 5% ATK Trailblazer.</span>
+      "800103":
+        Name: A Leading Whisper
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "800104":
+        Name: A Destructing Glance
+        Desc: <span>Meningkatkan 25% CRIT Rate saat menyerang Weakness musuh dengan status Weakness Break.</span>
+      "800105":
+        Name: A Surviving Hope
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "800106":
+        Name: A Trailblazing Will
+        Desc: <span>Talent juga akan terpicu saat Trailblazer mengalahkan target musuh.</span>
+  "8002":
+    Name: Stelle (Destruction)
+    Abilities:
+      "800201":
+        Name: Farewell Hit
+        Desc: <span>Mengakibatkan Physical DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "800202":
+        Name: RIP Home Run
+        Desc: <span>Mengakibatkan Physical DMG pada 1 musuh dan target di sekitarnya.</span>
+        Type: Skill
+      "800203":
+        Name: Stardust Ace
+        Desc: <span>Pilih serangan Single Target atau Blast untuk melancarkan satu serangan penuh.</span>
+        Type: Ultimate
+      "800204":
+        Name: Perfect Pickoff
+        Desc: <span>Setiap kali setelah mengakibatkan Weakness Break pada target musuh, ATK meningkat.</span>
+        Type: Talent
+      "800206":
+        Name: Attack
+        Desc: ""
+      "800207":
+        Name: Immortal Third Strike
+        Desc: <span>Setelah menggunakan Technique, akan segera </span><span style='color:#f29e38ff'>memulihkan HP</span><span> seluruh rekan tim.</span>
+        Type: Technique
+    Eidolons:
+      "800201":
+        Name: A Falling Star
+        Desc: <span>Memulihkan 10 Energy tambahan pada Trailblazer saat mengalahkan musuh dengan cara melancarkan Ultimate. Efek ini hanya dapat terpicu 1 kali dalam setiap serangan.</span>
+      "800202":
+        Name: An Unwilling Host
+        Desc: <span>Menyerang musuh dengan Physical Weakness akan memulihkan HP Trailblazer sebesar 5% ATK Trailblazer.</span>
+      "800203":
+        Name: A Leading Whisper
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "800204":
+        Name: A Destructing Glance
+        Desc: <span>Meningkatkan 25% CRIT Rate saat menyerang Weakness musuh dengan status Weakness Break.</span>
+      "800205":
+        Name: A Surviving Hope
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "800206":
+        Name: A Trailblazing Will
+        Desc: <span>Talent juga akan terpicu saat Trailblazer mengalahkan target musuh.</span>
+  "8003":
+    Name: Caelus (Preservation)
+    Abilities:
+      "800301":
+        Name: Ice-Breaking Light
+        Desc: <span>Mengakibatkan Fire DMG dalam jumlah kecil pada 1 musuh dan memperoleh "Magma Will".</span>
+        Type: Basic ATK
+      "800302":
+        Name: Ever-Burning Amber
+        Desc: <span>Mengurangi DMG yang diterima diri sendiri dan memperoleh "Magma Will". Berpeluang besar untuk memberikan efek Taunt pada seluruh musuh.</span>
+        Type: Skill
+      "800303":
+        Name: War-Flaming Lance
+        Desc: <span>Mengakibatkan Fire DMG pada seluruh musuh dan meningkatkan Basic Attack selanjutnya.</span>
+        Type: Ultimate
+      "800304":
+        Name: Treasure of the Architects
+        Desc: <span>Saat diserang, akan menumpuk "Magma Will". Saat "Magma Will" tidak kurang dari 4 lapis, Basic Attack memperoleh </span><span style='color:#f29e38ff'>penguatan</span><span>. Setelah melancarkan Basic Attack, Skill, atau Ultimate, akan memberikan Shield pada seluruh rekan tim.</span>
+        Type: Talent
+      "800306":
+        Name: Attack
+        Desc: ""
+      "800307":
+        Name: Call of the Guardian
+        Desc: <span>Setelah menggunakan Technique, akan memberikan Shield pada diri sendiri saat pertempuran berikutnya dimulai.</span>
+        Type: Technique
+    Eidolons:
+      "800301":
+        Name: Earth-Shaking Resonance
+        Desc: <span>Melancarkan Basic Attack/Enhanced Basic Attack akan mengakibatkan Fire DMG tambahan sebesar 25%/50% DEF Trailblazer.</span>
+      "800302":
+        Name: Time-Defying Tenacity
+        Desc: <span>Ketika Talent terpicu, kekuatan Shield yang diperoleh untuk seluruh rekan tim akan meningkat sebesar 2% DEF Trailblazer + 27.</span>
+      "800303":
+        Name: Trail-Blazing Blueprint
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "800304":
+        Name: Nation-Building Oath
+        Desc: <span>Segera memperoleh 4 lapis "Magma Will" saat pertempuran dimulai.</span>
+      "800305":
+        Name: Spirit-Warming Flame
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "800306":
+        Name: City-Forging Bulwarks
+        Desc: <span>Meningkatkan 10% DEF Trailblazer setelah melancarkan Enhanced Basic Attack atau Ultimate, dapat ditumpuk hingga 3 lapis.</span>
+  "8004":
+    Name: Stelle (Preservation)
+    Abilities:
+      "800401":
+        Name: Ice-Breaking Light
+        Desc: <span>Mengakibatkan Fire DMG dalam jumlah kecil pada 1 musuh dan memperoleh "Magma Will".</span>
+        Type: Basic ATK
+      "800402":
+        Name: Ever-Burning Amber
+        Desc: <span>Mengurangi DMG yang diterima diri sendiri dan memperoleh "Magma Will". Berpeluang besar untuk memberikan efek Taunt pada seluruh musuh.</span>
+        Type: Skill
+      "800403":
+        Name: War-Flaming Lance
+        Desc: <span>Mengakibatkan Fire DMG pada seluruh musuh dan meningkatkan Basic Attack selanjutnya.</span>
+        Type: Ultimate
+      "800404":
+        Name: Treasure of the Architects
+        Desc: <span>Saat diserang, akan menumpuk "Magma Will". Saat "Magma Will" tidak kurang dari 4 lapis, Basic Attack memperoleh </span><span style='color:#f29e38ff'>penguatan</span><span>. Setelah melancarkan Basic Attack, Skill, atau Ultimate, akan memberikan Shield pada seluruh rekan tim.</span>
+        Type: Talent
+      "800406":
+        Name: Attack
+        Desc: ""
+      "800407":
+        Name: Call of the Guardian
+        Desc: <span>Setelah menggunakan Technique, akan memberikan Shield pada diri sendiri saat pertempuran berikutnya dimulai.</span>
+        Type: Technique
+    Eidolons:
+      "800401":
+        Name: Earth-Shaking Resonance
+        Desc: <span>Melancarkan Basic Attack/Enhanced Basic Attack akan mengakibatkan Fire DMG tambahan sebesar 25%/50% DEF Trailblazer.</span>
+      "800402":
+        Name: Time-Defying Tenacity
+        Desc: <span>Ketika Talent terpicu, kekuatan Shield yang diperoleh untuk seluruh rekan tim akan meningkat sebesar 2% DEF Trailblazer + 27.</span>
+      "800403":
+        Name: Trail-Blazing Blueprint
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "800404":
+        Name: Nation-Building Oath
+        Desc: <span>Segera memperoleh 4 lapis "Magma Will" saat pertempuran dimulai.</span>
+      "800405":
+        Name: Spirit-Warming Flame
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "800406":
+        Name: City-Forging Bulwarks
+        Desc: <span>Meningkatkan 10% DEF Trailblazer setelah melancarkan Enhanced Basic Attack atau Ultimate, dapat ditumpuk hingga 3 lapis.</span>
+  "8005":
+    Name: Caelus (Harmony)
+    Abilities:
+      "800501":
+        Name: Swing Dance Etiquette
+        Desc: <span>Mengakibatkan Imaginary DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "800502":
+        Name: Halftime to Make It Rain
+        Desc: <span>Mengakibatkan Imaginary DMG dalam jumlah kecil pada 1 musuh, total Bounce 5 kali.</span>
+        Type: Skill
+      "800503":
+        Name: All-Out Footlight Parade
+        Desc: <span>Menambahkan efek "Backup Dancer" pada seluruh rekan tim. </span><span style='color:#f29e38ff'>Break Effect</span><span> rekan tim yang memiliki "Backup Dancer" akan meningkat, dan setelah menyerang target musuh berstatus <u>Weakness Break</u>, akan mengakibatkan 1 kali </span><span style='color:#f29e38ff'><u>Super Break DMG</u></span><span> tambahan.</span>
+        Type: Ultimate
+      "800504":
+        Name: Full-on Aerial Dance
+        Desc: <span>Saat ada target musuh yang terkena Weakness Break, Trailblazer akan memulihkan Energy.</span>
+        Type: Talent
+      "800506":
+        Name: Attack
+        Desc: ""
+      "800507":
+        Name: Now! I'm the Band!
+        Desc: <span>Meningkatkan Break Effect seluruh rekan tim saat pertempuran berikutnya dimulai.</span>
+        Type: Technique
+    Eidolons:
+      "800501":
+        Name: Best Seat in the House
+        Desc: <span>Memulihkan 1 Poin Skill setelah melancarkan Skill untuk pertama kalinya dalam pertempuran.</span>
+      "800502":
+        Name: Jailbreaking Rainbowwalk
+        Desc: <span>Saat pertempuran dimulai, Energy Regeneration Rate Trailblazer akan meningkat 25%, berlangsung selama 3 giliran.</span>
+      "800503":
+        Name: Sanatorium for Rest Notes
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "800504":
+        Name: Dove in Tophat
+        Desc: <span>Saat Trailblazer berada di medan pertempuran, meningkatkan Break Effect seluruh rekan tim selain Trailblazer, peningkatannya sebesar 15% dari Break Effect Trailblazer.</span>
+      "800505":
+        Name: Poem Favors Rhythms of Old
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "800506":
+        Name: Tomorrow, Rest in Spotlight
+        Desc: <span>DMG Tambahan dari Skill bertambah 2 kali.</span>
+  "8006":
+    Name: Stelle (Harmony)
+    Abilities:
+      "800601":
+        Name: Swing Dance Etiquette
+        Desc: <span>Mengakibatkan Imaginary DMG dalam jumlah kecil pada 1 musuh.</span>
+        Type: Basic ATK
+      "800602":
+        Name: Halftime to Make It Rain
+        Desc: <span>Mengakibatkan Imaginary DMG dalam jumlah kecil pada 1 musuh, total Bounce 5 kali.</span>
+        Type: Skill
+      "800603":
+        Name: All-Out Footlight Parade
+        Desc: <span>Menambahkan efek "Backup Dancer" pada seluruh rekan tim. </span><span style='color:#f29e38ff'>Break Effect</span><span> rekan tim yang memiliki "Backup Dancer" akan meningkat, dan setelah menyerang target musuh berstatus <u>Weakness Break</u>, akan mengakibatkan 1 kali </span><span style='color:#f29e38ff'><u>Super Break DMG</u></span><span> tambahan.</span>
+        Type: Ultimate
+      "800604":
+        Name: Full-on Aerial Dance
+        Desc: <span>Saat ada target musuh yang terkena Weakness Break, Trailblazer akan memulihkan Energy.</span>
+        Type: Talent
+      "800606":
+        Name: Attack
+        Desc: ""
+      "800607":
+        Name: Now! I'm the Band!
+        Desc: <span>Meningkatkan Break Effect seluruh rekan tim saat pertempuran berikutnya dimulai.</span>
+        Type: Technique
+    Eidolons:
+      "800601":
+        Name: Best Seat in the House
+        Desc: <span>Memulihkan 1 Poin Skill setelah melancarkan Skill untuk pertama kalinya dalam pertempuran.</span>
+      "800602":
+        Name: Jailbreaking Rainbowwalk
+        Desc: <span>Saat pertempuran dimulai, Energy Regeneration Rate Trailblazer akan meningkat 25%, berlangsung selama 3 giliran.</span>
+      "800603":
+        Name: Sanatorium for Rest Notes
+        Desc: <span>Level Skill +2, maksimal Lv. 15. Level Talent +2, maksimal Lv. 15.</span>
+      "800604":
+        Name: Dove in Tophat
+        Desc: <span>Saat Trailblazer berada di medan pertempuran, meningkatkan Break Effect seluruh rekan tim selain Trailblazer, peningkatannya sebesar 15% dari Break Effect Trailblazer.</span>
+      "800605":
+        Name: Poem Favors Rhythms of Old
+        Desc: <span>Level Ultimate +2, maksimal Lv. 15. Level Basic Attack +1, maksimal Lv. 10.</span>
+      "800606":
+        Name: Tomorrow, Rest in Spotlight
+        Desc: <span>DMG Tambahan dari Skill bertambah 2 kali.</span>
+RelicSets:
+  "101":
+    Name: Passerby of Wandering Cloud
+    Description2pc: "<span>Outgoing Healing +<span style='whiteSpace: \"nowrap\"'>10%</span></span>"
+    Description4pc: <span>Segera memulihkan 1 Poin Skill saat pertempuran dimulai.</span>
+  "102":
+    Name: Musketeer of Wild Wheat
+    Description2pc: "<span>ATK +<span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>SPD pengguna +<span style='whiteSpace: \"nowrap\"'>6%</span>, DMG yang diakibatkan Basic Attack pengguna +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+  "103":
+    Name: Knight of Purity Palace
+    Description2pc: "<span>DEF +<span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
+    Description4pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>20%</span> kekuatan Shield yang dibuat oleh pengguna.</span>"
+  "104":
+    Name: Hunter of Glacial Forest
+    Description2pc: "<span>Ice DMG +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Saat melancarkan Ultimate, CRIT DMG meningkat <span style='whiteSpace: \"nowrap\"'>25%</span> selama <span style='whiteSpace: \"nowrap\"'>2</span> giliran.</span>"
+  "105":
+    Name: Champion of Streetwise Boxing
+    Description2pc: "<span>Physical DMG +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Setelah pengguna melancarkan atau menerima serangan, ATK pengguna meningkat <span style='whiteSpace: \"nowrap\"'>5%</span> selama pertempuran, dapat ditumpuk hingga <span style='whiteSpace: \"nowrap\"'>5</span> lapis.</span>"
+  "106":
+    Name: Guard of Wuthering Snow
+    Description2pc: "<span>DMG yang diterima -<span style='whiteSpace: \"nowrap\"'>8%</span></span>"
+    Description4pc: "<span>Saat giliran dimulai, jika HP pengguna saat ini kurang dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>50%</span>, maka HP pengguna akan dipulihkan sebesar <span style='whiteSpace: \"nowrap\"'>8%</span> Max HP-nya dan memulihkan <span style='whiteSpace: \"nowrap\"'>5</span> Energy.</span>"
+  "107":
+    Name: Firesmith of Lava-Forging
+    Description2pc: "<span>Fire DMG +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>12%</span> DMG yang diakibatkan oleh Skill pengguna. Setelah melancarkan Ultimate, Fire DMG pengguna untuk serangan berikutnya meningkat <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+  "108":
+    Name: Genius of Brilliant Stars
+    Description2pc: "<span>Quantum DMG +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Saat pengguna mengakibatkan DMG pada target musuh, <span style='whiteSpace: \"nowrap\"'>10%</span> DEF target tersebut akan diabaikan. Jika target memiliki Quantum Weakness, maka jumlah DEF yang diabaikan bertambah <span style='whiteSpace: \"nowrap\"'>10%</span> lagi.</span>"
+  "109":
+    Name: Band of Sizzling Thunder
+    Description2pc: "<span>Lightning DMG +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Saat pengguna melancarkan Skill, meningkatkan <span style='whiteSpace: \"nowrap\"'>20%</span> ATK pengguna selama <span style='whiteSpace: \"nowrap\"'>1</span> giliran.</span>"
+  "110":
+    Name: Eagle of Twilight Line
+    Description2pc: "<span>Wind DMG +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Setelah pengguna melancarkan Ultimate, aksinya akan didahulukan <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+  "111":
+    Name: Thief of Shooting Meteor
+    Description2pc: "<span>Break Effect +<span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
+    Description4pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>16%</span> Break Effect pengguna. Memulihkan <span style='whiteSpace: \"nowrap\"'>3</span> Energy setelah pengguna mengakibatkan Weakness Break pada musuh.</span>"
+  "112":
+    Name: Wastelander of Banditry Desert
+    Description2pc: "<span>Imaginary DMG +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>10%</span> CRIT Rate pengguna saat menyerang target musuh yang memiliki efek Debuff dan meningkatkan <span style='whiteSpace: \"nowrap\"'>20%</span> CRIT DMG pengguna saat menyerang target musuh berstatus Imprisonment.</span>"
+  "113":
+    Name: Longevous Disciple
+    Description2pc: "<span>Max HP +<span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Setelah pengguna terkena serangan atau HP-nya dikonsumsi oleh rekan tim (termasuk pengguna sendiri), CRIT Rate akan meningkat <span style='whiteSpace: \"nowrap\"'>8%</span> selama <span style='whiteSpace: \"nowrap\"'>2</span> giliran. Efek ini dapat ditumpuk hingga <span style='whiteSpace: \"nowrap\"'>2</span> lapis.</span>"
+  "114":
+    Name: Messenger Traversing Hackerspace
+    Description2pc: "<span>SPD +<span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
+    Description4pc: "<span>Saat pengguna melancarkan Ultimate pada rekan tim (termasuk pengguna sendiri), SPD seluruh rekan tim meningkat <span style='whiteSpace: \"nowrap\"'>12%</span> selama <span style='whiteSpace: \"nowrap\"'>1</span> giliran. Efek ini tidak dapat ditumpuk.</span>"
+  "115":
+    Name: The Ashblazing Grand Duke
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>20%</span> DMG yang diakibatkan Serangan Lanjutan.</span>"
+    Description4pc: "<span>Saat pengguna melancarkan Serangan Lanjutan, meningkatkan <span style='whiteSpace: \"nowrap\"'>6%</span> ATK pengguna setiap kali Serangan Lanjutan tersebut mengakibatkan DMG. Efek ini dapat ditumpuk hingga <span style='whiteSpace: \"nowrap\"'>8</span> kali dan berlangsung selama <span style='whiteSpace: \"nowrap\"'>3</span> giliran. Efek ini akan dihapus saat pengguna melancarkan Serangan Lanjutan yang berikutnya.</span>"
+  "116":
+    Name: Prisoner in Deep Confinement
+    Description2pc: "<span>ATK +<span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Untuk setiap 1 efek DoT yang dimiliki target musuh, saat pengguna mengakibatkan DMG pada target tersebut, akan mengabaikan <span style='whiteSpace: \"nowrap\"'>6%</span> DEF-nya. Berlaku untuk maksimal <span style='whiteSpace: \"nowrap\"'>3</span> DoT.</span>"
+  "117":
+    Name: Pioneer Diver of Dead Waters
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>12%</span> DMG yang diakibatkan pada musuh yang terkena pengaruh status Debuff.</span>"
+    Description4pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>4%</span> CRIT Rate. Meningkatkan <span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span> CRIT DMG pengguna pada target musuh yang memiliki setidaknya <span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span> efek Debuff. Setelah pengguna menambahkan efek debuff pada target musuh, efek peningkatan di atas meningkat <span style='whiteSpace: \"nowrap\"'>100%</span> selama <span style='whiteSpace: \"nowrap\"'>1</span> giliran.</span>"
+  "118":
+    Name: Watchmaker, Master of Dream Machinations
+    Description2pc: "<span>Break Effect +<span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
+    Description4pc: "<span>Saat pengguna melancarkan Ultimate pada rekan tim (termasuk pengguna sendiri), Break Effect seluruh rekan tim akan meningkat <span style='whiteSpace: \"nowrap\"'>30%</span> selama <span style='whiteSpace: \"nowrap\"'>2</span> giliran. Efek ini tidak dapat ditumpuk.</span>"
+  "119":
+    Name: Iron Cavalry Against the Scourge
+    Description2pc: "<span>Break Effect +<span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
+    Description4pc: "<span>Saat Break Effect pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>150%</span>, Break DMG yang diakibatkan pada target musuh akan mengabaikan <span style='whiteSpace: \"nowrap\"'>10%</span> DEF. Saat Break Effect pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>250%</span>, Super Break DMG yang diakibatkan pada target musuh akan mengabaikan ekstra <span style='whiteSpace: \"nowrap\"'>15%</span> DEF.</span>"
+  "120":
+    Name: The Wind-Soaring Valorous
+    Description2pc: "<span>ATK +<span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>6%</span> CRIT Rate pengguna. Saat pengguna melancarkan Serangan Lanjutan, DMG yang diakibatkan Ultimate meningkat <span style='whiteSpace: \"nowrap\"'>36%</span>, berlangsung selama <span style='whiteSpace: \"nowrap\"'>1</span> giliran.</span>"
+  "301":
+    Name: Space Sealing Station
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>12%</span> ATK pengguna. Meningkatkan <span style='whiteSpace: \"nowrap\"'>12%</span> ATK tambahan ketika SPD pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>120</span>.</span>"
+  "302":
+    Name: Fleet of the Ageless
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>12%</span> Max HP pengguna. Meningkatkan <span style='whiteSpace: \"nowrap\"'>8%</span> ATK seluruh rekan tim ketika SPD pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>120</span>.</span>"
+  "303":
+    Name: Pan-Cosmic Commercial Enterprise
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>10%</span> Effect Hit Rate pengguna. Pada saat yang sama, ATK pengguna meningkat sebesar <span style='whiteSpace: \"nowrap\"'>25%</span> Effect Hit Rate saat ini, maks. hingga <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+  "304":
+    Name: Belobog of the Architects
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>15%</span> DEF pengguna. Meningkatkan <span style='whiteSpace: \"nowrap\"'>15%</span> DEF tambahan ketika Effect Hit Rate pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>50%</span>.</span>"
+  "305":
+    Name: Celestial Differentiator
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>16%</span> CRIT DMG pengguna. Saat CRIT DMG pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>120%</span>, CRIT Rate pengguna akan meningkat <span style='whiteSpace: \"nowrap\"'>60%</span> setelah memasuki pertempuran, efek ini akan hilang setelah pengguna melancarkan serangan pertamanya dalam pertempuran.</span>"
+  "306":
+    Name: Inert Salsotto
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>8%</span> CRIT Rate pengguna. Meningkatkan <span style='whiteSpace: \"nowrap\"'>15%</span> DMG yang diakibatkan Ultimate dan Serangan Lanjutan ketika CRIT Rate pengguna saat ini lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>50%</span>.</span>"
+  "307":
+    Name: "Talia: Kingdom of Banditry"
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>16%</span> Break Effect pengguna. Meningkatkan <span style='whiteSpace: \"nowrap\"'>20%</span> Break Effect tambahan ketika SPD pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>145</span>.</span>"
+  "308":
+    Name: Sprightly Vonwacq
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>5%</span> Energy Regeneration Rate pengguna. Ketika SPD pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>120</span>, segera mendahulukan <span style='whiteSpace: \"nowrap\"'>40%</span> aksi saat memasuki pertempuran.</span>"
+  "309":
+    Name: Rutilant Arena
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>8%</span> CRIT Rate pengguna. Meningkatkan <span style='whiteSpace: \"nowrap\"'>20%</span> DMG yang diakibatkan Basic Attack dan Skill ketika CRIT Rate pengguna saat ini lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>70%</span>.</span>"
+  "310":
+    Name: Broken Keel
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>10%</span> Effect RES pengguna. Saat Effect RES pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>30%</span>, CRIT DMG seluruh rekan tim meningkat <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+  "311":
+    Name: "Firmament Frontline: Glamoth"
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>12%</span> ATK pengguna. Saat SPD pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span>, DMG yang diakibatkan pengguna meningkat <span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span>.</span>"
+  "312":
+    Name: Penacony, Land of the Dreams
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>5%</span> Energy Regeneration Rate pengguna. Meningkatkan <span style='whiteSpace: \"nowrap\"'>10%</span> DMG yang diakibatkan rekan lain yang tipe serangannya serupa dengan pengguna.</span>"
+  "313":
+    Name: Sigonia, the Unclaimed Desolation
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>4%</span> CRIT Rate pengguna. Saat target musuh dikalahkan, CRIT DMG pengguna akan meningkat <span style='whiteSpace: \"nowrap\"'>4%</span>, dapat ditumpuk hingga <span style='whiteSpace: \"nowrap\"'>10</span> lapis.</span>"
+  "314":
+    Name: Izumo Gensei and Takama Divine Realm
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>12%</span> ATK pengguna. Saat memasuki pertempuran, jika setidaknya ada 1 rekan tim pengguna dengan Path yang sama dengan pengguna, maka CRIT Rate pengguna akan meningkat <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+  "315":
+    Name: Duran, Dynasty of Running Wolves
+    Description2pc: "<span>Saat rekan tim melancarkan Serangan Lanjutan, pengguna akan memperoleh 1 lapis \"Merit\", yang dapat ditumpuk hingga <span style='whiteSpace: \"nowrap\"'>5</span> lapis. Setiap lapis \"Merit\" akan meningkatkan DMG yang diakibatkan Serangan Lanjutan pengguna sebesar <span style='whiteSpace: \"nowrap\"'>5%</span>. Saat mencapai <span style='whiteSpace: \"nowrap\"'>5</span> lapis, CRIT DMG pengguna akan meningkat sebesar <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+  "316":
+    Name: Forge of the Kalpagni Lantern
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>6%</span> SPD pengguna. Saat serangan pengguna mengenai target musuh dengan Fire Weakness, Break Effect akan meningkat <span style='whiteSpace: \"nowrap\"'>40%</span> selama <span style='whiteSpace: \"nowrap\"'>1</span> giliran.</span>"
+  "317":
+    Name: Lushaka, the Sunken Seas
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>5%</span> Energy Regeneration Rate pengguna. Jika pengguna bukan karakter pertama dalam lineup tim, maka akan meningkatkan <span style='whiteSpace: \"nowrap\"'>12%</span> ATK karakter pertama dalam lineup tim.</span>"
+  "318":
+    Name: The Wondrous BananAmusement Park
+    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>16%</span> CRIT DMG pengguna. Saat terdapat target yang dipanggil oleh pengguna, CRIT DMG meningkat ekstra <span style='whiteSpace: \"nowrap\"'>32%</span>.</span>"
+Lightcones:
+  "20000":
+    Name: Arrows
+    SkillName: Crisis
+  "20001":
+    Name: Cornucopia
+    SkillName: Prosperity
+  "20002":
+    Name: Collapsing Sky
+    SkillName: Havoc
+  "20003":
+    Name: Amber
+    SkillName: Stasis
+  "20004":
+    Name: Void
+    SkillName: Fallen
+  "20005":
+    Name: Chorus
+    SkillName: Concerted
+  "20006":
+    Name: Data Bank
+    SkillName: Learned
+  "20007":
+    Name: Darting Arrow
+    SkillName: War Cry
+  "20008":
+    Name: Fine Fruit
+    SkillName: Savor
+  "20009":
+    Name: Shattered Home
+    SkillName: Eradication
+  "20010":
+    Name: Defense
+    SkillName: Revitalization
+  "20011":
+    Name: Loop
+    SkillName: Pursuit
+  "20012":
+    Name: Meshing Cogs
+    SkillName: Fleet Triumph
+  "20013":
+    Name: Passkey
+    SkillName: Epiphany
+  "20014":
+    Name: Adversarial
+    SkillName: Alliance
+  "20015":
+    Name: Multiplication
+    SkillName: Denizens of Abundance
+  "20016":
+    Name: Mutual Demise
+    SkillName: Legion
+  "20017":
+    Name: Pioneering
+    SkillName: IPC
+  "20018":
+    Name: Hidden Shadow
+    SkillName: Mechanism
+  "20019":
+    Name: Mediation
+    SkillName: Family
+  "20020":
+    Name: Sagacity
+    SkillName: Genius
+  "21000":
+    Name: Post-Op Conversation
+    SkillName: Mutual Healing
+  "21001":
+    Name: Good Night and Sleep Well
+    SkillName: Toiler
+  "21002":
+    Name: Day One of My New Life
+    SkillName: At This Very Moment
+  "21003":
+    Name: Only Silence Remains
+    SkillName: Record
+  "21004":
+    Name: Memories of the Past
+    SkillName: Old Photo
+  "21005":
+    Name: The Moles Welcome You
+    SkillName: Fantastic Adventure
+  "21006":
+    Name: The Birth of the Self
+    SkillName: The Maiden in the Painting
+  "21007":
+    Name: Shared Feeling
+    SkillName: Cure and Repair
+  "21008":
+    Name: Eyes of the Prey
+    SkillName: Self-Confidence
+  "21009":
+    Name: Landau's Choice
+    SkillName: Time Fleets Away
+  "21010":
+    Name: Swordplay
+    SkillName: Answers of Their Own
+  "21011":
+    Name: Planetary Rendezvous
+    SkillName: Departure
+  "21012":
+    Name: A Secret Vow
+    SkillName: Spare No Effort
+  "21013":
+    Name: Make the World Clamor
+    SkillName: The Power of Sound
+  "21014":
+    Name: Perfect Timing
+    SkillName: Refraction of Sightline
+  "21015":
+    Name: Resolution Shines As Pearls of Sweat
+    SkillName: Glance Back
+  "21016":
+    Name: Trend of the Universal Market
+    SkillName: A New Round of Shuffling
+  "21017":
+    Name: Subscribe for More!
+    SkillName: Like Before You Leave!
+  "21018":
+    Name: Dance! Dance! Dance!
+    SkillName: Cannot Stop It!
+  "21019":
+    Name: Under the Blue Sky
+    SkillName: Rye Under the Sun
+  "21020":
+    Name: Geniuses' Repose
+    SkillName: Each Now Has a Role to Play
+  "21021":
+    Name: Quid Pro Quo
+    SkillName: Enjoy With Rapture
+  "21022":
+    Name: Fermata
+    SkillName: Semibreve Rest
+  "21023":
+    Name: We Are Wildfire
+    SkillName: Teary-Eyed
+  "21024":
+    Name: River Flows in Spring
+    SkillName: Stave Off the Lingering Cold
+  "21025":
+    Name: Past and Future
+    SkillName: Kites From the Past
+  "21026":
+    Name: Woof! Walk Time!
+    SkillName: Run!
+  "21027":
+    Name: The Seriousness of Breakfast
+    SkillName: Get Ready
+  "21028":
+    Name: Warmth Shortens Cold Nights
+    SkillName: Tiny Light
+  "21029":
+    Name: We Will Meet Again
+    SkillName: A Discourse in Arms
+  "21030":
+    Name: This Is Me!
+    SkillName: New Chapter
+  "21031":
+    Name: Return to Darkness
+    SkillName: Raging Waves
+  "21032":
+    Name: Carve the Moon, Weave the Clouds
+    SkillName: Secret
+  "21033":
+    Name: Nowhere to Run
+    SkillName: Desperate Times
+  "21034":
+    Name: Today Is Another Peaceful Day
+    SkillName: A Storm Is Coming
+  "21035":
+    Name: What Is Real?
+    SkillName: Hypothesis
+  "21036":
+    Name: Dreamville Adventure
+    SkillName: Solidarity
+  "21037":
+    Name: Final Victor
+    SkillName: Wager
+  "21038":
+    Name: Flames Afar
+    SkillName: Deflagration
+  "21039":
+    Name: Destiny's Threads Forewoven
+    SkillName: Insight
+  "21040":
+    Name: The Day The Cosmos Fell
+    SkillName: Stratagem
+  "21041":
+    Name: It's Showtime
+    SkillName: Self-Amusement
+  "21042":
+    Name: Indelible Promise
+    SkillName: Inheritance
+  "21043":
+    Name: Concert for Two
+    SkillName: Inspire
+  "21044":
+    Name: Boundless Choreo
+    SkillName: Scrutinize
+  "21045":
+    Name: After the Charmony Fall
+    SkillName: Quiescence
+  "21046":
+    Name: Poised to Bloom
+    SkillName: Lose Not, Forget Not
+  "21047":
+    Name: Shadowed by Night
+    SkillName: Concealment
+  "22000":
+    Name: Before the Tutorial Mission Starts
+    SkillName: Quick on the Draw
+  "22001":
+    Name: Hey, Over Here
+    SkillName: I'm Not Afraid!
+  "22002":
+    Name: For Tomorrow's Journey
+    SkillName: Bonds
+  "23000":
+    Name: Night on the Milky Way
+    SkillName: Meteor Swarm
+  "23001":
+    Name: In the Night
+    SkillName: Flowers and Butterflies
+  "23002":
+    Name: Something Irreplaceable
+    SkillName: Kinship
+  "23003":
+    Name: But the Battle Isn't Over
+    SkillName: Heir
+  "23004":
+    Name: In the Name of the World
+    SkillName: Inheritor
+  "23005":
+    Name: Moment of Victory
+    SkillName: Verdict
+  "23006":
+    Name: Patience Is All You Need
+    SkillName: Spider Web
+  "23007":
+    Name: Incessant Rain
+    SkillName: Mirage of Reality
+  "23008":
+    Name: Echoes of the Coffin
+    SkillName: Thorns
+  "23009":
+    Name: The Unreachable Side
+    SkillName: Unfulfilled Yearning
+  "23010":
+    Name: Before Dawn
+    SkillName: Long Night
+  "23011":
+    Name: She Already Shut Her Eyes
+    SkillName: Visioscape
+  "23012":
+    Name: Sleep Like the Dead
+    SkillName: Sweet Dreams
+  "23013":
+    Name: Time Waits for No One
+    SkillName: Morn, Noon, Dusk, and Night
+  "23014":
+    Name: I Shall Be My Own Sword
+    SkillName: With This Evening Jade
+  "23015":
+    Name: Brighter Than the Sun
+    SkillName: Defiant Till Death
+  "23016":
+    Name: Worrisome, Blissful
+    SkillName: One At A Time
+  "23017":
+    Name: Night of Fright
+    SkillName: Deep, Deep Breaths
+  "23018":
+    Name: An Instant Before A Gaze
+    SkillName: A Knight's Pilgrimage
+  "23019":
+    Name: Past Self in Mirror
+    SkillName: The Plum Fragrance In My Bones
+  "23020":
+    Name: Baptism of Pure Thought
+    SkillName: Mental Training
+  "23021":
+    Name: Earthly Escapade
+    SkillName: Capriciousness
+  "23022":
+    Name: Reforged Remembrance
+    SkillName: Crystallize
+  "23023":
+    Name: Inherently Unjust Destiny
+    SkillName: All-In
+  "23024":
+    Name: Along the Passing Shore
+    SkillName: Steerer
+  "23025":
+    Name: Whereabouts Should Dreams Rest
+    SkillName: Metamorphosis
+  "23026":
+    Name: Flowing Nightglow
+    SkillName: Pacify
+  "23027":
+    Name: Sailing Towards a Second Life
+    SkillName: Rough Water
+  "23028":
+    Name: Yet Hope Is Priceless
+    SkillName: Promise
+  "23029":
+    Name: Those Many Springs
+    SkillName: Worldly Affairs Leave No Mark
+  "23030":
+    Name: Dance at Sunset
+    SkillName: Deeply Engrossed
+  "23031":
+    Name: I Venture Forth to Hunt
+    SkillName: Intimidation
+  "23032":
+    Name: Scent Alone Stays True
+    SkillName: Contentment
+  "24000":
+    Name: On the Fall of an Aeon
+    SkillName: Moth To Flames
+  "24001":
+    Name: Cruising in the Stellar Sea
+    SkillName: Chase
+  "24002":
+    Name: Texture of Memories
+    SkillName: Treasure
+  "24003":
+    Name: Solitary Healing
+    SkillName: Chaos Elixir
+  "24004":
+    Name: Eternal Calculus
+    SkillName: Boundless Thought
+Paths:
+  Warrior: Destruction
+  Rogue: Hunt
+  Mage: Erudition
+  Shaman: Harmony
+  Warlock: Nihility
+  Knight: Preservation
+  Priest: Abundance
+  Unknown: Umum
+Elements:
+  Physical: Physical
+  Fire: Fire
+  Ice: Ice
+  Thunder: Lightning
+  Wind: Wind
+  Quantum: Quantum
+  Imaginary: Imaginary

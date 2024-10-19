@@ -1,18 +1,18 @@
 import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants'
 import { BufferPacker } from '../bufferPacker.js'
-import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats.ts'
+import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
-import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
-import { calculateConditionalRegistry, calculateConditionals } from 'lib/optimizer/calculateConditionals'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { Form } from 'types/Form'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateConditionals'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
+let isFirefox = false
 
 type OptimizerEventData = {
   relics: {
@@ -24,13 +24,14 @@ type OptimizerEventData = {
     Head: any[]
   }
   request: Form
-  params: OptimizerParams
+  context: OptimizerContext
   buffer: ArrayBuffer
   relicSetSolutions: number[]
   ornamentSetSolutions: number[]
   permutations: number
   WIDTH: number
   skip: number
+  isFirefox: boolean
 }
 
 self.onmessage = function (e: MessageEvent) {
@@ -39,7 +40,7 @@ self.onmessage = function (e: MessageEvent) {
 
   const data: OptimizerEventData = e.data
   const request: Form = data.request
-  const params: OptimizerParams = data.params
+  const context: OptimizerContext = data.context
 
   const relics = data.relics
   const arr = new Float64Array(data.buffer)
@@ -58,17 +59,19 @@ self.onmessage = function (e: MessageEvent) {
   const baseDisplay = !combatDisplay
   let passCount = 0
 
+  isFirefox = data.isFirefox
+
   const {
     failsBasicFilter,
     failsCombatFilter,
+    // @ts-ignore
   } = generateResultMinFilter(request, combatDisplay)
 
-  params.characterConditionals = CharacterConditionals.get(request)
-  params.lightConeConditionals = LightConeConditionals.get(request)
-
-  // TODO: Can move teammates into precompute step as well
-  calculateConditionals(request, params)
-  calculateTeammates(request, params)
+  for (const action of context.actions) {
+    calculateContextConditionalRegistry(action, context)
+  }
+  context.characterConditionalController = CharacterConditionals.get(context)
+  context.lightConeConditionalController = LightConeConditionals.get(context)
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
@@ -78,8 +81,6 @@ self.onmessage = function (e: MessageEvent) {
     if (index >= data.permutations) {
       break
     }
-
-    calculateConditionalRegistry(request, params)
 
     const l = (index % lSize)
     const p = (((index - l) / lSize) % pSize)
@@ -111,16 +112,16 @@ self.onmessage = function (e: MessageEvent) {
     }
 
     const c: BasicStatsObject = { ...baseCharacterStats } as BasicStatsObject
-    const x: ComputedStatsObject = { ...params.precomputedX }
 
     c.relicSetIndex = relicSetIndex
     c.ornamentSetIndex = ornamentSetIndex
-    c.x = x
+    // @ts-ignore
+    c.x = {}
 
     calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope)
     calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
-    calculateBaseStats(c, request, params)
-    calculateElementalStats(c, request, params)
+    calculateBaseStats(c, context)
+    calculateElementalStats(c, context)
 
     // Exit early on base display filters failing
     if (baseDisplay) {
@@ -144,9 +145,36 @@ self.onmessage = function (e: MessageEvent) {
       }
     }
 
-    calculateComputedStats(c, request, params)
-    calculateBaseMultis(x, request, params)
-    calculateDamage(x, request, params)
+    let combo = 0
+    for (let i = context.actions.length - 1; i >= 0; i--) {
+      const action = setupAction(c, i, context)
+      const ax = action.precomputedX
+
+      calculateComputedStats(c, ax, action, context)
+      calculateBaseMultis(ax, action, context)
+      calculateDamage(ax, action, context)
+
+      if (action.actionType === 'BASIC') {
+        combo += ax.BASIC_DMG
+      }
+      if (action.actionType === 'SKILL') {
+        combo += ax.SKILL_DMG
+      }
+      if (action.actionType === 'ULT') {
+        combo += ax.ULT_DMG
+      }
+      if (action.actionType === 'FUA') {
+        combo += ax.FUA_DMG
+      }
+
+      if (i === 0) {
+        combo += context.comboDot * ax.DOT_DMG + context.comboBreak * ax.BREAK_DMG
+        c.x = ax
+      }
+    }
+
+    c.x.COMBO_DMG = combo
+    let x = c.x
 
     if (failsCombatFilter(x)) {
       continue
@@ -173,14 +201,12 @@ self.onmessage = function (e: MessageEvent) {
 
     // Rating filters
     const fail = x.EHP < request.minEhp || x.EHP > request.maxEhp
-      || x.WEIGHT < request.minWeight || x.WEIGHT > request.maxWeight
       || x.BASIC_DMG < request.minBasic || x.BASIC_DMG > request.maxBasic
       || x.SKILL_DMG < request.minSkill || x.SKILL_DMG > request.maxSkill
       || x.ULT_DMG < request.minUlt || x.ULT_DMG > request.maxUlt
       || x.FUA_DMG < request.minFua || x.FUA_DMG > request.maxFua
       || x.DOT_DMG < request.minDot || x.DOT_DMG > request.maxDot
       || x.BREAK_DMG < request.minBreak || x.BREAK_DMG > request.maxBreak
-      || x.COMBO_DMG < request.minCombo || x.COMBO_DMG > request.maxCombo
     if (fail) {
       continue
     }
@@ -198,7 +224,9 @@ self.onmessage = function (e: MessageEvent) {
 }
 
 function generateResultMinFilter(request: Form, combatDisplay: string) {
+  // @ts-ignore
   const filter = request.resultMinFilter
+  // @ts-ignore
   const sortOption = SortOption[request.resultSort]
   const isComputedRating = sortOption.isComputedRating
 
@@ -221,4 +249,26 @@ function generateResultMinFilter(request: Form, combatDisplay: string) {
       failsCombatFilter: () => false,
     }
   }
+}
+
+function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) {
+  const originalAction = context.actions[i]
+  const ax = cloneX(originalAction)
+  ax.sets = c.x.sets
+  const action = {
+    characterConditionals: originalAction.characterConditionals,
+    lightConeConditionals: originalAction.characterConditionals,
+    setConditionals: originalAction.setConditionals,
+    conditionalRegistry: originalAction.conditionalRegistry,
+    actionType: originalAction.actionType,
+    precomputedX: ax,
+    conditionalState: {}
+  } as OptimizerAction
+
+  return action
+}
+
+function cloneX(originalAction: OptimizerAction) {
+  const x = originalAction.precomputedX
+  return isFirefox ? Object.assign({}, x) : { ...x }
 }

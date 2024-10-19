@@ -1,13 +1,15 @@
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { Stats } from 'lib/constants'
 import { AventurineConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aventurine')
   const { basic, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -24,37 +26,33 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'defToCrBoost',
       name: 'defToCrBoost',
-      text: 'DEF to CR boost',
-      title: 'Leverage',
-      content: `For every 100 of Aventurine's DEF that exceeds 1600, increases his own CRIT Rate by 2%, up to a maximum increase of 48%.`,
+      text: t('Content.defToCrBoost.text'),
+      title: t('Content.defToCrBoost.title'),
+      content: t('Content.defToCrBoost.content'),
     },
     {
       formItem: 'switch',
       id: 'fortifiedWagerBuff',
       name: 'fortifiedWagerBuff',
-      text: 'Fortified Wager buff',
-      title: 'Cornerstone Deluxe',
-      content: `For any single ally with Fortified Wager, their Effect RES increases by ${precisionRound(talentResScaling * 100)}%, and when they get attacked, Aventurine gains 1 point of Blind Bet.
-      ::BR::
-      E1: Increases CRIT DMG by 20% for allies with Fortified Wager. After using the Ultimate, provides all allies with a Fortified Wager shield, whose Shield effect is equal to 100% of the one provided by the Skill, lasting for 3 turn(s).`,
+      text: t('Content.fortifiedWagerBuff.text'),
+      title: t('Content.fortifiedWagerBuff.title'),
+      content: t('Content.fortifiedWagerBuff.content', { talentResScaling: TsUtils.precisionRound(100 * talentResScaling) }),
     },
     {
       formItem: 'switch',
       id: 'enemyUnnervedDebuff',
       name: 'enemyUnnervedDebuff',
-      text: 'Enemy Unnerved',
-      title: 'Roulette Shark',
-      content: `When an ally hits an Unnerved enemy target, the CRIT DMG dealt increases by ${precisionRound(ultCdBoost * 100)}%.`,
+      text: t('Content.enemyUnnervedDebuff.text'),
+      title: t('Content.enemyUnnervedDebuff.title'),
+      content: t('Content.enemyUnnervedDebuff.content', { ultCdBoost: TsUtils.precisionRound(100 * ultCdBoost) }),
     },
     {
       formItem: 'slider',
       id: 'fuaHitsOnTarget',
       name: 'fuaHitsOnTarget',
-      text: 'FUA hits on target',
-      title: 'Bingo!',
-      content: `Upon reaching 7 points of Blind Bet, Aventurine consumes the 7 points to launch a 7-hit follow-up attack, with each hit dealing Imaginary DMG equal to ${precisionRound(talentDmgScaling * 100)}% of Aventurine's DEF to a single random enemy. Blind Bet is capped at 10 points.
-      ::BR::
-      E4: When triggering his Talent's follow-up attack, first increases Aventurine's DEF by 40% for 2 turn(s), and additionally increases the Hits Per Action for his talent's follow-up attack by 3.`,
+      text: t('Content.fuaHitsOnTarget.text'),
+      title: t('Content.fuaHitsOnTarget.title'),
+      content: t('Content.fuaHitsOnTarget.content', { talentDmgScaling: TsUtils.precisionRound(100 * talentDmgScaling) }),
       min: 0,
       max: fuaHits,
     },
@@ -62,27 +60,27 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e2ResShred',
       name: 'e2ResShred',
-      text: 'E2 RES shred',
-      title: 'E2: Bounded Rationality',
-      content: `E2: When using the Basic ATK, reduces the target's All-Type RES by 12% for 3 turn(s).`,
+      text: t('Content.e2ResShred.text'),
+      title: t('Content.e2ResShred.title'),
+      content: t('Content.e2ResShred.content'),
       disabled: e < 2,
     },
     {
       formItem: 'switch',
       id: 'e4DefBuff',
       name: 'e4DefBuff',
-      text: 'E4 DEF buff',
-      title: 'E4: Unexpected Hanging Paradox',
-      content: `E4: When triggering his Talent's follow-up attack, first increases Aventurine's DEF by 40% for 2 turn(s)`,
+      text: t('Content.e4DefBuff.text'),
+      title: t('Content.e4DefBuff.title'),
+      content: t('Content.e4DefBuff.content'),
       disabled: e < 4,
     },
     {
       formItem: 'slider',
       id: 'e6ShieldStacks',
       name: 'e6ShieldStacks',
-      text: 'E6 shield stacks',
-      title: 'E6: Stag Hunt Game',
-      content: `E6: For every ally that holds a Shield, the DMG dealt by Aventurine increases by 50%, up to a maximum of 150%.`,
+      text: t('Content.e6ShieldStacks.text'),
+      title: t('Content.e6ShieldStacks.title'),
+      content: t('Content.e6ShieldStacks.content'),
       min: 0,
       max: 3,
       disabled: e < 6,
@@ -112,8 +110,8 @@ export default (e: Eidolon): CharacterConditional => {
       enemyUnnervedDebuff: true,
       e2ResShred: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       x[Stats.DEF_P] += (e >= 4 && r.e4DefBuff) ? 0.40 : 0
       x.ELEMENTAL_DMG += (e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0
@@ -128,15 +126,15 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x[Stats.RES] += (m.fortifiedWagerBuff) ? talentResScaling : 0
       x[Stats.CD] += (m.enemyUnnervedDebuff) ? ultCdBoost : 0
       x[Stats.CD] += (e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0
       x.RES_PEN += (e >= 2 && m.e2ResShred) ? 0.12 : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.DEF]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.DEF]
       x.FUA_DMG += x.FUA_SCALING * x[Stats.DEF]

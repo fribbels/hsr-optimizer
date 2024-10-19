@@ -1,14 +1,16 @@
 import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, BASIC_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, calculateAshblazingSet, findContentId } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityCd, buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Topaz')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const proofOfDebtFuaVulnerability = skill(e, 0.50, 0.55)
@@ -35,23 +37,23 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'enemyProofOfDebtDebuff',
     name: 'enemyProofOfDebtDebuff',
-    text: 'Proof of Debt debuff',
-    title: 'Proof of Debt',
-    content: `Inflicts a single target enemy with a Proof of Debt status, increasing the DMG it takes from follow-up attacks by ${precisionRound(proofOfDebtFuaVulnerability * 100)}%.`,
+    text: t('Content.enemyProofOfDebtDebuff.text'),
+    title: t('Content.enemyProofOfDebtDebuff.title'),
+    content: t('Content.enemyProofOfDebtDebuff.content', { proofOfDebtFuaVulnerability: TsUtils.precisionRound(100 * proofOfDebtFuaVulnerability) }),
   }, {
     formItem: 'switch',
     id: 'numbyEnhancedState',
     name: 'numbyEnhancedState',
-    text: 'Numby enhanced state',
-    title: 'Turn a Profit!: Ult Enhanced State',
-    content: `Numby enters the Windfall Bonanza! state and its DMG multiplier increases by ${precisionRound(enhancedStateFuaScalingBoost * 100)}% and CRIT DMG increases by ${precisionRound(enhancedStateFuaCdBoost * 100)}%.`,
+    text: t('Content.numbyEnhancedState.text'),
+    title: t('Content.numbyEnhancedState.title'),
+    content: t('Content.numbyEnhancedState.content', { enhancedStateFuaCdBoost: TsUtils.precisionRound(100 * enhancedStateFuaCdBoost), enhancedStateFuaScalingBoost: TsUtils.precisionRound(100 * enhancedStateFuaScalingBoost) }),
   }, {
     formItem: 'slider',
     id: 'e1DebtorStacks',
     name: 'e1DebtorStacks',
-    text: 'E1 Debtor stacks',
-    title: `E1 Increases Crit DMG`,
-    content: `E1: When enemies afflicted with Proof of Debt receive follow-up attacks, they will enter the Debtor state. This can take effect only once within a single action. The Debtor state increases the CRIT DMG of follow-up attacks inflicted on the target enemies by 25%, stacking up to 2 time(s). When Proof of Debt is removed, the Debtor state is also removed.`,
+    text: t('Content.e1DebtorStacks.text'),
+    title: t('Content.e1DebtorStacks.title'),
+    content: t('Content.e1DebtorStacks.content'),
     min: 0,
     max: 2,
     disabled: e < 1,
@@ -74,12 +76,12 @@ export default (e: Eidolon): CharacterConditional => {
       enemyProofOfDebtDebuff: true,
       e1DebtorStacks: 2,
     }),
-    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
+    initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       x.BASIC_DMG_TYPE = BASIC_TYPE | FUA_TYPE
       x.SKILL_DMG_TYPE = SKILL_TYPE | FUA_TYPE
     },
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       buffAbilityCd(x, SKILL_TYPE | FUA_TYPE, enhancedStateFuaCdBoost, (r.numbyEnhancedState))
       buffAbilityResPen(x, SKILL_TYPE | FUA_TYPE, 0.10, (e >= 6))
@@ -96,7 +98,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.FUA_SCALING += (r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0
 
       // Boost
-      x.ELEMENTAL_DMG += (request.enemyElementalWeak) ? 0.15 : 0
+      x.ELEMENTAL_DMG += (context.enemyElementalWeak) ? 0.15 : 0
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60
@@ -104,24 +106,24 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       buffAbilityVulnerability(x, FUA_TYPE, proofOfDebtFuaVulnerability, (m.enemyProofOfDebtDebuff))
       buffAbilityCd(x, FUA_TYPE, 0.25 * m.e1DebtorStacks, (e >= 1 && m.enemyProofOfDebtDebuff))
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
-      const basicAshblazingAtk = calculateAshblazingSet(x, request, basicHitCountMulti)
-      const fuaAshblazingAtk = calculateAshblazingSet(x, request, hitMulti)
+      const basicAshblazingAtk = calculateAshblazingSet(x, action, context, basicHitCountMulti)
+      const fuaAshblazingAtk = calculateAshblazingSet(x, action, context, hitMulti)
       x.BASIC_DMG += x.BASIC_SCALING * (x[Stats.ATK] + basicAshblazingAtk)
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + fuaAshblazingAtk)
       x.SKILL_DMG = x.FUA_DMG
     },
-    gpuFinalizeCalculations: (request: Form) => {
-      const r = request.characterConditionals
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
 
       return `

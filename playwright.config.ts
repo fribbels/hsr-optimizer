@@ -10,12 +10,12 @@ export const STORAGE_STATE = path.join(
 )
 
 export default defineConfig({
-  timeout: 45000,
+  timeout: 60000,
   testDir: 'tests',
   fullyParallel: true, // Run all tests in parallel.
   forbidOnly: !!process.env.CI, // Fail the build on CI if you accidentally left test.only in the source code.
-  retries: process.env.CI ? 2 : 0, // Retry on CI only.
-  workers: process.env.CI ? 1 : undefined, // Opt out of parallel tests on CI.
+  retries: process.env.CI ? 1 : 0, // Retry on CI only.
+  workers: process.env.CI ? 5 : undefined, // Github CI maxes at 12 workers on last check, but they may time out
 
   expect: {
     timeout: 5000, // Maximum time expect() should wait for the condition to be met.

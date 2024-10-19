@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import { ClearDataSubmenu } from './ClearDataSubmenu'
 import { LoadDataSubmenu } from 'components/importerTab/LoadDataSubmenu'
 import { ScannerImportSubmenu } from 'components/importerTab/ScannerImportSubmenu'
+import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
 
@@ -63,6 +64,8 @@ const saveFile = async (blob, suggestedName) => {
 }
 
 function SaveDataSubmenu() {
+  const { t } = useTranslation('importSaveTab', { keyPrefix: 'SaveData' })
+
   async function saveClicked() {
     try {
       const stateString = SaveState.save()
@@ -73,7 +76,7 @@ function SaveDataSubmenu() {
       )
 
       await saveFile(blob, 'fribbels-optimizer-save.json')
-      Message.success('Done')
+      Message.success(t('SuccessMessage')/* Done */)
     } catch (e) {
       console.warn(e)
     }
@@ -82,10 +85,10 @@ function SaveDataSubmenu() {
   return (
     <Flex vertical gap={5}>
       <Text>
-        Save your optimizer data to a file.
+        {t('Label')/* Save your optimizer data to a file. */}
       </Text>
-      <Button type="primary" onClick={saveClicked} icon={<DownloadOutlined/>} style={{ width: buttonWidth }}>
-        Save data
+      <Button type='primary' onClick={saveClicked} icon={<DownloadOutlined/>} style={{ width: buttonWidth }}>
+        {t('ButtonText')/* Save data */}
       </Button>
     </Flex>
   )
@@ -93,34 +96,35 @@ function SaveDataSubmenu() {
 
 export default function ImportTab() {
   const tabSize = 'large'
+  const { t } = useTranslation('importSaveTab', { keyPrefix: 'TabLabels' })
 
   return (
     <div>
       <Flex vertical gap={5} style={{ marginLeft: 20, width: 1200 }}>
         <Tabs
-          defaultActiveKey="1"
+          defaultActiveKey='1'
           size={tabSize}
           style={{
             marginBottom: 32,
           }}
           items={[
             {
-              label: 'Relic scanner importer',
+              label: t('Import'),
               key: 0,
               children: <ScannerImportSubmenu/>,
             },
             {
-              label: 'Load optimizer data',
+              label: t('Load'),
               key: 1,
               children: <LoadDataSubmenu/>,
             },
             {
-              label: 'Save optimizer data',
+              label: t('Save'),
               key: 2,
               children: <SaveDataSubmenu/>,
             },
             {
-              label: 'Clear optimizer data',
+              label: t('Clear'),
               key: 3,
               children: <ClearDataSubmenu/>,
             },

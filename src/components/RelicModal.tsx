@@ -1,20 +1,21 @@
 import styled from 'styled-components'
 import { Button, Flex, Form, Image, Input, InputNumber, Modal, Radio, Select, theme } from 'antd'
 import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
-import { Constants, Stats } from 'lib/constants'
+import { Constants, setToId, Stats, UnreleasedSets } from 'lib/constants'
 import { HeaderText } from './HeaderText'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
 import { Utils } from 'lib/utils'
 import { TsUtils } from 'lib/TsUtils'
 import { Assets } from 'lib/assets'
-import { enhanceOptions, generateImageLabel, getSetOptions, substatOptions } from 'components/SelectOptions'
 import { Relic, Stat } from 'types/Relic'
 import { Character } from 'types/Character'
 import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/relicModalController'
 import { CaretRightOutlined } from '@ant-design/icons'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { generateCharacterList } from 'lib/displayUtils'
+import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
 
 const { useToken } = theme
 
@@ -94,13 +95,28 @@ export default function RelicModal(props: {
   setOpen: (open: boolean) => void
   open: boolean
 }) {
+  const { t } = useTranslation(['modals', 'common', 'gameData'])
   const { token } = useToken()
   const [relicForm] = Form.useForm()
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
   const characters: Character[] = window.store((s) => s.characters)
 
-  const characterOptions = useMemo(() => generateCharacterList({ currentCharacters: characters }), [characters])
-  const setOptions = useMemo(() => getSetOptions(), [])
+  const characterOptions = useMemo(() => generateCharacterList({ currentCharacters: characters }), [characters, i18next.resolvedLanguage])
+  const setOptions = useMemo(
+    function getSetOptions() {
+      const setOptions: { label: ReactElement; value: string }[] = []
+      for (const entry of [...Object.entries(Constants.SetsRelics), ...Object.entries(Constants.SetsOrnaments)].filter((x) => !UnreleasedSets[x[1]])) {
+        setOptions.push({
+          label: (
+            <Flex align='center' gap={10}>
+              <img style={{ height: 22, width: 22 }} src={Assets.getSetImage(entry[1])}/>
+              {i18next.t(`gameData:RelicSets.${setToId[entry[1]]}.Name`)}
+            </Flex>),
+          value: entry[1],
+        })
+      }
+      return setOptions
+    }, [i18next.resolvedLanguage])
   const equippedBy: string = Form.useWatch('equippedBy', relicForm)
   const [upgradeValues, setUpgradeValues] = useState<RelicUpgradeValues[]>([])
 
@@ -143,14 +159,19 @@ export default function RelicModal(props: {
     let mainStatOptions: MainStatOption[] = []
     if (props.selectedRelic?.part) {
       mainStatOptions = Object.entries(Constants.PartsMainStats[props.selectedRelic?.part]).map((entry) => ({
-        label: generateImageLabel(entry[1], (x) => Assets.getStatIcon(x, true), 22),
+        label: (
+          <Flex align='center' gap={10}>
+            <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }}/>
+            {t(`common:Stats.${entry[1]}`)}
+          </Flex>
+        ),
         value: entry[1],
       }))
     }
 
     setMainStatOptions(mainStatOptions)
     relicForm.setFieldValue('mainStatType', props.selectedRelic?.main?.stat)
-  }, [props.selectedRelic?.part, props.selectedRelic?.main?.stat, relicForm])
+  }, [props.selectedRelic?.part, props.selectedRelic?.main?.stat, relicForm, t])
 
   useEffect(() => {
     if (mainStatOptions.length > 0) {
@@ -173,20 +194,25 @@ export default function RelicModal(props: {
       relic.verified = false
     }
 
-    console.log('Completed relic', relic)
+    console.log(t('Relic.Messages.EditSuccess')/* Successfully edited relic */, relic)
 
     props.onOk(relic)
     props.setOpen(false)
   }
   const onFinishFailed = () => {
-    Message.error('Submit failed!')
+    Message.error(t('Relic.Messages.SubmitFail')/* Submit failed! */)
     props.setOpen(false)
   }
   const onValuesChange = (formValues: RelicForm) => {
     let mainStatOptions: MainStatOption[] = []
     if (formValues.part) {
       mainStatOptions = Object.entries(Constants.PartsMainStats[formValues.part]).map((entry) => ({
-        label: entry[1],
+        label: (
+          <Flex align='center' gap={10}>
+            <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }}/>
+            {t(`common:Stats.${entry[1]}`)}
+          </Flex>
+        ),
         value: entry[1],
       }))
       setMainStatOptions(mainStatOptions)
@@ -230,6 +256,14 @@ export default function RelicModal(props: {
     relicForm.setFieldValue('enhance', Math.min(relicForm.getFieldValue('enhance') + 3, 15))
   }
 
+  const enhanceOptions: { value: number; label: string }[] = useMemo(() => {
+    const ret: { value: number; label: string }[] = []
+    for (let i = 15; i >= 0; i--) {
+      ret.push({ value: i, label: '+' + i })
+    }
+    return ret
+  }, [])
+
   return (
     <Form
       form={relicForm}
@@ -247,10 +281,10 @@ export default function RelicModal(props: {
         onCancel={() => props.setOpen(false)}
         footer={[
           <Button key='back' onClick={handleCancel}>
-            Cancel
+            {t('common:Cancel', { capitalizeLength: 1 })}
           </Button>,
           <Button key='submit' type='primary' onClick={handleOk}>
-            Submit
+            {t('common:Submit', { capitalizeLength: 1 })}
           </Button>,
         ]}
       >
@@ -258,7 +292,7 @@ export default function RelicModal(props: {
           <Flex gap={10}>
             <Flex vertical gap={5}>
 
-              <HeaderText>Part</HeaderText>
+              <HeaderText>{t('Relic.Part')/* Part */}</HeaderText>
 
               <Form.Item name='part'>
                 <Radio.Group buttonStyle='solid'>
@@ -271,7 +305,7 @@ export default function RelicModal(props: {
                 </Radio.Group>
               </Form.Item>
 
-              <HeaderText>Set</HeaderText>
+              <HeaderText>{t('Relic.Set')/* Set */}</HeaderText>
               <Form.Item name='set'>
                 <Select
                   showSearch
@@ -286,7 +320,7 @@ export default function RelicModal(props: {
                 </Select>
               </Form.Item>
 
-              <HeaderText>Enhance / Grade</HeaderText>
+              <HeaderText>{t('Relic.Enhance')/* Enhance / Grade */}</HeaderText>
 
               <Flex gap={10}>
                 <Form.Item name='enhance'>
@@ -316,7 +350,7 @@ export default function RelicModal(props: {
                 </Form.Item>
               </Flex>
 
-              <HeaderText>Main stat</HeaderText>
+              <HeaderText>{t('Relic.Mainstat')/* Main stat */}</HeaderText>
 
               <Flex gap={10}>
                 <Form.Item name='mainStatType'>
@@ -341,7 +375,7 @@ export default function RelicModal(props: {
             <div style={{ display: 'block', minWidth: 12 }}/>
 
             <Flex vertical gap={5} style={{}}>
-              <HeaderText>Equipped by</HeaderText>
+              <HeaderText>{t('Relic.Wearer')/* Equipped by */}</HeaderText>
               <Form.Item name='equippedBy'>
                 <Select
                   showSearch
@@ -364,9 +398,9 @@ export default function RelicModal(props: {
           <Flex gap={20}>
             <Flex vertical gap={5} style={{ width: '100%' }}>
               <Flex justify='space-between'>
-                <HeaderText>Substats</HeaderText>
+                <HeaderText>{t('Relic.Substat')/* Substats */}</HeaderText>
                 <Flex style={{ width: 180 }}>
-                  <HeaderText>Substat upgrades</HeaderText>
+                  <HeaderText>{t('Relic.Upgrades')/* Substat upgrades */}</HeaderText>
                 </Flex>
               </Flex>
               <SubstatInput index={0} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree}/>
@@ -409,6 +443,24 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
     props.plusThree()
   }
 
+  const substatOptionsMemoized = useMemo(() => {
+    const output: { label: ReactElement; value: string }[] = []
+    for (const entry of Object.entries(Constants.SubStats)) {
+      output.push({
+        label: (() => {
+          return (
+            <Flex align='center' gap={10}>
+              <img style={{ width: 22, height: 22 }} src={Assets.getStatIcon(entry[1], true)}/>
+              {i18next.t(`common:Stats.${entry[1]}`)}
+            </Flex>
+          )
+        })(),
+        value: entry[1],
+      })
+    }
+    return output
+  }, [i18next.resolvedLanguage])
+
   function UpgradeButton(subProps: { quality: string }) {
     const value = props.upgrades?.[props.index]?.[subProps.quality]
 
@@ -438,7 +490,7 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
             }}
             placeholder='Substat'
             maxTagCount='responsive'
-            options={substatOptions}
+            options={substatOptionsMemoized}
             listHeight={750}
             onChange={() => {
               props.relicForm.getFieldValue(statTypeField)

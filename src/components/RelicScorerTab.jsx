@@ -15,6 +15,7 @@ import { applySpdPreset } from 'components/optimizerTab/optimizerForm/Recommende
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Constants, CURRENT_DATA_VERSION, officialOnly } from 'lib/constants'
+import { useTranslation } from 'react-i18next'
 
 const { useToken } = theme
 // NOTE: These strings are replaced by github actions for beta deployment, don't change
@@ -51,6 +52,8 @@ export default function RelicScorerTab() {
   const [scorerForm] = Form.useForm()
   window.scorerForm = scorerForm
 
+  const { t } = useTranslation('relicScorerTab')
+
   useEffect(() => {
     const params = window.location.href.split('?')[1]
     if (params) {
@@ -67,7 +70,7 @@ export default function RelicScorerTab() {
 
   function onFinish(x) {
     if (latestRefreshDate.current) {
-      Message.warning(`Please wait ${Math.max(1, Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000))} seconds before retrying`)
+      Message.warning(t('Messages.ThrottleWarning'/* Please wait {{seconds}} seconds before retrying */, { seconds: Math.max(1, Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000)) }))
       if (loading) {
         setLoading(false)
       }
@@ -86,12 +89,12 @@ export default function RelicScorerTab() {
 
     if (!id || id.length != 9) {
       setLoading(false)
-      Message.error('Invalid ID')
+      Message.error(t('Messages.InvalidIdWarning')/* Invalid ID */)
       return
     }
 
     setScorerId(id)
-    SaveState.save()
+    SaveState.delayedSave()
 
     window.history.replaceState({ id: id }, `profile: ${id}`, PageToRoute[AppPages.RELIC_SCORER] + `?id=${id}`)
 
@@ -138,7 +141,7 @@ export default function RelicScorerTab() {
         } else {
           if (!data.detailInfo) {
             setLoading(false)
-            Message.error('Error loading ID')
+            Message.error(t('Messages.IdLoadError')/* Error loading ID */)
             return 'ERROR'
           }
 
@@ -167,13 +170,12 @@ export default function RelicScorerTab() {
           setSelectedCharacter(converted[0])
         }
         setLoading(false)
-        Message.success('Successfully loaded profile')
-        console.log(converted)
+        Message.success(t('Messages.SuccessMsg')/* Successfully loaded profile */)
         scorerForm.setFieldValue('scorerId', id)
       })
       .catch((error) => {
         setTimeout(() => {
-          Message.warning('Error during lookup, please try again in a bit')
+          Message.warning(t('Messages.LookupError')/* Error during lookup, please try again in a bit */)
           console.error('Fetch error:', error)
           setLoading(false)
         }, Math.max(0, throttleSeconds * 1000 - (new Date() - latestRefreshDate.current)))
@@ -193,13 +195,20 @@ export default function RelicScorerTab() {
   return (
     <div>
       <Flex vertical gap={0} align='center'>
-        {/* <Flex gap={10} vertical align='center'> */}
-        {/*  <Text><h3 style={{ color: '#ffaa4f' }}>The relic scorer may be down for maintenance after the 2.5 patch, please try again later</h3></Text> */}
-        {/* </Flex> */}
+        {/*
+        <Flex gap={10} vertical align='center'>
+        <Text><h3 style={{ color: '#ffaa4f' }}>{t('Header.DowntimeWarning', { game_version: 2.6 })}</h3></Text>
+        </Flex>
+        */}
         <Flex gap={10} vertical align='center'>
           <Text>
-            Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly.
-            {officialOnly ? '' : ` (Current version ${CURRENT_DATA_VERSION})`}
+            {officialOnly ? t('Header.WithoutVersion') : t('Header.WithVersion', { beta_version: CURRENT_DATA_VERSION })}
+            {
+              /*
+              "WithVersion": "Enter your account UID to score your profile character at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}} )",
+              "WithoutVersion": "Enter your account UID to score your profile character at level 80 & maxed traces. Log out to refresh instantly."
+              */
+            }
           </Text>
         </Flex>
         <Form
@@ -209,7 +218,7 @@ export default function RelicScorerTab() {
         >
           <Flex style={{ margin: 10, width: 1100 }} justify='center' align='center' gap={10}>
             <Form.Item size='default' name='scorerId'>
-              <Input style={{ width: 150 }} placeholder='Account UID'/>
+              <Input style={{ width: 150 }} placeholder={t('SubmissionBar.Placeholder')/* Account UID */}/>
             </Form.Item>
             <Button
               type='primary'
@@ -217,13 +226,13 @@ export default function RelicScorerTab() {
               loading={loading}
               style={{ width: 150 }}
             >
-              Submit
+              {t('SubmissionBar.ButtonText')/* Submit */}
             </Button>
             <Button
               style={{ width: 150 }}
               onClick={() => window.setIsScoringModalOpen(true)}
             >
-              Scoring algorithm
+              {t('SubmissionBar.AlgorithmButton')/* Scoring algorithm */}
             </Button>
           </Flex>
         </Form>
@@ -252,13 +261,15 @@ function CharacterPreviewSelection(props) {
   const [screenshotLoading, setScreenshotLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
 
+  const { t } = useTranslation(['relicScorerTab', 'gameData'])
+
   const items = [
     {
-      label: <Flex gap={10}><ImportOutlined/>Import all characters & all relics into optimizer</Flex>,
+      label: <Flex gap={10}><ImportOutlined/>{t('ImportLabels.AllCharacters')/* Import all characters & all relics into optimizer */}</Flex>,
       key: 'import characters',
     },
     {
-      label: <Flex gap={10}><ImportOutlined/>Import selected character & all relics into optimizer</Flex>,
+      label: <Flex gap={10}><ImportOutlined/>{t('ImportLabels.SingleCharacter')/* Import selected character & all relics into optimizer */}</Flex>,
       key: 'import single character',
     },
   ]
@@ -274,7 +285,7 @@ function CharacterPreviewSelection(props) {
         importCharacterClicked()
         break
       default:
-        Message.error('unknown button clicked')
+        Message.error(t('Messages.UnknownButtonClicked')/* 'Unknown button clicked' */)
         break
     }
   }
@@ -327,10 +338,10 @@ function CharacterPreviewSelection(props) {
 
   function onCharacterModalOk(form) {
     if (!form.characterId) {
-      return Message.error('No selected character')
+      return Message.error(t('Messages.NoCharacterSelected')/* No selected character */)
     }
     if (props.availableCharacters.find((x) => x.id == form.characterId) && props.selectedCharacter.id != form.characterId) {
-      return Message.error('Selected character already exists')
+      return Message.error(t('Messages.CharacterAlreadyExists')/* Selected character already exists */)
     }
 
     // Updates the selected segmented option
@@ -358,7 +369,7 @@ function CharacterPreviewSelection(props) {
 
     console.log('importClicked', props.availableCharacters, newRelics)
     DB.mergePartialRelicsWithState(newRelics)
-    SaveState.save()
+    SaveState.delayedSave()
   }
 
   function importCharactersClicked() {
@@ -372,7 +383,7 @@ function CharacterPreviewSelection(props) {
 
     console.log('importCharactersClicked', props.availableCharacters, newRelics)
     DB.mergePartialRelicsWithState(newRelics, props.availableCharacters)
-    SaveState.save()
+    SaveState.delayedSave()
   }
 
   function importCharacterClicked() {
@@ -383,7 +394,7 @@ function CharacterPreviewSelection(props) {
       .filter((x) => !!x)
     console.log('importCharacterClicked', props.selectedCharacter, newRelics)
     DB.mergePartialRelicsWithState(newRelics, [props.selectedCharacter])
-    SaveState.save()
+    SaveState.delayedSave()
   }
 
   async function clipboardClicked() {
@@ -400,7 +411,7 @@ function CharacterPreviewSelection(props) {
     setDownloadLoading(true)
     // Use a small timeout here so the spinner doesn't lag while the image is being generated
     setTimeout(() => {
-      const name = props.selectedCharacter ? DB.getMetadata().characters[props.selectedCharacter.id].displayName : null
+      const name = props.selectedCharacter ? t(`gameData:Characters.${props.selectedCharacter.id}.Name`) : null
       Utils.screenshotElementById('relicScorerPreview', 'download', name).finally(() => {
         setDownloadLoading(false)
       })
@@ -461,11 +472,11 @@ function CharacterPreviewSelection(props) {
   return (
     <Flex style={{ width: 1300, marginLeft: 25 }} justify='space-around'>
       <Flex vertical align='center' gap={5} style={{ marginBottom: 100, width: 1068 }}>
-        <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
+        <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none', width: '100%' }}>
           <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey}/>
-          <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
-            <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined/>} loading={screenshotLoading} type='primary'>
-              Copy screenshot
+          <Flex style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }} justify='space-between'>
+            <Button onClick={clipboardClicked} style={{ width: 225 }} icon={<CameraOutlined/>} loading={screenshotLoading} type='primary'>
+              {t('CopyScreenshot')/* Copy screenshot */}
             </Button>
             <Button style={{ width: 40 }} icon={<DownloadOutlined/>} onClick={downloadClicked} loading={downloadLoading}/>
             <Dropdown.Button
@@ -474,13 +485,13 @@ function CharacterPreviewSelection(props) {
               menu={menuProps}
             >
               <ImportOutlined/>
-              Import relics into optimizer
+              {t('ImportLabels.Relics')/* Import relics into optimizer */}
             </Dropdown.Button>
             <Button icon={<ExperimentOutlined/>} onClick={simulateClicked} style={{ width: 280 }}>
-              Simulate relics on another character
+              {t('SimulateRelics')/* Simulate relics on another character */}
             </Button>
             <Button icon={<LineChartOutlined/>} onClick={optimizeClicked} style={{ width: 228 }}>
-              Optimize character stats
+              {t('OptimizeOnCharacter')/* Optimize character stats */}
             </Button>
           </Flex>
         </Flex>
@@ -527,7 +538,7 @@ function Sidebar(props) {
 
   useEffect(() => {
     window.store.getState().setSavedSessionKey(SavedSessionKeys.relicScorerSidebarOpen, open)
-    setTimeout(() => SaveState.save(), 1000)
+    SaveState.delayedSave()
   }, [open])
 
   const dropdownDisplay = useMemo(() => {

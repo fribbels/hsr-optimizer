@@ -1,8 +1,29 @@
+// START CHARACTER CONDITIONAL CONSTANTS
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+/* INJECT CHARACTER CONDITIONAL CONSTANTS */
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+// END CHARACTER CONDITIONAL CONSTANTS
+
+
+// START LIGHT CONE CONDITIONAL CONSTANTS
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+/* INJECT LIGHT CONE CONDITIONAL CONSTANTS */
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+// END LIGHT CONE CONDITIONAL CONSTANTS
+
+
 // START GPU PARAMS
-// ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
 /* INJECT GPU PARAMS */
-// ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 // END GPU PARAMS
+
+
+// START ACTIONS DEFINITION
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+/* INJECT ACTIONS DEFINITION */
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+// END ACTIONS DEFINITION
 
 
 const BASIC_TYPE = 1;
@@ -21,9 +42,9 @@ const SUPER_BREAK_TYPE = 64;
 
 
 // START RESULTS BUFFER
-// ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
 /* INJECT RESULTS BUFFER */
-// ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 // END RESULTS BUFFER
 
 
@@ -63,6 +84,7 @@ fn main(
   var failures: f32 = 1;
 
   for (var i = 0; i < CYCLES_PER_INVOCATION; i++) {
+
     // Calculate global_invocation_index
 
     let index = indexGlobal * CYCLES_PER_INVOCATION + i;
@@ -112,71 +134,62 @@ fn main(
     let ornamentSetIndex: u32 = setP + setL * ornamentSetCount;
 
 
-
     // START SET FILTERS
-    // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
     /* INJECT SET FILTERS */
-    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
     // END SET FILTERS
-
-
-
-    // START COMPUTED STATS
-    // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-    /* INJECT COMPUTED STATS */
-    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-    // END COMPUTED STATS
-
 
 
     // Calculate relic set counts
 
-    x.sets.PasserbyOfWanderingCloud            = i32((1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)));
-    x.sets.MusketeerOfWildWheat                = i32((1 >> (setH ^ 1)) + (1 >> (setG ^ 1)) + (1 >> (setB ^ 1)) + (1 >> (setF ^ 1)));
-    x.sets.KnightOfPurityPalace                = i32((1 >> (setH ^ 2)) + (1 >> (setG ^ 2)) + (1 >> (setB ^ 2)) + (1 >> (setF ^ 2)));
-    x.sets.HunterOfGlacialForest               = i32((1 >> (setH ^ 3)) + (1 >> (setG ^ 3)) + (1 >> (setB ^ 3)) + (1 >> (setF ^ 3)));
-    x.sets.ChampionOfStreetwiseBoxing          = i32((1 >> (setH ^ 4)) + (1 >> (setG ^ 4)) + (1 >> (setB ^ 4)) + (1 >> (setF ^ 4)));
-    x.sets.GuardOfWutheringSnow                = i32((1 >> (setH ^ 5)) + (1 >> (setG ^ 5)) + (1 >> (setB ^ 5)) + (1 >> (setF ^ 5)));
-    x.sets.FiresmithOfLavaForging              = i32((1 >> (setH ^ 6)) + (1 >> (setG ^ 6)) + (1 >> (setB ^ 6)) + (1 >> (setF ^ 6)));
-    x.sets.GeniusOfBrilliantStars              = i32((1 >> (setH ^ 7)) + (1 >> (setG ^ 7)) + (1 >> (setB ^ 7)) + (1 >> (setF ^ 7)));
-    x.sets.BandOfSizzlingThunder               = i32((1 >> (setH ^ 8)) + (1 >> (setG ^ 8)) + (1 >> (setB ^ 8)) + (1 >> (setF ^ 8)));
-    x.sets.EagleOfTwilightLine                 = i32((1 >> (setH ^ 9)) + (1 >> (setG ^ 9)) + (1 >> (setB ^ 9)) + (1 >> (setF ^ 9)));
-    x.sets.ThiefOfShootingMeteor               = i32((1 >> (setH ^ 10)) + (1 >> (setG ^ 10)) + (1 >> (setB ^ 10)) + (1 >> (setF ^ 10)));
-    x.sets.WastelanderOfBanditryDesert         = i32((1 >> (setH ^ 11)) + (1 >> (setG ^ 11)) + (1 >> (setB ^ 11)) + (1 >> (setF ^ 11)));
-    x.sets.LongevousDisciple                   = i32((1 >> (setH ^ 12)) + (1 >> (setG ^ 12)) + (1 >> (setB ^ 12)) + (1 >> (setF ^ 12)));
-    x.sets.MessengerTraversingHackerspace      = i32((1 >> (setH ^ 13)) + (1 >> (setG ^ 13)) + (1 >> (setB ^ 13)) + (1 >> (setF ^ 13)));
-    x.sets.TheAshblazingGrandDuke              = i32((1 >> (setH ^ 14)) + (1 >> (setG ^ 14)) + (1 >> (setB ^ 14)) + (1 >> (setF ^ 14)));
-    x.sets.PrisonerInDeepConfinement           = i32((1 >> (setH ^ 15)) + (1 >> (setG ^ 15)) + (1 >> (setB ^ 15)) + (1 >> (setF ^ 15)));
-    x.sets.PioneerDiverOfDeadWaters            = i32((1 >> (setH ^ 16)) + (1 >> (setG ^ 16)) + (1 >> (setB ^ 16)) + (1 >> (setF ^ 16)));
-    x.sets.WatchmakerMasterOfDreamMachinations = i32((1 >> (setH ^ 17)) + (1 >> (setG ^ 17)) + (1 >> (setB ^ 17)) + (1 >> (setF ^ 17)));
-    x.sets.IronCavalryAgainstTheScourge        = i32((1 >> (setH ^ 18)) + (1 >> (setG ^ 18)) + (1 >> (setB ^ 18)) + (1 >> (setF ^ 18)));
-    x.sets.TheWindSoaringValorous              = i32((1 >> (setH ^ 19)) + (1 >> (setG ^ 19)) + (1 >> (setB ^ 19)) + (1 >> (setF ^ 19)));
-    x.sets.SacerdosRelivedOrdeal               = i32((1 >> (setH ^ 20)) + (1 >> (setG ^ 20)) + (1 >> (setB ^ 20)) + (1 >> (setF ^ 20)));
-    x.sets.ScholarLostInErudition              = i32((1 >> (setH ^ 21)) + (1 >> (setG ^ 21)) + (1 >> (setB ^ 21)) + (1 >> (setF ^ 21)));
+    var sets = Sets();
+
+    sets.PasserbyOfWanderingCloud            = i32((1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)));
+    sets.MusketeerOfWildWheat                = i32((1 >> (setH ^ 1)) + (1 >> (setG ^ 1)) + (1 >> (setB ^ 1)) + (1 >> (setF ^ 1)));
+    sets.KnightOfPurityPalace                = i32((1 >> (setH ^ 2)) + (1 >> (setG ^ 2)) + (1 >> (setB ^ 2)) + (1 >> (setF ^ 2)));
+    sets.HunterOfGlacialForest               = i32((1 >> (setH ^ 3)) + (1 >> (setG ^ 3)) + (1 >> (setB ^ 3)) + (1 >> (setF ^ 3)));
+    sets.ChampionOfStreetwiseBoxing          = i32((1 >> (setH ^ 4)) + (1 >> (setG ^ 4)) + (1 >> (setB ^ 4)) + (1 >> (setF ^ 4)));
+    sets.GuardOfWutheringSnow                = i32((1 >> (setH ^ 5)) + (1 >> (setG ^ 5)) + (1 >> (setB ^ 5)) + (1 >> (setF ^ 5)));
+    sets.FiresmithOfLavaForging              = i32((1 >> (setH ^ 6)) + (1 >> (setG ^ 6)) + (1 >> (setB ^ 6)) + (1 >> (setF ^ 6)));
+    sets.GeniusOfBrilliantStars              = i32((1 >> (setH ^ 7)) + (1 >> (setG ^ 7)) + (1 >> (setB ^ 7)) + (1 >> (setF ^ 7)));
+    sets.BandOfSizzlingThunder               = i32((1 >> (setH ^ 8)) + (1 >> (setG ^ 8)) + (1 >> (setB ^ 8)) + (1 >> (setF ^ 8)));
+    sets.EagleOfTwilightLine                 = i32((1 >> (setH ^ 9)) + (1 >> (setG ^ 9)) + (1 >> (setB ^ 9)) + (1 >> (setF ^ 9)));
+    sets.ThiefOfShootingMeteor               = i32((1 >> (setH ^ 10)) + (1 >> (setG ^ 10)) + (1 >> (setB ^ 10)) + (1 >> (setF ^ 10)));
+    sets.WastelanderOfBanditryDesert         = i32((1 >> (setH ^ 11)) + (1 >> (setG ^ 11)) + (1 >> (setB ^ 11)) + (1 >> (setF ^ 11)));
+    sets.LongevousDisciple                   = i32((1 >> (setH ^ 12)) + (1 >> (setG ^ 12)) + (1 >> (setB ^ 12)) + (1 >> (setF ^ 12)));
+    sets.MessengerTraversingHackerspace      = i32((1 >> (setH ^ 13)) + (1 >> (setG ^ 13)) + (1 >> (setB ^ 13)) + (1 >> (setF ^ 13)));
+    sets.TheAshblazingGrandDuke              = i32((1 >> (setH ^ 14)) + (1 >> (setG ^ 14)) + (1 >> (setB ^ 14)) + (1 >> (setF ^ 14)));
+    sets.PrisonerInDeepConfinement           = i32((1 >> (setH ^ 15)) + (1 >> (setG ^ 15)) + (1 >> (setB ^ 15)) + (1 >> (setF ^ 15)));
+    sets.PioneerDiverOfDeadWaters            = i32((1 >> (setH ^ 16)) + (1 >> (setG ^ 16)) + (1 >> (setB ^ 16)) + (1 >> (setF ^ 16)));
+    sets.WatchmakerMasterOfDreamMachinations = i32((1 >> (setH ^ 17)) + (1 >> (setG ^ 17)) + (1 >> (setB ^ 17)) + (1 >> (setF ^ 17)));
+    sets.IronCavalryAgainstTheScourge        = i32((1 >> (setH ^ 18)) + (1 >> (setG ^ 18)) + (1 >> (setB ^ 18)) + (1 >> (setF ^ 18)));
+    sets.TheWindSoaringValorous              = i32((1 >> (setH ^ 19)) + (1 >> (setG ^ 19)) + (1 >> (setB ^ 19)) + (1 >> (setF ^ 19)));
+    sets.SacerdosRelivedOrdeal               = i32((1 >> (setH ^ 20)) + (1 >> (setG ^ 20)) + (1 >> (setB ^ 20)) + (1 >> (setF ^ 20)));
+    sets.ScholarLostInErudition              = i32((1 >> (setH ^ 21)) + (1 >> (setG ^ 21)) + (1 >> (setB ^ 21)) + (1 >> (setF ^ 21)));
 
     // Calculate ornament set counts
 
-    x.sets.SpaceSealingStation             = i32((1 >> (setP ^ 0)) + (1 >> (setL ^ 0)));
-    x.sets.FleetOfTheAgeless               = i32((1 >> (setP ^ 1)) + (1 >> (setL ^ 1)));
-    x.sets.PanCosmicCommercialEnterprise   = i32((1 >> (setP ^ 2)) + (1 >> (setL ^ 2)));
-    x.sets.BelobogOfTheArchitects          = i32((1 >> (setP ^ 3)) + (1 >> (setL ^ 3)));
-    x.sets.CelestialDifferentiator         = i32((1 >> (setP ^ 4)) + (1 >> (setL ^ 4)));
-    x.sets.InertSalsotto                   = i32((1 >> (setP ^ 5)) + (1 >> (setL ^ 5)));
-    x.sets.TaliaKingdomOfBanditry          = i32((1 >> (setP ^ 6)) + (1 >> (setL ^ 6)));
-    x.sets.SprightlyVonwacq                = i32((1 >> (setP ^ 7)) + (1 >> (setL ^ 7)));
-    x.sets.RutilantArena                   = i32((1 >> (setP ^ 8)) + (1 >> (setL ^ 8)));
-    x.sets.BrokenKeel                      = i32((1 >> (setP ^ 9)) + (1 >> (setL ^ 9)));
-    x.sets.FirmamentFrontlineGlamoth       = i32((1 >> (setP ^ 10)) + (1 >> (setL ^ 10)));
-    x.sets.PenaconyLandOfTheDreams         = i32((1 >> (setP ^ 11)) + (1 >> (setL ^ 11)));
-    x.sets.SigoniaTheUnclaimedDesolation   = i32((1 >> (setP ^ 12)) + (1 >> (setL ^ 12)));
-    x.sets.IzumoGenseiAndTakamaDivineRealm = i32((1 >> (setP ^ 13)) + (1 >> (setL ^ 13)));
-    x.sets.DuranDynastyOfRunningWolves     = i32((1 >> (setP ^ 14)) + (1 >> (setL ^ 14)));
-    x.sets.ForgeOfTheKalpagniLantern       = i32((1 >> (setP ^ 15)) + (1 >> (setL ^ 15)));
-    x.sets.LushakaTheSunkenSeas            = i32((1 >> (setP ^ 16)) + (1 >> (setL ^ 16)));
-    x.sets.TheWondrousBananAmusementPark   = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
+    sets.SpaceSealingStation             = i32((1 >> (setP ^ 0)) + (1 >> (setL ^ 0)));
+    sets.FleetOfTheAgeless               = i32((1 >> (setP ^ 1)) + (1 >> (setL ^ 1)));
+    sets.PanCosmicCommercialEnterprise   = i32((1 >> (setP ^ 2)) + (1 >> (setL ^ 2)));
+    sets.BelobogOfTheArchitects          = i32((1 >> (setP ^ 3)) + (1 >> (setL ^ 3)));
+    sets.CelestialDifferentiator         = i32((1 >> (setP ^ 4)) + (1 >> (setL ^ 4)));
+    sets.InertSalsotto                   = i32((1 >> (setP ^ 5)) + (1 >> (setL ^ 5)));
+    sets.TaliaKingdomOfBanditry          = i32((1 >> (setP ^ 6)) + (1 >> (setL ^ 6)));
+    sets.SprightlyVonwacq                = i32((1 >> (setP ^ 7)) + (1 >> (setL ^ 7)));
+    sets.RutilantArena                   = i32((1 >> (setP ^ 8)) + (1 >> (setL ^ 8)));
+    sets.BrokenKeel                      = i32((1 >> (setP ^ 9)) + (1 >> (setL ^ 9)));
+    sets.FirmamentFrontlineGlamoth       = i32((1 >> (setP ^ 10)) + (1 >> (setL ^ 10)));
+    sets.PenaconyLandOfTheDreams         = i32((1 >> (setP ^ 11)) + (1 >> (setL ^ 11)));
+    sets.SigoniaTheUnclaimedDesolation   = i32((1 >> (setP ^ 12)) + (1 >> (setL ^ 12)));
+    sets.IzumoGenseiAndTakamaDivineRealm = i32((1 >> (setP ^ 13)) + (1 >> (setL ^ 13)));
+    sets.DuranDynastyOfRunningWolves     = i32((1 >> (setP ^ 14)) + (1 >> (setL ^ 14)));
+    sets.ForgeOfTheKalpagniLantern       = i32((1 >> (setP ^ 15)) + (1 >> (setL ^ 15)));
+    sets.LushakaTheSunkenSeas            = i32((1 >> (setP ^ 16)) + (1 >> (setL ^ 16)));
+    sets.TheWondrousBananAmusementPark   = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
 
     var c: BasicStats = BasicStats();
-    var state: ConditionalState = ConditionalState();
 
     // Calculate relic stat sums
 
@@ -218,435 +231,460 @@ fn main(
     c.BE  += characterBE + lcBE + traceBE;
     c.ERR += characterERR + lcERR + traceERR;
     c.OHB += characterOHB + lcOHB + traceOHB;
-    c.Physical_DMG  += tracePhysical_DMG + 0.10 * p2(x.sets.ChampionOfStreetwiseBoxing);
-    c.Fire_DMG      += traceFire_DMG + 0.10 * p2(x.sets.FiresmithOfLavaForging);
-    c.Ice_DMG       += traceIce_DMG + 0.10 * p2(x.sets.HunterOfGlacialForest);
-    c.Lightning_DMG += traceLightning_DMG + 0.10 * p2(x.sets.BandOfSizzlingThunder);
-    c.Wind_DMG      += traceWind_DMG + 0.10 * p2(x.sets.EagleOfTwilightLine);
-    c.Quantum_DMG   += traceQuantum_DMG + 0.10 * p2(x.sets.GeniusOfBrilliantStars);
-    c.Imaginary_DMG += traceImaginary_DMG + 0.10 * p2(x.sets.WastelanderOfBanditryDesert);
+    c.Physical_DMG  += tracePhysical_DMG + 0.10 * p2(sets.ChampionOfStreetwiseBoxing);
+    c.Fire_DMG      += traceFire_DMG + 0.10 * p2(sets.FiresmithOfLavaForging);
+    c.Ice_DMG       += traceIce_DMG + 0.10 * p2(sets.HunterOfGlacialForest);
+    c.Lightning_DMG += traceLightning_DMG + 0.10 * p2(sets.BandOfSizzlingThunder);
+    c.Wind_DMG      += traceWind_DMG + 0.10 * p2(sets.EagleOfTwilightLine);
+    c.Quantum_DMG   += traceQuantum_DMG + 0.10 * p2(sets.GeniusOfBrilliantStars);
+    c.Imaginary_DMG += traceImaginary_DMG + 0.10 * p2(sets.WastelanderOfBanditryDesert);
 
     // Calculate set effects
 
     c.SPD += (baseSPD) * (
-      0.06 * p2(x.sets.MessengerTraversingHackerspace) +
-      0.06 * p2(x.sets.ForgeOfTheKalpagniLantern) +
-      0.06 * p4(x.sets.MusketeerOfWildWheat) +
-      0.06 * p2(x.sets.SacerdosRelivedOrdeal)
+      0.06 * p2(sets.MessengerTraversingHackerspace) +
+      0.06 * p2(sets.ForgeOfTheKalpagniLantern) +
+      0.06 * p4(sets.MusketeerOfWildWheat) +
+      0.06 * p2(sets.SacerdosRelivedOrdeal)
     );
 
     c.HP += (baseHP) * (
-      0.12 * p2(x.sets.FleetOfTheAgeless) +
-      0.12 * p2(x.sets.LongevousDisciple)
+      0.12 * p2(sets.FleetOfTheAgeless) +
+      0.12 * p2(sets.LongevousDisciple)
     );
 
     c.ATK += (baseATK) * (
-      0.12 * p2(x.sets.SpaceSealingStation) +
-      0.12 * p2(x.sets.FirmamentFrontlineGlamoth) +
-      0.12 * p2(x.sets.MusketeerOfWildWheat) +
-      0.12 * p2(x.sets.PrisonerInDeepConfinement) +
-      0.12 * p2(x.sets.IzumoGenseiAndTakamaDivineRealm) +
-      0.12 * p2(x.sets.TheWindSoaringValorous)
+      0.12 * p2(sets.SpaceSealingStation) +
+      0.12 * p2(sets.FirmamentFrontlineGlamoth) +
+      0.12 * p2(sets.MusketeerOfWildWheat) +
+      0.12 * p2(sets.PrisonerInDeepConfinement) +
+      0.12 * p2(sets.IzumoGenseiAndTakamaDivineRealm) +
+      0.12 * p2(sets.TheWindSoaringValorous)
     );
 
     c.DEF += (baseDEF) * (
-      0.15 * p2(x.sets.BelobogOfTheArchitects) +
-      0.15 * p2(x.sets.KnightOfPurityPalace)
+      0.15 * p2(sets.BelobogOfTheArchitects) +
+      0.15 * p2(sets.KnightOfPurityPalace)
     );
 
     c.CR += (
-      0.08 * p2(x.sets.InertSalsotto) +
-      0.08 * p2(x.sets.RutilantArena) +
-      0.04 * p4(x.sets.PioneerDiverOfDeadWaters) +
-      0.04 * p2(x.sets.SigoniaTheUnclaimedDesolation) +
-      0.06 * p4(x.sets.TheWindSoaringValorous) +
-      0.08 * p2(x.sets.ScholarLostInErudition)
+      0.08 * p2(sets.InertSalsotto) +
+      0.08 * p2(sets.RutilantArena) +
+      0.04 * p4(sets.PioneerDiverOfDeadWaters) +
+      0.04 * p2(sets.SigoniaTheUnclaimedDesolation) +
+      0.06 * p4(sets.TheWindSoaringValorous) +
+      0.08 * p2(sets.ScholarLostInErudition)
     );
 
     c.CD += (
-      0.16 * p2(x.sets.CelestialDifferentiator) +
-      0.16 * p2(x.sets.TheWondrousBananAmusementPark)
+      0.16 * p2(sets.CelestialDifferentiator) +
+      0.16 * p2(sets.TheWondrousBananAmusementPark)
     );
 
     c.EHR += (
-      0.10 * p2(x.sets.PanCosmicCommercialEnterprise)
+      0.10 * p2(sets.PanCosmicCommercialEnterprise)
     );
 
     c.RES += (
-      0.10 * p2(x.sets.BrokenKeel)
+      0.10 * p2(sets.BrokenKeel)
     );
 
     c.BE += (
-      0.16 * p2(x.sets.TaliaKingdomOfBanditry) +
-      0.16 * p2(x.sets.ThiefOfShootingMeteor) +
-      0.16 * p4(x.sets.ThiefOfShootingMeteor) +
-      0.16 * p2(x.sets.WatchmakerMasterOfDreamMachinations) +
-      0.16 * p2(x.sets.IronCavalryAgainstTheScourge)
+      0.16 * p2(sets.TaliaKingdomOfBanditry) +
+      0.16 * p2(sets.ThiefOfShootingMeteor) +
+      0.16 * p4(sets.ThiefOfShootingMeteor) +
+      0.16 * p2(sets.WatchmakerMasterOfDreamMachinations) +
+      0.16 * p2(sets.IronCavalryAgainstTheScourge)
     );
 
     c.ERR += (
-      0.05 * p2(x.sets.SprightlyVonwacq) +
-      0.05 * p2(x.sets.PenaconyLandOfTheDreams) +
-      0.05 * p2(x.sets.LushakaTheSunkenSeas)
+      0.05 * p2(sets.SprightlyVonwacq) +
+      0.05 * p2(sets.PenaconyLandOfTheDreams) +
+      0.05 * p2(sets.LushakaTheSunkenSeas)
     );
 
     c.OHB += (
-      0.10 * p2(x.sets.PasserbyOfWanderingCloud)
+      0.10 * p2(sets.PasserbyOfWanderingCloud)
     );
 
-    // Add base to computed
+    let diffATK = c.ATK + combatBuffsATK + combatBuffsATK_P * baseATK;
+    let diffDEF = c.DEF + combatBuffsDEF + combatBuffsDEF_P * baseDEF;
+    let diffHP = c.HP   + combatBuffsHP  + combatBuffsHP_P  * baseHP;
+    let diffSPD = c.SPD + combatBuffsSPD + combatBuffsSPD_P * baseSPD;
+    let diffCD = c.CD   + combatBuffsCD;
+    let diffCR = c.CR   + combatBuffsCR;
+    let diffEHR = c.EHR;
+    let diffRES = c.RES;
+    let diffBE = c.BE   + combatBuffsBE;
+    let diffERR = c.ERR;
+    let diffOHB = c.OHB;
 
-    x.ATK += c.ATK + combatBuffsATK + combatBuffsATK_P * baseATK;
-    x.DEF += c.DEF + combatBuffsDEF + combatBuffsDEF_P * baseDEF;
-    x.HP  += c.HP   + combatBuffsHP  + combatBuffsHP_P  * baseHP;
-    x.SPD += c.SPD + combatBuffsSPD + combatBuffsSPD_P * baseSPD;
-    x.CD  += c.CD   + combatBuffsCD;
-    x.CR  += c.CR   + combatBuffsCR;
-    x.EHR += c.EHR;
-    x.RES += c.RES;
-    x.BE  += c.BE   + combatBuffsBE;
-    x.ERR += c.ERR;
-    x.OHB += c.OHB;
+    var combo = 0.0;
 
-    addElementalDmg(&c, &x);
-    x.WEIGHT = epsilon + head.weightScore + hands.weightScore + body.weightScore + feet.weightScore + planarSphere.weightScore + linkRope.weightScore;
+    for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
+      let action = actions[actionIndex];
+      var x = action.x;
+      let setConditionals = action.setConditionals;
+      var state = ConditionalState();
+      state.actionIndex = actionIndex;
 
-    x.ELEMENTAL_DMG += combatBuffsDMG_BOOST;
-    x.EFFECT_RES_PEN += combatBuffsEFFECT_RES_PEN;
-    x.VULNERABILITY += combatBuffsVULNERABILITY;
-    x.BREAK_EFFICIENCY_BOOST += combatBuffsBREAK_EFFICIENCY;
+      let p_x = &x;
+      let p_state = &state;
+      x.sets = sets;
 
-    // ATK
-
-    if (p4(x.sets.MessengerTraversingHackerspace) >= 1 && enabledMessengerTraversingHackerspace == 1) {
-      x.SPD_P += 0.12;
-    }
-
-    // DEF
-
-    if (p4(x.sets.ChampionOfStreetwiseBoxing) >= 1) {
-      x.ATK_P += 0.05 * f32(valueChampionOfStreetwiseBoxing);
-    }
-    if (p4(x.sets.BandOfSizzlingThunder) >= 1 && enabledBandOfSizzlingThunder == 1) {
-      x.ATK_P += 0.20;
-    }
-    if (p4(x.sets.TheAshblazingGrandDuke) >= 1) {
-      x.ATK_P += 0.06 * f32(valueTheAshblazingGrandDuke);
-    }
-
-    // DEF
-
-
-    // HP
-
-
-    // CD
-
-    if (p4(x.sets.HunterOfGlacialForest) >= 1 && enabledHunterOfGlacialForest == 1) {
-      x.CD += 0.25;
-    }
-    if (p4(x.sets.WastelanderOfBanditryDesert) >= 1 && valueWastelanderOfBanditryDesert == 2) {
-      x.CD += 0.10;
-    }
-    if (p4(x.sets.PioneerDiverOfDeadWaters) >= 1) {
-      x.CD += getPioneerSetCd(valuePioneerDiverOfDeadWaters);
-    }
-    if (p2(x.sets.SigoniaTheUnclaimedDesolation) >= 1) {
-      x.CD += 0.04 * f32(valueSigoniaTheUnclaimedDesolation);
-    }
-    if (p2(x.sets.DuranDynastyOfRunningWolves) >= 1 && valueDuranDynastyOfRunningWolves >= 5) {
-      x.CD += 0.25;
-    }
-    if (p2(x.sets.TheWondrousBananAmusementPark) >= 1 && enabledTheWondrousBananAmusementPark == 1) {
-      x.CD += 0.32;
-    }
-
-    // CR
-
-    if (p4(x.sets.WastelanderOfBanditryDesert) >= 1 && valueWastelanderOfBanditryDesert > 0) {
-      x.CR += 0.10;
-    }
-    if (p4(x.sets.LongevousDisciple) >= 1) {
-      x.CR += 0.08 * f32(valueLongevousDisciple);
-    }
-    if (p4(x.sets.PioneerDiverOfDeadWaters) >= 1 && valuePioneerDiverOfDeadWaters > 2) {
-      x.CR += 0.04;
-    }
-    if (p2(x.sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && enabledIzumoGenseiAndTakamaDivineRealm == 1) {
-      x.CR += 0.12;
-    }
-
-    // BE
-
-    if (p4(x.sets.WatchmakerMasterOfDreamMachinations) >= 1 && enabledWatchmakerMasterOfDreamMachinations == 1) {
-      x.BE += 0.30;
-    }
-    if (p2(x.sets.ForgeOfTheKalpagniLantern) >= 1 && enabledForgeOfTheKalpagniLantern == 1) {
-      x.BE += 0.40;
-    }
-
-    // Buffs
-
-    // Basic boost
-    if (p4(x.sets.MusketeerOfWildWheat) >= 1) {
-      buffAbilityDmg(&x, BASIC_TYPE, 0.10, 1);
-    }
-
-    // Skill boost
-    if (p4(x.sets.FiresmithOfLavaForging) >= 1) {
-      buffAbilityDmg(&x, SKILL_TYPE, 0.12, 1);
-    }
-
-    // Fua boost
-    if (p2(x.sets.TheAshblazingGrandDuke) >= 1) {
-      buffAbilityDmg(&x, FUA_TYPE, 0.20, 1);
-    }
-    if (p2(x.sets.DuranDynastyOfRunningWolves) >= 1) {
-      buffAbilityDmg(&x, FUA_TYPE, 0.05 * f32(valueDuranDynastyOfRunningWolves), 1);
-    }
-
-    // Ult boost
-    if (p4(x.sets.TheWindSoaringValorous) >= 1) {
-      buffAbilityDmg(&x, ULT_TYPE, 0.36 * f32(enabledTheWindSoaringValorous), 1);
-    }
-
-    if (p4(x.sets.ScholarLostInErudition) >= 1) {
-      buffAbilityDmg(&x, SKILL_TYPE | ULT_TYPE, 0.20, 1);
-
-      if (f32(enabledScholarLostInErudition) >= 1.0) {
-        buffAbilityDmg(&x, SKILL_TYPE, 0.25, 1);
+      if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == true) {
+        x.SPD_P += 0.12;
       }
-    }
 
-    //
+      // ATK
 
-    if (p4(x.sets.GeniusOfBrilliantStars) >= 1) {
-      if (enabledGeniusOfBrilliantStars == 1) {
-        x.DEF_PEN += 0.20;
+      if (p4(sets.ChampionOfStreetwiseBoxing) >= 1) {
+        x.ATK_P += 0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing);
+      }
+      if (p4(sets.BandOfSizzlingThunder) >= 1 && setConditionals.enabledBandOfSizzlingThunder == true) {
+        x.ATK_P += 0.20;
+      }
+      if (p4(sets.TheAshblazingGrandDuke) >= 1) {
+        x.ATK_P += 0.06 * f32(setConditionals.valueTheAshblazingGrandDuke);
+      }
+
+      // DEF
+
+
+      // HP
+
+
+      // CD
+
+      if (p4(sets.HunterOfGlacialForest) >= 1 && setConditionals.enabledHunterOfGlacialForest == true) {
+        x.CD += 0.25;
+      }
+      if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert == 2) {
+        x.CD += 0.10;
+      }
+      if (p4(sets.PioneerDiverOfDeadWaters) >= 1) {
+        x.CD += getPioneerSetCd(setConditionals.valuePioneerDiverOfDeadWaters);
+      }
+      if (p2(sets.SigoniaTheUnclaimedDesolation) >= 1) {
+        x.CD += 0.04 * f32(setConditionals.valueSigoniaTheUnclaimedDesolation);
+      }
+      if (p2(sets.DuranDynastyOfRunningWolves) >= 1 && setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
+        x.CD += 0.25;
+      }
+      if (p2(sets.TheWondrousBananAmusementPark) >= 1 && setConditionals.enabledTheWondrousBananAmusementPark == true) {
+        x.CD += 0.32;
+      }
+      if (p4(sets.SacerdosRelivedOrdeal) >= 1) {
+        x.CD += 0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal);
+      }
+
+      // CR
+
+      if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert > 0) {
+        x.CR += 0.10;
+      }
+      if (p4(sets.LongevousDisciple) >= 1) {
+        x.CR += 0.08 * f32(setConditionals.valueLongevousDisciple);
+      }
+      if (p4(sets.PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters > 2) {
+        x.CR += 0.04;
+      }
+      if (p2(sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == true) {
+        x.CR += 0.12;
+      }
+
+      // BE
+
+      if (p4(sets.WatchmakerMasterOfDreamMachinations) >= 1 && setConditionals.enabledWatchmakerMasterOfDreamMachinations == true) {
+        x.BE += 0.30;
+      }
+      if (p2(sets.ForgeOfTheKalpagniLantern) >= 1 && setConditionals.enabledForgeOfTheKalpagniLantern == true) {
+        x.BE += 0.40;
+      }
+
+      // Buffs
+
+      // Basic boost
+      if (p4(sets.MusketeerOfWildWheat) >= 1) {
+        buffAbilityDmg(&x, BASIC_TYPE, 0.10, 1);
+      }
+
+      // Skill boost
+      if (p4(sets.FiresmithOfLavaForging) >= 1) {
+        buffAbilityDmg(&x, SKILL_TYPE, 0.12, 1);
+      }
+
+      // Fua boost
+      if (p2(sets.TheAshblazingGrandDuke) >= 1) {
+        buffAbilityDmg(&x, FUA_TYPE, 0.20, 1);
+      }
+      if (p2(sets.DuranDynastyOfRunningWolves) >= 1) {
+        buffAbilityDmg(&x, FUA_TYPE, 0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves), 1);
+      }
+
+      // Ult boost
+      if (p4(sets.TheWindSoaringValorous) >= 1) {
+        buffAbilityDmg(&x, ULT_TYPE, 0.36 * f32(setConditionals.enabledTheWindSoaringValorous), 1);
+      }
+
+      if (p4(sets.ScholarLostInErudition) >= 1) {
+        buffAbilityDmg(&x, SKILL_TYPE | ULT_TYPE, 0.20, 1);
+
+        if (setConditionals.enabledScholarLostInErudition == true) {
+          buffAbilityDmg(&x, SKILL_TYPE, 0.25, 1);
+        }
+      }
+
+      // Other boosts
+
+      if (p4(sets.GeniusOfBrilliantStars) >= 1) {
+        if (setConditionals.enabledGeniusOfBrilliantStars == true) {
+          x.DEF_PEN += 0.20;
+        } else {
+          x.DEF_PEN += 0.10;
+        }
+      }
+
+      if (p4(sets.PrisonerInDeepConfinement) >= 1) {
+        x.DEF_PEN += 0.06 * f32(setConditionals.valuePrisonerInDeepConfinement);
+      }
+
+      if (p2(sets.PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
+        x.ELEMENTAL_DMG += 0.12;
+      }
+
+      if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == true) {
+        x.Fire_DMG += 0.12;
+      }
+
+      //
+
+      x.ATK += diffATK;
+      x.DEF += diffDEF;
+      x.HP  += diffHP;
+      x.SPD += diffSPD;
+      x.CD  += diffCD;
+      x.CR  += diffCR;
+      x.EHR += diffEHR;
+      x.RES += diffRES;
+      x.BE  += diffBE;
+      x.ERR += diffERR;
+      x.OHB += diffOHB;
+
+      addElementalDmg(&c, &x);
+
+      x.ELEMENTAL_DMG += combatBuffsDMG_BOOST;
+      x.EFFECT_RES_PEN += combatBuffsEFFECT_RES_PEN;
+      x.VULNERABILITY += combatBuffsVULNERABILITY;
+      x.BREAK_EFFICIENCY_BOOST += combatBuffsBREAK_EFFICIENCY;
+
+      //
+
+      x.ATK += x.ATK_P * baseATK;
+      x.DEF += x.DEF_P * baseDEF;
+      x.HP += x.HP_P * baseHP;
+      x.SPD += x.SPD_P * baseSPD;
+
+      evaluateDependenciesSPD(p_x, p_state);
+      evaluateDependenciesBE(p_x, p_state);
+
+      evaluateDependenciesHP(p_x, p_state);
+      evaluateDependenciesATK(p_x, p_state);
+      evaluateDependenciesDEF(p_x, p_state);
+      evaluateDependenciesCR(p_x, p_state);
+      evaluateDependenciesCD(p_x, p_state);
+      evaluateDependenciesEHR(p_x, p_state);
+      evaluateDependenciesRES(p_x, p_state);
+      evaluateDependenciesOHB(p_x, p_state);
+      evaluateDependenciesERR(p_x, p_state);
+
+      evaluateDependenciesSPD(p_x, p_state);
+      evaluateDependenciesBE(p_x, p_state);
+
+      evaluateDependenciesHP(p_x, p_state);
+      evaluateDependenciesATK(p_x, p_state);
+      evaluateDependenciesDEF(p_x, p_state);
+      evaluateDependenciesCR(p_x, p_state);
+      evaluateDependenciesCD(p_x, p_state);
+      evaluateDependenciesEHR(p_x, p_state);
+      evaluateDependenciesRES(p_x, p_state);
+      evaluateDependenciesOHB(p_x, p_state);
+      evaluateDependenciesERR(p_x, p_state);
+
+
+      // START ACTION CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT ACTION CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END ACTION CONDITIONALS
+
+
+      // Calculate damage
+      let cLevel: f32 = 80;
+      let eLevel: f32 = f32(enemyLevel);
+      let defReduction: f32 = x.DEF_PEN + combatBuffsDEF_PEN;
+      let defIgnore: f32 = 0.0;
+
+      addComputedElementalDmg(&x);
+
+      let dmgBoostMultiplier: f32 = 1 + x.ELEMENTAL_DMG;
+      let dmgReductionMultiplier: f32 = 1;
+
+      let ehp: f32 = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
+      x.EHP = ehp;
+
+      let brokenMultiplier = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
+
+      let universalMulti = dmgReductionMultiplier * brokenMultiplier;
+      let baseResistance = resistance - x.RES_PEN - combatBuffsDEF_PEN - getElementalResPen(&x);
+
+      let ULT_CD = select(x.CD + x.ULT_CD_BOOST, x.ULT_CD_OVERRIDE, x.ULT_CD_OVERRIDE > 0);
+
+      let breakVulnerability = 1.0 + x.VULNERABILITY + x.BREAK_VULNERABILITY;
+      let basicVulnerability = 1.0 + x.VULNERABILITY + x.BASIC_VULNERABILITY;
+      let skillVulnerability = 1.0 + x.VULNERABILITY + x.SKILL_VULNERABILITY;
+      let ultVulnerability = 1.0 + x.VULNERABILITY + x.ULT_VULNERABILITY * x.ULT_BOOSTS_MULTI;
+      let fuaVulnerability = 1.0 + x.VULNERABILITY + x.FUA_VULNERABILITY;
+      let dotVulnerability = 1.0 + x.VULNERABILITY + x.DOT_VULNERABILITY;
+
+      let ENEMY_EFFECT_RES = enemyEffectResistance;
+
+      // For stacking dots where the first stack has extra value
+      // c = dot chance, s = stacks => avg dmg = (full dmg) * (1 + 0.05 * c * (s-1)) / (1 + 0.05 * (s-1))
+      let effectiveDotChance = min(1, x.DOT_CHANCE * (1 + x.EHR) * (1 - ENEMY_EFFECT_RES + x.EFFECT_RES_PEN));
+      let dotEhrMultiplier = select(effectiveDotChance, (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + 0.05 * (x.DOT_STACKS - 1)), x.DOT_SPLIT > 0);
+
+      // BREAK
+      let maxToughness = enemyMaxToughness;
+
+      x.BREAK_DMG
+        = universalMulti
+        * 3767.5533
+        * ELEMENTAL_BREAK_SCALING
+        * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN)
+        * (0.5 + maxToughness / 120)
+        * breakVulnerability
+        * (1.0 - baseResistance)
+        * (1.0 + x.BE);
+
+      let SUPER_BREAK_DMG
+        = universalMulti
+        * 3767.5533
+        * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
+        * breakVulnerability
+        * (1.0 - baseResistance)
+        * (1.0 + x.BE)
+        * (x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER)
+        * (1.0 / 30.0)
+        * (1.0 + x.BREAK_EFFICIENCY_BOOST);
+
+      let BASIC_SUPER_BREAK_DMG
+        = universalMulti
+        * 3767.5533
+        * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
+        * breakVulnerability
+        * (1.0 - baseResistance)
+        * (1.0 + x.BE)
+        * (x.BASIC_SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER)
+        * (1.0 / 30.0)
+        * (1.0 + x.BREAK_EFFICIENCY_BOOST);
+
+      let ACTUAL_BASIC_SUPER_BREAK_DMG = select(SUPER_BREAK_DMG, BASIC_SUPER_BREAK_DMG, BASIC_SUPER_BREAK_DMG > 0);
+
+      x.BASIC_DMG
+        = x.BASIC_DMG
+        * universalMulti
+        * (dmgBoostMultiplier + x.BASIC_BOOST)
+        * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BASIC_DEF_PEN)
+        * ((basicVulnerability) * min(1, x.CR + x.BASIC_CR_BOOST) * (1.0 + x.CD + x.BASIC_CD_BOOST) + basicVulnerability * (1.0 - min(1.0, x.CR + x.BASIC_CR_BOOST)))
+        * (1.0 - (baseResistance - x.BASIC_RES_PEN))
+        * (1.0 + x.BASIC_ORIGINAL_DMG_BOOST)
+        + (x.BASIC_BREAK_DMG_MODIFIER * x.BREAK_DMG)
+        + (ACTUAL_BASIC_SUPER_BREAK_DMG * x.BASIC_TOUGHNESS_DMG * (1.0 + x.BASIC_BREAK_EFFICIENCY_BOOST));
+
+      x.SKILL_DMG
+        = x.SKILL_DMG
+        * universalMulti
+        * (dmgBoostMultiplier + x.SKILL_BOOST)
+        * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.SKILL_DEF_PEN)
+        * ((skillVulnerability) * min(1.0, x.CR + x.SKILL_CR_BOOST) * (1.0 + x.CD + x.SKILL_CD_BOOST) + skillVulnerability * (1.0 - min(1.0, x.CR + x.SKILL_CR_BOOST)))
+        * (1.0 - (baseResistance - x.SKILL_RES_PEN))
+        * (1.0 + x.SKILL_ORIGINAL_DMG_BOOST)
+        + (SUPER_BREAK_DMG * x.SKILL_TOUGHNESS_DMG);
+
+      x.ULT_DMG
+        = x.ULT_DMG
+        * universalMulti
+        * (dmgBoostMultiplier + x.ULT_BOOST * x.ULT_BOOSTS_MULTI)
+        * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN * x.ULT_BOOSTS_MULTI)
+        * ((ultVulnerability) * min(1.0, x.CR + x.ULT_CR_BOOST) * (1.0 + ULT_CD) + ultVulnerability * (1.0 - min(1, x.CR + x.ULT_CR_BOOST)))
+        * (1 - (baseResistance - x.ULT_RES_PEN * x.ULT_BOOSTS_MULTI))
+        * (1 + x.ULT_ORIGINAL_DMG_BOOST)
+        + (SUPER_BREAK_DMG * x.ULT_TOUGHNESS_DMG * (1.0 + x.ULT_BREAK_EFFICIENCY_BOOST));
+
+      x.FUA_DMG
+        = x.FUA_DMG
+        * universalMulti
+        * (dmgBoostMultiplier + x.FUA_BOOST)
+        * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.FUA_DEF_PEN)
+        * ((fuaVulnerability) * min(1.0, x.CR + x.FUA_CR_BOOST) * (1.0 + x.CD + x.FUA_CD_BOOST) + fuaVulnerability * (1.0 - min(1.0, x.CR + x.FUA_CR_BOOST)))
+        * (1.0 - (baseResistance - x.FUA_RES_PEN))
+        + (SUPER_BREAK_DMG * x.FUA_TOUGHNESS_DMG);
+
+      x.DOT_DMG
+        = x.DOT_DMG
+        * universalMulti
+        * (dmgBoostMultiplier + x.DOT_BOOST)
+        * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.DOT_DEF_PEN)
+        * dotVulnerability
+        * (1.0 - (baseResistance - x.DOT_RES_PEN))
+        * dotEhrMultiplier;
+
+      if (actionIndex > 0) {
+        if (action.abilityType == 1) {
+          combo += x.BASIC_DMG;
+        } else if (action.abilityType == 2) {
+          combo += x.SKILL_DMG;
+        } else if (action.abilityType == 4) {
+          combo += x.ULT_DMG;
+        } else if (action.abilityType == 8) {
+          combo += x.FUA_DMG;
+        }
       } else {
-        x.DEF_PEN += 0.10;
+        x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
+
+        // START COMBAT STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT COMBAT STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END COMBAT STAT FILTERS
+
+
+
+        // START BASIC STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT BASIC STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END BASIC STAT FILTERS
+
+
+
+        // START RETURN VALUE
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT RETURN VALUE */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END RETURN VALUE
       }
     }
-
-    if (p4(x.sets.PrisonerInDeepConfinement) >= 1) {
-      x.DEF_PEN += 0.06 * f32(valuePrisonerInDeepConfinement);
-    }
-
-    if (p2(x.sets.PioneerDiverOfDeadWaters) >= 1 && valuePioneerDiverOfDeadWaters >= 0) {
-      x.ELEMENTAL_DMG += 0.12;
-    }
-
-    if (p2(x.sets.FiresmithOfLavaForging) >= 1 && enabledFiresmithOfLavaForging == 1) {
-      x.Fire_DMG += 0.12;
-    }
-
-    // Set effects
-
-    // Dynamic stat conditionals
-
-    x.ATK += x.ATK_P * baseATK;
-    x.DEF += x.DEF_P * baseDEF;
-    x.HP += x.HP_P * baseHP;
-    x.SPD += x.SPD_P * baseSPD;
-
-    let p_x = &x;
-    let p_state = &state;
-
-    evaluateDependenciesSPD(p_x, p_state);
-    evaluateDependenciesBE(p_x, p_state);
-
-    evaluateDependenciesHP(p_x, p_state);
-    evaluateDependenciesATK(p_x, p_state);
-    evaluateDependenciesDEF(p_x, p_state);
-    evaluateDependenciesCR(p_x, p_state);
-    evaluateDependenciesCD(p_x, p_state);
-    evaluateDependenciesEHR(p_x, p_state);
-    evaluateDependenciesRES(p_x, p_state);
-    evaluateDependenciesOHB(p_x, p_state);
-    evaluateDependenciesERR(p_x, p_state);
-
-    evaluateDependenciesSPD(p_x, p_state);
-    evaluateDependenciesBE(p_x, p_state);
-
-    evaluateDependenciesHP(p_x, p_state);
-    evaluateDependenciesATK(p_x, p_state);
-    evaluateDependenciesDEF(p_x, p_state);
-    evaluateDependenciesCR(p_x, p_state);
-    evaluateDependenciesCD(p_x, p_state);
-    evaluateDependenciesEHR(p_x, p_state);
-    evaluateDependenciesRES(p_x, p_state);
-    evaluateDependenciesOHB(p_x, p_state);
-    evaluateDependenciesERR(p_x, p_state);
-
-
-    // START LIGHT CONE CONDITIONALS
-    // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-    /* INJECT LIGHT CONE CONDITIONALS */
-    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-    // END LIGHT CONE CONDITIONALS
-
-
-
-
-    // START CHARACTER CONDITIONALS
-    // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-    /* INJECT CHARACTER CONDITIONALS */
-    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-    // END CHARACTER CONDITIONALS
-
-
-    // Calculate damage
-    let cLevel: f32 = 80;
-    let eLevel: f32 = f32(enemyLevel);
-    let defReduction: f32 = x.DEF_PEN + combatBuffsDEF_PEN;
-    let defIgnore: f32 = 0.0;
-
-    addComputedElementalDmg(&x);
-
-    let dmgBoostMultiplier: f32 = 1 + x.ELEMENTAL_DMG;
-    let dmgReductionMultiplier: f32 = 1;
-
-    let ehp: f32 = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
-    x.EHP = ehp;
-
-    let brokenMultiplier = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
-
-    let universalMulti = dmgReductionMultiplier * brokenMultiplier;
-    let baseResistance = resistance - x.RES_PEN - getElementalResPen(&x);
-
-    let ULT_CD = select(x.CD + x.ULT_CD_BOOST, x.ULT_CD_OVERRIDE, x.ULT_CD_OVERRIDE > 0);
-
-    let breakVulnerability = 1.0 + x.VULNERABILITY + x.BREAK_VULNERABILITY;
-    let basicVulnerability = 1.0 + x.VULNERABILITY + x.BASIC_VULNERABILITY;
-    let skillVulnerability = 1.0 + x.VULNERABILITY + x.SKILL_VULNERABILITY;
-    let ultVulnerability = 1.0 + x.VULNERABILITY + x.ULT_VULNERABILITY * x.ULT_BOOSTS_MULTI;
-    let fuaVulnerability = 1.0 + x.VULNERABILITY + x.FUA_VULNERABILITY;
-    let dotVulnerability = 1.0 + x.VULNERABILITY + x.DOT_VULNERABILITY;
-
-    let ENEMY_EFFECT_RES = enemyEffectResistance;
-
-    // For stacking dots where the first stack has extra value
-    // c = dot chance, s = stacks => avg dmg = (full dmg) * (1 + 0.05 * c * (s-1)) / (1 + 0.05 * (s-1))
-    let effectiveDotChance = min(1, x.DOT_CHANCE * (1 + x.EHR) * (1 - ENEMY_EFFECT_RES + x.EFFECT_RES_PEN));
-    let dotEhrMultiplier = select(effectiveDotChance, (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + 0.05 * (x.DOT_STACKS - 1)), x.DOT_SPLIT > 0);
-
-    // BREAK
-    let maxToughness = enemyMaxToughness;
-
-    x.BREAK_DMG
-      = universalMulti
-      * 3767.5533
-      * ELEMENTAL_BREAK_SCALING
-      * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN)
-      * (0.5 + maxToughness / 120)
-      * breakVulnerability
-      * (1.0 - baseResistance)
-      * (1.0 + x.BE);
-
-    let SUPER_BREAK_DMG
-      = universalMulti
-      * 3767.5533
-      * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
-      * breakVulnerability
-      * (1.0 - baseResistance)
-      * (1.0 + x.BE)
-      * (x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER)
-      * (1.0 / 30.0)
-      * (1.0 + x.BREAK_EFFICIENCY_BOOST);
-
-    let BASIC_SUPER_BREAK_DMG
-      = universalMulti
-      * 3767.5533
-      * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
-      * breakVulnerability
-      * (1.0 - baseResistance)
-      * (1.0 + x.BE)
-      * (x.BASIC_SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER)
-      * (1.0 / 30.0)
-      * (1.0 + x.BREAK_EFFICIENCY_BOOST);
-
-    let ACTUAL_BASIC_SUPER_BREAK_DMG = select(SUPER_BREAK_DMG, BASIC_SUPER_BREAK_DMG, BASIC_SUPER_BREAK_DMG > 0);
-
-    x.BASIC_DMG
-      = x.BASIC_DMG
-      * universalMulti
-      * (dmgBoostMultiplier + x.BASIC_BOOST)
-      * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BASIC_DEF_PEN)
-      * ((basicVulnerability) * min(1, x.CR + x.BASIC_CR_BOOST) * (1.0 + x.CD + x.BASIC_CD_BOOST) + basicVulnerability * (1.0 - min(1.0, x.CR + x.BASIC_CR_BOOST)))
-      * (1.0 - (baseResistance - x.BASIC_RES_PEN))
-      * (1.0 + x.BASIC_ORIGINAL_DMG_BOOST)
-      + (x.BASIC_BREAK_DMG_MODIFIER * x.BREAK_DMG)
-      + (ACTUAL_BASIC_SUPER_BREAK_DMG * x.BASIC_TOUGHNESS_DMG * (1.0 + x.BASIC_BREAK_EFFICIENCY_BOOST));
-
-    x.SKILL_DMG
-      = x.SKILL_DMG
-      * universalMulti
-      * (dmgBoostMultiplier + x.SKILL_BOOST)
-      * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.SKILL_DEF_PEN)
-      * ((skillVulnerability) * min(1.0, x.CR + x.SKILL_CR_BOOST) * (1.0 + x.CD + x.SKILL_CD_BOOST) + skillVulnerability * (1.0 - min(1.0, x.CR + x.SKILL_CR_BOOST)))
-      * (1.0 - (baseResistance - x.SKILL_RES_PEN))
-      * (1.0 + x.SKILL_ORIGINAL_DMG_BOOST)
-      + (SUPER_BREAK_DMG * x.SKILL_TOUGHNESS_DMG);
-
-    x.ULT_DMG
-      = x.ULT_DMG
-      * universalMulti
-      * (dmgBoostMultiplier + x.ULT_BOOST * x.ULT_BOOSTS_MULTI)
-      * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN * x.ULT_BOOSTS_MULTI)
-      * ((ultVulnerability) * min(1.0, x.CR + x.ULT_CR_BOOST) * (1.0 + ULT_CD) + ultVulnerability * (1.0 - min(1, x.CR + x.ULT_CR_BOOST)))
-      * (1 - (baseResistance - x.ULT_RES_PEN * x.ULT_BOOSTS_MULTI))
-      * (1 + x.ULT_ORIGINAL_DMG_BOOST)
-      + (SUPER_BREAK_DMG * x.ULT_TOUGHNESS_DMG * (1.0 + x.ULT_BREAK_EFFICIENCY_BOOST));
-
-    x.FUA_DMG
-      = x.FUA_DMG
-      * universalMulti
-      * (dmgBoostMultiplier + x.FUA_BOOST)
-      * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.FUA_DEF_PEN)
-      * ((fuaVulnerability) * min(1.0, x.CR + x.FUA_CR_BOOST) * (1.0 + x.CD + x.FUA_CD_BOOST) + fuaVulnerability * (1.0 - min(1.0, x.CR + x.FUA_CR_BOOST)))
-      * (1.0 - (baseResistance - x.FUA_RES_PEN))
-      + (SUPER_BREAK_DMG * x.FUA_TOUGHNESS_DMG);
-
-    x.DOT_DMG
-      = x.DOT_DMG
-      * universalMulti
-      * (dmgBoostMultiplier + x.DOT_BOOST)
-      * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.DOT_DEF_PEN)
-      * dotVulnerability
-      * (1.0 - (baseResistance - x.DOT_RES_PEN))
-      * dotEhrMultiplier;
-
-    x.COMBO_DMG
-      = BASIC_COMBO * x.BASIC_DMG
-      + SKILL_COMBO * x.SKILL_DMG
-      + ULT_COMBO * x.ULT_DMG
-      + FUA_COMBO * x.FUA_DMG
-      + DOT_COMBO * x.DOT_DMG
-      + BREAK_COMBO * x.BREAK_DMG;
-
-
-    // START COMBAT STAT FILTERS
-    // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-    /* INJECT COMBAT STAT FILTERS */
-    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-    // END COMBAT STAT FILTERS
-
-
-
-    // START BASIC STAT FILTERS
-    // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-    /* INJECT BASIC STAT FILTERS */
-    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-    // END BASIC STAT FILTERS
-
-
-
-    // START RETURN VALUE
-    // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-    /* INJECT RETURN VALUE */
-    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-    // END RETURN VALUE
   }
+}
+
+fn cloneComputedStats(computedStats: ComputedStats) -> ComputedStats {
+  return computedStats;
+}
+
+fn cloneConditionalState(conditionalState: ConditionalState) -> ConditionalState {
+  return conditionalState;
 }
 
 fn p2(n: i32) -> f32 {
@@ -906,7 +944,7 @@ fn calculateAshblazingSet(
   hitMulti: f32,
 ) -> f32 {
   if (p4((*p_x).sets.TheAshblazingGrandDuke) >= 1) {
-    let ashblazingAtk = 0.06 * f32(valueTheAshblazingGrandDuke) * baseATK;
+    let ashblazingAtk = 0.06 * f32(actions[(*p_state).actionIndex].setConditionals.valueTheAshblazingGrandDuke) * baseATK;
     let ashblazingMulti = hitMulti * baseATK;
 
     return ashblazingMulti - ashblazingAtk;

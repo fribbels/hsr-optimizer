@@ -12,6 +12,7 @@ import { Themes } from 'lib/theme'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { DefaultSettingOptions, SettingOptions } from 'components/SettingsDrawer'
 import { oldCharacterScoringMetadata } from 'lib/oldCharacterScoringMetadata'
+import i18next from 'i18next'
 
 const state = {
   relics: [],
@@ -76,8 +77,13 @@ window.store = create((set) => ({
   version: CURRENT_OPTIMIZER_VERSION,
   colorTheme: Themes.BLUE,
 
+  formValues: undefined,
+
   optimizerGrid: undefined,
 
+  comboState: {
+    displayState: {},
+  },
   optimizerTabFocusCharacter: undefined,
   characterTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
@@ -91,6 +97,7 @@ window.store = create((set) => ({
   characters: [],
   charactersById: {},
   conditionalSetEffectsDrawerOpen: false,
+  comboDrawerOpen: false,
   combatBuffsDrawerOpen: false,
   enemyConfigurationsDrawerOpen: false,
   settingsDrawerOpen: false,
@@ -164,13 +171,16 @@ window.store = create((set) => ({
 
   settings: DefaultSettingOptions,
 
+  setComboState: (x) => set(() => ({ comboState: x })),
   setVersion: (x) => set(() => ({ version: x })),
   setActiveKey: (x) => set(() => ({ activeKey: x })),
+  setFormValues: (x) => set(() => ({ formValues: x })),
   setCharacters: (x) => set(() => ({ characters: x })),
   setCharactersById: (x) => set(() => ({ charactersById: x })),
   setInventoryWidth: (x) => set(() => ({ inventoryWidth: x })),
   setRowLimit: (x) => set(() => ({ rowLimit: x })),
   setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
+  setComboDrawerOpen: (x) => set(() => ({ comboDrawerOpen: x })),
   setCombatBuffsDrawerOpen: (x) => set(() => ({ combatBuffsDrawerOpen: x })),
   setEnemyConfigurationsDrawerOpen: (x) => set(() => ({ enemyConfigurationsDrawerOpen: x })),
   setSettingsDrawerOpen: (x) => set(() => ({ settingsDrawerOpen: x })),
@@ -368,7 +378,7 @@ export const DB = {
     }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
-    SaveState.save()
+    SaveState.delayedSave()
   },
   updateSimulationScoreOverrides: (id, updatedSimulation) => {
     if (!updatedSimulation) return
@@ -383,9 +393,7 @@ export const DB = {
     }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
-    setTimeout(() => {
-      SaveState.save()
-    }, 2000)
+    SaveState.delayedSave()
   },
 
   setStore: (x, autosave = true) => {
@@ -408,6 +416,11 @@ export const DB = {
       // Previously characters had customizable options, now we're defaulting to 80s
       character.form.characterLevel = 80
       character.form.lightConeLevel = 80
+
+      // Previously there was a weight sort which is now removed, arbitrarily replaced with SPD if the user had used it
+      if (character.form.resultSort === 'WEIGHT') {
+        character.form.resultSort = 'SPD'
+      }
 
       // Previously the relic sets were different from what they are now, delete the deprecated options for users with old save files
       const relicSetsOptions = character.form.relicSets || []
@@ -435,6 +448,11 @@ export const DB = {
       // In beta, Duran maxed out at 6
       if (character.form.setConditionals?.[Sets.DuranDynastyOfRunningWolves]?.[1] > 5) {
         character.form.setConditionals[Sets.DuranDynastyOfRunningWolves][1] = 5
+      }
+
+      // In beta, it was later discovered Sacerdos could apply to self buffs
+      if (typeof character.form.setConditionals?.[Sets.SacerdosRelivedOrdeal]?.[1] == 'boolean') {
+        character.form.setConditionals[Sets.SacerdosRelivedOrdeal][1] = 0
       }
     }
 
@@ -552,7 +570,7 @@ export const DB = {
     DB.refreshRelics()
 
     if (autosave) {
-      SaveState.save()
+      SaveState.delayedSave()
     }
   },
   resetStore: () => {
@@ -560,6 +578,16 @@ export const DB = {
       relics: [],
       characters: [],
     })
+  },
+
+  replaceCharacterForm: (form) => {
+    let found = DB.getCharacterById(form.characterId)
+    if (found) {
+      found.form = {
+        ...found.form,
+        ...form,
+      }
+    }
   },
 
   addFromForm: (form, autosave = true) => {
@@ -594,7 +622,7 @@ export const DB = {
     }
 
     if (autosave) {
-      SaveState.save()
+      SaveState.delayedSave()
     }
 
     return found
@@ -965,8 +993,10 @@ export const DB = {
       window.characterGrid.current.api.redrawRows()
     }
 
-    if (updatedOldRelics.length) Message.success(`Updated stats for ${updatedOldRelics.length} existing relics`, 8)
-    if (addedNewRelics.length) Message.success(`Added ${addedNewRelics.length} new relics`, 8)
+    // Updated stats for ${updatedOldRelics.length} existing relics
+    // Added ${addedNewRelics.length} new relics
+    if (updatedOldRelics.length) Message.success(i18next.t('importSaveTab:PartialImport.OldRelics', { count: updatedOldRelics.length }), 8)
+    if (addedNewRelics.length) Message.success(i18next.t('importSaveTab:PartialImport.NewRelics', { count: addedNewRelics.length }), 8)
   },
 }
 

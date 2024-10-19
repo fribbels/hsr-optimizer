@@ -83,7 +83,7 @@ export function generateRarityTags() {
     return {
       key: x,
       display: (
-        <Flex flex={1} justify="center" align="center" style={{ marginTop: 1 }}>
+        <Flex flex={1} justify='center' align='center' style={{ marginTop: 1 }}>
           {stars}
         </Flex>
       ),
@@ -140,7 +140,7 @@ export function SegmentedFilterRow({ currentFilters, name, flexBasis, tags, setC
             backgroundColor: selectedTags.includes(tag.key) ? token.colorPrimary : 'transparent',
           }}
         >
-          <Flex align="center" justify="space-around" style={{ height: '100%' }}>
+          <Flex align='center' justify='space-around' style={{ height: '100%' }}>
             {tag.display}
           </Flex>
         </CheckableTag>

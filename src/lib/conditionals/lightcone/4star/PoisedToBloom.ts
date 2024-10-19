@@ -1,11 +1,13 @@
 import { ContentItem } from 'types/Conditionals'
-import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { BETA_UPDATE, Stats } from 'lib/constants'
+import { Stats } from 'lib/constants'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PoisedToBloom')
   const sValuesCd = [0.16, 0.20, 0.24, 0.28, 0.32]
 
   const content: ContentItem[] = [
@@ -14,9 +16,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'cdBuff',
       name: 'cdBuff',
       formItem: 'switch',
-      text: 'Double path CD buff',
-      title: 'Double path CD buff',
-      content: BETA_UPDATE,
+      text: t('Content.cdBuff.text'),
+      title: t('Content.cdBuff.title'),
+      content: t('Content.cdBuff.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
     },
   ]
 
@@ -31,8 +33,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     }),
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals
 
       x[Stats.CD] += (m.cdBuff) ? sValuesCd[s] : 0
     },

@@ -1,14 +1,16 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Argenti')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const talentMaxStacks = (e >= 4) ? 12 : 10
@@ -25,26 +27,25 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'ultEnhanced',
       name: 'ultEnhanced',
-      text: 'Enhanced ult',
-      title: 'Enhanced ult',
-      content: `Consumes 180 Energy and deals Physical DMG equal to ${precisionRound(ultEnhancedScaling * 100)}% of Argenti's ATK to all enemies,
-      and further deals DMG for 6 extra time(s), with each time dealing Physical DMG equal to ${precisionRound(ultEnhancedExtraHitScaling * 100)}% of Argenti's ATK to a random enemy.`,
+      text: t('Content.ultEnhanced.text'),
+      title: t('Content.ultEnhanced.title'),
+      content: t('Content.ultEnhanced.content', { ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling), ultEnhancedScaling: TsUtils.precisionRound(100 * ultEnhancedScaling) }),
     },
     {
       formItem: 'switch',
       id: 'enemyHp50',
       name: 'enemyHp50',
-      text: 'Enemy HP ≤ 50% DMG boost',
-      title: 'Courage',
-      content: `Deals 15% more DMG to enemies whose HP percentage is 50% or less.`,
+      text: t('Content.enemyHp50.text'),
+      title: t('Content.enemyHp50.title'),
+      content: t('Content.enemyHp50.content'),
     },
     {
       formItem: 'slider',
       id: 'talentStacks',
       name: 'talentStacks',
-      text: 'Apotheosis stacks',
-      title: 'Apotheosis stacks',
-      content: `Increases CR by ${precisionRound(talentCrStackValue * 100)}% per stack, max of ${precisionRound(talentMaxStacks)} stacks.`,
+      text: t('Content.talentStacks.text'),
+      title: t('Content.talentStacks.title'),
+      content: t('Content.talentStacks.content', { talentMaxStacks: TsUtils.precisionRound(100 * talentMaxStacks), talentCrStackValue: TsUtils.precisionRound(100 * talentCrStackValue) }),
       min: 0,
       max: talentMaxStacks,
     },
@@ -52,9 +53,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'ultEnhancedExtraHits',
       name: 'ultEnhancedExtraHits',
-      text: 'Enhanced ult extra hits on target',
-      title: 'Enhanced ult extra hits on target',
-      content: `Enhanced Ult hits a random enemy for ${precisionRound(ultEnhancedExtraHitScaling * 100)}% ATK per hit.`,
+      text: t('Content.ultEnhancedExtraHits.text'),
+      title: t('Content.ultEnhancedExtraHits.title'),
+      content: t('Content.ultEnhancedExtraHits.content', { ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling) }),
       min: 0,
       max: 6,
     },
@@ -62,9 +63,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e2UltAtkBuff',
       name: 'e2UltAtkBuff',
-      text: 'E2 ult ATK buff',
-      title: 'E2 ult ATK buff',
-      content: `E2: If the number of enemies on the field equals to 3 or more, increases ATK by ${precisionRound(0.40 * 100)}% for 1 turn.`,
+      text: t('Content.e2UltAtkBuff.text'),
+      title: t('Content.e2UltAtkBuff.title'),
+      content: t('Content.e2UltAtkBuff.content'),
       disabled: e < 2,
     },
   ]
@@ -80,8 +81,8 @@ export default (e: Eidolon): CharacterConditional => {
       enemyHp50: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Skills
       x[Stats.CR] += (r.talentStacks) * talentCrStackValue
@@ -108,8 +109,6 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_TOUGHNESS_DMG += (r.ultEnhanced) ? 60 + 15 * r.ultEnhancedExtraHits : 60
 
       return x
-    },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
     finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

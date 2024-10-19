@@ -1,6 +1,8 @@
 import DB from './db'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants'
 
+let saveTimeout
+
 export const SaveState = {
   save: () => {
     const state = {
@@ -22,7 +24,19 @@ export const SaveState = {
     console.log('Saved state')
     const stateString = JSON.stringify(state)
     localStorage.state = stateString
+    saveTimeout = null
+
     return stateString
+  },
+
+  delayedSave: (ms = 5000) => {
+    if (saveTimeout) {
+      clearTimeout(saveTimeout);
+    }
+
+    saveTimeout = setTimeout(() => {
+      SaveState.save();
+    }, ms);
   },
 
   load: (autosave = true) => {

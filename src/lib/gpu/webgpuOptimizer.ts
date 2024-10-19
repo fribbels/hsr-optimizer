@@ -1,4 +1,3 @@
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { Form } from 'types/Form'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
@@ -11,9 +10,12 @@ import { Message } from 'lib/message'
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { OptimizerContext } from 'types/Optimizer'
+
+window.WEBGPU_DEBUG = false
 
 export async function gpuOptimize(props: {
-  params: OptimizerParams
+  context: OptimizerContext
   request: Form
   relics: RelicsByPart
   permutations: number
@@ -21,7 +23,7 @@ export async function gpuOptimize(props: {
   relicSetSolutions: number[]
   ornamentSetSolutions: number[]
 }) {
-  const { params, request, relics, permutations, computeEngine, relicSetSolutions, ornamentSetSolutions } = props
+  const { context, request, relics, permutations, computeEngine, relicSetSolutions, ornamentSetSolutions } = props
 
   const device = await getWebgpuDevice()
   if (device == null) {
@@ -43,18 +45,19 @@ export async function gpuOptimize(props: {
     device,
     relics,
     request,
-    params,
+    context,
     permutations,
     computeEngine,
     relicSetSolutions,
     ornamentSetSolutions,
+    window.WEBGPU_DEBUG
   )
 
   if (gpuContext.DEBUG) {
     Message.warning('Debug mode is ON', 5)
   }
 
-  console.log('Raw inputs', { params, request, relics, permutations })
+  console.log('Raw inputs', { context, request, relics, permutations })
   // console.log('GPU execution context', gpuContext)
 
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {
@@ -173,6 +176,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
   window.store.getState().setOptimizationInProgress(false)
   window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
 
+  const optimizerContext = gpuContext.context
   const resultArray = gpuContext.resultsQueue.toArray().sort((a, b) => b.value - a.value)
   const outputs: any[] = []
   for (let i = 0; i < resultArray.length; i++) {
@@ -185,7 +189,6 @@ function outputResults(gpuContext: GpuExecutionContext) {
     const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
     const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
 
-    const cachedParams = gpuContext.params
     const c = calculateBuild(
       gpuContext.request,
       {
@@ -196,8 +199,9 @@ function outputResults(gpuContext: GpuExecutionContext) {
         PlanarSphere: relics.PlanarSphere[p],
         LinkRope: relics.LinkRope[l],
       },
-      cachedParams,
+      optimizerContext,
       true,
+      true
     )
 
     c.id = index

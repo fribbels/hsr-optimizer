@@ -1,13 +1,15 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
+import { TsUtils } from 'lib/TsUtils'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export default (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon, withContent: boolean): CharacterConditional => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Bailu')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicScaling = basic(e, 1.0, 1.1)
@@ -18,31 +20,31 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'healingMaxHpBuff',
     name: 'healingMaxHpBuff',
-    text: 'Healing max HP buff',
-    title: 'Healing max HP buff',
-    content: `When Bailu heals a target ally above their normal Max HP, the target's Max HP increases by ${precisionRound(0.10 * 100)}% for 2 turns.`,
+    text: t('Content.healingMaxHpBuff.text'),
+    title: t('Content.healingMaxHpBuff.title'),
+    content: t('Content.healingMaxHpBuff.content'),
   }, {
     formItem: 'switch',
     id: 'talentDmgReductionBuff',
     name: 'talentDmgReductionBuff',
-    text: 'Invigoration DMG reduction',
-    title: 'Invigoration DMG reduction',
-    content: `Characters with Invigoration take ${precisionRound(0.10 * 100)}% less DMG.`,
+    text: t('Content.talentDmgReductionBuff.text'),
+    title: t('Content.talentDmgReductionBuff.title'),
+    content: t('Content.talentDmgReductionBuff.content'),
   }, {
     formItem: 'switch',
     id: 'e2UltHealingBuff',
     name: 'e2UltHealingBuff',
-    text: 'E2 ult healing buff',
-    title: 'E2 ult healing buff',
-    content: `E2: Increases healing by ${precisionRound(0.15 * 100)}% after Ultimate.`,
+    text: t('Content.e2UltHealingBuff.text'),
+    title: t('Content.e2UltHealingBuff.title'),
+    content: t('Content.e2UltHealingBuff.content'),
     disabled: e < 2,
   }, {
     formItem: 'slider',
     id: 'e4SkillHealingDmgBuffStacks',
     name: 'e4SkillHealingDmgBuffStacks',
-    text: 'E4 skill healing DMG buff stacks',
-    title: 'E4 skill healing DMG buff stacks',
-    content: `E4: Every healing provided by Bailu's Skill makes the recipient deal ${precisionRound(0.10 * 100)}% more DMG for 2 turns. This effect can stack up to 3 times.`,
+    text: t('Content.e4SkillHealingDmgBuffStacks.text'),
+    title: t('Content.e4SkillHealingDmgBuffStacks.title'),
+    content: t('Content.e4SkillHealingDmgBuffStacks.content'),
     min: 0,
     max: 3,
     disabled: e < 4,
@@ -68,8 +70,8 @@ export default (e: Eidolon): CharacterConditional => {
       talentDmgReductionBuff: true,
       e4SkillHealingDmgBuffStacks: 3,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
 
       // Stats
       x[Stats.OHB] += (e >= 2 && r.e2UltHealingBuff) ? 0.15 : 0
@@ -83,8 +85,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals
 
       x[Stats.HP_P] += (m.healingMaxHpBuff) ? 0.10 : 0
 

@@ -1,6 +1,5 @@
 import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import LanguageDetector from 'i18next-browser-languagedetector'
 import Backend from 'i18next-http-backend'
 import { BASE_PATH } from './db'
 import yaml from 'js-yaml'
@@ -61,7 +60,7 @@ export const languages = {
 export const supportedLanguages = Object.keys(languages)
 void i18next
   .use(Backend)
-  .use(LanguageDetector)
+  // .use(LanguageDetector) Disabled temporarily
   .use(initReactI18next)
   .init({
     ns: [

@@ -121,6 +121,7 @@ function getChangelogContent() {
         `Removed Stat Weight sort and filter options for optimizer simplification. The stat weight column still remains`,
         `Sacerdos has been added as a personal relic set conditional for characters with self buffs`,
         `Fix: The Recommended Presets button no longer resets weighted rolls per relic`,
+        `Fix: Improved Firefox optimizer search performance`,
         `Balance: DPS score overvalued ATK boots in certain situations with large amount of speed buffs, mostly affects ATK boots Kafka S1 builds`,
         `Balance: Jiaoqiu is now recommended ATK / ERR rope by default`,
         `Balance: Ruan Mei can now use all mains stats for feet`,

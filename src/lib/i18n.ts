@@ -3,7 +3,7 @@ import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import Backend from 'i18next-http-backend'
 import { BASE_PATH } from './db'
-import yaml from 'js-yaml';
+import yaml from 'js-yaml'
 
 window.yaml = yaml
 
@@ -96,9 +96,6 @@ void i18next
         return yaml.load(data)
       },
     },
-  }, () => {
-    // Overrides
-    i18next.addResource('en', 'gameData', 'Characters.1213.Name', 'Imbibitor Lunae')
   })
 
 i18next.services.formatter?.add('capitalize', (value: string | undefined, lng, options: { interpolationkey?: string; capitalizeLength: number }) => {

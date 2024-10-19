@@ -1,0 +1,18 @@
+Showcase:
+  Title: Showcase
+  Scorer: '$t(common:Relic, {"count": 1, "capitalizeLength": 1}) Scorer'
+Optimization:
+  Title: Optimization
+  Optimizer: Optimizer
+  Relics: '$t(common:Relic, {"count": 2000, "capitalizeLength": 1})'
+  Characters: '$t(common:Character, {"count": 23, "capitalizeLength": 1})'
+  Import: Import / Save
+  Settings: Settings
+  Start: Get Started
+Links:
+  Title: Links
+  Changelog: Changelog
+  Discord: Discord
+  Github: GitHub
+  Kofi: Ko-fi
+  Unleak: No leaks

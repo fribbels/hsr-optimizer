@@ -1,0 +1,130 @@
+RelicFilterBar:
+  Part: Part
+  Enhance: Enhance
+  Grade: Grade
+  Verified: Verified
+  Equipped: Equipped
+  Clear: Clear
+  ClearButton: Clear all filters
+  Set: Set
+  Mainstat: Main stats
+  Substat: Substats
+  ReapplyButton: Reapply scores
+  ScoringButton: Scoring algorithm
+  RecommendationHeader: '$t(common:Relic, {"count": 1, "capitalizeLength": 1}) recommendation character'
+  Rating: '$t(common:Relic, {"count": 1, "capitalizeLength": 1}) ratings'
+  CustomCharsHeader: 'Custom potential $t(common:Character, {"count": 12, "capitalizeLength": 0})'
+Messages:
+  AddRelicSuccess: 'Successfully added $t(common:Relic, {"count": 1, "capitalizeLength": 0})'
+  NoRelicSelected: 'No $t(common:Relic, {"count": 1, "capitalizeLength": 0}) selected'
+  DeleteRelicSuccess: 'Successfully deleted $t(common:Relic, {"count": 1, "capitalizeLength": 0})'
+RelicGrid:
+  To: to
+  Of: of
+  Headers:
+    EquippedBy: Owner
+    Set: Set
+    Grade: Grade
+    Part: Part
+    Enhance: Enhance
+    Mainstat: |-
+      Main
+      Stat
+    Mainvalue: |-
+      Main
+      Value
+    hpP: HP %
+    atkP: ATK %
+    defP: DEF %
+    hp: HP
+    atk: ATK
+    def: DEF
+    spd: SPD
+    cr: |-
+      Crit
+      Rate
+    cd: |-
+      Crit
+      DMG
+    ehr: |-
+      Effect
+      Hit Rate
+    res: |-
+      Effect
+      RES
+    be: |-
+      Break
+      Effect
+    cv: |-
+      Crit
+      Value
+  ValueColumns:
+    SelectedCharacter:
+      Label: 'Selected $t(common:Character, {"count": 1, "capitalizeLength": 0})'
+      ScoreCol:
+        Label: 'Selected $t(common:Character, {"count": 1, "capitalizeLength": 0}): Score'
+        Header: |-
+          Selected Char
+          Score
+      AvgPotCol:
+        Label: 'Selected $t(common:Character, {"count": 1, "capitalizeLength": 0}): Average potential'
+        Header: |-
+          Selected Char
+          Avg Potential
+      MaxPotCol:
+        Label: 'Selected $t(common:Character, {"count": 1, "capitalizeLength": 0}): Max potential'
+        Header: |-
+          Selected Char
+          Max Potential
+    CustomCharacters:
+      Label: 'Custom $t(common:Character, {"count": 10, "capitalizeLength": 0})'
+      AvgPotCol:
+        Label: 'Custom $t(common:Character, {"count": 10, "capitalizeLength": 0}): Average potential'
+        Header: |-
+          Custom Chars
+          Avg Potential
+      MaxPotCol:
+        Label: 'Custom $t(common:Character, {"count": 10, "capitalizeLength": 0}): Max potential'
+        Header: |-
+          Custom Chars
+          Max Potential
+    AllCharacters:
+      Label: 'All $t(common:Character, {"count": 10, "capitalizeLength": 0})'
+      AvgPotCol:
+        Label: 'All $t(common:Character, {"count": 10, "capitalizeLength": 0}): Average potential'
+        Header: |-
+          All Chars
+          Avg Potential
+      MaxPotCol:
+        Label: 'All $t(common:Character, {"count": 10, "capitalizeLength": 0}): Max potential'
+        Header: |-
+          All Chars
+          Max Potential
+    ComingSoon:
+      Label: Coming soon
+      SetsPotential:
+        Label: '$t(common:Relic, {"count": 1, "capitalizeLength": 1}) / Ornament sets potential'
+        Header: |-
+          All Chars
+          Max Potential + Sets
+Toolbar:
+  RelicLocator:
+    Width: Inventory width
+    Filter: Auto filter rows
+    NoneSelected: 'Select a $t(common:Relic, {"count": 1, "capitalizeLength": 0}) to locate'
+    Location: Location - Row {{rowindex}} / Col {{columnindex}}
+  InsightOptions:
+    Buckets: '$t(common:Relic, {"count": 1, "capitalizeLength": 1}) Insight: Buckets'
+    Top10: '$t(common:Relic, {"count": 1, "capitalizeLength": 1}) Insight: Top 10'
+  PlotOptions:
+    PlotAll: 'Show all $t(common:Character, {"count": 12, "capitalizeLength": 0})'
+    PlotCustom: 'Show custom $t(common:Character, {"count": 12, "capitalizeLength": 0})'
+  EditRelic: 'Edit $t(common:Relic, {"count": 1, "capitalizeLength": 1})'
+  DeleteRelic:
+    ButtonText: 'Delete $t(common:Relic, {"count": 1, "capitalizeLength": 1})'
+    Warning_one: 'Delete the selected $t(common:Relic, {"count": 1, "capitalizeLength": 0})?'
+    Warning_other: 'Delete the selected {{count}} $t(common:Relic, {"count": {{count}}, "capitalizeLength": 0})?'
+  AddRelic: 'Add New $t(common:Relic, {"count": 1, "capitalizeLength": 1})'
+RelicInsights:
+  NewStats: 'New stats: '
+  UpgradedStats: 'Upgraded stats: '

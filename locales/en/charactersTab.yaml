@@ -1,0 +1,220 @@
+ScreenshotMessages:
+  ScreenshotSuccess: Copied screenshot to clipboard
+  ScreenshotFailed: Unable to save screenshot to clipboard, try the download button to the right
+  DownloadSuccess: Downloaded screenshot
+CharacterMenu:
+  ButtonText: Character menu
+  Character:
+    Label: Character
+    Options:
+      Add: Add new character
+      Edit: Edit character / light cone
+      Switch: Switch relics with
+      Unequip: Unequip character
+      Delete: Delete character
+  Build:
+    Label: Builds
+    Options:
+      Save: Save current build
+      View: View saved builds
+  Scoring:
+    Label: Scoring
+    Options:
+      ScoringModal: Scoring algorithm
+  Priority:
+    Label: Priority
+    Options:
+      SortByScore: Sort all characters by score
+      MoveToTop: Move character to top
+Confirm: '$t(common:Confirm, {"capitalizeLength": 1})'
+Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+CopyScreenshot: Copy screenshot
+SearchPlaceholder: Search character name
+GridHeaders:
+  Icon: Icon
+  Priority: Priority
+  Character: Character
+Messages:
+  RemoveSuccess: Successfully removed character
+  UnequipSuccess: Successfully unequipped character
+  NoSelectedCharacter: No selected character
+  SwitchSuccess: Successfully switched relics to $t(gameData:Characters.{{charid}}.Name)
+  SortByScoreWarning: Are you sure you want to sort all characters? <0/>You will lose any custom rankings you have set.
+  SaveSuccess: 'Successfully saved build: {{name}}'
+  UnequipWarning: Are you sure you want to unequip $t(gameData:Characters.{{charid}}.Name)?
+  DeleteWarning: Are you sure you want to delete $t(gameData:Characters.{{charid}}.Name)?
+CharacterPreview:
+  ArtBy: Art by {{artistName}}
+  EditCharacter: Edit character
+  EditPortrait: Edit portrait
+  CharacterScore: 'Character Score: {{score}} {{grade}}'
+  Messages:
+    AddedRelic: Successfully added relic
+    SavedPortrait: Successfully saved portrait
+    RevertedPortrait: Successfully reverted portrait
+    NoSelectedCharacter: No selected character
+  ScoreHeader:
+    Title: Combat Sim
+    Score: DPS Score {{score}}% {{grade}}
+  AlgorithmSlider:
+    Title: 'Scoring algorithm:'
+    Labels:
+      CombatScore: Combat Score
+      CombatScoreTBD: Combat Score (TBD)
+      StatScore: Stat Score
+  DetailsSlider:
+    Title: 'Combat score details:'
+    Labels:
+      CombatStats: Combat Stats
+      DMGUpgrades: Damage Upgrades
+  DMGUpgrades: Damage Upgrades
+  SubstatUpgradeComparisons:
+    Header: Substat upgrade comparisons
+    Roll: roll
+    Score: Score
+    Damage: Damage
+  BuildAnalysis:
+    Header: Character build analysis
+    SimulationTeammates: Simulation teammates
+    SimulationSets: Simulation sets
+    Rotation:
+      Header: Combo damage rotation
+      BASIC: BASIC
+      SKILL: SKILL
+      ULT: ULT
+      FUA: FUA
+      DOT: DOT
+      BREAK: BREAK
+    CombatResults:
+      Header: Combat damage results
+      Primary: 'Primary ability:     '
+      Character: 'Character DMG:       '
+      Benchmark: 'Benchmark DMG:       '
+      Baseline: 'Baseline DMG:        '
+      Maximum: 'Maximum DMG:         '
+      Score: 'DPS score %:         '
+      Abilities:
+        BASIC: BASIC DMG
+        SKILL: SKILL DMG
+        ULT: ULT DMG
+        FUA: FUA DMG
+        DOT: DOT DMG
+        BREAK: BREAK DMG
+        COMBO: COMBO DMG
+  ScoringColumn:
+    Character:
+      Header: Character build ({{score}}%)
+      BasicStats: Character basic stats
+      CombatStats: Character <1>combat stats</1>
+      Substats: Character subs (min rolls)
+      Mainstats: Character main stats
+      Abilities: Character ability damage
+    Benchmark:
+      Header: Benchmark build ({{score}}%)
+      BasicStats: 100% benchmark basic stats
+      CombatStats: 100% benchmark <1>combat stats</1>
+      Substats: 100% benchmark subs (min rolls)
+      Mainstats: 100% benchmark main stats
+      Abilities: 100% benchmark ability damage
+    Perfect:
+      Header: Perfect build ({{score}}%)
+      BasicStats: 200% perfect basic stats
+      CombatStats: 200% perfect <1>combat stats</1>
+      Substats: 200% perfect subs (max rolls)
+      Mainstats: 200% perfect main stats
+      Abilities: 200% perfect ability damage
+    PaddedStatLabels:
+      ATKP: 'ATK%: '
+      ATK: 'ATK:  '
+      HPP: 'HP%:  '
+      HP: 'HP:   '
+      DEFP: 'DEF%: '
+      DEF: 'DEF:  '
+      SPD: 'SPD:  '
+      CR: 'CR:   '
+      CD: 'CD:   '
+      EHR: 'EHR:  '
+      RES: 'RES:  '
+      BE: 'BE:   '
+    PaddedDMGLabels:
+      Basic: 'Basic DMG:           '
+      Skill: 'Skill DMG:           '
+      Ult: 'Ult DMG:             '
+      Fua: 'Fua DMG:             '
+      Dot: 'Dot DMG:             '
+      Break: 'Break DMG:           '
+  ScoringDetails:
+    Header: DPS Score Calculation
+    WhatIsDPSScore: >-
+      <0>What is DPS Score?</0><1>DPS Score is a damage calculation based metric for accurately scoring how optimal the character's relics are for maximizing
+      damage in combat.</1><2>This score is calculated by using the optimizer to simulate the character's combat stats and rates the build based on how much the
+      relics contribute to damage, for a more accurate evaluation than scores based solely on stat weights.</2><3>The scoring calculation takes into
+      consideration:</3><4><0>Character eidolons / light cone / superimpositions</0><1>Teammate eidolons / light cone / superimpositions</1><2>Combat passives
+      and buffs from abilities and light cones</2><3>Team composition and teammate buffs</3><4>Character ability rotations</4><5>Stat breakpoints</5><6>Stat
+      overcapping</6><7>Relic set effects</7><8>Super break</8><9>...etc</9></4>
+    HowIsCalculatedPart1: >-
+      <0>How is it calculated?</0><1>At its heart, this score is calculated using a Basic / Skill / Ult / FuA / DoT / Break ability damage rotation predefined
+      per character. These simulations use the optimizer's default conditional settings for the character / teammates / light cones / relic sets, and the damage
+      sum is then used to compare between builds.</1><2>Simulation benchmarks</2><3>The scoring algorithm generates three builds to measure the damage of the
+      original character against.</3><4><0>Baseline (0%) - No substats, no main stats</0><1>Benchmark (100%) - A strong build, generated following certain rules
+      with a realistic distribution of 48x min rolls</1><2>Perfection (200%) - The perfect build, generated with an ideal distribution of 54x max rolled
+      substats</2></4><5>The original character's build is scored based on how its Combo DMG compares to the benchmark percentages.The benchmark and perfection
+      builds will always match the original character's SPD.</5>
+    HowIsCalculatedPart2: >-
+      <0>100% benchmark ruleset</0><1>The 100% benchmark character is designed to be a strong and realistic build that is difficult to reach, but attainable
+      with some character investment into relic farming. The following ruleset defines how the build is generated and why it differs from the perfect
+      build.</1><2><0>The default damage simulation uses a common team composition and the character's BiS relic + ornament set</0><1>The 100% benchmark uses
+      the same eidolon and superimposition as the original character, at level 80 and maxed traces</1><2>The 100% benchmark has 4 main stats and 48 total
+      substats: 8 from each gear slot</2><3>Each substat is equivalent to a 5 star relic's low roll value, except for SPD which uses mid rolls</3><4>First, 2
+      substats are allocated to each substat type, except for SPD</4><5>Substats are then allocated to SPD to match the original character's in-combat
+      SPD</5><6>The remaining substats are then distributed to the other stats options to maximize the build's damage output</6><7>The resulting build must be a
+      substat distribution that is possible to make with the in-game sub and main stat restrictions (for example, relics with a main stat cannot also have the
+      same substat, and no duplicate substat slots per piece, etc)</7><8>An artificial diminishing returns penalty is applied to substats with greater than
+      <1>12 - (2 * main stats)</1> rolls, to simulate the difficulty of obtaining multiple rolls in a single stat</8></2><3>This process is repeated through all
+      the possible main stat permutations and substat distributions until the highest damage simulation is found. That build's damage is then used as the
+      standard for a 100% DPS Score.</3><4>200% benchmark ruleset</4><5>The 200% perfection character follows a similar generation process with a few
+      differences.</5><6><0>54x max roll substats</0><1>No diminishing returns penalty</1><2>All substats are ideally distributed, but the build must still be
+      possible to make</2></6>
+    HowIsCalculatedPart3: >-
+      <0>Score normalization</0><1>All simulation scores are normalized by deducting a baseline damage simulation. The baseline uses the same eidolon and light
+      cone, but no main stats and no substats. This adjusts for the base amount of damage that a character's kit deals, so that the DPS Score can then measure
+      the resulting damage contribution of each additional substat.</1><2>Relic / ornament sets</2><3>Each character has a defined BiS set, and a few other
+      equivalent sets that can be considered similar in performance. If the original character's sets matches any of the acceptable sets, the character will be
+      scored against a benchmark generated matching that set, otherwise the original character will be scored against the BiS.</3><4>Stat breakpoint
+      penalty</4><5>Certain characters will have breakpoints that are forced. For example, 120% combat EHR on Black Swan to maximize her passive EHR to DMG
+      conversion, and to land Arcana stacks. Failing to reach the breakpoint will penalize the DPS Score for the missing percentage. This penalty applies to
+      both the original character and the benchmark simulations but not the baseline.</5><6>Formula</6><7>The resulting formula is:</7><8><0>If DMG &lt; 100%
+      benchmark</0><1><0><0>DMG Score = (character dmg - 0% baseline dmg) / (100% benchmark dmg - 0% baseline dmg)</0></0></1></8><9><0>If DMG ≥ 100%
+      benchmark</0><1><0><0>DMG Score = 1 + (character dmg - 100% benchmark dmg) / (200% perfect dmg - 100% benchmark dmg)</0></0></1></9><10>What are the grade
+      thresholds?</10><11>Grading is based on the benchmark as 100%.</11><12><0><0><0>WTF+ = 135% ↑ 9%</0><1>WTF  = 126% ↑ 8%</1><2>SSS+ = 118% ↑ 7%</2><3>SSS 
+      = 111% ↑ 6%</3><4>SS+  = 105% ↑ 5%</4><5>SS   = 100% [Benchmark]</5><6>S+   = 95%</6><7>S    = 90%</7><8>A+   = 85%</8></0><1><0>A  = 80%</0><1>B+ =
+      75%</1><2>B  = 70%</2><3>C+ = 65%</3><4>C  = 60%</4><5>D+ = 55%</5><6>D  = 50%</6><7>F+ = 45%</7><8>F  = 40%</8></1></0></12>
+    FAQ: >-
+      <0>FAQs</0><1>Why does the sim match speed?</1><2>Speed is controlled separately from the other stats because damage isn't comparable between different
+      speed thresholds. For example, higher speed can actually result in lower damage with Bronya as a teammate if the speed tuning is thrown off. To make
+      damage comparisons fair, we equalize the speed variable by forcing the sim's substats to match the original character's combat speed.</2><3>Why does a
+      build score lower even though it has higher Sim Damage?</3><4>The benchmark sims have to equalize speed, so if the higher damage build has lower speed,
+      then it will be compared to benchmark builds at that same lower speed, and therefore may score lower. In general this means that the sim will reallocate
+      every reduced speed roll into a damage stat instead.</4><5>What's the reasoning behind the benchmark simulation rules?</5><6>The simulation rules were
+      designed to create a realistic benchmark build for 100% DPS Score, which should be difficult to achieve yet possible with character investment. After
+      trialing many methodologies for generating simulation stats, this set of rules produced the most consistent and reasonable 100% benchmarks across all
+      characters and builds.</6><7>The spread of 2 substats across all stat options provides some baseline consistency, and simulates how substats are
+      imperfectly distributed in actual player builds. The spread rolls also help to balance out characters that are more stat hungry and require multiple stats
+      to be effective, vs characters that only need two or three stats.</7><8>Applying diminishing returns to high stacking substats is a way to make the
+      benchmark fair for characters that primarily scale off of a single stat, for example Boothill and break effect. The ideal distribution will want every
+      relic roll to go into break effect, but stacking 5x rolls of a single stat on a relic is extremely rare / unrealistic in practice, so the simulation rules
+      add diminishing returns to account for that.</8><9>Why are the scores different for different teams?</9><10>Team buffs and synergy will change the ideal
+      benchmark simulation's score. For example, a benchmark sim with Fu Xuan on the team may invest more substats into Crit DMG instead of Crit Rate since her
+      passive Crit Rate will change the optimal distribution of crit rolls. Teams should be customized to fit the actual teammates used for the character ingame
+      for an accurate score.</10><11>Why are certain stat breakpoints forced?</11><12>The only forced breakpoints currently are Effect Hit Rate minimums for DoT
+      characters. Take Black Swan for example, the purpose of forcing the sim to use her 120% breakpoint is so it can't just ignore EHR to chase more maximum
+      DoT damage. EHR is more than just DMG conversion as it also lets her land Arcana debuffs to reach her 7th Arcana stack for DEF pen. The penalty is
+      calculated as a 1% deduction per missing roll from the breakpoint.</12><13><0>dmg scale = min(1, (breakpoint - combat stat) / (min stat
+      value))</0></13><14>How were the default simulation teams / sets chosen?</14><15>The defaults come from a combination of usage statistics and community
+      guidance. Best in slot sets and teammates will change with new game updates, so the default parameters may also change. Please visit the Discord server
+      for suggestions and feedback on the scoring design.</15><16>Why is a character scoring low?</16><17>The `Damage Upgrades` section will give a quick
+      overview of the sets and stats that could be improved. Substat upgrades will show the damage increase for a single max roll. For a more detailed
+      explanation, the full simulation is detailed below the character card, including the benchmark character's stat distribution, basic stats, combat stats,
+      and main stats. Comparing the original character's stats to the benchmark character's stats is helpful to show the difference in builds and see where to
+      improve.</17><18>An often underestimated component of the build is completed BiS set effects. Set effects can play a large part in optimizing a
+      character's potential damage output and rainbow or broken sets will often score worse than full sets.</18>

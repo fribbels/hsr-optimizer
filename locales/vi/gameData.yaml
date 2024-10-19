@@ -1,0 +1,3274 @@
+Characters:
+  "1001":
+    Name: March 7th
+    Abilities:
+      "100101":
+        Name: Mũi Tên Giá Lạnh
+        Desc: <span>Gây lượng nhỏ Sát Thương Băng cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "100102":
+        Name: Dễ Thương Là Chính Nghĩa
+        Desc: <span></span><span style='color:#f29e38ff'>Thi triển Khiên</span><span> cho 1 đồng đội.</span>
+        Type: Chiến Kỹ
+      "100103":
+        Name: Mưa Tên Băng Giá
+        Desc: <span>Gây Sát Thương Băng cho </span><span style='color:#f29e38ff'>toàn bộ</span><span> kẻ địch, có </span><span style='color:#f29e38ff'>xác suất thi triển Đóng Băng</span><span>.</span>
+        Type: Tuyệt Kỹ
+      "100104":
+        Name: Đặc Quyền Thiếu Nữ
+        Desc: <span>Sau khi mục tiêu có Khiên của phe ta bị kẻ địch tấn công, March 7th </span><span style='color:#f29e38ff'>lập tức <u>phản kích</u> lên kẻ địch đó</span><span>, gây lượng nhỏ Sát Thương Băng.</span>
+        Type: Thiên Phú
+      "100106":
+        Name: Tấn Công
+        Desc: ""
+      "100107":
+        Name: Khoảnh Khắc Đóng Băng
+        Desc: <span>Tấn công kẻ địch, sau khi vào trận có xác suất lớn khiến 1 kẻ địch ngẫu nhiên rơi vào trạng thái Đóng Băng.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "100101":
+        Name: Bạn Trong Ký Ức
+        Desc: <span>Mỗi khi Tuyệt Kỹ đóng băng 1 mục tiêu sẽ hồi 6 điểm Năng Lượng cho March 7th.</span>
+      "100102":
+        Name: Nó Trong Ký Ức
+        Desc: <span>Khi vào chiến đấu, tạo Khiên bằng 24% Phòng Thủ của March 7th +320 cho mục tiêu có phần trăm HP hiện tại thấp nhất của phe ta, duy trì 3 hiệp.</span>
+      "100103":
+        Name: Tất Cả Trong Ký Ức
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "100104":
+        Name: Không Muốn Mất Lần Nữa
+        Desc: <span>Số lần hiệu ứng Phản Kích của Thiên Phú có thể kích hoạt ở mỗi hiệp tăng 1 lần. Giúp tăng sát thương Phản Kích tạo thành, mức tăng bằng 30% Phòng Thủ của March 7th.</span>
+      "100105":
+        Name: Không Muốn Lại Quên Lãng
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "100106":
+        Name: Cứ Như Vậy, Mãi Mãi...
+        Desc: <span>Mục tiêu phe ta được bảo vệ bởi Khiên của Chiến Kỹ, khi bắt đầu mỗi hiệp sẽ hồi HP bằng 4% Giới Hạn HP của mỗi mục tiêu +106.</span>
+  "1002":
+    Name: Dan Heng
+    Abilities:
+      "100201":
+        Name: Thương Thuật Vân Kỵ - Gió Bắc
+        Desc: <span>Gây lượng nhỏ Sát Thương Phong cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "100202":
+        Name: Thương Thuật Vân Kỵ - Lũ Cuốn
+        Desc: <span>Gây Sát Thương Phong cho 1 kẻ địch, khi bạo kích có xác suất lớn thi triển trạng thái Giảm Tốc.</span>
+        Type: Chiến Kỹ
+      "100203":
+        Name: Giấc Mơ Bồng Lai
+        Desc: <span>Gây lượng lớn Sát Thương Phong cho 1 kẻ địch, tăng Bội Số Sát Thương của mục tiêu đang trong trạng thái Giảm Tốc.</span>
+        Type: Tuyệt Kỹ
+      "100204":
+        Name: Đi Một Ngày Đàng, Học Một Sàng Khôn
+        Desc: <span>Khi trở thành mục tiêu thi triển kỹ năng của phe ta, sẽ </span><span style='color:#f29e38ff'>tăng <u>Xuyên Kháng</u> Phong</span><span> của lần tấn công tiếp theo. Hiệu ứng này sau 2 hiệp có thể kích hoạt lại.</span>
+        Type: Thiên Phú
+      "100206":
+        Name: Tấn Công
+        Desc: ""
+      "100207":
+        Name: Mũi Nhọn Tiên Phong
+        Desc: <span>Dùng Bí Kỹ, lần sau vào trận sẽ tăng tấn công.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "100201":
+        Name: Tận Cùng Trời Cao, Khó Vững Bền Lâu
+        Desc: <span>Khi đánh trúng kẻ địch có phần trăm HP hiện tại lớn hơn hoặc bằng 50%, Tỷ Lệ Bạo Kích sẽ tăng 12%.</span>
+      "100202":
+        Name: Áp Chế Chất Độc, Dập Tắt Ngọn Lửa
+        Desc: <span>Thời gian chờ của Thiên Phú rút ngắn 1 hiệp.</span>
+      "100203":
+        Name: Âm Dương Biến Hoá, Tự Do Tự Tại
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "100204":
+        Name: Tâm Tịnh Như Hư Không
+        Desc: <span>Khi thi triển Tuyệt Kỹ để tiêu diệt kẻ địch, Dan Heng sẽ hành động ngay.</span>
+      "100205":
+        Name: Thác Nước Thiên Không, Cuồn Cuộn Bốn Bề
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "100206":
+        Name: Buộc Chặt Trước Khi Lao
+        Desc: <span>Trạng thái Giảm Tốc được kích hoạt bởi Chiến Kỹ khiến Tốc Độ của mục tiêu giảm thêm 8%.</span>
+  "1003":
+    Name: Himeko
+    Abilities:
+      "100301":
+        Name: Chỉnh Đốn Vũ Trang
+        Desc: <span>Gây lượng nhỏ Sát Thương Hỏa cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "100302":
+        Name: Sức Nóng Bùng Nổ
+        Desc: <span>Gây Sát Thương Hỏa cho 1 kẻ địch, gây lượng nhỏ Sát Thương Hỏa cho mục tiêu lân cận.</span>
+        Type: Chiến Kỹ
+      "100303":
+        Name: Lửa Thiên Giáng Trần
+        Desc: <span>Gây Sát Thương Hỏa cho toàn phe địch, khi tiêu diệt kẻ địch sẽ hồi Năng Lượng.</span>
+        Type: Tuyệt Kỹ
+      "100304":
+        Name: Truy Kích Dồn Dập
+        Desc: <span>Khi điểm yếu của kẻ địch bị phá vỡ sẽ nhận nạp năng lượng.<br>Sau khi mục tiêu phe ta tấn công, nếu nạp năng lượng đạt giới hạn, </span><span style='color:#f29e38ff'>sẽ phát động ngay <u>Đòn Đánh Theo Sau</u></span><span>, gây Sát Thương Hỏa cho </span><span style='color:#f29e38ff'>toàn bộ kẻ địch</span><span> và tiêu hao tất cả nạp năng lượng.<br>Khi bắt đầu chiến đấu sẽ nhận 1 điểm nạp năng lượng.</span>
+        Type: Thiên Phú
+      "100306":
+        Name: Tấn Công
+        Desc: ""
+      "100307":
+        Name: Lửa Thiêu Âm Ỉ
+        Desc: <span>Tạo một khu vực đặc biệt. Sau khi vào chiến đấu với kẻ địch trong khu vực, sẽ có xác suất lớn </span><span style='color:#f29e38ff'>tăng Sát Thương Hỏa mà kẻ địch phải chịu</span><span>.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "100301":
+        Name: Tuổi Thơ
+        Desc: <span>Sau khi kích hoạt Truy Kích Dồn Dập, Tốc Độ của Himeko tăng 20%, duy trì 2 hiệp.</span>
+      "100302":
+        Name: Gặp Gỡ
+        Desc: <span>Tăng 15% sát thương gây ra cho kẻ địch có phần trăm HP hiện tại nhỏ hơn hoặc bằng 50%.</span>
+      "100303":
+        Name: Chính Mình
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "100304":
+        Name: Tận Sức
+        Desc: <span>Khi thi triển Chiến Kỹ Phá Vỡ Điểm Yếu của kẻ địch, Himeko sẽ nhận thêm 1 điểm Nạp Năng Lượng.</span>
+      "100305":
+        Name: Khát Vọng
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "100306":
+        Name: Khai Phá!
+        Desc: <span>Tuyệt Kỹ gây thêm 2 lần sát thương, gây Sát Thương Hỏa cho mỗi kẻ địch ngẫu nhiên bằng 40% sát thương ban đầu.</span>
+  "1004":
+    Name: Welt
+    Abilities:
+      "100401":
+        Name: Trọng Lực Áp Chế
+        Desc: <span>Gây lượng nhỏ Sát Thương Số Ảo cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "100402":
+        Name: Biên Giới Hư Không
+        Desc: <span>Gây một lượng nhỏ Sát Thương Số Ảo cho 1 kẻ địch, tổng cộng Nảy Bật 3 lần, có xác suất </span><span style='color:#f29e38ff'>thi triển trạng thái Giảm Tốc</span><span> cho mục tiêu.</span>
+        Type: Chiến Kỹ
+      "100403":
+        Name: Lỗ Đen Mô Phỏng
+        Desc: <span>Gây Sát Thương Số Ảo cho toàn phe địch, </span><span style='color:#f29e38ff'>có xác suất lớn thi triển hiệu ứng Giam Cầm</span><span>.</span>
+        Type: Tuyệt Kỹ
+      "100404":
+        Name: Bẻ Cong Thời Không
+        Desc: <span>Khi đánh trúng kẻ địch ở trạng thái Giảm Tốc sẽ </span><span style='color:#f29e38ff'>gây thêm một lượng nhỏ <u>Sát Thương Số Ảo kèm theo</u></span><span>.</span>
+        Type: Thiên Phú
+      "100406":
+        Name: Tấn Công
+        Desc: ""
+      "100407":
+        Name: Ngục Tù Trói Buộc
+        Desc: <span>Tạo một khu vực đặc biệt. Giảm tốc độ di chuyển của kẻ địch trong khu vực. Sau khi vào chiến đấu với kẻ địch trong khu vực, sẽ </span><span style='color:#f29e38ff'>có xác suất lớn khiến kẻ địch rơi vào trạng thái Giam Cầm</span><span>.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "100401":
+        Name: Kế Thừa Danh Hiệu
+        Desc: <span>Sau khi thi triển Tuyệt Kỹ, Welt được cường hóa, 2 lần Tấn Công Thường hoặc Chiến Kỹ tiếp theo sẽ gây thêm 1 lần sát thương kèm theo cho kẻ địch. Sát thương kèm theo tạo ra bởi Tấn Công Thường bằng 50% Bội Số Sát Thương Tấn Công Thường, sát thương kèm theo tạo ra bởi Chiến Kỹ bằng 80% Bội Số Sát Thương Chiến Kỹ.</span>
+      "100402":
+        Name: Hội Tụ Ngôi Sao
+        Desc: <span>Khi kích hoạt Thiên Phú, Welt hồi 3 Năng Lượng.</span>
+      "100403":
+        Name: Cầu Nguyện Hoà Bình
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "100404":
+        Name: Danh Hiệu Chính Nghĩa
+        Desc: <span>Khi thi triển Chiến Kỹ sẽ tăng 35% xác suất cơ bản khiến kẻ địch giảm tốc.</span>
+      "100405":
+        Name: Sức Mạnh Thiện Lương
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "100406":
+        Name: Tương Lai Tươi Sáng
+        Desc: <span>Khi thi triển Chiến Kỹ sẽ gây thêm 1 lần sát thương cho 1 kẻ địch ngẫu nhiên.</span>
+  "1005":
+    Name: Kafka
+    Abilities:
+      "100501":
+        Name: Náo Động Giữa Đêm
+        Desc: <span>Gây lượng nhỏ Sát Thương Lôi cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "100502":
+        Name: Ánh Trăng Ve Vuốt
+        Desc: <span>Gây Sát Thương Lôi cho một kẻ địch và lượng nhỏ Sát Thương Lôi cho mục tiêu lân cận.<br>Nếu mục tiêu chính đang trong Hiệu Ứng Xấu loại Sát Thương Duy Trì, sẽ khiến Hiệu Ứng Xấu loại Sát Thương Duy Trì này </span><span style='color:#f29e38ff'>gây thêm 1 lần sát thương</span><span>.</span>
+        Type: Chiến Kỹ
+      "100503":
+        Name: Âm Vọng Bi Kịch
+        Desc: <span>Gây lượng nhỏ Sát Thương Lôi cho toàn bộ kẻ địch, có xác suất lớn </span><span style='color:#f29e38ff'>thi triển trạng thái Sốc Điện</span><span>.<br>Nếu kẻ địch ở trạng thái Sốc Điện, sẽ khiến trạng thái Sốc Điện </span><span style='color:#f29e38ff'>gây thêm 1 lần sát thương</span><span>.</span>
+        Type: Tuyệt Kỹ
+      "100504":
+        Name: Dịu Dàng Đồng Nghĩa Tàn Khốc
+        Desc: <span>Sau khi đồng đội tấn công thường lên kẻ địch, Kafka sẽ phát động ngay <u>Đòn Đánh Theo Sau</u>, gây Sát Thương Lôi cho mục tiêu này, đồng thời có xác suất lớn </span><span style='color:#f29e38ff'>thi triển trạng thái Sốc Điện</span><span>. Hiệu ứng này mỗi hiệp chỉ có thể kích hoạt 1 lần.</span>
+        Type: Thiên Phú
+      "100506":
+        Name: Tấn Công
+        Desc: ""
+      "100507":
+        Name: Tha Thứ Không Có Nghĩa là Nhân Từ
+        Desc: <span>Tấn công tất cả kẻ địch trong phạm vi, sau khi vào chiến đấu, sẽ gây lượng nhỏ Sát Thương Lôi cho toàn bộ địch, xác suất lớn </span><span style='color:#f29e38ff'>thi triển trạng thái Sốc Điện</span><span>.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "100501":
+        Name: Vô Cùng Vô Tận!
+        Desc: <span>Khi thiên phú kích hoạt Đòn Đánh Theo Sau sẽ có 100% xác suất cơ bản khiến Sát Thương Duy Trì mà mục tiêu phải chịu tăng 30%, duy trì 2 hiệp.</span>
+      "100502":
+        Name: Kẻ Mơ Tưởng, Thổn Thức
+        Desc: <span>Khi Kafka trong trận, Sát Thương Duy Trì toàn phe ta gây ra tăng 25%.</span>
+      "100503":
+        Name: Tôi Khen Ngợi, Cao Hứng
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "100504":
+        Name: Xướng Ca Dâng Tặng
+        Desc: <span>Khi kẻ địch chịu sát thương Sốc Điện do Kafka gây ra, sẽ hồi thêm cho Kafka 2 Năng Lượng.</span>
+      "100505":
+        Name: Chỉ Cất Giọng Đêm Nay
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "100506":
+        Name: Uyển Chuyển Nhẹ Nhàng
+        Desc: <span>Bội Số Sát Thương của trạng thái Sốc Điện được gây ra bởi Tuyệt Kỹ, Bí Kỹ và Đòn Đánh Theo Sau được kích hoạt từ Thiên Phú tăng 156%, và thời gian duy trì của Sốc Điện tăng 1 hiệp.</span>
+  "1006":
+    Name: Sói Bạc
+    Abilities:
+      "100601":
+        Name: Cảnh Báo Hệ Thống
+        Desc: <span>Gây lượng nhỏ Sát Thương Lượng Tử cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "100602":
+        Name: Cho Phép Thay Đổi?
+        Desc: <span>Có xác suất lớn </span><span style='color:#f29e38ff'>thêm Điểm Yếu</span><span> cho 1 kẻ địch và gây Sát Thương Lượng Tử cho kẻ đó.</span>
+        Type: Chiến Kỹ
+      "100603":
+        Name: Tài Khoản Đã Bị Khóa
+        Desc: <span>Xác suất lớn </span><span style='color:#f29e38ff'>giảm Phòng Thủ</span><span> của 1 kẻ địch và gây lượng lớn Sát Thương Lượng Tử cho kẻ đó.</span>
+        Type: Tuyệt Kỹ
+      "100604":
+        Name: Chờ Hệ Thống Phản Hồi...
+        Desc: <span>Sau khi tấn công có xác suất cài 1 </span><span style='color:#f29e38ff'>Bug</span><span> ngẫu nhiên cho mục tiêu.</span>
+        Type: Thiên Phú
+      "100606":
+        Name: Tấn Công
+        Desc: ""
+      "100607":
+        Name: Buộc Kết Thúc Tiến Trình
+        Desc: <span>Tấn công kẻ địch, sau khi vào trận sẽ gây một lượng nhỏ sát thương cho toàn bộ địch, bỏ qua thuộc tính điểm yếu và làm giảm Sức Bền.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "100601":
+        Name: Công Trình Xã Hội
+        Desc: <span>Sau khi thi triển Tuyệt Kỹ tấn công kẻ địch, mỗi một Hiệu Ứng Xấu mà kẻ địch có sẽ khiến Sói Bạc hồi 7 điểm Năng Lượng. Hiệu ứng này tối đa có hiệu lực 5 lần trong mỗi lần dùng Tuyệt Kỹ.</span>
+      "100602":
+        Name: Mạng Zombie
+        Desc: <span>Khi kẻ địch vào chiến đấu sẽ giảm 20% Kháng Hiệu Ứng của kẻ đó.</span>
+      "100603":
+        Name: Tải Trọng Tấn Công
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "100604":
+        Name: Tấn Công Phản Đòn
+        Desc: <span>Sau khi thi triển Tuyệt Kỹ tấn công kẻ địch, mỗi một Hiệu Ứng Xấu mà kẻ địch có sẽ gây thêm Sát Thương Lượng Tử kèm theo bằng 20% Tấn Công của Sói Bạc. Hiệu ứng này tối đa kích hoạt 5 lần trong mỗi lần dùng Tuyệt Kỹ.</span>
+      "100605":
+        Name: Diệt Trừ Bạo Lực
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "100606":
+        Name: Mạng Lưới Trùng Lặp
+        Desc: <span>Với mỗi một Hiệu Ứng Xấu mà kẻ địch có, sát thương Sói Bạc gây ra cho mục tiêu đó sẽ tăng 20%, tối đa tăng 100%.</span>
+  "1008":
+    Name: Arlan
+    Abilities:
+      "100801":
+        Name: Nhanh Như Sấm Chớp
+        Desc: <span>Gây lượng nhỏ Sát Thương Lôi cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "100802":
+        Name: Giải Trừ Giam Cầm
+        Desc: <span>Tiêu hao một phần HP bản thân, gây Sát Thương Lôi cho 1 kẻ địch.</span>
+        Type: Chiến Kỹ
+      "100803":
+        Name: Trừng Trị Cuồng Giả
+        Desc: <span>Gây lượng lớn Sát Thương Lôi cho 1 kẻ địch, gây Sát Thương Lôi cho mục tiêu lân cận.</span>
+        Type: Tuyệt Kỹ
+      "100804":
+        Name: Đau Đớn Cùng Cực
+        Desc: <span></span><span style='color:#f29e38ff'>Tăng sát thương dựa theo Phần Trăm HP đã mất hiện tại</span><span> </span><span style='color:#f29e38ff'>của bản thân</span><span>.</span>
+        Type: Thiên Phú
+      "100806":
+        Name: Tấn Công
+        Desc: ""
+      "100807":
+        Name: Dứt Điểm Cực Tốc
+        Desc: <span>Tấn công kẻ địch, sau khi vào trận sẽ gây một lượng nhỏ Sát Thương Lôi cho toàn bộ kẻ địch.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "100801":
+        Name: Dù Chết Không Từ
+        Desc: <span>Khi Phần Trăm HP hiện tại nhỏ hơn hoặc bằng 50% thì sát thương mà Chiến Kỹ gây ra tăng 10%.</span>
+      "100802":
+        Name: Giải Thoát Trói Buộc
+        Desc: <span>Khi thi triển Chiến Kỹ và Tuyệt Kỹ, sẽ giải trừ 1 Hiệu Ứng Xấu của bản thân.</span>
+      "100803":
+        Name: Trọng Kiếm Cường Công
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "100804":
+        Name: Phản Kích Tuyệt Diệu
+        Desc: <span>Khi vào chiến đấu, nếu chịu tấn công chí tử, Arlan sẽ không rơi vào trạng thái không thể chiến đấu, đồng thời hồi ngay đến 25% Giới Hạn HP của bản thân. Hiệu ứng này sẽ tự động giải trừ sau khi kích hoạt 1 lần hoặc sau khi duy trì 2 hiệp.</span>
+      "100805":
+        Name: Trút Xuống Toàn Lực
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "100806":
+        Name: Lấy Mình Làm Gương
+        Desc: <span>Khi phần trăm HP hiện tại nhỏ hơn hoặc bằng 50% thì sát thương mà Tuyệt Kỹ gây ra tăng 20%, và Bội Số Sát Thương cho mục tiêu gần kề tăng đến Bội Số Sát Thương bằng với mục tiêu chính.</span>
+  "1009":
+    Name: Asta
+    Abilities:
+      "100901":
+        Name: Tia Quang Phổ
+        Desc: <span>Gây lượng nhỏ Sát Thương Hỏa cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "100902":
+        Name: Bão Sao Băng
+        Desc: <span>Gây lượng nhỏ Sát Thương Hỏa cho 1 kẻ địch, tổng cộng Nảy Bật 5 lần.</span>
+        Type: Chiến Kỹ
+      "100903":
+        Name: Lời Cầu Chúc Astral
+        Desc: <span></span><span style='color:#f29e38ff'>Tăng tốc</span><span> cho toàn bộ phe ta.</span>
+        Type: Tuyệt Kỹ
+      "100904":
+        Name: Chiêm Tinh Học
+        Desc: <span>Cứ đánh trúng 1 kẻ địch khác nhau sẽ nhận 1 tầng Tụ Năng, tối đa cộng dồn 5 tầng. Mỗi tầng Tụ Năng tăng tấn công của toàn bộ phe ta. Khi bắt đầu hiệp của bản thân sẽ giảm số tầng Tụ Năng.</span>
+        Type: Thiên Phú
+      "100906":
+        Name: Tấn Công
+        Desc: ""
+      "100907":
+        Name: Ánh Chớp Diệu Kỳ
+        Desc: <span>Tấn công kẻ địch, sau khi vào trận sẽ gây lượng nhỏ sát thương cho toàn bộ địch.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "100901":
+        Name: Bài Ca Không Lời
+        Desc: <span>Khi thi triển Chiến Kỹ sẽ gây thêm 1 lần sát thương cho 1 kẻ địch ngẫu nhiên.</span>
+      "100902":
+        Name: Vầng Trăng Khi Tròn Khi Khuyết
+        Desc: <span>Khi thi triển Tuyệt Kỹ, Asta sẽ không giảm số tầng Tụ Năng vào hiệp sau.</span>
+      "100903":
+        Name: Thiên Thạch Biến Hoá
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "100904":
+        Name: Cực Quang Hiển Hiện
+        Desc: <span>Khi số tầng Tụ Năng của Thiên Phú từ 2 trở lên, hiệu suất hồi Năng Lượng của Asta tăng 15%.</span>
+      "100905":
+        Name: Bí Ẩn Thiên Không
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "100906":
+        Name: Ngủ Say Dưới Ngân Hà
+        Desc: <span>Số tầng Tụ Năng mất đi trong mỗi hiệp giảm 1.</span>
+  "1013":
+    Name: Herta
+    Abilities:
+      "101301":
+        Name: Nhìn Gì Mà Nhìn
+        Desc: <span>Gây lượng nhỏ Sát Thương Băng cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "101302":
+        Name: Nhát Búa Đấu Giá Ấn Định
+        Desc: <span>Gây lượng nhỏ sát thương Băng cho tất cả địch, tăng sát thương gây ra cho mục tiêu có HP cao.</span>
+        Type: Chiến Kỹ
+      "101303":
+        Name: Là Phép Thuật, Tôi Đã Thêm Vào Phép Thuật
+        Desc: <span>Gây Sát Thương Băng cho toàn phe địch.</span>
+        Type: Tuyệt Kỹ
+      "101304":
+        Name: Để Tôi!
+        Desc: "<span>Khi đòn tấn công của mục tiêu bất kỳ phe ta khiến phần trăm HP hiện tại của mục tiêu phe địch nhỏ hơn hoặc bằng </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>50%</span></span><span>, Herta sẽ lập tức phát động </span><span style='color:#f29e38ff'><u>Đòn Đánh Theo Sau</u></span><span>, gây lượng nhỏ Sát Thương Băng cho toàn thể phe địch.</span>"
+        Type: Thiên Phú
+      "101306":
+        Name: Tấn Công
+        Desc: ""
+      "101307":
+        Name: Có Thể Ưu Hóa
+        Desc: <span>Sau khi dùng Bí Kỹ, khi bắt đầu lần chiến đấu tiếp theo, sẽ tăng Tấn Công của bản thân.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "101301":
+        Name: Thiên Thạch Rơi Xuống Giếng
+        Desc: <span>Khi thi triển tấn công thường, nếu Phần Trăm HP của 1 kẻ địch chỉ định nhỏ hơn hoặc bằng 50%, sẽ gây thêm Sát Thương Băng kèm theo bằng 40% Tấn Công của Herta.</span>
+      "101302":
+        Name: Chiến Thắng Và Truy Kích
+        Desc: <span>Mỗi khi kích hoạt Thiên Phú 1 lần, Tỷ Lệ Bạo Kích của bản thân tăng 3%, hiệu ứng này tối đa cộng dồn 5 tầng.</span>
+      "101303":
+        Name: Tôi Chính Là Cô Gái Như Vậy
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "101304":
+        Name: Đánh Người Phải Lựa Chỗ Đau
+        Desc: <span>Sát thương gây ra khi kích hoạt Thiên Phú tăng 10%.</span>
+      "101305":
+        Name: Mắng Người Không Kiêng Nể
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "101306":
+        Name: Không Ai Được Phản Bội Tôi
+        Desc: <span>Sau khi thi triển Tuyệt Kỹ, Tấn Công tăng 25%, duy trì 1 hiệp.</span>
+  "1101":
+    Name: Bronya
+    Abilities:
+      "110101":
+        Name: Viên Đạn Cưỡi Gió
+        Desc: <span>Gây lượng nhỏ Sát Thương Phong cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "110102":
+        Name: Tác Chiến Và Tái Bố Trí
+        Desc: <span></span><span style='color:#f29e38ff'>Giải trừ</span><span> 1 </span><span style='color:#f29e38ff'><u>Hiệu Ứng Xấu</u></span><span> cho 1 đồng đội, </span><span style='color:#f29e38ff'>tăng sát thương của đồng đội đó gây ra</span><span> và </span><span style='color:#f29e38ff'>hành động ngay</span><span>.</span>
+        Type: Chiến Kỹ
+      "110103":
+        Name: Khúc Quân Hành Belobog
+        Desc: <span>Tăng </span><span style='color:#f29e38ff'>tấn công</span><span>, </span><span style='color:#f29e38ff'>tăng sát thương bạo kích</span><span> của toàn bộ phe ta.</span>
+        Type: Tuyệt Kỹ
+      "110104":
+        Name: Đi Trước Một Bước
+        Desc: <span>Sau khi thi triển tấn công thường, sẽ <u>ưu tiên hành động</u> cho bản thân vào lần hành động tiếp theo.</span>
+        Type: Thiên Phú
+      "110106":
+        Name: Tấn Công
+        Desc: ""
+      "110107":
+        Name: Phía Dưới Ngọn Cờ
+        Desc: <span>Dùng Bí Kỹ, khi bắt đầu lần chiến đấu tiếp theo, sẽ tăng tấn công của toàn bộ phe ta.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "110101":
+        Name: Gom Góp Sức Mạnh
+        Desc: <span>Khi thi triển Chiến Kỹ, có 50% xác suất cố định hồi 1 điểm Chiến Kỹ, hiệu ứng này có thời gian chờ kích hoạt là 1 hiệp.</span>
+      "110102":
+        Name: Hành Quân Thần Tốc
+        Desc: <span>Khi thi triển Chiến Kỹ, mục tiêu được chỉ định của phe ta sẽ tăng 30% tốc độ sau khi hành động, duy trì 1 hiệp.</span>
+      "110103":
+        Name: Trống Rền Pháo Nổ
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "110104":
+        Name: Tấn Công Bất Ngờ
+        Desc: <span>Sau khi nhân vật khác trong phe ta tấn công thường vào kẻ địch có Điểm Yếu Phong, Bronya sẽ thực hiện ngay 1 lần Đòn Đánh Theo Sau, gây cho mục tiêu này Sát Thương Phong bằng 80% sát thương Tấn Công Thường. Hiệu ứng này mỗi hiệp chỉ kích hoạt 1 lần.</span>
+      "110105":
+        Name: Đánh Đâu Thắng Đó
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "110106":
+        Name: Khí Thế Hùng Mạnh
+        Desc: <span>Thời gian duy trì hiệu ứng Tăng Sát Thương mà Chiến Kỹ gây cho mục tiêu chỉ định của phe ta tăng 1 hiệp.</span>
+  "1102":
+    Name: Seele
+    Abilities:
+      "110201":
+        Name: Tập Kích Mạnh Mẽ
+        Desc: <span>Gây lượng nhỏ Sát Thương Lượng Tử cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "110202":
+        Name: Lưỡi Kiếm Trở Về
+        Desc: <span>Gây sát thương Lượng Tử cho 1 kẻ địch, và giúp bản thân tăng tốc độ.</span>
+        Type: Chiến Kỹ
+      "110203":
+        Name: Loạn Điệp
+        Desc: <span>Vào </span><span style='color:#f29e38ff'>trạng thái Buff</span><span>, gây lượng lớn Sát Thương Lượng Tử cho 1 kẻ địch.</span>
+        Type: Tuyệt Kỹ
+      "110204":
+        Name: Tái Hiện
+        Desc: <span>Khi thi triển Tấn Công Thường, Chiến Kỹ, Tuyệt Kỹ để </span><span style='color:#f29e38ff'>tiêu diệt kẻ địch</span><span>, sẽ nhận </span><span style='color:#f29e38ff'><u>thêm hiệp</u> và vào trạng thái Buff</span><span>, ở trạng thái Buff, sẽ tăng Sát Thương do bản thân gây ra.</span>
+        Type: Thiên Phú
+      "110206":
+        Name: Tấn Công
+        Desc: ""
+      "110207":
+        Name: Bóng Hình Ảo Ảnh
+        Desc: <span>Vào trạng thái </span><span style='color:#f29e38ff'>Tàng Hình</span><span>. Sau khi tấn công kẻ địch và vào chiến đấu, sẽ nhận </span><span style='color:#f29e38ff'>Buff</span><span> ngay.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "110201":
+        Name: Trảm Tận
+        Desc: <span>Khi gây sát thương cho kẻ địch có phần trăm HP hiện tại nhỏ hơn hoặc bằng 80%, Tỷ Lệ Bạo Kích tăng 15%.</span>
+      "110202":
+        Name: Điệp Vũ
+        Desc: <span>Hiệu ứng Tăng Tốc của Chiến Kỹ có thể cộng dồn, tối đa cộng dồn 2 tầng.</span>
+      "110203":
+        Name: Hỗn Loạn
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "110204":
+        Name: Dư Ảnh
+        Desc: <span>Khi Seele tiêu diệt mục tiêu phe địch, bản thân hồi 15 điểm Năng Lượng.</span>
+      "110205":
+        Name: Sắc Bén
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "110206":
+        Name: Phân Ly
+        Desc: <span>Sau khi thi triển Tuyệt Kỹ sẽ khiến 1 kẻ địch bị tấn công rơi vào trạng thái Loạn Điệp, duy trì 1 hiệp. Sau khi mục tiêu địch ở trạng thái Loạn Điệp bị tấn công, sẽ chịu thêm 1 lần Sát Thương Lượng Tử kèm theo bằng 15% Sát Thương Tuyệt Kỹ của Seele. Nếu mục tiêu này bị tiêu diệt bởi sát thương kèm theo của trạng thái Loạn Điệp do mục tiêu khác trong phe ta kích hoạt, sẽ không kích hoạt Thiên Phú của Seele.<br>Khi Seele rơi vào trạng thái không thể chiến đấu, thì trạng thái Loạn Điệp của kẻ địch sẽ bị giải trừ.</span>
+  "1103":
+    Name: Serval
+    Abilities:
+      "110301":
+        Name: Thang Âm Sấm Sét
+        Desc: <span>Gây lượng nhỏ Sát Thương Lôi cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "110302":
+        Name: Lửa Đá Tia Chớp
+        Desc: <span>Gây lượng nhỏ Sát Thương Lôi lên 1 kẻ địch và mục tiêu lân cận kẻ đó, có xác suất lớn </span><span style='color:#f29e38ff'>thi triển trạng thái Sốc Điện</span><span> lên mục tiêu.</span>
+        Type: Chiến Kỹ
+      "110303":
+        Name: Trào Lưu Cơ Giới Bùng Nổ!
+        Desc: <span>Gây Sát Thương Lôi cho tất cả địch, và kéo dài thời gian duy trì trạng thái Sốc Điện của mục tiêu.</span>
+        Type: Tuyệt Kỹ
+      "110304":
+        Name: Hợp Âm Cháy Bỏng
+        Desc: <span>Sau khi tấn công, </span><span style='color:#f29e38ff'>gây lượng nhỏ <u>sát thương kèm theo</u></span><span> lên tất cả kẻ địch có trạng thái Sốc Điện.</span>
+        Type: Thiên Phú
+      "110306":
+        Name: Tấn Công
+        Desc: ""
+      "110307":
+        Name: Ngủ Ngon, Belobog
+        Desc: <span>Tấn công kẻ địch, sau khi vào trận sẽ gây lượng nhỏ Sát Thương Lôi lên 1 kẻ địch ngẫu nhiên, đồng thời có xác suất lớn khiến mỗi kẻ địch </span><span style='color:#f29e38ff'>rơi vào trạng thái Sốc Điện</span><span>.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "110301":
+        Name: Dư Âm Vang Vọng
+        Desc: <span>Tấn công thường gây Sát Thương Lôi cho 1 mục tiêu liền kề ngẫu nhiên với kẻ địch chỉ định bằng 60% sát thương Tấn Công Thường.</span>
+      "110302":
+        Name: Hát Lại!
+        Desc: <span>Mỗi khi kích hoạt 1 lần sát thương kèm theo của Thiên Phú, Serval sẽ hồi 4 Năng Lượng.</span>
+      "110303":
+        Name: Nhịp Tim Của Bánh Răng
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "110304":
+        Name: Tạo Tạp Âm Nào!
+        Desc: <span>Khi thi triển Tuyệt Kỹ, có 100% xác suất cơ bản khiến mục tiêu địch không ở trạng thái Sốc Điện rơi vào trạng thái Sốc Điện giống với Chiến Kỹ.</span>
+      "110305":
+        Name: Âm Thanh Lớn Nhất Belobog!
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "110306":
+        Name: Bản Nhạc Này, Xuyên Qua Bầu Trời!
+        Desc: <span>Sát thương Serval gây cho mục tiêu địch ở trạng thái Sốc Điện tăng 30%.</span>
+  "1104":
+    Name: Gepard
+    Abilities:
+      "110401":
+        Name: Nắm Đấm Phán Quyết
+        Desc: <span>Gây lượng nhỏ Sát Thương Băng cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "110402":
+        Name: Xung Kích Kinh Hoàng
+        Desc: <span>Gây Sát Thương Băng cho 1 kẻ địch, </span><span style='color:#f29e38ff'>có xác suất kèm trạng thái Đóng Băng cho mục tiêu</span><span>.</span>
+        Type: Chiến Kỹ
+      "110403":
+        Name: Bức Tường Sừng Sững
+        Desc: <span></span><span style='color:#f29e38ff'>Cung cấp Khiên</span><span> cho toàn bộ phe ta.</span>
+        Type: Tuyệt Kỹ
+      "110404":
+        Name: Ý Chí Kiên Cường
+        Desc: <span>Khi bị tấn công chí tử </span><span style='color:#f29e38ff'>sẽ không rơi vào <u>trạng thái không thể chiến đấu</u></span><span>, và hồi HP ngay. Chỉ kích hoạt 1 lần trong 1 trận.</span>
+        Type: Thiên Phú
+      "110406":
+        Name: Tấn Công
+        Desc: ""
+      "110407":
+        Name: Chứng Nhận Hữu Tình
+        Desc: <span>Dùng Bí Kỹ, khi bắt đầu lần chiến đấu tiếp theo, toàn bộ phe ta sẽ nhận được khiên.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "110401":
+        Name: Tận Chức Tận Trách
+        Desc: <span>Khi thi triển Chiến Kỹ sẽ tăng 35% xác suất cơ bản khiến kẻ địch bị tấn công rơi vào trạng thái Đóng Băng.</span>
+      "110402":
+        Name: Giá Rét Tàn Dư
+        Desc: <span>Sau khi giải trừ trạng thái Đóng Băng mà Chiến Kỹ khiến mục tiêu địch rơi vào, Tốc Độ của mục tiêu giảm 20%, duy trì 1 hiệp.</span>
+      "110403":
+        Name: Không Bao Giờ Đầu Hàng
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "110404":
+        Name: Luôn Luôn Chân Thành
+        Desc: <span>Khi Gepard trong trận, Kháng Hiệu Ứng của toàn phe ta tăng 20%.</span>
+      "110405":
+        Name: Nắm Đấm Sắt Lạnh
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "110406":
+        Name: Quyết Ý Bất Khuất
+        Desc: <span>Khi kích hoạt Thiên Phú, Gepard sẽ hành động ngay, và lượng hồi HP hiện tại tăng thêm 50% Giới Hạn HP của bản thân.</span>
+  "1105":
+    Name: Natasha
+    Abilities:
+      "110501":
+        Name: Phía Sau Sự Nhân Từ
+        Desc: <span>Gây lượng nhỏ Sát Thương Vật Lý cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "110502":
+        Name: Tình Yêu, Chữa Lành Và Sự Chọn Lựa
+        Desc: <span></span><span style='color:#f29e38ff'>Hồi HP</span><span> cho 1 đồng đội, đồng thời khiến mục tiêu </span><span style='color:#f29e38ff'>duy trì hồi HP</span><span>.</span>
+        Type: Chiến Kỹ
+      "110503":
+        Name: Món Quà Tái Sinh
+        Desc: <span></span><span style='color:#f29e38ff'>Hồi HP</span><span> cho toàn bộ phe ta.</span>
+        Type: Tuyệt Kỹ
+      "110504":
+        Name: Bừng Bừng Sức Sống
+        Desc: <span>Khi trị liệu cho mục tiêu có Phần Trăm HP tương đối thấp của phe ta, sẽ tăng lượng trị liệu, cũng có hiệu lực với hiệu ứng trị liệu liên tục.</span>
+        Type: Thiên Phú
+      "110506":
+        Name: Tấn Công
+        Desc: ""
+      "110507":
+        Name: Nghiên Cứu Thôi Miên
+        Desc: <span>Tấn công kẻ địch, sau khi vào trận sẽ gây lượng nhỏ Sát Thương Vật Lý cho 1 kẻ địch ngẫu nhiên, và có xác suất lớn khiến mỗi kẻ địch rơi vào trạng thái Suy Yếu.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "110501":
+        Name: Kiến Thức Dược Lý
+        Desc: <span>Sau khi bị tấn công, nếu phần trăm HP hiện tại nhỏ hơn hoặc bằng 30%, sẽ thi triển 1 lần trị liệu cho bản thân, hồi phục lượng HP bằng 15% Giới Hạn HP của bản thân +400, hiệu ứng này chỉ có thể kích hoạt 1 lần trong 1 trận.</span>
+      "110502":
+        Name: Nghiên Cứu Lâm Sàng
+        Desc: <span>Khi thi triển Tuyệt Kỹ sẽ đính kèm hiệu ứng trị liệu liên tục trong 1 hiệp cho mục tiêu phe ta có phần trăm HP hiện tại nhỏ hơn hoặc bằng 30%, khi bắt đầu lượt của mục tiêu sẽ hồi HP bằng 6% Giới Hạn HP +160 của Natasha cho mục tiêu đó.</span>
+      "110503":
+        Name: Kê Đơn Đúng Bệnh
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "110504":
+        Name: Phép Màu Trị Liệu
+        Desc: <span>Sau khi bị tấn công sẽ hồi thêm 5 điểm Năng Lượng.</span>
+      "110505":
+        Name: Phòng Bệnh Hơn Chữa Bệnh
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "110506":
+        Name: Y Đức Thầy Thuốc
+        Desc: <span>Khi thi triển tấn công thường sẽ gây thêm Sát Thương Vật Lý bằng 40% Giới Hạn HP của Natasha.</span>
+  "1106":
+    Name: Pela
+    Abilities:
+      "110601":
+        Name: Xạ Kích Đóng Băng
+        Desc: <span>Gây lượng nhỏ Sát Thương Băng cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "110602":
+        Name: Tê Cóng
+        Desc: <span></span><span style='color:#f29e38ff'>Giải trừ</span><span> 1 </span><span style='color:#f29e38ff'><u>hiệu ứng BUFF</u></span><span> của 1 kẻ địch, gây Sát Thương Băng cho 1 kẻ địch.</span>
+        Type: Chiến Kỹ
+      "110603":
+        Name: Áp Chế Không Gian
+        Desc: <span>Có xác suất lớn khiến kẻ địch </span><span style='color:#f29e38ff'>giảm phòng thủ</span><span>, và gây lượng nhỏ Sát Thương Băng cho tất cả địch.</span>
+        Type: Tuyệt Kỹ
+      "110604":
+        Name: Thu Thập Dữ Liệu
+        Desc: <span>Sau khi tấn công, nếu kẻ địch đang trong <u>Hiệu Ứng Xấu</u>, thì Pela sẽ hồi năng lượng</span>
+        Type: Thiên Phú
+      "110606":
+        Name: Tấn Công
+        Desc: ""
+      "110607":
+        Name: Giáng Đòn Phủ Đầu
+        Desc: <span>Tấn công kẻ địch, sau khi vào trận sẽ gây lượng nhỏ sát thương cho 1 kẻ địch ngẫu nhiên, và có xác suất lớn khiến mỗi kẻ địch giảm Phòng Thủ.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "110601":
+        Name: Báo Cáo Chiến Thắng
+        Desc: <span>Khi mục tiêu phe địch bị tiêu diệt, Pela sẽ hồi 5 điểm Năng Lượng.</span>
+      "110602":
+        Name: Không Ngừng Đột Kích
+        Desc: <span>Khi thi triển Chiến Kỹ giải trừ hiệu ứng buff, Tốc Độ tăng 10%, duy trì 2 hiệp.</span>
+      "110603":
+        Name: Tăng Cấp Áp Chế
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "110604":
+        Name: Phân Tích Đầy Đủ
+        Desc: <span>Khi thi triển Chiến Kỹ, có 100% xác suất cơ bản khiến Kháng Băng của mục tiêu địch giảm 12%, duy trì 2 hiệp.</span>
+      "110605":
+        Name: Quấy Nhiễu Tuyệt Đối
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "110606":
+        Name: Truy Kích Yếu Ớt
+        Desc: <span>Sau khi thi triển tấn công, nếu kẻ địch đang trong Hiệu Ứng Xấu, sẽ gây Sát Thương Băng kèm theo cho kẻ đó bằng 40% Tấn Công của Pela.</span>
+  "1107":
+    Name: Clara
+    Abilities:
+      "110701":
+        Name: Clara Cũng Muốn Giúp
+        Desc: <span>Gây lượng nhỏ Sát Thương Vật Lý cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "110702":
+        Name: Svarog Đang Nhìn Ngươi
+        Desc: <span>Gây Sát Thương Vật Lý cho toàn phe địch, </span><span style='color:#f29e38ff'>gây thêm Sát Thương Vật Lý</span><span> cho mục tiêu mang Ký Hiệu Phản Kích.</span>
+        Type: Chiến Kỹ
+      "110703":
+        Name: Là Hẹn Ước, Không Phải Mệnh Lệnh
+        Desc: <span></span><span style='color:#f29e38ff'>Giảm sát thương bản thân phải chịu</span><span>, tăng xác suất bị tấn công, và cường hóa hiệu ứng <u>Phản Kích</u>.</span>
+        Type: Tuyệt Kỹ
+      "110704":
+        Name: Vì Chúng Ta Là Người Một Nhà
+        Desc: <span></span><span style='color:#f29e38ff'>Giảm sát thương bản thân phải chịu khi bị kẻ địch tấn công</span><span>. Kẻ địch tấn công Clara sẽ bị đánh dấu "Ký Hiệu Phản Kích" và </span><span style='color:#f29e38ff'>chịu đòn <u>Phản Kích</u> của Svarog</span><span>, gây Sát Thương Vật Lý.</span>
+        Type: Thiên Phú
+      "110706":
+        Name: Tấn Công
+        Desc: ""
+      "110707":
+        Name: Cái Giá Của Chiến Thắng
+        Desc: <span>Tấn công kẻ địch, sau khi vào trận, sẽ tăng xác suất bị kẻ địch tấn công.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "110701":
+        Name: Bóng Lưng Cao Lớn
+        Desc: <span>Sau khi thi triển Chiến Kỹ, sẽ không xóa "Ký Hiệu Phản Kích" của mục tiêu địch.</span>
+      "110702":
+        Name: Cái Ôm Thật Chặt
+        Desc: <span>Sau khi thi triển Tuyệt Kỹ, Tấn Công tăng 30%, duy trì 2 hiệp.</span>
+      "110703":
+        Name: Giáp Thép Băng Giá
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "110704":
+        Name: Mái Ấm Gia Đình
+        Desc: <span>Sau khi bị tấn công, sát thương Clara phải chịu giảm 30%, hiệu ứng kéo dài đến khi bắt đầu hiệp sau của bản thân.</span>
+      "110705":
+        Name: Lời Hứa Nho Nhỏ
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "110706":
+        Name: Đồng Hành Dài Lâu
+        Desc: <span>Sau khi mục tiêu khác của phe ta bị tấn công, Svarog cũng có 50% xác suất cố định phản kích lại người tấn công, đồng thời thêm "Ký Hiệu Phản Kích" lên mục tiêu tấn công. Khi thi triển Tuyệt Kỹ sẽ tăng thêm 1 lần cường hóa Phản Kích.</span>
+  "1108":
+    Name: Sampo
+    Abilities:
+      "110801":
+        Name: Lưỡi Đao Lóe Sáng
+        Desc: <span>Gây lượng nhỏ Sát Thương Phong cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "110802":
+        Name: Tình Yêu Rộn Ràng
+        Desc: <span>Gây lượng nhỏ Sát Thương Phong cho 1 kẻ địch, tổng cộng nảy bật 5 lần.</span>
+        Type: Chiến Kỹ
+      "110803":
+        Name: Món Quà Bất Ngờ
+        Desc: <span>Gây Sát Thương Phong cho toàn bộ kẻ địch, có xác suất lớn khiến chúng </span><span style='color:#f29e38ff'>tăng Sát Thương Duy Trì phải chịu</span><span>.</span>
+        Type: Tuyệt Kỹ
+      "110804":
+        Name: Dao Găm Xé Gió
+        Desc: <span>Sau khi bản thân đánh trúng kẻ địch sẽ có xác suất khiến mục tiêu </span><span style='color:#f29e38ff'>rơi vào trạng thái Bào Mòn</span><span>.</span>
+        Type: Thiên Phú
+      "110806":
+        Name: Tấn Công
+        Desc: ""
+      "110807":
+        Name: Tỏa Sáng Rực Rỡ
+        Desc: <span>Khiến kẻ địch trong khu vực nhất định rơi vào trạng thái Mù. Tấn công kẻ địch trong trạng thái Mù, vào chiến đấu sẽ có xác suất lớn khiến mỗi một kẻ địch <u>trì hoãn hành động</u>.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "110801":
+        Name: Tình Yêu Trỗi Dậy
+        Desc: <span>Khi thi triển Chiến Kỹ, sẽ gây thêm 1 lần sát thương cho kẻ địch ngẫu nhiên.</span>
+      "110802":
+        Name: Nhiệt Tình Lan Toả
+        Desc: <span>Khi kẻ địch đang ở trạng thái Bào Mòn bị tiêu diệt, sẽ khiến toàn phe địch có 100% xác suất cơ bản cộng dồn 1 tầng bằng với trạng thái Bào Mòn của Thiên Phú.</span>
+      "110803":
+        Name: Con Số Lớn!
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "110804":
+        Name: Yêu Càng Nhiều, Hận Càng Sâu
+        Desc: <span>Khi Chiến Kỹ đánh trúng mục tiêu địch có trạng thái Bào Mòn từ 5 tầng trở lên, sẽ khiến trạng thái Bào Mòn mục tiêu đó đang chịu lập tức sinh ra sát thương bằng 8% sát thương ban đầu.</span>
+      "110805":
+        Name: Con Số Cực Lớn!
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "110806":
+        Name: Tiêu Phí Tăng Cấp
+        Desc: <span>Bội Số Sát Thương của trạng thái Bào Mòn do Thiên Phú gây ra tăng 15%.</span>
+  "1109":
+    Name: Hook
+    Abilities:
+      "110901":
+        Name: Ê! Coi Chừng Cháy Nổ
+        Desc: <span>Gây lượng nhỏ Sát Thương Hỏa cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "110902":
+        Name: Hey! Còn Nhớ Hook Không?
+        Desc: <span>Gây Sát Thương Hỏa cho 1 kẻ địch, xác suất lớn gây trạng thái Thiêu Đốt cho mục tiêu.</span>
+        Type: Chiến Kỹ
+      "110903":
+        Name: Pùm! Pháo Hoa Tới Đây!
+        Desc: <span>Gây lượng lớn Sát Thương Hỏa cho 1 kẻ địch, và </span><span style='color:#f29e38ff'>cường hóa Chiến Kỹ của bản thân ở lần sau</span><span>.</span>
+        Type: Tuyệt Kỹ
+      "110904":
+        Name: Ha! Thêm Dầu Vào Lửa
+        Desc: <span>Khi tấn công kẻ địch ở trạng thái Thiêu Đốt, </span><span style='color:#f29e38ff'>gây lượng nhỏ <u>Sát Thương Hỏa Kèm Theo</u></span><span> và hồi thêm năng lượng.</span>
+        Type: Thiên Phú
+      "110906":
+        Name: Tấn Công
+        Desc: ""
+      "110907":
+        Name: Haiz! Xem Mớ Bòng Bong Này!
+        Desc: <span>Tấn công kẻ địch, sau khi vào trận sẽ gây Sát Thương Hỏa cho 1 kẻ địch ngẫu nhiên, và có xác suất lớn khiến toàn bộ kẻ địch rơi vào trạng thái Thiêu Đốt.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "110901":
+        Name: Ngủ Sớm Dậy Sớm Rất Lành Mạnh
+        Desc: <span>Sau khi cường hóa Chiến Kỹ, sát thương gây ra tăng 20%.</span>
+      "110902":
+        Name: Hay Ăn Chóng Lớn
+        Desc: <span>Chiến Kỹ khiến thời gian duy trì trạng thái Thiêu Đốt của mục tiêu địch tăng 1 hiệp.</span>
+      "110903":
+        Name: Không Cần Chọn, Đều Lấy Hết
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "110904":
+        Name: Bối Rối Do Dự Chẳng Hề Chi
+        Desc: <span>Khi kích hoạt Thiên Phú sẽ có 100% xác suất cơ bản khiến mục tiêu lân cận với kẻ địch chỉ định cũng rơi vào trạng thái Thiêu Đốt giống với Chiến Kỹ.</span>
+      "110905":
+        Name: Việc Tốt Lưu Danh
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "110906":
+        Name: Sẵn Sàng Đánh Kẻ Xấu
+        Desc: <span>Sát thương Hook gây cho mục tiêu địch ở trạng thái Thiêu Đốt tăng 20%.</span>
+  "1110":
+    Name: Lynx
+    Abilities:
+      "111001":
+        Name: Kỹ Thuật Trèo Băng
+        Desc: <span>Gây lượng nhỏ Sát Thương Lượng Tử cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "111002":
+        Name: Đồ Hộp Cắm Trại Ủ Muối
+        Desc: <span>Khiến 1 đồng đội nhận "Phản Ứng Sinh Tồn", </span><span style='color:#f29e38ff'>tăng Giới Hạn HP</span><span> và hồi HP cho đồng đội đó.</span>
+        Type: Chiến Kỹ
+      "111003":
+        Name: Sơ Cứu Vùng Tuyết
+        Desc: <span>Giải trừ </span><span style='color:#f29e38ff'>1 <u>Hiệu Ứng Xấu</u> cho toàn bộ phe ta</span><span>, hồi HP cho toàn bộ phe ta.</span>
+        Type: Tuyệt Kỹ
+      "111004":
+        Name: Kinh Nghiệm Sinh Tồn
+        Desc: <span>Khi thi triển Chiến Kỹ hoặc Tuyệt Kỹ, khiến mục tiêu phe ta nhận hiệu ứng </span><span style='color:#f29e38ff'>hồi HP liên tục</span><span>, nếu mục tiêu có "Phản Ứng Sinh Tồn" đang hiệu lực, sẽ tăng thêm hiệu ứng hồi HP liên tục.</span>
+        Type: Thiên Phú
+      "111006":
+        Name: Tấn Công
+        Desc: ""
+      "111007":
+        Name: Thanh Năng Lượng Socola
+        Desc: <span>Dùng Bí Kỹ, khi bắt đầu trận tiếp theo sẽ kèm thêm hiệu ứng trị liệu liên tục cho toàn bộ phe ta.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "111001":
+        Name: Tinh Mơ Lang Thang Trên Tuyết
+        Desc: <span>Khi trị liệu cho mục tiêu phe ta có Phần Trăm HP hiện tại nhỏ hơn hoặc bằng 50%, lượng trị liệu của Lynx tăng 20%, hiệu ứng này cũng có hiệu lực với hiệu ứng trị liệu liên tục.</span>
+      "111002":
+        Name: Buổi Trưa Lò Sưởi Di Động
+        Desc: <span>Khi mục tiêu có "Phản Ứng Sinh Tồn" bị thi triển Hiệu Ứng Xấu, có thể kháng 1 lần Hiệu Ứng Xấu.</span>
+      "111003":
+        Name: Buổi Chiều Tín Hiệu Tuyết Lở
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "111004":
+        Name: Hoàng Hôn Lửa Trại Ấm Áp
+        Desc: <span>Khi nhận "Phản Ứng Sinh Tồn", sẽ tăng tấn công của mục tiêu này, mức tăng bằng 3% Giới Hạn HP của Lynx, duy trì 1 hiệp.</span>
+      "111005":
+        Name: Buổi Đêm Hồng Trà Cực Quang
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá 15 cấp; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "111006":
+        Name: Bình Minh Của Bản Khảo Sát
+        Desc: <span>Hiệu ứng tăng Giới Hạn HP của Phản Ứng Sinh Tồn sẽ tăng thêm, mức tăng bằng 6% Giới Hạn HP của Lynx và tăng Kháng Hiệu Ứng 30%.</span>
+  "1111":
+    Name: Luka
+    Abilities:
+      "111101":
+        Name: Nắm Đấm Trực Diện
+        Desc: <span>Gây lượng nhỏ Sát Thương Vật Lý cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "111102":
+        Name: Nắm Đấm Vỡ Nát
+        Desc: <span>Gây Sát Thương Vật Lý cho 1 kẻ địch, có xác suất lớn khiến mục tiêu </span><span style='color:#f29e38ff'>Chảy Máu</span><span>.</span>
+        Type: Chiến Kỹ
+      "111103":
+        Name: Đòn Chiến Thắng
+        Desc: "<span>Nhận </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>2</span></span><span> tầng Ý Chí Chiến Đấu, xác suất lớn tăng sát thương của 1 kẻ địch phải chịu, đồng thời gây lượng lớn Sát Thương Vật Lý cho kẻ địch này.</span>"
+        Type: Tuyệt Kỹ
+      "111104":
+        Name: Tia Lửa Bắn Tóe
+        Desc: <span>Sau khi thi triển Tấn Công Thường là Nắm Đấm Trực Diện và Chiến Kỹ là Nắm Đấm Vỡ Nát, sẽ nhận 1 tầng Ý Chí Chiến Đấu. Khi Ý Chí Chiến Đấu đạt 2 tầng trở lên, </span><span style='color:#f29e38ff'>sẽ cường hóa Tấn Công Thường</span><span>.<br>Nếu kẻ địch ở trạng thái Chảy Máu, thì đòn Tấn Công Thường được cường hóa </span><span style='color:#f29e38ff'>sẽ khiến trạng thái Chảy Máu sinh ra thêm 1 lần sát thương</span><span>.</span>
+        Type: Thiên Phú
+      "111106":
+        Name: Tấn Công
+        Desc: ""
+      "111107":
+        Name: Người Tiên Phong
+        Desc: <span>Tấn công kẻ địch, sau khi vào trận sẽ gây lượng nhỏ Sát Thương Vật Lý cho 1 kẻ địch ngẫu nhiên, đồng thời có xác suất lớn khiến mục tiêu </span><span style='color:#f29e38ff'>Chảy Máu</span><span>, sau đó nhận thêm 1 tầng Ý Chí Chiến Đấu.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "111101":
+        Name: Chiến Đấu Không Ngừng
+        Desc: <span>Khi Luka hành động, nếu kẻ địch chỉ định ở trạng thái Chảy Máu, thì sát thương Luka gây ra sẽ tăng 15%, duy trì 2 hiệp.</span>
+      "111102":
+        Name: Kẻ Địch Yếu, Ta Mạnh
+        Desc: <span>Nếu kẻ địch bị Chiến Kỹ đánh trúng có điểm yếu thuộc tính Vật Lý, sẽ nhận 1 tầng Ý Chí Chiến Đấu.</span>
+      "111103":
+        Name: Sinh Ra Vì Võ Đài
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "111104":
+        Name: Kiên Định Không Lùi Bước
+        Desc: <span>Mỗi khi nhận 1 tầng Ý Chí Chiến Đấu, sẽ tăng 5% tấn công, hiệu ứng này tối đa cộng dồn 4 tầng.</span>
+      "111105":
+        Name: Linh Hồn Lửa Ngầm
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "111106":
+        Name: Tràng Vỗ Tay Cho Nhà Vô Địch
+        Desc: <span>Sau khi thi triển tấn công thường cường hóa là Nắm Đấm Phá Trời trúng kẻ địch đang ở trạng thái Chảy Máu, sẽ khiến trạng thái Chảy Máu mà kẻ đó đang phải chịu lập tức sinh ra 1 lần sát thương tương đương 8% sát thương ban đầu cho mỗi đòn tấn công của Nắm Đấm Trực Diện được dùng trong tấn công thường cường hóa lần này.</span>
+  "1112":
+    Name: Topaz & Numby
+    Abilities:
+      "111201":
+        Name: Mức Thâm Hụt...
+        Desc: <span>Gây lượng nhỏ Sát Thương Hỏa cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "111202":
+        Name: Khó Thanh Toán?
+        Desc: <span>Khiến 1 kẻ địch rơi vào trạng thái "Bằng Chứng Nợ Nần", </span><span style='color:#f29e38ff'>tăng Sát Thương Đòn Đánh Theo Sau phải chịu</span><span>. Numby gây Sát Thương Hỏa lên mục tiêu.</span>
+        Type: Chiến Kỹ
+      "111203":
+        Name: Chuyển Lỗ Thành Lời!
+        Desc: <span>Khiến Numby rơi vào trạng thái "Chồng Chất", </span><span style='color:#f29e38ff'>tăng Bội Số Sát Thương và Sát Thương Bạo Kích</span><span>.</span>
+        Type: Tuyệt Kỹ
+      "111204":
+        Name: Chợ Heo Đất?!
+        Desc: <span>Khi bắt đầu chiến đấu, sẽ </span><span style='color:#f29e38ff'>triệu hồi Numby</span><span>, khi Numby hành động </span><span style='color:#f29e38ff'>sẽ phát động Đòn Đánh Theo Sau lên 1 kẻ địch đang rơi vào "Bằng Chứng Nợ Nần"</span><span>. Khi kẻ địch đang rơi vào "Bằng Chứng Nợ Nần" chịu phải Đòn Đánh Theo Sau, Numby sẽ </span><span style='color:#f29e38ff'>Ưu Tiên Hành Động</span><span>.</span>
+        Type: Thiên Phú
+      "111206":
+        Name: Tấn Công
+        Desc: ""
+      "111207":
+        Name: Trợ Cấp
+        Desc: <span>Trong mê cung </span><span style='color:#f29e38ff'>triệu hồi Numby đi theo</span><span>, Numby sẽ tự động </span><span style='color:#f29e38ff'>tìm kiếm Chiến Lợi Phẩm thường và Heo Đất ở gần</span><span>. Sau khi dùng Bí Kỹ khiến Numby tấn công lần đầu trong trận chiến kế tiếp, Topaz Năng Lượng.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "111201":
+        Name: Thị Trường Tương Lai
+        Desc: <span>Khi kẻ địch ở trạng thái "Bằng Chứng Nợ Nần" chịu Đòn Đánh Theo Sau, sẽ rơi vào trạng thái "Cưỡng Chế Thực Thi", trong 1 lần tấn công tối đa hiệu lực 1 lần.<br>"Cưỡng Chế Thực Thi" làm tăng 25% sát thương bạo kích của Đòn Đánh Theo Sau mà kẻ địch phải chịu, tối đa cộng dồn 2 tầng. Khi "Bằng Chứng Nợ Nần" bị xóa bỏ, "Cưỡng Chế Thực Thi" cũng sẽ bị xóa bỏ.</span>
+      "111202":
+        Name: Thiện Chí Thu Mua
+        Desc: <span>Sau khi Numby hành động và phát động tấn công, Topaz hồi 5 điểm Năng Lượng.</span>
+      "111203":
+        Name: Thả Con Tép Bắt Con Tôm
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "111204":
+        Name: Xử Lý Nhanh Nhạy
+        Desc: <span>Sau khi hiệp của Numby bắt đầu, Topaz ưu tiên hành động 20%.</span>
+      "111205":
+        Name: Nhu Cầu Tăng Vọt
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "111206":
+        Name: Cơ Chế Khích Lệ
+        Desc: <span>Số lần tấn công khi Numby ở trạng thái "Chồng Chất" tăng 1 lần, đồng thời khi tấn công, Xuyên Kháng Hỏa tăng 10%.</span>
+  "1201":
+    Name: Qingque
+    Abilities:
+      "120101":
+        Name: Tự Ù
+        Desc: <span>Dùng 1 quân bài, gây lượng nhỏ Sát Thương Lượng Tử cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "120102":
+        Name: Quân Bài Cuối Cùng
+        Desc: <span></span><span style='color:#f29e38ff'>Rút bài</span><span>, tăng sát thương bản thân gây ra và </span><span style='color:#f29e38ff'>hiệp này sẽ không kết thúc</span><span>.</span>
+        Type: Chiến Kỹ
+      "120103":
+        Name: Bộ Tứ? Ngon Lành!
+        Desc: <span>Gây Sát Thương Lượng Tử cho toàn phe địch, nhận 4 quân bài hoa văn giống nhau.</span>
+        Type: Tuyệt Kỹ
+      "120104":
+        Name: Quỳnh Ngọc Đế Viên
+        Desc: <span>Khi mục tiêu phe ta bắt đầu hiệp, rút bài. Khi bắt đầu hiệp của bản thân, nếu cầm 4 quân cùng hoa văn, thì sẽ xóa bài đã có và </span><span style='color:#f29e38ff'>cường hóa lần tấn công thường này</span><span>, đồng thời tăng tấn công của bản thân.</span>
+        Type: Thiên Phú
+      "120106":
+        Name: Tấn Công
+        Desc: ""
+      "120107":
+        Name: Niềm Vui Xếp Bài
+        Desc: <span>Dùng Bí Kỹ, lần sau vào trận sẽ rút bài.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "120101":
+        Name: Thế Bài Xung Phong Dũng Mãnh
+        Desc: <span>Sát thương Tuyệt Kỹ gây ra tăng 10%.</span>
+      "120102":
+        Name: Thế Bài Như Gối Ngủ Êm
+        Desc: <span>Mỗi lần Qingque bốc bài, lập tức hồi phục 1 điểm Năng Lượng.</span>
+      "120103":
+        Name: Thế Bài Thuận Thế Tự Ù
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "120104":
+        Name: Thế Bài Thắng Trong Tầm Tay
+        Desc: <span>Sau khi thi triển Chiến Kỹ, có 24% xác suất cố định nhận trạng thái Bất Cầu Nhân, duy trì đến khi hiệp này kết thúc.<br>Trong trạng thái Bất Cầu Nhân, sau khi thi triển Tấn Công Thường hoặc Tấn Công Thường Cường Hóa, sẽ lập tức tiến hành 1 Đòn Đánh Theo Sau, gây cho mục tiêu này một lượng Sát Thương Lượng Tử bằng 100% Sát Thương Tấn Công Thường hoặc Tấn Công Thường Cường Hóa.</span>
+      "120105":
+        Name: Thế Bài Đánh Cược Vận Mệnh
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "120106":
+        Name: Thế Bài Chiếm Trọn Ưu Thế
+        Desc: <span>Sau khi thi triển Tấn Công Cơ Bản Cường Hóa, sẽ hồi 1 điểm Chiến Kỹ.</span>
+  "1202":
+    Name: Tingyun
+    Abilities:
+      "120201":
+        Name: Tiễn Khách
+        Desc: <span>Gây lượng nhỏ Sát Thương Lôi cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "120202":
+        Name: Âm Điệu Nhịp Nhàng
+        Desc: <span></span><span style='color:#f29e38ff'>Tăng tấn công</span><span> của 1 đồng đội và nhận Ban Phúc. Khi tấn công trong trạng thái Ban Phúc sẽ gây thêm lượng nhỏ </span><span style='color:#f29e38ff'>Sát Thương Lôi <u>Kèm Theo</u></span><span>.</span>
+        Type: Chiến Kỹ
+      "120203":
+        Name: Nghi Lễ Áng Mây Lành
+        Desc: <span></span><span style='color:#f29e38ff'>Hồi năng lượng</span><span> cho 1 đồng đội và </span><span style='color:#f29e38ff'>tăng sát thương đồng đội đó gây ra</span><span>.</span>
+        Type: Tuyệt Kỹ
+      "120204":
+        Name: Cơn Lốc Điện Tím
+        Desc: <span>Sau khi kẻ địch bị Tingyun tấn công, thì đồng đội nhận Ban Phúc sẽ gây lượng nhỏ <u>Sát Thương Lôi Kèm Theo</u> lên kẻ địch đó.</span>
+        Type: Thiên Phú
+      "120206":
+        Name: Tấn Công
+        Desc: ""
+      "120207":
+        Name: Làn Gió Êm Dịu
+        Desc: <span>Sau khi dùng Bí Kỹ sẽ hồi năng lượng cho bản thân.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "120201":
+        Name: Gió Xuân Đắc Ý
+        Desc: <span>Sau khi 1 đồng đội nhận được Ban Phúc thi triển Tuyệt Kỹ, Tốc Độ sẽ tăng 20%, duy trì 1 hiệp.</span>
+      "120202":
+        Name: Ân Huệ Quân Tử
+        Desc: <span>Khi 1 đồng đội nhận Ban Phúc thực hiện tiêu diệt kẻ địch, sẽ hồi 5 điểm Năng Lượng. Hiệu ứng này mỗi hiệp chỉ thi triển 1 lần.</span>
+      "120203":
+        Name: Ơn Trạch Thanh Khâu
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "120204":
+        Name: Linh Hoạt Vui Vẻ
+        Desc: <span>Bội Số Sát Thương kèm theo từ Ban Phúc tăng 20%.</span>
+      "120205":
+        Name: Hồ Yêu Ma Mị
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "120206":
+        Name: Tài Khí Tuôn Trào
+        Desc: <span>Tăng 10 Năng Lượng mà Tuyệt Kỹ hồi phục cho mục tiêu phe ta.</span>
+  "1203":
+    Name: Luocha
+    Abilities:
+      "120301":
+        Name: Gai Vực Sâu
+        Desc: <span>Gây lượng nhỏ Sát Thương Số Ảo cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "120302":
+        Name: Lời Cầu Nguyện Của Hoa Trắng
+        Desc: <span>Giúp 1 đồng đội </span><span style='color:#f29e38ff'>hồi</span><span> HP, nhận 1 tầng "Khoảnh Khắc Hoa Trắng".</span>
+        Type: Chiến Kỹ
+      "120303":
+        Name: Di Nguyện Chôn Cất
+        Desc: <span></span><span style='color:#f29e38ff'>Giải trừ</span><span> 1 </span><span style='color:#f29e38ff'><u>hiệu ứng buff</u></span><span> của toàn bộ phe địch, và gây Sát Thương Số Ảo cho chúng, nhận 1 tầng Khoảnh Khắc Hoa Trắng.</span>
+        Type: Tuyệt Kỹ
+      "120304":
+        Name: Sự Luân Chuyển Sinh Mệnh
+        Desc: <span>Khi Khoảnh Khắc Hoa Trắng đạt tầng 2 sẽ </span><span style='color:#f29e38ff'>mở kết giới</span><span>. Khi kết giới còn tồn tại, sẽ </span><span style='color:#f29e38ff'>hồi HP sau khi phe ta tấn công</span><span>.</span>
+        Type: Thiên Phú
+      "120306":
+        Name: Tấn Công
+        Desc: ""
+      "120307":
+        Name: Lòng Trắc Ẩn Của Kẻ Ngốc
+        Desc: <span>Dùng Bí Kỹ, lần sau vào trận sẽ kích hoạt ngay hiệu ứng Thiên Phú.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "120301":
+        Name: Người Sống Rửa Tội
+        Desc: <span>Khi kết giới có hiệu lực, tấn công của toàn bộ phe ta tăng 20%.</span>
+      "120302":
+        Name: Tịnh Đình Tặng Lễ
+        Desc: <span>Khi kích hoạt hiệu ứng Chiến Kỹ, nếu phần trăm HP hiện tại của mục tiêu chỉ định của phe ta dưới 50%, thì lượng trị liệu mà Luocha cung cấp sẽ tăng 30%; nếu phần trăm HP hiện tại của mục tiêu chỉ định của phe ta từ 50% trở lên, sẽ cung cấp cho mục tiêu đó một tấm Khiên có thể triệt tiêu sát thương bằng 18% Tấn Công của Luocha +240, duy trì 2 hiệp.</span>
+      "120303":
+        Name: Kẻ Ngốc Dò Thám
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "120304":
+        Name: Mũ Gai Xét Xử
+        Desc: <span>Khi Kết Giới có hiệu lực sẽ khiến kẻ địch rơi vào trạng thái Suy Yếu, sát thương gây ra giảm 12%.</span>
+      "120305":
+        Name: Dấu Vết Gặp Nạn
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "120306":
+        Name: Trở Về Cát Bụi
+        Desc: <span>Khi thi triển Tuyệt Kỹ, có 100% xác suất cố định khiến Kháng Toàn Thuộc Tính của toàn bộ địch giảm 20%, duy trì 2 hiệp.</span>
+  "1204":
+    Name: Jing Yuan
+    Abilities:
+      "120401":
+        Name: Khoảnh Khắc Ngắn Ngủi
+        Desc: <span>Gây lượng nhỏ Sát Thương Lôi cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "120402":
+        Name: Mây Tím Chiếu Rọi
+        Desc: <span>Gây lượng nhỏ Sát Thương Lôi cho toàn bộ địch, </span><span style='color:#f29e38ff'>tăng số đòn đánh trong một lượt của Thần Quân</span><span>.</span>
+        Type: Chiến Kỹ
+      "120403":
+        Name: Thân Ta Tỏa Sáng
+        Desc: <span>Gây Sát Thương Lôi cho toàn bộ địch, </span><span style='color:#f29e38ff'>tăng số đòn đánh trong một lượt của Thần Quân</span><span>.</span>
+        Type: Tuyệt Kỹ
+      "120404":
+        Name: Chém Tách Thần Hình
+        Desc: <span>Khi bắt đầu chiến đấu sẽ triệu hồi Thần Quân, Thần Quân </span><span style='color:#f29e38ff'>tự động</span><span> </span><span style='color:#f29e38ff'>gây lượng nhỏ Sát Thương Lôi</span><span> lên 1 kẻ địch ngẫu nhiên và mục tiêu ở gần kẻ đó.</span>
+        Type: Thiên Phú
+      "120406":
+        Name: Tấn Công
+        Desc: ""
+      "120407":
+        Name: Triệu Hồi Uy Linh
+        Desc: <span>Sử dụng Bí Kỹ, khi vào chiến đấu lần kế tiếp </span><span style='color:#f29e38ff'>sẽ tăng số đòn đánh trong một lượt của Thần Quân</span><span>.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "120401":
+        Name: Lôi Kích Phá Núi
+        Desc: <span>Khi Thần Quân thi triển tấn công, tăng Bội Số Sát Thương gây cho mục tiêu lân cận của kẻ địch chỉ định, mức tăng bằng 25% Bội Số Sát Thương của mục tiêu chính.</span>
+      "120402":
+        Name: Mở Thiên Trận
+        Desc: <span>Sau khi Thần Quân hành động, sát thương do tấn công thường, Chiến Kỹ, Tuyệt Kỹ của Jing Yuan gây ra tăng 20%, duy trì 2 hiệp.</span>
+      "120403":
+        Name: Di Phong Kinh Điện
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "120404":
+        Name: Vân Lạc Ngọc Sa
+        Desc: <span>Sau mỗi đòn đánh của Thần Quân, Jing Yuan sẽ hồi 2 Năng Lượng.</span>
+      "120405":
+        Name: Xem Nhẹ Sinh Tử
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "120406":
+        Name: Uy Linh Phá Địch Thù
+        Desc: <span>Thần Quân sau mỗi đòn đánh sẽ khiến mục tiêu địch chỉ định rơi vào trạng thái Trọng Thương.<br>Mục tiêu địch ở trạng thái Trọng Thương sẽ tăng 12% sát thương phải chịu, duy trì đến khi Thần Quân kết thúc lần tấn công này, hiệu ứng này tối đa cộng dồn 3 tầng.</span>
+  "1205":
+    Name: Blade
+    Abilities:
+      "120501":
+        Name: Kiếm Vỡ Nát
+        Desc: <span>Gây lượng nhỏ Sát Thương Phong cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "120502":
+        Name: Địa Ngục Biến
+        Desc: <span>Tiêu hao HP của bản thân để </span><span style='color:#f29e38ff'>cường hóa Tấn Công Thường</span><span>, và hiệp này sẽ không kết thúc.</span>
+        Type: Chiến Kỹ
+      "120503":
+        Name: Đáng Chết Vạn Lần
+        Desc: "<span>Chuyển hóa HP hiện tại thành <span style='whiteSpace: \"nowrap\"'>50%</span> Giới Hạn HP đồng thời gây lượng lớn Sát Thương Phong cho 1 kẻ địch, gây Sát Thương Phong cho mục tiêu lân cận.</span>"
+        Type: Tuyệt Kỹ
+      "120504":
+        Name: Quà Tặng Của Shuhu
+        Desc: <span>Khi HP của Blade giảm sẽ nhận 1 tầng Nạp Năng Lượng. Khi Nạp Năng Lượng cộng dồn đến giới hạn </span><span style='color:#f29e38ff'>sẽ lập tức gây Sát Thương Phong cho toàn bộ địch</span><span> và hồi HP, sau đó tiêu hao tất cả Nạp Năng Lượng.</span>
+        Type: Thiên Phú
+      "120506":
+        Name: Tấn Công
+        Desc: ""
+      "120507":
+        Name: Cơn Gió Nghiệp Chướng
+        Desc: <span>Tấn công kẻ địch, sau khi vào trận sẽ tiêu hao HP của bản thân, và gây Sát Thương Phong cho toàn bộ kẻ địch.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "120501":
+        Name: Lưỡi Kiếm Tối Thượng, Địa Ngục Biến Tướng
+        Desc: <span>Tăng thêm sát thương Tuyệt Kỹ gây ra cho 1 kẻ địch chỉ định, mức tăng bằng 150% HP đã mất của Blade tích lũy trong trận này.<br>HP mất đi trong trận này tối đa không vượt quá 90% Giới Hạn HP của Blade, sau khi thi triển Tuyệt Kỹ sẽ xóa và tích lũy lại từ đầu.</span>
+      "120502":
+        Name: Mộng Xưa Vỡ Nát, Ân Hận Khôn Cùng
+        Desc: <span>Khi Blade ở trạng thái Địa Ngục Biến, Tỷ Lệ Bạo Kích tăng 15%.</span>
+      "120503":
+        Name: Luyện Thép Đen, Tôi Quang Hàn
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "120504":
+        Name: Hoàng Tuyền Rẽ Lối, Hài Cốt Hồi Sinh
+        Desc: <span>Khi phần trăm HP hiện tại từ lớn hơn 50% giảm còn nhỏ hơn hoặc bằng 50%, thì Giới Hạn HP tăng 20%, hiệu ứng này tối đa cộng dồn 2 tầng.</span>
+      "120505":
+        Name: Thập Vương Xử Tử, Soi Chiếu Nghiệp Chướng
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "120506":
+        Name: Mạng Còn Hồn Tan, Tái Sinh Xác Rỗng
+        Desc: <span>Giới hạn số tầng nạp năng lượng giảm còn 4 tầng. Tăng thêm sát thương gây ra bởi Đòn Đánh Theo Sau được Thiên Phú kích hoạt, mức tăng tương đương 50% Giới Hạn HP của Blade.</span>
+  "1206":
+    Name: Sushang
+    Abilities:
+      "120601":
+        Name: Kiếm Thuật Vân Kỵ - Mây Thuần
+        Desc: <span>Gây lượng nhỏ Sát Thương Vật Lý cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "120602":
+        Name: Kiếm Thuật Vân Kỵ - Núi Đổ
+        Desc: <span>Gây sát thương Vật Lý cho 1 kẻ địch, có </span><span style='color:#f29e38ff'>xác suất nhỏ kích hoạt Kiếm Thế</span><span>. Nếu mục tiêu ở <u>trạng thái Phá Vỡ Điểm Yếu</u>, </span><span style='color:#f29e38ff'>chắc chắn sẽ kích hoạt Kiếm Thế</span><span>.</span>
+        Type: Chiến Kỹ
+      "120603":
+        Name: Vũ Trụ Tiềm Ẩn - Nến Đêm
+        Desc: <span>Gây lượng lớn Sát Thương Vật Lý cho 1 kẻ địch, cường hóa hiệu ứng Kiếm Thế và </span><span style='color:#f29e38ff'>hành động ngay</span><span>.</span>
+        Type: Tuyệt Kỹ
+      "120604":
+        Name: Lưỡi Kiếm Như Nước
+        Desc: <span>Khi điểm yếu của kẻ địch trong trận bị phá vỡ, sẽ tăng tốc độ của bản thân.</span>
+        Type: Thiên Phú
+      "120606":
+        Name: Tấn Công
+        Desc: ""
+      "120607":
+        Name: Kiếm Thuật Vân Kỵ - Chấn Động
+        Desc: <span>Tấn công kẻ địch, sau khi vào trận, gây lượng nhỏ Sát Thương Vật Lý cho toàn bộ kẻ địch.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "120601":
+        Name: Tay Nghề Thành Thạo
+        Desc: <span>Sau khi thi triển Chiến Kỹ lên mục tiêu địch đang rơi vào trạng thái Phá Vỡ Điểm Yếu, sẽ hồi 1 Điểm Chiến Kỹ.</span>
+      "120602":
+        Name: Thân Thể Tôi Luyện
+        Desc: <span>Sau khi kích hoạt Kiếm Thế, sát thương mà Sushang phải chịu sẽ giảm 20%, kéo dài 1 hiệp.</span>
+      "120603":
+        Name: Kiếm Thuật Cổ Truyền
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "120604":
+        Name: Tâm Tịnh Thông Suốt
+        Desc: <span>Tấn Công Kích Phá của Sushang tăng 40%.</span>
+      "120605":
+        Name: Thần Ý Vũ Trụ
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "120606":
+        Name: Thích Ứng Như Nước
+        Desc: <span>Hiệu ứng tăng tốc của Thiên Phú có thể cộng dồn, tối đa cộng dồn 2 tầng, hơn nữa sau khi vào chiến đấu, Sushang sẽ nhận ngay 1 tầng hiệu ứng Tăng Tốc của Thiên Phú.</span>
+  "1207":
+    Name: Yukong
+    Abilities:
+      "120701":
+        Name: Tên Bay
+        Desc: <span>Gây lượng nhỏ Sát Thương Số Ảo cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "120702":
+        Name: Tiếng Đàn Thiên Cung
+        Desc: <span>Nhận 2 tầng Hiệu Lệnh Cung Đàn, khi bản thân kích hoạt Hiệu Lệnh Cung Đàn sẽ </span><span style='color:#f29e38ff'>tăng Tấn Công</span><span> cho toàn bộ phe ta.</span>
+        Type: Chiến Kỹ
+      "120703":
+        Name: Mũi Tên Xuyên Mây
+        Desc: <span>Khi bản thân kích hoạt Hiệu Lệnh Cung Đàn, sẽ </span><span style='color:#f29e38ff'>tăng Tỷ Lệ Bạo Kích và Sát Thương Bạo Kích</span><span> của toàn phe ta, đồng thời gây lượng lớn Sát Thương Số Ảo cho 1 kẻ địch.</span>
+        Type: Tuyệt Kỹ
+      "120704":
+        Name: Tên Xuyên Bảy Bia
+        Desc: <span>Khiến Tấn Công Thường tăng thêm một lượng nhỏ sát thương, và Giảm Sức Bền của lần tấn công thường này sẽ tăng cao. Hiệu ứng này sau 1 hiệp có thể kích hoạt lại.</span>
+        Type: Thiên Phú
+      "120706":
+        Name: Tấn Công
+        Desc: ""
+      "120707":
+        Name: Diều Hâu Đuổi Gió
+        Desc: <span></span><span style='color:#f29e38ff'>Tăng tốc độ di chuyển</span><span> của bản thân. Sau khi tấn công kẻ địch để vào trận, sẽ nhận 2 tầng Hiệu Lệnh Cung Đàn.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "120701":
+        Name: Chỉ Huy Đợi Chiến
+        Desc: <span>Khi bắt đầu chiến đấu, Tốc Độ của toàn bộ phe ta tăng 10%, duy trì 2 hiệp.</span>
+      "120702":
+        Name: Chế Ngự Bầu Trời
+        Desc: <span>Khi 1 đồng đội nào có điểm năng lượng hiện tại bằng mức giới hạn năng lượng của đồng đội đó, Yukong sẽ hồi thêm 5 điểm năng lượng. Hiệu ứng này mỗi đồng đội phe ta chỉ được kích hoạt 1 lần. Sau khi Yukong thi triển Tuyệt Kỹ, sẽ tái lập số lần kích hoạt hiệu ứng này.</span>
+      "120703":
+        Name: Mưa Tên Không Ngừng
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "120704":
+        Name: Mũi Tên Lướt Gió
+        Desc: <span>Khi có Hiệu Lệnh Cung Đàn, sát thương Yukong gây ra tăng 30%.</span>
+      "120705":
+        Name: Vỗ Cánh Tung Trời
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "120706":
+        Name: Sấm Lôi Khuấy Động
+        Desc: <span>Khi Yukong thi triển Tuyệt Kỹ, sẽ nhận ngay 1 tầng Hiệu Lệnh Cung Đàn.</span>
+  "1208":
+    Name: Fu Xuan
+    Abilities:
+      "120801":
+        Name: Thủy Kích Tuế Tinh
+        Desc: <span>Gây lượng nhỏ Sát Thương Lượng Tử cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "120802":
+        Name: Linh Đài Thị Ảnh
+        Desc: <span>Mở "Ma Trận Tiên Tri", <u>chia sẻ</u> cho Fu Xuan </span><span style='color:#f29e38ff'>sát thương mà đồng đội phải chịu</span><span>. Đồng thời khiến toàn phe ta tăng Giới Hạn HP, </span><span style='color:#f29e38ff'>tăng Tỷ Lệ Bạo Kích</span><span>.</span>
+        Type: Chiến Kỹ
+      "120803":
+        Name: Lịch Kiếp Quy Nhất
+        Desc: <span>Gây sát thương Lượng Tử cho toàn phe địch, tăng số lần kích hoạt Thiên Phú của Fu Xuan.</span>
+        Type: Tuyệt Kỹ
+      "120804":
+        Name: Khổ Tận Cam Lai
+        Desc: <span>Khi Fu Xuan ở trạng thái có thể chiến đấu, sẽ giảm sát thương phải chịu của toàn bộ phe ta.<br>Khi HP tương đối thấp, </span><span style='color:#f29e38ff'>tự động</span><span> </span><span style='color:#f29e38ff'>hồi HP bản thân</span><span> theo phần trăm HP đã mất. Hiệu ứng này tối đa có 2 lần kích hoạt.</span>
+        Type: Thiên Phú
+      "120806":
+        Name: Tấn Công
+        Desc: ""
+      "120807":
+        Name: Lá Chắn Ma Trận
+        Desc: <span>Kích hoạt Lá Chắn, khi chịu tấn công từ kẻ địch sẽ không vào chiến đấu. Sau khi vào chiến đấu sẽ tự động mở Ma Trận Tiên Tri.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "120801":
+        Name: Tư Nguy
+        Desc: <span>Tất cả đơn vị trong "Giám Tri" sẽ tăng Sát Thương Bạo Kích 30%.</span>
+      "120802":
+        Name: Nhu Triệu
+        Desc: <span>Nếu bất kỳ mục tiêu phe ta chịu sát thương chí tử trong khi Ma Trận Tiên Tri đang kích hoạt, thì tất cả mục tiêu phe ta chịu sát thương chí tử trong lần hành động này sẽ không rơi vào trạng thái không thể chiến đấu, đồng thời hồi ngay HP bằng 70% Giới Hạn HP của bản thân nhân vật đó. Hiệu ứng này có thể kích hoạt 1 lần trong 1 trận đấu.</span>
+      "120803":
+        Name: Trực Phù
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "120804":
+        Name: Cách Trạch
+        Desc: <span>Sau khi mục tiêu khác của phe ta ở trạng thái "Ma Trận Tiên Tri" chịu tấn công, Fu Xuan hồi phục 5 điểm Năng Lượng.</span>
+      "120805":
+        Name: Kế Thần
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "120806":
+        Name: Chủng Lăng
+        Desc: <span>Một khi kích hoạt "Ma Trận Tiên Tri", sẽ tích lũy HP đã tổn thất của toàn thể phe ta trong trận này. Tăng sát thương Tuyệt Kỹ gây ra của Fu Xuan bằng 200% HP đã tổn thất tích lũy trong trận này.<br>HP đã tổn thất tích lũy trong trận này tối đa không quá 120% Giới Hạn HP của Fu Xuan, sau khi thi triển Tuyệt Kỹ sẽ xóa và tích lũy lại từ đầu.</span>
+  "1209":
+    Name: Yanqing
+    Abilities:
+      "120901":
+        Name: Sương Giá Đầy Trời
+        Desc: <span>Gây lượng nhỏ Sát Thương Băng cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "120902":
+        Name: Xuyên Ba Tấc Nước
+        Desc: <span>Gây Sát Thương Băng cho 1 kẻ địch, kèm thêm cho bản thân Kiếm Khôn Hiểu Lòng Người.</span>
+        Type: Chiến Kỹ
+      "120903":
+        Name: Chim Én Vỗ Mưa
+        Desc: <span>Tăng Tỷ Lệ Bạo Kích cho bản thân và cường hóa Kiếm Khôn Hiểu Lòng Người, gây lượng lớn Sát Thương Băng cho 1 kẻ địch.</span>
+        Type: Tuyệt Kỹ
+      "120904":
+        Name: Bóng Kiếm Kề Bên
+        Desc: <span></span><span style='color:#f29e38ff'>Khi trong Kiếm Khôn Hiểu Lòng Người</span><span>, sẽ giảm xác suất bị tấn công, </span><span style='color:#f29e38ff'>tăng Tỷ Lệ Bạo Kích và Sát Thương Bạo Kích</span><span> của bản thân. </span><span style='color:#f29e38ff'>Sau khi tấn công</span><span> kẻ địch, có xác suất phát động <u>Đòn Đánh Theo Sau</u>, gây Sát Thương Băng cho kẻ đó và có xác suất khiến kẻ đó Đóng Băng.<br>Sau khi bản thân chịu sát thương, Kiếm Khôn Hiểu Lòng Người sẽ biến mất.</span>
+        Type: Thiên Phú
+      "120906":
+        Name: Tấn Công
+        Desc: ""
+      "120907":
+        Name: Ngự Kiếm Chân Quyết
+        Desc: "<span>Dùng Bí Kỹ, khi bắt đầu trận kế tiếp, sẽ tăng sát thương mà bản thân gây ra cho kẻ địch có Phần Trăm HP từ <span style='whiteSpace: \"nowrap\"'>50%</span> trở lên.</span>"
+        Type: Bí Kỹ
+    Eidolons:
+      "120901":
+        Name: Lưỡi Kiếm Đơn Thuần
+        Desc: <span>Khi Yanqing tấn công mục tiêu địch, nếu mục tiêu đang ở trạng thái Đóng Băng, sẽ lập tức gây cho mục tiêu Sát Thương Băng kèm theo bằng 60% Tấn Công của Yanqing.</span>
+      "120902":
+        Name: Ánh Sáng Không Trung
+        Desc: <span>Khi ở hiệu ứng Kiếm Khôn Hiểu Lòng Người, tăng thêm 10% hiệu suất hồi năng lượng.</span>
+      "120903":
+        Name: Phôi Kiếm
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "120904":
+        Name: Sương Lệ
+        Desc: <span>Khi Phần Trăm HP hiện tại lớn hơn hoặc bằng 80%, sẽ tăng cho bản thân 12% Xuyên Kháng Băng.</span>
+      "120905":
+        Name: Thiên Chất
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "120906":
+        Name: Tự Tại
+        Desc: <span>Khi tiêu diệt kẻ địch, nếu đang có hiệu ứng Buff của Tuyệt Kỹ hoặc "Kiếm Khôn Hiểu Lòng Người", thì thời gian duy trì của những hiệu ứng Buff này đều kéo dài thêm 1 hiệp.</span>
+  "1210":
+    Name: Guinaifen
+    Abilities:
+      "121001":
+        Name: Bổ Đầu Hò Reo
+        Desc: <span>Gây lượng nhỏ Sát Thương Hỏa cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "121002":
+        Name: Màn Mở Đầu Hoành Tráng
+        Desc: <span>Gây Sát Thương Hỏa cho 1 kẻ địch, gây lượng nhỏ Sát Thương Hỏa cho mục tiêu lân cận, có xác suất lớn thi triển </span><span style='color:#f29e38ff'>Thiêu Đốt</span><span>.</span>
+        Type: Chiến Kỹ
+      "121003":
+        Name: Một Tràng Pháo Tay
+        Desc: <span>Gây sát thương Hỏa cho toàn phe địch, nếu kẻ địch đang ở trạng thái Thiêu Đốt, sẽ khiến trạng thái Thiêu Đốt này gây thêm 1 lần sát thương.</span>
+        Type: Tuyệt Kỹ
+      "121004":
+        Name: Khán Giả Nuôi Nghệ Sĩ
+        Desc: <span>Sau khi </span><span style='color:#f29e38ff'>trạng thái Thiêu Đốt gây sát thương</span><span> lên kẻ địch, sẽ có xác suất lớn thi triển </span><span style='color:#f29e38ff'>"Nuốt Lửa"</span><span>.</span>
+        Type: Thiên Phú
+      "121006":
+        Name: Tấn Công
+        Desc: ""
+      "121007":
+        Name: Kỹ Nghệ Xiếc Đỉnh Cao
+        Desc: <span>Tấn công kẻ địch. Sau khi vào chiến đấu, gây một lượng nhỏ Sát Thương Hỏa lên 1 kẻ địch đồng thời thi triển </span><span style='color:#f29e38ff'>trạng thái "Nuốt Lửa"</span><span>, tổng cộng Nảy Bật 4 lần.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "121001":
+        Name: Trồng Cây Chuối Ăn Mì
+        Desc: <span>Khi thi triển Chiến Kỹ, có 100% xác suất cơ bản khiến kháng hiệu ứng của kẻ địch bị tấn công giảm 10%, duy trì 2 hiệp.</span>
+      "121002":
+        Name: Vừa Đánh Răng Vừa Huýt Sáo
+        Desc: <span>Khi kẻ địch đang ở trạng thái Thiêu Đốt, tấn công thường và Chiến Kỹ của Guinaifen sẽ tăng 40% Bội Số Sát Thương Thiêu Đốt gây ra cho kẻ địch đó.</span>
+      "121003":
+        Name: Đập Đá Trên Ngực
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15, Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "121004":
+        Name: Yết Hầu Chặn Giáo
+        Desc: <span>Mỗi khi trạng thái Thiêu Đốt do Guinaifen thi triển gây sát thương, Guinaifen sẽ hồi 2 năng lượng.</span>
+      "121005":
+        Name: Nuốt Chửng Trường Kiếm
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15, Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "121006":
+        Name: Tay Không Bắt Đạn
+        Desc: <span>Giúp số tầng cộng dồn của "Nuốt Lửa" tăng 1 tầng.</span>
+  "1211":
+    Name: Bailu
+    Abilities:
+      "121101":
+        Name: Nhìn, Nghe, Hỏi... Đá!
+        Desc: <span>Gây lượng nhỏ Sát Thương Lôi cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "121102":
+        Name: Châu Rơi Giữa Mây Ngàn
+        Desc: <span>Hồi HP cho 1 đồng đội, sau đó trị liệu cho đồng đội ngẫu nhiên của phe ta.</span>
+        Type: Chiến Kỹ
+      "121103":
+        Name: Rồng Vượt Vực Sâu
+        Desc: <span>Hồi HP cho toàn thể phe ta, đồng thời kèm thêm Sinh Mệnh hoặc kéo dài thời gian duy trì Sinh Mệnh.</span>
+        Type: Tuyệt Kỹ
+      "121104":
+        Name: Hành Y Giúp Đời
+        Desc: <span>Mục tiêu có </span><span style='color:#f29e38ff'>"Sinh Mệnh"</span><span> của phe ta sau khi bị tấn công sẽ </span><span style='color:#f29e38ff'>hồi HP</span><span>.<br>Khi đồng đội </span><span style='color:#f29e38ff'>chịu tấn công chí tử</span><span>, Bailu </span><span style='color:#f29e38ff'>sẽ hồi ngay HP cho đồng đội đó</span><span>. Hiệu ứng này có thể kích hoạt 1 lần trong 1 trận.</span>
+        Type: Thiên Phú
+      "121106":
+        Name: Tấn Công
+        Desc: ""
+      "121107":
+        Name: Thong Thả Trong Mưa
+        Desc: <span>Dùng Bí Kỹ, khi bắt đầu trận kế tiếp sẽ kèm thêm "Sinh Mệnh" cho toàn bộ phe ta.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "121101":
+        Name: Xung Mạch Thánh Thần
+        Desc: <span>Khi "Sinh Mệnh" kết thúc, nếu HP hiện tại của mục tiêu phe ta bằng với Giới Hạn HP của chính mục tiêu đó, sẽ hồi thêm 8 Năng Lượng cho mục tiêu.</span>
+      "121102":
+        Name: Rồng Say Ngủ Động Tiên
+        Desc: <span>Sau khi thi triển Tuyệt Kỹ, lượng Trị Liệu của Bailu tăng 15%, duy trì 2 hiệp.</span>
+      "121103":
+        Name: Nắm Giữ Càn Khôn, Thấu Hiểu Đạo Lý
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "121104":
+        Name: Loại Trừ Khẩn Cấp
+        Desc: <span>Mỗi 1 lần trị liệu mà Chiến Kỹ mang lại sẽ khiến sát thương gây ra bởi người được trị liệu tăng thêm 10%, tối đa cộng dồn 3 tầng, duy trì 2 hiệp.</span>
+      "121105":
+        Name: Gột Rửa Bụi Trần
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "121106":
+        Name: Nước Bọt Của Rồng Thần
+        Desc: <span>Số lần kích hoạt trị liệu của Bailu lên đồng đội bị tấn công chí tử tăng 1 lần.</span>
+  "1212":
+    Name: Jingliu
+    Abilities:
+      "121201":
+        Name: Ánh Trăng Soi Bóng
+        Desc: <span>Gây lượng nhỏ Sát Thương Băng cho 1 kẻ địch chỉ định.</span>
+        Type: Tấn Công Thường
+      "121202":
+        Name: Vô Hạ Phi Quang
+        Desc: <span>Gây Sát Thương Băng cho 1 kẻ địch chỉ định, đồng thời nhận </span><span style='color:#f29e38ff'>1 tầng Sóc Vọng</span><span>.</span>
+        Type: Chiến Kỹ
+      "121203":
+        Name: Đàm Hoa Sinh Diệt, Thiên Hà Dệt Mộng
+        Desc: <span>Gây lượng lớn Sát Thương Băng cho 1 kẻ địch chỉ định, gây Sát Thương Băng cho mục tiêu ở gần, đồng thời </span><span style='color:#f29e38ff'>nhận 1 tầng Sóc Vọng</span><span>.</span>
+        Type: Tuyệt Kỹ
+      "121204":
+        Name: Lưỡi Trăng Chuyển Hồn
+        Desc: "<span>Khi có </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>2</span></span><span> tầng Sóc Vọng, vào trạng thái Chuyển Hồn, </span><span style='color:#f29e38ff'>khiến ưu tiên hành động <span style='whiteSpace: \"nowrap\"'>100%</span></span><span>, tăng Tỷ Lệ Bạo Kích của bản thân và </span><span style='color:#f29e38ff'>cường hóa Chiến Kỹ</span><span>. Khi tấn công, tiêu hao HP của đồng đội và </span><span style='color:#f29e38ff'>tăng tấn công của Jingliu</span><span> theo tổng lượng tiêu hao. Khi số tầng Sóc Vọng bằng 0 sẽ rời khỏi trạng thái Chuyển Hồn.</span>"
+        Type: Thiên Phú
+      "121206":
+        Name: Tấn Công
+        Desc: ""
+      "121207":
+        Name: Thần Chiếu Cổ Kính
+        Desc: <span>Tạo một vùng đặc biệt xung quanh bản thân. Kẻ địch trong vùng này sẽ rơi vào </span><span style='color:#f29e38ff'>trạng thái Đóng Băng</span><span>. Sau khi vào chiến đấu với kẻ địch trong vùng này, sẽ hồi năng lượng, và nhận 1 tầng Sóc Vọng đồng thời có xác suất lớn khiến kẻ địch rơi vào </span><span style='color:#f29e38ff'>trạng thái Đóng Băng</span><span>.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "121201":
+        Name: Trăng Phạm Ngục Trời
+        Desc: <span>Khi thi triển Tuyệt Kỹ hoặc cường hóa Chiến Kỹ, Sát Thương Bạo Kích của Jingliu tăng 24%, duy trì 1 hiệp. Nếu chỉ tấn công 1 kẻ địch sẽ gây thêm cho mục tiêu này 1 lần Sát Thương Băng tương đương 100% tấn công của Jingliu.</span>
+      "121202":
+        Name: Trăng Non Quyện Thất Tinh
+        Desc: <span>Sau khi thi triển Tuyệt Kỹ, tăng 80% sát thương của Chiến Kỹ được cường hóa lần sau.</span>
+      "121203":
+        Name: Bán Bích Vọng
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "121204":
+        Name: Nguyệt Quang Thiên Chiếu
+        Desc: <span>Ở trạng thái Chuyển Hồn, tăng tấn công dựa theo HP bị tiêu hao của đồng đội, trị số tăng bằng 90% tổng lượng tiêu hao của toàn bộ phe ta, giới hạn tấn công nhận được tăng thêm 30%.</span>
+      "121205":
+        Name: U Ám Phủ Tam Đài
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "121206":
+        Name: Nhật Thực Yếu Ớt
+        Desc: <span>Khi Jingliu vào trạng thái Chuyển Hồn, số tầng giới hạn của Sóc Vọng tăng 1 tầng và nhận thêm 1 tầng Sóc Vọng. Ở trạng thái Chuyển Hồn, Sát Thương Bạo Kích tăng 50%.</span>
+  "1213":
+    Name: Dan Heng - Ẩm Nguyệt
+    Abilities:
+      "121301":
+        Name: Trạch Chi
+        Desc: <span>Gây lượng nhỏ Sát Thương Số Ảo cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "121302":
+        Name: Long Lực Tự Tại
+        Desc: <span>Dùng tấn công thường Trạch Chi </span><span style='color:#f29e38ff'>lần lượt cường hóa thành Tối Thượng</span><span>, </span><span style='color:#f29e38ff'>Ngọn Giáo Thánh Thần hoặc Bàn Nã Diệu Dược</span><span>.</span>
+        Type: Chiến Kỹ
+      "121303":
+        Name: Gột Rửa Thế Gian
+        Desc: "<span>Gây lượng lớn Sát Thương Số Ảo cho 1 kẻ địch, gây Sát Thương Số Ảo cho mục tiêu lân cận và nhận 2 Nghịch Lân: Có thể </span><span style='color:#f29e38ff'>khấu trừ</span><span> </span><span style='color:#f29e38ff'>tiêu hao điểm Chiến Kỹ</span><span> của Dan Heng - Ẩm Nguyệt. Tiêu hao Nghịch Lân được xem là tiêu hao điểm Chiến Kỹ.</span>"
+        Type: Tuyệt Kỹ
+      "121304":
+        Name: Trái Tim Ngay Thẳng
+        Desc: <span>Tăng sát thương với mỗi đòn tấn công, hiệu ứng này có thể cộng dồn và duy trì đến khi hiệp của bản thân kết thúc.</span>
+        Type: Thiên Phú
+      "121306":
+        Name: Tấn Công
+        Desc: ""
+      "121307":
+        Name: Long Thần Phá Hư Không
+        Desc: <span>Vào trạng thái Bàn Diệu, dùng tấn công sẽ di chuyển nhanh về phía trước một đoạn và tấn công kẻ địch tiếp xúc. Sau khi tấn công kẻ địch để vào trận, sẽ gây Sát Thương Số Ảo cho toàn bộ kẻ địch và nhận 1 Nghịch Lân.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "121301":
+        Name: Oanh Thiên
+        Desc: <span>Số tầng cộng dồn của Trái Tim Ngay Thẳng tăng 4 tầng. Đồng thời mỗi đòn đánh sẽ nhận thêm 1 tầng Trái Tim Ngay Thẳng.</span>
+      "121302":
+        Name: Cửu Du
+        Desc: <span>Sau khi thi triển Tuyệt Kỹ, Dan Heng - Ẩm Nguyệt được ưu tiên hành động 100% đồng thời sẽ nhận thêm 1 Nghịch Lân.</span>
+      "121303":
+        Name: Vân Kỳ
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "121304":
+        Name: Trào Phong
+        Desc: <span>Hiệu ứng buff Hô Phong Hoán Vũ sẽ duy trì đến khi kết thúc hiệp kế tiếp của bản thân.</span>
+      "121305":
+        Name: Ngạo Nghễ
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá 15 cấp; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "121306":
+        Name: Trị Vì
+        Desc: <span>Sau khi đồng đội bất kỳ thi triển Tuyệt Kỹ, Dan Heng - Ẩm Nguyệt thi triển "Bàn Nã Diệu Dược" ở lần kế tiếp, Xuyên Kháng Số Ảo sẽ tăng 20%, hiệu ứng này tối đa cộng dồn 3 tầng.</span>
+  "1214":
+    Name: Xueyi
+    Abilities:
+      "121401":
+        Name: Dùi Phá Ma
+        Desc: <span>Gây lượng nhỏ Sát Thương Lượng Tử cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "121402":
+        Name: Xóa Sổ Ác Nghiệp
+        Desc: <span>Gây Sát Thương Lượng Tử cho 1 kẻ địch, đồng thời gây lượng nhỏ Sát Thương Lượng Tử cho mục tiêu lân cận.</span>
+        Type: Chiến Kỹ
+      "121403":
+        Name: Thiên Phạt Quán Thân
+        Desc: <span>Gây lượng lớn Sát Thương Lượng Tử cho 1 kẻ địch, lần tấn công này </span><span style='color:#f29e38ff'>bỏ qua các thuộc tính Điểm Yếu</span><span> và làm giảm Sức Bền của 1 kẻ địch, Sức Bền giảm càng nhiều, sát thương gây ra càng cao.</span>
+        Type: Tuyệt Kỹ
+      "121404":
+        Name: Nghiệp Báo Vĩnh Hằng
+        Desc: <span>Khi Xueyi tấn công hoặc sau khi đồng đội của Xueyi tấn công làm giảm Sức Bền của phe địch, Xueyi sẽ cộng dồn Ác Báo. Khi Ác Báo cộng dồn đến giới hạn, </span><span style='color:#f29e38ff'>lập tức phát động <u>Đòn Đánh Theo Sau</u></span><span>, gây lượng nhỏ Sát Thương Lượng Tử lên 1 kẻ địch, tổng cộng Nảy Bật 3 lần, đồng thời tiêu hao toàn bộ Ác Báo.</span>
+        Type: Thiên Phú
+      "121406":
+        Name: Tấn Công
+        Desc: ""
+      "121407":
+        Name: Hành Quyết
+        Desc: <span>Tấn công kẻ địch, sau khi vào trận sẽ gây một lượng nhỏ Sát Thương Lượng Tử cho toàn bộ kẻ địch.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "121401":
+        Name: Tâm Ma, Trói Buộc
+        Desc: <span>Tăng 40% sát thương gây ra bởi Đòn Đánh Theo Sau của Thiên Phú.</span>
+      "121402":
+        Name: Ngũ Trần, Phá Giải
+        Desc: <span>Đòn Đánh Theo Sau của Thiên Phú sẽ bỏ qua các thuộc tính Điểm Yếu và làm giảm Sức Bền của phe địch, đồng thời hồi HP cho bản thân bằng 5% Giới Hạn HP của Xueyi. Khi phá vỡ điểm yếu sẽ kích hoạt hiệu ứng Phá Vỡ Điểm Yếu thuộc tính Lượng Tử.</span>
+      "121403":
+        Name: Bể Khổ, Chấm Dứt
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "121404":
+        Name: Nghiệp Chướng, Cắt Đứt
+        Desc: <span>Khi thi triển Tuyệt Kỹ, Tấn Công Kích Phá tăng 40%, duy trì 2 hiệp.</span>
+      "121405":
+        Name: Thần Thánh, Gọi Hồn
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "121406":
+        Name: Sinh Tử, Cai Quản
+        Desc: <span>Giới hạn số tầng Ác Báo cộng dồn giảm còn 6 tầng.</span>
+  "1215":
+    Name: Hanya
+    Abilities:
+      "121501":
+        Name: Thiên Bút Tiên Tri
+        Desc: <span>Gây lượng nhỏ Sát Thương Vật Lý cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "121502":
+        Name: Sinh Diệt Trói Buộc
+        Desc: <span>Gây Sát Thương Vật Lý lên 1 kẻ địch, và khiến kẻ này rơi vào trạng thái "Sức Nặng". Sau mỗi 2 lần mục tiêu phe ta thi triển Tấn Công Thường, Chiến Kỹ, Tuyệt Kỹ lên kẻ địch ở trạng thái "Sức Nặng", sẽ </span><span style='color:#f29e38ff'>hồi 1 Điểm Chiến Kỹ</span><span>.</span>
+        Type: Chiến Kỹ
+      "121503":
+        Name: Sắc Lệnh Thập Vương, Đồng Loạt Thi Hành
+        Desc: <span></span><span style='color:#f29e38ff'>Tăng Tốc Độ, tăng Tấn Công</span><span> cho 1 đồng đội.</span>
+        Type: Tuyệt Kỹ
+      "121504":
+        Name: Trừng Trị Kẻ Ác
+        Desc: <span>Khi mục tiêu phe ta tấn công kẻ địch ở trạng thái "Sức Nặng", sẽ tăng sát thương gây ra.</span>
+        Type: Thiên Phú
+      "121506":
+        Name: Tấn Công
+        Desc: ""
+      "121507":
+        Name: Cõi Âm Phán Xét
+        Desc: <span>Tấn công kẻ địch, sau khi vào chiến đấu, sẽ kèm theo "Sức Nặng" với hiệu ứng giống như Chiến Kỹ cho 1 kẻ địch ngẫu nhiên.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "121501":
+        Name: Nhất Tâm
+        Desc: <span>Khi đồng đội đang có hiệu ứng Tuyệt Kỹ tiêu diệt kẻ địch, Hanya sẽ Ưu Tiên Hành Động 15%, hiệu ứng này mỗi hiệp chỉ có thể kích hoạt 1 lần.</span>
+      "121502":
+        Name: Nhị Quan
+        Desc: <span>Sau khi thi triển Chiến Kỹ, Tốc Độ tăng 20%, duy trì 1 hiệp.</span>
+      "121503":
+        Name: Tam Trần
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "121504":
+        Name: Tứ Đế
+        Desc: <span>Thời gian duy trì của Tuyệt Kỹ tăng thêm 1 hiệp.</span>
+      "121505":
+        Name: Ngũ Âm
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "121506":
+        Name: Lục Chính
+        Desc: <span>Hiệu ứng tăng sát thương của Thiên Phú tăng thêm 10%.</span>
+  "1217":
+    Name: Huohuo
+    Abilities:
+      "121701":
+        Name: Cờ Lệnh - Hô Mưa Gọi Gió
+        Desc: <span>Gây lượng nhỏ Sát Thương Phong cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "121702":
+        Name: Linh Phù - Hộ Thân
+        Desc: <span>Giải trừ 1 <u>Hiệu Ứng Xấu</u> cho 1 đồng đội, đồng thời </span><span style='color:#f29e38ff'>hồi phục HP</span><span> cho 1 đồng đội và mục tiêu ở gần.</span>
+        Type: Chiến Kỹ
+      "121703":
+        Name: Lão Đuôi - Chế Ngự Tâm Linh
+        Desc: <span></span><span style='color:#f29e38ff'>Hồi phục Năng Lượng</span><span> cho đồng đội ngoài bản thân, đồng thời </span><span style='color:#f29e38ff'>tăng Tấn Công</span><span> cho người này.</span>
+        Type: Tuyệt Kỹ
+      "121704":
+        Name: Nhập Thể - Kết Nối Siêu Hình
+        Desc: <span>Sau khi thi triển Chiến Kỹ, Huohuo sẽ nhận "Cầu Mệnh". Khi Huohuo có "Cầu Mệnh", và mục tiêu phe ta bắt đầu hiệp hoặc thi triển Tuyệt Kỹ sẽ </span><span style='color:#f29e38ff'>hồi phục HP bản thân</span><span>, đồng thời </span><span style='color:#f29e38ff'>sinh ra 1 lần hiệu ứng hồi phục</span><span> lên </span><span style='color:#f29e38ff'>mỗi mục tiêu có HP tương đối thấp của phe ta</span><span>. Khi kích hoạt Cầu Mệnh trị liệu cho mục tiêu phe ta, sẽ </span><span style='color:#f29e38ff'>giải trừ 1 <u>Hiệu Ứng Xấu</u></span><span> của mục tiêu này.</span>
+        Type: Thiên Phú
+      "121706":
+        Name: Tấn Công
+        Desc: ""
+      "121707":
+        Name: Hung Sát - Trấn Áp Yêu Tà
+        Desc: <span>Khiến kẻ địch xung quanh rơi vào trạng thái "Phách Tán". Sau khi vào chiến đấu với kẻ địch ở trạng thái "Phách Tán", có xác suất lớn </span><span style='color:#f29e38ff'>giảm Tấn Công</span><span> của kẻ địch.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "121701":
+        Name: Tuế Dương Nhập Thể, Yêu Tà Xâm Chiếm
+        Desc: <span>Thời gian duy trì Cầu Mệnh tạo ra từ Thiên Phú kéo dài 1 hiệp, hơn nữa khi Huohuo sở hữu Cầu Mệnh, toàn bộ phe ta tăng 12% tốc độ.</span>
+      "121702":
+        Name: Bùa Phong Ấn Đuôi, Trấn Giữ Linh Hồn
+        Desc: <span>Khi Huohuo sở hữu Cầu Mệnh, nếu mục tiêu phe ta bị tấn công chí tử, sẽ không rơi vào trạng thái không thể chiến đấu, và lập tức hồi HP bằng 50% Giới Hạn HP của mục tiêu đó, giảm 1 hiệp duy trì Cầu Mệnh. Hiệu ứng này có thể kích hoạt 2 lần trong 1 trận.</span>
+      "121703":
+        Name: Mệnh Trấn Hung, Hiểm Họa Ập Đến
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "121704":
+        Name: Một Bước Không Rời, Tranh Chấp Khó Tránh
+        Desc: <span>Khi thi triển Chiến Kỹ hoặc kích hoạt Thiên Phú trị liệu cho mục tiêu phe ta, HP hiện tại của mục tiêu càng thấp thì lượng trị liệu càng cao, tối đa tăng 80% Lượng Trị Liệu mà Huohuo cung cấp.</span>
+      "121705":
+        Name: Hàng Yêu Trừ Ma, Thập Vương Sắc Lệnh
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "121706":
+        Name: Gắn Bó Keo Sơn, Đồng Hành Phối Hợp
+        Desc: <span>Khi cung cấp trị liệu cho mục tiêu phe ta, khiến Sát Thương do mục tiêu gây ra tăng 50%, duy trì 2 hiệp.</span>
+  "1218":
+    Name: Jiaoqiu
+    Abilities:
+      "121801":
+        Name: Nhân Hỏa Công Tâm
+        Desc: <span>Gây lượng nhỏ Sát Thương Hỏa cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "121802":
+        Name: Thiêu Đốt Tập Kích
+        Desc: <span>Gây Sát Thương Hỏa cho 1 kẻ địch, gây lượng nhỏ Sát Thương Hỏa cho mục tiêu lân cận. Có xác suất lớn thi triển 1 tầng Nướng Tro cho mục tiêu chính.</span>
+        Type: Chiến Kỹ
+      "121803":
+        Name: Đỉnh Trận Diệu Pháp, Kỳ Chính Tương Sinh
+        Desc: <span>Lấy số tầng Nướng Tro vốn có của kẻ địch đặt làm số tầng Nướng Tro cao nhất của trận này, sau đó mở Kết Giới và gây cho toàn bộ kẻ địch Sát Thương Hỏa. Khi đang ở trong Kết Giới, kẻ địch </span><span style='color:#f29e38ff'>sẽ bị tăng Sát Thương Tuyệt Kỹ phải chịu</span><span>, và khi hành động sẽ có xác suất bị thi triển 1 tầng Nướng Tro.</span>
+        Type: Tuyệt Kỹ
+      "121804":
+        Name: Tứ Thị Bát Quyền, Tiêm Tư Tinh Vị
+        Desc: <span>Sau khi tấn công sẽ có xác suất lớn thi triển 1 tầng Nướng Tro lên mục tiêu, tăng sát thương kẻ địch phải chịu, và sẽ bị xem là đồng thời rơi vào trạng thái Thiêu Đốt.</span>
+        Type: Thiên Phú
+      "121806":
+        Name: Tấn Công
+        Desc: ""
+      "121807":
+        Name: Lửa Lớn Hỗn Loạn
+        Desc: <span>Tạo vùng đặc biệt. Sau khi vào trận cùng kẻ địch đứng trong khu vực, sẽ gây lượng nhỏ Sát Thương Hỏa cho toàn phe địch, và có xác suất lớn thi triển 1 tầng Nướng Tro.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "121801":
+        Name: Ngũ Vị Nhập Ngũ Tạng, Chín Sống Đã Định
+        Desc: <span>Sát thương mục tiêu phe ta gây ra cho kẻ địch trong trạng thái Nướng Tro tăng 40%. Mỗi khi kích hoạt hiệu ứng Thiên Phú khiến kẻ địch rơi vào trạng thái Nướng Tro, sẽ giúp số tầng Nướng Tro được cộng dồn ở lần này tăng thêm 1 tầng.</span>
+      "121802":
+        Name: Sướng Miệng Hại Thân, Vị Nồng Trừ Độc
+        Desc: <span>Khi kẻ địch ở trạng thái Nướng Tro, Bội Số Sát Thương Hỏa Duy Trì mà Nướng Tro gây ra cho kẻ đó tăng 300%.</span>
+      "121803":
+        Name: Hòa Hợp Diệu Kỳ, Địch Bất Khả Kháng
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "121804":
+        Name: Tạng Phủ Hòa Bình, Khí Huyết Hưng Thịnh
+        Desc: <span>Khi Kết Giới tồn tại, Tấn Công của kẻ địch giảm 15%.</span>
+      "121805":
+        Name: Minh Tranh Ám Đấu
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "121806":
+        Name: Tùy Thuộc Độ Lửa
+        Desc: <span>Khi mục tiêu địch bị tiêu diệt, Nướng Tro mà mục tiêu sở hữu sẽ cộng dồn cho kẻ địch có số tầng Nướng Tro thấp nhất hiện đang sống sót trong trận. Giới hạn số tầng Nướng Tro tăng lên 9, mỗi tầng Nướng Tro sẽ làm Kháng Tất Cả Thuộc Tính của mục tiêu giảm 3%.</span>
+  "1220":
+    Name: Feixiao
+    Abilities:
+      "122001":
+        Name: Chém Tách Chớp Nhoáng
+        Desc: <span>Gây lượng nhỏ Sát Thương Phong cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "122002":
+        Name: Rìu Chiến Xuyên Kích
+        Desc: <span>Gây Sát Thương Phong cho 1 kẻ địch, sau đó kích hoạt thêm 1 lần <u>Đòn Đánh Theo Sau</u> của Thiên Phú.</span>
+        Type: Chiến Kỹ
+      "122003":
+        Name: Trảm Phá Đại Địa
+        Desc: "<span>Trong thời gian Tuyệt Kỹ, có thể </span><span style='color:#f29e38ff'>bỏ qua Thuộc Tính Điểm Yếu</span><span> làm giảm Sức Bền của phe địch, khi mục tiêu chưa bị Phá Vỡ Điểm Yếu, </span><span style='color:#f29e38ff'>Hiệu Suất Phá Vỡ Điểm Yếu của Feixiao tăng</span><span>.<br>Phát động </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>6</span></span><span> lần Vũ Điệu Lưỡi Đao Chớp Nhoáng hoặc Chém Tách Trời Xanh lên 1 kẻ địch, cuối cùng gây Sát Thương Phong.</span>"
+        Type: Tuyệt Kỹ
+      "122004":
+        Name: Sấm Sét Săn Lùng
+        Desc: "<span>Khi Phi Hoàng đạt </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>6</span></span><span> điểm có thể kích hoạt Tuyệt Kỹ, tối đa tích lũy </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>12</span></span><span> điểm. Mục tiêu phe ta cứ thi triển </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>2</span></span><span> lần tấn công, thì Feixiao sẽ nhận được </span><span style='color:#f29e38ff'>Phi Hoàng</span><span>.<br>Sau khi đồng đội thi triển tấn công, Feixiao sẽ phát động </span><span style='color:#f29e38ff'><u>Đòn Đánh Theo Sau</u></span><span> lên mục tiêu chính, gây Sát Thương Phong. Hiệu quả này mỗi hiệp tối đa kích hoạt 1 lần, khi phát động đòn tấn công này sẽ khiến </span><span style='color:#f29e38ff'>sát thương bản thân gây ra tăng</span><span>.</span>"
+        Type: Thiên Phú
+      "122006":
+        Name: Tấn Công
+        Desc: ""
+      "122007":
+        Name: Hóa Thân Bão Tố
+        Desc: <span>Vào trạng thái Khí Thế Vây Hãm, duy trì lôi kéo kẻ địch và tăng tốc độ di chuyển, sau khi vào chiến đấu sẽ nhận được Phi Hoàng.<br>Trong trạng thái Khí Thế Vây Hãm có thể chủ động tấn công tất cả kẻ địch bị lôi kéo, khi bắt đầu mỗi đợt, gây sát thương Phong cho toàn phe địch, sát thương này chắc chắn bạo kích. </span><span style='color:#f29e38ff'>Lôi kéo càng nhiều kẻ địch, Bội Số Sát Thương càng cao</span><span>.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "122001":
+        Name: Chinh Phạt Thiên Đỉnh
+        Desc: <span>Sau khi phát động Vũ Điệu Lưỡi Đao Chớp Nhoáng hoặc Chém Tách Trời Xanh, sẽ khiến sát thương Tuyệt Kỹ do Feixiao gây ra tăng thêm, mức tăng bằng 10% sát thương gốc, tối đa cộng dồn 5 tầng, duy trì đến khi hành động Tuyệt Kỹ kết thúc.</span>
+      "122002":
+        Name: Lễ Thần Cầu Nguyệt
+        Desc: <span>Trong hiệu ứng Thiên Phú, mục tiêu phe ta mỗi khi thi triển 1 lần Đòn Đánh Theo Sau sẽ có thể khiến Feixiao nhận 1 điểm Phi Hoàng. Hiệu ứng này mỗi hiệp tối đa kích hoạt 6 lần.</span>
+      "122003":
+        Name: Cảnh Tinh Xuất Thế
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "122004":
+        Name: Cẩn Trọng Phong Ba
+        Desc: <span>Điểm Giảm Sức Bền của Đòn Đánh Theo Sau từ Thiên Phú tăng 100%, đồng thời khi phát động, sẽ khiến tốc độ của bản thân tăng 8%, duy trì 2 hiệp.</span>
+      "122005":
+        Name: Phi Thăng Thiên Hà
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "122006":
+        Name: Nhìn Về Cố Hương
+        Desc: <span>Xuyên Kháng Toàn Thuộc Tính của sát thương Tuyệt Kỹ do Feixiao gây ra tăng 20%. Sát thương Đòn Đánh Theo Sau của Thiên Phú đồng thời được xem là sát thương Tuyệt Kỹ, và Bội Số Sát Thương tăng 140%.</span>
+  "1221":
+    Name: Yunli
+    Abilities:
+      "122101":
+        Name: Đảo Gió Xoay Trời
+        Desc: <span>Gây lượng nhỏ Sát Thương Vật Lý cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "122102":
+        Name: Chấn Động Lẫy Lừng
+        Desc: <span>Hồi HP cho bản thân, đồng thời gây lượng nhỏ Sát Thương Vật Lý cho 1 kẻ địch và mục tiêu lân cận kẻ đó.</span>
+        Type: Chiến Kỹ
+      "122103":
+        Name: Kiếm Vi Địa Kỷ, Nhẫn Kinh Thiên Tông
+        Desc: <span>Vào Chống Đỡ và khiêu khích toàn bộ kẻ địch, trong thời gian này, sau khi bị tấn công sẽ kích hoạt </span><span style='color:#f29e38ff'><u>Phản Kích</u> mạnh mẽ</span><span>, gây </span><span style='color:#f29e38ff'>Sát Thương Vật Lý</span><span> cho người tấn công và mục tiêu lân cận người đó, sau đó gây lượng nhỏ Sát Thương Vật Lý cho 1 kẻ địch, tổng cộng Nảy Bật 6 lần. Nếu trong thời gian trạng thái Chống Đỡ không kích hoạt Phản Kích, thì khi kết thúc trạng thái sẽ gây Sát Thương Vật Lý cho kẻ địch ngẫu nhiên và mục tiêu lân cận kẻ đó.</span>
+        Type: Tuyệt Kỹ
+      "122104":
+        Name: Nung Chảy
+        Desc: <span>Khi Yunli bị kẻ địch tấn công sẽ hồi thêm Năng Lượng đồng thời lập tức phát động <u>Phản Kích</u> lên kẻ tấn công và mục tiêu lân cận kẻ đó.</span>
+        Type: Thiên Phú
+      "122106":
+        Name: Tấn Công
+        Desc: ""
+      "122107":
+        Name: Đi Sau Về Trước
+        Desc: "<span>Khiến bản thân nhận hiệu ứng Ứng Phó, duy trì <span style='whiteSpace: \"nowrap\"'>20</span> giây, trong thời gian này tấn công kẻ địch hoặc bị tấn công và vào chiến đấu, sẽ lập tức thi triển Nhìn Thấu - Diệt cho 1 kẻ địch ngẫu nhiên.</span>"
+        Type: Bí Kỹ
+    Eidolons:
+      "122101":
+        Name: Không Vướng Bụi Trần
+        Desc: <span>Sát thương Nhìn Thấu - Chém và Nhìn Thấu - Diệt gây ra tăng 20%, số lần sát thương thêm của Nhìn Thấu - Diệt tăng 3.</span>
+      "122102":
+        Name: Mầm Sống Nảy Nở
+        Desc: <span>Khi phát động Phản Kích gây sát thương, sẽ bỏ qua 20% Phòng Thủ của kẻ địch.</span>
+      "122103":
+        Name: Cửu Xích Vận Cân
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "122104":
+        Name: Thợ Giỏi Rèn Kiếm Sắc
+        Desc: <span>Sau khi phát động Nhìn Thấu - Chém hoặc Nhìn Thấu - Diệt sẽ khiến Kháng Hiệu Ứng của bản thân tăng 50%, duy trì 1 hiệp.</span>
+      "122105":
+        Name: Binh Khí Vĩnh Hằng, Lòng Dạ Kiên Định
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "122106":
+        Name: Đánh Đàn Múa Kiếm, Can Đảm Uyển Chuyển
+        Desc: <span>Trong thời gian Chống Đỡ, khi phe địch chủ động thi triển kỹ năng, cho dù có tấn công Yunli hay không đều sẽ kích hoạt Nhìn Thấu - Diệt đồng thời xóa hiệu ứng Chống Đỡ, khi phát động Nhìn Thấu - Chém hoặc Nhìn Thấu - Diệt gây sát thương, Tỷ Lệ Bạo Kích sẽ tăng 15%, Xuyên Kháng Vật Lý tăng 20%.</span>
+  "1222":
+    Name: Lingsha
+    Abilities:
+      "122201":
+        Name: Dâng Hương
+        Desc: <span>Gây lượng nhỏ Sát Thương Hỏa cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "122202":
+        Name: Khói Sương Óng Ánh
+        Desc: <span>Gây lượng nhỏ Sát Thương Hỏa cho toàn thể phe địch, đồng thời </span><span style='color:#f29e38ff'>hồi HP</span><span> cho toàn thể phe ta, khiến Fuyuan <u>Ưu Tiên Hành Động</u>.</span>
+        Type: Chiến Kỹ
+      "122203":
+        Name: Ráng Chiều Che Nghiêng
+        Desc: <span></span><span style='color:#f29e38ff'>Tăng Sát Thương Phá Vỡ</span><span> toàn thể phe địch phải chịu, gây Sát Thương Hỏa cho toàn thể phe địch, đồng thời </span><span style='color:#f29e38ff'>hồi HP</span><span> cho toàn thể phe ta, khiến Fuyuan <u>Ưu Tiên Hành Động</u>.</span>
+        Type: Tuyệt Kỹ
+      "122204":
+        Name: Khói Sương Nghiêng Ngả, Khí Trời Hóa Sinh
+        Desc: "<span>Thi triển Chiến Kỹ triệu hồi Fuyuan: Khi hành động sẽ phát động </span><span style='color:#f29e38ff'><u>Đòn Đánh Theo Sau</u></span><span>, gây lượng nhỏ Sát Thương Hỏa cho toàn bộ kẻ địch. Gây thêm lượng nhỏ Sát Thương Hỏa cho 1 kẻ địch ngẫu nhiên, ưu tiên chọn mục tiêu có Sức Bền lớn hơn 0 và có Điểm Yếu Hỏa. Giải trừ 1 <u>Hiệu Ứng Xấu</u> của toàn bộ phe ta và </span><span style='color:#f29e38ff'>hồi HP</span><span>.<br>Thi triển Chiến Kỹ lặp lại sẽ tăng số lần hành động của Fuyuan.</span>"
+        Type: Thiên Phú
+      "122206":
+        Name: Tấn Công
+        Desc: ""
+      "122207":
+        Name: Lưu Thúy Tản Vân
+        Desc: <span>Dùng Bí Kỹ, khi bắt đầu lần chiến đấu tiếp theo, lập tức triệu hồi Fuyuan và khiến toàn thể phe địch </span><span style='color:#f29e38ff'>tăng Sát Thương Phá Vỡ phải chịu</span><span>.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "122201":
+        Name: Hương Nồng Lan Tỏa, Trừ Bỏ Tà Ma
+        Desc: <span>Hiệu suất Phá Vỡ Điểm Yếu của Lingsha tăng 50%. Khi Điểm Yếu của kẻ địch bị phá vỡ, Phòng Thủ của kẻ địch đó sẽ giảm 20%.</span>
+      "122202":
+        Name: Đầu Tựa Gối Mây, Khói Soi Tuyết Đỏ
+        Desc: <span>Khi thi triển Tuyệt Kỹ, khiến Tấn Công Kích Phá của toàn thể phe ta tăng 40%, duy trì 3 hiệp.</span>
+      "122203":
+        Name: Sợi Bấc Vươn Chồi, Hoa Bung Rực Lửa
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "122204":
+        Name: Rủ Ngang Màn Liễu, Phảng Phất Chiếu Quỳnh
+        Desc: <span>Khi Fuyuan hành động, hồi HP bằng 40% Tấn Công của Lingsha cho mục tiêu phe ta có HP hiện tại thấp nhất.</span>
+      "122205":
+        Name: Dọc Ngang Xoay Chuyển, Giữ Thế Cân Bằng
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "122206":
+        Name: Hoa Lan Ẩn Mình, Hương Thầm Cất Giấu
+        Desc: <span>Khi Fuyuan trong trận, Kháng Toàn Thuộc Tính của toàn thể phe địch giảm 20%, khi Fuyuan tấn công, sẽ gây thêm 4 lần sát thương, mỗi lần sát thương sẽ gây Sát Thương Hỏa bằng 50% Tấn Công của Lingsha và 5 điểm Giảm Sức Bền cho 1 kẻ địch ngẫu nhiên, ưu tiên chọn mục tiêu có Sức Bền lớn hơn 0 và có Điểm Yếu Hỏa.</span>
+  "1223":
+    Name: Moze
+    Abilities:
+      "122301":
+        Name: Phi Đao
+        Desc: <span>Gây lượng nhỏ Sát Thương Lôi cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "122302":
+        Name: Đột Kích Lướt Gió
+        Desc: "<span></span><span style='color:#f29e38ff'>Khiến 1 kẻ địch trở thành Con Mồi</span><span>, gây Sát Thương Lôi cho kẻ đó, đồng thời nhận </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>9</span></span><span> điểm Nạp Năng Lượng.</span>"
+        Type: Chiến Kỹ
+      "122303":
+        Name: Dao Lạnh Vô Tình
+        Desc: <span>Gây Sát Thương Lôi cho 1 kẻ địch, đồng thời phát động </span><span style='color:#f29e38ff'><u>Đòn Đánh Theo Sau</u></span><span> của Thiên Phú.</span>
+        Type: Tuyệt Kỹ
+      "122304":
+        Name: Thu Cánh Tung Đao
+        Desc: "<span>Khi trong trận có Con Mồi, Moze sẽ vào trạng thái </span><span style='color:#f29e38ff'><u>Rời Trận</u></span><span>.<br>Sau khi mục tiêu phe ta tấn công Con Mồi, Moze sẽ gây </span><span style='color:#f29e38ff'><u>Sát Thương Lôi Kèm Theo</u></span><span>, đồng thời tiêu hao 1 điểm Nạp Năng Lượng. Mỗi khi tiêu hao </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>3</span></span><span> điểm Nạp Năng Lượng, Moze sẽ phát động </span><span style='color:#f29e38ff'><u>Đòn Đánh Theo Sau</u></span><span> lên Con Mồi, gây Sát Thương Lôi. Khi Nạp Năng Lượng bằng 0, sẽ giải trừ trạng thái Con Mồi của mục tiêu.</span>"
+        Type: Thiên Phú
+      "122306":
+        Name: Tấn Công
+        Desc: ""
+      "122307":
+        Name: Đôi Cánh Ẩn Hình
+        Desc: <span>Vào trạng thái Tàng Hình. Khi tấn công kẻ địch trong trạng thái Tàng Hình để vào chiến đấu, sát thương sẽ tăng.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "122301":
+        Name: Tuyên Thệ
+        Desc: <span>Sau khi vào chiến đấu, Moze hồi 20 điểm Năng Lượng. Mỗi khi kích hoạt 1 lần Sát Thương Kèm Theo của Thiên Phú, Moze sẽ hồi 2 điểm Năng Lượng.</span>
+      "122302":
+        Name: Trừng Phạt
+        Desc: <span>Khi toàn bộ mục tiêu phe ta gây sát thương cho mục tiêu phe địch bị đánh dấu là Con Mồi, Sát Thương Bạo Kích sẽ tăng 40%.</span>
+      "122303":
+        Name: Truy Đuổi
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "122304":
+        Name: Rình Rập
+        Desc: <span>Khi thi triển Tuyệt Kỹ, sát thương Moze gây ra tăng 30%, duy trì 2 hiệp.</span>
+      "122305":
+        Name: Đánh Lừa
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "122306":
+        Name: Trung Thành
+        Desc: <span>Bội Số Sát Thương Đòn Đánh Theo Sau của Thiên Phú tăng 25%.</span>
+  "1224":
+    Name: March 7th
+    Abilities:
+      "122401":
+        Name: Lưu Ly Kiếm Thanh Tẩy Yêu Tà
+        Desc: "<span>Gây lượng nhỏ Sát Thương Số Ảo cho 1 kẻ địch, nhận </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>1</span></span><span> điểm Nạp Năng Lượng.</span>"
+        Type: Tấn Công Thường
+      "122402":
+        Name: Sư Phụ, Mời Uống Trà!
+        Desc: "<span>Khiến 1 đồng đội phe ta trở thành Sư Phụ. Khi Tấn Công Thường hoặc gây sát thương Tấn Công Thường Cường Hóa, sẽ dựa vào </span><span style='color:#f29e38ff'>vận mệnh Sư Phụ</span><span> để kích hoạt hiệu ứng tương ứng:<br>Tri Thức, Hủy Diệt, Săn Bắn: Gây thêm </span><span style='color:#f29e38ff'><u>Sát Thương Kèm Theo</u></span><span> dựa trên thuộc tính Sư Phụ.<br>Hòa Hợp, Hư Vô, Bảo Hộ, Trù Phú: Tăng điểm </span><span style='color:#f29e38ff'>Giảm Sức Bền</span><span>.</span>"
+        Type: Chiến Kỹ
+      "122403":
+        Name: Nữ Hiệp Cái Thế March 7th
+        Desc: <span>Gây Sát Thương Số Ảo cho 1 kẻ địch, đồng thời </span><span style='color:#f29e38ff'>tăng</span><span> số đòn và xác suất gây sát thương của </span><span style='color:#f29e38ff'>Tấn Công Thường Cường Hóa ở lần tiếp theo</span><span>.</span>
+        Type: Tuyệt Kỹ
+      "122404":
+        Name: Đã Hiểu, Thưa Sư Phụ!
+        Desc: "<span></span><span style='color:#f29e38ff'>Sau khi Sư Phụ thi triển tấn công hoặc Tuyệt Kỹ</span><span>, March 7th nhận Nạp Năng Lượng. Khi Nạp Năng Lượng đạt </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>7</span></span><span> điểm, sẽ lập tức hành động, tăng sát thương gây ra, </span><span style='color:#f29e38ff'>Tấn Công Thường được cường hóa</span><span>.</span>"
+        Type: Thiên Phú
+      "122406":
+        Name: Tấn Công
+        Desc: ""
+      "122407":
+        Name: Một Hơi Hết Ba Bữa
+        Desc: <span>Mỗi khi đồng đội thi triển Bí Kỹ, March 7th sẽ nhận Nạp Năng Lượng ở lần vào chiến đấu tiếp theo. Dùng Bí Kỹ sẽ hồi Năng Lượng sau khi bước vào lần chiến đấu tiếp theo.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "122401":
+        Name: Kiếm Thuật Sáng Như Sao
+        Desc: <span>Khi có mặt Sư Phụ trên sân, Tốc Độ của March 7th tăng 10%.</span>
+      "122402":
+        Name: Kiếm Vũ Sóng Đào
+        Desc: <span>Sau mỗi lần Sư Phụ thi triển Tấn Công Thường hoặc Chiến Kỹ tấn công mục tiêu địch, March 7th sẽ lập tức phát động Đòn Đánh Theo Sau, gây ra Sát Thương Số Ảo bằng 60% Tấn Công của March 7th cho mục tiêu chính của lần tấn công này, và dựa theo Vận Mệnh của Sư Phụ để kích hoạt hiệu ứng tương ứng, sau đó nhận 1 điểm Nạp Năng Lượng. Nếu không có mục tiêu chính có thể tấn công, thì sẽ tấn công một mục tiêu ngẫu nhiên của phe địch. Hiệu quả này mỗi hiệp kích hoạt tối đa 1 lần.</span>
+      "122403":
+        Name: Nhanh Trí Đầy Bản Lĩnh
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "122404":
+        Name: Rồng Bay Phượng Múa Chẳng Ngán Ai
+        Desc: <span>Khi bắt đầu hiệp, sẽ hồi phục 5 điểm Năng Lượng.</span>
+      "122405":
+        Name: Chăm Luyện Kiếm, Đừng Ăn Kẹo
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "122406":
+        Name: Chị Đây Thiên Hạ Đệ Nhất
+        Desc: <span>Sau khi thi triển Tuyệt Kỹ, Sát Thương Bạo Kích gây ra ở lần Tấn Công Thường Cường Hóa tiếp theo sẽ tăng 50%.</span>
+  "1301":
+    Name: Gallagher
+    Abilities:
+      "130101":
+        Name: Phí Mở Chai
+        Desc: <span>Gây lượng nhỏ Sát Thương Hỏa cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "130102":
+        Name: Thức Uống Ủ Đặc Biệt
+        Desc: <span>Lập tức hồi phục HP cho 1 đồng đội phe ta.</span>
+        Type: Chiến Kỹ
+      "130103":
+        Name: Nghi Lễ Champagne
+        Desc: <span>Khiến toàn bộ kẻ địch </span><span style='color:#f29e38ff'>rơi vào trạng thái "Say Mèm"</span><span>, đồng thời gây Sát Thương Hỏa cho toàn bộ kẻ địch. Tấn Công Thường lần sau cường hóa thành "Hoa Rượu Tuôn Trào".</span>
+        Type: Tuyệt Kỹ
+      "130104":
+        Name: Cuộc Chiến Say Ngà
+        Desc: <span>"Say Mèm" sẽ </span><span style='color:#f29e38ff'>tăng Sát Thương Phá Vỡ mà mục tiêu phải chịu</span><span>, sau mỗi lần mục tiêu bị nhân vật phe ta tấn công, </span><span style='color:#f29e38ff'>người tấn công sẽ hồi HP</span><span>.</span>
+        Type: Thiên Phú
+      "130106":
+        Name: Tấn Công
+        Desc: ""
+      "130107":
+        Name: Rượu Ngọt Thủ Công
+        Desc: <span>Tấn công kẻ địch, sau khi vào chiến đấu sẽ khiến toàn bộ phe địch </span><span style='color:#f29e38ff'>rơi vào trạng thái "Say Mèm"</span><span>, và gây lượng nhỏ Sát Thương Hỏa lên toàn bộ phe địch.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "130101":
+        Name: Salty Dog
+        Desc: <span>Sau khi Gallagher vào chiến đấu sẽ hồi 20 Năng Lượng, Kháng Hiệu Ứng tăng 50%.</span>
+      "130102":
+        Name: Lion's Tail
+        Desc: <span>Khi thi triển Chiến Kỹ, giải trừ 1 Hiệu Ứng Xấu của 1 đồng đội chỉ định, đồng thời khiến Kháng Hiệu Ứng của đồng đội đó tăng 30%, duy trì 2 hiệp.</span>
+      "130103":
+        Name: Corpse Reviver
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15, Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "130104":
+        Name: Last Word
+        Desc: <span>Thời gian duy trì trạng thái "Say Mèm" do Tuyệt Kỹ của Gallagher gây ra kéo dài 1 hiệp.</span>
+      "130105":
+        Name: Death In The Afternoon
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15, Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "130106":
+        Name: Blood And Sand
+        Desc: <span>Tấn Công Kích Phá của Gallagher tăng 20%, hiệu suất Phá Vỡ Điểm Yếu tăng 20%.</span>
+  "1302":
+    Name: Argenti
+    Abilities:
+      "130201":
+        Name: Hương Thơm Bay Xa
+        Desc: <span>Gây lượng nhỏ Sát Thương Vật Lý cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "130202":
+        Name: Công Lý, Nở Rộ Từ Đây
+        Desc: <span>Gây lượng nhỏ Sát Thương Vật Lý lên toàn bộ địch.</span>
+        Type: Chiến Kỹ
+      "130203":
+        Name: Khu Vườn Ban Tặng Cái Đẹp
+        Desc: "<span>Tiêu hao </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>90</span></span><span> Năng Lượng, gây Sát Thương Vật Lý lên toàn bộ địch.</span>"
+        Type: Tuyệt Kỹ
+      "130204":
+        Name: Khách Thể Cao Thượng
+        Desc: <span>Khi thi triển Tấn Công Thường, Chiến Kỹ, Tuyệt Kỹ, mỗi lần đánh trúng 1 kẻ địch sẽ </span><span style='color:#f29e38ff'>hồi phục Năng Lượng</span><span> cho Argenti, đồng thời tăng </span><span style='color:#f29e38ff'>Tỷ Lệ Bạo Kích</span><span> của bản thân.</span>
+        Type: Thiên Phú
+      "130206":
+        Name: Tấn Công
+        Desc: ""
+      "130207":
+        Name: Tuyên Ngôn Thuần Khiết
+        Desc: <span>Khiến kẻ địch trong khu vực nhất định rơi vào trạng thái Choáng. Tấn công kẻ địch đang ở trạng thái Choáng, vào chiến đấu sẽ gây lượng nhỏ Sát Thương Vật Lý lên toàn bộ địch, Argenti hồi Năng Lượng.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "130201":
+        Name: Vết Khuyết Của Vương Quốc Cái Đẹp
+        Desc: <span>Mỗi tầng "Nâng Cấp" sẽ tăng thêm 4% Sát Thương Bạo Kích.</span>
+      "130202":
+        Name: Sự Khiêm Nhường Của Đá Mã Não
+        Desc: <span>Khi thi triển Tuyệt Kỹ, nếu số lượng kẻ địch từ 3 trở lên, Tấn Công tăng 40%, duy trì 1 hiệp.</span>
+      "130203":
+        Name: Vinh Quang Con Đường Gai
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "130204":
+        Name: Hiến Dâng Kèn Lệnh
+        Desc: <span>Khi bắt đầu chiến đấu, nhận 2 tầng "Nâng Cấp", đồng thời khiến giới hạn cộng dồn hiệu ứng của Thiên Phú tăng 2 tầng.</span>
+      "130205":
+        Name: Tuyết, Nơi Nào Đó Trên Vũ Trụ
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "130206":
+        Name: Ánh Hào Quang Của "Bạn"
+        Desc: <span>Khi thi triển Tuyệt Kỹ, bỏ qua 30% Phòng Thủ của kẻ địch.</span>
+  "1303":
+    Name: Ruan Mei
+    Abilities:
+      "130301":
+        Name: U Lan Âm Sắc
+        Desc: <span>Gây lượng nhỏ Sát Thương Băng cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "130302":
+        Name: Cung Tơ Trên Phím Nhạc
+        Desc: <span>Sau khi thi triển Chiến Kỹ, Ruan Mei nhận được Bồi Âm. Khi Ruan Mei có Bồi Âm, sẽ tăng </span><span style='color:#f29e38ff'>sát thương</span><span> và </span><span style='color:#f29e38ff'>Hiệu Suất Phá Vỡ Điểm Yếu</span><span> của toàn phe ta.</span>
+        Type: Chiến Kỹ
+      "130303":
+        Name: Hoa Rơi Chạm Nước Vương Vạt Áo
+        Desc: <span>Tăng </span><span style='color:#f29e38ff'>Xuyên Kháng Toàn Thuộc Tính</span><span> cho toàn bộ phe ta, đồng thời sau khi tấn công sẽ thi triển Mai Nở Phai Tàn lên kẻ địch.</span>
+        Type: Tuyệt Kỹ
+      "130304":
+        Name: Xoắn Ốc Phân Tách
+        Desc: <span>Tăng </span><span style='color:#f29e38ff'>tốc độ</span><span> cho tất cả đồng đội (ngoại trừ bản thân), khi phá vỡ điểm yếu của kẻ địch sẽ </span><span style='color:#f29e38ff'>gây thêm sát thương phá vỡ thuộc tính Băng</span><span> lên kẻ địch đó.</span>
+        Type: Thiên Phú
+      "130306":
+        Name: Tấn Công
+        Desc: ""
+      "130307":
+        Name: Dạ Khúc Lụa Là
+        Desc: "<span>Sau khi vào trận lần kế tiếp sẽ tự động kích hoạt </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>1</span></span><span> lần Chiến Kỹ. Sau khi dùng Bí Kỹ, phe ta tấn công kẻ địch trong Vũ Trụ Mô Phỏng, Vũ Trụ Sai Phân luôn được xem là tấn công vào Điểm Yếu của chúng để vào trận, đồng thời </span><span style='color:#f29e38ff'>bỏ qua Thuộc Tính Điểm Yếu</span><span> và làm giảm Sức Bền. Mỗi khi sở hữu 1 Chúc Phúc, sẽ tăng điểm Giảm Sức Bền, hơn nữa khi phá vỡ điểm yếu sẽ gây thêm Sát Thương Phá Vỡ.</span>"
+        Type: Bí Kỹ
+    Eidolons:
+      "130301":
+        Name: Hình Thêu Mô Phỏng Thần Kinh
+        Desc: <span>Trong thời gian Tuyệt Kỹ mở kết giới, khi toàn bộ phe ta gây sát thương sẽ bỏ qua 20% phòng thủ của mục tiêu.</span>
+      "130302":
+        Name: Dạo Bước Rừng Lau
+        Desc: <span>Khi Ruan Mei trong trận, và toàn bộ phe ta gây sát thương lên kẻ địch ở trạng thái Phá Vỡ Điểm Yếu, Tấn Công sẽ tăng 40%.</span>
+      "130303":
+        Name: Bóng Nàng Áo Lụa Xanh Màu Khói
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "130304":
+        Name: Trước Gương Đồng Tìm Thần
+        Desc: <span>Khi Điểm Yếu của kẻ địch bị phá vỡ, Tấn Công Kích Phá của Ruan Mei tăng 100%, duy trì 3 hiệp.</span>
+      "130305":
+        Name: Trâm Cài Buông Lơi
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "130306":
+        Name: Buông Khăn Phẩy Quạt
+        Desc: <span>Thời gian duy trì kết giới triển khai bởi Tuyệt Kỹ kéo dài 1 hiệp. Bội Số Sát Thương Phá Vỡ của Thiên Phú tăng thêm 200%.</span>
+  "1304":
+    Name: Aventurine
+    Abilities:
+      "130401":
+        Name: Cược Trực Tiếp
+        Desc: <span>Gây lượng nhỏ Sát Thương Số Ảo cho 1 kẻ địch chỉ định.</span>
+        Type: Tấn Công Thường
+      "130402":
+        Name: Đá Tảng Phồn Thịnh
+        Desc: <span>Cung cấp Khiên "Xu Cược Kiên Cố" </span><span style='color:#f29e38ff'>có thể cộng dồn lượng Khiên</span><span> cho toàn bộ phe ta.</span>
+        Type: Chiến Kỹ
+      "130403":
+        Name: Chúa Tể Vòng Quay
+        Desc: <span>Ngẫu nhiên nhận Cược Mù khiến 1 kẻ địch rơi vào trạng thái Hoảng Hốt, đồng thời gây Sát Thương Số Ảo cho mục tiêu, khi mục tiêu phe ta đánh trúng kẻ địch trong trạng thái Hoảng Hốt, sẽ </span><span style='color:#f29e38ff'>tăng Sát Thương Bạo Kích</span><span> gây ra.</span>
+        Type: Tuyệt Kỹ
+      "130404":
+        Name: Nòng Súng Bên Phải
+        Desc: <span>Tăng Kháng Hiệu Ứng cho 1 đồng đội phe ta có "Xu Cược Kiên Cố", và khi đồng đội này bị tấn công, sẽ tích lũy "Cược Mù" cho Aventurine, khi Aventurine có "Xu Cược Kiên Cố" có thể kháng <u>hiệu ứng xấu loại khống chế</u>. Sau khi "Cược Mù" đạt 7 điểm, Aventurine sẽ tiêu hao 7 điểm "Cược Mù" phát động </span><span style='color:#f29e38ff'><u>Đòn Đánh Theo Sau</u></span><span>, gây lượng nhỏ Sát Thương Số Ảo cho 1 kẻ địch ngẫu nhiên, tổng cộng nảy bật 7 lần.</span>
+        Type: Thiên Phú
+      "130406":
+        Name: Tấn Công
+        Desc: ""
+      "130407":
+        Name: Đỏ Hay Là Đen
+        Desc: <span>Dùng Bí Kỹ, ngẫu nhiên nhận 1 trong 3 loại hiệu ứng tăng Phòng Thủ, sau khi vào trận đấu tiếp theo sẽ tăng Phòng Thủ của toàn bộ phe ta với giá trị tương ứng.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "130401":
+        Name: Nước Cờ Tù Nhân
+        Desc: <span>Mục tiêu phe ta có Xu Cược Kiên Cố sẽ tăng 20% Sát Thương Bạo Kích. Sau khi thi triển Tuyệt Kỹ, sẽ cung cấp Khiên "Xu Cược Kiên Cố" cho toàn bộ phe ta, lượng Khiên bằng 100% lượng Khiên mà Chiến Kỹ cung cấp, duy trì 3 hiệp.</span>
+      "130402":
+        Name: Lý Tính Hữu Hạn
+        Desc: <span>Khi thi triển Tấn Công Thường sẽ khiến Kháng Toàn Thuộc Tính của mục tiêu giảm 12%, duy trì 3 hiệp.</span>
+      "130403":
+        Name: Bội Số Cao Nhất
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "130404":
+        Name: Hành Hình Đột Ngột
+        Desc: <span>Khi kích hoạt Đòn Đánh Theo Sau của Thiên Phú, sẽ tăng 40% Phòng Thủ của Aventurine trước, duy trì 2 hiệp, đồng thời tăng thêm 3 số đòn đánh trong một lượt của Đòn Đánh Theo Sau của Thiên Phú.</span>
+      "130405":
+        Name: Chán Ghét Mơ Hồ
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "130406":
+        Name: Trò Chơi Săn Hươu
+        Desc: <span>Mỗi khi có 1 đồng đội sở hữu Khiên, sát thương gây ra bởi Aventurine tăng 50%, tối đa không quá 150%.</span>
+  "1305":
+    Name: Dr. Ratio
+    Abilities:
+      "130501":
+        Name: Tri Thức Là Sức Mạnh
+        Desc: <span>Gây lượng nhỏ Sát Thương Số Ảo cho 1 kẻ địch chỉ định.</span>
+        Type: Tấn Công Thường
+      "130502":
+        Name: Thuật Nâng Cao Trí Tuệ
+        Desc: <span>Gây Sát Thương Số Ảo cho 1 kẻ địch chỉ định.</span>
+        Type: Chiến Kỹ
+      "130503":
+        Name: Tam Đoạn Phản Luận
+        Desc: <span>Gây Sát Thương Số Ảo cho 1 kẻ địch chỉ định, kèm theo Sự Mù Quáng Của Trí Giả lên kẻ này, khi đồng đội của Dr. Ratio tấn công mục tiêu đang có Sự Mù Quáng Của Trí Giả, Dr. Ratio sẽ phát động 1 lần </span><span style='color:#f29e38ff'><u>Đòn Đánh Theo Sau</u></span><span> lên mục tiêu này.</span>
+        Type: Tuyệt Kỹ
+      "130504":
+        Name: Tôi Tư Duy, Nên Tôi Tồn Tại
+        Desc: <span>Khi thi triển Chiến Kỹ sẽ có xác suất phát động 1 lần </span><span style='color:#f29e38ff'><u>Đòn Đánh Theo Sau</u></span><span> lên mục tiêu này.</span>
+        Type: Thiên Phú
+      "130506":
+        Name: Tấn Công
+        Desc: ""
+      "130507":
+        Name: Hun Đúc Thần Tượng
+        Desc: <span>Tạo một vùng đặc biệt. Kẻ địch trong vùng sẽ bị khiêu khích. Sau khi vào chiến đấu với kẻ địch trong vùng, sẽ có xác suất lớn </span><span style='color:#f29e38ff'>giảm Tốc Độ</span><span> của kẻ địch.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "130501":
+        Name: Ngạo Mạn Gây Tai Họa
+        Desc: <span>Tăng 4 tầng giới hạn cộng dồn số tầng của Vết Tích Quy Nạp. Khi bắt đầu chiến đấu, sẽ nhận ngay 4 tầng Quy Nạp. Cần mở khóa Quy Nạp trước.</span>
+      "130502":
+        Name: Chân Lý Vùi Trong Chi Tiết
+        Desc: <span>Khi Đòn Đánh Theo Sau của Thiên Phú đánh trúng mục tiêu, mỗi lần mục tiêu có 1 Hiệu Ứng Xấu, sẽ gây thêm Sát Thương Số Ảo kèm theo bằng 20% Tấn Công của Dr. Ratio. Hiệu ứng này trong mỗi Đòn Đánh Theo Sau tối đa kích hoạt 4 lần.</span>
+      "130503":
+        Name: Tự Nhận Thức Bản Thân
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "130504":
+        Name: Mù Quáng Cũng Là Ngu Dốt
+        Desc: <span>Khi kích hoạt Thiên Phú, Dr. Ratio sẽ hồi thêm 15 Năng Lượng.</span>
+      "130505":
+        Name: Biển Rộng Không Bóng Thuyền
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "130506":
+        Name: Sự Thật Là Vĩnh Cửu
+        Desc: <span>Hiệu ứng kích hoạt Sự Mù Quáng Của Trí Giả tăng thêm 1 lần, tăng 50% sát thương gây ra bởi Đòn Đánh Theo Sau của Thiên Phú.</span>
+  "1306":
+    Name: Sparkle
+    Abilities:
+      "130601":
+        Name: Hài Độc Thoại
+        Desc: <span>Gây lượng nhỏ Sát Thương Lượng Tử cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "130602":
+        Name: Cá Nhỏ Cõi Mơ
+        Desc: <span>Tăng </span><span style='color:#f29e38ff'>Sát Thương Bạo Kích</span><span> của 1 đồng đội, và khiến mục tiêu này ưu tiên hành động.</span>
+        Type: Chiến Kỹ
+      "130603":
+        Name: Cô Gái Nghìn Mặt
+        Desc: <span>Hồi phục </span><span style='color:#f29e38ff'>Điểm Chiến Kỹ</span><span> cho phe ta, tăng thêm hiệu ứng Tăng Sát Thương khi kích hoạt Thiên Phú Sparkle.</span>
+        Type: Tuyệt Kỹ
+      "130604":
+        Name: Ngụy Biện Cá Trích Đỏ
+        Desc: <span>Tăng </span><span style='color:#f29e38ff'>giới hạn Điểm Chiến Kỹ</span><span> của phe ta, khi mục tiêu phe ta tiêu hao Điểm Chiến Kỹ, sẽ tăng </span><span style='color:#f29e38ff'>sát thương gây ra</span><span> của toàn bộ phe ta.</span>
+        Type: Thiên Phú
+      "130606":
+        Name: Tấn Công
+        Desc: ""
+      "130607":
+        Name: Kẻ Kể Chuyện Không Đáng Tin
+        Desc: <span>Sau khi dùng Bí Kỹ, toàn thể phe ta sẽ vào trạng thái Lạc Lối. Ở trạng thái Lạc Lối sẽ không bị kẻ địch phát hiện. Khi vào chiến đấu trong thời gian Lạc Lối sẽ hồi </span><span style='color:#f29e38ff'>Điểm Chiến Kỹ</span><span> cho phe ta.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "130601":
+        Name: Dẹp Bỏ Hoài Nghi
+        Desc: <span>Thời gian duy trì Câu Đố Kỳ Dị thi triển bởi Tuyệt Kỹ tăng thêm 1 hiệp, mục tiêu phe ta sở hữu Câu Đố Kỳ Dị sẽ tăng 40% Tấn Công.</span>
+      "130602":
+        Name: Hư Cấu Vô Cớ
+        Desc: <span>Mỗi tầng hiệu ứng của Thiên Phú khiến mục tiêu phe ta khi gây sát thương sẽ bỏ qua 8% Phòng Thủ của mục tiêu.</span>
+      "130603":
+        Name: Giấc Mộng Viển Vông
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "130604":
+        Name: Cuộc Sống Là Canh Bạc
+        Desc: <span>Tuyệt Kỹ có thể hồi phục thêm 1 Điểm Chiến Kỹ, hiệu ứng tăng giới hạn Điểm Chiến Kỹ của Thiên Phú tăng thêm 1 điểm.</span>
+      "130605":
+        Name: Chân Tướng Hai Mặt
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "130606":
+        Name: Lời Giải Đáp Đa Tầng
+        Desc: <span>Tăng thêm hiệu ứng Tăng Sát Thương Bạo Kích của Chiến Kỹ, mức tăng bằng 30% Sát Thương Bạo Kích của Sparkle, và khi Sparkle thi triển Chiến Kỹ, sẽ khiến hiệu ứng Tăng Sát Thương Bạo Kích của Chiến Kỹ có hiệu lực với đồng đội sở hữu Câu Đố Kỳ Dị, khi Sparkle thi triển Tuyệt Kỹ, nếu trong phe ta có mục tiêu mang hiệu ứng Tăng Sát Thương Bạo Kích của Chiến Kỹ, sẽ khiến hiệu ứng này khuếch tán đến đồng đội đang có Câu Đố Kỳ Dị.</span>
+  "1307":
+    Name: Black Swan
+    Abilities:
+      "130701":
+        Name: Nhìn Thấu, Bình Minh Tĩnh Lặng
+        Desc: <span>Gây lượng nhỏ Sát Thương Phong lên 1 kẻ địch, có xác suất thi triển <u>Dấu Tích Bí Ẩn</u> lên mục tiêu. Sau khi tấn công mục tiêu ở trạng thái </span><span style='color:#f29e38ff'>Bào Mòn, Chảy Máu, Thiêu Đốt, Sốc Điện</span><span>, sẽ lần lượt có xác suất </span><span style='color:#f29e38ff'>thi triển thêm <u></u>Dấu Tích Bí Ẩn</span><span>.</span>
+        Type: Tấn Công Thường
+      "130702":
+        Name: Sụp Đổ, Hoàng Hôn Giả Dối
+        Desc: <span>Gây lượng nhỏ Sát Thương Phong lên 1 kẻ địch và mục tiêu lân cận kẻ đó, có xác suất lớn thi triển </span><span style='color:#f29e38ff'><u>Dấu Tích Bí Ẩn</u></span><span> lên mục tiêu, và có xác suất lớn giảm Phòng Thủ của mục tiêu.</span>
+        Type: Chiến Kỹ
+      "130703":
+        Name: Trầm Luân Trong Vòng Tay
+        Desc: <span>Thi triển trạng thái Vạch Trần lên toàn bộ phe địch, tăng sát thương mà mục tiêu phải chịu trong hiệp, đồng thời </span><span style='color:#f29e38ff'>xem <u>Dấu Tích Bí Ẩn</u> như là trạng thái Bào Mòn, Chảy Máu, Thiêu Đốt, Sốc Điện</span><span>. Ngoài ra, sau khi <u>Dấu Tích Bí Ẩn</u> gây sát thương lúc bắt đầu hiệp kế tiếp sẽ không làm mới số tầng. Gây Sát Thương Phong lên toàn phe địch.</span>
+        Type: Tuyệt Kỹ
+      "130704":
+        Name: Khung Cửi Vận Mệnh Khó Lường
+        Desc: <span>Khi kẻ địch chịu Sát Thương Duy Trì lúc bắt đầu mỗi hiệp, sẽ có xác suất rơi vào <u>Dấu Tích Bí Ẩn</u>, khi bắt đầu hiệp sẽ chịu </span><span style='color:#f29e38ff'>Sát Thương Phong Duy Trì</span><span>, đồng thời Black Swan sẽ kích hoạt </span><span style='color:#f29e38ff'>hiệu ứng thêm</span><span> căn cứ theo số tầng của <u>Dấu Tích Bí Ẩn</u>.</span>
+        Type: Thiên Phú
+      "130706":
+        Name: Tấn Công
+        Desc: ""
+      "130707":
+        Name: Chân Tướng Ẩn Sau Vỏ Bọc
+        Desc: <span>Sau khi dùng Bí Kỹ, khi bắt đầu lần chiến đấu kế tiếp, có xác suất lớn </span><span style='color:#f29e38ff'>thi triển <u>Dấu Tích Bí Ẩn</u> lên từng mục tiêu địch, lặp lại nhiều lần cho đến khi thi triển thất bại</span><span>.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "130701":
+        Name: Bảy Trụ Cột Của Trí Tuệ
+        Desc: <span>Khi Black Swan ở trạng thái có thể chiến đấu, kháng thuộc tính Phong, Vật Lý, Hỏa, Lôi tương ứng của kẻ địch ở trạng thái Bào Mòn, Chảy Máu, Thiêu Đốt, Sốc Điện lần lượt giảm 25%.</span>
+      "130702":
+        Name: Cừu Non, Xin Đừng Khóc Vì Ta
+        Desc: <span>Khi kẻ địch ở trạng thái Dấu Tích Bí Ẩn bị tiêu diệt, có 100% xác suất cơ bản khiến mục tiêu ở gần rơi vào 6 tầng Dấu Tích Bí Ẩn.</span>
+      "130703":
+        Name: Thượng Giới Đã Vậy, Hạ Giới Cũng Như Vậy
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "130704":
+        Name: Nước Mắt, Cũng Là Một Món Quà
+        Desc: <span>Ở trạng thái Vạch Trần, Kháng Hiệu Ứng của kẻ địch giảm 10%, đồng thời khi kẻ địch bắt đầu mỗi hiệp hoặc bị tiêu diệt sẽ hồi phục 8 Năng Lượng cho Black Swan. Hiệu ứng hồi phục Năng Lượng tối đa kích hoạt 1 lần trong thời gian duy trì trạng thái Vạch Trần, rơi vào trạng thái Vạch Trần một lần nữa sẽ làm mới số lần kích hoạt.</span>
+      "130705":
+        Name: Đường Bay Chim Di Trú
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15, cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "130706":
+        Name: Vạn Thần Nhân Từ, Chúng Sinh Khổ Đau
+        Desc: <span>Khi kẻ địch bị đồng đội của Black Swan tấn công, Black Swan sẽ có 65% xác suất cơ bản khiến mục tiêu rơi vào 1 tầng Dấu Tích Bí Ẩn.<br>Mỗi khi Black Swan khiến kẻ địch rơi vào Dấu Tích Bí Ẩn, có 50% xác suất cố định khiến số tầng Dấu Tích Bí Ẩn cộng dồn lần này tăng thêm 1 tầng.</span>
+  "1308":
+    Name: Acheron
+    Abilities:
+      "130801":
+        Name: Ba Đường Thăng Trầm
+        Desc: <span>Gây lượng nhỏ Sát Thương Lôi cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "130802":
+        Name: Bát Lôi Phi Độ
+        Desc: "<span>Nhận </span><span style='color:#f29e38ff'></span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>1</span></span><span> điểm Mộng Tàn</span><span>. Gắn </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>1</span></span><span> tầng Nút Thắt Đỏ cho 1 kẻ địch, gây Sát Thương Lôi lên kẻ này, và lượng nhỏ Sát Thương Lôi lên mục tiêu ở gần.</span>"
+        Type: Chiến Kỹ
+      "130803":
+        Name: Giấc Mộng Tàn Khuyết, Một Chém Đoạn Tuyệt
+        Desc: <span>Gây cho 1 kẻ địch 3 đòn Sát Thương Lôi với lượng nhỏ, nếu Nút Thắt Đỏ bị loại bỏ khỏi mục tiêu, sẽ gây lượng nhỏ Sát Thương Lôi cho toàn bộ phe địch. Cuối cùng gây 1 đòn Sát Thương Lôi cho toàn bộ phe địch và xóa tất cả Nút Thắt Đỏ.</span>
+        Type: Tuyệt Kỹ
+      "130804":
+        Name: Mưa Lá Đỏ, Vạn Vật Hóa Hư Không
+        Desc: <span>Khi Mộng Tàn đạt giới hạn có thể kích hoạt Tuyệt Kỹ. Trong thời gian Tuyệt Kỹ có thể </span><span style='color:#f29e38ff'>bỏ qua thuộc tính Điểm Yếu</span><span> và làm giảm Sức Bền của phe địch, đồng thời khiến toàn bộ phe địch </span><span style='color:#f29e38ff'>giảm Kháng Toàn Thuộc Tính</span><span>.<br>Trong thời gian một đơn vị bất kỳ thi triển kỹ năng khiến kẻ địch rơi vào Hiệu Ứng Xấu, Acheron sẽ nhận Mộng Tàn và gắn Nút Thắt Đỏ cho kẻ địch.</span>
+        Type: Thiên Phú
+      "130806":
+        Name: Tấn Công
+        Desc: ""
+      "130807":
+        Name: Tứ Tướng Đoạn Ngã
+        Desc: <span>Tấn công kẻ địch, khi bắt đầu mỗi đợt sẽ nhận Tứ Tướng Đoạn Ngã, gây Sát Thương Lôi cho tất cả kẻ địch, đồng thời </span><span style='color:#f29e38ff'>bỏ qua thuộc tính Điểm Yếu</span><span> và làm giảm Sức Bền.<br>Nếu tấn công kẻ địch bình thường sẽ </span><span style='color:#f29e38ff'>lập tức tiêu diệt kẻ đó</span><span>, không vào chiến đấu. Khi chưa đánh trúng địch sẽ không tiêu hao Điểm Bí Kỹ.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "130801":
+        Name: Khởi Đầu Chân Ngôn Cõi Trời Thưa Thớt
+        Desc: <span>Khi gây sát thương cho kẻ địch có Hiệu Ứng Xấu, Tỷ Lệ Bạo Kích tăng 18%.</span>
+      "130802":
+        Name: Sấm Thinh Lặng, Giông Tố Dừng
+        Desc: <span>Giảm 1 nhân vật Vận Mệnh "Hư Vô" cần thiết để Vết Tích "Vực Sâu" đạt được hiệu quả cao nhất. Khi hiệp của bản thân bắt đầu sẽ nhận 1 điểm Mộng Tàn, đồng thời kèm theo 1 tầng "Nút Thắt Đỏ" cho kẻ địch có nhiều "Nút Thắt Đỏ" nhất.</span>
+      "130803":
+        Name: Lạnh Giá Vĩnh Hằng
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15, cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "130804":
+        Name: Hồn Gương Rực Lửa
+        Desc: <span>Khi kẻ địch vào chiến đấu, sẽ khiến kẻ đó rơi vào trạng thái Trọng Thương Tuyệt Kỹ, Sát Thương Tuyệt Kỹ phải chịu tăng 8%.</span>
+      "130805":
+        Name: Núi Đá Phân Ly, Thiên Hồn Tiêu Tán
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "130806":
+        Name: Ngày Tận Thế, Người Giải Phóng
+        Desc: <span>Tăng 20% Xuyên Kháng Toàn Thuộc Tính mà sát thương Tuyệt Kỹ của Acheron gây ra, sát thương của tấn công thường và Chiến Kỹ gây ra cũng được xem là Sát Thương Tuyệt Kỹ, đồng thời bỏ qua thuộc tính Điểm Yếu và làm giảm Sức Bền của địch. Khi phá vỡ Điểm Yếu sẽ kích hoạt hiệu ứng Phá Vỡ Điểm Yếu Lôi.</span>
+  "1309":
+    Name: Robin
+    Abilities:
+      "130901":
+        Name: Âm Thanh Trắng Vỗ Cánh
+        Desc: <span>Gây lượng nhỏ Sát Thương Vật Lý cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "130902":
+        Name: Khúc Hát Ngân Nga Của Đôi Cánh
+        Desc: <span></span><span style='color:#f29e38ff'>Tăng sát thương</span><span> do toàn phe ta gây ra.</span>
+        Type: Chiến Kỹ
+      "130903":
+        Name: Ngàn Âm Hợp Xướng, Tẩu Pháp Vạn Vì Sao
+        Desc: <span>Vào trạng thái Hợp Tấu, khiến toàn phe ta </span><span style='color:#f29e38ff'>tăng Tấn Công</span><span>, và khiến đồng đội lập tức hành động, sau khi tấn công Robin gây thêm </span><span style='color:#f29e38ff'>Sát Thương Vật Lý kèm theo<u></u></span><span>. Trong thời gian trạng thái Hợp Tấu, miễn dịch <u>Hiệu Ứng Xấu loại Khống Chế</u>, trước khi kết thúc trạng thái sẽ không vào hiệp của bản thân và không thể hành động cho đến khi kết thúc đếm ngược.</span>
+        Type: Tuyệt Kỹ
+      "130904":
+        Name: Điệp Khúc Du Dương
+        Desc: <span>Tăng </span><span style='color:#f29e38ff'>Sát Thương Bạo Kích</span><span> cho toàn phe ta, và sau khi nhân vật phe ta tấn công phe địch, Robin sẽ hồi thêm Năng Lượng.</span>
+        Type: Thiên Phú
+      "130906":
+        Name: Tấn Công
+        Desc: ""
+      "130907":
+        Name: Khúc Dạo Đầu Say Men
+        Desc: "<span>Tạo một vùng đặc biệt xung quanh bản thân. Kẻ địch trong vùng này sẽ không tấn công Robin. Sau khi vào chiến đấu trong lúc vùng đặc biệt được kích hoạt, khi bắt đầu mỗi đợt, Robin sẽ hồi thêm </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>5</span></span><span> Năng Lượng.</span>"
+        Type: Bí Kỹ
+    Eidolons:
+      "130901":
+        Name: Đất Nước Của Nụ Cười
+        Desc: <span>Khi ở trạng thái Hợp Tấu, Xuyên Kháng Toàn Thuộc Tính của toàn phe ta tăng 24%.</span>
+      "130902":
+        Name: Buổi Trà Chiều Của Hai Người
+        Desc: <span>Khi ở trạng thái Hợp Tấu, Tốc Độ của toàn phe ta tăng 16%. Hiệu ứng hồi Năng Lượng của Thiên Phú tăng thêm 1 điểm.</span>
+      "130903":
+        Name: Huyền Cung Treo Ngược
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15.</span>
+      "130904":
+        Name: Chìa Khóa Giọt Mưa
+        Desc: <span>Khi thi triển Tuyệt Kỹ sẽ giải trừ Hiệu Ứng Xấu loại Khống Chế cho toàn thể phe ta, khiến toàn thể phe ta trong thời gian Robin có trạng thái Hợp Tấu tăng 50% Kháng Hiệu Ứng.</span>
+      "130905":
+        Name: Giọt Nước Mắt Của Ngôi Sao Cô Đơn
+        Desc: <span>Cấp Tấn Công Thường +1, tối đa không quá cấp 10; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "130906":
+        Name: Đêm Trăng Vắng Bóng
+        Desc: <span>Khi ở trạng thái Hợp Tấu, sát thương bạo kích của Sát Thương Vật Lý Kèm Theo mà Tuyệt Kỹ gây ra tăng thêm 450%. Hiệu quả Đêm Trăng Vắng Bóng tối đa kích hoạt 8 lần, mỗi lần thi triển Tuyệt Kỹ sẽ làm mới số lần kích hoạt.</span>
+  "1310":
+    Name: Firefly
+    Abilities:
+      "131001":
+        Name: "Chỉ Lệnh: Lực Đẩy Bùng Phát"
+        Desc: <span>Gây lượng ít Sát Thương Hỏa cho một kẻ địch.</span>
+        Type: Tấn Công Thường
+      "131002":
+        Name: "Chỉ Lệnh: Oanh Tạc Trên Không"
+        Desc: <span>Tiêu hao một phần HP của bản thân để hồi năng lượng, gây Sát Thương Hỏa cho một kẻ địch. Khiến bản thân lần sau <u>Ưu Tiên Hành Động</u>.</span>
+        Type: Chiến Kỹ
+      "131003":
+        Name: "Đom Đóm IV: Thiêu Đốt Hoàn Toàn"
+        Desc: "<span>Bước vào trạng thái Thiêu Đốt Hoàn Toàn, </span><span style='color:#f29e38ff'>khiến bản thân ưu tiên hành động <span style='whiteSpace: \"nowrap\"'>100%</span></span><span>, nhận được </span><span style='color:#f29e38ff'>Tấn Công Thường Cường Hóa</span><span> và </span><span style='color:#f29e38ff'>Chiến Kỹ Cường Hóa</span><span>, đồng thời tăng </span><span style='color:#f29e38ff'>tốc độ, Hiệu Suất Phá Vỡ Điểm Yếu của bản thân, và Sát Thương Phá Vỡ mà kẻ địch phải chịu</span><span>, cho đến khi đếm ngược kết thúc.</span>"
+        Type: Tuyệt Kỹ
+      "131004":
+        Name: Trung Khu Kén Lửa
+        Desc: "<span>HP càng thấp, sát thương phải chịu càng thấp. Hiệu ứng Giảm Sát Thương trong trạng thái Thiêu Đốt Hoàn Toàn duy trì mức tối đa, tăng Kháng Hiệu Ứng. Nếu năng lượng không đủ </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>50%</span></span><span> thì khi bắt đầu chiến đấu, năng lượng sẽ hồi đến </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>50%</span></span><span>. Khi năng lượng hồi đến giới hạn sẽ giải trừ tất cả <u>Hiệu Ứng Xấu</u> của bản thân.</span>"
+        Type: Thiên Phú
+      "131006":
+        Name: Tấn Công
+        Desc: ""
+      "131007":
+        Name: "Δ Chỉ Lệnh: Thiêu Đốt Sao Băng"
+        Desc: <span>Nhảy lên không trung và di chuyển tự do, sau vài giây sẽ đáp xuống và tấn công tất cả kẻ địch trong phạm vi, khi bắt đầu </span><span style='color:#f29e38ff'>mỗi đợt</span><span> sẽ </span><span style='color:#f29e38ff'>thêm Điểm Yếu Hỏa</span><span> cho toàn phe địch, đồng thời gây Sát Thương Hỏa cho toàn phe địch.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "131001":
+        Name: Tôi Từng Ngủ Yên, Trong Chiếc Kén Đỏ
+        Desc: <span>Khi thi triển Chiến Kỹ Cường Hóa sẽ bỏ qua 15% phòng thủ của mục tiêu, Chiến Kỹ Cường Hóa không tiêu hao Điểm Chiến Kỹ.</span>
+      "131002":
+        Name: Rơi Xuống, Từ Bầu Trời Vỡ Vụn
+        Desc: <span>Khi đang ở trong trạng thái Thiêu Đốt Hoàn Toàn, thi triển Tấn Công Thường Cường Hóa, Chiến Kỹ Cường Hóa tiêu diệt kẻ địch hoặc khiến mục tiêu rơi vào trạng thái Phá Vỡ Điểm Yếu, Chiến Giáp SAM sẽ nhận ngay 1 hiệp cộng thêm. Hiệu ứng này có thể kích hoạt lại sau 1 hiệp.</span>
+      "131003":
+        Name: Ngủ Say Trong Thiên Hà Lặng Thinh
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không vượt quá cấp 15; Cấp Tấn Công Thường +1, tối đa không vượt quá cấp 10.</span>
+      "131004":
+        Name: Tôi Sẽ Nhìn Thấy, Ngọn Lửa Đom Đóm
+        Desc: <span>Ở trạng thái Thiêu Đốt Hoàn Toàn, Kháng Hiệu Ứng của Chiến Giáp SAM tăng 50%.</span>
+      "131005":
+        Name: Sáng Lên Từ Đêm Không Mộng Mị
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không vượt quá cấp 15; Cấp Thiên Phú +2, tối đa không vượt quá cấp 15.</span>
+      "131006":
+        Name: Nở Rộ Ở Ngày Mai Vô Tận
+        Desc: <span>Xuyên Kháng Hỏa của Chiến Giáp SAM ở trạng thái Thiêu Đốt Hoàn Toàn tăng 20%. Khi thi triển Tấn Công Thường Cường Hóa, Chiến Kỹ Cường Hóa, Hiệu Suất Phá Vỡ Điểm Yếu sẽ tăng 50%.</span>
+  "1312":
+    Name: Misha
+    Abilities:
+      "131201":
+        Name: Xin Nhường Bước, Làm Ơn!
+        Desc: <span>Gây lượng nhỏ Sát Thương Băng cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "131202":
+        Name: Phục... Phục Vụ Phòng!
+        Desc: <span>Gây Sát Thương Băng cho 1 kẻ địch và lượng nhỏ Sát Thương Băng cho mục tiêu lân cận, tăng </span><span style='color:#f29e38ff'>số đòn đánh trong một lượt của Tuyệt Kỹ</span><span> lần sau của Misha.</span>
+        Type: Chiến Kỹ
+      "131203":
+        Name: Sắp... Sắp Trễ Rồi!
+        Desc: "<span>Gây lượng nhỏ Sát Thương Băng lên 1 kẻ địch, ban đầu tổng cộng Nảy Bật </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>3</span></span><span> lần, tối đa Nảy Bật </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>10</span></span><span> lần. Trước mỗi đòn tấn công có xác suất nhỏ khiến mục tiêu </span><span style='color:#f29e38ff'>Đóng Băng</span><span>.</span>"
+        Type: Tuyệt Kỹ
+      "131204":
+        Name: Kết Cấu Dẫn Truyền
+        Desc: <span>Toàn bộ phe ta cứ </span><span style='color:#f29e38ff'>tiêu hao 1 Điểm Chiến Kỹ</span><span> sẽ tăng </span><span style='color:#f29e38ff'>số đòn đánh trong một lượt của Tuyệt Kỹ</span><span> lần sau của Misha, đồng thời Misha hồi phục Năng Lượng.</span>
+        Type: Thiên Phú
+      "131206":
+        Name: Tấn Công
+        Desc: ""
+      "131207":
+        Name: Chờ Đã, Bạn Đẹp Quá!
+        Desc: <span>Tạo một vùng đặc biệt. Kẻ địch trong vùng bị dừng hành động. Sau khi vào chiến đấu với kẻ địch trong vùng, sẽ tăng </span><span style='color:#f29e38ff'>số đòn đánh trong một lượt của Tuyệt Kỹ</span><span> lần sau của Misha.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "131201":
+        Name: Ảo Ảnh Lay Động
+        Desc: <span>Khi thi triển Tuyệt Kỹ, cứ mỗi 1 kẻ địch có trên trận, thì số đòn đánh trong một lượt của Tuyệt Kỹ lần này tăng thêm 1 đòn, tối đa tăng thêm 5 đòn.</span>
+      "131202":
+        Name: Khát Khao Tuổi Trẻ
+        Desc: <span>Trước mỗi đòn tấn công của Tuyệt Kỹ, có 24% xác suất cơ bản khiến Phòng Thủ của mục tiêu giảm 16%, duy trì 3 hiệp.</span>
+      "131203":
+        Name: Hình Bóng Tháng Ngày Hạnh Phúc
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15, cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "131204":
+        Name: Hình Bóng Thân Thương
+        Desc: <span>Bội Số Sát Thương mỗi đòn tấn công của Tuyệt Kỹ tăng 6%.</span>
+      "131205":
+        Name: Tình Đầu Và Tình Bạn
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "131206":
+        Name: Niềm Mong Mỏi Xa Vời
+        Desc: <span>Khi thi triển Tuyệt Kỹ, tăng 30% sát thương do bản thân gây ra, duy trì đến khi kết thúc hiệp của bản thân, và sau lần thi triển Chiến Kỹ kế tiếp, sẽ hồi phục 1 Điểm Chiến Kỹ cho phe ta.</span>
+  "1314":
+    Name: Jade
+    Abilities:
+      "131401":
+        Name: Cú Quất Tiền Tài
+        Desc: <span>Gây lượng nhỏ Sát Thương Lượng Tử cho một kẻ địch, gây lượng nhỏ Sát Thương Lượng Tử cho các mục tiêu ở gần.</span>
+        Type: Tấn Công Thường
+      "131402":
+        Name: Đảm Bảo Sáp Nhập
+        Desc: <span>Khiến 1 đồng đội trở thành </span><span style='color:#f29e38ff'>Người Thu Nợ</span><span>, tăng Tốc Độ của đồng đội đó. Sau khi </span><span style='color:#f29e38ff'>Người Thu Nợ</span><span> tấn công, sẽ gây lượng nhỏ <u>Sát Thương Lượng Tử Kèm Theo</u> lên mỗi kẻ địch bị đánh trúng, đồng thời tiêu hao HP của bản thân. Khi Jade trở thành Người Thu Nợ, sẽ không thể nhận hiệu ứng tăng Tốc Độ, đồng thời sau khi tấn công sẽ không tiêu hao HP.</span>
+        Type: Chiến Kỹ
+      "131403":
+        Name: Vực Thẳm Dục Vọng, Khế Ước Ngục Tù
+        Desc: <span>Gây Sát Thương Lượng Tử cho toàn phe địch, khiến bản thân nhận tăng Bội Số Sát Thương </span><span style='color:#f29e38ff'><u>Đòn Đánh Theo Sau</u></span><span>.</span>
+        Type: Tuyệt Kỹ
+      "131404":
+        Name: Răng Nanh Lấp Lánh
+        Desc: "<span>Sau khi Jade hoặc mục tiêu trở thành </span><span style='color:#f29e38ff'>Người Thu Nợ</span><span> tung đòn tấn công, cứ đánh trúng 1 mục tiêu địch sẽ nhận được 1 Điểm Nạp Năng Lượng. Sau khi Nạp Năng Lượng đạt </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>8</span></span><span> điểm, sẽ tiêu hao </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>8</span></span><span> Điểm Nạp Năng Lượng để phát động 1 lần </span><span style='color:#f29e38ff'><u>Đòn Đánh Theo Sau</u></span><span>, gây Sát Thương Lượng Tử cho toàn phe địch.<br>Khi Jade phát động </span><span style='color:#f29e38ff'><u>Đòn Đánh Theo Sau</u></span><span> sẽ nhận được Vật Thế Chấp, giúp tăng Sát Thương Bạo Kích, tối đa cộng dồn </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>50</span></span><span> tầng.</span>"
+        Type: Thiên Phú
+      "131406":
+        Name: Tấn Công
+        Desc: ""
+      "131407":
+        Name: Tầm Nhìn Của Thợ Săn
+        Desc: "<span>Khiến kẻ địch trong khu vực nhất định rơi vào trạng thái Trung Thành Mù Quáng. Tấn công kẻ địch đang ở trạng thái Trung Thành Mù Quáng, sẽ khiến tất cả kẻ địch đang ở trạng thái Trung Thành Mù Quáng vào chiến đấu cùng lúc, sau khi vào chiến đấu sẽ gây lượng ít Sát Thương Lượng Tử cho toàn phe địch, nhận ngay </span><span style='color:#f29e38ff'><span style='whiteSpace: \"nowrap\"'>15</span></span><span> tầng Vật Thế Chấp.</span>"
+        Type: Bí Kỹ
+    Eidolons:
+      "131401":
+        Name: Vị Tha? Cho Phép Giao Dịch
+        Desc: <span>Sát thương Đòn Đánh Theo Sau đến từ Thiên Phú của Jade tăng 32%, nhân vật mang trạng thái Người Thu Nợ sau khi tấn công, nếu số lượng địch đánh trúng bằng 2/1, thì Jade sẽ nhận thêm 1/2 điểm Nạp Năng Lượng.</span>
+      "131402":
+        Name: Đạo Đức? Đã Chứng Thực Cầm Cố
+        Desc: <span>Khi Vật Thế Chấp cộng dồn đến 15 tầng, Tỷ Lệ Bạo Kích của Jade tăng 18%.</span>
+      "131403":
+        Name: Bộc Trực? Chỉ Chờ Đem Cầm
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không vượt quá cấp 15; Cấp Thiên Phú +2, tối đa không vượt quá cấp 15.</span>
+      "131404":
+        Name: Chân Thành? Chỉ Có Quyền Chọn Bán
+        Desc: <span>Khi thi triển Tuyệt Kỹ, khiến sát thương Jade gây ra bỏ qua 12% Phòng Thủ của kẻ địch, duy trì 3 hiệp.</span>
+      "131405":
+        Name: Hy Vọng? Đã Bán Quyền Sở Hữu
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không vượt quá cấp 15; Cấp Tấn Công Thường +1, tối đa không vượt quá cấp 10.</span>
+      "131406":
+        Name: Công Bằng? Đang Chờ Tài Trợ
+        Desc: <span>Khi trong trận có nhân vật đang ở trạng thái Người Thu Nợ, Xuyên Kháng Lượng Tử của Jade tăng 20%, đồng thời Jade nhận được trạng thái Người Thu Nợ.</span>
+  "1315":
+    Name: Boothill
+    Abilities:
+      "131501":
+        Name: Móng Sắt Nứt Sọ
+        Desc: <span>Gây lượng nhỏ Sát Thương Vật Lý cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "131502":
+        Name: Điệu Tango Của Vũ Công Cháy Bỏng
+        Desc: <span>Mở </span><span style='color:#f29e38ff'>Đối Đầu Tuyệt Mệnh</span><span>, mục tiêu trong trạng thái Đối Đầu Tuyệt Mệnh </span><span style='color:#f29e38ff'>sau khi bị tiêu diệt hoặc Điểm Yếu bị phá vỡ</span><span>, Boothill sẽ nhận được Cú Lừa Bỏ Túi và giải trừ Đối Đầu Tuyệt Mệnh. Boothill nhận được </span><span style='color:#f29e38ff'>Tấn Công Thường Cường Hóa</span><span> đồng thời hiệp này sẽ không kết thúc.</span>
+        Type: Chiến Kỹ
+      "131503":
+        Name: Buổi Tranh Tài Hoàng Hôn Của Vũ Công Quỷ Bụi
+        Desc: <span></span><span style='color:#f29e38ff'>Thêm Điểm Yếu Vật Lý</span><span> cho 1 kẻ địch, đồng thời gây lượng lớn Sát Thương Vật Lý cho kẻ đó, khiến mục tiêu trì hoãn hành động.</span>
+        Type: Tuyệt Kỹ
+      "131504":
+        Name: Năm Hạt Đậu Nằm Trong Vỏ Đậu
+        Desc: <span>Cú Lừa Bỏ Túi tăng điểm Giảm Sức Bền của Tấn Công Thường Cường Hóa, đồng thời gây thêm </span><span style='color:#f29e38ff'>Sát Thương Phá Vỡ</span><span> thuộc tính Vật lý cho </span><span style='color:#f29e38ff'>kẻ địch bị phá vỡ Điểm yếu</span><span>. Sau khi chiến thắng, Cú Lừa Bỏ Túi sẽ được bảo lưu cho lần chiến đấu tiếp theo.</span>
+        Type: Thiên Phú
+      "131506":
+        Name: Tấn Công
+        Desc: ""
+      "131507":
+        Name: Nụ Cười Ba Nhân Chín
+        Desc: <span>Sau khi dùng Bí Kỹ, lần tiếp theo vào trận, lần đầu thi triển Chiến Kỹ sẽ </span><span style='color:#f29e38ff'>thêm Điểm Yếu Vật Lý</span><span> cho 1 kẻ địch.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "131501":
+        Name: Vì Sao Đơn Độc Dặm Trường
+        Desc: <span>Khi bắt đầu chiến đấu, nhận 1 tầng Cú Lừa Bỏ Túi. Khi Boothill gây sát thương sẽ bỏ qua 16% Phòng Thủ của mục tiêu.</span>
+      "131502":
+        Name: Kẻ Săn Cột Mốc
+        Desc: <span>Khi trong Đối Đầu Tuyệt Mệnh và nhận Cú Lừa Bỏ Túi, hồi 1 Điểm Chiến Kỹ, hơn nữa Tấn Công Kích Phá tăng 30%, duy trì 2 hiệp. Hiệu ứng này không thể kích hoạt trùng lặp trong 1 hiệp, khi nhận Cú Lừa Bỏ Túi vượt mức cũng sẽ kích hoạt.</span>
+      "131503":
+        Name: Người Bảo Vệ Vườn Cẩm Thạch
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15, cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "131504":
+        Name: Đầu Bếp Thịt Nguội
+        Desc: <span>Kẻ địch trong trạng thái Đối Đầu Tuyệt Mệnh bị Boothill tấn công, sát thương phải chịu sẽ tăng thêm 12%. Khi Boothill bị kẻ địch trong trạng thái Đối Đầu Tuyệt Mệnh tấn công, hiệu ứng Tăng Sát Thương phải chịu sẽ giảm 12%.</span>
+      "131505":
+        Name: Người Diễn Thuyết Tranh Cử
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "131506":
+        Name: Gấu Mèo Ở Khách Sạn Xà Beng
+        Desc: <span>Khi kích hoạt Thiên Phú gây Sát Thương Phá Vỡ, sẽ gây thêm cho mục tiêu Sát Thương Phá Vỡ bằng 40% bội số sát thương ban đầu, gây thêm cho mục tiêu lân cận Sát Thương Phá Vỡ bằng 70% bội số sát thương ban đầu.</span>
+  "8001":
+    Name: Caelus (Hủy Diệt)
+    Abilities:
+      "800101":
+        Name: Trận Đánh Chia Tay
+        Desc: <span>Gây lượng nhỏ Sát Thương Vật Lý cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "800102":
+        Name: Trận Chiến Cuối Cùng
+        Desc: <span>Gây Sát Thương Vật Lý cho 1 kẻ địch và mục tiêu lân cận.</span>
+        Type: Chiến Kỹ
+      "800103":
+        Name: Át Chủ Bài Ma Thuật
+        Desc: <span>Chọn cách tấn công đơn lẻ hoặc đánh lan để ra đòn toàn lực.</span>
+        Type: Tuyệt Kỹ
+      "800104":
+        Name: Thành Lũy Cầm Chân
+        Desc: <span>Sau mỗi lần Phá Vỡ Điểm Yếu của mục tiêu phe địch, Tấn Công sẽ tăng.</span>
+        Type: Thiên Phú
+      "800106":
+        Name: Tấn Công
+        Desc: ""
+      "800107":
+        Name: Đòn Đánh Bất Diệt
+        Desc: <span>Sau khi dùng Bí Kỹ sẽ lập tức </span><span style='color:#f29e38ff'>hồi HP</span><span> cho toàn bộ phe ta.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "800101":
+        Name: Ánh Sao Soi Chiếu Vạn Giới
+        Desc: <span>Khi thi triển Tuyệt Kỹ để tiêu diệt mục tiêu phe địch, Nhà Khai Phá hồi thêm 10 điểm Năng Lượng, hiệu ứng này mỗi lần tấn công chỉ có thể kích hoạt 1 lần.</span>
+      "800102":
+        Name: Nhân Duyên Hợp Tan
+        Desc: <span>Sau khi tấn công, nếu kẻ địch bị đánh trúng có Điểm Yếu là thuộc tính vật lý, sẽ hồi HP bằng 5% Tấn Công của Nhà Khai Phá.</span>
+      "800103":
+        Name: Lời Thì Thầm Dẫn Dắt
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "800104":
+        Name: Khoảnh Khắc Chứng Kiến Huỷ Diệt
+        Desc: <span>Khi đánh trúng kẻ địch trong trạng thái Phá Vỡ Điểm Yếu, Tỷ Lệ Bạo Kích tăng 25%.</span>
+      "800105":
+        Name: Hy Vọng Tái Sinh
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "800106":
+        Name: Ý Chí Khai Phá Vũ Trụ
+        Desc: <span>Khi Nhà Khai Phá tiêu diệt mục tiêu phe địch cũng sẽ kích hoạt Thiên Phú.</span>
+  "8002":
+    Name: Stelle (Hủy Diệt)
+    Abilities:
+      "800201":
+        Name: Trận Đánh Chia Tay
+        Desc: <span>Gây lượng nhỏ Sát Thương Vật Lý cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "800202":
+        Name: Trận Chiến Cuối Cùng
+        Desc: <span>Gây Sát Thương Vật Lý cho 1 kẻ địch và mục tiêu lân cận.</span>
+        Type: Chiến Kỹ
+      "800203":
+        Name: Át Chủ Bài Ma Thuật
+        Desc: <span>Chọn cách tấn công đơn lẻ hoặc đánh lan để ra đòn toàn lực.</span>
+        Type: Tuyệt Kỹ
+      "800204":
+        Name: Thành Lũy Cầm Chân
+        Desc: <span>Sau mỗi lần Phá Vỡ Điểm Yếu của mục tiêu phe địch, Tấn Công sẽ tăng.</span>
+        Type: Thiên Phú
+      "800206":
+        Name: Tấn Công
+        Desc: ""
+      "800207":
+        Name: Đòn Đánh Bất Diệt
+        Desc: <span>Sau khi dùng Bí Kỹ sẽ lập tức </span><span style='color:#f29e38ff'>hồi HP</span><span> cho toàn bộ phe ta.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "800201":
+        Name: Ánh Sao Soi Chiếu Vạn Giới
+        Desc: <span>Khi thi triển Tuyệt Kỹ để tiêu diệt mục tiêu phe địch, Nhà Khai Phá hồi thêm 10 điểm Năng Lượng, hiệu ứng này mỗi lần tấn công chỉ có thể kích hoạt 1 lần.</span>
+      "800202":
+        Name: Nhân Duyên Hợp Tan
+        Desc: <span>Sau khi tấn công, nếu kẻ địch bị đánh trúng có Điểm Yếu là thuộc tính vật lý, sẽ hồi HP bằng 5% Tấn Công của Nhà Khai Phá.</span>
+      "800203":
+        Name: Lời Thì Thầm Dẫn Dắt
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "800204":
+        Name: Khoảnh Khắc Chứng Kiến Huỷ Diệt
+        Desc: <span>Khi đánh trúng kẻ địch trong trạng thái Phá Vỡ Điểm Yếu, Tỷ Lệ Bạo Kích tăng 25%.</span>
+      "800205":
+        Name: Hy Vọng Tái Sinh
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "800206":
+        Name: Ý Chí Khai Phá Vũ Trụ
+        Desc: <span>Khi Nhà Khai Phá tiêu diệt mục tiêu phe địch cũng sẽ kích hoạt Thiên Phú.</span>
+  "8003":
+    Name: Caelus (Bảo Hộ)
+    Abilities:
+      "800301":
+        Name: Tia Sáng Xuyên Băng
+        Desc: <span>Gây lượng nhỏ Sát Thương Hỏa cho 1 kẻ địch, nhận "Ý Chí Sục Sôi".</span>
+        Type: Tấn Công Thường
+      "800302":
+        Name: Hổ Phách Lửa Bất Diệt
+        Desc: <span>Giảm sát thương mà bản thân phải chịu và nhận "Ý Chí Sục Sôi", có xác suất lớn khiến toàn phe địch rơi vào trạng thái Khiêu Khích.</span>
+        Type: Chiến Kỹ
+      "800303":
+        Name: Súng Lửa Xung Trận
+        Desc: <span>Gây Sát Thương Hỏa cho toàn phe địch, cường hóa lần Tấn Công Thường tiếp theo.</span>
+        Type: Tuyệt Kỹ
+      "800304":
+        Name: Kho Báu Của Đấng Kiến Tạo
+        Desc: <span>Khi bị tấn công sẽ cộng dồn Ý Chí Sục Sôi, khi Ý Chí Sục Sôi không dưới 4 tầng, Tấn Công Thường sẽ được </span><span style='color:#f29e38ff'>cường hóa</span><span>. Sau khi thi triển Tấn Công Thường, Chiến Kỹ, Tuyệt Kỹ sẽ cung cấp Khiên cho toàn bộ phe ta.</span>
+        Type: Thiên Phú
+      "800306":
+        Name: Tấn Công
+        Desc: ""
+      "800307":
+        Name: Hiệu Lệnh Của Đấng Bảo Vệ
+        Desc: <span>Sau khi dùng Bí Kỹ, khi bắt đầu lần chiến đấu tiếp theo sẽ cung cấp Khiên cho bản thân.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "800301":
+        Name: Tiếng Kêu Từ Cốt Tuỷ Thế Giới
+        Desc: <span>Khi Tấn Công Thường, gây thêm Sát Thương Hỏa bằng 25% Phòng Thủ của Nhà Khai Phá; Khi thi triển cường hoá Tấn Công Thường, gây thêm Sát Thương Hỏa bằng 50% Phòng Thủ của Nhà Khai Phá.</span>
+      "800302":
+        Name: Vững Vàng Như Sắt
+        Desc: <span>Khi kích hoạt Thiên Phú sẽ cung cấp Khiên cho toàn phe ta, giúp triệt tiêu thêm một lượng sát thương bằng 2% Phòng Thủ của Nhà Khai Phá +27.</span>
+      "800303":
+        Name: Kiến Tạo Bản Vẽ Tương Lai
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "800304":
+        Name: Lưu Lại Lời Thề Văn Minh
+        Desc: <span>Khi bắt đầu chiến đấu sẽ nhận ngay 4 tầng "Ý Chí Sục Sôi".</span>
+      "800305":
+        Name: Dũng Khí Tựa Hào Quang
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "800306":
+        Name: Thành Luỹ Trường Tồn
+        Desc: <span>Sau khi thi triển cường hóa Tấn Công Thường hoặc Tuyệt Kỹ, Phòng Thủ của Nhà Khai Phá tăng 10%, tối đa cộng dồn 3 tầng.</span>
+  "8004":
+    Name: Stelle (Bảo Hộ)
+    Abilities:
+      "800401":
+        Name: Tia Sáng Xuyên Băng
+        Desc: <span>Gây lượng nhỏ Sát Thương Hỏa cho 1 kẻ địch, nhận "Ý Chí Sục Sôi".</span>
+        Type: Tấn Công Thường
+      "800402":
+        Name: Hổ Phách Lửa Bất Diệt
+        Desc: <span>Giảm sát thương mà bản thân phải chịu và nhận "Ý Chí Sục Sôi", có xác suất lớn khiến toàn phe địch rơi vào trạng thái Khiêu Khích.</span>
+        Type: Chiến Kỹ
+      "800403":
+        Name: Súng Lửa Xung Trận
+        Desc: <span>Gây Sát Thương Hỏa cho toàn phe địch, cường hóa lần Tấn Công Thường tiếp theo.</span>
+        Type: Tuyệt Kỹ
+      "800404":
+        Name: Kho Báu Của Đấng Kiến Tạo
+        Desc: <span>Khi bị tấn công sẽ cộng dồn Ý Chí Sục Sôi, khi Ý Chí Sục Sôi không dưới 4 tầng, Tấn Công Thường sẽ được </span><span style='color:#f29e38ff'>cường hóa</span><span>. Sau khi thi triển Tấn Công Thường, Chiến Kỹ, Tuyệt Kỹ sẽ cung cấp Khiên cho toàn bộ phe ta.</span>
+        Type: Thiên Phú
+      "800406":
+        Name: Tấn Công
+        Desc: ""
+      "800407":
+        Name: Hiệu Lệnh Của Đấng Bảo Vệ
+        Desc: <span>Sau khi dùng Bí Kỹ, khi bắt đầu lần chiến đấu tiếp theo sẽ cung cấp Khiên cho bản thân.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "800401":
+        Name: Tiếng Kêu Từ Cốt Tuỷ Thế Giới
+        Desc: <span>Khi Tấn Công Thường, gây thêm Sát Thương Hỏa bằng 25% Phòng Thủ của Nhà Khai Phá; Khi thi triển cường hoá Tấn Công Thường, gây thêm Sát Thương Hỏa bằng 50% Phòng Thủ của Nhà Khai Phá.</span>
+      "800402":
+        Name: Vững Vàng Như Sắt
+        Desc: <span>Khi kích hoạt Thiên Phú sẽ cung cấp Khiên cho toàn phe ta, giúp triệt tiêu thêm một lượng sát thương bằng 2% Phòng Thủ của Nhà Khai Phá +27.</span>
+      "800403":
+        Name: Kiến Tạo Bản Vẽ Tương Lai
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "800404":
+        Name: Lưu Lại Lời Thề Văn Minh
+        Desc: <span>Khi bắt đầu chiến đấu sẽ nhận ngay 4 tầng "Ý Chí Sục Sôi".</span>
+      "800405":
+        Name: Dũng Khí Tựa Hào Quang
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "800406":
+        Name: Thành Luỹ Trường Tồn
+        Desc: <span>Sau khi thi triển cường hóa Tấn Công Thường hoặc Tuyệt Kỹ, Phòng Thủ của Nhà Khai Phá tăng 10%, tối đa cộng dồn 3 tầng.</span>
+  "8005":
+    Name: Caelus (Hòa Hợp)
+    Abilities:
+      "800501":
+        Name: Nghi Thức Điệu Swing
+        Desc: <span>Gây lượng nhỏ Sát Thương Số Ảo cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "800502":
+        Name: Cơn Mưa Tiền Đột Ngột
+        Desc: <span>Gây lượng nhỏ Sát Thương Số Ảo cho 1 kẻ địch, tổng cộng nảy bật 5 lần.</span>
+        Type: Chiến Kỹ
+      "800503":
+        Name: Diễu Hành Đèn Sân Khấu Huyên Náo
+        Desc: <span>Thi triển hiệu ứng Bạn Nhảy cho toàn bộ phe ta. Mục tiêu phe ta có Bạn Nhảy sẽ </span><span style='color:#f29e38ff'>tăng Tấn Công Kích Phá</span><span>, đồng thời, sau khi tấn công kẻ địch trong <u>trạng thái Phá Vỡ Điểm Yếu</u> sẽ gây thêm 1 lần </span><span style='color:#f29e38ff'><u>Siêu Sát Thương Phá Vỡ</u></span><span>.</span>
+        Type: Tuyệt Kỹ
+      "800504":
+        Name: Ca Múa Trên Không Toàn Màn Hình
+        Desc: <span>Khi có điểm yếu của kẻ địch bị phá vỡ, Nhà Khai Phá sẽ hồi Năng Lượng.</span>
+        Type: Thiên Phú
+      "800506":
+        Name: Tấn Công
+        Desc: ""
+      "800507":
+        Name: Ngay Và Luôn! Nhóm Độc Tấu
+        Desc: <span>Khi bắt đầu trận kế tiếp sẽ tăng Tấn Công Kích Phá của toàn bộ phe ta.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "800501":
+        Name: Ghế Khán Giả VIP Nhất Của Bạn
+        Desc: <span>Sau khi thi triển Chiến Kỹ lần đầu tiên sẽ hồi ngay 1 điểm Chiến Kỹ.</span>
+      "800502":
+        Name: Bước Chân Cầu Vồng Vượt Ngục
+        Desc: <span>Khi trận đấu bắt đầu, hiệu suất hồi Năng Lượng của Nhà Khai Phá tăng 25%, duy trì 3 hiệp.</span>
+      "800503":
+        Name: Viện Điều Dưỡng Của Dấu Lặng
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "800504":
+        Name: Vương Miện Bảo Vệ Chim Bồ Câu
+        Desc: <span>Khi Nhà Khai Phá trong trận, tăng Tấn Công Kích Phá của đồng đội ngoại trừ bản thân, mức tăng bằng 15% Tấn Công Kích Phá của Nhà Khai Phá.</span>
+      "800505":
+        Name: Bài Thơ Che Giấu Nhịp Điệu Cổ
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "800506":
+        Name: Ngày Mai, Nghỉ Ngơi Trong Ánh Đèn Sân Khấu
+        Desc: <span>Số lần sát thương thêm của Chiến Kỹ tăng 2 lần.</span>
+  "8006":
+    Name: Stelle (Hòa Hợp)
+    Abilities:
+      "800601":
+        Name: Nghi Thức Điệu Swing
+        Desc: <span>Gây lượng nhỏ Sát Thương Số Ảo cho 1 kẻ địch.</span>
+        Type: Tấn Công Thường
+      "800602":
+        Name: Cơn Mưa Tiền Đột Ngột
+        Desc: <span>Gây lượng nhỏ Sát Thương Số Ảo cho 1 kẻ địch, tổng cộng nảy bật 5 lần.</span>
+        Type: Chiến Kỹ
+      "800603":
+        Name: Diễu Hành Đèn Sân Khấu Huyên Náo
+        Desc: <span>Thi triển hiệu ứng Bạn Nhảy cho toàn bộ phe ta. Mục tiêu phe ta có Bạn Nhảy sẽ </span><span style='color:#f29e38ff'>tăng Tấn Công Kích Phá</span><span>, đồng thời, sau khi tấn công kẻ địch trong <u>trạng thái Phá Vỡ Điểm Yếu</u> sẽ gây thêm 1 lần </span><span style='color:#f29e38ff'><u>Siêu Sát Thương Phá Vỡ</u></span><span>.</span>
+        Type: Tuyệt Kỹ
+      "800604":
+        Name: Ca Múa Trên Không Toàn Màn Hình
+        Desc: <span>Khi có điểm yếu của kẻ địch bị phá vỡ, Nhà Khai Phá sẽ hồi Năng Lượng.</span>
+        Type: Thiên Phú
+      "800606":
+        Name: Tấn Công
+        Desc: ""
+      "800607":
+        Name: Ngay Và Luôn! Nhóm Độc Tấu
+        Desc: <span>Khi bắt đầu trận kế tiếp sẽ tăng Tấn Công Kích Phá của toàn bộ phe ta.</span>
+        Type: Bí Kỹ
+    Eidolons:
+      "800601":
+        Name: Ghế Khán Giả VIP Nhất Của Bạn
+        Desc: <span>Sau khi thi triển Chiến Kỹ lần đầu tiên sẽ hồi ngay 1 điểm Chiến Kỹ.</span>
+      "800602":
+        Name: Bước Chân Cầu Vồng Vượt Ngục
+        Desc: <span>Khi trận đấu bắt đầu, hiệu suất hồi Năng Lượng của Nhà Khai Phá tăng 25%, duy trì 3 hiệp.</span>
+      "800603":
+        Name: Viện Điều Dưỡng Của Dấu Lặng
+        Desc: <span>Cấp Chiến Kỹ +2, tối đa không quá cấp 15; Cấp Thiên Phú +2, tối đa không quá cấp 15.</span>
+      "800604":
+        Name: Vương Miện Bảo Vệ Chim Bồ Câu
+        Desc: <span>Khi Nhà Khai Phá trong trận, tăng Tấn Công Kích Phá của đồng đội ngoại trừ bản thân, mức tăng bằng 15% Tấn Công Kích Phá của Nhà Khai Phá.</span>
+      "800605":
+        Name: Bài Thơ Che Giấu Nhịp Điệu Cổ
+        Desc: <span>Cấp Tuyệt Kỹ +2, tối đa không quá cấp 15; Cấp Tấn Công Thường +1, tối đa không quá cấp 10.</span>
+      "800606":
+        Name: Ngày Mai, Nghỉ Ngơi Trong Ánh Đèn Sân Khấu
+        Desc: <span>Số lần sát thương thêm của Chiến Kỹ tăng 2 lần.</span>
+RelicSets:
+  "101":
+    Name: Lãng Khách Âm Thầm
+    Description2pc: "<span>Tăng Lượng Trị Liệu <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: <span>Khi bắt đầu chiến đấu sẽ hồi ngay cho phe ta 1 điểm Chiến Kỹ.</span>
+  "102":
+    Name: Thiện Xạ Bông Lúa
+    Description2pc: "<span>Tăng Tấn Công <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>6%</span> tốc độ của người trang bị, sát thương Tấn Công Thường gây ra tăng <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+  "103":
+    Name: Thánh Kỵ Sĩ Giáo Hoàng Tịnh Đình
+    Description2pc: "<span>Tăng Phòng Thủ <span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
+    Description4pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>20%</span> Khiên mà người trang bị cung cấp.</span>"
+  "104":
+    Name: Thợ Săn Tuyết Phủ
+    Description2pc: "<span>Tăng Sát Thương Băng <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Khi người trang bị thi triển Tuyệt Kỹ, Sát Thương Bạo Kích tăng <span style='whiteSpace: \"nowrap\"'>25%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>2</span> hiệp.</span>"
+  "105":
+    Name: Quyền Vương Đường Phố
+    Description2pc: "<span>Sát Thương Vật Lý tăng <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Sau khi người trang bị tấn công hoặc bị tấn công, tấn công của người trang bị trong trận này tăng <span style='whiteSpace: \"nowrap\"'>5%</span>, tối đa cộng dồn <span style='whiteSpace: \"nowrap\"'>5</span> tầng.</span>"
+  "106":
+    Name: Thiết Vệ Bão Tuyết
+    Description2pc: "<span>Sát thương phải chịu giảm <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
+    Description4pc: "<span>Khi bắt đầu hiệp, nếu người trang bị có phần trăm HP hiện tại thấp hơn hoặc bằng <span style='whiteSpace: \"nowrap\"'>50%</span>, sẽ hồi HP bằng <span style='whiteSpace: \"nowrap\"'>8%</span> Giới Hạn HP của bản thân, và hồi <span style='whiteSpace: \"nowrap\"'>5</span> điểm Năng Lượng.</span>"
+  "107":
+    Name: Thợ Rèn Lửa Dung Nham
+    Description2pc: "<span>Tăng Sát Thương Hỏa <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Khiến sát thương Chiến Kỹ gây ra của người trang bị tăng <span style='whiteSpace: \"nowrap\"'>12%</span>, đồng thời tăng <span style='whiteSpace: \"nowrap\"'>12%</span> Sát Thương Hỏa của lần tấn công kế tiếp sau khi thi triển Tuyệt Kỹ.</span>"
+  "108":
+    Name: Thiên Tài Xuất Chúng
+    Description2pc: "<span>Tăng Sát Thương Lượng Tử <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Khi người trang bị gây sát thương lên mục tiêu địch, sẽ bỏ qua <span style='whiteSpace: \"nowrap\"'>10%</span> Phòng Thủ của địch. Nếu mục tiêu có Điểm Yếu Lượng Tử, sẽ bỏ qua thêm <span style='whiteSpace: \"nowrap\"'>10%</span> Phòng Thủ của địch.</span>"
+  "109":
+    Name: Ban Nhạc Sizzling Thunder
+    Description2pc: "<span>Tăng Sát Thương Lôi <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Khi người trang bị thi triển Chiến Kỹ, tấn công của người đó tăng <span style='whiteSpace: \"nowrap\"'>20%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>1</span> hiệp.</span>"
+  "110":
+    Name: Chim Ưng Ranh Giới Ngày Đêm
+    Description2pc: "<span>Tăng Sát Thương Phong <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Sau khi người trang bị thi triển Tuyệt Kỹ, khiến Hành Động của người đó ưu tiên <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+  "111":
+    Name: Kẻ Cướp Vệt Sao Băng
+    Description2pc: "<span>Tăng Tấn Công Kích Phá <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
+    Description4pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>16%</span> Tấn Công Kích Phá của người trang bị. Sau khi người trang bị phá vỡ điểm yếu của kẻ địch, sẽ hồi <span style='whiteSpace: \"nowrap\"'>3</span> điểm Năng Lượng.</span>"
+  "112":
+    Name: Kẻ Hoang Dã Sa Mạc
+    Description2pc: "<span>Tăng Sát Thương Số Ảo <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Khi người trang bị gây sát thương lên mục tiêu địch rơi vào Hiệu Ứng Xấu, Tỷ Lệ Bạo Kích tăng <span style='whiteSpace: \"nowrap\"'>10%</span>, khi gây sát thương lên mục tiêu địch rơi vào trạng thái Giam Cầm, Sát Thương Bạo Kích tăng <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+  "113":
+    Name: Môn Đồ Trường Thọ
+    Description2pc: "<span>Tăng Giới Hạn HP <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Sau khi người trang bị chịu tấn công hoặc bị mục tiêu phe ta tiêu hao HP, Tỷ Lệ Bạo Kích tăng <span style='whiteSpace: \"nowrap\"'>8%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>2</span> hiệp. Hiệu ứng này tối đa cộng dồn <span style='whiteSpace: \"nowrap\"'>2</span> tầng.</span>"
+  "114":
+    Name: Tín Sứ Du Ngoạn Không Gian Hacker
+    Description2pc: "<span>Tăng Tốc Độ <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
+    Description4pc: "<span>Khi người trang bị thi triển Tuyệt Kỹ lên mục tiêu phe ta, tốc độ toàn phe ta tăng <span style='whiteSpace: \"nowrap\"'>12%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>1</span> hiệp, hiệu ứng này không thể cộng dồn.</span>"
+  "115":
+    Name: Đại Công Tước Tro Tàn
+    Description2pc: "<span>Sát thương Đòn Đánh Theo Sau gây ra tăng <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+    Description4pc: "<span>Khi người trang bị thi triển Đòn Đánh Theo Sau, mỗi lần gây sát thương sẽ tăng <span style='whiteSpace: \"nowrap\"'>6%</span> tấn công của người trang bị dựa theo số lần Đòn Đánh Theo Sau gây sát thương, tối đa cộng dồn <span style='whiteSpace: \"nowrap\"'>8</span> lần, duy trì <span style='whiteSpace: \"nowrap\"'>3</span> hiệp. Hiệu ứng này sẽ bị xóa khi người trang bị thi triển Đòn Đánh Theo Sau tiếp theo.</span>"
+  "116":
+    Name: Tù Nhân Ngục Tối
+    Description2pc: "<span>Tấn Công tăng <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Mỗi khi kẻ địch nhận phải 1 hiệu ứng Sát Thương Duy Trì, thì sát thương người trang bị gây ra cho kẻ đó sẽ bỏ qua <span style='whiteSpace: \"nowrap\"'>6%</span> Phòng Thủ của kẻ đó. Hiệu ứng này có hiệu lực với tối đa <span style='whiteSpace: \"nowrap\"'>3</span> hiệu ứng Sát Thương Duy Trì.</span>"
+  "117":
+    Name: Tiên Phong Trong Nước Chết
+    Description2pc: "<span>Sát thương gây ra cho kẻ địch bị ảnh hưởng bởi Hiệu Ứng Xấu tăng <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>4%</span> Tỷ Lệ Bạo Kích, tăng <span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span> Sát Thương Bạo Kích mà người trang bị gây cho kẻ địch rơi vào không dưới <span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span> Hiệu Ứng Xấu. Sau khi người trang bị thi triển Hiệu Ứng Xấu lên kẻ địch, hiệu ứng nói trên tăng <span style='whiteSpace: \"nowrap\"'>100%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>1</span> hiệp.</span>"
+  "118":
+    Name: Thợ Đồng Hồ, Bậc Thầy Máy Móc
+    Description2pc: "<span>Tấn Công Kích Phá tăng <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
+    Description4pc: "<span>Khi người trang bị thi triển Tuyệt Kỹ lên mục tiêu phe ta, Tấn Công Kích Phá toàn phe ta tăng <span style='whiteSpace: \"nowrap\"'>30%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>2</span> hiệp, hiệu ứng này không thể cộng dồn.</span>"
+  "119":
+    Name: Thiết Kỵ Diệt Trừ Tai Họa
+    Description2pc: "<span>Tấn Công Kích Phá tăng <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
+    Description4pc: "<span>Khi Tấn Công Kích Phá của người trang bị lớn hơn hoặc bằng <span style='whiteSpace: \"nowrap\"'>150%</span>, Sát Thương Phá Vỡ gây ra cho kẻ địch sẽ bỏ qua <span style='whiteSpace: \"nowrap\"'>10%</span> Phòng Thủ của kẻ đó. Khi Tấn Công Kích Phá của người trang bị lớn hơn hoặc bằng <span style='whiteSpace: \"nowrap\"'>250%</span>, Siêu Sát Thương Phá Vỡ gây ra cho kẻ địch sẽ bỏ qua thêm <span style='whiteSpace: \"nowrap\"'>15%</span> Phòng Thủ của kẻ đó.</span>"
+  "120":
+    Name: Dũng Khí Ngút Trời
+    Description2pc: "<span>Tấn Công tăng <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>6%</span> Tỷ Lệ Bạo Kích cho người trang bị. Khi người trang bị thi triển Đòn Đánh Theo Sau, khiến sát thương Tuyệt Kỹ gây ra tăng <span style='whiteSpace: \"nowrap\"'>36%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>1</span> hiệp.</span>"
+  "301":
+    Name: Trạm Phong Ấn Không Gian
+    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>12%</span> Tấn Công của người trang bị. Khi tốc độ của người trang bị từ <span style='whiteSpace: \"nowrap\"'>120</span> trở lên, Tấn Công tăng thêm <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+  "302":
+    Name: Xianzhou Không Có Tuổi
+    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>12%</span> Giới Hạn HP của người trang bị. Khi tốc độ của người trang bị từ <span style='whiteSpace: \"nowrap\"'>120</span> trở lên, Tấn Công của toàn phe ta tăng <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
+  "303":
+    Name: Công Ty Kinh Doanh Liên Ngân Hà
+    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>10%</span> Chính Xác Hiệu Ứng của người trang bị. Đồng thời tăng Tấn Công bằng <span style='whiteSpace: \"nowrap\"'>25%</span> Chính Xác Hiệu Ứng hiện tại của người trang bị, tối đa tăng <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+  "304":
+    Name: Belobog Của Đấng Kiến Tạo
+    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>15%</span> Phòng Thủ của người trang bị. Khi Chính Xác Hiệu Ứng của người trang bị từ <span style='whiteSpace: \"nowrap\"'>50%</span> trở lên, Phòng Thủ tăng thêm <span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
+  "305":
+    Name: Máy Sai Lệch Hành Tinh
+    Description2pc: "<span>Khiến sát thương Bạo Kích của người trang bị tăng <span style='whiteSpace: \"nowrap\"'>16%</span>. Khi sát thương Bạo Kích của người trang bị từ <span style='whiteSpace: \"nowrap\"'>120%</span> trở lên, sau khi vào chiến đấu, Tỷ Lệ Bạo Kích của người trang bị tăng <span style='whiteSpace: \"nowrap\"'>60%</span>, duy trì đến khi kết thúc thi triển lần đầu tấn công.</span>"
+  "306":
+    Name: Salsotto Dừng Xoay
+    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>8%</span> Tỷ Lệ Bạo Kích của người trang bị. Khi Tỷ Lệ Bạo Kích của người đó từ <span style='whiteSpace: \"nowrap\"'>50%</span> trở lên, sẽ tăng <span style='whiteSpace: \"nowrap\"'>15%</span> sát thương của Tuyệt Kỹ và Đòn Đánh Theo Sau gây ra.</span>"
+  "307":
+    Name: Talia - Vương Quốc Trộm Cướp
+    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>16%</span> Tấn Công Kích Phá của người trang bị. Khi tốc độ của người trang bị từ <span style='whiteSpace: \"nowrap\"'>145</span> trở lên, Tấn Công Kích Phá tăng thêm <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+  "308":
+    Name: Vonwacq Hoạt Bát
+    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>5%</span> hiệu suất hồi Năng Lượng của người trang bị. Khi tốc độ của người trang bị từ <span style='whiteSpace: \"nowrap\"'>120</span> trở lên, vào chiến đấu sẽ lập tức Ưu Tiên Hành Động <span style='whiteSpace: \"nowrap\"'>40%</span>.</span>"
+  "309":
+    Name: Đấu Trường Ngôi Sao
+    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>8%</span> tỷ lệ Bạo Kích của người trang bị. Khi tỷ lệ Bạo Kích của người đó từ <span style='whiteSpace: \"nowrap\"'>70%</span> trở lên, sẽ tăng <span style='whiteSpace: \"nowrap\"'>20%</span> sát thương gây ra khi thi triển Tấn Công Thường hoặc Chiến Kỹ</span>"
+  "310":
+    Name: Bộ Khung Bị Gãy
+    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>10%</span> Kháng Hiệu Ứng của người trang bị. Khi Kháng Hiệu Ứng của người trang bị từ <span style='whiteSpace: \"nowrap\"'>30%</span> trở lên, Sát Thương Bạo Kích của toàn bộ phe ta tăng <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+  "311":
+    Name: Glamoth, Chiến Tuyến Không Trung
+    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>12%</span> Tấn Công của người trang bị. Khi tốc độ của người trang bị từ <span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span> trở lên, sát thương do người trang bị gây ra tăng <span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span>.</span>"
+  "312":
+    Name: Penacony, Vùng Đất Của Những Giấc Mơ
+    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>5%</span> hiệu suất hồi Năng Lượng của người trang bị. Khiến nhân vật khác trong đội của phe ta có cùng thuộc tính với người trang bị tăng <span style='whiteSpace: \"nowrap\"'>10%</span> sát thương gây ra.</span>"
+  "313":
+    Name: Hành Tinh Vô Chủ Sigonia
+    Description2pc: "<span>Khiến tỷ lệ Bạo Kích của người trang bị tăng <span style='whiteSpace: \"nowrap\"'>4%</span>. Khi kẻ địch bị tiêu diệt, Sát Thương Bạo Kích của người trang bị tăng <span style='whiteSpace: \"nowrap\"'>4%</span>, tối đa cộng dồn <span style='whiteSpace: \"nowrap\"'>10</span> tầng.</span>"
+  "314":
+    Name: Izumo Hiện Thế Và Thần Quốc Cõi Trời
+    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>12%</span> Tấn Công của người trang bị. Khi vào chiến đấu, nếu có ít nhất 1 đồng đội cùng Vận Mệnh với người trang bị, thì Tỷ Lệ Bạo Kích của người trang bị tăng <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+  "315":
+    Name: Duran - Vương Triều Sói Hoang
+    Description2pc: "<span>Khi nhân vật phe ta thi triển Đòn Đánh Theo Sau, người trang bị sẽ nhận 1 tầng Công Huân, tối đa cộng dồn <span style='whiteSpace: \"nowrap\"'>5</span> tầng. Mỗi tầng Công Huân sẽ khiến sát thương Đòn Đánh Theo Sau của người trang bị gây ra tăng <span style='whiteSpace: \"nowrap\"'>5%</span>, khi cộng dồn đầy <span style='whiteSpace: \"nowrap\"'>5</span> tầng, tăng thêm <span style='whiteSpace: \"nowrap\"'>25%</span> Sát Thương Bạo Kích của người trang bị.</span>"
+  "316":
+    Name: Cung Điện Rèn Đúc Kiếp Hỏa Liên Đăng
+    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>6%</span> Tốc Độ của người trang bị. Khi người trang bị đánh trúng kẻ địch có Điểm Yếu Hỏa, Tấn Công Kích Phá tăng <span style='whiteSpace: \"nowrap\"'>40%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>1</span> hiệp.</span>"
+  "317":
+    Name: Biển Lục Địa Chìm - Lushaka
+    Description2pc: "<span>Khiến Hiệu Suất Hồi Năng Lượng của người trang bị tăng <span style='whiteSpace: \"nowrap\"'>5%</span>, nếu người trang bị không phải nhân vật vị trí đầu tiên trong đội, thì sẽ khiến Tấn Công của nhân vật ở vị trí đầu tiên trong đội tăng <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+  "318":
+    Name: Công Viên Chuối Kỳ Ảo
+    Description2pc: "<span>Khiến Sát Thương Bạo Kích của người trang bị tăng <span style='whiteSpace: \"nowrap\"'>16%</span>, khi tồn tại mục tiêu mà người trang bị triệu hồi, Sát Thương Bạo Kích sẽ tăng thêm <span style='whiteSpace: \"nowrap\"'>32%</span>.</span>"
+Lightcones:
+  "20000":
+    Name: Mũi Tên
+    SkillName: Mối Nguy
+  "20001":
+    Name: Dồi Dào
+    SkillName: Phồn Thịnh
+  "20002":
+    Name: Trời Sập
+    SkillName: Sụp Đổ
+  "20003":
+    Name: Hổ Phách
+    SkillName: Ngưng Trệ
+  "20004":
+    Name: Tĩnh Mịch
+    SkillName: Trầm Luân
+  "20005":
+    Name: Điệp Khúc
+    SkillName: Hiệp Lực
+  "20006":
+    Name: Kho Lưu Trữ
+    SkillName: Học Thức
+  "20007":
+    Name: Tên Bắn
+    SkillName: Tiếng Hống
+  "20008":
+    Name: Trái Ngọt
+    SkillName: Hương Thơm
+  "20009":
+    Name: Đổ Nát
+    SkillName: Thanh Trừng
+  "20010":
+    Name: Phòng Thủ
+    SkillName: Phục Sinh
+  "20011":
+    Name: Xoáy Ốc
+    SkillName: Truy Đuổi
+  "20012":
+    Name: Luân Hồi
+    SkillName: Tốc Quyết
+  "20013":
+    Name: Chìa Khóa Linh Hồn
+    SkillName: Giác Ngộ
+  "20014":
+    Name: Đối Kháng
+    SkillName: Liên Minh
+  "20015":
+    Name: Sinh Sôi
+    SkillName: Dân Trù Phú
+  "20016":
+    Name: Hủy Diệt Tất Cả
+    SkillName: Quân Đoàn
+  "20017":
+    Name: Mở Rộng
+    SkillName: Công Ty
+  "20018":
+    Name: Bóng Ẩn
+    SkillName: Cơ Quan
+  "20019":
+    Name: Hài Hòa
+    SkillName: Gia Tộc
+  "20020":
+    Name: Thông Tuệ
+    SkillName: Thiên Tài
+  "21000":
+    Name: Buổi Trò Chuyện Hậu Phẫu
+    SkillName: Hồi Phục Qua Lại
+  "21001":
+    Name: Chúc Ngủ Ngon
+    SkillName: Kẻ Gian Khổ
+  "21002":
+    Name: Ngày Đầu Tiên
+    SkillName: Tạm Dừng Thời Khắc Này
+  "21003":
+    Name: Sự Trầm Mặc Duy Nhất
+    SkillName: Kỷ Lục
+  "21004":
+    Name: Dáng Hình Trong Ký Ức
+    SkillName: Bức Hình Cũ
+  "21005":
+    Name: Băng Chuột Chũi Hoan Nghênh
+    SkillName: Phiêu Lưu Kỳ Diệu
+  "21006":
+    Name: Sự Ra Đời Của "Tôi"
+    SkillName: Thiếu Nữ Trong Tranh
+  "21007":
+    Name: Cùng Một Tâm Trạng
+    SkillName: Cứu Chữa Và Tu Sửa
+  "21008":
+    Name: Tầm Mắt Của Con Mồi
+    SkillName: Tự Tin
+  "21009":
+    Name: Sự Lựa Chọn Của Landau
+    SkillName: Thời Gian Như Thoi Đưa
+  "21010":
+    Name: Luận Kiếm
+    SkillName: Câu Trả Lời Của Riêng Họ
+  "21011":
+    Name: Điểm Hẹn Hành Tinh
+    SkillName: Khởi Hành
+  "21012":
+    Name: Lời Thề Bí Mật
+    SkillName: Cố Gắng Hết Sức
+  "21013":
+    Name: Đừng Để Thế Giới Lạnh Lẽo
+    SkillName: Sức Mạnh Của Âm Thanh
+  "21014":
+    Name: Vừa Đúng Lúc
+    SkillName: Tầm Nhìn Khúc Xạ
+  "21015":
+    Name: Sự Quyết Tâm Như Giọt Mồ Hôi Lấp Lánh
+    SkillName: Ngoái Đầu Nhìn
+  "21016":
+    Name: Xu Hướng Thị Trường Vũ Trụ
+    SkillName: Xáo Bài Ván Mới
+  "21017":
+    Name: Hãy Theo Dõi Nào!
+    SkillName: Không Like Không Được Đi!
+  "21018":
+    Name: Múa! Múa! Múa!
+    SkillName: Không Dừng Lại Được!
+  "21019":
+    Name: Dưới Bầu Trời Xanh
+    SkillName: Ngọn Lúa Dưới Ánh Mặt Trời
+  "21020":
+    Name: Sự Nghỉ Ngơi Của Thiên Tài
+    SkillName: Bố Trí Thỏa Đáng
+  "21021":
+    Name: Đổi Ngang Giá
+    SkillName: Thích Thú Dễ Chịu
+  "21022":
+    Name: Ký Hiệu Kéo Dài
+    SkillName: Dấu Lặng
+  "21023":
+    Name: Chúng Ta Là Lửa Ngầm
+    SkillName: Kẻ Rơi Lệ
+  "21024":
+    Name: Làn Nước Xuân Xuất Hiện
+    SkillName: Xua Tan Giá Rét
+  "21025":
+    Name: Quá Khứ Tương Lai
+    SkillName: Diều Giấy Ngày Cũ
+  "21026":
+    Name: Gâu! Thời Gian Tản Bộ
+    SkillName: Chạy!
+  "21027":
+    Name: Bữa Sáng Đúng Điệu
+    SkillName: Sẵn Sàng
+  "21028":
+    Name: Đêm Ấm Sẽ Chóng Qua
+    SkillName: Ngọn Đèn Le Lói
+  "21029":
+    Name: Hẹn Gặp Lại
+    SkillName: Động Thủ Như Động Khẩu
+  "21030":
+    Name: Đó Chính Là Tôi!
+    SkillName: Chương Mới
+  "21031":
+    Name: U Tối Trở Lại
+    SkillName: Sóng Cuồng
+  "21032":
+    Name: Khắc Lên Ánh Trăng
+    SkillName: Bí Mật
+  "21033":
+    Name: Không Nơi Ẩn Náu
+    SkillName: Đường Cùng
+  "21034":
+    Name: Hôm Nay Là Ngày Yên Lành
+    SkillName: Cơn Bão Sắp Đến
+  "21035":
+    Name: Đâu Là Thật?
+    SkillName: Giả Sử
+  "21036":
+    Name: Chuyến Thám Hiểm Thị Trấn Mộng Đẹp
+    SkillName: Đoàn Kết
+  "21037":
+    Name: Người Chiến Thắng Cuối Cùng
+    SkillName: Đặt Cược
+  "21038":
+    Name: Ở Nơi Xa Ngọn Lửa
+    SkillName: Bùng Nổ
+  "21039":
+    Name: Dây Thêu Dệt Vận Mệnh
+    SkillName: Nhìn Thấu
+  "21040":
+    Name: Ngày Ngân Hà Sụp Đổ
+    SkillName: Chiến Lược
+  "21041":
+    Name: Vai Diễn Bắt Đầu
+    SkillName: Niềm Vui Tự Tại
+  "21042":
+    Name: Ước Hẹn Khắc Ghi
+    SkillName: Kế Thừa
+  "21043":
+    Name: Buổi Hòa Nhạc Hai Người
+    SkillName: Cổ Vũ
+  "21044":
+    Name: Vũ Điệu Vô Biên
+    SkillName: Thăm Dò
+  "21045":
+    Name: Sau Sự Im Lặng Hài Hòa
+    SkillName: Tĩnh Mịch
+  "21046":
+    Name: Tuổi Hoa Chờ Nở Rộ
+    SkillName: Không Thua, Không Quên
+  "21047":
+    Name: Bóng Tối Đồng Hành
+    SkillName: Ẩn Nấp
+  "22000":
+    Name: Trước Khi Bắt Đầu Nhiệm Vụ Tân Thủ
+    SkillName: Nhanh Như Tia Chớp
+  "22001":
+    Name: Hi, Tôi Ở Đây
+    SkillName: Không Sợ Đâu!
+  "22002":
+    Name: Vì Hành Trình Ngày Mai
+    SkillName: Liên Kết
+  "23000":
+    Name: Chuyến Tàu Đêm Trên Dải Ngân Hà
+    SkillName: Chòm Sao Băng
+  "23001":
+    Name: Trong Đêm Tối
+    SkillName: Hoa Và Bướm
+  "23002":
+    Name: Vật Không Thể Thay Thế
+    SkillName: Người Nhà
+  "23003":
+    Name: Cuộc Chiến Chưa Nguôi
+    SkillName: Người Thừa Kế
+  "23004":
+    Name: Nhân Danh Thế Giới
+    SkillName: Người Kế Thừa
+  "23005":
+    Name: Giây Phút Thắng Lợi
+    SkillName: Quyết Đoán
+  "23006":
+    Name: Chỉ Cần Chờ Đợi
+    SkillName: Mạng Nhện
+  "23007":
+    Name: Cơn Mưa Tầm Tã
+    SkillName: Ảo Ảnh Hiện Thực
+  "23008":
+    Name: Tiếng Vọng Của Quan Tài
+    SkillName: Gai Góc
+  "23009":
+    Name: Bến Bờ Xa Diệu Vợi
+    SkillName: Không Thể Được
+  "23010":
+    Name: Trước Buổi Bình Minh
+    SkillName: Đêm Dài
+  "23011":
+    Name: Đôi Mắt Đã Nhắm Lại
+    SkillName: Tầm Nhìn
+  "23012":
+    Name: Giấc Ngủ Say Mềm
+    SkillName: Mộng Đẹp
+  "23013":
+    Name: Thời Gian Không Ngừng Lại
+    SkillName: Sáng, Trưa, Chiều, Tối
+  "23014":
+    Name: Thân Này Là Kiếm
+    SkillName: Giữ Lấy Ngọc Này
+  "23015":
+    Name: Rực Rỡ Hơn Mặt Trời
+    SkillName: Liều Mình
+  "23016":
+    Name: Phiền Não, Hạnh Phúc
+    SkillName: Từng Người Một
+  "23017":
+    Name: Đêm Kinh Hoàng
+    SkillName: Hít Thở Sâu
+  "23018":
+    Name: Khoảnh Khắc Nơi Đáy Mắt
+    SkillName: Kỵ Sĩ Hành Hương
+  "23019":
+    Name: Tôi Trong Gương Ngày Ấy
+    SkillName: Hương Mai Nồng Nàn
+  "23020":
+    Name: Lễ Rửa Tội Thuần Khiết
+    SkillName: Huấn Luyện Tư Tưởng
+  "23021":
+    Name: Trò Đùa Trần Thế
+    SkillName: Thiện Biến
+  "23022":
+    Name: Hun Đúc Ký Ức Thời Gian
+    SkillName: Kết Tinh
+  "23023":
+    Name: Vận Mệnh Chưa Từng Công Bằng
+    SkillName: Cược Hết Tất Cả
+  "23024":
+    Name: Bước Theo Bến Bờ Thời Gian
+    SkillName: Người Điều Khiển
+  "23025":
+    Name: Giấc Mộng Sẽ Đi Về Đâu
+    SkillName: Biến Đổi
+  "23026":
+    Name: Sắc Đêm Rực Sáng
+    SkillName: An Ủi
+  "23027":
+    Name: Hướng Đến Sinh Mệnh Thứ Hai
+    SkillName: Gian Khổ
+  "23028":
+    Name: Hi Vọng Là Vô Giá
+    SkillName: Hứa Hẹn
+  "23029":
+    Name: Vô Số Mùa Xuân Ấy
+    SkillName: Chẳng Còn Dấu Vết Chuyện Thế Gian
+  "23030":
+    Name: Điệu Múa Dưới Hoàng Hôn
+    SkillName: Trầm Mê
+  "23031":
+    Name: Ta Sẽ, Tuần Tra Săn Bắn
+    SkillName: Kinh Hoàng
+  "23032":
+    Name: Mùi Hương Vẹn Nguyên
+    SkillName: An Tâm
+  "24000":
+    Name: Sự Sụp Đổ Của Aeon
+    SkillName: Dập Lửa
+  "24001":
+    Name: Du Hành Trên Biển Sao
+    SkillName: Săn Đuổi
+  "24002":
+    Name: Chất Liệu Ký Ức
+    SkillName: Tích Trữ
+  "24003":
+    Name: Một Mình Chữa Trị
+    SkillName: Linh Dược Hỗn Độn
+  "24004":
+    Name: Ngoại Suy Vô Tận
+    SkillName: Suy Tư Không Ranh Giới
+Paths:
+  Warrior: Hủy Diệt
+  Rogue: Săn Bắn
+  Mage: Tri Thức
+  Shaman: Hòa Hợp
+  Warlock: Hư Vô
+  Knight: Bảo Hộ
+  Priest: Trù Phú
+  Unknown: Thông Dụng
+Elements:
+  Physical: Vật Lý
+  Fire: Hỏa
+  Ice: Băng
+  Thunder: Lôi
+  Wind: Phong
+  Quantum: Lượng Tử
+  Imaginary: Số Ảo

@@ -417,8 +417,8 @@ export const OptimizerTabController = {
 
       // Apply any presets to new characters
       if (metadata) {
-        for (const applyPreset of scoringMetadata.presets || []) {
-          applyPreset(newForm)
+        for (const preset of scoringMetadata.presets || []) {
+          preset.apply(newForm)
         }
 
         newForm.mainBody = scoringMetadata.parts[Constants.Parts.Body]

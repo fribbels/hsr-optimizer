@@ -1,5 +1,5 @@
 import stringSimilarity from 'string-similarity'
-import { Constants, Parts, Sets } from '../constants.ts'
+import { Constants, Parts, Sets, SubStats } from '../constants'
 import { RelicAugmenter } from '../relicAugmenter'
 
 import gameData from 'data/game_data.json'
@@ -8,34 +8,99 @@ import { Utils } from '../utils'
 import semver from 'semver'
 import { Typography } from 'antd'
 import { Message } from 'lib/message'
+import { ScannerConfig } from 'lib/importer/importConfig'
+import { Relic } from 'types/Relic'
+import { Character } from 'types/Character'
 
 const { Text } = Typography
 
 const characterList = Object.values(gameData.characters)
 const lightConeList = Object.values(gameData.lightCones)
-const relicSetList = Object.entries(Sets)
-for (const set of relicSetList) {
-  set[2] = set[1]
-  set[1] = lowerAlphaNumeric(set[1])
+const relicSetMatchData = Object.entries(Sets).map(([setKey, setName]) => {
+  return {
+    setKey: setKey,
+    setName: setName,
+    lowerAlphaNumericMatcher: lowerAlphaNumeric(setName)
+  }
+})
+
+type V4ParserLightCone = {
+  id: string,
+  name: string,
+  level: number,
+  ascension: number,
+  superimposition: number,
+  location: string,
+  lock: boolean,
+  _uid: string
 }
+
+type V4ParserCharacter = {
+  id: string,
+  name: string,
+  path: string,
+  level: number,
+  ascension: number,
+  eidolon: number,
+}
+
 const relicSetMapping = gameData.relics.reduce((map, relic) => {
   map[relic.id] = relic
   return map
 }, {})
 
+export type ScannerParserJson = {
+  source: string
+  build: string
+  version: number
+  metadata: {
+    uid: number
+    trailblazer: string
+    current_trailblazer_path?: string
+  }
+  characters: {
+    characterEidolon: number
+    characterId: string
+    characterLevel: number
+    lightCone: string | null
+    lightConeLevel: number
+    lightConeSuperimposition: number
+  }[]
+  light_cones: V4ParserLightCone[]
+  relics: {
+    enhance: number
+    equippedBy: string
+    grade: number
+    id: string
+    part: string
+    set: string
+    main: {
+      stat: string
+      value: number
+    }
+    substats: {
+      stat: SubStats
+      value: number
+    }[]
+    verified: boolean
+  }[]
+}
+
 export class KelzFormatParser { // TODO abstract class
-  constructor(config) {
+  config: ScannerConfig
+
+  constructor(config: ScannerConfig) {
     this.config = config
   }
 
-  parse(json) {
+  parse(json: ScannerParserJson) {
     const parsed = {
       metadata: {
         trailblazer: 'Stelle',
         current_trailblazer_path: 'Destruction',
       },
-      characters: [],
-      relics: [],
+      characters: [] as Character[],
+      relics: [] as Relic[],
     }
 
     if (json.source != this.config.sourceString) {
@@ -114,13 +179,13 @@ export class KelzFormatParser { // TODO abstract class
 }
 
 // ================================================== V3 ==================================================
-
-function readCharacterV3(character, lightCones, trailblazer, path) {
-  let lightCone = undefined
+// TODO: deprecate soon
+function readCharacterV3(character: V4ParserCharacter & { key: string }, lightCones: (V4ParserLightCone & { key: string })[], trailblazer, path) {
+  let lightCone: (V4ParserLightCone & { key: string }) | undefined
   if (lightCones) {
     if (character.key.startsWith('Trailblazer')) {
       lightCone = lightCones.find((x) => x.location === character.key)
-      || lightCones.find((x) => x.location.startsWith('Trailblazer'))
+        || lightCones.find((x) => x.location.startsWith('Trailblazer'))
     } else {
       lightCone = lightCones.find((x) => x.location === character.key)
     }
@@ -152,15 +217,15 @@ function readRelicV3(relic, trailblazer, path, config) {
   const partMatches = stringSimilarity.findBestMatch(relic.slot, Object.values(Parts))
   const part = partMatches.bestMatch.target
 
-  const setMatches = stringSimilarity.findBestMatch(lowerAlphaNumeric(relic.set), relicSetList.map((x) => x[1]))
-  const set = relicSetList[setMatches.bestMatchIndex][2]
+  const setMatches = stringSimilarity.findBestMatch(lowerAlphaNumeric(relic.set), relicSetMatchData.map((x) => x.lowerAlphaNumericMatcher))
+  const set = relicSetMatchData[setMatches.bestMatchIndex].setName
 
   const enhance = Math.min(Math.max(parseInt(relic.level), 0), 15)
   const grade = Math.min(Math.max(parseInt(relic.rarity), 2), 5)
 
   const { main, substats } = readRelicStats(relic, part, grade, enhance)
 
-  let equippedBy = undefined
+  let equippedBy: string | undefined
   if (relic.location !== '') {
     const lookup = characterList.find((x) => x.name == relic.location)?.id
     if (lookup) {
@@ -184,16 +249,17 @@ function readRelicV3(relic, trailblazer, path, config) {
 
 // ================================================== V4 ==================================================
 
-function readCharacterV4(character, lightCones, trailblazer, path) {
-  let lightCone = undefined
+
+function readCharacterV4(character: V4ParserCharacter, lightCones: V4ParserLightCone[]) {
+  let lightCone: V4ParserLightCone | undefined
   if (lightCones) {
+    // TODO: don't search on an array
     lightCone = lightCones.find((x) => x.location === character.id)
   }
 
   const characterId = character.id
 
-  const lcKey = lightCone?.id
-  const lightConeId = lcKey
+  const lightConeId = lightCone?.id
 
   if (!characterId) return null
 
@@ -219,7 +285,7 @@ function readRelicV4(relic, trailblazer, path, config) {
 
   const { main, substats } = readRelicStats(relic, part, grade, enhance)
 
-  let equippedBy = undefined
+  let equippedBy: string | undefined
   if (relic.location !== '') {
     const lookup = characterList.find((x) => x.id == relic.location)?.id
     if (lookup) {
@@ -241,6 +307,19 @@ function readRelicV4(relic, trailblazer, path, config) {
 
 // ================================================== ==================================================
 
+type MainData = {
+  base: number
+  step: number
+}
+
+type Affixes = {
+  affix_id: string
+  property: string
+  base: number
+  step: number
+}
+
+
 function readRelicStats(relic, part, grade, enhance) {
   let mainStat
   if (part === 'Hands') {
@@ -253,10 +332,10 @@ function readRelicStats(relic, part, grade, enhance) {
 
   const partId = mapPartIdToIndex(part)
   const query = `${grade}${partId}`
-  const affixes = Object.values(DB.getMetadata().relics.relicMainAffixes[query].affixes)
+  const affixes: Affixes[] = Object.values(DB.getMetadata().relics.relicMainAffixes[query].affixes)
 
   const mainId = mapAffixIdToString(mainStat)
-  const mainData = affixes.find((x) => x.property === mainId)
+  const mainData: MainData = affixes.find((x) => x.property === mainId)!
   const mainValue = mainData.base + mainData.step * enhance
 
   const substats = relic.substats
@@ -346,7 +425,7 @@ function mapMainStatToId(mainStat) {
   }
 }
 
-function mapAffixIdToString(affixId) {
+function mapAffixIdToString(affixId: string) {
   switch (affixId) {
     case Constants.Stats.HP_P:
       return 'HPAddedRatio'
@@ -395,7 +474,7 @@ function mapAffixIdToString(affixId) {
   }
 }
 
-function mapPartIdToIndex(slotId) {
+function mapPartIdToIndex(slotId: string) {
   switch (slotId) {
     case Constants.Parts.Head:
       return 1
@@ -414,11 +493,11 @@ function mapPartIdToIndex(slotId) {
   }
 }
 
-function lowerAlphaNumeric(str) {
+function lowerAlphaNumeric(str: string) {
   return str.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')
 }
 
-function getTrailblazerId(name, trailblazer, path) {
+function getTrailblazerId(name: string, trailblazer: string, path: string) {
   if (name === 'TrailblazerDestruction') {
     return trailblazer === 'Stelle' ? '8002' : '8001'
   }

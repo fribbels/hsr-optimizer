@@ -361,7 +361,7 @@ export default function CharacterTab() {
 
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
-    Message.success(t('Messages.SwitchSuccess'/* Successfully switched relics with ${CharacterName} */, { charid: switchToCharacter.value }))
+    Message.success(t('Messages.SwitchSuccess'/* Successfully switched relics with ${CharacterName} */, { charId: switchToCharacter.value }))
     window.relicsGrid.current.api.redrawRows()
   }
 

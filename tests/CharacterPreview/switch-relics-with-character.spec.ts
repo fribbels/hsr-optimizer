@@ -14,7 +14,7 @@ test('Switch relics between characters in Characters tab', async ({ page }) => {
   await page.locator('.ant-select-dropdown').getByText('Kafka').click()
   await expect(page.getByRole('dialog')).toContainText('Kafka')
   await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click()
-  await expect(page.locator('body')).toContainText('Successfully switched relics to Kafka')
+  await expect(page.locator('body')).toContainText('Successfully switched relics with Kafka')
   // Verify Jingliu now has Kafka's relics
   await expect(page.getByRole('img', { name: 'Band of Sizzling Thunder' })).toHaveCount(4)
   await expect(page.getByRole('img', { name: 'Space Sealing Station' })).toHaveCount(2)

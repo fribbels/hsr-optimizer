@@ -6,6 +6,7 @@ import { ReactElement } from 'types/Components'
 import { CheckCircleOutlined } from '@ant-design/icons'
 import { Collapse, Flex } from 'antd'
 import gameData from 'data/game_data.json'
+import { Sets } from 'lib/constants'
 
 // Fake type for metadata
 type MetadataObject = {
@@ -35,7 +36,7 @@ export default function MetadataTab(): React.JSX.Element {
   }
 
   return (
-    <Flex vertical style={{ width: 3000, height: 3000 }}>
+    <Flex vertical style={{ width: 3000, height: 'fit-content' }}>
       <h1 style={{ marginLeft: 20 }}>
         Metadata debugger
       </h1>
@@ -59,7 +60,7 @@ export default function MetadataTab(): React.JSX.Element {
 
 function ConditionalSetsPresetsDashboard() {
   // @ts-ignore
-  const sets: MetadataObject[] = gameData.relics.reverse()
+  const sets: MetadataObject[] = gameData.relics.slice().reverse()
   const characters: MetadataObject[] = Object.values(DB.getMetadata().characters)
 
   for (let i = 0; i < sets.length; i++) {
@@ -67,10 +68,26 @@ function ConditionalSetsPresetsDashboard() {
   }
 
   return (
-    <Flex vertical gap={50}>
+    <Flex vertical gap={10}>
+      <GridDisplay grid={generateConditionalSetsGrid(characters.filter(x => x.path == 'Destruction'), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(characters.filter(x => x.path == 'Hunt'), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(characters.filter(x => x.path == 'Erudition'), sets)}/>
       <GridDisplay grid={generateConditionalSetsGrid(characters.filter(x => x.path == 'Nihility'), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(characters.filter(x => x.path == 'Preservation'), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(characters.filter(x => x.path == 'Harmony'), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(characters.filter(x => x.path == 'Abundance'), sets)}/>
     </Flex>
   )
+}
+
+const presetToSetMapping = {
+  fnAshblazingSet: Sets.TheAshblazingGrandDuke,
+  fnPioneerSet: Sets.PioneerDiverOfDeadWaters,
+  fnSacerdosSet: Sets.SacerdosRelivedOrdeal,
+  PRISONER_SET: Sets.PrisonerInDeepConfinement,
+  WASTELANDER_SET: Sets.WastelanderOfBanditryDesert,
+  VALOROUS_SET: Sets.TheWindSoaringValorous,
+  BANANA_SET: Sets.TheWondrousBananAmusementPark,
 }
 
 function generateConditionalSetsGrid(characters: MetadataObject[], sets: MetadataObject[]) {
@@ -88,27 +105,11 @@ function generateConditionalSetsGrid(characters: MetadataObject[], sets: Metadat
     const rowAssets: ReactElement[] = [<Icon src={Assets.getCharacterAvatarById(character.id)}/>]
 
     for (const preset of character.scoringMetadata.presets) {
-      console.log(preset)
-    }
+      const set = presetToSetMapping[preset.name]
+      const setIndex = setToIndex[set]
 
-    // for (const allowedSets of character.scoringMetadata.simulation.relicSets) {
-    //   if (allowedSets.length == 2) {
-    //     // 4p
-    //     const setIndex = setToIndex[allowedSets[0]]
-    //     rowAssets[setIndex + 1] = <Icon src={Assets.getSetImage(allowedSets[0])}/>
-    //   } else {
-    //     // 2p2p
-    //     for (const p2 of allowedSets) {
-    //       const setIndex = setToIndex[p2]
-    //       rowAssets[setIndex + 1] = <Icon src={Assets.getSetImage(p2)}/>
-    //     }
-    //   }
-    // }
-    //
-    // for (const p2 of character.scoringMetadata.simulation.ornamentSets) {
-    //   const setIndex = setToIndex[p2]
-    //   rowAssets[setIndex + 1] = <Icon src={Assets.getSetImage(p2)}/>
-    // }
+      rowAssets[setIndex + 1] = <div>{preset.value === true ? 'T' : preset.value}</div>
+    }
 
     assetByCharacterThenSet.push(rowAssets)
   }
@@ -118,7 +119,7 @@ function generateConditionalSetsGrid(characters: MetadataObject[], sets: Metadat
 
 function SimulationEquivalentSetsDashboard() {
   // @ts-ignore
-  const sets: MetadataObject[] = gameData.relics.reverse()
+  const sets: MetadataObject[] = gameData.relics.slice().reverse()
   const characters: MetadataObject[] = Object.values(DB.getMetadata().characters)
   const simulationCharacters: MetadataObject[] = characters.filter(x => x.scoringMetadata.simulation)
 

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig.js'
+import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig'
 import { SaveState } from 'lib/saveState.js'
 import { Button, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'

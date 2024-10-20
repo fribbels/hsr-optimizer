@@ -1,6 +1,6 @@
 Showcase:
   Title: Showcase
-  Scorer: '$t(common:Relic, {"count": 1, "capitalizeLength": 1}) Scorer'
+  Scorer: 'Relic Scorer'
 Optimization:
   Title: Optimization
   Optimizer: Optimizer

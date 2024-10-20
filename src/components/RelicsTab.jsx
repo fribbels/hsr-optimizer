@@ -272,21 +272,21 @@ export default function RelicsTab() {
     { field: 'grade', width: 40, cellRenderer: Renderer.renderGradeCell, headerName: t('RelicGrid.Headers.Grade')/* Grade */, filter: 'agNumberColumnFilter' },
     { field: 'part', valueFormatter: Renderer.readablePart, width: 55, headerName: t('RelicGrid.Headers.Part')/* Part */, filter: 'agTextColumnFilter' },
     { field: 'enhance', width: 55, headerName: t('RelicGrid.Headers.Enhance')/* Enhance */, filter: 'agNumberColumnFilter' },
-    { field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: t('RelicGrid.Headers.Mainstat')/* Main\nStat */, width: 70, filter: 'agTextColumnFilter' },
-    { field: 'main.value', headerName: t('RelicGrid.Headers.Mainvalue')/* Main Value */, width: 50, valueFormatter: Renderer.mainValueRenderer, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.HP_P}`, headerName: t('RelicGrid.Headers.hpP')/* HP % */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.ATK_P}`, headerName: t('RelicGrid.Headers.atkP')/* ATK % */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.DEF_P}`, headerName: t('RelicGrid.Headers.defP')/* DEF % */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.HP}`, headerName: t('RelicGrid.Headers.hp')/* HP */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.ATK}`, headerName: t('RelicGrid.Headers.atk')/* ATK */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.DEF}`, headerName: t('RelicGrid.Headers.def')/* DEF */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.SPD}`, headerName: t('RelicGrid.Headers.spd')/* SPD */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroes10thsRelicTabSpd, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.CR}`, headerName: t('RelicGrid.Headers.cr')/* Crit\nRate */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.CD}`, headerName: t('RelicGrid.Headers.cd')/* Crit\nDMG */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.EHR}`, headerName: t('RelicGrid.Headers.ehr')/* Effect\nHit Rate */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.RES}`, headerName: t('RelicGrid.Headers.res')/* Effect\nRES */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.BE}`, headerName: t('RelicGrid.Headers.be')/* Break\nEffect */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
-    { field: 'cv', valueGetter: cvValueGetter, headerName: t('RelicGrid.Headers.cv')/* Crit\nValue */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: t('RelicGrid.Headers.MainStat')/* Main\nStat */, width: 70, filter: 'agTextColumnFilter' },
+    { field: 'main.value', headerName: t('RelicGrid.Headers.MainValue')/* Main Value */, width: 50, valueFormatter: Renderer.mainValueRenderer, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.HP_P}`, headerName: t('RelicGrid.Headers.HPP')/* HP % */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.ATK_P}`, headerName: t('RelicGrid.Headers.ATKP')/* ATK % */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.DEF_P}`, headerName: t('RelicGrid.Headers.DEFP')/* DEF % */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.HP}`, headerName: t('RelicGrid.Headers.HP')/* HP */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.ATK}`, headerName: t('RelicGrid.Headers.ATK')/* ATK */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.DEF}`, headerName: t('RelicGrid.Headers.DEF')/* DEF */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.SPD}`, headerName: t('RelicGrid.Headers.SPD')/* SPD */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroes10thsRelicTabSpd, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.CR}`, headerName: t('RelicGrid.Headers.CR')/* Crit\nRate */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.CD}`, headerName: t('RelicGrid.Headers.CD')/* Crit\nDMG */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.EHR}`, headerName: t('RelicGrid.Headers.EHR')/* Effect\nHit Rate */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.RES}`, headerName: t('RelicGrid.Headers.RES')/* Effect\nRES */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.BE}`, headerName: t('RelicGrid.Headers.BE')/* Break\nEffect */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: 'cv', valueGetter: cvValueGetter, headerName: t('RelicGrid.Headers.CV')/* Crit\nValue */, cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
   ].concat(valueColumns
     .map((vc) => {
       const i = flatValueColumnOptions.findIndex((x) => x.value === vc)
@@ -584,8 +584,8 @@ export default function RelicsTab() {
                       {!locatorFilters.part && !locatorFilters.set && <div style={{ width: 10 }}></div>}
                     </Flex>
                     <Typography>
-                      {/* Location - Row {{rowindex}} / Col {{columnindex}} */}
-                      {!selectedRelic ? '' : t('Toolbar.RelicLocator.Location', { columnindex: relicPositionIndex % inventoryWidth + 1, rowindex: Math.ceil((relicPositionIndex + 1) / inventoryWidth) })}
+                      {/* Location - Row {{rowIndex}} / Col {{columnIndex}} */}
+                      {!selectedRelic ? '' : t('Toolbar.RelicLocator.Location', { columnIndex: relicPositionIndex % inventoryWidth + 1, rowIndex: Math.ceil((relicPositionIndex + 1) / inventoryWidth) })}
                     </Typography>
                     <SettingOutlined/>
                   </Flex>
@@ -594,7 +594,7 @@ export default function RelicsTab() {
               }
               {
                 !selectedRelic && (
-                  <Flex style={{ width: '100%' }} justify='space-between'>
+                  <Flex style={{ width: '100%', paddingBottom: 2 }} justify='space-between'>
                     <div style={{ width: 10 }}></div>
                     {/* Select a relic to locate */}
                     <div>{t('Toolbar.RelicLocator.NoneSelected')}</div>

@@ -5,11 +5,11 @@ Scoring:
     Header: How is Stat Score calculated?
   Footer:
     Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
-    Reset: '$t(common:Reset, {"capitalizeLength": 1}) to default'
-    ResetAll: '$t(common:Reset, {"capitalizeLength": 1}) all $t(common:Character, {"count": 35, "capitalizeLength": 0})'
-    Save: '$t(common:Save, {"capitalizeLength": 1}) changes'
+    Reset: 'Reset to default'
+    ResetAll: 'Reset all characters'
+    Save: 'Save changes'
   ResetAllConfirm:
-    Title: '$t(common:Reset, {"capitalizeLength": 1}) the scoring algorithm for all characters?'
+    Title: 'Reset the scoring algorithm for all characters?'
     Description: You will lose any custom scoring settings you have set on any character.
     'Yes': '$t(common:Yes, {"capitalizeLength": 1})'
     'No': '$t(common:No, {"capitalizeLength": 1})'
@@ -68,7 +68,7 @@ Scoring:
 0Results:
   Title: Search generated 0 results
   ResetAll:
-    ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) all filters'
+    ButtonText: 'Reset all filters'
     SuccessMessage: Cleared all filters
     Description: This means your stat and/or rating filters are too restrictive.
   RootCauses:
@@ -225,7 +225,7 @@ ManyPerms:
   Text: >-
     This optimization search will take a substantial amount of time to finish. You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats, or use the
     Substat weight filter to reduce the number of permutations.
-  Cancel: '$t(common:Cancel, {"capitalizeLength": 1}) search'
+  Cancel: 'Cancel search'
   Proceed: Proceed with search
 EditCharacter:
   EidolonButton: $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
@@ -244,8 +244,7 @@ Relic:
   Upgrades: Substat upgrades
   Messages:
     SubmitFail: Submit failed!
-    RelicCompleted: 'Completed $t(common:Relic, {"count": 1, "capitalizeLength": 0})'
-    EditSuccess: 'Successfully edited $t(common:Relic, {"count": 1, "capitalizeLength": 0})'
+    EditSuccess: 'Successfully edited relic'
     Error:
       PartMissing: Part field is missing
       MainstatMissing: Main stat is missing
@@ -257,7 +256,7 @@ Relic:
       EnhanceTooHigh: Enhance value is too high for this grade
       SetInvalid: Set value is invalid
       SetNotOrnament: The selected set is not an ornament set
-      SetNotRelic: 'The selected set is not a $t(common:Relic, {"count": 1, "capitalizeLength": 0}) set'
+      SetNotRelic: 'The selected set is not a relic set'
       SubNInvalid: Substat {{number}} is invalid
       SubsOutOfOrder: Substats are out of order
       DuplicateSubs: Duplicate substats, only one of each type is allowed
@@ -325,8 +324,8 @@ Builds:
     NoneSaved: No saved builds
 ScoreFooter:
   ModalTitle: Combat sim scoring settings
-  ResetButtonText: '$t(common:Reset, {"capitalizeLength": 1}) custom team to default'
-  ResetSuccessMsg: '$t(common:Reset, {"capitalizeLength": 1}) to default teams'
+  ResetButtonText: 'Reset custom team to default'
+  ResetSuccessMsg: 'Reset to default teams'
   SyncButtonText: Sync imported eidolons / light cones
   SyncSuccessMsg: Synced teammates
   TeamOptions:
@@ -334,10 +333,10 @@ ScoreFooter:
     Custom: Custom
 CharacterSelect:
   MultiSelect:
-    Placeholder: 'Customize $t(common:Character, {"count": 12, "capitalizeLength": 0})'
-    MaxTagPlaceholderSome: '{{count}} $t(common:Character, {"count": {{count}}, "capitalizeLength": 0}) excluded'
-    MaxTagPlaceholderNone: 'All $t(common:Character, {"count": 12, "capitalizeLength": 0}) enabled'
-    ModalTitle: 'Select $t(common:Character, {"count": 12, "capitalizeLength": 0}) to exclude'
+    Placeholder: 'Customize characters'
+    MaxTagPlaceholderSome: '{{count}} characters excluded'
+    MaxTagPlaceholderNone: 'All characters enabled'
+    ModalTitle: 'Select characters to exclude'
   SingleSelect:
     Placeholder: '$t(common:Character, {"count": 1, "capitalizeLength": 1})'
     ModalTitle: 'Select a $t(common:Character, {"count": 1, "capitalizeLength": 0})'

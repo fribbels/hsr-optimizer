@@ -156,8 +156,8 @@ export function initializeComboState(request: Form, merge: boolean) {
 function displayModifiedSets(request: Form, comboState: ComboState) {
   const defaultForm = getDefaultForm({ id: request.characterId })
   const presets = DB.getMetadata().characters[request.characterId].scoringMetadata.presets || []
-  for (const applyPreset of presets) {
-    applyPreset(defaultForm)
+  for (const preset of presets) {
+    preset.apply(defaultForm)
   }
 
   // comboState.comboCharacter.setConditionals

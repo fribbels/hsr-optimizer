@@ -93,8 +93,8 @@ export function getDefaultForm(initialCharacter) {
   // TODO: very gross, dedupe
   if (scoringMetadata?.presets) {
     const presets = scoringMetadata.presets || []
-    for (const applyPreset of presets) {
-      applyPreset(defaultForm)
+    for (const preset of presets) {
+      preset.apply(defaultForm)
     }
   }
 

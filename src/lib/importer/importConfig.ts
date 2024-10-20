@@ -45,6 +45,7 @@ export const YasScannerConfig: ScannerConfig = {
   sourceString: 'yas-scanner',
   latestBuildVersion: 'v0.0.0',
   latestOutputVersion: 3,
+  speedVerified: false
 }
 
 export const KelzScannerParser = new KelzFormatParser(KelzScannerConfig)

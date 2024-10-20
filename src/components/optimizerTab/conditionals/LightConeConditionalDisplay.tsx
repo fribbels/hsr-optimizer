@@ -1,5 +1,5 @@
 import { Flex, Typography } from 'antd'
-import { HeaderText } from 'components/HeaderText.jsx'
+import { HeaderText } from 'components/HeaderText'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { Hint } from 'lib/hint.jsx'
 import { DataMineId } from 'types/Common'

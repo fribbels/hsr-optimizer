@@ -446,14 +446,14 @@ const lightCones = gameData.lightCones
 export const UnreleasedSets = {}
 
 if (officialOnly) {
-  UnreleasedSets[SetsRelics.SacerdosRelivedOrdeal] = true
-  UnreleasedSets[SetsRelics.ScholarLostInErudition] = true
+  // UnreleasedSets[SetsRelics.SacerdosRelivedOrdeal] = true
+  // UnreleasedSets[SetsRelics.ScholarLostInErudition] = true
 
   // Delete unreleased sets
   // @ts-ignore
-  delete SetsRelics.SacerdosRelivedOrdeal
+  // delete SetsRelics.SacerdosRelivedOrdeal
   // @ts-ignore
-  delete SetsRelics.ScholarLostInErudition
+  // delete SetsRelics.ScholarLostInErudition
 
   // Delete unreleased characters
   for (const character of Object.values(characters)) {

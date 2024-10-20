@@ -14,6 +14,33 @@ import { OptimizerContext } from 'types/Optimizer'
 
 window.WEBGPU_DEBUG = false
 
+export function condenseRelicSetSolutions(relicSetSolutions: number[]) {
+  function bitPackArray(arr: number[]) {
+    const paddedLength = Math.ceil(arr.length / 32) * 32
+    const paddedArray = new Array(paddedLength).fill(0)
+
+    for (let i = 0; i < arr.length; i++) {
+      paddedArray[i] = arr[i]
+    }
+
+    const result: number[] = []
+
+    for (let i = 0; i < paddedArray.length; i += 32) {
+      let packedValue = 0
+
+      for (let j = 0; j < 32; j++) {
+        packedValue |= (paddedArray[i + j] << (31 - j))
+      }
+
+      result.push(packedValue >>> 0)
+    }
+
+    return result
+  }
+
+  return bitPackArray(relicSetSolutions)
+}
+
 export async function gpuOptimize(props: {
   context: OptimizerContext
   request: Form

@@ -1,5 +1,6 @@
 import { Constants, RelicSetFilterOptions } from 'lib/constants'
 import { Utils } from 'lib/utils'
+import { condenseRelicSetSolutions } from 'lib/gpu/webgpuOptimizer'
 
 // Here be dragons
 export function generateRelicSetSolutions(request) {
@@ -221,7 +222,7 @@ function convertRelicSetIndicesTo1D(setIndices) {
     }
   }
 
-  return arr
+  return condenseRelicSetSolutions(arr)
 }
 
 const permutator = (inputArr) => {

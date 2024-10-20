@@ -1,5 +1,5 @@
 TabLabels:
-  Import: '$t(common:Relic, {"count": 1, "capitalizeLength": 1}) scanner importer'
+  Import: 'Relic scanner importer'
   Load: Load optimizer data
   Save: Save optimizer data
   Clear: Clear optimizer data
@@ -10,44 +10,42 @@ Import:
     InvalidJson: Invalid JSON
     Fragment: 'Error occurred while importing file: '
   Stage1:
-    Header: 'Install and run one of the $t(common:Relic, {"count": 1, "capitalizeLength": 0}) scanner options:'
+    Header: 'Install and run one of the relic scanner options:'
     ReliquaryDesc:
       Title: (Recommended) IceDynamix Reliquary Archiver
       Link: Github
       OnlineMsg: 'Status: Updated for patch {{version}} — New download required'
       OfflineMsg: '***** Status: Down for maintenance after {{version}} patch *****'
       l1: Accurate speed decimals, instant scan
-      l2: 'Imports full inventory and $t(common:Character, {"count": 1, "capitalizeLength": 0}) roster'
+      l2: 'Imports full inventory and character roster'
     KelzDesc:
       Title: Kel-Z HSR Scanner
       Link: Github
       l1: Inaccurate speed decimals, 5-10 minutes OCR scan
-      l2: 'Imports full inventory and $t(common:Character, {"count": 1, "capitalizeLength": 0}) roster'
+      l2: 'Imports full inventory and character roster'
     ScorerDesc:
-      Title: '$t(common:Relic, {"count": 1, "capitalizeLength": 1}) Scorer Import'
-      Link: '$t(common:Relic, {"count": 1, "capitalizeLength": 1}) scorer'
+      Title: 'Relic Scorer Import'
+      Link: 'Relic scorer'
       l1: Accurate speed decimals, instant scan
-      l2: 'No download needed, but limited to $t(common:Relic, {"count": 48, "capitalizeLength": 0}) from the 8 $t(common:Character, {"count": 26, "capitalizeLength": 0}) on profile showcase'
+      l2: 'No download needed, but limited to relics from the 8 characters on the profile showcase'
     HoyolabDesc:
       Title: HoyoLab Import
       Link: Instructions
       l1: Inaccurate speed decimals, instant scan
-      l2: 'No download needed, but limited to ingame $t(common:Character, {"count": 26, "capitalizeLength": 0})" equipped $t(common:Relic, {"count": 6, "capitalizeLength": 0})'
+      l2: 'No download needed, but limited to ingame characters equipped relics'
     ButtonText: Upload scanner json file
     Or: or
     Placeholder: Paste json file contents
   Stage2:
     Or: OR
-    FileInfo: 'File contains $t(common:RelicWithCount, {"count": {{reliccount}} }) and $t(common:CharacterWithCount, {"count": {{charactercount}} }).'
+    FileInfo: 'File contains {{relicCount}} relics and {{characterCount}} characters.'
     NoRelics: Invalid scanner file, please try a different file
     RelicsImport:
-      Label: >-
-        Import $t(common:Relic, {"count": 123, "capitalizeLength": 0}) only. Updates the optimizer with the new dataset of $t(common:Relic, {"count": 123, "capitalizeLength": 0}) and doesn't overwrite
-        builds.
-      ButtonText: 'Import $t(common:Relic, {"count": 123, "capitalizeLength": 0})'
+      Label: Import relics only. Updates the optimizer with the new dataset of relics and doesn't overwrite builds.
+      ButtonText: 'Import relics'
     CharactersImport:
-      Label: 'Import $t(common:Relic, {"count": 123, "capitalizeLength": 0}) and $t(common:Character, {"count": 123, "capitalizeLength": 0}). Replaces the optimizer builds with ingame builds.'
-      ButtonText: 'Import $t(common:Relic, {"count": 123, "capitalizeLength": 0}) & $t(common:Character, {"count": 123, "capitalizeLength": 0})'
+      Label: 'Import relics and characters. Replaces the optimizer builds with ingame builds.'
+      ButtonText: 'Import relics & characters'
       WarningTitle: Overwrite optimizer builds
       WarningDescription: Are you sure you want to overwrite your optimizer builds with ingame builds?
   Stage3:
@@ -57,8 +55,8 @@ LoadData:
     Label: Load your optimizer data from a file.
     ButtonText: Load save data
   Stage2:
-    ErrorMsg: Invalid save file, please try a different file. Did you mean to use the "$t(tablabels.import)" tab?
-    Label: 'File contains $t(common:RelicWithCount, {"count": {{reliccount}} }) and $t(common:CharacterWithCount, {"count": {{charactercount}} }). Replace your current data with the uploaded data?'
+    ErrorMsg: Invalid save file, please try a different file. Did you mean to use the Relic scanner import tab?
+    Label: 'File contains {{relicCount}} relics and {{characterCount}} characters. Replace your current data with the uploaded data?'
     ButtonText: Use uploaded data
   Stage3:
     SuccessMessage: Done!
@@ -71,7 +69,7 @@ ClearData:
   ButtonText: Clear data
   SuccessMessage: Cleared data
   WarningTitle: Erase all data
-  WarningDescription: 'Are you sure you want to clear all $t(common:Relic, {"count": 1300, "capitalizeLength": 0}) and $t(common:Character, {"count": 26, "capitalizeLength": 0})?'
+  WarningDescription: 'Are you sure you want to clear all relics and characters?'
 PartialImport:
-  OldRelics: 'Updated stats for {{count}} existing $t(common:Relic, {"count": {{count}}, "capitalizeLength": 0})'
-  NewRelics: 'Added {{count}} new $t(common:Relic, {"count": {{count}}, "capitalizeLength": 0})'
+  OldRelics: 'Updated stats for {{count}} existing relics'
+  NewRelics: 'Added {{count}} new relics'

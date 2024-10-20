@@ -51,11 +51,11 @@ interface Resources {
       "RemoveSuccess": "Successfully removed character",
       "UnequipSuccess": "Successfully unequipped character",
       "NoSelectedCharacter": "No selected character",
-      "SwitchSuccess": "Successfully switched relics to $t(gameData:Characters.{{charid}}.Name)",
-      "SortByScoreWarning": "Are you sure you want to sort all characters? <0/>You will lose any custom rankings you have set.",
+      "SwitchSuccess": "Successfully switched relics with $t(gameData:Characters.{{charId}}.Name)",
+      "SortByScoreWarning": "Are you sure you want to sort all characters? You will lose any custom rankings you have set.",
       "SaveSuccess": "Successfully saved build: {{name}}",
-      "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charid}}.Name)?",
-      "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charid}}.Name)?"
+      "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?",
+      "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?"
     },
     "CharacterPreview": {
       "ArtBy": "Art by {{artistName}}",
@@ -98,14 +98,14 @@ interface Resources {
         "Header": "Character build analysis",
         "SimulationTeammates": "Simulation teammates",
         "SimulationSets": "Simulation sets",
-        "Formula": {
-          "Header": "Formula",
-          "BASIC": "BASIC:     ",
-          "SKILL": "SKILL:     ",
-          "ULT": "ULT:       ",
-          "FUA": "FUA:       ",
-          "DOT": "DOT:       ",
-          "BREAK": "BREAK:     "
+        "Rotation": {
+          "Header": "Combo damage rotation",
+          "BASIC": "BASIC",
+          "SKILL": "SKILL",
+          "ULT": "ULT",
+          "FUA": "FUA",
+          "DOT": "DOT",
+          "BREAK": "BREAK"
         },
         "CombatResults": {
           "Header": "Combat damage results",
@@ -175,47 +175,42 @@ interface Resources {
         }
       },
       "ScoringDetails": {
-        "Header": "DPS Score Calculation",
-        "WhatIsDPSScore": "<0>What is DPS Score?</0><1>DPS Score is a damage calculation based metric for accurately scoring how optimal the character's relics are for maximizing damage in combat.</1><2>This score is calculated by using the optimizer to simulate the character's combat stats and rates the build based on how much the relics contribute to damage, for a more accurate evaluation than scores based solely on stat weights.</2><3>The scoring calculation takes into consideration:</3><4><0>Character eidolons / light cone / superimpositions</0><1>Teammate eidolons / light cone / superimpositions</1><2>Combat passives and buffs from abilities and light cones</2><3>Team composition and teammate buffs</3><4>Character ability rotations</4><5>Stat breakpoints</5><6>Stat overcapping</6><7>Relic set effects</7><8>Super break</8><9>...etc</9></4>",
-        "HowIsCalculatedPart1": "<0>How is it calculated?</0><1>At its heart, this score is calculated using a Basic / Skill / Ult / FuA / DoT / Break ability damage rotation predefined per character. These simulations use the optimizer's default conditional settings for the character / teammates / light cones / relic sets, and the damage sum is then used to compare between builds.</1><2>Simulation benchmarks</2><3>The scoring algorithm generates three builds to measure the damage of the original character against.</3><4><0>Baseline (0%) - No substats, no main stats</0><1>Benchmark (100%) - A strong build, generated following certain rules with a realistic distribution of 48x min rolls</1><2>Perfection (200%) - The perfect build, generated with an ideal distribution of 54x max rolled substats</2></4><5>The original character's build is scored based on how its Combo DMG compares to the benchmark percentages.The benchmark and perfection builds will always match the original character's SPD.</5>",
-        "HowIsCalculatedPart2": "<0>100% benchmark ruleset</0><1>The 100% benchmark character is designed to be a strong and realistic build that is difficult to reach, but attainable with some character investment into relic farming. The following ruleset defines how the build is generated and why it differs from the perfect build.</1><2><0>The default damage simulation uses a common team composition and the character's BiS relic + ornament set</0><1>The 100% benchmark uses the same eidolon and superimposition as the original character, at level 80 and maxed traces</1><2>The 100% benchmark has 4 main stats and 48 total substats: 8 from each gear slot</2><3>Each substat is equivalent to a 5 star relic's low roll value, except for SPD which uses mid rolls</3><4>First, 2 substats are allocated to each substat type, except for SPD</4><5>Substats are then allocated to SPD to match the original character's in-combat SPD</5><6>The remaining substats are then distributed to the other stats options to maximize the build's damage output</6><7>The resulting build must be a substat distribution that is possible to make with the in-game sub and main stat restrictions (for example, relics with a main stat cannot also have the same substat, and no duplicate substat slots per piece, etc)</7><8>An artificial diminishing returns penalty is applied to substats with greater than <1>12 - (2 * main stats)</1> rolls, to simulate the difficulty of obtaining multiple rolls in a single stat</8></2><3>This process is repeated through all the possible main stat permutations and substat distributions until the highest damage simulation is found. That build's damage is then used as the standard for a 100% DPS Score.</3><4>200% benchmark ruleset</4><5>The 200% perfection character follows a similar generation process with a few differences.</5><6><0>54x max roll substats</0><1>No diminishing returns penalty</1><2>All substats are ideally distributed, but the build must still be possible to make</2></6>",
-        "HowIsCalculatedPart3": "<0>Score normalization</0><1>All simulation scores are normalized by deducting a baseline damage simulation. The baseline uses the same eidolon and light cone, but no main stats and no substats. This adjusts for the base amount of damage that a character's kit deals, so that the DPS Score can then measure the resulting damage contribution of each additional substat.</1><2>Relic / ornament sets</2><3>Each character has a defined BiS set, and a few other equivalent sets that can be considered similar in performance. If the original character's sets matches any of the acceptable sets, the character will be scored against a benchmark generated matching that set, otherwise the original character will be scored against the BiS.</3><4>Stat breakpoint penalty</4><5>Certain characters will have breakpoints that are forced. For example, 120% combat EHR on Black Swan to maximize her passive EHR to DMG conversion, and to land Arcana stacks. Failing to reach the breakpoint will penalize the DPS Score for the missing percentage. This penalty applies to both the original character and the benchmark simulations but not the baseline.</5><6>Formula</6><7>The resulting formula is:</7><8><0>If DMG &lt; 100% benchmark</0><1><0><0>DMG Score = (character dmg - 0% baseline dmg) / (100% benchmark dmg - 0% baseline dmg)</0></0></1></8><9><0>If DMG ≥ 100% benchmark</0><1><0><0>DMG Score = 1 + (character dmg - 100% benchmark dmg) / (200% perfect dmg - 100% benchmark dmg)</0></0></1></9><10>What are the grade thresholds?</10><p>Grading is based on the benchmark as 100%.</p><11><0><0><0>WTF+ = 135% ↑ 9%</0><1>WTF  = 126% ↑ 8%</1><2>SSS+ = 118% ↑ 7%</2><3>SSS  = 111% ↑ 6%</3><4>SS+  = 105% ↑ 5%</4><5>SS   = 100% [Benchmark]</5><6>S+   = 95%</6><7>S    = 90%</7><8>A+   = 85%</8></0><1><0>A  = 80%</0><1>B+ = 75%</1><2>B  = 70%</2><3>C+ = 65%</3><4>C  = 60%</4><5>D+ = 55%</5><6>D  = 50%</6><7>F+ = 45%</7><8>F  = 40%</8></1></0></11>",
-        "FAQ": "<0>FAQs</0><1>Why does the sim match speed?</1><2>Speed is controlled separately from the other stats because damage isn't comparable between different speed thresholds. For example, higher speed can actually result in lower damage with Bronya as a teammate if the speed tuning is thrown off. To make damage comparisons fair, we equalize the speed variable by forcing the sim's substats to match the original character's combat speed.</2><3>Why does a build score lower even though it has higher Sim Damage?</3><4>The benchmark sims have to equalize speed, so if the higher damage build has lower speed, then it will be compared to benchmark builds at that same lower speed, and therefore may score lower. In general this means that the sim will reallocate every reduced speed roll into a damage stat instead.</4><5>What's the reasoning behind the benchmark simulation rules?</5><6>The simulation rules were designed to create a realistic benchmark build for 100% DPS Score, which should be difficult to achieve yet possible with character investment. After trialing many methodologies for generating simulation stats, this set of rules produced the most consistent and reasonable 100% benchmarks across all characters and builds.</6><7>The spread of 2 substats across all stat options provides some baseline consistency, and simulates how substats are imperfectly distributed in actual player builds. The spread rolls also help to balance out characters that are more stat hungry and require multiple stats to be effective, vs characters that only need two or three stats.</7><8>Applying diminishing returns to high stacking substats is a way to make the benchmark fair for characters that primarily scale off of a single stat, for example Boothill and break effect. The ideal distribution will want every relic roll to go into break effect, but stacking 5x rolls of a single stat on a relic is extremely rare / unrealistic in practice, so the simulation rules add diminishing returns to account for that.</8><9>Why are the scores different for different teams?</9><10>Team buffs and synergy will change the ideal benchmark simulation's score. For example, a benchmark sim with Fu Xuan on the team may invest more substats into Crit DMG instead of Crit Rate since her passive Crit Rate will change the optimal distribution of crit rolls. Teams should be customized to fit the actual teammates used for the character ingame for an accurate score.</10><11>Why are certain stat breakpoints forced?</11><12>The only forced breakpoints currently are Effect Hit Rate minimums for DoT characters. Take Black Swan for example, the purpose of forcing the sim to use her 120% breakpoint is so it can't just ignore EHR to chase more maximum DoT damage. EHR is more than just DMG conversion as it also lets her land Arcana debuffs to reach her 7th Arcana stack for DEF pen. The penalty is calculated as a 1% deduction per missing roll from the breakpoint.</12><13><0>dmg scale = min(1, (breakpoint - combat stat) / (min stat value))</0></13><14>How were the default simulation teams / sets chosen?</14><15>The defaults come from a combination of usage statistics and community guidance. Best in slot sets and teammates will change with new game updates, so the default parameters may also change. Please visit the Discord server for suggestions and feedback on the scoring design.</15><16>Why is a character scoring low?</16><17>The `Damage Upgrades` section will give a quick overview of the sets and stats that could be improved. Substat upgrades will show the damage increase for a single max roll. For a more detailed explanation, the full simulation is detailed below the character card, including the benchmark character's stat distribution, basic stats, combat stats, and main stats. Comparing the original character's stats to the benchmark character's stats is helpful to show the difference in builds and see where to improve.</17><18>An often underestimated component of the build is completed BiS set effects. Set effects can play a large part in optimizing a character's potential damage output and rainbow or broken sets will often score worse than full sets.</18>"
+        "Header": "How is DPS Score calculated?"
       }
     }
   },
   "common": {
     "CapitalizeString": "{{string, capitalize}}",
-    "Relic_one": "$t(CapitalizeString, {'string': 'relic'})",
-    "Relic_other": "$t(CapitalizeString, {'string': 'relics'})",
-    "RelicWithCount_one": "{{count}} $t(CapitalizeString, {'string': 'relic'})",
-    "RelicWithCount_other": "{{count}} $t(CapitalizeString, {'string': 'relics'})",
-    "Lightcone_one": "$t(CapitalizeString, {'string': 'light cone'})",
-    "Lightcone_other": "$t(CapitalizeString, {'string': 'light cones'})",
-    "LightconeWithCount_one": "{{count}} $t(CapitalizeString, {'string': 'light cone'})",
-    "LightconeWithCount_other": "{{count}} $t(CapitalizeString, {'string': 'light cones'})",
+    "Relic_one": "$t(CapitalizeString, {\"string\": \"relic\"})",
+    "Relic_other": "$t(CapitalizeString, {\"string\": \"relics\"})",
+    "RelicWithCount_one": "{{count}} $t(CapitalizeString, {\"string\": \"relic\"})",
+    "RelicWithCount_other": "{{count}} $t(CapitalizeString, {\"string\": \"relics\"})",
+    "Lightcone_one": "$t(CapitalizeString, {\"string\": \"light cone\"})",
+    "Lightcone_other": "$t(CapitalizeString, {\"string\": \"light cones\"})",
+    "LightconeWithCount_one": "{{count}} $t(CapitalizeString, {\"string\": \"light cone\"})",
+    "LightconeWithCount_other": "{{count}} $t(CapitalizeString, {\"string\": \"light cones\"})",
     "ThousandsSuffix": "K",
     "DecimalSeparator": ".",
     "ThousandsSeparator": ",",
     "I18nNumber": "{{value, number}}",
-    "Cancel": "$t(CapitalizeString, {'string': 'cancel'})",
-    "Confirm": "$t(CapitalizeString, {'string': 'confirm'})",
-    "Submit": "$t(CapitalizeString, {'string': 'submit'})",
-    "Ok": "$t(CapitalizeString, {'string': 'ok'})",
-    "Yes": "$t(CapitalizeString, {'string': 'yes'})",
-    "No": "$t(CapitalizeString, {'string': 'no'})",
-    "Save": "$t(CapitalizeString, {'string': 'save'})",
-    "Score": "$t(CapitalizeString, {'string': 'score'})",
-    "Reset": "$t(CapitalizeString, {'string': 'reset'})",
-    "Maximum": "$t(CapitalizeString, {'string': 'maximum'})",
-    "Minimum": "$t(CapitalizeString, {'string': 'minimum'})",
+    "Cancel": "$t(CapitalizeString, {\"string\": \"cancel\"})",
+    "Confirm": "$t(CapitalizeString, {\"string\": \"confirm\"})",
+    "Submit": "$t(CapitalizeString, {\"string\": \"submit\"})",
+    "Ok": "$t(CapitalizeString, {\"string\": \"ok\"})",
+    "Yes": "$t(CapitalizeString, {\"string\": \"yes\"})",
+    "No": "$t(CapitalizeString, {\"string\": \"no\"})",
+    "Save": "$t(CapitalizeString, {\"string\": \"save\"})",
+    "Score": "$t(CapitalizeString, {\"string\": \"score\"})",
+    "Reset": "$t(CapitalizeString, {\"string\": \"reset\"})",
+    "Maximum": "$t(CapitalizeString, {\"string\": \"maximum\"})",
+    "Minimum": "$t(CapitalizeString, {\"string\": \"minimum\"})",
     "EidolonNShort": "E{{eidolon}}",
     "SuperimpositionNShort": "S{{superimposition}}",
     "LevelShort": "Lv{{level}}",
-    "CharacterWithCount_one": "{{count}} $t(CapitalizeString, {'string': 'character'})",
-    "CharacterWithCount_other": "{{count}} $t(CapitalizeString, {'string': 'characters'})",
-    "Character_one": "$t(CapitalizeString, {'string': 'character'})",
-    "Character_other": "$t(CapitalizeString, {'string': 'characters'})",
+    "CharacterWithCount_one": "{{count}} $t(CapitalizeString, {\"string\": \"character\"})",
+    "CharacterWithCount_other": "{{count}} $t(CapitalizeString, {\"string\": \"characters\"})",
+    "Character_one": "$t(CapitalizeString, {\"string\": \"character\"})",
+    "Character_other": "$t(CapitalizeString, {\"string\": \"characters\"})",
     "VerifiedRelicHoverText": "Relic substats verified by relic scorer (speed decimals)",
     "CombatStats": "Combat Stats",
     "Parts": {
@@ -964,7 +959,7 @@ interface Resources {
           "cdBuff": {
             "text": "CD buff",
             "title": "Curtains Up!",
-            "content": ""
+            "content": null
           }
         }
       },
@@ -1009,7 +1004,7 @@ interface Resources {
           "cdBuff": {
             "text": "Double path CD buff",
             "title": "Lose Not, Forget Not",
-            "content": "Upon entering battle, if two or more characters follow the same Path, then these characters' CRIT DMG increases by {{CritBuff}}% . "
+            "content": "Upon entering battle, if two or more characters follow the same Path, then these characters\" CRIT DMG increases by {{CritBuff}}% . "
           }
         }
       },
@@ -1386,7 +1381,7 @@ interface Resources {
           "talentBuffStacks": {
             "text": "Talent ATK buff stacks",
             "title": "Astrometry",
-            "content": "Increases allies' ATK by {{talentStacksAtkBuff}}% for every stack.::BR::E4: Asta's Energy Regeneration Rate increases by 15% when she has 2 or more Charging stacks."
+            "content": "Increases allies\" ATK by {{talentStacksAtkBuff}}% for every stack.::BR::E4: Asta\"s Energy Regeneration Rate increases by 15% when she has 2 or more Charging stacks."
           },
           "ultSpdBuff": {
             "text": "Ult SPD buff active",
@@ -1430,7 +1425,7 @@ interface Resources {
           "e4DefBuff": {
             "text": "E4 DEF buff",
             "title": "Unexpected Hanging Paradox",
-            "content": "E4: When triggering his Talent's follow-up attack, first increases Aventurine's DEF by 40% for 2 turn(s)"
+            "content": "E4: When triggering his Talent\"s follow-up attack, first increases Aventurine\"s DEF by 40% for 2 turn(s)"
           },
           "e6ShieldStacks": {
             "text": "E6 shield stacks",
@@ -1459,7 +1454,7 @@ interface Resources {
           "e4SkillHealingDmgBuffStacks": {
             "text": "E4 Skill DMG boost stacks",
             "title": "Evil Excision",
-            "content": "E4: Every healing provided by Bailu's Skill makes the recipient deal 10% more DMG for 2 turns. This effect can stack up to 3 times."
+            "content": "E4: Every healing provided by Bailu\"s Skill makes the recipient deal 10% more DMG for 2 turns. This effect can stack up to 3 times."
           }
         }
       },
@@ -1635,7 +1630,7 @@ interface Resources {
           "e1EnemyHp50": {
             "text": "E1 enemy HP ≥ 50% CR boost",
             "title": "The Higher You Fly, the Harder You Fall",
-            "content": "E1: When the target enemy's current HP percentage is greater than or equal to 50%, CRIT Rate increases by 12%."
+            "content": "E1: When the target enemy\"s current HP percentage is greater than or equal to 50%, CRIT Rate increases by 12%."
           }
         }
       },
@@ -1787,7 +1782,7 @@ interface Resources {
           "e6BeBuff": {
             "text": "E6 BE buff",
             "title": "Blood and Sand",
-            "content": "E6: Increases Gallagher's Break Effect by 20% and Weakness Break Efficiency by 20%."
+            "content": "E6: Increases Gallagher\"s Break Effect by 20% and Weakness Break Efficiency by 20%."
           }
         }
       },
@@ -1796,7 +1791,7 @@ interface Resources {
           "e4TeamResBuff": {
             "text": "E4 team RES buff",
             "title": "Faith Moves Mountains",
-            "content": "E4: When Gepard is in battle, all allies' Effect RES increases by 20%."
+            "content": "E4: When Gepard is in battle, all allies\" Effect RES increases by 20%."
           }
         }
       },
@@ -1820,12 +1815,12 @@ interface Resources {
           "e1EffectResShred": {
             "text": "E1 Effect RES shred",
             "title": "Slurping Noodles During Handstand",
-            "content": "E1: When Skill is used, there is a 100% base chance to reduce the attacked target enemy's Effect RES by 10% for 2 turn(s)."
+            "content": "E1: When Skill is used, there is a 100% base chance to reduce the attacked target enemy\"s Effect RES by 10% for 2 turn(s)."
           },
           "e2BurnMultiBoost": {
             "text": "E2 burn multi boost",
             "title": "Brushing Teeth While Whistling",
-            "content": "E2: When an enemy target is Burned, Guinaifen's Basic ATK and Skill can increase the DMG multiplier of their Burn status by 40%."
+            "content": "E2: When an enemy target is Burned, Guinaifen\"s Basic ATK and Skill can increase the DMG multiplier of their Burn status by 40%."
           }
         }
       },
@@ -1885,7 +1880,7 @@ interface Resources {
           "enemyHpLte50": {
             "text": "E1 Basic scaling boost",
             "title": "Kick You When You're Down",
-            "content": "E1: If the enemy's HP percentage is at 50% or less, Herta's Basic ATK deals Additional Ice DMG equal to 40% of Herta's ATK."
+            "content": "E1: If the enemy\"s HP percentage is at 50% or less, Herta\"s Basic ATK deals Additional Ice DMG equal to 40% of Herta\"s ATK."
           },
           "e2TalentCritStacks": {
             "text": "E2 Talent CR stacks",
@@ -1914,7 +1909,7 @@ interface Resources {
           "e1TalentSpdBuff": {
             "text": "E1 SPD buff",
             "title": "Childhood",
-            "content": "E1: After Victory Rush is triggered, Himeko's SPD increases by 20% for 2 turns."
+            "content": "E1: After Victory Rush is triggered, Himeko\"s SPD increases by 20% for 2 turns."
           },
           "e2EnemyHp50DmgBoost": {
             "text": "E2 enemy HP ≤ 50% DMG boost",
@@ -1952,12 +1947,12 @@ interface Resources {
           "skillBuff": {
             "text": "E1 SPD buff",
             "title": "Anchored to Vessel, Specters Nestled",
-            "content": "E1: When Huohuo possesses Divine Provision, all allies' SPD increases by 12%."
+            "content": "E1: When Huohuo possesses Divine Provision, all allies\" SPD increases by 12%."
           },
           "e6DmgBuff": {
             "text": "E6 DMG buff",
             "title": "Woven Together, Cohere Forever",
-            "content": "E6: When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns."
+            "content": "E6: When healing a target ally, increases the target ally\"s DMG dealt by 50% for 2 turns."
           }
         }
       },
@@ -1981,7 +1976,7 @@ interface Resources {
           "e6ResPenStacks": {
             "text": "E6 RES PEN stacks",
             "title": "Reign, Returned",
-            "content": "E6: After any other ally uses their Ultimate, the Imaginary RES PEN of Dan Heng • Imbibitor Lunae's next Fulgurant Leap attack increases by 20%, up to 3 stacks."
+            "content": "E6: After any other ally uses their Ultimate, the Imaginary RES PEN of Dan Heng • Imbibitor Lunae\"s next Fulgurant Leap attack increases by 20%, up to 3 stacks."
           }
         }
       },
@@ -2005,17 +2000,17 @@ interface Resources {
           "e2CrBuff": {
             "text": "E2 CR buff",
             "title": "Morality? Herein Authenticated",
-            "content": "E2: When there are 15 stacks of Pawned Asset, Jade's CRIT Rate increases by 18%."
+            "content": "E2: When there are 15 stacks of Pawned Asset, Jade\"s CRIT Rate increases by 18%."
           },
           "e4DefShredBuff": {
             "text": "E4 DEF shred buff",
             "title": "Sincerity? Put Option Only",
-            "content": "E4: When using Ultimate, enables the DMG dealt by Jade to ignore 12% of enemy targets' DEF, lasting for 3 turn(s)."
+            "content": "E4: When using Ultimate, enables the DMG dealt by Jade to ignore 12% of enemy targets\" DEF, lasting for 3 turn(s)."
           },
           "e6ResShredBuff": {
             "text": "E6 RES PEN buff",
             "title": "Equity? Pending Sponsorship",
-            "content": "E6: When the Debt Collector character exists on the field, Jade's Quantum RES PEN increases by 20%, and Jade gains the Debt Collector state."
+            "content": "E6: When the Debt Collector character exists on the field, Jade\"s Quantum RES PEN increases by 20%, and Jade gains the Debt Collector state."
           }
         },
         "TeammateContent": {
@@ -2056,7 +2051,7 @@ interface Resources {
           "e6ResShred": {
             "text": "E6 RES shred",
             "title": "Nonamorphic Pyrobind",
-            "content": "E6: The maximum stack limit of Ashen Roast increases to 9.0, and each \"Ashen Roast\" stack reduces the target's All-Type RES by 3.0%."
+            "content": "E6: The maximum stack limit of Ashen Roast increases to 9.0, and each \"Ashen Roast\" stack reduces the target\"s All-Type RES by 3.0%."
           }
         }
       },
@@ -2104,7 +2099,7 @@ interface Resources {
           "e2DmgBuff": {
             "text": "E2 DMG boost",
             "title": "Swing, Skies Squashed",
-            "content": "E2: After Lightning-Lord takes action, DMG caused by Jing Yuan's Basic ATK, Skill, and Ultimate increases by 20% for 2 turns."
+            "content": "E2: After Lightning-Lord takes action, DMG caused by Jing Yuan\"s Basic ATK, Skill, and Ultimate increases by 20% for 2 turns."
           },
           "e6FuaVulnerabilityStacks": {
             "text": "E6 Vulnerable stacks",
@@ -2142,17 +2137,17 @@ interface Resources {
           "e1DefShred": {
             "text": "E1 weakness break buffs",
             "title": "Bloom on Vileward Bouquet",
-            "content": "E1: Lingsha's Weakness Break Efficiency increases by 50%. When an enemy unit's Weakness is Broken, reduces their DEF by 20%."
+            "content": "E1: Lingsha\"s Weakness Break Efficiency increases by 50%. When an enemy unit\"s Weakness is Broken, reduces their DEF by 20%."
           },
           "e2BeBuff": {
             "text": "E2 BE buff",
             "title": "Leisure in Carmine Smokeveil",
-            "content": "E2: When using Ultimate, increases all allies' Break Effect by 40.0%."
+            "content": "E2: When using Ultimate, increases all allies\" Break Effect by 40.0%."
           },
           "e6ResShred": {
             "text": "E6 RES shred",
             "title": "Arcadia Under Deep Seclusion",
-            "content": "E6: While \"Fuyuan\" is on the field, reduces all Enemy units' All-Type RES by 20.0%."
+            "content": "E6: While \"Fuyuan\" is on the field, reduces all Enemy units\" All-Type RES by 20.0%."
           }
         }
       },
@@ -2195,7 +2190,7 @@ interface Resources {
           "e6ResReduction": {
             "text": "E6 RES shred",
             "title": "Reunion With the Dust",
-            "content": "E6: When Ultimate is used, reduces all enemies' All-Type RES by 20% for 2 turn(s)."
+            "content": "E6: When Ultimate is used, reduces all enemies\" All-Type RES by 20% for 2 turn(s)."
           }
         }
       },
@@ -2245,7 +2240,7 @@ interface Resources {
           "selfSpdBuff": {
             "text": "E1 SPD buff",
             "title": "My Sword Stirs Starlight",
-            "content": "E1: When Shifu is on the field, increases March 7th's SPD by 10.0%."
+            "content": "E1: When Shifu is on the field, increases March 7th\"s SPD by 10.0%."
           },
           "e6CdBuff": {
             "text": "E6 Basic CD boost",
@@ -2281,7 +2276,7 @@ interface Resources {
           "e2DefReduction": {
             "text": "E2 DEF shred",
             "title": "Yearning of Youth",
-            "content": "E2: Reduces the target's DEF by 16% for 3 turn(s)."
+            "content": "E2: Reduces the target\"s DEF by 16% for 3 turn(s)."
           },
           "e6UltDmgBoost": {
             "text": "E6 Ult DMG boost",
@@ -2329,7 +2324,7 @@ interface Resources {
           "skillRemovedBuff": {
             "text": "Enemy buff removed Skill buffs",
             "title": "Wipe Out",
-            "content": "Using Skill to remove buff(s) increases the DMG of Pela's next attack by 20%.::BR::E2: Using Skill to remove buff(s) increases SPD by 10% for 2 turn(s)."
+            "content": "Using Skill to remove buff(s) increases the DMG of Pela\"s next attack by 20%.::BR::E2: Using Skill to remove buff(s) increases SPD by 10% for 2 turn(s)."
           },
           "ultDefPenDebuff": {
             "text": "Ult DEF shred",
@@ -2339,7 +2334,7 @@ interface Resources {
           "e4SkillResShred": {
             "text": "E4 Skill Ice RES shred",
             "title": "Full Analysis",
-            "content": "E4: When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turn(s)."
+            "content": "E4: When using Skill, there is a 100% base chance to reduce the target enemy\"s Ice RES by 12% for 2 turn(s)."
           }
         }
       },
@@ -2366,45 +2361,45 @@ interface Resources {
         "Content": {
           "sealformActive": {
             "text": "Sealform state (force weakness break)",
-            "title": "",
-            "content": ""
+            "title": null,
+            "content": null
           },
           "atkToBreakVulnerability": {
             "text": "ATK to Break vulnerability",
-            "title": "",
-            "content": ""
+            "title": null,
+            "content": null
           },
           "chargeStacks": {
             "text": "Charge stacks",
             "title": "Charge stacks",
-            "content": ""
+            "content": null
           },
           "e1DefPen": {
             "text": "E1 DEF PEN",
-            "title": "",
-            "content": ""
+            "title": null,
+            "content": null
           },
           "e2Buffs": {
             "text": "E2 break buffs",
-            "title": "",
-            "content": ""
+            "title": null,
+            "content": null
           },
           "e4SpdBuff": {
             "text": "E4 SPD buff",
-            "title": "",
-            "content": ""
+            "title": null,
+            "content": null
           }
         },
         "TeammateContent": {
           "teammateBreakVulnerability": {
             "text": "Break vulnerability",
-            "title": "",
-            "content": ""
+            "title": null,
+            "content": null
           },
           "e4SpdBuff": {
             "text": "E4 SPD buff",
-            "title": "",
-            "content": ""
+            "title": null,
+            "content": null
           }
         }
       },
@@ -2484,7 +2479,7 @@ interface Resources {
           "e4BeBuff": {
             "text": "E4 BE buff",
             "title": "Chatoyant Éclat",
-            "content": "E4: When an enemy target's Weakness is Broken, Ruan Mei's Break Effect increases by 100% for 3 turn(s)."
+            "content": "E4: When an enemy target\"s Weakness is Broken, Ruan Mei\"s Break Effect increases by 100% for 3 turn(s)."
           }
         },
         "TeammateContent": {
@@ -2906,7 +2901,7 @@ interface Resources {
           "e4ResBuff": {
             "text": "E4 RES buff",
             "title": "Artisan's Ironsong",
-            "content": "After launching \"Intuit: Slash\" or \"Intuit: Cull,\" increases this unit's Effect RES by 50.0%, lasting for 1.0 turn(s)."
+            "content": "After launching \"Intuit: Slash\" or \"Intuit: Cull,\" increases this unit\"s Effect RES by 50.0%, lasting for 1.0 turn(s)."
           },
           "e6Buffs": {
             "text": "E6 buffs",
@@ -4900,7 +4895,7 @@ interface Resources {
         }
       },
       "1213": {
-        "Name": "Dan Heng • Imbibitor Lunae",
+        "Name": "Imbibitor Lunae",
         "Abilities": {
           "121301": {
             "Name": "Beneficent Lotus",
@@ -7378,7 +7373,7 @@ interface Resources {
       "Step 4": "<0>Step 4: Select teammates</0><1/><2>In this menu, select the 3 teammates that you're using with the main character. These teammates will apply their buffs and passive effects to the calculations. The relic/ornament sets and conditionals can be customized to fit the combat scenario.</2>",
       "Step 5": "<0>Step 5: Save results</0><1/><2>Result rows</2><3>This section displays all the results found that match the filters. Every row represents one build that was found. The pinned top row shows the character's currently equipped build. Clicking on each row will show the relics used in the selected build. There may be multiple pages of results, so clicking a column header to sort the results by a stat or rating can make it easier to find desired builds.</3><4>Permutations</4><5>This section shows the number of permutations the optimizer has to search and details on the number of matching relics per slot. If any of the numbers are zero, that indicates that no relics were found that would satisfy the constraints.</5><6><0>Perms - Number of permutations that need to be searched. Stricter filters will reduce permutations and search time</0><1>Searched - Number of permutations completed in an in-progress search</1><2>Results - Number of displayed results that satisfy the stat filters</2></6><7>Selected build</7><8>This section displays the selected build from the grid, and which relics are used & who they are currently equipped on. Pressing the 'Equip' button will assign the relics to the selected character in the optimizer, though the ingame character build is not affected.</8>"
     },
-    "CharacterTab": "<0>Character tab</0><1/><2>Character priority</2><3p>This section displays all the optimized characters and their priority order. Characters are added to this list from the Optimizer tab, when their filters are applied and 'Start' is pressed.</3><4>The ranking is important when used with the 'Priority filter' on the Optimizer tab. When enabled, characters may only take relics from lower priority characters. For example, the priority #2 character may take relics from priority #3, but cannot take from priority #2. Priority #1 can take from any other character. Rows can be dragged to re-order characters.</4><5>The colored highlight on the right of the grid shows the equipped item status of the character. In the above example, Jingliu's green indicator means she has all 6 relics equipped, Bronya's yellow indicator means she is missing at least one relic from her build, and Natasha's red indicator means she has no relics equipped.</5><6>Stats summary</6><7>This section displays the character's stats with their base stats / light cone / maxed traces / and relics equipped in the optimizer. Note that similar to the optimizer results, the actual values ingame may be slightly higher than displayed here due to hidden decimal values on relic stats.</7>",
+    "CharacterTab": "<0>Character tab</0><1/><2>Character priority</2><3>This section displays all the optimized characters and their priority order. Characters are added to this list from the Optimizer tab, when their filters are applied and 'Start' is pressed.</3><4>The ranking is important when used with the 'Priority filter' on the Optimizer tab. When enabled, characters may only take relics from lower priority characters. For example, the priority #2 character may take relics from priority #3, but cannot take from priority #2. Priority #1 can take from any other character. Rows can be dragged to re-order characters.</4><5>The colored highlight on the right of the grid shows the equipped item status of the character. In the above example, Jingliu's green indicator means she has all 6 relics equipped, Bronya's yellow indicator means she is missing at least one relic from her build, and Natasha's red indicator means she has no relics equipped.</5><6>Stats summary</6><7>This section displays the character's stats with their base stats / light cone / maxed traces / and relics equipped in the optimizer. Note that similar to the optimizer results, the actual values ingame may be slightly higher than displayed here due to hidden decimal values on relic stats.</7>",
     "RelicsTab": "<0>Relics tab</0><1/><2>Relics table</2><3>This section displays all the relics that were added / imported into the optimizer. Relics should be updated occasionally with the importer to add in newly acquired relics. Clicking columns will sort the relics table.</3>"
   },
   "hint": {
@@ -7396,7 +7391,7 @@ interface Resources {
       "Title": "Stat filters",
       "p1": "Min (left) / Max (right) filters for character stats, inclusive. The optimizer will only show results within these ranges",
       "p2": "Stat abbreviations are ATK / HP / DEF / SPD / Crit Rate / Crit Damage / Effect Hit Rate / Effect RES / Break Effect",
-      "p3": "NOTE: Ingame speed decimals are truncated so you may see speed values ingame higher than shown here. This is because the OCR importer can't detect the hidden decimals."
+      "p3": "NOTE: Ingame speed decimals are truncated so you may see speed values ingame higher than shown here. This is because the OCR importer can\"t detect the hidden decimals."
     },
     "Mainstats": {
       "Title": "Main stats",
@@ -7439,16 +7434,16 @@ interface Resources {
       "p2": "<0>Boost main stat</0> - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats are not changed accordingly, so builds with lower level relics may be stronger once you level them.",
       "p3": "<0>Keep current relics</0> - The character must use its currently equipped items, and the optimizer will try to fill in empty slots",
       "p4": "<0>Include equipped relics</0> - When enabled, the optimizer will allow using currently equipped by a character for the search. Otherwise equipped relics are excluded",
-      "p5": "<0>Priority</0> - See: Character priority filter. Changing this setting will change the character's priority",
+      "p5": "<0>Priority</0> - See: Character priority filter. Changing this setting will change the character\"s priority",
       "p6": "<0>Exclude</0> - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter",
       "p7": "<0>Enhance / grade</0> - Select the minimum enhance to search for and minimum stars for relics to include"
     },
     "Relics": {
       "Title": "Relics",
       "p1": "Note - Potential is a percent rating which compares a relic to the best possible +15 relic for the current character in the slot. This rating is based off the scoring algorithm weights. This means unrolled relics at +0 sometimes have a higher potential than existing +15 relics, because their possible rolls can go into the character's desired stats.",
-      "p2": "Selected character: Score - The relic's current weight as defined by the scoring algorithm for the currently selected character",
-      "p3": "Selected character: Average potential - The relic's potential weight if rolls went into the average weight of the relic's substats",
-      "p4": "Selected character: Max potential - The relic's maximum potential weight if all future rolls went into the character's desired stats",
+      "p2": "Selected character: Score - The relic\"s current weight as defined by the scoring algorithm for the currently selected character",
+      "p3": "Selected character: Average potential - The relic\"s potential weight if rolls went into the average weight of the relic\"s substats",
+      "p4": "Selected character: Max potential - The relic\"s maximum potential weight if all future rolls went into the character\"s desired stats",
       "p5": "All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game."
     },
     "OptimizationDetails": {
@@ -7478,7 +7473,7 @@ interface Resources {
       "Title": "Stat and filter view",
       "p1": "This allows for switching between viewing results as Base stats vs Combat stats. Stat filters will also be applied to the selected view.",
       "p2": "Base stats - The stats as shown on the character's screen ingame, with no in-combat buffs applied.",
-      "p3": "Combat stats - The character's stats with all stat modifiers in combat included: ability buffs, character & light cone passives, teammates, conditional set effects, etc."
+      "p3": "Combat stats - The character\"s stats with all stat modifiers in combat included: ability buffs, character & light cone passives, teammates, conditional set effects, etc."
     },
     "ValueColumns": {
       "Title": "Value Columns",
@@ -7497,7 +7492,7 @@ interface Resources {
       "Title": "Relic Insight",
       "p1": "When a relic is selected in the table above, you can choose an analysis to view a plot of.",
       "p2": "'Buckets' looks at how perfect this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.<0/>If you hover over a character portrait you'll see the new stats and/or rolls necessary to reach the max potential of this relic.<1/>⚠️ Relics with missing substats may have misleadingly high buckets, as best-case upgrade analysis assumes the best new substat per character.",
-      "p3": "'Top 10' takes the top 10 characters that this relic could be best for, and shows the range of '% perfection' upgrading this relic could result in."
+      "p3": "Top 10 takes the top 10 characters that this relic could be best for, and shows the range of \"% perfection\" upgrading this relic could result in."
     },
     "RelicLocation": {
       "Title": "Relic Location",
@@ -7516,7 +7511,7 @@ interface Resources {
   },
   "importSaveTab": {
     "TabLabels": {
-      "Import": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) scanner importer",
+      "Import": "Relic scanner importer",
       "Load": "Load optimizer data",
       "Save": "Save optimizer data",
       "Clear": "Clear optimizer data"
@@ -7529,32 +7524,32 @@ interface Resources {
         "Fragment": "Error occurred while importing file: "
       },
       "Stage1": {
-        "Header": "Install and run one of the $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0}) scanner options:",
+        "Header": "Install and run one of the relic scanner options:",
         "ReliquaryDesc": {
           "Title": "(Recommended) IceDynamix Reliquary Archiver",
           "Link": "Github",
           "OnlineMsg": "Status: Updated for patch {{version}} — New download required",
           "OfflineMsg": "***** Status: Down for maintenance after {{version}} patch *****",
           "l1": "Accurate speed decimals, instant scan",
-          "l2": "Imports full inventory and $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) roster"
+          "l2": "Imports full inventory and character roster"
         },
         "KelzDesc": {
           "Title": "Kel-Z HSR Scanner",
           "Link": "Github",
           "l1": "Inaccurate speed decimals, 5-10 minutes OCR scan",
-          "l2": "Imports full inventory and $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) roster"
+          "l2": "Imports full inventory and character roster"
         },
         "ScorerDesc": {
-          "Title": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) Scorer Import",
-          "Link": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) scorer",
+          "Title": "Relic Scorer Import",
+          "Link": "Relic scorer",
           "l1": "Accurate speed decimals, instant scan",
-          "l2": "No download needed, but limited to $t(common:Relic, {\"count\": 48, \"capitalizeLength\": 0}) from the 8 $t(common:Character, {\"count\": 26, \"capitalizeLength\": 0}) on profile showcase"
+          "l2": "No download needed, but limited to relics from the 8 characters on the profile showcase"
         },
         "HoyolabDesc": {
           "Title": "HoyoLab Import",
           "Link": "Instructions",
           "l1": "Inaccurate speed decimals, instant scan",
-          "l2": "No download needed, but limited to ingame $t(common:Character, {\"count\": 26, \"capitalizeLength\": 0})' equipped $t(common:Relic, {\"count\": 6, \"capitalizeLength\": 0})"
+          "l2": "No download needed, but limited to ingame characters equipped relics"
         },
         "ButtonText": "Upload scanner json file",
         "Or": "or",
@@ -7562,15 +7557,15 @@ interface Resources {
       },
       "Stage2": {
         "Or": "OR",
-        "FileInfo": "File contains $t(common:RelicWithCount, {\"count\": {{reliccount}} }) and $t(common:CharacterWithCount, {\"count\": {{charactercount}} }).",
+        "FileInfo": "File contains {{relicCount}} relics and {{characterCount}} characters.",
         "NoRelics": "Invalid scanner file, please try a different file",
         "RelicsImport": {
-          "Label": "Import $t(common:Relic, {\"count\": 123, \"capitalizeLength\": 0}) only. Updates the optimizer with the new dataset of $t(common:Relic, {\"count\": 123, \"capitalizeLength\": 0}) and doesn't overwrite builds.",
-          "ButtonText": "Import $t(common:Relic, {\"count\": 123, \"capitalizeLength\": 0})"
+          "Label": "Import relics only. Updates the optimizer with the new dataset of relics and doesn't overwrite builds.",
+          "ButtonText": "Import relics"
         },
         "CharactersImport": {
-          "Label": "Import $t(common:Relic, {\"count\": 123, \"capitalizeLength\": 0}) and $t(common:Character, {\"count\": 123, \"capitalizeLength\": 0}). Replaces the optimizer builds with ingame builds.",
-          "ButtonText": "Import $t(common:Relic, {\"count\": 123, \"capitalizeLength\": 0}) & $t(common:Character, {\"count\": 123, \"capitalizeLength\": 0})",
+          "Label": "Import relics and characters. Replaces the optimizer builds with ingame builds.",
+          "ButtonText": "Import relics & characters",
           "WarningTitle": "Overwrite optimizer builds",
           "WarningDescription": "Are you sure you want to overwrite your optimizer builds with ingame builds?"
         }
@@ -7585,8 +7580,8 @@ interface Resources {
         "ButtonText": "Load save data"
       },
       "Stage2": {
-        "ErrorMsg": "Invalid save file, please try a different file. Did you mean to use the \"$t(tablabels.import)\" tab?",
-        "Label": "File contains $t(common:RelicWithCount, {\"count\": {{reliccount}} }) and $t(common:CharacterWithCount, {\"count\": {{charactercount}} }). Replace your current data with the uploaded data?",
+        "ErrorMsg": "Invalid save file, please try a different file. Did you mean to use the Relic scanner import tab?",
+        "Label": "File contains {{relicCount}} relics and {{characterCount}} characters. Replace your current data with the uploaded data?",
         "ButtonText": "Use uploaded data"
       },
       "Stage3": {
@@ -7603,11 +7598,11 @@ interface Resources {
       "ButtonText": "Clear data",
       "SuccessMessage": "Cleared data",
       "WarningTitle": "Erase all data",
-      "WarningDescription": "Are you sure you want to clear all $t(common:Relic, {\"count\": 1300, \"capitalizeLength\": 0}) and $t(common:Character, {\"count\": 26, \"capitalizeLength\": 0})?"
+      "WarningDescription": "Are you sure you want to clear all relics and characters?"
     },
     "PartialImport": {
-      "OldRelics": "Updated stats for {{count}} existing $t(common:Relic, {\"count\": {{count}}, \"capitalizeLength\": 0})",
-      "NewRelics": "Added {{count}} new $t(common:Relic, {\"count\": {{count}}, \"capitalizeLength\": 0})"
+      "OldRelics": "Updated stats for {{count}} existing relics",
+      "NewRelics": "Added {{count}} new relics"
     }
   },
   "modals": {
@@ -7615,35 +7610,16 @@ interface Resources {
       "StatWeightsHeader": "Stat weights",
       "MainstatsHeader": "Optimal mainstats",
       "WeightMethodology": {
-        "Header": "Substat weight methodology",
-        "RevealText": "Click to show details",
-        "Paragraph1": "Substat weights are graded on a 0.0 to 1.0 scale in increments of 0.25, based on how valuable each stat is to the character. Weights are evaluated based on the following general ruleset:",
-        "Paragraph2": "<0><0>Speed weight:</0></0><1>— SPD is given a value of 1.0 for every character. This is due to the importance of speed tuning in team compositions, and the optimizer should be used to maximize each character's stats at a certain speed breakpoint.</1><2/><3><0>CRIT Rate / CRIT Damage weight:</0></3><4>— Crit DPS in general are given the weights 0.75 ATK | 1.0 SPD | 1.0 CR | 1.0 CD, unless they have any other special scaling.</4><5>— ATK is weighted slightly than CR and CD rolls because in general crit substats will provide a higher boost to damage.</5><6/><7><0>HP / DEF weight:</0></7><8>— Defensive supports are given 2.0 weight to distribute between HP and DEF.</8><9>— For each additional (0.75 | 1.0) stat weight that they scale with, deduct 0.5 down to a minimum of 1.0.</9><10>— If 2.0 still remains and one of the stats is worth more than the other (Huohuo and HP% for example), assign a 1.0 / 0.75 split.</10><11>— Offensive supports follow the same ruleset, except they start with 1.5 weight to distribute between HP and DEF.</11><12/><13><0>RES weight:</0></13><14>— Support characters are granted 0.5 RES weight by default, with an additional 0.25 weight if they have synergy with RES or have critical team-saving abilities.</14>",
-        "Paragraph3": "These weights are the defaults, but each player may have different preferences. Feel free to adjust the weights to fit a certain playstyle. DPS characters should rely on the optimizer and Combat Score to evaluate their performance in combat, since substats scores don't take into account external factors like team buffs or passive effects."
-      },
-      "CalculationMethodology": {
-        "Header": "Calculations",
-        "RevealText": "Click to show details",
-        "Paragraph1": "Relic scores are calculated by <2>Score = substatScore / idealScore * {{percentToScore}}</2>. This allows for characters with fewer desired stats to achieve scores comparable to characters with many desired stats.",
-        "Paragraph2": "The idealScore is the substatScore for a theoretical perfect relic. By adjusting the score to the maximum possible relic, this means that when a weighted substat is occupied by the main stat, the score value of the remaining substat weights increases.",
-        "Paragraph3": "The substatScore is calculated by <2>SubstatScore = weight * normalization * value</2>. The weight of each stat is defined above, on a scale of 0 to 1. The normalization of each stat is calculated based on the ratio of their main stat values to Crit DMG with max value <5>64.8</5>:",
-        "Paragraph4": "<0><0><0>$t(common:ShortStats.CRIT DMG) $t(common:ShortStats.Break Effect) = 64.8 / 64.8 == 1.0</0></0><1><0>$t(common:ShortStats.DEF%) = 64.8 / 54.0 == 1.2</0></1><2><0>$t(common:ShortStats.HP%) $t(common:ShortStats.ATK%) $t(common:ShortStats.Effect Hit Rate) $t(common:ShortStats.Effect RES) = 64.8 / 43.2 == 1.5</0></2><3><0>$t(common:ShortStats.CRIT Rate) = 64.8 / 32.4 == 2</0></3></0><1><0><0>$t(common:ShortStats.SPD) = 64.8 / 25.032 == 2.59</0></0><1><0>$t(common:ShortStats.Outgoing Healing Boost) = 64.8 / 34.561 == 1.87</0></1><2><0>$t(common:ShortStats.Energy Regeneration Rate) = 64.8 / 19.439 == 3.33</0></2><3><0>ELEMENTAL DMG = 64.8 / 38.88 == 1.67</0></3></1>",
-        "Paragraph5": "Flat ATK/HP/DEF have a separate calculation: Their weights are automatically calculated based on the weights given to their respective % counterparts<3> % stat weight * flat stat low roll / (baseStats[stat] * 2 * % stat low roll)</3>the weight calculation for flat atk for Seele for example would be:<5> 0.75 * 19 / (baseStats.ATK * 2 * 0.03888) = 0.75 * 19 / (640.33 * 2 * 0.03888) = 0.28619</5>.",
-        "Paragraph6": "The normalization is calculated based on the normalization for the respective % counterparts:<1><0>64.8 / % main stat value * % stat high roll value / flat stat high roll value</0>. In combination with the adjusted weights, this allows for flat stats to be accurately scored when compared against their % counterparts.</1>",
-        "Paragraph7": "A letter grade is assigned based on the number of normalized min rolls of each substat. The score for each min roll is equivalent to <2>{{minRollValue}}</2>\nThe general scale for grade by rolls is<5>F=1, D=2, C=3, B=4, A=5, S=6, SS=7, SSS=8, WTF=9</5> with a <9>+</9> assigned for an additional half roll.",
-        "Paragraph8": "Character scores are calculated by <2>Score = sum(relic scores) + sum(main stat scores)</2>. Only the feet/body/sphere/rope relics have main stat scores. The main stat score for a 5 star maxed relic is <5>64.8</5> if the main stat is optimal, otherwise scaled down by the stat weight. Non 5 star relic scores are also scaled down by their maximum enhance. Characters are expected to have 3 full sets, so 3 rolls worth of score is deducted for each missing set.",
-        "Paragraph9": "Relics with main stats (body/feet/sphere/rope) are granted extra rolls to compensate for the difficulty of obtaining optimal main stats with desired substats. These numbers were calculated by a simulation of relic rolls accounting for main stat drop rate and expected substat value. These rolls are first multiplied by the min roll value of <2>{{minRollValue}}</2> and then, if the main stat is not optimal, scaled down by the stat weight to obtain the bonus score value.",
-        "Paragraph10": "<0><0><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.HP%): {{mainStatBonusBodyHPP}}</0></0><1><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.ATK%): {{mainStatBonusBodyATKP}}</0></1><2><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.DEF%): {{mainStatBonusBodyDEFP}}</0></2><3><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.CRIT Rate): {{mainStatBonusBodyCR}}</0></3><4><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.CRIT DMG): {{mainStatBonusBodyCD}}</0></4></0><1><0><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.Outgoing Healing Boost): {{mainStatBonusBodyOHB}}</0></0><1><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.Effect Hit Rate): {{mainStatBonusBodyEHR}}</0></1><2><0>$t(common:ReadableParts.Feet) — $t(common:ShortSpacedStats.HP%): {{mainStatBonusFeetHPP}}</0></2><3><0>$t(common:ReadableParts.Feet) — $t(common:ShortSpacedStats.ATK%): {{mainStatBonusFeetATKP}}</0></3><4><0>$t(common:ReadableParts.Feet) — $t(common:ShortSpacedStats.DEF%): {{mainStatBonusFeetDEFP}}</0></4></1><2><0><0>$t(common:ReadableParts.Feet) — $t(common:ShortSpacedStats.SPD): {{mainStatBonusFeetSPD}}</0></0><1><0>$t(common:ReadableParts.PlanarSphere) — $t(common:ShortSpacedStats.HP%): {{mainStatBonusSphereHPP}}</0></1><2><0>$t(common:ReadableParts.PlanarSphere) — $t(common:ShortSpacedStats.ATK%): {{mainStatBonusSphereATKP}}</0></2><3><0>$t(common:ReadableParts.PlanarSphere) — $t(common:ShortSpacedStats.DEF%): {{mainStatBonusSphereDEFP}}</0></3><4><0>$t(common:ReadableParts.PlanarSphere) — Elemental DMG %: {{mainStatBonusSphereElem}}</0></4></2><3><0><0>$t(common:ReadableParts.LinkRope) — $t(common:ShortSpacedStats.HP%): {{mainStatBonusRopeHPP}}</0></0><1><0>$t(common:ReadableParts.LinkRope) — $t(common:ShortSpacedStats.ATK%): {{mainStatBonusRopeATKP}}</0></1><2><0>$t(common:ReadableParts.LinkRope) — $t(common:ShortSpacedStats.DEF%): {{mainStatBonusRopeDEFP}}</0></2><3><0>$t(common:ReadableParts.LinkRope) — $t(common:ShortSpacedStats.Break Effect): {{mainStatBonusRopeBE}}</0></3><4><0>$t(common:ReadableParts.LinkRope) — $t(common:ShortSpacedStats.Energy Regeneration Rate): {{mainStatBonusRopeERR}}</0></4></3>",
-        "Paragraph11": "This scoring method is still experimental and subject to change, please come by the discord server to share any feedback!"
+        "Header": "How is Stat Score calculated?"
       },
       "Footer": {
         "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1})",
-        "Reset": "$t(common:Reset, {\"capitalizeLength\": 1}) to default",
-        "ResetAll": "$t(common:Reset, {\"capitalizeLength\": 1}) all $t(common:Character, {\"count\": 35, \"capitalizeLength\": 0})",
-        "Save": "$t(common:Save, {\"capitalizeLength\": 1}) changes"
+        "Reset": "Reset to default",
+        "ResetAll": "Reset all characters",
+        "Save": "Save changes"
       },
       "ResetAllConfirm": {
-        "Title": "$t(common:Reset, {\"capitalizeLength\": 1}) the scoring algorithm for all characters?",
+        "Title": "Reset the scoring algorithm for all characters?",
         "Description": "You will lose any custom scoring settings you have set on any character.",
         "Yes": "$t(common:Yes, {\"capitalizeLength\": 1})",
         "No": "$t(common:No, {\"capitalizeLength\": 1})"
@@ -7718,7 +7694,7 @@ interface Resources {
     "0Results": {
       "Title": "Search generated 0 results",
       "ResetAll": {
-        "ButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) all filters",
+        "ButtonText": "Reset all filters",
         "SuccessMessage": "Cleared all filters",
         "Description": "This means your stat and/or rating filters are too restrictive."
       },
@@ -7913,7 +7889,7 @@ interface Resources {
     "ManyPerms": {
       "Title": "Very large search requested",
       "Text": "This optimization search will take a substantial amount of time to finish. You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats, or use the Substat weight filter to reduce the number of permutations.",
-      "Cancel": "$t(common:Cancel, {\"capitalizeLength\": 1}) search",
+      "Cancel": "Cancel search",
       "Proceed": "Proceed with search"
     },
     "EditCharacter": {
@@ -7934,8 +7910,7 @@ interface Resources {
       "Upgrades": "Substat upgrades",
       "Messages": {
         "SubmitFail": "Submit failed!",
-        "RelicCompleted": "Completed $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0})",
-        "EditSuccess": "Successfully edited $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0})",
+        "EditSuccess": "Successfully edited relic",
         "Error": {
           "PartMissing": "Part field is missing",
           "MainstatMissing": "Main stat is missing",
@@ -7947,7 +7922,7 @@ interface Resources {
           "EnhanceTooHigh": "Enhance value is too high for this grade",
           "SetInvalid": "Set value is invalid",
           "SetNotOrnament": "The selected set is not an ornament set",
-          "SetNotRelic": "The selected set is not a $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0}) set",
+          "SetNotRelic": "The selected set is not a relic set",
           "SubNInvalid": "Substat {{number}} is invalid",
           "SubsOutOfOrder": "Substats are out of order",
           "DuplicateSubs": "Duplicate substats, only one of each type is allowed",
@@ -8032,8 +8007,8 @@ interface Resources {
     },
     "ScoreFooter": {
       "ModalTitle": "Combat sim scoring settings",
-      "ResetButtonText": "$t(common:Reset, {\"capitalizeLength\": 1}) custom team to default",
-      "ResetSuccessMsg": "$t(common:Reset, {\"capitalizeLength\": 1}) to default teams",
+      "ResetButtonText": "Reset custom team to default",
+      "ResetSuccessMsg": "Reset to default teams",
       "SyncButtonText": "Sync imported eidolons / light cones",
       "SyncSuccessMsg": "Synced teammates",
       "TeamOptions": {
@@ -8043,10 +8018,10 @@ interface Resources {
     },
     "CharacterSelect": {
       "MultiSelect": {
-        "Placeholder": "Customize $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0})",
-        "MaxTagPlaceholderSome": "{{count}} $t(common:Character, {\"count\": {{count}}, \"capitalizeLength\": 0}) excluded",
-        "MaxTagPlaceholderNone": "All $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0}) enabled",
-        "ModalTitle": "Select $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0}) to exclude"
+        "Placeholder": "Customize characters",
+        "MaxTagPlaceholderSome": "{{count}} characters excluded",
+        "MaxTagPlaceholderNone": "All characters enabled",
+        "ModalTitle": "Select characters to exclude"
       },
       "SingleSelect": {
         "Placeholder": "$t(common:Character, {\"count\": 1, \"capitalizeLength\": 1})",
@@ -8118,8 +8093,7 @@ interface Resources {
       "OHB": "Sorted by $t(common:ReadableStats.Outgoing Healing Boost)",
       "ERR": "Sorted by $t(common:ReadableStats.Energy Regeneration Rate)",
       "DMG": "Sorted by Elemental DMG",
-      "EHP": "Sorted by Effective HP",
-      "WEIGHT": "Sorted by Weight"
+      "EHP": "Sorted by Effective HP"
     },
     "OptimizerOptions": {
       "Header": "Optimizer options",
@@ -8358,6 +8332,10 @@ interface Resources {
           "Display": "{{stackCount}}x",
           "Label": "{{stackCount}} stacks (+{{buffValue}}% FUA DMG)",
           "Label5": "5 stacks (+25% FUA DMG +25% CD)"
+        },
+        "Sacerdos": {
+          "Display": "{{stackCount}}x",
+          "Label": "{{stackCount}} stacks (+{{buffValue}}% CD)"
         }
       },
       "Conditionals": {
@@ -8381,7 +8359,8 @@ interface Resources {
         "Duran": "The selected buff is applied to damage calculations based on the number of stacks.",
         "Kalpagni": "When enabled, applies the Break Effect buff to combat stat calculations.",
         "Lushaka": "The selected buff is applied to damage calculations.",
-        "Banana": "The selected buff is applied to damage calculations."
+        "Banana": "The selected buff is applied to damage calculations.",
+        "Sacerdos": "The selected buff is applied to damage calculations. Characters who buff themselves can trigger this effect."
       }
     },
     "Presets": {
@@ -8427,8 +8406,8 @@ interface Resources {
     "EnemyConfiguration": {
       "LevelOptionLabel": "Lv. {{level}} - {{defense}} DEF",
       "CountOptionLabel": "{{targetCount}} $t(optimizerTab:Target, {\"count\": {{targetCount}}})",
-      "ResOptionLabel": "{{resistance}}% Effect RES",
-      "EfresOptionLabel": "{{resistance}}% Damage RES",
+      "EffResOptionLabel": "{{resistance}}% Effect RES",
+      "DmgResOptionLabel": "{{resistance}}% Damage RES",
       "ToughnessOptionLabel": "{{toughness}} max toughness",
       "Title": "Enemy configurations",
       "StatHeader": "Enemy stat options",
@@ -8472,7 +8451,7 @@ interface Resources {
       "COMBOLabel": "COMBO"
     },
     "ComboFilter": {
-      "Header": "Rotation COMBO formula",
+      "Header": "Combo DMG calculation",
       "BASIC": "Basic DMG",
       "SKILL": "Skill DMG",
       "ULT": "Ult DMG",
@@ -8579,14 +8558,14 @@ interface Resources {
       "IdLoadError": "Error loading ID",
       "SuccessMsg": "Successfully loaded profile",
       "LookupError": "Error during lookup, please try again in a bit",
-      "NoCharacterSelected": "No selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0})",
-      "CharacterAlreadyExists": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) already exists",
+      "NoCharacterSelected": "No selected character",
+      "CharacterAlreadyExists": "Selected character already exists",
       "UnknownButtonClicked": "Unknown button clicked"
     },
     "Header": {
-      "DowntimeWarning": "The $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0}) scorer may be down for maintenance after the {{game_version}} patch, please try again later",
-      "WithVersion": "Enter your account UID to score your profile $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}} )",
-      "WithoutVersion": "Enter your account UID to score your profile $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) at level 80 & maxed traces. Log out to refresh instantly."
+      "DowntimeWarning": "The relic scorer may be down for maintenance after the {{game_version}} patch, please try again later",
+      "WithVersion": "Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}})",
+      "WithoutVersion": "Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly."
     },
     "SubmissionBar": {
       "Placeholder": "Account UID",
@@ -8595,12 +8574,12 @@ interface Resources {
     },
     "CopyScreenshot": "Copy screenshot",
     "ImportLabels": {
-      "Relics": "Import $t(common:Relic, {\"count\": 48, \"capitalizeLength\": 0}) into optimizer",
-      "SingleCharacter": "Import selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) & all $t(common:Relic, {\"count\": 48, \"capitalizeLength\": 0}) into optimizer",
-      "AllCharacters": "Import all $t(common:Character, {\"count\": 8, \"capitalizeLength\": 0}) & all $t(common:Relic, {\"count\": 48, \"capitalizeLength\": 0}) into optimizer"
+      "Relics": "Import relics into optimizer",
+      "SingleCharacter": "Import selected character & all relics into optimizer",
+      "AllCharacters": "Import all characters & all relics into optimizer"
     },
-    "SimulateRelics": "Simulate $t(common:Relic, {\"count\": 48, \"capitalizeLength\": 0}) on another $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0})",
-    "OptimizeOnCharacter": "Optimize $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}) stats"
+    "SimulateRelics": "Simulate relics on another character",
+    "OptimizeOnCharacter": "Optimize character stats"
   },
   "relicsTab": {
     "RelicFilterBar": {
@@ -8616,14 +8595,14 @@ interface Resources {
       "Substat": "Substats",
       "ReapplyButton": "Reapply scores",
       "ScoringButton": "Scoring algorithm",
-      "RecommendationHeader": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) recommendation character",
-      "Rating": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) ratings",
-      "CustomCharsHeader": "Custom potential $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0})"
+      "RecommendationHeader": "Relic recommendation character",
+      "Rating": "Relic ratings",
+      "CustomCharsHeader": "Custom potential characters"
     },
     "Messages": {
-      "AddRelicSuccess": "Successfully added $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0})",
-      "NoRelicSelected": "No $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0}) selected",
-      "DeleteRelicSuccess": "Successfully deleted $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0})"
+      "AddRelicSuccess": "Successfully added relic",
+      "NoRelicSelected": "No relic selected",
+      "DeleteRelicSuccess": "Successfully deleted relic"
     },
     "RelicGrid": {
       "To": "to",
@@ -8634,64 +8613,64 @@ interface Resources {
         "Grade": "Grade",
         "Part": "Part",
         "Enhance": "Enhance",
-        "Mainstat": "Main\nStat",
-        "Mainvalue": "Main Value",
-        "hpP": "HP %",
-        "atkP": "ATK %",
-        "defP": "DEF %",
-        "hp": "HP",
-        "atk": "ATK",
-        "def": "DEF",
-        "spd": "SPD",
-        "cr": "Crit\nRate",
-        "cd": "Crit\nDMG",
-        "ehr": "Effect\nHit Rate",
-        "res": "Effect\nRES",
-        "be": "Break\nEffect",
-        "cv": "Crit\nValue"
+        "MainStat": "Main\nStat",
+        "MainValue": "Main\nValue",
+        "HPP": "HP %",
+        "ATKP": "ATK %",
+        "DEFP": "DEF %",
+        "HP": "HP",
+        "ATK": "ATK",
+        "DEF": "DEF",
+        "SPD": "SPD",
+        "CR": "Crit\nRate",
+        "CD": "Crit\nDMG",
+        "EHR": "Effect\nHit Rate",
+        "RES": "Effect\nRES",
+        "BE": "Break\nEffect",
+        "CV": "Crit\nValue"
       },
       "ValueColumns": {
         "SelectedCharacter": {
-          "Label": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0})",
+          "Label": "Selected character",
           "ScoreCol": {
-            "Label": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}): Score",
+            "Label": "Selected character: Score",
             "Header": "Selected Char\nScore"
           },
           "AvgPotCol": {
-            "Label": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}): Average potential",
+            "Label": "Selected character: Average potential",
             "Header": "Selected Char\nAvg Potential"
           },
           "MaxPotCol": {
-            "Label": "Selected $t(common:Character, {\"count\": 1, \"capitalizeLength\": 0}): Max potential",
+            "Label": "Selected character: Max potential",
             "Header": "Selected Char\nMax Potential"
           }
         },
         "CustomCharacters": {
-          "Label": "Custom $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0})",
+          "Label": "Custom characters",
           "AvgPotCol": {
-            "Label": "Custom $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0}): Average potential",
+            "Label": "Custom characters: Average potential",
             "Header": "Custom Chars\nAvg Potential"
           },
           "MaxPotCol": {
-            "Label": "Custom $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0}): Max potential",
+            "Label": "Custom$characters: Max potential",
             "Header": "Custom Chars\nMax Potential"
           }
         },
         "AllCharacters": {
-          "Label": "All $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0})",
+          "Label": "All characters",
           "AvgPotCol": {
-            "Label": "All $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0}): Average potential",
+            "Label": "All characters: Average potential",
             "Header": "All Chars\nAvg Potential"
           },
           "MaxPotCol": {
-            "Label": "All $t(common:Character, {\"count\": 10, \"capitalizeLength\": 0}): Max potential",
+            "Label": "All characters: Max potential",
             "Header": "All Chars\nMax Potential"
           }
         },
         "ComingSoon": {
           "Label": "Coming soon",
           "SetsPotential": {
-            "Label": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) / Ornament sets potential",
+            "Label": "$Relic / Ornament sets potential",
             "Header": "All Chars\nMax Potential + Sets"
           }
         }
@@ -8701,24 +8680,24 @@ interface Resources {
       "RelicLocator": {
         "Width": "Inventory width",
         "Filter": "Auto filter rows",
-        "NoneSelected": "Select a $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0}) to locate",
-        "Location": "Location - Row {{rowindex}} / Col {{columnindex}}"
+        "NoneSelected": "Select a relic to locate",
+        "Location": "Location - Row {{rowIndex}} / Col {{columnIndex}}"
       },
       "InsightOptions": {
-        "Buckets": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) Insight: Buckets",
-        "Top10": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) Insight: Top 10"
+        "Buckets": "Relic Insight: Buckets",
+        "Top10": "Relic Insight: Top 10"
       },
       "PlotOptions": {
-        "PlotAll": "Show all $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0})",
-        "PlotCustom": "Show custom $t(common:Character, {\"count\": 12, \"capitalizeLength\": 0})"
+        "PlotAll": "Show all characters",
+        "PlotCustom": "Show custom characters"
       },
-      "EditRelic": "Edit $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1})",
+      "EditRelic": "Edit relic",
       "DeleteRelic": {
-        "ButtonText": "Delete $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1})",
-        "Warning_one": "Delete the selected $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 0})?",
-        "Warning_other": "Delete the selected {{count}} $t(common:Relic, {\"count\": {{count}}, \"capitalizeLength\": 0})?"
+        "ButtonText": "Delete relic",
+        "Warning_one": "Delete the selected relic?",
+        "Warning_other": "Delete the selected {{count}} relics?"
       },
-      "AddRelic": "Add New $t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1})"
+      "AddRelic": "Add New Relic"
     },
     "RelicInsights": {
       "NewStats": "New stats: ",
@@ -8747,7 +8726,7 @@ interface Resources {
   "sidebar": {
     "Showcase": {
       "Title": "Showcase",
-      "Scorer": "$t(common:Relic, {\"count\": 1, \"capitalizeLength\": 1}) Scorer"
+      "Scorer": "Relic Scorer"
     },
     "Optimization": {
       "Title": "Optimization",

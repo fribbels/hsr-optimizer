@@ -11,7 +11,7 @@ export const STORAGE_STATE = path.join(
 
 export default defineConfig({
   timeout: 60000,
-  testDir: 'tests',
+  testDir: './',
   fullyParallel: true, // Run all tests in parallel.
   forbidOnly: !!process.env.CI, // Fail the build on CI if you accidentally left test.only in the source code.
   retries: process.env.CI ? 1 : 0, // Retry on CI only.
@@ -32,7 +32,6 @@ export default defineConfig({
     baseURL: 'http://localhost:3000/hsr-optimizer', // Base URL to use in actions like `await page.goto('/')`.
     trace: 'on-first-retry', // Collect trace when retrying the failed test.
     screenshot: 'only-on-failure', // Capture screenshot after each test failure.
-    // video: 'on-first-retry',// // Record video only when retrying a test for the first time.
   },
   // Configure projects for major browsers.
   projects: [

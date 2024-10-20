@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Collapse, Divider, Flex, Form, InputNumber, Modal, Popconfirm, Select, Typography } from 'antd'
+import { Button, Divider, Flex, Form, InputNumber, Modal, Popconfirm, Select, Typography } from 'antd'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
@@ -9,8 +9,8 @@ import DB from 'lib/db'
 import { Constants } from 'lib/constants.ts'
 import { usePublish } from 'hooks/usePublish'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
-import { dmgOrbMainstatBonus, mainStatBonuses, minRollValue, percentToScore } from 'lib/relicScorerPotential'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
+import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
 
 const { Text } = Typography
 
@@ -165,204 +165,6 @@ export default function ScoringModal() {
   }
 
   const previewSrc = (scoringAlgorithmFocusCharacter) ? Assets.getCharacterPreviewById(scoringAlgorithmFocusCharacter) : Assets.getBlank()
-
-  const weightMethodologyCollapse = (
-    <Text>
-      <PStyled style={{ margin: '7px 0px' }}>
-        {
-          t('Scoring.WeightMethodology.Paragraph1')
-          // Substat weights are graded on a 0.0 to 1.0 scale in increments of 0.25, based on how valuable each stat is to the character. Weights are evaluated based on the following general ruleset:
-        }
-      </PStyled>
-
-      <Flex justify='space-between' style={{ marginRight: 30 }}>
-        <ul>
-          {/* the raw text inside this Trans component has no effect on the translation, to update the text you must update the appropriate values in the localisation files */}
-          <Trans t={t} i18nKey='Scoring.WeightMethodology.Paragraph2'>
-            <li><u>Speed weight:</u></li>
-            <li>— SPD is given a value of 1.0 for every character. This is due to the importance of speed tuning in team compositions, and the optimizer should be used to maximize each character's stats at a certain speed breakpoint.</li>
-            <br/>
-            <li><u>CRIT Rate / CRIT Damage weight:</u></li>
-            <li>— Crit DPS in general are given the weights 0.75 ATK | 1.0 SPD | 1.0 CR | 1.0 CD, unless they have any other special scaling.</li>
-            <li>— ATK is weighted slightly than CR and CD rolls because in general crit substats will provide a higher boost to damage.</li>
-            <br/>
-            <li><u>HP / DEF weight:</u></li>
-            <li>— Defensive supports are given 2.0 weight to distribute between HP and DEF.</li>
-            <li>— For each additional (0.75 | 1.0) stat weight that they scale with, deduct 0.5 down to a minimum of 1.0.</li>
-            <li>— If 2.0 still remains and one of the stats is worth more than the other (Huohuo and HP% for example), assign a 1.0 / 0.75 split.</li>
-            <li>— Offensive supports follow the same ruleset, except they start with 1.5 weight to distribute between HP and DEF.</li>
-            <br/>
-            <li><u>RES weight:</u></li>
-            <li>— Support characters are granted 0.5 RES weight by default, with an additional 0.25 weight if they have synergy with RES or have critical team-saving abilities.</li>
-          </Trans>
-        </ul>
-      </Flex>
-
-      <PStyled style={{ margin: '7px 0px' }}>
-        {
-          t('Scoring.WeightMethodology.Paragraph3')
-          // These weights are the defaults, but each player may have different preferences. Feel free to adjust the weights to fit a certain playstyle. DPS characters should rely on the optimizer and Combat Score to evaluate their performance in combat, since substats scores don't take into account external factors like team buffs or passive effects.
-        }
-      </PStyled>
-    </Text>
-  )
-
-  const calculationsMethodologyCollapse = (
-    <Text>
-      {/* the raw text inside these Trans components have no effect on the translation, to update the text you must update the appropriate values in the localisation files */}
-      <PStyled style={{ margin: '7px 0px' }}>
-        <Trans t={t} i18nKey='Scoring.CalculationMethodology.Paragraph1'>
-          Relic scores are calculated by
-          {' '}
-          <code>Score = substatScore / idealScore * {{ percentToScore }}</code>
-          .
-          This allows for characters with fewer desired stats to achieve scores comparable to characters with many desired stats.
-        </Trans>
-      </PStyled>
-      <PStyled style={{ margin: '7px 0px' }}>
-        {
-          t('Scoring.CalculationMethodology.Paragraph2')
-          // The idealScore is the substatScore for a theoretical perfect relic. By adjusting the score to the maximum possible relic, this means that when a weighted substat is occupied by the main stat, the score value of the remaining substat weights increases.
-        }
-      </PStyled>
-      <PStyled style={{ margin: '7px 0px' }}>
-        <Trans t={t} i18nKey='Scoring.CalculationMethodology.Paragraph3'>
-          The substatScore is calculated by
-          {' '}
-          <code>SubstatScore = weight * normalization * value</code>
-          .
-          The weight of each stat is defined above, on a scale of 0 to 1.
-          The normalization of each stat is calculated based on the ratio of their main stat values to Crit DMG with max value
-          {' '}
-          <code>64.8</code>
-          :
-        </Trans>
-      </PStyled>
-      <Flex justify='space-between' style={{ marginRight: 120 }}>
-        <Trans t={t} i18nKey='Scoring.CalculationMethodology.Paragraph4'>
-          <ul>
-            <li><code>CD BE = 64.8 / 64.8 == 1.0</code></li>
-            <li><code>DEF% = 64.8 / 54.0 == 1.2</code></li>
-            <li><code>HP% ATK% EHR RES = 64.8 / 43.2 == 1.5</code></li>
-            <li><code>CR = 64.8 / 32.4 == 2</code></li>
-          </ul>
-          <ul>
-            <li><code>SPD = 64.8 / 25.032 == 2.59</code></li>
-            <li><code>OHB = 64.8 / 34.561 == 1.87</code></li>
-            <li><code>ERR = 64.8 / 19.439 == 3.33</code></li>
-            <li><code>ELEMENTAL DMG = 64.8 / 38.88 == 1.67</code></li>
-          </ul>
-        </Trans>
-      </Flex>
-      <PStyled style={{ margin: '7px 0px' }}>
-        <Trans t={t} i18nKey='Scoring.CalculationMethodology.Paragraph5'>
-          Flat ATK/HP/DEF have a separate calculation:
-          {' '}
-          Their weights are automatically calculated based on the weights given to their respective % counterparts
-          <code> % stat weight * flat stat low roll / (baseStats[stat] * 2 * % stat low roll)</code>
-          the weight calculation for flat atk for Seele for example would be:
-          <code> 0.75 * 19 / (640 * 2 * 0.03888) = 0.75 * 19 / (640.33 * 2 * 0.03888) = 0.28619</code>
-          .
-        </Trans>
-      </PStyled>
-      <PStyled style={{ margin: '7px 0px' }}>
-        <Trans t={t} i18nKey='Scoring.CalculationMethodology.Paragraph6'>
-          The normalization is calculated based on the normalization for the respective % counterparts:
-          <li>
-            <code>64.8 / % main stat value * % stat high roll value / flat stat high roll value</code>
-            . in combination with the adjusted weights, this allows for flat stats to be accurately scored when compared against their % counterparts.
-          </li>
-        </Trans>
-      </PStyled>
-
-      <PStyled style={{ margin: '7px 0px' }}>
-        <Trans t={t} i18nKey='Scoring.CalculationMethodology.Paragraph7'>
-          A letter grade is assigned based on the number of normalized min rolls of each substat.
-          The score for each min roll is equivalent to
-          {' '}
-          <code>{{ minRollValue }}</code>
-          {'\n'}
-          The general scale for grade by rolls is
-          <code>F=1, D=2, C=3, B=4, A=5, S=6, SS=7, SSS=8, WTF=9</code>
-          {' '}
-          with a
-          {' '}
-          <code>+</code>
-          {' '}
-          assigned for an additional half roll.
-        </Trans>
-      </PStyled>
-
-      <PStyled style={{ margin: '7px 0px' }}>
-        <Trans t={t} i18nKey='Scoring.CalculationMethodology.Paragraph8'>
-          Character scores are calculated by
-          {' '}
-          <code>Score = sum(relic scores) + sum(main stat scores)</code>
-          .
-          Only the feet/body/sphere/rope relics have main stat scores.
-          The main stat score for a 5 star maxed relic is
-          {' '}
-          <code>64.8</code>
-          {' '}
-          if the main stat is optimal, otherwise scaled down by the stat weight.
-          Non 5 star relic scores are also scaled down by their maximum enhance.
-          Characters are expected to have 3 full sets, so 3 rolls worth of score is deducted for each missing set.
-        </Trans>
-      </PStyled>
-
-      <PStyled style={{ margin: '7px 0px' }}>
-        <Trans t={t} i18nKey='Scoring.CalculationMethodology.Paragraph9'>
-          Relics with main stats (body/feet/sphere/rope) are granted extra rolls to compensate for the difficulty of obtaining optimal main stats with desired substats.
-          These numbers were calculated by a simulation of relic rolls accounting for main stat drop rate and expected substat value.
-          These rolls are first multiplied by the min roll value of
-          {' '}
-          <code>{{ minRollValue }}</code>
-          {' '}
-          and then, if the main stat is not optimal, scaled down by the stat weight to obtain the bonus score value.
-        </Trans>
-      </PStyled>
-
-      <Flex justify='space-between' style={{ marginRight: 30 }}>
-        <Trans t={t} i18nKey='Scoring.CalculationMethodology.Paragraph10'>
-          <ul>
-            <li><code>Body — HP %: {{ mainStatBonusBodyHPP: (mainStatBonuses[Constants.Parts.Body][Constants.Stats.HP_P]).toFixed(1) }}</code></li>
-            <li><code>Body — ATK %: {{ mainStatBonusBodyATKP: (mainStatBonuses[Constants.Parts.Body][Constants.Stats.ATK_P]).toFixed(1) }}</code></li>
-            <li><code>Body — DEF %: {{ mainStatBonusBodyDEFP: (mainStatBonuses[Constants.Parts.Body][Constants.Stats.DEF_P]).toFixed(1) }}</code></li>
-            <li><code>Body — CR: {{ mainStatBonusBodyCR: (mainStatBonuses[Constants.Parts.Body][Constants.Stats.CR]).toFixed(1) }}</code></li>
-            <li><code>Body — CD: {{ mainStatBonusBodyCD: (mainStatBonuses[Constants.Parts.Body][Constants.Stats.CD]).toFixed(1) }}</code></li>
-          </ul>
-          <ul>
-            <li><code>Body — OHB: {{ mainStatBonusBodyOHB: (mainStatBonuses[Constants.Parts.Body][Constants.Stats.OHB]).toFixed(1) }}</code></li>
-            <li><code>Body — EHR: {{ mainStatBonusBodyEHR: (mainStatBonuses[Constants.Parts.Body][Constants.Stats.EHR]).toFixed(1) }}</code></li>
-            <li><code>Feet — HP %: {{ mainStatBonusFeetHPP: (mainStatBonuses[Constants.Parts.Feet][Constants.Stats.HP_P]).toFixed(1) }}</code></li>
-            <li><code>Feet — ATK %: {{ mainStatBonusFeetATKP: (mainStatBonuses[Constants.Parts.Feet][Constants.Stats.ATK_P]).toFixed(1) }}</code></li>
-            <li><code>Feet — DEF %: {{ mainStatBonusFeetDEFP: (mainStatBonuses[Constants.Parts.Feet][Constants.Stats.DEF_P]).toFixed(1) }}</code></li>
-          </ul>
-          <ul>
-            <li><code>Feet — SPD: {{ mainStatBonusFeetSPD: (mainStatBonuses[Constants.Parts.Feet][Constants.Stats.SPD]).toFixed(1) }}</code></li>
-            <li><code>Sphere — HP %: {{ mainStatBonusSphereHPP: (mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.HP_P]).toFixed(1) }}</code></li>
-            <li><code>Sphere — ATK %: {{ mainStatBonusSphereATKP: (mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.ATK_P]).toFixed(1) }}</code></li>
-            <li><code>Sphere — DEF %: {{ mainStatBonusSphereDEFP: (mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.DEF_P]).toFixed(1) }}</code></li>
-            <li><code>Sphere — Elemental DMG %: {{ mainStatBonusSphereElem: (dmgOrbMainstatBonus).toFixed(1) }}</code></li>
-          </ul>
-          <ul>
-            <li><code>Rope — HP %: {{ mainStatBonusRopeHPP: (mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.HP_P]).toFixed(1) }}</code></li>
-            <li><code>Rope — ATK %: {{ mainStatBonusRopeATKP: (mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.ATK_P]).toFixed(1) }}</code></li>
-            <li><code>Rope — DEF %: {{ mainStatBonusRopeDEFP: (mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.DEF_P]).toFixed(1) }}</code></li>
-            <li><code>Rope — BE: {{ mainStatBonusRopeBE: (mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.BE]).toFixed(1) }}</code></li>
-            <li><code>Rope — ERR: {{ mainStatBonusRopeERR: (mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.ERR]).toFixed(1) }}</code></li>
-          </ul>
-        </Trans>
-      </Flex>
-
-      <PStyled style={{ margin: '7px 0px' }}>
-        {
-          t('Scoring.CalculationMethodology.Paragraph11')
-          // This scoring method is still experimental and subject to change, please come by the discord server to share any feedback!
-        }
-      </PStyled>
-    </Text>
-  )
 
   return (
     <Modal
@@ -541,29 +343,9 @@ export default function ScoringModal() {
           </Flex>
         </Flex>
 
-        <TitleDivider>{t('Scoring.WeightMethodology.Header')/* Substat weight methodology */}</TitleDivider>
-
-        <Collapse
-          ghost
-          items={[{
-            key: '1',
-            label: t('Scoring.WeightMethodology.RevealText')/* Click to show details */,
-            children: weightMethodologyCollapse,
-          }]}
-        >
-        </Collapse>
-
-        <TitleDivider>{t('Scoring.CalculationMethodology.Header')/* Calculations */}</TitleDivider>
-
-        <Collapse
-          ghost
-          items={[{
-            key: '1',
-            label: t('modals:Scoring.CalculationMethodology.RevealText')/* Click to show details */,
-            children: calculationsMethodologyCollapse,
-          }]}
-        >
-        </Collapse>
+        <Divider style={{ marginTop: 10, marginBottom: 40 }}>
+          <ColorizedLinkWithIcon text={t('Scoring.WeightMethodology.Header')} linkIcon={true} url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'/>
+        </Divider>
       </Form>
     </Modal>
   )

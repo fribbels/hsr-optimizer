@@ -361,7 +361,8 @@ export default function CharacterTab() {
 
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
-    Message.success(t('Messages.SwitchSuccess'/* Successfully switched relics to ${CharacterName} */, { charid: switchToCharacter.value }))
+    /* Successfully switched relics with ${CharacterName} */
+    Message.success(t('Messages.SwitchSuccess', { charId: switchToCharacter.value }))
     window.relicsGrid.current.api.redrawRows()
   }
 
@@ -457,11 +458,13 @@ export default function CharacterTab() {
         setSwitchRelicsModalOpen(true)
         break
       case 'unequip':
-        if (!await confirm(t('Messages.UnequipWarning'/* Are you sure you want to unequip $t(gameData:Characters.{{charid}}.Name)? */, { charid: selectedCharacter.id }))) return
+        /* Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)? */
+        if (!await confirm(t('Messages.UnequipWarning', { charid: selectedCharacter.id }))) return
         unequipClicked()
         break
       case 'delete':
-        if (!await confirm(t('Messages.DeleteWarning', { charid: selectedCharacter.id })/* Are you sure you want to delete $t(gameData:Characters.{{charid}}.Name)? */)) return
+        /* Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)? */
+        if (!await confirm(t('Messages.DeleteWarning', { charid: selectedCharacter.id }))) return
         removeClicked()
         break
       case 'saveBuild':

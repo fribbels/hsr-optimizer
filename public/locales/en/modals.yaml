@@ -2,78 +2,14 @@ Scoring:
   StatWeightsHeader: Stat weights
   MainstatsHeader: Optimal mainstats
   WeightMethodology:
-    Header: Substat weight methodology
-    RevealText: Click to show details
-    Paragraph1: 'Substat weights are graded on a 0.0 to 1.0 scale in increments of 0.25, based on how valuable each stat is to the character. Weights are evaluated based on the following general ruleset:'
-    Paragraph2: >-
-      <0><0>Speed weight:</0></0><1>— SPD is given a value of 1.0 for every character. This is due to the importance of speed tuning in team compositions, and the optimizer should be used to maximize
-      each character's stats at a certain speed breakpoint.</1><2/><3><0>CRIT Rate / CRIT Damage weight:</0></3><4>— Crit DPS in general are given the weights 0.75 ATK | 1.0 SPD | 1.0 CR | 1.0 CD,
-      unless they have any other special scaling.</4><5>— ATK is weighted slightly than CR and CD rolls because in general crit substats will provide a higher boost to damage.</5><6/><7><0>HP / DEF
-      weight:</0></7><8>— Defensive supports are given 2.0 weight to distribute between HP and DEF.</8><9>— For each additional (0.75 | 1.0) stat weight that they scale with, deduct 0.5 down to a
-      minimum of 1.0.</9><10>— If 2.0 still remains and one of the stats is worth more than the other (Huohuo and HP% for example), assign a 1.0 / 0.75 split.</10><11>— Offensive supports follow the
-      same ruleset, except they start with 1.5 weight to distribute between HP and DEF.</11><12/><13><0>RES weight:</0></13><14>— Support characters are granted 0.5 RES weight by default, with an
-      additional 0.25 weight if they have synergy with RES or have critical team-saving abilities.</14>
-    Paragraph3: >-
-      These weights are the defaults, but each player may have different preferences. Feel free to adjust the weights to fit a certain playstyle. DPS characters should rely on the optimizer and Combat
-      Score to evaluate their performance in combat, since substats scores don't take into account external factors like team buffs or passive effects.
-  CalculationMethodology:
-    Header: Calculations
-    RevealText: Click to show details
-    Paragraph1: >-
-      Relic scores are calculated by <2>Score = substatScore / idealScore * {{percentToScore}}</2>. This allows for characters with fewer desired stats to achieve scores comparable to characters with
-      many desired stats.
-    Paragraph2: >-
-      The idealScore is the substatScore for a theoretical perfect relic. By adjusting the score to the maximum possible relic, this means that when a weighted substat is occupied by the main stat,
-      the score value of the remaining substat weights increases.
-    Paragraph3: >-
-      The substatScore is calculated by <2>SubstatScore = weight * normalization * value</2>. The weight of each stat is defined above, on a scale of 0 to 1. The normalization of each stat is
-      calculated based on the ratio of their main stat values to Crit DMG with max value <5>64.8</5>:
-    Paragraph4: >-
-      <0><0><0>$t(common:ShortStats.CRIT DMG) $t(common:ShortStats.Break Effect) = 64.8 / 64.8 == 1.0</0></0><1><0>$t(common:ShortStats.DEF%) = 64.8 / 54.0 ==
-      1.2</0></1><2><0>$t(common:ShortStats.HP%) $t(common:ShortStats.ATK%) $t(common:ShortStats.Effect Hit Rate) $t(common:ShortStats.Effect RES) = 64.8 / 43.2 ==
-      1.5</0></2><3><0>$t(common:ShortStats.CRIT Rate) = 64.8 / 32.4 == 2</0></3></0><1><0><0>$t(common:ShortStats.SPD) = 64.8 / 25.032 == 2.59</0></0><1><0>$t(common:ShortStats.Outgoing Healing
-      Boost) = 64.8 / 34.561 == 1.87</0></1><2><0>$t(common:ShortStats.Energy Regeneration Rate) = 64.8 / 19.439 == 3.33</0></2><3><0>ELEMENTAL DMG = 64.8 / 38.88 == 1.67</0></3></1>
-    Paragraph5: >-
-      Flat ATK/HP/DEF have a separate calculation: Their weights are automatically calculated based on the weights given to their respective % counterparts<3> % stat weight * flat stat low roll /
-      (baseStats[stat] * 2 * % stat low roll)</3>the weight calculation for flat atk for Seele for example would be:<5> 0.75 * 19 / (baseStats.ATK * 2 * 0.03888) = 0.75 * 19 / (640.33 * 2 * 0.03888) =
-      0.28619</5>.
-    Paragraph6: >-
-      The normalization is calculated based on the normalization for the respective % counterparts:<1><0>64.8 / % main stat value * % stat high roll value / flat stat high roll value</0>. In
-      combination with the adjusted weights, this allows for flat stats to be accurately scored when compared against their % counterparts.</1>
-    Paragraph7: |-
-      A letter grade is assigned based on the number of normalized min rolls of each substat. The score for each min roll is equivalent to <2>{{minRollValue}}</2>
-      The general scale for grade by rolls is<5>F=1, D=2, C=3, B=4, A=5, S=6, SS=7, SSS=8, WTF=9</5> with a <9>+</9> assigned for an additional half roll.
-    Paragraph8: >-
-      Character scores are calculated by <2>Score = sum(relic scores) + sum(main stat scores)</2>. Only the feet/body/sphere/rope relics have main stat scores. The main stat score for a 5 star maxed
-      relic is <5>64.8</5> if the main stat is optimal, otherwise scaled down by the stat weight. Non 5 star relic scores are also scaled down by their maximum enhance. Characters are expected to have
-      3 full sets, so 3 rolls worth of score is deducted for each missing set.
-    Paragraph9: >-
-      Relics with main stats (body/feet/sphere/rope) are granted extra rolls to compensate for the difficulty of obtaining optimal main stats with desired substats. These numbers were calculated by a
-      simulation of relic rolls accounting for main stat drop rate and expected substat value. These rolls are first multiplied by the min roll value of <2>{{minRollValue}}</2> and then, if the main
-      stat is not optimal, scaled down by the stat weight to obtain the bonus score value.
-    Paragraph10: >-
-      <0><0><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.HP%): {{mainStatBonusBodyHPP}}</0></0><1><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.ATK%):
-      {{mainStatBonusBodyATKP}}</0></1><2><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.DEF%): {{mainStatBonusBodyDEFP}}</0></2><3><0>$t(common:ReadableParts.Body) —
-      $t(common:ShortSpacedStats.CRIT Rate): {{mainStatBonusBodyCR}}</0></3><4><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.CRIT DMG):
-      {{mainStatBonusBodyCD}}</0></4></0><1><0><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.Outgoing Healing Boost):
-      {{mainStatBonusBodyOHB}}</0></0><1><0>$t(common:ReadableParts.Body) — $t(common:ShortSpacedStats.Effect Hit Rate): {{mainStatBonusBodyEHR}}</0></1><2><0>$t(common:ReadableParts.Feet) —
-      $t(common:ShortSpacedStats.HP%): {{mainStatBonusFeetHPP}}</0></2><3><0>$t(common:ReadableParts.Feet) — $t(common:ShortSpacedStats.ATK%):
-      {{mainStatBonusFeetATKP}}</0></3><4><0>$t(common:ReadableParts.Feet) — $t(common:ShortSpacedStats.DEF%): {{mainStatBonusFeetDEFP}}</0></4></1><2><0><0>$t(common:ReadableParts.Feet) —
-      $t(common:ShortSpacedStats.SPD): {{mainStatBonusFeetSPD}}</0></0><1><0>$t(common:ReadableParts.PlanarSphere) — $t(common:ShortSpacedStats.HP%):
-      {{mainStatBonusSphereHPP}}</0></1><2><0>$t(common:ReadableParts.PlanarSphere) — $t(common:ShortSpacedStats.ATK%): {{mainStatBonusSphereATKP}}</0></2><3><0>$t(common:ReadableParts.PlanarSphere) —
-      $t(common:ShortSpacedStats.DEF%): {{mainStatBonusSphereDEFP}}</0></3><4><0>$t(common:ReadableParts.PlanarSphere) — Elemental DMG %:
-      {{mainStatBonusSphereElem}}</0></4></2><3><0><0>$t(common:ReadableParts.LinkRope) — $t(common:ShortSpacedStats.HP%): {{mainStatBonusRopeHPP}}</0></0><1><0>$t(common:ReadableParts.LinkRope) —
-      $t(common:ShortSpacedStats.ATK%): {{mainStatBonusRopeATKP}}</0></1><2><0>$t(common:ReadableParts.LinkRope) — $t(common:ShortSpacedStats.DEF%):
-      {{mainStatBonusRopeDEFP}}</0></2><3><0>$t(common:ReadableParts.LinkRope) — $t(common:ShortSpacedStats.Break Effect): {{mainStatBonusRopeBE}}</0></3><4><0>$t(common:ReadableParts.LinkRope) —
-      $t(common:ShortSpacedStats.Energy Regeneration Rate): {{mainStatBonusRopeERR}}</0></4></3>
-    Paragraph11: This scoring method is still experimental and subject to change, please come by the discord server to share any feedback!
+    Header: How is Stat Score calculated?
   Footer:
     Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
-    Reset: '$t(common:Reset, {"capitalizeLength": 1}) to default'
-    ResetAll: '$t(common:Reset, {"capitalizeLength": 1}) all $t(common:Character, {"count": 35, "capitalizeLength": 0})'
-    Save: '$t(common:Save, {"capitalizeLength": 1}) changes'
+    Reset: 'Reset to default'
+    ResetAll: 'Reset all characters'
+    Save: 'Save changes'
   ResetAllConfirm:
-    Title: '$t(common:Reset, {"capitalizeLength": 1}) the scoring algorithm for all characters?'
+    Title: 'Reset the scoring algorithm for all characters?'
     Description: You will lose any custom scoring settings you have set on any character.
     'Yes': '$t(common:Yes, {"capitalizeLength": 1})'
     'No': '$t(common:No, {"capitalizeLength": 1})'
@@ -132,7 +68,7 @@ Scoring:
 0Results:
   Title: Search generated 0 results
   ResetAll:
-    ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) all filters'
+    ButtonText: 'Reset all filters'
     SuccessMessage: Cleared all filters
     Description: This means your stat and/or rating filters are too restrictive.
   RootCauses:
@@ -289,7 +225,7 @@ ManyPerms:
   Text: >-
     This optimization search will take a substantial amount of time to finish. You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats, or use the
     Substat weight filter to reduce the number of permutations.
-  Cancel: '$t(common:Cancel, {"capitalizeLength": 1}) search'
+  Cancel: 'Cancel search'
   Proceed: Proceed with search
 EditCharacter:
   EidolonButton: $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
@@ -308,8 +244,7 @@ Relic:
   Upgrades: Substat upgrades
   Messages:
     SubmitFail: Submit failed!
-    RelicCompleted: 'Completed $t(common:Relic, {"count": 1, "capitalizeLength": 0})'
-    EditSuccess: 'Successfully edited $t(common:Relic, {"count": 1, "capitalizeLength": 0})'
+    EditSuccess: 'Successfully edited relic'
     Error:
       PartMissing: Part field is missing
       MainstatMissing: Main stat is missing
@@ -321,7 +256,7 @@ Relic:
       EnhanceTooHigh: Enhance value is too high for this grade
       SetInvalid: Set value is invalid
       SetNotOrnament: The selected set is not an ornament set
-      SetNotRelic: 'The selected set is not a $t(common:Relic, {"count": 1, "capitalizeLength": 0}) set'
+      SetNotRelic: 'The selected set is not a relic set'
       SubNInvalid: Substat {{number}} is invalid
       SubsOutOfOrder: Substats are out of order
       DuplicateSubs: Duplicate substats, only one of each type is allowed
@@ -389,8 +324,8 @@ Builds:
     NoneSaved: No saved builds
 ScoreFooter:
   ModalTitle: Combat sim scoring settings
-  ResetButtonText: '$t(common:Reset, {"capitalizeLength": 1}) custom team to default'
-  ResetSuccessMsg: '$t(common:Reset, {"capitalizeLength": 1}) to default teams'
+  ResetButtonText: 'Reset custom team to default'
+  ResetSuccessMsg: 'Reset to default teams'
   SyncButtonText: Sync imported eidolons / light cones
   SyncSuccessMsg: Synced teammates
   TeamOptions:
@@ -398,10 +333,10 @@ ScoreFooter:
     Custom: Custom
 CharacterSelect:
   MultiSelect:
-    Placeholder: 'Customize $t(common:Character, {"count": 12, "capitalizeLength": 0})'
-    MaxTagPlaceholderSome: '{{count}} $t(common:Character, {"count": {{count}}, "capitalizeLength": 0}) excluded'
-    MaxTagPlaceholderNone: 'All $t(common:Character, {"count": 12, "capitalizeLength": 0}) enabled'
-    ModalTitle: 'Select $t(common:Character, {"count": 12, "capitalizeLength": 0}) to exclude'
+    Placeholder: 'Customize characters'
+    MaxTagPlaceholderSome: '{{count}} characters excluded'
+    MaxTagPlaceholderNone: 'All characters enabled'
+    ModalTitle: 'Select characters to exclude'
   SingleSelect:
     Placeholder: '$t(common:Character, {"count": 1, "capitalizeLength": 1})'
     ModalTitle: 'Select a $t(common:Character, {"count": 1, "capitalizeLength": 0})'

@@ -3,7 +3,7 @@ import { Flex, Form, Select, Switch, Typography } from 'antd'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 
 import { Hint } from 'lib/hint.jsx'
-import { HeaderText } from 'components/HeaderText.jsx'
+import { HeaderText } from 'components/HeaderText'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { useMemo } from 'react'
 import DB from 'lib/db.js'

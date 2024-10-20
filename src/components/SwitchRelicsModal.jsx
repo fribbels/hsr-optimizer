@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 import { Button, Flex, Form, Modal, Select } from 'antd'
-import { HeaderText } from './HeaderText'
+import { HeaderText } from 'components/HeaderText'
 import { defaultGap } from 'lib/constantsUi'
 import { Utils } from 'lib/utils'
 import PropTypes from 'prop-types'

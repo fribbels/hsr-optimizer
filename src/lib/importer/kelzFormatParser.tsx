@@ -1,5 +1,5 @@
 import stringSimilarity from 'string-similarity'
-import { Constants, Parts, Sets, SubStats } from '../constants'
+import { Constants, Parts, Sets } from '../constants'
 import { RelicAugmenter } from '../relicAugmenter'
 
 import gameData from 'data/game_data.json'
@@ -44,6 +44,20 @@ type V4ParserCharacter = {
   eidolon: number,
 }
 
+type V4ParserRelic = {
+  set_id: string,
+  name: string,
+  slot: string,
+  rarity: number,
+  level: number,
+  mainstat: string,
+  substats: { key: string, value: number }[],
+  location: string,
+  lock: boolean,
+  discard: boolean,
+  _uid: string
+}
+
 const relicSetMapping = gameData.relics.reduce((map, relic) => {
   map[relic.id] = relic
   return map
@@ -58,32 +72,9 @@ export type ScannerParserJson = {
     trailblazer: string
     current_trailblazer_path?: string
   }
-  characters: {
-    characterEidolon: number
-    characterId: string
-    characterLevel: number
-    lightCone: string | null
-    lightConeLevel: number
-    lightConeSuperimposition: number
-  }[]
+  characters: V4ParserCharacter[]
   light_cones: V4ParserLightCone[]
-  relics: {
-    enhance: number
-    equippedBy: string
-    grade: number
-    id: string
-    part: string
-    set: string
-    main: {
-      stat: string
-      value: number
-    }
-    substats: {
-      stat: SubStats
-      value: number
-    }[]
-    verified: boolean
-  }[]
+  relics: V4ParserRelic[]
 }
 
 export class KelzFormatParser { // TODO abstract class

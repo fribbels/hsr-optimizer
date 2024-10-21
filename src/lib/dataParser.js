@@ -16,6 +16,7 @@ const lightCones = gameData.lightCones
 
 const RELICS_2P_BREAK_EFFECT_SPEED = [
   Sets.MessengerTraversingHackerspace,
+  Sets.SacerdosRelivedOrdeal,
   Sets.ThiefOfShootingMeteor,
   Sets.WatchmakerMasterOfDreamMachinations,
   Sets.IronCavalryAgainstTheScourge,
@@ -1517,6 +1518,7 @@ function getScoringMetadata() {
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
@@ -1730,6 +1732,7 @@ function getScoringMetadata() {
         comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -1984,6 +1987,7 @@ function getScoringMetadata() {
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.BandOfSizzlingThunder, Sets.BandOfSizzlingThunder],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
@@ -2269,6 +2273,7 @@ function getScoringMetadata() {
         comboBreak: 0,
         relicSets: [
           [SetsRelics.GeniusOfBrilliantStars, SetsRelics.GeniusOfBrilliantStars],
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -2372,6 +2377,7 @@ function getScoringMetadata() {
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.BandOfSizzlingThunder, Sets.BandOfSizzlingThunder],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
@@ -2819,6 +2825,7 @@ function getScoringMetadata() {
         comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -3180,6 +3187,7 @@ function getScoringMetadata() {
         comboBreak: 0,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -3588,6 +3596,7 @@ function getScoringMetadata() {
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -3787,6 +3796,7 @@ function getScoringMetadata() {
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -4420,6 +4430,7 @@ function getScoringMetadata() {
         comboBreak: 0,
         relicSets: [
           [Sets.TheWindSoaringValorous, Sets.TheWindSoaringValorous],
+          [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -4935,6 +4946,7 @@ function getScoringMetadata() {
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
@@ -5685,6 +5697,7 @@ function getScoringMetadata() {
         comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
@@ -6085,6 +6098,7 @@ function getScoringMetadata() {
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
@@ -6188,6 +6202,7 @@ function getScoringMetadata() {
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],

@@ -105,7 +105,9 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
     modifiable: true,
   },
   [Sets.SacerdosRelivedOrdeal]: {
-    type: ConditionalDataType.BOOLEAN,
+    type: ConditionalDataType.SELECT,
+    modifiable: true,
+    selectionOptions: SetContentSacerdosRelivedOrdealOptions(),
   },
   [Sets.ScholarLostInErudition]: {
     type: ConditionalDataType.BOOLEAN,
@@ -176,6 +178,19 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
     type: ConditionalDataType.BOOLEAN,
     modifiable: true,
   },
+}
+
+function SetContentSacerdosRelivedOrdealOptions() {
+  const options: SelectOptionContent[] = []
+  for (let i = 0; i <= 2; i++) {
+    options.push({
+      display: i + 'x',
+      value: i,
+      label: `${i} stacks (+${i * 18}% CD)`,
+    })
+  }
+
+  return options
 }
 
 function SetContentChampionOfStreetwiseBoxing() {

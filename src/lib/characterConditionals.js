@@ -58,6 +58,8 @@ import feixiao from 'lib/conditionals/character/Feixiao'
 import lingsha from 'lib/conditionals/character/Lingsha'
 import moze from 'lib/conditionals/character/Moze'
 import rappa from 'lib/conditionals/character/Rappa'
+import fugue from 'lib/conditionals/character/Fugue'
+import sunday from 'lib/conditionals/character/Sunday'
 
 export const characterOptionMapping = {
   1001: march7th,
@@ -123,6 +125,8 @@ export const characterOptionMapping = {
   8004: trailblazerpreservation,
   8005: trailblazerharmony,
   8006: trailblazerharmony,
+  7000: fugue,
+  7001: sunday,
 }
 
 /**

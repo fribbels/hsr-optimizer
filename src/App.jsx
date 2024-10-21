@@ -100,6 +100,9 @@ const App = () => {
           Notification: {
             width: 450,
           },
+          Search: {
+            colorBgContainer: '#333aaa',
+          },
         },
         algorithm: theme.darkAlgorithm,
       }}

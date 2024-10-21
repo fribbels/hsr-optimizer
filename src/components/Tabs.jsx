@@ -16,6 +16,7 @@ import ImportTab from 'components/importerTab/ImportTab'
 import SettingsTab from 'components/settingsTab/settingsTab'
 import WebgpuTab from 'components/webgpuTab/WebgpuTab'
 import MetadataTab from 'components/metadataTab/MetadataTab'
+import LandingTab from 'components/landingTab/LandingTab'
 
 const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
 
@@ -34,6 +35,7 @@ const Tabs = () => {
   const settingsTab = React.useMemo(() => <SettingsTab/>, [])
   const webgpuTab = React.useMemo(() => <WebgpuTab/>, [])
   const metadataTab = React.useMemo(() => <MetadataTab/>, [])
+  const landingTab = React.useMemo(() => <LandingTab/>, [])
 
   useEffect(() => {
     let route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]
@@ -60,7 +62,7 @@ const Tabs = () => {
   }, [activeKey])
 
   return (
-    <Flex justify="space-around">
+    <Flex justify="space-around" style={{ width: '100%' }}>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.OPTIMIZER} content={optimizerTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHARACTERS} content={characterTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab}/>
@@ -71,6 +73,7 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey={AppPages.SETTINGS} content={settingsTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.WEBGPU_TEST} content={webgpuTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.METADATA_TEST} content={metadataTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.LANDING} content={landingTab}/>
 
       <ErrorBoundary fallbackRender={defaultErrorRender}>
         <ScoringModal/>

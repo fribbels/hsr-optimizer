@@ -39,6 +39,7 @@ export const AppPages = {
 
   WEBGPU_TEST: 'WEBGPU_TEST',
   METADATA_TEST: 'METADATA_TEST',
+  LANDING: 'LANDING',
 }
 
 export const PageToRoute = {
@@ -50,6 +51,7 @@ export const PageToRoute = {
 
   [AppPages.WEBGPU_TEST]: BASE_PATH + '#webgpu',
   [AppPages.METADATA_TEST]: BASE_PATH + '#metadata',
+  [AppPages.LANDING]: BASE_PATH + '#landing',
 }
 
 export const RouteToPage = {
@@ -60,6 +62,7 @@ export const RouteToPage = {
 
   [PageToRoute[AppPages.WEBGPU_TEST]]: AppPages.WEBGPU_TEST,
   [PageToRoute[AppPages.METADATA_TEST]]: AppPages.METADATA_TEST,
+  [PageToRoute[AppPages.LANDING]]: AppPages.LANDING,
 }
 
 // React usage

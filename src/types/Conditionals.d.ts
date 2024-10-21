@@ -439,3 +439,5 @@ export type ConditionalBuff =
   | 'beatified'
   | 'talentCrBuffStacks'
   | 'skillDmgBuffSummon'
+  | 'torridScorch'
+  | 'weaknessBreakBeStacks'

@@ -4,13 +4,12 @@ import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFina
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 import i18next from 'i18next'
 import { CURRENT_DATA_VERSION, Stats } from 'lib/constants'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Fugue')
+  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Fugue')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5 // TODO
 
   const skillBeValue = skill(e, 0.50, 0.50)
@@ -23,25 +22,35 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const content: ContentItem[] = [
     {
       formItem: 'switch',
-      id: 'foxianPrayer',
-      name: 'foxianPrayer',
-      text: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      id: 'torridScorch',
+      name: 'torridScorch',
+      text: 'Torrid Scorch state',
       title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
       formItem: 'switch',
-      id: 'enemyBrokenBeBuff',
-      name: 'enemyBrokenBeBuff',
-      text: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      id: 'foxianPrayer',
+      name: 'foxianPrayer',
+      text: 'Foxian Prayer BE buff',
       title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    {
+      formItem: 'slider',
+      id: 'weaknessBreakBeStacks',
+      name: 'weaknessBreakBeStacks',
+      text: 'Enemy broken BE stacks',
+      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 0,
+      max: 2,
     },
     {
       formItem: 'switch',
       id: 'defReduction',
-      name: 'Skill DEF shred',
-      text: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      name: 'defReduction',
+      text: 'Skill DEF shred',
       title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
@@ -49,7 +58,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'switch',
       id: 'superBreakDmg',
       name: 'superBreakDmg',
-      text: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: 'Super Break DMG (force weakness break)',
       title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
@@ -57,7 +66,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'switch',
       id: 'e4Vulnerability',
       name: 'e4Vulnerability',
-      text: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: 'E4 vulnerability',
       title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 4
@@ -66,7 +75,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'switch',
       id: 'e6BreakEfficiency',
       name: 'e6BreakEfficiency',
-      text: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: 'E6 break efficiency boost',
       title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 6
@@ -75,20 +84,37 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'foxianPrayer'),
-    findContentId(content, 'enemyBrokenBeBuff'),
+    findContentId(content, 'weaknessBreakBeStacks'),
+    findContentId(content, 'defReduction'),
+    findContentId(content, 'superBreakDmg'),
     findContentId(content, 'e4Vulnerability'),
-    // TODO
+    findContentId(content, 'e6BreakEfficiency'),
   ]
 
   const defaults = {
-    // TODO
+    torridScorch: true,
+    foxianPrayer: true,
+    weaknessBreakBeStacks: 2,
+    defReduction: true,
+    superBreakDmg: true,
+    e4Vulnerability: true,
+    e6BreakEfficiency: true
+  }
+
+  const teammateDefaults = {
+    foxianPrayer: true,
+    weaknessBreakBeStacks: 2,
+    defReduction: true,
+    superBreakDmg: true,
+    e4Vulnerability: true,
+    e6BreakEfficiency: true
   }
 
   return {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
-    teammateDefaults: () => ({}),
+    teammateDefaults: () => (teammateDefaults),
     initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
@@ -106,12 +132,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_SCALING += basicScaling
       x.ULT_SCALING += ultScaling
 
-      // TODO: toughness
+      // TODO: toughness?
+      x.BASIC_TOUGHNESS_DMG = (r.torridScorch) ? 60 : 30
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals
 
-      x[Stats.BE] += (m.enemyBrokenBeBuff) ? 0.15 : 0
+      x[Stats.BE] += m.weaknessBreakBeStacks * 0.15
       x[Stats.BE] += (m.foxianPrayer) ? skillBeValue : 0
 
       x.SUPER_BREAK_MODIFIER += (m.superBreakDmg) ? superBreakScaling : 0

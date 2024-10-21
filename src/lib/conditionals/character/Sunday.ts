@@ -1,6 +1,6 @@
 import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -27,7 +27,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'switch',
       id: 'skillDmgBuff',
       name: 'skillDmgBuff',
-      text: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: 'Skill DMG buff',
       title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
@@ -35,7 +35,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'switch',
       id: 'skillDmgBuffSummon',
       name: 'skillDmgBuffSummon',
-      text: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: 'Skill DMG buff summon',
       title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
@@ -43,7 +43,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       name: 'talentCrBuffStacks',
       id: 'talentCrBuffStacks',
       formItem: 'slider',
-      text: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: 'Talent CR buff stacks',
       title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
@@ -51,17 +51,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     {
       formItem: 'switch',
-      id: 'beatified',
-      name: 'beatified',
-      text: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    },
-    {
-      formItem: 'switch',
       id: 'e1ResPen',
       name: 'e1ResPen',
-      text: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: 'E1 RES PEN',
       title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
@@ -70,7 +62,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'switch',
       id: 'e2SpdBuff',
       name: 'e2SpdBuff',
-      text: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: 'E2 SPD buff',
       title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
@@ -79,7 +71,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'switch',
       id: 'e6CrToCdConversion',
       name: 'e6CrToCdConversion',
-      text: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: 'E6 CR to CD conversion',
       title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 6,
@@ -88,36 +80,46 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const teammateContent: ContentItem[] = [
     // TODO
-    // findContentId(content, 'teamDmgBuff'),
-    // findContentId(content, 'skillBuff'),
-    // findContentId(content, 'ultBuff'),
-    // findContentId(content, 'battleStartDefBuff'),
-    // findContentId(content, 'techniqueBuff'),
-    // {
-    //   formItem: 'slider',
-    //   id: 'teammateCDValue',
-    //   name: 'teammateCDValue',
-    //   text: t('TeammateContent.teammateCDValue.text'),
-    //   title: t('TeammateContent.teammateCDValue.title'),
-    //   content: t('TeammateContent.teammateCDValue.content', { ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue), ultCdBoostValue: TsUtils.precisionRound(100 * ultCdBoostValue), ultCdBoostBaseValue: TsUtils.precisionRound(100 * ultCdBoostBaseValue) }),
-    //   min: 0,
-    //   max: 3.00,
-    //   percent: true,
-    // },
-    // findContentId(content, 'e2SkillSpdBuff'),
+    findContentId(content, 'skillDmgBuff'),
+    findContentId(content, 'skillDmgBuffSummon'),
+    findContentId(content, 'talentCrBuffStacks'),
+    {
+      formItem: 'switch',
+      id: 'beatified',
+      name: 'beatified',
+      text: 'The Beatified',
+      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    findContentId(content, 'e1ResPen'),
+    findContentId(content, 'e2SpdBuff'),
+    findContentId(content, 'e6CrToCdConversion'),
   ]
 
   const defaults = {
-    // TODO
+    skillDmgBuff: false,
+    skillDmgBuffSummon: false,
+    talentCrBuffStacks: 0,
+    e1ResPen: false,
+    e2SpdBuff: true,
+    e6CrToCdConversion: false,
+  }
+
+  const teammateDefaults = {
+    skillDmgBuff: true,
+    skillDmgBuffSummon: false,
+    talentCrBuffStacks: e < 6 ? 1 : 3,
+    beatified: true,
+    e1ResPen: true,
+    e2SpdBuff: true,
+    e6CrToCdConversion: true,
   }
 
   return {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
-    teammateDefaults: () => ({
-      // TODO
-    }),
+    teammateDefaults: () => (teammateDefaults),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       // Stats
 
@@ -138,7 +140,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals
-
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)

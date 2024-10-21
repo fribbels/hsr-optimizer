@@ -47,7 +47,6 @@ import acheron from 'lib/conditionals/character/Acheron'
 import aventurine from 'lib/conditionals/character/Aventurine'
 import gallagher from 'lib/conditionals/character/Gallagher'
 import robin from 'lib/conditionals/character/Robin'
-import boothill from 'lib/conditionals/character/Boothill'
 import topaz from 'lib/conditionals/character/Topaz'
 import firefly from 'lib/conditionals/character/Firefly'
 import jade from 'lib/conditionals/character/Jade'
@@ -57,7 +56,6 @@ import jiaoqiu from 'lib/conditionals/character/Jiaoqiu'
 import feixiao from 'lib/conditionals/character/Feixiao'
 import lingsha from 'lib/conditionals/character/Lingsha'
 import moze from 'lib/conditionals/character/Moze'
-import rappa from 'lib/conditionals/character/Rappa'
 import fugue from 'lib/conditionals/character/Fugue'
 import sunday from 'lib/conditionals/character/Sunday'
 
@@ -117,16 +115,18 @@ export const characterOptionMapping = {
   1310: firefly,
   1312: misha,
   1314: jade,
-  1315: boothill,
-  1317: rappa,
+  1315: fugue,
+  1317: sunday,
+  // 1315: boothill,
+  // 1317: rappa,
+  // 7000: fugue,
+  // 7001: sunday,
   8001: trailblazerdestruction,
   8002: trailblazerdestruction,
   8003: trailblazerpreservation,
   8004: trailblazerpreservation,
   8005: trailblazerharmony,
   8006: trailblazerharmony,
-  7000: fugue,
-  7001: sunday,
 }
 
 /**

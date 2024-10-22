@@ -100,6 +100,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e6FuaVulnerabilityStacks: 3,
     }),
     teammateDefaults: () => ({}),
+    initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals
+
+      x.SUMMONS = 1
+    },
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 

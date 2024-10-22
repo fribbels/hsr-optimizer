@@ -50,6 +50,8 @@ export interface Conditional {
   // These are dependent on other stats, usually in the form of 'when x.stat >= value, then buff x.other' and will
   // evaluate each time that dependent stat changes. These are executed after the precomputes, but before finalizing.
   dynamicConditionals?: DynamicConditional[]
+
+  teammateDynamicConditionals?: DynamicConditional[]
 }
 
 export type ContentComponentMap = {
@@ -427,3 +429,19 @@ export type ConditionalBuff =
   | 'e4SpdBuff'
   | 'teammateBreakVulnerability'
   | 'chargeStacks'
+  | 'foxianPrayer'
+  | 'e4Vulnerability'
+  | 'e6BreakEfficiency'
+  | 'enemyBrokenBeBuff'
+  | 'defReduction'
+  | 'e1ResPen'
+  | 'e2SpdBuff'
+  | 'e6CrStacks'
+  | 'e6CrToCdConversion'
+  | 'beatified'
+  | 'talentCrBuffStacks'
+  | 'skillDmgBuffSummon'
+  | 'torridScorch'
+  | 'weaknessBreakBeStacks'
+  | 'dmgBuffStacks'
+  | 'breakVulnerabilityStacks'

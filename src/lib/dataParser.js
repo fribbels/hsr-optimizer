@@ -606,6 +606,14 @@ function getSuperimpositions() {
       4: { [Constants.Stats.BE]: 0.90 },
       5: { [Constants.Stats.BE]: 1.00 },
     },
+    23034: {},
+    23035: {
+      1: { [Constants.Stats.BE]: 0.60 },
+      2: { [Constants.Stats.BE]: 0.70 },
+      3: { [Constants.Stats.BE]: 0.80 },
+      4: { [Constants.Stats.BE]: 0.90 },
+      5: { [Constants.Stats.BE]: 1.00 },
+    },
     24000: {},
     24001: {
       1: { [Stats.CR]: 0.08 },
@@ -748,6 +756,8 @@ function getLightConeOverrideCenter() {
     23031: 145,
     23032: 180,
     23033: 175,
+    23034: 175, // TODO
+    23035: 175, // TODO
     24000: 170,
     24001: 270,
     24002: 170,
@@ -1073,6 +1083,16 @@ function getOverrideTraces() {
       [Stats.Imaginary_DMG]: 0.144,
       [Stats.RES]: 0.10,
     },
+    1225: { // Fugue
+      [Stats.EHR]: 0.28,
+      [Stats.BE]: 0.24,
+      [Stats.HP_P]: 0.10,
+    },
+    1313: { // Sunday
+      [Stats.CD]: 0.373,
+      [Stats.RES]: 0.18,
+      [Stats.DEF_P]: 0.125,
+    },
   }
 }
 
@@ -1392,6 +1412,16 @@ function getOverrideImageCenter() {
       x: 1040,
       y: 1000,
       z: 1.1,
+    },
+    1225: { // Fugue
+      x: 875,
+      y: 1125,
+      z: 1.15,
+    },
+    1313: { // Sunday
+      x: 1000,
+      y: 950,
+      z: 1.075,
     },
   }
 }
@@ -6393,6 +6423,141 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.BE,
+    },
+    1225: { // Fugue
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 0,
+        [Stats.EHR]: 1,
+        [Stats.RES]: 0,
+        [Stats.BE]: 1,
+        [Stats.ERR]: 1,
+        [Stats.OHB]: 0,
+        [Stats.Physical_DMG]: 0,
+        [Stats.Fire_DMG]: 1,
+        [Stats.Ice_DMG]: 0,
+        [Stats.Lightning_DMG]: 0,
+        [Stats.Wind_DMG]: 0,
+        [Stats.Quantum_DMG]: 0,
+        [Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Parts.Body]: [],
+        [Parts.Feet]: [
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [],
+        [Parts.LinkRope]: [
+          Stats.ERR,
+          Stats.BE,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.BASIC,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.EHR,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Fire_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.BE,
+          ],
+        },
+        substats: [
+          Stats.BE,
+          Stats.ATK_P,
+          Stats.CR,
+          Stats.CD,
+          Stats.ATK,
+        ],
+        breakpoints: {
+          [Stats.EHR]: 0.67,
+        },
+        maxBonusRolls: {},
+        comboAbilities: [null, ULT, BASIC, BASIC, BASIC],
+        comboDot: 0,
+        comboBreak: 1,
+        relicSets: [
+          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+        ],
+        ornamentSets: [
+          Sets.ForgeOfTheKalpagniLantern,
+        ],
+        teammates: [
+          {
+            characterId: '1310', // Firefly
+            lightCone: '23025', // Whereabouts
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    1313: { // Sunday
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0.5,
+        [Stats.DEF_P]: 0.5,
+        [Stats.HP]: 0.5,
+        [Stats.HP_P]: 0.5,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0.75,
+        [Stats.BE]: 0,
+        [Stats.ERR]: 1,
+        [Stats.OHB]: 0,
+        [Stats.Physical_DMG]: 0,
+        [Stats.Fire_DMG]: 0,
+        [Stats.Ice_DMG]: 0,
+        [Stats.Lightning_DMG]: 0,
+        [Stats.Wind_DMG]: 0,
+        [Stats.Quantum_DMG]: 0,
+        [Stats.Imaginary_DMG]: 1,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CD,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [],
+        [Parts.LinkRope]: [
+          Stats.ERR,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.CD,
     },
   }
 }

@@ -98,6 +98,8 @@ struct ComputedStats {
   DOT_SPLIT: f32,
   DOT_STACKS: f32,
 
+  SUMMONS: f32,
+
   ENEMY_WEAKNESS_BROKEN: f32,
 
   SUPER_BREAK_MODIFIER: f32,

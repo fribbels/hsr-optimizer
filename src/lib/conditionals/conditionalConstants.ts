@@ -120,6 +120,8 @@ export const baseComputedStatsObject = {
   DOT_SPLIT: 0,
   DOT_STACKS: 0,
 
+  SUMMONS: 0,
+
   ENEMY_WEAKNESS_BROKEN: 0,
 
   SUPER_BREAK_MODIFIER: 0,

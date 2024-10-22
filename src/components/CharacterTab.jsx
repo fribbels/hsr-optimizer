@@ -459,12 +459,12 @@ export default function CharacterTab() {
         break
       case 'unequip':
         /* Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)? */
-        if (!await confirm(t('Messages.UnequipWarning', { charid: selectedCharacter.id }))) return
+        if (!await confirm(t('Messages.UnequipWarning', { charId: selectedCharacter.id }))) return
         unequipClicked()
         break
       case 'delete':
         /* Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)? */
-        if (!await confirm(t('Messages.DeleteWarning', { charid: selectedCharacter.id }))) return
+        if (!await confirm(t('Messages.DeleteWarning', { charId: selectedCharacter.id }))) return
         removeClicked()
         break
       case 'saveBuild':
@@ -563,9 +563,9 @@ export default function CharacterTab() {
           <Flex vertical gap={8} style={{ marginRight: selectedCharacter ? 6 : 8 }}>
             <div
               id='characterGrid' className='ag-theme-balham-dark' style={{
-              ...{ display: 'block', width: 230, height: parentH - 38 },
-              ...getGridTheme(token),
-            }}
+                ...{ display: 'block', width: 230, height: parentH - 38 },
+                ...getGridTheme(token),
+              }}
             >
               <AgGridReact
                 ref={characterGrid}

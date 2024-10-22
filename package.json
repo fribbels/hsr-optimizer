@@ -59,7 +59,9 @@
     "test:report": "npx playwright show-report",
     "typecheck": "tsc --noEmit -p ./tsconfig.json",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "update-resources": "npx i18next-resources-for-ts interface -i ./public/locales/en -o ./src/types/resources.d.ts",
+    "update-gameData": "npx tsx misc/i18n/generateTranslations.ts && npm run update-resources"
   },
   "browserslist": {
     "production": [

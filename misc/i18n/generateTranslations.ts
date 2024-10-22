@@ -147,7 +147,7 @@ async function generateTranslations(){
     for (const ability of skillConfig) {
       if (!abilities[ability.SkillID]) {
         abilities[ability.SkillID] = {
-          Name: cleanString(locale, textmap[ability.SkillName.Hash]),
+          Name: formattingFixer(cleanString(locale, textmap[ability.SkillName.Hash])),
           Desc: formattingFixer(replaceParameters(textmap[ability.SimpleSkillDesc.Hash], ability.SimpleParamList.map((x) => x.Value))),
           Type: textmap[ability.SkillTypeDesc.Hash],
         }
@@ -248,6 +248,7 @@ async function generateTranslations(){
     for (const avatar of AvatarConfig) {
       output.Characters[avatar.AvatarID] = {
         Name: avatar.AvatarID > 8000 ? cleanString(locale, tbIdToNativeName(avatar.AvatarID, textmap, pathConfig, locale)) : cleanString(locale, textmap[avatar.AvatarName.Hash]),
+        /* not currently being used
         Abilities: {
           [avatar.SkillList[0]]: abilities[avatar.SkillList[0]],
           [avatar.SkillList[1]]: abilities[avatar.SkillList[1]],
@@ -264,6 +265,7 @@ async function generateTranslations(){
           [avatar.RankIDList[4]]: eidolons[avatar.RankIDList[4]],
           [avatar.RankIDList[5]]: eidolons[avatar.RankIDList[5]],
         },
+        */
       }
       /* Effects: {},
       Traces: {

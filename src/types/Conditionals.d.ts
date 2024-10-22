@@ -443,3 +443,5 @@ export type ConditionalBuff =
   | 'skillDmgBuffSummon'
   | 'torridScorch'
   | 'weaknessBreakBeStacks'
+  | 'dmgBuffStacks'
+  | 'breakVulnerabilityStacks'

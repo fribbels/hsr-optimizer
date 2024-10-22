@@ -111,6 +111,8 @@ import ShadowedByNight from 'lib/conditionals/lightcone/4star/ShadowedByNight'
 import NinjutsuInscriptionDazzlingEvilbreaker from 'lib/conditionals/lightcone/5star/NinjutsuInscriptionDazzlingEvilbreaker'
 import NinjaRecordSoundHunt from 'lib/conditionals/lightcone/4star/NinjaRecordSoundHunt'
 import DreamsMontage from 'lib/conditionals/lightcone/4star/DreamsMontage'
+import LongRoadLeadsHome from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import AGroundedAscent from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 
 const fiveStar = {
   23000: NightOnTheMilkyWay,
@@ -147,6 +149,8 @@ const fiveStar = {
   23031: IVentureForthToHunt,
   23032: ScentAloneStaysTrue,
   23033: NinjutsuInscriptionDazzlingEvilbreaker,
+  23034: AGroundedAscent,
+  23035: LongRoadLeadsHome,
 
   24000: OnTheFallOfAnAeon,
   24001: CruisingInTheStellarSea,

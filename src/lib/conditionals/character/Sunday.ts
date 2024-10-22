@@ -108,6 +108,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const teammateDefaults = {
     skillDmgBuff: true,
     talentCrBuffStacks: e < 6 ? 1 : 3,
+    beatified: true,
     teammateCDValue: 2.50,
     e1ResPen: true,
     e2SpdBuff: true,

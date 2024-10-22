@@ -606,6 +606,14 @@ function getSuperimpositions() {
       4: { [Constants.Stats.BE]: 0.90 },
       5: { [Constants.Stats.BE]: 1.00 },
     },
+    23034: {},
+    23035: {
+      1: { [Constants.Stats.BE]: 0.60 },
+      2: { [Constants.Stats.BE]: 0.70 },
+      3: { [Constants.Stats.BE]: 0.80 },
+      4: { [Constants.Stats.BE]: 0.90 },
+      5: { [Constants.Stats.BE]: 1.00 },
+    },
     24000: {},
     24001: {
       1: { [Stats.CR]: 0.08 },
@@ -748,6 +756,8 @@ function getLightConeOverrideCenter() {
     23031: 145,
     23032: 180,
     23033: 175,
+    23034: 175, // TODO
+    23035: 175, // TODO
     24000: 170,
     24001: 270,
     24002: 170,
@@ -1073,12 +1083,12 @@ function getOverrideTraces() {
       [Stats.Imaginary_DMG]: 0.144,
       [Stats.RES]: 0.10,
     },
-    7000: { // Fugue
+    1225: { // Fugue
       [Stats.EHR]: 0.28,
       [Stats.BE]: 0.24,
       [Stats.HP_P]: 0.10,
     },
-    7001: { // Sunday
+    1313: { // Sunday
       [Stats.CD]: 0.373,
       [Stats.RES]: 0.18,
       [Stats.DEF_P]: 0.125,
@@ -1403,12 +1413,12 @@ function getOverrideImageCenter() {
       y: 1000,
       z: 1.1,
     },
-    7000: { // Fugue
+    1225: { // Fugue
       x: 1024,
       y: 1024,
       z: 1.0,
     },
-    7001: { // Sunday
+    1313: { // Sunday
       x: 1024,
       y: 1024,
       z: 1.1,
@@ -6414,7 +6424,7 @@ function getScoringMetadata() {
       presets: [],
       sortOption: SortOption.BE,
     },
-    7000: { // Fugue
+    1225: { // Fugue
       stats: {
         [Stats.ATK]: 0,
         [Stats.ATK_P]: 0,
@@ -6477,7 +6487,9 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        breakpoints: {},
+        breakpoints: {
+          [Stats.EHR]: 0.67,
+        },
         maxBonusRolls: {},
         comboAbilities: [null, ULT, BASIC, BASIC, BASIC],
         comboDot: 0,
@@ -6490,10 +6502,10 @@ function getScoringMetadata() {
         ],
         teammates: [
           {
-            characterId: '8006', // Stelle
-            lightCone: '21004', // Memories
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: '1310', // Firefly
+            lightCone: '23025', // Whereabouts
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: '1303', // Ruan Mei
@@ -6502,15 +6514,15 @@ function getScoringMetadata() {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1301', // Gallagher
-            lightCone: '20015', // Multi
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
         ],
       },
     },
-    7001: { // Sunday
+    1313: { // Sunday
       stats: {
         [Stats.ATK]: 0,
         [Stats.ATK_P]: 0,

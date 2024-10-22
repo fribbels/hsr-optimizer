@@ -58,6 +58,8 @@ import lingsha from 'lib/conditionals/character/Lingsha'
 import moze from 'lib/conditionals/character/Moze'
 import fugue from 'lib/conditionals/character/Fugue'
 import sunday from 'lib/conditionals/character/Sunday'
+import boothill from 'lib/conditionals/character/Boothill'
+import rappa from 'lib/conditionals/character/Rappa'
 
 export const characterOptionMapping = {
   1001: march7th,
@@ -103,6 +105,7 @@ export const characterOptionMapping = {
   1222: lingsha,
   1223: moze,
   1224: march7thImaginary,
+  1225: fugue,
   1301: gallagher,
   1302: argenti,
   1303: ruanmei,
@@ -114,13 +117,10 @@ export const characterOptionMapping = {
   1309: robin,
   1310: firefly,
   1312: misha,
+  1313: sunday,
   1314: jade,
-  1315: fugue,
-  1317: sunday,
-  // 1315: boothill,
-  // 1317: rappa,
-  // 7000: fugue,
-  // 7001: sunday,
+  1315: boothill,
+  1317: rappa,
   8001: trailblazerdestruction,
   8002: trailblazerdestruction,
   8003: trailblazerpreservation,

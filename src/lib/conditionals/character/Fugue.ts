@@ -10,14 +10,14 @@ import { CURRENT_DATA_VERSION, Stats } from 'lib/constants'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Fugue')
-  const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5 // TODO
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
-  const skillBeValue = skill(e, 0.50, 0.50)
-  const skillDefPenValue = skill(e, 0.23, 0.23)
+  const skillBeValue = skill(e, 0.40, 0.44)
+  const skillDefPenValue = skill(e, 0.18, 0.20)
 
-  const basicScaling = basic(e, 1.0, 1.1)
-  const ultScaling = ult(e, 2.50, 2.50)
-  const superBreakScaling = talent(e, 1.25, 1.25)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const ultScaling = ult(e, 2.00, 2.20)
+  const superBreakScaling = talent(e, 1.00, 1.10)
 
   const content: ContentItem[] = [
     {
@@ -133,7 +133,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_SCALING += ultScaling
 
       // TODO: toughness?
-      x.BASIC_TOUGHNESS_DMG = (r.torridScorch) ? 60 : 30
+      x.BASIC_TOUGHNESS_DMG = 30
+      x.ULT_TOUGHNESS_DMG = 60
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals

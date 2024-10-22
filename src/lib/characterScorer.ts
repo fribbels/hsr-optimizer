@@ -161,6 +161,7 @@ export type SimulationMetadata = {
     [part: string]: string[]
   }
   substats: string[]
+  errRopeEidolon: number,
   breakpoints: {
     [stat: string]: number
   }
@@ -251,8 +252,8 @@ export function scoreCharacterSimulation(
     // Add break if the combo uses it
     addBreakEffect = true
   }
-  if (defaultMetadata.teammates.find((x) => x.characterId == '8005' || x.characterId == '8006')) {
-    // Add break if the harmony trailblazer is on the team
+  if (defaultMetadata.teammates.find((x) => x.characterId == '8005' || x.characterId == '8006' || x.characterId == '1225')) {
+    // Add break if the harmony trailblazer | fugue is on the team
     addBreakEffect = true
   }
   if (addBreakEffect && !substats.includes(Stats.BE)) {
@@ -322,7 +323,7 @@ export function scoreCharacterSimulation(
   applyScoringFunction(baselineSimResult)
 
   // Generate partials to calculate speed rolls
-  const partialSimulationWrappers = generatePartialSimulations(character, metadata, simulationSets, originalBaseSpeed, baselineSimResult)
+  const partialSimulationWrappers = generatePartialSimulations(character, metadata, simulationSets, originalSim)
   const candidateBenchmarkSims: Simulation[] = []
 
   // Run sims
@@ -1014,12 +1015,13 @@ function generatePartialSimulations(
   character: Character,
   metadata: SimulationMetadata,
   simulationSets: SimulationSets,
-  originalBaseSpeed: number,
-  baselineSimResult: SimulationResult
+  originalSim: Simulation
 ) {
-  const characterSpdStat = calculateCharacterSpdStat(character)
   const forceSpdBoots = false // originalBaseSpeed - baselineSimResult.x[Stats.SPD] > 2.0 * 2 * 5 // 3 min spd rolls per piece
   const feetParts: string[] = forceSpdBoots ? [Stats.SPD] : metadata.parts[Parts.Feet]
+
+  const forceErrRope = originalSim.request.simLinkRope == Stats.ERR && metadata.errRopeEidolon != null && character.form.characterEidolon >= metadata.errRopeEidolon
+  const ropeParts: string[] = forceErrRope ? [Stats.ERR] : metadata.parts[Parts.LinkRope]
 
   const { relicSet1, relicSet2, ornamentSet } = simulationSets
 
@@ -1027,7 +1029,7 @@ function generatePartialSimulations(
   for (const body of metadata.parts[Parts.Body]) {
     for (const feet of feetParts) {
       for (const planarSphere of metadata.parts[Parts.PlanarSphere]) {
-        for (const linkRope of metadata.parts[Parts.LinkRope]) {
+        for (const linkRope of ropeParts) {
           const request: SimulationRequest = {
             name: '',
             simRelicSet1: relicSet1,

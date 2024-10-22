@@ -1726,6 +1726,45 @@ interface Resources {
           }
         }
       },
+      "Fugue": {
+        "Content": {
+          "torridScorch": {
+            "text": "Torrid Scorch state",
+            "title": "$t(BetaMessage)",
+            "content": "$t(BetaMessage)"
+          },
+          "foxianPrayer": {
+            "text": "Foxian Prayer BE buff",
+            "title": "$t(BetaMessage)",
+            "content": "$t(BetaMessage)"
+          },
+          "weaknessBreakBeStacks": {
+            "text": "Enemy broken BE stacks",
+            "title": "$t(BetaMessage)",
+            "content": "$t(BetaMessage)"
+          },
+          "defReduction": {
+            "text": "Skill DEF shred",
+            "title": "$t(BetaMessage)",
+            "content": "$t(BetaMessage)"
+          },
+          "superBreakDmg": {
+            "text": "Super Break DMG (force weakness break)",
+            "title": "$t(BetaMessage)",
+            "content": "$t(BetaMessage)"
+          },
+          "e4Vulnerability": {
+            "text": "E4 vulnerability",
+            "title": "$t(BetaMessage)",
+            "content": "$t(BetaMessage)"
+          },
+          "e6BreakEfficiency": {
+            "text": "E6 break efficiency boost",
+            "title": "$t(BetaMessage)",
+            "content": "$t(BetaMessage)"
+          }
+        }
+      },
       "FuXuan": {
         "Content": {
           "talentActive": {
@@ -2609,6 +2648,52 @@ interface Resources {
             "text": "Sparkle's Combat CD",
             "title": "Skill: Dreamdiver",
             "content": "Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turn(s)."
+          }
+        }
+      },
+      "Sunday": {
+        "Content": {
+          "skillDmgBuff": {
+            "text": "Skill DMG buff",
+            "title": "$t(BetaMessage, {\"Version\": {{Version}}})",
+            "content": "$t(BetaMessage)"
+          },
+          "talentCrBuffStacks": {
+            "text": "Talent CR buff stacks",
+            "title": "$t(BetaMessage)",
+            "content": "$t(BetaMessage)"
+          },
+          "techniqueDmgBuff": {
+            "text": "Technique DMG buff",
+            "title": "$t(BetaMessage)",
+            "content": "$t(BetaMessage)"
+          },
+          "e1ResPen": {
+            "text": "E1 RES PEN",
+            "title": "$t(BetaMessage)",
+            "content": "$t(BetaMessage)"
+          },
+          "e2SpdBuff": {
+            "text": "E2 SPD buff",
+            "title": "$t(BetaMessage)",
+            "content": "$t(BetaMessage)"
+          }
+        },
+        "TeammateContent": {
+          "beatified": {
+            "text": "Ult CD buff",
+            "title": "$t(BetaMessage)",
+            "content": "$t(BetaMessage)"
+          },
+          "teammateCDValue": {
+            "text": "Sunday Combat CD",
+            "title": "$t(BetaMessage)",
+            "content": "$t(BetaMessage)"
+          },
+          "e6CrToCdConversion": {
+            "text": "E6 CR to CD conversion",
+            "title": "$t(BetaMessage)",
+            "content": "$t(BetaMessage)"
           }
         }
       },

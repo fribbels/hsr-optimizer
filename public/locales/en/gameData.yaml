@@ -1,4 +1,8 @@
 Characters:
+  "1225":
+    Name: Fugue
+  "1313":
+    Name: Sunday
   "1001":
     Name: March 7th
     Abilities:
@@ -2978,6 +2982,12 @@ RelicSets:
     Name: The Wondrous BananAmusement Park
     Description2pc: "<span>Increases the wearer's CRIT DMG by <span style='whiteSpace: \"nowrap\"'>16%</span>. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by <span style='whiteSpace: \"nowrap\"'>32%</span>.</span>"
 Lightcones:
+  "23034":
+    Name: A Grounded Ascent
+    SkillName: A Grounded Ascent
+  "23035":
+    Name: Long Road Leads Home
+    SkillName: Long Road Leads Home
   "20000":
     Name: Arrows
     SkillName: Crisis

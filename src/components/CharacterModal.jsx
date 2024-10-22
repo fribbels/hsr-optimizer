@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Flex, Form, Modal, Radio } from 'antd'
-import { HeaderText } from './HeaderText'
+import { HeaderText } from 'components/HeaderText'
 import PropTypes from 'prop-types'
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'

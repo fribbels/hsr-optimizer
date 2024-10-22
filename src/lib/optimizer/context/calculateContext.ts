@@ -1,5 +1,5 @@
-import { Form } from 'types/Form'
-import { CharacterStatsBreakdown, OptimizerContext } from 'types/Optimizer'
+import { Form, Teammate } from 'types/Form'
+import { CharacterMetadata, CharacterStatsBreakdown, OptimizerContext } from 'types/Optimizer'
 import DB from 'lib/db'
 import { emptyLightCone } from 'lib/optimizer/optimizerUtils'
 import { ElementToDamage, ElementToResPenType, Stats } from 'lib/constants'
@@ -78,6 +78,21 @@ function generateCharacterMetadataContext(request: Form, context: Partial<Optimi
   context.elementalDamageType = ElementToDamage[element]
   context.elementalResPenType = ElementToResPenType[element]
   context.elementalBreakScaling = ElementToBreakScaling[element]
+
+  context.teammate0Metadata = generateTeammateMetadata(request.teammate0) as CharacterMetadata
+  context.teammate1Metadata = generateTeammateMetadata(request.teammate1) as CharacterMetadata
+  context.teammate2Metadata = generateTeammateMetadata(request.teammate2) as CharacterMetadata
+}
+
+function generateTeammateMetadata(teammate: Teammate) {
+  return teammate?.characterId
+    ? {
+      characterId: teammate.characterId,
+      characterEidolon: teammate.characterEidolon,
+      lightCone: teammate.lightCone,
+      lightConeSuperimposition: teammate.lightConeSuperimposition,
+    }
+    : null
 }
 
 function generateEnemyContext(request: Form, context: Partial<OptimizerContext>) {

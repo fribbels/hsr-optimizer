@@ -185,6 +185,7 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
   analyze('EFFECT_RES_PEN', P_2)
   analyze('DOT_SPLIT', P_2)
   analyze('DOT_STACKS', P_2)
+  analyze('SUMMONS', P_2)
   analyze('ENEMY_WEAKNESS_BROKEN', P_2)
   analyze('SUPER_BREAK_MODIFIER', P_2)
   analyze('BASIC_SUPER_BREAK_MODIFIER', P_2)

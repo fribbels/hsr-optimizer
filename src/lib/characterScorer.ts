@@ -322,7 +322,7 @@ export function scoreCharacterSimulation(
   applyScoringFunction(baselineSimResult)
 
   // Generate partials to calculate speed rolls
-  const partialSimulationWrappers = generatePartialSimulations(character, metadata, simulationSets, originalBaseSpeed)
+  const partialSimulationWrappers = generatePartialSimulations(character, metadata, simulationSets, originalBaseSpeed, baselineSimResult)
   const candidateBenchmarkSims: Simulation[] = []
 
   // Run sims
@@ -336,6 +336,11 @@ export function scoreCharacterSimulation(
       0,
       TsUtils.precisionRound((originalFinalSpeed - finalSpeed) / benchmarkScoringParams.speedRollValue),
     )
+
+    if (partialSimulationWrapper.speedRollsDeduction > 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
+      console.log('Rejected candidate sim with non SPD boots')
+      continue
+    }
 
     // Define min/max limits
     const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, benchmarkScoringParams)
@@ -466,7 +471,7 @@ function simulateMaximumBuild(
   baselineSimResult: SimulationResult,
 ) {
   // Convert the benchmark spd rolls to max spd rolls
-  const spdRolls = bestSim.request.stats[Stats.SPD] * benchmarkScoringParams.speedRollValue / maximumScoringParams.speedRollValue
+  const spdRolls = TsUtils.precisionRound(bestSim.request.stats[Stats.SPD] * benchmarkScoringParams.speedRollValue / maximumScoringParams.speedRollValue, 3)
   const maximumSimulations: Simulation[] = []
 
   // Spheres with DMG % are unique because they can alter a build due to DMG % not being a substat.
@@ -1010,10 +1015,10 @@ function generatePartialSimulations(
   metadata: SimulationMetadata,
   simulationSets: SimulationSets,
   originalBaseSpeed: number,
+  baselineSimResult: SimulationResult
 ) {
   const characterSpdStat = calculateCharacterSpdStat(character)
-  // const forceSpdBoots = originalBaseSpeed - characterSpdStat > 40 // 4 min spd rolls per piece
-  const forceSpdBoots = false // Always calculate both boots
+  const forceSpdBoots = false // originalBaseSpeed - baselineSimResult.x[Stats.SPD] > 2.0 * 2 * 5 // 3 min spd rolls per piece
   const feetParts: string[] = forceSpdBoots ? [Stats.SPD] : metadata.parts[Parts.Feet]
 
   const { relicSet1, relicSet2, ornamentSet } = simulationSets

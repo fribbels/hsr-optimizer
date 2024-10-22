@@ -12,6 +12,7 @@ import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/con
 import { StringToNumberMap } from 'types/Common'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
+import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 
 export function injectConditionals(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const characterConditionals: CharacterConditional = CharacterConditionals.get(request) as CharacterConditional
@@ -132,6 +133,12 @@ ${indent(conditionalCallsWgsl, 1)}
   `
 }
 
+function getRequestTeammateIndex(request: Form, conditional: DynamicConditional) {
+  if (conditional.teammateIndex == 0) return request.teammate0
+  else if (conditional.teammateIndex == 1) return request.teammate1
+  else return request.teammate2
+}
+
 function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: string, statName: string, request: Form, context: OptimizerContext) {
   let conditionalEvaluators = ''
   let conditionalDefinitionsWgsl = ''
@@ -145,7 +152,14 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
     .filter((x) => !x.ratioConversion)
     .map((conditional) => generateDependencyCall(conditional.id)).join('\n')
   conditionalDefinitionsWgsl += registeredConditionals[stat]
-    .map((conditional) => conditional.gpu(request as unknown as OptimizerAction, context)).join('\n') // TODO!!
+    .map((conditional) => {
+      if (conditional.teammateIndex == null) {
+        return conditional.gpu(request as unknown as OptimizerAction, context)
+      } else {
+        const teammate = getRequestTeammateIndex(request, conditional)
+        return conditional.gpu(teammate as unknown as OptimizerAction, context)
+      }
+    }).join('\n') // TODO!!
   conditionalStateDefinition += registeredConditionals[stat]
     .map((x) => x.id + ': f32,\n').join('')
   conditionalEvaluators += generateConditionalEvaluator(statName, conditionalCallsWgsl)

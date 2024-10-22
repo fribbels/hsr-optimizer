@@ -5,10 +5,11 @@ import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDam
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { Form } from 'types/Form'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
-import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateConditionals'
+import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimizer/calculateConditionals'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
@@ -70,8 +71,28 @@ self.onmessage = function (e: MessageEvent) {
   for (const action of context.actions) {
     calculateContextConditionalRegistry(action, context)
   }
+
   context.characterConditionalController = CharacterConditionals.get(context)
   context.lightConeConditionalController = LightConeConditionals.get(context)
+
+  function calculateTeammateDynamicConditionals(action: OptimizerAction, teammateMetadata: CharacterMetadata, index: number) {
+    if (teammateMetadata?.characterId) {
+      const teammateCharacterConditionalController = CharacterConditionals.get(teammateMetadata)
+      const dynamicConditionals = (teammateCharacterConditionalController.teammateDynamicConditionals ?? [])
+        .map((dynamicConditional: DynamicConditional) => {
+          const wrapped = wrapTeammateDynamicConditional(dynamicConditional, index)
+          action.teammateDynamicConditionals.push(wrapped)
+          return wrapped
+        })
+    }
+  }
+
+  for (const action of context.actions) {
+    action.teammateDynamicConditionals = []
+    if (context.teammate0Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate0Metadata, 0)
+    if (context.teammate1Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate1Metadata, 1)
+    if (context.teammate2Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate2Metadata, 2)
+  }
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
@@ -258,6 +279,10 @@ function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) 
   const action = {
     characterConditionals: originalAction.characterConditionals,
     lightConeConditionals: originalAction.characterConditionals,
+    teammate0: originalAction.teammate0,
+    teammate1: originalAction.teammate1,
+    teammate2: originalAction.teammate2,
+    teammateDynamicConditionals: originalAction.teammateDynamicConditionals,
     setConditionals: originalAction.setConditionals,
     conditionalRegistry: originalAction.conditionalRegistry,
     actionType: originalAction.actionType,

@@ -105,7 +105,10 @@ export function LoadDataSubmenu() {
       return (
         <Flex style={{ minHeight: 100 }}>
           <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
-            {t('Stage2.ErrorMsg')/* Invalid save file, please try a different file. Did you mean to use the \"$t(tablabels.import)\" tab? */}
+            {
+              /* Invalid save file, please try a different file. Did you mean to use the Relic scanner import tab? */
+              t('Stage2.ErrorMsg')
+            }
           </Flex>
         </Flex>
       )
@@ -114,7 +117,10 @@ export function LoadDataSubmenu() {
       <Flex style={{ minHeight: 100 }}>
         <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
           <Text>
-            {t('Stage2.Label'/* File contains {n relics} and {m characters}. Replace your current data with the uploaded data? */, { reliccount: currentSave.relics.length, charactercount: currentSave.characters.length })}
+            {
+              /* File contains {n relics} and {m characters}. Replace your current data with the uploaded data? */
+              t('Stage2.Label', { relicCount: currentSave.relics.length, characterCount: currentSave.characters.length })
+            }
           </Text>
           <Button style={{ width: importerTabButtonWidth }} icon={<ImportOutlined/>} type='primary' onClick={loadConfirmed} loading={loading2}>
             {t('Stage2.ButtonText')/* Use uploaded data */}

@@ -82,14 +82,7 @@ type HoyolabOutput = {
     trailblazer: string
     current_trailblazer_path: string
   }
-  characters: {
-    characterEidolon: number
-    characterId: string
-    characterLevel: number
-    lightCone: string | null
-    lightConeLevel: number
-    lightConeSuperimposition: number
-  }[]
+  characters: HoyolabCharacter[]
   relics: {
     enhance: number
     equippedBy: string
@@ -109,6 +102,15 @@ type HoyolabOutput = {
   }[]
 }
 
+type HoyolabCharacter = {
+  characterEidolon: number
+  characterId: string
+  characterLevel: number
+  lightCone: string | null
+  lightConeLevel: number
+  lightConeSuperimposition: number
+}
+
 export function hoyolabParser(json: HoyolabData) {
   const relicData = DB.getMetadata().relics.relicSets
 
@@ -121,7 +123,7 @@ export function hoyolabParser(json: HoyolabData) {
     relics: [],
   }
   for (const character of json.data.avatar_list) {
-    const characterData = {
+    const characterData: HoyolabCharacter = {
       characterEidolon: character.rank,
       characterId: character.id.toString(),
       characterLevel: character.level,

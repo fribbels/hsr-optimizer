@@ -9,6 +9,7 @@ import { defaultSetConditionals, getDefaultForm } from 'lib/defaultForm.js'
 import { ApplyColumnStateParams } from 'ag-grid-community'
 import { Utils } from 'lib/utils'
 import { useTranslation } from 'react-i18next'
+import { Form } from 'types/Form'
 
 /*
  * 111.11 (5 actions in first four cycles)
@@ -23,33 +24,72 @@ import { useTranslation } from 'react-i18next'
  * 200.00 (3 actions in first cycle)
  */
 
-export const PresetEffects = {
+type Preset = {
+  name: string
+  value: boolean | number
+  apply: (form: Form) => void
+}
+
+export const PresetEffects: { [key: string]: (Preset | ((value: number) => Preset)) } = {
+  // Dynamic values
+
   fnAshblazingSet: (stacks) => {
-    return (form) => {
-      form.setConditionals[Sets.TheAshblazingGrandDuke][1] = stacks
+    return {
+      name: 'fnAshblazingSet',
+      value: stacks,
+      apply: (form: Form) => {
+        form.setConditionals[Sets.TheAshblazingGrandDuke][1] = stacks
+      }
     }
   },
   fnPioneerSet: (value) => {
-    return (form) => {
-      form.setConditionals[Sets.PioneerDiverOfDeadWaters][1] = value
+    return {
+      name: 'fnPioneerSet',
+      value: value,
+      apply: (form: Form) => {
+        form.setConditionals[Sets.PioneerDiverOfDeadWaters][1] = value
+      }
     }
   },
   fnSacerdosSet: (value) => {
-    return (form) => {
-      form.setConditionals[Sets.SacerdosRelivedOrdeal][1] = value
+    return {
+      name: 'fnSacerdosSet',
+      value: value,
+      apply: (form: Form) => {
+        form.setConditionals[Sets.SacerdosRelivedOrdeal][1] = value
+      }
     }
   },
-  PRISONER_SET: (form) => {
-    form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 3
+
+  // Preset values
+
+  PRISONER_SET: {
+    name: 'PRISONER_SET',
+    value: 3,
+    apply: (form: Form) => {
+      form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 3
+    }
   },
-  WASTELANDER_SET: (form) => {
-    form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 2
+  WASTELANDER_SET: {
+    name: 'WASTELANDER_SET',
+    value: 2,
+    apply: (form: Form) => {
+      form.setConditionals[Sets.WastelanderOfBanditryDesert][1] = 2
+    }
   },
-  VALOROUS_SET: (form) => {
-    form.setConditionals[Sets.TheWindSoaringValorous][1] = true
+  VALOROUS_SET: {
+    name: 'VALOROUS_SET',
+    value: true,
+    apply: (form: Form) => {
+      form.setConditionals[Sets.TheWindSoaringValorous][1] = true
+    }
   },
-  BANANA_SET: (form) => {
-    form.setConditionals[Sets.TheWondrousBananAmusementPark][1] = true
+  BANANA_SET: {
+    name: 'BANANA_SET',
+    value: true,
+    apply: (form: Form) => {
+      form.setConditionals[Sets.TheWondrousBananAmusementPark][1] = true
+    }
   },
 }
 
@@ -208,8 +248,8 @@ export function applySpdPreset(spd, characterId) {
   const sortOption = metadata.sortOption
   form.resultSort = sortOption.key
   setSortColumn(sortOption.combatGridColumn)
-  for (const applyPreset of presets) {
-    applyPreset(form)
+  for (const preset of presets) {
+    preset.apply(form)
   }
 
   window.optimizerForm.setFieldsValue(form)

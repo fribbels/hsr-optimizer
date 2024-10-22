@@ -4,21 +4,21 @@ Messages:
   IdLoadError: Error loading ID
   SuccessMsg: Successfully loaded profile
   LookupError: Error during lookup, please try again in a bit
-  NoCharacterSelected: 'No selected $t(common:Character, {"count": 1, "capitalizeLength": 0})'
-  CharacterAlreadyExists: 'Selected $t(common:Character, {"count": 1, "capitalizeLength": 0}) already exists'
+  NoCharacterSelected: No selected character
+  CharacterAlreadyExists: Selected character already exists
   UnknownButtonClicked: Unknown button clicked
 Header:
-  DowntimeWarning: 'The $t(common:Relic, {"count": 1, "capitalizeLength": 0}) scorer may be down for maintenance after the {{game_version}} patch, please try again later'
-  WithVersion: 'Enter your account UID to score your profile $t(common:Character, {"count": 1, "capitalizeLength": 0}) at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}})'
-  WithoutVersion: 'Enter your account UID to score your profile $t(common:Character, {"count": 1, "capitalizeLength": 0}) at level 80 & maxed traces. Log out to refresh instantly.'
+  DowntimeWarning: 'The relic scorer may be down for maintenance after the {{game_version}} patch, please try again later'
+  WithVersion: 'Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}})'
+  WithoutVersion: 'Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly.'
 SubmissionBar:
   Placeholder: Account UID
   ButtonText: '$t(common:Submit, {"capitalizeLength": 1})'
   AlgorithmButton: Scoring algorithm
 CopyScreenshot: Copy screenshot
 ImportLabels:
-  Relics: 'Import $t(common:Relic, {"count": 48, "capitalizeLength": 0}) into optimizer'
-  SingleCharacter: 'Import selected $t(common:Character, {"count": 1, "capitalizeLength": 0}) & all $t(common:Relic, {"count": 48, "capitalizeLength": 0}) into optimizer'
-  AllCharacters: 'Import all $t(common:Character, {"count": 8, "capitalizeLength": 0}) & all $t(common:Relic, {"count": 48, "capitalizeLength": 0}) into optimizer'
-SimulateRelics: 'Simulate $t(common:Relic, {"count": 48, "capitalizeLength": 0}) on another $t(common:Character, {"count": 1, "capitalizeLength": 0})'
-OptimizeOnCharacter: 'Optimize $t(common:Character, {"count": 1, "capitalizeLength": 0}) stats'
+  Relics: 'Import relics into optimizer'
+  SingleCharacter: 'Import selected character & all relics into optimizer'
+  AllCharacters: 'Import all characters & all relics into optimizer'
+SimulateRelics: 'Simulate relics on another character'
+OptimizeOnCharacter: 'Optimize character stats'

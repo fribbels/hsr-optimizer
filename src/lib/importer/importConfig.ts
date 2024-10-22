@@ -1,6 +1,18 @@
-import { KelzFormatParser } from 'lib/importer/kelzFormatParser.jsx'
+import { KelzFormatParser } from 'lib/importer/kelzFormatParser'
 
-export const KelzScannerConfig = {
+export type ScannerConfig = {
+  name: string
+  author: string
+  homepage: string
+  releases: string
+  defaultFileName: string
+  sourceString: string
+  latestBuildVersion: string
+  latestOutputVersion: number
+  speedVerified: boolean
+}
+
+export const KelzScannerConfig: ScannerConfig = {
   name: 'HSR-Scanner',
   author: 'Kel-z',
   homepage: 'https://github.com/kel-z/HSR-Scanner',
@@ -12,7 +24,7 @@ export const KelzScannerConfig = {
   speedVerified: false,
 }
 
-export const ReliquaryArchiverConfig = {
+export const ReliquaryArchiverConfig: ScannerConfig = {
   name: 'Reliquary Archiver',
   author: 'IceDynamix',
   homepage: 'https://github.com/IceDynamix/reliquary-archiver',
@@ -24,7 +36,7 @@ export const ReliquaryArchiverConfig = {
   speedVerified: true,
 }
 
-export const YasScannerConfig = {
+export const YasScannerConfig: ScannerConfig = {
   name: 'Yas Scanner',
   author: 'wormtql, YCR160',
   homepage: 'https://github.com/wormtql/yas',
@@ -33,6 +45,7 @@ export const YasScannerConfig = {
   sourceString: 'yas-scanner',
   latestBuildVersion: 'v0.0.0',
   latestOutputVersion: 3,
+  speedVerified: false
 }
 
 export const KelzScannerParser = new KelzFormatParser(KelzScannerConfig)

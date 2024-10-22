@@ -15,6 +15,7 @@ import { OptimizerTabController } from 'lib/optimizerTabController'
 import ImportTab from 'components/importerTab/ImportTab'
 import SettingsTab from 'components/settingsTab/settingsTab'
 import WebgpuTab from 'components/webgpuTab/WebgpuTab'
+import MetadataTab from 'components/metadataTab/MetadataTab'
 
 const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
 
@@ -32,6 +33,7 @@ const Tabs = () => {
   const changelogTab = React.useMemo(() => <ChangelogTab/>, [])
   const settingsTab = React.useMemo(() => <SettingsTab/>, [])
   const webgpuTab = React.useMemo(() => <WebgpuTab/>, [])
+  const metadataTab = React.useMemo(() => <MetadataTab/>, [])
 
   useEffect(() => {
     let route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]
@@ -68,6 +70,7 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.SETTINGS} content={settingsTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.WEBGPU_TEST} content={webgpuTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.METADATA_TEST} content={metadataTab}/>
 
       <ErrorBoundary fallbackRender={defaultErrorRender}>
         <ScoringModal/>

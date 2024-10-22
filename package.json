@@ -53,11 +53,10 @@
     "lint": "eslint ./src",
     "vitest": "vitest --dir src/lib --no-watch",
     "vitest:watch": "vitest --dir src/lib --watch",
-    "test": "npx playwright test --trace on",
+    "test": "npx playwright test --config tests/playwright.config.ts --trace on",
     "test:generate": "npx playwright codegen localhost:3000/hsr-optimizer",
     "test:ui": "npm run test -- --ui",
     "test:report": "npx playwright show-report",
-    "test:webgpu": "npx playwright test --config=playwright.webgpu.config.ts",
     "typecheck": "tsc --noEmit -p ./tsconfig.json",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"

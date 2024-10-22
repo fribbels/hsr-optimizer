@@ -8,6 +8,7 @@ import { baseComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateConditionals'
+import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 
 export type ComboForm = {}
 
@@ -56,6 +57,7 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
       characterConditionals: {},
       lightConeConditionals: {},
     },
+    teammateDynamicConditionals: [] as DynamicConditional[]
   } as OptimizerAction
   action.actionIndex = actionIndex
   action.actionType = comboAbilities[actionIndex]
@@ -82,7 +84,7 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
   }
 
   precomputeConditionals(action, comboState, context)
-  calculateContextConditionalRegistry(action, comboState.comboCharacter.metadata)
+  calculateContextConditionalRegistry(action, context)
 
   return action
 }

@@ -24,7 +24,7 @@ import { CharacterCardCombatStats, CharacterCardScoringStatUpgrades, CharacterSc
 import CharacterModal from 'components/CharacterModal'
 import { LoadingBlurredImage } from 'components/LoadingBlurredImage'
 import { SavedSessionKeys } from 'lib/constantsSession'
-import { HeaderText } from 'components/HeaderText.jsx'
+import { HeaderText } from 'components/HeaderText'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { useTranslation } from 'react-i18next'

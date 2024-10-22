@@ -56,7 +56,7 @@ export function FormSetConditionals() {
       options.push({
         display: t('SelectOptions.Sacerdos.Display', { stackCount: i }), // i + 'x',
         value: i,
-        label: t('SelectOptions.Sacerdos.Label', { stackCount: i, buffValue: 18 * i }), // `${i} stacks (+${i * 8}% CR)`,
+        label: t('SelectOptions.Sacerdos.Label', { stackCount: i, buffValue: 18 * i }), // `${i} stacks (+${i * 8}% CD)`,
       })
     }
 

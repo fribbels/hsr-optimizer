@@ -328,13 +328,13 @@ export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsObje
   p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth135Conditional, x, action, context)
   p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth160Conditional, x, action, context)
 
-  const characterConditionalController = context.characterConditionalController
-  const lightConeConditionalController = context.lightConeConditionalController
-
-  for (const conditional of characterConditionalController.dynamicConditionals || []) {
+  for (const conditional of context.characterConditionalController.dynamicConditionals || []) {
     evaluateConditional(conditional, x, action, context)
   }
-  for (const conditional of lightConeConditionalController.dynamicConditionals || []) {
+  for (const conditional of context.lightConeConditionalController.dynamicConditionals || []) {
+    evaluateConditional(conditional, x, action, context)
+  }
+  for (const conditional of action.teammateDynamicConditionals || []) {
     evaluateConditional(conditional, x, action, context)
   }
 

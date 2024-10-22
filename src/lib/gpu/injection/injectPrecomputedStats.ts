@@ -89,6 +89,7 @@ export function injectPrecomputedStatsContext(action: OptimizerAction, gpuParams
       ${x.EFFECT_RES_PEN},${gpuParams.DEBUG ? ' // EFFECT_RES_PEN' : ''}
       ${x.DOT_SPLIT},${gpuParams.DEBUG ? ' // DOT_SPLIT' : ''}
       ${x.DOT_STACKS},${gpuParams.DEBUG ? ' // DOT_STACKS' : ''}
+      ${x.SUMMONS},${gpuParams.DEBUG ? ' // SUMMONS' : ''}
       ${x.ENEMY_WEAKNESS_BROKEN},${gpuParams.DEBUG ? ' // ENEMY_WEAKNESS_BROKEN' : ''}
       ${x.SUPER_BREAK_MODIFIER},${gpuParams.DEBUG ? ' // SUPER_BREAK_MODIFIER' : ''}
       ${x.BASIC_SUPER_BREAK_MODIFIER},${gpuParams.DEBUG ? ' // BASIC_SUPER_BREAK_MODIFIER' : ''}

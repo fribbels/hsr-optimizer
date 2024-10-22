@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig.js'
+import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig'
 import { SaveState } from 'lib/saveState.js'
 import { Button, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
@@ -234,7 +234,7 @@ export function ScannerImportSubmenu() {
       <Flex style={{ minHeight: 250 }}>
         <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
           <Text>
-            {t('Import.Stage2.FileInfo', { reliccount: currentRelics.length || 0, charactercount: currentCharacters?.length || 0 })}
+            {t('Import.Stage2.FileInfo', { relicCount: currentRelics.length || 0, characterCount: currentCharacters?.length || 0 })}
           </Text>
 
           <Text>

@@ -731,6 +731,23 @@
       },
       "unreleased": false
     },
+    "1225": {
+      "id": "1225",
+      "name": "Fugue",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Fire",
+      "max_sp": 150,
+      "stats": {
+        "HP": 1125.432,
+        "ATK": 582.12,
+        "DEF": 557.865,
+        "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
     "1301": {
       "id": "1301",
       "name": "Gallagher",
@@ -918,6 +935,23 @@
       },
       "unreleased": false
     },
+    "1313": {
+      "id": "1313",
+      "name": "Sunday",
+      "rarity": 5,
+      "path": "Harmony",
+      "element": "Imaginary",
+      "max_sp": 130,
+      "stats": {
+        "HP": 1241.856,
+        "ATK": 737.352,
+        "DEF": 533.61,
+        "SPD": 96,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
     "1314": {
       "id": "1314",
       "name": "Jade",
@@ -967,7 +1001,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "8001": {
       "id": "8001",
@@ -1911,7 +1945,7 @@
         "ATK": 423.36,
         "DEF": 396.9
       },
-      "unreleased": true
+      "unreleased": false
     },
     "22000": {
       "id": "22000",
@@ -1959,7 +1993,7 @@
         "ATK": 476.28,
         "DEF": 264.6
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23000": {
       "id": "23000",
@@ -2367,6 +2401,30 @@
         "ATK": 582.12,
         "DEF": 529.2
       },
+      "unreleased": false
+    },
+    "23034": {
+      "id": "23034",
+      "name": "A Grounded Ascent",
+      "rarity": 5,
+      "path": "Harmony",
+      "stats": {
+        "HP": 1164.24,
+        "ATK": 476.28,
+        "DEF": 529.2
+      },
+      "unreleased": true
+    },
+    "23035": {
+      "id": "23035",
+      "name": "Long Road Leads Home",
+      "rarity": 5,
+      "path": "Nihility",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 661.5
+      },
       "unreleased": true
     },
     "24000": {
@@ -2454,7 +2512,7 @@
     {
       "id": "314",
       "name": "Izumo Gensei and Takama Divine Realm",
-      "skills": "Increases the wearer's ATK by <b>12.0%</b>. When entering battle, if at least one other ally follows the same Path as the wearer, then the wearer's CRIT Rate increases by <b>12.0%</b>."
+      "skills": "Increases the wearer's ATK by <b>12.0%</b>. When entering battle, if at least one teammate follows the same Path as the wearer, then the wearer's CRIT Rate increases by <b>12.0%</b>."
     },
     {
       "id": "313",
@@ -2524,12 +2582,12 @@
     {
       "id": "122",
       "name": "Scholar Lost in Erudition",
-      "skills": "Increases CRIT Rate by <b>8.0%</b>.,Increases DMG dealt by Ultimate and Skill by <b>20.0%</b>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <b>25.0%</b>."
+      "skills": "Increases CRIT Rate by <b>8.0%</b>.,Increases DMG dealt by Skill and Ultimate by <b>20.0%</b>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <b>25.0%</b>."
     },
     {
       "id": "121",
       "name": "Sacerdos' Relived Ordeal",
-      "skills": "Increases SPD by <b>6.0%</b>.,When using Skill or Ultimate on one ally target, increases the ability-using target's CRIT DMG by <b>18.0%</b>, lasting for <b>2.0</b> turn(s). This effect can stack up to <b>2.0</b> time(s)."
+      "skills": "Increases SPD by <b>6.0%</b>.,When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by <b>18.0%</b>, lasting for <b>2.0</b> turn(s). This effect can stack up to <b>2.0</b> time(s)."
     },
     {
       "id": "120",

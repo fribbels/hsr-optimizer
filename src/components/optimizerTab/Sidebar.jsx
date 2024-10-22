@@ -1,7 +1,7 @@
 import { Button, Divider, Dropdown, Flex, Grid, Modal, Popconfirm, Progress, Radio, theme, Typography } from 'antd'
 import React, { useState } from 'react'
 import FormCard from 'components/optimizerTab/FormCard'
-import { HeaderText } from '../HeaderText'
+import { HeaderText } from 'components/HeaderText'
 import { TooltipImage } from '../TooltipImage'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Hint } from 'lib/hint'

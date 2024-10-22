@@ -6464,10 +6464,11 @@ function getScoringMetadata() {
       simulation: {
         parts: {
           [Parts.Body]: [
+            Stats.CR,
+            Stats.ATK_P,
             Stats.EHR,
           ],
           [Parts.Feet]: [
-            Stats.ATK_P,
             Stats.SPD,
           ],
           [Parts.PlanarSphere]: [
@@ -6483,7 +6484,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.CR,
           Stats.CD,
-          Stats.ATK,
+          Stats.EHR,
         ],
         breakpoints: {
           [Stats.EHR]: 0.67,

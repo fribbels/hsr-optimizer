@@ -5,7 +5,7 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
-import { Stats } from 'lib/constants'
+import {CURRENT_DATA_VERSION, Stats} from 'lib/constants'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Fugue')
@@ -24,24 +24,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'torridScorch',
       name: 'torridScorch',
       text: t('Content.torridScorch.text'),
-      title: t('Content.torridScorch.title', { Version: '2.7v1' }),
-      content: t('Content.torridScorch.content', { Version: '2.7v1' }),
+      title: t('Content.torridScorch.title', { Version: CURRENT_DATA_VERSION }),
+      content: t('Content.torridScorch.content', { Version: CURRENT_DATA_VERSION }),
     },
     {
       formItem: 'switch',
       id: 'foxianPrayer',
       name: 'foxianPrayer',
       text: t('Content.foxianPrayer.text'),
-      title: t('Content.foxianPrayer.title', { Version: '2.7v1' }),
-      content: t('Content.foxianPrayer.content', { Version: '2.7v1' }),
+      title: t('Content.foxianPrayer.title', { Version: CURRENT_DATA_VERSION }),
+      content: t('Content.foxianPrayer.content', { Version: CURRENT_DATA_VERSION }),
     },
     {
       formItem: 'slider',
       id: 'weaknessBreakBeStacks',
       name: 'weaknessBreakBeStacks',
       text: t('Content.weaknessBreakBeStacks.text'),
-      title: t('Content.weaknessBreakBeStacks.title', { Version: '2.7v1' }),
-      content: t('Content.weaknessBreakBeStacks.content', { Version: '2.7v1' }),
+      title: t('Content.weaknessBreakBeStacks.title', { Version: CURRENT_DATA_VERSION }),
+      content: t('Content.weaknessBreakBeStacks.content', { Version: CURRENT_DATA_VERSION }),
       min: 0,
       max: 2,
     },
@@ -50,24 +50,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'defReduction',
       name: 'defReduction',
       text: t('Content.defReduction.text'),
-      title: t('Content.defReduction.title', { Version: '2.7v1' }),
-      content: t('Content.defReduction.content', { Version: '2.7v1' }),
+      title: t('Content.defReduction.title', { Version: CURRENT_DATA_VERSION }),
+      content: t('Content.defReduction.content', { Version: CURRENT_DATA_VERSION }),
     },
     {
       formItem: 'switch',
       id: 'superBreakDmg',
       name: 'superBreakDmg',
       text: t('Content.superBreakDmg.text'),
-      title: t('Content.superBreakDmg.title', { Version: '2.7v1' }),
-      content: t('Content.superBreakDmg.content', { Version: '2.7v1' }),
+      title: t('Content.superBreakDmg.title', { Version: CURRENT_DATA_VERSION }),
+      content: t('Content.superBreakDmg.content', { Version: CURRENT_DATA_VERSION }),
     },
     {
       formItem: 'switch',
       id: 'e4Vulnerability',
       name: 'e4Vulnerability',
       text: t('Content.e4Vulnerability.text'),
-      title: t('Content.e4Vulnerability.title', { Version: '2.7v1' }),
-      content: t('Content.e4Vulnerability.content', { Version: '2.7v1' }),
+      title: t('Content.e4Vulnerability.title', { Version: CURRENT_DATA_VERSION }),
+      content: t('Content.e4Vulnerability.content', { Version: CURRENT_DATA_VERSION }),
       disabled: e < 4,
     },
     {
@@ -75,8 +75,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e6BreakEfficiency',
       name: 'e6BreakEfficiency',
       text: t('Content.e6BreakEfficiency.text'),
-      title: t('Content.e6BreakEfficiency.title', { Version: '2.7v1' }),
-      content: t('Content.e6BreakEfficiency.content', { Version: '2.7v1' }),
+      title: t('Content.e6BreakEfficiency.title', { Version: CURRENT_DATA_VERSION }),
+      content: t('Content.e6BreakEfficiency.content', { Version: CURRENT_DATA_VERSION }),
       disabled: e < 6,
     },
   ]

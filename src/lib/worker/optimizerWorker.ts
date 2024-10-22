@@ -195,7 +195,7 @@ self.onmessage = function (e: MessageEvent) {
     }
 
     c.x.COMBO_DMG = combo
-    let x = c.x
+    const x = c.x
 
     if (failsCombatFilter(x)) {
       continue
@@ -278,7 +278,7 @@ function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) 
   ax.sets = c.x.sets
   const action = {
     characterConditionals: originalAction.characterConditionals,
-    lightConeConditionals: originalAction.characterConditionals,
+    lightConeConditionals: originalAction.lightConeConditionals,
     teammate0: originalAction.teammate0,
     teammate1: originalAction.teammate1,
     teammate2: originalAction.teammate2,
@@ -287,7 +287,7 @@ function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) 
     conditionalRegistry: originalAction.conditionalRegistry,
     actionType: originalAction.actionType,
     precomputedX: ax,
-    conditionalState: {}
+    conditionalState: {},
   } as OptimizerAction
 
   return action

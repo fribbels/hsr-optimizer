@@ -80,7 +80,7 @@ export function calculateDamage(x, action, context) {
     * breakVulnerability
     * (1 - baseResistance)
     * (1 + x[Stats.BE])
-    * (x.BASIC_SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER)
+    * (x.BASIC_SUPER_BREAK_MODIFIER + x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER)
     * (1 / 30)
     * (1 + x.BREAK_EFFICIENCY_BOOST)
 

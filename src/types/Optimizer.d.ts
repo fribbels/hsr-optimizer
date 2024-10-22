@@ -57,12 +57,23 @@ export type CharacterStatsBreakdown = {
   traces: { [key: string]: number }
 }
 
+export type CharacterMetadata = {
+  characterId: string
+  characterEidolon: number
+  lightCone: string
+  lightConeSuperimposition: number
+}
+
 export type OptimizerContext = {
   // Request metadata
   characterId: string
   characterEidolon: number
   lightCone: string
   lightConeSuperimposition: number
+
+  teammate0Metadata: CharacterMetadata
+  teammate1Metadata: CharacterMetadata
+  teammate2Metadata: CharacterMetadata
 
   // Optimizer environment
   resultsLimit: number

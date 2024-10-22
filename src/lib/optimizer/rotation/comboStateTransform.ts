@@ -82,7 +82,7 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
   }
 
   precomputeConditionals(action, comboState, context)
-  calculateContextConditionalRegistry(action, comboState.comboCharacter.metadata)
+  calculateContextConditionalRegistry(action, context)
 
   return action
 }

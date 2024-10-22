@@ -147,6 +147,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardAtkFinalizer()
     },
+    teammateDynamicConditionals: [],
     dynamicConditionals: [
       {
         id: 'SundayCdConditional',

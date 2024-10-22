@@ -4,10 +4,10 @@ import { LightConeConditional } from 'types/LightConeConditionals'
 import { CURRENT_DATA_VERSION } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
-import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.AGroundedAscent')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.AGroundedAscent')
   const sValuesDmg = [0.15, 0.1725, 0.195, 0.2175, 0.24]
 
   const content: ContentItem[] = [{
@@ -15,9 +15,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     id: 'dmgBuffStacks',
     name: 'dmgBuffStacks',
     formItem: 'slider',
-    text: 'DMG boost stacks',
-    title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    text: t('Content.dmgBuffStacks.text'),
+    title: t('Content.dmgBuffStacks.title', { Version: CURRENT_DATA_VERSION }),
+    content: t('Content.dmgBuffStacks.content', { Version: CURRENT_DATA_VERSION }),
     min: 0,
     max: 3,
   }]

@@ -362,6 +362,15 @@ interface Resources {
   "conditionals": {
     "BetaMessage": "Current version: {{Version}} - Calculations are subject to change.",
     "Lightcones": {
+      "AGroundedAscent": {
+        "Content": {
+          "dmgBuffStacks": {
+            "text": "DMG boost stacks",
+            "title": "$t(BetaMessage)",
+            "content": "$t(BetaMessage)"
+          }
+        }
+      },
       "AlongThePassingShore": {
         "Content": {
           "emptyBubblesDebuff": {
@@ -561,6 +570,15 @@ interface Resources {
             "text": "Luminflux stacks",
             "title": "Intimidation",
             "content": "When the wearer launches a follow-up attack, gains 1 stack of \"Luminflux,\" stacking up to 2.0 time(s). Each stack of \"Luminflux\" enables the Ultimate DMG dealt by the wearer to ignore {{DefIgnore}}% of the target's DEF. When the wearer's turn ends, removes 1 stack of \"Luminflux."
+          }
+        }
+      },
+      "LongRoadLeadsHome": {
+        "Content": {
+          "breakVulnerabilityStacks": {
+            "text": "Break vulnerability stacks",
+            "title": "$t(BetaMessage)",
+            "content": "$t(BetaMessage)"
           }
         }
       },
@@ -2655,7 +2673,7 @@ interface Resources {
         "Content": {
           "skillDmgBuff": {
             "text": "Skill DMG buff",
-            "title": "$t(BetaMessage, {\"Version\": {{Version}}})",
+            "title": "$t(BetaMessage)",
             "content": "$t(BetaMessage)"
           },
           "talentCrBuffStacks": {

@@ -79,6 +79,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       x.BASIC_DMG_TYPE = BASIC_TYPE | FUA_TYPE
       x.SKILL_DMG_TYPE = SKILL_TYPE | FUA_TYPE
+      x.SUMMONS = 1
     },
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals

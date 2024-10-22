@@ -12,14 +12,14 @@ import i18next from 'i18next'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sunday')
-  const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5 // TODO
+  const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
-  const skillDmgBoostValue = skill(e, 0.50, 0.50)
-  const ultCdBoostValue = ult(e, 0.325, 0.325)
-  const ultCdBoostBaseValue = ult(e, 0.088, 0.088)
-  const talentCrBuffValue = talent(e, 0.25, 0.25)
+  const skillDmgBoostValue = skill(e, 0.40, 0.44)
+  const ultCdBoostValue = ult(e, 0.25, 0.28)
+  const ultCdBoostBaseValue = ult(e, 0.08, 0.0832)
+  const talentCrBuffValue = talent(e, 0.20, 0.22)
 
-  const basicScaling = basic(e, 1.0, 1.1)
+  const basicScaling = basic(e, 1.00, 1.10)
 
   const content: ContentItem[] = [
     {
@@ -58,19 +58,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
     },
-    {
-      formItem: 'switch',
-      id: 'e6CrToCdConversion',
-      name: 'e6CrToCdConversion',
-      text: 'E6 CR to CD conversion',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 6,
-    },
   ]
 
   const teammateContent: ContentItem[] = [
-    // TODO
     findContentId(content, 'skillDmgBuff'),
     findContentId(content, 'talentCrBuffStacks'),
     {
@@ -94,7 +84,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     findContentId(content, 'e1ResPen'),
     findContentId(content, 'e2SpdBuff'),
-    findContentId(content, 'e6CrToCdConversion'),
+    {
+      formItem: 'switch',
+      id: 'e6CrToCdConversion',
+      name: 'e6CrToCdConversion',
+      text: 'E6 CR to CD conversion',
+      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 6,
+    },
   ]
 
   const defaults = {
@@ -102,7 +100,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     talentCrBuffStacks: 0,
     e1ResPen: false,
     e2SpdBuff: true,
-    e6CrToCdConversion: false,
   }
 
   const teammateDefaults = {
@@ -125,15 +122,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       x.BASIC_SCALING += basicScaling
 
-      // TODO: toughness
+      x.BASIC_TOUGHNESS_DMG = 30
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals
 
       x[Stats.CR] += m.talentCrBuffStacks * talentCrBuffValue
       x.ELEMENTAL_DMG += (m.skillDmgBuff) ? skillDmgBoostValue : 0
-      // TODO: auto calculate summon
-      x.ELEMENTAL_DMG += (m.skillDmgBuff && m.skillDmgBuffSummon) ? skillDmgBoostValue : 0
+      x.ELEMENTAL_DMG += (m.skillDmgBuff && x.SUMMONS > 0) ? skillDmgBoostValue : 0
 
       x.RES_PEN += (e >= 1 && m.e1ResPen && m.skillDmgBuff) ? 0.20 : 0
 

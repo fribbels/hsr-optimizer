@@ -6436,7 +6436,7 @@ function getScoringMetadata() {
         [Stats.CR]: 0,
         [Stats.CD]: 0,
         [Stats.EHR]: 1,
-        [Stats.RES]: 1,
+        [Stats.RES]: 0,
         [Stats.BE]: 1,
         [Stats.ERR]: 1,
         [Stats.OHB]: 0,
@@ -6464,8 +6464,7 @@ function getScoringMetadata() {
       simulation: {
         parts: {
           [Parts.Body]: [
-            Stats.CR,
-            Stats.CD,
+            Stats.EHR,
           ],
           [Parts.Feet]: [
             Stats.ATK_P,
@@ -6477,14 +6476,13 @@ function getScoringMetadata() {
           ],
           [Parts.LinkRope]: [
             Stats.BE,
-            Stats.ERR,
           ],
         },
         substats: [
           Stats.BE,
+          Stats.ATK_P,
           Stats.CR,
           Stats.CD,
-          Stats.ATK_P,
           Stats.ATK,
         ],
         breakpoints: {

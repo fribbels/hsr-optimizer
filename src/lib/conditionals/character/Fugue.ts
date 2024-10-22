@@ -88,7 +88,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     findContentId(content, 'defReduction'),
     findContentId(content, 'superBreakDmg'),
     findContentId(content, 'e4Vulnerability'),
-    findContentId(content, 'e6BreakEfficiency'),
   ]
 
   const defaults = {
@@ -107,7 +106,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defReduction: true,
     superBreakDmg: true,
     e4Vulnerability: true,
-    e6BreakEfficiency: true
   }
 
   return {
@@ -127,7 +125,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       x[Stats.BE] += 0.30
 
-      x.BREAK_EFFICIENCY_BOOST += (e >= 6) ? 0.50 : 0
+      x.BREAK_EFFICIENCY_BOOST += (e >= 6 && r.e6BreakEfficiency) ? 0.50 : 0
 
       x.BASIC_SCALING += basicScaling
       x.ULT_SCALING += ultScaling

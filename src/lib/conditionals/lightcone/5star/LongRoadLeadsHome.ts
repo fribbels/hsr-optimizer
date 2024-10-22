@@ -8,7 +8,7 @@ import i18next from 'i18next'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LongRoadLeadsHome')
-  const sValuesBreakVulnerability = [0.30, 0.30, 0.30, 0.30, 0.30] // TODO
+  const sValuesBreakVulnerability = [0.20, 0.225, 0.25, 0.275, 0.30]
 
   const content: ContentItem[] = [{
     lc: true,

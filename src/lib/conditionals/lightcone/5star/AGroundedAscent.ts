@@ -8,7 +8,7 @@ import i18next from 'i18next'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.AGroundedAscent')
-  const sValuesDmg = [0.24, 0.24, 0.24, 0.24, 0.24] // TODO
+  const sValuesDmg = [0.15, 0.1725, 0.195, 0.2175, 0.24]
 
   const content: ContentItem[] = [{
     lc: true,

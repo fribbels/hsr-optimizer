@@ -109,6 +109,8 @@ function getChangelogContent() {
       title: '',
       date: '10-19-2024',
       content: [
+        leaks(`Updated content for version 2.7`),
+        leaks(`fugue.webp`),
         `Added a new ability rotation calculation methodology, where damage abilities are evaluated sequentially for buff activation`,
         `rotation.webp`,
         `Added an Advanced Rotation panel for full customizability of buff uptime and in-battle conditional calculations for the entire team`,

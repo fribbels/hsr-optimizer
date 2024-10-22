@@ -2,7 +2,7 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { indent, wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { precisionRound } from 'lib/conditionals/conditionalUtils'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { OptimizerAction, OptimizerContext, TeammateAction } from 'types/Optimizer'
 
 export type DynamicConditional = {
   id: string
@@ -13,20 +13,48 @@ export type DynamicConditional = {
   effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => void
   gpu: (action: OptimizerAction, context: OptimizerContext) => string
   ratioConversion?: boolean
+  teammateIndex?: number
+}
+
+function getTeammateFromIndex(conditional: DynamicConditional, action: OptimizerAction): TeammateAction {
+  if (conditional.teammateIndex === 0) return action.teammate0
+  else if (conditional.teammateIndex === 1) return action.teammate1
+  else return action.teammate2
 }
 
 export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-  if (conditional.activation == ConditionalActivation.SINGLE) {
-    if (!action.conditionalState[conditional.id] && conditional.condition(x, action, context)) {
-      action.conditionalState[conditional.id] = 1
-      conditional.effect(x, action, context)
+  if (conditional.teammateIndex != null) {
+    const teammate = getTeammateFromIndex(conditional, action)
+    const teammateAction = {
+      ...action,
+      characterConditionals: teammate.characterConditionals,
+      lightConeConditionals: teammate.lightConeConditionals,
     }
-  } else if (conditional.activation == ConditionalActivation.CONTINUOUS) {
-    if (conditional.condition(x, action, context)) {
-      conditional.effect(x, action, context)
+    if (conditional.activation == ConditionalActivation.SINGLE) {
+      if (!action.conditionalState[conditional.id] && conditional.condition(x, teammateAction, context)) {
+        action.conditionalState[conditional.id] = 1
+        conditional.effect(x, teammateAction, context)
+      }
+    } else if (conditional.activation == ConditionalActivation.CONTINUOUS) {
+      if (conditional.condition(x, teammateAction, context)) {
+        conditional.effect(x, teammateAction, context)
+      }
+    } else {
+
     }
   } else {
+    if (conditional.activation == ConditionalActivation.SINGLE) {
+      if (!action.conditionalState[conditional.id] && conditional.condition(x, action, context)) {
+        action.conditionalState[conditional.id] = 1
+        conditional.effect(x, action, context)
+      }
+    } else if (conditional.activation == ConditionalActivation.CONTINUOUS) {
+      if (conditional.condition(x, action, context)) {
+        conditional.effect(x, action, context)
+      }
+    } else {
 
+    }
   }
 }
 

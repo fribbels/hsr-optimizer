@@ -17,18 +17,31 @@ export function calculateContextConditionalRegistry(action: OptimizerAction, con
   registerConditionals(conditionalRegistry, characterConditionals.dynamicConditionals ?? [])
   registerConditionals(conditionalRegistry, ConditionalSets || [])
 
-  registerTeammateConditionals(conditionalRegistry, context.teammate0Metadata)
-  registerTeammateConditionals(conditionalRegistry, context.teammate1Metadata)
-  registerTeammateConditionals(conditionalRegistry, context.teammate2Metadata)
+  registerTeammateConditionals(conditionalRegistry, context.teammate0Metadata, action, 0)
+  registerTeammateConditionals(conditionalRegistry, context.teammate1Metadata, action, 1)
+  registerTeammateConditionals(conditionalRegistry, context.teammate2Metadata, action, 2)
 
   action.conditionalRegistry = conditionalRegistry
   action.conditionalState = {}
 }
 
-function registerTeammateConditionals(conditionalRegistry: { [key: string]: DynamicConditional[] }, teammateMetadata: CharacterMetadata) {
+export function registerTeammateConditionals(conditionalRegistry: { [key: string]: DynamicConditional[] }, teammateMetadata: CharacterMetadata, action: OptimizerAction, index: number) {
   if (teammateMetadata) {
     const teammateCharacterConditionals: CharacterConditional = CharacterConditionals.get(teammateMetadata)
-    registerConditionals(conditionalRegistry, teammateCharacterConditionals.teammateDynamicConditionals ?? [])
+    const dynamicConditionals = (teammateCharacterConditionals.teammateDynamicConditionals ?? [])
+      .map(dynamicConditional => {
+        const wrapped = wrapTeammateDynamicConditional(dynamicConditional, index)
+        action.teammateDynamicConditionals.push(wrapped)
+        return wrapped
+      })
+    registerConditionals(conditionalRegistry, dynamicConditionals)
+  }
+}
+
+export function wrapTeammateDynamicConditional(dynamicConditional: DynamicConditional, index: number) {
+  return {
+    ...dynamicConditional,
+    teammateIndex: index
   }
 }
 

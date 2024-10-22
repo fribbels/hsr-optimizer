@@ -7,12 +7,11 @@ import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 import i18next from 'i18next'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sunday')
+  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sunday')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5 // TODO
 
   const skillDmgBoostValue = skill(e, 0.50, 0.50)
@@ -147,7 +146,49 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardAtkFinalizer()
     },
-    teammateDynamicConditionals: [],
+    teammateDynamicConditionals: [
+      {
+        id: 'SundayCrConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.CR],
+        ratioConversion: true,
+        condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+          return x[Stats.CR] > 1.00
+        },
+        effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals
+          if (!(e >= 6 && r.e6CrToCdConversion)) {
+            return
+          }
+
+          const stateValue = action.conditionalState[this.id] || 0
+          const buffValue = Math.floor((x[Stats.CR] - 1.00) / 0.01) * 2.00 * 0.01
+
+          action.conditionalState[this.id] = buffValue
+          buffStat(x, Stats.CD, buffValue - stateValue, action, context)
+        },
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals
+
+          return conditionalWgslWrapper(this, `
+if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {
+  return;
+}
+
+let cr = (*p_x).CR;
+let stateValue: f32 = (*p_state).SundayCrConditional;
+
+if (cr > 1.00) {
+  let buffValue: f32 = floor((cr - 1.00) / 0.01) * 2.00 * 0.01;
+
+  (*p_state).SundayCrConditional = buffValue;
+  buffDynamicCD(buffValue - stateValue, p_x, p_state);
+}
+    `)
+        },
+      },
+    ],
     dynamicConditionals: [
       {
         id: 'SundayCdConditional',

@@ -2,6 +2,7 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterConditional'
 import { LightConeConditional, LightConeConditionalMap } from 'types/LightConeConditionals'
 import { ConditionalRegistry } from 'lib/optimizer/calculateConditionals'
+import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 
 export type OptimizerAction = {
   precomputedX: ComputedStatsObject
@@ -19,6 +20,7 @@ export type OptimizerAction = {
   teammate0: TeammateAction
   teammate1: TeammateAction
   teammate2: TeammateAction
+  teammateDynamicConditionals: DynamicConditional[]
   // Teammate data all gets precomputed, only the non-precomputable values go in here
 }
 

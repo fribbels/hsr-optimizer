@@ -51,6 +51,7 @@ function generateFiltersContext(request: Form, context: OptimizerContext) {
 function calculateConditionals(request: Form, context: OptimizerContext) {
   context.characterConditionalController = CharacterConditionals.get(context)
   context.lightConeConditionalController = LightConeConditionals.get(context)
+  context.teammateDynamicConditionals = []
 
   transformComboState(request, context)
 }
@@ -85,7 +86,7 @@ function generateCharacterMetadataContext(request: Form, context: Partial<Optimi
 }
 
 function generateTeammateMetadata(teammate: Teammate) {
-  return teammate
+  return teammate?.characterId
     ? {
       characterId: teammate.characterId,
       characterEidolon: teammate.characterEidolon,

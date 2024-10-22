@@ -42,6 +42,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     {
       formItem: 'switch',
+      id: 'techniqueDmgBuff',
+      name: 'techniqueDmgBuff',
+      text: 'Technique DMG buff',
+      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    {
+      formItem: 'switch',
       id: 'e1ResPen',
       name: 'e1ResPen',
       text: 'E1 RES PEN',
@@ -82,6 +90,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       max: 3.00,
       percent: true,
     },
+    findContentId(content, 'techniqueDmgBuff'),
     findContentId(content, 'e1ResPen'),
     findContentId(content, 'e2SpdBuff'),
     {
@@ -98,6 +107,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const defaults = {
     skillDmgBuff: false,
     talentCrBuffStacks: 0,
+    techniqueDmgBuff: false,
     e1ResPen: false,
     e2SpdBuff: true,
   }
@@ -107,6 +117,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     talentCrBuffStacks: e < 6 ? 1 : 3,
     beatified: true,
     teammateCDValue: 2.50,
+    techniqueDmgBuff: false,
     e1ResPen: true,
     e2SpdBuff: true,
     e6CrToCdConversion: true,

@@ -130,7 +130,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_SCALING += basicScaling
       x.ULT_SCALING += ultScaling
 
-      // TODO: toughness?
       x.BASIC_TOUGHNESS_DMG = 30
       x.ULT_TOUGHNESS_DMG = 60
     },

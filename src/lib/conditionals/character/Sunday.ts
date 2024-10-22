@@ -31,14 +31,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
-      formItem: 'switch',
-      id: 'skillDmgBuffSummon',
-      name: 'skillDmgBuffSummon',
-      text: 'Skill DMG buff summon',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    },
-    {
       name: 'talentCrBuffStacks',
       id: 'talentCrBuffStacks',
       formItem: 'slider',
@@ -66,7 +58,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
     },
-    { // TODO
+    {
       formItem: 'switch',
       id: 'e6CrToCdConversion',
       name: 'e6CrToCdConversion',
@@ -80,15 +72,25 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const teammateContent: ContentItem[] = [
     // TODO
     findContentId(content, 'skillDmgBuff'),
-    findContentId(content, 'skillDmgBuffSummon'),
     findContentId(content, 'talentCrBuffStacks'),
     {
       formItem: 'switch',
       id: 'beatified',
       name: 'beatified',
-      text: 'The Beatified',
+      text: 'Ult CD buff',
       title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    {
+      formItem: 'slider',
+      id: 'teammateCDValue',
+      name: 'teammateCDValue',
+      text: 'Sunday Combat CD',
+      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 0,
+      max: 3.00,
+      percent: true,
     },
     findContentId(content, 'e1ResPen'),
     findContentId(content, 'e2SpdBuff'),
@@ -97,7 +99,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const defaults = {
     skillDmgBuff: false,
-    skillDmgBuffSummon: false,
     talentCrBuffStacks: 0,
     e1ResPen: false,
     e2SpdBuff: true,
@@ -106,9 +107,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const teammateDefaults = {
     skillDmgBuff: true,
-    skillDmgBuffSummon: false,
     talentCrBuffStacks: e < 6 ? 1 : 3,
-    beatified: true,
+    teammateCDValue: 2.50,
     e1ResPen: true,
     e2SpdBuff: true,
     e6CrToCdConversion: true,
@@ -131,6 +131,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       x[Stats.CR] += m.talentCrBuffStacks * talentCrBuffValue
       x.ELEMENTAL_DMG += (m.skillDmgBuff) ? skillDmgBoostValue : 0
+      // TODO: auto calculate summon
       x.ELEMENTAL_DMG += (m.skillDmgBuff && m.skillDmgBuffSummon) ? skillDmgBoostValue : 0
 
       x.RES_PEN += (e >= 1 && m.e1ResPen && m.skillDmgBuff) ? 0.20 : 0
@@ -139,6 +140,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals
+
+      x[Stats.CD] += (t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0
+      x[Stats.CD] += (t.beatified) ? ultCdBoostBaseValue : 0
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)
@@ -185,59 +189,6 @@ if (cr > 1.00) {
   (*p_state).SundayCrConditional = buffValue;
   buffDynamicCD(buffValue - stateValue, p_x, p_state);
 }
-    `)
-        },
-      },
-    ],
-    dynamicConditionals: [
-      {
-        id: 'SundayCdConditional',
-        type: ConditionalType.ABILITY,
-        activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [Stats.CD],
-        ratioConversion: true,
-        condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-          return true
-        },
-        effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
-          if (!r.beatified) {
-            return
-          }
-
-          const stateValue = action.conditionalState[this.id] || 0
-          const convertibleCdValue = x[Stats.CD] - x.RATIO_BASED_CD_BUFF
-
-          const buffCD = ultCdBoostValue * convertibleCdValue + ultCdBoostBaseValue
-          const stateBuffCD = ultCdBoostValue * stateValue + ultCdBoostBaseValue
-
-          action.conditionalState[this.id] = x[Stats.CD]
-
-          const finalBuffCd = buffCD - (stateValue ? stateBuffCD : 0)
-          x.RATIO_BASED_CD_BUFF += finalBuffCd
-
-          buffStat(x, Stats.CD, finalBuffCd, action, context)
-        },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
-
-          return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.beatified)}) {
-  return;
-}
-
-let stateValue: f32 = (*p_state).SundayCdConditional;
-let convertibleCdValue: f32 = (*p_x).CD - (*p_x).RATIO_BASED_CD_BUFF;
-
-var buffCD: f32 = ${ultCdBoostValue} * convertibleCdValue + ${ultCdBoostBaseValue};
-var stateBuffCD: f32 = ${ultCdBoostValue} * stateValue + ${ultCdBoostBaseValue};
-
-(*p_state).SundayCdConditional = (*p_x).CD;
-
-let finalBuffCd = buffCD - select(0, stateBuffCD, stateValue > 0);
-(*p_x).RATIO_BASED_CD_BUFF += finalBuffCd;
-
-buffNonRatioDynamicCD(finalBuffCd, p_x, p_state);
     `)
         },
       },

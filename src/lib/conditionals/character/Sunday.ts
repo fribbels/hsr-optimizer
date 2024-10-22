@@ -141,6 +141,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x[Stats.CR] += m.talentCrBuffStacks * talentCrBuffValue
       x.ELEMENTAL_DMG += (m.skillDmgBuff) ? skillDmgBoostValue : 0
       x.ELEMENTAL_DMG += (m.skillDmgBuff && x.SUMMONS > 0) ? skillDmgBoostValue : 0
+      x.ELEMENTAL_DMG += (m.techniqueDmgBuff) ? 0.50 : 0
 
       x.RES_PEN += (e >= 1 && m.e1ResPen && m.skillDmgBuff) ? 0.20 : 0
 

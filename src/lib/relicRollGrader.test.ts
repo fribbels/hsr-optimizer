@@ -4,7 +4,7 @@ import { Constants } from 'lib/constants'
 import { RelicRollGrader } from './relicRollGrader.js'
 import DB from './db.js'
 import { Relic } from 'types/Relic'
-import { DataParser } from './dataParser.js'
+import { DataParser } from 'lib/dataParser'
 
 DataParser.parse()
 

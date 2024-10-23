@@ -39,7 +39,7 @@ export const PresetEffects: { [key: string]: (Preset | ((value: number) => Prese
       value: stacks,
       apply: (form: Form) => {
         form.setConditionals[Sets.TheAshblazingGrandDuke][1] = stacks
-      }
+      },
     }
   },
   fnPioneerSet: (value) => {
@@ -48,7 +48,7 @@ export const PresetEffects: { [key: string]: (Preset | ((value: number) => Prese
       value: value,
       apply: (form: Form) => {
         form.setConditionals[Sets.PioneerDiverOfDeadWaters][1] = value
-      }
+      },
     }
   },
   fnSacerdosSet: (value) => {
@@ -57,7 +57,7 @@ export const PresetEffects: { [key: string]: (Preset | ((value: number) => Prese
       value: value,
       apply: (form: Form) => {
         form.setConditionals[Sets.SacerdosRelivedOrdeal][1] = value
-      }
+      },
     }
   },
 
@@ -68,28 +68,28 @@ export const PresetEffects: { [key: string]: (Preset | ((value: number) => Prese
     value: 3,
     apply: (form: Form) => {
       form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 3
-    }
+    },
   },
   WASTELANDER_SET: {
     name: 'WASTELANDER_SET',
     value: 2,
     apply: (form: Form) => {
       form.setConditionals[Sets.WastelanderOfBanditryDesert][1] = 2
-    }
+    },
   },
   VALOROUS_SET: {
     name: 'VALOROUS_SET',
     value: true,
     apply: (form: Form) => {
       form.setConditionals[Sets.TheWindSoaringValorous][1] = true
-    }
+    },
   },
   BANANA_SET: {
     name: 'BANANA_SET',
     value: true,
     apply: (form: Form) => {
       form.setConditionals[Sets.TheWondrousBananAmusementPark][1] = true
-    }
+    },
   },
 }
 
@@ -258,7 +258,7 @@ export function applySpdPreset(spd, characterId) {
 
 export default RecommendedPresetsButton
 
-export function applyMetadataPresetToForm(form, scoringMetadata) {
+export function applyMetadataPresetToForm(form: Form, scoringMetadata) {
   Utils.mergeUndefinedValues(form, getDefaultForm())
   Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
 

@@ -25,6 +25,7 @@ export type LightCone = {
   icon: AssetRelativeUrl
   id: string
   name: string
+  displayName: string
   path: InternalPath | ExternalPath
   portrait: AssetRelativeUrl
   preview: AssetRelativeUrl
@@ -32,4 +33,5 @@ export type LightCone = {
   ranks: LightConeRanks
   rarity: Rarity
   superimpositions: { [key: number]: SuperImposition }
+  imageCenter: number
 }

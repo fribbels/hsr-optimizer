@@ -26,8 +26,8 @@ import { Typography } from 'antd'
 import { RelicRollFixer } from 'lib/relicRollFixer'
 import { Themes } from 'lib/theme'
 import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
-import 'overlayscrollbars/overlayscrollbars.css';
-import { OverlayScrollbars } from 'overlayscrollbars';
+import 'overlayscrollbars/overlayscrollbars.css'
+import { OverlayScrollbars } from 'overlayscrollbars'
 
 window.WorkerPool = WorkerPool
 window.Constants = Constants
@@ -59,7 +59,7 @@ const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {err
 document.addEventListener('DOMContentLoaded', function () {
   const root = ReactDOM.createRoot(document.getElementById('root'))
 
-  OverlayScrollbars(document.body, {});
+  OverlayScrollbars(document.body, {})
 
   root.render(
     <ErrorBoundary fallbackRender={defaultErrorRender}>

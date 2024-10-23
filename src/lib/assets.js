@@ -1,5 +1,5 @@
 import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, setToId } from './constants.ts'
-import { BASE_PATH } from 'lib/db.js'
+import { BASE_PATH } from 'lib/db.ts'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;
 // const baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net'

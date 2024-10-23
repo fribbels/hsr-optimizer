@@ -1,6 +1,6 @@
 import React, { ReactElement, useMemo } from 'react'
 import { Flex, List, theme, Typography } from 'antd'
-import { AppPages } from 'lib/db.js'
+import { AppPages } from 'lib/db'
 import { Assets } from 'lib/assets'
 import { ColorizedLinkWithIcon } from './common/ColorizedLink'
 import { officialOnly } from 'lib/constants'

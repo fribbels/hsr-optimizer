@@ -3,7 +3,7 @@ import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'l
 import { SaveState } from 'lib/saveState.js'
 import { Button, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
-import DB, { AppPages } from 'lib/db.js'
+import DB, { AppPages } from 'lib/db'
 import { importerTabButtonWidth, importerTabSpinnerMs } from 'components/importerTab/importerTabUiConstants'
 import { Relic } from 'types/Relic'
 import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'

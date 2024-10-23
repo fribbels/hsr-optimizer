@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Message } from '../../lib/message'
 import { Button, Flex, Popconfirm, Typography } from 'antd'
-import DB from '../../lib/db'
+import DB from 'lib/db'
 import { importerTabButtonWidth, importerTabSpinnerMs } from './importerTabUiConstants'
 import { DeleteOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'

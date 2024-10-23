@@ -1,5 +1,5 @@
 import { Constants, Parts, RelicSetFilterOptions } from './constants.ts'
-import DB from './db'
+import DB from 'lib/db'
 import { Utils } from './utils'
 import { TsUtils } from './TsUtils'
 

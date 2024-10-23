@@ -1,4 +1,4 @@
-import DB from './db'
+import DB from 'lib/db'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants'
 
 let saveTimeout

@@ -1,4 +1,4 @@
-import DB from './db.js'
+import DB from 'lib/db'
 import { SaveState } from './saveState.js'
 import { Message } from './message.js'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'

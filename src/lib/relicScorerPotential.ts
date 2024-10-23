@@ -2,10 +2,10 @@ import { Constants, MainStats, MainStatsValues, Parts, PartsMainStats, StatsValu
 import { Character, CharacterId } from 'types/Character'
 import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/Relic'
 import { Utils } from 'lib/utils'
-import DB from './db.js'
+import DB from 'lib/db'
 import i18next from 'i18next'
 
-// Define the fields we care about, until DB+dataParser are typed and can be inferred in this file
+// Define the fields we care about, until Db+dataParser are typed and can be inferred in this file
 type ScoringMetadata = {
   parts: { [K in Parts]: [StatsValues] }
   stats: { [K in StatsValues]: number }
@@ -93,6 +93,49 @@ export class RelicScorer {
     this.characterBaseStats = new Map()
   }
 
+  /**
+   * returns the current score of the relic, as well as the best, worst, and average scores when at max enhance\
+   * meta field includes the ideal added and/or upgraded substats for the relic
+   */
+  static scoreFutureRelic(relic: Relic, characterId: CharacterId, withMeta: boolean = false) {
+    return new RelicScorer().scoreFutureRelic(relic, characterId, withMeta)
+  }
+
+  /**
+   * returns the current score, mainstat score, and rating for the relic\
+   * additionally returns the part, and scoring metadata
+   */
+  static scoreCurrentRelic(relic: Relic, id: CharacterId) {
+    return new RelicScorer().scoreCurrentRelic(relic, id)
+  }
+
+  /**
+   * returns a score (number) and rating (string) for the character, and the scored relics
+   * @param character character object to score
+   * @param relics relics to score against the character
+   */
+  static scoreCharacterWithRelics(character: Character, relics: Relic[]) {
+    return new RelicScorer().scoreCharacterWithRelics(character, relics)
+  }
+
+  /**
+   * returns a score (number) and rating (string) for the character, and the scored equipped relics
+   * @param character character object to score
+   */
+  static scoreCharacter(character: Character) {
+    return new RelicScorer().scoreCharacter(character)
+  }
+
+  /**
+   * evaluates the max, min, and avg potential optimalities of a relic
+   * @param relic relic to evaluate
+   * @param characterId id of character to evaluate against
+   * @param withMeta whether or not to include the character scoringMetadata in the return
+   */
+  static scoreRelicPotential(relic: Relic, characterId: CharacterId, withMeta: boolean = false) {
+    return new RelicScorer().scoreRelicPotential(relic, characterId, withMeta)
+  }
+
   getBaseStats(id: CharacterId) {
     let baseStats = this.characterBaseStats.get(id)
     if (!baseStats) {
@@ -143,7 +186,7 @@ export class RelicScorer {
    * returns the substat score of the given relic, does not include mainstat bonus
    */
   substatScore(relic: Relic, id: CharacterId) {
-    const scoringMetadata = this.getRelicScoreMeta(id)// NOTE: for old handling of flat stat scoring, replace with: DB.getScoringMetadata(id)
+    const scoringMetadata = this.getRelicScoreMeta(id)// NOTE: for old handling of flat stat scoring, replace with: Db.getScoringMetadata(id)
     if (!scoringMetadata || !id || !relic) {
       console.warn('substatScore() called but missing 1 or more arguments. relic:', relic, 'meta:', scoringMetadata, 'id:', id)
       return {
@@ -302,14 +345,6 @@ export class RelicScorer {
     }
     this.optimalPartCharacterScore.get(part)!.set(id, maxScore)
     return maxScore
-  }
-
-  /**
-   * returns the current score of the relic, as well as the best, worst, and average scores when at max enhance\
-   * meta field includes the ideal added and/or upgraded substats for the relic
-   */
-  static scoreFutureRelic(relic: Relic, characterId: CharacterId, withMeta: boolean = false) {
-    return new RelicScorer().scoreFutureRelic(relic, characterId, withMeta)
   }
 
   /**
@@ -513,14 +548,6 @@ export class RelicScorer {
    * returns the current score, mainstat score, and rating for the relic\
    * additionally returns the part, and scoring metadata
    */
-  static scoreCurrentRelic(relic: Relic, id: CharacterId) {
-    return new RelicScorer().scoreCurrentRelic(relic, id)
-  }
-
-  /**
-   * returns the current score, mainstat score, and rating for the relic\
-   * additionally returns the part, and scoring metadata
-   */
   scoreCurrentRelic(relic: Relic, id: CharacterId): {
     score: string
     rating: string
@@ -566,15 +593,6 @@ export class RelicScorer {
    * @param character character object to score
    * @param relics relics to score against the character
    */
-  static scoreCharacterWithRelics(character: Character, relics: Relic[]) {
-    return new RelicScorer().scoreCharacterWithRelics(character, relics)
-  }
-
-  /**
-   * returns a score (number) and rating (string) for the character, and the scored relics
-   * @param character character object to score
-   * @param relics relics to score against the character
-   */
   scoreCharacterWithRelics(character: Character, relics: Relic[]): { relics: object[]; totalScore: number; totalRating: string } {
     if (!character?.id) {
       console.warn('scoreCharacterWithRelics called but no character given')
@@ -604,29 +622,11 @@ export class RelicScorer {
    * returns a score (number) and rating (string) for the character, and the scored equipped relics
    * @param character character object to score
    */
-  static scoreCharacter(character: Character) {
-    return new RelicScorer().scoreCharacter(character)
-  }
-
-  /**
-   * returns a score (number) and rating (string) for the character, and the scored equipped relics
-   * @param character character object to score
-   */
   scoreCharacter(character: Character) {
     if (!character) return {}
     const relicsById = window.store.getState().relicsById
     const relics: Relic[] = Object.values(character.equipped).map((x) => relicsById[x ?? ''])
     return this.scoreCharacterWithRelics(character, relics)
-  }
-
-  /**
-   * evaluates the max, min, and avg potential optimalities of a relic
-   * @param relic relic to evaluate
-   * @param characterId id of character to evaluate against
-   * @param withMeta whether or not to include the character scoringMetadata in the return
-   */
-  static scoreRelicPotential(relic: Relic, characterId: CharacterId, withMeta: boolean = false) {
-    return new RelicScorer().scoreRelicPotential(relic, characterId, withMeta)
   }
 
   /**

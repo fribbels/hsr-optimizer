@@ -1,5 +1,5 @@
 import { inPlaceSort } from 'fast-sort'
-import DB from './db'
+import DB from 'lib/db'
 import { Message } from './message'
 import { SaveState } from './saveState'
 import { CombatBuffs, ConditionalDataType, Constants, DamageKeys, DEFAULT_STAT_DISPLAY } from './constants.ts'

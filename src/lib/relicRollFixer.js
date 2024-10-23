@@ -1,4 +1,4 @@
-import DB from './db'
+import DB from 'lib/db'
 import { Utils } from './utils'
 import { Constants } from './constants.ts'
 import { CharacterConverter } from './characterConverter'

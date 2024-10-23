@@ -14,7 +14,7 @@ export type Build = {
   [key in Parts]?: GUID;
 }
 
-// DB.getMetadata().characters
+// Db.getMetadata().characters
 export type MetadataCharacter = {
   id: DataMineId
   name: string // "Dan Heng"

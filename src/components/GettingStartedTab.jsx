@@ -3,7 +3,7 @@ import { Button, Divider, Flex, Popconfirm, theme, Typography } from 'antd'
 import { Message } from 'lib/message'
 
 import sampleSave from '../data/sample-save.json'
-import DB, { AppPages } from '../lib/db'
+import DB, { AppPages } from 'lib/db'
 import PropTypes from 'prop-types'
 import { Assets } from 'lib/assets'
 import { KelzScannerConfig } from 'lib/importer/importConfig'

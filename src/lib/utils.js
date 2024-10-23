@@ -1,4 +1,4 @@
-import DB from './db'
+import DB from 'lib/db'
 import { Constants } from './constants.ts'
 import { v4 as uuidv4 } from 'uuid'
 import stringify from 'json-stable-stringify'

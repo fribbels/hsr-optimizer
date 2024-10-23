@@ -1,7 +1,7 @@
 import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import Backend from 'i18next-http-backend'
-import { BASE_PATH } from './db'
+import { BASE_PATH } from 'lib/db'
 import yaml from 'js-yaml'
 
 window.yaml = yaml

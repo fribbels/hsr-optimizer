@@ -18,7 +18,7 @@ export type Relic = {
   weightScore: number
 
   enhance: RelicEnhance
-  equippedBy: string
+  equippedBy: string | undefined
   grade: RelicGrade
   id: GUID
   verified?: boolean

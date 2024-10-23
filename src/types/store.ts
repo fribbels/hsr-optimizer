@@ -5,6 +5,7 @@ import { Form } from 'types/Form'
 import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { ColorThemeOverrides } from 'lib/theme'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
+import { ScoringMetadata } from 'lib/characterScorer'
 
 type PermutationDetails = {
   Head: number
@@ -52,7 +53,7 @@ export type HsrOptimizerStore = {
   permutationsResults: number
   permutationsSearched: number
   scorerId: string
-  scoringMetadataOverrides: unknown
+  scoringMetadataOverrides: Record<string, ScoringMetadata>
   statSimulationDisplay: StatSimTypes
   statSimulations: unknown
   selectedStatSimulations: unknown

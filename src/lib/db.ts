@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { COMPUTE_ENGINE_GPU_STABLE, Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
+import { COMPUTE_ENGINE_GPU_STABLE, Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
@@ -17,14 +17,14 @@ import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { Character } from 'types/Character'
 import { Relic } from 'types/Relic'
 import { HsrOptimizerStore } from 'types/store'
+import { ScoringMetadata, SimulationMetadata } from 'lib/characterScorer'
 
-const state = {
-  relics: [],
-  characters: [],
-  metadata: {}, // generated, not saved
-  relicsById: {},
-  globals: {},
-  scorerId: undefined,
+export type HsrOptimizerMetadataState = {
+  metadata: DBMetadata
+}
+
+const state: HsrOptimizerMetadataState = {
+  metadata: {} as DBMetadata, // generated, not saved
 }
 
 // This string is replaced by /dreary-quibbles by github actions, don't change
@@ -233,6 +233,68 @@ window.store = create((set) => {
   return store
 })
 
+export type DBMetadataCharacter = {
+  id: string
+  name: string
+  rarity: number
+  path: string
+  element: string
+  max_sp: number,
+  stats: Record<string, number>,
+  unreleased: boolean,
+  traces: Record<string, number>,
+  imageCenter: {
+    x: number
+    y: number
+    z: number
+  },
+  displayName: string
+  scoringMetadata: ScoringMetadata
+}
+
+export type DBMetadataLightCone = {
+  id: string
+  name: string
+  rarity: number
+  path: string
+  stats: Record<string, number>
+  unreleased: boolean
+  superimpositions: Record<number, Record<string, number>>
+  displayName: string
+  imageCenter: number
+}
+
+export type DBMetadataSets = {
+  id: string,
+  name: string
+}
+
+export type DBMetadataRelics = {
+  relicMainAffixes: object
+  relicSubAffixes: object
+  relicSets: Record<string, DBMetadataSets>
+}
+
+export type DBMetadata = {
+  characters: Record<string, DBMetadataCharacter>
+  lightCones: Record<string, DBMetadataLightCone>
+  relics: DBMetadataRelics
+}
+
+// TODO: define specific overrides
+// export type ScoringMetadataOverride = {
+//   "simulation": {
+//   },
+//   "stats": {
+//   },
+//   "parts": {
+//   },
+//   "sortOption": {
+//   },
+//   "characterId": "1003",
+//   "modified": false
+// }
+
 export const DB = {
   getMetadata: () => state.metadata,
   setMetadata: (x) => state.metadata = x,
@@ -301,9 +363,6 @@ export const DB = {
    * If the owner has changed, equips the relic to its new owner.
    * In addition, if the part has changed, equips the relic correctly to the new part.
    * Note: If the owner is already holding a relic on the new part, said relic is unequipped.
-   *
-   * @param {Object} relic - The relic object to set.
-   * @returns {void}
    */
   setRelic: (relic: Relic) => {
     if (!relic.id) return console.warn('No matching relic', relic)
@@ -339,9 +398,11 @@ export const DB = {
   getState: () => window.store.getState(),
 
   getScoringMetadata: (id: string) => {
-    const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
-    const scoringMetadataOverrides = window.store.getState().scoringMetadataOverrides[id]
-    const returnScoringMetadata = Utils.mergeUndefinedValues(scoringMetadataOverrides || {}, defaultScoringMetadata)
+    const dbMetadata = DB.getMetadata() as DBMetadata
+    const defaultScoringMetadata = dbMetadata.characters[id].scoringMetadata
+    const scoringMetadataOverrides = window.store.getState().scoringMetadataOverrides
+    const override = scoringMetadataOverrides[id]
+    const returnScoringMetadata = Utils.mergeUndefinedValues(override || {}, defaultScoringMetadata)
 
     // POST MIGRATION UNCOMMENT
     // if (scoringMetadataOverrides && scoringMetadataOverrides.modified) {
@@ -375,7 +436,7 @@ export const DB = {
 
     return returnScoringMetadata
   },
-  updateCharacterScoreOverrides: (id, updated) => {
+  updateCharacterScoreOverrides: (id: string, updated: ScoringMetadata) => {
     const overrides = window.store.getState().scoringMetadataOverrides
     if (!overrides[id]) {
       overrides[id] = updated
@@ -383,20 +444,21 @@ export const DB = {
       Utils.mergeDefinedValues(overrides[id], updated)
     }
     if (updated.modified) {
-      overrides.modified = true
+      // TODO: bug
+      // overrides.modified = true
     }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
     SaveState.delayedSave()
   },
-  updateSimulationScoreOverrides: (id, updatedSimulation) => {
+  updateSimulationScoreOverrides: (id: string, updatedSimulation: SimulationMetadata) => {
     if (!updatedSimulation) return
 
     const overrides = window.store.getState().scoringMetadataOverrides
     if (!overrides[id]) {
       overrides[id] = {
         simulation: updatedSimulation,
-      }
+      } as ScoringMetadata
     } else {
       overrides[id].simulation = updatedSimulation
     }
@@ -405,7 +467,7 @@ export const DB = {
     SaveState.delayedSave()
   },
 
-  setStore: (x, autosave = true) => {
+  setStore: (x: HsrOptimizerStore, autosave = true) => {
     const charactersById = {}
     const dbCharacters = DB.getMetadata().characters
     const dbLightCones = DB.getMetadata().lightCones
@@ -443,9 +505,11 @@ export const DB = {
       const dbLightCone = dbLightCones[character.form?.lightCone] || {}
       const dbCharacter = dbCharacters[character.id]
       if (dbLightCone?.path != dbCharacter?.path) {
+        // @ts-ignore
         character.form.lightCone = undefined
         character.form.lightConeLevel = 80
         character.form.lightConeSuperimposition = 1
+        // @ts-ignore
         character.form.lightConeConditionals = {}
       }
 

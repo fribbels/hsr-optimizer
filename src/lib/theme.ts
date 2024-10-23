@@ -11,7 +11,14 @@ export type ColorTheme = {
   headerBg: string
 }
 
-export const Themes: { [key: string]: ColorTheme } = {
+// Only the fields we care about
+export type ColorThemeOverrides = {
+  colorTextBase: string
+  colorBgBase: string
+  colorPrimary: string
+}
+
+export const Themes: { [key: string]: ColorThemeOverrides } = {
   BLUE: { // 182239
     colorTextBase: '#ffffff', // Text
     colorBgBase: '#182239', // Background

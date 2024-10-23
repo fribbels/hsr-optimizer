@@ -7,12 +7,16 @@ import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
 import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
-import { OptimizerMenuIds } from 'components/optimizerTab/FormRow.tsx'
+import { OptimizerMenuIds } from 'components/optimizerTab/FormRow'
 import { Themes } from 'lib/theme'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { DefaultSettingOptions, SettingOptions } from 'components/SettingsDrawer'
 import { oldCharacterScoringMetadata } from 'lib/oldCharacterScoringMetadata'
 import i18next from 'i18next'
+import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
+import { Character } from 'types/Character'
+import { Relic } from 'types/Relic'
+import { HsrOptimizerStore } from 'types/store'
 
 const state = {
   relics: [],
@@ -77,156 +81,157 @@ const savedSessionDefaults = {
   [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
 }
 
-window.store = create((set) => ({
-  version: CURRENT_OPTIMIZER_VERSION,
-  colorTheme: Themes.BLUE,
+window.store = create((set) => {
+  const store: HsrOptimizerStore = {
+    version: CURRENT_OPTIMIZER_VERSION,
+    colorTheme: Themes.BLUE,
 
-  formValues: undefined,
+    formValues: undefined,
 
-  optimizerGrid: undefined,
+    optimizerGrid: undefined,
 
-  comboState: {
-    displayState: {},
-  },
-  optimizerTabFocusCharacter: undefined,
-  characterTabFocusCharacter: undefined,
-  scoringAlgorithmFocusCharacter: undefined,
-  relicsTabFocusCharacter: undefined,
-  inventoryWidth: 9,
-  rowLimit: 10,
+    comboState: {} as ComboState,
+    optimizerTabFocusCharacter: undefined,
+    characterTabFocusCharacter: undefined,
+    scoringAlgorithmFocusCharacter: undefined,
+    relicsTabFocusCharacter: undefined,
+    inventoryWidth: 9,
+    rowLimit: 10,
 
-  activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)]
-    ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash.split('?')[0]]
-    : AppPages.OPTIMIZER,
-  characters: [],
-  charactersById: {},
-  conditionalSetEffectsDrawerOpen: false,
-  comboDrawerOpen: false,
-  combatBuffsDrawerOpen: false,
-  enemyConfigurationsDrawerOpen: false,
-  settingsDrawerOpen: false,
-  permutations: 0,
-  permutationsResults: 0,
-  permutationsSearched: 0,
-  relicsById: {},
-  scorerId: undefined,
-  scoringMetadataOverrides: {},
-  statDisplay: DEFAULT_STAT_DISPLAY,
-  statSimulationDisplay: StatSimTypes.Disabled,
-  statSimulations: [],
-  selectedStatSimulations: [],
-  optimizationInProgress: false,
-  optimizationId: undefined,
-  teammateCount: 0,
-  zeroPermutationModalOpen: false,
-  zeroResultModalOpen: false,
-  menuSidebarOpen: true,
-  relicScorerSidebarOpen: true,
-  optimizerRunningEngine: null,
-  optimizerStartTime: null,
-  optimizerEndTime: null,
-  optimizerTabFocusCharacterSelectModalOpen: false,
+    activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)]
+      ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash.split('?')[0]]
+      : AppPages.OPTIMIZER,
+    characters: [],
+    charactersById: {},
+    conditionalSetEffectsDrawerOpen: false,
+    comboDrawerOpen: false,
+    combatBuffsDrawerOpen: false,
+    enemyConfigurationsDrawerOpen: false,
+    settingsDrawerOpen: false,
+    permutations: 0,
+    permutationsResults: 0,
+    permutationsSearched: 0,
+    relicsById: {},
+    scorerId: '',
+    scoringMetadataOverrides: {},
+    statDisplay: DEFAULT_STAT_DISPLAY,
+    statSimulationDisplay: StatSimTypes.Disabled,
+    statSimulations: [],
+    selectedStatSimulations: [],
+    optimizationInProgress: false,
+    optimizationId: null,
+    teammateCount: 0,
+    zeroPermutationModalOpen: false,
+    zeroResultModalOpen: false,
+    menuSidebarOpen: true,
+    relicScorerSidebarOpen: true,
+    optimizerRunningEngine: COMPUTE_ENGINE_GPU_STABLE,
+    optimizerStartTime: null,
+    optimizerEndTime: null,
+    optimizerTabFocusCharacterSelectModalOpen: false,
 
-  optimizerFormCharacterEidolon: 0,
-  optimizerFormSelectedLightCone: null,
-  optimizerFormSelectedLightConeSuperimposition: 1,
+    optimizerFormCharacterEidolon: 0,
+    optimizerFormSelectedLightCone: null,
+    optimizerFormSelectedLightConeSuperimposition: 1,
 
-  permutationDetails: {
-    Head: 0,
-    Hands: 0,
-    Body: 0,
-    Feet: 0,
-    PlanarSphere: 0,
-    LinkRope: 0,
-    HeadTotal: 0,
-    HandsTotal: 0,
-    BodyTotal: 0,
-    FeetTotal: 0,
-    PlanarSphereTotal: 0,
-    LinkRopeTotal: 0,
-  },
+    permutationDetails: {
+      Head: 0,
+      Hands: 0,
+      Body: 0,
+      Feet: 0,
+      PlanarSphere: 0,
+      LinkRope: 0,
+      HeadTotal: 0,
+      HandsTotal: 0,
+      BodyTotal: 0,
+      FeetTotal: 0,
+      PlanarSphereTotal: 0,
+      LinkRopeTotal: 0,
+    },
 
-  relicTabFilters: {
-    set: [],
-    part: [],
-    enhance: [],
-    mainStats: [],
-    subStats: [],
-    grade: [],
-    verified: [],
-    equippedBy: [],
-  },
-  characterTabFilters: {
-    name: '',
-    element: [],
-    path: [],
-    rarity: [],
-  },
-  excludedRelicPotentialCharacters: [],
+    relicTabFilters: {
+      set: [],
+      part: [],
+      enhance: [],
+      mainStats: [],
+      subStats: [],
+      grade: [],
+      verified: [],
+      equippedBy: [],
+    },
+    characterTabFilters: {
+      name: '',
+      element: [],
+      path: [],
+      rarity: [],
+    },
+    excludedRelicPotentialCharacters: [],
 
-  optimizerMenuState: {
-    [OptimizerMenuIds.characterOptions]: true,
-    [OptimizerMenuIds.relicAndStatFilters]: true,
-    [OptimizerMenuIds.teammates]: true,
-    [OptimizerMenuIds.characterStatsSimulation]: false,
-  },
+    optimizerMenuState: {
+      [OptimizerMenuIds.characterOptions]: true,
+      [OptimizerMenuIds.relicAndStatFilters]: true,
+      [OptimizerMenuIds.teammates]: true,
+      [OptimizerMenuIds.characterStatsSimulation]: false,
+    },
 
-  savedSession: savedSessionDefaults,
+    savedSession: savedSessionDefaults,
 
-  settings: DefaultSettingOptions,
+    settings: DefaultSettingOptions,
 
-  setComboState: (x) => set(() => ({ comboState: x })),
-  setVersion: (x) => set(() => ({ version: x })),
-  setActiveKey: (x) => set(() => ({ activeKey: x })),
-  setFormValues: (x) => set(() => ({ formValues: x })),
-  setCharacters: (x) => set(() => ({ characters: x })),
-  setCharactersById: (x) => set(() => ({ charactersById: x })),
-  setInventoryWidth: (x) => set(() => ({ inventoryWidth: x })),
-  setRowLimit: (x) => set(() => ({ rowLimit: x })),
-  setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
-  setComboDrawerOpen: (x) => set(() => ({ comboDrawerOpen: x })),
-  setCombatBuffsDrawerOpen: (x) => set(() => ({ combatBuffsDrawerOpen: x })),
-  setEnemyConfigurationsDrawerOpen: (x) => set(() => ({ enemyConfigurationsDrawerOpen: x })),
-  setSettingsDrawerOpen: (x) => set(() => ({ settingsDrawerOpen: x })),
-  setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
-  setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
-  setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
-  setRelicsTabFocusCharacter: (characterId) => set(() => ({ relicsTabFocusCharacter: characterId })),
-  setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
-  setPermutations: (x) => set(() => ({ permutations: x })),
-  setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),
-  setPermutationsSearched: (x) => set(() => ({ permutationsSearched: x })),
-  setRelicsById: (x) => set(() => ({ relicsById: x })),
-  setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
-  setCharacterTabFilters: (x) => set(() => ({ characterTabFilters: x })),
-  setScorerId: (x) => set(() => ({ scorerId: x })),
-  setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
-  setStatDisplay: (x) => set(() => ({ statDisplay: x })),
-  setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
-  setStatSimulations: (x) => set(() => ({ statSimulations: Utils.clone(x) })),
-  setSelectedStatSimulations: (x) => set(() => ({ selectedStatSimulations: x })),
-  setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
-  setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
-  setOptimizationId: (x) => set(() => ({ optimizationId: x })),
-  setOptimizerStartTime: (x) => set(() => ({ optimizerStartTime: x })),
-  setOptimizerRunningEngine: (x) => set(() => ({ optimizerRunningEngine: x })),
-  setOptimizerEndTime: (x) => set(() => ({ optimizerEndTime: x })),
-  setTeammateCount: (x) => set(() => ({ teammateCount: x })),
-  setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),
-  setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
-  setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
-  setOptimizerTabFocusCharacterSelectModalOpen: (x) => set(() => ({ optimizerTabFocusCharacterSelectModalOpen: x })),
-  setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
-  setZeroResultModalOpen: (x) => set(() => ({ zeroResultModalOpen: x })),
-  setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
-  setMenuSidebarOpen: (x) => set(() => ({ menuSidebarOpen: x })),
-  setSettings: (x) => set(() => ({ settings: x })),
-  setSavedSession: (x) => set(() => ({ savedSession: x })),
-  setSavedSessionKey: (key, x) => set((state) => ({
-    savedSession: { ...state.savedSession, [key]: x },
-  })),
-  setColorTheme: (x) => set(() => ({ colorTheme: x })),
-}))
+    setComboState: (x) => set(() => ({ comboState: x })),
+    setVersion: (x) => set(() => ({ version: x })),
+    setActiveKey: (x) => set(() => ({ activeKey: x })),
+    setFormValues: (x) => set(() => ({ formValues: x })),
+    setCharacters: (x) => set(() => ({ characters: x })),
+    setCharactersById: (x) => set(() => ({ charactersById: x })),
+    setInventoryWidth: (x) => set(() => ({ inventoryWidth: x })),
+    setRowLimit: (x) => set(() => ({ rowLimit: x })),
+    setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
+    setComboDrawerOpen: (x) => set(() => ({ comboDrawerOpen: x })),
+    setCombatBuffsDrawerOpen: (x) => set(() => ({ combatBuffsDrawerOpen: x })),
+    setEnemyConfigurationsDrawerOpen: (x) => set(() => ({ enemyConfigurationsDrawerOpen: x })),
+    setSettingsDrawerOpen: (x) => set(() => ({ settingsDrawerOpen: x })),
+    setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
+    setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
+    setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
+    setRelicsTabFocusCharacter: (characterId) => set(() => ({ relicsTabFocusCharacter: characterId })),
+    setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
+    setPermutations: (x) => set(() => ({ permutations: x })),
+    setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),
+    setPermutationsSearched: (x) => set(() => ({ permutationsSearched: x })),
+    setRelicsById: (x) => set(() => ({ relicsById: x })),
+    setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
+    setCharacterTabFilters: (x) => set(() => ({ characterTabFilters: x })),
+    setScorerId: (x) => set(() => ({ scorerId: x })),
+    setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
+    setStatDisplay: (x) => set(() => ({ statDisplay: x })),
+    setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
+    setStatSimulations: (x) => set(() => ({ statSimulations: Utils.clone(x) })),
+    setSelectedStatSimulations: (x) => set(() => ({ selectedStatSimulations: x })),
+    setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
+    setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
+    setOptimizationId: (x) => set(() => ({ optimizationId: x })),
+    setOptimizerStartTime: (x) => set(() => ({ optimizerStartTime: x })),
+    setOptimizerRunningEngine: (x) => set(() => ({ optimizerRunningEngine: x })),
+    setOptimizerEndTime: (x) => set(() => ({ optimizerEndTime: x })),
+    setTeammateCount: (x) => set(() => ({ teammateCount: x })),
+    setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),
+    setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
+    setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
+    setOptimizerTabFocusCharacterSelectModalOpen: (x) => set(() => ({ optimizerTabFocusCharacterSelectModalOpen: x })),
+    setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
+    setZeroResultModalOpen: (x) => set(() => ({ zeroResultModalOpen: x })),
+    setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
+    setMenuSidebarOpen: (x) => set(() => ({ menuSidebarOpen: x })),
+    setSettings: (x) => set(() => ({ settings: x })),
+    setSavedSession: (x) => set(() => ({ savedSession: x })),
+    setSavedSessionKey: (key, x) => set((state) => ({
+      savedSession: { ...state.savedSession, [key]: x },
+    })),
+    setColorTheme: (x) => set(() => ({ colorTheme: x })),
+  }
+  return store
+})
 
 export const DB = {
   getMetadata: () => state.metadata,
@@ -235,14 +240,14 @@ export const DB = {
   getCharacters: () => window.store.getState().characters,
   getCharacterById: (id) => window.store.getState().charactersById[id],
 
-  setCharacters: (x) => {
-    const charactersById = {}
-    for (const character of x) {
+  setCharacters: (characters: Character[]) => {
+    const charactersById: Record<string, Character> = {}
+    for (const character of characters) {
       charactersById[character.id] = character
     }
 
-    assignRanks(x)
-    const newCharacterArray = [...x]
+    assignRanks(characters)
+    const newCharacterArray = [...characters]
     window.store.getState().setCharacters(newCharacterArray)
     window.store.getState().setCharactersById(charactersById)
   },
@@ -257,7 +262,7 @@ export const DB = {
     characters.push(x)
     DB.setCharacters(characters)
   },
-  insertCharacter: (id, index) => {
+  insertCharacter: (id: string, index: number) => {
     console.log('insert', id, index)
     const characters = DB.getCharacters()
     if (index < 0) {
@@ -277,14 +282,14 @@ export const DB = {
 
   getRelics: () => Object.values(window.store.getState().relicsById),
   getRelicsById: () => window.store.getState().relicsById,
-  setRelics: (x) => {
-    const relicsById = {}
-    for (const relic of x) {
+  setRelics: (relics: Relic[]) => {
+    const relicsById: Record<string, Relic> = {}
+    for (const relic of relics) {
       relicsById[relic.id] = relic
     }
     window.store.getState().setRelicsById(relicsById)
   },
-  getRelicById: (id) => window.store.getState().relicsById[id],
+  getRelicById: (id: string) => window.store.getState().relicsById[id],
 
   /**
    * Sets the given relic in the application's database and handles relic equipping logic.
@@ -300,7 +305,7 @@ export const DB = {
    * @param {Object} relic - The relic object to set.
    * @returns {void}
    */
-  setRelic: (relic) => {
+  setRelic: (relic: Relic) => {
     if (!relic.id) return console.warn('No matching relic', relic)
     const oldRelic = DB.getRelicById(relic.id)
     const addRelic = !oldRelic
@@ -333,7 +338,7 @@ export const DB = {
   // Mostly for debugging
   getState: () => window.store.getState(),
 
-  getScoringMetadata: (id) => {
+  getScoringMetadata: (id: string) => {
     const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
     const scoringMetadataOverrides = window.store.getState().scoringMetadataOverrides[id]
     const returnScoringMetadata = Utils.mergeUndefinedValues(scoringMetadataOverrides || {}, defaultScoringMetadata)

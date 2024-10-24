@@ -6,7 +6,7 @@ import { CombatBuffs, ConditionalDataType, Constants, DamageKeys, DEFAULT_STAT_D
 import { Utils } from './utils'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { CharacterConditionals } from 'lib/characterConditionals'
-import { CharacterStats } from './characterStats'
+import { CharacterStats } from 'lib/characterStats'
 import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultForm, getDefaultWeights } from 'lib/defaultForm'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'

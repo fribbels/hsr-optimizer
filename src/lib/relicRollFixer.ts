@@ -1,15 +1,17 @@
 import DB from 'lib/db'
-import { Utils } from './utils'
-import { Constants } from './constants.ts'
+import { Utils } from 'lib/utils'
+import { Constants } from 'lib/constants'
 import { CharacterConverter } from './characterConverter'
+import { Relic } from 'types/Relic'
+import { TsUtils } from 'lib/TsUtils'
 
-let optimizerStatToJsonSubStat
-let optimizerStatToAffixStat
-let optimizerPartToPartId
+let optimizerStatToJsonSubStat: Record<string, string>
+let optimizerStatToAffixStat: Record<string, string>
+let optimizerPartToPartId: Record<string, string>
 let initialized = false
 
 export const RelicRollFixer = {
-  fixMainStatvalue: (relic) => {
+  fixMainStatvalue: (relic: Relic) => {
     if (!initialized) RelicRollFixer.initialize()
 
     const enhance = relic.enhance
@@ -26,10 +28,10 @@ export const RelicRollFixer = {
     const totalValue = base + step * enhance
     const scaledValue = Utils.isFlat(stat) ? totalValue : totalValue * 100
 
-    return Utils.precisionRound(scaledValue, 5)
+    return TsUtils.precisionRound(scaledValue, 5)
   },
 
-  fixSubStatValue: (stat, value, grade) => {
+  fixSubStatValue: (stat: string, value: number, grade: number) => {
     if (!initialized) RelicRollFixer.initialize()
 
     // Can't fix speed values
@@ -43,10 +45,10 @@ export const RelicRollFixer = {
     if (!statsByGrade[convertedStatType]) return value
 
     const rollsMapping = statsByGrade[convertedStatType]
-    let rolls = rollsMapping[value]
+    const rolls = rollsMapping[value]
     if (!rolls) return value
     // Duplicate entries are arrays when stats collide
-    if (rolls.length) rolls = rolls[0]
+    const rollCount = typeof rolls !== 'number' ? rolls[0] : rolls
 
     const affixes = DB.getMetadata().relics.relicSubAffixes[grade].affixes
     const matched = Object.values(affixes).find((x) => x.property == optimizerStatToAffixStat[stat])
@@ -56,7 +58,7 @@ export const RelicRollFixer = {
     const step = matched.step
 
     const oneRoll = base + step * 2
-    const totalValue = oneRoll * rolls
+    const totalValue = oneRoll * rollCount
     const scaledValue = Utils.isFlat(stat) ? totalValue : totalValue * 100
 
     return Utils.precisionRound(scaledValue, 5)
@@ -66,8 +68,8 @@ export const RelicRollFixer = {
     initialized = true
     const conversions = CharacterConverter.getConstantConversions()
     // console.log('conversions', conversions)
-    optimizerStatToAffixStat = Utils.flipMapping(conversions.statConversion)
-    optimizerPartToPartId = Utils.flipMapping(conversions.partConversion)
+    optimizerStatToAffixStat = TsUtils.flipStringMapping(conversions.statConversion)
+    optimizerPartToPartId = TsUtils.flipStringMapping(conversions.partConversion)
 
     optimizerStatToJsonSubStat = Utils.flipMapping({
       'ATK': Constants.Stats.ATK,
@@ -87,7 +89,7 @@ export const RelicRollFixer = {
 }
 
 // https://github.com/kel-z/HSR-Data/blob/main/output/relic_roll_vals.json
-const relicRollValues = {
+const relicRollValues: { [key: number]: { [key: string]: { [key: number]: number | number[] } } } = {
   2: {
     'HP': {
       13: 0.8,

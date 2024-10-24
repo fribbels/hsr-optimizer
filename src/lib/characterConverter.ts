@@ -1,4 +1,4 @@
-import { RelicAugmenter } from './relicAugmenter.js'
+import { RelicAugmenter } from 'lib/relicAugmenter.js'
 import { Constants } from './constants.ts'
 import { Utils } from './utils.js'
 import DB from 'lib/db'

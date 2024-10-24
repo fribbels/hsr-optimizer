@@ -271,9 +271,24 @@ export type DBMetadataSets = {
   name: string
 }
 
+type DBMetadataStatAffixes = {
+  [key: string]: {
+    id: string
+    affixes: {
+      [key: number]: {
+        affix_id: string
+        property: string
+        base: number
+        step: number
+        step_num: number
+      }
+    }
+  }
+}
+
 export type DBMetadataRelics = {
-  relicMainAffixes: object
-  relicSubAffixes: object
+  relicMainAffixes: DBMetadataStatAffixes
+  relicSubAffixes: DBMetadataStatAffixes
   relicSets: Record<string, DBMetadataSets>
 }
 

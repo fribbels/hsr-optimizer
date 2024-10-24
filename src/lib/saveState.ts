@@ -1,11 +1,12 @@
-import DB from './db'
+import DB from 'lib/db'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants'
+import { HsrOptimizerSaveFormat } from 'types/store'
 
-let saveTimeout
+let saveTimeout: NodeJS.Timeout | null
 
 export const SaveState = {
   save: () => {
-    const state = {
+    const state: HsrOptimizerSaveFormat = {
       relics: DB.getRelics(),
       characters: DB.getCharacters(),
       scorerId: window.store.getState().scorerId,
@@ -29,21 +30,21 @@ export const SaveState = {
     return stateString
   },
 
-  delayedSave: (ms = 5000) => {
+  delayedSave: (ms: number = 5000) => {
     if (saveTimeout) {
-      clearTimeout(saveTimeout);
+      clearTimeout(saveTimeout)
     }
 
     saveTimeout = setTimeout(() => {
-      SaveState.save();
-    }, ms);
+      SaveState.save()
+    }, ms)
   },
 
   load: (autosave = true) => {
     try {
-      const state = localStorage.state
+      const state = localStorage.state as string
       if (state) {
-        const parsed = JSON.parse(state)
+        const parsed = JSON.parse(state) as HsrOptimizerSaveFormat
         console.log('Loaded SaveState')
 
         DB.setStore(parsed, autosave)
@@ -54,7 +55,6 @@ export const SaveState = {
       return false
     } catch (e) {
       console.error('Error loading state', e)
-      // localStorage.clear()
       return false
     }
   },

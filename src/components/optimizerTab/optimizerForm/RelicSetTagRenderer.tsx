@@ -4,7 +4,7 @@ import { Assets } from 'lib/assets'
 import { Flex, Tag } from 'antd'
 import PropTypes from 'prop-types'
 
-// NOTE: Be careful hot-reloading with this file, can cause DB to wipe. Unsure why yet
+// NOTE: Be careful hot-reloading with this file, can cause Db to wipe. Unsure why yet
 export function RelicSetTagRenderer(props) {
   const { value, closable, onClose } = props
 
@@ -40,30 +40,30 @@ export function RelicSetTagRenderer(props) {
   if (pieces[0] == RelicSetFilterOptions.relic4Piece) {
     inner
       = (
-        <React.Fragment>
-          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-        </React.Fragment>
-      )
+      <React.Fragment>
+        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+      </React.Fragment>
+    )
   }
 
   if (pieces[0] == RelicSetFilterOptions.relic2Plus2Piece) {
     inner
       = (
-        <React.Fragment>
-          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-          <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-        </React.Fragment>
-      )
+      <React.Fragment>
+        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+        <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+      </React.Fragment>
+    )
   }
 
   if (pieces[0] == RelicSetFilterOptions.relic2PlusAny) {
     inner
       = (
-        <React.Fragment>
-          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-        </React.Fragment>
-      )
+      <React.Fragment>
+        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+      </React.Fragment>
+    )
   }
 
   return (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Collapse, Flex, Table, TableProps } from 'antd'
-import { AppPages } from 'lib/db.js'
+import { AppPages } from 'lib/db'
 import { CheckCircleFilled, CloseCircleFilled, QuestionOutlined } from '@ant-design/icons'
 import { generateAllTests, WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import { StatDelta, StatDeltas } from 'lib/gpu/tests/webgpuTestUtils'

@@ -1,5 +1,5 @@
-import DB from './db.js'
-import { SaveState } from './saveState.js'
+import DB from 'lib/db'
+import { SaveState } from 'lib/saveState'
 import { Message } from './message.js'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
 import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/Relic'

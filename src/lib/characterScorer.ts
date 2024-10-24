@@ -154,6 +154,7 @@ export type ScoringMetadata = {
   presets: (() => void)[]
   sortOption: string
   simulation: SimulationMetadata
+  modified?: boolean
 }
 
 export type SimulationMetadata = {

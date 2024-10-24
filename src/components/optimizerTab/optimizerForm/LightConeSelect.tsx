@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Utils } from 'lib/utils'
 import { Assets } from 'lib/assets'
-import DB from 'lib/db.js'
+import DB from 'lib/db'
 import { CardGridItemContent, generatePathTags, generateRarityTags, SegmentedFilterRow } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents'
 import { useTranslation } from 'react-i18next'
 

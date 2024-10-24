@@ -3,7 +3,7 @@ import { Constants, Parts, Sets } from '../constants'
 import { RelicAugmenter } from '../relicAugmenter'
 
 import gameData from 'data/game_data.json'
-import DB from '../db'
+import DB from 'lib/db'
 import { Utils } from '../utils'
 import semver from 'semver'
 import { Typography } from 'antd'

@@ -1,7 +1,7 @@
 import { Button, Flex, Layout, theme, Typography } from 'antd'
 import { CloseOutlined, MenuOutlined } from '@ant-design/icons'
 import { Assets } from 'lib/assets.js'
-import { BASE_PATH } from '../lib/db'
+import { BASE_PATH } from 'lib/db'
 
 const { useToken } = theme
 const { Header } = Layout

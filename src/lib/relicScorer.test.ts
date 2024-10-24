@@ -4,7 +4,7 @@ import { DataParser } from './dataParser'
 import { Constants, PartsMainStats } from 'lib/constants'
 import { RelicScorer } from './relicScorerPotential'
 import { Relic } from 'types/Relic'
-import DB from './db.js'
+import DB from 'lib/db'
 
 DataParser.parse()
 
@@ -162,7 +162,7 @@ test('ideal-mainstats-includes-best-mainstats', () => {
         if (!PartsMainStats[part].includes(name)) {
           continue
         }
-        if (<number > weight > best) {
+        if (<number>weight > best) {
           // The best ideal mainstats is missing a possible mainstat that's higher weighted
           // than everything else
           didfail = true

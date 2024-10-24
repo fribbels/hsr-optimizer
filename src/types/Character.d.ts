@@ -1,6 +1,7 @@
 import { Parts, SetsOrnaments, SetsRelics, StatsValues } from '../lib/constants'
 import { AssetRelativeUrl, DataMineId, Element, ExternalPath, GUID, InternalPath, Promotions, Rarity } from './Common'
 import { Form } from './Form'
+import { CustomPortrait } from 'types/store'
 
 export type CharacterId = string // "1004"
 
@@ -14,7 +15,7 @@ export type Build = {
   [key in Parts]?: GUID;
 }
 
-// DB.getMetadata().characters
+// Db.getMetadata().characters
 export type MetadataCharacter = {
   id: DataMineId
   name: string // "Dan Heng"
@@ -49,13 +50,14 @@ export type Character = {
   form: Form
   rank: number // order in character tab
   builds: SavedBuild[]
+  portrait?: CustomPortrait
 }
 
 export type SavedBuild = {
   build: string[]
   name: string
   score: {
-    score: number
+    score: string
     rating: string
   }
 }

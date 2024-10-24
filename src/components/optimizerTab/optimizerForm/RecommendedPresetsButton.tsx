@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Button, Dropdown } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
-import DB from 'lib/db.js'
+import DB from 'lib/db'
 import { Message } from 'lib/message.js'
 import { Constants, Sets } from 'lib/constants'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'

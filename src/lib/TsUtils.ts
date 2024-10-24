@@ -38,6 +38,7 @@ export const TsUtils = {
   wrappedFixedT: (withContent: boolean) => {
     return {
       get: withContent
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         ? i18next.getFixedT
         : getEmptyT,
     }
@@ -48,12 +49,8 @@ const getEmptyT = <
   Ns extends Namespace | null = DefaultNamespace,
   TKPrefix extends KeyPrefix<ActualNs> = undefined,
   ActualNs extends Namespace = Ns extends null ? DefaultNamespace : Ns,
->(
-  ...args:
-    | [lng: string | readonly string[], ns?: Ns, keyPrefix?: TKPrefix]
-    | [lng: null, ns: Ns, keyPrefix?: TKPrefix]
-): TFunction<ActualNs, TKPrefix> => {
-  return ((...args: any) => {
+>(): TFunction<ActualNs, TKPrefix> => {
+  return (() => {
     return ''
   }) as TFunction<ActualNs, TKPrefix>
 }

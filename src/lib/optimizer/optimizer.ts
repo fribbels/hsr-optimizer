@@ -18,7 +18,7 @@ import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
 
 let CANCEL = false
-let isFirefox = typeof navigator !== "undefined" && navigator.userAgent.toLowerCase().indexOf('firefox') > -1
+const isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().indexOf('firefox') > -1
 
 export function calculateCurrentlyEquippedRow(request) {
   let relics = Utils.clone(DB.getRelics())
@@ -58,12 +58,12 @@ export const Optimizer = {
     relics = RelicFilters.applySetFilter(request, relics)
 
     // Post-split filters
-    relics = RelicFilters.splitRelicsByPart(relics)
+    let relicsByPart = RelicFilters.splitRelicsByPart(relics)
 
-    relics = RelicFilters.applyCurrentFilter(request, relics)
-    relics = RelicFilters.applyTopFilter(request, relics, preFilteredRelicsByPart)
+    relicsByPart = RelicFilters.applyCurrentFilter(request, relicsByPart)
+    relicsByPart = RelicFilters.applyTopFilter(request, relicsByPart)
 
-    return [relics, preFilteredRelicsByPart]
+    return [relicsByPart, preFilteredRelicsByPart]
   },
 
   optimize: async function (request) {
@@ -116,7 +116,7 @@ export const Optimizer = {
 
     OptimizerTabController.scrollToGrid()
 
-    window.optimizerGrid.current.api.setGridOption("loading", true)
+    window.optimizerGrid.current.api.setGridOption('loading', true)
 
     const context = generateContext(request)
 

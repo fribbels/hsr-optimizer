@@ -78,8 +78,8 @@ export type HsrOptimizerStore = {
   relicsById: Record<string, Relic>
   statDisplay: 'combat' | 'base'
   menuSidebarOpen: boolean
-  settings: unknown
-  setSettings: (settings: unknown) => void
+  settings: Record<string, any>
+  setSettings: (settings: Record<string, any>) => void
   setOptimizationId: (id: string) => void
   setSettingsDrawerOpen: (open: boolean) => void
   setComboState: (state: ComboState) => void
@@ -139,10 +139,55 @@ export type HsrOptimizerStore = {
     path: string[]
     rarity: number[]
   }
-  excludedRelicPotentialCharacters: unknown[]
+  excludedRelicPotentialCharacters: string[]
 
   optimizerMenuState: Record<string, boolean>
 
   savedSession: Record<string, any>
 }
 
+// The JSON format we save to localstorage / save file
+export type HsrOptimizerSaveFormat = {
+  relics: Relic[]
+  characters: Character[]
+  scorerId: string
+  scoringMetadataOverrides: Record<string, ScoringMetadata>
+  optimizerMenuState: Record<string, boolean>
+  excludedRelicPotentialCharacters: string[]
+  savedSession: Record<string, any>
+  settings: any
+  version: string
+  relicLocator: {
+    inventoryWidth: number
+    rowLimit: number
+  }
+}
+
+export type CustomPortrait = {
+  imageUrl: string,
+  originalDimensions: {
+    "width": number,
+    "height": number
+  },
+  "customImageParams": {
+    "croppedArea": {
+      "x": number
+      "y": number
+      "width": number
+      "height": number
+    },
+    "croppedAreaPixels": {
+      "width": number
+      "height": number
+      "x": number
+      "y": number
+    }
+  },
+  "cropper": {
+    "zoom": number
+    "crop": {
+      "x": number
+      "y": number
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import { Parts, SetsOrnaments, SetsRelics, StatsValues } from '../lib/constants'
 import { AssetRelativeUrl, DataMineId, Element, ExternalPath, GUID, InternalPath, Promotions, Rarity } from './Common'
 import { Form } from './Form'
+import { CustomPortrait } from "types/store";
 
 export type CharacterId = string // "1004"
 
@@ -49,10 +50,11 @@ export type Character = {
   form: Form
   rank: number // order in character tab
   builds: SavedBuild[]
+  portrait?: CustomPortrait
 }
 
 export type SavedBuild = {
-  build: string[]
+  build: Build
   name: string
   score: {
     score: number

@@ -16,8 +16,9 @@ import i18next from 'i18next'
 import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { Character } from 'types/Character'
 import { Relic } from 'types/Relic'
-import { HsrOptimizerStore } from 'types/store'
+import { CustomPortrait, HsrOptimizerSaveFormat, HsrOptimizerStore } from 'types/store'
 import { ScoringMetadata, SimulationMetadata } from 'lib/characterScorer'
+import { Form } from "types/Form";
 
 export type HsrOptimizerMetadataState = {
   metadata: DBMetadata
@@ -467,7 +468,7 @@ export const DB = {
     SaveState.delayedSave()
   },
 
-  setStore: (x: HsrOptimizerStore, autosave = true) => {
+  setStore: (x: HsrOptimizerSaveFormat, autosave = true) => {
     const charactersById = {}
     const dbCharacters = DB.getMetadata().characters
     const dbLightCones = DB.getMetadata().lightCones
@@ -545,7 +546,7 @@ export const DB = {
         relic.equippedBy = undefined
       }
     }
-    IndexRelics(x.relics)
+    indexRelics(x.relics)
 
     if (x.scoringMetadataOverrides) {
       for (const [key, value] of Object.entries(x.scoringMetadataOverrides)) {
@@ -647,13 +648,14 @@ export const DB = {
     }
   },
   resetStore: () => {
-    DB.setStore({
+    const saveFormat: Partial<HsrOptimizerSaveFormat> = {
       relics: [],
       characters: [],
-    })
+    }
+    DB.setStore(saveFormat as HsrOptimizerSaveFormat)
   },
 
-  replaceCharacterForm: (form) => {
+  replaceCharacterForm: (form: Form) => {
     let found = DB.getCharacterById(form.characterId)
     if (found) {
       found.form = {
@@ -663,7 +665,7 @@ export const DB = {
     }
   },
 
-  addFromForm: (form, autosave = true) => {
+  addFromForm: (form: Form, autosave = true) => {
     const characters = DB.getCharacters()
     let found = DB.getCharacterById(form.characterId)
     if (found) {
@@ -678,7 +680,7 @@ export const DB = {
         id: form.characterId,
         form: { ...defaultForm, ...form },
         equipped: {},
-      }
+      } as Character
       DB.addCharacter(found)
     }
 
@@ -701,10 +703,10 @@ export const DB = {
     return found
   },
 
-  saveCharacterPortrait: (characterId, portrait) => {
+  saveCharacterPortrait: (characterId, portrait: CustomPortrait) => {
     let character = DB.getCharacterById(characterId)
     if (!character) {
-      DB.addFromForm({ characterId: characterId })
+      DB.addFromForm({ characterId: characterId } as Form)
       character = DB.getCharacterById(characterId)
       console.log('Character did not previously exist, adding', character)
     }
@@ -748,7 +750,7 @@ export const DB = {
     }
   },
 
-  deleteCharacterBuild: (characterId, name) => {
+  deleteCharacterBuild: (characterId: string, name: string) => {
     const character = DB.getCharacterById(characterId)
     if (!character) return console.warn('No character to delete build for')
 
@@ -756,7 +758,7 @@ export const DB = {
     DB.setCharacter(character)
   },
 
-  clearCharacterBuilds: (characterId) => {
+  clearCharacterBuilds: (characterId: string) => {
     const character = DB.getCharacterById(characterId)
     if (!character) return console.warn('No character to clear builds for')
 
@@ -764,7 +766,7 @@ export const DB = {
     DB.setCharacter(character)
   },
 
-  unequipCharacter: (id) => {
+  unequipCharacter: (id: string) => {
     const character = DB.getCharacterById(id)
     if (!character) return console.warn('No character to unequip')
 
@@ -786,14 +788,14 @@ export const DB = {
     DB.setCharacter(character)
   },
 
-  removeCharacter: (characterId) => {
+  removeCharacter: (characterId: string) => {
     DB.unequipCharacter(characterId)
     let characters = DB.getCharacters()
     characters = characters.filter((x) => x.id != characterId)
     DB.setCharacters(characters)
   },
 
-  unequipRelicById: (id) => {
+  unequipRelicById: (id: string) => {
     if (!id) return console.warn('No relic')
     const relic = DB.getRelicById(id)
 
@@ -820,7 +822,7 @@ export const DB = {
    * @param {*} characterId - The ID of the character to equip the relic to.
    * @returns {void}
    */
-  equipRelic: (relic, characterId, forceSwap = false) => {
+  equipRelic: (relic: Relic, characterId: string | undefined, forceSwap = false) => {
     if (!relic || !relic.id) return console.warn('No relic')
     if (!characterId) return console.warn('No character')
     relic = DB.getRelicById(relic.id)
@@ -828,7 +830,7 @@ export const DB = {
     const prevOwnerId = relic.equippedBy
     const prevCharacter = DB.getCharacterById(prevOwnerId)
     const character = DB.getCharacterById(characterId)
-    const prevRelic = DB.getRelicById(character.equipped[relic.part])
+    const prevRelic = DB.getRelicById(character.equipped[relic.part]!)
 
     if (prevRelic) {
       DB.unequipRelicById(prevRelic.id)
@@ -854,25 +856,25 @@ export const DB = {
     setRelic(relic)
   },
 
-  equipRelicIdsToCharacter: (relicIds, characterId, forceSwap = false) => {
+  equipRelicIdsToCharacter: (relicIds: string[], characterId: string, forceSwap = false) => {
     if (!characterId) return console.warn('No characterId to equip to')
     console.log('Equipping relics to character', relicIds, characterId)
 
     for (const relicId of relicIds) {
-      DB.equipRelic({ id: relicId }, characterId, forceSwap)
+      DB.equipRelic({ id: relicId } as Relic, characterId, forceSwap)
     }
   },
 
-  switchRelics: (fromCharacterId, toCharacterId) => {
+  switchRelics: (fromCharacterId: string, toCharacterId: string) => {
     if (!fromCharacterId) return console.warn('No characterId to equip from')
     if (!toCharacterId) return console.warn('No characterId to equip to')
     console.log(`Switching relics from character ${fromCharacterId} to character ${toCharacterId}`)
 
     const fromCharacter = DB.getCharacterById(fromCharacterId)
-    DB.equipRelicIdsToCharacter(Object.values(fromCharacter.equipped), toCharacterId, true)
+    DB.equipRelicIdsToCharacter(Object.values(fromCharacter.equipped) as string[], toCharacterId, true)
   },
 
-  deleteRelic: (id) => {
+  deleteRelic: (id: string) => {
     if (!id) return Message.error('Unable to delete relic')
     DB.unequipRelicById(id)
     const relicsById = window.store.getState().relicsById
@@ -887,7 +889,7 @@ export const DB = {
 
   // These relics are missing speed decimals from OCR importer
   // We overwrite any existing relics with imported ones
-  mergeRelicsWithState: (newRelics, newCharacters) => {
+  mergeRelicsWithState: (newRelics: Relic[], newCharacters: Form[]) => {
     const oldRelics = DB.getRelics()
     newRelics = Utils.clone(newRelics) || []
     newCharacters = Utils.clone(newCharacters) || []
@@ -910,7 +912,7 @@ export const DB = {
       oldRelicHashes[hash] = oldRelic
     }
 
-    let replacementRelics = []
+    let replacementRelics: Relic[] = []
     // In case the user tries to import a characters only file, we do this
     if (newRelics.length == 0) {
       replacementRelics = oldRelics
@@ -956,7 +958,7 @@ export const DB = {
       }
     }
 
-    IndexRelics(replacementRelics)
+    indexRelics(replacementRelics)
 
     console.log('Replacement relics', replacementRelics)
 
@@ -1017,17 +1019,17 @@ export const DB = {
    * These relics have accurate speed values from relic scorer import
    * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
    */
-  mergePartialRelicsWithState: (newRelics, sourceCharacters = []) => {
+  mergePartialRelicsWithState: (newRelics: Relic[], sourceCharacters = []) => {
     const oldRelics = Utils.clone(DB.getRelics()) || []
     newRelics = Utils.clone(newRelics) || []
 
     // Tracking these for debug / messaging
-    const updatedOldRelics = []
-    const addedNewRelics = []
-    const equipUpdates = []
+    const updatedOldRelics: Relic[] = []
+    const addedNewRelics: Relic[] = []
+    const equipUpdates: { relic: Relic, equippedBy: string | undefined }[] = []
 
     for (const newRelic of newRelics) {
-      const match = findRelicMatch(newRelic, oldRelics)
+      const match: Relic | undefined = findRelicMatch(newRelic, oldRelics)
 
       if (match) {
         match.substats = newRelic.substats
@@ -1050,7 +1052,7 @@ export const DB = {
     console.log('updatedOldRelics', updatedOldRelics)
 
     oldRelics.map((x) => RelicAugmenter.augment(x))
-    IndexRelics(oldRelics)
+    indexRelics(oldRelics)
     DB.setRelics(oldRelics)
 
     for (const equipUpdate of equipUpdates) {
@@ -1086,7 +1088,7 @@ function findRelicMatch(relic, oldRelics) {
   const partialHash = partialHashRelic(relic)
   const partialMatches = oldRelicPartialHashes[partialHash] || []
 
-  let match = undefined
+  let match: Relic | undefined = undefined
   for (const partialMatch of partialMatches) {
     if (relic.enhance < partialMatch.enhance) continue
     if (relic.substats.length < partialMatch.substats.length) continue
@@ -1218,7 +1220,7 @@ function deduplicateArray(arr) {
   return [...new Set(arr)]
 }
 
-function IndexRelics(arr) {
+function indexRelics(arr) {
   const length = arr.length
   for (let i = 0; i < length; i++) {
     arr[i].ageIndex = length - i - 1

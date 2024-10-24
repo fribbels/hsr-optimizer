@@ -102,7 +102,7 @@ export default function RelicFilterBar(props) {
     return arr.map((x) => {
       return {
         key: x,
-        display: Renderer.renderGrade({ grade: -1, verified: x }, true),
+        display: Renderer.renderGrade({ grade: -1, verified: x == 'true' }),
       }
     })
   }

@@ -1,6 +1,6 @@
 import { Constants } from 'lib/constants'
 import { Gradient } from 'lib/gradient'
-import { Renderer } from 'lib/renderer.jsx'
+import { Renderer } from 'lib/renderer'
 import { GetRowIdParams } from 'ag-grid-community'
 import { Utils } from 'lib/utils'
 import { TFunction } from 'i18next'

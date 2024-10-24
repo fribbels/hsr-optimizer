@@ -461,9 +461,9 @@ export default function RelicsTab() {
         {!gridDestroyed && (
           <div
             id='relicGrid' className='ag-theme-balham-dark' style={{
-            ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
-            ...getGridTheme(token),
-          }}
+              ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
+              ...getGridTheme(token),
+            }}
           >
 
             <AgGridReact
@@ -711,10 +711,10 @@ export default function RelicsTab() {
                           <svg width={10} height={10}>
                             <rect
                               width={10} height={10} style={{
-                              fill: x.color,
-                              strokeWidth: 1,
-                              stroke: 'rgb(0,0,0)',
-                            }}
+                                fill: x.color,
+                                strokeWidth: 1,
+                                stroke: 'rgb(0,0,0)',
+                              }}
                             />
                           </svg>
                         )

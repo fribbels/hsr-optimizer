@@ -1,33 +1,34 @@
 import { Flex, Image, Tooltip } from 'antd'
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
-import { Constants } from './constants.ts'
+import { Constants } from 'lib/constants'
 import { Assets } from 'lib/assets'
 import { Utils } from './utils'
 import PropTypes from 'prop-types'
 import i18next from 'i18next'
+import { Relic, Stat } from 'types/Relic'
 
 export const Renderer = {
-  floor: (x) => {
-    if (x == undefined || x.value == undefined) return ''
+  floor: (x: { value: number }) => {
+    if (x?.value == undefined) return ''
     return Math.floor(x.value)
   },
 
-  x100Tenths: (x) => {
-    if (x == undefined || x.value == undefined) return ''
+  x100Tenths: (x: { value: number }) => {
+    if (x?.value == undefined) return ''
     return (Math.floor(Utils.precisionRound(x.value * 100) * 10) / 10).toFixed(1)
   },
 
-  tenths: (x) => {
-    if (x == undefined || x.value == undefined) return ''
+  tenths: (x: { value: number }) => {
+    if (x?.value == undefined) return ''
     return (Math.floor(Utils.precisionRound(x.value) * 10) / 10).toFixed(1)
   },
 
-  relicSet: (x) => {
-    if (x == undefined || x.value == undefined || isNaN(x.value)) return ''
+  relicSet: (x: { value: number }) => {
+    if (x?.value == undefined || isNaN(x.value)) return ''
     const i = x.value
 
     const count = Object.values(Constants.SetsRelics).length
-    const setImages = []
+    const setImages: string[] = []
 
     const s1 = i % count
     const s2 = ((i - s1) / count) % count
@@ -39,7 +40,7 @@ export const Renderer = {
     while (relicSets.length > 0) {
       const value = relicSets[0]
       if (relicSets.lastIndexOf(value)) {
-        const setName = Object.entries(Constants.RelicSetToIndex).find((x) => x[1] == value)[0]
+        const setName = Object.entries(Constants.RelicSetToIndex).find((x) => x[1] == value)![0]
         const assetValue = Assets.getSetImage(setName, Constants.Parts.Head)
         setImages.push(assetValue)
 
@@ -59,18 +60,18 @@ export const Renderer = {
     )
   },
 
-  ornamentSet: (x) => {
-    if (x == undefined || x.value == undefined) return ''
+  ornamentSet: (x: { value: number }) => {
+    if (x?.value == undefined) return ''
     const i = x.value
 
     const ornamentSetCount = Object.values(Constants.SetsOrnaments).length
-    let setImage
+    let setImage: string
 
     const s1 = i % ornamentSetCount
     const s2 = ((i - s1) / ornamentSetCount) % ornamentSetCount
 
     if (s1 == s2) {
-      const setName = Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == s1)[0]
+      const setName = Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == s1)![0]
       setImage = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
       return (
         <Flex justify='center' style={{ marginTop: -1 }}>
@@ -82,8 +83,8 @@ export const Renderer = {
     }
   },
 
-  anySet: (x) => {
-    if (x == undefined || x.value == undefined) return ''
+  anySet: (x: { value: number; data: Relic }) => {
+    if (x?.value == undefined) return ''
     const part = x.data.part
 
     const src = Assets.getSetImage(x.data.set, part)
@@ -94,8 +95,8 @@ export const Renderer = {
     )
   },
 
-  characterIcon: (x) => {
-    if (x == undefined || x.value == undefined) return ''
+  characterIcon: (x: { value: string; data: Relic }) => {
+    if (x?.value == undefined) return ''
     const equippedBy = x.data.equippedBy
     if (!equippedBy) return ''
 
@@ -107,18 +108,20 @@ export const Renderer = {
     )
   },
 
-  readableStat: (x) => {
-    if (x == undefined || x.value == undefined) return ''
+  readableStat: (x: { value: string }): string => {
+    if (x?.value == undefined) return ''
+    // @ts-ignore
     return i18next.t(`common:ShortReadableStats.${x.value}`)
   },
 
-  readablePart: (x) => {
-    if (x == undefined || x.value == undefined) return ''
+  readablePart: (x: { value: string }) => {
+    if (x?.value == undefined) return ''
+    // @ts-ignore
     return i18next.t(`common:ReadableParts.${x.value}`)
   },
 
-  partIcon: (x) => {
-    if (x == undefined || x.value == undefined) return ''
+  partIcon: (x: { value: string }) => {
+    if (x?.value == undefined) return ''
     return (
       <Flex justify='center' style={{ marginTop: -1, width: 20, marginBottom: 3 }}>
         <SetDisplay asset={Assets.getPart(x.value)}/>
@@ -126,23 +129,19 @@ export const Renderer = {
     )
   },
 
-  hideZeroes: (x) => {
-    return x.value == 0 ? '' : x.value
-  },
-
-  hideZeroesFloor: (x) => {
-    return x.value == 0 ? '' : Math.floor(x.value)
+  hideZeroesFloor: (x: { value: number }) => {
+    return x.value == 0 ? '' : '' + Math.floor(x.value)
   },
 
   // Unverified: 6, Verified: 6.0
-  hideZeroes10thsRelicTabSpd: (x) => {
+  hideZeroes10thsRelicTabSpd: (x: { value: number; data: Relic }) => {
     if (x.value == 0) return ''
 
     const value = Utils.precisionRound(Math.floor(x.value * 10) / 10)
     return x.data.verified ? value.toFixed(1) : value
   },
 
-  mainValueRenderer: (x) => {
+  mainValueRenderer: (x: { value: number; data: Relic }) => {
     const part = x.data.part
     if (part == Constants.Parts.Hands || part == Constants.Parts.Head) {
       return x.value == 0 ? '' : Math.floor(x.value)
@@ -150,22 +149,18 @@ export const Renderer = {
     return x.value == 0 ? '' : Utils.truncate10ths(x.value)
   },
 
-  hideZeroesX100Tenths: (x) => {
+  hideZeroesX100Tenths: (x: { value: number }) => {
     return x.value == 0 ? '' : Renderer.x100Tenths(x)
   },
 
-  scoreRenderer: (x) => {
-    return Math.round(x.value)
-  },
-
-  hideNaNAndFloor: (x) => {
+  hideNaNAndFloor: (x: { value: number }) => {
     return isNaN(x.value) ? 0 : Math.floor(x.value)
   },
-  hideNaNAndFloorPercent: (x) => {
+  hideNaNAndFloorPercent: (x: { value: number }) => {
     return (isNaN(x.value) ? 0 : Math.floor(x.value)) + '%'
   },
 
-  renderSubstatNumber: (substat, relic) => {
+  renderSubstatNumber: (substat: Stat, relic: Relic) => {
     if (substat.stat == Constants.Stats.SPD) {
       if (relic.verified) {
         return Utils.truncate10ths(substat.value).toFixed(1)
@@ -176,18 +171,18 @@ export const Renderer = {
     return Utils.isFlat(substat.stat) ? Math.floor(substat.value) : Utils.truncate10ths(substat.value).toFixed(1)
   },
 
-  renderMainStatNumber: (mainstat) => {
+  renderMainStatNumber: (mainstat: Stat) => {
     return Utils.isFlat(mainstat.stat) ? Math.floor(mainstat.value) : Utils.truncate10ths(mainstat.value).toFixed(1)
   },
 
-  renderGradeCell: (x) => {
+  renderGradeCell: (x: { data: Relic }) => {
     const relic = x.data
     return Renderer.renderGrade(relic)
   },
-  renderGrade: (relic, string = false) => {
+  renderGrade: (relic: Relic) => {
     const color = gradeToColor[relic.grade] || ''
     return (
-      (string ? relic.verified == 'true' : relic.verified)
+      relic.verified
         ? (
           <Tooltip
             mouseEnterDelay={0.4}
@@ -219,7 +214,7 @@ const gradeToColor = {
   [-1]: '#bdbdbd',
 }
 
-function SetDisplay(props) {
+function SetDisplay(props: { asset: string }) {
   if (props.asset) {
     return (
       <Image src={props.asset} width={32} preview={false}>

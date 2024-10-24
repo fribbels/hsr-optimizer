@@ -1,7 +1,7 @@
 import { Button, Cascader, Flex, Form, Select } from 'antd'
 import { HeaderText } from 'components/HeaderText'
 import { TooltipImage } from 'components/TooltipImage.jsx'
-import { Hint } from 'lib/hint.jsx'
+import { Hint } from 'lib/hint'
 import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants'
 import { Constants, Parts } from 'lib/constants'
 import GenerateSetsOptions from 'components/optimizerTab/optimizerForm/SetsOptions'

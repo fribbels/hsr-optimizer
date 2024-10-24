@@ -1,7 +1,7 @@
 import { Flex } from 'antd'
 import { HeaderText } from 'components/HeaderText'
 import { TooltipImage } from 'components/TooltipImage.jsx'
-import { Hint } from 'lib/hint.jsx'
+import { Hint } from 'lib/hint'
 import FilterRow from 'components/optimizerTab/optimizerForm/FilterRow'
 import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants'
 import { useTranslation } from 'react-i18next'
@@ -29,7 +29,6 @@ export const MinMaxStatFilters = () => {
     </Flex>
   )
 }
-
 
 export const MinMaxRatingFilters = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'MinMaxFilters' })

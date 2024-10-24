@@ -1,7 +1,7 @@
 import { Flex, Form, Select } from 'antd'
 import { HeaderText } from 'components/HeaderText'
 import { TooltipImage } from 'components/TooltipImage.jsx'
-import { Hint } from 'lib/hint.jsx'
+import { Hint } from 'lib/hint'
 import RecommendedPresetsButton from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants'
 import { useEffect, useMemo } from 'react'

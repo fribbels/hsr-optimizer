@@ -1,7 +1,7 @@
 import { Flex } from 'antd'
 import { HeaderText } from 'components/HeaderText'
 import { TooltipImage } from 'components/TooltipImage.jsx'
-import { Hint } from 'lib/hint.jsx'
+import { Hint } from 'lib/hint'
 import { FormStatRollSlider, FormStatRollSliderTopPercent } from 'components/optimizerTab/optimizerForm/FormStatRollSlider.jsx'
 import { Constants } from 'lib/constants'
 import { useTranslation } from 'react-i18next'

@@ -55,6 +55,10 @@ export const TsUtils = {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     return uuidv4()
   },
+
+  stripTrailingSlashes: (str: string) => {
+    return str.replace(/\/+$/, '')
+  },
 }
 
 const getEmptyT = <

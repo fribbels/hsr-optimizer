@@ -142,7 +142,21 @@ export type HsrOptimizerStore = {
 
   optimizerMenuState: Record<string, boolean>
 
-  savedSession: Record<string, any>
+  savedSession: SavedSession
+}
+
+export type SavedSession = {
+  optimizerCharacterId: string | null
+  relicScorerSidebarOpen: boolean
+  scoringType: string
+  combatScoreDetails: string
+  computeEngine: string
+}
+
+export type UserSettings = {
+  RelicEquippingBehavior: string
+  PermutationsSidebarBehavior: string
+  RelicPotentialLoadBehavior: string
 }
 
 // The JSON format we save to localstorage / save file
@@ -153,8 +167,8 @@ export type HsrOptimizerSaveFormat = {
   scoringMetadataOverrides: Record<string, ScoringMetadata>
   optimizerMenuState: Record<string, boolean>
   excludedRelicPotentialCharacters: string[]
-  savedSession: Record<string, any>
-  settings: any
+  savedSession: SavedSession
+  settings: UserSettings
   version: string
   relicLocator: {
     inventoryWidth: number

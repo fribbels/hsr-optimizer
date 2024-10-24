@@ -6,6 +6,7 @@ import { RelicSet } from 'types/RelicSet'
 import { LightConeConditionalMap } from 'types/LightConeConditionals'
 import { CharacterConditionalMap } from 'types/CharacterConditional'
 import { SetsOrnaments } from 'lib/constants'
+import { Simulation } from 'lib/statSimulationController'
 
 type MIN_INT = 0
 type MAX_INT = 2147483647
@@ -54,7 +55,10 @@ export type Form = {
   relicSets: RelicSet[]
   statDisplay: string
   PRIMARY_ELEMENTAL_DMG_TYPE: string
-  statSim?: any
+  statSim?: {
+    key: string
+    simulations: Simulation[]
+  }
   resultSort?: string
   resultsLimit?: number
   path?: string

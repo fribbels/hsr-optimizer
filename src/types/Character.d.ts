@@ -54,10 +54,10 @@ export type Character = {
 }
 
 export type SavedBuild = {
-  build: Build
+  build: string[]
   name: string
   score: {
-    score: number
+    score: string
     rating: string
   }
 }

@@ -15,7 +15,7 @@ import { oldCharacterScoringMetadata } from 'lib/oldCharacterScoringMetadata'
 import i18next from 'i18next'
 import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { Character } from 'types/Character'
-import { Relic } from 'types/Relic'
+import { Relic, Stat } from 'types/Relic'
 import { CustomPortrait, HsrOptimizerSaveFormat, HsrOptimizerStore } from 'types/store'
 import { ScoringMetadata, SimulationMetadata } from 'lib/characterScorer'
 import { Form } from "types/Form";
@@ -539,7 +539,7 @@ export const DB = {
 
     for (const relic of x.relics) {
       RelicAugmenter.augment(relic)
-      const char = charactersById[relic.equippedBy]
+      const char = charactersById[relic.equippedBy!]
       if (char && !char.equipped[relic.part]) {
         char.equipped[relic.part] = relic.id
       } else {
@@ -550,7 +550,8 @@ export const DB = {
 
     if (x.scoringMetadataOverrides) {
       for (const [key, value] of Object.entries(x.scoringMetadataOverrides)) {
-        // Previously the overrides were an array, invalidate the arrays
+        // Migration: previously the overrides were an array, invalidate the arrays
+        // @ts-ignore
         if (value.length) {
           delete x.scoringMetadataOverrides[key]
         }
@@ -703,7 +704,7 @@ export const DB = {
     return found
   },
 
-  saveCharacterPortrait: (characterId, portrait: CustomPortrait) => {
+  saveCharacterPortrait: (characterId: string, portrait: CustomPortrait) => {
     let character = DB.getCharacterById(characterId)
     if (!character) {
       DB.addFromForm({ characterId: characterId } as Form)
@@ -715,7 +716,7 @@ export const DB = {
     console.log('Saved portrait', DB.getState())
   },
 
-  deleteCharacterPortrait: (characterId) => {
+  deleteCharacterPortrait: (characterId: string) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
       console.warn('No character selected')
@@ -726,7 +727,7 @@ export const DB = {
     console.log('Deleted portrait', DB.getState())
   },
 
-  saveCharacterBuild: (name, characterId, score) => {
+  saveCharacterBuild: (name: string, characterId: string, score: { rating: string, score: string }) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
       console.warn('No character selected')
@@ -742,7 +743,7 @@ export const DB = {
       if (!character.builds) character.builds = []
       character.builds.push({
         name: name,
-        build: [...Object.values(character.equipped)],
+        build: [...Object.values(character.equipped)] as string[],
         score: score,
       })
       DB.setCharacter(character)
@@ -817,10 +818,6 @@ export const DB = {
    * Equips the specified relic to the character identified by `characterId`.
    *
    * If the character already has a relic equipped, the relics are swapped.
-   *
-   * @param {Object} relic - The relic to equip.
-   * @param {*} characterId - The ID of the character to equip the relic to.
-   * @returns {void}
    */
   equipRelic: (relic: Relic, characterId: string | undefined, forceSwap = false) => {
     if (!relic || !relic.id) return console.warn('No relic')
@@ -1019,7 +1016,7 @@ export const DB = {
    * These relics have accurate speed values from relic scorer import
    * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
    */
-  mergePartialRelicsWithState: (newRelics: Relic[], sourceCharacters = []) => {
+  mergePartialRelicsWithState: (newRelics: Relic[], sourceCharacters: Character[] = []) => {
     const oldRelics = Utils.clone(DB.getRelics()) || []
     newRelics = Utils.clone(newRelics) || []
 
@@ -1077,7 +1074,7 @@ export const DB = {
 
 export default DB
 
-function findRelicMatch(relic, oldRelics) {
+function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
   // part set grade mainstat substatStats
   const oldRelicPartialHashes = {}
   for (const oldRelic of oldRelics) {
@@ -1131,7 +1128,7 @@ function findRelicMatch(relic, oldRelics) {
   return match
 }
 
-function assignRanks(characters) {
+function assignRanks(characters: Character[]) {
   for (let i = 0; i < characters.length; i++) {
     characters[i].rank = i
   }
@@ -1145,9 +1142,9 @@ function assignRanks(characters) {
   return characters
 }
 
-function hashRelic(relic) {
-  const substatValues = []
-  const substatStats = []
+function hashRelic(relic: Relic) {
+  const substatValues: number[] = []
+  const substatStats: string[] = []
 
   for (const substat of relic.substats) {
     if (Utils.isFlat(substat.stat)) {
@@ -1164,8 +1161,8 @@ function hashRelic(relic) {
     set: relic.set,
     grade: relic.grade,
     enhance: relic.enhance,
-    mainstat: relic.main.stat,
-    mainvalue: Math.floor(relic.main.value),
+    mainStat: relic.main.stat,
+    mainValue: Math.floor(relic.main.value),
     substatValues: substatValues, // Match to 1 decimal point
     substatStats: substatStats,
   }
@@ -1174,9 +1171,9 @@ function hashRelic(relic) {
 }
 
 // -1: old > new, 0: old == new, 1, new > old
-function compareSameTypeSubstat(oldSubstat, newSubstat) {
-  let oldValue
-  let newValue
+function compareSameTypeSubstat(oldSubstat: Stat, newSubstat: Stat) {
+  let oldValue: number
+  let newValue: number
   if (Utils.isFlat(oldSubstat.stat)) {
     // Flat atk/def/hp/spd values we floor to an int
     oldValue = Math.floor(oldSubstat.value)
@@ -1192,12 +1189,12 @@ function compareSameTypeSubstat(oldSubstat, newSubstat) {
   return -1
 }
 
-function partialHashRelic(relic) {
+function partialHashRelic(relic: Relic) {
   const hashObject = {
     part: relic.part,
     set: relic.set,
     grade: relic.grade,
-    mainstat: relic.main.stat,
+    mainStat: relic.main.stat,
   }
 
   return Utils.objectHash(hashObject)
@@ -1205,22 +1202,20 @@ function partialHashRelic(relic) {
 
 /**
  * Sets the provided relic in the application's state.
- *
- * @param {Object} relic - The relic object to set.
  */
-function setRelic(relic) {
+function setRelic(relic: Relic) {
   const relicsById = window.store.getState().relicsById
   relicsById[relic.id] = relic
   window.store.getState().setRelicsById(relicsById)
 }
 
-function deduplicateArray(arr) {
+function deduplicateArray(arr: any[]) {
   if (arr == null) return arr
 
   return [...new Set(arr)]
 }
 
-function indexRelics(arr) {
+function indexRelics(arr: any[]) {
   const length = arr.length
   for (let i = 0; i < length; i++) {
     arr[i].ageIndex = length - i - 1

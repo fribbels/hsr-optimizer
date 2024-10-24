@@ -1,5 +1,5 @@
 import { StatsValues } from 'lib/constants'
-import { AssetRelativeUrl, DataMineId, ExternalPath, InternalPath, Promotions, Rarity } from './Common'
+import { DataMineId } from './Common'
 import { LightConeRanksDescriptions } from './LightConeConditionals'
 import { PreconvertStatKey } from 'lib/characterConverter'
 
@@ -21,17 +21,11 @@ export type LightConeRanks = {
 }
 
 export type LightCone = {
-  desc: string
-  icon: AssetRelativeUrl
   id: string
   name: string
   displayName: string
-  path: InternalPath | ExternalPath
-  portrait: AssetRelativeUrl
-  preview: AssetRelativeUrl
-  promotions: Promotions
-  ranks: LightConeRanks
-  rarity: Rarity
+  path: string
+  rarity: number
   superimpositions: { [key: number]: SuperImposition }
   imageCenter: number
 }

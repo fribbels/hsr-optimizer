@@ -1,5 +1,5 @@
 import { Parts, SetsOrnaments, SetsRelics, StatsValues } from '../lib/constants'
-import { AssetRelativeUrl, DataMineId, Element, ExternalPath, GUID, InternalPath, Promotions, Rarity } from './Common'
+import { GUID } from './Common'
 import { Form } from './Form'
 import { CustomPortrait } from 'types/store'
 
@@ -17,20 +17,13 @@ export type Build = {
 
 // Db.getMetadata().characters
 export type MetadataCharacter = {
-  id: DataMineId
+  id: string
   name: string // "Dan Heng"
-  tag: string // "danheng"
-  rarity: Rarity
-  path: InternalPath | ExternalPath
-  element: Element
+  rarity: number
+  path: string
+  element: string
   max_sp: number
-  ranks: string[]
-  skills: string[]
-  skill_trees: string[]
-  icon: AssetRelativeUrl
-  preview: AssetRelativeUrl
-  portrait: AssetRelativeUrl
-  promotions: Promotions
+  portrait: CustomPortrait
   traces: Traces
   imageCenter: { x: number; y: number }
   displayName: string // injected on hydration

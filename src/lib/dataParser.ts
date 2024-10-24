@@ -13,10 +13,8 @@ const SKILL = 'SKILL'
 const ULT = 'ULT'
 const FUA = 'FUA'
 
-// @ts-expect-error gameData doesn't have all the fields defined in type
-const characters: { [key: string]: MetadataCharacter } = gameData.characters
-// @ts-expect-error gameData doesn't have all the fields defined in type
-const lightCones: { [key: string]: LightCone } = gameData.lightCones
+const characters: Record<string, MetadataCharacter> = gameData.characters as unknown as Record<string, MetadataCharacter>
+const lightCones: Record<string, LightCone> = gameData.lightCones as unknown as Record<string, LightCone>
 
 const RELICS_2P_BREAK_EFFECT_SPEED = [
   Sets.MessengerTraversingHackerspace,
@@ -134,7 +132,9 @@ function getDisplayName(character: MetadataCharacter) {
   return character.name
 }
 
-function getSuperimpositions() {
+type DBMetadataSuperimpositions = Record<number, Record<string, number>>
+
+function getSuperimpositions(): Record<number, DBMetadataSuperimpositions> {
   return {
     20000: {}, // Arrows
     20001: {},
@@ -651,7 +651,7 @@ function getSuperimpositions() {
 }
 
 // Standardized to 450 width
-function getLightConeOverrideCenter() {
+function getLightConeOverrideCenter(): Record<number, number> {
   return {
     20000: 270,
     20001: 220,
@@ -770,7 +770,7 @@ function getLightConeOverrideCenter() {
   }
 }
 
-function getOverrideTraces() {
+function getOverrideTraces(): Record<number, Record<string, number>> {
   return {
     1001: { // March 7th
       [Stats.Ice_DMG]: 0.224,
@@ -1100,7 +1100,7 @@ function getOverrideTraces() {
   }
 }
 
-function getOverrideImageCenter() {
+function getOverrideImageCenter(): Record<number, { x: number; y: number; z: number }> {
   return {
     1001: { // March 7th
       x: 985,
@@ -1837,7 +1837,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.PRISONER_SET,
-        // @ts-expect-error ts doesn't detect that fnAshblazingSet is callable
         PresetEffects.fnAshblazingSet(6),
         PresetEffects.VALOROUS_SET,
       ],
@@ -2132,7 +2131,6 @@ function getScoringMetadata() {
         ],
       },
       presets: [
-        // @ts-expect-error ts doesn't detect that fnAshblazingSet is callable
         PresetEffects.fnAshblazingSet(8),
         PresetEffects.VALOROUS_SET,
       ],
@@ -2620,9 +2618,7 @@ function getScoringMetadata() {
         ],
       },
       presets: [
-        // @ts-expect-error ts doesn't detect that fnAshblazingSet is callable
         PresetEffects.fnAshblazingSet(2),
-        // @ts-expect-error ts doesn't detect that fnSacerdosSet is callable
         PresetEffects.fnSacerdosSet(1),
       ],
       sortOption: SortOption.FUA,
@@ -3193,7 +3189,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.VALOROUS_SET,
-        // @ts-expect-error ts doesn't detect that fnSacerdosSet is callable
         PresetEffects.fnSacerdosSet(2),
       ],
       sortOption: SortOption.BASIC,
@@ -3392,7 +3387,6 @@ function getScoringMetadata() {
         ],
       },
       presets: [
-        // @ts-expect-error ts doesn't detect that fnAshblazingSet is callable
         PresetEffects.fnAshblazingSet(8),
         PresetEffects.VALOROUS_SET,
         PresetEffects.BANANA_SET,
@@ -3501,7 +3495,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.VALOROUS_SET,
-        // @ts-expect-error ts doesn't detect that fnSacerdosSet is callable
         PresetEffects.fnSacerdosSet(1),
       ],
       sortOption: SortOption.BASIC,
@@ -3713,7 +3706,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.WASTELANDER_SET,
-        // @ts-expect-error ts doesn't detect that fnSacerdosSet is callable
         PresetEffects.fnSacerdosSet(1),
       ],
       sortOption: SortOption.ULT,
@@ -3808,7 +3800,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.VALOROUS_SET,
-        // @ts-expect-error ts doesn't detect that fnAshblazingSet is callable
         PresetEffects.fnAshblazingSet(2),
       ],
       sortOption: SortOption.ULT,
@@ -4209,7 +4200,6 @@ function getScoringMetadata() {
         ],
       },
       presets: [
-        // @ts-expect-error ts doesn't detect that fnAshblazingSet is callable
         PresetEffects.fnAshblazingSet(3),
         PresetEffects.VALOROUS_SET,
       ],
@@ -4441,7 +4431,6 @@ function getScoringMetadata() {
         ],
       },
       presets: [
-        // @ts-expect-error ts doesn't detect that fnAshblazingSet is callable
         PresetEffects.fnAshblazingSet(1),
         PresetEffects.VALOROUS_SET,
       ],
@@ -4662,7 +4651,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.BANANA_SET,
-        // @ts-expect-error ts doesn't detect that fnAshblazingSet is callable
         PresetEffects.fnAshblazingSet(6),
         PresetEffects.VALOROUS_SET,
       ],
@@ -4819,7 +4807,6 @@ function getScoringMetadata() {
         ],
       },
       presets: [
-        // @ts-expect-error ts doesn't detect that fnAshblazingSet is callable
         PresetEffects.fnAshblazingSet(2),
         PresetEffects.VALOROUS_SET,
       ],
@@ -5821,7 +5808,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.VALOROUS_SET,
-        // @ts-expect-error ts doesn't detect that fnAshblazingSet is callable
         PresetEffects.fnAshblazingSet(8),
       ],
       sortOption: SortOption.FUA,

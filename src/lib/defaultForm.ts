@@ -1,11 +1,12 @@
-import { CombatBuffs, Constants, DEFAULT_STAT_DISPLAY, Sets } from './constants.ts'
+import { CombatBuffs, Constants, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants'
 import DB from 'lib/db'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
-import { Utils } from './utils.js'
+import { TsUtils } from 'lib/TsUtils'
+import { Form, Teammate } from 'types/Form'
 
-export function getDefaultWeights(characterId) {
+export function getDefaultWeights(characterId?: string) {
   if (characterId) {
-    const scoringMetadata = Utils.clone(DB.getScoringMetadata(characterId))
+    const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
     scoringMetadata.stats.headHands = 0
     scoringMetadata.stats.bodyFeet = 0
     scoringMetadata.stats.sphereRope = 0
@@ -32,7 +33,7 @@ export function getDefaultWeights(characterId) {
   }
 }
 
-export function getDefaultForm(initialCharacter) {
+export function getDefaultForm(initialCharacter: { id: string }) {
   // TODO: Clean this up
   const scoringMetadata = DB.getMetadata().characters[initialCharacter?.id]?.scoringMetadata
   const parts = scoringMetadata?.parts || {}
@@ -41,7 +42,7 @@ export function getDefaultForm(initialCharacter) {
   const combatBuffs = {}
   Object.values(CombatBuffs).map((x) => combatBuffs[x.key] = 0)
 
-  const defaultForm = Utils.clone({
+  const defaultForm: Partial<Form> = TsUtils.clone({
     characterId: initialCharacter?.id,
     mainBody: parts[Constants.Parts.Body] || [],
     mainFeet: parts[Constants.Parts.Feet] || [],
@@ -62,12 +63,12 @@ export function getDefaultForm(initialCharacter) {
     mainHead: [],
     mainHands: [],
     statDisplay: DEFAULT_STAT_DISPLAY,
-    statSim: defaultStatSim,
+    // statSim: defaultStatSim,
     weights: weights,
     setConditionals: defaultSetConditionals,
-    teammate0: defaultTeammate(),
-    teammate1: defaultTeammate(),
-    teammate2: defaultTeammate(),
+    teammate0: defaultTeammate() as Teammate,
+    teammate1: defaultTeammate() as Teammate,
+    teammate2: defaultTeammate() as Teammate,
     resultSort: scoringMetadata?.sortOption.key,
     resultsLimit: 1024,
     combatBuffs: combatBuffs,
@@ -86,8 +87,8 @@ export function getDefaultForm(initialCharacter) {
   // Disable elemental conditions by default if the character is not of the same element
   const element = DB.getMetadata().characters[initialCharacter?.id]?.element
   if (element) {
-    defaultForm.setConditionals[Sets.GeniusOfBrilliantStars][1] = element === 'Quantum'
-    defaultForm.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = element === 'Fire'
+    defaultForm.setConditionals![Sets.GeniusOfBrilliantStars][1] = element === 'Quantum'
+    defaultForm.setConditionals![Sets.ForgeOfTheKalpagniLantern][1] = element === 'Fire'
   }
 
   // TODO: very gross, dedupe
@@ -108,11 +109,13 @@ export function getDefaultForm(initialCharacter) {
 }
 
 export function defaultTeammate() {
-  return {
-    characterId: null,
+  const teammate: Partial<Teammate> = {
+    characterId: undefined,
     characterEidolon: 0,
+    lightCone: undefined,
     lightConeSuperimposition: 1,
   }
+  return teammate
 }
 
 export const defaultStatSim = {

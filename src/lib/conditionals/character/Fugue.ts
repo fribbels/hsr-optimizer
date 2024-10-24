@@ -69,7 +69,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       text: 'E4 vulnerability',
       title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 4
+      disabled: e < 4,
     },
     {
       formItem: 'switch',
@@ -78,7 +78,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       text: 'E6 break efficiency boost',
       title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 6
+      disabled: e < 6,
     },
   ]
 
@@ -92,12 +92,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const defaults = {
     torridScorch: true,
-    foxianPrayer: true,
+    foxianPrayer: false,
     weaknessBreakBeStacks: 2,
     defReduction: true,
     superBreakDmg: true,
     e4Vulnerability: true,
-    e6BreakEfficiency: true
+    e6BreakEfficiency: true,
   }
 
   const teammateDefaults = {

@@ -30,14 +30,16 @@ import { AgGridReact } from 'ag-grid-react'
 import { DispatchWithoutAction, RefObject } from 'react'
 import { Hero } from './types/calc'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
-import { ColorTheme } from 'lib/theme.ts'
+import { ColorThemeOverrides } from 'lib/theme.ts'
+import { HookAPI } from 'antd/lib/modal/useModal'
 
 declare global {
   interface Window {
     notificationApi: NotificationInstance
     messageApi: MessageInstance
+    modalApi: HookAPI
     store: UseBoundStore<StoreApi<HsrOptimizerStore>>
-    colorTheme: ColorTheme
+    colorTheme: ColorThemeOverrides
 
     characterGrid: RefObject<AgGridReact<Character>>
     relicsGrid: RefObject<AgGridReact<Relic>>

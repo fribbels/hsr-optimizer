@@ -1,26 +1,28 @@
 import React, { useEffect } from 'react'
 import { ConfigProvider, Layout, message, Modal, notification, theme } from 'antd'
 import Tabs from 'components/Tabs'
-import { LayoutHeader } from 'components/LayoutHeader.tsx'
-import { LayoutSider } from 'components/LayoutSider.tsx'
+import { LayoutHeader } from 'components/LayoutHeader'
+import { LayoutSider } from 'components/LayoutSider'
 import { SettingsDrawer } from 'components/SettingsDrawer'
 import { checkForUpdatesNotification } from 'lib/notifications'
+import { Gradient } from 'lib/gradient'
+import DB from 'lib/db'
 import { useTranslation } from 'react-i18next'
 
-const { useToken, getDesignToken } = theme
+const { getDesignToken } = theme
 const { Content } = Layout
 
 const App = () => {
   const [messageApi, messageContextHolder] = message.useMessage()
   const [notificationApi, notificationContextHolder] = notification.useNotification()
   const [modalApi, modalContextHolder] = Modal.useModal()
-  const { t, i18n } = useTranslation()
+  const { i18n } = useTranslation()
 
   window.messageApi = messageApi
   window.notificationApi = notificationApi
   window.modalApi = modalApi
 
-  const colorTheme = store((s) => s.colorTheme)
+  const colorTheme = window.store((s) => s.colorTheme)
   useEffect(() => {
     Gradient.setToken(getDesignToken({
       token: colorTheme,
@@ -55,7 +57,7 @@ const App = () => {
             dropdownHeight: 700,
             controlItemWidth: 100,
             controlWidth: 100,
-            optionPadding: '2px 12px'
+            optionPadding: '2px 12px',
           },
 
           Collapse: {
@@ -135,8 +137,6 @@ const App = () => {
 
 export default function WrappedApp() {
   return (
-    // <Suspense fallback='...loading'> i18next strongly recommends using a suspense, seeing if we can get away with not using one
     <App/>
-    // </Suspense>
   )
 }

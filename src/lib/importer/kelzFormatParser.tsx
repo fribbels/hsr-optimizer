@@ -1,6 +1,6 @@
 import stringSimilarity from 'string-similarity'
 import { Constants, Parts, Sets } from '../constants'
-import { RelicAugmenter } from '../relicAugmenter'
+import { RelicAugmenter } from 'lib/relicAugmenter'
 
 import gameData from 'data/game_data.json'
 import DB from 'lib/db'
@@ -20,41 +20,41 @@ const relicSetMatchData = Object.entries(Sets).map(([setKey, setName]) => {
   return {
     setKey: setKey,
     setName: setName,
-    lowerAlphaNumericMatcher: lowerAlphaNumeric(setName)
+    lowerAlphaNumericMatcher: lowerAlphaNumeric(setName),
   }
 })
 
 type V4ParserLightCone = {
-  id: string,
-  name: string,
-  level: number,
-  ascension: number,
-  superimposition: number,
-  location: string,
-  lock: boolean,
+  id: string
+  name: string
+  level: number
+  ascension: number
+  superimposition: number
+  location: string
+  lock: boolean
   _uid: string
 }
 
 type V4ParserCharacter = {
-  id: string,
-  name: string,
-  path: string,
-  level: number,
-  ascension: number,
-  eidolon: number,
+  id: string
+  name: string
+  path: string
+  level: number
+  ascension: number
+  eidolon: number
 }
 
 type V4ParserRelic = {
-  set_id: string,
-  name: string,
-  slot: string,
-  rarity: number,
-  level: number,
-  mainstat: string,
-  substats: { key: string, value: number }[],
-  location: string,
-  lock: boolean,
-  discard: boolean,
+  set_id: string
+  name: string
+  slot: string
+  rarity: number
+  level: number
+  mainstat: string
+  substats: { key: string; value: number }[]
+  location: string
+  lock: boolean
+  discard: boolean
   _uid: string
 }
 
@@ -104,7 +104,7 @@ export class KelzFormatParser { // TODO abstract class
         <Text>
           Your scanner version is out of date and may result in incorrect imports! Please update to the latest version from Github:
           {' '}
-          <a target="_blank" style={{ color: '#3f8eff' }} href={this.config.releases} rel="noreferrer">{this.config.releases}</a>
+          <a target='_blank' style={{ color: '#3f8eff' }} href={this.config.releases} rel='noreferrer'>{this.config.releases}</a>
         </Text>
       ), 15)
     }
@@ -122,7 +122,7 @@ export class KelzFormatParser { // TODO abstract class
         <Text>
           {`Your scanner version ${buildVersion} is out of date and may result in incorrect imports! Please update to the latest version from Github:`}
           {' '}
-          <a target="_blank" style={{ color: '#3f8eff' }} href={this.config.releases} rel="noreferrer">{this.config.releases}</a>
+          <a target='_blank' style={{ color: '#3f8eff' }} href={this.config.releases} rel='noreferrer'>{this.config.releases}</a>
         </Text>
       ), 15)
     }
@@ -176,7 +176,7 @@ function readCharacterV3(character: V4ParserCharacter & { key: string }, lightCo
   if (lightCones) {
     if (character.key.startsWith('Trailblazer')) {
       lightCone = lightCones.find((x) => x.location === character.key)
-        || lightCones.find((x) => x.location.startsWith('Trailblazer'))
+      || lightCones.find((x) => x.location.startsWith('Trailblazer'))
     } else {
       lightCone = lightCones.find((x) => x.location === character.key)
     }
@@ -239,7 +239,6 @@ function readRelicV3(relic, trailblazer, path, config) {
 }
 
 // ================================================== V4 ==================================================
-
 
 function readCharacterV4(character: V4ParserCharacter, lightCones: V4ParserLightCone[]) {
   let lightCone: V4ParserLightCone | undefined
@@ -309,7 +308,6 @@ type Affixes = {
   base: number
   step: number
 }
-
 
 function readRelicStats(relic, part, grade, enhance) {
   let mainStat

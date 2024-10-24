@@ -1,12 +1,20 @@
-import { Constants } from './constants.ts'
-import { RelicRollFixer } from './relicRollFixer'
-import { Utils } from './utils'
+import { Constants } from 'lib/constants'
+import { RelicRollFixer } from 'lib/relicRollFixer'
+import { Utils } from 'lib/utils'
 import { RelicRollGrader } from 'lib/relicRollGrader'
+import { Relic } from 'types/Relic'
+
+export type AugmentedStats = {
+  [key: string]: number
+} & {
+  mainStat: string
+  mainValue: number
+}
 
 export const RelicAugmenter = {
-  augment: function (relic) {
+  augment: function (relic: Relic) {
     // console.log('Augmenting relic', relic)
-    const augmentedStats = {}
+    const augmentedStats: AugmentedStats = {} as AugmentedStats
 
     // Temporarily skip broken imports
     if (relic.grade && !relic.main) {
@@ -60,22 +68,24 @@ const substatToOrder = {
 }
 
 // Relic substats are always sorted in the predefined order above when the user logs out.
-function sortSubstats(relic) {
+function sortSubstats(relic: Relic) {
   relic.substats = relic.substats.sort((a, b) => substatToOrder[a.stat] - substatToOrder[b.stat])
 }
 
 // Changes the augmented stats percents to decimals
-function fixAugmentedStats(relics) {
-  return relics.map((x) => {
+function fixAugmentedStats(relics: Relic[]) {
+  return relics.map((relic) => {
     for (const stat of Object.values(Constants.Stats)) {
-      x.augmentedStats[stat] = x.augmentedStats[stat] || 0
+      if (!relic.augmentedStats) continue
+
+      relic.augmentedStats[stat] = relic.augmentedStats[stat] || 0
       if (!Utils.isFlat(stat)) {
-        if (x.augmentedStats.mainStat == stat) {
-          x.augmentedStats.mainValue = x.augmentedStats.mainValue / 100
+        if (relic.augmentedStats.mainStat == stat) {
+          relic.augmentedStats.mainValue = relic.augmentedStats.mainValue / 100
         }
-        x.augmentedStats[stat] = x.augmentedStats[stat] / 100
+        relic.augmentedStats[stat] = relic.augmentedStats[stat] / 100
       }
     }
-    return x
+    return relic
   })
 }

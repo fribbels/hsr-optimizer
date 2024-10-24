@@ -1,5 +1,6 @@
-import { Constants, SubStatValues } from './constants.ts'
+import { Constants, SubStatValues } from 'lib/constants'
 import { Utils } from './utils'
+import { Relic } from 'types/Relic'
 
 const maxedMainStats = {
   [Constants.Stats.SPD]: [7.613, 11.419, 16.426, 25.032],
@@ -24,7 +25,7 @@ const maxedMainStats = {
 }
 
 export const StatCalculator = {
-  getMaxedSubstatValue: (stat, quality = 1) => {
+  getMaxedSubstatValue: (stat: string, quality = 1) => {
     if (quality == 0.8) {
       return Utils.precisionRound(SubStatValues[stat][5].low)
     }
@@ -33,7 +34,7 @@ export const StatCalculator = {
     }
     return Utils.precisionRound(SubStatValues[stat][5].high)
   },
-  getMaxedStatValue: (stat) => {
+  getMaxedStatValue: (stat: string) => {
     if (stat === 'NONE') { // Fake stat for relic scoring
       return 0
     }
@@ -41,14 +42,14 @@ export const StatCalculator = {
     return Utils.precisionRound(maxedMainStats[stat][3] / scaling)
   },
 
-  getMaxedMainStat: (relic) => {
+  getMaxedMainStat: (relic: Relic) => {
     return maxedMainStats[relic.main.stat][relic.grade - 2]
   },
 
-  calculateCv: (relics) => {
+  calculateCv: (relics: Relic[]) => {
     let total = 0
     for (const relic of relics) {
-      if (!relic || !relic.condensedStats) continue
+      if (!relic?.condensedStats) continue
       for (const condensedStat of relic.condensedStats) {
         if (condensedStat[0] == Constants.Stats.CD) {
           total += condensedStat[1]

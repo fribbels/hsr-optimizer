@@ -43,6 +43,12 @@ export const TsUtils = {
         : getEmptyT,
     }
   },
+
+  flipStringMapping: (obj: Record<string, string>): Record<string, string> => {
+    return Object.fromEntries(
+      Object.entries(obj).map(([key, value]) => [value, key]),
+    )
+  },
 }
 
 const getEmptyT = <

@@ -45,6 +45,7 @@ const config = tseslint.config(
       // As we're migrating to TS these make the process easier
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/ban-ts-comment': 'off',
     },
   },
   {

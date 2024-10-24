@@ -58,6 +58,7 @@ export type Form = {
   resultSort?: string
   resultsLimit?: number
   path?: string
+  resultMinFilter: number
 
   weights: {
     [key: string]: number

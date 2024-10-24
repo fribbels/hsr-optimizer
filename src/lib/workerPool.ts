@@ -1,16 +1,45 @@
 import { BufferPacker } from 'lib/bufferPacker'
 import { Constants } from 'lib/constants'
 import OptimizerWorker from 'lib/worker/optimizerWorker.ts?worker&inline'
+import { OptimizerContext } from 'types/Optimizer'
+import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { Form } from 'types/Form'
 
 // const poolSize = 10
 const poolSize = Math.min(8, Math.max(1, (navigator.hardwareConcurrency || 4) - 1))
 let initializedWorkers = 0
 console.log('Using pool size ' + poolSize)
 
+type WorkerTaskWrapper = {
+  task: WorkerTask
+  callback: (result: WorkerResult) => void
+}
+
+type WorkerTask = {
+  getMinFilter: () => number
+  input: {
+    WIDTH: number
+    context: OptimizerContext
+    isFirefox: boolean
+    ornamentSetSolutions: number[]
+    permutations: number
+    relicSetSolutions: number[]
+    relics: RelicsByPart
+    request: Form
+    skip: number
+    buffer: ArrayBuffer
+  }
+  attempts: number
+}
+
+type WorkerResult = {
+  buffer: ArrayBuffer
+}
+
 // Reuse workers and buffers
-const workers = []
-const buffers = []
-let taskQueue = []
+const workers: Worker[] = []
+const buffers: ArrayBuffer[] = []
+let taskQueue: WorkerTaskWrapper[] = []
 const taskStatus = {}
 
 export const WorkerPool = {
@@ -33,26 +62,26 @@ export const WorkerPool = {
 
   nextTask: () => {
     if (taskQueue.length == 0) return
-    const { task, callback } = taskQueue.shift()
+    const { task, callback } = taskQueue.shift()!
     WorkerPool.execute(task, callback)
   },
 
-  execute: (task, callback, id) => {
-    if (taskStatus[id] == undefined) taskStatus[id] = true
-    if (taskStatus[id] == false) return
+  execute: (task: WorkerTask, callback: (result: WorkerResult) => void) => {
+    // if (taskStatus[id] == undefined) taskStatus[id] = true
+    // if (taskStatus[id] == false) return
 
-    // Dont keep looping if a task keeps failing
+    // Don't keep looping if a task keeps failing
     if (task.attempts == undefined) task.attempts = 0
     if (task.attempts > 10) return console.log('Too many failures, abandoning task')
 
     WorkerPool.initializeWorker()
 
     if (workers.length > 0) {
-      const worker = workers.shift()
+      const worker = workers.shift()!
 
-      let buffer
+      let buffer: ArrayBuffer
       if (buffers.length > 0) {
-        buffer = buffers.pop()
+        buffer = buffers.pop()!
         BufferPacker.cleanFloatBuffer(buffer)
       } else {
         buffer = BufferPacker.createFloatBuffer(Constants.THREAD_BUFFER_LENGTH)
@@ -60,7 +89,7 @@ export const WorkerPool = {
 
       task.input.buffer = buffer
 
-      worker.onmessage = (message) => {
+      worker.onmessage = (message: { data: WorkerResult }) => {
         // Queue up task before operating on the callback
         workers.push(worker)
         WorkerPool.nextTask()
@@ -94,7 +123,7 @@ export const WorkerPool = {
     }
   },
 
-  cancel: (id) => {
+  cancel: (id: string) => {
     taskStatus[id] = false
     taskQueue = []
   },

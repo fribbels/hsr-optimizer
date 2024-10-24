@@ -58,6 +58,8 @@ declare global {
     forceCharacterTabUpdate: DispatchWithoutAction
     refreshRelicsScore: DispatchWithoutAction
 
+    rescoreSingleRelic: (relic: Relic) => void
+
     WorkerPool: typeof WorkerPool
     Constants: typeof Constants
     DataParser: typeof DataParser

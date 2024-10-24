@@ -1,6 +1,38 @@
 // This file tracks the mapping between various stat property references between the optimizer / worker / grid / buffer packer
 // This sucks - clean up the discrepancies eventually
-export const SortOption = {
+
+export type SortOptionProperties = {
+  key: string
+  gpuProperty: string
+  basicProperty: string
+  combatProperty: string
+  basicGridColumn: string
+  combatGridColumn: string
+  isComputedRating?: boolean
+}
+
+export const SortOption: {
+  ATK: SortOptionProperties
+  DEF: SortOptionProperties
+  HP: SortOptionProperties
+  SPD: SortOptionProperties
+  CR: SortOptionProperties
+  CD: SortOptionProperties
+  EHR: SortOptionProperties
+  RES: SortOptionProperties
+  BE: SortOptionProperties
+  OHB: SortOptionProperties
+  ERR: SortOptionProperties
+  ELEMENTAL_DMG: SortOptionProperties
+  EHP: SortOptionProperties
+  BASIC: SortOptionProperties
+  SKILL: SortOptionProperties
+  ULT: SortOptionProperties
+  FUA: SortOptionProperties
+  DOT: SortOptionProperties
+  BREAK: SortOptionProperties
+  COMBO: SortOptionProperties
+} = {
   ATK: {
     key: 'ATK',
     gpuProperty: 'ATK',

@@ -2,7 +2,6 @@
 import { RelicEnhance, RelicGrade } from 'types/Relic'
 import { CharacterId, Eidolon } from 'types/Character'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { RelicSet } from 'types/RelicSet'
 import { LightConeConditionalMap } from 'types/LightConeConditionals'
 import { CharacterConditionalMap } from 'types/CharacterConditional'
 import { SetsOrnaments } from 'lib/constants'
@@ -52,7 +51,7 @@ export type Form = {
   ornamentSets: SetsOrnaments[]
   mainStatUpscaleLevel: number
   rankFilter: boolean
-  relicSets: RelicSet[]
+  relicSets: [pieces: string, set: string][]
   statDisplay: string
   PRIMARY_ELEMENTAL_DMG_TYPE: string
   statSim?: {

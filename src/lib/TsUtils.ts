@@ -1,5 +1,4 @@
 import { Constants, MainStats } from './constants'
-import { RelicEnhance, RelicGrade } from 'types/Relic'
 import stringify from 'json-stable-stringify'
 import i18next, { DefaultNamespace, KeyPrefix, Namespace, TFunction } from 'i18next'
 import { v4 as uuidv4 } from 'uuid'
@@ -29,8 +28,8 @@ export const TsUtils = {
 
   calculateRelicMainStatValue: (
     mainStatType: MainStats,
-    grade: RelicGrade,
-    enhance: RelicEnhance,
+    grade: number,
+    enhance: number,
   ): number => {
     return Constants.MainStatsValues[mainStatType][grade].base
       + Constants.MainStatsValues[mainStatType][grade].increment * enhance

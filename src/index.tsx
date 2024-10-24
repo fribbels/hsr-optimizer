@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom/client'
 import { ErrorBoundary } from 'react-error-boundary'
 import 'style/style.css'
 import 'style/hsro.css'
-import WrappedApp from './App'
+import WrappedApp from 'App'
 import 'lib/i18n'
 
 import { WorkerPool } from 'lib/workerPool'
@@ -54,10 +54,12 @@ DataParser.parse()
 SaveState.load(false)
 void verifyWebgpuSupport(false)
 
-const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
+const defaultErrorRender = ({ error }: { error: { message: string } }) => (
+  <Typography>Something went wrong: {error.message}</Typography>
+)
 
 document.addEventListener('DOMContentLoaded', function () {
-  const root = ReactDOM.createRoot(document.getElementById('root'))
+  const root = ReactDOM.createRoot(document.getElementById('root')!)
 
   OverlayScrollbars(document.body, {})
 

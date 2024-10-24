@@ -1225,13 +1225,13 @@ function setRelic(relic: Relic) {
   window.store.getState().setRelicsById(relicsById)
 }
 
-function deduplicateArray(arr: any[]) {
+function deduplicateArray<T>(arr: T[] | null | undefined): T[] | null | undefined {
   if (arr == null) return arr
 
   return [...new Set(arr)]
 }
 
-function indexRelics(arr: any[]) {
+function indexRelics(arr: Relic[]) {
   const length = arr.length
   for (let i = 0; i < length; i++) {
     arr[i].ageIndex = length - i - 1

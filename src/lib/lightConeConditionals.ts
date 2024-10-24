@@ -113,8 +113,12 @@ import NinjaRecordSoundHunt from 'lib/conditionals/lightcone/4star/NinjaRecordSo
 import DreamsMontage from 'lib/conditionals/lightcone/4star/DreamsMontage'
 import LongRoadLeadsHome from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
 import AGroundedAscent from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { LightConeConditional } from 'types/LightConeConditionals'
+import { SuperImpositionLevel } from 'types/LightCone'
 
-const fiveStar = {
+export type LightConeFunction = (s: SuperImpositionLevel, withContent: boolean) => LightConeConditional
+
+const fiveStar: Record<string, LightConeFunction> = {
   23000: NightOnTheMilkyWay,
   23001: InTheNight,
   23002: SomethingIrreplaceable,
@@ -159,7 +163,7 @@ const fiveStar = {
   24004: EternalCalculus,
 }
 
-const fourStar = {
+const fourStar: Record<string, LightConeFunction> = {
   21000: PostOpConversation,
   21001: GoodNightAndSleepWell,
   21002: DayOneOfMyNewLife,
@@ -216,7 +220,7 @@ const fourStar = {
   22003: NinjaRecordSoundHunt,
 }
 
-const threeStar = {
+const threeStar: Record<string, LightConeFunction> = {
   20000: Arrows,
   20001: Cornucopia,
   20002: CollapsingSky,
@@ -240,14 +244,14 @@ const threeStar = {
   20020: Sagacity,
 }
 
-export const lightConeOptionMapping = {
+export const lightConeOptionMapping: Record<string, LightConeFunction> = {
   ...fiveStar,
   ...fourStar,
   ...threeStar,
 }
 
 export const LightConeConditionals = {
-  get: (request, withContent = false) => {
+  get: (request: { lightCone: string; lightConeSuperimposition: number }, withContent = false) => {
     const lcFn = lightConeOptionMapping[request.lightCone]
     if (!lcFn) {
       return {

@@ -11,7 +11,7 @@ import { CharacterConditionalDisplay } from 'components/optimizerTab/conditional
 import { LightConeConditionalDisplay } from 'components/optimizerTab/conditionals/LightConeConditionalDisplay'
 import DB from 'lib/db'
 import { Character } from 'types/Character'
-import { Message } from 'lib/message.js'
+import { Message } from 'lib/message'
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 import { useTranslation } from 'react-i18next'

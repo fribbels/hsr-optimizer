@@ -1,6 +1,6 @@
 import { inPlaceSort } from 'fast-sort'
 import DB from 'lib/db'
-import { Message } from './message'
+import { Message } from 'lib/message'
 import { SaveState } from 'lib/saveState'
 import { CombatBuffs, ConditionalDataType, Constants, DamageKeys, DEFAULT_STAT_DISPLAY } from './constants.ts'
 import { Utils } from './utils'
@@ -198,7 +198,7 @@ export const OptimizerTabController = {
 
         // fast clickers can race unmount/remount and cause NPE here.
         if (window?.optimizerGrid?.current?.api) {
-          window.optimizerGrid.current.api.setGridOption("loading", true)
+          window.optimizerGrid.current.api.setGridOption('loading', true)
         }
 
         // Give it time to show the loading page before we block
@@ -226,7 +226,7 @@ export const OptimizerTabController = {
 
           // cannot assume a fast click race-condition didn't happen
           if (window?.optimizerGrid?.current?.api) {
-            window.optimizerGrid.current.api.setGridOption("loading", false)
+            window.optimizerGrid.current.api.setGridOption('loading', false)
           }
           OptimizerTabController.redrawRows()
         })

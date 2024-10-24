@@ -140,7 +140,7 @@ export const Assets = {
     return getImageUrl(`/misc/changelog/${path}`)
   },
 
-  getSetImage: (set: string, part: string, actualIcon: boolean = false) => {
+  getSetImage: (set: string | number, part: string, actualIcon: boolean = false) => {
     if (set == -1) {
       return Assets.getBlank()
     }

@@ -1,4 +1,4 @@
-import { Assets } from 'lib/assets.js'
+import { Assets } from 'lib/assets'
 
 const parentW = 233
 const parentH = 350
@@ -14,7 +14,9 @@ export const OptimizerTabCharacterPanel = () => {
         width={innerW}
         src={Assets.getCharacterPreviewById(optimizerTabFocusCharacter)}
         style={{ transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)`, cursor: 'pointer' }}
-        onClick={() => { window.store.getState().setOptimizerTabFocusCharacterSelectModalOpen(true) }}
+        onClick={() => {
+          window.store.getState().setOptimizerTabFocusCharacterSelectModalOpen(true)
+        }}
       />
     </div>
   )

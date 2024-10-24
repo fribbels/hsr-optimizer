@@ -1,11 +1,12 @@
 // import { } from "./Common";
-import { Relic, RelicEnhance, RelicGrade } from 'types/Relic'
+import { RelicEnhance, RelicGrade } from 'types/Relic'
 import { CharacterId, Eidolon } from 'types/Character'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { RelicSet } from 'types/RelicSet'
 import { LightConeConditionalMap } from 'types/LightConeConditionals'
 import { CharacterConditionalMap } from 'types/CharacterConditional'
 import { SetsOrnaments } from 'lib/constants'
+import { Simulation } from 'lib/statSimulationController'
 
 type MIN_INT = 0
 type MAX_INT = 2147483647
@@ -42,22 +43,26 @@ export type Form = {
   lightConeConditionals: LightConeConditionalMap
   lightConeLevel: number
   lightConeSuperimposition: SuperImpositionLevel
-  mainBody: Relic[]
-  mainFeet: Relic[]
-  mainHands: Relic[]
-  mainHead: Relic[]
-  mainLinkRope: Relic[]
-  mainPlanarSphere: Relic[]
+  mainBody: string[]
+  mainFeet: string[]
+  mainHands: string[]
+  mainHead: string[]
+  mainLinkRope: string[]
+  mainPlanarSphere: string[]
   ornamentSets: SetsOrnaments[]
   mainStatUpscaleLevel: number
   rankFilter: boolean
   relicSets: RelicSet[]
   statDisplay: string
   PRIMARY_ELEMENTAL_DMG_TYPE: string
-  statSim?: any
+  statSim?: {
+    key: string
+    simulations: Simulation[]
+  }
   resultSort?: string
   resultsLimit?: number
   path?: string
+  resultMinFilter: number
 
   weights: {
     [key: string]: number
@@ -82,49 +87,47 @@ export type Form = {
   teammate1: Teammate
   teammate2: Teammate
 
-
-
   baseHp: number
   baseAtk: number
   baseDef: number
   baseSpd: number
 
-  maxAtk: MAX_INT
-  maxBasic: MAX_INT
-  maxBe: MAX_INT
-  maxCd: MAX_INT
-  maxCr: MAX_INT
-  maxDef: MAX_INT
-  maxDmg: MAX_INT
-  maxDot: MAX_INT
-  maxBreak: MAX_INT
-  maxEhp: MAX_INT
-  maxEhr: MAX_INT
-  maxErr: MAX_INT
-  maxFua: MAX_INT
-  maxHp: MAX_INT
-  maxMcd: MAX_INT
-  maxRes: MAX_INT
-  maxSkill: MAX_INT
-  maxSpd: MAX_INT
-  maxUlt: MAX_INT
-  minAtk: MIN_INT
-  minBasic: MIN_INT
-  minBe: MIN_INT
-  minCd: MIN_INT
-  minCr: MIN_INT
-  minDef: MIN_INT
-  minDmg: MIN_INT
-  minDot: MIN_INT
-  minBreak: MIN_INT
-  minEhp: MIN_INT
-  minEhr: MIN_INT
-  minErr: MIN_INT
-  minFua: MIN_INT
-  minHp: MIN_INT
-  minMcd: MIN_INT
-  minRes: MIN_INT
-  minSkill: MIN_INT
-  minSpd: MIN_INT
-  minUlt: MIN_INT
+  maxAtk: number
+  maxBasic: number
+  maxBe: number
+  maxCd: number
+  maxCr: number
+  maxDef: number
+  maxDmg: number
+  maxDot: number
+  maxBreak: number
+  maxEhp: number
+  maxEhr: number
+  maxErr: number
+  maxFua: number
+  maxHp: number
+  maxMcd: number
+  maxRes: number
+  maxSkill: number
+  maxSpd: number
+  maxUlt: number
+  minAtk: number
+  minBasic: number
+  minBe: number
+  minCd: number
+  minCr: number
+  minDef: number
+  minDmg: number
+  minDot: number
+  minBreak: number
+  minEhp: number
+  minEhr: number
+  minErr: number
+  minFua: number
+  minHp: number
+  minMcd: number
+  minRes: number
+  minSkill: number
+  minSpd: number
+  minUlt: number
 }

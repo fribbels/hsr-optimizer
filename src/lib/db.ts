@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { COMPUTE_ENGINE_GPU_STABLE, Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants'
+import { COMPUTE_ENGINE_GPU_STABLE, Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, Sets, SIMULATION_SCORE } from 'lib/constants'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
@@ -16,7 +16,7 @@ import i18next from 'i18next'
 import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { Character } from 'types/Character'
 import { Relic, Stat } from 'types/Relic'
-import { CustomPortrait, HsrOptimizerSaveFormat, HsrOptimizerStore } from 'types/store'
+import { CustomPortrait, HsrOptimizerSaveFormat, HsrOptimizerStore, SavedSession } from 'types/store'
 import { ScoringMetadata, SimulationMetadata } from 'lib/characterScorer'
 import { Form } from 'types/Form'
 import { TsUtils } from 'lib/TsUtils'
@@ -75,7 +75,7 @@ export const RouteToPage = {
 // Nonreactive usage
 // store.getState().setRelicsById(relicsById)
 
-const savedSessionDefaults = {
+const savedSessionDefaults: SavedSession = {
   [SavedSessionKeys.optimizerCharacterId]: null,
   [SavedSessionKeys.relicScorerSidebarOpen]: true,
   [SavedSessionKeys.scoringType]: SIMULATION_SCORE,
@@ -100,8 +100,8 @@ window.store = create((set) => {
     inventoryWidth: 9,
     rowLimit: 10,
 
-    activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)]
-      ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash.split('?')[0]]
+    activeKey: RouteToPage[TsUtils.stripTrailingSlashes(window.location.pathname)]
+      ? RouteToPage[TsUtils.stripTrailingSlashes(window.location.pathname) + window.location.hash.split('?')[0]]
       : AppPages.OPTIMIZER,
     characters: [],
     charactersById: {},
@@ -314,10 +314,10 @@ export type DBMetadata = {
 
 export const DB = {
   getMetadata: () => state.metadata,
-  setMetadata: (x) => state.metadata = x,
+  setMetadata: (metadata: DBMetadata) => state.metadata = metadata,
 
   getCharacters: () => window.store.getState().characters,
-  getCharacterById: (id) => window.store.getState().charactersById[id],
+  getCharacterById: (id: string) => window.store.getState().charactersById[id],
 
   setCharacters: (characters: Character[]) => {
     const charactersById: Record<string, Character> = {}
@@ -330,15 +330,15 @@ export const DB = {
     window.store.getState().setCharacters(newCharacterArray)
     window.store.getState().setCharactersById(charactersById)
   },
-  setCharacter: (x) => {
+  setCharacter: (character: Character) => {
     const charactersById = window.store.getState().charactersById
-    charactersById[x.id] = x
+    charactersById[character.id] = character
 
     window.store.getState().setCharactersById(charactersById)
   },
-  addCharacter: (x) => {
+  addCharacter: (character: Character) => {
     const characters = DB.getCharacters()
-    characters.push(x)
+    characters.push(character)
     DB.setCharacters(characters)
   },
   insertCharacter: (id: string, index: number) => {
@@ -419,7 +419,7 @@ export const DB = {
     const defaultScoringMetadata = dbMetadata.characters[id].scoringMetadata
     const scoringMetadataOverrides = window.store.getState().scoringMetadataOverrides
     const override = scoringMetadataOverrides[id]
-    const returnScoringMetadata = Utils.mergeUndefinedValues(override || {}, defaultScoringMetadata)
+    const returnScoringMetadata = Utils.mergeUndefinedValues(override || {}, defaultScoringMetadata) as ScoringMetadata
 
     // POST MIGRATION UNCOMMENT
     // if (scoringMetadataOverrides && scoringMetadataOverrides.modified) {
@@ -449,6 +449,8 @@ export const DB = {
     }
 
     // We don't want to carry over presets, use the optimizer defined ones
+    // TODO: What does this do
+    // @ts-ignore
     delete returnScoringMetadata.presets
 
     return returnScoringMetadata
@@ -484,21 +486,21 @@ export const DB = {
     SaveState.delayedSave()
   },
 
-  setStore: (x: HsrOptimizerSaveFormat, autosave = true) => {
-    const charactersById = {}
+  setStore: (saveData: HsrOptimizerSaveFormat, autosave = true) => {
+    const charactersById: Record<string, Character> = {}
     const dbCharacters = DB.getMetadata().characters
     const dbLightCones = DB.getMetadata().lightCones
 
     // Remove invalid characters
-    x.characters = x.characters.filter((x) => dbCharacters[x.id])
+    saveData.characters = saveData.characters.filter((x) => dbCharacters[x.id])
 
-    for (const character of x.characters) {
+    for (const character of saveData.characters) {
       character.equipped = {}
       charactersById[character.id] = character
 
       // Previously sim requests didn't use the stats field
       if (character.form?.statSim?.simulations) {
-        character.form.statSim.simulations = character.form.statSim.simulations.filter((x) => x.request?.stats)
+        character.form.statSim.simulations = character.form.statSim.simulations.filter((simulation) => simulation.request?.stats)
       }
 
       // Previously characters had customizable options, now we're defaulting to 80s
@@ -508,14 +510,6 @@ export const DB = {
       // Previously there was a weight sort which is now removed, arbitrarily replaced with SPD if the user had used it
       if (character.form.resultSort === 'WEIGHT') {
         character.form.resultSort = 'SPD'
-      }
-
-      // Previously the relic sets were different from what they are now, delete the deprecated options for users with old save files
-      const relicSetsOptions = character.form.relicSets || []
-      for (let i = relicSetsOptions.length - 1; i >= 0; i--) {
-        if (!relicSetsOptions[i] || !Object.values(RelicSetFilterOptions).includes(relicSetsOptions[i][0])) {
-          character.form.relicSets.splice(i, 1)
-        }
       }
 
       // Unset light cone fields for mismatched light cone path
@@ -532,7 +526,8 @@ export const DB = {
 
       // Deduplicate main stat filter values
       for (const part of Object.keys(Constants.Parts)) {
-        character.form['main' + part] = deduplicateArray(character.form['main' + part])
+        const mainParts = character.form['main' + part] as string[]
+        character.form['main' + part] = deduplicateStringArray(mainParts)
       }
 
       // In beta, Duran maxed out at 6
@@ -549,27 +544,27 @@ export const DB = {
     for (const character of Object.values(dbCharacters)) {
       // Deduplicate scoring optimal main stat
       for (const part of Object.keys(Constants.Parts)) {
-        character.scoringMetadata.parts[part] = deduplicateArray(character.scoringMetadata.parts[part])
+        character.scoringMetadata.parts[part] = deduplicateStringArray(character.scoringMetadata.parts[part])
       }
     }
 
-    for (const relic of x.relics) {
+    for (const relic of saveData.relics) {
       RelicAugmenter.augment(relic)
-      const char = charactersById[relic.equippedBy!]
-      if (char && !char.equipped[relic.part]) {
-        char.equipped[relic.part] = relic.id
+      const character = charactersById[relic.equippedBy!]
+      if (character && !character.equipped[relic.part]) {
+        character.equipped[relic.part] = relic.id
       } else {
         relic.equippedBy = undefined
       }
     }
-    indexRelics(x.relics)
+    indexRelics(saveData.relics)
 
-    if (x.scoringMetadataOverrides) {
-      for (const [key, value] of Object.entries(x.scoringMetadataOverrides)) {
+    if (saveData.scoringMetadataOverrides) {
+      for (const [key, value] of Object.entries(saveData.scoringMetadataOverrides)) {
         // Migration: previously the overrides were an array, invalidate the arrays
         // @ts-ignore
         if (value.length) {
-          delete x.scoringMetadataOverrides[key]
+          delete saveData.scoringMetadataOverrides[key]
         }
 
         // There was a bug setting the modified flag on custom scoring weight changes
@@ -577,7 +572,7 @@ export const DB = {
         // We attempt to fix this by running a migration for a few months (start 9/5/2024), any scores matching
         // the old score will be migrated to the new scores, while any non-matching ones are marked modified
         // After this migration done, Ctrl + F and uncomment the POST MIGRATION UNCOMMENT section to re-enable overwriting
-        const scoringMetadataOverrides = x.scoringMetadataOverrides[key]
+        const scoringMetadataOverrides = saveData.scoringMetadataOverrides[key]
         if (scoringMetadataOverrides) {
           if (!dbCharacters[key]?.scoringMetadata) {
             continue
@@ -615,47 +610,49 @@ export const DB = {
         }
       }
 
-      window.store.getState().setScoringMetadataOverrides(x.scoringMetadataOverrides || {})
+      window.store.getState().setScoringMetadataOverrides(saveData.scoringMetadataOverrides || {})
     }
 
-    window.store.getState().setScorerId(x.scorerId)
-    if (x.optimizerMenuState) {
+    window.store.getState().setScorerId(saveData.scorerId)
+    if (saveData.optimizerMenuState) {
       const menuState = window.store.getState().optimizerMenuState
       for (const key of Object.values(OptimizerMenuIds)) {
-        if (x.optimizerMenuState[key] != null) {
-          menuState[key] = x.optimizerMenuState[key]
+        if (saveData.optimizerMenuState[key] != null) {
+          menuState[key] = saveData.optimizerMenuState[key]
         }
       }
       window.store.getState().setOptimizerMenuState(menuState)
     }
 
-    if (x.savedSession) {
+    if (saveData.savedSession) {
       // Don't load an invalid character
-      if (!dbCharacters[x.savedSession.optimizerCharacterId]) {
-        delete x.savedSession.optimizerCharacterId
+      const optimizerCharacterId = saveData.savedSession.optimizerCharacterId
+      if (optimizerCharacterId && !dbCharacters[optimizerCharacterId]) {
+        // @ts-ignore
+        delete saveData.savedSession.optimizerCharacterId
       }
 
       // When new session items are added, set user's save to the default
       const overiddenSavedSessionDefaults = {
         ...savedSessionDefaults,
-        ...x.savedSession,
+        ...saveData.savedSession,
       }
 
       window.store.getState().setSavedSession(overiddenSavedSessionDefaults)
     }
 
-    if (x.settings) {
-      window.store.getState().setSettings(x.settings)
+    if (saveData.settings) {
+      window.store.getState().setSettings(saveData.settings)
     }
 
-    window.store.getState().setExcludedRelicPotentialCharacters(x.excludedRelicPotentialCharacters || [])
-    window.store.getState().setVersion(x.version)
-    window.store.getState().setInventoryWidth(x.relicLocator?.inventoryWidth ?? 9)
-    window.store.getState().setRowLimit(x.relicLocator?.rowLimit ?? 10)
+    window.store.getState().setExcludedRelicPotentialCharacters(saveData.excludedRelicPotentialCharacters || [])
+    window.store.getState().setVersion(saveData.version)
+    window.store.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth ?? 9)
+    window.store.getState().setRowLimit(saveData.relicLocator?.rowLimit ?? 10)
 
-    assignRanks(x.characters)
-    DB.setRelics(x.relics)
-    DB.setCharacters(x.characters)
+    assignRanks(saveData.characters)
+    DB.setRelics(saveData.relics)
+    DB.setCharacters(saveData.characters)
 
     DB.refreshCharacters()
     DB.refreshRelics()
@@ -709,7 +706,9 @@ export const DB = {
      */
     if (window.characterGrid?.current?.api) {
       window.characterGrid.current.api.updateGridOptions({ rowData: characters })
-      window.characterGrid.current.api.forEachNode((node) => node.data.id == found.id ? node.setSelected(true) : 0)
+      window.characterGrid.current.api.forEachNode((node: { data: { id: string }; setSelected: (b: boolean) => void }) => {
+        node.data.id == found.id ? node.setSelected(true) : 0
+      })
       window.store.getState().setCharacterTabFocusCharacter(found.id)
     }
 
@@ -841,7 +840,7 @@ export const DB = {
     relic = DB.getRelicById(relic.id)
 
     const prevOwnerId = relic.equippedBy
-    const prevCharacter = DB.getCharacterById(prevOwnerId)
+    const prevCharacter = DB.getCharacterById(prevOwnerId!)
     const character = DB.getCharacterById(characterId)
     const prevRelic = DB.getRelicById(character.equipped[relic.part]!)
 
@@ -919,7 +918,7 @@ export const DB = {
     const characters = DB.getCharacters()
 
     // Generate a hash of existing relics for easy lookup
-    const oldRelicHashes = {}
+    const oldRelicHashes: Record<string, Relic> = {}
     for (const oldRelic of oldRelics) {
       const hash = hashRelic(oldRelic)
       oldRelicHashes[hash] = oldRelic
@@ -935,7 +934,7 @@ export const DB = {
 
       // Compare new relic hashes to old relic hashes
       const found = oldRelicHashes[hash]
-      let stableRelicId
+      let stableRelicId: string
       if (found) {
         if (newRelic.verified) {
           // Inherit the new verified speed stats
@@ -1033,8 +1032,8 @@ export const DB = {
    * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
    */
   mergePartialRelicsWithState: (newRelics: Relic[], sourceCharacters: Character[] = []) => {
-    const oldRelics = Utils.clone(DB.getRelics()) || []
-    newRelics = Utils.clone(newRelics) || []
+    const oldRelics = TsUtils.clone(DB.getRelics()) || []
+    newRelics = TsUtils.clone(newRelics) || []
 
     // Tracking these for debug / messaging
     const updatedOldRelics: Relic[] = []
@@ -1150,7 +1149,7 @@ function assignRanks(characters: Character[]) {
   }
 
   // This sets the rank for the current optimizer character because shuffling ranks will desync the Priority filter selector
-  const optimizerMatchingCharacter = DB.getCharacterById(window.store.getState().optimizerTabFocusCharacter)
+  const optimizerMatchingCharacter = DB.getCharacterById(window.store.getState().optimizerTabFocusCharacter!)
   if (optimizerMatchingCharacter) {
     window.optimizerForm.setFieldValue('rank', optimizerMatchingCharacter.rank)
   }
@@ -1183,7 +1182,7 @@ function hashRelic(relic: Relic) {
     substatStats: substatStats,
   }
 
-  return Utils.objectHash(hashObject)
+  return TsUtils.objectHash(hashObject)
 }
 
 // -1: old > new, 0: old == new, 1, new > old
@@ -1225,13 +1224,13 @@ function setRelic(relic: Relic) {
   window.store.getState().setRelicsById(relicsById)
 }
 
-function deduplicateArray(arr: any[]) {
+function deduplicateStringArray(arr: string[]): string[] {
   if (arr == null) return arr
 
   return [...new Set(arr)]
 }
 
-function indexRelics(arr: any[]) {
+function indexRelics(arr: Relic[]) {
   const length = arr.length
   for (let i = 0; i < length; i++) {
     arr[i].ageIndex = length - i - 1

@@ -1,6 +1,6 @@
 import { Flex, theme, Typography } from 'antd'
 import { Utils } from 'lib/utils.js'
-import { Assets } from 'lib/assets.js'
+import { Assets } from 'lib/assets'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { ElementToDamage, PathNames } from 'lib/constants.ts'
 import { ReactElement } from 'react'

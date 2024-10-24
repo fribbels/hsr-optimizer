@@ -85,6 +85,7 @@
     "@types/json-stable-stringify": "^1.0.36",
     "@types/node": "^22.2.0",
     "@types/object-hash": "^3.0.6",
+    "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "@webgpu/types": "^0.1.48",
     "eslint": "^8.57.0",

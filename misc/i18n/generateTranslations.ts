@@ -1,4 +1,4 @@
-import {writeFile} from "fs"
+import { writeFile } from "fs"
 import { readFile } from "fs/promises"
 import yaml from "js-yaml"
 import { TsUtils } from '../../src/lib/TsUtils'
@@ -7,8 +7,6 @@ import pathConfig from './AvatarBaseType.json'
 import AvatarConfig from './AvatarConfig.json'
 import rankConfig from './AvatarRankConfig.json'
 import skillConfig from './AvatarSkillConfig.json'
-import traceConfig from './AvatarSkillTreeConfig.json' // not currently used, corresponding code not updated for typescript
-import statusConfig from './AvatarStatusConfig.json' // not currently used, corresponding code not updated for typescript
 import damageConfig from './DamageType.json'
 import lightconeConfig from './EquipmentConfig.json'
 import lightconeRankConfig from './EquipmentSkillConfig.json'
@@ -36,7 +34,7 @@ const outputLocalesMapping = {
   vi: ['vi'],
 }
 
-const Overrides: {[key: string]: {key: string; value: string}[]} = {
+const Overrides: { [key: string]: { key: string; value: string }[] } = {
   en: [
     {
       key: 'Characters.1213.Name',
@@ -94,12 +92,12 @@ function cleanString(locale: string, string: string): string {
   return string.replace(regex, '')
 }
 
-async function importTextmap(suffix: string){
+async function importTextmap(suffix: string) {
   const textmap = await readFile(`./misc/i18n/TextMap${suffix}.json`, 'utf-8')
   return JSON.parse(textmap)
 }
 
-async function generateTranslations(){
+async function generateTranslations() {
   for (const locale of Locales) {
     const textmap: TextMap = await (async (locale) => {
       switch (locale) { // en left as default to make typescript happy
@@ -143,7 +141,6 @@ async function generateTranslations(){
     }
 
     const abilities = {}
-    /* @ts-expect-error ts unable to detect that skillConfig is an array*/
     for (const ability of skillConfig) {
       if (!abilities[ability.SkillID]) {
         abilities[ability.SkillID] = {
@@ -188,35 +185,35 @@ async function generateTranslations(){
           break;
       } */
     }
-  /*
-    const effectslist: Effect[] = []
-    for (const effect of statusConfig) {
-      effectslist.push({
-        Name: cleanString(locale, textmap[effect.StatusName.Hash]),
-        Desc: formatEffectParameters(formattingFixer(textmap[effect.StatusDesc.Hash])),
-        Effect: cleanString(locale, textmap[effect.StatusEffect.Hash]),
-        Source: Number(String(effect.StatusID).slice(3, -1)),
-        ID: effect.StatusID,
-      })
-    }
-
-    const tracelist: Trace[] = []
-    for (const trace of traceConfig) {
-      if (trace.PointType == 3) {
-        const formattedTrace: Trace = {
-          Name: cleanString(locale, translateKey(trace.PointName, textmap)) ?? 'err',
-          Desc: translateKey(trace.PointDesc, textmap) ?? 'err',
-          Owner: trace.AvatarID,
-          ID: trace.PointID,
-          Ascension: trace.AvatarPromotionLimit ?? 0,
-          values: trace.ParamList.map((x) => x.Value),
-        }
-        formattedTrace.Desc = replaceParameters(formattedTrace.Desc, formattedTrace.values ?? [])
-        formattedTrace.Desc = formattingFixer(formattedTrace.Desc)
-        delete formattedTrace.values
-        tracelist.push(formattedTrace)
+    /*
+      const effectslist: Effect[] = []
+      for (const effect of statusConfig) {
+        effectslist.push({
+          Name: cleanString(locale, textmap[effect.StatusName.Hash]),
+          Desc: formatEffectParameters(formattingFixer(textmap[effect.StatusDesc.Hash])),
+          Effect: cleanString(locale, textmap[effect.StatusEffect.Hash]),
+          Source: Number(String(effect.StatusID).slice(3, -1)),
+          ID: effect.StatusID,
+        })
       }
-    }*/
+
+      const tracelist: Trace[] = []
+      for (const trace of traceConfig) {
+        if (trace.PointType == 3) {
+          const formattedTrace: Trace = {
+            Name: cleanString(locale, translateKey(trace.PointName, textmap)) ?? 'err',
+            Desc: translateKey(trace.PointDesc, textmap) ?? 'err',
+            Owner: trace.AvatarID,
+            ID: trace.PointID,
+            Ascension: trace.AvatarPromotionLimit ?? 0,
+            values: trace.ParamList.map((x) => x.Value),
+          }
+          formattedTrace.Desc = replaceParameters(formattedTrace.Desc, formattedTrace.values ?? [])
+          formattedTrace.Desc = formattingFixer(formattedTrace.Desc)
+          delete formattedTrace.values
+          tracelist.push(formattedTrace)
+        }
+      }*/
 
     const setEffects = {}
     for (const effect of relicEffectConfig) {
@@ -331,7 +328,7 @@ async function generateTranslations(){
     }
     if (betaInformation[locale]?.Lightcones) {
       for (const lightcone of betaInformation[locale].Lightcones) {
-        if(output.Lightcones[lightcone.id]) continue
+        if (output.Lightcones[lightcone.id]) continue
         output.Lightcones[lightcone.id] = lightcone.value
       }
     }
@@ -347,7 +344,7 @@ async function generateTranslations(){
     applyOverrides(output, locale)
 
     for (const outputLocale of outputLocalesMapping[locale]) {
-      writeFile(`./public/locales/${outputLocale}/gameData.yaml`, yaml.dump(output, {lineWidth: -1, quotingType: "\""}), (err) => {
+      writeFile(`./public/locales/${outputLocale}/gameData.yaml`, yaml.dump(output, { lineWidth: -1, quotingType: "\"" }), (err) => {
         if (err)
           console.log(err)
         else {
@@ -468,7 +465,7 @@ function translateKey(key: string, textmap: TextMap) {
   return translateHash(getHash(key), textmap)
 }
 
-type TextMap = {[key: number]: string}
+type TextMap = { [key: number]: string }
 
 type Path = {
   "ID"?: string,

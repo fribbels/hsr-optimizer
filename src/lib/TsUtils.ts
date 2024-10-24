@@ -2,6 +2,7 @@ import { Constants, MainStats } from './constants'
 import { RelicEnhance, RelicGrade } from 'types/Relic'
 import stringify from 'json-stable-stringify'
 import i18next, { DefaultNamespace, KeyPrefix, Namespace, TFunction } from 'i18next'
+import { v4 as uuidv4 } from 'uuid'
 
 export const TsUtils = {
   // Returns the same object
@@ -48,6 +49,15 @@ export const TsUtils = {
     return Object.fromEntries(
       Object.entries(obj).map(([key, value]) => [value, key]),
     )
+  },
+
+  uuid: (): string => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    return uuidv4()
+  },
+
+  stripTrailingSlashes: (str: string) => {
+    return str.replace(/\/+$/, '')
   },
 }
 

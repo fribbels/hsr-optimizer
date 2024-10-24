@@ -1,4 +1,4 @@
-export const oldCharacterScoringMetadata = {
+export const oldCharacterScoringMetadata: Record<string, Record<string, number>> = {
   1001: {
     'ATK': 0,
     'ATK%': 0,

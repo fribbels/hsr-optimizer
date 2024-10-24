@@ -16,6 +16,7 @@ import { Conditional } from 'types/Conditionals'
 import { TsUtils } from 'lib/TsUtils'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
 import { OptimizerContext } from 'types/Optimizer'
+import { SortOptionProperties } from 'lib/optimizer/sortOptions'
 
 const cachedSims: { [key: string]: SimulationScore } = {}
 
@@ -152,7 +153,7 @@ export type ScoringMetadata = {
     [part: string]: string[]
   }
   presets: (() => void)[]
-  sortOption: string
+  sortOption: SortOptionProperties
   simulation: SimulationMetadata
   modified?: boolean
 }
@@ -162,7 +163,7 @@ export type SimulationMetadata = {
     [part: string]: string[]
   }
   substats: string[]
-  errRopeEidolon: number,
+  errRopeEidolon: number
   breakpoints: {
     [stat: string]: number
   }
@@ -1016,7 +1017,7 @@ function generatePartialSimulations(
   character: Character,
   metadata: SimulationMetadata,
   simulationSets: SimulationSets,
-  originalSim: Simulation
+  originalSim: Simulation,
 ) {
   const forceSpdBoots = false // originalBaseSpeed - baselineSimResult.x[Stats.SPD] > 2.0 * 2 * 5 // 3 min spd rolls per piece
   const feetParts: string[] = forceSpdBoots ? [Stats.SPD] : metadata.parts[Parts.Feet]

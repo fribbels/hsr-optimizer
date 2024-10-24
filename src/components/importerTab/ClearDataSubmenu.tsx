@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Message } from '../../lib/message'
+import { Message } from 'lib/message'
 import { Button, Flex, Popconfirm, Typography } from 'antd'
 import DB from 'lib/db'
 import { importerTabButtonWidth, importerTabSpinnerMs } from './importerTabUiConstants'

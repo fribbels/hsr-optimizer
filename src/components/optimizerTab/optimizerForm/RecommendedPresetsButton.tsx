@@ -1,8 +1,8 @@
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { Button, Dropdown } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 import DB from 'lib/db'
-import { Message } from 'lib/message.js'
+import { Message } from 'lib/message'
 import { Constants, Sets } from 'lib/constants'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
 import { defaultSetConditionals, getDefaultForm } from 'lib/defaultForm.js'
@@ -10,6 +10,9 @@ import { ApplyColumnStateParams } from 'ag-grid-community'
 import { Utils } from 'lib/utils'
 import { useTranslation } from 'react-i18next'
 import { Form } from 'types/Form'
+import { ReactElement } from 'types/Components'
+import { TsUtils } from 'lib/TsUtils'
+import { ScoringMetadata } from 'lib/characterScorer'
 
 /*
  * 111.11 (5 actions in first four cycles)
@@ -24,16 +27,16 @@ import { Form } from 'types/Form'
  * 200.00 (3 actions in first cycle)
  */
 
-type Preset = {
+export type PresetDefinition = {
   name: string
-  value: boolean | number
+  value: number | boolean
   apply: (form: Form) => void
 }
 
-export const PresetEffects: { [key: string]: (Preset | ((value: number) => Preset)) } = {
+export const PresetEffects = {
   // Dynamic values
 
-  fnAshblazingSet: (stacks) => {
+  fnAshblazingSet: (stacks: number): PresetDefinition => {
     return {
       name: 'fnAshblazingSet',
       value: stacks,
@@ -42,7 +45,7 @@ export const PresetEffects: { [key: string]: (Preset | ((value: number) => Prese
       },
     }
   },
-  fnPioneerSet: (value) => {
+  fnPioneerSet: (value: number): PresetDefinition => {
     return {
       name: 'fnPioneerSet',
       value: value,
@@ -51,7 +54,7 @@ export const PresetEffects: { [key: string]: (Preset | ((value: number) => Prese
       },
     }
   },
-  fnSacerdosSet: (value) => {
+  fnSacerdosSet: (value: number): PresetDefinition => {
     return {
       name: 'fnSacerdosSet',
       value: value,
@@ -69,28 +72,28 @@ export const PresetEffects: { [key: string]: (Preset | ((value: number) => Prese
     apply: (form: Form) => {
       form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 3
     },
-  },
+  } as PresetDefinition,
   WASTELANDER_SET: {
     name: 'WASTELANDER_SET',
     value: 2,
     apply: (form: Form) => {
       form.setConditionals[Sets.WastelanderOfBanditryDesert][1] = 2
     },
-  },
+  } as PresetDefinition,
   VALOROUS_SET: {
     name: 'VALOROUS_SET',
     value: true,
     apply: (form: Form) => {
       form.setConditionals[Sets.TheWindSoaringValorous][1] = true
     },
-  },
+  } as PresetDefinition,
   BANANA_SET: {
     name: 'BANANA_SET',
     value: true,
     apply: (form: Form) => {
       form.setConditionals[Sets.TheWondrousBananAmusementPark][1] = true
     },
-  },
+  } as PresetDefinition,
 }
 
 export function setSortColumn(columnId) {
@@ -106,12 +109,14 @@ export function setSortColumn(columnId) {
   window.optimizerGrid.current?.api.applyColumnState(columnState)
 }
 
+export type SpdPresets = Record<string, { key: string; label: string | ReactElement; value: number | undefined }>
+
 const RecommendedPresetsButton = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
-  const SpdValues = useMemo(() => {
-    return {
+  const spdPresets = useMemo(() => {
+    const spdPresets: SpdPresets = {
       SPD0: {
         key: 'SPD0',
         label: t('SpdValues.SPD0'), // 'No minimum speed',
@@ -168,9 +173,10 @@ const RecommendedPresetsButton = () => {
         value: 200.000,
       },
     }
+    return spdPresets
   }, [t])
 
-  const standardSpdOptions = Object.values(SpdValues)
+  const standardSpdOptions = Object.values(spdPresets)
   standardSpdOptions.map((x) => x.label = (<div style={{ minWidth: 450 }}>{x.label}</div>))
 
   function generateStandardSpdOptions(label) {
@@ -192,9 +198,9 @@ const RecommendedPresetsButton = () => {
 
   const actionsMenuProps = {
     items,
-    onClick: (event) => {
-      if (SpdValues[event.key]) {
-        applySpdPreset(SpdValues[event.key].value, optimizerTabFocusCharacter)
+    onClick: (event: { key: string }) => {
+      if (spdPresets[event.key]) {
+        applySpdPreset(spdPresets[event.key].value!, optimizerTabFocusCharacter)
       } else {
         Message.warning(t('PresetNotAvailable')/* 'Preset not available, please select another option' */)
       }
@@ -217,15 +223,15 @@ const RecommendedPresetsButton = () => {
   )
 }
 
-export function applySpdPreset(spd, characterId) {
+export function applySpdPreset(spd: number, characterId: string | undefined) {
   if (!characterId) return
 
   const character = DB.getMetadata().characters[characterId]
-  const metadata = Utils.clone(character.scoringMetadata)
+  const metadata = TsUtils.clone(character.scoringMetadata)
 
   // Using the user's current form so we don't overwrite their other numeric filter values
-  const form = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
-  const defaultForm = OptimizerTabController.getDisplayFormValues(getDefaultForm(character))
+  const form: Form = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
+  const defaultForm: Form = OptimizerTabController.getDisplayFormValues(getDefaultForm(character))
   form.setConditionals = defaultForm.setConditionals
 
   const overrides = window.store.getState().scoringMetadataOverrides[characterId]
@@ -258,7 +264,7 @@ export function applySpdPreset(spd, characterId) {
 
 export default RecommendedPresetsButton
 
-export function applyMetadataPresetToForm(form: Form, scoringMetadata) {
+export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMetadata) {
   Utils.mergeUndefinedValues(form, getDefaultForm())
   Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
 
@@ -266,8 +272,7 @@ export function applyMetadataPresetToForm(form: Form, scoringMetadata) {
   form.comboDot = scoringMetadata?.simulation?.comboDot || 0
   form.comboBreak = scoringMetadata?.simulation?.comboBreak || 0
 
-  Object.keys(form.combo).map((key) => form.combo[key] = form.combo[key] || null)
-
+  // @ts-ignore
   form.maxSpd = undefined
   form.mainBody = scoringMetadata.parts[Constants.Parts.Body]
   form.mainFeet = scoringMetadata.parts[Constants.Parts.Feet]

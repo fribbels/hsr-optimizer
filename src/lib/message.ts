@@ -1,38 +1,38 @@
-import { Utils } from 'lib/utils'
+import { TsUtils } from 'lib/TsUtils'
 
 export const Message = {
-  success: (content, duration) => {
-    const key = Utils.randomId()
+  success: (content: string, duration: number = 3) => {
+    const key = TsUtils.uuid()
     console.log('Success message:', content)
-    window.messageApi.open({
+    void window.messageApi.open({
       key: key,
       type: 'success',
       content: content || '',
-      duration: duration || 3,
+      duration: duration,
       onClick: () => window.messageApi.destroy(key),
     })
   },
 
-  error: (content, duration) => {
-    const key = Utils.randomId()
+  error: (content: string, duration: number = 3) => {
+    const key = TsUtils.uuid()
     console.warn('Error message:', content)
-    window.messageApi.open({
+    void window.messageApi.open({
       key: key,
       type: 'error',
       content: content || '',
-      duration: duration || 3,
+      duration: duration,
       onClick: () => window.messageApi.destroy(key),
     })
   },
 
-  warning: (content, duration) => {
-    const key = Utils.randomId()
+  warning: (content: string, duration: number = 3) => {
+    const key = TsUtils.uuid()
     console.warn('Warning message:', content)
-    window.messageApi.open({
+    void window.messageApi.open({
       key: key,
       type: 'warning',
       content: content || '',
-      duration: duration || 3,
+      duration: duration,
       onClick: () => window.messageApi.destroy(key),
     })
   },

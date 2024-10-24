@@ -2,7 +2,7 @@
 
 1. fork working branch: from [https://github.com/cnojima/hsr-optimizer/tree/feature/22-improve-passives](https://github.com/cnojima/hsr-optimizer/tree/feature/22-improve-passives)
 
-1. refactor/move 1 character-conditional controller code from `lib/characterConditionals.js` to `lib/conditionals/character/[CharName].tsx` (pls. notice file extension).
+1. refactor/move 1 character-conditional controller code from `lib/characterConditionals.ts` to `lib/conditionals/character/[CharName].tsx` (pls. notice file extension).
     - "character-conditional controller" is a function named for the char, e.g., `function jingliu() {...}`
 
 1. copy import list from sample [`Jingliu.tsx`](https://github.com/cnojima/hsr-optimizer/blob/feature/22-passives-drawer/src/lib/conditionals/character/Jingliu.tsx) to the top of your new TSX file.
@@ -51,7 +51,7 @@ const content: ContentItem[] = [{
 
 6. add the line `export default [SnakeCaseName];` to the bottom of the new controller.
 
-7. link the new controller to [`lib/characterConditionals.js`](https://github.com/cnojima/hsr-optimizer/blob/feature/22-improve-passives/src/lib/characterConditionals.js).  ***Please alpha-order in import order***:
+7. link the new controller to [`lib/characterConditionals.ts`](https://github.com/cnojima/hsr-optimizer/blob/feature/22-improve-passives/src/lib/characterConditionals.js).  ***Please alpha-order in import order***:
 
 ```
 ...

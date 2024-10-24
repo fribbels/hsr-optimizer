@@ -1,42 +1,40 @@
-import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, setToId } from './constants.ts'
-import { BASE_PATH } from 'lib/db.ts'
+import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, setToId, Stats } from 'lib/constants'
+import { BASE_PATH } from 'lib/db'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;
 // const baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net'
 
-function getImageUrl(name) {
+function getImageUrl(name: string) {
   return new URL(BASE_PATH + `/assets` + name, import.meta.url).href
 }
 
-let iconFromStatMapping
+const iconFromStatMapping: Record<string, string> = {
+  [Stats.HP]: 'IconMaxHP.webp',
+  [Stats.ATK]: 'IconAttack.webp',
+  [Stats.DEF]: 'IconDefence.webp',
+  [Stats.HP_P]: 'IconMaxHP.webp',
+  [Stats.ATK_P]: 'IconAttack.webp',
+  [Stats.DEF_P]: 'IconDefence.webp',
+  [Stats.SPD]: 'IconSpeed.webp',
+  [Stats.SPD_P]: 'IconSpeed.webp',
+  [Stats.CR]: 'IconCriticalChance.webp',
+  [Stats.CD]: 'IconCriticalDamage.webp',
+  [Stats.EHR]: 'IconStatusProbability.webp',
+  [Stats.RES]: 'IconStatusResistance.webp',
+  [Stats.BE]: 'IconBreakUp.webp',
+  [Stats.ERR]: 'IconEnergyRecovery.webp',
+  [Stats.OHB]: 'IconHealRatio.webp',
+  [Stats.Physical_DMG]: 'IconPhysicalAddedRatio.webp',
+  [Stats.Fire_DMG]: 'IconFireAddedRatio.webp',
+  [Stats.Ice_DMG]: 'IconIceAddedRatio.webp',
+  [Stats.Lightning_DMG]: 'IconThunderAddedRatio.webp',
+  [Stats.Wind_DMG]: 'IconWindAddedRatio.webp',
+  [Stats.Quantum_DMG]: 'IconQuantumAddedRatio.webp',
+  [Stats.Imaginary_DMG]: 'IconImaginaryAddedRatio.webp',
+}
+
 export const Assets = {
-  getStatIcon: (stat, percented) => {
-    if (!iconFromStatMapping) {
-      iconFromStatMapping = {
-        [Constants.Stats.HP]: 'IconMaxHP.webp',
-        [Constants.Stats.ATK]: 'IconAttack.webp',
-        [Constants.Stats.DEF]: 'IconDefence.webp',
-        [Constants.Stats.HP_P]: 'IconMaxHP.webp',
-        [Constants.Stats.ATK_P]: 'IconAttack.webp',
-        [Constants.Stats.DEF_P]: 'IconDefence.webp',
-        [Constants.Stats.SPD]: 'IconSpeed.webp',
-        [Constants.Stats.SPD_P]: 'IconSpeed.webp',
-        [Constants.Stats.CR]: 'IconCriticalChance.webp',
-        [Constants.Stats.CD]: 'IconCriticalDamage.webp',
-        [Constants.Stats.EHR]: 'IconStatusProbability.webp',
-        [Constants.Stats.RES]: 'IconStatusResistance.webp',
-        [Constants.Stats.BE]: 'IconBreakUp.webp',
-        [Constants.Stats.ERR]: 'IconEnergyRecovery.webp',
-        [Constants.Stats.OHB]: 'IconHealRatio.webp',
-        [Constants.Stats.Physical_DMG]: 'IconPhysicalAddedRatio.webp',
-        [Constants.Stats.Fire_DMG]: 'IconFireAddedRatio.webp',
-        [Constants.Stats.Ice_DMG]: 'IconIceAddedRatio.webp',
-        [Constants.Stats.Lightning_DMG]: 'IconThunderAddedRatio.webp',
-        [Constants.Stats.Wind_DMG]: 'IconWindAddedRatio.webp',
-        [Constants.Stats.Quantum_DMG]: 'IconQuantumAddedRatio.webp',
-        [Constants.Stats.Imaginary_DMG]: 'IconImaginaryAddedRatio.webp',
-      }
-    }
+  getStatIcon: (stat: string, percented: boolean = false) => {
     if (stat == 'CV') return getImageUrl(`/misc/cv.webp`)
     if (stat == 'simScore') return getImageUrl(`/misc/battle.webp`)
     if (stat == Constants.Stats.HP_P && percented) return getImageUrl(`/misc/IconMaxHPPercent.webp`)
@@ -46,7 +44,7 @@ export const Assets = {
 
     return getImageUrl(`/icon/property/${iconFromStatMapping[stat]}`)
   },
-  getCharacterPortraitById: (id) => {
+  getCharacterPortraitById: (id: string) => {
     if (!id) {
       console.warn('No id found')
       return Assets.getBlank()
@@ -54,39 +52,39 @@ export const Assets = {
 
     return getImageUrl(`/image/character_portrait/${id}.webp`)
   },
-  getCharacterAvatarById: (id) => {
+  getCharacterAvatarById: (id: string) => {
     if (!id) return Assets.getBlank()
 
     return getImageUrl(`/icon/avatar/${id}.webp`)
   },
-  getCharacterPreviewById: (id) => {
+  getCharacterPreviewById: (id: string) => {
     if (!id) return Assets.getBlank()
 
     return getImageUrl(`/image/character_preview/${id}.webp`)
   },
 
-  getLightConePortrait: (lightCone) => {
+  getLightConePortrait: (lightCone: { id: string }) => {
     if (!lightCone) return Assets.getBlank()
     return getImageUrl(`/image/light_cone_portrait/${lightCone.id}.webp`)
   },
-  getLightConePortraitById: (lightConeId) => {
+  getLightConePortraitById: (lightConeId: string) => {
     if (!lightConeId) return Assets.getBlank()
     return getImageUrl(`/image/light_cone_portrait/${lightConeId}.webp`)
   },
-  getLightConeIconById: (lightConeId) => {
+  getLightConeIconById: (lightConeId: string) => {
     if (!lightConeId) return Assets.getBlank()
     return getImageUrl(`/icon/light_cone/${lightConeId}.webp`)
   },
-  getPath: (path) => {
+  getPath: (path: string) => {
     if (!path) return Assets.getBlank()
     return getImageUrl(`/icon/path/${path}.webp`)
   },
-  getPathFromClass: (c) => {
+  getPathFromClass: (c: string) => {
     if (!c) return Assets.getBlank()
     return getImageUrl(`/icon/path/${c}.webp`)
   },
 
-  getElement: (element) => {
+  getElement: (element: string) => {
     if (!element) return Assets.getBlank()
     return getImageUrl(`/icon/element/${element}.webp`)
   },
@@ -111,21 +109,21 @@ export const Assets = {
   getStar: () => {
     return getImageUrl('/misc/StarBig.webp')
   },
-  getGuideImage: (name) => {
+  getGuideImage: (name: string) => {
     return getImageUrl(`/misc/guide/${name}.webp`)
   },
-  getLocaleGuideImage: (name, locale) => {
+  getLocaleGuideImage: (name: string, locale: string) => {
     if (!locale) return Assets.getBlank()
     return getImageUrl(`/misc/guide/${locale}/${name}.webp`)
   },
   getStarBw: () => {
     return getImageUrl('/misc/QuestMainIcon.webp')
   },
-  getFlag: (locale) => {
+  getFlag: (locale: string) => {
     return getImageUrl(`/misc/flags/${locale}.webp`)
   },
 
-  getPart: (part) => {
+  getPart: (part: string) => {
     const mapping = {
       [Constants.Parts.Head]: 'partHead',
       [Constants.Parts.Hands]: 'partHands',
@@ -138,11 +136,11 @@ export const Assets = {
     return getImageUrl(`/misc/${mapping[part]}.webp`)
   },
 
-  getChangelog: (path) => {
+  getChangelog: (path: string) => {
     return getImageUrl(`/misc/changelog/${path}`)
   },
 
-  getSetImage: (set, part, actualIcon = false) => {
+  getSetImage: (set: string | number, part: string, actualIcon: boolean = false) => {
     if (set == -1) {
       return Assets.getBlank()
     }

@@ -1,5 +1,5 @@
 import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants'
-import { BufferPacker } from '../bufferPacker.js'
+import { BufferPacker } from 'lib/bufferPacker'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { SortOption } from 'lib/optimizer/sortOptions'

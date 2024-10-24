@@ -1,12 +1,12 @@
 import { inPlaceSort } from 'fast-sort'
 import DB from 'lib/db'
-import { Message } from './message'
+import { Message } from 'lib/message'
 import { SaveState } from 'lib/saveState'
 import { CombatBuffs, ConditionalDataType, Constants, DamageKeys, DEFAULT_STAT_DISPLAY } from './constants.ts'
 import { Utils } from './utils'
-import { LightConeConditionals } from './lightConeConditionals'
-import { CharacterConditionals } from './characterConditionals'
-import { CharacterStats } from './characterStats'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { CharacterConditionals } from 'lib/characterConditionals'
+import { CharacterStats } from 'lib/characterStats'
 import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultForm, getDefaultWeights } from 'lib/defaultForm'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
@@ -198,7 +198,7 @@ export const OptimizerTabController = {
 
         // fast clickers can race unmount/remount and cause NPE here.
         if (window?.optimizerGrid?.current?.api) {
-          window.optimizerGrid.current.api.setGridOption("loading", true)
+          window.optimizerGrid.current.api.setGridOption('loading', true)
         }
 
         // Give it time to show the loading page before we block
@@ -226,7 +226,7 @@ export const OptimizerTabController = {
 
           // cannot assume a fast click race-condition didn't happen
           if (window?.optimizerGrid?.current?.api) {
-            window.optimizerGrid.current.api.setGridOption("loading", false)
+            window.optimizerGrid.current.api.setGridOption('loading', false)
           }
           OptimizerTabController.redrawRows()
         })

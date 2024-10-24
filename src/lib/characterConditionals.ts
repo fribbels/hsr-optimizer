@@ -60,8 +60,12 @@ import fugue from 'lib/conditionals/character/Fugue'
 import sunday from 'lib/conditionals/character/Sunday'
 import boothill from 'lib/conditionals/character/Boothill'
 import rappa from 'lib/conditionals/character/Rappa'
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
 
-export const characterOptionMapping = {
+export type CharacterConditionalFunction = (e: Eidolon, withContent: boolean) => CharacterConditional
+
+export const characterOptionMapping: Record<string, CharacterConditionalFunction> = {
   1001: march7th,
   1002: danheng,
   1003: himeko,
@@ -144,7 +148,7 @@ export const characterOptionMapping = {
  * Techniques / start of fight buffs are called Initial buffs
  */
 export const CharacterConditionals = {
-  get: (request, withContent = false) => {
+  get: (request: { characterId: string; characterEidolon: number }, withContent = false) => {
     const characterFn = characterOptionMapping[request.characterId]
     return characterFn(request.characterEidolon, withContent)
   },

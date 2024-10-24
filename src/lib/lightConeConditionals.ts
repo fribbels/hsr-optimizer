@@ -116,9 +116,9 @@ import AGroundedAscent from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 
-export type LightConeFunction = (s: SuperImpositionLevel, withContent: boolean) => LightConeConditional
+export type LightConeConditionalFunction = (s: SuperImpositionLevel, withContent: boolean) => LightConeConditional
 
-const fiveStar: Record<string, LightConeFunction> = {
+const fiveStar: Record<string, LightConeConditionalFunction> = {
   23000: NightOnTheMilkyWay,
   23001: InTheNight,
   23002: SomethingIrreplaceable,
@@ -163,7 +163,7 @@ const fiveStar: Record<string, LightConeFunction> = {
   24004: EternalCalculus,
 }
 
-const fourStar: Record<string, LightConeFunction> = {
+const fourStar: Record<string, LightConeConditionalFunction> = {
   21000: PostOpConversation,
   21001: GoodNightAndSleepWell,
   21002: DayOneOfMyNewLife,
@@ -220,7 +220,7 @@ const fourStar: Record<string, LightConeFunction> = {
   22003: NinjaRecordSoundHunt,
 }
 
-const threeStar: Record<string, LightConeFunction> = {
+const threeStar: Record<string, LightConeConditionalFunction> = {
   20000: Arrows,
   20001: Cornucopia,
   20002: CollapsingSky,
@@ -244,7 +244,7 @@ const threeStar: Record<string, LightConeFunction> = {
   20020: Sagacity,
 }
 
-export const lightConeOptionMapping: Record<string, LightConeFunction> = {
+export const lightConeOptionMapping: Record<string, LightConeConditionalFunction> = {
   ...fiveStar,
   ...fourStar,
   ...threeStar,

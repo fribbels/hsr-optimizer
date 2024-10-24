@@ -4,7 +4,7 @@ import { HeaderText } from 'components/HeaderText'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { Hint } from 'lib/hint.jsx'
 import DisplayFormControl from 'components/optimizerTab/conditionals/DisplayFormControl'
-import { characterOptionMapping } from 'lib/characterConditionals.js'
+import { characterOptionMapping } from 'lib/characterConditionals'
 import { Eidolon } from 'types/Character'
 import { DataMineId } from 'types/Common'
 import { useTranslation } from 'react-i18next'
@@ -40,12 +40,12 @@ export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }:
   return (
     <Flex vertical gap={5}>
       {(teammateIndex == null)
-        && (
-          <Flex justify='space-between' align='center'>
-            <HeaderText>{t('CharacterPassives')/* Character passives */}</HeaderText>
-            <TooltipImage type={Hint.characterPassives()}/>
-          </Flex>
-        )}
+      && (
+        <Flex justify='space-between' align='center'>
+          <HeaderText>{t('CharacterPassives')/* Character passives */}</HeaderText>
+          <TooltipImage type={Hint.characterPassives()}/>
+        </Flex>
+      )}
       <DisplayFormControl content={content} teammateIndex={teammateIndex}/>
     </Flex>
   )

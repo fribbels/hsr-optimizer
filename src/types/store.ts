@@ -34,7 +34,7 @@ type RelicTabFilters = {
 }
 
 export type HsrOptimizerStore = {
-  version: string,
+  version: string
   colorTheme: ColorThemeOverrides
   optimizerGrid: unknown
   optimizerTabFocusCharacter?: CharacterId
@@ -67,7 +67,6 @@ export type HsrOptimizerStore = {
   optimizerStartTime: number | null
   optimizerEndTime: number | null
   optimizerTabFocusCharacterSelectModalOpen: boolean
-
 
   comboState: ComboState
   formValues: Form | undefined
@@ -134,7 +133,7 @@ export type HsrOptimizerStore = {
 
   relicTabFilters: RelicTabFilters
   characterTabFilters: {
-    name: string,
+    name: string
     element: string[]
     path: string[]
     rarity: number[]
@@ -164,30 +163,30 @@ export type HsrOptimizerSaveFormat = {
 }
 
 export type CustomPortrait = {
-  imageUrl: string,
+  imageUrl: string
   originalDimensions: {
-    "width": number,
-    "height": number
-  },
-  "customImageParams": {
-    "croppedArea": {
-      "x": number
-      "y": number
-      "width": number
-      "height": number
-    },
-    "croppedAreaPixels": {
-      "width": number
-      "height": number
-      "x": number
-      "y": number
+    width: number
+    height: number
+  }
+  customImageParams: {
+    croppedArea: {
+      x: number
+      y: number
+      width: number
+      height: number
     }
-  },
-  "cropper": {
-    "zoom": number
-    "crop": {
-      "x": number
-      "y": number
+    croppedAreaPixels: {
+      width: number
+      height: number
+      x: number
+      y: number
+    }
+  }
+  cropper: {
+    zoom: number
+    crop: {
+      x: number
+      y: number
     }
   }
 }

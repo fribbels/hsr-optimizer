@@ -32,19 +32,19 @@ export const SaveState = {
 
   delayedSave: (ms: number = 5000) => {
     if (saveTimeout) {
-      clearTimeout(saveTimeout);
+      clearTimeout(saveTimeout)
     }
 
     saveTimeout = setTimeout(() => {
-      SaveState.save();
-    }, ms);
+      SaveState.save()
+    }, ms)
   },
 
   load: (autosave = true) => {
     try {
-      const state = localStorage.state
+      const state = localStorage.state as string
       if (state) {
-        const parsed = JSON.parse(state)
+        const parsed = JSON.parse(state) as HsrOptimizerSaveFormat
         console.log('Loaded SaveState')
 
         DB.setStore(parsed, autosave)

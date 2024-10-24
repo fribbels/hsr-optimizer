@@ -1,7 +1,7 @@
 import { Parts, SetsOrnaments, SetsRelics, StatsValues } from '../lib/constants'
 import { AssetRelativeUrl, DataMineId, Element, ExternalPath, GUID, InternalPath, Promotions, Rarity } from './Common'
 import { Form } from './Form'
-import { CustomPortrait } from "types/store";
+import { CustomPortrait } from 'types/store'
 
 export type CharacterId = string // "1004"
 

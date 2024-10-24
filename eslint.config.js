@@ -23,6 +23,7 @@ const config = tseslint.config(
     extends: [
       ...tseslint.configs.recommendedTypeCheckedOnly,
       ...tseslint.configs.stylisticTypeCheckedOnly,
+
     ],
   },
   {
@@ -39,6 +40,11 @@ const config = tseslint.config(
       globals: {
         ...globals.browser,
       },
+    },
+    rules: {
+      // As we're migrating to TS these make the process easier
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
     },
   },
   {
@@ -77,6 +83,7 @@ const config = tseslint.config(
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/no-misused-promises': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
     },
   },
   {

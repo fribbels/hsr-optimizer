@@ -18,7 +18,8 @@ import { Character } from 'types/Character'
 import { Relic, Stat } from 'types/Relic'
 import { CustomPortrait, HsrOptimizerSaveFormat, HsrOptimizerStore } from 'types/store'
 import { ScoringMetadata, SimulationMetadata } from 'lib/characterScorer'
-import { Form } from "types/Form";
+import { Form } from 'types/Form'
+import { TsUtils } from 'lib/TsUtils'
 
 export type HsrOptimizerMetadataState = {
   metadata: DBMetadata
@@ -240,15 +241,15 @@ export type DBMetadataCharacter = {
   rarity: number
   path: string
   element: string
-  max_sp: number,
-  stats: Record<string, number>,
-  unreleased: boolean,
-  traces: Record<string, number>,
+  max_sp: number
+  stats: Record<string, number>
+  unreleased: boolean
+  traces: Record<string, number>
   imageCenter: {
     x: number
     y: number
     z: number
-  },
+  }
   displayName: string
   scoringMetadata: ScoringMetadata
 }
@@ -266,7 +267,7 @@ export type DBMetadataLightCone = {
 }
 
 export type DBMetadataSets = {
-  id: string,
+  id: string
   name: string
 }
 
@@ -399,7 +400,7 @@ export const DB = {
   getState: () => window.store.getState(),
 
   getScoringMetadata: (id: string) => {
-    const dbMetadata = DB.getMetadata() as DBMetadata
+    const dbMetadata = DB.getMetadata()
     const defaultScoringMetadata = dbMetadata.characters[id].scoringMetadata
     const scoringMetadataOverrides = window.store.getState().scoringMetadataOverrides
     const override = scoringMetadataOverrides[id]
@@ -563,7 +564,7 @@ export const DB = {
         // After this migration done, Ctrl + F and uncomment the POST MIGRATION UNCOMMENT section to re-enable overwriting
         const scoringMetadataOverrides = x.scoringMetadataOverrides[key]
         if (scoringMetadataOverrides) {
-          if (!dbCharacters[key] || !dbCharacters[key].scoringMetadata) {
+          if (!dbCharacters[key]?.scoringMetadata) {
             continue
           }
 
@@ -657,7 +658,7 @@ export const DB = {
   },
 
   replaceCharacterForm: (form: Form) => {
-    let found = DB.getCharacterById(form.characterId)
+    const found = DB.getCharacterById(form.characterId)
     if (found) {
       found.form = {
         ...found.form,
@@ -727,7 +728,7 @@ export const DB = {
     console.log('Deleted portrait', DB.getState())
   },
 
-  saveCharacterBuild: (name: string, characterId: string, score: { rating: string, score: string }) => {
+  saveCharacterBuild: (name: string, characterId: string, score: { rating: string; score: string }) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
       console.warn('No character selected')
@@ -804,7 +805,7 @@ export const DB = {
 
     const characters = DB.getCharacters()
     for (const character of characters) {
-      if (character.equipped && character.equipped[relic.part] && character.equipped[relic.part] == relic.id) {
+      if (character.equipped?.[relic.part] && character.equipped[relic.part] == relic.id) {
         character.equipped[relic.part] = undefined
       }
     }
@@ -820,7 +821,7 @@ export const DB = {
    * If the character already has a relic equipped, the relics are swapped.
    */
   equipRelic: (relic: Relic, characterId: string | undefined, forceSwap = false) => {
-    if (!relic || !relic.id) return console.warn('No relic')
+    if (!relic?.id) return console.warn('No relic')
     if (!characterId) return console.warn('No character')
     relic = DB.getRelicById(relic.id)
 
@@ -964,7 +965,7 @@ export const DB = {
     // Clean up any deleted relic ids that are still equipped
     for (const character of characters) {
       for (const part of Object.values(Constants.Parts)) {
-        if (character.equipped && character.equipped[part] && !DB.getRelicById(character.equipped[part])) {
+        if (character.equipped?.[part] && !DB.getRelicById(character.equipped[part])) {
           character.equipped[part] = undefined
         }
       }
@@ -1023,7 +1024,7 @@ export const DB = {
     // Tracking these for debug / messaging
     const updatedOldRelics: Relic[] = []
     const addedNewRelics: Relic[] = []
-    const equipUpdates: { relic: Relic, equippedBy: string | undefined }[] = []
+    const equipUpdates: { relic: Relic; equippedBy: string | undefined }[] = []
 
     for (const newRelic of newRelics) {
       const match: Relic | undefined = findRelicMatch(newRelic, oldRelics)
@@ -1076,7 +1077,7 @@ export default DB
 
 function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
   // part set grade mainstat substatStats
-  const oldRelicPartialHashes = {}
+  const oldRelicPartialHashes: Record<string, Relic[]> = {}
   for (const oldRelic of oldRelics) {
     const hash = partialHashRelic(oldRelic)
     if (!oldRelicPartialHashes[hash]) oldRelicPartialHashes[hash] = []
@@ -1197,7 +1198,7 @@ function partialHashRelic(relic: Relic) {
     mainStat: relic.main.stat,
   }
 
-  return Utils.objectHash(hashObject)
+  return TsUtils.objectHash(hashObject)
 }
 
 /**

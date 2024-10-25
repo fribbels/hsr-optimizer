@@ -58,6 +58,7 @@ export type Form = {
     key: string
     simulations: Simulation[]
   }
+  sortOption?: string
   resultSort?: string
   resultsLimit?: number
   path?: string

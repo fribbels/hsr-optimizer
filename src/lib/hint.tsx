@@ -1,9 +1,15 @@
 import { Flex } from 'antd'
 import { Trans, useTranslation } from 'react-i18next'
 import i18next from 'i18next'
+import { ReactElement } from 'types/Components'
+
+export type HintContent = {
+  title: string
+  content: ReactElement
+}
 
 export const Hint = {
-  ratingFilters: () => {
+  ratingFilters: (): HintContent => {
     return {
       title: i18next.t('hint:RatingFilter.Title'),
       content: (
@@ -22,7 +28,7 @@ export const Hint = {
     }
   },
 
-  combatBuffs: () => {
+  combatBuffs: (): HintContent => {
     return {
       title: i18next.t('hint:CombatBuffs.Title'),
       content: (
@@ -37,7 +43,7 @@ export const Hint = {
     }
   },
 
-  statFilters: () => {
+  statFilters: (): HintContent => {
     return {
       title: i18next.t('hint:StatFilters.Title'),
       content: (
@@ -56,7 +62,7 @@ export const Hint = {
     }
   },
 
-  mainStats: () => {
+  mainStats: (): HintContent => {
     return {
       title: i18next.t('hint:Mainstats.Title'),
       content: (
@@ -71,7 +77,7 @@ export const Hint = {
     }
   },
 
-  sets: () => {
+  sets: (): HintContent => {
     return {
       title: i18next.t('hint:Sets.Title'),
       content: (
@@ -88,7 +94,7 @@ export const Hint = {
     }
   },
 
-  character: () => {
+  character: (): HintContent => {
     return {
       title: i18next.t('hint:Character.Title'),
       content: (
@@ -103,7 +109,7 @@ export const Hint = {
     }
   },
 
-  characterPassives: () => {
+  characterPassives: (): HintContent => {
     return {
       title: i18next.t('hint:CharacterPassives.Title'),
       content: (
@@ -120,7 +126,7 @@ export const Hint = {
     }
   },
 
-  lightConePassives: () => {
+  lightConePassives: (): HintContent => {
     return {
       title: i18next.t('hint:LightconePassives.Title'),
       content: (
@@ -137,7 +143,7 @@ export const Hint = {
     }
   },
 
-  lightCone: () => {
+  lightCone: (): HintContent => {
     return {
       title: i18next.t('hint:Lightcone.Title'),
       content: (
@@ -154,7 +160,7 @@ export const Hint = {
     }
   },
 
-  actions: () => {
+  actions: (): HintContent => {
     return {
       title: i18next.t('hint:Actions.Title'),
       content: (
@@ -175,7 +181,7 @@ export const Hint = {
     }
   },
 
-  optimizerOptions: () => {
+  optimizerOptions: (): HintContent => {
     return {
       title: i18next.t('hint:OptimizerOptions.Title')/* Optimizer options */,
       content: (() => {
@@ -233,7 +239,7 @@ export const Hint = {
     }
   },
 
-  relics: () => {
+  relics: (): HintContent => {
     return {
       title: i18next.t('hint:Relics.Title'),
       content: (
@@ -256,7 +262,7 @@ export const Hint = {
     }
   },
 
-  optimizationDetails: () => {
+  optimizationDetails: (): HintContent => {
     return {
       title: i18next.t('hint:OptimizationDetails.Title'),
       content: (
@@ -277,7 +283,7 @@ export const Hint = {
     }
   },
 
-  enemyOptions: () => {
+  enemyOptions: (): HintContent => {
     return {
       title: i18next.t('hint:EnemyOptions.Title'),
       content: (
@@ -302,7 +308,7 @@ export const Hint = {
     }
   },
 
-  substatWeightFilter: () => {
+  substatWeightFilter: (): HintContent => {
     return {
       title: i18next.t('hint:SubstatWeightFilter.Title'),
       content: (
@@ -323,7 +329,7 @@ export const Hint = {
     }
   },
 
-  statDisplay: () => {
+  statDisplay: (): HintContent => {
     return {
       title: i18next.t('hint:StatDisplay.Title'),
       content: (
@@ -342,7 +348,7 @@ export const Hint = {
     }
   },
 
-  valueColumns: () => {
+  valueColumns: (): HintContent => {
     return {
       title: i18next.t('hint:ValueColumns.Title'),
       content: (
@@ -375,7 +381,7 @@ export const Hint = {
     }
   },
 
-  relicInsight: () => {
+  relicInsight: (): HintContent => {
     return {
       title: i18next.t('hint:RelicInsights.Title')/* Relic Insight */,
       content: (() => {
@@ -399,7 +405,7 @@ export const Hint = {
     }
   },
 
-  relicLocation: () => {
+  relicLocation: (): HintContent => {
     return {
       title: i18next.t('hint:RelicLocation.Title')/* Relic Location */,
       content: (
@@ -430,7 +436,7 @@ export const Hint = {
     }
   },
 
-  locatorParams: () => {
+  locatorParams: (): HintContent => {
     return {
       title: i18next.t('hint:LocatorParams.Title')/* Relic Locator Options */,
       content: (() => {

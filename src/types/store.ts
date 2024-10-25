@@ -23,14 +23,14 @@ type PermutationDetails = {
 }
 
 type RelicTabFilters = {
-  set: unknown[]
-  part: unknown[]
-  enhance: unknown[]
-  mainStats: unknown[]
-  subStats: unknown[]
-  grade: unknown[]
-  verified: unknown[]
-  equippedBy: unknown[]
+  set: (string | number)[]
+  part: (string | number)[]
+  enhance: (string | number)[]
+  mainStats: (string | number)[]
+  subStats: (string | number)[]
+  grade: (string | number)[]
+  verified: (string | number)[]
+  equippedBy: (string | number)[]
 }
 
 export type HsrOptimizerStore = {

@@ -745,7 +745,7 @@ function fixValue(value: number, def: number, div?: number) {
   if (value == null) {
     return def
   }
-  div = div ?? 1
+  div = div || 1
   return value / div
 }
 

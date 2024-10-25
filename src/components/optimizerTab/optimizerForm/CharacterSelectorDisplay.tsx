@@ -1,6 +1,6 @@
 import { Flex, Form, Select } from 'antd'
 import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from 'components/tooltipimage'
+import { TooltipImage } from 'components/TooltipImage'
 import { Hint } from 'lib/hint'
 import RecommendedPresetsButton from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants'

@@ -85,6 +85,8 @@ declare global {
     BufferPacker: typeof BufferPacker
     RelicRollFixer: typeof RelicRollFixer
 
+    title: string
+
     WEBGPU_DEBUG: boolean
   }
 }

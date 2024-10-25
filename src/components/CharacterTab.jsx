@@ -368,7 +368,7 @@ export default function CharacterTab() {
 
   function scoringAlgorithmClicked() {
     if (characterTabFocusCharacter) setScoringAlgorithmFocusCharacter(characterTabFocusCharacter)
-    window.setIsScoringModalOpen(true)
+    window.store.getState().setScoringModalOpen(true)
   }
 
   function moveToTopClicked() {

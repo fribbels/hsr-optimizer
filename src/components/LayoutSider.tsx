@@ -1,4 +1,4 @@
-import MenuDrawer from 'components/MenuDrawer.jsx'
+import MenuDrawer from 'components/MenuDrawer'
 import { Layout, theme } from 'antd'
 
 const { useToken } = theme

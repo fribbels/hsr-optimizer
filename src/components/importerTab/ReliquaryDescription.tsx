@@ -12,8 +12,8 @@ export function ReliquaryDescription(): ReactElement {
         <ColorizedLinkWithIcon text={t('Link')/* Github */} url={ReliquaryArchiverConfig.releases} linkIcon={true}/>
         )
         <ul>
-          {/* <li><b style={{ color: '#ffaa4f' }}>{t('OfflineMsg', { version: 2.5 })}</b></li> */}
-          <li><b style={{ color: '#82e192' }}>{t('OnlineMsg', { version: 2.5 })}</b></li>
+          {/* <li><b style={{ color: '#ffaa4f' }}>{t('OfflineMsg', { version: 2.6 })}</b></li> */}
+          <li><b style={{ color: '#82e192' }}>{t('OnlineMsg', { version: 2.6 })}</b></li>
           <li>{t('l1')/* Inaccurate speed decimals, 5-10 minutes OCR scan */}</li>
           <li>{t('l2')/* Imports full inventory and character roster */}</li>
         </ul>

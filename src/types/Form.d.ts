@@ -51,7 +51,7 @@ export type Form = {
   ornamentSets: SetsOrnaments[]
   mainStatUpscaleLevel: number
   rankFilter: boolean
-  relicSets: [pieces: string, set: string][]
+  relicSets: ([pieces: string, set: string] | [pieces: string, set1: string, set2: string])[]
   statDisplay: string
   PRIMARY_ELEMENTAL_DMG_TYPE: string
   statSim?: {

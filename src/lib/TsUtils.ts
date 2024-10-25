@@ -58,6 +58,11 @@ export const TsUtils = {
   stripTrailingSlashes: (str: string) => {
     return str.replace(/\/+$/, '')
   },
+
+  // await sleep(ms) to block
+  sleep: (ms: number) => {
+    return new Promise((resolve) => setTimeout(resolve, ms))
+  },
 }
 
 const getEmptyT = <

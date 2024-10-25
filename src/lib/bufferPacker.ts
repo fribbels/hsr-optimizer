@@ -43,6 +43,10 @@ export type OptimizerDisplayData = {
   'xELEMENTAL_DMG': number
   'relicSetIndex': number
   'ornamentSetIndex': number
+
+  'statSim'?: {
+    key: string
+  }
 }
 
 export const BufferPacker = {

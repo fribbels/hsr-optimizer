@@ -1,15 +1,32 @@
 import React, { useEffect, useMemo } from 'react'
-import { Button, Flex, Form, Modal, Select } from 'antd'
+import { Button, Flex, Form as AntDForm, Modal, Select } from 'antd'
 import { HeaderText } from 'components/HeaderText'
 import { defaultGap } from 'lib/constantsUi'
 import { Utils } from 'lib/utils'
-import PropTypes from 'prop-types'
 import { generateCharacterList } from 'lib/displayUtils'
 import { useTranslation } from 'react-i18next'
+import { Character } from 'types/Character'
+import { ReactElement } from 'types/Components'
 
-export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacter }) {
-  const [characterForm] = Form.useForm()
-  window.characterForm = characterForm
+export type SwitchRelicsFormSelectedCharacter = {
+  key: string
+  label: ReactElement
+  title: string
+  value: string
+}
+
+export type SwitchRelicsForm = {
+  selectedCharacter: SwitchRelicsFormSelectedCharacter
+}
+
+export default function SwitchRelicsModal(props: {
+  onOk: (selectedCharacter: SwitchRelicsFormSelectedCharacter) => void
+  open: boolean
+  setOpen: (value: boolean) => void
+  currentCharacter: Character
+}) {
+  const { onOk, open, setOpen, currentCharacter } = props
+  const [characterForm] = AntDForm.useForm()
   const characters = window.store((s) => s.characters)
 
   const { t } = useTranslation('modals', { keyPrefix: 'SwitchRelics' })
@@ -29,7 +46,7 @@ export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacte
   }, [characterForm, open])
 
   function onModalOk() {
-    const { selectedCharacter } = characterForm.getFieldsValue()
+    const { selectedCharacter } = characterForm.getFieldsValue() as SwitchRelicsForm
     console.log('Switch relics modal submitted with:', selectedCharacter)
     onOk(selectedCharacter)
     setOpen(false)
@@ -58,7 +75,7 @@ export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacte
         </Button>,
       ]}
     >
-      <Form
+      <AntDForm
         form={characterForm}
         preserve={false}
         layout='vertical'
@@ -69,7 +86,7 @@ export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacte
 
         <Flex vertical gap={defaultGap}>
           <Flex gap={defaultGap}>
-            <Form.Item size='default' name='selectedCharacter'>
+            <AntDForm.Item name='selectedCharacter'>
               <Select
                 labelInValue
                 showSearch
@@ -77,16 +94,10 @@ export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacte
                 style={{ width: panelWidth }}
                 options={characterOptions}
               />
-            </Form.Item>
+            </AntDForm.Item>
           </Flex>
         </Flex>
-      </Form>
+      </AntDForm>
     </Modal>
   )
-}
-SwitchRelicsModal.propTypes = {
-  onOk: PropTypes.func,
-  open: PropTypes.bool,
-  setOpen: PropTypes.func,
-  currentCharacter: PropTypes.object,
 }

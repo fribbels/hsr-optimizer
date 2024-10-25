@@ -4,13 +4,14 @@ import styled from 'styled-components'
 import { Utils } from 'lib/utils'
 import PropTypes from 'prop-types'
 import { Parts } from 'lib/constants'
+import { Assets } from 'lib/assets'
 
 const sliderWidth = 140
 const Text = styled(Typography)`
     white-space: pre-line;
 `
 
-export function FormStatRollSlider(props) {
+export function FormStatRollSlider(props: { text: string; name: string }) {
   return (
     <Flex>
       <Flex justify='flex-start' style={{ width: 45, marginRight: 10 }}>
@@ -43,7 +44,7 @@ FormStatRollSlider.propTypes = {
   name: PropTypes.string,
 }
 
-const partsPerSlotIndex = {
+const partsPerSlotIndex: Record<number, string[]> = {
   0: [Parts.Head, Parts.Hands],
   1: [Parts.Body, Parts.Feet],
   2: [Parts.PlanarSphere, Parts.LinkRope],
@@ -57,13 +58,13 @@ const formNamePerSlotIndex = {
 
 const MAX_ROLLS = 5
 
-export function FormStatRollSliderTopPercent(props) {
+export function FormStatRollSliderTopPercent(props: { index: number }) {
   const { index } = props
   const parts = partsPerSlotIndex[index]
   const name = formNamePerSlotIndex[index]
 
-  const [inputValue, setInputValue] = useState(1)
-  const onChange = (newValue) => {
+  const [inputValue, setInputValue] = useState<number | null>(1)
+  const onChange = (newValue: number | null) => {
     setInputValue(newValue)
   }
 
@@ -111,7 +112,7 @@ export function FormStatRollSliderTopPercent(props) {
           max={MAX_ROLLS}
           // variant="filled"
           variant='borderless'
-          onChange={(x) => {
+          onChange={(x: number | null) => {
             onChange(x)
             window.onOptimizerFormValuesChange(x, window.optimizerForm.getFieldsValue(), true)
           }}

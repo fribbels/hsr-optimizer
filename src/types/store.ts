@@ -76,7 +76,7 @@ export type HsrOptimizerStore = {
   setRowLimit: (rowLimit: number) => void
   conditionalSetEffectsDrawerOpen: boolean
   relicsById: Record<string, Relic>
-  statDisplay: 'combat' | 'base'
+  statDisplay: string
   menuSidebarOpen: boolean
   settings: Record<string, any>
   setSettings: (settings: Record<string, any>) => void

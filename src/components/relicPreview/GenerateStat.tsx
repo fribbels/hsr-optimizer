@@ -2,7 +2,6 @@ import { Flex } from 'antd'
 import { Renderer } from 'lib/renderer'
 import { Assets } from 'lib/assets'
 import { Utils } from 'lib/utils'
-import { SubStats } from 'lib/constants'
 import { iconSize } from 'lib/constantsUi'
 import RelicStatText from 'components/relicPreview/RelicStatText'
 import { Relic, StatRolls } from 'types/Relic'
@@ -11,10 +10,10 @@ import { RightIcon } from 'icons/RightIcon'
 import { useTranslation } from 'react-i18next'
 
 type Substat = {
-  stat: SubStats
+  stat: string
   value: number
-  rolls: StatRolls
-  addedRolls: number
+  rolls?: StatRolls
+  addedRolls?: number
 }
 
 export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {

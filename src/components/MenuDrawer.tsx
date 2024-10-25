@@ -9,12 +9,19 @@ import { useTranslation } from 'react-i18next'
 import { officialOnly } from 'lib/constants'
 import { ReactElement } from 'types/Components'
 
-function getItem(label: string, key: string, icon: ReactElement, children: ReactElement[]) {
+type MenuItemProperties = {
+  label: string | ReactElement
+  key: string
+  icon?: ReactElement
+  children?: MenuItemProperties[]
+}
+
+function getItem(label: string | ReactElement, key: string, icon?: ReactElement, children?: MenuItemProperties[]): MenuItemProperties {
   return {
+    label,
     key,
     icon,
     children,
-    label,
   }
 }
 

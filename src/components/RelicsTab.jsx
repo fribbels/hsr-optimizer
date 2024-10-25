@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import Plot from 'react-plotly.js'
 
-import RelicPreview from './RelicPreview'
+import { RelicPreview } from 'components/RelicPreview'
 import { Constants, Stats } from 'lib/constants'
 import RelicModal from './RelicModal.tsx'
 import { RelicScorer } from 'lib/relicScorerPotential'
@@ -641,7 +641,7 @@ export default function RelicsTab() {
                 <Plot
                   onClick={(e) => {
                     store.getState().setScoringAlgorithmFocusCharacter(e.points[0].data.cid)
-                    window.setIsScoringModalOpen(true)
+                    window.store.getState().setScoringModalOpen(true)
                   }}
                   data={
                     scores.map((s) => ({
@@ -732,7 +732,7 @@ export default function RelicsTab() {
                                     style={{ height: '19px' }}
                                     onClick={(e) => {
                                       store.getState().setScoringAlgorithmFocusCharacter(e.target.attributes.src.nodeValue.split('avatar/')[1].split('.webp')[0])
-                                      window.setIsScoringModalOpen(true)
+                                      window.store.getState().setScoringModalOpen(true)
                                     }}
                                   />
                                 </a>
@@ -755,7 +755,7 @@ export default function RelicsTab() {
               <Plot
                 onClick={(e) => {
                   store.getState().setScoringAlgorithmFocusCharacter(e.points[0].data.cid[e.points[0].pointIndex])
-                  window.setIsScoringModalOpen(true)
+                  window.store.getState().setScoringModalOpen(true)
                 }}
                 data={[
                   // Add fake data in each category to make sure we don't elide any categories - that would

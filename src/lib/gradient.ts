@@ -37,7 +37,7 @@ type GridParams = {
   }
 }
 
-type GridAggregations = {
+export type GridAggregations = {
   minAgg: Record<string, number>
   maxAgg: Record<string, number>
 }
@@ -53,7 +53,7 @@ export const Gradient = {
     try {
       const colId = params.column.colId
 
-      const columnsToAggregate = OptimizerTabController.getColumnsToAggregate(true) as Record<string, boolean>
+      const columnsToAggregate = OptimizerTabController.getColumnsToAggregateMap() as Record<string, boolean>
       if (params.data && aggs && columnsToAggregate[colId]) {
         const min = aggs.minAgg[colId]
         const max = aggs.maxAgg[colId]

@@ -64,7 +64,6 @@ const App = () => {
             contentPadding: '0px 0px',
           },
 
-          // MenuDrawer.js
           Menu: {
             margin: 2,
             itemPaddingInline: 0,

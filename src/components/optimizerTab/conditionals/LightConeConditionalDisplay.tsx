@@ -1,6 +1,6 @@
 import { Flex, Typography } from 'antd'
 import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from 'components/TooltipImage.jsx'
+import { TooltipImage } from 'components/TooltipImage'
 import { Hint } from 'lib/hint'
 import { DataMineId } from 'types/Common'
 import { SuperImpositionLevel } from 'types/LightCone'

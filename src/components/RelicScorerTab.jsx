@@ -229,7 +229,7 @@ export default function RelicScorerTab() {
             </Button>
             <Button
               style={{ width: 150 }}
-              onClick={() => window.setIsScoringModalOpen(true)}
+              onClick={() => window.store.getState().setScoringModalOpen(true)}
             >
               {t('SubmissionBar.AlgorithmButton')/* Scoring algorithm */}
             </Button>

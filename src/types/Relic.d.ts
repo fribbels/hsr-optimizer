@@ -1,4 +1,4 @@
-import { MainStats, Parts, Sets, SubStats } from 'lib/constants'
+import { Parts, Sets, SubStats } from 'lib/constants'
 import { GUID } from './Common'
 import { AugmentedStats } from 'lib/relicAugmenter'
 
@@ -26,7 +26,7 @@ export type Relic = {
   ageIndex?: number
 
   main: {
-    stat: MainStats
+    stat: string
     value: number
   }
   condensedStats?: [string, number][]

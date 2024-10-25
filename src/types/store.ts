@@ -62,6 +62,7 @@ export type HsrOptimizerStore = {
   teammateCount: number
   zeroPermutationModalOpen: boolean
   zeroResultModalOpen: boolean
+  scoringModalOpen: boolean
   relicScorerSidebarOpen: boolean
   optimizerRunningEngine: string
   optimizerStartTime: number | null
@@ -75,7 +76,7 @@ export type HsrOptimizerStore = {
   setRowLimit: (rowLimit: number) => void
   conditionalSetEffectsDrawerOpen: boolean
   relicsById: Record<string, Relic>
-  statDisplay: 'combat' | 'base'
+  statDisplay: string
   menuSidebarOpen: boolean
   settings: Record<string, any>
   setSettings: (settings: Record<string, any>) => void
@@ -99,6 +100,7 @@ export type HsrOptimizerStore = {
   setPermutationsResults: (n: number) => void
   setPermutationsSearched: (n: number) => void
   setZeroPermutationsModalOpen: (open: boolean) => void
+  setScoringModalOpen: (open: boolean) => void
   setZeroResultModalOpen: (open: boolean) => void
   setRelicsById: (relicsById: Record<number, Relic>) => void
   setSavedSessionKey: (key: string, value: string) => void
@@ -107,7 +109,7 @@ export type HsrOptimizerStore = {
   setConditionalSetEffectsDrawerOpen: (b: boolean) => void
   setComboDrawerOpen: (b: boolean) => void
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
-  setStatDisplay: (display: 'combat' | 'base') => void
+  setStatDisplay: (display: string) => void
   setCharacters: (characters: Character[]) => void
   setCharactersById: (charactersById: Record<string, Character>) => void
   setOptimizerFormSelectedLightConeSuperimposition: (x: any) => void

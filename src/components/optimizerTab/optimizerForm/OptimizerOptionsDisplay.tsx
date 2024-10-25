@@ -4,7 +4,7 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 
 import { Hint } from 'lib/hint'
 import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from 'components/TooltipImage.jsx'
+import { TooltipImage } from 'components/TooltipImage'
 import { useMemo } from 'react'
 import DB from 'lib/db'
 import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants'

@@ -1,26 +1,17 @@
-import { OrnamentSetCount, OrnamentSetToIndex, RelicSetCount, RelicSetToIndex } from 'lib/constants'
-import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats.ts'
+import { Constants, OrnamentSetCount, OrnamentSetToIndex, RelicSetCount, RelicSetToIndex } from 'lib/constants'
+import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
-import { Constants } from 'lib/constants.ts'
 import { Utils } from 'lib/utils'
 import { RelicFilters } from 'lib/relicFilters'
-import DB from 'lib/db'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
 import { transformComboState } from 'lib/optimizer/rotation/comboStateTransform'
+import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { Form } from 'types/Form'
+import { OptimizerContext } from 'types/Optimizer'
+import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 
-export function calculateBuildByCharacterEquippedIds(character) {
-  console.log('character', character)
-  if (!character) return ''
-
-  const relics = getEquippedRelicsById(character)
-  const request = character.form
-  RelicFilters.condenseRelicSubstatsForOptimizer(relics)
-
-  return calculateBuild(request, relics)
-}
-
-function generateUnusedSets(relics) {
+function generateUnusedSets(relics: SingleRelicByPart) {
   const usedSets = new Set([
     RelicSetToIndex[relics.Head.set],
     RelicSetToIndex[relics.Hands.set],
@@ -32,13 +23,15 @@ function generateUnusedSets(relics) {
   return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
 }
 
-export function calculateBuild(request, relics, cachedContext /* optional */, reuseRequest = false, reuseComboState = false) {
+export function calculateBuild(
+  request: Form,
+  relics: SingleRelicByPart,
+  cachedContext: OptimizerContext | null,
+  reuseRequest: boolean = false,
+  reuseComboState: boolean = false) {
   if (!reuseRequest) {
     request = Utils.clone(request)
   }
-
-  // const params = cachedParams ?? generateParams(request)
-  // ============== Context
 
   const context = cachedContext ?? generateContext(request)
   if (reuseComboState) {
@@ -46,15 +39,9 @@ export function calculateBuild(request, relics, cachedContext /* optional */, re
     for (const action of context.actions) {
       action.conditionalState = {}
     }
-    const c = 1 + 2
   } else {
     transformComboState(request, context)
   }
-
-  // ==============
-
-  // The conditional registry gets used during each sim and needs to be regenerated
-  // calculateConditionalRegistry(request, params)
 
   // Compute
   const { Head, Hands, Body, Feet, PlanarSphere, LinkRope } = extractRelics(relics)
@@ -80,7 +67,7 @@ export function calculateBuild(request, relics, cachedContext /* optional */, re
     x: x,
     relicSetIndex: relicSetIndex,
     ornamentSetIndex: ornamentSetIndex,
-  }
+  } as BasicStatsObject
 
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)
   calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
@@ -119,19 +106,9 @@ export function calculateBuild(request, relics, cachedContext /* optional */, re
   return c
 }
 
-function extractRelics(relics) {
+function extractRelics(relics: SingleRelicByPart) {
   for (const part of Object.keys(Constants.Parts)) {
     relics[part] = relics[part] || emptyRelic()
   }
-  return relics
-}
-
-export function getEquippedRelicsById(selectedCharacter) {
-  const relics = {}
-  const equippedPartIds = selectedCharacter.equipped || {}
-  for (const part of Object.values(Constants.Parts)) {
-    relics[part] = DB.getRelicById(equippedPartIds[part])
-  }
-
   return relics
 }

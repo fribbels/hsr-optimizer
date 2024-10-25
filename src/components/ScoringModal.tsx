@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Button, Divider, Flex, Form, InputNumber, Modal, Popconfirm, Select, Typography } from 'antd'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import { Assets } from 'lib/assets'
-import { Utils } from 'lib/utils'
 import DB from 'lib/db'
-import { Constants } from 'lib/constants.ts'
+import { Parts, Stats } from 'lib/constants'
 import { usePublish } from 'hooks/usePublish'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 import { useTranslation } from 'react-i18next'
 import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
+import { ScoringMetadata } from 'lib/characterScorer'
+import { TsUtils } from 'lib/TsUtils'
 
 const { Text } = Typography
 
@@ -18,10 +19,9 @@ const TitleDivider = styled(Divider)`
     margin-top: 10px !important;
     margin-bottom: 10px !important;
 `
+
 const InputNumberStyled = styled(InputNumber)`
     width: 62px
-`
-const PStyled = styled.p`
 `
 
 export default function ScoringModal() {
@@ -30,23 +30,23 @@ export default function ScoringModal() {
   const pubRefreshRelicsScore = usePublish()
 
   const [scoringAlgorithmForm] = Form.useForm()
-  window.scoringAlgorithmForm = scoringAlgorithmForm
 
   const scoringAlgorithmFocusCharacter = window.store((s) => s.scoringAlgorithmFocusCharacter)
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
   const charactersById = window.store((s) => s.charactersById)
 
-  const [isScoringModalOpen, setIsScoringModalOpen] = useState(false)
-  window.setIsScoringModalOpen = setIsScoringModalOpen
+  const setScoringModalOpen = window.store((s) => s.setScoringModalOpen)
+  const scoringModalOpen = window.store((s) => s.scoringModalOpen)
 
-  function characterSelectorChange(id) {
+  function characterSelectorChange(id: string) {
     setScoringAlgorithmFocusCharacter(id)
   }
 
   // Cleans up 0's to not show up on the form
-  function getScoringValuesForDisplay(scoringMetadata) {
+  function getScoringValuesForDisplay(scoringMetadata: ScoringMetadata) {
     for (const x of Object.entries(scoringMetadata.stats)) {
       if (x[1] == 0) {
+        // @ts-ignore
         scoringMetadata.stats[x[0]] = null
       }
     }
@@ -57,27 +57,32 @@ export default function ScoringModal() {
   useEffect(() => {
     const id = scoringAlgorithmFocusCharacter
     if (id) {
-      let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
+      let scoringMetadata = TsUtils.clone(DB.getScoringMetadata(id))
       scoringMetadata = getScoringValuesForDisplay(scoringMetadata)
       scoringAlgorithmForm.setFieldsValue(scoringMetadata)
 
       // console.log('Scoring modal opening set as:', scoringMetadata)
     }
-  }, [scoringAlgorithmFocusCharacter, isScoringModalOpen, scoringAlgorithmForm])
+  }, [scoringAlgorithmFocusCharacter, scoringModalOpen, scoringAlgorithmForm])
 
   const panelWidth = 225
   const defaultGap = 5
   const selectWidth = 360
 
-  function StatValueRow(props) {
+  function StatValueRow(props: { stat: string }) {
     return (
       <Flex justify='flex-start' style={{ width: panelWidth }} align='center' gap={5}>
-        <Form.Item size='default' name={['stats', props.stat]}>
+        <Form.Item name={['stats', props.stat]}>
           <InputNumberStyled controls={false} size='small'/>
         </Form.Item>
         <Flex>
           <img src={Assets.getStatIcon(props.stat)} style={{ width: 25, height: 25, marginRight: 3 }}></img>
-          <Text style={{ lineHeight: 1.8 }}>{t(`common:ReadableStats.${props.stat}`)}</Text>
+          <Text style={{ lineHeight: 1.8 }}>
+            {
+              // @ts-ignore
+              t(`common:ReadableStats.${props.stat}`)
+            }
+          </Text>
         </Flex>
       </Flex>
     )
@@ -89,38 +94,33 @@ export default function ScoringModal() {
 
   function onModalOk() {
     console.log('onModalOk OK')
-    const values = scoringAlgorithmForm.getFieldsValue()
+    const values = scoringAlgorithmForm.getFieldsValue() as ScoringMetadata
     onFinish(values)
-    setIsScoringModalOpen(false)
+    setScoringModalOpen(false)
     pubRefreshRelicsScore('refreshRelicsScore', 'null')
   }
 
-  const onFinish = (x) => {
+  const onFinish = (scoringMetadata: ScoringMetadata) => {
     if (!scoringAlgorithmFocusCharacter) return
 
-    console.log('Form finished', x)
-    x.stats[Constants.Stats.ATK_P] = x.stats[Constants.Stats.ATK]
-    x.stats[Constants.Stats.DEF_P] = x.stats[Constants.Stats.DEF]
-    x.stats[Constants.Stats.HP_P] = x.stats[Constants.Stats.HP]
+    console.log('Form finished', scoringMetadata)
+    scoringMetadata.stats[Stats.ATK_P] = scoringMetadata.stats[Stats.ATK]
+    scoringMetadata.stats[Stats.DEF_P] = scoringMetadata.stats[Stats.DEF]
+    scoringMetadata.stats[Stats.HP_P] = scoringMetadata.stats[Stats.HP]
 
-    const defaultScoringMetadata = Utils.clone(DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata)
+    const defaultScoringMetadata = TsUtils.clone(DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata)
     const existingScoringMetadata = DB.getScoringMetadata(scoringAlgorithmFocusCharacter)
 
     defaultScoringMetadata.simulation = existingScoringMetadata.simulation
 
-    function nullUndefinedToZero(x) {
-      if (x == null) return 0
-      return x
-    }
-
-    x.modified = false
-    for (const stat of Object.values(Constants.Stats)) {
-      if (nullUndefinedToZero(x.stats[stat]) != nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
-        x.modified = true
+    scoringMetadata.modified = false
+    for (const stat of Object.values(Stats)) {
+      if (nullUndefinedToZero(scoringMetadata.stats[stat]) != nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
+        scoringMetadata.modified = true
       }
     }
 
-    DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, x)
+    DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, scoringMetadata)
   }
 
   const handleResetDefault = () => {
@@ -142,9 +142,11 @@ export default function ScoringModal() {
       }
 
       // Update values for current screen
-      const defaultScoringMetadata = DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
-      const displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
-      scoringAlgorithmForm.setFieldsValue(displayScoringMetadata)
+      if (scoringAlgorithmFocusCharacter) {
+        const defaultScoringMetadata = DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
+        const displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
+        scoringAlgorithmForm.setFieldsValue(displayScoringMetadata)
+      }
     }
 
     return (
@@ -161,14 +163,14 @@ export default function ScoringModal() {
   }
 
   const handleCancel = () => {
-    setIsScoringModalOpen(false)
+    setScoringModalOpen(false)
   }
 
   const previewSrc = (scoringAlgorithmFocusCharacter) ? Assets.getCharacterPreviewById(scoringAlgorithmFocusCharacter) : Assets.getBlank()
 
   return (
     <Modal
-      open={isScoringModalOpen}
+      open={scoringModalOpen}
       width={900}
       destroyOnClose
       centered
@@ -200,7 +202,7 @@ export default function ScoringModal() {
         <Flex gap={10} vertical>
           <Flex gap={20} justify='space-between'>
             <Flex vertical gap={5}>
-              <Form.Item size='default' name='characterId'>
+              <Form.Item name='characterId'>
                 <CharacterSelect
                   value=''
                   selectStyle={{}}
@@ -212,26 +214,26 @@ export default function ScoringModal() {
               </div>
             </Flex>
             <Flex vertical gap={3}>
-              <StatValueRow stat={Constants.Stats.ATK}/>
-              <StatValueRow stat={Constants.Stats.HP}/>
-              <StatValueRow stat={Constants.Stats.DEF}/>
-              <StatValueRow stat={Constants.Stats.SPD}/>
-              <StatValueRow stat={Constants.Stats.CR}/>
-              <StatValueRow stat={Constants.Stats.CD}/>
-              <StatValueRow stat={Constants.Stats.EHR}/>
-              <StatValueRow stat={Constants.Stats.RES}/>
-              <StatValueRow stat={Constants.Stats.BE}/>
+              <StatValueRow stat={Stats.ATK}/>
+              <StatValueRow stat={Stats.HP}/>
+              <StatValueRow stat={Stats.DEF}/>
+              <StatValueRow stat={Stats.SPD}/>
+              <StatValueRow stat={Stats.CR}/>
+              <StatValueRow stat={Stats.CD}/>
+              <StatValueRow stat={Stats.EHR}/>
+              <StatValueRow stat={Stats.RES}/>
+              <StatValueRow stat={Stats.BE}/>
             </Flex>
             <Flex vertical gap={3}>
-              <StatValueRow stat={Constants.Stats.ERR}/>
-              <StatValueRow stat={Constants.Stats.OHB}/>
-              <StatValueRow stat={Constants.Stats.Physical_DMG}/>
-              <StatValueRow stat={Constants.Stats.Fire_DMG}/>
-              <StatValueRow stat={Constants.Stats.Ice_DMG}/>
-              <StatValueRow stat={Constants.Stats.Lightning_DMG}/>
-              <StatValueRow stat={Constants.Stats.Wind_DMG}/>
-              <StatValueRow stat={Constants.Stats.Quantum_DMG}/>
-              <StatValueRow stat={Constants.Stats.Imaginary_DMG}/>
+              <StatValueRow stat={Stats.ERR}/>
+              <StatValueRow stat={Stats.OHB}/>
+              <StatValueRow stat={Stats.Physical_DMG}/>
+              <StatValueRow stat={Stats.Fire_DMG}/>
+              <StatValueRow stat={Stats.Ice_DMG}/>
+              <StatValueRow stat={Stats.Lightning_DMG}/>
+              <StatValueRow stat={Stats.Wind_DMG}/>
+              <StatValueRow stat={Stats.Quantum_DMG}/>
+              <StatValueRow stat={Stats.Imaginary_DMG}/>
             </Flex>
           </Flex>
         </Flex>
@@ -244,7 +246,7 @@ export default function ScoringModal() {
               <Text style={{ marginLeft: 5 }}>
                 {t('common:Parts.Body')}
               </Text>
-              <Form.Item size='default' name={['parts', Constants.Parts.Body]}>
+              <Form.Item name={['parts', Parts.Body]}>
                 <Select
                   mode='multiple'
                   allowClear
@@ -254,13 +256,13 @@ export default function ScoringModal() {
                   placeholder={t('common:Parts.Body')}
                   maxTagCount='responsive'
                 >
-                  <Select.Option value={Constants.Stats.HP_P}>{t(`common:Stats.${Constants.Stats.HP_P}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.ATK_P}>{t(`common:Stats.${Constants.Stats.ATK_P}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.DEF_P}>{t(`common:Stats.${Constants.Stats.DEF_P}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.CR}>{t(`common:Stats.${Constants.Stats.CR}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.CD}>{t(`common:Stats.${Constants.Stats.CD}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.OHB}>{t(`common:Stats.${Constants.Stats.OHB}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.EHR}>{t(`common:Stats.${Constants.Stats.EHR}`)}</Select.Option>
+                  <Select.Option value={Stats.HP_P}>{t(`common:Stats.${Stats.HP_P}`)}</Select.Option>
+                  <Select.Option value={Stats.ATK_P}>{t(`common:Stats.${Stats.ATK_P}`)}</Select.Option>
+                  <Select.Option value={Stats.DEF_P}>{t(`common:Stats.${Stats.DEF_P}`)}</Select.Option>
+                  <Select.Option value={Stats.CR}>{t(`common:Stats.${Stats.CR}`)}</Select.Option>
+                  <Select.Option value={Stats.CD}>{t(`common:Stats.${Stats.CD}`)}</Select.Option>
+                  <Select.Option value={Stats.OHB}>{t(`common:Stats.${Stats.OHB}`)}</Select.Option>
+                  <Select.Option value={Stats.EHR}>{t(`common:Stats.${Stats.EHR}`)}</Select.Option>
                 </Select>
               </Form.Item>
             </Flex>
@@ -269,7 +271,7 @@ export default function ScoringModal() {
               <Text style={{ marginLeft: 5 }}>
                 {t('common:Parts.Feet')}
               </Text>
-              <Form.Item size='default' name={['parts', Constants.Parts.Feet]}>
+              <Form.Item name={['parts', Parts.Feet]}>
                 <Select
                   mode='multiple'
                   allowClear
@@ -279,10 +281,10 @@ export default function ScoringModal() {
                   placeholder={t('common:Parts.Feet')}
                   maxTagCount='responsive'
                 >
-                  <Select.Option value={Constants.Stats.HP_P}>{t(`common:Stats.${Constants.Stats.HP_P}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.ATK_P}>{t(`common:Stats.${Constants.Stats.ATK_P}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.DEF_P}>{t(`common:Stats.${Constants.Stats.DEF_P}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.SPD}>{t(`common:Stats.${Constants.Stats.SPD}`)}</Select.Option>
+                  <Select.Option value={Stats.HP_P}>{t(`common:Stats.${Stats.HP_P}`)}</Select.Option>
+                  <Select.Option value={Stats.ATK_P}>{t(`common:Stats.${Stats.ATK_P}`)}</Select.Option>
+                  <Select.Option value={Stats.DEF_P}>{t(`common:Stats.${Stats.DEF_P}`)}</Select.Option>
+                  <Select.Option value={Stats.SPD}>{t(`common:Stats.${Stats.SPD}`)}</Select.Option>
                 </Select>
               </Form.Item>
             </Flex>
@@ -292,7 +294,7 @@ export default function ScoringModal() {
               <Text style={{ marginLeft: 5 }}>
                 {t('common:Parts.PlanarSphere')}
               </Text>
-              <Form.Item size='default' name={['parts', Constants.Parts.PlanarSphere]}>
+              <Form.Item name={['parts', Parts.PlanarSphere]}>
                 <Select
                   mode='multiple'
                   allowClear
@@ -303,16 +305,16 @@ export default function ScoringModal() {
                   listHeight={400}
                   maxTagCount='responsive'
                 >
-                  <Select.Option value={Constants.Stats.HP_P}>{t(`common:Stats.${Constants.Stats.HP_P}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.ATK_P}>{t(`common:Stats.${Constants.Stats.ATK_P}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.DEF_P}>{t(`common:Stats.${Constants.Stats.DEF_P}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.Physical_DMG}>{t(`common:Stats.${Constants.Stats.Physical_DMG}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.Fire_DMG}>{t(`common:Stats.${Constants.Stats.Fire_DMG}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.Ice_DMG}>{t(`common:Stats.${Constants.Stats.Ice_DMG}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.Lightning_DMG}>{t(`common:Stats.${Constants.Stats.Lightning_DMG}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.Wind_DMG}>{t(`common:Stats.${Constants.Stats.Wind_DMG}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.Quantum_DMG}>{t(`common:Stats.${Constants.Stats.Quantum_DMG}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.Imaginary_DMG}>{t(`common:Stats.${Constants.Stats.Imaginary_DMG}`)}</Select.Option>
+                  <Select.Option value={Stats.HP_P}>{t(`common:Stats.${Stats.HP_P}`)}</Select.Option>
+                  <Select.Option value={Stats.ATK_P}>{t(`common:Stats.${Stats.ATK_P}`)}</Select.Option>
+                  <Select.Option value={Stats.DEF_P}>{t(`common:Stats.${Stats.DEF_P}`)}</Select.Option>
+                  <Select.Option value={Stats.Physical_DMG}>{t(`common:Stats.${Stats.Physical_DMG}`)}</Select.Option>
+                  <Select.Option value={Stats.Fire_DMG}>{t(`common:Stats.${Stats.Fire_DMG}`)}</Select.Option>
+                  <Select.Option value={Stats.Ice_DMG}>{t(`common:Stats.${Stats.Ice_DMG}`)}</Select.Option>
+                  <Select.Option value={Stats.Lightning_DMG}>{t(`common:Stats.${Stats.Lightning_DMG}`)}</Select.Option>
+                  <Select.Option value={Stats.Wind_DMG}>{t(`common:Stats.${Stats.Wind_DMG}`)}</Select.Option>
+                  <Select.Option value={Stats.Quantum_DMG}>{t(`common:Stats.${Stats.Quantum_DMG}`)}</Select.Option>
+                  <Select.Option value={Stats.Imaginary_DMG}>{t(`common:Stats.${Stats.Imaginary_DMG}`)}</Select.Option>
                 </Select>
               </Form.Item>
             </Flex>
@@ -322,7 +324,7 @@ export default function ScoringModal() {
                 {t('common:Parts.LinkRope')}
               </Text>
 
-              <Form.Item size='default' name={['parts', Constants.Parts.LinkRope]}>
+              <Form.Item name={['parts', Parts.LinkRope]}>
                 <Select
                   mode='multiple'
                   allowClear
@@ -332,11 +334,11 @@ export default function ScoringModal() {
                   placeholder={t('common:Parts.LinkRope')}
                   maxTagCount='responsive'
                 >
-                  <Select.Option value={Constants.Stats.HP_P}>{t(`common:Stats.${Constants.Stats.HP_P}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.ATK_P}>{t(`common:Stats.${Constants.Stats.ATK_P}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.DEF_P}>{t(`common:Stats.${Constants.Stats.DEF_P}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.BE}>{t(`common:Stats.${Constants.Stats.BE}`)}</Select.Option>
-                  <Select.Option value={Constants.Stats.ERR}>{t(`common:Stats.${Constants.Stats.ERR}`)}</Select.Option>
+                  <Select.Option value={Stats.HP_P}>{t(`common:Stats.${Stats.HP_P}`)}</Select.Option>
+                  <Select.Option value={Stats.ATK_P}>{t(`common:Stats.${Stats.ATK_P}`)}</Select.Option>
+                  <Select.Option value={Stats.DEF_P}>{t(`common:Stats.${Stats.DEF_P}`)}</Select.Option>
+                  <Select.Option value={Stats.BE}>{t(`common:Stats.${Stats.BE}`)}</Select.Option>
+                  <Select.Option value={Stats.ERR}>{t(`common:Stats.${Stats.ERR}`)}</Select.Option>
                 </Select>
               </Form.Item>
             </Flex>
@@ -344,9 +346,18 @@ export default function ScoringModal() {
         </Flex>
 
         <Divider style={{ marginTop: 10, marginBottom: 40 }}>
-          <ColorizedLinkWithIcon text={t('Scoring.WeightMethodology.Header')} linkIcon={true} url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'/>
+          <ColorizedLinkWithIcon
+            text={t('Scoring.WeightMethodology.Header')}
+            linkIcon={true}
+            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
+          />
         </Divider>
       </Form>
     </Modal>
   )
+}
+
+function nullUndefinedToZero(x: number | null) {
+  if (x == null) return 0
+  return x
 }

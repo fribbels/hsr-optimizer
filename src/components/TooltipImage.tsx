@@ -2,8 +2,9 @@ import React from 'react'
 import { Popover } from 'antd'
 import PropTypes from 'prop-types'
 import { Assets } from 'lib/assets'
+import { HintContent } from 'lib/hint'
 
-export const TooltipImage = (props) => (
+export const TooltipImage = (props: { type: HintContent }) => (
   <Popover
     content={props.type.content}
     title={props.type.title}

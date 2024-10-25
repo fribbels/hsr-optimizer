@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Flex, Form, Modal, Radio } from 'antd'
+import { Button, Flex, Form as AntDForm, Modal, Radio } from 'antd'
 import { HeaderText } from 'components/HeaderText'
-import PropTypes from 'prop-types'
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 import DB from 'lib/db'
 import { useTranslation } from 'react-i18next'
+import { Character } from 'types/Character'
+import { Form } from 'types/Form'
 
-export default function CharacterModal(props) {
-  const [characterForm] = Form.useForm()
-  window.characterForm = characterForm
+export default function CharacterModal(props: {
+  open: boolean
+  onOk: (form: Form) => void
+  setOpen: (open: boolean) => void
+  initialCharacter: Character
+  addCharacter: boolean
+}) {
+  const [characterForm] = AntDForm.useForm()
 
   const { t } = useTranslation('modals', { keyPrefix: 'EditCharacter' })
 
   const [characterId, setCharacterId] = useState(props.initialCharacter?.form.characterId || '')
-  const [eidolon, setEidolon] = useState(props.initialCharacter?.form.characterEidolon || 0)
+  const [eidolon] = useState(props.initialCharacter?.form.characterEidolon || 0)
   const [superimposition, setSuperimposition] = useState(props.initialCharacter?.form.lightConeSuperimposition || 1)
 
   useEffect(() => {
@@ -35,7 +41,7 @@ export default function CharacterModal(props) {
   }, [props.open])
 
   function onModalOk() {
-    const formValues = characterForm.getFieldsValue()
+    const formValues = characterForm.getFieldsValue() as Form
     console.log('Character modal submitted with form:', formValues)
     props.onOk(formValues)
     props.setOpen(false)
@@ -62,7 +68,7 @@ export default function CharacterModal(props) {
         </Button>,
       ]}
     >
-      <Form
+      <AntDForm
         form={characterForm}
         preserve={false}
         layout='vertical'
@@ -70,18 +76,18 @@ export default function CharacterModal(props) {
         <Flex vertical gap={10}>
           <Flex vertical gap={5}>
             <HeaderText>{t('Character')}</HeaderText>
-            <Form.Item size='default' name='characterId'>
+            <AntDForm.Item name='characterId'>
               <CharacterSelect
                 value=''
                 withIcon={true}
-                onChange={(x) => {
-                  setCharacterId(x)
-                  const eidolonPreselect = DB.getCharacterById(x)?.form?.characterEidolon || 0
+                onChange={(characterId: string) => {
+                  setCharacterId(characterId)
+                  const eidolonPreselect = DB.getCharacterById(characterId)?.form?.characterEidolon || 0
                   characterForm.setFieldValue('characterEidolon', eidolonPreselect)
                 }}
               />
-            </Form.Item>
-            <Form.Item size='default' name='characterEidolon'>
+            </AntDForm.Item>
+            <AntDForm.Item name='characterEidolon'>
               <Radio.Group
                 value={eidolon}
                 buttonStyle='solid'
@@ -95,12 +101,12 @@ export default function CharacterModal(props) {
                 <RadioButton text={t('EidolonButton', { eidolon: 5 })} value={5}/>
                 <RadioButton text={t('EidolonButton', { eidolon: 6 })} value={6}/>
               </Radio.Group>
-            </Form.Item>
+            </AntDForm.Item>
           </Flex>
 
           <Flex vertical gap={5}>
             <HeaderText>{t('Lightcone')}</HeaderText>
-            <Form.Item size='default' name='lightCone'>
+            <AntDForm.Item name='lightCone'>
               <LightConeSelect
                 value=''
                 withIcon={true}
@@ -109,11 +115,11 @@ export default function CharacterModal(props) {
                   characterForm.setFieldValue('lightConeSuperimposition', 1)
                 }}
               />
-            </Form.Item>
-            <Form.Item size='default' name='lightConeSuperimposition'>
+            </AntDForm.Item>
+            <AntDForm.Item name='lightConeSuperimposition'>
               <Radio.Group
                 value={superimposition}
-                onChange={(e) => setSuperimposition(e.target.value)}
+                onChange={(e) => setSuperimposition(e.target.value as number)}
                 buttonStyle='solid'
                 style={{ width: '100%', display: 'flex' }}
               >
@@ -123,23 +129,16 @@ export default function CharacterModal(props) {
                 <RadioButton text={t('SuperimpositionButton', { superimposition: 4 })} value={4}/>
                 <RadioButton text={t('SuperimpositionButton', { superimposition: 5 })} value={5}/>
               </Radio.Group>
-            </Form.Item>
+            </AntDForm.Item>
           </Flex>
         </Flex>
-      </Form>
+      </AntDForm>
     </Modal>
   )
 }
-CharacterModal.propTypes = {
-  open: PropTypes.bool,
-  onOk: PropTypes.func,
-  setOpen: PropTypes.func,
-  initialCharacter: PropTypes.object,
-  addCharacter: PropTypes.bool,
-}
 
 // Full width radio buttons
-function RadioButton(props) {
+function RadioButton(props: { text: string; value: number }) {
   return (
     <Radio.Button value={props.value} style={{ flex: 1, textAlign: 'center' }}>{props.text}</Radio.Button>
   )

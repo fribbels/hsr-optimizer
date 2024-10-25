@@ -151,40 +151,24 @@ export const RelicFilters = {
 
       for (const relicSet of request.relicSets) {
         if (relicSet[0] == RelicSetFilterOptions.relic4Piece) {
-          // TODO: Verify deprecated?
-          // if (relicSet.length == 1) { // Is this one even possible
-          //   allowedSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 1)
-          // }
           if (relicSet.length == 2) {
             const index = Constants.RelicSetToIndex[relicSet[1]]
             allowedSets[index] = 1
           }
         }
+
         if (relicSet[0] == RelicSetFilterOptions.relic2PlusAny) {
           allowedSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 1)
         }
 
-        // '2 Piece' and 'Any' is deprecated but leaving here for compatibility
-        // TODO: Verify deprecated?
-        if (relicSet[0] == '2 Piece' || relicSet[0] == RelicSetFilterOptions.relic2Plus2Piece) {
-          // TODO: Verify deprecated?
-          // if (relicSet.length == 1) {
-          //   allowedSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 1)
-          // }
-          if (relicSet.length == 2) {
-            allowedSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 1)
+        if (relicSet[0] == RelicSetFilterOptions.relic2Plus2Piece) {
+          if (relicSet.length == 3) {
+            const index1 = Constants.RelicSetToIndex[relicSet[1]]
+            allowedSets[index1] = 1
+
+            const index2 = Constants.RelicSetToIndex[relicSet[2]]
+            allowedSets[index2] = 1
           }
-          // TODO: Verify deprecated?
-          // if (relicSet.length == 3) {
-          //   if (relicSet[2] == 'Any') {
-          //     allowedSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 1)
-          //   }
-          //   const index1 = Constants.RelicSetToIndex[relicSet[1]]
-          //   allowedSets[index1] = 1
-          //
-          //   const index2 = Constants.RelicSetToIndex[relicSet[2]]
-          //   allowedSets[index2] = 1
-          // }
         }
       }
 

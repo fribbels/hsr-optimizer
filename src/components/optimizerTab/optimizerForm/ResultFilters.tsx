@@ -1,6 +1,6 @@
 import { Flex } from 'antd'
 import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from 'components/TooltipImage.jsx'
+import { TooltipImage } from 'components/TooltipImage'
 import { Hint } from 'lib/hint'
 import FilterRow from 'components/optimizerTab/optimizerForm/FilterRow'
 import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants'

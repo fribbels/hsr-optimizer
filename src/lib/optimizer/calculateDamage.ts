@@ -1,7 +1,9 @@
 import { Stats } from 'lib/constants'
 import { p2 } from 'lib/optimizer/optimizerUtils'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export function calculateBaseMultis(x, action, context) {
+export function calculateBaseMultis(x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
   const lightConeConditionalController = context.lightConeConditionalController
   const characterConditionalController = context.characterConditionalController
 
@@ -9,7 +11,7 @@ export function calculateBaseMultis(x, action, context) {
   if (characterConditionalController.finalizeCalculations) characterConditionalController.finalizeCalculations(x, action, context)
 }
 
-export function calculateDamage(x, action, context) {
+export function calculateDamage(x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
   const sets = x.sets
   const cLevel = 80
   const eLevel = context.enemyLevel
@@ -25,7 +27,7 @@ export function calculateDamage(x, action, context) {
   x.EHP = ehp
 
   // Reapply broken multiplier here since certain conditionals can force weakness
-  let brokenMultiplier = x.ENEMY_WEAKNESS_BROKEN ? 1 : 0.9
+  const brokenMultiplier = x.ENEMY_WEAKNESS_BROKEN ? 1 : 0.9
 
   const universalMulti = dmgReductionMultiplier * brokenMultiplier
   const baseResistance = context.enemyDamageResistance - x.RES_PEN - context.combatBuffs.RES_PEN - x[context.elementalResPenType]
@@ -62,7 +64,7 @@ export function calculateDamage(x, action, context) {
     * (1 - baseResistance)
     * (1 + x[Stats.BE])
 
-  x.SUPER_BREAK_DMG
+  const superBreakDmg
     = universalMulti
     * 3767.5533
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
@@ -93,7 +95,7 @@ export function calculateDamage(x, action, context) {
     * (1 - (baseResistance - x.BASIC_RES_PEN))
     * (1 + x.BASIC_ORIGINAL_DMG_BOOST)
     + (x.BASIC_BREAK_DMG_MODIFIER * x.BREAK_DMG)
-    + ((basicSuperBreakDmg ? basicSuperBreakDmg : x.SUPER_BREAK_DMG) * x.BASIC_TOUGHNESS_DMG * (1 + x.BASIC_BREAK_EFFICIENCY_BOOST))
+    + ((basicSuperBreakDmg ? basicSuperBreakDmg : superBreakDmg) * x.BASIC_TOUGHNESS_DMG * (1 + x.BASIC_BREAK_EFFICIENCY_BOOST))
 
   x.SKILL_DMG
     = x.SKILL_DMG
@@ -103,7 +105,7 @@ export function calculateDamage(x, action, context) {
     * ((skillVulnerability) * Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST) * (1 + x[Stats.CD] + x.SKILL_CD_BOOST) + skillVulnerability * (1 - Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST)))
     * (1 - (baseResistance - x.SKILL_RES_PEN))
     * (1 + x.SKILL_ORIGINAL_DMG_BOOST)
-    + (x.SUPER_BREAK_DMG * x.SKILL_TOUGHNESS_DMG)
+    + (superBreakDmg * x.SKILL_TOUGHNESS_DMG)
 
   x.ULT_DMG
     = x.ULT_DMG
@@ -113,7 +115,7 @@ export function calculateDamage(x, action, context) {
     * ((ultVulnerability) * Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST) * (1 + ULT_CD) + ultVulnerability * (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)))
     * (1 - (baseResistance - x.ULT_RES_PEN * x.ULT_BOOSTS_MULTI))
     * (1 + x.ULT_ORIGINAL_DMG_BOOST)
-    + (x.SUPER_BREAK_DMG * x.ULT_TOUGHNESS_DMG * (1 + x.ULT_BREAK_EFFICIENCY_BOOST))
+    + (superBreakDmg * x.ULT_TOUGHNESS_DMG * (1 + x.ULT_BREAK_EFFICIENCY_BOOST))
 
   x.FUA_DMG
     = x.FUA_DMG
@@ -122,7 +124,7 @@ export function calculateDamage(x, action, context) {
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.FUA_DEF_PEN)
     * ((fuaVulnerability) * Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST) * (1 + x[Stats.CD] + x.FUA_CD_BOOST) + fuaVulnerability * (1 - Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST)))
     * (1 - (baseResistance - x.FUA_RES_PEN))
-    + (x.SUPER_BREAK_DMG * x.FUA_TOUGHNESS_DMG)
+    + (superBreakDmg * x.FUA_TOUGHNESS_DMG)
 
   x.DOT_DMG
     = x.DOT_DMG
@@ -132,16 +134,8 @@ export function calculateDamage(x, action, context) {
     * dotVulnerability
     * (1 - (baseResistance - x.DOT_RES_PEN))
     * dotEhrMultiplier
-
-  // x.COMBO_DMG
-  //   = request.combo.BASIC * x.BASIC_DMG
-  //   + request.combo.SKILL * x.SKILL_DMG
-  //   + request.combo.ULT * x.ULT_DMG
-  //   + request.combo.FUA * x.FUA_DMG
-  //   + request.combo.DOT * x.DOT_DMG
-  //   + request.combo.BREAK * x.BREAK_DMG
 }
 
-function calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, additionalPen) {
+function calculateDefMultiplier(cLevel: number, eLevel: number, defReduction: number, defIgnore: number, additionalPen: number) {
   return (cLevel + 20) / ((eLevel + 20) * Math.max(0, 1 - defReduction - defIgnore - additionalPen) + cLevel + 20)
 }

@@ -6,7 +6,7 @@ import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_S
 import { Assets } from 'lib/assets'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { OptimizerTabController } from 'lib/optimizerTabController.js'
+import { OptimizerTabController } from 'lib/optimizerTabController'
 import { CharacterConditionalDisplay } from 'components/optimizerTab/conditionals/CharacterConditionalDisplay'
 import { LightConeConditionalDisplay } from 'components/optimizerTab/conditionals/LightConeConditionalDisplay'
 import DB from 'lib/db'

@@ -13,13 +13,13 @@ import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
 import { CameraOutlined, DownloadOutlined, DownOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons'
-import CharacterModal from './CharacterModal'
+import CharacterModal from 'components/CharacterModal'
 import { Utils } from 'lib/utils'
 import NameBuild from 'components/SaveBuildModal'
 import BuildsModal from './BuildsModal'
 import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import SwitchRelicsModal from './SwitchRelicsModal'
+import SwitchRelicsModal from 'components/SwitchRelicsModal'
 import { getGridTheme } from 'lib/theme'
 import { generateElementTags, generatePathTags, SegmentedFilterRow } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
 import i18next from 'i18next'
@@ -368,7 +368,7 @@ export default function CharacterTab() {
 
   function scoringAlgorithmClicked() {
     if (characterTabFocusCharacter) setScoringAlgorithmFocusCharacter(characterTabFocusCharacter)
-    window.setIsScoringModalOpen(true)
+    window.store.getState().setScoringModalOpen(true)
   }
 
   function moveToTopClicked() {

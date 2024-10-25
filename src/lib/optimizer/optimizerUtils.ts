@@ -1,10 +1,10 @@
 import { Constants, Stats } from 'lib/constants'
 
-export function p4(set) {
+export function p4(set: number) {
   return set >> 2
 }
 
-export function p2(set) {
+export function p2(set: number) {
   return Math.min(1, set >> 1)
 }
 

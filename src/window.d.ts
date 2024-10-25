@@ -61,6 +61,7 @@ declare global {
     refreshRelicsScore: DispatchWithoutAction
 
     rescoreSingleRelic: (relic: Relic) => void
+    showSaveFilePicker: (options?: SaveFilePickerOptions) => Promise<FileSystemFileHandle>
 
     WorkerPool: typeof WorkerPool
     Constants: typeof Constants
@@ -84,6 +85,8 @@ declare global {
     LightConeConditionals: typeof LightConeConditionals
     BufferPacker: typeof BufferPacker
     RelicRollFixer: typeof RelicRollFixer
+
+    title: string
 
     WEBGPU_DEBUG: boolean
   }

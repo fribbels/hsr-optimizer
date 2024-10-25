@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Flex, Typography } from 'antd'
 
@@ -16,8 +16,11 @@ import ImportTab from 'components/importerTab/ImportTab'
 import SettingsTab from 'components/settingsTab/settingsTab'
 import WebgpuTab from 'components/webgpuTab/WebgpuTab'
 import MetadataTab from 'components/metadataTab/MetadataTab'
+import { WorkerPool } from 'lib/workerPool'
 
-const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
+const defaultErrorRender = ({ error: { message } }: { error: { message: string } }) => (
+  <Typography>Something went wrong: {message}</Typography>
+)
 
 let optimizerInitialized = false
 
@@ -60,7 +63,7 @@ const Tabs = () => {
   }, [activeKey])
 
   return (
-    <Flex justify="space-around">
+    <Flex justify='space-around'>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.OPTIMIZER} content={optimizerTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHARACTERS} content={characterTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab}/>
@@ -81,7 +84,7 @@ const Tabs = () => {
 
 export default Tabs
 
-function TabRenderer(props) {
+function TabRenderer(props: { activeKey: string; tabKey: string; content: ReactElement }) {
   return (
     <ErrorBoundary fallbackRender={defaultErrorRender}>
       <div style={{ display: props.activeKey === props.tabKey ? 'contents' : 'none' }} id={props.tabKey}>

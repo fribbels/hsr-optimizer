@@ -1,7 +1,7 @@
 import { Flex } from 'antd'
 import { memo } from 'react'
 import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from 'components/TooltipImage.jsx'
+import { TooltipImage } from 'components/TooltipImage'
 import { Hint } from 'lib/hint'
 import DisplayFormControl from 'components/optimizerTab/conditionals/DisplayFormControl'
 import { characterOptionMapping } from 'lib/characterConditionals'

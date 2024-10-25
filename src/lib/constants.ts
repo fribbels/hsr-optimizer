@@ -29,7 +29,8 @@ export const Stats = {
   SPD_P: 'SPD%',
   SPD: 'SPD',
   Wind_DMG: 'Wind DMG Boost',
-}
+} as const
+
 export type StatsKeys = keyof typeof Stats
 export type StatsValues = (typeof Stats)[StatsKeys]
 
@@ -744,7 +745,6 @@ export const COMPUTE_ENGINE_GPU_EXPERIMENTAL = 'GPU Experimental'
 
 export const SACERDOS_RELIVED_ORDEAL_1_STACK = 'Sacerdos\' Relived Ordeal 1x'
 export const SACERDOS_RELIVED_ORDEAL_2_STACK = 'Sacerdos\' Relived Ordeal 2x'
-
 
 export const ConditionalType = {
   SET: 0,

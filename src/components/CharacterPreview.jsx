@@ -10,7 +10,7 @@ import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleCol
 import Rarity from 'components/characterPreview/Rarity'
 import StatText from 'components/characterPreview/StatText'
 import RelicModal from 'components/RelicModal.tsx'
-import RelicPreview from 'components/RelicPreview'
+import { RelicPreview } from 'components/RelicPreview'
 import { RelicModalController } from 'lib/relicModalController'
 import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
 import { EditOutlined, SettingOutlined, SwapOutlined, SyncOutlined } from '@ant-design/icons'

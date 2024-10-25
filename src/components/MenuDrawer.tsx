@@ -7,14 +7,21 @@ import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { AppPages } from 'lib/db'
 import { useTranslation } from 'react-i18next'
 import { officialOnly } from 'lib/constants'
+import { ReactElement } from 'types/Components'
 
-function getItem(label, key, icon, children, type) {
+type MenuItemProperties = {
+  label: string | ReactElement
+  key: string
+  icon?: ReactElement
+  children?: MenuItemProperties[]
+}
+
+function getItem(label: string | ReactElement, key: string, icon?: ReactElement, children?: MenuItemProperties[]): MenuItemProperties {
   return {
+    label,
     key,
     icon,
     children,
-    label,
-    type,
   }
 }
 
@@ -137,8 +144,8 @@ const MenuDrawer = () => {
     ]),
   ], [t])
 
-  const onClick = (e) => {
-    if (e.key && e.key.includes('link')) return
+  const onClick = (e: { key: string }) => {
+    if (e.key?.includes('link')) return
 
     setActiveKey(e.key)
   }
@@ -149,7 +156,7 @@ const MenuDrawer = () => {
       inlineIndent={12}
       defaultSelectedKeys={['1']}
       defaultOpenKeys={['subOptimizer', 'subTools', 'subLinks']}
-      selectedKeys={activeKey}
+      selectedKeys={[activeKey]}
       mode='inline'
       items={items}
     />

@@ -428,7 +428,7 @@ export function importOptimizerBuild() {
   }
 
   // Generate relics from optimizer row
-  const relicsByPart = OptimizerTabController.calculateRelicsFromId(selectedRow.id, true)
+  const relicsByPart = OptimizerTabController.calculateRelicsFromId(selectedRow.id)
 
   // Calculate relic sets
   const relicSetIndex = selectedRow.relicSetIndex

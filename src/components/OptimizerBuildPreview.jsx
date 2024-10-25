@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Flex } from 'antd'
 
 import RelicModal from 'components/RelicModal.tsx'
-import RelicPreview from 'components/RelicPreview'
+import { RelicPreview } from 'components/RelicPreview'
 import DB from 'lib/db'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicScorer } from 'lib/relicScorerPotential'

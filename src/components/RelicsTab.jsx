@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import Plot from 'react-plotly.js'
 
-import RelicPreview from 'components/RelicPreview'
+import { RelicPreview } from 'components/RelicPreview'
 import { Constants, Stats } from 'lib/constants'
 import RelicModal from './RelicModal.tsx'
 import { RelicScorer } from 'lib/relicScorerPotential'

@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import React from 'react'
 import { Relic } from 'types/Relic'
 
-const RelicPreview = (props: {
+export function RelicPreview(props: {
   relic: Relic
   source: string
   characterId: string
@@ -17,10 +17,9 @@ const RelicPreview = (props: {
   setEditModalOpen: (open: boolean) => void
   setAddModelOpen: (open: boolean) => void
   setSelectedRelic: (relic: Relic) => void
-}) => {
+}) {
   const { t } = useTranslation('common')
   const {
-    relic,
     source,
     characterId,
     score,
@@ -28,6 +27,16 @@ const RelicPreview = (props: {
     setAddModelOpen,
     setSelectedRelic,
   } = props
+  const relic: Relic = {
+    enhance: 0,
+    part: undefined,
+    set: undefined,
+    grade: 0,
+    substats: [],
+    main: undefined,
+    equippedBy: undefined,
+    ...props.relic,
+  }
 
   const relicSrc = relic.set ? Assets.getSetImage(relic.set, relic.part) : Assets.getBlank()
   const equippedBySrc = relic.equippedBy ? Assets.getCharacterAvatarById(relic.equippedBy) : Assets.getBlank()
@@ -109,5 +118,3 @@ const RelicPreview = (props: {
     </Card>
   )
 }
-
-export default RelicPreview

@@ -3,18 +3,18 @@ import { DownloadOutlined } from '@ant-design/icons'
 import { Button, Flex, Tabs, Typography } from 'antd'
 import { Message } from 'lib/message'
 import { SaveState } from 'lib/saveState'
-import PropTypes from 'prop-types'
 import { ClearDataSubmenu } from './ClearDataSubmenu'
 import { LoadDataSubmenu } from 'components/importerTab/LoadDataSubmenu'
 import { ScannerImportSubmenu } from 'components/importerTab/ScannerImportSubmenu'
 import { useTranslation } from 'react-i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 const { Text } = Typography
 
 const buttonWidth = 250
 
 // https://web.dev/patterns/files/save-a-file
-const saveFile = async (blob, suggestedName) => {
+const saveFile = async (blob: Blob, suggestedName: string) => {
   // Feature detection. The API needs to be supported and the app not run in an iframe.
   const supportsFileSystemAccess
     = 'showSaveFilePicker' in window
@@ -40,8 +40,8 @@ const saveFile = async (blob, suggestedName) => {
       const writable = await handle.createWritable()
       await writable.write(blob)
       await writable.close()
-    } catch (err) {
-      console.warn(err.name, err.message)
+    } catch (err: unknown) {
+      TsUtils.consoleWarnWrapper(err)
     }
   } else {
     // Fallback if the File System Access API is not supported…
@@ -110,22 +110,22 @@ export default function ImportTab() {
           items={[
             {
               label: t('Import'),
-              key: 0,
+              key: 'Import',
               children: <ScannerImportSubmenu/>,
             },
             {
               label: t('Load'),
-              key: 1,
+              key: 'Load',
               children: <LoadDataSubmenu/>,
             },
             {
               label: t('Save'),
-              key: 2,
+              key: 'Save',
               children: <SaveDataSubmenu/>,
             },
             {
               label: t('Clear'),
-              key: 3,
+              key: 'Clear',
               children: <ClearDataSubmenu/>,
             },
           ]}
@@ -133,7 +133,4 @@ export default function ImportTab() {
       </Flex>
     </div>
   )
-}
-ImportTab.propTypes = {
-  active: PropTypes.bool,
 }

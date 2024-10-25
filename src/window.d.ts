@@ -61,6 +61,7 @@ declare global {
     refreshRelicsScore: DispatchWithoutAction
 
     rescoreSingleRelic: (relic: Relic) => void
+    showSaveFilePicker: (options?: SaveFilePickerOptions) => Promise<FileSystemFileHandle>
 
     WorkerPool: typeof WorkerPool
     Constants: typeof Constants

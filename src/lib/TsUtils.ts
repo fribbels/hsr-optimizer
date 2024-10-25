@@ -63,6 +63,14 @@ export const TsUtils = {
   sleep: (ms: number) => {
     return new Promise((resolve) => setTimeout(resolve, ms))
   },
+
+  consoleWarnWrapper: (err: unknown) => {
+    if (err instanceof Error) {
+      console.warn(err.name, err.message)
+    } else {
+      console.warn('An unknown error occurred', err)
+    }
+  },
 }
 
 const getEmptyT = <

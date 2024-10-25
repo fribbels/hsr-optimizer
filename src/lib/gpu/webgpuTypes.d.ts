@@ -61,3 +61,12 @@ export type RelicsByPart = {
   Hands: Relic[]
   Head: Relic[]
 }
+
+export type SingleRelicByPart = {
+  LinkRope: Relic
+  PlanarSphere: Relic
+  Feet: Relic
+  Body: Relic
+  Hands: Relic
+  Head: Relic
+}

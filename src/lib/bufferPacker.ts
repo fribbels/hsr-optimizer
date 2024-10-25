@@ -44,7 +44,7 @@ export type OptimizerDisplayData = {
   'relicSetIndex': number
   'ornamentSetIndex': number
 
-  'statSim': {
+  'statSim'?: {
     key: string
   }
 }

@@ -25,7 +25,7 @@ export function calculateDamage(x, action, context) {
   x.EHP = ehp
 
   // Reapply broken multiplier here since certain conditionals can force weakness
-  let brokenMultiplier = x.ENEMY_WEAKNESS_BROKEN ? 1 : 0.9
+  const brokenMultiplier = x.ENEMY_WEAKNESS_BROKEN ? 1 : 0.9
 
   const universalMulti = dmgReductionMultiplier * brokenMultiplier
   const baseResistance = context.enemyDamageResistance - x.RES_PEN - context.combatBuffs.RES_PEN - x[context.elementalResPenType]
@@ -132,14 +132,6 @@ export function calculateDamage(x, action, context) {
     * dotVulnerability
     * (1 - (baseResistance - x.DOT_RES_PEN))
     * dotEhrMultiplier
-
-  // x.COMBO_DMG
-  //   = request.combo.BASIC * x.BASIC_DMG
-  //   + request.combo.SKILL * x.SKILL_DMG
-  //   + request.combo.ULT * x.ULT_DMG
-  //   + request.combo.FUA * x.FUA_DMG
-  //   + request.combo.DOT * x.DOT_DMG
-  //   + request.combo.BREAK * x.BREAK_DMG
 }
 
 function calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, additionalPen) {

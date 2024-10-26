@@ -142,7 +142,7 @@ export const OptimizerTabController = {
     DB.equipRelicIdsToCharacter(Object.values(build), characterId)
     Message.success('Equipped relics')
     OptimizerTabController.setTopRow(row)
-    window.setOptimizerBuild(build)
+    window.store.getState().setOptimizerBuild(build)
     SaveState.delayedSave()
     OptimizerTabController.updateFilters()
   },
@@ -163,7 +163,7 @@ export const OptimizerTabController = {
         if (character && data.id) {
           const rowId = data.id
           const build = OptimizerTabController.calculateRelicIdsFromId(rowId)
-          window.setOptimizerBuild(build)
+          window.store.getState().setOptimizerBuild(build)
 
           // Find the row by its string ID and select it
           const rowNode: IRowNode<OptimizerDisplayData> = window.optimizerGrid.current?.api.getRowNode(String(data.id)) as IRowNode<OptimizerDisplayData>
@@ -178,7 +178,7 @@ export const OptimizerTabController = {
             }
           }
         } else if (character) {
-          window.setOptimizerBuild(character.equipped)
+          window.store.getState().setOptimizerBuild(character.equipped)
         }
       }
       return
@@ -187,7 +187,7 @@ export const OptimizerTabController = {
     if (data.statSim) {
       const key = data.statSim.key
       window.store.getState().setSelectedStatSimulations([key])
-      window.setOptimizerBuild({})
+      window.store.getState().setOptimizerBuild({})
       window.optimizerGrid.current?.api.deselectAll()
       return
     }
@@ -196,7 +196,7 @@ export const OptimizerTabController = {
 
     const build = OptimizerTabController.calculateRelicIdsFromId(data.id)
     console.log('build', build)
-    window.setOptimizerBuild(build)
+    window.store.getState().setOptimizerBuild(build)
   },
 
   getColumnsToAggregate: () => {
@@ -741,7 +741,7 @@ function unsetMax(value: number, percent: boolean = false) {
   return value == Constants.MAX_INT ? undefined : parseFloat((percent ? value * 100 : value).toFixed(3))
 }
 
-function fixValue(value: number, def: number, div?: number) {
+function fixValue(value: number, def: number, div: number = 0) {
   if (value == null) {
     return def
   }
@@ -750,7 +750,7 @@ function fixValue(value: number, def: number, div?: number) {
 }
 
 function aggregate(subArray: OptimizerDisplayData[]) {
-  const minAgg = CharacterStats.getZeroes()
+  const minAgg: Record<string, number> = CharacterStats.getZeroes()
   for (const column of OptimizerTabController.getColumnsToAggregate()) {
     minAgg[column] = Constants.MAX_INT
   }
@@ -760,7 +760,7 @@ function aggregate(subArray: OptimizerDisplayData[]) {
     maxAgg[name] = 0
   }
 
-  const maxAgg = CharacterStats.getZeroes()
+  const maxAgg: Record<string, number> = CharacterStats.getZeroes()
   minAgg.ED = Constants.MAX_INT
   maxAgg.ED = 0
   minAgg.WEIGHT = Constants.MAX_INT

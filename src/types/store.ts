@@ -1,4 +1,4 @@
-import { Character, CharacterId } from './Character'
+import { Build, Character, CharacterId } from './Character'
 import { Relic } from './Relic'
 import { LightCone } from './LightCone'
 import { Form } from 'types/Form'
@@ -79,6 +79,7 @@ export type HsrOptimizerStore = {
   statDisplay: string
   menuSidebarOpen: boolean
   settings: Record<string, any>
+  optimizerBuild: Build | null
   setSettings: (settings: Record<string, any>) => void
   setOptimizationId: (id: string) => void
   setSettingsDrawerOpen: (open: boolean) => void
@@ -114,6 +115,7 @@ export type HsrOptimizerStore = {
   setCharactersById: (charactersById: Record<string, Character>) => void
   setOptimizerFormSelectedLightConeSuperimposition: (x: any) => void
   setColorTheme: (x: any) => void
+  setOptimizerBuild: (x: Build) => void
   setSavedSession: (x: any) => void
   setOptimizerFormSelectedLightCone: (x: any) => void
   setOptimizerFormCharacterEidolon: (x: any) => void

@@ -12,6 +12,7 @@ type ScoringMetadata = {
   sortedSubstats: [StatsValues, number][]
   // Bucketised substats
   groupedSubstats: Map<number, StatsValues[]>
+  modified?: boolean
 }
 
 type baseStats = {
@@ -105,7 +106,7 @@ export class RelicScorer {
    * returns the current score, mainstat score, and rating for the relic\
    * additionally returns the part, and scoring metadata
    */
-  static scoreCurrentRelic(relic: Relic, id: CharacterId) {
+  static scoreCurrentRelic(relic: Relic, id: CharacterId): RelicScoringResult {
     return new RelicScorer().scoreCurrentRelic(relic, id)
   }
 
@@ -548,13 +549,7 @@ export class RelicScorer {
    * returns the current score, mainstat score, and rating for the relic\
    * additionally returns the part, and scoring metadata
    */
-  scoreCurrentRelic(relic: Relic, id: CharacterId): {
-    score: string
-    rating: string
-    mainStatScore: number
-    part?: Parts
-    meta?: ScoringMetadata
-  } {
+  scoreCurrentRelic(relic: Relic, id: CharacterId): RelicScoringResult {
     if (!relic) {
       // console.warn('scoreCurrentRelic called but no relic given for character', id ?? '????')
       return {
@@ -860,4 +855,12 @@ function getMainStatWeight(relic: Relic, scoringMetadata: ScoringMetadata) {
     return 1
   }
   return scoringMetadata.stats[relic.main.stat]
+}
+
+export type RelicScoringResult = {
+  score: string
+  rating: string
+  mainStatScore: number
+  part?: Parts
+  meta?: ScoringMetadata
 }

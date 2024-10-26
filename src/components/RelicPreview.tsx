@@ -8,14 +8,15 @@ import { GenerateStat } from 'components/relicPreview/GenerateStat'
 import { useTranslation } from 'react-i18next'
 import React from 'react'
 import { Relic } from 'types/Relic'
+import { RelicScoringResult } from 'lib/relicScorerPotential'
 
 export function RelicPreview(props: {
-  relic: Relic
-  source: string
-  characterId: string
-  score: { score: string; rating: string; meta: { modified: boolean } }
-  setEditModalOpen: (open: boolean) => void
-  setAddModelOpen: (open: boolean) => void
+  relic?: Relic
+  source?: string
+  characterId?: string
+  score?: RelicScoringResult
+  setEditModalOpen?: (open: boolean) => void
+  setAddModelOpen?: (open: boolean) => void
   setSelectedRelic: (relic: Relic) => void
 }) {
   const { t } = useTranslation('common')
@@ -27,7 +28,7 @@ export function RelicPreview(props: {
     setAddModelOpen,
     setSelectedRelic,
   } = props
-  const relic: Relic = {
+  const placeholderRelic: Partial<Relic> = {
     enhance: 0,
     part: undefined,
     set: undefined,
@@ -35,8 +36,11 @@ export function RelicPreview(props: {
     substats: [],
     main: undefined,
     equippedBy: undefined,
-    ...props.relic,
   }
+  const relic: Relic = {
+    ...placeholderRelic,
+    ...props.relic,
+  } as Relic
 
   const relicSrc = relic.set ? Assets.getSetImage(relic.set, relic.part) : Assets.getBlank()
   const equippedBySrc = relic.equippedBy ? Assets.getCharacterAvatarById(relic.equippedBy) : Assets.getBlank()
@@ -51,10 +55,10 @@ export function RelicPreview(props: {
       relic.enhance = 15
       relic.grade = 5
       setSelectedRelic(relic)
-      setAddModelOpen(true)
+      setAddModelOpen?.(true)
     } else {
       setSelectedRelic(relic)
-      setEditModalOpen(true)
+      setEditModalOpen?.(true)
     }
   }
 

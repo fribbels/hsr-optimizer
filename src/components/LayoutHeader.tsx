@@ -2,7 +2,7 @@ import { CloseOutlined, MenuOutlined } from '@ant-design/icons'
 import { Button, Flex, Layout, theme, Typography } from 'antd'
 import { Assets } from 'lib/assets'
 import { BASE_PATH } from 'lib/db'
-import { LanguageSelector } from './LanguageSelector'
+import { LanguageSelector } from 'components/LanguageSelector'
 const { useToken } = theme
 const { Header } = Layout
 

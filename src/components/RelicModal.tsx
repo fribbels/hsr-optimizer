@@ -1,21 +1,21 @@
-import styled from 'styled-components'
-import { Button, Flex, Form, Image, Input, InputNumber, Modal, Radio, Select, theme } from 'antd'
-import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
-import { Constants, setToId, Stats, UnreleasedSets } from 'lib/constants'
-import { HeaderText } from 'components/HeaderText'
-import { Message } from 'lib/message'
-import PropTypes from 'prop-types'
-import { Utils } from 'lib/utils'
-import { TsUtils } from 'lib/TsUtils'
-import { Assets } from 'lib/assets'
-import { Relic, Stat } from 'types/Relic'
-import { Character } from 'types/Character'
-import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/relicModalController'
 import { CaretRightOutlined } from '@ant-design/icons'
+import { Button, Flex, Form, Image, Input, InputNumber, Modal, Radio, Select, theme } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
-import { generateCharacterList } from 'lib/displayUtils'
-import { useTranslation } from 'react-i18next'
+import { HeaderText } from 'components/HeaderText'
 import i18next from 'i18next'
+import { Assets } from 'lib/assets'
+import { Constants, setToId, Stats, UnreleasedSets } from 'lib/constants'
+import { generateCharacterList } from 'lib/displayUtils'
+import { Message } from 'lib/message'
+import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/relicModalController'
+import { TsUtils } from 'lib/TsUtils'
+import { Utils } from 'lib/utils'
+import PropTypes from 'prop-types'
+import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { Character } from 'types/Character'
+import { Relic, Stat } from 'types/Relic'
 
 const { useToken } = theme
 
@@ -386,7 +386,14 @@ export default function RelicModal(props: {
                 />
               </Form.Item>
 
-              <div style={{ height: 180, overflow: 'hidden', marginTop: 7, borderRadius: 10, boxShadow: `0px 0px 0px 1px ${token.colorBorder} inset` }}>
+              <div style={{
+                height: 180,
+                overflow: 'hidden',
+                marginTop: 7,
+                borderRadius: 10,
+                boxShadow: `0px 0px 0px 1px ${token.colorBorder} inset`,
+              }}
+              >
                 <img
                   style={{ width: '100%' }}
                   src={Assets.getCharacterPreviewById(equippedBy == 'None' ? '' : equippedBy)}
@@ -403,10 +410,38 @@ export default function RelicModal(props: {
                   <HeaderText>{t('Relic.Upgrades')/* Substat upgrades */}</HeaderText>
                 </Flex>
               </Flex>
-              <SubstatInput index={0} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree}/>
-              <SubstatInput index={1} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree}/>
-              <SubstatInput index={2} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree}/>
-              <SubstatInput index={3} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree}/>
+
+              <SubstatInput
+                index={0}
+                upgrades={upgradeValues}
+                relicForm={relicForm}
+                resetUpgradeValues={resetUpgradeValues}
+                plusThree={plusThree}
+              />
+
+              <SubstatInput
+                index={1}
+                upgrades={upgradeValues}
+                relicForm={relicForm}
+                resetUpgradeValues={resetUpgradeValues}
+                plusThree={plusThree}
+              />
+
+              <SubstatInput
+                index={2}
+                upgrades={upgradeValues}
+                relicForm={relicForm}
+                resetUpgradeValues={resetUpgradeValues}
+                plusThree={plusThree}
+              />
+
+              <SubstatInput
+                index={3}
+                upgrades={upgradeValues}
+                relicForm={relicForm}
+                resetUpgradeValues={resetUpgradeValues}
+                plusThree={plusThree}
+              />
             </Flex>
           </Flex>
         </Flex>
@@ -414,20 +449,18 @@ export default function RelicModal(props: {
     </Form>
   )
 }
-RelicModal.propTypes = {
-  selectedRelic: PropTypes.object,
-  type: PropTypes.string,
-  onOk: PropTypes.func,
-  setOpen: PropTypes.func,
-  open: PropTypes.bool,
-}
 
-function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; relicForm: FormInstance; resetUpgradeValues: () => void; plusThree: () => void }) {
+function SubstatInput(props: {
+  index: number
+  upgrades: RelicUpgradeValues[]
+  relicForm: FormInstance
+  resetUpgradeValues: () => void
+  plusThree: () => void
+}) {
   const inputRef = useRef(null)
   const [hovered, setHovered] = React.useState(false)
   const statTypeField = `substatType${props.index}`
   const statValueField = `substatValue${props.index}`
-  const field = props.relicForm.getFieldValue(statTypeField)
 
   const handleFocus = () => {
     if (inputRef.current) {

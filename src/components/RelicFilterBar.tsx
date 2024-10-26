@@ -9,7 +9,6 @@ import { Hint } from 'lib/hint'
 import { Utils } from 'lib/utils'
 import { Constants, SetsRelics, setToId, Stats, UnreleasedSets } from 'lib/constants'
 import { Assets } from 'lib/assets'
-import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
 import { Renderer } from 'lib/renderer'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
@@ -417,12 +416,6 @@ function FilterRow(props: {
       ))}
     </Flex>
   )
-}
-
-FilterRow.propTypes = {
-  name: PropTypes.string,
-  tags: PropTypes.array,
-  flexBasis: PropTypes.string,
 }
 
 export type RelicScoringWeights = {

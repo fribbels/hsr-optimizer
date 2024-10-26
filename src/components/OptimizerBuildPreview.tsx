@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { Flex } from 'antd'
 
 import RelicModal from 'components/RelicModal'
@@ -56,7 +55,4 @@ export default function OptimizerBuildPreview() {
       <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
     </div>
   )
-}
-OptimizerBuildPreview.propTypes = {
-  build: PropTypes.object,
 }

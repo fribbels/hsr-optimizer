@@ -1,16 +1,16 @@
 import { Flex, Tag } from 'antd'
 import { Assets } from 'lib/assets'
 import { Constants } from 'lib/constants'
-import PropTypes from 'prop-types'
 import React from 'react'
 
 // NOTE: Be careful hot-reloading with this file, can cause Db to wipe. Unsure why yet
-export function OrnamentSetTagRenderer(props) {
+export function OrnamentSetTagRenderer(props: {
+  value: string
+  label: string
+  closable: boolean
+  onClose: () => void
+}) {
   const { value, closable, onClose } = props
-  const onPreventMouseDown = (event) => {
-    event.preventDefault()
-    event.stopPropagation()
-  }
 
   if (!value) return (
     <Tag
@@ -34,10 +34,4 @@ export function OrnamentSetTagRenderer(props) {
       </Flex>
     </Tag>
   )
-}
-
-OrnamentSetTagRenderer.propTypes = {
-  value: PropTypes.string,
-  closable: PropTypes.bool,
-  onClose: PropTypes.func,
 }

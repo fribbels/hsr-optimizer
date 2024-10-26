@@ -53,7 +53,7 @@ declare global {
     setEditModalOpen: (open: boolean) => void
 
     // TODO see OptimizerForm
-    onOptimizerFormValuesChange: (changedValues: Form, allValues: Form, bypass: boolean) => unknown
+    onOptimizerFormValuesChange: (changedValues: Form, allValues: Form, bypass?: boolean) => unknown
     optimizerStartClicked: () => void
     optimizerForm: FormInstance
     statSimulationForm: FormInstance

@@ -3,7 +3,6 @@ import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
 import { Constants } from 'lib/constants'
 import { Assets } from 'lib/assets'
 import { Utils } from './utils'
-import PropTypes from 'prop-types'
 import i18next from 'i18next'
 import { Relic, Stat } from 'types/Relic'
 
@@ -223,8 +222,4 @@ function SetDisplay(props: { asset: string }) {
   } else {
     return ''
   }
-}
-
-SetDisplay.propTypes = {
-  asset: PropTypes.string,
 }

@@ -496,7 +496,7 @@ for (let i = 0; i < SetsRelicsNames.length; i++) {
 export const RelicSetCount = Object.values(SetsRelics).length
 export const OrnamentSetCount = Object.values(SetsOrnaments).length
 
-// TODO: This shouldnt be used anymore
+// TODO: This shouldn't be used anymore
 export const PathNames = {
   Abundance: 'Abundance',
   Destruction: 'Destruction',

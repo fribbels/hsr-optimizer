@@ -1,21 +1,24 @@
+import { Button, Form, Input, Modal } from 'antd'
 import * as React from 'react'
-import { Button, Form, FormInstance, Input, Modal } from 'antd'
 import { useTranslation } from 'react-i18next'
+
+type CharacterForm = {
+  name: string
+}
 
 interface NameBuildProps {
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  onOk: (x: FormInstance) => void
+  onOk: (characterName: string) => void
 }
 
 const NameBuild: React.FC<NameBuildProps> = ({ open, setOpen, onOk }) => {
   const [characterForm] = Form.useForm()
-  window.characterForm = characterForm
 
   const { t } = useTranslation('modals', { keyPrefix: 'SaveBuild' })
 
   function onModalOk() {
-    const formValues = characterForm.getFieldsValue()
+    const formValues = characterForm.getFieldsValue() as CharacterForm
     onOk(formValues.name)
   }
 

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { Flex } from 'antd'
 
 import { Assets } from 'lib/assets'
@@ -18,10 +17,6 @@ const Rarity = ({
       {children}
     </Flex>
   )
-}
-
-Rarity.propTypes = {
-  rarity: PropTypes.number,
 }
 
 export default Rarity

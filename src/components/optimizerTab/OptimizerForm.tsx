@@ -1,47 +1,48 @@
-import { Flex, Form } from 'antd'
+import { Flex, Form as AntDForm } from 'antd'
 import React, { useEffect } from 'react'
-import { Optimizer } from 'lib/optimizer/optimizer.ts'
-import { Constants } from 'lib/constants.ts'
+import { Optimizer } from 'lib/optimizer/optimizer'
 import { SavedSessionKeys } from 'lib/constantsSession'
-import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'components/optimizerTab/FormRow.tsx'
+import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'components/optimizerTab/FormRow'
 import FormCard from 'components/optimizerTab/FormCard'
-import OptimizerOptionsDisplay from 'components/optimizerTab/optimizerForm/OptimizerOptionsDisplay.tsx'
+import OptimizerOptionsDisplay from 'components/optimizerTab/optimizerForm/OptimizerOptionsDisplay'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { SaveState } from 'lib/saveState'
 import { FormSetConditionals } from 'components/optimizerTab/optimizerForm/FormSetConditionals'
 import DB from 'lib/db'
-import { Utils } from 'lib/utils.js'
+import { Utils } from 'lib/utils'
 import { CharacterConditionalDisplay } from 'components/optimizerTab/conditionals/CharacterConditionalDisplay'
 import { LightConeConditionalDisplay } from 'components/optimizerTab/conditionals/LightConeConditionalDisplay'
 import TeammateCard from 'components/optimizerTab/optimizerForm/TeammateCard'
-import CharacterSelectorDisplay from 'components/optimizerTab/optimizerForm/CharacterSelectorDisplay.tsx'
+import CharacterSelectorDisplay from 'components/optimizerTab/optimizerForm/CharacterSelectorDisplay'
 import RelicMainSetFilters from 'components/optimizerTab/optimizerForm/RelicMainSetFilters'
 import { SubstatWeightFilters } from 'components/optimizerTab/optimizerForm/SubstatWeightFilters'
 import { MinMaxRatingFilters, MinMaxStatFilters } from 'components/optimizerTab/optimizerForm/ResultFilters'
 import { CombatBuffsDrawer } from 'components/optimizerTab/optimizerForm/CombatBuffsDrawer'
 import { OptimizerTabCharacterPanel } from 'components/optimizerTab/optimizerForm/OptimizerTabCharacterPanel'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
-import FilterContainer from 'components/optimizerTab/FilterContainer.tsx'
+import FilterContainer from 'components/optimizerTab/FilterContainer'
 import { StatSimulationDisplay } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { ComboFilters } from 'components/optimizerTab/optimizerForm/ComboFilter'
 import { EnemyConfigurationsDrawer } from 'components/optimizerTab/optimizerForm/EnemyConfigurationsDrawer'
 import { AdvancedOptionsPanel } from 'components/optimizerTab/optimizerForm/AdvancedOptionsPanel'
 import { updateConditionalChange } from 'lib/optimizer/rotation/comboDrawerController'
+import { Form } from 'types/Form'
+import { ConditionalMap } from 'types/Conditionals'
 
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')
-  const [optimizerForm] = Form.useForm()
+  const [optimizerForm] = AntDForm.useForm()
   window.optimizerForm = optimizerForm
 
   // On first load, load from last session, else display the first character from the roster
   useEffect(() => {
     const characters = DB.getCharacters() || []
     const savedSessionCharacterId = window.store.getState().savedSession[SavedSessionKeys.optimizerCharacterId]
-    OptimizerTabController.updateCharacter(savedSessionCharacterId || characters[0]?.id)
+    OptimizerTabController.updateCharacter(savedSessionCharacterId ?? characters[0]?.id)
   }, [])
 
-  const onValuesChange = (changedValues, allValues, bypass) => {
-    if (!changedValues || !allValues || !allValues.characterId) return
+  const onValuesChange = (changedValues: Form, allValues: Form, bypass: boolean = false) => {
+    if (!changedValues || !allValues?.characterId) return
     const keys = Object.keys(changedValues)
 
     if (keys.length == 1 && (keys[0] == 'characterConditionals' || keys[0] == 'lightConeConditionals' || keys[0] == 'setConditionals' || keys[0].startsWith('teammate'))) {
@@ -85,7 +86,8 @@ export default function OptimizerForm() {
     }
 
     // Update permutation counts
-    const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request, allValues.characterId)
+    const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request)
+
     const permutationDetails = {
       Head: relics.Head.length,
       Hands: relics.Hands.length,
@@ -93,12 +95,12 @@ export default function OptimizerForm() {
       Feet: relics.Feet.length,
       PlanarSphere: relics.PlanarSphere.length,
       LinkRope: relics.LinkRope.length,
-      HeadTotal: preFilteredRelicsByPart[Constants.Parts.Head].length,
-      HandsTotal: preFilteredRelicsByPart[Constants.Parts.Hands].length,
-      BodyTotal: preFilteredRelicsByPart[Constants.Parts.Body].length,
-      FeetTotal: preFilteredRelicsByPart[Constants.Parts.Feet].length,
-      PlanarSphereTotal: preFilteredRelicsByPart[Constants.Parts.PlanarSphere].length,
-      LinkRopeTotal: preFilteredRelicsByPart[Constants.Parts.LinkRope].length,
+      HeadTotal: preFilteredRelicsByPart.Head.length,
+      HandsTotal: preFilteredRelicsByPart.Hands.length,
+      BodyTotal: preFilteredRelicsByPart.Body.length,
+      FeetTotal: preFilteredRelicsByPart.Feet.length,
+      PlanarSphereTotal: preFilteredRelicsByPart.PlanarSphere.length,
+      LinkRopeTotal: preFilteredRelicsByPart.LinkRope.length,
     }
     window.store.getState().setPermutationDetails(permutationDetails)
     window.store.getState().setPermutations(relics.Head.length * relics.Hands.length * relics.Body.length * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length)
@@ -108,7 +110,7 @@ export default function OptimizerForm() {
   function startClicked() {
     console.log('Start clicked')
 
-    // We dont actually want to submit the form as it would kick off a re-render
+    // We don't actually want to submit the form as it would kick off a re-render
     // Intercept the event and just call the optimizer directly
     const form = OptimizerTabController.getForm()
 
@@ -137,7 +139,7 @@ export default function OptimizerForm() {
 
   return (
     <div style={{ position: 'relative' }}>
-      <Form
+      <AntDForm
         form={optimizerForm}
         layout='vertical'
         onValuesChange={onValuesChange}
@@ -209,7 +211,7 @@ export default function OptimizerForm() {
             <StatSimulationDisplay/>
           </FormRow>
         </FilterContainer>
-      </Form>
+      </AntDForm>
     </div>
   )
 }
@@ -234,13 +236,13 @@ function LightConeConditionalDisplayWrapper() {
 
   // Hook into light cone changes to set defaults
   useEffect(() => {
-    const lcFn = LightConeConditionals.get(window.optimizerForm.getFieldsValue())
-    const defaults = lcFn.defaults()
-    const lightConeForm = DB.getCharacterById(optimizerTabFocusCharacter)?.form.lightConeConditionals || {}
+    const lcFn = LightConeConditionals.get(window.optimizerForm.getFieldsValue() as Form)
+    const defaults = lcFn.defaults() as ConditionalMap
+    const lightConeForm = DB.getCharacterById(optimizerTabFocusCharacter!)?.form.lightConeConditionals || {}
     Utils.mergeDefinedValues(defaults, lightConeForm)
 
     if (optimizerFormSelectedLightCone === '21034') { // Today Is Another Peaceful Day
-      defaults.maxEnergyStacks = Math.min(160, DB.getMetadata().characters[optimizerTabFocusCharacter].max_sp)
+      defaults.maxEnergyStacks = Math.min(160, DB.getMetadata().characters[optimizerTabFocusCharacter!].max_sp)
     }
 
     // console.log('Loaded light cone conditional values', defaults)

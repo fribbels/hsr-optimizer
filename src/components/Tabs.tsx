@@ -8,7 +8,6 @@ import CharacterTab from 'components/CharacterTab'
 import RelicScorerTab from 'components/RelicScorerTab'
 import GettingStartedTab from 'components/GettingStartedTab'
 import ScoringModal from 'components/ScoringModal'
-import PropTypes from 'prop-types'
 import ChangelogTab from 'components/ChangelogTab'
 import { AppPages, PageToRoute } from 'lib/db'
 import { OptimizerTabController } from 'lib/optimizerTabController'
@@ -17,6 +16,7 @@ import SettingsTab from 'components/settingsTab/settingsTab'
 import WebgpuTab from 'components/webgpuTab/WebgpuTab'
 import MetadataTab from 'components/metadataTab/MetadataTab'
 import { WorkerPool } from 'lib/workerPool'
+import { Form } from 'types/Form'
 
 const defaultErrorRender = ({ error: { message } }: { error: { message: string } }) => (
   <Typography>Something went wrong: {message}</Typography>
@@ -50,7 +50,7 @@ const Tabs = () => {
     window.history.pushState({}, window.title, route)
 
     if (activeKey == AppPages.OPTIMIZER) {
-      window.onOptimizerFormValuesChange({}, OptimizerTabController.getForm())
+      window.onOptimizerFormValuesChange({} as Form, OptimizerTabController.getForm())
 
       // Only kick off the workers on the first load of OptimizerTab. Skips this for scorer-only users.
       if (!optimizerInitialized) {
@@ -92,10 +92,4 @@ function TabRenderer(props: { activeKey: string; tabKey: string; content: ReactE
       </div>
     </ErrorBoundary>
   )
-}
-
-TabRenderer.propTypes = {
-  activeKey: PropTypes.string,
-  tabKey: PropTypes.string,
-  content: PropTypes.element,
 }

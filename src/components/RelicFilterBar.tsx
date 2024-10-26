@@ -4,12 +4,11 @@ import { RelicScorer } from 'lib/relicScorerPotential'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { HeaderText } from 'components/HeaderText'
 import { TooltipImage } from './TooltipImage'
-import DB from 'lib/db'
+import DB, { DBMetadataCharacter } from 'lib/db'
 import { Hint } from 'lib/hint'
 import { Utils } from 'lib/utils'
 import { Constants, SetsRelics, setToId, Stats, UnreleasedSets } from 'lib/constants'
 import { Assets } from 'lib/assets'
-import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
 import { Renderer } from 'lib/renderer'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
@@ -17,6 +16,9 @@ import { ClearOutlined } from '@ant-design/icons'
 import { SaveState } from 'lib/saveState'
 import { SettingOptions } from 'components/SettingsDrawer'
 import { useTranslation } from 'react-i18next'
+import { Relic } from 'types/Relic'
+import { ReactElement } from 'types/Components'
+import { TsUtils } from 'lib/TsUtils'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -26,22 +28,26 @@ const imgWidth = 34
 
 const BLANK = Assets.getBlank()
 
-export default function RelicFilterBar(props) {
+export default function RelicFilterBar(props: {
+  setValueColumns: () => void
+  valueColumnOptions: { label: string; options: unknown[] }[]
+  valueColumns: string[]
+}) {
   const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
   const setRelicsTabFocusCharacter = window.store((s) => s.setRelicsTabFocusCharacter)
 
-  const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
+  const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState<string | undefined>()
 
   const { t, i18n } = useTranslation(['relicsTab', 'common', 'gameData'])
 
-  const characterOptions = useMemo(() => {
+  const characterOptions: DBMetadataCharacter[] = useMemo(() => {
     return Utils.generateCharacterOptions()
   }, [])
 
-  function generateImageTags(arr, srcFn, tooltip) {
-    function generateDisplay(key) {
+  function generateImageTags(arr: string[], srcFn: (s: string) => string, tooltip: boolean) {
+    function generateDisplay(key: string) {
       // QOL to colorize elemental stat images instead of using the substat images
-      const overrides = {
+      const overrides: Record<string, string> = {
         [Stats.Physical_DMG]: 'Physical',
         [Stats.Fire_DMG]: 'Fire',
         [Stats.Ice_DMG]: 'Ice',
@@ -57,6 +63,7 @@ export default function RelicFilterBar(props) {
 
       return tooltip
         ? (
+          // @ts-ignore
           <Tooltip title={i18n.exists(`common:Stats.${key}`) ? t(`common:Stats.${key}`) : t(`gameData:RelicSets.${setToId[key]}.Name`)} mouseEnterDelay={0.2}>
             <img style={{ width: width }} src={src}/>
           </Tooltip>
@@ -74,12 +81,12 @@ export default function RelicFilterBar(props) {
     })
   }
 
-  function generateTextTags(arr, width) { // arr contains [key, value]
-    return arr.map((x) => {
+  function generateTextTags(arr: [n: number, s: string][]) { // arr contains [key, value]
+    return arr.map((x: [n: number, s: string]) => {
       return {
         key: x[0],
         display: (
-          <Flex style={{ width: width, height: tagHeight }} justify='space-around' align='center'>
+          <Flex style={{ height: tagHeight }} justify='space-around' align='center'>
             <Text style={{ fontSize: 18 }}>
               {x[1]}
             </Text>
@@ -89,26 +96,26 @@ export default function RelicFilterBar(props) {
     })
   }
 
-  function generateGradeTags(arr) {
-    return arr.map((x) => {
+  function generateGradeTags(arr: number[]) {
+    return arr.map((x: number) => {
       return {
         key: x,
-        display: Renderer.renderGrade({ grade: x }),
+        display: Renderer.renderGrade({ grade: x } as Relic),
       }
     })
   }
 
-  function generateVerifiedTags(arr) {
-    return arr.map((x) => {
+  function generateVerifiedTags(arr: string[]) {
+    return arr.map((x: string) => {
       return {
         key: x,
-        display: Renderer.renderGrade({ grade: -1, verified: x == 'true' }),
+        display: Renderer.renderGrade({ grade: -1, verified: x == 'true' } as Relic),
       }
     })
   }
 
-  function generateEquippedByTags(arr) {
-    return arr.map((x) => {
+  function generateEquippedByTags(arr: string[]) {
+    return arr.map((x: string) => {
       return {
         key: x,
         display: Renderer.renderEquippedBy({ equippedBy: x }),
@@ -135,7 +142,7 @@ export default function RelicFilterBar(props) {
     // views as a pure function of props, but because relics (and other state) are updated mutably in
     // a number of places, we need these manual refresh invocations
     setTimeout(() => {
-      characterSelectorChange(currentlySelectedCharacterId)
+      characterSelectorChange(currentlySelectedCharacterId!)
     }, 100)
   }
 
@@ -146,53 +153,55 @@ export default function RelicFilterBar(props) {
   // will correctly re-trigger it)
   useEffect(() => {
     if (DB.getState().settings[SettingOptions.RelicPotentialLoadBehavior.name] == SettingOptions.RelicPotentialLoadBehavior.ScoreAtStartup) {
-      characterSelectorChange(currentlySelectedCharacterId)
+      characterSelectorChange(currentlySelectedCharacterId!)
     }
   }, [])
 
-  function characterSelectorChange(id, singleRelic) {
+  function characterSelectorChange(characterId: string, singleRelic?: Relic) {
     const relics = singleRelic ? [singleRelic] : Object.values(DB.getRelicsById())
-    console.log('idChange', id)
+    console.log('idChange', characterId)
 
-    setRelicsTabFocusCharacter(id)
-    setCurrentlySelectedCharacterId(id)
+    setRelicsTabFocusCharacter(characterId)
+    setCurrentlySelectedCharacterId(characterId)
 
     const allCharacters = characterOptions.map((val) => val.id)
     const excludedCharacters = window.store.getState().excludedRelicPotentialCharacters
 
     const relicScorer = new RelicScorer()
 
-    // NOTE: we cannot cache these results between renders by keying on the relic/char id because
+    // NOTE: we cannot cache these results between renders by keying on the relic/characterId because
     // both relic stats and char weights can be edited
     for (const relic of relics) {
-      relic.weights = id ? relicScorer.scoreFutureRelic(relic, id) : { current: 0, best: 0, average: 0 }
-      relic.weights.potentialSelected = id ? relicScorer.scoreRelicPotential(relic, id) : { bestPct: 0, averagePct: 0 }
-      relic.weights.potentialAllAll = { bestPct: 0, averagePct: 0 }
-      relic.weights.potentialAllCustom = { bestPct: 0, averagePct: 0 }
+      const weights: Partial<RelicScoringWeights> = characterId ? relicScorer.scoreFutureRelic(relic, characterId) : { current: 0, best: 0, average: 0 }
+      weights.potentialSelected = characterId ? relicScorer.scoreRelicPotential(relic, characterId) : { bestPct: 0, averagePct: 0 }
+      weights.potentialAllAll = { bestPct: 0, averagePct: 0 }
+      weights.potentialAllCustom = { bestPct: 0, averagePct: 0 }
 
       for (const cid of allCharacters) {
         const pct = relicScorer.scoreRelicPotential(relic, cid)
-        relic.weights.potentialAllAll = {
-          bestPct: Math.max(pct.bestPct, relic.weights.potentialAllAll.bestPct),
-          averagePct: Math.max(pct.averagePct, relic.weights.potentialAllAll.averagePct),
+        weights.potentialAllAll = {
+          bestPct: Math.max(pct.bestPct, weights.potentialAllAll.bestPct),
+          averagePct: Math.max(pct.averagePct, weights.potentialAllAll.averagePct),
         }
 
         // For custom characters only consider the ones that aren't excluded
         if (!excludedCharacters.includes(cid)) {
-          relic.weights.potentialAllCustom = {
-            bestPct: Math.max(pct.bestPct, relic.weights.potentialAllCustom.bestPct),
-            averagePct: Math.max(pct.averagePct, relic.weights.potentialAllCustom.averagePct),
+          weights.potentialAllCustom = {
+            bestPct: Math.max(pct.bestPct, weights.potentialAllCustom.bestPct),
+            averagePct: Math.max(pct.averagePct, weights.potentialAllCustom.averagePct),
           }
         }
       }
+
+      relic.weights = weights as RelicScoringWeights
     }
 
     if (singleRelic) return
 
     // Clone the relics to refresh the sort
-    DB.setRelics(Utils.clone(relics))
+    DB.setRelics(TsUtils.clone(relics))
 
-    if (id && window.relicsGrid?.current?.api) {
+    if (characterId && window.relicsGrid?.current?.api) {
       const isSorted = window.relicsGrid.current.api.getColumnState().filter((s) => s.sort !== null)
 
       if (!isSorted) {
@@ -220,17 +229,17 @@ export default function RelicFilterBar(props) {
   }
 
   function scoringClicked() {
-    const relicsTabFocusCharacter = store.getState().relicsTabFocusCharacter
-    if (relicsTabFocusCharacter) store.getState().setScoringAlgorithmFocusCharacter(relicsTabFocusCharacter)
+    const relicsTabFocusCharacter = window.store.getState().relicsTabFocusCharacter
+    if (relicsTabFocusCharacter) window.store.getState().setScoringAlgorithmFocusCharacter(relicsTabFocusCharacter)
     window.store.getState().setScoringModalOpen(true)
   }
 
   function rescoreClicked() {
-    characterSelectorChange(currentlySelectedCharacterId)
+    characterSelectorChange(currentlySelectedCharacterId!)
   }
 
-  function rescoreSingleRelic(singleRelic) {
-    characterSelectorChange(currentlySelectedCharacterId, singleRelic)
+  function rescoreSingleRelic(singleRelic: Relic) {
+    characterSelectorChange(currentlySelectedCharacterId!, singleRelic)
   }
 
   window.rescoreSingleRelic = rescoreSingleRelic
@@ -288,9 +297,9 @@ export default function RelicFilterBar(props) {
             <CharacterSelect
               value={currentlySelectedCharacterId}
               selectStyle={{ flex: 1 }}
-              onChange={(x) => {
+              onChange={(characterId: string) => {
                 // Wait until after modal closes to update
-                setTimeout(() => characterSelectorChange(x), 20)
+                setTimeout(() => characterSelectorChange(characterId), 20)
               }}
               withIcon={true}
             />
@@ -335,9 +344,9 @@ export default function RelicFilterBar(props) {
           <CharacterSelect
             value={window.store.getState().excludedRelicPotentialCharacters}
             selectStyle={{ flex: 1 }}
-            onChange={(x) => {
-              const excludedCharacterIds = Array.from(x || new Map())
-                .filter((entry) => entry[1] == true)
+            onChange={(excludedMap: Map<string, boolean>) => {
+              const excludedCharacterIds = Array.from(excludedMap || new Map<string, boolean>())
+                .filter((entry) => entry[1])
                 .map((entry) => entry[0])
               window.store.getState().setExcludedRelicPotentialCharacters(excludedCharacterIds)
               SaveState.delayedSave()
@@ -350,26 +359,27 @@ export default function RelicFilterBar(props) {
     </Flex>
   )
 }
-RelicFilterBar.propTypes = {
-  setValueColumns: PropTypes.func,
-  valueColumnOptions: PropTypes.array,
-  valueColumns: PropTypes.array,
-}
 
-function FilterRow(props) {
+type FilterTag = { key: string | number; display: ReactElement }
+
+function FilterRow(props: {
+  name: string
+  tags: FilterTag[]
+  flexBasis?: string
+}) {
   const { token } = useToken()
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
   const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
 
-  const selectedTags = relicTabFilters[props.name]
+  const selectedTags = relicTabFilters[props.name] as (string | number)[]
 
-  const handleChange = (tag, checked) => {
+  const handleChange = (tag: string | number, checked: boolean) => {
     const nextSelectedTags = checked
       ? [...selectedTags, tag]
       : selectedTags.filter((t) => t != tag)
 
-    const clonedFilters = Utils.clone(relicTabFilters)
+    const clonedFilters = TsUtils.clone(relicTabFilters)
     clonedFilters[props.name] = nextSelectedTags
     console.log('Relic tab filters', props.name, clonedFilters)
 
@@ -408,8 +418,18 @@ function FilterRow(props) {
   )
 }
 
-FilterRow.propTypes = {
-  name: PropTypes.string,
-  tags: PropTypes.array,
-  flexBasis: PropTypes.string,
+export type RelicScoringWeights = {
+  average: number
+  current: number
+  best: number
+  potentialSelected: PotentialWeights
+  potentialAllAll: PotentialWeights
+  potentialAllCustom: PotentialWeights
+}
+
+type PotentialWeights = {
+  bestPct: number
+  averagePct: number
+  // worstPct: number
+  // meta: { bestAddedStats: string[]; bestUpgradedStats: string[] }
 }

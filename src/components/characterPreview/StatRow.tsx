@@ -1,5 +1,4 @@
 import { Divider, Flex } from 'antd'
-import PropTypes from 'prop-types'
 
 import { Assets } from 'lib/assets'
 import { Constants } from 'lib/constants'
@@ -94,10 +93,6 @@ const StatRow = (props: { stat: string; finalStats: object; value?: number }): J
       <StatText>{`${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' ? '' : '%'}`}</StatText>
     </Flex>
   )
-}
-StatRow.propTypes = {
-  finalStats: PropTypes.object,
-  stat: PropTypes.string,
 }
 
 export default StatRow

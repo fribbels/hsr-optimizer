@@ -2,7 +2,6 @@ import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Utils } from 'lib/utils'
-import PropTypes from 'prop-types'
 import { Parts } from 'lib/constants'
 import { Assets } from 'lib/assets'
 
@@ -37,11 +36,6 @@ export function FormStatRollSlider(props: { text: string; name: string }) {
       </Flex>
     </Flex>
   )
-}
-
-FormStatRollSlider.propTypes = {
-  text: PropTypes.string,
-  name: PropTypes.string,
 }
 
 const partsPerSlotIndex: Record<number, string[]> = {

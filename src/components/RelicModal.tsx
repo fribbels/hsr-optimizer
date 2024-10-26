@@ -89,7 +89,7 @@ type MainStatOption = { label: ReactElement | string; value: string }
 
 // selectedRelic, onOk, setOpen, open, type
 export default function RelicModal(props: {
-  selectedRelic: Relic
+  selectedRelic?: Relic
   type: string
   onOk: (relic: Relic) => void
   setOpen: (open: boolean) => void

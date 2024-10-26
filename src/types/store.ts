@@ -1,6 +1,5 @@
-import { Character, CharacterId } from './Character'
+import { Build, Character, CharacterId } from './Character'
 import { Relic } from './Relic'
-import { LightCone } from './LightCone'
 import { Form } from 'types/Form'
 import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { ColorThemeOverrides } from 'lib/theme'
@@ -23,14 +22,14 @@ type PermutationDetails = {
 }
 
 type RelicTabFilters = {
-  set: unknown[]
-  part: unknown[]
-  enhance: unknown[]
-  mainStats: unknown[]
-  subStats: unknown[]
-  grade: unknown[]
-  verified: unknown[]
-  equippedBy: unknown[]
+  set: (string | number)[]
+  part: (string | number)[]
+  enhance: (string | number)[]
+  mainStats: (string | number)[]
+  subStats: (string | number)[]
+  grade: (string | number)[]
+  verified: (string | number)[]
+  equippedBy: (string | number)[]
 }
 
 export type HsrOptimizerStore = {
@@ -79,6 +78,7 @@ export type HsrOptimizerStore = {
   statDisplay: string
   menuSidebarOpen: boolean
   settings: Record<string, any>
+  optimizerBuild: Build | null
   setSettings: (settings: Record<string, any>) => void
   setOptimizationId: (id: string) => void
   setSettingsDrawerOpen: (open: boolean) => void
@@ -95,7 +95,7 @@ export type HsrOptimizerStore = {
   setOptimizerRunningEngine: (s: string) => void
   setExcludedRelicPotentialCharacters: (ids: CharacterId[]) => void
   optimizerFormCharacterEidolon: number
-  optimizerFormSelectedLightCone: null | LightCone
+  optimizerFormSelectedLightCone: string | undefined
   optimizerFormSelectedLightConeSuperimposition: number
   setPermutationsResults: (n: number) => void
   setPermutationsSearched: (n: number) => void
@@ -114,6 +114,7 @@ export type HsrOptimizerStore = {
   setCharactersById: (charactersById: Record<string, Character>) => void
   setOptimizerFormSelectedLightConeSuperimposition: (x: any) => void
   setColorTheme: (x: any) => void
+  setOptimizerBuild: (x: Build) => void
   setSavedSession: (x: any) => void
   setOptimizerFormSelectedLightCone: (x: any) => void
   setOptimizerFormCharacterEidolon: (x: any) => void

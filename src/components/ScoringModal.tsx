@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { Button, Divider, Flex, Form, InputNumber, Modal, Popconfirm, Select, Typography } from 'antd'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
 
 import { Assets } from 'lib/assets'
 import DB from 'lib/db'
@@ -86,10 +85,6 @@ export default function ScoringModal() {
         </Flex>
       </Flex>
     )
-  }
-
-  StatValueRow.propTypes = {
-    stat: PropTypes.string,
   }
 
   function onModalOk() {

@@ -8,7 +8,7 @@ import DB from 'lib/db'
 import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import { Character, SavedBuild } from 'types/Character'
-import { CharacterPreview } from 'components/CharacterPreview.jsx'
+import { CharacterPreview } from 'components/CharacterPreview'
 import { RelicScorer } from 'lib/relicScorerPotential'
 import { useTranslation } from 'react-i18next'
 
@@ -19,10 +19,10 @@ interface BuildsModalProps {
 }
 
 const BuildsModal: React.FC<BuildsModalProps> = ({
-                                                   open,
-                                                   setOpen,
-                                                   selectedCharacter,
-                                                 }) => {
+  open,
+  setOpen,
+  selectedCharacter,
+}) => {
   const { t } = useTranslation(['modals', 'gameData'])
   const [confirmationModal, contextHolder] = Modal.useModal()
   const [selectedBuild, setSelectedBuild] = React.useState<null | number>(null)

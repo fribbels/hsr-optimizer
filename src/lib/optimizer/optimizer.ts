@@ -1,4 +1,4 @@
-import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, MAX_RESULTS, Stats } from 'lib/constants.ts'
+import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, MAX_RESULTS, Stats } from 'lib/constants'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Utils } from 'lib/utils'
 import DB from 'lib/db'
@@ -16,6 +16,7 @@ import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
+import { Form } from 'types/Form'
 
 let CANCEL = false
 const isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().indexOf('firefox') > -1
@@ -40,7 +41,7 @@ export const Optimizer = {
     WorkerPool.cancel(id)
   },
 
-  getFilteredRelics: (request) => {
+  getFilteredRelics: (request: Form) => {
     let relics = Utils.clone(DB.getRelics())
     RelicFilters.calculateWeightScore(request, relics)
 

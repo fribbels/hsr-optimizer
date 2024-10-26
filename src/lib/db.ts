@@ -180,6 +180,7 @@ window.store = create((set) => {
     savedSession: savedSessionDefaults,
 
     settings: DefaultSettingOptions,
+    optimizerBuild: null,
 
     setComboState: (x) => set(() => ({ comboState: x })),
     setVersion: (x) => set(() => ({ version: x })),
@@ -233,6 +234,7 @@ window.store = create((set) => {
       savedSession: { ...state.savedSession, [key]: x },
     })),
     setColorTheme: (x) => set(() => ({ colorTheme: x })),
+    setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
   }
   return store
 })

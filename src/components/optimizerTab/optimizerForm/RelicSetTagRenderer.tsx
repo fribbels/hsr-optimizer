@@ -2,10 +2,14 @@ import { Constants, RelicSetFilterOptions } from 'lib/constants'
 import React from 'react'
 import { Assets } from 'lib/assets'
 import { Flex, Tag } from 'antd'
-import PropTypes from 'prop-types'
 
 // NOTE: Be careful hot-reloading with this file, can cause Db to wipe. Unsure why yet
-export function RelicSetTagRenderer(props) {
+export function RelicSetTagRenderer(props: {
+  value: string
+  label: string
+  closable: boolean
+  onClose: () => void
+}) {
   const { value, closable, onClose } = props
 
   /*
@@ -17,11 +21,6 @@ export function RelicSetTagRenderer(props) {
    *['2 + 2 Piece', 'Knight of Purity Palace', 'Hunter of Glacial Forest']
    *['2 + Any', 'Knight of Purity Palace']
    */
-
-  const onPreventMouseDown = (event) => {
-    event.preventDefault()
-    event.stopPropagation()
-  }
 
   if (!value) return (
     <Tag
@@ -38,8 +37,7 @@ export function RelicSetTagRenderer(props) {
   let inner
 
   if (pieces[0] == RelicSetFilterOptions.relic4Piece) {
-    inner
-      = (
+    inner = (
       <React.Fragment>
         <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
         <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
@@ -48,8 +46,7 @@ export function RelicSetTagRenderer(props) {
   }
 
   if (pieces[0] == RelicSetFilterOptions.relic2Plus2Piece) {
-    inner
-      = (
+    inner = (
       <React.Fragment>
         <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
         <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
@@ -58,8 +55,7 @@ export function RelicSetTagRenderer(props) {
   }
 
   if (pieces[0] == RelicSetFilterOptions.relic2PlusAny) {
-    inner
-      = (
+    inner = (
       <React.Fragment>
         <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
       </React.Fragment>
@@ -77,10 +73,4 @@ export function RelicSetTagRenderer(props) {
       </Flex>
     </Tag>
   )
-}
-
-RelicSetTagRenderer.propTypes = {
-  value: PropTypes.string,
-  closable: PropTypes.bool,
-  onClose: PropTypes.func,
 }

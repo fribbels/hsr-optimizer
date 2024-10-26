@@ -6,7 +6,7 @@ import { Assets } from 'lib/assets'
 
 type placementOptions = 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight'
 
-const completedLocales = ['en']
+const completedLocales = ['en', 'it']
 
 export function LanguageSelector(props: { style: React.CSSProperties; dropdownStyle: React.CSSProperties; flagOnly: boolean; placement: placementOptions }) {
   const { t, i18n } = useTranslation()

@@ -30,7 +30,11 @@ export const languages = {
   id: {
     locale: 'id',
     nativeName: 'Bahasa Indonesia',
-  },
+  }, */
+  it: {
+    locale: 'it',
+    nativeName: 'Italiano',
+  }, /*
   ja: {
     locale: 'ja',
     nativeName: '日本語',
@@ -79,7 +83,6 @@ void i18next
       'notifications',
       'conditionals',
     ],
-    lng: 'en', // Hardcoded temporarily
     defaultNS: 'common',
     fallbackNS: ['common', 'gameData'],
     debug: true,

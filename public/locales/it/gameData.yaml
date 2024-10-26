@@ -1,0 +1,637 @@
+Characters:
+  "1001":
+    Name: March 7th
+  "1002":
+    Name: Dan Heng
+  "1003":
+    Name: Himeko
+  "1004":
+    Name: Welt
+  "1005":
+    Name: Kafka
+  "1006":
+    Name: Silver Wolf
+  "1008":
+    Name: Arlan
+  "1009":
+    Name: Asta
+  "1013":
+    Name: Herta
+  "1101":
+    Name: Bronya
+  "1102":
+    Name: Seele
+  "1103":
+    Name: Serval
+  "1104":
+    Name: Gepard
+  "1105":
+    Name: Natasha
+  "1106":
+    Name: Pela
+  "1107":
+    Name: Clara
+  "1108":
+    Name: Sampo
+  "1109":
+    Name: Hook
+  "1110":
+    Name: Lynx
+  "1111":
+    Name: Luka
+  "1112":
+    Name: Topaz & Numby
+  "1201":
+    Name: Qingque
+  "1202":
+    Name: Tingyun
+  "1203":
+    Name: Luocha
+  "1204":
+    Name: Jing Yuan
+  "1205":
+    Name: Blade
+  "1206":
+    Name: Sushang
+  "1207":
+    Name: Yukong
+  "1208":
+    Name: Fu Xuan
+  "1209":
+    Name: Yanqing
+  "1210":
+    Name: Guinaifen
+  "1211":
+    Name: Bailu
+  "1212":
+    Name: Jingliu
+  "1213":
+    Name: Imbibitor Lunae
+  "1214":
+    Name: Xueyi
+  "1215":
+    Name: Hanya
+  "1217":
+    Name: Huohuo
+  "1218":
+    Name: Jiaoqiu
+  "1220":
+    Name: Feixiao
+  "1221":
+    Name: Yunli
+  "1222":
+    Name: Lingsha
+  "1223":
+    Name: Moze
+  "1224":
+    Name: March 7th
+  "1225":
+    Name: Fugue
+  "1301":
+    Name: Gallagher
+  "1302":
+    Name: Argenti
+  "1303":
+    Name: Ruan Mei
+  "1304":
+    Name: Aventurine
+  "1305":
+    Name: Dr. Ratio
+  "1306":
+    Name: Sparkle
+  "1307":
+    Name: Black Swan
+  "1308":
+    Name: Acheron
+  "1309":
+    Name: Robin
+  "1310":
+    Name: Firefly
+  "1312":
+    Name: Misha
+  "1313":
+    Name: Sunday
+  "1314":
+    Name: Jade
+  "1315":
+    Name: Boothill
+  "1317":
+    Name: Rappa
+  "8001":
+    Name: Caelus (Destruction)
+  "8002":
+    Name: Stelle (Destruction)
+  "8003":
+    Name: Caelus (Preservation)
+  "8004":
+    Name: Stelle (Preservation)
+  "8005":
+    Name: Caelus (Harmony)
+  "8006":
+    Name: Stelle (Harmony)
+RelicSets:
+  "101":
+    Name: Passerby of Wandering Cloud
+    Description2pc: "<span>Increases Outgoing Healing by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: <span>At the start of the battle, immediately regenerates 1 Skill Point.</span>
+  "102":
+    Name: Musketeer of Wild Wheat
+    Description2pc: "<span>Increases ATK by <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>The wearer's SPD increases by <span style='whiteSpace: \"nowrap\"'>6%</span> and DMG dealt by Basic ATK increases by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+  "103":
+    Name: Knight of Purity Palace
+    Description2pc: "<span>Increases DEF by <span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
+    Description4pc: "<span>Increases the max DMG that can be absorbed by the Shield created by the wearer by <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+  "104":
+    Name: Hunter of Glacial Forest
+    Description2pc: "<span>Increases Ice DMG by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>After the wearer uses their Ultimate, their CRIT DMG increases by <span style='whiteSpace: \"nowrap\"'>25%</span> for <span style='whiteSpace: \"nowrap\"'>2</span> turn(s).</span>"
+  "105":
+    Name: Champion of Streetwise Boxing
+    Description2pc: "<span>Increases Physical DMG by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>After the wearer attacks or is hit, their ATK increases by <span style='whiteSpace: \"nowrap\"'>5%</span> for the rest of the battle. This effect can stack up to <span style='whiteSpace: \"nowrap\"'>5</span> time(s).</span>"
+  "106":
+    Name: Guard of Wuthering Snow
+    Description2pc: "<span>Reduces DMG taken by <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
+    Description4pc: "<span>At the beginning of the turn, if the wearer's HP percentage is equal to or less than <span style='whiteSpace: \"nowrap\"'>50%</span>, restores HP equal to <span style='whiteSpace: \"nowrap\"'>8%</span> of their Max HP and regenerates <span style='whiteSpace: \"nowrap\"'>5</span> Energy.</span>"
+  "107":
+    Name: Firesmith of Lava-Forging
+    Description2pc: "<span>Increases Fire DMG by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>Increases DMG by the wearer's Skill by <span style='whiteSpace: \"nowrap\"'>12%</span>. After unleashing Ultimate, increases the wearer's Fire DMG by <span style='whiteSpace: \"nowrap\"'>12%</span> for the next attack.</span>"
+  "108":
+    Name: Genius of Brilliant Stars
+    Description2pc: "<span>Increases Quantum DMG by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>When the wearer deals DMG to the target enemy, ignores <span style='whiteSpace: \"nowrap\"'>10%</span> DEF. If the target enemy has Quantum Weakness, the wearer additionally ignores <span style='whiteSpace: \"nowrap\"'>10%</span> DEF.</span>"
+  "109":
+    Name: Band of Sizzling Thunder
+    Description2pc: "<span>Increases Lightning DMG by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>When the wearer uses their Skill, increases the wearer's ATK by <span style='whiteSpace: \"nowrap\"'>20%</span> for <span style='whiteSpace: \"nowrap\"'>1</span> turn(s).</span>"
+  "110":
+    Name: Eagle of Twilight Line
+    Description2pc: "<span>Increases Wind DMG by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>After the wearer uses their Ultimate, their action is Advanced Forward by <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+  "111":
+    Name: Thief of Shooting Meteor
+    Description2pc: "<span>Increases Break Effect by <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
+    Description4pc: "<span>Increases the wearer's Break Effect by <span style='whiteSpace: \"nowrap\"'>16%</span>. After the wearer inflicts Weakness Break on an enemy, regenerates <span style='whiteSpace: \"nowrap\"'>3</span> Energy.</span>"
+  "112":
+    Name: Wastelander of Banditry Desert
+    Description2pc: "<span>Increases Imaginary DMG by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description4pc: "<span>When attacking debuffed enemies, the wearer's CRIT Rate increases by <span style='whiteSpace: \"nowrap\"'>10%</span>, and their CRIT DMG increases by <span style='whiteSpace: \"nowrap\"'>20%</span> against Imprisoned enemies.</span>"
+  "113":
+    Name: Longevous Disciple
+    Description2pc: "<span>Increases Max HP by <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by <span style='whiteSpace: \"nowrap\"'>8%</span> for <span style='whiteSpace: \"nowrap\"'>2</span> turn(s) and up to <span style='whiteSpace: \"nowrap\"'>2</span> stacks.</span>"
+  "114":
+    Name: Messenger Traversing Hackerspace
+    Description2pc: "<span>Increases SPD by <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
+    Description4pc: "<span>When the wearer uses their Ultimate on an ally, SPD for all allies increases by <span style='whiteSpace: \"nowrap\"'>12%</span> for <span style='whiteSpace: \"nowrap\"'>1</span> turn(s). This effect cannot be stacked.</span>"
+  "115":
+    Name: The Ashblazing Grand Duke
+    Description2pc: "<span>Increases the DMG dealt by follow-up attack by <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+    Description4pc: "<span>When the wearer uses a follow-up attack, increases the wearer's ATK by <span style='whiteSpace: \"nowrap\"'>6%</span> for every time the follow-up attack deals DMG. This effect can stack up to <span style='whiteSpace: \"nowrap\"'>8</span> time(s) and lasts for <span style='whiteSpace: \"nowrap\"'>3</span> turn(s). This effect is removed the next time the wearer uses a follow-up attack.</span>"
+  "116":
+    Name: Prisoner in Deep Confinement
+    Description2pc: "<span>Increases ATK by <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>For every DoT the enemy target is afflicted with, the wearer will ignore <span style='whiteSpace: \"nowrap\"'>6%</span> of its DEF when dealing DMG to it. This effect is valid for a max of <span style='whiteSpace: \"nowrap\"'>3</span> DoTs.</span>"
+  "117":
+    Name: Pioneer Diver of Dead Waters
+    Description2pc: "<span>Increases DMG dealt to enemies with debuffs by <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Increases CRIT Rate by <span style='whiteSpace: \"nowrap\"'>4%</span>. The wearer deals <span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span> increased CRIT DMG to enemies with at least <span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span> debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by <span style='whiteSpace: \"nowrap\"'>100%</span>, lasting for <span style='whiteSpace: \"nowrap\"'>1</span> turn(s).</span>"
+  "118":
+    Name: Watchmaker, Master of Dream Machinations
+    Description2pc: "<span>Increases Break Effect by <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
+    Description4pc: "<span>When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by <span style='whiteSpace: \"nowrap\"'>30%</span> for <span style='whiteSpace: \"nowrap\"'>2</span> turn(s). This effect cannot be stacked.</span>"
+  "119":
+    Name: Iron Cavalry Against the Scourge
+    Description2pc: "<span>Increases Break Effect by <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
+    Description4pc: "<span>If the wearer's Break Effect is <span style='whiteSpace: \"nowrap\"'>150%</span> or higher, the Break DMG dealt to the enemy target ignores <span style='whiteSpace: \"nowrap\"'>10%</span> of their DEF. If the wearer's Break Effect is <span style='whiteSpace: \"nowrap\"'>250%</span> or higher, the Super Break DMG dealt to the enemy target additionally ignores <span style='whiteSpace: \"nowrap\"'>15%</span> of their DEF.</span>"
+  "120":
+    Name: The Wind-Soaring Valorous
+    Description2pc: "<span>Increases ATK by <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description4pc: "<span>Increases the wearer's CRIT Rate by <span style='whiteSpace: \"nowrap\"'>6%</span>. After the wearer uses a follow-up attack, increases DMG dealt by Ultimate by <span style='whiteSpace: \"nowrap\"'>36%</span>, lasting for <span style='whiteSpace: \"nowrap\"'>1</span> turn(s).</span>"
+  "121":
+    Name: Sacerdos' Relived Ordeal
+    Description2pc: "<span>Increases SPD by <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
+    Description4pc: "<span>When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by <span style='whiteSpace: \"nowrap\"'>18%</span>, lasting for <span style='whiteSpace: \"nowrap\"'>2</span> turn(s). This effect can stack up to <span style='whiteSpace: \"nowrap\"'>2</span> time(s).</span>"
+  "122":
+    Name: Scholar Lost in Erudition
+    Description2pc: "<span>Increases CRIT Rate by <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
+    Description4pc: "<span>Increases DMG dealt by Skill and Ultimate by <span style='whiteSpace: \"nowrap\"'>20%</span>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+  "301":
+    Name: Space Sealing Station
+    Description2pc: "<span>Increases the wearer's ATK by <span style='whiteSpace: \"nowrap\"'>12%</span>. When the wearer's SPD reaches <span style='whiteSpace: \"nowrap\"'>120</span> or higher, the wearer's ATK increases by an extra <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+  "302":
+    Name: Fleet of the Ageless
+    Description2pc: "<span>Increases the wearer's Max HP by <span style='whiteSpace: \"nowrap\"'>12%</span>. When the wearer's SPD reaches <span style='whiteSpace: \"nowrap\"'>120</span> or higher, all allies' ATK increases by <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
+  "303":
+    Name: Pan-Cosmic Commercial Enterprise
+    Description2pc: "<span>Increases the wearer's Effect Hit Rate by <span style='whiteSpace: \"nowrap\"'>10%</span>. Meanwhile, the wearer's ATK increases by an amount that is equal to <span style='whiteSpace: \"nowrap\"'>25%</span> of the current Effect Hit Rate, up to a maximum of <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+  "304":
+    Name: Belobog of the Architects
+    Description2pc: "<span>Increases the wearer's DEF by <span style='whiteSpace: \"nowrap\"'>15%</span>. When the wearer's Effect Hit Rate is <span style='whiteSpace: \"nowrap\"'>50%</span> or higher, the wearer gains an extra <span style='whiteSpace: \"nowrap\"'>15%</span> DEF.</span>"
+  "305":
+    Name: Celestial Differentiator
+    Description2pc: "<span>Increases the wearer's CRIT DMG by <span style='whiteSpace: \"nowrap\"'>16%</span>. When the wearer's current CRIT DMG reaches <span style='whiteSpace: \"nowrap\"'>120%</span> or higher, after entering battle, the wearer's CRIT Rate increases by <span style='whiteSpace: \"nowrap\"'>60%</span> until the end of their first attack.</span>"
+  "306":
+    Name: Inert Salsotto
+    Description2pc: "<span>Increases the wearer's CRIT Rate by <span style='whiteSpace: \"nowrap\"'>8%</span>. When the wearer's current CRIT Rate reaches <span style='whiteSpace: \"nowrap\"'>50%</span> or higher, the DMG dealt by the wearer's Ultimate and follow-up attack increases by <span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
+  "307":
+    Name: "Talia: Kingdom of Banditry"
+    Description2pc: "<span>Increases the wearer's Break Effect by <span style='whiteSpace: \"nowrap\"'>16%</span>. When the wearer's SPD reaches <span style='whiteSpace: \"nowrap\"'>145</span> or higher, the wearer's Break Effect increases by an extra <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+  "308":
+    Name: Sprightly Vonwacq
+    Description2pc: "<span>Increases the wearer's Energy Regeneration Rate by <span style='whiteSpace: \"nowrap\"'>5%</span>. When the wearer's SPD reaches <span style='whiteSpace: \"nowrap\"'>120</span> or higher, the wearer's action is Advanced Forward by <span style='whiteSpace: \"nowrap\"'>40%</span> immediately upon entering battle.</span>"
+  "309":
+    Name: Rutilant Arena
+    Description2pc: "<span>Increases the wearer's CRIT Rate by <span style='whiteSpace: \"nowrap\"'>8%</span>. When the wearer's current CRIT Rate reaches <span style='whiteSpace: \"nowrap\"'>70%</span> or higher, DMG dealt by Basic ATK and Skill increases by <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+  "310":
+    Name: Broken Keel
+    Description2pc: "<span>Increases the wearer's Effect RES by <span style='whiteSpace: \"nowrap\"'>10%</span>. When the wearer's Effect RES is at <span style='whiteSpace: \"nowrap\"'>30%</span> or higher, all allies' CRIT DMG increases by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+  "311":
+    Name: "Firmament Frontline: Glamoth"
+    Description2pc: "<span>Increases the wearer's ATK by <span style='whiteSpace: \"nowrap\"'>12%</span>. When the wearer's SPD is equal to or higher than <span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span>, the wearer deals <span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span> more DMG.</span>"
+  "312":
+    Name: Penacony, Land of the Dreams
+    Description2pc: "<span>Increases wearer's Energy Regeneration Rate by <span style='whiteSpace: \"nowrap\"'>5%</span>. Increases DMG by <span style='whiteSpace: \"nowrap\"'>10%</span> for all other allies that are of the same Type as the wearer.</span>"
+  "313":
+    Name: Sigonia, the Unclaimed Desolation
+    Description2pc: "<span>Increases the wearer's CRIT Rate by <span style='whiteSpace: \"nowrap\"'>4%</span>. When an enemy target gets defeated, the wearer's CRIT DMG increases by <span style='whiteSpace: \"nowrap\"'>4%</span>, stacking up to <span style='whiteSpace: \"nowrap\"'>10</span> time(s).</span>"
+  "314":
+    Name: Izumo Gensei and Takama Divine Realm
+    Description2pc: "<span>Increases the wearer's ATK by <span style='whiteSpace: \"nowrap\"'>12%</span>. When entering battle, if at least one teammate follows the same Path as the wearer, then the wearer's CRIT Rate increases by <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+  "315":
+    Name: Duran, Dynasty of Running Wolves
+    Description2pc: "<span>When an ally uses a follow-up attack, the wearer gains 1 stack of Merit, stacking up to <span style='whiteSpace: \"nowrap\"'>5</span> time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <span style='whiteSpace: \"nowrap\"'>5%</span>. When there are <span style='whiteSpace: \"nowrap\"'>5</span> stacks, additionally increases the wearer's CRIT DMG by <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+  "316":
+    Name: Forge of the Kalpagni Lantern
+    Description2pc: "<span>Increases the wearer's SPD by <span style='whiteSpace: \"nowrap\"'>6%</span>. When the wearer hits an enemy target that has Fire Weakness, the wearer's Break Effect increases by <span style='whiteSpace: \"nowrap\"'>40%</span>, lasting for <span style='whiteSpace: \"nowrap\"'>1</span> turn(s).</span>"
+  "317":
+    Name: Lushaka, the Sunken Seas
+    Description2pc: "<span>Increases the wearer's Energy Regeneration Rate by <span style='whiteSpace: \"nowrap\"'>5%</span>. If the wearer is not the first character in the team lineup, then increases the ATK of the first character in the team lineup by <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+  "318":
+    Name: The Wondrous BananAmusement Park
+    Description2pc: "<span>Increases the wearer's CRIT DMG by <span style='whiteSpace: \"nowrap\"'>16%</span>. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by <span style='whiteSpace: \"nowrap\"'>32%</span>.</span>"
+Lightcones:
+  "20000":
+    Name: Arrows
+    SkillName: Crisis
+  "20001":
+    Name: Cornucopia
+    SkillName: Prosperity
+  "20002":
+    Name: Collapsing Sky
+    SkillName: Havoc
+  "20003":
+    Name: Amber
+    SkillName: Stasis
+  "20004":
+    Name: Void
+    SkillName: Fallen
+  "20005":
+    Name: Chorus
+    SkillName: Concerted
+  "20006":
+    Name: Data Bank
+    SkillName: Learned
+  "20007":
+    Name: Darting Arrow
+    SkillName: War Cry
+  "20008":
+    Name: Fine Fruit
+    SkillName: Savor
+  "20009":
+    Name: Shattered Home
+    SkillName: Eradication
+  "20010":
+    Name: Defense
+    SkillName: Revitalization
+  "20011":
+    Name: Loop
+    SkillName: Pursuit
+  "20012":
+    Name: Meshing Cogs
+    SkillName: Fleet Triumph
+  "20013":
+    Name: Passkey
+    SkillName: Epiphany
+  "20014":
+    Name: Adversarial
+    SkillName: Alliance
+  "20015":
+    Name: Multiplication
+    SkillName: Denizens of Abundance
+  "20016":
+    Name: Mutual Demise
+    SkillName: Legion
+  "20017":
+    Name: Pioneering
+    SkillName: IPC
+  "20018":
+    Name: Hidden Shadow
+    SkillName: Mechanism
+  "20019":
+    Name: Mediation
+    SkillName: Family
+  "20020":
+    Name: Sagacity
+    SkillName: Genius
+  "21000":
+    Name: Post-Op Conversation
+    SkillName: Mutual Healing
+  "21001":
+    Name: Good Night and Sleep Well
+    SkillName: Toiler
+  "21002":
+    Name: Day One of My New Life
+    SkillName: At This Very Moment
+  "21003":
+    Name: Only Silence Remains
+    SkillName: Record
+  "21004":
+    Name: Memories of the Past
+    SkillName: Old Photo
+  "21005":
+    Name: The Moles Welcome You
+    SkillName: Fantastic Adventure
+  "21006":
+    Name: The Birth of the Self
+    SkillName: The Maiden in the Painting
+  "21007":
+    Name: Shared Feeling
+    SkillName: Cure and Repair
+  "21008":
+    Name: Eyes of the Prey
+    SkillName: Self-Confidence
+  "21009":
+    Name: Landau's Choice
+    SkillName: Time Fleets Away
+  "21010":
+    Name: Swordplay
+    SkillName: Answers of Their Own
+  "21011":
+    Name: Planetary Rendezvous
+    SkillName: Departure
+  "21012":
+    Name: A Secret Vow
+    SkillName: Spare No Effort
+  "21013":
+    Name: Make the World Clamor
+    SkillName: The Power of Sound
+  "21014":
+    Name: Perfect Timing
+    SkillName: Refraction of Sightline
+  "21015":
+    Name: Resolution Shines As Pearls of Sweat
+    SkillName: Glance Back
+  "21016":
+    Name: Trend of the Universal Market
+    SkillName: A New Round of Shuffling
+  "21017":
+    Name: Subscribe for More!
+    SkillName: Like Before You Leave!
+  "21018":
+    Name: Dance! Dance! Dance!
+    SkillName: Cannot Stop It!
+  "21019":
+    Name: Under the Blue Sky
+    SkillName: Rye Under the Sun
+  "21020":
+    Name: Geniuses' Repose
+    SkillName: Each Now Has a Role to Play
+  "21021":
+    Name: Quid Pro Quo
+    SkillName: Enjoy With Rapture
+  "21022":
+    Name: Fermata
+    SkillName: Semibreve Rest
+  "21023":
+    Name: We Are Wildfire
+    SkillName: Teary-Eyed
+  "21024":
+    Name: River Flows in Spring
+    SkillName: Stave Off the Lingering Cold
+  "21025":
+    Name: Past and Future
+    SkillName: Kites From the Past
+  "21026":
+    Name: Woof! Walk Time!
+    SkillName: Run!
+  "21027":
+    Name: The Seriousness of Breakfast
+    SkillName: Get Ready
+  "21028":
+    Name: Warmth Shortens Cold Nights
+    SkillName: Tiny Light
+  "21029":
+    Name: We Will Meet Again
+    SkillName: A Discourse in Arms
+  "21030":
+    Name: This Is Me!
+    SkillName: New Chapter
+  "21031":
+    Name: Return to Darkness
+    SkillName: Raging Waves
+  "21032":
+    Name: Carve the Moon, Weave the Clouds
+    SkillName: Secret
+  "21033":
+    Name: Nowhere to Run
+    SkillName: Desperate Times
+  "21034":
+    Name: Today Is Another Peaceful Day
+    SkillName: A Storm Is Coming
+  "21035":
+    Name: What Is Real?
+    SkillName: Hypothesis
+  "21036":
+    Name: Dreamville Adventure
+    SkillName: Solidarity
+  "21037":
+    Name: Final Victor
+    SkillName: Wager
+  "21038":
+    Name: Flames Afar
+    SkillName: Deflagration
+  "21039":
+    Name: Destiny's Threads Forewoven
+    SkillName: Insight
+  "21040":
+    Name: The Day The Cosmos Fell
+    SkillName: Stratagem
+  "21041":
+    Name: It's Showtime
+    SkillName: Self-Amusement
+  "21042":
+    Name: Indelible Promise
+    SkillName: Inheritance
+  "21043":
+    Name: Concert for Two
+    SkillName: Inspire
+  "21044":
+    Name: Boundless Choreo
+    SkillName: Scrutinize
+  "21045":
+    Name: After the Charmony Fall
+    SkillName: Quiescence
+  "21046":
+    Name: Poised to Bloom
+    SkillName: Lose Not, Forget Not
+  "21047":
+    Name: Shadowed by Night
+    SkillName: Concealment
+  "21048":
+    Name: Dream's Montage
+    SkillName: Academy-Style Edit
+  "22000":
+    Name: Before the Tutorial Mission Starts
+    SkillName: Quick on the Draw
+  "22001":
+    Name: Hey, Over Here
+    SkillName: I'm Not Afraid!
+  "22002":
+    Name: For Tomorrow's Journey
+    SkillName: Bonds
+  "22003":
+    Name: "Ninja Record: Sound Hunt"
+    SkillName: Curtains Up!
+  "23000":
+    Name: Night on the Milky Way
+    SkillName: Meteor Swarm
+  "23001":
+    Name: In the Night
+    SkillName: Flowers and Butterflies
+  "23002":
+    Name: Something Irreplaceable
+    SkillName: Kinship
+  "23003":
+    Name: But the Battle Isn't Over
+    SkillName: Heir
+  "23004":
+    Name: In the Name of the World
+    SkillName: Inheritor
+  "23005":
+    Name: Moment of Victory
+    SkillName: Verdict
+  "23006":
+    Name: Patience Is All You Need
+    SkillName: Spider Web
+  "23007":
+    Name: Incessant Rain
+    SkillName: Mirage of Reality
+  "23008":
+    Name: Echoes of the Coffin
+    SkillName: Thorns
+  "23009":
+    Name: The Unreachable Side
+    SkillName: Unfulfilled Yearning
+  "23010":
+    Name: Before Dawn
+    SkillName: Long Night
+  "23011":
+    Name: She Already Shut Her Eyes
+    SkillName: Visioscape
+  "23012":
+    Name: Sleep Like the Dead
+    SkillName: Sweet Dreams
+  "23013":
+    Name: Time Waits for No One
+    SkillName: Morn, Noon, Dusk, and Night
+  "23014":
+    Name: I Shall Be My Own Sword
+    SkillName: With This Evening Jade
+  "23015":
+    Name: Brighter Than the Sun
+    SkillName: Defiant Till Death
+  "23016":
+    Name: Worrisome, Blissful
+    SkillName: One At A Time
+  "23017":
+    Name: Night of Fright
+    SkillName: Deep, Deep Breaths
+  "23018":
+    Name: An Instant Before A Gaze
+    SkillName: A Knight's Pilgrimage
+  "23019":
+    Name: Past Self in Mirror
+    SkillName: The Plum Fragrance In My Bones
+  "23020":
+    Name: Baptism of Pure Thought
+    SkillName: Mental Training
+  "23021":
+    Name: Earthly Escapade
+    SkillName: Capriciousness
+  "23022":
+    Name: Reforged Remembrance
+    SkillName: Crystallize
+  "23023":
+    Name: Inherently Unjust Destiny
+    SkillName: All-In
+  "23024":
+    Name: Along the Passing Shore
+    SkillName: Steerer
+  "23025":
+    Name: Whereabouts Should Dreams Rest
+    SkillName: Metamorphosis
+  "23026":
+    Name: Flowing Nightglow
+    SkillName: Pacify
+  "23027":
+    Name: Sailing Towards a Second Life
+    SkillName: Rough Water
+  "23028":
+    Name: Yet Hope Is Priceless
+    SkillName: Promise
+  "23029":
+    Name: Those Many Springs
+    SkillName: Worldly Affairs Leave No Mark
+  "23030":
+    Name: Dance at Sunset
+    SkillName: Deeply Engrossed
+  "23031":
+    Name: I Venture Forth to Hunt
+    SkillName: Intimidation
+  "23032":
+    Name: Scent Alone Stays True
+    SkillName: Contentment
+  "23033":
+    Name: "Ninjutsu Inscription: Dazzling Evilbreaker"
+    SkillName: Exorcism
+  "23034":
+    Name: A Grounded Ascent
+    SkillName: Departing Anew
+  "23035":
+    Name: Long Road Leads Home
+    SkillName: Rebirth
+  "24000":
+    Name: On the Fall of an Aeon
+    SkillName: Moth to Flames
+  "24001":
+    Name: Cruising in the Stellar Sea
+    SkillName: Chase
+  "24002":
+    Name: Texture of Memories
+    SkillName: Treasure
+  "24003":
+    Name: Solitary Healing
+    SkillName: Chaos Elixir
+  "24004":
+    Name: Eternal Calculus
+    SkillName: Boundless Thought
+Paths:
+  Warrior: Destruction
+  Rogue: The Hunt
+  Mage: Erudition
+  Shaman: Harmony
+  Warlock: Nihility
+  Knight: Preservation
+  Priest: Abundance
+  Unknown: General
+Elements:
+  Physical: Physical
+  Fire: Fire
+  Ice: Ice
+  Thunder: Lightning
+  Wind: Wind
+  Quantum: Quantum
+  Imaginary: Imaginary

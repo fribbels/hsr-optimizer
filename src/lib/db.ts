@@ -142,7 +142,7 @@ window.store = create((set) => {
     optimizerTabFocusCharacterSelectModalOpen: false,
 
     optimizerFormCharacterEidolon: 0,
-    optimizerFormSelectedLightCone: null,
+    optimizerFormSelectedLightCone: undefined,
     optimizerFormSelectedLightConeSuperimposition: 1,
 
     permutationDetails: {
@@ -1010,7 +1010,7 @@ export const DB = {
       }
     }
 
-    // Clean up characters who have relics equipped by someone else, or characters that dont exist ingame yet
+    // Clean up characters who have relics equipped by someone else, or characters that don't exist ingame yet
     for (const character of DB.getCharacters()) {
       for (const part of Object.keys(character.equipped)) {
         const relicId = character.equipped[part]
@@ -1038,7 +1038,7 @@ export const DB = {
 
     // TODO this probably shouldn't be in this file
     const fieldValues = OptimizerTabController.getForm()
-    window.onOptimizerFormValuesChange({}, fieldValues)
+    window.onOptimizerFormValuesChange({} as Form, fieldValues)
     window.refreshRelicsScore()
   },
 

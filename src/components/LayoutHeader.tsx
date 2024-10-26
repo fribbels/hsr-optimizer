@@ -1,5 +1,5 @@
-import { Button, Flex, Layout, theme, Typography } from 'antd'
 import { CloseOutlined, MenuOutlined } from '@ant-design/icons'
+import { Button, Flex, Layout, theme, Typography } from 'antd'
 import { Assets } from 'lib/assets'
 import { BASE_PATH } from 'lib/db'
 

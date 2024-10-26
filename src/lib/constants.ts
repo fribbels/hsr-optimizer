@@ -57,7 +57,7 @@ export const MainStats = [
 ]
 export type MainStats = typeof MainStats[number]
 
-export const MainStatsValues = {
+export const MainStatsValues: Record<string, Record<number, { base: number; increment: number }>> = {
   [Stats.HP_P]: {
     5: { base: 6.912, increment: 2.4192 },
     4: { base: 5.5296, increment: 1.9354 },

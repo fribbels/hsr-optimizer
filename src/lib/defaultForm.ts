@@ -1,6 +1,5 @@
 import { CombatBuffs, Constants, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants'
 import DB from 'lib/db'
-import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { TsUtils } from 'lib/TsUtils'
 import { Form, Teammate } from 'types/Form'
 
@@ -116,11 +115,6 @@ export function defaultTeammate() {
     lightConeSuperimposition: 1,
   }
   return teammate
-}
-
-export const defaultStatSim = {
-  simType: StatSimTypes.Disabled,
-  simulations: [],
 }
 
 export function defaultEnemyOptions() {

@@ -1,25 +1,33 @@
-import { create } from 'zustand'
-import { OptimizerTabController } from 'lib/optimizerTabController'
-import { RelicAugmenter } from 'lib/relicAugmenter'
-import { COMPUTE_ENGINE_GPU_STABLE, Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, Sets, SIMULATION_SCORE } from 'lib/constants'
-import { SavedSessionKeys } from 'lib/constantsSession'
-import { getDefaultForm } from 'lib/defaultForm'
-import { Utils } from 'lib/utils'
-import { SaveState } from 'lib/saveState'
-import { Message } from 'lib/message'
 import { OptimizerMenuIds } from 'components/optimizerTab/FormRow'
-import { Themes } from 'lib/theme'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { DefaultSettingOptions, SettingOptions } from 'components/SettingsDrawer'
-import { oldCharacterScoringMetadata } from 'lib/oldCharacterScoringMetadata'
 import i18next from 'i18next'
+import { ScoringMetadata, SimulationMetadata } from 'lib/characterScorer'
+import {
+  COMPUTE_ENGINE_GPU_STABLE,
+  Constants,
+  CURRENT_OPTIMIZER_VERSION,
+  DAMAGE_UPGRADES,
+  DEFAULT_STAT_DISPLAY,
+  Sets,
+  SIMULATION_SCORE,
+} from 'lib/constants'
+import { SavedSessionKeys } from 'lib/constantsSession'
+import { getDefaultForm } from 'lib/defaultForm'
+import { Message } from 'lib/message'
+import { oldCharacterScoringMetadata } from 'lib/oldCharacterScoringMetadata'
 import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { RelicAugmenter } from 'lib/relicAugmenter'
+import { SaveState } from 'lib/saveState'
+import { Themes } from 'lib/theme'
+import { TsUtils } from 'lib/TsUtils'
+import { Utils } from 'lib/utils'
 import { Character } from 'types/Character'
+import { Form } from 'types/Form'
 import { Relic, Stat } from 'types/Relic'
 import { CustomPortrait, HsrOptimizerSaveFormat, HsrOptimizerStore, SavedSession } from 'types/store'
-import { ScoringMetadata, SimulationMetadata } from 'lib/characterScorer'
-import { Form } from 'types/Form'
-import { TsUtils } from 'lib/TsUtils'
+import { create } from 'zustand'
 
 export type HsrOptimizerMetadataState = {
   metadata: DBMetadata
@@ -710,7 +718,10 @@ export const DB = {
      */
     if (window.characterGrid?.current?.api) {
       window.characterGrid.current.api.updateGridOptions({ rowData: characters })
-      window.characterGrid.current.api.forEachNode((node: { data: { id: string }; setSelected: (b: boolean) => void }) => {
+      window.characterGrid.current.api.forEachNode((node: {
+        data: { id: string }
+        setSelected: (b: boolean) => void
+      }) => {
         node.data.id == found.id ? node.setSelected(true) : 0
       })
       window.store.getState().setCharacterTabFocusCharacter(found.id)

@@ -1,33 +1,57 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { EditOutlined, SettingOutlined, SwapOutlined, SyncOutlined } from '@ant-design/icons'
 import { Button, Card, Flex, Image, Segmented, theme, Typography } from 'antd'
-import PropTypes from 'prop-types'
-import { RelicScorer } from 'lib/relicScorerPotential'
-import { AppPages, DB } from 'lib/db'
-import { Assets } from 'lib/assets'
-import { CHARACTER_SCORE, COMBAT_STATS, Constants, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, ElementToDamage, SETTINGS_TEAM, SIMULATION_SCORE } from 'lib/constants'
-import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleColumnWidth, parentH, parentW } from 'lib/constantsUi'
+import CharacterModal from 'components/CharacterModal'
+import {
+  CharacterCardCombatStats,
+  CharacterCardScoringStatUpgrades,
+  CharacterScoringSummary,
+} from 'components/characterPreview/CharacterScoringSummary'
+import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
 
 import Rarity from 'components/characterPreview/Rarity'
 import StatText from 'components/characterPreview/StatText'
+import { HeaderText } from 'components/HeaderText'
+import { LoadingBlurredImage } from 'components/LoadingBlurredImage'
 import RelicModal from 'components/RelicModal.tsx'
 import { RelicPreview } from 'components/RelicPreview'
-import { RelicModalController } from 'lib/relicModalController'
-import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
-import { EditOutlined, SettingOutlined, SwapOutlined, SyncOutlined } from '@ant-design/icons'
-import EditImageModal from './EditImageModal'
-import { Message } from 'lib/message'
-import CharacterCustomPortrait from './CharacterCustomPortrait'
-import { SaveState } from 'lib/saveState'
+import { Assets } from 'lib/assets'
 import { getSimScoreGrade, scoreCharacterSimulation } from 'lib/characterScorer'
-import { Utils } from 'lib/utils'
-import { CharacterCardCombatStats, CharacterCardScoringStatUpgrades, CharacterScoringSummary } from 'components/characterPreview/CharacterScoringSummary'
-import CharacterModal from 'components/CharacterModal'
-import { LoadingBlurredImage } from 'components/LoadingBlurredImage'
+import {
+  CHARACTER_SCORE,
+  COMBAT_STATS,
+  Constants,
+  CUSTOM_TEAM,
+  DAMAGE_UPGRADES,
+  DEFAULT_TEAM,
+  ElementToDamage,
+  SETTINGS_TEAM,
+  SIMULATION_SCORE,
+} from 'lib/constants'
 import { SavedSessionKeys } from 'lib/constantsSession'
-import { HeaderText } from 'components/HeaderText'
+import {
+  defaultGap,
+  innerW,
+  lcInnerH,
+  lcInnerW,
+  lcParentH,
+  lcParentW,
+  middleColumnWidth,
+  parentH,
+  parentW,
+} from 'lib/constantsUi'
+import { AppPages, DB } from 'lib/db'
+import { Message } from 'lib/message'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
+import { RelicModalController } from 'lib/relicModalController'
+import { RelicScorer } from 'lib/relicScorerPotential'
+import { SaveState } from 'lib/saveState'
+import { Utils } from 'lib/utils'
+import PropTypes from 'prop-types'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import CharacterCustomPortrait from './CharacterCustomPortrait'
+import EditImageModal from './EditImageModal'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -53,7 +77,13 @@ export function CharacterPreview(props) {
 
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
-  const { source, character, setOriginalCharacterModalOpen, setOriginalCharacterModalInitialCharacter, setCharacterModalAdd } = props
+  const {
+    source,
+    character,
+    setOriginalCharacterModalOpen,
+    setOriginalCharacterModalInitialCharacter,
+    setCharacterModalAdd,
+  } = props
 
   const isScorer = source == 'scorer'
   const isBuilds = source == 'builds'
@@ -149,7 +179,11 @@ export function CharacterPreview(props) {
 
   if (!character) {
     return (
-      <Flex style={{ display: 'flex', height: parentH, backgroundColor: backgroundColor }} gap={defaultGap} id={props.id}>
+      <Flex
+        style={{ display: 'flex', height: parentH, backgroundColor: backgroundColor }}
+        gap={defaultGap}
+        id={props.id}
+      >
         <div style={{
           width: parentW,
           overflow: 'hidden',
@@ -332,7 +366,13 @@ export function CharacterPreview(props) {
         </StatText>
         <StatText style={textStyle}>
           {
-            t('CharacterPreview.ScoreHeader.Score', { score: Utils.truncate10ths(Math.max(0, result.percent * 100)).toFixed(1), grade: getSimScoreGrade(result.percent) })
+            t(
+              'CharacterPreview.ScoreHeader.Score',
+              {
+                score: Utils.truncate10ths(Math.max(0, result.percent * 100)).toFixed(1),
+                grade: getSimScoreGrade(result.percent),
+              },
+            )
             /* DPS Score {{score}}% {{grade}} */
           }
         </StatText>
@@ -476,7 +516,10 @@ export function CharacterPreview(props) {
           />
           <OverlayText text={t('common:EidolonNShort', { eidolon: teammate.characterEidolon })} top={-12}/>
           <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: -3 }}/>
-          <OverlayText text={t('common:SuperimpositionNShort', { superimposition: teammate.lightConeSuperimposition })} top={-18}/>
+          <OverlayText
+            text={t('common:SuperimpositionNShort', { superimposition: teammate.lightConeSuperimposition })}
+            top={-18}
+          />
         </Flex>
       </Card.Grid>
     )
@@ -818,7 +861,10 @@ export function CharacterPreview(props) {
                   && (
                     <Flex vertical>
                       <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
-                        {t('CharacterPreview.CharacterScore', { score: scoringResults.totalScore.toFixed(0), grade: scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')' })}
+                        {t('CharacterPreview.CharacterScore', {
+                          score: scoringResults.totalScore.toFixed(0),
+                          grade: scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')',
+                        })}
                       </StatText>
                     </Flex>
                   )
@@ -943,7 +989,18 @@ export function CharacterPreview(props) {
       {!isBuilds && (
         <Flex vertical>
           <Flex justify='center' gap={25}>
-            <Flex justify='center' style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: token.colorBgContainer + '85' }} align='center'>
+            <Flex
+              justify='center'
+              style={{
+                paddingLeft: 20,
+                paddingRight: 5,
+                borderRadius: 7,
+                height: 40,
+                marginTop: 10,
+                backgroundColor: token.colorBgContainer + '85',
+              }}
+              align='center'
+            >
               <Text style={{ width: 150 }}>
                 {t('CharacterPreview.AlgorithmSlider.Title')/* Scoring algorithm: */}
               </Text>
@@ -973,7 +1030,18 @@ export function CharacterPreview(props) {
               />
             </Flex>
 
-            <Flex justify='center' style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: token.colorBgContainer + '85' }} align='center'>
+            <Flex
+              justify='center'
+              style={{
+                paddingLeft: 20,
+                paddingRight: 5,
+                borderRadius: 7,
+                height: 40,
+                marginTop: 10,
+                backgroundColor: token.colorBgContainer + '85',
+              }}
+              align='center'
+            >
               <Text style={{ width: 150 }}>
                 {t('CharacterPreview.DetailsSlider.Title')/* Combat score details: */}
               </Text>

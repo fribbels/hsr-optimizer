@@ -1,4 +1,4 @@
-import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, MAX_RESULTS, Stats } from 'lib/constants.ts'
+import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, MAX_RESULTS, Stats } from 'lib/constants'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Utils } from 'lib/utils'
 import DB from 'lib/db'

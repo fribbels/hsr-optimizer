@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import FormCard from 'components/optimizerTab/FormCard.js'
+import FormCard from 'components/optimizerTab/FormCard'
 import { SyncOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Select, SelectProps, Typography } from 'antd'
 import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants'

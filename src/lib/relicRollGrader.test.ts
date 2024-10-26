@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 
 import { Constants } from 'lib/constants'
-import { RelicRollGrader } from './relicRollGrader.js'
+import { RelicRollGrader } from 'lib/relicRollGrader'
 import DB from 'lib/db'
 import { Relic } from 'types/Relic'
 import { DataParser } from 'lib/dataParser'

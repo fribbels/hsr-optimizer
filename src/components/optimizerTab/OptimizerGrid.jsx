@@ -1,5 +1,5 @@
 import { AgGridReact } from 'ag-grid-react'
-import { defaultColDef, getBaseColumnDefs, getCombatColumnDefs, gridOptions } from 'components/optimizerTab/optimizerTabConstants.ts'
+import { defaultColDef, getBaseColumnDefs, getCombatColumnDefs, gridOptions } from 'components/optimizerTab/optimizerTabConstants'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Flex, theme } from 'antd'

@@ -1,4 +1,4 @@
-import { Stats } from 'lib/constants.ts'
+import { Stats } from 'lib/constants'
 
 export const SubstatTextToRollValue = {
   [Stats.HP]: {

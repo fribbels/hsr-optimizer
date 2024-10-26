@@ -30,7 +30,7 @@ import { AgGridReact } from 'ag-grid-react'
 import { DispatchWithoutAction, RefObject } from 'react'
 import { Hero } from './types/calc'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
-import { ColorThemeOverrides } from 'lib/theme.ts'
+import { ColorThemeOverrides } from 'lib/theme'
 import { HookAPI } from 'antd/lib/modal/useModal'
 import { Form } from 'types/Form'
 

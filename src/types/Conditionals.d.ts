@@ -1,4 +1,4 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { FormSwitchWithPopoverProps } from 'components/optimizerTab/conditionals/FormSwitch'
 import { FormSliderWithPopoverProps } from 'components/optimizerTab/conditionals/FormSlider'
 import { ComponentProps, ComponentType } from 'react'
@@ -63,11 +63,11 @@ export type ContentComponentMap = {
 // extracted content to apply to <DisplayFormControl />
 export type ContentItem = {
   [K in keyof ContentComponentMap]: {
-  formItem: K
-  id: string
-  content: string
-  teammateIndex?: number
-} & Omit<ComponentProps<ContentComponentMap[K]>, 'content'>
+    formItem: K
+    id: string
+    content: string
+    teammateIndex?: number
+  } & Omit<ComponentProps<ContentComponentMap[K]>, 'content'>
 }[keyof ContentComponentMap]
 
 export type ConditionalBuff =

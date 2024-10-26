@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { RelicScorer } from 'lib/relicScorerPotential'
 import { AppPages, DB } from 'lib/db'
 import { Assets } from 'lib/assets'
-import { CHARACTER_SCORE, COMBAT_STATS, Constants, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, ElementToDamage, SETTINGS_TEAM, SIMULATION_SCORE } from 'lib/constants.ts'
+import { CHARACTER_SCORE, COMBAT_STATS, Constants, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, ElementToDamage, SETTINGS_TEAM, SIMULATION_SCORE } from 'lib/constants'
 import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleColumnWidth, parentH, parentW } from 'lib/constantsUi'
 
 import Rarity from 'components/characterPreview/Rarity'

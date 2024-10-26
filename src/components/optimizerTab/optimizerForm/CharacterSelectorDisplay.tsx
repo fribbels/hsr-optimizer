@@ -9,7 +9,7 @@ import { OptimizerTabController } from 'lib/optimizerTabController'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect'
 import { SortOption } from 'lib/optimizer/sortOptions'
-import { Utils } from 'lib/utils.js'
+import { Utils } from 'lib/utils'
 import { useTranslation } from 'react-i18next'
 
 type CharacterSelectorDisplayProps = {}

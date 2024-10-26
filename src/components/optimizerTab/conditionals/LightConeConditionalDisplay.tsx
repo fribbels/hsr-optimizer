@@ -4,7 +4,7 @@ import { TooltipImage } from 'components/TooltipImage'
 import { Hint } from 'lib/hint'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { memo } from 'react'
-import { lightConeOptionMapping } from 'lib/lightConeConditionals.js'
+import { lightConeOptionMapping } from 'lib/lightConeConditionals'
 import DisplayFormControl from 'components/optimizerTab/conditionals/DisplayFormControl'
 import { useTranslation } from 'react-i18next'
 

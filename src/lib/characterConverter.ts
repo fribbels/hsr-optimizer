@@ -1,6 +1,6 @@
-import { RelicAugmenter } from 'lib/relicAugmenter.js'
-import { Constants } from './constants.ts'
-import { Utils } from './utils.js'
+import { RelicAugmenter } from 'lib/relicAugmenter'
+import { Constants } from 'lib/constants'
+import { Utils } from 'lib/utils'
 import DB from 'lib/db'
 
 const partConversion = {

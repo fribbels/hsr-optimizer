@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Flex } from 'antd'
 import 'ag-grid-community/styles/ag-grid.css'
 
@@ -24,7 +23,4 @@ export default function OptimizerTab() {
       <Sidebar/>
     </Flex>
   )
-}
-OptimizerTab.propTypes = {
-  active: PropTypes.bool,
 }

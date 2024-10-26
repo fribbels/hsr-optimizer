@@ -32,6 +32,7 @@ import { Hero } from './types/calc'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { ColorThemeOverrides } from 'lib/theme.ts'
 import { HookAPI } from 'antd/lib/modal/useModal'
+import { Form } from 'types/Form'
 
 declare global {
   interface Window {
@@ -52,7 +53,8 @@ declare global {
     setEditModalOpen: (open: boolean) => void
 
     // TODO see OptimizerForm
-    onOptimizerFormValuesChange: (...args: unknown[]) => unknown
+    onOptimizerFormValuesChange: (changedValues: Form, allValues: Form, bypass: boolean) => unknown
+    optimizerStartClicked: () => void
     optimizerForm: FormInstance
     statSimulationForm: FormInstance
 

@@ -1,6 +1,5 @@
 import { Build, Character, CharacterId } from './Character'
 import { Relic } from './Relic'
-import { LightCone } from './LightCone'
 import { Form } from 'types/Form'
 import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { ColorThemeOverrides } from 'lib/theme'
@@ -96,7 +95,7 @@ export type HsrOptimizerStore = {
   setOptimizerRunningEngine: (s: string) => void
   setExcludedRelicPotentialCharacters: (ids: CharacterId[]) => void
   optimizerFormCharacterEidolon: number
-  optimizerFormSelectedLightCone: null | LightCone
+  optimizerFormSelectedLightCone: string | undefined
   optimizerFormSelectedLightConeSuperimposition: number
   setPermutationsResults: (n: number) => void
   setPermutationsSearched: (n: number) => void

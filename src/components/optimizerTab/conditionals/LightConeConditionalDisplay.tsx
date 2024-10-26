@@ -2,7 +2,6 @@ import { Flex, Typography } from 'antd'
 import { HeaderText } from 'components/HeaderText'
 import { TooltipImage } from 'components/TooltipImage'
 import { Hint } from 'lib/hint'
-import { DataMineId } from 'types/Common'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { memo } from 'react'
 import { lightConeOptionMapping } from 'lib/lightConeConditionals.js'
@@ -10,7 +9,7 @@ import DisplayFormControl from 'components/optimizerTab/conditionals/DisplayForm
 import { useTranslation } from 'react-i18next'
 
 export interface LightConeConditionalDisplayProps {
-  id?: DataMineId
+  id?: string
   superImposition: SuperImpositionLevel
   teammateIndex?: number
 }

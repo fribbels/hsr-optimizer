@@ -112,7 +112,7 @@ export function initializeComboState(request: Form, merge: boolean) {
       characterEidolon: request.characterEidolon,
       lightCone: request.lightCone,
       lightConeSuperimposition: request.lightConeSuperimposition,
-      element: dbCharacters[request.characterId].element
+      element: dbCharacters[request.characterId].element,
     },
     characterConditionals: generateComboConditionals(
       requestCharacterConditionals,
@@ -176,21 +176,21 @@ function displayModifiedSets(request: Form, comboState: ComboState) {
         if (activation == null) break
         if (activation != defaultValue) {
           modified.push(key)
-          break;
+          break
         }
       }
     } else if (comboSet.type == ConditionalDataType.SELECT) {
       for (const partition of comboSet.partitions) {
         if (partition.value != defaultValue) {
           modified.push(key)
-          break;
+          break
         }
       }
     }
   }
 
-  const modifiedRelics = modified.filter(set => SetsRelicsNames.includes(set))
-  const modifiedOrnaments = modified.filter(set => SetsOrnamentsNames.includes(set))
+  const modifiedRelics = modified.filter((set) => SetsRelicsNames.includes(set))
+  const modifiedOrnaments = modified.filter((set) => SetsOrnamentsNames.includes(set))
 
   comboState.comboCharacter.displayedRelicSets = Array.from(new Set([...modifiedRelics, ...comboState.comboCharacter.displayedRelicSets]))
   comboState.comboCharacter.displayedOrnamentSets = Array.from(new Set([...modifiedOrnaments, ...comboState.comboCharacter.displayedOrnamentSets]))
@@ -349,7 +349,7 @@ function generateComboTeammate(teammate: Teammate, actionCount: number, dbCharac
       characterEidolon: teammate.characterEidolon,
       lightCone: teammate.lightCone,
       lightConeSuperimposition: teammate.lightConeSuperimposition,
-      element: dbCharacters[teammate.characterId].element
+      element: dbCharacters[teammate.characterId].element,
     },
     characterConditionals: generateComboConditionals(
       characterConditionals,
@@ -707,7 +707,7 @@ function change(changeConditional: { [key: string]: any }, originalConditional: 
   }
 }
 
-export function updateConditionalChange(changeEvent: ChangeEvent) {
+export function updateConditionalChange(changeEvent: Form) {
   console.log('updateConditionalChange', changeEvent)
 
   const comboState = window.store.getState().comboState

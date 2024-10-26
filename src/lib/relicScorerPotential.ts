@@ -4,6 +4,7 @@ import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/Relic'
 import { Utils } from 'lib/utils'
 import DB from 'lib/db'
 import i18next from 'i18next'
+import { TsUtils } from 'lib/TsUtils'
 
 // Define the fields we care about, until Db+dataParser are typed and can be inferred in this file
 type ScoringMetadata = {
@@ -572,7 +573,7 @@ export class RelicScorer {
     const substatScore = this.substatScore(relic, id)
     const idealScore = this.scoreOptimalRelic(part, id)
     const score = substatScore.score / idealScore * 100 * percentToScore + mainstatBonus
-    const rating = scoreToRating(score)
+    const rating = scoreToRating(score, substatScore)
     const mainStatScore = substatScore.mainStatScore
     return {
       score: score.toFixed(1),
@@ -841,9 +842,17 @@ function maxEnhance(grade: 2 | 3 | 4 | 5) {
   }
 }
 
-function scoreToRating(score: number): rating { // + 1 rating per 0.5 low rolls of score, starting from 1 low roll of score
+function scoreToRating(score: number, substatScore?: SubstatScore): rating { // + 1 rating per 0.5 low rolls of score, starting from 1 low roll of score
   const index = Math.min(Math.floor(score / (minRollValue / 2)), ratings.length - 1)
-  return index < 0 ? '???' : ratings[index]
+  return index < 0 || scoredMainStatInvalid(substatScore) ? '?' : ratings[index]
+}
+
+function scoredMainStatInvalid(substatScore?: SubstatScore) {
+  // Experimenting: Invalid main stats get a '?' rating
+  // if (substatScore && (substatScore.part != Parts.Hands && substatScore.part != Parts.Head) && )
+  return substatScore
+    && (substatScore.part != Parts.Hands && substatScore.part != Parts.Head)
+    && TsUtils.precisionRound(substatScore.mainStatScore) <= 0
 }
 
 // Hands/Head have no weight. Optimal main stats are 1.0 weight, and anything else inherits the substat weight.
@@ -855,6 +864,13 @@ function getMainStatWeight(relic: Relic, scoringMetadata: ScoringMetadata) {
     return 1
   }
   return scoringMetadata.stats[relic.main.stat]
+}
+
+type SubstatScore = {
+  mainStatScore: number
+  score: number
+  part: string
+  scoringMetadata: ScoringMetadata
 }
 
 export type RelicScoringResult = {

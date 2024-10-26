@@ -27,7 +27,7 @@ test('Switch relics between characters in Characters tab', async ({ page }) => {
   // Boots
   await expect(page.locator('.ant-card').filter({ hasText: /^\+15SPD25DEF16ATK %4\.3%CRIT Rate2\.5%Effect RES19\.8%Score18\.8 \(C\+\)$/ })).toHaveCount(1)
   // Orb
-  await expect(page.locator('.ant-card').filter({ hasText: /^\+15Lightning DMG38\.8%ATK59ATK %8\.2%DEF %5\.4%Effect HIT6\.9%Score14\.1 \(D\+\)$/ })).toHaveCount(1)
+  await expect(page.locator('.ant-card').filter({ hasText: /^\+15Lightning DMG38\.8%ATK59ATK %8\.2%DEF %5\.4%Effect HIT6\.9%Score14\.1 \(\?\)$/ })).toHaveCount(1)
   // Rope
   await expect(page.locator('.ant-card').filter({ hasText: /^\+15ATK %43\.2%HP38ATK63SPD5Effect HIT8\.2%Score24\.8 \(B\+\)$/ })).toHaveCount(1)
 
@@ -40,11 +40,11 @@ test('Switch relics between characters in Characters tab', async ({ page }) => {
   // Hands
   await expect(page.locator('.ant-card').filter({ hasText: /^\+15ATK352HP %3\.4%SPD4CRIT DMG22\.6%Effect HIT3\.4%Score15\.4 \(C\)$/ })).toHaveCount(1)
   // Body
-  await expect(page.locator('.ant-card').filter({ hasText: /^\+15CRIT DMG64\.8%HP114ATK %7\.3%DEF %4\.3%CRIT Rate8\.1%Score14\.0 \(D\+\)$/ })).toHaveCount(1)
+  await expect(page.locator('.ant-card').filter({ hasText: /^\+15CRIT DMG64\.8%HP114ATK %7\.3%DEF %4\.3%CRIT Rate8\.1%Score14\.0 \(\?\)$/ })).toHaveCount(1)
   // Boots
   await expect(page.locator('.ant-card').filter({ hasText: /^\+15SPD25ATK21ATK %11\.6%DEF %4\.8%CRIT DMG17\.4%Score33\.3 \(S\+\)$/ })).toHaveCount(1)
   // Orb
-  await expect(page.locator('.ant-card').filter({ hasText: /^\+15Ice DMG38\.8%DEF74CRIT Rate5\.5%CRIT DMG12\.3%Effect HIT4\.3%Score3\.7 \(F\)$/ })).toHaveCount(1)
+  await expect(page.locator('.ant-card').filter({ hasText: /^\+15Ice DMG38\.8%DEF74CRIT Rate5\.5%CRIT DMG12\.3%Effect HIT4\.3%Score3\.7 \(\?\)$/ })).toHaveCount(1)
   // Rope
   await expect(page.locator('.ant-card').filter({ hasText: /^\+15ATK %43\.2%HP80CRIT Rate8\.4%CRIT DMG10\.3%Break Effect5\.8%Score5\.6 \(F\)$/ })).toHaveCount(1)
 })

@@ -1,4 +1,10 @@
-import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, setToId, Stats } from 'lib/constants'
+import {
+  Constants,
+  SACERDOS_RELIVED_ORDEAL_1_STACK,
+  SACERDOS_RELIVED_ORDEAL_2_STACK,
+  setToId,
+  Stats,
+} from 'lib/constants'
 import { BASE_PATH } from 'lib/db'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;
@@ -71,6 +77,7 @@ export const Assets = {
     if (!lightConeId) return Assets.getBlank()
     return getImageUrl(`/image/light_cone_portrait/${lightConeId}.webp`)
   },
+
   getLightConeIconById: (lightConeId: string) => {
     if (!lightConeId) return Assets.getBlank()
     return getImageUrl(`/icon/light_cone/${lightConeId}.webp`)

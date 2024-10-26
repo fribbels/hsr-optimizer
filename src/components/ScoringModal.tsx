@@ -1,16 +1,15 @@
-import React, { useEffect } from 'react'
 import { Button, Divider, Flex, Form, InputNumber, Modal, Popconfirm, Select, Typography } from 'antd'
-import styled from 'styled-components'
-
-import { Assets } from 'lib/assets'
-import DB from 'lib/db'
-import { Parts, Stats } from 'lib/constants'
-import { usePublish } from 'hooks/usePublish'
-import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
-import { useTranslation } from 'react-i18next'
 import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
+import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
+import { usePublish } from 'hooks/usePublish'
+import { Assets } from 'lib/assets'
 import { ScoringMetadata } from 'lib/characterScorer'
+import { Parts, Stats } from 'lib/constants'
+import DB from 'lib/db'
 import { TsUtils } from 'lib/TsUtils'
+import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 
 const { Text } = Typography
 

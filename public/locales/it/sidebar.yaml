@@ -1,17 +1,17 @@
 Showcase:
-  Title: Showcase
-  Scorer: 'Relic Scorer'
+  Title: Vetrina
+  Scorer: 'Algoritmo del punteggio'
 Optimization:
-  Title: Optimization
-  Optimizer: Optimizer
+  Title: Ottimizzazione
+  Optimizer: Ottimizzatore
   Relics: '$t(common:Relic, {"count": 2000, "capitalizeLength": 1})'
   Characters: '$t(common:Character, {"count": 23, "capitalizeLength": 1})'
-  Import: Import / Save
-  Settings: Settings
-  Start: Get Started
+  Import: Importa / Salva
+  Settings: Impostazioni
+  Start: Inizia
 Links:
   Title: Links
-  Changelog: Changelog
+  Changelog: Elenco delle modifiche
   Discord: Discord
   Github: GitHub
   Kofi: Ko-fi

@@ -1,12 +1,12 @@
 GPU:
-  Message: WebGPU is not supported on this browser!
+  Message: WebGPU non è supportato su questo browser!
   Description:
-    l1: 'Please use one of the following supported environments in order to enable GPU acceleration:'
+    l1: 'Si prega di utilizzare uno dei seguenti browser supportati per abilitare l\'accelerazione GPU:'
     l2: Windows & Mac — Chrome, Opera, Edge
     l3: Linux — <CustomLink text="Behind a flag"/>
-    l4: If you're on one of the supported browsers and it doesn't work, try another browser, or try switching your browser to use your dedicated graphics card instead of integrated.
+    l4: Se stai utilizzando uno dei browser supportati e non funziona, prova un altro browser oppure prova a impostare il tuo browser per utilizzare la scheda grafica invece di quella integrata.
 Changelog:
-  View: View changelog
-  Dismiss: Dismiss
-  Message: New updates!
-  Description: Check out the changelog for the latest optimizer updates.
+  View: Visualizza l'elenco delle modifiche
+  Dismiss: Chiudi
+  Message: Nuovi aggiornamenti!
+  Description: Dai un'occhiata all'elenco delle modifiche per gli ultimi aggiornamenti dell'ottimizzatore.

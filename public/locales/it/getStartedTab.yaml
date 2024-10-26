@@ -1,13 +1,13 @@
 TryOut:
-  DocumentationTitle: See full guide
-  ButtonText: Try it out!
-  title: Confirm
-  description: Load a sample save file?
-  okText: 'Yes'
-  cancelText: Cancel
-  SuccessMessage: Successfully loaded data
-  Header: Try it out!
-  Option 1: '<0>Option 1: Load a sample save</0><1>If you would like to give the optimizer a try before doing any relic importing, use this to load a sample save file and check out the features.</1>'
+  DocumentationTitle: Guarda la guida completa
+  ButtonText: Provalo adesso!
+  title: Conferma
+  description: Caricare un salvataggio esempio?
+  okText: 'Sì'
+  cancelText: Cancella
+  SuccessMessage: Salvataggio caricato con successo
+  Header: Provalo adesso!
+  Option 1: '<0>Opzione 1: Carica un salvataggio esempio </0><1>Se vuoi provare l'ottimizzatore prima di importare le tue reliquie, usa questa opzione per caricare un salvataggio esempio.</1>'
   Option 2: >-
     <0>Option 2: One-click-optimize from the Relic Scorer</0><1/><2>From the <1><0 text="Relic scorer"></0></1> tab, clicking on the Optimize Character Stats button will automatically import and run
     the optimizer on your selected character. This option will only be able to use the relics from your profile's showcase characters, so it is still recommended to use a scanner to import your full

@@ -1,8 +1,8 @@
 CapitalizeString: '{{string, capitalize}}'
-Relic_one: '$t(CapitalizeString, {"string": "relic"})'
-Relic_other: '$t(CapitalizeString, {"string": "relics"})'
-RelicWithCount_one: '{{count}} $t(CapitalizeString, {"string": "relic"})'
-RelicWithCount_other: '{{count}} $t(CapitalizeString, {"string": "relics"})'
+Relic_one: '$t(CapitalizeString, {"string": "reliquia"})'
+Relic_other: '$t(CapitalizeString, {"string": "reliquie"})'
+RelicWithCount_one: '{{count}} $t(CapitalizeString, {"string": "reliquia"})'
+RelicWithCount_other: '{{count}} $t(CapitalizeString, {"string": "reliquie"})'
 Lightcone_one: '$t(CapitalizeString, {"string": "light cone"})'
 Lightcone_other: '$t(CapitalizeString, {"string": "light cones"})'
 LightconeWithCount_one: '{{count}} $t(CapitalizeString, {"string": "light cone"})'
@@ -11,26 +11,26 @@ ThousandsSuffix: K
 DecimalSeparator: .
 ThousandsSeparator: ','
 I18nNumber: '{{value, number}}'
-Cancel: '$t(CapitalizeString, {"string": "cancel"})'
-Confirm: '$t(CapitalizeString, {"string": "confirm"})'
-Submit: '$t(CapitalizeString, {"string": "submit"})'
+Cancel: '$t(CapitalizeString, {"string": "cancella"})'
+Confirm: '$t(CapitalizeString, {"string": "conferma"})'
+Submit: '$t(CapitalizeString, {"string": "aggiungi"})'
 Ok: '$t(CapitalizeString, {"string": "ok"})'
-'Yes': '$t(CapitalizeString, {"string": "yes"})'
+'Yes': '$t(CapitalizeString, {"string": "si"})'
 'No': '$t(CapitalizeString, {"string": "no"})'
-Save: '$t(CapitalizeString, {"string": "save"})'
-Score: '$t(CapitalizeString, {"string": "score"})'
+Save: '$t(CapitalizeString, {"string": "salva"})'
+Score: '$t(CapitalizeString, {"string": "punteggio"})'
 Reset: '$t(CapitalizeString, {"string": "reset"})'
-Maximum: '$t(CapitalizeString, {"string": "maximum"})'
-Minimum: '$t(CapitalizeString, {"string": "minimum"})'
+Maximum: '$t(CapitalizeString, {"string": "massimo"})'
+Minimum: '$t(CapitalizeString, {"string": "minimo"})'
 EidolonNShort: E{{eidolon}}
 SuperimpositionNShort: S{{superimposition}}
 LevelShort: Lv{{level}}
-CharacterWithCount_one: '{{count}} $t(CapitalizeString, {"string": "character"})'
-CharacterWithCount_other: '{{count}} $t(CapitalizeString, {"string": "characters"})'
-Character_one: '$t(CapitalizeString, {"string": "character"})'
-Character_other: '$t(CapitalizeString, {"string": "characters"})'
-VerifiedRelicHoverText: Relic substats verified by relic scorer (speed decimals)
-CombatStats: Combat Stats
+CharacterWithCount_one: '{{count}} $t(CapitalizeString, {"string": "personaggio"})'
+CharacterWithCount_other: '{{count}} $t(CapitalizeString, {"string": "personaggi"})'
+Character_one: '$t(CapitalizeString, {"string": "personaggio"})'
+Character_other: '$t(CapitalizeString, {"string": "personaggi"})'
+VerifiedRelicHoverText: Statistiche secondarie della reliquia verificate dal relic scorer (speed decimals)
+CombatStats: Statistiche in battaglia
 Parts:
   Head: Head
   Hands: Hands
@@ -161,7 +161,7 @@ ShortReadableStats:
   Quantum DMG Boost: $t(gameData:Elements.Quantum)
   Imaginary DMG Boost: $t(gameData:Elements.Imaginary)
 DMGTypes:
-  simScore: Combo DMG
+  simScore: DANNO della combo
   BASIC: Basic Damage
   ULT: Ult Damage
   SKILL: Skill Damage

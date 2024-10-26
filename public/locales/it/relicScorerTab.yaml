@@ -1,24 +1,24 @@
 Messages:
-  ThrottleWarning: Please wait {{seconds}} seconds before retrying
-  InvalidIdWarning: Invalid ID
-  IdLoadError: Error loading ID
-  SuccessMsg: Successfully loaded profile
-  LookupError: Error during lookup, please try again in a bit
-  NoCharacterSelected: No selected character
-  CharacterAlreadyExists: Selected character already exists
-  UnknownButtonClicked: Unknown button clicked
+  ThrottleWarning: Attendi {{seconds}} secondi prima di riprovare
+  InvalidIdWarning: ID invalido
+  IdLoadError: Errore caricamento ID
+  SuccessMsg: Profilo caricato con successo
+  LookupError: Errore durante la ricerca, riprova tra poco
+  NoCharacterSelected: Nessun personaggio selezionato
+  CharacterAlreadyExists: Il personaggio selezionato esiste già
+  UnknownButtonClicked: Pulsante cliccato sconosciuto
 Header:
-  DowntimeWarning: 'The relic scorer may be down for maintenance after the {{game_version}} patch, please try again later'
-  WithVersion: 'Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}})'
-  WithoutVersion: 'Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly.'
+  DowntimeWarning: 'Il punteggio delle reliquie potrebbe essere non disponibile per manutenzione dopo la patch {{game_version}}, riprova più tardi.'
+  WithVersion: 'Inserisci l\'UID per calcolare il punteggio dei personaggi del tuo profilo a livello 80 e con le traces massimizzate. Effettua il logout per aggiornare istantaneamente. (Current version {{beta_version}})'
+  WithoutVersion: 'Inserisci l\'UID per calcolare il punteggio dei personaggi del tuo profilo a livello 80 e con le traces massimizzate. Effettua il logout per aggiornare istantaneamente.'
 SubmissionBar:
-  Placeholder: Account UID
+  Placeholder: UID Account
   ButtonText: '$t(common:Submit, {"capitalizeLength": 1})'
-  AlgorithmButton: Scoring algorithm
-CopyScreenshot: Copy screenshot
+  AlgorithmButton: Algoritmo del punteggio
+CopyScreenshot: Copia screenshot
 ImportLabels:
-  Relics: 'Import relics into optimizer'
-  SingleCharacter: 'Import selected character & all relics into optimizer'
-  AllCharacters: 'Import all characters & all relics into optimizer'
-SimulateRelics: 'Simulate relics on another character'
-OptimizeOnCharacter: 'Optimize character stats'
+  Relics: 'Importa le reliquie nell\'ottimizzatore.'
+  SingleCharacter: 'Importa il personaggio selezionato e tutte le reliquie nell\'ottimizzatore.'
+  AllCharacters: 'Importa tutti i personaggi e tutte le reliquie nell\'ottimizzatore.'
+SimulateRelics: 'Simula le reliquie su un altro personaggio.'
+OptimizeOnCharacter: 'Ottimizza le statistiche del personaggio.'

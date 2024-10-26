@@ -15,7 +15,7 @@ CharacterMenu:
   Build:
     Label: Builds
     Options:
-      Save: Salva la build corrente
+      Save: Salva la build attuale
       View: Guarda le build salvate
   Scoring:
     Label: Punteggio
@@ -29,7 +29,7 @@ CharacterMenu:
 Confirm: '$t(common:Confirm, {"capitalizeLength": 1})'
 Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
 CopyScreenshot: Copia screenshot
-SearchPlaceholder: Cerca il nome del personaggio
+SearchPlaceholder: Cerca personaggio
 GridHeaders:
   Icon: Icona
   Priority: Priorità
@@ -41,7 +41,7 @@ Messages:
   SwitchSuccess: Scambiate reliquie con $t(gameData:Characters.{{charId}}.Name) con successo
   SortByScoreWarning: >-
     Sei sicuro di voler ordinare tutti i personaggi?
-    Perderai tutti i cambiamenti dell'ordine precedente.
+    Perderai tutti i cambiamenti sull'ordine attuale.
   SaveSuccess: 'Build salvata con successo: {{name}}'
   UnequipWarning: Sei sicuro di voler disequipaggiare $t(gameData:Characters.{{charId}}.Name)?
   DeleteWarning: Sei sicuro di voler eliminare $t(gameData:Characters.{{charId}}.Name)?
@@ -80,7 +80,7 @@ CharacterPreview:
     SimulationTeammates: Compagni di squadra nella simulazione 
     SimulationSets: Set usato nella simulazione
     Rotation:
-      Header: Danno della combo
+      Header: DANNO della combo
       BASIC: BASIC
       SKILL: SKILL
       ULT: ULT
@@ -90,10 +90,10 @@ CharacterPreview:
     CombatResults:
       Header: Risultato del danno in battaglia
       Primary: 'Abilità primaria:     '
-      Character: 'DMG del Personaggio:       '
-      Benchmark: 'DMG del Benchmark:       '
-      Baseline: 'DMG in linea di base:        '
-      Maximum: 'DMG massimo:         '
+      Character: 'DANNO del Personaggio:       '
+      Benchmark: 'DANNO del Benchmark:       '
+      Baseline: 'DANNO in linea di base:        '
+      Maximum: 'DANNO massimo:         '
       Score: 'punteggio DPS %:         '
       Abilities:
         BASIC: BASIC DMG
@@ -112,19 +112,19 @@ CharacterPreview:
       Mainstats: Statistica principale del personaggio
       Abilities: Danno abilità del personaggio
     Benchmark:
-      Header: Benchmark build ({{score}}%)
-      BasicStats: 100% benchmark basic stats
-      CombatStats: 100% benchmark <1>combat stats</1>
-      Substats: 100% benchmark subs (min rolls)
-      Mainstats: 100% benchmark main stats
-      Abilities: 100% benchmark ability damage
+      Header: Build benchmark ({{score}}%)
+      BasicStats: Statistiche base 100% benchmark 
+      CombatStats: <1>Statistiche in battaglia</1> 100% benchmark 
+      Substats: Statistiche secondarie 100% (min rolls)
+      Mainstats: Statistiche principale 100% 
+      Abilities: Danno abilità 100% benchmark
     Perfect:
-      Header: Perfect build ({{score}}%)
-      BasicStats: 200% perfect basic stats
-      CombatStats: 200% perfect <1>combat stats</1>
-      Substats: 200% perfect subs (max rolls)
-      Mainstats: 200% perfect main stats
-      Abilities: 200% perfect ability damage
+      Header: Build perfetta ({{score}}%)
+      BasicStats: Statistiche base perfette 200%
+      CombatStats: <1>Statistiche in battaglia</1> 200% perfette
+      Substats: Statistiche secondarie 200% (max rolls)
+      Mainstats: Statistiche principali perfette 200% 
+      Abilities: Danno abilità perfetto 200% 
     PaddedStatLabels:
       ATKP: 'ATK%: '
       ATK: 'ATK:  '
@@ -146,4 +146,4 @@ CharacterPreview:
       Dot: 'Dot DMG:             '
       Break: 'Break DMG:           '
   ScoringDetails:
-    Header: How is DPS Score calculated?
+    Header: Com'è calcolato il punteggio DPS?

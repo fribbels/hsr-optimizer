@@ -1,38 +1,38 @@
 RelicFilterBar:
-  Part: Part
-  Enhance: Enhance
-  Grade: Grade
-  Verified: Verified
-  Equipped: Equipped
-  Clear: Clear
-  ClearButton: Clear all filters
+  Part: Pezzo
+  Enhance: Migliora
+  Grade: Grado
+  Verified: Verificato
+  Equipped: Equipaggiato
+  Clear: Cancella
+  ClearButton: Cancella tutti i filtri
   Set: Set
-  Mainstat: Main stats
-  Substat: Substats
-  ReapplyButton: Reapply scores
-  ScoringButton: Scoring algorithm
-  RecommendationHeader: 'Relic recommendation character'
-  Rating: 'Relic ratings'
-  CustomCharsHeader: 'Custom potential characters'
+  Mainstat: Statistica principale
+  Substat: Statistica secondaria
+  ReapplyButton: Riapplica punteggi
+  ScoringButton: Algoritmo del punteggio
+  RecommendationHeader: 'Personaggio consigliato per le reliquie'
+  Rating: 'Valutazioni delle reliquie'
+  CustomCharsHeader: 'Personaggio potenziale personalizzato'
 Messages:
-  AddRelicSuccess: 'Successfully added relic'
-  NoRelicSelected: 'No relic selected'
-  DeleteRelicSuccess: 'Successfully deleted relic'
+  AddRelicSuccess: 'Reliquia aggiunta con successo'
+  NoRelicSelected: 'Nessuna reliquia selezionata'
+  DeleteRelicSuccess: 'Reliquia eliminata con successo'
 RelicGrid:
-  To: to
-  Of: of
+  To: a
+  Of: di
   Headers:
-    EquippedBy: Owner
+    EquippedBy: Possessore
     Set: Set
-    Grade: Grade
-    Part: Part
-    Enhance: Enhance
+    Grade: Grado
+    Part: Pezzo
+    Enhance: Migliora
     MainStat: |-
-      Main
-      Stat
+      Statistica
+      Principale
     MainValue: |-
-      Main
-      Value
+      Valore
+      Principale
     HPP: HP %
     ATKP: ATK %
     DEFP: DEF %
@@ -60,71 +60,71 @@ RelicGrid:
       Value
   ValueColumns:
     SelectedCharacter:
-      Label: 'Selected character'
+      Label: 'Personaggio selezionato'
       ScoreCol:
-        Label: 'Selected character: Score'
+        Label: 'Personaggio selezionato: Punteggio'
         Header: |-
-          Selected Char
-          Score
+          Personaggio Selezionato
+          Punteggio
       AvgPotCol:
-        Label: 'Selected character: Average potential'
+        Label: 'Personaggio selezionato: Potenziale medio'
         Header: |-
-          Selected Char
-          Avg Potential
+          Personaggio Selezionato
+          Potenziale Medio
       MaxPotCol:
-        Label: 'Selected character: Max potential'
+        Label: 'Personaggio selezionato: Potenziale massimo'
         Header: |-
-          Selected Char
-          Max Potential
+          Personaggio Selezionato
+          Potenziale Massimo
     CustomCharacters:
-      Label: 'Custom characters'
+      Label: 'Personaggi personalizzati'
       AvgPotCol:
-        Label: 'Custom characters: Average potential'
+        Label: 'Personaggi personalizzati: Potenziale medio'
         Header: |-
-          Custom Chars
-          Avg Potential
+          Personaggio Personalizzato
+          Potenziale Medio
       MaxPotCol:
-        Label: 'Custom$characters: Max potential'
+        Label: 'Custom$characters: Potenziale massimo'
         Header: |-
-          Custom Chars
-          Max Potential
+          Personaggio Personalizzato
+          Potenziale Massimo
     AllCharacters:
-      Label: 'All characters'
+      Label: 'Tutti i personaggi'
       AvgPotCol:
-        Label: 'All characters: Average potential'
+        Label: 'Tutti i personaggi: Potenziale medio'
         Header: |-
-          All Chars
-          Avg Potential
+          Tutti i Personaggi
+          Potenziale Medio
       MaxPotCol:
-        Label: 'All characters: Max potential'
+        Label: 'Tutti i personaggi: Potenziale massimo'
         Header: |-
-          All Chars
-          Max Potential
+          Tutti i Personaggi
+          Potenziale Massimo
     ComingSoon:
-      Label: Coming soon
+      Label: In arrivo prossimamente
       SetsPotential:
-        Label: '$Relic / Ornament sets potential'
+        Label: '$Relic / Potenziale Ornament set'
         Header: |-
-          All Chars
-          Max Potential + Sets
+          Tutti i Personaggi
+          Potenziale Massimo + Set
 Toolbar:
   RelicLocator:
-    Width: Inventory width
-    Filter: Auto filter rows
-    NoneSelected: 'Select a relic to locate'
-    Location: Location - Row {{rowIndex}} / Col {{columnIndex}}
+    Width: Larghezza dell'inventario
+    Filter: Filtra automaticamente le righe
+    NoneSelected: 'Seleziona una reliquia da localizzare'
+    Location: Posizione - Riga {{rowIndex}} / Colonna {{columnIndex}}
   InsightOptions:
-    Buckets: 'Relic Insight: Buckets'
-    Top10: 'Relic Insight: Top 10'
+    Buckets: 'Reliquia consigliata: Buckets'
+    Top10: 'Reliquia consigliata: Top 10'
   PlotOptions:
-    PlotAll: 'Show all characters'
-    PlotCustom: 'Show custom characters'
-  EditRelic: 'Edit relic'
+    PlotAll: 'Mostra tutti i personaggi'
+    PlotCustom: 'Mostra personaggi personalizzati'
+  EditRelic: 'Modifica reliquia'
   DeleteRelic:
-    ButtonText: 'Delete relic'
-    Warning_one: 'Delete the selected relic?'
-    Warning_other: 'Delete the selected {{count}} relics?'
-  AddRelic: 'Add New Relic'
+    ButtonText: 'Elimina reliquia'
+    Warning_one: 'Eliminare la reliquia selezionata?'
+    Warning_other: 'Eliminare le {{count}} reliquie selezionate?'
+  AddRelic: 'Aggiungi nuove reliquie'
 RelicInsights:
-  NewStats: 'New stats: '
-  UpgradedStats: 'Upgraded stats: '
+  NewStats: 'Nuove statistiche: '
+  UpgradedStats: 'Statistiche potenziate: '

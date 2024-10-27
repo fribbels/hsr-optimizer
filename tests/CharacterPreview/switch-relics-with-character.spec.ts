@@ -38,7 +38,7 @@ test('Switch relics between characters in Characters tab', async ({ page }) => {
   // Head
   await expect(page.locator('.ant-card').filter({ hasText: /^\+15HP705CRIT Rate11\.0%CRIT DMG10\.3%Effect RES3\.4%Break Effect5\.1%Score0\.0 \(F\)$/ })).toHaveCount(1)
   // Hands
-  await expect(page.locator('.ant-card').filter({ hasText: /^\+15ATK352HP %3\.4%SPD4CRIT DMG22\.6%Effect HIT3\.4%Score15\.0 \(C\)$/ })).toHaveCount(1)
+  await expect(page.locator('.ant-card').filter({ hasText: /^\+15ATK352HP %3\.4%SPD4CRIT DMG22\.6%Effect HIT3\.4%Score15\.0 \(D\+\)$/ })).toHaveCount(1)
   // Body
   await expect(page.locator('.ant-card').filter({ hasText: /^\+15CRIT DMG64\.8%HP114ATK %7\.3%DEF %4\.3%CRIT Rate8\.1%Score13\.9 \(\?\)$/ })).toHaveCount(1)
   // Boots

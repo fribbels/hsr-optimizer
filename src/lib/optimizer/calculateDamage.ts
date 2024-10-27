@@ -96,8 +96,8 @@ export function calculateDamage(x: ComputedStatsObject, action: OptimizerAction,
       x.BASIC_BREAK_DMG_MODIFIER,
       x.BASIC_TOUGHNESS_DMG,
       x.BASIC_ADDITIONAL_DMG,
-      0, // x.BASIC_CR_OVERRIDE,
-      0, // x.BASIC_CD_OVERRIDE,
+      0, // x.BASIC_ADDITIONAL_DMG_CR_OVERRIDE,
+      0, // x.BASIC_ADDITIONAL_DMG_CD_OVERRIDE,
     )
   }
 
@@ -126,8 +126,8 @@ export function calculateDamage(x: ComputedStatsObject, action: OptimizerAction,
       0, // x.SKILL_BREAK_DMG_MODIFIER,
       x.SKILL_TOUGHNESS_DMG,
       x.SKILL_ADDITIONAL_DMG,
-      0, // x.SKILL_CR_OVERRIDE,
-      0, // x.SKILL_CD_OVERRIDE,
+      0, // x.SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
+      0, // x.SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
     )
   }
 
@@ -156,8 +156,8 @@ export function calculateDamage(x: ComputedStatsObject, action: OptimizerAction,
       0, // x.ULT_BREAK_DMG_MODIFIER,
       x.ULT_TOUGHNESS_DMG,
       x.ULT_ADDITIONAL_DMG,
-      x.ULT_CR_OVERRIDE,
-      x.ULT_CD_OVERRIDE,
+      x.ULT_ADDITIONAL_DMG_CR_OVERRIDE,
+      x.ULT_ADDITIONAL_DMG_CD_OVERRIDE,
     )
   }
 
@@ -186,8 +186,8 @@ export function calculateDamage(x: ComputedStatsObject, action: OptimizerAction,
       0, // x.FUA_BREAK_DMG_MODIFIER,
       x.FUA_TOUGHNESS_DMG,
       x.FUA_ADDITIONAL_DMG,
-      0, // x.FUA_CR_OVERRIDE,
-      0, // x.FUA_CD_OVERRIDE,
+      0, // x.FUA_ADDITIONAL_DMG_CR_OVERRIDE,
+      0, // x.FUA_ADDITIONAL_DMG_CD_OVERRIDE,
     )
   }
 }

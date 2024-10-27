@@ -538,7 +538,8 @@ fn main(
       let universalMulti = dmgReductionMultiplier * brokenMultiplier;
       let baseResistance = resistance - x.RES_PEN - combatBuffsDEF_PEN - getElementalResPen(&x);
 
-      let ULT_CD = select(x.CD + x.ULT_CD_BOOST, x.ULT_CD_OVERRIDE, x.ULT_CD_OVERRIDE > 0);
+      let ULT_CD = x.CD + x.ULT_CD_BOOST;
+//      let ULT_CD = select(x.CD + x.ULT_ADDITIONAL_DMG_CD_OVERRIDE, x.ULT_ADDITIONAL_DMG_CD_OVERRIDE, x.ULT_ADDITIONAL_DMG_CD_OVERRIDE > 0);
 
       let breakVulnerability = 1.0 + x.VULNERABILITY + x.BREAK_VULNERABILITY;
       let basicVulnerability = 1.0 + x.VULNERABILITY + x.BASIC_VULNERABILITY;

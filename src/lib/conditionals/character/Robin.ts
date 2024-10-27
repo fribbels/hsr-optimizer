@@ -174,11 +174,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       x[Stats.ATK] += (r.concertoActive) ? x[Stats.ATK] * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
 
-      x.ULT_CR_OVERRIDE = 1.00
-      x.ULT_CD_OVERRIDE = (e >= 6 && r.concertoActive && r.e6UltCDBoost) ? 6.00 : 1.50
+      x.ULT_ADDITIONAL_DMG_CR_OVERRIDE = 1.00
+      x.ULT_ADDITIONAL_DMG_CD_OVERRIDE = (e >= 6 && r.concertoActive && r.e6UltCDBoost) ? 6.00 : 1.50
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      x.ULT_ADDITIONAL_DMG += x.ULT_ADDITIONAL_DMG_SCALING * x[Stats.ATK]
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
@@ -187,12 +187,14 @@ if (${wgslTrue(r.concertoActive)}) {
   buffDynamicATK(x.ATK * ${ultAtkBuffScalingValue} + ${ultAtkBuffFlatValue}, p_x, p_state);
 }
 
-buffAbilityCr(p_x, ULT_TYPE, 1.00, 1);
+if (${wgslTrue(r.concertoActive)}) {
+  x.ULT_ADDITIONAL_DMG_CR_OVERRIDE = 1.00;
+}
 
 if (${wgslTrue(e >= 6 && r.concertoActive && r.e6UltCDBoost)}) {
-  x.ULT_CD_OVERRIDE = 6.00;
+  x.ULT_ADDITIONAL_DMG_CD_OVERRIDE = 6.00;
 } else {
-  x.ULT_CD_OVERRIDE = 1.50;
+  x.ULT_ADDITIONAL_DMG_CD_OVERRIDE = 1.50;
 }
 
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;

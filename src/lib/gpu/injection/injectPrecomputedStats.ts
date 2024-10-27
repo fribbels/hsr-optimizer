@@ -102,8 +102,8 @@ export function injectPrecomputedStatsContext(action: OptimizerAction, gpuParams
       ${x.SKILL_ORIGINAL_DMG_BOOST},${gpuParams.DEBUG ? ' // SKILL_ORIGINAL_DMG_BOOST' : ''}
       ${x.ULT_ORIGINAL_DMG_BOOST},${gpuParams.DEBUG ? ' // ULT_ORIGINAL_DMG_BOOST' : ''}
       ${x.BASIC_BREAK_DMG_MODIFIER},${gpuParams.DEBUG ? ' // BASIC_BREAK_DMG_MODIFIER' : ''}
-      ${x.ULT_CR_OVERRIDE},${gpuParams.DEBUG ? ' // ULT_CR_OVERRIDE' : ''}
-      ${x.ULT_CD_OVERRIDE},${gpuParams.DEBUG ? ' // ULT_CD_OVERRIDE' : ''}
+      ${x.ULT_ADDITIONAL_DMG_CR_OVERRIDE},${gpuParams.DEBUG ? ' // ULT_ADDITIONAL_DMG_CR_OVERRIDE' : ''}
+      ${x.ULT_ADDITIONAL_DMG_CD_OVERRIDE},${gpuParams.DEBUG ? ' // ULT_ADDITIONAL_DMG_CD_OVERRIDE' : ''}
       ${x.ULT_BOOSTS_MULTI},${gpuParams.DEBUG ? ' // ULT_BOOSTS_MULTI' : ''}
       ${x.BASIC_ADDITIONAL_DMG_SCALING},${gpuParams.DEBUG ? ' // BASIC_ADDITIONAL_DMG_SCALING' : ''}
       ${x.SKILL_ADDITIONAL_DMG_SCALING},${gpuParams.DEBUG ? ' // SKILL_ADDITIONAL_DMG_SCALING' : ''}

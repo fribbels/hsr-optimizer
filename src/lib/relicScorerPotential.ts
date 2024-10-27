@@ -236,7 +236,9 @@ export class RelicScorer {
       // @ts-ignore
       scoringMetadata.sortedSubstats = Object.entries(scoringMetadata.stats).filter((x) => possibleSubstats.has(x[0])) as [SubStats, number][]
       scoringMetadata.sortedSubstats
-        .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
+        .sort((a: [string, number], b: [string, number]) => {
+          return b[1] * normalization[b[1]] * SubStatValues[b[1]][5].high - a[1] * normalization[a[1]] * SubStatValues[a[1]][5].high
+        })
       scoringMetadata.groupedSubstats = new Map()
       for (const [stat, weight] of scoringMetadata.sortedSubstats) {
         if (!scoringMetadata.groupedSubstats.has(weight)) {

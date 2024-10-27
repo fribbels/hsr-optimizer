@@ -199,7 +199,7 @@ export function ScannerImportSubmenu() {
               <Input
                 style={{ width: importerTabButtonWidth }}
                 className='centered-placeholder'
-                placeholder='Paste json file contents'
+                placeholder={t('Import.Stage1.Placeholder')}
                 value=''
                 disabled={loading1}
                 onChange={(e) => {

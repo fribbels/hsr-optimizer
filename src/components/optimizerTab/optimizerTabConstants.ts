@@ -18,7 +18,7 @@ export const defaultPadding = 11
 export function getBaseColumnDefs(t: TFunction<'optimizerTab', undefined>) {
   return [
     { field: 'relicSetIndex', cellRenderer: Renderer.relicSet, width: 72, headerName: t('Grid.Headers.Basic.Set')/* 'Set' */ },
-    { field: 'ornamentSetIndex', cellRenderer: Renderer.ornamentSet, width: 42, headerName: t('Grid.Headers.Basic.ATK')/* 'Set' */ },
+    { field: 'ornamentSetIndex', cellRenderer: Renderer.ornamentSet, width: 42, headerName: t('Grid.Headers.Basic.Set')/* 'Set' */ },
 
     {
       field: Constants.Stats.ATK,

@@ -7,7 +7,7 @@ import { TooltipImage } from './TooltipImage'
 import DB, { DBMetadataCharacter } from 'lib/db'
 import { Hint } from 'lib/hint'
 import { Utils } from 'lib/utils'
-import { Constants, SetsRelics, setToId, Stats, UnreleasedSets } from 'lib/constants'
+import { Constants, Sets, SetsRelics, setToId, Stats, UnreleasedSets } from 'lib/constants'
 import { Assets } from 'lib/assets'
 import { useSubscribe } from 'hooks/useSubscribe'
 import { Renderer } from 'lib/renderer'
@@ -125,7 +125,7 @@ export default function RelicFilterBar(props: {
 
   const gradeData = generateGradeTags([2, 3, 4, 5])
   const verifiedData = generateVerifiedTags(['true', 'false'])
-  const setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)).filter((x) => !UnreleasedSets[x]),
+  const setsData = generateImageTags(Object.values(Sets).filter((x) => !UnreleasedSets[x]),
     (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), true)
   const partsData = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x), false)
   const mainStatsData = generateImageTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), true)
@@ -172,7 +172,7 @@ export default function RelicFilterBar(props: {
     // NOTE: we cannot cache these results between renders by keying on the relic/characterId because
     // both relic stats and char weights can be edited
     for (const relic of relics) {
-      const weights: Partial<RelicScoringWeights> = characterId ? relicScorer.scoreFutureRelic(relic, characterId) : { current: 0, best: 0, average: 0 }
+      const weights: Partial<RelicScoringWeights> = characterId ? relicScorer.getFutureRelicScore(relic, characterId) : { current: 0, best: 0, average: 0 }
       weights.potentialSelected = characterId ? relicScorer.scoreRelicPotential(relic, characterId) : { bestPct: 0, averagePct: 0 }
       weights.potentialAllAll = { bestPct: 0, averagePct: 0 }
       weights.potentialAllCustom = { bestPct: 0, averagePct: 0 }

@@ -14,14 +14,26 @@ import { Utils } from 'lib/utils'
 import DB from 'lib/db'
 import i18next from 'i18next'
 import { TsUtils } from 'lib/TsUtils'
+import { GUID } from '../types/Common'
+
+enum relicPotentialCases {
+  SINGLE_STAT,
+  HP,
+  ATK,
+  DEF,
+  NORMAL,
+  NONE,
+}
 
 // Define the fields we care about, until Db+dataParser are typed and can be inferred in this file
 type ScoringMetadata = {
-  parts: { [K in Parts]: [StatsValues] }
+  parts: { [K in Parts]: StatsValues[] }
   stats: { [K in StatsValues]: number }
   sortedSubstats: [SubStats, number][]
   // Bucketised substats
   groupedSubstats: Map<number, SubStats[]>
+  greedyHash: string
+  hash: string
   modified?: boolean
 }
 
@@ -36,7 +48,39 @@ type substat = {
   addedRolls: number
 }
 
+type SubstatScore = {
+  mainStatScore: number
+  score: number
+  part: string
+  scoringMetadata: ScoringMetadata
+}
+
+export type RelicScoringResult = {
+  score: string
+  rating: string
+  mainStatScore: number
+  part?: Parts
+  meta?: ScoringMetadata
+}
+
+type FutureScoringResult = {
+  current: number
+  best: number
+  average: number
+  worst: number
+  meta: {
+    bestAddedStats: string[]
+    bestUpgradedStats: string[]
+  }
+  substatScore: {
+    best: number
+    average: number
+    worst: number
+  }
+}
+
 type rating = '?' | 'F' | 'F+' | 'D' | 'D+' | 'C' | 'C+' | 'B' | 'B+' | 'A' | 'A+' | 'S' | 'S+' | 'SS' | 'SS+' | 'SSS' | 'SSS+' | 'WTF' | 'WTF+'
+
 const ratings: rating[] = ['F', 'F', 'F', 'F+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'SS', 'SS+', 'SSS', 'SSS+', 'WTF', 'WTF+']
 
 const flatStatScaling = { // placeholder values TODO: update these numbers
@@ -102,6 +146,16 @@ const normalization = {
   [Constants.Stats.BE]: 64.8 / 64.8,
 }
 
+const dmgMainstats = [
+  Stats.Physical_DMG,
+  Stats.Fire_DMG,
+  Stats.Ice_DMG,
+  Stats.Lightning_DMG,
+  Stats.Wind_DMG,
+  Stats.Quantum_DMG,
+  Stats.Imaginary_DMG,
+]
+
 const possibleSubstats = new Set(Constants.SubStats)
 
 // This class has methods statically available for one-off scoring calculations, but can
@@ -112,11 +166,15 @@ const possibleSubstats = new Set(Constants.SubStats)
 // if you're doing >= 10 scorings
 export class RelicScorer {
   characterRelicScoreMetas: Map<CharacterId, ScoringMetadata>
-  optimalPartCharacterScore: Map<Parts, Map<CharacterId, number>>
+  optimalPartScore: Map<Parts, Map<string, number>>
+  currentRelicScore: Map<GUID, Map<string, RelicScoringResult>>
+  futureRelicScore: Map<GUID, Map<string, FutureScoringResult>>
 
   constructor() {
     this.characterRelicScoreMetas = new Map()
-    this.optimalPartCharacterScore = new Map()
+    this.optimalPartScore = new Map()
+    this.currentRelicScore = new Map()
+    this.futureRelicScore = new Map()
   }
 
   /**
@@ -124,7 +182,7 @@ export class RelicScorer {
    * meta field includes the ideal added and/or upgraded substats for the relic
    */
   static scoreFutureRelic(relic: Relic, characterId: CharacterId, withMeta: boolean = false) {
-    return new RelicScorer().scoreFutureRelic(relic, characterId, withMeta)
+    return new RelicScorer().getFutureRelicScore(relic, characterId, withMeta)
   }
 
   /**
@@ -132,7 +190,7 @@ export class RelicScorer {
    * additionally returns the part, and scoring metadata
    */
   static scoreCurrentRelic(relic: Relic, id: CharacterId): RelicScoringResult {
-    return new RelicScorer().scoreCurrentRelic(relic, id)
+    return new RelicScorer().getCurrentRelicScore(relic, id)
   }
 
   /**
@@ -174,31 +232,94 @@ export class RelicScorer {
       scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * flatStatScaling.ATK
       scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * flatStatScaling.DEF
 
-      // Object.entries, Object.values, and Object.keys all remove type information down to fundamental types :/  (e.g. here Statsvalues becomes string)
+      // Object.entries, Object.values, and Object.keys all remove type information down to fundamental types :/  (e.g. here StatsValues becomes string)
       // @ts-ignore
       scoringMetadata.sortedSubstats = Object.entries(scoringMetadata.stats).filter((x) => possibleSubstats.has(x[0])) as [SubStats, number][]
       scoringMetadata.sortedSubstats
         .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
       scoringMetadata.groupedSubstats = new Map()
-      for (const [s, w] of scoringMetadata.sortedSubstats) {
-        if (!scoringMetadata.groupedSubstats.has(w)) {
-          scoringMetadata.groupedSubstats.set(w, [])
+      for (const [stat, weight] of scoringMetadata.sortedSubstats) {
+        if (!scoringMetadata.groupedSubstats.has(weight)) {
+          scoringMetadata.groupedSubstats.set(weight, [])
         }
-        scoringMetadata.groupedSubstats.get(w)!.push(s)
+        scoringMetadata.groupedSubstats.get(weight)!.push(stat)
       }
       for (const stats of scoringMetadata.groupedSubstats.values()) {
         stats.sort()
+      }
+      let weightedDmgTypes = 0
+      // @ts-ignore
+      Object.keys(scoringMetadata.stats).forEach((stat) => { if (dmgMainstats.includes(stat)) weightedDmgTypes++ })
+      let validDmgMains = 0
+      // @ts-ignore
+      scoringMetadata.parts.PlanarSphere.forEach((mainstat) => { if (dmgMainstats.includes(mainstat)) validDmgMains++ })
+      if (weightedDmgTypes < 2 && validDmgMains < 2) {
+        // if they only have 0 / 1 weighted dmg mainstat, we can cheat as their ideal orbs will all score the same
+        //
+        const hashParts = [
+          scoringMetadata.parts.Head,
+          scoringMetadata.parts.Hands,
+          scoringMetadata.parts.Body,
+          scoringMetadata.parts.Feet,
+          // @ts-ignore
+          scoringMetadata.parts.PlanarSphere.filter((x) => !dmgMainstats.includes(x)),
+          scoringMetadata.parts.LinkRope,
+        ]
+        scoringMetadata.greedyHash = TsUtils.objectHash({ ...scoringMetadata.sortedSubstats, ...hashParts })
+        scoringMetadata.hash = TsUtils.objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts })
+      } else {
+        scoringMetadata.greedyHash = TsUtils.objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts })
+        scoringMetadata.hash = scoringMetadata.greedyHash
       }
       this.characterRelicScoreMetas.set(id, scoringMetadata)
     }
     return scoringMetadata
   }
 
+  getOptimalPartScore(part: Parts, id: CharacterId) {
+    const metaHash = this.getRelicScoreMeta(id).greedyHash
+    let optimalScore = this.optimalPartScore.get(part)?.get(metaHash)
+    if (!optimalScore) {
+      optimalScore = this.scoreOptimalRelic(part, id)
+      if (!this.optimalPartScore.has(part)) {
+        this.optimalPartScore.set(part, new Map())
+      }
+      this.optimalPartScore.get(part)!.set(metaHash, optimalScore)
+    }
+    return optimalScore
+  }
+
+  getFutureRelicScore(relic: Relic, id: CharacterId, withMeta: boolean = false) {
+    const metaHash = this.getRelicScoreMeta(id).hash
+    let futureScore = this.futureRelicScore.get(relic.id)?.get(metaHash)
+    if (!futureScore) {
+      futureScore = this.scoreFutureRelic(relic, id, withMeta)
+      if (!this.futureRelicScore.has(relic.id)) {
+        this.futureRelicScore.set(relic.id, new Map())
+      }
+      this.futureRelicScore.get(relic.id)!.set(metaHash, futureScore)
+    }
+    return futureScore
+  }
+
+  getCurrentRelicScore(relic: Relic, id: CharacterId) {
+    const metaHash = this.getRelicScoreMeta(id).hash
+    let currentScore = this.currentRelicScore.get(relic.id)?.get(metaHash)
+    if (!currentScore) {
+      currentScore = this.scoreCurrentRelic(relic, id)
+      if (!this.currentRelicScore.has(relic.id)) {
+        this.currentRelicScore.set(relic.id, new Map())
+      }
+      this.currentRelicScore.get(relic.id)!.set(metaHash, currentScore)
+    }
+    return currentScore
+  }
+
   /**
    * returns the substat score of the given relic, does not include mainstat bonus
    */
   substatScore(relic: Relic, id: CharacterId) {
-    const scoringMetadata = this.getRelicScoreMeta(id)// NOTE: for old handling of flat stat scoring, replace with: Db.getScoringMetadata(id)
+    const scoringMetadata = this.getRelicScoreMeta(id)
     if (!scoringMetadata || !id || !relic) {
       console.warn('substatScore() called but missing 1 or more arguments. relic:', relic, 'meta:', scoringMetadata, 'id:', id)
       return {
@@ -208,22 +329,6 @@ export class RelicScorer {
         part: relic?.part,
       }
     }
-    const normalization = {
-      [Constants.Stats.HP_P]: 64.8 / 43.2,
-      [Constants.Stats.ATK_P]: 64.8 / 43.2,
-      [Constants.Stats.DEF_P]: 64.8 / 54,
-      // custom weights in scoring metadata already fully adjust for value difference, adjust normalization to counteract the effect of the different values
-      [Constants.Stats.HP]: (64.8 / 43.2) * SubStatValues[Constants.Stats.HP_P][5].high / SubStatValues[Constants.Stats.HP][5].high,
-      [Constants.Stats.ATK]: (64.8 / 43.2) * SubStatValues[Constants.Stats.ATK_P][5].high / SubStatValues[Constants.Stats.ATK][5].high,
-      [Constants.Stats.DEF]: (64.8 / 54) * SubStatValues[Constants.Stats.DEF_P][5].high / SubStatValues[Constants.Stats.DEF][5].high,
-      [Constants.Stats.CR]: 64.8 / 32.4,
-      [Constants.Stats.CD]: 64.8 / 64.8,
-      [Constants.Stats.OHB]: 64.8 / 34.5606,
-      [Constants.Stats.EHR]: 64.8 / 43.2,
-      [Constants.Stats.RES]: 64.8 / 43.2,
-      [Constants.Stats.SPD]: 64.8 / 25.032,
-      [Constants.Stats.BE]: 64.8 / 64.8,
-    }
     const weights = scoringMetadata.stats
     let score = 0
     for (const substat of relic.substats) {
@@ -231,7 +336,7 @@ export class RelicScorer {
     }
     const mainStatScore = ((stat, grade, part, metaParts) => {
       if (part == Parts.Head || part == Parts.Hands) return 0
-      let max = 0
+      let max: number
       switch (grade) {
         case 2:
           max = 12.8562
@@ -260,10 +365,6 @@ export class RelicScorer {
    * handles special cases scoring for when only 1 stat has been weighted by the user
    */
   scoreOptimalRelic(part: Parts, id: CharacterId) {
-    const cachedScore = this.optimalPartCharacterScore.get(part)?.get(id)
-    if (cachedScore != null) {
-      return cachedScore
-    }
     let maxScore: number = 0
     const meta = this.getRelicScoreMeta(id)
     const handlingCase = getHandlingCase(meta)
@@ -313,10 +414,10 @@ export class RelicScorer {
           * Need the specific optimal mainstat to remove it from possible substats. Find it by
           * - finding the highest multiplier mainstat of those valid for this relic
           * - looking at all stats with this exact multiplier and biasing towards
-          *   a) ideal mainstats and
-          *   b) mainstats that can't be substats in that order
+          *   1 - ideal mainstats and
+          *   2 - mainstats that can't be substats in that order
           */
-          // First candidate (i.e. has highest weight)
+          // First candidate (i.e. has the highest weight)
           const possibleMainStats = PartsMainStats[part] as MainStats[]
           // @ts-ignore typescript wants name to have the same type as the elements of possibleMainStats
           const mainStatIndex = scoreEntries.findIndex(([name, _weight]) => possibleMainStats.includes(name))
@@ -325,7 +426,7 @@ export class RelicScorer {
           // Worst case, will be overwritten by true values on first loop iteration
           let isIdeal = false
           let isSubstat = true
-          // look at all stats of weight equal to highest weight stat and find any 'better' mainstats
+          // look at all stats of weight equal to the highest weight stat and find any 'better' mainstats
           for (let i = mainStatIndex; i < scoreEntries.length; i++) {
             const [name, weight] = scoreEntries[i]
             if (weight != mainStatWeight) break// sorted by weight, weight no longer equal means all following will be lower
@@ -356,11 +457,6 @@ export class RelicScorer {
       }
         break
     }
-
-    if (!this.optimalPartCharacterScore.has(part)) {
-      this.optimalPartCharacterScore.set(part, new Map())
-    }
-    this.optimalPartCharacterScore.get(part)!.set(id, maxScore)
     return maxScore
   }
 
@@ -385,7 +481,7 @@ export class RelicScorer {
           average: 0,
           worst: 0,
         },
-      }
+      } as FutureScoringResult
     }
     const meta = this.getRelicScoreMeta(id)
     if (!meta.sortedSubstats[0][0]) return { // 0 weighted substats
@@ -402,7 +498,7 @@ export class RelicScorer {
         average: 0,
         worst: 0,
       },
-    }
+    } as FutureScoringResult
     const maxMainstat = (() => {
       switch (relic.grade) {
         case 2:
@@ -423,7 +519,7 @@ export class RelicScorer {
     const availableSubstats = meta.sortedSubstats.filter((x) => x[0] != relic.main.stat && !relic.substats.map((x) => x.stat).includes(x[0]))
     const remainingRolls = Math.ceil((maxEnhance(relic.grade) - relic.enhance) / 3) - (4 - relic.substats.length)
     const mainstatBonus = mainStatBonus(relic.part, relic.main.stat, meta)
-    const idealScore = this.scoreOptimalRelic(relic.part, id)
+    const idealScore = this.getOptimalPartScore(relic.part, id)
     const current = Math.max(0, this.substatScore(relic, id).score / idealScore * 100 * percentToScore + mainstatBonus + mainstatDeduction)
 
     // evaluate best possible outcome
@@ -460,16 +556,16 @@ export class RelicScorer {
     * We then multiply this by the number of rolls our filler stat will have
     * This way, when the score() function evaluates our relic, all the additional lines will score their expected average score
 
-    * average score of 1 midroll = avg(weight * normalization * midroll)
+    * average score of 1 mid roll = avg(weight * normalization * mid roll)
 
-    * avg score = avg(weight * norm * midroll) * rolls
+    * avg score = avg(weight * norm * mid roll) * rolls
     * AND
     * avg score = value * weight * scaling
 
     * Therefore
 
-    * value = avg(weight * norm * midroll) * rolls / (weight * scaling)
-    * value = average score of 1 midroll * rolls / (weight * scaling)
+    * value = avg(weight * norm * mid roll) * rolls / (weight * scaling)
+    * value = average score of 1 mid roll * rolls / (weight * scaling)
     */
     let averageScore = 0
     for (const pair of availableSubstats) {
@@ -486,7 +582,7 @@ export class RelicScorer {
     ))
     const average = Math.max(0, (this.substatScore(fake, id).score + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus)
 
-    // evaluate worst possible outcome
+    // evaluate the worst possible outcome
     availableSubstats.reverse()
     const worstSubstats: Stat[] = [{ stat: 'HP', value: 0 }, { stat: 'HP', value: 0 }, { stat: 'HP', value: 0 }, { stat: 'HP', value: 0 }]
     for (let i = 0; i < relic.substats.length; i++) { // we pass values instead of references to avoid accidentally modifying the actual relic
@@ -542,7 +638,7 @@ export class RelicScorer {
       average,
       worst,
       meta: levelupMetadata,
-    }
+    } as FutureScoringResult
   }
 
   /**
@@ -570,7 +666,7 @@ export class RelicScorer {
     const part = relic.part
     const mainstatBonus = mainStatBonus(relic.part, relic.main.stat, meta)
     const substatScore = this.substatScore(relic, id)
-    const idealScore = this.scoreOptimalRelic(part, id)
+    const idealScore = this.getOptimalPartScore(part, id)
     const score = substatScore.score / idealScore * 100 * percentToScore + mainstatBonus
     const rating = scoreToRating(score, substatScore)
     const mainStatScore = substatScore.mainStatScore
@@ -598,7 +694,7 @@ export class RelicScorer {
       }
     }
 
-    const scoredRelics = relics.map((x) => this.scoreCurrentRelic(x, character.id))
+    const scoredRelics = relics.map((x) => this.getCurrentRelicScore(x, character.id))
     let totalScore = 0
     for (const relic of scoredRelics) {
       totalScore += Number(relic.score) + Number(relic.mainStatScore)
@@ -627,16 +723,16 @@ export class RelicScorer {
   /**
    * evaluates the max, min, and avg potential optimalities of a relic
    * @param relic relic to evaluate
-   * @param characterId id of character to evaluate against
+   * @param id id of character to evaluate against
    * @param withMeta whether or not to include the character scoringMetadata in the return
    */
   // linear relation between score and potential makes this very easy now
   scoreRelicPotential(relic: Relic, id: CharacterId, withMeta: boolean = false) {
     const meta = this.getRelicScoreMeta(id)
     const mainstatBonus = mainStatBonus(relic.part, relic.main.stat, meta)
-    const futureScore = this.scoreFutureRelic(relic, id, withMeta)
+    const futureScore = this.getFutureRelicScore(relic, id, withMeta)
     if (Utils.hasMainStat(relic.part)) {
-      futureScore.best = Math.max(0, futureScore.best - mainstatBonus)// futurescores may be 0 due to mainstatDeduction
+      futureScore.best = Math.max(0, futureScore.best - mainstatBonus)// futureScores may be 0 due to mainstatDeduction
       futureScore.average = Math.max(0, futureScore.average - mainstatBonus)
       futureScore.worst = Math.max(0, futureScore.worst - mainstatBonus)
     }
@@ -700,7 +796,10 @@ function fakeRelic(grade: RelicGrade, enhance: RelicEnhance, part: string, mains
 /**
  * used to generate substats for fakeRelic() more easily
  * @param grade relic rarity
- * @param subn substat line n
+ * @param sub1 substat line 1
+ * @param sub2 substat line 2
+ * @param sub3 substat line 3
+ * @param sub4 substat line 4
  * @returns array of substats for a relic
  */
 function generateSubStats(grade: RelicGrade, sub1: Stat, sub2?: Stat, sub3?: Stat, sub4?: Stat): substat[] {
@@ -745,15 +844,6 @@ function generateSubStats(grade: RelicGrade, sub1: Stat, sub2?: Stat, sub3?: Sta
     addedRolls: 0,
   })
   return substats
-}
-
-enum relicPotentialCases {
-  SINGLE_STAT,
-  HP,
-  ATK,
-  DEF,
-  NORMAL,
-  NONE,
 }
 
 /**
@@ -859,19 +949,4 @@ function getMainStatWeight(relic: Relic, scoringMetadata: ScoringMetadata) {
     return 1
   }
   return scoringMetadata.stats[relic.main.stat]
-}
-
-type SubstatScore = {
-  mainStatScore: number
-  score: number
-  part: string
-  scoringMetadata: ScoringMetadata
-}
-
-export type RelicScoringResult = {
-  score: string
-  rating: string
-  mainStatScore: number
-  part?: Parts
-  meta?: ScoringMetadata
 }

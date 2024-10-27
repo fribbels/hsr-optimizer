@@ -84,7 +84,7 @@ RelicGrid:
           Custom Chars
           Avg Potential
       MaxPotCol:
-        Label: 'Custom$characters: Max potential'
+        Label: 'Custom characters: Max potential'
         Header: |-
           Custom Chars
           Max Potential
@@ -103,7 +103,7 @@ RelicGrid:
     ComingSoon:
       Label: Coming soon
       SetsPotential:
-        Label: '$Relic / Ornament sets potential'
+        Label: 'Relic / Ornament sets potential'
         Header: |-
           All Chars
           Max Potential + Sets

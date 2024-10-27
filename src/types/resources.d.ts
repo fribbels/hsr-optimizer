@@ -5069,7 +5069,7 @@ interface Resources {
             "Header": "Custom Chars\nAvg Potential"
           },
           "MaxPotCol": {
-            "Label": "Custom$characters: Max potential",
+            "Label": "Custom characters: Max potential",
             "Header": "Custom Chars\nMax Potential"
           }
         },
@@ -5087,7 +5087,7 @@ interface Resources {
         "ComingSoon": {
           "Label": "Coming soon",
           "SetsPotential": {
-            "Label": "$Relic / Ornament sets potential",
+            "Label": "Relic / Ornament sets potential",
             "Header": "All Chars\nMax Potential + Sets"
           }
         }

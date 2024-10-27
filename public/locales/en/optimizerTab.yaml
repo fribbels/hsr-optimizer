@@ -427,8 +427,10 @@ StatSimulation:
   BuildAlreadyImported: The selected optimizer build is already a simulation
   NothingToImport: Run the optimizer first, then select a row from the optimizer results to import
   NoStatSimulations: No custom stat simulations selected
-  RelicSetPlaceholder: Relic set
-  OrnamentSetPlaceholder: Ornament set
+  SetSelection:
+    Header: Sets
+    RelicPlaceholder: Relic set
+    OrnamentPlaceholder: Ornament set
   TotalRolls: Total rolls
   SubstatSelectorLabel: $t(common:Stats.{{stat}})
   ModeSelector:

@@ -13,8 +13,6 @@ SwitchRelics:
 Builds:
   Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
   ConfirmModal:
-    ConfirmButton: '$t(common:Confirm, {"capitalizeLength": 1})'
     CancelButton: '$t(common:Cancel, {"capitalizeLength": 1})'
-    Title: '$t(common:Confirm, {"capitalizeLength": 1})'
   NoBuilds:
     Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'

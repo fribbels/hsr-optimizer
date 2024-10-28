@@ -1,6 +1,6 @@
 Characters:
   "1001":
-    Name: "Mar.\_7th"
+    Name: "Mar.\_7th (보존)"
   "1002":
     Name: 단항
   "1003":
@@ -84,7 +84,7 @@ Characters:
   "1223":
     Name: 맥택
   "1224":
-    Name: "Mar.\_7th"
+    Name: "Mar.\_7th (수렵)"
   "1301":
     Name: 갤러거
   "1302":
@@ -271,343 +271,230 @@ RelicSets:
 Lightcones:
   "20000":
     Name: 화살촉
-    SkillName: 위기
   "20001":
     Name: 풍작
-    SkillName: 번성
   "20002":
     Name: 천경
-    SkillName: 파멸
   "20003":
     Name: 앰버
-    SkillName: 정체
   "20004":
     Name: 그윽
-    SkillName: 타락
   "20005":
     Name: 합창
-    SkillName: 협력
   "20006":
     Name: 아카이브
-    SkillName: 박식
   "20007":
     Name: "시위를\_떠난\_화살"
-    SkillName: 호각
   "20008":
     Name: "알찬\_열매"
-    SkillName: 감미
   "20009":
     Name: "무너진\_행복"
-    SkillName: 토벌
   "20010":
     Name: 수비
-    SkillName: 부흥
   "20011":
     Name: "심연의\_고리"
-    SkillName: 추궁
   "20012":
     Name: "맞물린\_톱니"
-    SkillName: 속결
   "20013":
     Name: "영험한\_열쇠"
-    SkillName: 깨달음
   "20014":
     Name: 대립
-    SkillName: 연맹
   "20015":
     Name: 증식
-    SkillName: "풍요의\_백성"
   "20016":
     Name: 전멸
-    SkillName: 군단
   "20017":
     Name: "강토\_개척"
-    SkillName: 컴퍼니
   "20018":
     Name: "숨은\_그림자"
-    SkillName: 장치
   "20019":
     Name: 어울림
-    SkillName: 가족
   "20020":
     Name: 식견
-    SkillName: 천재
   "21000":
     Name: "수술\_후의\_대화"
-    SkillName: "상호\_치유"
   "21001":
     Name: "밤\_인사와\_잠든\_얼굴"
-    SkillName: "고된\_자"
   "21002":
     Name: "여생의\_첫날"
-    SkillName: "지금\_이\_순간"
   "21003":
     Name: 침묵만이
-    SkillName: 기록
   "21004":
     Name: "기억\_속\_모습"
-    SkillName: "오래된\_사진"
   "21005":
     Name: "두더지파가\_환영해"
-    SkillName: "기묘한\_모험"
   "21006":
     Name: "「나」의\_탄생"
-    SkillName: "그림\_속\_소녀"
   "21007":
     Name: "같은\_심정"
-    SkillName: "치료와\_수리"
   "21008":
     Name: "사냥감의\_시선"
-    SkillName: 자신감
   "21009":
     Name: "랜도의\_선택"
-    SkillName: "빠른\_세월"
   "21010":
     Name: 논검
-    SkillName: "각자의\_답"
   "21011":
     Name: "행성과의\_만남"
-    SkillName: 출발
   "21012":
     Name: "비밀\_맹세"
-    SkillName: "젖\_먹던\_힘까지"
   "21013":
     Name: "세상을\_진정시키지\_마"
-    SkillName: "소리의\_힘"
   "21014":
     Name: "알맞은\_타이밍"
-    SkillName: "굴절된\_시선"
   "21015":
     Name: "땀방울처럼\_빛나는\_결심"
-    SkillName: 뒤돌아봄
   "21016":
     Name: "우주\_시장\_동향"
-    SkillName: "새로운\_개편"
   "21017":
     Name: "팔로우를\_부탁해!"
-    SkillName: "좋아요도\_안\_하고\_가려고?"
   "21018":
     Name: "댄스!\_댄스!\_댄스!"
-    SkillName: "멈출\_수\_없어!"
   "21019":
     Name: "푸른\_하늘\_아래"
-    SkillName: "파도치는\_따스한\_이삭"
   "21020":
     Name: "천재들의\_휴식"
-    SkillName: "각자\_제자리에"
   "21021":
     Name: 등가교환
-    SkillName: 편안함
   "21022":
     Name: 페르마타
-    SkillName: 쉼표
   "21023":
     Name: "우리는\_와일드\_파이어"
-    SkillName: "눈물을\_글썽이는\_사람"
   "21024":
     Name: "움트는\_봄물"
-    SkillName: "남은\_추위\_몰아내기"
   "21025":
     Name: "과거와\_미래"
-    SkillName: "옛날\_연"
   "21026":
     Name: "멍!\_산책\_시간!"
-    SkillName: 튀어!
   "21027":
     Name: "느낌\_있는\_아침\_식사\_루틴"
-    SkillName: "각자\_위치로"
   "21028":
     Name: "따듯한\_밤은\_길지\_않고"
-    SkillName: "작은\_등불"
   "21029":
     Name: "훗날\_기약"
-    SkillName: "교섭\_같은\_교전"
   "21030":
     Name: "이게\_바로\_나야!"
-    SkillName: 지평
   "21031":
     Name: "또다시\_저승으로"
-    SkillName: 용솟음
   "21032":
     Name: "누월재운의\_뜻"
-    SkillName: 비밀
   "21033":
     Name: "도망칠\_곳은\_없다"
-    SkillName: 곤경
   "21034":
     Name: "오늘도\_평화로운\_하루"
-    SkillName: 폭풍전야
   "21035":
     Name: "무엇이\_진실인가"
-    SkillName: 가설
   "21036":
     Name: "좋은꿈\_마을\_대모험"
-    SkillName: 단결
   "21037":
     Name: "최후의\_승자"
-    SkillName: 베팅
   "21038":
     Name: "불의\_먼\_곳에서"
-    SkillName: 폭연
   "21039":
     Name: "운명의\_실을\_엮다"
-    SkillName: 간파
   "21040":
     Name: "은하\_함락의\_날"
-    SkillName: 공략
   "21041":
     Name: 쇼타임
-    SkillName: "스스로\_찾는\_즐거움"
   "21042":
     Name: "마음에\_새긴\_약속"
-    SkillName: 전승
   "21043":
     Name: "두\_사람의\_콘서트"
-    SkillName: 격려
   "21044":
     Name: "끝없는\_춤"
-    SkillName: 탐색
   "21045":
     Name: "조화가\_침묵한\_후"
-    SkillName: 적막
   "21046":
     Name: "피어나길\_기다리는\_꽃"
-    SkillName: "잃지도,\_잊지도\_않으리"
   "21047":
     Name: "그림자처럼\_뒤따르는\_밤"
-    SkillName: 은닉
   "21048":
     Name: "꿈의\_몽타주"
-    SkillName: "아카데믹\_편집"
   "22000":
     Name: "초보자\_임무\_시작\_전"
-    SkillName: "빠른\_눈썰미"
   "22001":
     Name: "저기,\_나\_여기\_있어"
-    SkillName: "무섭지\_않아…!"
   "22002":
     Name: "내일을\_위한\_여정"
-    SkillName: 연결
   "22003":
     Name: "인사록•음률\_사냥"
-    SkillName: "공연\_시작!"
   "23000":
     Name: "은하철도의\_밤"
-    SkillName: 유성군
   "23001":
     Name: "야경\_속에서"
-    SkillName: "꽃과\_나비"
   "23002":
     Name: "대체할\_수\_없는\_것"
-    SkillName: 가족
   "23003":
     Name: "아직\_전투는\_끝나지\_않았다"
-    SkillName: 계승자
   "23004":
     Name: "세계의\_이름으로"
-    SkillName: 전승자
   "23005":
     Name: "승리의\_순간"
-    SkillName: 결단
   "23006":
     Name: "필요한\_건\_기다림뿐"
-    SkillName: 거미줄
   "23007":
     Name: "계속\_내리는\_비"
-    SkillName: "현실\_속\_신기루"
   "23008":
     Name: "관의\_울림"
-    SkillName: 가시
   "23009":
     Name: "닿을\_수\_없는\_저편"
-    SkillName: 불능
   "23010":
     Name: "동트기\_전"
-    SkillName: "긴\_밤"
   "23011":
     Name: "그녀는\_두\_눈을\_감았네"
-    SkillName: "펼쳐진\_세계"
   "23012":
     Name: "깊게\_든\_단잠"
-    SkillName: 좋은꿈
   "23013":
     Name: "세월은\_흐를\_뿐"
-    SkillName: "아침,\_점심,\_저녁,\_그리고\_밤"
   "23014":
     Name: "이\_몸이\_검이니"
-    SkillName: "옥을\_쥐고"
   "23015":
     Name: "태양보다\_밝게\_빛나는\_것"
-    SkillName: "결사\_저항"
   "23016":
     Name: "고민,\_그리고\_행복"
-    SkillName: "한\_번에\_하나씩"
   "23017":
     Name: "섬뜩한\_밤"
-    SkillName: "깊은\_심호흡"
   "23018":
     Name: "눈에\_담긴\_순간"
-    SkillName: "기사의\_순례"
   "23019":
     Name: "거울\_속\_지난날의\_나"
-    SkillName: "뼈에\_사무치는\_매화향"
   "23020":
     Name: "순수\_사유의\_세례"
-    SkillName: "사고력\_훈련"
   "23021":
     Name: "속세에서의\_유희"
-    SkillName: 변덕
   "23022":
     Name: "시간의\_기억에\_대한\_재구성"
-    SkillName: 결정
   "23023":
     Name: "언제나\_불공평한\_운명"
-    SkillName: 올인
   "23024":
     Name: "흘러가는\_강가를\_따라"
-    SkillName: 뱃사공
   "23025":
     Name: "꿈은\_어디로\_돌아가야\_하는가"
-    SkillName: 탈바꿈
   "23026":
     Name: "찬란하게\_빛나는\_밤"
-    SkillName: 위로
   "23027":
     Name: "두\_번째\_생명을\_향해"
-    SkillName: "고된\_항해"
   "23028":
     Name: "값을\_매길\_수\_없는\_건\_희망뿐"
-    SkillName: 약속
   "23029":
     Name: "그\_무수한\_봄날"
-    SkillName: "흔적\_없는\_세상만사"
   "23030":
     Name: "해\_질\_무렵\_시작되는\_춤"
-    SkillName: 심취
   "23031":
     Name: "정복하고\_사냥하리"
-    SkillName: 진섭
   "23032":
     Name: "오직\_향만이\_변함없이"
-    SkillName: 안심
   "23033":
     Name: "인법첩•요란\_파마"
-    SkillName: 제악
   "24000":
     Name: "어떤\_에이언즈의\_몰락"
-    SkillName: 자충수
   "24001":
     Name: "별바다\_순항"
-    SkillName: "사냥감\_추적"
   "24002":
     Name: "기억의\_소재"
-    SkillName: 간직
   "24003":
     Name: "고독의\_치유"
-    SkillName: "혼돈\_영약"
   "24004":
     Name: "멈추지\_않는\_연산"
-    SkillName: "끝없는\_생각"
 Paths:
   Warrior: 파멸
   Rogue: 수렵

@@ -1,4 +1,4 @@
-BetaMessage: 'Current version: {{Version}} - Calculations are subject to change.'
+BetaMessage: "Current version: {{Version}} - Calculations are subject to change."
 Lightcones:
   AlongThePassingShore:
     Content:
@@ -516,7 +516,7 @@ Lightcones:
       cdBuff:
         text: Double path CD buff
         title: Lose Not, Forget Not
-        content: 'Upon entering battle, if two or more characters follow the same Path, then these characters" CRIT DMG increases by {{CritBuff}}% . '
+        content: "Upon entering battle, if two or more characters follow the same Path, then these characters' CRIT DMG increases by {{CritBuff}}% ."
   PostOpConversation:
     Content:
       postUltHealingBoost:
@@ -742,15 +742,15 @@ Characters:
           DMG.
       e1EnemyDebuffed:
         text: E1 CR boost
-        title: 'E1: Silenced Sky Spake Sooth'
+        title: "E1: Silenced Sky Spake Sooth"
         content: When dealing DMG to debuffed enemies, increases the CRIT Rate by 18%.
       e4UltVulnerability:
         text: E4 Ult vulnerability
-        title: 'E4: Shrined Fire for Mirrored Soul'
+        title: "E4: Shrined Fire for Mirrored Soul"
         content: When enemy targets enter combat, inflicts them with the Ultimate DMG Vulnerability, increasing the amount of Ultimate DMG they take by 8%.
       e6UltBuffs:
         text: E6 Ult buffs
-        title: 'E6: Apocalypse, the Emancipator'
+        title: "E6: Apocalypse, the Emancipator"
         content: >-
           Increases the All-Type RES PEN for the Ultimate DMG dealt by Acheron by 20%. The DMG dealt by Basic ATK and Skill will also be considered as Ultimate DMG and can reduce enemy toughness
           regardless of Weakness Types. When breaking Weaknesses, triggers the Lightning Weakness Break effect.
@@ -777,7 +777,7 @@ Characters:
       e2UltAtkBuff:
         text: E2 Ult ATK buff
         title: Agate's Humility
-        content: 'E2: If the number of enemies on the field equals to 3 or more, increases ATK by 40% for 1 turn.'
+        content: "E2: If the number of enemies on the field equals to 3 or more, increases ATK by 40% for 1 turn."
   Arlan:
     Content:
       selfCurrentHpPercent:
@@ -789,11 +789,11 @@ Characters:
       skillExtraDmgHits:
         text: Skill extra hits
         title: Meteor Storm
-        content: 'Deals 50% ATK DMG equal to a single enemy. Deals DMG for {{skillExtraDmgHitsMax}} extra times to a random enemy.::BR::E1: When using Skill, deals DMG for 1 extra time to a random enemy.'
+        content: "Deals 50% ATK DMG equal to a single enemy. Deals DMG for {{skillExtraDmgHitsMax}} extra times to a random enemy.::BR::E1: When using Skill, deals DMG for 1 extra time to a random enemy."
       talentBuffStacks:
         text: Talent ATK buff stacks
         title: Astrometry
-        content: 'Increases allies" ATK by {{talentStacksAtkBuff}}% for every stack.::BR::E4: Asta"s Energy Regeneration Rate increases by 15% when she has 2 or more Charging stacks.'
+        content: "Increases allies' ATK by {{talentStacksAtkBuff}}% for every stack.::BR::E4: Asta's Energy Regeneration Rate increases by 15% when she has 2 or more Charging stacks."
       ultSpdBuff:
         text: Ult SPD buff active
         title: Astral Blessing
@@ -833,11 +833,11 @@ Characters:
       e4DefBuff:
         text: E4 DEF buff
         title: Unexpected Hanging Paradox
-        content: 'E4: When triggering his Talent"s follow-up attack, first increases Aventurine"s DEF by 40% for 2 turn(s)'
+        content: "E4: When triggering his Talent's follow-up attack, first increases Aventurine's DEF by 40% for 2 turn(s)"
       e6ShieldStacks:
         text: E6 shield stacks
         title: Stag Hunt Game
-        content: 'E6: For every ally that holds a Shield, the DMG dealt by Aventurine increases by 50%, up to a maximum of 150%.'
+        content: "E6: For every ally that holds a Shield, the DMG dealt by Aventurine increases by 50%, up to a maximum of 150%."
   Bailu:
     Content:
       healingMaxHpBuff:
@@ -851,11 +851,11 @@ Characters:
       e2UltHealingBuff:
         text: E2 Ult healing buff
         title: Sylphic Slumber
-        content: 'E2: Increases healing by 15% after Ultimate.'
+        content: "E2: Increases healing by 15% after Ultimate."
       e4SkillHealingDmgBuffStacks:
         text: E4 Skill DMG boost stacks
         title: Evil Excision
-        content: 'E4: Every healing provided by Bailu"s Skill makes the recipient deal 10% more DMG for 2 turns. This effect can stack up to 3 times.'
+        content: "E4: Every healing provided by Bailu's Skill makes the recipient deal 10% more DMG for 2 turns. This effect can stack up to 3 times."
   BlackSwan:
     Content:
       ehrToDmgBoost:
@@ -888,7 +888,7 @@ Characters:
       enhancedStateActive:
         text: Hellscape state
         title: Hellscape
-        content: 'Increases DMG by {{enhancedStateDmgBoost}}% and his Basic ATK Shard Sword is enhanced to Forest of Swords for 3 turn(s).::BR::E2: Increases CRIT Rate by 15%.'
+        content: "Increases DMG by {{enhancedStateDmgBoost}}% and his Basic ATK Shard Sword is enhanced to Forest of Swords for 3 turn(s).::BR::E2: Increases CRIT Rate by 15%."
       hpPercentLostTotal:
         text: HP% lost total
         title: Death Sentence
@@ -896,7 +896,7 @@ Characters:
       e4MaxHpIncreaseStacks:
         text: E4 max HP stacks
         title: Rejected by Death, Infected With Life
-        content: 'E4: Increases HP by 20%, stacks up to 2 times.'
+        content: "E4: Increases HP by 20%, stacks up to 2 times."
   Boothill:
     Content:
       standoffActive:
@@ -986,11 +986,11 @@ Characters:
       e2UltAtkBuff:
         text: E2 Ult ATK buff
         title: A Tight Embrace
-        content: 'E2: After using Ultimate, increases ATK by 30% for 2 turns.'
+        content: "E2: After using Ultimate, increases ATK by 30% for 2 turns."
       e4DmgReductionBuff:
         text: E4 DMG reduction buff
         title: Family's Warmth
-        content: 'E4: Decreases DMG taken by 30%.'
+        content: "E4: Decreases DMG taken by 30%."
   DanHeng:
     Content:
       talentPenBuff:
@@ -1004,7 +1004,7 @@ Characters:
       e1EnemyHp50:
         text: E1 enemy HP ≥ 50% CR boost
         title: The Higher You Fly, the Harder You Fall
-        content: 'E1: When the target enemy"s current HP percentage is greater than or equal to 50%, CRIT Rate increases by 12%.'
+        content: "E1: When the target enemy's current HP percentage is greater than or equal to 50%, CRIT Rate increases by 12%."
   DrRatio:
     Content:
       summationStacks:
@@ -1057,21 +1057,21 @@ Characters:
     Content:
       enhancedStateActive:
         text: Enhanced state
-        title: 'Fyrefly Type-IV: Complete Combustion'
+        title: "Fyrefly Type-IV: Complete Combustion"
         content: Enters the Complete Combustion state, advances this unit's Action by 100%, and gains Enhanced Basic ATK and Enhanced Skill.
       enhancedStateSpdBuff:
         text: Enhanced SPD buff
-        title: 'Fyrefly Type-IV: Complete Combustion'
+        title: "Fyrefly Type-IV: Complete Combustion"
         content: While in Complete Combustion, increases SPD by {{ultSpdBuff}}.
       superBreakDmg:
         text: Super Break enabled (force weakness break)
-        title: 'Module β: Autoreactive Armor'
+        title: "Module β: Autoreactive Armor"
         content: >-
           When SAM is in Complete Combustion with a Break Effect that is equal to or greater than 200%/360%, attacking a Weakness-Broken enemy target will convert the Toughness Reduction of this
           attack into 1 instance of 35%/50% Super Break DMG.
       atkToBeConversion:
         text: ATK to BE buff
-        title: 'Module γ: Core Overload'
+        title: "Module γ: Core Overload"
         content: For every 10 point(s) of SAM's ATK that exceeds 1800, increases this unit's Break Effect by 0.8%.
       talentDmgReductionBuff:
         text: Max EHP buff
@@ -1132,21 +1132,21 @@ Characters:
       e1ResBuff:
         text: E1 RES buff
         title: Salty Dog
-        content: 'E1: When entering the battle, Gallagher regenerates 20 Energy and increases Effect RES by 50%.'
+        content: "E1: When entering the battle, Gallagher regenerates 20 Energy and increases Effect RES by 50%."
       e2ResBuff:
         text: E2 RES buff
         title: Lion's Tail
-        content: 'E2: When using the Skill, removes 1 debuff(s) from the target ally. At the same time, increases their Effect RES by 30%, lasting for 2 turn(s).'
+        content: "E2: When using the Skill, removes 1 debuff(s) from the target ally. At the same time, increases their Effect RES by 30%, lasting for 2 turn(s)."
       e6BeBuff:
         text: E6 BE buff
         title: Blood and Sand
-        content: 'E6: Increases Gallagher"s Break Effect by 20% and Weakness Break Efficiency by 20%.'
+        content: "E6: Increases Gallagher's Break Effect by 20% and Weakness Break Efficiency by 20%."
   Gepard:
     Content:
       e4TeamResBuff:
         text: E4 team RES buff
         title: Faith Moves Mountains
-        content: 'E4: When Gepard is in battle, all allies" Effect RES increases by 20%.'
+        content: "E4: When Gepard is in battle, all allies\" Effect RES increases by 20%."
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -1164,11 +1164,11 @@ Characters:
       e1EffectResShred:
         text: E1 Effect RES shred
         title: Slurping Noodles During Handstand
-        content: 'E1: When Skill is used, there is a 100% base chance to reduce the attacked target enemy"s Effect RES by 10% for 2 turn(s).'
+        content: "E1: When Skill is used, there is a 100% base chance to reduce the attacked target enemy's Effect RES by 10% for 2 turn(s)."
       e2BurnMultiBoost:
         text: E2 burn multi boost
         title: Brushing Teeth While Whistling
-        content: 'E2: When an enemy target is Burned, Guinaifen"s Basic ATK and Skill can increase the DMG multiplier of their Burn status by 40%.'
+        content: "E2: When an enemy target is Burned, Guinaifen's Basic ATK and Skill can increase the DMG multiplier of their Burn status by 40%."
   Hanya:
     Content:
       ultBuff:
@@ -1186,7 +1186,7 @@ Characters:
       e2SkillSpdBuff:
         text: E2 Skill SPD buff
         title: Two Views
-        content: 'E2: After Skill, increases SPD by 20% for 1 turn.'
+        content: "E2: After Skill, increases SPD by 20% for 1 turn."
     TeammateContent:
       teammateSPDValue:
         text: Hanya's SPD
@@ -1213,15 +1213,15 @@ Characters:
       enemyHpLte50:
         text: E1 Basic scaling boost
         title: Kick You When You're Down
-        content: 'E1: If the enemy"s HP percentage is at 50% or less, Herta"s Basic ATK deals Additional Ice DMG equal to 40% of Herta"s ATK.'
+        content: "E1: If the enemy\"s HP percentage is at 50% or less, Herta\"s Basic ATK deals Additional Ice DMG equal to 40% of Herta's ATK."
       e2TalentCritStacks:
         text: E2 Talent CR stacks
         title: Keep the Ball Rolling
-        content: 'E2: Increases CRIT Rate by 3% per stack. Stacks up to 5 times.'
+        content: "E2: Increases CRIT Rate by 3% per stack. Stacks up to 5 times."
       e6UltAtkBuff:
         text: E6 Ult ATK buff
         title: No One Can Betray Me
-        content: 'E6: After Ult, increases ATK by 25% for 1 turn.'
+        content: "E6: After Ult, increases ATK by 25% for 1 turn."
   Himeko:
     Content:
       targetBurned:
@@ -1235,11 +1235,11 @@ Characters:
       e1TalentSpdBuff:
         text: E1 SPD buff
         title: Childhood
-        content: 'E1: After Victory Rush is triggered, Himeko"s SPD increases by 20% for 2 turns.'
+        content: "E1: After Victory Rush is triggered, Himeko's SPD increases by 20% for 2 turns."
       e2EnemyHp50DmgBoost:
         text: E2 enemy HP ≤ 50% DMG boost
         title: Convergence
-        content: 'E2: Deals 15% more DMG to enemies whose HP percentage is 50% or less.'
+        content: "E2: Deals 15% more DMG to enemies whose HP percentage is 50% or less."
       e6UltExtraHits:
         text: E6 Ult extra hits
         title: Trailblaze!
@@ -1262,16 +1262,16 @@ Characters:
     Content:
       ultBuff:
         text: Ult ATK buff
-        title: 'Tail: Spiritual Domination'
+        title: "Tail: Spiritual Domination"
         content: Increases all allies' ATK by {{ultBuffValue}}% for 2 turns after using Ultimate.
       skillBuff:
         text: E1 SPD buff
         title: Anchored to Vessel, Specters Nestled
-        content: 'E1: When Huohuo possesses Divine Provision, all allies" SPD increases by 12%.'
+        content: "E1: When Huohuo possesses Divine Provision, all allies' SPD increases by 12%."
       e6DmgBuff:
         text: E6 DMG buff
         title: Woven Together, Cohere Forever
-        content: 'E6: When healing a target ally, increases the target ally"s DMG dealt by 50% for 2 turns.'
+        content: "E6: When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns."
   ImbibitorLunae:
     Content:
       basicEnhanced:
@@ -1295,7 +1295,7 @@ Characters:
       e6ResPenStacks:
         text: E6 RES PEN stacks
         title: Reign, Returned
-        content: 'E6: After any other ally uses their Ultimate, the Imaginary RES PEN of Dan Heng • Imbibitor Lunae"s next Fulgurant Leap attack increases by 20%, up to 3 stacks.'
+        content: "E6: After any other ally uses their Ultimate, the Imaginary RES PEN of Dan Heng • Imbibitor Lunae's next Fulgurant Leap attack increases by 20%, up to 3 stacks."
   Jade:
     Content:
       enhancedFollowUp:
@@ -1317,15 +1317,15 @@ Characters:
       e2CrBuff:
         text: E2 CR buff
         title: Morality? Herein Authenticated
-        content: 'E2: When there are 15 stacks of Pawned Asset, Jade"s CRIT Rate increases by 18%.'
+        content: "E2: When there are 15 stacks of Pawned Asset, Jade's CRIT Rate increases by 18%."
       e4DefShredBuff:
         text: E4 DEF shred buff
         title: Sincerity? Put Option Only
-        content: 'E4: When using Ultimate, enables the DMG dealt by Jade to ignore 12% of enemy targets" DEF, lasting for 3 turn(s).'
+        content: "E4: When using Ultimate, enables the DMG dealt by Jade to ignore 12% of enemy targets' DEF, lasting for 3 turn(s)."
       e6ResShredBuff:
         text: E6 RES PEN buff
         title: Equity? Pending Sponsorship
-        content: 'E6: When the Debt Collector character exists on the field, Jade"s Quantum RES PEN increases by 20%, and Jade gains the Debt Collector state.'
+        content: "E6: When the Debt Collector character exists on the field, Jade's Quantum RES PEN increases by 20%, and Jade gains the Debt Collector state."
     TeammateContent:
       debtCollectorSpdBuff:
         text: Debt Collector SPD buff
@@ -1356,15 +1356,15 @@ Characters:
       e1DmgBoost:
         text: E1 DMG boost
         title: Pentapathic Transference
-        content: 'E1: Allies deal 40.0% increased DMG to enemy targets afflicted with Ashen Roast.'
+        content: "E1: Allies deal 40.0% increased DMG to enemy targets afflicted with Ashen Roast."
       e2Dot:
         text: E2 DoT scaling
         title: From Savor Comes Suffer
-        content: 'E2: When an enemy target is afflicted with Ashen Roast, increases the multiplier for the Fire DoT dealt by Ashen Roast to this target by 300.0%.'
+        content: "E2: When an enemy target is afflicted with Ashen Roast, increases the multiplier for the Fire DoT dealt by Ashen Roast to this target by 300.0%."
       e6ResShred:
         text: E6 RES shred
         title: Nonamorphic Pyrobind
-        content: 'E6: The maximum stack limit of Ashen Roast increases to 9.0, and each "Ashen Roast" stack reduces the target"s All-Type RES by 3.0%.'
+        content: "E6: The maximum stack limit of Ashen Roast increases to 9.0, and each \"Ashen Roast\" stack reduces the target's All-Type RES by 3.0%."
   Jingliu:
     Content:
       talentEnhancedState:
@@ -1388,7 +1388,7 @@ Characters:
       e2SkillDmgBuff:
         text: E2 Skill buff
         title: Crescent Shadows Qixing Dipper
-        content: 'E2: After using Ultimate, increases the DMG of the next Enhanced Skill by 80%.'
+        content: "E2: After using Ultimate, increases the DMG of the next Enhanced Skill by 80%."
   JingYuan:
     Content:
       skillCritBuff:
@@ -1406,7 +1406,7 @@ Characters:
       e2DmgBuff:
         text: E2 DMG boost
         title: Swing, Skies Squashed
-        content: 'E2: After Lightning-Lord takes action, DMG caused by Jing Yuan"s Basic ATK, Skill, and Ultimate increases by 20% for 2 turns.'
+        content: "E2: After Lightning-Lord takes action, DMG caused by Jing Yuan's Basic ATK, Skill, and Ultimate increases by 20% for 2 turns."
       e6FuaVulnerabilityStacks:
         text: E6 Vulnerable stacks
         title: Sweep, Souls Slain
@@ -1418,11 +1418,11 @@ Characters:
       e1DotDmgReceivedDebuff:
         text: E1 DoT vulnerability
         title: Da Capo
-        content: 'E1: When the Talent triggers a follow-up attack, there is a 100% base chance to increase the DoT received by the target by 30% for 2 turn(s).'
+        content: "E1: When the Talent triggers a follow-up attack, there is a 100% base chance to increase the DoT received by the target by 30% for 2 turn(s)."
       e2TeamDotBoost:
         text: E2 Team DoT DMG boost
         title: Fortississimo
-        content: 'E2: While Kafka is on the field, DoT dealt by all allies increases by 25%.'
+        content: "E2: While Kafka is on the field, DoT dealt by all allies increases by 25%."
   Lingsha:
     Content:
       beConversion:
@@ -1436,15 +1436,15 @@ Characters:
       e1DefShred:
         text: E1 weakness break buffs
         title: Bloom on Vileward Bouquet
-        content: 'E1: Lingsha"s Weakness Break Efficiency increases by 50%. When an enemy unit"s Weakness is Broken, reduces their DEF by 20%.'
+        content: "E1: Lingsha's Weakness Break Efficiency increases by 50%. When an enemy unit\"s Weakness is Broken, reduces their DEF by 20%."
       e2BeBuff:
         text: E2 BE buff
         title: Leisure in Carmine Smokeveil
-        content: 'E2: When using Ultimate, increases all allies" Break Effect by 40.0%.'
+        content: "E2: When using Ultimate, increases all allies' Break Effect by 40.0%."
       e6ResShred:
         text: E6 RES shred
         title: Arcadia Under Deep Seclusion
-        content: 'E6: While "Fuyuan" is on the field, reduces all Enemy units" All-Type RES by 20.0%.'
+        content: "E6: While \"Fuyuan\" is on the field, reduces all Enemy units' All-Type RES by 20.0%."
   Luka:
     Content:
       basicEnhanced:
@@ -1462,21 +1462,21 @@ Characters:
       e1TargetBleeding:
         text: E1 target bleeding
         title: Fighting Endlessly
-        content: 'E1: When Luka takes action, if the target enemy is Bleeding, increases DMG dealt by Luka by 15% for 2 turn(s).'
+        content: "E1: When Luka takes action, if the target enemy is Bleeding, increases DMG dealt by Luka by 15% for 2 turn(s)."
       e4TalentStacks:
         text: E4 Talent stacks
         title: Never Turning Back
-        content: 'E4: For every stack of Fighting Will obtained, increases ATK by 5%, stacking up to 4 time(s).'
+        content: "E4: For every stack of Fighting Will obtained, increases ATK by 5%, stacking up to 4 time(s)."
   Luocha:
     Content:
       fieldActive:
         text: Field active
         title: Ablution of the Quick
-        content: 'E1: While the Field is active, ATK of all allies increases by 20%.'
+        content: "E1: While the Field is active, ATK of all allies increases by 20%."
       e6ResReduction:
         text: E6 RES shred
         title: Reunion With the Dust
-        content: 'E6: When Ultimate is used, reduces all enemies" All-Type RES by 20% for 2 turn(s).'
+        content: "E6: When Ultimate is used, reduces all enemies' All-Type RES by 20% for 2 turn(s)."
   Lynx:
     Content:
       skillBuff:
@@ -1525,11 +1525,11 @@ Characters:
       selfSpdBuff:
         text: E1 SPD buff
         title: My Sword Stirs Starlight
-        content: 'E1: When Shifu is on the field, increases March 7th"s SPD by 10.0%.'
+        content: "E1: When Shifu is on the field, increases March 7th's SPD by 10.0%."
       e6CdBuff:
         text: E6 Basic CD boost
         title: Me, the Best Girl in Sight
-        content: 'E6: After using Ultimate, increases the CRIT DMG dealt by the next Enhanced Basic ATK by 50.0%.'
+        content: "E6: After using Ultimate, increases the CRIT DMG dealt by the next Enhanced Basic ATK by 50.0%."
     TeammateContent:
       masterBuff:
         text: Shifu buff
@@ -1552,11 +1552,11 @@ Characters:
       e2DefReduction:
         text: E2 DEF shred
         title: Yearning of Youth
-        content: 'E2: Reduces the target"s DEF by 16% for 3 turn(s).'
+        content: "E2: Reduces the target's DEF by 16% for 3 turn(s)."
       e6UltDmgBoost:
         text: E6 Ult DMG boost
         title: Estrangement of Dream
-        content: 'E6: When using the Ultimate, increases own DMG by 30%, lasting until the end of the turn.'
+        content: "E6: When using the Ultimate, increases own DMG by 30%, lasting until the end of the turn."
   Moze:
     Content:
       preyMark:
@@ -1569,7 +1569,7 @@ Characters:
       e2CdBoost:
         text: E2 CD boost
         title: Wrathbearer
-        content: 'E2: When all allies deal DMG to the enemy target marked as "Prey," increases CRIT DMG by 40.0%.'
+        content: "E2: When all allies deal DMG to the enemy target marked as \"Prey,\" increases CRIT DMG by 40.0%."
       e4DmgBuff:
         text: E4 DMG buff
         title: Heathprowler
@@ -1591,7 +1591,7 @@ Characters:
       skillRemovedBuff:
         text: Enemy buff removed Skill buffs
         title: Wipe Out
-        content: 'Using Skill to remove buff(s) increases the DMG of Pela"s next attack by 20%.::BR::E2: Using Skill to remove buff(s) increases SPD by 10% for 2 turn(s).'
+        content: "Using Skill to remove buff(s) increases the DMG of Pela's next attack by 20%.::BR::E2: Using Skill to remove buff(s) increases SPD by 10% for 2 turn(s)."
       ultDefPenDebuff:
         text: Ult DEF shred
         title: Zone Suppression
@@ -1599,7 +1599,7 @@ Characters:
       e4SkillResShred:
         text: E4 Skill Ice RES shred
         title: Full Analysis
-        content: 'E4: When using Skill, there is a 100% base chance to reduce the target enemy"s Ice RES by 12% for 2 turn(s).'
+        content: "E4: When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turn(s)."
   Qingque:
     Content:
       basicEnhanced:
@@ -1715,11 +1715,11 @@ Characters:
       e2AtkBoost:
         text: E2 weakness ATK boost
         title: Reedside Promenade
-        content: 'E2: With Ruan Mei on the field, all allies increase their ATK by 40% when dealing DMG to enemies with Weakness Break.'
+        content: "E2: With Ruan Mei on the field, all allies increase their ATK by 40% when dealing DMG to enemies with Weakness Break."
       e4BeBuff:
         text: E4 BE buff
         title: Chatoyant Éclat
-        content: 'E4: When an enemy target"s Weakness is Broken, Ruan Mei"s Break Effect increases by 100% for 3 turn(s).'
+        content: "E4: When an enemy target's Weakness is Broken, Ruan Mei's Break Effect increases by 100% for 3 turn(s)."
     TeammateContent:
       teamSpdBuff:
         text: Team SPD buff
@@ -1758,7 +1758,7 @@ Characters:
       e1EnemyHp80CrBoost:
         text: E1 enemy HP ≤ 80% CR boost
         title: Extirpating Slash
-        content: 'E1: When dealing DMG to an enemy whose HP percentage is 80% or lower, CRIT Rate increases by 15%.'
+        content: "E1: When dealing DMG to an enemy whose HP percentage is 80% or lower, CRIT Rate increases by 15%."
       e6UltTargetDebuff:
         text: E6 Butterfly Flurry
         title: Shattering Shambles
@@ -1832,19 +1832,19 @@ Characters:
     TeammateContent:
       teammateCDValue:
         text: Sparkle's Combat CD
-        title: 'Skill: Dreamdiver'
+        title: "Skill: Dreamdiver"
         content: Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turn(s).
   Sushang:
     Content:
       ultBuffedState:
         text: Ult buffed state
-        title: 'Shape of Taixu: Dawn Herald'
+        title: "Shape of Taixu: Dawn Herald"
         content: >-
           Sushang's ATK increases by {{ultBuffedAtk}}% and using her Skill has 2 extra chances to trigger Sword Stance for 2 turn(s). Sword Stance triggered from the extra chances deals 50% of the
           original DMG.
       skillExtraHits:
         text: Skill extra hits
-        title: 'Cloudfencer Art: Mountainfall'
+        title: "Cloudfencer Art: Mountainfall"
         content: Increases the number of Sword Stance extra hits of the Skill.
       skillTriggerStacks:
         text: Skill trigger stacks
@@ -1859,7 +1859,7 @@ Characters:
       e2DmgReductionBuff:
         text: E2 DMG reduction buff
         title: Refine in Toil
-        content: 'E2: After triggering Sword Stance, the DMG taken by Sushang is reduced by 20% for 1 turn.'
+        content: "E2: After triggering Sword Stance, the DMG taken by Sushang is reduced by 20% for 1 turn."
   Tingyun:
     Content:
       benedictionBuff:
@@ -1879,7 +1879,7 @@ Characters:
       ultSpdBuff:
         text: E1 Ult SPD buff
         title: Windfall of Lucky Springs
-        content: 'E1: After using their Ultimate, the ally with Benediction gains a 20% increase in SPD for 1 turn.'
+        content: "E1: After using their Ultimate, the ally with Benediction gains a 20% increase in SPD for 1 turn."
     TeammateContent:
       teammateAtkBuffValue:
         text: Skill ATK buff value
@@ -1961,7 +1961,7 @@ Characters:
       e6DefStacks:
         text: E6 DEF buff stacks
         title: City-Forging Bulwarks
-        content: 'E6: Increases DEF by 10% per stack.'
+        content: "E6: Increases DEF by 10% per stack."
   Welt:
     Content:
       enemyDmgTakenDebuff:
@@ -2007,7 +2007,7 @@ Characters:
       e4BeBuff:
         text: E4 BE buff
         title: Karma, Severed
-        content: 'E4: When using Ultimate, increases Break Effect by 40% for 2 turn(s).'
+        content: "E4: When using Ultimate, increases Break Effect by 40% for 2 turn(s)."
   Yanqing:
     Content:
       ultBuffActive:
@@ -2028,11 +2028,11 @@ Characters:
       e1TargetFrozen:
         text: E1 enemy frozen
         title: Svelte Saber
-        content: 'E1: When Yanqing attacks a Frozen enemy, he deals Additional Ice DMG equal to 60% of his ATK.'
+        content: "E1: When Yanqing attacks a Frozen enemy, he deals Additional Ice DMG equal to 60% of his ATK."
       e4CurrentHp80:
         text: E4 self HP ≥ 80% RES PEN buff
         title: Searing Sting
-        content: 'E4: When the current HP percentage is 80% or higher, Ice RES PEN increases by 12%.'
+        content: "E4: When the current HP percentage is 80% or higher, Ice RES PEN increases by 12%."
   Yukong:
     Content:
       teamImaginaryDmgBoost:
@@ -2042,7 +2042,7 @@ Characters:
       roaringBowstringsActive:
         text: Roaring Bowstrings
         title: Emboldening Salvo
-        content: 'When "Roaring Bowstrings" is active, the ATK of all allies increases by {{skillAtkBuffValue}}%.::BR::E4: When "Roaring Bowstrings" is active, Yukong deals 30% more DMG to enemies.'
+        content: "When \"Roaring Bowstrings\" is active, the ATK of all allies increases by {{skillAtkBuffValue}}%.::BR::E4: When \"Roaring Bowstrings\" is active, Yukong deals 30% more DMG to enemies."
       ultBuff:
         text: Ult CR / CD buffs
         title: Diving Kestrel
@@ -2052,7 +2052,7 @@ Characters:
       initialSpeedBuff:
         text: E1 initial SPD buff
         title: Aerial Marshal
-        content: 'E1: At the start of battle, increases the SPD of all allies by 10% for 2 turn(s).'
+        content: "E1: At the start of battle, increases the SPD of all allies by 10% for 2 turn(s)."
   Yunli:
     Content:
       blockActive:
@@ -2060,13 +2060,13 @@ Characters:
         title: Demon Quell
         content: While in the Parry state, resists Crowd Control debuffs received and reduces DMG received by 20.0%.
       ultCull:
-        text: 'Intuit: Cull enabled'
+        text: "Intuit: Cull enabled"
         title: Earthbind, Etherbreak
         content: >-
           "Intuit: Cull": Deals Physical DMG equal to {{CullScaling}}% of Yunli's ATK to the target, and deals Physical DMG equal to {{CullAdjacentScaling}}% of Yunli's ATK to adjacent targets. Then,
           additionally deals 6 instances of DMG, each dealing Physical DMG equal to {{CullAdditionalScaling}}% of Yunli's ATK to a random single enemy.
       ultCullHits:
-        text: 'Intuit: Cull hits'
+        text: "Intuit: Cull hits"
         title: Earthbind, Etherbreak
         content: >-
           "Intuit: Cull": Deals Physical DMG equal to {{CullScaling}}% of Yunli's ATK to the target, and deals Physical DMG equal to {{CullAdjacentScaling}}% of Yunli's ATK to adjacent targets. Then,
@@ -2078,7 +2078,7 @@ Characters:
       e1UltBuff:
         text: E1 Ult buff
         title: Weathered Blade Does Not Sully
-        content: 'E1: Increases DMG dealt by "Intuit: Slash" and "Intuit: Cull" by 20.0%. Increases the number of additional DMG instances for "Intuit: Cull" by 3.0.'
+        content: "E1: Increases DMG dealt by \"Intuit: Slash\" and \"Intuit: Cull\" by 20.0%. Increases the number of additional DMG instances for \"Intuit: Cull\" by 3.0."
       e2DefShred:
         text: E2 FUA DEF PEN
         title: First Luster Breaks Dawn
@@ -2086,7 +2086,7 @@ Characters:
       e4ResBuff:
         text: E4 RES buff
         title: Artisan's Ironsong
-        content: 'After launching "Intuit: Slash" or "Intuit: Cull," increases this unit"s Effect RES by 50.0%, lasting for 1.0 turn(s).'
+        content: "After launching \"Intuit: Slash\" or \"Intuit: Cull,\" increases this unit\"s Effect RES by 50.0%, lasting for 1.0 turn(s)."
       e6Buffs:
         text: E6 buffs
         title: Walk in Blade, Talk in Zither

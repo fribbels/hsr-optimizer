@@ -1004,7 +1004,7 @@ interface Resources {
           "cdBuff": {
             "text": "Double path CD buff",
             "title": "Lose Not, Forget Not",
-            "content": "Upon entering battle, if two or more characters follow the same Path, then these characters\" CRIT DMG increases by {{CritBuff}}% . "
+            "content": "Upon entering battle, if two or more characters follow the same Path, then these characters' CRIT DMG increases by {{CritBuff}}% ."
           }
         }
       },
@@ -1381,7 +1381,7 @@ interface Resources {
           "talentBuffStacks": {
             "text": "Talent ATK buff stacks",
             "title": "Astrometry",
-            "content": "Increases allies\" ATK by {{talentStacksAtkBuff}}% for every stack.::BR::E4: Asta\"s Energy Regeneration Rate increases by 15% when she has 2 or more Charging stacks."
+            "content": "Increases allies' ATK by {{talentStacksAtkBuff}}% for every stack.::BR::E4: Asta's Energy Regeneration Rate increases by 15% when she has 2 or more Charging stacks."
           },
           "ultSpdBuff": {
             "text": "Ult SPD buff active",
@@ -1425,7 +1425,7 @@ interface Resources {
           "e4DefBuff": {
             "text": "E4 DEF buff",
             "title": "Unexpected Hanging Paradox",
-            "content": "E4: When triggering his Talent\"s follow-up attack, first increases Aventurine\"s DEF by 40% for 2 turn(s)"
+            "content": "E4: When triggering his Talent's follow-up attack, first increases Aventurine's DEF by 40% for 2 turn(s)"
           },
           "e6ShieldStacks": {
             "text": "E6 shield stacks",
@@ -1454,7 +1454,7 @@ interface Resources {
           "e4SkillHealingDmgBuffStacks": {
             "text": "E4 Skill DMG boost stacks",
             "title": "Evil Excision",
-            "content": "E4: Every healing provided by Bailu\"s Skill makes the recipient deal 10% more DMG for 2 turns. This effect can stack up to 3 times."
+            "content": "E4: Every healing provided by Bailu's Skill makes the recipient deal 10% more DMG for 2 turns. This effect can stack up to 3 times."
           }
         }
       },
@@ -1630,7 +1630,7 @@ interface Resources {
           "e1EnemyHp50": {
             "text": "E1 enemy HP ≥ 50% CR boost",
             "title": "The Higher You Fly, the Harder You Fall",
-            "content": "E1: When the target enemy\"s current HP percentage is greater than or equal to 50%, CRIT Rate increases by 12%."
+            "content": "E1: When the target enemy's current HP percentage is greater than or equal to 50%, CRIT Rate increases by 12%."
           }
         }
       },
@@ -1782,7 +1782,7 @@ interface Resources {
           "e6BeBuff": {
             "text": "E6 BE buff",
             "title": "Blood and Sand",
-            "content": "E6: Increases Gallagher\"s Break Effect by 20% and Weakness Break Efficiency by 20%."
+            "content": "E6: Increases Gallagher's Break Effect by 20% and Weakness Break Efficiency by 20%."
           }
         }
       },
@@ -1815,12 +1815,12 @@ interface Resources {
           "e1EffectResShred": {
             "text": "E1 Effect RES shred",
             "title": "Slurping Noodles During Handstand",
-            "content": "E1: When Skill is used, there is a 100% base chance to reduce the attacked target enemy\"s Effect RES by 10% for 2 turn(s)."
+            "content": "E1: When Skill is used, there is a 100% base chance to reduce the attacked target enemy's Effect RES by 10% for 2 turn(s)."
           },
           "e2BurnMultiBoost": {
             "text": "E2 burn multi boost",
             "title": "Brushing Teeth While Whistling",
-            "content": "E2: When an enemy target is Burned, Guinaifen\"s Basic ATK and Skill can increase the DMG multiplier of their Burn status by 40%."
+            "content": "E2: When an enemy target is Burned, Guinaifen's Basic ATK and Skill can increase the DMG multiplier of their Burn status by 40%."
           }
         }
       },
@@ -1880,7 +1880,7 @@ interface Resources {
           "enemyHpLte50": {
             "text": "E1 Basic scaling boost",
             "title": "Kick You When You're Down",
-            "content": "E1: If the enemy\"s HP percentage is at 50% or less, Herta\"s Basic ATK deals Additional Ice DMG equal to 40% of Herta\"s ATK."
+            "content": "E1: If the enemy\"s HP percentage is at 50% or less, Herta\"s Basic ATK deals Additional Ice DMG equal to 40% of Herta's ATK."
           },
           "e2TalentCritStacks": {
             "text": "E2 Talent CR stacks",
@@ -1909,7 +1909,7 @@ interface Resources {
           "e1TalentSpdBuff": {
             "text": "E1 SPD buff",
             "title": "Childhood",
-            "content": "E1: After Victory Rush is triggered, Himeko\"s SPD increases by 20% for 2 turns."
+            "content": "E1: After Victory Rush is triggered, Himeko's SPD increases by 20% for 2 turns."
           },
           "e2EnemyHp50DmgBoost": {
             "text": "E2 enemy HP ≤ 50% DMG boost",
@@ -1947,12 +1947,12 @@ interface Resources {
           "skillBuff": {
             "text": "E1 SPD buff",
             "title": "Anchored to Vessel, Specters Nestled",
-            "content": "E1: When Huohuo possesses Divine Provision, all allies\" SPD increases by 12%."
+            "content": "E1: When Huohuo possesses Divine Provision, all allies' SPD increases by 12%."
           },
           "e6DmgBuff": {
             "text": "E6 DMG buff",
             "title": "Woven Together, Cohere Forever",
-            "content": "E6: When healing a target ally, increases the target ally\"s DMG dealt by 50% for 2 turns."
+            "content": "E6: When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns."
           }
         }
       },
@@ -1976,7 +1976,7 @@ interface Resources {
           "e6ResPenStacks": {
             "text": "E6 RES PEN stacks",
             "title": "Reign, Returned",
-            "content": "E6: After any other ally uses their Ultimate, the Imaginary RES PEN of Dan Heng • Imbibitor Lunae\"s next Fulgurant Leap attack increases by 20%, up to 3 stacks."
+            "content": "E6: After any other ally uses their Ultimate, the Imaginary RES PEN of Dan Heng • Imbibitor Lunae's next Fulgurant Leap attack increases by 20%, up to 3 stacks."
           }
         }
       },
@@ -2000,17 +2000,17 @@ interface Resources {
           "e2CrBuff": {
             "text": "E2 CR buff",
             "title": "Morality? Herein Authenticated",
-            "content": "E2: When there are 15 stacks of Pawned Asset, Jade\"s CRIT Rate increases by 18%."
+            "content": "E2: When there are 15 stacks of Pawned Asset, Jade's CRIT Rate increases by 18%."
           },
           "e4DefShredBuff": {
             "text": "E4 DEF shred buff",
             "title": "Sincerity? Put Option Only",
-            "content": "E4: When using Ultimate, enables the DMG dealt by Jade to ignore 12% of enemy targets\" DEF, lasting for 3 turn(s)."
+            "content": "E4: When using Ultimate, enables the DMG dealt by Jade to ignore 12% of enemy targets' DEF, lasting for 3 turn(s)."
           },
           "e6ResShredBuff": {
             "text": "E6 RES PEN buff",
             "title": "Equity? Pending Sponsorship",
-            "content": "E6: When the Debt Collector character exists on the field, Jade\"s Quantum RES PEN increases by 20%, and Jade gains the Debt Collector state."
+            "content": "E6: When the Debt Collector character exists on the field, Jade's Quantum RES PEN increases by 20%, and Jade gains the Debt Collector state."
           }
         },
         "TeammateContent": {
@@ -2051,7 +2051,7 @@ interface Resources {
           "e6ResShred": {
             "text": "E6 RES shred",
             "title": "Nonamorphic Pyrobind",
-            "content": "E6: The maximum stack limit of Ashen Roast increases to 9.0, and each \"Ashen Roast\" stack reduces the target\"s All-Type RES by 3.0%."
+            "content": "E6: The maximum stack limit of Ashen Roast increases to 9.0, and each \"Ashen Roast\" stack reduces the target's All-Type RES by 3.0%."
           }
         }
       },
@@ -2099,7 +2099,7 @@ interface Resources {
           "e2DmgBuff": {
             "text": "E2 DMG boost",
             "title": "Swing, Skies Squashed",
-            "content": "E2: After Lightning-Lord takes action, DMG caused by Jing Yuan\"s Basic ATK, Skill, and Ultimate increases by 20% for 2 turns."
+            "content": "E2: After Lightning-Lord takes action, DMG caused by Jing Yuan's Basic ATK, Skill, and Ultimate increases by 20% for 2 turns."
           },
           "e6FuaVulnerabilityStacks": {
             "text": "E6 Vulnerable stacks",
@@ -2137,17 +2137,17 @@ interface Resources {
           "e1DefShred": {
             "text": "E1 weakness break buffs",
             "title": "Bloom on Vileward Bouquet",
-            "content": "E1: Lingsha\"s Weakness Break Efficiency increases by 50%. When an enemy unit\"s Weakness is Broken, reduces their DEF by 20%."
+            "content": "E1: Lingsha's Weakness Break Efficiency increases by 50%. When an enemy unit\"s Weakness is Broken, reduces their DEF by 20%."
           },
           "e2BeBuff": {
             "text": "E2 BE buff",
             "title": "Leisure in Carmine Smokeveil",
-            "content": "E2: When using Ultimate, increases all allies\" Break Effect by 40.0%."
+            "content": "E2: When using Ultimate, increases all allies' Break Effect by 40.0%."
           },
           "e6ResShred": {
             "text": "E6 RES shred",
             "title": "Arcadia Under Deep Seclusion",
-            "content": "E6: While \"Fuyuan\" is on the field, reduces all Enemy units\" All-Type RES by 20.0%."
+            "content": "E6: While \"Fuyuan\" is on the field, reduces all Enemy units' All-Type RES by 20.0%."
           }
         }
       },
@@ -2190,7 +2190,7 @@ interface Resources {
           "e6ResReduction": {
             "text": "E6 RES shred",
             "title": "Reunion With the Dust",
-            "content": "E6: When Ultimate is used, reduces all enemies\" All-Type RES by 20% for 2 turn(s)."
+            "content": "E6: When Ultimate is used, reduces all enemies' All-Type RES by 20% for 2 turn(s)."
           }
         }
       },
@@ -2240,7 +2240,7 @@ interface Resources {
           "selfSpdBuff": {
             "text": "E1 SPD buff",
             "title": "My Sword Stirs Starlight",
-            "content": "E1: When Shifu is on the field, increases March 7th\"s SPD by 10.0%."
+            "content": "E1: When Shifu is on the field, increases March 7th's SPD by 10.0%."
           },
           "e6CdBuff": {
             "text": "E6 Basic CD boost",
@@ -2276,7 +2276,7 @@ interface Resources {
           "e2DefReduction": {
             "text": "E2 DEF shred",
             "title": "Yearning of Youth",
-            "content": "E2: Reduces the target\"s DEF by 16% for 3 turn(s)."
+            "content": "E2: Reduces the target's DEF by 16% for 3 turn(s)."
           },
           "e6UltDmgBoost": {
             "text": "E6 Ult DMG boost",
@@ -2324,7 +2324,7 @@ interface Resources {
           "skillRemovedBuff": {
             "text": "Enemy buff removed Skill buffs",
             "title": "Wipe Out",
-            "content": "Using Skill to remove buff(s) increases the DMG of Pela\"s next attack by 20%.::BR::E2: Using Skill to remove buff(s) increases SPD by 10% for 2 turn(s)."
+            "content": "Using Skill to remove buff(s) increases the DMG of Pela's next attack by 20%.::BR::E2: Using Skill to remove buff(s) increases SPD by 10% for 2 turn(s)."
           },
           "ultDefPenDebuff": {
             "text": "Ult DEF shred",
@@ -2334,7 +2334,7 @@ interface Resources {
           "e4SkillResShred": {
             "text": "E4 Skill Ice RES shred",
             "title": "Full Analysis",
-            "content": "E4: When using Skill, there is a 100% base chance to reduce the target enemy\"s Ice RES by 12% for 2 turn(s)."
+            "content": "E4: When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turn(s)."
           }
         }
       },
@@ -2479,7 +2479,7 @@ interface Resources {
           "e4BeBuff": {
             "text": "E4 BE buff",
             "title": "Chatoyant Éclat",
-            "content": "E4: When an enemy target\"s Weakness is Broken, Ruan Mei\"s Break Effect increases by 100% for 3 turn(s)."
+            "content": "E4: When an enemy target's Weakness is Broken, Ruan Mei's Break Effect increases by 100% for 3 turn(s)."
           }
         },
         "TeammateContent": {
@@ -2915,7 +2915,7 @@ interface Resources {
   "gameData": {
     "Characters": {
       "1001": {
-        "Name": "March 7th"
+        "Name": "March 7th (Preservation)"
       },
       "1002": {
         "Name": "Dan Heng"
@@ -3041,7 +3041,7 @@ interface Resources {
         "Name": "Moze"
       },
       "1224": {
-        "Name": "March 7th"
+        "Name": "March 7th (The Hunt)"
       },
       "1225": {
         "Name": "Fugue"
@@ -3296,436 +3296,328 @@ interface Resources {
     },
     "Lightcones": {
       "20000": {
-        "Name": "Arrows",
-        "SkillName": "Crisis"
+        "Name": "Arrows"
       },
       "20001": {
-        "Name": "Cornucopia",
-        "SkillName": "Prosperity"
+        "Name": "Cornucopia"
       },
       "20002": {
-        "Name": "Collapsing Sky",
-        "SkillName": "Havoc"
+        "Name": "Collapsing Sky"
       },
       "20003": {
-        "Name": "Amber",
-        "SkillName": "Stasis"
+        "Name": "Amber"
       },
       "20004": {
-        "Name": "Void",
-        "SkillName": "Fallen"
+        "Name": "Void"
       },
       "20005": {
-        "Name": "Chorus",
-        "SkillName": "Concerted"
+        "Name": "Chorus"
       },
       "20006": {
-        "Name": "Data Bank",
-        "SkillName": "Learned"
+        "Name": "Data Bank"
       },
       "20007": {
-        "Name": "Darting Arrow",
-        "SkillName": "War Cry"
+        "Name": "Darting Arrow"
       },
       "20008": {
-        "Name": "Fine Fruit",
-        "SkillName": "Savor"
+        "Name": "Fine Fruit"
       },
       "20009": {
-        "Name": "Shattered Home",
-        "SkillName": "Eradication"
+        "Name": "Shattered Home"
       },
       "20010": {
-        "Name": "Defense",
-        "SkillName": "Revitalization"
+        "Name": "Defense"
       },
       "20011": {
-        "Name": "Loop",
-        "SkillName": "Pursuit"
+        "Name": "Loop"
       },
       "20012": {
-        "Name": "Meshing Cogs",
-        "SkillName": "Fleet Triumph"
+        "Name": "Meshing Cogs"
       },
       "20013": {
-        "Name": "Passkey",
-        "SkillName": "Epiphany"
+        "Name": "Passkey"
       },
       "20014": {
-        "Name": "Adversarial",
-        "SkillName": "Alliance"
+        "Name": "Adversarial"
       },
       "20015": {
-        "Name": "Multiplication",
-        "SkillName": "Denizens of Abundance"
+        "Name": "Multiplication"
       },
       "20016": {
-        "Name": "Mutual Demise",
-        "SkillName": "Legion"
+        "Name": "Mutual Demise"
       },
       "20017": {
-        "Name": "Pioneering",
-        "SkillName": "IPC"
+        "Name": "Pioneering"
       },
       "20018": {
-        "Name": "Hidden Shadow",
-        "SkillName": "Mechanism"
+        "Name": "Hidden Shadow"
       },
       "20019": {
-        "Name": "Mediation",
-        "SkillName": "Family"
+        "Name": "Mediation"
       },
       "20020": {
-        "Name": "Sagacity",
-        "SkillName": "Genius"
+        "Name": "Sagacity"
       },
       "21000": {
-        "Name": "Post-Op Conversation",
-        "SkillName": "Mutual Healing"
+        "Name": "Post-Op Conversation"
       },
       "21001": {
-        "Name": "Good Night and Sleep Well",
-        "SkillName": "Toiler"
+        "Name": "Good Night and Sleep Well"
       },
       "21002": {
-        "Name": "Day One of My New Life",
-        "SkillName": "At This Very Moment"
+        "Name": "Day One of My New Life"
       },
       "21003": {
-        "Name": "Only Silence Remains",
-        "SkillName": "Record"
+        "Name": "Only Silence Remains"
       },
       "21004": {
-        "Name": "Memories of the Past",
-        "SkillName": "Old Photo"
+        "Name": "Memories of the Past"
       },
       "21005": {
-        "Name": "The Moles Welcome You",
-        "SkillName": "Fantastic Adventure"
+        "Name": "The Moles Welcome You"
       },
       "21006": {
-        "Name": "The Birth of the Self",
-        "SkillName": "The Maiden in the Painting"
+        "Name": "The Birth of the Self"
       },
       "21007": {
-        "Name": "Shared Feeling",
-        "SkillName": "Cure and Repair"
+        "Name": "Shared Feeling"
       },
       "21008": {
-        "Name": "Eyes of the Prey",
-        "SkillName": "Self-Confidence"
+        "Name": "Eyes of the Prey"
       },
       "21009": {
-        "Name": "Landau's Choice",
-        "SkillName": "Time Fleets Away"
+        "Name": "Landau's Choice"
       },
       "21010": {
-        "Name": "Swordplay",
-        "SkillName": "Answers of Their Own"
+        "Name": "Swordplay"
       },
       "21011": {
-        "Name": "Planetary Rendezvous",
-        "SkillName": "Departure"
+        "Name": "Planetary Rendezvous"
       },
       "21012": {
-        "Name": "A Secret Vow",
-        "SkillName": "Spare No Effort"
+        "Name": "A Secret Vow"
       },
       "21013": {
-        "Name": "Make the World Clamor",
-        "SkillName": "The Power of Sound"
+        "Name": "Make the World Clamor"
       },
       "21014": {
-        "Name": "Perfect Timing",
-        "SkillName": "Refraction of Sightline"
+        "Name": "Perfect Timing"
       },
       "21015": {
-        "Name": "Resolution Shines As Pearls of Sweat",
-        "SkillName": "Glance Back"
+        "Name": "Resolution Shines As Pearls of Sweat"
       },
       "21016": {
-        "Name": "Trend of the Universal Market",
-        "SkillName": "A New Round of Shuffling"
+        "Name": "Trend of the Universal Market"
       },
       "21017": {
-        "Name": "Subscribe for More!",
-        "SkillName": "Like Before You Leave!"
+        "Name": "Subscribe for More!"
       },
       "21018": {
-        "Name": "Dance! Dance! Dance!",
-        "SkillName": "Cannot Stop It!"
+        "Name": "Dance! Dance! Dance!"
       },
       "21019": {
-        "Name": "Under the Blue Sky",
-        "SkillName": "Rye Under the Sun"
+        "Name": "Under the Blue Sky"
       },
       "21020": {
-        "Name": "Geniuses' Repose",
-        "SkillName": "Each Now Has a Role to Play"
+        "Name": "Geniuses' Repose"
       },
       "21021": {
-        "Name": "Quid Pro Quo",
-        "SkillName": "Enjoy With Rapture"
+        "Name": "Quid Pro Quo"
       },
       "21022": {
-        "Name": "Fermata",
-        "SkillName": "Semibreve Rest"
+        "Name": "Fermata"
       },
       "21023": {
-        "Name": "We Are Wildfire",
-        "SkillName": "Teary-Eyed"
+        "Name": "We Are Wildfire"
       },
       "21024": {
-        "Name": "River Flows in Spring",
-        "SkillName": "Stave Off the Lingering Cold"
+        "Name": "River Flows in Spring"
       },
       "21025": {
-        "Name": "Past and Future",
-        "SkillName": "Kites From the Past"
+        "Name": "Past and Future"
       },
       "21026": {
-        "Name": "Woof! Walk Time!",
-        "SkillName": "Run!"
+        "Name": "Woof! Walk Time!"
       },
       "21027": {
-        "Name": "The Seriousness of Breakfast",
-        "SkillName": "Get Ready"
+        "Name": "The Seriousness of Breakfast"
       },
       "21028": {
-        "Name": "Warmth Shortens Cold Nights",
-        "SkillName": "Tiny Light"
+        "Name": "Warmth Shortens Cold Nights"
       },
       "21029": {
-        "Name": "We Will Meet Again",
-        "SkillName": "A Discourse in Arms"
+        "Name": "We Will Meet Again"
       },
       "21030": {
-        "Name": "This Is Me!",
-        "SkillName": "New Chapter"
+        "Name": "This Is Me!"
       },
       "21031": {
-        "Name": "Return to Darkness",
-        "SkillName": "Raging Waves"
+        "Name": "Return to Darkness"
       },
       "21032": {
-        "Name": "Carve the Moon, Weave the Clouds",
-        "SkillName": "Secret"
+        "Name": "Carve the Moon, Weave the Clouds"
       },
       "21033": {
-        "Name": "Nowhere to Run",
-        "SkillName": "Desperate Times"
+        "Name": "Nowhere to Run"
       },
       "21034": {
-        "Name": "Today Is Another Peaceful Day",
-        "SkillName": "A Storm Is Coming"
+        "Name": "Today Is Another Peaceful Day"
       },
       "21035": {
-        "Name": "What Is Real?",
-        "SkillName": "Hypothesis"
+        "Name": "What Is Real?"
       },
       "21036": {
-        "Name": "Dreamville Adventure",
-        "SkillName": "Solidarity"
+        "Name": "Dreamville Adventure"
       },
       "21037": {
-        "Name": "Final Victor",
-        "SkillName": "Wager"
+        "Name": "Final Victor"
       },
       "21038": {
-        "Name": "Flames Afar",
-        "SkillName": "Deflagration"
+        "Name": "Flames Afar"
       },
       "21039": {
-        "Name": "Destiny's Threads Forewoven",
-        "SkillName": "Insight"
+        "Name": "Destiny's Threads Forewoven"
       },
       "21040": {
-        "Name": "The Day The Cosmos Fell",
-        "SkillName": "Stratagem"
+        "Name": "The Day The Cosmos Fell"
       },
       "21041": {
-        "Name": "It's Showtime",
-        "SkillName": "Self-Amusement"
+        "Name": "It's Showtime"
       },
       "21042": {
-        "Name": "Indelible Promise",
-        "SkillName": "Inheritance"
+        "Name": "Indelible Promise"
       },
       "21043": {
-        "Name": "Concert for Two",
-        "SkillName": "Inspire"
+        "Name": "Concert for Two"
       },
       "21044": {
-        "Name": "Boundless Choreo",
-        "SkillName": "Scrutinize"
+        "Name": "Boundless Choreo"
       },
       "21045": {
-        "Name": "After the Charmony Fall",
-        "SkillName": "Quiescence"
+        "Name": "After the Charmony Fall"
       },
       "21046": {
-        "Name": "Poised to Bloom",
-        "SkillName": "Lose Not, Forget Not"
+        "Name": "Poised to Bloom"
       },
       "21047": {
-        "Name": "Shadowed by Night",
-        "SkillName": "Concealment"
+        "Name": "Shadowed by Night"
       },
       "21048": {
-        "Name": "Dream's Montage",
-        "SkillName": "Academy-Style Edit"
+        "Name": "Dream's Montage"
       },
       "22000": {
-        "Name": "Before the Tutorial Mission Starts",
-        "SkillName": "Quick on the Draw"
+        "Name": "Before the Tutorial Mission Starts"
       },
       "22001": {
-        "Name": "Hey, Over Here",
-        "SkillName": "I'm Not Afraid!"
+        "Name": "Hey, Over Here"
       },
       "22002": {
-        "Name": "For Tomorrow's Journey",
-        "SkillName": "Bonds"
+        "Name": "For Tomorrow's Journey"
       },
       "22003": {
-        "Name": "Ninja Record: Sound Hunt",
-        "SkillName": "Curtains Up!"
+        "Name": "Ninja Record: Sound Hunt"
       },
       "23000": {
-        "Name": "Night on the Milky Way",
-        "SkillName": "Meteor Swarm"
+        "Name": "Night on the Milky Way"
       },
       "23001": {
-        "Name": "In the Night",
-        "SkillName": "Flowers and Butterflies"
+        "Name": "In the Night"
       },
       "23002": {
-        "Name": "Something Irreplaceable",
-        "SkillName": "Kinship"
+        "Name": "Something Irreplaceable"
       },
       "23003": {
-        "Name": "But the Battle Isn't Over",
-        "SkillName": "Heir"
+        "Name": "But the Battle Isn't Over"
       },
       "23004": {
-        "Name": "In the Name of the World",
-        "SkillName": "Inheritor"
+        "Name": "In the Name of the World"
       },
       "23005": {
-        "Name": "Moment of Victory",
-        "SkillName": "Verdict"
+        "Name": "Moment of Victory"
       },
       "23006": {
-        "Name": "Patience Is All You Need",
-        "SkillName": "Spider Web"
+        "Name": "Patience Is All You Need"
       },
       "23007": {
-        "Name": "Incessant Rain",
-        "SkillName": "Mirage of Reality"
+        "Name": "Incessant Rain"
       },
       "23008": {
-        "Name": "Echoes of the Coffin",
-        "SkillName": "Thorns"
+        "Name": "Echoes of the Coffin"
       },
       "23009": {
-        "Name": "The Unreachable Side",
-        "SkillName": "Unfulfilled Yearning"
+        "Name": "The Unreachable Side"
       },
       "23010": {
-        "Name": "Before Dawn",
-        "SkillName": "Long Night"
+        "Name": "Before Dawn"
       },
       "23011": {
-        "Name": "She Already Shut Her Eyes",
-        "SkillName": "Visioscape"
+        "Name": "She Already Shut Her Eyes"
       },
       "23012": {
-        "Name": "Sleep Like the Dead",
-        "SkillName": "Sweet Dreams"
+        "Name": "Sleep Like the Dead"
       },
       "23013": {
-        "Name": "Time Waits for No One",
-        "SkillName": "Morn, Noon, Dusk, and Night"
+        "Name": "Time Waits for No One"
       },
       "23014": {
-        "Name": "I Shall Be My Own Sword",
-        "SkillName": "With This Evening Jade"
+        "Name": "I Shall Be My Own Sword"
       },
       "23015": {
-        "Name": "Brighter Than the Sun",
-        "SkillName": "Defiant Till Death"
+        "Name": "Brighter Than the Sun"
       },
       "23016": {
-        "Name": "Worrisome, Blissful",
-        "SkillName": "One At A Time"
+        "Name": "Worrisome, Blissful"
       },
       "23017": {
-        "Name": "Night of Fright",
-        "SkillName": "Deep, Deep Breaths"
+        "Name": "Night of Fright"
       },
       "23018": {
-        "Name": "An Instant Before A Gaze",
-        "SkillName": "A Knight's Pilgrimage"
+        "Name": "An Instant Before A Gaze"
       },
       "23019": {
-        "Name": "Past Self in Mirror",
-        "SkillName": "The Plum Fragrance In My Bones"
+        "Name": "Past Self in Mirror"
       },
       "23020": {
-        "Name": "Baptism of Pure Thought",
-        "SkillName": "Mental Training"
+        "Name": "Baptism of Pure Thought"
       },
       "23021": {
-        "Name": "Earthly Escapade",
-        "SkillName": "Capriciousness"
+        "Name": "Earthly Escapade"
       },
       "23022": {
-        "Name": "Reforged Remembrance",
-        "SkillName": "Crystallize"
+        "Name": "Reforged Remembrance"
       },
       "23023": {
-        "Name": "Inherently Unjust Destiny",
-        "SkillName": "All-In"
+        "Name": "Inherently Unjust Destiny"
       },
       "23024": {
-        "Name": "Along the Passing Shore",
-        "SkillName": "Steerer"
+        "Name": "Along the Passing Shore"
       },
       "23025": {
-        "Name": "Whereabouts Should Dreams Rest",
-        "SkillName": "Metamorphosis"
+        "Name": "Whereabouts Should Dreams Rest"
       },
       "23026": {
-        "Name": "Flowing Nightglow",
-        "SkillName": "Pacify"
+        "Name": "Flowing Nightglow"
       },
       "23027": {
-        "Name": "Sailing Towards a Second Life",
-        "SkillName": "Rough Water"
+        "Name": "Sailing Towards a Second Life"
       },
       "23028": {
-        "Name": "Yet Hope Is Priceless",
-        "SkillName": "Promise"
+        "Name": "Yet Hope Is Priceless"
       },
       "23029": {
-        "Name": "Those Many Springs",
-        "SkillName": "Worldly Affairs Leave No Mark"
+        "Name": "Those Many Springs"
       },
       "23030": {
-        "Name": "Dance at Sunset",
-        "SkillName": "Deeply Engrossed"
+        "Name": "Dance at Sunset"
       },
       "23031": {
-        "Name": "I Venture Forth to Hunt",
-        "SkillName": "Intimidation"
+        "Name": "I Venture Forth to Hunt"
       },
       "23032": {
-        "Name": "Scent Alone Stays True",
-        "SkillName": "Contentment"
+        "Name": "Scent Alone Stays True"
       },
       "23033": {
-        "Name": "Ninjutsu Inscription: Dazzling Evilbreaker",
-        "SkillName": "Exorcism"
+        "Name": "Ninjutsu Inscription: Dazzling Evilbreaker"
       },
       "23034": {
         "Name": "A Grounded Ascent",
@@ -3736,24 +3628,19 @@ interface Resources {
         "SkillName": "Rebirth"
       },
       "24000": {
-        "Name": "On the Fall of an Aeon",
-        "SkillName": "Moth to Flames"
+        "Name": "On the Fall of an Aeon"
       },
       "24001": {
-        "Name": "Cruising in the Stellar Sea",
-        "SkillName": "Chase"
+        "Name": "Cruising in the Stellar Sea"
       },
       "24002": {
-        "Name": "Texture of Memories",
-        "SkillName": "Treasure"
+        "Name": "Texture of Memories"
       },
       "24003": {
-        "Name": "Solitary Healing",
-        "SkillName": "Chaos Elixir"
+        "Name": "Solitary Healing"
       },
       "24004": {
-        "Name": "Eternal Calculus",
-        "SkillName": "Boundless Thought"
+        "Name": "Eternal Calculus"
       }
     },
     "Paths": {
@@ -3785,9 +3672,7 @@ interface Resources {
       "okText": "Yes",
       "cancelText": "Cancel",
       "SuccessMessage": "Successfully loaded data",
-      "Header": "Try it out!",
-      "Option 1": "<0>Option 1: Load a sample save</0><1>If you would like to give the optimizer a try before doing any relic importing, use this to load a sample save file and check out the features.</1>",
-      "Option 2": "<0>Option 2: One-click-optimize from the Relic Scorer</0><1/><2>From the <1><0 text=\"Relic scorer\"></0></1> tab, clicking on the Optimize Character Stats button will automatically import and run the optimizer on your selected character. This option will only be able to use the relics from your profile's showcase characters, so it is still recommended to use a scanner to import your full inventory of relics, but this allows for a quick calculation of character stats in combat.</2>"
+      "Header": "Try it out!"
     }
   },
   "hint": {
@@ -3795,7 +3680,7 @@ interface Resources {
       "Title": "Rating filters",
       "p1": "Weight - Sum of substat weights of all 6 relics, from the Substat weight filter",
       "p2": "Ehp - Effective HP, measuring how tanky a max level character is. Calculated using HP & DEF & damage reduction passives",
-      "p3": "Basic / Skill / Ult / Fua (Follow-up attack) / Dot (Damage over time) - Skill damage calculations, based on the environmental factors in character passives / light cone passives / enemy options."
+      "p3": "Basic / Skill / Ult / Fua (Follow-up attack) / Dot (Damage over time) / Break (Weakness Break) - Skill damage calculations, based on the environmental factors in character passives / light cone passives / enemy options."
     },
     "CombatBuffs": {
       "Title": "Combat buffs",
@@ -3804,8 +3689,8 @@ interface Resources {
     "StatFilters": {
       "Title": "Stat filters",
       "p1": "Min (left) / Max (right) filters for character stats, inclusive. The optimizer will only show results within these ranges",
-      "p2": "Stat abbreviations are ATK / HP / DEF / SPD / Crit Rate / Crit Damage / Effect Hit Rate / Effect RES / Break Effect",
-      "p3": "NOTE: Ingame speed decimals are truncated so you may see speed values ingame higher than shown here. This is because the OCR importer can\"t detect the hidden decimals."
+      "p2": "Stat abbreviations are ATK / HP / DEF / SPD / Crit Rate / Crit Damage / Effect Hit Rate / Effect RES / Break Effect / Energy Regeneration Rate",
+      "p3": "NOTE: Ingame speed decimals are truncated so you may see speed values ingame higher than shown here. This is because the OCR importer can't detect the hidden decimals."
     },
     "Mainstats": {
       "Title": "Main stats",
@@ -3847,17 +3732,17 @@ interface Resources {
       "p1": "<0>Character priority filter</0> - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.",
       "p2": "<0>Boost main stat</0> - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats are not changed accordingly, so builds with lower level relics may be stronger once you level them.",
       "p3": "<0>Keep current relics</0> - The character must use its currently equipped items, and the optimizer will try to fill in empty slots",
-      "p4": "<0>Include equipped relics</0> - When enabled, the optimizer will allow using currently equipped by a character for the search. Otherwise equipped relics are excluded",
-      "p5": "<0>Priority</0> - See: Character priority filter. Changing this setting will change the character\"s priority",
+      "p4": "<0>Include equipped relics</0> - When enabled, the optimizer will allow using relics that are currently equipped by a character for the search. Otherwise equipped relics are excluded",
+      "p5": "<0>Priority</0> - See: Character priority filter. Changing this setting will change the character's priority",
       "p6": "<0>Exclude</0> - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter",
       "p7": "<0>Enhance / grade</0> - Select the minimum enhance to search for and minimum stars for relics to include"
     },
     "Relics": {
       "Title": "Relics",
       "p1": "Note - Potential is a percent rating which compares a relic to the best possible +15 relic for the current character in the slot. This rating is based off the scoring algorithm weights. This means unrolled relics at +0 sometimes have a higher potential than existing +15 relics, because their possible rolls can go into the character's desired stats.",
-      "p2": "Selected character: Score - The relic\"s current weight as defined by the scoring algorithm for the currently selected character",
-      "p3": "Selected character: Average potential - The relic\"s potential weight if rolls went into the average weight of the relic\"s substats",
-      "p4": "Selected character: Max potential - The relic\"s maximum potential weight if all future rolls went into the character\"s desired stats",
+      "p2": "Selected character: Score - The relic's current weight as defined by the scoring algorithm for the currently selected character",
+      "p3": "Selected character: Average potential - The relic's potential weight if rolls went into the average weight of the relic's substats",
+      "p4": "Selected character: Max potential - The relic's maximum potential weight if all future rolls went into the character's desired stats",
       "p5": "All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game."
     },
     "OptimizationDetails": {
@@ -3887,7 +3772,7 @@ interface Resources {
       "Title": "Stat and filter view",
       "p1": "This allows for switching between viewing results as Base stats vs Combat stats. Stat filters will also be applied to the selected view.",
       "p2": "Base stats - The stats as shown on the character's screen ingame, with no in-combat buffs applied.",
-      "p3": "Combat stats - The character\"s stats with all stat modifiers in combat included: ability buffs, character & light cone passives, teammates, conditional set effects, etc."
+      "p3": "Combat stats - The character's stats with all stat modifiers in combat included: ability buffs, character & light cone passives, teammates, conditional set effects, etc."
     },
     "ValueColumns": {
       "Title": "Value Columns",

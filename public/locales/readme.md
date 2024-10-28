@@ -8,7 +8,7 @@ When adding a new language
 - create a new locale file in `public/locales` if the appropriate one does not yet exist.
   - in `misc/i18n/generateTranslations.ts`, modify the `outputLocaleMapping` as necessary so that future gameData updates are also applied to the newly created locale, and then copy + paste the relevant `gameData.yaml` file into the newly created locale folder
 - in `misc/i18n/generateTranslations.ts`, modify `getTbName` to set the proper name for Stelle/Caelus for your locale if it is not already done.
-- add the new language to the list of languages in `src/lib/i18n.ts` if it does not already exist, and add a flag in `public/assets/misc/flags`, with the name `[locale].webp`.
+- add the new language to the list of languages in `src/lib/i18n.ts` if it does not already exist, and add a flag in `public/assets/misc/flags`, with the name `[locale].webp`. (all current flags are downloaded from https://flagpedia.net)
 - once the translation has been completed, add the language to the list of completed languages in `src/components/LanguageSelector.tsx`.
 
 ### Adding new text

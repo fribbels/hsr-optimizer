@@ -1,6 +1,6 @@
 Characters:
   "1001":
-    Name: 7. März
+    Name: 7. März (Die Bewahrung)
   "1002":
     Name: Dan Heng
   "1003":
@@ -84,7 +84,7 @@ Characters:
   "1223":
     Name: Moze
   "1224":
-    Name: 7. März
+    Name: 7. März (Die Jagd)
   "1301":
     Name: Gallagher
   "1302":
@@ -271,343 +271,230 @@ RelicSets:
 Lightcones:
   "20000":
     Name: Pfeile
-    SkillName: Krise
   "20001":
     Name: Füllhorn
-    SkillName: Gedeihen
   "20002":
     Name: Zusammenbruch des Himmels
-    SkillName: Verwüstung
   "20003":
     Name: Bernstein
-    SkillName: Stillstand
   "20004":
     Name: Leere
-    SkillName: Niedergang
   "20005":
     Name: Chor
-    SkillName: Vereint
   "20006":
     Name: Datenbank
-    SkillName: Gelehrt
   "20007":
     Name: Wurfpfeil
-    SkillName: Kriegsschrei
   "20008":
     Name: Feines Obst
-    SkillName: Geschmack
   "20009":
     Name: Zerstörtes Zuhause
-    SkillName: Ausrottung
   "20010":
     Name: Verteidigung
-    SkillName: Wiederbelebung
   "20011":
     Name: Schleife
-    SkillName: Verfolgung
   "20012":
     Name: Einklang der Zahnräder
-    SkillName: Schneller Sieg
   "20013":
     Name: Generalschlüssel
-    SkillName: Erleuchtung
   "20014":
     Name: Gegensätzliches
-    SkillName: Allianz
   "20015":
     Name: Aufschwung
-    SkillName: Wesen des Überflusses
   "20016":
     Name: Gemeinsamer Untergang
-    SkillName: Legion
   "20017":
     Name: Pionierarbeit
-    SkillName: IFK
   "20018":
     Name: Verborgener Schatten
-    SkillName: Mechanismus
   "20019":
     Name: Vermittlung
-    SkillName: Familie
   "20020":
     Name: Weisheit
-    SkillName: Genie
   "21000":
     Name: Ein Gespräch nach der OP
-    SkillName: Gegenseitiges Heilen
   "21001":
     Name: Gute Nacht, schlaf schön
-    SkillName: Malocher
   "21002":
     Name: Der erste Tag meines neuen Lebens
-    SkillName: Genau in diesem Moment
   "21003":
     Name: Nur die Stille bleibt
-    SkillName: Aufzeichnung
   "21004":
     Name: Erinnerungen an die Vergangenheit
-    SkillName: Altes Foto
   "21005":
     Name: Die Maulwürfe heißen dich willkommen
-    SkillName: Fantastisches Abenteuer
   "21006":
     Name: Die Geburt des Selbst
-    SkillName: Die Jungfrau im Gemälde
   "21007":
     Name: Gefühl der Gemeinsamkeit
-    SkillName: Heilung und Reparatur
   "21008":
     Name: Die Augen der Beute
-    SkillName: Selbstvertrauen
   "21009":
     Name: Landaus Wahl
-    SkillName: Die Zeit fliegt davon
   "21010":
     Name: Schwertkampf
-    SkillName: Eigene Antworten
   "21011":
     Name: Planetarisches Rendezvous
-    SkillName: Abreise
   "21012":
     Name: Ein geheimes Gelübde
-    SkillName: Keine Mühen scheuen
   "21013":
     Name: Die Welt in Aufruhr versetzen
-    SkillName: Die Macht des Klangs
   "21014":
     Name: Perfektes Timing
-    SkillName: Brechung der Sichtlinie
   "21015":
     Name: Die Entschlusskraft glitzert als Schweißperlen
-    SkillName: Zurückblicken
   "21016":
     Name: Trend des universellen Markts
-    SkillName: Für eine neue Runde mischen
   "21017":
     Name: Abonniere für mehr!
-    SkillName: Gib uns einen Like, bevor du gehst!
   "21018":
     Name: Tanz! Tanz! Tanz!
-    SkillName: Unaufhaltsam!
   "21019":
     Name: Unter dem blauen Himmel
-    SkillName: Wogender Weizen unter der Sonne
   "21020":
     Name: Die Rast der Genies
-    SkillName: Jeder muss jetzt eine Rolle spielen
   "21021":
     Name: Quid pro quo
-    SkillName: Im Rausch genießen
   "21022":
     Name: Fermate
-    SkillName: Semibrevis-Pause
   "21023":
     Name: Wir sind Wildfeuer
-    SkillName: Mit tränenden Augen
   "21024":
     Name: Flüsse plätschern im Frühling
-    SkillName: Die nachklingende Kälte abwehren
   "21025":
     Name: Vergangenheit und Zukunft
-    SkillName: Drachen aus der Vergangenheit
   "21026":
     Name: Wuff! Zeit zum Laufen!
-    SkillName: Lauf!
   "21027":
     Name: Die Ernsthaftigkeit des Frühstücks
-    SkillName: Mach dich bereit
   "21028":
     Name: Warme Nächte dauern nicht lange
-    SkillName: Kleines Licht
   "21029":
     Name: Wir werden uns wiedersehen
-    SkillName: Ein Diskurs in Waffen
   "21030":
     Name: Das bin ich!
-    SkillName: Neues Kapitel
   "21031":
     Name: Rückkehr in die Dunkelheit
-    SkillName: Tosende Wellen
   "21032":
     Name: Den Mond schnitzen, die Wolken weben
-    SkillName: Geheimnis
   "21033":
     Name: Nirgends zu fliehen
-    SkillName: Krise
   "21034":
     Name: Heute ist wieder ein friedlicher Tag
-    SkillName: Ein Sturm zieht auf
   "21035":
     Name: Sache der Wahrheit
-    SkillName: Hypothese
   "21036":
     Name: Abenteuer in Traumstadt
-    SkillName: Solidarität
   "21037":
     Name: Endgültiger Sieger
-    SkillName: Die Wette gilt
   "21038":
     Name: Feuer in der Ferne
-    SkillName: Deflagration
   "21039":
     Name: Schicksalsfaden
-    SkillName: Einblick
   "21040":
     Name: Tag des kosmischen Kollapses
-    SkillName: Strategem
   "21041":
     Name: Vorhang auf
-    SkillName: Selbstbelustigung
   "21042":
     Name: Verewigtes Versprechen
-    SkillName: Erbe
   "21043":
     Name: Konzert für zwei
-    SkillName: Inspirieren
   "21044":
     Name: Grenzenloser Tanz
-    SkillName: Prüfen
   "21045":
     Name: Nach dem Fall der Harmonie
-    SkillName: Stille
   "21046":
     Name: Jugend in Erwartung der Entflammung
-    SkillName: Verliere nicht, vergiss nicht
   "21047":
     Name: Die Nacht der langen Schatten
-    SkillName: Verstecken
   "21048":
     Name: Traummontage
-    SkillName: Akademischer Schnitt
   "22000":
     Name: Bevor das Tutorial beginnt
-    SkillName: Flinke Hände
   "22001":
     Name: Hey, ich bin hier
-    SkillName: Hab keine Angst
   "22002":
     Name: Für die Reise von morgen
-    SkillName: Verketten
   "22003":
     Name: "Ninja-Aufzeichnung: Klangjagd"
-    SkillName: Vorhang auf!
   "23000":
     Name: Nacht auf der Milchstraße
-    SkillName: Meteoritenschwarm
   "23001":
     Name: In der Nacht
-    SkillName: Blumen und Schmetterlinge
   "23002":
     Name: Etwas Unersetzliches
-    SkillName: Teil der Familie
   "23003":
     Name: Der Kampf ist nicht vorbei
-    SkillName: Erbin
   "23004":
     Name: Im Namen der Welt
-    SkillName: Nachkomme
   "23005":
     Name: Moment des Sieges
-    SkillName: Urteilsspruch
   "23006":
     Name: Nur Geduld
-    SkillName: Spinnennetz
   "23007":
     Name: Unaufhörlicher Regen
-    SkillName: Trugbild der Realität
   "23008":
     Name: Echos des Sarges
-    SkillName: Dornen
   "23009":
     Name: Unerreichbares Jenseits
-    SkillName: Unerfüllte Sehnsucht
   "23010":
     Name: Vor der Dämmerung
-    SkillName: Lange Nacht
   "23011":
     Name: Ihre Augen sind bereits geschlossen
-    SkillName: Sicht
   "23012":
     Name: Schlafen wie die Toten
-    SkillName: Süßer Traum
   "23013":
     Name: Die Zeit wartet auf niemanden
-    SkillName: Morgens, mittags, abends und nachts
   "23014":
     Name: Eins mit dem Schwert
-    SkillName: Mit dieser Abendjade
   "23015":
     Name: Heller als die Sonne
-    SkillName: Dem Tode trotzend
   "23016":
     Name: Besorgt doch glückselig
-    SkillName: Einer nach dem Anderen
   "23017":
     Name: Nacht der Angst
-    SkillName: Atme tief durch
   "23018":
     Name: Ein unvergesslicher Augenblick
-    SkillName: Ritterreise
   "23019":
     Name: Das Ich im Spiegel
-    SkillName: Pflaumenduft
   "23020":
     Name: Taufe des reinen Denkens
-    SkillName: Denktraining
   "23021":
     Name: Eskapade auf Erden
-    SkillName: Wankelmut
   "23022":
     Name: Restaurierte Erinnerung
-    SkillName: Kristallisiert
   "23023":
     Name: Ungerechtes Schicksal
-    SkillName: Alles auf den Tisch
   "23024":
     Name: Entlang am vorbeiziehenden Ufer
-    SkillName: Fährmann
   "23025":
     Name: Wohin sollen die Träume gehen
-    SkillName: Metamorphose
   "23026":
     Name: Schillernde Nacht
-    SkillName: Trösten
   "23027":
     Name: Auf zu einem zweiten Leben
-    SkillName: Starker Wellengang
   "23028":
     Name: Doch Hoffnung ist unbezahlbar
-    SkillName: Versprechen
   "23029":
     Name: Jene unzähligen Frühlinge
-    SkillName: Weltliches hinterlässt keine Spur
   "23030":
     Name: Tanz im Sonnenuntergang
-    SkillName: Tief versunken
   "23031":
     Name: Ich wage die Jagd
-    SkillName: Einschüchtern
   "23032":
     Name: Nur ein Duft bleibt zurück
-    SkillName: Erleichterung
   "23033":
     Name: "Ninja-Kodex: Blendender Schattenbrecher"
-    SkillName: Exorzismus
   "24000":
     Name: Der Niedergang eines Äons
-    SkillName: Wie Motten ins Licht
   "24001":
     Name: Fahrt durch das Sternenmeer
-    SkillName: Jagen
   "24002":
     Name: Textur der Erinnerungen
-    SkillName: Schätzen
   "24003":
     Name: Einzelne Heilung
-    SkillName: Chaoselixier
   "24004":
     Name: Unermüdliche Berechnung
-    SkillName: Gedanken ohne Grenzen
 Paths:
   Warrior: Die Zerstörung
   Rogue: Die Jagd

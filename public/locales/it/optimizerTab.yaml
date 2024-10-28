@@ -1,12 +1,5 @@
 CharacterSelector:
   Character: Personaggi
-OptimizerOptions:
-  Priority:
-    Header: Priorità
 Sidebar:
   ControlsGroup:
     Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
-StatSimulation:
-  DeletePopup:
-    OkText: 'Sì'
-    CancelText: Cancella

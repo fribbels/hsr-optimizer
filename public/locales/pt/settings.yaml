@@ -1,7 +1,7 @@
 Title: Ahhhhh
 RelicEquippingBehaviour:
   Label: AAHHHHH
-  Replace: AHHHHHHHHHHHH
+  Replace: 'AHHHHHHHHHHHH'
   Swap: Swap relics with previous owner
 PermutationSidebarBehaviour:
   Label: Shrink optimizer sidebar on smaller screens

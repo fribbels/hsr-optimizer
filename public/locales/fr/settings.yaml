@@ -1,1 +1,5 @@
-{}
+PermutationSidebarBehaviour:
+  Label: Barre latérale d'optimérateur de ride sur des écrans plus petits
+  XL: 'Par défaut: Minimiser si la plupart de la barre latérale est cachée'
+RelicEquippingBehaviour:
+  Swap: AHHHHHHHHHHHHHHHHHHHHHH

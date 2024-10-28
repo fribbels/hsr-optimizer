@@ -1,2 +1,3 @@
 DMGTypes:
   simScore: aaaahhhhhhhhhhhhhhhhhhhh
+RelicWithCount_other: '{{count}} $t(CapitalizeString, {"string": "reliquie"})'

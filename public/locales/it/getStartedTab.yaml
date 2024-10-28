@@ -1,0 +1,9 @@
+TryOut:
+  DocumentationTitle: Guarda la guida completa
+  ButtonText: Provalo adesso!
+  title: Conferma
+  description: Caricare un salvataggio esempio?
+  okText: 'Sì'
+  cancelText: Cancella
+  SuccessMessage: Salvataggio caricato con successo
+  Header: Provalo adesso!

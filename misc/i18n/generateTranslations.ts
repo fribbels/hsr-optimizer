@@ -24,7 +24,7 @@ const multiPathIds = [1001, 1224]
 const outputLocalesMapping = {
   zh: ['zh'],
   de: ['de'],
-  en: ['en'],
+  en: ['en', 'it'],
   es: ['es'],
   fr: ['fr'],
   id: ['id'],

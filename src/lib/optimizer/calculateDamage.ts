@@ -28,7 +28,7 @@ export function calculateDamage(x: ComputedStatsObject, action: OptimizerAction,
 
   if (action.actionType == 'DEFAULT') {
     const dotDmgBoostMulti = baseDmgBoost + x.DOT_BOOST
-    const dotDefMulti = calculateDefMultiplier(eLevel, baseDefPen + x.DOT_DEF_PEN)
+    const dotDefMulti = calculateDefMulti(eLevel, baseDefPen + x.DOT_DEF_PEN)
     const dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY
     const dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN)
     const dotEhrMulti = calculateEhrMulti(x, context)
@@ -51,7 +51,7 @@ export function calculateDamage(x: ComputedStatsObject, action: OptimizerAction,
     = baseUniversalMulti
     * 3767.5533
     * context.elementalBreakScaling
-    * calculateDefMultiplier(eLevel, baseDefPen + x.BREAK_DEF_PEN)
+    * calculateDefMulti(eLevel, baseDefPen + x.BREAK_DEF_PEN)
     * (0.5 + context.enemyMaxToughness / 120)
     * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
     * (1 - baseResistance)
@@ -65,7 +65,7 @@ export function calculateDamage(x: ComputedStatsObject, action: OptimizerAction,
   const baseSuperBreakInstanceDmg
     = baseUniversalMulti
     * 3767.5533
-    * calculateDefMultiplier(eLevel, baseDefPen + x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
+    * calculateDefMulti(eLevel, baseDefPen + x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
     * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
     * (1 - baseResistance)
     * (1 + x[Stats.BE])
@@ -194,7 +194,7 @@ export function calculateDamage(x: ComputedStatsObject, action: OptimizerAction,
 
 const cLevelConst = 20 + 80
 
-function calculateDefMultiplier(eLevel: number, defPen: number) {
+function calculateDefMulti(eLevel: number, defPen: number) {
   return cLevelConst / ((eLevel + 20) * Math.max(0, 1 - defPen) + cLevelConst)
 }
 
@@ -243,7 +243,7 @@ function calculateAbilityDmg(
     const abilityCd = x[Stats.CD] + abilityCdBoost
     const abilityCritMulti = abilityCr * (1 + abilityCd) + (1 - abilityCr)
     const abilityVulnerabilityMulti = 1 + x.VULNERABILITY + abilityVulnerability
-    const abilityDefMulti = calculateDefMultiplier(eLevel, baseDefPen + abilityDefPen)
+    const abilityDefMulti = calculateDefMulti(eLevel, baseDefPen + abilityDefPen)
     const abilityResMulti = 1 - (baseResistance - abilityResPen)
     const abilityOriginalDmgMulti = 1 + abilityOriginalDmgBoost
 
@@ -289,7 +289,7 @@ function calculateAbilityDmg(
       abilityAdditionalDmg,
       (baseUniversalMulti),
       (baseDmgBoost),
-      calculateDefMultiplier(eLevel, baseDefPen),
+      calculateDefMulti(eLevel, baseDefPen),
       (1 + x.VULNERABILITY),
       (abilityAdditionalCritMulti),
       (1 - baseResistance),

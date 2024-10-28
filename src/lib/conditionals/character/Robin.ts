@@ -198,7 +198,7 @@ if (${wgslTrue(e >= 6 && r.concertoActive && r.e6UltCDBoost)}) {
 }
 
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * x.ATK;
+x.ULT_ADDITIONAL_DMG += x.ULT_ADDITIONAL_DMG_SCALING * x.ATK;
       `
     },
   }

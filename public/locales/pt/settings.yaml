@@ -1,3 +1,2 @@
-Title: TEST_DELETE_ME
 RelicEquippingBehaviour:
-  Label: TEST_DELETE_ME_2
+  Replace: 'TEST_DELETE_ME_5'

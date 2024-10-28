@@ -1,0 +1,20 @@
+Relic_one: '$t(CapitalizeString, {"string": "reliquia"})'
+Relic_other: '$t(CapitalizeString, {"string": "reliquie"})'
+RelicWithCount_one: '{{count}} $t(CapitalizeString, {"string": "reliquia"})'
+RelicWithCount_other: '{{count}} $t(CapitalizeString, {"string": "reliquie"})'
+Cancel: '$t(CapitalizeString, {"string": "cancella"})'
+Confirm: '$t(CapitalizeString, {"string": "conferma"})'
+Submit: '$t(CapitalizeString, {"string": "aggiungi"})'
+'Yes': '$t(CapitalizeString, {"string': "\"si\"})'"
+Save: '$t(CapitalizeString, {"string": "salva"})'
+Score: '$t(CapitalizeString, {"string": "punteggio"})'
+Maximum: '$t(CapitalizeString, {"string": "massimo"})'
+Minimum: '$t(CapitalizeString, {"string": "minimo"})'
+CharacterWithCount_one: '{{count}} $t(CapitalizeString, {"string": "personaggio"})'
+CharacterWithCount_other: '{{count}} $t(CapitalizeString, {"string": "personaggi"})'
+Character_one: '$t(CapitalizeString, {"string": "personaggio"})'
+Character_other: '$t(CapitalizeString, {"string": "personaggi"})'
+VerifiedRelicHoverText: Statistiche secondarie della reliquia verificate dal relic scorer (speed decimals)
+CombatStats: Statistiche in battaglia
+DMGTypes:
+  simScore: DANNO della combo

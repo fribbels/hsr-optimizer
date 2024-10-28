@@ -1,0 +1,18 @@
+Showcase:
+  Title: Vetrina
+  Scorer: 'Algoritmo del punteggio'
+Optimization:
+  Title: Ottimizzazione
+  Optimizer: Ottimizzatore
+  Relics: '$t(common:Relic, {"count": 2000, "capitalizeLength": 1})'
+  Characters: '$t(common:Character, {"count": 23, "capitalizeLength": 1})'
+  Import: Importa / Salva
+  Settings: Impostazioni
+  Start: Inizia
+Links:
+  Title: Links
+  Changelog: Elenco delle modifiche
+  Discord: Discord
+  Github: GitHub
+  Kofi: Ko-fi
+  Unleak: No leaks

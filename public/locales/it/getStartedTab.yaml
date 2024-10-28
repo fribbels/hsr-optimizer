@@ -1,0 +1,14 @@
+TryOut:
+  DocumentationTitle: Guarda la guida completa
+  ButtonText: Provalo adesso!
+  title: Conferma
+  description: Caricare un salvataggio esempio?
+  okText: 'Sì'
+  cancelText: Cancella
+  SuccessMessage: Salvataggio caricato con successo
+  Header: Provalo adesso!
+  Option 1: '<0>Opzione 1: Carica un salvataggio esempio </0><1>Se vuoi provare l'ottimizzatore prima di importare le tue reliquie, usa questa opzione per caricare un salvataggio esempio.</1>'
+  Option 2: >-
+    <0>Option 2: One-click-optimize from the Relic Scorer</0><1/><2>From the <1><0 text="Relic scorer"></0></1> tab, clicking on the Optimize Character Stats button will automatically import and run
+    the optimizer on your selected character. This option will only be able to use the relics from your profile's showcase characters, so it is still recommended to use a scanner to import your full
+    inventory of relics, but this allows for a quick calculation of character stats in combat.</2>

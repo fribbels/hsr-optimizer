@@ -1,13 +1,13 @@
-import { Stats } from 'lib/constants'
-import { ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { buffAbilityCd } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityCd, buffAbilityCr } from 'lib/optimizer/calculateBuffs'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -29,7 +29,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       name: 'concertoActive',
       text: t('Content.concertoActive.text'),
       title: t('Content.concertoActive.title'),
-      content: t('Content.concertoActive.content', { ultAtkBuffScalingValue: TsUtils.precisionRound(100 * ultAtkBuffScalingValue), ultAtkBuffFlatValue: ultAtkBuffFlatValue, ultScaling: TsUtils.precisionRound(100 * ultScaling) }),
+      content: t('Content.concertoActive.content', {
+        ultAtkBuffScalingValue: TsUtils.precisionRound(100 * ultAtkBuffScalingValue),
+        ultAtkBuffFlatValue: ultAtkBuffFlatValue,
+        ultScaling: TsUtils.precisionRound(100 * ultScaling),
+      }),
     },
     {
       formItem: 'switch',
@@ -85,7 +89,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       name: 'teammateATKValue',
       text: t('TeammateContent.teammateATKValue.text'),
       title: t('TeammateContent.teammateATKValue.title'),
-      content: t('TeammateContent.teammateATKValue.content', { ultAtkBuffFlatValue: TsUtils.precisionRound(100 * ultAtkBuffFlatValue), ultAtkBuffScalingValue: ultAtkBuffScalingValue }),
+      content: t('TeammateContent.teammateATKValue.content', {
+        ultAtkBuffFlatValue: TsUtils.precisionRound(100 * ultAtkBuffFlatValue),
+        ultAtkBuffScalingValue: ultAtkBuffScalingValue,
+      }),
       min: 0,
       max: 7000,
     },
@@ -137,7 +144,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       const r = action.characterConditionals
 
       x.BASIC_SCALING += basicScaling
-      x.ULT_SCALING += (r.concertoActive) ? ultScaling : 0
+      x.ULT_ADDITIONAL_DMG_SCALING += (r.concertoActive) ? ultScaling : 0
       x.ULT_BOOSTS_MULTI = 0 // Her ult doesn't apply dmg boosts since its additional dmg
 
       x.BASIC_TOUGHNESS_DMG += 30
@@ -167,11 +174,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       x[Stats.ATK] += (r.concertoActive) ? x[Stats.ATK] * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
 
-      buffAbilityCr(x, ULT_TYPE, 1.00)
-      x.ULT_CD_OVERRIDE = (e >= 6 && r.concertoActive && r.e6UltCDBoost) ? 6.00 : 1.50
+      x.ULT_ADDITIONAL_DMG_CR_OVERRIDE = 1.00
+      x.ULT_ADDITIONAL_DMG_CD_OVERRIDE = (e >= 6 && r.concertoActive && r.e6UltCDBoost) ? 6.00 : 1.50
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      x.ULT_ADDITIONAL_DMG += x.ULT_ADDITIONAL_DMG_SCALING * x[Stats.ATK]
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
@@ -180,16 +187,18 @@ if (${wgslTrue(r.concertoActive)}) {
   buffDynamicATK(x.ATK * ${ultAtkBuffScalingValue} + ${ultAtkBuffFlatValue}, p_x, p_state);
 }
 
-buffAbilityCr(p_x, ULT_TYPE, 1.00, 1);
+if (${wgslTrue(r.concertoActive)}) {
+  x.ULT_ADDITIONAL_DMG_CR_OVERRIDE = 1.00;
+}
 
 if (${wgslTrue(e >= 6 && r.concertoActive && r.e6UltCDBoost)}) {
-  x.ULT_CD_OVERRIDE = 6.00;
+  x.ULT_ADDITIONAL_DMG_CD_OVERRIDE = 6.00;
 } else {
-  x.ULT_CD_OVERRIDE = 1.50;
+  x.ULT_ADDITIONAL_DMG_CD_OVERRIDE = 1.50;
 }
 
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * x.ATK;
+x.ULT_ADDITIONAL_DMG += x.ULT_ADDITIONAL_DMG_SCALING * x.ATK;
       `
     },
   }

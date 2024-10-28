@@ -1,12 +1,12 @@
-import { Form } from 'types/Form'
-import { generateTestRelics, StatDeltaAnalysis, testWrapper } from 'lib/gpu/tests/webgpuTestUtils'
-import DB, { DBMetadata, DBMetadataLightCone } from 'lib/db'
+import { generateFullDefaultForm } from 'lib/characterScorer'
 import { SetsOrnamentsNames, SetsRelicsNames } from 'lib/constants'
+import DB, { DBMetadata, DBMetadataLightCone } from 'lib/db'
+import { generateTestRelics, StatDeltaAnalysis, testWrapper } from 'lib/gpu/tests/webgpuTestUtils'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
-import { generateFullDefaultForm } from 'lib/characterScorer'
-import { OptimizerTabController } from 'lib/optimizerTabController'
 import { SortOption } from 'lib/optimizer/sortOptions'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { Form } from 'types/Form'
 
 export type WebgpuTest = {
   name: string
@@ -100,12 +100,23 @@ export async function generateAllTests() {
   cache.metadata = DB.getMetadata()
 
   return [
+    // ...generateSingleCharacterTest(device, { characterId: '1309', lightConeId: '23026' }),
     ...generateOrnamentSetTests(device),
     ...generateRelicSetTests(device),
     ...generateStarLcTests(device, 4),
     ...generateStarLcTests(device, 3),
     ...generateE0E1Tests(device),
     ...generateE6E5Tests(device),
+  ]
+}
+
+export function generateSingleCharacterTest(
+  device: GPUDevice,
+  pair: { characterId: string; lightConeId: string },
+) {
+  return [
+    generateE0S1CharacterTest(pair.characterId, pair.lightConeId, device),
+    generateE6S5CharacterTest(pair.characterId, pair.lightConeId, device),
   ]
 }
 

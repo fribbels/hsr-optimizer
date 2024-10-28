@@ -158,11 +158,11 @@ function styleRules(level) {
     '@stylistic/no-mixed-spaces-and-tabs': level,
     '@stylistic/no-multi-spaces': level,
     '@stylistic/no-multiple-empty-lines': [
-      level,
+      'off',
       { max: 1, maxBOF: 0, maxEOF: 0 },
     ],
     '@stylistic/no-tabs': level,
-    '@stylistic/no-trailing-spaces': level,
+    '@stylistic/no-trailing-spaces': 'off',
     '@stylistic/no-whitespace-before-property': level,
     '@stylistic/object-curly-newline': [
       level,

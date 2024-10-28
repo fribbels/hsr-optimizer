@@ -1,6 +1,6 @@
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
 import { p2 } from 'lib/optimizer/optimizerUtils'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export function calculateBaseMultis(x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
@@ -12,130 +12,377 @@ export function calculateBaseMultis(x: ComputedStatsObject, action: OptimizerAct
 }
 
 export function calculateDamage(x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-  const sets = x.sets
-  const cLevel = 80
   const eLevel = context.enemyLevel
-  const defReduction = x.DEF_PEN + context.combatBuffs.DEF_PEN
-  const defIgnore = 0
+
+  calculateEhp(x, context)
 
   x.ELEMENTAL_DMG += x[context.elementalDamageType]
-  const dmgBoostMultiplier = 1 + x.ELEMENTAL_DMG
-  const dmgReductionMultiplier = 1
+
+  const baseDmgBoost = 1 + x.ELEMENTAL_DMG
+  const baseDefPen = x.DEF_PEN + context.combatBuffs.DEF_PEN
+  const baseUniversalMulti = x.ENEMY_WEAKNESS_BROKEN ? 1 : 0.9
+  const baseResistance = context.enemyDamageResistance - x.RES_PEN - context.combatBuffs.RES_PEN - x[context.elementalResPenType]
+  const baseBreakEfficiencyBoost = 1 + x.BREAK_EFFICIENCY_BOOST
+
+  // === Default ===
+
+  if (action.actionType == 'DEFAULT') {
+    const dotDmgBoostMulti = baseDmgBoost + x.DOT_BOOST
+    const dotDefMulti = calculateDefMulti(eLevel, baseDefPen + x.DOT_DEF_PEN)
+    const dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY
+    const dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN)
+    const dotEhrMulti = calculateEhrMulti(x, context)
+
+    x.DOT_DMG = calculateDotDmg(
+      x.DOT_DMG,
+      (baseUniversalMulti),
+      (dotDmgBoostMulti),
+      (dotDefMulti),
+      (dotVulnerabilityMulti),
+      (dotResMulti),
+      (dotEhrMulti),
+    )
+  }
+
+  // === Super / Break ===
+
+  // Multiply by additional vulnerability
+  x.BREAK_DMG
+    = baseUniversalMulti
+    * 3767.5533
+    * context.elementalBreakScaling
+    * calculateDefMulti(eLevel, baseDefPen + x.BREAK_DEF_PEN)
+    * (0.5 + context.enemyMaxToughness / 120)
+    * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
+    * (1 - baseResistance)
+    * (1 + x[Stats.BE])
+
+  // The % of Super Break instance dmg
+  const baseSuperBreakModifier = x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER
+
+  // The multiplier for an instance of 100% Super Break damage
+  // Multiply this by the (1 + BREAK_EFFICIENCY_BOOST) * (SUPER_BREAK_MODIFIER)
+  const baseSuperBreakInstanceDmg
+    = baseUniversalMulti
+    * 3767.5533
+    * calculateDefMulti(eLevel, baseDefPen + x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
+    * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
+    * (1 - baseResistance)
+    * (1 + x[Stats.BE])
+    * (1 / 30)
+
+  if (action.actionType == 'BASIC' || action.actionType == 'DEFAULT') {
+    x.BASIC_DMG = calculateAbilityDmg(
+      x,
+      action,
+      context,
+      baseUniversalMulti,
+      baseDmgBoost,
+      baseDefPen,
+      baseResistance,
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier,
+      baseBreakEfficiencyBoost,
+      x.BASIC_DMG,
+      x.BASIC_BOOST,
+      x.BASIC_VULNERABILITY,
+      x.BASIC_DEF_PEN,
+      x.BASIC_RES_PEN,
+      x.BASIC_CR_BOOST,
+      x.BASIC_CD_BOOST,
+      x.BASIC_ORIGINAL_DMG_BOOST,
+      x.BASIC_BREAK_EFFICIENCY_BOOST,
+      x.BASIC_SUPER_BREAK_MODIFIER,
+      x.BASIC_BREAK_DMG_MODIFIER,
+      x.BASIC_TOUGHNESS_DMG,
+      x.BASIC_ADDITIONAL_DMG,
+      0, // x.BASIC_ADDITIONAL_DMG_CR_OVERRIDE,
+      0, // x.BASIC_ADDITIONAL_DMG_CD_OVERRIDE,
+    )
+  }
+
+  if (action.actionType == 'SKILL' || action.actionType == 'DEFAULT') {
+    x.SKILL_DMG = calculateAbilityDmg(
+      x,
+      action,
+      context,
+      baseUniversalMulti,
+      baseDmgBoost,
+      baseDefPen,
+      baseResistance,
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier,
+      baseBreakEfficiencyBoost,
+      x.SKILL_DMG,
+      x.SKILL_BOOST,
+      x.SKILL_VULNERABILITY,
+      x.SKILL_DEF_PEN,
+      x.SKILL_RES_PEN,
+      x.SKILL_CR_BOOST,
+      x.SKILL_CD_BOOST,
+      x.SKILL_ORIGINAL_DMG_BOOST,
+      0, // x.SKILL_BREAK_EFFICIENCY_BOOST,
+      0, // x.SKILL_SUPER_BREAK_MODIFIER,
+      0, // x.SKILL_BREAK_DMG_MODIFIER,
+      x.SKILL_TOUGHNESS_DMG,
+      x.SKILL_ADDITIONAL_DMG,
+      0, // x.SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
+      0, // x.SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
+    )
+  }
+
+  if (action.actionType == 'ULT' || action.actionType == 'DEFAULT') {
+    x.ULT_DMG = calculateAbilityDmg(
+      x,
+      action,
+      context,
+      baseUniversalMulti,
+      baseDmgBoost,
+      baseDefPen,
+      baseResistance,
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier,
+      baseBreakEfficiencyBoost,
+      x.ULT_DMG,
+      x.ULT_BOOST,
+      x.ULT_VULNERABILITY,
+      x.ULT_DEF_PEN,
+      x.ULT_RES_PEN,
+      x.ULT_CR_BOOST,
+      x.ULT_CD_BOOST,
+      x.ULT_ORIGINAL_DMG_BOOST,
+      x.ULT_BREAK_EFFICIENCY_BOOST,
+      0, // x.ULT_SUPER_BREAK_MODIFIER,
+      0, // x.ULT_BREAK_DMG_MODIFIER,
+      x.ULT_TOUGHNESS_DMG,
+      x.ULT_ADDITIONAL_DMG,
+      x.ULT_ADDITIONAL_DMG_CR_OVERRIDE,
+      x.ULT_ADDITIONAL_DMG_CD_OVERRIDE,
+    )
+  }
+
+  if (action.actionType == 'FUA' || action.actionType == 'DEFAULT') {
+    x.FUA_DMG = calculateAbilityDmg(
+      x,
+      action,
+      context,
+      baseUniversalMulti,
+      baseDmgBoost,
+      baseDefPen,
+      baseResistance,
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier,
+      baseBreakEfficiencyBoost,
+      x.FUA_DMG,
+      x.FUA_BOOST,
+      x.FUA_VULNERABILITY,
+      x.FUA_DEF_PEN,
+      x.FUA_RES_PEN,
+      x.FUA_CR_BOOST,
+      x.FUA_CD_BOOST,
+      0, // x.FUA_ORIGINAL_DMG_BOOST,
+      0, // x.FUA_BREAK_EFFICIENCY_BOOST,
+      0, // x.FUA_SUPER_BREAK_MODIFIER,
+      0, // x.FUA_BREAK_DMG_MODIFIER,
+      x.FUA_TOUGHNESS_DMG,
+      x.FUA_ADDITIONAL_DMG,
+      0, // x.FUA_ADDITIONAL_DMG_CR_OVERRIDE,
+      0, // x.FUA_ADDITIONAL_DMG_CD_OVERRIDE,
+    )
+  }
+}
+
+const cLevelConst = 20 + 80
+
+function calculateDefMulti(eLevel: number, defPen: number) {
+  return cLevelConst / ((eLevel + 20) * Math.max(0, 1 - defPen) + cLevelConst)
+}
+
+function calculateEhp(x: ComputedStatsObject, context: OptimizerContext) {
+  const sets = x.sets
 
   let ehp = x[Stats.HP] / (1 - x[Stats.DEF] / (x[Stats.DEF] + 200 + 10 * context.enemyLevel))
   ehp *= 1 / ((1 - 0.08 * p2(sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI)
   x.EHP = ehp
+}
 
-  // Reapply broken multiplier here since certain conditionals can force weakness
-  const brokenMultiplier = x.ENEMY_WEAKNESS_BROKEN ? 1 : 0.9
+function calculateAbilityDmg(
+  x: ComputedStatsObject,
+  action: OptimizerAction,
+  context: OptimizerContext,
+  baseUniversalMulti: number,
+  baseDmgBoost: number,
+  baseDefPen: number,
+  baseResistance: number,
+  baseSuperBreakInstanceDmg: number,
+  baseSuperBreakModifier: number,
+  baseBreakEfficiencyBoost: number,
+  abilityDmg: number,
+  abilityDmgBoost: number,
+  abilityVulnerability: number,
+  abilityDefPen: number,
+  abilityResPen: number,
+  abilityCrBoost: number,
+  abilityCdBoost: number,
+  abilityOriginalDmgBoost: number,
+  abilityBreakEfficiencyBoost: number,
+  abilitySuperBreakModifier: number,
+  abilityBreakDmgModifier: number,
+  abilityToughnessDmg: number,
+  abilityAdditionalDmg: number,
+  abilityAdditionalCrOverride: number,
+  abilityAdditionalCdOverride: number,
+) {
+  const eLevel = context.enemyLevel
 
-  const universalMulti = dmgReductionMultiplier * brokenMultiplier
-  const baseResistance = context.enemyDamageResistance - x.RES_PEN - context.combatBuffs.RES_PEN - x[context.elementalResPenType]
+  // === Crit DMG ===
 
-  const ULT_CD = x.ULT_CD_OVERRIDE || (x[Stats.CD] + x.ULT_CD_BOOST) // Robin overrides ULT CD
+  let abilityCritDmgOutput = 0
+  if (abilityDmg) {
+    const abilityCr = Math.min(1, x[Stats.CR] + abilityCrBoost)
+    const abilityCd = x[Stats.CD] + abilityCdBoost
+    const abilityCritMulti = abilityCr * (1 + abilityCd) + (1 - abilityCr)
+    const abilityVulnerabilityMulti = 1 + x.VULNERABILITY + abilityVulnerability
+    const abilityDefMulti = calculateDefMulti(eLevel, baseDefPen + abilityDefPen)
+    const abilityResMulti = 1 - (baseResistance - abilityResPen)
+    const abilityOriginalDmgMulti = 1 + abilityOriginalDmgBoost
 
-  const breakVulnerability = 1 + x.VULNERABILITY + x.BREAK_VULNERABILITY
-  const basicVulnerability = 1 + x.VULNERABILITY + x.BASIC_VULNERABILITY
-  const skillVulnerability = 1 + x.VULNERABILITY + x.SKILL_VULNERABILITY
-  const ultVulnerability = 1 + x.VULNERABILITY + x.ULT_VULNERABILITY * x.ULT_BOOSTS_MULTI
-  const fuaVulnerability = 1 + x.VULNERABILITY + x.FUA_VULNERABILITY
-  const dotVulnerability = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY
+    abilityCritDmgOutput = calculateCritDmg(
+      abilityDmg,
+      (baseUniversalMulti),
+      (baseDmgBoost + abilityDmgBoost),
+      (abilityDefMulti),
+      (abilityVulnerabilityMulti),
+      (abilityCritMulti),
+      (abilityResMulti),
+      (abilityOriginalDmgMulti),
+    )
+  }
 
-  const ENEMY_EFFECT_RES = context.enemyEffectResistance
-  // const ENEMY_DEBUFF_RES = 0 // Ignored debuff res for now
+  // === Break DMG ===
 
+  let abilityBreakDmgOutput = 0
+  if (abilityBreakDmgModifier) {
+    abilityBreakDmgOutput = abilityBreakDmgModifier * x.BREAK_DMG
+  }
+
+  // === Super Break DMG ===
+
+  let abilitySuperBreakDmgOutput = 0
+  if (baseSuperBreakModifier + abilitySuperBreakModifier > 0) {
+    abilitySuperBreakDmgOutput = calculateSuperBreakDmg(
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier + abilitySuperBreakModifier,
+      baseBreakEfficiencyBoost + abilityBreakEfficiencyBoost,
+      abilityToughnessDmg,
+    )
+  }
+
+  // === Additional DMG ===
+
+  let abilityAdditionalDmgOutput = 0
+  if (abilityAdditionalDmg > 0) {
+    const additionalDmgCr = abilityAdditionalCrOverride || Math.min(1, x[Stats.CR])
+    const additionalDmgCd = abilityAdditionalCdOverride || x[Stats.CD]
+    const abilityAdditionalCritMulti = additionalDmgCr * (1 + additionalDmgCd) + (1 - additionalDmgCr)
+    abilityAdditionalDmgOutput = calculateAdditionalDmg(
+      abilityAdditionalDmg,
+      (baseUniversalMulti),
+      (baseDmgBoost),
+      calculateDefMulti(eLevel, baseDefPen),
+      (1 + x.VULNERABILITY),
+      (abilityAdditionalCritMulti),
+      (1 - baseResistance),
+    )
+  }
+
+  return abilityCritDmgOutput
+    + abilityBreakDmgOutput
+    + abilitySuperBreakDmgOutput
+    + abilityAdditionalDmgOutput
+}
+
+function calculateSuperBreakDmg(
+  superBreakInstanceDmg: number,
+  superBreakModifier: number,
+  breakEfficiencyBoost: number,
+  toughnessDmg: number,
+) {
+  return superBreakInstanceDmg
+    * superBreakModifier
+    * breakEfficiencyBoost
+    * toughnessDmg
+}
+
+function calculateCritDmg(
+  baseDmg: number,
+  universalMulti: number,
+  dmgBoostMulti: number,
+  defMulti: number,
+  vulnerabilityMulti: number,
+  critMulti: number,
+  resMulti: number,
+  originalDmgMulti: number,
+) {
+  return baseDmg
+    * universalMulti
+    * dmgBoostMulti
+    * defMulti
+    * vulnerabilityMulti
+    * critMulti
+    * resMulti
+    * originalDmgMulti
+}
+
+function calculateDotDmg(
+  baseDmg: number,
+  universalMulti: number,
+  dmgBoostMulti: number,
+  defMulti: number,
+  vulnerabilityMulti: number,
+  resMulti: number,
+  ehrMulti: number,
+) {
+  return baseDmg
+    * universalMulti
+    * dmgBoostMulti
+    * defMulti
+    * vulnerabilityMulti
+    * resMulti
+    * ehrMulti
+}
+
+function calculateEhrMulti(
+  x: ComputedStatsObject,
+  context: OptimizerContext,
+) {
+  const enemyEffectRes = context.enemyEffectResistance
+
+  // Dot calcs
   // For stacking dots where the first stack has extra value
   // c = dot chance, s = stacks => avg dmg = (full dmg) * (1 + 0.05 * c * (s-1)) / (1 + 0.05 * (s-1))
-  const effectiveDotChance = Math.min(1, x.DOT_CHANCE * (1 + x[Stats.EHR]) * (1 - ENEMY_EFFECT_RES + x.EFFECT_RES_PEN))
-  const dotEhrMultiplier = x.DOT_SPLIT
+  const effectiveDotChance = Math.min(1, x.DOT_CHANCE * (1 + x[Stats.EHR]) * (1 - enemyEffectRes + x.EFFECT_RES_PEN))
+  const dotEhrMulti = x.DOT_SPLIT
     ? (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + 0.05 * (x.DOT_STACKS - 1))
     : effectiveDotChance
 
-  // BREAK
-  const maxToughness = context.enemyMaxToughness
-
-  x.BREAK_DMG
-    = universalMulti
-    * 3767.5533
-    * context.elementalBreakScaling
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN)
-    * (0.5 + maxToughness / 120)
-    * breakVulnerability
-    * (1 - baseResistance)
-    * (1 + x[Stats.BE])
-
-  const superBreakDmg
-    = universalMulti
-    * 3767.5533
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
-    * breakVulnerability
-    * (1 - baseResistance)
-    * (1 + x[Stats.BE])
-    * (x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER)
-    * (1 / 30)
-    * (1 + x.BREAK_EFFICIENCY_BOOST)
-
-  const basicSuperBreakDmg
-    = universalMulti
-    * 3767.5533
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
-    * breakVulnerability
-    * (1 - baseResistance)
-    * (1 + x[Stats.BE])
-    * (x.BASIC_SUPER_BREAK_MODIFIER + x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER)
-    * (1 / 30)
-    * (1 + x.BREAK_EFFICIENCY_BOOST)
-
-  x.BASIC_DMG
-    = x.BASIC_DMG
-    * universalMulti
-    * (dmgBoostMultiplier + x.BASIC_BOOST)
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BASIC_DEF_PEN)
-    * ((basicVulnerability) * Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST) * (1 + x[Stats.CD] + x.BASIC_CD_BOOST) + basicVulnerability * (1 - Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST)))
-    * (1 - (baseResistance - x.BASIC_RES_PEN))
-    * (1 + x.BASIC_ORIGINAL_DMG_BOOST)
-    + (x.BASIC_BREAK_DMG_MODIFIER * x.BREAK_DMG)
-    + ((basicSuperBreakDmg ? basicSuperBreakDmg : superBreakDmg) * x.BASIC_TOUGHNESS_DMG * (1 + x.BASIC_BREAK_EFFICIENCY_BOOST))
-
-  x.SKILL_DMG
-    = x.SKILL_DMG
-    * universalMulti
-    * (dmgBoostMultiplier + x.SKILL_BOOST)
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.SKILL_DEF_PEN)
-    * ((skillVulnerability) * Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST) * (1 + x[Stats.CD] + x.SKILL_CD_BOOST) + skillVulnerability * (1 - Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST)))
-    * (1 - (baseResistance - x.SKILL_RES_PEN))
-    * (1 + x.SKILL_ORIGINAL_DMG_BOOST)
-    + (superBreakDmg * x.SKILL_TOUGHNESS_DMG)
-
-  x.ULT_DMG
-    = x.ULT_DMG
-    * universalMulti
-    * (dmgBoostMultiplier + x.ULT_BOOST * x.ULT_BOOSTS_MULTI)
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN * x.ULT_BOOSTS_MULTI)
-    * ((ultVulnerability) * Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST) * (1 + ULT_CD) + ultVulnerability * (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)))
-    * (1 - (baseResistance - x.ULT_RES_PEN * x.ULT_BOOSTS_MULTI))
-    * (1 + x.ULT_ORIGINAL_DMG_BOOST)
-    + (superBreakDmg * x.ULT_TOUGHNESS_DMG * (1 + x.ULT_BREAK_EFFICIENCY_BOOST))
-
-  x.FUA_DMG
-    = x.FUA_DMG
-    * universalMulti
-    * (dmgBoostMultiplier + x.FUA_BOOST)
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.FUA_DEF_PEN)
-    * ((fuaVulnerability) * Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST) * (1 + x[Stats.CD] + x.FUA_CD_BOOST) + fuaVulnerability * (1 - Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST)))
-    * (1 - (baseResistance - x.FUA_RES_PEN))
-    + (superBreakDmg * x.FUA_TOUGHNESS_DMG)
-
-  x.DOT_DMG
-    = x.DOT_DMG
-    * universalMulti
-    * (dmgBoostMultiplier + x.DOT_BOOST)
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.DOT_DEF_PEN)
-    * dotVulnerability
-    * (1 - (baseResistance - x.DOT_RES_PEN))
-    * dotEhrMultiplier
+  return dotEhrMulti
 }
 
-function calculateDefMultiplier(cLevel: number, eLevel: number, defReduction: number, defIgnore: number, additionalPen: number) {
-  return (cLevel + 20) / ((eLevel + 20) * Math.max(0, 1 - defReduction - defIgnore - additionalPen) + cLevel + 20)
+function calculateAdditionalDmg(
+  baseDmg: number,
+  universalMulti: number,
+  dmgBoostMulti: number,
+  defMulti: number,
+  vulnerabilityMulti: number,
+  critMulti: number,
+  resMulti: number,
+) {
+  return baseDmg
+    * universalMulti
+    * dmgBoostMulti
+    * defMulti
+    * vulnerabilityMulti
+    * critMulti
+    * resMulti
 }

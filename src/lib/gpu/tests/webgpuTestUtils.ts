@@ -1,13 +1,13 @@
-import { Form } from 'types/Form'
-import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, SetsOrnaments, SetsRelics } from 'lib/constants'
-import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { debugWebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
-import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, SetsOrnaments, SetsRelics } from 'lib/constants'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
+import { debugWebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
+import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
 import { SortOption } from 'lib/optimizer/sortOptions'
+import { Form } from 'types/Form'
 
 export async function runTestRequest(request: Form, relics: RelicsByPart, device: GPUDevice) {
   request.resultSort = SortOption.COMBO.key
@@ -198,8 +198,17 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
   analyze('SKILL_ORIGINAL_DMG_BOOST', P_2)
   analyze('ULT_ORIGINAL_DMG_BOOST', P_2)
   analyze('BASIC_BREAK_DMG_MODIFIER', P_2)
-  analyze('ULT_CD_OVERRIDE', P_2)
+  analyze('ULT_ADDITIONAL_DMG_CR_OVERRIDE', P_2)
+  analyze('ULT_ADDITIONAL_DMG_CD_OVERRIDE', P_2)
   analyze('ULT_BOOSTS_MULTI', P_2)
+  analyze('BASIC_ADDITIONAL_DMG_SCALING', P_2)
+  analyze('SKILL_ADDITIONAL_DMG_SCALING', P_2)
+  analyze('ULT_ADDITIONAL_DMG_SCALING', P_2)
+  analyze('FUA_ADDITIONAL_DMG_SCALING', P_2)
+  analyze('BASIC_ADDITIONAL_DMG', P_2)
+  analyze('SKILL_ADDITIONAL_DMG', P_2)
+  analyze('ULT_ADDITIONAL_DMG', P_2)
+  analyze('FUA_ADDITIONAL_DMG', P_2)
   analyze('RATIO_BASED_HP_BUFF', P_2)
   analyze('RATIO_BASED_HP_P_BUFF', P_2)
   analyze('RATIO_BASED_ATK_BUFF', P_2)

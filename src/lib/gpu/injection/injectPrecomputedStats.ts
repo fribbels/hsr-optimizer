@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
-import { OptimizerAction } from 'types/Optimizer'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
+import { OptimizerAction } from 'types/Optimizer'
 
 export function injectPrecomputedStatsContext(action: OptimizerAction, gpuParams: GpuConstants) {
   const x = action.precomputedX
@@ -102,8 +102,17 @@ export function injectPrecomputedStatsContext(action: OptimizerAction, gpuParams
       ${x.SKILL_ORIGINAL_DMG_BOOST},${gpuParams.DEBUG ? ' // SKILL_ORIGINAL_DMG_BOOST' : ''}
       ${x.ULT_ORIGINAL_DMG_BOOST},${gpuParams.DEBUG ? ' // ULT_ORIGINAL_DMG_BOOST' : ''}
       ${x.BASIC_BREAK_DMG_MODIFIER},${gpuParams.DEBUG ? ' // BASIC_BREAK_DMG_MODIFIER' : ''}
-      ${x.ULT_CD_OVERRIDE},${gpuParams.DEBUG ? ' // ULT_CD_OVERRIDE' : ''}
+      ${x.ULT_ADDITIONAL_DMG_CR_OVERRIDE},${gpuParams.DEBUG ? ' // ULT_ADDITIONAL_DMG_CR_OVERRIDE' : ''}
+      ${x.ULT_ADDITIONAL_DMG_CD_OVERRIDE},${gpuParams.DEBUG ? ' // ULT_ADDITIONAL_DMG_CD_OVERRIDE' : ''}
       ${x.ULT_BOOSTS_MULTI},${gpuParams.DEBUG ? ' // ULT_BOOSTS_MULTI' : ''}
+      ${x.BASIC_ADDITIONAL_DMG_SCALING},${gpuParams.DEBUG ? ' // BASIC_ADDITIONAL_DMG_SCALING' : ''}
+      ${x.SKILL_ADDITIONAL_DMG_SCALING},${gpuParams.DEBUG ? ' // SKILL_ADDITIONAL_DMG_SCALING' : ''}
+      ${x.ULT_ADDITIONAL_DMG_SCALING},${gpuParams.DEBUG ? ' // ULT_ADDITIONAL_DMG_SCALING' : ''}
+      ${x.FUA_ADDITIONAL_DMG_SCALING},${gpuParams.DEBUG ? ' // FUA_ADDITIONAL_DMG_SCALING' : ''}
+      ${x.BASIC_ADDITIONAL_DMG},${gpuParams.DEBUG ? ' // BASIC_ADDITIONAL_DMG' : ''}
+      ${x.SKILL_ADDITIONAL_DMG},${gpuParams.DEBUG ? ' // SKILL_ADDITIONAL_DMG' : ''}
+      ${x.ULT_ADDITIONAL_DMG},${gpuParams.DEBUG ? ' // ULT_ADDITIONAL_DMG' : ''}
+      ${x.FUA_ADDITIONAL_DMG},${gpuParams.DEBUG ? ' // FUA_ADDITIONAL_DMG' : ''}
       ${x.RATIO_BASED_HP_BUFF},${gpuParams.DEBUG ? ' // RATIO_BASED_HP_BUFF' : ''}
       ${x.RATIO_BASED_HP_P_BUFF},${gpuParams.DEBUG ? ' // RATIO_BASED_HP_P_BUFF' : ''}
       ${x.RATIO_BASED_ATK_BUFF},${gpuParams.DEBUG ? ' // RATIO_BASED_ATK_BUFF' : ''}

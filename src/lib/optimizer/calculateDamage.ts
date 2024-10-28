@@ -15,6 +15,8 @@ export function calculateDamage(x: ComputedStatsObject, action: OptimizerAction,
   const eLevel = context.enemyLevel
 
   calculateEhp(x, context)
+  calculateHeal(x, context)
+  calculateShield(x, context)
 
   x.ELEMENTAL_DMG += x[context.elementalDamageType]
 
@@ -204,6 +206,18 @@ function calculateEhp(x: ComputedStatsObject, context: OptimizerContext) {
   let ehp = x[Stats.HP] / (1 - x[Stats.DEF] / (x[Stats.DEF] + 200 + 10 * context.enemyLevel))
   ehp *= 1 / ((1 - 0.08 * p2(sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI)
   x.EHP = ehp
+}
+
+function calculateHeal(x: ComputedStatsObject, context: OptimizerContext) {
+  const sets = x.sets
+
+  x.HEAL_VALUE = x.HEAL_VALUE * (1 + 0.10 * p2(sets.PasserbyOfWanderingCloud))
+}
+
+function calculateShield(x: ComputedStatsObject, context: OptimizerContext) {
+  const sets = x.sets
+
+  x.SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p2(sets.KnightOfPurityPalace))
 }
 
 function calculateAbilityDmg(

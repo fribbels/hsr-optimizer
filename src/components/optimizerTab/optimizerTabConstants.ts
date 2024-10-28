@@ -119,13 +119,6 @@ export function getBaseColumnDefs(t: TFunction<'optimizerTab', undefined>) {
       headerName: t('Grid.Headers.Basic.EHP'), // 'EHP',
     },
     {
-      field: 'WEIGHT',
-      valueFormatter: Renderer.floor,
-      width: DIGITS_4_WEIGHT,
-      headerName: t('Grid.Headers.Basic.WEIGHT'), // 'STAT\nWEIGHT',
-    },
-
-    {
       field: 'HEAL',
       valueFormatter: Renderer.floor,
       width: DIGITS_3,
@@ -137,6 +130,13 @@ export function getBaseColumnDefs(t: TFunction<'optimizerTab', undefined>) {
       width: DIGITS_3,
       headerName: t('Grid.Headers.Basic.SHIELD'), // 'SHIELD',
     },
+    {
+      field: 'WEIGHT',
+      valueFormatter: Renderer.floor,
+      width: DIGITS_4_WEIGHT,
+      headerName: t('Grid.Headers.Basic.WEIGHT'), // 'STAT\nWEIGHT',
+    },
+
     {
       field: 'BASIC',
       valueFormatter: Renderer.floor,
@@ -281,13 +281,6 @@ export function getCombatColumnDefs(t: TFunction<'optimizerTab', undefined>) {
       headerName: t('Grid.Headers.Combat.EHP'), // 'EHP',
     },
     {
-      field: 'WEIGHT',
-      valueFormatter: Renderer.floor,
-      width: DIGITS_4_WEIGHT,
-      headerName: t('Grid.Headers.Combat.WEIGHT'), // 'STAT\nWEIGHT',
-    },
-
-    {
       field: 'HEAL',
       valueFormatter: Renderer.floor,
       width: DIGITS_3,
@@ -299,6 +292,13 @@ export function getCombatColumnDefs(t: TFunction<'optimizerTab', undefined>) {
       width: DIGITS_3,
       headerName: t('Grid.Headers.Combat.SHIELD'), // 'SHIELD',
     },
+    {
+      field: 'WEIGHT',
+      valueFormatter: Renderer.floor,
+      width: DIGITS_4_WEIGHT,
+      headerName: t('Grid.Headers.Combat.WEIGHT'), // 'STAT\nWEIGHT',
+    },
+
     {
       field: 'BASIC',
       valueFormatter: Renderer.floor,

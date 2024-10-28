@@ -2309,6 +2309,15 @@ interface Resources {
           }
         }
       },
+      "Natasha": {
+        "Content": {
+          "ultHealing": {
+            "text": "Ult healing",
+            "title": "Ult healing",
+            "content": "TODO"
+          }
+        }
+      },
       "Pela": {
         "Content": {
           "teamEhrBuff": {
@@ -4573,6 +4582,8 @@ interface Resources {
           "DMG": "DMG",
           "EHP": "EHP",
           "WEIGHT": "STAT WEIGHT",
+          "HEAL": "HEAL",
+          "SHIELD": "SHIELD",
           "BASIC": "BASIC\nDMG",
           "SKILL": "SKILL\nDMG",
           "ULT": "ULT\nDMG",
@@ -4597,6 +4608,8 @@ interface Resources {
           "DMG": "Σ DMG",
           "EHP": "EHP",
           "WEIGHT": "STAT WEIGHT",
+          "HEAL": "HEAL",
+          "SHIELD": "SHIELD",
           "BASIC": "BASIC\nDMG",
           "SKILL": "SKILL\nDMG",
           "ULT": "ULT\nDMG",

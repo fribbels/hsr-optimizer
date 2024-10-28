@@ -1,9 +1,9 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { FormSwitchWithPopoverProps } from 'components/optimizerTab/conditionals/FormSwitch'
-import { FormSliderWithPopoverProps } from 'components/optimizerTab/conditionals/FormSlider'
-import { ComponentProps, ComponentType } from 'react'
-import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { FormSelectWithPopoverProps } from 'components/optimizerTab/conditionals/FormSelect'
+import { FormSliderWithPopoverProps } from 'components/optimizerTab/conditionals/FormSlider'
+import { FormSwitchWithPopoverProps } from 'components/optimizerTab/conditionals/FormSwitch'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { ComponentProps, ComponentType } from 'react'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export type ConditionalMap = {
@@ -445,3 +445,4 @@ export type ConditionalBuff =
   | 'weaknessBreakBeStacks'
   | 'dmgBuffStacks'
   | 'breakVulnerabilityStacks'
+  | 'ultHealing'

@@ -1,15 +1,15 @@
 import { Flex, Form, Select } from 'antd'
 import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from 'components/TooltipImage'
-import { Hint } from 'lib/hint'
-import RecommendedPresetsButton from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
-import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants'
-import { useEffect, useMemo } from 'react'
-import { OptimizerTabController } from 'lib/optimizerTabController'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect'
+import RecommendedPresetsButton from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
+import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants'
+import { TooltipImage } from 'components/TooltipImage'
+import { Hint } from 'lib/hint'
 import { SortOption } from 'lib/optimizer/sortOptions'
+import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Utils } from 'lib/utils'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type CharacterSelectorDisplayProps = {}
@@ -59,31 +59,33 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
       {
         label: 'Damage calculations',
         options: [
-          { value: SortOption.COMBO.key, label: t('SortOptions.COMBO') }, // resultSortString('Combo DMG') },
-          { value: SortOption.BASIC.key, label: t('SortOptions.BASIC') }, // resultSortString('Basic DMG') },
-          { value: SortOption.SKILL.key, label: t('SortOptions.SKILL') }, // resultSortString('Skill DMG') },
-          { value: SortOption.ULT.key, label: t('SortOptions.ULT') }, // resultSortString('Ult DMG') },
-          { value: SortOption.FUA.key, label: t('SortOptions.FUA') }, // resultSortString('Follow-up DMG') },
-          { value: SortOption.DOT.key, label: t('SortOptions.DOT') }, // resultSortString('DoT DMG') },
-          { value: SortOption.BREAK.key, label: t('SortOptions.BREAK') }, // resultSortString('Break DMG') },
+          { value: SortOption.COMBO.key, label: t('SortOptions.COMBO') },
+          { value: SortOption.BASIC.key, label: t('SortOptions.BASIC') },
+          { value: SortOption.SKILL.key, label: t('SortOptions.SKILL') },
+          { value: SortOption.ULT.key, label: t('SortOptions.ULT') },
+          { value: SortOption.FUA.key, label: t('SortOptions.FUA') },
+          { value: SortOption.DOT.key, label: t('SortOptions.DOT') },
+          { value: SortOption.BREAK.key, label: t('SortOptions.BREAK') },
+          { value: SortOption.HEAL.key, label: t('SortOptions.HEAL') },
+          { value: SortOption.SHIELD.key, label: t('SortOptions.SHIELD') },
         ],
       },
       {
         label: 'Stats',
         options: [
-          { value: SortOption.HP.key, label: t('SortOptions.HP') }, // resultSortString(StatsToReadable[Stats.HP]) },
-          { value: SortOption.ATK.key, label: t('SortOptions.ATK') }, // resultSortString(StatsToReadable[Stats.ATK]) },
-          { value: SortOption.DEF.key, label: t('SortOptions.DEF') }, // resultSortString(StatsToReadable[Stats.DEF]) },
-          { value: SortOption.SPD.key, label: t('SortOptions.SPD') }, // resultSortString(StatsToReadable[Stats.SPD]) },
-          { value: SortOption.CR.key, label: t('SortOptions.CR') }, // resultSortString(StatsToReadable[Stats.CR]) },
-          { value: SortOption.CD.key, label: t('SortOptions.CD') }, // resultSortString(StatsToReadable[Stats.CD]) },
-          { value: SortOption.EHR.key, label: t('SortOptions.EHR') }, // resultSortString(StatsToReadable[Stats.EHR]) },
-          { value: SortOption.RES.key, label: t('SortOptions.RES') }, // resultSortString(StatsToReadable[Stats.RES]) },
-          { value: SortOption.BE.key, label: t('SortOptions.BE') }, // resultSortString(StatsToReadable[Stats.BE]) },
-          { value: SortOption.OHB.key, label: t('SortOptions.OHB') }, // resultSortString(StatsToReadable[Stats.OHB]) },
-          { value: SortOption.ERR.key, label: t('SortOptions.ERR') }, // resultSortString(StatsToReadable[Stats.ERR]) },
-          { value: SortOption.ELEMENTAL_DMG.key, label: t('SortOptions.DMG') }, // resultSortString('Elemental DMG') },
-          { value: SortOption.EHP.key, label: t('SortOptions.EHP') }, // resultSortString('Effective HP') },
+          { value: SortOption.HP.key, label: t('SortOptions.HP') },
+          { value: SortOption.ATK.key, label: t('SortOptions.ATK') },
+          { value: SortOption.DEF.key, label: t('SortOptions.DEF') },
+          { value: SortOption.SPD.key, label: t('SortOptions.SPD') },
+          { value: SortOption.CR.key, label: t('SortOptions.CR') },
+          { value: SortOption.CD.key, label: t('SortOptions.CD') },
+          { value: SortOption.EHR.key, label: t('SortOptions.EHR') },
+          { value: SortOption.RES.key, label: t('SortOptions.RES') },
+          { value: SortOption.BE.key, label: t('SortOptions.BE') },
+          { value: SortOption.OHB.key, label: t('SortOptions.OHB') },
+          { value: SortOption.ERR.key, label: t('SortOptions.ERR') },
+          { value: SortOption.ELEMENTAL_DMG.key, label: t('SortOptions.DMG') },
+          { value: SortOption.EHP.key, label: t('SortOptions.EHP') },
         ],
       },
     ]

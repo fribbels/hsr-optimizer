@@ -1,9 +1,9 @@
+import { GetRowIdParams } from 'ag-grid-community'
+import { TFunction } from 'i18next'
 import { Constants } from 'lib/constants'
 import { Gradient } from 'lib/gradient'
 import { Renderer } from 'lib/renderer'
-import { GetRowIdParams } from 'ag-grid-community'
 import { Utils } from 'lib/utils'
-import { TFunction } from 'i18next'
 
 export const DIGITS_3 = 46
 export const DIGITS_4 = 50
@@ -17,8 +17,18 @@ export const defaultPadding = 11
 
 export function getBaseColumnDefs(t: TFunction<'optimizerTab', undefined>) {
   return [
-    { field: 'relicSetIndex', cellRenderer: Renderer.relicSet, width: 72, headerName: t('Grid.Headers.Basic.Set')/* 'Set' */ },
-    { field: 'ornamentSetIndex', cellRenderer: Renderer.ornamentSet, width: 42, headerName: t('Grid.Headers.Basic.Set')/* 'Set' */ },
+    {
+      field: 'relicSetIndex',
+      cellRenderer: Renderer.relicSet,
+      width: 72,
+      headerName: t('Grid.Headers.Basic.Set'), /* 'Set' */
+    },
+    {
+      field: 'ornamentSetIndex',
+      cellRenderer: Renderer.ornamentSet,
+      width: 42,
+      headerName: t('Grid.Headers.Basic.Set'), /* 'Set' */
+    },
 
     {
       field: Constants.Stats.ATK,
@@ -116,6 +126,18 @@ export function getBaseColumnDefs(t: TFunction<'optimizerTab', undefined>) {
     },
 
     {
+      field: 'HEAL',
+      valueFormatter: Renderer.floor,
+      width: DIGITS_3,
+      headerName: t('Grid.Headers.Basic.HEAL'), // 'HEAL',
+    },
+    {
+      field: 'SHIELD',
+      valueFormatter: Renderer.floor,
+      width: DIGITS_3,
+      headerName: t('Grid.Headers.Basic.SHIELD'), // 'SHIELD',
+    },
+    {
       field: 'BASIC',
       valueFormatter: Renderer.floor,
       width: DIGITS_5,
@@ -163,7 +185,12 @@ export function getBaseColumnDefs(t: TFunction<'optimizerTab', undefined>) {
 export function getCombatColumnDefs(t: TFunction<'optimizerTab', undefined>) {
   return [
     { field: 'relicSetIndex', cellRenderer: Renderer.relicSet, width: 72, headerName: t('Grid.Headers.Combat.Set') }, // Set
-    { field: 'ornamentSetIndex', cellRenderer: Renderer.ornamentSet, width: 42, headerName: t('Grid.Headers.Combat.Set') }, // Set
+    {
+      field: 'ornamentSetIndex',
+      cellRenderer: Renderer.ornamentSet,
+      width: 42,
+      headerName: t('Grid.Headers.Combat.Set'),
+    }, // Set
 
     {
       field: 'xATK',
@@ -260,6 +287,18 @@ export function getCombatColumnDefs(t: TFunction<'optimizerTab', undefined>) {
       headerName: t('Grid.Headers.Combat.WEIGHT'), // 'STAT\nWEIGHT',
     },
 
+    {
+      field: 'HEAL',
+      valueFormatter: Renderer.floor,
+      width: DIGITS_3,
+      headerName: t('Grid.Headers.Combat.HEAL'), // 'HEAL',
+    },
+    {
+      field: 'SHIELD',
+      valueFormatter: Renderer.floor,
+      width: DIGITS_3,
+      headerName: t('Grid.Headers.Combat.SHIELD'), // 'SHIELD',
+    },
     {
       field: 'BASIC',
       valueFormatter: Renderer.floor,

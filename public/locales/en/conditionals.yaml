@@ -1578,6 +1578,12 @@ Characters:
         text: E6 FUA multiplier buff
         title: Faithbinder
         content: Increases the DMG multiplier of the Talent's follow-up attack by 25.0%.
+  Natasha:
+    Content:
+      ultHealing:
+        text: Ult healing
+        title: Ult healing
+        content: TODO
   Pela:
     Content:
       teamEhrBuff:

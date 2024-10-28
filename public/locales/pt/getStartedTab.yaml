@@ -1,2 +1,9 @@
 TryOut:
-  Option 1: 'DELETE_ME_6'
+  DocumentationTitle: See full guide
+  ButtonText: Try it out!
+  title: Confirm
+  description: Load a sample save file?
+  okText: 'Yes'
+  cancelText: Cancel
+  SuccessMessage: Successfully loaded data
+  Header: Try it out!

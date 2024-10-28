@@ -1,6 +1,6 @@
 ScreenshotMessages:
-  ScreenshotSuccess: Screenshot copiato nella clipboard
-  ScreenshotFailed: Impossibile copiare lo screenshot nella clipboard, prova ad usare il pulsante download sulla destra
+  ScreenshotSuccess: Screenshot copiato negli appunti
+  ScreenshotFailed: Impossibile salvare lo screenshot negli appunti, prova il pulsante di download a destra
   DownloadSuccess: Screenshot scaricato
 CharacterMenu:
   ButtonText: Menu personaggi
@@ -13,6 +13,7 @@ CharacterMenu:
       Unequip: Disequipaggia personaggi
       Delete: Elimina personaggio
   Build:
+    Label: Builds
     Options:
       Save: Salva la build attuale
       View: Guarda le build salvate
@@ -25,6 +26,8 @@ CharacterMenu:
     Options:
       SortByScore: Ordina tutti i personaggi per punteggio
       MoveToTop: Muovi il personaggio in cima
+Confirm: '$t(common:Confirm, {"capitalizeLength": 1})'
+Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
 CopyScreenshot: Copia screenshot
 SearchPlaceholder: Cerca personaggio
 GridHeaders:

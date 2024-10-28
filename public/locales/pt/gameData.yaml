@@ -85,6 +85,8 @@ Characters:
     Name: Moze
   "1224":
     Name: 7 de Março
+  "1225":
+    Name: Fugue
   "1301":
     Name: Gallagher
   "1302":
@@ -107,6 +109,8 @@ Characters:
     Name: Vaga-lume
   "1312":
     Name: Misha
+  "1313":
+    Name: Sunday
   "1314":
     Name: Jade
   "1315":
@@ -593,6 +597,12 @@ Lightcones:
   "23033":
     Name: "Inscrição do Ninjutsu: Destruição Deslumbrante do Mal"
     SkillName: Exorcismo
+  "23034":
+    Name: A Grounded Ascent
+    SkillName: Departing Anew
+  "23035":
+    Name: Long Road Leads Home
+    SkillName: Rebirth
   "24000":
     Name: Na Queda de Um Aeon
     SkillName: Mariposa às Chamas

@@ -188,8 +188,8 @@ Sidebar:
     ResetConfirm:
       Title: Reset all filters?
       Description: All filters will be reset to their default values
-      'Yes': "$t(common:Yes, {\"capitalizeLength\": 1})"
-      'No': "$t(common:No, {\"capitalizeLength\": 1})"
+      Yes: "$t(common:Yes, {\"capitalizeLength\": 1})"
+      No: "$t(common:No, {\"capitalizeLength\": 1})"
   StatViewGroup:
     Header: Stat and filter view
     CombatStats: Combat stats
@@ -219,7 +219,7 @@ SetConditionals:
       Display: "{{stackCount}}x"
       Label: "{{stackCount}} stacks (+{{buffValue}}% ATK)"
     Wastelander:
-      'Off':
+      Off:
         Display: "Off"
         Label: "Off"
       Debuffed:
@@ -238,7 +238,7 @@ SetConditionals:
       Display: "{{stackCount}}x"
       Label: "{{stackCount}} stacks (+{{buffValue}}% DEF ignore)"
     Diver:
-      'Off':
+      Off:
         Display: 0x
         Label: 0 debuffs (+4% base CR)
       1Debuff:
@@ -434,7 +434,7 @@ StatSimulation:
   TotalRolls: Total rolls
   SubstatSelectorLabel: $t(common:Stats.{{stat}})
   ModeSelector:
-    'Off': "Off"
+    Off: "Off"
     RollCount: Simulate custom substat rolls
     Totals: Simulate custom substat totals
   FooterLabels:

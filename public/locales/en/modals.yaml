@@ -11,8 +11,8 @@ Scoring:
   ResetAllConfirm:
     Title: "Reset the scoring algorithm for all characters?"
     Description: You will lose any custom scoring settings you have set on any character.
-    'Yes': "$t(common:Yes, {\"capitalizeLength\": 1})"
-    'No': "$t(common:No, {\"capitalizeLength\": 1})"
+    Yes: "$t(common:Yes, {\"capitalizeLength\": 1})"
+    No: "$t(common:No, {\"capitalizeLength\": 1})"
 0Perms:
   Title: Search generated 0 permutations
   Description: This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar.

@@ -1,8 +1,8 @@
 Characters:
   "1001":
-    Name: "March\_7th"
+    Name: March\_7th
   "1002":
-    Name: "Dan\_Heng"
+    Name: Dan\_Heng
   "1003":
     Name: Himeko
   "1004":
@@ -10,7 +10,7 @@ Characters:
   "1005":
     Name: Kafka
   "1006":
-    Name: "Louve\_d'argent"
+    Name: Louve\_d'argent
   "1008":
     Name: Arlan
   "1009":
@@ -48,7 +48,7 @@ Characters:
   "1203":
     Name: Luocha
   "1204":
-    Name: "Jing\_Yuan"
+    Name: Jing\_Yuan
   "1205":
     Name: Blade
   "1206":
@@ -84,7 +84,7 @@ Characters:
   "1223":
     Name: Moze
   "1224":
-    Name: "March\_7th"
+    Name: March\_7th
   "1301":
     Name: Gallagher
   "1302":
@@ -129,7 +129,7 @@ RelicSets:
   "101":
     Name: Vagabond foulenuage
     Description2pc: "<span>Augmente les soins prodigués de <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Récupère immédiatement 1\_point de compétence en début de combat.</span>"
+    Description4pc: <span>Récupère immédiatement 1\_point de compétence en début de combat.</span>
   "102":
     Name: Mousquetaire du blé sauvage
     Description2pc: "<span>Augmente l'ATQ de <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
@@ -233,7 +233,7 @@ RelicSets:
     Name: Salsotto inerte
     Description2pc: "<span>Augmente les chances de coup critique du porteur de <span style='whiteSpace: \"nowrap\"'>8%</span>. Lorsque ses chances de coup critique actuelles atteignent au moins <span style='whiteSpace: \"nowrap\"'>50%</span>, les DGT infligés par son ultime et son attaque de suivi augmentent de <span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
   "307":
-    Name: Talia, royaume du banditisme
+    Name: "Talia, royaume du banditisme"
     Description2pc: "<span>Augmente l'effet de Rupture du porteur de <span style='whiteSpace: \"nowrap\"'>16%</span>. Lorsque sa VIT est supérieure ou égale à <span style='whiteSpace: \"nowrap\"'>145</span>, son effet de Rupture augmente de <span style='whiteSpace: \"nowrap\"'>20%</span> supplémentaires.</span>"
   "308":
     Name: La vie sur Vonwacq
@@ -245,7 +245,7 @@ RelicSets:
     Name: Quille brisée
     Description2pc: "<span>Augmente la RÉS aux effets du porteur de <span style='whiteSpace: \"nowrap\"'>10%</span>. Lorsque sa RÉS aux effets est supérieure ou égale à <span style='whiteSpace: \"nowrap\"'>30%</span>, les DGT critiques de tous les alliés augmentent de <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
   "311":
-    Name: Glamoth, ligne de front du firmament
+    Name: "Glamoth, ligne de front du firmament"
     Description2pc: "<span>Augmente l'ATQ du porteur de <span style='whiteSpace: \"nowrap\"'>12%</span>. Lorsque sa VIT est supérieure ou égale à <span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span>, le porteur inflige <span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span> de DGT supplémentaires.</span>"
   "312":
     Name: Penacony, terre des rêves
@@ -411,11 +411,11 @@ Lightcones:
     Name: Passé et futur
     SkillName: Cerfs-volants du passé
   "21026":
-    Name: "Ouaf\_! C'est l'heure de la promenade\_!"
-    SkillName: "Cours\_!"
+    Name: Ouaf\_! C'est l'heure de la promenade\_!
+    SkillName: Cours\_!
   "21027":
     Name: Le petit-déjeuner, c'est sacré
-    SkillName: "On se prépare\_!"
+    SkillName: On se prépare\_!
   "21028":
     Name: Chaleur au cœur de la nuit froide
     SkillName: Petite lumière
@@ -423,7 +423,7 @@ Lightcones:
     Name: Ce n'est que partie remise
     SkillName: Passe d'armes
   "21030":
-    Name: "C'est moi\_!"
+    Name: C'est moi\_!
     SkillName: Nouveau chapitre
   "21031":
     Name: Retour aux ténèbres
@@ -483,8 +483,8 @@ Lightcones:
     Name: Avant que le tutoriel ne commence
     SkillName: Pioche éclair
   "22001":
-    Name: "Hé, par ici\_!"
-    SkillName: "Je n'ai pas peur\_!"
+    Name: Hé, par ici\_!
+    SkillName: Je n'ai pas peur\_!
   "22002":
     Name: Au nom du voyage de demain
     SkillName: Liens

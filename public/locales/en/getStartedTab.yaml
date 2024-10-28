@@ -7,4 +7,3 @@ TryOut:
   cancelText: Cancel
   SuccessMessage: Successfully loaded data
   Header: Try it out!
-  Option 1: '<0>Option 1: Load a sample save</0><1>If you would like to give the optimizer a try before doing any relic importing, use this to load a sample save file and check out the features.</1>'

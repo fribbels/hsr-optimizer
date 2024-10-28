@@ -85,6 +85,8 @@ Characters:
     Name: 貊泽
   "1224":
     Name: 三月七
+  "1225":
+    Name: Fugue
   "1301":
     Name: 加拉赫
   "1302":
@@ -107,6 +109,8 @@ Characters:
     Name: 流萤
   "1312":
     Name: 米沙
+  "1313":
+    Name: Sunday
   "1314":
     Name: 翡翠
   "1315":
@@ -233,7 +237,7 @@ RelicSets:
     Name: 停转的萨尔索图
     Description2pc: "<span>使装备者的暴击率提高<span style='whiteSpace: \"nowrap\"'>8%</span>。当装备者当前暴击率大于等于<span style='whiteSpace: \"nowrap\"'>50%</span>时，终结技和追加攻击造成的伤害提高<span style='whiteSpace: \"nowrap\"'>15%</span>。</span>"
   "307":
-    Name: 盗贼公国塔利亚
+    Name: "盗贼公国塔利亚"
     Description2pc: "<span>使装备者的击破特攻提高<span style='whiteSpace: \"nowrap\"'>16%</span>。当装备者的速度大于等于<span style='whiteSpace: \"nowrap\"'>145</span>时，击破特攻额外提高<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
   "308":
     Name: 生命的翁瓦克
@@ -245,7 +249,7 @@ RelicSets:
     Name: 折断的龙骨
     Description2pc: "<span>使装备者的效果抵抗提高<span style='whiteSpace: \"nowrap\"'>10%</span>。当装备者的效果抵抗大于等于<span style='whiteSpace: \"nowrap\"'>30%</span>时，我方全体暴击伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
   "311":
-    Name: 苍穹战线格拉默
+    Name: "苍穹战线格拉默"
     Description2pc: "<span>使装备者的攻击力提高<span style='whiteSpace: \"nowrap\"'>12%</span>。当装备者的速度大于等于<span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span>时，使装备者造成的伤害提高<span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span>。</span>"
   "312":
     Name: 梦想之地匹诺康尼
@@ -351,7 +355,7 @@ Lightcones:
     Name: 鼹鼠党欢迎你
     SkillName: 奇妙冒险
   "21006":
-    Name: 「我」的诞生
+    Name: '「我」的诞生'
     SkillName: 画像少女
   "21007":
     Name: 同一种心情
@@ -489,7 +493,7 @@ Lightcones:
     Name: 为了明日的旅途
     SkillName: 联结
   "22003":
-    Name: 忍事录•音律狩猎
+    Name: "忍事录•音律狩猎"
     SkillName: 开演！
   "23000":
     Name: 银河铁道之夜
@@ -591,8 +595,14 @@ Lightcones:
     Name: 唯有香如故
     SkillName: 安心
   "23033":
-    Name: 忍法帖•缭乱破魔
+    Name: "忍法帖•缭乱破魔"
     SkillName: 除邪
+  "23034":
+    Name: A Grounded Ascent
+    SkillName: Departing Anew
+  "23035":
+    Name: Long Road Leads Home
+    SkillName: Rebirth
   "24000":
     Name: 记一位星神的陨落
     SkillName: 扑火

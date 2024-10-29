@@ -50,7 +50,7 @@ export function LayoutHeader() {
           </a>
         </Flex>
         <Flex>
-          {BASE_PATH !== '/dreary-quibbles' && (
+          {BASE_PATH == '/dreary-quibbles' && (
             <LanguageSelector
               style={{ width: 60, marginRight: 6, height: 36 }} dropdownStyle={{ width: 210 }}
               flagOnly={true} placement='bottomRight'

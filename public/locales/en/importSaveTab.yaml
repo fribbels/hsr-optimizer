@@ -1,5 +1,5 @@
 TabLabels:
-  Import: "Relic scanner importer"
+  Import: Relic scanner importer
   Load: Load optimizer data
   Save: Save optimizer data
   Clear: Clear optimizer data
@@ -22,17 +22,17 @@ Import:
       Title: Kel-Z HSR Scanner
       Link: Github
       l1: Inaccurate speed decimals, 5-10 minutes OCR scan
-      l2: "Imports full inventory and character roster"
+      l2: Imports full inventory and character roster
     ScorerDesc:
-      Title: "Relic Scorer Import"
-      Link: "Relic scorer"
+      Title: Relic Scorer Import
+      Link: Relic scorer
       l1: Accurate speed decimals, instant scan
-      l2: "No download needed, but limited to relics from the 8 characters on the profile showcase"
+      l2: No download needed, but limited to relics from the 8 characters on the profile showcase
     HoyolabDesc:
       Title: HoyoLab Import
       Link: Instructions
       l1: Inaccurate speed decimals, instant scan
-      l2: "No download needed, but limited to ingame characters equipped relics"
+      l2: No download needed, but limited to ingame characters equipped relics
     ButtonText: Upload scanner json file
     Or: or
     Placeholder: Paste json file contents
@@ -42,10 +42,10 @@ Import:
     NoRelics: Invalid scanner file, please try a different file
     RelicsImport:
       Label: Import relics only. Updates the optimizer with the new dataset of relics and doesn't overwrite builds.
-      ButtonText: "Import relics"
+      ButtonText: Import relics
     CharactersImport:
-      Label: "Import relics and characters. Replaces the optimizer builds with ingame builds."
-      ButtonText: "Import relics & characters"
+      Label: Import relics and characters. Replaces the optimizer builds with ingame builds.
+      ButtonText: Import relics & characters
       WarningTitle: Overwrite optimizer builds
       WarningDescription: Are you sure you want to overwrite your optimizer builds with ingame builds?
   Stage3:
@@ -69,7 +69,7 @@ ClearData:
   ButtonText: Clear data
   SuccessMessage: Cleared data
   WarningTitle: Erase all data
-  WarningDescription: "Are you sure you want to clear all relics and characters?"
+  WarningDescription: Are you sure you want to clear all relics and characters?
 PartialImport:
   OldRelics: "Updated stats for {{count}} existing relics"
   NewRelics: "Added {{count}} new relics"

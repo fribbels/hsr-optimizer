@@ -42,9 +42,12 @@ Maximum: >-
   $t(CapitalizeString, {"string": "maximum"})
 Minimum: >-
   $t(CapitalizeString, {"string": "minimum"})
-EidolonNShort: E{{eidolon}}
-SuperimpositionNShort: S{{superimposition}}
-LevelShort: Lv{{level}}
+EidolonNShort: >-
+  E{{eidolon}}
+SuperimpositionNShort: >-
+  S{{superimposition}}
+LevelShort: >-
+  Lv{{level}}
 CharacterWithCount_one: >-
   {{count}} $t(CapitalizeString, {"string": "character"})
 CharacterWithCount_other: >-

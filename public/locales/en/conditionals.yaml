@@ -167,8 +167,8 @@ Lightcones:
         text: Luminflux stacks
         title: Intimidation
         content: >-
-          When the wearer launches a follow-up attack, gains 1 stack of "Luminflux," stacking up to 2.0 time(s). Each stack of "Luminflux" enables the Ultimate DMG dealt by the wearer to ignore
-          {{DefIgnore}}% of the target's DEF. When the wearer's turn ends, removes 1 stack of "Luminflux.
+          When the wearer launches a follow-up attack, gains 1 stack of Luminflux, stacking up to 2.0 time(s). Each stack of Luminflux enables the Ultimate DMG dealt by the wearer to ignore
+          {{DefIgnore}}% of the target's DEF. When the wearer's turn ends, removes 1 stack of Luminflux.
   MomentOfVictory:
     Content:
       selfAttackedDefBuff:
@@ -243,14 +243,14 @@ Lightcones:
         text: Woefree vulnerability
         title: Contentment
         content: >-
-          After the wearer uses Ultimate to attack enemy targets, inflicts the targets with the "Woefree" state, lasting for 2.0 turn(s). While in "Woefree," enemy targets take {{Vulnerability}}%
+          After the wearer uses Ultimate to attack enemy targets, inflicts the targets with the Woefree state, lasting for 2.0 turn(s). While in Woefree, enemy targets take {{Vulnerability}}%
           increased DMG. The effect of increasing DMG taken is additionally boosted by {{AdditionalVulnerability}}% if the wearer's current Break Effect is 150.0% or higher.
     TeammateContent:
       additionalVulnerability:
         text: Additional vulnerability
         title: Contentment
         content: >-
-          After the wearer uses Ultimate to attack enemy targets, inflicts the targets with the "Woefree" state, lasting for 2.0 turn(s). While in "Woefree," enemy targets take {{Vulnerability}}%
+          After the wearer uses Ultimate to attack enemy targets, inflicts the targets with the Woefree state, lasting for 2.0 turn(s). While in Woefree, enemy targets take {{Vulnerability}}%
           increased DMG. The effect of increasing DMG taken is additionally boosted by {{AdditionalVulnerability}}% if the wearer's current Break Effect is 150.0% or higher.
   SheAlreadyShutHerEyes:
     Content:
@@ -298,16 +298,16 @@ Lightcones:
         text: Unarmored vulnerability
         title: Worldly Affairs Leave No Mark
         content: >-
-          After the wearer uses Basic ATK, Skill, or Ultimate to attack an enemy target, there is a 60.0% base chance to inflict "Unarmored" on the target. While in the Unarmored state, the enemy
+          After the wearer uses Basic ATK, Skill, or Ultimate to attack an enemy target, there is a 60.0% base chance to inflict Unarmored on the target. While in the Unarmored state, the enemy
           target receives {{UnarmoredVulnerability}}% increased DMG, lasting for 2.0 turn(s). If the target is under a DoT state inflicted by the wearer, there is a 60.0% base chance to upgrade the
-          "Unarmored" state inflicted by the wearer to the "Cornered" state, which additionally increases the DMG the enemy target receives by {{CorneredVulnerability}}% , lasting for 2.0 turn(s).
+          Unarmored state inflicted by the wearer to the Cornered state, which additionally increases the DMG the enemy target receives by {{CorneredVulnerability}}% , lasting for 2.0 turn(s).
       corneredVulnerability:
         text: Cornered vulnerability
         title: Worldly Affairs Leave No Mark
         content: >-
-          After the wearer uses Basic ATK, Skill, or Ultimate to attack an enemy target, there is a 60.0% base chance to inflict "Unarmored" on the target. While in the Unarmored state, the enemy
+          After the wearer uses Basic ATK, Skill, or Ultimate to attack an enemy target, there is a 60.0% base chance to inflict Unarmored on the target. While in the Unarmored state, the enemy
           target receives {{UnarmoredVulnerability}}% increased DMG, lasting for 2.0 turn(s). If the target is under a DoT state inflicted by the wearer, there is a 60.0% base chance to upgrade the
-          "Unarmored" state inflicted by the wearer to the "Cornered" state, which additionally increases the DMG the enemy target receives by {{CorneredVulnerability}}% , lasting for 2.0 turn(s).
+          Unarmored state inflicted by the wearer to the Cornered state, which additionally increases the DMG the enemy target receives by {{CorneredVulnerability}}% , lasting for 2.0 turn(s).
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -728,7 +728,7 @@ Characters:
         title: The Abyss
         content: >-
           When there are 1 or 2 Nihility characters other than Acheron in the team, the DMG dealt by Acheron's Basic ATK, Skill, and Ultimate increases to 115% or 160% of the original DMG
-          respectively.::BR::E2: The number of Nihility characters required for the Trace "The Abyss" to achieve its highest possible effect is reduced by 1. When this unit's turn starts, gains 1
+          respectively.::BR::E2: The number of Nihility characters required for the Trace The Abyss to achieve its highest possible effect is reduced by 1. When this unit's turn starts, gains 1
           point of Slashed Dream and inflicts 1 stack of Crimson Knot on the enemy with the most Crimson Knot stacks.
       thunderCoreStacks:
         text: Thunder Core stacks
@@ -758,7 +758,7 @@ Characters:
     Content:
       ultEnhanced:
         text: Enhanced Ult
-        title: Merit Bestowed in "My" Garden
+        title: Merit Bestowed in My Garden
         content: >-
           Consumes 180 Energy and deals Physical DMG equal to {{ultEnhancedScaling}}% of Argenti's ATK to all enemies, and further deals DMG for 6 extra time(s), with each time dealing Physical DMG
           equal to {{ultEnhancedExtraHitScaling}}% of Argenti's ATK to a random enemy.
@@ -772,7 +772,7 @@ Characters:
         content: Increases CR by {{talentCrStackValue}}% per stack, max of {{talentMaxStacks}} stacks.
       ultEnhancedExtraHits:
         text: Enhanced Ult extra hits on target
-        title: Merit Bestowed in "My" Garden
+        title: Merit Bestowed in My Garden
         content: Enhanced Ult hits a random enemy for {{ultEnhancedExtraHitScaling}}% ATK per hit.
       e2UltAtkBuff:
         text: E2 Ult ATK buff
@@ -919,7 +919,7 @@ Characters:
         title: Five Peas in a Pod
         content: >-
           If the target is Weakness Broken while the Enhanced Basic ATK is being used, based on the number of Pocket Trickshot stacks, deals Break DMG to this target based on Boothill's Physical Break
-          DMG. The max Toughness taken into account for this DMG cannot exceed 16 times the base Toughness Reduction of the Basic Attack "Skullcrush Spurs."
+          DMG. The max Toughness taken into account for this DMG cannot exceed 16 times the base Toughness Reduction of the Basic Attack Skullcrush Spurs.
       e1DefShred:
         text: E1 DEF PEN
         title: Dusty Trail's Lone Star
@@ -1041,7 +1041,7 @@ Characters:
         text: E1 original DMG boost
         title: Skyward I Quell
         content: >-
-          E1: After launching "Boltsunder Blitz" or "Waraxe Skyward," additionally increases the Ultimate DMG dealt by Feixiao by an amount equal to 10.0% of the original DMG, stacking up to 5.0
+          E1: After launching Boltsunder Blitz or Waraxe Skyward, additionally increases the Ultimate DMG dealt by Feixiao by an amount equal to 10.0% of the original DMG, stacking up to 5.0
           time(s) and lasting until the end of the Ultimate action.
       e4Buffs:
         text: E4 buffs
@@ -1146,7 +1146,7 @@ Characters:
       e4TeamResBuff:
         text: E4 team RES buff
         title: Faith Moves Mountains
-        content: "E4: When Gepard is in battle, all allies\" Effect RES increases by 20%."
+        content: "E4: When Gepard is in battle, all allies' Effect RES increases by 20%."
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -1213,7 +1213,7 @@ Characters:
       enemyHpLte50:
         text: E1 Basic scaling boost
         title: Kick You When You're Down
-        content: "E1: If the enemy\"s HP percentage is at 50% or less, Herta\"s Basic ATK deals Additional Ice DMG equal to 40% of Herta's ATK."
+        content: "E1: If the enemy's HP percentage is at 50% or less, Herta's Basic ATK deals Additional Ice DMG equal to 40% of Herta's ATK."
       e2TalentCritStacks:
         text: E2 Talent CR stacks
         title: Keep the Ball Rolling
@@ -1345,7 +1345,7 @@ Characters:
         text: Ult field active
         title: Pyrograph Arcanum
         content: >-
-          Sets the number of "Ashen Roast" stacks on enemy targets to the highest number of "Ashen Roast" stacks present on the battlefield. Then, activates a Zone and deals Fire DMG equal to
+          Sets the number of Ashen Roast stacks on enemy targets to the highest number of Ashen Roast stacks present on the battlefield. Then, activates a Zone and deals Fire DMG equal to
           {{UltScaling}}% of Jiaoqiu's ATK to all enemies.::BR::While inside the Zone, enemy targets receive {{UltVulnerability}}% increased Ultimate DMG, with a {{ZoneDebuffChance}}% base chance of
           being inflicted with 1 stack of Ashen Roast when taking action. While the Zone exists, this effect can trigger up to 6 time(s). And for each enemy target, it can only trigger once per turn.
           This trigger count resets every time Jiaoqiu uses Ultimate.
@@ -1364,7 +1364,7 @@ Characters:
       e6ResShred:
         text: E6 RES shred
         title: Nonamorphic Pyrobind
-        content: "E6: The maximum stack limit of Ashen Roast increases to 9.0, and each \"Ashen Roast\" stack reduces the target's All-Type RES by 3.0%."
+        content: "E6: The maximum stack limit of Ashen Roast increases to 9.0, and each Ashen Roast stack reduces the target's All-Type RES by 3.0%."
   Jingliu:
     Content:
       talentEnhancedState:
@@ -1372,7 +1372,7 @@ Characters:
         title: Crescent Transmigration
         content: >-
           When Jingliu has 2 stacks of Syzygy, she enters the Spectral Transmigration state with her Action Advanced by 100% and her CRIT Rate increases by {{talentCrBuff}}%. Then, Jingliu's Skill
-          "Transcendent Flash" becomes enhanced and turns into "Moon On Glacial River," and becomes the only ability she can use in battle.
+          Transcendent Flash becomes enhanced and turns into Moon On Glacial River, and becomes the only ability she can use in battle.
       talentHpDrainAtkBuff:
         text: HP drain ATK buff
         title: Crescent Transmigration
@@ -1432,11 +1432,11 @@ Characters:
       befogState:
         text: Befog state
         title: Dripping Mistscape
-        content: While in "Befog," targets receive {{BefogVulnerability}}% increased Break DMG.
+        content: While in Befog, targets receive {{BefogVulnerability}}% increased Break DMG.
       e1DefShred:
         text: E1 weakness break buffs
         title: Bloom on Vileward Bouquet
-        content: "E1: Lingsha's Weakness Break Efficiency increases by 50%. When an enemy unit\"s Weakness is Broken, reduces their DEF by 20%."
+        content: "E1: Lingsha's Weakness Break Efficiency increases by 50%. When an enemy unit's Weakness is Broken, reduces their DEF by 20%."
       e2BeBuff:
         text: E2 BE buff
         title: Leisure in Carmine Smokeveil
@@ -1444,7 +1444,7 @@ Characters:
       e6ResShred:
         text: E6 RES shred
         title: Arcadia Under Deep Seclusion
-        content: "E6: While \"Fuyuan\" is on the field, reduces all Enemy units' All-Type RES by 20.0%."
+        content: "E6: While Fuyuan is on the field, reduces all Enemy units' All-Type RES by 20.0%."
   Luka:
     Content:
       basicEnhanced:
@@ -1483,16 +1483,16 @@ Characters:
         text: Skill max HP buff
         title: Salted Camping Cans
         content: >-
-          Applies "Survival Response" to a single target ally and increases their Max HP by {{skillHpPercentBuff}}% of Lynx's Max HP plus {{skillHpFlatBuff}}.::BR::E4: When "Survival Response" is
-          gained, increases the target's ATK by an amount equal to 3% of Lynx's Max HP for 1 turn(s).::BR::E6: Additionally boosts the Max HP increasing effect of "Survival Response" by an amount
+          Applies Survival Response to a single target ally and increases their Max HP by {{skillHpPercentBuff}}% of Lynx's Max HP plus {{skillHpFlatBuff}}.::BR::E4: When Survival Response is
+          gained, increases the target's ATK by an amount equal to 3% of Lynx's Max HP for 1 turn(s).::BR::E6: Additionally boosts the Max HP increasing effect of Survival Response by an amount
           equal to 6% of Lynx's Max HP and increases Effect RES by 30%.
     TeammateContent:
       teammateHPValue:
         text: Lynx's HP
         title: Salted Camping Cans
         content: >-
-          Applies "Survival Response" to a single target ally and increases their Max HP by {{skillHpPercentBuff}}% of Lynx's Max HP plus {{skillHpFlatBuff}}.::BR::E4: When "Survival Response" is
-          gained, increases the target's ATK by an amount equal to 3% of Lynx's Max HP for 1 turn(s).::BR::E6: Additionally boosts the Max HP increasing effect of "Survival Response" by an amount
+          Applies Survival Response to a single target ally and increases their Max HP by {{skillHpPercentBuff}}% of Lynx's Max HP plus {{skillHpFlatBuff}}.::BR::E4: When Survival Response is
+          gained, increases the target's ATK by an amount equal to 3% of Lynx's Max HP for 1 turn(s).::BR::E6: Additionally boosts the Max HP increasing effect of Survival Response by an amount
           equal to 6% of Lynx's Max HP and increases Effect RES by 30%.
   March7thImaginary:
     Content:
@@ -1563,13 +1563,13 @@ Characters:
         text: Prey marked
         title: Cascading Featherblade
         content: >-
-          When "Prey" exists on the field, Moze will enter the Departed state.::BR::After allies attack "Prey," Moze will additionally deal 1 instance of Lightning Additional DMG equal to
-          {{PreyAdditionalMultiplier}}% of his ATK and consumes 1 point of Charge. For every 3 point(s) of Charge consumed, Moze launches 1 follow-up attack to "Prey," dealing Lightning DMG equal to
-          {{FuaScaling}}% of his ATK. When Charge reaches 0, dispels the target's "Prey" state and resets the tally of Charge points required to launch follow-up attack.
+          When Prey exists on the field, Moze will enter the Departed state.::BR::After allies attack Prey, Moze will additionally deal 1 instance of Lightning Additional DMG equal to
+          {{PreyAdditionalMultiplier}}% of his ATK and consumes 1 point of Charge. For every 3 point(s) of Charge consumed, Moze launches 1 follow-up attack to Prey, dealing Lightning DMG equal to
+          {{FuaScaling}}% of his ATK. When Charge reaches 0, dispels the target's Prey state and resets the tally of Charge points required to launch follow-up attack.
       e2CdBoost:
         text: E2 CD boost
         title: Wrathbearer
-        content: "E2: When all allies deal DMG to the enemy target marked as \"Prey,\" increases CRIT DMG by 40.0%."
+        content: "E2: When all allies deal DMG to the enemy target marked as Prey, increases CRIT DMG by 40.0%."
       e4DmgBuff:
         text: E4 DMG buff
         title: Heathprowler
@@ -1605,7 +1605,7 @@ Characters:
       basicEnhanced:
         text: Enhanced Basic
         title: Celestial Jade
-        content: Qingque's ATK increases by {{talentAtkBuff}}%, and her Basic ATK "Flower Pick" is enhanced, becoming "Cherry on Top!"
+        content: Qingque's ATK increases by {{talentAtkBuff}}%, and her Basic ATK Flower Pick is enhanced, becoming Cherry on Top!
       basicEnhancedSpdBuff:
         text: Enhanced Basic SPD buff
         title: Winning Hand
@@ -2042,12 +2042,12 @@ Characters:
       roaringBowstringsActive:
         text: Roaring Bowstrings
         title: Emboldening Salvo
-        content: "When \"Roaring Bowstrings\" is active, the ATK of all allies increases by {{skillAtkBuffValue}}%.::BR::E4: When \"Roaring Bowstrings\" is active, Yukong deals 30% more DMG to enemies."
+        content: "When Roaring Bowstrings is active, the ATK of all allies increases by {{skillAtkBuffValue}}%.::BR::E4: When Roaring Bowstrings is active, Yukong deals 30% more DMG to enemies."
       ultBuff:
         text: Ult CR / CD buffs
         title: Diving Kestrel
         content: >-
-          If "Roaring Bowstrings" is active on Yukong when her Ultimate is used, additionally increases all allies' CRIT Rate by {{ultCrBuffValue}}% and CRIT DMG by {{ultCdBuffValue}}%. At the same
+          If Roaring Bowstrings is active on Yukong when her Ultimate is used, additionally increases all allies' CRIT Rate by {{ultCrBuffValue}}% and CRIT DMG by {{ultCdBuffValue}}%. At the same
           time, deals Imaginary DMG equal to {{ultScaling}}% of Yukong's ATK to a single enemy.
       initialSpeedBuff:
         text: E1 initial SPD buff
@@ -2063,13 +2063,13 @@ Characters:
         text: "Intuit: Cull enabled"
         title: Earthbind, Etherbreak
         content: >-
-          "Intuit: Cull": Deals Physical DMG equal to {{CullScaling}}% of Yunli's ATK to the target, and deals Physical DMG equal to {{CullAdjacentScaling}}% of Yunli's ATK to adjacent targets. Then,
+          Intuit: Cull: Deals Physical DMG equal to {{CullScaling}}% of Yunli's ATK to the target, and deals Physical DMG equal to {{CullAdjacentScaling}}% of Yunli's ATK to adjacent targets. Then,
           additionally deals 6 instances of DMG, each dealing Physical DMG equal to {{CullAdditionalScaling}}% of Yunli's ATK to a random single enemy.
       ultCullHits:
         text: "Intuit: Cull hits"
         title: Earthbind, Etherbreak
         content: >-
-          "Intuit: Cull": Deals Physical DMG equal to {{CullScaling}}% of Yunli's ATK to the target, and deals Physical DMG equal to {{CullAdjacentScaling}}% of Yunli's ATK to adjacent targets. Then,
+          Intuit: Cull: Deals Physical DMG equal to {{CullScaling}}% of Yunli's ATK to the target, and deals Physical DMG equal to {{CullAdjacentScaling}}% of Yunli's ATK to adjacent targets. Then,
           additionally deals 6 instances of DMG, each dealing Physical DMG equal to {{CullAdditionalScaling}}% of Yunli's ATK to a random single enemy.
       counterAtkBuff:
         text: Counter ATK buff
@@ -2078,7 +2078,7 @@ Characters:
       e1UltBuff:
         text: E1 Ult buff
         title: Weathered Blade Does Not Sully
-        content: "E1: Increases DMG dealt by \"Intuit: Slash\" and \"Intuit: Cull\" by 20.0%. Increases the number of additional DMG instances for \"Intuit: Cull\" by 3.0."
+        content: "E1: Increases DMG dealt by Intuit: Slash and Intuit: Cull by 20.0%. Increases the number of additional DMG instances for Intuit: Cull by 3.0."
       e2DefShred:
         text: E2 FUA DEF PEN
         title: First Luster Breaks Dawn
@@ -2086,10 +2086,10 @@ Characters:
       e4ResBuff:
         text: E4 RES buff
         title: Artisan's Ironsong
-        content: "After launching \"Intuit: Slash\" or \"Intuit: Cull,\" increases this unit\"s Effect RES by 50.0%, lasting for 1.0 turn(s)."
+        content: "After launching Intuit: Slash or Intuit: Cull, increases this unit's Effect RES by 50.0%, lasting for 1.0 turn(s)."
       e6Buffs:
         text: E6 buffs
         title: Walk in Blade, Talk in Zither
         content: >-
-          While Parry is active, if an enemy actively uses their abilities, regardless of whether it attacks Yunli or not, it will trigger "Intuit: Cull" and remove the "Parry" effect. When dealing
-          DMG via "Intuit: Slash" or "Intuit: Cull," increases CRIT Rate by 15.0% and Physical RES PEN by 20.0%.
+          While Parry is active, if an enemy actively uses their abilities, regardless of whether it attacks Yunli or not, it will trigger Intuit: Cull and remove the Parry effect. When dealing
+          DMG via Intuit: Slash or Intuit: Cull, increases CRIT Rate by 15.0% and Physical RES PEN by 20.0%.

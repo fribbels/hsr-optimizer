@@ -1,34 +1,61 @@
-CapitalizeString: '{{string, capitalize}}'
-Relic_one: '$t(CapitalizeString, {"string": "relic"})'
-Relic_other: '$t(CapitalizeString, {"string": "relics"})'
-RelicWithCount_one: '{{count}} $t(CapitalizeString, {"string": "relic"})'
-RelicWithCount_other: '{{count}} $t(CapitalizeString, {"string": "relics"})'
-Lightcone_one: '$t(CapitalizeString, {"string": "light cone"})'
-Lightcone_other: '$t(CapitalizeString, {"string": "light cones"})'
-LightconeWithCount_one: '{{count}} $t(CapitalizeString, {"string": "light cone"})'
-LightconeWithCount_other: '{{count}} $t(CapitalizeString, {"string": "light cones"})'
+CapitalizeString: >-
+  {{string, capitalize}}
+Relic_one: >-
+  $t(CapitalizeString, {"string": "relic"})
+Relic_other: >-
+  $t(CapitalizeString, {"string": "relics"})
+RelicWithCount_one: >-
+  {{count}} $t(CapitalizeString, {"string": "relic"})
+RelicWithCount_other: >-
+  {{count}} $t(CapitalizeString, {"string": "relics"})
+Lightcone_one: >-
+  $t(CapitalizeString, {"string": "light cone"})
+Lightcone_other: >-
+  $t(CapitalizeString, {"string": "light cones"})
+LightconeWithCount_one: >-
+  {{count}} $t(CapitalizeString, {"string": "light cone"})
+LightconeWithCount_other: >-
+  {{count}} $t(CapitalizeString, {"string": "light cones"})
 ThousandsSuffix: K
-DecimalSeparator: .
-ThousandsSeparator: ','
-I18nNumber: '{{value, number}}'
-Cancel: '$t(CapitalizeString, {"string": "cancel"})'
-Confirm: '$t(CapitalizeString, {"string": "confirm"})'
-Submit: '$t(CapitalizeString, {"string": "submit"})'
-Ok: '$t(CapitalizeString, {"string": "ok"})'
-'Yes': '$t(CapitalizeString, {"string": "yes"})'
-'No': '$t(CapitalizeString, {"string": "no"})'
-Save: '$t(CapitalizeString, {"string": "save"})'
-Score: '$t(CapitalizeString, {"string": "score"})'
-Reset: '$t(CapitalizeString, {"string": "reset"})'
-Maximum: '$t(CapitalizeString, {"string": "maximum"})'
-Minimum: '$t(CapitalizeString, {"string": "minimum"})'
-EidolonNShort: E{{eidolon}}
-SuperimpositionNShort: S{{superimposition}}
-LevelShort: Lv{{level}}
-CharacterWithCount_one: '{{count}} $t(CapitalizeString, {"string": "character"})'
-CharacterWithCount_other: '{{count}} $t(CapitalizeString, {"string": "characters"})'
-Character_one: '$t(CapitalizeString, {"string": "character"})'
-Character_other: '$t(CapitalizeString, {"string": "characters"})'
+DecimalSeparator: "."
+ThousandsSeparator: ","
+I18nNumber: "{{value, number}}"
+Cancel: >-
+  $t(CapitalizeString, {"string": "cancel"})
+Confirm: >-
+  $t(CapitalizeString, {"string": "confirm"})
+Submit: >-
+  $t(CapitalizeString, {"string": "submit"})
+Ok: >-
+  $t(CapitalizeString, {"string": "ok"})
+Yes: >-
+  $t(CapitalizeString, {"string": "yes"})
+No: >-
+  $t(CapitalizeString, {"string": "no"})
+Save: >-
+  $t(CapitalizeString, {"string": "save"})
+Score: >-
+  $t(CapitalizeString, {"string": "score"})
+Reset: >-
+  $t(CapitalizeString, {"string": "reset"})
+Maximum: >-
+  $t(CapitalizeString, {"string": "maximum"})
+Minimum: >-
+  $t(CapitalizeString, {"string": "minimum"})
+EidolonNShort: >-
+  E{{eidolon}}
+SuperimpositionNShort: >-
+  S{{superimposition}}
+LevelShort: >-
+  Lv{{level}}
+CharacterWithCount_one: >-
+  {{count}} $t(CapitalizeString, {"string": "character"})
+CharacterWithCount_other: >-
+  {{count}} $t(CapitalizeString, {"string": "characters"})
+Character_one: >-
+  $t(CapitalizeString, {"string": "character"})
+Character_other: >-
+  $t(CapitalizeString, {"string": "characters"})
 VerifiedRelicHoverText: Relic substats verified by relic scorer (speed decimals)
 CombatStats: Combat Stats
 Parts:

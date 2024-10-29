@@ -67,7 +67,7 @@ OptimizerOptions:
     Label6: "+6"
     Label9: "+9"
     Label12: "+12"
-    Label15: '+15'
+    Label15: "+15"
 AdvancedOptions:
   Header: Advanced options
   EnemyConfigButtonText: Enemy configurations

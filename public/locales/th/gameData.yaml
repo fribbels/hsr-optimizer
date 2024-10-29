@@ -1,6 +1,6 @@
 Characters:
   "1001":
-    Name: March 7th
+    Name: March 7th (อนุรักษ์)
   "1002":
     Name: Dan Heng
   "1003":
@@ -84,7 +84,7 @@ Characters:
   "1223":
     Name: Moze
   "1224":
-    Name: March 7th
+    Name: March 7th (ล่าสังหาร)
   "1301":
     Name: Gallagher
   "1302":
@@ -271,343 +271,230 @@ RelicSets:
 Lightcones:
   "20000":
     Name: Arrows
-    SkillName: Crisis
   "20001":
     Name: Cornucopia
-    SkillName: Prosperity
   "20002":
     Name: Collapsing Sky
-    SkillName: Havoc
   "20003":
     Name: Amber
-    SkillName: Stasis
   "20004":
     Name: Void
-    SkillName: Fallen
   "20005":
     Name: Chorus
-    SkillName: Concerted
   "20006":
     Name: Data Bank
-    SkillName: Learned
   "20007":
     Name: Darting Arrow
-    SkillName: War Cry
   "20008":
     Name: Fine Fruit
-    SkillName: Savor
   "20009":
     Name: Shattered Home
-    SkillName: Eradication
   "20010":
     Name: Defense
-    SkillName: Revitalization
   "20011":
     Name: Loop
-    SkillName: Pursuit
   "20012":
     Name: Meshing Cogs
-    SkillName: Fleet Triumph
   "20013":
     Name: Passkey
-    SkillName: Epiphany
   "20014":
     Name: Adversarial
-    SkillName: Alliance
   "20015":
     Name: Multiplication
-    SkillName: Denizens of Abundance
   "20016":
     Name: Mutual Demise
-    SkillName: Legion
   "20017":
     Name: Pioneering
-    SkillName: IPC
   "20018":
     Name: Hidden Shadow
-    SkillName: Mechanism
   "20019":
     Name: Mediation
-    SkillName: Family
   "20020":
     Name: Sagacity
-    SkillName: Genius
   "21000":
     Name: Post-Op Conversation
-    SkillName: Mutual Healing
   "21001":
     Name: Good Night and Sleep Well
-    SkillName: Toiler
   "21002":
     Name: Day One of My New Life
-    SkillName: At This Very Moment
   "21003":
     Name: Only Silence Remains
-    SkillName: Record
   "21004":
     Name: Memories of the Past
-    SkillName: Old Photo
   "21005":
     Name: The Moles Welcome You
-    SkillName: Fantastic Adventure
   "21006":
     Name: The Birth of the Self
-    SkillName: The Maiden in the Painting
   "21007":
     Name: Shared Feeling
-    SkillName: Cure and Repair
   "21008":
     Name: Eyes of the Prey
-    SkillName: Self-Confidence
   "21009":
     Name: Landau's Choice
-    SkillName: Time Fleets Away
   "21010":
     Name: Swordplay
-    SkillName: Answers of Their Own
   "21011":
     Name: Planetary Rendezvous
-    SkillName: Departure
   "21012":
     Name: A Secret Vow
-    SkillName: Spare No Effort
   "21013":
     Name: Make the World Clamor
-    SkillName: The Power of Sound
   "21014":
     Name: Perfect Timing
-    SkillName: Refraction of Sightline
   "21015":
     Name: Resolution Shines As Pearls of Sweat
-    SkillName: Glance Back
   "21016":
     Name: Trend of the Universal Market
-    SkillName: A New Round of Shuffling
   "21017":
     Name: Subscribe for More!
-    SkillName: Like Before You Leave!
   "21018":
     Name: Dance! Dance! Dance!
-    SkillName: Cannot Stop It!
   "21019":
     Name: Under the Blue Sky
-    SkillName: Rye Under the Sun
   "21020":
     Name: Geniuses' Repose
-    SkillName: Each Now Has a Role to Play
   "21021":
     Name: Quid Pro Quo
-    SkillName: Enjoy With Rapture
   "21022":
     Name: Fermata
-    SkillName: Semibreve Rest
   "21023":
     Name: We Are Wildfire
-    SkillName: Teary-Eyed
   "21024":
     Name: River Flows in Spring
-    SkillName: Stave Off the Lingering Cold
   "21025":
     Name: Past and Future
-    SkillName: Kites From the Past
   "21026":
     Name: Woof! Walk Time!
-    SkillName: Run!
   "21027":
     Name: The Seriousness of Breakfast
-    SkillName: Get Ready
   "21028":
     Name: Warmth Shortens Cold Nights
-    SkillName: Tiny Light
   "21029":
     Name: We Will Meet Again
-    SkillName: A Discourse in Arms
   "21030":
     Name: This Is Me!
-    SkillName: New Chapter
   "21031":
     Name: Return to Darkness
-    SkillName: Raging Waves
   "21032":
     Name: Carve the Moon, Weave the Clouds
-    SkillName: Secret
   "21033":
     Name: Nowhere to Run
-    SkillName: Desperate Times
   "21034":
     Name: Today Is Another Peaceful Day
-    SkillName: A Storm Is Coming
   "21035":
     Name: What Is Real?
-    SkillName: Hypothesis
   "21036":
     Name: Dreamville Adventure
-    SkillName: Solidarity
   "21037":
     Name: Final Victor
-    SkillName: Wager
   "21038":
     Name: Flames Afar
-    SkillName: Deflagration
   "21039":
     Name: Destiny's Threads Forewoven
-    SkillName: Insight
   "21040":
     Name: The Day The Cosmos Fell
-    SkillName: Stratagem
   "21041":
     Name: It's Showtime
-    SkillName: Self-Amusement
   "21042":
     Name: Indelible Promise
-    SkillName: Inheritance
   "21043":
     Name: Concert for Two
-    SkillName: Inspire
   "21044":
     Name: Boundless Choreo
-    SkillName: Scrutinize
   "21045":
     Name: After the Charmony Fall
-    SkillName: Quiescence
   "21046":
     Name: Poised to Bloom
-    SkillName: Lose Not, Forget Not
   "21047":
     Name: Shadowed by Night
-    SkillName: Concealment
   "21048":
     Name: Dream's Montage
-    SkillName: Academy-Style Edit
   "22000":
     Name: Before the Tutorial Mission Starts
-    SkillName: Quick on the Draw
   "22001":
     Name: Hey, Over Here
-    SkillName: I'm Not Afraid!
   "22002":
     Name: For Tomorrow's Journey
-    SkillName: Bonds
   "22003":
     Name: "Ninja Record: Sound Hunt"
-    SkillName: Curtains Up!
   "23000":
     Name: Night on the Milky Way
-    SkillName: Meteor Swarm
   "23001":
     Name: In the Night
-    SkillName: Flowers and Butterflies
   "23002":
     Name: Something Irreplaceable
-    SkillName: Kinship
   "23003":
     Name: But the Battle Isn't Over
-    SkillName: Heir
   "23004":
     Name: In the Name of the World
-    SkillName: Inheritor
   "23005":
     Name: Moment of Victory
-    SkillName: Verdict
   "23006":
     Name: Patience Is All You Need
-    SkillName: Spider Web
   "23007":
     Name: Incessant Rain
-    SkillName: Mirage of Reality
   "23008":
     Name: Echoes of the Coffin
-    SkillName: Thorns
   "23009":
     Name: The Unreachable Side
-    SkillName: Unfulfilled Yearning
   "23010":
     Name: Before Dawn
-    SkillName: Long Night
   "23011":
     Name: She Already Shut Her Eyes
-    SkillName: Visioscape
   "23012":
     Name: Sleep Like the Dead
-    SkillName: Sweet Dreams
   "23013":
     Name: Time Waits for No One
-    SkillName: Morn, Noon, Dusk, and Night
   "23014":
     Name: I Shall Be My Own Sword
-    SkillName: With This Evening Jade
   "23015":
     Name: Brighter Than the Sun
-    SkillName: Defiant Till Death
   "23016":
     Name: Worrisome, Blissful
-    SkillName: One At A Time
   "23017":
     Name: Night of Fright
-    SkillName: Deep, Deep Breaths
   "23018":
     Name: An Instant Before A Gaze
-    SkillName: A Knight's Pilgrimage
   "23019":
     Name: Past Self in Mirror
-    SkillName: The Plum Fragrance In My Bones
   "23020":
     Name: Baptism of Pure Thought
-    SkillName: Mental Training
   "23021":
     Name: Earthly Escapade
-    SkillName: Capriciousness
   "23022":
     Name: Reforged Remembrance
-    SkillName: Crystallize
   "23023":
     Name: Inherently Unjust Destiny
-    SkillName: All-In
   "23024":
     Name: Along the Passing Shore
-    SkillName: Steerer
   "23025":
     Name: Whereabouts Should Dreams Rest
-    SkillName: Metamorphosis
   "23026":
     Name: Flowing Nightglow
-    SkillName: Pacify
   "23027":
     Name: Sailing Towards a Second Life
-    SkillName: Rough Water
   "23028":
     Name: Yet Hope Is Priceless
-    SkillName: Promise
   "23029":
     Name: Those Many Springs
-    SkillName: Worldly Affairs Leave No Mark
   "23030":
     Name: Dance at Sunset
-    SkillName: Deeply Engrossed
   "23031":
     Name: I Venture Forth to Hunt
-    SkillName: Intimidation
   "23032":
     Name: Scent Alone Stays True
-    SkillName: Contentment
   "23033":
     Name: "Ninjutsu Inscription: Dazzling Evilbreaker"
-    SkillName: Exorcism
   "24000":
     Name: On the Fall of an Aeon
-    SkillName: Moth To Flames
   "24001":
     Name: Cruising in the Stellar Sea
-    SkillName: Chase
   "24002":
     Name: Texture of Memories
-    SkillName: Treasure
   "24003":
     Name: Solitary Healing
-    SkillName: Chaos Elixir
   "24004":
     Name: Eternal Calculus
-    SkillName: Boundless Thought
 Paths:
   Warrior: ทำลายล้าง
   Rogue: ล่าสังหาร

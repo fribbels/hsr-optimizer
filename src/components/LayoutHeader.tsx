@@ -2,6 +2,7 @@ import { CloseOutlined, MenuOutlined } from '@ant-design/icons'
 import { Button, Flex, Layout, theme, Typography } from 'antd'
 import { Assets } from 'lib/assets'
 import { BASE_PATH } from 'lib/db'
+import { LanguageSelector } from 'components/LanguageSelector'
 
 const { useToken } = theme
 const { Header } = Layout
@@ -49,8 +50,12 @@ export function LayoutHeader() {
           </a>
         </Flex>
         <Flex>
-          {/* Disabling temporarily until translations are done */}
-          {/* <LanguageSelector style={{ width: 60, marginRight: 6, height: 36 }} dropdownStyle={{ width: 210 }} flagOnly placement='bottomRight'/> */}
+          {BASE_PATH == '/dreary-quibbles' && (
+            <LanguageSelector
+              style={{ width: 60, marginRight: 6, height: 36 }} dropdownStyle={{ width: 210 }}
+              flagOnly={true} placement='bottomRight'
+            />
+          )}
           <a href='https://ko-fi.com/fribbels' target='_blank' rel='noreferrer'>
             <Flex>
               <img src={Assets.getKofi()} style={{ height: 36, marginRight: 6, borderRadius: 5 }}></img>

@@ -16,13 +16,11 @@ export const Hint = {
         <Flex vertical gap={10}>
           <p>{i18next.t('hint:RatingFilter.p1')}</p>
           <p>{i18next.t('hint:RatingFilter.p2')}</p>
-          <p>{i18next.t('hint:RatingFilter.p3')}</p>
         </Flex>
         /*
         "Title": "Rating filters",
-        "p1": "Weight - Sum of substat weights of all 6 relics, from the Substat weight filter",
-        "p2": "Ehp - Effective HP, measuring how tanky a max level character is. Calculated using HP & DEF & damage reduction passives",
-        "p3": "Basic / Skill / Ult / Fua (Follow-up attack) / Dot (Damage over time) - Skill damage calculations, based on the environmental factors in character passives / light cone passives / enemy options."
+        "p1": "Ehp - Effective HP, measuring how tanky a max level character is. Calculated using HP & DEF & damage reduction passives",
+        "p2": "Basic / Skill / Ult / Fua (Follow-up attack) / Dot (Damage over time) - Skill damage calculations, based on the environmental factors in character passives / light cone passives / enemy options."
         */
       ),
     }

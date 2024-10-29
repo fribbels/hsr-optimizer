@@ -19,10 +19,12 @@ const Locales = ['zh', 'de', 'en', 'es', 'fr', 'id', 'ja', 'ko', 'pt', 'ru', 'th
 
 const TrailblazerPaths = ['Warrior', 'Knight', 'Shaman']
 
+const multiPathIds = [1001, 1224]
+
 const outputLocalesMapping = {
   zh: ['zh'],
   de: ['de'],
-  en: ['en'],
+  en: ['en', 'it'],
   es: ['es'],
   fr: ['fr'],
   id: ['id'],
@@ -34,13 +36,17 @@ const outputLocalesMapping = {
   vi: ['vi'],
 }
 
-const Overrides: { [key: string]: { key: string; value: string }[] } = {
+const Overrides: { [key: string]: { key: string; value: string }[] | undefined } = {
   en: [
     {
       key: 'Characters.1213.Name',
       value: 'Imbibitor Lunae',
     }
-  ]
+  ],
+  es: [],
+  it: [],
+  pt: [],
+  zh: [],
 }
 
 function formattingFixer(string: string) {
@@ -140,80 +146,79 @@ async function generateTranslations() {
       delete eidolons[eidolon.RankID].Values
     }
 
-    const abilities = {}
-    for (const ability of skillConfig) {
-      if (!abilities[ability.SkillID]) {
-        abilities[ability.SkillID] = {
-          Name: formattingFixer(cleanString(locale, textmap[ability.SkillName.Hash])),
-          Desc: formattingFixer(replaceParameters(textmap[ability.SimpleSkillDesc.Hash], ability.SimpleParamList.map((x) => x.Value))),
-          Type: textmap[ability.SkillTypeDesc.Hash],
-        }
-      }
-      /*
-      switch (ability.MaxLevel) {
-        case 1: {// technique / open world attack
-          let parameters = ability.ParamList.map((x) => x.Value)
-          let description = textmap[ability.SkillDesc.Hash]
-          description = replaceParameters(description, parameters)
-          abilities[ability.SkillID].LongDesc = formattingFixer(description)
-        }
-          break;
-        case 5: {// basic attack
-          if (!(ability.Level === 5 || ability.Level === 6)) break
-          let parameters = ability.ParamList.map((x) => x.Value)
-          let description = textmap[ability.SkillDesc.Hash]
-          description = replaceParameters(description, parameters)
-          if (ability.Level === 5) {
-            abilities[ability.SkillID].LongDescWithoutEidolon = formattingFixer(description)
-          } else {
-            abilities[ability.SkillID].LongDescWithEidolon = formattingFixer(description)
-          }
-        }
-          break;
-        default: {// skill/talent/ult
-          if (!(ability.Level === 10 || ability.Level === 12)) break
-          let parameters = ability.ParamList.map((x) => x.Value)
-          let description = textmap[ability.SkillDesc.Hash]
-          if (!description) break
-          description = replaceParameters(description, parameters)
-          if (ability.Level === 10) {
-            abilities[ability.SkillID].LongDescWithoutEidolon = formattingFixer(description)
-          } else {
-            abilities[ability.SkillID].LongDescWithEidolon = formattingFixer(description)
-          }
-        }
-          break;
-      } */
-    }
     /*
-      const effectslist: Effect[] = []
-      for (const effect of statusConfig) {
-        effectslist.push({
-          Name: cleanString(locale, textmap[effect.StatusName.Hash]),
-          Desc: formatEffectParameters(formattingFixer(textmap[effect.StatusDesc.Hash])),
-          Effect: cleanString(locale, textmap[effect.StatusEffect.Hash]),
-          Source: Number(String(effect.StatusID).slice(3, -1)),
-          ID: effect.StatusID,
-        })
+  const abilities = {}
+  for (const ability of skillConfig) {
+    if (!abilities[ability.SkillID]) {
+      abilities[ability.SkillID] = {
+        Name: formattingFixer(cleanString(locale, textmap[ability.SkillName.Hash])),
+        Desc: formattingFixer(replaceParameters(textmap[ability.SimpleSkillDesc.Hash], ability.SimpleParamList.map((x) => x.Value))),
+        Type: textmap[ability.SkillTypeDesc.Hash],
       }
-
-      const tracelist: Trace[] = []
-      for (const trace of traceConfig) {
-        if (trace.PointType == 3) {
-          const formattedTrace: Trace = {
-            Name: cleanString(locale, translateKey(trace.PointName, textmap)) ?? 'err',
-            Desc: translateKey(trace.PointDesc, textmap) ?? 'err',
-            Owner: trace.AvatarID,
-            ID: trace.PointID,
-            Ascension: trace.AvatarPromotionLimit ?? 0,
-            values: trace.ParamList.map((x) => x.Value),
-          }
-          formattedTrace.Desc = replaceParameters(formattedTrace.Desc, formattedTrace.values ?? [])
-          formattedTrace.Desc = formattingFixer(formattedTrace.Desc)
-          delete formattedTrace.values
-          tracelist.push(formattedTrace)
+    }
+    switch (ability.MaxLevel) {
+      case 1: {// technique / open world attack
+        let parameters = ability.ParamList.map((x) => x.Value)
+        let description = textmap[ability.SkillDesc.Hash]
+        description = replaceParameters(description, parameters)
+        abilities[ability.SkillID].LongDesc = formattingFixer(description)
+      }
+        break;
+      case 5: {// basic attack
+        if (!(ability.Level === 5 || ability.Level === 6)) break
+        let parameters = ability.ParamList.map((x) => x.Value)
+        let description = textmap[ability.SkillDesc.Hash]
+        description = replaceParameters(description, parameters)
+        if (ability.Level === 5) {
+          abilities[ability.SkillID].LongDescWithoutEidolon = formattingFixer(description)
+        } else {
+          abilities[ability.SkillID].LongDescWithEidolon = formattingFixer(description)
         }
-      }*/
+      }
+        break;
+      default: {// skill/talent/ult
+        if (!(ability.Level === 10 || ability.Level === 12)) break
+        let parameters = ability.ParamList.map((x) => x.Value)
+        let description = textmap[ability.SkillDesc.Hash]
+        if (!description) break
+        description = replaceParameters(description, parameters)
+        if (ability.Level === 10) {
+          abilities[ability.SkillID].LongDescWithoutEidolon = formattingFixer(description)
+        } else {
+          abilities[ability.SkillID].LongDescWithEidolon = formattingFixer(description)
+        }
+      }
+        break;
+    }
+  }
+    const effectslist: Effect[] = []
+    for (const effect of statusConfig) {
+      effectslist.push({
+        Name: cleanString(locale, textmap[effect.StatusName.Hash]),
+        Desc: formatEffectParameters(formattingFixer(textmap[effect.StatusDesc.Hash])),
+        Effect: cleanString(locale, textmap[effect.StatusEffect.Hash]),
+        Source: Number(String(effect.StatusID).slice(3, -1)),
+        ID: effect.StatusID,
+      })
+    }
+
+    const tracelist: Trace[] = []
+    for (const trace of traceConfig) {
+      if (trace.PointType == 3) {
+        const formattedTrace: Trace = {
+          Name: cleanString(locale, translateKey(trace.PointName, textmap)) ?? 'err',
+          Desc: translateKey(trace.PointDesc, textmap) ?? 'err',
+          Owner: trace.AvatarID,
+          ID: trace.PointID,
+          Ascension: trace.AvatarPromotionLimit ?? 0,
+          values: trace.ParamList.map((x) => x.Value),
+        }
+        formattedTrace.Desc = replaceParameters(formattedTrace.Desc, formattedTrace.values ?? [])
+        formattedTrace.Desc = formattingFixer(formattedTrace.Desc)
+        delete formattedTrace.values
+        tracelist.push(formattedTrace)
+      }
+    }*/
 
     const setEffects = {}
     for (const effect of relicEffectConfig) {
@@ -244,7 +249,9 @@ async function generateTranslations() {
 
     for (const avatar of AvatarConfig) {
       output.Characters[avatar.AvatarID] = {
-        Name: avatar.AvatarID > 8000 ? cleanString(locale, tbIdToNativeName(avatar.AvatarID, textmap, pathConfig, locale)) : cleanString(locale, textmap[avatar.AvatarName.Hash]),
+        Name: avatar.AvatarID > 8000 || multiPathIds.includes(avatar.AvatarID)
+          ? cleanString(locale, getMultiPathName(textmap[avatar.AvatarName.Hash],avatar.AvatarID, textmap, pathConfig, locale))
+          : cleanString(locale, textmap[avatar.AvatarName.Hash]),
         /* not currently being used
         Abilities: {
           [avatar.SkillList[0]]: abilities[avatar.SkillList[0]],
@@ -322,7 +329,7 @@ async function generateTranslations() {
       const Lightcone: Lightcone = {
         Name: cleanString(locale, textmap[lightcone.EquipmentName.Hash]),
         // EquipmentDesc: cleanString(locale, textmap[lightcone.EquipmentDesc.Hash]), equipment config has a Hash but no corresponding value in textmap
-        SkillName: cleanString(locale, textmap[lightconeRankConfig.filter((x) => x.SkillID == lightcone.SkillID)[0]!.SkillName.Hash]),
+        //SkillName: cleanString(locale, textmap[lightconeRankConfig.filter((x) => x.SkillID == lightcone.SkillID)[0]!.SkillName.Hash]),
       }
       output.Lightcones[lightcone.EquipmentID] = Lightcone
     }
@@ -371,6 +378,30 @@ function applyOverrides(output: object, locale: string) {
   }
 }
 
+function getMultiPathName(name: string, id: number, textmap: TextMap, pathmap: Path[], locale: string) {
+  if (id > 8000) return tbIdToNativeName(id, textmap, pathmap, locale)
+  return multipathIdToNativeName(name, id, textmap, pathmap, locale)
+}
+
+function multipathIdToNativeName(name: string, id: number, textmap: TextMap, pathmap: Path[], locale: string) {
+  const path = ((id) => {
+    const pathT = multipathIdToPath[id]
+    let hash = 0
+    for (const path of pathmap) {
+      if (path.ID == pathT) {
+        hash = path.BaseTypeText.Hash
+      }
+    }
+    return textmap[hash]
+  })(id)
+  return `${name} (${path})`
+}
+
+const multipathIdToPath = {
+  1001: 'Knight',
+  1224: 'Rogue'
+}
+
 function tbIdToNativeName(id: number, textmap: TextMap, pathmap: Path[], locale: string) {
   const isCaelus = id % 2 ? true : false
   const path = ((id) => {
@@ -387,7 +418,6 @@ function tbIdToNativeName(id: number, textmap: TextMap, pathmap: Path[], locale:
   let nativeName = getTbName(locale, isCaelus)
   return `${nativeName} (${path})`
 }
-
 
 function getTbName(locale: string, isCaelus: boolean): string {
   const TB_NAMES = {
@@ -428,8 +458,8 @@ function getTbName(locale: string, isCaelus: boolean): string {
       caelus: 'Caelus',
     },
     zh: {
-      stelle: 'Stelle',
-      caelus: 'Caelus',
+      stelle: '星',
+      caelus: '穹',
     },
     th: {
       stelle: 'Stelle',
@@ -444,7 +474,7 @@ function getTbName(locale: string, isCaelus: boolean): string {
   return TB_NAMES[locale].stelle
 }
 
-// from the readme on Dim's repo
+// from the readme on Dim's old github repo
 function getHash(key: string) {
   var hash1 = 5381
   var hash2 = 5381
@@ -504,7 +534,7 @@ type Trace = {
 type Lightcone = {
   Name: string
   // EquipmentDesc: string
-  SkillName: string
+  // SkillName: string
 }
 
 await generateTranslations()

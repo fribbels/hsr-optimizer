@@ -34,21 +34,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       content: t('Content.healingAbility.content'),
       options: [
         {
-          display: 'Ult',
+          display: 'Healing ability: Ult',
           value: 0,
-          label: 'Ult',
+          label: 'Healing ability: Ult',
         },
         {
-          display: 'Skill',
+          display: 'Healing ability: Skill',
           value: 1,
-          label: 'Skill',
+          label: 'Healing ability: Skill',
         },
         {
-          display: 'Talent',
+          display: 'Healing ability: Talent',
           value: 2,
-          label: 'Talent',
+          label: 'Healing ability: Talent',
         },
       ],
+      fullWidth: true,
     },
     {
       formItem: 'switch',

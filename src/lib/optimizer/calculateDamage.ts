@@ -1,4 +1,4 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
 import { p2 } from 'lib/optimizer/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -209,7 +209,12 @@ function calculateEhp(x: ComputedStatsObject, context: OptimizerContext) {
 }
 
 function calculateHeal(x: ComputedStatsObject, context: OptimizerContext) {
-  x.HEAL_VALUE = x.HEAL_VALUE * (1 + x[Stats.OHB])
+  x.HEAL_VALUE = x.HEAL_VALUE * (
+    1
+    + x[Stats.OHB]
+    + x.SKILL_OHB * (x.HEAL_TYPE == SKILL_TYPE ? 1 : 0)
+    + x.ULT_OHB * (x.HEAL_TYPE == ULT_TYPE ? 1 : 0)
+  )
 }
 
 function calculateShield(x: ComputedStatsObject, context: OptimizerContext) {

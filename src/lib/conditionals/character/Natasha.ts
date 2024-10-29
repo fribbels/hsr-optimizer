@@ -1,4 +1,4 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -10,25 +10,40 @@ import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Natasha')
-  const { basic, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const ultHealingFlat = ult(e, 368, 409.4)
   const ultHealingScaling = ult(e, 0.138, 0.1472)
+  const skillHealingFlat = skill(e, 280, 311.5)
+  const skillHealingScaling = skill(e, 0.105, 0.112)
 
   const content: ContentItem[] = [
     {
-      formItem: 'switch',
-      id: 'ultHealing',
-      name: 'ultHealing',
-      text: t('Content.ultHealing.text'),
-      title: t('Content.ultHealing.title'),
-      content: t('Content.ultHealing.content'),
+      formItem: 'select',
+      id: 'healingAbility',
+      name: 'healingAbility',
+      text: t('Content.healingAbility.text'),
+      title: t('Content.healingAbility.title'),
+      content: t('Content.healingAbility.content'),
+      options: [
+        {
+          display: 'Healing ability: Ult',
+          value: ULT_TYPE,
+          label: 'Healing ability: Ult',
+        },
+        {
+          display: 'Healing ability: Skill',
+          value: SKILL_TYPE,
+          label: 'Healing ability: Skill',
+        },
+      ],
+      fullWidth: true,
     },
   ]
 
   const defaults = {
-    ultHealing: true,
+    healingAbility: ULT_TYPE,
   }
 
   return {
@@ -43,8 +58,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       x.BASIC_TOUGHNESS_DMG += 30
 
-      x.HEAL_SCALING += ultHealingScaling
-      x.HEAL_FLAT += ultHealingFlat
+      if (r.healingAbility == ULT_TYPE) {
+        x.HEAL_TYPE = ULT_TYPE
+        x.HEAL_SCALING += ultHealingScaling
+        x.HEAL_FLAT += ultHealingFlat
+      }
+
+      if (r.healingAbility == SKILL_TYPE) {
+        x.HEAL_TYPE = SKILL_TYPE
+        x.HEAL_SCALING += skillHealingScaling
+        x.HEAL_FLAT += skillHealingFlat
+      }
 
       return x
     },

@@ -104,9 +104,12 @@ export function injectPrecomputedStatsContext(action: OptimizerAction, gpuParams
       ${x.BASIC_BREAK_DMG_MODIFIER},${gpuParams.DEBUG ? ' // BASIC_BREAK_DMG_MODIFIER' : ''}
       ${x.ULT_ADDITIONAL_DMG_CR_OVERRIDE},${gpuParams.DEBUG ? ' // ULT_ADDITIONAL_DMG_CR_OVERRIDE' : ''}
       ${x.ULT_ADDITIONAL_DMG_CD_OVERRIDE},${gpuParams.DEBUG ? ' // ULT_ADDITIONAL_DMG_CD_OVERRIDE' : ''}
-      ${x.HEAL_FLAT},${gpuParams.DEBUG ? ' // HEAL_FLAT' : ''}
-      ${x.HEAL_SCALING},${gpuParams.DEBUG ? ' // HEAL_SCALING' : ''}
-      ${x.HEAL_VALUE},${gpuParams.DEBUG ? ' // HEAL_VALUE' : ''}
+      ${x.SKILL_OHB},${gpuParams.DEBUG ? ' // HEAL_FLAT' : ''}
+      ${x.ULT_OHB},${gpuParams.DEBUG ? ' // HEAL_SCALING' : ''}
+      ${x.HEAL_TYPE},${gpuParams.DEBUG ? ' // HEAL_VALUE' : ''}
+      ${x.HEAL_FLAT},${gpuParams.DEBUG ? ' // SHIELD_FLAT' : ''}
+      ${x.HEAL_SCALING},${gpuParams.DEBUG ? ' // SHIELD_SCALING' : ''}
+      ${x.HEAL_VALUE},${gpuParams.DEBUG ? ' // SHIELD_VALUE' : ''}
       ${x.SHIELD_FLAT},${gpuParams.DEBUG ? ' // SHIELD_FLAT' : ''}
       ${x.SHIELD_SCALING},${gpuParams.DEBUG ? ' // SHIELD_SCALING' : ''}
       ${x.SHIELD_VALUE},${gpuParams.DEBUG ? ' // SHIELD_VALUE' : ''}

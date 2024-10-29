@@ -144,6 +144,9 @@ export const baseComputedStatsObject = {
   ULT_ADDITIONAL_DMG_CR_OVERRIDE: 0,
   ULT_ADDITIONAL_DMG_CD_OVERRIDE: 0,
 
+  SKILL_OHB: 0,
+  ULT_OHB: 0,
+  HEAL_TYPE: 0,
   HEAL_FLAT: 0,
   HEAL_SCALING: 0,
   HEAL_VALUE: 0,

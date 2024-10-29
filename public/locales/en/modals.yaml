@@ -339,7 +339,8 @@ ManyPerms:
   Cancel: Cancel search
   Proceed: Proceed with search
 EditCharacter:
-  EidolonButton: $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
+  EidolonButton: >-
+    $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
   SuperimpositionButton: >-
     $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: >-
@@ -373,7 +374,7 @@ Relic:
       SetInvalid: Set value is invalid
       SetNotOrnament: The selected set is not an ornament set
       SetNotRelic: The selected set is not a relic set
-      SubNInvalid: Substat {{number}} is invalid
+      SubNInvalid: "Substat {{number}} is invalid"
       SubsOutOfOrder: Substats are out of order
       DuplicateSubs: Duplicate substats, only one of each type is allowed
       MainAsSub: Substat type is the same as the main stat
@@ -443,8 +444,10 @@ Builds:
       Successfully equipped build: {{buildName}}
   ConfirmDelete:
     DeleteAll: Are you sure you want to delete all builds?
-    DeleteSingle: Are you sure you want to delete {{name}}?
-    SuccessMessageAll: Successfully deleted all builds for {{characterName}}
+    DeleteSingle: >-
+      Are you sure you want to delete {{name}}?
+    SuccessMessageAll: >-
+      Successfully deleted all builds for {{characterName}}
     SuccessMessageSingle: >-
       Successfully deleted build: {{name}}
   NoBuilds:

@@ -112,7 +112,7 @@ Toolbar:
     Width: Inventory width
     Filter: Auto filter rows
     NoneSelected: "Select a relic to locate"
-    Location: Location - Row {{rowIndex}} / Col {{columnIndex}}
+    Location: "Location - Row {{rowIndex}} / Col {{columnIndex}}"
   InsightOptions:
     Buckets: "Relic Insight: Buckets"
     Top10: "Relic Insight: Top 10"

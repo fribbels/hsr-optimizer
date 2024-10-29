@@ -17,9 +17,9 @@ LightconeWithCount_one: >-
 LightconeWithCount_other: >-
   {{count}} $t(CapitalizeString, {"string": "light cones"})
 ThousandsSuffix: K
-DecimalSeparator: .
+DecimalSeparator: "."
 ThousandsSeparator: ","
-I18nNumber: '{{value, number}}'
+I18nNumber: "{{value, number}}"
 Cancel: >-
   $t(CapitalizeString, {"string": "cancel"})
 Confirm: >-

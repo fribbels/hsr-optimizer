@@ -1,0 +1,4 @@
+RelicFilterBar:
+  ScoringButton: 评分算法
+Messages:
+  AddRelicSuccess: '成功添加遗器'

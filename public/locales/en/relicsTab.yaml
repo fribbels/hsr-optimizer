@@ -77,7 +77,7 @@ RelicGrid:
           Selected Char
           Max Potential
     CustomCharacters:
-      Label: "Custom characters"
+      Label: Custom characters
       AvgPotCol:
         Label: "Custom characters: Average potential"
         Header: |-
@@ -89,7 +89,7 @@ RelicGrid:
           Custom Chars
           Max Potential
     AllCharacters:
-      Label: "All characters"
+      Label: All characters
       AvgPotCol:
         Label: "All characters: Average potential"
         Header: |-
@@ -103,7 +103,7 @@ RelicGrid:
     ComingSoon:
       Label: Coming soon
       SetsPotential:
-        Label: "Relic / Ornament sets potential"
+        Label: Relic / Ornament sets potential
         Header: |-
           All Chars
           Max Potential + Sets
@@ -111,20 +111,20 @@ Toolbar:
   RelicLocator:
     Width: Inventory width
     Filter: Auto filter rows
-    NoneSelected: "Select a relic to locate"
+    NoneSelected: Select a relic to locate
     Location: "Location - Row {{rowIndex}} / Col {{columnIndex}}"
   InsightOptions:
     Buckets: "Relic Insight: Buckets"
     Top10: "Relic Insight: Top 10"
   PlotOptions:
-    PlotAll: "Show all characters"
-    PlotCustom: "Show custom characters"
-  EditRelic: "Edit relic"
+    PlotAll: Show all characters
+    PlotCustom: Show custom characters
+  EditRelic: Edit relic
   DeleteRelic:
-    ButtonText: "Delete relic"
-    Warning_one: "Delete the selected relic?"
+    ButtonText: Delete relic
+    Warning_one: Delete the selected relic?
     Warning_other: "Delete the selected {{count}} relics?"
-  AddRelic: "Add New Relic"
+  AddRelic: Add New Relic
 RelicInsights:
   NewStats: "New stats: "
   UpgradedStats: "Upgraded stats: "

@@ -21,7 +21,7 @@ export const ComboFilters = () => {
   const { t } = useTranslation(['optimizerTab', 'common'])
   const form = Form.useFormInstance() // Get the form instance
   const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
-  const comboType = Form.useWatch('comboType', form);
+  const comboType = Form.useWatch('comboType', form)
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
@@ -57,7 +57,7 @@ export const ComboFilters = () => {
         </Button>
         <Popconfirm
           title={t('common:Confirm', 'Confirm', { capitalizeLength: 1 })}
-          description={'Reset all Simple / Advanced rotation settings to default?'}
+          description='Reset all Simple / Advanced rotation settings to default?'
           onConfirm={() => reset(form)}
           placement='bottom'
           okText={t('common:Yes', 'Yes', { capitalizeLength: 1 })}
@@ -128,7 +128,7 @@ function minus(formInstance: FormInstance) {
 }
 
 function reset(formInstance: FormInstance) {
-  const characterId = window.store.getState().optimizerTabFocusCharacter as string
+  const characterId = window.store.getState().optimizerTabFocusCharacter!
   const characterMetadata = DB.getMetadata().characters[characterId]
 
   if (!characterMetadata) return

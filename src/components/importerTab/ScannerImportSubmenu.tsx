@@ -234,20 +234,20 @@ export function ScannerImportSubmenu() {
       <Flex style={{ minHeight: 250 }}>
         <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
           <Text>
-            {t('Import.Stage2.FileInfo', { relicCount: currentRelics.length || 0, characterCount: currentCharacters?.length || 0 })}
+            {t('Import.Stage2.FileInfo', { relicCount: currentRelics.length ?? 0, characterCount: currentCharacters?.length ?? 0 })}
           </Text>
 
           <Text>
-            {t('Import.Stage2.RelicsImport.Label')}
+            {t('Import.Stage2.RelicsImport.Label', { relicCount: currentRelics.length ?? 0 })}
           </Text>
 
           <Button style={{ width: importerTabButtonWidth }} type='primary' onClick={mergeRelicsConfirmed} loading={loading2}>
-            {t('Import.Stage2.RelicsImport.ButtonText')}
+            {t('Import.Stage2.RelicsImport.ButtonText', { relicCount: currentRelics.length ?? 0 })}
           </Button>
 
           <Divider><Text style={{ fontSize: 12 }}>{t('Import.Stage2.Or')}</Text></Divider>
           <Text>
-            {t('Import.Stage2.CharactersImport.Label')}
+            {t('Import.Stage2.CharactersImport.Label', { relicCount: currentRelics.length ?? 0, characterCount: currentCharacters?.length ?? 0 })}
           </Text>
 
           <Popconfirm
@@ -255,11 +255,11 @@ export function ScannerImportSubmenu() {
             description={t('Import.Stage2.CharactersImport.WarningDescription')}
             onConfirm={mergeCharactersConfirmed}
             placement='bottom'
-            okText={t('common:Yes', { capitalizeLength: 1 })}
-            cancelText={t('common:Cancel', { capitalizeLength: 1 })}
+            okText={t('Import.Stage2.CharactersImport.Yes')}
+            cancelText={t('Import.Stage2.CharactersImport.Cancel')}
           >
             <Button style={{ width: importerTabButtonWidth }} type='primary' loading={loading2}>
-              {t('Import.Stage2.CharactersImport.ButtonText')}
+              {t('Import.Stage2.CharactersImport.ButtonText', { relicCount: currentRelics.length ?? 0, characterCount: currentCharacters?.length ?? 0 })}
             </Button>
           </Popconfirm>
         </Flex>

@@ -101,18 +101,4 @@ void i18next
       },
     },
   })
-
-i18next.services.formatter?.add('capitalize', (value: string | undefined, lng, options: { interpolationkey?: string; capitalizeLength: number }) => {
-  const string = value ?? options.interpolationkey ?? ''
-  let length = options.capitalizeLength ?? 1
-  if (length < 0) {
-    length = string.length
-  }
-  let out: string = ''
-  for (let i = 0; i < length; i++) {
-    out = out + string.charAt(i).toUpperCase()
-  }
-  return out + string.slice(length)
-})
-
 export default i18next

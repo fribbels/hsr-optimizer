@@ -502,14 +502,14 @@ export default function RelicsTab() {
             {t('Toolbar.EditRelic')/* Edit relic */}
           </Button>
           <Popconfirm
-            title={t('common:Confirm')/* confirm */}
+            title={t('Toolbar.DeleteRelic.Confirm')/* confirm */}
             description={t('Toolbar.DeleteRelic.Warning', { count: selectedRelics.length })/* Delete the selected relic(s) */}
             open={deleteConfirmOpen}
             onOpenChange={deleteClicked}
             onConfirm={deletePerform}
             placement='bottom'
-            okText={t('common:Yes')/* yes */}
-            cancelText={t('common:Cancel')/* cancel */}
+            okText={t('Toolbar.DeleteRelic.Yes')/* yes */}
+            cancelText={t('Toolbar.DeleteRelic.Cancel')/* cancel */}
           >
             <Button type='primary' style={{ width: 170 }} disabled={selectedRelics.length === 0}>
               {t('Toolbar.DeleteRelic.ButtonText')/* Delete relic */}

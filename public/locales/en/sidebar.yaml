@@ -4,10 +4,8 @@ Showcase:
 Optimization:
   Title: Optimization
   Optimizer: Optimizer
-  Relics: >-
-    $t(common:Relic, {"count": 2000, "capitalizeLength": 1})
-  Characters: >-
-    $t(common:Character, {"count": 23, "capitalizeLength": 1})
+  Relics: Relics
+  Characters: Characters
   Import: Import / Save
   Settings: Settings
   Start: Get Started

@@ -121,9 +121,12 @@ Toolbar:
     PlotCustom: Show custom characters
   EditRelic: Edit relic
   DeleteRelic:
+    Confirm: Confirm
+    Yes: Yes
+    Cancel: Cancel
     ButtonText: Delete relic
     Warning_one: Delete the selected relic?
-    Warning_other: "Delete the selected {{count}} relics?"
+    Warning_other: "Delete the {{count}} selected relics?"
   AddRelic: Add New Relic
 RelicInsights:
   NewStats: "New stats: "

@@ -1,18 +1,26 @@
 Scoring:
   Footer:
-    Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+    Cancel: >-
+      $t(common:Cancel, {"capitalizeLength": 1})
 EditCharacter:
-  Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+  Cancel: >-
+    $t(common:Cancel, {"capitalizeLength": 1})
 EditImage:
   Footer:
-    Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+    Cancel: >-
+      $t(common:Cancel, {"capitalizeLength": 1})
 SaveBuild:
-  Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+  Cancel: >-
+    $t(common:Cancel, {"capitalizeLength": 1})
 SwitchRelics:
-  Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+  Cancel: >-
+    $t(common:Cancel, {"capitalizeLength": 1})
 Builds:
-  Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+  Cancel: >-
+    $t(common:Cancel, {"capitalizeLength": 1})
   ConfirmModal:
-    CancelButton: '$t(common:Cancel, {"capitalizeLength": 1})'
+    CancelButton: >-
+      $t(common:Cancel, {"capitalizeLength": 1})
   NoBuilds:
-    Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+    Cancel: >-
+      $t(common:Cancel, {"capitalizeLength": 1})

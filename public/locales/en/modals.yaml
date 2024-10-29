@@ -465,7 +465,7 @@ ScoreFooter:
 CharacterSelect:
   MultiSelect:
     Placeholder: Customize characters
-    MaxTagPlaceholderSome: {{count}} characters excluded
+    MaxTagPlaceholderSome: "{{count}} characters excluded"
     MaxTagPlaceholderNone: All characters enabled
     ModalTitle: Select characters to exclude
   SingleSelect:

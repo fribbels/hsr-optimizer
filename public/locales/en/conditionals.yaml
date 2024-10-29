@@ -708,8 +708,11 @@ Characters:
         text: Healing max HP buff
         content: When Bailu heals a target ally above their normal Max HP, the target's Max HP increases by 10% for 2 turns.
       talentDmgReductionBuff:
-        text: Invigoration DMG reduction
+        text: Ult DMG reduction
         content: Characters with Invigoration take 10% less DMG.
+      healingAbility:
+        text: Healing ability
+        content: TODO
       e2UltHealingBuff:
         text: E2 Ult healing buff
         content: "E2: Increases healing by 15% after Ultimate."
@@ -916,6 +919,9 @@ Characters:
           Activates Matrix of Prescience, via which other team members will Distribute 65% of the DMG they receive (before this DMG is mitigated by any Shields) to Fu Xuan for 3 turn(s). While
           affected by Matrix of Prescience, all team members gain the Knowledge effect, which increases their respective Max HP by {{skillHpBuffValue}}% of Fu Xuan's Max HP, and increases CRIT Rate by
           {{skillCrBuffValue}}%.
+      ultHealing:
+        text: Ult healing
+        content: TODO
       e6TeamHpLostPercent:
         text: E6 team HP lost
         content: >-

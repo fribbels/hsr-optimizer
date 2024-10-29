@@ -588,3 +588,8 @@ a {
     background-color: #95959552;
     border-radius: 4px !important;
 }
+
+/* Arrow for small selectors */
+.ant-select-sm .ant-select-arrow {
+    inset-inline-end: 7px !important;
+}

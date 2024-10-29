@@ -1,13 +1,18 @@
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardHpFinalizer, standardHpFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardHpHealingFinalizer,
+  standardHpHealingFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
+import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -22,32 +27,50 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 1.00, 1.08)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'talentActive',
-    name: 'talentActive',
-    text: t('Content.talentActive.text'),
-    title: t('Content.talentActive.title'),
-    content: t('Content.talentActive.content', { talentDmgReductionValue: TsUtils.precisionRound(100 * talentDmgReductionValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'skillActive',
-    name: 'skillActive',
-    text: t('Content.skillActive.text'),
-    title: t('Content.skillActive.title'),
-    content: t('Content.skillActive.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue), skillCrBuffValue: TsUtils.precisionRound(100 * skillCrBuffValue) }),
-  }, {
-    formItem: 'slider',
-    id: 'e6TeamHpLostPercent',
-    name: 'e6TeamHpLostPercent',
-    text: t('Content.e6TeamHpLostPercent.text'),
-    title: t('Content.e6TeamHpLostPercent.title'),
-    content: t('Content.e6TeamHpLostPercent.content'),
-    min: 0,
-    max: 1.2,
-    percent: true,
-    disabled: e < 6,
-  }]
+  const ultHealingFlat = 133
+  const ultHealingScaling = 0.05
+
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'talentActive',
+      name: 'talentActive',
+      text: t('Content.talentActive.text'),
+      title: t('Content.talentActive.title'),
+      content: t('Content.talentActive.content', { talentDmgReductionValue: TsUtils.precisionRound(100 * talentDmgReductionValue) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'skillActive',
+      name: 'skillActive',
+      text: t('Content.skillActive.text'),
+      title: t('Content.skillActive.title'),
+      content: t('Content.skillActive.content', {
+        skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue),
+        skillCrBuffValue: TsUtils.precisionRound(100 * skillCrBuffValue),
+      }),
+    },
+    {
+      formItem: 'switch',
+      id: 'ultHealing',
+      name: 'ultHealing',
+      text: t('Content.ultHealing.text'),
+      title: t('Content.ultHealing.title'),
+      content: t('Content.ultHealing.content'),
+    },
+    {
+      formItem: 'slider',
+      id: 'e6TeamHpLostPercent',
+      name: 'e6TeamHpLostPercent',
+      text: t('Content.e6TeamHpLostPercent.text'),
+      title: t('Content.e6TeamHpLostPercent.title'),
+      content: t('Content.e6TeamHpLostPercent.content'),
+      min: 0,
+      max: 1.2,
+      percent: true,
+      disabled: e < 6,
+    },
+  ]
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'talentActive'),
@@ -70,6 +93,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defaults: () => ({
       skillActive: true,
       talentActive: true,
+      ultHealing: true,
       e6TeamHpLostPercent: 1.2,
     }),
     teammateDefaults: () => ({
@@ -87,6 +111,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.ULT_TOUGHNESS_DMG += 60
+
+      x.HEAL_SCALING += ultHealingScaling
+      x.HEAL_FLAT += ultHealingFlat
 
       return x
     },
@@ -108,10 +135,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.DMG_RED_MULTI *= (t.skillActive) ? (1 - 0.65) : 1
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      standardHpFinalizer(x)
+      standardHpHealingFinalizer(x)
     },
     gpuFinalizeCalculations: () => {
-      return gpuStandardHpFinalizer()
+      return gpuStandardHpHealingFinalizer()
     },
     dynamicConditionals: [
       {

@@ -1,11 +1,16 @@
-import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardAtkDmgHpHealingFinalizer,
+  standardAtkDmgHpHealingFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -16,39 +21,72 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 0, 0)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'healingMaxHpBuff',
-    name: 'healingMaxHpBuff',
-    text: t('Content.healingMaxHpBuff.text'),
-    title: t('Content.healingMaxHpBuff.title'),
-    content: t('Content.healingMaxHpBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'talentDmgReductionBuff',
-    name: 'talentDmgReductionBuff',
-    text: t('Content.talentDmgReductionBuff.text'),
-    title: t('Content.talentDmgReductionBuff.title'),
-    content: t('Content.talentDmgReductionBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'e2UltHealingBuff',
-    name: 'e2UltHealingBuff',
-    text: t('Content.e2UltHealingBuff.text'),
-    title: t('Content.e2UltHealingBuff.title'),
-    content: t('Content.e2UltHealingBuff.content'),
-    disabled: e < 2,
-  }, {
-    formItem: 'slider',
-    id: 'e4SkillHealingDmgBuffStacks',
-    name: 'e4SkillHealingDmgBuffStacks',
-    text: t('Content.e4SkillHealingDmgBuffStacks.text'),
-    title: t('Content.e4SkillHealingDmgBuffStacks.title'),
-    content: t('Content.e4SkillHealingDmgBuffStacks.content'),
-    min: 0,
-    max: 3,
-    disabled: e < 4,
-  }]
+  const ultHealingFlat = ult(e, 360, 400.5)
+  const ultHealingScaling = ult(e, 0.135, 0.144)
+
+  const content: ContentItem[] = [
+    {
+      formItem: 'select',
+      id: 'healingAbility',
+      name: 'healingAbility',
+      text: t('Content.healingAbility.text'),
+      title: t('Content.healingAbility.title'),
+      content: t('Content.healingAbility.content'),
+      options: [
+        {
+          display: 'Ult',
+          value: 0,
+          label: 'Ult',
+        },
+        {
+          display: 'Skill',
+          value: 1,
+          label: 'Skill',
+        },
+        {
+          display: 'Talent',
+          value: 2,
+          label: 'Talent',
+        },
+      ],
+    },
+    {
+      formItem: 'switch',
+      id: 'healingMaxHpBuff',
+      name: 'healingMaxHpBuff',
+      text: t('Content.healingMaxHpBuff.text'),
+      title: t('Content.healingMaxHpBuff.title'),
+      content: t('Content.healingMaxHpBuff.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'talentDmgReductionBuff',
+      name: 'talentDmgReductionBuff',
+      text: t('Content.talentDmgReductionBuff.text'),
+      title: t('Content.talentDmgReductionBuff.title'),
+      content: t('Content.talentDmgReductionBuff.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'e2UltHealingBuff',
+      name: 'e2UltHealingBuff',
+      text: t('Content.e2UltHealingBuff.text'),
+      title: t('Content.e2UltHealingBuff.title'),
+      content: t('Content.e2UltHealingBuff.content'),
+      disabled: e < 2,
+    },
+    {
+      formItem: 'slider',
+      id: 'e4SkillHealingDmgBuffStacks',
+      name: 'e4SkillHealingDmgBuffStacks',
+      text: t('Content.e4SkillHealingDmgBuffStacks.text'),
+      title: t('Content.e4SkillHealingDmgBuffStacks.title'),
+      content: t('Content.e4SkillHealingDmgBuffStacks.content'),
+      min: 0,
+      max: 3,
+      disabled: e < 4,
+    },
+  ]
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'healingMaxHpBuff'),
@@ -62,6 +100,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defaults: () => ({
       healingMaxHpBuff: true,
       talentDmgReductionBuff: true,
+      ultHealing: true,
       e2UltHealingBuff: true,
       e4SkillHealingDmgBuffStacks: 0,
     }),
@@ -81,6 +120,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
 
+      x.HEAL_SCALING += ultHealingScaling
+      x.HEAL_FLAT += ultHealingFlat
+
       x.BASIC_TOUGHNESS_DMG += 30
 
       return x
@@ -93,7 +135,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ELEMENTAL_DMG += (e >= 4) ? m.e4SkillHealingDmgBuffStacks * 0.10 : 0
       x.DMG_RED_MULTI *= (m.talentDmgReductionBuff) ? (1 - 0.10) : 1
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkDmgHpHealingFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkDmgHpHealingFinalizer(),
   }
 }

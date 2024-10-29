@@ -1,8 +1,5 @@
-CharacterSelector:
-  Character: 角色
-OptimizerOptions:
-  Priority:
-    Header: 优先级
-MinMaxFilters:
-  DOTLabel: 持续伤害
-  BREAKLabel: 击破
+StatSimulation:
+  ModeSelector:
+    Off: Off
+  DeletePopup:
+    OkText: Yes

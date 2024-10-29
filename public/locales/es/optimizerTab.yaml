@@ -1,0 +1,5 @@
+StatSimulation:
+  ModeSelector:
+    Off: Off
+  DeletePopup:
+    OkText: Yes

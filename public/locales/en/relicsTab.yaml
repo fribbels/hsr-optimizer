@@ -11,13 +11,13 @@ RelicFilterBar:
   Substat: Substats
   ReapplyButton: Reapply scores
   ScoringButton: Scoring algorithm
-  RecommendationHeader: "Relic recommendation character"
-  Rating: "Relic ratings"
-  CustomCharsHeader: "Custom potential characters"
+  RecommendationHeader: Relic recommendation character
+  Rating: Relic ratings
+  CustomCharsHeader: Custom potential characters
 Messages:
-  AddRelicSuccess: "Successfully added relic"
-  NoRelicSelected: "No relic selected"
-  DeleteRelicSuccess: "Successfully deleted relic"
+  AddRelicSuccess: Successfully added relic
+  NoRelicSelected: No relic selected
+  DeleteRelicSuccess: Successfully deleted relic
 RelicGrid:
   To: to
   Of: of
@@ -60,7 +60,7 @@ RelicGrid:
       Value
   ValueColumns:
     SelectedCharacter:
-      Label: "Selected character"
+      Label: Selected character
       ScoreCol:
         Label: "Selected character: Score"
         Header: |-
@@ -112,7 +112,7 @@ Toolbar:
     Width: Inventory width
     Filter: Auto filter rows
     NoneSelected: "Select a relic to locate"
-    Location: Location - Row {{rowIndex}} / Col {{columnIndex}}
+    Location: "Location - Row {{rowIndex}} / Col {{columnIndex}}"
   InsightOptions:
     Buckets: "Relic Insight: Buckets"
     Top10: "Relic Insight: Top 10"

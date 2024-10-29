@@ -11,7 +11,7 @@ LightconePassives: Light cone passives
 CharacterPassives: Character passives
 NoConditionals: No conditional passives
 NoTeamConditionals: No conditional team passives
-ResultLimitN: Find top {{limit}} results
+ResultLimitN: "Find top {{limit}} results"
 MainStats: Main stats
 Sets: Sets
 SortOptions:
@@ -71,8 +71,8 @@ OptimizerOptions:
 AdvancedOptions:
   Header: Advanced options
   EnemyConfigButtonText: Enemy configurations
-  CombatBuffsButtonTextNone: "Extra combat buffs "
-  CombatBuffsButtonText: Extra combat buffs ({{activeCount}})
+  CombatBuffsButtonTextNone: Extra combat buffs
+  CombatBuffsButtonText: "Extra combat buffs ({{activeCount}})"
 Grid:
   To: to
   Of: of
@@ -183,13 +183,17 @@ Sidebar:
   ControlsGroup:
     Header: Controls
     Start: Start optimizer
-    Cancel: "$t(common:Cancel, {\"capitalizeLength\": 1})"
-    Reset: "$t(common:Reset, {\"capitalizeLength\": 1})"
+    Cancel: >-
+      $t(common:Cancel, {"capitalizeLength": 1})
+    Reset: >-
+      $t(common:Reset, {"capitalizeLength": 1})
     ResetConfirm:
       Title: Reset all filters?
       Description: All filters will be reset to their default values
-      Yes: "$t(common:Yes, {\"capitalizeLength\": 1})"
-      No: "$t(common:No, {\"capitalizeLength\": 1})"
+      Yes: >-
+        $t(common:Yes, {"capitalizeLength": 1})
+      No: >-
+        t(common:No, {"capitalizeLength": 1})
   StatViewGroup:
     Header: Stat and filter view
     CombatStats: Combat stats
@@ -201,7 +205,7 @@ Sidebar:
     Pin: Pin builds
     Clear: Clear pins
 TeammateRow:
-  Header: Teammates {{teammateCount}}
+  Header: "Teammates {{teammateCount}}"
 FormRowLabels:
   Character options: Character options
   Relic & stat filters: Relic & stat filters
@@ -211,9 +215,12 @@ SetConditionals:
   Title: Conditional set effects
   DescriptionHeader: Set description
   EffectHeader: Enabled effect
-  SetName: $t(gameData:RelicSets.{{id}}.Name)
-  RelicDescription: $t(gameData:RelicSets.{{id}}.Description4pc)
-  PlanarDescription: $t(gameData:RelicSets.{{id}}.Description2pc)
+  SetName: >-
+    $t(gameData:RelicSets.{{id}}.Name)
+  RelicDescription: >-
+    $t(gameData:RelicSets.{{id}}.Description4pc)
+  PlanarDescription: >-
+    $t(gameData:RelicSets.{{id}}.Description2pc)
   SelectOptions:
     Streetwise:
       Display: "{{stackCount}}x"
@@ -304,7 +311,8 @@ Presets:
     SPD171: 171.429 SPD - 6 actions in first three cycles
     SPD177: 177.778 SPD - 8 actions in first four cycles
     SPD200: 200.000 SPD - 3 actions in first cycle
-  StandardLabel: Standard $t(gameData:Characters.{{id}}.Name)
+  StandardLabel: >-
+    Standard $t(gameData:Characters.{{id}}.Name)
   RecommendedPresets: Recommended presets
   PresetNotAvailable: Preset not available, please select another option
 CombatBuffs:
@@ -329,8 +337,9 @@ CombatBuffs:
 Target_one: target
 Target_other: targets
 EnemyConfiguration:
-  LevelOptionLabel: Lv. {{level}} - {{defense}} DEF
-  CountOptionLabel: "{{targetCount}} $t(optimizerTab:Target, {\"count\": {{targetCount}}})"
+  LevelOptionLabel: "Lv. {{level}} - {{defense}} DEF"
+  CountOptionLabel: >-
+    {{targetCount}} $t(optimizerTab:Target, {"count": {{targetCount}}})
   EffResOptionLabel: "{{resistance}}% Effect RES"
   DmgResOptionLabel: "{{resistance}}% Damage RES"
   ToughnessOptionLabel: "{{toughness}} max toughness"
@@ -381,8 +390,10 @@ ComboFilter:
   DOT: Dot DMG
   BREAK: Break DMG
 TeammateCard:
-  EidolonN: "$t(common:EidolonNShort, {\"eidolon\": {{eidolon}}})"
-  SuperimpositionN: "$t(common:SuperimpositionNShort, {\"superimposition\": {{superimposition}}})"
+  EidolonN: >-
+    $t(common:EidolonNShort, {"eidolon": {{eidolon}}})
+  SuperimpositionN: >-
+    $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})
   EidolonPlaceholder: Eidolon
   SuperimpositionPlaceholder: Superimposition
   RelicsPlaceholder: Relics
@@ -432,9 +443,10 @@ StatSimulation:
     RelicPlaceholder: Relic set
     OrnamentPlaceholder: Ornament set
   TotalRolls: Total rolls
-  SubstatSelectorLabel: $t(common:Stats.{{stat}})
+  SubstatSelectorLabel: >-
+    $t(common:Stats.{{stat}})
   ModeSelector:
-    Off: "Off"
+    Off: Off
     RollCount: Simulate custom substat rolls
     Totals: Simulate custom substat totals
   FooterLabels:
@@ -444,7 +456,7 @@ StatSimulation:
   DeletePopup:
     Title: Erase stat simulations
     Description: Are you sure you want to clear all of this character's saved simulations?
-    OkText: "Yes"
+    OkText: Yes
     CancelText: Cancel
   SimulationNamePlaceholder: Simulation name (Optional)
   OptionsHeader: Options
@@ -456,5 +468,7 @@ StatSimulation:
     FeetPlaceholder: Feet
     SpherePlaceholder: Sphere
     RopePlaceholder: Rope
-    ShortStat: $t(common:ShortReadableStats.{{stat}})
-    LabelStat: $t(common:ReadableStats.{{stat}})
+    ShortStat: >-
+      $t(common:ShortReadableStats.{{stat}})
+    LabelStat: >-
+      $t(common:ReadableStats.{{stat}})

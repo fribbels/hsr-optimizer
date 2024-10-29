@@ -2,4 +2,10 @@ CharacterSelector:
   Character: Personaggi
 Sidebar:
   ControlsGroup:
-    Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+    Cancel: >-
+      $t(common:Cancel, {"capitalizeLength": 1})
+StatSimulation:
+  ModeSelector:
+    Off: Off
+  DeletePopup:
+    OkText: Yes

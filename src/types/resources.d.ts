@@ -4362,12 +4362,46 @@ interface Resources {
     },
     "ComboFilter": {
       "Header": "Combo DMG calculation",
-      "BASIC": "Basic DMG",
-      "SKILL": "Skill DMG",
-      "ULT": "Ult DMG",
-      "FUA": "Fua DMG",
-      "DOT": "Dot DMG",
-      "BREAK": "Break DMG"
+      "ModeSelector": {
+        "Simple": "Simple",
+        "Advanced": "Advanced"
+      },
+      "RowControls": {
+        "Reset": "Reset",
+        "Add": "+",
+        "Remove": "-",
+        "ResetConfirm": {
+          "Title": "Confirm",
+          "Description": "Reset all Simple / Advanced rotation settings to default?",
+          "OkText": "Yes",
+          "CancelText": "Cancel"
+        }
+      },
+      "CounterLabels": {
+        "Dot": "Dots",
+        "Break": "Breaks"
+      },
+      "ComboOptions": {
+        "Basic": "Basic",
+        "Skill": "Skill",
+        "Ult": "Ult",
+        "Fua": "Fua"
+      },
+      "RotationButton": "Advanced rotation"
+    },
+    "ComboDrawer": {
+      "NoConditionals": "No conditional passives",
+      "Title": "Advanced Rotation User Guide",
+      "Placeholders": {
+        "Sets": "Relic set conditionals",
+        "Ornaments": "Ornament set conditionals"
+      },
+      "GroupHeaders": {
+        "Sets": "Relic / Ornament set conditionals",
+        "Teammate1": "Teammate 1 conditionals",
+        "Teammate2": "Teammate 2 conditionals",
+        "Teammate3": "Teammate 3 conditionals"
+      }
     },
     "TeammateCard": {
       "EidolonN": "$t(common:EidolonNShort, {\"eidolon\": {{eidolon}}})",

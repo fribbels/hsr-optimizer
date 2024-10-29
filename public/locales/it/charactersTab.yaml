@@ -10,6 +10,7 @@ CharacterMenu:
       Add: Aggiungi nuovo personaggio
       Edit: Modifica personaggio / light cone
       Switch: Cambia reliquie con
-Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
+Cancel: >-
+  $t(common:Cancel, {"capitalizeLength": 1})
 GridHeaders:
   Character: Personaggi

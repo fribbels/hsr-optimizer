@@ -394,7 +394,6 @@ function startTests2() {
 
           // Robin
           ULT_CD_OVERRIDE: 0,
-          ULT_BOOSTS_MULTI: 1,
 
           RATIO_BASED_HP_BUFF: 0,
           RATIO_BASED_HP_P_BUFF: 0,

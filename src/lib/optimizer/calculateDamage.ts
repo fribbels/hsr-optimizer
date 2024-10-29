@@ -209,9 +209,7 @@ function calculateEhp(x: ComputedStatsObject, context: OptimizerContext) {
 }
 
 function calculateHeal(x: ComputedStatsObject, context: OptimizerContext) {
-  const sets = x.sets
-
-  x.HEAL_VALUE = x.HEAL_VALUE * (1 + 0.10 * p2(sets.PasserbyOfWanderingCloud))
+  x.HEAL_VALUE = x.HEAL_VALUE * (1 + x[Stats.OHB])
 }
 
 function calculateShield(x: ComputedStatsObject, context: OptimizerContext) {

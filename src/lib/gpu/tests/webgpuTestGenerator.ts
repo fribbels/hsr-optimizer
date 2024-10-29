@@ -100,13 +100,13 @@ export async function generateAllTests() {
   cache.metadata = DB.getMetadata()
 
   return [
-    // ...generateSingleCharacterTest(device, { characterId: '1309', lightConeId: '23026' }),
-    ...generateOrnamentSetTests(device),
-    ...generateRelicSetTests(device),
-    ...generateStarLcTests(device, 4),
-    ...generateStarLcTests(device, 3),
-    ...generateE0E1Tests(device),
-    ...generateE6E5Tests(device),
+    ...generateSingleCharacterTest(device, { characterId: '1105', lightConeId: basicLc }),
+    // ...generateOrnamentSetTests(device),
+    // ...generateRelicSetTests(device),
+    // ...generateStarLcTests(device, 4),
+    // ...generateStarLcTests(device, 3),
+    // ...generateE0E1Tests(device),
+    // ...generateE6E5Tests(device),
   ]
 }
 

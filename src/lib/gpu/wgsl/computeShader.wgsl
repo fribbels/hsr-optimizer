@@ -520,11 +520,7 @@ fn main(
 
 
       // Calculate damage
-      let cLevel: f32 = 80;
       let eLevel: f32 = f32(enemyLevel);
-
-      let ehp: f32 = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
-      x.EHP = ehp;
 
       addComputedElementalDmg(&x);
 
@@ -571,6 +567,10 @@ fn main(
           * (dotVulnerabilityMulti)
           * (dotResMulti)
           * (dotEhrMulti);
+
+        x.EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
+        x.HEAL_VALUE = x.HEAL_VALUE * (1 + x.OHB);
+        x.SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p2(x.sets.KnightOfPurityPalace));
       }
 
       if (action.abilityType == 1 || actionIndex == 0) {

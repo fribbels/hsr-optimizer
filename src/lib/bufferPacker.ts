@@ -2,7 +2,7 @@ import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 
-const SIZE = 36
+const SIZE = 38
 
 export type OptimizerDisplayData = {
   'id': number
@@ -22,6 +22,8 @@ export type OptimizerDisplayData = {
   'ED': number
   'WEIGHT': number
   'EHP': number
+  'HEAL': number
+  'SHIELD': number
   'BASIC': number
   'SKILL': number
   'ULT': number
@@ -29,8 +31,6 @@ export type OptimizerDisplayData = {
   'DOT': number
   'BREAK': number
   'COMBO': number
-  'HEAL': number
-  'SHIELD': number
   'xHP': number
   'xATK': number
   'xDEF': number
@@ -125,9 +125,9 @@ export const BufferPacker = {
     arr[offset + 11] = character[Stats.OHB]
     arr[offset + 12] = character.ELEMENTAL_DMG
     arr[offset + 13] = character.WEIGHT
-    arr[offset + 14] = character.x.HEAL_VALUE
-    arr[offset + 15] = character.x.SHIELD_VALUE
-    arr[offset + 16] = character.x.EHP
+    arr[offset + 14] = character.x.EHP
+    arr[offset + 15] = character.x.HEAL_VALUE
+    arr[offset + 16] = character.x.SHIELD_VALUE
     arr[offset + 17] = character.x.BASIC_DMG
     arr[offset + 18] = character.x.SKILL_DMG
     arr[offset + 19] = character.x.ULT_DMG

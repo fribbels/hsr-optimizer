@@ -11,7 +11,7 @@ LightconePassives: Light cone passives
 CharacterPassives: Character passives
 NoConditionals: No conditional passives
 NoTeamConditionals: No conditional team passives
-ResultLimitN: Find top {{limit}} results
+ResultLimitN: "Find top {{limit}} results"
 MainStats: Main stats
 Sets: Sets
 SortOptions:
@@ -42,19 +42,19 @@ OptimizerOptions:
   PriorityFilter: Character priority filter
   Priority:
     Header: Priority
-    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
-    Name: '# {{rank}}'
+    Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
+    Name: "# {{rank}}"
   AllowEquipped: Allow equipped relics
   KeepCurrent: Keep current relics
   Exclude: Exclude
   MinEnhance:
     Header: Min enhance
-    Label0: '+0'
-    Label3: '+3'
-    Label6: '+6'
-    Label9: '+9'
-    Label12: '+12'
-    Label15: '+15'
+    Label0: "+0"
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
   MinRarity:
     Header: Min rarity
     Label2: 2 ★ +
@@ -63,21 +63,21 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: Boost main stat
-    Label3: '+3'
-    Label6: '+6'
-    Label9: '+9'
-    Label12: '+12'
-    Label15: '+15'
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
 AdvancedOptions:
   Header: Advanced options
   EnemyConfigButtonText: Enemy configurations
-  CombatBuffsButtonTextNone: 'Extra combat buffs '
-  CombatBuffsButtonText: Extra combat buffs ({{activeCount}})
+  CombatBuffsButtonTextNone: Extra combat buffs
+  CombatBuffsButtonText: "Extra combat buffs ({{activeCount}})"
 Grid:
   To: to
   Of: of
   Page: Page
-  PageSelectorLabel: 'Page Size:'
+  PageSelectorLabel: "Page Size:"
   Headers:
     Basic:
       Set: Set
@@ -163,9 +163,9 @@ Sidebar:
       Stable: Switched compute engine to GPU (Stable)
       Experimental: Switched compute engine to GPU (Experimental)
     Display:
-      GPU Experimental: 'GPU acceleration: Enabled'
-      GPU Stable: 'GPU acceleration: Enabled'
-      CPU: 'GPU acceleration: Disabled'
+      GPU Experimental: "GPU acceleration: Enabled"
+      GPU Stable: "GPU acceleration: Enabled"
+      CPU: "GPU acceleration: Disabled"
   Pinning:
     Messages:
       NoneSelected: No row selected
@@ -178,18 +178,22 @@ Sidebar:
   ProgressText:
     Progress: Progress
     CalculatingETA: Progress  (calculating ETA..)
-    TimeRemaining: '{{rate}} / sec — {{timeRemaining}} left'
-    Finished: '{{rate}} / sec — Finished'
+    TimeRemaining: "{{rate}} / sec — {{timeRemaining}} left"
+    Finished: "{{rate}} / sec — Finished"
   ControlsGroup:
     Header: Controls
     Start: Start optimizer
-    Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
-    Reset: '$t(common:Reset, {"capitalizeLength": 1})'
+    Cancel: >-
+      $t(common:Cancel, {"capitalizeLength": 1})
+    Reset: >-
+      $t(common:Reset, {"capitalizeLength": 1})
     ResetConfirm:
       Title: Reset all filters?
       Description: All filters will be reset to their default values
-      'Yes': '$t(common:Yes, {"capitalizeLength": 1})'
-      'No': '$t(common:No, {"capitalizeLength": 1})'
+      Yes: >-
+        $t(common:Yes, {"capitalizeLength": 1})
+      No: >-
+        t(common:No, {"capitalizeLength": 1})
   StatViewGroup:
     Header: Stat and filter view
     CombatStats: Combat stats
@@ -201,7 +205,7 @@ Sidebar:
     Pin: Pin builds
     Clear: Clear pins
 TeammateRow:
-  Header: Teammates {{teammateCount}}
+  Header: "Teammates {{teammateCount}}"
 FormRowLabels:
   Character options: Character options
   Relic & stat filters: Relic & stat filters
@@ -211,17 +215,20 @@ SetConditionals:
   Title: Conditional set effects
   DescriptionHeader: Set description
   EffectHeader: Enabled effect
-  SetName: $t(gameData:RelicSets.{{id}}.Name)
-  RelicDescription: $t(gameData:RelicSets.{{id}}.Description4pc)
-  PlanarDescription: $t(gameData:RelicSets.{{id}}.Description2pc)
+  SetName: >-
+    $t(gameData:RelicSets.{{id}}.Name)
+  RelicDescription: >-
+    $t(gameData:RelicSets.{{id}}.Description4pc)
+  PlanarDescription: >-
+    $t(gameData:RelicSets.{{id}}.Description2pc)
   SelectOptions:
     Streetwise:
-      Display: '{{stackCount}}x'
-      Label: '{{stackCount}} stacks (+{{buffValue}}% ATK)'
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} stacks (+{{buffValue}}% ATK)"
     Wastelander:
-      'Off':
-        Display: 'Off'
-        Label: 'Off'
+      Off:
+        Display: "Off"
+        Label: "Off"
       Debuffed:
         Display: CR
         Label: Debuffed (+10% CR)
@@ -229,16 +236,16 @@ SetConditionals:
         Display: CR + CD
         Label: Imprisoned (+10% CR | +20% CD)
     Longevous:
-      Display: '{{stackCount}}x'
-      Label: '{{stackCount}} stacks (+{{buffValue}}% CR)'
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} stacks (+{{buffValue}}% CR)"
     Ashblazing:
-      Display: '{{stackCount}}x'
-      Label: '{{stackCount}} stacks (+{{buffValue}}% ATK)'
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} stacks (+{{buffValue}}% ATK)"
     Prisoner:
-      Display: '{{stackCount}}x'
-      Label: '{{stackCount}} stacks (+{{buffValue}}% DEF ignore)'
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} stacks (+{{buffValue}}% DEF ignore)"
     Diver:
-      'Off':
+      Off:
         Display: 0x
         Label: 0 debuffs (+4% base CR)
       1Debuff:
@@ -257,15 +264,15 @@ SetConditionals:
         Display: 3x+
         Label: 3 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +24% CD)
     Sigonia:
-      Display: '{{stackCount}}x'
-      Label: '{{stackCount}} stacks (+{{buffValue}}% CD)'
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} stacks (+{{buffValue}}% CD)"
     Duran:
-      Display: '{{stackCount}}x'
-      Label: '{{stackCount}} stacks (+{{buffValue}}% FUA DMG)'
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} stacks (+{{buffValue}}% FUA DMG)"
       Label5: 5 stacks (+25% FUA DMG +25% CD)
     Sacerdos:
-      Display: '{{stackCount}}x'
-      Label: '{{stackCount}} stacks (+{{buffValue}}% CD)'
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} stacks (+{{buffValue}}% CD)"
   Conditionals:
     DefaultMessage: Enabled by default - effects will apply to combat calculations.
     Hunter: When enabled, CRIT DMG buff is applied to Combat stat calculations.
@@ -304,7 +311,8 @@ Presets:
     SPD171: 171.429 SPD - 6 actions in first three cycles
     SPD177: 177.778 SPD - 8 actions in first four cycles
     SPD200: 200.000 SPD - 3 actions in first cycle
-  StandardLabel: Standard $t(gameData:Characters.{{id}}.Name)
+  StandardLabel: >-
+    Standard $t(gameData:Characters.{{id}}.Name)
   RecommendedPresets: Recommended presets
   PresetNotAvailable: Preset not available, please select another option
 CombatBuffs:
@@ -329,11 +337,12 @@ CombatBuffs:
 Target_one: target
 Target_other: targets
 EnemyConfiguration:
-  LevelOptionLabel: Lv. {{level}} - {{defense}} DEF
-  CountOptionLabel: '{{targetCount}} $t(optimizerTab:Target, {"count": {{targetCount}}})'
-  EffResOptionLabel: '{{resistance}}% Effect RES'
-  DmgResOptionLabel: '{{resistance}}% Damage RES'
-  ToughnessOptionLabel: '{{toughness}} max toughness'
+  LevelOptionLabel: "Lv. {{level}} - {{defense}} DEF"
+  CountOptionLabel: >-
+    {{targetCount}} $t(optimizerTab:Target, {"count": {{targetCount}}})
+  EffResOptionLabel: "{{resistance}}% Effect RES"
+  DmgResOptionLabel: "{{resistance}}% Damage RES"
+  ToughnessOptionLabel: "{{toughness}} max toughness"
   Title: Enemy configurations
   StatHeader: Enemy stat options
   WeaknessLabel: Elemental weakness
@@ -381,8 +390,10 @@ ComboFilter:
   DOT: Dot DMG
   BREAK: Break DMG
 TeammateCard:
-  EidolonN: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}})'
-  SuperimpositionN: '$t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'
+  EidolonN: >-
+    $t(common:EidolonNShort, {"eidolon": {{eidolon}}})
+  SuperimpositionN: >-
+    $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})
   EidolonPlaceholder: Eidolon
   SuperimpositionPlaceholder: Superimposition
   RelicsPlaceholder: Relics
@@ -390,19 +401,19 @@ TeammateCard:
   TeammateSyncSuccessMessage: Synced teammate info
   TeammateSets:
     Messenger:
-      Desc: '4 Piece: $t(gameData:RelicSets.114.Name) (+12% SPD)'
+      Desc: "4 Piece: $t(gameData:RelicSets.114.Name) (+12% SPD)"
       Set: $t(gameData:RelicSets.114.Name)
       Text: 12% SPD
     Watchmaker:
-      Desc: '4 Piece: $t(gameData:RelicSets.118.Name) (+30% BE)'
+      Desc: "4 Piece: $t(gameData:RelicSets.118.Name) (+30% BE)"
       Set: $t(gameData:RelicSets.118.Name)
       Text: 30% BE
     Sacerdos1Stack:
-      Desc: '4 Piece: $t(gameData:RelicSets.121.Name) (+18% CD)'
+      Desc: "4 Piece: $t(gameData:RelicSets.121.Name) (+18% CD)"
       Set: $t(gameData:RelicSets.121.Name)
       Text: 18% CD
     Sacerdos2Stack:
-      Desc: '4 Piece: $t(gameData:RelicSets.121.Name) (+36% CD)'
+      Desc: "4 Piece: $t(gameData:RelicSets.121.Name) (+36% CD)"
       Set: $t(gameData:RelicSets.121.Name)
       Text: 36% CD
     Keel:
@@ -432,9 +443,10 @@ StatSimulation:
     RelicPlaceholder: Relic set
     OrnamentPlaceholder: Ornament set
   TotalRolls: Total rolls
-  SubstatSelectorLabel: $t(common:Stats.{{stat}})
+  SubstatSelectorLabel: >-
+    $t(common:Stats.{{stat}})
   ModeSelector:
-    'Off': 'Off'
+    Off: Off
     RollCount: Simulate custom substat rolls
     Totals: Simulate custom substat totals
   FooterLabels:
@@ -444,7 +456,7 @@ StatSimulation:
   DeletePopup:
     Title: Erase stat simulations
     Description: Are you sure you want to clear all of this character's saved simulations?
-    OkText: 'Yes'
+    OkText: Yes
     CancelText: Cancel
   SimulationNamePlaceholder: Simulation name (Optional)
   OptionsHeader: Options
@@ -456,5 +468,7 @@ StatSimulation:
     FeetPlaceholder: Feet
     SpherePlaceholder: Sphere
     RopePlaceholder: Rope
-    ShortStat: $t(common:ShortReadableStats.{{stat}})
-    LabelStat: $t(common:ReadableStats.{{stat}})
+    ShortStat: >-
+      $t(common:ShortReadableStats.{{stat}})
+    LabelStat: >-
+      $t(common:ReadableStats.{{stat}})

@@ -1,6 +1,6 @@
 Characters:
   "1001":
-    Name: 三月なのか
+    Name: 三月なのか (存護)
   "1002":
     Name: 丹恒
   "1003":
@@ -84,7 +84,7 @@ Characters:
   "1223":
     Name: モゼ
   "1224":
-    Name: 三月なのか
+    Name: 三月なのか (巡狩)
   "1301":
     Name: ギャラガー
   "1302":
@@ -271,343 +271,230 @@ RelicSets:
 Lightcones:
   "20000":
     Name: 矢じり
-    SkillName: 危機
   "20001":
     Name: 物穣
-    SkillName: 繁盛
   "20002":
     Name: 天傾
-    SkillName: 破滅
   "20003":
     Name: 琥珀
-    SkillName: 静寂
   "20004":
     Name: 幽邃
-    SkillName: 沈淪
   "20005":
     Name: 斉頌
-    SkillName: 協力
   "20006":
     Name: アーカイブ
-    SkillName: 博識
   "20007":
     Name: 離弦
-    SkillName: 鳴角
   "20008":
     Name: 嘉果
-    SkillName: 甘美
   "20009":
     Name: 楽壊
-    SkillName: 誅討
   "20010":
     Name: 防衛
-    SkillName: 復興
   "20011":
     Name: 淵環
-    SkillName: 窮追
   "20012":
     Name: 輪契
-    SkillName: 速決
   "20013":
     Name: 霊鍵
-    SkillName: 悟道
   "20014":
     Name: 相抗
-    SkillName: 同盟
   "20015":
     Name: 蕃殖
-    SkillName: 豊穣の民
   "20016":
     Name: 倶歿
-    SkillName: レギオン
   "20017":
     Name: 新天地
-    SkillName: カンパニー
   "20018":
     Name: 匿影
-    SkillName: 機関
   "20019":
     Name: 同調
-    SkillName: ファミリー
   "20020":
     Name: 見識
-    SkillName: 天才
   "21000":
     Name: 手術後の会話
-    SkillName: 相互回復
   "21001":
     Name: おやすみなさいと寝顔
-    SkillName: 奔走者
   "21002":
     Name: 余生の初日
-    SkillName: この一時を永遠に
   "21003":
     Name: 沈黙のみ
-    SkillName: 記録
   "21004":
     Name: 記憶の中の姿
-    SkillName: 古い写真
   "21005":
     Name: モグラ党へようこそ
-    SkillName: 奇妙な冒険
   "21006":
     Name: 「私」の誕生
-    SkillName: 画像少女
   "21007":
     Name: 同じ気持ち
-    SkillName: ケアとメンテ
   "21008":
     Name: 獲物の視線
-    SkillName: 自信
   "21009":
     Name: ランドゥーの選択
-    SkillName: 光陰矢の如し
   "21010":
     Name: 論剣
-    SkillName: それぞれの答え
   "21011":
     Name: 惑星との出会い
-    SkillName: 旅立ち
   "21012":
     Name: 秘密の誓い
-    SkillName: 全身全霊
   "21013":
     Name: この世界に喧噪を
-    SkillName: 声の力
   "21014":
     Name: 今が丁度
-    SkillName: 屈折する視線
   "21015":
     Name: 決意は汗のように輝く
-    SkillName: 振り返って
   "21016":
     Name: 星間市場のトレンド
-    SkillName: また一巡の入れ替え
   "21017":
     Name: フォローして！
-    SkillName: いいねしないと逃がさない！
   "21018":
     Name: ダンス！ダンス！ダンス！
-    SkillName: 止まらないよぉ！
   "21019":
     Name: 青空の下で
-    SkillName: 暖陽に麦浪
   "21020":
     Name: 天才たちの休息
-    SkillName: それぞれの
   "21021":
     Name: 等価交換
-    SkillName: 心地よい
   "21022":
     Name: フェルマータ
-    SkillName: 休符
   "21023":
     Name: 我ら地炎
-    SkillName: 袖時雨
   "21024":
     Name: 春水に初生する
-    SkillName: 余寒を払いのけ
   "21025":
     Name: 過去と未来
-    SkillName: 昔日の紙鳶
   "21026":
     Name: ワン！散歩の時間！
-    SkillName: さっさと逃げる
   "21027":
     Name: 朝食の儀式感
-    SkillName: 持ち場に着く
   "21028":
     Name: 暖かい夜は長くない
-    SkillName: 小さな灯火
   "21029":
     Name: またお会いしましょう
-    SkillName: 交わす拳、言葉の如く
   "21030":
     Name: これがウチだよ！
-    SkillName: 新たな章
   "21031":
     Name: 幽冥に帰す
-    SkillName: 洶湧
   "21032":
     Name: 彫月裁雲の意
-    SkillName: 秘密
   "21033":
     Name: 逃げ場なし
-    SkillName: 絶境
   "21034":
     Name: 今日も平和な一日
-    SkillName: 風雨、間もなく至る
   "21035":
     Name: 何が真か
-    SkillName: 仮説
   "21036":
     Name: ドリームタウンの大冒険
-    SkillName: 団結
   "21037":
     Name: 最後の勝者
-    SkillName: ベット
   "21038":
     Name: 烈火の彼方
-    SkillName: 爆燃
   "21039":
     Name: 運命を紡ぐ糸
-    SkillName: 洞察
   "21040":
     Name: 銀河が陥落した日
-    SkillName: 征服
   "21041":
     Name: ショーの始まり
-    SkillName: 独りの娯楽
   "21042":
     Name: 心に刻まれた約束
-    SkillName: 伝承
   "21043":
     Name: 二人だけのコンサート
-    SkillName: 声援
   "21044":
     Name: 終わりなき舞踏
-    SkillName: 探り合い
   "21045":
     Name: 調和が沈黙した後
-    SkillName: 静寂
   "21046":
     Name: 美しき華よ今咲かん
-    SkillName: 忘れることなかれ
   "21047":
     Name: 夜は影のように付き纏う
-    SkillName: 隠伏
   "21048":
     Name: 夢のモンタージュ
-    SkillName: アカデミズム編集
   "22000":
     Name: 初めてのクエストの前に
-    SkillName: ナイスキャッチ
   "22001":
     Name: よぉ、ここにいるぜ
-    SkillName: 怖くない…怖くない！
   "22002":
     Name: 明日のための旅
-    SkillName: 連結
   "22003":
     Name: 忍事録・音律狩猟
-    SkillName: 開演！
   "23000":
     Name: 銀河鉄道の夜
-    SkillName: 流星群
   "23001":
     Name: 夜の帳の中で
-    SkillName: 花と蝶
   "23002":
     Name: かけがえのないもの
-    SkillName: 家族
   "23003":
     Name: だが戦争は終わらない
-    SkillName: 継承者
   "23004":
     Name: 世界の名を以て
-    SkillName: 伝承者
   "23005":
     Name: 勝利の刹那
-    SkillName: 決断
   "23006":
     Name: 待つのみ
-    SkillName: 蜘蛛の巣
   "23007":
     Name: 降りやまぬ雨
-    SkillName: 幻影と現実
   "23008":
     Name: 棺のこだま
-    SkillName: いばら
   "23009":
     Name: 着かない彼岸
-    SkillName: ならぬ
   "23010":
     Name: 夜明け前
-    SkillName: 長夜
   "23011":
     Name: 閉ざした瞳
-    SkillName: 視界
   "23012":
     Name: 泥の如き眠り
-    SkillName: 美しき夢
   "23013":
     Name: 時節は居らず
-    SkillName: 一日は四時あり
   "23014":
     Name: この身は剣なり
-    SkillName: この宵玉を執り
   "23015":
     Name: 陽光より輝くもの
-    SkillName: この命に替えても
   "23016":
     Name: 悩んで笑って
-    SkillName: 順番にね！
   "23017":
     Name: 驚魂の夜
-    SkillName: 全力深呼吸
   "23018":
     Name: その一刻、目に焼き付けて
-    SkillName: 騎士の巡礼
   "23019":
     Name: 鏡の中の私
-    SkillName: 徹骨梅香
   "23020":
     Name: 純粋なる思惟の洗礼
-    SkillName: 思想訓練
   "23021":
     Name: 人生は遊び
-    SkillName: 気まぐれ
   "23022":
     Name: 時間の記憶を再構築して
-    SkillName: 結晶
   "23023":
     Name: 運命は常に不公平
-    SkillName: オールイン
   "23024":
     Name: 流れ逝く岸を歩いて
-    SkillName: 渡し守
   "23025":
     Name: 夢が帰り着く場所
-    SkillName: 蛹を破り蛍は舞う
   "23026":
     Name: 光あふれる夜
-    SkillName: 慰め
   "23027":
     Name: 二度目の生に向かって
-    SkillName: 苦難の航行
   "23028":
     Name: されど希望の銘は無価
-    SkillName: 承諾
   "23029":
     Name: 幾度目かの春
-    SkillName: 世事は跡を残さず
   "23030":
     Name: 夕日に舞う
-    SkillName: 無我夢中
   "23031":
     Name: 我が征く巡狩の道
-    SkillName: 威風
   "23032":
     Name: 昔日の香りは今も猶
-    SkillName: 安心
   "23033":
     Name: 忍法帖・繚乱破魔
-    SkillName: 破邪
   "24000":
     Name: とある星神の殞落を記す
-    SkillName: 火に飛び込む
   "24001":
     Name: 星海巡航
-    SkillName: 猟逐
   "24002":
     Name: 記憶の素材
-    SkillName: 珍蔵
   "24003":
     Name: 孤独の癒し
-    SkillName: 混沌の霊薬
   "24004":
     Name: 絶え間ない演算
-    SkillName: 境界なき思考
 Paths:
   Warrior: 壊滅
   Rogue: 巡狩

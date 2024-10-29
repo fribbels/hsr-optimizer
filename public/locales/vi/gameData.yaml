@@ -1,6 +1,6 @@
 Characters:
   "1001":
-    Name: March 7th
+    Name: March 7th (Bảo Hộ)
   "1002":
     Name: Dan Heng
   "1003":
@@ -84,7 +84,7 @@ Characters:
   "1223":
     Name: Moze
   "1224":
-    Name: March 7th
+    Name: March 7th (Săn Bắn)
   "1301":
     Name: Gallagher
   "1302":
@@ -271,343 +271,230 @@ RelicSets:
 Lightcones:
   "20000":
     Name: Mũi Tên
-    SkillName: Mối Nguy
   "20001":
     Name: Dồi Dào
-    SkillName: Phồn Thịnh
   "20002":
     Name: Trời Sập
-    SkillName: Sụp Đổ
   "20003":
     Name: Hổ Phách
-    SkillName: Ngưng Trệ
   "20004":
     Name: Tĩnh Mịch
-    SkillName: Trầm Luân
   "20005":
     Name: Điệp Khúc
-    SkillName: Hiệp Lực
   "20006":
     Name: Kho Lưu Trữ
-    SkillName: Học Thức
   "20007":
     Name: Tên Bắn
-    SkillName: Tiếng Hống
   "20008":
     Name: Trái Ngọt
-    SkillName: Hương Thơm
   "20009":
     Name: Đổ Nát
-    SkillName: Thanh Trừng
   "20010":
     Name: Phòng Thủ
-    SkillName: Phục Sinh
   "20011":
     Name: Xoáy Ốc
-    SkillName: Truy Đuổi
   "20012":
     Name: Luân Hồi
-    SkillName: Tốc Quyết
   "20013":
     Name: Chìa Khóa Linh Hồn
-    SkillName: Giác Ngộ
   "20014":
     Name: Đối Kháng
-    SkillName: Liên Minh
   "20015":
     Name: Sinh Sôi
-    SkillName: Dân Trù Phú
   "20016":
     Name: Hủy Diệt Tất Cả
-    SkillName: Quân Đoàn
   "20017":
     Name: Mở Rộng
-    SkillName: Công Ty
   "20018":
     Name: Bóng Ẩn
-    SkillName: Cơ Quan
   "20019":
     Name: Hài Hòa
-    SkillName: Gia Tộc
   "20020":
     Name: Thông Tuệ
-    SkillName: Thiên Tài
   "21000":
     Name: Buổi Trò Chuyện Hậu Phẫu
-    SkillName: Hồi Phục Qua Lại
   "21001":
     Name: Chúc Ngủ Ngon
-    SkillName: Kẻ Gian Khổ
   "21002":
     Name: Ngày Đầu Tiên
-    SkillName: Tạm Dừng Thời Khắc Này
   "21003":
     Name: Sự Trầm Mặc Duy Nhất
-    SkillName: Kỷ Lục
   "21004":
     Name: Dáng Hình Trong Ký Ức
-    SkillName: Bức Hình Cũ
   "21005":
     Name: Băng Chuột Chũi Hoan Nghênh
-    SkillName: Phiêu Lưu Kỳ Diệu
   "21006":
     Name: Sự Ra Đời Của "Tôi"
-    SkillName: Thiếu Nữ Trong Tranh
   "21007":
     Name: Cùng Một Tâm Trạng
-    SkillName: Cứu Chữa Và Tu Sửa
   "21008":
     Name: Tầm Mắt Của Con Mồi
-    SkillName: Tự Tin
   "21009":
     Name: Sự Lựa Chọn Của Landau
-    SkillName: Thời Gian Như Thoi Đưa
   "21010":
     Name: Luận Kiếm
-    SkillName: Câu Trả Lời Của Riêng Họ
   "21011":
     Name: Điểm Hẹn Hành Tinh
-    SkillName: Khởi Hành
   "21012":
     Name: Lời Thề Bí Mật
-    SkillName: Cố Gắng Hết Sức
   "21013":
     Name: Đừng Để Thế Giới Lạnh Lẽo
-    SkillName: Sức Mạnh Của Âm Thanh
   "21014":
     Name: Vừa Đúng Lúc
-    SkillName: Tầm Nhìn Khúc Xạ
   "21015":
     Name: Sự Quyết Tâm Như Giọt Mồ Hôi Lấp Lánh
-    SkillName: Ngoái Đầu Nhìn
   "21016":
     Name: Xu Hướng Thị Trường Vũ Trụ
-    SkillName: Xáo Bài Ván Mới
   "21017":
     Name: Hãy Theo Dõi Nào!
-    SkillName: Không Like Không Được Đi!
   "21018":
     Name: Múa! Múa! Múa!
-    SkillName: Không Dừng Lại Được!
   "21019":
     Name: Dưới Bầu Trời Xanh
-    SkillName: Ngọn Lúa Dưới Ánh Mặt Trời
   "21020":
     Name: Sự Nghỉ Ngơi Của Thiên Tài
-    SkillName: Bố Trí Thỏa Đáng
   "21021":
     Name: Đổi Ngang Giá
-    SkillName: Thích Thú Dễ Chịu
   "21022":
     Name: Ký Hiệu Kéo Dài
-    SkillName: Dấu Lặng
   "21023":
     Name: Chúng Ta Là Lửa Ngầm
-    SkillName: Kẻ Rơi Lệ
   "21024":
     Name: Làn Nước Xuân Xuất Hiện
-    SkillName: Xua Tan Giá Rét
   "21025":
     Name: Quá Khứ Tương Lai
-    SkillName: Diều Giấy Ngày Cũ
   "21026":
     Name: Gâu! Thời Gian Tản Bộ
-    SkillName: Chạy!
   "21027":
     Name: Bữa Sáng Đúng Điệu
-    SkillName: Sẵn Sàng
   "21028":
     Name: Đêm Ấm Sẽ Chóng Qua
-    SkillName: Ngọn Đèn Le Lói
   "21029":
     Name: Hẹn Gặp Lại
-    SkillName: Động Thủ Như Động Khẩu
   "21030":
     Name: Đó Chính Là Tôi!
-    SkillName: Chương Mới
   "21031":
     Name: U Tối Trở Lại
-    SkillName: Sóng Cuồng
   "21032":
     Name: Khắc Lên Ánh Trăng
-    SkillName: Bí Mật
   "21033":
     Name: Không Nơi Ẩn Náu
-    SkillName: Đường Cùng
   "21034":
     Name: Hôm Nay Là Ngày Yên Lành
-    SkillName: Cơn Bão Sắp Đến
   "21035":
     Name: Đâu Là Thật?
-    SkillName: Giả Sử
   "21036":
     Name: Chuyến Thám Hiểm Thị Trấn Mộng Đẹp
-    SkillName: Đoàn Kết
   "21037":
     Name: Người Chiến Thắng Cuối Cùng
-    SkillName: Đặt Cược
   "21038":
     Name: Ở Nơi Xa Ngọn Lửa
-    SkillName: Bùng Nổ
   "21039":
     Name: Dây Thêu Dệt Vận Mệnh
-    SkillName: Nhìn Thấu
   "21040":
     Name: Ngày Ngân Hà Sụp Đổ
-    SkillName: Chiến Lược
   "21041":
     Name: Vai Diễn Bắt Đầu
-    SkillName: Niềm Vui Tự Tại
   "21042":
     Name: Ước Hẹn Khắc Ghi
-    SkillName: Kế Thừa
   "21043":
     Name: Buổi Hòa Nhạc Hai Người
-    SkillName: Cổ Vũ
   "21044":
     Name: Vũ Điệu Vô Biên
-    SkillName: Thăm Dò
   "21045":
     Name: Sau Sự Im Lặng Hài Hòa
-    SkillName: Tĩnh Mịch
   "21046":
     Name: Tuổi Hoa Chờ Nở Rộ
-    SkillName: Không Thua, Không Quên
   "21047":
     Name: Bóng Tối Đồng Hành
-    SkillName: Ẩn Nấp
   "21048":
     Name: Dựng Phim Trong Mơ
-    SkillName: Chỉnh Sửa Phong Cách Học Viện
   "22000":
     Name: Trước Khi Bắt Đầu Nhiệm Vụ Tân Thủ
-    SkillName: Nhanh Như Tia Chớp
   "22001":
     Name: Hi, Tôi Ở Đây
-    SkillName: Không Sợ Đâu!
   "22002":
     Name: Vì Hành Trình Ngày Mai
-    SkillName: Liên Kết
   "22003":
     Name: Nhẫn Sự Lục-Săn Bắn Âm Luật
-    SkillName: Bắt Đầu Biểu Diễn!
   "23000":
     Name: Chuyến Tàu Đêm Trên Dải Ngân Hà
-    SkillName: Chòm Sao Băng
   "23001":
     Name: Trong Đêm Tối
-    SkillName: Hoa Và Bướm
   "23002":
     Name: Vật Không Thể Thay Thế
-    SkillName: Người Nhà
   "23003":
     Name: Cuộc Chiến Chưa Nguôi
-    SkillName: Người Thừa Kế
   "23004":
     Name: Nhân Danh Thế Giới
-    SkillName: Người Kế Thừa
   "23005":
     Name: Giây Phút Thắng Lợi
-    SkillName: Quyết Đoán
   "23006":
     Name: Chỉ Cần Chờ Đợi
-    SkillName: Mạng Nhện
   "23007":
     Name: Cơn Mưa Tầm Tã
-    SkillName: Ảo Ảnh Hiện Thực
   "23008":
     Name: Tiếng Vọng Của Quan Tài
-    SkillName: Gai Góc
   "23009":
     Name: Bến Bờ Xa Diệu Vợi
-    SkillName: Không Thể Được
   "23010":
     Name: Trước Buổi Bình Minh
-    SkillName: Đêm Dài
   "23011":
     Name: Đôi Mắt Đã Nhắm Lại
-    SkillName: Tầm Nhìn
   "23012":
     Name: Giấc Ngủ Say Mềm
-    SkillName: Mộng Đẹp
   "23013":
     Name: Thời Gian Không Ngừng Lại
-    SkillName: Sáng, Trưa, Chiều, Tối
   "23014":
     Name: Thân Này Là Kiếm
-    SkillName: Giữ Lấy Ngọc Này
   "23015":
     Name: Rực Rỡ Hơn Mặt Trời
-    SkillName: Liều Mình
   "23016":
     Name: Phiền Não, Hạnh Phúc
-    SkillName: Từng Người Một
   "23017":
     Name: Đêm Kinh Hoàng
-    SkillName: Hít Thở Sâu
   "23018":
     Name: Khoảnh Khắc Nơi Đáy Mắt
-    SkillName: Kỵ Sĩ Hành Hương
   "23019":
     Name: Tôi Trong Gương Ngày Ấy
-    SkillName: Hương Mai Nồng Nàn
   "23020":
     Name: Lễ Rửa Tội Thuần Khiết
-    SkillName: Huấn Luyện Tư Tưởng
   "23021":
     Name: Trò Đùa Trần Thế
-    SkillName: Thiện Biến
   "23022":
     Name: Hun Đúc Ký Ức Thời Gian
-    SkillName: Kết Tinh
   "23023":
     Name: Vận Mệnh Chưa Từng Công Bằng
-    SkillName: Cược Hết Tất Cả
   "23024":
     Name: Bước Theo Bến Bờ Thời Gian
-    SkillName: Người Điều Khiển
   "23025":
     Name: Giấc Mộng Sẽ Đi Về Đâu
-    SkillName: Biến Đổi
   "23026":
     Name: Sắc Đêm Rực Sáng
-    SkillName: An Ủi
   "23027":
     Name: Hướng Đến Sinh Mệnh Thứ Hai
-    SkillName: Gian Khổ
   "23028":
     Name: Hi Vọng Là Vô Giá
-    SkillName: Hứa Hẹn
   "23029":
     Name: Vô Số Mùa Xuân Ấy
-    SkillName: Chẳng Còn Dấu Vết Chuyện Thế Gian
   "23030":
     Name: Điệu Múa Dưới Hoàng Hôn
-    SkillName: Trầm Mê
   "23031":
     Name: Ta Sẽ, Tuần Tra Săn Bắn
-    SkillName: Kinh Hoàng
   "23032":
     Name: Mùi Hương Vẹn Nguyên
-    SkillName: An Tâm
   "23033":
     Name: Bí Kíp Nhẫn Pháp-Dazzling Phá Ma
-    SkillName: Trừ Tà
   "24000":
     Name: Sự Sụp Đổ Của Aeon
-    SkillName: Dập Lửa
   "24001":
     Name: Du Hành Trên Biển Sao
-    SkillName: Săn Đuổi
   "24002":
     Name: Chất Liệu Ký Ức
-    SkillName: Tích Trữ
   "24003":
     Name: Một Mình Chữa Trị
-    SkillName: Linh Dược Hỗn Độn
   "24004":
     Name: Ngoại Suy Vô Tận
-    SkillName: Suy Tư Không Ranh Giới
 Paths:
   Warrior: Hủy Diệt
   Rogue: Săn Bắn

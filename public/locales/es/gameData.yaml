@@ -1,6 +1,6 @@
 Characters:
   "1001":
-    Name: Siete de Marzo
+    Name: Siete de Marzo (Conservación)
   "1002":
     Name: Dan Heng
   "1003":
@@ -84,7 +84,7 @@ Characters:
   "1223":
     Name: Moze
   "1224":
-    Name: Siete de Marzo
+    Name: Siete de Marzo (Cacería)
   "1301":
     Name: Gallagher
   "1302":
@@ -271,343 +271,230 @@ RelicSets:
 Lightcones:
   "20000":
     Name: Flechas
-    SkillName: Crisis
   "20001":
     Name: Cornucopia
-    SkillName: Prosperidad
   "20002":
     Name: Colapso celeste
-    SkillName: Hecatombe
   "20003":
     Name: Ámbar
-    SkillName: Inmovilidad
   "20004":
     Name: Vacío
-    SkillName: Caída
   "20005":
     Name: Coro
-    SkillName: Sinergia
   "20006":
     Name: Archivos
-    SkillName: Conocimiento
   "20007":
     Name: Flecha voladora
-    SkillName: Grito de guerra
   "20008":
     Name: Fruto excelente
-    SkillName: Degustación
   "20009":
     Name: Hogar destrozado
-    SkillName: Erradicación
   "20010":
     Name: Blindaje
-    SkillName: Revitalización
   "20011":
     Name: Bucle
-    SkillName: Persecución
   "20012":
     Name: Rueda mecánica
-    SkillName: Triunfo rápido
   "20013":
     Name: Llave maestra
-    SkillName: Epifanía
   "20014":
     Name: Antagonista
-    SkillName: Alianza
   "20015":
     Name: Multiplicación
-    SkillName: Moradores de la Abundancia
   "20016":
     Name: Final mutuo
-    SkillName: Legión
   "20017":
     Name: Colonización
-    SkillName: Corporación
   "20018":
     Name: Sombra oculta
-    SkillName: Mecanismo
   "20019":
     Name: Mediación
-    SkillName: La Familia
   "20020":
     Name: Sagacidad
-    SkillName: Genio
   "21000":
     Name: Conversación en el postoperatorio
-    SkillName: Curación mutua
   "21001":
     Name: Buenas noches, que duermas bien
-    SkillName: Infatigable
   "21002":
     Name: El primer día del resto de mi vida
-    SkillName: En este mismo momento
   "21003":
     Name: Solo queda silencio
-    SkillName: Registro
   "21004":
     Name: Imagen en el recuerdo
-    SkillName: Foto vieja
   "21005":
     Name: Los Topos te dan la bienvenida
-    SkillName: Aventura fantástica
   "21006":
     Name: El nacimiento del yo
-    SkillName: La joven del cuadro
   "21007":
     Name: Sentimiento compartido
-    SkillName: Curación y arreglo
   "21008":
     Name: Visión de presa
-    SkillName: Confianza
   "21009":
     Name: La elección de Landau
-    SkillName: El tiempo vuela
   "21010":
     Name: Juego de espadas
-    SkillName: Sus propias respuestas
   "21011":
     Name: Encuentro planetario
-    SkillName: Salida
   "21012":
     Name: Juramento secreto
-    SkillName: Esfuerzo total
   "21013":
     Name: Que el mundo clame
-    SkillName: El poder del sonido
   "21014":
     Name: El momento oportuno
-    SkillName: Vista refractada
   "21015":
     Name: Determinación reluciente
-    SkillName: Retrospectiva
   "21016":
     Name: Tendencias del mercado universal
-    SkillName: Nueva partida
   "21017":
     Name: ¡Suscríbanse a mi canal!
-    SkillName: ¡No se vayan sin darme un like!
   "21018":
     Name: ¡A bailar!
-    SkillName: ¡No puedo detenerme!
   "21019":
     Name: Bajo el cielo azul
-    SkillName: Olas de trigo al sol
   "21020":
     Name: El reposo de los genios
-    SkillName: Cada uno tiene su papel
   "21021":
     Name: Intercambio equivalente
-    SkillName: Alegría apropiada
   "21022":
     Name: Calderón
-    SkillName: Silencio de redonda
   "21023":
     Name: Somos Llamarada
-    SkillName: Entre lágrimas
   "21024":
     Name: El río nace en primavera
-    SkillName: El frío se disipa
   "21025":
     Name: El pasado y el futuro
-    SkillName: Cometas antiguas
   "21026":
     Name: ¡Guau! ¡Hora de pasear!
-    SkillName: ¡Corre!
   "21027":
     Name: La solemnidad del desayuno
-    SkillName: A sus puestos
   "21028":
     Name: Las noches cálidas no duran
-    SkillName: Luz diminuta
   "21029":
     Name: Volveremos a encontrarnos
-    SkillName: El discurso de las armas
   "21030":
     Name: ¡Así soy yo!
-    SkillName: Nuevo capítulo
   "21031":
     Name: Regreso a la oscuridad
-    SkillName: Olas turbulentas
   "21032":
     Name: Esculpir la luna y tejer las nubes
-    SkillName: Secreto
   "21033":
     Name: Sin escapatoria
-    SkillName: En un aprieto
   "21034":
     Name: Hoy es otro día tranquilo
-    SkillName: Se avecina tormenta
   "21035":
     Name: Cuestión de verdad
-    SkillName: Hipótesis
   "21036":
     Name: Aventuras en Villa Ensueño
-    SkillName: Cohesión
   "21037":
     Name: Ganador final
-    SkillName: Órdago
   "21038":
     Name: Lejos del fuego
-    SkillName: Deflagración
   "21039":
     Name: Los hilos del destino
-    SkillName: Cognición
   "21040":
     Name: Día del colapso cósmico
-    SkillName: Estratagema
   "21041":
     Name: Arriba el telón
-    SkillName: Entretenimiento personal
   "21042":
     Name: Promesa grabada
-    SkillName: Legado
   "21043":
     Name: Concierto para dos
-    SkillName: Motivación
   "21044":
     Name: Tango ilimitado
-    SkillName: Escrutinio
   "21045":
     Name: Tras el silencio de La Armonía
-    SkillName: Silencio
   "21046":
     Name: Juventud por florecer
-    SkillName: Nunca perdido ni olvidado
   "21047":
     Name: La sombra de la noche
-    SkillName: Ocultación
   "21048":
     Name: Montaje de sueños
-    SkillName: Montaje de estilo académico
   "22000":
     Name: Antes de que comience la misión del tutorial
-    SkillName: Mano rápida
   "22001":
     Name: Ey, estoy aquí
-    SkillName: ¡No tengo miedo!
   "22002":
     Name: Para el viaje de mañana
-    SkillName: Ataduras
   "22003":
     Name: "Grabación ninja: Cacería del Sonido"
-    SkillName: Empieza el espectáculo
   "23000":
     Name: Noche en la Vía Láctea
-    SkillName: Lluvia de meteoros
   "23001":
     Name: En la noche
-    SkillName: Flores y mariposas
   "23002":
     Name: Algo insustituible
-    SkillName: Familia
   "23003":
     Name: La batalla no ha terminado
-    SkillName: Sucesión
   "23004":
     Name: En nombre del mundo
-    SkillName: Herencia
   "23005":
     Name: El momento de la victoria
-    SkillName: Veredicto
   "23006":
     Name: Solo hay que esperar
-    SkillName: Telaraña
   "23007":
     Name: Lluvia incesante
-    SkillName: Espejismo de la realidad
   "23008":
     Name: Ecos del ataúd
-    SkillName: Espinas
   "23009":
     Name: Orilla inalcanzable
-    SkillName: Anhelo insatisfecho
   "23010":
     Name: Antes del amanecer
-    SkillName: Noche larga
   "23011":
     Name: Ya ha cerrado los ojos
-    SkillName: Horizonte cosmológico
   "23012":
     Name: Dormir como un tronco
-    SkillName: Dulces sueños
   "23013":
     Name: El tiempo no espera
-    SkillName: Mañana, tarde y noche
   "23014":
     Name: Yo seré mi propia espada
-    SkillName: Con este jade nocturno
   "23015":
     Name: Más brillante que el sol
-    SkillName: Desafiante hasta la muerte
   "23016":
     Name: Preocupaciones y felicidad
-    SkillName: De uno en uno
   "23017":
     Name: Noche terrorífica
-    SkillName: Respiración profunda
   "23018":
     Name: Instante grabado a fuego
-    SkillName: Peregrinación del caballero
   "23019":
     Name: Mi pasado en el espejo
-    SkillName: Fragancia de ciruela en mis huesos
   "23020":
     Name: El bautismo del pensamiento puro
-    SkillName: Entrenamiento mental
   "23021":
     Name: Mundo de juegos
-    SkillName: Veleidad
   "23022":
     Name: Recuerdos reconstruidos
-    SkillName: Cristalización
   "23023":
     Name: El destino nunca es justo
-    SkillName: Con todo
   "23024":
     Name: En las orillas transitorias
-    SkillName: Navegante
   "23025":
     Name: A donde regresan los sueños
-    SkillName: Metamorfosis
   "23026":
     Name: Luces de la noche
-    SkillName: Consuelo
   "23027":
     Name: Hacia una segunda vida
-    SkillName: Mar bravo
   "23028":
     Name: La esperanza no tiene precio
-    SkillName: Promesa
   "23029":
     Name: Esas incontables primaveras
-    SkillName: Los asuntos mundanos no dejan huella
   "23030":
     Name: Danza crepuscular
-    SkillName: Fascinación profunda
   "23031":
     Name: Me voy de caza
-    SkillName: Intimidación
   "23032":
     Name: Solo la fragancia perdura
-    SkillName: Alivio
   "23033":
     Name: "Pergamino ninja: Azote deslumbrante del mal"
-    SkillName: Exorcismo
   "24000":
     Name: Sobre la caída de un Eón
-    SkillName: Polilla a la luz
   "24001":
     Name: Crucero estelar
-    SkillName: Batida
   "24002":
     Name: La textura de los recuerdos
-    SkillName: Depósito de tesoros
   "24003":
     Name: Sanación solitaria
-    SkillName: Elixir del caos
   "24004":
     Name: Cálculo interminable
-    SkillName: Pensamiento infinito
 Paths:
   Warrior: Destrucción
   Rogue: Cacería

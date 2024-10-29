@@ -1,11 +1,11 @@
-import { ComponentType, ReactElement } from 'react'
 import { Flex } from 'antd'
 import ColorizeNumbers from 'components/common/ColorizeNumbers'
+import { FormSelectWithPopover } from 'components/optimizerTab/conditionals/FormSelect'
 import { FormSliderWithPopover } from 'components/optimizerTab/conditionals/FormSlider'
 import { FormSwitchWithPopover } from 'components/optimizerTab/conditionals/FormSwitch'
-import { ContentComponentMap, ContentItem } from 'types/Conditionals'
+import { ComponentType, ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FormSelectWithPopover } from 'components/optimizerTab/conditionals/FormSelect'
+import { ContentComponentMap, ContentItem } from 'types/Conditionals'
 
 export const FormItemComponentMap: ContentComponentMap = {
   switch: FormSwitchWithPopover,
@@ -18,7 +18,10 @@ export interface DisplayFormControlProps {
   teammateIndex?: number
 }
 
-const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content: content, teammateIndex: teammateIndex }) => {
+const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({
+  content: content,
+  teammateIndex: teammateIndex,
+}) => {
   const { t } = useTranslation('optimizerTab')
   const ret: ReactElement[] = []
   let i = 0
@@ -45,7 +48,7 @@ const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content: c
         <Item
           {...passive}
           name={passive.id}
-          title={passive.title}
+          title={passive.text}
           content={ColorizeNumbers(passive.content)}
           text={passive.text}
           key={i++}

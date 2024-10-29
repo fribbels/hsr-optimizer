@@ -1,6 +1,6 @@
 Characters:
   "1001":
-    Name: 三月七
+    Name: 三月七 (存护)
   "1002":
     Name: 丹恒
   "1003":
@@ -84,7 +84,7 @@ Characters:
   "1223":
     Name: 貊泽
   "1224":
-    Name: 三月七
+    Name: 三月七 (巡猎)
   "1301":
     Name: 加拉赫
   "1302":
@@ -114,17 +114,17 @@ Characters:
   "1317":
     Name: 乱破
   "8001":
-    Name: Caelus (毁灭)
+    Name: 穹 (毁灭)
   "8002":
-    Name: Stelle (毁灭)
+    Name: 星 (毁灭)
   "8003":
-    Name: Caelus (存护)
+    Name: 穹 (存护)
   "8004":
-    Name: Stelle (存护)
+    Name: 星 (存护)
   "8005":
-    Name: Caelus (同谐)
+    Name: 穹 (同谐)
   "8006":
-    Name: Stelle (同谐)
+    Name: 星 (同谐)
 RelicSets:
   "101":
     Name: 云无留迹的过客
@@ -233,7 +233,7 @@ RelicSets:
     Name: 停转的萨尔索图
     Description2pc: "<span>使装备者的暴击率提高<span style='whiteSpace: \"nowrap\"'>8%</span>。当装备者当前暴击率大于等于<span style='whiteSpace: \"nowrap\"'>50%</span>时，终结技和追加攻击造成的伤害提高<span style='whiteSpace: \"nowrap\"'>15%</span>。</span>"
   "307":
-    Name: "盗贼公国塔利亚"
+    Name: 盗贼公国塔利亚
     Description2pc: "<span>使装备者的击破特攻提高<span style='whiteSpace: \"nowrap\"'>16%</span>。当装备者的速度大于等于<span style='whiteSpace: \"nowrap\"'>145</span>时，击破特攻额外提高<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
   "308":
     Name: 生命的翁瓦克
@@ -245,7 +245,7 @@ RelicSets:
     Name: 折断的龙骨
     Description2pc: "<span>使装备者的效果抵抗提高<span style='whiteSpace: \"nowrap\"'>10%</span>。当装备者的效果抵抗大于等于<span style='whiteSpace: \"nowrap\"'>30%</span>时，我方全体暴击伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
   "311":
-    Name: "苍穹战线格拉默"
+    Name: 苍穹战线格拉默
     Description2pc: "<span>使装备者的攻击力提高<span style='whiteSpace: \"nowrap\"'>12%</span>。当装备者的速度大于等于<span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span>时，使装备者造成的伤害提高<span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span>。</span>"
   "312":
     Name: 梦想之地匹诺康尼
@@ -271,343 +271,230 @@ RelicSets:
 Lightcones:
   "20000":
     Name: 锋镝
-    SkillName: 危机
   "20001":
     Name: 物穰
-    SkillName: 繁盛
   "20002":
     Name: 天倾
-    SkillName: 破灭
   "20003":
     Name: 琥珀
-    SkillName: 静滞
   "20004":
     Name: 幽邃
-    SkillName: 沉沦
   "20005":
     Name: 齐颂
-    SkillName: 协力
   "20006":
     Name: 智库
-    SkillName: 博识
   "20007":
     Name: 离弦
-    SkillName: 鸣角
   "20008":
     Name: 嘉果
-    SkillName: 甘美
   "20009":
     Name: 乐圮
-    SkillName: 诛讨
   "20010":
     Name: 戍御
-    SkillName: 兴复
   "20011":
     Name: 渊环
-    SkillName: 追逼
   "20012":
     Name: 轮契
-    SkillName: 速决
   "20013":
     Name: 灵钥
-    SkillName: 顿悟
   "20014":
     Name: 相抗
-    SkillName: 联盟
   "20015":
     Name: 蕃息
-    SkillName: 丰饶民
   "20016":
     Name: 俱殁
-    SkillName: 军团
   "20017":
     Name: 开疆
-    SkillName: 公司
   "20018":
     Name: 匿影
-    SkillName: 机关
   "20019":
     Name: 调和
-    SkillName: 家族
   "20020":
     Name: 睿见
-    SkillName: 天才
   "21000":
     Name: 一场术后对话
-    SkillName: 互相治愈
   "21001":
     Name: 晚安与睡颜
-    SkillName: 劳碌者
   "21002":
     Name: 余生的第一天
-    SkillName: 此刻定格
   "21003":
     Name: 唯有沉默
-    SkillName: 记录
   "21004":
     Name: 记忆中的模样
-    SkillName: 老相片
   "21005":
     Name: 鼹鼠党欢迎你
-    SkillName: 奇妙冒险
   "21006":
-    Name: '「我」的诞生'
-    SkillName: 画像少女
+    Name: 「我」的诞生
   "21007":
     Name: 同一种心情
-    SkillName: 救治与维修
   "21008":
     Name: 猎物的视线
-    SkillName: 自信
   "21009":
     Name: 朗道的选择
-    SkillName: 时光如梭
   "21010":
     Name: 论剑
-    SkillName: 各自的答案
   "21011":
     Name: 与行星相会
-    SkillName: 启程
   "21012":
     Name: 秘密誓心
-    SkillName: 竭力而为
   "21013":
     Name: 别让世界静下来
-    SkillName: 声音的力量
   "21014":
     Name: 此时恰好
-    SkillName: 折射的视线
   "21015":
     Name: 决心如汗珠般闪耀
-    SkillName: 回眸
   "21016":
     Name: 宇宙市场趋势
-    SkillName: 新一轮洗牌
   "21017":
     Name: 点个关注吧！
-    SkillName: 不赞不许走！
   "21018":
     Name: 舞！舞！舞！
-    SkillName: 停不下来啦！
   "21019":
     Name: 在蓝天下
-    SkillName: 暖阳麦浪
   "21020":
     Name: 天才们的休憩
-    SkillName: 各得其所
   "21021":
     Name: 等价交换
-    SkillName: 酣适
   "21022":
     Name: 延长记号
-    SkillName: 休止符
   "21023":
     Name: 我们是地火
-    SkillName: 泪中人
   "21024":
     Name: 春水初生
-    SkillName: 驱散余寒
   "21025":
     Name: 过往未来
-    SkillName: 旧日纸鸢
   "21026":
     Name: 汪！散步时间！
-    SkillName: 快溜
   "21027":
     Name: 早餐的仪式感
-    SkillName: 各就其位
   "21028":
     Name: 暖夜不会漫长
-    SkillName: 小小灯火
   "21029":
     Name: 后会有期
-    SkillName: 交手如交谈
   "21030":
     Name: 这就是我啦！
-    SkillName: 新篇章
   "21031":
     Name: 重返幽冥
-    SkillName: 汹涌
   "21032":
     Name: 镂月裁云之意
-    SkillName: 秘密
   "21033":
     Name: 无处可逃
-    SkillName: 绝境
   "21034":
     Name: 今日亦是和平的一日
-    SkillName: 风雨将至
   "21035":
     Name: 何物为真
-    SkillName: 假设
   "21036":
     Name: 美梦小镇大冒险
-    SkillName: 团结
   "21037":
     Name: 最后的赢家
-    SkillName: 下注
   "21038":
     Name: 在火的远处
-    SkillName: 爆燃
   "21039":
     Name: 织造命运之线
-    SkillName: 洞见
   "21040":
     Name: 银河沦陷日
-    SkillName: 攻略
   "21041":
     Name: 好戏开演
-    SkillName: 自娱自乐
   "21042":
     Name: 铭记于心的约定
-    SkillName: 传承
   "21043":
     Name: 两个人的演唱会
-    SkillName: 鼓舞
   "21044":
     Name: 无边曼舞
-    SkillName: 试探
   "21045":
     Name: 谐乐静默之后
-    SkillName: 沉寂
   "21046":
     Name: 芳华待灼
-    SkillName: 莫失莫忘
   "21047":
     Name: 黑夜如影随行
-    SkillName: 隐匿
   "21048":
     Name: 梦的蒙太奇
-    SkillName: 学院式剪接
   "22000":
     Name: 新手任务开始前
-    SkillName: 眼疾手快
   "22001":
     Name: 嘿，我在这儿
-    SkillName: 不怕不怕啦
   "22002":
     Name: 为了明日的旅途
-    SkillName: 联结
   "22003":
-    Name: "忍事录•音律狩猎"
-    SkillName: 开演！
+    Name: 忍事录•音律狩猎
   "23000":
     Name: 银河铁道之夜
-    SkillName: 流星群
   "23001":
     Name: 于夜色中
-    SkillName: 花与蝶
   "23002":
     Name: 无可取代的东西
-    SkillName: 家人
   "23003":
     Name: 但战斗还未结束
-    SkillName: 继承人
   "23004":
     Name: 以世界之名
-    SkillName: 传承者
   "23005":
     Name: 制胜的瞬间
-    SkillName: 决断
   "23006":
     Name: 只需等待
-    SkillName: 蜘蛛的网
   "23007":
     Name: 雨一直下
-    SkillName: 幻影现实
   "23008":
     Name: 棺的回响
-    SkillName: 荆棘
   "23009":
     Name: 到不了的彼岸
-    SkillName: 不得
   "23010":
     Name: 拂晓之前
-    SkillName: 长夜
   "23011":
     Name: 她已闭上双眼
-    SkillName: 视界
   "23012":
     Name: 如泥酣眠
-    SkillName: 美梦
   "23013":
     Name: 时节不居
-    SkillName: 日有四时
   "23014":
     Name: 此身为剑
-    SkillName: 执此宵玉
   "23015":
     Name: 比阳光更明亮的
-    SkillName: 抵死
   "23016":
     Name: 烦恼着，幸福着
-    SkillName: 一个一个来
   "23017":
     Name: 惊魂夜
-    SkillName: 深度深呼吸
   "23018":
     Name: 片刻，留在眼底
-    SkillName: 骑士巡礼
   "23019":
     Name: 镜中故我
-    SkillName: 彻骨梅香
   "23020":
     Name: 纯粹思维的洗礼
-    SkillName: 思想训练
   "23021":
     Name: 游戏尘寰
-    SkillName: 善变
   "23022":
     Name: 重塑时光之忆
-    SkillName: 结晶
   "23023":
     Name: 命运从未公平
-    SkillName: 全下
   "23024":
     Name: 行于流逝的岸
-    SkillName: 司渡
   "23025":
     Name: 梦应归于何处
-    SkillName: 蜕变
   "23026":
     Name: 夜色流光溢彩
-    SkillName: 抚慰
   "23027":
     Name: 驶向第二次生命
-    SkillName: 苦航
   "23028":
     Name: 偏偏希望无价
-    SkillName: 承诺
   "23029":
     Name: 那无数个春天
-    SkillName: 世事无痕
   "23030":
     Name: 落日时起舞
-    SkillName: 沉酣
   "23031":
     Name: 我将，巡征追猎
-    SkillName: 震慑
   "23032":
     Name: 唯有香如故
-    SkillName: 安心
   "23033":
-    Name: "忍法帖•缭乱破魔"
-    SkillName: 除邪
+    Name: 忍法帖•缭乱破魔
   "24000":
     Name: 记一位星神的陨落
-    SkillName: 扑火
   "24001":
     Name: 星海巡航
-    SkillName: 猎逐
   "24002":
     Name: 记忆的质料
-    SkillName: 珍存
   "24003":
     Name: 孤独的疗愈
-    SkillName: 混沌灵药
   "24004":
     Name: 不息的演算
-    SkillName: 无界之思
 Paths:
   Warrior: 毁灭
   Rogue: 巡猎

@@ -6162,7 +6162,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.SKILL,
-      hiddenColumns: [SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -6267,7 +6267,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.SKILL,
-      hiddenColumns: [SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [

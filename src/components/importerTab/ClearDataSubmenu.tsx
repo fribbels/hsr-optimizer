@@ -10,7 +10,8 @@ const { Text } = Typography
 
 export function ClearDataSubmenu() {
   const [loading, setLoading] = useState(false)
-  const { t } = useTranslation(['importSaveTab', 'common'], { keyPrefix: 'ClearData' })
+  const { t } = useTranslation(['importSaveTab'], { keyPrefix: 'ClearData' })
+  const { t: tCommon } = useTranslation('common')
 
   function clearDataClicked() {
     console.log('Clear data')
@@ -33,8 +34,8 @@ export function ClearDataSubmenu() {
         description={t('WarningDescription')/* Are you sure you want to clear all relics and characters */}
         onConfirm={clearDataClicked}
         placement='bottom'
-        okText={t('common:Yes')/* Yes */}
-        cancelText={t('common:Cancel')/* Cancel */}
+        okText={tCommon('Yes')/* Yes */}
+        cancelText={tCommon('Cancel')/* Cancel */}
       >
         <Button type='primary' icon={<DeleteOutlined/>} loading={loading} style={{ width: importerTabButtonWidth }}>
           {t('ButtonText')/* Clear data */}

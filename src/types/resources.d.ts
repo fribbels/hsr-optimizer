@@ -192,7 +192,15 @@ interface Resources {
     "DecimalSeparator": ".",
     "ThousandsSeparator": ",",
     "I18nNumber": "{{value, number}}",
+    "Cancel": "Cancel",
+    "Confirm": "Confirm",
+    "Submit": "Submit",
+    "Ok": "Ok",
+    "Yes": "Yes",
+    "No": "No",
+    "Save": "Save",
     "Score": "Score",
+    "Reset": "Reset",
     "EidolonNShort": "E{{eidolon}}",
     "SuperimpositionNShort": "S{{superimposition}}",
     "LevelShort": "Lv{{level}}",
@@ -4361,7 +4369,7 @@ interface Resources {
       "COMBOLabel": "COMBO"
     },
     "ComboFilter": {
-      "Header": "Combo DMG calculation",
+      "Header": "Combo DMG ability rotation",
       "ModeSelector": {
         "Simple": "Simple",
         "Advanced": "Advanced"

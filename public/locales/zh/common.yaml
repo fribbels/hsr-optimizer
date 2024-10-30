@@ -9,10 +9,13 @@ LightconeWithCount_other: "{{count}}光锥"
 ThousandsSuffix: K
 DecimalSeparator: "."
 ThousandsSeparator: ","
+I18nNumber: "{{value, number}}"
 Cancel: 取消
 Confirm: 确认
 Submit: 提交
 Ok: 好的
+Yes: "是"
+No: "否"
 Save: 保存
 Score: 评分
 Reset: 重置

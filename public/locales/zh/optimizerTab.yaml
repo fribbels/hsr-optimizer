@@ -361,6 +361,10 @@ MinMaxFilters:
   ERRLabel: 能量恢复效率
   WEIGHTLabel: 权重
   EHPLabel: 有效生命
+  BASICLabel: 普攻
+  SKILLLabel: 战技
+  ULTLabel: 终结技
+  FUALabel: 追加攻击
   DOTLabel: 持续伤害
   BREAKLabel: 击破
   COMBOLabel: 连招

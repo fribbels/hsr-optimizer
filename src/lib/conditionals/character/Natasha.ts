@@ -31,14 +31,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       content: '',
       options: [
         {
-          display: tHealing('Ult'),
-          value: ULT_TYPE,
-          label: tHealing('Ult'),
-        },
-        {
           display: tHealing('Skill'),
           value: SKILL_TYPE,
           label: tHealing('Skill'),
+        },
+        {
+          display: tHealing('Ult'),
+          value: ULT_TYPE,
+          label: tHealing('Ult'),
         },
       ],
       fullWidth: true,
@@ -63,16 +63,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       x.BASIC_TOUGHNESS_DMG += 30
 
-      if (r.healingAbility == ULT_TYPE) {
-        x.HEAL_TYPE = ULT_TYPE
-        x.HEAL_SCALING += ultHealingScaling
-        x.HEAL_FLAT += ultHealingFlat
-      }
-
       if (r.healingAbility == SKILL_TYPE) {
         x.HEAL_TYPE = SKILL_TYPE
         x.HEAL_SCALING += skillHealingScaling
         x.HEAL_FLAT += skillHealingFlat
+      }
+      if (r.healingAbility == ULT_TYPE) {
+        x.HEAL_TYPE = ULT_TYPE
+        x.HEAL_SCALING += ultHealingScaling
+        x.HEAL_FLAT += ultHealingFlat
       }
 
       return x

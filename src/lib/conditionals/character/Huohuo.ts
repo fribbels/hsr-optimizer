@@ -109,7 +109,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         x.HEAL_TYPE = SKILL_TYPE
         x.HEAL_SCALING += skillHealingScaling
         x.HEAL_FLAT += skillHealingFlat
-      } else {
+      }
+      if (r.healingAbility == 0) {
         x.HEAL_TYPE = 0
         x.HEAL_SCALING += talentHealingScaling
         x.HEAL_FLAT += talentHealingFlat

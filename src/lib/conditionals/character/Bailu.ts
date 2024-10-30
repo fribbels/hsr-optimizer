@@ -1,4 +1,4 @@
-import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   findContentId,
@@ -15,7 +15,8 @@ import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Bailu')
-  const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const tHealing = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealingAbility')
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicScaling = basic(e, 1.0, 1.1)
   const skillScaling = skill(e, 0, 0)
@@ -24,29 +25,35 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultHealingFlat = ult(e, 360, 400.5)
   const ultHealingScaling = ult(e, 0.135, 0.144)
 
+  const skillHealingFlat = skill(e, 312, 347.1)
+  const skillHealingScaling = skill(e, 0.117, 0.1248)
+
+  const talentHealingFlat = talent(e, 144, 160.2)
+  const talentHealingScaling = talent(e, 0.054, 0.0576)
+
   const content: ContentItem[] = [
     {
       formItem: 'select',
       id: 'healingAbility',
       name: 'healingAbility',
-      text: t('Content.healingAbility.text'),
-      title: t('Content.healingAbility.title'),
-      content: t('Content.healingAbility.content'),
+      text: '',
+      title: '',
+      content: '',
       options: [
         {
-          display: 'Healing ability: Ult',
+          display: tHealing('Skill'),
+          value: SKILL_TYPE,
+          label: tHealing('Skill'),
+        },
+        {
+          display: tHealing('Ult'),
+          value: ULT_TYPE,
+          label: tHealing('Ult'),
+        },
+        {
+          display: tHealing('Talent'),
           value: 0,
-          label: 'Healing ability: Ult',
-        },
-        {
-          display: 'Healing ability: Skill',
-          value: 1,
-          label: 'Healing ability: Skill',
-        },
-        {
-          display: 'Healing ability: Talent',
-          value: 2,
-          label: 'Healing ability: Talent',
+          label: tHealing('Talent'),
         },
       ],
       fullWidth: true,
@@ -121,8 +128,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
 
-      x.HEAL_SCALING += ultHealingScaling
-      x.HEAL_FLAT += ultHealingFlat
+      if (r.healingAbility == SKILL_TYPE) {
+        x.HEAL_TYPE = SKILL_TYPE
+        x.HEAL_SCALING += skillHealingScaling
+        x.HEAL_FLAT += skillHealingFlat
+      }
+      if (r.healingAbility == ULT_TYPE) {
+        x.HEAL_TYPE = ULT_TYPE
+        x.HEAL_SCALING += ultHealingScaling
+        x.HEAL_FLAT += ultHealingFlat
+      }
+      if (r.healingAbility == 0) {
+        x.HEAL_TYPE = 0
+        x.HEAL_SCALING += talentHealingScaling
+        x.HEAL_FLAT += talentHealingFlat
+      }
 
       x.BASIC_TOUGHNESS_DMG += 30
 

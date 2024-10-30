@@ -1,13 +1,31 @@
+Relic_one: relíquia
+Relic_other: relíquias
+RelicWithCount_one: "{{count}} relíquia"
+RelicWithCount_other: "{{count}} relíquias"
+Lightcone_one: cone de luz
+Lightcone_other: cones de luz
+LightconeWithCount_one: "{{count}} cone de luz"
+LightconeWithCount_other: "{{count}} cones de luz"
 ThousandsSuffix: K
 DecimalSeparator: "."
 ThousandsSeparator: "."
+I18nNumber: "{{value, number}}"
 Cancel: Cancelar
 Confirm: Confirmar
+Submit: Enviar
+Ok: Ok
+Yes: "Sim"
+No: "Não"
+Save: Salvar
 Score: Pontuação
+Reset: Resetar
 EidolonNShort: "E{{eidolon}}"
 SuperimpositionNShort: "S{{superimposition}}"
 LevelShort: "Nv{{level}}"
+CharacterWithCount_one: "{{count}} personagem"
+CharacterWithCount_other: "{{count}} personagens"
 Character_one: personagem
+Character_other: personagens
 VerifiedRelicHoverText: Subatributos das relíquias verificados pelo pontuador de relíquias (decimais de velocidade)
 CombatStats: Atributos de combate
 Parts:

@@ -86,8 +86,10 @@ EditCharacter:
   Character: 角色
   Lightcone: 光锥
   Cancel: 取消
+  Save: 保存
 Relic:
   Cancel: 取消
+  Submit: 提交
   Part: 部件
   Wearer: 装备由
   Set: 套装
@@ -144,13 +146,16 @@ EditImage:
     Change: 更换图像
     Previous: 上一个
     Next: 下一个
+    Submit: 提交
 SaveBuild:
   Cancel: 取消
+  Save: 保存
   Label: 配装名称
   Rule: 请输入名称
 SwitchRelics:
   Title: 与角色交换遗器
   Cancel: 取消
+  Save: 保存
 Builds:
   DeleteAll: 删除全部
   Cancel: 取消
@@ -169,6 +174,7 @@ Builds:
     SuccessMessageAll: "成功删除了{{characterName}}的所有配装"
     SuccessMessageSingle: "成功删除配装：{{name}}"
   NoBuilds:
+    Ok: 好的
     Cancel: 取消
     NoneSaved: 无保存配装
 ScoreFooter:

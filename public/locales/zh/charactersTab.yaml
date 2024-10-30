@@ -76,6 +76,10 @@ CharacterPreview:
     SimulationSets: 模拟套装
     Rotation:
       Header: 连招伤害循环
+      BASIC: 普攻
+      SKILL: 战技
+      ULT: 终结技
+      FUA: 追加攻击
       DOT: 持续伤害
       BREAK: 击破
     CombatResults:
@@ -92,6 +96,7 @@ CharacterPreview:
         ULT: 终结技伤害
         FUA: 追加伤害
         DOT: 持续伤害
+        BREAK: 击破伤害
         COMBO: 连招伤害
   ScoringColumn:
     Character:
@@ -128,5 +133,12 @@ CharacterPreview:
       EHR: "效果命中:  "
       RES: "效果抵抗:  "
       BE: "击破特攻:   "
+    PaddedDMGLabels:
+      Basic: "普攻伤害：           "
+      Skill: "战技伤害：           "
+      Ult: "终结技伤害：             "
+      Fua: "追加攻击伤害：             "
+      Dot: "持续伤害：             "
+      Break: "击破伤害：           "
   ScoringDetails:
     Header: DPS评分是如何计算的?

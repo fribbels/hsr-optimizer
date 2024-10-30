@@ -1477,6 +1477,7 @@ function getScoringMetadata() {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.DEF,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SKILL, SortOption.DOT],
     },
     1002: { // Dan Heng
       stats: {
@@ -1523,6 +1524,7 @@ function getScoringMetadata() {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.ULT,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -1629,6 +1631,7 @@ function getScoringMetadata() {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -1736,6 +1739,7 @@ function getScoringMetadata() {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.SKILL,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -1841,6 +1845,7 @@ function getScoringMetadata() {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.DOT,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -1948,6 +1953,7 @@ function getScoringMetadata() {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.ULT,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
     },
     1008: { // Arlan
       stats: {
@@ -1992,6 +1998,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.SKILL,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -2088,6 +2095,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.SPD,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.FUA],
     },
     1013: { // Herta
       stats: {
@@ -2135,6 +2143,7 @@ function getScoringMetadata() {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -2233,6 +2242,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.CD,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.DOT],
     },
     1102: { // Seele
       stats: {
@@ -2277,6 +2287,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.SKILL,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -2382,6 +2393,7 @@ function getScoringMetadata() {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.ULT,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -2484,6 +2496,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.DEF,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1105: { // Natasha
       stats: {
@@ -2528,6 +2541,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.EHP,
+      hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1106: { // Pela
       stats: {
@@ -2575,6 +2589,7 @@ function getScoringMetadata() {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.SPD,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
     },
     1107: { // Clara
       stats: {
@@ -2622,6 +2637,7 @@ function getScoringMetadata() {
         PresetEffects.fnSacerdosSet(1),
       ],
       sortOption: SortOption.FUA,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -2728,6 +2744,7 @@ function getScoringMetadata() {
         PresetEffects.PRISONER_SET,
       ],
       sortOption: SortOption.DOT,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -2829,6 +2846,7 @@ function getScoringMetadata() {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.SKILL,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -2931,6 +2949,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.EHP,
+      hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1111: { // Luka
       stats: {
@@ -2978,6 +2997,7 @@ function getScoringMetadata() {
         PresetEffects.PRISONER_SET,
       ],
       sortOption: SortOption.DOT,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -3086,6 +3106,7 @@ function getScoringMetadata() {
         PresetEffects.fnSacerdosSet(1),
       ],
       sortOption: SortOption.FUA,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -3192,6 +3213,7 @@ function getScoringMetadata() {
         PresetEffects.fnSacerdosSet(2),
       ],
       sortOption: SortOption.BASIC,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -3296,6 +3318,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.SPD,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1203: { // Luocha
       stats: {
@@ -3344,6 +3367,7 @@ function getScoringMetadata() {
         PresetEffects.WASTELANDER_SET,
       ],
       sortOption: SortOption.SPD,
+      hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     1204: { // Jing Yuan
       stats: {
@@ -3392,6 +3416,7 @@ function getScoringMetadata() {
         PresetEffects.BANANA_SET,
       ],
       sortOption: SortOption.FUA,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -3498,6 +3523,7 @@ function getScoringMetadata() {
         PresetEffects.fnSacerdosSet(1),
       ],
       sortOption: SortOption.BASIC,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -3601,6 +3627,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.SKILL,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -3709,6 +3736,7 @@ function getScoringMetadata() {
         PresetEffects.fnSacerdosSet(1),
       ],
       sortOption: SortOption.ULT,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     1208: { // Fu Xuan
       stats: {
@@ -3756,6 +3784,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.EHP,
+      hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     1209: { // Yanqing
       stats: {
@@ -3803,6 +3832,7 @@ function getScoringMetadata() {
         PresetEffects.fnAshblazingSet(2),
       ],
       sortOption: SortOption.ULT,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -3907,6 +3937,7 @@ function getScoringMetadata() {
         PresetEffects.PRISONER_SET,
       ],
       sortOption: SortOption.DOT,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA],
     },
     1211: { // Bailu
       stats: {
@@ -3950,6 +3981,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.EHP,
+      hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1212: { // Jingliu
       stats: {
@@ -3994,7 +4026,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.SKILL,
-      hiddenColumns: [SortOption.HEAL, SortOption.OHB, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -4099,6 +4131,7 @@ function getScoringMetadata() {
         PresetEffects.WASTELANDER_SET,
       ],
       sortOption: SortOption.BASIC,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -4205,6 +4238,7 @@ function getScoringMetadata() {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.SKILL,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -4303,6 +4337,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.SPD,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1217: { // Huohuo
       stats: {
@@ -4347,6 +4382,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.EHP,
+      hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1218: { // Jiaoqiu
       stats: {
@@ -4389,6 +4425,7 @@ function getScoringMetadata() {
         PresetEffects.PRISONER_SET,
       ],
       sortOption: SortOption.EHR,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA],
     },
     1220: { // Feixiao
       stats: {
@@ -4436,6 +4473,7 @@ function getScoringMetadata() {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.ULT,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -4544,6 +4582,7 @@ function getScoringMetadata() {
         PresetEffects.fnAshblazingSet(8),
       ],
       sortOption: SortOption.FUA,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -4656,6 +4695,7 @@ function getScoringMetadata() {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.BE,
+      hiddenColumns: [SortOption.SHIELD, SortOption.DOT],
     },
     1223: { // Moze
       stats: {
@@ -4704,6 +4744,7 @@ function getScoringMetadata() {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -4812,6 +4853,7 @@ function getScoringMetadata() {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.BASIC,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -4911,6 +4953,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.BE,
+      hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     1302: { // Argenti
       stats: {
@@ -4955,6 +4998,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.ULT,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -5050,6 +5094,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.BE,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1304: { // Aventurine
       stats: {
@@ -5099,6 +5144,7 @@ function getScoringMetadata() {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.FUA,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SKILL, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -5214,6 +5260,7 @@ function getScoringMetadata() {
         PresetEffects.WASTELANDER_SET,
       ],
       sortOption: SortOption.FUA,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -5311,6 +5358,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.CD,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1307: { // Black Swan
       stats: {
@@ -5357,6 +5405,7 @@ function getScoringMetadata() {
         PresetEffects.PRISONER_SET,
       ],
       sortOption: SortOption.DOT,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -5462,6 +5511,7 @@ function getScoringMetadata() {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.ULT,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -5562,6 +5612,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.ATK,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     1310: { // Firefly
       stats: {
@@ -5604,6 +5655,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.SKILL,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -5705,6 +5757,7 @@ function getScoringMetadata() {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.ULT,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -5812,6 +5865,7 @@ function getScoringMetadata() {
         PresetEffects.fnAshblazingSet(8),
       ],
       sortOption: SortOption.FUA,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -5908,6 +5962,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.BASIC,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -6005,6 +6060,7 @@ function getScoringMetadata() {
         PresetEffects.WASTELANDER_SET,
       ],
       sortOption: SortOption.BASIC,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -6106,6 +6162,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.SKILL,
+      hiddenColumns: [SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -6210,6 +6267,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.SKILL,
+      hiddenColumns: [SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -6312,6 +6370,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.DEF,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     8004: { // Fire Trailblazer F
       stats: {
@@ -6355,6 +6414,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.DEF,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     8005: { // Imaginary Trailblazer M
       stats: {
@@ -6393,6 +6453,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.BE,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     8006: { // Imaginary Trailblazer F
       stats: {
@@ -6431,6 +6492,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.BE,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1225: { // Fugue
       stats: {
@@ -6469,6 +6531,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.BASIC,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -6568,6 +6631,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.CD,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
   }
 }

@@ -135,7 +135,9 @@ Grid:
       ERR: Σ ERR
       DMG: Σ DMG
       EHP: EHP
-      WEIGHT: STAT WEIGHT
+      WEIGHT: |-
+        STAT
+        WEIGHT
       HEAL: HEAL
       SHIELD: SHIELD
       BASIC: |-

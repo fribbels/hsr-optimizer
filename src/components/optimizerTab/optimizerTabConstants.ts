@@ -199,7 +199,7 @@ export function getBaseColumnDefs(t: TFunction<'optimizerTab', undefined>) {
       field: 'COMBO',
       valueFormatter: Renderer.floor,
       minWidth: DIGITS_6,
-      flex: 14,
+      flex: 13,
       headerName: t('Grid.Headers.Basic.COMBO'), // 'COMBO\nDMG',
     },
   ]
@@ -388,7 +388,7 @@ export function getCombatColumnDefs(t: TFunction<'optimizerTab', undefined>) {
       field: 'COMBO',
       valueFormatter: Renderer.floor,
       minWidth: DIGITS_6,
-      flex: 14,
+      flex: 13,
       headerName: t('Grid.Headers.Combat.COMBO'), // 'COMBO\nDMG',
     },
   ]

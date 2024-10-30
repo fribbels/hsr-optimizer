@@ -121,6 +121,7 @@ Toolbar:
     Cancel: 取消
     ButtonText: 删除遗器
     Warning_one: 删除所选遗器吗？
+    Warning_other: "删除{{count}}个选定的遗器吗？"
   AddRelic: 添加新遗器
 RelicInsights:
   NewStats: "新添加属性："

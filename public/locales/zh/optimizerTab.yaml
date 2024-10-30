@@ -316,7 +316,7 @@ CombatBuffs:
   BE: 击破特攻 %
   DMG_BOOST: 伤害增益 %
   DEF_PEN: 防御穿透 %
-  RES_PEN: 伤害抵抗穿透 %
+  RES_PEN: 伤害抗性穿透 %
   EFFECT_RES_PEN: 效果抵抗穿透 %
   VULNERABILITY: 易伤 %
   BREAK_EFFICIENCY: 击破效率 %
@@ -328,7 +328,7 @@ EnemyConfiguration:
   CountOptionLabel: >-
     {{targetCount}}$t(optimizerTab:Target, {"count": {{targetCount}}})$t(optimizerTab:Target, {"count": {{targetCount}}})
   EffResOptionLabel: "{{resistance}}%效果抵抗"
-  DmgResOptionLabel: "{{resistance}}%伤害抵抗"
+  DmgResOptionLabel: "{{resistance}}%伤害抗性"
   ToughnessOptionLabel: "{{toughness}}最大韧性"
   Title: 敌人配置
   StatHeader: 敌人属性选项

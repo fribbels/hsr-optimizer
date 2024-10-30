@@ -1,5 +1,15 @@
-import { ASHBLAZING_ATK_STACK, BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  ASHBLAZING_ATK_STACK,
+  BREAK_TYPE,
+  ComputedStatsObject,
+  SKILL_TYPE, ULT_TYPE,
+} from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardFuaAtkFinalizer,
+  standardFuaAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -14,6 +24,7 @@ import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lingsha')
+  const tHealing = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealingAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -22,6 +33,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultBreakVulnerability = ult(e, 0.25, 0.27)
   const fuaScaling = talent(e, 0.75, 0.825)
 
+  const skillHealingScaling = skill(e, 0.14, 0.148)
+  const skillHealingFlat = skill(e, 420, 467.25)
+
+  const ultHealingScaling = ult(e, 0.12, 0.128)
+  const ultHealingFlat = ult(e, 360, 400.5)
+
+  const talentHealingScaling = talent(e, 0.12, 0.128)
+  const talentHealingFlat = talent(e, 360, 400.5)
+
   const hitMultiByTargets: NumberToNumberMap = {
     1: ASHBLAZING_ATK_STACK * (1 * 1 / 2 + 2 * 1 / 2),
     3: ASHBLAZING_ATK_STACK * (2 * 1 / 2 + 3 * 1 / 2),
@@ -29,6 +49,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   }
 
   const defaults = {
+    healingAbility: 0,
     beConversion: true,
     befogState: true,
     e1DefShred: true,
@@ -47,6 +68,32 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   type LingshaTeammateConditionalConstants = typeof teammateDefaults
 
   const content: (ContentItem & { id: keyof LingshaConditionalConstants })[] = [
+    {
+      formItem: 'select',
+      id: 'healingAbility',
+      name: 'healingAbility',
+      text: '',
+      title: '',
+      content: '',
+      options: [
+        {
+          display: tHealing('Skill'),
+          value: SKILL_TYPE,
+          label: tHealing('Skill'),
+        },
+        {
+          display: tHealing('Ult'),
+          value: ULT_TYPE,
+          label: tHealing('Ult'),
+        },
+        {
+          display: tHealing('Talent'),
+          value: 0,
+          label: tHealing('Talent'),
+        },
+      ],
+      fullWidth: true,
+    },
     {
       formItem: 'switch',
       id: 'beConversion',
@@ -126,6 +173,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.FUA_TOUGHNESS_DMG += 30 * 2
       x.FUA_TOUGHNESS_DMG += (e >= 6) ? 15 : 0
 
+      if (r.healingAbility == SKILL_TYPE) {
+        x.HEAL_TYPE = SKILL_TYPE
+        x.HEAL_SCALING += skillHealingScaling
+        x.HEAL_FLAT += skillHealingFlat
+      }
+      if (r.healingAbility == ULT_TYPE) {
+        x.HEAL_TYPE = ULT_TYPE
+        x.HEAL_SCALING += ultHealingScaling
+        x.HEAL_FLAT += ultHealingFlat
+      }
+      if (r.healingAbility == 0) {
+        x.HEAL_TYPE = 0
+        x.HEAL_SCALING += talentHealingScaling
+        x.HEAL_FLAT += talentHealingFlat
+      }
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
@@ -142,9 +205,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, hitMultiByTargets[context.enemyCount])
+      x.HEAL_VALUE += x.HEAL_SCALING * x[Stats.ATK] + x.HEAL_FLAT
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardFuaAtkFinalizer(hitMultiByTargets[context.enemyCount])
+      return gpuStandardFuaAtkFinalizer(hitMultiByTargets[context.enemyCount]) + `
+x.HEAL_VALUE += x.HEAL_SCALING * x.ATK + x.HEAL_FLAT;
+`
     },
     dynamicConditionals: [LingshaConversionConditional],
   }

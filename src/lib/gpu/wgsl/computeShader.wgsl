@@ -569,8 +569,19 @@ fn main(
           * (dotEhrMulti);
 
         x.EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
-        x.HEAL_VALUE = x.HEAL_VALUE * (1 + x.OHB);
-        x.SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p2(x.sets.KnightOfPurityPalace));
+
+        if (x.HEAL_VALUE > 0) {
+          x.HEAL_VALUE = x.HEAL_VALUE * (
+            1
+            + x.OHB
+            + select(0, x.SKILL_OHB, x.HEAL_TYPE == SKILL_TYPE)
+            + select(0, x.ULT_OHB, x.HEAL_TYPE == ULT_TYPE)
+          );
+        }
+
+        if (x.SHIELD_VALUE > 0) {
+          x.SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p2(x.sets.KnightOfPurityPalace));
+        }
       }
 
       if (action.abilityType == 1 || actionIndex == 0) {

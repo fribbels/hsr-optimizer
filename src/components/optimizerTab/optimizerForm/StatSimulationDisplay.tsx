@@ -30,6 +30,7 @@ export const STAT_SIMULATION_STATS_WIDTH = 190
 
 export function StatSimulationDisplay() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
+  const { t: tCommon } = useTranslation('common')
   const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
   const setStatSimulationDisplay = window.store((s) => s.setStatSimulationDisplay)
   const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
@@ -109,8 +110,8 @@ export function StatSimulationDisplay() {
               description={t('DeletePopup.Description')}// "Are you sure you want to clear all of this character's saved simulations?"
               onConfirm={deleteAllStatSimulationBuilds}
               placement='bottom'
-              okText={t('DeletePopup.OkText')}// 'Yes'
-              cancelText={t('DeletePopup.CancelText')}// 'Cancel'
+              okText={tCommon('Yes')}// 'Yes'
+              cancelText={tCommon('Cancel')}// 'Cancel'
             >
               <Button
                 type='dashed'

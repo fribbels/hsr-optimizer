@@ -74,7 +74,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     )
   }
 
-  function ScoringAbility(props: { comboAbilities: string[], index: number }) {
+  function ScoringAbility(props: { comboAbilities: string[]; index: number }) {
     const displayValue = props.comboAbilities[props.index]
     if (displayValue == null) return <></>
 
@@ -120,7 +120,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           >{`+1x ${t('CharacterPreview.SubstatUpgradeComparisons.Roll')}: ${t(`common:ShortStats.${upgradeStat}`)} +${rollValue.toFixed(1)}${suffix}`}
           </pre>
           <pre style={{ margin: 0, width: 250 }}>
-            {`${t('CharacterPreview.SubstatUpgradeComparisons.Score')}: +${((upgradePercent - basePercent) * 100).toFixed(2)}% -> ${(statUpgrade.percent! * 100).toFixed(2)}%`}
+            {`${t('common:Score')}: +${((upgradePercent - basePercent) * 100).toFixed(2)}% -> ${(statUpgrade.percent! * 100).toFixed(2)}%`}
           </pre>
           <pre style={{ margin: 0, width: 300 }}>
             {`${t('CharacterPreview.SubstatUpgradeComparisons.Damage')}: +${(upgradeSimScore - originalScore).toFixed(1)} -> ${upgradeSimScore.toFixed(1)}`}
@@ -327,8 +327,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
               <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={8}/>
             </Flex>
             <Flex vertical gap={2}>
-              <ScoringInteger label={'DOTS:   '} number={result.simulationMetadata.comboDot}/>
-              <ScoringInteger label={'BREAKS: '} number={result.simulationMetadata.comboBreak}/>
+              <ScoringInteger label='DOTS:   ' number={result.simulationMetadata.comboDot}/>
+              <ScoringInteger label='BREAKS: ' number={result.simulationMetadata.comboBreak}/>
             </Flex>
           </Flex>
         </Flex>
@@ -391,11 +391,11 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
       <Flex justify='space-around' style={{ marginTop: 15 }}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-           <ColorizedLinkWithIcon
-             text={t('CharacterPreview.ScoringDetails.Header')/* How is DPS score calculated? */}
-             linkIcon={true}
-             url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
-           />
+          <ColorizedLinkWithIcon
+            text={t('CharacterPreview.ScoringDetails.Header')/* How is DPS score calculated? */}
+            linkIcon={true}
+            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
+          />
         </pre>
       </Flex>
     </Flex>

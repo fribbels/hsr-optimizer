@@ -54,15 +54,15 @@ export const ComboFilters = () => {
           {t('RowControls.Add')}
         </Button>
         <Popconfirm
-          title={t('RowControls.ResetConfirm.Title')}
+          title={tCommon('Confirm')}
           description={t('RowControls.ResetConfirm.Description')}
           onConfirm={() => reset(form)}
           placement='bottom'
-          okText={tCommon('common:Yes')}
-          cancelText={tCommon('common:Cancel')}
+          okText={tCommon('Yes')}
+          cancelText={tCommon('Cancel')}
         >
           <Button size='small' variant='outlined' style={{ flex: 1 }}>
-            Reset
+            {tCommon('Reset')}
           </Button>
         </Popconfirm>
         <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => minus(form)}>

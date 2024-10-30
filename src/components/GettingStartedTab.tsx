@@ -12,7 +12,7 @@ import { HsrOptimizerSaveFormat } from 'types/store'
 const { Text } = Typography
 
 export default function GettingStartedTab() {
-  const { t } = useTranslation('getStartedTab')
+  const { t } = useTranslation(['getStartedTab', 'common'])
   console.log('======================================================================= RENDER GettingStartedTab')
 
   function tryItOutClicked() {
@@ -27,12 +27,12 @@ export default function GettingStartedTab() {
       <Text>
         <Flex vertical gap={5} style={{ marginLeft: 20, marginBottom: 50, width: 1000 }}>
           <Popconfirm
-            title={t('TryOut.title')}// Try it out!
+            title={t('common:Confirm')}// Confirm!
             description={t('TryOut.description')}// 'Load a sample save file?'
             onConfirm={tryItOutClicked}
             placement='bottom'
-            okText={t('TryOut.okText')}// 'Yes'
-            cancelText={t('TryOut.cancelText')}// 'Cancel'
+            okText={t('common:Yes')}// 'Yes'
+            cancelText={t('common:Cancel')}// 'Cancel'
           >
             <Button type='primary' icon={<ImportOutlined/>} style={{ width: 200 }}>
               {t('TryOut.ButtonText')/* Try it out! */}

@@ -96,7 +96,7 @@ Lightcones:
   IncessantRain:
     Content:
       enemy3DebuffsCrBoost:
-        text: Enemy ≤ 3 debuffs CR boost
+        text: Enemy ≥ 3 debuffs CR boost
         content: When the wearer deals DMG to an enemy that currently has 3 or more debuffs, increases the wearer's CRIT Rate by {{CritBuff}}%.
       targetCodeDebuff:
         text: Target Aether Code debuff

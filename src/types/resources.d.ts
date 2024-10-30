@@ -471,7 +471,7 @@ interface Resources {
       "IncessantRain": {
         "Content": {
           "enemy3DebuffsCrBoost": {
-            "text": "Enemy ≤ 3 debuffs CR boost",
+            "text": "Enemy ≥ 3 debuffs CR boost",
             "content": "When the wearer deals DMG to an enemy that currently has 3 or more debuffs, increases the wearer's CRIT Rate by {{CritBuff}}%."
           },
           "targetCodeDebuff": {
@@ -3608,12 +3608,12 @@ interface Resources {
         },
         "MAX_HP": {
           "SuccessMessage": "Reset Maximum $t(common:Stats.HP) filter",
-          "Description": "Maximum $t(common:Stats.HP) may be too high",
+          "Description": "Maximum $t(common:Stats.HP) may be too low",
           "ButtonText": "Reset Maximum $t(common:Stats.HP) filter"
         },
         "MIN_HP": {
           "SuccessMessage": "Reset Minimum $t(common:Stats.HP) filter",
-          "Description": "Minimum $t(common:Stats.HP) may be too low",
+          "Description": "Minimum $t(common:Stats.HP) may be too high",
           "ButtonText": "Reset Minimum $t(common:Stats.HP) filter"
         },
         "MAX_ATK": {

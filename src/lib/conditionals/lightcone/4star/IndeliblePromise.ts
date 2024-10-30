@@ -16,7 +16,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     formItem: 'switch',
     text: t('Content.crBuff.text'),
     title: t('Content.crBuff.title'),
-    content: t('Content.crBuff.content', { BreakBuff: TsUtils.precisionRound(100 * (0.21 + 0.7 * s)), CritBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+    content: t('Content.crBuff.content', { CritBuff: TsUtils.precisionRound(100 * sValues[s]) }),
   }]
 
   return {

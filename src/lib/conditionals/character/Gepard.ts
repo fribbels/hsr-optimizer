@@ -21,8 +21,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 2.00, 2.20)
 
-  const ultShieldFlat = ult(e, 600, 667.5)
   const ultShieldScaling = ult(e, 0.45, 0.48)
+  const ultShieldFlat = ult(e, 600, 667.5)
 
   const content: ContentItem[] = [{
     formItem: 'switch',
@@ -51,8 +51,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60
 
-      x.SHIELD_FLAT += ultShieldFlat
       x.SHIELD_SCALING += ultShieldScaling
+      x.SHIELD_FLAT += ultShieldFlat
 
       return x
     },

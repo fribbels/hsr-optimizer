@@ -1,4 +1,4 @@
-import { ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject, NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   findContentId,
@@ -17,7 +17,7 @@ import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aventurine')
-  const tShielding = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.ShieldingAbility')
+  const tShield = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.ShieldAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -29,30 +29,30 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const fuaHits = (e >= 4) ? 10 : 7
 
-  const skillShieldingFlat = skill(e, 320, 356)
-  const skillShieldingScaling = skill(e, 0.24, 0.256)
+  const skillShieldScaling = skill(e, 0.24, 0.256)
+  const skillShieldFlat = skill(e, 320, 356)
 
-  const traceShieldingFlat = 96
-  const traceShieldingScaling = 0.07
+  const traceShieldScaling = 0.07
+  const traceShieldFlat = 96
 
   const content: ContentItem[] = [
     {
       formItem: 'select',
-      id: 'shieldingAbility',
-      name: 'shieldingAbility',
+      id: 'shieldAbility',
+      name: 'shieldAbility',
       text: '',
       title: '',
       content: '',
       options: [
         {
-          display: tShielding('Skill'),
+          display: tShield('Skill'),
           value: SKILL_TYPE,
-          label: tShielding('Skill'),
+          label: tShield('Skill'),
         },
         {
-          display: tShielding('Trace'),
-          value: 0,
-          label: tShielding('Trace'),
+          display: tShield('Trace'),
+          value: NONE_TYPE,
+          label: tShield('Trace'),
         },
       ],
       fullWidth: true,
@@ -132,7 +132,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => ({
-      shieldingAbility: SKILL_TYPE,
+      shieldAbility: SKILL_TYPE,
       defToCrBoost: true,
       fuaHitsOnTarget: fuaHits,
       fortifiedWagerBuff: true,
@@ -160,13 +160,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_TOUGHNESS_DMG += 90
       x.FUA_TOUGHNESS_DMG += 10 * r.fuaHitsOnTarget
 
-      if (r.shieldingAbility == SKILL_TYPE) {
-        x.SHIELD_SCALING += skillShieldingScaling
-        x.SHIELD_FLAT += skillShieldingFlat
+      if (r.shieldAbility == SKILL_TYPE) {
+        x.SHIELD_SCALING += skillShieldScaling
+        x.SHIELD_FLAT += skillShieldFlat
       }
-      if (r.shieldingAbility == 0) {
-        x.SHIELD_SCALING += traceShieldingScaling
-        x.SHIELD_FLAT += traceShieldingFlat
+      if (r.shieldAbility == 0) {
+        x.SHIELD_SCALING += traceShieldScaling
+        x.SHIELD_FLAT += traceShieldFlat
       }
 
       return x

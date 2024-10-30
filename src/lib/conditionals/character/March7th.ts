@@ -21,8 +21,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
-  const skillShieldingFlat = skill(e, 760, 845.5)
-  const skillShieldingScaling = skill(e, 0.57, 0.608)
+  const skillShieldScaling = skill(e, 0.57, 0.608)
+  const skillShieldFlat = skill(e, 760, 845.5)
 
   return {
     content: () => [],
@@ -40,8 +40,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_TOUGHNESS_DMG += 60
       x.FUA_TOUGHNESS_DMG += 30
 
-      x.SHIELD_SCALING += skillShieldingScaling
-      x.SHIELD_FLAT += skillShieldingFlat
+      x.SHIELD_SCALING += skillShieldScaling
+      x.SHIELD_FLAT += skillShieldFlat
 
       return x
     },

@@ -1,3 +1,4 @@
-Toolbar:
-  DeleteRelic:
-    Yes: Yes
+RelicFilterBar:
+  ScoringButton: Algoritmo de Pontuação
+Messages:
+  AddRelicSuccess: Relíquia adicionada com sucesso

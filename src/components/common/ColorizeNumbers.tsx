@@ -36,6 +36,7 @@ const ColorizeNumbers = (text: string, color: string = '#ebb434') => {
       if (isNum) {
         ret.push(<span key={key++} style={{ color: color }}>{num}</span>)
       }
+      isNum = false
     })
   }
 

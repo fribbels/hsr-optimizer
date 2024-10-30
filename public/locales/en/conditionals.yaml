@@ -337,7 +337,7 @@ Lightcones:
   DreamvilleAdventure:
     Content:
       ultDmgBuff:
-        text: Ult DMG boost'
+        text: Ult DMG boost
         content: >-
           After the wearer uses a certain type of ability such as Basic ATK, Skill, or Ultimate, all allies gain Childishness, which increases allies' DMG for the same type of ability as used by the
           wearer by {{DmgBuff}}%. Childishness only takes effect for the most recent type of ability the wearer used and cannot be stacked.

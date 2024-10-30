@@ -1,2 +1,18 @@
+Showcase:
+  Title: Apresentação
+  Scorer: Pontuador de Relíquias
 Optimization:
-  Settings: TEST_DELETE_ME_3
+  Title: Otimização
+  Optimizer: Otimizador
+  Relics: Relíquias
+  Characters: Personagens
+  Import: Importar / Salvar
+  Settings: Configurações
+  Start: Começando
+Links:
+  Title: Links
+  Changelog: Registro de Mudanças
+  Discord: Discord
+  Github: Github
+  Kofi: Ko-fi
+  Unleak: Sem vazamentos

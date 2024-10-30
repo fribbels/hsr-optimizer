@@ -183,13 +183,9 @@ Sidebar:
   ControlsGroup:
     Header: Controls
     Start: Start optimizer
-    Cancel: Cancel
-    Reset: Reset
     ResetConfirm:
       Title: Reset all filters?
       Description: All filters will be reset to their default values
-      Yes: Yes
-      No: No
   StatViewGroup:
     Header: Stat and filter view
     CombatStats: Combat stats
@@ -379,14 +375,10 @@ ComboFilter:
     Simple: Simple
     Advanced: Advanced
   RowControls:
-    Reset: Reset
     Add: +
     Remove: "-"
     ResetConfirm:
-      Title: Confirm
       Description: Reset all Simple / Advanced rotation settings to default?
-      OkText: Yes
-      CancelText: Cancel
   CounterLabels:
     Dot: Dots
     Break: Breaks
@@ -473,8 +465,6 @@ StatSimulation:
   DeletePopup:
     Title: Erase stat simulations
     Description: Are you sure you want to clear all of this character's saved simulations?
-    OkText: Yes
-    CancelText: Cancel
   SimulationNamePlaceholder: Simulation name (Optional)
   OptionsHeader: Options
   RollsHeader: Substat max rolls

@@ -374,7 +374,7 @@ MinMaxFilters:
   BREAKLabel: BREAK
   COMBOLabel: COMBO
 ComboFilter:
-  Header: Combo DMG calculation
+  Header: Combo DMG ability rotation
   ModeSelector:
     Simple: Simple
     Advanced: Advanced
@@ -485,5 +485,5 @@ StatSimulation:
     FeetPlaceholder: Feet
     SpherePlaceholder: Sphere
     RopePlaceholder: Rope
-    ShortStat:  "$t(common:ShortReadableStats.{{stat}})"
+    ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"

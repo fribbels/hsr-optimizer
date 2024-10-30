@@ -37,12 +37,12 @@ import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optim
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { lockScroll, unlockScroll } from 'lib/scrollController'
 import React, { useEffect, useMemo, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import Selecto from 'react-selecto'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ReactElement } from 'types/Components'
 import { ContentItem } from 'types/Conditionals'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { useTranslation } from 'react-i18next'
 
 const buttonStyle = {
   fontSize: 20,
@@ -162,7 +162,11 @@ function ComboDrawerTitle() {
   )
 }
 
-function AbilitySelector(props: { comboAbilities: string[]; index: number; abilitySelectOptions: { value: string; label: string; display: string }[] }) {
+function AbilitySelector(props: {
+  comboAbilities: string[]
+  index: number
+  abilitySelectOptions: { value: string; label: string; display: string }[]
+}) {
   if (props.index == 0) return <></>
 
   return (
@@ -225,7 +229,7 @@ function ComboHeader(props: { comboState: ComboState }) {
         {
           value: option.value,
           label: t(`${option.label}`),
-          value: t(`${option.value}`),
+          display: t(`${option.label}`),
         },
       )
     }
@@ -485,7 +489,9 @@ function ComboConditionalsGroupRow(props: {
     if (props.originKey.includes('LightCone')) {
       const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(metadata, true)
 
-      content = isTeammate ? lightConeConditionalMetadata.teammateContent?.() ?? [] : lightConeConditionalMetadata.content()
+      content = isTeammate
+        ? lightConeConditionalMetadata.teammateContent?.() ?? []
+        : lightConeConditionalMetadata.content()
       src = Assets.getLightConeIconById(metadata.lightCone)
       conditionals = comboCharacter.lightConeConditionals
     } else if (props.originKey.includes('comboCharacterRelicSets')) {
@@ -573,7 +579,9 @@ function ComboConditionalsGroupRow(props: {
       // Character
       const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(metadata, true)
 
-      content = isTeammate ? characterConditionalMetadata.teammateContent?.() ?? [] : characterConditionalMetadata.content()
+      content = isTeammate
+        ? characterConditionalMetadata.teammateContent?.() ?? []
+        : characterConditionalMetadata.content()
       src = Assets.getCharacterAvatarById(metadata.characterId)
       conditionals = comboCharacter.characterConditionals
     }
@@ -634,7 +642,9 @@ export function ContentRows(
 
   return (
     <Flex vertical>
-      {content.length == 0 ? <div style={{ marginLeft: 5 }}>{t('NoConditionals')/* No conditional passives */}</div> : content}
+      {content.length == 0
+        ? <div style={{ marginLeft: 5 }}>{t('NoConditionals')/* No conditional passives */}</div>
+        : content}
     </Flex>
   )
 }

@@ -1,16 +1,21 @@
-import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
-import { ContentItem } from 'types/Conditionals'
-import { Eidolon } from 'types/Character'
-import { CharacterConditional } from 'types/CharacterConditional'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardDefShieldFinalizer,
+  standardDefShieldFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerPreservation')
-  const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const skillDamageReductionValue = skill(e, 0.50, 0.52)
 
@@ -21,6 +26,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultAtkScaling = ult(e, 1.00, 1.10)
   const ultDefScaling = ult(e, 1.50, 1.65)
+
+  const talentShieldingFlat = talent(e, 80, 89)
+  const talentShieldingScaling = talent(e, 0.06, 0.064)
 
   const content: ContentItem[] = [{
     formItem: 'switch',
@@ -88,6 +96,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_TOUGHNESS_DMG += (r.basicEnhanced) ? 60 : 30
       x.ULT_TOUGHNESS_DMG += 60
 
+      x.SHIELD_SCALING += talentShieldingScaling
+      x.SHIELD_FLAT += talentShieldingFlat
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
@@ -111,6 +122,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       x.ULT_DMG += ultAtkScaling * x[Stats.ATK]
       x.ULT_DMG += ultDefScaling * x[Stats.DEF]
+
+      standardDefShieldFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
@@ -128,7 +141,7 @@ x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
 
 x.ULT_DMG += ${ultAtkScaling} * x.ATK;
 x.ULT_DMG += ${ultDefScaling} * x.DEF;
-    `
+` + gpuStandardDefShieldFinalizer()
     },
   }
 }

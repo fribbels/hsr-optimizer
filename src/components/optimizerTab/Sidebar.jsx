@@ -504,17 +504,17 @@ function MobileSidebarContent() {
 
             <Flex gap={defaultGap}>
               <Button onClick={cancelClicked} style={{ flex: 1 }}>
-                {t('Sidebar.ControlsGroup.Cancel')/* Cancel */}
+                {t('common:Cancel')/* Cancel */}
               </Button>
               <Popconfirm
                 title={t('Sidebar.ControlsGroup.ResetConfirm.Title')}// 'Reset all filters?'
                 description={t('Sidebar.ControlsGroup.ResetConfirm.Description')}// 'All filters will be reset to their default values'
                 onConfirm={resetClicked}
-                okText={t('Sidebar.ControlsGroup.ResetConfirm.Yes')}// 'Yes'
-                cancelText={t('Sidebar.ControlsGroup.ResetConfirm.No')}// 'No'
+                okText={t('common:Yes')}// 'Yes'
+                cancelText={t('common:No')}// 'No'
               >
                 <Button style={{ flex: 1 }}>
-                  {t('Sidebar.ControlsGroup.Reset')/* Reset */}
+                  {t('common:Reset')/* Reset */}
                 </Button>
               </Popconfirm>
             </Flex>

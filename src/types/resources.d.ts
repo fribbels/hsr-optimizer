@@ -38,8 +38,6 @@ interface Resources {
         }
       }
     },
-    "Confirm": "Confirm",
-    "Cancel": "Cancel",
     "CopyScreenshot": "Copy screenshot",
     "SearchPlaceholder": "Search character name",
     "GridHeaders": {
@@ -91,7 +89,6 @@ interface Resources {
       "SubstatUpgradeComparisons": {
         "Header": "Substat upgrade comparisons",
         "Roll": "roll",
-        "Score": "Score",
         "Damage": "Damage"
       },
       "BuildAnalysis": {
@@ -3280,10 +3277,7 @@ interface Resources {
     "TryOut": {
       "DocumentationTitle": "See full guide",
       "ButtonText": "Try it out!",
-      "title": "Confirm",
       "description": "Load a sample save file?",
-      "okText": "Yes",
-      "cancelText": "Cancel",
       "SuccessMessage": "Successfully loaded data",
       "Header": "Try it out!"
     }
@@ -3478,9 +3472,7 @@ interface Resources {
           "Label": "Import $t(common:Relic, {\"count\": {{relicCount}}}) and $t(common:Character, {\"count\": {{characterCount}}}). Replaces the optimizer builds with ingame builds.",
           "ButtonText": "Import $t(common:Relic, {\"count\": {{relicCount}}}) & $t(common:Character, {\"count\": {{characterCount}}})",
           "WarningTitle": "Overwrite optimizer builds",
-          "WarningDescription": "Are you sure you want to overwrite your optimizer builds with ingame builds?",
-          "Yes": "Yes",
-          "Cancel": "Cancel"
+          "WarningDescription": "Are you sure you want to overwrite your optimizer builds with ingame builds?"
         }
       },
       "Stage3": {
@@ -3507,8 +3499,6 @@ interface Resources {
       "SuccessMessage": "Done"
     },
     "ClearData": {
-      "Yes": "Yes",
-      "Cancel": "Cancel",
       "Label": "Clear all optimizer data.",
       "ButtonText": "Clear data",
       "SuccessMessage": "Cleared data",
@@ -3528,16 +3518,13 @@ interface Resources {
         "Header": "How is Stat Score calculated?"
       },
       "Footer": {
-        "Cancel": "Cancel",
         "Reset": "Reset to default",
         "ResetAll": "Reset all characters",
         "Save": "Save changes"
       },
       "ResetAllConfirm": {
         "Title": "Reset the scoring algorithm for all characters?",
-        "Description": "You will lose any custom scoring settings you have set on any character.",
-        "Yes": "Yes",
-        "No": "No"
+        "Description": "You will lose any custom scoring settings you have set on any character."
       }
     },
     "0Perms": {
@@ -3811,13 +3798,9 @@ interface Resources {
       "EidolonButton": "$t(common:EidolonNShort, {\"eidolon\":{{eidolon}} })",
       "SuperimpositionButton": "$t(common:SuperimpositionNShort, {\"superimposition\":{{superimposition}} })",
       "Character": "Character",
-      "Lightcone": "Light cone",
-      "Cancel": "Cancel",
-      "Save": "Save"
+      "Lightcone": "Light cone"
     },
     "Relic": {
-      "Cancel": "Cancel",
-      "Submit": "Submit",
       "Part": "Part",
       "Wearer": "Equipped by",
       "Set": "Set",
@@ -3878,34 +3861,21 @@ interface Resources {
         "CreditPlaceholder": "Credit the artist if possible"
       },
       "Footer": {
-        "Cancel": "Cancel",
         "Change": "Change image",
         "Previous": "Previous",
-        "Next": "Next",
-        "Submit": "Submit"
+        "Next": "Next"
       }
     },
     "SaveBuild": {
-      "Cancel": "Cancel",
-      "Save": "Save",
       "Label": "Build name",
       "Rule": "Please input a name"
     },
     "SwitchRelics": {
-      "Title": "Switch relics with character",
-      "Cancel": "Cancel",
-      "Save": "Save"
+      "Title": "Switch relics with character"
     },
     "Builds": {
       "DeleteAll": "Delete All",
-      "Cancel": "Cancel",
       "Equip": "Equip",
-      "Score": "Score",
-      "ConfirmModal": {
-        "ConfirmButton": "Confirm",
-        "CancelButton": "Cancel",
-        "Title": "Confirm"
-      },
       "ConfirmEquip": {
         "Content": "Equipping this will unequip characters that use the relics in this build",
         "SuccessMessage": "Successfully equipped build: {{buildName}}"
@@ -3917,8 +3887,6 @@ interface Resources {
         "SuccessMessageSingle": "Successfully deleted build: {{name}}"
       },
       "NoBuilds": {
-        "Ok": "Ok",
-        "Cancel": "Cancel",
         "NoneSaved": "No saved builds"
       }
     },
@@ -4147,13 +4115,9 @@ interface Resources {
       "ControlsGroup": {
         "Header": "Controls",
         "Start": "Start optimizer",
-        "Cancel": "Cancel",
-        "Reset": "Reset",
         "ResetConfirm": {
           "Title": "Reset all filters?",
-          "Description": "All filters will be reset to their default values",
-          "Yes": "Yes",
-          "No": "No"
+          "Description": "All filters will be reset to their default values"
         }
       },
       "StatViewGroup": {
@@ -4375,14 +4339,10 @@ interface Resources {
         "Advanced": "Advanced"
       },
       "RowControls": {
-        "Reset": "Reset",
         "Add": "+",
         "Remove": "-",
         "ResetConfirm": {
-          "Title": "Confirm",
-          "Description": "Reset all Simple / Advanced rotation settings to default?",
-          "OkText": "Yes",
-          "CancelText": "Cancel"
+          "Description": "Reset all Simple / Advanced rotation settings to default?"
         }
       },
       "CounterLabels": {
@@ -4487,9 +4447,7 @@ interface Resources {
       },
       "DeletePopup": {
         "Title": "Erase stat simulations",
-        "Description": "Are you sure you want to clear all of this character's saved simulations?",
-        "OkText": "Yes",
-        "CancelText": "Cancel"
+        "Description": "Are you sure you want to clear all of this character's saved simulations?"
       },
       "SimulationNamePlaceholder": "Simulation name (Optional)",
       "OptionsHeader": "Options",
@@ -4524,7 +4482,6 @@ interface Resources {
     },
     "SubmissionBar": {
       "Placeholder": "Account UID",
-      "ButtonText": "Submit",
       "AlgorithmButton": "Scoring algorithm"
     },
     "CopyScreenshot": "Copy screenshot",
@@ -4648,9 +4605,6 @@ interface Resources {
       },
       "EditRelic": "Edit relic",
       "DeleteRelic": {
-        "Confirm": "Confirm",
-        "Yes": "Yes",
-        "Cancel": "Cancel",
         "ButtonText": "Delete relic",
         "Warning_one": "Delete the selected relic?",
         "Warning_other": "Delete the {{count}} selected relics?"

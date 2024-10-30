@@ -23,7 +23,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
   setOpen,
   selectedCharacter,
 }) => {
-  const { t } = useTranslation(['modals', 'gameData'])
+  const { t } = useTranslation(['modals', 'gameData', 'common'])
   const [confirmationModal, contextHolder] = Modal.useModal()
   const [selectedBuild, setSelectedBuild] = React.useState<null | number>(null)
   const characterName = t(`gameData:Characters.${selectedCharacter?.id}.Name`)
@@ -64,8 +64,8 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
         onOk={() => setOpen(false)}
         onCancel={() => setOpen(false)}
         centered
-        okText={t('Builds.NoBuilds.Ok')/* Ok */}
-        cancelText={t('Builds.NoBuilds.Cancel')/* Cancel */}
+        okText={t('common:Ok')/* Ok */}
+        cancelText={t('common:Cancel')/* Cancel */}
       >
         {t('Builds.NoBuilds.NoneSaved')/* No saved builds */}
         {contextHolder}
@@ -75,11 +75,11 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
 
   async function confirm(content) {
     return confirmationModal.confirm({
-      title: t('Builds.ConfirmModal.Title')/* Confirm */,
+      title: t('common:Confirm')/* Confirm */,
       icon: <ExclamationCircleOutlined/>,
       content: content,
-      okText: t('Builds.ConfirmModal.ConfirmButton')/* Confirm */,
-      cancelText: t('Builds.ConfirmModal.CancelButton')/* Cancel */,
+      okText: t('common:Confirm')/* Confirm */,
+      cancelText: t('common:Cancel')/* Cancel */,
       centered: true,
     })
   }
@@ -157,7 +157,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
           {t('Builds.DeleteAll')/* Delete All */}
         </Button>,
         <Button key='back' onClick={handleCancel}>
-          {t('Builds.Cancel')/* Cancel */}
+          {t('common:Cancel')/* Cancel */}
         </Button>,
       ]}
     >
@@ -201,7 +201,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
                           textAlign: 'center',
                         }}
                       >
-                        {`${t('Builds.Score')/* Score */}: ${build.score.score} ${build.score.score == 0
+                        {`${t('common:Score')/* Score */}: ${build.score.score} ${build.score.score == 0
                           ? ''
                           : '(' + build.score.rating + ')'
                         }`}

@@ -38,8 +38,19 @@ Import:
     Placeholder: Colar conteúdo do arquivo json
   Stage2:
     Or: OU
+    FileInfo: >-
+      Arquivo contém $t(common:RelicWithCount, {"count": {{relicCount}}}) e $t(common:CharacterWithCount, {"count": {{characterCount}}})
     NoRelics: Arquivo de escâner inválido, por gentileza tente outro arquivo
+    RelicsImport:
+      Label: >-
+        Importar $t(common:Relic, {"count": {{relicCount}}}) somente. Atualizar o otimizador com o novo banco de dados de $t(common:Relic, {"count": {{relicCount}}}) e não sobrescreve builds.
+      ButtonText: >-
+        Importar $t(common:Relic, {"count": {{relicCount}}})
     CharactersImport:
+      Label: >-
+        Importar $t(common:Relic, {"count": {{relicCount}}}) e $t(common:Character, {"count": {{characterCount}}}). Substitui as builds do otimizador com builds in-game.
+      ButtonText: >-
+        Importar $t(common:Relic, {"count": {{relicCount}}}) e $t(common:Character, {"count": {{characterCount}}})
       WarningTitle: Substituir builds do otimizador
       WarningDescription: Você tem certeza que quer substituir suas builds do otimizador com as builds in-game?
   Stage3:
@@ -50,6 +61,8 @@ LoadData:
     ButtonText: Carregar dados salvos
   Stage2:
     ErrorMsg: Arquivo de save inválido, tente um arquivo diferente. Você quis usar a aba de importação do scanner de relíquias?
+    Label: >-
+      Arquivo contém $t(common:RelicWithCount, {"count": {{relicCount}}}) e $t(common:CharacterWithCount, {"count": {{characterCount}}}). Substituir seus dados atuais com os dados enviados?
     ButtonText: Usar dados enviados
   Stage3:
     SuccessMessage: Feito!
@@ -63,3 +76,8 @@ ClearData:
   SuccessMessage: Dados limpos
   WarningTitle: Apagar todos os dados
   WarningDescription: Tem certeza que quer apagar todas as relíquias e personagens?
+PartialImport:
+  OldRelics: >-
+    Atributos atualizados para {{count}} $t(common:Relic, {"count": {{count}}})
+  NewRelics: >-
+    Adicionadas {{count}} novas $t(common:Relic, {"count": {{count}}})

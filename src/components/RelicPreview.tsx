@@ -111,7 +111,7 @@ export function RelicPreview(props: {
           <Flex>
             <img src={(scored) ? Assets.getStarBw() : Assets.getBlank()} style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}></img>
             <RelicStatText>
-              {(scored) ? t('Score', { capitalizeLength: 1 }) : ''}
+              {(scored) ? t('Score') : ''}
             </RelicStatText>
           </Flex>
           <RelicStatText>

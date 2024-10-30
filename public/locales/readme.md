@@ -51,8 +51,10 @@ Guidelines for writing yaml files in EN:
 * Keep keys unquoted
 * Keep strings unquoted if possible
 * If quotes are needed, use double quotes
-* If double quotes would need to be escaped, use a yaml fold `>-`
+* If double quotes would need to be escaped or if the string is excessively long, use a yaml fold `>-`
 * If the string contains special characters: e.g. `{` `}` `'` `"` `:` etc, make sure they are quoted or folded
+
+When working with code, re-use the common namespace where possible.
 
 ### Updating other files
 

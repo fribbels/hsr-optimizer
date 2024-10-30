@@ -84,7 +84,7 @@ export const GenerateBasicSetsOptions = (): { value: string; label: JSX.Element 
   <Flex gap={5} align='center'>
     <img src={Assets.getSetImage(x, Constants.Parts.Head)} style={{ width: 21, height: 21 }}></img>
     <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
-      {x}
+      {i18next.t(`gameData:RelicSets.${setToId[x]}.Name`)}
     </div>
   </Flex>,
       }

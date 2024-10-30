@@ -580,7 +580,7 @@ fn main(
         }
 
         if (x.SHIELD_VALUE > 0) {
-          x.SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p2(x.sets.KnightOfPurityPalace));
+          x.SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p4(x.sets.KnightOfPurityPalace));
         }
 
         x.EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));

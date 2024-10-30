@@ -113,6 +113,10 @@ export function standardFlatHealingFinalizer(x: ComputedStatsObject) {
   x.HEAL_VALUE += x.HEAL_FLAT
 }
 
+export function standardDefShieldFinalizer(x: ComputedStatsObject) {
+  x.SHIELD_VALUE += x.SHIELD_SCALING * x[Stats.DEF] + x.SHIELD_FLAT
+}
+
 export function gpuStandardAtkHealingFinalizer() {
   return `
 x.HEAL_VALUE += x.HEAL_SCALING * x.ATK + x.HEAL_FLAT;
@@ -128,6 +132,12 @@ x.HEAL_VALUE += x.HEAL_SCALING * x.HP + x.HEAL_FLAT;
 export function gpuStandardFlatHealingFinalizer() {
   return `
 x.HEAL_VALUE += x.HEAL_FLAT;
+`
+}
+
+export function gpuStandardDefShieldFinalizer() {
+  return `
+x.SHIELD_VALUE += x.SHIELD_SCALING * x.DEF + x.SHIELD_FLAT;
 `
 }
 

@@ -1,6 +1,6 @@
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
-import { p2 } from 'lib/optimizer/optimizerUtils'
+import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export function calculateBaseMultis(x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
@@ -220,7 +220,7 @@ function calculateHeal(x: ComputedStatsObject, context: OptimizerContext) {
 function calculateShield(x: ComputedStatsObject, context: OptimizerContext) {
   const sets = x.sets
 
-  x.SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p2(sets.KnightOfPurityPalace))
+  x.SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p4(sets.KnightOfPurityPalace))
 }
 
 function calculateAbilityDmg(

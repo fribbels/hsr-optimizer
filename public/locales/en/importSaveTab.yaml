@@ -53,8 +53,6 @@ Import:
         Import $t(common:Relic, {"count": {{relicCount}}}) & $t(common:Character, {"count": {{characterCount}}})
       WarningTitle: Overwrite optimizer builds
       WarningDescription: Are you sure you want to overwrite your optimizer builds with ingame builds?
-      Yes: Yes
-      Cancel: Cancel
   Stage3:
     SuccessMessage: Done!
 LoadData:
@@ -74,8 +72,6 @@ SaveData:
   ButtonText: Save data
   SuccessMessage: Done
 ClearData:
-  Yes: Yes
-  Cancel: Cancel
   Label: Clear all optimizer data.
   ButtonText: Clear data
   SuccessMessage: Cleared data

@@ -1,9 +1,6 @@
 TryOut:
   DocumentationTitle: See full guide
   ButtonText: Try it out!
-  title: Confirm
   description: Load a sample save file?
-  okText: Yes
-  cancelText: Cancel
   SuccessMessage: Successfully loaded data
   Header: Try it out!

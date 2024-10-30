@@ -24,17 +24,17 @@ SortOptions:
   FUA: 按追加攻击伤害排序
   DOT: 按持续伤害排序
   BREAK: 按击破伤害排序
-  HP: 按$t(common:ReadableStats.HP)排序
-  ATK: 按$t(common:ReadableStats.ATK)排序
-  DEF: 按$t(common:ReadableStats.DEF)排序
-  SPD: 按$t(common:ReadableStats.SPD)排序
-  CR: 按$t(common:ReadableStats.CRIT Rate)排序
-  CD: 按$t(common:ReadableStats.CRIT DMG)排序
-  EHR: 按$t(common:ReadableStats.Effect Hit Rate)排序
-  RES: 按$t(common:ReadableStats.Effect RES)排序
-  BE: 按$t(common:ReadableStats.Break Effect)排序
-  OHB: 按$t(common:ReadableStats.Outgoing Healing Boost)排序
-  ERR: 按$t(common:ReadableStats.Energy Regeneration Rate)排序
+  HP: "按$t(common:ReadableStats.HP)排序"
+  ATK: "按$t(common:ReadableStats.ATK)排序"
+  DEF: "按$t(common:ReadableStats.DEF)排序"
+  SPD: "按$t(common:ReadableStats.SPD)排序"
+  CR: "按$t(common:ReadableStats.CRIT Rate)排序"
+  CD: "按$t(common:ReadableStats.CRIT DMG)排序"
+  EHR: "按$t(common:ReadableStats.Effect Hit Rate)排序"
+  RES: "按$t(common:ReadableStats.Effect RES)排序"
+  BE: "按$t(common:ReadableStats.Break Effect)排序"
+  OHB: "按$t(common:ReadableStats.Outgoing Healing Boost)排序"
+  ERR: "按$t(common:ReadableStats.Energy Regeneration Rate)排序"
   DMG: 按元素伤害排序
   EHP: 按有效生命值排序
 OptimizerOptions:
@@ -47,12 +47,7 @@ OptimizerOptions:
   Exclude: 排除
   MinEnhance:
     Header: 最小强化等级
-    Label0: "+0"
-    Label3: "+3"
-    Label6: "+6"
-    Label9: "+9"
-    Label12: "+12"
-    Label15: "+15"
+    Label0: +0
   MinRarity:
     Header: 最小稀有度
     Label2: 2 ★ +
@@ -61,11 +56,6 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: 提升主属性
-    Label3: "+3"
-    Label6: "+6"
-    Label9: "+9"
-    Label12: "+12"
-    Label15: "+15"
 AdvancedOptions:
   Header: 高级选项
   EnemyConfigButtonText: 敌人配置
@@ -181,11 +171,12 @@ Sidebar:
   ControlsGroup:
     Header: 控制
     Start: 启动优化器
+    Cancel: 取消
     ResetConfirm:
       Title: 重置所有筛选器？
       Description: 所有筛选器将重置为默认值
-      Yes: >-
-        $t(common:Yes, {"capitalizeLength": 1})
+      Yes: Yes
+      No: No
   StatViewGroup:
     Header: 属性与筛选视图
     CombatStats: 战斗属性
@@ -296,8 +287,7 @@ Presets:
     SPD171: 171.429速 - 在前三轮中行动6次
     SPD177: 177.778速 - 在前四轮中行动8次
     SPD200: 200.000速 - 在第一轮中行动3次
-  StandardLabel: >-
-    标准$t(gameData:Characters.{{id}}.Name)
+  StandardLabel: "标准$t(gameData:Characters.{{id}}.Name)"
   RecommendedPresets: 推荐预设
   PresetNotAvailable: 预设不可用，请选择其他选项
 CombatBuffs:
@@ -361,13 +351,13 @@ MinMaxFilters:
   BREAKLabel: 击破
   COMBOLabel: 连招
 ComboFilter:
-  Header: 连招伤害计算
-  BASIC: 普攻伤害
-  SKILL: 战技伤害
-  ULT: 终结技伤害
-  FUA: 追加攻击伤害
-  DOT: 持续伤害
-  BREAK: 击破伤害
+  RowControls:
+    ResetConfirm:
+      Title: 确认
+      OkText: Yes
+      CancelText: 取消
+ComboDrawer:
+  NoConditionals: 无条件触发被动技能
 TeammateCard:
   EidolonPlaceholder: 星魂
   SuperimpositionPlaceholder: 叠影
@@ -388,16 +378,16 @@ TeammateCard:
       Desc: "四件套: $t(gameData:RelicSets.121.Name) (+36%暴击伤害)"
       Text: 36%暴伤
     Keel:
-      Desc: '$t(gameData:RelicSets.310.Name) (+10%暴击伤害)'
+      Desc: "$t(gameData:RelicSets.310.Name) (+10%暴击伤害)"
       Text: 10%暴伤
     Ageless:
-      Desc: '$t(gameData:RelicSets.302.Name) (+8%攻击力)'
+      Desc: "$t(gameData:RelicSets.302.Name) (+8%攻击力)"
       Text: 8%攻击力
     Penacony:
-      Desc: '$t(gameData:RelicSets.312.Name) (+10%同属性增伤)'
+      Desc: "$t(gameData:RelicSets.312.Name) (+10%同属性增伤)"
       Text: 10%增伤
     Lushaka:
-      Desc: '$t(gameData:RelicSets.317.Name) (+12%攻击力)'
+      Desc: "$t(gameData:RelicSets.317.Name) (+12%攻击力)"
       Text: 12%攻击力
 StatSimulation:
   DuplicateSimMessage: 相同属性的模拟已存在

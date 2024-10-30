@@ -1,0 +1,6 @@
+Import:
+  Stage2:
+    CharactersImport:
+      Yes: Yes
+ClearData:
+  Yes: Yes

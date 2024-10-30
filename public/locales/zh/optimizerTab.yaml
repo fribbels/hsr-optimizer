@@ -171,13 +171,9 @@ Sidebar:
   ControlsGroup:
     Header: 控制
     Start: 启动优化器
-    Cancel: 取消
-    Reset: 重置
     ResetConfirm:
       Title: 重置所有筛选器？
       Description: 所有筛选器将重置为默认值
-      Yes: Yes
-      No: No
   StatViewGroup:
     Header: 属性与筛选视图
     CombatStats: 战斗属性
@@ -351,13 +347,6 @@ MinMaxFilters:
   DOTLabel: 持续伤害
   BREAKLabel: 击破
   COMBOLabel: 连招
-ComboFilter:
-  RowControls:
-    Reset: 重置
-    ResetConfirm:
-      Title: 确认
-      OkText: Yes
-      CancelText: 取消
 ComboDrawer:
   NoConditionals: 无条件触发被动技能
 TeammateCard:
@@ -413,8 +402,6 @@ StatSimulation:
   DeletePopup:
     Title: 清除属性模拟
     Description: 你确定要清除该角色所有已保存的模拟吗？
-    OkText: Yes
-    CancelText: 取消
   SimulationNamePlaceholder: 模拟名称（可选）
   OptionsHeader: 选项
   RollsHeader: 副词条最大升级次数

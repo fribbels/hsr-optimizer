@@ -2,8 +2,13 @@ CharacterSelector:
   Character: Personaggi
 Sidebar:
   ControlsGroup:
-    Cancel: >-
-      $t(common:Cancel, {"capitalizeLength": 1})
+    ResetConfirm:
+      Yes: Yes
+      No: No
+ComboFilter:
+  RowControls:
+    ResetConfirm:
+      OkText: Yes
 StatSimulation:
   ModeSelector:
     Off: Off

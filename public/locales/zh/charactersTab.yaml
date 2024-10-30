@@ -26,8 +26,6 @@ CharacterMenu:
     Options:
       SortByScore: 按评分排序所有角色
       MoveToTop: 将角色移至顶部
-Confirm: 确认
-Cancel: 取消
 CopyScreenshot: 复制截图
 SearchPlaceholder: 搜索角色名称
 GridHeaders:
@@ -71,7 +69,6 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: 副词条升级比较
     Roll: 升级次数
-    Score: 评分
     Damage: 伤害
   BuildAnalysis:
     Header: 角色配装分析

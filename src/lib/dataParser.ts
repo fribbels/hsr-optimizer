@@ -1,12 +1,12 @@
+import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
 import { Constants, Parts, PartsMainStats, Sets, SetsRelics, Stats } from 'lib/constants'
 import DB from 'lib/db'
-import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { SortOption } from 'lib/optimizer/sortOptions'
-import { LightCone } from 'types/LightCone'
 import { MetadataCharacter } from 'types/Character'
+import { LightCone } from 'types/LightCone'
 
 const BASIC = 'BASIC'
 const SKILL = 'SKILL'
@@ -3994,6 +3994,7 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.SKILL,
+      hiddenColumns: [SortOption.HEAL, SortOption.OHB, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [

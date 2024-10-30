@@ -26,8 +26,6 @@ CharacterMenu:
     Options:
       SortByScore: Sort all characters by score
       MoveToTop: Move character to top
-Confirm: Confirm
-Cancel: Cancel
 CopyScreenshot: Copy screenshot
 SearchPlaceholder: Search character name
 GridHeaders:
@@ -71,7 +69,6 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: Substat upgrade comparisons
     Roll: roll
-    Score: Score
     Damage: Damage
   BuildAnalysis:
     Header: Character build analysis

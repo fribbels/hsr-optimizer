@@ -2,8 +2,10 @@ import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/cond
 import {
   AbilityEidolon,
   findContentId,
-  gpuStandardAtkDmgHpHealingFinalizer,
-  standardAtkDmgHpHealingFinalizer,
+  gpuStandardAtkFinalizer,
+  gpuStandardHpHealingFinalizer,
+  standardAtkFinalizer,
+  standardHpHealingFinalizer,
 } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { TsUtils } from 'lib/TsUtils'
@@ -156,7 +158,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ELEMENTAL_DMG += (e >= 4) ? m.e4SkillHealingDmgBuffStacks * 0.10 : 0
       x.DMG_RED_MULTI *= (m.talentDmgReductionBuff) ? (1 - 0.10) : 1
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkDmgHpHealingFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkDmgHpHealingFinalizer(),
+    finalizeCalculations: (x: ComputedStatsObject) => {
+      standardAtkFinalizer(x)
+      standardHpHealingFinalizer(x)
+    },
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer() + gpuStandardHpHealingFinalizer(),
   }
 }

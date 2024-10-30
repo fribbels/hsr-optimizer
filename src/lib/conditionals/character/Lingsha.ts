@@ -2,25 +2,28 @@ import {
   ASHBLAZING_ATK_STACK,
   BREAK_TYPE,
   ComputedStatsObject,
-  SKILL_TYPE, ULT_TYPE,
+  SKILL_TYPE,
+  ULT_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   findContentId,
+  gpuStandardAtkHealingFinalizer,
   gpuStandardFuaAtkFinalizer,
+  standardAtkHealingFinalizer,
   standardFuaAtkFinalizer,
 } from 'lib/conditionals/conditionalUtils'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
+import { buffStat, conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
-import { buffStat, conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { TsUtils } from 'lib/TsUtils'
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lingsha')
@@ -205,12 +208,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, hitMultiByTargets[context.enemyCount])
-      x.HEAL_VALUE += x.HEAL_SCALING * x[Stats.ATK] + x.HEAL_FLAT
+      standardAtkHealingFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardFuaAtkFinalizer(hitMultiByTargets[context.enemyCount]) + `
-x.HEAL_VALUE += x.HEAL_SCALING * x.ATK + x.HEAL_FLAT;
-`
+      return gpuStandardFuaAtkFinalizer(hitMultiByTargets[context.enemyCount]) + gpuStandardAtkHealingFinalizer()
     },
     dynamicConditionals: [LingshaConversionConditional],
   }

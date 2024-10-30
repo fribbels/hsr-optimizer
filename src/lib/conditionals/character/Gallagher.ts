@@ -1,17 +1,19 @@
+import { BREAK_TYPE, ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
-  findContentId, gpuStandardAtkDmgFlatHealingFinalizer,
-  gpuStandardAtkFinalizer, standardAtkDmgFlatHealingFinalizer,
+  findContentId,
+  gpuStandardAtkFinalizer,
+  gpuStandardFlatHealingFinalizer,
   standardAtkFinalizer,
+  standardFlatHealingFinalizer,
 } from 'lib/conditionals/conditionalUtils'
-import { BREAK_TYPE, ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
-import { Eidolon } from 'types/Character'
-import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional } from 'types/CharacterConditional'
 import { Stats } from 'lib/constants'
-import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { GallagherConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -152,8 +154,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       buffAbilityVulnerability(x, BREAK_TYPE, talentBesottedScaling, (m.targetBesotted))
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkDmgFlatHealingFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkDmgFlatHealingFinalizer(),
+    finalizeCalculations: (x: ComputedStatsObject) => {
+      standardAtkFinalizer(x)
+      standardFlatHealingFinalizer(x)
+    },
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer() + gpuStandardFlatHealingFinalizer(),
     dynamicConditionals: [GallagherConversionConditional],
   }
 }

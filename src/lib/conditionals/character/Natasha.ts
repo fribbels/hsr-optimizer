@@ -1,5 +1,5 @@
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, standardHpHealingFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
@@ -82,7 +82,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.BASIC_DMG += (e >= 6) ? 0.40 * x[Stats.HP] : 0
 
-      x.HEAL_VALUE += x.HEAL_SCALING * x[Stats.HP] + x.HEAL_FLAT
+      standardHpHealingFinalizer(x)
     },
     gpuFinalizeCalculations: () => {
       return `

@@ -1,8 +1,10 @@
-import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   findContentId,
+  gpuStandardHpFinalizer,
   gpuStandardHpHealingFinalizer,
+  standardHpFinalizer,
   standardHpHealingFinalizer,
 } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
@@ -127,10 +129,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ELEMENTAL_DMG += (e >= 6 && m.e6DmgBuff) ? 0.50 : 0
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardHpFinalizer(x)
       standardHpHealingFinalizer(x)
     },
     gpuFinalizeCalculations: () => {
-      return gpuStandardHpHealingFinalizer()
+      return gpuStandardHpFinalizer() + gpuStandardHpHealingFinalizer()
     },
   }
 }

@@ -73,24 +73,6 @@ export function standardAtkFinalizer(x: ComputedStatsObject) {
   x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
 }
 
-export function standardAtkDmgHpHealingFinalizer(x: ComputedStatsObject) {
-  x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-  x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-  x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-  x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
-  x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-  x.HEAL_VALUE += x.HEAL_SCALING * x[Stats.HP] + x.HEAL_FLAT
-}
-
-export function standardAtkDmgFlatHealingFinalizer(x: ComputedStatsObject) {
-  x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-  x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-  x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-  x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
-  x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-  x.HEAL_VALUE += x.HEAL_FLAT
-}
-
 export function gpuStandardAtkFinalizer() {
   return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
@@ -101,43 +83,12 @@ x.DOT_DMG += x.DOT_SCALING * x.ATK;
 `
 }
 
-export function gpuStandardAtkDmgHpHealingFinalizer() {
-  return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * x.ATK;
-x.FUA_DMG += x.FUA_SCALING * x.ATK;
-x.DOT_DMG += x.DOT_SCALING * x.ATK;
-x.HEAL_VALUE += x.HEAL_SCALING * x.HP + x.HEAL_FLAT;
-`
-}
-
-export function gpuStandardAtkDmgFlatHealingFinalizer() {
-  return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * x.ATK;
-x.FUA_DMG += x.FUA_SCALING * x.ATK;
-x.DOT_DMG += x.DOT_SCALING * x.ATK;
-x.HEAL_VALUE += x.HEAL_FLAT;
-`
-}
-
 export function standardHpFinalizer(x: ComputedStatsObject) {
   x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
   x.SKILL_DMG += x.SKILL_SCALING * x[Stats.HP]
   x.ULT_DMG += x.ULT_SCALING * x[Stats.HP]
   x.FUA_DMG += x.FUA_SCALING * x[Stats.HP]
   x.DOT_DMG += x.DOT_SCALING * x[Stats.HP]
-}
-
-export function standardHpHealingFinalizer(x: ComputedStatsObject) {
-  x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
-  x.SKILL_DMG += x.SKILL_SCALING * x[Stats.HP]
-  x.ULT_DMG += x.ULT_SCALING * x[Stats.HP]
-  x.FUA_DMG += x.FUA_SCALING * x[Stats.HP]
-  x.DOT_DMG += x.DOT_SCALING * x[Stats.HP]
-  x.HEAL_VALUE += x.HEAL_SCALING * x[Stats.HP] + x.HEAL_FLAT
 }
 
 export function gpuStandardHpFinalizer() {
@@ -150,14 +101,33 @@ x.DOT_DMG += x.DOT_SCALING * x.HP;
 `
 }
 
+export function standardHpHealingFinalizer(x: ComputedStatsObject) {
+  x.HEAL_VALUE += x.HEAL_SCALING * x[Stats.HP] + x.HEAL_FLAT
+}
+
+export function standardAtkHealingFinalizer(x: ComputedStatsObject) {
+  x.HEAL_VALUE += x.HEAL_SCALING * x[Stats.ATK] + x.HEAL_FLAT
+}
+
+export function standardFlatHealingFinalizer(x: ComputedStatsObject) {
+  x.HEAL_VALUE += x.HEAL_FLAT
+}
+
+export function gpuStandardAtkHealingFinalizer() {
+  return `
+x.HEAL_VALUE += x.HEAL_SCALING * x.ATK + x.HEAL_FLAT;
+`
+}
+
 export function gpuStandardHpHealingFinalizer() {
   return `
-x.BASIC_DMG += x.BASIC_SCALING * x.HP;
-x.SKILL_DMG += x.SKILL_SCALING * x.HP;
-x.ULT_DMG += x.ULT_SCALING * x.HP;
-x.FUA_DMG += x.FUA_SCALING * x.HP;
-x.DOT_DMG += x.DOT_SCALING * x.HP;
 x.HEAL_VALUE += x.HEAL_SCALING * x.HP + x.HEAL_FLAT;
+`
+}
+
+export function gpuStandardFlatHealingFinalizer() {
+  return `
+x.HEAL_VALUE += x.HEAL_FLAT;
 `
 }
 

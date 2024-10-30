@@ -13,6 +13,7 @@ Header:
   WithoutVersion: 请输入你的账户UID，以对你角色展示中的角色进行评分（默认角色为80级和满行迹）。返回游戏登陆页面以立刻刷新你的角色展示。
 SubmissionBar:
   Placeholder: 账号UID
+  ButtonText: 提交
   AlgorithmButton: 评分算法
 CopyScreenshot: 复制截图
 ImportLabels:

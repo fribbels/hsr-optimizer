@@ -1,5 +1,10 @@
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityEidolon,
+  findContentId, gpuStandardAtkDmgFlatHealingFinalizer,
+  gpuStandardAtkFinalizer, standardAtkDmgFlatHealingFinalizer,
+  standardAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { BREAK_TYPE, ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -11,14 +16,39 @@ import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Gallagher')
-  const { basic, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const tHealing = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealingAbility')
+  const { basic, skill, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 2.50, 2.75)
   const ultScaling = basic(e, 1.50, 1.65)
   const talentBesottedScaling = talent(e, 0.12, 0.132)
 
+  const skillHealingFlat = skill(e, 1600, 1768)
+  const talentHealingFlat = talent(e, 640, 707.2)
+
   const content: ContentItem[] = [
+    {
+      formItem: 'select',
+      id: 'healingAbility',
+      name: 'healingAbility',
+      text: '',
+      title: '',
+      content: '',
+      options: [
+        {
+          display: tHealing('Skill'),
+          value: SKILL_TYPE,
+          label: tHealing('Skill'),
+        },
+        {
+          display: tHealing('Talent'),
+          value: 0,
+          label: tHealing('Talent'),
+        },
+      ],
+      fullWidth: true,
+    },
     {
       formItem: 'switch',
       id: 'basicEnhanced',
@@ -80,6 +110,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => ({
+      healingAbility: 0,
       basicEnhanced: true,
       breakEffectToOhbBoost: true,
       e1ResBuff: true,
@@ -105,6 +136,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_TOUGHNESS_DMG += (r.basicEnhanced) ? 90 : 30
       x.ULT_TOUGHNESS_DMG += 60
 
+      if (r.healingAbility == SKILL_TYPE) {
+        x.HEAL_TYPE = SKILL_TYPE
+        x.HEAL_FLAT += skillHealingFlat
+      }
+      if (r.healingAbility == 0) {
+        x.HEAL_TYPE = 0
+        x.HEAL_FLAT += talentHealingFlat
+      }
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
@@ -112,8 +152,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       buffAbilityVulnerability(x, BREAK_TYPE, talentBesottedScaling, (m.targetBesotted))
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkDmgFlatHealingFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkDmgFlatHealingFinalizer(),
     dynamicConditionals: [GallagherConversionConditional],
   }
 }

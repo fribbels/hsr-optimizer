@@ -361,6 +361,15 @@ interface Resources {
   },
   "conditionals": {
     "BetaMessage": "Current version: {{Version}} - Calculations are subject to change.",
+    "Common": {
+      "HealingAbility": {
+        "Basic": "Healing ability: Basic",
+        "Skill": "Healing ability: Skill",
+        "Ult": "Healing ability: Ult",
+        "Fua": "Healing ability: Fua",
+        "Talent": "Healing ability: Talent"
+      }
+    },
     "Lightcones": {
       "AlongThePassingShore": {
         "Content": {
@@ -1305,7 +1314,7 @@ interface Resources {
             "content": "When Bailu heals a target ally above their normal Max HP, the target's Max HP increases by 10% for 2 turns."
           },
           "talentDmgReductionBuff": {
-            "text": "Invigoration DMG reduction",
+            "text": "Ult DMG reduction",
             "content": "Characters with Invigoration take 10% less DMG."
           },
           "e2UltHealingBuff": {
@@ -1549,6 +1558,10 @@ interface Resources {
           "skillActive": {
             "text": "Skill active",
             "content": "Activates Matrix of Prescience, via which other team members will Distribute 65% of the DMG they receive (before this DMG is mitigated by any Shields) to Fu Xuan for 3 turn(s). While affected by Matrix of Prescience, all team members gain the Knowledge effect, which increases their respective Max HP by {{skillHpBuffValue}}% of Fu Xuan's Max HP, and increases CRIT Rate by {{skillCrBuffValue}}%."
+          },
+          "ultHealing": {
+            "text": "Ult healing",
+            "content": "TODO"
           },
           "e6TeamHpLostPercent": {
             "text": "E6 team HP lost",
@@ -2027,13 +2040,7 @@ interface Resources {
         }
       },
       "Natasha": {
-        "Content": {
-          "ultHealing": {
-            "text": "Ult healing",
-            "title": "Ult healing",
-            "content": "TODO"
-          }
-        }
+        "Content": null
       },
       "Pela": {
         "Content": {
@@ -3414,7 +3421,7 @@ interface Resources {
     "RelicInsights": {
       "Title": "Relic Insight",
       "p1": "When a relic is selected in the table above, you can choose an analysis to view a plot of.",
-      "p2": "'Buckets' looks at how perfect this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.<0/>If you hover over a character portrait you'll see the new stats and/or rolls necessary to reach the max potential of this relic.<1/>⚠️ Relics with missing substats may have misleadingly high buckets, as best-case upgrade analysis assumes the best new substat per character.",
+      "p2": "'Buckets' looks at how perfect this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.<1/>If you hover over a character portrait you'll see the new stats and/or rolls necessary to reach the max potential of this relic.<3/>⚠️ Relics with missing substats may have misleadingly high buckets, as best-case upgrade analysis assumes the best new substat per character.",
       "p3": "Top 10 takes the top 10 characters that this relic could be best for, and shows the range of \"% perfection\" upgrading this relic could result in."
     },
     "RelicLocation": {
@@ -4004,6 +4011,8 @@ interface Resources {
       "FUA": "Sorted by Follow-up DMG",
       "DOT": "Sorted by DoT DMG",
       "BREAK": "Sorted by Break DMG",
+      "HEAL": "Sorted by Heal",
+      "SHIELD": "Sorted by Shield",
       "HP": "Sorted by $t(common:ReadableStats.HP)",
       "ATK": "Sorted by $t(common:ReadableStats.ATK)",
       "DEF": "Sorted by $t(common:ReadableStats.DEF)",

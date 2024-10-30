@@ -1,4 +1,11 @@
 BetaMessage: "Current version: {{Version}} - Calculations are subject to change."
+Common:
+  HealingAbility:
+    Basic: "Healing ability: Basic"
+    Skill: "Healing ability: Skill"
+    Ult: "Healing ability: Ult"
+    Fua: "Healing ability: Fua"
+    Talent: "Healing ability: Talent"
 Lightcones:
   AlongThePassingShore:
     Content:
@@ -710,9 +717,6 @@ Characters:
       talentDmgReductionBuff:
         text: Ult DMG reduction
         content: Characters with Invigoration take 10% less DMG.
-      healingAbility:
-        text: Healing ability
-        content: TODO
       e2UltHealingBuff:
         text: E2 Ult healing buff
         content: "E2: Increases healing by 15% after Ultimate."

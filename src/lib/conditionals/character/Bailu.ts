@@ -1,4 +1,4 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   findContentId,
@@ -99,9 +99,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => ({
+      healingAbility: ULT_TYPE,
       healingMaxHpBuff: true,
       talentDmgReductionBuff: true,
-      ultHealing: true,
       e2UltHealingBuff: true,
       e4SkillHealingDmgBuffStacks: 0,
     }),

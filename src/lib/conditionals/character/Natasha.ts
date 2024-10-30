@@ -10,11 +10,14 @@ import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Natasha')
+  const tHealing = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealingAbility')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
+
   const ultHealingFlat = ult(e, 368, 409.4)
   const ultHealingScaling = ult(e, 0.138, 0.1472)
+
   const skillHealingFlat = skill(e, 280, 311.5)
   const skillHealingScaling = skill(e, 0.105, 0.112)
 
@@ -23,19 +26,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'select',
       id: 'healingAbility',
       name: 'healingAbility',
-      text: t('Content.healingAbility.text'),
-      title: t('Content.healingAbility.title'),
-      content: t('Content.healingAbility.content'),
+      text: '',
+      title: '',
+      content: '',
       options: [
         {
-          display: 'Healing ability: Ult',
+          display: tHealing('Ult'),
           value: ULT_TYPE,
-          label: 'Healing ability: Ult',
+          label: tHealing('Ult'),
         },
         {
-          display: 'Healing ability: Skill',
+          display: tHealing('Skill'),
           value: SKILL_TYPE,
-          label: 'Healing ability: Skill',
+          label: tHealing('Skill'),
         },
       ],
       fullWidth: true,
@@ -53,6 +56,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
+
+      x[Stats.OHB] += 0.10
 
       x.BASIC_SCALING += basicScaling
 

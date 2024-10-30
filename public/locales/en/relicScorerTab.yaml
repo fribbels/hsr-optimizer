@@ -13,7 +13,6 @@ Header:
   WithoutVersion: Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly.
 SubmissionBar:
   Placeholder: Account UID
-  ButtonText: Submit
   AlgorithmButton: Scoring algorithm
 CopyScreenshot: Copy screenshot
 ImportLabels:

@@ -1,16 +1,5 @@
 CharacterSelector:
   Character: Personaggi
-Sidebar:
-  ControlsGroup:
-    ResetConfirm:
-      Yes: Yes
-      No: No
-ComboFilter:
-  RowControls:
-    ResetConfirm:
-      OkText: Yes
 StatSimulation:
   ModeSelector:
     Off: Off
-  DeletePopup:
-    OkText: Yes

@@ -1,12 +1,12 @@
 BetaMessage: "Current version: {{Version}} - Calculations are subject to change."
 Common:
-  HealingAbility:
+  HealAbility:
     Basic: "Healing ability: Basic"
     Skill: "Healing ability: Skill"
     Ult: "Healing ability: Ult"
     Talent: "Healing ability: Talent"
     Trace: "Healing ability: Trace"
-  ShieldingAbility:
+  ShieldAbility:
     Basic: "Shielding ability: Basic"
     Skill: "Shielding ability: Skill"
     Ult: "Shielding ability: Ult"

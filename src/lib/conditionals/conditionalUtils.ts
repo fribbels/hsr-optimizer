@@ -119,15 +119,15 @@ x.DOT_DMG += x.DOT_SCALING * x.DEF;
 `
 }
 
-export function standardHpHealingFinalizer(x: ComputedStatsObject) {
+export function standardHpHealFinalizer(x: ComputedStatsObject) {
   x.HEAL_VALUE += x.HEAL_SCALING * x[Stats.HP] + x.HEAL_FLAT
 }
 
-export function standardAtkHealingFinalizer(x: ComputedStatsObject) {
+export function standardAtkHealFinalizer(x: ComputedStatsObject) {
   x.HEAL_VALUE += x.HEAL_SCALING * x[Stats.ATK] + x.HEAL_FLAT
 }
 
-export function standardFlatHealingFinalizer(x: ComputedStatsObject) {
+export function standardFlatHealFinalizer(x: ComputedStatsObject) {
   x.HEAL_VALUE += x.HEAL_FLAT
 }
 
@@ -135,19 +135,19 @@ export function standardDefShieldFinalizer(x: ComputedStatsObject) {
   x.SHIELD_VALUE += x.SHIELD_SCALING * x[Stats.DEF] + x.SHIELD_FLAT
 }
 
-export function gpuStandardAtkHealingFinalizer() {
+export function gpuStandardAtkHealFinalizer() {
   return `
 x.HEAL_VALUE += x.HEAL_SCALING * x.ATK + x.HEAL_FLAT;
 `
 }
 
-export function gpuStandardHpHealingFinalizer() {
+export function gpuStandardHpHealFinalizer() {
   return `
 x.HEAL_VALUE += x.HEAL_SCALING * x.HP + x.HEAL_FLAT;
 `
 }
 
-export function gpuStandardFlatHealingFinalizer() {
+export function gpuStandardFlatHealFinalizer() {
   return `
 x.HEAL_VALUE += x.HEAL_FLAT;
 `

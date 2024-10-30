@@ -1,5 +1,5 @@
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, standardHpHealingFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, standardHpHealFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
@@ -10,35 +10,35 @@ import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Natasha')
-  const tHealing = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealingAbility')
+  const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
 
-  const ultHealingFlat = ult(e, 368, 409.4)
-  const ultHealingScaling = ult(e, 0.138, 0.1472)
+  const ultHealScaling = ult(e, 0.138, 0.1472)
+  const ultHealFlat = ult(e, 368, 409.4)
 
-  const skillHealingFlat = skill(e, 280, 311.5)
-  const skillHealingScaling = skill(e, 0.105, 0.112)
+  const skillHealScaling = skill(e, 0.105, 0.112)
+  const skillHealFlat = skill(e, 280, 311.5)
 
   const content: ContentItem[] = [
     {
       formItem: 'select',
-      id: 'healingAbility',
-      name: 'healingAbility',
+      id: 'healAbility',
+      name: 'healAbility',
       text: '',
       title: '',
       content: '',
       options: [
         {
-          display: tHealing('Skill'),
+          display: tHeal('Skill'),
           value: SKILL_TYPE,
-          label: tHealing('Skill'),
+          label: tHeal('Skill'),
         },
         {
-          display: tHealing('Ult'),
+          display: tHeal('Ult'),
           value: ULT_TYPE,
-          label: tHealing('Ult'),
+          label: tHeal('Ult'),
         },
       ],
       fullWidth: true,
@@ -46,7 +46,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   ]
 
   const defaults = {
-    healingAbility: ULT_TYPE,
+    healAbility: ULT_TYPE,
   }
 
   return {
@@ -63,15 +63,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       x.BASIC_TOUGHNESS_DMG += 30
 
-      if (r.healingAbility == SKILL_TYPE) {
+      if (r.healAbility == SKILL_TYPE) {
         x.HEAL_TYPE = SKILL_TYPE
-        x.HEAL_SCALING += skillHealingScaling
-        x.HEAL_FLAT += skillHealingFlat
+        x.HEAL_SCALING += skillHealScaling
+        x.HEAL_FLAT += skillHealFlat
       }
-      if (r.healingAbility == ULT_TYPE) {
+      if (r.healAbility == ULT_TYPE) {
         x.HEAL_TYPE = ULT_TYPE
-        x.HEAL_SCALING += ultHealingScaling
-        x.HEAL_FLAT += ultHealingFlat
+        x.HEAL_SCALING += ultHealScaling
+        x.HEAL_FLAT += ultHealFlat
       }
 
       return x
@@ -82,7 +82,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.BASIC_DMG += (e >= 6) ? 0.40 * x[Stats.HP] : 0
 
-      standardHpHealingFinalizer(x)
+      standardHpHealFinalizer(x)
     },
     gpuFinalizeCalculations: () => {
       return `

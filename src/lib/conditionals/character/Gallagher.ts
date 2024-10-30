@@ -1,11 +1,11 @@
-import { BREAK_TYPE, ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BREAK_TYPE, ComputedStatsObject, NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   findContentId,
   gpuStandardAtkFinalizer,
-  gpuStandardFlatHealingFinalizer,
+  gpuStandardFlatHealFinalizer,
   standardAtkFinalizer,
-  standardFlatHealingFinalizer,
+  standardFlatHealFinalizer,
 } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { GallagherConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -18,7 +18,7 @@ import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Gallagher')
-  const tHealing = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealingAbility')
+  const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, skill, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -26,27 +26,27 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultScaling = basic(e, 1.50, 1.65)
   const talentBesottedScaling = talent(e, 0.12, 0.132)
 
-  const skillHealingFlat = skill(e, 1600, 1768)
-  const talentHealingFlat = talent(e, 640, 707.2)
+  const skillHealFlat = skill(e, 1600, 1768)
+  const talentHealFlat = talent(e, 640, 707.2)
 
   const content: ContentItem[] = [
     {
       formItem: 'select',
-      id: 'healingAbility',
-      name: 'healingAbility',
+      id: 'healAbility',
+      name: 'healAbility',
       text: '',
       title: '',
       content: '',
       options: [
         {
-          display: tHealing('Skill'),
+          display: tHeal('Skill'),
           value: SKILL_TYPE,
-          label: tHealing('Skill'),
+          label: tHeal('Skill'),
         },
         {
-          display: tHealing('Talent'),
-          value: 0,
-          label: tHealing('Talent'),
+          display: tHeal('Talent'),
+          value: NONE_TYPE,
+          label: tHeal('Talent'),
         },
       ],
       fullWidth: true,
@@ -112,7 +112,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => ({
-      healingAbility: 0,
+      healAbility: NONE_TYPE,
       basicEnhanced: true,
       breakEffectToOhbBoost: true,
       e1ResBuff: true,
@@ -138,13 +138,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_TOUGHNESS_DMG += (r.basicEnhanced) ? 90 : 30
       x.ULT_TOUGHNESS_DMG += 60
 
-      if (r.healingAbility == SKILL_TYPE) {
+      if (r.healAbility == SKILL_TYPE) {
         x.HEAL_TYPE = SKILL_TYPE
-        x.HEAL_FLAT += skillHealingFlat
+        x.HEAL_FLAT += skillHealFlat
       }
-      if (r.healingAbility == 0) {
-        x.HEAL_TYPE = 0
-        x.HEAL_FLAT += talentHealingFlat
+      if (r.healAbility == NONE_TYPE) {
+        x.HEAL_TYPE = NONE_TYPE
+        x.HEAL_FLAT += talentHealFlat
       }
 
       return x
@@ -156,9 +156,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     finalizeCalculations: (x: ComputedStatsObject) => {
       standardAtkFinalizer(x)
-      standardFlatHealingFinalizer(x)
+      standardFlatHealFinalizer(x)
     },
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer() + gpuStandardFlatHealingFinalizer(),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer() + gpuStandardFlatHealFinalizer(),
     dynamicConditionals: [GallagherConversionConditional],
   }
 }

@@ -1,50 +1,52 @@
-import { Stats } from 'lib/constants'
-import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject, NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   findContentId,
-  gpuStandardAtkFinalizer, gpuStandardAtkHealingFinalizer,
-  standardAtkFinalizer, standardAtkHealingFinalizer,
+  gpuStandardAtkFinalizer,
+  gpuStandardAtkHealFinalizer,
+  standardAtkFinalizer,
+  standardAtkHealFinalizer,
 } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Luocha')
-  const tHealing = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealingAbility')
+  const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 2.00, 2.16)
 
-  const skillHealingFlat = skill(e, 800, 890)
-  const skillHealingScaling = skill(e, 0.60, 0.64)
+  const skillHealScaling = skill(e, 0.60, 0.64)
+  const skillHealFlat = skill(e, 800, 890)
 
-  const talentHealingFlat = talent(e, 240, 267)
-  const talentHealingScaling = talent(e, 0.18, 0.192)
+  const talentHealScaling = talent(e, 0.18, 0.192)
+  const talentHealFlat = talent(e, 240, 267)
 
   const content: ContentItem[] = [
     {
       formItem: 'select',
-      id: 'healingAbility',
-      name: 'healingAbility',
+      id: 'healAbility',
+      name: 'healAbility',
       text: '',
       title: '',
       content: '',
       options: [
         {
-          display: tHealing('Skill'),
+          display: tHeal('Skill'),
           value: SKILL_TYPE,
-          label: tHealing('Skill'),
+          label: tHeal('Skill'),
         },
         {
-          display: tHealing('Talent'),
-          value: 0,
-          label: tHealing('Talent'),
+          display: tHeal('Talent'),
+          value: NONE_TYPE,
+          label: tHeal('Talent'),
         },
       ],
       fullWidth: true,
@@ -77,7 +79,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => ({
-      healingAbility: 0,
+      healAbility: NONE_TYPE,
       fieldActive: true,
       e6ResReduction: true,
     }),
@@ -96,15 +98,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_TOUGHNESS_DMG += 30
       x.ULT_TOUGHNESS_DMG += 60
 
-      if (r.healingAbility == SKILL_TYPE) {
+      if (r.healAbility == SKILL_TYPE) {
         x.HEAL_TYPE = SKILL_TYPE
-        x.HEAL_SCALING += skillHealingScaling
-        x.HEAL_FLAT += skillHealingFlat
+        x.HEAL_SCALING += skillHealScaling
+        x.HEAL_FLAT += skillHealFlat
       }
-      if (r.healingAbility == 0) {
-        x.HEAL_TYPE = 0
-        x.HEAL_SCALING += talentHealingScaling
-        x.HEAL_FLAT += talentHealingFlat
+      if (r.healAbility == NONE_TYPE) {
+        x.HEAL_TYPE = NONE_TYPE
+        x.HEAL_SCALING += talentHealScaling
+        x.HEAL_FLAT += talentHealFlat
       }
 
       return x
@@ -118,8 +120,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     finalizeCalculations: (x: ComputedStatsObject) => {
       standardAtkFinalizer(x)
-      standardAtkHealingFinalizer(x)
+      standardAtkHealFinalizer(x)
     },
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer() + gpuStandardAtkHealingFinalizer(),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer() + gpuStandardAtkHealFinalizer(),
   }
 }

@@ -3,6 +3,7 @@ import { Sets } from 'lib/constants'
 export const ASHBLAZING_ATK_STACK = 0.06
 
 // Ability types
+export const NONE_TYPE = 0
 export const BASIC_TYPE = 1
 export const SKILL_TYPE = 2
 export const ULT_TYPE = 4

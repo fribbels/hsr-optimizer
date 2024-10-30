@@ -3,9 +3,9 @@ import {
   AbilityEidolon,
   findContentId,
   gpuStandardHpFinalizer,
-  gpuStandardHpHealingFinalizer,
+  gpuStandardHpHealFinalizer,
   standardHpFinalizer,
-  standardHpHealingFinalizer,
+  standardHpHealFinalizer,
 } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -29,8 +29,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 1.00, 1.08)
 
-  const ultHealingFlat = 133
-  const ultHealingScaling = 0.05
+  const ultHealScaling = 0.05
+  const ultHealFlat = 133
 
   const content: ContentItem[] = [
     {
@@ -106,8 +106,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_TOUGHNESS_DMG += 60
 
       x.HEAL_TYPE = ULT_TYPE
-      x.HEAL_SCALING += ultHealingScaling
-      x.HEAL_FLAT += ultHealingFlat
+      x.HEAL_SCALING += ultHealScaling
+      x.HEAL_FLAT += ultHealFlat
 
       return x
     },
@@ -130,10 +130,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardHpFinalizer(x)
-      standardHpHealingFinalizer(x)
+      standardHpHealFinalizer(x)
     },
     gpuFinalizeCalculations: () => {
-      return gpuStandardHpFinalizer() + gpuStandardHpHealingFinalizer()
+      return gpuStandardHpFinalizer() + gpuStandardHpHealFinalizer()
     },
     dynamicConditionals: [
       {

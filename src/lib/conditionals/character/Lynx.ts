@@ -1,11 +1,11 @@
-import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject, NONE_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   findContentId,
   gpuStandardHpFinalizer,
-  gpuStandardHpHealingFinalizer,
+  gpuStandardHpHealFinalizer,
   standardHpFinalizer,
-  standardHpHealingFinalizer,
+  standardHpHealFinalizer,
 } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -18,7 +18,7 @@ import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lynx')
-  const tHealing = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealingAbility')
+  const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const skillHpPercentBuff = skill(e, 0.075, 0.08)
@@ -28,38 +28,38 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 0, 0)
 
-  const skillHealingFlat = skill(e, 320, 356)
-  const skillHealingScaling = skill(e, 0.12, 0.128)
+  const skillHealScaling = skill(e, 0.12, 0.128)
+  const skillHealFlat = skill(e, 320, 356)
 
-  const ultHealingFlat = ult(e, 360, 400.5)
-  const ultHealingScaling = ult(e, 0.135, 0.144)
+  const ultHealScaling = ult(e, 0.135, 0.144)
+  const ultHealFlat = ult(e, 360, 400.5)
 
-  const talentHealingFlat = talent(e, 96, 106.8)
-  const talentHealingScaling = talent(e, 0.036, 0.0384)
+  const talentHealScaling = talent(e, 0.036, 0.0384)
+  const talentHealFlat = talent(e, 96, 106.8)
 
   const content: ContentItem[] = [
     {
       formItem: 'select',
-      id: 'healingAbility',
-      name: 'healingAbility',
+      id: 'healAbility',
+      name: 'healAbility',
       text: '',
       title: '',
       content: '',
       options: [
         {
-          display: tHealing('Skill'),
+          display: tHeal('Skill'),
           value: SKILL_TYPE,
-          label: tHealing('Skill'),
+          label: tHeal('Skill'),
         },
         {
-          display: tHealing('Ult'),
+          display: tHeal('Ult'),
           value: ULT_TYPE,
-          label: tHealing('Ult'),
+          label: tHeal('Ult'),
         },
         {
-          display: tHealing('Talent'),
-          value: 0,
-          label: tHealing('Talent'),
+          display: tHeal('Talent'),
+          value: NONE_TYPE,
+          label: tHeal('Talent'),
         },
       ],
       fullWidth: true,
@@ -98,7 +98,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => ({
-      healingAbility: ULT_TYPE,
+      healAbility: ULT_TYPE,
       skillBuff: true,
     }),
     teammateDefaults: () => ({
@@ -114,20 +114,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       x.BASIC_TOUGHNESS_DMG += 30
 
-      if (r.healingAbility == SKILL_TYPE) {
+      if (r.healAbility == SKILL_TYPE) {
         x.HEAL_TYPE = SKILL_TYPE
-        x.HEAL_SCALING += skillHealingScaling
-        x.HEAL_FLAT += skillHealingFlat
+        x.HEAL_SCALING += skillHealScaling
+        x.HEAL_FLAT += skillHealFlat
       }
-      if (r.healingAbility == ULT_TYPE) {
+      if (r.healAbility == ULT_TYPE) {
         x.HEAL_TYPE = ULT_TYPE
-        x.HEAL_SCALING += ultHealingScaling
-        x.HEAL_FLAT += ultHealingFlat
+        x.HEAL_SCALING += ultHealScaling
+        x.HEAL_FLAT += ultHealFlat
       }
-      if (r.healingAbility == 0) {
-        x.HEAL_TYPE = 0
-        x.HEAL_SCALING += talentHealingScaling
-        x.HEAL_FLAT += talentHealingFlat
+      if (r.healAbility == NONE_TYPE) {
+        x.HEAL_TYPE = NONE_TYPE
+        x.HEAL_SCALING += talentHealScaling
+        x.HEAL_FLAT += talentHealFlat
       }
 
       return x
@@ -149,10 +149,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardHpFinalizer(x)
-      standardHpHealingFinalizer(x)
+      standardHpHealFinalizer(x)
     },
     gpuFinalizeCalculations: () => {
-      return gpuStandardHpFinalizer() + gpuStandardHpHealingFinalizer()
+      return gpuStandardHpFinalizer() + gpuStandardHpHealFinalizer()
     },
     dynamicConditionals: [{
       id: 'LynxConversionConditional',

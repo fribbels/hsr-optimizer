@@ -38,8 +38,19 @@ Import:
     Placeholder: 粘贴JSON文件内容
   Stage2:
     Or: 或
+    FileInfo: >-
+      文件包含$t(common:RelicWithCount, {"count": {{relicCount}}})和$t(common:CharacterWithCount, {"count": {{characterCount}}})。
     NoRelics: 扫描文件无效，请尝试其他文件。你是想使用‘加载优化器数据’吗？
+    RelicsImport:
+      Label: >-
+        仅导入$t(common:Relic, {"count": {{relicCount}}})。将使用新$t(common:Relic, {"count": {{relicCount}}})数据更新优化器现有的数据，但不覆盖角色配装。
+      ButtonText: >-
+        导入$t(common:Relic, {"count": {{relicCount}}})
     CharactersImport:
+      Label: >-
+        导入$t(common:Relic, {"count": {{relicCount}}})和$t(common:Character, {"count": {{characterCount}}})。将使用游戏内的角色配装替换优化器现有的角色配装。
+      ButtonText: >-
+        导入$t(common:Relic, {"count": {{relicCount}}})和$t(common:Character, {"count": {{characterCount}}})
       WarningTitle: 覆盖优化器现有的角色配装
       WarningDescription: 你确定要用游戏内的角色配装覆盖你当前优化器内的角色配装吗？
   Stage3:
@@ -50,6 +61,8 @@ LoadData:
     ButtonText: 加载存档数据
   Stage2:
     ErrorMsg: 存档文件无效，请尝试其他文件。 你是想使用‘遗器扫描仪导入器’吗？
+    Label: >-
+      文件包含$t(common:RelicWithCount, {"count": {{relicCount}}})和$t(common:CharacterWithCount, {"count": {{characterCount}}})。是否用上传的数据替换你当前的数据？
     ButtonText: 使用上传的数据
   Stage3:
     SuccessMessage: 完成！
@@ -63,3 +76,8 @@ ClearData:
   SuccessMessage: 已清除数据
   WarningTitle: 清除所有数据
   WarningDescription: 你确定要清除所有遗器和角色吗？
+PartialImport:
+  OldRelics: >-
+    已更新{{count}}个现有的$t(common:Relic, {"count": {{count}}})的属性
+  NewRelics: >-
+    已添加{{count}}个新$t(common:Relic, {"count": {{count}}})

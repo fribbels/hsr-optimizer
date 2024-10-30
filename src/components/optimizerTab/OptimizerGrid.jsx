@@ -37,11 +37,13 @@ export function OptimizerGrid() {
 
     if (optimizerTabFocusCharacter) {
       const hiddenColumns = DB.getMetadata().characters[optimizerTabFocusCharacter].scoringMetadata.hiddenColumns ?? []
-      const hiddenFields = hiddenColumns.map((column) => column.combatGridColumn)
+      const hiddenFields = hiddenColumns.map((column) => statDisplay == 'combat'
+        ? column.combatGridColumn
+        : column.basicGridColumn,
+      )
 
       columnDefinitions = columnDefinitions.filter((column) => !hiddenFields.includes(column.field))
     }
-    console.log('!!!!!', optimizerTabFocusCharacter, columnDefinitions)
 
     return columnDefinitions
   }, [optimizerTabFocusCharacter, statDisplay, t])

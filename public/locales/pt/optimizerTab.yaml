@@ -1,3 +1,15 @@
+CharacterSelector:
+  Character: Personagem
+OptimizerOptions:
+  Priority:
+    Header: Prioridade
+MinMaxFilters:
+  BASICLabel: BÁSICO
+  SKILLLabel: PERÍCIA
+  ULTLabel: PER. SUP.
+  FUALabel: ATQ. EXT.
+  DOTLabel: DOT
+  BREAKLabel: Quebra
 StatSimulation:
   ModeSelector:
     Off: Off

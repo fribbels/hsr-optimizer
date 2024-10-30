@@ -17,7 +17,7 @@ Import:
       OnlineMsg: "Status: Updated for patch {{version}} — New download required"
       OfflineMsg: "***** Status: Down for maintenance after {{version}} patch *****"
       l1: Accurate speed decimals, instant scan
-      l2: 'Imports full inventory and character roster'
+      l2: Imports full inventory and character roster
     KelzDesc:
       Title: Kel-Z HSR Scanner
       Link: Github
@@ -38,16 +38,23 @@ Import:
     Placeholder: Paste json file contents
   Stage2:
     Or: OR
-    FileInfo: "File contains {{relicCount}} relics and {{characterCount}} characters."
+    FileInfo: >- 
+      File contains $t(common:RelicWithCount, {"count": {{relicCount}}}) and $t(common:CharacterWithCount, {"count": {{characterCount}}}).
     NoRelics: Invalid scanner file, please try a different file
     RelicsImport:
-      Label: Import relics only. Updates the optimizer with the new dataset of relics and doesn't overwrite builds.
-      ButtonText: Import relics
+      Label: >-
+        Import $t(common:Relic, {"count": {{relicCount}}}) only. Updates the optimizer with the new dataset of $t(common:Relic, {"count": {{relicCount}}}) and doesn't overwrite builds.
+      ButtonText: >-
+        Import $t(common:Relic, {"count": {{relicCount}}})
     CharactersImport:
-      Label: Import relics and characters. Replaces the optimizer builds with ingame builds.
-      ButtonText: Import relics & characters
+      Label: >-
+        Import $t(common:Relic, {"count": {{relicCount}}}) and $t(common:Character, {"count": {{characterCount}}}). Replaces the optimizer builds with ingame builds.
+      ButtonText: >-
+        Import $t(common:Relic, {"count": {{relicCount}}}) & $t(common:Character, {"count": {{characterCount}}})
       WarningTitle: Overwrite optimizer builds
       WarningDescription: Are you sure you want to overwrite your optimizer builds with ingame builds?
+      Yes: Yes
+      Cancel: Cancel
   Stage3:
     SuccessMessage: Done!
 LoadData:
@@ -56,7 +63,9 @@ LoadData:
     ButtonText: Load save data
   Stage2:
     ErrorMsg: Invalid save file, please try a different file. Did you mean to use the Relic scanner import tab?
-    Label: "File contains {{relicCount}} relics and {{characterCount}} characters. Replace your current data with the uploaded data?"
+    Label: >- 
+      File contains $t(common:RelicWithCount, {"count": {{relicCount}}}) and $t(common:CharacterWithCount, {"count": {{characterCount}}}).
+      Replace your current data with the uploaded data?
     ButtonText: Use uploaded data
   Stage3:
     SuccessMessage: Done!
@@ -65,11 +74,15 @@ SaveData:
   ButtonText: Save data
   SuccessMessage: Done
 ClearData:
+  Yes: Yes
+  Cancel: Cancel
   Label: Clear all optimizer data.
   ButtonText: Clear data
   SuccessMessage: Cleared data
   WarningTitle: Erase all data
   WarningDescription: Are you sure you want to clear all relics and characters?
 PartialImport:
-  OldRelics: "Updated stats for {{count}} existing relics"
-  NewRelics: "Added {{count}} new relics"
+  OldRelics: >- 
+    Updated stats for {{count}} existing $t(common:Relic, {"count": {{count}}})
+  NewRelics: >-
+    Added {{count}} new $t(common:Relic, {"count": {{count}}})

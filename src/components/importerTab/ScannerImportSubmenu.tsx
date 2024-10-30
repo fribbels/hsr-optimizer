@@ -1,16 +1,16 @@
-import { useState } from 'react'
-import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig'
-import { SaveState } from 'lib/saveState'
-import { Button, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
-import DB, { AppPages } from 'lib/db'
-import { importerTabButtonWidth, importerTabSpinnerMs } from 'components/importerTab/importerTabUiConstants'
-import { Relic } from 'types/Relic'
+import { Button, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
 import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
+import { importerTabButtonWidth, importerTabSpinnerMs } from 'components/importerTab/importerTabUiConstants'
 import { ReliquaryDescription } from 'components/importerTab/ReliquaryDescription'
+import DB, { AppPages } from 'lib/db'
 import { hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
+import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig'
 import { Message } from 'lib/message'
+import { SaveState } from 'lib/saveState'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Relic } from 'types/Relic'
 
 const { Text } = Typography
 
@@ -153,7 +153,11 @@ export function ScannerImportSubmenu() {
               <ReliquaryDescription/>
               <li>
                 {t('Import.Stage1.KelzDesc.Title')} (
-                <ColorizedLinkWithIcon text={t('Import.Stage1.KelzDesc.Link')} url={KelzScannerConfig.releases} linkIcon={true}/>
+                <ColorizedLinkWithIcon
+                  text={t('Import.Stage1.KelzDesc.Link')}
+                  url={KelzScannerConfig.releases}
+                  linkIcon={true}
+                />
                 )
                 <ul>
                   <li>{t('Import.Stage1.KelzDesc.l1')}</li>
@@ -162,18 +166,26 @@ export function ScannerImportSubmenu() {
               </li>
               <li>
                 {t('Import.Stage1.ScorerDesc.Title')} (
-                <ColorizedLinkWithIcon text={t('Import.Stage1.ScorerDesc.Link')} linkIcon={true} onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}/>
+                <ColorizedLinkWithIcon
+                  text={t('Import.Stage1.ScorerDesc.Link')}
+                  linkIcon={true}
+                  onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}
+                />
                 )
                 <ul>
                   <li>{t('Import.Stage1.ScorerDesc.l1')}</li>
                   <li>{t('Import.Stage1.ScorerDesc.l2')}</li>
                 </ul>
               </li>
-              <li>{t('Import.Stage1.HoyolabDesc.Title')} (<ColorizedLinkWithIcon text={t('Import.Stage1.HoyolabDesc.Link')} url='https://github.com/fribbels/hsr-optimizer/discussions/403' linkIcon={true}/>)
+              <li>{t('Import.Stage1.HoyolabDesc.Title')} (<ColorizedLinkWithIcon
+                text={t('Import.Stage1.HoyolabDesc.Link')}
+                url='https://github.com/fribbels/hsr-optimizer/discussions/403'
+                linkIcon={true}
+              />)
                 <ul>
-                  <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
-                  <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>
-                </ul>
+                <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
+                <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>
+              </ul>
               </li>
             </ul>
           </Text>
@@ -234,20 +246,31 @@ export function ScannerImportSubmenu() {
       <Flex style={{ minHeight: 250 }}>
         <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
           <Text>
-            {t('Import.Stage2.FileInfo', { relicCount: currentRelics.length || 0, characterCount: currentCharacters?.length || 0 })}
+            {t('Import.Stage2.FileInfo', {
+              relicCount: currentRelics.length ?? 0,
+              characterCount: currentCharacters?.length ?? 0,
+            })}
           </Text>
 
           <Text>
-            {t('Import.Stage2.RelicsImport.Label')}
+            {t('Import.Stage2.RelicsImport.Label', { relicCount: currentRelics.length ?? 0 })}
           </Text>
 
-          <Button style={{ width: importerTabButtonWidth }} type='primary' onClick={mergeRelicsConfirmed} loading={loading2}>
-            {t('Import.Stage2.RelicsImport.ButtonText')}
+          <Button
+            style={{ width: importerTabButtonWidth }}
+            type='primary'
+            onClick={mergeRelicsConfirmed}
+            loading={loading2}
+          >
+            {t('Import.Stage2.RelicsImport.ButtonText', { relicCount: currentRelics.length ?? 0 })}
           </Button>
 
           <Divider><Text style={{ fontSize: 12 }}>{t('Import.Stage2.Or')}</Text></Divider>
           <Text>
-            {t('Import.Stage2.CharactersImport.Label')}
+            {t('Import.Stage2.CharactersImport.Label', {
+              relicCount: currentRelics.length ?? 0,
+              characterCount: currentCharacters?.length ?? 0,
+            })}
           </Text>
 
           <Popconfirm
@@ -255,11 +278,14 @@ export function ScannerImportSubmenu() {
             description={t('Import.Stage2.CharactersImport.WarningDescription')}
             onConfirm={mergeCharactersConfirmed}
             placement='bottom'
-            okText={t('common:Yes', { capitalizeLength: 1 })}
-            cancelText={t('common:Cancel', { capitalizeLength: 1 })}
+            okText={t('common:Yes')}
+            cancelText={t('common:Cancel')}
           >
             <Button style={{ width: importerTabButtonWidth }} type='primary' loading={loading2}>
-              {t('Import.Stage2.CharactersImport.ButtonText')}
+              {t('Import.Stage2.CharactersImport.ButtonText', {
+                relicCount: currentRelics.length ?? 0,
+                characterCount: currentCharacters?.length ?? 0,
+              })}
             </Button>
           </Popconfirm>
         </Flex>

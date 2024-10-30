@@ -1,14 +1,13 @@
-import { Button, Flex, Form, Input, Popconfirm, Radio, Segmented, Typography } from 'antd'
-import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants'
+import { SettingOutlined } from '@ant-design/icons'
+import { Button, Flex, Form, Input, Popconfirm, Radio, Segmented } from 'antd'
+import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { HeaderText } from 'components/HeaderText'
 import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled'
-import { useTranslation } from 'react-i18next'
-import { SettingOutlined } from '@ant-design/icons'
+import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants'
 import { ComboDrawer } from 'components/optimizerTab/rotation/ComboDrawer'
-import { FormInstance } from 'antd/es/form/hooks/useForm'
 import DB from 'lib/db'
-
-const { Text } = Typography
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const radioStyle = {
   display: 'flex',
@@ -18,14 +17,21 @@ const radioStyle = {
 }
 
 export const ComboFilters = () => {
-  const { t } = useTranslation(['optimizerTab', 'common'])
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
+  const { t: tCommon } = useTranslation('common')
   const form = Form.useFormInstance() // Get the form instance
   const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
-  const comboType = Form.useWatch('comboType', form);
+  const comboType = Form.useWatch('comboType', form)
+  const comboOptions = useMemo(() => [
+    { label: t('ComboOptions.Basic'), value: 'BASIC' },
+    { label: t('ComboOptions.Skill'), value: 'SKILL' },
+    { label: t('ComboOptions.Ult'), value: 'ULT' },
+    { label: t('ComboOptions.Fua'), value: 'FUA' },
+  ], [t])
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
-      <HeaderText>{t('ComboFilter.Header')/* Rotation COMBO formula */}</HeaderText>
+      <HeaderText>{t('Header')/* Rotation COMBO formula */}</HeaderText>
       <Form.Item name='comboType'>
         <Radio.Group
           size='small'
@@ -34,54 +40,46 @@ export const ComboFilters = () => {
         >
           <Flex align='center'>
             <Radio.Button style={radioStyle} value='simple'>
-              Simple
+              {t('ModeSelector.Simple')}
             </Radio.Button>
             <Radio.Button style={radioStyle} value='advanced'>
-              Advanced
+              {t('ModeSelector.Advanced')}
             </Radio.Button>
           </Flex>
         </Radio.Group>
       </Form.Item>
-      <Flex vertical gap={optimizerTabDefaultGap} style={{ display: 'none' }}>
-        <ComboRow title='Basic DMG' name='BASIC'/>
-        <ComboRow title='Skill DMG' name='SKILL'/>
-        <ComboRow title='Ult DMG' name='ULT'/>
-        <ComboRow title='Fua DMG' name='FUA'/>
-        <ComboRow title='Dot DMG' name='DOT'/>
-        <ComboRow title='Break DMG' name='BREAK'/>
-      </Flex>
 
       <Flex style={{ width: '100%' }} gap={5}>
         <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => add(form)}>
-          +
+          {t('RowControls.Add')}
         </Button>
         <Popconfirm
-          title={t('common:Confirm', 'Confirm', { capitalizeLength: 1 })}
-          description={'Reset all Simple / Advanced rotation settings to default?'}
+          title={t('RowControls.ResetConfirm.Title')}
+          description={t('RowControls.ResetConfirm.Description')}
           onConfirm={() => reset(form)}
           placement='bottom'
-          okText={t('common:Yes', 'Yes', { capitalizeLength: 1 })}
-          cancelText={t('common:Cancel', 'Cancel', { capitalizeLength: 1 })}
+          okText={tCommon('common:Yes')}
+          cancelText={tCommon('common:Cancel')}
         >
           <Button size='small' variant='outlined' style={{ flex: 1 }}>
             Reset
           </Button>
         </Popconfirm>
         <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => minus(form)}>
-          -
+          {t('RowControls.Remove')}
         </Button>
       </Flex>
 
-      <ComboBasicDefinition/>
+      <ComboBasicDefinition comboOptions={comboOptions}/>
 
       <Flex vertical gap={8} style={{ marginTop: 5 }}>
         <Flex gap={10}>
           <Flex vertical flex={1}>
-            <HeaderText>Dots</HeaderText>
+            <HeaderText>{t('CounterLabels.Dot')}</HeaderText>
             <NumberXInput name='comboDot'/>
           </Flex>
           <Flex vertical flex={1}>
-            <HeaderText>Breaks</HeaderText>
+            <HeaderText>{t('CounterLabels.Break')}</HeaderText>
             <NumberXInput name='comboBreak'/>
           </Flex>
         </Flex>
@@ -91,7 +89,7 @@ export const ComboFilters = () => {
           icon={<SettingOutlined/>}
           disabled={comboType == 'simple'}
         >
-          Advanced rotation
+          {t('RotationButton')}
         </Button>
         <Form.Item name='comboStateJson'>
           <Input
@@ -128,7 +126,7 @@ function minus(formInstance: FormInstance) {
 }
 
 function reset(formInstance: FormInstance) {
-  const characterId = window.store.getState().optimizerTabFocusCharacter as string
+  const characterId = window.store.getState().optimizerTabFocusCharacter!
   const characterMetadata = DB.getMetadata().characters[characterId]
 
   if (!characterMetadata) return
@@ -145,29 +143,22 @@ function reset(formInstance: FormInstance) {
   formInstance.setFieldValue(['comboStateJson'], '{}')
 }
 
-function ComboBasicDefinition(props: {}) {
+function ComboBasicDefinition(props: { comboOptions: { value: string; label: string }[] }) {
   return (
     <Flex vertical style={{ width: '100%' }}>
-      <ComboOptionRow index={1}/>
-      <ComboOptionRow index={2}/>
-      <ComboOptionRow index={3}/>
-      <ComboOptionRow index={4}/>
-      <ComboOptionRow index={5}/>
-      <ComboOptionRow index={6}/>
-      <ComboOptionRow index={7}/>
-      <ComboOptionRow index={8}/>
+      <ComboOptionRow index={1} comboOptions={props.comboOptions}/>
+      <ComboOptionRow index={2} comboOptions={props.comboOptions}/>
+      <ComboOptionRow index={3} comboOptions={props.comboOptions}/>
+      <ComboOptionRow index={4} comboOptions={props.comboOptions}/>
+      <ComboOptionRow index={5} comboOptions={props.comboOptions}/>
+      <ComboOptionRow index={6} comboOptions={props.comboOptions}/>
+      <ComboOptionRow index={7} comboOptions={props.comboOptions}/>
+      <ComboOptionRow index={8} comboOptions={props.comboOptions}/>
     </Flex>
   )
 }
 
-const comboOptions = [
-  { label: 'Basic', value: 'BASIC' },
-  { label: 'Skill', value: 'SKILL' },
-  { label: 'Ult', value: 'ULT' },
-  { label: 'Fua', value: 'FUA' },
-]
-
-function ComboOptionRow(props: { index: number }) {
+function ComboOptionRow(props: { index: number; comboOptions: { value: string; label: string }[] }) {
   return (
     <Form.Item
       shouldUpdate={(prevValues, currentValues) =>
@@ -181,31 +172,12 @@ function ComboOptionRow(props: { index: number }) {
         return shouldRenderSegmented
           ? (
             <Form.Item noStyle name={['comboAbilities', props.index]}>
-              <Segmented className='comboSegmented' block size='small' options={comboOptions}/>
+              <Segmented className='comboSegmented' block size='small' options={props.comboOptions}/>
             </Form.Item>
           )
           : null
       }}
     </Form.Item>
-  )
-}
-
-function ComboRow(props: { title: string; name: string }) {
-  return (
-    <Flex justify='space-between'>
-      <Text>
-        {props.title}
-      </Text>
-      <Form.Item name={['combo', props.name]}>
-        <InputNumberStyled
-          addonBefore='⨯'
-          size='small'
-          controls={true}
-          style={{ width: 90 }}
-          rootClassName='comboInputNumber'
-        />
-      </Form.Item>
-    </Flex>
   )
 }
 

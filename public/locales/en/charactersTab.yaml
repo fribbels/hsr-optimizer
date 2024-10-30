@@ -26,10 +26,8 @@ CharacterMenu:
     Options:
       SortByScore: Sort all characters by score
       MoveToTop: Move character to top
-Confirm: >-
-  $t(common:Confirm, {"capitalizeLength": 1})
-Cancel: >-
-  $t(common:Cancel, {"capitalizeLength": 1})
+Confirm: Confirm
+Cancel: Cancel
 CopyScreenshot: Copy screenshot
 SearchPlaceholder: Search character name
 GridHeaders:
@@ -41,9 +39,7 @@ Messages:
   UnequipSuccess: Successfully unequipped character
   NoSelectedCharacter: No selected character
   SwitchSuccess: "Successfully switched relics with $t(gameData:Characters.{{charId}}.Name)"
-  SortByScoreWarning: >-
-    Are you sure you want to sort all characters?
-    You will lose any custom rankings you have set.
+  SortByScoreWarning: Are you sure you want to sort all characters? You will lose any custom rankings you have set.
   SaveSuccess: "Successfully saved build: {{name}}"
   UnequipWarning: "Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?"

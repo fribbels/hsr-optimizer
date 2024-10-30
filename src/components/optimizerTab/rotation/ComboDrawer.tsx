@@ -10,7 +10,7 @@ import GenerateOrnamentsOptions from 'components/optimizerTab/optimizerForm/Orna
 import { GenerateBasicSetsOptions } from 'components/optimizerTab/optimizerForm/SetsOptions'
 import { Assets } from 'lib/assets'
 import { CharacterConditionals } from 'lib/characterConditionals'
-import { ConditionalDataType } from 'lib/constants'
+import { ConditionalDataType, setToId } from 'lib/constants'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import {
   ComboBooleanConditional,
@@ -37,6 +37,7 @@ import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optim
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { lockScroll, unlockScroll } from 'lib/scrollController'
 import React, { useEffect, useMemo, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import Selecto from 'react-selecto'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ReactElement } from 'types/Components'
@@ -149,16 +150,51 @@ export function ComboDrawer() {
 }
 
 function ComboDrawerTitle() {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
   return (
     <div style={{ width: 'fit-content' }}>
       <ColorizedLinkWithIcon
-        text='Advanced Rotation User Guide'
+        text={t('Title')}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/advanced-rotations.md'
         linkIcon={true}
       />
     </div>
   )
 }
+
+function AbilitySelector(props: {
+  comboAbilities: string[]
+  index: number
+  abilitySelectOptions: { value: string; label: string; display: string }[]
+}) {
+  if (props.index == 0) return <></>
+
+  return (
+    <Select
+      dropdownStyle={{ width: 'fit-content' }}
+      style={{ width: abilityWidth }}
+      listHeight={800}
+      optionLabelProp='display'
+      options={props.abilitySelectOptions}
+      placement='bottomLeft'
+      value={props.comboAbilities[props.index]}
+      allowClear={true}
+      onSelect={(value: string) => {
+        updateAbilityRotation(props.index, value)
+      }}
+      onDeselect={(value: string) => {
+
+      }}
+      onClear={() => {
+        // @ts-ignore
+        updateAbilityRotation(props.index, null)
+      }}
+    />
+  )
+}
+
+const abilityWidth = 70
+const abilityGap = 6
 
 export const abilitySelectOptions = [
   {
@@ -181,46 +217,30 @@ export const abilitySelectOptions = [
     label: 'Fua',
     display: 'Fua',
   },
-]
-
-function AbilitySelector(props: { comboAbilities: string[]; index: number }) {
-  if (props.index == 0) return <></>
-
-  return (
-    <Select
-      dropdownStyle={{ width: 'fit-content' }}
-      style={{ width: abilityWidth }}
-      listHeight={800}
-      optionLabelProp='display'
-      options={abilitySelectOptions}
-      placement='bottomLeft'
-      value={props.comboAbilities[props.index]}
-      allowClear={true}
-      onSelect={(value: string) => {
-        updateAbilityRotation(props.index, value)
-      }}
-      onDeselect={(value: string) => {
-
-      }}
-      onClear={() => {
-        // @ts-ignore
-        updateAbilityRotation(props.index, null)
-      }}
-    />
-  )
-}
-
-const abilityWidth = 70
-const abilityGap = 6
+] as const
 
 function ComboHeader(props: { comboState: ComboState }) {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter.ComboOptions' })
   const comboAbilities = props.comboState.comboAbilities
+  const selectOptions = useMemo(() => {
+    const selectOptions: { value: string; label: string; display: string }[] = []
+    for (const option of abilitySelectOptions) {
+      selectOptions.push(
+        {
+          value: option.value,
+          label: t(`${option.label}`),
+          display: t(`${option.label}`),
+        },
+      )
+    }
+    return selectOptions
+  }, [t])
 
   if (!comboAbilities) return <></>
 
   const length = comboAbilities.length
   const render = Array(Math.min(9, length + 1)).fill(false).map((value, index) => (
-    <AbilitySelector comboAbilities={comboAbilities} index={index} key={index}/>
+    <AbilitySelector comboAbilities={comboAbilities} index={index} key={index} abilitySelectOptions={selectOptions}/>
   ))
 
   return (
@@ -280,20 +300,23 @@ function SetSelector(props: {
 }
 
 function SetSelectors(props: { comboOrigin: ComboCharacter }) {
+  const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer.Placeholders' })
+  const ornamentOptions = useMemo(() => GenerateOrnamentsOptions(), [i18n.resolvedLanguage])
+  const relicSetOptions = useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])
   return (
     <Flex style={{ width: '100%' }} gap={10}>
       <SetSelector
         selected={props.comboOrigin?.displayedRelicSets}
-        options={GenerateBasicSetsOptions()}
-        placeholder='Relic set conditionals'
+        options={relicSetOptions}
+        placeholder={t('Sets')}// 'Relic set conditionals'
         submit={(arr) => {
           updateSelectedSets(arr, false)
         }}
       />
       <SetSelector
         selected={props.comboOrigin?.displayedOrnamentSets}
-        options={GenerateOrnamentsOptions()}
-        placeholder='Ornament set conditionals'
+        options={ornamentOptions}
+        placeholder={t('Ornaments')}// 'Ornament set conditionals'
         submit={(arr) => {
           updateSelectedSets(arr, true)
         }}
@@ -335,6 +358,7 @@ function StateDisplay(props: { comboState: ComboState }) {
   const comboTeammate1 = props.comboState?.comboTeammate1
   const comboTeammate2 = props.comboState?.comboTeammate2
   const actionCount = props.comboState?.comboAbilities?.length || 0
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
 
   return (
     <Flex vertical gap={8}>
@@ -350,7 +374,7 @@ function StateDisplay(props: { comboState: ComboState }) {
         conditionalType='lightCone'
         originKey='comboCharacterLightCone'
       />
-      <GroupDivider text='Relic / Ornament set conditionals'/>
+      <GroupDivider text={t('GroupHeaders.Sets')/* 'Relic / Ornament set conditionals' */}/>
       <SetSelectors comboOrigin={comboCharacter}/>
       <SetDisplays
         comboOrigin={comboCharacter}
@@ -358,7 +382,7 @@ function StateDisplay(props: { comboState: ComboState }) {
         actionCount={actionCount}
         originKey='comboCharacterRelicSets'
       />
-      <GroupDivider text='Teammate 1 conditionals'/>
+      <GroupDivider text={t('GroupHeaders.Teammate1')/* 'Teammate 1 conditionals' */}/>
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate0}
         actionCount={actionCount}
@@ -383,7 +407,7 @@ function StateDisplay(props: { comboState: ComboState }) {
         conditionalType='lightCone'
         originKey='comboTeammate0OrnamentSet'
       />
-      <GroupDivider text='Teammate 2 conditionals'/>
+      <GroupDivider text={t('GroupHeaders.Teammate2')/* 'Teammate 2 conditionals' */}/>
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate1}
         actionCount={actionCount}
@@ -408,7 +432,7 @@ function StateDisplay(props: { comboState: ComboState }) {
         conditionalType='lightCone'
         originKey='comboTeammate1OrnamentSet'
       />
-      <GroupDivider text='Teammate 3 conditionals'/>
+      <GroupDivider text={t('GroupHeaders.Teammate3')/* 'Teammate 3 conditionals' */}/>
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate2}
         actionCount={actionCount}
@@ -443,6 +467,7 @@ function ComboConditionalsGroupRow(props: {
   actionCount: number
   originKey: string
 }) {
+  const { t, i18n } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
   const setContent = useMemo(() => {
     return generateSetConditionalContent()
   }, [])
@@ -464,7 +489,9 @@ function ComboConditionalsGroupRow(props: {
     if (props.originKey.includes('LightCone')) {
       const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(metadata, true)
 
-      content = isTeammate ? lightConeConditionalMetadata.teammateContent?.() ?? [] : lightConeConditionalMetadata.content()
+      content = isTeammate
+        ? lightConeConditionalMetadata.teammateContent?.() ?? []
+        : lightConeConditionalMetadata.content()
       src = Assets.getLightConeIconById(metadata.lightCone)
       conditionals = comboCharacter.lightConeConditionals
     } else if (props.originKey.includes('comboCharacterRelicSets')) {
@@ -478,9 +505,9 @@ function ComboConditionalsGroupRow(props: {
           disabled: disabled,
           id: setName,
           name: setName,
-          text: setName,
-          title: setName,
-          content: setName,
+          text: t(`${setToId[setName]}.Name`),
+          title: '',
+          content: t(`${setToId[setName]}.Name`),
         }]
       } else if (category.type == ConditionalDataType.NUMBER) {
         content = [{
@@ -488,9 +515,9 @@ function ComboConditionalsGroupRow(props: {
           disabled: disabled,
           id: setName,
           name: setName,
-          text: setName,
-          title: setName,
-          content: setName,
+          text: t(`${setToId[setName]}.Name`),
+          title: '',
+          content: t(`${setToId[setName]}.Name`),
           min: 0,
           max: 10,
         }]
@@ -500,9 +527,9 @@ function ComboConditionalsGroupRow(props: {
           disabled: disabled,
           id: setName,
           name: setName,
-          text: setName,
-          title: setName,
-          content: setName,
+          text: t(`${setToId[setName]}.Name`),
+          title: '',
+          content: t(`${setToId[setName]}.Name`),
           options: setContent[setName],
         }]
       } else {
@@ -552,7 +579,9 @@ function ComboConditionalsGroupRow(props: {
       // Character
       const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(metadata, true)
 
-      content = isTeammate ? characterConditionalMetadata.teammateContent?.() ?? [] : characterConditionalMetadata.content()
+      content = isTeammate
+        ? characterConditionalMetadata.teammateContent?.() ?? []
+        : characterConditionalMetadata.content()
       src = Assets.getCharacterAvatarById(metadata.characterId)
       conditionals = comboCharacter.characterConditionals
     }
@@ -562,7 +591,7 @@ function ComboConditionalsGroupRow(props: {
       src,
       conditionals,
     }
-  }, [props.comboOrigin])
+  }, [props.comboOrigin, i18n.resolvedLanguage])
 
   if (!renderData) {
     return <></>
@@ -589,6 +618,7 @@ export function ContentRows(
     sourceKey: string
   },
 ) {
+  const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
   const content = useMemo(() => {
     const content: ReactElement[] = []
     for (const contentItem of props.contentItems) {
@@ -608,11 +638,13 @@ export function ContentRows(
     }
 
     return content
-  }, [JSON.stringify(props.comboConditionals), props.actionCount])
+  }, [JSON.stringify(props.comboConditionals), props.actionCount, i18n.resolvedLanguage])
 
   return (
     <Flex vertical>
-      {content.length == 0 ? <div style={{ marginLeft: 5 }}>No conditional passives</div> : content}
+      {content.length == 0
+        ? <div style={{ marginLeft: 5 }}>{t('NoConditionals')/* No conditional passives */}</div>
+        : content}
     </Flex>
   )
 }

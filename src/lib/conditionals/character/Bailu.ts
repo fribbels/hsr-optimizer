@@ -24,11 +24,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 0, 0)
 
-  const ultHealingFlat = ult(e, 360, 400.5)
-  const ultHealingScaling = ult(e, 0.135, 0.144)
-
   const skillHealingFlat = skill(e, 312, 347.1)
   const skillHealingScaling = skill(e, 0.117, 0.1248)
+
+  const ultHealingFlat = ult(e, 360, 400.5)
+  const ultHealingScaling = ult(e, 0.135, 0.144)
 
   const talentHealingFlat = talent(e, 144, 160.2)
   const talentHealingScaling = talent(e, 0.054, 0.0576)

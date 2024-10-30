@@ -1,8 +1,10 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   findContentId,
+  gpuStandardHpFinalizer,
   gpuStandardHpHealingFinalizer,
+  standardHpFinalizer,
   standardHpHealingFinalizer,
 } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
@@ -51,14 +53,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       }),
     },
     {
-      formItem: 'switch',
-      id: 'ultHealing',
-      name: 'ultHealing',
-      text: t('Content.ultHealing.text'),
-      title: t('Content.ultHealing.title'),
-      content: t('Content.ultHealing.content'),
-    },
-    {
       formItem: 'slider',
       id: 'e6TeamHpLostPercent',
       name: 'e6TeamHpLostPercent',
@@ -93,7 +87,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defaults: () => ({
       skillActive: true,
       talentActive: true,
-      ultHealing: true,
       e6TeamHpLostPercent: 1.2,
     }),
     teammateDefaults: () => ({
@@ -112,6 +105,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_TOUGHNESS_DMG += 30
       x.ULT_TOUGHNESS_DMG += 60
 
+      x.HEAL_TYPE = ULT_TYPE
       x.HEAL_SCALING += ultHealingScaling
       x.HEAL_FLAT += ultHealingFlat
 
@@ -135,10 +129,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.DMG_RED_MULTI *= (t.skillActive) ? (1 - 0.65) : 1
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+      standardHpFinalizer(x)
       standardHpHealingFinalizer(x)
     },
     gpuFinalizeCalculations: () => {
-      return gpuStandardHpHealingFinalizer()
+      return gpuStandardHpFinalizer() + gpuStandardHpHealingFinalizer()
     },
     dynamicConditionals: [
       {

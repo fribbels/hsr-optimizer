@@ -4,8 +4,14 @@ Common:
     Basic: "Healing ability: Basic"
     Skill: "Healing ability: Skill"
     Ult: "Healing ability: Ult"
-    Fua: "Healing ability: Fua"
     Talent: "Healing ability: Talent"
+    Trace: "Healing ability: Trace"
+  ShieldingAbility:
+    Basic: "Shielding ability: Basic"
+    Skill: "Shielding ability: Skill"
+    Ult: "Shielding ability: Ult"
+    Talent: "Shielding ability: Talent"
+    Trace: "Shielding ability: Trace"
 Lightcones:
   AlongThePassingShore:
     Content:

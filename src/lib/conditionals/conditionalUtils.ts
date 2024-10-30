@@ -101,6 +101,24 @@ x.DOT_DMG += x.DOT_SCALING * x.HP;
 `
 }
 
+export function standardDefFinalizer(x: ComputedStatsObject) {
+  x.BASIC_DMG += x.BASIC_SCALING * x[Stats.DEF]
+  x.SKILL_DMG += x.SKILL_SCALING * x[Stats.DEF]
+  x.ULT_DMG += x.ULT_SCALING * x[Stats.DEF]
+  x.FUA_DMG += x.FUA_SCALING * x[Stats.DEF]
+  x.DOT_DMG += x.DOT_SCALING * x[Stats.DEF]
+}
+
+export function gpuStandardDefFinalizer() {
+  return `
+x.BASIC_DMG += x.BASIC_SCALING * x.DEF;
+x.SKILL_DMG += x.SKILL_SCALING * x.DEF;
+x.ULT_DMG += x.ULT_SCALING * x.DEF;
+x.FUA_DMG += x.FUA_SCALING * x.DEF;
+x.DOT_DMG += x.DOT_SCALING * x.DEF;
+`
+}
+
 export function standardHpHealingFinalizer(x: ComputedStatsObject) {
   x.HEAL_VALUE += x.HEAL_SCALING * x[Stats.HP] + x.HEAL_FLAT
 }

@@ -1,16 +1,24 @@
-import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Eidolon } from 'types/Character'
-import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardDefFinalizer,
+  gpuStandardDefShieldFinalizer,
+  standardDefFinalizer,
+  standardDefShieldFinalizer,
+} from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { AventurineConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { TsUtils } from 'lib/TsUtils'
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aventurine')
-  const { basic, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
+  const tShielding = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.ShieldingAbility')
+  const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const ultScaling = ult(e, 2.70, 2.916)
@@ -21,7 +29,34 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const fuaHits = (e >= 4) ? 10 : 7
 
+  const skillShieldingFlat = skill(e, 320, 356)
+  const skillShieldingScaling = skill(e, 0.24, 0.256)
+
+  const traceShieldingFlat = 96
+  const traceShieldingScaling = 0.07
+
   const content: ContentItem[] = [
+    {
+      formItem: 'select',
+      id: 'shieldingAbility',
+      name: 'shieldingAbility',
+      text: '',
+      title: '',
+      content: '',
+      options: [
+        {
+          display: tShielding('Skill'),
+          value: SKILL_TYPE,
+          label: tShielding('Skill'),
+        },
+        {
+          display: tShielding('Trace'),
+          value: 0,
+          label: tShielding('Trace'),
+        },
+      ],
+      fullWidth: true,
+    },
     {
       formItem: 'switch',
       id: 'defToCrBoost',
@@ -97,6 +132,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => ({
+      shieldingAbility: SKILL_TYPE,
       defToCrBoost: true,
       fuaHitsOnTarget: fuaHits,
       fortifiedWagerBuff: true,
@@ -124,6 +160,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_TOUGHNESS_DMG += 90
       x.FUA_TOUGHNESS_DMG += 10 * r.fuaHitsOnTarget
 
+      if (r.shieldingAbility == SKILL_TYPE) {
+        x.SHIELD_SCALING += skillShieldingScaling
+        x.SHIELD_FLAT += skillShieldingFlat
+      }
+      if (r.shieldingAbility == 0) {
+        x.SHIELD_SCALING += traceShieldingScaling
+        x.SHIELD_FLAT += traceShieldingFlat
+      }
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
@@ -135,16 +180,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.RES_PEN += (e >= 2 && m.e2ResShred) ? 0.12 : 0
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.DEF]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.DEF]
-      x.FUA_DMG += x.FUA_SCALING * x[Stats.DEF]
+      standardDefFinalizer(x)
+      standardDefShieldFinalizer(x)
     },
     gpuFinalizeCalculations: () => {
-      return `
-x.BASIC_DMG += x.BASIC_SCALING * x.DEF;
-x.ULT_DMG += x.ULT_SCALING * x.DEF;
-x.FUA_DMG += x.FUA_SCALING * x.DEF;
-      `
+      return gpuStandardDefFinalizer() + gpuStandardDefShieldFinalizer()
     },
     dynamicConditionals: [AventurineConversionConditional],
   }

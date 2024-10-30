@@ -1476,7 +1476,7 @@ function getScoringMetadata() {
       presets: [
         PresetEffects.VALOROUS_SET,
       ],
-      sortOption: SortOption.DEF,
+      sortOption: SortOption.SHIELD,
       hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SKILL, SortOption.DOT],
     },
     1002: { // Dan Heng
@@ -2495,7 +2495,7 @@ function getScoringMetadata() {
         ],
       },
       presets: [],
-      sortOption: SortOption.DEF,
+      sortOption: SortOption.SHIELD,
       hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1105: { // Natasha
@@ -2540,7 +2540,7 @@ function getScoringMetadata() {
         ],
       },
       presets: [],
-      sortOption: SortOption.EHP,
+      sortOption: SortOption.HEAL,
       hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1106: { // Pela
@@ -2948,7 +2948,7 @@ function getScoringMetadata() {
         ],
       },
       presets: [],
-      sortOption: SortOption.EHP,
+      sortOption: SortOption.HEAL,
       hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1111: { // Luka
@@ -3980,7 +3980,7 @@ function getScoringMetadata() {
         ],
       },
       presets: [],
-      sortOption: SortOption.EHP,
+      sortOption: SortOption.HEAL,
       hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1212: { // Jingliu
@@ -4381,7 +4381,7 @@ function getScoringMetadata() {
         ],
       },
       presets: [],
-      sortOption: SortOption.EHP,
+      sortOption: SortOption.HEAL,
       hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1218: { // Jiaoqiu
@@ -6369,7 +6369,7 @@ function getScoringMetadata() {
         ],
       },
       presets: [],
-      sortOption: SortOption.DEF,
+      sortOption: SortOption.SHIELD,
       hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     8004: { // Fire Trailblazer F
@@ -6413,7 +6413,7 @@ function getScoringMetadata() {
         ],
       },
       presets: [],
-      sortOption: SortOption.DEF,
+      sortOption: SortOption.SHIELD,
       hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     8005: { // Imaginary Trailblazer M

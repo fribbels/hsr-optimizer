@@ -42,12 +42,19 @@ OptimizerOptions:
   PriorityFilter: 角色优先级过滤器
   Priority:
     Header: 优先级
+    Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
+    Name: "# {{rank}}"
   AllowEquipped: 允许已装备的遗器
   KeepCurrent: 保持当前遗器
   Exclude: 排除
   MinEnhance:
     Header: 最小强化等级
     Label0: +0
+    Label3: 3
+    Label6: 6
+    Label9: 9
+    Label12: 12
+    Label15: 15
   MinRarity:
     Header: 最小稀有度
     Label2: 2 ★ +
@@ -56,6 +63,11 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: 提升主属性
+    Label3: 3
+    Label6: 6
+    Label9: 9
+    Label12: 12
+    Label15: 15
 AdvancedOptions:
   Header: 高级选项
   EnemyConfigButtonText: 敌人配置
@@ -195,6 +207,9 @@ SetConditionals:
   Title: 套装条件触发效果
   DescriptionHeader: 套装描述
   EffectHeader: 已启用效果
+  SetName: "$t(gameData:RelicSets.{{id}}.Name)"
+  RelicDescription: "$t(gameData:RelicSets.{{id}}.Description4pc)"
+  PlanarDescription: "$t(gameData:RelicSets.{{id}}.Description2pc)"
   SelectOptions:
     Streetwise:
       Display: "{{stackCount}}层"
@@ -310,6 +325,8 @@ Target_one: 目标
 Target_other: 目标
 EnemyConfiguration:
   LevelOptionLabel: "{{level}}级 - {{defense}}防御力"
+  CountOptionLabel: >-
+    {{targetCount}}$t(optimizerTab:Target, {"count": {{targetCount}}})$t(optimizerTab:Target, {"count": {{targetCount}}})
   EffResOptionLabel: "{{resistance}}%效果抵抗"
   DmgResOptionLabel: "{{resistance}}%伤害抵抗"
   ToughnessOptionLabel: "{{toughness}}最大韧性"
@@ -347,9 +364,41 @@ MinMaxFilters:
   DOTLabel: 持续伤害
   BREAKLabel: 击破
   COMBOLabel: 连招
+ComboFilter:
+  Header: 连招伤害技能循环
+  ModeSelector:
+    Simple: 简易
+    Advanced: 高级
+  RowControls:
+    Add: +
+    Remove: "-"
+    ResetConfirm:
+      Description: 重置所有简易 / 高级循环设置为默认值？
+  CounterLabels:
+    Dot: 持续伤害数量
+    Break: 击破伤害数量
+  ComboOptions:
+    Basic: 普攻
+    Skill: 战技
+    Ult: 终结技
+    Fua: 追加攻击
+  RotationButton: 高级技能循环
 ComboDrawer:
   NoConditionals: 无条件触发被动技能
+  Title: 高级技能循环用户指南
+  Placeholders:
+    Sets: 隧洞遗器套装条件触发效果
+    Ornaments: 位面饰品套装条件触发效果
+  GroupHeaders:
+    Sets: 隧洞遗器/位面饰品套装条件触发效果
+    Teammate1: 队友1的条件触发效果
+    Teammate2: 队友2的条件触发效果
+    Teammate3: 队友3的条件触发效果
 TeammateCard:
+  EidolonN: >-
+    $t(common:EidolonNShort, {"eidolon": {{eidolon}}})
+  SuperimpositionN: >-
+    $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})
   EidolonPlaceholder: 星魂
   SuperimpositionPlaceholder: 叠影
   RelicsPlaceholder: 遗器
@@ -358,27 +407,35 @@ TeammateCard:
   TeammateSets:
     Messenger:
       Desc: "四件套: $t(gameData:RelicSets.114.Name) (+12%速度)"
+      Set: "$t(gameData:RelicSets.114.Name)"
       Text: 12% 速度
     Watchmaker:
       Desc: "四件套: $t(gameData:RelicSets.118.Name) (+30%击破特攻)"
+      Set: "$t(gameData:RelicSets.118.Name)"
       Text: 30% 击破特攻
     Sacerdos1Stack:
       Desc: "四件套: $t(gameData:RelicSets.121.Name) (+18%暴击伤害)"
+      Set: "$t(gameData:RelicSets.121.Name)"
       Text: 18% 爆伤
     Sacerdos2Stack:
       Desc: "四件套: $t(gameData:RelicSets.121.Name) (+36%暴击伤害)"
+      Set: "$t(gameData:RelicSets.121.Name)"
       Text: 36%暴伤
     Keel:
       Desc: "$t(gameData:RelicSets.310.Name) (+10%暴击伤害)"
+      Set: "$t(gameData:RelicSets.310.Name)"
       Text: 10%暴伤
     Ageless:
       Desc: "$t(gameData:RelicSets.302.Name) (+8%攻击力)"
+      Set: "$t(gameData:RelicSets.302.Name)"
       Text: 8%攻击力
     Penacony:
       Desc: "$t(gameData:RelicSets.312.Name) (+10%同属性增伤)"
+      Set: "$t(gameData:RelicSets.312.Name)"
       Text: 10%增伤
     Lushaka:
       Desc: "$t(gameData:RelicSets.317.Name) (+12%攻击力)"
+      Set: "$t(gameData:RelicSets.317.Name)"
       Text: 12%攻击力
 StatSimulation:
   DuplicateSimMessage: 相同属性的模拟已存在
@@ -391,6 +448,7 @@ StatSimulation:
     RelicPlaceholder: 隧洞遗器套装
     OrnamentPlaceholder: 位面饰品套装
   TotalRolls: 总升级次数
+  SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
   ModeSelector:
     Off: Off
     RollCount: 模拟自定义副词条升级次数
@@ -412,3 +470,5 @@ StatSimulation:
     FeetPlaceholder: 脚部
     SpherePlaceholder: 位面球
     RopePlaceholder: 连结绳
+    ShortStat: "$t(common:ShortReadableStats.{{stat}})"
+    LabelStat: "$t(common:ReadableStats.{{stat}})"

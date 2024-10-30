@@ -281,10 +281,10 @@ export default function RelicModal(props: {
         onCancel={() => props.setOpen(false)}
         footer={[
           <Button key='back' onClick={handleCancel}>
-            {t('Relic.Cancel')}
+            {t('common:Cancel')}
           </Button>,
           <Button key='submit' type='primary' onClick={handleOk}>
-            {t('Relic.Submit')}
+            {t('common:Submit')}
           </Button>,
         ]}
       >

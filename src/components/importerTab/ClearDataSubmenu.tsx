@@ -1,16 +1,16 @@
-import { useState } from 'react'
-import { Message } from 'lib/message'
+import { DeleteOutlined } from '@ant-design/icons'
 import { Button, Flex, Popconfirm, Typography } from 'antd'
 import DB from 'lib/db'
-import { importerTabButtonWidth, importerTabSpinnerMs } from './importerTabUiConstants'
-import { DeleteOutlined } from '@ant-design/icons'
+import { Message } from 'lib/message'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { importerTabButtonWidth, importerTabSpinnerMs } from './importerTabUiConstants'
 
 const { Text } = Typography
 
 export function ClearDataSubmenu() {
   const [loading, setLoading] = useState(false)
-  const { t } = useTranslation('importSaveTab', { keyPrefix: 'ClearData' })
+  const { t } = useTranslation(['importSaveTab', 'common'], { keyPrefix: 'ClearData' })
 
   function clearDataClicked() {
     console.log('Clear data')
@@ -33,8 +33,8 @@ export function ClearDataSubmenu() {
         description={t('WarningDescription')/* Are you sure you want to clear all relics and characters */}
         onConfirm={clearDataClicked}
         placement='bottom'
-        okText={t('Yes')/* Yes */}
-        cancelText={t('Cancel')/* Cancel */}
+        okText={t('common:Yes')/* Yes */}
+        cancelText={t('common:Cancel')/* Cancel */}
       >
         <Button type='primary' icon={<DeleteOutlined/>} loading={loading} style={{ width: importerTabButtonWidth }}>
           {t('ButtonText')/* Clear data */}

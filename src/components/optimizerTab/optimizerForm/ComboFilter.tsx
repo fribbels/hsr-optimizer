@@ -1,13 +1,13 @@
+import { SettingOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Input, Popconfirm, Radio, Segmented } from 'antd'
-import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants'
+import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { HeaderText } from 'components/HeaderText'
 import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled'
-import { useTranslation } from 'react-i18next'
-import { SettingOutlined } from '@ant-design/icons'
+import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants'
 import { ComboDrawer } from 'components/optimizerTab/rotation/ComboDrawer'
-import { FormInstance } from 'antd/es/form/hooks/useForm'
 import DB from 'lib/db'
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const radioStyle = {
   display: 'flex',
@@ -18,6 +18,7 @@ const radioStyle = {
 
 export const ComboFilters = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
+  const { t: tCommon } = useTranslation('common')
   const form = Form.useFormInstance() // Get the form instance
   const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
   const comboType = Form.useWatch('comboType', form)
@@ -57,8 +58,8 @@ export const ComboFilters = () => {
           description={t('RowControls.ResetConfirm.Description')}
           onConfirm={() => reset(form)}
           placement='bottom'
-          okText={t('RowControls.ResetConfirm.OkText')}
-          cancelText={t('RowControls.ResetConfirm.CancelText')}
+          okText={tCommon('common:Yes')}
+          cancelText={tCommon('common:Cancel')}
         >
           <Button size='small' variant='outlined' style={{ flex: 1 }}>
             Reset

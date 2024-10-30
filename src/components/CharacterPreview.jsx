@@ -395,7 +395,7 @@ export function CharacterPreview(props) {
             window.modalApi.info({
               icon: null,
               width: 400,
-              okText: t('modals:ScoreFooter.OkText'),
+              okText: t('common:Ok'),
               maskClosable: true,
               content: (
                 <div style={{ width: '100%' }}>

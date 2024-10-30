@@ -10,7 +10,15 @@ ThousandsSuffix: K
 DecimalSeparator: "."
 ThousandsSeparator: ","
 I18nNumber: "{{value, number}}"
+Cancel: Cancel
+Confirm: Confirm
+Submit: Submit
+Ok: Ok
+Yes: Yes
+No: No
+Save: Save
 Score: Score
+Reset: Reset
 EidolonNShort: "E{{eidolon}}"
 SuperimpositionNShort: "S{{superimposition}}"
 LevelShort: "Lv{{level}}"

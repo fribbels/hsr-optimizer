@@ -54,6 +54,8 @@ Guidelines for writing yaml files in EN:
 * If double quotes would need to be escaped or if the string is excessively long, use a yaml fold `>-`
 * If the string contains special characters: e.g. `{` `}` `'` `"` `:` etc, make sure they are quoted or folded
 
+When working with code, re-use the common namespace where possible.
+
 ### Updating other files
 
 The translation works by mapping a key to a text string that will be displayed on the user's screen, the recommended

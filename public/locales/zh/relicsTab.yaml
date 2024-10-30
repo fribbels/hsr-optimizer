@@ -116,9 +116,11 @@ Toolbar:
     PlotCustom: 显示自定义角色
   EditRelic: 编辑遗器
   DeleteRelic:
+    Confirm: 确认
+    Yes: Yes
+    Cancel: 取消
     ButtonText: 删除遗器
     Warning_one: 删除所选遗器吗？
-    Warning_other: "删除所选的{{count}}件遗器吗？"
   AddRelic: 添加新遗器
 RelicInsights:
   NewStats: "新添加属性："

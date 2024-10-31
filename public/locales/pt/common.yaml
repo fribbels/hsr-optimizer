@@ -24,7 +24,7 @@ SuperimpositionNShort: "S{{superimposition}}"
 LevelShort: "Nv{{level}}"
 CharacterWithCount_one: "{{count}} personagem"
 CharacterWithCount_other: "{{count}} personagens"
-Character_one: personagem
+Character_one: personagem 
 Character_other: personagens
 VerifiedRelicHoverText: Subatributos das relíquias verificados pelo pontuador de relíquias (decimais de velocidade)
 CombatStats: Atributos de combate

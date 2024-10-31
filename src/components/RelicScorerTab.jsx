@@ -51,7 +51,7 @@ export default function RelicScorerTab() {
   const [scorerForm] = Form.useForm()
   window.scorerForm = scorerForm
 
-  const { t } = useTranslation('relicScorerTab')
+  const { t } = useTranslation(['relicScorerTab', 'common'])
 
   useEffect(() => {
     const params = window.location.href.split('?')[1]
@@ -225,7 +225,7 @@ export default function RelicScorerTab() {
               loading={loading}
               style={{ width: 150 }}
             >
-              {t('SubmissionBar.ButtonText')/* Submit */}
+              {t('common:Submit')/* Submit */}
             </Button>
             <Button
               style={{ width: 150 }}

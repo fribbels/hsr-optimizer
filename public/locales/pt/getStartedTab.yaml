@@ -1,2 +1,6 @@
 TryOut:
-  Option 1: 'DELETE_ME_6'
+  DocumentationTitle: Ver guia completo
+  ButtonText: Experimente!
+  description: Carregar um save de amostra?
+  SuccessMessage: Dados carregados com sucesso
+  Header: Experimente!

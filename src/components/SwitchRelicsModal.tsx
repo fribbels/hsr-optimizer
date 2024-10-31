@@ -30,6 +30,7 @@ export default function SwitchRelicsModal(props: {
   const characters = window.store((s) => s.characters)
 
   const { t } = useTranslation('modals', { keyPrefix: 'SwitchRelics' })
+  const { t: tCommon } = useTranslation('common')
 
   const characterOptions = useMemo(() => generateCharacterList({
     currentCharacters: characters,
@@ -68,10 +69,10 @@ export default function SwitchRelicsModal(props: {
       onCancel={handleCancel}
       footer={[
         <Button key='back' onClick={handleCancel}>
-          {t('Cancel')/* Cancel */}
+          {tCommon('Cancel')/* Cancel */}
         </Button>,
         <Button key='submit' type='primary' onClick={onModalOk}>
-          {t('Save')/* Save */}
+          {tCommon('Save')/* Save */}
         </Button>,
       ]}
     >

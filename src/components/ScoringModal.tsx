@@ -148,8 +148,8 @@ export default function ScoringModal() {
         title={t('Scoring.ResetAllConfirm.Title')/* Reset the scoring algorithm for all characters? */}
         description={t('Scoring.ResetAllConfirm.Description')/* You will lose any custom scoring settings you have set on any character. */}
         onConfirm={resetAllCharacters}
-        okText={t('Scoring.ResetAllConfirm.Yes')/* Yes */}
-        cancelText={t('Scoring.ResetAllConfirm.No')/* No */}
+        okText={t('common:Yes')/* Yes */}
+        cancelText={t('common:No')/* No */}
       >
         <Button danger>{t('Scoring.Footer.ResetAll')/* Reset all characters */}</Button>
       </Popconfirm>
@@ -173,7 +173,7 @@ export default function ScoringModal() {
       forceRender
       footer={[
         <Button key='back' onClick={handleCancel}>
-          {t('Scoring.Footer.Cancel')/* Cancel */}
+          {t('common:Cancel')/* Cancel */}
         </Button>,
         <Button key='default' onClick={handleResetDefault}>
           {t('Scoring.Footer.Reset')/* Reset to default */}

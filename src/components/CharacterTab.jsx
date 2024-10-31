@@ -107,7 +107,7 @@ export default function CharacterTab() {
 
   const [characterFilters, setCharacterFilters] = useState(defaultFilters)
 
-  const { t } = useTranslation('charactersTab')
+  const { t } = useTranslation(['charactersTab', ' common'])
 
   console.log('======================================================================= RENDER CharacterTab')
 
@@ -494,11 +494,11 @@ export default function CharacterTab() {
 
   async function confirm(content) {
     return confirmationModal.confirm({
-      title: 'Confirm',
+      title: t('common:Confirm'), // 'Confirm',
       icon: <ExclamationCircleOutlined/>,
       content: content,
-      okText: t('Confirm'), // 'Confirm',
-      cancelText: t('Cancel'), // 'Cancel',
+      okText: t('common:Confirm'), // 'Confirm',
+      cancelText: t('common:Cancel'), // 'Cancel',
       centered: true,
     })
   }

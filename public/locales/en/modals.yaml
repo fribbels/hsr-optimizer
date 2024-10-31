@@ -4,15 +4,12 @@ Scoring:
   WeightMethodology:
     Header: How is Stat Score calculated?
   Footer:
-    Cancel: Cancel
     Reset: Reset to default
     ResetAll: Reset all characters
     Save: Save changes
   ResetAllConfirm:
     Title: Reset the scoring algorithm for all characters?
     Description: You will lose any custom scoring settings you have set on any character.
-    Yes: Yes
-    No: No
 0Perms:
   Title: Search generated 0 permutations
   Description: This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar.
@@ -234,11 +231,7 @@ EditCharacter:
     $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: Character
   Lightcone: Light cone
-  Cancel: Cancel
-  Save: Save
 Relic:
-  Cancel: Cancel
-  Submit: Submit
   Part: Part
   Wearer: Equipped by
   Set: Set
@@ -291,29 +284,17 @@ EditImage:
     ArtBy: "(Optional) Art by:"
     CreditPlaceholder: Credit the artist if possible
   Footer:
-    Cancel: Cancel
     Change: Change image
     Previous: Previous
     Next: Next
-    Submit: Submit
 SaveBuild:
-  Cancel: Cancel
-  Save: Save
   Label: Build name
   Rule: Please input a name
 SwitchRelics:
   Title: Switch relics with character
-  Cancel: Cancel
-  Save: Save
 Builds:
   DeleteAll: Delete All
-  Cancel: Cancel
   Equip: Equip
-  Score: Score
-  ConfirmModal:
-    ConfirmButton: Confirm
-    CancelButton: Cancel
-    Title: Confirm
   ConfirmEquip:
     Content: Equipping this will unequip characters that use the relics in this build
     SuccessMessage: "Successfully equipped build: {{buildName}}"
@@ -323,8 +304,6 @@ Builds:
     SuccessMessageAll: "Successfully deleted all builds for {{characterName}}"
     SuccessMessageSingle: "Successfully deleted build: {{name}}"
   NoBuilds:
-    Ok: Ok
-    Cancel: Cancel
     NoneSaved: No saved builds
 ScoreFooter:
   ModalTitle: Combat sim scoring settings

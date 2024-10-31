@@ -22,7 +22,7 @@ export const languages = {
   },
   pt: {
     locale: 'pt',
-    nativeName: 'Português',
+    nativeName: 'Português (Brasil)',
   },
   zh: {
     locale: 'zh',
@@ -87,6 +87,8 @@ void i18next
     ],
     defaultNS: 'common',
     fallbackNS: ['common', 'gameData'],
+    // @ts-ignore temporary to make sure the language detector doesn't load non-en translations
+    lng: BASE_PATH != '/dreary-quibbles' ? 'en' : undefined, // remove once language selector enabled on main site
     debug: true,
     supportedLngs: supportedLanguages,
     load: 'languageOnly',

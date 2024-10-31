@@ -34,7 +34,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'switch',
       id: 'ultBuff',
       text: t('Content.ultBuff.text'),
-      content: t('Content.ultBuff.content', { ultFuaExtraScaling: TsUtils.precisionRound(100 * ultFuaExtraScaling) }),
+      content: t('Content.ultBuff.content', {
+        ultFuaExtraScaling: TsUtils.precisionRound(100 * ultFuaExtraScaling),
+        ultDmgReductionValue: TsUtils.precisionRound((100 * ultDmgReductionValue)),
+      }),
     },
     {
       formItem: 'switch',

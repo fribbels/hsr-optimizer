@@ -16,7 +16,7 @@ SubmissionBar:
   AlgorithmButton: Algoritmo de Pontuação
 CopyScreenshot: Copiar captura de tela
 ImportLabels:
-  Relics: Importar relíquias no otimizador
+  Relics: Importar relíquias pro otimizador
   SingleCharacter: Importar personagem selecionado e todas as relíquias no otimizador
   AllCharacters: Importar todos os personagens e todas as relíquias no otimizador
 SimulateRelics: Simular relíquias em outro personagem

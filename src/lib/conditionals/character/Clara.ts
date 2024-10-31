@@ -35,7 +35,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     name: 'ultBuff',
     text: t('Content.ultBuff.text'),
     title: t('Content.ultBuff.title'),
-    content: t('Content.ultBuff.content', { ultFuaExtraScaling: TsUtils.precisionRound(100 * ultFuaExtraScaling) }),
+    content: t('Content.ultBuff.content', {
+      ultFuaExtraScaling: TsUtils.precisionRound(100 * ultFuaExtraScaling),
+      ultDmgReductionValue: TsUtils.precisionRound((100 * ultDmgReductionValue)),
+    }),
   }, {
     formItem: 'switch',
     id: 'talentEnemyMarked',

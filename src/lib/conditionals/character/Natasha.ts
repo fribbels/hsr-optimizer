@@ -26,9 +26,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'select',
       id: 'healAbility',
       name: 'healAbility',
-      text: '',
-      title: '',
-      content: '',
+      text: tHeal('Text'),
+      content: tHeal('Content'),
       options: [
         {
           display: tHeal('Skill'),

@@ -40,9 +40,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'select',
       id: 'shieldAbility',
       name: 'shieldAbility',
-      text: '',
-      title: '',
-      content: '',
+      text: tShield('Text'),
+      content: tShield('Content'),
       options: [
         {
           display: tShield('Skill'),

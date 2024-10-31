@@ -67,7 +67,7 @@ export type ContentItem = {
     id: string
     content: string
     teammateIndex?: number
-  } & Omit<ComponentProps<ContentComponentMap[K]>, 'content'>
+  } & Omit<ComponentProps<ContentComponentMap[K]>, 'content' | 'title'>
 }[keyof ContentComponentMap]
 
 export type ConditionalBuff =

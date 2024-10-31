@@ -75,9 +75,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'select',
       id: 'healAbility',
       name: 'healAbility',
-      text: '',
-      title: '',
-      content: '',
+      text: tHeal('Text'),
+      content: tHeal('Content'),
       options: [
         {
           display: tHeal('Skill'),
@@ -102,7 +101,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'beConversion',
       name: 'beConversion',
       text: t('Content.beConversion.text'),
-      title: t('Content.beConversion.title'),
       content: t('Content.beConversion.content'),
     },
     {
@@ -110,7 +108,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'befogState',
       name: 'befogState',
       text: t('Content.befogState.text'),
-      title: t('Content.befogState.title'),
       content: t('Content.befogState.content', { BefogVulnerability: TsUtils.precisionRound(100 * ultBreakVulnerability) }),
     },
     {
@@ -118,7 +115,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e1DefShred',
       name: 'e1DefShred',
       text: t('Content.e1DefShred.text'),
-      title: t('Content.e1DefShred.title'),
       content: t('Content.e1DefShred.content'),
       disabled: e < 1,
     },
@@ -127,7 +123,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e2BeBuff',
       name: 'e2BeBuff',
       text: t('Content.e2BeBuff.text'),
-      title: t('Content.e2BeBuff.title'),
       content: t('Content.e2BeBuff.content'),
       disabled: e < 2,
     },
@@ -136,7 +131,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e6ResShred',
       name: 'e6ResShred',
       text: t('Content.e6ResShred.text'),
-      title: t('Content.e6ResShred.title'),
       content: t('Content.e6ResShred.content'),
       disabled: e < 6,
     },

@@ -359,12 +359,23 @@ interface Resources {
   "conditionals": {
     "BetaMessage": "Current version: {{Version}} - Calculations are subject to change.",
     "Common": {
-      "HealingAbility": {
+      "HealAbility": {
+        "Text": "Healing ability",
+        "Content": "Select the ability for heal calculations",
         "Basic": "Healing ability: Basic",
         "Skill": "Healing ability: Skill",
         "Ult": "Healing ability: Ult",
-        "Fua": "Healing ability: Fua",
-        "Talent": "Healing ability: Talent"
+        "Talent": "Healing ability: Talent",
+        "Trace": "Healing ability: Trace"
+      },
+      "ShieldAbility": {
+        "Text": "Shielding ability",
+        "Content": "Select the ability for shield calculations",
+        "Basic": "Shielding ability: Basic",
+        "Skill": "Shielding ability: Skill",
+        "Ult": "Shielding ability: Ult",
+        "Talent": "Shielding ability: Talent",
+        "Trace": "Shielding ability: Trace"
       }
     },
     "Lightcones": {
@@ -1555,10 +1566,6 @@ interface Resources {
           "skillActive": {
             "text": "Skill active",
             "content": "Activates Matrix of Prescience, via which other team members will Distribute 65% of the DMG they receive (before this DMG is mitigated by any Shields) to Fu Xuan for 3 turn(s). While affected by Matrix of Prescience, all team members gain the Knowledge effect, which increases their respective Max HP by {{skillHpBuffValue}}% of Fu Xuan's Max HP, and increases CRIT Rate by {{skillCrBuffValue}}%."
-          },
-          "ultHealing": {
-            "text": "Ult healing",
-            "content": "TODO"
           },
           "e6TeamHpLostPercent": {
             "text": "E6 team HP lost",
@@ -4120,7 +4127,7 @@ interface Resources {
           "ERR": "Σ ERR",
           "DMG": "Σ DMG",
           "EHP": "EHP",
-          "WEIGHT": "STAT WEIGHT",
+          "WEIGHT": "STAT\nWEIGHT",
           "HEAL": "HEAL",
           "SHIELD": "SHIELD",
           "BASIC": "BASIC\nDMG",

@@ -1,0 +1,306 @@
+CharacterSelector:
+  Character: Personagem
+  Presets: Predefinições
+  Target: Meta de otimização
+  ResultsPlaceholder: Achar melhores rsultados
+  TargetPlaceholder: Organizado por
+  EidolonPlaceholder: E
+  SuperimpositionPlaceholder: S
+NoConditionals: Sem passivas condicionais
+NoTeamConditionals: Sem passivas coondicionais da equipe
+ResultLimitN: "Achar os {{limit}} melhores resultados"
+SortOptions:
+  DMGLabel: Cálculo de dano
+  StatLabel: Atributos
+  COMBO: Organizado por Dano de Combo
+  BASIC: Organizado por Dano Básico
+  SKILL: Organizado por Dano de Perícia
+  ULT: Organizador por Dano de Perícia Suprema
+  FUA: Organizado por Dano de Ataque Extra
+  DOT: Organizado por Dano de DoT
+  BREAK: Organizado  por Dano de Quebra
+  HP: "Organizado por $t(common:ReadableStats.HP)"
+  ATK: "Organizador por $t(common:ReadableStats.ATK)"
+  DEF: "Organizador por $t(common:ReadableStats.DEF)"
+  SPD: "Organizador por $t(common:ReadableStats.SPD)"
+  CR: "Organizador por $t(common:ReadableStats.CRIT Rate)"
+  CD: "Organizador por $t(common:ReadableStats.CRIT DMG)"
+  EHR: "Organizador por $t(common:ReadableStats.Effect Hit Rate)"
+  RES: "Organizador por $t(common:ReadableStats.Effect RES)"
+  BE: "Organizador por $t(common:ReadableStats.Break Effect)"
+  OHB: "Organizador por $t(common:ReadableStats.Outgoing Healing Boost)"
+  ERR: "Organizador por $t(common:ReadableStats.Energy Regeneration Rate)"
+  DMG: Organizador por Dano Elemental
+  EHP: Organizador por HP Efetivo
+OptimizerOptions:
+  PriorityFilter: Filtro de prioridade de personagem
+  Priority:
+    Header: Prioridade
+  AllowEquipped: Permitir relíquias equipadas
+  KeepCurrent: Manter as relíquias atuais
+  Exclude: Excluir
+  MinEnhance:
+    Header: Melhoria mínima
+    Label0: +0
+    Label3: 3
+    Label6: 6
+    Label9: 9
+    Label12: 12
+    Label15: 15
+  MinRarity:
+    Header: Rarídade mínima
+    Label2: 2 ★ +
+    Label3: 3 ★ +
+    Label4: 4 ★ +
+    Label5: 5 ★ +
+  BoostMain:
+    Header: Melhorar atributo principal
+    Label3: 3
+    Label6: 6
+    Label9: 9
+    Label12: 12
+    Label15: 15
+AdvancedOptions:
+  Header: Opções avançadas
+  EnemyConfigButtonText: Configurações de inimigo
+  CombatBuffsButtonText: "Buffs extras de combate ({{activeCount}})"
+Grid:
+  To: para
+  Of: de
+  Page: Página
+  PageSelectorLabel: "Tamanho da Página:"
+  Headers:
+    Basic:
+      ATK: ATQ
+      DEF: DEF
+      HP: PV
+      SPD: VEL
+      CR: CR
+      CD: CD
+      EHR: EHR
+      RES: RES
+      BE: BE
+      OHB: OHB
+      ERR: ERR
+      DMG: DANO
+      EHP: EHP
+      WEIGHT: PESO DO ATR.
+      BASIC: |-
+        DANO
+        BÁSICO
+      SKILL: |-
+        DANO
+        PERÍCIA
+      ULT: |-
+        DANO
+        PER. SUP.
+      FUA: |-
+        DANO
+        ATQ. EXTRA
+      DOT: |-
+        DANO
+        DOT
+      BREAK: |-
+        DANO
+        QUEBRA
+      COMBO: |-
+        DANO
+        COMBO
+    Combat:
+      ATK: Σ ATQ
+      DEF: Σ DEF
+      HP: Σ PV
+      SPD: Σ VEL
+      CR: Σ CR
+      CD: Σ CD
+      EHR: Σ EHR
+      RES: Σ RES
+      BE: Σ BR
+      OHB: Σ OHB
+      ERR: Σ ERR
+      DMG: Σ DANO
+      EHP: EHP
+      WEIGHT: PESO DO ATR.
+      BASIC: |-
+        DANO
+        BÁSICO
+      SKILL: |-
+        DANO
+        PERÍCIA
+      ULT: |-
+        DANO
+        PER. SUP.
+      FUA: |-
+        DANO
+        ATQ. EXTRA
+      DOT: |-
+        DANO
+        DOT
+      BREAK: |-
+        DANO
+        QUEBRA
+      COMBO: |-
+        DANO
+        COMBO
+Sidebar:
+  GPUOptions:
+    Experimental: Aceleração de GPU habilitada (experimental)
+    Stable: Aceleração de GPU habilitada (estável)
+    CPU: Somente CPU
+    EngineSwitchSuccessMsg:
+      CPU: Mecanismo de computação alterador para CPU
+      Stable: Mecanismo de computação alterador para GPU (Estável)
+      Experimental: Mecanismo de computação alterador para GPU (Experimental)
+    Display:
+      GPU Experimental: "Aceleração de GPU: Ativado"
+      GPU Stable: "Aceleração de GPU: Ativado"
+      CPU: "Aceleração de GPU: Desativado"
+  Pinning:
+    Messages:
+      NoneSelected: Nenhuma linha selecionada
+      SimSelected: ' As linhas de simulação personalizadas não podem ser fixadas'
+      AlreadyPinned: Essa build já está fixada
+  Permutations: Permutações
+  Perms: Perms
+  Searched: Buscado
+  Results: Resultados
+  ProgressText:
+    Progress: Progresso
+    CalculatingETA: Progresso (calculando ETA..)
+    TimeRemaining: "{{rate}} / seg — {{timeRemaining}} restante"
+    Finished: "{{rate}} / seg — Finalizado"
+  ControlsGroup:
+    Header: Controles
+    Start: Iniciar otimizador
+    ResetConfirm:
+      Title: Resetar todos os filtros?
+      Description: Todos os filtros vão resetar para o valor padrão
+  StatViewGroup:
+    CombatStats: Atributos de combate
+    BasicStats: Atributos básicos
+  ResultsGroup:
+    Header: Resultados
+    Filter: Filtro
+    Pin: Builds fixadas
+    Clear: Limpar fixados
+TeammateRow:
+  Header: "Membros de equipe {{teammateCount}}"
+FormRowLabels:
+  Character options: Opções do personagem
+  Relic & stat filters: Filtros de relíquias e atributos
+  Teammates: Membros de equipe
+  Character custom stats simulation: Simulação de atributos personalizados de personagens
+SetConditionals:
+  Title: Efeitos condicionais de conjunto
+  DescriptionHeader: Definir descrição
+  EffectHeader: Efeito habilitado
+  SelectOptions:
+    Streetwise:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} acúmulos (+{{buffValue}}% ATQ)"
+    Wastelander:
+      Off:
+        Display: "Desligado"
+        Label: "Desligado"
+      Debuffed:
+        Display: CR
+        Label: Debufado (+10% CR)
+      Imprisoned:
+        Display: CR + CD
+        Label: Emprisionado (+10% CR | +20% CD)
+    Longevous:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} acúmulos (+{{buffValue}}% CR)"
+    Ashblazing:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} acúmulos (+{{buffValue}}% ATQ)"
+    Prisoner:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} acúmulos (+{{buffValue}}% ignorar DEF)"
+    Diver:
+      Off:
+        Display: 0x
+        Label: 0 debuffs (+4% CR)
+      1Debuff:
+        Display: 1x
+        Label: 1 debuff (+12% DMG | +4% CR)
+      2Debuff:
+        Display: 2x
+        Label: 2 debuffs (+12% DMG | +4% CR | +8% CD)
+      3Debuff:
+        Display: 3x
+        Label: 3 debuffs (+12% DMG | +4% CR | +12% CD)
+      2+Debuff:
+        Display: 2x+
+        Label: 2 debuffs, aprimorado (+12% DMG | +4% CR | +4% CR em combate | +16% CD)
+      3+Debuff:
+        Display: 3x+
+        Label: 3 debuffs, aprimorado (+12% DMG | +4% CR | +4% CR em combate | +24% CD)
+    Sigonia:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} acúmulos (+{{buffValue}}% CD)"
+    Duran:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} acúmulos (+{{buffValue}}% DMG ATQ EXTRA)"
+      Label5: 5 acúmulos (+25% DMG ATQ EXTRA +25% CD)
+    Sacerdos:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} acúmulos (+{{buffValue}}% CD)"
+  Conditionals:
+    DefaultMessage: Habilitado por padrão — efeitos serão aplicados nos cálculos de combate
+    Hunter: "Quando habilitado, buff de dano crítico é aplicado aos cálculos de atributos de combate.\n"
+    Streetwise: ' O bônus de ATQ% selecionado é aplicado aos cálculos de atributos de combate com base no número de acúmulos.'
+    Firesmith: ' O aumento do dano de habilidade está sempre ativo por padrão. Quando ativado, o bônus de dano de fogo é aplicado aos cálculos de atributos de combate.'
+    Genius: ' O aumento de 10% de penetração de defesa está sempre ativo por padrão. Quando ativado, trata o inimigo como tendo fraqueza à Quantum e penetra 10% a mais de DEF.'
+    Thunder: ' Quando ativado, o bônus de ATQ% é aplicado aos cálculos de atributos de combate.'
+CombatBuffs:
+  ATK: ATQ
+  ATK_P: ATQ %
+  HP: PV
+  HP_P: PV %
+  DEF: DEF
+  DEF_P: DEF %
+  SPD: VEL
+  SPD_P: VEL %
+EnemyConfiguration:
+  Title: Configurações de inimigo
+WeightFilter:
+  HPFilterText: PV
+  ATKFilterText: ATQ
+  DEFFilterText: DEF
+  SPDFilterText: VEL
+  CRFilterText: CR
+  CDFilterText: CD
+  EHRFilterText: EHR
+  RESFilterText: RES
+  BEFilterText: BE
+MinMaxFilters:
+  HPLabel: PV
+  ATKLabel: ATQ
+  DEFLabel: DEF
+  SPDLabel: VEL
+  CRLabel: CR
+  CDLabel: CD
+  EHRLabel: EHR
+  RESLabel: RES
+  BELabel: BE
+  ERRLabel: ERR
+  EHPLabel: EHP
+  BASICLabel: BÁSICO
+  SKILLLabel: PERÍCIA
+  ULTLabel: PER. SUP.
+  FUALabel: ATQ. EXT.
+  DOTLabel: DOT
+  BREAKLabel: Quebra
+ComboDrawer:
+  NoConditionals: Sem passivas condicionais
+StatSimulation:
+  ModeSelector:
+    Off: Off
+  FooterLabels:
+    Conditionals: Efeitos condicionais de conjunto
+  MainStatsSelection:
+    BodyPlaceholder: Corpo
+    FeetPlaceholder: Pés
+    SpherePlaceholder: Esfera
+    RopePlaceholder: Corda

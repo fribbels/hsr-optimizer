@@ -1,0 +1,6 @@
+EditCharacter:
+  Character: Personagem
+CharacterSelect:
+  SingleSelect:
+    Placeholder: Personagem
+  SearchPlaceholder: Procurar nome do personagem

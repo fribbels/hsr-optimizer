@@ -1,12 +1,12 @@
-import { Stats } from 'lib/constants'
 import { ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-
-import { Eidolon } from 'types/Character'
-import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { Stats } from 'lib/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
+
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -22,50 +22,45 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillExtraHitScaling = skill(e, 1.00, 1.10)
   const ultScaling = ult(e, 3.20, 3.456)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'ultBuffedState',
-    name: 'ultBuffedState',
-    text: t('Content.ultBuffedState.text'),
-    title: t('Content.ultBuffedState.title'),
-    content: t('Content.ultBuffedState.content', { ultBuffedAtk: TsUtils.precisionRound(100 * ultBuffedAtk) }),
-  }, {
-    formItem: 'slider',
-    id: 'skillExtraHits',
-    name: 'skillExtraHits',
-    text: t('Content.skillExtraHits.text'),
-    title: t('Content.skillExtraHits.title'),
-    content: t('Content.skillExtraHits.content'),
-    min: 0,
-    max: 3,
-  }, {
-    formItem: 'slider',
-    id: 'skillTriggerStacks',
-    name: 'skillTriggerStacks',
-    text: t('Content.skillTriggerStacks.text'),
-    title: t('Content.skillTriggerStacks.title'),
-    content: t('Content.skillTriggerStacks.content'),
-    min: 0,
-    max: 10,
-  }, {
-    formItem: 'slider',
-    id: 'talentSpdBuffStacks',
-    name: 'talentSpdBuffStacks',
-    text: t('Content.talentSpdBuffStacks.text'),
-    title: t('Content.talentSpdBuffStacks.title'),
-    content: t('Content.talentSpdBuffStacks.content', { talentSpdBuffValue: TsUtils.precisionRound(100 * talentSpdBuffValue) }),
-    min: 0,
-    max: talentSpdBuffStacksMax,
-  },
-  {
-    formItem: 'switch',
-    id: 'e2DmgReductionBuff',
-    name: 'e2DmgReductionBuff',
-    text: t('Content.e2DmgReductionBuff.text'),
-    title: t('Content.e2DmgReductionBuff.title'),
-    content: t('Content.e2DmgReductionBuff.content'),
-    disabled: e < 2,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'ultBuffedState',
+      text: t('Content.ultBuffedState.text'),
+      content: t('Content.ultBuffedState.content', { ultBuffedAtk: TsUtils.precisionRound(100 * ultBuffedAtk) }),
+    },
+    {
+      formItem: 'slider',
+      id: 'skillExtraHits',
+      text: t('Content.skillExtraHits.text'),
+      content: t('Content.skillExtraHits.content'),
+      min: 0,
+      max: 3,
+    },
+    {
+      formItem: 'slider',
+      id: 'skillTriggerStacks',
+      text: t('Content.skillTriggerStacks.text'),
+      content: t('Content.skillTriggerStacks.content'),
+      min: 0,
+      max: 10,
+    },
+    {
+      formItem: 'slider',
+      id: 'talentSpdBuffStacks',
+      text: t('Content.talentSpdBuffStacks.text'),
+      content: t('Content.talentSpdBuffStacks.content', { talentSpdBuffValue: TsUtils.precisionRound(100 * talentSpdBuffValue) }),
+      min: 0,
+      max: talentSpdBuffStacksMax,
+    },
+    {
+      formItem: 'switch',
+      id: 'e2DmgReductionBuff',
+      text: t('Content.e2DmgReductionBuff.text'),
+      content: t('Content.e2DmgReductionBuff.content'),
+      disabled: e < 2,
+    },
+  ]
 
   return {
     content: () => content,

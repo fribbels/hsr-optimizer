@@ -1,13 +1,13 @@
-import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
-import { TsUtils } from 'lib/TsUtils'
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -30,43 +30,33 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'targetBurned',
-      name: 'targetBurned',
       text: t('Content.targetBurned.text'),
-      title: t('Content.targetBurned.title'),
       content: t('Content.targetBurned.content'),
     },
     {
       formItem: 'switch',
       id: 'selfCurrentHp80Percent',
-      name: 'selfCurrentHp80Percent',
       text: t('Content.selfCurrentHp80Percent.text'),
-      title: t('Content.selfCurrentHp80Percent.title'),
       content: t('Content.selfCurrentHp80Percent.content'),
     },
     {
       formItem: 'switch',
       id: 'e1TalentSpdBuff',
-      name: 'e1TalentSpdBuff',
       text: t('Content.e1TalentSpdBuff.text'),
-      title: t('Content.e1TalentSpdBuff.title'),
       content: t('Content.e1TalentSpdBuff.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2EnemyHp50DmgBoost',
-      name: 'e2EnemyHp50DmgBoost',
       text: t('Content.e2EnemyHp50DmgBoost.text'),
-      title: t('Content.e2EnemyHp50DmgBoost.title'),
       content: t('Content.e2EnemyHp50DmgBoost.content'),
       disabled: e < 2,
     },
     {
       formItem: 'slider',
       id: 'e6UltExtraHits',
-      name: 'e6UltExtraHits',
       text: t('Content.e6UltExtraHits.text'),
-      title: t('Content.e6UltExtraHits.title'),
       content: t('Content.e6UltExtraHits.content'),
       min: 0,
       max: 2,

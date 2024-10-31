@@ -1,11 +1,16 @@
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardFuaAtkFinalizer,
+  standardFuaAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -25,18 +30,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e1DotDmgReceivedDebuff',
-      name: 'e1DotDmgReceivedDebuff',
       text: t('Content.e1DotDmgReceivedDebuff.text'),
-      title: t('Content.e1DotDmgReceivedDebuff.title'),
       content: t('Content.e1DotDmgReceivedDebuff.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2TeamDotBoost',
-      name: 'e2TeamDotBoost',
       text: t('Content.e2TeamDotBoost.text'),
-      title: t('Content.e2TeamDotBoost.title'),
       content: t('Content.e2TeamDotBoost.content'),
       disabled: e < 2,
     },

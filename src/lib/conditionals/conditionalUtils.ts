@@ -1,6 +1,6 @@
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
 import { ContentItem } from 'types/Conditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export const precisionRound = (number: number, precision: number = 8): number => {
@@ -98,6 +98,64 @@ x.SKILL_DMG += x.SKILL_SCALING * x.HP;
 x.ULT_DMG += x.ULT_SCALING * x.HP;
 x.FUA_DMG += x.FUA_SCALING * x.HP;
 x.DOT_DMG += x.DOT_SCALING * x.HP;
+`
+}
+
+export function standardDefFinalizer(x: ComputedStatsObject) {
+  x.BASIC_DMG += x.BASIC_SCALING * x[Stats.DEF]
+  x.SKILL_DMG += x.SKILL_SCALING * x[Stats.DEF]
+  x.ULT_DMG += x.ULT_SCALING * x[Stats.DEF]
+  x.FUA_DMG += x.FUA_SCALING * x[Stats.DEF]
+  x.DOT_DMG += x.DOT_SCALING * x[Stats.DEF]
+}
+
+export function gpuStandardDefFinalizer() {
+  return `
+x.BASIC_DMG += x.BASIC_SCALING * x.DEF;
+x.SKILL_DMG += x.SKILL_SCALING * x.DEF;
+x.ULT_DMG += x.ULT_SCALING * x.DEF;
+x.FUA_DMG += x.FUA_SCALING * x.DEF;
+x.DOT_DMG += x.DOT_SCALING * x.DEF;
+`
+}
+
+export function standardHpHealFinalizer(x: ComputedStatsObject) {
+  x.HEAL_VALUE += x.HEAL_SCALING * x[Stats.HP] + x.HEAL_FLAT
+}
+
+export function standardAtkHealFinalizer(x: ComputedStatsObject) {
+  x.HEAL_VALUE += x.HEAL_SCALING * x[Stats.ATK] + x.HEAL_FLAT
+}
+
+export function standardFlatHealFinalizer(x: ComputedStatsObject) {
+  x.HEAL_VALUE += x.HEAL_FLAT
+}
+
+export function standardDefShieldFinalizer(x: ComputedStatsObject) {
+  x.SHIELD_VALUE += x.SHIELD_SCALING * x[Stats.DEF] + x.SHIELD_FLAT
+}
+
+export function gpuStandardAtkHealFinalizer() {
+  return `
+x.HEAL_VALUE += x.HEAL_SCALING * x.ATK + x.HEAL_FLAT;
+`
+}
+
+export function gpuStandardHpHealFinalizer() {
+  return `
+x.HEAL_VALUE += x.HEAL_SCALING * x.HP + x.HEAL_FLAT;
+`
+}
+
+export function gpuStandardFlatHealFinalizer() {
+  return `
+x.HEAL_VALUE += x.HEAL_FLAT;
+`
+}
+
+export function gpuStandardDefShieldFinalizer() {
+  return `
+x.SHIELD_VALUE += x.SHIELD_SCALING * x.DEF + x.SHIELD_FLAT;
 `
 }
 

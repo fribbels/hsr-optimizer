@@ -1,12 +1,12 @@
-import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -20,39 +20,36 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 2.20, 2.42)
   const ultScaling = ult(e, 4.25, 4.59)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'buffedState',
-    name: 'buffedState',
-    text: t('Content.buffedState.text'),
-    title: t('Content.buffedState.title'),
-    content: t('Content.buffedState.content', { buffedStateDmgBuff: TsUtils.precisionRound(100 * buffedStateDmgBuff) }),
-  }, {
-    formItem: 'slider',
-    id: 'speedBoostStacks',
-    name: 'speedBoostStacks',
-    text: t('Content.speedBoostStacks.text'),
-    title: t('Content.speedBoostStacks.title'),
-    content: t('Content.speedBoostStacks.content', { speedBoostStacksMax: speedBoostStacksMax }),
-    min: 0,
-    max: speedBoostStacksMax,
-  }, {
-    formItem: 'switch',
-    id: 'e1EnemyHp80CrBoost',
-    name: 'e1EnemyHp80CrBoost',
-    text: t('Content.e1EnemyHp80CrBoost.text'),
-    title: t('Content.e1EnemyHp80CrBoost.title'),
-    content: t('Content.e1EnemyHp80CrBoost.content'),
-    disabled: e < 1,
-  }, {
-    formItem: 'switch',
-    id: 'e6UltTargetDebuff',
-    name: 'e6UltTargetDebuff',
-    text: t('Content.e6UltTargetDebuff.text'),
-    title: t('Content.e6UltTargetDebuff.title'),
-    content: t('Content.e6UltTargetDebuff.content'),
-    disabled: e < 6,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'buffedState',
+      text: t('Content.buffedState.text'),
+      content: t('Content.buffedState.content', { buffedStateDmgBuff: TsUtils.precisionRound(100 * buffedStateDmgBuff) }),
+    },
+    {
+      formItem: 'slider',
+      id: 'speedBoostStacks',
+      text: t('Content.speedBoostStacks.text'),
+      content: t('Content.speedBoostStacks.content', { speedBoostStacksMax: speedBoostStacksMax }),
+      min: 0,
+      max: speedBoostStacksMax,
+    },
+    {
+      formItem: 'switch',
+      id: 'e1EnemyHp80CrBoost',
+      text: t('Content.e1EnemyHp80CrBoost.text'),
+      content: t('Content.e1EnemyHp80CrBoost.content'),
+      disabled: e < 1,
+    },
+    {
+      formItem: 'switch',
+      id: 'e6UltTargetDebuff',
+      text: t('Content.e6UltTargetDebuff.text'),
+      content: t('Content.e6UltTargetDebuff.content'),
+      disabled: e < 6,
+    },
+  ]
 
   return {
     content: () => content,

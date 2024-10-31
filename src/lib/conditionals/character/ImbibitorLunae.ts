@@ -1,12 +1,12 @@
-import { Stats } from 'lib/constants'
 import { BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { buffAbilityResPen } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityResPen } from 'lib/optimizer/calculateBuffs'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -24,44 +24,46 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 3.00, 3.24)
 
-  const content: ContentItem[] = [{
-    formItem: 'slider',
-    id: 'basicEnhanced',
-    name: 'basicEnhanced',
-    text: t('Content.basicEnhanced.text'),
-    title: t('Content.basicEnhanced.title'),
-    content: t('Content.basicEnhanced.content', { basicScaling: TsUtils.precisionRound(100 * basicScaling), basicEnhanced1Scaling: TsUtils.precisionRound(100 * basicEnhanced1Scaling), basicEnhanced2Scaling: TsUtils.precisionRound(100 * basicEnhanced2Scaling), basicEnhanced3Scaling: TsUtils.precisionRound(100 * basicEnhanced3Scaling) }),
-    min: 0,
-    max: 3,
-  }, {
-    formItem: 'slider',
-    id: 'skillOutroarStacks',
-    name: 'skillOutroarStacks',
-    text: t('Content.skillOutroarStacks.text'),
-    title: t('Content.skillOutroarStacks.title'),
-    content: t('Content.skillOutroarStacks.content', { outroarStackCdValue: TsUtils.precisionRound(100 * outroarStackCdValue) }),
-    min: 0,
-    max: 4,
-  }, {
-    formItem: 'slider',
-    id: 'talentRighteousHeartStacks',
-    name: 'talentRighteousHeartStacks',
-    text: t('Content.talentRighteousHeartStacks.text'),
-    title: t('Content.talentRighteousHeartStacks.title'),
-    content: t('Content.talentRighteousHeartStacks.content', { righteousHeartDmgValue: TsUtils.precisionRound(100 * righteousHeartDmgValue) }),
-    min: 0,
-    max: righteousHeartStackMax,
-  }, {
-    formItem: 'slider',
-    id: 'e6ResPenStacks',
-    name: 'e6ResPenStacks',
-    text: t('Content.e6ResPenStacks.text'),
-    title: t('Content.e6ResPenStacks.title'),
-    content: t('Content.e6ResPenStacks.content'),
-    min: 0,
-    max: 3,
-    disabled: e < 6,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'slider',
+      id: 'basicEnhanced',
+      text: t('Content.basicEnhanced.text'),
+      content: t('Content.basicEnhanced.content', {
+        basicScaling: TsUtils.precisionRound(100 * basicScaling),
+        basicEnhanced1Scaling: TsUtils.precisionRound(100 * basicEnhanced1Scaling),
+        basicEnhanced2Scaling: TsUtils.precisionRound(100 * basicEnhanced2Scaling),
+        basicEnhanced3Scaling: TsUtils.precisionRound(100 * basicEnhanced3Scaling),
+      }),
+      min: 0,
+      max: 3,
+    },
+    {
+      formItem: 'slider',
+      id: 'skillOutroarStacks',
+      text: t('Content.skillOutroarStacks.text'),
+      content: t('Content.skillOutroarStacks.content', { outroarStackCdValue: TsUtils.precisionRound(100 * outroarStackCdValue) }),
+      min: 0,
+      max: 4,
+    },
+    {
+      formItem: 'slider',
+      id: 'talentRighteousHeartStacks',
+      text: t('Content.talentRighteousHeartStacks.text'),
+      content: t('Content.talentRighteousHeartStacks.content', { righteousHeartDmgValue: TsUtils.precisionRound(100 * righteousHeartDmgValue) }),
+      min: 0,
+      max: righteousHeartStackMax,
+    },
+    {
+      formItem: 'slider',
+      id: 'e6ResPenStacks',
+      text: t('Content.e6ResPenStacks.text'),
+      content: t('Content.e6ResPenStacks.content'),
+      min: 0,
+      max: 3,
+      disabled: e < 6,
+    },
+  ]
 
   return {
     content: () => content,

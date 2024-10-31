@@ -1,13 +1,13 @@
-import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
-import { TsUtils } from 'lib/TsUtils'
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -29,40 +29,37 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'ultBuff',
-    name: 'ultBuff',
-    text: t('Content.ultBuff.text'),
-    title: t('Content.ultBuff.title'),
-    content: t('Content.ultBuff.content', {
-      ultFuaExtraScaling: TsUtils.precisionRound(100 * ultFuaExtraScaling),
-      ultDmgReductionValue: TsUtils.precisionRound((100 * ultDmgReductionValue)),
-    }),
-  }, {
-    formItem: 'switch',
-    id: 'talentEnemyMarked',
-    name: 'talentEnemyMarked',
-    text: t('Content.talentEnemyMarked.text'),
-    title: t('Content.talentEnemyMarked.title'),
-    content: t('Content.talentEnemyMarked.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
-  }, {
-    formItem: 'switch',
-    id: 'e2UltAtkBuff',
-    name: 'e2UltAtkBuff',
-    text: t('Content.e2UltAtkBuff.text'),
-    title: t('Content.e2UltAtkBuff.title'),
-    content: t('Content.e2UltAtkBuff.content'),
-    disabled: e < 2,
-  }, {
-    formItem: 'switch',
-    id: 'e4DmgReductionBuff',
-    name: 'e4DmgReductionBuff',
-    text: t('Content.e4DmgReductionBuff.text'),
-    title: t('Content.e4DmgReductionBuff.title'),
-    content: t('Content.e4DmgReductionBuff.content'),
-    disabled: e < 4,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'ultBuff',
+      text: t('Content.ultBuff.text'),
+      content: t('Content.ultBuff.content', {
+        ultFuaExtraScaling: TsUtils.precisionRound(100 * ultFuaExtraScaling),
+        ultDmgReductionValue: TsUtils.precisionRound((100 * ultDmgReductionValue)),
+      }),
+    },
+    {
+      formItem: 'switch',
+      id: 'talentEnemyMarked',
+      text: t('Content.talentEnemyMarked.text'),
+      content: t('Content.talentEnemyMarked.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'e2UltAtkBuff',
+      text: t('Content.e2UltAtkBuff.text'),
+      content: t('Content.e2UltAtkBuff.content'),
+      disabled: e < 2,
+    },
+    {
+      formItem: 'switch',
+      id: 'e4DmgReductionBuff',
+      text: t('Content.e4DmgReductionBuff.text'),
+      content: t('Content.e4DmgReductionBuff.content'),
+      disabled: e < 4,
+    },
+  ]
 
   return {
     content: () => content,

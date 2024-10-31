@@ -1,14 +1,14 @@
 import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { FireflyConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Stats } from 'lib/constants'
-import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { FireflyConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -30,67 +30,54 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'enhancedStateActive',
-      name: 'enhancedStateActive',
       text: t('Content.enhancedStateActive.text'),
-      title: t('Content.enhancedStateActive.title'),
       content: t('Content.enhancedStateActive.content'),
     },
     {
       formItem: 'switch',
       id: 'enhancedStateSpdBuff',
-      name: 'enhancedStateSpdBuff',
       text: t('Content.enhancedStateSpdBuff.text'),
-      title: t('Content.enhancedStateSpdBuff.title'),
       content: t('Content.enhancedStateSpdBuff.content', { ultSpdBuff }),
     },
     {
       formItem: 'switch',
       id: 'superBreakDmg',
-      name: 'superBreakDmg',
       text: t('Content.superBreakDmg.text'),
-      title: t('Content.superBreakDmg.title'),
       content: t('Content.superBreakDmg.content'),
     },
     {
       formItem: 'switch',
       id: 'atkToBeConversion',
-      name: 'atkToBeConversion',
       text: t('Content.atkToBeConversion.text'),
-      title: t('Content.atkToBeConversion.title'),
       content: t('Content.atkToBeConversion.content'),
     },
     {
       formItem: 'switch',
       id: 'talentDmgReductionBuff',
-      name: 'talentDmgReductionBuff',
       text: t('Content.talentDmgReductionBuff.text'),
-      title: t('Content.talentDmgReductionBuff.title'),
-      content: t('Content.talentDmgReductionBuff.content', { talentResBuff: TsUtils.precisionRound(100 * talentResBuff), talentDmgReductionBuff: TsUtils.precisionRound(100 * talentDmgReductionBuff) }),
+      content: t('Content.talentDmgReductionBuff.content', {
+        talentResBuff: TsUtils.precisionRound(100 * talentResBuff),
+        talentDmgReductionBuff: TsUtils.precisionRound(100 * talentDmgReductionBuff),
+      }),
     },
     {
       formItem: 'switch',
       id: 'e1DefShred',
-      name: 'e1DefShred',
       text: t('Content.e1DefShred.text'),
-      title: t('Content.e1DefShred.title'),
       content: t('Content.e1DefShred.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e4ResBuff',
-      name: 'e4ResBuff',
       text: t('Content.e4ResBuff.text'),
-      title: t('Content.e4ResBuff.title'),
       content: t('Content.e4ResBuff.content'),
       disabled: e < 4,
     },
     {
       formItem: 'switch',
       id: 'e6Buffs',
-      name: 'e6Buffs',
       text: t('Content.e6Buffs.text'),
-      title: t('Content.e6Buffs.title'),
       content: t('Content.e6Buffs.content'),
       disabled: e < 6,
     },
@@ -150,17 +137,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.SUPER_BREAK_MODIFIER += (r.superBreakDmg && r.enhancedStateActive && x[Stats.BE] >= 2.00) ? 0.35 : 0
       x.SUPER_BREAK_MODIFIER += (r.superBreakDmg && r.enhancedStateActive && x[Stats.BE] >= 3.60) ? 0.15 : 0
 
-      x.SKILL_SCALING += (r.enhancedStateActive) ? (0.2 * Math.min(3.60, x[Stats.BE]) + skillEnhancedAtkScaling) : skillScaling
+      x.SKILL_SCALING += (r.enhancedStateActive)
+        ? (0.2 * Math.min(3.60, x[Stats.BE]) + skillEnhancedAtkScaling)
+        : skillScaling
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
-      // TODO:
-      // if (r.atkToBeConversion) {
-      //   evaluateConditional(FireflyConversionConditional, x, request, params)
-      // }
       return `
 buffAbilityVulnerability(p_x, BREAK_TYPE, ${ultWeaknessBrokenBreakVulnerability}, select(0, 1, ${wgslTrue(r.enhancedStateActive)} && x.ENEMY_WEAKNESS_BROKEN >= 1));
 

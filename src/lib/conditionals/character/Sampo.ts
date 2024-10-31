@@ -1,11 +1,16 @@
 import { ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardAtkFinalizer,
+  standardAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -25,17 +30,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'targetDotTakenDebuff',
-      name: 'targetDotTakenDebuff',
       text: t('Content.targetDotTakenDebuff.text'),
-      title: t('Content.targetDotTakenDebuff.title'),
       content: t('Content.targetDotTakenDebuff.content', { dotVulnerabilityValue: TsUtils.precisionRound(100 * dotVulnerabilityValue) }),
     },
     {
       formItem: 'slider',
       id: 'skillExtraHits',
-      name: 'skillExtraHits',
       text: t('Content.skillExtraHits.text'),
-      title: t('Content.skillExtraHits.title'),
       content: t('Content.skillExtraHits.content'),
       min: 1,
       max: maxExtraHits,
@@ -43,9 +44,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'targetWindShear',
-      name: 'targetWindShear',
       text: t('Content.targetWindShear.text'),
-      title: t('Content.targetWindShear.title'),
       content: t('Content.targetWindShear.content'),
     },
   ]

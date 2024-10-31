@@ -1,25 +1,31 @@
+import { CellClickedEvent, IGetRowsParams, IRowNode } from 'ag-grid-community'
+import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { inPlaceSort } from 'fast-sort'
-import DB from 'lib/db'
-import { Message } from 'lib/message'
-import { SaveState } from 'lib/saveState'
-import { CombatBuffs, ConditionalDataType, Constants, DamageKeys, DEFAULT_STAT_DISPLAY, Stats } from 'lib/constants'
-import { Utils } from 'lib/utils'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { OptimizerDisplayData } from 'lib/bufferPacker'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { CharacterStats } from 'lib/characterStats'
-import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultForm, getDefaultWeights } from 'lib/defaultForm'
+import { CombatBuffs, ConditionalDataType, Constants, DamageKeys, DEFAULT_STAT_DISPLAY, Stats } from 'lib/constants'
 import { SavedSessionKeys } from 'lib/constantsSession'
-import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
-import { initializeComboState } from 'lib/optimizer/rotation/comboDrawerController'
-import { ConditionalSetMetadata } from 'lib/optimizer/rotation/setConditionalContent'
+import DB from 'lib/db'
+import {
+  defaultEnemyOptions,
+  defaultSetConditionals,
+  defaultTeammate,
+  getDefaultForm,
+  getDefaultWeights,
+} from 'lib/defaultForm'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { GridAggregations } from 'lib/gradient'
-import { Form, Teammate } from 'types/Form'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { Message } from 'lib/message'
+import { initializeComboState } from 'lib/optimizer/rotation/comboDrawerController'
+import { ConditionalSetMetadata } from 'lib/optimizer/rotation/setConditionalContent'
+import { SaveState } from 'lib/saveState'
 import { TsUtils } from 'lib/TsUtils'
+import { Utils } from 'lib/utils'
 import { CharacterConditionalMap } from 'types/CharacterConditional'
+import { Form, Teammate } from 'types/Form'
 import { LightConeConditionalMap } from 'types/LightConeConditionals'
-import { OptimizerDisplayData } from 'lib/bufferPacker'
-import { CellClickedEvent, IGetRowsParams, IRowNode } from 'ag-grid-community'
 import { OptimizerCombatBuffs } from 'types/Optimizer'
 
 let relics: RelicsByPart
@@ -54,6 +60,8 @@ const columnsToAggregateMap = {
   DOT: true,
   BREAK: true,
   COMBO: true,
+  HEAL: true,
+  SHIELD: true,
 
   xATK: true,
   xDEF: true,
@@ -775,6 +783,8 @@ function aggregate(subArray: OptimizerDisplayData[]) {
   setMinMax('DOT')
   setMinMax('BREAK')
   setMinMax('COMBO')
+  setMinMax('HEAL')
+  setMinMax('SHIELD')
   setMinMax('xATK')
   setMinMax('xDEF')
   setMinMax('xHP')

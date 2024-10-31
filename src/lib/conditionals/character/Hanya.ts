@@ -1,13 +1,18 @@
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardAtkFinalizer,
+  standardAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
+import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -24,46 +29,47 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 2.40, 2.64)
   const ultScaling = ult(e, 0, 0)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'ultBuff',
-    name: 'ultBuff',
-    text: t('Content.ultBuff.text'),
-    title: t('Content.ultBuff.title'),
-    content: t('Content.ultBuff.content', { ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue), ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'targetBurdenActive',
-    name: 'targetBurdenActive',
-    text: t('Content.targetBurdenActive.text'),
-    title: t('Content.targetBurdenActive.title'),
-    content: t('Content.targetBurdenActive.content', { talentDmgBoostValue: TsUtils.precisionRound(100 * talentDmgBoostValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'burdenAtkBuff',
-    name: 'burdenAtkBuff',
-    text: t('Content.burdenAtkBuff.text'),
-    title: t('Content.burdenAtkBuff.title'),
-    content: t('Content.burdenAtkBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'e2SkillSpdBuff',
-    name: 'e2SkillSpdBuff',
-    text: t('Content.e2SkillSpdBuff.text'),
-    title: t('Content.e2SkillSpdBuff.title'),
-    content: t('Content.e2SkillSpdBuff.content'),
-    disabled: e < 2,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'ultBuff',
+      text: t('Content.ultBuff.text'),
+      content: t('Content.ultBuff.content', {
+        ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue),
+        ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue),
+      }),
+    },
+    {
+      formItem: 'switch',
+      id: 'targetBurdenActive',
+      text: t('Content.targetBurdenActive.text'),
+      content: t('Content.targetBurdenActive.content', { talentDmgBoostValue: TsUtils.precisionRound(100 * talentDmgBoostValue) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'burdenAtkBuff',
+      text: t('Content.burdenAtkBuff.text'),
+      content: t('Content.burdenAtkBuff.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'e2SkillSpdBuff',
+      text: t('Content.e2SkillSpdBuff.text'),
+      content: t('Content.e2SkillSpdBuff.content'),
+      disabled: e < 2,
+    },
+  ]
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'ultBuff'),
     {
       formItem: 'slider',
       id: 'teammateSPDValue',
-      name: 'teammateSPDValue',
       text: t('TeammateContent.teammateSPDValue.text'),
-      title: t('TeammateContent.teammateSPDValue.title'),
-      content: t('TeammateContent.teammateSPDValue.content', { ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue), ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue) }),
+      content: t('TeammateContent.teammateSPDValue.content', {
+        ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue),
+        ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue),
+      }),
       min: 0,
       max: 200,
     },

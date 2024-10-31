@@ -520,11 +520,7 @@ fn main(
 
 
       // Calculate damage
-      let cLevel: f32 = 80;
       let eLevel: f32 = f32(enemyLevel);
-
-      let ehp: f32 = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
-      x.EHP = ehp;
 
       addComputedElementalDmg(&x);
 
@@ -564,13 +560,30 @@ fn main(
         let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
         let dotEhrMulti = calculateEhrMulti(p_x);
 
-        x.DOT_DMG = x.DOT_DMG
-          * (baseUniversalMulti)
-          * (dotDmgBoostMulti)
-          * (dotDefMulti)
-          * (dotVulnerabilityMulti)
-          * (dotResMulti)
-          * (dotEhrMulti);
+        if (x.DOT_DMG > 0) {
+          x.DOT_DMG = x.DOT_DMG
+            * (baseUniversalMulti)
+            * (dotDmgBoostMulti)
+            * (dotDefMulti)
+            * (dotVulnerabilityMulti)
+            * (dotResMulti)
+            * (dotEhrMulti);
+        }
+
+        if (x.HEAL_VALUE > 0) {
+          x.HEAL_VALUE = x.HEAL_VALUE * (
+            1
+            + x.OHB
+            + select(0, x.SKILL_OHB, x.HEAL_TYPE == SKILL_TYPE)
+            + select(0, x.ULT_OHB, x.HEAL_TYPE == ULT_TYPE)
+          );
+        }
+
+        if (x.SHIELD_VALUE > 0) {
+          x.SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p4(x.sets.KnightOfPurityPalace));
+        }
+
+        x.EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
       }
 
       if (action.abilityType == 1 || actionIndex == 0) {

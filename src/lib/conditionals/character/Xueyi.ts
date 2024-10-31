@@ -1,15 +1,15 @@
-import { Stats } from 'lib/constants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-
-import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { XueyiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { XueyiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { NumberToNumberMap } from 'types/Common'
-import { TsUtils } from 'lib/TsUtils'
+
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -32,26 +32,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const content: ContentItem[] = [
     {
       id: 'beToDmgBoost',
-      name: 'beToDmgBoost',
       formItem: 'switch',
       text: t('Content.beToDmgBoost.text'),
-      title: t('Content.beToDmgBoost.title'),
       content: t('Content.beToDmgBoost.content'),
     },
     {
       id: 'enemyToughness50',
-      name: 'enemyToughness50',
       formItem: 'switch',
       text: t('Content.enemyToughness50.text'),
-      title: t('Content.enemyToughness50.title'),
       content: t('Content.enemyToughness50.content'),
     },
     {
       id: 'toughnessReductionDmgBoost',
-      name: 'toughnessReductionDmgBoost',
       formItem: 'slider',
       text: t('Content.toughnessReductionDmgBoost.text'),
-      title: t('Content.toughnessReductionDmgBoost.title'),
       content: t('Content.toughnessReductionDmgBoost.content', { ultBoostMax: TsUtils.precisionRound(100 * ultBoostMax) }),
       min: 0,
       max: ultBoostMax,
@@ -59,20 +53,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     {
       id: 'fuaHits',
-      name: 'fuaHits',
       formItem: 'slider',
       text: t('Content.fuaHits.text'),
-      title: t('Content.fuaHits.title'),
       content: t('Content.fuaHits.content', { fuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
       min: 0,
       max: 3,
     },
     {
       id: 'e4BeBuff',
-      name: 'e4BeBuff',
       formItem: 'switch',
       text: t('Content.e4BeBuff.text'),
-      title: t('Content.e4BeBuff.title'),
       content: t('Content.e4BeBuff.content'),
       disabled: (e < 4),
     },

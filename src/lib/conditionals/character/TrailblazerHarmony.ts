@@ -1,11 +1,16 @@
-import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardAtkFinalizer,
+  standardAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -27,25 +32,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'backupDancer',
-      name: 'backupDancer',
       text: t('Content.backupDancer.text'),
-      title: t('Content.backupDancer.title'),
       content: t('Content.backupDancer.content', { ultBeScaling: TsUtils.precisionRound(100 * ultBeScaling) }),
     },
     {
       formItem: 'switch',
       id: 'superBreakDmg',
-      name: 'superBreakDmg',
       text: t('Content.superBreakDmg.text'),
-      title: t('Content.superBreakDmg.title'),
       content: t('Content.superBreakDmg.content'),
     },
     {
       formItem: 'slider',
       id: 'skillHitsOnTarget',
-      name: 'skillHitsOnTarget',
       text: t('Content.skillHitsOnTarget.text'),
-      title: t('Content.skillHitsOnTarget.title'),
       content: t('Content.skillHitsOnTarget.content'),
       min: 0,
       max: skillMaxHits,
@@ -53,9 +52,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e2EnergyRegenBuff',
-      name: 'e2EnergyRegenBuff',
       text: t('Content.e2EnergyRegenBuff.text'),
-      title: t('Content.e2EnergyRegenBuff.title'),
       content: t('Content.e2EnergyRegenBuff.content'),
       disabled: e < 2,
     },
@@ -67,9 +64,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'teammateBeValue',
-      name: 'teammateBeValue',
       text: t('TeammateContent.teammateBeValue.text'),
-      title: t('TeammateContent.teammateBeValue.title'),
       content: t('TeammateContent.teammateBeValue.content'),
       min: 0,
       max: 4.00,
@@ -126,7 +121,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       const m = action.characterConditionals
 
       x[Stats.BE] += (m.backupDancer) ? ultBeScaling : 0
-      x.SUPER_BREAK_HMC_MODIFIER += (m.backupDancer && m.superBreakDmg) ? targetsToSuperBreakMulti[context.enemyCount] : 0
+      x.SUPER_BREAK_HMC_MODIFIER += (m.backupDancer && m.superBreakDmg)
+        ? targetsToSuperBreakMulti[context.enemyCount]
+        : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals

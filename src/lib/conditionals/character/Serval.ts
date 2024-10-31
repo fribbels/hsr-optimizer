@@ -1,11 +1,11 @@
-import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -23,17 +23,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'targetShocked',
-      name: 'targetShocked',
       text: t('Content.targetShocked.text'),
-      title: t('Content.targetShocked.title'),
       content: t('Content.targetShocked.content', { talentExtraDmgScaling: TsUtils.precisionRound(100 * talentExtraDmgScaling) }),
     },
     {
       formItem: 'switch',
       id: 'enemyDefeatedBuff',
-      name: 'enemyDefeatedBuff',
       text: t('Content.enemyDefeatedBuff.text'),
-      title: t('Content.enemyDefeatedBuff.title'),
       content: t('Content.enemyDefeatedBuff.content'),
     },
   ]

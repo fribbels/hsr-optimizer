@@ -1,9 +1,14 @@
-import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  calculateAshblazingSet,
+  gpuStandardDefShieldFinalizer,
+  standardDefShieldFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -15,6 +20,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const fuaScaling = talent(e, 1.00, 1.10)
 
   const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
+
+  const skillShieldScaling = skill(e, 0.57, 0.608)
+  const skillShieldFlat = skill(e, 760, 845.5)
 
   return {
     content: () => [],
@@ -32,6 +40,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_TOUGHNESS_DMG += 60
       x.FUA_TOUGHNESS_DMG += 30
 
+      x.SHIELD_SCALING += skillShieldScaling
+      x.SHIELD_FLAT += skillShieldFlat
+
       return x
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
@@ -42,6 +53,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
       x.FUA_DMG += (e >= 4) ? 0.30 * x[Stats.DEF] : 0
+
+      standardDefShieldFinalizer(x)
     },
     gpuFinalizeCalculations: () => {
       return `
@@ -52,7 +65,7 @@ x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hit
 if (${wgslTrue(e >= 4)}) {
   x.FUA_DMG += 0.30 * x.DEF;
 }
-    `
+` + gpuStandardDefShieldFinalizer()
     },
   }
 }

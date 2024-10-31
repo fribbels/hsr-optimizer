@@ -1,6 +1,6 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
-import { p2 } from 'lib/optimizer/optimizerUtils'
+import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export function calculateBaseMultis(x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
@@ -15,6 +15,8 @@ export function calculateDamage(x: ComputedStatsObject, action: OptimizerAction,
   const eLevel = context.enemyLevel
 
   calculateEhp(x, context)
+  calculateHeal(x, context)
+  calculateShield(x, context)
 
   x.ELEMENTAL_DMG += x[context.elementalDamageType]
 
@@ -204,6 +206,21 @@ function calculateEhp(x: ComputedStatsObject, context: OptimizerContext) {
   let ehp = x[Stats.HP] / (1 - x[Stats.DEF] / (x[Stats.DEF] + 200 + 10 * context.enemyLevel))
   ehp *= 1 / ((1 - 0.08 * p2(sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI)
   x.EHP = ehp
+}
+
+function calculateHeal(x: ComputedStatsObject, context: OptimizerContext) {
+  x.HEAL_VALUE = x.HEAL_VALUE * (
+    1
+    + x[Stats.OHB]
+    + x.SKILL_OHB * (x.HEAL_TYPE == SKILL_TYPE ? 1 : 0)
+    + x.ULT_OHB * (x.HEAL_TYPE == ULT_TYPE ? 1 : 0)
+  )
+}
+
+function calculateShield(x: ComputedStatsObject, context: OptimizerContext) {
+  const sets = x.sets
+
+  x.SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p4(sets.KnightOfPurityPalace))
 }
 
 function calculateAbilityDmg(

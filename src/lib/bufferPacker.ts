@@ -1,8 +1,8 @@
-import { Stats } from 'lib/constants'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Stats } from 'lib/constants'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 
-const SIZE = 36
+const SIZE = 38
 
 export type OptimizerDisplayData = {
   'id': number
@@ -22,6 +22,8 @@ export type OptimizerDisplayData = {
   'ED': number
   'WEIGHT': number
   'EHP': number
+  'HEAL': number
+  'SHIELD': number
   'BASIC': number
   'SKILL': number
   'ULT': number
@@ -68,27 +70,29 @@ export const BufferPacker = {
       'ED': arr[offset + 12],
       'WEIGHT': arr[offset + 13], // DELETE
       'EHP': arr[offset + 14],
-      'BASIC': arr[offset + 15],
-      'SKILL': arr[offset + 16],
-      'ULT': arr[offset + 17],
-      'FUA': arr[offset + 18],
-      'DOT': arr[offset + 19],
-      'BREAK': arr[offset + 20], // 20
-      'COMBO': arr[offset + 21],
-      'xHP': arr[offset + 22],
-      'xATK': arr[offset + 23],
-      'xDEF': arr[offset + 24],
-      'xSPD': arr[offset + 25],
-      'xCR': arr[offset + 26],
-      'xCD': arr[offset + 27],
-      'xEHR': arr[offset + 28],
-      'xRES': arr[offset + 29],
-      'xBE': arr[offset + 30], // 30
-      'xERR': arr[offset + 31],
-      'xOHB': arr[offset + 32],
-      'xELEMENTAL_DMG': arr[offset + 33],
-      'relicSetIndex': arr[offset + 34],
-      'ornamentSetIndex': arr[offset + 35],
+      'HEAL': arr[offset + 15],
+      'SHIELD': arr[offset + 16],
+      'BASIC': arr[offset + 17],
+      'SKILL': arr[offset + 18],
+      'ULT': arr[offset + 19],
+      'FUA': arr[offset + 20],
+      'DOT': arr[offset + 21],
+      'BREAK': arr[offset + 22], // 22
+      'COMBO': arr[offset + 23],
+      'xHP': arr[offset + 24],
+      'xATK': arr[offset + 25],
+      'xDEF': arr[offset + 26],
+      'xSPD': arr[offset + 27],
+      'xCR': arr[offset + 28],
+      'xCD': arr[offset + 29],
+      'xEHR': arr[offset + 30],
+      'xRES': arr[offset + 31],
+      'xBE': arr[offset + 32], // 32
+      'xERR': arr[offset + 33],
+      'xOHB': arr[offset + 34],
+      'xELEMENTAL_DMG': arr[offset + 35],
+      'relicSetIndex': arr[offset + 36],
+      'ornamentSetIndex': arr[offset + 37],
     }
   },
 
@@ -122,27 +126,29 @@ export const BufferPacker = {
     arr[offset + 12] = character.ELEMENTAL_DMG
     arr[offset + 13] = character.WEIGHT
     arr[offset + 14] = character.x.EHP
-    arr[offset + 15] = character.x.BASIC_DMG
-    arr[offset + 16] = character.x.SKILL_DMG
-    arr[offset + 17] = character.x.ULT_DMG
-    arr[offset + 18] = character.x.FUA_DMG
-    arr[offset + 19] = character.x.DOT_DMG
-    arr[offset + 20] = character.x.BREAK_DMG // 20
-    arr[offset + 21] = character.x.COMBO_DMG
-    arr[offset + 22] = character.x[Stats.HP]
-    arr[offset + 23] = character.x[Stats.ATK]
-    arr[offset + 24] = character.x[Stats.DEF]
-    arr[offset + 25] = character.x[Stats.SPD]
-    arr[offset + 26] = character.x[Stats.CR]
-    arr[offset + 27] = character.x[Stats.CD]
-    arr[offset + 28] = character.x[Stats.EHR]
-    arr[offset + 29] = character.x[Stats.RES]
-    arr[offset + 30] = character.x[Stats.BE]
-    arr[offset + 31] = character.x[Stats.ERR] // 30
-    arr[offset + 32] = character.x[Stats.OHB]
-    arr[offset + 33] = character.x.ELEMENTAL_DMG
-    arr[offset + 34] = character.relicSetIndex
-    arr[offset + 35] = character.ornamentSetIndex
+    arr[offset + 15] = character.x.HEAL_VALUE
+    arr[offset + 16] = character.x.SHIELD_VALUE
+    arr[offset + 17] = character.x.BASIC_DMG
+    arr[offset + 18] = character.x.SKILL_DMG
+    arr[offset + 19] = character.x.ULT_DMG
+    arr[offset + 20] = character.x.FUA_DMG
+    arr[offset + 21] = character.x.DOT_DMG
+    arr[offset + 22] = character.x.BREAK_DMG // 22
+    arr[offset + 23] = character.x.COMBO_DMG
+    arr[offset + 24] = character.x[Stats.HP]
+    arr[offset + 25] = character.x[Stats.ATK]
+    arr[offset + 26] = character.x[Stats.DEF]
+    arr[offset + 27] = character.x[Stats.SPD]
+    arr[offset + 28] = character.x[Stats.CR]
+    arr[offset + 29] = character.x[Stats.CD]
+    arr[offset + 30] = character.x[Stats.EHR]
+    arr[offset + 31] = character.x[Stats.RES]
+    arr[offset + 32] = character.x[Stats.BE]
+    arr[offset + 33] = character.x[Stats.ERR] // 33
+    arr[offset + 34] = character.x[Stats.OHB]
+    arr[offset + 35] = character.x.ELEMENTAL_DMG
+    arr[offset + 36] = character.relicSetIndex
+    arr[offset + 37] = character.ornamentSetIndex
   },
 
   cleanFloatBuffer: (buffer: ArrayBuffer) => {

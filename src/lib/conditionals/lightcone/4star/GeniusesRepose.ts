@@ -1,23 +1,25 @@
-import { ContentItem } from 'types/Conditionals'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
+import { TsUtils } from 'lib/TsUtils'
+import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction } from 'types/Optimizer'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.GeniusesRepose')
+
   const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'defeatedEnemyCdBuff',
-    name: 'defeatedEnemyCdBuff',
-    formItem: 'switch',
-    text: t('Content.defeatedEnemyCdBuff.text'),
-    title: t('Content.defeatedEnemyCdBuff.title'),
-    content: t('Content.defeatedEnemyCdBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
-  }]
+
+  const content: ContentItem[] = [
+    {
+      lc: true,
+      id: 'defeatedEnemyCdBuff',
+      formItem: 'switch',
+      text: t('Content.defeatedEnemyCdBuff.text'),
+      content: t('Content.defeatedEnemyCdBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+    },
+  ]
 
   return {
     content: () => content,

@@ -355,6 +355,26 @@ interface Resources {
   },
   "conditionals": {
     "BetaMessage": "Current version: {{Version}} - Calculations are subject to change.",
+    "Common": {
+      "HealAbility": {
+        "Text": "Healing ability",
+        "Content": "Select the ability for heal calculations",
+        "Basic": "Healing ability: Basic",
+        "Skill": "Healing ability: Skill",
+        "Ult": "Healing ability: Ult",
+        "Talent": "Healing ability: Talent",
+        "Trace": "Healing ability: Trace"
+      },
+      "ShieldAbility": {
+        "Text": "Shielding ability",
+        "Content": "Select the ability for shield calculations",
+        "Basic": "Shielding ability: Basic",
+        "Skill": "Shielding ability: Skill",
+        "Ult": "Shielding ability: Ult",
+        "Talent": "Shielding ability: Talent",
+        "Trace": "Shielding ability: Trace"
+      }
+    },
     "Lightcones": {
       "AlongThePassingShore": {
         "Content": {
@@ -1299,7 +1319,7 @@ interface Resources {
             "content": "When Bailu heals a target ally above their normal Max HP, the target's Max HP increases by 10% for 2 turns."
           },
           "talentDmgReductionBuff": {
-            "text": "Invigoration DMG reduction",
+            "text": "Ult DMG reduction",
             "content": "Characters with Invigoration take 10% less DMG."
           },
           "e2UltHealingBuff": {
@@ -2019,6 +2039,9 @@ interface Resources {
             "content": "Increases the DMG multiplier of the Talent's follow-up attack by 25.0%."
           }
         }
+      },
+      "Natasha": {
+        "Content": null
       },
       "Pela": {
         "Content": {
@@ -3967,6 +3990,8 @@ interface Resources {
       "FUA": "Sorted by Follow-up DMG",
       "DOT": "Sorted by DoT DMG",
       "BREAK": "Sorted by Break DMG",
+      "HEAL": "Sorted by Heal",
+      "SHIELD": "Sorted by Shield",
       "HP": "Sorted by $t(common:ReadableStats.HP)",
       "ATK": "Sorted by $t(common:ReadableStats.ATK)",
       "DEF": "Sorted by $t(common:ReadableStats.DEF)",
@@ -4045,6 +4070,8 @@ interface Resources {
           "DMG": "DMG",
           "EHP": "EHP",
           "WEIGHT": "STAT WEIGHT",
+          "HEAL": "HEAL",
+          "SHIELD": "SHIELD",
           "BASIC": "BASIC\nDMG",
           "SKILL": "SKILL\nDMG",
           "ULT": "ULT\nDMG",
@@ -4068,7 +4095,9 @@ interface Resources {
           "ERR": "Σ ERR",
           "DMG": "Σ DMG",
           "EHP": "EHP",
-          "WEIGHT": "STAT WEIGHT",
+          "WEIGHT": "STAT\nWEIGHT",
+          "HEAL": "HEAL",
+          "SHIELD": "SHIELD",
           "BASIC": "BASIC\nDMG",
           "SKILL": "SKILL\nDMG",
           "ULT": "ULT\nDMG",

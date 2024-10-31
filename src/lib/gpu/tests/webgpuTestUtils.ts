@@ -27,6 +27,7 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
     relicSetSolutions,
     ornamentSetSolutions,
     true,
+    true,
   )
 
   const gpuReadBuffer = generateExecutionPass(gpuContext, 0)
@@ -200,7 +201,15 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
   analyze('BASIC_BREAK_DMG_MODIFIER', P_2)
   analyze('ULT_ADDITIONAL_DMG_CR_OVERRIDE', P_2)
   analyze('ULT_ADDITIONAL_DMG_CD_OVERRIDE', P_2)
-  analyze('ULT_BOOSTS_MULTI', P_2)
+  analyze('SKILL_OHB', P_2)
+  analyze('ULT_OHB', P_2)
+  analyze('HEAL_TYPE', P_2)
+  analyze('HEAL_FLAT', P_2)
+  analyze('HEAL_SCALING', P_2)
+  analyze('HEAL_VALUE', P_2)
+  analyze('SHIELD_FLAT', P_2)
+  analyze('SHIELD_SCALING', P_2)
+  analyze('SHIELD_VALUE', P_2)
   analyze('BASIC_ADDITIONAL_DMG_SCALING', P_2)
   analyze('SKILL_ADDITIONAL_DMG_SCALING', P_2)
   analyze('ULT_ADDITIONAL_DMG_SCALING', P_2)

@@ -1,21 +1,25 @@
-import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, MAX_RESULTS, Stats } from 'lib/constants'
-import { OptimizerTabController } from 'lib/optimizerTabController'
-import { Utils } from 'lib/utils'
-import DB from 'lib/db'
-import { WorkerPool } from 'lib/workerPool'
-import { RelicFilters } from 'lib/relicFilters'
-import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimizer/relicSetSolver'
-import { calculateBuild } from 'lib/optimizer/calculateBuild'
-import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
-import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
-import { SortOption } from 'lib/optimizer/sortOptions'
-import { BufferPacker } from 'lib/bufferPacker'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
-import { Message } from 'lib/message'
-import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
+import {
+  activateZeroPermutationsSuggestionsModal,
+  activateZeroResultSuggestionsModal,
+} from 'components/optimizerTab/OptimizerSuggestionsModal'
+import { BufferPacker, OptimizerDisplayData } from 'lib/bufferPacker'
+import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
+import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, MAX_RESULTS, Stats } from 'lib/constants'
 import { SavedSessionKeys } from 'lib/constantsSession'
+import DB from 'lib/db'
+import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
+import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
+import { Message } from 'lib/message'
+import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
+import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimizer/relicSetSolver'
+import { SortOption } from 'lib/optimizer/sortOptions'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { RelicFilters } from 'lib/relicFilters'
+import { Utils } from 'lib/utils'
+import { WorkerPool } from 'lib/workerPool'
 import { Form } from 'types/Form'
 
 let CANCEL = false
@@ -236,7 +240,7 @@ export const Optimizer = {
 }
 
 // TODO: This is a temporary tool to rename computed stats variables to fit the optimizer grid
-export function renameFields(c) {
+export function renameFields(c: BasicStatsObject & OptimizerDisplayData) {
   c.ED = c.ELEMENTAL_DMG
   c.BASIC = c.x.BASIC_DMG
   c.SKILL = c.x.SKILL_DMG
@@ -246,6 +250,8 @@ export function renameFields(c) {
   c.BREAK = c.x.BREAK_DMG
   c.COMBO = c.x.COMBO_DMG
   c.EHP = c.x.EHP
+  c.HEAL = c.x.HEAL_VALUE
+  c.SHIELD = c.x.SHIELD_VALUE
   c.xHP = c.x[Stats.HP]
   c.xATK = c.x[Stats.ATK]
   c.xDEF = c.x[Stats.DEF]

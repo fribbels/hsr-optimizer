@@ -1,14 +1,19 @@
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardFuaAtkFinalizer,
+  standardFuaAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
+import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { buffAbilityCr } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityCr } from 'lib/optimizer/calculateBuffs'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -25,50 +30,49 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'teamDmgBuff',
-    name: 'teamDmgBuff',
-    text: t('Content.teamDmgBuff.text'),
-    title: t('Content.teamDmgBuff.title'),
-    content: t('Content.teamDmgBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'skillBuff',
-    name: 'skillBuff',
-    text: t('Content.skillBuff.text'),
-    title: t('Content.skillBuff.title'),
-    content: t('Content.skillBuff.content', { skillDmgBoostValue: TsUtils.precisionRound(100 * skillDmgBoostValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'ultBuff',
-    name: 'ultBuff',
-    text: t('Content.ultBuff.text'),
-    title: t('Content.ultBuff.title'),
-    content: t('Content.ultBuff.content', { ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue), ultCdBoostValue: TsUtils.precisionRound(100 * ultCdBoostValue), ultCdBoostBaseValue: TsUtils.precisionRound(100 * ultCdBoostBaseValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'battleStartDefBuff',
-    name: 'battleStartDefBuff',
-    text: t('Content.battleStartDefBuff.text'),
-    title: t('Content.battleStartDefBuff.title'),
-    content: t('Content.battleStartDefBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'techniqueBuff',
-    name: 'techniqueBuff',
-    text: t('Content.techniqueBuff.text'),
-    title: t('Content.techniqueBuff.title'),
-    content: t('Content.techniqueBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'e2SkillSpdBuff',
-    name: 'e2SkillSpdBuff',
-    text: t('Content.e2SkillSpdBuff.text'),
-    title: t('Content.e2SkillSpdBuff.title'),
-    content: t('Content.e2SkillSpdBuff.content'),
-    disabled: e < 2,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'teamDmgBuff',
+      text: t('Content.teamDmgBuff.text'),
+      content: t('Content.teamDmgBuff.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'skillBuff',
+      text: t('Content.skillBuff.text'),
+      content: t('Content.skillBuff.content', { skillDmgBoostValue: TsUtils.precisionRound(100 * skillDmgBoostValue) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'ultBuff',
+      text: t('Content.ultBuff.text'),
+      content: t('Content.ultBuff.content', {
+        ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue),
+        ultCdBoostValue: TsUtils.precisionRound(100 * ultCdBoostValue),
+        ultCdBoostBaseValue: TsUtils.precisionRound(100 * ultCdBoostBaseValue),
+      }),
+    },
+    {
+      formItem: 'switch',
+      id: 'battleStartDefBuff',
+      text: t('Content.battleStartDefBuff.text'),
+      content: t('Content.battleStartDefBuff.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'techniqueBuff',
+      text: t('Content.techniqueBuff.text'),
+      content: t('Content.techniqueBuff.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'e2SkillSpdBuff',
+      text: t('Content.e2SkillSpdBuff.text'),
+      content: t('Content.e2SkillSpdBuff.content'),
+      disabled: e < 2,
+    },
+  ]
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'teamDmgBuff'),
@@ -79,10 +83,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'teammateCDValue',
-      name: 'teammateCDValue',
       text: t('TeammateContent.teammateCDValue.text'),
-      title: t('TeammateContent.teammateCDValue.title'),
-      content: t('TeammateContent.teammateCDValue.content', { ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue), ultCdBoostValue: TsUtils.precisionRound(100 * ultCdBoostValue), ultCdBoostBaseValue: TsUtils.precisionRound(100 * ultCdBoostBaseValue) }),
+      content: t('TeammateContent.teammateCDValue.content', {
+        ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue),
+        ultCdBoostValue: TsUtils.precisionRound(100 * ultCdBoostValue),
+        ultCdBoostBaseValue: TsUtils.precisionRound(100 * ultCdBoostBaseValue),
+      }),
       min: 0,
       max: 3.00,
       percent: true,

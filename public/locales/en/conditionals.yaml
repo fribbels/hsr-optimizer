@@ -1,4 +1,21 @@
 BetaMessage: "Current version: {{Version}} - Calculations are subject to change."
+Common:
+  HealAbility:
+    Text: "Healing ability"
+    Content: "Select the ability for heal calculations"
+    Basic: "Healing ability: Basic"
+    Skill: "Healing ability: Skill"
+    Ult: "Healing ability: Ult"
+    Talent: "Healing ability: Talent"
+    Trace: "Healing ability: Trace"
+  ShieldAbility:
+    Text: "Shielding ability"
+    Content: "Select the ability for shield calculations"
+    Basic: "Shielding ability: Basic"
+    Skill: "Shielding ability: Skill"
+    Ult: "Shielding ability: Ult"
+    Talent: "Shielding ability: Talent"
+    Trace: "Shielding ability: Trace"
 Lightcones:
   AlongThePassingShore:
     Content:
@@ -708,7 +725,7 @@ Characters:
         text: Healing max HP buff
         content: When Bailu heals a target ally above their normal Max HP, the target's Max HP increases by 10% for 2 turns.
       talentDmgReductionBuff:
-        text: Invigoration DMG reduction
+        text: Ult DMG reduction
         content: Characters with Invigoration take 10% less DMG.
       e2UltHealingBuff:
         text: E2 Ult healing buff
@@ -1295,6 +1312,8 @@ Characters:
       e6MultiplierIncrease:
         text: E6 FUA multiplier buff
         content: Increases the DMG multiplier of the Talent's follow-up attack by 25.0%.
+  Natasha:
+    Content:
   Pela:
     Content:
       teamEhrBuff:

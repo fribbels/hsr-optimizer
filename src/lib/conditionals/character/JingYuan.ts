@@ -1,12 +1,19 @@
-import { Stats } from 'lib/constants'
-import { ASHBLAZING_ATK_STACK, BASIC_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  ASHBLAZING_ATK_STACK,
+  BASIC_TYPE,
+  ComputedStatsObject,
+  FUA_TYPE,
+  SKILL_TYPE,
+  ULT_TYPE,
+} from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { buffAbilityCd, buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityCd, buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -44,50 +51,46 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     return hitMulti
   }
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'skillCritBuff',
-    name: 'skillCritBuff',
-    text: t('Content.skillCritBuff.text'),
-    title: t('Content.skillCritBuff.title'),
-    content: t('Content.skillCritBuff.content'),
-  }, {
-    formItem: 'slider',
-    id: 'talentHitsPerAction',
-    name: 'talentHitsPerAction',
-    text: t('Content.talentHitsPerAction.text'),
-    title: t('Content.talentHitsPerAction.title'),
-    content: t('Content.talentHitsPerAction.content'),
-    min: 3,
-    max: 10,
-  }, {
-    formItem: 'slider',
-    id: 'talentAttacks',
-    name: 'talentAttacks',
-    text: t('Content.talentAttacks.text'),
-    title: t('Content.talentAttacks.title'),
-    content: t('Content.talentAttacks.content'),
-    min: 0,
-    max: 10,
-  }, {
-    formItem: 'switch',
-    id: 'e2DmgBuff',
-    name: 'e2DmgBuff',
-    text: t('Content.e2DmgBuff.text'),
-    title: t('Content.e2DmgBuff.title'),
-    content: t('Content.e2DmgBuff.content'),
-    disabled: e < 2,
-  }, {
-    formItem: 'slider',
-    id: 'e6FuaVulnerabilityStacks',
-    name: 'e6FuaVulnerabilityStacks',
-    text: t('Content.e6FuaVulnerabilityStacks.text'),
-    title: t('Content.e6FuaVulnerabilityStacks.title'),
-    content: t('Content.e6FuaVulnerabilityStacks.content'),
-    min: 0,
-    max: 3,
-    disabled: e < 6,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'skillCritBuff',
+      text: t('Content.skillCritBuff.text'),
+      content: t('Content.skillCritBuff.content'),
+    },
+    {
+      formItem: 'slider',
+      id: 'talentHitsPerAction',
+      text: t('Content.talentHitsPerAction.text'),
+      content: t('Content.talentHitsPerAction.content'),
+      min: 3,
+      max: 10,
+    },
+    {
+      formItem: 'slider',
+      id: 'talentAttacks',
+      text: t('Content.talentAttacks.text'),
+      content: t('Content.talentAttacks.content'),
+      min: 0,
+      max: 10,
+    },
+    {
+      formItem: 'switch',
+      id: 'e2DmgBuff',
+      text: t('Content.e2DmgBuff.text'),
+      content: t('Content.e2DmgBuff.content'),
+      disabled: e < 2,
+    },
+    {
+      formItem: 'slider',
+      id: 'e6FuaVulnerabilityStacks',
+      text: t('Content.e6FuaVulnerabilityStacks.text'),
+      content: t('Content.e6FuaVulnerabilityStacks.content'),
+      min: 0,
+      max: 3,
+      disabled: e < 6,
+    },
+  ]
 
   return {
     content: () => content,

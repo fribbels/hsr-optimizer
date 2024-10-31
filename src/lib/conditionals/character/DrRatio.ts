@@ -1,13 +1,13 @@
-import { Stats } from 'lib/constants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
-import { TsUtils } from 'lib/TsUtils'
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -44,25 +44,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       : baseHitMulti
   }
 
-  const content: ContentItem[] = [{
-    id: 'summationStacks',
-    name: 'summationStacks',
-    formItem: 'slider',
-    text: t('Content.summationStacks.text'),
-    title: t('Content.summationStacks.title'),
-    content: t('Content.summationStacks.content', { summationStacksMax }),
-    min: 0,
-    max: summationStacksMax,
-  }, {
-    id: 'enemyDebuffStacks',
-    name: 'enemyDebuffStacks',
-    formItem: 'slider',
-    text: t('Content.enemyDebuffStacks.text'),
-    title: t('Content.enemyDebuffStacks.title'),
-    content: t('Content.enemyDebuffStacks.content', { FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
-    min: 0,
-    max: debuffStacksMax,
-  }]
+  const content: ContentItem[] = [
+    {
+      id: 'summationStacks',
+      formItem: 'slider',
+      text: t('Content.summationStacks.text'),
+      content: t('Content.summationStacks.content', { summationStacksMax }),
+      min: 0,
+      max: summationStacksMax,
+    },
+    {
+      id: 'enemyDebuffStacks',
+      formItem: 'slider',
+      text: t('Content.enemyDebuffStacks.text'),
+      content: t('Content.enemyDebuffStacks.content', { FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
+      min: 0,
+      max: debuffStacksMax,
+    },
+  ]
 
   return {
     content: () => content,

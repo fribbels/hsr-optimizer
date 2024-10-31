@@ -1,14 +1,14 @@
-import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { TsUtils } from 'lib/TsUtils'
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -33,34 +33,32 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     5: ASHBLAZING_ATK_STACK * (3 * 0.33 + 8 * 0.33 + 8 * 0.34),
   }
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'enhancedStateActive',
-    name: 'enhancedStateActive',
-    text: t('Content.enhancedStateActive.text'),
-    title: t('Content.enhancedStateActive.title'),
-    content: t('Content.enhancedStateActive.content', { enhancedStateDmgBoost: TsUtils.precisionRound(100 * enhancedStateDmgBoost) }),
-  }, {
-    formItem: 'slider',
-    id: 'hpPercentLostTotal',
-    name: 'hpPercentLostTotal',
-    text: t('Content.hpPercentLostTotal.text'),
-    title: t('Content.hpPercentLostTotal.title'),
-    content: t('Content.hpPercentLostTotal.content', { hpPercentLostTotalMax: TsUtils.precisionRound(100 * hpPercentLostTotalMax) }),
-    min: 0,
-    max: hpPercentLostTotalMax,
-    percent: true,
-  }, {
-    formItem: 'slider',
-    id: 'e4MaxHpIncreaseStacks',
-    name: 'e4MaxHpIncreaseStacks',
-    text: t('Content.e4MaxHpIncreaseStacks.text'),
-    title: t('Content.e4MaxHpIncreaseStacks.title'),
-    content: t('Content.e4MaxHpIncreaseStacks.content'),
-    min: 0,
-    max: 2,
-    disabled: e < 4,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'enhancedStateActive',
+      text: t('Content.enhancedStateActive.text'),
+      content: t('Content.enhancedStateActive.content', { enhancedStateDmgBoost: TsUtils.precisionRound(100 * enhancedStateDmgBoost) }),
+    },
+    {
+      formItem: 'slider',
+      id: 'hpPercentLostTotal',
+      text: t('Content.hpPercentLostTotal.text'),
+      content: t('Content.hpPercentLostTotal.content', { hpPercentLostTotalMax: TsUtils.precisionRound(100 * hpPercentLostTotalMax) }),
+      min: 0,
+      max: hpPercentLostTotalMax,
+      percent: true,
+    },
+    {
+      formItem: 'slider',
+      id: 'e4MaxHpIncreaseStacks',
+      text: t('Content.e4MaxHpIncreaseStacks.text'),
+      content: t('Content.e4MaxHpIncreaseStacks.content'),
+      min: 0,
+      max: 2,
+      disabled: e < 4,
+    },
+  ]
 
   return {
     content: () => content,

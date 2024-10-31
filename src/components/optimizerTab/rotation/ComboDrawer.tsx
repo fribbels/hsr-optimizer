@@ -901,24 +901,20 @@ function NumberSelect(props: { contentItem: ContentItem; value: number; sourceKe
   const contentItem = props.contentItem
 
   return (
-    <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={0}>
-      <Flex style={{ width: 210 }} align='center'>
-        {
-          // @ts-ignore
-          <FormSelectWithPopover
-            {...contentItem}
-            name={contentItem.id}
-            title={contentItem.text}
-            teammateIndex={getTeammateIndex(props.sourceKey)}
-            content={ColorizeNumbers(contentItem.content)}
-            text={contentItem.text}
-            set={props.sourceKey.includes('comboCharacterRelicSets')}
-            onChange={(value) => updateNumberDefaultSelection(props.sourceKey, contentItem.id, props.partitionIndex, value)}
-            value={props.value}
-            removeForm={props.partitionIndex > 0}
-          />
-        }
-      </Flex>
+    <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={5}>
+      <FormSelectWithPopover
+        {...contentItem}
+        name={contentItem.id}
+        title={contentItem.text}
+        teammateIndex={getTeammateIndex(props.sourceKey)}
+        content={ColorizeNumbers(contentItem.content)}
+        text={contentItem.text}
+        set={props.sourceKey.includes('comboCharacterRelicSets')}
+        onChange={(value) => updateNumberDefaultSelection(props.sourceKey, contentItem.id, props.partitionIndex, value)}
+        value={props.value}
+        removeForm={props.partitionIndex > 0}
+        fullWidth={!props.sourceKey.includes('comboCharacterRelicSets')}
+      />
       <Button
         type='text'
         shape='circle'

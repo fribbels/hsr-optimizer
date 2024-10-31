@@ -1,11 +1,16 @@
-import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardAtkFinalizer,
+  standardAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
-import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { TsUtils } from 'lib/TsUtils'
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -25,25 +30,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'basicEnhanced',
-      name: 'basicEnhanced',
       text: t('Content.basicEnhanced.text'),
-      title: t('Content.basicEnhanced.title'),
       content: t('Content.basicEnhanced.content'),
     },
     {
       formItem: 'switch',
       id: 'targetUltDebuffed',
-      name: 'targetUltDebuffed',
       text: t('Content.targetUltDebuffed.text'),
-      title: t('Content.targetUltDebuffed.title'),
       content: t('Content.targetUltDebuffed.content', { targetUltDebuffDmgTakenValue: TsUtils.precisionRound(100 * targetUltDebuffDmgTakenValue) }),
     },
     {
       formItem: 'slider',
       id: 'basicEnhancedExtraHits',
-      name: 'basicEnhancedExtraHits',
       text: t('Content.basicEnhancedExtraHits.text'),
-      title: t('Content.basicEnhancedExtraHits.title'),
       content: t('Content.basicEnhancedExtraHits.content'),
       min: 0,
       max: 3,
@@ -51,18 +50,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e1TargetBleeding',
-      name: 'e1TargetBleeding',
       text: t('Content.e1TargetBleeding.text'),
-      title: t('Content.e1TargetBleeding.title'),
       content: t('Content.e1TargetBleeding.content'),
       disabled: e < 1,
     },
     {
       formItem: 'slider',
       id: 'e4TalentStacks',
-      name: 'e4TalentStacks',
       text: t('Content.e4TalentStacks.text'),
-      title: t('Content.e4TalentStacks.title'),
       content: t('Content.e4TalentStacks.content'),
       min: 0,
       max: 4,

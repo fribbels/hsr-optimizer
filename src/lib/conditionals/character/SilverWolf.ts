@@ -1,10 +1,15 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardAtkFinalizer,
+  standardAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -19,45 +24,40 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 1.96, 2.156)
   const ultScaling = ult(e, 3.80, 4.104)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'skillResShredDebuff',
-    name: 'skillResShredDebuff',
-    text: t('Content.skillResShredDebuff.text'),
-    title: t('Content.skillResShredDebuff.title'),
-    content: t('Content.skillResShredDebuff.content', { skillResShredValue: TsUtils.precisionRound(100 * skillResShredValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'skillWeaknessResShredDebuff',
-    name: 'skillWeaknessResShredDebuff',
-    text: t('Content.skillWeaknessResShredDebuff.text'),
-    title: t('Content.skillWeaknessResShredDebuff.title'),
-    content: t('Content.skillWeaknessResShredDebuff.content'),
-  }, {
-    // TODO: should be talent
-    formItem: 'switch',
-    id: 'talentDefShredDebuff',
-    name: 'talentDefShredDebuff',
-    text: t('Content.talentDefShredDebuff.text'),
-    title: t('Content.talentDefShredDebuff.title'),
-    content: t('Content.talentDefShredDebuff.content', { talentDefShredDebuffValue: TsUtils.precisionRound(100 * talentDefShredDebuffValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'ultDefShredDebuff',
-    name: 'ultDefShredDebuff',
-    text: t('Content.ultDefShredDebuff.text'),
-    title: t('Content.ultDefShredDebuff.title'),
-    content: t('Content.ultDefShredDebuff.content', { ultDefShredValue: TsUtils.precisionRound(100 * ultDefShredValue) }),
-  }, {
-    formItem: 'slider',
-    id: 'targetDebuffs',
-    name: 'targetDebuffs',
-    text: t('Content.targetDebuffs.text'),
-    title: t('Content.targetDebuffs.title'),
-    content: t('Content.targetDebuffs.content'),
-    min: 0,
-    max: 5,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'skillResShredDebuff',
+      text: t('Content.skillResShredDebuff.text'),
+      content: t('Content.skillResShredDebuff.content', { skillResShredValue: TsUtils.precisionRound(100 * skillResShredValue) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'skillWeaknessResShredDebuff',
+      text: t('Content.skillWeaknessResShredDebuff.text'),
+      content: t('Content.skillWeaknessResShredDebuff.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'talentDefShredDebuff',
+      text: t('Content.talentDefShredDebuff.text'),
+      content: t('Content.talentDefShredDebuff.content', { talentDefShredDebuffValue: TsUtils.precisionRound(100 * talentDefShredDebuffValue) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'ultDefShredDebuff',
+      text: t('Content.ultDefShredDebuff.text'),
+      content: t('Content.ultDefShredDebuff.content', { ultDefShredValue: TsUtils.precisionRound(100 * ultDefShredValue) }),
+    },
+    {
+      formItem: 'slider',
+      id: 'targetDebuffs',
+      text: t('Content.targetDebuffs.text'),
+      content: t('Content.targetDebuffs.content'),
+      min: 0,
+      max: 5,
+    },
+  ]
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'skillResShredDebuff'),

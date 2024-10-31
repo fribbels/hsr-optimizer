@@ -3,6 +3,7 @@ import { Sets } from 'lib/constants'
 export const ASHBLAZING_ATK_STACK = 0.06
 
 // Ability types
+export const NONE_TYPE = 0
 export const BASIC_TYPE = 1
 export const SKILL_TYPE = 2
 export const ULT_TYPE = 4
@@ -143,7 +144,16 @@ export const baseComputedStatsObject = {
   // Robin
   ULT_ADDITIONAL_DMG_CR_OVERRIDE: 0,
   ULT_ADDITIONAL_DMG_CD_OVERRIDE: 0,
-  ULT_BOOSTS_MULTI: 1,
+
+  SKILL_OHB: 0,
+  ULT_OHB: 0,
+  HEAL_TYPE: 0,
+  HEAL_FLAT: 0,
+  HEAL_SCALING: 0,
+  HEAL_VALUE: 0,
+  SHIELD_FLAT: 0,
+  SHIELD_SCALING: 0,
+  SHIELD_VALUE: 0,
 
   BASIC_ADDITIONAL_DMG_SCALING: 0,
   SKILL_ADDITIONAL_DMG_SCALING: 0,

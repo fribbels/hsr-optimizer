@@ -1,11 +1,16 @@
-import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardAtkFinalizer,
+  standardAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -26,9 +31,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'skillExtraDmgHits',
-      name: 'skillExtraDmgHits',
       text: t('Content.skillExtraDmgHits.text'),
-      title: t('Content.skillExtraDmgHits.title'),
       content: t('Content.skillExtraDmgHits.content', { skillExtraDmgHitsMax }),
       min: 0,
       max: skillExtraDmgHitsMax,
@@ -36,9 +39,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'talentBuffStacks',
-      name: 'talentBuffStacks',
       text: t('Content.talentBuffStacks.text'),
-      title: t('Content.talentBuffStacks.title'),
       content: t('Content.talentBuffStacks.content', { talentStacksAtkBuff: TsUtils.precisionRound(100 * talentStacksAtkBuff) }),
       min: 0,
       max: 5,
@@ -46,17 +47,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'ultSpdBuff',
-      name: 'ultSpdBuff',
       text: t('Content.ultSpdBuff.text'),
-      title: t('Content.ultSpdBuff.title'),
       content: t('Content.ultSpdBuff.content', { ultSpdBuffValue }),
     },
     {
       formItem: 'switch',
       id: 'fireDmgBoost',
-      name: 'fireDmgBoost',
       text: t('Content.fireDmgBoost.text'),
-      title: t('Content.fireDmgBoost.title'),
       content: t('Content.fireDmgBoost.content'),
     },
   ]

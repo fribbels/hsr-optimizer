@@ -1,11 +1,10 @@
-import { Stats } from 'lib/constants'
-
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -23,44 +22,44 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'ultBuffActive',
-    name: 'ultBuffActive',
-    text: t('Content.ultBuffActive.text'),
-    title: t('Content.ultBuffActive.title'),
-    content: t('Content.ultBuffActive.content', { ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'soulsteelBuffActive',
-    name: 'soulsteelBuffActive',
-    text: t('Content.soulsteelBuffActive.text'),
-    title: t('Content.soulsteelBuffActive.title'),
-    content: t('Content.soulsteelBuffActive.content', { talentCdBuffValue: TsUtils.precisionRound(100 * talentCdBuffValue), talentCrBuffValue: TsUtils.precisionRound(100 * talentCrBuffValue), ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'critSpdBuff',
-    name: 'critSpdBuff',
-    text: t('Content.critSpdBuff.text'),
-    title: t('Content.critSpdBuff.title'),
-    content: t('Content.critSpdBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'e1TargetFrozen',
-    name: 'e1TargetFrozen',
-    text: t('Content.e1TargetFrozen.text'),
-    title: t('Content.e1TargetFrozen.title'),
-    content: t('Content.e1TargetFrozen.content'),
-    disabled: (e < 1),
-  }, {
-    formItem: 'switch',
-    id: 'e4CurrentHp80',
-    name: 'e4CurrentHp80',
-    text: t('Content.e4CurrentHp80.text'),
-    title: t('Content.e4CurrentHp80.title'),
-    content: t('Content.e4CurrentHp80.content'),
-    disabled: (e < 4),
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'ultBuffActive',
+      text: t('Content.ultBuffActive.text'),
+      content: t('Content.ultBuffActive.content', { ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'soulsteelBuffActive',
+      text: t('Content.soulsteelBuffActive.text'),
+      content: t('Content.soulsteelBuffActive.content', {
+        talentCdBuffValue: TsUtils.precisionRound(100 * talentCdBuffValue),
+        talentCrBuffValue: TsUtils.precisionRound(100 * talentCrBuffValue),
+        ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue),
+      }),
+    },
+    {
+      formItem: 'switch',
+      id: 'critSpdBuff',
+      text: t('Content.critSpdBuff.text'),
+      content: t('Content.critSpdBuff.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'e1TargetFrozen',
+      text: t('Content.e1TargetFrozen.text'),
+      content: t('Content.e1TargetFrozen.content'),
+      disabled: (e < 1),
+    },
+    {
+      formItem: 'switch',
+      id: 'e4CurrentHp80',
+      text: t('Content.e4CurrentHp80.text'),
+      content: t('Content.e4CurrentHp80.content'),
+      disabled: (e < 4),
+    },
+  ]
 
   return {
     content: () => content,

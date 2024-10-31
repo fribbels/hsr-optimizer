@@ -1,12 +1,17 @@
 import { ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardAtkFinalizer,
+  standardAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { BlackSwanConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { buffAbilityDefPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityDefPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { BlackSwanConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -24,50 +29,40 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const dotChance = talent(e, 0.65, 0.68)
 
-  // e6 100%
-  // skill 100%
-
   const content: ContentItem[] = [
     {
       formItem: 'switch',
       id: 'ehrToDmgBoost',
-      name: 'ehrToDmgBoost',
       text: t('Content.ehrToDmgBoost.text'),
-      title: t('Content.ehrToDmgBoost.title'),
       content: t('Content.ehrToDmgBoost.content'),
     },
     {
       formItem: 'switch',
       id: 'epiphanyDebuff',
-      name: 'epiphanyDebuff',
       text: t('Content.epiphanyDebuff.text'),
-      title: t('Content.epiphanyDebuff.title'),
       content: t('Content.epiphanyDebuff.content', { epiphanyDmgTakenBoost: TsUtils.precisionRound(100 * epiphanyDmgTakenBoost) }),
     },
     {
       formItem: 'switch',
       id: 'defDecreaseDebuff',
-      name: 'defDecreaseDebuff',
       text: t('Content.defDecreaseDebuff.text'),
-      title: t('Content.defDecreaseDebuff.title'),
       content: t('Content.defDecreaseDebuff.content', { defShredValue: TsUtils.precisionRound(100 * defShredValue) }),
     },
     {
       formItem: 'slider',
       id: 'arcanaStacks',
-      name: 'arcanaStacks',
       text: t('Content.arcanaStacks.text'),
-      title: t('Content.arcanaStacks.title'),
-      content: t('Content.arcanaStacks.content', { dotScaling: TsUtils.precisionRound(100 * dotScaling), arcanaStackMultiplier: TsUtils.precisionRound(100 * arcanaStackMultiplier) }),
+      content: t('Content.arcanaStacks.content', {
+        dotScaling: TsUtils.precisionRound(100 * dotScaling),
+        arcanaStackMultiplier: TsUtils.precisionRound(100 * arcanaStackMultiplier),
+      }),
       min: 1,
       max: 50,
     },
     {
       formItem: 'switch',
       id: 'e1ResReduction',
-      name: 'e1ResReduction',
       text: t('Content.e1ResReduction.text'),
-      title: t('Content.e1ResReduction.title'),
       content: t('Content.e1ResReduction.content'),
       disabled: e < 1,
     },

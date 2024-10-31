@@ -1,11 +1,11 @@
-import { Stats } from 'lib/constants'
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Eidolon } from 'types/Character'
-import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { Stats } from 'lib/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -20,23 +20,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultEnhancedScaling = ult(e, 2.70, 2.88)
   const ultEnhancedScaling2 = ult(e, 1.62, 1.728)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'enhancedUlt',
-    name: 'Enhanced Ult',
-    text: t('Content.enhancedUlt.text'),
-    title: t('Content.enhancedUlt.title'),
-    content: t('Content.enhancedUlt.content', { ultScaling: TsUtils.precisionRound(100 * ultScaling), ultEnhancedScaling: TsUtils.precisionRound(100 * ultEnhancedScaling), ultEnhancedScaling2: TsUtils.precisionRound(100 * ultEnhancedScaling2) }),
-  }, {
-    formItem: 'slider',
-    id: 'talentStacks',
-    name: 'Talent stacks',
-    text: t('Content.talentStacks.text'),
-    title: t('Content.talentStacks.title'),
-    content: t('Content.talentStacks.content', { talentAtkScalingValue: TsUtils.precisionRound(100 * talentAtkScalingValue) }),
-    min: 0,
-    max: 2,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'enhancedUlt',
+      text: t('Content.enhancedUlt.text'),
+      content: t('Content.enhancedUlt.content', {
+        ultScaling: TsUtils.precisionRound(100 * ultScaling),
+        ultEnhancedScaling: TsUtils.precisionRound(100 * ultEnhancedScaling),
+        ultEnhancedScaling2: TsUtils.precisionRound(100 * ultEnhancedScaling2),
+      }),
+    },
+    {
+      formItem: 'slider',
+      id: 'talentStacks',
+      text: t('Content.talentStacks.text'),
+      content: t('Content.talentStacks.content', { talentAtkScalingValue: TsUtils.precisionRound(100 * talentAtkScalingValue) }),
+      min: 0,
+      max: 2,
+    },
+  ]
 
   return {
     content: () => content,

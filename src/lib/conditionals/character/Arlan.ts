@@ -1,11 +1,11 @@
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -18,17 +18,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const talentMissingHpDmgBoostMax = talent(e, 0.72, 0.792)
 
-  const content: ContentItem[] = [{
-    formItem: 'slider',
-    id: 'selfCurrentHpPercent',
-    name: 'selfCurrentHpPercent',
-    text: t('Content.selfCurrentHpPercent.text'),
-    title: t('Content.selfCurrentHpPercent.title'),
-    content: t('Content.selfCurrentHpPercent.content', { talentMissingHpDmgBoostMax: TsUtils.precisionRound(100 * talentMissingHpDmgBoostMax) }),
-    min: 0.01,
-    max: 1.0,
-    percent: true,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'slider',
+      id: 'selfCurrentHpPercent',
+      text: t('Content.selfCurrentHpPercent.text'),
+      content: t('Content.selfCurrentHpPercent.content', { talentMissingHpDmgBoostMax: TsUtils.precisionRound(100 * talentMissingHpDmgBoostMax) }),
+      min: 0.01,
+      max: 1.0,
+      percent: true,
+    },
+  ]
 
   return {
     content: () => content,

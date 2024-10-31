@@ -1,12 +1,17 @@
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { Eidolon } from 'types/Character'
-import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional } from 'types/CharacterConditional'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardAtkFinalizer,
+  standardAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { NumberToNumberMap } from 'types/Common'
 import { TsUtils } from 'lib/TsUtils'
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { NumberToNumberMap } from 'types/Common'
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -35,19 +40,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'crimsonKnotStacks',
-      name: 'crimsonKnotStacks',
       text: t('Content.crimsonKnotStacks.text'),
-      title: t('Content.crimsonKnotStacks.title'),
-      content: t('Content.crimsonKnotStacks.content', { RainbladeScaling: TsUtils.precisionRound(100 * ultRainbladeScaling), CrimsonKnotScaling: TsUtils.precisionRound(100 * ultCrimsonKnotScaling) }),
+      content: t('Content.crimsonKnotStacks.content', {
+        RainbladeScaling: TsUtils.precisionRound(100 * ultRainbladeScaling),
+        CrimsonKnotScaling: TsUtils.precisionRound(100 * ultCrimsonKnotScaling),
+      }),
       min: 0,
       max: maxCrimsonKnotStacks,
     },
     {
       formItem: 'slider',
       id: 'nihilityTeammates',
-      name: 'nihilityTeammates',
       text: t('Content.nihilityTeammates.text'),
-      title: t('Content.nihilityTeammates.title'),
       content: t('Content.nihilityTeammates.content'),
       min: 0,
       max: maxNihilityTeammates,
@@ -55,9 +59,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'thunderCoreStacks',
-      name: 'thunderCoreStacks',
       text: t('Content.thunderCoreStacks.text'),
-      title: t('Content.thunderCoreStacks.title'),
       content: t('Content.thunderCoreStacks.content'),
       min: 0,
       max: 3,
@@ -65,9 +67,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'stygianResurgeHitsOnTarget',
-      name: 'stygianResurgeHitsOnTarget',
       text: t('Content.stygianResurgeHitsOnTarget.text'),
-      title: t('Content.stygianResurgeHitsOnTarget.title'),
       content: t('Content.stygianResurgeHitsOnTarget.content'),
       min: 0,
       max: 6,
@@ -75,27 +75,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e1EnemyDebuffed',
-      name: 'e1EnemyDebuffed',
       text: t('Content.e1EnemyDebuffed.text'),
-      title: t('Content.e1EnemyDebuffed.title'),
       content: t('Content.e1EnemyDebuffed.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e4UltVulnerability',
-      name: 'e4UltVulnerability',
       text: t('Content.e4UltVulnerability.text'),
-      title: t('Content.e4UltVulnerability.title'),
       content: t('Content.e4UltVulnerability.content'),
       disabled: e < 4,
     },
     {
       formItem: 'switch',
       id: 'e6UltBuffs',
-      name: 'e6UltBuffs',
       text: t('Content.e6UltBuffs.text'),
-      title: t('Content.e6UltBuffs.title'),
       content: t('Content.e6UltBuffs.content'),
       disabled: e < 6,
     },

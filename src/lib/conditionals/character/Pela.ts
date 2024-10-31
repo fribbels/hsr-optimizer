@@ -1,13 +1,13 @@
-import { Stats } from 'lib/constants'
 import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -20,43 +20,39 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 2.10, 2.31)
   const ultScaling = ult(e, 1.00, 1.08)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'teamEhrBuff',
-    name: 'teamEhrBuff',
-    text: t('Content.teamEhrBuff.text'),
-    title: t('Content.teamEhrBuff.title'),
-    content: t('Content.teamEhrBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'enemyDebuffed',
-    name: 'enemyDebuffed',
-    text: t('Content.enemyDebuffed.text'),
-    title: t('Content.enemyDebuffed.title'),
-    content: t('Content.enemyDebuffed.content'),
-  }, {
-    formItem: 'switch',
-    id: 'skillRemovedBuff',
-    name: 'skillRemovedBuff',
-    text: t('Content.skillRemovedBuff.text'),
-    title: t('Content.skillRemovedBuff.title'),
-    content: t('Content.skillRemovedBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'ultDefPenDebuff',
-    name: 'ultDefPenDebuff',
-    text: t('Content.ultDefPenDebuff.text'),
-    title: t('Content.ultDefPenDebuff.title'),
-    content: t('Content.ultDefPenDebuff.content', { ultDefPenValue: TsUtils.precisionRound(100 * ultDefPenValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'e4SkillResShred',
-    name: 'e4SkillResShred',
-    text: t('Content.e4SkillResShred.text'),
-    title: t('Content.e4SkillResShred.title'),
-    content: t('Content.e4SkillResShred.content'),
-    disabled: e < 4,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'teamEhrBuff',
+      text: t('Content.teamEhrBuff.text'),
+      content: t('Content.teamEhrBuff.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'enemyDebuffed',
+      text: t('Content.enemyDebuffed.text'),
+      content: t('Content.enemyDebuffed.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'skillRemovedBuff',
+      text: t('Content.skillRemovedBuff.text'),
+      content: t('Content.skillRemovedBuff.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'ultDefPenDebuff',
+      text: t('Content.ultDefPenDebuff.text'),
+      content: t('Content.ultDefPenDebuff.content', { ultDefPenValue: TsUtils.precisionRound(100 * ultDefPenValue) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'e4SkillResShred',
+      text: t('Content.e4SkillResShred.text'),
+      content: t('Content.e4SkillResShred.content'),
+      disabled: e < 4,
+    },
+  ]
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'teamEhrBuff'),

@@ -24,6 +24,8 @@ SortOptions:
   FUA: Sorted by Follow-up DMG
   DOT: Sorted by DoT DMG
   BREAK: Sorted by Break DMG
+  HEAL: Sorted by Heal
+  SHIELD: Sorted by Shield
   HP: "Sorted by $t(common:ReadableStats.HP)"
   ATK: "Sorted by $t(common:ReadableStats.ATK)"
   DEF: "Sorted by $t(common:ReadableStats.DEF)"
@@ -95,6 +97,8 @@ Grid:
       DMG: DMG
       EHP: EHP
       WEIGHT: STAT WEIGHT
+      HEAL: HEAL
+      SHIELD: SHIELD
       BASIC: |-
         BASIC
         DMG
@@ -131,7 +135,11 @@ Grid:
       ERR: Σ ERR
       DMG: Σ DMG
       EHP: EHP
-      WEIGHT: STAT WEIGHT
+      WEIGHT: |-
+        STAT
+        WEIGHT
+      HEAL: HEAL
+      SHIELD: SHIELD
       BASIC: |-
         BASIC
         DMG

@@ -1,13 +1,19 @@
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import {
+  buffAbilityCd,
+  buffAbilityCr,
+  buffAbilityDefPen,
+  buffAbilityDmg,
+  buffAbilityResPen,
+} from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
-import { Stats } from 'lib/constants'
-import { buffAbilityCd, buffAbilityCr, buffAbilityDefPen, buffAbilityDmg, buffAbilityResPen } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
-import { TsUtils } from 'lib/TsUtils'
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -50,70 +56,62 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'blockActive',
-      name: 'blockActive',
       text: t('Content.blockActive.text'),
-      title: t('Content.blockActive.title'),
       content: t('Content.blockActive.content'),
     },
     {
       formItem: 'switch',
       id: 'ultCull',
-      name: 'ultCull',
       text: t('Content.ultCull.text'),
-      title: t('Content.ultCull.title'),
-      content: t('Content.ultCull.content', { CullScaling: TsUtils.precisionRound(100 * ultCullScaling), CullAdjacentScaling: TsUtils.precisionRound(100 * 0.5 * ultCullScaling), CullAdditionalScaling: TsUtils.precisionRound(100 * ultCullHitsScaling) }),
+      content: t('Content.ultCull.content', {
+        CullScaling: TsUtils.precisionRound(100 * ultCullScaling),
+        CullAdjacentScaling: TsUtils.precisionRound(100 * 0.5 * ultCullScaling),
+        CullAdditionalScaling: TsUtils.precisionRound(100 * ultCullHitsScaling),
+      }),
     },
     {
       formItem: 'slider',
       id: 'ultCullHits',
-      name: 'ultCullHits',
       text: t('Content.ultCullHits.text'),
-      title: t('Content.ultCullHits.title'),
-      content: t('Content.ultCullHits.content', { CullScaling: TsUtils.precisionRound(100 * ultCullScaling), CullAdjacentScaling: TsUtils.precisionRound(100 * 0.5 * ultCullScaling), CullAdditionalScaling: TsUtils.precisionRound(100 * ultCullHitsScaling) }),
+      content: t('Content.ultCullHits.content', {
+        CullScaling: TsUtils.precisionRound(100 * ultCullScaling),
+        CullAdjacentScaling: TsUtils.precisionRound(100 * 0.5 * ultCullScaling),
+        CullAdditionalScaling: TsUtils.precisionRound(100 * ultCullHitsScaling),
+      }),
       min: 0,
       max: maxCullHits,
     },
     {
       formItem: 'switch',
       id: 'counterAtkBuff',
-      name: 'counterAtkBuff',
       text: t('Content.counterAtkBuff.text'),
-      title: t('Content.counterAtkBuff.title'),
       content: t('Content.counterAtkBuff.content'),
     },
     {
       formItem: 'switch',
       id: 'e1UltBuff',
-      name: 'e1UltBuff',
       text: t('Content.e1UltBuff.text'),
-      title: t('Content.e1UltBuff.title'),
       content: t('Content.e1UltBuff.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2DefShred',
-      name: 'e2DefShred',
       text: t('Content.e2DefShred.text'),
-      title: t('Content.e2DefShred.title'),
       content: t('Content.e2DefShred.content'),
       disabled: e < 2,
     },
     {
       formItem: 'switch',
       id: 'e4ResBuff',
-      name: 'e4ResBuff',
       text: t('Content.e4ResBuff.text'),
-      title: t('Content.e4ResBuff.title'),
       content: t('Content.e4ResBuff.content'),
       disabled: e < 4,
     },
     {
       formItem: 'switch',
       id: 'e6Buffs',
-      name: 'e6Buffs',
       text: t('Content.e6Buffs.text'),
-      title: t('Content.e6Buffs.title'),
       content: t('Content.e6Buffs.content'),
       disabled: e < 6,
     },

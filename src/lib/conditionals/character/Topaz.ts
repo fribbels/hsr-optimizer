@@ -1,12 +1,18 @@
-import { Stats } from 'lib/constants'
-import { ASHBLAZING_ATK_STACK, BASIC_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  ASHBLAZING_ATK_STACK,
+  BASIC_TYPE,
+  ComputedStatsObject,
+  FUA_TYPE,
+  SKILL_TYPE,
+} from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet, findContentId } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { buffAbilityCd, buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityCd, buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -33,31 +39,32 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const fuaEnhancedHitCountMulti = ASHBLAZING_ATK_STACK
     * (1 * 1 / 10 + 2 * 1 / 10 + 3 * 1 / 10 + 4 * 1 / 10 + 5 * 1 / 10 + 6 * 1 / 10 + 7 * 1 / 10 + 8 * 3 / 10)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'enemyProofOfDebtDebuff',
-    name: 'enemyProofOfDebtDebuff',
-    text: t('Content.enemyProofOfDebtDebuff.text'),
-    title: t('Content.enemyProofOfDebtDebuff.title'),
-    content: t('Content.enemyProofOfDebtDebuff.content', { proofOfDebtFuaVulnerability: TsUtils.precisionRound(100 * proofOfDebtFuaVulnerability) }),
-  }, {
-    formItem: 'switch',
-    id: 'numbyEnhancedState',
-    name: 'numbyEnhancedState',
-    text: t('Content.numbyEnhancedState.text'),
-    title: t('Content.numbyEnhancedState.title'),
-    content: t('Content.numbyEnhancedState.content', { enhancedStateFuaCdBoost: TsUtils.precisionRound(100 * enhancedStateFuaCdBoost), enhancedStateFuaScalingBoost: TsUtils.precisionRound(100 * enhancedStateFuaScalingBoost) }),
-  }, {
-    formItem: 'slider',
-    id: 'e1DebtorStacks',
-    name: 'e1DebtorStacks',
-    text: t('Content.e1DebtorStacks.text'),
-    title: t('Content.e1DebtorStacks.title'),
-    content: t('Content.e1DebtorStacks.content'),
-    min: 0,
-    max: 2,
-    disabled: e < 1,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'enemyProofOfDebtDebuff',
+      text: t('Content.enemyProofOfDebtDebuff.text'),
+      content: t('Content.enemyProofOfDebtDebuff.content', { proofOfDebtFuaVulnerability: TsUtils.precisionRound(100 * proofOfDebtFuaVulnerability) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'numbyEnhancedState',
+      text: t('Content.numbyEnhancedState.text'),
+      content: t('Content.numbyEnhancedState.content', {
+        enhancedStateFuaCdBoost: TsUtils.precisionRound(100 * enhancedStateFuaCdBoost),
+        enhancedStateFuaScalingBoost: TsUtils.precisionRound(100 * enhancedStateFuaScalingBoost),
+      }),
+    },
+    {
+      formItem: 'slider',
+      id: 'e1DebtorStacks',
+      text: t('Content.e1DebtorStacks.text'),
+      content: t('Content.e1DebtorStacks.content'),
+      min: 0,
+      max: 2,
+      disabled: e < 1,
+    },
+  ]
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'enemyProofOfDebtDebuff'),

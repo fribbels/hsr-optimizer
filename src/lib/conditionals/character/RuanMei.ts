@@ -1,13 +1,18 @@
-import { Stats } from 'lib/constants'
-import { Eidolon } from 'types/Character'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardAtkFinalizer,
+  standardAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { RuanMeiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { TsUtils } from 'lib/TsUtils'
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
 
 import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional } from 'types/CharacterConditional'
-import { RuanMeiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -23,42 +28,32 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'skillOvertoneBuff',
-      name: 'skillOvertoneBuff',
       text: t('Content.skillOvertoneBuff.text'),
-      title: t('Content.skillOvertoneBuff.title'),
       content: t('Content.skillOvertoneBuff.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
     },
     {
       formItem: 'switch',
       id: 'teamBEBuff',
-      name: 'teamBEBuff',
       text: t('Content.teamBEBuff.text'),
-      title: t('Content.teamBEBuff.title'),
       content: t('Content.teamBEBuff.content'),
     },
     {
       formItem: 'switch',
       id: 'ultFieldActive',
-      name: 'ultFieldActive',
       text: t('Content.ultFieldActive.text'),
-      title: t('Content.ultFieldActive.title'),
       content: t('Content.ultFieldActive.content', { fieldResPenValue: TsUtils.precisionRound(100 * fieldResPenValue) }),
     },
     {
       formItem: 'switch',
       id: 'e2AtkBoost',
-      name: 'e2AtkBoost',
       text: t('Content.e2AtkBoost.text'),
-      title: t('Content.e2AtkBoost.title'),
       content: t('Content.e2AtkBoost.content'),
       disabled: (e < 2),
     },
     {
       formItem: 'switch',
       id: 'e4BeBuff',
-      name: 'e4BeBuff',
       text: t('Content.e4BeBuff.text'),
-      title: t('Content.e4BeBuff.title'),
       content: t('Content.e4BeBuff.content'),
       disabled: (e < 4),
     },
@@ -69,18 +64,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'teamSpdBuff',
-      name: 'teamSpdBuff',
       text: t('TeammateContent.teamSpdBuff.text'),
-      title: t('TeammateContent.teamSpdBuff.title'),
       content: t('TeammateContent.teamSpdBuff.content', { talentSpdScaling: TsUtils.precisionRound(100 * talentSpdScaling) }),
     },
     findContentId(content, 'teamBEBuff'),
     {
       formItem: 'slider',
       id: 'teamDmgBuff',
-      name: 'teamDmgBuff',
       text: t('TeammateContent.teamDmgBuff.text'),
-      title: t('TeammateContent.teamDmgBuff.title'),
       content: t('TeammateContent.teamDmgBuff.content'),
       min: 0,
       max: 0.36,

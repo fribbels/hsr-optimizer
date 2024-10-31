@@ -26,9 +26,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'concertoActive',
-      name: 'concertoActive',
       text: t('Content.concertoActive.text'),
-      title: t('Content.concertoActive.title'),
       content: t('Content.concertoActive.content', {
         ultAtkBuffScalingValue: TsUtils.precisionRound(100 * ultAtkBuffScalingValue),
         ultAtkBuffFlatValue: ultAtkBuffFlatValue,
@@ -38,43 +36,33 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'skillDmgBuff',
-      name: 'skillDmgBuff',
       text: t('Content.skillDmgBuff.text'),
-      title: t('Content.skillDmgBuff.title'),
       content: t('Content.skillDmgBuff.content', { skillDmgBuffValue: TsUtils.precisionRound(100 * skillDmgBuffValue) }),
     },
     {
       formItem: 'switch',
       id: 'talentCdBuff',
-      name: 'talentCdBuff',
       text: t('Content.talentCdBuff.text'),
-      title: t('Content.talentCdBuff.title'),
       content: t('Content.talentCdBuff.content', { talentCdBuffValue: TsUtils.precisionRound(100 * talentCdBuffValue) }),
     },
     {
       formItem: 'switch',
       id: 'e1UltResPen',
-      name: 'e1UltResPen',
       text: t('Content.e1UltResPen.text'),
-      title: t('Content.e1UltResPen.title'),
       content: t('Content.e1UltResPen.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e4TeamResBuff',
-      name: 'e4TeamResBuff',
       text: t('Content.e4TeamResBuff.text'),
-      title: t('Content.e4TeamResBuff.title'),
       content: t('Content.e4TeamResBuff.content'),
       disabled: e < 4,
     },
     {
       formItem: 'switch',
       id: 'e6UltCDBoost',
-      name: 'e6UltCDBoost',
       text: t('Content.e6UltCDBoost.text'),
-      title: t('Content.e6UltCDBoost.title'),
       content: t('Content.e6UltCDBoost.content'),
       disabled: e < 6,
     },
@@ -86,9 +74,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'teammateATKValue',
-      name: 'teammateATKValue',
       text: t('TeammateContent.teammateATKValue.text'),
-      title: t('TeammateContent.teammateATKValue.title'),
       content: t('TeammateContent.teammateATKValue.content', {
         ultAtkBuffFlatValue: TsUtils.precisionRound(100 * ultAtkBuffFlatValue),
         ultAtkBuffScalingValue: ultAtkBuffScalingValue,
@@ -100,18 +86,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'traceFuaCdBoost',
-      name: 'traceFuaCdBoost',
       text: t('TeammateContent.traceFuaCdBoost.text'),
-      title: t('TeammateContent.traceFuaCdBoost.title'),
       content: t('TeammateContent.traceFuaCdBoost.content'),
     },
     findContentId(content, 'e1UltResPen'),
     {
       formItem: 'switch',
       id: 'e2UltSpdBuff',
-      name: 'e2UltSpdBuff',
       text: t('TeammateContent.e2UltSpdBuff.text'),
-      title: t('TeammateContent.e2UltSpdBuff.title'),
       content: t('TeammateContent.e2UltSpdBuff.content'),
       disabled: e < 2,
     },
@@ -145,7 +127,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       x.BASIC_SCALING += basicScaling
       x.ULT_ADDITIONAL_DMG_SCALING += (r.concertoActive) ? ultScaling : 0
-      x.ULT_BOOSTS_MULTI = 0 // Her ult doesn't apply dmg boosts since its additional dmg
 
       x.BASIC_TOUGHNESS_DMG += 30
 

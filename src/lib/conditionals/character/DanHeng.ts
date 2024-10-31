@@ -1,12 +1,12 @@
-import { Stats } from 'lib/constants'
 import { BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 // TODO: missing A4 SPD buff
@@ -25,25 +25,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'talentPenBuff',
-      name: 'talentPenBuff',
       text: t('Content.talentPenBuff.text'),
-      title: t('Content.talentPenBuff.title'),
       content: t('Content.talentPenBuff.content', { extraPenValue: TsUtils.precisionRound(100 * extraPenValue) }),
     },
     {
       formItem: 'switch',
       id: 'enemySlowed',
-      name: 'enemySlowed',
       text: t('Content.enemySlowed.text'),
-      title: t('Content.enemySlowed.title'),
       content: t('Content.enemySlowed.content'),
     },
     {
       formItem: 'switch',
       id: 'e1EnemyHp50',
-      name: 'e1EnemyHp50',
       text: t('Content.e1EnemyHp50.text'),
-      title: t('Content.e1EnemyHp50.title'),
       content: t('Content.e1EnemyHp50.content'),
       disabled: e < 1,
     },

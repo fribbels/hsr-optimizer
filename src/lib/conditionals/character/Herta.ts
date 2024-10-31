@@ -1,13 +1,19 @@
-import { Stats } from 'lib/constants'
-import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  ASHBLAZING_ATK_STACK,
+  ComputedStatsObject,
+  FUA_TYPE,
+  SKILL_TYPE,
+  ULT_TYPE,
+} from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
-import { TsUtils } from 'lib/TsUtils'
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -72,9 +78,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'fuaStacks',
-      name: 'fuaStacks',
       text: t('Content.fuaStacks.text'),
-      title: t('Content.fuaStacks.title'),
       content: t('Content.fuaStacks.content'),
       min: 1,
       max: 5,
@@ -82,42 +86,32 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'targetFrozen',
-      name: 'targetFrozen',
       text: t('Content.targetFrozen.text'),
-      title: t('Content.targetFrozen.title'),
       content: t('Content.targetFrozen.content'),
     },
     {
       formItem: 'switch',
       id: 'enemyHpGte50',
-      name: 'enemyHpGte50',
       text: t('Content.enemyHpGte50.text'),
-      title: t('Content.enemyHpGte50.title'),
       content: t('Content.enemyHpGte50.content'),
     },
     {
       formItem: 'switch',
       id: 'techniqueBuff',
-      name: 'techniqueBuff',
       text: t('Content.techniqueBuff.text'),
-      title: t('Content.techniqueBuff.title'),
       content: t('Content.techniqueBuff.content'),
     },
     {
       formItem: 'switch',
       id: 'enemyHpLte50',
-      name: 'enemyHpLte50',
       text: t('Content.enemyHpLte50.text'),
-      title: t('Content.enemyHpLte50.title'),
       content: t('Content.enemyHpLte50.content'),
       disabled: e < 1,
     },
     {
       formItem: 'slider',
       id: 'e2TalentCritStacks',
-      name: 'e2TalentCritStacks',
       text: t('Content.e2TalentCritStacks.text'),
-      title: t('Content.e2TalentCritStacks.title'),
       content: t('Content.e2TalentCritStacks.content'),
       min: 0,
       max: 5,
@@ -126,9 +120,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e6UltAtkBuff',
-      name: 'e6UltAtkBuff',
       text: t('Content.e6UltAtkBuff.text'),
-      title: t('Content.e6UltAtkBuff.title'),
       content: t('Content.e6UltAtkBuff.content'),
       disabled: e < 6,
     },

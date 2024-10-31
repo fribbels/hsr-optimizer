@@ -1,13 +1,13 @@
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
+import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -24,46 +24,49 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 0, 0)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'benedictionBuff',
-    name: 'benedictionBuff',
-    text: t('Content.benedictionBuff.text'),
-    title: t('Content.benedictionBuff.title'),
-    content: t('Content.benedictionBuff.content', { skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling), skillAtkBoostMax: TsUtils.precisionRound(100 * skillAtkBoostMax), skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling) }),
-  }, {
-    formItem: 'switch',
-    id: 'skillSpdBuff',
-    name: 'skillSpdBuff',
-    text: t('Content.skillSpdBuff.text'),
-    title: t('Content.skillSpdBuff.title'),
-    content: t('Content.skillSpdBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'ultDmgBuff',
-    name: 'ultDmgBuff',
-    text: t('Content.ultDmgBuff.text'),
-    title: t('Content.ultDmgBuff.title'),
-    content: t('Content.ultDmgBuff.content', { ultDmgBoost: TsUtils.precisionRound(100 * ultDmgBoost) }),
-  }, {
-    formItem: 'switch',
-    id: 'ultSpdBuff',
-    name: 'ultSpdBuff',
-    text: t('Content.ultSpdBuff.text'),
-    title: t('Content.ultSpdBuff.title'),
-    content: t('Content.ultSpdBuff.content'),
-    disabled: e < 1,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'benedictionBuff',
+      text: t('Content.benedictionBuff.text'),
+      content: t('Content.benedictionBuff.content', {
+        skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling),
+        skillAtkBoostMax: TsUtils.precisionRound(100 * skillAtkBoostMax),
+        skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling),
+      }),
+    },
+    {
+      formItem: 'switch',
+      id: 'skillSpdBuff',
+      text: t('Content.skillSpdBuff.text'),
+      content: t('Content.skillSpdBuff.content'),
+    },
+    {
+      formItem: 'switch',
+      id: 'ultDmgBuff',
+      text: t('Content.ultDmgBuff.text'),
+      content: t('Content.ultDmgBuff.content', { ultDmgBoost: TsUtils.precisionRound(100 * ultDmgBoost) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'ultSpdBuff',
+      text: t('Content.ultSpdBuff.text'),
+      content: t('Content.ultSpdBuff.content'),
+      disabled: e < 1,
+    },
+  ]
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'benedictionBuff'),
     {
       formItem: 'slider',
       id: 'teammateAtkBuffValue',
-      name: 'teammateAtkBuffValue',
       text: t('TeammateContent.teammateAtkBuffValue.text'),
-      title: t('TeammateContent.teammateAtkBuffValue.title'),
-      content: t('TeammateContent.teammateAtkBuffValue.content', { skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling), skillAtkBoostMax: TsUtils.precisionRound(100 * skillAtkBoostMax), skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling) }),
+      content: t('TeammateContent.teammateAtkBuffValue.content', {
+        skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling),
+        skillAtkBoostMax: TsUtils.precisionRound(100 * skillAtkBoostMax),
+        skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling),
+      }),
       min: 0,
       max: skillAtkBoostScaling,
       percent: true,
@@ -122,7 +125,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       // x[Stats.ATK] += (r.benedictionBuff) ? x[Stats.ATK] * skillAtkBoostMax : 0
 
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK] + ((r.benedictionBuff) ? skillLightningDmgBoostScaling + talentScaling : 0) * x[Stats.ATK]
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK] + ((r.benedictionBuff)
+        ? skillLightningDmgBoostScaling + talentScaling
+        : 0) * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },

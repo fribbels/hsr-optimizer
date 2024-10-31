@@ -1,13 +1,13 @@
-import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
-import { TsUtils } from 'lib/TsUtils'
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -37,30 +37,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       : hitMultiSingle
   }
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'basicEnhanced',
-    name: 'basicEnhanced',
-    text: t('Content.basicEnhanced.text'),
-    title: t('Content.basicEnhanced.title'),
-    content: t('Content.basicEnhanced.content', { talentAtkBuff: TsUtils.precisionRound(100 * talentAtkBuff) }),
-  }, {
-    formItem: 'switch',
-    id: 'basicEnhancedSpdBuff',
-    name: 'basicEnhancedSpdBuff',
-    text: t('Content.basicEnhancedSpdBuff.text'),
-    title: t('Content.basicEnhancedSpdBuff.title'),
-    content: t('Content.basicEnhancedSpdBuff.content'),
-  }, {
-    formItem: 'slider',
-    id: 'skillDmgIncreaseStacks',
-    name: 'skillDmgIncreaseStacks',
-    text: t('Content.skillDmgIncreaseStacks.text'),
-    title: t('Content.skillDmgIncreaseStacks.title'),
-    content: t('Content.skillDmgIncreaseStacks.content', { skillStackDmg: TsUtils.precisionRound(100 * skillStackDmg) }),
-    min: 0,
-    max: 4,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'basicEnhanced',
+      text: t('Content.basicEnhanced.text'),
+      content: t('Content.basicEnhanced.content', { talentAtkBuff: TsUtils.precisionRound(100 * talentAtkBuff) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'basicEnhancedSpdBuff',
+      text: t('Content.basicEnhancedSpdBuff.text'),
+      content: t('Content.basicEnhancedSpdBuff.content'),
+    },
+    {
+      formItem: 'slider',
+      id: 'skillDmgIncreaseStacks',
+      text: t('Content.skillDmgIncreaseStacks.text'),
+      content: t('Content.skillDmgIncreaseStacks.content', { skillStackDmg: TsUtils.precisionRound(100 * skillStackDmg) }),
+      min: 0,
+      max: 4,
+    },
+  ]
 
   return {
     content: () => content,

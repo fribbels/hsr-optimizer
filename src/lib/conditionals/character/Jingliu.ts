@@ -1,11 +1,11 @@
-import { Stats } from 'lib/constants'
-import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { Eidolon } from 'types/Character'
-import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -22,19 +22,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentItem[] = [
     {
-      name: 'talentEnhancedState',
       id: 'talentEnhancedState',
       formItem: 'switch',
       text: t('Content.talentEnhancedState.text'),
-      title: t('Content.talentEnhancedState.title'),
       content: t('Content.talentEnhancedState.content', { talentCrBuff: TsUtils.precisionRound(100 * talentCrBuff) }),
     },
     {
-      name: 'talentHpDrainAtkBuff',
       id: 'talentHpDrainAtkBuff',
       formItem: 'slider',
       text: t('Content.talentHpDrainAtkBuff.text'),
-      title: t('Content.talentHpDrainAtkBuff.title'),
       content: t('Content.talentHpDrainAtkBuff.content', { talentHpDrainAtkBuffMax: TsUtils.precisionRound(100 * talentHpDrainAtkBuffMax) }),
       min: 0,
       max: talentHpDrainAtkBuffMax,
@@ -42,19 +38,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     {
       id: 'e1CdBuff',
-      name: 'e1CdBuff',
       formItem: 'switch',
       text: t('Content.e1CdBuff.text'),
-      title: t('Content.e1CdBuff.title'),
       content: t('Content.e1CdBuff.content'),
       disabled: e < 1,
     },
     {
       id: 'e2SkillDmgBuff',
-      name: 'e2SkillDmgBuff',
       formItem: 'switch',
       text: t('Content.e2SkillDmgBuff.text'),
-      title: t('Content.e2SkillDmgBuff.title'),
       content: t('Content.e2SkillDmgBuff.content'),
       disabled: e < 2,
     },

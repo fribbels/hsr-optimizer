@@ -15,7 +15,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     {
       lc: true,
       id: 'inBattleAtkBuff',
-      name: 'inBattleAtkBuff',
       formItem: 'switch',
       text: t('Content.inBattleAtkBuff.text'),
       content: t('Content.inBattleAtkBuff.content', { AtkBuff: TsUtils.precisionRound(100 * sValues[s]) }),

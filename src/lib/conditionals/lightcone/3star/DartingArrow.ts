@@ -15,7 +15,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     {
       lc: true,
       id: 'defeatedEnemyAtkBuff',
-      name: 'defeatedEnemyAtkBuff',
       formItem: 'switch',
       text: t('Content.defeatedEnemyAtkBuff.text'),
       content: t('Content.defeatedEnemyAtkBuff.content', { AtkBuff: TsUtils.precisionRound(100 * sValues[s]) }),

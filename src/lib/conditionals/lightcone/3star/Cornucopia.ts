@@ -14,7 +14,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     {
       lc: true,
       id: 'healingBuff',
-      name: 'healingBuff',
       formItem: 'switch',
       text: t('Content.healingBuff.text'),
       content: t('Content.healingBuff.content', { HealingBuff: TsUtils.precisionRound(100 * sValues[s]) }),

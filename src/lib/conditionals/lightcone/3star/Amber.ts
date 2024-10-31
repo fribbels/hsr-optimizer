@@ -15,7 +15,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     {
       lc: true,
       id: 'hp50DefBuff',
-      name: 'hp50DefBuff',
       formItem: 'switch',
       text: t('Content.hp50DefBuff.text'),
       content: t('Content.hp50DefBuff.content', { DefBuff: TsUtils.precisionRound(100 * sValues[s]) }),

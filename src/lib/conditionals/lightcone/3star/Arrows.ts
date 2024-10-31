@@ -15,7 +15,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     {
       lc: true,
       id: 'critBuff',
-      name: 'critBuff',
       formItem: 'switch',
       text: t('Content.critBuff.text'),
       content: t('Content.critBuff.content', { CritBuff: TsUtils.precisionRound(100 * sValues[s]) }),

@@ -1,5 +1,5 @@
 CharacterSelector:
-  Character: Personagem
+  Character: Personagemㅤ
   Presets: Predefinições
   Target: Meta de otimização
   ResultsPlaceholder: Achar melhores rsultados
@@ -36,6 +36,7 @@ OptimizerOptions:
   PriorityFilter: Filtro de prioridade de personagem
   Priority:
     Header: Prioridade
+    Name: "# {{rank}}"
   AllowEquipped: Permitir relíquias equipadas
   KeepCurrent: Manter as relíquias atuais
   Exclude: Excluir
@@ -253,6 +254,9 @@ SetConditionals:
     Firesmith: ' O aumento do dano de habilidade está sempre ativo por padrão. Quando ativado, o bônus de dano de fogo é aplicado aos cálculos de atributos de combate.'
     Genius: ' O aumento de 10% de penetração de defesa está sempre ativo por padrão. Quando ativado, trata o inimigo como tendo fraqueza à Quantum e penetra 10% a mais de DEF.'
     Thunder: ' Quando ativado, o bônus de ATQ% é aplicado aos cálculos de atributos de combate.'
+Presets:
+  SpdValues:
+    SPD142: 142,858 SPD - 5 ações nos primeiros três turnos
 CombatBuffs:
   ATK: ATQ
   ATK_P: ATQ %

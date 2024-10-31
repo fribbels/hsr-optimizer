@@ -28,21 +28,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'torridScorch',
-      name: 'torridScorch',
       text: 'Torrid Scorch state',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
       formItem: 'switch',
       id: 'foxianPrayer',
-      name: 'foxianPrayer',
       text: 'Foxian Prayer BE buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
       formItem: 'slider',
       id: 'weaknessBreakBeStacks',
-      name: 'weaknessBreakBeStacks',
       text: 'Enemy broken BE stacks',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
@@ -51,21 +48,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'defReduction',
-      name: 'defReduction',
       text: 'Skill DEF shred',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
       formItem: 'switch',
       id: 'superBreakDmg',
-      name: 'superBreakDmg',
       text: 'Super Break DMG (force weakness break)',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
       formItem: 'switch',
       id: 'e4Vulnerability',
-      name: 'e4Vulnerability',
       text: 'E4 vulnerability',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 4,
@@ -73,7 +67,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e6BreakEfficiency',
-      name: 'e6BreakEfficiency',
       text: 'E6 break efficiency boost',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 6,

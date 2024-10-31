@@ -14,7 +14,7 @@ const Text = styled(Typography)`
 
 export interface FormSelectProps {
   disabled?: boolean
-  name: string
+  id: string
   text: string
   lc?: boolean
   set?: boolean
@@ -55,12 +55,12 @@ export const FormSelect: ComponentType<FormSelectProps> = (props) => {
   )
 
   return (
-    <Flex justify={justify} align={align} style={{ width: props.fullWidth ? '100%' : null }}>
+    <Flex justify={justify} align={align} style={{ width: props.fullWidth ? '100%' : undefined }}>
       {
         props.removeForm
           ? internalSelect
           : (
-            <Form.Item name={itemName} style={{ width: props.fullWidth ? '100%' : null }}>
+            <Form.Item name={itemName} style={{ width: props.fullWidth ? '100%' : undefined }}>
               {internalSelect}
             </Form.Item>
           )

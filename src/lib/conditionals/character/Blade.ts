@@ -37,14 +37,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'enhancedStateActive',
-      name: 'enhancedStateActive',
       text: t('Content.enhancedStateActive.text'),
       content: t('Content.enhancedStateActive.content', { enhancedStateDmgBoost: TsUtils.precisionRound(100 * enhancedStateDmgBoost) }),
     },
     {
       formItem: 'slider',
       id: 'hpPercentLostTotal',
-      name: 'hpPercentLostTotal',
       text: t('Content.hpPercentLostTotal.text'),
       content: t('Content.hpPercentLostTotal.content', { hpPercentLostTotalMax: TsUtils.precisionRound(100 * hpPercentLostTotalMax) }),
       min: 0,
@@ -54,7 +52,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'e4MaxHpIncreaseStacks',
-      name: 'e4MaxHpIncreaseStacks',
       text: t('Content.e4MaxHpIncreaseStacks.text'),
       content: t('Content.e4MaxHpIncreaseStacks.content'),
       min: 0,

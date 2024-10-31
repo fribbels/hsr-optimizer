@@ -55,14 +55,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'skillCritBuff',
-      name: 'skillCritBuff',
       text: t('Content.skillCritBuff.text'),
       content: t('Content.skillCritBuff.content'),
     },
     {
       formItem: 'slider',
       id: 'talentHitsPerAction',
-      name: 'talentHitsPerAction',
       text: t('Content.talentHitsPerAction.text'),
       content: t('Content.talentHitsPerAction.content'),
       min: 3,
@@ -71,7 +69,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'talentAttacks',
-      name: 'talentAttacks',
       text: t('Content.talentAttacks.text'),
       content: t('Content.talentAttacks.content'),
       min: 0,
@@ -80,7 +77,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e2DmgBuff',
-      name: 'e2DmgBuff',
       text: t('Content.e2DmgBuff.text'),
       content: t('Content.e2DmgBuff.content'),
       disabled: e < 2,
@@ -88,7 +84,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'e6FuaVulnerabilityStacks',
-      name: 'e6FuaVulnerabilityStacks',
       text: t('Content.e6FuaVulnerabilityStacks.text'),
       content: t('Content.e6FuaVulnerabilityStacks.content'),
       min: 0,

@@ -31,7 +31,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'skillExtraDmgHits',
-      name: 'skillExtraDmgHits',
       text: t('Content.skillExtraDmgHits.text'),
       content: t('Content.skillExtraDmgHits.content', { skillExtraDmgHitsMax }),
       min: 0,
@@ -40,7 +39,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'talentBuffStacks',
-      name: 'talentBuffStacks',
       text: t('Content.talentBuffStacks.text'),
       content: t('Content.talentBuffStacks.content', { talentStacksAtkBuff: TsUtils.precisionRound(100 * talentStacksAtkBuff) }),
       min: 0,
@@ -49,14 +47,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'ultSpdBuff',
-      name: 'ultSpdBuff',
       text: t('Content.ultSpdBuff.text'),
       content: t('Content.ultSpdBuff.content', { ultSpdBuffValue }),
     },
     {
       formItem: 'switch',
       id: 'fireDmgBoost',
-      name: 'fireDmgBoost',
       text: t('Content.fireDmgBoost.text'),
       content: t('Content.fireDmgBoost.content'),
     },

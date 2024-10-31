@@ -28,7 +28,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'benedictionBuff',
-      name: 'benedictionBuff',
       text: t('Content.benedictionBuff.text'),
       content: t('Content.benedictionBuff.content', {
         skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling),
@@ -39,21 +38,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'skillSpdBuff',
-      name: 'skillSpdBuff',
       text: t('Content.skillSpdBuff.text'),
       content: t('Content.skillSpdBuff.content'),
     },
     {
       formItem: 'switch',
       id: 'ultDmgBuff',
-      name: 'ultDmgBuff',
       text: t('Content.ultDmgBuff.text'),
       content: t('Content.ultDmgBuff.content', { ultDmgBoost: TsUtils.precisionRound(100 * ultDmgBoost) }),
     },
     {
       formItem: 'switch',
       id: 'ultSpdBuff',
-      name: 'ultSpdBuff',
       text: t('Content.ultSpdBuff.text'),
       content: t('Content.ultSpdBuff.content'),
       disabled: e < 1,
@@ -65,7 +61,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'teammateAtkBuffValue',
-      name: 'teammateAtkBuffValue',
       text: t('TeammateContent.teammateAtkBuffValue.text'),
       content: t('TeammateContent.teammateAtkBuffValue.content', {
         skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling),

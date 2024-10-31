@@ -26,7 +26,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'ultHitsOnTarget',
-      name: 'ultHitsOnTarget',
       text: t('Content.ultHitsOnTarget.text'),
       content: t('Content.ultHitsOnTarget.content', { ultStackScaling: TsUtils.precisionRound(100 * ultStackScaling) }),
       min: 1,
@@ -35,14 +34,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'enemyFrozen',
-      name: 'enemyFrozen',
       text: t('Content.enemyFrozen.text'),
       content: t('Content.enemyFrozen.content'),
     },
     {
       formItem: 'switch',
       id: 'e2DefReduction',
-      name: 'e2DefReduction',
       text: t('Content.e2DefReduction.text'),
       content: t('Content.e2DefReduction.content'),
       disabled: e < 2,
@@ -50,7 +47,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e6UltDmgBoost',
-      name: 'e6UltDmgBoost',
       text: t('Content.e6UltDmgBoost.text'),
       content: t('Content.e6UltDmgBoost.content'),
       disabled: e < 6,

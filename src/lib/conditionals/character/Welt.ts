@@ -27,21 +27,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'enemyDmgTakenDebuff',
-      name: 'enemyDmgTakenDebuff',
       text: t('Content.enemyDmgTakenDebuff.text'),
       content: t('Content.enemyDmgTakenDebuff.content'),
     },
     {
       formItem: 'switch',
       id: 'enemySlowed',
-      name: 'enemySlowed',
       text: t('Content.enemySlowed.text'),
       content: t('Content.enemySlowed.content', { talentScaling: TsUtils.precisionRound(100 * talentScaling) }),
     },
     {
       formItem: 'slider',
       id: 'skillExtraHits',
-      name: 'skillExtraHits',
       text: t('Content.skillExtraHits.text'),
       content: t('Content.skillExtraHits.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
       min: 0,
@@ -50,7 +47,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e1EnhancedState',
-      name: 'e1EnhancedState',
       text: t('Content.e1EnhancedState.text'),
       content: t('Content.e1EnhancedState.content'),
       disabled: (e < 1),

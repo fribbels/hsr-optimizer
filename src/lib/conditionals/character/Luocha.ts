@@ -33,7 +33,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'select',
       id: 'healAbility',
-      name: 'healAbility',
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
@@ -53,14 +52,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'fieldActive',
-      name: 'fieldActive',
       text: t('Content.fieldActive.text'),
       content: t('Content.fieldActive.content'),
       // disabled: e < 1, Not disabling this one since technically the field can be active at E0
     }, {
       formItem: 'switch',
       id: 'e6ResReduction',
-      name: 'e6ResReduction',
       text: t('Content.e6ResReduction.text'),
       content: t('Content.e6ResReduction.content'),
       disabled: e < 6,

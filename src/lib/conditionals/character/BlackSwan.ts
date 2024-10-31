@@ -33,28 +33,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'ehrToDmgBoost',
-      name: 'ehrToDmgBoost',
       text: t('Content.ehrToDmgBoost.text'),
       content: t('Content.ehrToDmgBoost.content'),
     },
     {
       formItem: 'switch',
       id: 'epiphanyDebuff',
-      name: 'epiphanyDebuff',
       text: t('Content.epiphanyDebuff.text'),
       content: t('Content.epiphanyDebuff.content', { epiphanyDmgTakenBoost: TsUtils.precisionRound(100 * epiphanyDmgTakenBoost) }),
     },
     {
       formItem: 'switch',
       id: 'defDecreaseDebuff',
-      name: 'defDecreaseDebuff',
       text: t('Content.defDecreaseDebuff.text'),
       content: t('Content.defDecreaseDebuff.content', { defShredValue: TsUtils.precisionRound(100 * defShredValue) }),
     },
     {
       formItem: 'slider',
       id: 'arcanaStacks',
-      name: 'arcanaStacks',
       text: t('Content.arcanaStacks.text'),
       content: t('Content.arcanaStacks.content', {
         dotScaling: TsUtils.precisionRound(100 * dotScaling),
@@ -66,7 +62,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e1ResReduction',
-      name: 'e1ResReduction',
       text: t('Content.e1ResReduction.text'),
       content: t('Content.e1ResReduction.content'),
       disabled: e < 1,

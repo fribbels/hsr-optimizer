@@ -41,32 +41,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'select',
       id: 'healAbility',
-      name: 'healAbility',
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
-        {
-          display: tHeal('Skill'),
-          value: SKILL_TYPE,
-          label: tHeal('Skill'),
-        },
-        {
-          display: tHeal('Ult'),
-          value: ULT_TYPE,
-          label: tHeal('Ult'),
-        },
-        {
-          display: tHeal('Talent'),
-          value: NONE_TYPE,
-          label: tHeal('Talent'),
-        },
+        { display: tHeal('Skill'), value: SKILL_TYPE, label: tHeal('Skill') },
+        { display: tHeal('Ult'), value: ULT_TYPE, label: tHeal('Ult') },
+        { display: tHeal('Talent'), value: NONE_TYPE, label: tHeal('Talent') },
       ],
       fullWidth: true,
     },
     {
       formItem: 'switch',
       id: 'skillBuff',
-      name: 'skillBuff',
       text: t('Content.skillBuff.text'),
       content: t('Content.skillBuff.content', {
         skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff),
@@ -80,7 +66,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'teammateHPValue',
-      name: 'teammateHPValue',
       text: t('TeammateContent.teammateHPValue.text'),
       content: t('TeammateContent.teammateHPValue.content', {
         skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff),

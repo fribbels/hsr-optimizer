@@ -71,7 +71,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     healAbility: {
       formItem: 'select',
       id: 'healAbility',
-      name: 'healAbility',
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
@@ -84,14 +83,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     beConversion: {
       formItem: 'switch',
       id: 'beConversion',
-      name: 'beConversion',
       text: t('Content.beConversion.text'),
       content: t('Content.beConversion.content'),
     },
     befogState: {
       formItem: 'switch',
       id: 'befogState',
-      name: 'befogState',
       text: t('Content.befogState.text'),
       content: t('Content.befogState.content', {
         BefogVulnerability: TsUtils.precisionRound(100 * ultBreakVulnerability),
@@ -100,7 +97,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     e1DefShred: {
       formItem: 'switch',
       id: 'e1DefShred',
-      name: 'e1DefShred',
       text: t('Content.e1DefShred.text'),
       content: t('Content.e1DefShred.content'),
       disabled: e < 1,
@@ -108,7 +104,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     e2BeBuff: {
       formItem: 'switch',
       id: 'e2BeBuff',
-      name: 'e2BeBuff',
       text: t('Content.e2BeBuff.text'),
       content: t('Content.e2BeBuff.content'),
       disabled: e < 2,
@@ -116,7 +111,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     e6ResShred: {
       formItem: 'switch',
       id: 'e6ResShred',
-      name: 'e6ResShred',
       text: t('Content.e6ResShred.text'),
       content: t('Content.e6ResShred.content'),
       disabled: e < 6,

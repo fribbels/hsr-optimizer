@@ -56,14 +56,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'blockActive',
-      name: 'blockActive',
       text: t('Content.blockActive.text'),
       content: t('Content.blockActive.content'),
     },
     {
       formItem: 'switch',
       id: 'ultCull',
-      name: 'ultCull',
       text: t('Content.ultCull.text'),
       content: t('Content.ultCull.content', {
         CullScaling: TsUtils.precisionRound(100 * ultCullScaling),
@@ -74,7 +72,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'ultCullHits',
-      name: 'ultCullHits',
       text: t('Content.ultCullHits.text'),
       content: t('Content.ultCullHits.content', {
         CullScaling: TsUtils.precisionRound(100 * ultCullScaling),
@@ -87,14 +84,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'counterAtkBuff',
-      name: 'counterAtkBuff',
       text: t('Content.counterAtkBuff.text'),
       content: t('Content.counterAtkBuff.content'),
     },
     {
       formItem: 'switch',
       id: 'e1UltBuff',
-      name: 'e1UltBuff',
       text: t('Content.e1UltBuff.text'),
       content: t('Content.e1UltBuff.content'),
       disabled: e < 1,
@@ -102,7 +97,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e2DefShred',
-      name: 'e2DefShred',
       text: t('Content.e2DefShred.text'),
       content: t('Content.e2DefShred.content'),
       disabled: e < 2,
@@ -110,7 +104,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e4ResBuff',
-      name: 'e4ResBuff',
       text: t('Content.e4ResBuff.text'),
       content: t('Content.e4ResBuff.content'),
       disabled: e < 4,
@@ -118,7 +111,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e6Buffs',
-      name: 'e6Buffs',
       text: t('Content.e6Buffs.text'),
       content: t('Content.e6Buffs.content'),
       disabled: e < 6,

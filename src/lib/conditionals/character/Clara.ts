@@ -33,21 +33,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'ultBuff',
-      name: 'ultBuff',
       text: t('Content.ultBuff.text'),
       content: t('Content.ultBuff.content', { ultFuaExtraScaling: TsUtils.precisionRound(100 * ultFuaExtraScaling) }),
     },
     {
       formItem: 'switch',
       id: 'talentEnemyMarked',
-      name: 'talentEnemyMarked',
       text: t('Content.talentEnemyMarked.text'),
       content: t('Content.talentEnemyMarked.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
     },
     {
       formItem: 'switch',
       id: 'e2UltAtkBuff',
-      name: 'e2UltAtkBuff',
       text: t('Content.e2UltAtkBuff.text'),
       content: t('Content.e2UltAtkBuff.content'),
       disabled: e < 2,
@@ -55,7 +52,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e4DmgReductionBuff',
-      name: 'e4DmgReductionBuff',
       text: t('Content.e4DmgReductionBuff.text'),
       content: t('Content.e4DmgReductionBuff.content'),
       disabled: e < 4,

@@ -30,21 +30,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'targetBurned',
-      name: 'targetBurned',
       text: t('Content.targetBurned.text'),
       content: t('Content.targetBurned.content'),
     },
     {
       formItem: 'switch',
       id: 'selfCurrentHp80Percent',
-      name: 'selfCurrentHp80Percent',
       text: t('Content.selfCurrentHp80Percent.text'),
       content: t('Content.selfCurrentHp80Percent.content'),
     },
     {
       formItem: 'switch',
       id: 'e1TalentSpdBuff',
-      name: 'e1TalentSpdBuff',
       text: t('Content.e1TalentSpdBuff.text'),
       content: t('Content.e1TalentSpdBuff.content'),
       disabled: e < 1,
@@ -52,7 +49,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e2EnemyHp50DmgBoost',
-      name: 'e2EnemyHp50DmgBoost',
       text: t('Content.e2EnemyHp50DmgBoost.text'),
       content: t('Content.e2EnemyHp50DmgBoost.content'),
       disabled: e < 2,
@@ -60,7 +56,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'e6UltExtraHits',
-      name: 'e6UltExtraHits',
       text: t('Content.e6UltExtraHits.text'),
       content: t('Content.e6UltExtraHits.content'),
       min: 0,

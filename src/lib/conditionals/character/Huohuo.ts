@@ -33,7 +33,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'select',
       id: 'healAbility',
-      name: 'healAbility',
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
@@ -53,14 +52,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'ultBuff',
-      name: 'ultBuff',
       text: t('Content.ultBuff.text'),
       content: t('Content.ultBuff.content', { ultBuffValue: TsUtils.precisionRound(100 * ultBuffValue) }),
     },
     {
       formItem: 'switch',
       id: 'skillBuff',
-      name: 'skillBuff',
       text: t('Content.skillBuff.text'),
       content: t('Content.skillBuff.content'),
       disabled: e < 1,
@@ -68,7 +65,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e6DmgBuff',
-      name: 'e6DmgBuff',
       text: t('Content.e6DmgBuff.text'),
       content: t('Content.e6DmgBuff.content'),
       disabled: e < 6,

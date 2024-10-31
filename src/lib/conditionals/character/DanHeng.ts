@@ -25,21 +25,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'talentPenBuff',
-      name: 'talentPenBuff',
       text: t('Content.talentPenBuff.text'),
       content: t('Content.talentPenBuff.content', { extraPenValue: TsUtils.precisionRound(100 * extraPenValue) }),
     },
     {
       formItem: 'switch',
       id: 'enemySlowed',
-      name: 'enemySlowed',
       text: t('Content.enemySlowed.text'),
       content: t('Content.enemySlowed.content'),
     },
     {
       formItem: 'switch',
       id: 'e1EnemyHp50',
-      name: 'e1EnemyHp50',
       text: t('Content.e1EnemyHp50.text'),
       content: t('Content.e1EnemyHp50.content'),
       disabled: e < 1,

@@ -78,7 +78,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'fuaStacks',
-      name: 'fuaStacks',
       text: t('Content.fuaStacks.text'),
       content: t('Content.fuaStacks.content'),
       min: 1,
@@ -87,28 +86,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'targetFrozen',
-      name: 'targetFrozen',
       text: t('Content.targetFrozen.text'),
       content: t('Content.targetFrozen.content'),
     },
     {
       formItem: 'switch',
       id: 'enemyHpGte50',
-      name: 'enemyHpGte50',
       text: t('Content.enemyHpGte50.text'),
       content: t('Content.enemyHpGte50.content'),
     },
     {
       formItem: 'switch',
       id: 'techniqueBuff',
-      name: 'techniqueBuff',
       text: t('Content.techniqueBuff.text'),
       content: t('Content.techniqueBuff.content'),
     },
     {
       formItem: 'switch',
       id: 'enemyHpLte50',
-      name: 'enemyHpLte50',
       text: t('Content.enemyHpLte50.text'),
       content: t('Content.enemyHpLte50.content'),
       disabled: e < 1,
@@ -116,7 +111,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'e2TalentCritStacks',
-      name: 'e2TalentCritStacks',
       text: t('Content.e2TalentCritStacks.text'),
       content: t('Content.e2TalentCritStacks.content'),
       min: 0,
@@ -126,7 +120,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e6UltAtkBuff',
-      name: 'e6UltAtkBuff',
       text: t('Content.e6UltAtkBuff.text'),
       content: t('Content.e6UltAtkBuff.content'),
       disabled: e < 6,

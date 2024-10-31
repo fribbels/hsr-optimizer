@@ -30,12 +30,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'skillDmgBuff',
-      name: 'skillDmgBuff',
       text: 'Skill DMG buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
-      name: 'talentCrBuffStacks',
       id: 'talentCrBuffStacks',
       formItem: 'slider',
       text: 'Talent CR buff stacks',
@@ -46,14 +44,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'techniqueDmgBuff',
-      name: 'techniqueDmgBuff',
       text: 'Technique DMG buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
       formItem: 'switch',
       id: 'e1ResPen',
-      name: 'e1ResPen',
       text: 'E1 RES PEN',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
@@ -61,7 +57,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e2SpdBuff',
-      name: 'e2SpdBuff',
       text: 'E2 SPD buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
@@ -74,14 +69,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'beatified',
-      name: 'beatified',
       text: 'Ult CD buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
       formItem: 'slider',
       id: 'teammateCDValue',
-      name: 'teammateCDValue',
       text: 'Sunday Combat CD',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
@@ -94,7 +87,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e6CrToCdConversion',
-      name: 'e6CrToCdConversion',
       text: 'E6 CR to CD conversion',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 6,

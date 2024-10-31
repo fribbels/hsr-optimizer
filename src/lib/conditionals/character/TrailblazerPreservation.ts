@@ -34,28 +34,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'enhancedBasic',
-      name: 'enhancedBasic',
       text: t('Content.enhancedBasic.text'),
       content: t('Content.enhancedBasic.content', { basicEnhancedAtkScaling: TsUtils.precisionRound(100 * basicEnhancedAtkScaling) }),
     },
     {
       formItem: 'switch',
       id: 'skillActive',
-      name: 'skillActive',
       text: t('Content.skillActive.text'),
       content: t('Content.skillActive.content', { skillDamageReductionValue: TsUtils.precisionRound(100 * skillDamageReductionValue) }),
     },
     {
       formItem: 'switch',
       id: 'shieldActive',
-      name: 'shieldActive',
       text: t('Content.shieldActive.text'),
       content: t('Content.shieldActive.content'),
     },
     {
       formItem: 'slider',
       id: 'e6DefStacks',
-      name: 'e6DefStacks',
       text: t('Content.e6DefStacks.text'),
       content: t('Content.e6DefStacks.content'),
       min: 0,

@@ -27,14 +27,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'enhancedBasic',
-      name: 'enhancedBasic',
       text: t('Content.enhancedBasic.text'),
       content: t('Content.enhancedBasic.content', { BasicEnhancedScaling: TsUtils.precisionRound(100 * basicEnhancedScaling) }),
     },
     {
       formItem: 'slider',
       id: 'basicAttackHits',
-      name: 'basicAttackHits',
       text: t('Content.basicAttackHits.text'),
       content: t('Content.basicAttackHits.content', { BasicEnhancedScaling: TsUtils.precisionRound(100 * basicEnhancedScaling) }),
       min: 3,
@@ -43,28 +41,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'masterAdditionalDmgBuff',
-      name: 'masterAdditionalDmgBuff',
       text: t('Content.masterAdditionalDmgBuff.text'),
       content: t('Content.masterAdditionalDmgBuff.content', { ShifuDmgBuff: TsUtils.precisionRound(100 * basicExtraScalingMasterBuff) }),
     },
     {
       formItem: 'switch',
       id: 'masterToughnessRedBuff',
-      name: 'masterToughnessRedBuff',
       text: t('Content.masterToughnessRedBuff.text'),
       content: t('Content.masterToughnessRedBuff.content'),
     },
     {
       formItem: 'switch',
       id: 'talentDmgBuff',
-      name: 'talentDmgBuff',
       text: t('Content.talentDmgBuff.text'),
       content: t('Content.talentDmgBuff.content', { TalentDmgBuff: TsUtils.precisionRound(100 * talentDmgBuff) }),
     },
     {
       formItem: 'switch',
       id: 'selfSpdBuff',
-      name: 'selfSpdBuff',
       text: t('Content.selfSpdBuff.text'),
       content: t('Content.selfSpdBuff.content'),
       disabled: e < 1,
@@ -72,7 +66,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e6CdBuff',
-      name: 'e6CdBuff',
       text: t('Content.e6CdBuff.text'),
       content: t('Content.e6CdBuff.content'),
       disabled: e < 6,
@@ -83,14 +76,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'masterBuff',
-      name: 'masterBuff',
       text: t('TeammateContent.masterBuff.text'),
       content: t('TeammateContent.masterBuff.content', { ShifuSpeedBuff: TsUtils.precisionRound(100 * skillSpdScaling) }),
     },
     {
       formItem: 'switch',
       id: 'masterCdBeBuffs',
-      name: 'masterCdBeBuffs',
       text: t('TeammateContent.masterCdBeBuffs.text'),
       content: t('TeammateContent.masterCdBeBuffs.content'),
     },

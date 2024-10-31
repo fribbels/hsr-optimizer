@@ -24,7 +24,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'enhancedUlt',
-      name: 'Enhanced Ult',
       text: t('Content.enhancedUlt.text'),
       content: t('Content.enhancedUlt.content', {
         ultScaling: TsUtils.precisionRound(100 * ultScaling),
@@ -35,7 +34,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'talentStacks',
-      name: 'Talent stacks',
       text: t('Content.talentStacks.text'),
       content: t('Content.talentStacks.content', { talentAtkScalingValue: TsUtils.precisionRound(100 * talentAtkScalingValue) }),
       min: 0,

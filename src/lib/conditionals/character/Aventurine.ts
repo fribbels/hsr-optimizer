@@ -39,48 +39,35 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'select',
       id: 'shieldAbility',
-      name: 'shieldAbility',
       text: tShield('Text'),
       content: tShield('Content'),
       options: [
-        {
-          display: tShield('Skill'),
-          value: SKILL_TYPE,
-          label: tShield('Skill'),
-        },
-        {
-          display: tShield('Trace'),
-          value: NONE_TYPE,
-          label: tShield('Trace'),
-        },
+        { display: tShield('Skill'), value: SKILL_TYPE, label: tShield('Skill') },
+        { display: tShield('Trace'), value: NONE_TYPE, label: tShield('Trace') },
       ],
       fullWidth: true,
     },
     {
       formItem: 'switch',
       id: 'defToCrBoost',
-      name: 'defToCrBoost',
       text: t('Content.defToCrBoost.text'),
       content: t('Content.defToCrBoost.content'),
     },
     {
       formItem: 'switch',
       id: 'fortifiedWagerBuff',
-      name: 'fortifiedWagerBuff',
       text: t('Content.fortifiedWagerBuff.text'),
       content: t('Content.fortifiedWagerBuff.content', { talentResScaling: TsUtils.precisionRound(100 * talentResScaling) }),
     },
     {
       formItem: 'switch',
       id: 'enemyUnnervedDebuff',
-      name: 'enemyUnnervedDebuff',
       text: t('Content.enemyUnnervedDebuff.text'),
       content: t('Content.enemyUnnervedDebuff.content', { ultCdBoost: TsUtils.precisionRound(100 * ultCdBoost) }),
     },
     {
       formItem: 'slider',
       id: 'fuaHitsOnTarget',
-      name: 'fuaHitsOnTarget',
       text: t('Content.fuaHitsOnTarget.text'),
       content: t('Content.fuaHitsOnTarget.content', { talentDmgScaling: TsUtils.precisionRound(100 * talentDmgScaling) }),
       min: 0,
@@ -89,7 +76,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e2ResShred',
-      name: 'e2ResShred',
       text: t('Content.e2ResShred.text'),
       content: t('Content.e2ResShred.content'),
       disabled: e < 2,
@@ -97,7 +83,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e4DefBuff',
-      name: 'e4DefBuff',
       text: t('Content.e4DefBuff.text'),
       content: t('Content.e4DefBuff.content'),
       disabled: e < 4,
@@ -105,7 +90,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'e6ShieldStacks',
-      name: 'e6ShieldStacks',
       text: t('Content.e6ShieldStacks.text'),
       content: t('Content.e6ShieldStacks.content'),
       min: 0,

@@ -32,21 +32,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'backupDancer',
-      name: 'backupDancer',
       text: t('Content.backupDancer.text'),
       content: t('Content.backupDancer.content', { ultBeScaling: TsUtils.precisionRound(100 * ultBeScaling) }),
     },
     {
       formItem: 'switch',
       id: 'superBreakDmg',
-      name: 'superBreakDmg',
       text: t('Content.superBreakDmg.text'),
       content: t('Content.superBreakDmg.content'),
     },
     {
       formItem: 'slider',
       id: 'skillHitsOnTarget',
-      name: 'skillHitsOnTarget',
       text: t('Content.skillHitsOnTarget.text'),
       content: t('Content.skillHitsOnTarget.content'),
       min: 0,
@@ -55,7 +52,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e2EnergyRegenBuff',
-      name: 'e2EnergyRegenBuff',
       text: t('Content.e2EnergyRegenBuff.text'),
       content: t('Content.e2EnergyRegenBuff.content'),
       disabled: e < 2,
@@ -68,7 +64,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'teammateBeValue',
-      name: 'teammateBeValue',
       text: t('TeammateContent.teammateBeValue.text'),
       content: t('TeammateContent.teammateBeValue.content'),
       min: 0,

@@ -28,28 +28,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'skillOvertoneBuff',
-      name: 'skillOvertoneBuff',
       text: t('Content.skillOvertoneBuff.text'),
       content: t('Content.skillOvertoneBuff.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
     },
     {
       formItem: 'switch',
       id: 'teamBEBuff',
-      name: 'teamBEBuff',
       text: t('Content.teamBEBuff.text'),
       content: t('Content.teamBEBuff.content'),
     },
     {
       formItem: 'switch',
       id: 'ultFieldActive',
-      name: 'ultFieldActive',
       text: t('Content.ultFieldActive.text'),
       content: t('Content.ultFieldActive.content', { fieldResPenValue: TsUtils.precisionRound(100 * fieldResPenValue) }),
     },
     {
       formItem: 'switch',
       id: 'e2AtkBoost',
-      name: 'e2AtkBoost',
       text: t('Content.e2AtkBoost.text'),
       content: t('Content.e2AtkBoost.content'),
       disabled: (e < 2),
@@ -57,7 +53,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e4BeBuff',
-      name: 'e4BeBuff',
       text: t('Content.e4BeBuff.text'),
       content: t('Content.e4BeBuff.content'),
       disabled: (e < 4),
@@ -69,7 +64,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'teamSpdBuff',
-      name: 'teamSpdBuff',
       text: t('TeammateContent.teamSpdBuff.text'),
       content: t('TeammateContent.teamSpdBuff.content', { talentSpdScaling: TsUtils.precisionRound(100 * talentSpdScaling) }),
     },
@@ -77,7 +71,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'teamDmgBuff',
-      name: 'teamDmgBuff',
       text: t('TeammateContent.teamDmgBuff.text'),
       content: t('TeammateContent.teamDmgBuff.content'),
       min: 0,

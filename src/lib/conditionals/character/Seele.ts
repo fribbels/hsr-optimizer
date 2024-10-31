@@ -24,14 +24,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'buffedState',
-      name: 'buffedState',
       text: t('Content.buffedState.text'),
       content: t('Content.buffedState.content', { buffedStateDmgBuff: TsUtils.precisionRound(100 * buffedStateDmgBuff) }),
     },
     {
       formItem: 'slider',
       id: 'speedBoostStacks',
-      name: 'speedBoostStacks',
       text: t('Content.speedBoostStacks.text'),
       content: t('Content.speedBoostStacks.content', { speedBoostStacksMax: speedBoostStacksMax }),
       min: 0,
@@ -40,7 +38,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e1EnemyHp80CrBoost',
-      name: 'e1EnemyHp80CrBoost',
       text: t('Content.e1EnemyHp80CrBoost.text'),
       content: t('Content.e1EnemyHp80CrBoost.content'),
       disabled: e < 1,
@@ -48,7 +45,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e6UltTargetDebuff',
-      name: 'e6UltTargetDebuff',
       text: t('Content.e6UltTargetDebuff.text'),
       content: t('Content.e6UltTargetDebuff.content'),
       disabled: e < 6,

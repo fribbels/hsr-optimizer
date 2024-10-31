@@ -31,7 +31,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'preyMark',
-      name: 'preyMark',
       text: t('Content.preyMark.text'),
       content: t('Content.preyMark.content', {
         PreyAdditionalMultiplier: TsUtils.precisionRound(100 * additionalDmgScaling),
@@ -41,7 +40,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e2CdBoost',
-      name: 'e2CdBoost',
       text: t('Content.e2CdBoost.text'),
       content: t('Content.e2CdBoost.content'),
       disabled: e < 2,
@@ -49,7 +47,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e4DmgBuff',
-      name: 'e4DmgBuff',
       text: t('Content.e4DmgBuff.text'),
       content: t('Content.e4DmgBuff.content'),
       disabled: e < 4,
@@ -57,7 +54,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e6MultiplierIncrease',
-      name: 'e6MultiplierIncrease',
       text: t('Content.e6MultiplierIncrease.text'),
       content: t('Content.e6MultiplierIncrease.content'),
       disabled: e < 6,

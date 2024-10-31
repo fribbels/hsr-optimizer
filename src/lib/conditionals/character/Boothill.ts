@@ -31,14 +31,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'standoffActive',
-      name: 'standoffActive',
       text: t('Content.standoffActive.text'),
       content: t('Content.standoffActive.content', { standoffVulnerabilityBoost: TsUtils.precisionRound(100 * standoffVulnerabilityBoost) }),
     },
     {
       formItem: 'slider',
       id: 'pocketTrickshotStacks',
-      name: 'pocketTrickshotStacks',
       text: t('Content.pocketTrickshotStacks.text'),
       content: t('Content.pocketTrickshotStacks.content'),
       min: 0,
@@ -47,21 +45,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'beToCritBoost',
-      name: 'beToCritBoost',
       text: t('Content.beToCritBoost.text'),
       content: t('Content.beToCritBoost.content'),
     },
     {
       formItem: 'switch',
       id: 'talentBreakDmgScaling',
-      name: 'talentBreakDmgScaling',
       text: t('Content.talentBreakDmgScaling.text'),
       content: t('Content.talentBreakDmgScaling.content'),
     },
     {
       formItem: 'switch',
       id: 'e1DefShred',
-      name: 'e1DefShred',
       text: t('Content.e1DefShred.text'),
       content: t('Content.e1DefShred.content'),
       disabled: e < 1,
@@ -69,7 +64,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e2BeBuff',
-      name: 'e2BeBuff',
       text: t('Content.e2BeBuff.text'),
       content: t('Content.e2BeBuff.content'),
       disabled: e < 2,
@@ -77,7 +71,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e4TargetStandoffVulnerability',
-      name: 'e4TargetStandoffVulnerability',
       text: t('Content.e4TargetStandoffVulnerability.text'),
       content: t('Content.e4TargetStandoffVulnerability.content'),
       disabled: e < 4,
@@ -85,7 +78,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e6AdditionalBreakDmg',
-      name: 'e6AdditionalBreakDmg',
       text: t('Content.e6AdditionalBreakDmg.text'),
       content: t('Content.e6AdditionalBreakDmg.content'),
       disabled: e < 6,

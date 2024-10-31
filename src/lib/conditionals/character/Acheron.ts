@@ -40,7 +40,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'crimsonKnotStacks',
-      name: 'crimsonKnotStacks',
       text: t('Content.crimsonKnotStacks.text'),
       content: t('Content.crimsonKnotStacks.content', {
         RainbladeScaling: TsUtils.precisionRound(100 * ultRainbladeScaling),
@@ -52,7 +51,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'nihilityTeammates',
-      name: 'nihilityTeammates',
       text: t('Content.nihilityTeammates.text'),
       content: t('Content.nihilityTeammates.content'),
       min: 0,
@@ -61,7 +59,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'thunderCoreStacks',
-      name: 'thunderCoreStacks',
       text: t('Content.thunderCoreStacks.text'),
       content: t('Content.thunderCoreStacks.content'),
       min: 0,
@@ -70,7 +67,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'stygianResurgeHitsOnTarget',
-      name: 'stygianResurgeHitsOnTarget',
       text: t('Content.stygianResurgeHitsOnTarget.text'),
       content: t('Content.stygianResurgeHitsOnTarget.content'),
       min: 0,
@@ -79,7 +75,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e1EnemyDebuffed',
-      name: 'e1EnemyDebuffed',
       text: t('Content.e1EnemyDebuffed.text'),
       content: t('Content.e1EnemyDebuffed.content'),
       disabled: e < 1,
@@ -87,7 +82,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e4UltVulnerability',
-      name: 'e4UltVulnerability',
       text: t('Content.e4UltVulnerability.text'),
       content: t('Content.e4UltVulnerability.content'),
       disabled: e < 4,
@@ -95,7 +89,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e6UltBuffs',
-      name: 'e6UltBuffs',
       text: t('Content.e6UltBuffs.text'),
       content: t('Content.e6UltBuffs.content'),
       disabled: e < 6,

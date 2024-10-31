@@ -37,46 +37,30 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'select',
       id: 'healAbility',
-      name: 'healAbility',
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
-        {
-          display: tHeal('Skill'),
-          value: SKILL_TYPE,
-          label: tHeal('Skill'),
-        },
-        {
-          display: tHeal('Ult'),
-          value: ULT_TYPE,
-          label: tHeal('Ult'),
-        },
-        {
-          display: tHeal('Talent'),
-          value: NONE_TYPE,
-          label: tHeal('Talent'),
-        },
+        { display: tHeal('Skill'), value: SKILL_TYPE, label: tHeal('Skill') },
+        { display: tHeal('Ult'), value: ULT_TYPE, label: tHeal('Ult') },
+        { display: tHeal('Talent'), value: NONE_TYPE, label: tHeal('Talent') },
       ],
       fullWidth: true,
     },
     {
       formItem: 'switch',
       id: 'healingMaxHpBuff',
-      name: 'healingMaxHpBuff',
       text: t('Content.healingMaxHpBuff.text'),
       content: t('Content.healingMaxHpBuff.content'),
     },
     {
       formItem: 'switch',
       id: 'talentDmgReductionBuff',
-      name: 'talentDmgReductionBuff',
       text: t('Content.talentDmgReductionBuff.text'),
       content: t('Content.talentDmgReductionBuff.content'),
     },
     {
       formItem: 'switch',
       id: 'e2UltHealingBuff',
-      name: 'e2UltHealingBuff',
       text: t('Content.e2UltHealingBuff.text'),
       content: t('Content.e2UltHealingBuff.content'),
       disabled: e < 2,
@@ -84,7 +68,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'e4SkillHealingDmgBuffStacks',
-      name: 'e4SkillHealingDmgBuffStacks',
       text: t('Content.e4SkillHealingDmgBuffStacks.text'),
       content: t('Content.e4SkillHealingDmgBuffStacks.content'),
       min: 0,

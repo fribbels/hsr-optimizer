@@ -28,7 +28,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'talentDebuffStacks',
-      name: 'talentDebuffStacks',
       text: t('Content.talentDebuffStacks.text'),
       content: t('Content.talentDebuffStacks.content', {
         talentDebuffDmgIncreaseValue: TsUtils.precisionRound(talentDebuffDmgIncreaseValue),
@@ -40,21 +39,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'enemyBurned',
-      name: 'enemyBurned',
       text: t('Content.enemyBurned.text'),
       content: t('Content.enemyBurned.content'),
     },
     {
       formItem: 'switch',
       id: 'skillDot',
-      name: 'skillDot',
       text: t('Content.skillDot.text'),
       content: t('Content.skillDot.content'),
     },
     {
       formItem: 'switch',
       id: 'e1EffectResShred',
-      name: 'e1EffectResShred',
       text: t('Content.e1EffectResShred.text'),
       content: t('Content.e1EffectResShred.content'),
       disabled: e < 1,
@@ -62,7 +58,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e2BurnMultiBoost',
-      name: 'e2BurnMultiBoost',
       text: t('Content.e2BurnMultiBoost.text'),
       content: t('Content.e2BurnMultiBoost.content'),
       disabled: e < 2,

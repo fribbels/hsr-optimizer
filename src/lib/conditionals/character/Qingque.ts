@@ -41,21 +41,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'basicEnhanced',
-      name: 'basicEnhanced',
       text: t('Content.basicEnhanced.text'),
       content: t('Content.basicEnhanced.content', { talentAtkBuff: TsUtils.precisionRound(100 * talentAtkBuff) }),
     },
     {
       formItem: 'switch',
       id: 'basicEnhancedSpdBuff',
-      name: 'basicEnhancedSpdBuff',
       text: t('Content.basicEnhancedSpdBuff.text'),
       content: t('Content.basicEnhancedSpdBuff.content'),
     },
     {
       formItem: 'slider',
       id: 'skillDmgIncreaseStacks',
-      name: 'skillDmgIncreaseStacks',
       text: t('Content.skillDmgIncreaseStacks.text'),
       content: t('Content.skillDmgIncreaseStacks.content', { skillStackDmg: TsUtils.precisionRound(100 * skillStackDmg) }),
       min: 0,

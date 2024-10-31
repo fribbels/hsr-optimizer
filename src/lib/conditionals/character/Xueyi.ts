@@ -32,21 +32,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const content: ContentItem[] = [
     {
       id: 'beToDmgBoost',
-      name: 'beToDmgBoost',
       formItem: 'switch',
       text: t('Content.beToDmgBoost.text'),
       content: t('Content.beToDmgBoost.content'),
     },
     {
       id: 'enemyToughness50',
-      name: 'enemyToughness50',
       formItem: 'switch',
       text: t('Content.enemyToughness50.text'),
       content: t('Content.enemyToughness50.content'),
     },
     {
       id: 'toughnessReductionDmgBoost',
-      name: 'toughnessReductionDmgBoost',
       formItem: 'slider',
       text: t('Content.toughnessReductionDmgBoost.text'),
       content: t('Content.toughnessReductionDmgBoost.content', { ultBoostMax: TsUtils.precisionRound(100 * ultBoostMax) }),
@@ -56,7 +53,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     {
       id: 'fuaHits',
-      name: 'fuaHits',
       formItem: 'slider',
       text: t('Content.fuaHits.text'),
       content: t('Content.fuaHits.content', { fuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
@@ -65,7 +61,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     {
       id: 'e4BeBuff',
-      name: 'e4BeBuff',
       formItem: 'switch',
       text: t('Content.e4BeBuff.text'),
       content: t('Content.e4BeBuff.content'),

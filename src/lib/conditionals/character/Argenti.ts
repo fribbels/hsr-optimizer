@@ -26,7 +26,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'ultEnhanced',
-      name: 'ultEnhanced',
       text: t('Content.ultEnhanced.text'),
       content: t('Content.ultEnhanced.content', {
         ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling),
@@ -36,14 +35,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'enemyHp50',
-      name: 'enemyHp50',
       text: t('Content.enemyHp50.text'),
       content: t('Content.enemyHp50.content'),
     },
     {
       formItem: 'slider',
       id: 'talentStacks',
-      name: 'talentStacks',
       text: t('Content.talentStacks.text'),
       content: t('Content.talentStacks.content', {
         talentMaxStacks: TsUtils.precisionRound(100 * talentMaxStacks),
@@ -55,7 +52,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'ultEnhancedExtraHits',
-      name: 'ultEnhancedExtraHits',
       text: t('Content.ultEnhancedExtraHits.text'),
       content: t('Content.ultEnhancedExtraHits.content', { ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling) }),
       min: 0,
@@ -64,7 +60,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e2UltAtkBuff',
-      name: 'e2UltAtkBuff',
       text: t('Content.e2UltAtkBuff.text'),
       content: t('Content.e2UltAtkBuff.content'),
       disabled: e < 2,

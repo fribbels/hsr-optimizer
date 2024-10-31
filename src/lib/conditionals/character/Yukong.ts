@@ -29,21 +29,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'teamImaginaryDmgBoost',
-      name: 'teamImaginaryDmgBoost',
       text: t('Content.teamImaginaryDmgBoost.text'),
       content: t('Content.teamImaginaryDmgBoost.content'),
     },
     {
       formItem: 'switch',
       id: 'roaringBowstringsActive',
-      name: 'roaringBowstringsActive',
       text: t('Content.roaringBowstringsActive.text'),
       content: t('Content.roaringBowstringsActive.content', { skillAtkBuffValue: TsUtils.precisionRound(100 * skillAtkBuffValue) }),
     },
     {
       formItem: 'switch',
       id: 'ultBuff',
-      name: 'ultBuff',
       text: t('Content.ultBuff.text'),
       content: t('Content.ultBuff.content', {
         ultCrBuffValue: TsUtils.precisionRound(100 * ultCrBuffValue),
@@ -54,7 +51,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'initialSpeedBuff',
-      name: 'initialSpeedBuff',
       text: t('Content.initialSpeedBuff.text'),
       content: t('Content.initialSpeedBuff.content'),
       disabled: e < 1,

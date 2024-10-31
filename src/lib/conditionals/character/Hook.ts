@@ -24,14 +24,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'enhancedSkill',
-      name: 'enhancedSkill',
       text: t('Content.enhancedSkill.text'),
       content: t('Content.enhancedSkill.content', { skillEnhancedScaling: TsUtils.precisionRound(100 * skillEnhancedScaling) }),
     },
     {
       formItem: 'switch',
       id: 'targetBurned',
-      name: 'targetBurned',
       text: t('Content.targetBurned.text'),
       content: t('Content.targetBurned.content', { targetBurnedExtraScaling: TsUtils.precisionRound(100 * targetBurnedExtraScaling) }),
     },

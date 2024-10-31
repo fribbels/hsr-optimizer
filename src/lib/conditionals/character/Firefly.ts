@@ -30,35 +30,30 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'enhancedStateActive',
-      name: 'enhancedStateActive',
       text: t('Content.enhancedStateActive.text'),
       content: t('Content.enhancedStateActive.content'),
     },
     {
       formItem: 'switch',
       id: 'enhancedStateSpdBuff',
-      name: 'enhancedStateSpdBuff',
       text: t('Content.enhancedStateSpdBuff.text'),
       content: t('Content.enhancedStateSpdBuff.content', { ultSpdBuff }),
     },
     {
       formItem: 'switch',
       id: 'superBreakDmg',
-      name: 'superBreakDmg',
       text: t('Content.superBreakDmg.text'),
       content: t('Content.superBreakDmg.content'),
     },
     {
       formItem: 'switch',
       id: 'atkToBeConversion',
-      name: 'atkToBeConversion',
       text: t('Content.atkToBeConversion.text'),
       content: t('Content.atkToBeConversion.content'),
     },
     {
       formItem: 'switch',
       id: 'talentDmgReductionBuff',
-      name: 'talentDmgReductionBuff',
       text: t('Content.talentDmgReductionBuff.text'),
       content: t('Content.talentDmgReductionBuff.content', {
         talentResBuff: TsUtils.precisionRound(100 * talentResBuff),
@@ -68,7 +63,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e1DefShred',
-      name: 'e1DefShred',
       text: t('Content.e1DefShred.text'),
       content: t('Content.e1DefShred.content'),
       disabled: e < 1,
@@ -76,7 +70,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e4ResBuff',
-      name: 'e4ResBuff',
       text: t('Content.e4ResBuff.text'),
       content: t('Content.e4ResBuff.content'),
       disabled: e < 4,
@@ -84,7 +77,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e6Buffs',
-      name: 'e6Buffs',
       text: t('Content.e6Buffs.text'),
       content: t('Content.e6Buffs.content'),
       disabled: e < 6,

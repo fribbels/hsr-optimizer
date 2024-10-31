@@ -44,14 +44,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'enhancedFollowUp',
-      name: 'enhancedFollowUp',
       text: t('Content.enhancedFollowUp.text'),
       content: t('Content.enhancedFollowUp.content', { ultFuaScalingBuff: TsUtils.precisionRound(100 * ultFuaScalingBuff) }),
     },
     {
       formItem: 'slider',
       id: 'pawnedAssetStacks',
-      name: 'pawnedAssetStacks',
       text: t('Content.pawnedAssetStacks.text'),
       content: t('Content.pawnedAssetStacks.content', { pawnedAssetCdScaling: TsUtils.precisionRound(100 * pawnedAssetCdScaling) }),
       min: 0,
@@ -60,7 +58,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e1FuaDmgBoost',
-      name: 'e1FuaDmgBoost',
       text: t('Content.e1FuaDmgBoost.text'),
       content: t('Content.e1FuaDmgBoost.content'),
       disabled: e < 1,
@@ -69,7 +66,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       formItem: 'switch',
       id: 'e2CrBuff',
-      name: 'e2CrBuff',
       text: t('Content.e2CrBuff.text'),
       content: t('Content.e2CrBuff.content'),
       disabled: e < 2,
@@ -78,7 +74,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       formItem: 'switch',
       id: 'e4DefShredBuff',
-      name: 'e4DefShredBuff',
       text: t('Content.e4DefShredBuff.text'),
       content: t('Content.e4DefShredBuff.content'),
       disabled: e < 4,
@@ -86,7 +81,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e6ResShredBuff',
-      name: 'e6ResShredBuff',
       text: t('Content.e6ResShredBuff.text'),
       content: t('Content.e6ResShredBuff.content'),
       disabled: e < 6,
@@ -97,7 +91,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'debtCollectorSpdBuff',
-      name: 'debtCollectorSpdBuff',
       text: t('TeammateContent.debtCollectorSpdBuff.text'),
       content: t('TeammateContent.debtCollectorSpdBuff.content'),
     },

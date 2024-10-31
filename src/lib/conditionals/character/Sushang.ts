@@ -26,14 +26,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'ultBuffedState',
-      name: 'ultBuffedState',
       text: t('Content.ultBuffedState.text'),
       content: t('Content.ultBuffedState.content', { ultBuffedAtk: TsUtils.precisionRound(100 * ultBuffedAtk) }),
     },
     {
       formItem: 'slider',
       id: 'skillExtraHits',
-      name: 'skillExtraHits',
       text: t('Content.skillExtraHits.text'),
       content: t('Content.skillExtraHits.content'),
       min: 0,
@@ -42,7 +40,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'skillTriggerStacks',
-      name: 'skillTriggerStacks',
       text: t('Content.skillTriggerStacks.text'),
       content: t('Content.skillTriggerStacks.content'),
       min: 0,
@@ -51,7 +48,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'talentSpdBuffStacks',
-      name: 'talentSpdBuffStacks',
       text: t('Content.talentSpdBuffStacks.text'),
       content: t('Content.talentSpdBuffStacks.content', { talentSpdBuffValue: TsUtils.precisionRound(100 * talentSpdBuffValue) }),
       min: 0,
@@ -60,7 +56,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e2DmgReductionBuff',
-      name: 'e2DmgReductionBuff',
       text: t('Content.e2DmgReductionBuff.text'),
       content: t('Content.e2DmgReductionBuff.content'),
       disabled: e < 2,

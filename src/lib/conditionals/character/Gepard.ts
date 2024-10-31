@@ -28,7 +28,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e4TeamResBuff',
-      name: 'e4TeamResBuff',
       text: t('Content.e4TeamResBuff.text'),
       content: t('Content.e4TeamResBuff.content'),
       disabled: e < 4,
@@ -45,7 +44,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e4TeamResBuff: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
 

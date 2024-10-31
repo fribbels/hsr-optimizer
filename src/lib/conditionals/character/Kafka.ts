@@ -30,7 +30,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e1DotDmgReceivedDebuff',
-      name: 'e1DotDmgReceivedDebuff',
       text: t('Content.e1DotDmgReceivedDebuff.text'),
       content: t('Content.e1DotDmgReceivedDebuff.content'),
       disabled: e < 1,
@@ -38,7 +37,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e2TeamDotBoost',
-      name: 'e2TeamDotBoost',
       text: t('Content.e2TeamDotBoost.text'),
       content: t('Content.e2TeamDotBoost.content'),
       disabled: e < 2,

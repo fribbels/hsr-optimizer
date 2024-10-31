@@ -36,14 +36,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'talentActive',
-      name: 'talentActive',
       text: t('Content.talentActive.text'),
       content: t('Content.talentActive.content', { talentDmgReductionValue: TsUtils.precisionRound(100 * talentDmgReductionValue) }),
     },
     {
       formItem: 'switch',
       id: 'skillActive',
-      name: 'skillActive',
       text: t('Content.skillActive.text'),
       content: t('Content.skillActive.content', {
         skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue),
@@ -53,7 +51,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'e6TeamHpLostPercent',
-      name: 'e6TeamHpLostPercent',
       text: t('Content.e6TeamHpLostPercent.text'),
       content: t('Content.e6TeamHpLostPercent.content'),
       min: 0,
@@ -69,7 +66,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'teammateHPValue',
-      name: 'teammateHPValue',
       text: t('TeammateContent.teammateHPValue.text'),
       content: t('TeammateContent.teammateHPValue.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue) }),
       min: 0,

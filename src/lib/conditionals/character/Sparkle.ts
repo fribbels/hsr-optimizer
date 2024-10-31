@@ -39,7 +39,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'skillCdBuff',
-      name: 'skillCdBuff',
       text: t('Content.skillCdBuff.text'),
       content: t('Content.skillCdBuff.content', {
         skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling),
@@ -49,14 +48,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'cipherBuff',
-      name: 'cipherBuff',
       text: t('Content.cipherBuff.text'),
       content: t('Content.cipherBuff.content', { cipherTalentStackBoost: TsUtils.precisionRound(100 * cipherTalentStackBoost) }),
     },
     {
       formItem: 'slider',
       id: 'talentStacks',
-      name: 'talentStacks',
       text: t('Content.talentStacks.text'),
       content: t('Content.talentStacks.content', { talentBaseStackBoost: TsUtils.precisionRound(100 * talentBaseStackBoost) }),
       min: 0,
@@ -65,7 +62,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'quantumAllies',
-      name: 'quantumAllies',
       text: t('Content.quantumAllies.text'),
       content: t('Content.quantumAllies.content'),
       min: 0,
@@ -78,7 +74,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'teammateCDValue',
-      name: 'teammateCDValue',
       text: t('TeammateContent.teammateCDValue.text'),
       content: t('TeammateContent.teammateCDValue.content', {
         skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling),

@@ -22,14 +22,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentItem[] = [
     {
-      name: 'talentEnhancedState',
       id: 'talentEnhancedState',
       formItem: 'switch',
       text: t('Content.talentEnhancedState.text'),
       content: t('Content.talentEnhancedState.content', { talentCrBuff: TsUtils.precisionRound(100 * talentCrBuff) }),
     },
     {
-      name: 'talentHpDrainAtkBuff',
       id: 'talentHpDrainAtkBuff',
       formItem: 'slider',
       text: t('Content.talentHpDrainAtkBuff.text'),
@@ -40,7 +38,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     {
       id: 'e1CdBuff',
-      name: 'e1CdBuff',
       formItem: 'switch',
       text: t('Content.e1CdBuff.text'),
       content: t('Content.e1CdBuff.content'),
@@ -48,7 +45,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     {
       id: 'e2SkillDmgBuff',
-      name: 'e2SkillDmgBuff',
       formItem: 'switch',
       text: t('Content.e2SkillDmgBuff.text'),
       content: t('Content.e2SkillDmgBuff.content'),

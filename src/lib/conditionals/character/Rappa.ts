@@ -12,7 +12,7 @@ import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Rappa')
-  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5 // TODO
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 2.00, 2.32)
@@ -30,19 +30,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'sealformActive',
-      name: 'sealformActive',
       text: t('Content.sealformActive.text'),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
       formItem: 'switch',
       id: 'atkToBreakVulnerability',
-      name: 'atkToBreakVulnerability',
       text: t('Content.atkToBreakVulnerability.text'),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
-      name: 'chargeStacks',
       id: 'chargeStacks',
       formItem: 'slider',
       text: t('Content.chargeStacks.text'),
@@ -53,7 +50,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e1DefPen',
-      name: 'e1DefPen',
       text: t('Content.e1DefPen.text'),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
@@ -61,7 +57,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e2Buffs',
-      name: 'e2Buffs',
       text: t('Content.e2Buffs.text'),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
@@ -69,7 +64,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e4SpdBuff',
-      name: 'e4SpdBuff',
       text: t('Content.e4SpdBuff.text'),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 4,
@@ -80,7 +74,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'slider',
       id: 'teammateBreakVulnerability',
-      name: 'teammateBreakVulnerability',
       text: t('TeammateContent.teammateBreakVulnerability.text'),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
@@ -90,7 +83,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e4SpdBuff',
-      name: 'e4SpdBuff',
       text: t('TeammateContent.e4SpdBuff.text'),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 4,

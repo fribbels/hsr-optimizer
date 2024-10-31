@@ -33,48 +33,35 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'select',
       id: 'healAbility',
-      name: 'healAbility',
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
-        {
-          display: tHeal('Skill'),
-          value: SKILL_TYPE,
-          label: tHeal('Skill'),
-        },
-        {
-          display: tHeal('Talent'),
-          value: NONE_TYPE,
-          label: tHeal('Talent'),
-        },
+        { display: tHeal('Skill'), value: SKILL_TYPE, label: tHeal('Skill') },
+        { display: tHeal('Talent'), value: NONE_TYPE, label: tHeal('Talent') },
       ],
       fullWidth: true,
     },
     {
       formItem: 'switch',
       id: 'basicEnhanced',
-      name: 'basicEnhanced',
       text: t('Content.basicEnhanced.text'),
       content: t('Content.basicEnhanced.content'),
     },
     {
       formItem: 'switch',
       id: 'breakEffectToOhbBoost',
-      name: 'breakEffectToOhbBoost',
       text: t('Content.breakEffectToOhbBoost.text'),
       content: t('Content.breakEffectToOhbBoost.content'),
     },
     {
       formItem: 'switch',
       id: 'targetBesotted',
-      name: 'targetBesotted',
       text: t('Content.targetBesotted.text'),
       content: t('Content.targetBesotted.content', { talentBesottedScaling: TsUtils.precisionRound(100 * talentBesottedScaling) }),
     },
     {
       formItem: 'switch',
       id: 'e1ResBuff',
-      name: 'e1ResBuff',
       text: t('Content.e1ResBuff.text'),
       content: t('Content.e1ResBuff.content'),
       disabled: e < 1,
@@ -82,7 +69,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e2ResBuff',
-      name: 'e2ResBuff',
       text: t('Content.e2ResBuff.text'),
       content: t('Content.e2ResBuff.content'),
       disabled: e < 2,
@@ -90,7 +76,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     {
       formItem: 'switch',
       id: 'e6BeBuff',
-      name: 'e6BeBuff',
       text: t('Content.e6BeBuff.text'),
       content: t('Content.e6BeBuff.content'),
       disabled: e < 6,

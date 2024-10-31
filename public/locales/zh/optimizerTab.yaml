@@ -9,8 +9,8 @@ CharacterSelector:
   SuperimpositionPlaceholder: 叠
 LightconePassives: 光锥被动
 CharacterPassives: 角色被动
-NoConditionals: 无条件触发被动技能
-NoTeamConditionals: 无条件触发团队被动技能
+NoConditionals: 无可应用的条件触发被动技能
+NoTeamConditionals: 无可应用的条件触发团队被动技能
 ResultLimitN: "查找排名前{{limit}}的结果"
 MainStats: 主属性
 Sets: 套装
@@ -388,7 +388,7 @@ ComboFilter:
     Fua: 追加攻击
   RotationButton: 高级技能循环
 ComboDrawer:
-  NoConditionals: 无条件触发被动技能
+  NoConditionals: 无可应用的条件触发被动技能
   Title: 高级技能循环用户指南
   Placeholders:
     Sets: 隧洞遗器套装条件触发效果

@@ -491,7 +491,7 @@ interface Resources {
       "IncessantRain": {
         "Content": {
           "enemy3DebuffsCrBoost": {
-            "text": "Enemy ≥ 3 debuffs CR boost",
+            "text": "Enemy ≤ 3 debuffs CR boost",
             "content": "When the wearer deals DMG to an enemy that currently has 3 or more debuffs, increases the wearer's CRIT Rate by {{CritBuff}}%."
           },
           "targetCodeDebuff": {
@@ -801,7 +801,7 @@ interface Resources {
       "DreamvilleAdventure": {
         "Content": {
           "ultDmgBuff": {
-            "text": "Ult DMG boost",
+            "text": "Ult DMG boost'",
             "content": "After the wearer uses a certain type of ability such as Basic ATK, Skill, or Ultimate, all allies gain Childishness, which increases allies' DMG for the same type of ability as used by the wearer by {{DmgBuff}}%. Childishness only takes effect for the most recent type of ability the wearer used and cannot be stacked."
           },
           "skillDmgBuff": {
@@ -874,7 +874,7 @@ interface Resources {
         "Content": {
           "crBuff": {
             "text": "Ult CR buff",
-            "content": "When the wearer uses their Ultimate, increases CRIT Rate by {{CritBuff}}%, lasting for 2 turn(s)."
+            "content": "Increases the wearer's Break Effect by {{BreakBuff}}%. When the wearer uses their Ultimate, increases CRIT Rate by {{CritBuff}}%, lasting for 2 turn(s)."
           }
         }
       },
@@ -898,7 +898,7 @@ interface Resources {
         "Content": {
           "cdBuff": {
             "text": "CD buff",
-            "content": null
+            "content": "When losing or restoring this unit's HP, increases CRIT DMG by {{sValuesCd}}%, lasting for 2 turn(s)."
           }
         }
       },
@@ -2087,37 +2087,37 @@ interface Resources {
         "Content": {
           "sealformActive": {
             "text": "Sealform state (force weakness break)",
-            "content": null
+            "content": "Enters the \"Sealform\" state, immediately gains 1 extra turn, obtains 3 points of \"Chroma Ink,\" and increases Weakness Break Efficiency by 50% and Break Effect by {{ultBeBuff}}%."
           },
           "atkToBreakVulnerability": {
             "text": "ATK to Break vulnerability",
-            "content": null
+            "content": "When an enemy target becomes Weakness Broken, increases the Break DMG taken by 2%. If Rappa's current ATK is higher than 2400, for every 100 excess ATK, additionally increases this value by 1%, up to a max additional increase of 8%."
           },
           "chargeStacks": {
             "text": "Charge stacks",
-            "content": null
+            "content": "Each point of Charge increases the Break DMG multiplier by {{talentChargeMultiplier}}% and increases the Toughness Reduction that can ignore Weakness Type by 1."
           },
           "e1DefPen": {
             "text": "E1 DEF PEN",
-            "content": null
+            "content": "During the \"Sealform\" state entered by using Ultimate, DMG dealt by Rappa ignores 15% of the targets' DEF."
           },
           "e2Buffs": {
             "text": "E2 break buffs",
-            "content": null
+            "content": "The Enhanced Basic ATK's first 2 hits have their Toughness Reduction against the one designated enemy increased by 50%."
           },
           "e4SpdBuff": {
             "text": "E4 SPD buff",
-            "content": null
+            "content": "While in the \"Sealform\" state, increases all allies' SPD by 12%."
           }
         },
         "TeammateContent": {
           "teammateBreakVulnerability": {
             "text": "Break vulnerability",
-            "content": null
+            "content": "When an enemy target becomes Weakness Broken, increases the Break DMG taken by 2%. If Rappa's current ATK is higher than 2400, for every 100 excess ATK, additionally increases this value by 1%, up to a max additional increase of 8%."
           },
           "e4SpdBuff": {
             "text": "E4 SPD buff",
-            "content": null
+            "content": "While in the \"Sealform\" state, increases all allies' SPD by 12%."
           }
         }
       },
@@ -3631,12 +3631,12 @@ interface Resources {
         },
         "MAX_HP": {
           "SuccessMessage": "Reset Maximum $t(common:Stats.HP) filter",
-          "Description": "Maximum $t(common:Stats.HP) may be too low",
+          "Description": "Maximum $t(common:Stats.HP) may be too high",
           "ButtonText": "Reset Maximum $t(common:Stats.HP) filter"
         },
         "MIN_HP": {
           "SuccessMessage": "Reset Minimum $t(common:Stats.HP) filter",
-          "Description": "Minimum $t(common:Stats.HP) may be too high",
+          "Description": "Minimum $t(common:Stats.HP) may be too low",
           "ButtonText": "Reset Minimum $t(common:Stats.HP) filter"
         },
         "MAX_ATK": {

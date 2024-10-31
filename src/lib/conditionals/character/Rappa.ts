@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION, Stats } from 'lib/constants'
@@ -31,19 +30,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'switch',
       id: 'sealformActive',
       text: t('Content.sealformActive.text'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      content: t('Content.sealformActive.content', { ultBeBuff: TsUtils.precisionRound(100 * ultBeBuff) }),
     },
     {
       formItem: 'switch',
       id: 'atkToBreakVulnerability',
       text: t('Content.atkToBreakVulnerability.text'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      content: t('Content.atkToBreakVulnerability.content'),
     },
     {
       id: 'chargeStacks',
       formItem: 'slider',
       text: t('Content.chargeStacks.text'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      content: t('Content.chargeStacks.content', { talentChargeMultiplier: TsUtils.precisionRound(100 * talentChargeMultiplier) }),
       min: 0,
       max: maxChargeStacks,
     },
@@ -51,21 +50,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'switch',
       id: 'e1DefPen',
       text: t('Content.e1DefPen.text'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      content: t('Content.e1DefPen.content'),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
       id: 'e2Buffs',
       text: t('Content.e2Buffs.text'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      content: t('Content.e2Buffs.content'),
       disabled: e < 2,
     },
     {
       formItem: 'switch',
       id: 'e4SpdBuff',
       text: t('Content.e4SpdBuff.text'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      content: t('Content.e4SpdBuff.content'),
       disabled: e < 4,
     },
   ]
@@ -75,7 +74,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateBreakVulnerability',
       text: t('TeammateContent.teammateBreakVulnerability.text'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      content: t('TeammateContent.teammateBreakVulnerability.content'),
       min: 0,
       max: 0.10,
       percent: true,
@@ -84,7 +83,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'switch',
       id: 'e4SpdBuff',
       text: t('TeammateContent.e4SpdBuff.text'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      content: t('TeammateContent.e4SpdBuff.content'),
       disabled: e < 4,
     },
   ]

@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { CURRENT_DATA_VERSION, Stats } from 'lib/constants'
 import { TsUtils } from 'lib/TsUtils'
@@ -18,7 +17,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       id: 'cdBuff',
       formItem: 'switch',
       text: t('Content.cdBuff.text'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      content: t('Content.cdBuff.content', { sValuesCd: TsUtils.precisionRound(100 * sValuesCd[s]) }),
     },
   ]
 

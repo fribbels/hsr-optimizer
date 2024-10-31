@@ -428,7 +428,7 @@ Lightcones:
     Content:
       cdBuff:
         text: CD buff
-        content:
+        content: When losing or restoring this unit's HP, increases CRIT DMG by {{sValuesCd}}%, lasting for 2 turn(s).
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
@@ -1346,29 +1346,30 @@ Characters:
     Content:
       sealformActive:
         text: Sealform state (force weakness break)
-        content:
+        content: >-
+          Enters the "Sealform" state, immediately gains 1 extra turn, obtains 3 points of "Chroma Ink," and increases Weakness Break Efficiency by 50% and Break Effect by {{ultBeBuff}}%.
       atkToBreakVulnerability:
         text: ATK to Break vulnerability
-        content:
+        content: When an enemy target becomes Weakness Broken, increases the Break DMG taken by 2%. If Rappa's current ATK is higher than 2400, for every 100 excess ATK, additionally increases this value by 1%, up to a max additional increase of 8%.
       chargeStacks:
         text: Charge stacks
-        content:
+        content: Each point of Charge increases the Break DMG multiplier by {{talentChargeMultiplier}}% and increases the Toughness Reduction that can ignore Weakness Type by 1.
       e1DefPen:
         text: E1 DEF PEN
-        content:
+        content: During the "Sealform" state entered by using Ultimate, DMG dealt by Rappa ignores 15% of the targets' DEF.
       e2Buffs:
         text: E2 break buffs
-        content:
+        content: The Enhanced Basic ATK's first 2 hits have their Toughness Reduction against the one designated enemy increased by 50%.
       e4SpdBuff:
         text: E4 SPD buff
-        content:
+        content: While in the "Sealform" state, increases all allies' SPD by 12%.
     TeammateContent:
       teammateBreakVulnerability:
         text: Break vulnerability
-        content:
+        content: When an enemy target becomes Weakness Broken, increases the Break DMG taken by 2%. If Rappa's current ATK is higher than 2400, for every 100 excess ATK, additionally increases this value by 1%, up to a max additional increase of 8%.
       e4SpdBuff:
         text: E4 SPD buff
-        content:
+        content: While in the "Sealform" state, increases all allies' SPD by 12%.
   Robin:
     Content:
       concertoActive:

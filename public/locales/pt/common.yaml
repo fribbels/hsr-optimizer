@@ -56,7 +56,7 @@ Stats:
   Effect Hit Rate: Acerto de Efeito
   Effect RES: RES a Efeito
   Break Effect: Efeito de Quebra
-  Energy Regeneration Rate: Taxa de Regeneração de Energia
+  Energy Regeneration Rate: Taxa de Regen de Energia
   Outgoing Healing Boost: Bônus de Cura Realizada
   Physical DMG Boost: "Aumento de Dano $t(gameData:Elements.Physical)"
   Fire DMG Boost: "Aumento de Dano $t(gameData:Elements.Fire)"
@@ -125,7 +125,7 @@ ReadableStats:
   Effect Hit Rate: Acerto de Efeito
   Effect RES: RES a Efeito
   Break Effect: Efeito de Quebra
-  Energy Regeneration Rate: Regeneração de Energia
+  Energy Regeneration Rate: Regen de Energia
   Outgoing Healing Boost: Aumento de Cura
   Physical DMG Boost: "Dano $t(gameData:Elements.Physical)"
   Fire DMG Boost: "Dano $t(gameData:Elements.Fire)"

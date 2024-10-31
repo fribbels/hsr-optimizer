@@ -7,15 +7,15 @@ import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PostOpConversation')
+
   const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
+
   const content: ContentItem[] = [
     {
       lc: true,
       id: 'postUltHealingBoost',
-      name: 'postUltHealingBoost',
       formItem: 'switch',
       text: t('Content.postUltHealingBoost.text'),
-      title: t('Content.postUltHealingBoost.title'),
       content: t('Content.postUltHealingBoost.content', { HealingBoost: TsUtils.precisionRound(100 * sValues[s]) }),
     },
   ]

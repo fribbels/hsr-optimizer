@@ -1,10 +1,15 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardAtkFinalizer,
+  standardAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -25,8 +30,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'talentDebuffStacks',
       name: 'talentDebuffStacks',
       text: t('Content.talentDebuffStacks.text'),
-      title: t('Content.talentDebuffStacks.title'),
-      content: t('Content.talentDebuffStacks.content', { talentDebuffDmgIncreaseValue: TsUtils.precisionRound(talentDebuffDmgIncreaseValue), talentDebuffMax }),
+      content: t('Content.talentDebuffStacks.content', {
+        talentDebuffDmgIncreaseValue: TsUtils.precisionRound(talentDebuffDmgIncreaseValue),
+        talentDebuffMax,
+      }),
       min: 0,
       max: talentDebuffMax,
     },
@@ -35,7 +42,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'enemyBurned',
       name: 'enemyBurned',
       text: t('Content.enemyBurned.text'),
-      title: t('Content.enemyBurned.title'),
       content: t('Content.enemyBurned.content'),
     },
     {
@@ -43,7 +49,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'skillDot',
       name: 'skillDot',
       text: t('Content.skillDot.text'),
-      title: t('Content.skillDot.title'),
       content: t('Content.skillDot.content'),
     },
     {
@@ -51,7 +56,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e1EffectResShred',
       name: 'e1EffectResShred',
       text: t('Content.e1EffectResShred.text'),
-      title: t('Content.e1EffectResShred.title'),
       content: t('Content.e1EffectResShred.content'),
       disabled: e < 1,
     },
@@ -60,7 +64,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e2BurnMultiBoost',
       name: 'e2BurnMultiBoost',
       text: t('Content.e2BurnMultiBoost.text'),
-      title: t('Content.e2BurnMultiBoost.title'),
       content: t('Content.e2BurnMultiBoost.content'),
       disabled: e < 2,
     },

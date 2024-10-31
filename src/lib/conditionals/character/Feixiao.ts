@@ -1,12 +1,12 @@
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { buffAbilityCd } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Stats } from 'lib/constants'
-import { buffAbilityCd } from 'lib/optimizer/calculateBuffs'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -47,7 +47,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'weaknessBrokenUlt',
       name: 'weaknessBrokenUlt',
       text: t('Content.weaknessBrokenUlt.text'),
-      title: t('Content.weaknessBrokenUlt.title'),
       content: t('Content.weaknessBrokenUlt.content'),
     },
     {
@@ -55,15 +54,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'talentDmgBuff',
       name: 'talentDmgBuff',
       text: t('Content.talentDmgBuff.text'),
-      title: t('Content.talentDmgBuff.title'),
-      content: t('Content.talentDmgBuff.content', { FuaMultiplier: TsUtils.precisionRound(100 * fuaScaling), DmgBuff: TsUtils.precisionRound(100 * talentDmgBuff) }),
+      content: t('Content.talentDmgBuff.content', {
+        FuaMultiplier: TsUtils.precisionRound(100 * fuaScaling),
+        DmgBuff: TsUtils.precisionRound(100 * talentDmgBuff),
+      }),
     },
     {
       formItem: 'switch',
       id: 'skillAtkBuff',
       name: 'skillAtkBuff',
       text: t('Content.skillAtkBuff.text'),
-      title: t('Content.skillAtkBuff.title'),
       content: t('Content.skillAtkBuff.content'),
     },
     {
@@ -71,7 +71,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e1OriginalDmgBoost',
       name: 'e1OriginalDmgBoost',
       text: t('Content.e1OriginalDmgBoost.text'),
-      title: t('Content.e1OriginalDmgBoost.title'),
       content: t('Content.e1OriginalDmgBoost.content'),
       disabled: e < 1,
     },
@@ -80,7 +79,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e4Buffs',
       name: 'e4Buffs',
       text: t('Content.e4Buffs.text'),
-      title: t('Content.e4Buffs.title'),
       content: t('Content.e4Buffs.content'),
       disabled: e < 4,
     },
@@ -89,7 +87,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e6Buffs',
       name: 'e6Buffs',
       text: t('Content.e6Buffs.text'),
-      title: t('Content.e6Buffs.title'),
       content: t('Content.e6Buffs.content'),
       disabled: e < 6,
     },

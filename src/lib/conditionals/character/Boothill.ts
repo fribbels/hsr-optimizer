@@ -33,7 +33,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'standoffActive',
       name: 'standoffActive',
       text: t('Content.standoffActive.text'),
-      title: t('Content.standoffActive.title'),
       content: t('Content.standoffActive.content', { standoffVulnerabilityBoost: TsUtils.precisionRound(100 * standoffVulnerabilityBoost) }),
     },
     {
@@ -41,7 +40,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'pocketTrickshotStacks',
       name: 'pocketTrickshotStacks',
       text: t('Content.pocketTrickshotStacks.text'),
-      title: t('Content.pocketTrickshotStacks.title'),
       content: t('Content.pocketTrickshotStacks.content'),
       min: 0,
       max: 3,
@@ -51,7 +49,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'beToCritBoost',
       name: 'beToCritBoost',
       text: t('Content.beToCritBoost.text'),
-      title: t('Content.beToCritBoost.title'),
       content: t('Content.beToCritBoost.content'),
     },
     {
@@ -59,7 +56,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'talentBreakDmgScaling',
       name: 'talentBreakDmgScaling',
       text: t('Content.talentBreakDmgScaling.text'),
-      title: t('Content.talentBreakDmgScaling.title'),
       content: t('Content.talentBreakDmgScaling.content'),
     },
     {
@@ -67,7 +63,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e1DefShred',
       name: 'e1DefShred',
       text: t('Content.e1DefShred.text'),
-      title: t('Content.e1DefShred.title'),
       content: t('Content.e1DefShred.content'),
       disabled: e < 1,
     },
@@ -76,7 +71,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e2BeBuff',
       name: 'e2BeBuff',
       text: t('Content.e2BeBuff.text'),
-      title: t('Content.e2BeBuff.title'),
       content: t('Content.e2BeBuff.content'),
       disabled: e < 2,
     },
@@ -85,7 +79,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e4TargetStandoffVulnerability',
       name: 'e4TargetStandoffVulnerability',
       text: t('Content.e4TargetStandoffVulnerability.text'),
-      title: t('Content.e4TargetStandoffVulnerability.title'),
       content: t('Content.e4TargetStandoffVulnerability.content'),
       disabled: e < 4,
     },
@@ -94,7 +87,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e6AdditionalBreakDmg',
       name: 'e6AdditionalBreakDmg',
       text: t('Content.e6AdditionalBreakDmg.text'),
-      title: t('Content.e6AdditionalBreakDmg.title'),
       content: t('Content.e6AdditionalBreakDmg.content'),
       disabled: e < 6,
     },
@@ -148,7 +140,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       const newBreakToughnessMultiplier = (0.5 + newMaxToughness / 120)
       let talentBreakDmgScaling = pocketTrickshotsToTalentBreakDmg[r.pocketTrickshotStacks]
       talentBreakDmgScaling += (e >= 6 && r.e6AdditionalBreakDmg) ? 0.40 : 0
-      x.BASIC_BREAK_DMG_MODIFIER += (r.talentBreakDmgScaling && r.standoffActive) ? inverseBreakToughnessMultiplier * newBreakToughnessMultiplier * talentBreakDmgScaling : 0
+      x.BASIC_BREAK_DMG_MODIFIER += (r.talentBreakDmgScaling && r.standoffActive)
+        ? inverseBreakToughnessMultiplier * newBreakToughnessMultiplier * talentBreakDmgScaling
+        : 0
 
       return x
     },

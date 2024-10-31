@@ -1,12 +1,17 @@
 import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardAtkFinalizer,
+  standardAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { JiaoqiuConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { JiaoqiuConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -32,8 +37,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'ashenRoastStacks',
       name: 'ashenRoastStacks',
       text: t('Content.ashenRoastStacks.text'),
-      title: t('Content.ashenRoastStacks.title'),
-      content: t('Content.ashenRoastStacks.content', { AshenRoastInitialVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityBase), AshenRoastAdditionalVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityScaling), AshenRoastDotMultiplier: TsUtils.precisionRound(100 * talentDotScaling) }),
+      content: t('Content.ashenRoastStacks.content', {
+        AshenRoastInitialVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityBase),
+        AshenRoastAdditionalVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityScaling),
+        AshenRoastDotMultiplier: TsUtils.precisionRound(100 * talentDotScaling),
+      }),
       min: 0,
       max: maxAshenRoastStacks,
     },
@@ -42,15 +50,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'ultFieldActive',
       name: 'ultFieldActive',
       text: t('Content.ultFieldActive.text'),
-      title: t('Content.ultFieldActive.title'),
-      content: t('Content.ultFieldActive.content', { UltScaling: TsUtils.precisionRound(100 * ultScaling), UltVulnerability: TsUtils.precisionRound(100 * ultVulnerabilityScaling), ZoneDebuffChance: TsUtils.precisionRound(100 * ult(e, 0.6, 0.62)) }),
+      content: t('Content.ultFieldActive.content', {
+        UltScaling: TsUtils.precisionRound(100 * ultScaling),
+        UltVulnerability: TsUtils.precisionRound(100 * ultVulnerabilityScaling),
+        ZoneDebuffChance: TsUtils.precisionRound(100 * ult(e, 0.6, 0.62)),
+      }),
     },
     {
       formItem: 'switch',
       id: 'ehrToAtkBoost',
       name: 'ehrToAtkBoost',
       text: t('Content.ehrToAtkBoost.text'),
-      title: t('Content.ehrToAtkBoost.title'),
       content: t('Content.ehrToAtkBoost.content'),
     },
     {
@@ -58,7 +68,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e1DmgBoost',
       name: 'e1DmgBoost',
       text: t('Content.e1DmgBoost.text'),
-      title: t('Content.e1DmgBoost.title'),
       content: t('Content.e1DmgBoost.content'),
       disabled: e < 1,
     },
@@ -67,7 +76,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e2Dot',
       name: 'e2Dot',
       text: t('Content.e2Dot.text'),
-      title: t('Content.e2Dot.title'),
       content: t('Content.e2Dot.content'),
       disabled: e < 2,
     },
@@ -76,7 +84,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e6ResShred',
       name: 'e6ResShred',
       text: t('Content.e6ResShred.text'),
-      title: t('Content.e6ResShred.title'),
       content: t('Content.e6ResShred.content'),
       disabled: e < 6,
     },

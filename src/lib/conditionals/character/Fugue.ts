@@ -1,12 +1,17 @@
+import i18next from 'i18next'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardAtkFinalizer,
+  standardAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { CURRENT_DATA_VERSION, Stats } from 'lib/constants'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
-import i18next from 'i18next'
-import { CURRENT_DATA_VERSION, Stats } from 'lib/constants'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Fugue')
@@ -25,7 +30,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'torridScorch',
       name: 'torridScorch',
       text: 'Torrid Scorch state',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
@@ -33,7 +37,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'foxianPrayer',
       name: 'foxianPrayer',
       text: 'Foxian Prayer BE buff',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
@@ -41,7 +44,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'weaknessBreakBeStacks',
       name: 'weaknessBreakBeStacks',
       text: 'Enemy broken BE stacks',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
       max: 2,
@@ -51,7 +53,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'defReduction',
       name: 'defReduction',
       text: 'Skill DEF shred',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
@@ -59,7 +60,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'superBreakDmg',
       name: 'superBreakDmg',
       text: 'Super Break DMG (force weakness break)',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
@@ -67,7 +67,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e4Vulnerability',
       name: 'e4Vulnerability',
       text: 'E4 vulnerability',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 4,
     },
@@ -76,7 +75,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e6BreakEfficiency',
       name: 'e6BreakEfficiency',
       text: 'E6 break efficiency boost',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 6,
     },

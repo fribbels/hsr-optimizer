@@ -445,6 +445,6 @@ export type ConditionalBuff =
   | 'weaknessBreakBeStacks'
   | 'dmgBuffStacks'
   | 'breakVulnerabilityStacks'
-  | 'ultHealing'
+  | 'techniqueDmgBuff'
   | 'healAbility'
   | 'shieldAbility'

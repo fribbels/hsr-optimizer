@@ -1,14 +1,19 @@
-import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants'
+import i18next from 'i18next'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardAtkFinalizer,
+  standardAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants'
+import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
-import i18next from 'i18next'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sunday')
@@ -27,7 +32,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'skillDmgBuff',
       name: 'skillDmgBuff',
       text: 'Skill DMG buff',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
@@ -35,7 +39,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'talentCrBuffStacks',
       formItem: 'slider',
       text: 'Talent CR buff stacks',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
       max: e < 6 ? 1 : 3,
@@ -45,7 +48,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'techniqueDmgBuff',
       name: 'techniqueDmgBuff',
       text: 'Technique DMG buff',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
@@ -53,7 +55,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e1ResPen',
       name: 'e1ResPen',
       text: 'E1 RES PEN',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
     },
@@ -62,7 +63,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e2SpdBuff',
       name: 'e2SpdBuff',
       text: 'E2 SPD buff',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
     },
@@ -76,7 +76,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'beatified',
       name: 'beatified',
       text: 'Ult CD buff',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
@@ -84,7 +83,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'teammateCDValue',
       name: 'teammateCDValue',
       text: 'Sunday Combat CD',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
       max: 3.00,
@@ -98,7 +96,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e6CrToCdConversion',
       name: 'e6CrToCdConversion',
       text: 'E6 CR to CD conversion',
-      title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 6,
     },

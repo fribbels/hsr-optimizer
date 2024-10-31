@@ -55,7 +55,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'basicEnhanced',
       name: 'basicEnhanced',
       text: t('Content.basicEnhanced.text'),
-      title: t('Content.basicEnhanced.title'),
       content: t('Content.basicEnhanced.content'),
     },
     {
@@ -63,7 +62,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'breakEffectToOhbBoost',
       name: 'breakEffectToOhbBoost',
       text: t('Content.breakEffectToOhbBoost.text'),
-      title: t('Content.breakEffectToOhbBoost.title'),
       content: t('Content.breakEffectToOhbBoost.content'),
     },
     {
@@ -71,7 +69,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'targetBesotted',
       name: 'targetBesotted',
       text: t('Content.targetBesotted.text'),
-      title: t('Content.targetBesotted.title'),
       content: t('Content.targetBesotted.content', { talentBesottedScaling: TsUtils.precisionRound(100 * talentBesottedScaling) }),
     },
     {
@@ -79,7 +76,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e1ResBuff',
       name: 'e1ResBuff',
       text: t('Content.e1ResBuff.text'),
-      title: t('Content.e1ResBuff.title'),
       content: t('Content.e1ResBuff.content'),
       disabled: e < 1,
     },
@@ -88,7 +84,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e2ResBuff',
       name: 'e2ResBuff',
       text: t('Content.e2ResBuff.text'),
-      title: t('Content.e2ResBuff.title'),
       content: t('Content.e2ResBuff.content'),
       disabled: e < 2,
     },
@@ -97,7 +92,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e6BeBuff',
       name: 'e6BeBuff',
       text: t('Content.e6BeBuff.text'),
-      title: t('Content.e6BeBuff.title'),
       content: t('Content.e6BeBuff.content'),
       disabled: e < 6,
     },

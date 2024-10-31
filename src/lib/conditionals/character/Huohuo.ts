@@ -55,7 +55,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'ultBuff',
       name: 'ultBuff',
       text: t('Content.ultBuff.text'),
-      title: '',
       content: t('Content.ultBuff.content', { ultBuffValue: TsUtils.precisionRound(100 * ultBuffValue) }),
     },
     {
@@ -63,7 +62,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'skillBuff',
       name: 'skillBuff',
       text: t('Content.skillBuff.text'),
-      title: '',
       content: t('Content.skillBuff.content'),
       disabled: e < 1,
     },
@@ -72,7 +70,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e6DmgBuff',
       name: 'e6DmgBuff',
       text: t('Content.e6DmgBuff.text'),
-      title: '',
       content: t('Content.e6DmgBuff.content'),
       disabled: e < 6,
     },

@@ -1,12 +1,17 @@
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  findContentId,
+  gpuStandardFuaAtkFinalizer,
+  standardFuaAtkFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { Stats } from 'lib/constants'
-import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -28,15 +33,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'preyMark',
       name: 'preyMark',
       text: t('Content.preyMark.text'),
-      title: t('Content.preyMark.title'),
-      content: t('Content.preyMark.content', { PreyAdditionalMultiplier: TsUtils.precisionRound(100 * additionalDmgScaling), FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
+      content: t('Content.preyMark.content', {
+        PreyAdditionalMultiplier: TsUtils.precisionRound(100 * additionalDmgScaling),
+        FuaScaling: TsUtils.precisionRound(100 * fuaScaling),
+      }),
     },
     {
       formItem: 'switch',
       id: 'e2CdBoost',
       name: 'e2CdBoost',
       text: t('Content.e2CdBoost.text'),
-      title: t('Content.e2CdBoost.title'),
       content: t('Content.e2CdBoost.content'),
       disabled: e < 2,
     },
@@ -45,7 +51,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e4DmgBuff',
       name: 'e4DmgBuff',
       text: t('Content.e4DmgBuff.text'),
-      title: t('Content.e4DmgBuff.title'),
       content: t('Content.e4DmgBuff.content'),
       disabled: e < 4,
     },
@@ -54,7 +59,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e6MultiplierIncrease',
       name: 'e6MultiplierIncrease',
       text: t('Content.e6MultiplierIncrease.text'),
-      title: t('Content.e6MultiplierIncrease.title'),
       content: t('Content.e6MultiplierIncrease.content'),
       disabled: e < 6,
     },

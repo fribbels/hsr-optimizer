@@ -30,38 +30,39 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const talentShieldScaling = talent(e, 0.06, 0.064)
   const talentShieldFlat = talent(e, 80, 89)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'enhancedBasic',
-    name: 'enhancedBasic',
-    text: t('Content.enhancedBasic.text'),
-    title: t('Content.enhancedBasic.title'),
-    content: t('Content.enhancedBasic.content', { basicEnhancedAtkScaling: TsUtils.precisionRound(100 * basicEnhancedAtkScaling) }),
-  }, {
-    formItem: 'switch',
-    id: 'skillActive',
-    name: 'skillActive',
-    text: t('Content.skillActive.text'),
-    title: t('Content.skillActive.title'),
-    content: t('Content.skillActive.content', { skillDamageReductionValue: TsUtils.precisionRound(100 * skillDamageReductionValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'shieldActive',
-    name: 'shieldActive',
-    text: t('Content.shieldActive.text'),
-    title: t('Content.shieldActive.title'),
-    content: t('Content.shieldActive.content'),
-  }, {
-    formItem: 'slider',
-    id: 'e6DefStacks',
-    name: 'e6DefStacks',
-    text: t('Content.e6DefStacks.text'),
-    title: t('Content.e6DefStacks.title'),
-    content: t('Content.e6DefStacks.content'),
-    min: 0,
-    max: 3,
-    disabled: e < 6,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'enhancedBasic',
+      name: 'enhancedBasic',
+      text: t('Content.enhancedBasic.text'),
+      content: t('Content.enhancedBasic.content', { basicEnhancedAtkScaling: TsUtils.precisionRound(100 * basicEnhancedAtkScaling) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'skillActive',
+      name: 'skillActive',
+      text: t('Content.skillActive.text'),
+      content: t('Content.skillActive.content', { skillDamageReductionValue: TsUtils.precisionRound(100 * skillDamageReductionValue) }),
+    },
+    {
+      formItem: 'switch',
+      id: 'shieldActive',
+      name: 'shieldActive',
+      text: t('Content.shieldActive.text'),
+      content: t('Content.shieldActive.content'),
+    },
+    {
+      formItem: 'slider',
+      id: 'e6DefStacks',
+      name: 'e6DefStacks',
+      text: t('Content.e6DefStacks.text'),
+      content: t('Content.e6DefStacks.content'),
+      min: 0,
+      max: 3,
+      disabled: e < 6,
+    },
+  ]
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'skillActive'),

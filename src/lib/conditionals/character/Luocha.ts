@@ -55,7 +55,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'fieldActive',
       name: 'fieldActive',
       text: t('Content.fieldActive.text'),
-      title: t('Content.fieldActive.title'),
       content: t('Content.fieldActive.content'),
       // disabled: e < 1, Not disabling this one since technically the field can be active at E0
     }, {
@@ -63,7 +62,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e6ResReduction',
       name: 'e6ResReduction',
       text: t('Content.e6ResReduction.text'),
-      title: t('Content.e6ResReduction.title'),
       content: t('Content.e6ResReduction.content'),
       disabled: e < 6,
     },

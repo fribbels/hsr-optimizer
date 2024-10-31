@@ -68,7 +68,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'skillBuff',
       name: 'skillBuff',
       text: t('Content.skillBuff.text'),
-      title: t('Content.skillBuff.title'),
       content: t('Content.skillBuff.content', {
         skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff),
         skillHpFlatBuff: skillHpFlatBuff,
@@ -83,7 +82,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'teammateHPValue',
       name: 'teammateHPValue',
       text: t('TeammateContent.teammateHPValue.text'),
-      title: t('TeammateContent.teammateHPValue.title'),
       content: t('TeammateContent.teammateHPValue.content', {
         skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff),
         skillHpFlatBuff: skillHpFlatBuff,

@@ -64,7 +64,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'healingMaxHpBuff',
       name: 'healingMaxHpBuff',
       text: t('Content.healingMaxHpBuff.text'),
-      title: t('Content.healingMaxHpBuff.title'),
       content: t('Content.healingMaxHpBuff.content'),
     },
     {
@@ -72,7 +71,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'talentDmgReductionBuff',
       name: 'talentDmgReductionBuff',
       text: t('Content.talentDmgReductionBuff.text'),
-      title: t('Content.talentDmgReductionBuff.title'),
       content: t('Content.talentDmgReductionBuff.content'),
     },
     {
@@ -80,7 +78,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e2UltHealingBuff',
       name: 'e2UltHealingBuff',
       text: t('Content.e2UltHealingBuff.text'),
-      title: t('Content.e2UltHealingBuff.title'),
       content: t('Content.e2UltHealingBuff.content'),
       disabled: e < 2,
     },
@@ -89,7 +86,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e4SkillHealingDmgBuffStacks',
       name: 'e4SkillHealingDmgBuffStacks',
       text: t('Content.e4SkillHealingDmgBuffStacks.text'),
-      title: t('Content.e4SkillHealingDmgBuffStacks.title'),
       content: t('Content.e4SkillHealingDmgBuffStacks.content'),
       min: 0,
       max: 3,

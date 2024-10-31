@@ -1,12 +1,12 @@
-import { Stats } from 'lib/constants'
 import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
+import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -28,15 +28,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'ultEnhanced',
       name: 'ultEnhanced',
       text: t('Content.ultEnhanced.text'),
-      title: t('Content.ultEnhanced.title'),
-      content: t('Content.ultEnhanced.content', { ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling), ultEnhancedScaling: TsUtils.precisionRound(100 * ultEnhancedScaling) }),
+      content: t('Content.ultEnhanced.content', {
+        ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling),
+        ultEnhancedScaling: TsUtils.precisionRound(100 * ultEnhancedScaling),
+      }),
     },
     {
       formItem: 'switch',
       id: 'enemyHp50',
       name: 'enemyHp50',
       text: t('Content.enemyHp50.text'),
-      title: t('Content.enemyHp50.title'),
       content: t('Content.enemyHp50.content'),
     },
     {
@@ -44,8 +45,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'talentStacks',
       name: 'talentStacks',
       text: t('Content.talentStacks.text'),
-      title: t('Content.talentStacks.title'),
-      content: t('Content.talentStacks.content', { talentMaxStacks: TsUtils.precisionRound(100 * talentMaxStacks), talentCrStackValue: TsUtils.precisionRound(100 * talentCrStackValue) }),
+      content: t('Content.talentStacks.content', {
+        talentMaxStacks: TsUtils.precisionRound(100 * talentMaxStacks),
+        talentCrStackValue: TsUtils.precisionRound(100 * talentCrStackValue),
+      }),
       min: 0,
       max: talentMaxStacks,
     },
@@ -54,7 +57,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'ultEnhancedExtraHits',
       name: 'ultEnhancedExtraHits',
       text: t('Content.ultEnhancedExtraHits.text'),
-      title: t('Content.ultEnhancedExtraHits.title'),
       content: t('Content.ultEnhancedExtraHits.content', { ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling) }),
       min: 0,
       max: 6,
@@ -64,7 +66,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e2UltAtkBuff',
       name: 'e2UltAtkBuff',
       text: t('Content.e2UltAtkBuff.text'),
-      title: t('Content.e2UltAtkBuff.title'),
       content: t('Content.e2UltAtkBuff.content'),
       disabled: e < 2,
     },

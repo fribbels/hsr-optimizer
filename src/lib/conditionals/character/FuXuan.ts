@@ -38,7 +38,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'talentActive',
       name: 'talentActive',
       text: t('Content.talentActive.text'),
-      title: t('Content.talentActive.title'),
       content: t('Content.talentActive.content', { talentDmgReductionValue: TsUtils.precisionRound(100 * talentDmgReductionValue) }),
     },
     {
@@ -46,7 +45,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'skillActive',
       name: 'skillActive',
       text: t('Content.skillActive.text'),
-      title: t('Content.skillActive.title'),
       content: t('Content.skillActive.content', {
         skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue),
         skillCrBuffValue: TsUtils.precisionRound(100 * skillCrBuffValue),
@@ -57,7 +55,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'e6TeamHpLostPercent',
       name: 'e6TeamHpLostPercent',
       text: t('Content.e6TeamHpLostPercent.text'),
-      title: t('Content.e6TeamHpLostPercent.title'),
       content: t('Content.e6TeamHpLostPercent.content'),
       min: 0,
       max: 1.2,
@@ -74,7 +71,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       id: 'teammateHPValue',
       name: 'teammateHPValue',
       text: t('TeammateContent.teammateHPValue.text'),
-      title: t('TeammateContent.teammateHPValue.title'),
       content: t('TeammateContent.teammateHPValue.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue) }),
       min: 0,
       max: 10000,

@@ -1,13 +1,13 @@
 import {
   ASHBLAZING_ATK_STACK,
   BREAK_TYPE,
-  ComputedStatsObject, NONE_TYPE,
+  ComputedStatsObject,
+  NONE_TYPE,
   SKILL_TYPE,
   ULT_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
-  findContentId,
   gpuStandardAtkHealFinalizer,
   gpuStandardFuaAtkFinalizer,
   standardAtkHealFinalizer,
@@ -67,50 +67,37 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     e6ResShred: true,
   }
 
-  type LingshaConditionalConstants = typeof defaults
-  type LingshaTeammateConditionalConstants = typeof teammateDefaults
-
-  const content: (ContentItem & { id: keyof LingshaConditionalConstants })[] = [
-    {
+  const characterContent: ContentDefinition<typeof defaults> = {
+    healAbility: {
       formItem: 'select',
       id: 'healAbility',
       name: 'healAbility',
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
-        {
-          display: tHeal('Skill'),
-          value: SKILL_TYPE,
-          label: tHeal('Skill'),
-        },
-        {
-          display: tHeal('Ult'),
-          value: ULT_TYPE,
-          label: tHeal('Ult'),
-        },
-        {
-          display: tHeal('Talent'),
-          value: NONE_TYPE,
-          label: tHeal('Talent'),
-        },
+        { display: tHeal('Skill'), value: SKILL_TYPE, label: tHeal('Skill') },
+        { display: tHeal('Ult'), value: ULT_TYPE, label: tHeal('Ult') },
+        { display: tHeal('Talent'), value: NONE_TYPE, label: tHeal('Talent') },
       ],
       fullWidth: true,
     },
-    {
+    beConversion: {
       formItem: 'switch',
       id: 'beConversion',
       name: 'beConversion',
       text: t('Content.beConversion.text'),
       content: t('Content.beConversion.content'),
     },
-    {
+    befogState: {
       formItem: 'switch',
       id: 'befogState',
       name: 'befogState',
       text: t('Content.befogState.text'),
-      content: t('Content.befogState.content', { BefogVulnerability: TsUtils.precisionRound(100 * ultBreakVulnerability) }),
+      content: t('Content.befogState.content', {
+        BefogVulnerability: TsUtils.precisionRound(100 * ultBreakVulnerability),
+      }),
     },
-    {
+    e1DefShred: {
       formItem: 'switch',
       id: 'e1DefShred',
       name: 'e1DefShred',
@@ -118,7 +105,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       content: t('Content.e1DefShred.content'),
       disabled: e < 1,
     },
-    {
+    e2BeBuff: {
       formItem: 'switch',
       id: 'e2BeBuff',
       name: 'e2BeBuff',
@@ -126,7 +113,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       content: t('Content.e2BeBuff.content'),
       disabled: e < 2,
     },
-    {
+    e6ResShred: {
       formItem: 'switch',
       id: 'e6ResShred',
       name: 'e6ResShred',
@@ -134,18 +121,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       content: t('Content.e6ResShred.content'),
       disabled: e < 6,
     },
-  ]
+  }
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'befogState'),
-    findContentId(content, 'e1DefShred'),
-    findContentId(content, 'e2BeBuff'),
-    findContentId(content, 'e6ResShred'),
-  ]
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    befogState: characterContent.befogState,
+    e1DefShred: characterContent.e1DefShred,
+    e2BeBuff: characterContent.e2BeBuff,
+    e6ResShred: characterContent.e6ResShred,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
+    content: () => Object.values(characterContent),
+    teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
@@ -154,7 +141,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.SUMMONS = 1
     },
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof characterContent> = action.characterConditionals
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -189,7 +176,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
       if (x.ENEMY_WEAKNESS_BROKEN) {
         x.DEF_PEN += (e >= 1 && m.e1DefShred) ? 0.20 : 0
@@ -265,4 +252,12 @@ buffDynamicATK(finalBuffAtk, p_x, p_state);
 buffDynamicOHB(finalBuffOhb, p_x, p_state);
     `)
   },
+}
+
+type ContentDefinition<T extends Record<string, unknown>> = {
+  [K in keyof T]: ContentItem & { id: K };
+}
+
+type Conditionals<T extends ContentDefinition<T>> = {
+  [K in keyof T]: number;
 }

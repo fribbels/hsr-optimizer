@@ -67,24 +67,24 @@ RelicGrid:
           Personagem selecionado
           Pontuação
       AvgPotCol:
-        Label: "Personagem selecionado: Média de potencial"
+        Label: "Char selecionado: Média de potencial"
         Header: |-
-          Personagem Selecionado
+          Char Selecionado
           Média de Potencial
       MaxPotCol:
-        Label: "Personagem selecionado: Potencial máximo"
+        Label: "Char selecionado: Potencial máximo"
         Header: |-
-          Personagem selecionado
+          Char selecionado
           Potencial Máximo
     CustomCharacters:
       Label: Personagens selecionados
       AvgPotCol:
-        Label: "Personagens selecionados: Média de potencial"
+        Label: "Chars selecionados: Média de potencial"
         Header: |-
-          Personagens Selecionados
+          Chars Selecionados
           Média de Potencial
       MaxPotCol:
-        Label: "Personagens selecionados: Potencial máximo"
+        Label: "Chars selecionados: Potencial máximo"
         Header: |-
           Chars Selecionados
           Potencial Máximo

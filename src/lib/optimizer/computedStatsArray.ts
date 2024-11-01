@@ -1,27 +1,52 @@
-import { baseComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
 type Buff = {
+  key: number
   value: number
   source: string
 }
 
-class ComputedStatsArray {
-  values: Float32Array
+export class ComputedStatsArray {
+  values: number[]
   buffs: Buff[]
   trace: boolean
 
   constructor(trace: boolean = false) {
-    this.values = new Float32Array(Object.keys(baseComputedStatsObject).length)
+    this.values = []
     this.buffs = []
-    this.trace = trace
+    this.trace = false
   }
 
-  buff(key: number, value: number, source: string) {
-    this.values[key] += value
+  add(key: number, value: number, source?: string) {
+    this.values[key] = (this.values[key] ?? 0) + value
 
     if (this.trace) {
-      this.buffs.push({ value, source })
+      if (source) {
+        this.buffs.push({ key, value, source })
+      }
     }
+  }
+
+  set(key: number, value: number, source: string) {
+    this.values[key] = value
+
+    if (this.trace) {
+      this.buffs.push({ key, value, source })
+    }
+  }
+
+  get(key: number) {
+    return this.values[key]
+  }
+
+  toComputedStatsObject() {
+    const result: Partial<ComputedStatsObject> = {}
+
+    for (const key in Keys) {
+      result[key as keyof KeysType] = this.values[Keys[key as KeysType]] ?? 0
+    }
+
+    return result as ComputedStatsObject
   }
 }
 

@@ -1,6 +1,7 @@
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
+import { ComputedStatsArray, Keys } from 'lib/optimizer/computedStatsArray'
 
 const SIZE = 38
 
@@ -108,7 +109,7 @@ export const BufferPacker = {
     }
   },
 
-  packCharacter: (arr: number[], offset: number, character: BasicStatsObject) => {
+  packCharacter: (arr: number[], offset: number, character: BasicStatsObject, x: ComputedStatsArray) => {
     offset = offset * SIZE
 
     arr[offset] = character.id // 0
@@ -125,28 +126,28 @@ export const BufferPacker = {
     arr[offset + 11] = character[Stats.OHB]
     arr[offset + 12] = character.ELEMENTAL_DMG
     arr[offset + 13] = character.WEIGHT
-    arr[offset + 14] = character.x.EHP
-    arr[offset + 15] = character.x.HEAL_VALUE
-    arr[offset + 16] = character.x.SHIELD_VALUE
-    arr[offset + 17] = character.x.BASIC_DMG
-    arr[offset + 18] = character.x.SKILL_DMG
-    arr[offset + 19] = character.x.ULT_DMG
-    arr[offset + 20] = character.x.FUA_DMG
-    arr[offset + 21] = character.x.DOT_DMG
-    arr[offset + 22] = character.x.BREAK_DMG // 22
-    arr[offset + 23] = character.x.COMBO_DMG
-    arr[offset + 24] = character.x[Stats.HP]
-    arr[offset + 25] = character.x[Stats.ATK]
-    arr[offset + 26] = character.x[Stats.DEF]
-    arr[offset + 27] = character.x[Stats.SPD]
-    arr[offset + 28] = character.x[Stats.CR]
-    arr[offset + 29] = character.x[Stats.CD]
-    arr[offset + 30] = character.x[Stats.EHR]
-    arr[offset + 31] = character.x[Stats.RES]
-    arr[offset + 32] = character.x[Stats.BE]
-    arr[offset + 33] = character.x[Stats.ERR] // 33
-    arr[offset + 34] = character.x[Stats.OHB]
-    arr[offset + 35] = character.x.ELEMENTAL_DMG
+    arr[offset + 14] = x.get(Keys.EHP)
+    arr[offset + 15] = x.get(Keys.HEAL_VALUE)
+    arr[offset + 16] = x.get(Keys.SHIELD_VALUE)
+    arr[offset + 17] = x.get(Keys.BASIC_DMG)
+    arr[offset + 18] = x.get(Keys.SKILL_DMG)
+    arr[offset + 19] = x.get(Keys.ULT_DMG)
+    arr[offset + 20] = x.get(Keys.FUA_DMG)
+    arr[offset + 21] = x.get(Keys.DOT_DMG)
+    arr[offset + 22] = x.get(Keys.BREAK_DMG) // 22
+    arr[offset + 23] = x.get(Keys.COMBO_DMG)
+    arr[offset + 24] = x.get(Keys[Stats.HP])
+    arr[offset + 25] = x.get(Keys[Stats.ATK])
+    arr[offset + 26] = x.get(Keys[Stats.DEF])
+    arr[offset + 27] = x.get(Keys[Stats.SPD])
+    arr[offset + 28] = x.get(Keys[Stats.CR])
+    arr[offset + 29] = x.get(Keys[Stats.CD])
+    arr[offset + 30] = x.get(Keys[Stats.EHR])
+    arr[offset + 31] = x.get(Keys[Stats.RES])
+    arr[offset + 32] = x.get(Keys[Stats.BE])
+    arr[offset + 33] = x.get(Keys[Stats.ERR]) // 33
+    arr[offset + 34] = x.get(Keys[Stats.OHB])
+    arr[offset + 35] = x.get(Keys.ELEMENTAL_DMG)
     arr[offset + 36] = character.relicSetIndex
     arr[offset + 37] = character.ornamentSetIndex
   },

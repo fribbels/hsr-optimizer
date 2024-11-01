@@ -3,19 +3,10 @@ import { CharacterConditionals } from 'lib/characterConditionals'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
-import {
-  calculateContextConditionalRegistry,
-  wrapTeammateDynamicConditional,
-} from 'lib/optimizer/calculateConditionals'
+import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimizer/calculateConditionals'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
-import {
-  baseCharacterStats,
-  calculateBaseStats,
-  calculateComputedStats,
-  calculateElementalStats,
-  calculateRelicStats,
-  calculateSetCounts,
-} from 'lib/optimizer/calculateStats'
+import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
+import { ComputedStatsArray, Keys } from 'lib/optimizer/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimizer/sortOptions'
 import { Form } from 'types/Form'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -179,72 +170,76 @@ self.onmessage = function (e: MessageEvent) {
     let combo = 0
     for (let i = context.actions.length - 1; i >= 0; i--) {
       const action = setupAction(c, i, context)
+      const x = new ComputedStatsArray(false)
+
       const ax = action.precomputedX
 
-      calculateComputedStats(c, ax, action, context)
-      calculateBaseMultis(ax, action, context)
-      calculateDamage(ax, action, context)
+      calculateComputedStats(c, x, action, context)
+      calculateBaseMultis(x, action, context)
+      calculateDamage(x, action, context)
 
       if (action.actionType === 'BASIC') {
-        combo += ax.BASIC_DMG
+        combo += x.get(Keys.BASIC_DMG)
       }
       if (action.actionType === 'SKILL') {
-        combo += ax.SKILL_DMG
+        combo += x.get(Keys.SKILL_DMG)
       }
       if (action.actionType === 'ULT') {
-        combo += ax.ULT_DMG
+        combo += x.get(Keys.ULT_DMG)
       }
       if (action.actionType === 'FUA') {
-        combo += ax.FUA_DMG
+        combo += x.get(Keys.FUA_DMG)
       }
 
       if (i === 0) {
-        combo += context.comboDot * ax.DOT_DMG + context.comboBreak * ax.BREAK_DMG
-        c.x = ax
+        combo += context.comboDot * x.get(Keys.DOT_DMG) + context.comboBreak * x.get(Keys.BREAK_DMG)
+        // c.x = x.toComputedStatsObject()
+        c.y = x
       }
     }
 
-    c.x.COMBO_DMG = combo
-    const x = c.x
+    // c.x.COMBO_DMG = combo
+    // const x = c.x
 
-    if (failsCombatFilter(x)) {
-      continue
-    }
+    // if (failsCombatFilter(x)) {
+    //   continue
+    // }
 
     // Since we exited early on the c comparisons, we only need to check against x stats here
     // Combat filters
-    if (combatDisplay) {
-      const fail
-        = x[Stats.HP] < request.minHp || x[Stats.HP] > request.maxHp
-        || x[Stats.ATK] < request.minAtk || x[Stats.ATK] > request.maxAtk
-        || x[Stats.DEF] < request.minDef || x[Stats.DEF] > request.maxDef
-        || x[Stats.SPD] < request.minSpd || x[Stats.SPD] > request.maxSpd
-        || x[Stats.CR] < request.minCr || x[Stats.CR] > request.maxCr
-        || x[Stats.CD] < request.minCd || x[Stats.CD] > request.maxCd
-        || x[Stats.EHR] < request.minEhr || x[Stats.EHR] > request.maxEhr
-        || x[Stats.RES] < request.minRes || x[Stats.RES] > request.maxRes
-        || x[Stats.BE] < request.minBe || x[Stats.BE] > request.maxBe
-        || x[Stats.ERR] < request.minErr || x[Stats.ERR] > request.maxErr
-      if (fail) {
-        continue
-      }
-    }
+    // if (combatDisplay) {
+    //   const fail
+    //     = x[Stats.HP] < request.minHp || x[Stats.HP] > request.maxHp
+    //     || x[Stats.ATK] < request.minAtk || x[Stats.ATK] > request.maxAtk
+    //     || x[Stats.DEF] < request.minDef || x[Stats.DEF] > request.maxDef
+    //     || x[Stats.SPD] < request.minSpd || x[Stats.SPD] > request.maxSpd
+    //     || x[Stats.CR] < request.minCr || x[Stats.CR] > request.maxCr
+    //     || x[Stats.CD] < request.minCd || x[Stats.CD] > request.maxCd
+    //     || x[Stats.EHR] < request.minEhr || x[Stats.EHR] > request.maxEhr
+    //     || x[Stats.RES] < request.minRes || x[Stats.RES] > request.maxRes
+    //     || x[Stats.BE] < request.minBe || x[Stats.BE] > request.maxBe
+    //     || x[Stats.ERR] < request.minErr || x[Stats.ERR] > request.maxErr
+    //   if (fail) {
+    //     continue
+    //   }
+    // }
 
     // Rating filters
-    const fail = x.EHP < request.minEhp || x.EHP > request.maxEhp
-      || x.BASIC_DMG < request.minBasic || x.BASIC_DMG > request.maxBasic
-      || x.SKILL_DMG < request.minSkill || x.SKILL_DMG > request.maxSkill
-      || x.ULT_DMG < request.minUlt || x.ULT_DMG > request.maxUlt
-      || x.FUA_DMG < request.minFua || x.FUA_DMG > request.maxFua
-      || x.DOT_DMG < request.minDot || x.DOT_DMG > request.maxDot
-      || x.BREAK_DMG < request.minBreak || x.BREAK_DMG > request.maxBreak
-    if (fail) {
-      continue
-    }
+    // const fail = x.EHP < request.minEhp || x.EHP > request.maxEhp
+    //   || x.BASIC_DMG < request.minBasic || x.BASIC_DMG > request.maxBasic
+    //   || x.SKILL_DMG < request.minSkill || x.SKILL_DMG > request.maxSkill
+    //   || x.ULT_DMG < request.minUlt || x.ULT_DMG > request.maxUlt
+    //   || x.FUA_DMG < request.minFua || x.FUA_DMG > request.maxFua
+    //   || x.DOT_DMG < request.minDot || x.DOT_DMG > request.maxDot
+    //   || x.BREAK_DMG < request.minBreak || x.BREAK_DMG > request.maxBreak
+    // if (fail) {
+    //   continue
+    // }
 
     // Pack the passing results into the ArrayBuffer to return
+    continue
     c.id = index
-    BufferPacker.packCharacter(arr, passCount, c)
+    BufferPacker.packCharacter(arr, passCount, c, c.y)
     passCount++
   }
 
@@ -284,8 +279,6 @@ function generateResultMinFilter(request: Form, combatDisplay: string) {
 
 function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) {
   const originalAction = context.actions[i]
-  const ax = cloneX(originalAction)
-  ax.sets = c.x.sets
   const action = {
     characterConditionals: originalAction.characterConditionals,
     lightConeConditionals: originalAction.lightConeConditionals,
@@ -296,7 +289,6 @@ function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) 
     setConditionals: originalAction.setConditionals,
     conditionalRegistry: originalAction.conditionalRegistry,
     actionType: originalAction.actionType,
-    precomputedX: ax,
     conditionalState: {},
   } as OptimizerAction
 

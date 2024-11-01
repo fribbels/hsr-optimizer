@@ -1,15 +1,16 @@
+import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Constants, OrnamentSetCount, OrnamentSetToIndex, RelicSetCount, RelicSetToIndex } from 'lib/constants'
-import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
-import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
-import { emptyRelic } from 'lib/optimizer/optimizerUtils'
-import { Utils } from 'lib/utils'
-import { RelicFilters } from 'lib/relicFilters'
-import { generateContext } from 'lib/optimizer/context/calculateContext'
-import { transformComboState } from 'lib/optimizer/rotation/comboStateTransform'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
+import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
+import { ComputedStatsArray, Keys } from 'lib/optimizer/computedStatsArray'
+import { generateContext } from 'lib/optimizer/context/calculateContext'
+import { emptyRelic } from 'lib/optimizer/optimizerUtils'
+import { transformComboState } from 'lib/optimizer/rotation/comboStateTransform'
+import { RelicFilters } from 'lib/relicFilters'
+import { Utils } from 'lib/utils'
 import { Form } from 'types/Form'
 import { OptimizerContext } from 'types/Optimizer'
-import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 
 function generateUnusedSets(relics: SingleRelicByPart) {
   const usedSets = new Set([
@@ -77,28 +78,29 @@ export function calculateBuild(
   let combo = 0
   for (let i = context.actions.length - 1; i >= 0; i--) {
     const action = context.actions[i]
-    const ax = {
-      ...action.precomputedX,
-    }
-    ax.sets = c.x.sets
+    const x = new ComputedStatsArray(true)
+    // const ax = {
+    //   ...action.precomputedX,
+    // }
+    // ax.sets = c.x.sets
 
-    calculateComputedStats(c, ax, action, context)
-    calculateBaseMultis(ax, action, context)
-    calculateDamage(ax, action, context)
+    calculateComputedStats(c, x, action, context)
+    calculateBaseMultis(x, action, context)
+    calculateDamage(x, action, context)
 
     if (action.actionType === 'BASIC') {
-      combo += ax.BASIC_DMG
+      combo += x.get(Keys.BASIC_DMG)
     } else if (action.actionType === 'SKILL') {
-      combo += ax.SKILL_DMG
+      combo += x.get(Keys.SKILL_DMG)
     } else if (action.actionType === 'ULT') {
-      combo += ax.ULT_DMG
+      combo += x.get(Keys.ULT_DMG)
     } else if (action.actionType === 'FUA') {
-      combo += ax.FUA_DMG
+      combo += x.get(Keys.FUA_DMG)
     }
 
     if (i === 0) {
-      combo += context.comboDot * ax.DOT_DMG + context.comboBreak * ax.BREAK_DMG
-      c.x = ax
+      combo += context.comboDot * x.get(Keys.DOT_DMG) + context.comboBreak * x.get(Keys.BREAK_DMG)
+      c.x = x.toComputedStatsObject()
     }
   }
 

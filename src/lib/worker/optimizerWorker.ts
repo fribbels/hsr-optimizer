@@ -1,15 +1,25 @@
-import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants'
 import { BufferPacker } from 'lib/bufferPacker'
-import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
-import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
-import { SortOption } from 'lib/optimizer/sortOptions'
-import { Form } from 'types/Form'
-import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
-import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimizer/calculateConditionals'
 import { CharacterConditionals } from 'lib/characterConditionals'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
+import {
+  calculateContextConditionalRegistry,
+  wrapTeammateDynamicConditional,
+} from 'lib/optimizer/calculateConditionals'
+import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
+import {
+  baseCharacterStats,
+  calculateBaseStats,
+  calculateComputedStats,
+  calculateElementalStats,
+  calculateRelicStats,
+  calculateSetCounts,
+} from 'lib/optimizer/calculateStats'
+import { SortOption, SortOptionProperties } from 'lib/optimizer/sortOptions'
+import { Form } from 'types/Form'
+import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
@@ -248,7 +258,7 @@ function generateResultMinFilter(request: Form, combatDisplay: string) {
   // @ts-ignore
   const filter = request.resultMinFilter
   // @ts-ignore
-  const sortOption = SortOption[request.resultSort]
+  const sortOption = SortOption[request.resultSort] as SortOptionProperties
   const isComputedRating = sortOption.isComputedRating
 
   // Combat and basic filters apply at different places in the loop

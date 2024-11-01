@@ -2,8 +2,9 @@ import { PresetEffects } from 'components/optimizerTab/optimizerForm/Recommended
 import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
+import { ScoringMetadata } from 'lib/characterScorer'
 import { Constants, Parts, PartsMainStats, Sets, SetsRelics, Stats } from 'lib/constants'
-import DB from 'lib/db'
+import DB, { DBMetadata } from 'lib/db'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { MetadataCharacter } from 'types/Character'
 import { LightCone } from 'types/LightCone'
@@ -66,7 +67,8 @@ export const DataParser = {
     const imageCenters = getOverrideImageCenter()
     const scoringMetadata = getScoringMetadata()
 
-    for (const metadata of Object.values(scoringMetadata)) {
+    const scoringMetadataValues = Object.values(scoringMetadata) as ScoringMetadata[]
+    for (const metadata of scoringMetadataValues) {
       for (const part of [Parts.Body, Parts.Feet, Parts.PlanarSphere, Parts.LinkRope]) {
         if (metadata.parts[part].length === 0) {
           metadata.parts[part] = PartsMainStats[part]
@@ -103,14 +105,14 @@ export const DataParser = {
       relicSets,
     }
 
-    const data = {
+    const augmentedDbMetadata = {
       characters: characters,
       lightCones: lightCones,
       relics: relics,
-    }
-    DB.setMetadata(data)
+    } as unknown as DBMetadata
+    DB.setMetadata(augmentedDbMetadata)
 
-    return data
+    return augmentedDbMetadata
   },
 }
 

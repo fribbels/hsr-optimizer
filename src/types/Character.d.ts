@@ -1,7 +1,7 @@
+import { CustomPortrait } from 'types/store'
 import { Parts, SetsOrnaments, SetsRelics, StatsValues } from '../lib/constants'
 import { GUID } from './Common'
 import { Form } from './Form'
-import { CustomPortrait } from 'types/store'
 
 export type CharacterId = string // "1004"
 
@@ -24,7 +24,7 @@ export type MetadataCharacter = {
   element: string
   max_sp: number
   portrait: CustomPortrait
-  traces: Traces
+  traces: Record<string, number>
   imageCenter: { x: number; y: number }
   displayName: string // injected on hydration
   scoringMetadata: {

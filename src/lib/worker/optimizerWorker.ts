@@ -1,12 +1,12 @@
 import { BufferPacker } from 'lib/bufferPacker'
 import { CharacterConditionals } from 'lib/characterConditionals'
-import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
+import { baseComputedStatsObject, BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimizer/calculateConditionals'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
-import { ComputedStatsArray, Keys } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key } from 'lib/optimizer/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimizer/sortOptions'
 import { Form } from 'types/Form'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -145,6 +145,8 @@ self.onmessage = function (e: MessageEvent) {
     calculateBaseStats(c, context)
     calculateElementalStats(c, context)
 
+    ComputedStatsArray.reset(new Float32Array(Object.keys(baseComputedStatsObject).length).fill(13))
+
     // Exit early on base display filters failing
     if (baseDisplay) {
       if (failsBasicFilter(c)) {
@@ -179,20 +181,20 @@ self.onmessage = function (e: MessageEvent) {
       calculateDamage(x, action, context)
 
       if (action.actionType === 'BASIC') {
-        combo += x.get(Keys.BASIC_DMG)
+        combo += x.get(Key.BASIC_DMG)
       }
       if (action.actionType === 'SKILL') {
-        combo += x.get(Keys.SKILL_DMG)
+        combo += x.get(Key.SKILL_DMG)
       }
       if (action.actionType === 'ULT') {
-        combo += x.get(Keys.ULT_DMG)
+        combo += x.get(Key.ULT_DMG)
       }
       if (action.actionType === 'FUA') {
-        combo += x.get(Keys.FUA_DMG)
+        combo += x.get(Key.FUA_DMG)
       }
 
       if (i === 0) {
-        combo += context.comboDot * x.get(Keys.DOT_DMG) + context.comboBreak * x.get(Keys.BREAK_DMG)
+        combo += context.comboDot * x.get(Key.DOT_DMG) + context.comboBreak * x.get(Key.BREAK_DMG)
         // c.x = x.toComputedStatsObject()
         c.y = x
       }

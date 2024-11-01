@@ -5,19 +5,12 @@ import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants'
 import DB from 'lib/db'
 import { getDefaultForm } from 'lib/defaultForm'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { StatToKey } from 'lib/optimizer/computedStatsArray'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { SortOptionProperties } from 'lib/optimizer/sortOptions'
 import { StatCalculator } from 'lib/statCalculator'
-import {
-  calculateOrnamentSets,
-  calculateRelicSets,
-  convertRelicsToSimulation,
-  runSimulations,
-  Simulation,
-  SimulationRequest,
-  SimulationStats,
-} from 'lib/statSimulationController'
+import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/statSimulationController'
 import { TsUtils } from 'lib/TsUtils'
 import { Utils } from 'lib/utils'
 import { Character } from 'types/Character'
@@ -773,7 +766,7 @@ function computeOptimalSimulation(
       simulationRuns++
 
       if (breakpointsCap && breakpoints[stat]) {
-        if (newSimResult.x[stat] < breakpoints[stat]) {
+        if (newSimResult.x[StatToKey[stat]] < breakpoints[stat]) {
           continue
         }
       }
@@ -958,7 +951,7 @@ function calculateMaxSubstatRollCounts(
   // Main stat  20 * 3.24 + 32.4 + 5 = 102.2% crit
   // Assumes maximum 100 CR is needed ever
   const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
-  const missingCrit = Math.max(0, 100 - baselineSimResult.x[Stats.CR] * 100)
+  const missingCrit = Math.max(0, 100 - baselineSimResult.x[StatToKey[Stats.CR]] * 100)
   maxCounts[Stats.CR] = Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution
     ? 6
     : 0, Math.min(
@@ -972,7 +965,7 @@ function calculateMaxSubstatRollCounts(
   // Assumes 20 enemy effect RES
   // Assumes maximum 120 EHR is needed ever
   const ehrValue = StatCalculator.getMaxedSubstatValue(Stats.EHR, scoringParams.quality)
-  const missingEhr = Math.max(0, 120 - baselineSimResult.x[Stats.EHR] * 100)
+  const missingEhr = Math.max(0, 120 - baselineSimResult.x[StatToKey[Stats.EHR]] * 100)
   maxCounts[Stats.EHR] = Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution
     ? 6
     : 0, Math.min(
@@ -1216,10 +1209,10 @@ export function calculatePenaltyMultiplier(
   for (const stat of Object.keys(breakpoints)) {
     if (Utils.isFlat(stat)) {
       // Flats are penalized by their percentage
-      newPenaltyMultiplier *= (Math.min(1, simulationResult.x[stat] / breakpoints[stat]) + 1) / 2
+      newPenaltyMultiplier *= (Math.min(1, simulationResult.x[StatToKey[stat]] / breakpoints[stat]) + 1) / 2
     } else {
       // Percents are penalize by half of the missing stat's breakpoint roll percentage
-      newPenaltyMultiplier *= Math.min(1, 1 - (breakpoints[stat] - simulationResult.x[stat]) / StatCalculator.getMaxedSubstatValue(stat, scoringParams.quality))
+      newPenaltyMultiplier *= Math.min(1, 1 - (breakpoints[stat] - simulationResult.x[StatToKey[stat]]) / StatCalculator.getMaxedSubstatValue(stat, scoringParams.quality))
     }
   }
   simulationResult.penaltyMultiplier = newPenaltyMultiplier

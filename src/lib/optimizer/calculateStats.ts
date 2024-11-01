@@ -1,6 +1,6 @@
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
-import { ComputedStatsArray, Keys } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key } from 'lib/optimizer/computedStatsArray'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
@@ -164,31 +164,31 @@ export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsArra
   // const sets = x.sets
 
   // Add base to computed
-  x.add(Keys[Stats.ATK], c[Stats.ATK])
-  x.add(Keys[Stats.DEF], c[Stats.DEF])
-  x.add(Keys[Stats.HP], c[Stats.HP])
-  x.add(Keys[Stats.SPD], c[Stats.SPD])
-  x.add(Keys[Stats.CD], c[Stats.CD])
-  x.add(Keys[Stats.CR], c[Stats.CR])
-  x.add(Keys[Stats.EHR], c[Stats.EHR])
-  x.add(Keys[Stats.RES], c[Stats.RES])
-  x.add(Keys[Stats.BE], c[Stats.BE])
-  x.add(Keys[Stats.ERR], c[Stats.ERR])
-  x.add(Keys[Stats.OHB], c[Stats.OHB])
+  x.buff(Key.ATK, c[Stats.ATK])
+  x.buff(Key.DEF, c[Stats.DEF])
+  x.buff(Key.HP, c[Stats.HP])
+  x.buff(Key.SPD, c[Stats.SPD])
+  x.buff(Key.CD, c[Stats.CD])
+  x.buff(Key.CR, c[Stats.CR])
+  x.buff(Key.EHR, c[Stats.EHR])
+  x.buff(Key.RES, c[Stats.RES])
+  x.buff(Key.BE, c[Stats.BE])
+  x.buff(Key.ERR, c[Stats.ERR])
+  x.buff(Key.OHB, c[Stats.OHB])
   // x[context.elementalDamageType] += c.ELEMENTAL_DMG
 
   // Combat buffs
-  x.add(Keys[Stats.ATK], context.combatBuffs.ATK + context.combatBuffs.ATK_P * context.baseATK)
-  x.add(Keys[Stats.DEF], context.combatBuffs.DEF + context.combatBuffs.DEF_P * context.baseDEF)
-  x.add(Keys[Stats.HP], context.combatBuffs.HP + context.combatBuffs.HP_P * context.baseHP)
-  x.add(Keys[Stats.CD], context.combatBuffs.CD)
-  x.add(Keys[Stats.CR], context.combatBuffs.CR)
-  x.add(Keys[Stats.SPD], context.combatBuffs.SPD_P * context.baseSPD + context.combatBuffs.SPD)
-  x.add(Keys[Stats.BE], context.combatBuffs.BE)
-  x.add(Keys.ELEMENTAL_DMG, context.combatBuffs.DMG_BOOST)
-  x.add(Keys.EFFECT_RES_PEN, context.combatBuffs.EFFECT_RES_PEN)
-  x.add(Keys.VULNERABILITY, context.combatBuffs.VULNERABILITY)
-  x.add(Keys.BREAK_EFFICIENCY_BOOST, context.combatBuffs.BREAK_EFFICIENCY)
+  x.buff(Key.ATK, context.combatBuffs.ATK + context.combatBuffs.ATK_P * context.baseATK)
+  x.buff(Key.DEF, context.combatBuffs.DEF + context.combatBuffs.DEF_P * context.baseDEF)
+  x.buff(Key.HP, context.combatBuffs.HP + context.combatBuffs.HP_P * context.baseHP)
+  x.buff(Key.CD, context.combatBuffs.CD)
+  x.buff(Key.CR, context.combatBuffs.CR)
+  x.buff(Key.SPD, context.combatBuffs.SPD_P * context.baseSPD + context.combatBuffs.SPD)
+  x.buff(Key.BE, context.combatBuffs.BE)
+  x.buff(Key.ELEMENTAL_DMG, context.combatBuffs.DMG_BOOST)
+  x.buff(Key.EFFECT_RES_PEN, context.combatBuffs.EFFECT_RES_PEN)
+  x.buff(Key.VULNERABILITY, context.combatBuffs.VULNERABILITY)
+  x.buff(Key.BREAK_EFFICIENCY_BOOST, context.combatBuffs.BREAK_EFFICIENCY)
 
   // SPD
 

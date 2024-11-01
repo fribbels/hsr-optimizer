@@ -1,8 +1,5 @@
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
-import {
-  activateZeroPermutationsSuggestionsModal,
-  activateZeroResultSuggestionsModal,
-} from 'components/optimizerTab/OptimizerSuggestionsModal'
+import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
 import { BufferPacker, OptimizerDisplayData } from 'lib/bufferPacker'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, MAX_RESULTS, Stats } from 'lib/constants'

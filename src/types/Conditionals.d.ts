@@ -32,9 +32,6 @@ export interface Conditional {
   // e.g. AOE team buff
   precomputeMutualEffects?: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => void
 
-  // DEPRECATE
-  postPreComputeMutualEffects?: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => void
-
   // Effects that only apply as a teammate, onto the primary character
   // e.g. Targeted teammate buff
   precomputeTeammateEffects?: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => void

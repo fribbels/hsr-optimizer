@@ -263,7 +263,7 @@ export const SubStatValues = {
     3: { high: 3.888, mid: 3.4992, low: 3.1104 },
     2: { high: 2.592, mid: 2.3328, low: 2.0736 },
   },
-}
+} as const
 
 export const StatsToReadable = {
   [Stats.HP_P]: 'HP %',

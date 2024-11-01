@@ -1,13 +1,13 @@
+import i18next from 'i18next'
+import { Constants, Stats, SubStats, SubStatValues } from 'lib/constants'
 import DB from 'lib/db'
-import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/Relic'
-import { Constants, Stats, SubStatValues } from 'lib/constants'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { Utils } from 'lib/utils'
 import { RelicRollFixer } from 'lib/relicRollFixer'
-import i18next from 'i18next'
+import { SaveState } from 'lib/saveState'
+import { Utils } from 'lib/utils'
+import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/Relic'
 
 export const RelicModalController = {
   onEditOk: (selectedRelic: Relic, relic: Relic) => {
@@ -225,7 +225,7 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
       const value10ths = Utils.truncate10ths(Utils.precisionRound(parseFloat(value)))
       const fixedValue: number = RelicRollFixer.fixSubStatValue(stat, value10ths, 5)
 
-      const upgrades: RelicUpgradeValues = Utils.clone(SubStatValues[stat][relicForm.grade])
+      const upgrades: RelicUpgradeValues = Utils.clone(SubStatValues[stat as SubStats][relicForm.grade])
 
       if (Utils.isFlat(stat)) {
         upgrades.low = renderFlatStat(fixedValue + upgrades.low!)

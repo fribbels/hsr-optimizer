@@ -7,32 +7,25 @@ type Buff = {
 }
 
 export class ComputedStatsArray {
-  values: number[]
+  static array = new Float32Array(Object.keys(baseComputedStatsObject).length)
+
+  values: Float32Array
   buffs: Buff[]
   trace: boolean
 
   constructor(trace: boolean = false) {
-    this.values = []
+    ComputedStatsArray.array.fill(0)
+    this.values = ComputedStatsArray.array
     this.buffs = []
     this.trace = false
   }
 
   add(key: number, value: number, source?: string) {
-    this.values[key] = (this.values[key] ?? 0) + value
-
-    if (this.trace) {
-      if (source) {
-        this.buffs.push({ key, value, source })
-      }
-    }
+    this.values[key] += value
   }
 
   set(key: number, value: number, source: string) {
     this.values[key] = value
-
-    if (this.trace) {
-      this.buffs.push({ key, value, source })
-    }
   }
 
   get(key: number) {
@@ -43,7 +36,7 @@ export class ComputedStatsArray {
     const result: Partial<ComputedStatsObject> = {}
 
     for (const key in Keys) {
-      result[key as keyof KeysType] = this.values[Keys[key as KeysType]] ?? 0
+      result[key as keyof KeysType] = this.values[Keys[key as KeysType]]
     }
 
     return result as ComputedStatsObject

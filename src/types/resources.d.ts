@@ -479,7 +479,7 @@ interface Resources {
       "IncessantRain": {
         "Content": {
           "enemy3DebuffsCrBoost": {
-            "text": "Enemy ≤ 3 debuffs CR boost",
+            "text": "Enemy ≥ 3 debuffs CR boost",
             "content": "When the wearer deals DMG to an enemy that currently has 3 or more debuffs, increases the wearer's CRIT Rate by {{CritBuff}}%."
           },
           "targetCodeDebuff": {
@@ -789,7 +789,7 @@ interface Resources {
       "DreamvilleAdventure": {
         "Content": {
           "ultDmgBuff": {
-            "text": "Ult DMG boost'",
+            "text": "Ult DMG boost",
             "content": "After the wearer uses a certain type of ability such as Basic ATK, Skill, or Ultimate, all allies gain Childishness, which increases allies' DMG for the same type of ability as used by the wearer by {{DmgBuff}}%. Childishness only takes effect for the most recent type of ability the wearer used and cannot be stacked."
           },
           "skillDmgBuff": {
@@ -862,7 +862,7 @@ interface Resources {
         "Content": {
           "crBuff": {
             "text": "Ult CR buff",
-            "content": "Increases the wearer's Break Effect by {{BreakBuff}}%. When the wearer uses their Ultimate, increases CRIT Rate by {{CritBuff}}%, lasting for 2 turn(s)."
+            "content": "When the wearer uses their Ultimate, increases CRIT Rate by {{CritBuff}}%, lasting for 2 turn(s)."
           }
         }
       },
@@ -981,7 +981,7 @@ interface Resources {
       "TheBirthOfTheSelf": {
         "Content": {
           "enemyHp50FuaBuff": {
-            "text": "Enemy HP < 50% fua buff",
+            "text": "Enemy HP ≤ 50% fua buff",
             "content": "If the current HP of the target enemy is below or equal to 50%, increases DMG dealt by follow-up attacks by an extra {{DmgBuff}}%."
           }
         }
@@ -1434,7 +1434,7 @@ interface Resources {
         "Content": {
           "ultBuff": {
             "text": "Ult buffs",
-            "content": "Increases Svarog Counter DMG by {{ultFuaExtraScaling}}% during Ultimate. DMG dealt to Clara is reduced by an extra {ultDmgReductionValue}}% for 2 turns"
+            "content": "Increases Svarog Counter DMG by {{ultFuaExtraScaling}}% during Ultimate. DMG dealt to Clara is reduced by an extra {{ultDmgReductionValue}}% for 2 turns"
           },
           "talentEnemyMarked": {
             "text": "Enemy Marked",
@@ -1702,7 +1702,7 @@ interface Resources {
           },
           "e6UltExtraHits": {
             "text": "E6 Ult extra hits",
-            "content": "Ultimate deals DMG 2 extra times. Extra hits deals 40% of the original DMG per hit."
+            "content": "E6: Ultimate deals DMG 2 extra times. Extra hits deals 40% of the original DMG per hit."
           }
         }
       },
@@ -3619,12 +3619,12 @@ interface Resources {
         },
         "MAX_HP": {
           "SuccessMessage": "Reset Maximum $t(common:Stats.HP) filter",
-          "Description": "Maximum $t(common:Stats.HP) may be too high",
+          "Description": "Maximum $t(common:Stats.HP) may be too low",
           "ButtonText": "Reset Maximum $t(common:Stats.HP) filter"
         },
         "MIN_HP": {
           "SuccessMessage": "Reset Minimum $t(common:Stats.HP) filter",
-          "Description": "Minimum $t(common:Stats.HP) may be too low",
+          "Description": "Minimum $t(common:Stats.HP) may be too high",
           "ButtonText": "Reset Minimum $t(common:Stats.HP) filter"
         },
         "MAX_ATK": {

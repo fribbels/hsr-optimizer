@@ -113,7 +113,7 @@ Lightcones:
   IncessantRain:
     Content:
       enemy3DebuffsCrBoost:
-        text: Enemy ≤ 3 debuffs CR boost
+        text: Enemy ≥ 3 debuffs CR boost
         content: When the wearer deals DMG to an enemy that currently has 3 or more debuffs, increases the wearer's CRIT Rate by {{CritBuff}}%.
       targetCodeDebuff:
         text: Target Aether Code debuff
@@ -354,7 +354,7 @@ Lightcones:
   DreamvilleAdventure:
     Content:
       ultDmgBuff:
-        text: Ult DMG boost'
+        text: Ult DMG boost
         content: >-
           After the wearer uses a certain type of ability such as Basic ATK, Skill, or Ultimate, all allies gain Childishness, which increases allies' DMG for the same type of ability as used by the
           wearer by {{DmgBuff}}%. Childishness only takes effect for the most recent type of ability the wearer used and cannot be stacked.
@@ -411,7 +411,7 @@ Lightcones:
     Content:
       crBuff:
         text: Ult CR buff
-        content: Increases the wearer's Break Effect by {{BreakBuff}}%. When the wearer uses their Ultimate, increases CRIT Rate by {{CritBuff}}%, lasting for 2 turn(s).
+        content: When the wearer uses their Ultimate, increases CRIT Rate by {{CritBuff}}%, lasting for 2 turn(s).
   ItsShowtime:
     Content:
       trickStacks:
@@ -489,7 +489,7 @@ Lightcones:
   TheBirthOfTheSelf:
     Content:
       enemyHp50FuaBuff:
-        text: Enemy HP < 50% fua buff
+        text: Enemy HP ≤ 50% fua buff
         content: If the current HP of the target enemy is below or equal to 50%, increases DMG dealt by follow-up attacks by an extra {{DmgBuff}}%.
   TheDayTheCosmosFell:
     Content:
@@ -831,7 +831,7 @@ Characters:
     Content:
       ultBuff:
         text: Ult buffs
-        content: Increases Svarog Counter DMG by {{ultFuaExtraScaling}}% during Ultimate. DMG dealt to Clara is reduced by an extra {ultDmgReductionValue}}% for 2 turns
+        content: Increases Svarog Counter DMG by {{ultFuaExtraScaling}}% during Ultimate. DMG dealt to Clara is reduced by an extra {{ultDmgReductionValue}}% for 2 turns
       talentEnemyMarked:
         text: Enemy Marked
         content: Additionally deals Physical DMG equal to {{skillScaling}}% of Clara's ATK to enemies marked by Svarog with a Mark of Counter.
@@ -1041,7 +1041,7 @@ Characters:
         content: "E2: Deals 15% more DMG to enemies whose HP percentage is 50% or less."
       e6UltExtraHits:
         text: E6 Ult extra hits
-        content: Ultimate deals DMG 2 extra times. Extra hits deals 40% of the original DMG per hit.
+        content: "E6: Ultimate deals DMG 2 extra times. Extra hits deals 40% of the original DMG per hit."
   Hook:
     Content:
       enhancedSkill:

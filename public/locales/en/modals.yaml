@@ -75,11 +75,11 @@ Scoring:
       ButtonText: "Switch to Combat stats view"
     MAX_HP:
       SuccessMessage: "Reset Maximum $t(common:Stats.HP) filter"
-      Description: "Maximum $t(common:Stats.HP) may be too high"
+      Description: "Maximum $t(common:Stats.HP) may be too low"
       ButtonText: "Reset Maximum $t(common:Stats.HP) filter"
     MIN_HP:
       SuccessMessage: "Reset Minimum $t(common:Stats.HP) filter"
-      Description: "Minimum $t(common:Stats.HP) may be too low"
+      Description: "Minimum $t(common:Stats.HP) may be too high"
       ButtonText: "Reset Minimum $t(common:Stats.HP) filter"
     MAX_ATK:
       SuccessMessage: "Reset Maximum $t(common:Stats.ATK) filter"

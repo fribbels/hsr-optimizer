@@ -101,17 +101,17 @@ interface Resources {
           "SKILL": "SKILL",
           "ULT": "ULT",
           "FUA": "FUA",
-          "DOT": "DOT",
-          "BREAK": "BREAK"
+          "DOTS": "DOTS:",
+          "BREAKS": "BREAKS:"
         },
         "CombatResults": {
           "Header": "Combat damage results",
-          "Primary": "Primary ability:     ",
-          "Character": "Character DMG:       ",
-          "Benchmark": "Benchmark DMG:       ",
-          "Baseline": "Baseline DMG:        ",
-          "Maximum": "Maximum DMG:         ",
-          "Score": "DPS score %:         ",
+          "Primary": "Primary ability:",
+          "Character": "Character DMG:",
+          "Benchmark": "Benchmark DMG:",
+          "Baseline": "Baseline DMG:",
+          "Maximum": "Maximum DMG:",
+          "Score": "DPS score %:",
           "Abilities": {
             "BASIC": "BASIC DMG",
             "SKILL": "SKILL DMG",
@@ -147,28 +147,6 @@ interface Resources {
           "Substats": "200% perfect subs (max rolls)",
           "Mainstats": "200% perfect main stats",
           "Abilities": "200% perfect ability damage"
-        },
-        "PaddedStatLabels": {
-          "ATKP": "ATK%: ",
-          "ATK": "ATK:  ",
-          "HPP": "HP%:  ",
-          "HP": "HP:   ",
-          "DEFP": "DEF%: ",
-          "DEF": "DEF:  ",
-          "SPD": "SPD:  ",
-          "CR": "CR:   ",
-          "CD": "CD:   ",
-          "EHR": "EHR:  ",
-          "RES": "RES:  ",
-          "BE": "BE:   "
-        },
-        "PaddedDMGLabels": {
-          "Basic": "Basic DMG:           ",
-          "Skill": "Skill DMG:           ",
-          "Ult": "Ult DMG:             ",
-          "Fua": "Fua DMG:             ",
-          "Dot": "Dot DMG:             ",
-          "Break": "Break DMG:           "
         }
       },
       "ScoringDetails": {
@@ -346,10 +324,20 @@ interface Resources {
     "DMGTypes": {
       "simScore": "Combo DMG",
       "BASIC": "Basic Damage",
-      "ULT": "Ult Damage",
       "SKILL": "Skill Damage",
-      "FUA": "FUA Damage",
-      "DOT": "DoT Damage",
+      "ULT": "Ult Damage",
+      "FUA": "Fua Damage",
+      "DOT": "Dot Damage",
+      "BREAK": "Break Damage",
+      "CV": "CV"
+    },
+    "ShortDMGTypes": {
+      "Basic": "Basic DMG",
+      "Skill": "Skill DMG",
+      "Ult": "Ult DMG",
+      "Fua": "Fua DMG",
+      "Dot": "Dot DMG",
+      "Break": "Break DMG",
       "CV": "CV"
     }
   },
@@ -491,7 +479,7 @@ interface Resources {
       "IncessantRain": {
         "Content": {
           "enemy3DebuffsCrBoost": {
-            "text": "Enemy ≥ 3 debuffs CR boost",
+            "text": "Enemy ≤ 3 debuffs CR boost",
             "content": "When the wearer deals DMG to an enemy that currently has 3 or more debuffs, increases the wearer's CRIT Rate by {{CritBuff}}%."
           },
           "targetCodeDebuff": {
@@ -801,7 +789,7 @@ interface Resources {
       "DreamvilleAdventure": {
         "Content": {
           "ultDmgBuff": {
-            "text": "Ult DMG boost",
+            "text": "Ult DMG boost'",
             "content": "After the wearer uses a certain type of ability such as Basic ATK, Skill, or Ultimate, all allies gain Childishness, which increases allies' DMG for the same type of ability as used by the wearer by {{DmgBuff}}%. Childishness only takes effect for the most recent type of ability the wearer used and cannot be stacked."
           },
           "skillDmgBuff": {
@@ -874,7 +862,7 @@ interface Resources {
         "Content": {
           "crBuff": {
             "text": "Ult CR buff",
-            "content": "When the wearer uses their Ultimate, increases CRIT Rate by {{CritBuff}}%, lasting for 2 turn(s)."
+            "content": "Increases the wearer's Break Effect by {{BreakBuff}}%. When the wearer uses their Ultimate, increases CRIT Rate by {{CritBuff}}%, lasting for 2 turn(s)."
           }
         }
       },
@@ -3631,12 +3619,12 @@ interface Resources {
         },
         "MAX_HP": {
           "SuccessMessage": "Reset Maximum $t(common:Stats.HP) filter",
-          "Description": "Maximum $t(common:Stats.HP) may be too low",
+          "Description": "Maximum $t(common:Stats.HP) may be too high",
           "ButtonText": "Reset Maximum $t(common:Stats.HP) filter"
         },
         "MIN_HP": {
           "SuccessMessage": "Reset Minimum $t(common:Stats.HP) filter",
-          "Description": "Minimum $t(common:Stats.HP) may be too high",
+          "Description": "Minimum $t(common:Stats.HP) may be too low",
           "ButtonText": "Reset Minimum $t(common:Stats.HP) filter"
         },
         "MAX_ATK": {

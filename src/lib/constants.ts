@@ -372,7 +372,7 @@ export const Parts = {
   Feet: 'Feet',
   PlanarSphere: 'PlanarSphere',
   LinkRope: 'LinkRope',
-}
+} as const
 export type Parts = typeof Parts[keyof typeof Parts]
 
 export const PartsToReadable = {

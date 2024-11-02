@@ -370,7 +370,6 @@ Lightcones:
     Content:
       cdBuff:
         text: 生命变化时暴击伤害增益
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
@@ -653,7 +652,6 @@ Characters:
         text: 治疗时生命上限增益
         content: 白露对我方目标造成过量治疗时会提高目标10%的生命上限，持续2回合。
       talentDmgReductionBuff:
-        text: 生息状态伤害降低
         content: 拥有【生息】的角色受到的伤害降低10%。
       e2UltHealingBuff:
         text: 2魂终结技后治疗量增益
@@ -1223,29 +1221,21 @@ Characters:
     Content:
       sealformActive:
         text: 结印 （强制弱点击破状态）
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
       atkToBreakVulnerability:
         text: 攻击力转至击破易伤
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
       chargeStacks:
         text: 充能层数
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
       e1DefPen:
         text: 1魂防御穿透
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
       e2Buffs:
         text: 2魂击破增益
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
       e4SpdBuff:
         text: 4魂速度增益
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
     TeammateContent:
       teammateBreakVulnerability:
         text: 击破易伤
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
       e4SpdBuff:
         text: 4魂速度增益
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
   Robin:
     Content:
       concertoActive:

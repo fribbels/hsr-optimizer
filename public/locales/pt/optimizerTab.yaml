@@ -94,6 +94,7 @@ Grid:
       ERR: ERR
       DMG: DANO
       EHP: EHP
+      WEIGHT: "PESO DO ATR."
       BASIC: |-
         DANO
         BÁSICO
@@ -130,6 +131,7 @@ Grid:
       ERR: Σ ERR
       DMG: Σ DANO
       EHP: EHP
+      WEIGHT: "PESO DO ATR."
       BASIC: |-
         DANO
         BÁSICO

@@ -18,19 +18,6 @@ const inputLocales = ['zh', 'de', 'en', 'es', 'fr', 'id', 'ja', 'ko', 'pt', 'ru'
 
 const outputLocales = [...inputLocales, 'it'] as const
 
-const TrailblazerPaths: Paths[] = ['Warrior', 'Knight', 'Shaman'] as const
-
-// list of non-MC multipath characters' IDs
-const multiPathIds = [1001, 1224] as const
-
-// Destruction | Hunt | Erudition | Harmony | Nihility | Preservation | Abundance
-type Paths = 'Warrior' | 'Rogue' | 'Mage' | 'Shaman' | 'Warlock' | 'Knight' | 'Priest'
-// id to path for non-MC multipath characters
-const multipathIdToPath: {[key in typeof multiPathIds[number]]: Paths} = {
-  1001: 'Knight',
-  1224: 'Rogue'
-} as const
-
 // keys must correspond to an available textmap, values are the output locales for a given textmap
 // e.g. the english textmap is used for both the english and italian gameData files
 const outputLocalesMapping: {[key in typeof inputLocales[number]]: typeof outputLocales[number][]} = {
@@ -226,9 +213,8 @@ async function generateTranslations() {
 
     for (const avatar of AvatarConfig) {
       output.Characters[avatar.AvatarID] = {
-        // @ts-ignore includes has stupid type restrictions
-        Name: avatar.AvatarID > 8000 || multiPathIds.includes(avatar.AvatarID)
-          ? cleanString(locale, getMultiPathName(textmap[avatar.AvatarName.Hash], avatar.AvatarID, textmap, pathConfig, locale))
+        Name: avatar.AvatarID > 8000
+          ? TB_NAMES[locale][avatar.AvatarID % 2 ? 'caelus' : 'stelle']
           : cleanString(locale, textmap[avatar.AvatarName.Hash]),
       }
       if (betaInformation[locale]?.Characters) {
@@ -307,47 +293,6 @@ function applyOverrides(output: object, locale: string) {
   }
 }
 
-function getMultiPathName(name: string, id: number, textmap: TextMap, pathmap: Path[], locale: string) {
-  if (id > 8000) return tbIdToNativeName(id, textmap, pathmap, locale)
-  return multipathIdToNativeName(name, id, textmap, pathmap)
-}
-
-function multipathIdToNativeName(name: string, id: number, textmap: TextMap, pathmap: Path[]) {
-  const path = ((id) => {
-    const pathT = multipathIdToPath[id]
-    let hash = 0
-    for (const path of pathmap) {
-      if (path.ID == pathT) {
-        hash = path.BaseTypeText.Hash
-      }
-    }
-    return textmap[hash]
-  })(id)
-  return `${name} (${path})`
-}
-
-function tbIdToNativeName(id: number, textmap: TextMap, pathmap: Path[], locale: string) {
-  const isCaelus = id % 2 ? true : false
-  const path = ((id) => {
-    const pathIndex = Math.ceil((id - 8000) / 2) - 1
-    const pathT = TrailblazerPaths[pathIndex]
-    let hash = 0
-    for (const path of pathmap) {
-      if (path.ID == pathT) {
-        hash = path.BaseTypeText.Hash
-      }
-    }
-    return textmap[hash]
-  })(id)
-  let nativeName = getTbName(locale, isCaelus)
-  return `${nativeName} (${path})`
-}
-
-function getTbName(locale: string, isCaelus: boolean): string {
-  if (isCaelus) return TB_NAMES[locale].caelus
-  return TB_NAMES[locale].stelle
-}
-
 // from the readme on Dim's old github repo
 function getHash(key: string) {
   var hash1 = 5381
@@ -370,24 +315,6 @@ function translateKey(key: string, textmap: TextMap) {
 }
 
 type TextMap = { [key: number]: string }
-
-type Path = {
-  "ID"?: string,
-  "BaseTypeIcon": string,
-  "BaseTypeIconMiddle": string,
-  "BaseTypeIconSmall": string,
-  "EquipmentLightMatPath": string,
-  "Equipment3DTgaPath": string,
-  "BaseTypeIconPathTalk": string,
-  "BgPath": string,
-  "BaseTypeText": {
-    "Hash": number
-  },
-  "BaseTypeDesc": {
-    "Hash": number
-  },
-  "FirstWordText": string
-}
 
 type Lightcone = {
   Name: string

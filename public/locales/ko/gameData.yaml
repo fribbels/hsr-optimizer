@@ -1,6 +1,6 @@
 Characters:
   "1001":
-    Name: "Mar.\_7th (보존)"
+    Name: "Mar.\_7th"
   "1002":
     Name: 단항
   "1003":
@@ -84,7 +84,7 @@ Characters:
   "1223":
     Name: 맥택
   "1224":
-    Name: "Mar.\_7th (수렵)"
+    Name: "Mar.\_7th"
   "1301":
     Name: 갤러거
   "1302":
@@ -114,17 +114,17 @@ Characters:
   "1317":
     Name: 라파
   "8001":
-    Name: Caelus (파멸)
+    Name: Caelus
   "8002":
-    Name: Stelle (파멸)
+    Name: Stelle
   "8003":
-    Name: Caelus (보존)
+    Name: Caelus
   "8004":
-    Name: Stelle (보존)
+    Name: Stelle
   "8005":
-    Name: Caelus (화합)
+    Name: Caelus
   "8006":
-    Name: Stelle (화합)
+    Name: Stelle
 RelicSets:
   "101":
     Name: "흔적을\_남기지\_않은\_과객"

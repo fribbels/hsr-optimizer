@@ -1,6 +1,6 @@
 Characters:
   "1001":
-    Name: Март 7 (Сохранение)
+    Name: Март 7
   "1002":
     Name: Дань Хэн
   "1003":
@@ -84,7 +84,7 @@ Characters:
   "1223":
     Name: Моцзэ
   "1224":
-    Name: Март 7 (Охота)
+    Name: Март 7
   "1301":
     Name: Галлахер
   "1302":
@@ -114,17 +114,17 @@ Characters:
   "1317":
     Name: Раппа
   "8001":
-    Name: Caelus (Разрушение)
+    Name: Caelus
   "8002":
-    Name: Stelle (Разрушение)
+    Name: Stelle
   "8003":
-    Name: Caelus (Сохранение)
+    Name: Caelus
   "8004":
-    Name: Stelle (Сохранение)
+    Name: Stelle
   "8005":
-    Name: Caelus (Гармония)
+    Name: Caelus
   "8006":
-    Name: Stelle (Гармония)
+    Name: Stelle
 RelicSets:
   "101":
     Name: Скиталец блуждающего облака

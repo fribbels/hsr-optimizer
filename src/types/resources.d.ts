@@ -2548,7 +2548,7 @@ interface Resources {
   "gameData": {
     "Characters": {
       "1001": {
-        "Name": "March 7th (Preservation)"
+        "Name": "March 7th"
       },
       "1002": {
         "Name": "Dan Heng"
@@ -2674,7 +2674,7 @@ interface Resources {
         "Name": "Moze"
       },
       "1224": {
-        "Name": "March 7th (The Hunt)"
+        "Name": "March 7th"
       },
       "1225": {
         "Name": "Fugue"
@@ -2725,22 +2725,22 @@ interface Resources {
         "Name": "Rappa"
       },
       "8001": {
-        "Name": "Caelus (Destruction)"
+        "Name": "Caelus"
       },
       "8002": {
-        "Name": "Stelle (Destruction)"
+        "Name": "Stelle"
       },
       "8003": {
-        "Name": "Caelus (Preservation)"
+        "Name": "Caelus"
       },
       "8004": {
-        "Name": "Stelle (Preservation)"
+        "Name": "Stelle"
       },
       "8005": {
-        "Name": "Caelus (Harmony)"
+        "Name": "Caelus"
       },
       "8006": {
-        "Name": "Stelle (Harmony)"
+        "Name": "Stelle"
       }
     },
     "RelicSets": {
@@ -4069,7 +4069,7 @@ interface Resources {
           "ERR": "ERR",
           "DMG": "DMG",
           "EHP": "EHP",
-          "WEIGHT": "STAT WEIGHT",
+          "WEIGHT": "STAT\nWEIGHT",
           "HEAL": "HEAL",
           "SHIELD": "SHIELD",
           "BASIC": "BASIC\nDMG",

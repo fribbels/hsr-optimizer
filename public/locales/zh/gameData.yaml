@@ -1,6 +1,6 @@
 Characters:
   "1001":
-    Name: 三月七 (存护)
+    Name: 三月七
   "1002":
     Name: 丹恒
   "1003":
@@ -84,7 +84,7 @@ Characters:
   "1223":
     Name: 貊泽
   "1224":
-    Name: 三月七 (巡猎)
+    Name: 三月七
   "1301":
     Name: 加拉赫
   "1302":
@@ -114,17 +114,17 @@ Characters:
   "1317":
     Name: 乱破
   "8001":
-    Name: 穹 (毁灭)
+    Name: 穹
   "8002":
-    Name: 星 (毁灭)
+    Name: 星
   "8003":
-    Name: 穹 (存护)
+    Name: 穹
   "8004":
-    Name: 星 (存护)
+    Name: 星
   "8005":
-    Name: 穹 (同谐)
+    Name: 穹
   "8006":
-    Name: 星 (同谐)
+    Name: 星
 RelicSets:
   "101":
     Name: 云无留迹的过客

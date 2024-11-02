@@ -491,7 +491,7 @@ interface Resources {
       "IncessantRain": {
         "Content": {
           "enemy3DebuffsCrBoost": {
-            "text": "Enemy ≥ 3 debuffs CR boost",
+            "text": "Enemy ≤ 3 debuffs CR boost",
             "content": "When the wearer deals DMG to an enemy that currently has 3 or more debuffs, increases the wearer's CRIT Rate by {{CritBuff}}%."
           },
           "targetCodeDebuff": {
@@ -801,7 +801,7 @@ interface Resources {
       "DreamvilleAdventure": {
         "Content": {
           "ultDmgBuff": {
-            "text": "Ult DMG boost",
+            "text": "Ult DMG boost'",
             "content": "After the wearer uses a certain type of ability such as Basic ATK, Skill, or Ultimate, all allies gain Childishness, which increases allies' DMG for the same type of ability as used by the wearer by {{DmgBuff}}%. Childishness only takes effect for the most recent type of ability the wearer used and cannot be stacked."
           },
           "skillDmgBuff": {
@@ -874,7 +874,7 @@ interface Resources {
         "Content": {
           "crBuff": {
             "text": "Ult CR buff",
-            "content": "When the wearer uses their Ultimate, increases CRIT Rate by {{CritBuff}}%, lasting for 2 turn(s)."
+            "content": "Increases the wearer's Break Effect by {{BreakBuff}}%. When the wearer uses their Ultimate, increases CRIT Rate by {{CritBuff}}%, lasting for 2 turn(s)."
           }
         }
       },
@@ -3631,12 +3631,12 @@ interface Resources {
         },
         "MAX_HP": {
           "SuccessMessage": "Reset Maximum $t(common:Stats.HP) filter",
-          "Description": "Maximum $t(common:Stats.HP) may be too low",
+          "Description": "Maximum $t(common:Stats.HP) may be too high",
           "ButtonText": "Reset Maximum $t(common:Stats.HP) filter"
         },
         "MIN_HP": {
           "SuccessMessage": "Reset Minimum $t(common:Stats.HP) filter",
-          "Description": "Minimum $t(common:Stats.HP) may be too high",
+          "Description": "Minimum $t(common:Stats.HP) may be too low",
           "ButtonText": "Reset Minimum $t(common:Stats.HP) filter"
         },
         "MAX_ATK": {
@@ -4019,12 +4019,12 @@ interface Resources {
       "Exclude": "Exclude",
       "MinEnhance": {
         "Header": "Min enhance",
-        "Label0": 0,
-        "Label3": 3,
-        "Label6": 6,
-        "Label9": 9,
-        "Label12": 12,
-        "Label15": 15
+        "Label0": "+0",
+        "Label3": "+3",
+        "Label6": "+6",
+        "Label9": "+9",
+        "Label12": "+12",
+        "Label15": "+15"
       },
       "MinRarity": {
         "Header": "Min rarity",
@@ -4035,11 +4035,11 @@ interface Resources {
       },
       "BoostMain": {
         "Header": "Boost main stat",
-        "Label3": 3,
-        "Label6": 6,
-        "Label9": 9,
-        "Label12": 12,
-        "Label15": 15
+        "Label3": "+3",
+        "Label6": "+6",
+        "Label9": "+9",
+        "Label12": "+12",
+        "Label15": "+15"
       }
     },
     "AdvancedOptions": {

@@ -1,0 +1,248 @@
+BetaMessage: "Versão atual: {{Version}} - Os cálculos estão sujeitos a alterações."
+Common:
+  HealAbility:
+    Text: "Habilidade de cura"
+    Content: "Selecione a habilidade para cálculos de cura"
+    Basic: "Habilidade de cura: Básico"
+    Skill: "Habilidade de cura: Perícia"
+    Ult: "Habilidade de cura: Ult"
+    Talent: "Habilidade de cura: Talento"
+    Trace: "Habilidade de cura: Rastro"
+  ShieldAbility:
+    Text: "Habilidade de escudo"
+    Content: "Selecione a habilidade para cálculos de escudo"
+    Basic: "Habilidade de escudo: Básica"
+    Skill: "Habilidade de escudo: Perícia"
+    Ult: "Habilidade de escudo: Ult"
+    Talent: "Habilidade de proteção: Talento"
+    Trace: "Habilidade de escudo: Rastro"
+Lightcones:
+  AlongThePassingShore:
+    Content:
+      emptyBubblesDebuff:
+        text: Debuff Miragem Fracassada
+        content: >-
+          Quando o portador atinge um alvo inimigo, aplica Miragem Fracassada ao inimigo, durando 1 turno. Cada vez que o portador ataca, esse efeito só pode ser ativado 1 vez em cada alvo. O portador causa um aumento de {{DmgBoost}}% de DANO aos alvos afetados por Mirage Fizzle, e o DANO causado pela Ultimate do portador aumenta adicionalmente em {{UltDmgBoost}}%.
+  AnInstantBeforeAGaze:
+    Content:
+      maxEnergyUltDmgStacks:
+        text: Energia máxima
+        content: Quando o portador utiliza a Ultimate, aumenta o DANO da Ultimate do portador com base na sua Energia Máxima. Cada ponto de Energia aumenta o DANO da Ultimate em {{DmgStep}}%, até um máximo de 180 pontos de Energia.
+  BaptismOfPureThought:
+    Content:
+      debuffCdStacks:
+        text: Acúmulos de CD de debuff
+        content: Para cada debuff no alvo inimigo, o DANO CRÍTICO causado pelo portador contra esse alvo aumenta em {{DmgStep}}%, acumulando até 3 vezes.
+      postUltBuff:
+        text: Buffs de disputação
+        content: >-
+          Ao usar a Ultimate para atacar o alvo inimigo, o portador recebe o efeito de Disputação, que aumenta o DANO causado em {{DmgStep}}% e permite que seus ataques subsequentes ignorem {{DefIgnore}}% da DEF do alvo. Esse efeito dura por 2 turnos.
+  BeforeDawn:
+    Content:
+      fuaDmgBoost:
+        text: Aumento de DANO FUA
+        content: >-
+          Após o portador usar sua Habilidade ou Ultimate, ele ganha Somnus Corpus. Ao ativar um ataque subsequente, Somnus Corpus será consumido e o DANO do ataque subsequente aumenta em {{DmgBuff}}%.
+  BrighterThanTheSun:
+    Content:
+      dragonsCallStacks:
+        text: Acúmulos de Chamado do Dragão
+        content: >-
+          Quando o portador usa seu ATK Básico, ele ganhará 1 acúmulo de Chamado do Dragão, durando 2 turnos. Cada acúmulo de Chamado do Dragão aumenta o ATK do portador em {{AtkBuff}}% e a Taxa de Regeneração de Energia em {{RegenBuff}}%. Chamado do Dragão pode ser acumulado até 2 vezes.
+  ButTheBattleIsntOver:
+    Content:
+      postSkillDmgBuff:
+        text: Buff de DANO pós-Habilidade
+        content: Quando o portador usa sua Habilidade, o próximo aliado que agir (exceto o portador) causa {{DmgBuff}}% a mais de DANO por 1 turno.
+  CruisingInTheStellarSea:
+    Content:
+      enemyHp50CrBoost:
+        text: Buff de CR quando HP do inimigo ≤ 50%
+        content: Aumenta a taxa de CRÍTICO do portador contra inimigos com HP menor ou igual a 50% em mais {{CritBuff}}%.
+      enemyDefeatedAtkBuff:
+        text: Buff de ATK ao derrotar um inimigo
+        content: Quando o portador derrota um inimigo, seu ATK é aumentado em {{AtkBuff}}% por 2 turnos.
+  DanceAtSunset:
+    Content:
+      fuaDmgStacks:
+        text: Acúmulos de DANO FUA
+        content: >-
+          Após o portador usar a Ultimate, recebe 1 acúmulo de Dança do Fogo, durando 2 turnos e acumulando até 2,0 vezes. Cada acúmulo de Dança do Fogo aumenta o DANO causado pelo ataque subsequente do portador em {{DmgBoost}}%.
+  EarthlyEscapade:
+    Content:
+      maskActive:
+        text: Máscara ativa
+        content: >-
+          No início da batalha, o portador ganha Máscara, durando 3 turnos. Enquanto o portador tiver Máscara, os aliados do portador têm sua taxa de CRÍTICO aumentada em {{CritRateBuff}}% e seu DANO CRÍTICO aumentado em {{CritDmgBuff}}%. Para cada 1 Ponto de Habilidade que o portador recupera (incluindo Pontos de Habilidade que excedem o limite), ele ganha 1 acúmulo de Chama Radiante. E quando o portador tem 4 acúmulos de Chama Radiante, todas as pilhas são removidas, e ele ganha Máscara por 4 turnos.
+  EchoesOfTheCoffin:
+    Content:
+      postUltSpdBuff:
+        text: Buff de SPD pós-Ultimate
+        content: >-
+          Após o portador realizar um ataque, para cada alvo inimigo diferente que o portador atinge, ele recupera {{EnergyRecovered}} de Energia. Cada ataque pode regenerar Energia até 3 vezes dessa forma. Após o portador usar sua Ultimate, todos os aliados ganham {{SpdBuff}} de SPD por 1 turno.
+  EternalCalculus:
+    Content:
+      atkBuffStacks:
+        text: Acúmulos de buff de ATK
+        content: Após usar um ataque, para cada alvo inimigo atingido, aumenta adicionalmente o ATK em {{AtkBuff}}%. Esse efeito pode acumular até 5 vezes e dura até o próximo ataque.
+      spdBuff:
+        text: Buff de SPD ao atingir 3 alvos
+        content: Se houver 3 ou mais alvos inimigos atingidos, a SPD desta unidade aumenta em {{SpdBuff}}%, durando por 1 turno.
+  FlowingNightglow:
+    Content:
+      cadenzaActive:
+        text: Cadenza ativa
+        content: >-
+          Toda vez que um aliado ataca, o portador ganha 1 acúmulo de Cantillação. Cada acúmulo de Cantillação aumenta a Taxa de Regeneração de Energia do portador em {{RegenBuff}}%, acumulando até 5 vezes. Quando o portador usa sua Ultimate, remove Cantillação e ganha Cadenza. Cadenza aumenta o ATK do portador em {{AtkBuff}}% e aumenta o DANO causado por todos os aliados em {{DmgBuff}}%, durando por 1 turno.
+      cantillationStacks:
+        text: Acúmulos de Cantilação
+        content: >-
+          Toda vez que um aliado ataca, o portador ganha 1 acúmulo de Cantillação. Cada acúmulo de Cantillação aumenta a Taxa de Regeneração de Energia do portador em {{RegenBuff}}%, acumulando até 5 vezes. Quando o portador usa sua Ultimate, remove Cantillação e ganha Cadenza. Cadenza aumenta o ATK do portador em {{AtkBuff}}% e aumenta o DANO causado por todos os aliados em {{DmgBuff}}%, durando por 1 turno.
+  IncessantRain:
+    Content:
+      enemy3DebuffsCrBoost:
+        text: Buff de CR quando houver ≥ 3 debuffs no inimigo
+        content: Quando o portador causa DANO a um inimigo que atualmente tem 3 ou mais debuffs, aumenta a taxa de CRÍTICO do portador em {{CritBuff}}%.
+      targetCodeDebuff:
+        text: Debuff Código Aether no alvo
+        content: >-
+          Após o portador usar seu ATK Básico, Habilidade ou Ultimate, há uma chance de implantar Código Aether em um alvo atingido aleatório que ainda não o tenha. Os alvos com Código Aether recebem um aumento de {{DmgIncrease}}% no DANO por 1 turno.
+  InherentlyUnjustDestiny:
+    Content:
+      shieldCdBuff:
+        text: Buff de CD de Escudo
+        content: Quando o portador fornece um Escudo a um aliado, o DMG CRÍTICO do portador aumenta em {{CritBuff}}%, durando por 2 turno(s).
+      targetVulnerability:
+        text: Debuff de vulnerabilidade no alvo
+        content: Quando o ataque de seguimento do portador atinge um alvo inimigo, há uma chance base de 100% de aumentar o DMG recebido pelo inimigo atacado em {{Vulnerability}}%, durando por 2 turno(s).
+  InTheNameOfTheWorld:
+    Content:
+      enemyDebuffedDmgBoost:
+        text: Buff de DMG para inimigos com debuff
+        content: Aumenta o DMG do portador contra inimigos com debuff em {{DmgBuff}}%.
+      skillAtkBoost:
+        text: Buff de ATK de Habilidade (não implementado)
+        content: Quando o portador usa sua Habilidade, a Taxa de Acerto do Efeito para este ataque aumenta em {{EhrBuff}}%, e o ATK aumenta em {{AtkBuff}}%.
+  InTheNight:
+    Content:
+      spdScalingBuffs:
+        text: Buffs de conversão de SPD
+        content: >-
+          Enquanto o portador está em batalha, para cada 10 de SPD que exceder 100, o DMG do ATK Básico e da Habilidade do portador é aumentado em {{DmgBuff}}% e o DMG CRÍTICO de sua Ultimate é aumentado em {{CritBuff}}%. Este efeito pode se acumular até 6 vez(es).
+  IShallBeMyOwnSword:
+    Content:
+      eclipseStacks:
+        text: Acúmulos de Eclipse
+        content: >-
+          Quando um aliado (excluindo o portador) é atacado ou perde HP, o portador ganha 1 pilha de Eclipse, até um máximo de 3 pilhas. Cada pilha de Eclipse aumenta o DMG do próximo ataque do portador em {{DmgBuff}}%.
+      maxStackDefPen:
+        text: Máximo de Acúmulo DEF PEN
+        content: Quando 3 acúmulos são alcançados, habilita adicionalmente esse ataque a ignorar {{DefIgnore}}% da DEF do inimigo. Este efeito será removido após o portador realizar um ataque.
+  IVentureForthToHunt:
+    Content:
+      luminfluxUltStacks:
+        text: Acúmulos de Luminflux
+        content: >-
+          Quando o portador realiza um ataque de seguimento, ganha 1 acúmulo de Luminflux, acumulando até 2.0 vez(es). Cada pilha de Luminflux permite que o DMG da Ultimate do portador ignore {{DefIgnore}}% da DEF do alvo. Quando o turno do portador termina, remove 1 pilha de Luminflux.
+  MomentOfVictory:
+    Content:
+      selfAttackedDefBuff:
+        text: Buff de DEF ao se auto atacar
+        content: Aumenta a chance de o portador ser atacado por inimigos. Quando o portador é atacado, aumenta sua DEF em {{DefBuff}}% até o final do turno do portador.
+  NightOfFright:
+    Content:
+      atkBuffStacks:
+        text: Acúmulos de buff de ATK
+        content: Quando o portador fornece cura a um aliado, aumenta o ATK do aliado curado em {{AtkBuff}}%. Este efeito pode se acumular até 5 vezes e dura por 2 turno(s).
+  NightOnTheMilkyWay:
+    Content:
+      enemyCountAtkBuff:
+        text: Buff de ATK por contagem de inimigos
+        content: Para cada inimigo em campo, aumenta o ATK do portador em {{AtkBuff}}%, até 5 acúmulos.
+      enemyWeaknessBreakDmgBuff:
+        text: Buff de DMG contra inimigos quebrados
+        content: Quando um inimigo é afetado por Quebra de Fraqueza, o DMG causado pelo portador aumenta em {{DmgBuff}}% por 1 turno.
+  OnTheFallOfAnAeon:
+    Content:
+      atkBoostStacks:
+        text: Acúmulos de buff de ATK
+        content: Sempre que o portador ataca, seu ATK é aumentado em {{AtkBuff}}% nesta batalha. Este efeito pode se acumular até 4 vez(es).
+      weaknessBreakDmgBuff:
+        text: Buff de DMG de Quebra de Fraqueza
+        content: Após um personagem infligir Quebra de Fraqueza em um inimigo, o DMG do portador aumenta em {{DmgBuff}}% por 2 turno(s).
+  PastSelfInTheMirror:
+    Content:
+      postUltDmgBuff:
+        text: Buff de DMG pós-Ultimate
+        content: Quando o portador usa sua Ultimate, aumenta o DMG de todos os aliados em {{DmgBuff}}%, durando por 3 turno(s).
+  PatienceIsAllYouNeed:
+    Content:
+      spdStacks:
+        text: Acúmulos SPD
+        content: Após cada ataque realizado pelo portador, sua SPD aumenta em {{SpdBuff}}%, acumulando até 3 vezes.
+      dotEffect:
+        text: Efeito de DoT (não implementado)
+        content: >-
+          Se o portador atingir um alvo inimigo que não esteja afetado por Erode, há uma chance base de 100% de infligir Erode ao alvo. Inimigos afetados por Erode também são considerados como Estonteados e receberão DoT de Raio no início de cada turno, igual a {{Multiplier}}% do ATK do portador, durando por 1 turno(s).
+  ReforgedRemembrance:
+    Content:
+      prophetStacks:
+        text: Acúmulos de Profeta
+        content: >-
+          Quando o portador causa DMG a um inimigo afetado por Corte de Vento, Queima, Choque ou Sangramento, cada um concede 1 pilha de Profeta, acumulando até 4 vezes. Em uma única batalha, apenas 1 acúmulo de Profeta pode ser concedida para cada tipo de DoT. Cada pilha de Profeta aumenta o ATK do portador em {{AtkBuff}}% e permite que o DoT causado ignore {{DefIgnore}}% da DEF do alvo.
+  SailingTowardsASecondLife:
+    Content:
+      breakDmgDefShred:
+        text: Redução de DEF por Quebra de DMG
+        content: O DMG de Quebra causado pelo portador ignora {{DefIgnore}}% da DEF do alvo.
+      spdBuffConditional:
+        text: Buff de SPD para BE ≥ 150
+        content: Quando o Efeito de Quebra do portador na batalha estiver em 150% ou mais, aumenta sua SPD em {{SpdBuff}}%.
+  ScentAloneStaysTrue:
+    Content:
+      woefreeState:
+        text: Vulnerabilidade Woefree
+        content: >-
+          Após o portador usar a Ultimate para atacar os alvos inimigos, inflige o estado Woefree nos alvos, durando por 2.0 turno(s). Enquanto estiverem em Woefree, os alvos inimigos recebem {{Vulnerability}}% a mais de DMG. O efeito de aumento de DMG recebido é adicionalmente impulsionado em {{AdditionalVulnerability}}% se o Efeito de Quebra atual do portador for 150.0% ou superior.
+    TeammateContent:
+      additionalVulnerability:
+        text: Vulnerabilidade adicional
+        content: >-
+          Após o portador usar a Ultimate para atacar os alvos inimigos, inflige o estado Woefree nos alvos, durando por 2.0 turno(s). Enquanto estiverem em Woefree, os alvos inimigos recebem {{Vulnerability}}% a mais de DMG. O efeito de aumento de DMG recebido é adicionalmente impulsionado em {{AdditionalVulnerability}}% se o Efeito de Quebra atual do portador for 150.0% ou superior.
+  SheAlreadyShutHerEyes:
+    Content:
+      hpLostDmgBuff:
+        text: Buff de DMG por HP perdido
+        content: Quando o HP do portador é reduzido, o DMG causado por todos os aliados aumenta em {{DmgBuff}}%, durando por 2 turno(s).
+  SleepLikeTheDead:
+    Content:
+      missedCritCrBuff:
+        text: Buff de CR por Crítico Perdido
+        content: Quando o ATK Básico ou a Habilidade do portador não resulta em um Acerto Crítico, aumenta sua Taxa de Crítico em {{CritBuff}}% por 1 turno. Este efeito pode ser acionado apenas uma vez a cada 3 turnos.
+  SolitaryHealing:
+    Content:
+      postUltDotDmgBuff:
+        text: Buff de DMG de DoT pós-Ultimate
+        content: Quando o portador usa sua Ultimate, aumenta o DoT causado pelo portador em {{DmgBuff}}%, durando por 2 turno(s).
+  SomethingIrreplaceable:
+    Content:
+      dmgBuff:
+        text: Buff de DMG por inimigo derrotado / dano recebido próprio
+        content: >-
+          Quando o portador derrota um inimigo ou é atingido, restaura imediatamente HP igual a {{Multiplier}}% do ATK do portador. Ao mesmo tempo, o DMG do portador é aumentado em {{DmgBuff}}% até o final de seu próximo turno. Este efeito não pode se acumular e pode ser acionado apenas 1 vez por turno.
+  TextureOfMemories:
+    Content:
+      activeShieldDmgDecrease:
+        text: Redução de DMG recebido por escudo ativo
+  PastAndFuture:
+    Content:
+      postSkillDmgBuff:
+        text: Buff de DANO pós-Habilidade
+  TheMolesWelcomeYou:
+    Content:
+      atkBuffStacks:
+        text: Acúmulos de buff de ATK
+  TodayIsAnotherPeacefulDay:
+    Content:
+      maxEnergyStacks:
+        text: Energia máxima

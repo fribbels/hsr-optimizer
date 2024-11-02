@@ -13,7 +13,7 @@ Header:
   WithoutVersion: Insira o UID da sua conta para verificar a pontuação dos personagens no seu perfil no nível 80 e com traços maximizados. Deslogue para atualizar instantaneamente.
 SubmissionBar:
   Placeholder: UID da conta
-  AlgorithmButton: Algoritmo de Pontuação
+  AlgorithmButton: Algoritmo de Pontos
 CopyScreenshot: Copiar captura de tela
 ImportLabels:
   Relics: Importar relíquias pro otimizador

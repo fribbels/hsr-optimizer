@@ -1,4 +1,6 @@
+//@ts-ignore
 import { writeFile } from "fs"
+//@ts-ignore
 import { readFile } from "fs/promises"
 import yaml from "js-yaml"
 import { TsUtils } from '../../src/lib/TsUtils'
@@ -278,7 +280,7 @@ async function generateTranslations() {
     applyOverrides(output, locale)
 
     for (const outputLocale of outputLocalesMapping[locale]) {
-      writeFile(`./public/locales/${outputLocale}/gameData.yaml`, yaml.dump(output, { lineWidth: -1, quotingType: "\"" }), (err) => {
+      writeFile(`./public/locales/${outputLocale}/gameData.yaml`, yaml.dump(output, { lineWidth: -1, quotingType: "\"" }), (err: unknown) => {
         if (err)
           console.log(err)
         else {
@@ -307,10 +309,10 @@ function applyOverrides(output: object, locale: string) {
 
 function getMultiPathName(name: string, id: number, textmap: TextMap, pathmap: Path[], locale: string) {
   if (id > 8000) return tbIdToNativeName(id, textmap, pathmap, locale)
-  return multipathIdToNativeName(name, id, textmap, pathmap, locale)
+  return multipathIdToNativeName(name, id, textmap, pathmap)
 }
 
-function multipathIdToNativeName(name: string, id: number, textmap: TextMap, pathmap: Path[], locale: string) {
+function multipathIdToNativeName(name: string, id: number, textmap: TextMap, pathmap: Path[]) {
   const path = ((id) => {
     const pathT = multipathIdToPath[id]
     let hash = 0

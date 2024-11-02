@@ -1,7 +1,7 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { indent, wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
 import { OptimizerAction, OptimizerContext, TeammateAction } from 'types/Optimizer'
 
 export type DynamicConditional = {
@@ -9,8 +9,8 @@ export type DynamicConditional = {
   type: number
   activation: number
   dependsOn: string[]
-  condition: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => boolean | number
-  effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => void
+  condition: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => boolean | number
+  effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
   gpu: (action: OptimizerAction, context: OptimizerContext) => string
   ratioConversion?: boolean
   teammateIndex?: number
@@ -22,7 +22,7 @@ function getTeammateFromIndex(conditional: DynamicConditional, action: Optimizer
   else return action.teammate2
 }
 
-export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
   if (conditional.teammateIndex != null) {
     const teammate = getTeammateFromIndex(conditional, action)
     const teammateAction = {
@@ -40,7 +40,7 @@ export function evaluateConditional(conditional: DynamicConditional, x: Computed
         conditional.effect(x, teammateAction, context)
       }
     } else {
-
+      //
     }
   } else {
     if (conditional.activation == ConditionalActivation.SINGLE) {
@@ -53,7 +53,7 @@ export function evaluateConditional(conditional: DynamicConditional, x: Computed
         conditional.effect(x, action, context)
       }
     } else {
-
+      //
     }
   }
 }
@@ -67,7 +67,7 @@ ${indent(wgsl.trim(), 1)}
   `
 }
 
-export function buffDynamicStat(x: ComputedStatsObject, stat: string, value: number, action: OptimizerAction, context: OptimizerContext) {
+export function buffDynamicStat(x: ComputedStatsArray, stat: string, value: number, action: OptimizerAction, context: OptimizerContext) {
   // Self buffing stats will asymptotically reach 0
   if (value < 0.0001) {
     return
@@ -85,11 +85,11 @@ export const AventurineConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.DEF],
-  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
     return r.defToCrBoost && x[Stats.DEF] > 1600
   },
-  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
     const buffValue = Math.min(0.48, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100))
 
@@ -123,12 +123,12 @@ export const XueyiConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.BE],
-  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return r.beToDmgBoost
   },
-  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
     const buffValue = Math.min(2.40, x[Stats.BE])
 
@@ -156,10 +156,10 @@ export const FireflyConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.ATK],
-  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return x[Stats.ATK] > 1800
   },
-  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
     const trueAtk = x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF - x.RATIO_BASED_ATK_P_BUFF * context.baseATK
     const buffValue = 0.008 * Math.floor((trueAtk - 1800) / 10)
@@ -195,12 +195,12 @@ export const BoothillConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.BE],
-  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     return r.beToCritBoost
   },
-  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
 
     const stateCrBuffValue = Math.min(0.30, 0.10 * stateValue)
@@ -244,10 +244,10 @@ export const GepardConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.DEF],
-  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return true
   },
-  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
     const buffValue = 0.35 * x[Stats.DEF]
 
@@ -271,10 +271,10 @@ export const BlackSwanConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.EHR],
-  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return true
   },
-  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
     if (!r.ehrToDmgBoost) {
       return
@@ -307,10 +307,10 @@ export const RappaConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.ATK],
-  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return true
   },
-  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
     if (!r.atkToBreakVulnerability) {
       return
@@ -346,10 +346,10 @@ export const GallagherConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.BE],
-  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return true
   },
-  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     const stateValue = action.conditionalState[this.id] || 0
@@ -377,10 +377,10 @@ export const RuanMeiConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.BE],
-  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return true
   },
-  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
 
     const stateValue = action.conditionalState[this.id] || 0
@@ -410,10 +410,10 @@ export const JiaoqiuConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.EHR],
-  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return true
   },
-  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
     if (!r.ehrToAtkBoost || x[Stats.EHR] <= 0.80) {
       return

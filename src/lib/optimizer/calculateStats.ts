@@ -1,5 +1,5 @@
 import { BASIC_TYPE, BasicStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { Sets, Stats } from 'lib/constants'
+import { Sets, Stats, StatsValues } from 'lib/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   BelobogOfTheArchitectsConditional,
@@ -20,6 +20,7 @@ import { _buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { buff, buffWithSourceEffect, ComputedStatsArray, Effect, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { Relic } from 'types/Relic'
 
 export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: number, setB: number, setF: number, setP: number, setL: number) {
   c.sets = {
@@ -352,10 +353,10 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth135Conditional, x, action, context)
   p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth160Conditional, x, action, context)
 
-  for (const conditional of context.characterConditionalController.dynamicConditionals || []) {
+  for (const conditional of context.characterConditionalController.dynamicConditionals ?? []) {
     evaluateConditional(conditional, x, action, context)
   }
-  for (const conditional of context.lightConeConditionalController.dynamicConditionals || []) {
+  for (const conditional of context.lightConeConditionalController.dynamicConditionals ?? []) {
     evaluateConditional(conditional, x, action, context)
   }
   for (const conditional of action.teammateDynamicConditionals || []) {
@@ -365,12 +366,12 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   return x
 }
 
-export function calculateRelicStats(c: BasicStatsObject, head, hands, body, feet, planarSphere, linkRope) {
+export function calculateRelicStats(c: BasicStatsObject, head: Relic, hands: Relic, body: Relic, feet: Relic, planarSphere: Relic, linkRope: Relic) {
   for (const relic of [head, hands, body, feet, planarSphere, linkRope]) {
     if (!relic.part) continue
 
-    for (const condensedStat of relic.condensedStats) {
-      c[condensedStat[0]] += condensedStat[1]
+    for (const condensedStat of relic.condensedStats!) {
+      c[condensedStat[0] as StatsValues] += condensedStat[1]
     }
   }
 
@@ -383,11 +384,25 @@ export function calculateRelicStats(c: BasicStatsObject, head, hands, body, feet
     + linkRope.weightScore
 }
 
-function sumPercentStat(stat, base, lc, trace, relicSum, setEffects): number {
+function sumPercentStat(
+  stat: StatsValues,
+  base: Record<string, number>,
+  lc: Record<string, number>,
+  trace: Record<string, number>,
+  relicSum: BasicStatsObject,
+  setEffects: number): number {
   return base[stat] + lc[stat] + relicSum[stat] + trace[stat] + setEffects
 }
 
-function sumFlatStat(stat, statP, baseValue, lc, trace, relicSum, setEffects): number {
+function sumFlatStat(
+  stat: StatsValues,
+  statP: StatsValues,
+  baseValue: number,
+  lc: Record<string, number>,
+  trace: Record<string, number>,
+  relicSum: BasicStatsObject,
+  setEffects: number,
+): number {
   return (baseValue) * (1 + setEffects + relicSum[statP] + trace[statP] + lc[statP]) + relicSum[stat] + trace[stat]
 }
 

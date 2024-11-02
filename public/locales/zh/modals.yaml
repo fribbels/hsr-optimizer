@@ -75,9 +75,11 @@ Scoring:
       ButtonText: "切换至战斗属性视角"
     MAX_HP:
       SuccessMessage: "已重置最大$t(common:Stats.HP)的过滤条件"
+      Description: "最大$t(common:Stats.HP)的过滤条件可能过低"
       ButtonText: "已重置最大$t(common:Stats.HP)的过滤条件"
     MIN_HP:
       SuccessMessage: "已重置最小$t(common:Stats.HP)的过滤条件"
+      Description: "最小$t(common:Stats.HP)的过滤条件可能过高"
       ButtonText: "已重置最小$t(common:Stats.HP)的过滤条件"
     MAX_ATK:
       SuccessMessage: "已重置最大$t(common:Stats.ATK)的过滤条件"

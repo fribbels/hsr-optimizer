@@ -1,11 +1,11 @@
 ScreenshotMessages:
-  ScreenshotSuccess: ' Captura de tela copiada para a área de transferência'
+  ScreenshotSuccess: Captura de tela copiada para a área de transferência
   ScreenshotFailed: Não é possível salvar a captura de tela na área de transferência, tente o botão de baixar à direita
   DownloadSuccess: Baixar captura de tela
 CharacterMenu:
   ButtonText: Menu de personagens
   Character:
-    Label: Personagem
+    Label: Personagemㅤ
     Options:
       Add: Adicionar novo personagem
       Edit: Editar personagem / cone de luz
@@ -31,7 +31,7 @@ SearchPlaceholder: Procurar nome do personagem
 GridHeaders:
   Icon: Ícone
   Priority: Prioridade
-  Character: Personagem
+  Character: Personagemㅤ
 Messages:
   RemoveSuccess: Personagem removido com sucesso
   UnequipSuccess: Personagem desequipado com sucesso
@@ -45,7 +45,7 @@ CharacterPreview:
   ArtBy: "Arte por {{artistName}}"
   EditCharacter: Editar personagem
   EditPortrait: Editar retrato
-  CharacterScore: "Pontuação do personagem: {{score}} {{grade}}"
+  CharacterScore: "Pontuação do char: {{score}} {{grade}}"
   Messages:
     AddedRelic: Relíquia adicionada com sucesso
     SavedPortrait: Retrato salvo com sucesso
@@ -57,9 +57,9 @@ CharacterPreview:
   AlgorithmSlider:
     Title: "Algorítimo de pontuação"
     Labels:
-      CombatScore: Pontuação de combate
-      CombatScoreTBD: Pontuação de combate (TBD)
-      StatScore: Pontuação do atributo
+      CombatScore: Pontuação de Combate
+      CombatScoreTBD: Pontuação de Combate (TBD)
+      StatScore: Pontuação de Atributo
   DetailsSlider:
     Title: "Detalhes da pontuação de combate:"
     Labels:
@@ -68,7 +68,7 @@ CharacterPreview:
   DMGUpgrades: Melhorias para o dano
   SubstatUpgradeComparisons:
     Header: Comparação de melhoria de subatributos
-    Roll: roletar
+    Roll: roll
     Damage: Dano
   BuildAnalysis:
     Header: Análise de build do personagem
@@ -139,6 +139,6 @@ CharacterPreview:
       Ult: "Dano Perícia Suprema:             "
       Fua: "Dano Ataque Extra:             "
       Dot: "Dano DOT:             "
-      Break: "Dano Quebra:           "
+      Break: "Dano de Quebra:           "
   ScoringDetails:
     Header: Como o placar de DPS é calculado?

@@ -227,12 +227,13 @@ export class RelicScorer {
   getRelicScoreMeta(id: CharacterId): ScoringMetadata {
     let scoringMetadata = this.characterRelicScoreMetas.get(id)
     if (!scoringMetadata) {
+      const stats = DB.getMetadata().characters[id].stats
       scoringMetadata = Utils.clone(DB.getScoringMetadata(id)) as ScoringMetadata
-      scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * flatStatScaling.HP
-      scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * flatStatScaling.ATK
-      scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * flatStatScaling.DEF
+      scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (stats.HP * 2 * 0.03888)
+      scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (stats.ATK * 2 * 0.03888)
+      scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (stats.DEF * 2 * 0.04860)
 
-      // Object.entries, Object.values, and Object.keys all remove type information down to fundamental types :/  (e.g. here StatsValues becomes string)
+      // Object.entries strips type information down to primitive types :/  (e.g. here StatsValues becomes string)
       // @ts-ignore
       scoringMetadata.sortedSubstats = Object.entries(scoringMetadata.stats).filter((x) => possibleSubstats.has(x[0])) as [SubStats, number][]
       scoringMetadata.sortedSubstats
@@ -273,13 +274,15 @@ export class RelicScorer {
         scoringMetadata.greedyHash = TsUtils.objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts })
         scoringMetadata.hash = scoringMetadata.greedyHash
       }
+      scoringMetadata.greedyHash = id
+      scoringMetadata.hash = id
       this.characterRelicScoreMetas.set(id, scoringMetadata)
     }
     return scoringMetadata
   }
 
   getOptimalPartScore(part: Parts, id: CharacterId) {
-    const metaHash = this.getRelicScoreMeta(id).greedyHash
+    const metaHash = this.getRelicScoreMeta(id).hash
     let optimalScore = this.optimalPartScore.get(part)?.get(metaHash)
     if (!optimalScore) {
       optimalScore = this.scoreOptimalRelic(part, id)

@@ -94,7 +94,6 @@ Grid:
       ERR: 能量恢复
       DMG: 增伤
       EHP: 有效生命
-      WEIGHT: "属性\n权重"
       BASIC: |-
         普攻
         伤害
@@ -131,7 +130,6 @@ Grid:
       ERR: Σ 能量
       DMG: Σ 增伤
       EHP: 有效生命
-      WEIGHT: "属性\n权重"
       BASIC: |-
         普攻
         伤害

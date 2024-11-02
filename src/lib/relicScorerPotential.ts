@@ -144,7 +144,7 @@ const normalization = {
   [Constants.Stats.RES]: 64.8 / 43.2,
   [Constants.Stats.SPD]: 64.8 / 25.032,
   [Constants.Stats.BE]: 64.8 / 64.8,
-}
+} as const
 
 const dmgMainstats = [
   Stats.Physical_DMG,
@@ -227,16 +227,16 @@ export class RelicScorer {
   getRelicScoreMeta(id: CharacterId): ScoringMetadata {
     let scoringMetadata = this.characterRelicScoreMetas.get(id)
     if (!scoringMetadata) {
-      const stats = DB.getMetadata().characters[id].stats
+      const baseStats = DB.getMetadata().characters[id].stats
       scoringMetadata = Utils.clone(DB.getScoringMetadata(id)) as ScoringMetadata
-      scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (stats.HP * 2 * 0.03888)
-      scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (stats.ATK * 2 * 0.03888)
-      scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (stats.DEF * 2 * 0.04860)
+      scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * flatStatScaling.HP// 38 / (baseStats.HP * 2 * 0.03888)
+      scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * flatStatScaling.ATK// 19 / (baseStats.ATK * 2 * 0.03888)
+      scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * flatStatScaling.DEF// 19 / (baseStats.DEF * 2 * 0.04860)
 
       // Object.entries strips type information down to primitive types :/  (e.g. here StatsValues becomes string)
       // @ts-ignore
-      scoringMetadata.sortedSubstats = Object.entries(scoringMetadata.stats).filter((x) => possibleSubstats.has(x[0])) as [SubStats, number][]
-      scoringMetadata.sortedSubstats
+      scoringMetadata.sortedSubstats = (Object.entries(scoringMetadata.stats) as [SubStats, number][])
+        .filter((x) => possibleSubstats.has(x[0]))
         .sort((a: [string, number], b: [string, number]) => {
           return b[1] * normalization[b[0]] * SubStatValues[b[0]][5].high - a[1] * normalization[a[0]] * SubStatValues[a[0]][5].high
         })
@@ -282,7 +282,7 @@ export class RelicScorer {
   }
 
   getOptimalPartScore(part: Parts, id: CharacterId) {
-    const metaHash = this.getRelicScoreMeta(id).hash
+    const metaHash = this.getRelicScoreMeta(id).greedyHash
     let optimalScore = this.optimalPartScore.get(part)?.get(metaHash)
     if (!optimalScore) {
       optimalScore = this.scoreOptimalRelic(part, id)
@@ -341,7 +341,7 @@ export class RelicScorer {
     }
     const mainStatScore = ((stat, grade, part, metaParts) => {
       if (part == Parts.Head || part == Parts.Hands) return 0
-      let max: number
+      let max = 0
       switch (grade) {
         case 2:
           max = 12.8562
@@ -371,6 +371,7 @@ export class RelicScorer {
    */
   scoreOptimalRelic(part: Parts, id: CharacterId) {
     let maxScore: number = 0
+    let fake: Relic
     const meta = this.getRelicScoreMeta(id)
     const handlingCase = getHandlingCase(meta)
     switch (handlingCase) {
@@ -392,7 +393,7 @@ export class RelicScorer {
         } else {
           substats = generateSubStats(5, { stat: stat1, value: SubStatValues[stat1][5].high * 6 }, { stat: stat2, value: SubStatValues[stat2][5].high })
         }
-        const fake = fakeRelic(5, 15, part, Constants.Stats.HP_P, substats)// mainstat doesn't influence relevant scoring, just hardcode something in
+        fake = fakeRelic(5, 15, part, Constants.Stats.HP_P, substats)// mainstat doesn't influence relevant scoring, just hardcode something in
         maxScore = this.substatScore(fake, id).score
       }
         break
@@ -406,8 +407,7 @@ export class RelicScorer {
         let mainStat = '' as MainStats
         const optimalMainStats = meta.parts[part] || []
         // list of stats, sorted by weight as mainstat in decreasing order
-        const scoreEntries = Object.entries(meta.stats) as [StatsValues, number][]
-        scoreEntries
+        const scoreEntries = (Object.entries(meta.stats) as [StatsValues, number][])
           .map((entry) => {
             if (optimalMainStats.includes(entry[0])) {
               return [entry[0], 1] as [StatsValues, number]
@@ -457,7 +457,7 @@ export class RelicScorer {
           5, { stat: substats[0][0], value: SubStatValues[substats[0][0]][5].high * 6 }, { stat: substats[1][0], value: SubStatValues[substats[1][0]][5].high }
           , { stat: substats[2][0], value: SubStatValues[substats[2][0]][5].high }, { stat: substats[3][0], value: SubStatValues[substats[3][0]][5].high },
         )
-        const fake = fakeRelic(5, 15, part, mainStat, subs)
+        fake = fakeRelic(5, 15, part, mainStat, subs)
         maxScore = this.substatScore(fake, id).score
       }
         break
@@ -859,13 +859,13 @@ function getHandlingCase(scoringMetadata: ScoringMetadata) {
   const substats = scoringMetadata.sortedSubstats
   if (substats[0][1] == 0) return relicPotentialCases.NONE
   if (substats[1][1] == 0) return relicPotentialCases.SINGLE_STAT
-  if (substats[1][0] == Stats.HP && substats[0][0] == Stats.HP_P && substats[2][1] == 0) return relicPotentialCases.HP
-  if (substats[1][0] == Stats.HP_P && substats[0][0] == Stats.HP && substats[2][1] == 0) return relicPotentialCases.HP
-  if (substats[1][0] == Stats.ATK && substats[0][0] == Stats.ATK_P && substats[2][1] == 0) return relicPotentialCases.ATK
-  if (substats[1][0] == Stats.ATK_P && substats[0][0] == Stats.ATK && substats[2][1] == 0) return relicPotentialCases.ATK
-  if (substats[1][0] == Stats.DEF && substats[0][0] == Stats.DEF_P && substats[2][1] == 0) return relicPotentialCases.DEF
-  if (substats[1][0] == Stats.DEF_P && substats[0][0] == Stats.DEF && substats[2][1] == 0) return relicPotentialCases.DEF
-  return relicPotentialCases.NORMAL
+  if (substats[2][1] > 0) return relicPotentialCases.NORMAL
+  if (substats[1][0] == Stats.HP && substats[0][0] == Stats.HP_P) return relicPotentialCases.HP
+  if (substats[1][0] == Stats.HP_P && substats[0][0] == Stats.HP) return relicPotentialCases.HP
+  if (substats[1][0] == Stats.ATK && substats[0][0] == Stats.ATK_P) return relicPotentialCases.ATK
+  if (substats[1][0] == Stats.ATK_P && substats[0][0] == Stats.ATK) return relicPotentialCases.ATK
+  if (substats[1][0] == Stats.DEF && substats[0][0] == Stats.DEF_P) return relicPotentialCases.DEF
+  if (substats[1][0] == Stats.DEF_P && substats[0][0] == Stats.DEF) return relicPotentialCases.DEF
 }
 
 /**

@@ -1,12 +1,7 @@
 import { ASHBLAZING_ATK_STACK, BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardFuaAtkFinalizer,
-  standardFuaAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityCr } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
@@ -176,7 +171,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           const finalBuffCd = buffCD - (stateValue ? stateBuffCD : 0)
           x.RATIO_BASED_CD_BUFF += finalBuffCd
 
-          buffStat(x, Stats.CD, finalBuffCd, action, context)
+          buffDynamicStat(x, Stats.CD, finalBuffCd, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals

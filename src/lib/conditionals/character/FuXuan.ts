@@ -1,14 +1,7 @@
 import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardHpFinalizer,
-  gpuStandardHpHealFinalizer,
-  standardHpFinalizer,
-  standardHpHealFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardHpFinalizer, gpuStandardHpHealFinalizer, standardHpFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
 
@@ -154,7 +147,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           const finalBuffHp = buffHP - (stateValue ? stateBuffHP : 0)
           x.RATIO_BASED_HP_BUFF += finalBuffHp
 
-          buffStat(x, Stats.HP, finalBuffHp, action, context)
+          buffDynamicStat(x, Stats.HP, finalBuffHp, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals

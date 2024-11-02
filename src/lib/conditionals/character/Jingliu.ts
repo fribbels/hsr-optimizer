@@ -2,6 +2,7 @@ import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/cond
 import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { buffWithSource, ComputedStatsArray, Key } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -10,6 +11,7 @@ import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jingliu')
+  const buff = buffWithSource(1212)
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const talentCrBuff = talent(e, 0.50, 0.52)
@@ -62,7 +64,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e2SkillDmgBuff: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       // Skills
@@ -70,6 +72,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x[Stats.ATK_P] += ((r.talentEnhancedState) ? r.talentHpDrainAtkBuff : 0)
 
       // Traces
+      if (r.talentEnhancedState) {
+        buff(x, Key.RES, 0.35, 0)
+      }
       x[Stats.RES] += (r.talentEnhancedState) ? 0.35 : 0
       buffAbilityDmg(x, ULT_TYPE, 0.20, (r.talentEnhancedState))
 

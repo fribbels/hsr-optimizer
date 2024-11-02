@@ -1,7 +1,7 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { indent, wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { OptimizerAction, OptimizerContext, TeammateAction } from 'types/Optimizer'
 
 export type DynamicConditional = {
@@ -67,7 +67,7 @@ ${indent(wgsl.trim(), 1)}
   `
 }
 
-export function buffStat(x: ComputedStatsObject, stat: string, value: number, action: OptimizerAction, context: OptimizerContext) {
+export function buffDynamicStat(x: ComputedStatsObject, stat: string, value: number, action: OptimizerAction, context: OptimizerContext) {
   // Self buffing stats will asymptotically reach 0
   if (value < 0.0001) {
     return
@@ -94,7 +94,7 @@ export const AventurineConversionConditional: DynamicConditional = {
     const buffValue = Math.min(0.48, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100))
 
     action.conditionalState[this.id] = buffValue
-    buffStat(x, Stats.CR, buffValue - stateValue, action, context)
+    buffDynamicStat(x, Stats.CR, buffValue - stateValue, action, context)
 
     return buffValue
   },
@@ -165,7 +165,7 @@ export const FireflyConversionConditional: DynamicConditional = {
     const buffValue = 0.008 * Math.floor((trueAtk - 1800) / 10)
 
     action.conditionalState[this.id] = buffValue
-    buffStat(x, Stats.BE, buffValue - stateValue, action, context)
+    buffDynamicStat(x, Stats.BE, buffValue - stateValue, action, context)
 
     return buffValue
   },
@@ -211,8 +211,8 @@ export const BoothillConversionConditional: DynamicConditional = {
 
     action.conditionalState[this.id] = x[Stats.BE]
 
-    buffStat(x, Stats.CR, crBuffValue - stateCrBuffValue, action, context)
-    buffStat(x, Stats.CD, cdBuffValue - stateCdBuffValue, action, context)
+    buffDynamicStat(x, Stats.CR, crBuffValue - stateCrBuffValue, action, context)
+    buffDynamicStat(x, Stats.CD, cdBuffValue - stateCdBuffValue, action, context)
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
@@ -252,7 +252,7 @@ export const GepardConversionConditional: DynamicConditional = {
     const buffValue = 0.35 * x[Stats.DEF]
 
     action.conditionalState[this.id] = buffValue
-    buffStat(x, Stats.ATK, buffValue - stateValue, action, context)
+    buffDynamicStat(x, Stats.ATK, buffValue - stateValue, action, context)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -356,7 +356,7 @@ export const GallagherConversionConditional: DynamicConditional = {
     const buffValue = Math.min(0.75, 0.50 * x[Stats.BE])
 
     action.conditionalState[this.id] = buffValue
-    buffStat(x, Stats.OHB, buffValue - stateValue, action, context)
+    buffDynamicStat(x, Stats.OHB, buffValue - stateValue, action, context)
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
@@ -423,7 +423,7 @@ export const JiaoqiuConversionConditional: DynamicConditional = {
     const buffValue = Math.min(2.40, 0.60 * Math.floor((x[Stats.EHR] - 0.80) / 0.15)) * context.baseATK
 
     action.conditionalState[this.id] = buffValue
-    buffStat(x, Stats.ATK, buffValue - stateValue, action, context)
+    buffDynamicStat(x, Stats.ATK, buffValue - stateValue, action, context)
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
     return conditionalWgslWrapper(this, `

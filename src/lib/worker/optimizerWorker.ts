@@ -172,11 +172,9 @@ self.onmessage = function (e: MessageEvent) {
     let combo = 0
     for (let i = context.actions.length - 1; i >= 0; i--) {
       const action = setupAction(c, i, context)
-      const x = new ComputedStatsArray(false)
+      const x = new ComputedStatsArray(c, false)
 
-      const ax = action.precomputedX
-
-      calculateComputedStats(c, x, action, context)
+      calculateComputedStats(x, action, context)
       calculateBaseMultis(x, action, context)
       calculateDamage(x, action, context)
 

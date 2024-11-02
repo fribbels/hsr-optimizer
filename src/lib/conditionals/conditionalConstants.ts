@@ -178,11 +178,10 @@ export const baseComputedStatsObject = {
   BASIC_BREAK_EFFICIENCY_BOOST: 0, // Boothill
   ULT_BREAK_EFFICIENCY_BOOST: 0, // Feixiao
 
-  sets: {} as SetsType,
   WEIGHT: 0,
 }
 
-type SetsType = {
+export type SetsType = {
   [K in keyof typeof Sets]: number;
 }
 
@@ -218,5 +217,5 @@ export type BasicStatsObject = {
   ornamentSetIndex: number
   id: number
 
-  x: ComputedStatsObject
+  sets: SetsType
 }

@@ -2,7 +2,7 @@ import { setSortColumn } from 'components/optimizerTab/optimizerForm/Recommended
 import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
 import { BufferPacker, OptimizerDisplayData } from 'lib/bufferPacker'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, MAX_RESULTS, Stats } from 'lib/constants'
+import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, MAX_RESULTS } from 'lib/constants'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import DB from 'lib/db'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
@@ -249,16 +249,16 @@ export function renameFields(c: BasicStatsObject & OptimizerDisplayData) {
   c.EHP = c.x.EHP
   c.HEAL = c.x.HEAL_VALUE
   c.SHIELD = c.x.SHIELD_VALUE
-  c.xHP = c.x[Stats.HP]
-  c.xATK = c.x[Stats.ATK]
-  c.xDEF = c.x[Stats.DEF]
-  c.xSPD = c.x[Stats.SPD]
-  c.xCR = c.x[Stats.CR]
-  c.xCD = c.x[Stats.CD]
-  c.xEHR = c.x[Stats.EHR]
-  c.xRES = c.x[Stats.RES]
-  c.xBE = c.x[Stats.BE]
-  c.xERR = c.x[Stats.ERR]
-  c.xOHB = c.x[Stats.OHB]
+  c.xHP = c.x.HP
+  c.xATK = c.x.ATK
+  c.xDEF = c.x.DEF
+  c.xSPD = c.x.SPD
+  c.xCR = c.x.CR
+  c.xCD = c.x.CD
+  c.xEHR = c.x.EHR
+  c.xRES = c.x.RES
+  c.xBE = c.x.BE
+  c.xERR = c.x.ERR
+  c.xOHB = c.x.OHB
   c.xELEMENTAL_DMG = c.x.ELEMENTAL_DMG
 }

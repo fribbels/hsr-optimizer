@@ -1,11 +1,28 @@
-import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Stats } from 'lib/constants'
-import { ComputedStatsArray, Key } from 'lib/optimizer/computedStatsArray'
+import { BASIC_TYPE, BasicStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { Sets, Stats } from 'lib/constants'
+import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import {
+  BelobogOfTheArchitectsConditional,
+  BrokenKeelConditional,
+  CelestialDifferentiatorConditional,
+  FirmamentFrontlineGlamoth135Conditional,
+  FirmamentFrontlineGlamoth160Conditional,
+  FleetOfTheAgelessConditional,
+  InertSalsottoConditional,
+  IronCavalryAgainstTheScourge150Conditional,
+  IronCavalryAgainstTheScourge250Conditional,
+  PanCosmicCommercialEnterpriseConditional,
+  RutilantArenaConditional,
+  SpaceSealingStationConditional,
+  TaliaKingdomOfBanditryConditional,
+} from 'lib/gpu/conditionals/setConditionals'
+import { _buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { buff, buffWithSourceEffect, ComputedStatsArray, Effect, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: number, setB: number, setF: number, setP: number, setL: number) {
-  c.x.sets = {
+  c.sets = {
     PasserbyOfWanderingCloud: (1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)),
     MusketeerOfWildWheat: (1 >> (setH ^ 1)) + (1 >> (setG ^ 1)) + (1 >> (setB ^ 1)) + (1 >> (setF ^ 1)),
     KnightOfPurityPalace: (1 >> (setH ^ 2)) + (1 >> (setG ^ 2)) + (1 >> (setB ^ 2)) + (1 >> (setF ^ 2)),
@@ -48,14 +65,14 @@ export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: numb
     LushakaTheSunkenSeas: (1 >> (setP ^ 16)) + (1 >> (setL ^ 16)),
     TheWondrousBananAmusementPark: (1 >> (setP ^ 17)) + (1 >> (setL ^ 17)),
   }
-  return c.x.sets
+  return c.sets
 }
 
 export function calculateElementalStats(c: BasicStatsObject, context: OptimizerContext) {
   const base = context.characterStatsBreakdown.base
   const lc = context.characterStatsBreakdown.lightCone
   const trace = context.characterStatsBreakdown.traces
-  const sets = c.x.sets
+  const sets = c.sets
 
   // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
   // This is mostly because there isnt a need to split out damage types while we're calculating display stats.
@@ -90,7 +107,7 @@ export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContex
   const lc = context.characterStatsBreakdown.lightCone
   const trace = context.characterStatsBreakdown.traces
 
-  const sets = c.x.sets
+  const sets = c.sets
   c[Stats.SPD] = sumFlatStat(Stats.SPD, Stats.SPD_P, context.baseSPD, lc, trace, c,
     0.06 * p2(sets.MessengerTraversingHackerspace)
     + 0.06 * p2(sets.ForgeOfTheKalpagniLantern)
@@ -158,177 +175,192 @@ export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContex
   )
 }
 
-export function calculateComputedStats(c: BasicStatsObject, x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-  const setConditionals = action.setConditionals
+const buffBasicStats = buffWithSourceEffect(Source.BASE_STATS, Effect.DEFAULT)
+const buffCombatBuffs = buffWithSourceEffect(Source.COMBAT_BUFFS, Effect.DEFAULT)
 
-  // const sets = x.sets
+export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+  const setConditionals = action.setConditionals
+  const c = x.c
+  const sets = c.sets
 
   // Add base to computed
-  x.buff(Key.ATK, c[Stats.ATK])
-  x.buff(Key.DEF, c[Stats.DEF])
-  x.buff(Key.HP, c[Stats.HP])
-  x.buff(Key.SPD, c[Stats.SPD])
-  x.buff(Key.CD, c[Stats.CD])
-  x.buff(Key.CR, c[Stats.CR])
-  x.buff(Key.EHR, c[Stats.EHR])
-  x.buff(Key.RES, c[Stats.RES])
-  x.buff(Key.BE, c[Stats.BE])
-  x.buff(Key.ERR, c[Stats.ERR])
-  x.buff(Key.OHB, c[Stats.OHB])
+  buffBasicStats(x, Key.ATK, c[Stats.ATK])
+  buffBasicStats(x, Key.DEF, c[Stats.DEF])
+  buffBasicStats(x, Key.HP, c[Stats.HP])
+  buffBasicStats(x, Key.SPD, c[Stats.SPD])
+  buffBasicStats(x, Key.CD, c[Stats.CD])
+  buffBasicStats(x, Key.CR, c[Stats.CR])
+  buffBasicStats(x, Key.EHR, c[Stats.EHR])
+  buffBasicStats(x, Key.RES, c[Stats.RES])
+  buffBasicStats(x, Key.BE, c[Stats.BE])
+  buffBasicStats(x, Key.ERR, c[Stats.ERR])
+  buffBasicStats(x, Key.OHB, c[Stats.OHB])
   // x[context.elementalDamageType] += c.ELEMENTAL_DMG
 
   // Combat buffs
-  x.buff(Key.ATK, context.combatBuffs.ATK + context.combatBuffs.ATK_P * context.baseATK)
-  x.buff(Key.DEF, context.combatBuffs.DEF + context.combatBuffs.DEF_P * context.baseDEF)
-  x.buff(Key.HP, context.combatBuffs.HP + context.combatBuffs.HP_P * context.baseHP)
-  x.buff(Key.CD, context.combatBuffs.CD)
-  x.buff(Key.CR, context.combatBuffs.CR)
-  x.buff(Key.SPD, context.combatBuffs.SPD_P * context.baseSPD + context.combatBuffs.SPD)
-  x.buff(Key.BE, context.combatBuffs.BE)
-  x.buff(Key.ELEMENTAL_DMG, context.combatBuffs.DMG_BOOST)
-  x.buff(Key.EFFECT_RES_PEN, context.combatBuffs.EFFECT_RES_PEN)
-  x.buff(Key.VULNERABILITY, context.combatBuffs.VULNERABILITY)
-  x.buff(Key.BREAK_EFFICIENCY_BOOST, context.combatBuffs.BREAK_EFFICIENCY)
+  buffCombatBuffs(x, Key.ATK, context.combatBuffs.ATK + context.combatBuffs.ATK_P * context.baseATK)
+  buffCombatBuffs(x, Key.DEF, context.combatBuffs.DEF + context.combatBuffs.DEF_P * context.baseDEF)
+  buffCombatBuffs(x, Key.HP, context.combatBuffs.HP + context.combatBuffs.HP_P * context.baseHP)
+  buffCombatBuffs(x, Key.CD, context.combatBuffs.CD)
+  buffCombatBuffs(x, Key.CR, context.combatBuffs.CR)
+  buffCombatBuffs(x, Key.SPD, context.combatBuffs.SPD_P * context.baseSPD + context.combatBuffs.SPD)
+  buffCombatBuffs(x, Key.BE, context.combatBuffs.BE)
+  buffCombatBuffs(x, Key.ELEMENTAL_DMG, context.combatBuffs.DMG_BOOST)
+  buffCombatBuffs(x, Key.EFFECT_RES_PEN, context.combatBuffs.EFFECT_RES_PEN)
+  buffCombatBuffs(x, Key.VULNERABILITY, context.combatBuffs.VULNERABILITY)
+  buffCombatBuffs(x, Key.BREAK_EFFICIENCY_BOOST, context.combatBuffs.BREAK_EFFICIENCY)
 
   // SPD
 
-  // if (p4(sets.MessengerTraversingHackerspace) && setConditionals.enabledMessengerTraversingHackerspace) {
-  //   x[Stats.SPD_P] += 0.12
-  // }
-  // x[Stats.SPD] += x[Stats.SPD_P] * context.baseSPD
-  //
-  // // ATK
-  //
-  // if (p4(sets.ChampionOfStreetwiseBoxing)) {
-  //   x[Stats.ATK_P] += 0.05 * setConditionals.valueChampionOfStreetwiseBoxing
-  // }
-  // if (p4(sets.BandOfSizzlingThunder) && setConditionals.enabledBandOfSizzlingThunder) {
-  //   x[Stats.ATK_P] += 0.20
-  // }
-  // if (p4(sets.TheAshblazingGrandDuke)) {
-  //   x[Stats.ATK_P] += 0.06 * setConditionals.valueTheAshblazingGrandDuke
-  // }
-  // x[Stats.ATK] += x[Stats.ATK_P] * context.baseATK
-  //
-  // // DEF
-  //
-  // x[Stats.DEF] += x[Stats.DEF_P] * context.baseDEF
-  //
-  // // HP
-  //
-  // x[Stats.HP] += x[Stats.HP_P] * context.baseHP
-  //
-  // // CD
-  //
-  // if (p4(sets.HunterOfGlacialForest) && setConditionals.enabledHunterOfGlacialForest) {
-  //   x[Stats.CD] += 0.25
-  // }
-  // if (p4(sets.WastelanderOfBanditryDesert)) {
-  //   x[Stats.CD] += 0.10 * (setConditionals.valueWastelanderOfBanditryDesert == 2 ? 1 : 0)
-  // }
-  // if (p4(sets.PioneerDiverOfDeadWaters)) {
-  //   x[Stats.CD] += pioneerSetIndexToCd[setConditionals.valuePioneerDiverOfDeadWaters]
-  // }
-  // if (p2(sets.SigoniaTheUnclaimedDesolation)) {
-  //   x[Stats.CD] += 0.04 * (setConditionals.valueSigoniaTheUnclaimedDesolation)
-  // }
-  // if (p2(sets.DuranDynastyOfRunningWolves) && setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
-  //   x[Stats.CD] += 0.25
-  // }
-  // if (p2(sets.TheWondrousBananAmusementPark) && setConditionals.enabledTheWondrousBananAmusementPark) {
-  //   x[Stats.CD] += 0.32
-  // }
-  // if (p4(sets.SacerdosRelivedOrdeal)) {
-  //   x[Stats.CD] += 0.18 * setConditionals.valueSacerdosRelivedOrdeal
-  // }
-  //
-  // // CR
-  //
-  // if (p4(sets.WastelanderOfBanditryDesert) && setConditionals.valueWastelanderOfBanditryDesert > 0) {
-  //   x[Stats.CR] += 0.10
-  // }
-  // if (p4(sets.LongevousDisciple)) {
-  //   x[Stats.CR] += 0.08 * setConditionals.valueLongevousDisciple
-  // }
-  // if (p4(sets.PioneerDiverOfDeadWaters) && setConditionals.valuePioneerDiverOfDeadWaters > 2) {
-  //   x[Stats.CR] += 0.04
-  // }
-  // if (p2(sets.IzumoGenseiAndTakamaDivineRealm) && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm) {
-  //   x[Stats.CR] += 0.12
-  // }
-  //
-  // // BE
-  //
-  // if (p4(sets.WatchmakerMasterOfDreamMachinations) && setConditionals.enabledWatchmakerMasterOfDreamMachinations) {
-  //   x[Stats.BE] += 0.30
-  // }
-  // if (p2(sets.ForgeOfTheKalpagniLantern) && setConditionals.enabledForgeOfTheKalpagniLantern) {
-  //   x[Stats.BE] += 0.40
-  // }
-  //
-  // // Buffs
-  //
-  // // Basic boost
-  // p4(sets.MusketeerOfWildWheat) && buffAbilityDmg(x, BASIC_TYPE, 0.10)
-  //
-  // // Skill boost
-  // p4(sets.FiresmithOfLavaForging) && buffAbilityDmg(x, SKILL_TYPE, 0.12)
-  //
-  // // Fua boost
-  // p2(sets.TheAshblazingGrandDuke) && buffAbilityDmg(x, FUA_TYPE, 0.20)
-  // p2(sets.DuranDynastyOfRunningWolves) && buffAbilityDmg(x, FUA_TYPE, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves)
-  //
-  // // Ult boost
-  // p4(sets.TheWindSoaringValorous) && buffAbilityDmg(x, ULT_TYPE, 0.36, setConditionals.enabledTheWindSoaringValorous)
-  // p4(sets.ScholarLostInErudition) && buffAbilityDmg(x, ULT_TYPE | SKILL_TYPE, 0.20)
-  //
-  // if (p4(sets.GeniusOfBrilliantStars)) {
-  //   x.DEF_PEN += setConditionals.enabledGeniusOfBrilliantStars ? 0.20 : 0.10
-  // }
-  //
-  // if (p4(sets.PrisonerInDeepConfinement)) {
-  //   x.DEF_PEN += 0.06 * setConditionals.valuePrisonerInDeepConfinement
-  // }
-  //
-  // if (p2(sets.PioneerDiverOfDeadWaters) && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
-  //   x.ELEMENTAL_DMG += 0.12
-  // }
-  //
-  // // Elemental DMG
-  //
-  // if (p2(sets.FiresmithOfLavaForging) && setConditionals.enabledFiresmithOfLavaForging) {
-  //   x[Stats.Fire_DMG] += 0.12
-  // }
-  //
-  // if (p4(sets.ScholarLostInErudition) && setConditionals.enabledScholarLostInErudition) {
-  //   buffAbilityDmg(x, SKILL_TYPE, 0.25)
-  // }
-  //
-  // // Dynamic - still need implementing
-  //
-  // p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, action, context)
-  // p2(sets.RutilantArena) && evaluateConditional(RutilantArenaConditional, x, action, context)
-  // p2(sets.InertSalsotto) && evaluateConditional(InertSalsottoConditional, x, action, context)
-  // p2(sets.FleetOfTheAgeless) && evaluateConditional(FleetOfTheAgelessConditional, x, action, context)
-  // p2(sets.BelobogOfTheArchitects) && evaluateConditional(BelobogOfTheArchitectsConditional, x, action, context)
-  // p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge150Conditional, x, action, context)
-  // p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge250Conditional, x, action, context)
-  // p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, action, context)
-  // p2(sets.BrokenKeel) && evaluateConditional(BrokenKeelConditional, x, action, context)
-  // p2(sets.CelestialDifferentiator) && evaluateConditional(CelestialDifferentiatorConditional, x, action, context)
-  // p2(sets.TaliaKingdomOfBanditry) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, action, context)
-  // p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth135Conditional, x, action, context)
-  // p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth160Conditional, x, action, context)
-  //
-  // for (const conditional of context.characterConditionalController.dynamicConditionals || []) {
-  //   evaluateConditional(conditional, x, action, context)
-  // }
-  // for (const conditional of context.lightConeConditionalController.dynamicConditionals || []) {
-  //   evaluateConditional(conditional, x, action, context)
-  // }
-  // for (const conditional of action.teammateDynamicConditionals || []) {
-  //   evaluateConditional(conditional, x, action, context)
-  // }
+  if (p4(sets.MessengerTraversingHackerspace) && setConditionals.enabledMessengerTraversingHackerspace) {
+    buff(x, Key.SPD_P, 0.12, Sets.MessengerTraversingHackerspace, Effect.DEFAULT)
+  }
+  buff(x, Key.SPD, x.get(Key.SPD_P) * context.baseSPD)
+
+  // ATK
+
+  if (p4(sets.ChampionOfStreetwiseBoxing)) {
+    buff(x, Key.ATK_P, 0.05 * setConditionals.valueChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing, Effect.DEFAULT)
+  }
+  if (p4(sets.BandOfSizzlingThunder) && setConditionals.enabledBandOfSizzlingThunder) {
+    buff(x, Key.ATK_P, 0.20, Sets.BandOfSizzlingThunder, Effect.DEFAULT)
+  }
+  if (p4(sets.TheAshblazingGrandDuke)) {
+    buff(x, Key.ATK_P, 0.06 * setConditionals.valueTheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke, Effect.DEFAULT)
+  }
+  buff(x, Key.ATK, x.get(Key.ATK_P) * context.baseATK)
+
+  // DEF
+
+  buff(x, Key.DEF, x.get(Key.DEF_P) * context.baseDEF)
+
+  // HP
+
+  buff(x, Key.HP, x.get(Key.HP_P) * context.baseHP)
+
+  // CD
+
+  if (p4(sets.HunterOfGlacialForest) && setConditionals.enabledHunterOfGlacialForest) {
+    buff(x, Key.CD, 0.25, Sets.HunterOfGlacialForest, Effect.DEFAULT)
+  }
+  if (p4(sets.WastelanderOfBanditryDesert)) {
+    buff(x, Key.CD, 0.10 * (setConditionals.valueWastelanderOfBanditryDesert == 2 ? 1 : 0), Sets.WastelanderOfBanditryDesert, Effect.DEFAULT)
+  }
+  if (p4(sets.PioneerDiverOfDeadWaters)) {
+    buff(x, Key.CD, pioneerSetIndexToCd[setConditionals.valuePioneerDiverOfDeadWaters], Sets.PioneerDiverOfDeadWaters, Effect.DEFAULT)
+  }
+  if (p2(sets.SigoniaTheUnclaimedDesolation)) {
+    buff(x, Key.CD, 0.04 * (setConditionals.valueSigoniaTheUnclaimedDesolation), Sets.SigoniaTheUnclaimedDesolation, Effect.DEFAULT)
+  }
+  if (p2(sets.DuranDynastyOfRunningWolves) && setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
+    buff(x, Key.CD, 0.25, Sets.DuranDynastyOfRunningWolves, Effect.DEFAULT)
+  }
+  if (p2(sets.TheWondrousBananAmusementPark) && setConditionals.enabledTheWondrousBananAmusementPark) {
+    buff(x, Key.CD, 0.32, Sets.TheWondrousBananAmusementPark, Effect.DEFAULT)
+  }
+  if (p4(sets.SacerdosRelivedOrdeal)) {
+    buff(x, Key.CD, 0.18 * setConditionals.valueSacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal, Effect.DEFAULT)
+  }
+
+  // CR
+
+  if (p4(sets.WastelanderOfBanditryDesert) && setConditionals.valueWastelanderOfBanditryDesert > 0) {
+    buff(x, Key.CR, 0.10, Sets.WastelanderOfBanditryDesert, Effect.DEFAULT)
+  }
+  if (p4(sets.LongevousDisciple)) {
+    buff(x, Key.CR, 0.08 * setConditionals.valueLongevousDisciple, Sets.LongevousDisciple, Effect.DEFAULT)
+  }
+  if (p4(sets.PioneerDiverOfDeadWaters) && setConditionals.valuePioneerDiverOfDeadWaters > 2) {
+    buff(x, Key.CR, 0.04, Sets.PioneerDiverOfDeadWaters, Effect.DEFAULT)
+  }
+  if (p2(sets.IzumoGenseiAndTakamaDivineRealm) && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm) {
+    buff(x, Key.CR, 0.12, Sets.IzumoGenseiAndTakamaDivineRealm, Effect.DEFAULT)
+  }
+
+  // BE
+
+  if (p4(sets.WatchmakerMasterOfDreamMachinations) && setConditionals.enabledWatchmakerMasterOfDreamMachinations) {
+    buff(x, Key.BE, 0.30, Sets.WatchmakerMasterOfDreamMachinations, Effect.DEFAULT)
+  }
+  if (p2(sets.ForgeOfTheKalpagniLantern) && setConditionals.enabledForgeOfTheKalpagniLantern) {
+    buff(x, Key.BE, 0.40, Sets.ForgeOfTheKalpagniLantern, Effect.DEFAULT)
+  }
+
+  // Buffs
+
+  // Basic boost
+  if (p4(sets.MusketeerOfWildWheat)) {
+    _buffAbilityDmg(x, BASIC_TYPE, 0.10, Sets.MusketeerOfWildWheat, Effect.DEFAULT)
+  }
+
+  // Skill boost
+  if (p4(sets.FiresmithOfLavaForging)) {
+    _buffAbilityDmg(x, SKILL_TYPE, 0.12, Sets.FiresmithOfLavaForging, Effect.DEFAULT)
+  }
+
+  if (p4(sets.ScholarLostInErudition) && setConditionals.enabledScholarLostInErudition) {
+    _buffAbilityDmg(x, SKILL_TYPE, 0.25, Sets.ScholarLostInErudition, Effect.DEFAULT)
+  }
+
+  // Fua boost
+  if (p2(sets.TheAshblazingGrandDuke)) {
+    _buffAbilityDmg(x, FUA_TYPE, 0.20, Sets.TheAshblazingGrandDuke, Effect.DEFAULT)
+  }
+  if (p2(sets.DuranDynastyOfRunningWolves)) {
+    _buffAbilityDmg(x, FUA_TYPE, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves, Sets.DuranDynastyOfRunningWolves, Effect.DEFAULT)
+  }
+
+  // Ult boost
+  if (p4(sets.TheWindSoaringValorous) && setConditionals.enabledTheWindSoaringValorous) {
+    _buffAbilityDmg(x, ULT_TYPE, 0.36, Sets.TheWindSoaringValorous, Effect.DEFAULT)
+  }
+  if (p4(sets.ScholarLostInErudition)) {
+    _buffAbilityDmg(x, ULT_TYPE | SKILL_TYPE, 0.20, Sets.ScholarLostInErudition, Effect.DEFAULT)
+  }
+
+  if (p4(sets.GeniusOfBrilliantStars)) {
+    buff(x, Key.DEF_PEN, setConditionals.enabledGeniusOfBrilliantStars ? 0.20 : 0.10, Sets.GeniusOfBrilliantStars, Effect.DEFAULT)
+  }
+
+  if (p4(sets.PrisonerInDeepConfinement)) {
+    buff(x, Key.DEF_PEN, 0.06 * setConditionals.valuePrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement, Effect.DEFAULT)
+  }
+
+  if (p2(sets.PioneerDiverOfDeadWaters) && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
+    buff(x, Key.ELEMENTAL_DMG, 0.12, Sets.PioneerDiverOfDeadWaters, Effect.DEFAULT)
+  }
+
+  // Elemental DMG
+
+  if (p2(sets.FiresmithOfLavaForging) && setConditionals.enabledFiresmithOfLavaForging) {
+    buff(x, Key.FIRE_DMG_BOOST, 0.12, Sets.FiresmithOfLavaForging, Effect.DEFAULT)
+  }
+
+  // Dynamic - still need implementing
+
+  p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, action, context)
+  p2(sets.RutilantArena) && evaluateConditional(RutilantArenaConditional, x, action, context)
+  p2(sets.InertSalsotto) && evaluateConditional(InertSalsottoConditional, x, action, context)
+  p2(sets.FleetOfTheAgeless) && evaluateConditional(FleetOfTheAgelessConditional, x, action, context)
+  p2(sets.BelobogOfTheArchitects) && evaluateConditional(BelobogOfTheArchitectsConditional, x, action, context)
+  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge150Conditional, x, action, context)
+  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge250Conditional, x, action, context)
+  p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, action, context)
+  p2(sets.BrokenKeel) && evaluateConditional(BrokenKeelConditional, x, action, context)
+  p2(sets.CelestialDifferentiator) && evaluateConditional(CelestialDifferentiatorConditional, x, action, context)
+  p2(sets.TaliaKingdomOfBanditry) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, action, context)
+  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth135Conditional, x, action, context)
+  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth160Conditional, x, action, context)
+
+  for (const conditional of context.characterConditionalController.dynamicConditionals || []) {
+    evaluateConditional(conditional, x, action, context)
+  }
+  for (const conditional of context.lightConeConditionalController.dynamicConditionals || []) {
+    evaluateConditional(conditional, x, action, context)
+  }
+  for (const conditional of action.teammateDynamicConditionals || []) {
+    evaluateConditional(conditional, x, action, context)
+  }
 
   return x
 }
@@ -359,7 +391,7 @@ function sumFlatStat(stat, statP, baseValue, lc, trace, relicSum, setEffects): n
   return (baseValue) * (1 + setEffects + relicSum[statP] + trace[statP] + lc[statP]) + relicSum[stat] + trace[stat]
 }
 
-const pioneerSetIndexToCd = {
+const pioneerSetIndexToCd: Record<number, number> = {
   [-1]: 0,
   0: 0,
   1: 0.08,

@@ -1,7 +1,7 @@
 import { BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
@@ -170,7 +170,7 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
           const finalBuffAtk = buffATK - (stateValue ? stateBuffATK : 0)
           x.RATIO_BASED_ATK_BUFF += finalBuffAtk
 
-          buffStat(x, Stats.ATK, finalBuffAtk, action, context)
+          buffDynamicStat(x, Stats.ATK, finalBuffAtk, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals

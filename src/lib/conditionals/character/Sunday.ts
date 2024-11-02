@@ -1,13 +1,8 @@
 import i18next from 'i18next'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardAtkFinalizer,
-  standardAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 
 import { Eidolon } from 'types/Character'
@@ -168,7 +163,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           const buffValue = Math.floor((x[Stats.CR] - 1.00) / 0.01) * 2.00 * 0.01
 
           action.conditionalState[this.id] = buffValue
-          buffStat(x, Stats.CD, buffValue - stateValue, action, context)
+          buffDynamicStat(x, Stats.CD, buffValue - stateValue, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals

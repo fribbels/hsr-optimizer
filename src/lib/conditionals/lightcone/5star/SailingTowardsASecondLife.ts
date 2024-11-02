@@ -1,6 +1,6 @@
 import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
 import { ContentItem } from 'types/Conditionals'
@@ -55,7 +55,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
           return r.spdBuffConditional && x[Stats.BE] >= 1.50
         },
         effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-          buffStat(x, Stats.SPD, (sValuesSpdBuff[s]) * context.baseSPD, action, context)
+          buffDynamicStat(x, Stats.SPD, (sValuesSpdBuff[s]) * context.baseSPD, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           return conditionalWgslWrapper(this, `

@@ -62,10 +62,8 @@ export function calculateBuild(
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount
 
-  const x = {}
   const c = {
     ...baseCharacterStats,
-    x: x,
     relicSetIndex: relicSetIndex,
     ornamentSetIndex: ornamentSetIndex,
   } as BasicStatsObject
@@ -78,13 +76,9 @@ export function calculateBuild(
   let combo = 0
   for (let i = context.actions.length - 1; i >= 0; i--) {
     const action = context.actions[i]
-    const x = new ComputedStatsArray(true)
-    // const ax = {
-    //   ...action.precomputedX,
-    // }
-    // ax.sets = c.x.sets
+    const x = new ComputedStatsArray(c, true)
 
-    calculateComputedStats(c, x, action, context)
+    calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
     calculateDamage(x, action, context)
 

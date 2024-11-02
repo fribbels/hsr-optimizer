@@ -1,6 +1,6 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { TsUtils } from 'lib/TsUtils'
 import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
@@ -56,7 +56,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
           const buffValue = sValuesAtkBuff[s] * context.baseATK
 
           action.conditionalState[this.id] = buffValue
-          buffStat(x, Stats.ATK, buffValue - stateValue, action, context)
+          buffDynamicStat(x, Stats.ATK, buffValue - stateValue, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           return conditionalWgslWrapper(this, `

@@ -1,4 +1,5 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { buff, ComputedStatsArray, Key } from 'lib/optimizer/computedStatsArray'
 
 /*
  * These methods handle buffing damage types for characters who have dynamic ability types. For example Yunli's FUA
@@ -12,6 +13,14 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
  */
 
 type Condition = boolean | number | undefined
+
+export function _buffAbilityDmg(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: string, effect: string) {
+  if (abilityTypeFlags & x.get(Key.BASIC_DMG_TYPE)) buff(x, Key.BASIC_BOOST, value, source, effect)
+  if (abilityTypeFlags & x.get(Key.SKILL_DMG_TYPE)) buff(x, Key.SKILL_BOOST, value, source, effect)
+  if (abilityTypeFlags & x.get(Key.ULT_DMG_TYPE)) buff(x, Key.ULT_BOOST, value, source, effect)
+  if (abilityTypeFlags & x.get(Key.FUA_DMG_TYPE)) buff(x, Key.FUA_BOOST, value, source, effect)
+  if (abilityTypeFlags & x.get(Key.DOT_DMG_TYPE)) buff(x, Key.DOT_BOOST, value, source, effect)
+}
 
 export function buffAbilityDmg(x: ComputedStatsObject, abilityTypeFlags: number, value: number, condition?: Condition) {
   if (condition === false) return

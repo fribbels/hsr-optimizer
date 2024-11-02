@@ -1,20 +1,7 @@
-import {
-  ASHBLAZING_ATK_STACK,
-  BREAK_TYPE,
-  ComputedStatsObject,
-  NONE_TYPE,
-  SKILL_TYPE,
-  ULT_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  gpuStandardAtkHealFinalizer,
-  gpuStandardFuaAtkFinalizer,
-  standardAtkHealFinalizer,
-  standardFuaAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { ASHBLAZING_ATK_STACK, BREAK_TYPE, ComputedStatsObject, NONE_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, gpuStandardAtkHealFinalizer, gpuStandardFuaAtkFinalizer, standardAtkHealFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { buffStat, conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { buffDynamicStat, conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
@@ -218,8 +205,8 @@ const LingshaConversionConditional: DynamicConditional = {
     const finalBuffAtk = buffValueAtk - (stateValue ? stateBuffValueAtk : 0)
     const finalBuffOhb = buffValueOhb - (stateValue ? stateBuffValueOhb : 0)
 
-    buffStat(x, Stats.ATK, finalBuffAtk, action, context)
-    buffStat(x, Stats.OHB, finalBuffOhb, action, context)
+    buffDynamicStat(x, Stats.ATK, finalBuffAtk, action, context)
+    buffDynamicStat(x, Stats.OHB, finalBuffOhb, action, context)
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals

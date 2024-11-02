@@ -1,4 +1,4 @@
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { baseComputedStatsObject, BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
 
 type Buff = {
@@ -7,30 +7,40 @@ type Buff = {
   source: string
 }
 
+type KeysType = keyof typeof baseComputedStatsObject
+
+export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject).reduce((acc, key, index) => {
+  acc[key as KeysType] = index
+  return acc
+}, {} as Record<KeysType, number>)
+
 export class ComputedStatsArray {
-  static base = new Float32Array(Object.keys(baseComputedStatsObject).length)
+  static base = new Float32Array(Object.keys(baseComputedStatsObject).length).fill(1)
   static array = new Float32Array(Object.keys(baseComputedStatsObject).length)
 
+  public c: BasicStatsObject
   values: Float32Array
   buffs: Buff[]
   trace: boolean
 
-  constructor(trace: boolean = false) {
+  constructor(c: BasicStatsObject, trace: boolean = false) {
     ComputedStatsArray.array.set(ComputedStatsArray.base)
+    this.c = c
     this.values = ComputedStatsArray.array
     this.buffs = []
     this.trace = false
+    Object.freeze(this)
   }
 
-  static reset(precompute: Float32Array) {
+  public static reset(precompute: Float32Array) {
     ComputedStatsArray.base = precompute
   }
 
-  buff(key: number, value: number, source?: string) {
+  buff(key: number, value: number, source?: string, effect?: string) {
     this.values[key] += value
   }
 
-  set(key: number, value: number, source: string) {
+  set(key: number, value: number, source?: string, effect?: string) {
     this.values[key] = value
   }
 
@@ -42,19 +52,37 @@ export class ComputedStatsArray {
     const result: Partial<ComputedStatsObject> = {}
 
     for (const key in Key) {
-      result[key as keyof KeysType] = this.values[Key[key as KeysType]]
+      result[key as keyof ComputedStatsObject] = this.values[Key[key as KeysType]]
     }
 
     return result as ComputedStatsObject
   }
 }
 
-type KeysType = keyof typeof baseComputedStatsObject
+export function buff(x: ComputedStatsArray, key: number, value: number, source?: string, effect?: string) {
+  x.buff(key, value, source, effect)
+}
 
-export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject).reduce((acc, key, index) => {
-  acc[key as KeysType] = index
-  return acc
-}, {} as Record<KeysType, number>)
+export function buffWithSource(source: string) {
+  return (x: ComputedStatsArray, key: number, value: number, effect: string) => {
+    x.buff(key, value, source, effect)
+  }
+}
+
+export function buffWithSourceEffect(source: string, effect: string) {
+  return (x: ComputedStatsArray, key: number, value: number) => {
+    x.buff(key, value, source, effect)
+  }
+}
+
+export const Source = {
+  DEFAULT: 'Default',
+  BASE_STATS: 'Basic stats',
+  COMBAT_BUFFS: 'Combat buffs',
+}
+export const Effect = {
+  DEFAULT: 'Default',
+}
 
 export const StatToKey: Record<string, number> = {
   [Stats.ATK_P]: Key.ATK_P,

@@ -9,8 +9,8 @@ CharacterSelector:
   SuperimpositionPlaceholder: 叠
 LightconePassives: 光锥被动
 CharacterPassives: 角色被动
-NoConditionals: 无条件触发被动技能
-NoTeamConditionals: 无条件触发团队被动技能
+NoConditionals: 无可应用的条件触发被动技能
+NoTeamConditionals: 无可应用的条件触发团队被动技能
 ResultLimitN: "查找排名前{{limit}}的结果"
 MainStats: 主属性
 Sets: 套装
@@ -91,7 +91,7 @@ Grid:
       RES: 效果抵抗
       BE: 击破特攻
       OHB: 治疗量加成
-      ERR: 能量恢复效率
+      ERR: 能量恢复
       DMG: 增伤
       EHP: 有效生命
       WEIGHT: "属性\n权重"
@@ -358,7 +358,7 @@ MinMaxFilters:
   EHRLabel: 效果命中
   RESLabel: 效果抵抗
   BELabel: 击破特攻
-  ERRLabel: 能量恢复效率
+  ERRLabel: 能量恢复
   WEIGHTLabel: 权重
   EHPLabel: 有效生命
   BASICLabel: 普攻
@@ -388,7 +388,7 @@ ComboFilter:
     Fua: 追加攻击
   RotationButton: 高级技能循环
 ComboDrawer:
-  NoConditionals: 无条件触发被动技能
+  NoConditionals: 无可应用的条件触发被动技能
   Title: 高级技能循环用户指南
   Placeholders:
     Sets: 隧洞遗器套装条件触发效果

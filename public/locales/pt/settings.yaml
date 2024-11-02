@@ -1,7 +1,7 @@
-Title: Configurações
+Title: TEST_DELETE_ME_3
 RelicEquippingBehaviour:
-  Label: Equipando relíquias de outro personagem
-  Replace: "Padrão: Equipar relíquias sem trocar"
+  Label: TEST_DELETE_ME_4
+  Replace: "TEST_DELETE_ME_5"
   Swap: Trocar relíquias com o usuário anterior
 PermutationSidebarBehaviour:
   Label: Diminuir barra lateral do otimizador em telas menores

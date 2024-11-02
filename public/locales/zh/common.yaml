@@ -79,7 +79,7 @@ ShortStats:
   Effect Hit Rate: 效果命中
   Effect RES: 效果抵抗
   Break Effect: 击破特攻
-  Energy Regeneration Rate: 能量恢复效率
+  Energy Regeneration Rate: 能量恢复
   Outgoing Healing Boost: 治疗量加成
   Physical DMG Boost: "$t(gameData:Elements.Physical)伤"
   Fire DMG Boost: "$t(gameData:Elements.Fire)伤"
@@ -102,7 +102,7 @@ ShortSpacedStats:
   Effect Hit Rate: 效果命中
   Effect RES: 效果抵抗
   Break Effect: 击破特攻
-  Energy Regeneration Rate: 能量恢复效率
+  Energy Regeneration Rate: 能量恢复
   Outgoing Healing Boost: 治疗量加成
   Physical DMG Boost: "$t(gameData:Elements.Physical)伤"
   Fire DMG Boost: "$t(gameData:Elements.Fire)伤"

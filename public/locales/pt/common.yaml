@@ -24,7 +24,7 @@ SuperimpositionNShort: "S{{superimposition}}"
 LevelShort: "Nv{{level}}"
 CharacterWithCount_one: "{{count}} personagem"
 CharacterWithCount_other: "{{count}} personagens"
-Character_one: personagem
+Character_one: personagem 
 Character_other: personagens
 VerifiedRelicHoverText: Subatributos das relíquias verificados pelo pontuador de relíquias (decimais de velocidade)
 CombatStats: Atributos de combate
@@ -53,10 +53,10 @@ Stats:
   SPD: VEL
   CRIT Rate: Taxa Crítica
   CRIT DMG: Dano Crítico
-  Effect Hit Rate: Taxa de Acerto de Efeito
+  Effect Hit Rate: Acerto de Efeito
   Effect RES: RES a Efeito
   Break Effect: Efeito de Quebra
-  Energy Regeneration Rate: Taxa de Regeneração de Energia
+  Energy Regeneration Rate: Taxa de Regen de Energia
   Outgoing Healing Boost: Bônus de Cura Realizada
   Physical DMG Boost: "Aumento de Dano $t(gameData:Elements.Physical)"
   Fire DMG Boost: "Aumento de Dano $t(gameData:Elements.Fire)"
@@ -122,10 +122,10 @@ ReadableStats:
   SPD: VEL
   CRIT Rate: Taxa Crítica
   CRIT DMG: Dano Crítico
-  Effect Hit Rate: Taxa de Acerto de Efeito
+  Effect Hit Rate: Acerto de Efeito
   Effect RES: RES a Efeito
   Break Effect: Efeito de Quebra
-  Energy Regeneration Rate: Regeneração de Energia
+  Energy Regeneration Rate: Regen de Energia
   Outgoing Healing Boost: Aumento de Cura
   Physical DMG Boost: "Dano $t(gameData:Elements.Physical)"
   Fire DMG Boost: "Dano $t(gameData:Elements.Fire)"

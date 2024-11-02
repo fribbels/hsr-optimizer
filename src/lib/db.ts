@@ -4,7 +4,7 @@ import { DefaultSettingOptions, SettingOptions } from 'components/SettingsDrawer
 import i18next from 'i18next'
 import { ScoringMetadata, SimulationMetadata } from 'lib/characterScorer'
 import {
-  COMPUTE_ENGINE_GPU_STABLE,
+  COMPUTE_ENGINE_GPU_STABLE, ComputeEngine,
   Constants,
   CURRENT_OPTIMIZER_VERSION,
   DAMAGE_UPGRADES,
@@ -224,7 +224,7 @@ window.store = create((set) => {
     setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
     setOptimizationId: (x) => set(() => ({ optimizationId: x })),
     setOptimizerStartTime: (x) => set(() => ({ optimizerStartTime: x })),
-    setOptimizerRunningEngine: (x) => set(() => ({ optimizerRunningEngine: x })),
+    setOptimizerRunningEngine: (x: ComputeEngine) => set(() => ({ optimizerRunningEngine: x })),
     setOptimizerEndTime: (x) => set(() => ({ optimizerEndTime: x })),
     setTeammateCount: (x) => set(() => ({ teammateCount: x })),
     setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),

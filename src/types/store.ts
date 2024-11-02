@@ -5,6 +5,7 @@ import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { ColorThemeOverrides } from 'lib/theme'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { ScoringMetadata } from 'lib/characterScorer'
+import { ComputeEngine } from '../lib/constants'
 
 type PermutationDetails = {
   Head: number
@@ -63,7 +64,7 @@ export type HsrOptimizerStore = {
   zeroResultModalOpen: boolean
   scoringModalOpen: boolean
   relicScorerSidebarOpen: boolean
-  optimizerRunningEngine: string
+  optimizerRunningEngine: ComputeEngine
   optimizerStartTime: number | null
   optimizerEndTime: number | null
   optimizerTabFocusCharacterSelectModalOpen: boolean
@@ -92,7 +93,7 @@ export type HsrOptimizerStore = {
   setOptimizerEndTime: (open: number) => void
   setMenuSidebarOpen: (open: boolean) => void
   setRelicTabFilters: (filters: RelicTabFilters) => void
-  setOptimizerRunningEngine: (s: string) => void
+  setOptimizerRunningEngine: (s: ComputeEngine) => void
   setExcludedRelicPotentialCharacters: (ids: CharacterId[]) => void
   optimizerFormCharacterEidolon: number
   optimizerFormSelectedLightCone: string | undefined
@@ -153,7 +154,7 @@ export type SavedSession = {
   relicScorerSidebarOpen: boolean
   scoringType: string
   combatScoreDetails: string
-  computeEngine: string
+  computeEngine: ComputeEngine
 }
 
 export type UserSettings = {

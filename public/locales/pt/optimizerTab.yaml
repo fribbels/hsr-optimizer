@@ -1,5 +1,5 @@
 CharacterSelector:
-  Character: Personagemㅤ
+  Character: Personagem 
   Lightcone: Cone de luz
   Presets: Predefinições
   Target: Meta de otimização
@@ -48,7 +48,7 @@ OptimizerOptions:
   KeepCurrent: Manter as relíquias atuais
   Exclude: Excluir
   MinEnhance:
-    Header: Melhoria mínima
+    Header: Melhoria mín.
     Label0: +0
     Label3: 3
     Label6: 6
@@ -56,7 +56,7 @@ OptimizerOptions:
     Label12: 12
     Label15: 15
   MinRarity:
-    Header: Rarídade mínima
+    Header: Raridade min.
     Label2: 2 ★ +
     Label3: 3 ★ +
     Label4: 4 ★ +
@@ -382,10 +382,10 @@ ComboFilter:
     Dot: DOTs
     Break: Quebras
   ComboOptions:
-    Basic: Básico
-    Skill: Perícia
-    Ult: Per. Sup.
-    Fua: Atq. Ext.
+    Basic: Basic
+    Skill: Skill
+    Ult: Ult
+    Fua: FuA
   RotationButton: Rotação avançada
 ComboDrawer:
   NoConditionals: Sem passivas condicionais

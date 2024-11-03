@@ -101,17 +101,17 @@ interface Resources {
           "SKILL": "SKILL",
           "ULT": "ULT",
           "FUA": "FUA",
-          "DOT": "DOT",
-          "BREAK": "BREAK"
+          "DOTS": "DOTS:",
+          "BREAKS": "BREAKS:"
         },
         "CombatResults": {
           "Header": "Combat damage results",
-          "Primary": "Primary ability:     ",
-          "Character": "Character DMG:       ",
-          "Benchmark": "Benchmark DMG:       ",
-          "Baseline": "Baseline DMG:        ",
-          "Maximum": "Maximum DMG:         ",
-          "Score": "DPS score %:         ",
+          "Primary": "Primary ability:",
+          "Character": "Character DMG:",
+          "Benchmark": "Benchmark DMG:",
+          "Baseline": "Baseline DMG:",
+          "Maximum": "Maximum DMG:",
+          "Score": "DPS score %:",
           "Abilities": {
             "BASIC": "BASIC DMG",
             "SKILL": "SKILL DMG",
@@ -147,28 +147,6 @@ interface Resources {
           "Substats": "200% perfect subs (max rolls)",
           "Mainstats": "200% perfect main stats",
           "Abilities": "200% perfect ability damage"
-        },
-        "PaddedStatLabels": {
-          "ATKP": "ATK%: ",
-          "ATK": "ATK:  ",
-          "HPP": "HP%:  ",
-          "HP": "HP:   ",
-          "DEFP": "DEF%: ",
-          "DEF": "DEF:  ",
-          "SPD": "SPD:  ",
-          "CR": "CR:   ",
-          "CD": "CD:   ",
-          "EHR": "EHR:  ",
-          "RES": "RES:  ",
-          "BE": "BE:   "
-        },
-        "PaddedDMGLabels": {
-          "Basic": "Basic DMG:           ",
-          "Skill": "Skill DMG:           ",
-          "Ult": "Ult DMG:             ",
-          "Fua": "Fua DMG:             ",
-          "Dot": "Dot DMG:             ",
-          "Break": "Break DMG:           "
         }
       },
       "ScoringDetails": {
@@ -346,10 +324,20 @@ interface Resources {
     "DMGTypes": {
       "simScore": "Combo DMG",
       "BASIC": "Basic Damage",
-      "ULT": "Ult Damage",
       "SKILL": "Skill Damage",
-      "FUA": "FUA Damage",
-      "DOT": "DoT Damage",
+      "ULT": "Ult Damage",
+      "FUA": "Fua Damage",
+      "DOT": "Dot Damage",
+      "BREAK": "Break Damage",
+      "CV": "CV"
+    },
+    "ShortDMGTypes": {
+      "Basic": "Basic DMG",
+      "Skill": "Skill DMG",
+      "Ult": "Ult DMG",
+      "Fua": "Fua DMG",
+      "Dot": "Dot DMG",
+      "Break": "Break DMG",
       "CV": "CV"
     }
   },
@@ -993,7 +981,7 @@ interface Resources {
       "TheBirthOfTheSelf": {
         "Content": {
           "enemyHp50FuaBuff": {
-            "text": "Enemy HP < 50% fua buff",
+            "text": "Enemy HP ≤ 50% fua buff",
             "content": "If the current HP of the target enemy is below or equal to 50%, increases DMG dealt by follow-up attacks by an extra {{DmgBuff}}%."
           }
         }
@@ -1446,7 +1434,7 @@ interface Resources {
         "Content": {
           "ultBuff": {
             "text": "Ult buffs",
-            "content": "Increases Svarog Counter DMG by {{ultFuaExtraScaling}}% during Ultimate. DMG dealt to Clara is reduced by an extra {ultDmgReductionValue}}% for 2 turns"
+            "content": "Increases Svarog Counter DMG by {{ultFuaExtraScaling}}% during Ultimate. DMG dealt to Clara is reduced by an extra {{ultDmgReductionValue}}% for 2 turns"
           },
           "talentEnemyMarked": {
             "text": "Enemy Marked",
@@ -1714,7 +1702,7 @@ interface Resources {
           },
           "e6UltExtraHits": {
             "text": "E6 Ult extra hits",
-            "content": "Ultimate deals DMG 2 extra times. Extra hits deals 40% of the original DMG per hit."
+            "content": "E6: Ultimate deals DMG 2 extra times. Extra hits deals 40% of the original DMG per hit."
           }
         }
       },

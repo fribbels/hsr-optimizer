@@ -964,7 +964,7 @@ Characters:
         content: "E2: Deals 15% more DMG to enemies whose HP percentage is 50% or less."
       e6UltExtraHits:
         text: E6 Ult extra hits
-        content: 'E6: Ultimate deals DMG 2 extra times. Extra hits deals 40% of the original DMG per hit.'
+        content: "E6: Ultimate deals DMG 2 extra times. Extra hits deals 40% of the original DMG per hit."
   Hook:
     Content:
       enhancedSkill:

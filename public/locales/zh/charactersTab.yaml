@@ -80,8 +80,6 @@ CharacterPreview:
       SKILL: 战技
       ULT: 终结技
       FUA: 追加攻击
-      DOT: 持续伤害
-      BREAK: 击破
     CombatResults:
       Header: 战斗伤害结果
       Primary: "主要伤害:         "
@@ -120,25 +118,5 @@ CharacterPreview:
       Substats: 200% 完美副词条 (最大升级次数)
       Mainstats: 200% 完美主词条
       Abilities: 200% 完美技能伤害
-    PaddedStatLabels:
-      ATKP: "攻击力%: "
-      ATK: "攻击力:  "
-      HPP: "生命值%:  "
-      HP: "生命值:   "
-      DEFP: "防御值%: "
-      DEF: "防御值:  "
-      SPD: "速度:  "
-      CR: "暴击率:   "
-      CD: "暴击伤害:   "
-      EHR: "效果命中:  "
-      RES: "效果抵抗:  "
-      BE: "击破特攻:   "
-    PaddedDMGLabels:
-      Basic: "普攻伤害：           "
-      Skill: "战技伤害：           "
-      Ult: "终结技伤害：             "
-      Fua: "追加攻击伤害：             "
-      Dot: "持续伤害：             "
-      Break: "击破伤害：           "
   ScoringDetails:
     Header: DPS评分是如何计算的?

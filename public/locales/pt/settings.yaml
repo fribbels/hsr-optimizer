@@ -1,7 +1,7 @@
 Title: TEST_DELETE_ME_3
 RelicEquippingBehaviour:
   Label: TEST_DELETE_ME_4
-  Replace: "TEST_DELETE_ME_5"
+  Replace: "Padrão: Repor relíquias sem trocar"
   Swap: Trocar relíquias com o usuário anterior
 PermutationSidebarBehaviour:
   Label: Diminuir barra lateral do otimizador em telas menores

@@ -5,7 +5,7 @@ ScreenshotMessages:
 CharacterMenu:
   ButtonText: Menu de personagens
   Character:
-    Label: Personagemㅤ
+    Label: Personagem 
     Options:
       Add: Adicionar novo personagem
       Edit: Editar personagem / cone de luz
@@ -20,7 +20,7 @@ CharacterMenu:
   Scoring:
     Label: Pontuação
     Options:
-      ScoringModal: Algoritmo de Pontuação
+      ScoringModal: Algoritmo de Pontos
   Priority:
     Label: Prioridade
     Options:
@@ -31,7 +31,7 @@ SearchPlaceholder: Procurar nome do personagem
 GridHeaders:
   Icon: Ícone
   Priority: Prioridade
-  Character: Personagemㅤ
+  Character: Personagem 
 Messages:
   RemoveSuccess: Personagem removido com sucesso
   UnequipSuccess: Personagem desequipado com sucesso
@@ -61,7 +61,7 @@ CharacterPreview:
       CombatScoreTBD: Pontuação de Combate (TBD)
       StatScore: Pontuação de Atributo
   DetailsSlider:
-    Title: "Detalhes da pontuação de combate:"
+    Title: "Detalhes da pontuação:"
     Labels:
       CombatStats: Atributos de combate
       DMGUpgrades: Melhorias para o dano
@@ -80,8 +80,6 @@ CharacterPreview:
       SKILL: PERÍCIA
       ULT: PER. SUP.
       FUA: ATQ. EXT.
-      DOT: DOT
-      BREAK: Quebra
     CombatResults:
       Header: Resultados do dano de combate
       Primary: "Habilidade primária:     "
@@ -120,25 +118,5 @@ CharacterPreview:
       Substats: 200% perfeito subs (roll máximo)
       Mainstats: 200% perfeito atributos principais
       Abilities: 200% perfeito dano de habilidade
-    PaddedStatLabels:
-      ATKP: "ATQ%: "
-      ATK: "ATQ:  "
-      HPP: "PV%:  "
-      HP: "PV:   "
-      DEFP: "DEF%: "
-      DEF: "DEF  "
-      SPD: "VEL:  "
-      CR: "CR:   "
-      CD: "CD:   "
-      EHR: "EHR:  "
-      RES: "RES:  "
-      BE: "BE:   "
-    PaddedDMGLabels:
-      Basic: "Dano Básico:           "
-      Skill: "Dano Perícia:           "
-      Ult: "Dano Perícia Suprema:             "
-      Fua: "Dano Ataque Extra:             "
-      Dot: "Dano DOT:             "
-      Break: "Dano de Quebra:           "
   ScoringDetails:
     Header: Como o placar de DPS é calculado?

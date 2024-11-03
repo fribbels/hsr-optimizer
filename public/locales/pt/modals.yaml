@@ -19,7 +19,10 @@ Scoring:
       ButtonText: Navegar para aba Importador
 EditCharacter:
   Character: Personagem 
+  Lightcone: Cone de luz
 CharacterSelect:
   SingleSelect:
     Placeholder: Personagem 
   SearchPlaceholder: Procurar nome do personagem
+LightconeSelect:
+  Placeholder: Cone de luz

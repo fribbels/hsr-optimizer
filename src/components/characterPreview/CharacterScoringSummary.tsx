@@ -1,23 +1,23 @@
-import { Divider, Flex, Typography } from 'antd'
-import { defaultGap, iconSize } from 'lib/constantsUi'
+import { Divider, Flex } from 'antd'
+import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
+import { damageStats } from 'components/characterPreview/StatRow'
+import { StatTextSm } from 'components/characterPreview/StatText'
+import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
+import { VerticalDivider } from 'components/Dividers'
+import { HeaderText } from 'components/HeaderText'
+import { UpArrow } from 'icons/UpArrow'
+import { Assets } from 'lib/assets'
 import { SimulationScore, SimulationStatUpgrade } from 'lib/characterScorer'
 import { ElementToDamage, MainStats, Parts, Stats, StatsValues, SubStats } from 'lib/constants'
-import { Utils } from 'lib/utils'
-import { Assets } from 'lib/assets'
-import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
-import { VerticalDivider } from 'components/Dividers'
+import { defaultGap, iconSize } from 'lib/constantsUi'
 import DB from 'lib/db'
-import React, { ReactElement } from 'react'
-import { StatCalculator } from 'lib/statCalculator'
-import { StatTextSm } from 'components/characterPreview/StatText'
-import { HeaderText } from 'components/HeaderText'
-import { TsUtils } from 'lib/TsUtils'
-import { Simulation } from 'lib/statSimulationController'
-import { damageStats } from 'components/characterPreview/StatRow'
-import { UpArrow } from 'icons/UpArrow'
 import { SortOption } from 'lib/optimizer/sortOptions'
+import { StatCalculator } from 'lib/statCalculator'
+import { Simulation } from 'lib/statSimulationController'
+import { TsUtils } from 'lib/TsUtils'
+import { Utils } from 'lib/utils'
+import React, { ReactElement } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
 
 export const CharacterScoringSummary = (props: { simScoringResult: SimulationScore }) => {
   const result = TsUtils.clone(props.simScoringResult)
@@ -50,14 +50,14 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     )
   }
 
-  function ScoringNumber(props: { label: string; number?: number; valueWidth?: number; precision?: number }) {
+  function ScoringNumber(props: { label: string; number?: number; precision?: number }) {
     const precision = props.precision ?? 1
     const value = props.number ?? 0
     const show = value != 0
     return (
       <Flex gap={15} justify='space-between'>
         <pre style={{ margin: 0 }}>{props.label}</pre>
-        <pre style={{ margin: 0, width: props.valueWidth }}>{show && value.toFixed(precision)}</pre>
+        <pre style={{ margin: 0, textAlign: 'right' }}>{show && value.toFixed(precision)}</pre>
       </Flex>
     )
   }
@@ -221,22 +221,22 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             {t(`CharacterPreview.ScoringColumn.${props.type}.Substats`)}
           </pre>
           {/* Character subs (min rolls)/100% benchmark subs (min rolls)/200% perfect subs (max rolls) */}
-          <Flex gap={5} justify='space-around'>
-            <Flex vertical gap={defaultGap} style={{ width: 120 }}>
-              <ScoringNumber label={t(`common:ShortStats.${Stats.ATK_P}`) + ':'} number={request.stats[Stats.ATK_P]} precision={props.precision} valueWidth={57}/>
-              <ScoringNumber label={t(`common:ShortStats.${Stats.ATK}`) + ':'} number={request.stats[Stats.ATK]} precision={props.precision} valueWidth={57}/>
-              <ScoringNumber label={t(`common:ShortStats.${Stats.HP_P}`) + ':'} number={request.stats[Stats.HP_P]} precision={props.precision} valueWidth={57}/>
-              <ScoringNumber label={t(`common:ShortStats.${Stats.HP}`) + ':'} number={request.stats[Stats.HP]} precision={props.precision} valueWidth={57}/>
-              <ScoringNumber label={t(`common:ShortStats.${Stats.DEF_P}`) + ':'} number={request.stats[Stats.DEF_P]} precision={props.precision} valueWidth={57}/>
-              <ScoringNumber label={t(`common:ShortStats.${Stats.DEF}`) + ':'} number={request.stats[Stats.DEF]} precision={props.precision} valueWidth={57}/>
+          <Flex gap={30} justify='space-around'>
+            <Flex vertical gap={defaultGap} style={{ width: 100 }}>
+              <ScoringNumber label={t(`common:ShortStats.${Stats.ATK_P}`) + ':'} number={request.stats[Stats.ATK_P]} precision={props.precision}/>
+              <ScoringNumber label={t(`common:ShortStats.${Stats.ATK}`) + ':'} number={request.stats[Stats.ATK]} precision={props.precision}/>
+              <ScoringNumber label={t(`common:ShortStats.${Stats.HP_P}`) + ':'} number={request.stats[Stats.HP_P]} precision={props.precision}/>
+              <ScoringNumber label={t(`common:ShortStats.${Stats.HP}`) + ':'} number={request.stats[Stats.HP]} precision={props.precision}/>
+              <ScoringNumber label={t(`common:ShortStats.${Stats.DEF_P}`) + ':'} number={request.stats[Stats.DEF_P]} precision={props.precision}/>
+              <ScoringNumber label={t(`common:ShortStats.${Stats.DEF}`) + ':'} number={request.stats[Stats.DEF]} precision={props.precision}/>
             </Flex>
             <Flex vertical gap={defaultGap} style={{ width: 100 }}>
-              <ScoringNumber label={t(`common:ShortStats.${Stats.SPD}`) + ':'} number={request.stats[Stats.SPD]} precision={2} valueWidth={37}/>
-              <ScoringNumber label={t(`common:ShortStats.${Stats.CR}`) + ':'} number={request.stats[Stats.CR]} precision={props.precision} valueWidth={37}/>
-              <ScoringNumber label={t(`common:ShortStats.${Stats.CD}`) + ':'} number={request.stats[Stats.CD]} precision={props.precision} valueWidth={37}/>
-              <ScoringNumber label={t(`common:ShortStats.${Stats.EHR}`) + ':'} number={request.stats[Stats.EHR]} precision={props.precision} valueWidth={37}/>
-              <ScoringNumber label={t(`common:ShortStats.${Stats.RES}`) + ':'} number={request.stats[Stats.RES]} precision={props.precision} valueWidth={37}/>
-              <ScoringNumber label={t(`common:ShortStats.${Stats.BE}`) + ':'} number={request.stats[Stats.BE]} precision={props.precision} valueWidth={37}/>
+              <ScoringNumber label={t(`common:ShortStats.${Stats.SPD}`) + ':'} number={request.stats[Stats.SPD]} precision={2}/>
+              <ScoringNumber label={t(`common:ShortStats.${Stats.CR}`) + ':'} number={request.stats[Stats.CR]} precision={props.precision}/>
+              <ScoringNumber label={t(`common:ShortStats.${Stats.CD}`) + ':'} number={request.stats[Stats.CD]} precision={props.precision}/>
+              <ScoringNumber label={t(`common:ShortStats.${Stats.EHR}`) + ':'} number={request.stats[Stats.EHR]} precision={props.precision}/>
+              <ScoringNumber label={t(`common:ShortStats.${Stats.RES}`) + ':'} number={request.stats[Stats.RES]} precision={props.precision}/>
+              <ScoringNumber label={t(`common:ShortStats.${Stats.BE}`) + ':'} number={request.stats[Stats.BE]} precision={props.precision}/>
             </Flex>
           </Flex>
         </Flex>
@@ -262,13 +262,13 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </pre>
           {/* Character/100% benchmark/200% perfect ability damage */}
           <Flex gap={defaultGap} justify='space-around'>
-            <Flex vertical gap={10} style={{ width: 247 }}>
-              <ScoringNumber label={t('common:ShortDMGTypes.Basic') + ':'} number={simResult.BASIC} precision={1} valueWidth={64}/>
-              <ScoringNumber label={t('common:ShortDMGTypes.Skill') + ':'} number={simResult.SKILL} precision={1} valueWidth={64}/>
-              <ScoringNumber label={t('common:ShortDMGTypes.Ult') + ':'} number={simResult.ULT} precision={1} valueWidth={64}/>
-              <ScoringNumber label={t('common:ShortDMGTypes.Fua') + ':'} number={simResult.FUA} precision={1} valueWidth={64}/>
-              <ScoringNumber label={t('common:ShortDMGTypes.Dot') + ':'} number={simResult.DOT} precision={1} valueWidth={64}/>
-              <ScoringNumber label={t('common:ShortDMGTypes.Break') + ':'} number={simResult.BREAK} precision={1} valueWidth={64}/>
+            <Flex vertical gap={10} style={{ width: 230 }}>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Basic')) + ':'} number={simResult.BASIC} precision={1}/>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Skill')) + ':'} number={simResult.SKILL} precision={1}/>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Ult')) + ':'} number={simResult.ULT} precision={1}/>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Fua')) + ':'} number={simResult.FUA} precision={1}/>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Dot')) + ':'} number={simResult.DOT} precision={1}/>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Break')) + ':'} number={simResult.BREAK} precision={1}/>
             </Flex>
           </Flex>
         </Flex>
@@ -341,13 +341,19 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             {t('CharacterPreview.BuildAnalysis.CombatResults.Header')/* Combat damage results */}
           </pre>
           <Flex vertical gap={10} style={{ width: 255 }}>
-            {/* @ts-ignore type of key is not specific enough for ts to know that t() will resolve properly */}
-            <ScoringText label={t('CharacterPreview.BuildAnalysis.CombatResults.Primary')} text={t(`CharacterPreview.BuildAnalysis.CombatResults.Abilities.${result.characterMetadata.scoringMetadata.sortOption.key}`)} textWidth={72}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Character')} number={result.originalSimScore} precision={1} valueWidth={72}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Baseline')} number={result.baselineSimScore} precision={1} valueWidth={72}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Benchmark')} number={result.benchmarkSimScore} precision={1} valueWidth={72}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Maximum')} number={result.maximumSimScore} precision={1} valueWidth={72}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')} number={result.percent * 100} precision={2} valueWidth={72}/>
+            <ScoringText
+              label={t('CharacterPreview.BuildAnalysis.CombatResults.Primary')}
+              text={
+                // @ts-ignore type of key is not specific enough for ts to know that t() will resolve properly
+                t(`CharacterPreview.BuildAnalysis.CombatResults.Abilities.${result.characterMetadata.scoringMetadata.sortOption.key}`)
+              }
+              textWidth={72}
+            />
+            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Character')} number={result.originalSimScore} precision={1}/>
+            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Baseline')} number={result.baselineSimScore} precision={1}/>
+            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Benchmark')} number={result.benchmarkSimScore} precision={1}/>
+            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Maximum')} number={result.maximumSimScore} precision={1}/>
+            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')} number={result.percent * 100} precision={2}/>
           </Flex>
         </Flex>
       </Flex>
@@ -531,7 +537,7 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
 
   const mainUpgrade = result.mainUpgrades[0]
   if (mainUpgrade && mainUpgrade.percent! - basePercent > 0) {
-    const part = mainUpgrade.part as Parts
+    const part = mainUpgrade.part!
     const stat = mainUpgrade.stat
     const upgradeDmg = mainUpgrade.simulationResult.simScore / baseDmg - 1
 

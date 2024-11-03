@@ -1,8 +1,7 @@
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { buffWithSource, ComputedStatsArray, Key } from 'lib/optimizer/computedStatsArray'
+import { _buffAbilityDmg, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { buffWithSource, ComputedStatsArray, Effect, Key } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -68,21 +67,25 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       const r = action.characterConditionals
 
       // Skills
-      x[Stats.CR] += (r.talentEnhancedState) ? talentCrBuff : 0
-      x[Stats.ATK_P] += ((r.talentEnhancedState) ? r.talentHpDrainAtkBuff : 0)
-
-      // Traces
       if (r.talentEnhancedState) {
-        buff(x, Key.RES, 0.35, 0)
+        buff(x, Key.CR, talentCrBuff, Effect.DEFAULT)
+        buff(x, Key.ATK_P, r.talentHpDrainAtkBuff, Effect.DEFAULT)
+        buff(x, Key.RES, 0.35, Effect.DEFAULT)
+        _buffAbilityDmg(x, ULT_TYPE, 0.20, 'Jingliu', Effect.DEFAULT)
       }
-      x[Stats.RES] += (r.talentEnhancedState) ? 0.35 : 0
-      buffAbilityDmg(x, ULT_TYPE, 0.20, (r.talentEnhancedState))
+      // Traces
 
       // Eidolons
-      x[Stats.CD] += (e >= 1 && r.e1CdBuff) ? 0.24 : 0
-      x[Stats.CD] += (e >= 6 && r.talentEnhancedState) ? 0.50 : 0
+      if (e >= 1 && r.e1CdBuff) {
+        buff(x, Key.CD, 0.24, Effect.DEFAULT)
+      }
+      if (e >= 6 && r.talentEnhancedState) {
+        buff(x, Key.CD, 0.50, Effect.DEFAULT)
+      }
 
       // Scaling
+      x.BASIC_SCALING.buff((r.talentEnhancedState) ? skillEnhancedScaling : skillScaling, Effect.DEFAULT)
+
       x.BASIC_SCALING += basicScaling
 
       x.SKILL_SCALING += (r.talentEnhancedState) ? skillEnhancedScaling : skillScaling

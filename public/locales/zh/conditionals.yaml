@@ -1,4 +1,21 @@
 BetaMessage: "当前版本：{{Version}} - 计算结果可能会发生变化。"
+Common:
+  HealAbility:
+    Text: "治疗技能"
+    Content: "选择用于计算治疗量的技能"
+    Basic: "治疗技能：普攻"
+    Skill: "治疗技能：战技"
+    Ult: "治疗技能：终结技"
+    Talent: "治疗技能：天赋"
+    Trace: "治疗技能：行迹"
+  ShieldAbility:
+    Text: "护盾技能"
+    Content: "选择用于计算护盾量的技能"
+    Basic: "护盾技能：普攻"
+    Skill: "护盾技能：战技"
+    Ult: "护盾技能：终结技"
+    Talent: "护盾技能：天赋"
+    Trace: "护盾技能：行迹"
 Lightcones:
   AlongThePassingShore:
     Content:
@@ -370,7 +387,7 @@ Lightcones:
     Content:
       cdBuff:
         text: 生命变化时暴击伤害增益
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
+        content: 损失或回复自身生命值后，暴击伤害提高{{sValuesCd}}%，持续2回合。
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
@@ -653,7 +670,7 @@ Characters:
         text: 治疗时生命上限增益
         content: 白露对我方目标造成过量治疗时会提高目标10%的生命上限，持续2回合。
       talentDmgReductionBuff:
-        text: 生息状态伤害降低
+        text: 终结技减伤
         content: 拥有【生息】的角色受到的伤害降低10%。
       e2UltHealingBuff:
         text: 2魂终结技后治疗量增益
@@ -947,7 +964,7 @@ Characters:
         content: "2魂：对当前生命值百分比小于等于50%的敌方目标造成的伤害提高15%。"
       e6UltExtraHits:
         text: 6魂终结技额外伤害次数
-        content: '6魂：终结技额外造成2次伤害，对随机敌方单体各造成等同于原伤害40%的火属性伤害。'
+        content: "6魂：终结技额外造成2次伤害，对随机敌方单体各造成等同于原伤害40%的火属性伤害。"
   Hook:
     Content:
       enhancedSkill:
@@ -1223,29 +1240,30 @@ Characters:
     Content:
       sealformActive:
         text: 结印 （强制弱点击破状态）
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
+        content: >-
+          进入【结印】状态，立即获得1个额外回合并获得3点【彩墨】，同时弱点击破效率提高50%，击破特攻提高{{ultBeBuff}}%。
       atkToBreakVulnerability:
         text: 攻击力转至击破易伤
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
+        content: 敌方目标的弱点被击破时，受到的击破伤害提高2%，若乱破当前攻击力高于2400点，每超过100点攻击力可使该数值额外提高1% ，最多额外提高8% 。
       chargeStacks:
         text: 充能层数
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
+        content: 每点充能使本次击破伤害倍率提高{{talentChargeMultiplier}}%，并使无视弱点属性的削韧值提高1点。
       e1DefPen:
         text: 1魂防御穿透
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
+        content: 施放终结技进入【结印】状态期间，乱破造成的伤害无视目标15%的防御。
       e2Buffs:
         text: 2魂击破增益
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
+        content: 强化普攻的前2段攻击对指定敌方单体的削韧值提高50%。
       e4SpdBuff:
         text: 4魂速度增益
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
+        content: '【结印】状态期间，我方全体速度提高12%。'
     TeammateContent:
       teammateBreakVulnerability:
         text: 击破易伤
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
+        content: 敌方目标的弱点被击破时，受到的击破伤害提高2%，若乱破当前攻击力高于2400点，每超过100点攻击力可使该数值额外提高1% ，最多额外提高8% 。
       e4SpdBuff:
         text: 4魂速度增益
-        content: 损失或回复自身生命值后，暴击伤害提高{{CritBuff}}%，持续 2 回合，该效果每回合只可触发1次。
+        content: '【结印】状态期间，我方全体速度提高12%。'
   Robin:
     Content:
       concertoActive:

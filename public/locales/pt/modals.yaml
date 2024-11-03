@@ -1,6 +1,28 @@
+Scoring:
+  StatWeightsHeader: Peso dos atributos
+  MainstatsHeader: Subatributos otimizados
+  WeightMethodology:
+    Header: Como o Pontuador de atributos funciona?
+  Footer:
+    Reset: Resetar para padrão
+    ResetAll: Resetar todos os personagens
+    Save: Salvar alterações
+  ResetAllConfirm:
+    Title: Resetar algoritmo de pontuação para todos personagens?
+    Description: Você perderá todas as configurações de pontuação personalizadas que tiver definido.
+0Perms:
+  Title: Busca gerou 0 permutações
+  Description: Isso significa que seus filtros estão mal configurados ou são muito restritivos, e nenhuma possibilidade corresponde aos filtros. As permutações são mostradas na barra lateral.
+  RootCauses:
+    IMPORT:
+      Description: "Importar relíquias de sua conta na guia Importador\n"
+      ButtonText: Navegar para aba Importador
 EditCharacter:
-  Character: Personagemㅤ
+  Character: Personagem 
+  Lightcone: Cone de luz
 CharacterSelect:
   SingleSelect:
-    Placeholder: Personagemㅤ
+    Placeholder: Personagem 
   SearchPlaceholder: Procurar nome do personagem
+LightconeSelect:
+  Placeholder: Cone de luz

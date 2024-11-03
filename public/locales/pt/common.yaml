@@ -160,8 +160,8 @@ ShortReadableStats:
 DMGTypes:
   simScore: Dano de Combo
   BASIC: Dano Básico
-  ULT: Dano de Perícia Suprema
   SKILL: Dano de Perícia
-  FUA: Dano de Ataque Extra
-  DOT: Dano de DoT
+  ULT: Dano de Perícia Suprema
+  CV: CV
+ShortDMGTypes:
   CV: CV

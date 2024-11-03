@@ -49,12 +49,7 @@ OptimizerOptions:
   Exclude: 排除
   MinEnhance:
     Header: 最小强化等级
-    Label0: +0
-    Label3: 3
-    Label6: 6
-    Label9: 9
-    Label12: 12
-    Label15: 15
+    Label0: "+0"
   MinRarity:
     Header: 最小稀有度
     Label2: 2 ★ +
@@ -63,11 +58,6 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: 提升主属性
-    Label3: 3
-    Label6: 6
-    Label9: 9
-    Label12: 12
-    Label15: 15
 AdvancedOptions:
   Header: 高级选项
   EnemyConfigButtonText: 敌人配置
@@ -94,7 +84,6 @@ Grid:
       ERR: 能量恢复
       DMG: 增伤
       EHP: 有效生命
-      WEIGHT: "属性\n权重"
       BASIC: |-
         普攻
         伤害
@@ -131,7 +120,6 @@ Grid:
       ERR: Σ 能量
       DMG: Σ 增伤
       EHP: 有效生命
-      WEIGHT: "属性\n权重"
       BASIC: |-
         普攻
         伤害

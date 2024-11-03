@@ -160,8 +160,8 @@ ShortReadableStats:
 DMGTypes:
   simScore: 连招伤害
   BASIC: 普攻伤害
-  ULT: 终结技伤害
   SKILL: 战技伤害
-  FUA: 追加攻击伤害
-  DOT: 持续伤害
+  ULT: 终结技伤害
+  CV: 暴击值
+ShortDMGTypes:
   CV: 暴击值

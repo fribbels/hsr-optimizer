@@ -18,9 +18,13 @@ const inputLocales = ['zh', 'de', 'en', 'es', 'fr', 'id', 'ja', 'ko', 'pt', 'ru'
 
 const outputLocales = [...inputLocales, 'it'] as const
 
+type InputLocale = typeof inputLocales[number]
+
+type OutputLocale = typeof outputLocales[number]
+
 // keys must correspond to an available textmap, values are the output locales for a given textmap
 // e.g. the english textmap is used for both the english and italian gameData files
-const outputLocalesMapping: {[key in typeof inputLocales[number]]: typeof outputLocales[number][]} = {
+const outputLocalesMapping: Record<InputLocale, OutputLocale[]> = {
   de: ['de'],
   en: ['en', 'it'],
   es: ['es'],
@@ -35,7 +39,7 @@ const outputLocalesMapping: {[key in typeof inputLocales[number]]: typeof output
   zh: ['zh'],
 } as const
 
-const TB_NAMES: {[key in typeof inputLocales[number]]: {stelle: string; caelus: string}} = {
+const tbNames: Record<InputLocale, {stelle: string; caelus: string}> = {
   de: {
     stelle: 'Stelle',
     caelus: 'Caelus',
@@ -86,7 +90,7 @@ const TB_NAMES: {[key in typeof inputLocales[number]]: {stelle: string; caelus: 
   },
 } as const
 
-const Overrides: { [key in keyof typeof outputLocalesMapping]: { key: string; value: string }[] } = {
+const overrides: Record<InputLocale, { key: string; value: string }[]> = {
   de: [],
   en: [
     {
@@ -214,7 +218,7 @@ async function generateTranslations() {
     for (const avatar of AvatarConfig) {
       output.Characters[avatar.AvatarID] = {
         Name: avatar.AvatarID > 8000
-          ? TB_NAMES[locale][avatar.AvatarID % 2 ? 'caelus' : 'stelle']
+          ? tbNames[locale][avatar.AvatarID % 2 ? 'caelus' : 'stelle']
           : cleanString(locale, textmap[avatar.AvatarName.Hash]),
       }
       if (betaInformation[locale]?.Characters) {
@@ -278,8 +282,8 @@ async function generateTranslations() {
 }
 
 function applyOverrides(output: object, locale: string) {
-  if (!Overrides[locale]) return
-  for (const override of Overrides[locale]) {
+  if (!overrides[locale]) return
+  for (const override of overrides[locale]) {
     const path = (override.key).split('.')
     let target = output, index = -1
     while (++index < path.length) {

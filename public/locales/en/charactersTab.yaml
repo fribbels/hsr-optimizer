@@ -80,16 +80,16 @@ CharacterPreview:
       SKILL: SKILL
       ULT: ULT
       FUA: FUA
-      DOT: DOT
-      BREAK: BREAK
+      DOTS: "DOTS:"
+      BREAKS: "BREAKS:"
     CombatResults:
       Header: Combat damage results
-      Primary: "Primary ability:     "
-      Character: "Character DMG:       "
-      Benchmark: "Benchmark DMG:       "
-      Baseline: "Baseline DMG:        "
-      Maximum: "Maximum DMG:         "
-      Score: "DPS score %:         "
+      Primary: "Primary ability:"
+      Character: "Character DMG:"
+      Benchmark: "Benchmark DMG:"
+      Baseline: "Baseline DMG:"
+      Maximum: "Maximum DMG:"
+      Score: "DPS score %:"
       Abilities:
         BASIC: BASIC DMG
         SKILL: SKILL DMG
@@ -120,25 +120,5 @@ CharacterPreview:
       Substats: 200% perfect subs (max rolls)
       Mainstats: 200% perfect main stats
       Abilities: 200% perfect ability damage
-    PaddedStatLabels:
-      ATKP: "ATK%: "
-      ATK: "ATK:  "
-      HPP: "HP%:  "
-      HP: "HP:   "
-      DEFP: "DEF%: "
-      DEF: "DEF:  "
-      SPD: "SPD:  "
-      CR: "CR:   "
-      CD: "CD:   "
-      EHR: "EHR:  "
-      RES: "RES:  "
-      BE: "BE:   "
-    PaddedDMGLabels:
-      Basic: "Basic DMG:           "
-      Skill: "Skill DMG:           "
-      Ult: "Ult DMG:             "
-      Fua: "Fua DMG:             "
-      Dot: "Dot DMG:             "
-      Break: "Break DMG:           "
   ScoringDetails:
     Header: How is DPS Score calculated?

@@ -1,11 +1,11 @@
 ScreenshotMessages:
-  ScreenshotSuccess: ' Captura de tela copiada para a área de transferência'
+  ScreenshotSuccess: Captura de tela copiada para a área de transferência
   ScreenshotFailed: Não é possível salvar a captura de tela na área de transferência, tente o botão de baixar à direita
   DownloadSuccess: Baixar captura de tela
 CharacterMenu:
   ButtonText: Menu de personagens
   Character:
-    Label: Personagem
+    Label: Personagem 
     Options:
       Add: Adicionar novo personagem
       Edit: Editar personagem / cone de luz
@@ -20,7 +20,7 @@ CharacterMenu:
   Scoring:
     Label: Pontuação
     Options:
-      ScoringModal: Algoritmo de Pontuação
+      ScoringModal: Algoritmo de Pontos
   Priority:
     Label: Prioridade
     Options:
@@ -31,7 +31,7 @@ SearchPlaceholder: Procurar nome do personagem
 GridHeaders:
   Icon: Ícone
   Priority: Prioridade
-  Character: Personagem
+  Character: Personagem 
 Messages:
   RemoveSuccess: Personagem removido com sucesso
   UnequipSuccess: Personagem desequipado com sucesso
@@ -45,7 +45,7 @@ CharacterPreview:
   ArtBy: "Arte por {{artistName}}"
   EditCharacter: Editar personagem
   EditPortrait: Editar retrato
-  CharacterScore: "Pontuação do personagem: {{score}} {{grade}}"
+  CharacterScore: "Pontuação do char: {{score}} {{grade}}"
   Messages:
     AddedRelic: Relíquia adicionada com sucesso
     SavedPortrait: Retrato salvo com sucesso
@@ -57,18 +57,18 @@ CharacterPreview:
   AlgorithmSlider:
     Title: "Algorítimo de pontuação"
     Labels:
-      CombatScore: Pontuação de combate
-      CombatScoreTBD: Pontuação de combate (TBD)
-      StatScore: Pontuação do atributo
+      CombatScore: Pontuação de Combate
+      CombatScoreTBD: Pontuação de Combate (TBD)
+      StatScore: Pontuação de Atributo
   DetailsSlider:
-    Title: "Detalhes da pontuação de combate:"
+    Title: "Detalhes da pontuação:"
     Labels:
       CombatStats: Atributos de combate
       DMGUpgrades: Melhorias para o dano
   DMGUpgrades: Melhorias para o dano
   SubstatUpgradeComparisons:
     Header: Comparação de melhoria de subatributos
-    Roll: roletar
+    Roll: roll
     Damage: Dano
   BuildAnalysis:
     Header: Análise de build do personagem
@@ -80,8 +80,6 @@ CharacterPreview:
       SKILL: PERÍCIA
       ULT: PER. SUP.
       FUA: ATQ. EXT.
-      DOT: DOT
-      BREAK: Quebra
     CombatResults:
       Header: Resultados do dano de combate
       Primary: "Habilidade primária:     "
@@ -120,25 +118,5 @@ CharacterPreview:
       Substats: 200% perfeito subs (roll máximo)
       Mainstats: 200% perfeito atributos principais
       Abilities: 200% perfeito dano de habilidade
-    PaddedStatLabels:
-      ATKP: "ATQ%: "
-      ATK: "ATQ:  "
-      HPP: "PV%:  "
-      HP: "PV:   "
-      DEFP: "DEF%: "
-      DEF: "DEF  "
-      SPD: "VEL:  "
-      CR: "CR:   "
-      CD: "CD:   "
-      EHR: "EHR:  "
-      RES: "RES:  "
-      BE: "BE:   "
-    PaddedDMGLabels:
-      Basic: "Dano Básico:           "
-      Skill: "Dano Perícia:           "
-      Ult: "Dano Perícia Suprema:             "
-      Fua: "Dano Ataque Extra:             "
-      Dot: "Dano DOT:             "
-      Break: "Dano Quebra:           "
   ScoringDetails:
     Header: Como o placar de DPS é calculado?

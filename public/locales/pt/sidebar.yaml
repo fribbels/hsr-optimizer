@@ -1,6 +1,6 @@
 Showcase:
   Title: Apresentação
-  Scorer: Pontuador de Relíquias
+  Scorer: Pontuador
 Optimization:
   Title: Otimização
   Optimizer: Otimizador
@@ -11,8 +11,8 @@ Optimization:
   Start: Começando
 Links:
   Title: Links
-  Changelog: Registro de Mudanças
+  Changelog: Changelog
   Discord: Discord
   Github: Github
   Kofi: Ko-fi
-  Unleak: Sem vazamentos
+  Unleak: Sem Vazamentos

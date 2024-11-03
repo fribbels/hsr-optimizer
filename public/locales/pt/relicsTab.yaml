@@ -6,14 +6,14 @@ RelicFilterBar:
   Equipped: Equipado
   Clear: Limpar
   ClearButton: Limpar todos os filtros
-  Set: Conjunto
+  Set: Set
   Mainstat: Atributos Principais
   Substat: Subatributos
   ReapplyButton: Reaplicar pontuações
-  ScoringButton: Algoritmo de Pontuação
+  ScoringButton: Algoritmo de Pontos
   RecommendationHeader: Personagem para recomendação de relíquias
   Rating: Classificação das relíquias
-  CustomCharsHeader: Potencial dos personagems selecionados
+  CustomCharsHeader: Potencial dos personagens selecionados
 Messages:
   AddRelicSuccess: Relíquia adicionada com sucesso
   NoRelicSelected: Não há relíquia selecionada
@@ -23,7 +23,7 @@ RelicGrid:
   Of: de
   Headers:
     EquippedBy: Dono
-    Set: Conjunto
+    Set: Set
     Grade: Raridade
     Part: Parte
     Enhance: Melhoria
@@ -41,13 +41,13 @@ RelicGrid:
     DEF: DEF
     SPD: VEL
     CR: |-
-      Chance de
+      Chance
       Crítico
     CD: |-
       Dano
       Crítico
     EHR: |-
-      Taxa de Acerto
+      Acerto
       de Efeito
     RES: |-
       RES a
@@ -60,53 +60,53 @@ RelicGrid:
       Crítico
   ValueColumns:
     SelectedCharacter:
-      Label: Personagem selecionado
+      Label: Char selecionado
       ScoreCol:
-        Label: "Personagem selecionado: Pontuação"
+        Label: "Char selecionado: Pontuação"
         Header: |-
-          Personagem selecionado
+          Char selecionado
           Pontuação
       AvgPotCol:
-        Label: "Personagem selecionado: Média de potencial"
+        Label: "Char selecionado: Potencial médio"
         Header: |-
-          Personagem Selecionado
-          Média de Potencial
+          Char Selecionado
+          Potencial médio
       MaxPotCol:
-        Label: "Personagem selecionado: Potencial máximo"
+        Label: "Char selecionado: Potencial max."
         Header: |-
-          Personagem selecionado
-          Potencial Máximo
+          Char selecionado
+          Potencial Max.
     CustomCharacters:
       Label: Personagens selecionados
       AvgPotCol:
-        Label: "Personagens selecionados: Média de potencial"
+        Label: "Chars selecionados: Potencial Médio"
         Header: |-
-          Personagens Selecionados
-          Média de Potencial
+          Chars Selecionados
+          Potencial Médio
       MaxPotCol:
-        Label: "Personagens selecionados: Potencial máximo"
+        Label: "Chars selecionados: Potencial max."
         Header: |-
-          Personagens Selecionados
-          Potencial Máximo
+          Chars Selecionados
+          Potencial Max.
     AllCharacters:
       Label: Todos os personagens
       AvgPotCol:
-        Label: "Todos os personagens: Média de potencial"
+        Label: "Todos Chars: Potencial Médio"
         Header: |-
-          Todos os Personagens
-          Média de Potencial
+          Todos Chars
+          Potencial Médio
       MaxPotCol:
-        Label: "Todos os personagens: Potencial máximo"
+        Label: "Todos Chars: Potencial Máximo"
         Header: |-
-          Todos os Personagens
+          Todos Chars
           Potencial Máximo
     ComingSoon:
       Label: Em breve
       SetsPotential:
         Label: Conjunto Relíquia / Ornamento potencial
         Header: |-
-          Todos os personagens
-          Potencial Máximo + Conjuntos
+          Todos Chars
+          Potencial Max. + Sets
 Toolbar:
   RelicLocator:
     Width: Largura do inventário

@@ -234,15 +234,607 @@ Lightcones:
     Content:
       activeShieldDmgDecrease:
         text: Redução de DMG recebido por escudo ativo
+        content: >-
+          Se o usuário for atacado e não tiver um Escudo, ele ganha um Escudo igual a {{ShieldHp}}% de seu HP Máximo por 2 turno(s). Este efeito só pode ser ativado uma vez a cada 3 turno(s). Se o usuário tiver um Escudo ao ser atacado, o dano que recebe diminui em {{DmgReduction}}%.
+  TheUnreachableSide:
+    Content:
+      dmgBuff:
+        text: Buff de DMG atacado / HP consumido.
+        content: Quando o usuário é atacado ou consome seu próprio HP, seu dano aumenta em {{DmgBuff}}%. Este efeito é removido após o usuário realizar um ataque.
+  ThoseManySprings:
+    Content:
+      unarmoredVulnerability:
+        text: Vulnerabilidade sem armadura
+        content: >-
+          Após o usuário usar o ATK Básico, Habilidade ou Ultimate para atacar um alvo inimigo, há uma chance base de 60,0% de infligir a condição Vulnerabilidade sem armadura no alvo. Enquanto estiver no estado de Vulnerabilidade sem armadura, o alvo inimigo recebe um aumento de {{UnarmoredVulnerability}}% no dano, durando por 2,0 turno(s). Se o alvo estiver sob um estado de Dano ao longo do tempo (DoT) causado pelo usuário, há uma chance base de 60,0% de atualizar o estado de Vulnerabilidade sem armadura infligido pelo usuário para o estado Encurralado, que aumenta adicionalmente o dano que o alvo inimigo recebe em {{CorneredVulnerability}}%, durando por 2,0 turno(s).
+      corneredVulnerability:
+        text: Vulnerabilidade encurralada
+        content: >-
+          Após o usuário usar o ATK Básico, Habilidade ou Ultimate para atacar um alvo inimigo, há uma chance base de 60,0% de infligir a condição Vulnerabilidade sem armadura no alvo. Enquanto estiver no estado de Vulnerabilidade sem armadura, o alvo inimigo recebe um aumento de {{UnarmoredVulnerability}}% no dano, durando por 2,0 turno(s). Se o alvo estiver sob um estado de Dano ao longo do tempo (DoT) causado pelo usuário, há uma chance base de 60,0% de atualizar o estado de Vulnerabilidade sem armadura infligido pelo usuário para o estado Encurralado, que aumenta adicionalmente o dano que o alvo inimigo recebe em {{CorneredVulnerability}}%, durando por 2,0 turno(s).
+  TimeWaitsForNoOne:
+    Content:
+      healingBasedDmgProc:
+        text: Proc de DMG baseado em cura (não implementado).
+        content: >-
+          Quando o usuário cura aliados, registra a quantidade de Cura Saída. Quando qualquer aliado realiza um ataque, um inimigo atacado aleatório recebe Dano Adicional igual a {{Multiplier}}% do valor registrado de saida de Cura. O tipo deste Dano Adicional é do mesmo tipo que o do usuário. Este Dano Adicional não é afetado por outros buffs e pode ocorrer apenas 1 vez por turno.
+  WhereaboutsShouldDreamsRest:
+    Content:
+      routedVulnerability:
+        text: Vulnerabilidade roteada
+        content: >-
+          Quando o usuário causa BREAK DMG a um alvo inimigo, inflige a condição Roteada no inimigo, durando por 2 turno(s). Os alvos afetados por Roteada recebem um aumento de {{Vulnerability}}% no BREAK DMG, e sua Velocidade (SPD) é reduzida em 20%. Efeitos do mesmo tipo não podem ser acumulados.
+  WorrisomeBlissful:
+    Content:
+      targetTameStacks:
+        text: Acúmulos de Domínio do Alvo
+        content: >-
+          Após o usuário realizar um ataque de seguimento, aplique o estado Domínio ao alvo, acumulando até 2 acúmulos. Quando aliados atingem alvos inimigos sob o estado Domínio, cada acúmulo de Domínio aumenta o CRIT DMG causado em {{CritBuff}}%.
+  YetHopeIsPriceless:
+    Content:
+      fuaDmgBoost:
+        text: Redução de Dano de FUA
+        content: Enquanto o usuário estiver em batalha, para cada 20% de CRIT DMG que exceder 120%, o DMG causado pelo ataque de seguimento aumenta em {{DmgBuff}}%. Este efeito pode acumular até 4 vez(es).
+      ultFuaDefShred:
+        text: Penetração de DEF para Ultimate / Ataque de Seguimento
+        content: Quando a batalha começa ou após o usuário usar seu ATK Básico, permite que o Ultimate ou o DMG causado pelo ataque de seguimento ignore {{DefShred}}% da DEF do alvo, durando por 2 turno(s).
+  AfterTheCharmonyFall:
+    Content:
+      spdBuff:
+        text: Buff de SPD
+        content: Após o usuário usar o Ultimate, aumenta a Velocidade (SPD) em {{SpdBuff}}%, durando por 2 turno(s).
+  ASecretVow:
+    Content:
+      enemyHpHigherDmgBoost:
+        text: Boost de DMG baseado no HP% do Inimigo.
+        content: O usuário também causa um DMG extra de {{DmgBuff}}% a inimigos cuja porcentagem de HP atual é igual ou superior à porcentagem de HP atual do usuário.
+  BoundlessChoreo:
+    Content:
+      enemyDefReducedSlowed:
+        text: DEF reduzida / desacelerada do inimigo.
+        content: O usuário causa {{CritBuff}}% a mais de CRIT DMG a inimigos que estão atualmente desacelerados ou com DEF reduzida.
+  CarveTheMoonWeaveTheClouds:
+    Content:
+      atkBuffActive:
+        text: Buff de ATK ativo
+        content: >-
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:  
+          - O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
+          - O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
+          - A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
+
+          O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
+      cdBuffActive:
+        text: Buff de CD ativo.
+        content: >-
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:  
+          - O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
+          - O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
+          - A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
+
+          O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
+      errBuffActive:
+        text: Buff de ERR ativo
+        content: >-
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:  
+          - O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
+          - O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
+          - A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
+
+          O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
+  ConcertForTwo:
+    Content:
+      teammateShieldStacks:
+        text: Acúmulos de Dano do Escudo do Companheiro
+        content: Para cada personagem em campo que possui um Escudo, o Dano causado pelo usuário aumenta em {{DmgBuff}}%.
+  DayOneOfMyNewLife:
+    Content:
+      dmgResBuff:
+        text: Buff de DMG RES
+        content: Após entrar em batalha, aumenta a RES de Todos os Tipos de todos os aliados em {{ResBuff}}%. Efeitos do mesmo tipo não podem ser acumulados.
+  DreamvilleAdventure:
+    Content:
+      ultDmgBuff:
+        text: Aumento de DMG do Ultimate
+        content: >-
+          Após o usuário usar um determinado tipo de habilidade, como ATK Básico, Habilidade ou Ultimate, todos os aliados ganham a condição de Infantilidade, que aumenta o DMG dos aliados para o mesmo tipo de habilidade utilizada pelo usuário em {{DmgBuff}}%. A Infantilidade só tem efeito para o tipo de habilidade mais recente utilizada pelo usuário e não pode ser acumulada.
+      skillDmgBuff:
+        text: Boost de DMG
+        content: >-
+          Após o usuário usar um determinado tipo de habilidade, como ATK Básico, Habilidade ou Ultimate, todos os aliados ganham a condição de Infantilidade, que aumenta o DMG dos aliados para o mesmo tipo de habilidade utilizada pelo usuário em {{DmgBuff}}%. A Infantilidade só tem efeito para o tipo de habilidade mais recente utilizada pelo usuário e não pode ser acumulada.
+      basicDmgBuff:
+        text: Boost de básico DMG
+        content: >-
+          Após o usuário usar um determinado tipo de habilidade, como ATK Básico, Habilidade ou Ultimate, todos os aliados ganham a condição de Infantilidade, que aumenta o DMG dos aliados para o mesmo tipo de habilidade utilizada pelo usuário em {{DmgBuff}}%. A Infantilidade só tem efeito para o tipo de habilidade mais recente utilizada pelo usuário e não pode ser acumulada.
+  Fermata:
+    Content:
+      enemyShockWindShear:
+        text: Inimigo chocado / cortado pelo vento.
+        content: Aumenta o DMG do usuário a inimigos afetados por Choque ou Corte de Vento em {{DmgBuff}}%. Isso também se aplica ao Dano ao longo do tempo (DoT).
+  FinalVictor:
+    Content:
+      goodFortuneStacks:
+        text: Acúmulo de Boas Fortunas
+        content: >-
+          Quando o usuário acerta um golpe CRIT em inimigos, ganha um acúmulo de Boa Sorte, acumulando até 4 vez(es). Cada acúmulo de Boa Sorte que o usuário tiver aumentará seu DANO CRÍTICO em {{CritBuff}}%. A Boa Sorte será removida no final do turno do usuário.
+  FlamesAfar:
+    Content:
+      dmgBuff:
+        text: Buff de DMG
+        content: >-
+          Quando a perda acumulada de HP do usuário durante um único ataque excede 25% de seu HP Máximo, ou se a quantidade de HP que ele consome de uma só vez for superior a 25% de seu HP Máximo, cura imediatamente o usuário em 15% de seu HP Máximo e, ao mesmo tempo, aumenta o Dano que ele causa em {{DmgBuff}}% por 2 turno(s). Este efeito pode ser ativado apenas uma vez a cada 3 turno(s).
+  ForTomorrowsJourney:
+    Content:
+      ultDmgBuff:
+        text: Buff de DMG ao usar o Ultimate
+        content: Após o usuário usar seu Ultimate, aumenta o DMG que ele causa em {{DmgBuff}}%, durando por 1 turno(s).
+  GeniusesRepose:
+    Content:
+      defeatedEnemyCdBuff:
+        text: Buff de CD de inimigo derrotado.
+        content: Quando o usuário derrota um inimigo, o CRIT DMG do usuário aumenta em {{DmgBuff}}% por 3 turno(s).
+  GoodNightAndSleepWell:
+    Content:
+      debuffStacksDmgIncrease:
+        text: Buff de Dano por acúmulos de Debuff
+        content: Para cada debuff que o alvo inimigo possui, o DMG causado pelo usuário aumenta em {{DmgBuff}}%, acumulando até 3 vez(es). Este efeito também se aplica ao Dano ao longo do tempo (DoT).
+  HeyOverHere:
+    Content:
+      postSkillHealBuff:
+        text: Buff de cura após a habilidade
+        content: Quando o usuário usa sua Habilidade, aumenta a Cura Saída em {{HealingBoost}}%, durando por 2 turno(s).
+  IndeliblePromise:
+    Content:
+      crBuff:
+        text: Buff de CR para o Ultimate
+        content: Quando o usuário usa seu Ultimate, aumenta a Taxa de CRIT em {{CritBuff}}%, durando por 2 turno(s).
+  ItsShowtime:
+    Content:
+      trickStacks:
+        text: Acúmulo de truques
+        content: >-
+          Quando o usuário inflige um debuff em um inimigo, ganha um acúmulo de Truque. Cada acúmulo de Truque aumenta o DMG causado pelo usuário em {{DmgBuff}}%, acumulando até 3 vezes. Este efeito dura por 1 turno. Quando a taxa de acerto de efeito do usuário é de 80% ou mais, aumenta o ATK em {{AtkBuff}}%.
+  MakeTheWorldClamor:
+    Content:
+      ultDmgBuff:
+        text: Buff de DMG da ultimate
+        content: O portador regenera {{Energy}} de Energia imediatamente ao entrar em batalha e aumenta o dano ultimate em {{DmgBuff}}%.
+  NinjaRecordSoundHunt:
+    Content:
+      cdBuff:
+        text: Buff de CD
+        content: Ao perder ou restaurar o HP desta unidade, aumenta o CRIT DMG em {{sValuesCd}}%, durando por 2 turno(s).
+  OnlySilenceRemains:
+    Content:
+      enemies2CrBuff:
+        text: 'Buff de CR para ≤ 2 inimigos'
+        content: Se houver 2 ou menos inimigos no campo, aumenta a taxa de CRIT do portador em {{CritBuff}}%.
   PastAndFuture:
     Content:
       postSkillDmgBuff:
         text: Buff de DANO pós-Habilidade
+        content: Quando o portador usa sua Habilidade, o próximo aliado que agir (exceto o portador) causa um aumento de {{DmgBuff}}% no DMG por 1 turno(s).
+  PerfectTiming:
+    Content:
+      resToHealingBoost:
+        text: RES para boost de cura
+        content: Aumenta a cura recebida pelo portador em um valor igual a {{Scaling}}% da RES de Efeito. A cura recebida pode ser aumentada dessa forma em até {{Limit}}%.
+  PlanetaryRendezvous:
+    Content:
+      alliesSameElement:
+        text: Buff de dano para aliados do mesmo elemento
+        content: Após entrar em batalha, se um aliado causar o mesmo tipo de DMG que o portador, o DMG causado aumenta em {{DmgBuff}}%.
+  PoisedToBloom:
+    Content:
+      cdBuff:
+        text: Buff de cooldown para caminho duplo
+        content: "Ao entrar em batalha, se dois ou mais personagens seguirem o mesmo Caminho, o CRIT DMG desses personagens aumenta em {{CritBuff}}%."
+  PostOpConversation:
+    Content:
+      postUltHealingBoost:
+        text: Boost de cura ultimate
+        content: Aumenta a cura recebida pelo portador quando ele usa seu Ultimate em {{HealingBoost}}%.
+  ResolutionShinesAsPearlsOfSweat:
+    Content:
+      targetEnsnared:
+        text: Alvo preso
+        content: Quando o portador atinge um inimigo e se o inimigo atingido não estiver já preso, há uma chance de prender o inimigo atingido. Inimigos presos têm a DEF reduzida em {{DefShred}}% por 1 turno(s).
+  RiverFlowsInSpring:
+    Content:
+      spdDmgBuff:
+        text: Buff de SPD / DMG ativo
+        content: >-
+          Após entrar em batalha, aumenta a SPD do portador em {{SpdBuff}}% e o DMG em {{DmgBuff}}%. Quando o portador recebe DMG, esse efeito desaparecerá. Esse efeito será retomado após o final do próximo turno do portador.
+  ShadowedByNight:
+    Content:
+      spdBuff:
+        text: Buff de SPD
+        content: Ao entrar em batalha ou após causar BREAK DMG, aumenta a SPD em {{SpdBuff}}%, durando por 2,0 turno(s).
+  SubscribeForMore:
+    Content:
+      maxEnergyDmgBoost:
+        text: Buff de DMG por energia máxima
+        content: Aumenta o DMG do Ataque Básico e da Habilidade do portador em {{DmgBuff}}%. Esse efeito aumenta em mais {{DmgBuff}}% quando a Energia atual do portador atinge seu nível máximo.
+  Swordplay:
+    Content:
+      sameTargetHitStacks:
+        text: Acúmulo de acertos no mesmo alvo
+        content: A cada vez que o portador atinge o mesmo alvo, o DMG causado aumenta em {{DmgBuff}}%, acumulando até 5 vez(es). Esse efeito será desfeito quando o portador mudar de alvo.
+  TheBirthOfTheSelf:
+    Content:
+      enemyHp50FuaBuff:
+        text: Buff FUA para inimigos com HP ≤ 50%
+        content: Se o HP atual do inimigo alvo estiver abaixo ou igual a 50%, aumenta o DMG causado por ataques de follow-up em mais {{DmgBuff}}%.
+  TheDayTheCosmosFell:
+    Content:
+      cdBuffActive:
+        text: 'Buff de cooldown para alvos com ≥ 2 fraquezas'
+        content: Quando o portador usa um ataque e pelo menos 2 inimigos atacados têm a fraqueza correspondente, o CRIT DMG do portador aumenta em {{CritBuff}}% por 2 turno(s).
   TheMolesWelcomeYou:
     Content:
       atkBuffStacks:
         text: Acúmulos de buff de ATK
+        content: Quando o portador usa um Ataque Básico, Habilidade ou Ultimate para atacar inimigos, o portador ganha um acúmulo de Malícia. Cada acúmulo aumenta o ATK do portador em {{AtkBuff}}%.
+  TheSeriousnessOfBreakfast:
+    Content:
+      dmgBoost:
+        text: Boost de DMG
+        content: Buff de DMG do portador em {{DmgBuff}}%.
+      defeatedEnemyAtkStacks:
+        text: Acúmulos de ATK para inimigos derrotados
+        content: Para cada inimigo derrotado pelo portador, o ATK do portador aumenta em {{AtkBuff}}%, acumulando até 3 vez(es).
+  ThisIsMe:
+    Content:
+      defScalingUltDmg:
+        text: DMG ultimate escalonado por DEF (Não implementado)
+        content: >-
+          Aumenta o DMG do portador quando ele usa seu Ultimate em {{Multiplier}}% da DEF do portador. Esse efeito se aplica apenas 1 vez por alvo inimigo durante cada uso do Ultimate do portador.
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyStacks:
         text: Energia máxima
+        content: Após entrar em batalha, aumenta o dano do portador com base em sua Energia Máxima. O dano aumenta em {{DmgStep}}% por ponto de Energia, até um máximo de 160 Energia.
+  UnderTheBlueSky:
+    Content:
+      defeatedEnemyCrBuff:
+        text: Buff de CR para inimigos derrotados
+        content: Quando o portador derrota um inimigo, a taxa de CRIT do portador aumenta em {{CritBuff}}% por 3 turno(s).
+  WeAreWildfire:
+    Content:
+      initialDmgReductionBuff:
+        text: Buff de redução de dano inicial
+        content: >-
+          No início da batalha, o DMG causado a todos os aliados diminui em {{DmgReduction}}% por 5 turno(s). Ao mesmo tempo, restaura imediatamente HP a todos os aliados igual a {{Healing}}% da diferença de HP entre o HP máximo e o HP atual dos personagens.
+  WeWillMeetAgain:
+    Content:
+      extraDmgProc:
+        text: Proc de dano adicional
+        content: Após o portador usar um Ataque Básico ou Habilidade, causa DMG adicional igual a {{Multiplier}}% do ATK do portador a um inimigo aleatório que foi atacado.
+  WoofWalkTime:
+    Content:
+      atkBoost:
+        text: Aumento de DMG por queimadura / sangramento em inimigos
+        content: Aumenta o DMG do portador a inimigos afetados por Queimadura ou Sangramento em {{DmgBuff}}%. Isso também se aplica a DoT.
+  Adversarial:
+    Content:
+      defeatedEnemySpdBuff:
+        text: Buff de SPD para inimigos derrotados
+        content: Quando o portador derrota um inimigo, aumenta a SPD em {{SpdBuff}}% por 2 turno(s).
+  Amber:
+    Content:
+      hp50DefBuff:
+        text: Buff de DEF para HP < 50%
+        content: Se o HP atual do portador estiver abaixo de 50%, aumenta sua DEF em mais {{DefBuff}}%.
+  Arrows:
+    Content:
+      critBuff:
+        text: Buff inicial de CR
+        content: No início da batalha, a Taxa de CRIT do portador aumenta em {{CritBuff}}% por 3 turno(s).
+  Chorus:
+    Content:
+      inBattleAtkBuff:
+        text: Buff inicial de ATK
+        content: Após entrar em batalha, aumenta o ATK de todos os aliados em {{AtkBuff}}%. Efeitos do mesmo tipo não podem se acumular.
+  CollapsingSky:
+    Content:
+      basicSkillDmgBuff:
+        text: Buff de DMG básico / de habilidade
+        content: Aumenta o ATK Básico e o DMG de Habilidade do portador em {{DmgBuff}}%.
+  Cornucopia:
+    Content:
+      healingBuff:
+        text: Buff de cura
+        content: Quando o portador usa sua Habilidade ou Ultimate, sua Cura de Saída aumenta em {{HealingBuff}}%.
+  DartingArrow:
+    Content:
+      defeatedEnemyAtkBuff:
+        text: Buff de ATK de inimigos derrotados
+        content: Quando o portador derrota um inimigo, aumenta o ATK em {{AtkBuff}}% por 3 turno(s).
+  DataBank:
+    Content:
+      ultDmgBuff:
+        text: Buff de DMG da ultimate
+        content: Aumenta o DMG do Ultimate do portador em {{DmgBuff}}%.
+  HiddenShadow:
+    Content:
+      basicAtkBuff:
+        text: DMG adicional de ATK básico
+        content: Após usar a Habilidade, o próximo ATK Básico do portador causa DMG Adicional igual a {{MultiplierBonus}}% do ATK ao inimigo alvo.
+  Loop:
+    Content:
+      enemySlowedDmgBuff:
+        text: Buff de DMG contra inimigos lentos
+        content: Aumenta o DMG causado pelo portador a inimigos Lentificados em {{DmgBuff}}%.
+  Mediation:
+    Content:
+      initialSpdBuff:
+        text: Buff inicial de SPD
+        content: Ao entrar em batalha, aumenta a SPD de todos os aliados em {{SpdBuff}} pontos por 1 turno(s).
+  MutualDemise:
+    Content:
+      selfHp80CrBuff:
+        text: Buff de CR quando a HP do portador está < 80%
+        content: Se a HP atual do portador estiver abaixo de 80%, a Taxa de CRIT aumenta em {{CritBuff}}%.
+  Sagacity:
+    Content:
+      postUltAtkBuff:
+        text: Buff de ATK pós-Ultimate
+        content: Quando o portador usa seu Ultimate, aumenta o ATK em {{AtkBuff}}% por 2 turno(s).
+  ShatteredHome:
+    Content:
+      enemyHp50Buff:
+        text: Buff de DMG contra inimigos com HP > 50%
+        content: O portador causa {{DmgBuff}}% a mais de DMG a alvos inimigos cuja porcentagem de HP é superior a 50%.
+  Void:
+    Content:
+      initialEhrBuff:
+        text: Buff inicial de EHR
+        content: No início da batalha, a Taxa de Acerto de Efeito do portador aumenta em {{EhrBuff}}% por 3 turno(s).
+Characters:
+  Acheron:
+    Content:
+      crimsonKnotStacks:
+        text: Acúmulos de Nó Carmesim
+        content: >-
+          Chuva de Lâminas: Causa DMG de Relâmpago igual a {{RainbladeScaling}}% do ATK de Acheron a um único inimigo alvo e remove até 3 acúmulos de Crimson Knot do alvo. Quando o Nó Carmesim é removido, causa imediatamente DMG de Relâmpago igual a {{CrimsonKnotScaling}}% do ATK de Acheron a todos os inimigos. Para cada acúmulo de Crimson Knot removido, o Multiplicador de DMG para isso é adicionalmente aumentado.::BR::Quando a Chuva de Lâminas de Acheron atinge alvos inimigos com o Nó Carmesim, seu DMG aumenta em 30%, acumulando até 3 vez(es).
+      nihilityTeammates:
+        text: Companheiros de Nihility
+        content: >-
+          Quando houver 1 ou 2 personagens de Nihility além de Acheron na equipe, o DMG causado pelo ATK Básico, Habilidade e Ultimate de Acheron aumenta para 115% ou 160% do DMG original, respectivamente.::BR::E2: O número de personagens de Nihility necessário para que o Traço do Abismo atinja seu efeito mais alto é reduzido em 1. Quando o turno desta unidade começa, ganha 1 ponto de Sonho Cortado e inflige 1 acúmulo de Nó Carmesim no inimigo com mais acúmulos de Nó Carmesim.
+      thunderCoreStacks:
+        text: Acúmulos de Relâmpago
+        content: Quando a Chuva de Lâminas do Ultimate de Acheron atinge alvos inimigos com Nó Carmesim, seu DMG aumenta em 30%, acumulando até 3 vez(es) e durando por 3 turno(s).
+      stygianResurgeHitsOnTarget:
+        text: Acertos de Ressurgimento Estígio
+        content: >-
+          Quando o Ressurgimento Estígio é ativado, causa adicionalmente DMG por 6 vezes. Cada vez causa DMG de Relâmpago igual a 25% do ATK de Acheron a um único inimigo aleatório e é considerado parte do DMG do Ultimate.
+      e1EnemyDebuffed:
+        text: Aumento de CR de E1
+        content: Ao causar DMG a inimigos debilitados, aumenta a Taxa de CRIT em 18%.
+      e4UltVulnerability:
+        text: Vulnerabilidade ao Ult de E4
+        content: Quando os alvos inimigos entram em combate, os infunde com a Vulnerabilidade ao DMG do Ultimate, aumentando a quantidade de DMG do Ultimate que eles recebem em 8%.
+      e6UltBuffs:
+        text: Buffs de Ult de E6
+        content: >-
+          Aumenta a PEN de RES de Todos os Tipos para o DMG do Ultimate causado por Acheron em 20%. O DMG causado pelo ATK Básico e pela Habilidade também será considerado como DMG do Ultimate e pode reduzir a resistência do inimigo, independentemente dos Tipos de Fraqueza. Ao quebrar Fraquezas, ativa o efeito de Quebra de Fraqueza de Relâmpago.
+  Argenti:
+    Content:
+      ultEnhanced:
+        text: Ultimate Aprimorado
+        content: >-
+          Consome 180 de Energia e causa DMG Físico igual a {{ultEnhancedScaling}}% do ATK de Argenti a todos os inimigos, além de causar DMG por 6 vezes adicionais, sendo cada vez DMG Físico igual a {{ultEnhancedExtraHitScaling}}% do ATK de Argenti a um inimigo aleatório.
+      enemyHp50:
+        text: Aumento de DMG contra inimigos com HP ≤ 50%
+        content: Causa 15% a mais de DMG a inimigos cuja porcentagem de HP é de 50% ou menos.
+      talentStacks:
+        text: Acúmulos de Apoteose
+        content: Aumenta a CR em {{talentCrStackValue}}% por acúmulo, com um máximo de {{talentMaxStacks}} acúmulos.
+      ultEnhancedExtraHits:
+        text: Acertos adicionais do Ult aprimorado no alvo
+        content: O Ult aprimorado causa {{ultEnhancedExtraHitScaling}}% do ATK a um inimigo aleatório por acerto.
+      e2UltAtkBuff:
+        text: Buff de ATK do Ult de E2
+        content: "E2: Se o número de inimigos em campo for igual ou superior a 3, aumenta o ATK em 40% por 1 turno."
+  Arlan:
+    Content:
+      selfCurrentHpPercent:
+        text: HP% atual do portador
+        content: Baseado na porcentagem atual de HP faltante de Arlan, ganha um bônus de DMG, até um aumento máximo de {{talentMissingHpDmgBoostMax}}% de DMG causado por Arlan.
+  Asta:
+    Content:
+      skillExtraDmgHits:
+        text: Habilidade de hits extras
+        content: "Causa 50% de DMG ATK igual a um único inimigo. Causa DMG por {{skillExtraDmgHitsMax}} vezes extras a um inimigo aleatório.::BR::E1: Ao usar a habilidade, causa DMG por 1 vez extra a um inimigo aleatório."
+      talentBuffStacks:
+        text: Acúmulo de buff de ATK do talento
+        content: "Aumenta o ATK dos aliados em {{talentStacksAtkBuff}}% para cada acúmulo.::BR::E4: A taxa de regeneração de energia de Asta aumenta em 15% quando ela possui 2 ou mais acúmulos de Carga."
+      ultSpdBuff:
+        text: Buff de SPD ativo da ult
+        content: Aumenta a SPD de todos os aliados em {{ultSpdBuffValue}} por 2 turno(s).
+      fireDmgBoost:
+        text: Buff de DMG de fogo
+        content: Quando Asta está em campo, o DMG de Fogo de todos os aliados aumenta em 18%.
+  Aventurine:
+    Content:
+      defToCrBoost:
+        text: Buff de DEF para CR
+        content: Para cada 100 de DEF de Aventurine que excede 1600, aumenta sua própria taxa de CRIT em 2%, até um aumento máximo de 48%.
+      fortifiedWagerBuff:
+        text: Buff de Aposta Fortificada
+        content: >-
+          Para qualquer aliado único com Aposta Fortificada, sua RES de Efeito aumenta em {{talentResScaling}}%, e quando ele é atacado, Aventurine ganha 1 ponto de Aposta Cega.::BR::E1: Aumenta o DMG de CRIT em 20% para aliados com Aposta Fortificada. Após usar a Ultimate, fornece a todos os aliados um escudo de Aposta Fortificada, cujo efeito de escudo é igual a 100% do fornecido pela Habilidade, durando por 3 turno(s).
+      enemyUnnervedDebuff:
+        text: Inimigo Desestabilizado
+        content: Quando um aliado atinge um alvo inimigo Desestabilizado, o DMG de CRIT causado aumenta em {{ultCdBoost}}%.
+      fuaHitsOnTarget:
+        text: Golpes de FUA no alvo
+        content: >-
+          Ao alcançar 7 pontos de Aposta Cega, Aventurine consome os 7 pontos para lançar um ataque de acompanhamento de 7 golpes, com cada golpe causando DMG Imaginário igual a {{talentDmgScaling}}% da DEF de Aventurine a um único inimigo aleatório. A Aposta Cega é limitada a 10 pontos.::BR::E4: Ao acionar o ataque de acompanhamento do seu Talento, primeiro aumenta a DEF de Aventurine em 40% por 2 turno(s) e, adicionalmente, aumenta os Golpes por Ação do ataque de acompanhamento de seu talento em 3.
+      e2ResShred:
+        text: Redução de RES E2
+        content: Ao usar o ATK Básico, reduz a RES de Todos os Tipos do alvo em 12% por 3 turno(s).
+      e4DefBuff:
+        text: Buff de DEF E4
+        content: "E4: Ao acionar o ataque de acompanhamento do seu Talento, primeiro aumenta a DEF de Aventurine em 40% por 2 turno(s)."
+      e6ShieldStacks:
+        text: Acúmulos de escudo E6
+        content: "E6: Para cada aliado que possui um Escudo, o DMG causado por Aventurine aumenta em 50%, até um máximo de 150%."
+  Bailu:
+    Content:
+      healingMaxHpBuff:
+        text: Buff de HP máximo de cura
+        content: Quando Bailu cura um aliado alvo acima de seu HP máximo normal, o HP máximo do alvo aumenta em 10% por 2 turnos.
+      talentDmgReductionBuff:
+        text: Redução de DMG da ult
+        content: Personagens com Revigoração recebem 10% a menos de DMG.
+      e2UltHealingBuff:
+        text: Buff de cura da ult E2
+        content: "E2: Aumenta a cura em 15% após a Ultimate."
+      e4SkillHealingDmgBuffStacks:
+        text: Acúmulos de aumento de DMG da habilidade E4
+        content: "E4: Cada cura fornecida pela habilidade de Bailu faz com que o recipiente cause 10% a mais de DMG por 2 turnos. Este efeito pode acumular até 3 vezes."
+  BlackSwan:
+    Content:
+      ehrToDmgBoost:
+        text: Aumento de DMG de EHR
+        content: Aumenta o DMG desta unidade em um valor igual a 60% da Taxa de Acerto de Efeito, até um aumento máximo de DMG de 72%.
+      epiphanyDebuff:
+        text: Debuff epifânico
+        content: Inimigos afetados pela Epifania recebem {{epiphanyDmgTakenBoost}}% a mais de DMG em seu turno.
+      defDecreaseDebuff:
+        text: Debuff de redução de DEF
+        content: A DEF dos inimigos é reduzida em {{defShredValue}}.
+      arcanaStacks:
+        text: Acúmulos de Arcana
+        content: >-
+          Enquanto estiverem afetados por Arcana, os alvos inimigos recebem DoT de Vento igual a {{dotScaling}}% do ATK do Cisne Negro no início de cada turno. Cada acúmulo de Arcana aumenta esse multiplicador de DMG do DoT em {{arcanaStackMultiplier}}%. Arcana pode acumular até 50 vezes.::BR::Quando há 3 ou mais acúmulos de Arcana, causa DoT de Vento aos alvos adjacentes. Quando há 7 ou mais acúmulos de Arcana, permite que o DoT causado desta vez ignore 20% da DEF do alvo e dos alvos adjacentes.
+      e1ResReduction:
+        text: Redução de RES E1
+        content: >-
+          E1: Enquanto Black Swan estiver ativa na batalha, inimigos afetados por Corte de Vento, Sangramento, Queimadura ou Choque terão sua RES correspondente de Vento, Físico, Fogo ou Relâmpago reduzida em 25%.
+  Blade:
+    Content:
+      enhancedStateActive:
+        text: Estado de Inferno
+        content: "Aumenta o DMG em {{enhancedStateDmgBoost}}% e seu ATK Básico Espada Fragmentada é aprimorado para Floresta de Espadas por 3 turno(s).::BR::E2: Aumenta a taxa de CRIT em 15%."
+      hpPercentLostTotal:
+        text: HP% perdido total
+        content: O DMG da Ultimate escala com base na contagem da perda de HP de Blade na batalha atual. A contagem da perda de HP de Blade na batalha atual é limitada a {{hpPercentLostTotalMax}}% de seu HP máximo.
+      e4MaxHpIncreaseStacks:
+        text: Acúmulos de HP máximo E4
+        content: "E4: Aumenta o HP em 20%, acumulando até 2 vezes."
+  Boothill:
+    Content:
+      standoffActive:
+        text: Impasse Ativo
+        content: >-
+          Força Boothill e um único inimigo-alvo a entrar no estado de Impasse. O ATK Básico de Boothill é aprimorado, e ele não pode usar sua Habilidade, durando por 2 turno(s). Essa duração é reduzida em 1 no início de cada turno de Boothill. O inimigo-alvo no Impasse se torna Provocado. Quando esse inimigo-alvo/Boothill é atacado pela outra parte no Impasse, o DMG que eles recebem aumenta em {{standoffVulnerabilityBoost}}%/15%.
+      pocketTrickshotStacks:
+        text: Truques de Bolso
+        content: Cada acúmulo de Truque de Bolso aumenta a Redução de Resistência do Ataque Básico Aprimorado em 50%, acumulando até 3 vez(es).
+      beToCritBoost:
+        text: BE para buff de CR / CD
+        content: Aumenta a Taxa de CRIT / CRIT DMG deste personagem em uma quantidade igual a 10% / 50% do Efeito de Quebra, até um aumento máximo de 30% / 150%.
+      talentBreakDmgScaling:
+        text: DMG de Quebra de Talento (quebra de fraqueza forçada)
+        content: >-
+          Se o alvo estiver com Fraqueza Quebrada enquanto o ATK Básico Aprimorado estiver sendo usado, com base no número de acúmulos de Truque de Bolso, causa DMG de Quebra a este alvo com base no DMG de Quebra Física de Boothill. A resistência máxima levada em conta para este DMG não pode exceder 16 vezes a Redução de Resistência base do Ataque Básico Esporas Esmagadoras de Crânios.
+      e1DefShred:
+        text: PEN de DEF E1
+        content: Quando a batalha começa, obtém 1 acúmulo de Truque de Bolso. Quando Boothill causa DMG, ignora 16% da DEF do alvo inimigo.
+      e2BeBuff:
+        text: Buff BE E2
+        content: >-
+          Quando estiver em Impasse e ganhando Truques de Bolso, recupera 1 Ponto(s) de Habilidade e aumenta o Efeito de Quebra em 30%, durando por 2 turno(s). Também pode ativar este efeito ao ganhar acúmulos de Truque de Bolso que excedam o limite máximo. Mas não pode ser ativado repetidamente em um turno.
+      e4TargetStandoffVulnerability:
+        text: Vulnerabilidade de Habilidade E4
+        content: >-
+          Quando o alvo inimigo no Impasse é atacado por Boothill, o DMG que recebe aumenta adicionalmente em 12%. Quando Boothill é atacado pelo alvo inimigo no Impasse, o efeito de receber DMG aumentado é compensado em 12%.
+      e6AdditionalBreakDmg:
+        text: Boost de DMG de Quebra E6
+        content: >-
+          Ao ativar o DMG de Quebra do Talento, causa adicionalmente DMG de Quebra ao alvo igual a 40% do multiplicador de DMG original e causa adicionalmente DMG de Quebra aos alvos adjacentes igual a 70% do multiplicador de DMG original.
+  Bronya:
+    Content:
+      teamDmgBuff:
+        text: Buff de DMG no time
+        content: Quando Bronya está em campo, todos os aliados causam 10% a mais de DMG.
+      skillBuff:
+        text: Buff de DMG de Habilidade
+        content: Dispela um debuff de um único aliado, permitindo que eles ajam imediatamente, e aumenta seu DMG em {{skillDmgBoostValue}}% por 1 turno(s).
+      ultBuff:
+        text: Buffs de ATK / CD de Ult
+        content: Aumenta o ATK de todos os aliados em {{ultAtkBoostValue}}% e o CRIT DMG em {{ultCdBoostValue}}% do CRIT DMG de Bronya mais {{ultCdBoostBaseValue}}% por 2 turnos.
+      battleStartDefBuff:
+        text: Buff inicial de DEF
+        content: No início da batalha, a DEF de todos os aliados aumentam em 20% por 2 turno(s).
+      techniqueBuff:
+        text: Buff de ATK de Técnica
+        content: Após usar a Técnica de Bronya, no início da próxima batalha, o ATK de todos os aliados aumentam em 15% por 2 turno(s).
+      e2SkillSpdBuff:
+        text: Buff de SPD de Habilidade E2
+        content: Ao usar a Habilidade, a SPD do aliado alvo aumenta em 30% após agir, durando 1 turno.
+    TeammateContent:
+      teammateCDValue:
+        text: CD de Combate da Bronya
+        content: Aumenta o ATK de todos os aliados em {{ultAtkBoostValue}}% e o CRIT DMG em {{ultCdBoostValue}}% do CRIT DMG de Bronya mais {{ultCdBoostBaseValue}}% por 2 turnos.
+  Clara:
+    Content:
+      ultBuff:
+        text: Buffs de Ult
+        content: Aumenta o DMG do Contra-ataque de Svarog em {{ultFuaExtraScaling}}% durante o Ultimate. O DMG causado a Clara é reduzido em {{ultDmgReductionValue}}% adicionais por 2 turnos.
+      talentEnemyMarked:
+        text: Inimigo Marcado
+        content: Além disso, causa DMG Físico igual a {{skillScaling}}% do ATK de Clara a inimigos marcados por Svarog com uma Marca de Contra-ataque.
+      e2UltAtkBuff:
+        text: Buff de ATK do Ult de E2
+        content: "E2: Após usar o Ultimate, aumenta o ATK em 30% por 2 turnos."
+      e4DmgReductionBuff:
+        text: Buff de redução de DMG E4
+        content: "E4: Diminui o DMG recebido em 30%."
+  DanHeng:
+    Content:
+      talentPenBuff:
+        text: Buff de PEN de RES do Talento
+  Firefly:
+    Content:
+      e1DefShred:
+        text: PEN de DEF E1
+  Hanya:
+    Content:
+      e2SkillSpdBuff:
+        text: Buff de SPD de Habilidade E2
+  Herta:
+    Content:
+      enemyHpGte50:
+        text: Boost de DMG
+      techniqueBuff:
+        text: Buff de ATK de Técnica
+  Lingsha:
+    Content:
+      e2BeBuff:
+        text: Buff BE E2
+  Rappa:
+    Content:
+      e1DefPen:
+        text: PEN de DEF E1
+  Robin:
+    Content:
+      skillDmgBuff:
+        text: Buff de DMG de Habilidade
+  Sampo:
+    Content:
+      skillExtraHits:
+        text: Habilidade de hits extras
+  Sushang:
+    Content:
+      skillExtraHits:
+        text: Habilidade de hits extras
+  Tingyun:
+    Content:
+      ultDmgBuff:
+        text: Buff de DMG da ultimate
+  Yanqing:
+    Content:
+      critSpdBuff:
+        text: Buff de SPD

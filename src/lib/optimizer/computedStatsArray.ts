@@ -14,6 +14,12 @@ export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject
   return acc
 }, {} as Record<KeysType, number>)
 
+type StatMethods = {
+  buff: (value: number) => void
+  set: (value: number) => void
+  get: () => number
+}
+
 export class ComputedStatsArray {
   static base = new Float32Array(Object.keys(baseComputedStatsObject).length).fill(1)
   static array = new Float32Array(Object.keys(baseComputedStatsObject).length)
@@ -29,7 +35,29 @@ export class ComputedStatsArray {
     this.values = ComputedStatsArray.array
     this.buffs = []
     this.trace = false
-    Object.freeze(this)
+
+    Object.keys(baseComputedStatsObject).forEach((key, index) => {
+      Object.defineProperty(this, key, {
+        value: {
+          buff: (value: number) => {
+            this.values[index] += value
+          },
+          set: (value: number) => {
+            this.values[index] = value
+          },
+          get: () => this.values[index],
+        },
+        writable: false,
+        enumerable: true,
+        configurable: true,
+      })
+
+      Object.defineProperty(this, `_${key}`, {
+        get: () => this.values[index],
+        enumerable: true,
+        configurable: true,
+      })
+    })
   }
 
   public static reset(precompute: Float32Array) {
@@ -58,6 +86,16 @@ export class ComputedStatsArray {
     return result as ComputedStatsObject
   }
 }
+
+type ComputedStatsArrayType = {
+  [K in keyof typeof baseComputedStatsObject]: StatMethods;
+}
+
+type ComputedStatsArrayDirectAccessType = {
+  [K in keyof typeof baseComputedStatsObject as `$${K}`]: number;
+}
+
+export type ComputedStatsArrayInstance = ComputedStatsArray & ComputedStatsArrayType & ComputedStatsArrayDirectAccessType
 
 export function buff(x: ComputedStatsArray, key: number, value: number, source?: string, effect?: string) {
   x.buff(key, value, source, effect)

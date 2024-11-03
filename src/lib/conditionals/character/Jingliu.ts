@@ -1,7 +1,7 @@
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { _buffAbilityDmg, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { buffWithSource, ComputedStatsArray, Effect, Key } from 'lib/optimizer/computedStatsArray'
+import { buffWithSource, ComputedStatsArrayInstance, Effect, Key } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -63,7 +63,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e2SkillDmgBuff: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffects: (x: ComputedStatsArrayInstance, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
       // Skills
@@ -83,7 +83,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         buff(x, Key.CD, 0.50, Effect.DEFAULT)
       }
 
+      // x.HP
+
       // Scaling
+      x.HP.add(10, 10)
       x.BASIC_SCALING.buff((r.talentEnhancedState) ? skillEnhancedScaling : skillScaling, Effect.DEFAULT)
 
       x.BASIC_SCALING += basicScaling

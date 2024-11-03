@@ -1,10 +1,10 @@
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArrayCore } from 'lib/optimizer/computedStatsArray'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
-export function calculateBaseMultis(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+export function calculateBaseMultis(x: ComputedStatsArrayCore, action: OptimizerAction, context: OptimizerContext) {
   // const lightConeConditionalController = context.lightConeConditionalController
   // const characterConditionalController = context.characterConditionalController
   //
@@ -12,7 +12,7 @@ export function calculateBaseMultis(x: ComputedStatsArray, action: OptimizerActi
   // if (characterConditionalController.finalizeCalculations) characterConditionalController.finalizeCalculations(x, action, context)
 }
 
-export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+export function calculateDamage(x: ComputedStatsArrayCore, action: OptimizerAction, context: OptimizerContext) {
   // const eLevel = context.enemyLevel
   //
   // calculateEhp(x, context)

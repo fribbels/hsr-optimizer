@@ -17,7 +17,7 @@ import {
   TaliaKingdomOfBanditryConditional,
 } from 'lib/gpu/conditionals/setConditionals'
 import { _buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { buff, buffWithSourceEffect, ComputedStatsArrayInstance, Effect, Key, Source } from 'lib/optimizer/computedStatsArray'
+import { buff, buffWithSourceEffect, ComputedStatsArray, Effect, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 import { Relic } from 'types/Relic'
@@ -179,14 +179,13 @@ export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContex
 const buffBasicStats = buffWithSourceEffect(Source.BASE_STATS, Effect.DEFAULT)
 const buffCombatBuffs = buffWithSourceEffect(Source.COMBAT_BUFFS, Effect.DEFAULT)
 
-export function calculateComputedStats(x: ComputedStatsArrayInstance, action: OptimizerAction, context: OptimizerContext) {
+export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
   const setConditionals = action.setConditionals
   const c = x.c
   const sets = c.sets
 
   const a = x.$ATK_P
   x.ATK.buff(x.$ATK_P * context.baseATK)
-  x.$ATK_P *= 10
 
   // Add base to computed
   buffBasicStats(x, Key.ATK, c[Stats.ATK])

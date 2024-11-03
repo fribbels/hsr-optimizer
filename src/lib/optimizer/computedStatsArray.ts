@@ -20,32 +20,42 @@ type StatMethods = {
   get: () => number
 }
 
-export class ComputedStatsArray {
-  static base = new Float32Array(Object.keys(baseComputedStatsObject).length).fill(1)
-  static array = new Float32Array(Object.keys(baseComputedStatsObject).length)
+type ComputedStatsArrayStatExtensions = {
+  [K in keyof typeof baseComputedStatsObject]: StatMethods;
+}
+
+type ComputedStatsArrayStatDirectAccess = {
+  [K in keyof typeof baseComputedStatsObject as `$${K}`]: number;
+}
+
+export type ComputedStatsArray =
+  ComputedStatsArrayCore
+  & ComputedStatsArrayStatExtensions
+  & ComputedStatsArrayStatDirectAccess
+
+export class ComputedStatsArrayCore {
+  precomputedStatsArray = new Float32Array(Object.keys(baseComputedStatsObject).length).fill(1)
+  computedStatsArray = new Float32Array(Object.keys(baseComputedStatsObject).length)
 
   public c: BasicStatsObject
-  values: Float32Array
   buffs: Buff[]
   trace: boolean
 
-  constructor(c: BasicStatsObject, trace: boolean = false) {
-    ComputedStatsArray.array.set(ComputedStatsArray.base)
-    this.c = c
-    this.values = ComputedStatsArray.array
+  constructor(trace: boolean = false) {
+    this.c = {} as BasicStatsObject
     this.buffs = []
-    this.trace = false
+    this.trace = trace
 
     Object.keys(baseComputedStatsObject).forEach((key, index) => {
       Object.defineProperty(this, key, {
         value: {
           buff: (value: number) => {
-            this.values[index] += value
+            this.computedStatsArray[index] += value
           },
           set: (value: number) => {
-            this.values[index] = value
+            this.computedStatsArray[index] = value
           },
-          get: () => this.values[index],
+          get: () => this.computedStatsArray[index],
         },
         writable: false,
         enumerable: true,
@@ -53,62 +63,64 @@ export class ComputedStatsArray {
       })
 
       Object.defineProperty(this, `$${key}`, {
-        get: () => this.values[index],
+        get: () => this.computedStatsArray[index],
         enumerable: true,
         configurable: true,
       })
     })
   }
 
-  public static reset(precompute: Float32Array) {
-    ComputedStatsArray.base = precompute
+  setPrecompute(precompute: Float32Array) {
+    this.precomputedStatsArray = precompute
+  }
+
+  setBasic(c: BasicStatsObject) {
+    this.c = c
+  }
+
+  reset() {
+    this.buffs = []
+    this.trace = false
+    this.computedStatsArray.set(this.precomputedStatsArray)
   }
 
   buff(key: number, value: number, source?: string, effect?: string) {
-    this.values[key] += value
+    this.computedStatsArray[key] += value
   }
 
   set(key: number, value: number, source?: string, effect?: string) {
-    this.values[key] = value
+    this.computedStatsArray[key] = value
   }
 
   get(key: number) {
-    return this.values[key]
+    return this.computedStatsArray[key]
   }
 
   toComputedStatsObject() {
     const result: Partial<ComputedStatsObject> = {}
 
     for (const key in Key) {
-      result[key as keyof ComputedStatsObject] = this.values[Key[key as KeysType]]
+      result[key as keyof ComputedStatsObject] = this.computedStatsArray[Key[key as KeysType]]
     }
 
     return result as ComputedStatsObject
   }
 }
 
-type ComputedStatsArrayType = {
-  [K in keyof typeof baseComputedStatsObject]: StatMethods;
-}
+export const TEST_PRECOMPUTE = new Float32Array(Object.keys(baseComputedStatsObject).length).fill(1)
 
-type ComputedStatsArrayDirectAccessType = {
-  [K in keyof typeof baseComputedStatsObject as `$${K}`]: number;
-}
-
-export type ComputedStatsArrayInstance = ComputedStatsArray & ComputedStatsArrayType & ComputedStatsArrayDirectAccessType
-
-export function buff(x: ComputedStatsArray, key: number, value: number, source?: string, effect?: string) {
+export function buff(x: ComputedStatsArrayCore, key: number, value: number, source?: string, effect?: string) {
   x.buff(key, value, source, effect)
 }
 
 export function buffWithSource(source: string) {
-  return (x: ComputedStatsArray, key: number, value: number, effect: string) => {
+  return (x: ComputedStatsArrayCore, key: number, value: number, effect: string) => {
     x.buff(key, value, source, effect)
   }
 }
 
 export function buffWithSourceEffect(source: string, effect: string) {
-  return (x: ComputedStatsArray, key: number, value: number) => {
+  return (x: ComputedStatsArrayCore, key: number, value: number) => {
     x.buff(key, value, source, effect)
   }
 }
@@ -146,3 +158,12 @@ export const StatToKey: Record<string, number> = {
   [Stats.SPD]: Key.SPD,
   [Stats.Wind_DMG]: Key.WIND_DMG_BOOST,
 } as const
+
+export const SourceGenerator = {
+  character(name: string) {
+    return {
+      SOURCE_SKILL: `${name}_SKILL`,
+      SOURCE_ULT: `${name}_ULT`,
+    }
+  },
+}

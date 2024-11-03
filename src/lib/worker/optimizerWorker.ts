@@ -1,16 +1,27 @@
 import { BufferPacker } from 'lib/bufferPacker'
 import { CharacterConditionals } from 'lib/characterConditionals'
-import { baseComputedStatsObject, BasicStatsObject } from 'lib/conditionals/conditionalConstants'
+import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimizer/calculateConditionals'
+import {
+  calculateContextConditionalRegistry,
+  wrapTeammateDynamicConditional,
+} from 'lib/optimizer/calculateConditionals'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
-import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
-import { ComputedStatsArray, Key } from 'lib/optimizer/computedStatsArray'
+import {
+  baseCharacterStats,
+  calculateBaseStats,
+  calculateComputedStats,
+  calculateElementalStats,
+  calculateRelicStats,
+  calculateSetCounts,
+} from 'lib/optimizer/calculateStats'
+import { ComputedStatsArray, ComputedStatsArrayCore, Key, TEST_PRECOMPUTE } from 'lib/optimizer/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimizer/sortOptions'
 import { Form } from 'types/Form'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
 import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants'
+import { RelicsByPart } from '../gpu/webgpuTypes'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
@@ -44,7 +55,7 @@ self.onmessage = function (e: MessageEvent) {
   const request: Form = data.request
   const context: OptimizerContext = data.context
 
-  const relics = data.relics
+  const relics: RelicsByPart = data.relics
   const arr = new Float64Array(data.buffer)
 
   const lSize = relics.LinkRope.length
@@ -97,6 +108,9 @@ self.onmessage = function (e: MessageEvent) {
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
+  const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
+  x.setPrecompute(TEST_PRECOMPUTE)
+
   for (let col = 0; col < limit; col++) {
     const index = data.skip + col
 
@@ -145,7 +159,7 @@ self.onmessage = function (e: MessageEvent) {
     calculateBaseStats(c, context)
     calculateElementalStats(c, context)
 
-    ComputedStatsArray.reset(new Float32Array(Object.keys(baseComputedStatsObject).length).fill(13))
+    x.setBasic(c)
 
     // Exit early on base display filters failing
     if (baseDisplay) {
@@ -172,7 +186,7 @@ self.onmessage = function (e: MessageEvent) {
     let combo = 0
     for (let i = context.actions.length - 1; i >= 0; i--) {
       const action = setupAction(c, i, context)
-      const x = new ComputedStatsArray(c, false)
+      x.reset()
 
       calculateComputedStats(x, action, context)
       calculateBaseMultis(x, action, context)

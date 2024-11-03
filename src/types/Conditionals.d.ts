@@ -2,7 +2,7 @@ import { FormSelectWithPopoverProps } from 'components/optimizerTab/conditionals
 import { FormSliderWithPopoverProps } from 'components/optimizerTab/conditionals/FormSlider'
 import { FormSwitchWithPopoverProps } from 'components/optimizerTab/conditionals/FormSwitch'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArrayCore } from 'lib/optimizer/computedStatsArray'
 import { ComponentProps, ComponentType } from 'react'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
@@ -21,24 +21,24 @@ export interface Conditional {
 
   // Configuration changes to the character & combat environment executed before the precompute steps
   // This can include things like ability damage type switches, weakness break overrides, etc
-  initializeConfigurations?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
-  initializeTeammateConfigurations?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
+  initializeConfigurations?: (x: ComputedStatsArrayCore, action: OptimizerAction, context: OptimizerContext) => void
+  initializeTeammateConfigurations?: (x: ComputedStatsArrayCore, action: OptimizerAction, context: OptimizerContext) => void
 
   // Individual effects that apply only for the primary character
   // e.g. Self buffs
-  precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
+  precomputeEffects: (x: ComputedStatsArrayCore, action: OptimizerAction, context: OptimizerContext) => void
 
   // Shared effects that apply both as a teammate and as the primary character
   // e.g. AOE team buff
-  precomputeMutualEffects?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
+  precomputeMutualEffects?: (x: ComputedStatsArrayCore, action: OptimizerAction, context: OptimizerContext) => void
 
   // Effects that only apply as a teammate, onto the primary character
   // e.g. Targeted teammate buff
-  precomputeTeammateEffects?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
+  precomputeTeammateEffects?: (x: ComputedStatsArrayCore, action: OptimizerAction, context: OptimizerContext) => void
 
   // Multipliers that can be evaluated after all stat modifications are complete
   // No changes to stats should occur at this stage
-  finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
+  finalizeCalculations: (x: ComputedStatsArrayCore, action: OptimizerAction, context: OptimizerContext) => void
 
   // WGSL implementation of finalizeCalculations to run on GPU
   gpuFinalizeCalculations?: (action: OptimizerAction, context: OptimizerContext) => string

@@ -160,17 +160,8 @@ ShortReadableStats:
 DMGTypes:
   simScore: Combo DMG
   BASIC: Basic Damage
-  SKILL: Skill Damage
   ULT: Ult Damage
-  FUA: Fua Damage
-  DOT: Dot Damage
-  BREAK: Break Damage
-  CV: CV
-ShortDMGTypes:
-  Basic: Basic DMG
-  Skill: Skill DMG
-  Ult: Ult DMG
-  Fua: Fua DMG
-  Dot: Dot DMG
-  Break: Break DMG
+  SKILL: Skill Damage
+  FUA: FUA Damage
+  DOT: DoT Damage
   CV: CV

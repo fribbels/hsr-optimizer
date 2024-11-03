@@ -1,6 +1,6 @@
 Characters:
   "1001":
-    Name: 三月なのか (存護)
+    Name: 三月なのか
   "1002":
     Name: 丹恒
   "1003":
@@ -84,7 +84,7 @@ Characters:
   "1223":
     Name: モゼ
   "1224":
-    Name: 三月なのか (巡狩)
+    Name: 三月なのか
   "1301":
     Name: ギャラガー
   "1302":
@@ -114,17 +114,17 @@ Characters:
   "1317":
     Name: 乱破
   "8001":
-    Name: Caelus (壊滅)
+    Name: Caelus
   "8002":
-    Name: Stelle (壊滅)
+    Name: Stelle
   "8003":
-    Name: Caelus (存護)
+    Name: Caelus
   "8004":
-    Name: Stelle (存護)
+    Name: Stelle
   "8005":
-    Name: Caelus (調和)
+    Name: Caelus
   "8006":
-    Name: Stelle (調和)
+    Name: Stelle
 RelicSets:
   "101":
     Name: 流雲無痕の過客

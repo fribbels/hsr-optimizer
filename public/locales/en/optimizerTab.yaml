@@ -51,12 +51,12 @@ OptimizerOptions:
   Exclude: Exclude
   MinEnhance:
     Header: Min enhance
-    Label0: +0
-    Label3: +3
-    Label6: +6
-    Label9: +9
-    Label12: +12
-    Label15: +15
+    Label0: "+0"
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
   MinRarity:
     Header: Min rarity
     Label2: 2 ★ +
@@ -65,11 +65,11 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: Boost main stat
-    Label3: +3
-    Label6: +6
-    Label9: +9
-    Label12: +12
-    Label15: +15
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
 AdvancedOptions:
   Header: Advanced options
   EnemyConfigButtonText: Enemy configurations
@@ -96,7 +96,9 @@ Grid:
       ERR: ERR
       DMG: DMG
       EHP: EHP
-      WEIGHT: STAT WEIGHT
+      WEIGHT: |-
+        STAT
+        WEIGHT
       HEAL: HEAL
       SHIELD: SHIELD
       BASIC: |-

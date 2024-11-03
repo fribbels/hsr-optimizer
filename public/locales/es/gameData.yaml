@@ -1,6 +1,6 @@
 Characters:
   "1001":
-    Name: Siete de Marzo (Conservación)
+    Name: Siete de Marzo
   "1002":
     Name: Dan Heng
   "1003":
@@ -66,7 +66,7 @@ Characters:
   "1212":
     Name: Jingliu
   "1213":
-    Name: Dan Heng - Imbibitor Lunae
+    Name: Imbibitor Lunae
   "1214":
     Name: Xueyi
   "1215":
@@ -84,7 +84,7 @@ Characters:
   "1223":
     Name: Moze
   "1224":
-    Name: Siete de Marzo (Cacería)
+    Name: Siete de Marzo
   "1301":
     Name: Gallagher
   "1302":
@@ -114,17 +114,17 @@ Characters:
   "1317":
     Name: Rappa
   "8001":
-    Name: Caelus (Destrucción)
+    Name: Caelus
   "8002":
-    Name: Stelle (Destrucción)
+    Name: Stelle
   "8003":
-    Name: Caelus (Conservación)
+    Name: Caelus
   "8004":
-    Name: Stelle (Conservación)
+    Name: Stelle
   "8005":
-    Name: Caelus (Armonía)
+    Name: Caelus
   "8006":
-    Name: Stelle (Armonía)
+    Name: Stelle
 RelicSets:
   "101":
     Name: Transeúnte de la nube pasajera

@@ -52,7 +52,7 @@ export class ComputedStatsArray {
         configurable: true,
       })
 
-      Object.defineProperty(this, `_${key}`, {
+      Object.defineProperty(this, `$${key}`, {
         get: () => this.values[index],
         enumerable: true,
         configurable: true,

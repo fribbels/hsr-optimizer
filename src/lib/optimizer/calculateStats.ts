@@ -184,7 +184,9 @@ export function calculateComputedStats(x: ComputedStatsArrayInstance, action: Op
   const c = x.c
   const sets = c.sets
 
-  x.HP.buff(x.$ATK_P + 0.20)
+  const a = x.$ATK_P
+  x.ATK.buff(x.$ATK_P * context.baseATK)
+  x.$ATK_P *= 10
 
   // Add base to computed
   buffBasicStats(x, Key.ATK, c[Stats.ATK])

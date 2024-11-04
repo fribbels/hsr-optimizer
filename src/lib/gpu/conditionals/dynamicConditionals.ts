@@ -1,7 +1,7 @@
 import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { indent, wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { OptimizerAction, OptimizerContext, TeammateAction } from 'types/Optimizer'
 
 export type DynamicConditional = {
@@ -67,13 +67,14 @@ ${indent(wgsl.trim(), 1)}
   `
 }
 
+// TODO: Deprecated
 export function buffDynamicStat(x: ComputedStatsArray, stat: string, value: number, action: OptimizerAction, context: OptimizerContext, source: string) {
   // Self buffing stats will asymptotically reach 0
   if (value < 0.0001) {
     return
   }
 
-  x[stat] += value
+  // x[stat] += value
 
   for (const conditional of action.conditionalRegistry[stat] || []) {
     evaluateConditional(conditional, x, action, context)
@@ -87,14 +88,14 @@ export const AventurineConversionConditional: DynamicConditional = {
   dependsOn: [Stats.DEF],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
-    return r.defToCrBoost && x[Stats.DEF] > 1600
+    return r.defToCrBoost && x.$DEF > 1600
   },
   effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
-    const buffValue = Math.min(0.48, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100))
+    const buffValue = Math.min(0.48, 0.02 * Math.floor((x.$DEF - 1600) / 100))
 
     action.conditionalState[this.id] = buffValue
-    buffDynamicStat(x, Stats.CR, buffValue - stateValue, action, context)
+    x.CR.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
 
     return buffValue
   },
@@ -130,10 +131,10 @@ export const XueyiConversionConditional: DynamicConditional = {
   },
   effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
-    const buffValue = Math.min(2.40, x[Stats.BE])
+    const buffValue = Math.min(2.40, x.$BE)
 
     action.conditionalState[this.id] = buffValue
-    x.ELEMENTAL_DMG += buffValue - stateValue
+    x.ELEMENTAL_DMG.buff(buffValue - stateValue, Source.NONE)
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
@@ -157,15 +158,15 @@ export const FireflyConversionConditional: DynamicConditional = {
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.ATK],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return x[Stats.ATK] > 1800
+    return x.$ATK > 1800
   },
   effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
-    const trueAtk = x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF - x.RATIO_BASED_ATK_P_BUFF * context.baseATK
+    const trueAtk = x.$ATK - x.$RATIO_BASED_ATK_BUFF - x.$RATIO_BASED_ATK_P_BUFF * context.baseATK
     const buffValue = 0.008 * Math.floor((trueAtk - 1800) / 10)
 
     action.conditionalState[this.id] = buffValue
-    buffDynamicStat(x, Stats.BE, buffValue - stateValue, action, context)
+    x.BE.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
 
     return buffValue
   },
@@ -206,13 +207,13 @@ export const BoothillConversionConditional: DynamicConditional = {
     const stateCrBuffValue = Math.min(0.30, 0.10 * stateValue)
     const stateCdBuffValue = Math.min(1.50, 0.50 * stateValue)
 
-    const crBuffValue = Math.min(0.30, 0.10 * x[Stats.BE])
-    const cdBuffValue = Math.min(1.50, 0.50 * x[Stats.BE])
+    const crBuffValue = Math.min(0.30, 0.10 * x.$BE)
+    const cdBuffValue = Math.min(1.50, 0.50 * x.$BE)
 
-    action.conditionalState[this.id] = x[Stats.BE]
+    action.conditionalState[this.id] = x.$BE
 
-    buffDynamicStat(x, Stats.CR, crBuffValue - stateCrBuffValue, action, context)
-    buffDynamicStat(x, Stats.CD, cdBuffValue - stateCdBuffValue, action, context)
+    x.CR.buffDynamic(crBuffValue - stateCrBuffValue, Source.NONE, action, context)
+    x.CD.buffDynamic(cdBuffValue - stateCdBuffValue, Source.NONE, action, context)
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
@@ -249,10 +250,10 @@ export const GepardConversionConditional: DynamicConditional = {
   },
   effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
-    const buffValue = 0.35 * x[Stats.DEF]
+    const buffValue = 0.35 * x.$DEF
 
     action.conditionalState[this.id] = buffValue
-    buffDynamicStat(x, Stats.ATK, buffValue - stateValue, action, context)
+    x.ATK.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -280,10 +281,10 @@ export const BlackSwanConversionConditional: DynamicConditional = {
       return
     }
     const stateValue = action.conditionalState[this.id] || 0
-    const buffValue = Math.min(0.72, 0.60 * x[Stats.EHR])
+    const buffValue = Math.min(0.72, 0.60 * x.$EHR)
 
     action.conditionalState[this.id] = buffValue
-    x.ELEMENTAL_DMG += buffValue - stateValue
+    x.ELEMENTAL_DMG.buff(buffValue - stateValue, Source.NONE)
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
@@ -317,11 +318,11 @@ export const RappaConversionConditional: DynamicConditional = {
     }
 
     const stateValue = action.conditionalState[this.id] || 0
-    const atkOverStacks = Math.floor(precisionRound((x[Stats.ATK] - 2400) / 100))
+    const atkOverStacks = Math.floor(precisionRound((x.$ATK - 2400) / 100))
     const buffValue = Math.min(0.08, Math.max(0, atkOverStacks) * 0.01) + 0.02
 
     action.conditionalState[this.id] = buffValue
-    x.BREAK_VULNERABILITY += buffValue - stateValue
+    x.BREAK_VULNERABILITY.buff(buffValue - stateValue, Source.NONE)
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
@@ -353,10 +354,10 @@ export const GallagherConversionConditional: DynamicConditional = {
     const r = action.characterConditionals
 
     const stateValue = action.conditionalState[this.id] || 0
-    const buffValue = Math.min(0.75, 0.50 * x[Stats.BE])
+    const buffValue = Math.min(0.75, 0.50 * x.$BE)
 
     action.conditionalState[this.id] = buffValue
-    buffDynamicStat(x, Stats.OHB, buffValue - stateValue, action, context)
+    x.OHB.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
@@ -384,11 +385,11 @@ export const RuanMeiConversionConditional: DynamicConditional = {
     const r = action.characterConditionals
 
     const stateValue = action.conditionalState[this.id] || 0
-    const beOver = Math.floor(precisionRound((x[Stats.BE] * 100 - 120) / 10))
+    const beOver = Math.floor(precisionRound((x.$BE * 100 - 120) / 10))
     const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
 
     action.conditionalState[this.id] = buffValue
-    x.ELEMENTAL_DMG += buffValue - stateValue
+    x.ELEMENTAL_DMG.buff(buffValue - stateValue, Source.NONE)
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
@@ -415,15 +416,15 @@ export const JiaoqiuConversionConditional: DynamicConditional = {
   },
   effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
-    if (!r.ehrToAtkBoost || x[Stats.EHR] <= 0.80) {
+    if (!r.ehrToAtkBoost || x.$EHR <= 0.80) {
       return
     }
 
     const stateValue = action.conditionalState[this.id] || 0
-    const buffValue = Math.min(2.40, 0.60 * Math.floor((x[Stats.EHR] - 0.80) / 0.15)) * context.baseATK
+    const buffValue = Math.min(2.40, 0.60 * Math.floor((x.$EHR - 0.80) / 0.15)) * context.baseATK
 
     action.conditionalState[this.id] = buffValue
-    buffDynamicStat(x, Stats.ATK, buffValue - stateValue, action, context)
+    x.ATK.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
     return conditionalWgslWrapper(this, `

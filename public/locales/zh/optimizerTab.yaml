@@ -24,6 +24,8 @@ SortOptions:
   FUA: 按追加攻击伤害排序
   DOT: 按持续伤害排序
   BREAK: 按击破伤害排序
+  HEAL: 按治疗值排序
+  SHIELD: 按护盾值排序
   HP: "按$t(common:ReadableStats.HP)排序"
   ATK: "按$t(common:ReadableStats.ATK)排序"
   DEF: "按$t(common:ReadableStats.DEF)排序"
@@ -50,6 +52,11 @@ OptimizerOptions:
   MinEnhance:
     Header: 最小强化等级
     Label0: "+0"
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
   MinRarity:
     Header: 最小稀有度
     Label2: 2 ★ +
@@ -58,6 +65,11 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: 提升主属性
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
 AdvancedOptions:
   Header: 高级选项
   EnemyConfigButtonText: 敌人配置
@@ -84,6 +96,11 @@ Grid:
       ERR: 能量恢复
       DMG: 增伤
       EHP: 有效生命
+      WEIGHT: |-
+        属性
+        权重
+      HEAL: 治疗值
+      SHIELD: 护盾值
       BASIC: |-
         普攻
         伤害
@@ -120,6 +137,11 @@ Grid:
       ERR: Σ 能量
       DMG: Σ 增伤
       EHP: 有效生命
+      WEIGHT: |-
+        属性
+        权重
+      HEAL: 治疗值
+      SHIELD: 护盾值
       BASIC: |-
         普攻
         伤害

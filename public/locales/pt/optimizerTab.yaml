@@ -3,7 +3,7 @@ CharacterSelector:
   Lightcone: Cone de luz
   Presets: Predefinições
   Target: Meta de otimização
-  ResultsPlaceholder: Achar melhores rsultados
+  ResultsPlaceholder: Achar melhores resultados
   TargetPlaceholder: Organizado por
   EidolonPlaceholder: E
   SuperimpositionPlaceholder: S
@@ -11,35 +11,37 @@ LightconePassives: Passivas do cone de luz
 CharacterPassives: Passivas do personagem
 NoConditionals: Sem passivas condicionais
 NoTeamConditionals: Sem passivas coondicionais da equipe
-ResultLimitN: "Achar os {{limit}} melhores resultados"
+ResultLimitN: "Achar os {{limit}} melhores"
 MainStats: Atributos principais
 Sets: Sets
 SortOptions:
   DMGLabel: Cálculo de dano
   StatLabel: Atributos
-  COMBO: Organizado por Dano de Combo
+  COMBO: Organizado por Combo DMG
   BASIC: Organizado por Dano Básico
   SKILL: Organizado por Dano de Perícia
-  ULT: Organizador por Dano de Perícia Suprema
-  FUA: Organizado por Dano de Ataque Extra
-  DOT: Organizado por Dano de DoT
-  BREAK: Organizado  por Dano de Quebra
+  ULT: Organizado por Ult DMG
+  FUA: Organizado por Dano FuA
+  DOT: Organizado por Dano DoT
+  BREAK: Organizado  por Break DMG
+  HEAL: Organizado por Cura
+  SHIELD: Organizado por Escudo
   HP: "Organizado por $t(common:ReadableStats.HP)"
-  ATK: "Organizador por $t(common:ReadableStats.ATK)"
-  DEF: "Organizador por $t(common:ReadableStats.DEF)"
-  SPD: "Organizador por $t(common:ReadableStats.SPD)"
-  CR: "Organizador por $t(common:ReadableStats.CRIT Rate)"
-  CD: "Organizador por $t(common:ReadableStats.CRIT DMG)"
-  EHR: "Organizador por $t(common:ReadableStats.Effect Hit Rate)"
-  RES: "Organizador por $t(common:ReadableStats.Effect RES)"
-  BE: "Organizador por $t(common:ReadableStats.Break Effect)"
-  OHB: "Organizador por $t(common:ReadableStats.Outgoing Healing Boost)"
-  ERR: "Organizador por $t(common:ReadableStats.Energy Regeneration Rate)"
-  DMG: Organizador por Dano Elemental
-  EHP: Organizador por HP Efetivo
+  ATK: "Organizado por $t(common:ReadableStats.ATK)"
+  DEF: "Organizado por $t(common:ReadableStats.DEF)"
+  SPD: "Organizado por $t(common:ReadableStats.SPD)"
+  CR: "Organizado por $t(common:ReadableStats.CRIT Rate)"
+  CD: "Organizado por $t(common:ReadableStats.CRIT DMG)"
+  EHR: "Organizado por $t(common:ReadableStats.Effect Hit Rate)"
+  RES: "Organizado por $t(common:ReadableStats.Effect RES)"
+  BE: "Organizado por $t(common:ReadableStats.Break Effect)"
+  OHB: "Organizado por $t(common:ReadableStats.Outgoing Healing Boost)"
+  ERR: "Organizado por $t(common:ReadableStats.Energy Regeneration Rate)"
+  DMG: Organizado por Dano Elemental
+  EHP: Organizado por HP Efetivo
 OptimizerOptions:
   Header: Opções do otimizador
-  PriorityFilter: Filtro de prioridade de char
+  PriorityFilter: Filtro de prioridade
   Priority:
     Header: Prioridade
     Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
@@ -50,6 +52,11 @@ OptimizerOptions:
   MinEnhance:
     Header: Melhoria mín.
     Label0: "+0"
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
   MinRarity:
     Header: Raridade min.
     Label2: 2 ★ +
@@ -58,6 +65,11 @@ OptimizerOptions:
     Label5: 5 ★ +
   BoostMain:
     Header: Melhorar atributo principal
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
 AdvancedOptions:
   Header: Opções avançadas
   EnemyConfigButtonText: Configurações de inimigo
@@ -84,6 +96,11 @@ Grid:
       ERR: ERR
       DMG: DANO
       EHP: EHP
+      WEIGHT: |-
+        PESO
+        ATR.
+      HEAL: CURA
+      SHIELD: ESCUDO
       BASIC: |-
         DANO
         BÁSICO
@@ -120,6 +137,11 @@ Grid:
       ERR: Σ ERR
       DMG: Σ DANO
       EHP: EHP
+      WEIGHT: |-
+        PESO
+        ATR.
+      HEAL: CURA
+      SHIELD: ESCUDO
       BASIC: |-
         DANO
         BÁSICO
@@ -357,7 +379,7 @@ MinMaxFilters:
   BREAKLabel: Quebra
   COMBOLabel: COMBO
 ComboFilter:
-  Header: Dano Combo rotação de habil.
+  Header: Rotação para Dano Combo
   ModeSelector:
     Simple: Simples
     Advanced: Avançado

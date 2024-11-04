@@ -2,6 +2,7 @@ import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/cond
 import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { Key } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -55,7 +56,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       // Stats
       x[Stats.ATK_P] += r.talentStacks * talentAtkScalingValue
       x[Stats.DEF_P] += r.talentStacks * 0.10
-      x[Stats.CR] += (x.ENEMY_WEAKNESS_BROKEN) ? 0.25 : 0
+      x[Stats.CR] += (x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? 0.25 : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling

@@ -240,3 +240,22 @@ export function getElementalDamageType(x: ComputedStatsArray, type: string) {
       return 0
   }
 }
+
+export function buffElementalDamageType(x: ComputedStatsArray, type: string, value: number) {
+  switch (type) {
+    case Stats.Physical_DMG:
+      return x.PHYSICAL_DMG_BOOST.buff(value, Source.NONE)
+    case Stats.Fire_DMG:
+      return x.FIRE_DMG_BOOST.buff(value, Source.NONE)
+    case Stats.Ice_DMG:
+      return x.ICE_DMG_BOOST.buff(value, Source.NONE)
+    case Stats.Lightning_DMG:
+      return x.LIGHTNING_DMG_BOOST.buff(value, Source.NONE)
+    case Stats.Wind_DMG:
+      return x.WIND_DMG_BOOST.buff(value, Source.NONE)
+    case Stats.Quantum_DMG:
+      return x.QUANTUM_DMG_BOOST.buff(value, Source.NONE)
+    case Stats.Imaginary_DMG:
+      return x.IMAGINARY_DMG_BOOST.buff(value, Source.NONE)
+  }
+}

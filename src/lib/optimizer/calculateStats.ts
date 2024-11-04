@@ -17,7 +17,7 @@ import {
   TaliaKingdomOfBanditryConditional,
 } from 'lib/gpu/conditionals/setConditionals'
 import { _buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
+import { buffElementalDamageType, ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 import { Relic } from 'types/Relic'
@@ -183,9 +183,6 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   const sets = c.sets
   const buffs = context.combatBuffs
 
-  // const a = a[Key.ATK_P]
-  // x.ATK.buff(a[Key.ATK_P] * context.baseATK)
-
   // Add base to computed
   x.ATK.buff(c[Stats.ATK], Source.BASIC_STATS)
   x.DEF.buff(c[Stats.DEF], Source.BASIC_STATS)
@@ -198,7 +195,8 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   x.BE.buff(c[Stats.BE], Source.BASIC_STATS)
   x.ERR.buff(c[Stats.ERR], Source.BASIC_STATS)
   x.OHB.buff(c[Stats.OHB], Source.BASIC_STATS)
-  // x[context.elementalDamageType] += c.ELEMENTAL_DMG
+
+  buffElementalDamageType(x, context.elementalDamageType, c.ELEMENTAL_DMG)
 
   // Combat buffs
   x.ATK.buff(buffs.ATK + buffs.ATK_P * context.baseATK, Source.COMBAT_BUFFS)

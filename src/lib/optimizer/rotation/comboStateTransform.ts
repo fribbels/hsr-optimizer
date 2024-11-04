@@ -3,7 +3,7 @@ import { SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets,
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateConditionals'
-import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Source } from 'lib/optimizer/computedStatsArray'
+import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
@@ -131,7 +131,7 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
 
   precomputeTeammates(action, comboState, context)
   // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
-  x.ENEMY_WEAKNESS_BROKEN.set((x.ENEMY_WEAKNESS_BROKEN || context.enemyWeaknessBroken ? 1 : 0), Source.NONE)
+  x.ENEMY_WEAKNESS_BROKEN.set((x.a[Key.ENEMY_WEAKNESS_BROKEN] || context.enemyWeaknessBroken ? 1 : 0), Source.NONE)
 }
 
 function precomputeTeammates(action: OptimizerAction, comboState: ComboState, context: OptimizerContext) {

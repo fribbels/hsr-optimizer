@@ -4,6 +4,7 @@ import { Stats } from 'lib/constants'
 import { FireflyConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { Key } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
@@ -132,7 +133,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals
 
-      buffAbilityVulnerability(x, BREAK_TYPE, ultWeaknessBrokenBreakVulnerability, (r.enhancedStateActive && x.ENEMY_WEAKNESS_BROKEN))
+      buffAbilityVulnerability(x, BREAK_TYPE, ultWeaknessBrokenBreakVulnerability, (r.enhancedStateActive && x.a[Key.ENEMY_WEAKNESS_BROKEN]))
 
       x.SUPER_BREAK_MODIFIER += (r.superBreakDmg && r.enhancedStateActive && x[Stats.BE] >= 2.00) ? 0.35 : 0
       x.SUPER_BREAK_MODIFIER += (r.superBreakDmg && r.enhancedStateActive && x[Stats.BE] >= 3.60) ? 0.15 : 0

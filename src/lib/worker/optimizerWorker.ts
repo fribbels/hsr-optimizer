@@ -10,6 +10,7 @@ import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimizer/c
 import { SortOption, SortOptionProperties } from 'lib/optimizer/sortOptions'
 import { Form } from 'types/Form'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { Relic } from 'types/Relic'
 import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants'
 import { RelicsByPart } from '../gpu/webgpuTypes'
 
@@ -19,12 +20,12 @@ let isFirefox = false
 
 type OptimizerEventData = {
   relics: {
-    LinkRope: any[]
-    PlanarSphere: any[]
-    Feet: any[]
-    Body: any[]
-    Hands: any[]
-    Head: any[]
+    LinkRope: Relic[]
+    PlanarSphere: Relic[]
+    Feet: Relic[]
+    Body: Relic[]
+    Hands: Relic[]
+    Head: Relic[]
   }
   request: Form
   context: OptimizerContext
@@ -96,7 +97,7 @@ self.onmessage = function (e: MessageEvent) {
     if (context.teammate2Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate2Metadata, 2)
 
     // Reconstruct arrays after transfer
-    action.precomputedX.computedStatsArray = new Float32Array(Object.values(action.precomputedX.computedStatsArray))
+    action.precomputedX.a = new Float32Array(Object.values(action.precomputedX.a))
     action.precomputedX.precomputedStatsArray = new Float32Array(Object.values(action.precomputedX.precomputedStatsArray))
   }
 
@@ -179,7 +180,8 @@ self.onmessage = function (e: MessageEvent) {
     let combo = 0
     for (let i = context.actions.length - 1; i >= 0; i--) {
       const action = setupAction(c, i, context)
-      x.setPrecompute(action.precomputedX.computedStatsArray)
+      const a = x.a
+      x.setPrecompute(action.precomputedX.a)
       x.reset()
 
       calculateComputedStats(x, action, context)
@@ -187,20 +189,17 @@ self.onmessage = function (e: MessageEvent) {
       calculateDamage(x, action, context)
 
       if (action.actionType === 'BASIC') {
-        combo += x.get(Key.BASIC_DMG)
-      }
-      if (action.actionType === 'SKILL') {
-        combo += x.get(Key.SKILL_DMG)
-      }
-      if (action.actionType === 'ULT') {
-        combo += x.get(Key.ULT_DMG)
-      }
-      if (action.actionType === 'FUA') {
-        combo += x.get(Key.FUA_DMG)
+        combo += a[Key.BASIC_DMG]
+      } else if (action.actionType === 'SKILL') {
+        combo += a[Key.SKILL_DMG]
+      } else if (action.actionType === 'ULT') {
+        combo += a[Key.ULT_DMG]
+      } else if (action.actionType === 'FUA') {
+        combo += a[Key.FUA_DMG]
       }
 
       if (i === 0) {
-        combo += context.comboDot * x.get(Key.DOT_DMG) + context.comboBreak * x.get(Key.BREAK_DMG)
+        combo += context.comboDot * a[Key.DOT_DMG] + context.comboBreak * a[Key.BREAK_DMG]
         // c.x = x.toComputedStatsObject()
         c.x = x
       }
@@ -215,34 +214,35 @@ self.onmessage = function (e: MessageEvent) {
 
     // Since we exited early on the c comparisons, we only need to check against x stats here
     // Combat filters
-    // if (combatDisplay) {
-    //   const fail
-    //     = x[Stats.HP] < request.minHp || x[Stats.HP] > request.maxHp
-    //     || x[Stats.ATK] < request.minAtk || x[Stats.ATK] > request.maxAtk
-    //     || x[Stats.DEF] < request.minDef || x[Stats.DEF] > request.maxDef
-    //     || x[Stats.SPD] < request.minSpd || x[Stats.SPD] > request.maxSpd
-    //     || x[Stats.CR] < request.minCr || x[Stats.CR] > request.maxCr
-    //     || x[Stats.CD] < request.minCd || x[Stats.CD] > request.maxCd
-    //     || x[Stats.EHR] < request.minEhr || x[Stats.EHR] > request.maxEhr
-    //     || x[Stats.RES] < request.minRes || x[Stats.RES] > request.maxRes
-    //     || x[Stats.BE] < request.minBe || x[Stats.BE] > request.maxBe
-    //     || x[Stats.ERR] < request.minErr || x[Stats.ERR] > request.maxErr
-    //   if (fail) {
-    //     continue
-    //   }
-    // }
+    const a = x.a
+    if (combatDisplay) {
+      const fail
+        = a[Key.HP] < request.minHp || a[Key.HP] > request.maxHp
+        || a[Key.ATK] < request.minAtk || a[Key.ATK] > request.maxAtk
+        || a[Key.DEF] < request.minDef || a[Key.DEF] > request.maxDef
+        || a[Key.SPD] < request.minSpd || a[Key.SPD] > request.maxSpd
+        || a[Key.CR] < request.minCr || a[Key.CR] > request.maxCr
+        || a[Key.CD] < request.minCd || a[Key.CD] > request.maxCd
+        || a[Key.EHR] < request.minEhr || a[Key.EHR] > request.maxEhr
+        || a[Key.RES] < request.minRes || a[Key.RES] > request.maxRes
+        || a[Key.BE] < request.minBe || a[Key.BE] > request.maxBe
+        || a[Key.ERR] < request.minErr || a[Key.ERR] > request.maxErr
+      if (fail) {
+        continue
+      }
+    }
 
     // Rating filters
-    // const fail = x.EHP < request.minEhp || x.EHP > request.maxEhp
-    //   || x.BASIC_DMG < request.minBasic || x.BASIC_DMG > request.maxBasic
-    //   || x.SKILL_DMG < request.minSkill || x.SKILL_DMG > request.maxSkill
-    //   || x.ULT_DMG < request.minUlt || x.ULT_DMG > request.maxUlt
-    //   || x.FUA_DMG < request.minFua || x.FUA_DMG > request.maxFua
-    //   || x.DOT_DMG < request.minDot || x.DOT_DMG > request.maxDot
-    //   || x.BREAK_DMG < request.minBreak || x.BREAK_DMG > request.maxBreak
-    // if (fail) {
-    //   continue
-    // }
+    const fail = a[Key.EHP] < request.minEhp || a[Key.EHP] > request.maxEhp
+      || a[Key.BASIC_DMG] < request.minBasic || a[Key.BASIC_DMG] > request.maxBasic
+      || a[Key.SKILL_DMG] < request.minSkill || a[Key.SKILL_DMG] > request.maxSkill
+      || a[Key.ULT_DMG] < request.minUlt || a[Key.ULT_DMG] > request.maxUlt
+      || a[Key.FUA_DMG] < request.minFua || a[Key.FUA_DMG] > request.maxFua
+      || a[Key.DOT_DMG] < request.minDot || a[Key.DOT_DMG] > request.maxDot
+      || a[Key.BREAK_DMG] < request.minBreak || a[Key.BREAK_DMG] > request.maxBreak
+    if (fail) {
+      continue
+    }
 
     // Pack the passing results into the ArrayBuffer to return
     c.id = index

@@ -2,7 +2,7 @@ import { BASIC_TYPE, BREAK_TYPE, FUA_TYPE, SKILL_TYPE, SUPER_BREAK_TYPE, ULT_TYP
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { _buffAbilityDefPen, _buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
@@ -12,7 +12,7 @@ export const RutilantArenaConditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.CR],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.RutilantArena) && x.$CR >= 0.70
+    return p2(x.c.sets.RutilantArena) && x.a[Key.CR] >= 0.70
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     _buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, 0.20, Source.RutilantArena)
@@ -38,7 +38,7 @@ export const InertSalsottoConditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.CR],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.InertSalsotto) && x.$CR >= 0.50
+    return p2(x.c.sets.InertSalsotto) && x.a[Key.CR] >= 0.50
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     _buffAbilityDmg(x, ULT_TYPE | FUA_TYPE, 0.15, Source.InertSalsotto)
@@ -64,7 +64,7 @@ export const SpaceSealingStationConditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.SpaceSealingStation) && x.$SPD >= 120
+    return p2(x.c.sets.SpaceSealingStation) && x.a[Key.SPD] >= 120
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     x.ATK.buffDynamic(0.12 * context.baseATK, Source.SpaceSealingStation, action, context)
@@ -89,7 +89,7 @@ export const FleetOfTheAgelessConditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.FleetOfTheAgeless) && x.$SPD >= 120
+    return p2(x.c.sets.FleetOfTheAgeless) && x.a[Key.SPD] >= 120
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     x.ATK.buffDynamic(0.08 * context.baseATK, Source.FleetOfTheAgeless, action, context)
@@ -114,7 +114,7 @@ export const BelobogOfTheArchitectsConditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.EHR],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.BelobogOfTheArchitects) && x.$EHR >= 0.50
+    return p2(x.c.sets.BelobogOfTheArchitects) && x.a[Key.EHR] >= 0.50
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     x.DEF.buffDynamic(0.15 * context.baseDEF, Source.BelobogOfTheArchitects, action, context)
@@ -139,7 +139,7 @@ export const IronCavalryAgainstTheScourge150Conditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.BE],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p4(x.c.sets.IronCavalryAgainstTheScourge) && x.$BE >= 1.50
+    return p4(x.c.sets.IronCavalryAgainstTheScourge) && x.a[Key.BE] >= 1.50
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     _buffAbilityDefPen(x, BREAK_TYPE, 0.10, Source.IronCavalryAgainstTheScourge)
@@ -164,7 +164,7 @@ export const IronCavalryAgainstTheScourge250Conditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.BE],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p4(x.c.sets.IronCavalryAgainstTheScourge) && x.$BE >= 2.50
+    return p4(x.c.sets.IronCavalryAgainstTheScourge) && x.a[Key.BE] >= 2.50
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     _buffAbilityDefPen(x, SUPER_BREAK_TYPE, 0.15, Source.IronCavalryAgainstTheScourge)
@@ -193,7 +193,7 @@ export const PanCosmicCommercialEnterpriseConditional: DynamicConditional = {
   },
   effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
-    const buffValue = Math.min(0.25, 0.25 * x.$EHR) * context.baseATK
+    const buffValue = Math.min(0.25, 0.25 * x.a[Key.EHR]) * context.baseATK
 
     action.conditionalState[this.id] = buffValue
     x.ATK.buffDynamic(buffValue - stateValue, Source.PanCosmicCommercialEnterprise, action, context)
@@ -221,7 +221,7 @@ export const BrokenKeelConditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.RES],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.BrokenKeel) && x.$RES >= 0.30
+    return p2(x.c.sets.BrokenKeel) && x.a[Key.RES] >= 0.30
   },
   effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     x.CD.buffDynamic(0.10, Source.BrokenKeel, action, context)
@@ -246,7 +246,7 @@ export const CelestialDifferentiatorConditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.CD],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.CelestialDifferentiator) && action.setConditionals.enabledCelestialDifferentiator && x.$CD >= 1.20
+    return p2(x.c.sets.CelestialDifferentiator) && action.setConditionals.enabledCelestialDifferentiator && x.a[Key.CD] >= 1.20
   },
   effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     x.CR.buffDynamic(0.60, Source.CelestialDifferentiator, action, context)
@@ -272,7 +272,7 @@ export const TaliaKingdomOfBanditryConditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.TaliaKingdomOfBanditry) && x.$SPD >= 145
+    return p2(x.c.sets.TaliaKingdomOfBanditry) && x.a[Key.SPD] >= 145
   },
   effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     x.BE.buffDynamic(0.20, Source.TaliaKingdomOfBanditry, action, context)
@@ -297,7 +297,7 @@ export const FirmamentFrontlineGlamoth135Conditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.FirmamentFrontlineGlamoth) && x.$SPD >= 135
+    return p2(x.c.sets.FirmamentFrontlineGlamoth) && x.a[Key.SPD] >= 135
   },
   effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     x.ELEMENTAL_DMG.buff(0.12, Source.FirmamentFrontlineGlamoth)
@@ -322,7 +322,7 @@ export const FirmamentFrontlineGlamoth160Conditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.FirmamentFrontlineGlamoth) && x.$SPD >= 160
+    return p2(x.c.sets.FirmamentFrontlineGlamoth) && x.a[Key.SPD] >= 160
   },
   effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     x.ELEMENTAL_DMG.buff(0.06, Source.FirmamentFrontlineGlamoth)

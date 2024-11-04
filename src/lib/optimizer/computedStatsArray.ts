@@ -38,9 +38,8 @@ export type ComputedStatsArray =
 
 export class ComputedStatsArrayCore {
   precomputedStatsArray = baseComputedStatsArray()
-  computedStatsArray = baseComputedStatsArray()
-
-  public c: BasicStatsObject
+  a = baseComputedStatsArray()
+  c: BasicStatsObject
   buffs: Buff[]
   trace: boolean
 
@@ -52,7 +51,7 @@ export class ComputedStatsArrayCore {
       Object.defineProperty(this, key, {
         value: {
           buff: (value: number, source: string) => {
-            this.computedStatsArray[index] += value
+            this.a[index] += value
           },
           buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
             // Self buffing stats will asymptotically reach 0
@@ -60,24 +59,18 @@ export class ComputedStatsArrayCore {
               return
             }
 
-            this.computedStatsArray[index] += value
+            this.a[index] += value
 
             for (const conditional of action.conditionalRegistry[KeyToStat[key]] || []) {
               evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)
             }
           },
           set: (value: number, source: string) => {
-            this.computedStatsArray[index] = value
+            this.a[index] = value
           },
-          get: () => this.computedStatsArray[index],
+          get: () => this.a[index],
         },
         writable: false,
-        enumerable: true,
-        configurable: true,
-      })
-
-      Object.defineProperty(this, `$${key}`, {
-        get: () => this.computedStatsArray[index],
         enumerable: true,
         configurable: true,
       })
@@ -101,26 +94,26 @@ export class ComputedStatsArrayCore {
   reset() {
     this.buffs = []
     this.trace = false
-    this.computedStatsArray.set(this.precomputedStatsArray)
+    this.a.set(this.precomputedStatsArray)
   }
 
   buff(key: number, value: number, source?: string) {
-    this.computedStatsArray[key] += value
+    this.a[key] += value
   }
 
   set(key: number, value: number, source?: string) {
-    this.computedStatsArray[key] = value
+    this.a[key] = value
   }
 
   get(key: number) {
-    return this.computedStatsArray[key]
+    return this.a[key]
   }
 
   toComputedStatsObject() {
     const result: Partial<ComputedStatsObject> = {}
 
     for (const key in Key) {
-      result[key as keyof ComputedStatsObject] = this.computedStatsArray[Key[key as KeysType]]
+      result[key as keyof ComputedStatsObject] = this.a[Key[key as KeysType]]
     }
 
     return result as ComputedStatsObject
@@ -209,19 +202,19 @@ export const Source = {
 export function getResPenType(x: ComputedStatsArray, type: string) {
   switch (type) {
     case ElementToResPenType.Physical:
-      return x.$PHYSICAL_RES_PEN
+      return x.a[Key.PHYSICAL_RES_PEN]
     case ElementToResPenType.Fire:
-      return x.$FIRE_RES_PEN
+      return x.a[Key.FIRE_RES_PEN]
     case ElementToResPenType.Ice:
-      return x.$ICE_RES_PEN
+      return x.a[Key.ICE_RES_PEN]
     case ElementToResPenType.Lightning:
-      return x.$LIGHTNING_RES_PEN
+      return x.a[Key.LIGHTNING_RES_PEN]
     case ElementToResPenType.Wind:
-      return x.$WIND_RES_PEN
+      return x.a[Key.WIND_RES_PEN]
     case ElementToResPenType.Quantum:
-      return x.$QUANTUM_RES_PEN
+      return x.a[Key.QUANTUM_RES_PEN]
     case ElementToResPenType.Imaginary:
-      return x.$IMAGINARY_RES_PEN
+      return x.a[Key.IMAGINARY_RES_PEN]
     default:
       return 0
   }
@@ -230,19 +223,19 @@ export function getResPenType(x: ComputedStatsArray, type: string) {
 export function getElementalDamageType(x: ComputedStatsArray, type: string) {
   switch (type) {
     case Stats.Physical_DMG:
-      return x.$PHYSICAL_DMG_BOOST
+      return x.a[Key.PHYSICAL_DMG_BOOST]
     case Stats.Fire_DMG:
-      return x.$FIRE_DMG_BOOST
+      return x.a[Key.FIRE_DMG_BOOST]
     case Stats.Ice_DMG:
-      return x.$ICE_DMG_BOOST
+      return x.a[Key.ICE_DMG_BOOST]
     case Stats.Lightning_DMG:
-      return x.$LIGHTNING_DMG_BOOST
+      return x.a[Key.LIGHTNING_DMG_BOOST]
     case Stats.Wind_DMG:
-      return x.$WIND_DMG_BOOST
+      return x.a[Key.WIND_DMG_BOOST]
     case Stats.Quantum_DMG:
-      return x.$QUANTUM_DMG_BOOST
+      return x.a[Key.QUANTUM_DMG_BOOST]
     case Stats.Imaginary_DMG:
-      return x.$IMAGINARY_DMG_BOOST
+      return x.a[Key.IMAGINARY_DMG_BOOST]
     default:
       return 0
   }

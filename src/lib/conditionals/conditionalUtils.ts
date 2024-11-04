@@ -1,6 +1,6 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
-import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
@@ -10,8 +10,8 @@ export const precisionRound = (number: number, precision: number = 8): number =>
 }
 
 // Remove the ashblazing set atk bonus only when calc-ing fua attacks
-export const calculateAshblazingSet = (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext, hitMulti: number): number => {
-  const enabled = p4(x.sets.TheAshblazingGrandDuke)
+export const calculateAshblazingSet = (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, hitMulti: number): number => {
+  const enabled = p4(x.c.sets.TheAshblazingGrandDuke)
   const valueTheAshblazingGrandDuke = action.setConditionals.valueTheAshblazingGrandDuke
   const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled * context.baseATK
   const ashblazingMulti = hitMulti * enabled * context.baseATK
@@ -75,11 +75,11 @@ export function standardAtkFinalizer(x: ComputedStatsObject) {
 }
 
 export function _standardAtkFinalizer(x: ComputedStatsArray) {
-  x.BASIC_DMG.buff(x.$BASIC_SCALING * x.$ATK, Source.NONE)
-  x.SKILL_DMG.buff(x.$SKILL_SCALING * x.$ATK, Source.NONE)
-  x.ULT_DMG.buff(x.$ULT_SCALING * x.$ATK, Source.NONE)
-  x.FUA_DMG.buff(x.$FUA_SCALING * x.$ATK, Source.NONE)
-  x.DOT_DMG.buff(x.$DOT_SCALING * x.$ATK, Source.NONE)
+  x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
+  x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
+  x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)
+  x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * x.a[Key.ATK], Source.NONE)
+  x.DOT_DMG.buff(x.a[Key.DOT_SCALING] * x.a[Key.ATK], Source.NONE)
 }
 
 export function gpuStandardAtkFinalizer() {

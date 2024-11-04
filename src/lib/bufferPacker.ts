@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key } from 'lib/optimizer/computedStatsArray'
 
 const SIZE = 38
 
@@ -111,6 +111,7 @@ export const BufferPacker = {
   packCharacter: (arr: number[], offset: number, x: ComputedStatsArray) => {
     offset = offset * SIZE
     const c = x.c
+    const a = x.a
 
     arr[offset] = x.c.id // 0
     arr[offset + 1] = c[Stats.HP]
@@ -126,28 +127,28 @@ export const BufferPacker = {
     arr[offset + 11] = c[Stats.OHB]
     arr[offset + 12] = c.ELEMENTAL_DMG
     arr[offset + 13] = c.WEIGHT
-    arr[offset + 14] = x.$EHP
-    arr[offset + 15] = x.$HEAL_VALUE
-    arr[offset + 16] = x.$SHIELD_VALUE
-    arr[offset + 17] = x.$BASIC_DMG
-    arr[offset + 18] = x.$SKILL_DMG
-    arr[offset + 19] = x.$ULT_DMG
-    arr[offset + 20] = x.$FUA_DMG
-    arr[offset + 21] = x.$DOT_DMG
-    arr[offset + 22] = x.$BREAK_DMG // 22
-    arr[offset + 23] = x.$COMBO_DMG
-    arr[offset + 24] = x.$HP
-    arr[offset + 25] = x.$ATK
-    arr[offset + 26] = x.$DEF
-    arr[offset + 27] = x.$SPD
-    arr[offset + 28] = x.$CR
-    arr[offset + 29] = x.$CD
-    arr[offset + 30] = x.$EHR
-    arr[offset + 31] = x.$RES
-    arr[offset + 32] = x.$BE
-    arr[offset + 33] = x.$ERR // 33
-    arr[offset + 34] = x.$OHB
-    arr[offset + 35] = x.$ELEMENTAL_DMG
+    arr[offset + 14] = a[Key.EHP]
+    arr[offset + 15] = a[Key.HEAL_VALUE]
+    arr[offset + 16] = a[Key.SHIELD_VALUE]
+    arr[offset + 17] = a[Key.BASIC_DMG]
+    arr[offset + 18] = a[Key.SKILL_DMG]
+    arr[offset + 19] = a[Key.ULT_DMG]
+    arr[offset + 20] = a[Key.FUA_DMG]
+    arr[offset + 21] = a[Key.DOT_DMG]
+    arr[offset + 22] = a[Key.BREAK_DMG] // 22
+    arr[offset + 23] = a[Key.COMBO_DMG]
+    arr[offset + 24] = a[Key.HP]
+    arr[offset + 25] = a[Key.ATK]
+    arr[offset + 26] = a[Key.DEF]
+    arr[offset + 27] = a[Key.SPD]
+    arr[offset + 28] = a[Key.CR]
+    arr[offset + 29] = a[Key.CD]
+    arr[offset + 30] = a[Key.EHR]
+    arr[offset + 31] = a[Key.RES]
+    arr[offset + 32] = a[Key.BE]
+    arr[offset + 33] = a[Key.ERR] // 33
+    arr[offset + 34] = a[Key.OHB]
+    arr[offset + 35] = a[Key.ELEMENTAL_DMG]
     arr[offset + 36] = c.relicSetIndex
     arr[offset + 37] = c.ornamentSetIndex
   },

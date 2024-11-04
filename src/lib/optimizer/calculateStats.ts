@@ -17,7 +17,7 @@ import {
   TaliaKingdomOfBanditryConditional,
 } from 'lib/gpu/conditionals/setConditionals'
 import { _buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 import { Relic } from 'types/Relic'
@@ -178,12 +178,13 @@ export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContex
 
 export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
   const setConditionals = action.setConditionals
+  const a = x.a
   const c = x.c
   const sets = c.sets
   const buffs = context.combatBuffs
 
-  // const a = x.$ATK_P
-  // x.ATK.buff(x.$ATK_P * context.baseATK)
+  // const a = a[Key.ATK_P]
+  // x.ATK.buff(a[Key.ATK_P] * context.baseATK)
 
   // Add base to computed
   x.ATK.buff(c[Stats.ATK], Source.BASIC_STATS)
@@ -216,7 +217,7 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   if (p4(sets.MessengerTraversingHackerspace) && setConditionals.enabledMessengerTraversingHackerspace) {
     x.SPD_P.buff(0.12, Source.MessengerTraversingHackerspace)
   }
-  x.SPD.buff(x.$SPD_P * context.baseSPD, Source.NONE)
+  x.SPD.buff(a[Key.SPD_P] * context.baseSPD, Source.NONE)
 
   // ATK
 
@@ -229,15 +230,15 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   if (p4(sets.TheAshblazingGrandDuke)) {
     x.ATK_P.buff(0.06 * setConditionals.valueTheAshblazingGrandDuke, Source.TheAshblazingGrandDuke)
   }
-  x.ATK.buff(x.$ATK_P * context.baseATK, Source.NONE)
+  x.ATK.buff(a[Key.ATK_P] * context.baseATK, Source.NONE)
 
   // DEF
 
-  x.DEF.buff(x.$DEF_P * context.baseDEF, Source.NONE)
+  x.DEF.buff(a[Key.DEF_P] * context.baseDEF, Source.NONE)
 
   // HP
 
-  x.HP.buff(x.$HP_P * context.baseHP, Source.NONE)
+  x.HP.buff(a[Key.HP_P] * context.baseHP, Source.NONE)
 
   // CD
 

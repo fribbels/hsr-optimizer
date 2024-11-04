@@ -6,7 +6,7 @@ import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimizer/calculateConditionals'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
-import { ComputedStatsArray, Key, TEST_PRECOMPUTE } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, ComputedStatsArrayCore, Key, TEST_PRECOMPUTE } from 'lib/optimizer/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimizer/sortOptions'
 import { Form } from 'types/Form'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -98,7 +98,7 @@ self.onmessage = function (e: MessageEvent) {
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
-  const x = new ComputedStatsArray(false)
+  const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
   x.setPrecompute(TEST_PRECOMPUTE)
 
   for (let col = 0; col < limit; col++) {

@@ -67,7 +67,7 @@ ${indent(wgsl.trim(), 1)}
   `
 }
 
-export function buffDynamicStat(x: ComputedStatsArray, stat: string, value: number, action: OptimizerAction, context: OptimizerContext) {
+export function buffDynamicStat(x: ComputedStatsArray, stat: string, value: number, action: OptimizerAction, context: OptimizerContext, source: string) {
   // Self buffing stats will asymptotically reach 0
   if (value < 0.0001) {
     return

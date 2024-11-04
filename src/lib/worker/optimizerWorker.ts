@@ -99,7 +99,7 @@ self.onmessage = function (e: MessageEvent) {
   const limit = Math.min(data.permutations, data.WIDTH)
 
   const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
-  x.setPrecompute(TEST_PRECOMPUTE)
+  x.setPrecompute(TEST_PRECOMPUTE())
 
   for (let col = 0; col < limit; col++) {
     const index = data.skip + col

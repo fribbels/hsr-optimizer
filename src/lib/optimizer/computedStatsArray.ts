@@ -34,8 +34,8 @@ export type ComputedStatsArray =
   & ComputedStatsArrayStatDirectAccess
 
 export class ComputedStatsArrayCore {
-  precomputedStatsArray = TEST_PRECOMPUTE
-  computedStatsArray = TEST_PRECOMPUTE
+  precomputedStatsArray = TEST_PRECOMPUTE()
+  computedStatsArray = TEST_PRECOMPUTE()
 
   public c: BasicStatsObject
   buffs: Buff[]
@@ -112,7 +112,9 @@ export class ComputedStatsArrayCore {
   }
 }
 
-export const TEST_PRECOMPUTE = new Float32Array(Object.keys(baseComputedStatsObject).length).fill(0)
+export function TEST_PRECOMPUTE() {
+  return new Float32Array(Object.keys(baseComputedStatsObject).length).fill(0)
+}
 
 export function buff(x: ComputedStatsArray, key: number, value: number, source?: string) {
   x.buff(key, value, source)

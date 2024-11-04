@@ -69,7 +69,7 @@ export function calculateBuild(
   } as BasicStatsObject
 
   const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
-  x.setPrecompute(TEST_PRECOMPUTE)
+  x.setPrecompute(TEST_PRECOMPUTE())
   x.setBasic(c)
 
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)

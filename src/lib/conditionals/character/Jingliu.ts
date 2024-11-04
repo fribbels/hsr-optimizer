@@ -1,7 +1,8 @@
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { _buffAbilityDmg, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { buffWithSource, ComputedStatsArray, Effect, Key, Source } from 'lib/optimizer/computedStatsArray'
+import { Stats } from 'lib/constants'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -10,7 +11,6 @@ import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jingliu')
-  const buff = buffWithSource('Jingliu')
   const { SOURCE_SKILL, SOURCE_ULT } = Source.character('Jingliu')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
@@ -68,28 +68,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       const r = action.characterConditionals
 
       // Skills
-      if (r.talentEnhancedState) {
-        buff(x, Key.CR, talentCrBuff, Effect.DEFAULT)
-        buff(x, Key.ATK_P, r.talentHpDrainAtkBuff, Effect.DEFAULT)
-        buff(x, Key.RES, 0.35, Effect.DEFAULT)
-        _buffAbilityDmg(x, ULT_TYPE, 0.20, 'Jingliu', Effect.DEFAULT)
-      }
+      x[Stats.CR] += (r.talentEnhancedState) ? talentCrBuff : 0
+      x[Stats.ATK_P] += ((r.talentEnhancedState) ? r.talentHpDrainAtkBuff : 0)
+
       // Traces
+      x[Stats.RES] += (r.talentEnhancedState) ? 0.35 : 0
+      buffAbilityDmg(x, ULT_TYPE, 0.20, (r.talentEnhancedState))
 
       // Eidolons
-      if (e >= 1 && r.e1CdBuff) {
-        buff(x, Key.CD, 0.24, Effect.DEFAULT)
-      }
-      if (e >= 6 && r.talentEnhancedState) {
-        buff(x, Key.CD, 0.50, Effect.DEFAULT)
-      }
-
-      // x.HP
+      x[Stats.CD] += (e >= 1 && r.e1CdBuff) ? 0.24 : 0
+      x[Stats.CD] += (e >= 6 && r.talentEnhancedState) ? 0.50 : 0
 
       // Scaling
-      x.HP.add(10, 10)
-      x.BASIC_SCALING.buff((r.talentEnhancedState) ? skillEnhancedScaling : skillScaling, Effect.DEFAULT)
-
       x.BASIC_SCALING += basicScaling
 
       x.SKILL_SCALING += (r.talentEnhancedState) ? skillEnhancedScaling : skillScaling

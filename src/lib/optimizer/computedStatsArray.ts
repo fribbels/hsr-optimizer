@@ -34,8 +34,8 @@ export type ComputedStatsArray =
   & ComputedStatsArrayStatDirectAccess
 
 export class ComputedStatsArrayCore {
-  precomputedStatsArray = new Float32Array(Object.keys(baseComputedStatsObject).length).fill(1)
-  computedStatsArray = new Float32Array(Object.keys(baseComputedStatsObject).length)
+  precomputedStatsArray = TEST_PRECOMPUTE
+  computedStatsArray = TEST_PRECOMPUTE
 
   public c: BasicStatsObject
   buffs: Buff[]
@@ -45,7 +45,6 @@ export class ComputedStatsArrayCore {
     this.c = {} as BasicStatsObject
     this.buffs = []
     this.trace = trace
-
     Object.keys(baseComputedStatsObject).forEach((key, index) => {
       Object.defineProperty(this, key, {
         value: {
@@ -67,6 +66,12 @@ export class ComputedStatsArrayCore {
         enumerable: true,
         configurable: true,
       })
+    })
+
+    Object.defineProperty(this, `#show`, {
+      get: () => this.toComputedStatsObject(),
+      enumerable: true,
+      configurable: true,
     })
   }
 
@@ -107,9 +112,9 @@ export class ComputedStatsArrayCore {
   }
 }
 
-export const TEST_PRECOMPUTE = new Float32Array(Object.keys(baseComputedStatsObject).length).fill(1)
+export const TEST_PRECOMPUTE = new Float32Array(Object.keys(baseComputedStatsObject).length).fill(0)
 
-export function buff(x: ComputedStatsArrayCore, key: number, value: number, source?: string) {
+export function buff(x: ComputedStatsArray, key: number, value: number, source?: string) {
   x.buff(key, value, source)
 }
 

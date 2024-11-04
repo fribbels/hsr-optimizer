@@ -193,12 +193,139 @@ Scoring:
       SuccessMessage: "Redefinir Mínimo do filtro FUA"
       Description: "O mínimo de dano de ataque de seguimento pode estar muito alto"
       ButtonText: "Redefinir Mínimo do filtro FUA"
+    MAX_DOT:
+      SuccessMessage: "Redefinir filtro de DOT Máximo"
+      Description: "Dano DOT máximo pode estar baixo"
+      ButtonText: "Redefinir filtro de DOT Máximo"
+    MIN_DOT:
+      SuccessMessage: "Redefinir filtro de DOT Mínimo"
+      Description: "Dano DOT mínimo pode estar alto"
+      ButtonText: "Redefinir filtro de DOT Mínimo"
+    MAX_BREAK:
+      SuccessMessage: "Redefinir filtro de Quebra Máximo"
+      Description: "Dano de quebra máximo pode estar baixo"
+      ButtonText: "Redefinir filtro de Quebra Máximo"
+    MIN_BREAK:
+      SuccessMessage: "Redefinir filtro de Quebra Mínimo"
+      Description: "Dano de quebra mínimo pode estar alto"
+      ButtonText: "Redefinir filtro de Quebra Mínimo"
+    MAX_COMBO:
+      SuccessMessage: "Redefinir filtro de Combo Máximo"
+      Description: "Dano de combo máximo pode estar baixo"
+      ButtonText: "Redefinir filtro de Combo Máximo"
+    MIN_COMBO:
+      SuccessMessage: "Redefinir filtro de Combo Mínimo"
+      Description: "Dano de combo mínimo pode estar alto"
+      ButtonText: "Redefinir filtro de Combo Mínimo"
+ManyPerms:
+  Title: Solicitação de pesquisa muito grande
+  Text: >-
+    Essa busca de otimização levará um tempo considerável para ser concluída. Talvez você queira ativar a configuração de aceleração da GPU ou limitar a pesquisa a apenas determinados conjuntos e estatísticas principais, ou usar o filtro de peso subatributo para reduzir o número de permutações.
+  Cancel: Cancelar busca
+  Proceed: Proceder com busca
 EditCharacter:
+  EidolonButton: >-
+    $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
+  SuperimpositionButton: >-
+    $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: Personagem 
   Lightcone: Cone de luz
+Relic:
+  Part: Parte
+  Wearer: Equipado por
+  Set: Conjunto
+  Enhance: Melhoria / Raridade
+  Mainstat: Atributo principal
+  Substat: Subatributos
+  Upgrades: Melhorias de subatributo
+  Messages:
+    SubmitFail: O envio falhou!
+    EditSuccess: Relíquia editada com sucesso
+    Error:
+      PartMissing: Campo de parte está faltando
+      MainstatMissing: Atributo principal está faltando
+      SetMissing: Campo de conjunto está faltando
+      EnhanceMissing: Campo de melhoria está faltando
+      GradeMissing: Campo de raridade está faltando
+      EnhanceInvalid: Valor de melhoria é inválido
+      GradeInvalid: Valor de raridade é inválido
+      EnhanceTooHigh: Valor de melhoria é muito alta para esta raridade
+      SetInvalid: Valor de conjunto é inválido
+      SetNotOrnament: O conjunto selecionado não é um conjunto de ornamento
+      SetNotRelic: O conjunto selecionado não é um conjunto de relíquia
+      SubNInvalid: "Subatributo {{number}} é inválido"
+      SubsOutOfOrder: Subatributos estão fora de ordem
+      DuplicateSubs: Subatributos duplicados, somente um de cada tipo é permitido
+      MainAsSub: O tipo de subatributo é o mesmo do atributo principal
+      SubTooBig: Valor de subatributo é muito alto
+      MainTooBig: Valor de atributo principal é muito alto
+      SubTooSmall: Valores de subatributos devem ser positivos
+      MainTooSmall: Valores de atributos princiais devem ser positivos
+EditImage:
+  DefaultTitle: Editar imagem
+  Upload:
+    Title: Providenciar imagem
+    Radio:
+      Upload: Enviar imagem
+      Url: Insira o URL da imagem
+      Default: Usar imagem padrão
+    Upload:
+      Method: Clique ou arraste o arquivo de imagem para essa área para fazer o envio
+      Limit: "Aceita .jpg .jpeg .png .gif (Max: 20MB)"
+    Url:
+      Label: Imagem
+      Rule: Por gentileza ponha um URL de imagem válido
+  Edit:
+    Title: Recortar imagem
+    Zoom: Zoom
+    Drag: Arrastar para mexer
+    Pinch: Pince ou role para ampliar
+    ArtBy: "(Opcional) Arte por:"
+    CreditPlaceholder: Dê créditos ao artista se possível
+  Footer:
+    Change: Trocar imagem
+    Previous: Anterior
+    Next: Próximo
+SaveBuild:
+  Label: Nome da build
+  Rule: Gentileza insira um nome
+SwitchRelics:
+  Title: Trocar relíquias com personagem
+Builds:
+  DeleteAll: Apagar tudo
+  Equip: Equipar
+  ConfirmEquip:
+    Content: Equipar isso desequipará personagens que estão com relíquias dessa build
+    SuccessMessage: "Equipado com sucesso, build: {{buildName}}"
+  ConfirmDelete:
+    DeleteAll: Você tem certeza que gostaria de apagar todas as builds?
+    DeleteSingle: "Você tem certeza que quer apagar {{name}}?"
+    SuccessMessageAll: "Excluído com sucesso todas as builds para {{characterName}}"
+    SuccessMessageSingle: "Excluído com sucesso build: {{name}}"
+  NoBuilds:
+    NoneSaved: Não há builds salvas
+ScoreFooter:
+  ModalTitle: Configurações de pontuação do sim de combate
+  OkText: OK
+  ResetButtonText: Resetar time customizado para padrão
+  ResetSuccessMsg: Resetar para times padrões
+  SyncButtonText: Sincronizar eidolons / cones de luz importados
+  SyncSuccessMsg: Equipe sincronizada
+  TeamOptions:
+    Default: Padrão
+    Custom: Customizado
 CharacterSelect:
+  MultiSelect:
+    Placeholder: Customizar personagens
+    MaxTagPlaceholderSome: "{{count}} personagens excluídos"
+    MaxTagPlaceholderNone: Todos os personagens habilitados
+    ModalTitle: Selecione personagens para excluir
   SingleSelect:
     Placeholder: Personagem 
+    ModalTitle: Selecionar um personagem
   SearchPlaceholder: Procurar nome do personagem
+  ExcludeButton: Excluir todos
+  ClearButton: Limpar
 LightconeSelect:
   Placeholder: Cone de luz
+  Title: Selecione um cone de luz

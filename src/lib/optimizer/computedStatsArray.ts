@@ -1,5 +1,7 @@
 import { baseComputedStatsObject, BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Sets, Stats } from 'lib/constants'
+import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 type Buff = {
   key: number
@@ -17,6 +19,7 @@ export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject
 type StatMethods = {
   buff: (value: number, source: string) => void
   set: (value: number, source: string) => void
+  buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => void
   get: () => number
 }
 
@@ -50,6 +53,18 @@ export class ComputedStatsArrayCore {
         value: {
           buff: (value: number, source: string) => {
             this.computedStatsArray[index] += value
+          },
+          buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
+            // Self buffing stats will asymptotically reach 0
+            if (value < 0.0001) {
+              return
+            }
+
+            this.computedStatsArray[index] += value
+
+            for (const conditional of action.conditionalRegistry[KeyToStat[key]] || []) {
+              evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)
+            }
           },
           set: (value: number, source: string) => {
             this.computedStatsArray[index] = value
@@ -126,6 +141,31 @@ export function baseComputedStatsArray() {
 
 export function buff(x: ComputedStatsArray, key: number, value: number, source?: string) {
   x.buff(key, value, source)
+}
+
+export const KeyToStat: Record<string, string> = {
+  [Key.ATK_P]: Stats.ATK_P,
+  [Key.ATK]: Stats.ATK,
+  [Key.BE]: Stats.BE,
+  [Key.CD]: Stats.CD,
+  [Key.CR]: Stats.CR,
+  [Key.DEF_P]: Stats.DEF_P,
+  [Key.DEF]: Stats.DEF,
+  [Key.EHR]: Stats.EHR,
+  [Key.ERR]: Stats.ERR,
+  [Key.FIRE_DMG_BOOST]: Stats.Fire_DMG,
+  [Key.HP_P]: Stats.HP_P,
+  [Key.HP]: Stats.HP,
+  [Key.ICE_DMG_BOOST]: Stats.Ice_DMG,
+  [Key.IMAGINARY_DMG_BOOST]: Stats.Imaginary_DMG,
+  [Key.LIGHTNING_DMG_BOOST]: Stats.Lightning_DMG,
+  [Key.OHB]: Stats.OHB,
+  [Key.PHYSICAL_DMG_BOOST]: Stats.Physical_DMG,
+  [Key.QUANTUM_DMG_BOOST]: Stats.Quantum_DMG,
+  [Key.RES]: Stats.RES,
+  [Key.SPD_P]: Stats.SPD_P,
+  [Key.SPD]: Stats.SPD,
+  [Key.WIND_DMG_BOOST]: Stats.Wind_DMG,
 }
 
 export const StatToKey: Record<string, number> = {

@@ -6,7 +6,7 @@ import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimizer/calculateConditionals'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
-import { ComputedStatsArray, ComputedStatsArrayCore, Key, TEST_PRECOMPUTE } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimizer/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimizer/sortOptions'
 import { Form } from 'types/Form'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -94,12 +94,15 @@ self.onmessage = function (e: MessageEvent) {
     if (context.teammate0Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate0Metadata, 0)
     if (context.teammate1Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate1Metadata, 1)
     if (context.teammate2Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate2Metadata, 2)
+
+    // Reconstruct arrays after transfer
+    action.precomputedX.computedStatsArray = new Float32Array(Object.values(action.precomputedX.computedStatsArray))
+    action.precomputedX.precomputedStatsArray = new Float32Array(Object.values(action.precomputedX.precomputedStatsArray))
   }
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
   const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
-  x.setPrecompute(TEST_PRECOMPUTE())
 
   for (let col = 0; col < limit; col++) {
     const index = data.skip + col
@@ -176,6 +179,7 @@ self.onmessage = function (e: MessageEvent) {
     let combo = 0
     for (let i = context.actions.length - 1; i >= 0; i--) {
       const action = setupAction(c, i, context)
+      x.setPrecompute(action.precomputedX.computedStatsArray)
       x.reset()
 
       calculateComputedStats(x, action, context)
@@ -292,6 +296,7 @@ function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) 
     setConditionals: originalAction.setConditionals,
     conditionalRegistry: originalAction.conditionalRegistry,
     actionType: originalAction.actionType,
+    precomputedX: originalAction.precomputedX,
     conditionalState: {},
   } as OptimizerAction
 

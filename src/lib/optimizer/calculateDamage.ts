@@ -5,11 +5,11 @@ import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export function calculateBaseMultis(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-  // const lightConeConditionalController = context.lightConeConditionalController
-  // const characterConditionalController = context.characterConditionalController
-  //
-  // if (lightConeConditionalController.finalizeCalculations) lightConeConditionalController.finalizeCalculations(x, action, context)
-  // if (characterConditionalController.finalizeCalculations) characterConditionalController.finalizeCalculations(x, action, context)
+  const lightConeConditionalController = context.lightConeConditionalController
+  const characterConditionalController = context.characterConditionalController
+
+  if (lightConeConditionalController.finalizeCalculations) lightConeConditionalController.finalizeCalculations(x, action, context)
+  if (characterConditionalController.finalizeCalculations) characterConditionalController.finalizeCalculations(x, action, context)
 }
 
 export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {

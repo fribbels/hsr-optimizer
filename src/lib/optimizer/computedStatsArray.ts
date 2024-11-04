@@ -116,6 +116,10 @@ export function TEST_PRECOMPUTE() {
   return new Float32Array(Object.keys(baseComputedStatsObject).length).fill(0)
 }
 
+export function fromComputedStatsObject(x: ComputedStatsObject) {
+  return Float32Array.from(Object.values(x))
+}
+
 export function baseComputedStatsArray() {
   return Float32Array.from(Object.values(baseComputedStatsObject))
 }

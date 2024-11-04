@@ -3,7 +3,7 @@ import { Constants, OrnamentSetCount, OrnamentSetToIndex, RelicSetCount, RelicSe
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
-import { ComputedStatsArray, ComputedStatsArrayCore, Key, TEST_PRECOMPUTE } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimizer/computedStatsArray'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { transformComboState } from 'lib/optimizer/rotation/comboStateTransform'
@@ -69,7 +69,6 @@ export function calculateBuild(
   } as BasicStatsObject
 
   const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
-  x.setPrecompute(TEST_PRECOMPUTE())
   x.setBasic(c)
 
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)
@@ -80,6 +79,8 @@ export function calculateBuild(
   let combo = 0
   for (let i = context.actions.length - 1; i >= 0; i--) {
     const action = context.actions[i]
+    x.setPrecompute(action.precomputedX.computedStatsArray)
+
     x.reset()
 
     calculateComputedStats(x, action, context)

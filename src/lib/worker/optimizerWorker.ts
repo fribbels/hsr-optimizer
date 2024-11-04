@@ -198,7 +198,7 @@ self.onmessage = function (e: MessageEvent) {
       if (i === 0) {
         combo += context.comboDot * x.get(Key.DOT_DMG) + context.comboBreak * x.get(Key.BREAK_DMG)
         // c.x = x.toComputedStatsObject()
-        c.y = x
+        c.x = x
       }
     }
 
@@ -241,9 +241,8 @@ self.onmessage = function (e: MessageEvent) {
     // }
 
     // Pack the passing results into the ArrayBuffer to return
-    continue
     c.id = index
-    BufferPacker.packCharacter(arr, passCount, c, c.y)
+    BufferPacker.packCharacter(arr, passCount, c.x)
     passCount++
   }
 

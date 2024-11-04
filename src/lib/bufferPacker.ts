@@ -1,6 +1,6 @@
-import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
+import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
 
 const SIZE = 38
 
@@ -108,47 +108,48 @@ export const BufferPacker = {
     }
   },
 
-  packCharacter: (arr: number[], offset: number, character: BasicStatsObject) => {
+  packCharacter: (arr: number[], offset: number, x: ComputedStatsArray) => {
     offset = offset * SIZE
+    const c = x.c
 
-    arr[offset] = character.id // 0
-    arr[offset + 1] = character[Stats.HP]
-    arr[offset + 2] = character[Stats.ATK]
-    arr[offset + 3] = character[Stats.DEF]
-    arr[offset + 4] = character[Stats.SPD]
-    arr[offset + 5] = character[Stats.CD]
-    arr[offset + 6] = character[Stats.CR]
-    arr[offset + 7] = character[Stats.EHR]
-    arr[offset + 8] = character[Stats.RES]
-    arr[offset + 9] = character[Stats.BE]
-    arr[offset + 10] = character[Stats.ERR] // 10
-    arr[offset + 11] = character[Stats.OHB]
-    arr[offset + 12] = character.ELEMENTAL_DMG
-    arr[offset + 13] = character.WEIGHT
-    arr[offset + 14] = character.x.EHP
-    arr[offset + 15] = character.x.HEAL_VALUE
-    arr[offset + 16] = character.x.SHIELD_VALUE
-    arr[offset + 17] = character.x.BASIC_DMG
-    arr[offset + 18] = character.x.SKILL_DMG
-    arr[offset + 19] = character.x.ULT_DMG
-    arr[offset + 20] = character.x.FUA_DMG
-    arr[offset + 21] = character.x.DOT_DMG
-    arr[offset + 22] = character.x.BREAK_DMG // 22
-    arr[offset + 23] = character.x.COMBO_DMG
-    arr[offset + 24] = character.x[Stats.HP]
-    arr[offset + 25] = character.x[Stats.ATK]
-    arr[offset + 26] = character.x[Stats.DEF]
-    arr[offset + 27] = character.x[Stats.SPD]
-    arr[offset + 28] = character.x[Stats.CR]
-    arr[offset + 29] = character.x[Stats.CD]
-    arr[offset + 30] = character.x[Stats.EHR]
-    arr[offset + 31] = character.x[Stats.RES]
-    arr[offset + 32] = character.x[Stats.BE]
-    arr[offset + 33] = character.x[Stats.ERR] // 33
-    arr[offset + 34] = character.x[Stats.OHB]
-    arr[offset + 35] = character.x.ELEMENTAL_DMG
-    arr[offset + 36] = character.relicSetIndex
-    arr[offset + 37] = character.ornamentSetIndex
+    arr[offset] = x.c.id // 0
+    arr[offset + 1] = c[Stats.HP]
+    arr[offset + 2] = c[Stats.ATK]
+    arr[offset + 3] = c[Stats.DEF]
+    arr[offset + 4] = c[Stats.SPD]
+    arr[offset + 5] = c[Stats.CD]
+    arr[offset + 6] = c[Stats.CR]
+    arr[offset + 7] = c[Stats.EHR]
+    arr[offset + 8] = c[Stats.RES]
+    arr[offset + 9] = c[Stats.BE]
+    arr[offset + 10] = c[Stats.ERR] // 10
+    arr[offset + 11] = c[Stats.OHB]
+    arr[offset + 12] = c.ELEMENTAL_DMG
+    arr[offset + 13] = c.WEIGHT
+    arr[offset + 14] = x.$EHP
+    arr[offset + 15] = x.$HEAL_VALUE
+    arr[offset + 16] = x.$SHIELD_VALUE
+    arr[offset + 17] = x.$BASIC_DMG
+    arr[offset + 18] = x.$SKILL_DMG
+    arr[offset + 19] = x.$ULT_DMG
+    arr[offset + 20] = x.$FUA_DMG
+    arr[offset + 21] = x.$DOT_DMG
+    arr[offset + 22] = x.$BREAK_DMG // 22
+    arr[offset + 23] = x.$COMBO_DMG
+    arr[offset + 24] = x.$HP
+    arr[offset + 25] = x.$ATK
+    arr[offset + 26] = x.$DEF
+    arr[offset + 27] = x.$SPD
+    arr[offset + 28] = x.$CR
+    arr[offset + 29] = x.$CD
+    arr[offset + 30] = x.$EHR
+    arr[offset + 31] = x.$RES
+    arr[offset + 32] = x.$BE
+    arr[offset + 33] = x.$ERR // 33
+    arr[offset + 34] = x.$OHB
+    arr[offset + 35] = x.$ELEMENTAL_DMG
+    arr[offset + 36] = c.relicSetIndex
+    arr[offset + 37] = c.ornamentSetIndex
   },
 
   cleanFloatBuffer: (buffer: ArrayBuffer) => {

@@ -1,5 +1,5 @@
-import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { _standardAtkFinalizer, AbilityEidolon, gpuStandardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { _buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
@@ -101,7 +101,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => _standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

@@ -1,5 +1,5 @@
 import { baseComputedStatsObject, BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Sets, Stats } from 'lib/constants'
+import { ElementToResPenType, Sets, Stats } from 'lib/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
@@ -37,8 +37,8 @@ export type ComputedStatsArray =
   & ComputedStatsArrayStatDirectAccess
 
 export class ComputedStatsArrayCore {
-  precomputedStatsArray = TEST_PRECOMPUTE()
-  computedStatsArray = TEST_PRECOMPUTE()
+  precomputedStatsArray = baseComputedStatsArray()
+  computedStatsArray = baseComputedStatsArray()
 
   public c: BasicStatsObject
   buffs: Buff[]
@@ -127,10 +127,6 @@ export class ComputedStatsArrayCore {
   }
 }
 
-export function TEST_PRECOMPUTE() {
-  return new Float32Array(Object.keys(baseComputedStatsObject).length).fill(0)
-}
-
 export function fromComputedStatsObject(x: ComputedStatsObject) {
   return Float32Array.from(Object.values(x))
 }
@@ -208,4 +204,46 @@ export const Source = {
   BASIC_STATS: 'BASIC_STATS',
   COMBAT_BUFFS: 'COMBAT_BUFFS',
   ...Sets,
+}
+
+export function getResPenType(x: ComputedStatsArray, type: string) {
+  switch (type) {
+    case ElementToResPenType.Physical:
+      return x.$PHYSICAL_RES_PEN
+    case ElementToResPenType.Fire:
+      return x.$FIRE_RES_PEN
+    case ElementToResPenType.Ice:
+      return x.$ICE_RES_PEN
+    case ElementToResPenType.Lightning:
+      return x.$LIGHTNING_RES_PEN
+    case ElementToResPenType.Wind:
+      return x.$WIND_RES_PEN
+    case ElementToResPenType.Quantum:
+      return x.$QUANTUM_RES_PEN
+    case ElementToResPenType.Imaginary:
+      return x.$IMAGINARY_RES_PEN
+    default:
+      return 0
+  }
+}
+
+export function getElementalDamageType(x: ComputedStatsArray, type: string) {
+  switch (type) {
+    case Stats.Physical_DMG:
+      return x.$PHYSICAL_DMG_BOOST
+    case Stats.Fire_DMG:
+      return x.$FIRE_DMG_BOOST
+    case Stats.Ice_DMG:
+      return x.$ICE_DMG_BOOST
+    case Stats.Lightning_DMG:
+      return x.$LIGHTNING_DMG_BOOST
+    case Stats.Wind_DMG:
+      return x.$WIND_DMG_BOOST
+    case Stats.Quantum_DMG:
+      return x.$QUANTUM_DMG_BOOST
+    case Stats.Imaginary_DMG:
+      return x.$IMAGINARY_DMG_BOOST
+    default:
+      return 0
+  }
 }

@@ -1,5 +1,6 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
@@ -71,6 +72,14 @@ export function standardAtkFinalizer(x: ComputedStatsObject) {
   x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
   x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
   x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
+}
+
+export function _standardAtkFinalizer(x: ComputedStatsArray) {
+  x.BASIC_DMG.buff(x.$BASIC_SCALING * x.$ATK, Source.NONE)
+  x.SKILL_DMG.buff(x.$SKILL_SCALING * x.$ATK, Source.NONE)
+  x.ULT_DMG.buff(x.$ULT_SCALING * x.$ATK, Source.NONE)
+  x.FUA_DMG.buff(x.$FUA_SCALING * x.$ATK, Source.NONE)
+  x.DOT_DMG.buff(x.$DOT_SCALING * x.$ATK, Source.NONE)
 }
 
 export function gpuStandardAtkFinalizer() {

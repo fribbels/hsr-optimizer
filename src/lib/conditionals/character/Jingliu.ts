@@ -1,7 +1,6 @@
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { _buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
@@ -68,34 +67,37 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       const r = action.characterConditionals
 
       // Skills
-      x[Stats.CR] += (r.talentEnhancedState) ? talentCrBuff : 0
-      x[Stats.ATK_P] += ((r.talentEnhancedState) ? r.talentHpDrainAtkBuff : 0)
+      x.CR.buff((r.talentEnhancedState) ? talentCrBuff : 0, Source.NONE)
+      x.ATK_P.buff((r.talentEnhancedState) ? r.talentHpDrainAtkBuff : 0, Source.NONE)
 
       // Traces
-      x[Stats.RES] += (r.talentEnhancedState) ? 0.35 : 0
-      buffAbilityDmg(x, ULT_TYPE, 0.20, (r.talentEnhancedState))
+      x.RES.buff((r.talentEnhancedState) ? 0.35 : 0, Source.NONE)
+
+      r.talentEnhancedState && _buffAbilityDmg(x, ULT_TYPE, 0.20, Source.NONE)
 
       // Eidolons
-      x[Stats.CD] += (e >= 1 && r.e1CdBuff) ? 0.24 : 0
-      x[Stats.CD] += (e >= 6 && r.talentEnhancedState) ? 0.50 : 0
+      x.CD.buff((e >= 1 && r.e1CdBuff) ? 0.24 : 0, Source.NONE)
+      x.CD.buff((e >= 6 && r.talentEnhancedState) ? 0.50 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
 
-      x.SKILL_SCALING += (r.talentEnhancedState) ? skillEnhancedScaling : skillScaling
-      x.SKILL_SCALING += (e >= 1 && r.talentEnhancedState && (context.enemyCount ?? context.enemyCount) == 1) ? 1 : 0
+      x.SKILL_SCALING.buff((r.talentEnhancedState) ? skillEnhancedScaling : skillScaling, Source.NONE)
+      x.SKILL_SCALING.buff((e >= 1 && r.talentEnhancedState && (context.enemyCount ?? context.enemyCount) == 1) ? 1 : 0, Source.NONE)
 
-      x.ULT_SCALING += ultScaling
-      x.ULT_SCALING += (e >= 1 && (context.enemyCount ?? context.enemyCount) == 1) ? 1 : 0
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.ULT_SCALING.buff((e >= 1 && (context.enemyCount ?? context.enemyCount) == 1) ? 1 : 0, Source.NONE)
 
-      x.FUA_SCALING += 0
+      x.FUA_SCALING.buff(0, Source.NONE)
 
       // BOOST
-      buffAbilityDmg(x, SKILL_TYPE, 0.80, (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff))
+      if (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) {
+        _buffAbilityDmg(x, SKILL_TYPE, 0.80, Source.NONE)
+      }
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 60
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
 
       return x
     },

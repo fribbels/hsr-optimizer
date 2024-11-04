@@ -1,4 +1,4 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
@@ -36,10 +36,10 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       eclipseStacks: 3,
       maxStackDefPen: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals
-      x.ELEMENTAL_DMG += r.eclipseStacks * sValuesStackDmg[s]
-      x.DEF_PEN += (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0
+      x.ELEMENTAL_DMG.buff(r.eclipseStacks * sValuesStackDmg[s], Source.NONE)
+      x.DEF_PEN.buff((r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

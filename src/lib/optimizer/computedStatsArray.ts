@@ -116,6 +116,10 @@ export function TEST_PRECOMPUTE() {
   return new Float32Array(Object.keys(baseComputedStatsObject).length).fill(0)
 }
 
+export function baseComputedStatsArray() {
+  return Float32Array.from(Object.values(baseComputedStatsObject))
+}
+
 export function buff(x: ComputedStatsArray, key: number, value: number, source?: string) {
   x.buff(key, value, source)
 }

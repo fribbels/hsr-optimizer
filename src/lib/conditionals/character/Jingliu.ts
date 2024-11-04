@@ -1,7 +1,7 @@
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { _buffAbilityDmg, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { buffWithSource, ComputedStatsArray, Effect, Key, SourceGenerator } from 'lib/optimizer/computedStatsArray'
+import { buffWithSource, ComputedStatsArray, Effect, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -11,7 +11,7 @@ import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jingliu')
   const buff = buffWithSource('Jingliu')
-  const { SOURCE_SKILL, SOURCE_ULT } = SourceGenerator.character('Jingliu')
+  const { SOURCE_SKILL, SOURCE_ULT } = Source.character('Jingliu')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const talentCrBuff = talent(e, 0.50, 0.52)

@@ -1,5 +1,5 @@
 import { baseComputedStatsObject, BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Stats } from 'lib/constants'
+import { Sets, Stats } from 'lib/constants'
 
 type Buff = {
   key: number
@@ -15,8 +15,8 @@ export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject
 }, {} as Record<KeysType, number>)
 
 type StatMethods = {
-  buff: (value: number) => void
-  set: (value: number) => void
+  buff: (value: number, source: string) => void
+  set: (value: number, source: string) => void
   get: () => number
 }
 
@@ -49,10 +49,10 @@ export class ComputedStatsArrayCore {
     Object.keys(baseComputedStatsObject).forEach((key, index) => {
       Object.defineProperty(this, key, {
         value: {
-          buff: (value: number) => {
+          buff: (value: number, source: string) => {
             this.computedStatsArray[index] += value
           },
-          set: (value: number) => {
+          set: (value: number, source: string) => {
             this.computedStatsArray[index] = value
           },
           get: () => this.computedStatsArray[index],
@@ -84,11 +84,11 @@ export class ComputedStatsArrayCore {
     this.computedStatsArray.set(this.precomputedStatsArray)
   }
 
-  buff(key: number, value: number, source?: string, effect?: string) {
+  buff(key: number, value: number, source?: string) {
     this.computedStatsArray[key] += value
   }
 
-  set(key: number, value: number, source?: string, effect?: string) {
+  set(key: number, value: number, source?: string) {
     this.computedStatsArray[key] = value
   }
 
@@ -109,29 +109,8 @@ export class ComputedStatsArrayCore {
 
 export const TEST_PRECOMPUTE = new Float32Array(Object.keys(baseComputedStatsObject).length).fill(1)
 
-export function buff(x: ComputedStatsArrayCore, key: number, value: number, source?: string, effect?: string) {
-  x.buff(key, value, source, effect)
-}
-
-export function buffWithSource(source: string) {
-  return (x: ComputedStatsArrayCore, key: number, value: number, effect: string) => {
-    x.buff(key, value, source, effect)
-  }
-}
-
-export function buffWithSourceEffect(source: string, effect: string) {
-  return (x: ComputedStatsArrayCore, key: number, value: number) => {
-    x.buff(key, value, source, effect)
-  }
-}
-
-export const Source = {
-  DEFAULT: 'Default',
-  BASE_STATS: 'Basic stats',
-  COMBAT_BUFFS: 'Combat buffs',
-}
-export const Effect = {
-  DEFAULT: 'Default',
+export function buff(x: ComputedStatsArrayCore, key: number, value: number, source?: string) {
+  x.buff(key, value, source)
 }
 
 export const StatToKey: Record<string, number> = {
@@ -159,11 +138,19 @@ export const StatToKey: Record<string, number> = {
   [Stats.Wind_DMG]: Key.WIND_DMG_BOOST,
 } as const
 
-export const SourceGenerator = {
+export const Source = {
   character(name: string) {
     return {
+      SOURCE_BASIC: `${name}_BASIC`,
       SOURCE_SKILL: `${name}_SKILL`,
       SOURCE_ULT: `${name}_ULT`,
+      SOURCE_TALENT: `${name}_TALENT`,
+      SOURCE_TECHNIQUE: `${name}_TECHNIQUE`,
+      SOURCE_TRACE: `${name}_TRACE`,
     }
   },
+  NONE: 'NONE',
+  BASIC_STATS: 'BASIC_STATS',
+  COMBAT_BUFFS: 'COMBAT_BUFFS',
+  ...Sets,
 }

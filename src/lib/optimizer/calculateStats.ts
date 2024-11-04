@@ -1,5 +1,5 @@
 import { BASIC_TYPE, BasicStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { Sets, Stats, StatsValues } from 'lib/constants'
+import { Stats, StatsValues } from 'lib/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   BelobogOfTheArchitectsConditional,
@@ -17,7 +17,7 @@ import {
   TaliaKingdomOfBanditryConditional,
 } from 'lib/gpu/conditionals/setConditionals'
 import { _buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { buff, buffWithSourceEffect, ComputedStatsArray, Effect, Key, Source } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 import { Relic } from 'types/Relic'
@@ -176,168 +176,165 @@ export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContex
   )
 }
 
-const buffBasicStats = buffWithSourceEffect(Source.BASE_STATS, Effect.DEFAULT)
-const buffCombatBuffs = buffWithSourceEffect(Source.COMBAT_BUFFS, Effect.DEFAULT)
-
 export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
   const setConditionals = action.setConditionals
   const c = x.c
   const sets = c.sets
+  const buffs = context.combatBuffs
 
-  const a = x.$ATK_P
-  x.ATK.buff(x.$ATK_P * context.baseATK)
+  // const a = x.$ATK_P
+  // x.ATK.buff(x.$ATK_P * context.baseATK)
 
   // Add base to computed
-  buffBasicStats(x, Key.ATK, c[Stats.ATK])
-  buffBasicStats(x, Key.DEF, c[Stats.DEF])
-  buffBasicStats(x, Key.HP, c[Stats.HP])
-  buffBasicStats(x, Key.SPD, c[Stats.SPD])
-  buffBasicStats(x, Key.CD, c[Stats.CD])
-  buffBasicStats(x, Key.CR, c[Stats.CR])
-  buffBasicStats(x, Key.EHR, c[Stats.EHR])
-  buffBasicStats(x, Key.RES, c[Stats.RES])
-  buffBasicStats(x, Key.BE, c[Stats.BE])
-  buffBasicStats(x, Key.ERR, c[Stats.ERR])
-  buffBasicStats(x, Key.OHB, c[Stats.OHB])
+  x.ATK.buff(c[Stats.ATK], Source.BASIC_STATS)
+  x.DEF.buff(c[Stats.DEF], Source.BASIC_STATS)
+  x.HP.buff(c[Stats.HP], Source.BASIC_STATS)
+  x.SPD.buff(c[Stats.SPD], Source.BASIC_STATS)
+  x.CD.buff(c[Stats.CD], Source.BASIC_STATS)
+  x.CR.buff(c[Stats.CR], Source.BASIC_STATS)
+  x.EHR.buff(c[Stats.EHR], Source.BASIC_STATS)
+  x.RES.buff(c[Stats.RES], Source.BASIC_STATS)
+  x.BE.buff(c[Stats.BE], Source.BASIC_STATS)
+  x.ERR.buff(c[Stats.ERR], Source.BASIC_STATS)
+  x.OHB.buff(c[Stats.OHB], Source.BASIC_STATS)
   // x[context.elementalDamageType] += c.ELEMENTAL_DMG
 
   // Combat buffs
-  buffCombatBuffs(x, Key.ATK, context.combatBuffs.ATK + context.combatBuffs.ATK_P * context.baseATK)
-  buffCombatBuffs(x, Key.DEF, context.combatBuffs.DEF + context.combatBuffs.DEF_P * context.baseDEF)
-  buffCombatBuffs(x, Key.HP, context.combatBuffs.HP + context.combatBuffs.HP_P * context.baseHP)
-  buffCombatBuffs(x, Key.CD, context.combatBuffs.CD)
-  buffCombatBuffs(x, Key.CR, context.combatBuffs.CR)
-  buffCombatBuffs(x, Key.SPD, context.combatBuffs.SPD_P * context.baseSPD + context.combatBuffs.SPD)
-  buffCombatBuffs(x, Key.BE, context.combatBuffs.BE)
-  buffCombatBuffs(x, Key.ELEMENTAL_DMG, context.combatBuffs.DMG_BOOST)
-  buffCombatBuffs(x, Key.EFFECT_RES_PEN, context.combatBuffs.EFFECT_RES_PEN)
-  buffCombatBuffs(x, Key.VULNERABILITY, context.combatBuffs.VULNERABILITY)
-  buffCombatBuffs(x, Key.BREAK_EFFICIENCY_BOOST, context.combatBuffs.BREAK_EFFICIENCY)
+  x.ATK.buff(buffs.ATK + buffs.ATK_P * context.baseATK, Source.COMBAT_BUFFS)
+  x.DEF.buff(buffs.DEF + buffs.DEF_P * context.baseDEF, Source.COMBAT_BUFFS)
+  x.HP.buff(buffs.HP + buffs.HP_P * context.baseHP, Source.COMBAT_BUFFS)
+  x.CD.buff(buffs.CD, Source.COMBAT_BUFFS)
+  x.CR.buff(buffs.CR, Source.COMBAT_BUFFS)
+  x.SPD.buff(buffs.SPD_P * context.baseSPD + buffs.SPD, Source.COMBAT_BUFFS)
+  x.BE.buff(buffs.BE, Source.COMBAT_BUFFS)
+  x.ELEMENTAL_DMG.buff(buffs.DMG_BOOST, Source.COMBAT_BUFFS)
+  x.EFFECT_RES_PEN.buff(buffs.EFFECT_RES_PEN, Source.COMBAT_BUFFS)
+  x.VULNERABILITY.buff(buffs.VULNERABILITY, Source.COMBAT_BUFFS)
+  x.BREAK_EFFICIENCY_BOOST.buff(buffs.BREAK_EFFICIENCY, Source.COMBAT_BUFFS)
 
   // SPD
-
   if (p4(sets.MessengerTraversingHackerspace) && setConditionals.enabledMessengerTraversingHackerspace) {
-    buff(x, Key.SPD_P, 0.12, Sets.MessengerTraversingHackerspace, Effect.DEFAULT)
+    x.SPD_P.buff(0.12, Source.MessengerTraversingHackerspace)
   }
-  buff(x, Key.SPD, x.get(Key.SPD_P) * context.baseSPD)
+  x.SPD.buff(x.$SPD_P * context.baseSPD, Source.NONE)
 
   // ATK
 
   if (p4(sets.ChampionOfStreetwiseBoxing)) {
-    buff(x, Key.ATK_P, 0.05 * setConditionals.valueChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing, Effect.DEFAULT)
+    x.ATK_P.buff(0.05 * setConditionals.valueChampionOfStreetwiseBoxing, Source.ChampionOfStreetwiseBoxing)
   }
   if (p4(sets.BandOfSizzlingThunder) && setConditionals.enabledBandOfSizzlingThunder) {
-    buff(x, Key.ATK_P, 0.20, Sets.BandOfSizzlingThunder, Effect.DEFAULT)
+    x.ATK_P.buff(0.20, Source.BandOfSizzlingThunder)
   }
   if (p4(sets.TheAshblazingGrandDuke)) {
-    buff(x, Key.ATK_P, 0.06 * setConditionals.valueTheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke, Effect.DEFAULT)
+    x.ATK_P.buff(0.06 * setConditionals.valueTheAshblazingGrandDuke, Source.TheAshblazingGrandDuke)
   }
-  buff(x, Key.ATK, x.get(Key.ATK_P) * context.baseATK)
+  x.ATK.buff(x.$ATK_P * context.baseATK, Source.NONE)
 
   // DEF
 
-  buff(x, Key.DEF, x.get(Key.DEF_P) * context.baseDEF)
+  x.DEF.buff(x.$DEF_P * context.baseDEF, Source.NONE)
 
   // HP
 
-  buff(x, Key.HP, x.get(Key.HP_P) * context.baseHP)
+  x.HP.buff(x.$HP_P * context.baseHP, Source.NONE)
 
   // CD
 
   if (p4(sets.HunterOfGlacialForest) && setConditionals.enabledHunterOfGlacialForest) {
-    buff(x, Key.CD, 0.25, Sets.HunterOfGlacialForest, Effect.DEFAULT)
+    x.CD.buff(0.25, Source.HunterOfGlacialForest)
   }
   if (p4(sets.WastelanderOfBanditryDesert)) {
-    buff(x, Key.CD, 0.10 * (setConditionals.valueWastelanderOfBanditryDesert == 2 ? 1 : 0), Sets.WastelanderOfBanditryDesert, Effect.DEFAULT)
+    x.CD.buff(0.10 * (setConditionals.valueWastelanderOfBanditryDesert == 2 ? 1 : 0), Source.WastelanderOfBanditryDesert)
   }
   if (p4(sets.PioneerDiverOfDeadWaters)) {
-    buff(x, Key.CD, pioneerSetIndexToCd[setConditionals.valuePioneerDiverOfDeadWaters], Sets.PioneerDiverOfDeadWaters, Effect.DEFAULT)
+    x.CD.buff(pioneerSetIndexToCd[setConditionals.valuePioneerDiverOfDeadWaters], Source.PioneerDiverOfDeadWaters)
   }
   if (p2(sets.SigoniaTheUnclaimedDesolation)) {
-    buff(x, Key.CD, 0.04 * (setConditionals.valueSigoniaTheUnclaimedDesolation), Sets.SigoniaTheUnclaimedDesolation, Effect.DEFAULT)
+    x.CD.buff(0.04 * (setConditionals.valueSigoniaTheUnclaimedDesolation), Source.SigoniaTheUnclaimedDesolation)
   }
   if (p2(sets.DuranDynastyOfRunningWolves) && setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
-    buff(x, Key.CD, 0.25, Sets.DuranDynastyOfRunningWolves, Effect.DEFAULT)
+    x.CD.buff(0.25, Source.DuranDynastyOfRunningWolves)
   }
   if (p2(sets.TheWondrousBananAmusementPark) && setConditionals.enabledTheWondrousBananAmusementPark) {
-    buff(x, Key.CD, 0.32, Sets.TheWondrousBananAmusementPark, Effect.DEFAULT)
+    x.CD.buff(0.32, Source.TheWondrousBananAmusementPark)
   }
   if (p4(sets.SacerdosRelivedOrdeal)) {
-    buff(x, Key.CD, 0.18 * setConditionals.valueSacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal, Effect.DEFAULT)
+    x.CD.buff(0.18 * setConditionals.valueSacerdosRelivedOrdeal, Source.SacerdosRelivedOrdeal)
   }
 
   // CR
 
   if (p4(sets.WastelanderOfBanditryDesert) && setConditionals.valueWastelanderOfBanditryDesert > 0) {
-    buff(x, Key.CR, 0.10, Sets.WastelanderOfBanditryDesert, Effect.DEFAULT)
+    x.CR.buff(0.10, Source.WastelanderOfBanditryDesert)
   }
   if (p4(sets.LongevousDisciple)) {
-    buff(x, Key.CR, 0.08 * setConditionals.valueLongevousDisciple, Sets.LongevousDisciple, Effect.DEFAULT)
+    x.CR.buff(0.08 * setConditionals.valueLongevousDisciple, Source.LongevousDisciple)
   }
   if (p4(sets.PioneerDiverOfDeadWaters) && setConditionals.valuePioneerDiverOfDeadWaters > 2) {
-    buff(x, Key.CR, 0.04, Sets.PioneerDiverOfDeadWaters, Effect.DEFAULT)
+    x.CR.buff(0.04, Source.PioneerDiverOfDeadWaters)
   }
   if (p2(sets.IzumoGenseiAndTakamaDivineRealm) && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm) {
-    buff(x, Key.CR, 0.12, Sets.IzumoGenseiAndTakamaDivineRealm, Effect.DEFAULT)
+    x.CR.buff(0.12, Source.IzumoGenseiAndTakamaDivineRealm)
   }
 
   // BE
 
   if (p4(sets.WatchmakerMasterOfDreamMachinations) && setConditionals.enabledWatchmakerMasterOfDreamMachinations) {
-    buff(x, Key.BE, 0.30, Sets.WatchmakerMasterOfDreamMachinations, Effect.DEFAULT)
+    x.BE.buff(0.30, Source.WatchmakerMasterOfDreamMachinations)
   }
   if (p2(sets.ForgeOfTheKalpagniLantern) && setConditionals.enabledForgeOfTheKalpagniLantern) {
-    buff(x, Key.BE, 0.40, Sets.ForgeOfTheKalpagniLantern, Effect.DEFAULT)
+    x.BE.buff(0.40, Source.ForgeOfTheKalpagniLantern)
   }
 
   // Buffs
 
   // Basic boost
   if (p4(sets.MusketeerOfWildWheat)) {
-    _buffAbilityDmg(x, BASIC_TYPE, 0.10, Sets.MusketeerOfWildWheat, Effect.DEFAULT)
+    _buffAbilityDmg(x, BASIC_TYPE, 0.10, Source.MusketeerOfWildWheat)
   }
 
   // Skill boost
   if (p4(sets.FiresmithOfLavaForging)) {
-    _buffAbilityDmg(x, SKILL_TYPE, 0.12, Sets.FiresmithOfLavaForging, Effect.DEFAULT)
-  }
-
-  if (p4(sets.ScholarLostInErudition) && setConditionals.enabledScholarLostInErudition) {
-    _buffAbilityDmg(x, SKILL_TYPE, 0.25, Sets.ScholarLostInErudition, Effect.DEFAULT)
+    _buffAbilityDmg(x, SKILL_TYPE, 0.12, Source.FiresmithOfLavaForging)
   }
 
   // Fua boost
   if (p2(sets.TheAshblazingGrandDuke)) {
-    _buffAbilityDmg(x, FUA_TYPE, 0.20, Sets.TheAshblazingGrandDuke, Effect.DEFAULT)
+    _buffAbilityDmg(x, FUA_TYPE, 0.20, Source.TheAshblazingGrandDuke)
   }
   if (p2(sets.DuranDynastyOfRunningWolves)) {
-    _buffAbilityDmg(x, FUA_TYPE, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves, Sets.DuranDynastyOfRunningWolves, Effect.DEFAULT)
+    _buffAbilityDmg(x, FUA_TYPE, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves, Source.DuranDynastyOfRunningWolves)
   }
 
   // Ult boost
   if (p4(sets.TheWindSoaringValorous) && setConditionals.enabledTheWindSoaringValorous) {
-    _buffAbilityDmg(x, ULT_TYPE, 0.36, Sets.TheWindSoaringValorous, Effect.DEFAULT)
+    _buffAbilityDmg(x, ULT_TYPE, 0.36, Source.TheWindSoaringValorous)
   }
   if (p4(sets.ScholarLostInErudition)) {
-    _buffAbilityDmg(x, ULT_TYPE | SKILL_TYPE, 0.20, Sets.ScholarLostInErudition, Effect.DEFAULT)
+    _buffAbilityDmg(x, ULT_TYPE | SKILL_TYPE, 0.20, Source.ScholarLostInErudition)
   }
 
   if (p4(sets.GeniusOfBrilliantStars)) {
-    buff(x, Key.DEF_PEN, setConditionals.enabledGeniusOfBrilliantStars ? 0.20 : 0.10, Sets.GeniusOfBrilliantStars, Effect.DEFAULT)
+    x.DEF_PEN.buff(setConditionals.enabledGeniusOfBrilliantStars ? 0.20 : 0.10, Source.GeniusOfBrilliantStars)
   }
 
   if (p4(sets.PrisonerInDeepConfinement)) {
-    buff(x, Key.DEF_PEN, 0.06 * setConditionals.valuePrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement, Effect.DEFAULT)
+    x.DEF_PEN.buff(0.06 * setConditionals.valuePrisonerInDeepConfinement, Source.PrisonerInDeepConfinement)
   }
 
   if (p2(sets.PioneerDiverOfDeadWaters) && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
-    buff(x, Key.ELEMENTAL_DMG, 0.12, Sets.PioneerDiverOfDeadWaters, Effect.DEFAULT)
+    x.ELEMENTAL_DMG.buff(0.12, Source.PioneerDiverOfDeadWaters)
   }
 
   // Elemental DMG
 
   if (p2(sets.FiresmithOfLavaForging) && setConditionals.enabledFiresmithOfLavaForging) {
-    buff(x, Key.FIRE_DMG_BOOST, 0.12, Sets.FiresmithOfLavaForging, Effect.DEFAULT)
+    x.FIRE_DMG_BOOST.buff(0.12, Source.FiresmithOfLavaForging)
+  }
+
+  if (p4(sets.ScholarLostInErudition) && setConditionals.enabledScholarLostInErudition) {
+    _buffAbilityDmg(x, SKILL_TYPE, 0.25, Source.ScholarLostInErudition)
   }
 
   // Dynamic - still need implementing

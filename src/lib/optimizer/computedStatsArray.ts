@@ -18,6 +18,7 @@ export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject
 
 type StatMethods = {
   buff: (value: number, source: string) => void
+  multiply: (value: number, source: string) => void
   set: (value: number, source: string) => void
   buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => void
   get: () => number
@@ -52,6 +53,9 @@ export class ComputedStatsArrayCore {
         value: {
           buff: (value: number, source: string) => {
             this.a[index] += value
+          },
+          multiply: (value: number, source: string) => {
+            this.a[index] *= value
           },
           buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
             // Self buffing stats will asymptotically reach 0

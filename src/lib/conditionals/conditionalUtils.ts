@@ -74,15 +74,7 @@ export const AbilityEidolon = {
   },
 }
 
-export function standardAtkFinalizer(x: ComputedStatsObject) {
-  x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-  x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-  x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-  x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
-  x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-}
-
-export function _standardAtkFinalizer(x: ComputedStatsArray) {
+export function standardAtkFinalizer(x: ComputedStatsArray) {
   x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
   x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
   x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)

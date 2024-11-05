@@ -59,14 +59,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      // Scaling
       x.BASIC_SCALING.buff(basicScaling, Source.NONE)
       x.SKILL_SCALING.buff(skillScaling, Source.NONE)
       x.ULT_SCALING.buff(ultScaling, Source.NONE)
       x.FUA_SCALING.buff(fuaScaling, Source.NONE)
       x.DOT_SCALING.buff(dotScaling, Source.NONE)
 
-      // Boost
       x.DOT_SCALING.buff((e >= 6) ? 1.56 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)

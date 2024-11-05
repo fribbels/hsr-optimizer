@@ -1,4 +1,4 @@
-import { ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
@@ -50,7 +50,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
           return x[Stats.EHR] >= 0.80
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+          const r: Conditionals<typeof content> = action.lightConeConditionals
 
           const stateValue = action.conditionalState[this.id] || 0
           const buffValue = sValuesAtkBuff[s] * context.baseATK

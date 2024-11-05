@@ -1,5 +1,4 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
@@ -47,7 +46,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
           return r.resToHealingBoost
         },
-        effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+        effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
           const boost = Math.min(sMaxValues[s], sValues[s] * x[Stats.RES])
           buffDynamicStat(x, Stats.OHB, boost, action, context)
         },

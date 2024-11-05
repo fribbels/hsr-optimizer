@@ -1,9 +1,9 @@
-import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { BREAK_TYPE } from 'lib/conditionals/conditionalConstants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
@@ -15,32 +15,34 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesSpdBuff = [0.12, 0.14, 0.16, 0.18, 0.20]
   const sValuesDefShred = [0.20, 0.23, 0.26, 0.29, 0.32]
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    breakDmgDefShred: true,
+    spdBuffConditional: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    breakDmgDefShred: {
       lc: true,
-      id: 'breakDmgDefShred',
       formItem: 'switch',
+      id: 'breakDmgDefShred',
       text: t('Content.breakDmgDefShred.text'),
       content: t('Content.breakDmgDefShred.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefShred[s]) }),
     },
-    {
+    spdBuffConditional: {
       lc: true,
-      id: 'spdBuffConditional',
       formItem: 'switch',
+      id: 'spdBuffConditional',
       text: t('Content.spdBuffConditional.text'),
       content: t('Content.spdBuffConditional.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpdBuff[s]) }),
     },
-  ]
+  }
 
   return {
     content: () => Object.values(content),
-    defaults: () => ({
-      breakDmgDefShred: true,
-      spdBuffConditional: true,
-    }),
+    defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
-      buffAbilityDefPen(x, BREAK_TYPE, sValuesDefShred[s], (r.breakDmgDefShred))
+      const r: Conditionals<typeof content> = action.lightConeConditionals
+      buffAbilityDefPen(x, BREAK_TYPE, (r.breakDmgDefShred) ? sValuesDefShred[s] : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
@@ -53,10 +55,10 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r: Conditionals<typeof content> = action.lightConeConditionals
 
-          return r.spdBuffConditional && x[Stats.BE] >= 1.50
+          return r.spdBuffConditional && x.a[Key.BE] >= 1.50
         },
-        effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-          buffDynamicStat(x, Stats.SPD, (sValuesSpdBuff[s]) * context.baseSPD, action, context)
+        effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+          x.SPD.buffDynamic((sValuesSpdBuff[s]) * context.baseSPD, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           return conditionalWgslWrapper(this, `

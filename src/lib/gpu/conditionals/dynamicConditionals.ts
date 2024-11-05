@@ -153,55 +153,6 @@ if (trueAtk > 1800) {
   },
 }
 
-export const BoothillConversionConditional: DynamicConditional = {
-  id: 'BoothillConversionConditional',
-  type: ConditionalType.ABILITY,
-  activation: ConditionalActivation.CONTINUOUS,
-  dependsOn: [Stats.BE],
-  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
-
-    return r.beToCritBoost
-  },
-  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    const stateValue = action.conditionalState[this.id] || 0
-
-    const stateCrBuffValue = Math.min(0.30, 0.10 * stateValue)
-    const stateCdBuffValue = Math.min(1.50, 0.50 * stateValue)
-
-    const crBuffValue = Math.min(0.30, 0.10 * x.a[Key.BE])
-    const cdBuffValue = Math.min(1.50, 0.50 * x.a[Key.BE])
-
-    action.conditionalState[this.id] = x.a[Key.BE]
-
-    x.CR.buffDynamic(crBuffValue - stateCrBuffValue, Source.NONE, action, context)
-    x.CD.buffDynamic(cdBuffValue - stateCdBuffValue, Source.NONE, action, context)
-  },
-  gpu: function (action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
-
-    return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.beToCritBoost)}) {
-  return;
-}
-
-let be = (*p_x).BE;
-let stateValue = (*p_state).BoothillConversionConditional;
-
-let stateCrBuffValue = min(0.30, 0.10 * stateValue);
-let stateCdBuffValue = min(1.50, 0.50 * stateValue);
-
-let crBuffValue = min(0.30, 0.10 * be);
-let cdBuffValue = min(1.50, 0.50 * be);
-
-(*p_state).BoothillConversionConditional = be;
-
-buffDynamicCR(crBuffValue - stateCrBuffValue, p_x, p_state);
-buffDynamicCD(cdBuffValue - stateCdBuffValue, p_x, p_state);
-    `)
-  },
-}
-
 export const GepardConversionConditional: DynamicConditional = {
   id: 'GepardConversionConditional',
   type: ConditionalType.ABILITY,

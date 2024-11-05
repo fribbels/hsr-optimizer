@@ -1,16 +1,17 @@
 import { NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
-  Conditionals, ContentDefinition,
-  findContentId,
+  Conditionals,
+  ContentDefinition,
   gpuStandardDefFinalizer,
   gpuStandardDefShieldFinalizer,
   standardDefFinalizer,
   standardDefShieldFinalizer,
 } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
-import { AventurineConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -36,8 +37,25 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const traceShieldScaling = 0.07
   const traceShieldFlat = 96
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    shieldAbility: SKILL_TYPE,
+    defToCrBoost: true,
+    fuaHitsOnTarget: fuaHits,
+    fortifiedWagerBuff: true,
+    enemyUnnervedDebuff: true,
+    e2ResShred: true,
+    e4DefBuff: true,
+    e6ShieldStacks: 3,
+  }
+
+  const teammateDefaults = {
+    fortifiedWagerBuff: true,
+    enemyUnnervedDebuff: true,
+    e2ResShred: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    shieldAbility: {
       formItem: 'select',
       id: 'shieldAbility',
       text: tShield('Text'),
@@ -48,25 +66,25 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       ],
       fullWidth: true,
     },
-    {
+    defToCrBoost: {
       formItem: 'switch',
       id: 'defToCrBoost',
       text: t('Content.defToCrBoost.text'),
       content: t('Content.defToCrBoost.content'),
     },
-    {
+    fortifiedWagerBuff: {
       formItem: 'switch',
       id: 'fortifiedWagerBuff',
       text: t('Content.fortifiedWagerBuff.text'),
       content: t('Content.fortifiedWagerBuff.content', { talentResScaling: TsUtils.precisionRound(100 * talentResScaling) }),
     },
-    {
+    enemyUnnervedDebuff: {
       formItem: 'switch',
       id: 'enemyUnnervedDebuff',
       text: t('Content.enemyUnnervedDebuff.text'),
       content: t('Content.enemyUnnervedDebuff.content', { ultCdBoost: TsUtils.precisionRound(100 * ultCdBoost) }),
     },
-    {
+    fuaHitsOnTarget: {
       formItem: 'slider',
       id: 'fuaHitsOnTarget',
       text: t('Content.fuaHitsOnTarget.text'),
@@ -74,21 +92,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: fuaHits,
     },
-    {
+    e2ResShred: {
       formItem: 'switch',
       id: 'e2ResShred',
       text: t('Content.e2ResShred.text'),
       content: t('Content.e2ResShred.content'),
       disabled: e < 2,
     },
-    {
+    e4DefBuff: {
       formItem: 'switch',
       id: 'e4DefBuff',
       text: t('Content.e4DefBuff.text'),
       content: t('Content.e4DefBuff.content'),
       disabled: e < 4,
     },
-    {
+    e6ShieldStacks: {
       formItem: 'slider',
       id: 'e6ShieldStacks',
       text: t('Content.e6ShieldStacks.text'),
@@ -97,53 +115,40 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       max: 3,
       disabled: e < 6,
     },
-  ]
+  }
 
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
-    findContentId(content, 'fortifiedWagerBuff'),
-    findContentId(content, 'enemyUnnervedDebuff'),
-    findContentId(content, 'e2ResShred'),
-  ]
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    fortifiedWagerBuff: content.fortifiedWagerBuff,
+    enemyUnnervedDebuff: content.enemyUnnervedDebuff,
+    e2ResShred: content.e2ResShred,
+  }
 
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
-    defaults: () => ({
-      shieldAbility: SKILL_TYPE,
-      defToCrBoost: true,
-      fuaHitsOnTarget: fuaHits,
-      fortifiedWagerBuff: true,
-      enemyUnnervedDebuff: true,
-      e2ResShred: true,
-      e4DefBuff: true,
-      e6ShieldStacks: 3,
-    }),
-    teammateDefaults: () => ({
-      fortifiedWagerBuff: true,
-      enemyUnnervedDebuff: true,
-      e2ResShred: true,
-    }),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
-      x[Stats.DEF_P] += (e >= 4 && r.e4DefBuff) ? 0.40 : 0
-      x.ELEMENTAL_DMG += (e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0
+      x.DEF_P.buff((e >= 4 && r.e4DefBuff) ? 0.40 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0, Source.NONE)
 
-      x.BASIC_SCALING += basicScaling
-      x.ULT_SCALING += ultScaling
-      x.FUA_SCALING += talentDmgScaling * r.fuaHitsOnTarget
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.FUA_SCALING.buff(talentDmgScaling * r.fuaHitsOnTarget, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.ULT_TOUGHNESS_DMG += 90
-      x.FUA_TOUGHNESS_DMG += 10 * r.fuaHitsOnTarget
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
+      x.FUA_TOUGHNESS_DMG.buff(10 * r.fuaHitsOnTarget, Source.NONE)
 
       if (r.shieldAbility == SKILL_TYPE) {
-        x.SHIELD_SCALING += skillShieldScaling
-        x.SHIELD_FLAT += skillShieldFlat
+        x.SHIELD_SCALING.buff(skillShieldScaling, Source.NONE)
+        x.SHIELD_FLAT.buff(skillShieldFlat, Source.NONE)
       }
       if (r.shieldAbility == 0) {
-        x.SHIELD_SCALING += traceShieldScaling
-        x.SHIELD_FLAT += traceShieldFlat
+        x.SHIELD_SCALING.buff(traceShieldScaling, Source.NONE)
+        x.SHIELD_FLAT.buff(traceShieldFlat, Source.NONE)
       }
 
       return x
@@ -151,10 +156,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.RES] += (m.fortifiedWagerBuff) ? talentResScaling : 0
-      x[Stats.CD] += (m.enemyUnnervedDebuff) ? ultCdBoost : 0
-      x[Stats.CD] += (e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0
-      x.RES_PEN += (e >= 2 && m.e2ResShred) ? 0.12 : 0
+      x.RES.buff((m.fortifiedWagerBuff) ? talentResScaling : 0, Source.NONE)
+      x.CD.buff((m.enemyUnnervedDebuff) ? ultCdBoost : 0, Source.NONE)
+      x.CD.buff((e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0, Source.NONE)
+      x.RES_PEN.buff((e >= 2 && m.e2ResShred) ? 0.12 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardDefFinalizer(x)
@@ -163,6 +168,42 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     gpuFinalizeCalculations: () => {
       return gpuStandardDefFinalizer() + gpuStandardDefShieldFinalizer()
     },
-    dynamicConditionals: [AventurineConversionConditional],
+    dynamicConditionals: [{
+      id: 'AventurineConversionConditional',
+      type: ConditionalType.ABILITY,
+      activation: ConditionalActivation.CONTINUOUS,
+      dependsOn: [Stats.DEF],
+      condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        const r: Conditionals<typeof content> = action.characterConditionals
+        return r.defToCrBoost && x.a[Key.DEF] > 1600
+      },
+      effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        const stateValue = action.conditionalState[this.id] || 0
+        const buffValue = Math.min(0.48, 0.02 * Math.floor((x.a[Key.DEF] - 1600) / 100))
+
+        action.conditionalState[this.id] = buffValue
+        x.CR.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
+
+        return buffValue
+      },
+      gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        const r: Conditionals<typeof content> = action.characterConditionals
+
+        return conditionalWgslWrapper(this, `
+if (${wgslFalse(r.defToCrBoost)}) {
+  return;
+}
+let def = (*p_x).DEF;
+let stateValue: f32 = (*p_state).AventurineConversionConditional;
+
+if (def > 1600) {
+  let buffValue: f32 = min(0.48, 0.02 * floor((def - 1600) / 100));
+
+  (*p_state).AventurineConversionConditional = buffValue;
+  buffDynamicCR(buffValue - stateValue, p_x, p_state);
+}
+    `)
+      },
+    }],
   }
 }

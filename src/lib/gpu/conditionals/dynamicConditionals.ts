@@ -81,44 +81,6 @@ export function buffDynamicStat(x: ComputedStatsArray, stat: string, value: numb
   }
 }
 
-export const AventurineConversionConditional: DynamicConditional = {
-  id: 'AventurineConversionConditional',
-  type: ConditionalType.ABILITY,
-  activation: ConditionalActivation.CONTINUOUS,
-  dependsOn: [Stats.DEF],
-  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
-    return r.defToCrBoost && x.a[Key.DEF] > 1600
-  },
-  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    const stateValue = action.conditionalState[this.id] || 0
-    const buffValue = Math.min(0.48, 0.02 * Math.floor((x.a[Key.DEF] - 1600) / 100))
-
-    action.conditionalState[this.id] = buffValue
-    x.CR.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
-
-    return buffValue
-  },
-  gpu: function (action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
-
-    return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.defToCrBoost)}) {
-  return;
-}
-let def = (*p_x).DEF;
-let stateValue: f32 = (*p_state).AventurineConversionConditional;
-
-if (def > 1600) {
-  let buffValue: f32 = min(0.48, 0.02 * floor((def - 1600) / 100));
-
-  (*p_state).AventurineConversionConditional = buffValue;
-  buffDynamicCR(buffValue - stateValue, p_x, p_state);
-}
-    `)
-  },
-}
-
 export const XueyiConversionConditional: DynamicConditional = {
   id: 'XueyiConversionConditional',
   type: ConditionalType.ABILITY,

@@ -1,7 +1,7 @@
 import { BASIC_TYPE, BREAK_TYPE, FUA_TYPE, SKILL_TYPE, SUPER_BREAK_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { _buffAbilityDefPen, _buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -15,7 +15,7 @@ export const RutilantArenaConditional: DynamicConditional = {
     return p2(x.c.sets.RutilantArena) && x.a[Key.CR] >= 0.70
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    _buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, 0.20, Source.RutilantArena)
+    buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, 0.20, Source.RutilantArena)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -41,7 +41,7 @@ export const InertSalsottoConditional: DynamicConditional = {
     return p2(x.c.sets.InertSalsotto) && x.a[Key.CR] >= 0.50
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    _buffAbilityDmg(x, ULT_TYPE | FUA_TYPE, 0.15, Source.InertSalsotto)
+    buffAbilityDmg(x, ULT_TYPE | FUA_TYPE, 0.15, Source.InertSalsotto)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -142,7 +142,7 @@ export const IronCavalryAgainstTheScourge150Conditional: DynamicConditional = {
     return p4(x.c.sets.IronCavalryAgainstTheScourge) && x.a[Key.BE] >= 1.50
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    _buffAbilityDefPen(x, BREAK_TYPE, 0.10, Source.IronCavalryAgainstTheScourge)
+    buffAbilityDefPen(x, BREAK_TYPE, 0.10, Source.IronCavalryAgainstTheScourge)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -167,7 +167,7 @@ export const IronCavalryAgainstTheScourge250Conditional: DynamicConditional = {
     return p4(x.c.sets.IronCavalryAgainstTheScourge) && x.a[Key.BE] >= 2.50
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    _buffAbilityDefPen(x, SUPER_BREAK_TYPE, 0.15, Source.IronCavalryAgainstTheScourge)
+    buffAbilityDefPen(x, SUPER_BREAK_TYPE, 0.15, Source.IronCavalryAgainstTheScourge)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `

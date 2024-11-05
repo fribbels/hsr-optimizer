@@ -1,4 +1,4 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
@@ -29,10 +29,10 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     }),
     precomputeEffects: () => {
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.lightConeConditionals
 
-      x.ELEMENTAL_DMG += (t.postSkillDmgBuff) ? sValuesDmg[s] : 0
+      x.ELEMENTAL_DMG.buff((t.postSkillDmgBuff) ? sValuesDmg[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

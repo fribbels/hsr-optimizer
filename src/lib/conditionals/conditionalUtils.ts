@@ -4,6 +4,14 @@ import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArra
 import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
+export type ContentDefinition<T extends Record<string, unknown>> = {
+  [K in keyof T]: ContentItem & { id: K };
+}
+
+export type Conditionals<T extends ContentDefinition<T>> = {
+  [K in keyof T]: number;
+}
+
 export const precisionRound = (number: number, precision: number = 8): number => {
   const factor = Math.pow(10, precision)
   return Math.round(number * factor) / factor
@@ -168,12 +176,12 @@ x.SHIELD_VALUE += x.SHIELD_SCALING * x.DEF + x.SHIELD_FLAT;
 `
 }
 
-export function standardFuaAtkFinalizer(x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext, hitMulti: number) {
-  x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-  x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-  x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-  x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + calculateAshblazingSet(x, action, context, hitMulti))
-  x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
+export function standardFuaAtkFinalizer(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, hitMulti: number) {
+  x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
+  x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
+  x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)
+  x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * (x.a[Key.ATK] + calculateAshblazingSet(x, action, context, hitMulti)), Source.NONE)
+  x.DOT_DMG.buff(x.a[Key.DOT_SCALING] * x.a[Key.ATK], Source.NONE)
 }
 
 export function gpuStandardFuaAtkFinalizer(hitMulti: number) {

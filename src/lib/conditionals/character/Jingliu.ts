@@ -1,6 +1,6 @@
 import { SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { _standardAtkFinalizer, AbilityEidolon, gpuStandardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { _buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
@@ -73,7 +73,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       // Traces
       x.RES.buff((r.talentEnhancedState) ? 0.35 : 0, Source.NONE)
 
-      r.talentEnhancedState && _buffAbilityDmg(x, ULT_TYPE, 0.20, Source.NONE)
+      r.talentEnhancedState && buffAbilityDmg(x, ULT_TYPE, 0.20, Source.NONE)
 
       // Eidolons
       x.CD.buff((e >= 1 && r.e1CdBuff) ? 0.24 : 0, Source.NONE)
@@ -92,7 +92,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       // BOOST
       if (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) {
-        _buffAbilityDmg(x, SKILL_TYPE, 0.80, Source.NONE)
+        buffAbilityDmg(x, SKILL_TYPE, 0.80, Source.NONE)
       }
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)

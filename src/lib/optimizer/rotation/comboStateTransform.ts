@@ -1,5 +1,5 @@
 import { CharacterConditionals } from 'lib/characterConditionals'
-import { SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets, Stats } from 'lib/constants'
+import { SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateConditionals'
@@ -137,7 +137,7 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
 function precomputeTeammates(action: OptimizerAction, comboState: ComboState, context: OptimizerContext) {
   // Precompute teammate effects
   const x = action.precomputedX
-  const teammateSetEffects = {}
+  const teammateSetEffects: Record<string, boolean> = {}
   const teammates = [
     comboState.comboTeammate0,
     comboState.comboTeammate1,
@@ -173,31 +173,31 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
       }
       switch (key) {
         case Sets.BrokenKeel:
-          x[Stats.CD] += 0.10
+          x.CD.buff(0.10, Source.BrokenKeel)
           break
         case Sets.FleetOfTheAgeless:
-          x[Stats.ATK_P] += 0.08
+          x.ATK_P.buff(0.08, Source.FleetOfTheAgeless)
           break
         case Sets.PenaconyLandOfTheDreams:
           if (comboState.comboCharacter.metadata.element != teammateRequest.metadata.element) break
-          x.ELEMENTAL_DMG += 0.10
+          x.ELEMENTAL_DMG.buff(0.10, Source.PenaconyLandOfTheDreams)
           break
         case Sets.LushakaTheSunkenSeas:
-          x[Stats.ATK_P] += 0.12
+          x.ATK_P.buff(0.12, Source.LushakaTheSunkenSeas)
           break
         case Sets.MessengerTraversingHackerspace:
           if (teammateSetEffects[Sets.MessengerTraversingHackerspace]) break
-          x[Stats.SPD_P] += 0.12
+          x.SPD_P.buff(0.12, Source.MessengerTraversingHackerspace)
           break
         case Sets.WatchmakerMasterOfDreamMachinations:
           if (teammateSetEffects[Sets.WatchmakerMasterOfDreamMachinations]) break
-          x[Stats.BE] += 0.30
+          x.BE.buff(0.30, Source.WatchmakerMasterOfDreamMachinations)
           break
         case SACERDOS_RELIVED_ORDEAL_1_STACK:
-          x[Stats.CD] += 0.18
+          x.CD.buff(0.18, Source.SacerdosRelivedOrdeal)
           break
         case SACERDOS_RELIVED_ORDEAL_2_STACK:
-          x[Stats.CD] += 0.36
+          x.CD.buff(0.36, Source.SacerdosRelivedOrdeal)
           break
         default:
       }
@@ -209,7 +209,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
 }
 
 function transformConditionals(actionIndex: number, conditionals: ComboConditionals) {
-  const result = {}
+  const result: Record<string, number | boolean> = {}
   for (const [key, category] of Object.entries(conditionals)) {
     result[key] = transformConditional(category, actionIndex)
   }

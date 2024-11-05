@@ -1,10 +1,4 @@
-import {
-  ASHBLAZING_ATK_STACK,
-  BASIC_TYPE,
-  ComputedStatsObject,
-  FUA_TYPE,
-  SKILL_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, BASIC_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet, findContentId } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { buffAbilityCd, buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'

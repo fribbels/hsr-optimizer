@@ -6,7 +6,7 @@ import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimizer/calculateConditionals'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
-import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimizer/sortOptions'
 import { Form } from 'types/Form'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -200,13 +200,10 @@ self.onmessage = function (e: MessageEvent) {
 
       if (i === 0) {
         combo += context.comboDot * a[Key.DOT_DMG] + context.comboBreak * a[Key.BREAK_DMG]
-        // c.x = x.toComputedStatsObject()
+        x.COMBO_DMG.set(combo, Source.NONE)
         c.x = x
       }
     }
-
-    // c.x.COMBO_DMG = combo
-    // const x = c.x
 
     // if (failsCombatFilter(x)) {
     //   continue

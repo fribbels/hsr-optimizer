@@ -16,7 +16,7 @@ import {
   SpaceSealingStationConditional,
   TaliaKingdomOfBanditryConditional,
 } from 'lib/gpu/conditionals/setConditionals'
-import { _buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { buffElementalDamageType, ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -290,28 +290,28 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
 
   // Basic boost
   if (p4(sets.MusketeerOfWildWheat)) {
-    _buffAbilityDmg(x, BASIC_TYPE, 0.10, Source.MusketeerOfWildWheat)
+    buffAbilityDmg(x, BASIC_TYPE, 0.10, Source.MusketeerOfWildWheat)
   }
 
   // Skill boost
   if (p4(sets.FiresmithOfLavaForging)) {
-    _buffAbilityDmg(x, SKILL_TYPE, 0.12, Source.FiresmithOfLavaForging)
+    buffAbilityDmg(x, SKILL_TYPE, 0.12, Source.FiresmithOfLavaForging)
   }
 
   // Fua boost
   if (p2(sets.TheAshblazingGrandDuke)) {
-    _buffAbilityDmg(x, FUA_TYPE, 0.20, Source.TheAshblazingGrandDuke)
+    buffAbilityDmg(x, FUA_TYPE, 0.20, Source.TheAshblazingGrandDuke)
   }
   if (p2(sets.DuranDynastyOfRunningWolves)) {
-    _buffAbilityDmg(x, FUA_TYPE, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves, Source.DuranDynastyOfRunningWolves)
+    buffAbilityDmg(x, FUA_TYPE, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves, Source.DuranDynastyOfRunningWolves)
   }
 
   // Ult boost
   if (p4(sets.TheWindSoaringValorous) && setConditionals.enabledTheWindSoaringValorous) {
-    _buffAbilityDmg(x, ULT_TYPE, 0.36, Source.TheWindSoaringValorous)
+    buffAbilityDmg(x, ULT_TYPE, 0.36, Source.TheWindSoaringValorous)
   }
   if (p4(sets.ScholarLostInErudition)) {
-    _buffAbilityDmg(x, ULT_TYPE | SKILL_TYPE, 0.20, Source.ScholarLostInErudition)
+    buffAbilityDmg(x, ULT_TYPE | SKILL_TYPE, 0.20, Source.ScholarLostInErudition)
   }
 
   if (p4(sets.GeniusOfBrilliantStars)) {
@@ -333,7 +333,7 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   }
 
   if (p4(sets.ScholarLostInErudition) && setConditionals.enabledScholarLostInErudition) {
-    _buffAbilityDmg(x, SKILL_TYPE, 0.25, Source.ScholarLostInErudition)
+    buffAbilityDmg(x, SKILL_TYPE, 0.25, Source.ScholarLostInErudition)
   }
 
   // Dynamic - still need implementing

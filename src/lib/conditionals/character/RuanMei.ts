@@ -120,7 +120,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.DEF_PEN += (e >= 1 && m.ultFieldActive) ? 0.20 : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals
+      const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x[Stats.SPD_P] += (t.teamSpdBuff) ? talentSpdScaling : 0
       x.ELEMENTAL_DMG += t.teamDmgBuff

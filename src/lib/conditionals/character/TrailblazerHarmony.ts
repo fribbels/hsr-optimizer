@@ -121,7 +121,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals
+      const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x[Stats.BE] += (e >= 4) ? 0.15 * t.teammateBeValue : 0
     },

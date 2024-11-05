@@ -132,7 +132,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x[Stats.SPD] += (e >= 2 && m.e2SpdBuff) ? 20 : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals
+      const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x[Stats.CD] += (t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0
       x[Stats.CD] += (t.beatified) ? ultCdBoostBaseValue : 0

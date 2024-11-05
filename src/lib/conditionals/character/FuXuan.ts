@@ -114,7 +114,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.DMG_RED_MULTI *= (m.talentActive) ? (1 - talentDmgReductionValue) : 1
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals
+      const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x[Stats.HP] += (t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0
 

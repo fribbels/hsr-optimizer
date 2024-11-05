@@ -132,7 +132,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.VULNERABILITY += (e >= 4 && m.e4Vulnerability) ? 0.15 : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals
+      const t: Conditionals<typeof teammateContent> = action.characterConditionals
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)

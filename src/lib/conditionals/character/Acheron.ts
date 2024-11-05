@@ -1,8 +1,7 @@
 import { BASIC_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -31,8 +30,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     2: 0.60,
   }
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    crimsonKnotStacks: maxCrimsonKnotStacks,
+    nihilityTeammates: maxNihilityTeammates,
+    e1EnemyDebuffed: true,
+    thunderCoreStacks: 3,
+    stygianResurgeHitsOnTarget: 6,
+    e4UltVulnerability: true,
+    e6UltBuffs: true,
+  }
+
+  const teammateDefaults = {
+    e4UltVulnerability: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    crimsonKnotStacks: {
       formItem: 'slider',
       id: 'crimsonKnotStacks',
       text: t('Content.crimsonKnotStacks.text'),
@@ -43,7 +56,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: maxCrimsonKnotStacks,
     },
-    {
+    nihilityTeammates: {
       formItem: 'slider',
       id: 'nihilityTeammates',
       text: t('Content.nihilityTeammates.text'),
@@ -51,7 +64,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: maxNihilityTeammates,
     },
-    {
+    thunderCoreStacks: {
       formItem: 'slider',
       id: 'thunderCoreStacks',
       text: t('Content.thunderCoreStacks.text'),
@@ -59,7 +72,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: 3,
     },
-    {
+    stygianResurgeHitsOnTarget: {
       formItem: 'slider',
       id: 'stygianResurgeHitsOnTarget',
       text: t('Content.stygianResurgeHitsOnTarget.text'),
@@ -67,89 +80,79 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: 6,
     },
-    {
+    e1EnemyDebuffed: {
       formItem: 'switch',
       id: 'e1EnemyDebuffed',
       text: t('Content.e1EnemyDebuffed.text'),
       content: t('Content.e1EnemyDebuffed.content'),
       disabled: e < 1,
     },
-    {
+    e4UltVulnerability: {
       formItem: 'switch',
       id: 'e4UltVulnerability',
       text: t('Content.e4UltVulnerability.text'),
       content: t('Content.e4UltVulnerability.content'),
       disabled: e < 4,
     },
-    {
+    e6UltBuffs: {
       formItem: 'switch',
       id: 'e6UltBuffs',
       text: t('Content.e6UltBuffs.text'),
       content: t('Content.e6UltBuffs.content'),
       disabled: e < 6,
     },
-  ]
+  }
 
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
-    findContentId(content, 'e4UltVulnerability'),
-  ]
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    e4UltVulnerability: content.e4UltVulnerability,
+  }
 
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
-    defaults: () => ({
-      crimsonKnotStacks: maxCrimsonKnotStacks,
-      nihilityTeammates: maxNihilityTeammates,
-      e1EnemyDebuffed: true,
-      thunderCoreStacks: 3,
-      stygianResurgeHitsOnTarget: 6,
-      e4UltVulnerability: true,
-      e6UltBuffs: true,
-    }),
-    teammateDefaults: () => ({
-      e4UltVulnerability: true,
-    }),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       if (e >= 6 && r.e6UltBuffs) {
-        x.BASIC_DMG_TYPE = ULT_TYPE | BASIC_TYPE
-        x.SKILL_DMG_TYPE = ULT_TYPE | SKILL_TYPE
+        x.BASIC_DMG_TYPE.set(ULT_TYPE | BASIC_TYPE, Source.NONE)
+        x.SKILL_DMG_TYPE.set(ULT_TYPE | SKILL_TYPE, Source.NONE)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
-      x[Stats.CR] += (e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0
+      x.CR.buff((e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0, Source.NONE)
 
-      x.ELEMENTAL_DMG += (r.thunderCoreStacks) * 0.30
-      buffAbilityResPen(x, ULT_TYPE, talentResPen)
-      buffAbilityResPen(x, ULT_TYPE, 0.20, (e >= 6 && r.e6UltBuffs))
+      x.ELEMENTAL_DMG.buff((r.thunderCoreStacks) * 0.30, Source.NONE)
+      buffAbilityResPen(x, ULT_TYPE, talentResPen, Source.NONE)
+      buffAbilityResPen(x, ULT_TYPE, (e >= 6 && r.e6UltBuffs) ? 0.20 : 0, Source.NONE)
 
       const originalDmgBoost = nihilityTeammateScaling[r.nihilityTeammates]
-      x.BASIC_ORIGINAL_DMG_BOOST += originalDmgBoost
-      x.SKILL_ORIGINAL_DMG_BOOST += originalDmgBoost
-      x.ULT_ORIGINAL_DMG_BOOST += originalDmgBoost
+      x.BASIC_ORIGINAL_DMG_BOOST.buff(originalDmgBoost, Source.NONE)
+      x.SKILL_ORIGINAL_DMG_BOOST.buff(originalDmgBoost, Source.NONE)
+      x.ULT_ORIGINAL_DMG_BOOST.buff(originalDmgBoost, Source.NONE)
 
-      x.BASIC_SCALING = basicScaling
-      x.SKILL_SCALING = skillScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
       // Each ult is 3 rainblades, 3 base crimson knots, and then 1 crimson knot per stack, then 1 stygian resurge, and 6 thunder cores from trace
-      x.ULT_SCALING += 3 * ultRainbladeScaling
-      x.ULT_SCALING += 3 * ultCrimsonKnotScaling
-      x.ULT_SCALING += ultCrimsonKnotScaling * (r.crimsonKnotStacks)
-      x.ULT_SCALING += ultStygianResurgeScaling
-      x.ULT_SCALING += r.stygianResurgeHitsOnTarget * ultThunderCoreScaling
+      x.ULT_SCALING.buff(3 * ultRainbladeScaling, Source.NONE)
+      x.ULT_SCALING.buff(3 * ultCrimsonKnotScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultCrimsonKnotScaling * (r.crimsonKnotStacks), Source.NONE)
+      x.ULT_SCALING.buff(ultStygianResurgeScaling, Source.NONE)
+      x.ULT_SCALING.buff(r.stygianResurgeHitsOnTarget * ultThunderCoreScaling, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 105
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(105, Source.NONE)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      buffAbilityVulnerability(x, ULT_TYPE, 0.08, (e >= 4 && m.e4UltVulnerability))
+      buffAbilityVulnerability(x, ULT_TYPE, (e >= 4 && m.e4UltVulnerability) ? 0.08 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

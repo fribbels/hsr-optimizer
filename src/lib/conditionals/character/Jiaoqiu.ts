@@ -1,8 +1,8 @@
 import { ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { JiaoqiuConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
@@ -26,65 +26,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const maxAshenRoastStacks = e >= 6 ? 9 : 5
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
-      formItem: 'slider',
-      id: 'ashenRoastStacks',
-      text: t('Content.ashenRoastStacks.text'),
-      content: t('Content.ashenRoastStacks.content', {
-        AshenRoastInitialVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityBase),
-        AshenRoastAdditionalVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityScaling),
-        AshenRoastDotMultiplier: TsUtils.precisionRound(100 * talentDotScaling),
-      }),
-      min: 0,
-      max: maxAshenRoastStacks,
-    },
-    {
-      formItem: 'switch',
-      id: 'ultFieldActive',
-      text: t('Content.ultFieldActive.text'),
-      content: t('Content.ultFieldActive.content', {
-        UltScaling: TsUtils.precisionRound(100 * ultScaling),
-        UltVulnerability: TsUtils.precisionRound(100 * ultVulnerabilityScaling),
-        ZoneDebuffChance: TsUtils.precisionRound(100 * ult(e, 0.6, 0.62)),
-      }),
-    },
-    {
-      formItem: 'switch',
-      id: 'ehrToAtkBoost',
-      text: t('Content.ehrToAtkBoost.text'),
-      content: t('Content.ehrToAtkBoost.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'e1DmgBoost',
-      text: t('Content.e1DmgBoost.text'),
-      content: t('Content.e1DmgBoost.content'),
-      disabled: e < 1,
-    },
-    {
-      formItem: 'switch',
-      id: 'e2Dot',
-      text: t('Content.e2Dot.text'),
-      content: t('Content.e2Dot.content'),
-      disabled: e < 2,
-    },
-    {
-      formItem: 'switch',
-      id: 'e6ResShred',
-      text: t('Content.e6ResShred.text'),
-      content: t('Content.e6ResShred.content'),
-      disabled: e < 6,
-    },
-  ]
-
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
-    findContentId(content, 'ashenRoastStacks'),
-    findContentId(content, 'ultFieldActive'),
-    findContentId(content, 'e1DmgBoost'),
-    findContentId(content, 'e6ResShred'),
-  ]
-
   const defaults = {
     ashenRoastStacks: maxAshenRoastStacks,
     ultFieldActive: true,
@@ -101,38 +42,97 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     e6ResShred: true,
   }
 
+  const content: ContentDefinition<typeof defaults> = {
+    ashenRoastStacks: {
+      formItem: 'slider',
+      id: 'ashenRoastStacks',
+      text: t('Content.ashenRoastStacks.text'),
+      content: t('Content.ashenRoastStacks.content', {
+        AshenRoastInitialVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityBase),
+        AshenRoastAdditionalVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityScaling),
+        AshenRoastDotMultiplier: TsUtils.precisionRound(100 * talentDotScaling),
+      }),
+      min: 0,
+      max: maxAshenRoastStacks,
+    },
+    ultFieldActive: {
+      formItem: 'switch',
+      id: 'ultFieldActive',
+      text: t('Content.ultFieldActive.text'),
+      content: t('Content.ultFieldActive.content', {
+        UltScaling: TsUtils.precisionRound(100 * ultScaling),
+        UltVulnerability: TsUtils.precisionRound(100 * ultVulnerabilityScaling),
+        ZoneDebuffChance: TsUtils.precisionRound(100 * ult(e, 0.6, 0.62)),
+      }),
+    },
+    ehrToAtkBoost: {
+      formItem: 'switch',
+      id: 'ehrToAtkBoost',
+      text: t('Content.ehrToAtkBoost.text'),
+      content: t('Content.ehrToAtkBoost.content'),
+    },
+    e1DmgBoost: {
+      formItem: 'switch',
+      id: 'e1DmgBoost',
+      text: t('Content.e1DmgBoost.text'),
+      content: t('Content.e1DmgBoost.content'),
+      disabled: e < 1,
+    },
+    e2Dot: {
+      formItem: 'switch',
+      id: 'e2Dot',
+      text: t('Content.e2Dot.text'),
+      content: t('Content.e2Dot.content'),
+      disabled: e < 2,
+    },
+    e6ResShred: {
+      formItem: 'switch',
+      id: 'e6ResShred',
+      text: t('Content.e6ResShred.text'),
+      content: t('Content.e6ResShred.content'),
+      disabled: e < 6,
+    },
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    ashenRoastStacks: content.ashenRoastStacks,
+    ultFieldActive: content.ultFieldActive,
+    e1DmgBoost: content.e1DmgBoost,
+    e6ResShred: content.e6ResShred,
+  }
+
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
-    teammateDefaults: () => (teammateDefaults),
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.DOT_SCALING += (r.ashenRoastStacks > 0) ? talentDotScaling : 0
-      x.DOT_SCALING += (e >= 2 && r.e2Dot && r.ashenRoastStacks > 0) ? 3.00 : 0
-      x.DOT_CHANCE = 100
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.DOT_SCALING.buff((r.ashenRoastStacks > 0) ? talentDotScaling : 0, Source.NONE)
+      x.DOT_SCALING.buff((e >= 2 && r.e2Dot && r.ashenRoastStacks > 0) ? 3.00 : 0, Source.NONE)
+      x.DOT_CHANCE.set(100, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 60
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      buffAbilityVulnerability(x, ULT_TYPE, ultVulnerabilityScaling, (m.ultFieldActive))
+      buffAbilityVulnerability(x, ULT_TYPE, (m.ultFieldActive) ? ultVulnerabilityScaling : 0, Source.NONE)
 
-      x.VULNERABILITY += (m.ashenRoastStacks > 0) ? talentVulnerabilityBase : 0
-      x.VULNERABILITY += Math.max(0, m.ashenRoastStacks - 1) * talentVulnerabilityScaling
+      x.VULNERABILITY.buff((m.ashenRoastStacks > 0) ? talentVulnerabilityBase : 0, Source.NONE)
+      x.VULNERABILITY.buff(Math.max(0, m.ashenRoastStacks - 1) * talentVulnerabilityScaling, Source.NONE)
 
-      x.ELEMENTAL_DMG += (e >= 1 && m.e1DmgBoost && m.ashenRoastStacks > 0) ? 0.40 : 0
+      x.ELEMENTAL_DMG.buff((e >= 1 && m.e1DmgBoost && m.ashenRoastStacks > 0) ? 0.40 : 0, Source.NONE)
 
-      x.RES_PEN += (e >= 6 && m.e6ResShred) ? m.ashenRoastStacks * 0.03 : 0
+      x.RES_PEN.buff((e >= 6 && m.e6ResShred) ? m.ashenRoastStacks * 0.03 : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },

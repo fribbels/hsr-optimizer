@@ -1,9 +1,9 @@
+import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
 import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
 import { Parts, PartsMainStats, Sets, SetsRelics, Stats } from 'lib/constants.ts'
 import DB from 'lib/db'
-import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
 import { SortOption } from 'lib/optimizer/sortOptions'
 
 const BASIC = 'BASIC'
@@ -1084,7 +1084,7 @@ function getOverrideTraces() {
       [Stats.RES]: 0.10,
     },
     1225: { // Fugue
-      [Stats.EHR]: 0.28,
+      [Stats.SPD]: 14,
       [Stats.BE]: 0.24,
       [Stats.HP_P]: 0.10,
     },

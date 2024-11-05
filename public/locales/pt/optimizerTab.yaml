@@ -376,7 +376,7 @@ MinMaxFilters:
   ULTLabel: PER. SUP.
   FUALabel: ATQ. EXT.
   DOTLabel: DOT
-  BREAKLabel: Quebra
+  BREAKLabel: QUEBRA
   COMBOLabel: COMBO
 ComboFilter:
   Header: Rotação para Dano Combo

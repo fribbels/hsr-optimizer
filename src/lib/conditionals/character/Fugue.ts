@@ -99,7 +99,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const defaults = {
     torridScorch: true,
-    foxianPrayer: true,
+    foxianPrayer: false,
     defReduction: true,
     superBreakDmg: true,
     e4BreakDmg: true,
@@ -149,7 +149,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.DEF_PEN += (m.defReduction) ? skillDefPenValue : 0
 
       x.BREAK_EFFICIENCY_BOOST += (e >= 1 && m.foxianPrayer) ? 0.50 : 0
-      x.BREAK_VULNERABILITY += (e >= 4 && m.e4Vulnerability) ? 0.20 : 0
+      x.BREAK_VULNERABILITY += (e >= 4 && m.e4BreakDmg) ? 0.20 : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals

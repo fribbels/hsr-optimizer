@@ -1,15 +1,13 @@
-import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet, Conditionals } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { ASHBLAZING_ATK_STACK, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, calculateAshblazingSet, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { NumberToNumberMap } from 'types/Common'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -34,14 +32,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     5: ASHBLAZING_ATK_STACK * (3 * 0.33 + 8 * 0.33 + 8 * 0.34),
   }
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    enhancedStateActive: true,
+    hpPercentLostTotal: hpPercentLostTotalMax,
+    e4MaxHpIncreaseStacks: 2,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    enhancedStateActive: {
       formItem: 'switch',
       id: 'enhancedStateActive',
       text: t('Content.enhancedStateActive.text'),
       content: t('Content.enhancedStateActive.content', { enhancedStateDmgBoost: TsUtils.precisionRound(100 * enhancedStateDmgBoost) }),
     },
-    {
+    hpPercentLostTotal: {
       formItem: 'slider',
       id: 'hpPercentLostTotal',
       text: t('Content.hpPercentLostTotal.text'),
@@ -50,7 +54,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       max: hpPercentLostTotalMax,
       percent: true,
     },
-    {
+    e4MaxHpIncreaseStacks: {
       formItem: 'slider',
       id: 'e4MaxHpIncreaseStacks',
       text: t('Content.e4MaxHpIncreaseStacks.text'),
@@ -59,34 +63,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       max: 2,
       disabled: e < 4,
     },
-  ]
+  }
 
   return {
     content: () => Object.values(content),
-    teammateContent: () => [],
-    defaults: () => ({
-      enhancedStateActive: true,
-      hpPercentLostTotal: hpPercentLostTotalMax,
-      e4MaxHpIncreaseStacks: 2,
-    }),
-    teammateDefaults: () => ({}),
+    defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.CR] += (e >= 2 && r.enhancedStateActive) ? 0.15 : 0
-      x[Stats.HP_P] += (e >= 4) ? r.e4MaxHpIncreaseStacks * 0.20 : 0
+      x.CR.buff((e >= 2 && r.enhancedStateActive) ? 0.15 : 0, Source.NONE)
+      x.HP_P.buff((e >= 4) ? r.e4MaxHpIncreaseStacks * 0.20 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
 
       // Boost
-      x.ELEMENTAL_DMG += r.enhancedStateActive ? enhancedStateDmgBoost : 0
-      buffAbilityDmg(x, FUA_TYPE, 0.20)
+      x.ELEMENTAL_DMG.buff(r.enhancedStateActive ? enhancedStateDmgBoost : 0, Source.NONE)
+      buffAbilityDmg(x, FUA_TYPE, 0.20, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += (r.enhancedStateActive) ? 60 : 30
-      x.ULT_TOUGHNESS_DMG += 60
-      x.FUA_TOUGHNESS_DMG += 30
+      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 60 : 30, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.FUA_TOUGHNESS_DMG.buff(30, Source.NONE)
 
       return x
     },
@@ -94,25 +92,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
+      const a = x.a
 
       if (r.enhancedStateActive) {
-        x.BASIC_DMG += basicEnhancedAtkScaling * x[Stats.ATK]
-        x.BASIC_DMG += basicEnhancedHpScaling * x[Stats.HP]
+        x.BASIC_DMG.buff(basicEnhancedAtkScaling * a[Key.ATK], Source.NONE)
+        x.BASIC_DMG.buff(basicEnhancedHpScaling * a[Key.HP], Source.NONE)
       } else {
-        x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+        x.BASIC_DMG.buff(a[Key.BASIC_SCALING] * a[Key.ATK], Source.NONE)
       }
 
-      x.ULT_DMG += ultAtkScaling * x[Stats.ATK]
-      x.ULT_DMG += ultHpScaling * x[Stats.HP]
-      x.ULT_DMG += ultLostHpScaling * r.hpPercentLostTotal * x[Stats.HP]
-      x.ULT_DMG += (e >= 1 && context.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal * x[Stats.HP] : 0
+      x.ULT_DMG.buff(ultAtkScaling * a[Key.ATK], Source.NONE)
+      x.ULT_DMG.buff(ultHpScaling * a[Key.HP], Source.NONE)
+      x.ULT_DMG.buff(ultLostHpScaling * r.hpPercentLostTotal * a[Key.HP], Source.NONE)
+      x.ULT_DMG.buff((e >= 1 && context.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal * a[Key.HP] : 0, Source.NONE)
 
       const hitMulti = hitMultiByTargets[context.enemyCount]
       const ashblazingAtk = calculateAshblazingSet(x, action, context, hitMulti)
-      x.FUA_DMG += fuaAtkScaling * (x[Stats.ATK] + ashblazingAtk)
+      x.FUA_DMG.buff(fuaAtkScaling * (a[Key.ATK] + ashblazingAtk), Source.NONE)
 
-      x.FUA_DMG += fuaHpScaling * x[Stats.HP]
-      x.FUA_DMG += (e >= 6) ? 0.50 * x[Stats.HP] : 0
+      x.FUA_DMG.buff(fuaHpScaling * a[Key.HP], Source.NONE)
+      x.FUA_DMG.buff((e >= 6) ? 0.50 * a[Key.HP] : 0, Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals

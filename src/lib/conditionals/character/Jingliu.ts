@@ -1,11 +1,10 @@
 import { SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { _standardAtkFinalizer, AbilityEidolon, Conditionals, gpuStandardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { _standardAtkFinalizer, AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -14,55 +13,56 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const talentCrBuff = talent(e, 0.50, 0.52)
-  let talentHpDrainAtkBuffMax = talent(e, 1.80, 1.98)
-  talentHpDrainAtkBuffMax += (e >= 4) ? 0.30 : 0
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 2.00, 2.20)
   const skillEnhancedScaling = skill(e, 2.50, 2.75)
   const ultScaling = ult(e, 3.00, 3.24)
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
-      id: 'talentEnhancedState',
+  let talentHpDrainAtkBuffMax = talent(e, 1.80, 1.98)
+  talentHpDrainAtkBuffMax += (e >= 4) ? 0.30 : 0
+
+  const defaults = {
+    talentEnhancedState: true,
+    talentHpDrainAtkBuff: talentHpDrainAtkBuffMax,
+    e1CdBuff: true,
+    e2SkillDmgBuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    talentEnhancedState: {
       formItem: 'switch',
+      id: 'talentEnhancedState',
       text: t('Content.talentEnhancedState.text'),
       content: t('Content.talentEnhancedState.content', { talentCrBuff: TsUtils.precisionRound(100 * talentCrBuff) }),
     },
-    {
-      id: 'talentHpDrainAtkBuff',
+    talentHpDrainAtkBuff: {
       formItem: 'slider',
+      id: 'talentHpDrainAtkBuff',
       text: t('Content.talentHpDrainAtkBuff.text'),
       content: t('Content.talentHpDrainAtkBuff.content', { talentHpDrainAtkBuffMax: TsUtils.precisionRound(100 * talentHpDrainAtkBuffMax) }),
       min: 0,
       max: talentHpDrainAtkBuffMax,
       percent: true,
     },
-    {
-      id: 'e1CdBuff',
+    e1CdBuff: {
       formItem: 'switch',
+      id: 'e1CdBuff',
       text: t('Content.e1CdBuff.text'),
       content: t('Content.e1CdBuff.content'),
       disabled: e < 1,
     },
-    {
-      id: 'e2SkillDmgBuff',
+    e2SkillDmgBuff: {
       formItem: 'switch',
+      id: 'e2SkillDmgBuff',
       text: t('Content.e2SkillDmgBuff.text'),
       content: t('Content.e2SkillDmgBuff.content'),
       disabled: e < 2,
     },
-  ]
+  }
 
   return {
     content: () => Object.values(content),
-    teammateContent: () => [],
-    defaults: () => ({
-      talentEnhancedState: true,
-      talentHpDrainAtkBuff: talentHpDrainAtkBuffMax,
-      e1CdBuff: true,
-      e2SkillDmgBuff: true,
-    }),
-    teammateDefaults: () => ({}),
+    defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 

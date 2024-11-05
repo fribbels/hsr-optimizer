@@ -40,17 +40,17 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       ultFuaDefShred: true,
     }),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       buffAbilityDefPen(x, ULT_TYPE | FUA_TYPE, sValuesUltFuaDefShred[s], (r.ultFuaDefShred))
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       buffAbilityDmg(x, FUA_TYPE, sValuesFuaDmg[s] * Math.min(4, Math.floor(x[Stats.CD] - 1.20) / 0.20), (r.fuaDmgBoost))
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       return `
 if (${wgslTrue(r.fuaDmgBoost)}) {

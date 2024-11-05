@@ -27,7 +27,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       ultDmgBuff: true,
     }),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       buffAbilityDmg(x, ULT_TYPE, sValues[s], (r.ultDmgBuff))
     },

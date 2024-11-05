@@ -1,5 +1,3 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Stats } from 'lib/constants'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -110,12 +108,12 @@ x.DOT_DMG += x.DOT_SCALING * x.HP;
 `
 }
 
-export function standardDefFinalizer(x: ComputedStatsObject) {
-  x.BASIC_DMG += x.BASIC_SCALING * x[Stats.DEF]
-  x.SKILL_DMG += x.SKILL_SCALING * x[Stats.DEF]
-  x.ULT_DMG += x.ULT_SCALING * x[Stats.DEF]
-  x.FUA_DMG += x.FUA_SCALING * x[Stats.DEF]
-  x.DOT_DMG += x.DOT_SCALING * x[Stats.DEF]
+export function standardDefFinalizer(x: ComputedStatsArray) {
+  x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.DEF], Source.NONE)
+  x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.DEF], Source.NONE)
+  x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.DEF], Source.NONE)
+  x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * x.a[Key.DEF], Source.NONE)
+  x.DOT_DMG.buff(x.a[Key.DOT_SCALING] * x.a[Key.DEF], Source.NONE)
 }
 
 export function gpuStandardDefFinalizer() {
@@ -132,16 +130,16 @@ export function standardHpHealFinalizer(x: ComputedStatsArray) {
   x.HEAL_VALUE.buff(x.a[Key.HEAL_SCALING] * x.a[Key.HP] + x.a[Key.HEAL_FLAT], Source.NONE)
 }
 
-export function standardAtkHealFinalizer(x: ComputedStatsObject) {
-  x.HEAL_VALUE += x.HEAL_SCALING * x[Stats.ATK] + x.HEAL_FLAT
+export function standardAtkHealFinalizer(x: ComputedStatsArray) {
+  x.HEAL_VALUE.buff(x.a[Key.HEAL_SCALING] * x.a[Key.ATK] + x.a[Key.HEAL_FLAT], Source.NONE)
 }
 
-export function standardFlatHealFinalizer(x: ComputedStatsObject) {
-  x.HEAL_VALUE += x.HEAL_FLAT
+export function standardFlatHealFinalizer(x: ComputedStatsArray) {
+  x.HEAL_VALUE.buff(x.a[Key.HEAL_FLAT], Source.NONE)
 }
 
-export function standardDefShieldFinalizer(x: ComputedStatsObject) {
-  x.SHIELD_VALUE += x.SHIELD_SCALING * x[Stats.DEF] + x.SHIELD_FLAT
+export function standardDefShieldFinalizer(x: ComputedStatsArray) {
+  x.SHIELD_VALUE.buff(x.a[Key.SHIELD_SCALING] * x.a[Key.DEF] + x.a[Key.SHIELD_FLAT], Source.NONE)
 }
 
 export function gpuStandardAtkHealFinalizer() {

@@ -27,7 +27,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       extraDmgProc: true,
     }),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       x.BASIC_SCALING += (r.extraDmgProc) ? sValues[s] : 0
       x.SKILL_SCALING += (r.extraDmgProc) ? sValues[s] : 0

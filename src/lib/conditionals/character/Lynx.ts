@@ -1,7 +1,8 @@
-import { ComputedStatsObject, NONE_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { NONE_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
-  Conditionals, ContentDefinition,
+  Conditionals,
+  ContentDefinition,
   findContentId,
   gpuStandardHpFinalizer,
   gpuStandardHpHealFinalizer,
@@ -146,7 +147,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       condition: function () {
         return true
       },
-      effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+      effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
         const r: Conditionals<typeof content> = action.characterConditionals
         if (!r.skillBuff) {
           return

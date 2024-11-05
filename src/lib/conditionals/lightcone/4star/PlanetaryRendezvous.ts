@@ -31,12 +31,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       alliesSameElement: true,
     }),
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       x.ELEMENTAL_DMG += (r.alliesSameElement) ? sValues[s] : 0
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       x.ELEMENTAL_DMG += (r.alliesSameElement) ? sValues[s] : 0
     },

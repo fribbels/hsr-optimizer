@@ -26,7 +26,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       basicAtkBuff: true,
     }),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       x.BASIC_SCALING += (r.basicAtkBuff) ? sValues[s] : 0
     },

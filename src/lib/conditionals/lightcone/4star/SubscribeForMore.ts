@@ -27,7 +27,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       maxEnergyDmgBoost: true,
     }),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, sValues[s])
       buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, sValues[s], (r.maxEnergyDmgBoost))

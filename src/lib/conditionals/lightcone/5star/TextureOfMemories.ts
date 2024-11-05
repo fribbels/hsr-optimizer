@@ -30,7 +30,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       activeShieldDmgDecrease: true,
     }),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       x.DMG_RED_MULTI *= (r.activeShieldDmgDecrease) ? (1 - sValues[s]) : 1
     },

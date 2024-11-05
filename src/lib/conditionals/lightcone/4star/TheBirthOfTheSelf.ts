@@ -27,7 +27,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       enemyHp50FuaBuff: true,
     }),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       buffAbilityDmg(x, FUA_TYPE, sValues[s])
       buffAbilityDmg(x, FUA_TYPE, sValues[s], (r.enemyHp50FuaBuff))

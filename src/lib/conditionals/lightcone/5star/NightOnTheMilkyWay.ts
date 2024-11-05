@@ -36,7 +36,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       enemyWeaknessBreakDmgBuff: true,
     }),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       x[Stats.ATK_P] += (r.enemyCountAtkBuff) ? context.enemyCount * sValuesAtk[s] : 0
       x.ELEMENTAL_DMG += (r.enemyWeaknessBreakDmgBuff) ? sValuesDmg[s] : 0

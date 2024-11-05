@@ -1,7 +1,7 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
+import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -33,7 +33,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.lightConeConditionals
+      const m: Conditionals<typeof teammateContent> = action.lightConeConditionals
 
       x[Stats.CD] += (m.cdBuff) ? sValuesCd[s] : 0
     },

@@ -26,7 +26,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       enemySlowedDmgBuff: true,
     }),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       x.ELEMENTAL_DMG += (r.enemySlowedDmgBuff) ? sValues[s] : 0
     },

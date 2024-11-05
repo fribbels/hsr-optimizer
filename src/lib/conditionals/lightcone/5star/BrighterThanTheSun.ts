@@ -33,7 +33,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       dragonsCallStacks: 2,
     }),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       x[Stats.ATK_P] += r.dragonsCallStacks * sValuesAtk[s]
       x[Stats.ERR] += r.dragonsCallStacks * sValuesErr[s]

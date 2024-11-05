@@ -29,7 +29,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       atkBuffStacks: 3,
     }),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       x[Stats.ATK_P] += (r.atkBuffStacks) * sValues[s]
     },

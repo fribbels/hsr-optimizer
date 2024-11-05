@@ -1,4 +1,4 @@
-import { BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { BASIC_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, findContentId } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -153,7 +153,7 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
         condition: function () {
           return true
         },
-        effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r: Conditionals<typeof content> = action.characterConditionals
           if (!r.benedictionBuff) {
             return

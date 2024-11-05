@@ -26,7 +26,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       healingBuff: true,
     }),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       x.SKILL_OHB += (r.healingBuff) ? sValues[s] : 0
       x.ULT_OHB += (r.healingBuff) ? sValues[s] : 0

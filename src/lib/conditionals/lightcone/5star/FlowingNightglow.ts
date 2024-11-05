@@ -60,7 +60,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.ELEMENTAL_DMG += (t.cadenzaActive) ? sValuesDmgBuff[s] : 0
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       x[Stats.ERR] += r.cantillationStacks * sValuesErr[s]
       x[Stats.ATK_P] += (r.cadenzaActive) ? sValuesAtkBuff[s] : 0

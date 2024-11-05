@@ -671,10 +671,10 @@ const LingshaConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.BE],
-  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return true
   },
-  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
     if (!r.beConversion) {
       return

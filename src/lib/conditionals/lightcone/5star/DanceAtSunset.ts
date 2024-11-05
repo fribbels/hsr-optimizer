@@ -29,7 +29,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       fuaDmgStacks: 2,
     }),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       buffAbilityDmg(x, FUA_TYPE, r.fuaDmgStacks * sValuesFuaDmg[s])
     },

@@ -1,4 +1,4 @@
-import { ContentDefinition, findContentId } from 'lib/conditionals/conditionalUtils'
+import { Conditionals, ContentDefinition, findContentId } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
@@ -44,12 +44,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       targetCodeDebuff: true,
     }),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
       x[Stats.CR] += (r.enemy3DebuffsCrBoost) ? sValuesCr[s] : 0
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.lightConeConditionals
+      const m: Conditionals<typeof teammateContent> = action.lightConeConditionals
 
       x.VULNERABILITY += (m.targetCodeDebuff) ? sValuesDmg[s] : 0
     },

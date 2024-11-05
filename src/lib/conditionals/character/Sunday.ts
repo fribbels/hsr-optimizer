@@ -1,5 +1,4 @@
 import i18next from 'i18next'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants'
 import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -150,10 +149,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CR],
         ratioConversion: true,
-        condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return x[Stats.CR] > 1.00
         },
-        effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r: Conditionals<typeof content> = action.characterConditionals
           if (!(e >= 6 && r.e6CrToCdConversion)) {
             return

@@ -13,7 +13,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesSpd = [0.048, 0.056, 0.064, 0.072, 0.08]
   const sValuesErode = [0.6, 0.7, 0.8, 0.9, 1]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'spdStacks',

@@ -13,7 +13,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesFuaDmg = [0.30, 0.35, 0.40, 0.45, 0.50]
   const sValuesCd = [0.12, 0.14, 0.16, 0.18, 0.20]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'targetTameStacks',

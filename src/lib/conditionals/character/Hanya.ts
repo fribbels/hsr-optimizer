@@ -1,5 +1,5 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
@@ -8,7 +8,6 @@ import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -25,7 +24,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 2.40, 2.64)
   const ultScaling = ult(e, 0, 0)
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'switch',
       id: 'ultBuff',
@@ -56,7 +55,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
   ]
 
-  const teammateContent: ContentItem[] = [
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
     findContentId(content, 'ultBuff'),
     {
       formItem: 'slider',

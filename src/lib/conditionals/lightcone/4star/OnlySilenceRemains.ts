@@ -11,7 +11,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'enemies2CrBuff',

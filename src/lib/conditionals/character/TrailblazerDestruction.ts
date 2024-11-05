@@ -21,7 +21,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultEnhancedScaling = ult(e, 2.70, 2.88)
   const ultEnhancedScaling2 = ult(e, 1.62, 1.728)
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'switch',
       id: 'enhancedUlt',

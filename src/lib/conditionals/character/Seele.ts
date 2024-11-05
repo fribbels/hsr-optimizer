@@ -21,7 +21,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 2.20, 2.42)
   const ultScaling = ult(e, 4.25, 4.59)
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'switch',
       id: 'buffedState',

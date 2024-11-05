@@ -14,7 +14,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesDmg = [0.06, 0.07, 0.08, 0.09, 0.10]
   const sValuesCd = [0.12, 0.14, 0.16, 0.18, 0.20]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'spdScalingBuffs',

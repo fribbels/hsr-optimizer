@@ -1,5 +1,5 @@
 import { ASHBLAZING_ATK_STACK, BASIC_TYPE, FUA_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet, Conditionals, findContentId } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, calculateAshblazingSet, Conditionals, ContentDefinition, findContentId } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { buffAbilityCd, buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
@@ -7,7 +7,6 @@ import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -34,7 +33,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const fuaEnhancedHitCountMulti = ASHBLAZING_ATK_STACK
     * (1 * 1 / 10 + 2 * 1 / 10 + 3 * 1 / 10 + 4 * 1 / 10 + 5 * 1 / 10 + 6 * 1 / 10 + 7 * 1 / 10 + 8 * 3 / 10)
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'switch',
       id: 'enemyProofOfDebtDebuff',
@@ -61,7 +60,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
   ]
 
-  const teammateContent: ContentItem[] = [
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
     findContentId(content, 'enemyProofOfDebtDebuff'),
     findContentId(content, 'e1DebtorStacks'),
   ]

@@ -1,7 +1,7 @@
-import { ComputedStatsObject, NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
-  Conditionals,
+  Conditionals, ContentDefinition,
   findContentId,
   gpuStandardDefFinalizer,
   gpuStandardDefShieldFinalizer,
@@ -14,7 +14,6 @@ import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -37,7 +36,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const traceShieldScaling = 0.07
   const traceShieldFlat = 96
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'select',
       id: 'shieldAbility',
@@ -100,7 +99,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
   ]
 
-  const teammateContent: ContentItem[] = [
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
     findContentId(content, 'fortifiedWagerBuff'),
     findContentId(content, 'enemyUnnervedDebuff'),
     findContentId(content, 'e2ResShred'),

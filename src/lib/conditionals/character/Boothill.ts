@@ -1,4 +1,4 @@
-import { AbilityEidolon, Conditionals, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { BoothillConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
@@ -7,7 +7,6 @@ import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { NumberToNumberMap } from 'types/Common'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -27,7 +26,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     3: talent(e, 1.70, 1.87),
   }
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'switch',
       id: 'standoffActive',
@@ -84,7 +83,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
   ]
 
-  const teammateContent: ContentItem[] = []
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = []
 
   const defaults = {
     standoffActive: true,

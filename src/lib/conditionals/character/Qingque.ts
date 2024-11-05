@@ -38,7 +38,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       : hitMultiSingle
   }
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'switch',
       id: 'basicEnhanced',

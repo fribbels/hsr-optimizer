@@ -23,7 +23,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'switch',
       id: 'ultBuffActive',

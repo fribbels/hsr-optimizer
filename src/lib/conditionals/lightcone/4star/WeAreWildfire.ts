@@ -11,7 +11,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValues = [0.08, 0.10, 0.12, 0.14, 0.16]
   const sValuesHealing = [0.3, 0.35, 0.4, 0.45, 0.5]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'initialDmgReductionBuff',

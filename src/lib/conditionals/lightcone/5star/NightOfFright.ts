@@ -11,7 +11,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValues = [0.024, 0.028, 0.032, 0.036, 0.04]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'atkBuffStacks',

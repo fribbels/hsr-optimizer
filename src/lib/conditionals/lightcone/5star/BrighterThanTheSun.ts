@@ -12,7 +12,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesAtk = [0.18, 0.21, 0.24, 0.27, 0.30]
   const sValuesErr = [0.06, 0.07, 0.08, 0.09, 0.10]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'dragonsCallStacks',

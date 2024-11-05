@@ -13,7 +13,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesDmg = [0.36, 0.42, 0.48, 0.54, 0.60]
   const sValuesFuaPen = [0.24, 0.28, 0.32, 0.36, 0.40]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       formItem: 'slider',

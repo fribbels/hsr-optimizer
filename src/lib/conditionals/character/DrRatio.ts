@@ -45,7 +45,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       : baseHitMulti
   }
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       id: 'summationStacks',
       formItem: 'slider',

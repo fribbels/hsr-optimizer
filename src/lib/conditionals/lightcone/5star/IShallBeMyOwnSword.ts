@@ -11,7 +11,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesStackDmg = [0.14, 0.165, 0.19, 0.215, 0.24]
   const sValuesDefPen = [0.12, 0.14, 0.16, 0.18, 0.20]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'eclipseStacks',

@@ -1,7 +1,7 @@
-import { ComputedStatsObject, NONE_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { NONE_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
-  Conditionals,
+  Conditionals, ContentDefinition,
   findContentId,
   gpuStandardAtkFinalizer,
   gpuStandardHpHealFinalizer,
@@ -14,7 +14,6 @@ import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -35,7 +34,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const talentHealScaling = talent(e, 0.054, 0.0576)
   const talentHealFlat = talent(e, 144, 160.2)
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'select',
       id: 'healAbility',
@@ -78,7 +77,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
   ]
 
-  const teammateContent: ContentItem[] = [
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
     findContentId(content, 'healingMaxHpBuff'),
     findContentId(content, 'talentDmgReductionBuff'),
     findContentId(content, 'e4SkillHealingDmgBuffStacks'),

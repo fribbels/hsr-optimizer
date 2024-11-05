@@ -10,7 +10,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValues = [0.08, 0.09, 0.10, 0.11, 0.12]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'dmgResBuff',

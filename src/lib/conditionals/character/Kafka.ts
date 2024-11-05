@@ -1,12 +1,11 @@
-import { ASHBLAZING_ATK_STACK, ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, findContentId, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { ASHBLAZING_ATK_STACK, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, findContentId, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -22,7 +21,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const hitMulti = ASHBLAZING_ATK_STACK
     * (1 * 0.15 + 2 * 0.15 + 3 * 0.15 + 4 * 0.15 + 5 * 0.15 + 6 * 0.25)
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'switch',
       id: 'e1DotDmgReceivedDebuff',
@@ -39,7 +38,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
   ]
 
-  const teammateContent: ContentItem[] = [
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
     findContentId(content, 'e1DotDmgReceivedDebuff'),
     findContentId(content, 'e2TeamDotBoost'),
   ]

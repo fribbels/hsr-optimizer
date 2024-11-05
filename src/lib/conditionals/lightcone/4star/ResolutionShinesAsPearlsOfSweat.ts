@@ -10,7 +10,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValues = [0.12, 0.13, 0.14, 0.15, 0.16]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'targetEnsnared',

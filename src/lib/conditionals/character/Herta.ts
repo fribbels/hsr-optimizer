@@ -69,7 +69,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     return hitMultiByTargets[context.enemyCount]
   }
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'slider',
       id: 'fuaStacks',

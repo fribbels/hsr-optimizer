@@ -12,7 +12,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValues = [0.32, 0.40, 0.48, 0.56, 0.64]
   const sValuesEnergy = [20, 23, 26, 29, 32]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'ultDmgBuff',

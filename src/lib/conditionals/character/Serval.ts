@@ -20,7 +20,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultScaling = ult(e, 1.80, 1.944)
   const dotScaling = skill(e, 1.04, 1.144)
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'switch',
       id: 'targetShocked',

@@ -23,7 +23,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultEnhancedExtraHitScaling = ult(e, 0.95, 1.026)
   const talentCrStackValue = talent(e, 0.025, 0.028)
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'switch',
       id: 'ultEnhanced',

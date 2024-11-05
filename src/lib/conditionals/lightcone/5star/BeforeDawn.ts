@@ -11,7 +11,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesSkillUltDmg = [0.18, 0.21, 0.24, 0.27, 0.30]
   const sValuesFuaDmg = [0.48, 0.56, 0.64, 0.72, 0.80]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'fuaDmgBoost',

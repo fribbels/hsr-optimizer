@@ -1,5 +1,5 @@
 import { BREAK_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { FireflyConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -9,7 +9,6 @@ import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -27,7 +26,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const talentResBuff = talent(e, 0.30, 0.34)
   const talentDmgReductionBuff = talent(e, 0.40, 0.44)
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'switch',
       id: 'enhancedStateActive',
@@ -84,7 +83,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
   ]
 
-  const teammateContent: ContentItem[] = []
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = []
 
   const defaults = {
     enhancedStateActive: true,

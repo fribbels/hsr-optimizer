@@ -11,7 +11,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
   const sValuesShieldHp = [0.16, 0.2, 0.24, 0.28, 0.32]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'activeShieldDmgDecrease',

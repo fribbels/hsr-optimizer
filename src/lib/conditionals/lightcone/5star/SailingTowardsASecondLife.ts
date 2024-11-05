@@ -14,7 +14,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesSpdBuff = [0.12, 0.14, 0.16, 0.18, 0.20]
   const sValuesDefShred = [0.20, 0.23, 0.26, 0.29, 0.32]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'breakDmgDefShred',

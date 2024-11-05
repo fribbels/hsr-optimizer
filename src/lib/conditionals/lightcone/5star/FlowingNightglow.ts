@@ -15,7 +15,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesAtkBuff = [0.48, 0.60, 0.72, 0.84, 0.96]
   const sValuesDmgBuff = [0.24, 0.28, 0.32, 0.36, 0.40]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'cadenzaActive',

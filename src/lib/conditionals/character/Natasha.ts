@@ -22,7 +22,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillHealScaling = skill(e, 0.105, 0.112)
   const skillHealFlat = skill(e, 280, 311.5)
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'select',
       id: 'healAbility',

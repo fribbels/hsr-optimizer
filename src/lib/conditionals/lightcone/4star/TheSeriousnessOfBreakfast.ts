@@ -12,7 +12,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesDmgBoost = [0.12, 0.15, 0.18, 0.21, 0.24]
   const sValuesStacks = [0.04, 0.05, 0.06, 0.07, 0.08]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'dmgBoost',

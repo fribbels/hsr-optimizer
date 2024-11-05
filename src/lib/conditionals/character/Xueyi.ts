@@ -30,7 +30,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     3: ASHBLAZING_ATK_STACK * (1 * 1 / 3 + 2 * 1 / 3 + 3 * 1 / 3), // 0.12
   }
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       id: 'beToDmgBoost',
       formItem: 'switch',

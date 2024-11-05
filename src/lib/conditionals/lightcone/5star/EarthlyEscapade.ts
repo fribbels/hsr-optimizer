@@ -13,7 +13,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesCr = [0.10, 0.11, 0.12, 0.13, 0.14]
   const sValuesCd = [0.28, 0.35, 0.42, 0.49, 0.56]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'maskActive',

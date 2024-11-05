@@ -12,7 +12,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesAtk = [0.09, 0.105, 0.12, 0.135, 0.15]
   const sValuesDmg = [0.30, 0.35, 0.40, 0.45, 0.50]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'enemyCountAtkBuff',

@@ -1,5 +1,5 @@
-import { ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, findContentId } from 'lib/conditionals/conditionalUtils'
+import { FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, findContentId } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityCd } from 'lib/optimizer/calculateBuffs'
@@ -8,7 +8,6 @@ import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -23,7 +22,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const basicScaling = basic(e, 1.00, 1.10)
   const ultScaling = ult(e, 1.20, 1.296)
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'switch',
       id: 'concertoActive',
@@ -69,7 +68,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
   ]
 
-  const teammateContent: ContentItem[] = [
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
     findContentId(content, 'concertoActive'),
     findContentId(content, 'skillDmgBuff'),
     {

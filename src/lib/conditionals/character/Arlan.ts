@@ -19,7 +19,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const talentMissingHpDmgBoostMax = talent(e, 0.72, 0.792)
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'slider',
       id: 'selfCurrentHpPercent',

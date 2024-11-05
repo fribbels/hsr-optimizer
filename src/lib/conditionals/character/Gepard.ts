@@ -26,7 +26,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultShieldScaling = ult(e, 0.45, 0.48)
   const ultShieldFlat = ult(e, 600, 667.5)
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       formItem: 'switch',
       id: 'e4TeamResBuff',

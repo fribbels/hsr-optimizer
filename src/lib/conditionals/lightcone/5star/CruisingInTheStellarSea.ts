@@ -12,7 +12,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesCr = [0.08, 0.10, 0.12, 0.14, 0.16]
   const sValuesAtk = [0.20, 0.25, 0.30, 0.35, 0.40]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'enemyHp50CrBoost',

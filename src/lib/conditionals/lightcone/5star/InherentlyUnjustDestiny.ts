@@ -1,8 +1,7 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { findContentId } from 'lib/conditionals/conditionalUtils'
+import { ContentDefinition, findContentId } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
+import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -13,7 +12,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesCd = [0.40, 0.46, 0.52, 0.58, 0.64]
   const sValuesVulnerability = [0.10, 0.115, 0.13, 0.145, 0.16]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'shieldCdBuff',
@@ -30,7 +29,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     },
   ]
 
-  const teammateContent: ContentItem[] = [
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
     findContentId(content, 'targetVulnerability'),
   ]
 

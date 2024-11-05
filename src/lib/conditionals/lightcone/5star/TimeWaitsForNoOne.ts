@@ -8,7 +8,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValuesBonusMultiplier = [0.36, 0.42, 0.48, 0.54, 0.6]
 
-  const content: ContentItem[] = [
+  const content: ContentDefinition<typeof defaults> = [
     {
       lc: true,
       id: 'healingBasedDmgProc',

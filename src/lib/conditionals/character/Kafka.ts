@@ -1,7 +1,7 @@
 import { ASHBLAZING_ATK_STACK, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition, findContentId, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
@@ -21,64 +21,68 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const hitMulti = ASHBLAZING_ATK_STACK
     * (1 * 0.15 + 2 * 0.15 + 3 * 0.15 + 4 * 0.15 + 5 * 0.15 + 6 * 0.25)
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    e1DotDmgReceivedDebuff: true,
+    e2TeamDotBoost: true,
+  }
+
+  const teammateDefaults = {
+    e1DotDmgReceivedDebuff: true,
+    e2TeamDotBoost: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    e1DotDmgReceivedDebuff: {
       formItem: 'switch',
       id: 'e1DotDmgReceivedDebuff',
       text: t('Content.e1DotDmgReceivedDebuff.text'),
       content: t('Content.e1DotDmgReceivedDebuff.content'),
       disabled: e < 1,
     },
-    {
+    e2TeamDotBoost: {
       formItem: 'switch',
       id: 'e2TeamDotBoost',
       text: t('Content.e2TeamDotBoost.text'),
       content: t('Content.e2TeamDotBoost.content'),
       disabled: e < 2,
     },
-  ]
+  }
 
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
-    findContentId(content, 'e1DotDmgReceivedDebuff'),
-    findContentId(content, 'e2TeamDotBoost'),
-  ]
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    e1DotDmgReceivedDebuff: content.e1DotDmgReceivedDebuff,
+    e2TeamDotBoost: content.e2TeamDotBoost,
+  }
 
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
-    defaults: () => ({
-      e1DotDmgReceivedDebuff: true,
-      e2TeamDotBoost: true,
-    }),
-    teammateDefaults: () => ({
-      e1DotDmgReceivedDebuff: true,
-      e2TeamDotBoost: true,
-    }),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.FUA_SCALING += fuaScaling
-      x.DOT_SCALING += dotScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.FUA_SCALING.buff(fuaScaling, Source.NONE)
+      x.DOT_SCALING.buff(dotScaling, Source.NONE)
 
       // Boost
-      x.DOT_SCALING += (e >= 6) ? 1.56 : 0
+      x.DOT_SCALING.buff((e >= 6) ? 1.56 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 60
-      x.FUA_TOUGHNESS_DMG += 30
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.FUA_TOUGHNESS_DMG.buff(30, Source.NONE)
 
-      x.DOT_CHANCE = 1.30
+      x.DOT_CHANCE.set(1.30, Source.NONE)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      buffAbilityVulnerability(x, DOT_TYPE, 0.30, (e >= 1 && m.e1DotDmgReceivedDebuff))
-      buffAbilityDmg(x, DOT_TYPE, 0.25, (e >= 2 && m.e2TeamDotBoost))
+      buffAbilityVulnerability(x, DOT_TYPE, (e >= 1 && m.e1DotDmgReceivedDebuff) ? 0.30 : 0, Source.NONE)
+      buffAbilityDmg(x, DOT_TYPE, (e >= 2 && m.e2TeamDotBoost) ? 0.25 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, hitMulti)

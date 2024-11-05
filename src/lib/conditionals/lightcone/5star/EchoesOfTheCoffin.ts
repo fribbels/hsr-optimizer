@@ -1,6 +1,5 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
@@ -12,34 +11,42 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValues = [12, 14, 16, 18, 20]
   const sValuesEnergy = [3, 3.5, 4, 4.5, 5]
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    postUltSpdBuff: false,
+  }
+
+  const teammateDefaults = {
+    postUltSpdBuff: false,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    postUltSpdBuff: {
       lc: true,
-      id: 'postUltSpdBuff',
       formItem: 'switch',
+      id: 'postUltSpdBuff',
       text: t('Content.postUltSpdBuff.text'),
       content: t('Content.postUltSpdBuff.content', {
         EnergyRecovered: TsUtils.precisionRound(sValuesEnergy[s]),
         SpdBuff: TsUtils.precisionRound(sValues[s]),
       }),
     },
-  ]
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    postUltSpdBuff: content.postUltSpdBuff,
+  }
 
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(content),
-    defaults: () => ({
-      postUltSpdBuff: false,
-    }),
-    teammateDefaults: () => ({
-      postUltSpdBuff: false,
-    }),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.lightConeConditionals
 
-      x[Stats.SPD] += (m.postUltSpdBuff) ? sValues[s] : 0
+      x.SPD.buff((m.postUltSpdBuff) ? sValues[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

@@ -1,15 +1,14 @@
 import { NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
-  Conditionals, ContentDefinition,
-  findContentId,
+  Conditionals,
+  ContentDefinition,
   gpuStandardAtkFinalizer,
   gpuStandardAtkHealFinalizer,
   standardAtkFinalizer,
   standardAtkHealFinalizer,
 } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -30,8 +29,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const talentHealScaling = talent(e, 0.18, 0.192)
   const talentHealFlat = talent(e, 240, 267)
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    healAbility: NONE_TYPE,
+    fieldActive: true,
+    e6ResReduction: true,
+  }
+
+  const teammateDefaults = {
+    fieldActive: true,
+    e6ResReduction: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    healAbility: {
       formItem: 'select',
       id: 'healAbility',
       text: tHeal('Text'),
@@ -50,58 +60,52 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       ],
       fullWidth: true,
     },
-    {
+    fieldActive: {
       formItem: 'switch',
       id: 'fieldActive',
       text: t('Content.fieldActive.text'),
       content: t('Content.fieldActive.content'),
       // disabled: e < 1, Not disabling this one since technically the field can be active at E0
-    }, {
+    },
+    e6ResReduction: {
       formItem: 'switch',
       id: 'e6ResReduction',
       text: t('Content.e6ResReduction.text'),
       content: t('Content.e6ResReduction.content'),
       disabled: e < 6,
     },
-  ]
+  }
 
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
-    findContentId(content, 'fieldActive'),
-    findContentId(content, 'e6ResReduction'),
-  ]
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    fieldActive: content.fieldActive,
+    e6ResReduction: content.e6ResReduction,
+  }
 
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
-    defaults: () => ({
-      healAbility: NONE_TYPE,
-      fieldActive: true,
-      e6ResReduction: true,
-    }),
-    teammateDefaults: () => ({
-      fieldActive: true,
-      e6ResReduction: true,
-    }),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.ULT_TOUGHNESS_DMG += 60
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
 
       if (r.healAbility == SKILL_TYPE) {
-        x.HEAL_TYPE = SKILL_TYPE
-        x.HEAL_SCALING += skillHealScaling
-        x.HEAL_FLAT += skillHealFlat
+        x.HEAL_TYPE.set(SKILL_TYPE, Source.NONE)
+        x.HEAL_SCALING.buff(skillHealScaling, Source.NONE)
+        x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
       }
       if (r.healAbility == NONE_TYPE) {
-        x.HEAL_TYPE = NONE_TYPE
-        x.HEAL_SCALING += talentHealScaling
-        x.HEAL_FLAT += talentHealFlat
+        x.HEAL_TYPE.set(NONE_TYPE, Source.NONE)
+        x.HEAL_SCALING.buff(talentHealScaling, Source.NONE)
+        x.HEAL_FLAT.buff(talentHealFlat, Source.NONE)
       }
 
       return x
@@ -109,9 +113,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.ATK_P] += (e >= 1 && m.fieldActive) ? 0.20 : 0
+      x.ATK_P.buff((e >= 1 && m.fieldActive) ? 0.20 : 0, Source.NONE)
 
-      x.RES_PEN += (e >= 6 && m.e6ResReduction) ? 0.20 : 0
+      x.RES_PEN.buff((e >= 6 && m.e6ResReduction) ? 0.20 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
       standardAtkFinalizer(x)

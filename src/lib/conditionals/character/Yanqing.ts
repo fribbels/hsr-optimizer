@@ -1,11 +1,9 @@
-import { ASHBLAZING_ATK_STACK, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -23,14 +21,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    ultBuffActive: true,
+    soulsteelBuffActive: true,
+    critSpdBuff: true,
+    e1TargetFrozen: true,
+    e4CurrentHp80: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    ultBuffActive: {
       formItem: 'switch',
       id: 'ultBuffActive',
       text: t('Content.ultBuffActive.text'),
       content: t('Content.ultBuffActive.content', { ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
     },
-    {
+    soulsteelBuffActive: {
       formItem: 'switch',
       id: 'soulsteelBuffActive',
       text: t('Content.soulsteelBuffActive.text'),
@@ -40,74 +46,66 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue),
       }),
     },
-    {
+    critSpdBuff: {
       formItem: 'switch',
       id: 'critSpdBuff',
       text: t('Content.critSpdBuff.text'),
       content: t('Content.critSpdBuff.content'),
     },
-    {
+    e1TargetFrozen: {
       formItem: 'switch',
       id: 'e1TargetFrozen',
       text: t('Content.e1TargetFrozen.text'),
       content: t('Content.e1TargetFrozen.content'),
       disabled: (e < 1),
     },
-    {
+    e4CurrentHp80: {
       formItem: 'switch',
       id: 'e4CurrentHp80',
       text: t('Content.e4CurrentHp80.text'),
       content: t('Content.e4CurrentHp80.content'),
       disabled: (e < 4),
     },
-  ]
+  }
 
   return {
     content: () => Object.values(content),
-    teammateContent: () => [],
-    defaults: () => ({
-      ultBuffActive: true,
-      soulsteelBuffActive: true,
-      critSpdBuff: true,
-      e1TargetFrozen: true,
-      e4CurrentHp80: true,
-    }),
-    teammateDefaults: () => ({}),
+    defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.CR] += (r.ultBuffActive) ? 0.60 : 0
-      x[Stats.CD] += (r.ultBuffActive && r.soulsteelBuffActive) ? ultCdBuffValue : 0
-      x[Stats.CR] += (r.soulsteelBuffActive) ? talentCrBuffValue : 0
-      x[Stats.CD] += (r.soulsteelBuffActive) ? talentCdBuffValue : 0
-      x[Stats.RES] += (r.soulsteelBuffActive) ? 0.20 : 0
-      x[Stats.SPD_P] += (r.critSpdBuff) ? 0.10 : 0
-      x[Stats.ERR] += (e >= 2 && r.soulsteelBuffActive) ? 0.10 : 0
+      x.CR.buff((r.ultBuffActive) ? 0.60 : 0, Source.NONE)
+      x.CD.buff((r.ultBuffActive && r.soulsteelBuffActive) ? ultCdBuffValue : 0, Source.NONE)
+      x.CR.buff((r.soulsteelBuffActive) ? talentCrBuffValue : 0, Source.NONE)
+      x.CD.buff((r.soulsteelBuffActive) ? talentCdBuffValue : 0, Source.NONE)
+      x.RES.buff((r.soulsteelBuffActive) ? 0.20 : 0, Source.NONE)
+      x.SPD_P.buff((r.critSpdBuff) ? 0.10 : 0, Source.NONE)
+      x.ERR.buff((e >= 2 && r.soulsteelBuffActive) ? 0.10 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.FUA_SCALING += fuaScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.FUA_SCALING.buff(fuaScaling, Source.NONE)
 
-      x.BASIC_SCALING += (context.enemyElementalWeak) ? 0.30 : 0
-      x.SKILL_SCALING += (context.enemyElementalWeak) ? 0.30 : 0
-      x.ULT_SCALING += (context.enemyElementalWeak) ? 0.30 : 0
-      x.FUA_SCALING += (context.enemyElementalWeak) ? 0.30 : 0
+      x.BASIC_SCALING.buff((context.enemyElementalWeak) ? 0.30 : 0, Source.NONE)
+      x.SKILL_SCALING.buff((context.enemyElementalWeak) ? 0.30 : 0, Source.NONE)
+      x.ULT_SCALING.buff((context.enemyElementalWeak) ? 0.30 : 0, Source.NONE)
+      x.FUA_SCALING.buff((context.enemyElementalWeak) ? 0.30 : 0, Source.NONE)
 
-      x.BASIC_SCALING += (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
-      x.SKILL_SCALING += (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
-      x.ULT_SCALING += (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
-      x.FUA_SCALING += (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
+      x.BASIC_SCALING.buff((e >= 1 && r.e1TargetFrozen) ? 0.60 : 0, Source.NONE)
+      x.SKILL_SCALING.buff((e >= 1 && r.e1TargetFrozen) ? 0.60 : 0, Source.NONE)
+      x.ULT_SCALING.buff((e >= 1 && r.e1TargetFrozen) ? 0.60 : 0, Source.NONE)
+      x.FUA_SCALING.buff((e >= 1 && r.e1TargetFrozen) ? 0.60 : 0, Source.NONE)
 
       // Boost
-      x.ICE_RES_PEN += (e >= 4 && r.e4CurrentHp80) ? 0.12 : 0
+      x.ICE_RES_PEN.buff((e >= 4 && r.e4CurrentHp80) ? 0.12 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 90
-      x.FUA_TOUGHNESS_DMG += 30
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
+      x.FUA_TOUGHNESS_DMG.buff(30, Source.NONE)
 
       return x
     },

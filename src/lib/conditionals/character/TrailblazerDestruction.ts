@@ -1,12 +1,10 @@
-import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray, Key } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -21,8 +19,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultEnhancedScaling = ult(e, 2.70, 2.88)
   const ultEnhancedScaling2 = ult(e, 1.62, 1.728)
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    enhancedUlt: true,
+    talentStacks: 2,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    enhancedUlt: {
       formItem: 'switch',
       id: 'enhancedUlt',
       text: t('Content.enhancedUlt.text'),
@@ -32,7 +35,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         ultEnhancedScaling2: TsUtils.precisionRound(100 * ultEnhancedScaling2),
       }),
     },
-    {
+    talentStacks: {
       formItem: 'slider',
       id: 'talentStacks',
       text: t('Content.talentStacks.text'),
@@ -40,36 +43,31 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: 2,
     },
-  ]
+  }
 
   return {
     content: () => Object.values(content),
-    teammateContent: () => [],
-    defaults: () => ({
-      enhancedUlt: true,
-      talentStacks: 2,
-    }),
-    teammateDefaults: () => ({}),
+    defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.ATK_P] += r.talentStacks * talentAtkScalingValue
-      x[Stats.DEF_P] += r.talentStacks * 0.10
-      x[Stats.CR] += (x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? 0.25 : 0
+      x.ATK_P.buff(r.talentStacks * talentAtkScalingValue, Source.NONE)
+      x.DEF_P.buff(r.talentStacks * 0.10, Source.NONE)
+      x.CR.buff((x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? 0.25 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += (r.enhancedUlt) ? ultEnhancedScaling : ultScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff((r.enhancedUlt) ? ultEnhancedScaling : ultScaling, Source.NONE)
 
       // Boost
-      buffAbilityDmg(x, SKILL_TYPE, 0.25)
-      buffAbilityDmg(x, ULT_TYPE, 0.25, (r.enhancedUlt))
+      buffAbilityDmg(x, SKILL_TYPE, 0.25, Source.NONE)
+      buffAbilityDmg(x, ULT_TYPE, (r.enhancedUlt) ? 0.25 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += (r.enhancedUlt) ? 60 : 90
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff((r.enhancedUlt) ? 60 : 90, Source.NONE)
 
       return x
     },

@@ -1,13 +1,11 @@
-import { BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { BASIC_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityResPen } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -25,8 +23,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 3.00, 3.24)
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    basicEnhanced: 3,
+    skillOutroarStacks: 4,
+    talentRighteousHeartStacks: righteousHeartStackMax,
+    e6ResPenStacks: 3,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    basicEnhanced: {
       formItem: 'slider',
       id: 'basicEnhanced',
       text: t('Content.basicEnhanced.text'),
@@ -39,7 +44,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: 3,
     },
-    {
+    skillOutroarStacks: {
       formItem: 'slider',
       id: 'skillOutroarStacks',
       text: t('Content.skillOutroarStacks.text'),
@@ -47,7 +52,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: 4,
     },
-    {
+    talentRighteousHeartStacks: {
       formItem: 'slider',
       id: 'talentRighteousHeartStacks',
       text: t('Content.talentRighteousHeartStacks.text'),
@@ -55,7 +60,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: righteousHeartStackMax,
     },
-    {
+    e6ResPenStacks: {
       formItem: 'slider',
       id: 'e6ResPenStacks',
       text: t('Content.e6ResPenStacks.text'),
@@ -64,41 +69,35 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       max: 3,
       disabled: e < 6,
     },
-  ]
+  }
 
   return {
     content: () => Object.values(content),
-    teammateContent: () => [],
-    defaults: () => ({
-      basicEnhanced: 3,
-      skillOutroarStacks: 4,
-      talentRighteousHeartStacks: righteousHeartStackMax,
-      e6ResPenStacks: 3,
-    }),
-    teammateDefaults: () => ({}),
+    defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.CD] += (context.enemyElementalWeak) ? 0.24 : 0
-      x[Stats.CD] += r.skillOutroarStacks * outroarStackCdValue
+      x.CD.buff((context.enemyElementalWeak) ? 0.24 : 0, Source.NONE)
+      x.CD.buff(r.skillOutroarStacks * outroarStackCdValue, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += {
+      const basicScalingValue = {
         0: basicScaling,
         1: basicEnhanced1Scaling,
         2: basicEnhanced2Scaling,
         3: basicEnhanced3Scaling,
       }[r.basicEnhanced] ?? 0
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+      x.BASIC_SCALING.buff(basicScalingValue, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
       // Boost
-      x.ELEMENTAL_DMG += r.talentRighteousHeartStacks * righteousHeartDmgValue
-      buffAbilityResPen(x, BASIC_TYPE, 0.20 * r.e6ResPenStacks, (e >= 6 && r.basicEnhanced == 3))
+      x.ELEMENTAL_DMG.buff(r.talentRighteousHeartStacks * righteousHeartDmgValue, Source.NONE)
+      buffAbilityResPen(x, BASIC_TYPE, (e >= 6 && r.basicEnhanced == 3) ? 0.20 * r.e6ResPenStacks : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30 + 30 * r.basicEnhanced
-      x.ULT_TOUGHNESS_DMG += 60
+      x.BASIC_TOUGHNESS_DMG.buff(30 + 30 * r.basicEnhanced, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
 
       return x
     },

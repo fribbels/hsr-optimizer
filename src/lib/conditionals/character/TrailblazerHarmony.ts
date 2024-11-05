@@ -1,6 +1,5 @@
-import { AbilityEidolon, Conditionals, ContentDefinition, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
@@ -16,26 +15,39 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultBeScaling = ult(e, 0.30, 0.33)
   const skillMaxHits = e >= 6 ? 6 : 4
 
-  const targetsToSuperBreakMulti = {
+  const targetsToSuperBreakMulti: Record<number, number> = {
     1: 1.60,
     3: 1.40,
     5: 1.20,
   }
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    skillHitsOnTarget: skillMaxHits,
+    backupDancer: true,
+    superBreakDmg: true,
+    e2EnergyRegenBuff: false,
+  }
+
+  const teammateDefaults = {
+    backupDancer: true,
+    superBreakDmg: true,
+    teammateBeValue: 2.00,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    backupDancer: {
       formItem: 'switch',
       id: 'backupDancer',
       text: t('Content.backupDancer.text'),
       content: t('Content.backupDancer.content', { ultBeScaling: TsUtils.precisionRound(100 * ultBeScaling) }),
     },
-    {
+    superBreakDmg: {
       formItem: 'switch',
       id: 'superBreakDmg',
       text: t('Content.superBreakDmg.text'),
       content: t('Content.superBreakDmg.content'),
     },
-    {
+    skillHitsOnTarget: {
       formItem: 'slider',
       id: 'skillHitsOnTarget',
       text: t('Content.skillHitsOnTarget.text'),
@@ -43,19 +55,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: skillMaxHits,
     },
-    {
+    e2EnergyRegenBuff: {
       formItem: 'switch',
       id: 'e2EnergyRegenBuff',
       text: t('Content.e2EnergyRegenBuff.text'),
       content: t('Content.e2EnergyRegenBuff.content'),
       disabled: e < 2,
     },
-  ]
+  }
 
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
-    findContentId(content, 'backupDancer'),
-    findContentId(content, 'superBreakDmg'),
-    {
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    backupDancer: content.backupDancer,
+    superBreakDmg: content.superBreakDmg,
+    teammateBeValue: {
       formItem: 'slider',
       id: 'teammateBeValue',
       text: t('TeammateContent.teammateBeValue.text'),
@@ -65,64 +77,55 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       percent: true,
       disabled: e < 4,
     },
-  ]
-
-  const defaults = {
-    skillHitsOnTarget: skillMaxHits,
-    backupDancer: true,
-    superBreakDmg: true,
-    e2EnergyRegenBuff: false,
   }
 
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
-    teammateDefaults: () => ({
-      backupDancer: true,
-      superBreakDmg: true,
-      teammateBeValue: 2.00,
-    }),
+    teammateDefaults: () => teammateDefaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
       if (r.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN = 1
+        x.ENEMY_WEAKNESS_BROKEN.set(1, Source.NONE)
       }
     },
     initializeTeammateConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
       if (r.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN = 1
+        x.ENEMY_WEAKNESS_BROKEN.set(1, Source.NONE)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.ERR] += (e >= 2 && r.e2EnergyRegenBuff) ? 0.25 : 0
+      x.ERR.buff((e >= 2 && r.e2EnergyRegenBuff) ? 0.25 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.SKILL_SCALING += r.skillHitsOnTarget * skillScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.SKILL_SCALING.buff(r.skillHitsOnTarget * skillScaling, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 30 * r.skillHitsOnTarget
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(30 * r.skillHitsOnTarget, Source.NONE)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.BE] += (m.backupDancer) ? ultBeScaling : 0
-      x.SUPER_BREAK_HMC_MODIFIER += (m.backupDancer && m.superBreakDmg)
-        ? targetsToSuperBreakMulti[context.enemyCount]
-        : 0
+      x.BE.buff((m.backupDancer) ? ultBeScaling : 0, Source.NONE)
+      x.SUPER_BREAK_HMC_MODIFIER.buff(
+        (m.backupDancer && m.superBreakDmg)
+          ? targetsToSuperBreakMulti[context.enemyCount]
+          : 0,
+        Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.BE] += (e >= 4) ? 0.15 * t.teammateBeValue : 0
+      x.BE.buff((e >= 4) ? 0.15 * t.teammateBeValue : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

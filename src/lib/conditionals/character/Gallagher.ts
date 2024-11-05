@@ -1,6 +1,6 @@
 import { BREAK_TYPE, ComputedStatsObject, NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
-  AbilityEidolon,
+  AbilityEidolon, Conditionals,
   findContentId,
   gpuStandardAtkFinalizer,
   gpuStandardFlatHealFinalizer,
@@ -102,7 +102,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       targetBesotted: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       x[Stats.RES] += (e >= 1 && r.e1ResBuff) ? 0.50 : 0
       x[Stats.RES] += (e >= 2 && r.e2ResBuff) ? 0.30 : 0

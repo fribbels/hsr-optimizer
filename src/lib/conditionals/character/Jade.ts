@@ -1,5 +1,5 @@
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
@@ -34,7 +34,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   }
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
+    const r: Conditionals<typeof content> = action.characterConditionals
     return r.enhancedFollowUp
       ? enhancedHitMultiByTargets[context.enemyCount]
       : unenhancedHitMultiByTargets[context.enemyCount]
@@ -115,7 +115,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defaults: () => (defaults),
     teammateDefaults: () => (teammateDefaults),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       x[Stats.CD] += r.pawnedAssetStacks * pawnedAssetCdScaling
       x[Stats.ATK_P] += r.pawnedAssetStacks * 0.005

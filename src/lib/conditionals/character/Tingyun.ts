@@ -1,5 +1,5 @@
 import { BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, findContentId } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -91,7 +91,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       teammateAtkBuffValue: skillAtkBoostScaling,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
       x[Stats.SPD_P] += (r.skillSpdBuff) ? 0.20 : 0
@@ -121,7 +121,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x[Stats.ATK_P] += (t.benedictionBuff) ? t.teammateAtkBuffValue : 0
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // x[Stats.ATK] += (r.benedictionBuff) ? x[Stats.ATK] * skillAtkBoostMax : 0
 
@@ -132,7 +132,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 if (${wgslTrue(r.benedictionBuff)}) {
@@ -154,7 +154,7 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
           return true
         },
         effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+          const r: Conditionals<typeof content> = action.characterConditionals
           if (!r.benedictionBuff) {
             return
           }
@@ -173,7 +173,7 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
           buffDynamicStat(x, Stats.ATK, finalBuffAtk, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+          const r: Conditionals<typeof content> = action.characterConditionals
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.benedictionBuff)}) {

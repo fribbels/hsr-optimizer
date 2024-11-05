@@ -1,6 +1,6 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION, Stats } from 'lib/constants'
+import { AbilityEidolon, Conditionals, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { Stats } from 'lib/constants'
 import { RappaConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { TsUtils } from 'lib/TsUtils'
 
@@ -106,14 +106,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e4SpdBuff: true,
     }),
     initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       if (r.sealformActive) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
     },
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       x[Stats.BE] += (r.sealformActive) ? ultBeBuff : 0
       x.BREAK_EFFICIENCY_BOOST += (r.sealformActive) ? 0.50 : 0

@@ -1,5 +1,5 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
@@ -62,7 +62,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     }),
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
       x[Stats.CR] += (e >= 1 && r.e1EnemyHp80CrBoost) ? 0.15 : 0
@@ -87,7 +87,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       // TODO: Seele's E6 should have a teammate effect but its kinda hard to calc
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -98,7 +98,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;

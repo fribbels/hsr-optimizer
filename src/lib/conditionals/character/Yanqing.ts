@@ -1,5 +1,5 @@
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
@@ -73,7 +73,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     }),
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
       x[Stats.CR] += (r.ultBuffActive) ? 0.60 : 0

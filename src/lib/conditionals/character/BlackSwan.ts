@@ -1,10 +1,5 @@
 import { ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardAtkFinalizer,
-  standardAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { BlackSwanConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { buffAbilityDefPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
@@ -90,7 +85,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e1ResReduction: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling

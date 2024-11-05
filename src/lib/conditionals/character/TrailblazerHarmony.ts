@@ -1,10 +1,5 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardAtkFinalizer,
-  standardAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { TsUtils } from 'lib/TsUtils'
 
@@ -90,19 +85,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       teammateBeValue: 2.00,
     }),
     initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
       if (r.superBreakDmg) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
     },
     initializeTeammateConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
       if (r.superBreakDmg) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
     },
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
       x[Stats.ERR] += (e >= 2 && r.e2EnergyRegenBuff) ? 0.25 : 0

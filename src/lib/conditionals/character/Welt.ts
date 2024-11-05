@@ -1,5 +1,5 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Key } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
@@ -66,7 +66,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       enemyDmgTakenDebuff: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
       x.ELEMENTAL_DMG += (x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? 0.20 : 0

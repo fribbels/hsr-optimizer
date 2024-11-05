@@ -1,5 +1,5 @@
 import { ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, findContentId } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityCd } from 'lib/optimizer/calculateBuffs'
@@ -123,7 +123,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e4TeamResBuff: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       x.BASIC_SCALING += basicScaling
       x.ULT_ADDITIONAL_DMG_SCALING += (r.concertoActive) ? ultScaling : 0
@@ -151,7 +151,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       buffAbilityCd(x, FUA_TYPE, 0.25, (t.traceFuaCdBoost && t.concertoActive))
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       x[Stats.ATK] += (r.concertoActive) ? x[Stats.ATK] * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
 
@@ -162,7 +162,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_ADDITIONAL_DMG += x.ULT_ADDITIONAL_DMG_SCALING * x[Stats.ATK]
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
       return `
 if (${wgslTrue(r.concertoActive)}) {
   buffDynamicATK(x.ATK * ${ultAtkBuffScalingValue} + ${ultAtkBuffFlatValue}, p_x, p_state);

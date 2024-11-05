@@ -1,10 +1,5 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardDefShieldFinalizer,
-  standardDefShieldFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, findContentId, gpuStandardDefShieldFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
@@ -77,7 +72,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       skillActive: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
       x[Stats.DEF_P] += (e >= 6) ? r.e6DefStacks * 0.10 : 0
@@ -105,7 +100,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.DMG_RED_MULTI *= (m.skillActive) ? (1 - 0.15) : 1
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       if (r.enhancedBasic) {
         x.BASIC_DMG += basicEnhancedAtkScaling * x[Stats.ATK]
@@ -123,7 +118,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       standardDefShieldFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       return `
 if (${wgslTrue(r.enhancedBasic)}) {

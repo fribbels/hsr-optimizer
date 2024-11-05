@@ -1,10 +1,5 @@
 import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardAtkFinalizer,
-  standardAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { JiaoqiuConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
@@ -112,7 +107,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defaults: () => (defaults),
     teammateDefaults: () => (teammateDefaults),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling

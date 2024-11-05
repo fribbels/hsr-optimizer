@@ -1,5 +1,13 @@
 import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardHpFinalizer, gpuStandardHpHealFinalizer, standardHpFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  Conditionals,
+  findContentId,
+  gpuStandardHpFinalizer,
+  gpuStandardHpHealFinalizer,
+  standardHpFinalizer,
+  standardHpHealFinalizer,
+} from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
@@ -80,7 +88,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       teammateHPValue: 8000,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -131,7 +139,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           return true
         },
         effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+          const r: Conditionals<typeof content> = action.characterConditionals
           if (!r.skillActive) {
             return
           }
@@ -150,7 +158,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           buffDynamicStat(x, Stats.HP, finalBuffHp, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+          const r: Conditionals<typeof content> = action.characterConditionals
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.skillActive)}) {

@@ -1,5 +1,13 @@
 import { ComputedStatsObject, NONE_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardHpFinalizer, gpuStandardHpHealFinalizer, standardHpFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  Conditionals,
+  findContentId,
+  gpuStandardHpFinalizer,
+  gpuStandardHpHealFinalizer,
+  standardHpFinalizer,
+  standardHpHealFinalizer,
+} from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -81,7 +89,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       teammateHPValue: 6000,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -139,7 +147,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         return true
       },
       effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-        const r = action.characterConditionals
+        const r: Conditionals<typeof content> = action.characterConditionals
         if (!r.skillBuff) {
           return
         }
@@ -174,7 +182,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         buffDynamicStat(x, Stats.ATK, finalBuffAtk, action, context)
       },
       gpu: function (action: OptimizerAction, context: OptimizerContext) {
-        const r = action.characterConditionals
+        const r: Conditionals<typeof content> = action.characterConditionals
 
         return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.skillBuff)}) {

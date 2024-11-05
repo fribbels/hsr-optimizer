@@ -1,5 +1,5 @@
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
@@ -31,7 +31,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
+    const r: Conditionals<typeof content> = action.characterConditionals
     return r.basicEnhanced
       ? hitMultiByTargetsBlast[context.enemyCount]
       : hitMultiSingle
@@ -70,7 +70,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     }),
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += (r.basicEnhanced) ? talentAtkBuff : 0

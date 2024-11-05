@@ -1,11 +1,5 @@
-import {
-  ASHBLAZING_ATK_STACK,
-  ComputedStatsObject,
-  FUA_TYPE,
-  SKILL_TYPE,
-  ULT_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
@@ -62,7 +56,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   }
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
+    const r: Conditionals<typeof content> = action.characterConditionals
 
     const hitMultiStacks = getHitMultiByTargetsAndHits(r.fuaStacks, context)
     const hitMultiByTargets: NumberToNumberMap = {
@@ -140,7 +134,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     }),
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += (r.techniqueBuff) ? 0.40 : 0

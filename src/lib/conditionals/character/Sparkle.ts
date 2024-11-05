@@ -1,5 +1,5 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
@@ -144,7 +144,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           return true
         },
         effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+          const r: Conditionals<typeof content> = action.characterConditionals
           if (!r.skillCdBuff) {
             return
           }
@@ -165,7 +165,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           buffDynamicStat(x, Stats.CD, finalBuffCd, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+          const r: Conditionals<typeof content> = action.characterConditionals
           const buffScalingValue = (skillCdBuffScaling + (e >= 6 ? 0.30 : 0))
 
           return conditionalWgslWrapper(this, `

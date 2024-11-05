@@ -1,10 +1,5 @@
 import { ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardAtkFinalizer,
-  standardAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
 
@@ -65,7 +60,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       targetDotTakenDebuff: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
 

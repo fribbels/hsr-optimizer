@@ -1,10 +1,5 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardAtkFinalizer,
-  standardAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
@@ -84,7 +79,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e1EffectResShred: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Scaling
       x.BASIC_SCALING += basicScaling

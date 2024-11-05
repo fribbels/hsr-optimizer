@@ -117,7 +117,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       x.SUMMONS = 1
     },
@@ -188,7 +188,7 @@ const LingshaConversionConditional: DynamicConditional = {
     return true
   },
   effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
+    const r: Conditionals<typeof content> = action.characterConditionals
     if (!r.beConversion) {
       return
     }
@@ -209,7 +209,7 @@ const LingshaConversionConditional: DynamicConditional = {
     buffDynamicStat(x, Stats.OHB, finalBuffOhb, action, context)
   },
   gpu: function (action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
+    const r: Conditionals<typeof content> = action.characterConditionals
 
     return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.beConversion)}) {

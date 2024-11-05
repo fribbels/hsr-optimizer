@@ -1,6 +1,7 @@
 import { ComputedStatsObject, NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
+  Conditionals,
   findContentId,
   gpuStandardHpFinalizer,
   gpuStandardHpHealFinalizer,
@@ -92,7 +93,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e6DmgBuff: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Scaling
       x.BASIC_SCALING += basicScaling

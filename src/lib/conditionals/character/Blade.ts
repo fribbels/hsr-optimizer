@@ -1,5 +1,5 @@
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, calculateAshblazingSet, Conditionals } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
@@ -70,7 +70,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     }),
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
       x[Stats.CR] += (e >= 2 && r.enhancedStateActive) ? 0.15 : 0
@@ -92,7 +92,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       if (r.enhancedStateActive) {
         x.BASIC_DMG += basicEnhancedAtkScaling * x[Stats.ATK]
@@ -114,7 +114,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.FUA_DMG += (e >= 6) ? 0.50 * x[Stats.HP] : 0
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       return `
 if (${wgslTrue(r.enhancedStateActive)}) {

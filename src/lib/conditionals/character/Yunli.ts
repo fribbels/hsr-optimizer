@@ -1,5 +1,5 @@
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { buffAbilityCd, buffAbilityCr, buffAbilityDefPen, buffAbilityDmg, buffAbilityResPen } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
@@ -40,7 +40,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   }
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
+    const r: Conditionals<typeof content> = action.characterConditionals
     return (r.blockActive && r.ultCull)
       ? cullHitCountMultiByTargets[context.enemyCount]
       : fuaHitCountMultiByTargets[context.enemyCount]
@@ -130,13 +130,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defaults: () => (defaults),
     teammateDefaults: () => ({}),
     initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
       if (r.blockActive && r.ultCull) {
         x.FUA_DMG_TYPE = ULT_TYPE | FUA_TYPE
       }
     },
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       if (r.blockActive) {
         if (r.ultCull) {

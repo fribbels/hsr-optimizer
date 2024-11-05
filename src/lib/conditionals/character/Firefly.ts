@@ -1,5 +1,5 @@
 import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { FireflyConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -103,14 +103,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     defaults: () => (defaults),
     teammateDefaults: () => ({}),
     initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       if (r.superBreakDmg) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
     },
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       x[Stats.RES] += (r.enhancedStateActive) ? talentResBuff : 0
       x[Stats.SPD] += (r.enhancedStateActive && r.enhancedStateSpdBuff) ? ultSpdBuff : 0
@@ -131,7 +131,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       buffAbilityVulnerability(x, BREAK_TYPE, ultWeaknessBrokenBreakVulnerability, (r.enhancedStateActive && x.a[Key.ENEMY_WEAKNESS_BROKEN]))
 
@@ -146,7 +146,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
       return `
 buffAbilityVulnerability(p_x, BREAK_TYPE, ${ultWeaknessBrokenBreakVulnerability}, select(0, 1, ${wgslTrue(r.enhancedStateActive)} && x.ENEMY_WEAKNESS_BROKEN >= 1));
 

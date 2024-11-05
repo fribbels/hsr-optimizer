@@ -1,11 +1,6 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardAtkFinalizer,
-  standardAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { RuanMeiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { TsUtils } from 'lib/TsUtils'
@@ -100,7 +95,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       teamDmgBuff: 0.36,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
       x[Stats.ATK_P] += (e >= 2 && r.e2AtkBoost) ? 0.40 : 0

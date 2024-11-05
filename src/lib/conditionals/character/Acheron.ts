@@ -1,10 +1,5 @@
 import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardAtkFinalizer,
-  standardAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { TsUtils } from 'lib/TsUtils'
@@ -115,7 +110,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e4UltVulnerability: true,
     }),
     initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       if (e >= 6 && r.e6UltBuffs) {
         x.BASIC_DMG_TYPE = ULT_TYPE | BASIC_TYPE
@@ -123,7 +118,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       }
     },
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       x[Stats.CR] += (e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0
 

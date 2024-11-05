@@ -1,5 +1,5 @@
 import { SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { _standardAtkFinalizer, AbilityEidolon, gpuStandardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { _standardAtkFinalizer, AbilityEidolon, Conditionals, gpuStandardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
@@ -64,7 +64,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     }),
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Skills
       x.CR.buff((r.talentEnhancedState) ? talentCrBuff : 0, Source.NONE)

@@ -1,5 +1,5 @@
 import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, findContentId } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
@@ -76,7 +76,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e4SkillResShred: true,
     }),
     precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
       x[Stats.SPD_P] += (e >= 2 && r.skillRemovedBuff) ? 0.10 : 0

@@ -1,8 +1,7 @@
-import { Conditionals } from 'lib/conditionals/conditionalUtils'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -28,7 +27,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   return {
     content: () => Object.values(content),
-    teammatecontent: () => Object.values(content),
+    teammateContent: () => Object.values(content),
     defaults: () => ({
       maskActive: false,
     }),

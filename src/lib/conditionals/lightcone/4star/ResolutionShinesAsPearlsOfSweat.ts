@@ -22,7 +22,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   return {
     content: () => Object.values(content),
-    teammatecontent: () => Object.values(content),
+    teammateContent: () => Object.values(content),
     defaults: () => ({
       targetEnsnared: true,
     }),

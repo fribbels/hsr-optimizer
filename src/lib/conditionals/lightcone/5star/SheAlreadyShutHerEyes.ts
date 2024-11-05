@@ -1,5 +1,5 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
@@ -10,31 +10,39 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValues = [0.09, 0.105, 0.12, 0.135, 0.15]
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    hpLostDmgBuff: true,
+  }
+
+  const teammateDefaults = {
+    hpLostDmgBuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    hpLostDmgBuff: {
       lc: true,
-      id: 'hpLostDmgBuff',
       formItem: 'switch',
+      id: 'hpLostDmgBuff',
       text: t('Content.hpLostDmgBuff.text'),
       content: t('Content.hpLostDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },
-  ]
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    hpLostDmgBuff: content.hpLostDmgBuff,
+  }
 
   return {
     content: () => Object.values(content),
-    teammatecontent: () => Object.values(content),
-    defaults: () => ({
-      hpLostDmgBuff: true,
-    }),
-    teammateDefaults: () => ({
-      hpLostDmgBuff: true,
-    }),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.lightConeConditionals
 
-      x.ELEMENTAL_DMG += (m.hpLostDmgBuff) ? sValues[s] : 0
+      x.ELEMENTAL_DMG.buff((m.hpLostDmgBuff) ? sValues[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

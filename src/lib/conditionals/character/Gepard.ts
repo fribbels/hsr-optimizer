@@ -1,7 +1,6 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
-  Conditionals,
+  Conditionals, ContentDefinition,
   gpuStandardAtkFinalizer,
   gpuStandardDefShieldFinalizer,
   standardAtkFinalizer,
@@ -13,7 +12,6 @@ import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -38,7 +36,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   return {
     content: () => Object.values(content),
-    teammatecontent: () => Object.values(content),
+    teammateContent: () => Object.values(content),
     defaults: () => ({
       e4TeamResBuff: true,
     }),

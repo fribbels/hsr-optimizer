@@ -99,7 +99,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
-    defaults: () => (defaults),
+    defaults: () => defaults,
     teammateDefaults: () => ({
       teammateBreakVulnerability: 0.10,
       e4SpdBuff: true,

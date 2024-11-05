@@ -110,7 +110,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
-    defaults: () => (defaults),
+    defaults: () => defaults,
     teammateDefaults: () => (teammateDefaults),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       // Stats

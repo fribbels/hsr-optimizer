@@ -1,12 +1,11 @@
-import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, standardHpHealFinalizer } from 'lib/conditionals/conditionalUtils'
+import { SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, standardHpHealFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -43,7 +42,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   return {
     content: () => Object.values(content),
     teammateContent: () => [],
-    defaults: () => (defaults),
+    defaults: () => defaults,
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals

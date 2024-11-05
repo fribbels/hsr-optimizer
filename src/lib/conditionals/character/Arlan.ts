@@ -1,12 +1,11 @@
-import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -19,8 +18,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const talentMissingHpDmgBoostMax = talent(e, 0.72, 0.792)
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    selfCurrentHpPercent: 1.00,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    selfCurrentHpPercent: {
       formItem: 'slider',
       id: 'selfCurrentHpPercent',
       text: t('Content.selfCurrentHpPercent.text'),
@@ -29,33 +32,31 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       max: 1.0,
       percent: true,
     },
-  ]
+  }
 
   return {
     content: () => Object.values(content),
     teammateContent: () => [],
-    defaults: () => ({
-      selfCurrentHpPercent: 1.00,
-    }),
+    defaults: () => defaults,
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x.ELEMENTAL_DMG += Math.min(talentMissingHpDmgBoostMax, 1 - r.selfCurrentHpPercent)
+      x.ELEMENTAL_DMG.buff(Math.min(talentMissingHpDmgBoostMax, 1 - r.selfCurrentHpPercent), Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
       // Boost
-      buffAbilityDmg(x, SKILL_TYPE, 0.10, (e >= 1 && r.selfCurrentHpPercent <= 0.50))
-      buffAbilityDmg(x, ULT_TYPE, 0.20, (e >= 6 && r.selfCurrentHpPercent <= 0.50))
+      buffAbilityDmg(x, SKILL_TYPE, (e >= 1 && r.selfCurrentHpPercent <= 0.50) ? 0.10 : 0, Source.NONE)
+      buffAbilityDmg(x, ULT_TYPE, (e >= 6 && r.selfCurrentHpPercent <= 0.50) ? 0.20 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 60
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
 
       return x
     },

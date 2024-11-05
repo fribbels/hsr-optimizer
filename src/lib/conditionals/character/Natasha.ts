@@ -1,8 +1,7 @@
 import { SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, standardHpHealFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -21,8 +20,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillHealScaling = skill(e, 0.105, 0.112)
   const skillHealFlat = skill(e, 280, 311.5)
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const content: ContentDefinition<typeof defaults> = {
+    healAbility: {
       formItem: 'select',
       id: 'healAbility',
       text: tHeal('Text'),
@@ -33,7 +32,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       ],
       fullWidth: true,
     },
-  ]
+  }
 
   const defaults = {
     healAbility: ULT_TYPE,
@@ -41,27 +40,25 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   return {
     content: () => Object.values(content),
-    teammateContent: () => [],
     defaults: () => defaults,
-    teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
-      x[Stats.OHB] += 0.10
+      x.OHB.buff(0.10, Source.NONE)
 
-      x.BASIC_SCALING += basicScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
 
       if (r.healAbility == SKILL_TYPE) {
-        x.HEAL_TYPE = SKILL_TYPE
-        x.HEAL_SCALING += skillHealScaling
-        x.HEAL_FLAT += skillHealFlat
+        x.HEAL_TYPE.set(SKILL_TYPE, Source.NONE)
+        x.HEAL_SCALING.buff(skillHealScaling, Source.NONE)
+        x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
       }
       if (r.healAbility == ULT_TYPE) {
-        x.HEAL_TYPE = ULT_TYPE
-        x.HEAL_SCALING += ultHealScaling
-        x.HEAL_FLAT += ultHealFlat
+        x.HEAL_TYPE.set(ULT_TYPE, Source.NONE)
+        x.HEAL_SCALING.buff(ultHealScaling, Source.NONE)
+        x.HEAL_FLAT.buff(ultHealFlat, Source.NONE)
       }
 
       return x
@@ -69,8 +66,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.BASIC_DMG += (e >= 6) ? 0.40 * x[Stats.HP] : 0
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
+      x.BASIC_DMG.buff((e >= 6) ? 0.40 * x.a[Key.HP] : 0, Source.NONE)
 
       standardHpHealFinalizer(x)
     },

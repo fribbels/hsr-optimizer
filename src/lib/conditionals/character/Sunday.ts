@@ -4,6 +4,7 @@ import { AbilityEidolon, Conditionals, findContentId, gpuStandardAtkFinalizer, s
 import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants'
 import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -112,14 +113,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     teammateContent: () => Object.values(teammateContent),
     defaults: () => (defaults),
     teammateDefaults: () => (teammateDefaults),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       // Stats
 
       x.BASIC_SCALING += basicScaling
 
       x.BASIC_TOUGHNESS_DMG = 30
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x[Stats.CR] += m.talentCrBuffStacks * talentCrBuffValue
@@ -131,13 +132,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       x[Stats.SPD] += (e >= 2 && m.e2SpdBuff) ? 20 : 0
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x[Stats.CD] += (t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0
       x[Stats.CD] += (t.beatified) ? ultCdBoostBaseValue : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {

@@ -3,6 +3,7 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { RuanMeiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -94,7 +95,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       e2AtkBoost: false,
       teamDmgBuff: 0.36,
     }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
@@ -108,7 +109,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x[Stats.BE] += (m.teamBEBuff) ? 0.20 : 0
@@ -119,7 +120,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.RES_PEN += (m.ultFieldActive) ? fieldResPenValue : 0
       x.DEF_PEN += (e >= 1 && m.ultFieldActive) ? 0.20 : 0
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x[Stats.SPD_P] += (t.teamSpdBuff) ? talentSpdScaling : 0
@@ -128,7 +129,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x[Stats.ATK_P] += (e >= 2 && t.e2AtkBoost) ? 0.40 : 0
       x.RATIO_BASED_ATK_P_BUFF += (e >= 2 && t.e2AtkBoost) ? 0.40 : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
     dynamicConditionals: [RuanMeiConversionConditional],
   }

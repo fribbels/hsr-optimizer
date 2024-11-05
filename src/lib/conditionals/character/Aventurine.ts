@@ -1,6 +1,7 @@
 import { ComputedStatsObject, NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
-  AbilityEidolon, Conditionals,
+  AbilityEidolon,
+  Conditionals,
   findContentId,
   gpuStandardDefFinalizer,
   gpuStandardDefShieldFinalizer,
@@ -9,6 +10,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { AventurineConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -122,7 +124,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       enemyUnnervedDebuff: true,
       e2ResShred: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       x[Stats.DEF_P] += (e >= 4 && r.e4DefBuff) ? 0.40 : 0
@@ -147,7 +149,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x[Stats.RES] += (m.fortifiedWagerBuff) ? talentResScaling : 0
@@ -155,7 +157,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x[Stats.CD] += (e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0
       x.RES_PEN += (e >= 2 && m.e2ResShred) ? 0.12 : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardDefFinalizer(x)
       standardDefShieldFinalizer(x)
     },

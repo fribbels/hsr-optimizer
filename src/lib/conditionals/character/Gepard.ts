@@ -1,6 +1,7 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
+  Conditionals,
   gpuStandardAtkFinalizer,
   gpuStandardDefShieldFinalizer,
   standardAtkFinalizer,
@@ -8,6 +9,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { GepardConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -43,7 +45,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     teammateDefaults: () => ({
       e4TeamResBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
 
@@ -55,12 +57,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x[Stats.RES] += (e >= 4 && m.e4TeamResBuff) ? 0.20 : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject) => {
+    finalizeCalculations: (x: ComputedStatsArray) => {
       standardAtkFinalizer(x)
       standardDefShieldFinalizer(x)
     },

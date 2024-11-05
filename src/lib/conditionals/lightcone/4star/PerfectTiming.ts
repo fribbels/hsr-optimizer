@@ -33,7 +33,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     }),
     precomputeEffects: () => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, request) => {
+    finalizeCalculations: (x: ComputedStatsArray, request) => {
     },
     dynamicConditionals: [
       {

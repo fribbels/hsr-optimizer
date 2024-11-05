@@ -9,7 +9,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   return {
     content: () => [],
     defaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject) => {
+    precomputeEffects: (x: ComputedStatsArray) => {
       buffAbilityDmg(x, DOT_TYPE, sValues[s])
     },
     finalizeCalculations: () => {

@@ -8,7 +8,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   return {
     content: () => [],
     defaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject) => {
+    precomputeEffects: (x: ComputedStatsArray) => {
       x.DMG_RED_MULTI *= (1 - sValues[s])
     },
     finalizeCalculations: () => {

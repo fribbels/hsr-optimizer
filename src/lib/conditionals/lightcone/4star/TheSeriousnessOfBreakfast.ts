@@ -37,7 +37,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       dmgBoost: true,
       defeatedEnemyAtkStacks: 3,
     }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals
 
       x[Stats.ATK_P] += r.defeatedEnemyAtkStacks * sValuesStacks[s]

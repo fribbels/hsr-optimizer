@@ -1,6 +1,5 @@
-import { AbilityEidolon, Conditionals, ContentDefinition, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -19,20 +18,34 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 3.80, 4.104)
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    teamImaginaryDmgBoost: true,
+    roaringBowstringsActive: true,
+    ultBuff: true,
+    initialSpeedBuff: true,
+  }
+
+  const teammateDefaults = {
+    teamImaginaryDmgBoost: true,
+    roaringBowstringsActive: true,
+    ultBuff: true,
+    initialSpeedBuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    teamImaginaryDmgBoost: {
       formItem: 'switch',
       id: 'teamImaginaryDmgBoost',
       text: t('Content.teamImaginaryDmgBoost.text'),
       content: t('Content.teamImaginaryDmgBoost.content'),
     },
-    {
+    roaringBowstringsActive: {
       formItem: 'switch',
       id: 'roaringBowstringsActive',
       text: t('Content.roaringBowstringsActive.text'),
       content: t('Content.roaringBowstringsActive.content', { skillAtkBuffValue: TsUtils.precisionRound(100 * skillAtkBuffValue) }),
     },
-    {
+    ultBuff: {
       formItem: 'switch',
       id: 'ultBuff',
       text: t('Content.ultBuff.text'),
@@ -42,63 +55,53 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         ultScaling: TsUtils.precisionRound(100 * ultScaling),
       }),
     },
-    {
+    initialSpeedBuff: {
       formItem: 'switch',
       id: 'initialSpeedBuff',
       text: t('Content.initialSpeedBuff.text'),
       content: t('Content.initialSpeedBuff.content'),
       disabled: e < 1,
     },
-  ]
+  }
 
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
-    findContentId(content, 'teamImaginaryDmgBoost'),
-    findContentId(content, 'roaringBowstringsActive'),
-    findContentId(content, 'ultBuff'),
-    findContentId(content, 'initialSpeedBuff'),
-  ]
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    teamImaginaryDmgBoost: content.teamImaginaryDmgBoost,
+    roaringBowstringsActive: content.roaringBowstringsActive,
+    ultBuff: content.ultBuff,
+    initialSpeedBuff: content.initialSpeedBuff,
+  }
 
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
-    defaults: () => ({
-      teamImaginaryDmgBoost: true,
-      roaringBowstringsActive: true,
-      ultBuff: true,
-      initialSpeedBuff: true,
-    }),
-    teammateDefaults: () => ({
-      teamImaginaryDmgBoost: true,
-      roaringBowstringsActive: true,
-      ultBuff: true,
-      initialSpeedBuff: true,
-    }),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.BASIC_SCALING += talentAtkScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.BASIC_SCALING.buff(talentAtkScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
       // Boost
-      x.ELEMENTAL_DMG += (e >= 4 && r.roaringBowstringsActive) ? 0.30 : 0
+      x.ELEMENTAL_DMG.buff((e >= 4 && r.roaringBowstringsActive) ? 0.30 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.ULT_TOUGHNESS_DMG += 90
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.ATK_P] += (m.roaringBowstringsActive) ? skillAtkBuffValue : 0
-      x[Stats.CR] += (m.ultBuff && m.roaringBowstringsActive) ? ultCrBuffValue : 0
-      x[Stats.CD] += (m.ultBuff && m.roaringBowstringsActive) ? ultCdBuffValue : 0
-      x[Stats.SPD_P] += (e >= 1 && m.initialSpeedBuff) ? 0.10 : 0
+      x.ATK_P.buff((m.roaringBowstringsActive) ? skillAtkBuffValue : 0, Source.NONE)
+      x.CR.buff((m.ultBuff && m.roaringBowstringsActive) ? ultCrBuffValue : 0, Source.NONE)
+      x.CD.buff((m.ultBuff && m.roaringBowstringsActive) ? ultCdBuffValue : 0, Source.NONE)
+      x.SPD_P.buff((e >= 1 && m.initialSpeedBuff) ? 0.10 : 0, Source.NONE)
 
-      x[Stats.Imaginary_DMG] += (m.teamImaginaryDmgBoost) ? 0.12 : 0
+      x.IMAGINARY_DMG_BOOST.buff((m.teamImaginaryDmgBoost) ? 0.12 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

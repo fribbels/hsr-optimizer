@@ -151,9 +151,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       x.SPD_P.buff((e >= 2 && t.concertoActive && t.e2UltSpdBuff) ? 0.16 : 0, Source.NONE)
 
-      if (t.traceFuaCdBoost && t.concertoActive) {
-        buffAbilityCd(x, FUA_TYPE, 0.25, Source.NONE)
-      }
+      buffAbilityCd(x, FUA_TYPE, t.traceFuaCdBoost && t.concertoActive ? 0.25 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals

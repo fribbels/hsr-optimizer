@@ -1,14 +1,15 @@
 import {
   AbilityEidolon,
-  Conditionals, ContentDefinition,
+  Conditionals,
+  ContentDefinition,
   gpuStandardAtkFinalizer,
   gpuStandardDefShieldFinalizer,
   standardAtkFinalizer,
   standardDefShieldFinalizer,
 } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
-import { GepardConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -24,47 +25,81 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultShieldScaling = ult(e, 0.45, 0.48)
   const ultShieldFlat = ult(e, 600, 667.5)
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    e4TeamResBuff: true,
+  }
+
+  const teammateDefaults = {
+    e4TeamResBuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    e4TeamResBuff: {
       formItem: 'switch',
       id: 'e4TeamResBuff',
       text: t('Content.e4TeamResBuff.text'),
       content: t('Content.e4TeamResBuff.content'),
       disabled: e < 4,
     },
-  ]
+  }
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    e4TeamResBuff: content.e4TeamResBuff,
+  }
 
   return {
     content: () => Object.values(content),
-    teammateContent: () => Object.values(content),
-    defaults: () => ({
-      e4TeamResBuff: true,
-    }),
-    teammateDefaults: () => ({
-      e4TeamResBuff: true,
-    }),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
 
-      x.SHIELD_SCALING += ultShieldScaling
-      x.SHIELD_FLAT += ultShieldFlat
+      x.SHIELD_SCALING.buff(ultShieldScaling, Source.NONE)
+      x.SHIELD_FLAT.buff(ultShieldFlat, Source.NONE)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.RES] += (e >= 4 && m.e4TeamResBuff) ? 0.20 : 0
+      x.RES.buff((e >= 4 && m.e4TeamResBuff) ? 0.20 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
       standardAtkFinalizer(x)
       standardDefShieldFinalizer(x)
     },
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer() + gpuStandardDefShieldFinalizer(),
-    dynamicConditionals: [GepardConversionConditional],
+    dynamicConditionals: [
+      {
+        id: 'GepardConversionConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.DEF],
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          return true
+        },
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const stateValue = action.conditionalState[this.id] || 0
+          const buffValue = 0.35 * x.a[Key.DEF]
+
+          action.conditionalState[this.id] = buffValue
+          x.ATK.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
+        },
+        gpu: function () {
+          return conditionalWgslWrapper(this, `
+let def = (*p_x).DEF;
+let stateValue: f32 = (*p_state).GepardConversionConditional;
+let buffValue: f32 = 0.35 * def;
+
+(*p_state).GepardConversionConditional = buffValue;
+buffDynamicATK(buffValue - stateValue, p_x, p_state);
+    `)
+        },
+      },
+    ],
   }
 }

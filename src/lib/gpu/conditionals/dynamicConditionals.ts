@@ -153,33 +153,6 @@ if (trueAtk > 1800) {
   },
 }
 
-export const GepardConversionConditional: DynamicConditional = {
-  id: 'GepardConversionConditional',
-  type: ConditionalType.ABILITY,
-  activation: ConditionalActivation.CONTINUOUS,
-  dependsOn: [Stats.DEF],
-  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return true
-  },
-  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    const stateValue = action.conditionalState[this.id] || 0
-    const buffValue = 0.35 * x.a[Key.DEF]
-
-    action.conditionalState[this.id] = buffValue
-    x.ATK.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
-  },
-  gpu: function () {
-    return conditionalWgslWrapper(this, `
-let def = (*p_x).DEF;
-let stateValue: f32 = (*p_state).GepardConversionConditional;
-let buffValue: f32 = 0.35 * def;
-
-(*p_state).GepardConversionConditional = buffValue;
-buffDynamicATK(buffValue - stateValue, p_x, p_state);
-    `)
-  },
-}
-
 export const BlackSwanConversionConditional: DynamicConditional = {
   id: 'BlackSwanConversionConditional',
   type: ConditionalType.ABILITY,

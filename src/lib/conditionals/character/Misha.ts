@@ -82,7 +82,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x.DEF_PEN += (e >= 2 && m.e2DefReduction) ? 0.16 : 0
     },

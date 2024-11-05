@@ -105,7 +105,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
       // TODO: Technically this isnt a DoT vulnerability but rather vulnerability to damage on the enemy's turn which includes ults/etc.
       buffAbilityVulnerability(x, DOT_TYPE, epiphanyDmgTakenBoost, (m.epiphanyDebuff))

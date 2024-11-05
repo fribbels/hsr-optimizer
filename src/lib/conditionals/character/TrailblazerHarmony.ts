@@ -113,7 +113,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x[Stats.BE] += (m.backupDancer) ? ultBeScaling : 0
       x.SUPER_BREAK_HMC_MODIFIER += (m.backupDancer && m.superBreakDmg)

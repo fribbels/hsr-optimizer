@@ -1,6 +1,7 @@
 import { ComputedStatsObject, NONE_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
-  AbilityEidolon, Conditionals,
+  AbilityEidolon,
+  Conditionals,
   findContentId,
   gpuStandardAtkFinalizer,
   gpuStandardHpHealFinalizer,
@@ -129,7 +130,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x[Stats.HP_P] += (m.healingMaxHpBuff) ? 0.10 : 0
 

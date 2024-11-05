@@ -120,7 +120,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ULT_TOUGHNESS_DMG = 60
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x[Stats.BE] += m.weaknessBreakBeStacks * 0.15
       x[Stats.BE] += (m.foxianPrayer) ? skillBeValue : 0

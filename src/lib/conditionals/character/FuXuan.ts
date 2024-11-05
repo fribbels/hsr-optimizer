@@ -105,7 +105,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x[Stats.CR] += (m.skillActive) ? skillCrBuffValue : 0
       x[Stats.CD] += (e >= 1 && m.skillActive) ? 0.30 : 0

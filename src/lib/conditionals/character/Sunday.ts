@@ -120,7 +120,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.BASIC_TOUGHNESS_DMG = 30
     },
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x[Stats.CR] += m.talentCrBuffStacks * talentCrBuffValue
       x.ELEMENTAL_DMG += (m.skillDmgBuff) ? skillDmgBoostValue : 0

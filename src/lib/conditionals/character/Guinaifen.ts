@@ -1,5 +1,5 @@
-import { AbilityEidolon, Conditionals, ContentDefinition, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
@@ -18,8 +18,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultScaling = ult(e, 1.20, 1.296)
   const dotScaling = skill(e, 2.182, 2.40)
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    talentDebuffStacks: talentDebuffMax,
+    enemyBurned: true,
+    skillDot: true,
+    e1EffectResShred: true,
+    e2BurnMultiBoost: true,
+  }
+
+  const teammateDefaults = {
+    talentDebuffStacks: talentDebuffMax,
+    e1EffectResShred: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    talentDebuffStacks: {
       formItem: 'slider',
       id: 'talentDebuffStacks',
       text: t('Content.talentDebuffStacks.text'),
@@ -30,79 +43,70 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: talentDebuffMax,
     },
-    {
+    enemyBurned: {
       formItem: 'switch',
       id: 'enemyBurned',
       text: t('Content.enemyBurned.text'),
       content: t('Content.enemyBurned.content'),
     },
-    {
+    skillDot: {
       formItem: 'switch',
       id: 'skillDot',
       text: t('Content.skillDot.text'),
       content: t('Content.skillDot.content'),
     },
-    {
+    e1EffectResShred: {
       formItem: 'switch',
       id: 'e1EffectResShred',
       text: t('Content.e1EffectResShred.text'),
       content: t('Content.e1EffectResShred.content'),
       disabled: e < 1,
     },
-    {
+    e2BurnMultiBoost: {
       formItem: 'switch',
       id: 'e2BurnMultiBoost',
       text: t('Content.e2BurnMultiBoost.text'),
       content: t('Content.e2BurnMultiBoost.content'),
       disabled: e < 2,
     },
-  ]
+  }
 
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
-    findContentId(content, 'talentDebuffStacks'),
-    findContentId(content, 'e1EffectResShred'),
-  ]
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    talentDebuffStacks: content.talentDebuffStacks,
+    e1EffectResShred: content.e1EffectResShred,
+  }
 
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
-    defaults: () => ({
-      talentDebuffStacks: talentDebuffMax,
-      enemyBurned: true,
-      skillDot: true,
-      e1EffectResShred: true,
-      e2BurnMultiBoost: true,
-    }),
-    teammateDefaults: () => ({
-      talentDebuffStacks: talentDebuffMax,
-      e1EffectResShred: true,
-    }),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.DOT_SCALING += dotScaling
-      x.DOT_SCALING += (e >= 2 && r.e2BurnMultiBoost) ? 0.40 : 0
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.DOT_SCALING.buff(dotScaling, Source.NONE)
+      x.DOT_SCALING.buff((e >= 2 && r.e2BurnMultiBoost) ? 0.40 : 0, Source.NONE)
 
       // Boost
-      x.ELEMENTAL_DMG += (r.enemyBurned) ? 0.20 : 0
+      x.ELEMENTAL_DMG.buff((r.enemyBurned) ? 0.20 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 60
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
 
-      x.DOT_CHANCE = r.skillDot ? 1.00 : 0.80
+      x.DOT_CHANCE.set(r.skillDot ? 1.00 : 0.80, Source.NONE)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x.VULNERABILITY += m.talentDebuffStacks * talentDebuffDmgIncreaseValue
-      x.EFFECT_RES_PEN += m.e1EffectResShred ? 0.10 : 0
+      x.VULNERABILITY.buff(m.talentDebuffStacks * talentDebuffDmgIncreaseValue, Source.NONE)
+      x.EFFECT_RES_PEN.buff(m.e1EffectResShred ? 0.10 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

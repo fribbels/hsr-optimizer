@@ -1,11 +1,7 @@
 import i18next from 'i18next'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardAtkFinalizer,
-  standardAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION, Stats } from 'lib/constants'
 
 import { Eidolon } from 'types/Character'
@@ -38,14 +34,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     {
-      formItem: 'slider',
-      id: 'weaknessBreakBeStacks',
-      text: 'Enemy broken BE stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 0,
-      max: 2,
-    },
-    {
       formItem: 'switch',
       id: 'defReduction',
       text: 'Skill DEF shred',
@@ -59,8 +47,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     {
       formItem: 'switch',
-      id: 'e4Vulnerability',
-      text: 'E4 vulnerability',
+      id: 'e4BreakDmg',
+      text: 'E4 Break DMG boost',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 4,
     },
@@ -75,28 +63,41 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'foxianPrayer'),
-    findContentId(content, 'weaknessBreakBeStacks'),
+    {
+      formItem: 'switch',
+      id: 'be250Buff',
+      text: 'BE ≥ 250%',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    {
+      formItem: 'slider',
+      id: 'weaknessBreakBeStacks',
+      text: 'Enemy broken BE stacks',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 0,
+      max: 2,
+    },
     findContentId(content, 'defReduction'),
     findContentId(content, 'superBreakDmg'),
-    findContentId(content, 'e4Vulnerability'),
+    findContentId(content, 'e4BreakDmg'),
   ]
 
   const defaults = {
     torridScorch: true,
     foxianPrayer: false,
-    weaknessBreakBeStacks: 2,
     defReduction: true,
     superBreakDmg: true,
-    e4Vulnerability: true,
+    e4BreakDmg: true,
     e6BreakEfficiency: true,
   }
 
   const teammateDefaults = {
     foxianPrayer: true,
+    be250Buff: true,
     weaknessBreakBeStacks: 2,
     defReduction: true,
     superBreakDmg: true,
-    e4Vulnerability: true,
+    e4BreakDmg: true,
   }
 
   return {
@@ -127,17 +128,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals
 
-      x[Stats.BE] += m.weaknessBreakBeStacks * 0.15
       x[Stats.BE] += (m.foxianPrayer) ? skillBeValue : 0
 
       x.SUPER_BREAK_MODIFIER += (m.superBreakDmg) ? superBreakScaling : 0
       x.DEF_PEN += (m.defReduction) ? skillDefPenValue : 0
 
       x.BREAK_EFFICIENCY_BOOST += (e >= 1 && m.foxianPrayer) ? 0.50 : 0
-      x.VULNERABILITY += (e >= 4 && m.e4Vulnerability) ? 0.15 : 0
+      x.BREAK_VULNERABILITY += (e >= 4 && m.e4BreakDmg) ? 0.20 : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals
+
+      x[Stats.BE] += t.weaknessBreakBeStacks * (0.08 + (t.be250Buff ? 0.16 : 0))
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)

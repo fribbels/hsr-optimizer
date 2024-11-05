@@ -1,6 +1,6 @@
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -11,31 +11,33 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesStackDmg = [0.14, 0.165, 0.19, 0.215, 0.24]
   const sValuesDefPen = [0.12, 0.14, 0.16, 0.18, 0.20]
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    eclipseStacks: 3,
+    maxStackDefPen: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    eclipseStacks: {
       lc: true,
-      id: 'eclipseStacks',
       formItem: 'slider',
+      id: 'eclipseStacks',
       text: t('Content.eclipseStacks.text'),
       content: t('Content.eclipseStacks.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesStackDmg[s]) }),
       min: 0,
       max: 3,
     },
-    {
+    maxStackDefPen: {
       lc: true,
-      id: 'maxStackDefPen',
       formItem: 'switch',
+      id: 'maxStackDefPen',
       text: t('Content.maxStackDefPen.text'),
       content: t('Content.maxStackDefPen.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefPen[s]) }),
     },
-  ]
+  }
 
   return {
     content: () => Object.values(content),
-    defaults: () => ({
-      eclipseStacks: 3,
-      maxStackDefPen: true,
-    }),
+    defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.lightConeConditionals
       x.ELEMENTAL_DMG.buff(r.eclipseStacks * sValuesStackDmg[s], Source.NONE)

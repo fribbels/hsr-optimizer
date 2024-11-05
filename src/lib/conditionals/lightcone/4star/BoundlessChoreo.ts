@@ -1,7 +1,6 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Stats } from 'lib/constants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -11,25 +10,27 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValuesCd = [0.24, 0.30, 0.36, 0.42, 0.48]
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    enemyDefReducedSlowed: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    enemyDefReducedSlowed: {
       lc: true,
-      id: 'enemyDefReducedSlowed',
       formItem: 'switch',
+      id: 'enemyDefReducedSlowed',
       text: t('Content.enemyDefReducedSlowed.text'),
       content: t('Content.enemyDefReducedSlowed.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
     },
-  ]
+  }
 
   return {
     content: () => Object.values(content),
-    defaults: () => ({
-      enemyDefReducedSlowed: true,
-    }),
+    defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.lightConeConditionals
 
-      x[Stats.CD] += (r.enemyDefReducedSlowed) ? sValuesCd[s] : 0
+      x.CD.buff((r.enemyDefReducedSlowed) ? sValuesCd[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

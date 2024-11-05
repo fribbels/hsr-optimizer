@@ -1,5 +1,5 @@
-import { AbilityEidolon, Conditionals, ContentDefinition, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
@@ -18,32 +18,48 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 1.96, 2.156)
   const ultScaling = ult(e, 3.80, 4.104)
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    skillWeaknessResShredDebuff: false,
+    skillResShredDebuff: true,
+    talentDefShredDebuff: true,
+    ultDefShredDebuff: true,
+    targetDebuffs: 5,
+  }
+
+  const teammateDefaults = {
+    skillWeaknessResShredDebuff: false,
+    skillResShredDebuff: true,
+    talentDefShredDebuff: true,
+    ultDefShredDebuff: true,
+    targetDebuffs: 5,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    skillResShredDebuff: {
       formItem: 'switch',
       id: 'skillResShredDebuff',
       text: t('Content.skillResShredDebuff.text'),
       content: t('Content.skillResShredDebuff.content', { skillResShredValue: TsUtils.precisionRound(100 * skillResShredValue) }),
     },
-    {
+    skillWeaknessResShredDebuff: {
       formItem: 'switch',
       id: 'skillWeaknessResShredDebuff',
       text: t('Content.skillWeaknessResShredDebuff.text'),
       content: t('Content.skillWeaknessResShredDebuff.content'),
     },
-    {
+    talentDefShredDebuff: {
       formItem: 'switch',
       id: 'talentDefShredDebuff',
       text: t('Content.talentDefShredDebuff.text'),
       content: t('Content.talentDefShredDebuff.content', { talentDefShredDebuffValue: TsUtils.precisionRound(100 * talentDefShredDebuffValue) }),
     },
-    {
+    ultDefShredDebuff: {
       formItem: 'switch',
       id: 'ultDefShredDebuff',
       text: t('Content.ultDefShredDebuff.text'),
       content: t('Content.ultDefShredDebuff.content', { ultDefShredValue: TsUtils.precisionRound(100 * ultDefShredValue) }),
     },
-    {
+    targetDebuffs: {
       formItem: 'slider',
       id: 'targetDebuffs',
       text: t('Content.targetDebuffs.text'),
@@ -51,61 +67,49 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: 5,
     },
-  ]
+  }
 
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
-    findContentId(content, 'skillResShredDebuff'),
-    findContentId(content, 'skillWeaknessResShredDebuff'),
-    findContentId(content, 'talentDefShredDebuff'),
-    findContentId(content, 'ultDefShredDebuff'),
-    findContentId(content, 'targetDebuffs'),
-  ]
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    skillResShredDebuff: content.skillResShredDebuff,
+    skillWeaknessResShredDebuff: content.skillWeaknessResShredDebuff,
+    talentDefShredDebuff: content.talentDefShredDebuff,
+    ultDefShredDebuff: content.ultDefShredDebuff,
+    targetDebuffs: content.targetDebuffs,
+  }
 
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
-    defaults: () => ({
-      skillWeaknessResShredDebuff: false,
-      skillResShredDebuff: true,
-      talentDefShredDebuff: true,
-      ultDefShredDebuff: true,
-      targetDebuffs: 5,
-    }),
-    teammateDefaults: () => ({
-      skillWeaknessResShredDebuff: false,
-      skillResShredDebuff: true,
-      talentDefShredDebuff: true,
-      ultDefShredDebuff: true,
-      targetDebuffs: 5,
-    }),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.ULT_SCALING += (e >= 4) ? r.targetDebuffs * 0.20 : 0
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.ULT_SCALING.buff((e >= 4) ? r.targetDebuffs * 0.20 : 0, Source.NONE)
 
       // Boost
-      x.ELEMENTAL_DMG += (e >= 6) ? r.targetDebuffs * 0.20 : 0
+      x.ELEMENTAL_DMG.buff((e >= 6) ? r.targetDebuffs * 0.20 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 90
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x.RES_PEN += (m.skillWeaknessResShredDebuff) ? 0.20 : 0
-      x.RES_PEN += (m.skillResShredDebuff) ? skillResShredValue : 0
-      x.RES_PEN += (m.skillResShredDebuff && m.targetDebuffs >= 3) ? 0.03 : 0
-      x.DEF_PEN += (m.ultDefShredDebuff) ? ultDefShredValue : 0
-      x.DEF_PEN += (m.talentDefShredDebuff) ? talentDefShredDebuffValue : 0
+      x.RES_PEN.buff((m.skillWeaknessResShredDebuff) ? 0.20 : 0, Source.NONE)
+      x.RES_PEN.buff((m.skillResShredDebuff) ? skillResShredValue : 0, Source.NONE)
+      x.RES_PEN.buff((m.skillResShredDebuff && m.targetDebuffs >= 3) ? 0.03 : 0, Source.NONE)
+      x.DEF_PEN.buff((m.ultDefShredDebuff) ? ultDefShredValue : 0, Source.NONE)
+      x.DEF_PEN.buff((m.talentDefShredDebuff) ? talentDefShredDebuffValue : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

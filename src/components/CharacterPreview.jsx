@@ -66,7 +66,7 @@ const buttonStyle = {
   flex: 'auto',
   position: 'absolute',
   left: 6,
-  width: 150,
+  width: 'fit-content',
 }
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors

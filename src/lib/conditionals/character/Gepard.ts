@@ -35,8 +35,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   ]
 
   return {
-    content: () => content,
-    teammateContent: () => content,
+    content: () => Object.values(content),
+    teammatecontent: () => Object.values(content),
     defaults: () => ({
       e4TeamResBuff: true,
     }),

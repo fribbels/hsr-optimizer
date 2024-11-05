@@ -35,8 +35,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   ]
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
     defaults: () => ({
       shieldCdBuff: true,
       targetVulnerability: true,

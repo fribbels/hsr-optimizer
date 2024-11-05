@@ -33,7 +33,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   ]
 
   return {
-    content: () => content,
+    content: () => Object.values(content),
     defaults: () => ({
       spdStacks: 3,
       dotEffect: false,

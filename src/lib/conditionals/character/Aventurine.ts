@@ -105,8 +105,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   ]
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
     defaults: () => ({
       shieldAbility: SKILL_TYPE,
       defToCrBoost: true,

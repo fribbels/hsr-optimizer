@@ -36,7 +36,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   ]
 
   return {
-    content: () => content,
+    content: () => Object.values(content),
     defaults: () => ({
       debuffCdStacks: 3,
       postUltBuff: true,

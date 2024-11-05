@@ -26,8 +26,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   ]
 
   return {
-    content: () => content,
-    teammateContent: () => content,
+    content: () => Object.values(content),
+    teammatecontent: () => Object.values(content),
     defaults: () => ({
       postUltSpdBuff: false,
     }),

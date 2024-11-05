@@ -24,7 +24,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   ]
 
   return {
-    content: () => content,
+    content: () => Object.values(content),
     defaults: () => ({
       goodFortuneStacks: 4,
     }),

@@ -32,7 +32,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   ]
 
   return {
-    content: () => content,
+    content: () => Object.values(content),
     defaults: () => ({
       breakDmgDefShred: true,
       spdBuffConditional: true,

@@ -23,7 +23,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   return {
     content: () => [],
-    teammateContent: () => content,
+    teammatecontent: () => Object.values(content),
     defaults: () => ({}),
     teammateDefaults: () => ({
       postSkillDmgBuff: true,

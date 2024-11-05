@@ -31,7 +31,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   ]
 
   return {
-    content: () => content,
+    content: () => Object.values(content),
     defaults: () => ({
       eclipseStacks: 3,
       maxStackDefPen: true,

@@ -36,7 +36,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   ]
 
   return {
-    content: () => content,
+    content: () => Object.values(content),
     teammateContent: () => [],
     defaults: () => ({
       enhancedSkill: true,

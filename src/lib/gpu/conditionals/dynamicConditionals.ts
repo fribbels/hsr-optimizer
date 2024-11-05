@@ -81,39 +81,6 @@ export function buffDynamicStat(x: ComputedStatsArray, stat: string, value: numb
   }
 }
 
-export const XueyiConversionConditional: DynamicConditional = {
-  id: 'XueyiConversionConditional',
-  type: ConditionalType.ABILITY,
-  activation: ConditionalActivation.CONTINUOUS,
-  dependsOn: [Stats.BE],
-  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
-
-    return r.beToDmgBoost
-  },
-  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    const stateValue = action.conditionalState[this.id] || 0
-    const buffValue = Math.min(2.40, x.a[Key.BE])
-
-    action.conditionalState[this.id] = buffValue
-    x.ELEMENTAL_DMG.buff(buffValue - stateValue, Source.NONE)
-  },
-  gpu: function (action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
-    return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.beToDmgBoost)}) {
-  return;
-}
-let be = (*p_x).BE;
-let stateValue: f32 = (*p_state).XueyiConversionConditional;
-let buffValue: f32 = min(2.40, be);
-
-(*p_state).XueyiConversionConditional = buffValue;
-(*p_x).ELEMENTAL_DMG += buffValue - stateValue;
-    `)
-  },
-}
-
 export const FireflyConversionConditional: DynamicConditional = {
   id: 'FireflyConversionConditional',
   type: ConditionalType.ABILITY,

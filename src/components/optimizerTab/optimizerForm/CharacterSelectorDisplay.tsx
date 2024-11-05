@@ -57,7 +57,7 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
   const resultSortOptions = useMemo(() => { // `Sorted by ${key}`
     return [
       {
-        label: 'Damage calculations',
+        label: t('SortOptions.DMGLabel'),
         options: [
           { value: SortOption.COMBO.key, label: t('SortOptions.COMBO') },
           { value: SortOption.BASIC.key, label: t('SortOptions.BASIC') },
@@ -71,7 +71,7 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
         ],
       },
       {
-        label: 'Stats',
+        label: t('SortOptions.StatLabel'),
         options: [
           { value: SortOption.HP.key, label: t('SortOptions.HP') },
           { value: SortOption.ATK.key, label: t('SortOptions.ATK') },
@@ -110,7 +110,7 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
         <Form.Item name='characterEidolon'>
           <Select
             showSearch
-            style={{ width: 50 }}
+            style={{ width: 'fit-content' }}
             options={eidolonOptions}
             onChange={setOptimizerFormCharacterEidolon}
             placeholder={t('CharacterSelector.EidolonPlaceholder')} // E
@@ -136,7 +136,7 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
           <Form.Item name='lightConeSuperimposition'>
             <Select
               showSearch
-              style={{ width: 50 }}
+              style={{ width: 'fit-content' }}
               onChange={setOptimizerFormSelectedLightConeSuperimposition}
               options={superimpositionOptions}
               placeholder={t('CharacterSelector.SuperimpositionPlaceholder')} // S

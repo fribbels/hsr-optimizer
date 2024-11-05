@@ -1,10 +1,10 @@
 import { BASIC_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition, findContentId } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -24,8 +24,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 0, 0)
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    benedictionBuff: false,
+    skillSpdBuff: false,
+    ultSpdBuff: false,
+    ultDmgBuff: false,
+  }
+
+  const teammateDefaults = {
+    benedictionBuff: true,
+    ultSpdBuff: false,
+    ultDmgBuff: true,
+    teammateAtkBuffValue: skillAtkBoostScaling,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    benedictionBuff: {
       formItem: 'switch',
       id: 'benedictionBuff',
       text: t('Content.benedictionBuff.text'),
@@ -35,30 +49,30 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling),
       }),
     },
-    {
+    skillSpdBuff: {
       formItem: 'switch',
       id: 'skillSpdBuff',
       text: t('Content.skillSpdBuff.text'),
       content: t('Content.skillSpdBuff.content'),
     },
-    {
+    ultDmgBuff: {
       formItem: 'switch',
       id: 'ultDmgBuff',
       text: t('Content.ultDmgBuff.text'),
       content: t('Content.ultDmgBuff.content', { ultDmgBoost: TsUtils.precisionRound(100 * ultDmgBoost) }),
     },
-    {
+    ultSpdBuff: {
       formItem: 'switch',
       id: 'ultSpdBuff',
       text: t('Content.ultSpdBuff.text'),
       content: t('Content.ultSpdBuff.content'),
       disabled: e < 1,
     },
-  ]
+  }
 
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
-    findContentId(content, 'benedictionBuff'),
-    {
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    benedictionBuff: content.benedictionBuff,
+    teammateAtkBuffValue: {
       formItem: 'slider',
       id: 'teammateAtkBuffValue',
       text: t('TeammateContent.teammateAtkBuffValue.text'),
@@ -71,65 +85,61 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       max: skillAtkBoostScaling,
       percent: true,
     },
-    findContentId(content, 'ultDmgBuff'),
-    findContentId(content, 'ultSpdBuff'),
-  ]
+    ultDmgBuff: content.ultDmgBuff,
+    ultSpdBuff: content.ultSpdBuff,
+  }
 
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
-    defaults: () => ({
-      benedictionBuff: false,
-      skillSpdBuff: false,
-      ultSpdBuff: false,
-      ultDmgBuff: false,
-    }),
-    teammateDefaults: () => ({
-      benedictionBuff: true,
-      ultSpdBuff: false,
-      ultDmgBuff: true,
-      teammateAtkBuffValue: skillAtkBoostScaling,
-    }),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.SPD_P] += (r.skillSpdBuff) ? 0.20 : 0
+      x.SPD_P.buff((r.skillSpdBuff) ? 0.20 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
       // Boost
-      buffAbilityDmg(x, BASIC_TYPE, 0.40)
+      buffAbilityDmg(x, BASIC_TYPE, 0.40, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.SPD_P] += (e >= 1 && m.ultSpdBuff) ? 0.20 : 0
+      x.SPD_P.buff((e >= 1 && m.ultSpdBuff) ? 0.20 : 0, Source.NONE)
 
-      x.ELEMENTAL_DMG += (m.ultDmgBuff) ? ultDmgBoost : 0
+      x.ELEMENTAL_DMG.buff((m.ultDmgBuff) ? ultDmgBoost : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.ATK_P] += (t.benedictionBuff) ? t.teammateAtkBuffValue : 0
+      x.ATK_P.buff((t.benedictionBuff) ? t.teammateAtkBuffValue : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       // x[Stats.ATK] += (r.benedictionBuff) ? x[Stats.ATK] * skillAtkBoostMax : 0
 
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK] + ((r.benedictionBuff)
-        ? skillLightningDmgBoostScaling + talentScaling
-        : 0) * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      x.BASIC_DMG.buff(
+        x.a[Key.BASIC_SCALING] * x.a[Key.ATK]
+        + (
+          (r.benedictionBuff)
+            ? skillLightningDmgBoostScaling + talentScaling
+            : 0
+        ) * x.a[Key.ATK],
+        Source.NONE)
+
+      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
+      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
@@ -160,17 +170,17 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
           }
 
           const stateValue = action.conditionalState[this.id] || 0
-          const convertibleAtkValue = x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF
+          const convertibleAtkValue = x.a[Key.ATK] - x.a[Key.RATIO_BASED_ATK_BUFF]
 
           const buffATK = skillAtkBoostMax * convertibleAtkValue
           const stateBuffATK = skillAtkBoostMax * stateValue
 
-          action.conditionalState[this.id] = x[Stats.ATK]
+          action.conditionalState[this.id] = x.a[Key.ATK]
 
           const finalBuffAtk = buffATK - (stateValue ? stateBuffATK : 0)
-          x.RATIO_BASED_ATK_BUFF += finalBuffAtk
+          x.RATIO_BASED_ATK_BUFF.buff(finalBuffAtk, Source.NONE)
 
-          buffDynamicStat(x, Stats.ATK, finalBuffAtk, action, context)
+          x.ATK.buffDynamic(finalBuffAtk, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r: Conditionals<typeof content> = action.characterConditionals

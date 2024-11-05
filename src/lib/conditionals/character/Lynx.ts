@@ -3,16 +3,15 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
-  findContentId,
   gpuStandardHpFinalizer,
   gpuStandardHpHealFinalizer,
   standardHpFinalizer,
   standardHpHealFinalizer,
 } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -39,8 +38,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const talentHealScaling = talent(e, 0.036, 0.0384)
   const talentHealFlat = talent(e, 96, 106.8)
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const content: ContentDefinition<typeof defaults> = {
+    healAbility: {
       formItem: 'select',
       id: 'healAbility',
       text: tHeal('Text'),
@@ -52,7 +51,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       ],
       fullWidth: true,
     },
-    {
+    skillBuff: {
       formItem: 'switch',
       id: 'skillBuff',
       text: t('Content.skillBuff.text'),
@@ -61,11 +60,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         skillHpFlatBuff: skillHpFlatBuff,
       }),
     },
-  ]
+  }
 
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
-    findContentId(content, 'skillBuff'),
-    {
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    skillBuff: content.skillBuff,
+    teammateHPValue: {
       formItem: 'slider',
       id: 'teammateHPValue',
       text: t('TeammateContent.teammateHPValue.text'),
@@ -76,42 +75,45 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: 10000,
     },
-  ]
+  }
 
+  const defaults = {
+    healAbility: ULT_TYPE,
+    skillBuff: true,
+  }
+
+  const teammateDefaults = {
+    skillBuff: true,
+    teammateHPValue: 6000,
+  }
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
-    defaults: () => ({
-      healAbility: ULT_TYPE,
-      skillBuff: true,
-    }),
-    teammateDefaults: () => ({
-      skillBuff: true,
-      teammateHPValue: 6000,
-    }),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
 
       if (r.healAbility == SKILL_TYPE) {
-        x.HEAL_TYPE = SKILL_TYPE
-        x.HEAL_SCALING += skillHealScaling
-        x.HEAL_FLAT += skillHealFlat
+        x.HEAL_TYPE.set(SKILL_TYPE, Source.NONE)
+        x.HEAL_SCALING.buff(skillHealScaling, Source.NONE)
+        x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
       }
       if (r.healAbility == ULT_TYPE) {
-        x.HEAL_TYPE = ULT_TYPE
-        x.HEAL_SCALING += ultHealScaling
-        x.HEAL_FLAT += ultHealFlat
+        x.HEAL_TYPE.set(ULT_TYPE, Source.NONE)
+        x.HEAL_SCALING.buff(ultHealScaling, Source.NONE)
+        x.HEAL_FLAT.buff(ultHealFlat, Source.NONE)
       }
       if (r.healAbility == NONE_TYPE) {
-        x.HEAL_TYPE = NONE_TYPE
-        x.HEAL_SCALING += talentHealScaling
-        x.HEAL_FLAT += talentHealFlat
+        x.HEAL_TYPE.set(NONE_TYPE, Source.NONE)
+        x.HEAL_SCALING.buff(talentHealScaling, Source.NONE)
+        x.HEAL_FLAT.buff(talentHealFlat, Source.NONE)
       }
 
       return x
@@ -119,17 +121,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.RES] += (e >= 6 && m.skillBuff) ? 0.30 : 0
+      x.RES.buff((e >= 6 && m.skillBuff) ? 0.30 : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.HP] += (t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0
-      x[Stats.HP] += (e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0
-      x[Stats.HP] += (t.skillBuff) ? skillHpFlatBuff : 0
+      x.HP.buff((t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0, Source.NONE)
+      x.HP.buff((e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0, Source.NONE)
+      x.HP.buff((t.skillBuff) ? skillHpFlatBuff : 0, Source.NONE)
 
       const atkBuffValue = (e >= 4 && t.skillBuff) ? 0.03 * t.teammateHPValue : 0
-      x[Stats.ATK] += atkBuffValue
+      x.ATK.buff(atkBuffValue, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardHpFinalizer(x)
@@ -159,7 +161,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         let stateBuffHP = 0
         let stateBuffATK = 0
 
-        const convertibleHpValue = x[Stats.HP] - x.RATIO_BASED_HP_BUFF
+        const convertibleHpValue = x.a[Key.HP] - x.a[Key.RATIO_BASED_HP_BUFF]
         buffHP += skillHpPercentBuff * convertibleHpValue + skillHpFlatBuff
         stateBuffHP += skillHpPercentBuff * stateValue + skillHpFlatBuff
 
@@ -173,14 +175,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           stateBuffHP += 0.06 * stateValue
         }
 
-        action.conditionalState[this.id] = x[Stats.HP]
+        action.conditionalState[this.id] = x.a[Key.HP]
 
         const finalBuffHp = buffHP - (stateValue ? stateBuffHP : 0)
         const finalBuffAtk = buffATK - (stateValue ? stateBuffATK : 0)
-        x.RATIO_BASED_HP_BUFF += finalBuffHp
+        x.RATIO_BASED_HP_BUFF.buff(finalBuffHp, Source.NONE)
 
-        buffDynamicStat(x, Stats.HP, finalBuffHp, action, context)
-        buffDynamicStat(x, Stats.ATK, finalBuffAtk, action, context)
+        x.HP.buffDynamic(finalBuffHp, Source.NONE, action, context)
+        x.ATK.buffDynamic(finalBuffAtk, Source.NONE, action, context)
       },
       gpu: function (action: OptimizerAction, context: OptimizerContext) {
         const r: Conditionals<typeof content> = action.characterConditionals

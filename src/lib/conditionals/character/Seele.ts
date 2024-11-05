@@ -1,13 +1,10 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -21,14 +18,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 2.20, 2.42)
   const ultScaling = ult(e, 4.25, 4.59)
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    buffedState: true,
+    speedBoostStacks: speedBoostStacksMax,
+    e1EnemyHp80CrBoost: false,
+    e6UltTargetDebuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    buffedState: {
       formItem: 'switch',
       id: 'buffedState',
       text: t('Content.buffedState.text'),
       content: t('Content.buffedState.content', { buffedStateDmgBuff: TsUtils.precisionRound(100 * buffedStateDmgBuff) }),
     },
-    {
+    speedBoostStacks: {
       formItem: 'slider',
       id: 'speedBoostStacks',
       text: t('Content.speedBoostStacks.text'),
@@ -36,51 +40,44 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: speedBoostStacksMax,
     },
-    {
+    e1EnemyHp80CrBoost: {
       formItem: 'switch',
       id: 'e1EnemyHp80CrBoost',
       text: t('Content.e1EnemyHp80CrBoost.text'),
       content: t('Content.e1EnemyHp80CrBoost.content'),
       disabled: e < 1,
     },
-    {
+    e6UltTargetDebuff: {
       formItem: 'switch',
       id: 'e6UltTargetDebuff',
       text: t('Content.e6UltTargetDebuff.text'),
       content: t('Content.e6UltTargetDebuff.content'),
       disabled: e < 6,
     },
-  ]
+  }
 
   return {
     content: () => Object.values(content),
-    teammateContent: () => [],
-    defaults: () => ({
-      buffedState: true,
-      speedBoostStacks: speedBoostStacksMax,
-      e1EnemyHp80CrBoost: false,
-      e6UltTargetDebuff: true,
-    }),
-    teammateDefaults: () => ({}),
+    defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.CR] += (e >= 1 && r.e1EnemyHp80CrBoost) ? 0.15 : 0
-      x[Stats.SPD_P] += 0.25 * r.speedBoostStacks
+      x.CR.buff((e >= 1 && r.e1EnemyHp80CrBoost) ? 0.15 : 0, Source.NONE)
+      x.SPD_P.buff(0.25 * r.speedBoostStacks, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
       // Boost
-      x.ELEMENTAL_DMG += (r.buffedState) ? buffedStateDmgBuff : 0
-      x.RES_PEN += (r.buffedState) ? 0.20 : 0
+      x.ELEMENTAL_DMG.buff((r.buffedState) ? buffedStateDmgBuff : 0, Source.NONE)
+      x.RES_PEN.buff((r.buffedState) ? 0.20 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 90
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
 
       return x
     },
@@ -90,13 +87,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
+      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
+      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)
 
-      x.BASIC_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
-      x.SKILL_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
-      x.ULT_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
+      x.BASIC_DMG.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_DMG] : 0, Source.NONE)
+      x.SKILL_DMG.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_DMG] : 0, Source.NONE)
+      x.ULT_DMG.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_DMG] : 0, Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals

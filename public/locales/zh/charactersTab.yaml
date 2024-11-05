@@ -80,6 +80,8 @@ CharacterPreview:
       SKILL: 战技
       ULT: 终结技
       FUA: 追加攻击
+      DOTS: "持续伤害次数"
+      BREAKS: "击破次数"
     CombatResults:
       Header: 战斗伤害结果
       Primary: "主要伤害:         "

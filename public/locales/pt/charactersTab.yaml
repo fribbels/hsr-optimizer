@@ -80,6 +80,8 @@ CharacterPreview:
       SKILL: PERÍCIA
       ULT: PER. SUP.
       FUA: ATQ. EXT.
+      DOTS: "DOTS:"
+      BREAKS: "QUEBRAS:"
     CombatResults:
       Header: Resultados do dano de combate
       Primary: "Habilidade primária:     "

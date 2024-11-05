@@ -61,7 +61,7 @@ export const languages = {
     locale: 'vi',
     nativeName: 'tiếng việt',
   }, */
-}
+} as const
 
 export const supportedLanguages = Object.keys(languages)
 void i18next

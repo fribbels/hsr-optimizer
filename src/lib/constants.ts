@@ -4,7 +4,7 @@ import gameData from 'data/game_data.json'
 // Semver defined optimizer version
 export const CURRENT_OPTIMIZER_VERSION = 'v2.7.1'
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '2.7v1'
+export const CURRENT_DATA_VERSION = '2.7v3'
 
 export const Stats = {
   ATK_P: 'ATK%',

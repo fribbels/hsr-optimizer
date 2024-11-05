@@ -14,8 +14,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const skillDmgBoostValue = skill(e, 0.40, 0.44)
-  const ultCdBoostValue = ult(e, 0.25, 0.28)
-  const ultCdBoostBaseValue = ult(e, 0.08, 0.0832)
+  const ultCdBoostValue = ult(e, 0.30, 0.336)
+  const ultCdBoostBaseValue = ult(e, 0.12, 0.128)
   const talentCrBuffValue = talent(e, 0.20, 0.22)
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -43,15 +43,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     {
       formItem: 'switch',
-      id: 'e1ResPen',
-      text: 'E1 RES PEN',
+      id: 'e1DefPen',
+      text: 'E1 DEF PEN',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
     },
     {
       formItem: 'switch',
-      id: 'e2SpdBuff',
-      text: 'E2 SPD buff',
+      id: 'e2DmgBuff',
+      text: 'E2 Beatified DMG buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
     },
@@ -76,8 +76,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       percent: true,
     },
     findContentId(content, 'techniqueDmgBuff'),
-    findContentId(content, 'e1ResPen'),
-    findContentId(content, 'e2SpdBuff'),
+    findContentId(content, 'e1DefPen'),
+    findContentId(content, 'e2DmgBuff'),
     {
       formItem: 'switch',
       id: 'e6CrToCdConversion',
@@ -91,8 +91,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     skillDmgBuff: false,
     talentCrBuffStacks: 0,
     techniqueDmgBuff: false,
-    e1ResPen: false,
-    e2SpdBuff: true,
+    e1DefPen: false,
+    e2DmgBuff: false,
   }
 
   const teammateDefaults = {
@@ -101,8 +101,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     beatified: true,
     teammateCDValue: 2.50,
     techniqueDmgBuff: false,
-    e1ResPen: true,
-    e2SpdBuff: true,
+    e1DefPen: true,
+    e2DmgBuff: true,
     e6CrToCdConversion: true,
   }
 
@@ -126,9 +126,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ELEMENTAL_DMG += (m.skillDmgBuff && x.SUMMONS > 0) ? skillDmgBoostValue : 0
       x.ELEMENTAL_DMG += (m.techniqueDmgBuff) ? 0.50 : 0
 
-      x.RES_PEN += (e >= 1 && m.e1ResPen && m.skillDmgBuff) ? 0.20 : 0
+      x.DEF_PEN += (e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.20 : 0
+      x.DEF_PEN += (e >= 1 && m.e1DefPen && m.skillDmgBuff && x.SUMMONS > 0) ? 0.20 : 0
 
-      x[Stats.SPD] += (e >= 2 && m.e2SpdBuff) ? 20 : 0
+      x.ELEMENTAL_DMG += (e >= 2 && m.e2DmgBuff) ? 0.30 : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t: Conditionals<typeof teammateContent> = action.characterConditionals

@@ -1,8 +1,8 @@
-import { AbilityEidolon, Conditionals, ContentDefinition, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { buffDynamicStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
@@ -23,8 +23,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 2.40, 2.64)
   const ultScaling = ult(e, 0, 0)
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    ultBuff: true,
+    targetBurdenActive: true,
+    burdenAtkBuff: true,
+    e2SkillSpdBuff: false,
+  }
+
+  const teammateDefaults = {
+    ultBuff: true,
+    targetBurdenActive: true,
+    burdenAtkBuff: true,
+    teammateSPDValue: 160,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    ultBuff: {
       formItem: 'switch',
       id: 'ultBuff',
       text: t('Content.ultBuff.text'),
@@ -33,30 +47,30 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue),
       }),
     },
-    {
+    targetBurdenActive: {
       formItem: 'switch',
       id: 'targetBurdenActive',
       text: t('Content.targetBurdenActive.text'),
       content: t('Content.targetBurdenActive.content', { talentDmgBoostValue: TsUtils.precisionRound(100 * talentDmgBoostValue) }),
     },
-    {
+    burdenAtkBuff: {
       formItem: 'switch',
       id: 'burdenAtkBuff',
       text: t('Content.burdenAtkBuff.text'),
       content: t('Content.burdenAtkBuff.content'),
     },
-    {
+    e2SkillSpdBuff: {
       formItem: 'switch',
       id: 'e2SkillSpdBuff',
       text: t('Content.e2SkillSpdBuff.text'),
       content: t('Content.e2SkillSpdBuff.content'),
       disabled: e < 2,
     },
-  ]
+  }
 
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = [
-    findContentId(content, 'ultBuff'),
-    {
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    ultBuff: content.ultBuff,
+    teammateSPDValue: {
       formItem: 'slider',
       id: 'teammateSPDValue',
       text: t('TeammateContent.teammateSPDValue.text'),
@@ -67,54 +81,44 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: 200,
     },
-    findContentId(content, 'targetBurdenActive'),
-    findContentId(content, 'burdenAtkBuff'),
-  ]
+    targetBurdenActive: content.targetBurdenActive,
+    burdenAtkBuff: content.burdenAtkBuff,
+  }
 
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
-    defaults: () => ({
-      ultBuff: true,
-      targetBurdenActive: true,
-      burdenAtkBuff: true,
-      e2SkillSpdBuff: false,
-    }),
-    teammateDefaults: () => ({
-      ultBuff: true,
-      targetBurdenActive: true,
-      burdenAtkBuff: true,
-      teammateSPDValue: 160,
-    }),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
-      x[Stats.SPD_P] += (e >= 2 && r.e2SkillSpdBuff) ? 0.20 : 0
+      x.SPD_P.buff((e >= 2 && r.e2SkillSpdBuff) ? 0.20 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.ATK_P] += (m.ultBuff) ? ultAtkBuffValue : 0
-      x[Stats.ATK_P] += (m.burdenAtkBuff) ? 0.10 : 0
+      x.ATK_P.buff((m.ultBuff) ? ultAtkBuffValue : 0, Source.NONE)
+      x.ATK_P.buff((m.burdenAtkBuff) ? 0.10 : 0, Source.NONE)
 
-      x.ELEMENTAL_DMG += (m.targetBurdenActive) ? talentDmgBoostValue : 0
+      x.ELEMENTAL_DMG.buff((m.targetBurdenActive) ? talentDmgBoostValue : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.SPD] += (t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0
+      x.SPD.buff((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
@@ -135,17 +139,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           }
 
           const stateValue = action.conditionalState[this.id] || 0
-          const convertibleSpdValue = x[Stats.SPD] - x.RATIO_BASED_SPD_BUFF
+          const convertibleSpdValue = x.a[Key.SPD] - x.a[Key.RATIO_BASED_SPD_BUFF]
 
           const buffSPD = ultSpdBuffValue * convertibleSpdValue
           const stateBuffSPD = ultSpdBuffValue * stateValue
 
-          action.conditionalState[this.id] = x[Stats.SPD]
+          action.conditionalState[this.id] = x.a[Key.SPD]
 
           const finalBuffSpd = buffSPD - (stateValue ? stateBuffSPD : 0)
-          x.RATIO_BASED_SPD_BUFF += finalBuffSpd
+          x.RATIO_BASED_SPD_BUFF.buff(finalBuffSpd, Source.NONE)
 
-          buffDynamicStat(x, Stats.SPD, finalBuffSpd, action, context)
+          x.SPD.buffDynamic(finalBuffSpd, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r: Conditionals<typeof content> = action.characterConditionals

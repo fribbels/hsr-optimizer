@@ -36,7 +36,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   return {
     content: () => Object.values(content),
-    teammateContent: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {

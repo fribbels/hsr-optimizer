@@ -3969,13 +3969,13 @@ interface Resources {
     "MainStats": "Main stats",
     "Sets": "Sets",
     "RelicSetSelector": {
-      "Placeholder": "test",
-      "4pcLabel": "test",
-      "2+2pcLabel": "test",
-      "2pcLabel": "test"
+      "Placeholder": "Relic set",
+      "4pcLabel": "4 Piece",
+      "2+2pcLabel": "2 + 2 Piece",
+      "2pcLabel": "2 + Any"
     },
     "OrnamentSetSelector": {
-      "Placeholder": "test"
+      "Placeholder": "Ornament set"
     },
     "SortOptions": {
       "DMGLabel": "Damage calculations",

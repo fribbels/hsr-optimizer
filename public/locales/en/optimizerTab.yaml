@@ -20,7 +20,7 @@ RelicSetSelector:
   2+2pcLabel: 2 + 2 Piece
   2pcLabel: 2 + Any
 OrnamentSetSelector:
-  Placeholder: test #Ornament set
+  Placeholder: Ornament set
 SortOptions:
   DMGLabel: Damage calculations
   StatLabel: Stats

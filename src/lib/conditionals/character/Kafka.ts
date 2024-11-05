@@ -73,8 +73,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.FUA_TOUGHNESS_DMG.buff(30, Source.NONE)
 
       x.DOT_CHANCE.set(1.30, Source.NONE)
-
-      return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.characterConditionals

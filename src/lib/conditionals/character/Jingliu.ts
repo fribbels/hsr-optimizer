@@ -91,9 +91,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.FUA_SCALING.buff(0, Source.NONE)
 
       // BOOST
-      if (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) {
-        buffAbilityDmg(x, SKILL_TYPE, 0.80, Source.NONE)
-      }
+      buffAbilityDmg(x, SKILL_TYPE, (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) ? 0.80 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
       x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)

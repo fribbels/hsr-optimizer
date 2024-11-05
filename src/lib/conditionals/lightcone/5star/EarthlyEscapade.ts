@@ -1,4 +1,5 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Conditionals } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { TsUtils } from 'lib/TsUtils'
 import { ContentItem } from 'types/Conditionals'
@@ -37,7 +38,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: () => {
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.lightConeConditionals
+      const t: Conditionals<typeof teammateContent> = action.lightConeConditionals
 
       x[Stats.CR] += (t.maskActive) ? sValuesCr[s] : 0
       x[Stats.CD] += (t.maskActive) ? sValuesCd[s] : 0

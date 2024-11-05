@@ -1,5 +1,5 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { findContentId } from 'lib/conditionals/conditionalUtils'
+import { Conditionals, findContentId } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { TsUtils } from 'lib/TsUtils'
 import { ContentItem } from 'types/Conditionals'
@@ -54,7 +54,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       cadenzaActive: true,
     }),
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.lightConeConditionals
+      const t: Conditionals<typeof teammateContent> = action.lightConeConditionals
 
       x.ELEMENTAL_DMG += (t.cadenzaActive) ? sValuesDmgBuff[s] : 0
     },

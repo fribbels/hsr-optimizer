@@ -1,5 +1,5 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { findContentId } from 'lib/conditionals/conditionalUtils'
+import { Conditionals, findContentId } from 'lib/conditionals/conditionalUtils'
 import { Stats } from 'lib/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { TsUtils } from 'lib/TsUtils'
@@ -59,7 +59,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.VULNERABILITY += (m.woefreeState) ? sValuesVulnerability[s] : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.lightConeConditionals
+      const t: Conditionals<typeof teammateContent> = action.lightConeConditionals
 
       x.VULNERABILITY += (t.woefreeState && t.additionalVulnerability) ? sValuesVulnerabilityAdditional[s] : 0
     },

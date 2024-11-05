@@ -1,5 +1,5 @@
 import { ASHBLAZING_ATK_STACK, BASIC_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, ContentDefinition, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
@@ -110,8 +110,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
-    defaults: () => (defaults),
-    teammateDefaults: () => (teammateDefaults),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       buffAbilityCr(x, BASIC_TYPE, 1.00, Source.NONE)
 
@@ -122,7 +122,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.FUA_TOUGHNESS_DMG.buff((e >= 4) ? 30 : 0, Source.NONE)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x.DEF_P.buff((m.battleStartDefBuff) ? 0.20 : 0, Source.NONE)
       x.SPD_P.buff((m.e2SkillSpdBuff) ? 0.30 : 0, Source.NONE)
@@ -133,7 +133,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.ELEMENTAL_DMG.buff((m.skillBuff) ? skillDmgBoostValue : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals
+      const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
       x.CD.buff((t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
       x.CD.buff((t.ultBuff) ? ultCdBoostBaseValue : 0, Source.NONE)
@@ -155,7 +155,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           return true
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+          const r: Conditionals<typeof content> = action.characterConditionals
           if (!r.ultBuff) {
             return
           }
@@ -174,7 +174,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           x.CD.buffDynamic(finalBuffCd, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+          const r: Conditionals<typeof content> = action.characterConditionals
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.ultBuff)}) {

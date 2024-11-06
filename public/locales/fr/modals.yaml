@@ -1,3 +1,6 @@
+Scoring:
+  ResetAllConfirm:
+    Description: Vous perdrez tous les paramètres d'appréciation customisés que vous avez définis sur vos personnages.
 EditCharacter:
   Character: Personnage
 CharacterSelect:

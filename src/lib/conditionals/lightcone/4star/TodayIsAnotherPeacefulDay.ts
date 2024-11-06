@@ -1,4 +1,6 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { ContentItem } from 'types/Conditionals'
 
@@ -11,8 +13,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValues = [0.002, 0.0025, 0.003, 0.0035, 0.004]
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    maxEnergyStacks: 160,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    maxEnergyStacks: {
       lc: true,
       id: 'maxEnergyStacks',
       formItem: 'slider',
@@ -21,17 +27,15 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       min: 0,
       max: 160,
     },
-  ]
+  }
 
   return {
     content: () => Object.values(content),
-    defaults: () => ({
-      maxEnergyStacks: 160,
-    }),
+    defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r: Conditionals<typeof content> = action.lightConeConditionals
 
-      x.ELEMENTAL_DMG += r.maxEnergyStacks * sValues[s]
+      x.ELEMENTAL_DMG.buff(r.maxEnergyStacks * sValues[s], Source.NONE)
     },
     finalizeCalculations: () => {
     },

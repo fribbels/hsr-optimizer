@@ -1,5 +1,5 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
@@ -10,31 +10,39 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValues = [0.12, 0.13, 0.14, 0.15, 0.16]
 
-  const content: ContentDefinition<typeof defaults> = [
-    {
+  const defaults = {
+    targetEnsnared: true,
+  }
+
+  const teammateDefaults = {
+    targetEnsnared: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    targetEnsnared: {
       lc: true,
       id: 'targetEnsnared',
       formItem: 'switch',
       text: t('Content.targetEnsnared.text'),
       content: t('Content.targetEnsnared.content', { DefShred: TsUtils.precisionRound(100 * sValues[s]) }),
     },
-  ]
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    targetEnsnared: content.targetEnsnared,
+  }
 
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
-    defaults: () => ({
-      targetEnsnared: true,
-    }),
-    teammateDefaults: () => ({
-      targetEnsnared: true,
-    }),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m: Conditionals<typeof teammateContent> = action.lightConeConditionals
 
-      x.DEF_PEN += (m.targetEnsnared) ? sValues[s] : 0
+      x.DEF_PEN.buff((m.targetEnsnared) ? sValues[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

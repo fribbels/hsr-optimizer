@@ -187,7 +187,6 @@ self.onmessage = function (e: MessageEvent) {
       if (i === 0) {
         combo += context.comboDot * a[Key.DOT_DMG] + context.comboBreak * a[Key.BREAK_DMG]
         x.COMBO_DMG.set(combo, Source.NONE)
-        c.x = x
       }
     }
 
@@ -204,7 +203,7 @@ self.onmessage = function (e: MessageEvent) {
     c.high = high
     c.low = low
 
-    BufferPacker.packCharacter(arr, passCount, c.x)
+    BufferPacker.packCharacter(arr, passCount, x)
     passCount++
   }
 

@@ -56,7 +56,6 @@ export function FormStatRollSliders() {
       <Flex vertical style={{ width: 'max-content' }}>
         {labels}
       </Flex>
-      {/* @ts-ignore */}
       <Flex
         vertical
         style={

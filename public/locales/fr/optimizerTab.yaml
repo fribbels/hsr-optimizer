@@ -1,3 +1,66 @@
+CharacterSelector:
+  Character: Personnage
+OptimizerOptions:
+  Priority:
+    Header: Priorité
+Grid:
+  Headers:
+    Basic:
+      ATK: ATQ
+      DEF: DÉF
+      HP: PV
+      SPD: VIT
+      CR: TC
+      CD: DC
+      EHR: CAE
+      RES: RÉS
+      BE: ER
+      OHB: ASP
+      ERR: TRE
+SetConditionals:
+  SelectOptions:
+    Wastelander:
+      Debuffed:
+        Display: TC
+CombatBuffs:
+  ATK: ATQ
+  ATK_P: ATQ %
+  HP: PV
+  HP_P: PV %
+  DEF: DÉF
+  DEF_P: DEF %
+  SPD: VIT
+  SPD_P: VIT %
+WeightFilter:
+  HPFilterText: PV
+  ATKFilterText: ATQ
+  DEFFilterText: DÉF
+  SPDFilterText: VIT
+  CRFilterText: TC
+  CDFilterText: DC
+  EHRFilterText: CAE
+  RESFilterText: RÉS
+  BEFilterText: ER
+MinMaxFilters:
+  HPLabel: PV
+  ATKLabel: ATQ
+  DEFLabel: DÉF
+  SPDLabel: VIT
+  CRLabel: TC
+  CDLabel: DC
+  EHRLabel: CAE
+  RESLabel: RÉS
+  BELabel: ER
+  ERRLabel: TRE
+  BASICLabel: NORMALE
+  SKILLLabel: COMPÉTENCE
+  ULTLabel: ULT
+  FUALabel: ADS
 StatSimulation:
   ModeSelector:
     Off: Off
+  MainStatsSelection:
+    BodyPlaceholder: Corps
+    FeetPlaceholder: Pieds
+    SpherePlaceholder: Sphère
+    RopePlaceholder: Corde

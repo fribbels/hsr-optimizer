@@ -184,38 +184,38 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   const buffs = context.combatBuffs
 
   // Add base to computed
-  x.ATK.buff(c[Stats.ATK], Source.BASIC_STATS)
-  x.DEF.buff(c[Stats.DEF], Source.BASIC_STATS)
-  x.HP.buff(c[Stats.HP], Source.BASIC_STATS)
-  x.SPD.buff(c[Stats.SPD], Source.BASIC_STATS)
-  x.CD.buff(c[Stats.CD], Source.BASIC_STATS)
-  x.CR.buff(c[Stats.CR], Source.BASIC_STATS)
-  x.EHR.buff(c[Stats.EHR], Source.BASIC_STATS)
-  x.RES.buff(c[Stats.RES], Source.BASIC_STATS)
-  x.BE.buff(c[Stats.BE], Source.BASIC_STATS)
-  x.ERR.buff(c[Stats.ERR], Source.BASIC_STATS)
-  x.OHB.buff(c[Stats.OHB], Source.BASIC_STATS)
+  a[Key.ATK] += c[Stats.ATK]
+  a[Key.DEF] += c[Stats.DEF]
+  a[Key.HP] += c[Stats.HP]
+  a[Key.SPD] += c[Stats.SPD]
+  a[Key.CD] += c[Stats.CD]
+  a[Key.CR] += c[Stats.CR]
+  a[Key.EHR] += c[Stats.EHR]
+  a[Key.RES] += c[Stats.RES]
+  a[Key.BE] += c[Stats.BE]
+  a[Key.ERR] += c[Stats.ERR]
+  a[Key.OHB] += c[Stats.OHB]
 
   buffElementalDamageType(x, context.elementalDamageType, c.ELEMENTAL_DMG)
 
   // Combat buffs
-  x.ATK.buff(buffs.ATK + buffs.ATK_P * context.baseATK, Source.COMBAT_BUFFS)
-  x.DEF.buff(buffs.DEF + buffs.DEF_P * context.baseDEF, Source.COMBAT_BUFFS)
-  x.HP.buff(buffs.HP + buffs.HP_P * context.baseHP, Source.COMBAT_BUFFS)
-  x.CD.buff(buffs.CD, Source.COMBAT_BUFFS)
-  x.CR.buff(buffs.CR, Source.COMBAT_BUFFS)
-  x.SPD.buff(buffs.SPD_P * context.baseSPD + buffs.SPD, Source.COMBAT_BUFFS)
-  x.BE.buff(buffs.BE, Source.COMBAT_BUFFS)
-  x.ELEMENTAL_DMG.buff(buffs.DMG_BOOST, Source.COMBAT_BUFFS)
-  x.EFFECT_RES_PEN.buff(buffs.EFFECT_RES_PEN, Source.COMBAT_BUFFS)
-  x.VULNERABILITY.buff(buffs.VULNERABILITY, Source.COMBAT_BUFFS)
-  x.BREAK_EFFICIENCY_BOOST.buff(buffs.BREAK_EFFICIENCY, Source.COMBAT_BUFFS)
+  a[Key.ATK] += buffs.ATK + buffs.ATK_P * context.baseATK
+  a[Key.DEF] += buffs.DEF + buffs.DEF_P * context.baseDEF
+  a[Key.HP] += buffs.HP + buffs.HP_P * context.baseHP
+  a[Key.CD] += buffs.CD
+  a[Key.CR] += buffs.CR
+  a[Key.SPD] += buffs.SPD_P * context.baseSPD + buffs.SPD
+  a[Key.BE] += buffs.BE
+  a[Key.ELEMENTAL_DMG] += buffs.DMG_BOOST
+  a[Key.EFFECT_RES_PEN] += buffs.EFFECT_RES_PEN
+  a[Key.VULNERABILITY] += buffs.VULNERABILITY
+  a[Key.BREAK_EFFICIENCY_BOOST] += buffs.BREAK_EFFICIENCY
 
   // SPD
+
   if (p4(sets.MessengerTraversingHackerspace) && setConditionals.enabledMessengerTraversingHackerspace) {
     x.SPD_P.buff(0.12, Source.MessengerTraversingHackerspace)
   }
-  x.SPD.buff(a[Key.SPD_P] * context.baseSPD, Source.NONE)
 
   // ATK
 
@@ -228,15 +228,10 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   if (p4(sets.TheAshblazingGrandDuke)) {
     x.ATK_P.buff(0.06 * setConditionals.valueTheAshblazingGrandDuke, Source.TheAshblazingGrandDuke)
   }
-  x.ATK.buff(a[Key.ATK_P] * context.baseATK, Source.NONE)
 
   // DEF
 
-  x.DEF.buff(a[Key.DEF_P] * context.baseDEF, Source.NONE)
-
   // HP
-
-  x.HP.buff(a[Key.HP_P] * context.baseHP, Source.NONE)
 
   // CD
 
@@ -335,6 +330,11 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   if (p4(sets.ScholarLostInErudition) && setConditionals.enabledScholarLostInErudition) {
     buffAbilityDmg(x, SKILL_TYPE, 0.25, Source.ScholarLostInErudition)
   }
+
+  a[Key.SPD] += a[Key.SPD_P] * context.baseSPD
+  a[Key.ATK] += a[Key.ATK_P] * context.baseATK
+  a[Key.DEF] += a[Key.DEF_P] * context.baseDEF
+  a[Key.HP] += a[Key.HP_P] * context.baseHP
 
   // Dynamic - still need implementing
 

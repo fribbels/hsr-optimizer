@@ -1,5 +1,5 @@
 import { SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { ComputedStatsArray, getElementalDamageType, getResPenType, Key, Source } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, getElementalDamageType, getResPenType, Key } from 'lib/optimizer/computedStatsArray'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
@@ -19,7 +19,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   calculateHeal(x, context)
   calculateShield(x, context)
 
-  x.ELEMENTAL_DMG.buff(getElementalDamageType(x, context.elementalDamageType), Source.NONE)
+  a[Key.ELEMENTAL_DMG] += getElementalDamageType(x, context.elementalDamageType)
 
   const baseDmgBoost = 1 + a[Key.ELEMENTAL_DMG]
   const baseDefPen = a[Key.DEF_PEN] + context.combatBuffs.DEF_PEN
@@ -36,7 +36,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     const dotResMulti = 1 - (baseResistance - a[Key.DOT_RES_PEN])
     const dotEhrMulti = calculateEhrMulti(x, context)
 
-    x.DOT_DMG.set(calculateDotDmg(
+    a[Key.DOT_DMG] = calculateDotDmg(
       a[Key.DOT_DMG],
       (baseUniversalMulti),
       (dotDmgBoostMulti),
@@ -44,22 +44,21 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       (dotVulnerabilityMulti),
       (dotResMulti),
       (dotEhrMulti),
-    ), Source.NONE)
+    )
   }
 
   // === Super / Break ===
 
   // Multiply by additional vulnerability
-  x.BREAK_DMG.set(
-    baseUniversalMulti
+  a[Key.BREAK_DMG]
+    = baseUniversalMulti
     * 3767.5533
     * context.elementalBreakScaling
     * calculateDefMulti(eLevel, baseDefPen + a[Key.BREAK_DEF_PEN])
     * (0.5 + context.enemyMaxToughness / 120)
     * (1 + a[Key.VULNERABILITY] + a[Key.BREAK_VULNERABILITY])
     * (1 - baseResistance)
-    * (1 + a[Key.BE]
-    ), Source.NONE)
+    * (1 + a[Key.BE])
 
   // The % of Super Break instance dmg
   const baseSuperBreakModifier = a[Key.SUPER_BREAK_MODIFIER] + a[Key.SUPER_BREAK_HMC_MODIFIER]
@@ -76,7 +75,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     * (1 / 30)
 
   if (action.actionType == 'BASIC' || action.actionType == 'DEFAULT') {
-    x.BASIC_DMG.set(calculateAbilityDmg(
+    a[Key.BASIC_DMG] = calculateAbilityDmg(
       x,
       action,
       context,
@@ -102,11 +101,11 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.BASIC_ADDITIONAL_DMG],
       0, // a[Key.BASIC_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.BASIC_ADDITIONAL_DMG_CD_OVERRIDE],
-    ), Source.NONE)
+    )
   }
 
   if (action.actionType == 'SKILL' || action.actionType == 'DEFAULT') {
-    x.SKILL_DMG.set(calculateAbilityDmg(
+    a[Key.SKILL_DMG] = calculateAbilityDmg(
       x,
       action,
       context,
@@ -132,11 +131,11 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.SKILL_ADDITIONAL_DMG],
       0, // a[Key.SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
-    ), Source.NONE)
+    )
   }
 
   if (action.actionType == 'ULT' || action.actionType == 'DEFAULT') {
-    x.ULT_DMG.set(calculateAbilityDmg(
+    a[Key.ULT_DMG] = calculateAbilityDmg(
       x,
       action,
       context,
@@ -162,11 +161,11 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.ULT_ADDITIONAL_DMG],
       a[Key.ULT_ADDITIONAL_DMG_CR_OVERRIDE],
       a[Key.ULT_ADDITIONAL_DMG_CD_OVERRIDE],
-    ), Source.NONE)
+    )
   }
 
   if (action.actionType == 'FUA' || action.actionType == 'DEFAULT') {
-    x.FUA_DMG.set(calculateAbilityDmg(
+    a[Key.FUA_DMG] = calculateAbilityDmg(
       x,
       action,
       context,
@@ -192,7 +191,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.FUA_ADDITIONAL_DMG],
       0, // a[Key.FUA_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.FUA_ADDITIONAL_DMG_CD_OVERRIDE],
-    ), Source.NONE)
+    )
   }
 }
 
@@ -208,24 +207,24 @@ function calculateEhp(x: ComputedStatsArray, context: OptimizerContext) {
 
   let ehp = a[Key.HP] / (1 - a[Key.DEF] / (a[Key.DEF] + 200 + 10 * context.enemyLevel))
   ehp *= 1 / ((1 - 0.08 * p2(sets.GuardOfWutheringSnow)) * a[Key.DMG_RED_MULTI])
-  x.EHP.set(ehp, Source.NONE)
+  a[Key.EHP] = ehp
 }
 
 function calculateHeal(x: ComputedStatsArray, context: OptimizerContext) {
   const a = x.a
-  x.HEAL_VALUE.set(a[Key.HEAL_VALUE] * (
+  a[Key.HEAL_VALUE] = a[Key.HEAL_VALUE] * (
     1
     + a[Key.OHB]
     + a[Key.SKILL_OHB] * (a[Key.HEAL_TYPE] == SKILL_TYPE ? 1 : 0)
     + a[Key.ULT_OHB] * (a[Key.HEAL_TYPE] == ULT_TYPE ? 1 : 0)
-  ), Source.NONE)
+  )
 }
 
 function calculateShield(x: ComputedStatsArray, context: OptimizerContext) {
   const a = x.a
   const sets = x.c.sets
 
-  x.SHIELD_VALUE.set(a[Key.SHIELD_VALUE] * (1 + 0.20 * p4(sets.KnightOfPurityPalace)), Source.NONE)
+  a[Key.SHIELD_VALUE] = a[Key.SHIELD_VALUE] * (1 + 0.20 * p4(sets.KnightOfPurityPalace))
 }
 
 function calculateAbilityDmg(

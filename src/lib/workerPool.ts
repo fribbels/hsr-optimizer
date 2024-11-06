@@ -6,7 +6,7 @@ import { Form } from 'types/Form'
 import { OptimizerContext } from 'types/Optimizer'
 
 // const poolSize = 2
-const poolSize = Math.min(8, Math.max(1, (navigator.hardwareConcurrency || 4) - 1))
+const poolSize = Math.min(10, Math.max(1, (navigator.hardwareConcurrency || 4) - 1))
 let initializedWorkers = 0
 console.log('Using pool size ' + poolSize)
 

@@ -184,32 +184,24 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   const buffs = context.combatBuffs
 
   // Add base to computed
-  a[Key.ATK] += c[Stats.ATK]
-  a[Key.DEF] += c[Stats.DEF]
-  a[Key.HP] += c[Stats.HP]
-  a[Key.SPD] += c[Stats.SPD]
-  a[Key.CD] += c[Stats.CD]
-  a[Key.CR] += c[Stats.CR]
+  a[Key.ATK] += c[Stats.ATK] + buffs.ATK + buffs.ATK_P * context.baseATK
+  a[Key.DEF] += c[Stats.DEF] + buffs.DEF + buffs.DEF_P * context.baseDEF
+  a[Key.HP] += c[Stats.HP] + buffs.HP + buffs.HP_P * context.baseHP
+  a[Key.SPD] += c[Stats.SPD] + buffs.SPD + buffs.SPD_P * context.baseSPD
+  a[Key.CD] += c[Stats.CD] + buffs.CD
+  a[Key.CR] += c[Stats.CR] + buffs.CR
+  a[Key.BE] += c[Stats.BE] + buffs.BE
   a[Key.EHR] += c[Stats.EHR]
   a[Key.RES] += c[Stats.RES]
-  a[Key.BE] += c[Stats.BE]
   a[Key.ERR] += c[Stats.ERR]
   a[Key.OHB] += c[Stats.OHB]
 
-  buffElementalDamageType(x, context.elementalDamageType, c.ELEMENTAL_DMG)
-
-  // Combat buffs
-  a[Key.ATK] += buffs.ATK + buffs.ATK_P * context.baseATK
-  a[Key.DEF] += buffs.DEF + buffs.DEF_P * context.baseDEF
-  a[Key.HP] += buffs.HP + buffs.HP_P * context.baseHP
-  a[Key.CD] += buffs.CD
-  a[Key.CR] += buffs.CR
-  a[Key.SPD] += buffs.SPD_P * context.baseSPD + buffs.SPD
-  a[Key.BE] += buffs.BE
   a[Key.ELEMENTAL_DMG] += buffs.DMG_BOOST
   a[Key.EFFECT_RES_PEN] += buffs.EFFECT_RES_PEN
   a[Key.VULNERABILITY] += buffs.VULNERABILITY
   a[Key.BREAK_EFFICIENCY_BOOST] += buffs.BREAK_EFFICIENCY
+
+  buffElementalDamageType(x, context.elementalDamageType, c.ELEMENTAL_DMG)
 
   // SPD
 

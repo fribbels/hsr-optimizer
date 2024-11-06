@@ -182,7 +182,6 @@ self.onmessage = function (e: MessageEvent) {
       const action = setupAction(c, i, context)
       const a = x.a
       x.setPrecompute(action.precomputedX.a)
-      x.reset()
 
       calculateComputedStats(x, action, context)
       calculateBaseMultis(x, action, context)

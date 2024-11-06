@@ -89,16 +89,13 @@ export class ComputedStatsArrayCore {
 
   setPrecompute(precompute: Float32Array) {
     this.precomputedStatsArray = precompute
+    this.a.set(precompute)
+    this.buffs = []
+    this.trace = false
   }
 
   setBasic(c: BasicStatsObject) {
     this.c = c
-  }
-
-  reset() {
-    this.buffs = []
-    this.trace = false
-    this.a.set(this.precomputedStatsArray)
   }
 
   buff(key: number, value: number, source?: string) {
@@ -196,56 +193,6 @@ export const KeyToStat: Record<string, string> = {
   [Key.SPD]: Stats.SPD,
   [Key.WIND_DMG_BOOST]: Stats.Wind_DMG,
 }
-
-export const StatToKey: Record<string, number> = {
-  [Stats.ATK_P]: Key.ATK_P,
-  [Stats.ATK]: Key.ATK,
-  [Stats.BE]: Key.BE,
-  [Stats.CD]: Key.CD,
-  [Stats.CR]: Key.CR,
-  [Stats.DEF_P]: Key.DEF_P,
-  [Stats.DEF]: Key.DEF,
-  [Stats.EHR]: Key.EHR,
-  [Stats.ERR]: Key.ERR,
-  [Stats.Fire_DMG]: Key.FIRE_DMG_BOOST,
-  [Stats.HP_P]: Key.HP_P,
-  [Stats.HP]: Key.HP,
-  [Stats.Ice_DMG]: Key.ICE_DMG_BOOST,
-  [Stats.Imaginary_DMG]: Key.IMAGINARY_DMG_BOOST,
-  [Stats.Lightning_DMG]: Key.LIGHTNING_DMG_BOOST,
-  [Stats.OHB]: Key.OHB,
-  [Stats.Physical_DMG]: Key.PHYSICAL_DMG_BOOST,
-  [Stats.Quantum_DMG]: Key.QUANTUM_DMG_BOOST,
-  [Stats.RES]: Key.RES,
-  [Stats.SPD_P]: Key.SPD_P,
-  [Stats.SPD]: Key.SPD,
-  [Stats.Wind_DMG]: Key.WIND_DMG_BOOST,
-} as const
-
-export const StatToOptimizerStat: Record<string, string> = {
-  [Stats.ATK_P]: 'ATK_P',
-  [Stats.ATK]: 'ATK',
-  [Stats.BE]: 'BE',
-  [Stats.CD]: 'CD',
-  [Stats.CR]: 'CR',
-  [Stats.DEF_P]: 'DEF_P',
-  [Stats.DEF]: 'DEF',
-  [Stats.EHR]: 'EHR',
-  [Stats.ERR]: 'ERR',
-  [Stats.Fire_DMG]: 'FIRE_DMG_BOOST',
-  [Stats.HP_P]: 'HP_P',
-  [Stats.HP]: 'HP',
-  [Stats.Ice_DMG]: 'ICE_DMG_BOOST',
-  [Stats.Imaginary_DMG]: 'IMAGINARY_DMG_BOOST',
-  [Stats.Lightning_DMG]: 'LIGHTNING_DMG_BOOST',
-  [Stats.OHB]: 'OHB',
-  [Stats.Physical_DMG]: 'PHYSICAL_DMG_BOOST',
-  [Stats.Quantum_DMG]: 'QUANTUM_DMG_BOOST',
-  [Stats.RES]: 'RES',
-  [Stats.SPD_P]: 'SPD_P',
-  [Stats.SPD]: 'SPD',
-  [Stats.Wind_DMG]: 'WIND_DMG_BOOST',
-} as const
 
 export const Source = {
   character(name: string) {

@@ -81,7 +81,7 @@ export class ComputedStatsArrayCore {
     })
 
     Object.defineProperty(this, `#show`, {
-      get: () => this.toComputedStatsObject(),
+      get: () => this.toComputedStatsObject(false),
       enumerable: true,
       configurable: true,
     })
@@ -113,14 +113,25 @@ export class ComputedStatsArrayCore {
     return this.a[key]
   }
 
-  toComputedStatsObject() {
-    const result: Partial<ComputedStatsObject> = {}
+  toComputedStatsObject(internal: boolean) {
+    if (internal) {
+      const result: Partial<ComputedStatsObject> = {}
 
-    for (const key in Key) {
-      result[key as keyof ComputedStatsObject] = this.a[Key[key as KeysType]]
+      for (const key in Key) {
+        const numericKey = Key[key as KeysType]
+        result[key as keyof ComputedStatsObject] = this.a[numericKey]
+      }
+      return result as ComputedStatsObject
+    } else {
+      const result: Partial<ComputedStatsObjectExternal> = {}
+
+      for (const key in Key) {
+        const externalKey = InternalKeyToExternal[key] ?? key
+        const numericKey = Key[key as KeysType]
+        result[externalKey as keyof ComputedStatsObjectExternal] = this.a[numericKey]
+      }
+      return result as ComputedStatsObjectExternal
     }
-
-    return result as ComputedStatsObject
   }
 }
 
@@ -134,6 +145,31 @@ export function baseComputedStatsArray() {
 
 export function buff(x: ComputedStatsArray, key: number, value: number, source?: string) {
   x.buff(key, value, source)
+}
+
+export const InternalKeyToExternal: Record<string, string> = {
+  ATK_P: Stats.ATK_P,
+  ATK: Stats.ATK,
+  BE: Stats.BE,
+  CD: Stats.CD,
+  CR: Stats.CR,
+  DEF_P: Stats.DEF_P,
+  DEF: Stats.DEF,
+  EHR: Stats.EHR,
+  ERR: Stats.ERR,
+  FIRE_DMG_BOOST: Stats.Fire_DMG,
+  HP_P: Stats.HP_P,
+  HP: Stats.HP,
+  ICE_DMG_BOOST: Stats.Ice_DMG,
+  IMAGINARY_DMG_BOOST: Stats.Imaginary_DMG,
+  LIGHTNING_DMG_BOOST: Stats.Lightning_DMG,
+  OHB: Stats.OHB,
+  PHYSICAL_DMG_BOOST: Stats.Physical_DMG,
+  QUANTUM_DMG_BOOST: Stats.Quantum_DMG,
+  RES: Stats.RES,
+  SPD_P: Stats.SPD_P,
+  SPD: Stats.SPD,
+  WIND_DMG_BOOST: Stats.Wind_DMG,
 }
 
 export const KeyToStat: Record<string, string> = {
@@ -184,6 +220,31 @@ export const StatToKey: Record<string, number> = {
   [Stats.SPD_P]: Key.SPD_P,
   [Stats.SPD]: Key.SPD,
   [Stats.Wind_DMG]: Key.WIND_DMG_BOOST,
+} as const
+
+export const StatToOptimizerStat: Record<string, string> = {
+  [Stats.ATK_P]: 'ATK_P',
+  [Stats.ATK]: 'ATK',
+  [Stats.BE]: 'BE',
+  [Stats.CD]: 'CD',
+  [Stats.CR]: 'CR',
+  [Stats.DEF_P]: 'DEF_P',
+  [Stats.DEF]: 'DEF',
+  [Stats.EHR]: 'EHR',
+  [Stats.ERR]: 'ERR',
+  [Stats.Fire_DMG]: 'FIRE_DMG_BOOST',
+  [Stats.HP_P]: 'HP_P',
+  [Stats.HP]: 'HP',
+  [Stats.Ice_DMG]: 'ICE_DMG_BOOST',
+  [Stats.Imaginary_DMG]: 'IMAGINARY_DMG_BOOST',
+  [Stats.Lightning_DMG]: 'LIGHTNING_DMG_BOOST',
+  [Stats.OHB]: 'OHB',
+  [Stats.Physical_DMG]: 'PHYSICAL_DMG_BOOST',
+  [Stats.Quantum_DMG]: 'QUANTUM_DMG_BOOST',
+  [Stats.RES]: 'RES',
+  [Stats.SPD_P]: 'SPD_P',
+  [Stats.SPD]: 'SPD',
+  [Stats.Wind_DMG]: 'WIND_DMG_BOOST',
 } as const
 
 export const Source = {
@@ -261,5 +322,82 @@ export function buffElementalDamageType(x: ComputedStatsArray, type: string, val
       return x.QUANTUM_DMG_BOOST.buff(value, Source.NONE)
     case Stats.Imaginary_DMG:
       return x.IMAGINARY_DMG_BOOST.buff(value, Source.NONE)
+  }
+}
+
+export type ComputedStatsObjectExternal = Omit<ComputedStatsObject,
+  'HP_P'
+  | 'ATK_P'
+  | 'DEF_P'
+  | 'SPD_P'
+  | 'HP'
+  | 'ATK'
+  | 'DEF'
+  | 'SPD'
+  | 'CD'
+  | 'CR'
+  | 'EHR'
+  | 'RES'
+  | 'BE'
+  | 'ERR'
+  | 'OHB'
+  | 'PHYSICAL_DMG_BOOST'
+  | 'FIRE_DMG_BOOST'
+  | 'ICE_DMG_BOOST'
+  | 'LIGHTNING_DMG_BOOST'
+  | 'WIND_DMG_BOOST'
+  | 'QUANTUM_DMG_BOOST'
+  | 'IMAGINARY_DMG_BOOST'
+> & {
+  ['HP%']: number
+  ['ATK%']: number
+  ['DEF%']: number
+  ['SPD%']: number
+  ['HP']: number
+  ['ATK']: number
+  ['DEF']: number
+  ['SPD']: number
+  ['CRIT Rate']: number
+  ['CRIT DMG']: number
+  ['Effect Hit Rate']: number
+  ['Effect RES']: number
+  ['Break Effect']: number
+  ['Energy Regeneration Rate']: number
+  ['Outgoing Healing Boost']: number
+
+  ['Physical DMG Boost']: number
+  ['Fire DMG Boost']: number
+  ['Ice DMG Boost']: number
+  ['Lightning DMG Boost']: number
+  ['Wind DMG Boost']: number
+  ['Quantum DMG Boost']: number
+  ['Imaginary DMG Boost']: number
+}
+
+export function augmentExternalStats(x: ComputedStatsObject): ComputedStatsObjectExternal {
+  return {
+    ...x,
+    ['HP%']: x.HP_P,
+    ['ATK%']: x.ATK_P,
+    ['DEF%']: x.DEF_P,
+    ['SPD%']: x.SPD_P,
+    ['HP']: x.HP,
+    ['ATK']: x.ATK,
+    ['DEF']: x.DEF,
+    ['SPD']: x.SPD,
+    ['CRIT Rate']: x.CD,
+    ['CRIT DMG']: x.CR,
+    ['Effect Hit Rate']: x.EHR,
+    ['Effect RES']: x.RES,
+    ['Break Effect']: x.BE,
+    ['Energy Regeneration Rate']: x.ERR,
+    ['Outgoing Healing Boost']: x.OHB,
+    ['Physical DMG Boost']: x.PHYSICAL_DMG_BOOST,
+    ['Fire DMG Boost']: x.FIRE_DMG_BOOST,
+    ['Ice DMG Boost']: x.ICE_DMG_BOOST,
+    ['Lightning DMG Boost']: x.LIGHTNING_DMG_BOOST,
+    ['Wind DMG Boost']: x.WIND_DMG_BOOST,
+    ['Quantum DMG Boost']: x.QUANTUM_DMG_BOOST,
+    ['Imaginary DMG Boost']: x.IMAGINARY_DMG_BOOST,
   }
 }

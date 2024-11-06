@@ -1,25 +1,25 @@
-import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
-import { Utils } from 'lib/utils'
-import { Constants, Parts, SetsOrnamentsNames, SetsRelicsNames, Stats, SubStats } from 'lib/constants'
-import { emptyRelic } from 'lib/optimizer/optimizerUtils'
-import { StatCalculator } from 'lib/statCalculator'
-import { Relic, Stat } from 'types/Relic'
-import { RelicFilters } from 'lib/relicFilters'
-import { calculateBuild } from 'lib/optimizer/calculateBuild'
-import { OptimizerTabController } from 'lib/optimizerTabController'
-import { calculateCurrentlyEquippedRow, renameFields } from 'lib/optimizer/optimizer'
-import { Assets } from 'lib/assets'
 import { Flex, Tag } from 'antd'
-import { Message } from 'lib/message'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
-import { SortOption } from 'lib/optimizer/sortOptions'
-import { SaveState } from 'lib/saveState'
-import DB from 'lib/db'
-import { Form } from 'types/Form'
-import { SimulationResult } from 'lib/characterScorer'
-import { useTranslation } from 'react-i18next'
+import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import i18next from 'i18next'
+import { Assets } from 'lib/assets'
+import { SimulationResult } from 'lib/characterScorer'
+import { Constants, Parts, SetsOrnamentsNames, SetsRelicsNames, Stats, SubStats } from 'lib/constants'
+import DB from 'lib/db'
+import { Message } from 'lib/message'
+import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { calculateCurrentlyEquippedRow, renameFields } from 'lib/optimizer/optimizer'
+import { emptyRelic } from 'lib/optimizer/optimizerUtils'
+import { SortOption } from 'lib/optimizer/sortOptions'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { RelicFilters } from 'lib/relicFilters'
+import { SaveState } from 'lib/saveState'
+import { StatCalculator } from 'lib/statCalculator'
+import { Utils } from 'lib/utils'
+import { useTranslation } from 'react-i18next'
+import { Form } from 'types/Form'
 import { OptimizerContext } from 'types/Optimizer'
+import { Relic, Stat } from 'types/Relic'
 
 export type Simulation = {
   name?: string
@@ -372,7 +372,7 @@ export function runSimulations(
 
     RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
 
-    const c = calculateBuild(form, relics, context, true, true)
+    const { c } = calculateBuild(form, relics, context, true, true)
 
     renameFields(c)
     // For optimizer grid syncing with sim table

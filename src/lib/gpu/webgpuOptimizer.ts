@@ -189,7 +189,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
     const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
     const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
 
-    const c = calculateBuild(
+    const { c } = calculateBuild(
       gpuContext.request,
       {
         Head: relics.Head[h],

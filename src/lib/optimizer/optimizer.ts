@@ -2,7 +2,7 @@ import { setSortColumn } from 'components/optimizerTab/optimizerForm/Recommended
 import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
 import { BufferPacker, OptimizerDisplayData } from 'lib/bufferPacker'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, MAX_RESULTS } from 'lib/constants'
+import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, MAX_RESULTS, Stats } from 'lib/constants'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import DB from 'lib/db'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
@@ -10,6 +10,7 @@ import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
 import { Message } from 'lib/message'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { ComputedStatsObjectExternal } from 'lib/optimizer/computedStatsArray'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimizer/relicSetSolver'
 import { SortOption } from 'lib/optimizer/sortOptions'
@@ -31,7 +32,7 @@ export function calculateCurrentlyEquippedRow(request) {
   RelicFilters.condenseRelicSubstatsForOptimizer(relics)
   Object.keys(relics).map((key) => relics[key] = relics[key][0])
 
-  const c = calculateBuild(request, relics)
+  const { c } = calculateBuild(request, relics)
   renameFields(c)
   OptimizerTabController.setTopRow(c, true)
 }
@@ -144,7 +145,8 @@ export const Optimizer = {
 
     const gpuDevice = await getWebgpuDevice()
     if (gpuDevice == null && computeEngine != COMPUTE_ENGINE_CPU) {
-      Message.warning(`GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server`, 15)
+      Message.warning(`GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server`,
+        15)
       window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
       computeEngine = COMPUTE_ENGINE_CPU
     }
@@ -238,27 +240,29 @@ export const Optimizer = {
 
 // TODO: This is a temporary tool to rename computed stats variables to fit the optimizer grid
 export function renameFields(c: BasicStatsObject & OptimizerDisplayData) {
+  const x = c.x as ComputedStatsObjectExternal
+
   c.ED = c.ELEMENTAL_DMG
-  c.BASIC = c.x.BASIC_DMG
-  c.SKILL = c.x.SKILL_DMG
-  c.ULT = c.x.ULT_DMG
-  c.FUA = c.x.FUA_DMG
-  c.DOT = c.x.DOT_DMG
-  c.BREAK = c.x.BREAK_DMG
-  c.COMBO = c.x.COMBO_DMG
-  c.EHP = c.x.EHP
-  c.HEAL = c.x.HEAL_VALUE
-  c.SHIELD = c.x.SHIELD_VALUE
-  c.xHP = c.x.HP
-  c.xATK = c.x.ATK
-  c.xDEF = c.x.DEF
-  c.xSPD = c.x.SPD
-  c.xCR = c.x.CR
-  c.xCD = c.x.CD
-  c.xEHR = c.x.EHR
-  c.xRES = c.x.RES
-  c.xBE = c.x.BE
-  c.xERR = c.x.ERR
-  c.xOHB = c.x.OHB
+  c.BASIC = x.BASIC_DMG
+  c.SKILL = x.SKILL_DMG
+  c.ULT = x.ULT_DMG
+  c.FUA = x.FUA_DMG
+  c.DOT = x.DOT_DMG
+  c.BREAK = x.BREAK_DMG
+  c.COMBO = x.COMBO_DMG
+  c.EHP = x.EHP
+  c.HEAL = x.HEAL_VALUE
+  c.SHIELD = x.SHIELD_VALUE
+  c.xHP = x.HP
+  c.xATK = x.ATK
+  c.xDEF = x.DEF
+  c.xSPD = x.SPD
+  c.xCR = x[Stats.CR]
+  c.xCD = x[Stats.CD]
+  c.xEHR = x[Stats.EHR]
+  c.xRES = x[Stats.RES]
+  c.xBE = x[Stats.BE]
+  c.xERR = x[Stats.ERR]
+  c.xOHB = x[Stats.OHB]
   c.xELEMENTAL_DMG = c.x.ELEMENTAL_DMG
 }

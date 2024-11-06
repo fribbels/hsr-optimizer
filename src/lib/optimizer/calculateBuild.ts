@@ -1,9 +1,9 @@
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Constants, OrnamentSetCount, OrnamentSetToIndex, RelicSetCount, RelicSetToIndex } from 'lib/constants'
+import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex } from 'lib/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
-import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { transformComboState } from 'lib/optimizer/rotation/comboStateTransform'
@@ -29,7 +29,8 @@ export function calculateBuild(
   relics: SingleRelicByPart,
   cachedContext: OptimizerContext | null,
   reuseRequest: boolean = false,
-  reuseComboState: boolean = false) {
+  reuseComboState: boolean = false,
+  internal: boolean = false) {
   if (!reuseRequest) {
     request = Utils.clone(request)
   }
@@ -98,17 +99,22 @@ export function calculateBuild(
 
     if (i === 0) {
       combo += context.comboDot * x.get(Key.DOT_DMG) + context.comboBreak * x.get(Key.BREAK_DMG)
-      c.x = x.toComputedStatsObject()
+      x.COMBO_DMG.set(combo, Source.NONE)
     }
   }
 
-  c.x.COMBO_DMG = combo
-  return c
+  c.x = x.toComputedStatsObject(internal)
+
+  return {
+    c: c,
+    computedStatsArray: x,
+    computedStatsObject: c.x,
+  }
 }
 
 function extractRelics(relics: SingleRelicByPart) {
   for (const part of Object.keys(Constants.Parts)) {
-    relics[part] = relics[part] || emptyRelic()
+    relics[part as Parts] = relics[part as Parts] || emptyRelic()
   }
   return relics
 }

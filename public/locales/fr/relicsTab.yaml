@@ -1,0 +1,13 @@
+RelicFilterBar:
+  ScoringButton: Algorithme d'appréciation
+Messages:
+  AddRelicSuccess: Relique ajoutée avec succès
+RelicGrid:
+  Headers:
+    HPP: PV %
+    ATKP: ATQ %
+    DEFP: DEF %
+    HP: PV
+    ATK: ATQ
+    DEF: DÉF
+    SPD: VIT

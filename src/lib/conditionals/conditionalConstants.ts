@@ -217,6 +217,8 @@ export type BasicStatsObject = {
   relicSetIndex: number
   ornamentSetIndex: number
   id: number
+  low: number
+  high: number
 
   sets: SetsType
   x: ComputedStatsObject | ComputedStatsObjectExternal

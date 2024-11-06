@@ -8,6 +8,7 @@ import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDam
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimizer/sortOptions'
+import { TsUtils } from 'lib/TsUtils'
 import { Form } from 'types/Form'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
 import { Relic } from 'types/Relic'
@@ -47,7 +48,7 @@ self.onmessage = function (e: MessageEvent) {
   const context: OptimizerContext = data.context
 
   const relics: RelicsByPart = data.relics
-  const arr = new Float64Array(data.buffer)
+  const arr = new Float32Array(data.buffer)
 
   const lSize = relics.LinkRope.length
   const pSize = relics.PlanarSphere.length
@@ -198,6 +199,11 @@ self.onmessage = function (e: MessageEvent) {
 
     // Pack the passing results into the ArrayBuffer to return
     c.id = index
+
+    const { high, low } = TsUtils.splitFloat64ToFloat32Parts(index)
+    c.high = high
+    c.low = low
+
     BufferPacker.packCharacter(arr, passCount, c.x)
     passCount++
   }

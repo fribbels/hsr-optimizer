@@ -2,7 +2,7 @@ import { Stats } from 'lib/constants'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { ComputedStatsArray, Key } from 'lib/optimizer/computedStatsArray'
 
-const SIZE = 38
+const SIZE = 40
 
 export type OptimizerDisplayData = {
   'id': number
@@ -45,6 +45,8 @@ export type OptimizerDisplayData = {
   'xELEMENTAL_DMG': number
   'relicSetIndex': number
   'ornamentSetIndex': number
+  'low': number
+  'high': number
 
   'statSim'?: {
     key: string
@@ -93,6 +95,8 @@ export const BufferPacker = {
       'xELEMENTAL_DMG': arr[offset + 35],
       'relicSetIndex': arr[offset + 36],
       'ornamentSetIndex': arr[offset + 37],
+      'low': arr[offset + 38],
+      'high': arr[offset + 39],
     }
   },
 
@@ -151,13 +155,15 @@ export const BufferPacker = {
     arr[offset + 35] = a[Key.ELEMENTAL_DMG]
     arr[offset + 36] = c.relicSetIndex
     arr[offset + 37] = c.ornamentSetIndex
+    arr[offset + 38] = c.low
+    arr[offset + 39] = c.high
   },
 
   cleanFloatBuffer: (buffer: ArrayBuffer) => {
-    new Float64Array(buffer).fill(0)
+    new Float32Array(buffer).fill(0)
   },
 
   createFloatBuffer: (length: number) => {
-    return new Float64Array(length * SIZE).buffer
+    return new Float32Array(length * SIZE).buffer
   },
 }

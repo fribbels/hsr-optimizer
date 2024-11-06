@@ -1,4 +1,6 @@
+Title: Configurações
 RelicEquippingBehaviour:
+  Label: Equipando relíquias de outro personagem
   Replace: "Padrão: Repor relíquias sem trocar"
   Swap: Trocar relíquias com o usuário anterior
 PermutationSidebarBehaviour:

@@ -35,8 +35,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     e4TeamResBuff: {
-      formItem: 'switch',
       id: 'e4TeamResBuff',
+      formItem: 'switch',
       text: t('Content.e4TeamResBuff.text'),
       content: t('Content.e4TeamResBuff.content'),
       disabled: e < 4,

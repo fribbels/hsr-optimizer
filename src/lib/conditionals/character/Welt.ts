@@ -19,28 +19,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     enemyDmgTakenDebuff: {
-      formItem: 'switch',
       id: 'enemyDmgTakenDebuff',
+      formItem: 'switch',
       text: t('Content.enemyDmgTakenDebuff.text'),
       content: t('Content.enemyDmgTakenDebuff.content'),
     },
     enemySlowed: {
-      formItem: 'switch',
       id: 'enemySlowed',
+      formItem: 'switch',
       text: t('Content.enemySlowed.text'),
       content: t('Content.enemySlowed.content', { talentScaling: TsUtils.precisionRound(100 * talentScaling) }),
     },
     skillExtraHits: {
-      formItem: 'slider',
       id: 'skillExtraHits',
+      formItem: 'slider',
       text: t('Content.skillExtraHits.text'),
       content: t('Content.skillExtraHits.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
       min: 0,
       max: skillExtraHitsMax,
     },
     e1EnhancedState: {
-      formItem: 'switch',
       id: 'e1EnhancedState',
+      formItem: 'switch',
       text: t('Content.e1EnhancedState.text'),
       content: t('Content.e1EnhancedState.content'),
       disabled: (e < 1),

@@ -41,35 +41,35 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     skillDmgBuff: {
-      formItem: 'switch',
       id: 'skillDmgBuff',
+      formItem: 'switch',
       text: 'Skill DMG buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     talentCrBuffStacks: {
-      formItem: 'slider',
       id: 'talentCrBuffStacks',
+      formItem: 'slider',
       text: 'Talent CR buff stacks',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
       max: e < 6 ? 1 : 3,
     },
     techniqueDmgBuff: {
-      formItem: 'switch',
       id: 'techniqueDmgBuff',
+      formItem: 'switch',
       text: 'Technique DMG buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     e1DefPen: {
-      formItem: 'switch',
       id: 'e1DefPen',
+      formItem: 'switch',
       text: 'E1 DEF PEN',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
     },
     e2DmgBuff: {
-      formItem: 'switch',
       id: 'e2DmgBuff',
+      formItem: 'switch',
       text: 'E2 Beatified DMG buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
@@ -80,14 +80,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     skillDmgBuff: content.skillDmgBuff,
     talentCrBuffStacks: content.talentCrBuffStacks,
     beatified: {
-      formItem: 'switch',
       id: 'beatified',
+      formItem: 'switch',
       text: 'Ult CD buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     teammateCDValue: {
-      formItem: 'slider',
       id: 'teammateCDValue',
+      formItem: 'slider',
       text: 'Sunday Combat CD',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
@@ -98,8 +98,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     e1DefPen: content.e1DefPen,
     e2DmgBuff: content.e2DmgBuff,
     e6CrToCdConversion: {
-      formItem: 'switch',
       id: 'e6CrToCdConversion',
+      formItem: 'switch',
       text: 'E6 CR to CD conversion',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 6,

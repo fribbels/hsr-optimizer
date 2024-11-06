@@ -26,8 +26,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     enhancedUlt: {
-      formItem: 'switch',
       id: 'enhancedUlt',
+      formItem: 'switch',
       text: t('Content.enhancedUlt.text'),
       content: t('Content.enhancedUlt.content', {
         ultScaling: TsUtils.precisionRound(100 * ultScaling),
@@ -36,8 +36,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       }),
     },
     talentStacks: {
-      formItem: 'slider',
       id: 'talentStacks',
+      formItem: 'slider',
       text: t('Content.talentStacks.text'),
       content: t('Content.talentStacks.content', { talentAtkScalingValue: TsUtils.precisionRound(100 * talentAtkScalingValue) }),
       min: 0,

@@ -44,20 +44,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     basicEnhanced: {
-      formItem: 'switch',
       id: 'basicEnhanced',
+      formItem: 'switch',
       text: t('Content.basicEnhanced.text'),
       content: t('Content.basicEnhanced.content', { talentAtkBuff: TsUtils.precisionRound(100 * talentAtkBuff) }),
     },
     basicEnhancedSpdBuff: {
-      formItem: 'switch',
       id: 'basicEnhancedSpdBuff',
+      formItem: 'switch',
       text: t('Content.basicEnhancedSpdBuff.text'),
       content: t('Content.basicEnhancedSpdBuff.content'),
     },
     skillDmgIncreaseStacks: {
-      formItem: 'slider',
       id: 'skillDmgIncreaseStacks',
+      formItem: 'slider',
       text: t('Content.skillDmgIncreaseStacks.text'),
       content: t('Content.skillDmgIncreaseStacks.content', { skillStackDmg: TsUtils.precisionRound(100 * skillStackDmg) }),
       min: 0,

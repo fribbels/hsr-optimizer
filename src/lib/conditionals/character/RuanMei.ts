@@ -34,33 +34,33 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     skillOvertoneBuff: {
-      formItem: 'switch',
       id: 'skillOvertoneBuff',
+      formItem: 'switch',
       text: t('Content.skillOvertoneBuff.text'),
       content: t('Content.skillOvertoneBuff.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
     },
     teamBEBuff: {
-      formItem: 'switch',
       id: 'teamBEBuff',
+      formItem: 'switch',
       text: t('Content.teamBEBuff.text'),
       content: t('Content.teamBEBuff.content'),
     },
     ultFieldActive: {
-      formItem: 'switch',
       id: 'ultFieldActive',
+      formItem: 'switch',
       text: t('Content.ultFieldActive.text'),
       content: t('Content.ultFieldActive.content', { fieldResPenValue: TsUtils.precisionRound(100 * fieldResPenValue) }),
     },
     e2AtkBoost: {
-      formItem: 'switch',
       id: 'e2AtkBoost',
+      formItem: 'switch',
       text: t('Content.e2AtkBoost.text'),
       content: t('Content.e2AtkBoost.content'),
       disabled: (e < 2),
     },
     e4BeBuff: {
-      formItem: 'switch',
       id: 'e4BeBuff',
+      formItem: 'switch',
       text: t('Content.e4BeBuff.text'),
       content: t('Content.e4BeBuff.content'),
       disabled: (e < 4),
@@ -70,15 +70,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     skillOvertoneBuff: content.skillOvertoneBuff,
     teamSpdBuff: {
-      formItem: 'switch',
       id: 'teamSpdBuff',
+      formItem: 'switch',
       text: t('TeammateContent.teamSpdBuff.text'),
       content: t('TeammateContent.teamSpdBuff.content', { talentSpdScaling: TsUtils.precisionRound(100 * talentSpdScaling) }),
     },
     teamBEBuff: content.teamBEBuff,
     teamDmgBuff: {
-      formItem: 'slider',
       id: 'teamDmgBuff',
+      formItem: 'slider',
       text: t('TeammateContent.teamDmgBuff.text'),
       content: t('TeammateContent.teamDmgBuff.content'),
       min: 0,

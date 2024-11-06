@@ -45,14 +45,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     enemyProofOfDebtDebuff: {
-      formItem: 'switch',
       id: 'enemyProofOfDebtDebuff',
+      formItem: 'switch',
       text: t('Content.enemyProofOfDebtDebuff.text'),
       content: t('Content.enemyProofOfDebtDebuff.content', { proofOfDebtFuaVulnerability: TsUtils.precisionRound(100 * proofOfDebtFuaVulnerability) }),
     },
     numbyEnhancedState: {
-      formItem: 'switch',
       id: 'numbyEnhancedState',
+      formItem: 'switch',
       text: t('Content.numbyEnhancedState.text'),
       content: t('Content.numbyEnhancedState.content', {
         enhancedStateFuaCdBoost: TsUtils.precisionRound(100 * enhancedStateFuaCdBoost),
@@ -60,8 +60,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       }),
     },
     e1DebtorStacks: {
-      formItem: 'slider',
       id: 'e1DebtorStacks',
+      formItem: 'slider',
       text: t('Content.e1DebtorStacks.text'),
       content: t('Content.e1DebtorStacks.content'),
       min: 0,

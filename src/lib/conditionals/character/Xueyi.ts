@@ -39,20 +39,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     beToDmgBoost: {
-      formItem: 'switch',
       id: 'beToDmgBoost',
+      formItem: 'switch',
       text: t('Content.beToDmgBoost.text'),
       content: t('Content.beToDmgBoost.content'),
     },
     enemyToughness50: {
-      formItem: 'switch',
       id: 'enemyToughness50',
+      formItem: 'switch',
       text: t('Content.enemyToughness50.text'),
       content: t('Content.enemyToughness50.content'),
     },
     toughnessReductionDmgBoost: {
-      formItem: 'slider',
       id: 'toughnessReductionDmgBoost',
+      formItem: 'slider',
       text: t('Content.toughnessReductionDmgBoost.text'),
       content: t('Content.toughnessReductionDmgBoost.content', { ultBoostMax: TsUtils.precisionRound(100 * ultBoostMax) }),
       min: 0,
@@ -60,16 +60,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       percent: true,
     },
     fuaHits: {
-      formItem: 'slider',
       id: 'fuaHits',
+      formItem: 'slider',
       text: t('Content.fuaHits.text'),
       content: t('Content.fuaHits.content', { fuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
       min: 0,
       max: 3,
     },
     e4BeBuff: {
-      formItem: 'switch',
       id: 'e4BeBuff',
+      formItem: 'switch',
       text: t('Content.e4BeBuff.text'),
       content: t('Content.e4BeBuff.content'),
       disabled: (e < 4),

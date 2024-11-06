@@ -36,28 +36,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     backupDancer: {
-      formItem: 'switch',
       id: 'backupDancer',
+      formItem: 'switch',
       text: t('Content.backupDancer.text'),
       content: t('Content.backupDancer.content', { ultBeScaling: TsUtils.precisionRound(100 * ultBeScaling) }),
     },
     superBreakDmg: {
-      formItem: 'switch',
       id: 'superBreakDmg',
+      formItem: 'switch',
       text: t('Content.superBreakDmg.text'),
       content: t('Content.superBreakDmg.content'),
     },
     skillHitsOnTarget: {
-      formItem: 'slider',
       id: 'skillHitsOnTarget',
+      formItem: 'slider',
       text: t('Content.skillHitsOnTarget.text'),
       content: t('Content.skillHitsOnTarget.content'),
       min: 0,
       max: skillMaxHits,
     },
     e2EnergyRegenBuff: {
-      formItem: 'switch',
       id: 'e2EnergyRegenBuff',
+      formItem: 'switch',
       text: t('Content.e2EnergyRegenBuff.text'),
       content: t('Content.e2EnergyRegenBuff.content'),
       disabled: e < 2,
@@ -68,8 +68,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     backupDancer: content.backupDancer,
     superBreakDmg: content.superBreakDmg,
     teammateBeValue: {
-      formItem: 'slider',
       id: 'teammateBeValue',
+      formItem: 'slider',
       text: t('TeammateContent.teammateBeValue.text'),
       content: t('TeammateContent.teammateBeValue.content'),
       min: 0,

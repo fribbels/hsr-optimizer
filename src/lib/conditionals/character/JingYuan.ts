@@ -53,37 +53,37 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     skillCritBuff: {
-      formItem: 'switch',
       id: 'skillCritBuff',
+      formItem: 'switch',
       text: t('Content.skillCritBuff.text'),
       content: t('Content.skillCritBuff.content'),
     },
     talentHitsPerAction: {
-      formItem: 'slider',
       id: 'talentHitsPerAction',
+      formItem: 'slider',
       text: t('Content.talentHitsPerAction.text'),
       content: t('Content.talentHitsPerAction.content'),
       min: 3,
       max: 10,
     },
     talentAttacks: {
-      formItem: 'slider',
       id: 'talentAttacks',
+      formItem: 'slider',
       text: t('Content.talentAttacks.text'),
       content: t('Content.talentAttacks.content'),
       min: 0,
       max: 10,
     },
     e2DmgBuff: {
-      formItem: 'switch',
       id: 'e2DmgBuff',
+      formItem: 'switch',
       text: t('Content.e2DmgBuff.text'),
       content: t('Content.e2DmgBuff.content'),
       disabled: e < 2,
     },
     e6FuaVulnerabilityStacks: {
-      formItem: 'slider',
       id: 'e6FuaVulnerabilityStacks',
+      formItem: 'slider',
       text: t('Content.e6FuaVulnerabilityStacks.text'),
       content: t('Content.e6FuaVulnerabilityStacks.content'),
       min: 0,

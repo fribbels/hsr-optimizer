@@ -32,22 +32,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     targetDotTakenDebuff: {
-      formItem: 'switch',
       id: 'targetDotTakenDebuff',
+      formItem: 'switch',
       text: t('Content.targetDotTakenDebuff.text'),
       content: t('Content.targetDotTakenDebuff.content', { dotVulnerabilityValue: TsUtils.precisionRound(100 * dotVulnerabilityValue) }),
     },
     skillExtraHits: {
-      formItem: 'slider',
       id: 'skillExtraHits',
+      formItem: 'slider',
       text: t('Content.skillExtraHits.text'),
       content: t('Content.skillExtraHits.content'),
       min: 1,
       max: maxExtraHits,
     },
     targetWindShear: {
-      formItem: 'switch',
       id: 'targetWindShear',
+      formItem: 'switch',
       text: t('Content.targetWindShear.text'),
       content: t('Content.targetWindShear.content'),
     },

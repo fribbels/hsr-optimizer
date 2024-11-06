@@ -45,8 +45,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     healAbility: {
-      formItem: 'select',
       id: 'healAbility',
+      formItem: 'select',
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
@@ -56,40 +56,40 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       fullWidth: true,
     },
     basicEnhanced: {
-      formItem: 'switch',
       id: 'basicEnhanced',
+      formItem: 'switch',
       text: t('Content.basicEnhanced.text'),
       content: t('Content.basicEnhanced.content'),
     },
     breakEffectToOhbBoost: {
-      formItem: 'switch',
       id: 'breakEffectToOhbBoost',
+      formItem: 'switch',
       text: t('Content.breakEffectToOhbBoost.text'),
       content: t('Content.breakEffectToOhbBoost.content'),
     },
     targetBesotted: {
-      formItem: 'switch',
       id: 'targetBesotted',
+      formItem: 'switch',
       text: t('Content.targetBesotted.text'),
       content: t('Content.targetBesotted.content', { talentBesottedScaling: TsUtils.precisionRound(100 * talentBesottedScaling) }),
     },
     e1ResBuff: {
-      formItem: 'switch',
       id: 'e1ResBuff',
+      formItem: 'switch',
       text: t('Content.e1ResBuff.text'),
       content: t('Content.e1ResBuff.content'),
       disabled: e < 1,
     },
     e2ResBuff: {
-      formItem: 'switch',
       id: 'e2ResBuff',
+      formItem: 'switch',
       text: t('Content.e2ResBuff.text'),
       content: t('Content.e2ResBuff.content'),
       disabled: e < 2,
     },
     e6BeBuff: {
-      formItem: 'switch',
       id: 'e6BeBuff',
+      formItem: 'switch',
       text: t('Content.e6BeBuff.text'),
       content: t('Content.e6BeBuff.content'),
       disabled: e < 6,

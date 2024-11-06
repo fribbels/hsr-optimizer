@@ -24,14 +24,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     targetShocked: {
-      formItem: 'switch',
       id: 'targetShocked',
+      formItem: 'switch',
       text: t('Content.targetShocked.text'),
       content: t('Content.targetShocked.content', { talentExtraDmgScaling: TsUtils.precisionRound(100 * talentExtraDmgScaling) }),
     },
     enemyDefeatedBuff: {
-      formItem: 'switch',
       id: 'enemyDefeatedBuff',
+      formItem: 'switch',
       text: t('Content.enemyDefeatedBuff.text'),
       content: t('Content.enemyDefeatedBuff.content'),
     },

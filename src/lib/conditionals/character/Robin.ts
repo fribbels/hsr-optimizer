@@ -43,8 +43,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     concertoActive: {
-      formItem: 'switch',
       id: 'concertoActive',
+      formItem: 'switch',
       text: t('Content.concertoActive.text'),
       content: t('Content.concertoActive.content', {
         ultAtkBuffScalingValue: TsUtils.precisionRound(100 * ultAtkBuffScalingValue),
@@ -53,34 +53,34 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       }),
     },
     skillDmgBuff: {
-      formItem: 'switch',
       id: 'skillDmgBuff',
+      formItem: 'switch',
       text: t('Content.skillDmgBuff.text'),
       content: t('Content.skillDmgBuff.content', { skillDmgBuffValue: TsUtils.precisionRound(100 * skillDmgBuffValue) }),
     },
     talentCdBuff: {
-      formItem: 'switch',
       id: 'talentCdBuff',
+      formItem: 'switch',
       text: t('Content.talentCdBuff.text'),
       content: t('Content.talentCdBuff.content', { talentCdBuffValue: TsUtils.precisionRound(100 * talentCdBuffValue) }),
     },
     e1UltResPen: {
-      formItem: 'switch',
       id: 'e1UltResPen',
+      formItem: 'switch',
       text: t('Content.e1UltResPen.text'),
       content: t('Content.e1UltResPen.content'),
       disabled: e < 1,
     },
     e4TeamResBuff: {
-      formItem: 'switch',
       id: 'e4TeamResBuff',
+      formItem: 'switch',
       text: t('Content.e4TeamResBuff.text'),
       content: t('Content.e4TeamResBuff.content'),
       disabled: e < 4,
     },
     e6UltCDBoost: {
-      formItem: 'switch',
       id: 'e6UltCDBoost',
+      formItem: 'switch',
       text: t('Content.e6UltCDBoost.text'),
       content: t('Content.e6UltCDBoost.content'),
       disabled: e < 6,
@@ -91,8 +91,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     concertoActive: content.concertoActive,
     skillDmgBuff: content.skillDmgBuff,
     teammateATKValue: {
-      formItem: 'slider',
       id: 'teammateATKValue',
+      formItem: 'slider',
       text: t('TeammateContent.teammateATKValue.text'),
       content: t('TeammateContent.teammateATKValue.content', {
         ultAtkBuffFlatValue: TsUtils.precisionRound(100 * ultAtkBuffFlatValue),
@@ -103,15 +103,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     },
     talentCdBuff: content.talentCdBuff,
     traceFuaCdBoost: {
-      formItem: 'switch',
       id: 'traceFuaCdBoost',
+      formItem: 'switch',
       text: t('TeammateContent.traceFuaCdBoost.text'),
       content: t('TeammateContent.traceFuaCdBoost.content'),
     },
     e1UltResPen: content.e1UltResPen,
     e2UltSpdBuff: {
-      formItem: 'switch',
       id: 'e2UltSpdBuff',
+      formItem: 'switch',
       text: t('TeammateContent.e2UltSpdBuff.text'),
       content: t('TeammateContent.e2UltSpdBuff.content'),
       disabled: e < 2,

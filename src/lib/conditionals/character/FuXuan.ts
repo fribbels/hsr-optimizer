@@ -47,14 +47,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     talentActive: {
-      formItem: 'switch',
       id: 'talentActive',
+      formItem: 'switch',
       text: t('Content.talentActive.text'),
       content: t('Content.talentActive.content', { talentDmgReductionValue: TsUtils.precisionRound(100 * talentDmgReductionValue) }),
     },
     skillActive: {
-      formItem: 'switch',
       id: 'skillActive',
+      formItem: 'switch',
       text: t('Content.skillActive.text'),
       content: t('Content.skillActive.content', {
         skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue),
@@ -62,8 +62,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       }),
     },
     e6TeamHpLostPercent: {
-      formItem: 'slider',
       id: 'e6TeamHpLostPercent',
+      formItem: 'slider',
       text: t('Content.e6TeamHpLostPercent.text'),
       content: t('Content.e6TeamHpLostPercent.content'),
       min: 0,
@@ -77,8 +77,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     talentActive: content.talentActive,
     skillActive: content.skillActive,
     teammateHPValue: {
-      formItem: 'slider',
       id: 'teammateHPValue',
+      formItem: 'slider',
       text: t('TeammateContent.teammateHPValue.text'),
       content: t('TeammateContent.teammateHPValue.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue) }),
       min: 0,

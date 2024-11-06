@@ -64,8 +64,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     healAbility: {
-      formItem: 'select',
       id: 'healAbility',
+      formItem: 'select',
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
@@ -76,36 +76,36 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       fullWidth: true,
     },
     beConversion: {
-      formItem: 'switch',
       id: 'beConversion',
+      formItem: 'switch',
       text: t('Content.beConversion.text'),
       content: t('Content.beConversion.content'),
     },
     befogState: {
-      formItem: 'switch',
       id: 'befogState',
+      formItem: 'switch',
       text: t('Content.befogState.text'),
       content: t('Content.befogState.content', {
         BefogVulnerability: TsUtils.precisionRound(100 * ultBreakVulnerability),
       }),
     },
     e1DefShred: {
-      formItem: 'switch',
       id: 'e1DefShred',
+      formItem: 'switch',
       text: t('Content.e1DefShred.text'),
       content: t('Content.e1DefShred.content'),
       disabled: e < 1,
     },
     e2BeBuff: {
-      formItem: 'switch',
       id: 'e2BeBuff',
+      formItem: 'switch',
       text: t('Content.e2BeBuff.text'),
       content: t('Content.e2BeBuff.content'),
       disabled: e < 2,
     },
     e6ResShred: {
-      formItem: 'switch',
       id: 'e6ResShred',
+      formItem: 'switch',
       text: t('Content.e6ResShred.text'),
       content: t('Content.e6ResShred.content'),
       disabled: e < 6,

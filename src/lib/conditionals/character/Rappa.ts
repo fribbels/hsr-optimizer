@@ -39,42 +39,42 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     sealformActive: {
-      formItem: 'switch',
       id: 'sealformActive',
+      formItem: 'switch',
       text: t('Content.sealformActive.text'),
       content: t('Content.sealformActive.content', { ultBeBuff: TsUtils.precisionRound(100 * ultBeBuff) }),
     },
     atkToBreakVulnerability: {
-      formItem: 'switch',
       id: 'atkToBreakVulnerability',
+      formItem: 'switch',
       text: t('Content.atkToBreakVulnerability.text'),
       content: t('Content.atkToBreakVulnerability.content'),
     },
     chargeStacks: {
-      formItem: 'slider',
       id: 'chargeStacks',
+      formItem: 'slider',
       text: t('Content.chargeStacks.text'),
       content: t('Content.chargeStacks.content', { talentChargeMultiplier: TsUtils.precisionRound(100 * talentChargeMultiplier) }),
       min: 0,
       max: maxChargeStacks,
     },
     e1DefPen: {
-      formItem: 'switch',
       id: 'e1DefPen',
+      formItem: 'switch',
       text: t('Content.e1DefPen.text'),
       content: t('Content.e1DefPen.content'),
       disabled: e < 1,
     },
     e2Buffs: {
-      formItem: 'switch',
       id: 'e2Buffs',
+      formItem: 'switch',
       text: t('Content.e2Buffs.text'),
       content: t('Content.e2Buffs.content'),
       disabled: e < 2,
     },
     e4SpdBuff: {
-      formItem: 'switch',
       id: 'e4SpdBuff',
+      formItem: 'switch',
       text: t('Content.e4SpdBuff.text'),
       content: t('Content.e4SpdBuff.content'),
       disabled: e < 4,
@@ -83,8 +83,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     teammateBreakVulnerability: {
-      formItem: 'slider',
       id: 'teammateBreakVulnerability',
+      formItem: 'slider',
       text: t('TeammateContent.teammateBreakVulnerability.text'),
       content: t('TeammateContent.teammateBreakVulnerability.content'),
       min: 0,
@@ -92,8 +92,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       percent: true,
     },
     e4SpdBuff: {
-      formItem: 'switch',
       id: 'e4SpdBuff',
+      formItem: 'switch',
       text: t('TeammateContent.e4SpdBuff.text'),
       content: t('TeammateContent.e4SpdBuff.content'),
       disabled: e < 4,

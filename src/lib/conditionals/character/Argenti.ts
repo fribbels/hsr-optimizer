@@ -31,8 +31,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     ultEnhanced: {
-      formItem: 'switch',
       id: 'ultEnhanced',
+      formItem: 'switch',
       text: t('Content.ultEnhanced.text'),
       content: t('Content.ultEnhanced.content', {
         ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling),
@@ -40,14 +40,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       }),
     },
     enemyHp50: {
-      formItem: 'switch',
       id: 'enemyHp50',
+      formItem: 'switch',
       text: t('Content.enemyHp50.text'),
       content: t('Content.enemyHp50.content'),
     },
     talentStacks: {
-      formItem: 'slider',
       id: 'talentStacks',
+      formItem: 'slider',
       text: t('Content.talentStacks.text'),
       content: t('Content.talentStacks.content', {
         talentMaxStacks: TsUtils.precisionRound(100 * talentMaxStacks),
@@ -57,16 +57,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       max: talentMaxStacks,
     },
     ultEnhancedExtraHits: {
-      formItem: 'slider',
       id: 'ultEnhancedExtraHits',
+      formItem: 'slider',
       text: t('Content.ultEnhancedExtraHits.text'),
       content: t('Content.ultEnhancedExtraHits.content', { ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling) }),
       min: 0,
       max: 6,
     },
     e2UltAtkBuff: {
-      formItem: 'switch',
       id: 'e2UltAtkBuff',
+      formItem: 'switch',
       text: t('Content.e2UltAtkBuff.text'),
       content: t('Content.e2UltAtkBuff.content'),
       disabled: e < 2,

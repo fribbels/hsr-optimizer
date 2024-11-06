@@ -39,8 +39,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     ultBuff: {
-      formItem: 'switch',
       id: 'ultBuff',
+      formItem: 'switch',
       text: t('Content.ultBuff.text'),
       content: t('Content.ultBuff.content', {
         ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue),
@@ -48,20 +48,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       }),
     },
     targetBurdenActive: {
-      formItem: 'switch',
       id: 'targetBurdenActive',
+      formItem: 'switch',
       text: t('Content.targetBurdenActive.text'),
       content: t('Content.targetBurdenActive.content', { talentDmgBoostValue: TsUtils.precisionRound(100 * talentDmgBoostValue) }),
     },
     burdenAtkBuff: {
-      formItem: 'switch',
       id: 'burdenAtkBuff',
+      formItem: 'switch',
       text: t('Content.burdenAtkBuff.text'),
       content: t('Content.burdenAtkBuff.content'),
     },
     e2SkillSpdBuff: {
-      formItem: 'switch',
       id: 'e2SkillSpdBuff',
+      formItem: 'switch',
       text: t('Content.e2SkillSpdBuff.text'),
       content: t('Content.e2SkillSpdBuff.content'),
       disabled: e < 2,
@@ -71,8 +71,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     ultBuff: content.ultBuff,
     teammateSPDValue: {
-      formItem: 'slider',
       id: 'teammateSPDValue',
+      formItem: 'slider',
       text: t('TeammateContent.teammateSPDValue.text'),
       content: t('TeammateContent.teammateSPDValue.content', {
         ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue),

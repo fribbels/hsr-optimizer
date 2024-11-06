@@ -35,32 +35,32 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     teamEhrBuff: {
-      formItem: 'switch',
       id: 'teamEhrBuff',
+      formItem: 'switch',
       text: t('Content.teamEhrBuff.text'),
       content: t('Content.teamEhrBuff.content'),
     },
     enemyDebuffed: {
-      formItem: 'switch',
       id: 'enemyDebuffed',
+      formItem: 'switch',
       text: t('Content.enemyDebuffed.text'),
       content: t('Content.enemyDebuffed.content'),
     },
     skillRemovedBuff: {
-      formItem: 'switch',
       id: 'skillRemovedBuff',
+      formItem: 'switch',
       text: t('Content.skillRemovedBuff.text'),
       content: t('Content.skillRemovedBuff.content'),
     },
     ultDefPenDebuff: {
-      formItem: 'switch',
       id: 'ultDefPenDebuff',
+      formItem: 'switch',
       text: t('Content.ultDefPenDebuff.text'),
       content: t('Content.ultDefPenDebuff.content', { ultDefPenValue: TsUtils.precisionRound(100 * ultDefPenValue) }),
     },
     e4SkillResShred: {
-      formItem: 'switch',
       id: 'e4SkillResShred',
+      formItem: 'switch',
       text: t('Content.e4SkillResShred.text'),
       content: t('Content.e4SkillResShred.content'),
       disabled: e < 4,

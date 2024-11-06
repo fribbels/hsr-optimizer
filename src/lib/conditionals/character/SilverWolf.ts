@@ -36,32 +36,32 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     skillResShredDebuff: {
-      formItem: 'switch',
       id: 'skillResShredDebuff',
+      formItem: 'switch',
       text: t('Content.skillResShredDebuff.text'),
       content: t('Content.skillResShredDebuff.content', { skillResShredValue: TsUtils.precisionRound(100 * skillResShredValue) }),
     },
     skillWeaknessResShredDebuff: {
-      formItem: 'switch',
       id: 'skillWeaknessResShredDebuff',
+      formItem: 'switch',
       text: t('Content.skillWeaknessResShredDebuff.text'),
       content: t('Content.skillWeaknessResShredDebuff.content'),
     },
     talentDefShredDebuff: {
-      formItem: 'switch',
       id: 'talentDefShredDebuff',
+      formItem: 'switch',
       text: t('Content.talentDefShredDebuff.text'),
       content: t('Content.talentDefShredDebuff.content', { talentDefShredDebuffValue: TsUtils.precisionRound(100 * talentDefShredDebuffValue) }),
     },
     ultDefShredDebuff: {
-      formItem: 'switch',
       id: 'ultDefShredDebuff',
+      formItem: 'switch',
       text: t('Content.ultDefShredDebuff.text'),
       content: t('Content.ultDefShredDebuff.content', { ultDefShredValue: TsUtils.precisionRound(100 * ultDefShredValue) }),
     },
     targetDebuffs: {
-      formItem: 'slider',
       id: 'targetDebuffs',
+      formItem: 'slider',
       text: t('Content.targetDebuffs.text'),
       content: t('Content.targetDebuffs.content'),
       min: 0,

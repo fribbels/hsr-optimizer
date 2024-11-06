@@ -33,8 +33,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     talentDebuffStacks: {
-      formItem: 'slider',
       id: 'talentDebuffStacks',
+      formItem: 'slider',
       text: t('Content.talentDebuffStacks.text'),
       content: t('Content.talentDebuffStacks.content', {
         talentDebuffDmgIncreaseValue: TsUtils.precisionRound(talentDebuffDmgIncreaseValue),
@@ -44,27 +44,27 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       max: talentDebuffMax,
     },
     enemyBurned: {
-      formItem: 'switch',
       id: 'enemyBurned',
+      formItem: 'switch',
       text: t('Content.enemyBurned.text'),
       content: t('Content.enemyBurned.content'),
     },
     skillDot: {
-      formItem: 'switch',
       id: 'skillDot',
+      formItem: 'switch',
       text: t('Content.skillDot.text'),
       content: t('Content.skillDot.content'),
     },
     e1EffectResShred: {
-      formItem: 'switch',
       id: 'e1EffectResShred',
+      formItem: 'switch',
       text: t('Content.e1EffectResShred.text'),
       content: t('Content.e1EffectResShred.content'),
       disabled: e < 1,
     },
     e2BurnMultiBoost: {
-      formItem: 'switch',
       id: 'e2BurnMultiBoost',
+      formItem: 'switch',
       text: t('Content.e2BurnMultiBoost.text'),
       content: t('Content.e2BurnMultiBoost.content'),
       disabled: e < 2,

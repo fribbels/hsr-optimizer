@@ -33,15 +33,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     e1DotDmgReceivedDebuff: {
-      formItem: 'switch',
       id: 'e1DotDmgReceivedDebuff',
+      formItem: 'switch',
       text: t('Content.e1DotDmgReceivedDebuff.text'),
       content: t('Content.e1DotDmgReceivedDebuff.content'),
       disabled: e < 1,
     },
     e2TeamDotBoost: {
-      formItem: 'switch',
       id: 'e2TeamDotBoost',
+      formItem: 'switch',
       text: t('Content.e2TeamDotBoost.text'),
       content: t('Content.e2TeamDotBoost.content'),
       disabled: e < 2,

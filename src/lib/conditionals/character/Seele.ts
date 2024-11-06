@@ -27,29 +27,29 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     buffedState: {
-      formItem: 'switch',
       id: 'buffedState',
+      formItem: 'switch',
       text: t('Content.buffedState.text'),
       content: t('Content.buffedState.content', { buffedStateDmgBuff: TsUtils.precisionRound(100 * buffedStateDmgBuff) }),
     },
     speedBoostStacks: {
-      formItem: 'slider',
       id: 'speedBoostStacks',
+      formItem: 'slider',
       text: t('Content.speedBoostStacks.text'),
       content: t('Content.speedBoostStacks.content', { speedBoostStacksMax: speedBoostStacksMax }),
       min: 0,
       max: speedBoostStacksMax,
     },
     e1EnemyHp80CrBoost: {
-      formItem: 'switch',
       id: 'e1EnemyHp80CrBoost',
+      formItem: 'switch',
       text: t('Content.e1EnemyHp80CrBoost.text'),
       content: t('Content.e1EnemyHp80CrBoost.content'),
       disabled: e < 1,
     },
     e6UltTargetDebuff: {
-      formItem: 'switch',
       id: 'e6UltTargetDebuff',
+      formItem: 'switch',
       text: t('Content.e6UltTargetDebuff.text'),
       content: t('Content.e6UltTargetDebuff.content'),
       disabled: e < 6,

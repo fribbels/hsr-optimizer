@@ -28,29 +28,29 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     ultHitsOnTarget: {
-      formItem: 'slider',
       id: 'ultHitsOnTarget',
+      formItem: 'slider',
       text: t('Content.ultHitsOnTarget.text'),
       content: t('Content.ultHitsOnTarget.content', { ultStackScaling: TsUtils.precisionRound(100 * ultStackScaling) }),
       min: 1,
       max: 10,
     },
     enemyFrozen: {
-      formItem: 'switch',
       id: 'enemyFrozen',
+      formItem: 'switch',
       text: t('Content.enemyFrozen.text'),
       content: t('Content.enemyFrozen.content'),
     },
     e2DefReduction: {
-      formItem: 'switch',
       id: 'e2DefReduction',
+      formItem: 'switch',
       text: t('Content.e2DefReduction.text'),
       content: t('Content.e2DefReduction.content'),
       disabled: e < 2,
     },
     e6UltDmgBoost: {
-      formItem: 'switch',
       id: 'e6UltDmgBoost',
+      formItem: 'switch',
       text: t('Content.e6UltDmgBoost.text'),
       content: t('Content.e6UltDmgBoost.content'),
       disabled: e < 6,

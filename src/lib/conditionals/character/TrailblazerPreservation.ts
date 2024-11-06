@@ -36,26 +36,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     enhancedBasic: {
-      formItem: 'switch',
       id: 'enhancedBasic',
+      formItem: 'switch',
       text: t('Content.enhancedBasic.text'),
       content: t('Content.enhancedBasic.content', { basicEnhancedAtkScaling: TsUtils.precisionRound(100 * basicEnhancedAtkScaling) }),
     },
     skillActive: {
-      formItem: 'switch',
       id: 'skillActive',
+      formItem: 'switch',
       text: t('Content.skillActive.text'),
       content: t('Content.skillActive.content', { skillDamageReductionValue: TsUtils.precisionRound(100 * skillDamageReductionValue) }),
     },
     shieldActive: {
-      formItem: 'switch',
       id: 'shieldActive',
+      formItem: 'switch',
       text: t('Content.shieldActive.text'),
       content: t('Content.shieldActive.content'),
     },
     e6DefStacks: {
-      formItem: 'slider',
       id: 'e6DefStacks',
+      formItem: 'slider',
       text: t('Content.e6DefStacks.text'),
       content: t('Content.e6DefStacks.content'),
       min: 0,

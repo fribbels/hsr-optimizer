@@ -49,8 +49,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     healAbility: {
-      formItem: 'select',
       id: 'healAbility',
+      formItem: 'select',
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
@@ -61,27 +61,27 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       fullWidth: true,
     },
     healingMaxHpBuff: {
-      formItem: 'switch',
       id: 'healingMaxHpBuff',
+      formItem: 'switch',
       text: t('Content.healingMaxHpBuff.text'),
       content: t('Content.healingMaxHpBuff.content'),
     },
     talentDmgReductionBuff: {
-      formItem: 'switch',
       id: 'talentDmgReductionBuff',
+      formItem: 'switch',
       text: t('Content.talentDmgReductionBuff.text'),
       content: t('Content.talentDmgReductionBuff.content'),
     },
     e2UltHealingBuff: {
-      formItem: 'switch',
       id: 'e2UltHealingBuff',
+      formItem: 'switch',
       text: t('Content.e2UltHealingBuff.text'),
       content: t('Content.e2UltHealingBuff.content'),
       disabled: e < 2,
     },
     e4SkillHealingDmgBuffStacks: {
-      formItem: 'slider',
       id: 'e4SkillHealingDmgBuffStacks',
+      formItem: 'slider',
       text: t('Content.e4SkillHealingDmgBuffStacks.text'),
       content: t('Content.e4SkillHealingDmgBuffStacks.content'),
       min: 0,

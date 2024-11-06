@@ -38,39 +38,39 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     torridScorch: {
-      formItem: 'switch',
       id: 'torridScorch',
+      formItem: 'switch',
       text: 'Torrid Scorch state',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     foxianPrayer: {
-      formItem: 'switch',
       id: 'foxianPrayer',
+      formItem: 'switch',
       text: 'Foxian Prayer BE buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     defReduction: {
-      formItem: 'switch',
       id: 'defReduction',
+      formItem: 'switch',
       text: 'Skill DEF shred',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     superBreakDmg: {
-      formItem: 'switch',
       id: 'superBreakDmg',
+      formItem: 'switch',
       text: 'Super Break DMG (force weakness break)',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     e4BreakDmg: {
-      formItem: 'switch',
       id: 'e4BreakDmg',
+      formItem: 'switch',
       text: 'E4 Break DMG boost',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 4,
     },
     e6BreakEfficiency: {
-      formItem: 'switch',
       id: 'e6BreakEfficiency',
+      formItem: 'switch',
       text: 'E6 break efficiency boost',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 6,
@@ -80,14 +80,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     foxianPrayer: content.foxianPrayer,
     be250Buff: {
-      formItem: 'switch',
       id: 'be250Buff',
+      formItem: 'switch',
       text: 'BE ≥ 250%',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     weaknessBreakBeStacks: {
-      formItem: 'slider',
       id: 'weaknessBreakBeStacks',
+      formItem: 'slider',
       text: 'Enemy broken BE stacks',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,

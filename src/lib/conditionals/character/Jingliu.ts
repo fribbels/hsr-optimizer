@@ -30,14 +30,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     talentEnhancedState: {
-      formItem: 'switch',
       id: 'talentEnhancedState',
+      formItem: 'switch',
       text: t('Content.talentEnhancedState.text'),
       content: t('Content.talentEnhancedState.content', { talentCrBuff: TsUtils.precisionRound(100 * talentCrBuff) }),
     },
     talentHpDrainAtkBuff: {
-      formItem: 'slider',
       id: 'talentHpDrainAtkBuff',
+      formItem: 'slider',
       text: t('Content.talentHpDrainAtkBuff.text'),
       content: t('Content.talentHpDrainAtkBuff.content', { talentHpDrainAtkBuffMax: TsUtils.precisionRound(100 * talentHpDrainAtkBuffMax) }),
       min: 0,
@@ -45,15 +45,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       percent: true,
     },
     e1CdBuff: {
-      formItem: 'switch',
       id: 'e1CdBuff',
+      formItem: 'switch',
       text: t('Content.e1CdBuff.text'),
       content: t('Content.e1CdBuff.content'),
       disabled: e < 1,
     },
     e2SkillDmgBuff: {
-      formItem: 'switch',
       id: 'e2SkillDmgBuff',
+      formItem: 'switch',
       text: t('Content.e2SkillDmgBuff.text'),
       content: t('Content.e2SkillDmgBuff.content'),
       disabled: e < 2,

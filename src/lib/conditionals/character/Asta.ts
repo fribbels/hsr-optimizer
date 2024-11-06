@@ -35,30 +35,30 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     skillExtraDmgHits: {
-      formItem: 'slider',
       id: 'skillExtraDmgHits',
+      formItem: 'slider',
       text: t('Content.skillExtraDmgHits.text'),
       content: t('Content.skillExtraDmgHits.content', { skillExtraDmgHitsMax }),
       min: 0,
       max: skillExtraDmgHitsMax,
     },
     talentBuffStacks: {
-      formItem: 'slider',
       id: 'talentBuffStacks',
+      formItem: 'slider',
       text: t('Content.talentBuffStacks.text'),
       content: t('Content.talentBuffStacks.content', { talentStacksAtkBuff: TsUtils.precisionRound(100 * talentStacksAtkBuff) }),
       min: 0,
       max: 5,
     },
     ultSpdBuff: {
-      formItem: 'switch',
       id: 'ultSpdBuff',
+      formItem: 'switch',
       text: t('Content.ultSpdBuff.text'),
       content: t('Content.ultSpdBuff.content', { ultSpdBuffValue }),
     },
     fireDmgBoost: {
-      formItem: 'switch',
       id: 'fireDmgBoost',
+      formItem: 'switch',
       text: t('Content.fireDmgBoost.text'),
       content: t('Content.fireDmgBoost.content'),
     },

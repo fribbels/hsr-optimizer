@@ -46,8 +46,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     crimsonKnotStacks: {
-      formItem: 'slider',
       id: 'crimsonKnotStacks',
+      formItem: 'slider',
       text: t('Content.crimsonKnotStacks.text'),
       content: t('Content.crimsonKnotStacks.content', {
         RainbladeScaling: TsUtils.precisionRound(100 * ultRainbladeScaling),
@@ -57,46 +57,46 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       max: maxCrimsonKnotStacks,
     },
     nihilityTeammates: {
-      formItem: 'slider',
       id: 'nihilityTeammates',
+      formItem: 'slider',
       text: t('Content.nihilityTeammates.text'),
       content: t('Content.nihilityTeammates.content'),
       min: 0,
       max: maxNihilityTeammates,
     },
     thunderCoreStacks: {
-      formItem: 'slider',
       id: 'thunderCoreStacks',
+      formItem: 'slider',
       text: t('Content.thunderCoreStacks.text'),
       content: t('Content.thunderCoreStacks.content'),
       min: 0,
       max: 3,
     },
     stygianResurgeHitsOnTarget: {
-      formItem: 'slider',
       id: 'stygianResurgeHitsOnTarget',
+      formItem: 'slider',
       text: t('Content.stygianResurgeHitsOnTarget.text'),
       content: t('Content.stygianResurgeHitsOnTarget.content'),
       min: 0,
       max: 6,
     },
     e1EnemyDebuffed: {
-      formItem: 'switch',
       id: 'e1EnemyDebuffed',
+      formItem: 'switch',
       text: t('Content.e1EnemyDebuffed.text'),
       content: t('Content.e1EnemyDebuffed.content'),
       disabled: e < 1,
     },
     e4UltVulnerability: {
-      formItem: 'switch',
       id: 'e4UltVulnerability',
+      formItem: 'switch',
       text: t('Content.e4UltVulnerability.text'),
       content: t('Content.e4UltVulnerability.content'),
       disabled: e < 4,
     },
     e6UltBuffs: {
-      formItem: 'switch',
       id: 'e6UltBuffs',
+      formItem: 'switch',
       text: t('Content.e6UltBuffs.text'),
       content: t('Content.e6UltBuffs.content'),
       disabled: e < 6,

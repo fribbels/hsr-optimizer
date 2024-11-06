@@ -31,14 +31,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     ultBuffActive: {
-      formItem: 'switch',
       id: 'ultBuffActive',
+      formItem: 'switch',
       text: t('Content.ultBuffActive.text'),
       content: t('Content.ultBuffActive.content', { ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
     },
     soulsteelBuffActive: {
-      formItem: 'switch',
       id: 'soulsteelBuffActive',
+      formItem: 'switch',
       text: t('Content.soulsteelBuffActive.text'),
       content: t('Content.soulsteelBuffActive.content', {
         talentCdBuffValue: TsUtils.precisionRound(100 * talentCdBuffValue),
@@ -47,21 +47,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       }),
     },
     critSpdBuff: {
-      formItem: 'switch',
       id: 'critSpdBuff',
+      formItem: 'switch',
       text: t('Content.critSpdBuff.text'),
       content: t('Content.critSpdBuff.content'),
     },
     e1TargetFrozen: {
-      formItem: 'switch',
       id: 'e1TargetFrozen',
+      formItem: 'switch',
       text: t('Content.e1TargetFrozen.text'),
       content: t('Content.e1TargetFrozen.content'),
       disabled: (e < 1),
     },
     e4CurrentHp80: {
-      formItem: 'switch',
       id: 'e4CurrentHp80',
+      formItem: 'switch',
       text: t('Content.e4CurrentHp80.text'),
       content: t('Content.e4CurrentHp80.content'),
       disabled: (e < 4),

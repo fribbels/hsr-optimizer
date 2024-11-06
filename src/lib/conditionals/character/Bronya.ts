@@ -43,20 +43,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     teamDmgBuff: {
-      formItem: 'switch',
       id: 'teamDmgBuff',
+      formItem: 'switch',
       text: t('Content.teamDmgBuff.text'),
       content: t('Content.teamDmgBuff.content'),
     },
     skillBuff: {
-      formItem: 'switch',
       id: 'skillBuff',
+      formItem: 'switch',
       text: t('Content.skillBuff.text'),
       content: t('Content.skillBuff.content', { skillDmgBoostValue: TsUtils.precisionRound(100 * skillDmgBoostValue) }),
     },
     ultBuff: {
-      formItem: 'switch',
       id: 'ultBuff',
+      formItem: 'switch',
       text: t('Content.ultBuff.text'),
       content: t('Content.ultBuff.content', {
         ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue),
@@ -65,20 +65,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       }),
     },
     battleStartDefBuff: {
-      formItem: 'switch',
       id: 'battleStartDefBuff',
+      formItem: 'switch',
       text: t('Content.battleStartDefBuff.text'),
       content: t('Content.battleStartDefBuff.content'),
     },
     techniqueBuff: {
-      formItem: 'switch',
       id: 'techniqueBuff',
+      formItem: 'switch',
       text: t('Content.techniqueBuff.text'),
       content: t('Content.techniqueBuff.content'),
     },
     e2SkillSpdBuff: {
-      formItem: 'switch',
       id: 'e2SkillSpdBuff',
+      formItem: 'switch',
       text: t('Content.e2SkillSpdBuff.text'),
       content: t('Content.e2SkillSpdBuff.content'),
       disabled: e < 2,
@@ -92,8 +92,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     battleStartDefBuff: content.battleStartDefBuff,
     techniqueBuff: content.techniqueBuff,
     teammateCDValue: {
-      formItem: 'slider',
       id: 'teammateCDValue',
+      formItem: 'slider',
       text: t('TeammateContent.teammateCDValue.text'),
       content: t('TeammateContent.teammateCDValue.content', {
         ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue),

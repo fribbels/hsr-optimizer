@@ -40,8 +40,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     healAbility: {
-      formItem: 'select',
       id: 'healAbility',
+      formItem: 'select',
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
@@ -52,8 +52,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       fullWidth: true,
     },
     skillBuff: {
-      formItem: 'switch',
       id: 'skillBuff',
+      formItem: 'switch',
       text: t('Content.skillBuff.text'),
       content: t('Content.skillBuff.content', {
         skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff),
@@ -65,8 +65,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     skillBuff: content.skillBuff,
     teammateHPValue: {
-      formItem: 'slider',
       id: 'teammateHPValue',
+      formItem: 'slider',
       text: t('TeammateContent.teammateHPValue.text'),
       content: t('TeammateContent.teammateHPValue.content', {
         skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff),
@@ -86,6 +86,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     skillBuff: true,
     teammateHPValue: 6000,
   }
+
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),

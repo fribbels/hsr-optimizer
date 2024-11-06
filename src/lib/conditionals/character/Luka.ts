@@ -33,35 +33,35 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     basicEnhanced: {
-      formItem: 'switch',
       id: 'basicEnhanced',
+      formItem: 'switch',
       text: t('Content.basicEnhanced.text'),
       content: t('Content.basicEnhanced.content'),
     },
     targetUltDebuffed: {
-      formItem: 'switch',
       id: 'targetUltDebuffed',
+      formItem: 'switch',
       text: t('Content.targetUltDebuffed.text'),
       content: t('Content.targetUltDebuffed.content', { targetUltDebuffDmgTakenValue: TsUtils.precisionRound(100 * targetUltDebuffDmgTakenValue) }),
     },
     basicEnhancedExtraHits: {
-      formItem: 'slider',
       id: 'basicEnhancedExtraHits',
+      formItem: 'slider',
       text: t('Content.basicEnhancedExtraHits.text'),
       content: t('Content.basicEnhancedExtraHits.content'),
       min: 0,
       max: 3,
     },
     e1TargetBleeding: {
-      formItem: 'switch',
       id: 'e1TargetBleeding',
+      formItem: 'switch',
       text: t('Content.e1TargetBleeding.text'),
       content: t('Content.e1TargetBleeding.content'),
       disabled: e < 1,
     },
     e4TalentStacks: {
-      formItem: 'slider',
       id: 'e4TalentStacks',
+      formItem: 'slider',
       text: t('Content.e4TalentStacks.text'),
       content: t('Content.e4TalentStacks.content'),
       min: 0,

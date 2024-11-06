@@ -51,14 +51,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     weaknessBrokenUlt: {
-      formItem: 'switch',
       id: 'weaknessBrokenUlt',
+      formItem: 'switch',
       text: t('Content.weaknessBrokenUlt.text'),
       content: t('Content.weaknessBrokenUlt.content'),
     },
     talentDmgBuff: {
-      formItem: 'switch',
       id: 'talentDmgBuff',
+      formItem: 'switch',
       text: t('Content.talentDmgBuff.text'),
       content: t('Content.talentDmgBuff.content', {
         FuaMultiplier: TsUtils.precisionRound(100 * fuaScaling),
@@ -66,28 +66,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       }),
     },
     skillAtkBuff: {
-      formItem: 'switch',
       id: 'skillAtkBuff',
+      formItem: 'switch',
       text: t('Content.skillAtkBuff.text'),
       content: t('Content.skillAtkBuff.content'),
     },
     e1OriginalDmgBoost: {
-      formItem: 'switch',
       id: 'e1OriginalDmgBoost',
+      formItem: 'switch',
       text: t('Content.e1OriginalDmgBoost.text'),
       content: t('Content.e1OriginalDmgBoost.content'),
       disabled: e < 1,
     },
     e4Buffs: {
-      formItem: 'switch',
       id: 'e4Buffs',
+      formItem: 'switch',
       text: t('Content.e4Buffs.text'),
       content: t('Content.e4Buffs.content'),
       disabled: e < 4,
     },
     e6Buffs: {
-      formItem: 'switch',
       id: 'e6Buffs',
+      formItem: 'switch',
       text: t('Content.e6Buffs.text'),
       content: t('Content.e6Buffs.content'),
       disabled: e < 6,

@@ -58,14 +58,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     blockActive: {
-      formItem: 'switch',
       id: 'blockActive',
+      formItem: 'switch',
       text: t('Content.blockActive.text'),
       content: t('Content.blockActive.content'),
     },
     ultCull: {
-      formItem: 'switch',
       id: 'ultCull',
+      formItem: 'switch',
       text: t('Content.ultCull.text'),
       content: t('Content.ultCull.content', {
         CullScaling: TsUtils.precisionRound(100 * ultCullScaling),
@@ -74,8 +74,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       }),
     },
     ultCullHits: {
-      formItem: 'slider',
       id: 'ultCullHits',
+      formItem: 'slider',
       text: t('Content.ultCullHits.text'),
       content: t('Content.ultCullHits.content', {
         CullScaling: TsUtils.precisionRound(100 * ultCullScaling),
@@ -86,35 +86,35 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       max: maxCullHits,
     },
     counterAtkBuff: {
-      formItem: 'switch',
       id: 'counterAtkBuff',
+      formItem: 'switch',
       text: t('Content.counterAtkBuff.text'),
       content: t('Content.counterAtkBuff.content'),
     },
     e1UltBuff: {
-      formItem: 'switch',
       id: 'e1UltBuff',
+      formItem: 'switch',
       text: t('Content.e1UltBuff.text'),
       content: t('Content.e1UltBuff.content'),
       disabled: e < 1,
     },
     e2DefShred: {
-      formItem: 'switch',
       id: 'e2DefShred',
+      formItem: 'switch',
       text: t('Content.e2DefShred.text'),
       content: t('Content.e2DefShred.content'),
       disabled: e < 2,
     },
     e4ResBuff: {
-      formItem: 'switch',
       id: 'e4ResBuff',
+      formItem: 'switch',
       text: t('Content.e4ResBuff.text'),
       content: t('Content.e4ResBuff.content'),
       disabled: e < 4,
     },
     e6Buffs: {
-      formItem: 'switch',
       id: 'e6Buffs',
+      formItem: 'switch',
       text: t('Content.e6Buffs.text'),
       content: t('Content.e6Buffs.content'),
       disabled: e < 6,

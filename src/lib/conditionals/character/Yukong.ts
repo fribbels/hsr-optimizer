@@ -34,20 +34,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     teamImaginaryDmgBoost: {
-      formItem: 'switch',
       id: 'teamImaginaryDmgBoost',
+      formItem: 'switch',
       text: t('Content.teamImaginaryDmgBoost.text'),
       content: t('Content.teamImaginaryDmgBoost.content'),
     },
     roaringBowstringsActive: {
-      formItem: 'switch',
       id: 'roaringBowstringsActive',
+      formItem: 'switch',
       text: t('Content.roaringBowstringsActive.text'),
       content: t('Content.roaringBowstringsActive.content', { skillAtkBuffValue: TsUtils.precisionRound(100 * skillAtkBuffValue) }),
     },
     ultBuff: {
-      formItem: 'switch',
       id: 'ultBuff',
+      formItem: 'switch',
       text: t('Content.ultBuff.text'),
       content: t('Content.ultBuff.content', {
         ultCrBuffValue: TsUtils.precisionRound(100 * ultCrBuffValue),
@@ -56,8 +56,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       }),
     },
     initialSpeedBuff: {
-      formItem: 'switch',
       id: 'initialSpeedBuff',
+      formItem: 'switch',
       text: t('Content.initialSpeedBuff.text'),
       content: t('Content.initialSpeedBuff.content'),
       disabled: e < 1,

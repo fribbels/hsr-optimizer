@@ -24,8 +24,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     selfCurrentHpPercent: {
-      formItem: 'slider',
       id: 'selfCurrentHpPercent',
+      formItem: 'slider',
       text: t('Content.selfCurrentHpPercent.text'),
       content: t('Content.selfCurrentHpPercent.content', { talentMissingHpDmgBoostMax: TsUtils.precisionRound(100 * talentMissingHpDmgBoostMax) }),
       min: 0.01,

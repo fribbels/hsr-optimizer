@@ -56,8 +56,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     shieldAbility: {
-      formItem: 'select',
       id: 'shieldAbility',
+      formItem: 'select',
       text: tShield('Text'),
       content: tShield('Content'),
       options: [
@@ -67,48 +67,48 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       fullWidth: true,
     },
     defToCrBoost: {
-      formItem: 'switch',
       id: 'defToCrBoost',
+      formItem: 'switch',
       text: t('Content.defToCrBoost.text'),
       content: t('Content.defToCrBoost.content'),
     },
     fortifiedWagerBuff: {
-      formItem: 'switch',
       id: 'fortifiedWagerBuff',
+      formItem: 'switch',
       text: t('Content.fortifiedWagerBuff.text'),
       content: t('Content.fortifiedWagerBuff.content', { talentResScaling: TsUtils.precisionRound(100 * talentResScaling) }),
     },
     enemyUnnervedDebuff: {
-      formItem: 'switch',
       id: 'enemyUnnervedDebuff',
+      formItem: 'switch',
       text: t('Content.enemyUnnervedDebuff.text'),
       content: t('Content.enemyUnnervedDebuff.content', { ultCdBoost: TsUtils.precisionRound(100 * ultCdBoost) }),
     },
     fuaHitsOnTarget: {
-      formItem: 'slider',
       id: 'fuaHitsOnTarget',
+      formItem: 'slider',
       text: t('Content.fuaHitsOnTarget.text'),
       content: t('Content.fuaHitsOnTarget.content', { talentDmgScaling: TsUtils.precisionRound(100 * talentDmgScaling) }),
       min: 0,
       max: fuaHits,
     },
     e2ResShred: {
-      formItem: 'switch',
       id: 'e2ResShred',
+      formItem: 'switch',
       text: t('Content.e2ResShred.text'),
       content: t('Content.e2ResShred.content'),
       disabled: e < 2,
     },
     e4DefBuff: {
-      formItem: 'switch',
       id: 'e4DefBuff',
+      formItem: 'switch',
       text: t('Content.e4DefBuff.text'),
       content: t('Content.e4DefBuff.content'),
       disabled: e < 4,
     },
     e6ShieldStacks: {
-      formItem: 'slider',
       id: 'e6ShieldStacks',
+      formItem: 'slider',
       text: t('Content.e6ShieldStacks.text'),
       content: t('Content.e6ShieldStacks.content'),
       min: 0,

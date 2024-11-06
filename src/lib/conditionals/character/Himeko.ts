@@ -34,34 +34,34 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     targetBurned: {
-      formItem: 'switch',
       id: 'targetBurned',
+      formItem: 'switch',
       text: t('Content.targetBurned.text'),
       content: t('Content.targetBurned.content'),
     },
     selfCurrentHp80Percent: {
-      formItem: 'switch',
       id: 'selfCurrentHp80Percent',
+      formItem: 'switch',
       text: t('Content.selfCurrentHp80Percent.text'),
       content: t('Content.selfCurrentHp80Percent.content'),
     },
     e1TalentSpdBuff: {
-      formItem: 'switch',
       id: 'e1TalentSpdBuff',
+      formItem: 'switch',
       text: t('Content.e1TalentSpdBuff.text'),
       content: t('Content.e1TalentSpdBuff.content'),
       disabled: e < 1,
     },
     e2EnemyHp50DmgBoost: {
-      formItem: 'switch',
       id: 'e2EnemyHp50DmgBoost',
+      formItem: 'switch',
       text: t('Content.e2EnemyHp50DmgBoost.text'),
       content: t('Content.e2EnemyHp50DmgBoost.content'),
       disabled: e < 2,
     },
     e6UltExtraHits: {
-      formItem: 'slider',
       id: 'e6UltExtraHits',
+      formItem: 'slider',
       text: t('Content.e6UltExtraHits.text'),
       content: t('Content.e6UltExtraHits.content'),
       min: 0,

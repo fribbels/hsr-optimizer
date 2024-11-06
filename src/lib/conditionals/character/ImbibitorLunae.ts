@@ -32,8 +32,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     basicEnhanced: {
-      formItem: 'slider',
       id: 'basicEnhanced',
+      formItem: 'slider',
       text: t('Content.basicEnhanced.text'),
       content: t('Content.basicEnhanced.content', {
         basicScaling: TsUtils.precisionRound(100 * basicScaling),
@@ -45,24 +45,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       max: 3,
     },
     skillOutroarStacks: {
-      formItem: 'slider',
       id: 'skillOutroarStacks',
+      formItem: 'slider',
       text: t('Content.skillOutroarStacks.text'),
       content: t('Content.skillOutroarStacks.content', { outroarStackCdValue: TsUtils.precisionRound(100 * outroarStackCdValue) }),
       min: 0,
       max: 4,
     },
     talentRighteousHeartStacks: {
-      formItem: 'slider',
       id: 'talentRighteousHeartStacks',
+      formItem: 'slider',
       text: t('Content.talentRighteousHeartStacks.text'),
       content: t('Content.talentRighteousHeartStacks.content', { righteousHeartDmgValue: TsUtils.precisionRound(100 * righteousHeartDmgValue) }),
       min: 0,
       max: righteousHeartStackMax,
     },
     e6ResPenStacks: {
-      formItem: 'slider',
       id: 'e6ResPenStacks',
+      formItem: 'slider',
       text: t('Content.e6ResPenStacks.text'),
       content: t('Content.e6ResPenStacks.content'),
       min: 0,

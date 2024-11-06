@@ -54,43 +54,43 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     enhancedFollowUp: {
-      formItem: 'switch',
       id: 'enhancedFollowUp',
+      formItem: 'switch',
       text: t('Content.enhancedFollowUp.text'),
       content: t('Content.enhancedFollowUp.content', { ultFuaScalingBuff: TsUtils.precisionRound(100 * ultFuaScalingBuff) }),
     },
     pawnedAssetStacks: {
-      formItem: 'slider',
       id: 'pawnedAssetStacks',
+      formItem: 'slider',
       text: t('Content.pawnedAssetStacks.text'),
       content: t('Content.pawnedAssetStacks.content', { pawnedAssetCdScaling: TsUtils.precisionRound(100 * pawnedAssetCdScaling) }),
       min: 0,
       max: 50,
     },
     e1FuaDmgBoost: {
-      formItem: 'switch',
       id: 'e1FuaDmgBoost',
+      formItem: 'switch',
       text: t('Content.e1FuaDmgBoost.text'),
       content: t('Content.e1FuaDmgBoost.content'),
       disabled: e < 1,
     },
     e2CrBuff: {
-      formItem: 'switch',
       id: 'e2CrBuff',
+      formItem: 'switch',
       text: t('Content.e2CrBuff.text'),
       content: t('Content.e2CrBuff.content'),
       disabled: e < 2,
     },
     e4DefShredBuff: {
-      formItem: 'switch',
       id: 'e4DefShredBuff',
+      formItem: 'switch',
       text: t('Content.e4DefShredBuff.text'),
       content: t('Content.e4DefShredBuff.content'),
       disabled: e < 4,
     },
     e6ResShredBuff: {
-      formItem: 'switch',
       id: 'e6ResShredBuff',
+      formItem: 'switch',
       text: t('Content.e6ResShredBuff.text'),
       content: t('Content.e6ResShredBuff.content'),
       disabled: e < 6,
@@ -99,8 +99,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     debtCollectorSpdBuff: {
-      formItem: 'switch',
       id: 'debtCollectorSpdBuff',
+      formItem: 'switch',
       text: t('TeammateContent.debtCollectorSpdBuff.text'),
       content: t('TeammateContent.debtCollectorSpdBuff.content'),
     },

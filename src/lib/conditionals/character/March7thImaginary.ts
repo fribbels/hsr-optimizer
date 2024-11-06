@@ -39,47 +39,47 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     enhancedBasic: {
-      formItem: 'switch',
       id: 'enhancedBasic',
+      formItem: 'switch',
       text: t('Content.enhancedBasic.text'),
       content: t('Content.enhancedBasic.content', { BasicEnhancedScaling: TsUtils.precisionRound(100 * basicEnhancedScaling) }),
     },
     basicAttackHits: {
-      formItem: 'slider',
       id: 'basicAttackHits',
+      formItem: 'slider',
       text: t('Content.basicAttackHits.text'),
       content: t('Content.basicAttackHits.content', { BasicEnhancedScaling: TsUtils.precisionRound(100 * basicEnhancedScaling) }),
       min: 3,
       max: 6,
     },
     masterAdditionalDmgBuff: {
-      formItem: 'switch',
       id: 'masterAdditionalDmgBuff',
+      formItem: 'switch',
       text: t('Content.masterAdditionalDmgBuff.text'),
       content: t('Content.masterAdditionalDmgBuff.content', { ShifuDmgBuff: TsUtils.precisionRound(100 * basicExtraScalingMasterBuff) }),
     },
     masterToughnessRedBuff: {
-      formItem: 'switch',
       id: 'masterToughnessRedBuff',
+      formItem: 'switch',
       text: t('Content.masterToughnessRedBuff.text'),
       content: t('Content.masterToughnessRedBuff.content'),
     },
     talentDmgBuff: {
-      formItem: 'switch',
       id: 'talentDmgBuff',
+      formItem: 'switch',
       text: t('Content.talentDmgBuff.text'),
       content: t('Content.talentDmgBuff.content', { TalentDmgBuff: TsUtils.precisionRound(100 * talentDmgBuff) }),
     },
     selfSpdBuff: {
-      formItem: 'switch',
       id: 'selfSpdBuff',
+      formItem: 'switch',
       text: t('Content.selfSpdBuff.text'),
       content: t('Content.selfSpdBuff.content'),
       disabled: e < 1,
     },
     e6CdBuff: {
-      formItem: 'switch',
       id: 'e6CdBuff',
+      formItem: 'switch',
       text: t('Content.e6CdBuff.text'),
       content: t('Content.e6CdBuff.content'),
       disabled: e < 6,
@@ -88,14 +88,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     masterBuff: {
-      formItem: 'switch',
       id: 'masterBuff',
+      formItem: 'switch',
       text: t('TeammateContent.masterBuff.text'),
       content: t('TeammateContent.masterBuff.content', { ShifuSpeedBuff: TsUtils.precisionRound(100 * skillSpdScaling) }),
     },
     masterCdBeBuffs: {
-      formItem: 'switch',
       id: 'masterCdBeBuffs',
+      formItem: 'switch',
       text: t('TeammateContent.masterCdBeBuffs.text'),
       content: t('TeammateContent.masterCdBeBuffs.content'),
     },

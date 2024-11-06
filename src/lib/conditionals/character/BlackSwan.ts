@@ -39,26 +39,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     ehrToDmgBoost: {
-      formItem: 'switch',
       id: 'ehrToDmgBoost',
+      formItem: 'switch',
       text: t('Content.ehrToDmgBoost.text'),
       content: t('Content.ehrToDmgBoost.content'),
     },
     epiphanyDebuff: {
-      formItem: 'switch',
       id: 'epiphanyDebuff',
+      formItem: 'switch',
       text: t('Content.epiphanyDebuff.text'),
       content: t('Content.epiphanyDebuff.content', { epiphanyDmgTakenBoost: TsUtils.precisionRound(100 * epiphanyDmgTakenBoost) }),
     },
     defDecreaseDebuff: {
-      formItem: 'switch',
       id: 'defDecreaseDebuff',
+      formItem: 'switch',
       text: t('Content.defDecreaseDebuff.text'),
       content: t('Content.defDecreaseDebuff.content', { defShredValue: TsUtils.precisionRound(100 * defShredValue) }),
     },
     arcanaStacks: {
-      formItem: 'slider',
       id: 'arcanaStacks',
+      formItem: 'slider',
       text: t('Content.arcanaStacks.text'),
       content: t('Content.arcanaStacks.content', {
         dotScaling: TsUtils.precisionRound(100 * dotScaling),
@@ -68,8 +68,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       max: 50,
     },
     e1ResReduction: {
-      formItem: 'switch',
       id: 'e1ResReduction',
+      formItem: 'switch',
       text: t('Content.e1ResReduction.text'),
       content: t('Content.e1ResReduction.content'),
       disabled: e < 1,

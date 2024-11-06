@@ -46,8 +46,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     skillCdBuff: {
-      formItem: 'switch',
       id: 'skillCdBuff',
+      formItem: 'switch',
       text: t('Content.skillCdBuff.text'),
       content: t('Content.skillCdBuff.content', {
         skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling),
@@ -55,22 +55,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       }),
     },
     cipherBuff: {
-      formItem: 'switch',
       id: 'cipherBuff',
+      formItem: 'switch',
       text: t('Content.cipherBuff.text'),
       content: t('Content.cipherBuff.content', { cipherTalentStackBoost: TsUtils.precisionRound(100 * cipherTalentStackBoost) }),
     },
     talentStacks: {
-      formItem: 'slider',
       id: 'talentStacks',
+      formItem: 'slider',
       text: t('Content.talentStacks.text'),
       content: t('Content.talentStacks.content', { talentBaseStackBoost: TsUtils.precisionRound(100 * talentBaseStackBoost) }),
       min: 0,
       max: 3,
     },
     quantumAllies: {
-      formItem: 'slider',
       id: 'quantumAllies',
+      formItem: 'slider',
       text: t('Content.quantumAllies.text'),
       content: t('Content.quantumAllies.content'),
       min: 0,
@@ -81,8 +81,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     skillCdBuff: content.skillCdBuff,
     teammateCDValue: {
-      formItem: 'slider',
       id: 'teammateCDValue',
+      formItem: 'slider',
       text: t('TeammateContent.teammateCDValue.text'),
       content: t('TeammateContent.teammateCDValue.content', {
         skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling),

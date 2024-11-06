@@ -50,16 +50,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     summationStacks: {
-      formItem: 'slider',
       id: 'summationStacks',
+      formItem: 'slider',
       text: t('Content.summationStacks.text'),
       content: t('Content.summationStacks.content', { summationStacksMax }),
       min: 0,
       max: summationStacksMax,
     },
     enemyDebuffStacks: {
-      formItem: 'slider',
       id: 'enemyDebuffStacks',
+      formItem: 'slider',
       text: t('Content.enemyDebuffStacks.text'),
       content: t('Content.enemyDebuffStacks.content', { FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
       min: 0,

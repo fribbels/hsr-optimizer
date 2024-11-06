@@ -44,8 +44,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const content: ContentDefinition<typeof defaults> = {
     ashenRoastStacks: {
-      formItem: 'slider',
       id: 'ashenRoastStacks',
+      formItem: 'slider',
       text: t('Content.ashenRoastStacks.text'),
       content: t('Content.ashenRoastStacks.content', {
         AshenRoastInitialVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityBase),
@@ -56,8 +56,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       max: maxAshenRoastStacks,
     },
     ultFieldActive: {
-      formItem: 'switch',
       id: 'ultFieldActive',
+      formItem: 'switch',
       text: t('Content.ultFieldActive.text'),
       content: t('Content.ultFieldActive.content', {
         UltScaling: TsUtils.precisionRound(100 * ultScaling),
@@ -66,28 +66,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       }),
     },
     ehrToAtkBoost: {
-      formItem: 'switch',
       id: 'ehrToAtkBoost',
+      formItem: 'switch',
       text: t('Content.ehrToAtkBoost.text'),
       content: t('Content.ehrToAtkBoost.content'),
     },
     e1DmgBoost: {
-      formItem: 'switch',
       id: 'e1DmgBoost',
+      formItem: 'switch',
       text: t('Content.e1DmgBoost.text'),
       content: t('Content.e1DmgBoost.content'),
       disabled: e < 1,
     },
     e2Dot: {
-      formItem: 'switch',
       id: 'e2Dot',
+      formItem: 'switch',
       text: t('Content.e2Dot.text'),
       content: t('Content.e2Dot.content'),
       disabled: e < 2,
     },
     e6ResShred: {
-      formItem: 'switch',
       id: 'e6ResShred',
+      formItem: 'switch',
       text: t('Content.e6ResShred.text'),
       content: t('Content.e6ResShred.content'),
       disabled: e < 6,

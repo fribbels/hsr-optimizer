@@ -448,3 +448,4 @@ export type ConditionalBuff =
   | 'be250Buff'
   | 'e4BreakDmg'
   | 'skillAtkBoost'
+  | 'dotEffect'

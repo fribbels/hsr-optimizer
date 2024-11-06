@@ -11,7 +11,7 @@ import { SortOption, SortOptionProperties } from 'lib/optimizer/sortOptions'
 import { Form } from 'types/Form'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
 import { Relic } from 'types/Relic'
-import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants'
+import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants'
 import { RelicsByPart } from '../gpu/webgpuTypes'
 
 const relicSetCount = Object.values(SetsRelics).length
@@ -66,8 +66,8 @@ self.onmessage = function (e: MessageEvent) {
   isFirefox = data.isFirefox
 
   const {
-    failsBasicFilter,
-    failsCombatFilter,
+    failsBasicThresholdFilter,
+    failsCombatThresholdFilter,
     // @ts-ignore
   } = generateResultMinFilter(request, combatDisplay)
 
@@ -104,6 +104,9 @@ self.onmessage = function (e: MessageEvent) {
   const limit = Math.min(data.permutations, data.WIDTH)
 
   const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
+
+  const failsCombatStatsFilter = combatStatsFilter(request)
+  const failsBasicStatsFilter = basicStatsFilter(request)
 
   for (let col = 0; col < limit; col++) {
     const index = data.skip + col
@@ -156,25 +159,8 @@ self.onmessage = function (e: MessageEvent) {
     x.setBasic(c)
 
     // Exit early on base display filters failing
-    if (baseDisplay) {
-      if (failsBasicFilter(c)) {
-        continue
-      }
-
-      const fail
-        = c[Stats.SPD] < request.minSpd || c[Stats.SPD] > request.maxSpd
-        || c[Stats.HP] < request.minHp || c[Stats.HP] > request.maxHp
-        || c[Stats.ATK] < request.minAtk || c[Stats.ATK] > request.maxAtk
-        || c[Stats.DEF] < request.minDef || c[Stats.DEF] > request.maxDef
-        || c[Stats.CR] < request.minCr || c[Stats.CR] > request.maxCr
-        || c[Stats.CD] < request.minCd || c[Stats.CD] > request.maxCd
-        || c[Stats.EHR] < request.minEhr || c[Stats.EHR] > request.maxEhr
-        || c[Stats.RES] < request.minRes || c[Stats.RES] > request.maxRes
-        || c[Stats.BE] < request.minBe || c[Stats.BE] > request.maxBe
-        || c[Stats.ERR] < request.minErr || c[Stats.ERR] > request.maxErr
-      if (fail) {
-        continue
-      }
+    if (baseDisplay && (failsBasicThresholdFilter(c) || failsBasicStatsFilter(c))) {
+      continue
     }
 
     let combo = 0
@@ -204,39 +190,9 @@ self.onmessage = function (e: MessageEvent) {
       }
     }
 
-    // if (failsCombatFilter(x)) {
-    //   continue
-    // }
-
-    // Since we exited early on the c comparisons, we only need to check against x stats here
     // Combat filters
     const a = x.a
-    if (combatDisplay) {
-      const fail
-        = a[Key.HP] < request.minHp || a[Key.HP] > request.maxHp
-        || a[Key.ATK] < request.minAtk || a[Key.ATK] > request.maxAtk
-        || a[Key.DEF] < request.minDef || a[Key.DEF] > request.maxDef
-        || a[Key.SPD] < request.minSpd || a[Key.SPD] > request.maxSpd
-        || a[Key.CR] < request.minCr || a[Key.CR] > request.maxCr
-        || a[Key.CD] < request.minCd || a[Key.CD] > request.maxCd
-        || a[Key.EHR] < request.minEhr || a[Key.EHR] > request.maxEhr
-        || a[Key.RES] < request.minRes || a[Key.RES] > request.maxRes
-        || a[Key.BE] < request.minBe || a[Key.BE] > request.maxBe
-        || a[Key.ERR] < request.minErr || a[Key.ERR] > request.maxErr
-      if (fail) {
-        continue
-      }
-    }
-
-    // Rating filters
-    const fail = a[Key.EHP] < request.minEhp || a[Key.EHP] > request.maxEhp
-      || a[Key.BASIC_DMG] < request.minBasic || a[Key.BASIC_DMG] > request.maxBasic
-      || a[Key.SKILL_DMG] < request.minSkill || a[Key.SKILL_DMG] > request.maxSkill
-      || a[Key.ULT_DMG] < request.minUlt || a[Key.ULT_DMG] > request.maxUlt
-      || a[Key.FUA_DMG] < request.minFua || a[Key.FUA_DMG] > request.maxFua
-      || a[Key.DOT_DMG] < request.minDot || a[Key.DOT_DMG] > request.maxDot
-      || a[Key.BREAK_DMG] < request.minBreak || a[Key.BREAK_DMG] > request.maxBreak
-    if (fail) {
+    if (combatDisplay && failsCombatStatsFilter(a)) {
       continue
     }
 
@@ -252,6 +208,59 @@ self.onmessage = function (e: MessageEvent) {
   }, [data.buffer])
 }
 
+function addConditionIfNeeded(
+  conditions: ((stats: Record<number | string, number>) => boolean)[],
+  statKey: number | string,
+  min: number,
+  max: number,
+) {
+  if (min !== 0 || max !== Constants.MAX_INT) {
+    conditions.push((stats) => stats[statKey] < min || stats[statKey] > max)
+  }
+}
+
+function basicStatsFilter(request: Form) {
+  const conditions: ((stats: Record<string, number>) => boolean)[] = []
+
+  addConditionIfNeeded(conditions, Stats.SPD, request.minHp, request.maxHp)
+  addConditionIfNeeded(conditions, Stats.HP, request.minAtk, request.maxAtk)
+  addConditionIfNeeded(conditions, Stats.ATK, request.minDef, request.maxDef)
+  addConditionIfNeeded(conditions, Stats.DEF, request.minSpd, request.maxSpd)
+  addConditionIfNeeded(conditions, Stats.CR, request.minCr, request.maxCr)
+  addConditionIfNeeded(conditions, Stats.CD, request.minCd, request.maxCd)
+  addConditionIfNeeded(conditions, Stats.EHR, request.minEhr, request.maxEhr)
+  addConditionIfNeeded(conditions, Stats.RES, request.minRes, request.maxRes)
+  addConditionIfNeeded(conditions, Stats.BE, request.minBe, request.maxBe)
+  addConditionIfNeeded(conditions, Stats.ERR, request.minErr, request.maxErr)
+
+  return (stats: Record<number, number>) => conditions.some((condition) => condition(stats))
+}
+
+function combatStatsFilter(request: Form) {
+  const conditions: ((stats: Record<number, number>) => boolean)[] = []
+
+  addConditionIfNeeded(conditions, Key.HP, request.minHp, request.maxHp)
+  addConditionIfNeeded(conditions, Key.ATK, request.minAtk, request.maxAtk)
+  addConditionIfNeeded(conditions, Key.DEF, request.minDef, request.maxDef)
+  addConditionIfNeeded(conditions, Key.SPD, request.minSpd, request.maxSpd)
+  addConditionIfNeeded(conditions, Key.CR, request.minCr, request.maxCr)
+  addConditionIfNeeded(conditions, Key.CD, request.minCd, request.maxCd)
+  addConditionIfNeeded(conditions, Key.EHR, request.minEhr, request.maxEhr)
+  addConditionIfNeeded(conditions, Key.RES, request.minRes, request.maxRes)
+  addConditionIfNeeded(conditions, Key.BE, request.minBe, request.maxBe)
+  addConditionIfNeeded(conditions, Key.ERR, request.minErr, request.maxErr)
+
+  addConditionIfNeeded(conditions, Key.EHP, request.minEhp, request.maxEhp)
+  addConditionIfNeeded(conditions, Key.BASIC_DMG, request.minBasic, request.maxBasic)
+  addConditionIfNeeded(conditions, Key.SKILL_DMG, request.minSkill, request.maxSkill)
+  addConditionIfNeeded(conditions, Key.ULT_DMG, request.minUlt, request.maxUlt)
+  addConditionIfNeeded(conditions, Key.FUA_DMG, request.minFua, request.maxFua)
+  addConditionIfNeeded(conditions, Key.DOT_DMG, request.minDot, request.maxDot)
+  addConditionIfNeeded(conditions, Key.BREAK_DMG, request.minBreak, request.maxBreak)
+
+  return (stats: Record<number, number>) => conditions.some((condition) => condition(stats))
+}
+
 function generateResultMinFilter(request: Form, combatDisplay: string) {
   // @ts-ignore
   const filter = request.resultMinFilter
@@ -264,18 +273,18 @@ function generateResultMinFilter(request: Form, combatDisplay: string) {
   if (combatDisplay || isComputedRating) {
     const property = sortOption.combatProperty
     return {
-      failsBasicFilter: () => false,
-      failsCombatFilter: (candidate) => {
+      failsBasicThresholdFilter: () => false,
+      failsCombatThresholdFilter: (candidate) => {
         return candidate[property] < filter
       },
     }
   } else {
     const property = sortOption.basicProperty
     return {
-      failsBasicFilter: (candidate) => {
+      failsBasicThresholdFilter: (candidate) => {
         return candidate[property] < filter
       },
-      failsCombatFilter: () => false,
+      failsCombatThresholdFilter: () => false,
     }
   }
 }

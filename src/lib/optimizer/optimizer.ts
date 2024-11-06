@@ -2,7 +2,7 @@ import { setSortColumn } from 'components/optimizerTab/optimizerForm/Recommended
 import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
 import { BufferPacker, OptimizerDisplayData } from 'lib/bufferPacker'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, MAX_RESULTS, Stats } from 'lib/constants'
+import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, Stats } from 'lib/constants'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import DB from 'lib/db'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
@@ -213,12 +213,6 @@ export const Optimizer = {
             resultsShown = true
             if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)
             return
-          }
-
-          if ((results.length >= MAX_RESULTS) && !CANCEL) {
-            CANCEL = true
-            Optimizer.cancel(request.optimizationId)
-            Message.error('Too many results, stopping at 2,000,000 - please narrow your filters to limit results', 10)
           }
         }
 

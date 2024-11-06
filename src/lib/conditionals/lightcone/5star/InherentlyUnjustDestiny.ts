@@ -23,15 +23,15 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     shieldCdBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'shieldCdBuff',
+      formItem: 'switch',
       text: t('Content.shieldCdBuff.text'),
       content: t('Content.shieldCdBuff.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
     },
     targetVulnerability: {
       lc: true,
-      formItem: 'switch',
       id: 'targetVulnerability',
+      formItem: 'switch',
       text: t('Content.targetVulnerability.text'),
       content: t('Content.targetVulnerability.content', { Vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]) }),
     },

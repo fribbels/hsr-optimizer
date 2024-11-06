@@ -17,8 +17,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     selfHp80CrBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'selfHp80CrBuff',
+      formItem: 'switch',
       text: t('Content.selfHp80CrBuff.text'),
       content: t('Content.selfHp80CrBuff.content', { CritBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },

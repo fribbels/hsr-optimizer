@@ -17,8 +17,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     enemyDefReducedSlowed: {
       lc: true,
-      formItem: 'switch',
       id: 'enemyDefReducedSlowed',
+      formItem: 'switch',
       text: t('Content.enemyDefReducedSlowed.text'),
       content: t('Content.enemyDefReducedSlowed.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
     },

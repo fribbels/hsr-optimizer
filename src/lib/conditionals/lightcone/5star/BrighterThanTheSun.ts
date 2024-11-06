@@ -18,8 +18,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     dragonsCallStacks: {
       lc: true,
-      formItem: 'slider',
       id: 'dragonsCallStacks',
+      formItem: 'slider',
       text: t('Content.dragonsCallStacks.text'),
       content: t('Content.dragonsCallStacks.content', {
         AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]),

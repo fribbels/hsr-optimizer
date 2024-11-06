@@ -21,8 +21,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     debuffCdStacks: {
       lc: true,
-      formItem: 'slider',
       id: 'debuffCdStacks',
+      formItem: 'slider',
       text: t('Content.debuffCdStacks.text'),
       content: t('Content.debuffCdStacks.content', { DmgStep: TsUtils.precisionRound(100 * sValuesCd[s]) }),
       min: 0,
@@ -30,8 +30,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     },
     postUltBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'postUltBuff',
+      formItem: 'switch',
       text: t('Content.postUltBuff.text'),
       content: t('Content.postUltBuff.content', {
         DmgStep: TsUtils.precisionRound(100 * sValuesDmg[s]),

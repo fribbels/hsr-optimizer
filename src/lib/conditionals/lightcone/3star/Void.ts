@@ -17,8 +17,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     initialEhrBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'initialEhrBuff',
+      formItem: 'switch',
       text: t('Content.initialEhrBuff.text'),
       content: t('Content.initialEhrBuff.content', { EhrBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },

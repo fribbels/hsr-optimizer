@@ -23,15 +23,15 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     breakDmgDefShred: {
       lc: true,
-      formItem: 'switch',
       id: 'breakDmgDefShred',
+      formItem: 'switch',
       text: t('Content.breakDmgDefShred.text'),
       content: t('Content.breakDmgDefShred.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefShred[s]) }),
     },
     spdBuffConditional: {
       lc: true,
-      formItem: 'switch',
       id: 'spdBuffConditional',
+      formItem: 'switch',
       text: t('Content.spdBuffConditional.text'),
       content: t('Content.spdBuffConditional.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpdBuff[s]) }),
     },

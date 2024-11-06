@@ -22,8 +22,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     maskActive: {
       lc: true,
-      formItem: 'switch',
       id: 'maskActive',
+      formItem: 'switch',
       text: t('Content.maskActive.text'),
       content: t('Content.maskActive.content', {
         CritRateBuff: TsUtils.precisionRound(100 * sValuesCr[s]),

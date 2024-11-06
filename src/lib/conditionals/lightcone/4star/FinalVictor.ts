@@ -17,8 +17,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     goodFortuneStacks: {
       lc: true,
-      formItem: 'slider',
       id: 'goodFortuneStacks',
+      formItem: 'slider',
       text: t('Content.goodFortuneStacks.text'),
       content: t('Content.goodFortuneStacks.content', { CritBuff: TsUtils.precisionRound(100 * sValues[s]) }),
       min: 0,

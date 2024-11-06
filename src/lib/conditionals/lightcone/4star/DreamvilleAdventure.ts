@@ -27,22 +27,22 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     ultDmgBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'ultDmgBuff',
+      formItem: 'switch',
       text: t('Content.ultDmgBuff.text'),
       content: t('Content.ultDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },
     skillDmgBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'skillDmgBuff',
+      formItem: 'switch',
       text: t('Content.skillDmgBuff.text'),
       content: t('Content.skillDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },
     basicDmgBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'basicDmgBuff',
+      formItem: 'switch',
       text: t('Content.basicDmgBuff.text'),
       content: t('Content.basicDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },

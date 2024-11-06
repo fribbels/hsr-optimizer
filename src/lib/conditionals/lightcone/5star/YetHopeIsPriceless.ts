@@ -22,16 +22,16 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     fuaDmgBoost: {
       lc: true,
-      formItem: 'switch',
       id: 'fuaDmgBoost',
+      formItem: 'switch',
       text: t('Content.fuaDmgBoost.text'),
       content: t('Content.fuaDmgBoost.content', { DmgBuff: TsUtils.precisionRound(sValuesFuaDmg[s] * 100) }),
       // `While the wearer is in battle, for every 20% CRIT DMG that exceeds 120%, the DMG dealt by follow-up attack increases by ${precisionRound(sValuesFuaDmg[s] * 100)}%. This effect can stack up to 4 time(s).`,
     },
     ultFuaDefShred: {
       lc: true,
-      formItem: 'switch',
       id: 'ultFuaDefShred',
+      formItem: 'switch',
       text: t('Content.ultFuaDefShred.text'),
       content: t('Content.ultFuaDefShred.content', { DefShred: TsUtils.precisionRound(sValuesFuaDmg[s] * 100) }),
       // `When the battle starts or after the wearer uses their Basic ATK, enables Ultimate or the DMG dealt by follow-up attack to ignore ${sValuesUltFuaDefShred[s] * 100}% of the target's DEF, lasting for 2 turn(s).`,

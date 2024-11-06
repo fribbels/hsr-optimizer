@@ -21,8 +21,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     dmgResBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'dmgResBuff',
+      formItem: 'switch',
       text: t('Content.dmgResBuff.text'),
       content: t('Content.dmgResBuff.content', { ResBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },

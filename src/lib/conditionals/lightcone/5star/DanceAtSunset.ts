@@ -19,8 +19,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     fuaDmgStacks: {
       lc: true,
-      id: 'fuaDmgStacks',
       formItem: 'slider',
+      id: 'fuaDmgStacks',
       text: t('Content.fuaDmgStacks.text'),
       content: t('Content.fuaDmgStacks.content', { DmgBoost: TsUtils.precisionRound(100 * sValuesFuaDmg[s]) }),
       min: 0,

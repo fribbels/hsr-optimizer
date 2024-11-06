@@ -19,8 +19,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     ultDmgBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'ultDmgBuff',
+      formItem: 'switch',
       text: t('Content.ultDmgBuff.text'),
       content: t('Content.ultDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },

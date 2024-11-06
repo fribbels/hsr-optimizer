@@ -15,8 +15,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     healingBasedDmgProc: {
       lc: true,
-      formItem: 'switch',
       id: 'healingBasedDmgProc',
+      formItem: 'switch',
       text: t('Content.healingBasedDmgProc.text'),
       content: t('Content.healingBasedDmgProc.content', { Multiplier: TsUtils.precisionRound(sValuesBonusMultiplier[s] * 100) }),
     },

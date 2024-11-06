@@ -19,15 +19,15 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     enemyCountAtkBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'enemyCountAtkBuff',
+      formItem: 'switch',
       text: t('Content.enemyCountAtkBuff.text'),
       content: t('Content.enemyCountAtkBuff.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]) }),
     },
     enemyWeaknessBreakDmgBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'enemyWeaknessBreakDmgBuff',
+      formItem: 'switch',
       text: t('Content.enemyWeaknessBreakDmgBuff.text'),
       content: t('Content.enemyWeaknessBreakDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]) }),
     },

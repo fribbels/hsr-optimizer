@@ -17,8 +17,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     enemyShockWindShear: {
       lc: true,
-      formItem: 'switch',
       id: 'enemyShockWindShear',
+      formItem: 'switch',
       text: t('Content.enemyShockWindShear.text'),
       content: t('Content.enemyShockWindShear.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },

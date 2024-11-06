@@ -19,8 +19,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     luminfluxUltStacks: {
       lc: true,
-      formItem: 'slider',
       id: 'luminfluxUltStacks',
+      formItem: 'slider',
       text: t('Content.luminfluxUltStacks.text'),
       content: t('Content.luminfluxUltStacks.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefShred[s]) }),
       min: 0,

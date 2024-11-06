@@ -20,8 +20,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     spdStacks: {
       lc: true,
-      formItem: 'slider',
       id: 'spdStacks',
+      formItem: 'slider',
       text: t('Content.spdStacks.text'),
       content: t('Content.spdStacks.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpd[s]) }),
       min: 0,
@@ -29,8 +29,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     },
     dotEffect: {
       lc: true,
-      formItem: 'switch',
       id: 'dotEffect',
+      formItem: 'switch',
       text: t('Content.dotEffect.text'),
       content: t('Content.dotEffect.content', { Multiplier: TsUtils.precisionRound(100 * sValuesErode[s]) }),
     },

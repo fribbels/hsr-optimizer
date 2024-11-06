@@ -17,8 +17,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     selfAttackedDefBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'selfAttackedDefBuff',
+      formItem: 'switch',
       text: t('Content.selfAttackedDefBuff.text'),
       content: t('Content.selfAttackedDefBuff.content', { DefBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },

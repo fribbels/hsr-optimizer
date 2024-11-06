@@ -24,8 +24,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     unarmoredVulnerability: {
       lc: true,
-      formItem: 'switch',
       id: 'unarmoredVulnerability',
+      formItem: 'switch',
       text: t('Content.unarmoredVulnerability.text'),
       content: t('Content.unarmoredVulnerability.content', {
         UnarmoredVulnerability: TsUtils.precisionRound(sValuesVulnerability[s] * 100),
@@ -34,8 +34,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     },
     corneredVulnerability: {
       lc: true,
-      formItem: 'switch',
       id: 'corneredVulnerability',
+      formItem: 'switch',
       text: t('Content.corneredVulnerability.text'),
       content: t('Content.corneredVulnerability.content', {
         UnarmoredVulnerability: TsUtils.precisionRound(sValuesVulnerability[s] * 100),

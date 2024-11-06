@@ -17,8 +17,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     teammateShieldStacks: {
       lc: true,
-      formItem: 'slider',
       id: 'teammateShieldStacks',
+      formItem: 'slider',
       text: t('Content.teammateShieldStacks.text'),
       content: t('Content.teammateShieldStacks.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesStackDmg[s]) }),
       min: 0,

@@ -22,8 +22,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     postUltSpdBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'postUltSpdBuff',
+      formItem: 'switch',
       text: t('Content.postUltSpdBuff.text'),
       content: t('Content.postUltSpdBuff.content', {
         EnergyRecovered: TsUtils.precisionRound(sValuesEnergy[s]),

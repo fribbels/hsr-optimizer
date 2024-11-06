@@ -24,8 +24,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     targetTameStacks: {
       lc: true,
-      formItem: 'slider',
       id: 'targetTameStacks',
+      formItem: 'slider',
       text: t('Content.targetTameStacks.text'),
       content: t('Content.targetTameStacks.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }), // getContentFromLCRanks(s, lcRank2),
       min: 0,

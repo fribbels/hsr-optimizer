@@ -28,8 +28,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     atkBuffActive: {
       lc: true,
-      formItem: 'switch',
       id: 'atkBuffActive',
+      formItem: 'switch',
       text: t('Content.atkBuffActive.text'),
       content: t('Content.atkBuffActive.content', {
         AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]),
@@ -39,8 +39,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     },
     cdBuffActive: {
       lc: true,
-      formItem: 'switch',
       id: 'cdBuffActive',
+      formItem: 'switch',
       text: t('Content.cdBuffActive.text'),
       content: t('Content.cdBuffActive.content', {
         AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]),
@@ -50,8 +50,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     },
     errBuffActive: {
       lc: true,
-      formItem: 'switch',
       id: 'errBuffActive',
+      formItem: 'switch',
       text: t('Content.errBuffActive.text'),
       content: t('Content.errBuffActive.content', {
         AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]),

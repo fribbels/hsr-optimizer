@@ -20,15 +20,15 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     enemyDebuffedDmgBoost: {
       lc: true,
-      formItem: 'switch',
       id: 'enemyDebuffedDmgBoost',
+      formItem: 'switch',
       text: t('Content.enemyDebuffedDmgBoost.text'),
       content: t('Content.enemyDebuffedDmgBoost.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]) }),
     },
     skillAtkBoost: {
       lc: true,
-      formItem: 'switch',
       id: 'skillAtkBoost',
+      formItem: 'switch',
       text: t('Content.skillAtkBoost.text'),
       content: t('Content.skillAtkBoost.content', {
         EhrBuff: TsUtils.precisionRound(100 * sValuesEhr[s]),

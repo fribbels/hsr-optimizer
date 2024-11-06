@@ -24,8 +24,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     woefreeState: {
       lc: true,
-      formItem: 'switch',
       id: 'woefreeState',
+      formItem: 'switch',
       text: t('Content.woefreeState.text'),
       content: t('Content.woefreeState.content', {
         Vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]),
@@ -38,8 +38,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     woefreeState: content.woefreeState,
     additionalVulnerability: {
       lc: true,
-      formItem: 'switch',
       id: 'additionalVulnerability',
+      formItem: 'switch',
       text: t('TeammateContent.additionalVulnerability.text'),
       content: t('TeammateContent.additionalVulnerability.content', {
         Vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]),

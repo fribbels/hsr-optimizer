@@ -17,8 +17,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     spdBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'spdBuff',
+      formItem: 'switch',
       text: t('Content.spdBuff.text'),
       content: t('Content.spdBuff.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpd[s]) }),
     },

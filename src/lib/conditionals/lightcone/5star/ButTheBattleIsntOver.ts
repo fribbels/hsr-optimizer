@@ -17,8 +17,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     postSkillDmgBuff: {
       lc: true,
-      id: 'postSkillDmgBuff',
       formItem: 'switch',
+      id: 'postSkillDmgBuff',
       text: t('Content.postSkillDmgBuff.text'),
       content: t('Content.postSkillDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]) }),
     },

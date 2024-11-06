@@ -19,8 +19,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     eclipseStacks: {
       lc: true,
-      formItem: 'slider',
       id: 'eclipseStacks',
+      formItem: 'slider',
       text: t('Content.eclipseStacks.text'),
       content: t('Content.eclipseStacks.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesStackDmg[s]) }),
       min: 0,
@@ -28,8 +28,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     },
     maxStackDefPen: {
       lc: true,
-      formItem: 'switch',
       id: 'maxStackDefPen',
+      formItem: 'switch',
       text: t('Content.maxStackDefPen.text'),
       content: t('Content.maxStackDefPen.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefPen[s]) }),
     },

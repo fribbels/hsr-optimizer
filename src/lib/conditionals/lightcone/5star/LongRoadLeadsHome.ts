@@ -21,8 +21,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     breakVulnerabilityStacks: {
       lc: true,
-      formItem: 'slider',
       id: 'breakVulnerabilityStacks',
+      formItem: 'slider',
       text: 'Break vulnerability stacks',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,

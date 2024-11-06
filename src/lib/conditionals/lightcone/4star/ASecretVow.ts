@@ -17,8 +17,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     enemyHpHigherDmgBoost: {
       lc: true,
-      formItem: 'switch',
       id: 'enemyHpHigherDmgBoost',
+      formItem: 'switch',
       text: t('Content.enemyHpHigherDmgBoost.text'),
       content: t('Content.enemyHpHigherDmgBoost.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },

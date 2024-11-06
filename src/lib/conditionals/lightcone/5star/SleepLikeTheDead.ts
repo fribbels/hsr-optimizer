@@ -17,8 +17,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     missedCritCrBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'missedCritCrBuff',
+      formItem: 'switch',
       text: t('Content.missedCritCrBuff.text'),
       content: t('Content.missedCritCrBuff.content', { CritBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },

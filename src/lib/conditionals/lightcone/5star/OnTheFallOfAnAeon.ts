@@ -19,8 +19,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     atkBoostStacks: {
       lc: true,
-      formItem: 'slider',
       id: 'atkBoostStacks',
+      formItem: 'slider',
       text: t('Content.atkBoostStacks.text'),
       content: t('Content.atkBoostStacks.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtkStacks[s]) }),
       min: 0,
@@ -28,8 +28,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     },
     weaknessBreakDmgBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'weaknessBreakDmgBuff',
+      formItem: 'switch',
       text: t('Content.weaknessBreakDmgBuff.text'),
       content: t('Content.weaknessBreakDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmgBuff[s]) }),
     },

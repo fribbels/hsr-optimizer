@@ -17,8 +17,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const content: ContentDefinition<typeof defaults> = {
     basicAtkBuff: {
       lc: true,
-      formItem: 'switch',
       id: 'basicAtkBuff',
+      formItem: 'switch',
       text: t('Content.basicAtkBuff.text'),
       content: t('Content.basicAtkBuff.content', { MultiplierBonus: TsUtils.precisionRound(100 * sValues[s]) }),
     },

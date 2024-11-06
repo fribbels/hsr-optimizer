@@ -57,7 +57,15 @@ export function FormStatRollSliders() {
         {labels}
       </Flex>
       {/* @ts-ignore */}
-      <Flex vertical style={{ width: '-moz-available', width: '-webkit-fill-available' }} align='flex-end'>
+      <Flex
+        vertical
+        style={
+          typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().indexOf('firefox') > -1
+            ? { width: '-moz-available' }
+            : { width: '-webkit-fill-available' }
+        }
+        align='flex-end'
+      >
         {sliders}
       </Flex>
     </Flex>

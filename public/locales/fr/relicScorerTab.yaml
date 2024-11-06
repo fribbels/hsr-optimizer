@@ -1,0 +1,14 @@
+Messages:
+  UnknownButtonClicked: Bouton inconnu cliqué
+Header:
+  DowntimeWarning: "L'appréciateur de reliques "
+  WithVersion: "Entrez l'UID de votre compte pour apprécier vos personnages de vitrine au niveau 80 et au maximum des traces. Déconnectez-vous pour actualiser instantanément. (Version actuelle {{beta_version}})"
+  WithoutVersion: Entrez l'UID de votre compte pour apprécier vos personnages de vitrine au niveau 80 et au maximum des traces. Déconnectez-vous pour actualiser instantanément.
+SubmissionBar:
+  Placeholder: UID du compte
+ImportLabels:
+  Relics: Importer les reliques dans l'optimiseur
+  SingleCharacter: Importer le personnage sélectionné & toutes les reliques dans l'optimiseur
+  AllCharacters: Importer tous les personnages & toutes les reliques dans l'optimiseur
+SimulateRelics: Simuler les reliques sur un autre personnage
+OptimizeOnCharacter: Optimiser les stats du personnage

@@ -1,11 +1,11 @@
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
-import { Key, Source } from 'lib/optimizer/computedStatsArray'
+import { Key } from 'lib/optimizer/computedStatsArray'
 import { OptimizerAction } from 'types/Optimizer'
 
 export function injectPrecomputedStatsContext(action: OptimizerAction, gpuParams: GpuConstants) {
   const x = action.precomputedX
   const a = x.a
-  x.EHP.set(0, Source.NONE)
+  a[Key.EHP] = 0
 
   const computedStatsWgsl = `
       ${a[Key.HP_P]},${gpuParams.DEBUG ? ' // Stats.HP_P' : ''}

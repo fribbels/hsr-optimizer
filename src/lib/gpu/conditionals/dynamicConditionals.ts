@@ -67,20 +67,6 @@ ${indent(wgsl.trim(), 1)}
   `
 }
 
-// TODO: Deprecated
-export function buffDynamicStat(x: ComputedStatsArray, stat: string, value: number, action: OptimizerAction, context: OptimizerContext, source: string) {
-  // Self buffing stats will asymptotically reach 0
-  if (value < 0.0001) {
-    return
-  }
-
-  // x[stat] += value
-
-  for (const conditional of action.conditionalRegistry[stat] || []) {
-    evaluateConditional(conditional, x, action, context)
-  }
-}
-
 export const FireflyConversionConditional: DynamicConditional = {
   id: 'FireflyConversionConditional',
   type: ConditionalType.ABILITY,

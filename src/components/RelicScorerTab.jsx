@@ -273,15 +273,17 @@ function CharacterPreviewSelection(props) {
 
   const items = [
     {
-      label:
-  <Flex gap={10}><ImportOutlined/>{t('ImportLabels.AllCharacters')/* Import all characters & all relics into optimizer */}
-  </Flex>,
+      label: (
+        <Flex gap={10}><ImportOutlined/>{t('ImportLabels.AllCharacters')/* Import all characters & all relics into optimizer */}
+        </Flex>
+      ),
       key: 'import characters',
     },
     {
-      label:
-  <Flex gap={10}><ImportOutlined/>{t('ImportLabels.SingleCharacter')/* Import selected character & all relics into optimizer */}
-  </Flex>,
+      label: (
+        <Flex gap={10}><ImportOutlined/>{t('ImportLabels.SingleCharacter')/* Import selected character & all relics into optimizer */}
+        </Flex>
+      ),
       key: 'import single character',
     },
   ]

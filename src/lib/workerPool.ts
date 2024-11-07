@@ -40,7 +40,7 @@ type WorkerResult = {
 const workers: Worker[] = []
 const buffers: ArrayBuffer[] = []
 let taskQueue: WorkerTaskWrapper[] = []
-const taskStatus = {}
+const taskStatus: Record<string, boolean> = {}
 
 export const WorkerPool = {
   initializeWorker: () => {

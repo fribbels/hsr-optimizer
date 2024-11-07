@@ -14,6 +14,13 @@ NoTeamConditionals: No conditional team passives
 ResultLimitN: "Find top {{limit}} results"
 MainStats: Main stats
 Sets: Sets
+RelicSetSelector:
+  Placeholder: Relic set
+  4pcLabel: 4 Piece
+  2+2pcLabel: 2 + 2 Piece
+  2pcLabel: 2 + Any
+OrnamentSetSelector:
+  Placeholder: Ornament set
 SortOptions:
   DMGLabel: Damage calculations
   StatLabel: Stats

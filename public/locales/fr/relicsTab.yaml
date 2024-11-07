@@ -1,9 +1,14 @@
 RelicFilterBar:
+  Part: Pièce
   Enhance: Niveau
   Grade: Grade
   Verified: Vérifiée
   Equipped: Équipée
+  Clear: Effacer
   ClearButton: Effacer tous les filtres
+  Set: Ensemble
+  Mainstat: Stats principales
+  Substat: Stats secondaires
   ReapplyButton: Réapprécier les notes
   ScoringButton: Algorithme d'appréciation
   RecommendationHeader: Personnage de recommandation de reliques
@@ -18,7 +23,9 @@ RelicGrid:
   Of: à
   Headers:
     EquippedBy: Propriétaire
+    Set: Ensemble
     Grade: Grade
+    Part: Pièce
     Enhance: Niveau
     MainStat: |-
       Stat

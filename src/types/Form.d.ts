@@ -1,11 +1,11 @@
 // import { } from "./Common";
-import { RelicEnhance, RelicGrade } from 'types/Relic'
-import { CharacterId, Eidolon } from 'types/Character'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditionalMap } from 'types/LightConeConditionals'
-import { CharacterConditionalMap } from 'types/CharacterConditional'
 import { SetsOrnaments } from 'lib/constants'
 import { Simulation } from 'lib/statSimulationController'
+import { CharacterId, Eidolon } from 'types/Character'
+import { CharacterConditionalMap } from 'types/CharacterConditional'
+import { SuperImpositionLevel } from 'types/LightCone'
+import { LightConeConditionalMap } from 'types/LightConeConditionals'
+import { RelicEnhance, RelicGrade } from 'types/Relic'
 
 type MIN_INT = 0
 type MAX_INT = 2147483647
@@ -132,3 +132,5 @@ export type Form = {
   minSpd: number
   minUlt: number
 }
+
+type TeammateProperty = 'teammate0' | 'teammate1' | 'teammate2'

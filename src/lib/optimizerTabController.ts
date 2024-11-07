@@ -478,9 +478,9 @@ export const OptimizerTabController = {
       newForm.enemyCount = 1
     }
 
-    if (!form.teammate0?.characterId) form.teammate0 = defaultTeammate() as Teammate
-    if (!form.teammate1?.characterId) form.teammate1 = defaultTeammate() as Teammate
-    if (!form.teammate2?.characterId) form.teammate2 = defaultTeammate() as Teammate
+    if (!form.teammate0?.characterId) newForm.teammate0 = defaultTeammate() as Teammate
+    if (!form.teammate1?.characterId) newForm.teammate1 = defaultTeammate() as Teammate
+    if (!form.teammate2?.characterId) newForm.teammate2 = defaultTeammate() as Teammate
 
     if (!newForm.weights) {
       newForm.weights = getDefaultWeights()

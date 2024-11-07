@@ -14,6 +14,8 @@ Messages:
   NoRelicSelected: Aucune relique sélectionnée
   DeleteRelicSuccess: Relique supprimée avec succès
 RelicGrid:
+  To: de
+  Of: à
   Headers:
     EquippedBy: Propriétaire
     Grade: Grade

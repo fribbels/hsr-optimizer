@@ -16,6 +16,10 @@ export const languages = {
     locale: 'es',
     nativeName: 'Español',
   },
+  fr: {
+    locale: 'fr',
+    nativeName: 'Français',
+  },
   it: {
     locale: 'it',
     nativeName: 'Italiano',
@@ -32,10 +36,6 @@ export const languages = {
   de: {
     locale: 'de',
     nativeName: 'Deutsch',
-  },
-  fr: {
-    locale: 'fr',
-    nativeName: 'Français',
   },
   id: {
     locale: 'id',

@@ -128,146 +128,146 @@ Characters:
 RelicSets:
   "101":
     Name: Passerby of Wandering Cloud
-    Description2pc: "<span>การรักษาเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>10%</span></span>"
-    Description4pc: <span>เมื่อเริ่มต้นการต่อสู้ จะฟื้นฟูแต้มสกิลต่อสู้ของฝ่ายตัวเอง 1 แต้มโดยทันที</span>
+    Description2pc: การรักษาเพิ่มขึ้น 10%
+    Description4pc: เมื่อเริ่มต้นการต่อสู้ จะฟื้นฟูแต้มสกิลต่อสู้ของฝ่ายตัวเอง 1 แต้มโดยทันที
   "102":
     Name: Musketeer of Wild Wheat
-    Description2pc: "<span>ATK เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>12%</span></span>"
-    Description4pc: "<span>ความเร็วของผู้สวมใส่เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>6%</span> และ DMG จากการโจมตีปกติเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>10%</span></span>"
+    Description2pc: ATK เพิ่มขึ้น 12%
+    Description4pc: ความเร็วของผู้สวมใส่เพิ่มขึ้น 6% และ DMG จากการโจมตีปกติเพิ่มขึ้น 10%
   "103":
     Name: Knight of Purity Palace
-    Description2pc: "<span>DEF เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>15%</span></span>"
-    Description4pc: "<span>ปริมาณโล่ที่ผู้สวมใส่มอบให้เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>20%</span></span>"
+    Description2pc: DEF เพิ่มขึ้น 15%
+    Description4pc: ปริมาณโล่ที่ผู้สวมใส่มอบให้เพิ่มขึ้น 20%
   "104":
     Name: Hunter of Glacial Forest
-    Description2pc: "<span>DMG น้ำแข็งเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>10%</span></span>"
-    Description4pc: "<span>เมื่อผู้สวมใส่ใช้ท่าไม้ตาย DMG คริติคอลจะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>25%</span> เป็นเวลา <span style='whiteSpace: \"nowrap\"'>2</span> เทิร์น</span>"
+    Description2pc: DMG น้ำแข็งเพิ่มขึ้น 10%
+    Description4pc: เมื่อผู้สวมใส่ใช้ท่าไม้ตาย DMG คริติคอลจะเพิ่มขึ้น 25% เป็นเวลา 2 เทิร์น
   "105":
     Name: Champion of Streetwise Boxing
-    Description2pc: "<span>DMG กายภาพเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>10%</span></span>"
-    Description4pc: "<span>หลังจากที่ผู้สวมใส่ทำการโจมตีหรือถูกโจมตี ATK ของผู้ที่อยู่ในการต่อสู้จะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>5%</span> ซึ่งสามารถซ้อนทับได้สูงสุด <span style='whiteSpace: \"nowrap\"'>5</span> ชั้น</span>"
+    Description2pc: DMG กายภาพเพิ่มขึ้น 10%
+    Description4pc: หลังจากที่ผู้สวมใส่ทำการโจมตีหรือถูกโจมตี ATK ของผู้ที่อยู่ในการต่อสู้จะเพิ่มขึ้น 5% ซึ่งสามารถซ้อนทับได้สูงสุด 5 ชั้น
   "106":
     Name: Guard of Wuthering Snow
-    Description2pc: "<span>ได้รับ DMG ลดลง <span style='whiteSpace: \"nowrap\"'>8%</span></span>"
-    Description4pc: "<span>เมื่อเริ่มต้นเทิร์น หากเปอร์เซ็นต์ HP ปัจจุบันของผู้สวมใส่เท่ากับหรือน้อยกว่า <span style='whiteSpace: \"nowrap\"'>50%</span> จะฟื้นฟู HP <span style='whiteSpace: \"nowrap\"'>8%</span> ของ HP สูงสุดของตัวเอง และฟื้นฟูพลังงาน <span style='whiteSpace: \"nowrap\"'>5</span> หน่วย</span>"
+    Description2pc: ได้รับ DMG ลดลง 8%
+    Description4pc: เมื่อเริ่มต้นเทิร์น หากเปอร์เซ็นต์ HP ปัจจุบันของผู้สวมใส่เท่ากับหรือน้อยกว่า 50% จะฟื้นฟู HP 8% ของ HP สูงสุดของตัวเอง และฟื้นฟูพลังงาน 5 หน่วย
   "107":
     Name: Firesmith of Lava-Forging
-    Description2pc: "<span>DMG ไฟเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>10%</span></span>"
-    Description4pc: "<span>ทำให้สกิลต่อสู้ของผู้สวมใส่สร้าง DMG เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>12%</span> และหลังจากที่ปล่อยท่าไม้ตาย การโจมตีครั้งต่อไปจะสร้าง DMG ไฟเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>12%</span></span>"
+    Description2pc: DMG ไฟเพิ่มขึ้น 10%
+    Description4pc: ทำให้สกิลต่อสู้ของผู้สวมใส่สร้าง DMG เพิ่มขึ้น 12% และหลังจากที่ปล่อยท่าไม้ตาย การโจมตีครั้งต่อไปจะสร้าง DMG ไฟเพิ่มขึ้น 12%
   "108":
     Name: Genius of Brilliant Stars
-    Description2pc: "<span>DMG ควอนตัมเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>10%</span></span>"
-    Description4pc: "<span>เมื่อผู้สวมใส่สร้าง DMG แก่ศัตรูเป้าหมาย จะเพิกเฉยต่อ DEF <span style='whiteSpace: \"nowrap\"'>10%</span> ของศัตรู หากเป้าหมายมีจุดอ่อนควอนตัม ผู้สวมใส่จะเพิกเฉยต่อ DEF <span style='whiteSpace: \"nowrap\"'>10%</span> เพิ่มเติม</span>"
+    Description2pc: DMG ควอนตัมเพิ่มขึ้น 10%
+    Description4pc: เมื่อผู้สวมใส่สร้าง DMG แก่ศัตรูเป้าหมาย จะเพิกเฉยต่อ DEF 10% ของศัตรู หากเป้าหมายมีจุดอ่อนควอนตัม ผู้สวมใส่จะเพิกเฉยต่อ DEF 10% เพิ่มเติม
   "109":
     Name: Band of Sizzling Thunder
-    Description2pc: "<span>DMG สายฟ้าเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>10%</span></span>"
-    Description4pc: "<span>เมื่อผู้สวมใส่ใช้สกิลต่อสู้ ATK ของผู้สวมใส่จะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>20%</span> เป็นเวลา <span style='whiteSpace: \"nowrap\"'>1</span> เทิร์น</span>"
+    Description2pc: DMG สายฟ้าเพิ่มขึ้น 10%
+    Description4pc: เมื่อผู้สวมใส่ใช้สกิลต่อสู้ ATK ของผู้สวมใส่จะเพิ่มขึ้น 20% เป็นเวลา 1 เทิร์น
   "110":
     Name: Eagle of Twilight Line
-    Description2pc: "<span>DMG ลมเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>10%</span></span>"
-    Description4pc: "<span>หลังจากผู้สวมใส่ใช้ท่าไม้ตาย จะเร่งแอ็กชันขึ้น <span style='whiteSpace: \"nowrap\"'>25%</span></span>"
+    Description2pc: DMG ลมเพิ่มขึ้น 10%
+    Description4pc: หลังจากผู้สวมใส่ใช้ท่าไม้ตาย จะเร่งแอ็กชันขึ้น 25%
   "111":
     Name: Thief of Shooting Meteor
-    Description2pc: "<span>เอฟเฟกต์ทำลายล้างเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>16%</span></span>"
-    Description4pc: "<span>เอฟเฟกต์ทำลายล้างของผู้สวมใส่เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>16%</span> หลังจากผู้สวมใส่ทำลายจุดอ่อนของศัตรูเป้าหมาย จะฟื้นฟูพลังงาน <span style='whiteSpace: \"nowrap\"'>3</span> หน่วย</span>"
+    Description2pc: เอฟเฟกต์ทำลายล้างเพิ่มขึ้น 16%
+    Description4pc: เอฟเฟกต์ทำลายล้างของผู้สวมใส่เพิ่มขึ้น 16% หลังจากผู้สวมใส่ทำลายจุดอ่อนของศัตรูเป้าหมาย จะฟื้นฟูพลังงาน 3 หน่วย
   "112":
     Name: Wastelander of Banditry Desert
-    Description2pc: "<span>DMG จินตภาพเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>10%</span></span>"
-    Description4pc: "<span>เมื่อผู้สวมใส่สร้าง DMG แก่ศัตรูเป้าหมายที่ติดเอฟเฟกต์ Debuff อัตราคริติคอลจะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>10%</span> และเมื่อสร้าง DMG แก่ศัตรูเป้าหมายติดสถานะกักขัง DMG คริติคอลจะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>20%</span></span>"
+    Description2pc: DMG จินตภาพเพิ่มขึ้น 10%
+    Description4pc: เมื่อผู้สวมใส่สร้าง DMG แก่ศัตรูเป้าหมายที่ติดเอฟเฟกต์ Debuff อัตราคริติคอลจะเพิ่มขึ้น 10% และเมื่อสร้าง DMG แก่ศัตรูเป้าหมายติดสถานะกักขัง DMG คริติคอลจะเพิ่มขึ้น 20%
   "113":
     Name: Longevous Disciple
-    Description2pc: "<span>HP สูงสุดเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>12%</span></span>"
-    Description4pc: "<span>หลังจากผู้สวมใส่โดนโจมตี หรือถูกเป้าหมายฝ่ายเรา (รวมถึงผู้สวมใส่) ใช้ HP ไป อัตราคริติคอลจะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>8%</span> เป็นเวลา <span style='whiteSpace: \"nowrap\"'>2</span> เทิร์น โดยเอฟเฟกต์นี้จะซ้อนทับได้มากสุด <span style='whiteSpace: \"nowrap\"'>2</span> ชั้น</span>"
+    Description2pc: HP สูงสุดเพิ่มขึ้น 12%
+    Description4pc: หลังจากผู้สวมใส่โดนโจมตี หรือถูกเป้าหมายฝ่ายเรา (รวมถึงผู้สวมใส่) ใช้ HP ไป อัตราคริติคอลจะเพิ่มขึ้น 8% เป็นเวลา 2 เทิร์น โดยเอฟเฟกต์นี้จะซ้อนทับได้มากสุด 2 ชั้น
   "114":
     Name: Messenger Traversing Hackerspace
-    Description2pc: "<span>ความเร็วเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>6%</span></span>"
-    Description4pc: "<span>เมื่อผู้สวมใส่ใช้ท่าไม้ตายกับเป้าหมายฝ่ายเรา ความเร็วของฝ่ายเราทั้งหมด จะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>12%</span> เป็นเวลา <span style='whiteSpace: \"nowrap\"'>1</span> เทิร์น โดยเอฟเฟกต์นี้ไม่สามารถซ้อนทับได้</span>"
+    Description2pc: ความเร็วเพิ่มขึ้น 6%
+    Description4pc: เมื่อผู้สวมใส่ใช้ท่าไม้ตายกับเป้าหมายฝ่ายเรา ความเร็วของฝ่ายเราทั้งหมด จะเพิ่มขึ้น 12% เป็นเวลา 1 เทิร์น โดยเอฟเฟกต์นี้ไม่สามารถซ้อนทับได้
   "115":
     Name: The Ashblazing Grand Duke
-    Description2pc: "<span>DMG ที่เกิดจากการโจมตีต่อเนื่องเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>20%</span></span>"
-    Description4pc: "<span>เมื่อผู้สวมใส่ปล่อยการโจมตีต่อเนื่อง ATK ของผู้สวมใส่จะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>6%</span> ทุกครั้งที่เกิด DMG จากการโจมตีต่อเนื่อง และสามารถซ้อนทับได้สูงสุด <span style='whiteSpace: \"nowrap\"'>8</span> ครั้ง เป็นเวลา <span style='whiteSpace: \"nowrap\"'>3</span> เทิร์น โดยเอฟเฟกต์นี้จะถูกลบออกไป เมื่อผู้สวมใส่ปล่อยการโจมตีต่อเนื่อง ในครั้งถัดไป</span>"
+    Description2pc: DMG ที่เกิดจากการโจมตีต่อเนื่องเพิ่มขึ้น 20%
+    Description4pc: เมื่อผู้สวมใส่ปล่อยการโจมตีต่อเนื่อง ATK ของผู้สวมใส่จะเพิ่มขึ้น 6% ทุกครั้งที่เกิด DMG จากการโจมตีต่อเนื่อง และสามารถซ้อนทับได้สูงสุด 8 ครั้ง เป็นเวลา 3 เทิร์น โดยเอฟเฟกต์นี้จะถูกลบออกไป เมื่อผู้สวมใส่ปล่อยการโจมตีต่อเนื่อง ในครั้งถัดไป
   "116":
     Name: Prisoner in Deep Confinement
-    Description2pc: "<span>ATK เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>12%</span></span>"
-    Description4pc: "<span>ทุกครั้งที่ศัตรูเป้าหมายได้รับเอฟเฟกต์ DMG ต่อเนื่อง 1 เอฟเฟกต์ ผู้สวมใส่จะเพิกเฉยต่อ DEF <span style='whiteSpace: \"nowrap\"'>6%</span> ของศัตรูตัวนั้นๆ เมื่อสร้าง DMG แก่ศัตรูดังกล่าว โดยสามารถสร้างเอฟเฟกต์ DMG ต่อเนื่องได้สูงสุดถึง <span style='whiteSpace: \"nowrap\"'>3</span> เอฟเฟกต์</span>"
+    Description2pc: ATK เพิ่มขึ้น 12%
+    Description4pc: ทุกครั้งที่ศัตรูเป้าหมายได้รับเอฟเฟกต์ DMG ต่อเนื่อง 1 เอฟเฟกต์ ผู้สวมใส่จะเพิกเฉยต่อ DEF 6% ของศัตรูตัวนั้นๆ เมื่อสร้าง DMG แก่ศัตรูดังกล่าว โดยสามารถสร้างเอฟเฟกต์ DMG ต่อเนื่องได้สูงสุดถึง 3 เอฟเฟกต์
   "117":
     Name: Pioneer Diver of Dead Waters
-    Description2pc: "<span>สร้าง DMG แก่ศัตรูที่ติดสถานะ Debuff เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>12%</span></span>"
-    Description4pc: "<span>อัตราคริติคอลเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>4%</span> และผู้สวมใส่จะสร้าง DMG คริติคอลเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span> แก่ศัตรูเป้าหมายที่ติดเอฟเฟกต์ Debuff ไม่น้อยกว่า <span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span> เอฟเฟกต์ และหลังจากผู้สวมใส่ปล่อยเอฟเฟกต์ Debuff ใส่ศัตรูเป้าหมาย เอฟเฟกต์ข้างต้นจะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>100%</span> เป็นเวลา <span style='whiteSpace: \"nowrap\"'>1</span> เทิร์น</span>"
+    Description2pc: สร้าง DMG แก่ศัตรูที่ติดสถานะ Debuff เพิ่มขึ้น 12%
+    Description4pc: อัตราคริติคอลเพิ่มขึ้น 4% และผู้สวมใส่จะสร้าง DMG คริติคอลเพิ่มขึ้น 8%/12% แก่ศัตรูเป้าหมายที่ติดเอฟเฟกต์ Debuff ไม่น้อยกว่า 2/3 เอฟเฟกต์ และหลังจากผู้สวมใส่ปล่อยเอฟเฟกต์ Debuff ใส่ศัตรูเป้าหมาย เอฟเฟกต์ข้างต้นจะเพิ่มขึ้น 100% เป็นเวลา 1 เทิร์น
   "118":
     Name: Watchmaker, Master of Dream Machinations
-    Description2pc: "<span>เอฟเฟกต์ทำลายล้างเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>16%</span></span>"
-    Description4pc: "<span>เมื่อผู้สวมใส่ ใช้ท่าไม้ตายกับเป้าหมายฝ่ายเรา เอฟเฟกต์ทำลายล้างของฝ่ายเราทั้งหมด จะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>30%</span> เป็นเวลา <span style='whiteSpace: \"nowrap\"'>2</span> เทิร์น โดยเอฟเฟกต์นี้ไม่สามารถซ้อนทับได้</span>"
+    Description2pc: เอฟเฟกต์ทำลายล้างเพิ่มขึ้น 16%
+    Description4pc: เมื่อผู้สวมใส่ ใช้ท่าไม้ตายกับเป้าหมายฝ่ายเรา เอฟเฟกต์ทำลายล้างของฝ่ายเราทั้งหมด จะเพิ่มขึ้น 30% เป็นเวลา 2 เทิร์น โดยเอฟเฟกต์นี้ไม่สามารถซ้อนทับได้
   "119":
     Name: Iron Cavalry Against the Scourge
-    Description2pc: "<span>เอฟเฟกต์ทำลายล้างเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>16%</span></span>"
-    Description4pc: "<span>ขณะที่เอฟเฟกต์ทำลายล้างของผู้สวมใส่ มากกว่าหรือเท่ากับ <span style='whiteSpace: \"nowrap\"'>150%</span> DMG ทำลายล้างที่สร้างแก่ศัตรูเป้าหมาย จะเพิกเฉยต่อ DEF <span style='whiteSpace: \"nowrap\"'>10%</span> ของศัตรูดังกล่าว และเมื่อเอฟเฟกต์ทำลายล้างของผู้สวมใส่ มากกว่าหรือเท่ากับ <span style='whiteSpace: \"nowrap\"'>250%</span> DMG สุดยอดทำลายล้าง ที่สร้างแก่ศัตรูเป้าหมาย จะเพิกเฉยต่อ DEF <span style='whiteSpace: \"nowrap\"'>15%</span> ของศัตรูดังกล่าวเพิ่มเติม</span>"
+    Description2pc: เอฟเฟกต์ทำลายล้างเพิ่มขึ้น 16%
+    Description4pc: ขณะที่เอฟเฟกต์ทำลายล้างของผู้สวมใส่ มากกว่าหรือเท่ากับ 150% DMG ทำลายล้างที่สร้างแก่ศัตรูเป้าหมาย จะเพิกเฉยต่อ DEF 10% ของศัตรูดังกล่าว และเมื่อเอฟเฟกต์ทำลายล้างของผู้สวมใส่ มากกว่าหรือเท่ากับ 250% DMG สุดยอดทำลายล้าง ที่สร้างแก่ศัตรูเป้าหมาย จะเพิกเฉยต่อ DEF 15% ของศัตรูดังกล่าวเพิ่มเติม
   "120":
     Name: The Wind-Soaring Valorous
-    Description2pc: "<span>ATK เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>12%</span></span>"
-    Description4pc: "<span>อัตราคริติคอลของผู้สวมใส่ เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>6%</span> เมื่อผู้สวมใส่ปล่อยการโจมตีต่อเนื่อง จะทำให้ท่าไม้ตายสร้าง DMG เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>36%</span> เป็นเวลา <span style='whiteSpace: \"nowrap\"'>1</span> เทิร์น</span>"
+    Description2pc: ATK เพิ่มขึ้น 12%
+    Description4pc: อัตราคริติคอลของผู้สวมใส่ เพิ่มขึ้น 6% เมื่อผู้สวมใส่ปล่อยการโจมตีต่อเนื่อง จะทำให้ท่าไม้ตายสร้าง DMG เพิ่มขึ้น 36% เป็นเวลา 1 เทิร์น
   "121":
     Name: Sacerdos' Relived Ordeal
-    Description2pc: "<span>ความเร็วเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>6%</span></span>"
-    Description4pc: "<span>เมื่อปล่อยสกิลต่อสู้หรือท่าไม้ตาย ใส่เป้าหมายฝ่ายเราหนึ่งตัว จะทำให้ DMG คริติคอลของเป้าหมายสกิล เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>18%</span> เป็นเวลา <span style='whiteSpace: \"nowrap\"'>2</span> เทิร์น โดยเอฟเฟกต์นี้ สามารถซ้อนทับได้มากสุด <span style='whiteSpace: \"nowrap\"'>2</span> ครั้ง</span>"
+    Description2pc: ความเร็วเพิ่มขึ้น 6%
+    Description4pc: เมื่อปล่อยสกิลต่อสู้หรือท่าไม้ตาย ใส่เป้าหมายฝ่ายเราหนึ่งตัว จะทำให้ DMG คริติคอลของเป้าหมายสกิล เพิ่มขึ้น 18% เป็นเวลา 2 เทิร์น โดยเอฟเฟกต์นี้ สามารถซ้อนทับได้มากสุด 2 ครั้ง
   "122":
     Name: Scholar Lost in Erudition
-    Description2pc: "<span>อัตราคริติคอลเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>8%</span></span>"
-    Description4pc: "<span>สกิลต่อสู้และท่าไม้ตายสร้าง DMG เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>20%</span> หลังจากปล่อยท่าไม้ตายแล้ว เมื่อปล่อยสกิลต่อสู้ครั้งต่อไปจะสร้าง DMG เพิ่มขึ้นอีก <span style='whiteSpace: \"nowrap\"'>25%</span></span>"
+    Description2pc: อัตราคริติคอลเพิ่มขึ้น 8%
+    Description4pc: สกิลต่อสู้และท่าไม้ตายสร้าง DMG เพิ่มขึ้น 20% หลังจากปล่อยท่าไม้ตายแล้ว เมื่อปล่อยสกิลต่อสู้ครั้งต่อไปจะสร้าง DMG เพิ่มขึ้นอีก 25%
   "301":
     Name: Space Sealing Station
-    Description2pc: "<span>ATK ของผู้สวมใส่เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>12%</span> เมื่อความเร็วของผู้สวมใส่เท่ากับหรือมากกว่า <span style='whiteSpace: \"nowrap\"'>120</span> ATK จะเพิ่มขึ้นอีก <span style='whiteSpace: \"nowrap\"'>12%</span></span>"
+    Description2pc: ATK ของผู้สวมใส่เพิ่มขึ้น 12% เมื่อความเร็วของผู้สวมใส่เท่ากับหรือมากกว่า 120 ATK จะเพิ่มขึ้นอีก 12%
   "302":
     Name: Fleet of the Ageless
-    Description2pc: "<span>HP สูงสุดของผู้สวมใส่เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>12%</span> เมื่อความเร็วของผู้สวมใส่เท่ากับหรือมากกว่า <span style='whiteSpace: \"nowrap\"'>120</span> ATK ของฝ่ายตัวเองทั้งหมดจะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>8%</span></span>"
+    Description2pc: HP สูงสุดของผู้สวมใส่เพิ่มขึ้น 12% เมื่อความเร็วของผู้สวมใส่เท่ากับหรือมากกว่า 120 ATK ของฝ่ายตัวเองทั้งหมดจะเพิ่มขึ้น 8%
   "303":
     Name: Pan-Cosmic Commercial Enterprise
-    Description2pc: "<span>อัตราสร้างสถานะของผู้สวมใส่เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>10%</span> พร้อมทั้งเพิ่ม ATK <span style='whiteSpace: \"nowrap\"'>25%</span> ของอัตราสร้างสถานะในปัจจุบัน ซึ่งจะเพิ่มได้สูงสุด <span style='whiteSpace: \"nowrap\"'>25%</span></span>"
+    Description2pc: อัตราสร้างสถานะของผู้สวมใส่เพิ่มขึ้น 10% พร้อมทั้งเพิ่ม ATK 25% ของอัตราสร้างสถานะในปัจจุบัน ซึ่งจะเพิ่มได้สูงสุด 25%
   "304":
     Name: Belobog of the Architects
-    Description2pc: "<span>DEF ของผู้สวมใส่เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>15%</span> เมื่ออัตราสร้างสถานะของผู้สวมใส่มากกว่าหรือเท่ากับ <span style='whiteSpace: \"nowrap\"'>50%</span> DEF จะเพิ่มขึ้นอีก <span style='whiteSpace: \"nowrap\"'>15%</span></span>"
+    Description2pc: DEF ของผู้สวมใส่เพิ่มขึ้น 15% เมื่ออัตราสร้างสถานะของผู้สวมใส่มากกว่าหรือเท่ากับ 50% DEF จะเพิ่มขึ้นอีก 15%
   "305":
     Name: Celestial Differentiator
-    Description2pc: "<span>ทำให้ DMG คริติคอลของผู้สวมใส่เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>16%</span> และเมื่อ DMG คริติคอลของผู้สวมใส่มากกว่าหรือเท่ากับ <span style='whiteSpace: \"nowrap\"'>120%</span> หลังจากเข้าสู่การต่อสู้ อัตราคริติคอลของผู้สวมใส่จะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>60%</span> จนกว่าการโจมตีครั้งแรกจะสิ้นสุด</span>"
+    Description2pc: ทำให้ DMG คริติคอลของผู้สวมใส่เพิ่มขึ้น 16% และเมื่อ DMG คริติคอลของผู้สวมใส่มากกว่าหรือเท่ากับ 120% หลังจากเข้าสู่การต่อสู้ อัตราคริติคอลของผู้สวมใส่จะเพิ่มขึ้น 60% จนกว่าการโจมตีครั้งแรกจะสิ้นสุด
   "306":
     Name: Inert Salsotto
-    Description2pc: "<span>ทำให้อัตราคริติคอลของผู้สวมใส่เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>8%</span> เมื่ออัตราคริติคอลปัจจุบันของผู้สวมใส่มากกว่าหรือเท่ากับ <span style='whiteSpace: \"nowrap\"'>50%</span> DMG จากท่าไม้ตายและการโจมตีต่อเนื่องจะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>15%</span></span>"
+    Description2pc: ทำให้อัตราคริติคอลของผู้สวมใส่เพิ่มขึ้น 8% เมื่ออัตราคริติคอลปัจจุบันของผู้สวมใส่มากกว่าหรือเท่ากับ 50% DMG จากท่าไม้ตายและการโจมตีต่อเนื่องจะเพิ่มขึ้น 15%
   "307":
     Name: Talia - Kingdom of Banditry
-    Description2pc: "<span>เอฟเฟกต์ทำลายล้างของผู้สวมใส่เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>16%</span> เมื่อความเร็วของผู้สวมใส่เท่ากับหรือมากกว่า <span style='whiteSpace: \"nowrap\"'>145</span> เอฟเฟกต์ทำลายล้างจะเพิ่มขึ้นอีก <span style='whiteSpace: \"nowrap\"'>20%</span></span>"
+    Description2pc: เอฟเฟกต์ทำลายล้างของผู้สวมใส่เพิ่มขึ้น 16% เมื่อความเร็วของผู้สวมใส่เท่ากับหรือมากกว่า 145 เอฟเฟกต์ทำลายล้างจะเพิ่มขึ้นอีก 20%
   "308":
     Name: Sprightly Vonwacq
-    Description2pc: "<span>อัตราการฟื้นฟูพลังงานของผู้สวมใส่เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>5%</span> เมื่อความเร็วของผู้สวมใส่เท่ากับหรือมากกว่า <span style='whiteSpace: \"nowrap\"'>120</span> และเมื่อเข้าสู่การต่อสู้ จะเร่งแอ็กชันขึ้นทันที <span style='whiteSpace: \"nowrap\"'>40%</span></span>"
+    Description2pc: อัตราการฟื้นฟูพลังงานของผู้สวมใส่เพิ่มขึ้น 5% เมื่อความเร็วของผู้สวมใส่เท่ากับหรือมากกว่า 120 และเมื่อเข้าสู่การต่อสู้ จะเร่งแอ็กชันขึ้นทันที 40%
   "309":
     Name: Rutilant Arena
-    Description2pc: "<span>ทำให้อัตราคริติคอลของผู้สวมใส่เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>8%</span> เมื่ออัตราคริติคอลปัจจุบัน ของผู้สวมใส่มากกว่าหรือเท่ากับ <span style='whiteSpace: \"nowrap\"'>70%</span> DMG จากการโจมตีปกติและสกิลต่อสู้จะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>20%</span></span>"
+    Description2pc: ทำให้อัตราคริติคอลของผู้สวมใส่เพิ่มขึ้น 8% เมื่ออัตราคริติคอลปัจจุบัน ของผู้สวมใส่มากกว่าหรือเท่ากับ 70% DMG จากการโจมตีปกติและสกิลต่อสู้จะเพิ่มขึ้น 20%
   "310":
     Name: Broken Keel
-    Description2pc: "<span>ทำให้การต้านทานสถานะ ของผู้สวมใส่เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>10%</span> เมื่อการต้านทานสถานะของผู้สวมใส่ เท่ากับหรือมากกว่า <span style='whiteSpace: \"nowrap\"'>30%</span> DMG คริติคอลของฝ่ายตัวเองทั้งหมดจะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>10%</span></span>"
+    Description2pc: ทำให้การต้านทานสถานะ ของผู้สวมใส่เพิ่มขึ้น 10% เมื่อการต้านทานสถานะของผู้สวมใส่ เท่ากับหรือมากกว่า 30% DMG คริติคอลของฝ่ายตัวเองทั้งหมดจะเพิ่มขึ้น 10%
   "311":
     Name: "Firmament Frontline: Glamoth"
-    Description2pc: "<span>ทำให้ ATK ของผู้สวมใส่เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>12%</span> เมื่อความเร็วของผู้สวมใส่มากกว่าหรือเท่ากับ <span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span> จะทำให้ผู้สวมใส่สร้าง DMG เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span></span>"
+    Description2pc: ทำให้ ATK ของผู้สวมใส่เพิ่มขึ้น 12% เมื่อความเร็วของผู้สวมใส่มากกว่าหรือเท่ากับ 135/160 จะทำให้ผู้สวมใส่สร้าง DMG เพิ่มขึ้น 12%/18%
   "312":
     Name: Penacony, Land of the Dreams
-    Description2pc: "<span>ทำให้อัตราการฟื้นฟูพลังงานของผู้สวมใส่ เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>5%</span> และทำให้ตัวละครอื่นในฝ่ายเรา ที่เป็นประเภทเดียวกับผู้สวมใส่ สร้าง DMG เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>10%</span></span>"
+    Description2pc: ทำให้อัตราการฟื้นฟูพลังงานของผู้สวมใส่ เพิ่มขึ้น 5% และทำให้ตัวละครอื่นในฝ่ายเรา ที่เป็นประเภทเดียวกับผู้สวมใส่ สร้าง DMG เพิ่มขึ้น 10%
   "313":
     Name: Sigonia, the Unclaimed Desolation
-    Description2pc: "<span>ทำให้อัตราคริติคอลของผู้สวมใส่เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>4%</span> เมื่อศัตรูเป้าหมายถูกกำจัด DMG คริติคอลของผู้สวมใส่จะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>4%</span> โดยสามารถซ้อนทับได้มากสุด <span style='whiteSpace: \"nowrap\"'>10</span> ชั้น</span>"
+    Description2pc: ทำให้อัตราคริติคอลของผู้สวมใส่เพิ่มขึ้น 4% เมื่อศัตรูเป้าหมายถูกกำจัด DMG คริติคอลของผู้สวมใส่จะเพิ่มขึ้น 4% โดยสามารถซ้อนทับได้มากสุด 10 ชั้น
   "314":
     Name: Izumo Gensei and Takama Divine Realm
-    Description2pc: "<span>ทำให้ ATK ของผู้สวมใส่เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>12%</span> เมื่อเข้าสู่การต่อสู้ หากมีเพื่อนร่วมทีมที่อยู่ Path เดียวกันกับผู้สวมใส่อย่างน้อย 1 คน อัตราคริติคอลของผู้สวมใส่จะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>12%</span></span>"
+    Description2pc: ทำให้ ATK ของผู้สวมใส่เพิ่มขึ้น 12% เมื่อเข้าสู่การต่อสู้ หากมีเพื่อนร่วมทีมที่อยู่ Path เดียวกันกับผู้สวมใส่อย่างน้อย 1 คน อัตราคริติคอลของผู้สวมใส่จะเพิ่มขึ้น 12%
   "315":
     Name: Duran, Dynasty of Running Wolves
-    Description2pc: "<span>เมื่อตัวละครฝ่ายเรา ปล่อยการโจมตีต่อเนื่อง ผู้สวมใส่จะได้รับ \"คุณความดี\" หนึ่งชั้น และจะซ้อนทับได้มากสุด <span style='whiteSpace: \"nowrap\"'>5</span> ชั้น โดย \"คุณความดี\" แต่ละชั้น จะทำให้การโจมตีต่อเนื่องของผู้สวมใส่ สร้าง DMG เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>5%</span> เมื่อซ้อนทับถึง <span style='whiteSpace: \"nowrap\"'>5</span> ชั้นแล้ว จะทำให้ DMG คริติคอล ของผู้สวมใส่เพิ่มขึ้นอีก <span style='whiteSpace: \"nowrap\"'>25%</span></span>"
+    Description2pc: เมื่อตัวละครฝ่ายเรา ปล่อยการโจมตีต่อเนื่อง ผู้สวมใส่จะได้รับ "คุณความดี" หนึ่งชั้น และจะซ้อนทับได้มากสุด 5 ชั้น โดย "คุณความดี" แต่ละชั้น จะทำให้การโจมตีต่อเนื่องของผู้สวมใส่ สร้าง DMG เพิ่มขึ้น 5% เมื่อซ้อนทับถึง 5 ชั้นแล้ว จะทำให้ DMG คริติคอล ของผู้สวมใส่เพิ่มขึ้นอีก 25%
   "316":
     Name: Forge of the Kalpagni Lantern
-    Description2pc: "<span>ทำให้ความเร็วของผู้สวมใส่เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>6%</span> เมื่อผู้สวมใส่โจมตีศัตรูเป้าหมาย ที่มีจุดอ่อนไฟ เอฟเฟกต์ทำลายล้างจะเพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>40%</span> เป็นเวลา <span style='whiteSpace: \"nowrap\"'>1</span> เทิร์น</span>"
+    Description2pc: ทำให้ความเร็วของผู้สวมใส่เพิ่มขึ้น 6% เมื่อผู้สวมใส่โจมตีศัตรูเป้าหมาย ที่มีจุดอ่อนไฟ เอฟเฟกต์ทำลายล้างจะเพิ่มขึ้น 40% เป็นเวลา 1 เทิร์น
   "317":
     Name: Lushaka, the Sunken Seas
-    Description2pc: "<span>ทำให้อัตราการฟื้นฟูพลังงานของผู้สวมใส่ เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>5%</span> หากผู้สวมใส่ ไม่ใช่ตัวละครตัวแรกในการจัดทีม จะทำให้ ATK ของตัวละครตัวแรกในการจัดทีม เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>12%</span></span>"
+    Description2pc: ทำให้อัตราการฟื้นฟูพลังงานของผู้สวมใส่ เพิ่มขึ้น 5% หากผู้สวมใส่ ไม่ใช่ตัวละครตัวแรกในการจัดทีม จะทำให้ ATK ของตัวละครตัวแรกในการจัดทีม เพิ่มขึ้น 12%
   "318":
     Name: The Wondrous BananAmusement Park
-    Description2pc: "<span>ทำให้ DMG คริติคอลของผู้สวมใส่ เพิ่มขึ้น <span style='whiteSpace: \"nowrap\"'>16%</span> เมื่อเป้าหมายที่ผู้สวมใส่อัญเชิญ อยู่ในการต่อสู้ DMG คริติคอลจะเพิ่มขึ้นอีก <span style='whiteSpace: \"nowrap\"'>32%</span></span>"
+    Description2pc: ทำให้ DMG คริติคอลของผู้สวมใส่ เพิ่มขึ้น 16% เมื่อเป้าหมายที่ผู้สวมใส่อัญเชิญ อยู่ในการต่อสู้ DMG คริติคอลจะเพิ่มขึ้นอีก 32%
 Lightcones:
   "20000":
     Name: Arrows

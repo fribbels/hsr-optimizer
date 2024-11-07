@@ -128,146 +128,146 @@ Characters:
 RelicSets:
   "101":
     Name: 流雲無痕の過客
-    Description2pc: "<span>治癒量+<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: <span>戦闘開始時、SPを1回復する。</span>
+    Description2pc: 治癒量+10%。
+    Description4pc: 戦闘開始時、SPを1回復する。
   "102":
     Name: 草の穂ガンマン
-    Description2pc: "<span>攻撃力+<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
-    Description4pc: "<span>装備キャラの速度+<span style='whiteSpace: \"nowrap\"'>6%</span>、通常攻撃によるダメージ+<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
+    Description2pc: 攻撃力+12%。
+    Description4pc: 装備キャラの速度+6%、通常攻撃によるダメージ+10%。
   "103":
     Name: 純庭教会の聖騎士
-    Description2pc: "<span>防御力+<span style='whiteSpace: \"nowrap\"'>15%</span>。</span>"
-    Description4pc: "<span>装備キャラが付与するバリアの耐久値+<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
+    Description2pc: 防御力+15%。
+    Description4pc: 装備キャラが付与するバリアの耐久値+20%。
   "104":
     Name: 雪の密林の狩人
-    Description2pc: "<span>氷属性ダメージ+<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>装備キャラが必殺技を発動した時、会心ダメージ+<span style='whiteSpace: \"nowrap\"'>25%</span>、<span style='whiteSpace: \"nowrap\"'>2</span>ターン継続。</span>"
+    Description2pc: 氷属性ダメージ+10%。
+    Description4pc: 装備キャラが必殺技を発動した時、会心ダメージ+25%、2ターン継続。
   "105":
     Name: 成り上がりチャンピオン
-    Description2pc: "<span>物理属性ダメージ+<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>装備キャラが攻撃を行う、または攻撃を受けた後、今回の戦闘中の攻撃力+<span style='whiteSpace: \"nowrap\"'>5%</span>、最大で<span style='whiteSpace: \"nowrap\"'>5</span>層累積できる。</span>"
+    Description2pc: 物理属性ダメージ+10%。
+    Description4pc: 装備キャラが攻撃を行う、または攻撃を受けた後、今回の戦闘中の攻撃力+5%、最大で5層累積できる。
   "106":
     Name: 吹雪と対峙する兵士
-    Description2pc: "<span>受けるダメージ-<span style='whiteSpace: \"nowrap\"'>8%</span>。</span>"
-    Description4pc: "<span>ターンが回ってきた時、装備キャラの残りHPが<span style='whiteSpace: \"nowrap\"'>50%</span>以下の場合、HPを最大HP<span style='whiteSpace: \"nowrap\"'>8%</span>分回復し、EPを<span style='whiteSpace: \"nowrap\"'>5</span>回復する。</span>"
+    Description2pc: 受けるダメージ-8%。
+    Description4pc: ターンが回ってきた時、装備キャラの残りHPが50%以下の場合、HPを最大HP8%分回復し、EPを5回復する。
   "107":
     Name: 溶岩で鍛造する火匠
-    Description2pc: "<span>炎属性ダメージ+<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>装備キャラの戦闘スキルによるダメージ+<span style='whiteSpace: \"nowrap\"'>12%</span>。必殺技を発動した後、次の攻撃の炎属性ダメージ+<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
+    Description2pc: 炎属性ダメージ+10%。
+    Description4pc: 装備キャラの戦闘スキルによるダメージ+12%。必殺技を発動した後、次の攻撃の炎属性ダメージ+12%。
   "108":
     Name: 星の如く輝く天才
-    Description2pc: "<span>量子属性ダメージ+<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>装備キャラが敵にダメージを与えた時、敵の防御力を<span style='whiteSpace: \"nowrap\"'>10%</span>無視する。敵に量子属性の弱点がある場合、さらに防御力を<span style='whiteSpace: \"nowrap\"'>10%</span>無視する。</span>"
+    Description2pc: 量子属性ダメージ+10%。
+    Description4pc: 装備キャラが敵にダメージを与えた時、敵の防御力を10%無視する。敵に量子属性の弱点がある場合、さらに防御力を10%無視する。
   "109":
     Name: 雷鳴轟くバンド
-    Description2pc: "<span>雷属性ダメージ+<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>装備キャラが戦闘スキルを発動した時、装備キャラの攻撃力+<span style='whiteSpace: \"nowrap\"'>20%</span>、<span style='whiteSpace: \"nowrap\"'>1</span>ターン継続。</span>"
+    Description2pc: 雷属性ダメージ+10%。
+    Description4pc: 装備キャラが戦闘スキルを発動した時、装備キャラの攻撃力+20%、1ターン継続。
   "110":
     Name: 昼夜の狭間を翔ける鷹
-    Description2pc: "<span>風属性ダメージ+<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>装備キャラが必殺技を発動した後、行動順が<span style='whiteSpace: \"nowrap\"'>25%</span>早まる。</span>"
+    Description2pc: 風属性ダメージ+10%。
+    Description4pc: 装備キャラが必殺技を発動した後、行動順が25%早まる。
   "111":
     Name: 流星の跡を追う怪盗
-    Description2pc: "<span>撃破特効+<span style='whiteSpace: \"nowrap\"'>16%</span>。</span>"
-    Description4pc: "<span>装備キャラの撃破特効+<span style='whiteSpace: \"nowrap\"'>16%</span>。装備キャラが敵を弱点撃破した後、EPを<span style='whiteSpace: \"nowrap\"'>3</span>回復する。</span>"
+    Description2pc: 撃破特効+16%。
+    Description4pc: 装備キャラの撃破特効+16%。装備キャラが敵を弱点撃破した後、EPを3回復する。
   "112":
     Name: 荒地で盗みを働く廃土客
-    Description2pc: "<span>虚数属性ダメージ+<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>デバフ状態の敵にダメージを与えた時、装備キャラの会心率+<span style='whiteSpace: \"nowrap\"'>10%</span>。禁錮状態の敵にダメージを与えた時、会心ダメージ+<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
+    Description2pc: 虚数属性ダメージ+10%。
+    Description4pc: デバフ状態の敵にダメージを与えた時、装備キャラの会心率+10%。禁錮状態の敵にダメージを与えた時、会心ダメージ+20%。
   "113":
     Name: 宝命長存の蒔者
-    Description2pc: "<span>最大HP+<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
-    Description4pc: "<span>装備キャラが攻撃を受ける、または味方によってHPを消費させられた後、会心率+<span style='whiteSpace: \"nowrap\"'>8%</span>、<span style='whiteSpace: \"nowrap\"'>2</span>ターン継続。この効果は最大で<span style='whiteSpace: \"nowrap\"'>2</span>層累積できる。</span>"
+    Description2pc: 最大HP+12%。
+    Description4pc: 装備キャラが攻撃を受ける、または味方によってHPを消費させられた後、会心率+8%、2ターン継続。この効果は最大で2層累積できる。
   "114":
     Name: 仮想空間を漫遊するメッセンジャー
-    Description2pc: "<span>速度+<span style='whiteSpace: \"nowrap\"'>6%</span>。</span>"
-    Description4pc: "<span>装備キャラが味方に対して必殺技を発動した時、味方全体の速度+<span style='whiteSpace: \"nowrap\"'>12%</span>、<span style='whiteSpace: \"nowrap\"'>1</span>ターン継続。この効果は累積できない。</span>"
+    Description2pc: 速度+6%。
+    Description4pc: 装備キャラが味方に対して必殺技を発動した時、味方全体の速度+12%、1ターン継続。この効果は累積できない。
   "115":
     Name: 灰燼を燃やし尽くす大公
-    Description2pc: "<span>追加攻撃ダメージ+<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
-    Description4pc: "<span>装備キャラが追加攻撃を行った時、追加攻撃のヒット数に応じて、ダメージを与えるたびに装備キャラの攻撃力+<span style='whiteSpace: \"nowrap\"'>6%</span>、最大<span style='whiteSpace: \"nowrap\"'>8</span>回まで累積でき、<span style='whiteSpace: \"nowrap\"'>3</span>ターン継続。この効果は、装備キャラが次の追加攻撃を行った時に解除される。</span>"
+    Description2pc: 追加攻撃ダメージ+20%。
+    Description4pc: 装備キャラが追加攻撃を行った時、追加攻撃のヒット数に応じて、ダメージを与えるたびに装備キャラの攻撃力+6%、最大8回まで累積でき、3ターン継続。この効果は、装備キャラが次の追加攻撃を行った時に解除される。
   "116":
     Name: 深い牢獄の囚人
-    Description2pc: "<span>攻撃力+<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
-    Description4pc: "<span>敵に付与された持続ダメージ系デバフが1つにつき、装備キャラがその敵にダメージを与える時に防御力を<span style='whiteSpace: \"nowrap\"'>6%</span>無視する。持続ダメージ系デバフは最大で<span style='whiteSpace: \"nowrap\"'>3</span>つまでカウントされる。</span>"
+    Description2pc: 攻撃力+12%。
+    Description4pc: 敵に付与された持続ダメージ系デバフが1つにつき、装備キャラがその敵にダメージを与える時に防御力を6%無視する。持続ダメージ系デバフは最大で3つまでカウントされる。
   "117":
     Name: 死水に潜る先駆者
-    Description2pc: "<span>デバフの影響を受けている敵への与ダメージ+<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
-    Description4pc: "<span>会心率+<span style='whiteSpace: \"nowrap\"'>4%</span>。デバフを<span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span>つ以上付与されている敵に対する、装備キャラの会心ダメージ+<span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span>。装備キャラが敵にデバフを付与した後、上記の効果が2倍になる、<span style='whiteSpace: \"nowrap\"'>1</span>ターン継続。</span>"
+    Description2pc: デバフの影響を受けている敵への与ダメージ+12%。
+    Description4pc: 会心率+4%。デバフを2/3つ以上付与されている敵に対する、装備キャラの会心ダメージ+8%/12%。装備キャラが敵にデバフを付与した後、上記の効果が2倍になる、1ターン継続。
   "118":
     Name: 夢を弄ぶ時計屋
-    Description2pc: "<span>撃破特効+<span style='whiteSpace: \"nowrap\"'>16%</span>。</span>"
-    Description4pc: "<span>装備キャラが味方に対して必殺技を発動する時、味方全体の撃破特効+<span style='whiteSpace: \"nowrap\"'>30%</span>、<span style='whiteSpace: \"nowrap\"'>2</span>ターン継続。この効果は累積できない。</span>"
+    Description2pc: 撃破特効+16%。
+    Description4pc: 装備キャラが味方に対して必殺技を発動する時、味方全体の撃破特効+30%、2ターン継続。この効果は累積できない。
   "119":
     Name: 蝗害を一掃せし鉄騎
-    Description2pc: "<span>撃破特効+<span style='whiteSpace: \"nowrap\"'>16%</span>。</span>"
-    Description4pc: "<span>装備キャラの撃破特効が<span style='whiteSpace: \"nowrap\"'>150%</span>以上の時、敵に与える弱点撃破ダメージが防御力を<span style='whiteSpace: \"nowrap\"'>10%</span>無視する。装備キャラの撃破特効が<span style='whiteSpace: \"nowrap\"'>250%</span>以上の時、さらに敵に与える超撃破ダメージが防御力を<span style='whiteSpace: \"nowrap\"'>15%</span>無視する。</span>"
+    Description2pc: 撃破特効+16%。
+    Description4pc: 装備キャラの撃破特効が150%以上の時、敵に与える弱点撃破ダメージが防御力を10%無視する。装備キャラの撃破特効が250%以上の時、さらに敵に与える超撃破ダメージが防御力を15%無視する。
   "120":
     Name: 風雲を薙ぎ払う勇烈
-    Description2pc: "<span>攻撃力+<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
-    Description4pc: "<span>装備キャラの会心率+<span style='whiteSpace: \"nowrap\"'>6%</span>。装備キャラが追加攻撃を行う時、必殺技によるダメージ+<span style='whiteSpace: \"nowrap\"'>36%</span>、<span style='whiteSpace: \"nowrap\"'>1</span>ターン継続。</span>"
+    Description2pc: 攻撃力+12%。
+    Description4pc: 装備キャラの会心率+6%。装備キャラが追加攻撃を行う時、必殺技によるダメージ+36%、1ターン継続。
   "121":
     Name: 再び苦難の道を歩む司祭
-    Description2pc: "<span>速度+<span style='whiteSpace: \"nowrap\"'>6%</span>。</span>"
-    Description4pc: "<span>味方単体に対して戦闘スキルまたは必殺技を発動する時、スキルターゲットの会心ダメージ+<span style='whiteSpace: \"nowrap\"'>18%</span>、<span style='whiteSpace: \"nowrap\"'>2</span>ターン継続。この効果は最大で<span style='whiteSpace: \"nowrap\"'>2</span>層累積できる。</span>"
+    Description2pc: 速度+6%。
+    Description4pc: 味方単体に対して戦闘スキルまたは必殺技を発動する時、スキルターゲットの会心ダメージ+18%、2ターン継続。この効果は最大で2層累積できる。
   "122":
     Name: 知識の海に溺れる学者
-    Description2pc: "<span>会心率+<span style='whiteSpace: \"nowrap\"'>8%</span>。</span>"
-    Description4pc: "<span>戦闘スキルおよび必殺技によるダメージ+<span style='whiteSpace: \"nowrap\"'>20%</span>。必殺技を発動した後、次に戦闘スキルを発動する時、与ダメージがさらに+<span style='whiteSpace: \"nowrap\"'>25%</span>。</span>"
+    Description2pc: 会心率+8%。
+    Description4pc: 戦闘スキルおよび必殺技によるダメージ+20%。必殺技を発動した後、次に戦闘スキルを発動する時、与ダメージがさらに+25%。
   "301":
     Name: 宇宙封印ステーション
-    Description2pc: "<span>装備キャラの攻撃力+<span style='whiteSpace: \"nowrap\"'>12%</span>。装備キャラの速度が<span style='whiteSpace: \"nowrap\"'>120</span>以上の場合、さらに攻撃力+<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
+    Description2pc: 装備キャラの攻撃力+12%。装備キャラの速度が120以上の場合、さらに攻撃力+12%。
   "302":
     Name: 老いぬ者の仙舟
-    Description2pc: "<span>装備キャラの最大HP+<span style='whiteSpace: \"nowrap\"'>12%</span>。装備キャラの速度が<span style='whiteSpace: \"nowrap\"'>120</span>以上の場合、味方全体の攻撃力+<span style='whiteSpace: \"nowrap\"'>8%</span>。</span>"
+    Description2pc: 装備キャラの最大HP+12%。装備キャラの速度が120以上の場合、味方全体の攻撃力+8%。
   "303":
     Name: 汎銀河商事会社
-    Description2pc: "<span>装備キャラの効果命中+<span style='whiteSpace: \"nowrap\"'>10%</span>。装備キャラの攻撃力が、現在の効果命中<span style='whiteSpace: \"nowrap\"'>25%</span>分アップ、最大で+<span style='whiteSpace: \"nowrap\"'>25%</span>。</span>"
+    Description2pc: 装備キャラの効果命中+10%。装備キャラの攻撃力が、現在の効果命中25%分アップ、最大で+25%。
   "304":
     Name: 建創者のベロブルグ
-    Description2pc: "<span>装備キャラの防御力+<span style='whiteSpace: \"nowrap\"'>15%</span>。装備キャラの効果命中が<span style='whiteSpace: \"nowrap\"'>50%</span>以上の場合、さらに防御力+<span style='whiteSpace: \"nowrap\"'>15%</span>。</span>"
+    Description2pc: 装備キャラの防御力+15%。装備キャラの効果命中が50%以上の場合、さらに防御力+15%。
   "305":
     Name: 天体階差機関
-    Description2pc: "<span>装備キャラの会心ダメージ+<span style='whiteSpace: \"nowrap\"'>16%</span>。装備キャラの会心ダメージが<span style='whiteSpace: \"nowrap\"'>120%</span>以上の場合、戦闘に入った後、装備キャラの会心率+<span style='whiteSpace: \"nowrap\"'>60%</span>、初回の攻撃が終了するまで継続。</span>"
+    Description2pc: 装備キャラの会心ダメージ+16%。装備キャラの会心ダメージが120%以上の場合、戦闘に入った後、装備キャラの会心率+60%、初回の攻撃が終了するまで継続。
   "306":
     Name: 自転が止まったサルソット
-    Description2pc: "<span>装備キャラの会心率+<span style='whiteSpace: \"nowrap\"'>8%</span>。装備キャラの会心率が<span style='whiteSpace: \"nowrap\"'>50%</span>以上の場合、追加攻撃ダメージと必殺技によるダメージ+<span style='whiteSpace: \"nowrap\"'>15%</span>。</span>"
+    Description2pc: 装備キャラの会心率+8%。装備キャラの会心率が50%以上の場合、追加攻撃ダメージと必殺技によるダメージ+15%。
   "307":
     Name: 盗賊公国タリア
-    Description2pc: "<span>装備キャラの撃破特効+<span style='whiteSpace: \"nowrap\"'>16%</span>。装備キャラの速度が<span style='whiteSpace: \"nowrap\"'>145</span>以上の場合、さらに撃破特効+<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
+    Description2pc: 装備キャラの撃破特効+16%。装備キャラの速度が145以上の場合、さらに撃破特効+20%。
   "308":
     Name: 生命のウェンワーク
-    Description2pc: "<span>装備キャラのEP回復効率+<span style='whiteSpace: \"nowrap\"'>5%</span>。装備キャラの速度が<span style='whiteSpace: \"nowrap\"'>120</span>以上の場合、戦闘に入る時、行動順が<span style='whiteSpace: \"nowrap\"'>40%</span>早まる。</span>"
+    Description2pc: 装備キャラのEP回復効率+5%。装備キャラの速度が120以上の場合、戦闘に入る時、行動順が40%早まる。
   "309":
     Name: 星々の競技場
-    Description2pc: "<span>装備キャラの会心率+<span style='whiteSpace: \"nowrap\"'>8%</span>。装備キャラの会心率が<span style='whiteSpace: \"nowrap\"'>70%</span>以上の時、通常攻撃と戦闘スキルによるダメージ+<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
+    Description2pc: 装備キャラの会心率+8%。装備キャラの会心率が70%以上の時、通常攻撃と戦闘スキルによるダメージ+20%。
   "310":
     Name: 折れた竜骨
-    Description2pc: "<span>装備キャラの効果抵抗+<span style='whiteSpace: \"nowrap\"'>10%</span>。装備キャラの効果抵抗が<span style='whiteSpace: \"nowrap\"'>30%</span>以上の時、味方全体の会心ダメージ+<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
+    Description2pc: 装備キャラの効果抵抗+10%。装備キャラの効果抵抗が30%以上の時、味方全体の会心ダメージ+10%。
   "311":
     Name: 蒼穹戦線グラモス
-    Description2pc: "<span>装備キャラの攻撃力+<span style='whiteSpace: \"nowrap\"'>12%</span>。装備キャラの速度が<span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span>以上の時、装備キャラの与ダメージ+<span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span>。</span>"
+    Description2pc: 装備キャラの攻撃力+12%。装備キャラの速度が135/160以上の時、装備キャラの与ダメージ+12%/18%。
   "312":
     Name: 夢の地ピノコニー
-    Description2pc: "<span>装備キャラのEP回復効率+<span style='whiteSpace: \"nowrap\"'>5%</span>。パーティ中の装備キャラと同じ属性の味方の与ダメージ+<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
+    Description2pc: 装備キャラのEP回復効率+5%。パーティ中の装備キャラと同じ属性の味方の与ダメージ+10%。
   "313":
     Name: 荒涼の惑星ツガンニヤ
-    Description2pc: "<span>装備キャラの会心率+<span style='whiteSpace: \"nowrap\"'>4%</span>。敵が倒された時、装備キャラの会心ダメージ+<span style='whiteSpace: \"nowrap\"'>4%</span>、最大で<span style='whiteSpace: \"nowrap\"'>10</span>回累積できる。</span>"
+    Description2pc: 装備キャラの会心率+4%。敵が倒された時、装備キャラの会心ダメージ+4%、最大で10回累積できる。
   "314":
     Name: 顕世の出雲と高天の神国
-    Description2pc: "<span>装備キャラの攻撃力+<span style='whiteSpace: \"nowrap\"'>12%</span>。戦闘に入る時、装備キャラと同じ運命のキャラが他に存在する場合、装備キャラの会心率+<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
+    Description2pc: 装備キャラの攻撃力+12%。戦闘に入る時、装備キャラと同じ運命のキャラが他に存在する場合、装備キャラの会心率+12%。
   "315":
     Name: 奔狼の都藍王朝
-    Description2pc: "<span>味方が追加攻撃を行う時、装備キャラは「勲功」を1層獲得する、最大で<span style='whiteSpace: \"nowrap\"'>5</span>層累積できる。「勲功」1層につき、装備キャラの追加攻撃ダメージ+<span style='whiteSpace: \"nowrap\"'>5%</span>。「勲功」が<span style='whiteSpace: \"nowrap\"'>5</span>層に達する時、さらに装備キャラの会心ダメージ+<span style='whiteSpace: \"nowrap\"'>25%</span>。</span>"
+    Description2pc: 味方が追加攻撃を行う時、装備キャラは「勲功」を1層獲得する、最大で5層累積できる。「勲功」1層につき、装備キャラの追加攻撃ダメージ+5%。「勲功」が5層に達する時、さらに装備キャラの会心ダメージ+25%。
   "316":
     Name: 劫火と蓮灯の鋳煉宮
-    Description2pc: "<span>装備キャラの速度+<span style='whiteSpace: \"nowrap\"'>6%</span>。装備キャラの攻撃が炎属性弱点を持つ敵に命中する時、撃破特効+<span style='whiteSpace: \"nowrap\"'>40%</span>、<span style='whiteSpace: \"nowrap\"'>1</span>ターン継続。</span>"
+    Description2pc: 装備キャラの速度+6%。装備キャラの攻撃が炎属性弱点を持つ敵に命中する時、撃破特効+40%、1ターン継続。
   "317":
     Name: 海に沈んだルサカ
-    Description2pc: "<span>装備キャラのEP回復効率+<span style='whiteSpace: \"nowrap\"'>5%</span>。装備キャラがパーティの1枠目のキャラでない場合、1枠目のキャラの攻撃力+<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
+    Description2pc: 装備キャラのEP回復効率+5%。装備キャラがパーティの1枠目のキャラでない場合、1枠目のキャラの攻撃力+12%。
   "318":
     Name: 奇想天外のバナダイス
-    Description2pc: "<span>装備キャラの会心ダメージ+<span style='whiteSpace: \"nowrap\"'>16%</span>。装備キャラが召喚したターゲットがフィールド上にいる場合、さらに会心ダメージ+<span style='whiteSpace: \"nowrap\"'>32%</span>。</span>"
+    Description2pc: 装備キャラの会心ダメージ+16%。装備キャラが召喚したターゲットがフィールド上にいる場合、さらに会心ダメージ+32%。
 Lightcones:
   "20000":
     Name: 矢じり

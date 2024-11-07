@@ -1,10 +1,10 @@
 import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
+import { Assets } from 'lib/assets'
+import { Constants, Parts } from 'lib/constants'
+import { Utils } from 'lib/utils'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { Utils } from 'lib/utils'
-import { Constants, Parts } from 'lib/constants'
-import { Assets } from 'lib/assets'
 
 const Text = styled(Typography)`
     white-space: pre-line;
@@ -44,7 +44,6 @@ export function FormStatRollSliders() {
             marginBottom: 0,
             marginLeft: 'auto',
             marginRight: 'auto',
-            maxWidth: 140,
           }}
           onChangeComplete={(x) => window.onOptimizerFormValuesChange(x, window.optimizerForm.getFieldsValue(), true)}
         />
@@ -58,11 +57,11 @@ export function FormStatRollSliders() {
       </Flex>
       <Flex
         vertical
-        style={
-          typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().indexOf('firefox') > -1
-            ? { width: '-moz-available' }
-            : { width: '-webkit-fill-available' }
-        }
+        style={{
+          width: '100%',
+          marginLeft: 10,
+          marginRight: 10,
+        }}
         align='flex-end'
       >
         {sliders}

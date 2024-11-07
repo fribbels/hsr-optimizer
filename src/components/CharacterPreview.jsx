@@ -62,13 +62,10 @@ const outline = 'rgb(255 255 255 / 40%) solid 1px'
 const shadow = 'rgba(0, 0, 0, 0.5) 1px 1px 1px 1px'
 const filter = 'drop-shadow(rgb(0, 0, 0) 1px 1px 3px)'
 const buttonStyle = {
+  flex: 'auto',
   opacity: 0,
   transition: 'opacity 0.3s ease',
   visibility: 'hidden',
-  flex: 'auto',
-  position: 'absolute',
-  left: 6,
-  width: 150,
 }
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
@@ -593,53 +590,52 @@ export function CharacterPreview(props) {
                         />
                       )
                   }
-                  {!isScorer && (
+                  <Flex vertical style={{ width: 'max-content', marginLeft: 6, marginTop: 6 }} gap={7}>
+                    {!isScorer && (
+                      <Button
+                        style={{
+                          ...buttonStyle,
+                        }}
+                        className='character-build-portrait-button'
+                        icon={<EditOutlined/>}
+                        onClick={() => {
+                          setCharacterModalAdd(false)
+                          setOriginalCharacterModalInitialCharacter(character)
+                          setOriginalCharacterModalOpen(true)
+                        }}
+                        type='primary'
+                      >
+                        {t('CharacterPreview.EditCharacter')/* Edit character */}
+                      </Button>
+                    )}
+                    {isScorer && (
+                      <Button
+                        style={{
+                          ...buttonStyle,
+                        }}
+                        className='character-build-portrait-button'
+                        icon={<EditOutlined/>}
+                        onClick={() => {
+                          setOriginalCharacterModalInitialCharacter(character)
+                          setOriginalCharacterModalOpen(true)
+                        }}
+                        type='primary'
+                      >
+                        {t('CharacterPreview.EditCharacter')/* Edit character */}
+                      </Button>
+                    )}
                     <Button
                       style={{
                         ...buttonStyle,
-                        top: 46,
                       }}
                       className='character-build-portrait-button'
                       icon={<EditOutlined/>}
-                      onClick={() => {
-                        setCharacterModalAdd(false)
-                        setOriginalCharacterModalInitialCharacter(character)
-                        setOriginalCharacterModalOpen(true)
-                      }}
+                      onClick={() => setEditPortraitModalOpen(true)}
                       type='primary'
                     >
-                      {t('CharacterPreview.EditCharacter')/* Edit character */}
+                      {t('CharacterPreview.EditPortrait')/* Edit portrait */}
                     </Button>
-                  )}
-                  {isScorer && (
-                    <Button
-                      style={{
-                        ...buttonStyle,
-                        top: 46,
-                      }}
-                      className='character-build-portrait-button'
-                      icon={<EditOutlined/>}
-                      onClick={() => {
-                        setOriginalCharacterModalInitialCharacter(character)
-                        setOriginalCharacterModalOpen(true)
-                      }}
-                      type='primary'
-                    >
-                      {t('CharacterPreview.EditCharacter')/* Edit character */}
-                    </Button>
-                  )}
-                  <Button
-                    style={{
-                      ...buttonStyle,
-                      top: 7,
-                    }}
-                    className='character-build-portrait-button'
-                    icon={<EditOutlined/>}
-                    onClick={() => setEditPortraitModalOpen(true)}
-                    type='primary'
-                  >
-                    {t('CharacterPreview.EditPortrait')/* Edit portrait */}
-                  </Button>
+                  </Flex>
                   <EditImageModal
                     title={t('CharacterPreview.EditPortrait')/* Edit portrait */}
                     aspectRatio={parentW / parentH}

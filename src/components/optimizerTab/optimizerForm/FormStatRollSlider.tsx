@@ -1,38 +1,70 @@
 import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import { Utils } from 'lib/utils'
-import { Parts } from 'lib/constants'
 import { Assets } from 'lib/assets'
+import { Constants, Parts } from 'lib/constants'
+import { Utils } from 'lib/utils'
+import React, { ReactElement, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 
-const sliderWidth = 140
 const Text = styled(Typography)`
     white-space: pre-line;
 `
 
-export function FormStatRollSlider(props: { text: string; name: string }) {
+const StatSliders = [
+  { text: 'HPFilterText', name: Constants.Stats.HP_P },
+  { text: 'ATKFilterText', name: Constants.Stats.ATK_P },
+  { text: 'DEFFilterText', name: Constants.Stats.DEF_P },
+  { text: 'SPDFilterText', name: Constants.Stats.SPD },
+  { text: 'CRFilterText', name: Constants.Stats.CR },
+  { text: 'CDFilterText', name: Constants.Stats.CD },
+  { text: 'EHRFilterText', name: Constants.Stats.EHR },
+  { text: 'RESFilterText', name: Constants.Stats.RES },
+  { text: 'BEFilterText', name: Constants.Stats.BE },
+] as const
+
+export function FormStatRollSliders() {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'WeightFilter' })
+  const labels: ReactElement[] = []
+  const sliders: ReactElement[] = []
+  for (const stat of StatSliders) {
+    labels.push(
+      <Text style={{ textWrap: 'nowrap' }}>
+        {t(stat.text)}
+      </Text>,
+    )
+    sliders.push(
+      <Form.Item name={['weights', stat.name]} style={{ width: '100%', alignContent: 'end', alignSelf: 'end' }}>
+        <Slider
+          min={0}
+          max={1}
+          step={0.25}
+          style={{
+            width: '100%',
+            marginTop: 0,
+            marginBottom: 0,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+          onChangeComplete={(x) => window.onOptimizerFormValuesChange(x, window.optimizerForm.getFieldsValue(), true)}
+        />
+      </Form.Item>,
+    )
+  }
   return (
-    <Flex>
-      <Flex justify='flex-start' style={{ width: 45, marginRight: 10 }}>
-        <Text>
-          {props.text}
-        </Text>
+    <Flex gap={10}>
+      <Flex vertical style={{ width: 'max-content' }}>
+        {labels}
       </Flex>
-      <Flex align='center'>
-        <Form.Item name={['weights', props.name]}>
-          <Slider
-            min={0}
-            max={1}
-            step={0.25}
-            style={{
-              minWidth: sliderWidth,
-              marginTop: 0,
-              marginBottom: 0,
-              marginLeft: 0,
-            }}
-            onChangeComplete={(x) => window.onOptimizerFormValuesChange(x, window.optimizerForm.getFieldsValue(), true)}
-          />
-        </Form.Item>
+      <Flex
+        vertical
+        style={{
+          width: '100%',
+          marginLeft: 10,
+          marginRight: 10,
+        }}
+        align='flex-end'
+      >
+        {sliders}
       </Flex>
     </Flex>
   )

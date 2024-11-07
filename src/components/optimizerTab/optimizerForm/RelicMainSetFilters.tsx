@@ -122,7 +122,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
         </Flex>
         <Form.Item name='relicSets'>
           <Cascader
-            placeholder='Relic set'
+            placeholder={t('RelicSetSelector.Placeholder')}
             options={useMemo(() => GenerateSetsOptions(), [t])}
             showCheckedStrategy={SHOW_CHILD}
             tagRender={RelicSetTagRenderer}
@@ -146,7 +146,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             }}
             options={useMemo(() => GenerateOrnamentsOptions(), [t])}
             tagRender={OrnamentSetTagRenderer}
-            placeholder='Ornament set'
+            placeholder={t('OrnamentSetSelector.Placeholder')}
             maxTagCount='responsive'
           >
           </Select>

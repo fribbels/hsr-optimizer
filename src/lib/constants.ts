@@ -686,7 +686,7 @@ export const setToId = {
   [Sets.ForgeOfTheKalpagniLantern]: '316',
   [Sets.LushakaTheSunkenSeas]: '317',
   [Sets.TheWondrousBananAmusementPark]: '318',
-}
+} as const
 
 export const DamageKeys = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK']
 

@@ -1,0 +1,11 @@
+Import:
+  Stage2:
+    FileInfo: >-
+      Le fichier contient $t(common:RelicWithCount, {"count": {{relicCount}}}) et $t(common:CharacterWithCount, {"count": {{characterCount}}}).
+  Stage3:
+    SuccessMessage: Terminé!
+LoadData:
+  Stage3:
+    SuccessMessage: Terminé!
+ClearData:
+  WarningDescription: Êtes-vous sûr de vouloir effacer toutes les reliques et tous les personnages ?

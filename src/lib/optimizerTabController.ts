@@ -1,7 +1,7 @@
 import { CellClickedEvent, IGetRowsParams, IRowNode } from 'ag-grid-community'
 import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { inPlaceSort } from 'fast-sort'
-import { OptimizerDisplayData } from 'lib/bufferPacker'
+import { OptimizerDisplayData, OptimizerDisplayDataStatSim } from 'lib/bufferPacker'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { CharacterStats } from 'lib/characterStats'
 import { CombatBuffs, ConditionalDataType, Constants, DamageKeys, DEFAULT_STAT_DISPLAY, Stats } from 'lib/constants'
@@ -133,7 +133,7 @@ export const OptimizerTabController = {
     }
     DB.addFromForm(formValues)
 
-    const selectedNodes = window.optimizerGrid.current?.api.getSelectedNodes() as IRowNode<OptimizerDisplayData>[]
+    const selectedNodes = window.optimizerGrid.current?.api.getSelectedNodes() as IRowNode<OptimizerDisplayDataStatSim>[]
     if (!selectedNodes || selectedNodes.length == 0 || (selectedNodes[0]?.data?.statSim)) {
       return
     }
@@ -150,7 +150,7 @@ export const OptimizerTabController = {
   },
 
   cellClicked: (event: CellClickedEvent) => {
-    const data = event.data as OptimizerDisplayData
+    const data = event.data as OptimizerDisplayDataStatSim
 
     if (event.rowPinned == 'top') {
       console.log('Top row clicked', event.data)
@@ -213,8 +213,9 @@ export const OptimizerTabController = {
   },
 
   getDataSource: (newSortModel?: SortModel, newFilterModel?: Form) => {
-    sortModel = newSortModel
-    filterModel = newFilterModel
+    if (newSortModel) sortModel = newSortModel
+    if (newFilterModel) filterModel = newFilterModel
+
     return {
       getRows: (params: IGetRowsParams) => {
         // @ts-ignore
@@ -349,9 +350,9 @@ export const OptimizerTabController = {
     const combatBuffs = {} as Partial<OptimizerCombatBuffs>
     if (!form.combatBuffs) form.combatBuffs = {}
     for (const buff of Object.values(CombatBuffs)) {
-      combatBuffs[buff.key] = unsetMin(form.combatBuffs[buff.key], buff.percent)
+      combatBuffs[buff.key as keyof OptimizerCombatBuffs] = unsetMin(form.combatBuffs[buff.key], buff.percent)
     }
-    newForm.combatBuffs = combatBuffs as OptimizerCombatBuffs
+    newForm.combatBuffs = combatBuffs
 
     if (!newForm.setConditionals) {
       newForm.setConditionals = defaultSetConditionals
@@ -395,8 +396,8 @@ export const OptimizerTabController = {
         newForm.characterConditionals = {} as CharacterConditionalMap
       }
       for (const option of Object.keys(defaultOptions)) {
-        if (newForm.characterConditionals[option] == undefined) {
-          newForm.characterConditionals[option] = defaultOptions[option]
+        if (newForm.characterConditionals[option as keyof CharacterConditionalMap] == undefined) {
+          newForm.characterConditionals[option as keyof LightConeConditionalMap] = defaultOptions[option] as number
         }
       }
     }
@@ -407,8 +408,8 @@ export const OptimizerTabController = {
         newForm.lightConeConditionals = {} as LightConeConditionalMap
       }
       for (const option of Object.keys(defaultLcOptions)) {
-        if (newForm.lightConeConditionals[option] == undefined) {
-          newForm.lightConeConditionals[option] = defaultLcOptions[option]
+        if (newForm.lightConeConditionals[option as keyof LightConeConditionalMap] == undefined) {
+          newForm.lightConeConditionals[option as keyof LightConeConditionalMap] = defaultLcOptions[option] as number
         }
       }
     } else {
@@ -545,7 +546,7 @@ export const OptimizerTabController = {
     }
 
     // console.log('Form update', newForm)
-    return newForm
+    return newForm as Form
   },
 
   validateForm: (form: Form) => {
@@ -650,7 +651,7 @@ export const OptimizerTabController = {
   updateFilters: () => {
     if (window.optimizerForm && window.onOptimizerFormValuesChange) {
       const fieldValues = OptimizerTabController.getForm()
-      window.onOptimizerFormValuesChange({}, fieldValues)
+      window.onOptimizerFormValuesChange({} as Form, fieldValues)
     }
   },
 
@@ -703,7 +704,7 @@ export const OptimizerTabController = {
     const displayFormValues = OptimizerTabController.getDisplayFormValues(form as Form)
     window.optimizerForm.setFieldsValue(displayFormValues)
 
-    const comboState = initializeComboState(displayFormValues as Form, true)
+    const comboState = initializeComboState(displayFormValues, true)
     window.store.getState().setComboState(comboState)
 
     // Setting timeout so this doesn't lag the modal close animation. The delay is mostly hidden by the animation
@@ -716,7 +717,7 @@ export const OptimizerTabController = {
       window.store.getState().setStatSimulations(form.statSim?.simulations ?? [])
       // console.log('@updateForm', displayFormValues, character)
 
-      window.onOptimizerFormValuesChange({}, displayFormValues)
+      window.onOptimizerFormValuesChange({} as Form, displayFormValues)
     }, 50)
   },
 
@@ -794,7 +795,7 @@ function aggregate(subArray: OptimizerDisplayData[]) {
 
   for (const row of subArray) {
     for (const column of OptimizerTabController.getColumnsToAggregate()) {
-      const value = row[column]
+      const value: number = row[column as keyof OptimizerDisplayData]
       if (value < minAgg[column]) minAgg[column] = value
       if (value > maxAgg[column]) maxAgg[column] = value
     }
@@ -807,9 +808,9 @@ function aggregate(subArray: OptimizerDisplayData[]) {
 
 function sort() {
   if (sortModel.sort == 'desc') {
-    inPlaceSort(rows).desc((x) => x[sortModel.colId])
+    inPlaceSort(rows).desc((x) => x[sortModel.colId as keyof OptimizerDisplayData])
   } else {
-    inPlaceSort(rows).asc((x) => x[sortModel.colId])
+    inPlaceSort(rows).asc((x) => x[sortModel.colId as keyof OptimizerDisplayData])
   }
 }
 

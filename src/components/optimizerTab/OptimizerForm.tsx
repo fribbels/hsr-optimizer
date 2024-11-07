@@ -1,33 +1,32 @@
 import { Flex, Form as AntDForm } from 'antd'
-import React, { useEffect } from 'react'
-import { Optimizer } from 'lib/optimizer/optimizer'
-import { SavedSessionKeys } from 'lib/constantsSession'
-import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'components/optimizerTab/FormRow'
-import FormCard from 'components/optimizerTab/FormCard'
-import OptimizerOptionsDisplay from 'components/optimizerTab/optimizerForm/OptimizerOptionsDisplay'
-import { OptimizerTabController } from 'lib/optimizerTabController'
-import { SaveState } from 'lib/saveState'
-import { FormSetConditionals } from 'components/optimizerTab/optimizerForm/FormSetConditionals'
-import DB from 'lib/db'
-import { Utils } from 'lib/utils'
 import { CharacterConditionalDisplay } from 'components/optimizerTab/conditionals/CharacterConditionalDisplay'
 import { LightConeConditionalDisplay } from 'components/optimizerTab/conditionals/LightConeConditionalDisplay'
-import TeammateCard from 'components/optimizerTab/optimizerForm/TeammateCard'
-import CharacterSelectorDisplay from 'components/optimizerTab/optimizerForm/CharacterSelectorDisplay'
-import RelicMainSetFilters from 'components/optimizerTab/optimizerForm/RelicMainSetFilters'
-import { SubstatWeightFilters } from 'components/optimizerTab/optimizerForm/SubstatWeightFilters'
-import { MinMaxRatingFilters, MinMaxStatFilters } from 'components/optimizerTab/optimizerForm/ResultFilters'
-import { CombatBuffsDrawer } from 'components/optimizerTab/optimizerForm/CombatBuffsDrawer'
-import { OptimizerTabCharacterPanel } from 'components/optimizerTab/optimizerForm/OptimizerTabCharacterPanel'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
 import FilterContainer from 'components/optimizerTab/FilterContainer'
-import { StatSimulationDisplay } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
+import FormCard from 'components/optimizerTab/FormCard'
+import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'components/optimizerTab/FormRow'
+import { AdvancedOptionsPanel } from 'components/optimizerTab/optimizerForm/AdvancedOptionsPanel'
+import CharacterSelectorDisplay from 'components/optimizerTab/optimizerForm/CharacterSelectorDisplay'
+import { CombatBuffsDrawer } from 'components/optimizerTab/optimizerForm/CombatBuffsDrawer'
 import { ComboFilters } from 'components/optimizerTab/optimizerForm/ComboFilter'
 import { EnemyConfigurationsDrawer } from 'components/optimizerTab/optimizerForm/EnemyConfigurationsDrawer'
-import { AdvancedOptionsPanel } from 'components/optimizerTab/optimizerForm/AdvancedOptionsPanel'
+import { FormSetConditionals } from 'components/optimizerTab/optimizerForm/FormSetConditionals'
+import OptimizerOptionsDisplay from 'components/optimizerTab/optimizerForm/OptimizerOptionsDisplay'
+import { OptimizerTabCharacterPanel } from 'components/optimizerTab/optimizerForm/OptimizerTabCharacterPanel'
+import RelicMainSetFilters from 'components/optimizerTab/optimizerForm/RelicMainSetFilters'
+import { MinMaxRatingFilters, MinMaxStatFilters } from 'components/optimizerTab/optimizerForm/ResultFilters'
+import { StatSimulationDisplay } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
+import { SubstatWeightFilters } from 'components/optimizerTab/optimizerForm/SubstatWeightFilters'
+import TeammateCard from 'components/optimizerTab/optimizerForm/TeammateCard'
+import { SavedSessionKeys } from 'lib/constantsSession'
+import DB from 'lib/db'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { Optimizer } from 'lib/optimizer/optimizer'
 import { updateConditionalChange } from 'lib/optimizer/rotation/comboDrawerController'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { SaveState } from 'lib/saveState'
+import { Utils } from 'lib/utils'
+import React, { useEffect } from 'react'
 import { Form } from 'types/Form'
-import { ConditionalMap } from 'types/Conditionals'
 
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')
@@ -103,7 +102,8 @@ export default function OptimizerForm() {
       LinkRopeTotal: preFilteredRelicsByPart.LinkRope.length,
     }
     window.store.getState().setPermutationDetails(permutationDetails)
-    window.store.getState().setPermutations(relics.Head.length * relics.Hands.length * relics.Body.length * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length)
+    window.store.getState()
+      .setPermutations(relics.Head.length * relics.Hands.length * relics.Body.length * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length)
   }
   window.onOptimizerFormValuesChange = onValuesChange
 
@@ -237,7 +237,7 @@ function LightConeConditionalDisplayWrapper() {
   // Hook into light cone changes to set defaults
   useEffect(() => {
     const lcFn = LightConeConditionals.get(window.optimizerForm.getFieldsValue() as Form)
-    const defaults = lcFn.defaults() as ConditionalMap
+    const defaults = lcFn.defaults()
     const lightConeForm = DB.getCharacterById(optimizerTabFocusCharacter!)?.form.lightConeConditionals || {}
     Utils.mergeDefinedValues(defaults, lightConeForm)
 

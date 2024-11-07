@@ -47,8 +47,10 @@ export type OptimizerDisplayData = {
   'ornamentSetIndex': number
   'low': number
   'high': number
+}
 
-  'statSim'?: {
+export type OptimizerDisplayDataStatSim = OptimizerDisplayData & {
+  statSim: {
     key: string
   }
 }

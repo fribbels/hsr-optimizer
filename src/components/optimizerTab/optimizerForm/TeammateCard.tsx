@@ -1,20 +1,20 @@
-import { useEffect, useMemo, useState } from 'react'
-import FormCard from 'components/optimizerTab/FormCard'
 import { SyncOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Select, SelectProps, Typography } from 'antd'
-import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants'
-import { Assets } from 'lib/assets'
-import { CharacterConditionals } from 'lib/characterConditionals'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { OptimizerTabController } from 'lib/optimizerTabController'
 import { CharacterConditionalDisplay } from 'components/optimizerTab/conditionals/CharacterConditionalDisplay'
 import { LightConeConditionalDisplay } from 'components/optimizerTab/conditionals/LightConeConditionalDisplay'
-import DB from 'lib/db'
-import { Character } from 'types/Character'
-import { Message } from 'lib/message'
-import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect'
+import FormCard from 'components/optimizerTab/FormCard'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
+import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect'
+import { Assets } from 'lib/assets'
+import { CharacterConditionals } from 'lib/characterConditionals'
+import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants'
+import DB from 'lib/db'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { Message } from 'lib/message'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Character } from 'types/Character'
 
 const { Text } = Typography
 
@@ -327,8 +327,6 @@ const TeammateCard = (props: { index: number }) => {
             </Form.Item>
           </Flex>
         </Flex>
-
-        <div style={{ height: 1 }}/>
 
         <Flex gap={5}>
           <Form.Item name={[teammateProperty, `lightCone`]}>

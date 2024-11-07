@@ -1,14 +1,17 @@
 CharacterSelector:
   Character: Personnage
+  Lightcone: Cône de lumière
   Presets: Préréglages
   Target: Cible d'optimisation
   ResultsPlaceholder: Trouver meilleurs résultats
   TargetPlaceholder: Triés par
   EidolonPlaceholder: E
   SuperimpositionPlaceholder: S
+LightconePassives: Passifs de cônes de lumière
 NoConditionals: Pas de passifs conditionnels
 NoTeamConditionals: Pas de passifs conditionnels de coéquipier
 ResultLimitN: "Trouver meilleurs {{limit}} résultats"
+MainStats: Stats principales
 RelicSetSelector:
   Placeholder: Ensemble de relique
   4pcLabel: 4 pièces
@@ -83,6 +86,7 @@ Grid:
   PageSelectorLabel: "Taille de page"
   Headers:
     Basic:
+      Set: Ensemble
       ATK: ATQ
       DEF: DÉF
       HP: PV
@@ -123,6 +127,7 @@ Grid:
         DGT
         COMBO
     Combat:
+      Set: Ensemble
       ATK: Σ ATQ
       DEF: Σ DEF
       HP: Σ PV
@@ -200,6 +205,7 @@ Sidebar:
     BasicStats: Stats basiques
   ResultsGroup:
     Header: Résultats
+    Equip: Équiper
     Filter: Filtrer
     Pin: Épingler
     Clear: Désépingler
@@ -411,6 +417,7 @@ TeammateCard:
     $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})
   EidolonPlaceholder: Eidolon
   SuperimpositionPlaceholder: Superimposition
+  RelicsPlaceholder: Reliques
   OrnamentsPlaceholder: Ornements
   TeammateSyncSuccessMessage: Info de coéquipier synchronisée
   TeammateSets:
@@ -473,6 +480,7 @@ StatSimulation:
   RollsHeader: Roll maximales des stats secondaires 
   TotalsHeader: Valeur totale des stats secondaires
   MainStatsSelection:
+    Header: Stats principales
     BodyPlaceholder: Corps
     FeetPlaceholder: Pieds
     SpherePlaceholder: Sphère

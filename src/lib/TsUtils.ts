@@ -71,6 +71,17 @@ export const TsUtils = {
       console.warn('An unknown error occurred', err)
     }
   },
+
+  splitFloat64ToFloat32Parts(value: number) {
+    const high = Math.floor(value / 2 ** 32)
+    const low = value % 2 ** 32
+
+    return { high, low }
+  },
+
+  reconstructFloat64FromParts(high: number, low: number) {
+    return high * 2 ** 32 + low
+  },
 }
 
 const getEmptyT = <

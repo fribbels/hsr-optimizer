@@ -1,10 +1,10 @@
+import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants'
+import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
 import { generateBaseParamsArray, generateParamsMatrix, mergeRelicsIntoArray } from 'lib/gpu/webgpuDataTransform'
-import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
-import { Form } from 'types/Form'
-import postComputeShader from 'lib/gpu/wgsl/postComputeShader.wgsl?raw'
-import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants'
 import { GpuExecutionContext, GpuResult, RelicsByPart } from 'lib/gpu/webgpuTypes'
+import postComputeShader from 'lib/gpu/wgsl/postComputeShader.wgsl?raw'
+import { Form } from 'types/Form'
 import { OptimizerContext } from 'types/Optimizer'
 
 export function initializeGpuPipeline(
@@ -17,6 +17,7 @@ export function initializeGpuPipeline(
   relicSetSolutions: number[],
   ornamentSetSolutions: number[],
   debug = false,
+  silent = false,
 ): GpuExecutionContext {
   const WORKGROUP_SIZE = 256
   const BLOCK_SIZE = 65536
@@ -32,7 +33,7 @@ export function initializeGpuPipeline(
     DEBUG,
   })
 
-  if (DEBUG) {
+  if (DEBUG && !silent) {
     console.log(wgsl)
   }
 

@@ -18,6 +18,7 @@ export default function CharacterModal(props: {
   const [characterForm] = AntDForm.useForm()
 
   const { t } = useTranslation('modals', { keyPrefix: 'EditCharacter' })
+  const { t: tCommon } = useTranslation('common')
 
   const [characterId, setCharacterId] = useState(props.initialCharacter?.form.characterId || '')
   const [eidolon] = useState(props.initialCharacter?.form.characterEidolon || 0)
@@ -61,10 +62,10 @@ export default function CharacterModal(props: {
       onCancel={handleCancel}
       footer={[
         <Button key='back' onClick={handleCancel}>
-          {t('Cancel')}
+          {tCommon('Cancel')}
         </Button>,
         <Button key='submit' type='primary' onClick={onModalOk}>
-          {t('Save')}
+          {tCommon('Save')}
         </Button>,
       ]}
     >

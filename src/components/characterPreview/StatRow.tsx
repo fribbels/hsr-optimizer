@@ -1,7 +1,7 @@
 import { Divider, Flex } from 'antd'
 
 import { Assets } from 'lib/assets'
-import { Constants } from 'lib/constants'
+import { Constants, StatsValues } from 'lib/constants'
 import { iconSize } from 'lib/constantsUi'
 import { Utils } from 'lib/utils'
 
@@ -58,7 +58,11 @@ const StatRow = (props: { stat: string; finalStats: object; value?: number }): J
 
   const { t, i18n } = useTranslation('common')
 
-  const readableStat = (displayTextMap[stat] || stat == 'CV') ? (i18n.exists(`ReadableStats.${stat}`) ? t(`ReadableStats.${stat}`) : t(`DMGTypes.${stat}`)) : t(`Stats.${stat}`)
+  const readableStat = (displayTextMap[stat] || stat == 'CV')
+    ? (i18n.exists(`ReadableStats.${stat}`)
+      ? t(`ReadableStats.${stat as StatsValues}`)
+      : t(`DMGTypes.${stat}`))
+    : t(`Stats.${stat}`)
 
   let valueDisplay
   let value1000thsPrecision

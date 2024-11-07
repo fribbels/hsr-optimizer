@@ -30,6 +30,7 @@ export const STAT_SIMULATION_STATS_WIDTH = 190
 
 export function StatSimulationDisplay() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
+  const { t: tCommon } = useTranslation('common')
   const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
   const setStatSimulationDisplay = window.store((s) => s.setStatSimulationDisplay)
   const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
@@ -109,8 +110,8 @@ export function StatSimulationDisplay() {
               description={t('DeletePopup.Description')}// "Are you sure you want to clear all of this character's saved simulations?"
               onConfirm={deleteAllStatSimulationBuilds}
               placement='bottom'
-              okText={t('DeletePopup.OkText')}// 'Yes'
-              cancelText={t('DeletePopup.CancelText')}// 'Cancel'
+              okText={tCommon('Yes')}// 'Yes'
+              cancelText={tCommon('Cancel')}// 'Cancel'
             >
               <Button
                 type='dashed'
@@ -211,7 +212,7 @@ function SetsSection(props: { simType: string }) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
   return (
     <>
-      <HeaderText>Sets</HeaderText>
+      <HeaderText>{t('SetSelection.Header')}</HeaderText>
       <Form.Item name={formName(props.simType, 'simRelicSet1')} style={{ maxHeight: 32 }}>
         <Select
           dropdownStyle={{
@@ -221,7 +222,7 @@ function SetsSection(props: { simType: string }) {
           allowClear
           options={useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])}
           tagRender={OrnamentSetTagRenderer}
-          placeholder={t('RelicSetPlaceholder')}// 'Relic set'
+          placeholder={t('SetSelection.RelicPlaceholder')}// 'Relic set'
           maxTagCount='responsive'
           showSearch
         >
@@ -236,7 +237,7 @@ function SetsSection(props: { simType: string }) {
           allowClear
           options={useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])}
           tagRender={OrnamentSetTagRenderer}
-          placeholder={t('RelicSetPlaceholder')}// 'Relic set'
+          placeholder={t('SetSelection.RelicPlaceholder')}// 'Relic set'
           maxTagCount='responsive'
           showSearch
         >
@@ -252,7 +253,7 @@ function SetsSection(props: { simType: string }) {
           allowClear
           options={useMemo(() => GenerateOrnamentsOptions(), [i18n.resolvedLanguage])}
           tagRender={OrnamentSetTagRenderer}
-          placeholder={t('OrnamentSetPlaceholder')}// 'Ornament set'
+          placeholder={t('SetSelection.OrnamentPlaceholder')}// 'Ornament set'
           maxTagCount='responsive'
           showSearch
         >

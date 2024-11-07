@@ -16,6 +16,7 @@ const NameBuild: React.FC<NameBuildProps> = ({ open, setOpen, onOk }) => {
   const [characterForm] = Form.useForm()
 
   const { t } = useTranslation('modals', { keyPrefix: 'SaveBuild' })
+  const { t: tCommon } = useTranslation('common')
 
   function onModalOk() {
     const formValues = characterForm.getFieldsValue() as CharacterForm
@@ -38,10 +39,10 @@ const NameBuild: React.FC<NameBuildProps> = ({ open, setOpen, onOk }) => {
       onCancel={handleCancel}
       footer={[
         <Button key='back' onClick={handleCancel}>
-          {t('Cancel')/* Cancel */}
+          {tCommon('Cancel')/* Cancel */}
         </Button>,
         <Button key='submit' type='primary' onClick={onModalOk}>
-          {t('Save')/* Save */}
+          {tCommon('Save')/* Save */}
         </Button>,
       ]}
     >

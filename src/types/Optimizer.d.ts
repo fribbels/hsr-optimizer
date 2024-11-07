@@ -1,11 +1,11 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { ConditionalRegistry } from 'lib/optimizer/calculateConditionals'
+import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
 import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterConditional'
 import { LightConeConditional, LightConeConditionalMap } from 'types/LightConeConditionals'
-import { ConditionalRegistry } from 'lib/optimizer/calculateConditionals'
-import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 
 export type OptimizerAction = {
-  precomputedX: ComputedStatsObject
+  precomputedX: ComputedStatsArray
 
   characterConditionals: CharacterConditionalMap
   lightConeConditionals: LightConeConditionalMap

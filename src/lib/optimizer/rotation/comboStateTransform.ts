@@ -1,14 +1,14 @@
-import { ComboBooleanConditional, ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/optimizer/rotation/comboDrawerController'
-import { Form } from 'types/Form'
-import { OptimizerAction, OptimizerContext, SetConditional } from 'types/Optimizer'
-import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterConditional'
-import { LightConeConditional, LightConeConditionalMap } from 'types/LightConeConditionals'
-import { SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets, Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { CharacterConditionals } from 'lib/characterConditionals'
+import { SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants'
+import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateConditionals'
-import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimizer/computedStatsArray'
+import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/optimizer/rotation/comboDrawerController'
+import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterConditional'
+import { Form } from 'types/Form'
+import { LightConeConditional, LightConeConditionalMap } from 'types/LightConeConditionals'
+import { OptimizerAction, OptimizerContext, SetConditional } from 'types/Optimizer'
 
 export type ComboForm = {}
 
@@ -57,7 +57,7 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
       characterConditionals: {},
       lightConeConditionals: {},
     },
-    teammateDynamicConditionals: [] as DynamicConditional[]
+    teammateDynamicConditionals: [] as DynamicConditional[],
   } as OptimizerAction
   action.actionIndex = actionIndex
   action.actionType = comboAbilities[actionIndex]
@@ -66,7 +66,8 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
   action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.lightConeConditionals) as LightConeConditionalMap
   action.setConditionals = transformSetConditionals(actionIndex, comboState.comboCharacter.setConditionals) as SetConditional
 
-  action.precomputedX = Object.assign({}, baseComputedStatsObject)
+  action.precomputedX = new ComputedStatsArrayCore(false) as ComputedStatsArray
+  action.precomputedX.setPrecompute(baseComputedStatsArray())
 
   if (comboState.comboTeammate0) {
     action.teammate0.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate0.characterConditionals) as CharacterConditionalMap
@@ -109,10 +110,10 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
 
     const teammateAction = {
       characterConditionals: transformConditionals(action.actionIndex, teammate.characterConditionals) as CharacterConditionalMap,
-      lightConeConditionals: transformConditionals(action.actionIndex, teammate.lightConeConditionals) as CharacterConditionalMap
+      lightConeConditionals: transformConditionals(action.actionIndex, teammate.lightConeConditionals) as CharacterConditionalMap,
     } as OptimizerAction
 
-    const teammateCharacterConditionals = CharacterConditionals.get(teammate.metadata) as CharacterConditional
+    const teammateCharacterConditionals = CharacterConditionals.get(teammate.metadata)
     const teammateLightConeConditionals = LightConeConditionals.get(teammate.metadata) as LightConeConditional
 
     teammateCharacterConditionals.initializeTeammateConfigurations?.(x, teammateAction, context)
@@ -129,13 +130,13 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
 
   precomputeTeammates(action, comboState, context)
   // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
-  x.ENEMY_WEAKNESS_BROKEN = x.ENEMY_WEAKNESS_BROKEN || (context.enemyWeaknessBroken ? 1 : 0)
+  x.ENEMY_WEAKNESS_BROKEN.set((x.a[Key.ENEMY_WEAKNESS_BROKEN] || context.enemyWeaknessBroken ? 1 : 0), Source.NONE)
 }
 
 function precomputeTeammates(action: OptimizerAction, comboState: ComboState, context: OptimizerContext) {
   // Precompute teammate effects
   const x = action.precomputedX
-  const teammateSetEffects = {}
+  const teammateSetEffects: Record<string, boolean> = {}
   const teammates = [
     comboState.comboTeammate0,
     comboState.comboTeammate1,
@@ -148,10 +149,10 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
 
     const teammateAction = {
       characterConditionals: transformConditionals(action.actionIndex, teammate.characterConditionals) as CharacterConditionalMap,
-      lightConeConditionals: transformConditionals(action.actionIndex, teammate.lightConeConditionals) as CharacterConditionalMap
+      lightConeConditionals: transformConditionals(action.actionIndex, teammate.lightConeConditionals) as CharacterConditionalMap,
     } as OptimizerAction
 
-    const teammateCharacterConditionals = CharacterConditionals.get(teammate.metadata) as CharacterConditional
+    const teammateCharacterConditionals = CharacterConditionals.get(teammate.metadata)
     const teammateLightConeConditionals = LightConeConditionals.get(teammate.metadata) as CharacterConditional
 
     if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateAction, context)
@@ -162,7 +163,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
 
     for (const [key, value] of [...Object.entries(teammateRequest.relicSetConditionals), ...Object.entries(teammateRequest.ornamentSetConditionals)]) {
       if (value.type == 'boolean') {
-        const booleanComboConditional = value as ComboBooleanConditional
+        const booleanComboConditional = value
         if (!booleanComboConditional.activations[action.actionIndex]) {
           continue
         }
@@ -171,31 +172,31 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
       }
       switch (key) {
         case Sets.BrokenKeel:
-          x[Stats.CD] += 0.10
+          x.CD.buff(0.10, Source.BrokenKeel)
           break
         case Sets.FleetOfTheAgeless:
-          x[Stats.ATK_P] += 0.08
+          x.ATK_P.buff(0.08, Source.FleetOfTheAgeless)
           break
         case Sets.PenaconyLandOfTheDreams:
           if (comboState.comboCharacter.metadata.element != teammateRequest.metadata.element) break
-          x.ELEMENTAL_DMG += 0.10
+          x.ELEMENTAL_DMG.buff(0.10, Source.PenaconyLandOfTheDreams)
           break
         case Sets.LushakaTheSunkenSeas:
-          x[Stats.ATK_P] += 0.12
+          x.ATK_P.buff(0.12, Source.LushakaTheSunkenSeas)
           break
         case Sets.MessengerTraversingHackerspace:
           if (teammateSetEffects[Sets.MessengerTraversingHackerspace]) break
-          x[Stats.SPD_P] += 0.12
+          x.SPD_P.buff(0.12, Source.MessengerTraversingHackerspace)
           break
         case Sets.WatchmakerMasterOfDreamMachinations:
           if (teammateSetEffects[Sets.WatchmakerMasterOfDreamMachinations]) break
-          x[Stats.BE] += 0.30
+          x.BE.buff(0.30, Source.WatchmakerMasterOfDreamMachinations)
           break
         case SACERDOS_RELIVED_ORDEAL_1_STACK:
-          x[Stats.CD] += 0.18
+          x.CD.buff(0.18, Source.SacerdosRelivedOrdeal)
           break
         case SACERDOS_RELIVED_ORDEAL_2_STACK:
-          x[Stats.CD] += 0.36
+          x.CD.buff(0.36, Source.SacerdosRelivedOrdeal)
           break
         default:
       }
@@ -207,7 +208,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
 }
 
 function transformConditionals(actionIndex: number, conditionals: ComboConditionals) {
-  const result = {}
+  const result: Record<string, number | boolean> = {}
   for (const [key, category] of Object.entries(conditionals)) {
     result[key] = transformConditional(category, actionIndex)
   }
@@ -217,7 +218,7 @@ function transformConditionals(actionIndex: number, conditionals: ComboCondition
 
 function transformConditional(category: ComboConditionalCategory, actionIndex: number) {
   if (category.type == 'boolean') {
-    const booleanCategory = category as ComboBooleanConditional
+    const booleanCategory = category
     return booleanCategory.activations[actionIndex]
   } else {
     const partitionCategory = category as ComboSelectConditional
@@ -259,7 +260,7 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
 }
 
 function getComboAbilities(comboAbilities: string[]) {
-  let newComboAbilities = ['DEFAULT']
+  const newComboAbilities = ['DEFAULT']
   for (let i = 1; i <= 8; i++) {
     if (comboAbilities[i] == null) break
     newComboAbilities.push(comboAbilities[i])

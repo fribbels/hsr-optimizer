@@ -737,7 +737,7 @@
       "rarity": 5,
       "path": "Nihility",
       "element": "Fire",
-      "max_sp": 150,
+      "max_sp": 130,
       "stats": {
         "HP": 1125.432,
         "ATK": 582.12,
@@ -944,7 +944,7 @@
       "max_sp": 130,
       "stats": {
         "HP": 1241.856,
-        "ATK": 737.352,
+        "ATK": 640.332,
         "DEF": 533.61,
         "SPD": 96,
         "CRIT Rate": 0.05,
@@ -2492,202 +2492,202 @@
     {
       "id": "318",
       "name": "The Wondrous BananAmusement Park",
-      "skills": "Increases the wearer's CRIT DMG by <b>16.0%</b>. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by <b>32.0%</b>."
+      "skills": "Increases the wearer's CRIT DMG by <b>16%</b>. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by <b>32%</b>."
     },
     {
       "id": "317",
       "name": "Lushaka, the Sunken Seas",
-      "skills": "Increases the wearer's Energy Regeneration Rate by <b>5.0%</b>. If the wearer is not the first character in the team lineup, then increases the ATK of the first character in the team lineup by <b>12.0%</b>."
+      "skills": "Increases the wearer's Energy Regeneration Rate by <b>5%</b>. If the wearer is not the first character in the team lineup, then increases the ATK of the first character in the team lineup by <b>12%</b>."
     },
     {
       "id": "316",
       "name": "Forge of the Kalpagni Lantern",
-      "skills": "Increases the wearer's SPD by <b>6.0%</b>. When the wearer hits an enemy target that has Fire Weakness, the wearer's Break Effect increases by <b>40.0%</b>, lasting for <b>1.0</b> turn(s)."
+      "skills": "Increases the wearer's SPD by <b>6%</b>. When the wearer hits an enemy target that has Fire Weakness, the wearer's Break Effect increases by <b>40%</b>, lasting for <b>1</b> turn(s)."
     },
     {
       "id": "315",
       "name": "Duran, Dynasty of Running Wolves",
-      "skills": "When an ally uses a follow-up attack, the wearer gains 1 stack of Merit, stacking up to <b>5.0</b> time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <b>5.0%</b>. When there are <b>5.0</b> stacks, additionally increases the wearer's CRIT DMG by <b>25.0%</b>."
+      "skills": "When an ally uses a follow-up attack, the wearer gains 1 stack of Merit, stacking up to <b>5</b> time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <b>5%</b>. When there are <b>5</b> stacks, additionally increases the wearer's CRIT DMG by <b>25%</b>."
     },
     {
       "id": "314",
       "name": "Izumo Gensei and Takama Divine Realm",
-      "skills": "Increases the wearer's ATK by <b>12.0%</b>. When entering battle, if at least one teammate follows the same Path as the wearer, then the wearer's CRIT Rate increases by <b>12.0%</b>."
+      "skills": "Increases the wearer's ATK by <b>12%</b>. When entering battle, if at least one teammate follows the same Path as the wearer, then the wearer's CRIT Rate increases by <b>12%</b>."
     },
     {
       "id": "313",
       "name": "Sigonia, the Unclaimed Desolation",
-      "skills": "Increases the wearer's CRIT Rate by <b>4.0%</b>. When an enemy target gets defeated, the wearer's CRIT DMG increases by <b>4.0%</b>, stacking up to <b>10.0</b> time(s)."
+      "skills": "Increases the wearer's CRIT Rate by <b>4%</b>. When an enemy target gets defeated, the wearer's CRIT DMG increases by <b>4%</b>, stacking up to <b>10</b> time(s)."
     },
     {
       "id": "312",
       "name": "Penacony, Land of the Dreams",
-      "skills": "Increases wearer's Energy Regeneration Rate by <b>5.0%</b>. Increases DMG by <b>10.0%</b> for all other allies that are of the same Type as the wearer."
+      "skills": "Increases wearer's Energy Regeneration Rate by <b>5%</b>. Increases DMG by <b>10%</b> for all other allies that are of the same Type as the wearer."
     },
     {
       "id": "311",
       "name": "Firmament Frontline: Glamoth",
-      "skills": "Increases the wearer's ATK by <b>12.0%</b>. When the wearer's SPD is equal to or higher than <b>135.0</b>/<b>160.0</b>, the wearer deals <b>12.0%</b>/<b>18.0%</b> more DMG."
+      "skills": "Increases the wearer's ATK by <b>12%</b>. When the wearer's SPD is equal to or higher than <b>135</b>/<b>160</b>, the wearer deals <b>12%</b>/<b>18%</b> more DMG."
     },
     {
       "id": "310",
       "name": "Broken Keel",
-      "skills": "Increases the wearer's Effect RES by <b>10.0%</b>. When the wearer's Effect RES is at <b>30.0%</b> or higher, all allies' CRIT DMG increases by <b>10.0%</b>."
+      "skills": "Increases the wearer's Effect RES by <b>10%</b>. When the wearer's Effect RES is at <b>30%</b> or higher, all allies' CRIT DMG increases by <b>10%</b>."
     },
     {
       "id": "309",
       "name": "Rutilant Arena",
-      "skills": "Increases the wearer's CRIT Rate by <b>8.0%</b>. When the wearer's current CRIT Rate reaches <b>70.0%</b> or higher, DMG dealt by Basic ATK and Skill increases by <b>20.0%</b>."
+      "skills": "Increases the wearer's CRIT Rate by <b>8%</b>. When the wearer's current CRIT Rate reaches <b>70%</b> or higher, DMG dealt by Basic ATK and Skill increases by <b>20%</b>."
     },
     {
       "id": "308",
       "name": "Sprightly Vonwacq",
-      "skills": "Increases the wearer's Energy Regeneration Rate by <b>5.0%</b>. When the wearer's SPD reaches <b>120.0</b> or higher, the wearer's action is Advanced Forward by <b>40.0%</b> immediately upon entering battle."
+      "skills": "Increases the wearer's Energy Regeneration Rate by <b>5%</b>. When the wearer's SPD reaches <b>120</b> or higher, the wearer's action is Advanced Forward by <b>40%</b> immediately upon entering battle."
     },
     {
       "id": "307",
       "name": "Talia: Kingdom of Banditry",
-      "skills": "Increases the wearer's Break Effect by <b>16.0%</b>. When the wearer's SPD reaches <b>145.0</b> or higher, the wearer's Break Effect increases by an extra <b>20.0%</b>."
+      "skills": "Increases the wearer's Break Effect by <b>16%</b>. When the wearer's SPD reaches <b>145</b> or higher, the wearer's Break Effect increases by an extra <b>20%</b>."
     },
     {
       "id": "306",
       "name": "Inert Salsotto",
-      "skills": "Increases the wearer's CRIT Rate by <b>8.0%</b>. When the wearer's current CRIT Rate reaches <b>50.0%</b> or higher, the DMG dealt by the wearer's Ultimate and follow-up attack increases by <b>15.0%</b>."
+      "skills": "Increases the wearer's CRIT Rate by <b>8%</b>. When the wearer's current CRIT Rate reaches <b>50%</b> or higher, the DMG dealt by the wearer's Ultimate and follow-up attack increases by <b>15%</b>."
     },
     {
       "id": "305",
       "name": "Celestial Differentiator",
-      "skills": "Increases the wearer's CRIT DMG by <b>16.0%</b>. When the wearer's current CRIT DMG reaches <b>120.0%</b> or higher, after entering battle, the wearer's CRIT Rate increases by <b>60.0%</b> until the end of their first attack."
+      "skills": "Increases the wearer's CRIT DMG by <b>16%</b>. When the wearer's current CRIT DMG reaches <b>120%</b> or higher, after entering battle, the wearer's CRIT Rate increases by <b>60%</b> until the end of their first attack."
     },
     {
       "id": "304",
       "name": "Belobog of the Architects",
-      "skills": "Increases the wearer's DEF by <b>15.0%</b>. When the wearer's Effect Hit Rate is <b>50.0%</b> or higher, the wearer gains an extra <b>15.0%</b> DEF."
+      "skills": "Increases the wearer's DEF by <b>15%</b>. When the wearer's Effect Hit Rate is <b>50%</b> or higher, the wearer gains an extra <b>15%</b> DEF."
     },
     {
       "id": "303",
       "name": "Pan-Cosmic Commercial Enterprise",
-      "skills": "Increases the wearer's Effect Hit Rate by <b>10.0%</b>. Meanwhile, the wearer's ATK increases by an amount that is equal to <b>25.0%</b> of the current Effect Hit Rate, up to a maximum of <b>25.0%</b>."
+      "skills": "Increases the wearer's Effect Hit Rate by <b>10%</b>. Meanwhile, the wearer's ATK increases by an amount that is equal to <b>25%</b> of the current Effect Hit Rate, up to a maximum of <b>25%</b>."
     },
     {
       "id": "302",
       "name": "Fleet of the Ageless",
-      "skills": "Increases the wearer's Max HP by <b>12.0%</b>. When the wearer's SPD reaches <b>120.0</b> or higher, all allies' ATK increases by <b>8.0%</b>."
+      "skills": "Increases the wearer's Max HP by <b>12%</b>. When the wearer's SPD reaches <b>120</b> or higher, all allies' ATK increases by <b>8%</b>."
     },
     {
       "id": "301",
       "name": "Space Sealing Station",
-      "skills": "Increases the wearer's ATK by <b>12.0%</b>. When the wearer's SPD reaches <b>120.0</b> or higher, the wearer's ATK increases by an extra <b>12.0%</b>."
+      "skills": "Increases the wearer's ATK by <b>12%</b>. When the wearer's SPD reaches <b>120</b> or higher, the wearer's ATK increases by an extra <b>12%</b>."
     },
     {
       "id": "122",
       "name": "Scholar Lost in Erudition",
-      "skills": "Increases CRIT Rate by <b>8.0%</b>.,Increases DMG dealt by Skill and Ultimate by <b>20.0%</b>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <b>25.0%</b>."
+      "skills": "Increases CRIT Rate by <b>8%</b>.,Increases DMG dealt by Skill and Ultimate by <b>20%</b>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <b>25%</b>."
     },
     {
       "id": "121",
       "name": "Sacerdos' Relived Ordeal",
-      "skills": "Increases SPD by <b>6.0%</b>.,When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by <b>18.0%</b>, lasting for <b>2.0</b> turn(s). This effect can stack up to <b>2.0</b> time(s)."
+      "skills": "Increases SPD by <b>6%</b>.,When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by <b>18%</b>, lasting for <b>2</b> turn(s). This effect can stack up to <b>2</b> time(s)."
     },
     {
       "id": "120",
       "name": "The Wind-Soaring Valorous",
-      "skills": "Increases ATK by <b>12.0%</b>.,Increases the wearer's CRIT Rate by <b>6.0%</b>. After the wearer uses a follow-up attack, increases DMG dealt by Ultimate by <b>36.0%</b>, lasting for <b>1.0</b> turn(s)."
+      "skills": "Increases ATK by <b>12%</b>.,Increases the wearer's CRIT Rate by <b>6%</b>. After the wearer uses a follow-up attack, increases DMG dealt by Ultimate by <b>36%</b>, lasting for <b>1</b> turn(s)."
     },
     {
       "id": "119",
       "name": "Iron Cavalry Against the Scourge",
-      "skills": "Increases Break Effect by <b>16.0%</b>.,If the wearer's Break Effect is <b>150.0%</b> or higher, the Break DMG dealt to the enemy target ignores <b>10.0%</b> of their DEF. If the wearer's Break Effect is <b>250.0%</b> or higher, the Super Break DMG dealt to the enemy target additionally ignores <b>15.0%</b> of their DEF."
+      "skills": "Increases Break Effect by <b>16%</b>.,If the wearer's Break Effect is <b>150%</b> or higher, the Break DMG dealt to the enemy target ignores <b>10%</b> of their DEF. If the wearer's Break Effect is <b>250%</b> or higher, the Super Break DMG dealt to the enemy target additionally ignores <b>15%</b> of their DEF."
     },
     {
       "id": "118",
       "name": "Watchmaker, Master of Dream Machinations",
-      "skills": "Increases Break Effect by <b>16.0%</b>.,When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by <b>30.0%</b> for <b>2.0</b> turn(s). This effect cannot be stacked."
+      "skills": "Increases Break Effect by <b>16%</b>.,When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by <b>30%</b> for <b>2</b> turn(s). This effect cannot be stacked."
     },
     {
       "id": "117",
       "name": "Pioneer Diver of Dead Waters",
-      "skills": "Increases DMG dealt to enemies with debuffs by <b>12.0%</b>.,Increases CRIT Rate by <b>4.0%</b>. The wearer deals <b>8.0%</b>/<b>12.0%</b> increased CRIT DMG to enemies with at least <b>2.0</b>/<b>3.0</b> debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by <b>100%</b>, lasting for <b>1.0</b> turn(s)."
+      "skills": "Increases DMG dealt to enemies with debuffs by <b>12%</b>.,Increases CRIT Rate by <b>4%</b>. The wearer deals <b>8%</b>/<b>12%</b> increased CRIT DMG to enemies with at least <b>2</b>/<b>3</b> debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by <b>100%</b>, lasting for <b>1</b> turn(s)."
     },
     {
       "id": "116",
       "name": "Prisoner in Deep Confinement",
-      "skills": "Increases ATK by <b>12.0%</b>.,For every DoT the enemy target is afflicted with, the wearer will ignore <b>6.0%</b> of its DEF when dealing DMG to it. This effect is valid for a max of <b>3.0</b> DoTs."
+      "skills": "Increases ATK by <b>12%</b>.,For every DoT the enemy target is afflicted with, the wearer will ignore <b>6%</b> of its DEF when dealing DMG to it. This effect is valid for a max of <b>3</b> DoTs."
     },
     {
       "id": "115",
       "name": "The Ashblazing Grand Duke",
-      "skills": "Increases the DMG dealt by follow-up attack by <b>20.0%</b>.,When the wearer uses a follow-up attack, increases the wearer's ATK by <b>6.0%</b> for every time the follow-up attack deals DMG. This effect can stack up to <b>8.0</b> time(s) and lasts for <b>3.0</b> turn(s). This effect is removed the next time the wearer uses a follow-up attack."
+      "skills": "Increases the DMG dealt by follow-up attack by <b>20%</b>.,When the wearer uses a follow-up attack, increases the wearer's ATK by <b>6%</b> for every time the follow-up attack deals DMG. This effect can stack up to <b>8</b> time(s) and lasts for <b>3</b> turn(s). This effect is removed the next time the wearer uses a follow-up attack."
     },
     {
       "id": "114",
       "name": "Messenger Traversing Hackerspace",
-      "skills": "Increases SPD by <b>6.0%</b>.,When the wearer uses their Ultimate on an ally, SPD for all allies increases by <b>12.0%</b> for <b>1.0</b> turn(s). This effect cannot be stacked."
+      "skills": "Increases SPD by <b>6%</b>.,When the wearer uses their Ultimate on an ally, SPD for all allies increases by <b>12%</b> for <b>1</b> turn(s). This effect cannot be stacked."
     },
     {
       "id": "113",
       "name": "Longevous Disciple",
-      "skills": "Increases Max HP by <b>12.0%</b>.,When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by <b>8.0%</b> for <b>2.0</b> turn(s) and up to <b>2.0</b> stacks."
+      "skills": "Increases Max HP by <b>12%</b>.,When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by <b>8%</b> for <b>2</b> turn(s) and up to <b>2</b> stacks."
     },
     {
       "id": "112",
       "name": "Wastelander of Banditry Desert",
-      "skills": "Increases Imaginary DMG by <b>10.0%</b>.,When attacking debuffed enemies, the wearer's CRIT Rate increases by <b>10.0%</b>, and their CRIT DMG increases by <b>20.0%</b> against Imprisoned enemies."
+      "skills": "Increases Imaginary DMG by <b>10%</b>.,When attacking debuffed enemies, the wearer's CRIT Rate increases by <b>10%</b>, and their CRIT DMG increases by <b>20%</b> against Imprisoned enemies."
     },
     {
       "id": "111",
       "name": "Thief of Shooting Meteor",
-      "skills": "Increases Break Effect by <b>16.0%</b>.,Increases the wearer's Break Effect by <b>16.0%</b>. After the wearer inflicts Weakness Break on an enemy, regenerates <b>3.0</b> Energy."
+      "skills": "Increases Break Effect by <b>16%</b>.,Increases the wearer's Break Effect by <b>16%</b>. After the wearer inflicts Weakness Break on an enemy, regenerates <b>3</b> Energy."
     },
     {
       "id": "110",
       "name": "Eagle of Twilight Line",
-      "skills": "Increases Wind DMG by <b>10.0%</b>.,After the wearer uses their Ultimate, their action is Advanced Forward by <b>25.0%</b>."
+      "skills": "Increases Wind DMG by <b>10%</b>.,After the wearer uses their Ultimate, their action is Advanced Forward by <b>25%</b>."
     },
     {
       "id": "109",
       "name": "Band of Sizzling Thunder",
-      "skills": "Increases Lightning DMG by <b>10.0%</b>.,When the wearer uses their Skill, increases the wearer's ATK by <b>20.0%</b> for <b>1.0</b> turn(s)."
+      "skills": "Increases Lightning DMG by <b>10%</b>.,When the wearer uses their Skill, increases the wearer's ATK by <b>20%</b> for <b>1</b> turn(s)."
     },
     {
       "id": "108",
       "name": "Genius of Brilliant Stars",
-      "skills": "Increases Quantum DMG by <b>10.0%</b>.,When the wearer deals DMG to the target enemy, ignores <b>10.0%</b> DEF. If the target enemy has Quantum Weakness, the wearer additionally ignores <b>10.0%</b> DEF."
+      "skills": "Increases Quantum DMG by <b>10%</b>.,When the wearer deals DMG to the target enemy, ignores <b>10%</b> DEF. If the target enemy has Quantum Weakness, the wearer additionally ignores <b>10%</b> DEF."
     },
     {
       "id": "107",
       "name": "Firesmith of Lava-Forging",
-      "skills": "Increases Fire DMG by <b>10.0%</b>.,Increases DMG by the wearer's Skill by <b>12.0%</b>. After unleashing Ultimate, increases the wearer's Fire DMG by <b>12.0%</b> for the next attack."
+      "skills": "Increases Fire DMG by <b>10%</b>.,Increases DMG by the wearer's Skill by <b>12%</b>. After unleashing Ultimate, increases the wearer's Fire DMG by <b>12%</b> for the next attack."
     },
     {
       "id": "106",
       "name": "Guard of Wuthering Snow",
-      "skills": "Reduces DMG taken by <b>8.0%</b>.,At the beginning of the turn, if the wearer's HP percentage is equal to or less than <b>50.0%</b>, restores HP equal to <b>8.0%</b> of their Max HP and regenerates <b>5.0</b> Energy."
+      "skills": "Reduces DMG taken by <b>8%</b>.,At the beginning of the turn, if the wearer's HP percentage is equal to or less than <b>50%</b>, restores HP equal to <b>8%</b> of their Max HP and regenerates <b>5</b> Energy."
     },
     {
       "id": "105",
       "name": "Champion of Streetwise Boxing",
-      "skills": "Increases Physical DMG by <b>10.0%</b>.,After the wearer attacks or is hit, their ATK increases by <b>5.0%</b> for the rest of the battle. This effect can stack up to <b>5.0</b> time(s)."
+      "skills": "Increases Physical DMG by <b>10%</b>.,After the wearer attacks or is hit, their ATK increases by <b>5%</b> for the rest of the battle. This effect can stack up to <b>5</b> time(s)."
     },
     {
       "id": "104",
       "name": "Hunter of Glacial Forest",
-      "skills": "Increases Ice DMG by <b>10.0%</b>.,After the wearer uses their Ultimate, their CRIT DMG increases by <b>25.0%</b> for <b>2.0</b> turn(s)."
+      "skills": "Increases Ice DMG by <b>10%</b>.,After the wearer uses their Ultimate, their CRIT DMG increases by <b>25%</b> for <b>2</b> turn(s)."
     },
     {
       "id": "103",
       "name": "Knight of Purity Palace",
-      "skills": "Increases DEF by <b>15.0%</b>.,Increases the max DMG that can be absorbed by the Shield created by the wearer by <b>20.0%</b>."
+      "skills": "Increases DEF by <b>15%</b>.,Increases the max DMG that can be absorbed by the Shield created by the wearer by <b>20%</b>."
     },
     {
       "id": "102",
       "name": "Musketeer of Wild Wheat",
-      "skills": "Increases ATK by <b>12.0%</b>.,The wearer's SPD increases by <b>6.0%</b> and DMG dealt by Basic ATK increases by <b>10.0%</b>."
+      "skills": "Increases ATK by <b>12%</b>.,The wearer's SPD increases by <b>6%</b> and DMG dealt by Basic ATK increases by <b>10%</b>."
     },
     {
       "id": "101",
       "name": "Passerby of Wandering Cloud",
-      "skills": "Increases Outgoing Healing by <b>10.0%</b>.,At the start of the battle, immediately regenerates 1 Skill Point."
+      "skills": "Increases Outgoing Healing by <b>10%</b>.,At the start of the battle, immediately regenerates 1 Skill Point."
     }
   ]
 }

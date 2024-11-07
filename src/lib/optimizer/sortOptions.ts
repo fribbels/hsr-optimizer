@@ -32,6 +32,8 @@ export const SortOption: {
   DOT: SortOptionProperties
   BREAK: SortOptionProperties
   COMBO: SortOptionProperties
+  HEAL: SortOptionProperties
+  SHIELD: SortOptionProperties
 } = {
   ATK: {
     key: 'ATK',
@@ -200,6 +202,24 @@ export const SortOption: {
     combatProperty: 'COMBO_DMG',
     basicGridColumn: 'COMBO',
     combatGridColumn: 'COMBO',
+    isComputedRating: true,
+  },
+  HEAL: {
+    key: 'HEAL',
+    gpuProperty: 'HEAL_VALUE',
+    basicProperty: 'HEAL_VALUE',
+    combatProperty: 'HEAL_VALUE',
+    basicGridColumn: 'HEAL',
+    combatGridColumn: 'HEAL',
+    isComputedRating: true,
+  },
+  SHIELD: {
+    key: 'SHIELD',
+    gpuProperty: 'SHIELD_VALUE',
+    basicProperty: 'SHIELD_VALUE',
+    combatProperty: 'SHIELD_VALUE',
+    basicGridColumn: 'SHIELD',
+    combatGridColumn: 'SHIELD',
     isComputedRating: true,
   },
 }

@@ -1,27 +1,48 @@
-import { Button, Divider, Drawer, Flex, Select } from 'antd'
-import React, { useEffect, useMemo, useRef } from 'react'
-import Selecto from 'react-selecto'
-import { OptimizerTabController } from 'lib/optimizerTabController'
-import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState, ComboSubNumberConditional, ComboTeammate, initializeComboState, locateActivations, updateAbilityRotation, updateActivation, updateAddPartition, updateDeletePartition, updateFormState, updateNumberDefaultSelection, updatePartitionActivation, updateSelectedSets } from 'lib/optimizer/rotation/comboDrawerController'
-import { CharacterConditional } from 'types/CharacterConditional'
-import { CharacterConditionals } from 'lib/characterConditionals'
-import { Assets } from 'lib/assets'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { ContentItem } from 'types/Conditionals'
-import { ReactElement } from 'types/Components'
-import { FormSwitchWithPopover } from 'components/optimizerTab/conditionals/FormSwitch'
-import ColorizeNumbers from 'components/common/ColorizeNumbers'
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
-import { FormSliderWithPopover } from 'components/optimizerTab/conditionals/FormSlider'
-import GenerateOrnamentsOptions from 'components/optimizerTab/optimizerForm/OrnamentsOptions'
-import { OrnamentSetTagRenderer } from 'components/optimizerTab/optimizerForm/OrnamentSetTagRenderer'
-import { GenerateBasicSetsOptions } from 'components/optimizerTab/optimizerForm/SetsOptions'
-import { FormSelectWithPopover } from 'components/optimizerTab/conditionals/FormSelect'
-import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimizer/rotation/setConditionalContent'
-import { ConditionalDataType } from 'lib/constants'
+import { Button, Divider, Drawer, Flex, Select } from 'antd'
 import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
+import ColorizeNumbers from 'components/common/ColorizeNumbers'
+import { FormSelectWithPopover } from 'components/optimizerTab/conditionals/FormSelect'
+import { FormSliderWithPopover } from 'components/optimizerTab/conditionals/FormSlider'
+import { FormSwitchWithPopover } from 'components/optimizerTab/conditionals/FormSwitch'
+import { OrnamentSetTagRenderer } from 'components/optimizerTab/optimizerForm/OrnamentSetTagRenderer'
+import GenerateOrnamentsOptions from 'components/optimizerTab/optimizerForm/OrnamentsOptions'
+import { GenerateBasicSetsOptions } from 'components/optimizerTab/optimizerForm/SetsOptions'
+import { Assets } from 'lib/assets'
+import { CharacterConditionals } from 'lib/characterConditionals'
+import { ConditionalDataType, setToId } from 'lib/constants'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
+import {
+  ComboBooleanConditional,
+  ComboCharacter,
+  ComboConditionalCategory,
+  ComboConditionals,
+  ComboNumberConditional,
+  ComboSelectConditional,
+  ComboState,
+  ComboSubNumberConditional,
+  ComboTeammate,
+  initializeComboState,
+  locateActivations,
+  updateAbilityRotation,
+  updateActivation,
+  updateAddPartition,
+  updateDeletePartition,
+  updateFormState,
+  updateNumberDefaultSelection,
+  updatePartitionActivation,
+  updateSelectedSets,
+} from 'lib/optimizer/rotation/comboDrawerController'
+import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimizer/rotation/setConditionalContent'
+import { OptimizerTabController } from 'lib/optimizerTabController'
 import { lockScroll, unlockScroll } from 'lib/scrollController'
+import React, { useEffect, useMemo, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import Selecto from 'react-selecto'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { ReactElement } from 'types/Components'
+import { ContentItem } from 'types/Conditionals'
+import { LightConeConditional } from 'types/LightConeConditionals'
 
 const buttonStyle = {
   fontSize: 20,
@@ -129,16 +150,51 @@ export function ComboDrawer() {
 }
 
 function ComboDrawerTitle() {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
   return (
     <div style={{ width: 'fit-content' }}>
       <ColorizedLinkWithIcon
-        text='Advanced Rotation User Guide'
+        text={t('Title')}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/advanced-rotations.md'
         linkIcon={true}
       />
     </div>
   )
 }
+
+function AbilitySelector(props: {
+  comboAbilities: string[]
+  index: number
+  abilitySelectOptions: { value: string; label: string; display: string }[]
+}) {
+  if (props.index == 0) return <></>
+
+  return (
+    <Select
+      dropdownStyle={{ width: 'fit-content' }}
+      style={{ width: abilityWidth }}
+      listHeight={800}
+      optionLabelProp='display'
+      options={props.abilitySelectOptions}
+      placement='bottomLeft'
+      value={props.comboAbilities[props.index]}
+      allowClear={true}
+      onSelect={(value: string) => {
+        updateAbilityRotation(props.index, value)
+      }}
+      onDeselect={(value: string) => {
+
+      }}
+      onClear={() => {
+        // @ts-ignore
+        updateAbilityRotation(props.index, null)
+      }}
+    />
+  )
+}
+
+const abilityWidth = 70
+const abilityGap = 6
 
 export const abilitySelectOptions = [
   {
@@ -161,46 +217,30 @@ export const abilitySelectOptions = [
     label: 'Fua',
     display: 'Fua',
   },
-]
-
-function AbilitySelector(props: { comboAbilities: string[]; index: number }) {
-  if (props.index == 0) return <></>
-
-  return (
-    <Select
-      dropdownStyle={{ width: 'fit-content' }}
-      style={{ width: abilityWidth }}
-      listHeight={800}
-      optionLabelProp='display'
-      options={abilitySelectOptions}
-      placement='bottomLeft'
-      value={props.comboAbilities[props.index]}
-      allowClear={true}
-      onSelect={(value: string) => {
-        updateAbilityRotation(props.index, value)
-      }}
-      onDeselect={(value: string) => {
-
-      }}
-      onClear={() => {
-        // @ts-ignore
-        updateAbilityRotation(props.index, null)
-      }}
-    />
-  )
-}
-
-const abilityWidth = 70
-const abilityGap = 6
+] as const
 
 function ComboHeader(props: { comboState: ComboState }) {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter.ComboOptions' })
   const comboAbilities = props.comboState.comboAbilities
+  const selectOptions = useMemo(() => {
+    const selectOptions: { value: string; label: string; display: string }[] = []
+    for (const option of abilitySelectOptions) {
+      selectOptions.push(
+        {
+          value: option.value,
+          label: t(`${option.label}`),
+          display: t(`${option.label}`),
+        },
+      )
+    }
+    return selectOptions
+  }, [t])
 
   if (!comboAbilities) return <></>
 
   const length = comboAbilities.length
   const render = Array(Math.min(9, length + 1)).fill(false).map((value, index) => (
-    <AbilitySelector comboAbilities={comboAbilities} index={index} key={index}/>
+    <AbilitySelector comboAbilities={comboAbilities} index={index} key={index} abilitySelectOptions={selectOptions}/>
   ))
 
   return (
@@ -223,7 +263,12 @@ function GroupDivider(props: { text: string }) {
   )
 }
 
-function SetSelector(props: { selected: string[]; options: { value: string; label: ReactElement }[]; placeholder: string; submit: (arr: string[]) => void }) {
+function SetSelector(props: {
+  selected: string[]
+  options: { value: string; label: ReactElement }[]
+  placeholder: string
+  submit: (arr: string[]) => void
+}) {
   return (
     <Select
       dropdownStyle={{
@@ -255,20 +300,23 @@ function SetSelector(props: { selected: string[]; options: { value: string; labe
 }
 
 function SetSelectors(props: { comboOrigin: ComboCharacter }) {
+  const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer.Placeholders' })
+  const ornamentOptions = useMemo(() => GenerateOrnamentsOptions(), [i18n.resolvedLanguage])
+  const relicSetOptions = useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])
   return (
     <Flex style={{ width: '100%' }} gap={10}>
       <SetSelector
         selected={props.comboOrigin?.displayedRelicSets}
-        options={GenerateBasicSetsOptions()}
-        placeholder='Relic set conditionals'
+        options={relicSetOptions}
+        placeholder={t('Sets')}// 'Relic set conditionals'
         submit={(arr) => {
           updateSelectedSets(arr, false)
         }}
       />
       <SetSelector
         selected={props.comboOrigin?.displayedOrnamentSets}
-        options={GenerateOrnamentsOptions()}
-        placeholder='Ornament set conditionals'
+        options={ornamentOptions}
+        placeholder={t('Ornaments')}// 'Ornament set conditionals'
         submit={(arr) => {
           updateSelectedSets(arr, true)
         }}
@@ -277,12 +325,23 @@ function SetSelectors(props: { comboOrigin: ComboCharacter }) {
   )
 }
 
-function SetDisplays(props: { comboOrigin: ComboCharacter; conditionalType: string; actionCount: number; originKey: string }) {
+function SetDisplays(props: {
+  comboOrigin: ComboCharacter
+  conditionalType: string
+  actionCount: number
+  originKey: string
+}) {
   const relicSets = props.comboOrigin?.displayedRelicSets || []
   const ornamentSets = props.comboOrigin?.displayedOrnamentSets || []
   const setRender = [...relicSets, ...ornamentSets].map((setName) => {
     return (
-      <ComboConditionalsGroupRow key={setName} comboOrigin={props.comboOrigin} conditionalType={setName} actionCount={props.actionCount} originKey={props.originKey}/>
+      <ComboConditionalsGroupRow
+        key={setName}
+        comboOrigin={props.comboOrigin}
+        conditionalType={setName}
+        actionCount={props.actionCount}
+        originKey={props.originKey}
+      />
     )
   })
 
@@ -299,34 +358,116 @@ function StateDisplay(props: { comboState: ComboState }) {
   const comboTeammate1 = props.comboState?.comboTeammate1
   const comboTeammate2 = props.comboState?.comboTeammate2
   const actionCount = props.comboState?.comboAbilities?.length || 0
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
 
   return (
     <Flex vertical gap={8}>
-      <ComboConditionalsGroupRow comboOrigin={comboCharacter} actionCount={actionCount} conditionalType='character' originKey='comboCharacter'/>
-      <ComboConditionalsGroupRow comboOrigin={comboCharacter} actionCount={actionCount} conditionalType='lightCone' originKey='comboCharacterLightCone'/>
-      <GroupDivider text='Relic / Ornament set conditionals'/>
+      <ComboConditionalsGroupRow
+        comboOrigin={comboCharacter}
+        actionCount={actionCount}
+        conditionalType='character'
+        originKey='comboCharacter'
+      />
+      <ComboConditionalsGroupRow
+        comboOrigin={comboCharacter}
+        actionCount={actionCount}
+        conditionalType='lightCone'
+        originKey='comboCharacterLightCone'
+      />
+      <GroupDivider text={t('GroupHeaders.Sets')/* 'Relic / Ornament set conditionals' */}/>
       <SetSelectors comboOrigin={comboCharacter}/>
-      <SetDisplays comboOrigin={comboCharacter} conditionalType='relicSets' actionCount={actionCount} originKey='comboCharacterRelicSets'/>
-      <GroupDivider text='Teammate 1 conditionals'/>
-      <ComboConditionalsGroupRow comboOrigin={comboTeammate0} actionCount={actionCount} conditionalType='character' originKey='comboTeammate0'/>
-      <ComboConditionalsGroupRow comboOrigin={comboTeammate0} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate0LightCone'/>
-      <ComboConditionalsGroupRow comboOrigin={comboTeammate0} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate0RelicSet'/>
-      <ComboConditionalsGroupRow comboOrigin={comboTeammate0} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate0OrnamentSet'/>
-      <GroupDivider text='Teammate 2 conditionals'/>
-      <ComboConditionalsGroupRow comboOrigin={comboTeammate1} actionCount={actionCount} conditionalType='character' originKey='comboTeammate1'/>
-      <ComboConditionalsGroupRow comboOrigin={comboTeammate1} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate1LightCone'/>
-      <ComboConditionalsGroupRow comboOrigin={comboTeammate1} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate1RelicSet'/>
-      <ComboConditionalsGroupRow comboOrigin={comboTeammate1} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate1OrnamentSet'/>
-      <GroupDivider text='Teammate 3 conditionals'/>
-      <ComboConditionalsGroupRow comboOrigin={comboTeammate2} actionCount={actionCount} conditionalType='character' originKey='comboTeammate2'/>
-      <ComboConditionalsGroupRow comboOrigin={comboTeammate2} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate2LightCone'/>
-      <ComboConditionalsGroupRow comboOrigin={comboTeammate2} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate2RelicSet'/>
-      <ComboConditionalsGroupRow comboOrigin={comboTeammate2} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate2OrnamentSet'/>
+      <SetDisplays
+        comboOrigin={comboCharacter}
+        conditionalType='relicSets'
+        actionCount={actionCount}
+        originKey='comboCharacterRelicSets'
+      />
+      <GroupDivider text={t('GroupHeaders.Teammate1')/* 'Teammate 1 conditionals' */}/>
+      <ComboConditionalsGroupRow
+        comboOrigin={comboTeammate0}
+        actionCount={actionCount}
+        conditionalType='character'
+        originKey='comboTeammate0'
+      />
+      <ComboConditionalsGroupRow
+        comboOrigin={comboTeammate0}
+        actionCount={actionCount}
+        conditionalType='lightCone'
+        originKey='comboTeammate0LightCone'
+      />
+      <ComboConditionalsGroupRow
+        comboOrigin={comboTeammate0}
+        actionCount={actionCount}
+        conditionalType='lightCone'
+        originKey='comboTeammate0RelicSet'
+      />
+      <ComboConditionalsGroupRow
+        comboOrigin={comboTeammate0}
+        actionCount={actionCount}
+        conditionalType='lightCone'
+        originKey='comboTeammate0OrnamentSet'
+      />
+      <GroupDivider text={t('GroupHeaders.Teammate2')/* 'Teammate 2 conditionals' */}/>
+      <ComboConditionalsGroupRow
+        comboOrigin={comboTeammate1}
+        actionCount={actionCount}
+        conditionalType='character'
+        originKey='comboTeammate1'
+      />
+      <ComboConditionalsGroupRow
+        comboOrigin={comboTeammate1}
+        actionCount={actionCount}
+        conditionalType='lightCone'
+        originKey='comboTeammate1LightCone'
+      />
+      <ComboConditionalsGroupRow
+        comboOrigin={comboTeammate1}
+        actionCount={actionCount}
+        conditionalType='lightCone'
+        originKey='comboTeammate1RelicSet'
+      />
+      <ComboConditionalsGroupRow
+        comboOrigin={comboTeammate1}
+        actionCount={actionCount}
+        conditionalType='lightCone'
+        originKey='comboTeammate1OrnamentSet'
+      />
+      <GroupDivider text={t('GroupHeaders.Teammate3')/* 'Teammate 3 conditionals' */}/>
+      <ComboConditionalsGroupRow
+        comboOrigin={comboTeammate2}
+        actionCount={actionCount}
+        conditionalType='character'
+        originKey='comboTeammate2'
+      />
+      <ComboConditionalsGroupRow
+        comboOrigin={comboTeammate2}
+        actionCount={actionCount}
+        conditionalType='lightCone'
+        originKey='comboTeammate2LightCone'
+      />
+      <ComboConditionalsGroupRow
+        comboOrigin={comboTeammate2}
+        actionCount={actionCount}
+        conditionalType='lightCone'
+        originKey='comboTeammate2RelicSet'
+      />
+      <ComboConditionalsGroupRow
+        comboOrigin={comboTeammate2}
+        actionCount={actionCount}
+        conditionalType='lightCone'
+        originKey='comboTeammate2OrnamentSet'
+      />
     </Flex>
   )
 }
 
-function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCharacter | null; conditionalType: string; actionCount: number; originKey: string }) {
+function ComboConditionalsGroupRow(props: {
+  comboOrigin: ComboTeammate | ComboCharacter | null
+  conditionalType: string
+  actionCount: number
+  originKey: string
+}) {
+  const { t, i18n } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
   const setContent = useMemo(() => {
     return generateSetConditionalContent()
   }, [])
@@ -348,7 +489,9 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
     if (props.originKey.includes('LightCone')) {
       const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(metadata, true)
 
-      content = isTeammate ? lightConeConditionalMetadata.teammateContent?.() ?? [] : lightConeConditionalMetadata.content()
+      content = isTeammate
+        ? lightConeConditionalMetadata.teammateContent?.() ?? []
+        : lightConeConditionalMetadata.content()
       src = Assets.getLightConeIconById(metadata.lightCone)
       conditionals = comboCharacter.lightConeConditionals
     } else if (props.originKey.includes('comboCharacterRelicSets')) {
@@ -362,9 +505,9 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
           disabled: disabled,
           id: setName,
           name: setName,
-          text: setName,
-          title: setName,
-          content: setName,
+          text: t(`${setToId[setName]}.Name`),
+          title: '',
+          content: t(`${setToId[setName]}.Name`),
         }]
       } else if (category.type == ConditionalDataType.NUMBER) {
         content = [{
@@ -372,9 +515,9 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
           disabled: disabled,
           id: setName,
           name: setName,
-          text: setName,
-          title: setName,
-          content: setName,
+          text: t(`${setToId[setName]}.Name`),
+          title: '',
+          content: t(`${setToId[setName]}.Name`),
           min: 0,
           max: 10,
         }]
@@ -384,9 +527,9 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
           disabled: disabled,
           id: setName,
           name: setName,
-          text: setName,
-          title: setName,
-          content: setName,
+          text: t(`${setToId[setName]}.Name`),
+          title: '',
+          content: t(`${setToId[setName]}.Name`),
           options: setContent[setName],
         }]
       } else {
@@ -436,7 +579,9 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
       // Character
       const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(metadata, true)
 
-      content = isTeammate ? characterConditionalMetadata.teammateContent?.() ?? [] : characterConditionalMetadata.content()
+      content = isTeammate
+        ? characterConditionalMetadata.teammateContent?.() ?? []
+        : characterConditionalMetadata.content()
       src = Assets.getCharacterAvatarById(metadata.characterId)
       conditionals = comboCharacter.characterConditionals
     }
@@ -446,7 +591,7 @@ function ComboConditionalsGroupRow(props: { comboOrigin: ComboTeammate | ComboCh
       src,
       conditionals,
     }
-  }, [props.comboOrigin])
+  }, [props.comboOrigin, i18n.resolvedLanguage])
 
   if (!renderData) {
     return <></>
@@ -473,6 +618,7 @@ export function ContentRows(
     sourceKey: string
   },
 ) {
+  const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
   const content = useMemo(() => {
     const content: ReactElement[] = []
     for (const contentItem of props.contentItems) {
@@ -480,37 +626,70 @@ export function ContentRows(
       if (comboConditional == null) continue
 
       const display = (
-        <ConditionalActivationRow key={contentItem.id} contentItem={contentItem} comboConditional={comboConditional} actionCount={props.actionCount} sourceKey={props.sourceKey}/>
+        <ConditionalActivationRow
+          key={contentItem.id}
+          contentItem={contentItem}
+          comboConditional={comboConditional}
+          actionCount={props.actionCount}
+          sourceKey={props.sourceKey}
+        />
       )
       content.push(display)
     }
 
     return content
-  }, [JSON.stringify(props.comboConditionals), props.actionCount])
+  }, [JSON.stringify(props.comboConditionals), props.actionCount, i18n.resolvedLanguage])
 
   return (
     <Flex vertical>
-      {content.length == 0 ? <div style={{ marginLeft: 5 }}>No conditional passives</div> : content}
+      {content.length == 0
+        ? <div style={{ marginLeft: 5 }}>{t('NoConditionals')/* No conditional passives */}</div>
+        : content}
     </Flex>
   )
 }
 
-function ConditionalActivationRow(props: { contentItem: ContentItem; comboConditional: ComboConditionalCategory; actionCount: number; sourceKey: string }) {
+function ConditionalActivationRow(props: {
+  contentItem: ContentItem
+  comboConditional: ComboConditionalCategory
+  actionCount: number
+  sourceKey: string
+}) {
   if (props.contentItem.formItem == 'switch') {
     return (
-      <BooleanConditionalActivationRow contentItem={props.contentItem} activations={(props.comboConditional as ComboBooleanConditional).activations} actionCount={props.actionCount} sourceKey={props.sourceKey}/>
+      <BooleanConditionalActivationRow
+        contentItem={props.contentItem}
+        activations={(props.comboConditional as ComboBooleanConditional).activations}
+        actionCount={props.actionCount}
+        sourceKey={props.sourceKey}
+      />
     )
   } else if (props.contentItem.formItem == 'select') {
     return (
-      <SelectConditionalActivationRow comboConditional={(props.comboConditional as ComboSelectConditional)} contentItem={props.contentItem} actionCount={props.actionCount} sourceKey={props.sourceKey}/>
+      <SelectConditionalActivationRow
+        comboConditional={(props.comboConditional as ComboSelectConditional)}
+        contentItem={props.contentItem}
+        actionCount={props.actionCount}
+        sourceKey={props.sourceKey}
+      />
     )
   }
   return (
-    <NumberConditionalActivationRow comboConditional={(props.comboConditional as ComboNumberConditional)} contentItem={props.contentItem} actionCount={props.actionCount} sourceKey={props.sourceKey}/>
+    <NumberConditionalActivationRow
+      comboConditional={(props.comboConditional as ComboNumberConditional)}
+      contentItem={props.contentItem}
+      actionCount={props.actionCount}
+      sourceKey={props.sourceKey}
+    />
   )
 }
 
-function BooleanConditionalActivationRow(props: { contentItem: ContentItem; activations: boolean[]; actionCount: number; sourceKey: string }) {
+function BooleanConditionalActivationRow(props: {
+  contentItem: ContentItem
+  activations: boolean[]
+  actionCount: number
+  sourceKey: string
+}) {
   const dataKeys: string[] = []
 
   for (let i = 0; i < props.activations.length; i++) {
@@ -524,12 +703,23 @@ function BooleanConditionalActivationRow(props: { contentItem: ContentItem; acti
   return (
     <Flex key={props.contentItem.id} style={{ height: 45 }}>
       <BooleanSwitch contentItem={props.contentItem} sourceKey={props.sourceKey} value={props.activations[0]}/>
-      <BoxArray activations={props.activations} actionCount={props.actionCount} dataKeys={dataKeys} partition={false} unselectable={props.contentItem.disabled}/>
+      <BoxArray
+        activations={props.activations}
+        actionCount={props.actionCount}
+        dataKeys={dataKeys}
+        partition={false}
+        unselectable={props.contentItem.disabled}
+      />
     </Flex>
   )
 }
 
-function NumberConditionalActivationRow(props: { comboConditional: ComboNumberConditional; contentItem: ContentItem; actionCount: number; sourceKey: string }) {
+function NumberConditionalActivationRow(props: {
+  comboConditional: ComboNumberConditional
+  contentItem: ContentItem
+  actionCount: number
+  sourceKey: string
+}) {
   const numberComboConditional = props.comboConditional
   const rows = numberComboConditional.partitions.length
   const display: ReactElement[] = []
@@ -537,7 +727,15 @@ function NumberConditionalActivationRow(props: { comboConditional: ComboNumberCo
   for (let i = 0; i < numberComboConditional.partitions.length; i++) {
     const x = numberComboConditional.partitions[i]
     display.push(
-      <Partition key={i} partition={x} contentItem={props.contentItem} activations={x.activations} partitionIndex={i} actionCount={props.actionCount} sourceKey={props.sourceKey}/>,
+      <Partition
+        key={i}
+        partition={x}
+        contentItem={props.contentItem}
+        activations={x.activations}
+        partitionIndex={i}
+        actionCount={props.actionCount}
+        sourceKey={props.sourceKey}
+      />,
     )
   }
 
@@ -548,7 +746,12 @@ function NumberConditionalActivationRow(props: { comboConditional: ComboNumberCo
   )
 }
 
-function SelectConditionalActivationRow(props: { comboConditional: ComboSelectConditional; contentItem: ContentItem; actionCount: number; sourceKey: string }) {
+function SelectConditionalActivationRow(props: {
+  comboConditional: ComboSelectConditional
+  contentItem: ContentItem
+  actionCount: number
+  sourceKey: string
+}) {
   const selectComboConditional = props.comboConditional
   const rows = selectComboConditional.partitions.length
   const display: ReactElement[] = []
@@ -556,7 +759,15 @@ function SelectConditionalActivationRow(props: { comboConditional: ComboSelectCo
   for (let i = 0; i < selectComboConditional.partitions.length; i++) {
     const x = selectComboConditional.partitions[i]
     display.push(
-      <Partition key={i} partition={x} contentItem={props.contentItem} activations={x.activations} partitionIndex={i} actionCount={props.actionCount} sourceKey={props.sourceKey}/>,
+      <Partition
+        key={i}
+        partition={x}
+        contentItem={props.contentItem}
+        activations={x.activations}
+        partitionIndex={i}
+        actionCount={props.actionCount}
+        sourceKey={props.sourceKey}
+      />,
     )
   }
 
@@ -567,7 +778,14 @@ function SelectConditionalActivationRow(props: { comboConditional: ComboSelectCo
   )
 }
 
-function Partition(props: { partition: ComboSubNumberConditional; contentItem: ContentItem; activations: boolean[]; partitionIndex: number; actionCount: number; sourceKey: string }) {
+function Partition(props: {
+  partition: ComboSubNumberConditional
+  contentItem: ContentItem
+  activations: boolean[]
+  partitionIndex: number
+  actionCount: number
+  sourceKey: string
+}) {
   const dataKeys: string[] = []
 
   for (let i = 0; i < props.activations.length; i++) {
@@ -580,8 +798,22 @@ function Partition(props: { partition: ComboSubNumberConditional; contentItem: C
   }
 
   const render = props.contentItem.formItem == 'slider'
-    ? <NumberSlider contentItem={props.contentItem} value={props.partition.value} sourceKey={props.sourceKey} partitionIndex={props.partitionIndex}/>
-    : <NumberSelect contentItem={props.contentItem} value={props.partition.value} sourceKey={props.sourceKey} partitionIndex={props.partitionIndex}/>
+    ? (
+      <NumberSlider
+        contentItem={props.contentItem}
+        value={props.partition.value}
+        sourceKey={props.sourceKey}
+        partitionIndex={props.partitionIndex}
+      />
+    )
+    : (
+      <NumberSelect
+        contentItem={props.contentItem}
+        value={props.partition.value}
+        sourceKey={props.sourceKey}
+        partitionIndex={props.partitionIndex}
+      />
+    )
 
   return (
     <Flex key={props.partitionIndex} style={{ height: 45 }}>
@@ -604,7 +836,7 @@ function BooleanSwitch(props: { contentItem: ContentItem; sourceKey: string; val
           <FormSwitchWithPopover
             {...contentItem}
             name={contentItem.id}
-            title={contentItem.title}
+            title={contentItem.text}
             teammateIndex={getTeammateIndex(props.sourceKey)}
             content={ColorizeNumbers(contentItem.content)}
             text={contentItem.text}
@@ -637,7 +869,7 @@ function NumberSlider(props: { contentItem: ContentItem; value: number; sourceKe
           <FormSliderWithPopover
             {...contentItem}
             name={contentItem.id}
-            title={contentItem.title}
+            title={contentItem.text}
             content={ColorizeNumbers(contentItem.content)}
             teammateIndex={getTeammateIndex(props.sourceKey)}
             text={contentItem.text}
@@ -648,7 +880,11 @@ function NumberSlider(props: { contentItem: ContentItem; value: number; sourceKe
         }
       </Flex>
       <Button
-        type='text' shape='circle' icon={props.partitionIndex == 0 ? <PlusCircleOutlined style={buttonStyle}/> : <MinusCircleOutlined style={buttonStyle}/>}
+        type='text'
+        shape='circle'
+        icon={props.partitionIndex == 0
+          ? <PlusCircleOutlined style={buttonStyle}/>
+          : <MinusCircleOutlined style={buttonStyle}/>}
         onClick={() => {
           if (props.partitionIndex == 0) {
             updateAddPartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
@@ -665,26 +901,26 @@ function NumberSelect(props: { contentItem: ContentItem; value: number; sourceKe
   const contentItem = props.contentItem
 
   return (
-    <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={0}>
-      <Flex style={{ width: 210 }} align='center'>
-        {
-          // @ts-ignore
-          <FormSelectWithPopover
-            {...contentItem}
-            name={contentItem.id}
-            title={contentItem.title}
-            teammateIndex={getTeammateIndex(props.sourceKey)}
-            content={ColorizeNumbers(contentItem.content)}
-            text={contentItem.text}
-            set={props.sourceKey.includes('comboCharacterRelicSets')}
-            onChange={(value) => updateNumberDefaultSelection(props.sourceKey, contentItem.id, props.partitionIndex, value)}
-            value={props.value}
-            removeForm={props.partitionIndex > 0}
-          />
-        }
-      </Flex>
+    <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={5}>
+      <FormSelectWithPopover
+        {...contentItem}
+        name={contentItem.id}
+        title={contentItem.text}
+        teammateIndex={getTeammateIndex(props.sourceKey)}
+        content={ColorizeNumbers(contentItem.content)}
+        text={contentItem.text}
+        set={props.sourceKey.includes('comboCharacterRelicSets')}
+        onChange={(value) => updateNumberDefaultSelection(props.sourceKey, contentItem.id, props.partitionIndex, value)}
+        value={props.value}
+        removeForm={props.partitionIndex > 0}
+        fullWidth={!props.sourceKey.includes('comboCharacterRelicSets')}
+      />
       <Button
-        type='text' shape='circle' icon={props.partitionIndex == 0 ? <PlusCircleOutlined style={buttonStyle}/> : <MinusCircleOutlined style={buttonStyle}/>}
+        type='text'
+        shape='circle'
+        icon={props.partitionIndex == 0
+          ? <PlusCircleOutlined style={buttonStyle}/>
+          : <MinusCircleOutlined style={buttonStyle}/>}
         onClick={() => {
           if (props.partitionIndex == 0) {
             updateAddPartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
@@ -697,7 +933,13 @@ function NumberSelect(props: { contentItem: ContentItem; value: number; sourceKe
   )
 }
 
-function BoxArray(props: { activations: boolean[]; actionCount: number; dataKeys: string[]; partition: boolean; unselectable?: boolean }) {
+function BoxArray(props: {
+  activations: boolean[]
+  actionCount: number
+  dataKeys: string[]
+  partition: boolean
+  unselectable?: boolean
+}) {
   return (
     <Flex>
       {
@@ -718,7 +960,14 @@ function BoxArray(props: { activations: boolean[]; actionCount: number; dataKeys
 }
 
 const BoxComponent = React.memo(
-  function Box(props: { active: boolean; index: number; disabled: boolean; dataKey: string; partition: boolean, unselectable?: boolean }) {
+  function Box(props: {
+    active: boolean
+    index: number
+    disabled: boolean
+    dataKey: string
+    partition: boolean
+    unselectable?: boolean
+  }) {
     let classnames: string
     if (props.disabled) {
       classnames = 'disabledSelect'

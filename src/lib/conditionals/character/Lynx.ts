@@ -1,17 +1,26 @@
+import { NONE_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  gpuStandardHpFinalizer,
+  gpuStandardHpHealFinalizer,
+  standardHpFinalizer,
+  standardHpHealFinalizer,
+} from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
+import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lynx')
-  const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const skillHpPercentBuff = skill(e, 0.075, 0.08)
   const skillHpFlatBuff = skill(e, 200, 223)
@@ -20,73 +29,117 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 0, 0)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'skillBuff',
-    name: 'skillBuff',
-    text: t('Content.skillBuff.text'),
-    title: t('Content.skillBuff.title'),
-    content: t('Content.skillBuff.content', { skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff), skillHpFlatBuff: skillHpFlatBuff }),
-  }]
+  const skillHealScaling = skill(e, 0.12, 0.128)
+  const skillHealFlat = skill(e, 320, 356)
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'skillBuff'),
-    {
-      formItem: 'slider',
+  const ultHealScaling = ult(e, 0.135, 0.144)
+  const ultHealFlat = ult(e, 360, 400.5)
+
+  const talentHealScaling = talent(e, 0.036, 0.0384)
+  const talentHealFlat = talent(e, 96, 106.8)
+
+  const content: ContentDefinition<typeof defaults> = {
+    healAbility: {
+      id: 'healAbility',
+      formItem: 'select',
+      text: tHeal('Text'),
+      content: tHeal('Content'),
+      options: [
+        { display: tHeal('Skill'), value: SKILL_TYPE, label: tHeal('Skill') },
+        { display: tHeal('Ult'), value: ULT_TYPE, label: tHeal('Ult') },
+        { display: tHeal('Talent'), value: NONE_TYPE, label: tHeal('Talent') },
+      ],
+      fullWidth: true,
+    },
+    skillBuff: {
+      id: 'skillBuff',
+      formItem: 'switch',
+      text: t('Content.skillBuff.text'),
+      content: t('Content.skillBuff.content', {
+        skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff),
+        skillHpFlatBuff: skillHpFlatBuff,
+      }),
+    },
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    skillBuff: content.skillBuff,
+    teammateHPValue: {
       id: 'teammateHPValue',
-      name: 'teammateHPValue',
+      formItem: 'slider',
       text: t('TeammateContent.teammateHPValue.text'),
-      title: t('TeammateContent.teammateHPValue.title'),
-      content: t('TeammateContent.teammateHPValue.content', { skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff), skillHpFlatBuff: skillHpFlatBuff }),
+      content: t('TeammateContent.teammateHPValue.content', {
+        skillHpPercentBuff: TsUtils.precisionRound(100 * skillHpPercentBuff),
+        skillHpFlatBuff: skillHpFlatBuff,
+      }),
       min: 0,
       max: 10000,
     },
-  ]
+  }
+
+  const defaults = {
+    healAbility: ULT_TYPE,
+    skillBuff: true,
+  }
+
+  const teammateDefaults = {
+    skillBuff: true,
+    teammateHPValue: 6000,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => ({
-      skillBuff: true,
-    }),
-    teammateDefaults: () => ({
-      skillBuff: true,
-      teammateHPValue: 6000,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
-      x.BASIC_TOUGHNESS_DMG += 30
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+
+      if (r.healAbility == SKILL_TYPE) {
+        x.HEAL_TYPE.set(SKILL_TYPE, Source.NONE)
+        x.HEAL_SCALING.buff(skillHealScaling, Source.NONE)
+        x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
+      }
+      if (r.healAbility == ULT_TYPE) {
+        x.HEAL_TYPE.set(ULT_TYPE, Source.NONE)
+        x.HEAL_SCALING.buff(ultHealScaling, Source.NONE)
+        x.HEAL_FLAT.buff(ultHealFlat, Source.NONE)
+      }
+      if (r.healAbility == NONE_TYPE) {
+        x.HEAL_TYPE.set(NONE_TYPE, Source.NONE)
+        x.HEAL_SCALING.buff(talentHealScaling, Source.NONE)
+        x.HEAL_FLAT.buff(talentHealFlat, Source.NONE)
+      }
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.RES] += (e >= 6 && m.skillBuff) ? 0.30 : 0
+      x.RES.buff((e >= 6 && m.skillBuff) ? 0.30 : 0, Source.NONE)
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.HP] += (t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0
-      x[Stats.HP] += (e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0
-      x[Stats.HP] += (t.skillBuff) ? skillHpFlatBuff : 0
+      x.HP.buff((t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0, Source.NONE)
+      x.HP.buff((e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0, Source.NONE)
+      x.HP.buff((t.skillBuff) ? skillHpFlatBuff : 0, Source.NONE)
 
       const atkBuffValue = (e >= 4 && t.skillBuff) ? 0.03 * t.teammateHPValue : 0
-      x[Stats.ATK] += atkBuffValue
+      x.ATK.buff(atkBuffValue, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      standardHpFinalizer(x)
+      standardHpHealFinalizer(x)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
-
-      return `
-x.BASIC_DMG += x.BASIC_SCALING * x.HP;
-      `
+    gpuFinalizeCalculations: () => {
+      return gpuStandardHpFinalizer() + gpuStandardHpHealFinalizer()
     },
     dynamicConditionals: [{
       id: 'LynxConversionConditional',
@@ -97,8 +150,8 @@ x.BASIC_DMG += x.BASIC_SCALING * x.HP;
       condition: function () {
         return true
       },
-      effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-        const r = action.characterConditionals
+      effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        const r: Conditionals<typeof content> = action.characterConditionals
         if (!r.skillBuff) {
           return
         }
@@ -109,7 +162,7 @@ x.BASIC_DMG += x.BASIC_SCALING * x.HP;
         let stateBuffHP = 0
         let stateBuffATK = 0
 
-        const convertibleHpValue = x[Stats.HP] - x.RATIO_BASED_HP_BUFF
+        const convertibleHpValue = x.a[Key.HP] - x.a[Key.RATIO_BASED_HP_BUFF]
         buffHP += skillHpPercentBuff * convertibleHpValue + skillHpFlatBuff
         stateBuffHP += skillHpPercentBuff * stateValue + skillHpFlatBuff
 
@@ -123,17 +176,17 @@ x.BASIC_DMG += x.BASIC_SCALING * x.HP;
           stateBuffHP += 0.06 * stateValue
         }
 
-        action.conditionalState[this.id] = x[Stats.HP]
+        action.conditionalState[this.id] = x.a[Key.HP]
 
         const finalBuffHp = buffHP - (stateValue ? stateBuffHP : 0)
         const finalBuffAtk = buffATK - (stateValue ? stateBuffATK : 0)
-        x.RATIO_BASED_HP_BUFF += finalBuffHp
+        x.RATIO_BASED_HP_BUFF.buff(finalBuffHp, Source.NONE)
 
-        buffStat(x, Stats.HP, finalBuffHp, action, context)
-        buffStat(x, Stats.ATK, finalBuffAtk, action, context)
+        x.HP.buffDynamic(finalBuffHp, Source.NONE, action, context)
+        x.ATK.buffDynamic(finalBuffAtk, Source.NONE, action, context)
       },
       gpu: function (action: OptimizerAction, context: OptimizerContext) {
-        const r = action.characterConditionals
+        const r: Conditionals<typeof content> = action.characterConditionals
 
         return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.skillBuff)}) {

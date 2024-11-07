@@ -1,10 +1,16 @@
 import { AgGridReact } from 'ag-grid-react'
-import { defaultColDef, getBaseColumnDefs, getCombatColumnDefs, gridOptions } from 'components/optimizerTab/optimizerTabConstants'
-import { OptimizerTabController } from 'lib/optimizerTabController'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Flex, theme } from 'antd'
+import {
+  defaultColDef,
+  getBaseColumnDefs,
+  getCombatColumnDefs,
+  gridOptions,
+} from 'components/optimizerTab/optimizerTabConstants'
 import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
+import DB from 'lib/db'
+import { OptimizerTabController } from 'lib/optimizerTabController'
 import { getGridTheme } from 'lib/theme'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const { useToken } = theme
@@ -17,6 +23,7 @@ export function OptimizerGrid() {
   const optimizerGrid = useRef()
   window.optimizerGrid = optimizerGrid
   const [gridDestroyed, setGridDestroyed] = useState(false)
+  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
   const datasource = useMemo(() => {
     return OptimizerTabController.getDataSource()
@@ -24,10 +31,22 @@ export function OptimizerGrid() {
 
   const statDisplay = window.store((s) => s.statDisplay)
   const columnDefs = useMemo(() => {
-    return statDisplay == 'combat'
+    let columnDefinitions = statDisplay == 'combat'
       ? getCombatColumnDefs(t)
       : getBaseColumnDefs(t)
-  }, [statDisplay, t])
+
+    if (optimizerTabFocusCharacter) {
+      const hiddenColumns = DB.getMetadata().characters[optimizerTabFocusCharacter].scoringMetadata.hiddenColumns ?? []
+      const hiddenFields = hiddenColumns.map((column) => statDisplay == 'combat'
+        ? column.combatGridColumn
+        : column.basicGridColumn,
+      )
+
+      columnDefinitions = columnDefinitions.filter((column) => !hiddenFields.includes(column.field))
+    }
+
+    return columnDefinitions
+  }, [optimizerTabFocusCharacter, statDisplay, t])
 
   gridOptions.datasource = datasource
 

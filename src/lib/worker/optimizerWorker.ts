@@ -1,19 +1,18 @@
 import { BufferPacker } from 'lib/bufferPacker'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats, StatsValues } from 'lib/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimizer/calculateConditionals'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimizer/sortOptions'
-import { TsUtils } from 'lib/TsUtils'
 import { Form } from 'types/Form'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
 import { Relic } from 'types/Relic'
-import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants'
-import { RelicsByPart } from '../gpu/webgpuTypes'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
@@ -192,16 +191,11 @@ self.onmessage = function (e: MessageEvent) {
 
     // Combat filters
     const a = x.a
-    if (combatDisplay && failsCombatStatsFilter(a)) {
+    if (combatDisplay && (failsCombatThresholdFilter(a) || failsCombatStatsFilter(a))) {
       continue
     }
 
-    // Pack the passing results into the ArrayBuffer to return
-    c.id = index
-
-    const { high, low } = TsUtils.splitFloat64ToFloat32Parts(index)
-    c.high = high
-    c.low = low
+    c.id = col
 
     BufferPacker.packCharacter(arr, passCount, x)
     passCount++
@@ -276,18 +270,18 @@ function generateResultMinFilter(request: Form, combatDisplay: string) {
   // Combat and basic filters apply at different places in the loop
   // Computed ratings (EHP, DMG, WEIGHT) only apply to the computed x values independent of the stat display
   if (combatDisplay || isComputedRating) {
-    const property = sortOption.combatProperty
+    const key = sortOption.optimizerKey
     return {
       failsBasicThresholdFilter: () => false,
-      failsCombatThresholdFilter: (candidate) => {
-        return candidate[property] < filter
+      failsCombatThresholdFilter: (candidate: Float32Array) => {
+        return candidate[key] < filter
       },
     }
   } else {
     const property = sortOption.basicProperty
     return {
-      failsBasicThresholdFilter: (candidate) => {
-        return candidate[property] < filter
+      failsBasicThresholdFilter: (candidate: BasicStatsObject) => {
+        return candidate[property as StatsValues] < filter
       },
       failsCombatThresholdFilter: () => false,
     }

@@ -9,6 +9,10 @@ CharacterSelector:
 NoConditionals: Pas de passifs conditionnels
 NoTeamConditionals: Pas de passifs conditionnels de coéquipier
 ResultLimitN: "Trouver meilleurs {{limit}} résultats"
+RelicSetSelector:
+  Placeholder: Ensemble de relique
+OrnamentSetSelector:
+  Placeholder: Ensemble d'ornement
 SortOptions:
   DMGLabel: Calcul des dégâts
   StatLabel: Stats

@@ -1,12 +1,11 @@
-import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -22,25 +21,33 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultEnhancedExtraHitScaling = ult(e, 0.95, 1.026)
   const talentCrStackValue = talent(e, 0.025, 0.028)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
+  const defaults = {
+    ultEnhanced: true,
+    talentStacks: talentMaxStacks,
+    ultEnhancedExtraHits: 6,
+    e2UltAtkBuff: true,
+    enemyHp50: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    ultEnhanced: {
       id: 'ultEnhanced',
+      formItem: 'switch',
       text: t('Content.ultEnhanced.text'),
       content: t('Content.ultEnhanced.content', {
         ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling),
         ultEnhancedScaling: TsUtils.precisionRound(100 * ultEnhancedScaling),
       }),
     },
-    {
-      formItem: 'switch',
+    enemyHp50: {
       id: 'enemyHp50',
+      formItem: 'switch',
       text: t('Content.enemyHp50.text'),
       content: t('Content.enemyHp50.content'),
     },
-    {
-      formItem: 'slider',
+    talentStacks: {
       id: 'talentStacks',
+      formItem: 'slider',
       text: t('Content.talentStacks.text'),
       content: t('Content.talentStacks.content', {
         talentMaxStacks: TsUtils.precisionRound(100 * talentMaxStacks),
@@ -49,64 +56,56 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: talentMaxStacks,
     },
-    {
-      formItem: 'slider',
+    ultEnhancedExtraHits: {
       id: 'ultEnhancedExtraHits',
+      formItem: 'slider',
       text: t('Content.ultEnhancedExtraHits.text'),
       content: t('Content.ultEnhancedExtraHits.content', { ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling) }),
       min: 0,
       max: 6,
     },
-    {
-      formItem: 'switch',
+    e2UltAtkBuff: {
       id: 'e2UltAtkBuff',
+      formItem: 'switch',
       text: t('Content.e2UltAtkBuff.text'),
       content: t('Content.e2UltAtkBuff.content'),
       disabled: e < 2,
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => [],
-    defaults: () => ({
-      ultEnhanced: true,
-      talentStacks: talentMaxStacks,
-      ultEnhancedExtraHits: 6,
-      e2UltAtkBuff: true,
-      enemyHp50: true,
-    }),
-    teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Skills
-      x[Stats.CR] += (r.talentStacks) * talentCrStackValue
+      x.CR.buff((r.talentStacks) * talentCrStackValue, Source.NONE)
 
       // Traces
 
       // Eidolons
-      x[Stats.CD] += (e >= 1) ? (r.talentStacks) * 0.04 : 0
-      x[Stats.ATK_P] += (e >= 2 && r.e2UltAtkBuff) ? 0.40 : 0
+      x.CD.buff((e >= 1) ? (r.talentStacks) * 0.04 : 0, Source.NONE)
+      x.ATK_P.buff((e >= 2 && r.e2UltAtkBuff) ? 0.40 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += (r.ultEnhanced) ? ultEnhancedScaling : ultScaling
-      x.ULT_SCALING += (r.ultEnhancedExtraHits) * ultEnhancedExtraHitScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff((r.ultEnhanced) ? ultEnhancedScaling : ultScaling, Source.NONE)
+      x.ULT_SCALING.buff((r.ultEnhancedExtraHits) * ultEnhancedExtraHitScaling, Source.NONE)
 
       // BOOST
-      x.ELEMENTAL_DMG += (r.enemyHp50) ? 0.15 : 0
+      x.ELEMENTAL_DMG.buff((r.enemyHp50) ? 0.15 : 0, Source.NONE)
       // Argenti's e6 ult buff is actually a cast type buff, not dmg type but we'll do it like this anyways
-      buffAbilityDefPen(x, ULT_TYPE, 0.30, (e >= 6))
+      buffAbilityDefPen(x, ULT_TYPE, (e >= 6) ? 0.30 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 30
-      x.ULT_TOUGHNESS_DMG += (r.ultEnhanced) ? 60 + 15 * r.ultEnhancedExtraHits : 60
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff((r.ultEnhanced) ? 60 + 15 * r.ultEnhancedExtraHits : 60, Source.NONE)
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

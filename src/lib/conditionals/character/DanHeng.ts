@@ -1,12 +1,11 @@
-import { BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { BASIC_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 // TODO: missing A4 SPD buff
@@ -21,60 +20,60 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultScaling = ult(e, 4.00, 4.32)
   const ultExtraScaling = ult(e, 1.20, 1.296)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
+  const defaults = {
+    talentPenBuff: true,
+    enemySlowed: true,
+    e1EnemyHp50: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    talentPenBuff: {
       id: 'talentPenBuff',
+      formItem: 'switch',
       text: t('Content.talentPenBuff.text'),
       content: t('Content.talentPenBuff.content', { extraPenValue: TsUtils.precisionRound(100 * extraPenValue) }),
     },
-    {
-      formItem: 'switch',
+    enemySlowed: {
       id: 'enemySlowed',
+      formItem: 'switch',
       text: t('Content.enemySlowed.text'),
       content: t('Content.enemySlowed.content'),
     },
-    {
-      formItem: 'switch',
+    e1EnemyHp50: {
       id: 'e1EnemyHp50',
+      formItem: 'switch',
       text: t('Content.e1EnemyHp50.text'),
       content: t('Content.e1EnemyHp50.content'),
       disabled: e < 1,
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => [],
-    defaults: () => ({
-      talentPenBuff: true,
-      enemySlowed: true,
-      e1EnemyHp50: true,
-    }),
-    teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.CR] += (e >= 1 && r.e1EnemyHp50) ? 0.12 : 0
+      x.CR.buff((e >= 1 && r.e1EnemyHp50) ? 0.12 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.ULT_SCALING += (r.enemySlowed) ? ultExtraScaling : 0
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.ULT_SCALING.buff((r.enemySlowed) ? ultExtraScaling : 0, Source.NONE)
 
       // Boost
-      x.RES_PEN += (r.talentPenBuff) ? extraPenValue : 0
-      buffAbilityDmg(x, BASIC_TYPE, 0.40, (r.enemySlowed))
+      x.RES_PEN.buff((r.talentPenBuff) ? extraPenValue : 0, Source.NONE)
+      buffAbilityDmg(x, BASIC_TYPE, (r.enemySlowed) ? 0.40 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 90
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

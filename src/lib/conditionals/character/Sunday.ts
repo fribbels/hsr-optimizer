@@ -1,13 +1,12 @@
 import i18next from 'i18next'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -20,73 +19,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const talentCrBuffValue = talent(e, 0.20, 0.22)
 
   const basicScaling = basic(e, 1.00, 1.10)
-
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'skillDmgBuff',
-      text: 'Skill DMG buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    },
-    {
-      id: 'talentCrBuffStacks',
-      formItem: 'slider',
-      text: 'Talent CR buff stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 0,
-      max: e < 6 ? 1 : 3,
-    },
-    {
-      formItem: 'switch',
-      id: 'techniqueDmgBuff',
-      text: 'Technique DMG buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    },
-    {
-      formItem: 'switch',
-      id: 'e1DefPen',
-      text: 'E1 DEF PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 1,
-    },
-    {
-      formItem: 'switch',
-      id: 'e2DmgBuff',
-      text: 'E2 Beatified DMG buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 2,
-    },
-  ]
-
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'skillDmgBuff'),
-    findContentId(content, 'talentCrBuffStacks'),
-    {
-      formItem: 'switch',
-      id: 'beatified',
-      text: 'Ult CD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    },
-    {
-      formItem: 'slider',
-      id: 'teammateCDValue',
-      text: 'Sunday Combat CD',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 0,
-      max: 3.00,
-      percent: true,
-    },
-    findContentId(content, 'techniqueDmgBuff'),
-    findContentId(content, 'e1DefPen'),
-    findContentId(content, 'e2DmgBuff'),
-    {
-      formItem: 'switch',
-      id: 'e6CrToCdConversion',
-      text: 'E6 CR to CD conversion',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 6,
-    },
-  ]
 
   const defaults = {
     skillDmgBuff: false,
@@ -107,38 +39,103 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     e6CrToCdConversion: true,
   }
 
+  const content: ContentDefinition<typeof defaults> = {
+    skillDmgBuff: {
+      id: 'skillDmgBuff',
+      formItem: 'switch',
+      text: 'Skill DMG buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    talentCrBuffStacks: {
+      id: 'talentCrBuffStacks',
+      formItem: 'slider',
+      text: 'Talent CR buff stacks',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 0,
+      max: e < 6 ? 1 : 3,
+    },
+    techniqueDmgBuff: {
+      id: 'techniqueDmgBuff',
+      formItem: 'switch',
+      text: 'Technique DMG buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    e1DefPen: {
+      id: 'e1DefPen',
+      formItem: 'switch',
+      text: 'E1 DEF PEN',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 1,
+    },
+    e2DmgBuff: {
+      id: 'e2DmgBuff',
+      formItem: 'switch',
+      text: 'E2 Beatified DMG buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 2,
+    },
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    skillDmgBuff: content.skillDmgBuff,
+    talentCrBuffStacks: content.talentCrBuffStacks,
+    beatified: {
+      id: 'beatified',
+      formItem: 'switch',
+      text: 'Ult CD buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    teammateCDValue: {
+      id: 'teammateCDValue',
+      formItem: 'slider',
+      text: 'Sunday Combat CD',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 0,
+      max: 3.00,
+      percent: true,
+    },
+    techniqueDmgBuff: content.techniqueDmgBuff,
+    e1DefPen: content.e1DefPen,
+    e2DmgBuff: content.e2DmgBuff,
+    e6CrToCdConversion: {
+      id: 'e6CrToCdConversion',
+      formItem: 'switch',
+      text: 'E6 CR to CD conversion',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 6,
+    },
+  }
+
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => (defaults),
-    teammateDefaults: () => (teammateDefaults),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      // Stats
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
 
-      x.BASIC_SCALING += basicScaling
-
-      x.BASIC_TOUGHNESS_DMG = 30
+      x.BASIC_TOUGHNESS_DMG.set(30, Source.NONE)
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.CR] += m.talentCrBuffStacks * talentCrBuffValue
-      x.ELEMENTAL_DMG += (m.skillDmgBuff) ? skillDmgBoostValue : 0
-      x.ELEMENTAL_DMG += (m.skillDmgBuff && x.SUMMONS > 0) ? skillDmgBoostValue : 0
-      x.ELEMENTAL_DMG += (m.techniqueDmgBuff) ? 0.50 : 0
+      x.CR.buff(m.talentCrBuffStacks * talentCrBuffValue, Source.NONE)
+      x.ELEMENTAL_DMG.buff((m.skillDmgBuff) ? skillDmgBoostValue : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? skillDmgBoostValue : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((m.techniqueDmgBuff) ? 0.50 : 0, Source.NONE)
 
-      x.DEF_PEN += (e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.20 : 0
-      x.DEF_PEN += (e >= 1 && m.e1DefPen && m.skillDmgBuff && x.SUMMONS > 0) ? 0.20 : 0
+      x.DEF_PEN.buff((e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.20 : 0, Source.NONE)
+      x.DEF_PEN.buff((e >= 1 && m.e1DefPen && m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? 0.20 : 0, Source.NONE)
 
-      x.ELEMENTAL_DMG += (e >= 2 && m.e2DmgBuff) ? 0.30 : 0
+      x.ELEMENTAL_DMG.buff((e >= 2 && m.e2DmgBuff) ? 0.30 : 0, Source.NONE)
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.CD] += (t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0
-      x[Stats.CD] += (t.beatified) ? ultCdBoostBaseValue : 0
+      x.CD.buff((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
+      x.CD.buff((t.beatified) ? ultCdBoostBaseValue : 0, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
@@ -151,23 +148,23 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CR],
         ratioConversion: true,
-        condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-          return x[Stats.CR] > 1.00
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          return x.a[Key.CR] > 1.00
         },
-        effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r: Conditionals<typeof teammateContent> = action.characterConditionals
           if (!(e >= 6 && r.e6CrToCdConversion)) {
             return
           }
 
           const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = Math.floor((x[Stats.CR] - 1.00) / 0.01) * 2.00 * 0.01
+          const buffValue = Math.floor((x.a[Key.CR] - 1.00) / 0.01) * 2.00 * 0.01
 
           action.conditionalState[this.id] = buffValue
-          buffStat(x, Stats.CD, buffValue - stateValue, action, context)
+          x.CD.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+          const r: Conditionals<typeof teammateContent> = action.characterConditionals
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {

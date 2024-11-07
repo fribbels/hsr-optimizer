@@ -1,18 +1,9 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardAtkFinalizer,
-  standardAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { RuanMeiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -24,116 +15,120 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0.32, 0.352)
   const talentSpdScaling = talent(e, 0.10, 0.104)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
+  const defaults = {
+    skillOvertoneBuff: true,
+    teamBEBuff: true,
+    ultFieldActive: true,
+    e2AtkBoost: false,
+    e4BeBuff: false,
+  }
+
+  const teammateDefaults = {
+    skillOvertoneBuff: true,
+    teamSpdBuff: true,
+    teamBEBuff: true,
+    ultFieldActive: true,
+    e2AtkBoost: false,
+    teamDmgBuff: 0.36,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    skillOvertoneBuff: {
       id: 'skillOvertoneBuff',
+      formItem: 'switch',
       text: t('Content.skillOvertoneBuff.text'),
       content: t('Content.skillOvertoneBuff.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
     },
-    {
-      formItem: 'switch',
+    teamBEBuff: {
       id: 'teamBEBuff',
+      formItem: 'switch',
       text: t('Content.teamBEBuff.text'),
       content: t('Content.teamBEBuff.content'),
     },
-    {
-      formItem: 'switch',
+    ultFieldActive: {
       id: 'ultFieldActive',
+      formItem: 'switch',
       text: t('Content.ultFieldActive.text'),
       content: t('Content.ultFieldActive.content', { fieldResPenValue: TsUtils.precisionRound(100 * fieldResPenValue) }),
     },
-    {
-      formItem: 'switch',
+    e2AtkBoost: {
       id: 'e2AtkBoost',
+      formItem: 'switch',
       text: t('Content.e2AtkBoost.text'),
       content: t('Content.e2AtkBoost.content'),
       disabled: (e < 2),
     },
-    {
-      formItem: 'switch',
+    e4BeBuff: {
       id: 'e4BeBuff',
+      formItem: 'switch',
       text: t('Content.e4BeBuff.text'),
       content: t('Content.e4BeBuff.content'),
       disabled: (e < 4),
     },
-  ]
+  }
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'skillOvertoneBuff'),
-    {
-      formItem: 'switch',
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    skillOvertoneBuff: content.skillOvertoneBuff,
+    teamSpdBuff: {
       id: 'teamSpdBuff',
+      formItem: 'switch',
       text: t('TeammateContent.teamSpdBuff.text'),
       content: t('TeammateContent.teamSpdBuff.content', { talentSpdScaling: TsUtils.precisionRound(100 * talentSpdScaling) }),
     },
-    findContentId(content, 'teamBEBuff'),
-    {
-      formItem: 'slider',
+    teamBEBuff: content.teamBEBuff,
+    teamDmgBuff: {
       id: 'teamDmgBuff',
+      formItem: 'slider',
       text: t('TeammateContent.teamDmgBuff.text'),
       content: t('TeammateContent.teamDmgBuff.content'),
       min: 0,
       max: 0.36,
       percent: true,
     },
-    findContentId(content, 'ultFieldActive'),
-    findContentId(content, 'e2AtkBoost'),
-  ]
+    ultFieldActive: content.ultFieldActive,
+    e2AtkBoost: content.e2AtkBoost,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => ({
-      skillOvertoneBuff: true,
-      teamBEBuff: true,
-      ultFieldActive: true,
-      e2AtkBoost: false,
-      e4BeBuff: false,
-    }),
-    teammateDefaults: () => ({
-      skillOvertoneBuff: true,
-      teamSpdBuff: true,
-      teamBEBuff: true,
-      ultFieldActive: true,
-      e2AtkBoost: false,
-      teamDmgBuff: 0.36,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.ATK_P] += (e >= 2 && r.e2AtkBoost) ? 0.40 : 0
-      x[Stats.BE] += (e >= 4 && r.e4BeBuff) ? 1.00 : 0
+      x.ATK_P.buff((e >= 2 && r.e2AtkBoost) ? 0.40 : 0, Source.NONE)
+      x.BE.buff((e >= 4 && r.e4BeBuff) ? 1.00 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.BE] += (m.teamBEBuff) ? 0.20 : 0
+      x.BE.buff((m.teamBEBuff) ? 0.20 : 0, Source.NONE)
 
-      x.ELEMENTAL_DMG += (m.skillOvertoneBuff) ? skillScaling : 0
-      x.BREAK_EFFICIENCY_BOOST += (m.skillOvertoneBuff) ? 0.50 : 0
+      x.ELEMENTAL_DMG.buff((m.skillOvertoneBuff) ? skillScaling : 0, Source.NONE)
+      x.BREAK_EFFICIENCY_BOOST.buff((m.skillOvertoneBuff) ? 0.50 : 0, Source.NONE)
 
-      x.RES_PEN += (m.ultFieldActive) ? fieldResPenValue : 0
-      x.DEF_PEN += (e >= 1 && m.ultFieldActive) ? 0.20 : 0
+      x.RES_PEN.buff((m.ultFieldActive) ? fieldResPenValue : 0, Source.NONE)
+      x.DEF_PEN.buff((e >= 1 && m.ultFieldActive) ? 0.20 : 0, Source.NONE)
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.SPD_P] += (t.teamSpdBuff) ? talentSpdScaling : 0
-      x.ELEMENTAL_DMG += t.teamDmgBuff
+      x.SPD_P.buff((t.teamSpdBuff) ? talentSpdScaling : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff(t.teamDmgBuff, Source.NONE)
 
-      x[Stats.ATK_P] += (e >= 2 && t.e2AtkBoost) ? 0.40 : 0
-      x.RATIO_BASED_ATK_P_BUFF += (e >= 2 && t.e2AtkBoost) ? 0.40 : 0
+      x.ATK_P.buff((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, Source.NONE)
+      x.RATIO_BASED_ATK_P_BUFF.buff((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
     dynamicConditionals: [RuanMeiConversionConditional],
   }

@@ -1,15 +1,9 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardAtkFinalizer,
-  standardAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -24,96 +18,100 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 1.96, 2.156)
   const ultScaling = ult(e, 3.80, 4.104)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
+  const defaults = {
+    skillWeaknessResShredDebuff: false,
+    skillResShredDebuff: true,
+    talentDefShredDebuff: true,
+    ultDefShredDebuff: true,
+    targetDebuffs: 5,
+  }
+
+  const teammateDefaults = {
+    skillWeaknessResShredDebuff: false,
+    skillResShredDebuff: true,
+    talentDefShredDebuff: true,
+    ultDefShredDebuff: true,
+    targetDebuffs: 5,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    skillResShredDebuff: {
       id: 'skillResShredDebuff',
+      formItem: 'switch',
       text: t('Content.skillResShredDebuff.text'),
       content: t('Content.skillResShredDebuff.content', { skillResShredValue: TsUtils.precisionRound(100 * skillResShredValue) }),
     },
-    {
-      formItem: 'switch',
+    skillWeaknessResShredDebuff: {
       id: 'skillWeaknessResShredDebuff',
+      formItem: 'switch',
       text: t('Content.skillWeaknessResShredDebuff.text'),
       content: t('Content.skillWeaknessResShredDebuff.content'),
     },
-    {
-      formItem: 'switch',
+    talentDefShredDebuff: {
       id: 'talentDefShredDebuff',
+      formItem: 'switch',
       text: t('Content.talentDefShredDebuff.text'),
       content: t('Content.talentDefShredDebuff.content', { talentDefShredDebuffValue: TsUtils.precisionRound(100 * talentDefShredDebuffValue) }),
     },
-    {
-      formItem: 'switch',
+    ultDefShredDebuff: {
       id: 'ultDefShredDebuff',
+      formItem: 'switch',
       text: t('Content.ultDefShredDebuff.text'),
       content: t('Content.ultDefShredDebuff.content', { ultDefShredValue: TsUtils.precisionRound(100 * ultDefShredValue) }),
     },
-    {
-      formItem: 'slider',
+    targetDebuffs: {
       id: 'targetDebuffs',
+      formItem: 'slider',
       text: t('Content.targetDebuffs.text'),
       content: t('Content.targetDebuffs.content'),
       min: 0,
       max: 5,
     },
-  ]
+  }
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'skillResShredDebuff'),
-    findContentId(content, 'skillWeaknessResShredDebuff'),
-    findContentId(content, 'talentDefShredDebuff'),
-    findContentId(content, 'ultDefShredDebuff'),
-    findContentId(content, 'targetDebuffs'),
-  ]
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    skillResShredDebuff: content.skillResShredDebuff,
+    skillWeaknessResShredDebuff: content.skillWeaknessResShredDebuff,
+    talentDefShredDebuff: content.talentDefShredDebuff,
+    ultDefShredDebuff: content.ultDefShredDebuff,
+    targetDebuffs: content.targetDebuffs,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => ({
-      skillWeaknessResShredDebuff: false,
-      skillResShredDebuff: true,
-      talentDefShredDebuff: true,
-      ultDefShredDebuff: true,
-      targetDebuffs: 5,
-    }),
-    teammateDefaults: () => ({
-      skillWeaknessResShredDebuff: false,
-      skillResShredDebuff: true,
-      talentDefShredDebuff: true,
-      ultDefShredDebuff: true,
-      targetDebuffs: 5,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.ULT_SCALING += (e >= 4) ? r.targetDebuffs * 0.20 : 0
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.ULT_SCALING.buff((e >= 4) ? r.targetDebuffs * 0.20 : 0, Source.NONE)
 
       // Boost
-      x.ELEMENTAL_DMG += (e >= 6) ? r.targetDebuffs * 0.20 : 0
+      x.ELEMENTAL_DMG.buff((e >= 6) ? r.targetDebuffs * 0.20 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 90
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x.RES_PEN += (m.skillWeaknessResShredDebuff) ? 0.20 : 0
-      x.RES_PEN += (m.skillResShredDebuff) ? skillResShredValue : 0
-      x.RES_PEN += (m.skillResShredDebuff && m.targetDebuffs >= 3) ? 0.03 : 0
-      x.DEF_PEN += (m.ultDefShredDebuff) ? ultDefShredValue : 0
-      x.DEF_PEN += (m.talentDefShredDebuff) ? talentDefShredDebuffValue : 0
+      x.RES_PEN.buff((m.skillWeaknessResShredDebuff) ? 0.20 : 0, Source.NONE)
+      x.RES_PEN.buff((m.skillResShredDebuff) ? skillResShredValue : 0, Source.NONE)
+      x.RES_PEN.buff((m.skillResShredDebuff && m.targetDebuffs >= 3) ? 0.03 : 0, Source.NONE)
+      x.DEF_PEN.buff((m.ultDefShredDebuff) ? ultDefShredValue : 0, Source.NONE)
+      x.DEF_PEN.buff((m.talentDefShredDebuff) ? talentDefShredDebuffValue : 0, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

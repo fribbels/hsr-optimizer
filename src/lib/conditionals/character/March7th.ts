@@ -1,12 +1,7 @@
-import { ASHBLAZING_ATK_STACK, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  calculateAshblazingSet,
-  gpuStandardDefShieldFinalizer,
-  standardDefShieldFinalizer,
-} from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, calculateAshblazingSet, gpuStandardDefShieldFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -26,33 +21,31 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   return {
     content: () => [],
-    teammateContent: () => [],
     defaults: () => ({}),
-    teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.FUA_SCALING += fuaScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.FUA_SCALING.buff(fuaScaling, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.ULT_TOUGHNESS_DMG += 60
-      x.FUA_TOUGHNESS_DMG += 30
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.FUA_TOUGHNESS_DMG.buff(30, Source.NONE)
 
-      x.SHIELD_SCALING += skillShieldScaling
-      x.SHIELD_FLAT += skillShieldFlat
+      x.SHIELD_SCALING.buff(skillShieldScaling, Source.NONE)
+      x.SHIELD_FLAT.buff(skillShieldFlat, Source.NONE)
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const ashblazingAtk = calculateAshblazingSet(x, action, context, hitMulti)
 
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
-      x.FUA_DMG += (e >= 4) ? 0.30 * x[Stats.DEF] : 0
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
+      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
+      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)
+      x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * (x.a[Key.ATK] + ashblazingAtk), Source.NONE)
+      x.FUA_DMG.buff((e >= 4) ? 0.30 * x.a[Key.DEF] : 0, Source.NONE)
 
       standardDefShieldFinalizer(x)
     },

@@ -7,13 +7,7 @@ import { CharacterStats } from 'lib/characterStats'
 import { CombatBuffs, ConditionalDataType, Constants, DamageKeys, DEFAULT_STAT_DISPLAY, Stats } from 'lib/constants'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import DB from 'lib/db'
-import {
-  defaultEnemyOptions,
-  defaultSetConditionals,
-  defaultTeammate,
-  getDefaultForm,
-  getDefaultWeights,
-} from 'lib/defaultForm'
+import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultForm, getDefaultWeights } from 'lib/defaultForm'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { GridAggregations } from 'lib/gradient'
 import { LightConeConditionals } from 'lib/lightConeConditionals'

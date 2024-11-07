@@ -1,11 +1,9 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -19,57 +17,57 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultScaling = ult(e, 1.80, 1.944)
   const dotScaling = skill(e, 1.04, 1.144)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
+  const defaults = {
+    targetShocked: true,
+    enemyDefeatedBuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    targetShocked: {
       id: 'targetShocked',
+      formItem: 'switch',
       text: t('Content.targetShocked.text'),
       content: t('Content.targetShocked.content', { talentExtraDmgScaling: TsUtils.precisionRound(100 * talentExtraDmgScaling) }),
     },
-    {
-      formItem: 'switch',
+    enemyDefeatedBuff: {
       id: 'enemyDefeatedBuff',
+      formItem: 'switch',
       text: t('Content.enemyDefeatedBuff.text'),
       content: t('Content.enemyDefeatedBuff.content'),
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => [],
-    defaults: () => ({
-      targetShocked: true,
-      enemyDefeatedBuff: true,
-    }),
-    teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.ATK_P] += (r.enemyDefeatedBuff) ? 0.20 : 0
+      x.ATK_P.buff((r.enemyDefeatedBuff) ? 0.20 : 0, Source.NONE)
 
       // Scaling;
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.DOT_SCALING += dotScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.DOT_SCALING.buff(dotScaling, Source.NONE)
 
-      x.BASIC_SCALING += (r.targetShocked) ? talentExtraDmgScaling : 0
-      x.SKILL_SCALING += (r.targetShocked) ? talentExtraDmgScaling : 0
-      x.ULT_SCALING += (r.targetShocked) ? talentExtraDmgScaling : 0
+      x.BASIC_SCALING.buff((r.targetShocked) ? talentExtraDmgScaling : 0, Source.NONE)
+      x.SKILL_SCALING.buff((r.targetShocked) ? talentExtraDmgScaling : 0, Source.NONE)
+      x.ULT_SCALING.buff((r.targetShocked) ? talentExtraDmgScaling : 0, Source.NONE)
 
       // Boost
-      x.ELEMENTAL_DMG += (e >= 6 && r.targetShocked) ? 0.30 : 0
+      x.ELEMENTAL_DMG.buff((e >= 6 && r.targetShocked) ? 0.30 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 60
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
 
-      x.DOT_CHANCE = 0.65
+      x.DOT_CHANCE.set(0.65, Source.NONE)
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

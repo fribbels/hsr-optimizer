@@ -1,19 +1,14 @@
-import { ASHBLAZING_ATK_STACK, BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardFuaAtkFinalizer,
-  standardFuaAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { ASHBLAZING_ATK_STACK, BASIC_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityCr } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -30,22 +25,38 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
+  const defaults = {
+    teamDmgBuff: true,
+    skillBuff: true,
+    ultBuff: true,
+    battleStartDefBuff: false,
+    techniqueBuff: false,
+    e2SkillSpdBuff: false,
+  }
+
+  const teammateDefaults = {
+    ...defaults,
+    ...{
+      teammateCDValue: 2.50,
+    },
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    teamDmgBuff: {
       id: 'teamDmgBuff',
+      formItem: 'switch',
       text: t('Content.teamDmgBuff.text'),
       content: t('Content.teamDmgBuff.content'),
     },
-    {
-      formItem: 'switch',
+    skillBuff: {
       id: 'skillBuff',
+      formItem: 'switch',
       text: t('Content.skillBuff.text'),
       content: t('Content.skillBuff.content', { skillDmgBoostValue: TsUtils.precisionRound(100 * skillDmgBoostValue) }),
     },
-    {
-      formItem: 'switch',
+    ultBuff: {
       id: 'ultBuff',
+      formItem: 'switch',
       text: t('Content.ultBuff.text'),
       content: t('Content.ultBuff.content', {
         ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue),
@@ -53,36 +64,36 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         ultCdBoostBaseValue: TsUtils.precisionRound(100 * ultCdBoostBaseValue),
       }),
     },
-    {
-      formItem: 'switch',
+    battleStartDefBuff: {
       id: 'battleStartDefBuff',
+      formItem: 'switch',
       text: t('Content.battleStartDefBuff.text'),
       content: t('Content.battleStartDefBuff.content'),
     },
-    {
-      formItem: 'switch',
+    techniqueBuff: {
       id: 'techniqueBuff',
+      formItem: 'switch',
       text: t('Content.techniqueBuff.text'),
       content: t('Content.techniqueBuff.content'),
     },
-    {
-      formItem: 'switch',
+    e2SkillSpdBuff: {
       id: 'e2SkillSpdBuff',
+      formItem: 'switch',
       text: t('Content.e2SkillSpdBuff.text'),
       content: t('Content.e2SkillSpdBuff.content'),
       disabled: e < 2,
     },
-  ]
+  }
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'teamDmgBuff'),
-    findContentId(content, 'skillBuff'),
-    findContentId(content, 'ultBuff'),
-    findContentId(content, 'battleStartDefBuff'),
-    findContentId(content, 'techniqueBuff'),
-    {
-      formItem: 'slider',
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    teamDmgBuff: content.teamDmgBuff,
+    skillBuff: content.skillBuff,
+    ultBuff: content.ultBuff,
+    battleStartDefBuff: content.battleStartDefBuff,
+    techniqueBuff: content.techniqueBuff,
+    teammateCDValue: {
       id: 'teammateCDValue',
+      formItem: 'slider',
       text: t('TeammateContent.teammateCDValue.text'),
       content: t('TeammateContent.teammateCDValue.content', {
         ultAtkBoostValue: TsUtils.precisionRound(100 * ultAtkBoostValue),
@@ -93,57 +104,41 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       max: 3.00,
       percent: true,
     },
-    findContentId(content, 'e2SkillSpdBuff'),
-  ]
-
-  const defaults = {
-    teamDmgBuff: true,
-    skillBuff: true,
-    ultBuff: true,
-    battleStartDefBuff: false,
-    techniqueBuff: false,
-    e2SkillSpdBuff: false,
+    e2SkillSpdBuff: content.e2SkillSpdBuff,
   }
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => (defaults),
-    teammateDefaults: () => ({
-      ...defaults,
-      ...{
-        teammateCDValue: 2.50,
-      },
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      // Stats
-      buffAbilityCr(x, BASIC_TYPE, 1.00)
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      buffAbilityCr(x, BASIC_TYPE, 1.00, Source.NONE)
 
-      // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.FUA_SCALING += (e >= 4) ? fuaScaling : 0
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.FUA_SCALING.buff((e >= 4) ? fuaScaling : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.FUA_TOUGHNESS_DMG += (e >= 4) ? 30 : 0
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.FUA_TOUGHNESS_DMG.buff((e >= 4) ? 30 : 0, Source.NONE)
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.DEF_P] += (m.battleStartDefBuff) ? 0.20 : 0
-      x[Stats.SPD_P] += (m.e2SkillSpdBuff) ? 0.30 : 0
-      x[Stats.ATK_P] += (m.techniqueBuff) ? 0.15 : 0
-      x[Stats.ATK_P] += (m.ultBuff) ? ultAtkBoostValue : 0
+      x.DEF_P.buff((m.battleStartDefBuff) ? 0.20 : 0, Source.NONE)
+      x.SPD_P.buff((m.e2SkillSpdBuff) ? 0.30 : 0, Source.NONE)
+      x.ATK_P.buff((m.techniqueBuff) ? 0.15 : 0, Source.NONE)
+      x.ATK_P.buff((m.ultBuff) ? ultAtkBoostValue : 0, Source.NONE)
 
-      x.ELEMENTAL_DMG += (m.teamDmgBuff) ? 0.10 : 0
-      x.ELEMENTAL_DMG += (m.skillBuff) ? skillDmgBoostValue : 0
+      x.ELEMENTAL_DMG.buff((m.teamDmgBuff) ? 0.10 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((m.skillBuff) ? skillDmgBoostValue : 0, Source.NONE)
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.CD] += (t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0
-      x[Stats.CD] += (t.ultBuff) ? ultCdBoostBaseValue : 0
+      x.CD.buff((t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
+      x.CD.buff((t.ultBuff) ? ultCdBoostBaseValue : 0, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, hitMulti)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
@@ -156,30 +151,30 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CD],
         ratioConversion: true,
-        condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return true
         },
-        effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r: Conditionals<typeof content> = action.characterConditionals
           if (!r.ultBuff) {
             return
           }
 
           const stateValue = action.conditionalState[this.id] || 0
-          const convertibleCdValue = x[Stats.CD] - x.RATIO_BASED_CD_BUFF
+          const convertibleCdValue = x.a[Key.CD] - x.a[Key.RATIO_BASED_CD_BUFF]
 
           const buffCD = ultCdBoostValue * convertibleCdValue + ultCdBoostBaseValue
           const stateBuffCD = ultCdBoostValue * stateValue + ultCdBoostBaseValue
 
-          action.conditionalState[this.id] = x[Stats.CD]
+          action.conditionalState[this.id] = x.a[Key.CD]
 
           const finalBuffCd = buffCD - (stateValue ? stateBuffCD : 0)
-          x.RATIO_BASED_CD_BUFF += finalBuffCd
+          x.RATIO_BASED_CD_BUFF.buff(finalBuffCd, Source.NONE)
 
-          buffStat(x, Stats.CD, finalBuffCd, action, context)
+          x.CD.buffDynamic(finalBuffCd, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+          const r: Conditionals<typeof content> = action.characterConditionals
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.ultBuff)}) {

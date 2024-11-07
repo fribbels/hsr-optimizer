@@ -1,4 +1,5 @@
 import { Sets } from 'lib/constants'
+import { ComputedStatsObjectExternal } from 'lib/optimizer/computedStatsArray'
 
 export const ASHBLAZING_ATK_STACK = 0.06
 
@@ -21,29 +22,29 @@ export const baseComputedStatsObject = {
   BREAK_DMG_TYPE: BREAK_TYPE,
   SUPER_BREAK_DMG_TYPE: SUPER_BREAK_TYPE,
 
-  ['HP%']: 0,
-  ['ATK%']: 0,
-  ['DEF%']: 0,
-  ['SPD%']: 0,
-  ['HP']: 0,
-  ['ATK']: 0,
-  ['DEF']: 0,
-  ['SPD']: 0.0001,
-  ['CRIT DMG']: 0,
-  ['CRIT Rate']: 0,
-  ['Effect Hit Rate']: 0,
-  ['Effect RES']: 0,
-  ['Break Effect']: 0,
-  ['Energy Regeneration Rate']: 0,
-  ['Outgoing Healing Boost']: 0,
+  HP_P: 0,
+  ATK_P: 0,
+  DEF_P: 0,
+  SPD_P: 0,
+  HP: 0,
+  ATK: 0,
+  DEF: 0,
+  SPD: 0.0001,
+  CD: 0,
+  CR: 0,
+  EHR: 0,
+  RES: 0,
+  BE: 0,
+  ERR: 0,
+  OHB: 0,
 
-  ['Physical DMG Boost']: 0,
-  ['Fire DMG Boost']: 0,
-  ['Ice DMG Boost']: 0,
-  ['Lightning DMG Boost']: 0,
-  ['Wind DMG Boost']: 0,
-  ['Quantum DMG Boost']: 0,
-  ['Imaginary DMG Boost']: 0,
+  PHYSICAL_DMG_BOOST: 0,
+  FIRE_DMG_BOOST: 0,
+  ICE_DMG_BOOST: 0,
+  LIGHTNING_DMG_BOOST: 0,
+  WIND_DMG_BOOST: 0,
+  QUANTUM_DMG_BOOST: 0,
+  IMAGINARY_DMG_BOOST: 0,
 
   ELEMENTAL_DMG: 0,
 
@@ -178,11 +179,10 @@ export const baseComputedStatsObject = {
   BASIC_BREAK_EFFICIENCY_BOOST: 0, // Boothill
   ULT_BREAK_EFFICIENCY_BOOST: 0, // Feixiao
 
-  sets: {} as SetsType,
   WEIGHT: 0,
 }
 
-type SetsType = {
+export type SetsType = {
   [K in keyof typeof Sets]: number;
 }
 
@@ -217,6 +217,9 @@ export type BasicStatsObject = {
   relicSetIndex: number
   ornamentSetIndex: number
   id: number
+  low: number
+  high: number
 
-  x: ComputedStatsObject
+  sets: SetsType
+  x: ComputedStatsObject | ComputedStatsObjectExternal
 }

@@ -599,8 +599,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   ]
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
@@ -671,10 +671,10 @@ const LingshaConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.BE],
-  condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return true
   },
-  effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
+  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals
     if (!r.beConversion) {
       return
@@ -735,3 +735,54 @@ function findOrCreateContentItem<T extends Record<string, unknown>, K extends Ex
 type ConditionalContent<T extends Record<string, unknown>> = {
   [K in keyof T]: number;
 }
+
+
+export const StatToKey: Record<string, number> = {
+  [Stats.ATK_P]: Key.ATK_P,
+  [Stats.ATK]: Key.ATK,
+  [Stats.BE]: Key.BE,
+  [Stats.CD]: Key.CD,
+  [Stats.CR]: Key.CR,
+  [Stats.DEF_P]: Key.DEF_P,
+  [Stats.DEF]: Key.DEF,
+  [Stats.EHR]: Key.EHR,
+  [Stats.ERR]: Key.ERR,
+  [Stats.Fire_DMG]: Key.FIRE_DMG_BOOST,
+  [Stats.HP_P]: Key.HP_P,
+  [Stats.HP]: Key.HP,
+  [Stats.Ice_DMG]: Key.ICE_DMG_BOOST,
+  [Stats.Imaginary_DMG]: Key.IMAGINARY_DMG_BOOST,
+  [Stats.Lightning_DMG]: Key.LIGHTNING_DMG_BOOST,
+  [Stats.OHB]: Key.OHB,
+  [Stats.Physical_DMG]: Key.PHYSICAL_DMG_BOOST,
+  [Stats.Quantum_DMG]: Key.QUANTUM_DMG_BOOST,
+  [Stats.RES]: Key.RES,
+  [Stats.SPD_P]: Key.SPD_P,
+  [Stats.SPD]: Key.SPD,
+  [Stats.Wind_DMG]: Key.WIND_DMG_BOOST,
+} as const
+
+export const StatToOptimizerStat: Record<string, string> = {
+  [Stats.ATK_P]: 'ATK_P',
+  [Stats.ATK]: 'ATK',
+  [Stats.BE]: 'BE',
+  [Stats.CD]: 'CD',
+  [Stats.CR]: 'CR',
+  [Stats.DEF_P]: 'DEF_P',
+  [Stats.DEF]: 'DEF',
+  [Stats.EHR]: 'EHR',
+  [Stats.ERR]: 'ERR',
+  [Stats.Fire_DMG]: 'FIRE_DMG_BOOST',
+  [Stats.HP_P]: 'HP_P',
+  [Stats.HP]: 'HP',
+  [Stats.Ice_DMG]: 'ICE_DMG_BOOST',
+  [Stats.Imaginary_DMG]: 'IMAGINARY_DMG_BOOST',
+  [Stats.Lightning_DMG]: 'LIGHTNING_DMG_BOOST',
+  [Stats.OHB]: 'OHB',
+  [Stats.Physical_DMG]: 'PHYSICAL_DMG_BOOST',
+  [Stats.Quantum_DMG]: 'QUANTUM_DMG_BOOST',
+  [Stats.RES]: 'RES',
+  [Stats.SPD_P]: 'SPD_P',
+  [Stats.SPD]: 'SPD',
+  [Stats.Wind_DMG]: 'WIND_DMG_BOOST',
+} as const

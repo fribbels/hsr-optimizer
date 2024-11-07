@@ -1,20 +1,27 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import Icon, {
+  CameraOutlined,
+  DownloadOutlined,
+  EditOutlined,
+  ExperimentOutlined,
+  ImportOutlined,
+  LineChartOutlined,
+} from '@ant-design/icons'
 import { Button, Dropdown, Flex, Form, Input, Segmented, theme, Typography } from 'antd'
-import { CharacterPreview } from 'components/CharacterPreview'
-import { SaveState } from 'lib/saveState'
-import { CharacterConverter } from 'lib/characterConverter'
-import { Assets } from 'lib/assets'
-import PropTypes from 'prop-types'
-import DB, { AppPages, PageToRoute } from 'lib/db'
-import { Utils } from 'lib/utils'
-import Icon, { CameraOutlined, DownloadOutlined, EditOutlined, ExperimentOutlined, ImportOutlined, LineChartOutlined } from '@ant-design/icons'
-import { Message } from 'lib/message'
 import CharacterModal from 'components/CharacterModal'
-import { SavedSessionKeys } from 'lib/constantsSession'
+import { CharacterPreview } from 'components/CharacterPreview'
 import { applySpdPreset } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
+import { Assets } from 'lib/assets'
+import { CharacterConverter } from 'lib/characterConverter'
+import { Constants, CURRENT_DATA_VERSION, officialOnly } from 'lib/constants'
+import { SavedSessionKeys } from 'lib/constantsSession'
+import DB, { AppPages, PageToRoute } from 'lib/db'
+import { Message } from 'lib/message'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { Constants, CURRENT_DATA_VERSION, officialOnly } from 'lib/constants'
+import { SaveState } from 'lib/saveState'
+import { Utils } from 'lib/utils'
+import PropTypes from 'prop-types'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const { useToken } = theme
@@ -201,7 +208,9 @@ export default function RelicScorerTab() {
         */}
         <Flex gap={10} vertical align='center'>
           <Text>
-            {officialOnly ? t('Header.WithoutVersion') : t('Header.WithVersion', { beta_version: CURRENT_DATA_VERSION })}
+            {officialOnly
+              ? t('Header.WithoutVersion')
+              : t('Header.WithVersion', { beta_version: CURRENT_DATA_VERSION })}
             {
               /*
               "WithVersion": "Enter your account UID to score your profile character at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}} )",
@@ -264,11 +273,17 @@ function CharacterPreviewSelection(props) {
 
   const items = [
     {
-      label: <Flex gap={10}><ImportOutlined/>{t('ImportLabels.AllCharacters')/* Import all characters & all relics into optimizer */}</Flex>,
+      label: (
+        <Flex gap={10}><ImportOutlined/>{t('ImportLabels.AllCharacters')/* Import all characters & all relics into optimizer */}
+        </Flex>
+      ),
       key: 'import characters',
     },
     {
-      label: <Flex gap={10}><ImportOutlined/>{t('ImportLabels.SingleCharacter')/* Import selected character & all relics into optimizer */}</Flex>,
+      label: (
+        <Flex gap={10}><ImportOutlined/>{t('ImportLabels.SingleCharacter')/* Import selected character & all relics into optimizer */}
+        </Flex>
+      ),
       key: 'import single character',
     },
   ]
@@ -458,7 +473,7 @@ function CharacterPreviewSelection(props) {
       RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
 
       // Calculate the build's speed value to use as a preset
-      const c = calculateBuild(cleanedForm, equippedRelics)
+      const { c } = calculateBuild(cleanedForm, equippedRelics)
       applySpdPreset(Utils.precisionRound(c.SPD, 3), characterId)
 
       // Timeout to allow the form to populate before optimizing
@@ -474,10 +489,21 @@ function CharacterPreviewSelection(props) {
         <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none', width: '100%' }}>
           <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey}/>
           <Flex style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }} justify='space-between'>
-            <Button onClick={clipboardClicked} style={{ width: 225 }} icon={<CameraOutlined/>} loading={screenshotLoading} type='primary'>
+            <Button
+              onClick={clipboardClicked}
+              style={{ width: 225 }}
+              icon={<CameraOutlined/>}
+              loading={screenshotLoading}
+              type='primary'
+            >
               {t('CopyScreenshot')/* Copy screenshot */}
             </Button>
-            <Button style={{ width: 40 }} icon={<DownloadOutlined/>} onClick={downloadClicked} loading={downloadLoading}/>
+            <Button
+              style={{ width: 40 }}
+              icon={<DownloadOutlined/>}
+              onClick={downloadClicked}
+              loading={downloadLoading}
+            />
             <Dropdown.Button
               onClick={importClicked}
               style={{ width: 250 }}

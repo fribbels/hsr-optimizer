@@ -9,15 +9,7 @@ import { generateContext } from 'lib/optimizer/context/calculateContext'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { SortOptionProperties } from 'lib/optimizer/sortOptions'
 import { StatCalculator } from 'lib/statCalculator'
-import {
-  calculateOrnamentSets,
-  calculateRelicSets,
-  convertRelicsToSimulation,
-  runSimulations,
-  Simulation,
-  SimulationRequest,
-  SimulationStats,
-} from 'lib/statSimulationController'
+import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/statSimulationController'
 import { TsUtils } from 'lib/TsUtils'
 import { Utils } from 'lib/utils'
 import { Character } from 'types/Character'
@@ -294,9 +286,21 @@ export function scoreCharacterSimulation(
 
   // Set up default request
   const simulationForm: Form = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition, false)
-  const simulationFormT0 = generateFullDefaultForm(metadata.teammates[0].characterId, metadata.teammates[0].lightCone, metadata.teammates[0].characterEidolon, metadata.teammates[0].lightConeSuperimposition, true)
-  const simulationFormT1 = generateFullDefaultForm(metadata.teammates[1].characterId, metadata.teammates[1].lightCone, metadata.teammates[1].characterEidolon, metadata.teammates[1].lightConeSuperimposition, true)
-  const simulationFormT2 = generateFullDefaultForm(metadata.teammates[2].characterId, metadata.teammates[2].lightCone, metadata.teammates[2].characterEidolon, metadata.teammates[2].lightConeSuperimposition, true)
+  const simulationFormT0 = generateFullDefaultForm(metadata.teammates[0].characterId,
+    metadata.teammates[0].lightCone,
+    metadata.teammates[0].characterEidolon,
+    metadata.teammates[0].lightConeSuperimposition,
+    true)
+  const simulationFormT1 = generateFullDefaultForm(metadata.teammates[1].characterId,
+    metadata.teammates[1].lightCone,
+    metadata.teammates[1].characterEidolon,
+    metadata.teammates[1].lightConeSuperimposition,
+    true)
+  const simulationFormT2 = generateFullDefaultForm(metadata.teammates[2].characterId,
+    metadata.teammates[2].lightCone,
+    metadata.teammates[2].characterEidolon,
+    metadata.teammates[2].lightConeSuperimposition,
+    true)
   simulationForm.teammate0 = simulationFormT0
   simulationForm.teammate1 = simulationFormT1
   simulationForm.teammate2 = simulationFormT2
@@ -1219,7 +1223,8 @@ export function calculatePenaltyMultiplier(
       newPenaltyMultiplier *= (Math.min(1, simulationResult.x[stat] / breakpoints[stat]) + 1) / 2
     } else {
       // Percents are penalize by half of the missing stat's breakpoint roll percentage
-      newPenaltyMultiplier *= Math.min(1, 1 - (breakpoints[stat] - simulationResult.x[stat]) / StatCalculator.getMaxedSubstatValue(stat, scoringParams.quality))
+      newPenaltyMultiplier *= Math.min(1,
+        1 - (breakpoints[stat] - simulationResult.x[stat]) / StatCalculator.getMaxedSubstatValue(stat, scoringParams.quality))
     }
   }
   simulationResult.penaltyMultiplier = newPenaltyMultiplier

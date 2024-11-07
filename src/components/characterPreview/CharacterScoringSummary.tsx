@@ -72,12 +72,12 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     )
   }
 
-  function ScoringText(props: { label: string; text?: string; textWidth?: number }) {
+  function ScoringText(props: { label: string; text?: string }) {
     const value = props.text ?? ''
     return (
       <Flex align='center' gap={1} justify='space-between'>
         <pre style={{ margin: 0 }}>{props.label}</pre>
-        <pre style={{ margin: 0, width: props.textWidth }}>{value}</pre>
+        <pre style={{ margin: 0, textAlign: 'right' }}>{value}</pre>
       </Flex>
     )
   }
@@ -347,7 +347,6 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
                 // @ts-ignore type of key is not specific enough for ts to know that t() will resolve properly
                 t(`CharacterPreview.BuildAnalysis.CombatResults.Abilities.${result.characterMetadata.scoringMetadata.sortOption.key}`)
               }
-              textWidth={72}
             />
             <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Character')} number={result.originalSimScore} precision={1}/>
             <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Baseline')} number={result.baselineSimScore} precision={1}/>
@@ -432,8 +431,8 @@ function addOnHitStats(simulationScore: SimulationScore) {
 
   x.ELEMENTAL_DMG += x[`${ability}_BOOST`]
   if (ability != SortOption.DOT.key) {
-    x[Stats.CR] += x[`${ability}_CR_BOOST`]
-    x[Stats.CD] += x[`${ability}_CD_BOOST`]
+    x.CR += x[`${ability}_CR_BOOST`]
+    x.CD += x[`${ability}_CD_BOOST`]
   }
 }
 

@@ -1,7 +1,6 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Stats } from 'lib/constants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -12,8 +11,16 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValues = [12, 14, 16, 18, 20]
   const sValuesEnergy = [3, 3.5, 4, 4.5, 5]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    postUltSpdBuff: false,
+  }
+
+  const teammateDefaults = {
+    postUltSpdBuff: false,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    postUltSpdBuff: {
       lc: true,
       id: 'postUltSpdBuff',
       formItem: 'switch',
@@ -23,23 +30,23 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         SpdBuff: TsUtils.precisionRound(sValues[s]),
       }),
     },
-  ]
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    postUltSpdBuff: content.postUltSpdBuff,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => content,
-    defaults: () => ({
-      postUltSpdBuff: false,
-    }),
-    teammateDefaults: () => ({
-      postUltSpdBuff: false,
-    }),
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.lightConeConditionals
 
-      x[Stats.SPD] += (m.postUltSpdBuff) ? sValues[s] : 0
+      x.SPD.buff((m.postUltSpdBuff) ? sValues[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

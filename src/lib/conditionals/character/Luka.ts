@@ -1,16 +1,9 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardAtkFinalizer,
-  standardAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -26,92 +19,96 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultScaling = ult(e, 3.30, 3.564)
   const dotScaling = skill(e, 3.38, 3.718)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
+  const defaults = {
+    basicEnhanced: true,
+    targetUltDebuffed: true,
+    e1TargetBleeding: true,
+    basicEnhancedExtraHits: 3,
+    e4TalentStacks: 4,
+  }
+
+  const teammateDefaults = {
+    targetUltDebuffed: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    basicEnhanced: {
       id: 'basicEnhanced',
+      formItem: 'switch',
       text: t('Content.basicEnhanced.text'),
       content: t('Content.basicEnhanced.content'),
     },
-    {
-      formItem: 'switch',
+    targetUltDebuffed: {
       id: 'targetUltDebuffed',
+      formItem: 'switch',
       text: t('Content.targetUltDebuffed.text'),
       content: t('Content.targetUltDebuffed.content', { targetUltDebuffDmgTakenValue: TsUtils.precisionRound(100 * targetUltDebuffDmgTakenValue) }),
     },
-    {
-      formItem: 'slider',
+    basicEnhancedExtraHits: {
       id: 'basicEnhancedExtraHits',
+      formItem: 'slider',
       text: t('Content.basicEnhancedExtraHits.text'),
       content: t('Content.basicEnhancedExtraHits.content'),
       min: 0,
       max: 3,
     },
-    {
-      formItem: 'switch',
+    e1TargetBleeding: {
       id: 'e1TargetBleeding',
+      formItem: 'switch',
       text: t('Content.e1TargetBleeding.text'),
       content: t('Content.e1TargetBleeding.content'),
       disabled: e < 1,
     },
-    {
-      formItem: 'slider',
+    e4TalentStacks: {
       id: 'e4TalentStacks',
+      formItem: 'slider',
       text: t('Content.e4TalentStacks.text'),
       content: t('Content.e4TalentStacks.content'),
       min: 0,
       max: 4,
       disabled: e < 4,
     },
-  ]
+  }
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'targetUltDebuffed'),
-  ]
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    targetUltDebuffed: content.targetUltDebuffed,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => ({
-      basicEnhanced: true,
-      targetUltDebuffed: true,
-      e1TargetBleeding: true,
-      basicEnhancedExtraHits: 3,
-      e4TalentStacks: 4,
-    }),
-    teammateDefaults: () => ({
-      targetUltDebuffed: true,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.ATK_P] += (e >= 4) ? r.e4TalentStacks * 0.05 : 0
+      x.ATK_P.buff((e >= 4) ? r.e4TalentStacks * 0.05 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += (r.basicEnhanced) ? basicEnhancedScaling : basicScaling
-      x.BASIC_SCALING += (r.basicEnhanced && r.basicEnhancedExtraHits) * basicEnhancedHitValue
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.DOT_SCALING += dotScaling
+      x.BASIC_SCALING.buff((r.basicEnhanced) ? basicEnhancedScaling : basicScaling, Source.NONE)
+      x.BASIC_SCALING.buff((r.basicEnhanced && r.basicEnhancedExtraHits) * basicEnhancedHitValue, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.DOT_SCALING.buff(dotScaling, Source.NONE)
 
       // Boost
-      x.ELEMENTAL_DMG += (e >= 1 && r.e1TargetBleeding) ? 0.15 : 0
+      x.ELEMENTAL_DMG.buff((e >= 1 && r.e1TargetBleeding) ? 0.15 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += (r.basicEnhanced) ? 60 : 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 90
+      x.BASIC_TOUGHNESS_DMG.buff((r.basicEnhanced) ? 60 : 30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
 
-      x.DOT_CHANCE = 1.00
+      x.DOT_CHANCE.set(1.00, Source.NONE)
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x.VULNERABILITY += (m.targetUltDebuffed) ? targetUltDebuffDmgTakenValue : 0
+      x.VULNERABILITY.buff((m.targetUltDebuffed) ? targetUltDebuffDmgTakenValue : 0, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

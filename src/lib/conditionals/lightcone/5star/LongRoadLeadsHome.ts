@@ -1,7 +1,7 @@
 import i18next from 'i18next'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants'
-import { ContentItem } from 'types/Conditionals'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -10,8 +10,16 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LongRoadLeadsHome')
   const sValuesBreakVulnerability = [0.20, 0.225, 0.25, 0.275, 0.30]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    breakVulnerabilityStacks: 2,
+  }
+
+  const teammateDefaults = {
+    breakVulnerabilityStacks: 2,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    breakVulnerabilityStacks: {
       lc: true,
       id: 'breakVulnerabilityStacks',
       formItem: 'slider',
@@ -20,23 +28,23 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       min: 0,
       max: 2,
     },
-  ]
+  }
+
+  const teammateContent = {
+    breakVulnerabilityStacks: content.breakVulnerabilityStacks,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => content,
-    defaults: () => ({
-      breakVulnerabilityStacks: 2,
-    }),
-    teammateDefaults: () => ({
-      breakVulnerabilityStacks: 2,
-    }),
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.lightConeConditionals
 
-      x.BREAK_VULNERABILITY += m.breakVulnerabilityStacks * sValuesBreakVulnerability[s]
+      x.BREAK_VULNERABILITY.buff(m.breakVulnerabilityStacks * sValuesBreakVulnerability[s], Source.NONE)
     },
     finalizeCalculations: () => {
     },

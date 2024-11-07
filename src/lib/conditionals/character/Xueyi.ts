@@ -1,15 +1,15 @@
-import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
-import { XueyiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { ASHBLAZING_ATK_STACK, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { NumberToNumberMap } from 'types/Common'
-
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -29,20 +29,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     3: ASHBLAZING_ATK_STACK * (1 * 1 / 3 + 2 * 1 / 3 + 3 * 1 / 3), // 0.12
   }
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    beToDmgBoost: true,
+    enemyToughness50: true,
+    toughnessReductionDmgBoost: ultBoostMax,
+    fuaHits: 3,
+    e4BeBuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    beToDmgBoost: {
       id: 'beToDmgBoost',
       formItem: 'switch',
       text: t('Content.beToDmgBoost.text'),
       content: t('Content.beToDmgBoost.content'),
     },
-    {
+    enemyToughness50: {
       id: 'enemyToughness50',
       formItem: 'switch',
       text: t('Content.enemyToughness50.text'),
       content: t('Content.enemyToughness50.content'),
     },
-    {
+    toughnessReductionDmgBoost: {
       id: 'toughnessReductionDmgBoost',
       formItem: 'slider',
       text: t('Content.toughnessReductionDmgBoost.text'),
@@ -51,7 +59,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       max: ultBoostMax,
       percent: true,
     },
-    {
+    fuaHits: {
       id: 'fuaHits',
       formItem: 'slider',
       text: t('Content.fuaHits.text'),
@@ -59,58 +67,83 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       min: 0,
       max: 3,
     },
-    {
+    e4BeBuff: {
       id: 'e4BeBuff',
       formItem: 'switch',
       text: t('Content.e4BeBuff.text'),
       content: t('Content.e4BeBuff.content'),
       disabled: (e < 4),
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => [],
-    defaults: () => ({
-      beToDmgBoost: true,
-      enemyToughness50: true,
-      toughnessReductionDmgBoost: ultBoostMax,
-      fuaHits: 3,
-      e4BeBuff: true,
-    }),
-    teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.BE] += (e >= 4 && r.e4BeBuff) ? 0.40 : 0
+      x.BE.buff((e >= 4 && r.e4BeBuff) ? 0.40 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.FUA_SCALING += fuaScaling * (r.fuaHits)
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.FUA_SCALING.buff(fuaScaling * (r.fuaHits), Source.NONE)
 
       // Boost
-      buffAbilityDmg(x, ULT_TYPE, r.toughnessReductionDmgBoost)
-      buffAbilityDmg(x, ULT_TYPE, 0.10, (r.enemyToughness50))
-      buffAbilityDmg(x, FUA_TYPE, 0.40, (e >= 1))
+      buffAbilityDmg(x, ULT_TYPE, r.toughnessReductionDmgBoost, Source.NONE)
+      buffAbilityDmg(x, ULT_TYPE, (r.enemyToughness50) ? 0.10 : 0, Source.NONE)
+      buffAbilityDmg(x, FUA_TYPE, (e >= 1) ? 0.40 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 120
-      x.FUA_TOUGHNESS_DMG += 15 * (r.fuaHits)
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(120, Source.NONE)
+      x.FUA_TOUGHNESS_DMG.buff(15 * (r.fuaHits), Source.NONE)
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, hitMultiByFuaHits[action.characterConditionals.fuaHits])
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardFuaAtkFinalizer(hitMultiByFuaHits[action.characterConditionals.fuaHits])
     },
-    dynamicConditionals: [XueyiConversionConditional],
+    dynamicConditionals: [
+      {
+        id: 'XueyiConversionConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.BE],
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r: Conditionals<typeof content> = action.characterConditionals
+
+          return r.beToDmgBoost
+        },
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const stateValue = action.conditionalState[this.id] || 0
+          const buffValue = Math.min(2.40, x.a[Key.BE])
+
+          action.conditionalState[this.id] = buffValue
+          x.ELEMENTAL_DMG.buff(buffValue - stateValue, Source.NONE)
+        },
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r: Conditionals<typeof content> = action.characterConditionals
+          return conditionalWgslWrapper(this, `
+if (${wgslFalse(r.beToDmgBoost)}) {
+  return;
+}
+let be = (*p_x).BE;
+let stateValue: f32 = (*p_state).XueyiConversionConditional;
+let buffValue: f32 = min(2.40, be);
+
+(*p_state).XueyiConversionConditional = buffValue;
+(*p_x).ELEMENTAL_DMG += buffValue - stateValue;
+    `)
+        },
+      },
+    ],
   }
 }

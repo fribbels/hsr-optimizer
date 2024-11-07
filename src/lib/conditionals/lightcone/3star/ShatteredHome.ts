@@ -1,6 +1,6 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -10,27 +10,29 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValues = [0.20, 0.25, 0.30, 0.35, 0.40]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    enemyHp50Buff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    enemyHp50Buff: {
       lc: true,
       id: 'enemyHp50Buff',
       formItem: 'switch',
       text: t('Content.enemyHp50Buff.text'),
       content: t('Content.enemyHp50Buff.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    defaults: () => ({
-      enemyHp50Buff: true,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
-      x.ELEMENTAL_DMG += (r.enemyHp50Buff) ? sValues[s] : 0
+      x.ELEMENTAL_DMG.buff((r.enemyHp50Buff) ? sValues[s] : 0, Source.NONE)
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

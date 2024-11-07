@@ -1,13 +1,12 @@
-import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { BASIC_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -20,97 +19,101 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 2.10, 2.31)
   const ultScaling = ult(e, 1.00, 1.08)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
+  const defaults = {
+    teamEhrBuff: true,
+    enemyDebuffed: true,
+    skillRemovedBuff: false,
+    ultDefPenDebuff: true,
+    e4SkillResShred: true,
+  }
+
+  const teammateDefaults = {
+    teamEhrBuff: true,
+    ultDefPenDebuff: true,
+    e4SkillResShred: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    teamEhrBuff: {
       id: 'teamEhrBuff',
+      formItem: 'switch',
       text: t('Content.teamEhrBuff.text'),
       content: t('Content.teamEhrBuff.content'),
     },
-    {
-      formItem: 'switch',
+    enemyDebuffed: {
       id: 'enemyDebuffed',
+      formItem: 'switch',
       text: t('Content.enemyDebuffed.text'),
       content: t('Content.enemyDebuffed.content'),
     },
-    {
-      formItem: 'switch',
+    skillRemovedBuff: {
       id: 'skillRemovedBuff',
+      formItem: 'switch',
       text: t('Content.skillRemovedBuff.text'),
       content: t('Content.skillRemovedBuff.content'),
     },
-    {
-      formItem: 'switch',
+    ultDefPenDebuff: {
       id: 'ultDefPenDebuff',
+      formItem: 'switch',
       text: t('Content.ultDefPenDebuff.text'),
       content: t('Content.ultDefPenDebuff.content', { ultDefPenValue: TsUtils.precisionRound(100 * ultDefPenValue) }),
     },
-    {
-      formItem: 'switch',
+    e4SkillResShred: {
       id: 'e4SkillResShred',
+      formItem: 'switch',
       text: t('Content.e4SkillResShred.text'),
       content: t('Content.e4SkillResShred.content'),
       disabled: e < 4,
     },
-  ]
+  }
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'teamEhrBuff'),
-    findContentId(content, 'ultDefPenDebuff'),
-    findContentId(content, 'e4SkillResShred'),
-  ]
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    teamEhrBuff: content.teamEhrBuff,
+    ultDefPenDebuff: content.ultDefPenDebuff,
+    e4SkillResShred: content.e4SkillResShred,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => ({
-      teamEhrBuff: true,
-      enemyDebuffed: true,
-      skillRemovedBuff: false,
-      ultDefPenDebuff: true,
-      e4SkillResShred: true,
-    }),
-    teammateDefaults: () => ({
-      teamEhrBuff: true,
-      ultDefPenDebuff: true,
-      e4SkillResShred: true,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.SPD_P] += (e >= 2 && r.skillRemovedBuff) ? 0.10 : 0
+      x.SPD_P.buff((e >= 2 && r.skillRemovedBuff) ? 0.10 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
-      buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE | ULT_TYPE, 0.20, (r.skillRemovedBuff))
-      x.ELEMENTAL_DMG += (r.enemyDebuffed) ? 0.20 : 0
+      buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE | ULT_TYPE, (r.skillRemovedBuff) ? 0.20 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((r.enemyDebuffed) ? 0.20 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 60
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.EHR] += (m.teamEhrBuff) ? 0.10 : 0
+      x.EHR.buff((m.teamEhrBuff) ? 0.10 : 0, Source.NONE)
 
-      x.DEF_PEN += (m.ultDefPenDebuff) ? ultDefPenValue : 0
-      x.ICE_RES_PEN += (e >= 4 && m.e4SkillResShred) ? 0.12 : 0
+      x.DEF_PEN.buff((m.ultDefPenDebuff) ? ultDefPenValue : 0, Source.NONE)
+      x.ICE_RES_PEN.buff((e >= 4 && m.e4SkillResShred) ? 0.12 : 0, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
+      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
+      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)
 
-      x.BASIC_DMG += (e >= 6) ? 0.40 * x[Stats.ATK] : 0
-      x.SKILL_DMG += (e >= 6) ? 0.40 * x[Stats.ATK] : 0
-      x.ULT_DMG += (e >= 6) ? 0.40 * x[Stats.ATK] : 0
+      x.BASIC_DMG.buff((e >= 6) ? 0.40 * x.a[Key.ATK] : 0, Source.NONE)
+      x.SKILL_DMG.buff((e >= 6) ? 0.40 * x.a[Key.ATK] : 0, Source.NONE)
+      x.ULT_DMG.buff((e >= 6) ? 0.40 * x.a[Key.ATK] : 0, Source.NONE)
     },
     gpuFinalizeCalculations: () => {
       return `

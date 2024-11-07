@@ -1,6 +1,6 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -10,29 +10,31 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValuesDmg = [0.30, 0.35, 0.40, 0.45, 0.50]
 
-  const content: ContentItem[] = [
-    {
+  const teammateDefaults = {
+    postSkillDmgBuff: true,
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    postSkillDmgBuff: {
       lc: true,
-      id: 'postSkillDmgBuff',
       formItem: 'switch',
+      id: 'postSkillDmgBuff',
       text: t('Content.postSkillDmgBuff.text'),
       content: t('Content.postSkillDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]) }),
     },
-  ]
+  }
 
   return {
     content: () => [],
-    teammateContent: () => content,
+    teammateContent: () => Object.values(teammateContent),
     defaults: () => ({}),
-    teammateDefaults: () => ({
-      postSkillDmgBuff: true,
-    }),
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.lightConeConditionals
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const t: Conditionals<typeof teammateContent> = action.lightConeConditionals
 
-      x.ELEMENTAL_DMG += (t.postSkillDmgBuff) ? sValuesDmg[s] : 0
+      x.ELEMENTAL_DMG.buff((t.postSkillDmgBuff) ? sValuesDmg[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

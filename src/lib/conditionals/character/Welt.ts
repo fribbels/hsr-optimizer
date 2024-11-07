@@ -1,15 +1,9 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardAtkFinalizer,
-  standardAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -23,84 +17,88 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultScaling = ult(e, 1.50, 1.62)
   const talentScaling = talent(e, 0.60, 0.66)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
+  const content: ContentDefinition<typeof defaults> = {
+    enemyDmgTakenDebuff: {
       id: 'enemyDmgTakenDebuff',
+      formItem: 'switch',
       text: t('Content.enemyDmgTakenDebuff.text'),
       content: t('Content.enemyDmgTakenDebuff.content'),
     },
-    {
-      formItem: 'switch',
+    enemySlowed: {
       id: 'enemySlowed',
+      formItem: 'switch',
       text: t('Content.enemySlowed.text'),
       content: t('Content.enemySlowed.content', { talentScaling: TsUtils.precisionRound(100 * talentScaling) }),
     },
-    {
-      formItem: 'slider',
+    skillExtraHits: {
       id: 'skillExtraHits',
+      formItem: 'slider',
       text: t('Content.skillExtraHits.text'),
       content: t('Content.skillExtraHits.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
       min: 0,
       max: skillExtraHitsMax,
     },
-    {
-      formItem: 'switch',
+    e1EnhancedState: {
       id: 'e1EnhancedState',
+      formItem: 'switch',
       text: t('Content.e1EnhancedState.text'),
       content: t('Content.e1EnhancedState.content'),
       disabled: (e < 1),
     },
-  ]
+  }
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'enemyDmgTakenDebuff'),
-  ]
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    enemyDmgTakenDebuff: content.enemyDmgTakenDebuff,
+  }
+
+  const defaults = {
+    enemySlowed: true,
+    enemyDmgTakenDebuff: true,
+    skillExtraHits: skillExtraHitsMax,
+    e1EnhancedState: true,
+  }
+
+  const teammateDefaults = {
+    enemyDmgTakenDebuff: true,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => ({
-      enemySlowed: true,
-      enemyDmgTakenDebuff: true,
-      skillExtraHits: skillExtraHitsMax,
-      e1EnhancedState: true,
-    }),
-    teammateDefaults: () => ({
-      enemyDmgTakenDebuff: true,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x.ELEMENTAL_DMG += (x.ENEMY_WEAKNESS_BROKEN) ? 0.20 : 0
+      x.ELEMENTAL_DMG.buff((x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? 0.20 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
-      x.BASIC_SCALING += (r.enemySlowed) ? talentScaling : 0
-      x.SKILL_SCALING += (r.enemySlowed) ? talentScaling : 0
-      x.ULT_SCALING += (r.enemySlowed) ? talentScaling : 0
+      x.BASIC_SCALING.buff((r.enemySlowed) ? talentScaling : 0, Source.NONE)
+      x.SKILL_SCALING.buff((r.enemySlowed) ? talentScaling : 0, Source.NONE)
+      x.ULT_SCALING.buff((r.enemySlowed) ? talentScaling : 0, Source.NONE)
 
-      x.BASIC_SCALING += (e >= 1 && r.e1EnhancedState) ? 0.50 * basicScaling : 0
-      x.SKILL_SCALING += (e >= 1 && r.e1EnhancedState) ? 0.80 * skillScaling : 0
+      x.BASIC_SCALING.buff((e >= 1 && r.e1EnhancedState) ? 0.50 * basicScaling : 0, Source.NONE)
+      x.SKILL_SCALING.buff((e >= 1 && r.e1EnhancedState) ? 0.80 * skillScaling : 0, Source.NONE)
 
-      x.SKILL_SCALING += r.skillExtraHits * skillScaling
+      x.SKILL_SCALING.buff(r.skillExtraHits * skillScaling, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 30 + 30 * r.skillExtraHits
-      x.ULT_TOUGHNESS_DMG += 60
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(30 + 30 * r.skillExtraHits, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x.VULNERABILITY += (m.enemyDmgTakenDebuff) ? 0.12 : 0
+      x.VULNERABILITY.buff((m.enemyDmgTakenDebuff) ? 0.12 : 0, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

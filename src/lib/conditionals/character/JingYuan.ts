@@ -1,19 +1,11 @@
-import {
-  ASHBLAZING_ATK_STACK,
-  BASIC_TYPE,
-  ComputedStatsObject,
-  FUA_TYPE,
-  SKILL_TYPE,
-  ULT_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { ASHBLAZING_ATK_STACK, BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityCd, buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -26,7 +18,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const fuaScaling = talent(e, 0.66, 0.726)
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
+    const r: Conditionals<typeof content> = action.characterConditionals
 
     let hitMulti = 0
     const stacks = r.talentHitsPerAction
@@ -51,96 +43,96 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     return hitMulti
   }
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
+  const defaults = {
+    skillCritBuff: true,
+    talentHitsPerAction: 10,
+    talentAttacks: 10,
+    e2DmgBuff: true,
+    e6FuaVulnerabilityStacks: 3,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    skillCritBuff: {
       id: 'skillCritBuff',
+      formItem: 'switch',
       text: t('Content.skillCritBuff.text'),
       content: t('Content.skillCritBuff.content'),
     },
-    {
-      formItem: 'slider',
+    talentHitsPerAction: {
       id: 'talentHitsPerAction',
+      formItem: 'slider',
       text: t('Content.talentHitsPerAction.text'),
       content: t('Content.talentHitsPerAction.content'),
       min: 3,
       max: 10,
     },
-    {
-      formItem: 'slider',
+    talentAttacks: {
       id: 'talentAttacks',
+      formItem: 'slider',
       text: t('Content.talentAttacks.text'),
       content: t('Content.talentAttacks.content'),
       min: 0,
       max: 10,
     },
-    {
-      formItem: 'switch',
+    e2DmgBuff: {
       id: 'e2DmgBuff',
+      formItem: 'switch',
       text: t('Content.e2DmgBuff.text'),
       content: t('Content.e2DmgBuff.content'),
       disabled: e < 2,
     },
-    {
-      formItem: 'slider',
+    e6FuaVulnerabilityStacks: {
       id: 'e6FuaVulnerabilityStacks',
+      formItem: 'slider',
       text: t('Content.e6FuaVulnerabilityStacks.text'),
       content: t('Content.e6FuaVulnerabilityStacks.content'),
       min: 0,
       max: 3,
       disabled: e < 6,
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => [],
-    defaults: () => ({
-      skillCritBuff: true,
-      talentHitsPerAction: 10,
-      talentAttacks: 10,
-      e2DmgBuff: true,
-      e6FuaVulnerabilityStacks: 3,
-    }),
-    teammateDefaults: () => ({}),
-    initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
-      x.SUMMONS = 1
+      x.SUMMONS.set(1, Source.NONE)
     },
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       r.talentHitsPerAction = Math.max(r.talentHitsPerAction, r.talentAttacks)
 
       // Stats
-      x[Stats.CR] += (r.skillCritBuff) ? 0.10 : 0
+      x.CR.buff((r.skillCritBuff) ? 0.10 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.FUA_SCALING += fuaScaling * r.talentAttacks
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.FUA_SCALING.buff(fuaScaling * r.talentAttacks, Source.NONE)
 
       // Boost
-      buffAbilityCd(x, FUA_TYPE, 0.25, (r.talentHitsPerAction >= 6))
-      buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE | ULT_TYPE, 0.20, (e >= 2 && r.e2DmgBuff))
-      buffAbilityVulnerability(x, FUA_TYPE, r.e6FuaVulnerabilityStacks * 0.12, (e >= 6))
+      buffAbilityCd(x, FUA_TYPE, (r.talentHitsPerAction >= 6) ? 0.25 : 0, Source.NONE)
+      buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE | ULT_TYPE, (e >= 2 && r.e2DmgBuff) ? 0.20 : 0, Source.NONE)
+      buffAbilityVulnerability(x, FUA_TYPE, (e >= 6) ? r.e6FuaVulnerabilityStacks * 0.12 : 0, Source.NONE)
 
       // Lightning lord calcs
       const hits = r.talentAttacks
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 30
-      x.ULT_TOUGHNESS_DMG += 60
-      x.FUA_TOUGHNESS_DMG += 15 * hits
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.FUA_TOUGHNESS_DMG.buff(15 * hits, Source.NONE)
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       // TODO: Technically E6 has a vulnerability but its kinda hard to calc
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {

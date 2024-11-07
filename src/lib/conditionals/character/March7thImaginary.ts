@@ -1,12 +1,11 @@
-import { ASHBLAZING_ATK_STACK, BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { ASHBLAZING_ATK_STACK, BASIC_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityCd, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -23,70 +22,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   // 0.06
   const fuaHitCountMulti = ASHBLAZING_ATK_STACK * (1 * 0.40 + 2 * 0.60)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'enhancedBasic',
-      text: t('Content.enhancedBasic.text'),
-      content: t('Content.enhancedBasic.content', { BasicEnhancedScaling: TsUtils.precisionRound(100 * basicEnhancedScaling) }),
-    },
-    {
-      formItem: 'slider',
-      id: 'basicAttackHits',
-      text: t('Content.basicAttackHits.text'),
-      content: t('Content.basicAttackHits.content', { BasicEnhancedScaling: TsUtils.precisionRound(100 * basicEnhancedScaling) }),
-      min: 3,
-      max: 6,
-    },
-    {
-      formItem: 'switch',
-      id: 'masterAdditionalDmgBuff',
-      text: t('Content.masterAdditionalDmgBuff.text'),
-      content: t('Content.masterAdditionalDmgBuff.content', { ShifuDmgBuff: TsUtils.precisionRound(100 * basicExtraScalingMasterBuff) }),
-    },
-    {
-      formItem: 'switch',
-      id: 'masterToughnessRedBuff',
-      text: t('Content.masterToughnessRedBuff.text'),
-      content: t('Content.masterToughnessRedBuff.content'),
-    },
-    {
-      formItem: 'switch',
-      id: 'talentDmgBuff',
-      text: t('Content.talentDmgBuff.text'),
-      content: t('Content.talentDmgBuff.content', { TalentDmgBuff: TsUtils.precisionRound(100 * talentDmgBuff) }),
-    },
-    {
-      formItem: 'switch',
-      id: 'selfSpdBuff',
-      text: t('Content.selfSpdBuff.text'),
-      content: t('Content.selfSpdBuff.content'),
-      disabled: e < 1,
-    },
-    {
-      formItem: 'switch',
-      id: 'e6CdBuff',
-      text: t('Content.e6CdBuff.text'),
-      content: t('Content.e6CdBuff.content'),
-      disabled: e < 6,
-    },
-  ]
-
-  const teammateContent: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'masterBuff',
-      text: t('TeammateContent.masterBuff.text'),
-      content: t('TeammateContent.masterBuff.content', { ShifuSpeedBuff: TsUtils.precisionRound(100 * skillSpdScaling) }),
-    },
-    {
-      formItem: 'switch',
-      id: 'masterCdBeBuffs',
-      text: t('TeammateContent.masterCdBeBuffs.text'),
-      content: t('TeammateContent.masterCdBeBuffs.content'),
-    },
-  ]
-
   const defaults = {
     enhancedBasic: true,
     basicAttackHits: 6,
@@ -102,45 +37,109 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     masterCdBeBuffs: true,
   }
 
+  const content: ContentDefinition<typeof defaults> = {
+    enhancedBasic: {
+      id: 'enhancedBasic',
+      formItem: 'switch',
+      text: t('Content.enhancedBasic.text'),
+      content: t('Content.enhancedBasic.content', { BasicEnhancedScaling: TsUtils.precisionRound(100 * basicEnhancedScaling) }),
+    },
+    basicAttackHits: {
+      id: 'basicAttackHits',
+      formItem: 'slider',
+      text: t('Content.basicAttackHits.text'),
+      content: t('Content.basicAttackHits.content', { BasicEnhancedScaling: TsUtils.precisionRound(100 * basicEnhancedScaling) }),
+      min: 3,
+      max: 6,
+    },
+    masterAdditionalDmgBuff: {
+      id: 'masterAdditionalDmgBuff',
+      formItem: 'switch',
+      text: t('Content.masterAdditionalDmgBuff.text'),
+      content: t('Content.masterAdditionalDmgBuff.content', { ShifuDmgBuff: TsUtils.precisionRound(100 * basicExtraScalingMasterBuff) }),
+    },
+    masterToughnessRedBuff: {
+      id: 'masterToughnessRedBuff',
+      formItem: 'switch',
+      text: t('Content.masterToughnessRedBuff.text'),
+      content: t('Content.masterToughnessRedBuff.content'),
+    },
+    talentDmgBuff: {
+      id: 'talentDmgBuff',
+      formItem: 'switch',
+      text: t('Content.talentDmgBuff.text'),
+      content: t('Content.talentDmgBuff.content', { TalentDmgBuff: TsUtils.precisionRound(100 * talentDmgBuff) }),
+    },
+    selfSpdBuff: {
+      id: 'selfSpdBuff',
+      formItem: 'switch',
+      text: t('Content.selfSpdBuff.text'),
+      content: t('Content.selfSpdBuff.content'),
+      disabled: e < 1,
+    },
+    e6CdBuff: {
+      id: 'e6CdBuff',
+      formItem: 'switch',
+      text: t('Content.e6CdBuff.text'),
+      content: t('Content.e6CdBuff.content'),
+      disabled: e < 6,
+    },
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    masterBuff: {
+      id: 'masterBuff',
+      formItem: 'switch',
+      text: t('TeammateContent.masterBuff.text'),
+      content: t('TeammateContent.masterBuff.content', { ShifuSpeedBuff: TsUtils.precisionRound(100 * skillSpdScaling) }),
+    },
+    masterCdBeBuffs: {
+      id: 'masterCdBeBuffs',
+      formItem: 'switch',
+      text: t('TeammateContent.masterCdBeBuffs.text'),
+      content: t('TeammateContent.masterCdBeBuffs.content'),
+    },
+  }
+
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => (defaults),
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
     teammateDefaults: () => (teammateDefaults),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
-      x[Stats.SPD_P] += (e >= 1 && r.selfSpdBuff) ? 0.10 : 0
-      buffAbilityDmg(x, BASIC_TYPE, talentDmgBuff, (r.talentDmgBuff))
+      x.SPD_P.buff((e >= 1 && r.selfSpdBuff) ? 0.10 : 0, Source.NONE)
+      buffAbilityDmg(x, BASIC_TYPE, (r.talentDmgBuff) ? talentDmgBuff : 0, Source.NONE)
 
-      buffAbilityCd(x, BASIC_TYPE, 0.50, (e >= 6 && r.e6CdBuff && r.enhancedBasic))
+      buffAbilityCd(x, BASIC_TYPE, (e >= 6 && r.e6CdBuff && r.enhancedBasic) ? 0.50 : 0, Source.NONE)
 
       const additionalMasterBuffScaling = (r.masterAdditionalDmgBuff)
         ? basicExtraScalingMasterBuff * r.basicAttackHits
         : 0
-      x.BASIC_SCALING += (r.enhancedBasic) ? basicEnhancedScaling * r.basicAttackHits : basicScaling
-      x.BASIC_SCALING += (r.enhancedBasic) ? additionalMasterBuffScaling : basicExtraScalingMasterBuff
-      x.ULT_SCALING += ultScaling
-      x.FUA_SCALING += (e >= 2) ? 0.60 : 0
+      x.BASIC_SCALING.buff((r.enhancedBasic) ? basicEnhancedScaling * r.basicAttackHits : basicScaling, Source.NONE)
+      x.BASIC_SCALING.buff((r.enhancedBasic) ? additionalMasterBuffScaling : basicExtraScalingMasterBuff, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.FUA_SCALING.buff((e >= 2) ? 0.60 : 0, Source.NONE)
 
       const toughnessDmgBoost = (r.masterToughnessRedBuff) ? 2.0 : 1.0
-      x.BASIC_TOUGHNESS_DMG += toughnessDmgBoost * ((r.enhancedBasic) ? 15 * r.basicAttackHits : 30)
-      x.ULT_TOUGHNESS_DMG += 90
-      x.FUA_TOUGHNESS_DMG += (e >= 2) ? 30 : 0
+      x.BASIC_TOUGHNESS_DMG.buff(toughnessDmgBoost * ((r.enhancedBasic) ? 15 * r.basicAttackHits : 30), Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
+      x.FUA_TOUGHNESS_DMG.buff((e >= 2) ? 30 : 0, Source.NONE)
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.SPD_P] += (t.masterBuff) ? skillSpdScaling : 0
+      x.SPD_P.buff((t.masterBuff) ? skillSpdScaling : 0, Source.NONE)
 
-      x[Stats.CD] += (t.masterBuff && t.masterCdBeBuffs) ? 0.60 : 0
-      x[Stats.BE] += (t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0
+      x.CD.buff((t.masterBuff && t.masterCdBeBuffs) ? 0.60 : 0, Source.NONE)
+      x.BE.buff((t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, fuaHitCountMulti)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {

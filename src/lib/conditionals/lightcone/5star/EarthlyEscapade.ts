@@ -1,7 +1,6 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Stats } from 'lib/constants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -12,8 +11,16 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesCr = [0.10, 0.11, 0.12, 0.13, 0.14]
   const sValuesCd = [0.28, 0.35, 0.42, 0.49, 0.56]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    maskActive: false,
+  }
+
+  const teammateDefaults = {
+    maskActive: false,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    maskActive: {
       lc: true,
       id: 'maskActive',
       formItem: 'switch',
@@ -23,24 +30,24 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         CritDmgBuff: TsUtils.precisionRound(100 * sValuesCd[s]),
       }),
     },
-  ]
+  }
+
+  const teammateContent = {
+    maskActive: content.maskActive,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => content,
-    defaults: () => ({
-      maskActive: false,
-    }),
-    teammateDefaults: () => ({
-      maskActive: true,
-    }),
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.lightConeConditionals
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const t: Conditionals<typeof teammateContent> = action.lightConeConditionals
 
-      x[Stats.CR] += (t.maskActive) ? sValuesCr[s] : 0
-      x[Stats.CD] += (t.maskActive) ? sValuesCd[s] : 0
+      x.CR.buff((t.maskActive) ? sValuesCr[s] : 0, Source.NONE)
+      x.CD.buff((t.maskActive) ? sValuesCd[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

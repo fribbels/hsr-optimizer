@@ -1,6 +1,6 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -11,8 +11,13 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesStackDmg = [0.14, 0.165, 0.19, 0.215, 0.24]
   const sValuesDefPen = [0.12, 0.14, 0.16, 0.18, 0.20]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    eclipseStacks: 3,
+    maxStackDefPen: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    eclipseStacks: {
       lc: true,
       id: 'eclipseStacks',
       formItem: 'slider',
@@ -21,25 +26,22 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       min: 0,
       max: 3,
     },
-    {
+    maxStackDefPen: {
       lc: true,
       id: 'maxStackDefPen',
       formItem: 'switch',
       text: t('Content.maxStackDefPen.text'),
       content: t('Content.maxStackDefPen.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefPen[s]) }),
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    defaults: () => ({
-      eclipseStacks: 3,
-      maxStackDefPen: true,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
-      x.ELEMENTAL_DMG += r.eclipseStacks * sValuesStackDmg[s]
-      x.DEF_PEN += (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.lightConeConditionals
+      x.ELEMENTAL_DMG.buff(r.eclipseStacks * sValuesStackDmg[s], Source.NONE)
+      x.DEF_PEN.buff((r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

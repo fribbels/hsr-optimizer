@@ -1,7 +1,6 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Stats } from 'lib/constants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -11,25 +10,27 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValues = [0.24, 0.28, 0.32, 0.36, 0.40]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    selfAttackedDefBuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    selfAttackedDefBuff: {
       lc: true,
       id: 'selfAttackedDefBuff',
       formItem: 'switch',
       text: t('Content.selfAttackedDefBuff.text'),
       content: t('Content.selfAttackedDefBuff.content', { DefBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    defaults: () => ({
-      selfAttackedDefBuff: true,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
-      x[Stats.DEF_P] += (r.selfAttackedDefBuff) ? sValues[s] : 0
+      x.DEF_P.buff((r.selfAttackedDefBuff) ? sValues[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

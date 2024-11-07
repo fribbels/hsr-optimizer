@@ -1,7 +1,7 @@
 import i18next from 'i18next'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants'
-import { ContentItem } from 'types/Conditionals'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -10,8 +10,16 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.AGroundedAscent')
   const sValuesDmg = [0.15, 0.1725, 0.195, 0.2175, 0.24]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    dmgBuffStacks: 3,
+  }
+
+  const teammateDefaults = {
+    dmgBuffStacks: 3,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    dmgBuffStacks: {
       lc: true,
       id: 'dmgBuffStacks',
       formItem: 'slider',
@@ -20,23 +28,23 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       min: 0,
       max: 3,
     },
-  ]
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    dmgBuffStacks: content.dmgBuffStacks,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => content,
-    defaults: () => ({
-      dmgBuffStacks: 3,
-    }),
-    teammateDefaults: () => ({
-      dmgBuffStacks: 3,
-    }),
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.lightConeConditionals
 
-      x.ELEMENTAL_DMG += m.dmgBuffStacks * sValuesDmg[s]
+      x.ELEMENTAL_DMG.buff(m.dmgBuffStacks * sValuesDmg[s], Source.NONE)
     },
     finalizeCalculations: () => {
     },

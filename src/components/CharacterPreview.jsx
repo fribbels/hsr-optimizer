@@ -43,9 +43,11 @@ import { AppPages, DB } from 'lib/db'
 import { Message } from 'lib/message'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
+import { RelicFilters } from 'lib/relicFilters'
 import { RelicModalController } from 'lib/relicModalController'
 import { RelicScorer } from 'lib/relicScorerPotential'
 import { SaveState } from 'lib/saveState'
+import { StatCalculator } from 'lib/statCalculator'
 import { Utils } from 'lib/utils'
 import PropTypes from 'prop-types'
 import React, { useEffect, useRef, useState } from 'react'
@@ -184,13 +186,14 @@ export function CharacterPreview(props) {
         gap={defaultGap}
         id={props.id}
       >
-        <div style={{
-          width: parentW,
-          overflow: 'hidden',
-          outline: `2px solid ${token.colorBgContainer}`,
-          height: '100%',
-          borderRadius: '8px',
-        }}
+        <div
+          style={{
+            width: parentW,
+            overflow: 'hidden',
+            outline: `2px solid ${token.colorBgContainer}`,
+            height: '100%',
+            borderRadius: '8px',
+          }}
         >
           {/* This is a placeholder for the character portrait when no character is selected */}
         </div>
@@ -251,7 +254,7 @@ export function CharacterPreview(props) {
 
   const statCalculationRelics = Utils.clone(displayRelics)
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics))
-  const finalStats = calculateBuild(OptimizerTabController.fixForm(OptimizerTabController.getDisplayFormValues(character.form)), statCalculationRelics)
+  const { c: finalStats } = calculateBuild(OptimizerTabController.fixForm(OptimizerTabController.getDisplayFormValues(character.form)), statCalculationRelics)
   finalStats.CV = StatCalculator.calculateCv(Object.values(statCalculationRelics))
   finalStats[elementalDmgValue] = finalStats.ELEMENTAL_DMG
 
@@ -313,7 +316,9 @@ export function CharacterPreview(props) {
   // Some APIs return empty light cone as '0'
   const charCenter = DB.getMetadata().characters[character.id].imageCenter
 
-  const lcCenter = (character.form.lightCone && character.form.lightCone != '0') ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter : 0
+  const lcCenter = (character.form.lightCone && character.form.lightCone != '0')
+    ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter
+    : 0
 
   const tempLcParentW = simScoringResult ? parentW : lcParentW
 

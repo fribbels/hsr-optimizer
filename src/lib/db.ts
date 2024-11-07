@@ -3,15 +3,7 @@ import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulati
 import { DefaultSettingOptions, SettingOptions } from 'components/SettingsDrawer'
 import i18next from 'i18next'
 import { ScoringMetadata, SimulationMetadata } from 'lib/characterScorer'
-import {
-  COMPUTE_ENGINE_GPU_STABLE, ComputeEngine,
-  Constants,
-  CURRENT_OPTIMIZER_VERSION,
-  DAMAGE_UPGRADES,
-  DEFAULT_STAT_DISPLAY,
-  Sets,
-  SIMULATION_SCORE,
-} from 'lib/constants'
+import { COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, Sets, SIMULATION_SCORE } from 'lib/constants'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Message } from 'lib/message'
@@ -537,10 +529,10 @@ export const DB = {
       }
 
       // Deduplicate main stat filter values
-      for (const part of Object.keys(Constants.Parts)) {
-        const mainParts = character.form['main' + part] as string[]
-        character.form['main' + part] = deduplicateStringArray(mainParts)
-      }
+      character.form.mainBody = deduplicateStringArray(character.form.mainBody)
+      character.form.mainFeet = deduplicateStringArray(character.form.mainFeet)
+      character.form.mainPlanarSphere = deduplicateStringArray(character.form.mainPlanarSphere)
+      character.form.mainLinkRope = deduplicateStringArray(character.form.mainLinkRope)
 
       // In beta, Duran maxed out at 6
       if (character.form.setConditionals?.[Sets.DuranDynastyOfRunningWolves]?.[1] > 5) {

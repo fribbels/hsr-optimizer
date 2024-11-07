@@ -1,13 +1,12 @@
-import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { ASHBLAZING_ATK_STACK, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { NumberToNumberMap } from 'types/Common'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -34,67 +33,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   }
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
+    const r: Conditionals<typeof content> = action.characterConditionals
     return r.enhancedFollowUp
       ? enhancedHitMultiByTargets[context.enemyCount]
       : unenhancedHitMultiByTargets[context.enemyCount]
   }
-
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'enhancedFollowUp',
-      text: t('Content.enhancedFollowUp.text'),
-      content: t('Content.enhancedFollowUp.content', { ultFuaScalingBuff: TsUtils.precisionRound(100 * ultFuaScalingBuff) }),
-    },
-    {
-      formItem: 'slider',
-      id: 'pawnedAssetStacks',
-      text: t('Content.pawnedAssetStacks.text'),
-      content: t('Content.pawnedAssetStacks.content', { pawnedAssetCdScaling: TsUtils.precisionRound(100 * pawnedAssetCdScaling) }),
-      min: 0,
-      max: 50,
-    },
-    {
-      formItem: 'switch',
-      id: 'e1FuaDmgBoost',
-      text: t('Content.e1FuaDmgBoost.text'),
-      content: t('Content.e1FuaDmgBoost.content'),
-      disabled: e < 1,
-    },
-    {
-
-      formItem: 'switch',
-      id: 'e2CrBuff',
-      text: t('Content.e2CrBuff.text'),
-      content: t('Content.e2CrBuff.content'),
-      disabled: e < 2,
-    },
-    {
-
-      formItem: 'switch',
-      id: 'e4DefShredBuff',
-      text: t('Content.e4DefShredBuff.text'),
-      content: t('Content.e4DefShredBuff.content'),
-      disabled: e < 4,
-    },
-    {
-      formItem: 'switch',
-      id: 'e6ResShredBuff',
-      text: t('Content.e6ResShredBuff.text'),
-      content: t('Content.e6ResShredBuff.content'),
-      disabled: e < 6,
-    },
-  ]
-
-  const teammateContent: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'debtCollectorSpdBuff',
-      text: t('TeammateContent.debtCollectorSpdBuff.text'),
-      content: t('TeammateContent.debtCollectorSpdBuff.content'),
-    },
-  ]
 
   const defaults = {
     enhancedFollowUp: true,
@@ -109,41 +52,95 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     debtCollectorSpdBuff: true,
   }
 
+  const content: ContentDefinition<typeof defaults> = {
+    enhancedFollowUp: {
+      id: 'enhancedFollowUp',
+      formItem: 'switch',
+      text: t('Content.enhancedFollowUp.text'),
+      content: t('Content.enhancedFollowUp.content', { ultFuaScalingBuff: TsUtils.precisionRound(100 * ultFuaScalingBuff) }),
+    },
+    pawnedAssetStacks: {
+      id: 'pawnedAssetStacks',
+      formItem: 'slider',
+      text: t('Content.pawnedAssetStacks.text'),
+      content: t('Content.pawnedAssetStacks.content', { pawnedAssetCdScaling: TsUtils.precisionRound(100 * pawnedAssetCdScaling) }),
+      min: 0,
+      max: 50,
+    },
+    e1FuaDmgBoost: {
+      id: 'e1FuaDmgBoost',
+      formItem: 'switch',
+      text: t('Content.e1FuaDmgBoost.text'),
+      content: t('Content.e1FuaDmgBoost.content'),
+      disabled: e < 1,
+    },
+    e2CrBuff: {
+      id: 'e2CrBuff',
+      formItem: 'switch',
+      text: t('Content.e2CrBuff.text'),
+      content: t('Content.e2CrBuff.content'),
+      disabled: e < 2,
+    },
+    e4DefShredBuff: {
+      id: 'e4DefShredBuff',
+      formItem: 'switch',
+      text: t('Content.e4DefShredBuff.text'),
+      content: t('Content.e4DefShredBuff.content'),
+      disabled: e < 4,
+    },
+    e6ResShredBuff: {
+      id: 'e6ResShredBuff',
+      formItem: 'switch',
+      text: t('Content.e6ResShredBuff.text'),
+      content: t('Content.e6ResShredBuff.content'),
+      disabled: e < 6,
+    },
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    debtCollectorSpdBuff: {
+      id: 'debtCollectorSpdBuff',
+      formItem: 'switch',
+      text: t('TeammateContent.debtCollectorSpdBuff.text'),
+      content: t('TeammateContent.debtCollectorSpdBuff.content'),
+    },
+  }
+
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => (defaults),
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
     teammateDefaults: () => (teammateDefaults),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
-      x[Stats.CD] += r.pawnedAssetStacks * pawnedAssetCdScaling
-      x[Stats.ATK_P] += r.pawnedAssetStacks * 0.005
-      x[Stats.CR] += (e >= 2 && r.e2CrBuff && r.pawnedAssetStacks >= 15) ? 0.18 : 0
+      x.CD.buff(r.pawnedAssetStacks * pawnedAssetCdScaling, Source.NONE)
+      x.ATK_P.buff(r.pawnedAssetStacks * 0.005, Source.NONE)
+      x.CR.buff((e >= 2 && r.e2CrBuff && r.pawnedAssetStacks >= 15) ? 0.18 : 0, Source.NONE)
 
-      x.BASIC_SCALING += basicScaling
-      x.ULT_SCALING += ultScaling
-      x.FUA_SCALING += fuaScaling
-      x.FUA_SCALING += (r.enhancedFollowUp) ? ultFuaScalingBuff : 0
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.FUA_SCALING.buff(fuaScaling, Source.NONE)
+      x.FUA_SCALING.buff((r.enhancedFollowUp) ? ultFuaScalingBuff : 0, Source.NONE)
 
-      buffAbilityDmg(x, FUA_TYPE, 0.32, (e >= 1 && r.e1FuaDmgBoost))
-      x.DEF_PEN += (e >= 4 && r.e4DefShredBuff) ? 0.12 : 0
-      x.QUANTUM_RES_PEN += (e >= 6 && r.e6ResShredBuff) ? 0.20 : 0
+      buffAbilityDmg(x, FUA_TYPE, (e >= 1 && r.e1FuaDmgBoost) ? 0.32 : 0, Source.NONE)
+      x.DEF_PEN.buff((e >= 4 && r.e4DefShredBuff) ? 0.12 : 0, Source.NONE)
+      x.QUANTUM_RES_PEN.buff((e >= 6 && r.e6ResShredBuff) ? 0.20 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.ULT_TOUGHNESS_DMG += 60
-      x.FUA_TOUGHNESS_DMG += 30
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.FUA_TOUGHNESS_DMG.buff(30, Source.NONE)
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.SPD] += (t.debtCollectorSpdBuff) ? 30 : 0
+      x.SPD.buff((t.debtCollectorSpdBuff) ? 30 : 0, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {

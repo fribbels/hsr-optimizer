@@ -1,13 +1,12 @@
-import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { ASHBLAZING_ATK_STACK, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { NumberToNumberMap } from 'types/Common'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -29,81 +28,81 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
   const hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
+  const defaults = {
+    ultBuff: true,
+    talentEnemyMarked: true,
+    e2UltAtkBuff: true,
+    e4DmgReductionBuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    ultBuff: {
       id: 'ultBuff',
+      formItem: 'switch',
       text: t('Content.ultBuff.text'),
       content: t('Content.ultBuff.content', {
         ultFuaExtraScaling: TsUtils.precisionRound(100 * ultFuaExtraScaling),
         ultDmgReductionValue: TsUtils.precisionRound((100 * ultDmgReductionValue)),
       }),
     },
-    {
-      formItem: 'switch',
+    talentEnemyMarked: {
       id: 'talentEnemyMarked',
+      formItem: 'switch',
       text: t('Content.talentEnemyMarked.text'),
       content: t('Content.talentEnemyMarked.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
     },
-    {
-      formItem: 'switch',
+    e2UltAtkBuff: {
       id: 'e2UltAtkBuff',
+      formItem: 'switch',
       text: t('Content.e2UltAtkBuff.text'),
       content: t('Content.e2UltAtkBuff.content'),
       disabled: e < 2,
     },
-    {
-      formItem: 'switch',
+    e4DmgReductionBuff: {
       id: 'e4DmgReductionBuff',
+      formItem: 'switch',
       text: t('Content.e4DmgReductionBuff.text'),
       content: t('Content.e4DmgReductionBuff.content'),
       disabled: e < 4,
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => [],
-    defaults: () => ({
-      ultBuff: true,
-      talentEnemyMarked: true,
-      e2UltAtkBuff: true,
-      e4DmgReductionBuff: true,
-    }),
-    teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.ATK_P] += (e >= 2 && r.e2UltAtkBuff) ? 0.30 : 0
+      x.ATK_P.buff((e >= 2 && r.e2UltAtkBuff) ? 0.30 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.SKILL_SCALING += r.talentEnemyMarked ? skillScaling : 0
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.SKILL_SCALING.buff(r.talentEnemyMarked ? skillScaling : 0, Source.NONE)
 
-      x.FUA_SCALING += fuaScaling
-      x.FUA_SCALING += r.ultBuff ? ultFuaExtraScaling : 0
+      x.FUA_SCALING.buff(fuaScaling, Source.NONE)
+      x.FUA_SCALING.buff(r.ultBuff ? ultFuaExtraScaling : 0, Source.NONE)
 
       // Boost
-      x.DMG_RED_MULTI *= (1 - 0.10)
-      x.DMG_RED_MULTI *= r.ultBuff ? (1 - ultDmgReductionValue) : 1
-      x.DMG_RED_MULTI *= (e >= 4 && r.e4DmgReductionBuff) ? (1 - 0.30) : 1
-      buffAbilityDmg(x, FUA_TYPE, 0.30)
+      x.DMG_RED_MULTI.multiply((1 - 0.10), Source.NONE)
+      x.DMG_RED_MULTI.multiply((r.ultBuff) ? (1 - ultDmgReductionValue) : 1, Source.NONE)
+      x.DMG_RED_MULTI.multiply((e >= 4 && r.e4DmgReductionBuff) ? (1 - 0.30) : 1, Source.NONE)
+      buffAbilityDmg(x, FUA_TYPE, 0.30, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 30
-      x.FUA_TOUGHNESS_DMG += 30
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.FUA_TOUGHNESS_DMG.buff(30, Source.NONE)
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
       const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[context.enemyCount] : hitMultiSingle
       standardFuaAtkFinalizer(x, action, context, hitMulti)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
       const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[context.enemyCount] : hitMultiSingle
       return gpuStandardFuaAtkFinalizer(hitMulti)
     },

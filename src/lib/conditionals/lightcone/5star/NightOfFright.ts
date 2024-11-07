@@ -1,7 +1,6 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Stats } from 'lib/constants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -11,8 +10,16 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValues = [0.024, 0.028, 0.032, 0.036, 0.04]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    atkBuffStacks: 5,
+  }
+
+  const teammateDefaults = {
+    atkBuffStacks: 5,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    atkBuffStacks: {
       lc: true,
       id: 'atkBuffStacks',
       formItem: 'slider',
@@ -21,23 +28,23 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       min: 0,
       max: 5,
     },
-  ]
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    atkBuffStacks: content.atkBuffStacks,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => content,
-    defaults: () => ({
-      atkBuffStacks: 5,
-    }),
-    teammateDefaults: () => ({
-      atkBuffStacks: 5,
-    }),
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.lightConeConditionals
 
-      x[Stats.ATK_P] += m.atkBuffStacks * sValues[s]
+      x.ATK_P.buff(m.atkBuffStacks * sValues[s], Source.NONE)
     },
     finalizeCalculations: () => {
     },

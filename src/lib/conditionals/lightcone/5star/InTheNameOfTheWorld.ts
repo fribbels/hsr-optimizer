@@ -1,6 +1,6 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -12,15 +12,20 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesAtk = [0.24, 0.28, 0.32, 0.36, 0.40]
   const sValuesEhr = [0.18, 0.21, 0.24, 0.27, 0.3]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    enemyDebuffedDmgBoost: true,
+    skillAtkBoost: false,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    enemyDebuffedDmgBoost: {
       lc: true,
       id: 'enemyDebuffedDmgBoost',
       formItem: 'switch',
       text: t('Content.enemyDebuffedDmgBoost.text'),
       content: t('Content.enemyDebuffedDmgBoost.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]) }),
     },
-    {
+    skillAtkBoost: {
       lc: true,
       id: 'skillAtkBoost',
       formItem: 'switch',
@@ -30,18 +35,15 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]),
       }),
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    defaults: () => ({
-      enemyDebuffedDmgBoost: true,
-      skillAtkBoost: false,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
-      x.ELEMENTAL_DMG += (r.enemyDebuffedDmgBoost) ? sValuesDmg[s] : 0
+      x.ELEMENTAL_DMG.buff((r.enemyDebuffedDmgBoost) ? sValuesDmg[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

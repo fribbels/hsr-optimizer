@@ -1,6 +1,6 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -10,26 +10,28 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    healingBuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    healingBuff: {
       lc: true,
       id: 'healingBuff',
       formItem: 'switch',
       text: t('Content.healingBuff.text'),
       content: t('Content.healingBuff.content', { HealingBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    defaults: () => ({
-      healingBuff: true,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
-      x.SKILL_OHB += (r.healingBuff) ? sValues[s] : 0
-      x.ULT_OHB += (r.healingBuff) ? sValues[s] : 0
+      x.SKILL_OHB.buff((r.healingBuff) ? sValues[s] : 0, Source.NONE)
+      x.ULT_OHB.buff((r.healingBuff) ? sValues[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

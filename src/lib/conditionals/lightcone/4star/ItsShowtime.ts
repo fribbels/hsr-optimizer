@@ -1,8 +1,8 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -13,8 +13,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesDmg = [0.06, 0.07, 0.08, 0.09, 0.10]
   const sValuesAtkBuff = [0.20, 0.24, 0.28, 0.32, 0.36]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    trickStacks: 3,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    trickStacks: {
       lc: true,
       id: 'trickStacks',
       formItem: 'slider',
@@ -26,17 +30,15 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       min: 0,
       max: 3,
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    defaults: () => ({
-      trickStacks: 3,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
-      x.ELEMENTAL_DMG += r.trickStacks * sValuesDmg[s]
+      x.ELEMENTAL_DMG.buff(r.trickStacks * sValuesDmg[s], Source.NONE)
     },
     finalizeCalculations: () => {
     },
@@ -46,17 +48,17 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.EHR],
-        condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-          return x[Stats.EHR] >= 0.80
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          return x.a[Key.EHR] >= 0.80
         },
-        effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r: Conditionals<typeof content> = action.lightConeConditionals
 
           const stateValue = action.conditionalState[this.id] || 0
           const buffValue = sValuesAtkBuff[s] * context.baseATK
 
           action.conditionalState[this.id] = buffValue
-          buffStat(x, Stats.ATK, buffValue - stateValue, action, context)
+          x.ATK.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           return conditionalWgslWrapper(this, `

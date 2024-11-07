@@ -1,7 +1,6 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Stats } from 'lib/constants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -11,31 +10,39 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValues = [12, 14, 16, 18, 20]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    initialSpdBuff: true,
+  }
+
+  const teammateDefaults = {
+    initialSpdBuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    initialSpdBuff: {
       lc: true,
       id: 'initialSpdBuff',
       formItem: 'switch',
       text: t('Content.initialSpdBuff.text'),
       content: t('Content.initialSpdBuff.content', { SpdBuff: sValues[s] }),
     },
-  ]
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    initialSpdBuff: content.initialSpdBuff,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => content,
-    defaults: () => ({
-      initialSpdBuff: true,
-    }),
-    teammateDefaults: () => ({
-      initialSpdBuff: true,
-    }),
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.lightConeConditionals
 
-      x[Stats.SPD] += (m.initialSpdBuff) ? sValues[s] : 0
+      x.SPD.buff((m.initialSpdBuff) ? sValues[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

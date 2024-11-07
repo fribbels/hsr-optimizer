@@ -1,19 +1,12 @@
-import {
-  ASHBLAZING_ATK_STACK,
-  ComputedStatsObject,
-  FUA_TYPE,
-  SKILL_TYPE,
-  ULT_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { ASHBLAZING_ATK_STACK, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { NumberToNumberMap } from 'types/Common'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -62,7 +55,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   }
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals
+    const r: Conditionals<typeof content> = action.characterConditionals
 
     const hitMultiStacks = getHitMultiByTargetsAndHits(r.fuaStacks, context)
     const hitMultiByTargets: NumberToNumberMap = {
@@ -74,100 +67,100 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     return hitMultiByTargets[context.enemyCount]
   }
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'slider',
+  const defaults = {
+    fuaStacks: 5,
+    techniqueBuff: false,
+    targetFrozen: true,
+    e2TalentCritStacks: 5,
+    e6UltAtkBuff: true,
+    enemyHpGte50: true,
+    enemyHpLte50: false,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    fuaStacks: {
       id: 'fuaStacks',
+      formItem: 'slider',
       text: t('Content.fuaStacks.text'),
       content: t('Content.fuaStacks.content'),
       min: 1,
       max: 5,
     },
-    {
-      formItem: 'switch',
+    targetFrozen: {
       id: 'targetFrozen',
+      formItem: 'switch',
       text: t('Content.targetFrozen.text'),
       content: t('Content.targetFrozen.content'),
     },
-    {
-      formItem: 'switch',
+    enemyHpGte50: {
       id: 'enemyHpGte50',
+      formItem: 'switch',
       text: t('Content.enemyHpGte50.text'),
       content: t('Content.enemyHpGte50.content'),
     },
-    {
-      formItem: 'switch',
+    techniqueBuff: {
       id: 'techniqueBuff',
+      formItem: 'switch',
       text: t('Content.techniqueBuff.text'),
       content: t('Content.techniqueBuff.content'),
     },
-    {
-      formItem: 'switch',
+    enemyHpLte50: {
       id: 'enemyHpLte50',
+      formItem: 'switch',
       text: t('Content.enemyHpLte50.text'),
       content: t('Content.enemyHpLte50.content'),
       disabled: e < 1,
     },
-    {
-      formItem: 'slider',
+    e2TalentCritStacks: {
       id: 'e2TalentCritStacks',
+      formItem: 'slider',
       text: t('Content.e2TalentCritStacks.text'),
       content: t('Content.e2TalentCritStacks.content'),
       min: 0,
       max: 5,
       disabled: e < 2,
     },
-    {
-      formItem: 'switch',
+    e6UltAtkBuff: {
       id: 'e6UltAtkBuff',
+      formItem: 'switch',
       text: t('Content.e6UltAtkBuff.text'),
       content: t('Content.e6UltAtkBuff.content'),
       disabled: e < 6,
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => [],
-    defaults: () => ({
-      fuaStacks: 5,
-      techniqueBuff: false,
-      targetFrozen: true,
-      e2TalentCritStacks: 5,
-      e6UltAtkBuff: true,
-      enemyHpGte50: true,
-      enemyHpLte50: false,
-    }),
-    teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.ATK_P] += (r.techniqueBuff) ? 0.40 : 0
-      x[Stats.CR] += (e >= 2) ? r.e2TalentCritStacks * 0.03 : 0
-      x[Stats.ATK_P] += (e >= 6 && r.e6UltAtkBuff) ? 0.25 : 0
+      x.ATK_P.buff((r.techniqueBuff) ? 0.40 : 0, Source.NONE)
+      x.CR.buff((e >= 2) ? r.e2TalentCritStacks * 0.03 : 0, Source.NONE)
+      x.ATK_P.buff((e >= 6 && r.e6UltAtkBuff) ? 0.25 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.BASIC_SCALING += (e >= 1 && r.enemyHpLte50) ? 0.40 : 0
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.FUA_SCALING += fuaScaling * r.fuaStacks
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.BASIC_SCALING.buff((e >= 1 && r.enemyHpLte50) ? 0.40 : 0, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.FUA_SCALING.buff(fuaScaling * r.fuaStacks, Source.NONE)
 
-      buffAbilityDmg(x, SKILL_TYPE, 0.20, (r.enemyHpGte50))
+      buffAbilityDmg(x, SKILL_TYPE, (r.enemyHpGte50) ? 0.20 : 0, Source.NONE)
 
       // Boost
-      buffAbilityDmg(x, ULT_TYPE, 0.20, (r.targetFrozen))
-      buffAbilityDmg(x, FUA_TYPE, 0.10, (e >= 4))
+      buffAbilityDmg(x, ULT_TYPE, (r.targetFrozen) ? 0.20 : 0, Source.NONE)
+      buffAbilityDmg(x, FUA_TYPE, (e >= 4) ? 0.10 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 30
-      x.ULT_TOUGHNESS_DMG += 60
-      x.FUA_TOUGHNESS_DMG += 15 // TODO: * spin count
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.FUA_TOUGHNESS_DMG.buff(15 * r.fuaStacks, Source.NONE)
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {

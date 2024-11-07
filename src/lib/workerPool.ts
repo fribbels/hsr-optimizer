@@ -1,12 +1,12 @@
 import { BufferPacker } from 'lib/bufferPacker'
 import { Constants } from 'lib/constants'
-import OptimizerWorker from 'lib/worker/optimizerWorker.ts?worker&inline'
-import { OptimizerContext } from 'types/Optimizer'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import OptimizerWorker from 'lib/worker/optimizerWorker.ts?worker&inline'
 import { Form } from 'types/Form'
+import { OptimizerContext } from 'types/Optimizer'
 
-// const poolSize = 10
-const poolSize = Math.min(8, Math.max(1, (navigator.hardwareConcurrency || 4) - 1))
+// const poolSize = 2
+const poolSize = Math.min(10, Math.max(1, (navigator.hardwareConcurrency || 4) - 1))
 let initializedWorkers = 0
 console.log('Using pool size ' + poolSize)
 
@@ -40,7 +40,7 @@ type WorkerResult = {
 const workers: Worker[] = []
 const buffers: ArrayBuffer[] = []
 let taskQueue: WorkerTaskWrapper[] = []
-const taskStatus = {}
+const taskStatus: Record<string, boolean> = {}
 
 export const WorkerPool = {
   initializeWorker: () => {

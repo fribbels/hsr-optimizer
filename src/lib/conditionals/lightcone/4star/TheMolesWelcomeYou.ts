@@ -1,7 +1,6 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Stats } from 'lib/constants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -11,8 +10,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    atkBuffStacks: 3,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    atkBuffStacks: {
       lc: true,
       id: 'atkBuffStacks',
       formItem: 'slider',
@@ -21,17 +24,15 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       min: 0,
       max: 3,
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    defaults: () => ({
-      atkBuffStacks: 3,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
-      x[Stats.ATK_P] += (r.atkBuffStacks) * sValues[s]
+      x.ATK_P.buff((r.atkBuffStacks) * sValues[s], Source.NONE)
     },
     finalizeCalculations: () => {
     },

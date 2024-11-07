@@ -1,18 +1,11 @@
-import {
-  ASHBLAZING_ATK_STACK,
-  BASIC_TYPE,
-  ComputedStatsObject,
-  FUA_TYPE,
-  SKILL_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet, findContentId } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { ASHBLAZING_ATK_STACK, BASIC_TYPE, FUA_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, calculateAshblazingSet, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityCd, buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -39,99 +32,103 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const fuaEnhancedHitCountMulti = ASHBLAZING_ATK_STACK
     * (1 * 1 / 10 + 2 * 1 / 10 + 3 * 1 / 10 + 4 * 1 / 10 + 5 * 1 / 10 + 6 * 1 / 10 + 7 * 1 / 10 + 8 * 3 / 10)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
+  const defaults = {
+    enemyProofOfDebtDebuff: true,
+    numbyEnhancedState: true,
+    e1DebtorStacks: 2,
+  }
+
+  const teammateDefaults = {
+    enemyProofOfDebtDebuff: true,
+    e1DebtorStacks: 2,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    enemyProofOfDebtDebuff: {
       id: 'enemyProofOfDebtDebuff',
+      formItem: 'switch',
       text: t('Content.enemyProofOfDebtDebuff.text'),
       content: t('Content.enemyProofOfDebtDebuff.content', { proofOfDebtFuaVulnerability: TsUtils.precisionRound(100 * proofOfDebtFuaVulnerability) }),
     },
-    {
-      formItem: 'switch',
+    numbyEnhancedState: {
       id: 'numbyEnhancedState',
+      formItem: 'switch',
       text: t('Content.numbyEnhancedState.text'),
       content: t('Content.numbyEnhancedState.content', {
         enhancedStateFuaCdBoost: TsUtils.precisionRound(100 * enhancedStateFuaCdBoost),
         enhancedStateFuaScalingBoost: TsUtils.precisionRound(100 * enhancedStateFuaScalingBoost),
       }),
     },
-    {
-      formItem: 'slider',
+    e1DebtorStacks: {
       id: 'e1DebtorStacks',
+      formItem: 'slider',
       text: t('Content.e1DebtorStacks.text'),
       content: t('Content.e1DebtorStacks.content'),
       min: 0,
       max: 2,
       disabled: e < 1,
     },
-  ]
+  }
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'enemyProofOfDebtDebuff'),
-    findContentId(content, 'e1DebtorStacks'),
-  ]
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    enemyProofOfDebtDebuff: content.enemyProofOfDebtDebuff,
+    e1DebtorStacks: content.e1DebtorStacks,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => ({
-      enemyProofOfDebtDebuff: true,
-      numbyEnhancedState: true,
-      e1DebtorStacks: 2,
-    }),
-    teammateDefaults: () => ({
-      enemyProofOfDebtDebuff: true,
-      e1DebtorStacks: 2,
-    }),
-    initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_DMG_TYPE = BASIC_TYPE | FUA_TYPE
-      x.SKILL_DMG_TYPE = SKILL_TYPE | FUA_TYPE
-      x.SUMMONS = 1
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      x.BASIC_DMG_TYPE.set(BASIC_TYPE | FUA_TYPE, Source.NONE)
+      x.SKILL_DMG_TYPE.set(SKILL_TYPE | FUA_TYPE, Source.NONE)
+      x.SUMMONS.set(1, Source.NONE)
     },
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
-      buffAbilityCd(x, SKILL_TYPE | FUA_TYPE, enhancedStateFuaCdBoost, (r.numbyEnhancedState))
-      buffAbilityResPen(x, SKILL_TYPE | FUA_TYPE, 0.10, (e >= 6))
+      buffAbilityCd(x, SKILL_TYPE | FUA_TYPE, (r.numbyEnhancedState) ? enhancedStateFuaCdBoost : 0, Source.NONE)
+      buffAbilityResPen(x, SKILL_TYPE | FUA_TYPE, (e >= 6) ? 0.10 : 0, Source.NONE)
 
       // Numby buffs only applies to the skill/fua not basic, we deduct it from basic
-      buffAbilityCd(x, BASIC_TYPE, -enhancedStateFuaCdBoost, (r.numbyEnhancedState))
-      buffAbilityResPen(x, BASIC_TYPE, -0.10, (e >= 6))
+      buffAbilityCd(x, BASIC_TYPE, (r.numbyEnhancedState) ? -enhancedStateFuaCdBoost : 0, Source.NONE)
+      buffAbilityResPen(x, BASIC_TYPE, (e >= 6) ? -0.10 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.SKILL_SCALING += (r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0
-      x.FUA_SCALING += fuaScaling
-      x.FUA_SCALING += (r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.SKILL_SCALING.buff((r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0, Source.NONE)
+      x.FUA_SCALING.buff(fuaScaling, Source.NONE)
+      x.FUA_SCALING.buff((r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0, Source.NONE)
 
       // Boost
-      x.ELEMENTAL_DMG += (context.enemyElementalWeak) ? 0.15 : 0
+      x.ELEMENTAL_DMG.buff((context.enemyElementalWeak) ? 0.15 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.FUA_TOUGHNESS_DMG += 60
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.FUA_TOUGHNESS_DMG.buff(60, Source.NONE)
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      buffAbilityVulnerability(x, FUA_TYPE, proofOfDebtFuaVulnerability, (m.enemyProofOfDebtDebuff))
-      buffAbilityCd(x, FUA_TYPE, 0.25 * m.e1DebtorStacks, (e >= 1 && m.enemyProofOfDebtDebuff))
+      buffAbilityVulnerability(x, FUA_TYPE, (m.enemyProofOfDebtDebuff) ? proofOfDebtFuaVulnerability : 0, Source.NONE)
+      buffAbilityCd(x, FUA_TYPE, (e >= 1 && m.enemyProofOfDebtDebuff) ? 0.25 * m.e1DebtorStacks : 0, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
       const basicAshblazingAtk = calculateAshblazingSet(x, action, context, basicHitCountMulti)
       const fuaAshblazingAtk = calculateAshblazingSet(x, action, context, hitMulti)
-      x.BASIC_DMG += x.BASIC_SCALING * (x[Stats.ATK] + basicAshblazingAtk)
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + fuaAshblazingAtk)
-      x.SKILL_DMG = x.FUA_DMG
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * (x.a[Key.ATK] + basicAshblazingAtk), Source.NONE)
+      x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * (x.a[Key.ATK] + fuaAshblazingAtk), Source.NONE)
+      x.SKILL_DMG.set(x.a[Key.FUA_DMG], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+      const r: Conditionals<typeof content> = action.characterConditionals
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
 
       return `

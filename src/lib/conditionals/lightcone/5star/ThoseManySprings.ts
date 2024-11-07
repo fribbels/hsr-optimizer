@@ -1,6 +1,6 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -11,8 +11,18 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesVulnerability = [0.10, 0.12, 0.14, 0.16, 0.18]
   const sValuesVulnerabilityEnhanced = [0.14, 0.16, 0.18, 0.20, 0.22]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    unarmoredVulnerability: true,
+    corneredVulnerability: true,
+  }
+
+  const teammateDefaults = {
+    unarmoredVulnerability: true,
+    corneredVulnerability: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    unarmoredVulnerability: {
       lc: true,
       id: 'unarmoredVulnerability',
       formItem: 'switch',
@@ -22,7 +32,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         CorneredVulnerability: TsUtils.precisionRound(sValuesVulnerabilityEnhanced[s] * 100),
       }),
     },
-    {
+    corneredVulnerability: {
       lc: true,
       id: 'corneredVulnerability',
       formItem: 'switch',
@@ -32,26 +42,25 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         CorneredVulnerability: TsUtils.precisionRound(sValuesVulnerabilityEnhanced[s] * 100),
       }),
     },
-  ]
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    unarmoredVulnerability: content.unarmoredVulnerability,
+    corneredVulnerability: content.corneredVulnerability,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => content,
-    defaults: () => ({
-      unarmoredVulnerability: true,
-      corneredVulnerability: true,
-    }),
-    teammateDefaults: () => ({
-      unarmoredVulnerability: true,
-      corneredVulnerability: true,
-    }),
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.lightConeConditionals
 
-      x.VULNERABILITY += m.unarmoredVulnerability || m.corneredVulnerability ? sValuesVulnerability[s] : 0
-      x.VULNERABILITY += m.corneredVulnerability ? sValuesVulnerabilityEnhanced[s] : 0
+      x.VULNERABILITY.buff(m.unarmoredVulnerability || m.corneredVulnerability ? sValuesVulnerability[s] : 0, Source.NONE)
+      x.VULNERABILITY.buff(m.corneredVulnerability ? sValuesVulnerabilityEnhanced[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

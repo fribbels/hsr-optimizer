@@ -1,19 +1,19 @@
-import { BREAK_TYPE, ComputedStatsObject, NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BREAK_TYPE, NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
-  findContentId,
+  Conditionals,
+  ContentDefinition,
   gpuStandardAtkFinalizer,
   gpuStandardFlatHealFinalizer,
   standardAtkFinalizer,
   standardFlatHealFinalizer,
 } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
 import { GallagherConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -29,10 +29,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillHealFlat = skill(e, 1600, 1768)
   const talentHealFlat = talent(e, 640, 707.2)
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'select',
+  const defaults = {
+    healAbility: NONE_TYPE,
+    basicEnhanced: true,
+    breakEffectToOhbBoost: true,
+    e1ResBuff: true,
+    e2ResBuff: true,
+    e6BeBuff: true,
+    targetBesotted: true,
+  }
+
+  const teammateDefaults = {
+    targetBesotted: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    healAbility: {
       id: 'healAbility',
+      formItem: 'select',
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
@@ -41,98 +55,88 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       ],
       fullWidth: true,
     },
-    {
-      formItem: 'switch',
+    basicEnhanced: {
       id: 'basicEnhanced',
+      formItem: 'switch',
       text: t('Content.basicEnhanced.text'),
       content: t('Content.basicEnhanced.content'),
     },
-    {
-      formItem: 'switch',
+    breakEffectToOhbBoost: {
       id: 'breakEffectToOhbBoost',
+      formItem: 'switch',
       text: t('Content.breakEffectToOhbBoost.text'),
       content: t('Content.breakEffectToOhbBoost.content'),
     },
-    {
-      formItem: 'switch',
+    targetBesotted: {
       id: 'targetBesotted',
+      formItem: 'switch',
       text: t('Content.targetBesotted.text'),
       content: t('Content.targetBesotted.content', { talentBesottedScaling: TsUtils.precisionRound(100 * talentBesottedScaling) }),
     },
-    {
-      formItem: 'switch',
+    e1ResBuff: {
       id: 'e1ResBuff',
+      formItem: 'switch',
       text: t('Content.e1ResBuff.text'),
       content: t('Content.e1ResBuff.content'),
       disabled: e < 1,
     },
-    {
-      formItem: 'switch',
+    e2ResBuff: {
       id: 'e2ResBuff',
+      formItem: 'switch',
       text: t('Content.e2ResBuff.text'),
       content: t('Content.e2ResBuff.content'),
       disabled: e < 2,
     },
-    {
-      formItem: 'switch',
+    e6BeBuff: {
       id: 'e6BeBuff',
+      formItem: 'switch',
       text: t('Content.e6BeBuff.text'),
       content: t('Content.e6BeBuff.content'),
       disabled: e < 6,
     },
-  ]
+  }
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'targetBesotted'),
-  ]
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    targetBesotted: content.targetBesotted,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => ({
-      healAbility: NONE_TYPE,
-      basicEnhanced: true,
-      breakEffectToOhbBoost: true,
-      e1ResBuff: true,
-      e2ResBuff: true,
-      e6BeBuff: true,
-      targetBesotted: true,
-    }),
-    teammateDefaults: () => ({
-      targetBesotted: true,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
-      x[Stats.RES] += (e >= 1 && r.e1ResBuff) ? 0.50 : 0
-      x[Stats.RES] += (e >= 2 && r.e2ResBuff) ? 0.30 : 0
-      x[Stats.BE] += (e >= 6) ? 0.20 : 0
+      x.RES.buff((e >= 1 && r.e1ResBuff) ? 0.50 : 0, Source.NONE)
+      x.RES.buff((e >= 2 && r.e2ResBuff) ? 0.30 : 0, Source.NONE)
+      x.BE.buff((e >= 6) ? 0.20 : 0, Source.NONE)
 
-      x.BREAK_EFFICIENCY_BOOST += (e >= 6) ? 0.20 : 0
+      x.BREAK_EFFICIENCY_BOOST.buff((e >= 6) ? 0.20 : 0, Source.NONE)
 
-      x.BASIC_SCALING += (r.basicEnhanced) ? basicEnhancedScaling : basicScaling
-      x.ULT_SCALING += ultScaling
+      x.BASIC_SCALING.buff((r.basicEnhanced) ? basicEnhancedScaling : basicScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += (r.basicEnhanced) ? 90 : 30
-      x.ULT_TOUGHNESS_DMG += 60
+      x.BASIC_TOUGHNESS_DMG.buff((r.basicEnhanced) ? 90 : 30, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
 
       if (r.healAbility == SKILL_TYPE) {
-        x.HEAL_TYPE = SKILL_TYPE
-        x.HEAL_FLAT += skillHealFlat
+        x.HEAL_TYPE.set(SKILL_TYPE, Source.NONE)
+        x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
       }
       if (r.healAbility == NONE_TYPE) {
-        x.HEAL_TYPE = NONE_TYPE
-        x.HEAL_FLAT += talentHealFlat
+        x.HEAL_TYPE.set(NONE_TYPE, Source.NONE)
+        x.HEAL_FLAT.buff(talentHealFlat, Source.NONE)
       }
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      buffAbilityVulnerability(x, BREAK_TYPE, talentBesottedScaling, (m.targetBesotted))
+      buffAbilityVulnerability(x, BREAK_TYPE, (m.targetBesotted) ? talentBesottedScaling : 0, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject) => {
+    finalizeCalculations: (x: ComputedStatsArray) => {
       standardAtkFinalizer(x)
       standardFlatHealFinalizer(x)
     },

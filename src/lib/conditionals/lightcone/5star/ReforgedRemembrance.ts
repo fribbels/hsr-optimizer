@@ -1,8 +1,8 @@
-import { ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { Stats } from 'lib/constants'
+import { DOT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
@@ -13,8 +13,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesAtk = [0.05, 0.06, 0.07, 0.08, 0.09]
   const sValuesDotPen = [0.072, 0.079, 0.086, 0.093, 0.10]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    prophetStacks: 4,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    prophetStacks: {
       lc: true,
       id: 'prophetStacks',
       formItem: 'slider',
@@ -26,19 +30,17 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       min: 0,
       max: 4,
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    defaults: () => ({
-      prophetStacks: 4,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.lightConeConditionals
 
-      x[Stats.ATK_P] += r.prophetStacks * sValuesAtk[s]
+      x.ATK_P.buff(r.prophetStacks * sValuesAtk[s], Source.NONE)
 
-      buffAbilityDefPen(x, DOT_TYPE, r.prophetStacks * sValuesDotPen[s])
+      buffAbilityDefPen(x, DOT_TYPE, r.prophetStacks * sValuesDotPen[s], Source.NONE)
     },
     finalizeCalculations: () => {
     },

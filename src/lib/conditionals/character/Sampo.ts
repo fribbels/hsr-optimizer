@@ -1,16 +1,11 @@
-import { ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardAtkFinalizer,
-  standardAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { DOT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -25,75 +20,78 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const dotScaling = talent(e, 0.52, 0.572)
 
   const maxExtraHits = e < 1 ? 4 : 5
+  const defaults = {
+    targetDotTakenDebuff: true,
+    skillExtraHits: maxExtraHits,
+    targetWindShear: true,
+  }
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
+  const teammateDefaults = {
+    targetDotTakenDebuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    targetDotTakenDebuff: {
       id: 'targetDotTakenDebuff',
+      formItem: 'switch',
       text: t('Content.targetDotTakenDebuff.text'),
       content: t('Content.targetDotTakenDebuff.content', { dotVulnerabilityValue: TsUtils.precisionRound(100 * dotVulnerabilityValue) }),
     },
-    {
-      formItem: 'slider',
+    skillExtraHits: {
       id: 'skillExtraHits',
+      formItem: 'slider',
       text: t('Content.skillExtraHits.text'),
       content: t('Content.skillExtraHits.content'),
       min: 1,
       max: maxExtraHits,
     },
-    {
-      formItem: 'switch',
+    targetWindShear: {
       id: 'targetWindShear',
+      formItem: 'switch',
       text: t('Content.targetWindShear.text'),
       content: t('Content.targetWindShear.content'),
     },
-  ]
+  }
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'targetDotTakenDebuff'),
-  ]
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    targetDotTakenDebuff: content.targetDotTakenDebuff,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => ({
-      targetDotTakenDebuff: true,
-      skillExtraHits: maxExtraHits,
-      targetWindShear: true,
-    }),
-    teammateDefaults: () => ({
-      targetDotTakenDebuff: true,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.SKILL_SCALING += (r.skillExtraHits) * skillScaling
-      x.ULT_SCALING += ultScaling
-      x.DOT_SCALING += dotScaling
-      x.DOT_SCALING += (e >= 6) ? 0.15 : 0
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.SKILL_SCALING.buff((r.skillExtraHits) * skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.DOT_SCALING.buff(dotScaling, Source.NONE)
+      x.DOT_SCALING.buff((e >= 6) ? 0.15 : 0, Source.NONE)
 
       // Boost
-      x.DMG_RED_MULTI *= (r.targetWindShear) ? (1 - 0.15) : 1
+      x.DMG_RED_MULTI.multiply((r.targetWindShear) ? (1 - 0.15) : 1, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 30 + 15 * r.skillExtraHits
-      x.ULT_TOUGHNESS_DMG += 60
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(30 + 15 * r.skillExtraHits, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
 
-      x.DOT_CHANCE = 0.65
+      x.DOT_CHANCE.set(0.65, Source.NONE)
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      buffAbilityVulnerability(x, DOT_TYPE, dotVulnerabilityValue, (m.targetDotTakenDebuff))
+      buffAbilityVulnerability(x, DOT_TYPE, (m.targetDotTakenDebuff) ? dotVulnerabilityValue : 0, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

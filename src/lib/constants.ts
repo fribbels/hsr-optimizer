@@ -263,7 +263,7 @@ export const SubStatValues = {
     3: { high: 3.888, mid: 3.4992, low: 3.1104 },
     2: { high: 2.592, mid: 2.3328, low: 2.0736 },
   },
-}
+} as const
 
 export const StatsToReadable = {
   [Stats.HP_P]: 'HP %',
@@ -555,45 +555,6 @@ export const RelicSetFilterOptions = {
 }
 
 export const DEFAULT_STAT_DISPLAY = 'combat'
-export const MAX_RESULTS = 2_000_000
-
-export const BodyStatOptions = [
-  { value: Stats.HP_P, short: 'HP%', label: 'HP%' },
-  { value: Stats.ATK_P, short: 'ATK%', label: 'ATK%' },
-  { value: Stats.DEF_P, short: 'DEF%', label: 'DEF%' },
-  { value: Stats.CR, short: 'Crit Rate', label: 'CRIT Rate' },
-  { value: Stats.CD, short: 'Crit DMG', label: 'CRIT DMG' },
-  { value: Stats.EHR, short: 'EHR', label: 'Effect HIT Rate' },
-  { value: Stats.OHB, short: 'Healing', label: 'Outgoing Healing Boost' },
-]
-
-export const FeetStatOptions = [
-  { value: Stats.HP_P, short: 'HP%', label: 'HP%' },
-  { value: Stats.ATK_P, short: 'ATK%', label: 'ATK%' },
-  { value: Stats.DEF_P, short: 'DEF%', label: 'DEF%' },
-  { value: Stats.SPD, short: 'SPD', label: 'Speed' },
-]
-
-export const LinkRopeStatOptions = [
-  { value: Stats.HP_P, short: 'HP%', label: 'HP%' },
-  { value: Stats.ATK_P, short: 'ATK%', label: 'ATK%' },
-  { value: Stats.DEF_P, short: 'DEF%', label: 'DEF%' },
-  { value: Stats.BE, short: 'Break', label: 'Break Effect' },
-  { value: Stats.ERR, short: 'Energy', label: 'Energy Regeneration Rate' },
-]
-
-export const PlanarSphereStatOptions = [
-  { value: Stats.HP_P, short: 'HP%', label: 'HP%' },
-  { value: Stats.ATK_P, short: 'ATK%', label: 'ATK%' },
-  { value: Stats.DEF_P, short: 'DEF%', label: 'DEF%' },
-  { value: Stats.Physical_DMG, short: 'Physical', label: 'Physical DMG' },
-  { value: Stats.Fire_DMG, short: 'Fire', label: 'Fire DMG' },
-  { value: Stats.Ice_DMG, short: 'Ice', label: 'Ice DMG' },
-  { value: Stats.Lightning_DMG, short: 'Lightning', label: 'Lightning DMG' },
-  { value: Stats.Wind_DMG, short: 'Wind', label: 'Wind DMG' },
-  { value: Stats.Quantum_DMG, short: 'Quantum', label: 'Quantum DMG' },
-  { value: Stats.Imaginary_DMG, short: 'Imaginary', label: 'Imaginary DMG' },
-]
 
 export const CombatBuffs = {
   ATK: {

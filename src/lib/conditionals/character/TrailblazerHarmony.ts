@@ -1,16 +1,9 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  findContentId,
-  gpuStandardAtkFinalizer,
-  standardAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -22,56 +15,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const ultBeScaling = ult(e, 0.30, 0.33)
   const skillMaxHits = e >= 6 ? 6 : 4
 
-  const targetsToSuperBreakMulti = {
+  const targetsToSuperBreakMulti: Record<number, number> = {
     1: 1.60,
     3: 1.40,
     5: 1.20,
   }
-
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
-      id: 'backupDancer',
-      text: t('Content.backupDancer.text'),
-      content: t('Content.backupDancer.content', { ultBeScaling: TsUtils.precisionRound(100 * ultBeScaling) }),
-    },
-    {
-      formItem: 'switch',
-      id: 'superBreakDmg',
-      text: t('Content.superBreakDmg.text'),
-      content: t('Content.superBreakDmg.content'),
-    },
-    {
-      formItem: 'slider',
-      id: 'skillHitsOnTarget',
-      text: t('Content.skillHitsOnTarget.text'),
-      content: t('Content.skillHitsOnTarget.content'),
-      min: 0,
-      max: skillMaxHits,
-    },
-    {
-      formItem: 'switch',
-      id: 'e2EnergyRegenBuff',
-      text: t('Content.e2EnergyRegenBuff.text'),
-      content: t('Content.e2EnergyRegenBuff.content'),
-      disabled: e < 2,
-    },
-  ]
-
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'backupDancer'),
-    findContentId(content, 'superBreakDmg'),
-    {
-      formItem: 'slider',
-      id: 'teammateBeValue',
-      text: t('TeammateContent.teammateBeValue.text'),
-      content: t('TeammateContent.teammateBeValue.content'),
-      min: 0,
-      max: 4.00,
-      percent: true,
-      disabled: e < 4,
-    },
-  ]
 
   const defaults = {
     skillHitsOnTarget: skillMaxHits,
@@ -80,57 +28,106 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     e2EnergyRegenBuff: false,
   }
 
+  const teammateDefaults = {
+    backupDancer: true,
+    superBreakDmg: true,
+    teammateBeValue: 2.00,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    backupDancer: {
+      id: 'backupDancer',
+      formItem: 'switch',
+      text: t('Content.backupDancer.text'),
+      content: t('Content.backupDancer.content', { ultBeScaling: TsUtils.precisionRound(100 * ultBeScaling) }),
+    },
+    superBreakDmg: {
+      id: 'superBreakDmg',
+      formItem: 'switch',
+      text: t('Content.superBreakDmg.text'),
+      content: t('Content.superBreakDmg.content'),
+    },
+    skillHitsOnTarget: {
+      id: 'skillHitsOnTarget',
+      formItem: 'slider',
+      text: t('Content.skillHitsOnTarget.text'),
+      content: t('Content.skillHitsOnTarget.content'),
+      min: 0,
+      max: skillMaxHits,
+    },
+    e2EnergyRegenBuff: {
+      id: 'e2EnergyRegenBuff',
+      formItem: 'switch',
+      text: t('Content.e2EnergyRegenBuff.text'),
+      content: t('Content.e2EnergyRegenBuff.content'),
+      disabled: e < 2,
+    },
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    backupDancer: content.backupDancer,
+    superBreakDmg: content.superBreakDmg,
+    teammateBeValue: {
+      id: 'teammateBeValue',
+      formItem: 'slider',
+      text: t('TeammateContent.teammateBeValue.text'),
+      content: t('TeammateContent.teammateBeValue.content'),
+      min: 0,
+      max: 4.00,
+      percent: true,
+      disabled: e < 4,
+    },
+  }
+
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => (defaults),
-    teammateDefaults: () => ({
-      backupDancer: true,
-      superBreakDmg: true,
-      teammateBeValue: 2.00,
-    }),
-    initializeConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
       if (r.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN = 1
+        x.ENEMY_WEAKNESS_BROKEN.set(1, Source.NONE)
       }
     },
-    initializeTeammateConfigurations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    initializeTeammateConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
       if (r.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN = 1
+        x.ENEMY_WEAKNESS_BROKEN.set(1, Source.NONE)
       }
     },
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.ERR] += (e >= 2 && r.e2EnergyRegenBuff) ? 0.25 : 0
+      x.ERR.buff((e >= 2 && r.e2EnergyRegenBuff) ? 0.25 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.SKILL_SCALING += r.skillHitsOnTarget * skillScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.SKILL_SCALING.buff(r.skillHitsOnTarget * skillScaling, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 30 * r.skillHitsOnTarget
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(30 * r.skillHitsOnTarget, Source.NONE)
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.BE] += (m.backupDancer) ? ultBeScaling : 0
-      x.SUPER_BREAK_HMC_MODIFIER += (m.backupDancer && m.superBreakDmg)
-        ? targetsToSuperBreakMulti[context.enemyCount]
-        : 0
+      x.BE.buff((m.backupDancer) ? ultBeScaling : 0, Source.NONE)
+      x.SUPER_BREAK_HMC_MODIFIER.buff(
+        (m.backupDancer && m.superBreakDmg)
+          ? targetsToSuperBreakMulti[context.enemyCount]
+          : 0,
+        Source.NONE)
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.BE] += (e >= 4) ? 0.15 * t.teammateBeValue : 0
+      x.BE.buff((e >= 4) ? 0.15 * t.teammateBeValue : 0, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

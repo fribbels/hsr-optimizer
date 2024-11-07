@@ -1,13 +1,11 @@
-import { ASHBLAZING_ATK_STACK, ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { Stats } from 'lib/constants'
+import { ASHBLAZING_ATK_STACK, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/TsUtils'
-
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { NumberToNumberMap } from 'types/Common'
-import { ContentItem } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -26,85 +24,86 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     5: ASHBLAZING_ATK_STACK * (3 * 0.20 + 8 * 0.20 + 8 * 0.20 + 8 * 0.40), // 0.42
   }
 
-  const content: ContentItem[] = [
-    {
-      formItem: 'switch',
+  const defaults = {
+    targetBurned: true,
+    selfCurrentHp80Percent: true,
+    e1TalentSpdBuff: false,
+    e2EnemyHp50DmgBoost: true,
+    e6UltExtraHits: 2,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    targetBurned: {
       id: 'targetBurned',
+      formItem: 'switch',
       text: t('Content.targetBurned.text'),
       content: t('Content.targetBurned.content'),
     },
-    {
-      formItem: 'switch',
+    selfCurrentHp80Percent: {
       id: 'selfCurrentHp80Percent',
+      formItem: 'switch',
       text: t('Content.selfCurrentHp80Percent.text'),
       content: t('Content.selfCurrentHp80Percent.content'),
     },
-    {
-      formItem: 'switch',
+    e1TalentSpdBuff: {
       id: 'e1TalentSpdBuff',
+      formItem: 'switch',
       text: t('Content.e1TalentSpdBuff.text'),
       content: t('Content.e1TalentSpdBuff.content'),
       disabled: e < 1,
     },
-    {
-      formItem: 'switch',
+    e2EnemyHp50DmgBoost: {
       id: 'e2EnemyHp50DmgBoost',
+      formItem: 'switch',
       text: t('Content.e2EnemyHp50DmgBoost.text'),
       content: t('Content.e2EnemyHp50DmgBoost.content'),
       disabled: e < 2,
     },
-    {
-      formItem: 'slider',
+    e6UltExtraHits: {
       id: 'e6UltExtraHits',
+      formItem: 'slider',
       text: t('Content.e6UltExtraHits.text'),
       content: t('Content.e6UltExtraHits.content'),
       min: 0,
       max: 2,
       disabled: e < 6,
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => [],
-    defaults: () => ({
-      targetBurned: true,
-      selfCurrentHp80Percent: true,
-      e1TalentSpdBuff: false,
-      e6UltExtraHits: 2,
-    }),
-    teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.CR] += (r.selfCurrentHp80Percent) ? 0.15 : 0
-      x[Stats.SPD_P] += (e >= 1 && r.e1TalentSpdBuff) ? 0.20 : 0
+      x.CR.buff((r.selfCurrentHp80Percent) ? 0.15 : 0, Source.NONE)
+      x.SPD_P.buff((e >= 1 && r.e1TalentSpdBuff) ? 0.20 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.ULT_SCALING += (e >= 6) ? r.e6UltExtraHits * ultScaling * 0.40 : 0
-      x.FUA_SCALING += fuaScaling
-      x.DOT_SCALING += dotScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.ULT_SCALING.buff((e >= 6) ? r.e6UltExtraHits * ultScaling * 0.40 : 0, Source.NONE)
+      x.FUA_SCALING.buff(fuaScaling, Source.NONE)
+      x.DOT_SCALING.buff(dotScaling, Source.NONE)
 
       // Boost
-      buffAbilityDmg(x, SKILL_TYPE, 0.20, (r.targetBurned))
-      x.ELEMENTAL_DMG += (e >= 2 && r.e2EnemyHp50DmgBoost) ? 0.15 : 0
+      buffAbilityDmg(x, SKILL_TYPE, (r.targetBurned) ? 0.20 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((e >= 2 && r.e2EnemyHp50DmgBoost) ? 0.15 : 0, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 60
-      x.FUA_TOUGHNESS_DMG += 30
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.FUA_TOUGHNESS_DMG.buff(30, Source.NONE)
 
-      x.DOT_CHANCE = 0.50
+      x.DOT_CHANCE.set(0.50, Source.NONE)
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, hitMultiByTargets[context.enemyCount])
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {

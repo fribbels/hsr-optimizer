@@ -496,7 +496,7 @@ Lightcones:
         content: After the wearer uses Basic ATK or Skill, deals Additional DMG equal to {{Multiplier}}% of the wearer's ATK to a random enemy that has been attacked.
   WoofWalkTime:
     Content:
-      atkBoost:
+      enemyBurnedBleeding:
         text: Enemy burn / bleed DMG boost
         content: Increases the wearer's DMG to enemies afflicted with Burn or Bleed by {{DmgBuff}}%. This also applies to DoT.
   Adversarial:

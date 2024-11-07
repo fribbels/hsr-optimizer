@@ -59,6 +59,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     * (1 + a[Key.VULNERABILITY] + a[Key.BREAK_VULNERABILITY])
     * (1 - baseResistance)
     * (1 + a[Key.BE])
+    * (1 + a[Key.BREAK_BOOST])
 
   // The % of Super Break instance dmg
   const baseSuperBreakModifier = a[Key.SUPER_BREAK_MODIFIER] + a[Key.SUPER_BREAK_HMC_MODIFIER]
@@ -72,6 +73,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     * (1 + a[Key.VULNERABILITY] + a[Key.BREAK_VULNERABILITY])
     * (1 - baseResistance)
     * (1 + a[Key.BE])
+    * (1 + a[Key.BREAK_BOOST])
     * (1 / 30)
 
   if (action.actionType == 'BASIC' || action.actionType == 'DEFAULT') {

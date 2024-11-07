@@ -52,6 +52,7 @@ export class ComputedStatsArrayCore {
       Object.defineProperty(this, key, {
         value: {
           buff: (value: number, source: string) => {
+            if (value == 0) return
             this.a[index] += value
           },
           multiply: (value: number, source: string) => {

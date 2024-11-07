@@ -70,6 +70,7 @@ export const baseComputedStatsObject = {
   ULT_BOOST: 0,
   FUA_BOOST: 0,
   DOT_BOOST: 0,
+  BREAK_BOOST: 0,
 
   VULNERABILITY: 0,
   BASIC_VULNERABILITY: 0,

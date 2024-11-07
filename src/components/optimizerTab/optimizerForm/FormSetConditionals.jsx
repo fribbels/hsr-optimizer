@@ -1,4 +1,5 @@
 import { Drawer, Flex, Form, Popover, Select, Switch, Typography } from 'antd'
+import ColorizeNumbers from 'components/common/ColorizeNumbers'
 import { Constants, setToId } from 'lib/constants'
 import { useMemo } from 'react'
 import { HeaderText } from 'components/HeaderText'
@@ -428,7 +429,7 @@ function ConditionalSetOption(props) {
         <HeaderText>
           <p>{t('DescriptionHeader')/* Set description */}</p>
         </HeaderText>
-        <p dangerouslySetInnerHTML={{ __html: props.description }}></p>
+        <p>{ColorizeNumbers(props.description)}</p>
       </Flex>
 
       <Flex vertical>

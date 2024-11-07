@@ -128,146 +128,146 @@ Characters:
 RelicSets:
   "101":
     Name: 云无留迹的过客
-    Description2pc: "<span>治疗量提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: <span>在战斗开始时，立即为我方恢复1个战技点。</span>
+    Description2pc: 治疗量提高10%。
+    Description4pc: 在战斗开始时，立即为我方恢复1个战技点。
   "102":
     Name: 野穗伴行的快枪手
-    Description2pc: "<span>攻击力提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
-    Description4pc: "<span>使装备者的速度提高<span style='whiteSpace: \"nowrap\"'>6%</span>，普攻造成的伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
+    Description2pc: 攻击力提高12%。
+    Description4pc: 使装备者的速度提高6%，普攻造成的伤害提高10%。
   "103":
     Name: 净庭教宗的圣骑士
-    Description2pc: "<span>防御力提高<span style='whiteSpace: \"nowrap\"'>15%</span>。</span>"
-    Description4pc: "<span>使装备者提供的护盾量提高<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
+    Description2pc: 防御力提高15%。
+    Description4pc: 使装备者提供的护盾量提高20%。
   "104":
     Name: 密林卧雪的猎人
-    Description2pc: "<span>冰属性伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>当装备者施放终结技时，暴击伤害提高<span style='whiteSpace: \"nowrap\"'>25%</span>，持续<span style='whiteSpace: \"nowrap\"'>2</span>回合。</span>"
+    Description2pc: 冰属性伤害提高10%。
+    Description4pc: 当装备者施放终结技时，暴击伤害提高25%，持续2回合。
   "105":
     Name: 街头出身的拳王
-    Description2pc: "<span>物理属性伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>当装备者施放攻击或受到攻击后，其在本场战斗中攻击力提高<span style='whiteSpace: \"nowrap\"'>5%</span>，最多叠加<span style='whiteSpace: \"nowrap\"'>5</span>层。</span>"
+    Description2pc: 物理属性伤害提高10%。
+    Description4pc: 当装备者施放攻击或受到攻击后，其在本场战斗中攻击力提高5%，最多叠加5层。
   "106":
     Name: 戍卫风雪的铁卫
-    Description2pc: "<span>受到伤害降低<span style='whiteSpace: \"nowrap\"'>8%</span>。</span>"
-    Description4pc: "<span>回合开始时，如果装备者当前生命值百分比小于等于<span style='whiteSpace: \"nowrap\"'>50%</span>，则回复等同于自身生命上限<span style='whiteSpace: \"nowrap\"'>8%</span>的生命值，并恢复<span style='whiteSpace: \"nowrap\"'>5</span>点能量。</span>"
+    Description2pc: 受到伤害降低8%。
+    Description4pc: 回合开始时，如果装备者当前生命值百分比小于等于50%，则回复等同于自身生命上限8%的生命值，并恢复5点能量。
   "107":
     Name: 熔岩锻铸的火匠
-    Description2pc: "<span>火属性伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>使装备者战技造成的伤害提高<span style='whiteSpace: \"nowrap\"'>12%</span>，并使施放终结技后的下一次攻击造成的火属性伤害提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
+    Description2pc: 火属性伤害提高10%。
+    Description4pc: 使装备者战技造成的伤害提高12%，并使施放终结技后的下一次攻击造成的火属性伤害提高12%。
   "108":
     Name: 繁星璀璨的天才
-    Description2pc: "<span>量子属性伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>当装备者对敌方目标造成伤害时，无视其<span style='whiteSpace: \"nowrap\"'>10%</span>的防御力。若目标拥有量子属性弱点，额外无视其<span style='whiteSpace: \"nowrap\"'>10%</span>的防御力。</span>"
+    Description2pc: 量子属性伤害提高10%。
+    Description4pc: 当装备者对敌方目标造成伤害时，无视其10%的防御力。若目标拥有量子属性弱点，额外无视其10%的防御力。
   "109":
     Name: 激奏雷电的乐队
-    Description2pc: "<span>雷属性伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>当装备者施放战技时，使装备者的攻击力提高<span style='whiteSpace: \"nowrap\"'>20%</span>，持续<span style='whiteSpace: \"nowrap\"'>1</span>回合。</span>"
+    Description2pc: 雷属性伤害提高10%。
+    Description4pc: 当装备者施放战技时，使装备者的攻击力提高20%，持续1回合。
   "110":
     Name: 晨昏交界的翔鹰
-    Description2pc: "<span>风属性伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>当装备者施放终结技后，使其行动提前<span style='whiteSpace: \"nowrap\"'>25%</span>。</span>"
+    Description2pc: 风属性伤害提高10%。
+    Description4pc: 当装备者施放终结技后，使其行动提前25%。
   "111":
     Name: 流星追迹的怪盗
-    Description2pc: "<span>击破特攻提高<span style='whiteSpace: \"nowrap\"'>16%</span>。</span>"
-    Description4pc: "<span>使装备者的击破特攻提高<span style='whiteSpace: \"nowrap\"'>16%</span>。当装备者击破敌方目标弱点后，恢复<span style='whiteSpace: \"nowrap\"'>3</span>点能量。</span>"
+    Description2pc: 击破特攻提高16%。
+    Description4pc: 使装备者的击破特攻提高16%。当装备者击破敌方目标弱点后，恢复3点能量。
   "112":
     Name: 盗匪荒漠的废土客
-    Description2pc: "<span>虚数属性伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>装备者对陷入负面效果的敌方目标造成伤害时暴击率提高<span style='whiteSpace: \"nowrap\"'>10%</span>，对陷入禁锢状态的敌方目标造成伤害时暴击伤害提高<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
+    Description2pc: 虚数属性伤害提高10%。
+    Description4pc: 装备者对陷入负面效果的敌方目标造成伤害时暴击率提高10%，对陷入禁锢状态的敌方目标造成伤害时暴击伤害提高20%。
   "113":
     Name: 宝命长存的莳者
-    Description2pc: "<span>生命上限提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
-    Description4pc: "<span>当装备者受到攻击或被我方目标消耗生命值后，暴击率提高<span style='whiteSpace: \"nowrap\"'>8%</span>，持续<span style='whiteSpace: \"nowrap\"'>2</span>回合，该效果最多叠加<span style='whiteSpace: \"nowrap\"'>2</span>层。</span>"
+    Description2pc: 生命上限提高12%。
+    Description4pc: 当装备者受到攻击或被我方目标消耗生命值后，暴击率提高8%，持续2回合，该效果最多叠加2层。
   "114":
     Name: 骇域漫游的信使
-    Description2pc: "<span>速度提高<span style='whiteSpace: \"nowrap\"'>6%</span>。</span>"
-    Description4pc: "<span>当装备者对我方目标施放终结技时，我方全体速度提高<span style='whiteSpace: \"nowrap\"'>12%</span>，持续<span style='whiteSpace: \"nowrap\"'>1</span>回合，该效果无法叠加。</span>"
+    Description2pc: 速度提高6%。
+    Description4pc: 当装备者对我方目标施放终结技时，我方全体速度提高12%，持续1回合，该效果无法叠加。
   "115":
     Name: 毁烬焚骨的大公
-    Description2pc: "<span>追加攻击造成的伤害提高<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
-    Description4pc: "<span>装备者施放追加攻击时，根据追加攻击造成伤害的次数，每次造成伤害时使装备者的攻击力提高<span style='whiteSpace: \"nowrap\"'>6%</span>，最多叠加<span style='whiteSpace: \"nowrap\"'>8</span>次，持续<span style='whiteSpace: \"nowrap\"'>3</span>回合。该效果在装备者下一次施放追加攻击时移除。</span>"
+    Description2pc: 追加攻击造成的伤害提高20%。
+    Description4pc: 装备者施放追加攻击时，根据追加攻击造成伤害的次数，每次造成伤害时使装备者的攻击力提高6%，最多叠加8次，持续3回合。该效果在装备者下一次施放追加攻击时移除。
   "116":
     Name: 幽锁深牢的系囚
-    Description2pc: "<span>攻击力提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
-    Description4pc: "<span>敌方目标每承受1个持续伤害效果，装备者对其造成伤害时就无视其<span style='whiteSpace: \"nowrap\"'>6%</span>的防御力，最多计入<span style='whiteSpace: \"nowrap\"'>3</span>个持续伤害效果。</span>"
+    Description2pc: 攻击力提高12%。
+    Description4pc: 敌方目标每承受1个持续伤害效果，装备者对其造成伤害时就无视其6%的防御力，最多计入3个持续伤害效果。
   "117":
     Name: 死水深潜的先驱
-    Description2pc: "<span>对受负面状态影响的敌人造成的伤害提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
-    Description4pc: "<span>暴击率提高<span style='whiteSpace: \"nowrap\"'>4%</span>，装备者对陷入不少于<span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span>个负面效果的敌方目标造成的暴击伤害提高<span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span>。装备者对敌方目标施加负面效果后，上述效果提高<span style='whiteSpace: \"nowrap\"'>100%</span>，持续<span style='whiteSpace: \"nowrap\"'>1</span>回合。</span>"
+    Description2pc: 对受负面状态影响的敌人造成的伤害提高12%。
+    Description4pc: 暴击率提高4%，装备者对陷入不少于2/3个负面效果的敌方目标造成的暴击伤害提高8%/12%。装备者对敌方目标施加负面效果后，上述效果提高100%，持续1回合。
   "118":
     Name: 机心戏梦的钟表匠
-    Description2pc: "<span>击破特攻提高<span style='whiteSpace: \"nowrap\"'>16%</span>。</span>"
-    Description4pc: "<span>当装备者对我方目标施放终结技时，我方全体击破特攻提高<span style='whiteSpace: \"nowrap\"'>30%</span>，持续<span style='whiteSpace: \"nowrap\"'>2</span>回合，该效果无法叠加。</span>"
+    Description2pc: 击破特攻提高16%。
+    Description4pc: 当装备者对我方目标施放终结技时，我方全体击破特攻提高30%，持续2回合，该效果无法叠加。
   "119":
     Name: 荡除蠹灾的铁骑
-    Description2pc: "<span>击破特攻提高<span style='whiteSpace: \"nowrap\"'>16%</span>。</span>"
-    Description4pc: "<span>当装备者的击破特攻大于等于<span style='whiteSpace: \"nowrap\"'>150%</span>时，对敌方目标造成的击破伤害无视其<span style='whiteSpace: \"nowrap\"'>10%</span>的防御力。当装备者的击破特攻大于等于<span style='whiteSpace: \"nowrap\"'>250%</span>时，对敌方目标造成的超击破伤害额外无视其<span style='whiteSpace: \"nowrap\"'>15%</span>的防御力。</span>"
+    Description2pc: 击破特攻提高16%。
+    Description4pc: 当装备者的击破特攻大于等于150%时，对敌方目标造成的击破伤害无视其10%的防御力。当装备者的击破特攻大于等于250%时，对敌方目标造成的超击破伤害额外无视其15%的防御力。
   "120":
     Name: 风举云飞的勇烈
-    Description2pc: "<span>攻击力提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
-    Description4pc: "<span>使装备者的暴击率提高<span style='whiteSpace: \"nowrap\"'>6%</span>，装备者施放追加攻击时，使终结技造成的伤害提高<span style='whiteSpace: \"nowrap\"'>36%</span>，持续<span style='whiteSpace: \"nowrap\"'>1</span>回合。</span>"
+    Description2pc: 攻击力提高12%。
+    Description4pc: 使装备者的暴击率提高6%，装备者施放追加攻击时，使终结技造成的伤害提高36%，持续1回合。
   "121":
     Name: 重循苦旅的司铎
-    Description2pc: "<span>速度提高<span style='whiteSpace: \"nowrap\"'>6%</span>。</span>"
-    Description4pc: "<span>对我方单体目标施放战技或终结技时，使技能目标的暴击伤害提高<span style='whiteSpace: \"nowrap\"'>18%</span>，持续<span style='whiteSpace: \"nowrap\"'>2</span>回合，该效果最多叠加<span style='whiteSpace: \"nowrap\"'>2</span>次。</span>"
+    Description2pc: 速度提高6%。
+    Description4pc: 对我方单体目标施放战技或终结技时，使技能目标的暴击伤害提高18%，持续2回合，该效果最多叠加2次。
   "122":
     Name: 识海迷坠的学者
-    Description2pc: "<span>暴击率提高<span style='whiteSpace: \"nowrap\"'>8%</span>。</span>"
-    Description4pc: "<span>战技和终结技造成的伤害提高<span style='whiteSpace: \"nowrap\"'>20%</span>，施放终结技后，下一次施放战技时造成的伤害额外提高<span style='whiteSpace: \"nowrap\"'>25%</span>。</span>"
+    Description2pc: 暴击率提高8%。
+    Description4pc: 战技和终结技造成的伤害提高20%，施放终结技后，下一次施放战技时造成的伤害额外提高25%。
   "301":
     Name: 太空封印站
-    Description2pc: "<span>使装备者的攻击力提高<span style='whiteSpace: \"nowrap\"'>12%</span>。当装备者的速度大于等于<span style='whiteSpace: \"nowrap\"'>120</span>时，攻击力额外提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
+    Description2pc: 使装备者的攻击力提高12%。当装备者的速度大于等于120时，攻击力额外提高12%。
   "302":
     Name: 不老者的仙舟
-    Description2pc: "<span>使装备者的生命上限提高<span style='whiteSpace: \"nowrap\"'>12%</span>。当装备者的速度大于等于<span style='whiteSpace: \"nowrap\"'>120</span>时，我方全体攻击力提高<span style='whiteSpace: \"nowrap\"'>8%</span>。</span>"
+    Description2pc: 使装备者的生命上限提高12%。当装备者的速度大于等于120时，我方全体攻击力提高8%。
   "303":
     Name: 泛银河商业公司
-    Description2pc: "<span>使装备者的效果命中提高<span style='whiteSpace: \"nowrap\"'>10%</span>。同时提高装备者等同于当前效果命中<span style='whiteSpace: \"nowrap\"'>25%</span>的攻击力，最多提高<span style='whiteSpace: \"nowrap\"'>25%</span>。</span>"
+    Description2pc: 使装备者的效果命中提高10%。同时提高装备者等同于当前效果命中25%的攻击力，最多提高25%。
   "304":
     Name: 筑城者的贝洛伯格
-    Description2pc: "<span>使装备者的防御力提高<span style='whiteSpace: \"nowrap\"'>15%</span>。当装备者的效果命中大于等于<span style='whiteSpace: \"nowrap\"'>50%</span>时，防御力额外提高<span style='whiteSpace: \"nowrap\"'>15%</span>。</span>"
+    Description2pc: 使装备者的防御力提高15%。当装备者的效果命中大于等于50%时，防御力额外提高15%。
   "305":
     Name: 星体差分机
-    Description2pc: "<span>使装备者的暴击伤害提高<span style='whiteSpace: \"nowrap\"'>16%</span>。当装备者的暴击伤害大于等于<span style='whiteSpace: \"nowrap\"'>120%</span>时，进入战斗后装备者的暴击率提高<span style='whiteSpace: \"nowrap\"'>60%</span>，持续到施放首次攻击后结束。</span>"
+    Description2pc: 使装备者的暴击伤害提高16%。当装备者的暴击伤害大于等于120%时，进入战斗后装备者的暴击率提高60%，持续到施放首次攻击后结束。
   "306":
     Name: 停转的萨尔索图
-    Description2pc: "<span>使装备者的暴击率提高<span style='whiteSpace: \"nowrap\"'>8%</span>。当装备者当前暴击率大于等于<span style='whiteSpace: \"nowrap\"'>50%</span>时，终结技和追加攻击造成的伤害提高<span style='whiteSpace: \"nowrap\"'>15%</span>。</span>"
+    Description2pc: 使装备者的暴击率提高8%。当装备者当前暴击率大于等于50%时，终结技和追加攻击造成的伤害提高15%。
   "307":
     Name: 盗贼公国塔利亚
-    Description2pc: "<span>使装备者的击破特攻提高<span style='whiteSpace: \"nowrap\"'>16%</span>。当装备者的速度大于等于<span style='whiteSpace: \"nowrap\"'>145</span>时，击破特攻额外提高<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
+    Description2pc: 使装备者的击破特攻提高16%。当装备者的速度大于等于145时，击破特攻额外提高20%。
   "308":
     Name: 生命的翁瓦克
-    Description2pc: "<span>使装备者的能量恢复效率提高<span style='whiteSpace: \"nowrap\"'>5%</span>。当装备者的速度大于等于<span style='whiteSpace: \"nowrap\"'>120</span>时，进入战斗时立刻使行动提前<span style='whiteSpace: \"nowrap\"'>40%</span>。</span>"
+    Description2pc: 使装备者的能量恢复效率提高5%。当装备者的速度大于等于120时，进入战斗时立刻使行动提前40%。
   "309":
     Name: 繁星竞技场
-    Description2pc: "<span>使装备者的暴击率提高<span style='whiteSpace: \"nowrap\"'>8%</span>。当装备者的当前暴击率大于等于<span style='whiteSpace: \"nowrap\"'>70%</span>时，普攻和战技造成的伤害提高<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
+    Description2pc: 使装备者的暴击率提高8%。当装备者的当前暴击率大于等于70%时，普攻和战技造成的伤害提高20%。
   "310":
     Name: 折断的龙骨
-    Description2pc: "<span>使装备者的效果抵抗提高<span style='whiteSpace: \"nowrap\"'>10%</span>。当装备者的效果抵抗大于等于<span style='whiteSpace: \"nowrap\"'>30%</span>时，我方全体暴击伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
+    Description2pc: 使装备者的效果抵抗提高10%。当装备者的效果抵抗大于等于30%时，我方全体暴击伤害提高10%。
   "311":
     Name: 苍穹战线格拉默
-    Description2pc: "<span>使装备者的攻击力提高<span style='whiteSpace: \"nowrap\"'>12%</span>。当装备者的速度大于等于<span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span>时，使装备者造成的伤害提高<span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span>。</span>"
+    Description2pc: 使装备者的攻击力提高12%。当装备者的速度大于等于135/160时，使装备者造成的伤害提高12%/18%。
   "312":
     Name: 梦想之地匹诺康尼
-    Description2pc: "<span>使装备者的能量恢复效率提高<span style='whiteSpace: \"nowrap\"'>5%</span>。使队伍中与装备者属性相同的我方其他角色造成的伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
+    Description2pc: 使装备者的能量恢复效率提高5%。使队伍中与装备者属性相同的我方其他角色造成的伤害提高10%。
   "313":
     Name: 无主荒星茨冈尼亚
-    Description2pc: "<span>使装备者的暴击率提高<span style='whiteSpace: \"nowrap\"'>4%</span>。当敌方目标被消灭时，装备者暴击伤害提高<span style='whiteSpace: \"nowrap\"'>4%</span>，最多叠加<span style='whiteSpace: \"nowrap\"'>10</span>层。</span>"
+    Description2pc: 使装备者的暴击率提高4%。当敌方目标被消灭时，装备者暴击伤害提高4%，最多叠加10层。
   "314":
     Name: 出云显世与高天神国
-    Description2pc: "<span>使装备者的攻击力提高<span style='whiteSpace: \"nowrap\"'>12%</span>。进入战斗时，若至少存在一名与装备者命途相同的队友，装备者的暴击率提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
+    Description2pc: 使装备者的攻击力提高12%。进入战斗时，若至少存在一名与装备者命途相同的队友，装备者的暴击率提高12%。
   "315":
     Name: 奔狼的都蓝王朝
-    Description2pc: "<span>我方角色施放追加攻击时，装备者获得一层【功勋】，最多叠加<span style='whiteSpace: \"nowrap\"'>5</span>层，每层【功勋】使装备者追加攻击造成的伤害提高<span style='whiteSpace: \"nowrap\"'>5%</span>，叠满<span style='whiteSpace: \"nowrap\"'>5</span>层时，额外使装备者的暴击伤害提高<span style='whiteSpace: \"nowrap\"'>25%</span>。</span>"
+    Description2pc: 我方角色施放追加攻击时，装备者获得一层【功勋】，最多叠加5层，每层【功勋】使装备者追加攻击造成的伤害提高5%，叠满5层时，额外使装备者的暴击伤害提高25%。
   "316":
     Name: 劫火莲灯铸炼宫
-    Description2pc: "<span>使装备者的速度提高<span style='whiteSpace: \"nowrap\"'>6%</span>。当装备者击中拥有火属性弱点的敌方目标时，击破特攻提高<span style='whiteSpace: \"nowrap\"'>40%</span>，持续<span style='whiteSpace: \"nowrap\"'>1</span>回合。</span>"
+    Description2pc: 使装备者的速度提高6%。当装备者击中拥有火属性弱点的敌方目标时，击破特攻提高40%，持续1回合。
   "317":
     Name: 沉陆海域露莎卡
-    Description2pc: "<span>使装备者的能量恢复效率提高<span style='whiteSpace: \"nowrap\"'>5%</span>，如果装备者不是编队中的第一位角色，使编队中的第一位角色攻击力提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
+    Description2pc: 使装备者的能量恢复效率提高5%，如果装备者不是编队中的第一位角色，使编队中的第一位角色攻击力提高12%。
   "318":
     Name: 奇想蕉乐园
-    Description2pc: "<span>使装备者的暴击伤害提高<span style='whiteSpace: \"nowrap\"'>16%</span>，当存在装备者召唤的目标时，暴击伤害额外提高<span style='whiteSpace: \"nowrap\"'>32%</span>。</span>"
+    Description2pc: 使装备者的暴击伤害提高16%，当存在装备者召唤的目标时，暴击伤害额外提高32%。
 Lightcones:
   "20000":
     Name: 锋镝

@@ -28,12 +28,12 @@ export function FormStatRollSliders() {
   const sliders: ReactElement[] = []
   for (const stat of StatSliders) {
     labels.push(
-      <Text style={{ textWrap: 'nowrap' }}>
+      <Text style={{ textWrap: 'nowrap' }} key={stat.name}>
         {t(stat.text)}
       </Text>,
     )
     sliders.push(
-      <Form.Item name={['weights', stat.name]} style={{ width: '100%', alignContent: 'end', alignSelf: 'end' }}>
+      <Form.Item name={['weights', stat.name]} style={{ width: '100%', alignContent: 'end', alignSelf: 'end' }} key={stat.name}>
         <Slider
           min={0}
           max={1}

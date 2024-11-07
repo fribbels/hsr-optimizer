@@ -212,7 +212,7 @@ export const OptimizerTabController = {
     window.optimizerGrid.current?.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource(sortModel, filterModel) })
   },
 
-  getDataSource: (newSortModel: SortModel, newFilterModel: Form) => {
+  getDataSource: (newSortModel?: SortModel, newFilterModel?: Form) => {
     sortModel = newSortModel
     filterModel = newFilterModel
     return {

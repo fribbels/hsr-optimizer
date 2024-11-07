@@ -890,7 +890,7 @@ export const DB = {
     console.log(`Switching relics from character ${fromCharacterId} to character ${toCharacterId}`)
 
     const fromCharacter = DB.getCharacterById(fromCharacterId)
-    DB.equipRelicIdsToCharacter(Object.values(fromCharacter.equipped) as string[], toCharacterId, true)
+    DB.equipRelicIdsToCharacter(Object.values(fromCharacter.equipped), toCharacterId, true)
   },
 
   deleteRelic: (id: string) => {

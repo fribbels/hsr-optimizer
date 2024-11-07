@@ -1,11 +1,11 @@
-import { Build, Character, CharacterId } from './Character'
-import { Relic } from './Relic'
-import { Form } from 'types/Form'
-import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
-import { ColorThemeOverrides } from 'lib/theme'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { ScoringMetadata } from 'lib/characterScorer'
+import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
+import { ColorThemeOverrides } from 'lib/theme'
+import { Form } from 'types/Form'
 import { ComputeEngine } from '../lib/constants'
+import { Build, Character, CharacterId } from './Character'
+import { Relic } from './Relic'
 
 type PermutationDetails = {
   Head: number

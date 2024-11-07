@@ -496,7 +496,7 @@ Lightcones:
         content: 装备者施放普攻或战技后，对随机1个受到攻击的敌方目标造成等同于自身{{Multiplier}}%攻击力的附加伤害。
   WoofWalkTime:
     Content:
-      atkBoost:
+      enemyBurnedBleeding:
         text: 敌人处于灼烧 / 裂伤状态时伤害提高
         content: 使装备者对处于灼烧或裂伤状态的敌方目标造成的伤害提高{{DmgBuff}}%，该效果对持续伤害也会生效。
   Adversarial:

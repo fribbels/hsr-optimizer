@@ -16,7 +16,6 @@ import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/opt
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicFilters } from 'lib/relicFilters'
-import { TsUtils } from 'lib/TsUtils'
 import { Utils } from 'lib/utils'
 import { WorkerPool } from 'lib/workerPool'
 import { Form } from 'types/Form'
@@ -196,7 +195,7 @@ export const Optimizer = {
           const resultArr = new Float32Array(result.buffer)
           // console.log(`Optimizer results`, result, resultArr, run)
 
-          BufferPacker.extractArrayToResults(resultArr, run.runSize, results, queueResults)
+          BufferPacker.extractArrayToResults(resultArr, run.runSize, results, queueResults, task.input)
           // console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
 
           window.store.getState().setPermutationsResults(queueResults.size())
@@ -206,10 +205,7 @@ export const Optimizer = {
           if (inProgress == 0 || CANCEL) {
             window.store.getState().setOptimizationInProgress(false)
             results = queueResults.toArray()
-            for (const result of results) {
-              const id = TsUtils.reconstructFloat64FromParts(result.high, result.low)
-              result.id = id
-            }
+
             OptimizerTabController.setRows(results)
             setSortColumn(gridSortColumn)
 

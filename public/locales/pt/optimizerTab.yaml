@@ -381,6 +381,8 @@ MinMaxFilters:
   FUALabel: ATQ. EXT.
   DOTLabel: DOT
   BREAKLabel: QUEBRA
+  HEALLabel: CURA
+  SHIELDLabel: ESCUDO
   COMBOLabel: COMBO
 ComboFilter:
   Header: Rotação para Dano Combo

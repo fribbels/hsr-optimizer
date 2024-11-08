@@ -1,0 +1,23 @@
+Messages:
+  ThrottleWarning: "Veuillez attendre {{seconds}} secondes avant de réessayer"
+  InvalidIdWarning: UID invalide
+  IdLoadError: Erreur lors du chargement de l'UID
+  SuccessMsg: Chargement du profil réussi
+  LookupError: Erreur lors de la recherche, veuillez attendre un moment
+  NoCharacterSelected: Aucun personnage sélectionné
+  CharacterAlreadyExists: Personnage sélectionné existe déjà
+  UnknownButtonClicked: Bouton inconnu cliqué
+Header:
+  DowntimeWarning: "L'appréciateur de reliques "
+  WithVersion: "Entrez l'UID de votre compte pour apprécier vos personnages de vitrine au niveau 80 et au maximum des traces. Déconnectez-vous pour actualiser instantanément. (Version actuelle {{beta_version}})"
+  WithoutVersion: Entrez l'UID de votre compte pour apprécier vos personnages de vitrine au niveau 80 et au maximum des traces. Déconnectez-vous pour actualiser instantanément.
+SubmissionBar:
+  Placeholder: UID du compte
+  AlgorithmButton: Algorithme d'appréciation
+CopyScreenshot: Copier la capture d'écran
+ImportLabels:
+  Relics: Importer les reliques dans l'optimiseur
+  SingleCharacter: Importer le personnage sélectionné & toutes les reliques dans l'optimiseur
+  AllCharacters: Importer tous les personnages & toutes les reliques dans l'optimiseur
+SimulateRelics: Simuler les reliques sur un autre personnage
+OptimizeOnCharacter: Optimiser les stats du personnage

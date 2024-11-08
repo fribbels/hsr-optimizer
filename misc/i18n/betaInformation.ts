@@ -19,14 +19,12 @@ export const betaInformation: betaInformation = {
         id: 23034,
         value: {
           Name: "A Grounded Ascent",
-          SkillName: "Departing Anew"
         }
       },
       {
         id: 23035,
         value: {
           Name: "Long Road Leads Home",
-          SkillName: "Rebirth"
         }
       }
     ],
@@ -34,41 +32,8 @@ export const betaInformation: betaInformation = {
   }
 }
 
-type betaInformation = {
-  [key: string]: {
-    Characters: {
-      key: number
-      value: {
-        Name: string
-        Abilities?: {
-          [key: number]: {
-            Name: string
-            Desc: string
-            Type?: string
-          }
-        }
-        Eidolons?: {
-          [key: number]: {
-            Name: string
-            Desc: string
-          }
-        }
-      }
-    }[]
-    Lightcones: {
-      id: number
-      value: {
-        Name: string
-        SkillName?: string
-      }
-    }[]
-    RelicSets: {
-      id: number
-      value: {
-        Name: string
-        Description2pc?: string
-        Description4pc?: string
-      }
-    }[]
-  }
-}
+type betaInformation = Record<string,{Characters: Character[],Lightcones: LightCone[],RelicSets: RelicSet[]}>
+
+type Character = {key: number, value: {Name: string}}
+type LightCone = {id: number, value: {Name: string}}
+type RelicSet = {id: number, value: {Name: string, Description2pc: string, Description4pc?: string}}

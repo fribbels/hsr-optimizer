@@ -14,6 +14,13 @@ NoTeamConditionals: 无可应用的条件触发团队被动技能
 ResultLimitN: "查找排名前{{limit}}的结果"
 MainStats: 主属性
 Sets: 套装
+RelicSetSelector:
+  Placeholder: 隧洞遗器套装
+  4pcLabel: 4件套
+  2+2pcLabel: 2 + 2件套
+  2pcLabel: 2 + 任何
+OrnamentSetSelector:
+  Placeholder: 位面饰品套装
 SortOptions:
   DMGLabel: 伤害计算
   StatLabel: 属性

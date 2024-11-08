@@ -9,7 +9,7 @@ type Buff = {
   source: string
 }
 
-type KeysType = keyof typeof baseComputedStatsObject
+export type KeysType = keyof typeof baseComputedStatsObject
 
 export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject).reduce((acc, key, index) => {
   acc[key as KeysType] = index
@@ -52,6 +52,7 @@ export class ComputedStatsArrayCore {
       Object.defineProperty(this, key, {
         value: {
           buff: (value: number, source: string) => {
+            if (value == 0) return
             this.a[index] += value
           },
           multiply: (value: number, source: string) => {

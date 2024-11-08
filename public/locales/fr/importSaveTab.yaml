@@ -1,0 +1,83 @@
+TabLabels:
+  Import: Importateur de scanner de reliques
+  Load: Charger données d'optimiseur
+  Save: Enregistrer données d'optimiseur
+  Clear: Effacer les données de l'optimiseur
+Import:
+  ErrorMsg:
+    Unknown: Erreur inconnue
+    InvalidFile: Fichier de scanner est invalide
+    InvalidJson: JSON invalide
+    Fragment: "Erreur a eu lieu lors de la lecture du fichier: "
+  Stage1:
+    Header: "Installez et lancez l'une des options de scanner de reliques :"
+    ReliquaryDesc:
+      Title: IceDynamix Reliquary Archiver (Recommandé)
+      Link: Github
+      OnlineMsg: "Statut : Mis à jour pour le patch {{version}} — Nouveau téléchargement requis"
+      OfflineMsg: "***** Statut: En panne pour entretien après le patch {{version}} *****"
+      l1: Decimaux de vitesse exacts, scan instantané
+      l2: Importe l'inventaire complet ainsi que tous les personnages
+    KelzDesc:
+      Title: Scanner Kel-Z HSR
+      Link: Github
+      l1: Decimaux de vitesse imprécis, scan OCR de 5 à 10 minutes
+      l2: Importe l'inventaire complet ainsi que tous les personnages
+    ScorerDesc:
+      Title: Importation via l'Appréciateur de reliques
+      Link: Appréciateur de reliques
+      l1: Decimaux de vitesse exacts, scan instantané
+      l2: Pas de téléchargement nécessaire, mais limité aux reliques des 8 personnages de vitrine
+    HoyolabDesc:
+      Title: Importation via HoyoLab
+      Link: Instructions
+      l1: Decimaux de vitesse imprécis, scan instantané
+      l2: Pas de téléchargement nécessaire, mais limité aux reliques équipées aux personnages dans le jeu
+    ButtonText: Charger le fichier json du scanner
+    Or: ou
+    Placeholder: Coller le contenu du fichier json
+  Stage2:
+    Or: OU
+    FileInfo: >-
+      Le fichier contient $t(common:RelicWithCount, {"count": {{relicCount}}}) et $t(common:CharacterWithCount, {"count": {{characterCount}}}).
+    NoRelics: Fichier scanner invalide, veuillez essayer un autre fichier
+    RelicsImport:
+      Label: >-
+        Importer $t(common:Relic, {"count": {{relicCount}}}) uniquement. Met à jour l'optimiseur avec les nouvelles $t(common:Relic, {"count": {{relicCount}}}) et n'efface pas les builds.
+      ButtonText: >-
+        Importer $t(common:Relic, {"count": {{relicCount}}})
+    CharactersImport:
+      Label: >-
+        Importer $t(common:Relic, {"count": {{relicCount}}}) et $t(common:Character, {"count": {{characterCount}}}). Remplace les builds de l'optimiseur avec les builds du jeu.
+      ButtonText: >-
+        Importer $t(common:Relic, {"count": {{relicCount}}}) & $t(common:Character, {"count": {{characterCount}}})
+      WarningTitle: Remplacer les builds de l'optimiseur
+      WarningDescription: Êtes-vous sûr de vouloir remplacer vos builds d'optimiseur par vos builds du jeu ?
+  Stage3:
+    SuccessMessage: Terminé!
+LoadData:
+  Stage1:
+    Label: Charger les données de l'optimiseur depuis un fichier.
+    ButtonText: Charger les données de sauvegarde
+  Stage2:
+    ErrorMsg: Fichier de sauvegarde invalide, essayez un autre fichier. Vouliez-vous utiliser l'onglet Importation du scanner de Reliques?
+    Label: >-
+      Le fichier contient $t(common:RelicWithCount, {"count": {{relicCount}}}) et $t(common:CharacterWithCount, {"count": {{characterCount}}}). Remplacer vos données actuelles avec les données téléchargées?
+    ButtonText: Utiliser les données chargées
+  Stage3:
+    SuccessMessage: Terminé!
+SaveData:
+  Label: Enregistrez vos données d'optimiseur dans un fichier.
+  ButtonText: Enregistrer les données
+  SuccessMessage: Terminé
+ClearData:
+  Label: Effacer toutes les données de l'optimiseur.
+  ButtonText: Effacer les données
+  SuccessMessage: Données effacées
+  WarningTitle: Effacer toutes les données
+  WarningDescription: Êtes-vous sûr de vouloir effacer toutes les reliques et tous les personnages ?
+PartialImport:
+  OldRelics: >-
+    Stats mises à jour pour $t(common:RelicWithCount, {"count":{{count}}}) existantes
+  NewRelics: >-
+    {{count}} nouvelle(s) $t(common:Relic, {"count": {{count}}}) ajoutée(s)

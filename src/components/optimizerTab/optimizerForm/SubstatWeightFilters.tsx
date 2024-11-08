@@ -2,8 +2,7 @@ import { Flex } from 'antd'
 import { HeaderText } from 'components/HeaderText'
 import { TooltipImage } from 'components/TooltipImage'
 import { Hint } from 'lib/hint'
-import { FormStatRollSlider, FormStatRollSliderTopPercent } from 'components/optimizerTab/optimizerForm/FormStatRollSlider'
-import { Constants } from 'lib/constants'
+import { FormStatRollSliders, FormStatRollSliderTopPercent } from 'components/optimizerTab/optimizerForm/FormStatRollSlider'
 import { useTranslation } from 'react-i18next'
 
 export const SubstatWeightFilters = () => {
@@ -17,15 +16,7 @@ export const SubstatWeightFilters = () => {
           <TooltipImage type={Hint.substatWeightFilter()}/>
         </Flex>
 
-        <FormStatRollSlider text={t('HPFilterText')} name={Constants.Stats.HP_P}/>
-        <FormStatRollSlider text={t('ATKFilterText')} name={Constants.Stats.ATK_P}/>
-        <FormStatRollSlider text={t('DEFFilterText')} name={Constants.Stats.DEF_P}/>
-        <FormStatRollSlider text={t('SPDFilterText')} name={Constants.Stats.SPD}/>
-        <FormStatRollSlider text={t('CRFilterText')} name={Constants.Stats.CR}/>
-        <FormStatRollSlider text={t('CDFilterText')} name={Constants.Stats.CD}/>
-        <FormStatRollSlider text={t('EHRFilterText')} name={Constants.Stats.EHR}/>
-        <FormStatRollSlider text={t('RESFilterText')} name={Constants.Stats.RES}/>
-        <FormStatRollSlider text={t('BEFilterText')} name={Constants.Stats.BE}/>
+        <FormStatRollSliders/>
       </Flex>
 
       <Flex vertical gap={3}>

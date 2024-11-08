@@ -47,17 +47,19 @@ export type OptimizerDisplayData = {
   'ornamentSetIndex': number
   'low': number
   'high': number
+}
 
-  'statSim'?: {
+export type OptimizerDisplayDataStatSim = OptimizerDisplayData & {
+  statSim: {
     key: string
   }
 }
 
 export const BufferPacker = {
-  extractCharacter: (arr: number[], offset: number): OptimizerDisplayData => { // Float32Array
+  extractCharacter: (arr: Float32Array, offset: number, skip: number): OptimizerDisplayData => { // Float32Array
     offset = offset * SIZE
     return {
-      'id': arr[offset], // 0
+      'id': arr[offset] + skip, // 0
       'HP': arr[offset + 1],
       'ATK': arr[offset + 2],
       'DEF': arr[offset + 3],
@@ -100,10 +102,10 @@ export const BufferPacker = {
     }
   },
 
-  extractArrayToResults: (arr: number[], length: number, results, queueResults: FixedSizePriorityQueue<OptimizerDisplayData>) => {
+  extractArrayToResults: (arr: Float32Array, length: number, queueResults: FixedSizePriorityQueue<OptimizerDisplayData>, skip: number) => {
     for (let i = 0; i < length; i++) {
       if (arr[i * SIZE + 1]) { // Check HP > 0
-        const character = BufferPacker.extractCharacter(arr, i)
+        const character = BufferPacker.extractCharacter(arr, i, skip)
         queueResults.fixedSizePush(character)
       } else {
         // Results are packed linearly and the rest are 0s, we can exit after hitting a 0
@@ -112,12 +114,12 @@ export const BufferPacker = {
     }
   },
 
-  packCharacter: (arr: number[], offset: number, x: ComputedStatsArray) => {
+  packCharacter: (arr: Float32Array, offset: number, x: ComputedStatsArray) => {
     offset = offset * SIZE
     const c = x.c
     const a = x.a
 
-    arr[offset] = x.c.id // 0
+    arr[offset] = c.id // 0
     arr[offset + 1] = c[Stats.HP]
     arr[offset + 2] = c[Stats.ATK]
     arr[offset + 3] = c[Stats.DEF]

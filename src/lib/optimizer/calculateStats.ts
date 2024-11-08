@@ -358,33 +358,33 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
 }
 
 export function calculateRelicStats(c: BasicStatsObject, head: Relic, hands: Relic, body: Relic, feet: Relic, planarSphere: Relic, linkRope: Relic) {
-  if (head) {
-    for (const condensedStat of head.condensedStats!) {
+  if (head?.condensedStats) {
+    for (const condensedStat of head.condensedStats) {
       c[condensedStat[0] as StatsValues] += condensedStat[1]
     }
   }
-  if (hands) {
-    for (const condensedStat of hands.condensedStats!) {
+  if (hands?.condensedStats) {
+    for (const condensedStat of hands.condensedStats) {
       c[condensedStat[0] as StatsValues] += condensedStat[1]
     }
   }
-  if (body) {
-    for (const condensedStat of body.condensedStats!) {
+  if (body?.condensedStats) {
+    for (const condensedStat of body.condensedStats) {
       c[condensedStat[0] as StatsValues] += condensedStat[1]
     }
   }
-  if (feet) {
-    for (const condensedStat of feet.condensedStats!) {
+  if (feet?.condensedStats) {
+    for (const condensedStat of feet.condensedStats) {
       c[condensedStat[0] as StatsValues] += condensedStat[1]
     }
   }
-  if (planarSphere) {
-    for (const condensedStat of planarSphere.condensedStats!) {
+  if (planarSphere?.condensedStats) {
+    for (const condensedStat of planarSphere.condensedStats) {
       c[condensedStat[0] as StatsValues] += condensedStat[1]
     }
   }
-  if (linkRope) {
-    for (const condensedStat of linkRope.condensedStats!) {
+  if (linkRope?.condensedStats) {
+    for (const condensedStat of linkRope.condensedStats) {
       c[condensedStat[0] as StatsValues] += condensedStat[1]
     }
   }

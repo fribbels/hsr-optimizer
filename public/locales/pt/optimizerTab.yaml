@@ -14,6 +14,10 @@ NoTeamConditionals: Sem passivas coondicionais da equipe
 ResultLimitN: "Achar os {{limit}} melhores"
 MainStats: Atributos principais
 Sets: Sets
+RelicSetSelector:
+  Placeholder: Set de Relíquia
+OrnamentSetSelector:
+  Placeholder: Set de Ornamento
 SortOptions:
   DMGLabel: Cálculo de dano
   StatLabel: Atributos

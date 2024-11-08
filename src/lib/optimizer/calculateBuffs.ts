@@ -11,17 +11,18 @@ import { ComputedStatsArray, Key } from 'lib/optimizer/computedStatsArray'
  * x.BASIC_DMG_TYPE = BASIC_TYPE | FUA_TYPE
  */
 
-type Condition = boolean | number | undefined
-
 export function buffAbilityDmg(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: string) {
+  if (value == 0) return
   if (abilityTypeFlags & x.a[Key.BASIC_DMG_TYPE]) x.BASIC_BOOST.buff(value, source)
   if (abilityTypeFlags & x.a[Key.SKILL_DMG_TYPE]) x.SKILL_BOOST.buff(value, source)
   if (abilityTypeFlags & x.a[Key.ULT_DMG_TYPE]) x.ULT_BOOST.buff(value, source)
   if (abilityTypeFlags & x.a[Key.FUA_DMG_TYPE]) x.FUA_BOOST.buff(value, source)
   if (abilityTypeFlags & x.a[Key.DOT_DMG_TYPE]) x.DOT_BOOST.buff(value, source)
+  if (abilityTypeFlags & x.a[Key.BREAK_DMG_TYPE]) x.BREAK_BOOST.buff(value, source)
 }
 
 export function buffAbilityVulnerability(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: string) {
+  if (value == 0) return
   if (abilityTypeFlags & x.a[Key.BASIC_DMG_TYPE]) x.BASIC_VULNERABILITY.buff(value, source)
   if (abilityTypeFlags & x.a[Key.SKILL_DMG_TYPE]) x.SKILL_VULNERABILITY.buff(value, source)
   if (abilityTypeFlags & x.a[Key.ULT_DMG_TYPE]) x.ULT_VULNERABILITY.buff(value, source)
@@ -32,6 +33,7 @@ export function buffAbilityVulnerability(x: ComputedStatsArray, abilityTypeFlags
 }
 
 export function buffAbilityResPen(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: string) {
+  if (value == 0) return
   if (abilityTypeFlags & x.a[Key.BASIC_DMG_TYPE]) x.BASIC_RES_PEN.buff(value, source)
   if (abilityTypeFlags & x.a[Key.SKILL_DMG_TYPE]) x.SKILL_RES_PEN.buff(value, source)
   if (abilityTypeFlags & x.a[Key.ULT_DMG_TYPE]) x.ULT_RES_PEN.buff(value, source)
@@ -41,6 +43,7 @@ export function buffAbilityResPen(x: ComputedStatsArray, abilityTypeFlags: numbe
 }
 
 export function buffAbilityDefPen(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: string) {
+  if (value == 0) return
   if (abilityTypeFlags & x.a[Key.BASIC_DMG_TYPE]) x.BASIC_DEF_PEN.buff(value, source)
   if (abilityTypeFlags & x.a[Key.SKILL_DMG_TYPE]) x.SKILL_DEF_PEN.buff(value, source)
   if (abilityTypeFlags & x.a[Key.ULT_DMG_TYPE]) x.ULT_DEF_PEN.buff(value, source)
@@ -51,6 +54,7 @@ export function buffAbilityDefPen(x: ComputedStatsArray, abilityTypeFlags: numbe
 }
 
 export function buffAbilityCr(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: string) {
+  if (value == 0) return
   if (abilityTypeFlags & x.a[Key.BASIC_DMG_TYPE]) x.BASIC_CR_BOOST.buff(value, source)
   if (abilityTypeFlags & x.a[Key.SKILL_DMG_TYPE]) x.SKILL_CR_BOOST.buff(value, source)
   if (abilityTypeFlags & x.a[Key.ULT_DMG_TYPE]) x.ULT_CR_BOOST.buff(value, source)
@@ -59,6 +63,7 @@ export function buffAbilityCr(x: ComputedStatsArray, abilityTypeFlags: number, v
 }
 
 export function buffAbilityCd(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: string) {
+  if (value == 0) return
   if (abilityTypeFlags & x.a[Key.BASIC_DMG_TYPE]) x.BASIC_CD_BOOST.buff(value, source)
   if (abilityTypeFlags & x.a[Key.SKILL_DMG_TYPE]) x.SKILL_CD_BOOST.buff(value, source)
   if (abilityTypeFlags & x.a[Key.ULT_DMG_TYPE]) x.ULT_CD_BOOST.buff(value, source)

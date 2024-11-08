@@ -459,14 +459,14 @@ if (officialOnly) {
   // Delete unreleased characters
   for (const character of Object.values(characters)) {
     if (character.unreleased) {
-      delete characters[character.id]
+      delete characters[character.id as keyof typeof characters]
     }
   }
 
   // Delete unreleased light cones
   for (const lightCone of Object.values(lightCones)) {
     if (lightCone.unreleased) {
-      delete lightCones[lightCone.id]
+      delete lightCones[lightCone.id as keyof typeof lightCones]
     }
   }
 }
@@ -686,7 +686,7 @@ export const setToId = {
   [Sets.ForgeOfTheKalpagniLantern]: '316',
   [Sets.LushakaTheSunkenSeas]: '317',
   [Sets.TheWondrousBananAmusementPark]: '318',
-}
+} as const
 
 export const DamageKeys = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK']
 

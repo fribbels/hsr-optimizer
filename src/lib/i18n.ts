@@ -16,6 +16,10 @@ export const languages = {
     locale: 'es',
     nativeName: 'Español',
   },
+  fr: {
+    locale: 'fr',
+    nativeName: 'Français',
+  },
   it: {
     locale: 'it',
     nativeName: 'Italiano',
@@ -32,10 +36,6 @@ export const languages = {
   de: {
     locale: 'de',
     nativeName: 'Deutsch',
-  },
-  fr: {
-    locale: 'fr',
-    nativeName: 'Français',
   },
   id: {
     locale: 'id',
@@ -87,8 +87,6 @@ void i18next
     ],
     defaultNS: 'common',
     fallbackNS: ['common', 'gameData'],
-    // @ts-ignore temporary to make sure the language detector doesn't load non-en translations
-    lng: BASE_PATH != '/dreary-quibbles' ? 'en' : undefined, // remove once language selector enabled on main site
     debug: true,
     supportedLngs: supportedLanguages,
     load: 'languageOnly',

@@ -48,6 +48,7 @@ struct ComputedStats {
   ULT_BOOST: f32,
   FUA_BOOST: f32,
   DOT_BOOST: f32,
+  BREAK_BOOST: f32,
 
   VULNERABILITY: f32,
   BASIC_VULNERABILITY: f32,

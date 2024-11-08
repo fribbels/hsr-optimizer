@@ -509,11 +509,6 @@ Lightcones:
       extraDmgProc:
         text: Proc de dano adicional
         content: Após o portador usar um Ataque Básico ou Habilidade, causa DMG adicional igual a {{Multiplier}}% do ATK do portador a um inimigo aleatório que foi atacado.
-  WoofWalkTime:
-    Content:
-      atkBoost:
-        text: Aumento de DMG por queimadura / sangramento em inimigos
-        content: Aumenta o DMG do portador a inimigos afetados por Queimadura ou Sangramento em {{DmgBuff}}%. Isso também se aplica a DoT.
   Adversarial:
     Content:
       defeatedEnemySpdBuff:

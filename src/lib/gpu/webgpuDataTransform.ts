@@ -1,9 +1,9 @@
-import { Relic } from 'types/Relic'
-import { createGpuBuffer } from 'lib/gpu/webgpuInternals'
 import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats } from 'lib/constants'
-import { StringToNumberMap } from 'types/Common'
+import { createGpuBuffer } from 'lib/gpu/webgpuInternals'
 import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { StringToNumberMap } from 'types/Common'
 import { OptimizerContext } from 'types/Optimizer'
+import { Relic } from 'types/Relic'
 
 export const StatsToWebgpuIndex = {
   [Stats.HP_P]: 0,
@@ -114,8 +114,7 @@ function relicsToArray(relics: Relic[]) {
     const startIndex = RELIC_ARG_SIZE * i
     let j = 0
     const uncondensedStats: StringToNumberMap = {}
-
-    const condensedStats: StringToNumberMap[] = relic.condensedStats
+    const condensedStats: [string, number][] = relic.condensedStats!
 
     for (const condensedStat of condensedStats) {
       uncondensedStats[condensedStat[0]] = condensedStat[1]

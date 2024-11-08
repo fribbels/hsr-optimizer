@@ -132,146 +132,146 @@ Characters:
 RelicSets:
   "101":
     Name: Passerby of Wandering Cloud
-    Description2pc: "<span>Increases Outgoing Healing by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: <span>At the start of the battle, immediately regenerates 1 Skill Point.</span>
+    Description2pc: Increases Outgoing Healing by 10%.
+    Description4pc: At the start of the battle, immediately regenerates 1 Skill Point.
   "102":
     Name: Musketeer of Wild Wheat
-    Description2pc: "<span>Increases ATK by <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>The wearer's SPD increases by <span style='whiteSpace: \"nowrap\"'>6%</span> and DMG dealt by Basic ATK increases by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description2pc: Increases ATK by 12%.
+    Description4pc: The wearer's SPD increases by 6% and DMG dealt by Basic ATK increases by 10%.
   "103":
     Name: Knight of Purity Palace
-    Description2pc: "<span>Increases DEF by <span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
-    Description4pc: "<span>Increases the max DMG that can be absorbed by the Shield created by the wearer by <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+    Description2pc: Increases DEF by 15%.
+    Description4pc: Increases the max DMG that can be absorbed by the Shield created by the wearer by 20%.
   "104":
     Name: Hunter of Glacial Forest
-    Description2pc: "<span>Increases Ice DMG by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>After the wearer uses their Ultimate, their CRIT DMG increases by <span style='whiteSpace: \"nowrap\"'>25%</span> for <span style='whiteSpace: \"nowrap\"'>2</span> turn(s).</span>"
+    Description2pc: Increases Ice DMG by 10%.
+    Description4pc: After the wearer uses their Ultimate, their CRIT DMG increases by 25% for 2 turn(s).
   "105":
     Name: Champion of Streetwise Boxing
-    Description2pc: "<span>Increases Physical DMG by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>After the wearer attacks or is hit, their ATK increases by <span style='whiteSpace: \"nowrap\"'>5%</span> for the rest of the battle. This effect can stack up to <span style='whiteSpace: \"nowrap\"'>5</span> time(s).</span>"
+    Description2pc: Increases Physical DMG by 10%.
+    Description4pc: After the wearer attacks or is hit, their ATK increases by 5% for the rest of the battle. This effect can stack up to 5 time(s).
   "106":
     Name: Guard of Wuthering Snow
-    Description2pc: "<span>Reduces DMG taken by <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
-    Description4pc: "<span>At the beginning of the turn, if the wearer's HP percentage is equal to or less than <span style='whiteSpace: \"nowrap\"'>50%</span>, restores HP equal to <span style='whiteSpace: \"nowrap\"'>8%</span> of their Max HP and regenerates <span style='whiteSpace: \"nowrap\"'>5</span> Energy.</span>"
+    Description2pc: Reduces DMG taken by 8%.
+    Description4pc: At the beginning of the turn, if the wearer's HP percentage is equal to or less than 50%, restores HP equal to 8% of their Max HP and regenerates 5 Energy.
   "107":
     Name: Firesmith of Lava-Forging
-    Description2pc: "<span>Increases Fire DMG by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Increases DMG by the wearer's Skill by <span style='whiteSpace: \"nowrap\"'>12%</span>. After unleashing Ultimate, increases the wearer's Fire DMG by <span style='whiteSpace: \"nowrap\"'>12%</span> for the next attack.</span>"
+    Description2pc: Increases Fire DMG by 10%.
+    Description4pc: Increases DMG by the wearer's Skill by 12%. After unleashing Ultimate, increases the wearer's Fire DMG by 12% for the next attack.
   "108":
     Name: Genius of Brilliant Stars
-    Description2pc: "<span>Increases Quantum DMG by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>When the wearer deals DMG to the target enemy, ignores <span style='whiteSpace: \"nowrap\"'>10%</span> DEF. If the target enemy has Quantum Weakness, the wearer additionally ignores <span style='whiteSpace: \"nowrap\"'>10%</span> DEF.</span>"
+    Description2pc: Increases Quantum DMG by 10%.
+    Description4pc: When the wearer deals DMG to the target enemy, ignores 10% DEF. If the target enemy has Quantum Weakness, the wearer additionally ignores 10% DEF.
   "109":
     Name: Band of Sizzling Thunder
-    Description2pc: "<span>Increases Lightning DMG by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>When the wearer uses their Skill, increases the wearer's ATK by <span style='whiteSpace: \"nowrap\"'>20%</span> for <span style='whiteSpace: \"nowrap\"'>1</span> turn(s).</span>"
+    Description2pc: Increases Lightning DMG by 10%.
+    Description4pc: When the wearer uses their Skill, increases the wearer's ATK by 20% for 1 turn(s).
   "110":
     Name: Eagle of Twilight Line
-    Description2pc: "<span>Increases Wind DMG by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>After the wearer uses their Ultimate, their action is Advanced Forward by <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Increases Wind DMG by 10%.
+    Description4pc: After the wearer uses their Ultimate, their action is Advanced Forward by 25%.
   "111":
     Name: Thief of Shooting Meteor
-    Description2pc: "<span>Increases Break Effect by <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Increases the wearer's Break Effect by <span style='whiteSpace: \"nowrap\"'>16%</span>. After the wearer inflicts Weakness Break on an enemy, regenerates <span style='whiteSpace: \"nowrap\"'>3</span> Energy.</span>"
+    Description2pc: Increases Break Effect by 16%.
+    Description4pc: Increases the wearer's Break Effect by 16%. After the wearer inflicts Weakness Break on an enemy, regenerates 3 Energy.
   "112":
     Name: Wastelander of Banditry Desert
-    Description2pc: "<span>Increases Imaginary DMG by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>When attacking debuffed enemies, the wearer's CRIT Rate increases by <span style='whiteSpace: \"nowrap\"'>10%</span>, and their CRIT DMG increases by <span style='whiteSpace: \"nowrap\"'>20%</span> against Imprisoned enemies.</span>"
+    Description2pc: Increases Imaginary DMG by 10%.
+    Description4pc: When attacking debuffed enemies, the wearer's CRIT Rate increases by 10%, and their CRIT DMG increases by 20% against Imprisoned enemies.
   "113":
     Name: Longevous Disciple
-    Description2pc: "<span>Increases Max HP by <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by <span style='whiteSpace: \"nowrap\"'>8%</span> for <span style='whiteSpace: \"nowrap\"'>2</span> turn(s) and up to <span style='whiteSpace: \"nowrap\"'>2</span> stacks.</span>"
+    Description2pc: Increases Max HP by 12%.
+    Description4pc: When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by 8% for 2 turn(s) and up to 2 stacks.
   "114":
     Name: Messenger Traversing Hackerspace
-    Description2pc: "<span>Increases SPD by <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
-    Description4pc: "<span>When the wearer uses their Ultimate on an ally, SPD for all allies increases by <span style='whiteSpace: \"nowrap\"'>12%</span> for <span style='whiteSpace: \"nowrap\"'>1</span> turn(s). This effect cannot be stacked.</span>"
+    Description2pc: Increases SPD by 6%.
+    Description4pc: When the wearer uses their Ultimate on an ally, SPD for all allies increases by 12% for 1 turn(s). This effect cannot be stacked.
   "115":
     Name: The Ashblazing Grand Duke
-    Description2pc: "<span>Increases the DMG dealt by follow-up attack by <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
-    Description4pc: "<span>When the wearer uses a follow-up attack, increases the wearer's ATK by <span style='whiteSpace: \"nowrap\"'>6%</span> for every time the follow-up attack deals DMG. This effect can stack up to <span style='whiteSpace: \"nowrap\"'>8</span> time(s) and lasts for <span style='whiteSpace: \"nowrap\"'>3</span> turn(s). This effect is removed the next time the wearer uses a follow-up attack.</span>"
+    Description2pc: Increases the DMG dealt by follow-up attack by 20%.
+    Description4pc: When the wearer uses a follow-up attack, increases the wearer's ATK by 6% for every time the follow-up attack deals DMG. This effect can stack up to 8 time(s) and lasts for 3 turn(s). This effect is removed the next time the wearer uses a follow-up attack.
   "116":
     Name: Prisoner in Deep Confinement
-    Description2pc: "<span>Increases ATK by <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>For every DoT the enemy target is afflicted with, the wearer will ignore <span style='whiteSpace: \"nowrap\"'>6%</span> of its DEF when dealing DMG to it. This effect is valid for a max of <span style='whiteSpace: \"nowrap\"'>3</span> DoTs.</span>"
+    Description2pc: Increases ATK by 12%.
+    Description4pc: For every DoT the enemy target is afflicted with, the wearer will ignore 6% of its DEF when dealing DMG to it. This effect is valid for a max of 3 DoTs.
   "117":
     Name: Pioneer Diver of Dead Waters
-    Description2pc: "<span>Increases DMG dealt to enemies with debuffs by <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Increases CRIT Rate by <span style='whiteSpace: \"nowrap\"'>4%</span>. The wearer deals <span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span> increased CRIT DMG to enemies with at least <span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span> debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by <span style='whiteSpace: \"nowrap\"'>100%</span>, lasting for <span style='whiteSpace: \"nowrap\"'>1</span> turn(s).</span>"
+    Description2pc: Increases DMG dealt to enemies with debuffs by 12%.
+    Description4pc: Increases CRIT Rate by 4%. The wearer deals 8%/12% increased CRIT DMG to enemies with at least 2/3 debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by 100%, lasting for 1 turn(s).
   "118":
     Name: Watchmaker, Master of Dream Machinations
-    Description2pc: "<span>Increases Break Effect by <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by <span style='whiteSpace: \"nowrap\"'>30%</span> for <span style='whiteSpace: \"nowrap\"'>2</span> turn(s). This effect cannot be stacked.</span>"
+    Description2pc: Increases Break Effect by 16%.
+    Description4pc: When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by 30% for 2 turn(s). This effect cannot be stacked.
   "119":
     Name: Iron Cavalry Against the Scourge
-    Description2pc: "<span>Increases Break Effect by <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>If the wearer's Break Effect is <span style='whiteSpace: \"nowrap\"'>150%</span> or higher, the Break DMG dealt to the enemy target ignores <span style='whiteSpace: \"nowrap\"'>10%</span> of their DEF. If the wearer's Break Effect is <span style='whiteSpace: \"nowrap\"'>250%</span> or higher, the Super Break DMG dealt to the enemy target additionally ignores <span style='whiteSpace: \"nowrap\"'>15%</span> of their DEF.</span>"
+    Description2pc: Increases Break Effect by 16%.
+    Description4pc: If the wearer's Break Effect is 150% or higher, the Break DMG dealt to the enemy target ignores 10% of their DEF. If the wearer's Break Effect is 250% or higher, the Super Break DMG dealt to the enemy target additionally ignores 15% of their DEF.
   "120":
     Name: The Wind-Soaring Valorous
-    Description2pc: "<span>Increases ATK by <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Increases the wearer's CRIT Rate by <span style='whiteSpace: \"nowrap\"'>6%</span>. After the wearer uses a follow-up attack, increases DMG dealt by Ultimate by <span style='whiteSpace: \"nowrap\"'>36%</span>, lasting for <span style='whiteSpace: \"nowrap\"'>1</span> turn(s).</span>"
+    Description2pc: Increases ATK by 12%.
+    Description4pc: Increases the wearer's CRIT Rate by 6%. After the wearer uses a follow-up attack, increases DMG dealt by Ultimate by 36%, lasting for 1 turn(s).
   "121":
     Name: Sacerdos' Relived Ordeal
-    Description2pc: "<span>Increases SPD by <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
-    Description4pc: "<span>When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by <span style='whiteSpace: \"nowrap\"'>18%</span>, lasting for <span style='whiteSpace: \"nowrap\"'>2</span> turn(s). This effect can stack up to <span style='whiteSpace: \"nowrap\"'>2</span> time(s).</span>"
+    Description2pc: Increases SPD by 6%.
+    Description4pc: When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by 18%, lasting for 2 turn(s). This effect can stack up to 2 time(s).
   "122":
     Name: Scholar Lost in Erudition
-    Description2pc: "<span>Increases CRIT Rate by <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
-    Description4pc: "<span>Increases DMG dealt by Skill and Ultimate by <span style='whiteSpace: \"nowrap\"'>20%</span>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Increases CRIT Rate by 8%.
+    Description4pc: Increases DMG dealt by Skill and Ultimate by 20%. After using Ultimate, additionally increases the DMG dealt by the next Skill by 25%.
   "301":
     Name: Space Sealing Station
-    Description2pc: "<span>Increases the wearer's ATK by <span style='whiteSpace: \"nowrap\"'>12%</span>. When the wearer's SPD reaches <span style='whiteSpace: \"nowrap\"'>120</span> or higher, the wearer's ATK increases by an extra <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description2pc: Increases the wearer's ATK by 12%. When the wearer's SPD reaches 120 or higher, the wearer's ATK increases by an extra 12%.
   "302":
     Name: Fleet of the Ageless
-    Description2pc: "<span>Increases the wearer's Max HP by <span style='whiteSpace: \"nowrap\"'>12%</span>. When the wearer's SPD reaches <span style='whiteSpace: \"nowrap\"'>120</span> or higher, all allies' ATK increases by <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
+    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's SPD reaches 120 or higher, all allies' ATK increases by 8%.
   "303":
     Name: Pan-Cosmic Commercial Enterprise
-    Description2pc: "<span>Increases the wearer's Effect Hit Rate by <span style='whiteSpace: \"nowrap\"'>10%</span>. Meanwhile, the wearer's ATK increases by an amount that is equal to <span style='whiteSpace: \"nowrap\"'>25%</span> of the current Effect Hit Rate, up to a maximum of <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Increases the wearer's Effect Hit Rate by 10%. Meanwhile, the wearer's ATK increases by an amount that is equal to 25% of the current Effect Hit Rate, up to a maximum of 25%.
   "304":
     Name: Belobog of the Architects
-    Description2pc: "<span>Increases the wearer's DEF by <span style='whiteSpace: \"nowrap\"'>15%</span>. When the wearer's Effect Hit Rate is <span style='whiteSpace: \"nowrap\"'>50%</span> or higher, the wearer gains an extra <span style='whiteSpace: \"nowrap\"'>15%</span> DEF.</span>"
+    Description2pc: Increases the wearer's DEF by 15%. When the wearer's Effect Hit Rate is 50% or higher, the wearer gains an extra 15% DEF.
   "305":
     Name: Celestial Differentiator
-    Description2pc: "<span>Increases the wearer's CRIT DMG by <span style='whiteSpace: \"nowrap\"'>16%</span>. When the wearer's current CRIT DMG reaches <span style='whiteSpace: \"nowrap\"'>120%</span> or higher, after entering battle, the wearer's CRIT Rate increases by <span style='whiteSpace: \"nowrap\"'>60%</span> until the end of their first attack.</span>"
+    Description2pc: Increases the wearer's CRIT DMG by 16%. When the wearer's current CRIT DMG reaches 120% or higher, after entering battle, the wearer's CRIT Rate increases by 60% until the end of their first attack.
   "306":
     Name: Inert Salsotto
-    Description2pc: "<span>Increases the wearer's CRIT Rate by <span style='whiteSpace: \"nowrap\"'>8%</span>. When the wearer's current CRIT Rate reaches <span style='whiteSpace: \"nowrap\"'>50%</span> or higher, the DMG dealt by the wearer's Ultimate and follow-up attack increases by <span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
+    Description2pc: Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate reaches 50% or higher, the DMG dealt by the wearer's Ultimate and follow-up attack increases by 15%.
   "307":
     Name: "Talia: Kingdom of Banditry"
-    Description2pc: "<span>Increases the wearer's Break Effect by <span style='whiteSpace: \"nowrap\"'>16%</span>. When the wearer's SPD reaches <span style='whiteSpace: \"nowrap\"'>145</span> or higher, the wearer's Break Effect increases by an extra <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+    Description2pc: Increases the wearer's Break Effect by 16%. When the wearer's SPD reaches 145 or higher, the wearer's Break Effect increases by an extra 20%.
   "308":
     Name: Sprightly Vonwacq
-    Description2pc: "<span>Increases the wearer's Energy Regeneration Rate by <span style='whiteSpace: \"nowrap\"'>5%</span>. When the wearer's SPD reaches <span style='whiteSpace: \"nowrap\"'>120</span> or higher, the wearer's action is Advanced Forward by <span style='whiteSpace: \"nowrap\"'>40%</span> immediately upon entering battle.</span>"
+    Description2pc: Increases the wearer's Energy Regeneration Rate by 5%. When the wearer's SPD reaches 120 or higher, the wearer's action is Advanced Forward by 40% immediately upon entering battle.
   "309":
     Name: Rutilant Arena
-    Description2pc: "<span>Increases the wearer's CRIT Rate by <span style='whiteSpace: \"nowrap\"'>8%</span>. When the wearer's current CRIT Rate reaches <span style='whiteSpace: \"nowrap\"'>70%</span> or higher, DMG dealt by Basic ATK and Skill increases by <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+    Description2pc: Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate reaches 70% or higher, DMG dealt by Basic ATK and Skill increases by 20%.
   "310":
     Name: Broken Keel
-    Description2pc: "<span>Increases the wearer's Effect RES by <span style='whiteSpace: \"nowrap\"'>10%</span>. When the wearer's Effect RES is at <span style='whiteSpace: \"nowrap\"'>30%</span> or higher, all allies' CRIT DMG increases by <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description2pc: Increases the wearer's Effect RES by 10%. When the wearer's Effect RES is at 30% or higher, all allies' CRIT DMG increases by 10%.
   "311":
     Name: "Firmament Frontline: Glamoth"
-    Description2pc: "<span>Increases the wearer's ATK by <span style='whiteSpace: \"nowrap\"'>12%</span>. When the wearer's SPD is equal to or higher than <span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span>, the wearer deals <span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span> more DMG.</span>"
+    Description2pc: Increases the wearer's ATK by 12%. When the wearer's SPD is equal to or higher than 135/160, the wearer deals 12%/18% more DMG.
   "312":
     Name: Penacony, Land of the Dreams
-    Description2pc: "<span>Increases wearer's Energy Regeneration Rate by <span style='whiteSpace: \"nowrap\"'>5%</span>. Increases DMG by <span style='whiteSpace: \"nowrap\"'>10%</span> for all other allies that are of the same Type as the wearer.</span>"
+    Description2pc: Increases wearer's Energy Regeneration Rate by 5%. Increases DMG by 10% for all other allies that are of the same Type as the wearer.
   "313":
     Name: Sigonia, the Unclaimed Desolation
-    Description2pc: "<span>Increases the wearer's CRIT Rate by <span style='whiteSpace: \"nowrap\"'>4%</span>. When an enemy target gets defeated, the wearer's CRIT DMG increases by <span style='whiteSpace: \"nowrap\"'>4%</span>, stacking up to <span style='whiteSpace: \"nowrap\"'>10</span> time(s).</span>"
+    Description2pc: Increases the wearer's CRIT Rate by 4%. When an enemy target gets defeated, the wearer's CRIT DMG increases by 4%, stacking up to 10 time(s).
   "314":
     Name: Izumo Gensei and Takama Divine Realm
-    Description2pc: "<span>Increases the wearer's ATK by <span style='whiteSpace: \"nowrap\"'>12%</span>. When entering battle, if at least one teammate follows the same Path as the wearer, then the wearer's CRIT Rate increases by <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description2pc: Increases the wearer's ATK by 12%. When entering battle, if at least one teammate follows the same Path as the wearer, then the wearer's CRIT Rate increases by 12%.
   "315":
     Name: Duran, Dynasty of Running Wolves
-    Description2pc: "<span>When an ally uses a follow-up attack, the wearer gains 1 stack of Merit, stacking up to <span style='whiteSpace: \"nowrap\"'>5</span> time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <span style='whiteSpace: \"nowrap\"'>5%</span>. When there are <span style='whiteSpace: \"nowrap\"'>5</span> stacks, additionally increases the wearer's CRIT DMG by <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: When an ally uses a follow-up attack, the wearer gains 1 stack of Merit, stacking up to 5 time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%.
   "316":
     Name: Forge of the Kalpagni Lantern
-    Description2pc: "<span>Increases the wearer's SPD by <span style='whiteSpace: \"nowrap\"'>6%</span>. When the wearer hits an enemy target that has Fire Weakness, the wearer's Break Effect increases by <span style='whiteSpace: \"nowrap\"'>40%</span>, lasting for <span style='whiteSpace: \"nowrap\"'>1</span> turn(s).</span>"
+    Description2pc: Increases the wearer's SPD by 6%. When the wearer hits an enemy target that has Fire Weakness, the wearer's Break Effect increases by 40%, lasting for 1 turn(s).
   "317":
     Name: Lushaka, the Sunken Seas
-    Description2pc: "<span>Increases the wearer's Energy Regeneration Rate by <span style='whiteSpace: \"nowrap\"'>5%</span>. If the wearer is not the first character in the team lineup, then increases the ATK of the first character in the team lineup by <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description2pc: Increases the wearer's Energy Regeneration Rate by 5%. If the wearer is not the first character in the team lineup, then increases the ATK of the first character in the team lineup by 12%.
   "318":
     Name: The Wondrous BananAmusement Park
-    Description2pc: "<span>Increases the wearer's CRIT DMG by <span style='whiteSpace: \"nowrap\"'>16%</span>. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by <span style='whiteSpace: \"nowrap\"'>32%</span>.</span>"
+    Description2pc: Increases the wearer's CRIT DMG by 16%. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by 32%.
 Lightcones:
   "20000":
     Name: Arrows
@@ -491,10 +491,8 @@ Lightcones:
     Name: "Ninjutsu Inscription: Dazzling Evilbreaker"
   "23034":
     Name: A Grounded Ascent
-    SkillName: Departing Anew
   "23035":
     Name: Long Road Leads Home
-    SkillName: Rebirth
   "24000":
     Name: On the Fall of an Aeon
   "24001":

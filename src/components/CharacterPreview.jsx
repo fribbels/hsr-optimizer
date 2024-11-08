@@ -566,7 +566,6 @@ export function CharacterPreview(props) {
               >
                 <div
                   style={{
-                    position: 'relative',
                     zIndex: 1,
                   }}
                 >

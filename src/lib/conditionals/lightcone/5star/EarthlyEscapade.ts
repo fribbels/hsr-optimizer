@@ -16,7 +16,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   }
 
   const teammateDefaults = {
-    maskActive: false,
+    maskActive: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {

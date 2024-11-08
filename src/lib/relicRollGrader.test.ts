@@ -1,10 +1,9 @@
-import { expect, test } from 'vitest'
-
 import { Constants } from 'lib/constants'
-import { RelicRollGrader } from 'lib/relicRollGrader'
-import DB from 'lib/db'
-import { Relic } from 'types/Relic'
 import { DataParser } from 'lib/dataParser'
+import DB from 'lib/db'
+import { RelicRollGrader } from 'lib/relicRollGrader'
+import { Relic } from 'types/Relic'
+import { expect, test } from 'vitest'
 
 DataParser.parse()
 
@@ -73,10 +72,11 @@ test('Test the substat values', () => {
         },
       },
     ],
+    weightScore: 0,
     id: 'dc5ff7ac-f38b-4404-b261-9fdbb1db9173',
     equippedBy: character,
   }
-  // tests relicrollgrader
+
   RelicRollGrader.calculateRelicSubstatRolls(relic)
 
   expect(relic.substats[0].rolls).toEqual({ high: 2, mid: 0, low: 0 })
@@ -119,8 +119,9 @@ test('Test when the value is not an exact addition from constants', () => {
       { stat: 'Effect Hit Rate', value: 10, rolls: { high: 0, mid: 0, low: 0 } }],
     id: 'dc5ff7ac-f38b-4404-b261-9fdbb1db9173',
     equippedBy: character,
+    weightScore: 0,
   }
   RelicRollGrader.calculateRelicSubstatRolls(relic)
-  // this is the outcome because it only calculates to closest value
+  // this is the outcome because it only calculates to the closest value
   expect(relic.substats[0].addedRolls).toEqual(1)
 })

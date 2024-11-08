@@ -1,5 +1,6 @@
+import { baseComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
-import { Key } from 'lib/optimizer/computedStatsArray'
+import { Key, KeysType } from 'lib/optimizer/computedStatsArray'
 import { OptimizerAction } from 'types/Optimizer'
 
 export function injectPrecomputedStatsContext(action: OptimizerAction, gpuParams: GpuConstants) {
@@ -7,140 +8,13 @@ export function injectPrecomputedStatsContext(action: OptimizerAction, gpuParams
   const a = x.a
   a[Key.EHP] = 0
 
-  const computedStatsWgsl = `
-      ${a[Key.HP_P]},${gpuParams.DEBUG ? ' // Stats.HP_P' : ''}
-      ${a[Key.ATK_P]},${gpuParams.DEBUG ? ' // Stats.ATK_P' : ''}
-      ${a[Key.DEF_P]},${gpuParams.DEBUG ? ' // Stats.DEF_P' : ''}
-      ${a[Key.SPD_P]},${gpuParams.DEBUG ? ' // Stats.SPD_P' : ''}
-      ${a[Key.HP]},${gpuParams.DEBUG ? ' // Stats.HP' : ''}
-      ${a[Key.ATK]},${gpuParams.DEBUG ? ' // Stats.ATK' : ''}
-      ${a[Key.DEF]},${gpuParams.DEBUG ? ' // Stats.DEF' : ''}
-      ${a[Key.SPD]},${gpuParams.DEBUG ? ' // Stats.SPD' : ''}
-      ${a[Key.CR]},${gpuParams.DEBUG ? ' // Stats.CR' : ''}
-      ${a[Key.CD]},${gpuParams.DEBUG ? ' // Stats.CD' : ''}
-      ${a[Key.EHR]},${gpuParams.DEBUG ? ' // Stats.EHR' : ''}
-      ${a[Key.RES]},${gpuParams.DEBUG ? ' // Stats.RES' : ''}
-      ${a[Key.BE]},${gpuParams.DEBUG ? ' // Stats.BE' : ''}
-      ${a[Key.ERR]},${gpuParams.DEBUG ? ' // Stats.ERR' : ''}
-      ${a[Key.OHB]},${gpuParams.DEBUG ? ' // Stats.OHB' : ''}
-      ${a[Key.PHYSICAL_DMG_BOOST]},${gpuParams.DEBUG ? ' // Stats.Physical_DMG' : ''}
-      ${a[Key.FIRE_DMG_BOOST]},${gpuParams.DEBUG ? ' // Stats.Fire_DMG' : ''}
-      ${a[Key.ICE_DMG_BOOST]},${gpuParams.DEBUG ? ' // Stats.Ice_DMG' : ''}
-      ${a[Key.LIGHTNING_DMG_BOOST]},${gpuParams.DEBUG ? ' // Stats.Lightning_DMG' : ''}
-      ${a[Key.WIND_DMG_BOOST]},${gpuParams.DEBUG ? ' // Stats.Wind_DMG' : ''}
-      ${a[Key.QUANTUM_DMG_BOOST]},${gpuParams.DEBUG ? ' // Stats.Quantum_DMG' : ''}
-      ${a[Key.IMAGINARY_DMG_BOOST]},${gpuParams.DEBUG ? ' // Stats.Imaginary_DMG' : ''}
-      ${a[Key.ELEMENTAL_DMG]},${gpuParams.DEBUG ? ' // ELEMENTAL_DMG' : ''}
-      ${a[Key.BASIC_SCALING]},${gpuParams.DEBUG ? ' // BASIC_SCALING' : ''}
-      ${a[Key.SKILL_SCALING]},${gpuParams.DEBUG ? ' // SKILL_SCALING' : ''}
-      ${a[Key.ULT_SCALING]},${gpuParams.DEBUG ? ' // ULT_SCALING' : ''}
-      ${a[Key.FUA_SCALING]},${gpuParams.DEBUG ? ' // FUA_SCALING' : ''}
-      ${a[Key.DOT_SCALING]},${gpuParams.DEBUG ? ' // DOT_SCALING' : ''}
-      ${a[Key.BASIC_CR_BOOST]},${gpuParams.DEBUG ? ' // BASIC_CR_BOOST' : ''}
-      ${a[Key.SKILL_CR_BOOST]},${gpuParams.DEBUG ? ' // SKILL_CR_BOOST' : ''}
-      ${a[Key.ULT_CR_BOOST]},${gpuParams.DEBUG ? ' // ULT_CR_BOOST' : ''}
-      ${a[Key.FUA_CR_BOOST]},${gpuParams.DEBUG ? ' // FUA_CR_BOOST' : ''}
-      ${a[Key.BASIC_CD_BOOST]},${gpuParams.DEBUG ? ' // BASIC_CD_BOOST' : ''}
-      ${a[Key.SKILL_CD_BOOST]},${gpuParams.DEBUG ? ' // SKILL_CD_BOOST' : ''}
-      ${a[Key.ULT_CD_BOOST]},${gpuParams.DEBUG ? ' // ULT_CD_BOOST' : ''}
-      ${a[Key.FUA_CD_BOOST]},${gpuParams.DEBUG ? ' // FUA_CD_BOOST' : ''}
-      ${a[Key.BASIC_BOOST]},${gpuParams.DEBUG ? ' // BASIC_BOOST' : ''}
-      ${a[Key.SKILL_BOOST]},${gpuParams.DEBUG ? ' // SKILL_BOOST' : ''}
-      ${a[Key.ULT_BOOST]},${gpuParams.DEBUG ? ' // ULT_BOOST' : ''}
-      ${a[Key.FUA_BOOST]},${gpuParams.DEBUG ? ' // FUA_BOOST' : ''}
-      ${a[Key.DOT_BOOST]},${gpuParams.DEBUG ? ' // DOT_BOOST' : ''}
-      ${a[Key.VULNERABILITY]},${gpuParams.DEBUG ? ' // VULNERABILITY' : ''}
-      ${a[Key.BASIC_VULNERABILITY]},${gpuParams.DEBUG ? ' // BASIC_VULNERABILITY' : ''}
-      ${a[Key.SKILL_VULNERABILITY]},${gpuParams.DEBUG ? ' // SKILL_VULNERABILITY' : ''}
-      ${a[Key.ULT_VULNERABILITY]},${gpuParams.DEBUG ? ' // ULT_VULNERABILITY' : ''}
-      ${a[Key.FUA_VULNERABILITY]},${gpuParams.DEBUG ? ' // FUA_VULNERABILITY' : ''}
-      ${a[Key.DOT_VULNERABILITY]},${gpuParams.DEBUG ? ' // DOT_VULNERABILITY' : ''}
-      ${a[Key.BREAK_VULNERABILITY]},${gpuParams.DEBUG ? ' // BREAK_VULNERABILITY' : ''}
-      ${a[Key.DEF_PEN]},${gpuParams.DEBUG ? ' // DEF_PEN' : ''}
-      ${a[Key.BASIC_DEF_PEN]},${gpuParams.DEBUG ? ' // BASIC_DEF_PEN' : ''}
-      ${a[Key.SKILL_DEF_PEN]},${gpuParams.DEBUG ? ' // SKILL_DEF_PEN' : ''}
-      ${a[Key.ULT_DEF_PEN]},${gpuParams.DEBUG ? ' // ULT_DEF_PEN' : ''}
-      ${a[Key.FUA_DEF_PEN]},${gpuParams.DEBUG ? ' // FUA_DEF_PEN' : ''}
-      ${a[Key.DOT_DEF_PEN]},${gpuParams.DEBUG ? ' // DOT_DEF_PEN' : ''}
-      ${a[Key.BREAK_DEF_PEN]},${gpuParams.DEBUG ? ' // BREAK_DEF_PEN' : ''}
-      ${a[Key.SUPER_BREAK_DEF_PEN]},${gpuParams.DEBUG ? ' // SUPER_BREAK_DEF_PEN' : ''}
-      ${a[Key.RES_PEN]},${gpuParams.DEBUG ? ' // RES_PEN' : ''}
-      ${a[Key.PHYSICAL_RES_PEN]},${gpuParams.DEBUG ? ' // PHYSICAL_RES_PEN' : ''}
-      ${a[Key.FIRE_RES_PEN]},${gpuParams.DEBUG ? ' // FIRE_RES_PEN' : ''}
-      ${a[Key.ICE_RES_PEN]},${gpuParams.DEBUG ? ' // ICE_RES_PEN' : ''}
-      ${a[Key.LIGHTNING_RES_PEN]},${gpuParams.DEBUG ? ' // LIGHTNING_RES_PEN' : ''}
-      ${a[Key.WIND_RES_PEN]},${gpuParams.DEBUG ? ' // WIND_RES_PEN' : ''}
-      ${a[Key.QUANTUM_RES_PEN]},${gpuParams.DEBUG ? ' // QUANTUM_RES_PEN' : ''}
-      ${a[Key.IMAGINARY_RES_PEN]},${gpuParams.DEBUG ? ' // IMAGINARY_RES_PEN' : ''}
-      ${a[Key.BASIC_RES_PEN]},${gpuParams.DEBUG ? ' // BASIC_RES_PEN' : ''}
-      ${a[Key.SKILL_RES_PEN]},${gpuParams.DEBUG ? ' // SKILL_RES_PEN' : ''}
-      ${a[Key.ULT_RES_PEN]},${gpuParams.DEBUG ? ' // ULT_RES_PEN' : ''}
-      ${a[Key.FUA_RES_PEN]},${gpuParams.DEBUG ? ' // FUA_RES_PEN' : ''}
-      ${a[Key.DOT_RES_PEN]},${gpuParams.DEBUG ? ' // DOT_RES_PEN' : ''}
-      ${a[Key.BASIC_DMG]},${gpuParams.DEBUG ? ' // BASIC_DMG' : ''}
-      ${a[Key.SKILL_DMG]},${gpuParams.DEBUG ? ' // SKILL_DMG' : ''}
-      ${a[Key.ULT_DMG]},${gpuParams.DEBUG ? ' // ULT_DMG' : ''}
-      ${a[Key.FUA_DMG]},${gpuParams.DEBUG ? ' // FUA_DMG' : ''}
-      ${a[Key.DOT_DMG]},${gpuParams.DEBUG ? ' // DOT_DMG' : ''}
-      ${a[Key.BREAK_DMG]},${gpuParams.DEBUG ? ' // BREAK_DMG' : ''}
-      ${a[Key.COMBO_DMG]},${gpuParams.DEBUG ? ' // COMBO_DMG' : ''}
-      ${a[Key.DMG_RED_MULTI]},${gpuParams.DEBUG ? ' // DMG_RED_MULTI' : ''}
-      ${a[Key.EHP]},${gpuParams.DEBUG ? ' // EHP' : ''}
-      ${a[Key.DOT_CHANCE]},${gpuParams.DEBUG ? ' // DOT_CHANCE' : ''}
-      ${a[Key.EFFECT_RES_PEN]},${gpuParams.DEBUG ? ' // EFFECT_RES_PEN' : ''}
-      ${a[Key.DOT_SPLIT]},${gpuParams.DEBUG ? ' // DOT_SPLIT' : ''}
-      ${a[Key.DOT_STACKS]},${gpuParams.DEBUG ? ' // DOT_STACKS' : ''}
-      ${a[Key.SUMMONS]},${gpuParams.DEBUG ? ' // SUMMONS' : ''}
-      ${a[Key.ENEMY_WEAKNESS_BROKEN]},${gpuParams.DEBUG ? ' // ENEMY_WEAKNESS_BROKEN' : ''}
-      ${a[Key.SUPER_BREAK_MODIFIER]},${gpuParams.DEBUG ? ' // SUPER_BREAK_MODIFIER' : ''}
-      ${a[Key.BASIC_SUPER_BREAK_MODIFIER]},${gpuParams.DEBUG ? ' // BASIC_SUPER_BREAK_MODIFIER' : ''}
-      ${a[Key.SUPER_BREAK_HMC_MODIFIER]},${gpuParams.DEBUG ? ' // SUPER_BREAK_HMC_MODIFIER' : ''}
-      ${a[Key.BASIC_TOUGHNESS_DMG]},${gpuParams.DEBUG ? ' // BASIC_TOUGHNESS_DMG' : ''}
-      ${a[Key.SKILL_TOUGHNESS_DMG]},${gpuParams.DEBUG ? ' // SKILL_TOUGHNESS_DMG' : ''}
-      ${a[Key.ULT_TOUGHNESS_DMG]},${gpuParams.DEBUG ? ' // ULT_TOUGHNESS_DMG' : ''}
-      ${a[Key.FUA_TOUGHNESS_DMG]},${gpuParams.DEBUG ? ' // FUA_TOUGHNESS_DMG' : ''}
-      ${a[Key.BASIC_ORIGINAL_DMG_BOOST]},${gpuParams.DEBUG ? ' // BASIC_ORIGINAL_DMG_BOOST' : ''}
-      ${a[Key.SKILL_ORIGINAL_DMG_BOOST]},${gpuParams.DEBUG ? ' // SKILL_ORIGINAL_DMG_BOOST' : ''}
-      ${a[Key.ULT_ORIGINAL_DMG_BOOST]},${gpuParams.DEBUG ? ' // ULT_ORIGINAL_DMG_BOOST' : ''}
-      ${a[Key.BASIC_BREAK_DMG_MODIFIER]},${gpuParams.DEBUG ? ' // BASIC_BREAK_DMG_MODIFIER' : ''}
-      ${a[Key.ULT_ADDITIONAL_DMG_CR_OVERRIDE]},${gpuParams.DEBUG ? ' // ULT_ADDITIONAL_DMG_CR_OVERRIDE' : ''}
-      ${a[Key.ULT_ADDITIONAL_DMG_CD_OVERRIDE]},${gpuParams.DEBUG ? ' // ULT_ADDITIONAL_DMG_CD_OVERRIDE' : ''}
-      ${a[Key.SKILL_OHB]},${gpuParams.DEBUG ? ' // HEAL_FLAT' : ''}
-      ${a[Key.ULT_OHB]},${gpuParams.DEBUG ? ' // HEAL_SCALING' : ''}
-      ${a[Key.HEAL_TYPE]},${gpuParams.DEBUG ? ' // HEAL_VALUE' : ''}
-      ${a[Key.HEAL_FLAT]},${gpuParams.DEBUG ? ' // SHIELD_FLAT' : ''}
-      ${a[Key.HEAL_SCALING]},${gpuParams.DEBUG ? ' // SHIELD_SCALING' : ''}
-      ${a[Key.HEAL_VALUE]},${gpuParams.DEBUG ? ' // SHIELD_VALUE' : ''}
-      ${a[Key.SHIELD_FLAT]},${gpuParams.DEBUG ? ' // SHIELD_FLAT' : ''}
-      ${a[Key.SHIELD_SCALING]},${gpuParams.DEBUG ? ' // SHIELD_SCALING' : ''}
-      ${a[Key.SHIELD_VALUE]},${gpuParams.DEBUG ? ' // SHIELD_VALUE' : ''}
-      ${a[Key.BASIC_ADDITIONAL_DMG_SCALING]},${gpuParams.DEBUG ? ' // BASIC_ADDITIONAL_DMG_SCALING' : ''}
-      ${a[Key.SKILL_ADDITIONAL_DMG_SCALING]},${gpuParams.DEBUG ? ' // SKILL_ADDITIONAL_DMG_SCALING' : ''}
-      ${a[Key.ULT_ADDITIONAL_DMG_SCALING]},${gpuParams.DEBUG ? ' // ULT_ADDITIONAL_DMG_SCALING' : ''}
-      ${a[Key.FUA_ADDITIONAL_DMG_SCALING]},${gpuParams.DEBUG ? ' // FUA_ADDITIONAL_DMG_SCALING' : ''}
-      ${a[Key.BASIC_ADDITIONAL_DMG]},${gpuParams.DEBUG ? ' // BASIC_ADDITIONAL_DMG' : ''}
-      ${a[Key.SKILL_ADDITIONAL_DMG]},${gpuParams.DEBUG ? ' // SKILL_ADDITIONAL_DMG' : ''}
-      ${a[Key.ULT_ADDITIONAL_DMG]},${gpuParams.DEBUG ? ' // ULT_ADDITIONAL_DMG' : ''}
-      ${a[Key.FUA_ADDITIONAL_DMG]},${gpuParams.DEBUG ? ' // FUA_ADDITIONAL_DMG' : ''}
-      ${a[Key.RATIO_BASED_HP_BUFF]},${gpuParams.DEBUG ? ' // RATIO_BASED_HP_BUFF' : ''}
-      ${a[Key.RATIO_BASED_HP_P_BUFF]},${gpuParams.DEBUG ? ' // RATIO_BASED_HP_P_BUFF' : ''}
-      ${a[Key.RATIO_BASED_ATK_BUFF]},${gpuParams.DEBUG ? ' // RATIO_BASED_ATK_BUFF' : ''}
-      ${a[Key.RATIO_BASED_ATK_P_BUFF]},${gpuParams.DEBUG ? ' // RATIO_BASED_ATK_P_BUFF' : ''}
-      ${a[Key.RATIO_BASED_DEF_BUFF]},${gpuParams.DEBUG ? ' // RATIO_BASED_DEF_BUFF' : ''}
-      ${a[Key.RATIO_BASED_DEF_P_BUFF]},${gpuParams.DEBUG ? ' // RATIO_BASED_DEF_P_BUFF' : ''}
-      ${a[Key.RATIO_BASED_SPD_BUFF]},${gpuParams.DEBUG ? ' // RATIO_BASED_SPD_BUFF' : ''}
-      ${a[Key.RATIO_BASED_CD_BUFF]},${gpuParams.DEBUG ? ' // RATIO_BASED_CD_BUFF' : ''}
-      ${a[Key.BREAK_EFFICIENCY_BOOST]},${gpuParams.DEBUG ? ' // BREAK_EFFICIENCY_BOOST' : ''}
-      ${a[Key.BASIC_BREAK_EFFICIENCY_BOOST]},${gpuParams.DEBUG ? ' // BASIC_BREAK_EFFICIENCY_BOOST' : ''}
-      ${a[Key.ULT_BREAK_EFFICIENCY_BOOST]},${gpuParams.DEBUG ? ' // ULT_BREAK_EFFICIENCY_BOOST' : ''}
-      ${a[Key.BASIC_DMG_TYPE]},${gpuParams.DEBUG ? ' // BASIC_DMG_TYPE' : ''}
-      ${a[Key.SKILL_DMG_TYPE]},${gpuParams.DEBUG ? ' // SKILL_DMG_TYPE' : ''}
-      ${a[Key.ULT_DMG_TYPE]},${gpuParams.DEBUG ? ' // ULT_DMG_TYPE' : ''}
-      ${a[Key.FUA_DMG_TYPE]},${gpuParams.DEBUG ? ' // FUA_DMG_TYPE' : ''}
-      ${a[Key.DOT_DMG_TYPE]},${gpuParams.DEBUG ? ' // DOT_DMG_TYPE' : ''}
-      ${a[Key.BREAK_DMG_TYPE]},${gpuParams.DEBUG ? ' // BREAK_DMG_TYPE' : ''}
-      ${a[Key.SUPER_BREAK_DMG_TYPE]},${gpuParams.DEBUG ? ' // SUPER_BREAK_DMG_TYPE' : ''}
-      Sets(),`
+  const computedStatsWgsl = Object.keys(baseComputedStatsObject)
+    .map((key) => {
+      const value = a[Key[key as KeysType]]
+      const comment = gpuParams.DEBUG ? ` // Stats.${key}` : ''
+      return `${value},${comment}`
+    })
+    .join('\n') + '\nSets(),'
 
   return computedStatsWgsl
 }

@@ -1,10 +1,10 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, SetsOrnaments, SetsRelics } from 'lib/constants'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import { debugWebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { ComputedStatsObjectExternal } from 'lib/optimizer/computedStatsArray'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { Form } from 'types/Form'
@@ -35,7 +35,7 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
   const arrayBuffer = gpuReadBuffer.getMappedRange()
   const array = new Float32Array(arrayBuffer)
 
-  const gpuComputedStats: ComputedStatsObject = debugWebgpuComputedStats(array)
+  const gpuComputedStats: ComputedStatsObjectExternal = debugWebgpuComputedStats(array)
   // @ts-ignore
   const cpuComputedStats = calculateBuild(request, {
     Head: relics.Head[0],
@@ -44,7 +44,7 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
     Feet: relics.Feet[0],
     PlanarSphere: relics.PlanarSphere[0],
     LinkRope: relics.LinkRope[0],
-  }).computedStatsObject as ComputedStatsObject
+  }).computedStatsObject as ComputedStatsObjectExternal
 
   const deltas = deltaComputedStats(cpuComputedStats, gpuComputedStats)
 
@@ -69,19 +69,19 @@ export type StatDeltas = {
 
 export type StatDelta = {
   key: string
-  cpu: number
-  gpu: number
+  cpu: string
+  gpu: string
   deltaValue: number
   deltaString: string
   precision: number
   pass: boolean
 }
 
-function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject): StatDeltaAnalysis {
+function deltaComputedStats(cpu: ComputedStatsObjectExternal, gpu: ComputedStatsObjectExternal): StatDeltaAnalysis {
   const statDeltas: StatDeltas = {}
   let allPass = true
 
-  function analyze(stat: string, precision: number) {
+  function analyze(stat: keyof ComputedStatsObjectExternal, precision: number) {
     const delta = cpu[stat] - gpu[stat]
     const pass = Math.abs(delta) <= precision
     if (!pass) {
@@ -145,6 +145,7 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
   analyze('ULT_BOOST', P_2)
   analyze('FUA_BOOST', P_2)
   analyze('DOT_BOOST', P_2)
+  analyze('BREAK_BOOST', P_2)
   analyze('VULNERABILITY', P_2)
   analyze('BASIC_VULNERABILITY', P_2)
   analyze('SKILL_VULNERABILITY', P_2)
@@ -254,12 +255,12 @@ export function testWrapper(name: string, request: Form, relics: RelicsByPart, d
     relics: relics,
     done: false,
   }
-  test.execute = () => {
+  test.execute = async () => {
     const promise = runTestRequest(request, relics, device)
-    void promise.then((result) => {
-      test.done = true
-      test.result = result
-    })
+
+    const result = await promise
+    test.done = true
+    test.result = result
 
     return promise
   }

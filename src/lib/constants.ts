@@ -382,7 +382,7 @@ export const PartsToReadable = {
   [Parts.Feet]: 'Feet',
   [Parts.PlanarSphere]: 'Sphere',
   [Parts.LinkRope]: 'Rope',
-}
+} as const
 export type PartsToReadable = typeof PartsToReadable[keyof typeof PartsToReadable]
 
 export const PartsMainStats = {
@@ -417,7 +417,7 @@ export const SetsRelics = {
   TheWindSoaringValorous: 'The Wind-Soaring Valorous',
   SacerdosRelivedOrdeal: "Sacerdos' Relived Ordeal",
   ScholarLostInErudition: 'Scholar Lost in Erudition',
-}
+} as const
 
 export const SetsOrnaments = {
   SpaceSealingStation: 'Space Sealing Station',
@@ -438,7 +438,7 @@ export const SetsOrnaments = {
   ForgeOfTheKalpagniLantern: 'Forge of the Kalpagni Lantern',
   LushakaTheSunkenSeas: 'Lushaka, the Sunken Seas',
   TheWondrousBananAmusementPark: 'The Wondrous BananAmusement Park',
-}
+} as const
 
 // Delete unreleased data
 export const officialOnly = false
@@ -459,14 +459,14 @@ if (officialOnly) {
   // Delete unreleased characters
   for (const character of Object.values(characters)) {
     if (character.unreleased) {
-      delete characters[character.id]
+      delete characters[character.id as keyof typeof characters]
     }
   }
 
   // Delete unreleased light cones
   for (const lightCone of Object.values(lightCones)) {
     if (lightCone.unreleased) {
-      delete lightCones[lightCone.id]
+      delete lightCones[lightCone.id as keyof typeof lightCones]
     }
   }
 }

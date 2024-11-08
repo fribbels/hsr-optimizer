@@ -2,6 +2,7 @@
 import { writeFile } from "fs"
 //@ts-ignore
 import { readFile } from "fs/promises"
+//@ts-ignore
 import yaml from "js-yaml"
 import { TsUtils } from '../../src/lib/TsUtils'
 import { betaInformation } from "./betaInformation"
@@ -104,7 +105,12 @@ const overrides: Record<InputLocale, { key: string; value: string }[]> = {
       value: 'Imbibitor Lunae',
     }
   ],
-  fr: [],
+  fr: [
+    {
+      key: 'Characters.1213.Name',
+      value: 'Imbibitor Lunae',
+    }
+  ],
   id: [],
   ja: [],
   ko: [],
@@ -122,10 +128,9 @@ const overrides: Record<InputLocale, { key: string; value: string }[]> = {
 
 function formattingFixer(string: string) {
   if (!string) return ''
-  string = string.replace(/<color=#([a-f]|[0-9]){8}>/g, "</span><span style='color:#f29e38ff'>").replace(/<\/color>/g, '</span><span>')
-  string = string.replace(/<unbreak>/g, "<span style='whiteSpace: \"nowrap\"'>").replace(/<\/unbreak>/g, '</span>')
-  string = string.replace(/\\n/g, '<br>')
-  return `<span>${string}</span>`
+  string = string.replace(/<color=#([a-f]|[0-9]){8}>/g, "").replace(/<\/color>/g, '')
+  string = string.replace(/<unbreak>/g, '').replace(/<\/unbreak>/g, '')
+  return string
 }
 
 function replaceParameters(string: string, parameters: number[]) {
@@ -188,7 +193,7 @@ async function generateTranslations() {
       }
     })(locale)
 
-    const setEffects = {}
+    const setEffects: Record<number, {effect2pc: string, effect4pc?: string}> = {}
     for (const effect of relicEffectConfig) {
       if (!setEffects[effect.SetID]) {
         setEffects[effect.SetID] = {
@@ -197,23 +202,17 @@ async function generateTranslations() {
         }
       }
       if (effect.RequireNum === 2) {
-        setEffects[effect.SetID].effect2pc = {
-          description: translateKey(effect.SkillDesc, textmap),
-          values: effect.AbilityParamList.map((x) => x.Value),
-        }
-        setEffects[effect.SetID].effect2pc.description = replaceParameters(setEffects[effect.SetID].effect2pc.description, setEffects[effect.SetID].effect2pc.values)
-        setEffects[effect.SetID].effect2pc = formattingFixer(setEffects[effect.SetID].effect2pc.description)
+        setEffects[effect.SetID].effect2pc = formattingFixer(
+          replaceParameters(translateKey(effect.SkillDesc, textmap), effect.AbilityParamList.map((x) => x.Value))
+        )
       } else {
-        setEffects[effect.SetID].effect4pc = {
-          description: translateKey(effect.SkillDesc, textmap),
-          values: effect.AbilityParamList.map((x) => x.Value),
-        }
-        setEffects[effect.SetID].effect4pc.description = replaceParameters(setEffects[effect.SetID].effect4pc.description, setEffects[effect.SetID].effect4pc.values)
-        setEffects[effect.SetID].effect4pc = formattingFixer(setEffects[effect.SetID].effect4pc.description)
+        setEffects[effect.SetID].effect4pc = formattingFixer(
+          replaceParameters(translateKey(effect.SkillDesc, textmap), effect.AbilityParamList.map((x) => x.Value))
+        )
       }
     }
 
-    const output = { Characters: {}, RelicSets: {}, Lightcones: {}, Paths: {}, Elements: {} }
+    const output: Output = { Characters: {}, RelicSets: {}, Lightcones: {}, Paths: {}, Elements: {} }
 
     for (const avatar of AvatarConfig) {
       output.Characters[avatar.AvatarID] = {
@@ -281,7 +280,7 @@ async function generateTranslations() {
   }
 }
 
-function applyOverrides(output: object, locale: string) {
+function applyOverrides(output: object, locale: InputLocale) {
   if (!overrides[locale]) return
   for (const override of overrides[locale]) {
     const path = (override.key).split('.')
@@ -289,8 +288,10 @@ function applyOverrides(output: object, locale: string) {
     while (++index < path.length) {
       let key = path[index]
       if (index != path.length - 1) {
+        // @ts-ignore
         target = target[key]
       } else {
+        // @ts-ignore
         target[key] = override.value
       }
     }
@@ -318,12 +319,18 @@ function translateKey(key: string, textmap: TextMap) {
   return translateHash(getHash(key), textmap)
 }
 
-type TextMap = { [key: number]: string }
+type TextMap = Record<number, string>
 
 type Lightcone = {
   Name: string
-  // EquipmentDesc: string
-  // SkillName: string
+}
+
+type Output = {
+  Characters: Record<number, {Name: string}>,
+  RelicSets: Record<number, {Name: string, Description2pc: string, Description4pc?: string}>,
+  Lightcones: Record<number, {Name: string}>
+  Paths: Record<string, string>
+  Elements: Record<string, string>
 }
 
 await generateTranslations()

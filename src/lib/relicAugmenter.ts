@@ -1,7 +1,7 @@
-import { Constants } from 'lib/constants'
+import { Constants, Stats } from 'lib/constants'
 import { RelicRollFixer } from 'lib/relicRollFixer'
-import { Utils } from 'lib/utils'
 import { RelicRollGrader } from 'lib/relicRollGrader'
+import { Utils } from 'lib/utils'
 import { Relic } from 'types/Relic'
 
 export type AugmentedStats = {
@@ -52,19 +52,19 @@ export const RelicAugmenter = {
   },
 }
 
-const substatToOrder = {
-  [Constants.Stats.HP]: 0,
-  [Constants.Stats.ATK]: 1,
-  [Constants.Stats.DEF]: 2,
-  [Constants.Stats.HP_P]: 3,
-  [Constants.Stats.ATK_P]: 4,
-  [Constants.Stats.DEF_P]: 5,
-  [Constants.Stats.SPD]: 6,
-  [Constants.Stats.CR]: 7,
-  [Constants.Stats.CD]: 8,
-  [Constants.Stats.EHR]: 9,
-  [Constants.Stats.RES]: 10,
-  [Constants.Stats.BE]: 11,
+const substatToOrder: Record<string, number> = {
+  [Stats.HP]: 0,
+  [Stats.ATK]: 1,
+  [Stats.DEF]: 2,
+  [Stats.HP_P]: 3,
+  [Stats.ATK_P]: 4,
+  [Stats.DEF_P]: 5,
+  [Stats.SPD]: 6,
+  [Stats.CR]: 7,
+  [Stats.CD]: 8,
+  [Stats.EHR]: 9,
+  [Stats.RES]: 10,
+  [Stats.BE]: 11,
 }
 
 // Relic substats are always sorted in the predefined order above when the user logs out.

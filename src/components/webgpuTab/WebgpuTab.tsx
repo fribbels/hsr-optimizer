@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import { CheckCircleFilled, CloseCircleFilled, QuestionOutlined } from '@ant-design/icons'
 import { Button, Collapse, Flex, Table, TableProps } from 'antd'
 import { AppPages } from 'lib/db'
-import { CheckCircleFilled, CloseCircleFilled, QuestionOutlined } from '@ant-design/icons'
 import { generateAllTests, WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import { StatDelta, StatDeltas } from 'lib/gpu/tests/webgpuTestUtils'
+import React, { useState } from 'react'
 
 export default function WebgpuTab(): React.JSX.Element {
   const activeKey = window.store((s) => s.activeKey)
@@ -175,7 +175,7 @@ function TestIcon(props: { test: WebgpuTest }) {
   )
 }
 
-function RenderText(props: { text: any }) {
+function RenderText(props: { text: string }) {
   return (
     <div style={{ margin: '0', fontFamily: 'Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif' }}>
       {props.text}

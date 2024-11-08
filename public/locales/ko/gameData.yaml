@@ -128,146 +128,146 @@ Characters:
 RelicSets:
   "101":
     Name: "흔적을\_남기지\_않은\_과객"
-    Description2pc: "<span>치유량\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가</span>"
-    Description4pc: "<span>전투\_시작\_시\_즉시\_아군의\_전투\_스킬\_포인트를\_1pt\_회복한다</span>"
+    Description2pc: "치유량\_10%\_증가"
+    Description4pc: "전투\_시작\_시\_즉시\_아군의\_전투\_스킬\_포인트를\_1pt\_회복한다"
   "102":
     Name: "들이삭과\_동행하는\_거너"
-    Description2pc: "<span>공격력\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터의\_속도가\_<span style='whiteSpace: \"nowrap\"'>6%</span>\_증가한다.\_일반\_공격이\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가한다</span>"
+    Description2pc: "공격력\_12%\_증가"
+    Description4pc: "장착한\_캐릭터의\_속도가\_6%\_증가한다.\_일반\_공격이\_가하는\_피해가\_10%\_증가한다"
   "103":
     Name: "정토\_교황의\_팔라딘"
-    Description2pc: "<span>방어력\_<span style='whiteSpace: \"nowrap\"'>15%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터가\_제공하는\_실드량이\_<span style='whiteSpace: \"nowrap\"'>20%</span>\_증가한다</span>"
+    Description2pc: "방어력\_15%\_증가"
+    Description4pc: "장착한\_캐릭터가\_제공하는\_실드량이\_20%\_증가한다"
   "104":
     Name: "혹한\_밀림의\_사냥꾼"
-    Description2pc: "<span>얼음\_속성\_피해\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터는\_필살기\_발동\_시\_치명타\_피해가\_<span style='whiteSpace: \"nowrap\"'>25%</span>\_증가한다.\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>2</span>턴</span>"
+    Description2pc: "얼음\_속성\_피해\_10%\_증가"
+    Description4pc: "장착한\_캐릭터는\_필살기\_발동\_시\_치명타\_피해가\_25%\_증가한다.\_지속\_시간:\_2턴"
   "105":
     Name: "스트리트\_격투왕"
-    Description2pc: "<span>물리\_속성\_피해\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터는\_공격\_발동\_혹은\_피격\_후\_해당\_전투에서\_공격력이\_<span style='whiteSpace: \"nowrap\"'>5%</span>\_증가한다.\_최대\_중첩수:\_<span style='whiteSpace: \"nowrap\"'>5</span>스택</span>"
+    Description2pc: "물리\_속성\_피해\_10%\_증가"
+    Description4pc: "장착한\_캐릭터는\_공격\_발동\_혹은\_피격\_후\_해당\_전투에서\_공격력이\_5%\_증가한다.\_최대\_중첩수:\_5스택"
   "106":
     Name: "눈보라에\_맞서는\_철위대"
-    Description2pc: "<span>받는\_피해\_<span style='whiteSpace: \"nowrap\"'>8%</span>\_감소</span>"
-    Description4pc: "<span>턴\_시작\_시\_장착한\_캐릭터의\_현재\_HP\_백분율이\_<span style='whiteSpace: \"nowrap\"'>50%</span>\_이하일\_경우,\_자신\_HP\_최대치\_<span style='whiteSpace: \"nowrap\"'>8%</span>만큼의\_HP를\_회복하고\_에너지를\_<span style='whiteSpace: \"nowrap\"'>5</span>pt\_회복한다</span>"
+    Description2pc: "받는\_피해\_8%\_감소"
+    Description4pc: "턴\_시작\_시\_장착한\_캐릭터의\_현재\_HP\_백분율이\_50%\_이하일\_경우,\_자신\_HP\_최대치\_8%만큼의\_HP를\_회복하고\_에너지를\_5pt\_회복한다"
   "107":
     Name: "용암\_단조의\_화장(火匠)"
-    Description2pc: "<span>화염\_속성\_피해\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터의\_전투\_스킬이\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가하고,\_필살기\_발동\_후\_다음번\_공격이\_가하는\_화염\_속성\_피해가\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다</span>"
+    Description2pc: "화염\_속성\_피해\_10%\_증가"
+    Description4pc: "장착한\_캐릭터의\_전투\_스킬이\_가하는\_피해가\_12%\_증가하고,\_필살기\_발동\_후\_다음번\_공격이\_가하는\_화염\_속성\_피해가\_12%\_증가한다"
   "108":
     Name: "별처럼\_빛나는\_천재"
-    Description2pc: "<span>양자\_속성\_피해\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터는\_적에게\_피해를\_줄\_때\_<span style='whiteSpace: \"nowrap\"'>10%</span>의\_방어력을\_무시한다.\_목표가\_양자\_속성\_약점을\_보유할\_경우,\_추가로\_<span style='whiteSpace: \"nowrap\"'>10%</span>의\_방어력을\_무시한다</span>"
+    Description2pc: "양자\_속성\_피해\_10%\_증가"
+    Description4pc: "장착한\_캐릭터는\_적에게\_피해를\_줄\_때\_10%의\_방어력을\_무시한다.\_목표가\_양자\_속성\_약점을\_보유할\_경우,\_추가로\_10%의\_방어력을\_무시한다"
   "109":
     Name: "뇌전을\_울리는\_밴드"
-    Description2pc: "<span>번개\_속성\_피해\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터는\_전투\_스킬\_발동\_시\_공격력이\_<span style='whiteSpace: \"nowrap\"'>20%</span>\_증가한다.\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>1</span>턴</span>"
+    Description2pc: "번개\_속성\_피해\_10%\_증가"
+    Description4pc: "장착한\_캐릭터는\_전투\_스킬\_발동\_시\_공격력이\_20%\_증가한다.\_지속\_시간:\_1턴"
   "110":
     Name: "밤낮의\_경계를\_나는\_매"
-    Description2pc: "<span>바람\_속성\_피해\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터는\_필살기\_발동\_후\_행동\_게이지가\_<span style='whiteSpace: \"nowrap\"'>25%</span>\_증가한다</span>"
+    Description2pc: "바람\_속성\_피해\_10%\_증가"
+    Description4pc: "장착한\_캐릭터는\_필살기\_발동\_후\_행동\_게이지가\_25%\_증가한다"
   "111":
     Name: "유성을\_쫓는\_괴도"
-    Description2pc: "<span>격파\_특수효과\_<span style='whiteSpace: \"nowrap\"'>16%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터의\_격파\_특수효과가\_<span style='whiteSpace: \"nowrap\"'>16%</span>\_증가한다.\_장착한\_캐릭터는\_적의\_약점을\_격파한\_후\_에너지를\_<span style='whiteSpace: \"nowrap\"'>3</span>pt\_회복한다</span>"
+    Description2pc: "격파\_특수효과\_16%\_증가"
+    Description4pc: "장착한\_캐릭터의\_격파\_특수효과가\_16%\_증가한다.\_장착한\_캐릭터는\_적의\_약점을\_격파한\_후\_에너지를\_3pt\_회복한다"
   "112":
     Name: "황무지의\_도적,\_황야인"
-    Description2pc: "<span>허수\_속성\_피해\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터가\_디버프\_효과에\_빠진\_적에게\_피해를\_가할\_시\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가한다.\_속박\_상태에\_빠진\_적에게\_피해를\_가할\_시\_치명타\_피해가\_<span style='whiteSpace: \"nowrap\"'>20%</span>\_증가한다</span>"
+    Description2pc: "허수\_속성\_피해\_10%\_증가"
+    Description4pc: "장착한\_캐릭터가\_디버프\_효과에\_빠진\_적에게\_피해를\_가할\_시\_치명타\_확률이\_10%\_증가한다.\_속박\_상태에\_빠진\_적에게\_피해를\_가할\_시\_치명타\_피해가\_20%\_증가한다"
   "113":
     Name: "장수를\_원하는\_제자"
-    Description2pc: "<span>HP\_최대치\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터가\_피격되거나\_아군에\_의해\_HP가\_소모되면\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>8%</span>\_증가한다.\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>2</span>턴.\_해당\_효과\_최대\_중첩수:\_<span style='whiteSpace: \"nowrap\"'>2</span>스택</span>"
+    Description2pc: "HP\_최대치\_12%\_증가"
+    Description4pc: "장착한\_캐릭터가\_피격되거나\_아군에\_의해\_HP가\_소모되면\_치명타\_확률이\_8%\_증가한다.\_지속\_시간:\_2턴.\_해당\_효과\_최대\_중첩수:\_2스택"
   "114":
     Name: "가상공간을\_누비는\_메신저"
-    Description2pc: "<span>속도\_<span style='whiteSpace: \"nowrap\"'>6%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터가\_아군에게\_필살기\_발동\_시\_모든\_아군의\_속도가\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다.\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>1</span>턴.\_해당\_효과는\_중첩되지\_않는다</span>"
+    Description2pc: "속도\_6%\_증가"
+    Description4pc: "장착한\_캐릭터가\_아군에게\_필살기\_발동\_시\_모든\_아군의\_속도가\_12%\_증가한다.\_지속\_시간:\_1턴.\_해당\_효과는\_중첩되지\_않는다"
   "115":
     Name: "재와\_뼈마저\_불사르는\_대공"
-    Description2pc: "<span>추가\_공격으로\_가하는\_피해\_<span style='whiteSpace: \"nowrap\"'>20%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터가\_추가\_공격을\_가할\_시,\_추가\_공격이\_가한\_피해\_횟수에\_따라\_피해를\_가할\_때마다\_장착한\_캐릭터의\_공격력이\_<span style='whiteSpace: \"nowrap\"'>6%</span>\_증가한다.\_최대\_중첩수:\_<span style='whiteSpace: \"nowrap\"'>8</span>회.\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>3</span>턴.\_해당\_효과는\_장착한\_캐릭터가\_다음\_추가\_공격\_발동\_시\_해제된다</span>"
+    Description2pc: "추가\_공격으로\_가하는\_피해\_20%\_증가"
+    Description4pc: "장착한\_캐릭터가\_추가\_공격을\_가할\_시,\_추가\_공격이\_가한\_피해\_횟수에\_따라\_피해를\_가할\_때마다\_장착한\_캐릭터의\_공격력이\_6%\_증가한다.\_최대\_중첩수:\_8회.\_지속\_시간:\_3턴.\_해당\_효과는\_장착한\_캐릭터가\_다음\_추가\_공격\_발동\_시\_해제된다"
   "116":
     Name: "깊은\_감옥에\_수감된\_죄수"
-    Description2pc: "<span>공격력\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터가\_적에게\_피해를\_가할\_시\_적이\_받는\_지속\_피해\_효과\_1개마다\_대상의\_방어력을\_<span style='whiteSpace: \"nowrap\"'>6%</span>\_무시한다.\_지속\_피해\_효과는\_최대\_<span style='whiteSpace: \"nowrap\"'>3</span>개까지\_계산한다</span>"
+    Description2pc: "공격력\_12%\_증가"
+    Description4pc: "장착한\_캐릭터가\_적에게\_피해를\_가할\_시\_적이\_받는\_지속\_피해\_효과\_1개마다\_대상의\_방어력을\_6%\_무시한다.\_지속\_피해\_효과는\_최대\_3개까지\_계산한다"
   "117":
     Name: "사수에\_잠수한\_선구자"
-    Description2pc: "<span>디버프\_상태의\_영향을\_받은\_적에게\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다</span>"
-    Description4pc: "<span>치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>4%</span>\_증가하고\_장착한\_캐릭터가\_<span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span>개\_이상의\_디버프\_효과에\_빠진\_적에게\_가하는\_치명타\_피해가\_<span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다.\_장착한\_캐릭터가\_적에게\_디버프\_효과\_부여\_시\_상기\_효과가\_<span style='whiteSpace: \"nowrap\"'>100%</span>\_증가한다,\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>1</span>턴</span>"
+    Description2pc: "디버프\_상태의\_영향을\_받은\_적에게\_가하는\_피해가\_12%\_증가한다"
+    Description4pc: "치명타\_확률이\_4%\_증가하고\_장착한\_캐릭터가\_2/3개\_이상의\_디버프\_효과에\_빠진\_적에게\_가하는\_치명타\_피해가\_8%/12%\_증가한다.\_장착한\_캐릭터가\_적에게\_디버프\_효과\_부여\_시\_상기\_효과가\_100%\_증가한다,\_지속\_시간:\_1턴"
   "118":
     Name: "꿈을\_조작하는\_시계공"
-    Description2pc: "<span>격파\_특수효과\_<span style='whiteSpace: \"nowrap\"'>16%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터가\_아군에게\_필살기\_발동\_시,\_모든\_아군의\_격파\_특수효과가\_<span style='whiteSpace: \"nowrap\"'>30%</span>\_증가한다.\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>2</span>턴.\_해당\_효과는\_중첩할\_수\_없다</span>"
+    Description2pc: "격파\_특수효과\_16%\_증가"
+    Description4pc: "장착한\_캐릭터가\_아군에게\_필살기\_발동\_시,\_모든\_아군의\_격파\_특수효과가\_30%\_증가한다.\_지속\_시간:\_2턴.\_해당\_효과는\_중첩할\_수\_없다"
   "119":
     Name: "곤충\_재앙을\_잠재우는\_철기군"
-    Description2pc: "<span>격파\_특수효과\_<span style='whiteSpace: \"nowrap\"'>16%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터의\_격파\_특수효과가\_<span style='whiteSpace: \"nowrap\"'>150%</span>\_이상이면\_적에게\_가하는\_격파\_피해가\_해당\_적의\_방어력을\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_무시한다.\_장착한\_캐릭터의\_격파\_특수효과가\_<span style='whiteSpace: \"nowrap\"'>250%</span>\_이상이면\_적에게\_가하는\_슈퍼\_격파\_피해가\_적의\_방어력을\_<span style='whiteSpace: \"nowrap\"'>15%</span>\_추가로\_무시한다</span>"
+    Description2pc: "격파\_특수효과\_16%\_증가"
+    Description4pc: "장착한\_캐릭터의\_격파\_특수효과가\_150%\_이상이면\_적에게\_가하는\_격파\_피해가\_해당\_적의\_방어력을\_10%\_무시한다.\_장착한\_캐릭터의\_격파\_특수효과가\_250%\_이상이면\_적에게\_가하는\_슈퍼\_격파\_피해가\_적의\_방어력을\_15%\_추가로\_무시한다"
   "120":
     Name: "바람과\_구름을\_가르는\_용맹함"
-    Description2pc: "<span>공격력\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터의\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>6%</span>\_증가하고,\_장착한\_캐릭터가\_추가\_공격\_발동\_시\_필살기가\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>36%</span>\_증가한다.\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>1</span>턴</span>"
+    Description2pc: "공격력\_12%\_증가"
+    Description4pc: "장착한\_캐릭터의\_치명타\_확률이\_6%\_증가하고,\_장착한\_캐릭터가\_추가\_공격\_발동\_시\_필살기가\_가하는\_피해가\_36%\_증가한다.\_지속\_시간:\_1턴"
   "121":
     Name: "고행의\_길에\_다시\_오른\_사제"
-    Description2pc: "<span>속도\_<span style='whiteSpace: \"nowrap\"'>6%</span>\_증가</span>"
-    Description4pc: "<span>단일\_아군에게\_전투\_스킬\_또는\_필살기\_발동\_시,\_스킬\_목표의\_치명타\_피해를\_<span style='whiteSpace: \"nowrap\"'>18%</span>\_증가시킨다,\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>2</span>턴,\_해당\_효과\_최대\_중첩수:\_<span style='whiteSpace: \"nowrap\"'>2</span>회</span>"
+    Description2pc: "속도\_6%\_증가"
+    Description4pc: "단일\_아군에게\_전투\_스킬\_또는\_필살기\_발동\_시,\_스킬\_목표의\_치명타\_피해를\_18%\_증가시킨다,\_지속\_시간:\_2턴,\_해당\_효과\_최대\_중첩수:\_2회"
   "122":
     Name: "지식의\_바다에\_빠진\_학자"
-    Description2pc: "<span>치명타\_확률\_<span style='whiteSpace: \"nowrap\"'>8%</span>\_증가</span>"
-    Description4pc: "<span>전투\_스킬과\_필살기로\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>20%</span>\_증가한다.\_필살기\_발동\_후,\_다음번\_전투\_스킬\_발동\_시\_가하는\_피해가\_추가로\_<span style='whiteSpace: \"nowrap\"'>25%</span>\_증가한다</span>"
+    Description2pc: "치명타\_확률\_8%\_증가"
+    Description4pc: "전투\_스킬과\_필살기로\_가하는\_피해가\_20%\_증가한다.\_필살기\_발동\_후,\_다음번\_전투\_스킬\_발동\_시\_가하는\_피해가\_추가로\_25%\_증가한다"
   "301":
     Name: "우주\_봉인\_정거장"
-    Description2pc: "<span>장착한\_캐릭터의\_공격력이\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다.\_장착한\_캐릭터의\_속도가\_<span style='whiteSpace: \"nowrap\"'>120</span>\_이상일\_경우\_공격력이\_추가로\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_공격력이\_12%\_증가한다.\_장착한\_캐릭터의\_속도가\_120\_이상일\_경우\_공격력이\_추가로\_12%\_증가한다"
   "302":
     Name: "불로인의\_선주"
-    Description2pc: "<span>장착한\_캐릭터의\_HP\_최대치가\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다.\_장착한\_캐릭터의\_속도가\_<span style='whiteSpace: \"nowrap\"'>120</span>\_이상일\_경우\_모든\_아군의\_공격력이\_<span style='whiteSpace: \"nowrap\"'>8%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_HP\_최대치가\_12%\_증가한다.\_장착한\_캐릭터의\_속도가\_120\_이상일\_경우\_모든\_아군의\_공격력이\_8%\_증가한다"
   "303":
     Name: "범은하\_상사"
-    Description2pc: "<span>장착한\_캐릭터의\_효과\_명중이\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가한다.\_동시에\_장착한\_캐릭터의\_현재\_효과\_명중\_<span style='whiteSpace: \"nowrap\"'>25%</span>만큼의\_공격력이\_증가하며\_최대\_<span style='whiteSpace: \"nowrap\"'>25%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_효과\_명중이\_10%\_증가한다.\_동시에\_장착한\_캐릭터의\_현재\_효과\_명중\_25%만큼의\_공격력이\_증가하며\_최대\_25%\_증가한다"
   "304":
     Name: "축성가의\_벨로보그"
-    Description2pc: "<span>장착한\_캐릭터의\_방어력이\_<span style='whiteSpace: \"nowrap\"'>15%</span>\_증가한다.\_장착한\_캐릭터의\_효과\_명중이\_<span style='whiteSpace: \"nowrap\"'>50%</span>\_이상일\_경우\_방어력이\_추가로\_<span style='whiteSpace: \"nowrap\"'>15%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_방어력이\_15%\_증가한다.\_장착한\_캐릭터의\_효과\_명중이\_50%\_이상일\_경우\_방어력이\_추가로\_15%\_증가한다"
   "305":
     Name: "천체\_차분기관"
-    Description2pc: "<span>장착한\_캐릭터의\_치명타\_피해가\_<span style='whiteSpace: \"nowrap\"'>16%</span>\_증가한다.\_장착한\_캐릭터의\_치명타\_피해가\_<span style='whiteSpace: \"nowrap\"'>120%</span>\_이상일\_경우,\_전투\_진입\_후\_장착한\_캐릭터의\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>60%</span>\_증가한다.\_첫\_공격\_발동\_후까지\_지속하고\_종료된다</span>"
+    Description2pc: "장착한\_캐릭터의\_치명타\_피해가\_16%\_증가한다.\_장착한\_캐릭터의\_치명타\_피해가\_120%\_이상일\_경우,\_전투\_진입\_후\_장착한\_캐릭터의\_치명타\_확률이\_60%\_증가한다.\_첫\_공격\_발동\_후까지\_지속하고\_종료된다"
   "306":
     Name: "회전을\_멈춘\_살소토"
-    Description2pc: "<span>장착한\_캐릭터의\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>8%</span>\_증가한다.\_장착한\_캐릭터의\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>50%</span>\_이상일\_경우,\_필살기와\_추가\_공격이\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>15%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_치명타\_확률이\_8%\_증가한다.\_장착한\_캐릭터의\_치명타\_확률이\_50%\_이상일\_경우,\_필살기와\_추가\_공격이\_가하는\_피해가\_15%\_증가한다"
   "307":
     Name: "도적국\_탈리아"
-    Description2pc: "<span>장착한\_캐릭터의\_격파\_특수효과가\_<span style='whiteSpace: \"nowrap\"'>16%</span>\_증가한다.\_장착한\_캐릭터의\_속도가\_<span style='whiteSpace: \"nowrap\"'>145</span>\_이상일\_경우\_격파\_특수효과가\_추가로\_<span style='whiteSpace: \"nowrap\"'>20%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_격파\_특수효과가\_16%\_증가한다.\_장착한\_캐릭터의\_속도가\_145\_이상일\_경우\_격파\_특수효과가\_추가로\_20%\_증가한다"
   "308":
     Name: "생명의\_바커\_공"
-    Description2pc: "<span>장착한\_캐릭터의\_에너지\_회복효율이\_<span style='whiteSpace: \"nowrap\"'>5%</span>\_증가한다.\_장착한\_캐릭터의\_속도가\_<span style='whiteSpace: \"nowrap\"'>120</span>\_이상일\_경우\_전투\_진입\_시\_즉시\_행동\_게이지가\_<span style='whiteSpace: \"nowrap\"'>40%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_에너지\_회복효율이\_5%\_증가한다.\_장착한\_캐릭터의\_속도가\_120\_이상일\_경우\_전투\_진입\_시\_즉시\_행동\_게이지가\_40%\_증가한다"
   "309":
     Name: "뭇별\_경기장"
-    Description2pc: "<span>장착한\_캐릭터의\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>8%</span>\_증가한다.\_장착한\_캐릭터의\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>70%</span>\_이상일\_경우,\_일반\_공격과\_전투\_스킬이\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>20%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_치명타\_확률이\_8%\_증가한다.\_장착한\_캐릭터의\_치명타\_확률이\_70%\_이상일\_경우,\_일반\_공격과\_전투\_스킬이\_가하는\_피해가\_20%\_증가한다"
   "310":
     Name: "부러진\_용골"
-    Description2pc: "<span>장착한\_캐릭터의\_효과\_저항이\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가한다.\_장착한\_캐릭터의\_효과\_저항이\_<span style='whiteSpace: \"nowrap\"'>30%</span>\_이상일\_경우\_모든\_아군의\_치명타\_피해가\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_효과\_저항이\_10%\_증가한다.\_장착한\_캐릭터의\_효과\_저항이\_30%\_이상일\_경우\_모든\_아군의\_치명타\_피해가\_10%\_증가한다"
   "311":
     Name: "창공\_전선\_그라모스"
-    Description2pc: "<span>장착한\_캐릭터의\_공격력이\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다.\_장착한\_캐릭터의\_속도가\_<span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span>\_이상일\_경우,\_장착한\_캐릭터가\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_공격력이\_12%\_증가한다.\_장착한\_캐릭터의\_속도가\_135/160\_이상일\_경우,\_장착한\_캐릭터가\_가하는\_피해가\_12%/18%\_증가한다"
   "312":
     Name: "꿈의\_땅\_페나코니"
-    Description2pc: "<span>장착한\_캐릭터의\_에너지\_회복효율이\_<span style='whiteSpace: \"nowrap\"'>5%</span>\_증가한다.\_장착한\_캐릭터와\_같은\_속성의\_파티\_내\_다른\_아군\_캐릭터가\_주는\_피해가\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_에너지\_회복효율이\_5%\_증가한다.\_장착한\_캐릭터와\_같은\_속성의\_파티\_내\_다른\_아군\_캐릭터가\_주는\_피해가\_10%\_증가한다"
   "313":
     Name: "주인\_없는\_황폐한\_별\_츠가냐"
-    Description2pc: "<span>장착한\_캐릭터의\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>4%</span>\_증가한다.\_적이\_처치될\_시\_장착한\_캐릭터의\_치명타\_피해가\_<span style='whiteSpace: \"nowrap\"'>4%</span>\_증가한다.\_최대\_중첩수:\_<span style='whiteSpace: \"nowrap\"'>10</span></span>"
+    Description2pc: "장착한\_캐릭터의\_치명타\_확률이\_4%\_증가한다.\_적이\_처치될\_시\_장착한\_캐릭터의\_치명타\_피해가\_4%\_증가한다.\_최대\_중첩수:\_10"
   "314":
     Name: "이즈모\_현세와\_타카마\_신국"
-    Description2pc: "<span>장착한\_캐릭터의\_공격력이\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다.\_전투\_진입\_시\_장착한\_캐릭터와\_운명의\_길이\_같은\_동료가\_최소\_1명\_존재할\_경우,\_장착한\_캐릭터의\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_공격력이\_12%\_증가한다.\_전투\_진입\_시\_장착한\_캐릭터와\_운명의\_길이\_같은\_동료가\_최소\_1명\_존재할\_경우,\_장착한\_캐릭터의\_치명타\_확률이\_12%\_증가한다"
   "315":
     Name: "질주하는\_늑대의\_도람\_왕조"
-    Description2pc: "<span>아군\_캐릭터가\_추가\_공격을\_발동하면\_장착한\_캐릭터는\_[공훈]을\_1스택\_획득한다,\_최대\_중첩수:\_<span style='whiteSpace: \"nowrap\"'>5</span>스택.\_[공훈]\_스택당\_장착한\_캐릭터의\_추가\_공격으로\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>5%</span>\_증가하고,\_<span style='whiteSpace: \"nowrap\"'>5</span>스택까지\_중첩\_시\_장착한\_캐릭터의\_치명타\_피해가\_추가로\_<span style='whiteSpace: \"nowrap\"'>25%</span>\_증가한다</span>"
+    Description2pc: "아군\_캐릭터가\_추가\_공격을\_발동하면\_장착한\_캐릭터는\_[공훈]을\_1스택\_획득한다,\_최대\_중첩수:\_5스택.\_[공훈]\_스택당\_장착한\_캐릭터의\_추가\_공격으로\_가하는\_피해가\_5%\_증가하고,\_5스택까지\_중첩\_시\_장착한\_캐릭터의\_치명타\_피해가\_추가로\_25%\_증가한다"
   "316":
     Name: "겁화\_연등의\_연마궁"
-    Description2pc: "<span>장착한\_캐릭터의\_속도가\_<span style='whiteSpace: \"nowrap\"'>6%</span>\_증가한다.\_장착한\_캐릭터가\_화염\_속성\_약점을\_보유한\_적을\_명중하면\_격파\_특수효과가\_<span style='whiteSpace: \"nowrap\"'>40%</span>\_증가한다,\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>1</span>턴</span>"
+    Description2pc: "장착한\_캐릭터의\_속도가\_6%\_증가한다.\_장착한\_캐릭터가\_화염\_속성\_약점을\_보유한\_적을\_명중하면\_격파\_특수효과가\_40%\_증가한다,\_지속\_시간:\_1턴"
   "317":
     Name: "바다에\_잠긴\_루샤카"
-    Description2pc: "<span>장착한\_캐릭터의\_에너지\_회복효율이\_<span style='whiteSpace: \"nowrap\"'>5%</span>\_증가한다.\_장착한\_캐릭터가\_파티\_편성의\_첫\_번째\_캐릭터가\_아닐\_경우,\_파티\_편성의\_첫\_번째\_캐릭터의\_공격력이\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_에너지\_회복효율이\_5%\_증가한다.\_장착한\_캐릭터가\_파티\_편성의\_첫\_번째\_캐릭터가\_아닐\_경우,\_파티\_편성의\_첫\_번째\_캐릭터의\_공격력이\_12%\_증가한다"
   "318":
     Name: "기묘한\_나나\_낙원"
-    Description2pc: "<span>장착한\_캐릭터의\_치명타\_피해가\_<span style='whiteSpace: \"nowrap\"'>16%</span>\_증가한다.\_장착한\_캐릭터가\_소환한\_목표가\_있을\_시,\_치명타\_피해가\_추가로\_<span style='whiteSpace: \"nowrap\"'>32%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_치명타\_피해가\_16%\_증가한다.\_장착한\_캐릭터가\_소환한\_목표가\_있을\_시,\_치명타\_피해가\_추가로\_32%\_증가한다"
 Lightcones:
   "20000":
     Name: 화살촉

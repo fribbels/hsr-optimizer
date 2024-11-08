@@ -1,16 +1,16 @@
 import { Button, Flex, Modal, Typography } from 'antd'
-import { ReactElement } from 'react'
-import { Optimizer } from 'lib/optimizer/optimizer'
 import { HorizontalDivider } from 'components/Dividers'
+import { TFunction } from 'i18next'
 import { Parts } from 'lib/constants'
 import DB, { AppPages } from 'lib/db'
 import { Message } from 'lib/message'
+import { Optimizer } from 'lib/optimizer/optimizer'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Utils } from 'lib/utils'
-import { Relic } from 'types/Relic'
+import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TFunction } from 'i18next'
 import { Form } from 'types/Form'
+import { Relic } from 'types/Relic'
 
 const { Text } = Typography
 
@@ -326,6 +326,10 @@ enum ZeroResultRootCause {
   MAX_DOT = 'MAX_DOT',
   MIN_BREAK = 'MIN_BREAK',
   MAX_BREAK = 'MAX_BREAK',
+  MIN_HEAL = 'MIN_HEAL',
+  MAX_HEAL = 'MAX_HEAL',
+  MIN_SHIELD = 'MIN_SHIELD',
+  MAX_SHIELD = 'MAX_SHIELD',
   MIN_COMBO = 'MIN_COMBO',
   MAX_COMBO = 'MAX_COMBO',
   STAT_VIEW = 'STAT_VIEW',
@@ -373,6 +377,10 @@ const ZeroResultRootCauseFixes: {
   [ZeroResultRootCause.MIN_DOT]: filterFixes(ZeroResultRootCause.MIN_DOT),
   [ZeroResultRootCause.MAX_BREAK]: filterFixes(ZeroResultRootCause.MAX_BREAK),
   [ZeroResultRootCause.MIN_BREAK]: filterFixes(ZeroResultRootCause.MIN_BREAK),
+  [ZeroResultRootCause.MAX_HEAL]: filterFixes(ZeroResultRootCause.MAX_HEAL),
+  [ZeroResultRootCause.MIN_HEAL]: filterFixes(ZeroResultRootCause.MIN_HEAL),
+  [ZeroResultRootCause.MAX_SHIELD]: filterFixes(ZeroResultRootCause.MAX_SHIELD),
+  [ZeroResultRootCause.MIN_SHIELD]: filterFixes(ZeroResultRootCause.MIN_SHIELD),
   [ZeroResultRootCause.MAX_COMBO]: filterFixes(ZeroResultRootCause.MAX_COMBO),
   [ZeroResultRootCause.MIN_COMBO]: filterFixes(ZeroResultRootCause.MIN_COMBO),
   [ZeroResultRootCause.STAT_VIEW]: {
@@ -440,6 +448,10 @@ export function activateZeroResultSuggestionsModal(request: Form) {
   if (request.maxDot < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_DOT)
   if (request.minBreak) rootCauses.push(ZeroResultRootCause.MIN_BREAK)
   if (request.maxBreak < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_BREAK)
+  if (request.minHeal) rootCauses.push(ZeroResultRootCause.MIN_HEAL)
+  if (request.maxHeal < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_HEAL)
+  if (request.minShield) rootCauses.push(ZeroResultRootCause.MIN_SHIELD)
+  if (request.maxShield < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_SHIELD)
 
   window.store.getState().setZeroResultModalOpen(true)
 }

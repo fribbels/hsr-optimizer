@@ -128,146 +128,146 @@ Characters:
 RelicSets:
   "101":
     Name: Wanderer der vorbeiziehenden Wolke
-    Description2pc: "<span>Erhöht bewirkte Heilung um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: <span>Stellt zu Kampfbeginn sofort 1 Fertigkeitspunkt wieder her.</span>
+    Description2pc: Erhöht bewirkte Heilung um 10%.
+    Description4pc: Stellt zu Kampfbeginn sofort 1 Fertigkeitspunkt wieder her.
   "102":
     Name: Musketierin des wilden Weizens
-    Description2pc: "<span>Erhöht ANG um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Erhöht die GES des Trägers um <span style='whiteSpace: \"nowrap\"'>6%</span> und den durch Standardangriffe verursachten SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description2pc: Erhöht ANG um 12%.
+    Description4pc: Erhöht die GES des Trägers um 6% und den durch Standardangriffe verursachten SCH um 10%.
   "103":
     Name: Ritterin vom Palast der Reinheit
-    Description2pc: "<span>Erhöht VTD um <span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
-    Description4pc: "<span>Erhöht die vom Träger gewährte Schildmenge um <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+    Description2pc: Erhöht VTD um 15%.
+    Description4pc: Erhöht die vom Träger gewährte Schildmenge um 20%.
   "104":
     Name: Jäger aus dem Gletscherwald
-    Description2pc: "<span>Erhöht Eis-SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Erhöht beim Einsatz des Ultimates den KRIT-SCH des Trägers für <span style='whiteSpace: \"nowrap\"'>2</span>\_Rd. um <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Erhöht Eis-SCH um 10%.
+    Description4pc: "Erhöht beim Einsatz des Ultimates den KRIT-SCH des Trägers für 2\_Rd. um 25%."
   "105":
     Name: Champion des Straßenboxens
-    Description2pc: "<span>Erhöht physischen SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Wenn der Träger einen Angriff ausführt oder getroffen wird, wird sein ANG im aktuellen Kampf um <span style='whiteSpace: \"nowrap\"'>5%</span> erhöht. Dieser Effekt ist bis zu <span style='whiteSpace: \"nowrap\"'>5</span>-fach stapelbar.</span>"
+    Description2pc: Erhöht physischen SCH um 10%.
+    Description4pc: Wenn der Träger einen Angriff ausführt oder getroffen wird, wird sein ANG im aktuellen Kampf um 5% erhöht. Dieser Effekt ist bis zu 5-fach stapelbar.
   "106":
     Name: Wachen des stürmischen Schnees
-    Description2pc: "<span>Verringert erlittenen SCH um <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
-    Description4pc: "<span>Liegt der LP-Prozentsatz des Trägers zu Beginn seiner Runde bei <span style='whiteSpace: \"nowrap\"'>50%</span> oder niedriger, werden LP in Höhe von <span style='whiteSpace: \"nowrap\"'>8%</span> seiner max. LP und <span style='whiteSpace: \"nowrap\"'>5</span> Pkt. Energie wiederhergestellt.</span>"
+    Description2pc: Verringert erlittenen SCH um 8%.
+    Description4pc: Liegt der LP-Prozentsatz des Trägers zu Beginn seiner Runde bei 50% oder niedriger, werden LP in Höhe von 8% seiner max. LP und 5 Pkt. Energie wiederhergestellt.
   "107":
     Name: Feuerschmied der Lavaglut
-    Description2pc: "<span>Erhöht Feuer-SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Erhöht den durch Fertigkeiten verursachten SCH des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span>. Erhöht nach dem Einsatz des Ultimates den verursachten Feuer-SCH durch den nächsten Angriff um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description2pc: Erhöht Feuer-SCH um 10%.
+    Description4pc: Erhöht den durch Fertigkeiten verursachten SCH des Trägers um 12%. Erhöht nach dem Einsatz des Ultimates den verursachten Feuer-SCH durch den nächsten Angriff um 12%.
   "108":
     Name: Genie der strahlenden Sterne
-    Description2pc: "<span>Erhöht Quanten-SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Wenn der Träger einem Gegner SCH zufügt, ignoriert er <span style='whiteSpace: \"nowrap\"'>10%</span> der VTD des Gegners. Wenn das Ziel Quanten-Schwäche hat, ignoriert der Träger zusätzlich <span style='whiteSpace: \"nowrap\"'>10%</span> der VTD des Gegners.</span>"
+    Description2pc: Erhöht Quanten-SCH um 10%.
+    Description4pc: Wenn der Träger einem Gegner SCH zufügt, ignoriert er 10% der VTD des Gegners. Wenn das Ziel Quanten-Schwäche hat, ignoriert der Träger zusätzlich 10% der VTD des Gegners.
   "109":
     Name: Band des knisternden Donners
-    Description2pc: "<span>Erhöht Blitz-SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Erhöht beim Einsatz der Fertigkeit den ANG des Trägers für <span style='whiteSpace: \"nowrap\"'>1</span>\_Rd. um <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+    Description2pc: Erhöht Blitz-SCH um 10%.
+    Description4pc: "Erhöht beim Einsatz der Fertigkeit den ANG des Trägers für 1\_Rd. um 20%."
   "110":
     Name: Adler des Zwielichts
-    Description2pc: "<span>Erhöht Wind-SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Nach dem Einsatz des Ultimates wird die Aktion des Trägers um <span style='whiteSpace: \"nowrap\"'>25%</span> vorgezogen.</span>"
+    Description2pc: Erhöht Wind-SCH um 10%.
+    Description4pc: Nach dem Einsatz des Ultimates wird die Aktion des Trägers um 25% vorgezogen.
   "111":
     Name: Dieb des fallenden Meteors
-    Description2pc: "<span>Erhöht Brucheffekt um <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Erhöht den Brucheffekt des Trägers um <span style='whiteSpace: \"nowrap\"'>16%</span>. Wenn der Träger bei einem Gegner Schwächebruch verursacht, wird <span style='whiteSpace: \"nowrap\"'>3</span> Pkt. Energie wiederhergestellt.</span>"
+    Description2pc: Erhöht Brucheffekt um 16%.
+    Description4pc: Erhöht den Brucheffekt des Trägers um 16%. Wenn der Träger bei einem Gegner Schwächebruch verursacht, wird 3 Pkt. Energie wiederhergestellt.
   "112":
     Name: Ödländer aus der Räuberwüste
-    Description2pc: "<span>Erhöht imaginären SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Wenn der Träger Gegnern mit Debuff SCH zufügt, wird KRIT-Rate um <span style='whiteSpace: \"nowrap\"'>10%</span> erhöht. Wenn der Träger Gegnern im Status Gefangenschaft SCH zufügt, wird KRIT-SCH um <span style='whiteSpace: \"nowrap\"'>20%</span> erhöht.</span>"
+    Description2pc: Erhöht imaginären SCH um 10%.
+    Description4pc: Wenn der Träger Gegnern mit Debuff SCH zufügt, wird KRIT-Rate um 10% erhöht. Wenn der Träger Gegnern im Status Gefangenschaft SCH zufügt, wird KRIT-SCH um 20% erhöht.
   "113":
     Name: Langlebige Jüngerin
-    Description2pc: "<span>Erhöht die max. LP um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Wenn der Träger getroffen wird oder seine LP von einem Verbündeten verbraucht werden, wird seine KRIT-Rate für <span style='whiteSpace: \"nowrap\"'>2</span>\_Rd. um <span style='whiteSpace: \"nowrap\"'>8%</span> erhöht. Dieser Effekt ist bis zu <span style='whiteSpace: \"nowrap\"'>2</span>-fach stapelbar.</span>"
+    Description2pc: Erhöht die max. LP um 12%.
+    Description4pc: "Wenn der Träger getroffen wird oder seine LP von einem Verbündeten verbraucht werden, wird seine KRIT-Rate für 2\_Rd. um 8% erhöht. Dieser Effekt ist bis zu 2-fach stapelbar."
   "114":
     Name: Bote im Hackerspace
-    Description2pc: "<span>Erhöht GES um <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
-    Description4pc: "<span>Wenn der Träger ein Ultimate auf einen Verbündeten anwendet, erhöht sich die GES aller Verbündeten für <span style='whiteSpace: \"nowrap\"'>1</span>\_Rd. um <span style='whiteSpace: \"nowrap\"'>12%</span>. Dieser Effekt ist nicht stapelbar.</span>"
+    Description2pc: Erhöht GES um 6%.
+    Description4pc: "Wenn der Träger ein Ultimate auf einen Verbündeten anwendet, erhöht sich die GES aller Verbündeten für 1\_Rd. um 12%. Dieser Effekt ist nicht stapelbar."
   "115":
     Name: Der eingeäscherte Erzherzog
-    Description2pc: "<span>Erhöht den durch Folgeangriffe verursachte SCH um <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
-    Description4pc: "<span>Wenn der Träger einen Folgeangriff einsetzt, wird sein ANG für jedes Mal, das der Folgeangriff SCH zufügt, um <span style='whiteSpace: \"nowrap\"'>6%</span> erhöht. Dieser Effekt ist bis zu <span style='whiteSpace: \"nowrap\"'>8</span>-mal stapelbar und hält <span style='whiteSpace: \"nowrap\"'>3</span> Rd. an. Das nächste Mal, dass der Träger einen Folgeangriff einsetzt, wird der Effekt entfernt.</span>"
+    Description2pc: Erhöht den durch Folgeangriffe verursachte SCH um 20%.
+    Description4pc: Wenn der Träger einen Folgeangriff einsetzt, wird sein ANG für jedes Mal, das der Folgeangriff SCH zufügt, um 6% erhöht. Dieser Effekt ist bis zu 8-mal stapelbar und hält 3 Rd. an. Das nächste Mal, dass der Träger einen Folgeangriff einsetzt, wird der Effekt entfernt.
   "116":
     Name: Gefangene in tiefem Gewahrsam
-    Description2pc: "<span>Erhöht den ANG um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Für jeden DoT-Effekt, den der Gegner erleidet, ignoriert der Träger <span style='whiteSpace: \"nowrap\"'>6%</span> der VTD dieses Gegners, wenn er diesem SCH zufügt. Bis zu <span style='whiteSpace: \"nowrap\"'>3</span> DoT-Effekte werden gezählt.</span>"
+    Description2pc: Erhöht den ANG um 12%.
+    Description4pc: Für jeden DoT-Effekt, den der Gegner erleidet, ignoriert der Träger 6% der VTD dieses Gegners, wenn er diesem SCH zufügt. Bis zu 3 DoT-Effekte werden gezählt.
   "117":
     Name: Pioniertaucherin toter Gewässer
-    Description2pc: "<span>Erhöht den bei Gegnern mit Debuff verursachten SCH um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Erhöht die KRIT-Rate um <span style='whiteSpace: \"nowrap\"'>4%</span>. Der bei Gegnern mit nicht weniger als <span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span> Debuffs verursachte KRIT-SCH des Trägers wird um jeweils <span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span> erhöht. Nachdem er dem Gegner einen Debuff zugefügt hat, werden diese Effekte für <span style='whiteSpace: \"nowrap\"'>1</span> Rd. um <span style='whiteSpace: \"nowrap\"'>100</span>\_% erhöht.</span>"
+    Description2pc: Erhöht den bei Gegnern mit Debuff verursachten SCH um 12%.
+    Description4pc: "Erhöht die KRIT-Rate um 4%. Der bei Gegnern mit nicht weniger als 2/3 Debuffs verursachte KRIT-SCH des Trägers wird um jeweils 8%/12% erhöht. Nachdem er dem Gegner einen Debuff zugefügt hat, werden diese Effekte für 1 Rd. um 100\_% erhöht."
   "118":
     Name: Uhrmacher der maschinellen Traumspiele
-    Description2pc: "<span>Erhöht Brucheffekt um <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Wenn der Träger seinen Ultimate auf einen Verbündeten anwendet, wird der Brucheffekt aller Verbündeten für <span style='whiteSpace: \"nowrap\"'>2</span> Rd. um <span style='whiteSpace: \"nowrap\"'>30%</span> erhöht. Dieser Effekt ist nicht stapelbar.</span>"
+    Description2pc: Erhöht Brucheffekt um 16%.
+    Description4pc: Wenn der Träger seinen Ultimate auf einen Verbündeten anwendet, wird der Brucheffekt aller Verbündeten für 2 Rd. um 30% erhöht. Dieser Effekt ist nicht stapelbar.
   "119":
     Name: Eiserne Kavallerie gegen die Plage
-    Description2pc: "<span>Erhöht Brucheffekt um <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Wenn der Brucheffekt des Trägers <span style='whiteSpace: \"nowrap\"'>150%</span> oder mehr beträgt, wird beim Verursachen von Bruch-SCH <span style='whiteSpace: \"nowrap\"'>10%</span> der VTD des gegnerischen Ziels ignoriert. Wenn der Brucheffekt des Trägers <span style='whiteSpace: \"nowrap\"'>250%</span> oder mehr beträgt, wird beim Verursachen von Super-Bruch-SCH zusätzlich <span style='whiteSpace: \"nowrap\"'>15%</span> der VTD des gegnerischen Ziels ignoriert.</span>"
+    Description2pc: Erhöht Brucheffekt um 16%.
+    Description4pc: Wenn der Brucheffekt des Trägers 150% oder mehr beträgt, wird beim Verursachen von Bruch-SCH 10% der VTD des gegnerischen Ziels ignoriert. Wenn der Brucheffekt des Trägers 250% oder mehr beträgt, wird beim Verursachen von Super-Bruch-SCH zusätzlich 15% der VTD des gegnerischen Ziels ignoriert.
   "120":
     Name: Tapferer Krieger des Winds
-    Description2pc: "<span>Erhöht den ANG um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Erhöht die KRIT-Rate des Trägers um <span style='whiteSpace: \"nowrap\"'>6%</span>. Wenn der Träger einen Folgeangriff einsetzt, wird der durch Ultimates verursachte SCH für <span style='whiteSpace: \"nowrap\"'>1</span> Rd. um <span style='whiteSpace: \"nowrap\"'>36%</span> erhöht.</span>"
+    Description2pc: Erhöht den ANG um 12%.
+    Description4pc: Erhöht die KRIT-Rate des Trägers um 6%. Wenn der Träger einen Folgeangriff einsetzt, wird der durch Ultimates verursachte SCH für 1 Rd. um 36% erhöht.
   "121":
     Name: Wiedererlebte Tortur des Priesters
-    Description2pc: "<span>Erhöht GES um <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
-    Description4pc: "<span>Wenn eine Fertigkeit oder ein Ultimate auf einen Verbündeten eingesetzt wird, wird der KRIT-SCH des Ziels für <span style='whiteSpace: \"nowrap\"'>2</span> Rd. um <span style='whiteSpace: \"nowrap\"'>18%</span> erhöht. Dieser Effekt ist bis zu <span style='whiteSpace: \"nowrap\"'>2</span>-fach stapelbar.</span>"
+    Description2pc: Erhöht GES um 6%.
+    Description4pc: Wenn eine Fertigkeit oder ein Ultimate auf einen Verbündeten eingesetzt wird, wird der KRIT-SCH des Ziels für 2 Rd. um 18% erhöht. Dieser Effekt ist bis zu 2-fach stapelbar.
   "122":
     Name: Im Wissen verlorene Gelehrte
-    Description2pc: "<span>Erhöht KRIT-Rate um <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
-    Description4pc: "<span>Erhöht den durch Fertigkeiten und Ultimates verursachten SCH um <span style='whiteSpace: \"nowrap\"'>20%</span>. Nach dem Einsatz des Ultimates wird der SCH beim nächsten Einsatz der Fertigkeit zusätzlich um <span style='whiteSpace: \"nowrap\"'>25%</span> erhöht.</span>"
+    Description2pc: Erhöht KRIT-Rate um 8%.
+    Description4pc: Erhöht den durch Fertigkeiten und Ultimates verursachten SCH um 20%. Nach dem Einsatz des Ultimates wird der SCH beim nächsten Einsatz der Fertigkeit zusätzlich um 25% erhöht.
   "301":
     Name: Raumstation für Versiegelung
-    Description2pc: "<span>Erhöht ANG des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span>. Wenn die GES des Trägers <span style='whiteSpace: \"nowrap\"'>120</span> oder höher erreicht, wird sein ANG zusätzlich um <span style='whiteSpace: \"nowrap\"'>12%</span> erhöht.</span>"
+    Description2pc: Erhöht ANG des Trägers um 12%. Wenn die GES des Trägers 120 oder höher erreicht, wird sein ANG zusätzlich um 12% erhöht.
   "302":
     Name: Flotte der Alterslosen
-    Description2pc: "<span>Erhöht die max. LP des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span>. Wenn die GES des Trägers <span style='whiteSpace: \"nowrap\"'>120</span> oder höher erreicht, wird der ANG aller Verbündeten zusätzlich um <span style='whiteSpace: \"nowrap\"'>8%</span> erhöht.</span>"
+    Description2pc: Erhöht die max. LP des Trägers um 12%. Wenn die GES des Trägers 120 oder höher erreicht, wird der ANG aller Verbündeten zusätzlich um 8% erhöht.
   "303":
     Name: Pangalaktische Handelsgesellschaft
-    Description2pc: "<span>Erhöht die Effekt-Trefferrate des Trägers um <span style='whiteSpace: \"nowrap\"'>10%</span>. Erhöht gleichzeitig den ANG des Trägers in Höhe von <span style='whiteSpace: \"nowrap\"'>25%</span> der Effekt-Trefferrate, bis zu einem Höchstwert von <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Erhöht die Effekt-Trefferrate des Trägers um 10%. Erhöht gleichzeitig den ANG des Trägers in Höhe von 25% der Effekt-Trefferrate, bis zu einem Höchstwert von 25%.
   "304":
     Name: Belobog der Architekten
-    Description2pc: "<span>Erhöht die VTD des Trägers um <span style='whiteSpace: \"nowrap\"'>15%</span>. Wenn die Effekt-Trefferrate des Trägers <span style='whiteSpace: \"nowrap\"'>50%</span> oder höher erreicht, wird seine VTD zusätzlich um <span style='whiteSpace: \"nowrap\"'>15%</span> erhöht.</span>"
+    Description2pc: Erhöht die VTD des Trägers um 15%. Wenn die Effekt-Trefferrate des Trägers 50% oder höher erreicht, wird seine VTD zusätzlich um 15% erhöht.
   "305":
     Name: Himmlischer Differenziator
-    Description2pc: "<span>Erhöht den KRIT-SCH des Trägers um <span style='whiteSpace: \"nowrap\"'>16%</span>. Wenn der aktuelle KRIT-SCH des Trägers <span style='whiteSpace: \"nowrap\"'>120%</span> oder höher erreicht, wird die KRIT-Rate nach Kampfeintritt um <span style='whiteSpace: \"nowrap\"'>60%</span> erhöht, bis zum Ende seines ersten Angriffs.</span>"
+    Description2pc: Erhöht den KRIT-SCH des Trägers um 16%. Wenn der aktuelle KRIT-SCH des Trägers 120% oder höher erreicht, wird die KRIT-Rate nach Kampfeintritt um 60% erhöht, bis zum Ende seines ersten Angriffs.
   "306":
     Name: Regloses Salsotto
-    Description2pc: "<span>Erhöht die KRIT-Rate des Trägers um <span style='whiteSpace: \"nowrap\"'>8%</span>. Wenn die aktuelle KRIT-Rate des Trägers <span style='whiteSpace: \"nowrap\"'>50%</span> oder höher erreicht, wird der durch Ultimates und Folgeangriffe verursachte SCH um <span style='whiteSpace: \"nowrap\"'>15%</span> erhöht.</span>"
+    Description2pc: Erhöht die KRIT-Rate des Trägers um 8%. Wenn die aktuelle KRIT-Rate des Trägers 50% oder höher erreicht, wird der durch Ultimates und Folgeangriffe verursachte SCH um 15% erhöht.
   "307":
     Name: Talia – Königreich der Banditen
-    Description2pc: "<span>Erhöht den Brucheffekt des Trägers um <span style='whiteSpace: \"nowrap\"'>16%</span>. Wenn die GES des Trägers <span style='whiteSpace: \"nowrap\"'>145</span> oder höher erreicht, wird der Brucheffekt des Trägers zusätzlich um <span style='whiteSpace: \"nowrap\"'>20%</span> erhöht.</span>"
+    Description2pc: Erhöht den Brucheffekt des Trägers um 16%. Wenn die GES des Trägers 145 oder höher erreicht, wird der Brucheffekt des Trägers zusätzlich um 20% erhöht.
   "308":
     Name: Lebhaftes Vonwacq
-    Description2pc: "<span>Erhöht die Energie-Wiederherstellungsrate des Trägers um <span style='whiteSpace: \"nowrap\"'>5%</span>. Wenn die GES des Trägers <span style='whiteSpace: \"nowrap\"'>120</span> oder höher erreicht, wird seine Aktion beim Kampfeintritt um <span style='whiteSpace: \"nowrap\"'>40%</span> vorgezogen.</span>"
+    Description2pc: Erhöht die Energie-Wiederherstellungsrate des Trägers um 5%. Wenn die GES des Trägers 120 oder höher erreicht, wird seine Aktion beim Kampfeintritt um 40% vorgezogen.
   "309":
     Name: Sternenarena
-    Description2pc: "<span>Erhöht die KRIT-Rate des Trägers um <span style='whiteSpace: \"nowrap\"'>8%</span>. Wenn die aktuelle KRIT-Rate des Trägers einen Wert von <span style='whiteSpace: \"nowrap\"'>70%</span> oder höher erreicht, wird der durch Standardangriffe und Fertigkeiten verursachte SCH um <span style='whiteSpace: \"nowrap\"'>20%</span> erhöht.</span>"
+    Description2pc: Erhöht die KRIT-Rate des Trägers um 8%. Wenn die aktuelle KRIT-Rate des Trägers einen Wert von 70% oder höher erreicht, wird der durch Standardangriffe und Fertigkeiten verursachte SCH um 20% erhöht.
   "310":
     Name: Gebrochener Kiel
-    Description2pc: "<span>Der Effekt-WDS des Trägers wird um <span style='whiteSpace: \"nowrap\"'>10%</span> erhöht. Wenn der Effekt-WDS des Trägers <span style='whiteSpace: \"nowrap\"'>30%</span> oder mehr beträgt, wird der KRIT-SCH aller Verbündeten um <span style='whiteSpace: \"nowrap\"'>10%</span> erhöht.</span>"
+    Description2pc: Der Effekt-WDS des Trägers wird um 10% erhöht. Wenn der Effekt-WDS des Trägers 30% oder mehr beträgt, wird der KRIT-SCH aller Verbündeten um 10% erhöht.
   "311":
     Name: Himmelsfront Glamoth
-    Description2pc: "<span>Erhöht den ANG des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span>. Wenn die GES des Trägers <span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span> oder höher erreicht, wird sein verursachter SCH um <span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span> erhöht.</span>"
+    Description2pc: Erhöht den ANG des Trägers um 12%. Wenn die GES des Trägers 135/160 oder höher erreicht, wird sein verursachter SCH um 12%/18% erhöht.
   "312":
     Name: Penacony, Land der Träume
-    Description2pc: "<span>Erhöht die Energie-Wiederherstellungsrate des Trägers um <span style='whiteSpace: \"nowrap\"'>5%</span>. Erhöht den SCH aller anderen Verbündeten im Team mit dem gleichen Typ wie der Träger um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description2pc: Erhöht die Energie-Wiederherstellungsrate des Trägers um 5%. Erhöht den SCH aller anderen Verbündeten im Team mit dem gleichen Typ wie der Träger um 10%.
   "313":
     Name: Verlassenes Sigonien
-    Description2pc: "<span>Erhöht die KRIT-Rate des Trägers um <span style='whiteSpace: \"nowrap\"'>4%</span>. Wenn Gegner besiegt werden, wird der KRIT-SCH des Trägers bis zu <span style='whiteSpace: \"nowrap\"'>10</span>-mal um <span style='whiteSpace: \"nowrap\"'>4%</span> erhöht.</span>"
+    Description2pc: Erhöht die KRIT-Rate des Trägers um 4%. Wenn Gegner besiegt werden, wird der KRIT-SCH des Trägers bis zu 10-mal um 4% erhöht.
   "314":
     Name: Izumo-Gensei und Takama-Himmelreich
-    Description2pc: "<span>Erhöht den ANG des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span>. Wenn beim Kampfeintritt mindestens ein Verbündeter dem gleichen Pfad wie der Träger folgt, wird die KRIT-Rate des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span> erhöht.</span>"
+    Description2pc: Erhöht den ANG des Trägers um 12%. Wenn beim Kampfeintritt mindestens ein Verbündeter dem gleichen Pfad wie der Träger folgt, wird die KRIT-Rate des Trägers um 12% erhöht.
   "315":
     Name: Duran, Dynastie der rennenden Wölfe
-    Description2pc: "<span>Wenn ein Verbündeter einen Folgeangriff ausführt, erhält der Träger 1 Stapelung „Verdienst“, bis zu <span style='whiteSpace: \"nowrap\"'>5</span> Stapelungen. Jede Stapelung Verdienst erhöht den durch Folgeangriffe verursachten SCH des Trägers um <span style='whiteSpace: \"nowrap\"'>5%</span>. Werden <span style='whiteSpace: \"nowrap\"'>5</span> Stapelungen erreicht, wird der KRIT-SCH des Trägers zusätzlich um <span style='whiteSpace: \"nowrap\"'>25%</span> erhöht.</span>"
+    Description2pc: Wenn ein Verbündeter einen Folgeangriff ausführt, erhält der Träger 1 Stapelung „Verdienst“, bis zu 5 Stapelungen. Jede Stapelung Verdienst erhöht den durch Folgeangriffe verursachten SCH des Trägers um 5%. Werden 5 Stapelungen erreicht, wird der KRIT-SCH des Trägers zusätzlich um 25% erhöht.
   "316":
     Name: Schmiede der Kalpagni-Laterne
-    Description2pc: "<span>Erhöht die GES des Trägers um <span style='whiteSpace: \"nowrap\"'>6%</span>. Trifft der Träger einen Gegner mit Feuer-Schwäche, wird sein Brucheffekt für <span style='whiteSpace: \"nowrap\"'>1</span> Rd. um <span style='whiteSpace: \"nowrap\"'>40%</span> erhöht.</span>"
+    Description2pc: Erhöht die GES des Trägers um 6%. Trifft der Träger einen Gegner mit Feuer-Schwäche, wird sein Brucheffekt für 1 Rd. um 40% erhöht.
   "317":
     Name: Lushaka, die versunkenen See
-    Description2pc: "<span>Erhöht Die Energie-Wiederherstellungsrate des Trägers um <span style='whiteSpace: \"nowrap\"'>5%</span>. Wenn der Träger nicht die erste Figur in der Teamformation ist, wird der ANG der ersten Figur in der Teamformation um <span style='whiteSpace: \"nowrap\"'>12%</span> erhöht.</span>"
+    Description2pc: Erhöht Die Energie-Wiederherstellungsrate des Trägers um 5%. Wenn der Träger nicht die erste Figur in der Teamformation ist, wird der ANG der ersten Figur in der Teamformation um 12% erhöht.
   "318":
     Name: Wunbanana-Park
-    Description2pc: "<span>Erhöht den KRIT-SCH des Trägers um <span style='whiteSpace: \"nowrap\"'>16%</span>. Befindet sich ein vom Träger beschworenes Ziel auf dem Kampffeld, wird der KRIT-SCH zusätzlich um <span style='whiteSpace: \"nowrap\"'>32%</span> erhöht.</span>"
+    Description2pc: Erhöht den KRIT-SCH des Trägers um 16%. Befindet sich ein vom Träger beschworenes Ziel auf dem Kampffeld, wird der KRIT-SCH zusätzlich um 32% erhöht.
 Lightcones:
   "20000":
     Name: Pfeile

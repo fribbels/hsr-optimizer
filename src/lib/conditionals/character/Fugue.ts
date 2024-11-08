@@ -1,6 +1,8 @@
 import i18next from 'i18next'
+import { BREAK_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 
 import { Eidolon } from 'types/Character'
@@ -132,7 +134,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       x.DEF_PEN.buff((m.defReduction) ? skillDefPenValue : 0, Source.NONE)
 
       x.BREAK_EFFICIENCY_BOOST.buff((e >= 1 && m.foxianPrayer) ? 0.50 : 0, Source.NONE)
-      x.BREAK_VULNERABILITY.buff((e >= 4 && m.e4BreakDmg) ? 0.20 : 0, Source.NONE)
+      buffAbilityDmg(x, BREAK_TYPE, (e >= 4 && m.e4BreakDmg) ? 0.20 : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t: Conditionals<typeof teammateContent> = action.characterConditionals

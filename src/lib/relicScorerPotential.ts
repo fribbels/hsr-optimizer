@@ -1,19 +1,10 @@
-import {
-  Constants,
-  MainStats,
-  MainStatsValues,
-  Parts,
-  PartsMainStats,
-  Stats,
-  StatsValues, SubStats,
-  SubStatValues,
-} from 'lib/constants'
+import i18next from 'i18next'
+import { Constants, MainStats, MainStatsValues, Parts, PartsMainStats, Stats, StatsValues, SubStats, SubStatValues } from 'lib/constants'
+import DB from 'lib/db'
+import { TsUtils } from 'lib/TsUtils'
+import { Utils } from 'lib/utils'
 import { Character, CharacterId } from 'types/Character'
 import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/Relic'
-import { Utils } from 'lib/utils'
-import DB from 'lib/db'
-import i18next from 'i18next'
-import { TsUtils } from 'lib/TsUtils'
 import { GUID } from '../types/Common'
 
 enum relicPotentialCases {
@@ -83,7 +74,7 @@ type rating = '?' | 'F' | 'F+' | 'D' | 'D+' | 'C' | 'C+' | 'B' | 'B+' | 'A' | 'A
 
 const ratings: rating[] = ['F', 'F', 'F', 'F+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'SS', 'SS+', 'SSS', 'SSS+', 'WTF', 'WTF+']
 
-const flatStatScaling = { // placeholder values TODO: update these numbers
+const flatStatScaling = { // placeholder values
   HP: 0.4,
   ATK: 0.4,
   DEF: 0.4,
@@ -252,10 +243,14 @@ export class RelicScorer {
       }
       let weightedDmgTypes = 0
       // @ts-ignore
-      Object.keys(scoringMetadata.stats).forEach((stat) => { if (dmgMainstats.includes(stat)) weightedDmgTypes++ })
+      Object.keys(scoringMetadata.stats).forEach((stat) => {
+        if (dmgMainstats.includes(stat)) weightedDmgTypes++
+      })
       let validDmgMains = 0
       // @ts-ignore
-      scoringMetadata.parts.PlanarSphere.forEach((mainstat) => { if (dmgMainstats.includes(mainstat)) validDmgMains++ })
+      scoringMetadata.parts.PlanarSphere.forEach((mainstat) => {
+        if (dmgMainstats.includes(mainstat)) validDmgMains++
+      })
       if (weightedDmgTypes < 2 && validDmgMains < 2) {
         // if they only have 0 / 1 weighted dmg mainstat, we can cheat as their ideal orbs will all score the same
         //

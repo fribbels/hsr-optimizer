@@ -3,7 +3,7 @@ import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulati
 import { DefaultSettingOptions, SettingOptions } from 'components/SettingsDrawer'
 import i18next from 'i18next'
 import { ScoringMetadata, SimulationMetadata } from 'lib/characterScorer'
-import { COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, Sets, SIMULATION_SCORE } from 'lib/constants'
+import { COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, Parts, Sets, SIMULATION_SCORE } from 'lib/constants'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Message } from 'lib/message'
@@ -1005,11 +1005,11 @@ export const DB = {
     // Clean up characters who have relics equipped by someone else, or characters that don't exist ingame yet
     for (const character of DB.getCharacters()) {
       for (const part of Object.keys(character.equipped)) {
-        const relicId = character.equipped[part]
+        const relicId = character.equipped[part as Parts]
         if (relicId) {
           const relic = DB.getRelicById(relicId)
           if (relic.equippedBy != character.id) {
-            character.equipped[part] = undefined
+            character.equipped[part as Parts] = undefined
           }
         }
       }

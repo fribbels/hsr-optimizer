@@ -14,7 +14,7 @@ export function injectPrecomputedStatsContext(action: OptimizerAction, gpuParams
       const comment = gpuParams.DEBUG ? ` // Stats.${key}` : ''
       return `${value},${comment}`
     })
-    .join('\n') + 'Sets(),'
+    .join('\n') + '\nSets(),'
 
   return computedStatsWgsl
 }

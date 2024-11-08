@@ -379,6 +379,8 @@ MinMaxFilters:
   FUALabel: ADS
   DOTLabel: DSD
   BREAKLabel: RUPTURE
+  HEALLabel: SOIN
+  SHIELDLabel: BOUCLIER
   COMBOLabel: COMBO
 ComboFilter:
   Header: Rotation des capacités combo

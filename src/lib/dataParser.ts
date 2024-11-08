@@ -6543,6 +6543,7 @@ function getScoringMetadata() {
           ],
           [Parts.Feet]: [
             Stats.SPD,
+            Stats.ATK_P,
           ],
           [Parts.PlanarSphere]: [
             Stats.ATK_P,
@@ -6566,7 +6567,7 @@ function getScoringMetadata() {
         maxBonusRolls: {},
         comboAbilities: [null, ULT, BASIC, BASIC, BASIC],
         comboDot: 0,
-        comboBreak: 1,
+        comboBreak: 3,
         relicSets: [
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
         ],

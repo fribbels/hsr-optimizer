@@ -69,9 +69,13 @@ function substatRollsModifier(rolls: number, stat: string, relics: { [key: strin
   // Diminishing returns
 
   const mainsCount = Object.values(relics)
-    .filter((x) => x.augmentedStats.mainStat == stat)
+    .filter((x) => x.augmentedStats!.mainStat == stat)
     .length
 
+  return diminishingReturnsFormula(mainsCount, rolls)
+}
+
+export function diminishingReturnsFormula(mainsCount: number, rolls: number) {
   const lowerLimit = 12 - 2 * mainsCount
   if (rolls <= lowerLimit) {
     return rolls
@@ -196,6 +200,11 @@ type PartialSimulationWrapper = {
   speedRollsDeduction: number
 }
 
+type SimulationFlags = {
+  addBreakEffect: boolean
+  overcapCritRate: boolean
+}
+
 export function scoreCharacterSimulation(
   character: Character,
   displayRelics: RelicBuild,
@@ -227,7 +236,7 @@ export function scoreCharacterSimulation(
   const metadata = defaultMetadata
   const relicsByPart = cloneRelicsFillEmptySlots(displayRelics)
 
-  const cacheKey = Utils.objectHash({
+  const cacheKey = TsUtils.objectHash({
     characterId,
     characterEidolon,
     lightCone,
@@ -246,42 +255,49 @@ export function scoreCharacterSimulation(
     return null
   }
 
+  const simulationFlags: SimulationFlags = {
+    addBreakEffect: false,
+    overcapCritRate: false,
+  }
+
   // Optimize requested stats
   const substats: string[] = metadata.substats
 
   // Special handling for break effect carries
-  let addBreakEffect = false
   if (metadata.comboBreak > 0) {
     // Add break if the combo uses it
-    addBreakEffect = true
+    simulationFlags.addBreakEffect = true
   }
   if (defaultMetadata.teammates.find((x) => x.characterId == '8005' || x.characterId == '8006' || x.characterId == '1225')) {
     // Add break if the harmony trailblazer | fugue is on the team
-    addBreakEffect = true
+    simulationFlags.addBreakEffect = true
   }
-  if (addBreakEffect && !substats.includes(Stats.BE)) {
+  if (simulationFlags.addBreakEffect && !substats.includes(Stats.BE)) {
     substats.push(Stats.BE)
   }
-  if (addBreakEffect && !metadata.parts[Parts.LinkRope].includes(Stats.BE)) {
+  if (simulationFlags.addBreakEffect && !metadata.parts[Parts.LinkRope].includes(Stats.BE)) {
     metadata.parts[Parts.LinkRope].push(Stats.BE)
   }
-  if (addBreakEffect
+  if (simulationFlags.addBreakEffect
     && !metadata.relicSets.find((sets) =>
       sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
     metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
   }
-  if (addBreakEffect
+  if (simulationFlags.addBreakEffect
     && !metadata.relicSets.find((sets) =>
       sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
     metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
   }
-  if (addBreakEffect
+  if (simulationFlags.addBreakEffect
     && !metadata.ornamentSets.find((set) => set == Sets.TaliaKingdomOfBanditry)) {
     metadata.ornamentSets.push(Sets.TaliaKingdomOfBanditry)
   }
-  if (addBreakEffect
+  if (simulationFlags.addBreakEffect
     && !metadata.ornamentSets.find((set) => set == Sets.ForgeOfTheKalpagniLantern)) {
     metadata.ornamentSets.push(Sets.ForgeOfTheKalpagniLantern)
+  }
+  if (defaultMetadata.teammates.find((x) => x.characterId == '1313' && x.characterEidolon == 6)) {
+    simulationFlags.overcapCritRate = true
   }
 
   // Set up default request
@@ -363,7 +379,7 @@ export function scoreCharacterSimulation(
 
     // Define min/max limits
     const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, benchmarkScoringParams)
-    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, benchmarkScoringParams, baselineSimResult)
+    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, benchmarkScoringParams, baselineSimResult, simulationFlags)
 
     // Start the sim search at the max then iterate downwards
     Object.values(SubStats).map((stat) => partialSimulationWrapper.simulation.request.stats[stat] = maxSubstatRollCounts[stat])
@@ -408,6 +424,7 @@ export function scoreCharacterSimulation(
     context,
     applyScoringFunction,
     baselineSimResult,
+    simulationFlags,
   )
   const maximumSimResult = maximumSim.result
   applyScoringFunction(maximumSimResult)
@@ -488,6 +505,7 @@ function simulateMaximumBuild(
   context: OptimizerContext,
   applyScoringFunction: ScoringFunction,
   baselineSimResult: SimulationResult,
+  simulationFlags: SimulationFlags,
 ) {
   // Convert the benchmark spd rolls to max spd rolls
   const spdRolls = TsUtils.precisionRound(bestSim.request.stats[Stats.SPD] * benchmarkScoringParams.speedRollValue / maximumScoringParams.speedRollValue, 3)
@@ -506,7 +524,7 @@ function simulateMaximumBuild(
     }
 
     const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, maximumScoringParams)
-    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, maximumScoringParams, baselineSimResult)
+    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, maximumScoringParams, baselineSimResult, simulationFlags)
     Object.values(SubStats).map((x) => partialSimulationWrapper.simulation.request.stats[x] = maxSubstatRollCounts[x])
     const maxSim = computeOptimalSimulation(
       partialSimulationWrapper,
@@ -903,6 +921,7 @@ function calculateMaxSubstatRollCounts(
   metadata: SimulationMetadata,
   scoringParams: ScoringParams,
   baselineSimResult: SimulationResult,
+  simulationFlags: SimulationFlags,
 ): SimulationStats {
   const request = partialSimulationWrapper.simulation.request
   const maxCounts = {
@@ -961,16 +980,18 @@ function calculateMaxSubstatRollCounts(
   // Overcapped 30 * 3.24 + 5 = 102.2% crit
   // Main stat  20 * 3.24 + 32.4 + 5 = 102.2% crit
   // Assumes maximum 100 CR is needed ever
-  const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
-  const missingCrit = Math.max(0, 100 - baselineSimResult.x[Stats.CR] * 100)
-  maxCounts[Stats.CR] = Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution
-    ? 6
-    : 0, Math.min(
-    request.simBody == Stats.CR
-      ? Math.ceil((missingCrit - 32.4) / critValue)
-      : Math.ceil(missingCrit / critValue),
-    maxCounts[Stats.CR],
-  )))
+  if (!simulationFlags.overcapCritRate) {
+    const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
+    const missingCrit = Math.max(0, 100 - baselineSimResult.x[Stats.CR] * 100)
+    maxCounts[Stats.CR] = Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution
+      ? 6
+      : 0, Math.min(
+      request.simBody == Stats.CR
+        ? Math.ceil((missingCrit - 32.4) / critValue)
+        : Math.ceil(missingCrit / critValue),
+      maxCounts[Stats.CR],
+    )))
+  }
 
   // Simplify EHR so the sim is not wasting permutations
   // Assumes 20 enemy effect RES
@@ -1232,10 +1253,13 @@ export function calculatePenaltyMultiplier(
 }
 
 // Score on 1.00 scale
-export function getSimScoreGrade(score) {
+export function getSimScoreGrade(score: number, verified: boolean) {
   let best = 'WTF+'
   const percent = TsUtils.precisionRound(score * 100)
   for (const [key, value] of Object.entries(SimScoreGrades)) {
+    if (key == 'AEON' && !verified) {
+      continue
+    }
     best = key
     if (percent >= value) {
       return best
@@ -1406,6 +1430,7 @@ function simSorter(a: Simulation, b: Simulation) {
 
 // Gradual scale
 const SimScoreGrades = {
+  'AEON': 150, // +15
   'WTF+': 135, // +10
   'WTF': 126, // +9
   'SSS+': 118, // +8

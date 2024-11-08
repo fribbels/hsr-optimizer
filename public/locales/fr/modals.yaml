@@ -209,6 +209,22 @@ Scoring:
       SuccessMessage: "Filtre de minimum de Rupture effacé"
       Description: "Dégâts minimum de rupture est peut-être trop élevé"
       ButtonText: "Effacer le filtre de minimum de Rupture"
+    MAX_HEAL:
+      SuccessMessage: "Filtre de maximum de SOIN effacé"
+      Description: "Le maximum de SOIN est peut-être trop bas"
+      ButtonText: "Effacer le filtre de maximum de SOIN"
+    MIN_HEAL:
+      SuccessMessage: "Filtre de minimum de SOIN effacé"
+      Description: "Le minimum de SOIN est peut-être trop élevé"
+      ButtonText: "Effacer le filtre de minimum de SOIN"
+    MAX_SHIELD:
+      SuccessMessage: "Filtre de maximum de BOUCL effacé"
+      Description: "Le maximum de BOUCL est peut-être trop bas"
+      ButtonText: "Effacer le filtre de maximum de BOUCL"
+    MIN_SHIELD:
+      SuccessMessage: "Filtre de minimum de BOUCL effacé"
+      Description: "Le minimum de BOUCL est peut-être trop élevé"
+      ButtonText: "Filtre de minimum de BOUCL effacé"
     MAX_COMBO:
       SuccessMessage: "Filtre de maximum de Combo effacé"
       Description: "Dégâts maximum de combo est peut-être trop bas"

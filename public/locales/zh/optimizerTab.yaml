@@ -384,6 +384,8 @@ MinMaxFilters:
   FUALabel: 追加攻击
   DOTLabel: 持续伤害
   BREAKLabel: 击破
+  HEALLabel: 治疗值
+  SHIELDLabel: 护盾值
   COMBOLabel: 连招
 ComboFilter:
   Header: 连招伤害技能循环

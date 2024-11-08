@@ -16,7 +16,7 @@ RelicSetSelector:
   Placeholder: Ensemble de relique
   4pcLabel: 4 pièces
   2+2pcLabel: 2 + 2 pièces
-  2pcLabel: 2 + Tout
+  2pcLabel: 2 + Quelconque
 OrnamentSetSelector:
   Placeholder: Ensemble d'ornement
 SortOptions:
@@ -379,6 +379,8 @@ MinMaxFilters:
   FUALabel: ADS
   DOTLabel: DSD
   BREAKLabel: RUPTURE
+  HEALLabel: SOIN
+  SHIELDLabel: BOUCLIER
   COMBOLabel: COMBO
 ComboFilter:
   Header: Rotation des capacités combo

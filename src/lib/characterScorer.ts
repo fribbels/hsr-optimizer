@@ -69,9 +69,13 @@ function substatRollsModifier(rolls: number, stat: string, relics: { [key: strin
   // Diminishing returns
 
   const mainsCount = Object.values(relics)
-    .filter((x) => x.augmentedStats.mainStat == stat)
+    .filter((x) => x.augmentedStats!.mainStat == stat)
     .length
 
+  return diminishingReturnsFormula(mainsCount, rolls)
+}
+
+export function diminishingReturnsFormula(mainsCount: number, rolls: number) {
   const lowerLimit = 12 - 2 * mainsCount
   if (rolls <= lowerLimit) {
     return rolls

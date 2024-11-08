@@ -6567,7 +6567,7 @@ function getScoringMetadata() {
         maxBonusRolls: {},
         comboAbilities: [null, ULT, BASIC, BASIC, BASIC],
         comboDot: 0,
-        comboBreak: 5,
+        comboBreak: 3,
         relicSets: [
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
         ],

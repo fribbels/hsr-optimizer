@@ -195,7 +195,7 @@ export const Optimizer = {
           const resultArr = new Float32Array(result.buffer)
           // console.log(`Optimizer results`, result, resultArr, run)
 
-          BufferPacker.extractArrayToResults(resultArr, run.runSize, results, queueResults, task.input)
+          BufferPacker.extractArrayToResults(resultArr, run.runSize, queueResults, task.input.skip)
           // console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
 
           window.store.getState().setPermutationsResults(queueResults.size())

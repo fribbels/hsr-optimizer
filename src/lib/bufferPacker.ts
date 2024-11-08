@@ -102,10 +102,10 @@ export const BufferPacker = {
     }
   },
 
-  extractArrayToResults: (arr: number[], length: number, results, queueResults: FixedSizePriorityQueue<OptimizerDisplayData>, input) => {
+  extractArrayToResults: (arr: Float32Array, length: number, queueResults: FixedSizePriorityQueue<OptimizerDisplayData>, skip: number) => {
     for (let i = 0; i < length; i++) {
       if (arr[i * SIZE + 1]) { // Check HP > 0
-        const character = BufferPacker.extractCharacter(arr, i, input.skip)
+        const character = BufferPacker.extractCharacter(arr, i, skip)
         queueResults.fixedSizePush(character)
       } else {
         // Results are packed linearly and the rest are 0s, we can exit after hitting a 0

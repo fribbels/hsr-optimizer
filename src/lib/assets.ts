@@ -1,10 +1,4 @@
-import {
-  Constants,
-  SACERDOS_RELIVED_ORDEAL_1_STACK,
-  SACERDOS_RELIVED_ORDEAL_2_STACK,
-  setToId,
-  Stats,
-} from 'lib/constants'
+import { Constants, Parts, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, setToId, Stats } from 'lib/constants'
 import { BASE_PATH } from 'lib/db'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;
@@ -131,16 +125,16 @@ export const Assets = {
   },
 
   getPart: (part: string) => {
-    const mapping = {
-      [Constants.Parts.Head]: 'partHead',
-      [Constants.Parts.Hands]: 'partHands',
-      [Constants.Parts.Body]: 'partBody',
-      [Constants.Parts.Feet]: 'partFeet',
-      [Constants.Parts.PlanarSphere]: 'partPlanarSphere',
-      [Constants.Parts.LinkRope]: 'partLinkRope',
+    const mapping: Record<Parts, string> = {
+      [Parts.Head]: 'partHead',
+      [Parts.Hands]: 'partHands',
+      [Parts.Body]: 'partBody',
+      [Parts.Feet]: 'partFeet',
+      [Parts.PlanarSphere]: 'partPlanarSphere',
+      [Parts.LinkRope]: 'partLinkRope',
     }
 
-    return getImageUrl(`/misc/${mapping[part]}.webp`)
+    return getImageUrl(`/misc/${mapping[part as Parts]}.webp`)
   },
 
   getChangelog: (path: string) => {
@@ -152,7 +146,7 @@ export const Assets = {
       return Assets.getBlank()
     }
 
-    const partToId = {
+    const partToId: Record<string, string> = {
       base: '',
       [Constants.Parts.Head]: '_0',
       [Constants.Parts.Hands]: '_1',

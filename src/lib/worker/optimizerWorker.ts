@@ -256,6 +256,8 @@ function combatStatsFilter(request: Form) {
   addConditionIfNeeded(conditions, Key.FUA_DMG, request.minFua, request.maxFua)
   addConditionIfNeeded(conditions, Key.DOT_DMG, request.minDot, request.maxDot)
   addConditionIfNeeded(conditions, Key.BREAK_DMG, request.minBreak, request.maxBreak)
+  addConditionIfNeeded(conditions, Key.HEAL_VALUE, request.minHeal, request.maxHeal)
+  addConditionIfNeeded(conditions, Key.SHIELD_VALUE, request.minShield, request.maxShield)
 
   return (stats: Record<number, number>) => conditions.some((condition) => condition(stats))
 }

@@ -3,7 +3,7 @@ import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulati
 import { DefaultSettingOptions, SettingOptions } from 'components/SettingsDrawer'
 import i18next from 'i18next'
 import { ScoringMetadata, SimulationMetadata } from 'lib/characterScorer'
-import { COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, Sets, SIMULATION_SCORE } from 'lib/constants'
+import { COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, Parts, Sets, SIMULATION_SCORE } from 'lib/constants'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Message } from 'lib/message'
@@ -18,7 +18,7 @@ import { Utils } from 'lib/utils'
 import { Character } from 'types/Character'
 import { Form } from 'types/Form'
 import { Relic, Stat } from 'types/Relic'
-import { CustomPortrait, HsrOptimizerSaveFormat, HsrOptimizerStore, SavedSession } from 'types/store'
+import { CustomPortrait, HsrOptimizerSaveFormat, HsrOptimizerStore, SavedSession, UserSettings } from 'types/store'
 import { create } from 'zustand'
 
 export type HsrOptimizerMetadataState = {
@@ -228,7 +228,7 @@ window.store = create((set) => {
     setScoringModalOpen: (x) => set(() => ({ scoringModalOpen: x })),
     setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
     setMenuSidebarOpen: (x) => set(() => ({ menuSidebarOpen: x })),
-    setSettings: (x) => set(() => ({ settings: x })),
+    setSettings: (x: UserSettings) => set(() => ({ settings: x })),
     setSavedSession: (x) => set(() => ({ savedSession: x })),
     setSavedSessionKey: (key, x) => set((state) => ({
       savedSession: { ...state.savedSession, [key]: x },
@@ -855,7 +855,7 @@ export const DB = {
       DB.unequipRelicById(prevRelic.id)
     }
 
-    const swap = forceSwap || DB.getState().settings[SettingOptions.RelicEquippingBehavior.name] == SettingOptions.RelicEquippingBehavior.Swap
+    const swap = forceSwap || DB.getState().settings[SettingOptions.RelicEquippingBehavior.name as keyof UserSettings] == SettingOptions.RelicEquippingBehavior.Swap
 
     // only re-equip prevRelic if it would go to a different character
     if (prevOwnerId !== characterId && prevCharacter) {
@@ -890,7 +890,7 @@ export const DB = {
     console.log(`Switching relics from character ${fromCharacterId} to character ${toCharacterId}`)
 
     const fromCharacter = DB.getCharacterById(fromCharacterId)
-    DB.equipRelicIdsToCharacter(Object.values(fromCharacter.equipped) as string[], toCharacterId, true)
+    DB.equipRelicIdsToCharacter(Object.values(fromCharacter.equipped), toCharacterId, true)
   },
 
   deleteRelic: (id: string) => {
@@ -1005,11 +1005,11 @@ export const DB = {
     // Clean up characters who have relics equipped by someone else, or characters that don't exist ingame yet
     for (const character of DB.getCharacters()) {
       for (const part of Object.keys(character.equipped)) {
-        const relicId = character.equipped[part]
+        const relicId = character.equipped[part as Parts]
         if (relicId) {
           const relic = DB.getRelicById(relicId)
           if (relic.equippedBy != character.id) {
-            character.equipped[part] = undefined
+            character.equipped[part as Parts] = undefined
           }
         }
       }

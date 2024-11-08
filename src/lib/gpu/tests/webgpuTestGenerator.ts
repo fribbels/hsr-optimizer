@@ -103,10 +103,10 @@ export async function generateAllTests() {
     // ...generateSingleCharacterTest(device, { characterId: '1105', lightConeId: basicLc }),
     ...generateOrnamentSetTests(device),
     ...generateRelicSetTests(device),
+    ...generateE6E5Tests(device),
+    ...generateE0E1Tests(device),
     ...generateStarLcTests(device, 4),
     ...generateStarLcTests(device, 3),
-    ...generateE0E1Tests(device),
-    ...generateE6E5Tests(device),
   ]
 }
 
@@ -121,13 +121,13 @@ export function generateSingleCharacterTest(
 }
 
 export function generateE0E1Tests(device: GPUDevice) {
-  return baseCharacterLightConeMappings.map((pair) => {
+  return baseCharacterLightConeMappings.reverse().map((pair) => {
     return generateE0S1CharacterTest(pair.characterId, pair.lightConeId, device)
   })
 }
 
 export function generateE6E5Tests(device: GPUDevice) {
-  return baseCharacterLightConeMappings.map((pair) => {
+  return baseCharacterLightConeMappings.reverse().map((pair) => {
     return generateE6S5CharacterTest(pair.characterId, pair.lightConeId, device)
   })
 }

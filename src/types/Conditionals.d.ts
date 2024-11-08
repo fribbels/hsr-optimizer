@@ -7,7 +7,7 @@ import { ComponentProps, ComponentType } from 'react'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export type ConditionalMap = {
-  [key: string]: number | boolean | string | undefined
+  [key: string]: number | boolean
 }
 
 // interface to an instance of a Character or Light Cone conditional controller

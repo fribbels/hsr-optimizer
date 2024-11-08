@@ -195,7 +195,7 @@ export const Optimizer = {
           const resultArr = new Float32Array(result.buffer)
           // console.log(`Optimizer results`, result, resultArr, run)
 
-          BufferPacker.extractArrayToResults(resultArr, run.runSize, results, queueResults, task.input)
+          BufferPacker.extractArrayToResults(resultArr, run.runSize, queueResults, task.input.skip)
           // console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
 
           window.store.getState().setPermutationsResults(queueResults.size())
@@ -234,30 +234,33 @@ export const Optimizer = {
 }
 
 // TODO: This is a temporary tool to rename computed stats variables to fit the optimizer grid
-export function renameFields(c: BasicStatsObject & OptimizerDisplayData) {
+export function renameFields(c: BasicStatsObject) {
   const x = c.x as ComputedStatsObjectExternal
+  const d: Partial<OptimizerDisplayData> = c
 
-  c.ED = c.ELEMENTAL_DMG
-  c.BASIC = x.BASIC_DMG
-  c.SKILL = x.SKILL_DMG
-  c.ULT = x.ULT_DMG
-  c.FUA = x.FUA_DMG
-  c.DOT = x.DOT_DMG
-  c.BREAK = x.BREAK_DMG
-  c.COMBO = x.COMBO_DMG
-  c.EHP = x.EHP
-  c.HEAL = x.HEAL_VALUE
-  c.SHIELD = x.SHIELD_VALUE
-  c.xHP = x.HP
-  c.xATK = x.ATK
-  c.xDEF = x.DEF
-  c.xSPD = x.SPD
-  c.xCR = x[Stats.CR]
-  c.xCD = x[Stats.CD]
-  c.xEHR = x[Stats.EHR]
-  c.xRES = x[Stats.RES]
-  c.xBE = x[Stats.BE]
-  c.xERR = x[Stats.ERR]
-  c.xOHB = x[Stats.OHB]
-  c.xELEMENTAL_DMG = c.x.ELEMENTAL_DMG
+  d.ED = c.ELEMENTAL_DMG
+  d.BASIC = x.BASIC_DMG
+  d.SKILL = x.SKILL_DMG
+  d.ULT = x.ULT_DMG
+  d.FUA = x.FUA_DMG
+  d.DOT = x.DOT_DMG
+  d.BREAK = x.BREAK_DMG
+  d.COMBO = x.COMBO_DMG
+  d.EHP = x.EHP
+  d.HEAL = x.HEAL_VALUE
+  d.SHIELD = x.SHIELD_VALUE
+  d.xHP = x.HP
+  d.xATK = x.ATK
+  d.xDEF = x.DEF
+  d.xSPD = x.SPD
+  d.xCR = x[Stats.CR]
+  d.xCD = x[Stats.CD]
+  d.xEHR = x[Stats.EHR]
+  d.xRES = x[Stats.RES]
+  d.xBE = x[Stats.BE]
+  d.xERR = x[Stats.ERR]
+  d.xOHB = x[Stats.OHB]
+  d.xELEMENTAL_DMG = c.x.ELEMENTAL_DMG
+
+  return d as OptimizerDisplayData
 }

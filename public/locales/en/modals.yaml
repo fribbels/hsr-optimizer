@@ -209,6 +209,22 @@ Scoring:
       SuccessMessage: "Reset Minimum Break filter"
       Description: "Minimum break damage may be too high"
       ButtonText: "Reset Minimum Break filter"
+    MAX_HEAL:
+      SuccessMessage: "Reset Maximum HEAL filter"
+      Description: "Maximum HEAL may be too low"
+      ButtonText: "Reset Maximum HEAL filter"
+    MIN_HEAL:
+      SuccessMessage: "Reset Minimum HEAL filter"
+      Description: "Minimum HEAL may be too high"
+      ButtonText: "Reset Minimum HEAL filter"
+    MAX_SHIELD:
+      SuccessMessage: "Reset Maximum SHIELD filter"
+      Description: "Maximum SHIELD may be too low"
+      ButtonText: "Reset Maximum SHIELD filter"
+    MIN_SHIELD:
+      SuccessMessage: "Reset Minimum SHIELD filter"
+      Description: "Minimum SHIELD may be too high"
+      ButtonText: "Reset Minimum SHIELD filter"
     MAX_COMBO:
       SuccessMessage: "Reset Maximum Combo filter"
       Description: "Maximum combo damage may be too low"

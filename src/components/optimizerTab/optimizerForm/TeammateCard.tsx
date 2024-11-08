@@ -1,20 +1,22 @@
-import { useEffect, useMemo, useState } from 'react'
-import FormCard from 'components/optimizerTab/FormCard'
 import { SyncOutlined } from '@ant-design/icons'
-import { Button, Flex, Form, Select, SelectProps, Typography } from 'antd'
-import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants'
-import { Assets } from 'lib/assets'
-import { CharacterConditionals } from 'lib/characterConditionals'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { OptimizerTabController } from 'lib/optimizerTabController'
+import { Button, Flex, Form as AntDForm, Select, Typography } from 'antd'
 import { CharacterConditionalDisplay } from 'components/optimizerTab/conditionals/CharacterConditionalDisplay'
 import { LightConeConditionalDisplay } from 'components/optimizerTab/conditionals/LightConeConditionalDisplay'
-import DB from 'lib/db'
-import { Character } from 'types/Character'
-import { Message } from 'lib/message'
-import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect'
+import FormCard from 'components/optimizerTab/FormCard'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
+import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect'
+import { Assets } from 'lib/assets'
+import { CharacterConditionals } from 'lib/characterConditionals'
+import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants'
+import DB from 'lib/db'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { Message } from 'lib/message'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Character } from 'types/Character'
+import { ReactElement } from 'types/Components'
+import { Form, TeammateProperty } from 'types/Form'
 
 const { Text } = Typography
 
@@ -22,8 +24,6 @@ const rightPanelWidth = 110
 
 const parentW = rightPanelWidth
 const parentH = rightPanelWidth
-const innerW = rightPanelWidth
-const innerH = rightPanelWidth
 
 const lcWidth = 120
 
@@ -34,7 +34,7 @@ const lcInnerH = lcWidth
 
 const cardHeight = 480
 
-const optionRender = (option) => (
+const optionRender = (option: { data: { value: string; desc: string } }) => (
   option.data.value
     ? (
       <Flex gap={10} align='center'>
@@ -61,7 +61,7 @@ const labelRender = (set: string, text: string) => (
 )
 
 function getTeammateProperty(index: number) {
-  return `teammate${index}`
+  return `teammate${index}` as TeammateProperty
 }
 
 function getDefaultTeammateForm() {
@@ -104,18 +104,24 @@ function calculateTeammateSets(teammateCharacter: Character) {
 }
 
 function countTeammates() {
-  const fieldsValue = window.optimizerForm.getFieldsValue()
+  const fieldsValue = window.optimizerForm.getFieldsValue() as Form
   return [fieldsValue.teammate0, fieldsValue.teammate1, fieldsValue.teammate2].filter((teammate) => teammate?.characterId).length
+}
+
+type OptionRender = {
+  value: string
+  desc: string
+  label: ReactElement
 }
 
 const TeammateCard = (props: { index: number }) => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
   const teammateProperty = useMemo(() => getTeammateProperty(props.index), [props.index])
-  const teammateCharacterId = Form.useWatch([teammateProperty, 'characterId'], window.optimizerForm)
-  const teammateEidolon = Form.useWatch([teammateProperty, 'characterEidolon'], window.optimizerForm)
+  const teammateCharacterId: string = AntDForm.useWatch([teammateProperty, 'characterId'], window.optimizerForm)
+  const teammateEidolon: number = AntDForm.useWatch([teammateProperty, 'characterEidolon'], window.optimizerForm)
 
-  const teammateLightConeId = Form.useWatch([teammateProperty, 'lightCone'], window.optimizerForm)
-  const teammateSuperimposition = Form.useWatch([teammateProperty, 'lightConeSuperimposition'], window.optimizerForm)
+  const teammateLightConeId: string = AntDForm.useWatch([teammateProperty, 'lightCone'], window.optimizerForm)
+  const teammateSuperimposition: number = AntDForm.useWatch([teammateProperty, 'lightConeSuperimposition'], window.optimizerForm)
 
   const [teammateSelectModalOpen, setTeammateSelectModalOpen] = useState(false)
 
@@ -123,7 +129,7 @@ const TeammateCard = (props: { index: number }) => {
 
   const disabled = teammateCharacterId == null
 
-  const teammateRelicSetOptions: SelectProps['options'] = useMemo(() => {
+  const teammateRelicSetOptions: OptionRender[] = useMemo(() => {
     return [
       {
         value: Sets.MessengerTraversingHackerspace,
@@ -147,7 +153,7 @@ const TeammateCard = (props: { index: number }) => {
       },
     ]
   }, [t])
-  const teammateOrnamentSetOptions = useMemo(() => {
+  const teammateOrnamentSetOptions: OptionRender[] = useMemo(() => {
     return [
       {
         value: Sets.BrokenKeel,
@@ -196,7 +202,7 @@ const TeammateCard = (props: { index: number }) => {
       return
     }
 
-    const displayFormValues = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
+    const displayFormValues = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm()) as Form
     const teammateValues = displayFormValues[teammateProperty]
     const teammateCharacter = DB.getCharacterById(teammateCharacterId)
     if (teammateCharacter) {
@@ -216,9 +222,6 @@ const TeammateCard = (props: { index: number }) => {
     const characterConditionals = CharacterConditionals.get({
       characterId: teammateCharacterId,
       characterEidolon: teammateValues.characterEidolon,
-      characterConditionals: {},
-      lightConeSuperimposition: teammateValues.lightConeSuperimposition,
-      lightConeConditionals: {},
     })
 
     if (!characterConditionals.teammateDefaults) return
@@ -234,7 +237,7 @@ const TeammateCard = (props: { index: number }) => {
   useEffect(() => {
     if (!teammateLightConeId) return
 
-    const displayFormValues = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
+    const displayFormValues = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm()) as Form
     const lightConeConditionals = LightConeConditionals.get({
       lightCone: teammateLightConeId,
       lightConeSuperimposition: teammateSuperimposition,
@@ -249,14 +252,14 @@ const TeammateCard = (props: { index: number }) => {
     <FormCard size='medium' height={cardHeight} style={{ overflow: 'auto' }}>
       <Flex vertical gap={5}>
         <Flex gap={5}>
-          <Form.Item name={[teammateProperty, `characterId`]} style={{ flex: 1 }}>
+          <AntDForm.Item name={[teammateProperty, `characterId`]} style={{ flex: 1 }}>
             <CharacterSelect
               value=''
               selectStyle={{}}
               externalOpen={teammateSelectModalOpen}
               setExternalOpen={setTeammateSelectModalOpen}
             />
-          </Form.Item>
+          </AntDForm.Item>
 
           <Button
             icon={<SyncOutlined/>}
@@ -264,11 +267,11 @@ const TeammateCard = (props: { index: number }) => {
             disabled={disabled}
             onClick={() => {
               updateTeammate()
-              Message.success(t('TeammateSyncSuccessMessage'))// 'Synced teammate info')
+              Message.success(t('TeammateSyncSuccessMessage'))// 'Synced teammate info'
             }}
           />
 
-          <Form.Item name={[teammateProperty, `characterEidolon`]}>
+          <AntDForm.Item name={[teammateProperty, `characterEidolon`]}>
             <Select
               showSearch
               style={{ width: 110 }}
@@ -276,7 +279,7 @@ const TeammateCard = (props: { index: number }) => {
               placeholder={t('EidolonPlaceholder')}// 'Eidolon'
               disabled={disabled}
             />
-          </Form.Item>
+          </AntDForm.Item>
         </Flex>
 
         <Flex>
@@ -298,7 +301,7 @@ const TeammateCard = (props: { index: number }) => {
               />
             </div>
 
-            <Form.Item name={[teammateProperty, `teamRelicSet`]}>
+            <AntDForm.Item name={[teammateProperty, `teamRelicSet`]}>
               <Select
                 className='teammate-set-select'
                 style={{ width: 110 }}
@@ -310,9 +313,9 @@ const TeammateCard = (props: { index: number }) => {
                 optionRender={optionRender}
                 disabled={disabled}
               />
-            </Form.Item>
+            </AntDForm.Item>
 
-            <Form.Item name={[teammateProperty, `teamOrnamentSet`]}>
+            <AntDForm.Item name={[teammateProperty, `teamOrnamentSet`]}>
               <Select
                 className='teammate-set-select'
                 style={{ width: 110 }}
@@ -324,14 +327,12 @@ const TeammateCard = (props: { index: number }) => {
                 optionRender={optionRender}
                 disabled={disabled}
               />
-            </Form.Item>
+            </AntDForm.Item>
           </Flex>
         </Flex>
 
-        <div style={{ height: 1 }}/>
-
         <Flex gap={5}>
-          <Form.Item name={[teammateProperty, `lightCone`]}>
+          <AntDForm.Item name={[teammateProperty, `lightCone`]}>
             <LightConeSelect
               value=''
               selectStyle={{ width: 258 }}
@@ -339,9 +340,9 @@ const TeammateCard = (props: { index: number }) => {
               externalOpen={teammateLightConeSelectOpen}
               setExternalOpen={setTeammateLightConeSelectOpen}
             />
-          </Form.Item>
+          </AntDForm.Item>
 
-          <Form.Item name={[teammateProperty, `lightConeSuperimposition`]}>
+          <AntDForm.Item name={[teammateProperty, `lightConeSuperimposition`]}>
             <Select
               showSearch
               style={{ width: 110 }}
@@ -349,7 +350,7 @@ const TeammateCard = (props: { index: number }) => {
               placeholder={t('SuperimpositionPlaceholder')}// 'Superimposition'
               disabled={disabled}
             />
-          </Form.Item>
+          </AntDForm.Item>
         </Flex>
 
         <Flex>

@@ -1,9 +1,9 @@
 import { Flex } from 'antd'
 import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from 'components/TooltipImage'
-import { Hint } from 'lib/hint'
 import FilterRow from 'components/optimizerTab/optimizerForm/FilterRow'
 import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants'
+import { TooltipImage } from 'components/TooltipImage'
+import { Hint } from 'lib/hint'
 import { useTranslation } from 'react-i18next'
 
 export const MinMaxStatFilters = () => {
@@ -46,6 +46,8 @@ export const MinMaxRatingFilters = () => {
       <FilterRow name='Fua' label={t('FUALabel')}/>
       <FilterRow name='Dot' label={t('DOTLabel')}/>
       <FilterRow name='Break' label={t('BREAKLabel')}/>
+      <FilterRow name='Heal' label={t('HEALLabel')}/>
+      <FilterRow name='Shield' label={t('SHIELDLabel')}/>
     </Flex>
   )
 }

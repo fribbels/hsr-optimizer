@@ -102,6 +102,8 @@ export type Form = {
   maxDmg: number
   maxDot: number
   maxBreak: number
+  maxHeal: number
+  maxShield: number
   maxEhp: number
   maxEhr: number
   maxErr: number
@@ -121,6 +123,8 @@ export type Form = {
   minDmg: number
   minDot: number
   minBreak: number
+  minHeal: number
+  minShield: number
   minEhp: number
   minEhr: number
   minErr: number

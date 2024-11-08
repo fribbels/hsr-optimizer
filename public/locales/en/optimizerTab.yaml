@@ -385,6 +385,8 @@ MinMaxFilters:
   FUALabel: FUA
   DOTLabel: DOT
   BREAKLabel: BREAK
+  HEALLabel: HEAL
+  SHIELDLabel: SHIELD
   COMBOLabel: COMBO
 ComboFilter:
   Header: Combo DMG ability rotation

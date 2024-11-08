@@ -346,6 +346,10 @@ export const OptimizerTabController = {
     newForm.minDot = unsetMin(form.minDot)
     newForm.maxBreak = unsetMax(form.maxBreak)
     newForm.minBreak = unsetMin(form.minBreak)
+    newForm.maxHeal = unsetMax(form.maxHeal)
+    newForm.minHeal = unsetMin(form.minHeal)
+    newForm.maxShield = unsetMax(form.maxShield)
+    newForm.minShield = unsetMin(form.minShield)
 
     const combatBuffs = {} as Partial<OptimizerCombatBuffs>
     if (!form.combatBuffs) form.combatBuffs = {}
@@ -627,6 +631,10 @@ export const OptimizerTabController = {
     form.minDot = fixValue(form.minDot, 0)
     form.maxBreak = fixValue(form.maxBreak, MAX_INT)
     form.minBreak = fixValue(form.minBreak, 0)
+    form.maxHeal = fixValue(form.maxHeal, MAX_INT)
+    form.minHeal = fixValue(form.minHeal, 0)
+    form.maxShield = fixValue(form.maxShield, MAX_INT)
+    form.minShield = fixValue(form.minShield, 0)
 
     if (!form.combatBuffs) form.combatBuffs = {}
     for (const buff of Object.values(CombatBuffs)) {
@@ -839,6 +847,8 @@ function filter(filterModel: Form) {
         && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
         && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
         && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
+        && row.HEAL >= filterModel.minHeal && row.HEAL <= filterModel.maxHeal
+        && row.SHIELD >= filterModel.minShield && row.SHIELD <= filterModel.maxShield
       if (valid) {
         indices.push(i)
       }
@@ -864,6 +874,8 @@ function filter(filterModel: Form) {
         && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
         && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
         && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
+        && row.HEAL >= filterModel.minHeal && row.HEAL <= filterModel.maxHeal
+        && row.SHIELD >= filterModel.minShield && row.SHIELD <= filterModel.maxShield
       if (valid) {
         indices.push(i)
       }

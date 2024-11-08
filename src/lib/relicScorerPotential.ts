@@ -303,6 +303,13 @@ export class RelicScorer {
   }
 
   getCurrentRelicScore(relic: Relic, id: CharacterId) {
+    if (!relic) {
+      return {
+        score: 0,
+        rating: '',
+        mainStatScore: 0,
+      }
+    }
     const metaHash = this.getRelicScoreMeta(id).hash
     let currentScore = this.currentRelicScore.get(relic.id)?.get(metaHash)
     if (!currentScore) {

@@ -1,9 +1,10 @@
 import { Drawer, Flex, Form, Select, Typography } from 'antd'
-import React, { useEffect } from 'react'
 import { SaveState } from 'lib/saveState'
 import { Utils } from 'lib/utils'
-import styled from 'styled-components'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { UserSettings } from 'types/store'
 
 const { Text } = Typography
 
@@ -32,11 +33,11 @@ export const SettingOptions = {
   },
 }
 
-export const DefaultSettingOptions = {
+export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
   [SettingOptions.RelicEquippingBehavior.name]: SettingOptions.RelicEquippingBehavior.Replace,
   [SettingOptions.PermutationsSidebarBehavior.name]: SettingOptions.PermutationsSidebarBehavior.ShowXL,
   [SettingOptions.RelicPotentialLoadBehavior.name]: SettingOptions.RelicPotentialLoadBehavior.ScoreAtStartup,
-}
+} as Record<keyof UserSettings, string>
 
 export const SettingsDrawer = () => {
   const [settingsForm] = Form.useForm()

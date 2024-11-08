@@ -18,7 +18,7 @@ import { Utils } from 'lib/utils'
 import { Character } from 'types/Character'
 import { Form } from 'types/Form'
 import { Relic, Stat } from 'types/Relic'
-import { CustomPortrait, HsrOptimizerSaveFormat, HsrOptimizerStore, SavedSession } from 'types/store'
+import { CustomPortrait, HsrOptimizerSaveFormat, HsrOptimizerStore, SavedSession, UserSettings } from 'types/store'
 import { create } from 'zustand'
 
 export type HsrOptimizerMetadataState = {
@@ -228,7 +228,7 @@ window.store = create((set) => {
     setScoringModalOpen: (x) => set(() => ({ scoringModalOpen: x })),
     setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
     setMenuSidebarOpen: (x) => set(() => ({ menuSidebarOpen: x })),
-    setSettings: (x) => set(() => ({ settings: x })),
+    setSettings: (x: UserSettings) => set(() => ({ settings: x })),
     setSavedSession: (x) => set(() => ({ savedSession: x })),
     setSavedSessionKey: (key, x) => set((state) => ({
       savedSession: { ...state.savedSession, [key]: x },
@@ -855,7 +855,7 @@ export const DB = {
       DB.unequipRelicById(prevRelic.id)
     }
 
-    const swap = forceSwap || DB.getState().settings[SettingOptions.RelicEquippingBehavior.name] == SettingOptions.RelicEquippingBehavior.Swap
+    const swap = forceSwap || DB.getState().settings[SettingOptions.RelicEquippingBehavior.name as keyof UserSettings] == SettingOptions.RelicEquippingBehavior.Swap
 
     // only re-equip prevRelic if it would go to a different character
     if (prevOwnerId !== characterId && prevCharacter) {

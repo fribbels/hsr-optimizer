@@ -1,5 +1,5 @@
-import DB from 'lib/db'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants'
+import DB from 'lib/db'
 import { HsrOptimizerSaveFormat } from 'types/store'
 
 let saveTimeout: NodeJS.Timeout | null

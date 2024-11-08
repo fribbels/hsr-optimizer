@@ -78,9 +78,9 @@ export type HsrOptimizerStore = {
   relicsById: Record<string, Relic>
   statDisplay: string
   menuSidebarOpen: boolean
-  settings: Record<string, any>
+  settings: UserSettings
   optimizerBuild: Build | null
-  setSettings: (settings: Record<string, any>) => void
+  setSettings: (settings: UserSettings) => void
   setOptimizationId: (id: string) => void
   setSettingsDrawerOpen: (open: boolean) => void
   setComboState: (state: ComboState) => void

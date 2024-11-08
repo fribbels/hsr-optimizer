@@ -1253,10 +1253,13 @@ export function calculatePenaltyMultiplier(
 }
 
 // Score on 1.00 scale
-export function getSimScoreGrade(score) {
+export function getSimScoreGrade(score: number, verified: boolean) {
   let best = 'WTF+'
   const percent = TsUtils.precisionRound(score * 100)
   for (const [key, value] of Object.entries(SimScoreGrades)) {
+    if (key == 'AEON' && !verified) {
+      continue
+    }
     best = key
     if (percent >= value) {
       return best
@@ -1427,6 +1430,7 @@ function simSorter(a: Simulation, b: Simulation) {
 
 // Gradual scale
 const SimScoreGrades = {
+  'AEON': 150, // +15
   'WTF+': 135, // +10
   'WTF': 126, // +9
   'SSS+': 118, // +8

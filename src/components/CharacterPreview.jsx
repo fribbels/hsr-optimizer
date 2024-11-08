@@ -351,6 +351,7 @@ export function CharacterPreview(props) {
 
   function ScoreHeader(props) {
     const result = props.result
+    const verified = Object.values(props.relics).filter((x) => x?.verified).length == 6
 
     const textStyle = {
       fontSize: 17,
@@ -372,7 +373,7 @@ export function CharacterPreview(props) {
               'CharacterPreview.ScoreHeader.Score',
               {
                 score: Utils.truncate10ths(Math.max(0, result.percent * 100)).toFixed(1),
-                grade: getSimScoreGrade(result.percent),
+                grade: getSimScoreGrade(result.percent, verified),
               },
             )
             /* DPS Score {{score}}% {{grade}} */
@@ -792,7 +793,7 @@ export function CharacterPreview(props) {
                 />
                 {
                   simScoringResult
-                  && <ScoreHeader result={simScoringResult}/>
+                  && <ScoreHeader result={simScoringResult} relics={displayRelics}/>
                 }
                 {
                   simScoringResult

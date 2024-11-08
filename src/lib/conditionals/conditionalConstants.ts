@@ -14,14 +14,6 @@ export const BREAK_TYPE = 32
 export const SUPER_BREAK_TYPE = 64
 
 export const baseComputedStatsObject = {
-  BASIC_DMG_TYPE: BASIC_TYPE,
-  SKILL_DMG_TYPE: SKILL_TYPE,
-  ULT_DMG_TYPE: ULT_TYPE,
-  FUA_DMG_TYPE: FUA_TYPE,
-  DOT_DMG_TYPE: DOT_TYPE,
-  BREAK_DMG_TYPE: BREAK_TYPE,
-  SUPER_BREAK_DMG_TYPE: SUPER_BREAK_TYPE,
-
   HP_P: 0,
   ATK_P: 0,
   DEF_P: 0,
@@ -30,8 +22,8 @@ export const baseComputedStatsObject = {
   ATK: 0,
   DEF: 0,
   SPD: 0.0001,
-  CD: 0,
   CR: 0,
+  CD: 0,
   EHR: 0,
   RES: 0,
   BE: 0,
@@ -179,6 +171,14 @@ export const baseComputedStatsObject = {
   BREAK_EFFICIENCY_BOOST: 0,
   BASIC_BREAK_EFFICIENCY_BOOST: 0, // Boothill
   ULT_BREAK_EFFICIENCY_BOOST: 0, // Feixiao
+
+  BASIC_DMG_TYPE: BASIC_TYPE,
+  SKILL_DMG_TYPE: SKILL_TYPE,
+  ULT_DMG_TYPE: ULT_TYPE,
+  FUA_DMG_TYPE: FUA_TYPE,
+  DOT_DMG_TYPE: DOT_TYPE,
+  BREAK_DMG_TYPE: BREAK_TYPE,
+  SUPER_BREAK_DMG_TYPE: SUPER_BREAK_TYPE,
 
   WEIGHT: 0,
 }

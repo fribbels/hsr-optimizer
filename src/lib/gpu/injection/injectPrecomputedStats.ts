@@ -49,6 +49,7 @@ export function injectPrecomputedStatsContext(action: OptimizerAction, gpuParams
       ${a[Key.ULT_BOOST]},${gpuParams.DEBUG ? ' // ULT_BOOST' : ''}
       ${a[Key.FUA_BOOST]},${gpuParams.DEBUG ? ' // FUA_BOOST' : ''}
       ${a[Key.DOT_BOOST]},${gpuParams.DEBUG ? ' // DOT_BOOST' : ''}
+      ${a[Key.BREAK_BOOST]},${gpuParams.DEBUG ? ' // BREAK_BOOST' : ''}
       ${a[Key.VULNERABILITY]},${gpuParams.DEBUG ? ' // VULNERABILITY' : ''}
       ${a[Key.BASIC_VULNERABILITY]},${gpuParams.DEBUG ? ' // BASIC_VULNERABILITY' : ''}
       ${a[Key.SKILL_VULNERABILITY]},${gpuParams.DEBUG ? ' // SKILL_VULNERABILITY' : ''}

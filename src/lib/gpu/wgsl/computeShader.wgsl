@@ -869,6 +869,9 @@ fn buffAbilityDmg(
   if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
     (*p_x).DOT_BOOST += value;
   }
+  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
+    (*p_x).BREAK_BOOST += value;
+  }
 }
 
 fn buffAbilityCr(

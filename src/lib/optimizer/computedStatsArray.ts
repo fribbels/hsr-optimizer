@@ -9,7 +9,7 @@ type Buff = {
   source: string
 }
 
-type KeysType = keyof typeof baseComputedStatsObject
+export type KeysType = keyof typeof baseComputedStatsObject
 
 export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject).reduce((acc, key, index) => {
   acc[key as KeysType] = index

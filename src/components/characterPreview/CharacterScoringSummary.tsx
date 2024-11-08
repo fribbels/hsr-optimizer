@@ -431,8 +431,8 @@ function addOnHitStats(simulationScore: SimulationScore) {
 
   x.ELEMENTAL_DMG += x[`${ability}_BOOST`]
   if (ability != SortOption.DOT.key) {
-    x.CR += x[`${ability}_CR_BOOST`]
-    x.CD += x[`${ability}_CD_BOOST`]
+    x[Stats.CR] += x[`${ability}_CR_BOOST`]
+    x[Stats.CD] += x[`${ability}_CD_BOOST`]
   }
 }
 

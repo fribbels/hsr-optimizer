@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types'
 import { Flex, Form } from 'antd'
 import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled'
 import FormStatTextStyled from 'components/optimizerTab/optimizerForm/FormStatTextStyled'
 
-const FilterRow = (props) => {
+const FilterRow = (props: { name: string; label: string }) => {
   return (
     <Flex justify='space-between' style={{ margin: 0 }}>
       <Form.Item name={`min${props.name}`} style={{ margin: 0 }}>
@@ -15,10 +14,6 @@ const FilterRow = (props) => {
       </Form.Item>
     </Flex>
   )
-}
-FilterRow.propTypes = {
-  name: PropTypes.string,
-  label: PropTypes.string,
 }
 
 export default FilterRow

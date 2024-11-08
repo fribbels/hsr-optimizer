@@ -1,9 +1,11 @@
-import { Character, CharacterId } from './Character'
-import { Relic } from './Relic'
-import { LightCone } from './LightCone'
-import { StringToStringMap } from 'types/Common'
-import { Form } from 'types/Form'
+import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
+import { ScoringMetadata } from 'lib/characterScorer'
 import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
+import { ColorThemeOverrides } from 'lib/theme'
+import { Form } from 'types/Form'
+import { ComputeEngine } from '../lib/constants'
+import { Build, Character, CharacterId } from './Character'
+import { Relic } from './Relic'
 
 type PermutationDetails = {
   Head: number
@@ -21,60 +23,66 @@ type PermutationDetails = {
 }
 
 type RelicTabFilters = {
-  set: unknown[]
-  part: unknown[]
-  enhance: unknown[]
-  mainStats: unknown[]
-  subStats: unknown[]
-  grade: unknown[]
-  verified: unknown[]
-  equippedBy: unknown[]
+  set: (string | number)[]
+  part: (string | number)[]
+  enhance: (string | number)[]
+  mainStats: (string | number)[]
+  subStats: (string | number)[]
+  grade: (string | number)[]
+  verified: (string | number)[]
+  equippedBy: (string | number)[]
 }
 
 export type HsrOptimizerStore = {
-  colorTheme: unknown
-
+  version: string
+  colorTheme: ColorThemeOverrides
   optimizerGrid: unknown
-
   optimizerTabFocusCharacter?: CharacterId
   characterTabFocusCharacter?: CharacterId
   scoringAlgorithmFocusCharacter?: CharacterId
-
-  comboState: ComboState
-  formValues: Form
-  activeKey: unknown
-  inventoryWidth: number
-  setInventoryWidth: (width: number) => void
+  relicsTabFocusCharacter?: CharacterId
   rowLimit: number
-  setRowLimit: (rowLimit: number) => void
+  activeKey: string
   characters: Character[]
-  charactersById: Record<CharacterId, Character>
-  characterTabBlur: boolean
-  conditionalSetEffectsDrawerOpen: boolean
+  charactersById: { [key: string]: Character }
   comboDrawerOpen: boolean
+  combatBuffsDrawerOpen: boolean
+  enemyConfigurationsDrawerOpen: boolean
+  settingsDrawerOpen: boolean
   permutations: number
   permutationsResults: number
   permutationsSearched: number
-  relicsById: Record<number, Relic>
-  scorerId?: number
-  scoringMetadataOverrides: unknown
-  statDisplay: 'combat' | 'base'
+  scorerId: string
+  scoringMetadataOverrides: Record<string, ScoringMetadata>
+  statSimulationDisplay: StatSimTypes
+  statSimulations: unknown
+  selectedStatSimulations: unknown
   optimizationInProgress: boolean
-  optimizationId?: number
-  optimizerStartTime: number
-  optimizerEndTime: number
+  optimizationId: string | null
   teammateCount: number
   zeroPermutationModalOpen: boolean
   zeroResultModalOpen: boolean
-  menuSidebarOpen: boolean
+  scoringModalOpen: boolean
   relicScorerSidebarOpen: boolean
-  enemyConfigurationsDrawerOpen: boolean
-  settingsDrawerOpen: boolean
-  settings: unknown
-  setSettings: (settings: unknown) => void
-  setOptimizationId: (id: number) => void
-  setSettingsDrawerOpen: (open: boolean) => void
+  optimizerRunningEngine: ComputeEngine
+  optimizerStartTime: number | null
+  optimizerEndTime: number | null
   optimizerTabFocusCharacterSelectModalOpen: boolean
+
+  comboState: ComboState
+  formValues: Form | undefined
+  inventoryWidth: number
+  setInventoryWidth: (width: number) => void
+  setRowLimit: (rowLimit: number) => void
+  conditionalSetEffectsDrawerOpen: boolean
+  relicsById: Record<string, Relic>
+  statDisplay: string
+  menuSidebarOpen: boolean
+  settings: UserSettings
+  optimizerBuild: Build | null
+  setSettings: (settings: UserSettings) => void
+  setOptimizationId: (id: string) => void
+  setSettingsDrawerOpen: (open: boolean) => void
   setComboState: (state: ComboState) => void
   setFormValues: (form: Form) => void
   setCombatBuffsDrawerOpen: (open: boolean) => void
@@ -85,14 +93,15 @@ export type HsrOptimizerStore = {
   setOptimizerEndTime: (open: number) => void
   setMenuSidebarOpen: (open: boolean) => void
   setRelicTabFilters: (filters: RelicTabFilters) => void
-  setOptimizerRunningEngine: (s: string) => void
+  setOptimizerRunningEngine: (s: ComputeEngine) => void
   setExcludedRelicPotentialCharacters: (ids: CharacterId[]) => void
   optimizerFormCharacterEidolon: number
-  optimizerFormSelectedLightCone: null | LightCone
+  optimizerFormSelectedLightCone: string | undefined
   optimizerFormSelectedLightConeSuperimposition: number
   setPermutationsResults: (n: number) => void
   setPermutationsSearched: (n: number) => void
   setZeroPermutationsModalOpen: (open: boolean) => void
+  setScoringModalOpen: (open: boolean) => void
   setZeroResultModalOpen: (open: boolean) => void
   setRelicsById: (relicsById: Record<number, Relic>) => void
   setSavedSessionKey: (key: string, value: string) => void
@@ -101,14 +110,101 @@ export type HsrOptimizerStore = {
   setConditionalSetEffectsDrawerOpen: (b: boolean) => void
   setComboDrawerOpen: (b: boolean) => void
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
-  setStatDisplay: (display: 'combat' | 'base') => void
+  setStatDisplay: (display: string) => void
+  setCharacters: (characters: Character[]) => void
+  setCharactersById: (charactersById: Record<string, Character>) => void
+  setOptimizerFormSelectedLightConeSuperimposition: (x: any) => void
+  setColorTheme: (x: any) => void
+  setOptimizerBuild: (x: Build) => void
+  setSavedSession: (x: any) => void
+  setOptimizerFormSelectedLightCone: (x: any) => void
+  setOptimizerFormCharacterEidolon: (x: any) => void
+  setTeammateCount: (x: any) => void
+  setSelectedStatSimulations: (x: any) => void
+  setStatSimulations: (x: any) => void
+  setStatSimulationDisplay: (x: any) => void
+  setScoringMetadataOverrides: (x: any) => void
+  setScorerId: (x: any) => void
+  setCharacterTabFilters: (x: any) => void
+  setPermutations: (x: any) => void
+  setPermutationDetails: (x: any) => void
+  setRelicsTabFocusCharacter: (x: any) => void
+  setCharacterTabFocusCharacter: (x: any) => void
+  setVersion: (x: any) => void
+  setOptimizerMenuState: (x: any) => void
 
   permutationDetails: PermutationDetails
 
   relicTabFilters: RelicTabFilters
-  excludedRelicPotentialCharacters: unknown[]
+  characterTabFilters: {
+    name: string
+    element: string[]
+    path: string[]
+    rarity: number[]
+  }
+  excludedRelicPotentialCharacters: string[]
 
   optimizerMenuState: Record<string, boolean>
 
-  savedSession: StringToStringMap
+  savedSession: SavedSession
+}
+
+export type SavedSession = {
+  optimizerCharacterId: string | null
+  relicScorerSidebarOpen: boolean
+  scoringType: string
+  combatScoreDetails: string
+  computeEngine: ComputeEngine
+}
+
+export type UserSettings = {
+  RelicEquippingBehavior: string
+  PermutationsSidebarBehavior: string
+  RelicPotentialLoadBehavior: string
+}
+
+// The JSON format we save to localstorage / save file
+export type HsrOptimizerSaveFormat = {
+  relics: Relic[]
+  characters: Character[]
+  scorerId: string
+  scoringMetadataOverrides: Record<string, ScoringMetadata>
+  optimizerMenuState: Record<string, boolean>
+  excludedRelicPotentialCharacters: string[]
+  savedSession: SavedSession
+  settings: UserSettings
+  version: string
+  relicLocator: {
+    inventoryWidth: number
+    rowLimit: number
+  }
+}
+
+export type CustomPortrait = {
+  imageUrl: string
+  originalDimensions: {
+    width: number
+    height: number
+  }
+  customImageParams: {
+    croppedArea: {
+      x: number
+      y: number
+      width: number
+      height: number
+    }
+    croppedAreaPixels: {
+      width: number
+      height: number
+      x: number
+      y: number
+    }
+  }
+  cropper: {
+    zoom: number
+    crop: {
+      x: number
+      y: number
+    }
+  }
 }

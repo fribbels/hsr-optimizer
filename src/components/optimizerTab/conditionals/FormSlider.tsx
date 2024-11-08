@@ -1,9 +1,9 @@
-import { ComponentProps, ComponentType, useEffect, useRef, useState } from 'react'
 import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
-import styled from 'styled-components'
 import WithPopover from 'components/common/WithPopover'
-import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { getItemName } from 'components/optimizerTab/conditionals/FormSwitch'
+import { precisionRound } from 'lib/conditionals/conditionalUtils'
+import { ComponentProps, ComponentType, useEffect, useRef, useState } from 'react'
+import styled from 'styled-components'
 
 const justify = 'flex-start'
 const align = 'center'
@@ -20,7 +20,7 @@ export interface FormSliderProps {
   min: number
   max: number
   text: string
-  name: string
+  id: string
   percent?: boolean
   lc?: boolean
   set?: boolean
@@ -140,11 +140,12 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
               </Form.Item>
             )
         }
-        <Text style={{
-          minWidth: 20,
-          marginBottom: 2,
-          textAlign: 'center',
-        }}
+        <Text
+          style={{
+            minWidth: 20,
+            marginBottom: 2,
+            textAlign: 'center',
+          }}
         >
           {`${precisionRound(props.max * multiplier)}${symbol}`}
         </Text>

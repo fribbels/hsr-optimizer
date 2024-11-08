@@ -13,13 +13,13 @@ import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
 import { CameraOutlined, DownloadOutlined, DownOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons'
-import CharacterModal from './CharacterModal'
+import CharacterModal from 'components/CharacterModal'
 import { Utils } from 'lib/utils'
 import NameBuild from 'components/SaveBuildModal'
 import BuildsModal from './BuildsModal'
 import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import SwitchRelicsModal from './SwitchRelicsModal'
+import SwitchRelicsModal from 'components/SwitchRelicsModal'
 import { getGridTheme } from 'lib/theme'
 import { generateElementTags, generatePathTags, SegmentedFilterRow } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
 import i18next from 'i18next'
@@ -107,7 +107,7 @@ export default function CharacterTab() {
 
   const [characterFilters, setCharacterFilters] = useState(defaultFilters)
 
-  const { t } = useTranslation('charactersTab')
+  const { t } = useTranslation(['charactersTab', ' common'])
 
   console.log('======================================================================= RENDER CharacterTab')
 
@@ -368,7 +368,7 @@ export default function CharacterTab() {
 
   function scoringAlgorithmClicked() {
     if (characterTabFocusCharacter) setScoringAlgorithmFocusCharacter(characterTabFocusCharacter)
-    window.setIsScoringModalOpen(true)
+    window.store.getState().setScoringModalOpen(true)
   }
 
   function moveToTopClicked() {
@@ -459,12 +459,12 @@ export default function CharacterTab() {
         break
       case 'unequip':
         /* Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)? */
-        if (!await confirm(t('Messages.UnequipWarning', { charid: selectedCharacter.id }))) return
+        if (!await confirm(t('Messages.UnequipWarning', { charId: selectedCharacter.id }))) return
         unequipClicked()
         break
       case 'delete':
         /* Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)? */
-        if (!await confirm(t('Messages.DeleteWarning', { charid: selectedCharacter.id }))) return
+        if (!await confirm(t('Messages.DeleteWarning', { charId: selectedCharacter.id }))) return
         removeClicked()
         break
       case 'saveBuild':
@@ -494,11 +494,11 @@ export default function CharacterTab() {
 
   async function confirm(content) {
     return confirmationModal.confirm({
-      title: 'Confirm',
+      title: t('common:Confirm'), // 'Confirm',
       icon: <ExclamationCircleOutlined/>,
       content: content,
-      okText: t('Confirm'), // 'Confirm',
-      cancelText: t('Cancel'), // 'Cancel',
+      okText: t('common:Confirm'), // 'Confirm',
+      cancelText: t('common:Cancel'), // 'Cancel',
       centered: true,
     })
   }
@@ -563,9 +563,9 @@ export default function CharacterTab() {
           <Flex vertical gap={8} style={{ marginRight: selectedCharacter ? 6 : 8 }}>
             <div
               id='characterGrid' className='ag-theme-balham-dark' style={{
-              ...{ display: 'block', width: 230, height: parentH - 38 },
-              ...getGridTheme(token),
-            }}
+                ...{ display: 'block', width: 230, height: parentH - 38 },
+                ...getGridTheme(token),
+              }}
             >
               <AgGridReact
                 ref={characterGrid}

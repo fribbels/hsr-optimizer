@@ -31,7 +31,7 @@ export const ReliquaryArchiverConfig: ScannerConfig = {
   releases: 'https://github.com/IceDynamix/reliquary-archiver/releases/latest',
   defaultFileName: 'archiver_output.json',
   sourceString: 'reliquary_archiver',
-  latestBuildVersion: 'v0.1.11',
+  latestBuildVersion: 'v0.1.13',
   latestOutputVersion: 4,
   speedVerified: true,
 }
@@ -45,7 +45,7 @@ export const YasScannerConfig: ScannerConfig = {
   sourceString: 'yas-scanner',
   latestBuildVersion: 'v0.0.0',
   latestOutputVersion: 3,
-  speedVerified: false
+  speedVerified: false,
 }
 
 export const KelzScannerParser = new KelzFormatParser(KelzScannerConfig)

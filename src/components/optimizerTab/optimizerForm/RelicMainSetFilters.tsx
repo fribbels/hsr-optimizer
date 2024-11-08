@@ -1,13 +1,13 @@
 import { Button, Cascader, Flex, Form, Select } from 'antd'
 import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from 'components/TooltipImage.jsx'
-import { Hint } from 'lib/hint.jsx'
+import { TooltipImage } from 'components/TooltipImage'
+import { Hint } from 'lib/hint'
 import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants'
 import { Constants, Parts } from 'lib/constants'
 import GenerateSetsOptions from 'components/optimizerTab/optimizerForm/SetsOptions'
 import GenerateOrnamentsOptions from 'components/optimizerTab/optimizerForm/OrnamentsOptions'
 import { SettingOutlined } from '@ant-design/icons'
-import { Assets } from 'lib/assets.js'
+import { Assets } from 'lib/assets'
 import { RelicSetTagRenderer } from 'components/optimizerTab/optimizerForm/RelicSetTagRenderer'
 import { OrnamentSetTagRenderer } from 'components/optimizerTab/optimizerForm/OrnamentSetTagRenderer'
 import { useTranslation } from 'react-i18next'
@@ -122,7 +122,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
         </Flex>
         <Form.Item name='relicSets'>
           <Cascader
-            placeholder='Relic set'
+            placeholder={t('RelicSetSelector.Placeholder')}
             options={useMemo(() => GenerateSetsOptions(), [t])}
             showCheckedStrategy={SHOW_CHILD}
             tagRender={RelicSetTagRenderer}
@@ -146,7 +146,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             }}
             options={useMemo(() => GenerateOrnamentsOptions(), [t])}
             tagRender={OrnamentSetTagRenderer}
-            placeholder='Ornament set'
+            placeholder={t('OrnamentSetSelector.Placeholder')}
             maxTagCount='responsive'
           >
           </Select>

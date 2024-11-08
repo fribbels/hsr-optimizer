@@ -520,125 +520,185 @@ fn main(
 
 
       // Calculate damage
-      let cLevel: f32 = 80;
       let eLevel: f32 = f32(enemyLevel);
-      let defReduction: f32 = x.DEF_PEN + combatBuffsDEF_PEN;
-      let defIgnore: f32 = 0.0;
 
       addComputedElementalDmg(&x);
 
-      let dmgBoostMultiplier: f32 = 1 + x.ELEMENTAL_DMG;
-      let dmgReductionMultiplier: f32 = 1;
+      let baseDmgBoost = 1 + x.ELEMENTAL_DMG;
+      let baseDefPen = x.DEF_PEN + combatBuffsDEF_PEN;
+      let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
+      let baseResistance = resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(&x);
+      let baseBreakEfficiencyBoost = 1 + x.BREAK_EFFICIENCY_BOOST;
 
-      let ehp: f32 = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
-      x.EHP = ehp;
-
-      let brokenMultiplier = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
-
-      let universalMulti = dmgReductionMultiplier * brokenMultiplier;
-      let baseResistance = resistance - x.RES_PEN - combatBuffsDEF_PEN - getElementalResPen(&x);
-
-      let ULT_CD = select(x.CD + x.ULT_CD_BOOST, x.ULT_CD_OVERRIDE, x.ULT_CD_OVERRIDE > 0);
-
-      let breakVulnerability = 1.0 + x.VULNERABILITY + x.BREAK_VULNERABILITY;
-      let basicVulnerability = 1.0 + x.VULNERABILITY + x.BASIC_VULNERABILITY;
-      let skillVulnerability = 1.0 + x.VULNERABILITY + x.SKILL_VULNERABILITY;
-      let ultVulnerability = 1.0 + x.VULNERABILITY + x.ULT_VULNERABILITY * x.ULT_BOOSTS_MULTI;
-      let fuaVulnerability = 1.0 + x.VULNERABILITY + x.FUA_VULNERABILITY;
-      let dotVulnerability = 1.0 + x.VULNERABILITY + x.DOT_VULNERABILITY;
-
-      let ENEMY_EFFECT_RES = enemyEffectResistance;
-
-      // For stacking dots where the first stack has extra value
-      // c = dot chance, s = stacks => avg dmg = (full dmg) * (1 + 0.05 * c * (s-1)) / (1 + 0.05 * (s-1))
-      let effectiveDotChance = min(1, x.DOT_CHANCE * (1 + x.EHR) * (1 - ENEMY_EFFECT_RES + x.EFFECT_RES_PEN));
-      let dotEhrMultiplier = select(effectiveDotChance, (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + 0.05 * (x.DOT_STACKS - 1)), x.DOT_SPLIT > 0);
-
-      // BREAK
-      let maxToughness = enemyMaxToughness;
+      // === Super / Break ===
 
       x.BREAK_DMG
-        = universalMulti
+        = baseUniversalMulti
         * 3767.5533
         * ELEMENTAL_BREAK_SCALING
-        * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN)
-        * (0.5 + maxToughness / 120)
-        * breakVulnerability
-        * (1.0 - baseResistance)
-        * (1.0 + x.BE);
+        * calculateDefMulti(baseDefPen + x.BREAK_DEF_PEN)
+        * (0.5 + enemyMaxToughness / 120)
+        * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
+        * (1 - baseResistance)
+        * (1 + x.BE)
+        * (1 + x.BREAK_BOOST);
 
-      let SUPER_BREAK_DMG
-        = universalMulti
+      let baseSuperBreakModifier = x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER;
+
+      let baseSuperBreakInstanceDmg
+        = baseUniversalMulti
         * 3767.5533
-        * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
-        * breakVulnerability
-        * (1.0 - baseResistance)
-        * (1.0 + x.BE)
-        * (x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER)
-        * (1.0 / 30.0)
-        * (1.0 + x.BREAK_EFFICIENCY_BOOST);
+        * calculateDefMulti(baseDefPen + x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
+        * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
+        * (1 - baseResistance)
+        * (1 + x.BE)
+        * (1 + x.BREAK_BOOST)
+        * (0.03333333333f);
 
-      let BASIC_SUPER_BREAK_DMG
-        = universalMulti
-        * 3767.5533
-        * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
-        * breakVulnerability
-        * (1.0 - baseResistance)
-        * (1.0 + x.BE)
-        * (x.BASIC_SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER)
-        * (1.0 / 30.0)
-        * (1.0 + x.BREAK_EFFICIENCY_BOOST);
+      if (actionIndex == 0) {
+        let dotDmgBoostMulti = baseDmgBoost + x.DOT_BOOST;
+        let dotDefMulti = calculateDefMulti(baseDefPen + x.DOT_DEF_PEN);
+        let dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY;
+        let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
+        let dotEhrMulti = calculateEhrMulti(p_x);
 
-      let ACTUAL_BASIC_SUPER_BREAK_DMG = select(SUPER_BREAK_DMG, BASIC_SUPER_BREAK_DMG, BASIC_SUPER_BREAK_DMG > 0);
+        if (x.DOT_DMG > 0) {
+          x.DOT_DMG = x.DOT_DMG
+            * (baseUniversalMulti)
+            * (dotDmgBoostMulti)
+            * (dotDefMulti)
+            * (dotVulnerabilityMulti)
+            * (dotResMulti)
+            * (dotEhrMulti);
+        }
 
-      x.BASIC_DMG
-        = x.BASIC_DMG
-        * universalMulti
-        * (dmgBoostMultiplier + x.BASIC_BOOST)
-        * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BASIC_DEF_PEN)
-        * ((basicVulnerability) * min(1, x.CR + x.BASIC_CR_BOOST) * (1.0 + x.CD + x.BASIC_CD_BOOST) + basicVulnerability * (1.0 - min(1.0, x.CR + x.BASIC_CR_BOOST)))
-        * (1.0 - (baseResistance - x.BASIC_RES_PEN))
-        * (1.0 + x.BASIC_ORIGINAL_DMG_BOOST)
-        + (x.BASIC_BREAK_DMG_MODIFIER * x.BREAK_DMG)
-        + (ACTUAL_BASIC_SUPER_BREAK_DMG * x.BASIC_TOUGHNESS_DMG * (1.0 + x.BASIC_BREAK_EFFICIENCY_BOOST));
+        if (x.HEAL_VALUE > 0) {
+          x.HEAL_VALUE = x.HEAL_VALUE * (
+            1
+            + x.OHB
+            + select(0, x.SKILL_OHB, x.HEAL_TYPE == SKILL_TYPE)
+            + select(0, x.ULT_OHB, x.HEAL_TYPE == ULT_TYPE)
+          );
+        }
 
-      x.SKILL_DMG
-        = x.SKILL_DMG
-        * universalMulti
-        * (dmgBoostMultiplier + x.SKILL_BOOST)
-        * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.SKILL_DEF_PEN)
-        * ((skillVulnerability) * min(1.0, x.CR + x.SKILL_CR_BOOST) * (1.0 + x.CD + x.SKILL_CD_BOOST) + skillVulnerability * (1.0 - min(1.0, x.CR + x.SKILL_CR_BOOST)))
-        * (1.0 - (baseResistance - x.SKILL_RES_PEN))
-        * (1.0 + x.SKILL_ORIGINAL_DMG_BOOST)
-        + (SUPER_BREAK_DMG * x.SKILL_TOUGHNESS_DMG);
+        if (x.SHIELD_VALUE > 0) {
+          x.SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p4(x.sets.KnightOfPurityPalace));
+        }
 
-      x.ULT_DMG
-        = x.ULT_DMG
-        * universalMulti
-        * (dmgBoostMultiplier + x.ULT_BOOST * x.ULT_BOOSTS_MULTI)
-        * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN * x.ULT_BOOSTS_MULTI)
-        * ((ultVulnerability) * min(1.0, x.CR + x.ULT_CR_BOOST) * (1.0 + ULT_CD) + ultVulnerability * (1.0 - min(1, x.CR + x.ULT_CR_BOOST)))
-        * (1 - (baseResistance - x.ULT_RES_PEN * x.ULT_BOOSTS_MULTI))
-        * (1 + x.ULT_ORIGINAL_DMG_BOOST)
-        + (SUPER_BREAK_DMG * x.ULT_TOUGHNESS_DMG * (1.0 + x.ULT_BREAK_EFFICIENCY_BOOST));
+        x.EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
+      }
 
-      x.FUA_DMG
-        = x.FUA_DMG
-        * universalMulti
-        * (dmgBoostMultiplier + x.FUA_BOOST)
-        * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.FUA_DEF_PEN)
-        * ((fuaVulnerability) * min(1.0, x.CR + x.FUA_CR_BOOST) * (1.0 + x.CD + x.FUA_CD_BOOST) + fuaVulnerability * (1.0 - min(1.0, x.CR + x.FUA_CR_BOOST)))
-        * (1.0 - (baseResistance - x.FUA_RES_PEN))
-        + (SUPER_BREAK_DMG * x.FUA_TOUGHNESS_DMG);
+      if (action.abilityType == 1 || actionIndex == 0) {
+        x.BASIC_DMG = calculateAbilityDmg(
+          p_x,
+          baseUniversalMulti,
+          baseDmgBoost,
+          baseDefPen,
+          baseResistance,
+          baseSuperBreakInstanceDmg,
+          baseSuperBreakModifier,
+          baseBreakEfficiencyBoost,
+          x.BASIC_DMG,
+          x.BASIC_BOOST,
+          x.BASIC_VULNERABILITY,
+          x.BASIC_DEF_PEN,
+          x.BASIC_RES_PEN,
+          x.BASIC_CR_BOOST,
+          x.BASIC_CD_BOOST,
+          x.BASIC_ORIGINAL_DMG_BOOST,
+          x.BASIC_BREAK_EFFICIENCY_BOOST,
+          x.BASIC_SUPER_BREAK_MODIFIER,
+          x.BASIC_BREAK_DMG_MODIFIER,
+          x.BASIC_TOUGHNESS_DMG,
+          x.BASIC_ADDITIONAL_DMG,
+          0, // x.BASIC_ADDITIONAL_DMG_CR_OVERRIDE,
+          0, // x.BASIC_ADDITIONAL_DMG_CD_OVERRIDE,
+        );
+      }
 
-      x.DOT_DMG
-        = x.DOT_DMG
-        * universalMulti
-        * (dmgBoostMultiplier + x.DOT_BOOST)
-        * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.DOT_DEF_PEN)
-        * dotVulnerability
-        * (1.0 - (baseResistance - x.DOT_RES_PEN))
-        * dotEhrMultiplier;
+      if (action.abilityType == 2 || actionIndex == 0) {
+        x.SKILL_DMG = calculateAbilityDmg(
+          p_x,
+          baseUniversalMulti,
+          baseDmgBoost,
+          baseDefPen,
+          baseResistance,
+          baseSuperBreakInstanceDmg,
+          baseSuperBreakModifier,
+          baseBreakEfficiencyBoost,
+          x.SKILL_DMG,
+          x.SKILL_BOOST,
+          x.SKILL_VULNERABILITY,
+          x.SKILL_DEF_PEN,
+          x.SKILL_RES_PEN,
+          x.SKILL_CR_BOOST,
+          x.SKILL_CD_BOOST,
+          x.SKILL_ORIGINAL_DMG_BOOST,
+          0, // x.SKILL_BREAK_EFFICIENCY_BOOST,
+          0, // x.SKILL_SUPER_BREAK_MODIFIER,
+          0, // x.SKILL_BREAK_DMG_MODIFIER,
+          x.SKILL_TOUGHNESS_DMG,
+          x.SKILL_ADDITIONAL_DMG,
+          0, // x.SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
+          0, // x.SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
+        );
+      }
+
+      if (action.abilityType == 4 || actionIndex == 0) {
+        x.ULT_DMG = calculateAbilityDmg(
+          p_x,
+          baseUniversalMulti,
+          baseDmgBoost,
+          baseDefPen,
+          baseResistance,
+          baseSuperBreakInstanceDmg,
+          baseSuperBreakModifier,
+          baseBreakEfficiencyBoost,
+          x.ULT_DMG,
+          x.ULT_BOOST,
+          x.ULT_VULNERABILITY,
+          x.ULT_DEF_PEN,
+          x.ULT_RES_PEN,
+          x.ULT_CR_BOOST,
+          x.ULT_CD_BOOST,
+          x.ULT_ORIGINAL_DMG_BOOST,
+          x.ULT_BREAK_EFFICIENCY_BOOST,
+          0, // x.ULT_SUPER_BREAK_MODIFIER,
+          0, // x.ULT_BREAK_DMG_MODIFIER,
+          x.ULT_TOUGHNESS_DMG,
+          x.ULT_ADDITIONAL_DMG,
+          x.ULT_ADDITIONAL_DMG_CR_OVERRIDE,
+          x.ULT_ADDITIONAL_DMG_CD_OVERRIDE,
+        );
+      }
+
+      if (action.abilityType == 8 || actionIndex == 0) {
+        x.FUA_DMG = calculateAbilityDmg(
+          p_x,
+          baseUniversalMulti,
+          baseDmgBoost,
+          baseDefPen,
+          baseResistance,
+          baseSuperBreakInstanceDmg,
+          baseSuperBreakModifier,
+          baseBreakEfficiencyBoost,
+          x.FUA_DMG,
+          x.FUA_BOOST,
+          x.FUA_VULNERABILITY,
+          x.FUA_DEF_PEN,
+          x.FUA_RES_PEN,
+          x.FUA_CR_BOOST,
+          x.FUA_CD_BOOST,
+          0, // x.FUA_ORIGINAL_DMG_BOOST,
+          0, // x.FUA_BREAK_EFFICIENCY_BOOST,
+          0, // x.FUA_SUPER_BREAK_MODIFIER,
+          0, // x.FUA_BREAK_DMG_MODIFIER,
+          x.FUA_TOUGHNESS_DMG,
+          x.FUA_ADDITIONAL_DMG,
+          0, // x.FUA_ADDITIONAL_DMG_CR_OVERRIDE,
+          0, // x.FUA_ADDITIONAL_DMG_CD_OVERRIDE,
+        );
+      }
 
       if (actionIndex > 0) {
         if (action.abilityType == 1) {
@@ -679,12 +739,108 @@ fn main(
   }
 }
 
-fn cloneComputedStats(computedStats: ComputedStats) -> ComputedStats {
-  return computedStats;
+fn calculateDefMulti(defPen: f32) -> f32 {
+  return (100.0f) / ((f32(enemyLevel) + 20.0f) * max(0.0f, 1.0f - defPen) + 100.0f);
 }
 
-fn cloneConditionalState(conditionalState: ConditionalState) -> ConditionalState {
-  return conditionalState;
+fn calculateEhrMulti(
+  p_x: ptr<function, ComputedStats>
+) -> f32 {
+  let x = *p_x;
+  let effectiveDotChance = min(1, x.DOT_CHANCE * (1 + x.EHR) * (1 - enemyEffectResistance + x.EFFECT_RES_PEN));
+  let dotEhrMulti = select(
+    (effectiveDotChance),
+    (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + 0.05 * (x.DOT_STACKS - 1)),
+    x.DOT_SPLIT > 0
+  );
+
+  return dotEhrMulti;
+}
+
+fn calculateAbilityDmg(
+  p_x: ptr<function, ComputedStats>,
+  baseUniversalMulti: f32,
+  baseDmgBoost: f32,
+  baseDefPen: f32,
+  baseResistance: f32,
+  baseSuperBreakInstanceDmg: f32,
+  baseSuperBreakModifier: f32,
+  baseBreakEfficiencyBoost: f32,
+  abilityDmg: f32,
+  abilityDmgBoost: f32,
+  abilityVulnerability: f32,
+  abilityDefPen: f32,
+  abilityResPen: f32,
+  abilityCrBoost: f32,
+  abilityCdBoost: f32,
+  abilityOriginalDmgBoost: f32,
+  abilityBreakEfficiencyBoost: f32,
+  abilitySuperBreakModifier: f32,
+  abilityBreakDmgModifier: f32,
+  abilityToughnessDmg: f32,
+  abilityAdditionalDmg: f32,
+  abilityAdditionalCrOverride: f32,
+  abilityAdditionalCdOverride: f32,
+) -> f32 {
+  let x = *p_x;
+
+  var abilityCritDmgOutput: f32 = 0;
+  if (abilityDmg > 0) {
+    let abilityCr = min(1, x.CR + abilityCrBoost);
+    let abilityCd = x.CD + abilityCdBoost;
+    let abilityCritMulti = abilityCr * (1 + abilityCd) + (1 - abilityCr);
+    let abilityVulnerabilityMulti = 1 + x.VULNERABILITY + abilityVulnerability;
+    let abilityDefMulti = calculateDefMulti(baseDefPen + abilityDefPen);
+    let abilityResMulti = 1 - (baseResistance - abilityResPen);
+    let abilityOriginalDmgMulti = 1 + abilityOriginalDmgBoost;
+
+    abilityCritDmgOutput = abilityDmg
+      * (baseUniversalMulti)
+      * (baseDmgBoost + abilityDmgBoost)
+      * (abilityDefMulti)
+      * (abilityVulnerabilityMulti)
+      * (abilityCritMulti)
+      * (abilityResMulti)
+      * (abilityOriginalDmgMulti);
+  }
+
+  // === Break DMG ===
+
+  var abilityBreakDmgOutput: f32 = 0;
+  if (abilityBreakDmgModifier > 0) {
+    abilityBreakDmgOutput = abilityBreakDmgModifier * x.BREAK_DMG;
+  }
+
+  // === Super Break DMG ===
+
+  var abilitySuperBreakDmgOutput: f32 = 0;
+  if (baseSuperBreakModifier + abilitySuperBreakModifier > 0) {
+    abilitySuperBreakDmgOutput = baseSuperBreakInstanceDmg
+      * (baseSuperBreakModifier + abilitySuperBreakModifier)
+      * (baseBreakEfficiencyBoost + abilityBreakEfficiencyBoost)
+      * (abilityToughnessDmg);
+  }
+
+  // === Additional DMG ===
+
+  var abilityAdditionalDmgOutput: f32 = 0;
+  if (abilityAdditionalDmg > 0) {
+    let additionalDmgCr = select(min(1, x.CR), abilityAdditionalCrOverride, abilityAdditionalCrOverride > 0);
+    let additionalDmgCd = select(x.CD, abilityAdditionalCdOverride, abilityAdditionalCdOverride > 0);
+    let abilityAdditionalCritMulti = additionalDmgCr * (1 + additionalDmgCd) + (1 - additionalDmgCr);
+    abilityAdditionalDmgOutput = abilityAdditionalDmg
+      * (baseUniversalMulti)
+      * (baseDmgBoost)
+      * calculateDefMulti(baseDefPen)
+      * (1 + x.VULNERABILITY)
+      * (abilityAdditionalCritMulti)
+      * (1 - baseResistance);
+  }
+
+  return abilityCritDmgOutput
+    + abilityBreakDmgOutput
+    + abilitySuperBreakDmgOutput
+    + abilityAdditionalDmgOutput;
 }
 
 fn p2(n: i32) -> f32 {
@@ -692,10 +848,6 @@ fn p2(n: i32) -> f32 {
 }
 fn p4(n: i32) -> f32 {
   return f32(n >> 2);
-}
-
-fn calculateDefMultiplier(cLevel: f32, eLevel: f32, defReduction: f32, defIgnore: f32, additionalPen: f32) -> f32 {
-  return (cLevel + 20.0f) / ((eLevel + 20.0f) * max(0.0f, 1.0f - defReduction - defIgnore - additionalPen) + cLevel + 20.0f);
 }
 
 fn buffAbilityDmg(
@@ -718,6 +870,9 @@ fn buffAbilityDmg(
   }
   if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
     (*p_x).DOT_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
+    (*p_x).BREAK_BOOST += value;
   }
 }
 

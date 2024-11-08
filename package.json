@@ -59,7 +59,9 @@
     "test:report": "npx playwright show-report",
     "typecheck": "tsc --noEmit -p ./tsconfig.json",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "update-resources": "npx i18next-resources-for-ts interface -i ./public/locales/en -o ./src/types/resources.d.ts",
+    "update-gameData": "npx tsx misc/i18n/generateTranslations.ts && npm run update-resources"
   },
   "browserslist": {
     "production": [
@@ -80,8 +82,10 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/eslint": "^8.56.11",
+    "@types/json-stable-stringify": "^1.0.36",
     "@types/node": "^22.2.0",
     "@types/object-hash": "^3.0.6",
+    "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "@webgpu/types": "^0.1.48",
     "eslint": "^8.57.0",

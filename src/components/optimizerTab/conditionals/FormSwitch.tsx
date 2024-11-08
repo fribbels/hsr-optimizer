@@ -1,10 +1,10 @@
-import styled from 'styled-components'
-import { Flex, Form, Switch, Typography } from 'antd'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import { Flex, Form, Switch, Typography } from 'antd'
 import WithPopover from 'components/common/WithPopover'
-import { ComponentProps, ComponentType } from 'react'
-import { FormSliderProps } from 'components/optimizerTab/conditionals/FormSlider'
 import { FormSelectProps } from 'components/optimizerTab/conditionals/FormSelect'
+import { FormSliderProps } from 'components/optimizerTab/conditionals/FormSlider'
+import { ComponentProps, ComponentType } from 'react'
+import styled from 'styled-components'
 
 const justify = 'flex-start'
 const align = 'center'
@@ -26,9 +26,9 @@ export function getConditionalType(props: FormSwitchProps | FormSliderProps | Fo
 export function getItemName(props: FormSwitchProps | FormSliderProps | FormSelectProps) {
   const conditionalType = getConditionalType(props)
   if (props.set) {
-    return [conditionalType, props.name, 1]
+    return [conditionalType, props.id, 1]
   }
-  const itemName = [conditionalType, props.name]
+  const itemName = [conditionalType, props.id]
   if (props.teammateIndex != null) {
     itemName.unshift(`teammate${props.teammateIndex}`)
   }
@@ -38,7 +38,7 @@ export function getItemName(props: FormSwitchProps | FormSliderProps | FormSelec
 
 export interface FormSwitchProps {
   disabled?: boolean
-  name: string
+  id: string
   text: string
   lc?: boolean
   set?: boolean

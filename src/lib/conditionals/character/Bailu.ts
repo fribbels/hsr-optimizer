@@ -1,99 +1,149 @@
-import { Stats } from 'lib/constants'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { NONE_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  gpuStandardAtkFinalizer,
+  gpuStandardHpHealFinalizer,
+  standardAtkFinalizer,
+  standardHpHealFinalizer,
+} from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Bailu')
-  const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicScaling = basic(e, 1.0, 1.1)
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 0, 0)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'healingMaxHpBuff',
-    name: 'healingMaxHpBuff',
-    text: t('Content.healingMaxHpBuff.text'),
-    title: t('Content.healingMaxHpBuff.title'),
-    content: t('Content.healingMaxHpBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'talentDmgReductionBuff',
-    name: 'talentDmgReductionBuff',
-    text: t('Content.talentDmgReductionBuff.text'),
-    title: t('Content.talentDmgReductionBuff.title'),
-    content: t('Content.talentDmgReductionBuff.content'),
-  }, {
-    formItem: 'switch',
-    id: 'e2UltHealingBuff',
-    name: 'e2UltHealingBuff',
-    text: t('Content.e2UltHealingBuff.text'),
-    title: t('Content.e2UltHealingBuff.title'),
-    content: t('Content.e2UltHealingBuff.content'),
-    disabled: e < 2,
-  }, {
-    formItem: 'slider',
-    id: 'e4SkillHealingDmgBuffStacks',
-    name: 'e4SkillHealingDmgBuffStacks',
-    text: t('Content.e4SkillHealingDmgBuffStacks.text'),
-    title: t('Content.e4SkillHealingDmgBuffStacks.title'),
-    content: t('Content.e4SkillHealingDmgBuffStacks.content'),
-    min: 0,
-    max: 3,
-    disabled: e < 4,
-  }]
+  const skillHealScaling = skill(e, 0.117, 0.1248)
+  const skillHealFlat = skill(e, 312, 347.1)
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'healingMaxHpBuff'),
-    findContentId(content, 'talentDmgReductionBuff'),
-    findContentId(content, 'e4SkillHealingDmgBuffStacks'),
-  ]
+  const ultHealScaling = ult(e, 0.135, 0.144)
+  const ultHealFlat = ult(e, 360, 400.5)
+
+  const talentHealScaling = talent(e, 0.054, 0.0576)
+  const talentHealFlat = talent(e, 144, 160.2)
+
+  const defaults = {
+    healAbility: ULT_TYPE,
+    healingMaxHpBuff: true,
+    talentDmgReductionBuff: true,
+    e2UltHealingBuff: true,
+    e4SkillHealingDmgBuffStacks: 0,
+  }
+
+  const teammateDefaults = {
+    healingMaxHpBuff: true,
+    talentDmgReductionBuff: true,
+    e4SkillHealingDmgBuffStacks: 3,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    healAbility: {
+      id: 'healAbility',
+      formItem: 'select',
+      text: tHeal('Text'),
+      content: tHeal('Content'),
+      options: [
+        { display: tHeal('Skill'), value: SKILL_TYPE, label: tHeal('Skill') },
+        { display: tHeal('Ult'), value: ULT_TYPE, label: tHeal('Ult') },
+        { display: tHeal('Talent'), value: NONE_TYPE, label: tHeal('Talent') },
+      ],
+      fullWidth: true,
+    },
+    healingMaxHpBuff: {
+      id: 'healingMaxHpBuff',
+      formItem: 'switch',
+      text: t('Content.healingMaxHpBuff.text'),
+      content: t('Content.healingMaxHpBuff.content'),
+    },
+    talentDmgReductionBuff: {
+      id: 'talentDmgReductionBuff',
+      formItem: 'switch',
+      text: t('Content.talentDmgReductionBuff.text'),
+      content: t('Content.talentDmgReductionBuff.content'),
+    },
+    e2UltHealingBuff: {
+      id: 'e2UltHealingBuff',
+      formItem: 'switch',
+      text: t('Content.e2UltHealingBuff.text'),
+      content: t('Content.e2UltHealingBuff.content'),
+      disabled: e < 2,
+    },
+    e4SkillHealingDmgBuffStacks: {
+      id: 'e4SkillHealingDmgBuffStacks',
+      formItem: 'slider',
+      text: t('Content.e4SkillHealingDmgBuffStacks.text'),
+      content: t('Content.e4SkillHealingDmgBuffStacks.content'),
+      min: 0,
+      max: 3,
+      disabled: e < 4,
+    },
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    healingMaxHpBuff: content.healingMaxHpBuff,
+    talentDmgReductionBuff: content.talentDmgReductionBuff,
+    e4SkillHealingDmgBuffStacks: content.e4SkillHealingDmgBuffStacks,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => ({
-      healingMaxHpBuff: true,
-      talentDmgReductionBuff: true,
-      e2UltHealingBuff: true,
-      e4SkillHealingDmgBuffStacks: 0,
-    }),
-    teammateDefaults: () => ({
-      healingMaxHpBuff: true,
-      talentDmgReductionBuff: true,
-      e4SkillHealingDmgBuffStacks: 3,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Stats
-      x[Stats.OHB] += (e >= 2 && r.e2UltHealingBuff) ? 0.15 : 0
+      x.OHB.buff((e >= 2 && r.e2UltHealingBuff) ? 0.15 : 0, Source.NONE)
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
+      if (r.healAbility == SKILL_TYPE) {
+        x.HEAL_TYPE.set(SKILL_TYPE, Source.NONE)
+        x.HEAL_SCALING.buff(skillHealScaling, Source.NONE)
+        x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
+      }
+      if (r.healAbility == ULT_TYPE) {
+        x.HEAL_TYPE.set(ULT_TYPE, Source.NONE)
+        x.HEAL_SCALING.buff(ultHealScaling, Source.NONE)
+        x.HEAL_FLAT.buff(ultHealFlat, Source.NONE)
+      }
+      if (r.healAbility == NONE_TYPE) {
+        x.HEAL_TYPE.set(NONE_TYPE, Source.NONE)
+        x.HEAL_SCALING.buff(talentHealScaling, Source.NONE)
+        x.HEAL_FLAT.buff(talentHealFlat, Source.NONE)
+      }
+
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.HP_P] += (m.healingMaxHpBuff) ? 0.10 : 0
+      x.HP_P.buff((m.healingMaxHpBuff) ? 0.10 : 0, Source.NONE)
 
-      x.ELEMENTAL_DMG += (e >= 4) ? m.e4SkillHealingDmgBuffStacks * 0.10 : 0
-      x.DMG_RED_MULTI *= (m.talentDmgReductionBuff) ? (1 - 0.10) : 1
+      x.ELEMENTAL_DMG.buff((e >= 4) ? m.e4SkillHealingDmgBuffStacks * 0.10 : 0, Source.NONE)
+      x.DMG_RED_MULTI.multiply((m.talentDmgReductionBuff) ? (1 - 0.10) : 1, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    finalizeCalculations: (x: ComputedStatsArray) => {
+      standardAtkFinalizer(x)
+      standardHpHealFinalizer(x)
+    },
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer() + gpuStandardHpHealFinalizer(),
   }
 }

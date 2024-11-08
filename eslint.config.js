@@ -23,6 +23,7 @@ const config = tseslint.config(
     extends: [
       ...tseslint.configs.recommendedTypeCheckedOnly,
       ...tseslint.configs.stylisticTypeCheckedOnly,
+
     ],
   },
   {
@@ -39,6 +40,13 @@ const config = tseslint.config(
       globals: {
         ...globals.browser,
       },
+    },
+    rules: {
+      // As we're migrating to TS these make the process easier
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/ban-ts-comment': 'off',
     },
   },
   {
@@ -77,6 +85,7 @@ const config = tseslint.config(
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/no-misused-promises': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
     },
   },
   {
@@ -150,11 +159,11 @@ function styleRules(level) {
     '@stylistic/no-mixed-spaces-and-tabs': level,
     '@stylistic/no-multi-spaces': level,
     '@stylistic/no-multiple-empty-lines': [
-      level,
+      'off',
       { max: 1, maxBOF: 0, maxEOF: 0 },
     ],
     '@stylistic/no-tabs': level,
-    '@stylistic/no-trailing-spaces': level,
+    '@stylistic/no-trailing-spaces': 'off',
     '@stylistic/no-whitespace-before-property': level,
     '@stylistic/object-curly-newline': [
       level,

@@ -2,9 +2,9 @@
 import gameData from 'data/game_data.json'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v2.6.5'
+export const CURRENT_OPTIMIZER_VERSION = 'v2.7.1'
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '2.6v5'
+export const CURRENT_DATA_VERSION = '2.7v3'
 
 export const Stats = {
   ATK_P: 'ATK%',
@@ -29,7 +29,8 @@ export const Stats = {
   SPD_P: 'SPD%',
   SPD: 'SPD',
   Wind_DMG: 'Wind DMG Boost',
-}
+} as const
+
 export type StatsKeys = keyof typeof Stats
 export type StatsValues = (typeof Stats)[StatsKeys]
 
@@ -56,7 +57,7 @@ export const MainStats = [
 ]
 export type MainStats = typeof MainStats[number]
 
-export const MainStatsValues = {
+export const MainStatsValues: Record<string, Record<number, { base: number; increment: number }>> = {
   [Stats.HP_P]: {
     5: { base: 6.912, increment: 2.4192 },
     4: { base: 5.5296, increment: 1.9354 },
@@ -262,7 +263,7 @@ export const SubStatValues = {
     3: { high: 3.888, mid: 3.4992, low: 3.1104 },
     2: { high: 2.592, mid: 2.3328, low: 2.0736 },
   },
-}
+} as const
 
 export const StatsToReadable = {
   [Stats.HP_P]: 'HP %',
@@ -371,7 +372,7 @@ export const Parts = {
   Feet: 'Feet',
   PlanarSphere: 'PlanarSphere',
   LinkRope: 'LinkRope',
-}
+} as const
 export type Parts = typeof Parts[keyof typeof Parts]
 
 export const PartsToReadable = {
@@ -381,7 +382,7 @@ export const PartsToReadable = {
   [Parts.Feet]: 'Feet',
   [Parts.PlanarSphere]: 'Sphere',
   [Parts.LinkRope]: 'Rope',
-}
+} as const
 export type PartsToReadable = typeof PartsToReadable[keyof typeof PartsToReadable]
 
 export const PartsMainStats = {
@@ -416,7 +417,7 @@ export const SetsRelics = {
   TheWindSoaringValorous: 'The Wind-Soaring Valorous',
   SacerdosRelivedOrdeal: "Sacerdos' Relived Ordeal",
   ScholarLostInErudition: 'Scholar Lost in Erudition',
-}
+} as const
 
 export const SetsOrnaments = {
   SpaceSealingStation: 'Space Sealing Station',
@@ -437,7 +438,7 @@ export const SetsOrnaments = {
   ForgeOfTheKalpagniLantern: 'Forge of the Kalpagni Lantern',
   LushakaTheSunkenSeas: 'Lushaka, the Sunken Seas',
   TheWondrousBananAmusementPark: 'The Wondrous BananAmusement Park',
-}
+} as const
 
 // Delete unreleased data
 export const officialOnly = false
@@ -458,14 +459,14 @@ if (officialOnly) {
   // Delete unreleased characters
   for (const character of Object.values(characters)) {
     if (character.unreleased) {
-      delete characters[character.id]
+      delete characters[character.id as keyof typeof characters]
     }
   }
 
   // Delete unreleased light cones
   for (const lightCone of Object.values(lightCones)) {
     if (lightCone.unreleased) {
-      delete lightCones[lightCone.id]
+      delete lightCones[lightCone.id as keyof typeof lightCones]
     }
   }
 }
@@ -495,7 +496,7 @@ for (let i = 0; i < SetsRelicsNames.length; i++) {
 export const RelicSetCount = Object.values(SetsRelics).length
 export const OrnamentSetCount = Object.values(SetsOrnaments).length
 
-// TODO: This shouldnt be used anymore
+// TODO: This shouldn't be used anymore
 export const PathNames = {
   Abundance: 'Abundance',
   Destruction: 'Destruction',
@@ -554,45 +555,6 @@ export const RelicSetFilterOptions = {
 }
 
 export const DEFAULT_STAT_DISPLAY = 'combat'
-export const MAX_RESULTS = 2_000_000
-
-export const BodyStatOptions = [
-  { value: Stats.HP_P, short: 'HP%', label: 'HP%' },
-  { value: Stats.ATK_P, short: 'ATK%', label: 'ATK%' },
-  { value: Stats.DEF_P, short: 'DEF%', label: 'DEF%' },
-  { value: Stats.CR, short: 'Crit Rate', label: 'CRIT Rate' },
-  { value: Stats.CD, short: 'Crit DMG', label: 'CRIT DMG' },
-  { value: Stats.EHR, short: 'EHR', label: 'Effect HIT Rate' },
-  { value: Stats.OHB, short: 'Healing', label: 'Outgoing Healing Boost' },
-]
-
-export const FeetStatOptions = [
-  { value: Stats.HP_P, short: 'HP%', label: 'HP%' },
-  { value: Stats.ATK_P, short: 'ATK%', label: 'ATK%' },
-  { value: Stats.DEF_P, short: 'DEF%', label: 'DEF%' },
-  { value: Stats.SPD, short: 'SPD', label: 'Speed' },
-]
-
-export const LinkRopeStatOptions = [
-  { value: Stats.HP_P, short: 'HP%', label: 'HP%' },
-  { value: Stats.ATK_P, short: 'ATK%', label: 'ATK%' },
-  { value: Stats.DEF_P, short: 'DEF%', label: 'DEF%' },
-  { value: Stats.BE, short: 'Break', label: 'Break Effect' },
-  { value: Stats.ERR, short: 'Energy', label: 'Energy Regeneration Rate' },
-]
-
-export const PlanarSphereStatOptions = [
-  { value: Stats.HP_P, short: 'HP%', label: 'HP%' },
-  { value: Stats.ATK_P, short: 'ATK%', label: 'ATK%' },
-  { value: Stats.DEF_P, short: 'DEF%', label: 'DEF%' },
-  { value: Stats.Physical_DMG, short: 'Physical', label: 'Physical DMG' },
-  { value: Stats.Fire_DMG, short: 'Fire', label: 'Fire DMG' },
-  { value: Stats.Ice_DMG, short: 'Ice', label: 'Ice DMG' },
-  { value: Stats.Lightning_DMG, short: 'Lightning', label: 'Lightning DMG' },
-  { value: Stats.Wind_DMG, short: 'Wind', label: 'Wind DMG' },
-  { value: Stats.Quantum_DMG, short: 'Quantum', label: 'Quantum DMG' },
-  { value: Stats.Imaginary_DMG, short: 'Imaginary', label: 'Imaginary DMG' },
-]
 
 export const CombatBuffs = {
   ATK: {
@@ -683,48 +645,48 @@ export const CombatBuffs = {
 }
 
 export const setToId = {
-  [Constants.Sets.PasserbyOfWanderingCloud]: '101',
-  [Constants.Sets.MusketeerOfWildWheat]: '102',
-  [Constants.Sets.KnightOfPurityPalace]: '103',
-  [Constants.Sets.HunterOfGlacialForest]: '104',
-  [Constants.Sets.ChampionOfStreetwiseBoxing]: '105',
-  [Constants.Sets.GuardOfWutheringSnow]: '106',
-  [Constants.Sets.FiresmithOfLavaForging]: '107',
-  [Constants.Sets.GeniusOfBrilliantStars]: '108',
-  [Constants.Sets.BandOfSizzlingThunder]: '109',
-  [Constants.Sets.EagleOfTwilightLine]: '110',
-  [Constants.Sets.ThiefOfShootingMeteor]: '111',
-  [Constants.Sets.WastelanderOfBanditryDesert]: '112',
-  [Constants.Sets.LongevousDisciple]: '113',
-  [Constants.Sets.MessengerTraversingHackerspace]: '114',
-  [Constants.Sets.TheAshblazingGrandDuke]: '115',
-  [Constants.Sets.PrisonerInDeepConfinement]: '116',
-  [Constants.Sets.PioneerDiverOfDeadWaters]: '117',
-  [Constants.Sets.WatchmakerMasterOfDreamMachinations]: '118',
-  [Constants.Sets.IronCavalryAgainstTheScourge]: '119',
-  [Constants.Sets.TheWindSoaringValorous]: '120',
-  [Constants.Sets.SacerdosRelivedOrdeal]: '121',
-  [Constants.Sets.ScholarLostInErudition]: '122',
+  [Sets.PasserbyOfWanderingCloud]: '101',
+  [Sets.MusketeerOfWildWheat]: '102',
+  [Sets.KnightOfPurityPalace]: '103',
+  [Sets.HunterOfGlacialForest]: '104',
+  [Sets.ChampionOfStreetwiseBoxing]: '105',
+  [Sets.GuardOfWutheringSnow]: '106',
+  [Sets.FiresmithOfLavaForging]: '107',
+  [Sets.GeniusOfBrilliantStars]: '108',
+  [Sets.BandOfSizzlingThunder]: '109',
+  [Sets.EagleOfTwilightLine]: '110',
+  [Sets.ThiefOfShootingMeteor]: '111',
+  [Sets.WastelanderOfBanditryDesert]: '112',
+  [Sets.LongevousDisciple]: '113',
+  [Sets.MessengerTraversingHackerspace]: '114',
+  [Sets.TheAshblazingGrandDuke]: '115',
+  [Sets.PrisonerInDeepConfinement]: '116',
+  [Sets.PioneerDiverOfDeadWaters]: '117',
+  [Sets.WatchmakerMasterOfDreamMachinations]: '118',
+  [Sets.IronCavalryAgainstTheScourge]: '119',
+  [Sets.TheWindSoaringValorous]: '120',
+  [Sets.SacerdosRelivedOrdeal]: '121',
+  [Sets.ScholarLostInErudition]: '122',
 
-  [Constants.Sets.SpaceSealingStation]: '301',
-  [Constants.Sets.FleetOfTheAgeless]: '302',
-  [Constants.Sets.PanCosmicCommercialEnterprise]: '303',
-  [Constants.Sets.BelobogOfTheArchitects]: '304',
-  [Constants.Sets.CelestialDifferentiator]: '305',
-  [Constants.Sets.InertSalsotto]: '306',
-  [Constants.Sets.TaliaKingdomOfBanditry]: '307',
-  [Constants.Sets.SprightlyVonwacq]: '308',
-  [Constants.Sets.RutilantArena]: '309',
-  [Constants.Sets.BrokenKeel]: '310',
-  [Constants.Sets.FirmamentFrontlineGlamoth]: '311',
-  [Constants.Sets.PenaconyLandOfTheDreams]: '312',
-  [Constants.Sets.SigoniaTheUnclaimedDesolation]: '313',
-  [Constants.Sets.IzumoGenseiAndTakamaDivineRealm]: '314',
-  [Constants.Sets.DuranDynastyOfRunningWolves]: '315',
-  [Constants.Sets.ForgeOfTheKalpagniLantern]: '316',
-  [Constants.Sets.LushakaTheSunkenSeas]: '317',
-  [Constants.Sets.TheWondrousBananAmusementPark]: '318',
-}
+  [Sets.SpaceSealingStation]: '301',
+  [Sets.FleetOfTheAgeless]: '302',
+  [Sets.PanCosmicCommercialEnterprise]: '303',
+  [Sets.BelobogOfTheArchitects]: '304',
+  [Sets.CelestialDifferentiator]: '305',
+  [Sets.InertSalsotto]: '306',
+  [Sets.TaliaKingdomOfBanditry]: '307',
+  [Sets.SprightlyVonwacq]: '308',
+  [Sets.RutilantArena]: '309',
+  [Sets.BrokenKeel]: '310',
+  [Sets.FirmamentFrontlineGlamoth]: '311',
+  [Sets.PenaconyLandOfTheDreams]: '312',
+  [Sets.SigoniaTheUnclaimedDesolation]: '313',
+  [Sets.IzumoGenseiAndTakamaDivineRealm]: '314',
+  [Sets.DuranDynastyOfRunningWolves]: '315',
+  [Sets.ForgeOfTheKalpagniLantern]: '316',
+  [Sets.LushakaTheSunkenSeas]: '317',
+  [Sets.TheWondrousBananAmusementPark]: '318',
+} as const
 
 export const DamageKeys = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK']
 
@@ -741,10 +703,10 @@ export const COMBAT_STATS = 'Combat Stats'
 export const COMPUTE_ENGINE_CPU = 'CPU'
 export const COMPUTE_ENGINE_GPU_STABLE = 'GPU Stable'
 export const COMPUTE_ENGINE_GPU_EXPERIMENTAL = 'GPU Experimental'
+export type ComputeEngine = typeof COMPUTE_ENGINE_CPU | typeof COMPUTE_ENGINE_GPU_EXPERIMENTAL | typeof COMPUTE_ENGINE_GPU_STABLE
 
 export const SACERDOS_RELIVED_ORDEAL_1_STACK = 'Sacerdos\' Relived Ordeal 1x'
 export const SACERDOS_RELIVED_ORDEAL_2_STACK = 'Sacerdos\' Relived Ordeal 2x'
-
 
 export const ConditionalType = {
   SET: 0,

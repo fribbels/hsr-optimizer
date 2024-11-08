@@ -1,5 +1,6 @@
+import { CustomPortrait } from 'types/store'
 import { Parts, SetsOrnaments, SetsRelics, StatsValues } from '../lib/constants'
-import { AssetRelativeUrl, DataMineId, Element, ExternalPath, GUID, InternalPath, Promotions, Rarity } from './Common'
+import { GUID } from './Common'
 import { Form } from './Form'
 
 export type CharacterId = string // "1004"
@@ -14,23 +15,16 @@ export type Build = {
   [key in Parts]?: GUID;
 }
 
-// DB.getMetadata().characters
+// Db.getMetadata().characters
 export type MetadataCharacter = {
-  id: DataMineId
+  id: string
   name: string // "Dan Heng"
-  tag: string // "danheng"
-  rarity: Rarity
-  path: InternalPath | ExternalPath
-  element: Element
+  rarity: number
+  path: string
+  element: string
   max_sp: number
-  ranks: string[]
-  skills: string[]
-  skill_trees: string[]
-  icon: AssetRelativeUrl
-  preview: AssetRelativeUrl
-  portrait: AssetRelativeUrl
-  promotions: Promotions
-  traces: Traces
+  portrait: CustomPortrait
+  traces: Record<string, number>
   imageCenter: { x: number; y: number }
   displayName: string // injected on hydration
   scoringMetadata: {
@@ -49,13 +43,14 @@ export type Character = {
   form: Form
   rank: number // order in character tab
   builds: SavedBuild[]
+  portrait?: CustomPortrait
 }
 
 export type SavedBuild = {
   build: string[]
   name: string
   score: {
-    score: number
+    score: string
     rating: string
   }
 }

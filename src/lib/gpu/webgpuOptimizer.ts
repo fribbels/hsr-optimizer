@@ -1,15 +1,16 @@
-import { Form } from 'types/Form'
-import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
-import { calculateBuild } from 'lib/optimizer/calculateBuild'
-import { OptimizerTabController } from 'lib/optimizerTabController'
-import { renameFields } from 'lib/optimizer/optimizer'
-import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
-import { SortOption } from 'lib/optimizer/sortOptions'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
-import { Message } from 'lib/message'
-import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants'
+import { OptimizerDisplayData } from 'lib/bufferPacker'
+import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, ComputeEngine } from 'lib/constants'
+import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
+import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { Message } from 'lib/message'
+import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { renameFields } from 'lib/optimizer/optimizer'
+import { SortOption } from 'lib/optimizer/sortOptions'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { Form } from 'types/Form'
 import { OptimizerContext } from 'types/Optimizer'
 
 window.WEBGPU_DEBUG = false
@@ -39,7 +40,7 @@ export async function gpuOptimize(props: {
   }
 
   window.store.getState().setOptimizerStartTime(Date.now())
-  window.store.getState().setOptimizerRunningEngine(computeEngine)
+  window.store.getState().setOptimizerRunningEngine(computeEngine as ComputeEngine)
 
   const gpuContext = initializeGpuPipeline(
     device,
@@ -50,7 +51,7 @@ export async function gpuOptimize(props: {
     computeEngine,
     relicSetSolutions,
     ornamentSetSolutions,
-    window.WEBGPU_DEBUG
+    window.WEBGPU_DEBUG,
   )
 
   if (gpuContext.DEBUG) {
@@ -161,7 +162,7 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
 }
 
 function outputResults(gpuContext: GpuExecutionContext) {
-  const relics = gpuContext.relics
+  const relics: RelicsByPart = gpuContext.relics
 
   const lSize = relics.LinkRope.length
   const pSize = relics.PlanarSphere.length
@@ -178,7 +179,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
 
   const optimizerContext = gpuContext.context
   const resultArray = gpuContext.resultsQueue.toArray().sort((a, b) => b.value - a.value)
-  const outputs: any[] = []
+  const outputs: OptimizerDisplayData[] = []
   for (let i = 0; i < resultArray.length; i++) {
     const index = resultArray[i].index
 
@@ -189,7 +190,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
     const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
     const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
 
-    const c = calculateBuild(
+    const { c } = calculateBuild(
       gpuContext.request,
       {
         Head: relics.Head[h],
@@ -201,17 +202,17 @@ function outputResults(gpuContext: GpuExecutionContext) {
       },
       optimizerContext,
       true,
-      true
+      true,
     )
 
     c.id = index
-    renameFields(c)
-    outputs.push(c)
+    const optimizerDisplayData = renameFields(c)
+    outputs.push(optimizerDisplayData)
   }
 
   // console.log(outputs)
 
-  const sortOption = SortOption[gpuContext.request.resultSort!]
+  const sortOption = SortOption[gpuContext.request.resultSort as keyof typeof SortOption]
   const gridSortColumn = gpuContext.request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
   setSortColumn(gridSortColumn)
   OptimizerTabController.setRows(outputs)

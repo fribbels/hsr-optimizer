@@ -1,13 +1,12 @@
-import { Form } from 'types/Form'
-import { generateTestRelics, StatDeltaAnalysis, testWrapper } from 'lib/gpu/tests/webgpuTestUtils'
-import DB from 'lib/db'
-import { SetsOrnamentsNames, SetsRelicsNames } from 'lib/constants'
-import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
-import { LightCone } from 'types/LightCone'
-import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { generateFullDefaultForm } from 'lib/characterScorer'
-import { OptimizerTabController } from 'lib/optimizerTabController'
+import { SetsOrnamentsNames, SetsRelicsNames } from 'lib/constants'
+import DB, { DBMetadata, DBMetadataLightCone } from 'lib/db'
+import { generateTestRelics, StatDeltaAnalysis, testWrapper } from 'lib/gpu/tests/webgpuTestUtils'
+import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
+import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { SortOption } from 'lib/optimizer/sortOptions'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { Form } from 'types/Form'
 
 export type WebgpuTest = {
   name: string
@@ -20,8 +19,10 @@ export type WebgpuTest = {
 }
 
 const cache: {
-  [key: string]: any
-} = {}
+  metadata: DBMetadata
+} = {
+  metadata: {} as DBMetadata,
+}
 
 const basicLc = '23001' // In the Night
 const baseCharacterLightConeMappings = [
@@ -82,6 +83,8 @@ const baseCharacterLightConeMappings = [
   { characterId: '1314', lightConeId: '23028' }, // Jade
   { characterId: '1315', lightConeId: '23027' }, // Boothill
   { characterId: '1317', lightConeId: '23033' }, // Rappa
+  { characterId: '1225', lightConeId: '23035' }, // Fugue
+  { characterId: '1313', lightConeId: '23034' }, // Sunday
   { characterId: '8001', lightConeId: basicLc }, // Trailblazer
   { characterId: '8002', lightConeId: basicLc }, // Trailblazer
   { characterId: '8003', lightConeId: basicLc }, // Trailblazer
@@ -97,23 +100,34 @@ export async function generateAllTests() {
   cache.metadata = DB.getMetadata()
 
   return [
+    // ...generateSingleCharacterTest(device, { characterId: '1105', lightConeId: basicLc }),
     ...generateOrnamentSetTests(device),
     ...generateRelicSetTests(device),
+    ...generateE6E5Tests(device),
+    ...generateE0E1Tests(device),
     ...generateStarLcTests(device, 4),
     ...generateStarLcTests(device, 3),
-    ...generateE0E1Tests(device),
-    ...generateE6E5Tests(device),
+  ]
+}
+
+export function generateSingleCharacterTest(
+  device: GPUDevice,
+  pair: { characterId: string; lightConeId: string },
+) {
+  return [
+    generateE0S1CharacterTest(pair.characterId, pair.lightConeId, device),
+    generateE6S5CharacterTest(pair.characterId, pair.lightConeId, device),
   ]
 }
 
 export function generateE0E1Tests(device: GPUDevice) {
-  return baseCharacterLightConeMappings.map((pair) => {
+  return baseCharacterLightConeMappings.reverse().map((pair) => {
     return generateE0S1CharacterTest(pair.characterId, pair.lightConeId, device)
   })
 }
 
 export function generateE6E5Tests(device: GPUDevice) {
-  return baseCharacterLightConeMappings.map((pair) => {
+  return baseCharacterLightConeMappings.reverse().map((pair) => {
     return generateE6S5CharacterTest(pair.characterId, pair.lightConeId, device)
   })
 }
@@ -121,7 +135,8 @@ export function generateE6E5Tests(device: GPUDevice) {
 export function generateStarLcTests(device: GPUDevice, star: number) {
   // Use Kafka since she has DOT and FUA
   const characterId = '1005'
-  const lightCones = Object.values(cache.metadata.lightCones as LightCone[]).filter((lc: LightCone) => lc.rarity == star)
+  const metadataLightCones = Object.values(cache.metadata.lightCones)
+  const lightCones = metadataLightCones.filter((lc: DBMetadataLightCone) => lc.rarity == star)
   const tests: WebgpuTest[] = []
 
   for (const lc of lightCones) {

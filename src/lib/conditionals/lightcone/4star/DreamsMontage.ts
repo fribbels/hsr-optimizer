@@ -1,6 +1,6 @@
 import { LightConeConditional } from 'types/LightConeConditionals'
 
-export default (/* s: SuperImpositionLevel */): LightConeConditional => {
+export default (): LightConeConditional => {
   return {
     content: () => [],
     defaults: () => ({}),

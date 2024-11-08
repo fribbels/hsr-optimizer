@@ -1,13 +1,13 @@
-import DB from './db.js'
-import { SaveState } from './saveState.js'
-import { Message } from './message.js'
-import { OptimizerTabController } from 'lib/optimizerTabController.js'
-import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/Relic'
-import { Constants, Stats, SubStatValues } from 'lib/constants'
-import { RelicAugmenter } from 'lib/relicAugmenter'
-import { Utils } from 'lib/utils'
-import { RelicRollFixer } from 'lib/relicRollFixer'
 import i18next from 'i18next'
+import { Constants, Stats, SubStats, SubStatValues } from 'lib/constants'
+import DB from 'lib/db'
+import { Message } from 'lib/message'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { RelicAugmenter } from 'lib/relicAugmenter'
+import { RelicRollFixer } from 'lib/relicRollFixer'
+import { SaveState } from 'lib/saveState'
+import { Utils } from 'lib/utils'
+import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/Relic'
 
 export const RelicModalController = {
   onEditOk: (selectedRelic: Relic, relic: Relic) => {
@@ -31,7 +31,6 @@ export const RelicModalController = {
 
     return updatedRelic
   },
-
 }
 
 export type RelicForm = {
@@ -45,10 +44,10 @@ export type RelicForm = {
   substatType1: string
   substatType2: string
   substatType3: string
-  substatValue0: number
-  substatValue1: number
-  substatValue2: number
-  substatValue3: number
+  substatValue0: string
+  substatValue1: string
+  substatValue2: string
+  substatValue3: string
   equippedBy: string
 }
 
@@ -124,13 +123,18 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
     return Message.error(i18next.t('modals:Relic.Messages.Error.MainAsSub')/* Substat type is the same as the main stat */)
   }
 
-  if (relicForm.substatValue0 >= 1000 || relicForm.substatValue1 >= 1000 || relicForm.substatValue2 >= 1000 || relicForm.substatValue3 >= 1000) {
+  const substatNumber0 = parseFloat(relicForm.substatValue0)
+  const substatNumber1 = parseFloat(relicForm.substatValue1)
+  const substatNumber2 = parseFloat(relicForm.substatValue2)
+  const substatNumber3 = parseFloat(relicForm.substatValue3)
+
+  if (substatNumber0 >= 1000 || substatNumber1 >= 1000 || substatNumber2 >= 1000 || substatNumber3 >= 1000) {
     return Message.error(i18next.t('modals:Relic.Messages.Error.SubTooBig')/* Substat value is too big */)
   }
   if (relicForm.mainStatValue >= 1000) {
     return Message.error(i18next.t('modals:Relic.Messages.Error.MainTooBig')/* Main stat value is too big */)
   }
-  if (relicForm.substatValue0 <= 0 || relicForm.substatValue1 <= 0 || relicForm.substatValue2 <= 0 || relicForm.substatValue3 <= 0) {
+  if (substatNumber0 <= 0 || substatNumber1 <= 0 || substatNumber2 <= 0 || substatNumber3 <= 0) {
     return Message.error(i18next.t('modals:Relic.Messages.Error.SubTooSmall')/* Substat values should be positive */)
   }
   if (relicForm.mainStatValue <= 0) {
@@ -147,30 +151,30 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
       stat: relicForm.mainStatType,
       value: relicForm.mainStatValue,
     },
-  }
+  } as Relic
   const substats: Stat[] = []
   if (relicForm.substatType0 != undefined && relicForm.substatValue0 != undefined) {
     substats.push({
       stat: relicForm.substatType0,
-      value: relicForm.substatValue0,
+      value: substatNumber0,
     })
   }
   if (relicForm.substatType1 != undefined && relicForm.substatValue1 != undefined) {
     substats.push({
       stat: relicForm.substatType1,
-      value: relicForm.substatValue1,
+      value: substatNumber1,
     })
   }
   if (relicForm.substatType2 != undefined && relicForm.substatValue2 != undefined) {
     substats.push({
       stat: relicForm.substatType2,
-      value: relicForm.substatValue2,
+      value: substatNumber2,
     })
   }
   if (relicForm.substatType3 != undefined && relicForm.substatValue3 != undefined) {
     substats.push({
       stat: relicForm.substatType3,
-      value: relicForm.substatValue3,
+      value: substatNumber3,
     })
   }
   relic.substats = substats
@@ -185,8 +189,13 @@ export type RelicUpgradeValues = {
   high: number | undefined
 }
 
+type RelicFormStat = {
+  stat: string
+  value: string
+}
+
 export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues[] {
-  const statPairs: Stat[] = [
+  const statPairs: RelicFormStat[] = [
     { stat: relicForm.substatType0, value: relicForm.substatValue0 },
     { stat: relicForm.substatType1, value: relicForm.substatValue1 },
     { stat: relicForm.substatType2, value: relicForm.substatValue2 },
@@ -195,10 +204,12 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
 
   const upgradeValues: RelicUpgradeValues[] = []
 
+  // eslint-disable-next-line prefer-const
   for (let { stat, value } of statPairs) {
     if (stat != undefined && value != undefined) {
+      // @ts-ignore
       if (value == '') {
-        value = 0
+        value = '0'
       } else if (isNaN(parseFloat(value))) {
         upgradeValues.push({ low: undefined, mid: undefined, high: undefined })
         continue
@@ -214,7 +225,7 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
       const value10ths = Utils.truncate10ths(Utils.precisionRound(parseFloat(value)))
       const fixedValue: number = RelicRollFixer.fixSubStatValue(stat, value10ths, 5)
 
-      const upgrades: RelicUpgradeValues = Utils.clone(SubStatValues[stat][relicForm.grade])
+      const upgrades: RelicUpgradeValues = Utils.clone(SubStatValues[stat as SubStats][relicForm.grade])
 
       if (Utils.isFlat(stat)) {
         upgrades.low = renderFlatStat(fixedValue + upgrades.low!)
@@ -239,5 +250,5 @@ function renderFlatStat(value: number) {
 }
 
 function renderPercentStat(value: number) {
-  return Utils.truncate10ths(Utils.precisionRound(value)).toFixed(1)
+  return parseFloat(Utils.truncate10ths(Utils.precisionRound(value)).toFixed(1))
 }

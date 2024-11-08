@@ -1,13 +1,12 @@
+import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -23,64 +22,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 0, 0)
 
-  const atkBoostByQuantumAllies = {
+  const atkBoostByQuantumAllies: Record<number, number> = {
     0: 0,
     1: 0.05,
     2: 0.15,
     3: 0.30,
   }
-
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'skillCdBuff',
-    name: 'skillCdBuff',
-    text: t('Content.skillCdBuff.text'),
-    title: t('Content.skillCdBuff.title'),
-    content: t('Content.skillCdBuff.content', { skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling), skillCdBuffBase: TsUtils.precisionRound(100 * skillCdBuffBase) }),
-  }, {
-    formItem: 'switch',
-    id: 'cipherBuff',
-    name: 'cipherBuff',
-    text: t('Content.cipherBuff.text'),
-    title: t('Content.cipherBuff.title'),
-    content: t('Content.cipherBuff.content', { cipherTalentStackBoost: TsUtils.precisionRound(100 * cipherTalentStackBoost) }),
-  }, {
-    formItem: 'slider',
-    id: 'talentStacks',
-    name: 'talentStacks',
-    text: t('Content.talentStacks.text'),
-    title: t('Content.talentStacks.title'),
-    content: t('Content.talentStacks.content', { talentBaseStackBoost: TsUtils.precisionRound(100 * talentBaseStackBoost) }),
-    min: 0,
-    max: 3,
-  }, {
-    formItem: 'slider',
-    id: 'quantumAllies',
-    name: 'quantumAllies',
-    text: t('Content.quantumAllies.text'),
-    title: t('Content.quantumAllies.title'),
-    content: t('Content.quantumAllies.content'),
-    min: 0,
-    max: 3,
-  }]
-
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'skillCdBuff'),
-    {
-      formItem: 'slider',
-      id: 'teammateCDValue',
-      name: 'teammateCDValue',
-      text: t('TeammateContent.teammateCDValue.text'),
-      title: t('TeammateContent.teammateCDValue.title'),
-      content: t('TeammateContent.teammateCDValue.content', { skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling), skillCdBuffBase: TsUtils.precisionRound(100 * skillCdBuffBase) }),
-      min: 0,
-      max: 3.50,
-      percent: true,
-    },
-    findContentId(content, 'cipherBuff'),
-    findContentId(content, 'talentStacks'),
-    findContentId(content, 'quantumAllies'),
-  ]
 
   const defaults = {
     skillCdBuff: false,
@@ -89,42 +36,109 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     quantumAllies: 3,
   }
 
-  return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => (defaults),
-    teammateDefaults: () => ({
-      ...defaults,
-      ...{
-        skillCdBuff: true,
-        teammateCDValue: 2.5,
-      },
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+  const teammateDefaults = {
+    ...defaults,
+    ...{
+      skillCdBuff: true,
+      teammateCDValue: 2.5,
+    },
+  }
 
-      x.BASIC_TOUGHNESS_DMG += 30
+  const content: ContentDefinition<typeof defaults> = {
+    skillCdBuff: {
+      id: 'skillCdBuff',
+      formItem: 'switch',
+      text: t('Content.skillCdBuff.text'),
+      content: t('Content.skillCdBuff.content', {
+        skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling),
+        skillCdBuffBase: TsUtils.precisionRound(100 * skillCdBuffBase),
+      }),
+    },
+    cipherBuff: {
+      id: 'cipherBuff',
+      formItem: 'switch',
+      text: t('Content.cipherBuff.text'),
+      content: t('Content.cipherBuff.content', { cipherTalentStackBoost: TsUtils.precisionRound(100 * cipherTalentStackBoost) }),
+    },
+    talentStacks: {
+      id: 'talentStacks',
+      formItem: 'slider',
+      text: t('Content.talentStacks.text'),
+      content: t('Content.talentStacks.content', { talentBaseStackBoost: TsUtils.precisionRound(100 * talentBaseStackBoost) }),
+      min: 0,
+      max: 3,
+    },
+    quantumAllies: {
+      id: 'quantumAllies',
+      formItem: 'slider',
+      text: t('Content.quantumAllies.text'),
+      content: t('Content.quantumAllies.content'),
+      min: 0,
+      max: 3,
+    },
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    skillCdBuff: content.skillCdBuff,
+    teammateCDValue: {
+      id: 'teammateCDValue',
+      formItem: 'slider',
+      text: t('TeammateContent.teammateCDValue.text'),
+      content: t('TeammateContent.teammateCDValue.content', {
+        skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling),
+        skillCdBuffBase: TsUtils.precisionRound(100 * skillCdBuffBase),
+      }),
+      min: 0,
+      max: 3.50,
+      percent: true,
+    },
+    cipherBuff: content.cipherBuff,
+    talentStacks: content.talentStacks,
+    quantumAllies: content.quantumAllies,
+  }
+
+  return {
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
       // Main damage type
-      x[Stats.ATK_P] += 0.15 + (context.elementalDamageType == Stats.Quantum_DMG ? (atkBoostByQuantumAllies[m.quantumAllies] || 0) : 0)
-      x[Stats.ATK_P] += (e >= 1 && m.cipherBuff) ? 0.40 : 0
+      x.ATK_P.buff(
+        0.15 + (context.elementalDamageType == Stats.Quantum_DMG
+          ? (atkBoostByQuantumAllies[m.quantumAllies] || 0)
+          : 0),
+        Source.NONE)
+      x.ATK_P.buff((e >= 1 && m.cipherBuff) ? 0.40 : 0, Source.NONE)
 
-      x.ELEMENTAL_DMG += (m.cipherBuff) ? m.talentStacks * (talentBaseStackBoost + cipherTalentStackBoost) : m.talentStacks * talentBaseStackBoost
-      x.DEF_PEN += (e >= 2) ? 0.08 * m.talentStacks : 0
+      x.ELEMENTAL_DMG.buff(
+        (m.cipherBuff)
+          ? m.talentStacks * (talentBaseStackBoost + cipherTalentStackBoost)
+          : m.talentStacks * talentBaseStackBoost,
+        Source.NONE)
+      x.DEF_PEN.buff((e >= 2) ? 0.08 * m.talentStacks : 0, Source.NONE)
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.CD] += (t.skillCdBuff) ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * t.teammateCDValue : 0
+      x.CD.buff(
+        (t.skillCdBuff)
+          ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * t.teammateCDValue
+          : 0,
+        Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
     dynamicConditionals: [
       {
@@ -136,8 +150,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         condition: function () {
           return true
         },
-        effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r: Conditionals<typeof content> = action.characterConditionals
           if (!r.skillCdBuff) {
             return
           }
@@ -145,20 +159,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
           const buffScalingValue = (skillCdBuffScaling + (e >= 6 ? 0.30 : 0))
 
           const stateValue = action.conditionalState[this.id] || 0
-          const convertibleCdValue = x[Stats.CD] - x.RATIO_BASED_CD_BUFF
+          const convertibleCdValue = x.a[Key.CD] - x.a[Key.RATIO_BASED_CD_BUFF]
 
           const buffCD = buffScalingValue * convertibleCdValue + skillCdBuffBase
           const stateBuffCD = buffScalingValue * stateValue + skillCdBuffBase
 
-          action.conditionalState[this.id] = x[Stats.CD]
+          action.conditionalState[this.id] = x.a[Key.CD]
 
           const finalBuffCd = buffCD - (stateValue ? stateBuffCD : 0)
-          x.RATIO_BASED_CD_BUFF += finalBuffCd
+          x.RATIO_BASED_CD_BUFF.buff(finalBuffCd, Source.NONE)
 
-          buffStat(x, Stats.CD, finalBuffCd, action, context)
+          x.CD.buffDynamic(finalBuffCd, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+          const r: Conditionals<typeof content> = action.characterConditionals
           const buffScalingValue = (skillCdBuffScaling + (e >= 6 ? 0.30 : 0))
 
           return conditionalWgslWrapper(this, `

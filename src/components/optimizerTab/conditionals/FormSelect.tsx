@@ -1,9 +1,9 @@
-import styled from 'styled-components'
 import { Flex, Form, Select, Typography } from 'antd'
 import WithPopover from 'components/common/WithPopover'
-import { ComponentProps, ComponentType, useState } from 'react'
-import { SelectOptionContent } from 'lib/optimizer/rotation/setConditionalContent'
 import { getItemName } from 'components/optimizerTab/conditionals/FormSwitch'
+import { SelectOptionContent } from 'lib/optimizer/rotation/setConditionalContent'
+import { ComponentProps, ComponentType, useState } from 'react'
+import styled from 'styled-components'
 
 const justify = 'flex-start'
 const align = 'center'
@@ -14,7 +14,7 @@ const Text = styled(Typography)`
 
 export interface FormSelectProps {
   disabled?: boolean
-  name: string
+  id: string
   text: string
   lc?: boolean
   set?: boolean
@@ -22,6 +22,7 @@ export interface FormSelectProps {
   removeForm?: boolean
   onChange?: (value: number) => void
   value?: number
+  fullWidth?: boolean
   options?: SelectOptionContent[]
 }
 
@@ -33,7 +34,7 @@ export const FormSelect: ComponentType<FormSelectProps> = (props) => {
   const internalSelect = (
     <Select
       disabled={props.disabled}
-      style={{ minWidth: 80, width: 80, marginRight: 5 }}
+      style={{ minWidth: props.fullWidth ? '100%' : 80, width: props.fullWidth ? '100%' : 80, marginRight: 5 }}
       optionLabelProp='display'
       listHeight={500}
       size='small'
@@ -54,17 +55,17 @@ export const FormSelect: ComponentType<FormSelectProps> = (props) => {
   )
 
   return (
-    <Flex justify={justify} align={align}>
+    <Flex justify={justify} align={align} style={{ width: props.fullWidth ? '100%' : undefined }}>
       {
         props.removeForm
           ? internalSelect
           : (
-            <Form.Item name={itemName}>
+            <Form.Item name={itemName} style={{ width: props.fullWidth ? '100%' : undefined }}>
               {internalSelect}
             </Form.Item>
           )
       }
-      <Text>{props.text}</Text>
+      <Text>{props.fullWidth ? null : props.text}</Text>
     </Flex>
   )
 }

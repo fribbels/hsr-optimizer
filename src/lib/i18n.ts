@@ -1,24 +1,17 @@
 import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import Backend from 'i18next-http-backend'
-import { BASE_PATH } from './db'
+import { BASE_PATH } from 'lib/db'
 import yaml from 'js-yaml'
+import LanguageDetector from 'i18next-browser-languagedetector'
 
 window.yaml = yaml
 
 export const languages = {
-  zh: {
-    locale: 'zh',
-    nativeName: '中文',
-  }, /*
-  de: {
-    locale: 'de',
-    nativeName: 'Deutsch',
-  }, */
   en: {
     locale: 'en',
     nativeName: 'English',
-  }, /*
+  },
   es: {
     locale: 'es',
     nativeName: 'Español',
@@ -26,6 +19,23 @@ export const languages = {
   fr: {
     locale: 'fr',
     nativeName: 'Français',
+  },
+  it: {
+    locale: 'it',
+    nativeName: 'Italiano',
+  },
+  pt: {
+    locale: 'pt',
+    nativeName: 'Português (Brasil)',
+  },
+  zh: {
+    locale: 'zh',
+    nativeName: '中文',
+  },
+  /*
+  de: {
+    locale: 'de',
+    nativeName: 'Deutsch',
   },
   id: {
     locale: 'id',
@@ -39,10 +49,6 @@ export const languages = {
     locale: 'ko',
     nativeName: '한국인',
   },
-  pt: {
-    locale: 'pt',
-    nativeName: 'Português',
-  },
   ru: {
     locale: 'ru',
     nativeName: 'русский',
@@ -55,12 +61,12 @@ export const languages = {
     locale: 'vi',
     nativeName: 'tiếng việt',
   }, */
-}
+} as const
 
 export const supportedLanguages = Object.keys(languages)
 void i18next
   .use(Backend)
-  // .use(LanguageDetector) Disabled temporarily
+  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     ns: [
@@ -79,7 +85,6 @@ void i18next
       'notifications',
       'conditionals',
     ],
-    lng: 'en', // Hardcoded temporarily
     defaultNS: 'common',
     fallbackNS: ['common', 'gameData'],
     debug: true,
@@ -96,18 +101,4 @@ void i18next
       },
     },
   })
-
-i18next.services.formatter?.add('capitalize', (value: string | undefined, lng, options: { interpolationkey?: string; capitalizeLength: number }) => {
-  const string = value ?? options.interpolationkey ?? ''
-  let length = options.capitalizeLength ?? 1
-  if (length < 0) {
-    length = string.length
-  }
-  let out: string = ''
-  for (let i = 0; i < length; i++) {
-    out = out + string.charAt(i).toUpperCase()
-  }
-  return out + string.slice(length)
-})
-
 export default i18next

@@ -11,13 +11,13 @@ RelicFilterBar:
   Substat: Substats
   ReapplyButton: Reapply scores
   ScoringButton: Scoring algorithm
-  RecommendationHeader: 'Relic recommendation character'
-  Rating: 'Relic ratings'
-  CustomCharsHeader: 'Custom potential characters'
+  RecommendationHeader: Relic recommendation character
+  Rating: Relic ratings
+  CustomCharsHeader: Custom potential characters
 Messages:
-  AddRelicSuccess: 'Successfully added relic'
-  NoRelicSelected: 'No relic selected'
-  DeleteRelicSuccess: 'Successfully deleted relic'
+  AddRelicSuccess: Successfully added relic
+  NoRelicSelected: No relic selected
+  DeleteRelicSuccess: Successfully deleted relic
 RelicGrid:
   To: to
   Of: of
@@ -60,50 +60,50 @@ RelicGrid:
       Value
   ValueColumns:
     SelectedCharacter:
-      Label: 'Selected character'
+      Label: Selected character
       ScoreCol:
-        Label: 'Selected character: Score'
+        Label: "Selected character: Score"
         Header: |-
           Selected Char
           Score
       AvgPotCol:
-        Label: 'Selected character: Average potential'
+        Label: "Selected character: Average potential"
         Header: |-
           Selected Char
           Avg Potential
       MaxPotCol:
-        Label: 'Selected character: Max potential'
+        Label: "Selected character: Max potential"
         Header: |-
           Selected Char
           Max Potential
     CustomCharacters:
-      Label: 'Custom characters'
+      Label: Custom characters
       AvgPotCol:
-        Label: 'Custom characters: Average potential'
+        Label: "Custom characters: Average potential"
         Header: |-
           Custom Chars
           Avg Potential
       MaxPotCol:
-        Label: 'Custom$characters: Max potential'
+        Label: "Custom characters: Max potential"
         Header: |-
           Custom Chars
           Max Potential
     AllCharacters:
-      Label: 'All characters'
+      Label: All characters
       AvgPotCol:
-        Label: 'All characters: Average potential'
+        Label: "All characters: Average potential"
         Header: |-
           All Chars
           Avg Potential
       MaxPotCol:
-        Label: 'All characters: Max potential'
+        Label: "All characters: Max potential"
         Header: |-
           All Chars
           Max Potential
     ComingSoon:
       Label: Coming soon
       SetsPotential:
-        Label: '$Relic / Ornament sets potential'
+        Label: Relic / Ornament sets potential
         Header: |-
           All Chars
           Max Potential + Sets
@@ -111,20 +111,20 @@ Toolbar:
   RelicLocator:
     Width: Inventory width
     Filter: Auto filter rows
-    NoneSelected: 'Select a relic to locate'
-    Location: Location - Row {{rowIndex}} / Col {{columnIndex}}
+    NoneSelected: Select a relic to locate
+    Location: "Location - Row {{rowIndex}} / Col {{columnIndex}}"
   InsightOptions:
-    Buckets: 'Relic Insight: Buckets'
-    Top10: 'Relic Insight: Top 10'
+    Buckets: "Relic Insight: Buckets"
+    Top10: "Relic Insight: Top 10"
   PlotOptions:
-    PlotAll: 'Show all characters'
-    PlotCustom: 'Show custom characters'
-  EditRelic: 'Edit relic'
+    PlotAll: Show all characters
+    PlotCustom: Show custom characters
+  EditRelic: Edit relic
   DeleteRelic:
-    ButtonText: 'Delete relic'
-    Warning_one: 'Delete the selected relic?'
-    Warning_other: 'Delete the selected {{count}} relics?'
-  AddRelic: 'Add New Relic'
+    ButtonText: Delete relic
+    Warning_one: Delete the selected relic?
+    Warning_other: "Delete the {{count}} selected relics?"
+  AddRelic: Add New Relic
 RelicInsights:
-  NewStats: 'New stats: '
-  UpgradedStats: 'Upgraded stats: '
+  NewStats: "New stats: "
+  UpgradedStats: "Upgraded stats: "

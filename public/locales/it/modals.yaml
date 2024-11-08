@@ -1,0 +1,5 @@
+EditCharacter:
+  Character: Personaggi
+CharacterSelect:
+  SingleSelect:
+    Placeholder: Personaggi

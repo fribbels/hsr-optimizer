@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AppPages, DB } from 'lib/db.js'
+import { AppPages, DB } from 'lib/db'
 import { Assets } from 'lib/assets'
 import { StringToNumberMap } from 'types/Common'
 import { ReactElement } from 'types/Components'

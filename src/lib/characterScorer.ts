@@ -1,21 +1,22 @@
-import { Character } from 'types/Character'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
-import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants'
-import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/statSimulationController'
-import { getDefaultForm } from 'lib/defaultForm'
 import { CharacterConditionals } from 'lib/characterConditionals'
-import { Utils } from 'lib/utils'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { emptyRelic } from 'lib/optimizer/optimizerUtils'
-import { Form } from 'types/Form'
-import { Relic } from 'types/Relic'
-import DB from 'lib/db'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { StatCalculator } from 'lib/statCalculator'
-import { Conditional } from 'types/Conditionals'
-import { TsUtils } from 'lib/TsUtils'
+import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants'
+import DB from 'lib/db'
+import { getDefaultForm } from 'lib/defaultForm'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
+import { emptyRelic } from 'lib/optimizer/optimizerUtils'
+import { SortOptionProperties } from 'lib/optimizer/sortOptions'
+import { StatCalculator } from 'lib/statCalculator'
+import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/statSimulationController'
+import { TsUtils } from 'lib/TsUtils'
+import { Utils } from 'lib/utils'
+import { Character } from 'types/Character'
+import { Conditional } from 'types/Conditionals'
+import { Form } from 'types/Form'
 import { OptimizerContext } from 'types/Optimizer'
+import { Relic } from 'types/Relic'
 
 const cachedSims: { [key: string]: SimulationScore } = {}
 
@@ -68,9 +69,13 @@ function substatRollsModifier(rolls: number, stat: string, relics: { [key: strin
   // Diminishing returns
 
   const mainsCount = Object.values(relics)
-    .filter((x) => x.augmentedStats.mainStat == stat)
+    .filter((x) => x.augmentedStats!.mainStat == stat)
     .length
 
+  return diminishingReturnsFormula(mainsCount, rolls)
+}
+
+export function diminishingReturnsFormula(mainsCount: number, rolls: number) {
   const lowerLimit = 12 - 2 * mainsCount
   if (rolls <= lowerLimit) {
     return rolls
@@ -152,8 +157,10 @@ export type ScoringMetadata = {
     [part: string]: string[]
   }
   presets: (() => void)[]
-  sortOption: string
+  sortOption: SortOptionProperties
   simulation: SimulationMetadata
+  modified?: boolean
+  hiddenColumns: SortOptionProperties[]
 }
 
 export type SimulationMetadata = {
@@ -161,6 +168,7 @@ export type SimulationMetadata = {
     [part: string]: string[]
   }
   substats: string[]
+  errRopeEidolon: number
   breakpoints: {
     [stat: string]: number
   }
@@ -190,6 +198,11 @@ type PartialSimulationWrapper = {
   simulation: Simulation
   finalSpeed: number
   speedRollsDeduction: number
+}
+
+type SimulationFlags = {
+  addBreakEffect: boolean
+  overcapCritRate: boolean
 }
 
 export function scoreCharacterSimulation(
@@ -223,7 +236,7 @@ export function scoreCharacterSimulation(
   const metadata = defaultMetadata
   const relicsByPart = cloneRelicsFillEmptySlots(displayRelics)
 
-  const cacheKey = Utils.objectHash({
+  const cacheKey = TsUtils.objectHash({
     characterId,
     characterEidolon,
     lightCone,
@@ -242,49 +255,68 @@ export function scoreCharacterSimulation(
     return null
   }
 
+  const simulationFlags: SimulationFlags = {
+    addBreakEffect: false,
+    overcapCritRate: false,
+  }
+
   // Optimize requested stats
   const substats: string[] = metadata.substats
 
   // Special handling for break effect carries
-  let addBreakEffect = false
   if (metadata.comboBreak > 0) {
     // Add break if the combo uses it
-    addBreakEffect = true
+    simulationFlags.addBreakEffect = true
   }
-  if (defaultMetadata.teammates.find((x) => x.characterId == '8005' || x.characterId == '8006')) {
-    // Add break if the harmony trailblazer is on the team
-    addBreakEffect = true
+  if (defaultMetadata.teammates.find((x) => x.characterId == '8005' || x.characterId == '8006' || x.characterId == '1225')) {
+    // Add break if the harmony trailblazer | fugue is on the team
+    simulationFlags.addBreakEffect = true
   }
-  if (addBreakEffect && !substats.includes(Stats.BE)) {
+  if (simulationFlags.addBreakEffect && !substats.includes(Stats.BE)) {
     substats.push(Stats.BE)
   }
-  if (addBreakEffect && !metadata.parts[Parts.LinkRope].includes(Stats.BE)) {
+  if (simulationFlags.addBreakEffect && !metadata.parts[Parts.LinkRope].includes(Stats.BE)) {
     metadata.parts[Parts.LinkRope].push(Stats.BE)
   }
-  if (addBreakEffect
+  if (simulationFlags.addBreakEffect
     && !metadata.relicSets.find((sets) =>
       sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
     metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
   }
-  if (addBreakEffect
+  if (simulationFlags.addBreakEffect
     && !metadata.relicSets.find((sets) =>
       sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
     metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
   }
-  if (addBreakEffect
+  if (simulationFlags.addBreakEffect
     && !metadata.ornamentSets.find((set) => set == Sets.TaliaKingdomOfBanditry)) {
     metadata.ornamentSets.push(Sets.TaliaKingdomOfBanditry)
   }
-  if (addBreakEffect
+  if (simulationFlags.addBreakEffect
     && !metadata.ornamentSets.find((set) => set == Sets.ForgeOfTheKalpagniLantern)) {
     metadata.ornamentSets.push(Sets.ForgeOfTheKalpagniLantern)
+  }
+  if (defaultMetadata.teammates.find((x) => x.characterId == '1313' && x.characterEidolon == 6)) {
+    simulationFlags.overcapCritRate = true
   }
 
   // Set up default request
   const simulationForm: Form = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition, false)
-  const simulationFormT0 = generateFullDefaultForm(metadata.teammates[0].characterId, metadata.teammates[0].lightCone, metadata.teammates[0].characterEidolon, metadata.teammates[0].lightConeSuperimposition, true)
-  const simulationFormT1 = generateFullDefaultForm(metadata.teammates[1].characterId, metadata.teammates[1].lightCone, metadata.teammates[1].characterEidolon, metadata.teammates[1].lightConeSuperimposition, true)
-  const simulationFormT2 = generateFullDefaultForm(metadata.teammates[2].characterId, metadata.teammates[2].lightCone, metadata.teammates[2].characterEidolon, metadata.teammates[2].lightConeSuperimposition, true)
+  const simulationFormT0 = generateFullDefaultForm(metadata.teammates[0].characterId,
+    metadata.teammates[0].lightCone,
+    metadata.teammates[0].characterEidolon,
+    metadata.teammates[0].lightConeSuperimposition,
+    true)
+  const simulationFormT1 = generateFullDefaultForm(metadata.teammates[1].characterId,
+    metadata.teammates[1].lightCone,
+    metadata.teammates[1].characterEidolon,
+    metadata.teammates[1].lightConeSuperimposition,
+    true)
+  const simulationFormT2 = generateFullDefaultForm(metadata.teammates[2].characterId,
+    metadata.teammates[2].lightCone,
+    metadata.teammates[2].characterEidolon,
+    metadata.teammates[2].lightConeSuperimposition,
+    true)
   simulationForm.teammate0 = simulationFormT0
   simulationForm.teammate1 = simulationFormT1
   simulationForm.teammate2 = simulationFormT2
@@ -305,7 +337,10 @@ export function scoreCharacterSimulation(
   const simulationSets = calculateSimSets(metadata, relicsByPart)
 
   // ===== Simulate the original character =====
-  const { originalSimResult, originalSim } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams)
+  const {
+    originalSimResult,
+    originalSim,
+  } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams)
   const originalFinalSpeed = originalSimResult.xSPD
   const originalBaseSpeed = originalSimResult.SPD
   applyScoringFunction(originalSimResult)
@@ -322,7 +357,7 @@ export function scoreCharacterSimulation(
   applyScoringFunction(baselineSimResult)
 
   // Generate partials to calculate speed rolls
-  const partialSimulationWrappers = generatePartialSimulations(character, metadata, simulationSets, originalBaseSpeed)
+  const partialSimulationWrappers = generatePartialSimulations(character, metadata, simulationSets, originalSim)
   const candidateBenchmarkSims: Simulation[] = []
 
   // Run sims
@@ -337,9 +372,14 @@ export function scoreCharacterSimulation(
       TsUtils.precisionRound((originalFinalSpeed - finalSpeed) / benchmarkScoringParams.speedRollValue),
     )
 
+    if (partialSimulationWrapper.speedRollsDeduction > 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
+      console.log('Rejected candidate sim with non SPD boots')
+      continue
+    }
+
     // Define min/max limits
     const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, benchmarkScoringParams)
-    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, benchmarkScoringParams, baselineSimResult)
+    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, benchmarkScoringParams, baselineSimResult, simulationFlags)
 
     // Start the sim search at the max then iterate downwards
     Object.values(SubStats).map((stat) => partialSimulationWrapper.simulation.request.stats[stat] = maxSubstatRollCounts[stat])
@@ -384,6 +424,7 @@ export function scoreCharacterSimulation(
     context,
     applyScoringFunction,
     baselineSimResult,
+    simulationFlags,
   )
   const maximumSimResult = maximumSim.result
   applyScoringFunction(maximumSimResult)
@@ -464,6 +505,7 @@ function simulateMaximumBuild(
   context: OptimizerContext,
   applyScoringFunction: ScoringFunction,
   baselineSimResult: SimulationResult,
+  simulationFlags: SimulationFlags,
 ) {
   // Convert the benchmark spd rolls to max spd rolls
   const spdRolls = TsUtils.precisionRound(bestSim.request.stats[Stats.SPD] * benchmarkScoringParams.speedRollValue / maximumScoringParams.speedRollValue, 3)
@@ -482,7 +524,7 @@ function simulateMaximumBuild(
     }
 
     const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, maximumScoringParams)
-    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, maximumScoringParams, baselineSimResult)
+    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, maximumScoringParams, baselineSimResult, simulationFlags)
     Object.values(SubStats).map((x) => partialSimulationWrapper.simulation.request.stats[x] = maxSubstatRollCounts[x])
     const maxSim = computeOptimalSimulation(
       partialSimulationWrapper,
@@ -528,7 +570,10 @@ function generateStatImprovements(
     const originalSimClone: Simulation = TsUtils.clone(originalSim)
     originalSimClone.request.stats[stat] = (originalSimClone.request.stats[stat] ?? 0) + 1.0
 
-    const statImprovementResult = runSimulations(simulationForm, context, [originalSimClone], { ...scoringParams, substatRollsModifier: (num: number) => num })[0]
+    const statImprovementResult = runSimulations(simulationForm, context, [originalSimClone], {
+      ...scoringParams,
+      substatRollsModifier: (num: number) => num,
+    })[0]
     applyScoringFunction(statImprovementResult)
     substatUpgradeResults.push({
       stat: stat,
@@ -544,7 +589,10 @@ function generateStatImprovements(
   originalSimClone.request.simRelicSet2 = benchmark.request.simRelicSet2
   originalSimClone.request.simOrnamentSet = benchmark.request.simOrnamentSet
 
-  const setUpgradeResult = runSimulations(simulationForm, context, [originalSimClone], { ...scoringParams, substatRollsModifier: (num: number) => num })[0]
+  const setUpgradeResult = runSimulations(simulationForm, context, [originalSimClone], {
+    ...scoringParams,
+    substatRollsModifier: (num: number) => num,
+  })[0]
   applyScoringFunction(setUpgradeResult)
   setUpgradeResults.push({
     simulation: originalSimClone,
@@ -569,7 +617,10 @@ function generateStatImprovements(
       if (simMainStat == Stats.SPD) continue
 
       originalSimClone.request[simMainName] = upgradeMainStat
-      const mainUpgradeResult = runSimulations(simulationForm, context, [originalSimClone], { ...scoringParams, substatRollsModifier: (num: number) => num })[0]
+      const mainUpgradeResult = runSimulations(simulationForm, context, [originalSimClone], {
+        ...scoringParams,
+        substatRollsModifier: (num: number) => num,
+      })[0]
       applyScoringFunction(mainUpgradeResult)
       mainUpgradeResults.push({
         stat: upgradeMainStat,
@@ -663,7 +714,10 @@ function computeOptimalSimulation(
   const sumRequest: number = TsUtils.sumArray(Object.values(currentSimulation.request.stats))
   const sumMin: number = TsUtils.sumArray(Object.values(minSubstatRollCounts))
   if (sumRequest == sumMin || sumRequest < goal) {
-    currentSimulation.result = runSimulations(simulationForm, context, [currentSimulation], { ...scoringParams, substatRollsModifier: scoringParams.substatRollsModifier })[0]
+    currentSimulation.result = runSimulations(simulationForm, context, [currentSimulation], {
+      ...scoringParams,
+      substatRollsModifier: scoringParams.substatRollsModifier,
+    })[0]
     return currentSimulation
   }
 
@@ -734,7 +788,10 @@ function computeOptimalSimulation(
       const newSimulation: Simulation = TsUtils.clone(currentSimulation)
       newSimulation.request.stats[stat] -= 1
 
-      const newSimResult = runSimulations(simulationForm, context, [newSimulation], { ...scoringParams, substatRollsModifier: scoringParams.substatRollsModifier })[0]
+      const newSimResult = runSimulations(simulationForm, context, [newSimulation], {
+        ...scoringParams,
+        substatRollsModifier: scoringParams.substatRollsModifier,
+      })[0]
       simulationRuns++
 
       if (breakpointsCap && breakpoints[stat]) {
@@ -864,6 +921,7 @@ function calculateMaxSubstatRollCounts(
   metadata: SimulationMetadata,
   scoringParams: ScoringParams,
   baselineSimResult: SimulationResult,
+  simulationFlags: SimulationFlags,
 ): SimulationStats {
   const request = partialSimulationWrapper.simulation.request
   const maxCounts = {
@@ -922,21 +980,27 @@ function calculateMaxSubstatRollCounts(
   // Overcapped 30 * 3.24 + 5 = 102.2% crit
   // Main stat  20 * 3.24 + 32.4 + 5 = 102.2% crit
   // Assumes maximum 100 CR is needed ever
-  const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
-  const missingCrit = Math.max(0, 100 - baselineSimResult.x[Stats.CR] * 100)
-  maxCounts[Stats.CR] = Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution ? 6 : 0, Math.min(
-    request.simBody == Stats.CR
-      ? Math.ceil((missingCrit - 32.4) / critValue)
-      : Math.ceil(missingCrit / critValue),
-    maxCounts[Stats.CR],
-  )))
+  if (!simulationFlags.overcapCritRate) {
+    const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
+    const missingCrit = Math.max(0, 100 - baselineSimResult.x[Stats.CR] * 100)
+    maxCounts[Stats.CR] = Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution
+      ? 6
+      : 0, Math.min(
+      request.simBody == Stats.CR
+        ? Math.ceil((missingCrit - 32.4) / critValue)
+        : Math.ceil(missingCrit / critValue),
+      maxCounts[Stats.CR],
+    )))
+  }
 
   // Simplify EHR so the sim is not wasting permutations
   // Assumes 20 enemy effect RES
   // Assumes maximum 120 EHR is needed ever
   const ehrValue = StatCalculator.getMaxedSubstatValue(Stats.EHR, scoringParams.quality)
   const missingEhr = Math.max(0, 120 - baselineSimResult.x[Stats.EHR] * 100)
-  maxCounts[Stats.EHR] = Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution ? 6 : 0, Math.min(
+  maxCounts[Stats.EHR] = Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution
+    ? 6
+    : 0, Math.min(
     request.simBody == Stats.EHR
       ? Math.ceil((missingEhr - 43.2) / ehrValue)
       : Math.ceil(missingEhr / ehrValue),
@@ -1009,12 +1073,13 @@ function generatePartialSimulations(
   character: Character,
   metadata: SimulationMetadata,
   simulationSets: SimulationSets,
-  originalBaseSpeed: number,
+  originalSim: Simulation,
 ) {
-  const characterSpdStat = calculateCharacterSpdStat(character)
-  // const forceSpdBoots = originalBaseSpeed - characterSpdStat > 40 // 4 min spd rolls per piece
-  const forceSpdBoots = false // Always calculate both boots
+  const forceSpdBoots = false // originalBaseSpeed - baselineSimResult.x[Stats.SPD] > 2.0 * 2 * 5 // 3 min spd rolls per piece
   const feetParts: string[] = forceSpdBoots ? [Stats.SPD] : metadata.parts[Parts.Feet]
+
+  const forceErrRope = originalSim.request.simLinkRope == Stats.ERR && metadata.errRopeEidolon != null && character.form.characterEidolon >= metadata.errRopeEidolon
+  const ropeParts: string[] = forceErrRope ? [Stats.ERR] : metadata.parts[Parts.LinkRope]
 
   const { relicSet1, relicSet2, ornamentSet } = simulationSets
 
@@ -1022,7 +1087,7 @@ function generatePartialSimulations(
   for (const body of metadata.parts[Parts.Body]) {
     for (const feet of feetParts) {
       for (const planarSphere of metadata.parts[Parts.PlanarSphere]) {
-        for (const linkRope of metadata.parts[Parts.LinkRope]) {
+        for (const linkRope of ropeParts) {
           const request: SimulationRequest = {
             name: '',
             simRelicSet1: relicSet1,
@@ -1093,7 +1158,10 @@ function simulateBaselineCharacter(
     }
   })
 
-  const { originalSimResult, originalSim } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, scoringParams, 0, true)
+  const {
+    originalSimResult,
+    originalSim,
+  } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, scoringParams, 0, true)
   return {
     baselineSimResult: originalSimResult,
     baselineSim: originalSim,
@@ -1132,7 +1200,11 @@ function simulateOriginalCharacter(
     request: originalSimRequest,
   }
 
-  const originalSimResult = runSimulations(simulationForm, context, [originalSim], { ...scoringParams, substatRollsModifier: (rolls: number) => rolls, mainStatMultiplier: mainStatMultiplier })[0]
+  const originalSimResult = runSimulations(simulationForm, context, [originalSim], {
+    ...scoringParams,
+    substatRollsModifier: (rolls: number) => rolls,
+    mainStatMultiplier: mainStatMultiplier,
+  })[0]
 
   originalSim.result = originalSimResult
   return {
@@ -1172,7 +1244,8 @@ export function calculatePenaltyMultiplier(
       newPenaltyMultiplier *= (Math.min(1, simulationResult.x[stat] / breakpoints[stat]) + 1) / 2
     } else {
       // Percents are penalize by half of the missing stat's breakpoint roll percentage
-      newPenaltyMultiplier *= Math.min(1, 1 - (breakpoints[stat] - simulationResult.x[stat]) / StatCalculator.getMaxedSubstatValue(stat, scoringParams.quality))
+      newPenaltyMultiplier *= Math.min(1,
+        1 - (breakpoints[stat] - simulationResult.x[stat]) / StatCalculator.getMaxedSubstatValue(stat, scoringParams.quality))
     }
   }
   simulationResult.penaltyMultiplier = newPenaltyMultiplier
@@ -1180,10 +1253,13 @@ export function calculatePenaltyMultiplier(
 }
 
 // Score on 1.00 scale
-export function getSimScoreGrade(score) {
+export function getSimScoreGrade(score: number, verified: boolean) {
   let best = 'WTF+'
   const percent = TsUtils.precisionRound(score * 100)
   for (const [key, value] of Object.entries(SimScoreGrades)) {
+    if (key == 'AEON' && !verified) {
+      continue
+    }
     best = key
     if (percent >= value) {
       return best
@@ -1354,6 +1430,7 @@ function simSorter(a: Simulation, b: Simulation) {
 
 // Gradual scale
 const SimScoreGrades = {
+  'AEON': 150, // +15
   'WTF+': 135, // +10
   'WTF': 126, // +9
   'SSS+': 118, // +8

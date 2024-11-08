@@ -49,6 +49,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   const [customImageForm] = Form.useForm()
 
   const { t } = useTranslation('modals', { keyPrefix: 'EditImage' })
+  const { t: tCommon } = useTranslation('common')
 
   const [isVerificationLoading, setIsVerificationLoading] = React.useState(false)
   const [verifiedImageUrl, setVerifiedImageUrl] = React.useState('')
@@ -567,7 +568,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
             <Flex style={{ marginTop: 16 }} justify='center' align='center' gap={8}>
               {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size='large'/>}
               <Button onClick={() => setOpen(false)}>
-                {t('Footer.Cancel')/* Cancel */}
+                {tCommon('Cancel')/* Cancel */}
               </Button>
               {(current > 0 && existingConfig) && (
                 <Button onClick={prev} danger>
@@ -586,7 +587,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               )}
               {current === steps.length - 1 && (
                 <Button type='primary' onClick={handleOk}>
-                  {t('Footer.Submit')/* Submit */}
+                  {tCommon('Submit')/* Submit */}
                 </Button>
               )}
             </Flex>

@@ -604,3 +604,8 @@ a {
     -webkit-backdrop-filter: blur(8.4px);
     border: 1px solid rgba(129, 129, 129, 0.91);
 }
+
+/* Arrow for small selectors */
+.ant-select-sm .ant-select-arrow {
+    inset-inline-end: 7px !important;
+}

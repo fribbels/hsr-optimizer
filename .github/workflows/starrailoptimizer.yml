@@ -29,7 +29,7 @@ jobs:
         with:
           find: "const BASE_PATH = '/hsr-optimizer'"
           replace: "const BASE_PATH = ''"
-          include: "src/lib/db.js"
+          include: "src/lib/db.ts"
       - name: Find and Replace API endpoint
         uses: jacobtomlinson/gha-find-replace@v3
         with:

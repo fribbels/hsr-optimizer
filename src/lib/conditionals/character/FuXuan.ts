@@ -1,13 +1,21 @@
+import { ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  gpuStandardHpFinalizer,
+  gpuStandardHpHealFinalizer,
+  standardHpFinalizer,
+  standardHpHealFinalizer,
+} from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardHpFinalizer, standardHpFinalizer } from 'lib/conditionals/conditionalUtils'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
+import { TsUtils } from 'lib/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { TsUtils } from 'lib/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditional => {
@@ -22,96 +30,107 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 1.00, 1.08)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'talentActive',
-    name: 'talentActive',
-    text: t('Content.talentActive.text'),
-    title: t('Content.talentActive.title'),
-    content: t('Content.talentActive.content', { talentDmgReductionValue: TsUtils.precisionRound(100 * talentDmgReductionValue) }),
-  }, {
-    formItem: 'switch',
-    id: 'skillActive',
-    name: 'skillActive',
-    text: t('Content.skillActive.text'),
-    title: t('Content.skillActive.title'),
-    content: t('Content.skillActive.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue), skillCrBuffValue: TsUtils.precisionRound(100 * skillCrBuffValue) }),
-  }, {
-    formItem: 'slider',
-    id: 'e6TeamHpLostPercent',
-    name: 'e6TeamHpLostPercent',
-    text: t('Content.e6TeamHpLostPercent.text'),
-    title: t('Content.e6TeamHpLostPercent.title'),
-    content: t('Content.e6TeamHpLostPercent.content'),
-    min: 0,
-    max: 1.2,
-    percent: true,
-    disabled: e < 6,
-  }]
+  const ultHealScaling = 0.05
+  const ultHealFlat = 133
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'talentActive'),
-    findContentId(content, 'skillActive'),
-    {
+  const defaults = {
+    skillActive: true,
+    talentActive: true,
+    e6TeamHpLostPercent: 1.2,
+  }
+
+  const teammateDefaults = {
+    skillActive: true,
+    talentActive: true,
+    teammateHPValue: 8000,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    talentActive: {
+      id: 'talentActive',
+      formItem: 'switch',
+      text: t('Content.talentActive.text'),
+      content: t('Content.talentActive.content', { talentDmgReductionValue: TsUtils.precisionRound(100 * talentDmgReductionValue) }),
+    },
+    skillActive: {
+      id: 'skillActive',
+      formItem: 'switch',
+      text: t('Content.skillActive.text'),
+      content: t('Content.skillActive.content', {
+        skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue),
+        skillCrBuffValue: TsUtils.precisionRound(100 * skillCrBuffValue),
+      }),
+    },
+    e6TeamHpLostPercent: {
+      id: 'e6TeamHpLostPercent',
       formItem: 'slider',
+      text: t('Content.e6TeamHpLostPercent.text'),
+      content: t('Content.e6TeamHpLostPercent.content'),
+      min: 0,
+      max: 1.2,
+      percent: true,
+      disabled: e < 6,
+    },
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    talentActive: content.talentActive,
+    skillActive: content.skillActive,
+    teammateHPValue: {
       id: 'teammateHPValue',
-      name: 'teammateHPValue',
+      formItem: 'slider',
       text: t('TeammateContent.teammateHPValue.text'),
-      title: t('TeammateContent.teammateHPValue.title'),
       content: t('TeammateContent.teammateHPValue.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue) }),
       min: 0,
       max: 10000,
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => ({
-      skillActive: true,
-      talentActive: true,
-      e6TeamHpLostPercent: 1.2,
-    }),
-    teammateDefaults: () => ({
-      skillActive: true,
-      talentActive: true,
-      teammateHPValue: 8000,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r: Conditionals<typeof content> = action.characterConditionals
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling + ((e >= 6) ? 2.00 * r.e6TeamHpLostPercent : 0)
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling + ((e >= 6) ? 2.00 * r.e6TeamHpLostPercent : 0), Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.ULT_TOUGHNESS_DMG += 60
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+
+      x.HEAL_TYPE.set(ULT_TYPE, Source.NONE)
+      x.HEAL_SCALING.buff(ultHealScaling, Source.NONE)
+      x.HEAL_FLAT.buff(ultHealFlat, Source.NONE)
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.CR] += (m.skillActive) ? skillCrBuffValue : 0
-      x[Stats.CD] += (e >= 1 && m.skillActive) ? 0.30 : 0
+      x.CR.buff((m.skillActive) ? skillCrBuffValue : 0, Source.NONE)
+      x.CD.buff((e >= 1 && m.skillActive) ? 0.30 : 0, Source.NONE)
 
       // Talent ehp buff is shared
-      x.DMG_RED_MULTI *= (m.talentActive) ? (1 - talentDmgReductionValue) : 1
+      x.DMG_RED_MULTI.multiply((m.talentActive) ? (1 - talentDmgReductionValue) : 1, Source.NONE)
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const t: Conditionals<typeof teammateContent> = action.characterConditionals
 
-      x[Stats.HP] += (t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0
+      x.HP.buff((t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0, Source.NONE)
 
       // Skill ehp buff only applies to teammates
-      x.DMG_RED_MULTI *= (t.skillActive) ? (1 - 0.65) : 1
+      x.DMG_RED_MULTI.multiply((t.skillActive) ? (1 - 0.65) : 1, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardHpFinalizer(x)
+      standardHpHealFinalizer(x)
     },
     gpuFinalizeCalculations: () => {
-      return gpuStandardHpFinalizer()
+      return gpuStandardHpFinalizer() + gpuStandardHpHealFinalizer()
     },
     dynamicConditionals: [
       {
@@ -123,27 +142,27 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
         condition: function () {
           return true
         },
-        effect: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r: Conditionals<typeof content> = action.characterConditionals
           if (!r.skillActive) {
             return
           }
 
           const stateValue = action.conditionalState[this.id] || 0
-          const convertibleHpValue = x[Stats.HP] - x.RATIO_BASED_HP_BUFF
+          const convertibleHpValue = x.a[Key.HP] - x.a[Key.RATIO_BASED_HP_BUFF]
 
           const buffHP = skillHpBuffValue * convertibleHpValue
           const stateBuffHP = skillHpBuffValue * stateValue
 
-          action.conditionalState[this.id] = x[Stats.HP]
+          action.conditionalState[this.id] = x.a[Key.HP]
 
           const finalBuffHp = buffHP - (stateValue ? stateBuffHP : 0)
-          x.RATIO_BASED_HP_BUFF += finalBuffHp
+          x.a[Key.RATIO_BASED_HP_BUFF] += finalBuffHp
 
-          buffStat(x, Stats.HP, finalBuffHp, action, context)
+          x.HP.buffDynamic(finalBuffHp, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals
+          const r: Conditionals<typeof content> = action.characterConditionals
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.skillActive)}) {

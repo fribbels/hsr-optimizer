@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Button, Flex, Steps, Typography, Upload } from 'antd'
 import { ImportOutlined, UploadOutlined } from '@ant-design/icons'
 import { importerTabButtonWidth, importerTabSpinnerMs } from './importerTabUiConstants'
-import DB from 'lib/db.js'
+import DB from 'lib/db'
 import { useTranslation } from 'react-i18next'
 import { SaveState } from 'lib/saveState'
 

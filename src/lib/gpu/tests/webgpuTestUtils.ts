@@ -255,12 +255,12 @@ export function testWrapper(name: string, request: Form, relics: RelicsByPart, d
     relics: relics,
     done: false,
   }
-  test.execute = () => {
+  test.execute = async () => {
     const promise = runTestRequest(request, relics, device)
-    void promise.then((result) => {
-      test.done = true
-      test.result = result
-    })
+
+    const result = await promise
+    test.done = true
+    test.result = result
 
     return promise
   }

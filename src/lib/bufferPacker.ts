@@ -114,7 +114,7 @@ export const BufferPacker = {
     }
   },
 
-  packCharacter: (arr: number[], offset: number, x: ComputedStatsArray) => {
+  packCharacter: (arr: Float32Array, offset: number, x: ComputedStatsArray) => {
     offset = offset * SIZE
     const c = x.c
     const a = x.a

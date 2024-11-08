@@ -1,5 +1,6 @@
 import { Drawer, Flex, Form, Select, Typography } from 'antd'
 import { SaveState } from 'lib/saveState'
+import { TsUtils } from 'lib/TsUtils'
 import { Utils } from 'lib/utils'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -88,14 +89,14 @@ export const SettingsDrawer = () => {
   ]
 
   useEffect(() => {
-    const initialSettings = Utils.clone(DefaultSettingOptions)
-    const newSettings = Utils.mergeDefinedValues(initialSettings, settings)
+    const initialSettings: UserSettings = TsUtils.clone(DefaultSettingOptions)
+    const newSettings: UserSettings = Utils.mergeDefinedValues(initialSettings, settings)
     setSettings(newSettings)
 
     settingsForm.setFieldsValue(newSettings)
   }, [])
 
-  const onValuesChange = (_changedValues, allValues) => {
+  const onValuesChange = (_changedValues: Partial<UserSettings>, allValues: UserSettings) => {
     setSettings(allValues)
     SaveState.delayedSave()
   }

@@ -540,7 +540,8 @@ fn main(
         * (0.5 + enemyMaxToughness / 120)
         * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
         * (1 - baseResistance)
-        * (1 + x.BE);
+        * (1 + x.BE)
+        * (1 + x.BREAK_BOOST);
 
       let baseSuperBreakModifier = x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER;
 
@@ -551,6 +552,7 @@ fn main(
         * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
         * (1 - baseResistance)
         * (1 + x.BE)
+        * (1 + x.BREAK_BOOST)
         * (0.03333333333f);
 
       if (actionIndex == 0) {

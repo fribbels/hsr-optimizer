@@ -2,6 +2,7 @@ import { ExportOutlined } from '@ant-design/icons'
 import { RightOutlined } from '@ant-design/icons/lib/icons'
 import { Button, Card, Collapse, Flex, Input } from 'antd'
 import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
+import { Assets } from 'lib/assets'
 import { AppPages } from 'lib/db.js'
 import { Message } from 'lib/message'
 import { TsUtils } from 'lib/TsUtils'
@@ -110,13 +111,13 @@ function HeaderImage() {
         height: headerHeight,
         maxHeight: headerHeight,
         backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat', // Prevents repeating
+        backgroundRepeat: 'no-repeat',
         backgroundImage: `
             linear-gradient(to top, rgba(24, 34, 57, 0) 99%, rgba(24, 34, 57, 1) 100%),
             linear-gradient(to bottom, rgba(24, 34, 57, 0) 99%, rgba(24, 34, 57, 1) 100%),
             linear-gradient(to left, rgba(24, 34, 57, 0) 99%, rgba(24, 34, 57, 1) 100%),
             linear-gradient(to right, rgba(24, 34, 57, 0) 99%, rgba(24, 34, 57, 1) 100%),
-            url(https://i.imgur.com/GfIaokt.jpeg)
+            url(${Assets.getHomeBackground('blackswan')})
           `,
         backgroundSize: 'cover',
       }}
@@ -125,12 +126,6 @@ function HeaderImage() {
 }
 
 const cardGap = 20
-const cardToSrc: Record<string, string> = {
-  test1: 'http://localhost:3000/hsr-optimizer/assets/misc/landing/test1.png',
-  test2: 'http://localhost:3000/hsr-optimizer/assets/misc/landing/test2.png',
-  test3: 'http://localhost:3000/hsr-optimizer/assets/misc/landing/test3.png',
-  test4: 'http://localhost:3000/hsr-optimizer/assets/misc/landing/test4.png',
-}
 
 function CardImage(props: { id: string }) {
   return (
@@ -144,7 +139,7 @@ function CardImage(props: { id: string }) {
           outline: 'rgba(255, 255, 255, 0.15) solid 1px',
           boxShadow: 'rgb(0 0 0 / 50%) 2px 2px 3px',
         }}
-        src={cardToSrc[props.id]}
+        src={Assets.getHomeFeature(props.id)}
       />
     </div>
   )
@@ -192,13 +187,13 @@ function FeaturesCollapse() {
         <Flex gap={cardGap}>
           <FeatureCard
             title='Character Showcase'
-            id='test1'
+            id='showcase'
             content='Showcase your character’s stats or prebuild future characters. Simulate their combat damage with DPS score and measure it against the benchmarks.'
             url='https://github.com/fribbels/hsr-optimizer'
           />
           <FeatureCard
             title='Relic Optimizer'
-            id='test2'
+            id='optimizer'
             content='Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats.'
             url='https://github.com/fribbels/hsr-optimizer'
           />
@@ -206,13 +201,13 @@ function FeaturesCollapse() {
         <Flex gap={cardGap} style={{ width: '100%' }}>
           <FeatureCard
             title='Damage Calculator'
-            id='test4'
+            id='calculator'
             content='Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output.'
             url='https://github.com/fribbels/hsr-optimizer'
           />
           <FeatureCard
             title='Inventory Organizer'
-            id='test3'
+            id='relics'
             content='Organize your inventory by scoring and sorting relics based on their potential, and find the top relics to upgrade for each character.'
             url='https://github.com/fribbels/hsr-optimizer'
           />
@@ -235,7 +230,7 @@ function Header() {
     >
       <h1
         style={{
-          marginTop: 40,
+          marginTop: 50,
           fontSize: 50,
           color: 'white', // Ensure the text color is white
           textShadow: '#000000 2px 2px 20px', // Add a dark shadow for better contrast

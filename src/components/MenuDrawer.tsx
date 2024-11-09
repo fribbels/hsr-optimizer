@@ -2,6 +2,7 @@ import {
   BarChartOutlined,
   BarsOutlined,
   BookOutlined,
+  HomeOutlined,
   LineChartOutlined,
   LinkOutlined,
   RadarChartOutlined,
@@ -113,6 +114,15 @@ const MenuDrawer = () => {
         AppPages.GETTING_STARTED),
     ]),
     getItem(t('Links.Title')/* Links */, 'subLinks', <BarsOutlined/>, [
+      getItem(
+        (
+          <Typography.Link>
+            <HomeOutlined style={{ marginRight: 2, width: 16 }}/>
+            {' '}
+            {'Home' /* Home */}
+          </Typography.Link>
+        ),
+        AppPages.HOME),
       getItem(
         (
           <Typography.Link>

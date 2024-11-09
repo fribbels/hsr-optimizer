@@ -1,4 +1,4 @@
-import { Stats } from 'lib/constants'
+import { Stats } from 'lib/constants/constants'
 import { ComputedStatsArray, Key } from 'lib/optimizer/computedStatsArray'
 import { FixedSizePriorityQueue } from 'lib/optimizer/fixedSizePriorityQueue'
 

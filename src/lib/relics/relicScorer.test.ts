@@ -1,4 +1,4 @@
-import { Constants, PartsMainStats } from 'lib/constants'
+import { Constants, PartsMainStats } from 'lib/constants/constants'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 
 import { DataParser } from 'lib/state/dataParser'

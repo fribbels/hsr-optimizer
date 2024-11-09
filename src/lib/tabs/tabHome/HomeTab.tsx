@@ -4,7 +4,7 @@ import { Button, Card, Collapse, Divider, Flex, Input } from 'antd'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db.js'
-import { TsUtils } from 'lib/TsUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import React from 'react'
 

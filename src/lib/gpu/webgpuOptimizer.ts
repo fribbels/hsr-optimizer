@@ -1,5 +1,5 @@
-import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, ComputeEngine } from 'lib/constants'
-import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
+import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, ComputeEngine } from 'lib/constants/constants'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'

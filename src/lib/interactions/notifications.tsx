@@ -1,7 +1,7 @@
 import { DiscordOutlined, UnorderedListOutlined } from '@ant-design/icons'
 import { Button, Flex, Space } from 'antd'
 import i18next from 'i18next'
-import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants'
+import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import { AppPages } from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { Trans } from 'react-i18next'

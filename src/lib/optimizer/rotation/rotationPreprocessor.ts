@@ -1,6 +1,6 @@
 import { Form } from 'types/Form'
 import { ComboBooleanConditional, ComboState } from 'lib/optimizer/rotation/comboDrawerController'
-import { Sets } from 'lib/constants'
+import { Sets } from 'lib/constants/constants'
 
 /**
  * Some passives such as Scholar Lost In Erudition set only activate after abilities trigger them.

@@ -1,7 +1,7 @@
 import i18next from 'i18next'
 import { BREAK_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 

@@ -1,4 +1,4 @@
-import { Stats } from 'lib/constants'
+import { Stats } from 'lib/constants/constants'
 import { Form } from 'types/Form'
 import { OptimizerContext } from 'types/Optimizer'
 

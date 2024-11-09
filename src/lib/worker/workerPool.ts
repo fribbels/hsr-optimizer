@@ -1,4 +1,4 @@
-import { Constants } from 'lib/constants'
+import { Constants } from 'lib/constants/constants'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { BufferPacker } from 'lib/optimizer/bufferPacker'
 import OptimizerWorker from 'lib/worker/optimizerWorker.ts?worker&inline'

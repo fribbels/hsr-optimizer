@@ -1,7 +1,7 @@
-import { Constants, Stats } from 'lib/constants'
+import { Constants, Stats } from 'lib/constants/constants'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
-import { Utils } from 'lib/utils'
+import { Utils } from 'lib/utils/utils'
 import { Relic } from 'types/Relic'
 
 export type AugmentedStats = {

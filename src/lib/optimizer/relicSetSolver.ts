@@ -1,5 +1,5 @@
-import { Constants, RelicSetFilterOptions } from 'lib/constants'
-import { Utils } from 'lib/utils'
+import { Constants, RelicSetFilterOptions } from 'lib/constants/constants'
+import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/Form'
 
 // Here be dragons

@@ -9,8 +9,8 @@ import semver from 'semver'
 import stringSimilarity from 'string-similarity'
 import { Character } from 'types/Character'
 import { Relic } from 'types/Relic'
-import { Constants, Parts, Sets } from '../constants'
-import { Utils } from '../utils'
+import { Constants, Parts, Sets } from 'lib/constants/constants'
+import { Utils } from 'lib/utils/utils'
 
 const { Text } = Typography
 

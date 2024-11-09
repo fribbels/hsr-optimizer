@@ -1,7 +1,7 @@
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
-import { TsUtils } from 'lib/TsUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'

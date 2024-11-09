@@ -1,9 +1,9 @@
 import { CloseOutlined } from '@ant-design/icons'
 import { IRowNode } from 'ag-grid-community'
 import { Empty, Flex, Table, TableColumnsType } from 'antd'
-import { deleteStatSimulationBuild, renderDefaultSimulationName } from 'lib/controllers/statSimulationController'
+import { deleteStatSimulationBuild, renderDefaultSimulationName } from 'lib/simulations/statSimulationController'
 import { STAT_SIMULATION_GRID_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm/StatSimulationDisplay'
-import { Utils } from 'lib/utils'
+import { Utils } from 'lib/utils/utils'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 

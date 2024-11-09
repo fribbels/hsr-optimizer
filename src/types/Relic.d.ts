@@ -1,4 +1,4 @@
-import { MainStats, Parts, Sets, StatsValues } from 'lib/constants'
+import { MainStats, Parts, Sets, StatsValues } from 'lib/constants/constants'
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { RelicScoringWeights } from 'lib/tabs/tabRelics/RelicFilterBar'
 import { GUID } from './Common'

@@ -1,4 +1,4 @@
-import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants'
+import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import DB from 'lib/state/db'
 import { HsrOptimizerSaveFormat } from 'types/store'
 

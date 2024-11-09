@@ -1,4 +1,4 @@
-import { SubStatValues } from 'lib/constants'
+import { SubStatValues } from 'lib/constants/constants'
 import { Relic, StatRolls } from 'types/Relic'
 
 // non exported interface, the number are float

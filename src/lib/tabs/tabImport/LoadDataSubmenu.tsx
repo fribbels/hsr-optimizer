@@ -2,9 +2,9 @@ import { ImportOutlined, UploadOutlined } from '@ant-design/icons'
 import { Button, Flex, Steps, Typography, Upload } from 'antd'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { importerTabButtonWidth, importerTabSpinnerMs } from 'lib/tabs/tabImport/importerTabUiConstants'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { importerTabButtonWidth, importerTabSpinnerMs } from './importerTabUiConstants'
 
 const { Text } = Typography
 

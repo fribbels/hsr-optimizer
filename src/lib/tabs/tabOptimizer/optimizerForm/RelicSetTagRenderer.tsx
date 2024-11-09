@@ -1,5 +1,5 @@
 import { Flex, Tag } from 'antd'
-import { Constants, RelicSetFilterOptions } from 'lib/constants'
+import { Constants, RelicSetFilterOptions } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import React from 'react'
 

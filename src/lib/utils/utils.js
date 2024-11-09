@@ -1,7 +1,7 @@
 import * as htmlToImage from 'html-to-image'
 import i18next from 'i18next'
 import stringify from 'json-stable-stringify'
-import { Constants } from 'lib/constants'
+import { Constants } from 'lib/constants/constants'
 import DB from 'lib/state/db'
 import { v4 as uuidv4 } from 'uuid'
 

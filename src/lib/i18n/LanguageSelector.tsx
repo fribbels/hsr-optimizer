@@ -1,5 +1,5 @@
 import { Button, Flex, Select } from 'antd'
-import { languages } from 'lib/i18n'
+import { languages } from 'lib/i18n/i18n'
 import { Assets } from 'lib/rendering/assets'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'

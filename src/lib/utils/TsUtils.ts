@@ -1,7 +1,7 @@
 import i18next, { DefaultNamespace, KeyPrefix, Namespace, TFunction } from 'i18next'
 import stringify from 'json-stable-stringify'
 import { v4 as uuidv4 } from 'uuid'
-import { Constants } from './constants'
+import { Constants } from 'lib/constants/constants'
 
 export const TsUtils = {
   // Returns the same object

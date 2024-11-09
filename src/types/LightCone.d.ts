@@ -1,4 +1,4 @@
-import { StatsValues } from 'lib/constants'
+import { StatsValues } from 'lib/constants/constants'
 import { PreconvertStatKey } from 'lib/importer/characterConverter'
 import { DataMineId } from './Common'
 import { LightConeRanksDescriptions } from './LightConeConditionals'

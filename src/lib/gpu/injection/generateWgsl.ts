@@ -1,4 +1,4 @@
-import { Constants } from 'lib/constants'
+import { Constants } from 'lib/constants/constants'
 import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { injectUtils } from 'lib/gpu/injection/injectUtils'

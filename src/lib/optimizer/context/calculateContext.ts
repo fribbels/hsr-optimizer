@@ -1,7 +1,7 @@
 import { CharacterStats } from 'lib/characters/characterStats'
 import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
 import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
-import { ElementToDamage, ElementToResPenType, Stats } from 'lib/constants'
+import { ElementToDamage, ElementToResPenType, Stats } from 'lib/constants/constants'
 import { emptyLightCone } from 'lib/optimizer/optimizerUtils'
 import { transformComboState } from 'lib/optimizer/rotation/comboStateTransform'
 import DB from 'lib/state/db'

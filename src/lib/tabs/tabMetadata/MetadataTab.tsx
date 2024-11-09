@@ -1,6 +1,6 @@
 import { Collapse, Flex } from 'antd'
 import gameData from 'data/game_data.json'
-import { Sets, Stats } from 'lib/constants'
+import { Sets, Stats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages, DB } from 'lib/state/db'
 import React, { useState } from 'react'

@@ -1,6 +1,6 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
-import { TsUtils } from 'lib/TsUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'

@@ -1,6 +1,6 @@
 import { AgGridReact } from 'ag-grid-react'
 import { Flex, theme } from 'antd'
-import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { getGridTheme } from 'lib/rendering/theme'
 import DB from 'lib/state/db'

@@ -1,5 +1,5 @@
 import { baseComputedStatsObject, BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { ElementToResPenType, Sets, Stats } from 'lib/constants'
+import { ElementToResPenType, Sets, Stats } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 

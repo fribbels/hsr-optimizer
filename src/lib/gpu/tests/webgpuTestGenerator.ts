@@ -1,6 +1,6 @@
 import { generateFullDefaultForm } from 'lib/characters/characterScorer'
-import { SetsOrnamentsNames, SetsRelicsNames } from 'lib/constants'
-import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
+import { SetsOrnamentsNames, SetsRelicsNames } from 'lib/constants/constants'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { generateTestRelics, StatDeltaAnalysis, testWrapper } from 'lib/gpu/tests/webgpuTestUtils'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'

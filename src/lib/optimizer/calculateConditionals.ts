@@ -1,6 +1,6 @@
 import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
 import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
-import { Stats } from 'lib/constants'
+import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalSets } from 'lib/gpu/conditionals/setConditionals'
 import { CharacterConditional } from 'types/CharacterConditional'

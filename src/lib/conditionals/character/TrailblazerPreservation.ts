@@ -1,7 +1,7 @@
 import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardDefShieldFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
-import { TsUtils } from 'lib/TsUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'

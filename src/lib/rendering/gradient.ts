@@ -1,5 +1,5 @@
 import type { GlobalToken } from 'antd/es/theme/interface'
-import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import tinygradient from 'tinygradient'
 

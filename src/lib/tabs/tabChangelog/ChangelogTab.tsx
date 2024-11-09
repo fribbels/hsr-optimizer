@@ -1,5 +1,5 @@
 import { Flex, List, theme, Typography } from 'antd'
-import { officialOnly } from 'lib/constants'
+import { officialOnly } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'

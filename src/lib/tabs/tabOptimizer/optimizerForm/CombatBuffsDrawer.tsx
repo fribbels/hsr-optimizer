@@ -1,6 +1,6 @@
 import { Drawer, Flex, Form, Typography } from 'antd'
-import { CombatBuffs } from 'lib/constants'
-import { defaultGap } from 'lib/constantsUi'
+import { CombatBuffs } from 'lib/constants/constants'
+import { defaultGap } from 'lib/constants/constantsUi'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/InputNumberStyled'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerTabConstants'
 import { useMemo } from 'react'

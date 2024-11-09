@@ -1,7 +1,7 @@
 import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
-import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants'
+import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants/constants'
 import {
   calculateOrnamentSets,
   calculateRelicSets,
@@ -10,7 +10,7 @@ import {
   Simulation,
   SimulationRequest,
   SimulationStats,
-} from 'lib/controllers/statSimulationController'
+} from 'lib/simulations/statSimulationController'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
 import { getDefaultForm } from 'lib/optimizer/defaultForm'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
@@ -18,8 +18,8 @@ import { SortOptionProperties } from 'lib/optimizer/sortOptions'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import DB from 'lib/state/db'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/StatSimulationDisplay'
-import { TsUtils } from 'lib/TsUtils'
-import { Utils } from 'lib/utils'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/Character'
 import { Conditional } from 'types/Conditionals'
 import { Form } from 'types/Form'

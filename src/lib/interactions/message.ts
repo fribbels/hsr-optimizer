@@ -1,4 +1,4 @@
-import { TsUtils } from 'lib/TsUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 export const Message = {
   success: (content: string, duration: number = 3) => {

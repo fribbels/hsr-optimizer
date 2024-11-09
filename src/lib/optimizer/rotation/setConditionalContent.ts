@@ -1,4 +1,4 @@
-import { ConditionalDataType, Constants, Sets } from 'lib/constants'
+import { ConditionalDataType, Constants, Sets } from 'lib/constants/constants'
 
 export type SelectOptionContent = {
   display: string

@@ -1,7 +1,7 @@
-import { Constants } from 'lib/constants'
+import { Constants } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
-import { Utils } from 'lib/utils'
+import { Utils } from 'lib/utils/utils'
 
 const partConversion = {
   1: Constants.Parts.Head,

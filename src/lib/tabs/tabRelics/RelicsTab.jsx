@@ -1,7 +1,7 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { AgGridReact } from 'ag-grid-react'
 import { Button, Flex, InputNumber, Popconfirm, Popover, Select, theme, Typography } from 'antd'
-import { Constants, Stats } from 'lib/constants'
+import { Constants, Stats } from 'lib/constants/constants'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'

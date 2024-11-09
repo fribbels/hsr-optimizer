@@ -1,5 +1,5 @@
-import { Constants, SubStatValues } from 'lib/constants'
-import { Utils } from 'lib/utils'
+import { Constants, SubStatValues } from 'lib/constants/constants'
+import { Utils } from 'lib/utils/utils'
 import { Relic } from 'types/Relic'
 
 const maxedMainStats = {

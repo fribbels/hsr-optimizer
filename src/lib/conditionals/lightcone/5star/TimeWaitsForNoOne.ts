@@ -1,5 +1,5 @@
 import { ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { TsUtils } from 'lib/TsUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 

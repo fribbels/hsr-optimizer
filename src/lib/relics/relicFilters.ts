@@ -1,8 +1,8 @@
-import { Constants, Parts, RelicSetFilterOptions } from 'lib/constants'
+import { Constants, Parts, RelicSetFilterOptions } from 'lib/constants/constants'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import DB from 'lib/state/db'
-import { TsUtils } from 'lib/TsUtils'
-import { Utils } from 'lib/utils'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/Form'
 import { Relic } from 'types/Relic'
 

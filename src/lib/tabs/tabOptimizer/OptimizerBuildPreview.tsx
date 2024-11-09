@@ -1,5 +1,5 @@
 import { Flex } from 'antd'
-import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { RelicModalController } from 'lib/relics/relicModalController'

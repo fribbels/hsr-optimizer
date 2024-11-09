@@ -1,6 +1,6 @@
 import i18next from 'i18next'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'

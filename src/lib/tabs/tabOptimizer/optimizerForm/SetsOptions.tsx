@@ -1,6 +1,6 @@
 import { Flex } from 'antd'
 import i18next from 'i18next'
-import { Constants, RelicSetFilterOptions, setToId, UnreleasedSets } from 'lib/constants'
+import { Constants, RelicSetFilterOptions, setToId, UnreleasedSets } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 
 // This should be memoised with either the t function or resolved language as a dependency

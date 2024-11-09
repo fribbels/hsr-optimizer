@@ -1,12 +1,12 @@
 import i18next from 'i18next'
-import { Constants, Stats, SubStats, SubStatValues } from 'lib/constants'
-import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
+import { Constants, Stats, SubStats, SubStatValues } from 'lib/constants/constants'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Message } from 'lib/interactions/message'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { Utils } from 'lib/utils'
+import { Utils } from 'lib/utils/utils'
 import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/Relic'
 
 export const RelicModalController = {

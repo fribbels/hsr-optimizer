@@ -1,4 +1,4 @@
-import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, SetsOrnaments, SetsRelics } from 'lib/constants'
+import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import { debugWebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'

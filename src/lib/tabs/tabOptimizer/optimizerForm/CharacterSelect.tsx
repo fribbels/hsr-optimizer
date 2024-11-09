@@ -1,7 +1,7 @@
 import { Button, Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Assets } from 'lib/rendering/assets'
 import { CardGridItemContent, generateElementTags, generatePathTags, SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/CardSelectModalComponents'
-import { Utils } from 'lib/utils'
+import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'

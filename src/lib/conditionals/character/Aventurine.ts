@@ -8,11 +8,11 @@ import {
   standardDefFinalizer,
   standardDefShieldFinalizer,
 } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
-import { TsUtils } from 'lib/TsUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'

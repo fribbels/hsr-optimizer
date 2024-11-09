@@ -2,12 +2,12 @@ import { DownloadOutlined } from '@ant-design/icons'
 import { Button, Flex, Tabs, Typography } from 'antd'
 import { Message } from 'lib/interactions/message'
 import { SaveState } from 'lib/state/saveState'
+import { ClearDataSubmenu } from 'lib/tabs/tabImport/ClearDataSubmenu'
 import { LoadDataSubmenu } from 'lib/tabs/tabImport/LoadDataSubmenu'
 import { ScannerImportSubmenu } from 'lib/tabs/tabImport/ScannerImportSubmenu'
-import { TsUtils } from 'lib/TsUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ClearDataSubmenu } from './ClearDataSubmenu'
 
 const { Text } = Typography
 

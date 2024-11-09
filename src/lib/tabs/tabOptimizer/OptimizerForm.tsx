@@ -1,7 +1,7 @@
 import { Flex, Form as AntDForm } from 'antd'
 import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
-import { SavedSessionKeys } from 'lib/constantsSession'
-import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
+import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Optimizer } from 'lib/optimizer/optimizer'
 import { updateConditionalChange } from 'lib/optimizer/rotation/comboDrawerController'
 import DB from 'lib/state/db'
@@ -24,7 +24,7 @@ import { MinMaxRatingFilters, MinMaxStatFilters } from 'lib/tabs/tabOptimizer/op
 import { StatSimulationDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/StatSimulationDisplay'
 import { SubstatWeightFilters } from 'lib/tabs/tabOptimizer/optimizerForm/SubstatWeightFilters'
 import TeammateCard from 'lib/tabs/tabOptimizer/optimizerForm/TeammateCard'
-import { Utils } from 'lib/utils'
+import { Utils } from 'lib/utils/utils'
 import React, { useEffect } from 'react'
 import { Form } from 'types/Form'
 

@@ -1,4 +1,4 @@
-import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats } from 'lib/constants'
+import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats } from 'lib/constants/constants'
 import { createGpuBuffer } from 'lib/gpu/webgpuInternals'
 import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { StringToNumberMap } from 'types/Common'

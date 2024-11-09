@@ -60,11 +60,11 @@ export type ContentComponentMap = {
 // extracted content to apply to <DisplayFormControl />
 export type ContentItem = {
   [K in keyof ContentComponentMap]: {
-  formItem: K
-  id: string
-  content: string
-  teammateIndex?: number
-} & Omit<ComponentProps<ContentComponentMap[K]>, 'content' | 'title'>
+    formItem: K
+    id: string
+    content: string
+    teammateIndex?: number
+  } & Omit<ComponentProps<ContentComponentMap[K]>, 'content' | 'title'>
 }[keyof ContentComponentMap]
 
 export type ConditionalBuff =

@@ -2,7 +2,7 @@ import { ASHBLAZING_ATK_STACK, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/condit
 import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
-import { TsUtils } from 'lib/TsUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'

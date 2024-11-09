@@ -1,4 +1,4 @@
-import { Stats } from 'lib/constants'
+import { Stats } from 'lib/constants/constants'
 
 export const CharacterStats = {
   getZeroes: function () {

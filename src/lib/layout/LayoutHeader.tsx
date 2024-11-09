@@ -1,6 +1,6 @@
 import { CloseOutlined, MenuOutlined } from '@ant-design/icons'
 import { Button, Flex, Layout, theme, Typography } from 'antd'
-import { LanguageSelector } from 'lib/interactions/LanguageSelector'
+import { LanguageSelector } from 'lib/i18n/LanguageSelector'
 import { Assets } from 'lib/rendering/assets'
 import { BASE_PATH } from 'lib/state/db'
 

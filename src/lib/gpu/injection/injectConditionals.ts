@@ -1,7 +1,7 @@
 import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
 import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
-import { Stats } from 'lib/constants'
+import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomputedStats'
 import { indent } from 'lib/gpu/injection/wgslUtils'

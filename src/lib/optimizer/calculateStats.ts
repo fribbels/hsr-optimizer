@@ -1,5 +1,5 @@
 import { BASIC_TYPE, BasicStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { Stats, StatsValues } from 'lib/constants'
+import { Stats, StatsValues } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   BelobogOfTheArchitectsConditional,

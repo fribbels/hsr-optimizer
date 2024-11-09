@@ -1,5 +1,5 @@
 import { Drawer, Flex, Form, Popover, Select, Switch, Typography } from 'antd'
-import { Constants, setToId } from 'lib/constants'
+import { Constants, setToId } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
 import { VerticalDivider } from 'lib/ui/Dividers'

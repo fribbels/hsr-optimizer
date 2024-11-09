@@ -1,7 +1,7 @@
 import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
-import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats, StatsValues } from 'lib/constants'
+import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats, StatsValues } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { BufferPacker } from 'lib/optimizer/bufferPacker'

@@ -183,9 +183,9 @@ export function ScannerImportSubmenu() {
                 linkIcon={true}
               />)
                 <ul>
-                  <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
-                  <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>
-                </ul>
+                <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
+                <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>
+              </ul>
               </li>
             </ul>
           </Text>

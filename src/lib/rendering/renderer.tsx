@@ -1,9 +1,9 @@
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
 import { Flex, Image, Tooltip } from 'antd'
 import i18next from 'i18next'
-import { Constants } from 'lib/constants'
+import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { Utils } from 'lib/utils'
+import { Utils } from 'lib/utils/utils'
 import { Relic, Stat } from 'types/Relic'
 
 export const Renderer = {

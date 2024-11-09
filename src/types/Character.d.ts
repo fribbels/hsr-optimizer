@@ -1,5 +1,5 @@
 import { CustomPortrait } from 'types/store'
-import { Parts, SetsOrnaments, SetsRelics, StatsValues } from '../lib/constants'
+import { Parts, SetsOrnaments, SetsRelics, StatsValues } from 'lib/constants/constants'
 import { GUID } from './Common'
 import { Form } from './Form'
 

@@ -21,8 +21,8 @@ import {
   ElementToDamage,
   SETTINGS_TEAM,
   SIMULATION_SCORE,
-} from 'lib/constants'
-import { SavedSessionKeys } from 'lib/constantsSession'
+} from 'lib/constants/constants'
+import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import {
   defaultGap,
   innerW,
@@ -33,8 +33,8 @@ import {
   middleColumnWidth,
   parentH,
   parentW,
-} from 'lib/constantsUi'
-import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
+} from 'lib/constants/constantsUi'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Message } from 'lib/interactions/message'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
@@ -50,7 +50,7 @@ import { SaveState } from 'lib/state/saveState'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
-import { Utils } from 'lib/utils'
+import { Utils } from 'lib/utils/utils'
 import PropTypes from 'prop-types'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'

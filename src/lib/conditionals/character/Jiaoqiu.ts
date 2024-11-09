@@ -3,7 +3,7 @@ import { AbilityEidolon, Conditionals, ContentDefinition, gpuStandardAtkFinalize
 import { JiaoqiuConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
-import { TsUtils } from 'lib/TsUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'

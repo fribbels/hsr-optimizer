@@ -3,7 +3,7 @@ import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/StatSimulationDisplay'
 import { Form } from 'types/Form'
-import { ComputeEngine } from '../lib/constants'
+import { ComputeEngine } from 'lib/constants/constants'
 import { Build, Character, CharacterId } from './Character'
 import { Relic } from './Relic'
 

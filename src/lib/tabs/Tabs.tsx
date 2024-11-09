@@ -1,5 +1,5 @@
 import { Flex, Typography } from 'antd'
-import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import ScoringModal from 'lib/overlays/modals/ScoringModal'
 import { AppPages, PageToRoute } from 'lib/state/db'
 import ChangelogTab from 'lib/tabs/tabChangelog/ChangelogTab'

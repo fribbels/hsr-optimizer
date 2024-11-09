@@ -1,6 +1,6 @@
 // import { } from "./Common";
-import { SetsOrnaments } from 'lib/constants'
-import { Simulation } from 'lib/controllers/statSimulationController'
+import { SetsOrnaments } from 'lib/constants/constants'
+import { Simulation } from 'lib/simulations/statSimulationController'
 import { CharacterId, Eidolon } from 'types/Character'
 import { CharacterConditionalMap } from 'types/CharacterConditional'
 import { SuperImpositionLevel } from 'types/LightCone'

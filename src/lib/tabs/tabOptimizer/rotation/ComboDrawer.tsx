@@ -2,8 +2,8 @@ import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { Button, Divider, Drawer, Flex, Select } from 'antd'
 import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
 import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
-import { ConditionalDataType, setToId } from 'lib/constants'
-import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
+import { ConditionalDataType, setToId } from 'lib/constants/constants'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import {
   ComboBooleanConditional,
   ComboCharacter,

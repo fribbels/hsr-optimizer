@@ -3,7 +3,7 @@ import { Drawer, Flex, Form, Select, Switch, Typography } from 'antd'
 import { Hint } from 'lib/interactions/hint'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { Utils } from 'lib/utils'
+import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 

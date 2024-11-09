@@ -1,7 +1,7 @@
 import { DeleteOutlined, DoubleLeftOutlined, DownOutlined, SettingOutlined, UpOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
-import { Parts, Stats, SubStats } from 'lib/constants'
-import { deleteAllStatSimulationBuilds, importOptimizerBuild, saveStatSimulationBuildFromForm, startOptimizerStatSimulation } from 'lib/controllers/statSimulationController'
+import { Parts, Stats, SubStats } from 'lib/constants/constants'
+import { deleteAllStatSimulationBuilds, importOptimizerBuild, saveStatSimulationBuildFromForm, startOptimizerStatSimulation } from 'lib/simulations/statSimulationController'
 import { Assets } from 'lib/rendering/assets'
 import FormCard from 'lib/tabs/tabOptimizer/FormCard'
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/OrnamentSetTagRenderer'
@@ -10,7 +10,7 @@ import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/Se
 import { SimulatedBuildsGrid } from 'lib/tabs/tabOptimizer/optimizerForm/SimulatedBuildsGrid'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { Utils } from 'lib/utils'
+import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 

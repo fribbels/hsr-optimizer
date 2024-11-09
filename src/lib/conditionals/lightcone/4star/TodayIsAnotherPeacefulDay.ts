@@ -1,7 +1,7 @@
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
-import { TsUtils } from 'lib/TsUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { ContentItem } from 'types/Conditionals'
 
 import { SuperImpositionLevel } from 'types/LightCone'

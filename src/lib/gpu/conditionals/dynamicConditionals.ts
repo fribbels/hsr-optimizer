@@ -1,5 +1,5 @@
 import { precisionRound } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { indent, wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { OptimizerAction, OptimizerContext, TeammateAction } from 'types/Optimizer'

@@ -1,5 +1,5 @@
 import { Card, Divider, Flex } from 'antd'
-import { iconSize } from 'lib/constantsUi'
+import { iconSize } from 'lib/constants/constantsUi'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 

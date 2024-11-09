@@ -1,4 +1,4 @@
-import { Constants } from 'lib/constants'
+import { Constants } from 'lib/constants/constants'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
 import { DataParser } from 'lib/state/dataParser'
 import DB from 'lib/state/db'

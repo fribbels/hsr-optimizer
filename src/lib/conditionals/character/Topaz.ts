@@ -2,7 +2,7 @@ import { ASHBLAZING_ATK_STACK, BASIC_TYPE, FUA_TYPE, SKILL_TYPE } from 'lib/cond
 import { AbilityEidolon, calculateAshblazingSet, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityCd, buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
-import { TsUtils } from 'lib/TsUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'

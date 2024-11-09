@@ -2,9 +2,9 @@ import { DeleteOutlined } from '@ant-design/icons'
 import { Button, Flex, Popconfirm, Typography } from 'antd'
 import { Message } from 'lib/interactions/message'
 import DB from 'lib/state/db'
+import { importerTabButtonWidth, importerTabSpinnerMs } from 'lib/tabs/tabImport/importerTabUiConstants'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { importerTabButtonWidth, importerTabSpinnerMs } from './importerTabUiConstants'
 
 const { Text } = Typography
 

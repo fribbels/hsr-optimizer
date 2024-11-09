@@ -1,11 +1,11 @@
 import { Divider, Flex } from 'antd'
 
 import StatText from 'lib/characterPreview/StatText'
-import { Constants, StatsValues } from 'lib/constants'
-import { iconSize } from 'lib/constantsUi'
+import { Constants, StatsValues } from 'lib/constants/constants'
+import { iconSize } from 'lib/constants/constantsUi'
 
 import { Assets } from 'lib/rendering/assets'
-import { Utils } from 'lib/utils'
+import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
 
 const checkSpeedInBreakpoint = (speedValue: number): boolean => {

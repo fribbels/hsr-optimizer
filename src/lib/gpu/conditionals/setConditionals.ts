@@ -1,5 +1,5 @@
 import { BASIC_TYPE, BREAK_TYPE, FUA_TYPE, SKILL_TYPE, SUPER_BREAK_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'

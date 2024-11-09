@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { TsUtils } from 'lib/TsUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 interface LoadingBlurredImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string

@@ -1,6 +1,6 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Cascader, Flex, Form, Select } from 'antd'
-import { Constants, Parts } from 'lib/constants'
+import { Constants, Parts } from 'lib/constants/constants'
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/OrnamentSetTagRenderer'

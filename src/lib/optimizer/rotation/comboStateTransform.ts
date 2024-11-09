@@ -1,6 +1,6 @@
 import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
 import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
-import { SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants'
+import { SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateConditionals'
 import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimizer/computedStatsArray'

@@ -1,5 +1,5 @@
-import { COMPUTE_ENGINE_CPU } from 'lib/constants'
-import { SavedSessionKeys } from 'lib/constantsSession'
+import { COMPUTE_ENGINE_CPU } from 'lib/constants/constants'
+import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { webgpuNotSupportedNotification } from 'lib/interactions/notifications'
 
 export async function getWebgpuDevice(warn?: boolean) {

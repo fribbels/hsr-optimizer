@@ -1,4 +1,4 @@
-import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants'
+import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants/constants'
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
 import { generateBaseParamsArray, generateParamsMatrix, mergeRelicsIntoArray } from 'lib/gpu/webgpuDataTransform'
 import { GpuExecutionContext, GpuResult, RelicsByPart } from 'lib/gpu/webgpuTypes'

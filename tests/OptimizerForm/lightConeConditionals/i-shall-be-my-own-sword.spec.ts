@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 test('test', async ({ page }) => {
-  await page.goto('/#scorer')
+  await page.goto('/#showcase')
   await page.getByText('Optimizer', { exact: true }).click()
 
   await page.locator('#OPTIMIZER').getByText('Eclipse Stacks').hover()

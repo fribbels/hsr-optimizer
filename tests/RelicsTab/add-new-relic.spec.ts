@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 test('Add new relic from RelicsTab', async ({ page }) => {
-  await page.goto('/#scorer')
+  await page.goto('/#showcase')
   await page.getByRole('menuitem', { name: 'Get Started' }).click()
   await page.getByRole('button', { name: 'Try it out!' }).click()
   await page.getByRole('button', { name: 'Yes' }).click()

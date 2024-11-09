@@ -163,4 +163,12 @@ export const Assets = {
     }
     return getImageUrl(`/icon/relic/${setToId[set]}${partToId[part]}.webp`)
   },
+
+  getHomeFeature: (file: string) => {
+    return getImageUrl(`/misc/home/${file}.webp`)
+  },
+
+  getHomeBackground: (file: string) => {
+    return getImageUrl(`/misc/home/background/${file}.webp`)
+  },
 }

@@ -1,21 +1,22 @@
-import React, { ReactElement, useEffect } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
 import { Flex, Typography } from 'antd'
+import ChangelogTab from 'components/ChangelogTab'
+import CharacterTab from 'components/CharacterTab'
+import GettingStartedTab from 'components/GettingStartedTab'
+import HomeTab from 'components/homeTab/HomeTab'
+import ImportTab from 'components/importerTab/ImportTab'
+import MetadataTab from 'components/metadataTab/MetadataTab'
 
 import OptimizerTab from 'components/optimizerTab/OptimizerTab'
-import RelicsTab from 'components/RelicsTab'
-import CharacterTab from 'components/CharacterTab'
 import RelicScorerTab from 'components/RelicScorerTab'
-import GettingStartedTab from 'components/GettingStartedTab'
+import RelicsTab from 'components/RelicsTab'
 import ScoringModal from 'components/ScoringModal'
-import ChangelogTab from 'components/ChangelogTab'
-import { AppPages, PageToRoute } from 'lib/db'
-import { OptimizerTabController } from 'lib/optimizerTabController'
-import ImportTab from 'components/importerTab/ImportTab'
 import SettingsTab from 'components/settingsTab/settingsTab'
 import WebgpuTab from 'components/webgpuTab/WebgpuTab'
-import MetadataTab from 'components/metadataTab/MetadataTab'
+import { AppPages, PageToRoute } from 'lib/db'
+import { OptimizerTabController } from 'lib/optimizerTabController'
 import { WorkerPool } from 'lib/workerPool'
+import React, { ReactElement, useEffect } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import { Form } from 'types/Form'
 
 const defaultErrorRender = ({ error: { message } }: { error: { message: string } }) => (
@@ -37,10 +38,11 @@ const Tabs = () => {
   const settingsTab = React.useMemo(() => <SettingsTab/>, [])
   const webgpuTab = React.useMemo(() => <WebgpuTab/>, [])
   const metadataTab = React.useMemo(() => <MetadataTab/>, [])
+  const homeTab = React.useMemo(() => <HomeTab/>, [])
 
   useEffect(() => {
     let route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]
-    if (activeKey == AppPages.RELIC_SCORER) {
+    if (activeKey == AppPages.SHOWCASE) {
       const id = window.location.hash.split('?')[1]?.split('id=')[1]?.split('&')[0]
       if (id) {
         route += `?id=${id}`
@@ -63,17 +65,18 @@ const Tabs = () => {
   }, [activeKey])
 
   return (
-    <Flex justify='space-around'>
+    <Flex justify='space-around' style={{ width: '100%' }}>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.OPTIMIZER} content={optimizerTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHARACTERS} content={characterTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.IMPORT} content={importTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.GETTING_STARTED} content={gettingStartedTab}/>
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.RELIC_SCORER} content={relicScorerTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.SHOWCASE} content={relicScorerTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.SETTINGS} content={settingsTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.WEBGPU_TEST} content={webgpuTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.METADATA_TEST} content={metadataTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.HOME} content={homeTab}/>
 
       <ErrorBoundary fallbackRender={defaultErrorRender}>
         <ScoringModal/>

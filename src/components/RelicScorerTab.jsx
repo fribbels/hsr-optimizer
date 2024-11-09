@@ -60,17 +60,20 @@ export default function RelicScorerTab() {
 
   const { t } = useTranslation(['relicScorerTab', 'common'])
 
+  const activeKey = window.store((s) => s.activeKey)
+
   useEffect(() => {
+    if (activeKey != AppPages.SHOWCASE) return
+
     const params = window.location.href.split('?')[1]
     if (params) {
       const id = params.split('id=')[1].split('&')[0]
       onFinish({ scorerId: id })
     }
-  }, [])
-  const activeKey = window.store((s) => s.activeKey)
+  }, [activeKey])
   useEffect(() => {
-    if (availableCharacters.length && scorerId && activeKey == AppPages.RELIC_SCORER) {
-      window.history.replaceState({ id: scorerId }, `profile: ${scorerId}`, PageToRoute[AppPages.RELIC_SCORER] + `?id=${scorerId}`)
+    if (availableCharacters.length && scorerId && activeKey == AppPages.SHOWCASE) {
+      window.history.replaceState({ id: scorerId }, `profile: ${scorerId}`, PageToRoute[AppPages.SHOWCASE] + `?id=${scorerId}`)
     }
   }, [activeKey])
 
@@ -102,7 +105,7 @@ export default function RelicScorerTab() {
     setScorerId(id)
     SaveState.delayedSave()
 
-    window.history.replaceState({ id: id }, `profile: ${id}`, PageToRoute[AppPages.RELIC_SCORER] + `?id=${id}`)
+    window.history.replaceState({ id: id }, `profile: ${id}`, PageToRoute[AppPages.SHOWCASE] + `?id=${id}`)
 
     fetch(`${API_ENDPOINT}/profile/${id}`, { method: 'GET' })
       .then((response) => {
@@ -596,7 +599,7 @@ function Sidebar(props) {
                   padding: 5,
                   paddingTop: 2,
                   marginLeft: -5,
-                  display: props.activeKey == AppPages.RELIC_SCORER ? 'flex' : 'none',
+                  display: props.activeKey == AppPages.SHOWCASE ? 'flex' : 'none',
                 }}
                 onClick={() => props.presetClicked(preset)}
               >

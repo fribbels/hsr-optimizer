@@ -3,7 +3,7 @@
 // import { expect, test } from '@playwright/test'
 //
 // test('Delete character from Characters tab', async ({ page }) => {
-//   await page.goto('/#scorer')
+//   await page.goto('/#showcase')
 //
 //   // dbl-click kafka TEXT
 //   await page.getByRole('menuitem', { name: 'Characters' }).click()

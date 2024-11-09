@@ -2,7 +2,7 @@ import { expect, test as setup } from '@playwright/test'
 import { STORAGE_STATE } from './playwright.config'
 
 setup('HSR Optimizer loading test data', async ({ page }) => {
-  await page.goto('http://localhost:3000/hsr-optimizer#scorer')
+  await page.goto('http://localhost:3000/hsr-optimizer#showcase')
   await expect(page.getByRole('banner')).toContainText('Fribbels Honkai Star Rail Optimizer')
   await page.getByRole('menuitem', { name: 'Get Started' }).click()
   await page.getByRole('button', { name: 'Try it out!' }).click()

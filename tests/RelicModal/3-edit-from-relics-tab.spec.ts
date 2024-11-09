@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test'
 
 test('Open RelicModal in edit mode from the CharacterPreview tab', async ({ page }) => {
   // navigate to Relics tab
-  await page.goto('/#scorer')
+  await page.goto('/#showcase')
   await page.getByRole('menuitem', { name: 'Get Started' }).click()
   await page.getByRole('button', { name: 'Try it out!' }).click()
   await page.getByRole('button', { name: 'Yes' }).click()

@@ -1,12 +1,26 @@
-import React, { useMemo } from 'react'
-import { BarChartOutlined, BarsOutlined, BookOutlined, LineChartOutlined, LinkOutlined, RadarChartOutlined, SettingOutlined, StarFilled, SunOutlined, UnorderedListOutlined, UploadOutlined, UserOutlined } from '@ant-design/icons'
+import {
+  BarChartOutlined,
+  BarsOutlined,
+  BookOutlined,
+  HomeOutlined,
+  LineChartOutlined,
+  LinkOutlined,
+  RadarChartOutlined,
+  SettingOutlined,
+  StarFilled,
+  SunOutlined,
+  UnorderedListOutlined,
+  UploadOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 import { Flex, Menu, Typography } from 'antd'
+import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
-import { CoffeeIcon } from 'icons/CoffeeIcon'
-import { AppPages } from 'lib/db'
-import { useTranslation } from 'react-i18next'
 import { officialOnly } from 'lib/constants'
+import { AppPages } from 'lib/db'
+import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/Components'
 
 type MenuItemProperties = {
@@ -40,7 +54,7 @@ const MenuDrawer = () => {
             {t('Showcase.Scorer')/* Relic Scorer */}
           </Flex>
         ),
-        AppPages.RELIC_SCORER),
+        AppPages.SHOWCASE),
     ]),
     getItem(t('Optimization.Title')/* Optimization */, 'subOptimizer', <LineChartOutlined/>, [
       getItem(
@@ -100,6 +114,15 @@ const MenuDrawer = () => {
         AppPages.GETTING_STARTED),
     ]),
     getItem(t('Links.Title')/* Links */, 'subLinks', <BarsOutlined/>, [
+      getItem(
+        (
+          <Typography.Link>
+            <HomeOutlined style={{ marginRight: 2, width: 16 }}/>
+            {' '}
+            {'Home' /* Home */}
+          </Typography.Link>
+        ),
+        AppPages.HOME),
       getItem(
         (
           <Typography.Link>

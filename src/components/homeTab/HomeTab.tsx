@@ -1,6 +1,6 @@
-import { ExportOutlined } from '@ant-design/icons'
+import { ExportOutlined, SearchOutlined } from '@ant-design/icons'
 import { RightOutlined } from '@ant-design/icons/lib/icons'
-import { Button, Card, Collapse, Flex, Input } from 'antd'
+import { Button, Card, Collapse, Divider, Flex, Input } from 'antd'
 import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
 import { Assets } from 'lib/assets'
 import { AppPages } from 'lib/db.js'
@@ -13,6 +13,7 @@ const headerWidth = 1600
 
 export default function HomeTab(): React.JSX.Element {
   const activeKey = window.store((s) => s.activeKey)
+  const scorerId = window.store((s) => s.scorerId)
 
   if (activeKey != AppPages.HOME) {
     // Don't load unless tab active
@@ -51,8 +52,10 @@ const collapseItems = [
 
 function CollapseLabel(props: { text: string }) {
   return (
-    <div style={{ fontSize: 24, paddingRight: 38, textAlign: 'center' }}>
-      {props.text}
+    <div style={{ marginRight: 38, textAlign: 'center' }}>
+      <Divider style={{ fontSize: 24, paddingInline: 30, marginBlock: 0 }}>
+        {props.text}
+      </Divider>
     </div>
   )
 }
@@ -113,10 +116,10 @@ function HeaderImage() {
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundImage: `
-            linear-gradient(to top, rgba(24, 34, 57, 0) 99%, rgba(24, 34, 57, 1) 100%),
-            linear-gradient(to bottom, rgba(24, 34, 57, 0) 99%, rgba(24, 34, 57, 1) 100%),
-            linear-gradient(to left, rgba(24, 34, 57, 0) 99%, rgba(24, 34, 57, 1) 100%),
-            linear-gradient(to right, rgba(24, 34, 57, 0) 99%, rgba(24, 34, 57, 1) 100%),
+            linear-gradient(to top, rgba(24, 34, 57, 0) 99.5%, rgba(24, 34, 57, 1) 100%),
+            linear-gradient(to bottom, rgba(24, 34, 57, 0) 99.5%, rgba(24, 34, 57, 1) 100%),
+            linear-gradient(to left, rgba(24, 34, 57, 0) 98%, rgba(24, 34, 57, 1) 99.5%),
+            linear-gradient(to right, rgba(24, 34, 57, 0) 98%, rgba(24, 34, 57, 1) 99.5%),
             url(${Assets.getHomeBackground('blackswan')})
           `,
         backgroundSize: 'cover',
@@ -247,6 +250,8 @@ function Header() {
 }
 
 function SearchBar() {
+  const scorerId = window.store((s) => s.scorerId)
+
   return (
     <Flex
       vertical
@@ -256,15 +261,19 @@ function SearchBar() {
       justify='center'
       gap={5}
     >
-      <Flex justify='flex-start' style={{ width: '100%', marginLeft: 5, fontSize: 18, textShadow: 'rgb(0, 0, 0) 2px 2px 20px, rgb(0, 0, 0) 0px 0px 5px' }}>
+      <Flex justify='flex-start' style={{ width: '100%', paddingLeft: 3, paddingBottom: 5, fontSize: 18, textShadow: 'rgb(0, 0, 0) 2px 2px 20px, rgb(0, 0, 0) 0px 0px 5px' }}>
         Enter your UUID to showcase characters:
       </Flex>
       <Input.Search
         placeholder='UUID'
+        enterButton={(
+          <Flex gap={5} style={{ marginRight: 5 }}>
+            <SearchOutlined/> Search
+          </Flex>
+        )}
         allowClear
-        enterButton='Search'
         size='large'
-        style={{}}
+        defaultValue={scorerId}
         onSearch={(uuid: string) => {
           const validated = TsUtils.validateUuid(uuid)
           if (!validated) {

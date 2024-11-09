@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { Flex, Form, Select, Switch, Typography } from 'antd'
-import { HeaderText } from 'components/common/HeaderText'
-import { TooltipImage } from 'components/common/TooltipImage'
 
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import DB from 'lib/state/db'
 import { optimizerTabDefaultGap, panelWidth } from 'lib/tabs/optimizer/optimizerTabConstants'
+import { HeaderText } from 'lib/ui/HeaderText'
+import { TooltipImage } from 'lib/ui/TooltipImage'
 import { Utils } from 'lib/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

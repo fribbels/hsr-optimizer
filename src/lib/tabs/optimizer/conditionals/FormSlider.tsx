@@ -1,7 +1,7 @@
 import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
-import WithPopover from 'components/common/WithPopover'
 import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { getItemName } from 'lib/tabs/optimizer/conditionals/FormSwitch'
+import WithPopover from 'lib/ui/WithPopover'
 import { ComponentProps, ComponentType, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 

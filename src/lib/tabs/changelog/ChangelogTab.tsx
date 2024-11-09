@@ -1,8 +1,8 @@
 import { Flex, List, theme, Typography } from 'antd'
-import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
 import { officialOnly } from 'lib/constants'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db'
+import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import React, { ReactElement, useMemo } from 'react'
 
 const { useToken } = theme

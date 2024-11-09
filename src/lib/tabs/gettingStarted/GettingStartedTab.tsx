@@ -1,11 +1,11 @@
 import { ImportOutlined } from '@ant-design/icons'
 import { Button, Flex, Popconfirm, Typography } from 'antd'
-import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
 
 import sampleSave from 'data/sample-save.json'
 import { Message } from 'lib/interactions/message'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { useTranslation } from 'react-i18next'
 import { HsrOptimizerSaveFormat } from 'types/store'
 

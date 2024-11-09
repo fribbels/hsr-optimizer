@@ -7,7 +7,7 @@ import Icon, {
   LineChartOutlined,
 } from '@ant-design/icons'
 import { Button, Dropdown, Flex, Form, Input, Segmented, theme, Typography } from 'antd'
-import { CharacterPreview } from 'components/CharacterPreview'
+import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { Constants, CURRENT_DATA_VERSION, officialOnly } from 'lib/constants'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { OptimizerTabController } from 'lib/controllers/optimizerTabController'

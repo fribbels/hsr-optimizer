@@ -1,7 +1,7 @@
 import { Button, Flex, Form as AntDForm, Modal, Select } from 'antd'
-import { HeaderText } from 'components/common/HeaderText'
 import { defaultGap } from 'lib/constantsUi'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
+import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils'
 import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

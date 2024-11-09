@@ -1,9 +1,9 @@
 import { DiscordOutlined, UnorderedListOutlined } from '@ant-design/icons'
 import { Button, Flex, Space } from 'antd'
-import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
 import i18next from 'i18next'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants'
 import { AppPages } from 'lib/state/db'
+import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { Trans } from 'react-i18next'
 import semver from 'semver'
 
@@ -41,7 +41,8 @@ export function checkForUpdatesNotification(version: string) {
     const translationsBtn = (
       <Space>
         <Button
-          type='primary' icon={<DiscordOutlined/>} onClick={() => {
+          type='primary' icon={<DiscordOutlined/>}
+          onClick={() => {
             window.notificationApi.destroy()
             window.open('https://discord.gg/rDmB4Un7qg', '_blank')
           }}

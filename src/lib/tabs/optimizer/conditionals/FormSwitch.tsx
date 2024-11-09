@@ -1,8 +1,8 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { Flex, Form, Switch, Typography } from 'antd'
-import WithPopover from 'components/common/WithPopover'
 import { FormSelectProps } from 'lib/tabs/optimizer/conditionals/FormSelect'
 import { FormSliderProps } from 'lib/tabs/optimizer/conditionals/FormSlider'
+import WithPopover from 'lib/ui/WithPopover'
 import { ComponentProps, ComponentType } from 'react'
 import styled from 'styled-components'
 

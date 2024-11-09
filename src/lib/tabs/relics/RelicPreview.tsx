@@ -1,11 +1,11 @@
 import { Card, Divider, Flex } from 'antd'
-import { GenerateStat } from 'components/relicPreview/GenerateStat'
-import RelicStatText from 'components/relicPreview/RelicStatText'
 import { iconSize } from 'lib/constantsUi'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 
 import { Renderer } from 'lib/rendering/renderer'
+import { GenerateStat } from 'lib/tabs/relics/relicPreview/GenerateStat'
+import RelicStatText from 'lib/tabs/relics/relicPreview/RelicStatText'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Relic } from 'types/Relic'

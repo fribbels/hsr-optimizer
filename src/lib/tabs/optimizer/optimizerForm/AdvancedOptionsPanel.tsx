@@ -1,7 +1,7 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Flex, Form } from 'antd'
-import { HeaderText } from 'components/common/HeaderText'
 import { optimizerTabDefaultGap } from 'lib/tabs/optimizer/optimizerTabConstants'
+import { HeaderText } from 'lib/ui/HeaderText'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 

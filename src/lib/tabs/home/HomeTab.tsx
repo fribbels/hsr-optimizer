@@ -1,11 +1,11 @@
 import { ExportOutlined, SearchOutlined } from '@ant-design/icons'
 import { RightOutlined } from '@ant-design/icons/lib/icons'
 import { Button, Card, Collapse, Divider, Flex, Input } from 'antd'
-import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db.js'
 import { TsUtils } from 'lib/TsUtils'
+import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import React from 'react'
 
 const headerHeight = 900

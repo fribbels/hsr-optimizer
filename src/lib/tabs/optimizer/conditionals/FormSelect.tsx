@@ -1,7 +1,7 @@
 import { Flex, Form, Select, Typography } from 'antd'
-import WithPopover from 'components/common/WithPopover'
 import { SelectOptionContent } from 'lib/optimizer/rotation/setConditionalContent'
 import { getItemName } from 'lib/tabs/optimizer/conditionals/FormSwitch'
+import WithPopover from 'lib/ui/WithPopover'
 import { ComponentProps, ComponentType, useState } from 'react'
 import styled from 'styled-components'
 

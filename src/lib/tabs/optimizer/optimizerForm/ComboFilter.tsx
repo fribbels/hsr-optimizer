@@ -1,11 +1,11 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Input, Popconfirm, Radio, Segmented } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
-import { HeaderText } from 'components/common/HeaderText'
 import DB from 'lib/state/db'
 import InputNumberStyled from 'lib/tabs/optimizer/optimizerForm/InputNumberStyled'
 import { optimizerTabDefaultGap } from 'lib/tabs/optimizer/optimizerTabConstants'
 import { ComboDrawer } from 'lib/tabs/optimizer/rotation/ComboDrawer'
+import { HeaderText } from 'lib/ui/HeaderText'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 

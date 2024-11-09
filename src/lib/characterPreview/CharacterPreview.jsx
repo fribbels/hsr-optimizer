@@ -1,7 +1,6 @@
 import { EditOutlined, SettingOutlined, SwapOutlined, SyncOutlined } from '@ant-design/icons'
 import { Button, Card, Flex, Image, Segmented, theme, Typography } from 'antd'
-import { HeaderText } from 'components/common/HeaderText'
-import { LoadingBlurredImage } from 'components/common/LoadingBlurredImage'
+import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
 import {
   CharacterCardCombatStats,
   CharacterCardScoringStatUpgrades,
@@ -49,11 +48,12 @@ import { Assets } from 'lib/rendering/assets'
 import { AppPages, DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { RelicPreview } from 'lib/tabs/relics/RelicPreview'
+import { HeaderText } from 'lib/ui/HeaderText'
+import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import { Utils } from 'lib/utils'
 import PropTypes from 'prop-types'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import CharacterCustomPortrait from './CharacterCustomPortrait'
 
 const { useToken } = theme
 const { Text } = Typography

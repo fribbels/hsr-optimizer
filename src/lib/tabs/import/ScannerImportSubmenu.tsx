@@ -1,13 +1,13 @@
 import { UploadOutlined } from '@ant-design/icons'
 import { Button, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
-import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
-import { importerTabButtonWidth, importerTabSpinnerMs } from 'components/import/importerTabUiConstants'
-import { ReliquaryDescription } from 'components/import/ReliquaryDescription'
 import { hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
 import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig'
 import { Message } from 'lib/interactions/message'
 import DB, { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { importerTabButtonWidth, importerTabSpinnerMs } from 'lib/tabs/import/importerTabUiConstants'
+import { ReliquaryDescription } from 'lib/tabs/import/ReliquaryDescription'
+import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Relic } from 'types/Relic'
@@ -183,9 +183,9 @@ export function ScannerImportSubmenu() {
                 linkIcon={true}
               />)
                 <ul>
-                <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
-                <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>
-              </ul>
+                  <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
+                  <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>
+                </ul>
               </li>
             </ul>
           </Text>

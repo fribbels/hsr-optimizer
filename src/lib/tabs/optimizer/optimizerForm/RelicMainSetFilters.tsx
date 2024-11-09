@@ -1,7 +1,5 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Cascader, Flex, Form, Select } from 'antd'
-import { HeaderText } from 'components/common/HeaderText'
-import { TooltipImage } from 'components/common/TooltipImage'
 import { Constants, Parts } from 'lib/constants'
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
@@ -10,6 +8,8 @@ import GenerateOrnamentsOptions from 'lib/tabs/optimizer/optimizerForm/Ornaments
 import { RelicSetTagRenderer } from 'lib/tabs/optimizer/optimizerForm/RelicSetTagRenderer'
 import GenerateSetsOptions from 'lib/tabs/optimizer/optimizerForm/SetsOptions'
 import { optimizerTabDefaultGap, panelWidth } from 'lib/tabs/optimizer/optimizerTabConstants'
+import { HeaderText } from 'lib/ui/HeaderText'
+import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 

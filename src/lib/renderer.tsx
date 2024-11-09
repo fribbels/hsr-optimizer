@@ -1,10 +1,10 @@
-import { Flex, Image, Tooltip } from 'antd'
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
-import { Constants } from 'lib/constants'
-import { Assets } from 'lib/assets'
-import { Utils } from './utils'
+import { Flex, Image, Tooltip } from 'antd'
 import i18next from 'i18next'
+import { Assets } from 'lib/assets'
+import { Constants } from 'lib/constants'
 import { Relic, Stat } from 'types/Relic'
+import { Utils } from './utils'
 
 export const Renderer = {
   floor: (x: { value: number }) => {
@@ -195,7 +195,7 @@ export const Renderer = {
         : <div style={{ width: 14, height: 14, borderRadius: '50%', background: color }}/>
     )
   },
-  renderEquippedBy: ({ equippedBy }) => {
+  renderEquippedBy: (equippedBy: string) => {
     return (
       equippedBy == 'true'
         ? <CheckCircleFilled style={{ fontSize: '14px', color: '#6de362' }}/>

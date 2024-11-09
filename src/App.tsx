@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react'
 import { ConfigProvider, Layout, message, Modal, notification, theme } from 'antd'
-import Tabs from 'components/Tabs'
 import { LayoutHeader } from 'components/LayoutHeader'
 import { LayoutSider } from 'components/LayoutSider'
 import { SettingsDrawer } from 'components/SettingsDrawer'
-import { checkForUpdatesNotification } from 'lib/notifications'
-import { Gradient } from 'lib/gradient'
+import Tabs from 'components/Tabs'
 import DB from 'lib/db'
+import { Gradient } from 'lib/gradient'
+import { checkForUpdatesNotification } from 'lib/notifications'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const { getDesignToken } = theme
@@ -100,9 +100,6 @@ const App = () => {
           },
           Notification: {
             width: 450,
-          },
-          Search: {
-            colorBgContainer: '#333aaa',
           },
         },
         algorithm: theme.darkAlgorithm,

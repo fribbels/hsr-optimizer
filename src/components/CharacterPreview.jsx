@@ -646,7 +646,7 @@ export function CharacterPreview(props) {
                   vertical
                   style={{
                     position: 'relative',
-                    top: simScoringResult ? tempParentH - 44 : tempParentH - 34,
+                    top: simScoringResult ? tempParentH - 118 : tempParentH - 111,
                     height: 34,
                     paddingLeft: 4,
                     display: getArtistName() ? 'flex' : 'none',

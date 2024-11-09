@@ -40,7 +40,6 @@ export const AppPages = {
 
   GETTING_STARTED: 'GETTING_STARTED',
   CHANGELOG: 'CHANGELOG',
-  SETTINGS: 'SETTINGS',
   RELIC_SCORER: 'RELIC_SCORER', // Deprecated - reroute to showcase
   SHOWCASE: 'SHOWCASE',
 

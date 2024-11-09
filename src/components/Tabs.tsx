@@ -64,6 +64,7 @@ const Tabs = () => {
 
   return (
     <Flex justify='space-around' style={{ width: '100%' }}>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.HOME} content={homeTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.OPTIMIZER} content={optimizerTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHARACTERS} content={characterTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab}/>
@@ -73,7 +74,6 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.WEBGPU_TEST} content={webgpuTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.METADATA_TEST} content={metadataTab}/>
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.HOME} content={homeTab}/>
 
       <ErrorBoundary fallbackRender={defaultErrorRender}>
         <ScoringModal/>

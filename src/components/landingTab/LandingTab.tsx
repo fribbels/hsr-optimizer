@@ -1,5 +1,6 @@
+import { ExportOutlined } from '@ant-design/icons'
 import { RightOutlined } from '@ant-design/icons/lib/icons'
-import { Card, Collapse, Flex, Input } from 'antd'
+import { Button, Card, Collapse, Flex, Input } from 'antd'
 import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
 import { AppPages } from 'lib/db.js'
 import { Message } from 'lib/message'
@@ -42,7 +43,7 @@ const collapseItems = [
   },
   {
     key: '2',
-    label: <CollapseLabel text='Join the Community'/>,
+    label: <CollapseLabel text='Join the community'/>,
     children: <CommunityCollapse/>,
   },
 ]
@@ -57,10 +58,10 @@ function CollapseLabel(props: { text: string }) {
 
 function CommunityCollapse() {
   return (
-    <Flex style={{ padding: 20 }} gap={50}>
-      <Flex vertical style={{ flex: 1, fontSize: 20 }} gap={15}>
+    <Flex style={{ padding: 30 }} gap={50}>
+      <Flex vertical style={{ flex: 1, fontSize: 20 }} gap={20}>
         <span>
-          A huge thanks to all our contributors, translators, supporters, and everyone who provided feedback, for being part of this project and helping to build it together!
+          A huge thanks to all our contributors, translators, users, and everyone who provided feedback, for supporting this project and helping to build it together!
         </span>
 
         <span>
@@ -149,18 +150,37 @@ function CardImage(props: { id: string }) {
   )
 }
 
-function FeatureCard(props: { title: string; id: string; content: string }) {
+function FeatureCard(props: { title: string; id: string; content: string; url: string }) {
   return (
     <Card
-      title={props.title}
+      title={(
+        <span style={{ fontSize: 20 }}>
+          {props.title}
+        </span>
+      )}
       style={{
         flex: 1,
         cursor: 'default',
+        fontSize: 16,
       }}
       hoverable={true}
       cover={<CardImage id={props.id}/>}
     >
-      {props.content}
+      <Flex align='center' gap={10}>
+        <span>
+          {props.content}
+        </span>
+        <Button
+          style={{ height: '100%' }}
+          size='large'
+          iconPosition='end'
+          href={props.url}
+          target='_blank'
+          icon={<ExportOutlined/>}
+        >
+          Learn more
+        </Button>
+      </Flex>
     </Card>
   )
 }
@@ -173,24 +193,28 @@ function FeaturesCollapse() {
           <FeatureCard
             title='Character Showcase'
             id='test1'
-            content='Card content'
+            content='Showcase your character’s stats or prebuild future characters. Simulate their combat damage with DPS score and measure it against the benchmarks.'
+            url='https://github.com/fribbels/hsr-optimizer'
           />
           <FeatureCard
             title='Relic Optimizer'
             id='test2'
-            content='Card content'
+            content='Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats.'
+            url='https://github.com/fribbels/hsr-optimizer'
           />
         </Flex>
         <Flex gap={cardGap} style={{ width: '100%' }}>
           <FeatureCard
             title='Damage Calculator'
-            id='test3'
-            content='Card content'
+            id='test4'
+            content='Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output.'
+            url='https://github.com/fribbels/hsr-optimizer'
           />
           <FeatureCard
-            title='Relic Organizer'
-            id='test4'
-            content='Card content'
+            title='Inventory Organizer'
+            id='test3'
+            content='Organize your inventory by scoring and sorting relics based on their potential, and find the top relics to upgrade for each character.'
+            url='https://github.com/fribbels/hsr-optimizer'
           />
         </Flex>
       </Flex>

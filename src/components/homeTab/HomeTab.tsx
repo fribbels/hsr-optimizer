@@ -10,10 +10,10 @@ import React from 'react'
 const headerHeight = 900
 const headerWidth = 1600
 
-export default function LandingTab(): React.JSX.Element {
+export default function HomeTab(): React.JSX.Element {
   const activeKey = window.store((s) => s.activeKey)
 
-  if (activeKey != AppPages.LANDING) {
+  if (activeKey != AppPages.HOME) {
     // Don't load unless tab active
     return (<></>)
   }
@@ -255,7 +255,7 @@ function SearchBar() {
   return (
     <Flex
       vertical
-      className='landingCard'
+      className='homeCard'
       style={{ width: 700, height: 115, padding: 20 }}
       align='center'
       justify='center'

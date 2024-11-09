@@ -41,25 +41,26 @@ export const AppPages = {
   GETTING_STARTED: 'GETTING_STARTED',
   CHANGELOG: 'CHANGELOG',
   SETTINGS: 'SETTINGS',
-  RELIC_SCORER: 'RELIC_SCORER',
+  RELIC_SCORER: 'RELIC_SCORER', // Deprecated - reroute to showcase
   SHOWCASE: 'SHOWCASE',
 
   WEBGPU_TEST: 'WEBGPU_TEST',
   METADATA_TEST: 'METADATA_TEST',
-  LANDING: 'LANDING',
+  HOME: 'HOME',
 }
 
 export const PageToRoute = {
+  [AppPages.HOME]: BASE_PATH,
+
   [AppPages.OPTIMIZER]: BASE_PATH + '#optimize',
 
-  [AppPages.RELIC_SCORER]: BASE_PATH + '#scorer',
+  [AppPages.RELIC_SCORER]: BASE_PATH + '#scorer', // Deprecated - reroute to showcase
   [AppPages.SHOWCASE]: BASE_PATH + '#showcase',
   [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
   [AppPages.GETTING_STARTED]: BASE_PATH + '#getting-started',
 
   [AppPages.WEBGPU_TEST]: BASE_PATH + '#webgpu',
   [AppPages.METADATA_TEST]: BASE_PATH + '#metadata',
-  [AppPages.LANDING]: BASE_PATH,
 }
 
 export const RouteToPage = {
@@ -71,7 +72,7 @@ export const RouteToPage = {
 
   [PageToRoute[AppPages.WEBGPU_TEST]]: AppPages.WEBGPU_TEST,
   [PageToRoute[AppPages.METADATA_TEST]]: AppPages.METADATA_TEST,
-  [PageToRoute[AppPages.LANDING]]: AppPages.LANDING,
+  [PageToRoute[AppPages.HOME]]: AppPages.HOME,
 }
 
 // React usage
@@ -91,8 +92,8 @@ const savedSessionDefaults: SavedSession = {
 
 function getDefaultActiveKey() {
   const pathname = TsUtils.stripTrailingSlashes(window.location.pathname)
-  const page = RouteToPage[TsUtils.stripTrailingSlashes(window.location.pathname) + window.location.hash.split('?')[0]]
-  return page ?? AppPages.LANDING
+  const page = RouteToPage[pathname + window.location.hash.split('?')[0]]
+  return page ?? AppPages.HOME
 }
 
 window.store = create((set) => {

@@ -2,8 +2,8 @@ import { Flex, Typography } from 'antd'
 import ChangelogTab from 'components/ChangelogTab'
 import CharacterTab from 'components/CharacterTab'
 import GettingStartedTab from 'components/GettingStartedTab'
+import HomeTab from 'components/homeTab/HomeTab'
 import ImportTab from 'components/importerTab/ImportTab'
-import LandingTab from 'components/landingTab/LandingTab'
 import MetadataTab from 'components/metadataTab/MetadataTab'
 
 import OptimizerTab from 'components/optimizerTab/OptimizerTab'
@@ -38,7 +38,7 @@ const Tabs = () => {
   const settingsTab = React.useMemo(() => <SettingsTab/>, [])
   const webgpuTab = React.useMemo(() => <WebgpuTab/>, [])
   const metadataTab = React.useMemo(() => <MetadataTab/>, [])
-  const landingTab = React.useMemo(() => <LandingTab/>, [])
+  const homeTab = React.useMemo(() => <HomeTab/>, [])
 
   useEffect(() => {
     let route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]
@@ -76,7 +76,7 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey={AppPages.SETTINGS} content={settingsTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.WEBGPU_TEST} content={webgpuTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.METADATA_TEST} content={metadataTab}/>
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.LANDING} content={landingTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.HOME} content={homeTab}/>
 
       <ErrorBoundary fallbackRender={defaultErrorRender}>
         <ScoringModal/>

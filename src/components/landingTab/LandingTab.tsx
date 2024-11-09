@@ -2,6 +2,7 @@ import { RightOutlined } from '@ant-design/icons/lib/icons'
 import { Card, Collapse, Flex, Input } from 'antd'
 import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
 import { AppPages } from 'lib/db.js'
+import { Message } from 'lib/message'
 import { TsUtils } from 'lib/TsUtils'
 import React from 'react'
 
@@ -41,8 +42,8 @@ const collapseItems = [
   },
   {
     key: '2',
-    label: <CollapseLabel text='Contributors'/>,
-    children: <ContributorsCollapse/>,
+    label: <CollapseLabel text='Join the Community'/>,
+    children: <CommunityCollapse/>,
   },
 ]
 
@@ -54,7 +55,7 @@ function CollapseLabel(props: { text: string }) {
   )
 }
 
-function ContributorsCollapse() {
+function CommunityCollapse() {
   return (
     <Flex style={{ padding: 20 }} gap={50}>
       <Flex vertical style={{ flex: 1, fontSize: 20 }} gap={15}>
@@ -70,7 +71,7 @@ function ContributorsCollapse() {
       <Flex style={{ flex: 1 }} align='flex-start'>
         <a href='https://github.com/fribbels/hsr-optimizer/graphs/contributors' target='_blank' rel='noreferrer' style={{ width: '100%' }}>
           <img
-            src='https://contrib.rocks/image?repo=fribbels/hsr-optimizer&columns=10'
+            src='https://contrib.rocks/image?repo=fribbels/hsr-optimizer&columns=10&anon=1'
             style={{
               width: '100%',
               maxWidth: headerWidth / 2,
@@ -112,8 +113,8 @@ function HeaderImage() {
         backgroundImage: `
             linear-gradient(to top, rgba(24, 34, 57, 0) 99%, rgba(24, 34, 57, 1) 100%),
             linear-gradient(to bottom, rgba(24, 34, 57, 0) 99%, rgba(24, 34, 57, 1) 100%),
-            linear-gradient(to left, rgba(24, 34, 57, 0) 98%, rgba(24, 34, 57, 1) 99%),
-            linear-gradient(to right, rgba(24, 34, 57, 0) 98%, rgba(24, 34, 57, 1) 99%),
+            linear-gradient(to left, rgba(24, 34, 57, 0) 99%, rgba(24, 34, 57, 1) 100%),
+            linear-gradient(to right, rgba(24, 34, 57, 0) 99%, rgba(24, 34, 57, 1) 100%),
             url(https://i.imgur.com/GfIaokt.jpeg)
           `,
         backgroundSize: 'cover',
@@ -211,16 +212,16 @@ function Header() {
       <h1
         style={{
           marginTop: 40,
-          fontSize: 60,
+          fontSize: 50,
           color: 'white', // Ensure the text color is white
           textShadow: '#000000 2px 2px 20px', // Add a dark shadow for better contrast
           textAlign: 'center', // Center-align the text
           fontFamily: 'Tahoma, Geneva, Verdana, sans-serif',
         }}
       >
-        Welcome to the<br/>Star Rail Optimizer
+        Welcome to the<br/>Fribbels Star Rail Optimizer
       </h1>
-      <div style={{ height: 480 }}/>
+      <div style={{ height: 500 }}/>
       <SearchBar/>
     </Flex>
   )
@@ -236,8 +237,8 @@ function SearchBar() {
       justify='center'
       gap={5}
     >
-      <Flex justify='flex-start' style={{ width: '100%', marginLeft: 5, fontSize: 18, textShadow: '#000000 2px 2px 12px' }}>
-        Enter your UUID to showcase your characters:
+      <Flex justify='flex-start' style={{ width: '100%', marginLeft: 5, fontSize: 18, textShadow: 'rgb(0, 0, 0) 2px 2px 20px, rgb(0, 0, 0) 0px 0px 5px' }}>
+        Enter your UUID to showcase characters:
       </Flex>
       <Input.Search
         placeholder='UUID'
@@ -248,7 +249,7 @@ function SearchBar() {
         onSearch={(uuid: string) => {
           const validated = TsUtils.validateUuid(uuid)
           if (!validated) {
-            return console.warn('invalid')
+            return Message.warning('Invalid input - This should be your 9 digit ingame UUID')
           }
 
           window.history.pushState({}, '', `/hsr-optimizer#scorer?id=${uuid}`)

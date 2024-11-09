@@ -69,7 +69,6 @@ export default function RelicScorerTab() {
     if (params) {
       const id = params.split('id=')[1].split('&')[0]
       onFinish({ scorerId: id })
-      console.warn('??? 1')
     }
   }, [activeKey])
   useEffect(() => {

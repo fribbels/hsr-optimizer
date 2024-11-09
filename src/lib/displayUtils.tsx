@@ -1,13 +1,21 @@
 import { Flex } from 'antd'
+import i18next from 'i18next'
 import { Assets } from 'lib/assets'
 import { Character } from 'types/Character'
-import i18next from 'i18next'
+import { ReactElement } from 'types/Components'
 
 type GenerateCharacterListProps = {
   currentCharacters: Character[]
   excludeCharacters?: Character[]
   withNobodyOption?: boolean
 }
+
+type OptionType = {
+  value: string
+  label: ReactElement | string
+  title: string
+}
+
 // Character selector options from current characters with some customization parameters
 export function generateCharacterList(
   props: Partial<GenerateCharacterListProps>,
@@ -25,9 +33,9 @@ export function generateCharacterList(
     ...props,
   }
 
-  const options = currentCharacters
+  const options: OptionType[] = currentCharacters
     .filter((character) => !excludeCharacters.includes(character))
-    .map((character) => ({
+    .map((character): OptionType => ({
       value: character.id,
       label:
         (
@@ -36,10 +44,10 @@ export function generateCharacterList(
               src={Assets.getCharacterAvatarById(character.id)}
               style={{ height: 22, marginRight: 4 }}
             />
-            {i18next.t(`gameData:Characters.${character.id}.Name`)}
+            {i18next.t(`gameData:Characters.${character.id}.Name` as never)}
           </Flex>
         ),
-      title: i18next.t(`gameData:Characters.${character.id}.Name`),
+      title: i18next.t(`gameData:Characters.${character.id}.Name` as never),
     }))
     .sort((a, b) => a.title.localeCompare(b.title))
 

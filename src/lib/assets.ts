@@ -1,4 +1,4 @@
-import { Constants, Parts, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, setToId, Stats } from 'lib/constants'
+import { Constants, Parts, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets, setToId, Stats } from 'lib/constants'
 import { BASE_PATH } from 'lib/db'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;
@@ -146,6 +146,7 @@ export const Assets = {
       return Assets.getBlank()
     }
 
+    const setId = String(set) as Sets
     const partToId: Record<string, string> = {
       base: '',
       [Constants.Parts.Head]: '_0',
@@ -156,12 +157,12 @@ export const Assets = {
       [Constants.Parts.LinkRope]: '_1',
     }
     if (actualIcon) {
-      return getImageUrl(`/icon/relic/${setToId[set]}.webp`)
+      return getImageUrl(`/icon/relic/${setToId[setId]}.webp`)
     }
     if (set == SACERDOS_RELIVED_ORDEAL_1_STACK || set == SACERDOS_RELIVED_ORDEAL_2_STACK) {
       return getImageUrl(`/icon/relic/${setToId[Constants.Sets.SacerdosRelivedOrdeal]}${partToId[part]}.webp`)
     }
-    return getImageUrl(`/icon/relic/${setToId[set]}${partToId[part]}.webp`)
+    return getImageUrl(`/icon/relic/${setToId[setId]}${partToId[part]}.webp`)
   },
 
   getHomeFeature: (file: string) => {

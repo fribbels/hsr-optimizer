@@ -40,7 +40,6 @@ export const AppPages = {
 
   GETTING_STARTED: 'GETTING_STARTED',
   CHANGELOG: 'CHANGELOG',
-  SETTINGS: 'SETTINGS',
   RELIC_SCORER: 'RELIC_SCORER', // Deprecated - reroute to showcase
   SHOWCASE: 'SHOWCASE',
 
@@ -52,7 +51,7 @@ export const AppPages = {
 export const PageToRoute = {
   [AppPages.HOME]: BASE_PATH,
 
-  [AppPages.OPTIMIZER]: BASE_PATH + '#optimize',
+  [AppPages.OPTIMIZER]: BASE_PATH + '#main',
 
   [AppPages.RELIC_SCORER]: BASE_PATH + '#scorer', // Deprecated - reroute to showcase
   [AppPages.SHOWCASE]: BASE_PATH + '#showcase',

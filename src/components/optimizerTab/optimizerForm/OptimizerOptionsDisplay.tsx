@@ -1,16 +1,16 @@
 /* eslint-disable react/prop-types */
-import { Flex, Form, Select, Switch, Typography } from 'antd'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import { Flex, Form, Select, Switch, Typography } from 'antd'
+import { HeaderText } from 'components/HeaderText'
+import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants'
+import { TooltipImage } from 'components/TooltipImage'
+import { Assets } from 'lib/assets'
+import DB from 'lib/db'
+import { generateCharacterList } from 'lib/displayUtils'
 
 import { Hint } from 'lib/hint'
-import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from 'components/TooltipImage'
-import { useMemo } from 'react'
-import DB from 'lib/db'
-import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants'
 import { Utils } from 'lib/utils'
-import { Assets } from 'lib/assets'
-import { generateCharacterList } from 'lib/displayUtils'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
@@ -22,7 +22,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
 
   const characterExcludeOptions = useMemo(() => generateCharacterList({
     currentCharacters: characters,
-    excludeCharacters: [DB.getCharacterById(optimizerTabFocusCharacter)],
+    excludeCharacters: [DB.getCharacterById(optimizerTabFocusCharacter!)],
     withNobodyOption: false,
   }), [characters, optimizerTabFocusCharacter, i18n.resolvedLanguage])
 

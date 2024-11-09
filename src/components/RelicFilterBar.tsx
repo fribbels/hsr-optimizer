@@ -1,24 +1,24 @@
+import { ClearOutlined } from '@ant-design/icons'
 import { Button, Flex, Select, theme, Tooltip, Typography } from 'antd'
-import React, { useEffect, useMemo, useState } from 'react'
-import { RelicScorer } from 'lib/relicScorerPotential'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from './TooltipImage'
+import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
+import { SettingOptions } from 'components/SettingsDrawer'
+import { useSubscribe } from 'hooks/useSubscribe'
+import { Assets } from 'lib/assets'
+import { Constants, Sets, SetsRelics, setToId, Stats, UnreleasedSets } from 'lib/constants'
 import DB, { DBMetadataCharacter } from 'lib/db'
 import { Hint } from 'lib/hint'
-import { Utils } from 'lib/utils'
-import { Constants, Sets, SetsRelics, setToId, Stats, UnreleasedSets } from 'lib/constants'
-import { Assets } from 'lib/assets'
-import { useSubscribe } from 'hooks/useSubscribe'
+import { RelicScorer } from 'lib/relicScorerPotential'
 import { Renderer } from 'lib/renderer'
-import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
-import { ClearOutlined } from '@ant-design/icons'
 import { SaveState } from 'lib/saveState'
-import { SettingOptions } from 'components/SettingsDrawer'
-import { useTranslation } from 'react-i18next'
-import { Relic } from 'types/Relic'
-import { ReactElement } from 'types/Components'
 import { TsUtils } from 'lib/TsUtils'
+import { Utils } from 'lib/utils'
+import React, { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ReactElement } from 'types/Components'
+import { Relic } from 'types/Relic'
+import { TooltipImage } from './TooltipImage'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -115,10 +115,10 @@ export default function RelicFilterBar(props: {
   }
 
   function generateEquippedByTags(arr: string[]) {
-    return arr.map((x: string) => {
+    return arr.map((equippedBy: string) => {
       return {
-        key: x,
-        display: Renderer.renderEquippedBy({ equippedBy: x }),
+        key: equippedBy,
+        display: Renderer.renderEquippedBy(equippedBy),
       }
     })
   }

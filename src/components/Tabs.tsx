@@ -10,7 +10,6 @@ import OptimizerTab from 'components/optimizerTab/OptimizerTab'
 import RelicScorerTab from 'components/RelicScorerTab'
 import RelicsTab from 'components/RelicsTab'
 import ScoringModal from 'components/ScoringModal'
-import SettingsTab from 'components/settingsTab/settingsTab'
 import WebgpuTab from 'components/webgpuTab/WebgpuTab'
 import { AppPages, PageToRoute } from 'lib/db'
 import { OptimizerTabController } from 'lib/optimizerTabController'
@@ -35,7 +34,6 @@ const Tabs = () => {
   const gettingStartedTab = React.useMemo(() => <GettingStartedTab/>, [])
   const relicScorerTab = React.useMemo(() => <RelicScorerTab/>, [])
   const changelogTab = React.useMemo(() => <ChangelogTab/>, [])
-  const settingsTab = React.useMemo(() => <SettingsTab/>, [])
   const webgpuTab = React.useMemo(() => <WebgpuTab/>, [])
   const metadataTab = React.useMemo(() => <MetadataTab/>, [])
   const homeTab = React.useMemo(() => <HomeTab/>, [])
@@ -66,6 +64,7 @@ const Tabs = () => {
 
   return (
     <Flex justify='space-around' style={{ width: '100%' }}>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.HOME} content={homeTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.OPTIMIZER} content={optimizerTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHARACTERS} content={characterTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab}/>
@@ -73,10 +72,8 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey={AppPages.GETTING_STARTED} content={gettingStartedTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.SHOWCASE} content={relicScorerTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab}/>
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.SETTINGS} content={settingsTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.WEBGPU_TEST} content={webgpuTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.METADATA_TEST} content={metadataTab}/>
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.HOME} content={homeTab}/>
 
       <ErrorBoundary fallbackRender={defaultErrorRender}>
         <ScoringModal/>

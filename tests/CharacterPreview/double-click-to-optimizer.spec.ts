@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 test('Double-clicking character renders Optimizer with character in focus.', async ({ page }) => {
-  await page.goto('/#scorer')
+  await page.goto('/#showcase')
 
   // dbl-click kafka TEXT
   await page.getByRole('menuitem', { name: 'Characters' }).click()

@@ -2,7 +2,7 @@ import { test } from '@playwright/test'
 
 // Disabled since Webgpu doesnt work that well in tests
 test('Open RelicModal in edit mode from the Optimizer tab', async ({ page }) => {
-  // await page.goto('/#scorer')
+  // await page.goto('/#showcase')
   //
   // await page.getByRole('menuitem', { name: 'Optimizer' }).click()
   //

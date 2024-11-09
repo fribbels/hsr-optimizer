@@ -1,4 +1,3 @@
-import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, ComputeEngine } from 'lib/constants'
 import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
 import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
@@ -10,6 +9,7 @@ import { OptimizerDisplayData } from 'lib/optimizer/bufferPacker'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { renameFields } from 'lib/optimizer/optimizer'
 import { SortOption } from 'lib/optimizer/sortOptions'
+import { setSortColumn } from 'lib/tabs/optimizer/optimizerForm/RecommendedPresetsButton'
 import { Form } from 'types/Form'
 import { OptimizerContext } from 'types/Optimizer'
 

@@ -1,8 +1,8 @@
-import { FormSelectWithPopoverProps } from 'components/optimizerTab/conditionals/FormSelect'
-import { FormSliderWithPopoverProps } from 'components/optimizerTab/conditionals/FormSlider'
-import { FormSwitchWithPopoverProps } from 'components/optimizerTab/conditionals/FormSwitch'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { FormSelectWithPopoverProps } from 'lib/tabs/optimizer/conditionals/FormSelect'
+import { FormSliderWithPopoverProps } from 'lib/tabs/optimizer/conditionals/FormSlider'
+import { FormSwitchWithPopoverProps } from 'lib/tabs/optimizer/conditionals/FormSwitch'
 import { ComponentProps, ComponentType } from 'react'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 

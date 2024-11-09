@@ -1,6 +1,6 @@
-import { RelicScoringWeights } from 'components/RelicFilterBar'
 import { MainStats, Parts, Sets, StatsValues } from 'lib/constants'
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
+import { RelicScoringWeights } from 'lib/tabs/relics/RelicFilterBar'
 import { GUID } from './Common'
 
 export type RelicGrade = 2 | 3 | 4 | 5

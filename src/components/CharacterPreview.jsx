@@ -1,19 +1,16 @@
 import { EditOutlined, SettingOutlined, SwapOutlined, SyncOutlined } from '@ant-design/icons'
 import { Button, Card, Flex, Image, Segmented, theme, Typography } from 'antd'
-import CharacterModal from 'components/CharacterModal'
+import { HeaderText } from 'components/common/HeaderText'
+import { LoadingBlurredImage } from 'components/common/LoadingBlurredImage'
 import {
   CharacterCardCombatStats,
   CharacterCardScoringStatUpgrades,
   CharacterScoringSummary,
-} from 'components/characterPreview/CharacterScoringSummary'
-import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
+} from 'lib/characterPreview/CharacterScoringSummary'
+import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 
-import Rarity from 'components/characterPreview/Rarity'
-import StatText from 'components/characterPreview/StatText'
-import { HeaderText } from 'components/HeaderText'
-import { LoadingBlurredImage } from 'components/LoadingBlurredImage'
-import RelicModal from 'components/RelicModal.tsx'
-import { RelicPreview } from 'components/RelicPreview'
+import Rarity from 'lib/characterPreview/Rarity'
+import StatText from 'lib/characterPreview/StatText'
 import { getSimScoreGrade, scoreCharacterSimulation } from 'lib/characters/characterScorer'
 import {
   CHARACTER_SCORE,
@@ -41,6 +38,9 @@ import {
 import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
 import { Message } from 'lib/interactions/message'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import CharacterModal from 'lib/overlays/modals/CharacterModal'
+import EditImageModal from 'lib/overlays/modals/EditImageModal'
+import RelicModal from 'lib/overlays/modals/RelicModal.tsx'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { RelicModalController } from 'lib/relics/relicModalController'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
@@ -48,12 +48,12 @@ import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages, DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { RelicPreview } from 'lib/tabs/relics/RelicPreview'
 import { Utils } from 'lib/utils'
 import PropTypes from 'prop-types'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import CharacterCustomPortrait from './CharacterCustomPortrait'
-import EditImageModal from './EditImageModal'
 
 const { useToken } = theme
 const { Text } = Typography

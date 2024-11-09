@@ -1,5 +1,5 @@
+import { LoadingBlurredImage } from 'components/common/LoadingBlurredImage'
 import { CustomImageConfig } from 'types/CustomImage'
-import { LoadingBlurredImage } from 'components/LoadingBlurredImage'
 
 interface CharacterCustomPortraitProps {
   customPortrait: CustomImageConfig
@@ -13,9 +13,10 @@ const CharacterCustomPortrait: React.FC<CharacterCustomPortraitProps> = ({
   const scaleWidth = parentW / customPortrait.customImageParams.croppedAreaPixels.width
 
   return (
-    <div style={{
-      position: 'absolute',
-    }}
+    <div
+      style={{
+        position: 'absolute',
+      }}
     >
       <LoadingBlurredImage
         src={customPortrait.imageUrl}

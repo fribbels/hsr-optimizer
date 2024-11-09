@@ -14,7 +14,7 @@ import { ConditionalSetMetadata } from 'lib/optimizer/rotation/setConditionalCon
 import { GridAggregations } from 'lib/rendering/gradient'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { applyMetadataPresetToForm } from 'lib/tabs/optimizer/optimizerForm/RecommendedPresetsButton'
+import { applyMetadataPresetToForm } from 'lib/tabs/tabOptimizer/optimizerForm/RecommendedPresetsButton'
 import { TsUtils } from 'lib/TsUtils'
 import { Utils } from 'lib/utils'
 import { CharacterConditionalMap } from 'types/CharacterConditional'

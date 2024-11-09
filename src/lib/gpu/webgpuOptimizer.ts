@@ -9,7 +9,7 @@ import { OptimizerDisplayData } from 'lib/optimizer/bufferPacker'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { renameFields } from 'lib/optimizer/optimizer'
 import { SortOption } from 'lib/optimizer/sortOptions'
-import { setSortColumn } from 'lib/tabs/optimizer/optimizerForm/RecommendedPresetsButton'
+import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/RecommendedPresetsButton'
 import { Form } from 'types/Form'
 import { OptimizerContext } from 'types/Optimizer'
 

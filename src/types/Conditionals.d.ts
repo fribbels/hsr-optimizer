@@ -1,8 +1,8 @@
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
-import { FormSelectWithPopoverProps } from 'lib/tabs/optimizer/conditionals/FormSelect'
-import { FormSliderWithPopoverProps } from 'lib/tabs/optimizer/conditionals/FormSlider'
-import { FormSwitchWithPopoverProps } from 'lib/tabs/optimizer/conditionals/FormSwitch'
+import { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
+import { FormSliderWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
+import { FormSwitchWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import { ComponentProps, ComponentType } from 'react'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
@@ -60,11 +60,11 @@ export type ContentComponentMap = {
 // extracted content to apply to <DisplayFormControl />
 export type ContentItem = {
   [K in keyof ContentComponentMap]: {
-    formItem: K
-    id: string
-    content: string
-    teammateIndex?: number
-  } & Omit<ComponentProps<ContentComponentMap[K]>, 'content' | 'title'>
+  formItem: K
+  id: string
+  content: string
+  teammateIndex?: number
+} & Omit<ComponentProps<ContentComponentMap[K]>, 'content' | 'title'>
 }[keyof ContentComponentMap]
 
 export type ConditionalBuff =

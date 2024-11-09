@@ -483,9 +483,9 @@ export const OptimizerTabController = {
       newForm.enemyCount = 1
     }
 
-    if (!form.teammate0?.characterId) newForm.teammate0 = defaultTeammate() as Teammate
-    if (!form.teammate1?.characterId) newForm.teammate1 = defaultTeammate() as Teammate
-    if (!form.teammate2?.characterId) newForm.teammate2 = defaultTeammate() as Teammate
+    newForm.teammate0 = cloneTeammate(form.teammate0)
+    newForm.teammate1 = cloneTeammate(form.teammate1)
+    newForm.teammate2 = cloneTeammate(form.teammate2)
 
     if (!newForm.weights) {
       newForm.weights = getDefaultWeights()
@@ -883,4 +883,14 @@ function filter(filterModel: Form) {
   }
 
   filteredIndices = indices
+}
+
+function cloneTeammate(teammate: Teammate | undefined) {
+  if (!teammate?.characterId) return defaultTeammate() as Teammate
+  return {
+    characterId: teammate.characterId ?? null,
+    characterEidolon: teammate.characterEidolon ?? null,
+    lightCone: teammate.lightCone ?? null,
+    lightConeSuperimposition: teammate.lightConeSuperimposition ?? null,
+  } as Teammate
 }

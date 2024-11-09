@@ -52,7 +52,7 @@ export const AppPages = {
 export const PageToRoute = {
   [AppPages.HOME]: BASE_PATH,
 
-  [AppPages.OPTIMIZER]: BASE_PATH + '#optimize',
+  [AppPages.OPTIMIZER]: BASE_PATH + '#main',
 
   [AppPages.RELIC_SCORER]: BASE_PATH + '#scorer', // Deprecated - reroute to showcase
   [AppPages.SHOWCASE]: BASE_PATH + '#showcase',

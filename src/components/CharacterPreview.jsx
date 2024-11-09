@@ -563,90 +563,85 @@ export function CharacterPreview(props) {
                   marginRight: defaultGap,
                   outline: outline,
                   filter: filter,
+                  position: 'relative',
                 }}
               >
-                <div
-                  style={{
-                    zIndex: 1,
-                  }}
-                >
-                  {
-                    (character.portrait || customPortrait)
-                      ? (
-                        <CharacterCustomPortrait
-                          customPortrait={customPortrait ?? character.portrait}
-                          parentW={parentW}
-                        />
-                      )
-                      : (
-                        <LoadingBlurredImage
-                          src={Assets.getCharacterPortraitById(character.id)}
-                          style={{
-                            position: 'absolute',
-                            left: -charCenter.x * charCenter.z / 2 * tempInnerW / 1024 + parentW / 2,
-                            top: -charCenter.y * charCenter.z / 2 * tempInnerW / 1024 + tempParentH / 2,
-                            width: tempInnerW * charCenter.z,
-                          }}
-                        />
-                      )
-                  }
-                  <Flex vertical style={{ width: 'max-content', marginLeft: 6, marginTop: 6 }} gap={7}>
-                    {!isScorer && (
-                      <Button
+                {
+                  (character.portrait || customPortrait)
+                    ? (
+                      <CharacterCustomPortrait
+                        customPortrait={customPortrait ?? character.portrait}
+                        parentW={parentW}
+                      />
+                    )
+                    : (
+                      <LoadingBlurredImage
+                        src={Assets.getCharacterPortraitById(character.id)}
                         style={{
-                          ...buttonStyle,
+                          position: 'absolute',
+                          left: -charCenter.x * charCenter.z / 2 * tempInnerW / 1024 + parentW / 2,
+                          top: -charCenter.y * charCenter.z / 2 * tempInnerW / 1024 + tempParentH / 2,
+                          width: tempInnerW * charCenter.z,
                         }}
-                        className='character-build-portrait-button'
-                        icon={<EditOutlined/>}
-                        onClick={() => {
-                          setCharacterModalAdd(false)
-                          setOriginalCharacterModalInitialCharacter(character)
-                          setOriginalCharacterModalOpen(true)
-                        }}
-                        type='primary'
-                      >
-                        {t('CharacterPreview.EditCharacter')/* Edit character */}
-                      </Button>
-                    )}
-                    {isScorer && (
-                      <Button
-                        style={{
-                          ...buttonStyle,
-                        }}
-                        className='character-build-portrait-button'
-                        icon={<EditOutlined/>}
-                        onClick={() => {
-                          setOriginalCharacterModalInitialCharacter(character)
-                          setOriginalCharacterModalOpen(true)
-                        }}
-                        type='primary'
-                      >
-                        {t('CharacterPreview.EditCharacter')/* Edit character */}
-                      </Button>
-                    )}
+                      />
+                    )
+                }
+                <Flex vertical style={{ width: 'max-content', marginLeft: 6, marginTop: 6 }} gap={7}>
+                  {!isScorer && (
                     <Button
                       style={{
                         ...buttonStyle,
                       }}
                       className='character-build-portrait-button'
                       icon={<EditOutlined/>}
-                      onClick={() => setEditPortraitModalOpen(true)}
+                      onClick={() => {
+                        setCharacterModalAdd(false)
+                        setOriginalCharacterModalInitialCharacter(character)
+                        setOriginalCharacterModalOpen(true)
+                      }}
                       type='primary'
                     >
-                      {t('CharacterPreview.EditPortrait')/* Edit portrait */}
+                      {t('CharacterPreview.EditCharacter')/* Edit character */}
                     </Button>
-                  </Flex>
-                  <EditImageModal
-                    title={t('CharacterPreview.EditPortrait')/* Edit portrait */}
-                    aspectRatio={parentW / parentH}
-                    existingConfig={customPortrait ?? character.portrait}
-                    open={editPortraitModalOpen}
-                    setOpen={setEditPortraitModalOpen}
-                    onOk={onEditPortraitOk}
-                    defaultImageUrl={Assets.getCharacterPortraitById(character.id)}
-                    width={500}
-                  />
-                </div>
+                  )}
+                  {isScorer && (
+                    <Button
+                      style={{
+                        ...buttonStyle,
+                      }}
+                      className='character-build-portrait-button'
+                      icon={<EditOutlined/>}
+                      onClick={() => {
+                        setOriginalCharacterModalInitialCharacter(character)
+                        setOriginalCharacterModalOpen(true)
+                      }}
+                      type='primary'
+                    >
+                      {t('CharacterPreview.EditCharacter')/* Edit character */}
+                    </Button>
+                  )}
+                  <Button
+                    style={{
+                      ...buttonStyle,
+                    }}
+                    className='character-build-portrait-button'
+                    icon={<EditOutlined/>}
+                    onClick={() => setEditPortraitModalOpen(true)}
+                    type='primary'
+                  >
+                    {t('CharacterPreview.EditPortrait')/* Edit portrait */}
+                  </Button>
+                </Flex>
+                <EditImageModal
+                  title={t('CharacterPreview.EditPortrait')/* Edit portrait */}
+                  aspectRatio={parentW / parentH}
+                  existingConfig={customPortrait ?? character.portrait}
+                  open={editPortraitModalOpen}
+                  setOpen={setEditPortraitModalOpen}
+                  onOk={onEditPortraitOk}
+                  defaultImageUrl={Assets.getCharacterPortraitById(character.id)}
+                  width={500}
+                />
                 <Flex
                   vertical
                   style={{
@@ -676,7 +671,6 @@ export function CharacterPreview(props) {
                   </Text>
                 </Flex>
               </div>
-
             )}
 
             {

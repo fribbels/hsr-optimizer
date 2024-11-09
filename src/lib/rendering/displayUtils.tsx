@@ -1,6 +1,6 @@
 import { Flex } from 'antd'
 import i18next from 'i18next'
-import { Assets } from 'lib/assets'
+import { Assets } from 'lib/rendering/assets'
 import { Character } from 'types/Character'
 import { ReactElement } from 'types/Components'
 

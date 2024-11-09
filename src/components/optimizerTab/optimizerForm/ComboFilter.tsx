@@ -5,7 +5,7 @@ import { HeaderText } from 'components/HeaderText'
 import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled'
 import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants'
 import { ComboDrawer } from 'components/optimizerTab/rotation/ComboDrawer'
-import DB from 'lib/db'
+import DB from 'lib/state/db'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 

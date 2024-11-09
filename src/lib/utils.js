@@ -1,10 +1,9 @@
-import DB from 'lib/db'
-import { Constants } from 'lib/constants'
-import { v4 as uuidv4 } from 'uuid'
-import stringify from 'json-stable-stringify'
-
 import * as htmlToImage from 'html-to-image'
 import i18next from 'i18next'
+import stringify from 'json-stable-stringify'
+import { Constants } from 'lib/constants'
+import DB from 'lib/state/db'
+import { v4 as uuidv4 } from 'uuid'
 
 console.debug = (...args) => {
   let messageConfig = '%c%s '

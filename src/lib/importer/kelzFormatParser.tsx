@@ -1,16 +1,16 @@
-import stringSimilarity from 'string-similarity'
-import { Constants, Parts, Sets } from '../constants'
-import { RelicAugmenter } from 'lib/relicAugmenter'
+import { Typography } from 'antd'
 
 import gameData from 'data/game_data.json'
-import DB from 'lib/db'
-import { Utils } from '../utils'
-import semver from 'semver'
-import { Typography } from 'antd'
-import { Message } from 'lib/message'
 import { ScannerConfig } from 'lib/importer/importConfig'
-import { Relic } from 'types/Relic'
+import { Message } from 'lib/interactions/message'
+import { RelicAugmenter } from 'lib/relics/relicAugmenter'
+import DB from 'lib/state/db'
+import semver from 'semver'
+import stringSimilarity from 'string-similarity'
 import { Character } from 'types/Character'
+import { Relic } from 'types/Relic'
+import { Constants, Parts, Sets } from '../constants'
+import { Utils } from '../utils'
 
 const { Text } = Typography
 

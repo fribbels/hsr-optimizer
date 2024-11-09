@@ -1,10 +1,10 @@
-import { expect, test } from 'vitest'
-
-import { DataParser } from './dataParser'
 import { Constants, PartsMainStats } from 'lib/constants'
-import { RelicScorer } from './relicScorerPotential'
+import { RelicScorer } from 'lib/relics/relicScorerPotential'
+
+import { DataParser } from 'lib/state/dataParser'
+import DB from 'lib/state/db'
 import { Relic } from 'types/Relic'
-import DB from 'lib/db'
+import { expect, test } from 'vitest'
 
 DataParser.parse()
 
@@ -162,7 +162,7 @@ test('ideal-mainstats-includes-best-mainstats', () => {
         if (!PartsMainStats[part].includes(name)) {
           continue
         }
-        if (<number>weight > best) {
+        if (weight > best) {
           // The best ideal mainstats is missing a possible mainstat that's higher weighted
           // than everything else
           didfail = true

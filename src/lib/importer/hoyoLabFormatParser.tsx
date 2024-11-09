@@ -1,7 +1,7 @@
 import { Constants, Parts, SubStats } from 'lib/constants'
+import { RelicAugmenter } from 'lib/relics/relicAugmenter'
+import DB from 'lib/state/db'
 import { Utils } from 'lib/utils'
-import { RelicAugmenter } from 'lib/relicAugmenter'
-import DB from 'lib/db'
 
 /*
 

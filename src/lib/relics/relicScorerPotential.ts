@@ -1,11 +1,11 @@
 import i18next from 'i18next'
 import { Constants, MainStats, MainStatsValues, Parts, PartsMainStats, Stats, StatsValues, SubStats, SubStatValues } from 'lib/constants'
-import DB from 'lib/db'
+import DB from 'lib/state/db'
 import { TsUtils } from 'lib/TsUtils'
 import { Utils } from 'lib/utils'
 import { Character, CharacterId } from 'types/Character'
+import { GUID } from 'types/Common'
 import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/Relic'
-import { GUID } from '../types/Common'
 
 enum relicPotentialCases {
   SINGLE_STAT,

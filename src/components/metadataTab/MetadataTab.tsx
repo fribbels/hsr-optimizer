@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import { AppPages, DB } from 'lib/db'
-import { Assets } from 'lib/assets'
-import { StringToNumberMap } from 'types/Common'
-import { ReactElement } from 'types/Components'
 import { Collapse, Flex } from 'antd'
 import gameData from 'data/game_data.json'
 import { Sets, Stats } from 'lib/constants'
+import { Assets } from 'lib/rendering/assets'
+import { AppPages, DB } from 'lib/state/db'
+import React, { useState } from 'react'
+import { StringToNumberMap } from 'types/Common'
+import { ReactElement } from 'types/Components'
 
 // Fake type for metadata
 type MetadataObject = {
@@ -25,7 +25,6 @@ type MetadataObject = {
 
 const setToIndex: StringToNumberMap = {}
 const iconSize = 40
-
 
 export default function MetadataTab(): React.JSX.Element {
   const activeKey = window.store((s) => s.activeKey)
@@ -63,9 +62,7 @@ export default function MetadataTab(): React.JSX.Element {
   )
 }
 
-
 // =========================================== SubstatWeightDashboard ===========================================
-
 
 function SubstatWeightDashboard() {
   // @ts-ignore
@@ -78,13 +75,13 @@ function SubstatWeightDashboard() {
 
   return (
     <Flex vertical gap={10}>
-      <GridDisplay grid={generateSubstatWeightGrid(characters.filter(x => x.path == 'Destruction'), sets)}/>
-      <GridDisplay grid={generateSubstatWeightGrid(characters.filter(x => x.path == 'Hunt'), sets)}/>
-      <GridDisplay grid={generateSubstatWeightGrid(characters.filter(x => x.path == 'Erudition'), sets)}/>
-      <GridDisplay grid={generateSubstatWeightGrid(characters.filter(x => x.path == 'Nihility'), sets)}/>
-      <GridDisplay grid={generateSubstatWeightGrid(characters.filter(x => x.path == 'Preservation'), sets)}/>
-      <GridDisplay grid={generateSubstatWeightGrid(characters.filter(x => x.path == 'Harmony'), sets)}/>
-      <GridDisplay grid={generateSubstatWeightGrid(characters.filter(x => x.path == 'Abundance'), sets)}/>
+      <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Destruction'), sets)}/>
+      <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Hunt'), sets)}/>
+      <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Erudition'), sets)}/>
+      <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Nihility'), sets)}/>
+      <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Preservation'), sets)}/>
+      <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Harmony'), sets)}/>
+      <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Abundance'), sets)}/>
     </Flex>
   )
 }
@@ -114,7 +111,7 @@ function generateSubstatWeightGrid(characters: MetadataObject[], sets: MetadataO
     Stats.Imaginary_DMG,
   ]
 
-  const substatAssets = weightedStats.map(x => Assets.getStatIcon(x))
+  const substatAssets = weightedStats.map((x) => Assets.getStatIcon(x))
   substatAssets.unshift(Assets.getBlank())
 
   const assetByCharacterThenStat: ReactElement[][] = [[]]
@@ -137,9 +134,7 @@ function generateSubstatWeightGrid(characters: MetadataObject[], sets: MetadataO
   return assetByCharacterThenStat
 }
 
-
 // =========================================== ConditionalSetsPresetsDashboard ===========================================
-
 
 const presetToSetMapping = {
   fnAshblazingSet: Sets.TheAshblazingGrandDuke,
@@ -162,19 +157,19 @@ function ConditionalSetsPresetsDashboard() {
 
   return (
     <Flex vertical gap={10}>
-      <GridDisplay grid={generateConditionalSetsGrid(characters.filter(x => x.path == 'Destruction'), sets)}/>
-      <GridDisplay grid={generateConditionalSetsGrid(characters.filter(x => x.path == 'Hunt'), sets)}/>
-      <GridDisplay grid={generateConditionalSetsGrid(characters.filter(x => x.path == 'Erudition'), sets)}/>
-      <GridDisplay grid={generateConditionalSetsGrid(characters.filter(x => x.path == 'Nihility'), sets)}/>
-      <GridDisplay grid={generateConditionalSetsGrid(characters.filter(x => x.path == 'Preservation'), sets)}/>
-      <GridDisplay grid={generateConditionalSetsGrid(characters.filter(x => x.path == 'Harmony'), sets)}/>
-      <GridDisplay grid={generateConditionalSetsGrid(characters.filter(x => x.path == 'Abundance'), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Destruction'), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Hunt'), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Erudition'), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Nihility'), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Preservation'), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Harmony'), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Abundance'), sets)}/>
     </Flex>
   )
 }
 
 function generateConditionalSetsGrid(characters: MetadataObject[], sets: MetadataObject[]) {
-  const relicAssets = sets.map(x => Assets.getSetImage(x.name))
+  const relicAssets = sets.map((x) => Assets.getSetImage(x.name))
   relicAssets.unshift(Assets.getBlank())
 
   const assetByCharacterThenSet: ReactElement[][] = [[]]
@@ -200,16 +195,13 @@ function generateConditionalSetsGrid(characters: MetadataObject[], sets: Metadat
   return assetByCharacterThenSet
 }
 
-
 // =========================================== SimulationEquivalentSetsDashboard ===========================================
-
 
 function SimulationEquivalentSetsDashboard() {
   // @ts-ignore
   const sets: MetadataObject[] = gameData.relics.slice().reverse()
   const characters: MetadataObject[] = Object.values(DB.getMetadata().characters)
-  const simulationCharacters: MetadataObject[] = characters.filter(x => x.scoringMetadata.simulation)
-
+  const simulationCharacters: MetadataObject[] = characters.filter((x) => x.scoringMetadata.simulation)
 
   for (let i = 0; i < sets.length; i++) {
     setToIndex[sets[i].name] = i
@@ -217,19 +209,19 @@ function SimulationEquivalentSetsDashboard() {
 
   return (
     <Flex vertical gap={50}>
-      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter(x => x.path == 'Destruction'), sets)}/>
-      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter(x => x.path == 'Hunt'), sets)}/>
-      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter(x => x.path == 'Erudition'), sets)}/>
-      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter(x => x.path == 'Nihility'), sets)}/>
-      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter(x => x.path == 'Preservation'), sets)}/>
-      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter(x => x.path == 'Harmony'), sets)}/>
-      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter(x => x.path == 'Abundance'), sets)}/>
+      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Destruction'), sets)}/>
+      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Hunt'), sets)}/>
+      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Erudition'), sets)}/>
+      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Nihility'), sets)}/>
+      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Preservation'), sets)}/>
+      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Harmony'), sets)}/>
+      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Abundance'), sets)}/>
     </Flex>
   )
 }
 
 function generateEquivalentSetsGrid(characters: MetadataObject[], sets: MetadataObject[]) {
-  const relicAssets = sets.map(x => Assets.getSetImage(x.name))
+  const relicAssets = sets.map((x) => Assets.getSetImage(x.name))
   relicAssets.unshift(Assets.getBlank())
 
   const assetByCharacterThenSet: ReactElement[][] = [[]]
@@ -267,9 +259,7 @@ function generateEquivalentSetsGrid(characters: MetadataObject[], sets: Metadata
   return assetByCharacterThenSet
 }
 
-
 // =========================================== Utils ===========================================
-
 
 function Icon(props: { src: string }): ReactElement {
   return (
@@ -278,7 +268,7 @@ function Icon(props: { src: string }): ReactElement {
 }
 
 function GridDisplay(props: { grid: ReactElement[][] }) {
-  const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
+  const [hoveredColumn, setHoveredColumn] = useState<number | null>(null)
 
   for (const row of props.grid) {
     for (let i = 0; i < Object.values(setToIndex).length + 1; i++) {
@@ -292,34 +282,34 @@ function GridDisplay(props: { grid: ReactElement[][] }) {
   return (
     <table style={{ borderCollapse: 'collapse', width: 'fit-content', lineHeight: '0px' }}>
       <tbody>
-      {props.grid.map((row, rowIndex) => (
-        <tr
-          key={rowIndex}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.11)')}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}
-        >
-          {row.map((cell, colIndex) => (
-            <td
-              key={`${rowIndex}-${colIndex}`}
-              style={{
-                height: iconSize,
-                width: iconSize,
-                border: '1px solid #464d6bc4',
-                padding: 0,
-                textAlign: 'center',
-                backgroundColor: hoveredColumn === colIndex ? 'rgba(255,255,255,0.11)' : '', // Apply background on hover
-              }}
-              onMouseEnter={() => setHoveredColumn(colIndex)}
-              onMouseLeave={() => setHoveredColumn(null)}
-            >
-              <div>
-                {cell || ''}
-              </div>
-            </td>
-          ))}
-        </tr>
-      ))}
+        {props.grid.map((row, rowIndex) => (
+          <tr
+            key={rowIndex}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.11)')}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}
+          >
+            {row.map((cell, colIndex) => (
+              <td
+                key={`${rowIndex}-${colIndex}`}
+                style={{
+                  height: iconSize,
+                  width: iconSize,
+                  border: '1px solid #464d6bc4',
+                  padding: 0,
+                  textAlign: 'center',
+                  backgroundColor: hoveredColumn === colIndex ? 'rgba(255,255,255,0.11)' : '', // Apply background on hover
+                }}
+                onMouseEnter={() => setHoveredColumn(colIndex)}
+                onMouseLeave={() => setHoveredColumn(null)}
+              >
+                <div>
+                  {cell || ''}
+                </div>
+              </td>
+            ))}
+          </tr>
+        ))}
       </tbody>
     </table>
-  );
+  )
 }

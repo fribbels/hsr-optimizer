@@ -1,11 +1,11 @@
 import { Drawer, Flex, Form, Popover, Select, Switch, Typography } from 'antd'
 import ColorizeNumbers from 'components/common/ColorizeNumbers'
-import { Constants, setToId } from 'lib/constants'
-import { useMemo } from 'react'
-import { HeaderText } from 'components/HeaderText'
-import PropTypes from 'prop-types'
-import { Assets } from 'lib/assets'
 import { VerticalDivider } from 'components/Dividers'
+import { HeaderText } from 'components/HeaderText'
+import { Constants, setToId } from 'lib/constants'
+import { Assets } from 'lib/rendering/assets'
+import PropTypes from 'prop-types'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
@@ -468,11 +468,26 @@ function ConditionalSetOption(props) {
       >
         <Flex gap={defaultGap} align='center' justify='flex-start'>
           <Flex style={{ width: setConditionalsIconWidth }}>
-            <img src={Assets.getSetImage(props.set, Constants.Parts.PlanarSphere)} style={{ width: 36, height: 36 }}></img>
+            <img
+              src={Assets.getSetImage(props.set, Constants.Parts.PlanarSphere)}
+              style={{ width: 36, height: 36 }}
+            >
+            </img>
           </Flex>
-          <Text style={{ width: setConditionalsNameWidth, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{t('SetName', { id: setToId[props.set] })}</Text>
+          <Text
+            style={{
+              width: setConditionalsNameWidth,
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+            }}
+          >{t('SetName', { id: setToId[props.set] })}
+          </Text>
           <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
-            <Form.Item name={['setConditionals', props.set, 1]} valuePropName={props.selectOptions ? 'value' : 'checked'}>
+            <Form.Item
+              name={['setConditionals', props.set, 1]}
+              valuePropName={props.selectOptions ? 'value' : 'checked'}
+            >
               {inputType}
             </Form.Item>
           </Flex>
@@ -505,11 +520,26 @@ function ConditionalSetOption(props) {
       >
         <Flex gap={defaultGap} align='center' justify='flex-start'>
           <Flex style={{ width: setConditionalsIconWidth }}>
-            <img src={Assets.getSetImage(props.set, Constants.Parts.PlanarSphere)} style={{ width: 36, height: 36 }}></img>
+            <img
+              src={Assets.getSetImage(props.set, Constants.Parts.PlanarSphere)}
+              style={{ width: 36, height: 36 }}
+            >
+            </img>
           </Flex>
-          <Text style={{ width: setConditionalsNameWidth, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{t('SetName', { id: setToId[props.set] })}</Text>
+          <Text
+            style={{
+              width: setConditionalsNameWidth,
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+            }}
+          >{t('SetName', { id: setToId[props.set] })}
+          </Text>
           <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
-            <Form.Item name={['setConditionals', props.set, 1]} valuePropName={props.selectOptions ? 'value' : 'checked'}>
+            <Form.Item
+              name={['setConditionals', props.set, 1]}
+              valuePropName={props.selectOptions ? 'value' : 'checked'}
+            >
               {inputType}
             </Form.Item>
           </Flex>

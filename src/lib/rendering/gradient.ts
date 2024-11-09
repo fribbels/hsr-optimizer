@@ -1,7 +1,7 @@
-import tinygradient from 'tinygradient'
-import { OptimizerTabController } from 'lib/optimizerTabController'
-import { ColorThemeOverrides } from 'lib/theme'
 import type { GlobalToken } from 'antd/es/theme/interface'
+import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
+import { ColorThemeOverrides } from 'lib/rendering/theme'
+import tinygradient from 'tinygradient'
 
 const optimizerGridGradient = tinygradient([
   { color: '#5A1A06', pos: 0 }, // red
@@ -48,7 +48,7 @@ export const Gradient = {
   },
 
   getOptimizerColumnGradient: (params: GridParams) => {
-    const aggs = OptimizerTabController.getAggs() as GridAggregations
+    const aggs = OptimizerTabController.getAggs()
 
     try {
       const colId = params.column.colId

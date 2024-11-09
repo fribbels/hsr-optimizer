@@ -1,8 +1,8 @@
 import { CheckCircleFilled, CloseCircleFilled, QuestionOutlined } from '@ant-design/icons'
 import { Button, Collapse, Flex, Table, TableProps } from 'antd'
-import { AppPages } from 'lib/db'
 import { generateAllTests, WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import { StatDelta, StatDeltas } from 'lib/gpu/tests/webgpuTestUtils'
+import { AppPages } from 'lib/state/db'
 import React, { useState } from 'react'
 
 export default function WebgpuTab(): React.JSX.Element {

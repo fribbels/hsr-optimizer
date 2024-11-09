@@ -1,5 +1,5 @@
-import { CharacterConditionals } from 'lib/characterConditionals'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
+import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
 import { Stats } from 'lib/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalSets } from 'lib/gpu/conditionals/setConditionals'
@@ -25,11 +25,14 @@ export function calculateContextConditionalRegistry(action: OptimizerAction, con
   action.conditionalState = {}
 }
 
-export function registerTeammateConditionals(conditionalRegistry: { [key: string]: DynamicConditional[] }, teammateMetadata: CharacterMetadata, action: OptimizerAction, index: number) {
+export function registerTeammateConditionals(conditionalRegistry: { [key: string]: DynamicConditional[] },
+  teammateMetadata: CharacterMetadata,
+  action: OptimizerAction,
+  index: number) {
   if (teammateMetadata) {
     const teammateCharacterConditionals: CharacterConditional = CharacterConditionals.get(teammateMetadata)
     const dynamicConditionals = (teammateCharacterConditionals.teammateDynamicConditionals ?? [])
-      .map(dynamicConditional => {
+      .map((dynamicConditional) => {
         const wrapped = wrapTeammateDynamicConditional(dynamicConditional, index)
         action.teammateDynamicConditionals.push(wrapped)
         return wrapped
@@ -41,7 +44,7 @@ export function registerTeammateConditionals(conditionalRegistry: { [key: string
 export function wrapTeammateDynamicConditional(dynamicConditional: DynamicConditional, index: number) {
   return {
     ...dynamicConditional,
-    teammateIndex: index
+    teammateIndex: index,
   }
 }
 

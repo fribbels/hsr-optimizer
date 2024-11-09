@@ -1,29 +1,39 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react'
-
-import { Button, Dropdown, Flex, Image, Input, Modal, theme, Typography } from 'antd'
+import {
+  CameraOutlined,
+  DownloadOutlined,
+  DownOutlined,
+  ExclamationCircleOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
-import DB, { AppPages } from 'lib/db'
-import { RelicScorer } from 'lib/relicScorerPotential'
-import { CharacterPreview } from './CharacterPreview'
-import { Assets } from 'lib/assets'
-import { SaveState } from 'lib/saveState'
-import { Message } from 'lib/message'
-import PropTypes from 'prop-types'
-import { useSubscribe } from 'hooks/useSubscribe'
-import { CameraOutlined, DownloadOutlined, DownOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons'
+
+import { Button, Dropdown, Flex, Image, Input, Modal, theme, Typography } from 'antd'
 import CharacterModal from 'components/CharacterModal'
-import { Utils } from 'lib/utils'
+import {
+  generateElementTags,
+  generatePathTags,
+  SegmentedFilterRow,
+} from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
 import NameBuild from 'components/SaveBuildModal'
-import BuildsModal from './BuildsModal'
-import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
-import { OptimizerTabController } from 'lib/optimizerTabController'
 import SwitchRelicsModal from 'components/SwitchRelicsModal'
-import { getGridTheme } from 'lib/theme'
-import { generateElementTags, generatePathTags, SegmentedFilterRow } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
+import { useSubscribe } from 'hooks/useSubscribe'
 import i18next from 'i18next'
+import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
+import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
+import { Message } from 'lib/interactions/message'
+import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import { Assets } from 'lib/rendering/assets'
+import { getGridTheme } from 'lib/rendering/theme'
+import DB, { AppPages } from 'lib/state/db'
+import { SaveState } from 'lib/state/saveState'
+import { Utils } from 'lib/utils'
+import PropTypes from 'prop-types'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import BuildsModal from './BuildsModal'
+import { CharacterPreview } from './CharacterPreview'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -64,17 +74,18 @@ function cellNameRenderer(params) {
 
   return (
     <Flex align='center' justify='flex-start' style={{ height: '100%', width: '100%' }}>
-      <Text style={{
-        margin: 'auto',
-        padding: '0px 5px',
-        textAlign: 'center',
-        overflow: 'hidden',
-        whiteSpace: 'break-spaces',
-        textWrap: 'wrap',
-        fontSize: 14,
-        width: '100%',
-        lineHeight: '18px',
-      }}
+      <Text
+        style={{
+          margin: 'auto',
+          padding: '0px 5px',
+          textAlign: 'center',
+          overflow: 'hidden',
+          whiteSpace: 'break-spaces',
+          textWrap: 'wrap',
+          fontSize: 14,
+          width: '100%',
+          lineHeight: '18px',
+        }}
       >
         {characterName}
       </Text>
@@ -216,7 +227,13 @@ export default function CharacterTab() {
 
   const columnDefs = useMemo(() => [
     { field: '', headerName: t('GridHeaders.Icon')/* Icon */, cellRenderer: cellImageRenderer, width: 52 },
-    { field: '', headerName: t('GridHeaders.Priority')/* Priority */, cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
+    {
+      field: '',
+      headerName: t('GridHeaders.Priority')/* Priority */,
+      cellRenderer: cellRankRenderer,
+      width: 50,
+      rowDrag: true,
+    },
     { field: '', headerName: t('GridHeaders.Character')/* Character */, flex: 1, cellRenderer: cellNameRenderer },
   ], [t])
 

@@ -6,10 +6,10 @@ import {
   getCombatColumnDefs,
   gridOptions,
 } from 'components/optimizerTab/optimizerTabConstants'
-import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
-import DB from 'lib/db'
-import { OptimizerTabController } from 'lib/optimizerTabController'
-import { getGridTheme } from 'lib/theme'
+import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
+import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
+import { getGridTheme } from 'lib/rendering/theme'
+import DB from 'lib/state/db'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 

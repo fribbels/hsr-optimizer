@@ -1,8 +1,8 @@
 import { GetRowIdParams } from 'ag-grid-community'
 import { TFunction } from 'i18next'
 import { Constants } from 'lib/constants'
-import { Gradient } from 'lib/gradient'
-import { Renderer } from 'lib/renderer'
+import { Gradient } from 'lib/rendering/gradient'
+import { Renderer } from 'lib/rendering/renderer'
 import { Utils } from 'lib/utils'
 
 export const DIGITS_3 = 46

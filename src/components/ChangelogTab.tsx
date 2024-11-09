@@ -1,9 +1,9 @@
-import React, { ReactElement, useMemo } from 'react'
 import { Flex, List, theme, Typography } from 'antd'
-import { AppPages } from 'lib/db'
-import { Assets } from 'lib/assets'
-import { ColorizedLinkWithIcon } from './common/ColorizedLink'
 import { officialOnly } from 'lib/constants'
+import { Assets } from 'lib/rendering/assets'
+import { AppPages } from 'lib/state/db'
+import React, { ReactElement, useMemo } from 'react'
+import { ColorizedLinkWithIcon } from './common/ColorizedLink'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -127,7 +127,7 @@ function getChangelogContent() {
         `Balance: DPS score overvalued ATK boots in certain situations with large amount of speed buffs, mostly affects ATK boots Kafka S1 builds`,
         `Balance: Jiaoqiu is now recommended ATK / ERR rope by default`,
         `Balance: Ruan Mei can now use all mains stats for feet`,
-        `Balance: Shadowed by Night light cone now has SPD buff enabled by default`
+        `Balance: Shadowed by Night light cone now has SPD buff enabled by default`,
       ],
     },
     {

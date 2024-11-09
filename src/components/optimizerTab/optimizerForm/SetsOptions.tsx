@@ -1,12 +1,12 @@
 import { Flex } from 'antd'
 import i18next from 'i18next'
-import { Assets } from 'lib/assets'
 import { Constants, RelicSetFilterOptions, setToId, UnreleasedSets } from 'lib/constants'
+import { Assets } from 'lib/rendering/assets'
 
 // This should be memoised with either the t function or resolved language as a dependency
 const GenerateSetsOptions = () => {
-  const t = i18next.getFixedT(null,'optimizerTab','RelicSetSelector')
-  const tGameData = i18next.getFixedT(null,'gameData', 'RelicSets')
+  const t = i18next.getFixedT(null, 'optimizerTab', 'RelicSetSelector')
+  const tGameData = i18next.getFixedT(null, 'gameData', 'RelicSets')
   const result: {
     value: string
     label: string
@@ -76,7 +76,7 @@ const GenerateSetsOptions = () => {
 
 // This should be memoised with either the t function or resolved language as a dependency
 export const GenerateBasicSetsOptions = (): { value: string; label: JSX.Element }[] => {
-  const tGameData = i18next.getFixedT(null,'gameData', 'RelicSets')
+  const tGameData = i18next.getFixedT(null, 'gameData', 'RelicSets')
   return Object.values(Constants.SetsRelics)
     .filter((x) => !UnreleasedSets[x])
     .map((x) => {

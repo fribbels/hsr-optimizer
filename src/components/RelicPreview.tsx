@@ -1,14 +1,14 @@
 import { Card, Divider, Flex } from 'antd'
-
-import { Renderer } from 'lib/renderer'
-import { Assets } from 'lib/assets'
-import { iconSize } from 'lib/constantsUi'
-import RelicStatText from 'components/relicPreview/RelicStatText'
 import { GenerateStat } from 'components/relicPreview/GenerateStat'
-import { useTranslation } from 'react-i18next'
+import RelicStatText from 'components/relicPreview/RelicStatText'
+import { iconSize } from 'lib/constantsUi'
+import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
+import { Assets } from 'lib/rendering/assets'
+
+import { Renderer } from 'lib/rendering/renderer'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Relic } from 'types/Relic'
-import { RelicScoringResult } from 'lib/relicScorerPotential'
 
 export function RelicPreview(props: {
   relic?: Relic

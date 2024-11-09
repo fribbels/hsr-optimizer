@@ -5,13 +5,13 @@ import { LightConeConditionalDisplay } from 'components/optimizerTab/conditional
 import FormCard from 'components/optimizerTab/FormCard'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect'
-import { Assets } from 'lib/assets'
-import { CharacterConditionals } from 'lib/characterConditionals'
+import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
+import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
 import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants'
-import DB from 'lib/db'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { Message } from 'lib/message'
-import { OptimizerTabController } from 'lib/optimizerTabController'
+import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
+import { Message } from 'lib/interactions/message'
+import { Assets } from 'lib/rendering/assets'
+import DB from 'lib/state/db'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/Character'
@@ -202,7 +202,7 @@ const TeammateCard = (props: { index: number }) => {
       return
     }
 
-    const displayFormValues = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm()) as Form
+    const displayFormValues = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
     const teammateValues = displayFormValues[teammateProperty]
     const teammateCharacter = DB.getCharacterById(teammateCharacterId)
     if (teammateCharacter) {
@@ -237,7 +237,7 @@ const TeammateCard = (props: { index: number }) => {
   useEffect(() => {
     if (!teammateLightConeId) return
 
-    const displayFormValues = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm()) as Form
+    const displayFormValues = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
     const lightConeConditionals = LightConeConditionals.get({
       lightCone: teammateLightConeId,
       lightConeSuperimposition: teammateSuperimposition,

@@ -1,7 +1,7 @@
-import React from 'react'
 import { Popover } from 'antd'
-import { Assets } from 'lib/assets'
-import { HintContent } from 'lib/hint'
+import { HintContent } from 'lib/interactions/hint'
+import { Assets } from 'lib/rendering/assets'
+import React from 'react'
 
 export const TooltipImage = (props: { type: HintContent }) => (
   <Popover

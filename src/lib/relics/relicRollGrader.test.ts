@@ -1,7 +1,7 @@
 import { Constants } from 'lib/constants'
-import { DataParser } from 'lib/dataParser'
-import DB from 'lib/db'
-import { RelicRollGrader } from 'lib/relicRollGrader'
+import { RelicRollGrader } from 'lib/relics/relicRollGrader'
+import { DataParser } from 'lib/state/dataParser'
+import DB from 'lib/state/db'
 import { Relic } from 'types/Relic'
 import { expect, test } from 'vitest'
 

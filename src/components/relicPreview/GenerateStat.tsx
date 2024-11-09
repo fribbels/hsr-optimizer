@@ -1,13 +1,13 @@
 import { Flex } from 'antd'
-import { Renderer } from 'lib/renderer'
-import { Assets } from 'lib/assets'
-import { Utils } from 'lib/utils'
-import { iconSize } from 'lib/constantsUi'
 import RelicStatText from 'components/relicPreview/RelicStatText'
-import { Relic, StatRolls } from 'types/Relic'
-import { ReactElement } from 'react'
 import { RightIcon } from 'icons/RightIcon'
+import { iconSize } from 'lib/constantsUi'
+import { Assets } from 'lib/rendering/assets'
+import { Renderer } from 'lib/rendering/renderer'
+import { Utils } from 'lib/utils'
+import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Relic, StatRolls } from 'types/Relic'
 
 type Substat = {
   stat: string

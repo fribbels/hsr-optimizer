@@ -1,13 +1,13 @@
 import { Flex } from 'antd'
-import { memo } from 'react'
 import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from 'components/TooltipImage'
-import { Hint } from 'lib/hint'
 import DisplayFormControl from 'components/optimizerTab/conditionals/DisplayFormControl'
-import { characterOptionMapping } from 'lib/characterConditionals'
+import { TooltipImage } from 'components/TooltipImage'
+import { characterOptionMapping } from 'lib/conditionals/characterConditionals'
+import { Hint } from 'lib/interactions/hint'
+import { memo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Eidolon } from 'types/Character'
 import { DataMineId } from 'types/Common'
-import { useTranslation } from 'react-i18next'
 
 export interface CharacterConditionalDisplayProps {
   id?: DataMineId

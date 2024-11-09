@@ -1,22 +1,22 @@
-import { Stats } from 'lib/constants'
-import { indent } from 'lib/gpu/injection/wgslUtils'
-import { Form } from 'types/Form'
-import { CharacterConditionals } from 'lib/characterConditionals'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { ConditionalRegistry } from 'lib/optimizer/calculateConditionals'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { CharacterConditional } from 'types/CharacterConditional'
-import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomputedStats'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
 import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { StringToNumberMap } from 'types/Common'
-import { SortOption } from 'lib/optimizer/sortOptions'
-import { GpuConstants } from 'lib/gpu/webgpuTypes'
+import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
+import { Stats } from 'lib/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomputedStats'
+import { indent } from 'lib/gpu/injection/wgslUtils'
+import { GpuConstants } from 'lib/gpu/webgpuTypes'
+import { ConditionalRegistry } from 'lib/optimizer/calculateConditionals'
+import { SortOption } from 'lib/optimizer/sortOptions'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { StringToNumberMap } from 'types/Common'
+import { Form } from 'types/Form'
+import { LightConeConditional } from 'types/LightConeConditionals'
+import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export function injectConditionals(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
-  const characterConditionals: CharacterConditional = CharacterConditionals.get(request) as CharacterConditional
-  const lightConeConditionals: LightConeConditional = LightConeConditionals.get(request) as LightConeConditional
+  const characterConditionals: CharacterConditional = CharacterConditionals.get(request)
+  const lightConeConditionals: LightConeConditional = LightConeConditionals.get(request)
 
   // Actions
   const actionLength = context.resultSort == SortOption.COMBO.key ? context.actions.length : 1

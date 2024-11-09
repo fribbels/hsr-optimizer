@@ -3,11 +3,11 @@ import { Button, Flex, Form, Image, Input, InputNumber, Modal, Radio, Select, th
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { HeaderText } from 'components/HeaderText'
 import i18next from 'i18next'
-import { Assets } from 'lib/assets'
 import { Constants, setToId, Stats, UnreleasedSets } from 'lib/constants'
-import { generateCharacterList } from 'lib/displayUtils'
-import { Message } from 'lib/message'
-import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/relicModalController'
+import { Message } from 'lib/interactions/message'
+import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/relics/relicModalController'
+import { Assets } from 'lib/rendering/assets'
+import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { TsUtils } from 'lib/TsUtils'
 import { Utils } from 'lib/utils'
 import PropTypes from 'prop-types'
@@ -386,13 +386,14 @@ export default function RelicModal(props: {
                 />
               </Form.Item>
 
-              <div style={{
-                height: 180,
-                overflow: 'hidden',
-                marginTop: 7,
-                borderRadius: 10,
-                boxShadow: `0px 0px 0px 1px ${token.colorBorder} inset`,
-              }}
+              <div
+                style={{
+                  height: 180,
+                  overflow: 'hidden',
+                  marginTop: 7,
+                  borderRadius: 10,
+                  boxShadow: `0px 0px 0px 1px ${token.colorBorder} inset`,
+                }}
               >
                 <img
                   style={{ width: '100%' }}

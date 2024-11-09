@@ -1,6 +1,6 @@
-import { BufferPacker } from 'lib/bufferPacker'
 import { Constants } from 'lib/constants'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { BufferPacker } from 'lib/optimizer/bufferPacker'
 import OptimizerWorker from 'lib/worker/optimizerWorker.ts?worker&inline'
 import { Form } from 'types/Form'
 import { OptimizerContext } from 'types/Optimizer'

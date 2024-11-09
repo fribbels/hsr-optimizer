@@ -1,4 +1,4 @@
-import { Assets } from 'lib/assets'
+import { Assets } from 'lib/rendering/assets'
 
 const parentW = 233
 const parentH = 350

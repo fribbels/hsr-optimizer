@@ -1,9 +1,9 @@
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants'
-import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
 import { generateBaseParamsArray, generateParamsMatrix, mergeRelicsIntoArray } from 'lib/gpu/webgpuDataTransform'
 import { GpuExecutionContext, GpuResult, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import postComputeShader from 'lib/gpu/wgsl/postComputeShader.wgsl?raw'
+import { FixedSizePriorityQueue } from 'lib/optimizer/fixedSizePriorityQueue'
 import { Form } from 'types/Form'
 import { OptimizerContext } from 'types/Optimizer'
 

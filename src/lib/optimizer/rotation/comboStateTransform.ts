@@ -1,7 +1,7 @@
-import { CharacterConditionals } from 'lib/characterConditionals'
+import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
+import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
 import { SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateConditionals'
 import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/optimizer/rotation/comboDrawerController'
@@ -114,7 +114,7 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
     } as OptimizerAction
 
     const teammateCharacterConditionals = CharacterConditionals.get(teammate.metadata)
-    const teammateLightConeConditionals = LightConeConditionals.get(teammate.metadata) as LightConeConditional
+    const teammateLightConeConditionals = LightConeConditionals.get(teammate.metadata)
 
     teammateCharacterConditionals.initializeTeammateConfigurations?.(x, teammateAction, context)
     teammateLightConeConditionals.initializeTeammateConfigurations?.(x, teammateAction, context)

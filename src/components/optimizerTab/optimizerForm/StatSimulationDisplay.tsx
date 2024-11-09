@@ -1,18 +1,18 @@
-import FormCard from '../FormCard'
-import { Button, Flex, Form, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
-import { VerticalDivider } from '../../Dividers'
-import { SimulatedBuildsGrid } from 'components/optimizerTab/optimizerForm/SimulatedBuildsGrid'
-import { HeaderText } from 'components/HeaderText'
 import { DeleteOutlined, DoubleLeftOutlined, DownOutlined, SettingOutlined, UpOutlined } from '@ant-design/icons'
-import { useMemo } from 'react'
-import { deleteAllStatSimulationBuilds, importOptimizerBuild, saveStatSimulationBuildFromForm, startOptimizerStatSimulation } from 'lib/statSimulationController'
-import { Parts, Stats, SubStats } from 'lib/constants'
-import { Assets } from 'lib/assets'
+import { Button, Flex, Form, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
+import { HeaderText } from 'components/HeaderText'
+import { OrnamentSetTagRenderer } from 'components/optimizerTab/optimizerForm/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'components/optimizerTab/optimizerForm/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'components/optimizerTab/optimizerForm/SetsOptions'
+import { SimulatedBuildsGrid } from 'components/optimizerTab/optimizerForm/SimulatedBuildsGrid'
+import { Parts, Stats, SubStats } from 'lib/constants'
+import { deleteAllStatSimulationBuilds, importOptimizerBuild, saveStatSimulationBuildFromForm, startOptimizerStatSimulation } from 'lib/controllers/statSimulationController'
+import { Assets } from 'lib/rendering/assets'
 import { Utils } from 'lib/utils'
-import { OrnamentSetTagRenderer } from 'components/optimizerTab/optimizerForm/OrnamentSetTagRenderer'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { VerticalDivider } from '../../Dividers'
+import FormCard from '../FormCard'
 
 const { Text } = Typography
 
@@ -267,22 +267,30 @@ function MainStatsSection(props: { simType: string }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation.MainStatsSelection' })
   const BodyStatOptions = useMemo(() => {
     return [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.CR, Stats.CD, Stats.EHR, Stats.OHB]
-      .map((x) => { return { value: x, short: t('ShortStat', { stat: x }), label: t('LabelStat', { stat: x }) } })
+      .map((x) => {
+        return { value: x, short: t('ShortStat', { stat: x }), label: t('LabelStat', { stat: x }) }
+      })
   }, [t])
 
   const FeetStatOptions = useMemo(() => {
     return [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.SPD]
-      .map((x) => { return { value: x, short: t('ShortStat', { stat: x }), label: t('LabelStat', { stat: x }) } })
+      .map((x) => {
+        return { value: x, short: t('ShortStat', { stat: x }), label: t('LabelStat', { stat: x }) }
+      })
   }, [t])
 
   const LinkRopeStatOptions = useMemo(() => {
     return [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.BE, Stats.ERR]
-      .map((x) => { return { value: x, short: t('ShortStat', { stat: x }), label: t('LabelStat', { stat: x }) } })
+      .map((x) => {
+        return { value: x, short: t('ShortStat', { stat: x }), label: t('LabelStat', { stat: x }) }
+      })
   }, [t])
 
   const PlanarSphereStatOptions = useMemo(() => {
     return [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.Physical_DMG, Stats.Fire_DMG, Stats.Ice_DMG, Stats.Lightning_DMG, Stats.Wind_DMG, Stats.Quantum_DMG, Stats.Imaginary_DMG]
-      .map((x) => { return { value: x, short: t('ShortStat', { stat: x }), label: t('LabelStat', { stat: x }) } })
+      .map((x) => {
+        return { value: x, short: t('ShortStat', { stat: x }), label: t('LabelStat', { stat: x }) }
+      })
   }, [t])
 
   return (

@@ -1,6 +1,6 @@
 import { Flex, Tag } from 'antd'
-import { Assets } from 'lib/assets'
 import { Constants } from 'lib/constants'
+import { Assets } from 'lib/rendering/assets'
 import React from 'react'
 
 // NOTE: Be careful hot-reloading with this file, can cause Db to wipe. Unsure why yet

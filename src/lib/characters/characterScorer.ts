@@ -1,15 +1,23 @@
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
-import { CharacterConditionals } from 'lib/characterConditionals'
+import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
 import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants'
-import DB from 'lib/db'
-import { getDefaultForm } from 'lib/defaultForm'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
+import {
+  calculateOrnamentSets,
+  calculateRelicSets,
+  convertRelicsToSimulation,
+  runSimulations,
+  Simulation,
+  SimulationRequest,
+  SimulationStats,
+} from 'lib/controllers/statSimulationController'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
+import { getDefaultForm } from 'lib/optimizer/defaultForm'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { SortOptionProperties } from 'lib/optimizer/sortOptions'
-import { StatCalculator } from 'lib/statCalculator'
-import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/statSimulationController'
+import { StatCalculator } from 'lib/relics/statCalculator'
+import DB from 'lib/state/db'
 import { TsUtils } from 'lib/TsUtils'
 import { Utils } from 'lib/utils'
 import { Character } from 'types/Character'

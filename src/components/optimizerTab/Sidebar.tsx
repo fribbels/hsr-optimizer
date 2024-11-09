@@ -1,21 +1,21 @@
-import { Button, Divider, Dropdown, Flex, Grid, Modal, Popconfirm, Progress, Radio, theme, Typography } from 'antd'
-import React, { useState } from 'react'
-import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from '../TooltipImage'
-import { OptimizerTabController } from 'lib/optimizerTabController'
-import { Hint } from 'lib/hint'
 import { DownOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Optimizer } from 'lib/optimizer/optimizer'
+import { Button, Divider, Dropdown, Flex, Grid, Modal, Popconfirm, Progress, Radio, theme, Typography } from 'antd'
+import { HeaderText } from 'components/HeaderText'
 import { defaultPadding } from 'components/optimizerTab/optimizerTabConstants'
 import { SettingOptions } from 'components/SettingsDrawer'
-import DB from 'lib/db'
-import { Utils } from 'lib/utils'
-import { SavedSessionKeys } from 'lib/constantsSession'
-import { COMPUTE_ENGINE_CPU, COMPUTE_ENGINE_GPU_EXPERIMENTAL, COMPUTE_ENGINE_GPU_STABLE, ComputeEngine } from 'lib/constants'
-import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
-import { useTranslation } from 'react-i18next'
 import i18next from 'i18next'
-import { Message } from 'lib/message'
+import { COMPUTE_ENGINE_CPU, COMPUTE_ENGINE_GPU_EXPERIMENTAL, COMPUTE_ENGINE_GPU_STABLE, ComputeEngine } from 'lib/constants'
+import { SavedSessionKeys } from 'lib/constantsSession'
+import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
+import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
+import { Hint } from 'lib/interactions/hint'
+import { Message } from 'lib/interactions/message'
+import { Optimizer } from 'lib/optimizer/optimizer'
+import DB from 'lib/state/db'
+import { Utils } from 'lib/utils'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { TooltipImage } from '../TooltipImage'
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
@@ -169,7 +169,12 @@ function filterClicked() {
   OptimizerTabController.applyRowFilters()
 }
 
-function calculateProgressText(startTime: number | null, optimizerEndTime: number | null, permutations: number, permutationsSearched: number, optimizationInProgress: boolean, optimizerRunningEngine: ComputeEngine) {
+function calculateProgressText(startTime: number | null,
+  optimizerEndTime: number | null,
+  permutations: number,
+  permutationsSearched: number,
+  optimizationInProgress: boolean,
+  optimizerRunningEngine: ComputeEngine) {
   if (!startTime) {
     return i18next.t('optimizerTab:Sidebar.ProgressText.Progress') // Progress
   }
@@ -407,7 +412,11 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
   }
 
   return (
-    <Flex vertical={props.isFullSize} gap={props.isFullSize ? 5 : 20} style={props.isFullSize ? { display: 'flex', flexDirection: 'column' } : { display: 'flex', flexDirection: 'row-reverse' }}>
+    <Flex
+      vertical={props.isFullSize}
+      gap={props.isFullSize ? 5 : 20}
+      style={props.isFullSize ? { display: 'flex', flexDirection: 'column' } : { display: 'flex', flexDirection: 'row-reverse' }}
+    >
       <ManyPermsModal startSearch={startOptimizer} manyPermsModalOpen={manyPermsModalOpen} setManyPermsModalOpen={setManyPermsModalOpen}/>
       <Flex vertical gap={5}>
         <HeaderText>{t('ControlsGroup.Header')/* Controls */}</HeaderText>

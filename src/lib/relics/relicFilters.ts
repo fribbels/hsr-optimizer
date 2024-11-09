@@ -1,10 +1,10 @@
 import { Constants, Parts, RelicSetFilterOptions } from 'lib/constants'
-import DB from 'lib/db'
-import { Utils } from 'lib/utils'
-import { TsUtils } from 'lib/TsUtils'
-import { Relic } from 'types/Relic'
-import { Form } from 'types/Form'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import DB from 'lib/state/db'
+import { TsUtils } from 'lib/TsUtils'
+import { Utils } from 'lib/utils'
+import { Form } from 'types/Form'
+import { Relic } from 'types/Relic'
 
 export const RelicFilters = {
   calculateWeightScore: (request: Form, relics: Relic[]) => {

@@ -1,10 +1,10 @@
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
 import { Flex, Image, Tooltip } from 'antd'
 import i18next from 'i18next'
-import { Assets } from 'lib/assets'
 import { Constants } from 'lib/constants'
+import { Assets } from 'lib/rendering/assets'
+import { Utils } from 'lib/utils'
 import { Relic, Stat } from 'types/Relic'
-import { Utils } from './utils'
 
 export const Renderer = {
   floor: (x: { value: number }) => {

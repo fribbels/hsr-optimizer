@@ -1,10 +1,10 @@
-import { Empty, Flex, Table, TableColumnsType } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
-import { STAT_SIMULATION_GRID_WIDTH } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
-import { deleteStatSimulationBuild, renderDefaultSimulationName } from 'lib/statSimulationController'
 import { IRowNode } from 'ag-grid-community'
-import { useEffect } from 'react'
+import { Empty, Flex, Table, TableColumnsType } from 'antd'
+import { STAT_SIMULATION_GRID_WIDTH } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
+import { deleteStatSimulationBuild, renderDefaultSimulationName } from 'lib/controllers/statSimulationController'
 import { Utils } from 'lib/utils'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface DataType {

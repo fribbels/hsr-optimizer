@@ -1,6 +1,6 @@
 import { Constants, Stats } from 'lib/constants'
-import { RelicRollFixer } from 'lib/relicRollFixer'
-import { RelicRollGrader } from 'lib/relicRollGrader'
+import { RelicRollFixer } from 'lib/relics/relicRollFixer'
+import { RelicRollGrader } from 'lib/relics/relicRollGrader'
 import { Utils } from 'lib/utils'
 import { Relic } from 'types/Relic'
 

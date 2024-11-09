@@ -1,9 +1,9 @@
-import DB from 'lib/db'
-import { Utils } from 'lib/utils'
 import { Constants } from 'lib/constants'
-import { CharacterConverter } from './characterConverter'
-import { Relic } from 'types/Relic'
+import { CharacterConverter } from 'lib/importer/characterConverter'
+import DB from 'lib/state/db'
 import { TsUtils } from 'lib/TsUtils'
+import { Utils } from 'lib/utils'
+import { Relic } from 'types/Relic'
 
 let optimizerStatToJsonSubStat: Record<string, string>
 let optimizerStatToAffixStat: Record<string, string>

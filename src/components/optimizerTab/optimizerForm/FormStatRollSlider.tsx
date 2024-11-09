@@ -1,6 +1,6 @@
 import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
-import { Assets } from 'lib/assets'
 import { Constants, Parts } from 'lib/constants'
+import { Assets } from 'lib/rendering/assets'
 import { Utils } from 'lib/utils'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'

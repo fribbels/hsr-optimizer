@@ -1,5 +1,5 @@
 import { CombatBuffs, Constants, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants'
-import DB from 'lib/db'
+import DB from 'lib/state/db'
 import { TsUtils } from 'lib/TsUtils'
 import { Form, Teammate } from 'types/Form'
 

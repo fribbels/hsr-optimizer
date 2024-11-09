@@ -1,8 +1,8 @@
 import { Button, Flex, Select } from 'antd'
-import { useTranslation } from 'react-i18next'
 import { languages } from 'lib/i18n'
+import { Assets } from 'lib/rendering/assets'
 import React, { ReactElement } from 'react'
-import { Assets } from 'lib/assets'
+import { useTranslation } from 'react-i18next'
 
 type placementOptions = 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight'
 

@@ -1,13 +1,13 @@
-import * as React from 'react'
-import { Button, Flex, Form, Input, Modal, Radio, RadioChangeEvent, Slider, Spin, Steps, Typography } from 'antd'
-import Cropper from 'react-easy-crop'
-import { CroppedArea, CustomImageConfig, CustomImageParams, CustomImagePayload, ImageDimensions } from 'types/CustomImage'
 import { DragOutlined, InboxOutlined, ZoomInOutlined } from '@ant-design/icons'
-import Dragger from 'antd/es/upload/Dragger'
-import { Message } from 'lib/message'
+import { Button, Flex, Form, Input, Modal, Radio, RadioChangeEvent, Slider, Spin, Steps, Typography } from 'antd'
 import { RcFile } from 'antd/es/upload'
-import { useTranslation } from 'react-i18next'
+import Dragger from 'antd/es/upload/Dragger'
 import i18next from 'i18next'
+import { Message } from 'lib/interactions/message'
+import * as React from 'react'
+import Cropper from 'react-easy-crop'
+import { useTranslation } from 'react-i18next'
+import { CroppedArea, CustomImageConfig, CustomImageParams, CustomImagePayload, ImageDimensions } from 'types/CustomImage'
 
 const { Text } = Typography
 

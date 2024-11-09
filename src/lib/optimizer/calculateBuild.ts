@@ -7,7 +7,7 @@ import { ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/opt
 import { generateContext } from 'lib/optimizer/context/calculateContext'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { transformComboState } from 'lib/optimizer/rotation/comboStateTransform'
-import { RelicFilters } from 'lib/relicFilters'
+import { RelicFilters } from 'lib/relics/relicFilters'
 import { Utils } from 'lib/utils'
 import { Form } from 'types/Form'
 import { OptimizerContext } from 'types/Optimizer'

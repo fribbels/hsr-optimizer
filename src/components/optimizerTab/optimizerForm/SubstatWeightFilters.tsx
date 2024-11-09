@@ -1,8 +1,8 @@
 import { Flex } from 'antd'
 import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from 'components/TooltipImage'
-import { Hint } from 'lib/hint'
 import { FormStatRollSliders, FormStatRollSliderTopPercent } from 'components/optimizerTab/optimizerForm/FormStatRollSlider'
+import { TooltipImage } from 'components/TooltipImage'
+import { Hint } from 'lib/interactions/hint'
 import { useTranslation } from 'react-i18next'
 
 export const SubstatWeightFilters = () => {

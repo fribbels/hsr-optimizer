@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
 import { Flex } from 'antd'
 
 import RelicModal from 'components/RelicModal'
 import { RelicPreview } from 'components/RelicPreview'
-import DB from 'lib/db'
-import { OptimizerTabController } from 'lib/optimizerTabController'
-import { RelicScorer } from 'lib/relicScorerPotential'
-import { RelicModalController } from 'lib/relicModalController'
+import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
+import { RelicModalController } from 'lib/relics/relicModalController'
+import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import DB from 'lib/state/db'
+import React, { useState } from 'react'
 import { Relic } from 'types/Relic'
 
 export default function OptimizerBuildPreview() {

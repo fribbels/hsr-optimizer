@@ -1,6 +1,6 @@
 import { Flex } from 'antd'
 
-import { Assets } from 'lib/assets'
+import { Assets } from 'lib/rendering/assets'
 import { ReactElement } from 'react'
 
 const Rarity = ({

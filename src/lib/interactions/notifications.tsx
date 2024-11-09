@@ -1,11 +1,11 @@
-import { Button, Flex, Space } from 'antd'
-import semver from 'semver'
-import { AppPages } from 'lib/db'
-import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants'
 import { DiscordOutlined, UnorderedListOutlined } from '@ant-design/icons'
+import { Button, Flex, Space } from 'antd'
 import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
-import { Trans } from 'react-i18next'
 import i18next from 'i18next'
+import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants'
+import { AppPages } from 'lib/state/db'
+import { Trans } from 'react-i18next'
+import semver from 'semver'
 
 export function checkForUpdatesNotification(version: string) {
   // Errors checking for versions shouldn't crash the app
@@ -20,9 +20,9 @@ export function checkForUpdatesNotification(version: string) {
       <Space>
         <Button
           type='primary' icon={<UnorderedListOutlined/>} onClick={() => {
-          window.notificationApi.destroy()
-          window.store.getState().setActiveKey(AppPages.CHANGELOG)
-        }}
+            window.notificationApi.destroy()
+            window.store.getState().setActiveKey(AppPages.CHANGELOG)
+          }}
         >
           {
             i18next.t('notifications:Changelog.View')
@@ -42,9 +42,9 @@ export function checkForUpdatesNotification(version: string) {
       <Space>
         <Button
           type='primary' icon={<DiscordOutlined/>} onClick={() => {
-          window.notificationApi.destroy()
-          window.open('https://discord.gg/rDmB4Un7qg', '_blank')
-        }}
+            window.notificationApi.destroy()
+            window.open('https://discord.gg/rDmB4Un7qg', '_blank')
+          }}
         >
           Discord
         </Button>
@@ -92,7 +92,11 @@ export function webgpuNotSupportedNotification() {
               <li>{i18next.t('notifications:GPU.Description.l2')/* Windows & Mac — Chrome, Opera, Edge */}</li>
               <li>
                 {/* @ts-ignore colorized link takes text prop from translation */}
-                <Trans t={i18next.t} i18nKey='notifications:GPU.Description.l3' components={{ CustomLink: <ColorizedLinkWithIcon url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status' linkIcon={true}/> }}/>
+                <Trans
+                  t={i18next.t}
+                  i18nKey='notifications:GPU.Description.l3'
+                  components={{ CustomLink: <ColorizedLinkWithIcon url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status' linkIcon={true}/> }}
+                />
                 {/* Linux — <ColorizedLink text='Behind a flag' url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status'/> */}
               </li>
             </ul>

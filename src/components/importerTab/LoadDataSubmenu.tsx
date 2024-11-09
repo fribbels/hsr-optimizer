@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import { Button, Flex, Steps, Typography, Upload } from 'antd'
 import { ImportOutlined, UploadOutlined } from '@ant-design/icons'
-import { importerTabButtonWidth, importerTabSpinnerMs } from './importerTabUiConstants'
-import DB from 'lib/db'
+import { Button, Flex, Steps, Typography, Upload } from 'antd'
+import DB from 'lib/state/db'
+import { SaveState } from 'lib/state/saveState'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SaveState } from 'lib/saveState'
+import { importerTabButtonWidth, importerTabSpinnerMs } from './importerTabUiConstants'
 
 const { Text } = Typography
 

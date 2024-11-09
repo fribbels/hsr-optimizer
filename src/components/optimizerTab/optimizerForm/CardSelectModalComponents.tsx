@@ -1,8 +1,8 @@
 import { Flex, theme, Typography } from 'antd'
-import { Utils } from 'lib/utils'
-import { Assets } from 'lib/assets'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { ElementToDamage, PathNames } from 'lib/constants'
+import { Assets } from 'lib/rendering/assets'
+import { Utils } from 'lib/utils'
 import { ReactElement } from 'react'
 
 const { useToken } = theme

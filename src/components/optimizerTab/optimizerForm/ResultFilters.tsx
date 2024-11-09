@@ -3,7 +3,7 @@ import { HeaderText } from 'components/HeaderText'
 import FilterRow from 'components/optimizerTab/optimizerForm/FilterRow'
 import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants'
 import { TooltipImage } from 'components/TooltipImage'
-import { Hint } from 'lib/hint'
+import { Hint } from 'lib/interactions/hint'
 import { useTranslation } from 'react-i18next'
 
 export const MinMaxStatFilters = () => {

@@ -1,9 +1,9 @@
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { Drawer, Flex, Form, Select, Switch, Typography } from 'antd'
 import { HeaderText } from 'components/HeaderText'
 import { TooltipImage } from 'components/TooltipImage'
-import { Hint } from 'lib/hint'
+import { Hint } from 'lib/interactions/hint'
 import { Utils } from 'lib/utils'
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 

@@ -1,13 +1,13 @@
+import { ImportOutlined } from '@ant-design/icons'
 import { Button, Flex, Popconfirm, Typography } from 'antd'
-import { Message } from 'lib/message'
+import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
+import { Message } from 'lib/interactions/message'
+import DB from 'lib/state/db'
+import { SaveState } from 'lib/state/saveState'
+import { useTranslation } from 'react-i18next'
+import { HsrOptimizerSaveFormat } from 'types/store'
 
 import sampleSave from '../data/sample-save.json'
-import DB from 'lib/db'
-import { ColorizedLinkWithIcon } from 'components/common/ColorizedLink'
-import { useTranslation } from 'react-i18next'
-import { SaveState } from 'lib/saveState'
-import { ImportOutlined } from '@ant-design/icons'
-import { HsrOptimizerSaveFormat } from 'types/store'
 
 const { Text } = Typography
 

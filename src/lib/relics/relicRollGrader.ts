@@ -1,5 +1,5 @@
+import { SubStatValues } from 'lib/constants'
 import { Relic, StatRolls } from 'types/Relic'
-import { SubStatValues } from './constants'
 
 // non exported interface, the number are float
 interface IncrementOptions {

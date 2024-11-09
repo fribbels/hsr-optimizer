@@ -1,12 +1,12 @@
+import { CharacterStats } from 'lib/characters/characterStats'
+import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
+import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
+import { ElementToDamage, ElementToResPenType, Stats } from 'lib/constants'
+import { emptyLightCone } from 'lib/optimizer/optimizerUtils'
+import { transformComboState } from 'lib/optimizer/rotation/comboStateTransform'
+import DB from 'lib/state/db'
 import { Form, Teammate } from 'types/Form'
 import { CharacterMetadata, CharacterStatsBreakdown, OptimizerContext } from 'types/Optimizer'
-import DB from 'lib/db'
-import { emptyLightCone } from 'lib/optimizer/optimizerUtils'
-import { ElementToDamage, ElementToResPenType, Stats } from 'lib/constants'
-import { CharacterStats } from 'lib/characterStats'
-import { transformComboState } from 'lib/optimizer/rotation/comboStateTransform'
-import { CharacterConditionals } from 'lib/characterConditionals'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
 
 export function generateContext(request: Form): OptimizerContext {
   const context: OptimizerContext = {} as OptimizerContext
@@ -45,7 +45,7 @@ function generateCombatBuffsContext(request: Form, context: OptimizerContext) {
 }
 
 function generateFiltersContext(request: Form, context: OptimizerContext) {
-  context.resultSort = request.resultSort as string
+  context.resultSort = request.resultSort!
 }
 
 function calculateConditionals(request: Form, context: OptimizerContext) {

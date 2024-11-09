@@ -8,10 +8,10 @@ import { FormSwitchWithPopover } from 'components/optimizerTab/conditionals/Form
 import { OrnamentSetTagRenderer } from 'components/optimizerTab/optimizerForm/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'components/optimizerTab/optimizerForm/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'components/optimizerTab/optimizerForm/SetsOptions'
-import { Assets } from 'lib/assets'
-import { CharacterConditionals } from 'lib/characterConditionals'
+import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
+import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
 import { ConditionalDataType, setToId } from 'lib/constants'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { OptimizerTabController } from 'lib/controllers/optimizerTabController'
 import {
   ComboBooleanConditional,
   ComboCharacter,
@@ -34,8 +34,8 @@ import {
   updateSelectedSets,
 } from 'lib/optimizer/rotation/comboDrawerController'
 import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimizer/rotation/setConditionalContent'
-import { OptimizerTabController } from 'lib/optimizerTabController'
-import { lockScroll, unlockScroll } from 'lib/scrollController'
+import { Assets } from 'lib/rendering/assets'
+import { lockScroll, unlockScroll } from 'lib/rendering/scrollController'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Selecto from 'react-selecto'

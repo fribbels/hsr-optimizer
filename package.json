@@ -82,6 +82,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/eslint": "^8.56.11",
+    "@types/js-yaml": "^4.0.9",
     "@types/json-stable-stringify": "^1.0.36",
     "@types/node": "^22.2.0",
     "@types/object-hash": "^3.0.6",

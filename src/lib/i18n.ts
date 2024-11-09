@@ -1,9 +1,9 @@
 import i18next from 'i18next'
-import { initReactI18next } from 'react-i18next'
-import Backend from 'i18next-http-backend'
-import { BASE_PATH } from 'lib/db'
-import yaml from 'js-yaml'
 import LanguageDetector from 'i18next-browser-languagedetector'
+import Backend from 'i18next-http-backend'
+import yaml from 'js-yaml'
+import { BASE_PATH } from 'lib/db'
+import { initReactI18next } from 'react-i18next'
 
 window.yaml = yaml
 
@@ -96,7 +96,8 @@ void i18next
     },
     backend: {
       loadPath: BASE_PATH + '/locales/{{lng}}/{{ns}}.yaml',
-      parse: function (data) {
+      parse: function (data: string) {
+        // eslint-disable-next-line
         return yaml.load(data)
       },
     },

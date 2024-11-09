@@ -126,7 +126,7 @@ export function CharacterPreview(props) {
     }
   }, [character])
 
-  if (isScorer && activeKey != AppPages.RELIC_SCORER) {
+  if (isScorer && activeKey != AppPages.SHOWCASE) {
     return <></>
   } else if (!isScorer && activeKey != AppPages.CHARACTERS) {
     return <></>

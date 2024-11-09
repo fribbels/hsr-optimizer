@@ -169,7 +169,7 @@ export function ScannerImportSubmenu() {
                 <ColorizedLinkWithIcon
                   text={t('Import.Stage1.ScorerDesc.Link')}
                   linkIcon={true}
-                  onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}
+                  onClick={() => window.store.getState().setActiveKey(AppPages.SHOWCASE)}
                 />
                 )
                 <ul>

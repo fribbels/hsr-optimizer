@@ -42,7 +42,7 @@ const Tabs = () => {
 
   useEffect(() => {
     let route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]
-    if (activeKey == AppPages.RELIC_SCORER) {
+    if (activeKey == AppPages.SHOWCASE) {
       const id = window.location.hash.split('?')[1]?.split('id=')[1]?.split('&')[0]
       if (id) {
         route += `?id=${id}`
@@ -71,7 +71,7 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.IMPORT} content={importTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.GETTING_STARTED} content={gettingStartedTab}/>
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.RELIC_SCORER} content={relicScorerTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.SHOWCASE} content={relicScorerTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.SETTINGS} content={settingsTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.WEBGPU_TEST} content={webgpuTab}/>

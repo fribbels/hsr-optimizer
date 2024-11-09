@@ -276,8 +276,8 @@ function SearchBar() {
             return Message.warning('Invalid input - This should be your 9 digit ingame UUID')
           }
 
-          window.history.pushState({}, '', `/hsr-optimizer#scorer?id=${uuid}`)
-          window.store.getState().setActiveKey(AppPages.RELIC_SCORER)
+          window.history.pushState({}, '', `/hsr-optimizer#showcase?id=${uuid}`)
+          window.store.getState().setActiveKey(AppPages.SHOWCASE)
         }}
       />
     </Flex>

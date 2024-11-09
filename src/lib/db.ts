@@ -42,6 +42,7 @@ export const AppPages = {
   CHANGELOG: 'CHANGELOG',
   SETTINGS: 'SETTINGS',
   RELIC_SCORER: 'RELIC_SCORER',
+  SHOWCASE: 'SHOWCASE',
 
   WEBGPU_TEST: 'WEBGPU_TEST',
   METADATA_TEST: 'METADATA_TEST',
@@ -49,20 +50,22 @@ export const AppPages = {
 }
 
 export const PageToRoute = {
-  [AppPages.OPTIMIZER]: BASE_PATH,
+  [AppPages.OPTIMIZER]: BASE_PATH + '#optimize',
 
   [AppPages.RELIC_SCORER]: BASE_PATH + '#scorer',
+  [AppPages.SHOWCASE]: BASE_PATH + '#showcase',
   [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
   [AppPages.GETTING_STARTED]: BASE_PATH + '#getting-started',
 
   [AppPages.WEBGPU_TEST]: BASE_PATH + '#webgpu',
   [AppPages.METADATA_TEST]: BASE_PATH + '#metadata',
-  [AppPages.LANDING]: BASE_PATH + '#landing',
+  [AppPages.LANDING]: BASE_PATH,
 }
 
 export const RouteToPage = {
   [PageToRoute[AppPages.OPTIMIZER]]: AppPages.OPTIMIZER,
-  [PageToRoute[AppPages.RELIC_SCORER]]: AppPages.RELIC_SCORER,
+  [PageToRoute[AppPages.RELIC_SCORER]]: AppPages.SHOWCASE,
+  [PageToRoute[AppPages.SHOWCASE]]: AppPages.SHOWCASE,
   [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
   [PageToRoute[AppPages.GETTING_STARTED]]: AppPages.GETTING_STARTED,
 
@@ -86,6 +89,12 @@ const savedSessionDefaults: SavedSession = {
   [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
 }
 
+function getDefaultActiveKey() {
+  const pathname = TsUtils.stripTrailingSlashes(window.location.pathname)
+  const page = RouteToPage[TsUtils.stripTrailingSlashes(window.location.pathname) + window.location.hash.split('?')[0]]
+  return page ?? AppPages.LANDING
+}
+
 window.store = create((set) => {
   const store: HsrOptimizerStore = {
     version: CURRENT_OPTIMIZER_VERSION,
@@ -103,9 +112,7 @@ window.store = create((set) => {
     inventoryWidth: 9,
     rowLimit: 10,
 
-    activeKey: RouteToPage[TsUtils.stripTrailingSlashes(window.location.pathname)]
-      ? RouteToPage[TsUtils.stripTrailingSlashes(window.location.pathname) + window.location.hash.split('?')[0]]
-      : AppPages.OPTIMIZER,
+    activeKey: getDefaultActiveKey(),
     characters: [],
     charactersById: {},
     conditionalSetEffectsDrawerOpen: false,
@@ -1118,8 +1125,8 @@ function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
     let exit = false
     let upgrades = 0
     for (let i = 0; i < partialMatch.substats.length; i++) {
-      const matchSubstat = partialMatch.substats[i]
-      const newSubstat = relic.substats.find((x) => x.stat == matchSubstat.stat)
+      const matchSubstat = partialMatch.substats[i] as Stat
+      const newSubstat = relic.substats.find((x) => x.stat == matchSubstat.stat) as Stat
 
       // Different substats mean different relics - break
       if (!newSubstat) {

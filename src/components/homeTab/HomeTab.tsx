@@ -59,14 +59,14 @@ function CollapseLabel(props: { text: string }) {
 
 function CommunityCollapse() {
   return (
-    <Flex style={{ padding: 30 }} gap={50}>
+    <Flex style={{ padding: '0px 25px' }} gap={50}>
       <Flex vertical style={{ flex: 1, fontSize: 20 }} gap={20}>
         <span>
           A huge thanks to all our contributors, translators, users, and everyone who provided feedback, for supporting this project and helping to build it together!
         </span>
 
         <span>
-          Come be part of our Star Rail community! Join the <ColorizedLinkWithIcon text='Discord server' url='https://discord.gg/rDmB4Un7qg'/> to hang out,
+          Come be a part of our Star Rail community! Join the <ColorizedLinkWithIcon text='Discord server' url='https://discord.gg/rDmB4Un7qg'/> to hang out,
           or check out the <ColorizedLinkWithIcon text='GitHub repo' url='https://github.com/fribbels/hsr-optimizer'/> if you'd like to contribute.
         </span>
       </Flex>

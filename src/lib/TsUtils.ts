@@ -71,6 +71,11 @@ export const TsUtils = {
       console.warn('An unknown error occurred', err)
     }
   },
+
+  validateUuid: (uuid: string) => {
+    const trimmedUuid = uuid.trim()
+    return /^\d{9}$/.test(trimmedUuid) ? trimmedUuid : null
+  },
 }
 
 const getEmptyT = <

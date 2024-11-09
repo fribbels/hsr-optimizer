@@ -60,14 +60,18 @@ export default function RelicScorerTab() {
 
   const { t } = useTranslation(['relicScorerTab', 'common'])
 
+  const activeKey = window.store((s) => s.activeKey)
+
   useEffect(() => {
+    if (activeKey != AppPages.RELIC_SCORER) return
+
     const params = window.location.href.split('?')[1]
     if (params) {
       const id = params.split('id=')[1].split('&')[0]
       onFinish({ scorerId: id })
+      console.warn('??? 1')
     }
-  }, [])
-  const activeKey = window.store((s) => s.activeKey)
+  }, [activeKey])
   useEffect(() => {
     if (availableCharacters.length && scorerId && activeKey == AppPages.RELIC_SCORER) {
       window.history.replaceState({ id: scorerId }, `profile: ${scorerId}`, PageToRoute[AppPages.RELIC_SCORER] + `?id=${scorerId}`)

@@ -609,3 +609,8 @@ a {
 .ant-select-sm .ant-select-arrow {
     inset-inline-end: 7px !important;
 }
+
+.ant-collapse-expand-icon {
+    margin: auto !important;
+    height: unset !important;
+}

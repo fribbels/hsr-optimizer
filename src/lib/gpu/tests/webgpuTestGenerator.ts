@@ -4,9 +4,10 @@ import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { generateFullDefaultForm } from 'lib/scoring/characterScorer'
-import DB, { DBMetadata, DBMetadataLightCone } from 'lib/state/db'
+import DB from 'lib/state/db'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Form } from 'types/form'
+import { DBMetadata, DBMetadataLightCone } from 'types/metadata'
 
 export type WebgpuTest = {
   name: string

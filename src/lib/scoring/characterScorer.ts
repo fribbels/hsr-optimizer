@@ -5,7 +5,6 @@ import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants/constan
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { emptyRelic } from 'lib/optimization/optimizerUtils'
-import { SortOptionProperties } from 'lib/optimization/sortOptions'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import {
   calculateOrnamentSets,
@@ -17,13 +16,13 @@ import {
   SimulationStats,
 } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
-import { PresetDefinition } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/character'
 import { CharacterConditionalsController, LightConeConditionalsController } from 'types/conditionals'
 import { Form } from 'types/form'
+import { ScoringMetadata, SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'
 
@@ -168,45 +167,6 @@ function cloneRelicsFillEmptySlots(displayRelics: RelicBuild) {
 
 export type CharacterMetadata = {
   scoringMetadata: ScoringMetadata
-}
-
-export type ScoringMetadata = {
-  stats: {
-    [stat: string]: number
-  }
-  parts: {
-    [part: string]: string[]
-  }
-  presets: PresetDefinition[]
-  sortOption: SortOptionProperties
-  simulation?: SimulationMetadata
-  modified?: boolean
-  hiddenColumns: SortOptionProperties[]
-}
-
-export type SimulationMetadata = {
-  parts: {
-    [part: string]: string[]
-  }
-  substats: string[]
-  errRopeEidolon?: number
-  breakpoints?: {
-    [stat: string]: number
-  }
-  comboAbilities: string[]
-  comboDot: number
-  comboBreak: number
-  relicSets: string[][]
-  ornamentSets: string[]
-  maxBonusRolls?: {
-    [stat: string]: number
-  }
-  teammates: {
-    characterId: string
-    lightCone: string
-    characterEidolon: number
-    lightConeSuperimposition: number
-  }[]
 }
 
 export type RelicBuild = {

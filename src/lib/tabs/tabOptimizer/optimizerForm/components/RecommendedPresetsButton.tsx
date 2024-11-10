@@ -4,7 +4,6 @@ import { Button, Dropdown } from 'antd'
 import { Constants, Sets } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
-import { ScoringMetadata } from 'lib/scoring/characterScorer'
 import DB from 'lib/state/db'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -13,6 +12,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 import { Form } from 'types/form'
+import { ScoringMetadata } from 'types/metadata'
 
 // FIXME HIGH
 

@@ -1,10 +1,10 @@
 import { ComputeEngine } from 'lib/constants/constants'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
-import { ScoringMetadata } from 'lib/scoring/characterScorer'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { Build, Character, CharacterId } from 'types/character'
 import { Form } from 'types/form'
+import { ScoringMetadata } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 type PermutationDetails = {

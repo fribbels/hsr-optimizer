@@ -1,4 +1,4 @@
-import { MainStats, Parts, Sets, StatsValues } from 'lib/constants/constants'
+import { MainStats, Parts, Sets, StatsValues, SubStats } from 'lib/constants/constants'
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { RelicScoringWeights } from 'lib/tabs/tabRelics/RelicFilterBar'
 import { GUID } from 'types/common'
@@ -30,7 +30,7 @@ export type Relic = {
   part: Parts
   set: Sets
   substats: {
-    stat: string
+    stat: SubStats
     value: number
     rolls?: StatRolls
     addedRolls?: number

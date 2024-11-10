@@ -13,8 +13,6 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-// FIXME HIGH
-
 const { SHOW_CHILD } = Cascader
 
 export default function RelicMainSetFilters() {

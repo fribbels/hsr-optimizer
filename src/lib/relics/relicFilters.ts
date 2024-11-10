@@ -6,12 +6,12 @@ import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
 import { Relic } from 'types/relic'
 
-// FIXME HIGH
-
 export const RelicFilters = {
   calculateWeightScore: (request: Form, relics: Relic[]) => {
     const weights = request.weights || {}
     const baseStats = DB.getMetadata().characters[request.characterId].stats
+
+    // TODO: This no longer uses 2x base, we're using a fixed scaling value for flats now
     const statScalings = {
       [Constants.Stats.HP_P]: 64.8 / 43.2,
       [Constants.Stats.ATK_P]: 64.8 / 43.2,

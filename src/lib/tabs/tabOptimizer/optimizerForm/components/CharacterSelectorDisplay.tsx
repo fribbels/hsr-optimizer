@@ -12,11 +12,7 @@ import { Utils } from 'lib/utils/utils'
 import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-// FIXME HIGH
-
-type CharacterSelectorDisplayProps = {}
-
-export default function CharacterSelectorDisplay(_props: CharacterSelectorDisplayProps) {
+export default function CharacterSelectorDisplay() {
   const { t } = useTranslation(['optimizerTab', 'common'])
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
   const setOptimizerTabFocusCharacter = window.store((s) => s.setOptimizerTabFocusCharacter)
@@ -29,7 +25,7 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
   const setOptimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.setOptimizerTabFocusCharacterSelectModalOpen)
 
   useEffect(() => {
-    OptimizerTabController.updateCharacter(optimizerTabFocusCharacter)
+    OptimizerTabController.updateCharacter(optimizerTabFocusCharacter!)
   }, [optimizerTabFocusCharacter])
 
   const eidolonOptions = useMemo(() => {
@@ -51,8 +47,9 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
   const resultLimitOptions = useMemo(() => {
     const options: { value: number; label: string }[] = []
     for (let i = 64; i <= 65536; i = i * 2) {
+      // `Find top ${limit} results`
       options.push({ value: i, label: t('ResultLimitN', { limit: i }) })
-    }// `Find top ${limit} results`
+    }
     return options
   }, [t])
 
@@ -131,7 +128,7 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
             <LightConeSelect
               value=''
               selectStyle={{ width: 151 }}
-              characterId={optimizerTabFocusCharacter}
+              characterId={optimizerTabFocusCharacter!}
               onChange={setOptimizerFormSelectedLightCone}
             />
           </Form.Item>

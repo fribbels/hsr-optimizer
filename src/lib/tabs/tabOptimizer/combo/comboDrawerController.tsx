@@ -9,6 +9,7 @@ import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { CharacterConditionalsController, ConditionalValueMap, ContentItem, LightConeConditionalsController } from 'types/conditionals'
 import { Form, Teammate } from 'types/form'
+import { DBMetadataCharacter } from 'types/metadata'
 
 // FIXME HIGH
 
@@ -319,7 +320,7 @@ function generateSetComboConditionals(
   return output
 }
 
-function generateComboTeammate(teammate: Teammate, actionCount: number, dbCharacters: any) {
+function generateComboTeammate(teammate: Teammate, actionCount: number, dbCharacters: Record<string, DBMetadataCharacter>) {
   if (!teammate?.characterId) return null
 
   const characterConditionals = teammate.characterConditionals || {}

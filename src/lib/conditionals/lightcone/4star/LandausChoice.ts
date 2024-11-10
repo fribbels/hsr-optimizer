@@ -1,6 +1,6 @@
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
+import { LightConeConditionalsController } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditionalsController } from 'types/LightConeConditionals'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const sValues = [0.16, 0.18, 0.20, 0.22, 0.24]

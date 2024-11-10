@@ -3,8 +3,7 @@ import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightCo
 import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalSets } from 'lib/gpu/conditionals/setConditionals'
-import { CharacterConditionalsController } from 'types/CharacterConditional'
-import { LightConeConditionalsController } from 'types/LightConeConditionals'
+import { CharacterConditionalsController, LightConeConditionalsController } from 'types/Conditionals'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export function calculateContextConditionalRegistry(action: OptimizerAction, context: OptimizerContext) {
@@ -25,7 +24,9 @@ export function calculateContextConditionalRegistry(action: OptimizerAction, con
   action.conditionalState = {}
 }
 
-export function registerTeammateConditionals(conditionalRegistry: { [key: string]: DynamicConditional[] },
+export function registerTeammateConditionals(conditionalRegistry: {
+    [key: string]: DynamicConditional[]
+  },
   teammateMetadata: CharacterMetadata,
   action: OptimizerAction,
   index: number) {
@@ -68,7 +69,9 @@ function emptyRegistry() {
   }
 }
 
-function registerConditionals(conditionalRegistry: { [key: string]: DynamicConditional[] }, conditionals: DynamicConditional[]) {
+function registerConditionals(conditionalRegistry: {
+  [key: string]: DynamicConditional[]
+}, conditionals: DynamicConditional[]) {
   for (const conditional of conditionals) {
     for (const stat of conditional.dependsOn) {
       conditionalRegistry[stat].push(conditional)

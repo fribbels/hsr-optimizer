@@ -17,9 +17,9 @@ import { SaveState } from 'lib/state/saveState'
 import { applyMetadataPresetToForm } from 'lib/tabs/tabOptimizer/optimizerForm/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { CharacterConditionalMap } from 'types/CharacterConditional'
+
+import { ConditionalValueMap } from 'types/Conditionals'
 import { Form, Teammate } from 'types/Form'
-import { LightConeConditionalMap } from 'types/LightConeConditionals'
 import { OptimizerCombatBuffs } from 'types/Optimizer'
 
 let relics: RelicsByPart
@@ -395,13 +395,13 @@ export const OptimizerTabController = {
     }
 
     if (newForm.characterId) {
-      const defaultOptions = CharacterConditionalsResolver.get(form).defaults()
+      const defaultOptions = CharacterConditionalsResolver.get(form).defaults() as ConditionalValueMap
       if (!newForm.characterConditionals) {
-        newForm.characterConditionals = {} as CharacterConditionalMap
+        newForm.characterConditionals = {}
       }
       for (const option of Object.keys(defaultOptions)) {
-        if (newForm.characterConditionals[option as keyof CharacterConditionalMap] == undefined) {
-          newForm.characterConditionals[option as keyof LightConeConditionalMap] = defaultOptions[option] as number
+        if (newForm.characterConditionals[option] == undefined) {
+          newForm.characterConditionals[option] = defaultOptions[option] as number
         }
       }
     }
@@ -409,18 +409,18 @@ export const OptimizerTabController = {
     if (newForm.lightCone) {
       const defaultLcOptions = LightConeConditionalsResolver.get(form).defaults()
       if (!newForm.lightConeConditionals) {
-        newForm.lightConeConditionals = {} as LightConeConditionalMap
+        newForm.lightConeConditionals = {}
       }
       for (const option of Object.keys(defaultLcOptions)) {
-        if (newForm.lightConeConditionals[option as keyof LightConeConditionalMap] == undefined) {
-          newForm.lightConeConditionals[option as keyof LightConeConditionalMap] = defaultLcOptions[option] as number
+        if (newForm.lightConeConditionals[option] == undefined) {
+          newForm.lightConeConditionals[option] = defaultLcOptions[option] as number
         }
       }
     } else {
       newForm.lightCone = undefined
       newForm.lightConeLevel = 80
       newForm.lightConeSuperimposition = 1
-      newForm.lightConeConditionals = {} as CharacterConditionalMap
+      newForm.lightConeConditionals = {}
     }
 
     if (!newForm.statDisplay) {

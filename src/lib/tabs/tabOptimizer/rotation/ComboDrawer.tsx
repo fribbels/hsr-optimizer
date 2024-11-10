@@ -39,10 +39,8 @@ import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Selecto from 'react-selecto'
-import { CharacterConditionalsController } from 'types/CharacterConditional'
 import { ReactElement } from 'types/Components'
-import { ContentItem } from 'types/Conditionals'
-import { LightConeConditionalsController } from 'types/LightConeConditionals'
+import { CharacterConditionalsController, ContentItem, LightConeConditionalsController } from 'types/Conditionals'
 
 const buttonStyle = {
   fontSize: 20,
@@ -165,7 +163,11 @@ function ComboDrawerTitle() {
 function AbilitySelector(props: {
   comboAbilities: string[]
   index: number
-  abilitySelectOptions: { value: string; label: string; display: string }[]
+  abilitySelectOptions: {
+    value: string;
+    label: string;
+    display: string
+  }[]
 }) {
   if (props.index == 0) return <></>
 
@@ -219,11 +221,17 @@ export const abilitySelectOptions = [
   },
 ] as const
 
-function ComboHeader(props: { comboState: ComboState }) {
+function ComboHeader(props: {
+  comboState: ComboState
+}) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter.ComboOptions' })
   const comboAbilities = props.comboState.comboAbilities
   const selectOptions = useMemo(() => {
-    const selectOptions: { value: string; label: string; display: string }[] = []
+    const selectOptions: {
+      value: string;
+      label: string;
+      display: string
+    }[] = []
     for (const option of abilitySelectOptions) {
       selectOptions.push(
         {
@@ -255,7 +263,9 @@ export function elementToDataKey(element: HTMLElement | SVGElement) {
   return element.getAttribute('data-key') ?? '{}' // Get the data-key attribute
 }
 
-function GroupDivider(props: { text: string }) {
+function GroupDivider(props: {
+  text: string
+}) {
   return (
     <Divider plain>
       {props.text}
@@ -265,7 +275,10 @@ function GroupDivider(props: { text: string }) {
 
 function SetSelector(props: {
   selected: string[]
-  options: { value: string; label: ReactElement }[]
+  options: {
+    value: string;
+    label: ReactElement
+  }[]
   placeholder: string
   submit: (arr: string[]) => void
 }) {
@@ -299,7 +312,9 @@ function SetSelector(props: {
   )
 }
 
-function SetSelectors(props: { comboOrigin: ComboCharacter }) {
+function SetSelectors(props: {
+  comboOrigin: ComboCharacter
+}) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer.Placeholders' })
   const ornamentOptions = useMemo(() => GenerateOrnamentsOptions(), [i18n.resolvedLanguage])
   const relicSetOptions = useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])
@@ -352,7 +367,9 @@ function SetDisplays(props: {
   )
 }
 
-function StateDisplay(props: { comboState: ComboState }) {
+function StateDisplay(props: {
+  comboState: ComboState
+}) {
   const comboCharacter = props.comboState?.comboCharacter
   const comboTeammate0 = props.comboState?.comboTeammate0
   const comboTeammate1 = props.comboState?.comboTeammate1
@@ -823,7 +840,11 @@ function Partition(props: {
   )
 }
 
-function BooleanSwitch(props: { contentItem: ContentItem; sourceKey: string; value: boolean }) {
+function BooleanSwitch(props: {
+  contentItem: ContentItem;
+  sourceKey: string;
+  value: boolean
+}) {
   const contentItem = props.contentItem
 
   // console.debug(props.sourceKey)
@@ -858,7 +879,12 @@ function getTeammateIndex(sourceKey: string) {
   return undefined
 }
 
-function NumberSlider(props: { contentItem: ContentItem; value: number; sourceKey: string; partitionIndex: number }) {
+function NumberSlider(props: {
+  contentItem: ContentItem;
+  value: number;
+  sourceKey: string;
+  partitionIndex: number
+}) {
   const contentItem = props.contentItem
 
   return (
@@ -897,7 +923,12 @@ function NumberSlider(props: { contentItem: ContentItem; value: number; sourceKe
   )
 }
 
-function NumberSelect(props: { contentItem: ContentItem; value: number; sourceKey: string; partitionIndex: number }) {
+function NumberSelect(props: {
+  contentItem: ContentItem;
+  value: number;
+  sourceKey: string;
+  partitionIndex: number
+}) {
   const contentItem = props.contentItem
 
   return (

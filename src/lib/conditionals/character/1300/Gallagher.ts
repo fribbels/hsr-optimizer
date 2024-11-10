@@ -1,17 +1,13 @@
 import { BREAK_TYPE, NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, gpuStandardFlatHealFinalizer, standardAtkFinalizer, standardFlatHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
-import {
-  AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
-
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { GallagherConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/Character'
-import { CharacterConditionalsController } from 'types/CharacterConditional'
+
+import { CharacterConditionalsController } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {

@@ -2,8 +2,8 @@ import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUti
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditionalsController } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {

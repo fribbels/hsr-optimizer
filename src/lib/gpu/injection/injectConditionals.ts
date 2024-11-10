@@ -8,10 +8,9 @@ import { indent } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import { ConditionalRegistry } from 'lib/optimizer/calculateConditionals'
 import { SortOption } from 'lib/optimizer/sortOptions'
-import { CharacterConditionalsController } from 'types/CharacterConditional'
 import { StringToNumberMap } from 'types/Common'
+import { CharacterConditionalsController, LightConeConditionalsController } from 'types/Conditionals'
 import { Form } from 'types/Form'
-import { LightConeConditionalsController } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export function injectConditionals(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {

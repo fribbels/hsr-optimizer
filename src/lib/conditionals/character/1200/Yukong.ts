@@ -3,7 +3,8 @@ import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditional
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/Character'
-import { CharacterConditionalsController } from 'types/CharacterConditional'
+
+import { CharacterConditionalsController } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {

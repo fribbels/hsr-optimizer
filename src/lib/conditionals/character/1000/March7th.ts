@@ -4,7 +4,8 @@ import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/conditi
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { Eidolon } from 'types/Character'
-import { CharacterConditionalsController } from 'types/CharacterConditional'
+
+import { CharacterConditionalsController } from 'types/Conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {

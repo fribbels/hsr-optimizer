@@ -1,18 +1,19 @@
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimizer/calculateConditionals'
 import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
-import { CharacterConditionalMap, CharacterConditionalsController } from 'types/CharacterConditional'
-import { LightConeConditionalsController, LightConeConditionalMap } from 'types/LightConeConditionals'
+import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/Conditionals'
 
 export type OptimizerAction = {
   precomputedX: ComputedStatsArray
 
-  characterConditionals: CharacterConditionalMap
-  lightConeConditionals: LightConeConditionalMap
+  characterConditionals: ConditionalValueMap
+  lightConeConditionals: ConditionalValueMap
   setConditionals: SetConditional
 
   conditionalRegistry: ConditionalRegistry
-  conditionalState: { [key: string]: number }
+  conditionalState: {
+    [key: string]: number
+  }
 
   actionType: string
   actionIndex: number
@@ -25,8 +26,8 @@ export type OptimizerAction = {
 }
 
 export type TeammateAction = {
-  characterConditionals: CharacterConditionalMap
-  lightConeConditionals: LightConeConditionalMap
+  characterConditionals: ConditionalValueMap
+  lightConeConditionals: ConditionalValueMap
 }
 
 export type SetConditional = {
@@ -54,9 +55,15 @@ export type SetConditional = {
 }
 
 export type CharacterStatsBreakdown = {
-  base: { [key: string]: number }
-  lightCone: { [key: string]: number }
-  traces: { [key: string]: number }
+  base: {
+    [key: string]: number
+  }
+  lightCone: {
+    [key: string]: number
+  }
+  traces: {
+    [key: string]: number
+  }
 }
 
 export type CharacterMetadata = {

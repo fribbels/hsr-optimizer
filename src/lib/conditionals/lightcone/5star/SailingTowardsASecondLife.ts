@@ -5,8 +5,8 @@ import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals
 import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditionalsController } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {

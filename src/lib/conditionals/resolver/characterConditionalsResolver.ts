@@ -61,7 +61,8 @@ import trailblazerdestruction from 'lib/conditionals/character/8000/TrailblazerD
 import trailblazerharmony from 'lib/conditionals/character/8000/TrailblazerHarmony'
 import trailblazerpreservation from 'lib/conditionals/character/8000/TrailblazerPreservation'
 import { Eidolon } from 'types/Character'
-import { CharacterConditionalsController } from 'types/CharacterConditional'
+
+import { CharacterConditionalsController } from 'types/Conditionals'
 
 export type CharacterConditionalFunction = (e: Eidolon, withContent: boolean) => CharacterConditionalsController
 
@@ -148,7 +149,10 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
  * Techniques / start of fight buffs are called Initial buffs
  */
 export const CharacterConditionalsResolver = {
-  get: (request: { characterId: string; characterEidolon: number }, withContent = false): CharacterConditionalsController => {
+  get: (request: {
+    characterId: string;
+    characterEidolon: number
+  }, withContent = false): CharacterConditionalsController => {
     const characterFn = characterOptionMapping[request.characterId]
     return characterFn(request.characterEidolon, withContent)
   },

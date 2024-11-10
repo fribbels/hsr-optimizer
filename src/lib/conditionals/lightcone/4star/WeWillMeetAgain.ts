@@ -1,9 +1,9 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/Conditionals'
 
 import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditionalsController } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {

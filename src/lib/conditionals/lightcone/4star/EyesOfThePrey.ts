@@ -1,8 +1,8 @@
 import { DOT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
+import { LightConeConditionalsController } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditionalsController } from 'types/LightConeConditionals'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]

@@ -2,9 +2,9 @@
 import { SetsOrnaments } from 'lib/constants/constants'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import { CharacterId, Eidolon } from 'types/Character'
-import { CharacterConditionalMap } from 'types/CharacterConditional'
+
+import { ConditionalValueMap } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditionalMap } from 'types/LightConeConditionals'
 import { RelicEnhance, RelicGrade } from 'types/Relic'
 
 type MIN_INT = 0
@@ -17,8 +17,8 @@ export type Teammate = {
   lightConeSuperimposition: number
   teamOrnamentSet?: string
   teamRelicSet?: string
-  characterConditionals?: CharacterConditionalMap
-  lightConeConditionals?: LightConeConditionalMap
+  characterConditionals?: ConditionalValueMap
+  lightConeConditionals?: ConditionalValueMap
 } & Form
 
 export type Form = {
@@ -39,7 +39,7 @@ export type Form = {
   includeEquippedRelics: boolean
   keepCurrentRelics: boolean
   lightCone: string
-  lightConeConditionals: LightConeConditionalMap
+  lightConeConditionals: ConditionalValueMap
   lightConeLevel: number
   lightConeSuperimposition: SuperImpositionLevel
   mainBody: string[]
@@ -68,7 +68,7 @@ export type Form = {
   weights: {
     [key: string]: number
   }
-  characterConditionals: CharacterConditionalMap
+  characterConditionals: ConditionalValueMap
 
   combatBuffs: {
     [key: string]: number
@@ -82,7 +82,9 @@ export type Form = {
   comboDot: number
   comboBreak: number
 
-  setConditionals: { [key: string]: any[] }
+  setConditionals: {
+    [key: string]: any[]
+  }
 
   teammate0: Teammate
   teammate1: Teammate

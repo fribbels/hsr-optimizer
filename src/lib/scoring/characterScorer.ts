@@ -310,7 +310,7 @@ export function scoreCharacterSimulation(
     if (!result) return
 
     result.unpenalizedSimScore = result.x.COMBO_DMG
-    result.penaltyMultiplier = calculatePenaltyMultiplier(result, metadata.breakpoints, benchmarkScoringParams)
+    result.penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, benchmarkScoringParams)
     result.simScore = result.unpenalizedSimScore * (penalty ? result.penaltyMultiplier : 1)
   }
 
@@ -777,7 +777,7 @@ function computeOptimalSimulation(
       })[0]
       simulationRuns++
 
-      if (breakpointsCap && breakpoints[stat]) {
+      if (breakpointsCap && breakpoints?.[stat]) {
         if (newSimResult.x[stat] < breakpoints[stat]) {
           continue
         }
@@ -1217,20 +1217,20 @@ function calculateSetNames(relicsByPart: RelicBuild) {
 
 export function calculatePenaltyMultiplier(
   simulationResult: SimulationResult,
-  breakpoints: {
-    [key: string]: number
-  },
+  metadata: SimulationMetadata,
   scoringParams: ScoringParams,
 ) {
   let newPenaltyMultiplier = 1
-  for (const stat of Object.keys(breakpoints)) {
-    if (Utils.isFlat(stat)) {
-      // Flats are penalized by their percentage
-      newPenaltyMultiplier *= (Math.min(1, simulationResult.x[stat] / breakpoints[stat]) + 1) / 2
-    } else {
-      // Percents are penalize by half of the missing stat's breakpoint roll percentage
-      newPenaltyMultiplier *= Math.min(1,
-        1 - (breakpoints[stat] - simulationResult.x[stat]) / StatCalculator.getMaxedSubstatValue(stat, scoringParams.quality))
+  if (metadata.breakpoints) {
+    for (const stat of Object.keys(metadata.breakpoints)) {
+      if (Utils.isFlat(stat)) {
+        // Flats are penalized by their percentage
+        newPenaltyMultiplier *= (Math.min(1, simulationResult.x[stat] / metadata.breakpoints[stat]) + 1) / 2
+      } else {
+        // Percents are penalize by half of the missing stat's breakpoint roll percentage
+        newPenaltyMultiplier *= Math.min(1,
+          1 - (metadata.breakpoints[stat] - simulationResult.x[stat]) / StatCalculator.getMaxedSubstatValue(stat, scoringParams.quality))
+      }
     }
   }
   simulationResult.penaltyMultiplier = newPenaltyMultiplier

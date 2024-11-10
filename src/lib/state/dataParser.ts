@@ -7,8 +7,6 @@ import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { DBMetadata, DBMetadataCharacter, DBMetadataLightCone, DBMetadataSets, ScoringMetadata } from 'types/metadata'
 
-// FIXME HIGH
-
 const NULL = null as unknown as string
 const BASIC = 'BASIC'
 const SKILL = 'SKILL'

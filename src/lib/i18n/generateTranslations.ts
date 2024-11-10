@@ -1,25 +1,25 @@
-//@ts-ignore
-import { writeFile } from "fs"
-//@ts-ignore
-import { readFile } from "fs/promises"
-//@ts-ignore
-import yaml from "js-yaml"
-import { TsUtils } from 'src/lib/utils/TsUtils'
-import { betaInformation } from "./betaInformation"
-import pathConfig from './AvatarBaseType.json'
-import AvatarConfig from './AvatarConfig.json'
-import damageConfig from './DamageType.json'
-import lightconeConfig from './EquipmentConfig.json'
-import relicSetConfig from './RelicSetConfig.json'
-import relicEffectConfig from './RelicSetSkillConfig.json'
+// @ts-ignore
+import { writeFile } from 'fs'
+// @ts-ignore
+import { readFile } from 'fs/promises'
+// @ts-ignore
+import yaml from 'js-yaml'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { betaInformation } from 'lib/i18n/betaInformation'
+import pathConfig from 'lib/i18n/AvatarBaseType.json'
+import AvatarConfig from 'lib/i18n/AvatarConfig.json'
+import damageConfig from 'lib/i18n/DamageType.json'
+import lightconeConfig from 'lib/i18n/EquipmentConfig.json'
+import relicSetConfig from 'lib/i18n/RelicSetConfig.json'
+import relicEffectConfig from 'lib/i18n/RelicSetSkillConfig.json'
 
 const precisionRound = TsUtils.precisionRound
 
-const inputLocales = ['zh', 'de', 'en', 'es', 'fr', 'id', 'ja', 'ko', 'pt', 'ru', 'th', 'vi'] as const
+const inputLocales = ['de', 'en', 'es', 'fr', 'id', 'ja', 'ko', 'pt', 'ru', 'th', 'vi', 'zh'] as const
 
 const outputLocales = [...inputLocales, 'it'] as const
 
-type InputLocale = typeof inputLocales[number]
+export type InputLocale = typeof inputLocales[number]
 
 type OutputLocale = typeof outputLocales[number]
 
@@ -40,7 +40,7 @@ const outputLocalesMapping: Record<InputLocale, OutputLocale[]> = {
   zh: ['zh'],
 } as const
 
-const tbNames: Record<InputLocale, {stelle: string; caelus: string}> = {
+const tbNames: Record<InputLocale, { stelle: string; caelus: string }> = {
   de: {
     stelle: 'Stelle',
     caelus: 'Caelus',
@@ -91,44 +91,36 @@ const tbNames: Record<InputLocale, {stelle: string; caelus: string}> = {
   },
 } as const
 
-const overrides: Record<InputLocale, { key: string; value: string }[]> = {
-  de: [],
+const overrides: Partial<Record<InputLocale, { key: string; value: string }[]>> = {
   en: [
     {
       key: 'Characters.1213.Name',
       value: 'Imbibitor Lunae',
-    }
+    },
   ],
   es: [
     {
       key: 'Characters.1213.Name',
       value: 'Imbibitor Lunae',
-    }
+    },
   ],
   fr: [
     {
       key: 'Characters.1213.Name',
       value: 'Imbibitor Lunae',
-    }
+    },
   ],
-  id: [],
-  ja: [],
-  ko: [],
   pt: [
     {
       key: 'Characters.1213.Name',
       value: 'Embebidor Lunae',
-    }
+    },
   ],
-  ru: [],
-  th: [],
-  zh: [],
-  vi: [],
 } as const
 
 function formattingFixer(string: string) {
   if (!string) return ''
-  string = string.replace(/<color=#([a-f]|[0-9]){8}>/g, "").replace(/<\/color>/g, '')
+  string = string.replace(/<color=#([a-f]|[0-9]){8}>/g, '').replace(/<\/color>/g, '')
   string = string.replace(/<unbreak>/g, '').replace(/<\/unbreak>/g, '')
   return string
 }
@@ -158,7 +150,7 @@ function cleanString(locale: string, string: string): string {
 }
 
 async function importTextmap(suffix: string) {
-  const textmap = await readFile(`./misc/i18n/TextMap${suffix}.json`, 'utf-8')
+  const textmap = await readFile(`./lib/i18n/TextMap${suffix}.json`, 'utf-8')
   return JSON.parse(textmap)
 }
 
@@ -193,7 +185,7 @@ async function generateTranslations() {
       }
     })(locale)
 
-    const setEffects: Record<number, {effect2pc: string, effect4pc?: string}> = {}
+    const setEffects: Record<number, { effect2pc: string; effect4pc?: string }> = {}
     for (const effect of relicEffectConfig) {
       if (!setEffects[effect.SetID]) {
         setEffects[effect.SetID] = {
@@ -203,11 +195,11 @@ async function generateTranslations() {
       }
       if (effect.RequireNum === 2) {
         setEffects[effect.SetID].effect2pc = formattingFixer(
-          replaceParameters(translateKey(effect.SkillDesc, textmap), effect.AbilityParamList.map((x) => x.Value))
+          replaceParameters(translateKey(effect.SkillDesc, textmap), effect.AbilityParamList.map((x) => x.Value)),
         )
       } else {
         setEffects[effect.SetID].effect4pc = formattingFixer(
-          replaceParameters(translateKey(effect.SkillDesc, textmap), effect.AbilityParamList.map((x) => x.Value))
+          replaceParameters(translateKey(effect.SkillDesc, textmap), effect.AbilityParamList.map((x) => x.Value)),
         )
       }
     }
@@ -269,7 +261,7 @@ async function generateTranslations() {
     applyOverrides(output, locale)
 
     for (const outputLocale of outputLocalesMapping[locale]) {
-      writeFile(`./public/locales/${outputLocale}/gameData.yaml`, yaml.dump(output, { lineWidth: -1, quotingType: "\"" }), (err: unknown) => {
+      writeFile(`./public/locales/${outputLocale}/gameData.yaml`, yaml.dump(output, { lineWidth: -1, quotingType: '"' }), (err: unknown) => {
         if (err)
           console.log(err)
         else {
@@ -286,7 +278,7 @@ function applyOverrides(output: object, locale: InputLocale) {
     const path = (override.key).split('.')
     let target = output, index = -1
     while (++index < path.length) {
-      let key = path[index]
+      const key = path[index]
       if (index != path.length - 1) {
         // @ts-ignore
         target = target[key]
@@ -300,8 +292,8 @@ function applyOverrides(output: object, locale: InputLocale) {
 
 // from the readme on Dim's old github repo
 function getHash(key: string) {
-  var hash1 = 5381
-  var hash2 = 5381
+  let hash1 = 5381
+  let hash2 = 5381
   for (let i = 0; i < key.length; i += 2) {
     hash1 = Math.imul((hash1 << 5) + hash1, 1) ^ key.charCodeAt(i)
     if (i === key.length - 1)
@@ -326,9 +318,9 @@ type Lightcone = {
 }
 
 type Output = {
-  Characters: Record<number, {Name: string}>,
-  RelicSets: Record<number, {Name: string, Description2pc: string, Description4pc?: string}>,
-  Lightcones: Record<number, {Name: string}>
+  Characters: Record<number, { Name: string }>
+  RelicSets: Record<number, { Name: string; Description2pc: string; Description4pc?: string }>
+  Lightcones: Record<number, { Name: string }>
   Paths: Record<string, string>
   Elements: Record<string, string>
 }

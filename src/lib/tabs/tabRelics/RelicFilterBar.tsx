@@ -22,8 +22,6 @@ import { DBMetadataCharacter } from 'types/metadata'
 import { Relic } from 'types/relic'
 import { RelicTabFilters } from 'types/store'
 
-// FIXME MED
-
 const { useToken } = theme
 const { Text } = Typography
 

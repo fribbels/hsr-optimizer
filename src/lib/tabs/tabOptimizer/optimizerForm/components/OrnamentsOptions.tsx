@@ -1,13 +1,12 @@
 import { Flex } from 'antd'
 import i18next from 'i18next'
-import { Constants, setToId, UnreleasedSets } from 'lib/constants/constants'
+import { Constants, SetsOrnaments, setToId, UnreleasedSets } from 'lib/constants/constants'
 
-// FIXME HIGH
 import { Assets } from 'lib/rendering/assets'
 
 // This should be memoized with either the t function or resolved language as a dependency
 const GenerateOrnamentsOptions = (): { value: string; label: JSX.Element }[] => {
-  return Object.values(Constants.SetsOrnaments)
+  return Object.values(SetsOrnaments)
     .filter((x) => !UnreleasedSets[x])
     .map((x) => {
       return {
@@ -16,7 +15,7 @@ const GenerateOrnamentsOptions = (): { value: string; label: JSX.Element }[] => 
           <Flex gap={5} align='center'>
             <img src={Assets.getSetImage(x, Constants.Parts.PlanarSphere)} style={{ width: 21, height: 21 }}></img>
             <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
-              {i18next.t(`common:RelicSets.${setToId[x]}.Name`)}
+              {i18next.t(`common:RelicSets.${setToId[x]}.Name` as never)}
             </div>
           </Flex>
         ),

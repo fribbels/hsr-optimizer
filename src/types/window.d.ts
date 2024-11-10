@@ -9,7 +9,7 @@ import { Constants } from 'lib/constants/constants'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
-import { BufferPacker } from 'lib/optimization/bufferPacker'
+import { BufferPacker, OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
@@ -32,7 +32,6 @@ import { Form } from 'types/form'
 import { Relic } from 'types/relic'
 import { HsrOptimizerStore } from 'types/store'
 import { StoreApi, UseBoundStore } from 'zustand'
-import { Hero } from './types/calc'
 
 declare global {
   interface Window {
@@ -44,7 +43,7 @@ declare global {
 
     characterGrid: RefObject<AgGridReact<Character>>
     relicsGrid: RefObject<AgGridReact<Relic>>
-    optimizerGrid: RefObject<AgGridReact<Hero>>
+    optimizerGrid: RefObject<AgGridReact<OptimizerDisplayData>>
 
     setCharacterRows: (characters: Character[]) => void
     setRelicRows: (characters: Relic[]) => void

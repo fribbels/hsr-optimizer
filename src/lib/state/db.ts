@@ -274,7 +274,7 @@ window.store = create((set) => {
 // }
 
 export const DB = {
-  getMetadata: () => state.metadata,
+  getMetadata: (): DBMetadata => state.metadata,
   setMetadata: (metadata: DBMetadata) => state.metadata = metadata,
 
   getCharacters: () => window.store.getState().characters,

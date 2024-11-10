@@ -525,7 +525,7 @@ export const ElementToResPenType = {
   Wind: 'WIND_RES_PEN',
   Quantum: 'QUANTUM_RES_PEN',
   Imaginary: 'IMAGINARY_RES_PEN',
-}
+} as const
 
 export const Constants = {
   Sets,

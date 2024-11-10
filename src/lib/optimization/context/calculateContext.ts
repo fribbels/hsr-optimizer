@@ -68,7 +68,8 @@ export const ElementToBreakScaling = {
 }
 
 function generateCharacterMetadataContext(request: Form, context: Partial<OptimizerContext>) {
-  const characterMetadata = DB.getMetadata().characters[request.characterId]
+  const dbMetadata = DB.getMetadata()
+  const characterMetadata = dbMetadata.characters[request.characterId]
   const element = characterMetadata.element
 
   context.characterId = request.characterId

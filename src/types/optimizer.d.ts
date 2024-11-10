@@ -2,6 +2,7 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
+import { ElementalDamageType, ElementalResPenType } from 'types/metadata'
 
 export type OptimizerAction = {
   precomputedX: ComputedStatsArray
@@ -93,8 +94,8 @@ export type OptimizerContext = {
 
   // Character data
   element: string // Ice
-  elementalDamageType: string // Ice DMG Boost
-  elementalResPenType: string // ICE_RES_PEN
+  elementalDamageType: ElementalDamageType // Ice DMG Boost
+  elementalResPenType: ElementalResPenType // ICE_RES_PEN
   elementalBreakScaling: number // Ice: 1.0
   characterStatsBreakdown: CharacterStatsBreakdown
 

@@ -1,5 +1,6 @@
 import { Flex } from 'antd'
 import { RightIcon } from 'icons/RightIcon'
+import { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
 import { Renderer } from 'lib/rendering/renderer'
@@ -9,10 +10,8 @@ import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Relic, StatRolls } from 'types/relic'
 
-// FIXME MED
-
 type Substat = {
-  stat: string
+  stat: SubStats
   value: number
   rolls?: StatRolls
   addedRolls?: number
@@ -57,8 +56,7 @@ export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
           // <Tooltip title={`Roll quality: ${RelicRollGrader.calculateStatSum(stat.rolls)}%`}>
           <Flex justify='space-between' style={{ width: '41.5%' }}>
             <Flex gap={0} align='center'>
-              {stat.addedRolls != null
-              && generateRolls(stat)}
+              {stat.addedRolls != null && generateRolls(stat)}
             </Flex>
             <RelicStatText>{displayValue}</RelicStatText>
           </Flex>
@@ -71,9 +69,9 @@ export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
   )
 }
 
-function generateRolls(stat) {
+function generateRolls(stat: Substat) {
   const result: ReactElement[] = []
-  for (let i = 0; i < stat.addedRolls; i++) {
+  for (let i = 0; i < stat.addedRolls!; i++) {
     result.push(<RightIcon key={i} style={{ marginRight: -5, opacity: 0.75 }}/>)
   }
   if (stat.addedRolls == 0) {

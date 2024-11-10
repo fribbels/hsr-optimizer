@@ -2,7 +2,7 @@ import { CellClickedEvent, IGetRowsParams, IRowNode } from 'ag-grid-community'
 import { inPlaceSort } from 'fast-sort'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { CombatBuffs, ConditionalDataType, Constants, DamageKeys, DEFAULT_STAT_DISPLAY, Stats } from 'lib/constants/constants'
+import { CombatBuffs, ConditionalDataType, Constants, DEFAULT_STAT_DISPLAY, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
@@ -17,8 +17,6 @@ import { SaveState } from 'lib/state/saveState'
 import { applyMetadataPresetToForm } from 'lib/tabs/tabOptimizer/optimizerForm/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-
-import { ConditionalValueMap } from 'types/conditionals'
 import { Form, Teammate } from 'types/form'
 import { OptimizerCombatBuffs } from 'types/optimizer'
 
@@ -507,18 +505,6 @@ export const OptimizerTabController = {
       newForm.mainStatUpscaleLevel = 15
     }
 
-    // if (!newForm.statSim) {
-    //   newForm.statSim = {} as StatSim
-    // }
-
-    // if (!newForm.statSim.simulations) {
-    //   newForm.statSim.simulations = []
-    // }
-
-    if (!newForm.combo) {
-      newForm.combo = {}
-    }
-
     if (!newForm.comboStateJson) {
       newForm.comboStateJson = '{}'
     }
@@ -641,11 +627,6 @@ export const OptimizerTabController = {
     if (!form.combatBuffs) form.combatBuffs = {}
     for (const buff of Object.values(CombatBuffs)) {
       form.combatBuffs[buff.key] = fixValue(form.combatBuffs[buff.key], 0, buff.percent ? 100 : 0)
-    }
-
-    if (!form.combo) form.combo = {}
-    for (const key of DamageKeys) {
-      form.combo[key] = fixValue(form.combo[key], 0, 0)
     }
 
     form.mainHead = form.mainHead || []

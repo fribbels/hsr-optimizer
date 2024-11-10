@@ -3,13 +3,9 @@ import { GUID } from 'types/common'
 import { Form } from 'types/form'
 import { CustomPortrait } from 'types/store'
 
-export type CharacterId = string // "1004"
+export type CharacterId = string
 
-export type Eidolon = (0 | 1 | 2 | 3 | 4 | 5 | 6) | number
-
-export type Traces = {
-  [key in StatsValues]: number;
-}
+export type Eidolon = number
 
 export type Build = {
   [key in Parts]?: GUID;
@@ -26,7 +22,7 @@ export type MetadataCharacter = {
   portrait: CustomPortrait
   traces: Record<string, number>
   imageCenter: {
-    x: number;
+    x: number
     y: number
   }
   displayName: string // injected on hydration
@@ -57,5 +53,3 @@ export type SavedBuild = {
     rating: string
   }
 }
-
-export type UnrankedCharacter = Omit<Character, 'rank'>

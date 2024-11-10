@@ -576,13 +576,16 @@ function SubstatInput(props: {
 }
 
 function relicHash(relic: Relic) {
-  return Utils.objectHash({
+  return TsUtils.objectHash({
     grade: relic.grade,
     enhance: relic.enhance,
     part: relic.part,
     set: relic.set,
     mainStatType: relic.main?.stat,
-    substats: relic.substats,
+    substats: relic.substats.map((stat) => ({
+      stat: stat.stat,
+      value: Utils.truncate1000ths(TsUtils.precisionRound(stat.value)),
+    })),
   })
 }
 

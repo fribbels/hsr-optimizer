@@ -41,7 +41,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.lightConeConditionals
+      const r = action.lightConeConditionals as Conditionals<typeof content>
       buffAbilityDefPen(x, BREAK_TYPE, (r.breakDmgDefShred) ? sValuesDefShred[s] : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -53,7 +53,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.BE],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof content> = action.lightConeConditionals
+          const r = action.lightConeConditionals as Conditionals<typeof content>
 
           return r.spdBuffConditional && x.a[Key.BE] >= 1.50
         },

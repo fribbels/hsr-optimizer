@@ -37,14 +37,14 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: () => {
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.lightConeConditionals
+      const r = action.lightConeConditionals as Conditionals<typeof content>
       const stacks = Math.max(0, Math.min(6, Math.floor((x.a[Key.SPD] - 100) / 10)))
 
       buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, (r.spdScalingBuffs) ? stacks * sValuesDmg[s] : 0, Source.NONE)
       buffAbilityCd(x, ULT_TYPE, (r.spdScalingBuffs) ? stacks * sValuesCd[s] : 0, Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.lightConeConditionals
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
       return `
 if (${wgslTrue(r.spdScalingBuffs)}) {

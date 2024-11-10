@@ -1,7 +1,8 @@
 import { BREAK_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { FireflyConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -164,6 +165,45 @@ x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
       `
     },
-    dynamicConditionals: [FireflyConversionConditional],
+    dynamicConditionals: [
+      {
+        id: 'FireflyConversionConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.ATK],
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          return x.a[Key.ATK] > 1800
+        },
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const stateValue = action.conditionalState[this.id] || 0
+          const trueAtk = x.a[Key.ATK] - x.a[Key.RATIO_BASED_ATK_BUFF] - x.a[Key.RATIO_BASED_ATK_P_BUFF] * context.baseATK
+          const buffValue = 0.008 * Math.floor((trueAtk - 1800) / 10)
+
+          action.conditionalState[this.id] = buffValue
+          x.BE.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
+
+          return buffValue
+        },
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return conditionalWgslWrapper(this, `
+if (${wgslFalse(r.atkToBeConversion)}) {
+  return;
+}
+let atk = (*p_x).ATK;
+let stateValue = (*p_state).FireflyConversionConditional;
+let trueAtk = atk - (*p_x).RATIO_BASED_ATK_BUFF - (*p_x).RATIO_BASED_ATK_P_BUFF * baseATK;
+
+if (trueAtk > 1800) {
+  let buffValue: f32 = 0.008 * floor((trueAtk - 1800) / 10);
+
+  (*p_state).FireflyConversionConditional = buffValue;
+  buffDynamicBE(buffValue - stateValue, p_x, p_state);
+}
+    `)
+        },
+      },
+    ],
   }
 }

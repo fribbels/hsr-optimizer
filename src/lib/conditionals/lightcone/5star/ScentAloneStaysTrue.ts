@@ -66,12 +66,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.VULNERABILITY.buff((t.woefreeState && t.additionalVulnerability) ? sValuesVulnerabilityAdditional[s] : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.lightConeConditionals
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.VULNERABILITY.buff((r.woefreeState && x.a[Key.BE] >= 1.50) ? sValuesVulnerabilityAdditional[s] : 0, Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.lightConeConditionals
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
       return `
 if (${wgslTrue(r.woefreeState)} && x.BE >= 1.50) {

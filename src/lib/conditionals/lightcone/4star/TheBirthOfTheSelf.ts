@@ -30,7 +30,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.lightConeConditionals
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
       buffAbilityDmg(x, FUA_TYPE, sValues[s], Source.NONE)
       buffAbilityDmg(x, FUA_TYPE, (r.enemyHp50FuaBuff) ? sValues[s] : 0, Source.NONE)

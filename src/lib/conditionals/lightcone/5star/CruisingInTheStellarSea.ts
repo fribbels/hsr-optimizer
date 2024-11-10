@@ -37,7 +37,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.lightConeConditionals
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.CR.buff((r.enemyHp50CrBoost) ? sValuesCr[s] : 0, Source.NONE)
       x.ATK_P.buff((r.enemyDefeatedAtkBuff) ? sValuesAtk[s] : 0, Source.NONE)

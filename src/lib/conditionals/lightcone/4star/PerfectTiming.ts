@@ -44,7 +44,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.RES],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof content> = action.lightConeConditionals
+          const r = action.lightConeConditionals as Conditionals<typeof content>
 
           return r.resToHealingBoost
         },

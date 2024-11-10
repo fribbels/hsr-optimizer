@@ -1,9 +1,11 @@
 import { DOT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { BlackSwanConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityDefPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -121,6 +123,42 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
-    dynamicConditionals: [BlackSwanConversionConditional],
+    dynamicConditionals: [
+      {
+        id: 'BlackSwanConversionConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.EHR],
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          return true
+        },
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          if (!r.ehrToDmgBoost) {
+            return
+          }
+          const stateValue = action.conditionalState[this.id] || 0
+          const buffValue = Math.min(0.72, 0.60 * x.a[Key.EHR])
+
+          action.conditionalState[this.id] = buffValue
+          x.ELEMENTAL_DMG.buff(buffValue - stateValue, Source.NONE)
+        },
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return conditionalWgslWrapper(this, `
+if (${wgslFalse(r.ehrToDmgBoost)}) {
+  return;
+}
+let ehr = (*p_x).EHR;
+let stateValue: f32 = (*p_state).BlackSwanConversionConditional;
+let buffValue: f32 = min(0.72, 0.60 * ehr);
+
+(*p_state).BlackSwanConversionConditional = buffValue;
+(*p_x).ELEMENTAL_DMG += buffValue - stateValue;
+    `)
+        },
+      },
+    ],
   }
 }

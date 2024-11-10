@@ -39,7 +39,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.lightConeConditionals
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.ATK_P.buff(r.atkBuffStacks * sValuesAtkBuff[s], Source.NONE)
       x.SPD_P.buff((r.spdBuff) ? sValuesSpdBuff[s] : 0, Source.NONE)

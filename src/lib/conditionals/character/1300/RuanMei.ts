@@ -1,7 +1,8 @@
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { RuanMeiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -132,6 +133,39 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
-    dynamicConditionals: [RuanMeiConversionConditional],
+    dynamicConditionals: [
+      {
+        id: 'RuanMeiConversionConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.BE],
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          return true
+        },
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          const stateValue = action.conditionalState[this.id] || 0
+          const beOver = Math.floor(TsUtils.precisionRound((x.a[Key.BE] * 100 - 120) / 10))
+          const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
+
+          action.conditionalState[this.id] = buffValue
+          x.ELEMENTAL_DMG.buff(buffValue - stateValue, Source.NONE)
+        },
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return conditionalWgslWrapper(this, `
+let be = (*p_x).BE;
+let stateValue: f32 = (*p_state).RuanMeiConversionConditional;
+let beOver = ((*p_x).BE * 100 - 120) / 10;
+let buffValue: f32 = floor(max(0, beOver)) * 0.06;
+
+(*p_state).RuanMeiConversionConditional = buffValue;
+(*p_x).ELEMENTAL_DMG += buffValue - stateValue;
+    `)
+        },
+      },
+    ],
   }
 }

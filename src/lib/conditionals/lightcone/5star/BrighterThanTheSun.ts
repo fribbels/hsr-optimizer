@@ -34,7 +34,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.lightConeConditionals
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.ATK_P.buff(r.dragonsCallStacks * sValuesAtk[s], Source.NONE)
       x.ERR.buff(r.dragonsCallStacks * sValuesErr[s], Source.NONE)

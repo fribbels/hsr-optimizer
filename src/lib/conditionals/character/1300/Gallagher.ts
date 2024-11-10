@@ -1,9 +1,10 @@
 import { BREAK_TYPE, NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, gpuStandardFlatHealFinalizer, standardAtkFinalizer, standardFlatHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { GallagherConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -135,6 +136,37 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       standardFlatHealFinalizer(x)
     },
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer() + gpuStandardFlatHealFinalizer(),
-    dynamicConditionals: [GallagherConversionConditional],
+    dynamicConditionals: [
+      {
+        id: 'GallagherConversionConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.BE],
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          return true
+        },
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          const stateValue = action.conditionalState[this.id] || 0
+          const buffValue = Math.min(0.75, 0.50 * x.a[Key.BE])
+
+          action.conditionalState[this.id] = buffValue
+          x.OHB.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
+        },
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return conditionalWgslWrapper(this, `
+let be = (*p_x).BE;
+let stateValue: f32 = (*p_state).GallagherConversionConditional;
+let buffValue: f32 = min(0.75, 0.50 * (*p_x).BE);
+
+(*p_state).GallagherConversionConditional = buffValue;
+buffDynamicOHB(buffValue - stateValue, p_x, p_state);
+    `)
+        },
+      },
+    ],
   }
 }

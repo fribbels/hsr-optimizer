@@ -1,5 +1,5 @@
 import { Flex, theme } from 'antd'
-import { defaultPadding, panelWidth } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridConstants'
+import { defaultPadding, panelWidth } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { CSSProperties, ReactElement } from 'react'
 
 const { useToken } = theme

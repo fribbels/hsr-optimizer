@@ -15,7 +15,7 @@ export const optimizerTabDefaultGap = 5
 export const panelWidth = 211
 export const defaultPadding = 11
 
-export const gridOptions = {
+export const optimizerGridOptions = {
   rowHeight: 33,
   pagination: true,
   rowModelType: 'infinite',
@@ -31,7 +31,7 @@ export const gridOptions = {
   getRowId: (params: GetRowIdParams) => String(params.data.id || Utils.randomId()),
 }
 
-export const defaultColDef = {
+export const optimizerGridDefaultColDef = {
   cellStyle: Gradient.getOptimizerColumnGradient,
   sortable: true,
   sortingOrder: ['desc', 'asc'],
@@ -39,7 +39,7 @@ export const defaultColDef = {
   autoHeaderHeight: true,
 }
 
-export function getBaseColumnDefs(t: TFunction<'optimizerTab', undefined>) {
+export function getBasicColumnDefs(t: TFunction<'optimizerTab', undefined>) {
   return [
     {
       field: 'relicSetIndex',

@@ -1,15 +1,15 @@
 import { AgGridReact } from 'ag-grid-react'
 import { Flex, theme } from 'antd'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { getGridTheme } from 'lib/rendering/theme'
 import DB from 'lib/state/db'
 import {
-  defaultColDef,
-  getBaseColumnDefs,
+  getBasicColumnDefs,
   getCombatColumnDefs,
-  gridOptions,
-} from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridConstants'
+  optimizerGridDefaultColDef,
+  optimizerGridOptions,
+} from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -33,7 +33,7 @@ export function OptimizerGrid() {
   const columnDefs = useMemo(() => {
     let columnDefinitions = statDisplay == 'combat'
       ? getCombatColumnDefs(t)
-      : getBaseColumnDefs(t)
+      : getBasicColumnDefs(t)
 
     if (optimizerTabFocusCharacter) {
       const hiddenColumns = DB.getMetadata().characters[optimizerTabFocusCharacter].scoringMetadata.hiddenColumns ?? []
@@ -48,7 +48,7 @@ export function OptimizerGrid() {
     return columnDefinitions
   }, [optimizerTabFocusCharacter, statDisplay, t])
 
-  gridOptions.datasource = datasource
+  optimizerGridOptions.datasource = datasource
 
   const navigateToNextCell = useCallback((params) => {
     return arrowKeyGridNavigation(params, optimizerGrid, (selectedNode) => OptimizerTabController.cellClicked(selectedNode))
@@ -90,8 +90,8 @@ export function OptimizerGrid() {
           <AgGridReact
             animateRows={false}
             columnDefs={columnDefs}
-            defaultColDef={defaultColDef}
-            gridOptions={gridOptions}
+            defaultColDef={optimizerGridDefaultColDef}
+            gridOptions={optimizerGridOptions}
             headerHeight={24}
             onCellClicked={OptimizerTabController.cellClicked}
             ref={optimizerGrid}

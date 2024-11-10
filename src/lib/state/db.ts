@@ -774,7 +774,7 @@ export const DB = {
   saveCharacterBuild: (name: string,
     characterId: string,
     score: {
-      rating: string;
+      rating: string
       score: string
     }) => {
     const character = DB.getCharacterById(characterId)
@@ -1073,7 +1073,7 @@ export const DB = {
     const updatedOldRelics: Relic[] = []
     const addedNewRelics: Relic[] = []
     const equipUpdates: {
-      relic: Relic;
+      relic: Relic
       equippedBy: string | undefined
     }[] = []
 

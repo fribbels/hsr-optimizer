@@ -7,7 +7,7 @@ import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/comp
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { RelicSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetTagRenderer'
 import GenerateSetsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
-import { optimizerTabDefaultGap, panelWidth } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridConstants'
+import { optimizerTabDefaultGap, panelWidth } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'

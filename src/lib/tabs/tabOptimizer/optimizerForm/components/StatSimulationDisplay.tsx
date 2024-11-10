@@ -1,5 +1,5 @@
 import { DeleteOutlined, DoubleLeftOutlined, DownOutlined, SettingOutlined, UpOutlined } from '@ant-design/icons'
-import { Button, Flex, Form, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
+import { Button, Flex, Form as AntDForm, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
 import { Parts, Stats, SubStats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { deleteAllStatSimulationBuilds, importOptimizerBuild, saveStatSimulationBuildFromForm, startOptimizerStatSimulation } from 'lib/simulations/statSimulationController'
@@ -13,14 +13,12 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-
-// FIXME HIGH
+import { Form } from 'types/form'
 
 const { Text } = Typography
 
 export enum StatSimTypes {
   Disabled = 'disabled',
-  CharacterStats = 'characterStats',
   SubstatTotals = 'substatTotals',
   SubstatRolls = 'substatRolls',
 }
@@ -70,7 +68,6 @@ export function StatSimulationDisplay() {
               value={StatSimTypes.SubstatTotals}
             >{t('ModeSelector.Totals')/* Simulate custom substat totals */}
             </Radio>
-            {/* <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.CharacterStats} disabled>Character stats</Radio> */}
           </Radio.Group>
 
           <Flex style={{ minHeight: 302 }}>
@@ -137,7 +134,7 @@ function SimulationInputs() {
   const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
 
   // Hook into changes to the sim to calculate roll sum
-  const statSimFormValues = Form.useWatch((values) => values.statSim, window.optimizerForm)
+  const statSimFormValues = AntDForm.useWatch((values: Form) => values.statSim, window.optimizerForm)
   const substatRollsTotal = useMemo(() => {
     if (!statSimFormValues) return 0
 
@@ -154,12 +151,12 @@ function SimulationInputs() {
   const renderedOptions = useMemo(() => {
     return (
       <>
-        <Form.Item name={formName('simulations')}>
+        <AntDForm.Item name={formName('simulations')}>
           <Input
             placeholder='This is a fake hidden input to save simulations into the form'
             style={{ display: 'none' }}
           />
-        </Form.Item>
+        </AntDForm.Item>
 
         <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.SubstatTotals ? 'flex' : 'none' }}>
           <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
@@ -168,9 +165,9 @@ function SimulationInputs() {
 
             <HeaderText>{t('OptionsHeader')/* Options */}</HeaderText>
 
-            <Form.Item name={formName(StatSimTypes.SubstatTotals, 'name')}>
+            <AntDForm.Item name={formName(StatSimTypes.SubstatTotals, 'name')}>
               <Input placeholder={t('SimulationNamePlaceholder')/* 'Simulation name (Optional)' */} autoComplete='off'/>
-            </Form.Item>
+            </AntDForm.Item>
           </Flex>
 
           <VerticalDivider/>
@@ -185,9 +182,9 @@ function SimulationInputs() {
 
             <HeaderText>{t('OptionsHeader')/* Options */}</HeaderText>
 
-            <Form.Item name={formName(StatSimTypes.SubstatRolls, 'name')}>
+            <AntDForm.Item name={formName(StatSimTypes.SubstatRolls, 'name')}>
               <Input placeholder={t('SimulationNamePlaceholder')/* 'Simulation name (Optional)' */} autoComplete='off'/>
-            </Form.Item>
+            </AntDForm.Item>
           </Flex>
 
           <VerticalDivider/>
@@ -215,7 +212,7 @@ function SetsSection(props: { simType: string }) {
   return (
     <>
       <HeaderText>{t('SetSelection.Header')}</HeaderText>
-      <Form.Item name={formName(props.simType, 'simRelicSet1')} style={{ maxHeight: 32 }}>
+      <AntDForm.Item name={formName(props.simType, 'simRelicSet1')} style={{ maxHeight: 32 }}>
         <Select
           dropdownStyle={{
             width: 250,
@@ -229,8 +226,8 @@ function SetsSection(props: { simType: string }) {
           showSearch
         >
         </Select>
-      </Form.Item>
-      <Form.Item name={formName(props.simType, 'simRelicSet2')} style={{ maxHeight: 32 }}>
+      </AntDForm.Item>
+      <AntDForm.Item name={formName(props.simType, 'simRelicSet2')} style={{ maxHeight: 32 }}>
         <Select
           dropdownStyle={{
             width: 250,
@@ -244,9 +241,9 @@ function SetsSection(props: { simType: string }) {
           showSearch
         >
         </Select>
-      </Form.Item>
+      </AntDForm.Item>
 
-      <Form.Item name={formName(props.simType, 'simOrnamentSet')} style={{ maxHeight: 32 }}>
+      <AntDForm.Item name={formName(props.simType, 'simOrnamentSet')} style={{ maxHeight: 32 }}>
         <Select
           dropdownStyle={{
             width: 250,
@@ -260,7 +257,7 @@ function SetsSection(props: { simType: string }) {
           showSearch
         >
         </Select>
-      </Form.Item>
+      </AntDForm.Item>
     </>
   )
 }
@@ -318,9 +315,15 @@ function MainStatsSection(props: { simType: string }) {
   )
 }
 
-function MainStatSelector(props: { simType: string; placeholder: string; part: string; options: any[] }) {
+type SelectorOptions = {
+  value: string
+  short: string
+  label: string
+}
+
+function MainStatSelector(props: { simType: string; placeholder: string; part: string; options: SelectorOptions[] }) {
   return (
-    <Form.Item name={formName(props.simType, 'sim' + props.part)} style={{ flex: 1 }}>
+    <AntDForm.Item name={formName(props.simType, 'sim' + props.part)} style={{ flex: 1 }}>
       <Select
         placeholder={props.placeholder}
         style={{ flex: 1 }}
@@ -333,11 +336,11 @@ function MainStatSelector(props: { simType: string; placeholder: string; part: s
         popupMatchSelectWidth={200}
         showSearch
       />
-    </Form.Item>
+    </AntDForm.Item>
   )
 }
 
-function SubstatsSection(props: { simType: string; title: string; total?: number }) {
+function SubstatsSection(props: { simType: StatSimTypes; title: string; total?: number }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
   return (
     <>
@@ -386,13 +389,13 @@ function StatInput(props: { label: string; name: string; simType: string; disabl
       <Text>
         {props.label}
       </Text>
-      <Form.Item name={formName(props.simType, 'stats', props.name)}>
+      <AntDForm.Item name={formName(props.simType, 'stats', props.name)}>
         <InputNumber size='small' controls={false} disabled={props.disabled} value={props.value} style={{ width: 70 }}/>
-      </Form.Item>
+      </AntDForm.Item>
     </Flex>
   )
 }
 
 function formName(str1: string, str2?: string, str3?: string): string[] {
-  return ['statSim', str1, str2, str3].filter((x) => x)
+  return ['statSim', str1, str2, str3].filter((x) => x) as string[]
 }

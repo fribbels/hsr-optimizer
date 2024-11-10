@@ -1,7 +1,7 @@
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { Button, Divider, Drawer, Flex, Select } from 'antd'
-import { CharacterConditionalsResolver } from 'lib/conditionals/characterConditionalsResolver'
-import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ConditionalDataType, setToId } from 'lib/constants/constants'
 import {
   ComboBooleanConditional,

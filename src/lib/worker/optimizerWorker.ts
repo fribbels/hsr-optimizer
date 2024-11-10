@@ -1,6 +1,6 @@
-import { CharacterConditionalsResolver } from 'lib/conditionals/characterConditionalsResolver'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats, StatsValues } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'

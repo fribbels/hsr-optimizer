@@ -1,5 +1,5 @@
-import { CharacterConditionalsResolver } from 'lib/conditionals/characterConditionalsResolver'
-import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ConditionalDataType, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants/constants'
 import { defaultSetConditionals, getDefaultForm } from 'lib/optimizer/defaultForm'
 import { precomputeConditionalActivations } from 'lib/optimizer/rotation/rotationPreprocessor'
@@ -10,7 +10,7 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { CharacterConditionalMap, CharacterConditionalsController } from 'types/CharacterConditional'
 import { ConditionalMap, ContentItem } from 'types/Conditionals'
 import { Form, Teammate } from 'types/Form'
-import { LightConeConditionalsController, LightConeConditionalMap } from 'types/LightConeConditionals'
+import { LightConeConditionalMap, LightConeConditionalsController } from 'types/LightConeConditionals'
 
 export type ComboConditionals = {
   [key: string]: ComboConditionalCategory

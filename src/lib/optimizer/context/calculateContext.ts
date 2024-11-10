@@ -1,6 +1,6 @@
 import { CharacterStats } from 'lib/characters/characterStats'
-import { CharacterConditionalsResolver } from 'lib/conditionals/characterConditionalsResolver'
-import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ElementToDamage, ElementToResPenType, Stats } from 'lib/constants/constants'
 import { emptyLightCone } from 'lib/optimizer/optimizerUtils'
 import { transformComboState } from 'lib/optimizer/rotation/comboStateTransform'

@@ -1,5 +1,5 @@
 import { Flex } from 'antd'
-import { characterOptionMapping } from 'lib/conditionals/characterConditionalsResolver'
+import { characterOptionMapping } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
 import DisplayFormControl from 'lib/tabs/tabOptimizer/conditionals/DisplayFormControl'
 import { HeaderText } from 'lib/ui/HeaderText'

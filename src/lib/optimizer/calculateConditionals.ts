@@ -1,5 +1,5 @@
-import { CharacterConditionalsResolver } from 'lib/conditionals/characterConditionalsResolver'
-import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalSets } from 'lib/gpu/conditionals/setConditionals'

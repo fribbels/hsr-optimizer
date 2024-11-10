@@ -1,5 +1,5 @@
 import { Flex, Form as AntDForm } from 'antd'
-import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Optimizer } from 'lib/optimizer/optimizer'
 import { updateConditionalChange } from 'lib/optimizer/rotation/comboDrawerController'

@@ -1,5 +1,5 @@
-import { CharacterConditionalsResolver } from 'lib/conditionals/characterConditionalsResolver'
-import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateConditionals'
@@ -7,7 +7,7 @@ import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key
 import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { CharacterConditionalMap, CharacterConditionalsController } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
-import { LightConeConditionalsController, LightConeConditionalMap } from 'types/LightConeConditionals'
+import { LightConeConditionalMap, LightConeConditionalsController } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext, SetConditional } from 'types/Optimizer'
 
 export type ComboForm = {}

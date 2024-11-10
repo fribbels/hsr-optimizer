@@ -1,6 +1,6 @@
-import { CharacterConditionalsResolver } from 'lib/conditionals/characterConditionalsResolver'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants/constants'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
 import { getDefaultForm } from 'lib/optimizer/defaultForm'

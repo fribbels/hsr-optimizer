@@ -10,8 +10,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Relic } from 'types/relic'
 
-// FIXME HIGH
-
 export function RelicPreview(props: {
   relic?: Relic
   source?: string

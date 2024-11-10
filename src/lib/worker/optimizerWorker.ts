@@ -10,9 +10,9 @@ import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDam
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimizer/sortOptions'
-import { Form } from 'types/Form'
-import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
-import { Relic } from 'types/Relic'
+import { Form } from 'types/form'
+import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/optimizer'
+import { Relic } from 'types/relic'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length

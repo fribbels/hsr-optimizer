@@ -5,7 +5,7 @@ import { FormSwitchWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSw
 import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
 import { ComponentType, ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ContentComponentMap, ContentItem } from 'types/Conditionals'
+import { ContentComponentMap, ContentItem } from 'types/conditionals'
 
 export const FormItemComponentMap: ContentComponentMap = {
   switch: FormSwitchWithPopover,

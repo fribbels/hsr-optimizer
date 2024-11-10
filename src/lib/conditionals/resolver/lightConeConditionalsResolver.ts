@@ -113,8 +113,8 @@ import TimeWaitsForNoOne from 'lib/conditionals/lightcone/5star/TimeWaitsForNoOn
 import WhereaboutsShouldDreamsRest from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import WorrisomeBlissful from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import YetHopeIsPriceless from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
-import { LightConeConditionalsController } from 'types/Conditionals'
-import { SuperImpositionLevel } from 'types/LightCone'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
 
 export type LightConeConditionalFunction = (s: SuperImpositionLevel, withContent: boolean) => LightConeConditionalsController
 

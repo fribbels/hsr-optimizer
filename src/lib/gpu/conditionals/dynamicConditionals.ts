@@ -2,7 +2,7 @@ import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/con
 import { indent, wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { OptimizerAction, OptimizerContext, TeammateAction } from 'types/Optimizer'
+import { OptimizerAction, OptimizerContext, TeammateAction } from 'types/optimizer'
 
 export type DynamicConditional = {
   id: string

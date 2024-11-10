@@ -7,8 +7,8 @@ import { ConditionalSetMetadata } from 'lib/optimizer/rotation/setConditionalCon
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { CharacterConditionalsController, ConditionalValueMap, ContentItem, LightConeConditionalsController } from 'types/Conditionals'
-import { Form, Teammate } from 'types/Form'
+import { CharacterConditionalsController, ConditionalValueMap, ContentItem, LightConeConditionalsController } from 'types/conditionals'
+import { Form, Teammate } from 'types/form'
 
 export type ComboConditionals = {
   [key: string]: ComboConditionalCategory

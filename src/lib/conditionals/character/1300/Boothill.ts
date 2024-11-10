@@ -6,10 +6,10 @@ import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
-import { Eidolon } from 'types/Character'
-import { NumberToNumberMap } from 'types/Common'
-import { CharacterConditionalsController } from 'types/Conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { Eidolon } from 'types/character'
+import { NumberToNumberMap } from 'types/common'
+import { CharacterConditionalsController } from 'types/conditionals'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Boothill')

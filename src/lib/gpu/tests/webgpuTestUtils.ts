@@ -7,7 +7,7 @@ import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { ComputedStatsObjectExternal } from 'lib/optimizer/computedStatsArray'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
 import { SortOption } from 'lib/optimizer/sortOptions'
-import { Form } from 'types/Form'
+import { Form } from 'types/form'
 
 export async function runTestRequest(request: Form, relics: RelicsByPart, device: GPUDevice) {
   request.resultSort = SortOption.COMBO.key

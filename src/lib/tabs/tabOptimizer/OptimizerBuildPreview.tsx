@@ -7,7 +7,7 @@ import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import DB from 'lib/state/db'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import React, { useState } from 'react'
-import { Relic } from 'types/Relic'
+import { Relic } from 'types/relic'
 
 export default function OptimizerBuildPreview() {
   const optimizerBuild = window.store((s) => s.optimizerBuild)

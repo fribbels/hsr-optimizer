@@ -1,5 +1,5 @@
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
-import { CustomImageConfig } from 'types/CustomImage'
+import { CustomImageConfig } from 'types/customImage'
 
 interface CharacterCustomPortraitProps {
   customPortrait: CustomImageConfig

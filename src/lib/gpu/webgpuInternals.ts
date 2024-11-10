@@ -4,8 +4,8 @@ import { generateBaseParamsArray, generateParamsMatrix, mergeRelicsIntoArray } f
 import { GpuExecutionContext, GpuResult, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import postComputeShader from 'lib/gpu/wgsl/postComputeShader.wgsl?raw'
 import { FixedSizePriorityQueue } from 'lib/optimizer/fixedSizePriorityQueue'
-import { Form } from 'types/Form'
-import { OptimizerContext } from 'types/Optimizer'
+import { Form } from 'types/form'
+import { OptimizerContext } from 'types/optimizer'
 
 export function initializeGpuPipeline(
   device: GPUDevice,

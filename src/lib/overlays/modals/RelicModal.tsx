@@ -7,15 +7,15 @@ import { Message } from 'lib/interactions/message'
 import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/relics/relicModalController'
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import PropTypes from 'prop-types'
 import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { Character } from 'types/Character'
-import { Relic, Stat } from 'types/Relic'
+import { Character } from 'types/character'
+import { Relic, Stat } from 'types/relic'
 
 const { useToken } = theme
 
@@ -85,7 +85,10 @@ function renderStat(stat: string, value: number, relic?: Relic): Stat {
   }
 }
 
-type MainStatOption = { label: ReactElement | string; value: string }
+type MainStatOption = {
+  label: ReactElement | string;
+  value: string
+}
 
 // selectedRelic, onOk, setOpen, open, type
 export default function RelicModal(props: {
@@ -104,7 +107,10 @@ export default function RelicModal(props: {
   const characterOptions = useMemo(() => generateCharacterList({ currentCharacters: characters }), [characters, i18next.resolvedLanguage])
   const setOptions = useMemo(
     function getSetOptions() {
-      const setOptions: { label: ReactElement; value: string }[] = []
+      const setOptions: {
+        label: ReactElement;
+        value: string
+      }[] = []
       for (const entry of [...Object.entries(Constants.SetsRelics), ...Object.entries(Constants.SetsOrnaments)].filter((x) => !UnreleasedSets[x[1]])) {
         setOptions.push({
           label: (
@@ -256,8 +262,14 @@ export default function RelicModal(props: {
     relicForm.setFieldValue('enhance', Math.min(relicForm.getFieldValue('enhance') + 3, 15))
   }
 
-  const enhanceOptions: { value: number; label: string }[] = useMemo(() => {
-    const ret: { value: number; label: string }[] = []
+  const enhanceOptions: {
+    value: number;
+    label: string
+  }[] = useMemo(() => {
+    const ret: {
+      value: number;
+      label: string
+    }[] = []
     for (let i = 15; i >= 0; i--) {
       ret.push({ value: i, label: '+' + i })
     }
@@ -478,7 +490,10 @@ function SubstatInput(props: {
   }
 
   const substatOptionsMemoized = useMemo(() => {
-    const output: { label: ReactElement; value: string }[] = []
+    const output: {
+      label: ReactElement;
+      value: string
+    }[] = []
     for (const entry of Object.entries(Constants.SubStats)) {
       output.push({
         label: (() => {
@@ -495,7 +510,9 @@ function SubstatInput(props: {
     return output
   }, [i18next.resolvedLanguage])
 
-  function UpgradeButton(subProps: { quality: string }) {
+  function UpgradeButton(subProps: {
+    quality: string
+  }) {
     const value = props.upgrades?.[props.index]?.[subProps.quality]
 
     return (

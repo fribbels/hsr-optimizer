@@ -1,7 +1,7 @@
 import { Flex } from 'antd'
-import { Trans, useTranslation } from 'react-i18next'
 import i18next from 'i18next'
-import { ReactElement } from 'types/Components'
+import { Trans, useTranslation } from 'react-i18next'
+import { ReactElement } from 'types/components'
 
 export type HintContent = {
   title: string
@@ -18,10 +18,10 @@ export const Hint = {
           <p>{i18next.t('hint:RatingFilter.p2')}</p>
         </Flex>
         /*
-        "Title": "Rating filters",
-        "p1": "Ehp - Effective HP, measuring how tanky a max level character is. Calculated using HP & DEF & damage reduction passives",
-        "p2": "Basic / Skill / Ult / Fua (Follow-up attack) / Dot (Damage over time) - Skill damage calculations, based on the environmental factors in character passives / light cone passives / enemy options."
-        */
+         "Title": "Rating filters",
+         "p1": "Ehp - Effective HP, measuring how tanky a max level character is. Calculated using HP & DEF & damage reduction passives",
+         "p2": "Basic / Skill / Ult / Fua (Follow-up attack) / Dot (Damage over time) - Skill damage calculations, based on the environmental factors in character passives / light cone passives / enemy options."
+         */
       ),
     }
   },
@@ -34,9 +34,9 @@ export const Hint = {
           <p>{i18next.t('hint:CombatBuffs.p1')}</p>
         </Flex>
         /*
-        "Title": "Combat buffs",
-        "p1": "Additional team buffs to apply to the calculations. Note that buffs from character / light cone self-buffs and passives and traces are already included in calculations."
-        */
+         "Title": "Combat buffs",
+         "p1": "Additional team buffs to apply to the calculations. Note that buffs from character / light cone self-buffs and passives and traces are already included in calculations."
+         */
       ),
     }
   },
@@ -51,11 +51,11 @@ export const Hint = {
           <p>{i18next.t('hint:StatFilters.p3')}</p>
         </Flex>
         /*
-        "Title": "Stat filters",
-        "p1": "Min (left) / Max (right) filters for character stats, inclusive. The optimizer will only show results within these ranges",
-        "p2": "Stat abbreviations are ATK / HP / DEF / SPD / Crit Rate / Crit Damage / Effect Hit Rate / Effect RES / Break Effect",
-        "p3": "NOTE: Ingame speed decimals are truncated so you may see speed values ingame higher than shown here. This is because the OCR importer can't detect the hidden decimals."
-        */
+         "Title": "Stat filters",
+         "p1": "Min (left) / Max (right) filters for character stats, inclusive. The optimizer will only show results within these ranges",
+         "p2": "Stat abbreviations are ATK / HP / DEF / SPD / Crit Rate / Crit Damage / Effect Hit Rate / Effect RES / Break Effect",
+         "p3": "NOTE: Ingame speed decimals are truncated so you may see speed values ingame higher than shown here. This is because the OCR importer can't detect the hidden decimals."
+         */
       ),
     }
   },
@@ -68,9 +68,9 @@ export const Hint = {
           <p>{i18next.t('hint:Mainstats.p1')}</p>
         </Flex>
         /*
-        "Title": "Main stats",
-        "p1": "Select main stats to use for optimization search. Multiple values can be selected for more options"
-        */
+         "Title": "Main stats",
+         "p1": "Select main stats to use for optimization search. Multiple values can be selected for more options"
+         */
       ),
     }
   },
@@ -84,10 +84,10 @@ export const Hint = {
           <p>{i18next.t('hint:Sets.p2')}</p>
         </Flex>
         /*
-        "Title": "Sets",
-        "p1": "Select the relic and ornament sets to filter results by. Multiple sets can be selected for more options",
-        "p2": "Set effects will be accounted for in calculations, use the Conditional set effects menu to customize which effects are active."
-        */
+         "Title": "Sets",
+         "p1": "Select the relic and ornament sets to filter results by. Multiple sets can be selected for more options",
+         "p2": "Set effects will be accounted for in calculations, use the Conditional set effects menu to customize which effects are active."
+         */
       ),
     }
   },
@@ -100,9 +100,9 @@ export const Hint = {
           <p>{i18next.t('hint:Character.p1')}</p>
         </Flex>
         /*
-        "Title": "Character",
-        "p1": "Select the character and eidolon. Character is assumed to be level 80 with maxed traces in optimization calcs."
-        */
+         "Title": "Character",
+         "p1": "Select the character and eidolon. Character is assumed to be level 80 with maxed traces in optimization calcs."
+         */
       ),
     }
   },
@@ -116,10 +116,10 @@ export const Hint = {
           <p>{i18next.t('hint:CharacterPassives.p2')}</p>
         </Flex>
         /*
-        "Title": "Character passives",
-        "p1": "Select the conditional effects to apply to the character.",
-        "p2": "Effects that rely on combat stats or environment state will be applied by default, so only the options that require user input are listed here."
-        */
+         "Title": "Character passives",
+         "p1": "Select the conditional effects to apply to the character.",
+         "p2": "Effects that rely on combat stats or environment state will be applied by default, so only the options that require user input are listed here."
+         */
       ),
     }
   },
@@ -133,10 +133,10 @@ export const Hint = {
           <p>{i18next.t('hint:LightconePassives.p2')}</p>
         </Flex>
         /*
-        "Title": "Light cone passives",
-        "p1": "Select the conditional effects to apply to the light cone.",
-        "p2": "Effects that rely on combat stats or environment state will be applied by default, so only the options that require user input are listed here."
-        */
+         "Title": "Light cone passives",
+         "p1": "Select the conditional effects to apply to the light cone.",
+         "p2": "Effects that rely on combat stats or environment state will be applied by default, so only the options that require user input are listed here."
+         */
       ),
     }
   },
@@ -150,10 +150,10 @@ export const Hint = {
           <p>{i18next.t('hint:Lightcone.p2')}</p>
         </Flex>
         /*
-        "Title": "Light cone",
-        "p1": "Select the light cone and superimposition. Light cone is assumed to be level 80 in optimization calcs.",
-        "p2": "Superimposition and passive effects are applied under the Light cone passives panel."
-        */
+         "Title": "Light cone",
+         "p1": "Select the light cone and superimposition. Light cone is assumed to be level 80 in optimization calcs.",
+         "p2": "Superimposition and passive effects are applied under the Light cone passives panel."
+         */
       ),
     }
   },
@@ -169,12 +169,12 @@ export const Hint = {
           <p>{i18next.t('hint:Actions.p4')}</p>
         </Flex>
         /*
-        "Title": "Actions",
-        "p1": "Equip - Equip the selected relics from the grid onto the character",
-        "p2": "Filter - Re-apply the search filters to existing results. Use this to narrow filters without restarting a search",
-        "p3": "Pin build - Pin the currently selected row to the top of the grid. Use this to compare multiple builds more easily",
-        "p4": "Clear pins - Clear all the builds that you pinned to the top of the grid"
-        */
+         "Title": "Actions",
+         "p1": "Equip - Equip the selected relics from the grid onto the character",
+         "p2": "Filter - Re-apply the search filters to existing results. Use this to narrow filters without restarting a search",
+         "p3": "Pin build - Pin the currently selected row to the top of the grid. Use this to compare multiple builds more easily",
+         "p4": "Clear pins - Clear all the builds that you pinned to the top of the grid"
+         */
       ),
     }
   },
@@ -249,13 +249,13 @@ export const Hint = {
           <p>{i18next.t('hint:Relics.p5')}</p>
         </Flex>
         /*
-        "Title": "Relics",
-        "p1": "Note - Potential is a percent rating which compares a relic to the best possible +15 relic for the current character in the slot. This rating is based off the scoring algorithm weights. This means unrolled relics at +0 sometimes have a higher potential than existing +15 relics, because their possible rolls can go into the character's desired stats.",
-        "p2": "Selected character: Score - The relic's current weight as defined by the scoring algorithm for the currently selected character",
-        "p3": "Selected character: Average potential - The relic's potential weight if rolls went into the average weight of the relic's substats",
-        "p4": "Selected character: Max potential - The relic's maximum potential weight if all future rolls went into the character's desired stats",
-        "p5": "All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game."
-        */
+         "Title": "Relics",
+         "p1": "Note - Potential is a percent rating which compares a relic to the best possible +15 relic for the current character in the slot. This rating is based off the scoring algorithm weights. This means unrolled relics at +0 sometimes have a higher potential than existing +15 relics, because their possible rolls can go into the character's desired stats.",
+         "p2": "Selected character: Score - The relic's current weight as defined by the scoring algorithm for the currently selected character",
+         "p3": "Selected character: Average potential - The relic's potential weight if rolls went into the average weight of the relic's substats",
+         "p4": "Selected character: Max potential - The relic's maximum potential weight if all future rolls went into the character's desired stats",
+         "p5": "All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game."
+         */
       ),
     }
   },
@@ -271,12 +271,12 @@ export const Hint = {
           <p>{i18next.t('hint:OptimizationDetails.p4')}</p>
         </Flex>
         /*
-        "Title": "Optimization details",
-        "p1": "Shows how many relics are being used in the optimization search, after all filters are applied",
-        "p2": "Perms - Number of permutations that need to be searched. Narrow your filters to reduce permutations & search time",
-        "p3": "Searched - Number of permutations already searched",
-        "p4": "Results - Number of displayed results that satisfy the stat filters"
-        */
+         "Title": "Optimization details",
+         "p1": "Shows how many relics are being used in the optimization search, after all filters are applied",
+         "p2": "Perms - Number of permutations that need to be searched. Narrow your filters to reduce permutations & search time",
+         "p3": "Searched - Number of permutations already searched",
+         "p4": "Results - Number of displayed results that satisfy the stat filters"
+         */
       ),
     }
   },
@@ -294,14 +294,14 @@ export const Hint = {
           <p>{i18next.t('hint:EnemyOptions.p6')}</p>
         </Flex>
         /*
-        "Title": "Enemy options",
-        "p1": "Level - Enemy level, affects enemy DEF calculations",
-        "p2": "Targets - Number of targets in the battle. The target enemy is always assumed to be in the center, and damage calculations are only for the single primary target.",
-        "p3": "RES - Enemy elemental RES. RES is set to 0 when the enemy's elemental weakness is enabled.",
-        "p4": "Max toughness - Enemy's maximum toughness bar value. Affects calculations related to break damage.",
-        "p5": "Elemental weakness - Whether the enemy is weak to the character's type. Enabling this sets enemy elemental RES % to 0.",
-        "p6": "Weakness broken - Whether the enemy's toughness bar is broken. Affects damage calculations and certain character passives."
-        */
+         "Title": "Enemy options",
+         "p1": "Level - Enemy level, affects enemy DEF calculations",
+         "p2": "Targets - Number of targets in the battle. The target enemy is always assumed to be in the center, and damage calculations are only for the single primary target.",
+         "p3": "RES - Enemy elemental RES. RES is set to 0 when the enemy's elemental weakness is enabled.",
+         "p4": "Max toughness - Enemy's maximum toughness bar value. Affects calculations related to break damage.",
+         "p5": "Elemental weakness - Whether the enemy is weak to the character's type. Enabling this sets enemy elemental RES % to 0.",
+         "p6": "Weakness broken - Whether the enemy's toughness bar is broken. Affects damage calculations and certain character passives."
+         */
       ),
     }
   },
@@ -317,12 +317,12 @@ export const Hint = {
           <p>{i18next.t('hint:SubstatWeightFilter.p4')}</p>
         </Flex>
         /*
-        "Title": "Substat weight filter",
-        "p1": "This filter is used to reduce the number of permutations the optimizer has to process.",
-        "p2": "It works by first scoring each relic per slot by the weights defined, then filtering by the number of weighted min rolls the relic has.",
-        "p3": "Only relics that have more than the specified number of weighted rolls will be used for the optimization search.",
-        "p4": "Note that setting the minimum rolls too low may result in some builds not being displayed, if the filter ends up excludes a key relic. Use this filter with caution, but on large searches it makes a large impact on reducing search time."
-        */
+         "Title": "Substat weight filter",
+         "p1": "This filter is used to reduce the number of permutations the optimizer has to process.",
+         "p2": "It works by first scoring each relic per slot by the weights defined, then filtering by the number of weighted min rolls the relic has.",
+         "p3": "Only relics that have more than the specified number of weighted rolls will be used for the optimization search.",
+         "p4": "Note that setting the minimum rolls too low may result in some builds not being displayed, if the filter ends up excludes a key relic. Use this filter with caution, but on large searches it makes a large impact on reducing search time."
+         */
       ),
     }
   },
@@ -337,11 +337,11 @@ export const Hint = {
           <p>{i18next.t('hint:StatDisplay.p3')}</p>
         </Flex>
         /*
-        "Title": "Stat and filter view",
-        "p1": "This allows for switching between viewing results as Base stats vs Combat stats. Stat filters will also be applied to the selected view.",
-        "p2": "Base stats - The stats as shown on the character's screen ingame, with no in-combat buffs applied.",
-        "p3": "Combat stats - The character's stats with all stat modifiers in combat included: ability buffs, character & light cone passives, teammates, conditional set effects, etc."
-        */
+         "Title": "Stat and filter view",
+         "p1": "This allows for switching between viewing results as Base stats vs Combat stats. Stat filters will also be applied to the selected view.",
+         "p2": "Base stats - The stats as shown on the character's screen ingame, with no in-combat buffs applied.",
+         "p3": "Combat stats - The character's stats with all stat modifiers in combat included: ability buffs, character & light cone passives, teammates, conditional set effects, etc."
+         */
       ),
     }
   },
@@ -363,18 +363,18 @@ export const Hint = {
           <p>{i18next.t('hint:ValueColumns.p10')}</p>
         </Flex>
         /*
-        "Title": "Value Columns",
-        "p1": "You can optionally display a number of columns that assess the relative 'value' of a relic.",
-        "p2": "Weight",
-        "p3": "Weight columns assess the contribution of a particular relic to the overall letter grading of the selected recommendation character (if any).",
-        "p4": "Weight can show the current value of a relic, the possible best case upgraded weight, or an 'average' weight that you're more likely to see",
-        "p5": "Weight is useful to focus on a single character and see which relics might give them a higher letter grading.",
-        "p6": "Potential",
-        "p7": "Potential is a character-specific percentage of how good the relic could be (or 'is', if fully upgraded), compared against the stats on a fully upgraded 'perfect' relic in that slot.",
-        "p8": "Potential can look at all characters or just owned. It then takes the maximum percentage for any character.",
-        "p9": "Potential is useful for finding relics that aren't good on any character, or hidden gems that could be great when upgraded.",
-        "p10": "Note: ordering by potential can be mismatched against weights, due to weight calculations preferring lower weight ideal mainstats."
-        */
+         "Title": "Value Columns",
+         "p1": "You can optionally display a number of columns that assess the relative 'value' of a relic.",
+         "p2": "Weight",
+         "p3": "Weight columns assess the contribution of a particular relic to the overall letter grading of the selected recommendation character (if any).",
+         "p4": "Weight can show the current value of a relic, the possible best case upgraded weight, or an 'average' weight that you're more likely to see",
+         "p5": "Weight is useful to focus on a single character and see which relics might give them a higher letter grading.",
+         "p6": "Potential",
+         "p7": "Potential is a character-specific percentage of how good the relic could be (or 'is', if fully upgraded), compared against the stats on a fully upgraded 'perfect' relic in that slot.",
+         "p8": "Potential can look at all characters or just owned. It then takes the maximum percentage for any character.",
+         "p9": "Potential is useful for finding relics that aren't good on any character, or hidden gems that could be great when upgraded.",
+         "p10": "Note: ordering by potential can be mismatched against weights, due to weight calculations preferring lower weight ideal mainstats."
+         */
       ),
     }
   },

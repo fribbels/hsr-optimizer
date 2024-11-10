@@ -11,8 +11,8 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ReactElement } from 'types/Components'
-import { Form } from 'types/Form'
+import { ReactElement } from 'types/components'
+import { Form } from 'types/form'
 
 /*
  * 111.11 (5 actions in first four cycles)
@@ -109,7 +109,11 @@ export function setSortColumn(columnId) {
   window.optimizerGrid.current?.api.applyColumnState(columnState)
 }
 
-export type SpdPresets = Record<string, { key: string; label: string | ReactElement; value: number | undefined }>
+export type SpdPresets = Record<string, {
+  key: string;
+  label: string | ReactElement;
+  value: number | undefined
+}>
 
 const RecommendedPresetsButton = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
@@ -198,7 +202,9 @@ const RecommendedPresetsButton = () => {
 
   const actionsMenuProps = {
     items,
-    onClick: (event: { key: string }) => {
+    onClick: (event: {
+      key: string
+    }) => {
       if (spdPresets[event.key]) {
         applySpdPreset(spdPresets[event.key].value!, optimizerTabFocusCharacter)
       } else {

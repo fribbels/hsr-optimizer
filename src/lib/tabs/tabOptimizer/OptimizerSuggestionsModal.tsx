@@ -9,8 +9,8 @@ import { HorizontalDivider } from 'lib/ui/Dividers'
 import { Utils } from 'lib/utils/utils'
 import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Form } from 'types/Form'
-import { Relic } from 'types/Relic'
+import { Form } from 'types/form'
+import { Relic } from 'types/relic'
 
 const { Text } = Typography
 

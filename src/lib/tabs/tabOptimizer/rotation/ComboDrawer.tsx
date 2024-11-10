@@ -39,8 +39,8 @@ import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Selecto from 'react-selecto'
-import { ReactElement } from 'types/Components'
-import { CharacterConditionalsController, ContentItem, LightConeConditionalsController } from 'types/Conditionals'
+import { ReactElement } from 'types/components'
+import { CharacterConditionalsController, ContentItem, LightConeConditionalsController } from 'types/conditionals'
 
 const buttonStyle = {
   fontSize: 20,

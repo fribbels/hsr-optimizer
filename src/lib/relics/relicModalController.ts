@@ -7,7 +7,7 @@ import { RelicRollFixer } from 'lib/relics/relicRollFixer'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { Utils } from 'lib/utils/utils'
-import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/Relic'
+import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/relic'
 
 export const RelicModalController = {
   onEditOk: (selectedRelic: Relic, relic: Relic) => {

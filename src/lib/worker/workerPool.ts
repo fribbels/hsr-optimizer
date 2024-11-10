@@ -2,8 +2,8 @@ import { Constants } from 'lib/constants/constants'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { BufferPacker } from 'lib/optimizer/bufferPacker'
 import OptimizerWorker from 'lib/worker/optimizerWorker.ts?worker&inline'
-import { Form } from 'types/Form'
-import { OptimizerContext } from 'types/Optimizer'
+import { Form } from 'types/form'
+import { OptimizerContext } from 'types/optimizer'
 
 // const poolSize = 2
 const poolSize = Math.min(10, Math.max(1, (navigator.hardwareConcurrency || 4) - 1))

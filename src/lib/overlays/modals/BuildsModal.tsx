@@ -10,7 +10,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import * as React from 'react'
 import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character, SavedBuild } from 'types/Character'
+import { Character, SavedBuild } from 'types/character'
 
 interface BuildsModalProps {
   open: boolean

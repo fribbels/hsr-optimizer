@@ -5,8 +5,8 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
 import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character } from 'types/Character'
-import { ReactElement } from 'types/Components'
+import { Character } from 'types/character'
+import { ReactElement } from 'types/components'
 
 export type SwitchRelicsFormSelectedCharacter = {
   key: string

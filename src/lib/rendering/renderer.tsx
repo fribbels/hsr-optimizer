@@ -4,7 +4,7 @@ import i18next from 'i18next'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { Utils } from 'lib/utils/utils'
-import { Relic, Stat } from 'types/Relic'
+import { Relic, Stat } from 'types/relic'
 
 export const Renderer = {
   floor: (x: { value: number }) => {

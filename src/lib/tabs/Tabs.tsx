@@ -16,7 +16,7 @@ import WebgpuTab from 'lib/tabs/tabWebgpu/WebgpuTab'
 import { WorkerPool } from 'lib/worker/workerPool'
 import React, { ReactElement, useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { Form } from 'types/Form'
+import { Form } from 'types/form'
 
 const defaultErrorRender = ({ error: { message } }: { error: { message: string } }) => (
   <Typography>Something went wrong: {message}</Typography>

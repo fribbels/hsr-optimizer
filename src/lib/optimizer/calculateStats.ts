@@ -19,8 +19,8 @@ import {
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { buffElementalDamageType, ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
-import { Relic } from 'types/Relic'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import { Relic } from 'types/relic'
 
 export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: number, setB: number, setF: number, setP: number, setL: number) {
   c.sets = {

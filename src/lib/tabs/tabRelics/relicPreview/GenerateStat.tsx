@@ -7,7 +7,7 @@ import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
 import { Utils } from 'lib/utils/utils'
 import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Relic, StatRolls } from 'types/Relic'
+import { Relic, StatRolls } from 'types/relic'
 
 type Substat = {
   stat: string

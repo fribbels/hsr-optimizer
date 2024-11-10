@@ -10,8 +10,8 @@ import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { renameFields } from 'lib/optimizer/optimizer'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/RecommendedPresetsButton'
-import { Form } from 'types/Form'
-import { OptimizerContext } from 'types/Optimizer'
+import { Form } from 'types/form'
+import { OptimizerContext } from 'types/optimizer'
 
 window.WEBGPU_DEBUG = false
 

@@ -5,8 +5,8 @@ import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/LightConeSelect
 import { HeaderText } from 'lib/ui/HeaderText'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character } from 'types/Character'
-import { Form } from 'types/Form'
+import { Character } from 'types/character'
+import { Form } from 'types/form'
 
 export default function CharacterModal(props: {
   open: boolean
@@ -139,7 +139,10 @@ export default function CharacterModal(props: {
 }
 
 // Full width radio buttons
-function RadioButton(props: { text: string; value: number }) {
+function RadioButton(props: {
+  text: string;
+  value: number
+}) {
   return (
     <Radio.Button value={props.value} style={{ flex: 1, textAlign: 'center' }}>{props.text}</Radio.Button>
   )

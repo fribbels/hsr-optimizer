@@ -3,9 +3,9 @@ import { Constants, MainStats, MainStatsValues, Parts, PartsMainStats, Stats, St
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { Character, CharacterId } from 'types/Character'
-import { GUID } from 'types/Common'
-import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/Relic'
+import { Character, CharacterId } from 'types/character'
+import { GUID } from 'types/common'
+import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/relic'
 
 enum relicPotentialCases {
   SINGLE_STAT,
@@ -418,12 +418,12 @@ export class RelicScorer {
           .sort((a, b) => b[1] - a[1])
         if (Utils.hasMainStat(part)) {
           /*
-          * Need the specific optimal mainstat to remove it from possible substats. Find it by
-          * - finding the highest multiplier mainstat of those valid for this relic
-          * - looking at all stats with this exact multiplier and biasing towards
-          *   1 - ideal mainstats and
-          *   2 - mainstats that can't be substats in that order
-          */
+           * Need the specific optimal mainstat to remove it from possible substats. Find it by
+           * - finding the highest multiplier mainstat of those valid for this relic
+           * - looking at all stats with this exact multiplier and biasing towards
+           *   1 - ideal mainstats and
+           *   2 - mainstats that can't be substats in that order
+           */
           // First candidate (i.e. has the highest weight)
           const possibleMainStats = PartsMainStats[part] as MainStats[]
           // @ts-ignore typescript wants name to have the same type as the elements of possibleMainStats
@@ -554,26 +554,26 @@ export class RelicScorer {
       averageSubstats[i].value = relic.substats[i].value + remainingRolls / 4 * SubStatValues[averageSubstats[i].stat][relic.grade].mid
     }
     /*
-    * We want to use the score() function to score relics for maximum accuracy (and easier maintainability potentially)
-    * How do we score a relic with unknown substats?
-    * One option would be to score all possible relics and take the average score (ew, slow, expensive)
-    * Instead, we calculate the average score of the possible new line (using a mid roll)
-    * We then choose a substat to camouflage as so that the score() function is able to handle the relic
-    * We divide the average score of 1 mid roll we calculated earlier by the weight and normalization of the chosen camouflage stat
-    * We then multiply this by the number of rolls our filler stat will have
-    * This way, when the score() function evaluates our relic, all the additional lines will score their expected average score
+     * We want to use the score() function to score relics for maximum accuracy (and easier maintainability potentially)
+     * How do we score a relic with unknown substats?
+     * One option would be to score all possible relics and take the average score (ew, slow, expensive)
+     * Instead, we calculate the average score of the possible new line (using a mid roll)
+     * We then choose a substat to camouflage as so that the score() function is able to handle the relic
+     * We divide the average score of 1 mid roll we calculated earlier by the weight and normalization of the chosen camouflage stat
+     * We then multiply this by the number of rolls our filler stat will have
+     * This way, when the score() function evaluates our relic, all the additional lines will score their expected average score
 
-    * average score of 1 mid roll = avg(weight * normalization * mid roll)
+     * average score of 1 mid roll = avg(weight * normalization * mid roll)
 
-    * avg score = avg(weight * norm * mid roll) * rolls
-    * AND
-    * avg score = value * weight * scaling
+     * avg score = avg(weight * norm * mid roll) * rolls
+     * AND
+     * avg score = value * weight * scaling
 
-    * Therefore
+     * Therefore
 
-    * value = avg(weight * norm * mid roll) * rolls / (weight * scaling)
-    * value = average score of 1 mid roll * rolls / (weight * scaling)
-    */
+     * value = avg(weight * norm * mid roll) * rolls / (weight * scaling)
+     * value = average score of 1 mid roll * rolls / (weight * scaling)
+     */
     let averageScore = 0
     for (const pair of availableSubstats) {
       const [stat, weight] = pair
@@ -608,7 +608,10 @@ export class RelicScorer {
     ))
     const worst = Math.max(0, (this.substatScore(fake, id).score + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus)
 
-    let levelupMetadata: { bestAddedStats: SubStats[]; bestUpgradedStats: SubStats[] } | undefined = undefined
+    let levelupMetadata: {
+      bestAddedStats: SubStats[];
+      bestUpgradedStats: SubStats[]
+    } | undefined = undefined
     if (withMeta) {
       const bestAddedStats: SubStats[] = []
       if (relic.substats.length < 4) {
@@ -691,7 +694,11 @@ export class RelicScorer {
    * @param character character object to score
    * @param relics relics to score against the character
    */
-  scoreCharacterWithRelics(character: Character, relics: Relic[]): { relics: object[]; totalScore: number; totalRating: string } {
+  scoreCharacterWithRelics(character: Character, relics: Relic[]): {
+    relics: object[];
+    totalScore: number;
+    totalRating: string
+  } {
     if (!character?.id) {
       console.warn('scoreCharacterWithRelics called but no character given')
       return {

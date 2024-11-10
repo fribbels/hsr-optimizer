@@ -60,9 +60,9 @@ import sunday from 'lib/conditionals/character/1300/Sunday'
 import trailblazerdestruction from 'lib/conditionals/character/8000/TrailblazerDestruction'
 import trailblazerharmony from 'lib/conditionals/character/8000/TrailblazerHarmony'
 import trailblazerpreservation from 'lib/conditionals/character/8000/TrailblazerPreservation'
-import { Eidolon } from 'types/Character'
+import { Eidolon } from 'types/character'
 
-import { CharacterConditionalsController } from 'types/Conditionals'
+import { CharacterConditionalsController } from 'types/conditionals'
 
 export type CharacterConditionalFunction = (e: Eidolon, withContent: boolean) => CharacterConditionalsController
 

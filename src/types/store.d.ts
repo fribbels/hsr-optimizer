@@ -3,9 +3,9 @@ import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { ScoringMetadata } from 'lib/scoring/characterScorer'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/StatSimulationDisplay'
-import { Form } from 'types/Form'
-import { Build, Character, CharacterId } from './Character'
-import { Relic } from './Relic'
+import { Build, Character, CharacterId } from 'types/character'
+import { Form } from 'types/form'
+import { Relic } from 'types/relic'
 
 type PermutationDetails = {
   Head: number
@@ -44,7 +44,9 @@ export type HsrOptimizerStore = {
   rowLimit: number
   activeKey: string
   characters: Character[]
-  charactersById: { [key: string]: Character }
+  charactersById: {
+    [key: string]: Character
+  }
   comboDrawerOpen: boolean
   combatBuffsDrawerOpen: boolean
   enemyConfigurationsDrawerOpen: boolean

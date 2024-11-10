@@ -7,7 +7,7 @@ import { Message } from 'lib/interactions/message'
 import * as React from 'react'
 import Cropper from 'react-easy-crop'
 import { useTranslation } from 'react-i18next'
-import { CroppedArea, CustomImageConfig, CustomImageParams, CustomImagePayload, ImageDimensions } from 'types/CustomImage'
+import { CroppedArea, CustomImageConfig, CustomImageParams, CustomImagePayload, ImageDimensions } from 'types/customImage'
 
 const { Text } = Typography
 

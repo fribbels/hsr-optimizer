@@ -1,4 +1,4 @@
-import { Form } from 'types/Form'
+import { Form } from 'types/form'
 import { ComboBooleanConditional, ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { Sets } from 'lib/constants/constants'
 

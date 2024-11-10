@@ -3,7 +3,7 @@ import { CharacterConverter } from 'lib/importer/characterConverter'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { Relic } from 'types/Relic'
+import { Relic } from 'types/relic'
 
 let optimizerStatToJsonSubStat: Record<string, string>
 let optimizerStatToAffixStat: Record<string, string>

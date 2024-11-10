@@ -25,9 +25,9 @@ import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/StatSimulation
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { Character } from 'types/Character'
-import { Form } from 'types/Form'
-import { Relic, Stat } from 'types/Relic'
+import { Character } from 'types/character'
+import { Form } from 'types/form'
+import { Relic, Stat } from 'types/relic'
 import { CustomPortrait, HsrOptimizerSaveFormat, HsrOptimizerStore, SavedSession, UserSettings } from 'types/store'
 import { create } from 'zustand'
 
@@ -731,7 +731,9 @@ export const DB = {
     if (window.characterGrid?.current?.api) {
       window.characterGrid.current.api.updateGridOptions({ rowData: characters })
       window.characterGrid.current.api.forEachNode((node: {
-        data: { id: string }
+        data: {
+          id: string
+        }
         setSelected: (b: boolean) => void
       }) => {
         node.data.id == found.id ? node.setSelected(true) : 0
@@ -769,7 +771,12 @@ export const DB = {
     console.log('Deleted portrait', DB.getState())
   },
 
-  saveCharacterBuild: (name: string, characterId: string, score: { rating: string; score: string }) => {
+  saveCharacterBuild: (name: string,
+    characterId: string,
+    score: {
+      rating: string;
+      score: string
+    }) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
       console.warn('No character selected')
@@ -1065,7 +1072,10 @@ export const DB = {
     // Tracking these for debug / messaging
     const updatedOldRelics: Relic[] = []
     const addedNewRelics: Relic[] = []
-    const equipUpdates: { relic: Relic; equippedBy: string | undefined }[] = []
+    const equipUpdates: {
+      relic: Relic;
+      equippedBy: string | undefined
+    }[] = []
 
     for (const newRelic of newRelics) {
       const match: Relic | undefined = findRelicMatch(newRelic, oldRelics)

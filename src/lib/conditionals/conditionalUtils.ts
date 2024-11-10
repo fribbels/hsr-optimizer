@@ -1,6 +1,6 @@
 import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
-import { ContentItem } from 'types/Conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { ContentItem } from 'types/conditionals'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 /**
  * Helper methods used in conditional files

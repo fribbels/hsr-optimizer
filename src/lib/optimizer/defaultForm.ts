@@ -1,7 +1,7 @@
 import { CombatBuffs, Constants, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Form, Teammate } from 'types/Form'
+import { Form, Teammate } from 'types/form'
 
 export function getDefaultWeights(characterId?: string) {
   if (characterId) {

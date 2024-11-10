@@ -6,7 +6,7 @@ import { SortOption } from 'lib/optimizer/sortOptions'
 import { generateFullDefaultForm } from 'lib/scoring/characterScorer'
 import DB, { DBMetadata, DBMetadataLightCone } from 'lib/state/db'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { Form } from 'types/Form'
+import { Form } from 'types/form'
 
 export type WebgpuTest = {
   name: string

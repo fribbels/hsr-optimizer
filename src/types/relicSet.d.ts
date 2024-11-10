@@ -1,4 +1,4 @@
-import { GUID } from './Common'
+import { GUID } from 'types/common'
 
 export type RelicSet = {
   id: GUID

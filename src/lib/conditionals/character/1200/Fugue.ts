@@ -6,10 +6,10 @@ import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 
-import { Eidolon } from 'types/Character'
+import { Eidolon } from 'types/character'
 
-import { CharacterConditionalsController } from 'types/Conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { CharacterConditionalsController } from 'types/conditionals'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Fugue')

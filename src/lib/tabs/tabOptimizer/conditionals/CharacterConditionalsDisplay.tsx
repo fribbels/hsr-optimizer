@@ -6,8 +6,8 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Eidolon } from 'types/Character'
-import { DataMineId } from 'types/Common'
+import { Eidolon } from 'types/character'
+import { DataMineId } from 'types/common'
 
 export interface CharacterConditionalDisplayProps {
   id?: DataMineId
@@ -40,12 +40,12 @@ export const CharacterConditionalsDisplay = memo(({ id, eidolon, teammateIndex }
   return (
     <Flex vertical gap={5}>
       {(teammateIndex == null)
-      && (
-        <Flex justify='space-between' align='center'>
-          <HeaderText>{t('CharacterPassives')/* Character passives */}</HeaderText>
-          <TooltipImage type={Hint.characterPassives()}/>
-        </Flex>
-      )}
+        && (
+          <Flex justify='space-between' align='center'>
+            <HeaderText>{t('CharacterPassives')/* Character passives */}</HeaderText>
+            <TooltipImage type={Hint.characterPassives()}/>
+          </Flex>
+        )}
       <DisplayFormControl content={content} teammateIndex={teammateIndex}/>
     </Flex>
   )

@@ -20,13 +20,15 @@ import DB from 'lib/state/db'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { Character } from 'types/Character'
-import { ConditionalsController } from 'types/Conditionals'
-import { Form } from 'types/Form'
-import { OptimizerContext } from 'types/Optimizer'
-import { Relic } from 'types/Relic'
+import { Character } from 'types/character'
+import { ConditionalsController } from 'types/conditionals'
+import { Form } from 'types/form'
+import { OptimizerContext } from 'types/optimizer'
+import { Relic } from 'types/relic'
 
-const cachedSims: { [key: string]: SimulationScore } = {}
+const cachedSims: {
+  [key: string]: SimulationScore
+} = {}
 
 export type ScoringParams = {
   quality: number
@@ -38,7 +40,11 @@ export type ScoringParams = {
   baselineFreeRolls: number
   limitFlatStats: boolean
   enforcePossibleDistribution: boolean
-  substatRollsModifier: (rolls: number, stat: string, relics: { [key: string]: Relic }) => number
+  substatRollsModifier: (rolls: number,
+    stat: string,
+    relics: {
+      [key: string]: Relic
+    }) => number
 }
 
 const benchmarkScoringParams: ScoringParams = {
@@ -72,7 +78,11 @@ const maximumScoringParams: ScoringParams = {
   substatRollsModifier: (rolls: number) => rolls,
 }
 
-function substatRollsModifier(rolls: number, stat: string, relics: { [key: string]: Relic }) {
+function substatRollsModifier(rolls: number,
+  stat: string,
+  relics: {
+    [key: string]: Relic
+  }) {
   if (stat == Stats.SPD) return rolls
   // Diminishing returns
 
@@ -734,7 +744,9 @@ function computeOptimalSimulation(
   const possibleDistributionTracker: {
     parts: {
       main: string
-      substats: { [key: string]: boolean }
+      substats: {
+        [key: string]: boolean
+      }
     }[]
   } = { parts: [] }
   if (scoringParams.enforcePossibleDistribution) {
@@ -1242,7 +1254,9 @@ function calculateSetNames(relicsByPart: RelicBuild) {
 
 export function calculatePenaltyMultiplier(
   simulationResult: SimulationResult,
-  breakpoints: { [key: string]: number },
+  breakpoints: {
+    [key: string]: number
+  },
   scoringParams: ScoringParams,
 ) {
   let newPenaltyMultiplier = 1

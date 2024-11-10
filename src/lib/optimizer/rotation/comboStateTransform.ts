@@ -5,9 +5,9 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateConditionals'
 import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/optimizer/rotation/comboDrawerController'
-import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/Conditionals'
-import { Form } from 'types/Form'
-import { OptimizerAction, OptimizerContext, SetConditional } from 'types/Optimizer'
+import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
+import { Form } from 'types/form'
+import { OptimizerAction, OptimizerContext, SetConditional } from 'types/optimizer'
 
 export function transformComboState(request: Form, context: OptimizerContext) {
   // console.log('transformComboState')

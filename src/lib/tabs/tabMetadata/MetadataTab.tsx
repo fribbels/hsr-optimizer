@@ -4,8 +4,8 @@ import { Sets, Stats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages, DB } from 'lib/state/db'
 import React, { useState } from 'react'
-import { StringToNumberMap } from 'types/Common'
-import { ReactElement } from 'types/Components'
+import { StringToNumberMap } from 'types/common'
+import { ReactElement } from 'types/components'
 
 // Fake type for metadata
 type MetadataObject = {
@@ -261,13 +261,17 @@ function generateEquivalentSetsGrid(characters: MetadataObject[], sets: Metadata
 
 // =========================================== Utils ===========================================
 
-function Icon(props: { src: string }): ReactElement {
+function Icon(props: {
+  src: string
+}): ReactElement {
   return (
     <img src={props.src} style={{ width: 40 }}/>
   )
 }
 
-function GridDisplay(props: { grid: ReactElement[][] }) {
+function GridDisplay(props: {
+  grid: ReactElement[][]
+}) {
   const [hoveredColumn, setHoveredColumn] = useState<number | null>(null)
 
   for (const row of props.grid) {
@@ -282,33 +286,33 @@ function GridDisplay(props: { grid: ReactElement[][] }) {
   return (
     <table style={{ borderCollapse: 'collapse', width: 'fit-content', lineHeight: '0px' }}>
       <tbody>
-        {props.grid.map((row, rowIndex) => (
-          <tr
-            key={rowIndex}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.11)')}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}
-          >
-            {row.map((cell, colIndex) => (
-              <td
-                key={`${rowIndex}-${colIndex}`}
-                style={{
-                  height: iconSize,
-                  width: iconSize,
-                  border: '1px solid #464d6bc4',
-                  padding: 0,
-                  textAlign: 'center',
-                  backgroundColor: hoveredColumn === colIndex ? 'rgba(255,255,255,0.11)' : '', // Apply background on hover
-                }}
-                onMouseEnter={() => setHoveredColumn(colIndex)}
-                onMouseLeave={() => setHoveredColumn(null)}
-              >
-                <div>
-                  {cell || ''}
-                </div>
-              </td>
-            ))}
-          </tr>
-        ))}
+      {props.grid.map((row, rowIndex) => (
+        <tr
+          key={rowIndex}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.11)')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}
+        >
+          {row.map((cell, colIndex) => (
+            <td
+              key={`${rowIndex}-${colIndex}`}
+              style={{
+                height: iconSize,
+                width: iconSize,
+                border: '1px solid #464d6bc4',
+                padding: 0,
+                textAlign: 'center',
+                backgroundColor: hoveredColumn === colIndex ? 'rgba(255,255,255,0.11)' : '', // Apply background on hover
+              }}
+              onMouseEnter={() => setHoveredColumn(colIndex)}
+              onMouseLeave={() => setHoveredColumn(null)}
+            >
+              <div>
+                {cell || ''}
+              </div>
+            </td>
+          ))}
+        </tr>
+      ))}
       </tbody>
     </table>
   )

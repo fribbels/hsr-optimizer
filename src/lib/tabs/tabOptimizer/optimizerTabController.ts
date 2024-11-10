@@ -18,9 +18,9 @@ import { applyMetadataPresetToForm } from 'lib/tabs/tabOptimizer/optimizerForm/R
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 
-import { ConditionalValueMap } from 'types/Conditionals'
-import { Form, Teammate } from 'types/Form'
-import { OptimizerCombatBuffs } from 'types/Optimizer'
+import { ConditionalValueMap } from 'types/conditionals'
+import { Form, Teammate } from 'types/form'
+import { OptimizerCombatBuffs } from 'types/optimizer'
 
 let relics: RelicsByPart
 let consts: OptimizerSizes

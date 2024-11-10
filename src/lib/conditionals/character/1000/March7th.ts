@@ -3,10 +3,10 @@ import { gpuStandardDefShieldFinalizer, standardDefShieldFinalizer } from 'lib/c
 import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
-import { Eidolon } from 'types/Character'
+import { Eidolon } from 'types/character'
 
-import { CharacterConditionalsController } from 'types/Conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { CharacterConditionalsController } from 'types/conditionals'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5

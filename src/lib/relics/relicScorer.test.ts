@@ -3,7 +3,7 @@ import { RelicScorer } from 'lib/relics/relicScorerPotential'
 
 import { DataParser } from 'lib/state/dataParser'
 import DB from 'lib/state/db'
-import { Relic } from 'types/Relic'
+import { Relic } from 'types/relic'
 import { expect, test } from 'vitest'
 
 DataParser.parse()

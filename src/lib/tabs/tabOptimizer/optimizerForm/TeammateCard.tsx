@@ -14,9 +14,9 @@ import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/LightConeSelect
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character } from 'types/Character'
-import { ReactElement } from 'types/Components'
-import { Form, TeammateProperty } from 'types/Form'
+import { Character } from 'types/character'
+import { ReactElement } from 'types/components'
+import { Form, TeammateProperty } from 'types/form'
 
 const { Text } = Typography
 
@@ -34,7 +34,12 @@ const lcInnerH = lcWidth
 
 const cardHeight = 480
 
-const optionRender = (option: { data: { value: string; desc: string } }) => (
+const optionRender = (option: {
+  data: {
+    value: string;
+    desc: string
+  }
+}) => (
   option.data.value
     ? (
       <Flex gap={10} align='center'>
@@ -87,7 +92,10 @@ const teammateOrnamentSets = [
 // Find 4 piece relic sets and 2 piece ornament sets
 function calculateTeammateSets(teammateCharacter: Character) {
   const relics = Object.values(teammateCharacter.equipped).map((id) => DB.getRelicById(id)).filter((x) => x)
-  const activeTeammateSets: { teamRelicSet?: string; teamOrnamentSet?: string } = {}
+  const activeTeammateSets: {
+    teamRelicSet?: string;
+    teamOrnamentSet?: string
+  } = {}
   for (const set of teammateRelicSets) {
     if (relics.filter((relic) => relic.set == set).length == 4 && set != Sets.MessengerTraversingHackerspace) {
       activeTeammateSets.teamRelicSet = set
@@ -114,7 +122,9 @@ type OptionRender = {
   label: ReactElement
 }
 
-const TeammateCard = (props: { index: number }) => {
+const TeammateCard = (props: {
+  index: number
+}) => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
   const teammateProperty = useMemo(() => getTeammateProperty(props.index), [props.index])
   const teammateCharacterId: string = AntDForm.useWatch([teammateProperty, 'characterId'], window.optimizerForm)
@@ -179,7 +189,10 @@ const TeammateCard = (props: { index: number }) => {
   }, [t])
 
   const superimpositionOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
+    const options: {
+      value: number;
+      label: string
+    }[] = []
     for (let i = 1; i <= 5; i++) {
       options.push({ value: i, label: t('SuperimpositionN', { superimposition: i }) })
     }
@@ -187,7 +200,10 @@ const TeammateCard = (props: { index: number }) => {
   }, [t])
 
   const eidolonOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
+    const options: {
+      value: number;
+      label: string
+    }[] = []
     for (let i = 0; i <= 6; i++) {
       options.push({ value: i, label: t('EidolonN', { eidolon: i }) })
     }

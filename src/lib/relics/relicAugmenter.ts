@@ -2,7 +2,7 @@ import { Constants, Stats } from 'lib/constants/constants'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
 import { Utils } from 'lib/utils/utils'
-import { Relic } from 'types/Relic'
+import { Relic } from 'types/relic'
 
 export type AugmentedStats = {
   [key: string]: number

@@ -18,7 +18,7 @@ import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/RecommendedPr
 import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { Utils } from 'lib/utils/utils'
 import { WorkerPool } from 'lib/worker/workerPool'
-import { Form } from 'types/Form'
+import { Form } from 'types/form'
 
 let CANCEL = false
 const isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().indexOf('firefox') > -1

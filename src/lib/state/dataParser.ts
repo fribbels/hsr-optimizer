@@ -6,8 +6,8 @@ import { SortOption } from 'lib/optimizer/sortOptions'
 import { ScoringMetadata } from 'lib/scoring/characterScorer'
 import DB, { DBMetadata } from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/RecommendedPresetsButton'
-import { MetadataCharacter } from 'types/Character'
-import { LightCone } from 'types/LightCone'
+import { MetadataCharacter } from 'types/character'
+import { LightCone } from 'types/lightCone'
 
 const BASIC = 'BASIC'
 const SKILL = 'SKILL'
@@ -1102,7 +1102,11 @@ function getOverrideTraces(): Record<number, Record<string, number>> {
   }
 }
 
-function getOverrideImageCenter(): Record<number, { x: number; y: number; z: number }> {
+function getOverrideImageCenter(): Record<number, {
+  x: number;
+  y: number;
+  z: number
+}> {
   return {
     1001: { // March 7th
       x: 985,

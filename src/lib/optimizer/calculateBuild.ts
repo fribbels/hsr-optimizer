@@ -9,8 +9,8 @@ import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { transformComboState } from 'lib/optimizer/rotation/comboStateTransform'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { Utils } from 'lib/utils/utils'
-import { Form } from 'types/Form'
-import { OptimizerContext } from 'types/Optimizer'
+import { Form } from 'types/form'
+import { OptimizerContext } from 'types/optimizer'
 
 function generateUnusedSets(relics: SingleRelicByPart) {
   const usedSets = new Set([

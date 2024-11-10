@@ -21,7 +21,7 @@ import { officialOnly } from 'lib/constants/constants'
 import { AppPages } from 'lib/state/db'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ReactElement } from 'types/Components'
+import { ReactElement } from 'types/components'
 
 type MenuItemProperties = {
   label: string | ReactElement
@@ -167,7 +167,9 @@ const MenuDrawer = () => {
     ]),
   ], [t])
 
-  const onClick = (e: { key: string }) => {
+  const onClick = (e: {
+    key: string
+  }) => {
     if (e.key?.includes('link')) return
 
     setActiveKey(e.key)

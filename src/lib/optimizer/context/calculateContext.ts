@@ -5,8 +5,8 @@ import { emptyLightCone } from 'lib/optimizer/optimizerUtils'
 import { transformComboState } from 'lib/optimizer/rotation/comboStateTransform'
 import { CharacterStats } from 'lib/scoring/characterStats'
 import DB from 'lib/state/db'
-import { Form, Teammate } from 'types/Form'
-import { CharacterMetadata, CharacterStatsBreakdown, OptimizerContext } from 'types/Optimizer'
+import { Form, Teammate } from 'types/form'
+import { CharacterMetadata, CharacterStatsBreakdown, OptimizerContext } from 'types/optimizer'
 
 export function generateContext(request: Form): OptimizerContext {
   const context: OptimizerContext = {} as OptimizerContext

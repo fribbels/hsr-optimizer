@@ -17,9 +17,9 @@ import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/StatSimulation
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
-import { Form } from 'types/Form'
-import { OptimizerContext } from 'types/Optimizer'
-import { Relic, Stat } from 'types/Relic'
+import { Form } from 'types/form'
+import { OptimizerContext } from 'types/optimizer'
+import { Relic, Stat } from 'types/relic'
 
 export type Simulation = {
   name?: string

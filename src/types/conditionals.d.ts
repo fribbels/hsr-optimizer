@@ -4,7 +4,7 @@ import { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/F
 import { FormSliderWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import { ComponentProps, ComponentType } from 'react'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 // Interface to an instance of a Character or Light Cone conditional controller
 export interface ConditionalsController {

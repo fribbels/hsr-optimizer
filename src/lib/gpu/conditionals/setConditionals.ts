@@ -4,7 +4,7 @@ import { conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export const RutilantArenaConditional: DynamicConditional = {
   id: 'RutilantArenaConditional',

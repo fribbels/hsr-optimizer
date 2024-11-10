@@ -1,8 +1,8 @@
 import { ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { LightConeConditionalsController } from 'types/Conditionals'
+import { LightConeConditionalsController } from 'types/conditionals'
 
-import { SuperImpositionLevel } from 'types/LightCone'
+import { SuperImpositionLevel } from 'types/lightCone'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThisIsMe')

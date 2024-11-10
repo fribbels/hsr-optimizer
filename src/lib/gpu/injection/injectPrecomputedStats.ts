@@ -1,7 +1,7 @@
 import { baseComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import { Key, KeysType } from 'lib/optimizer/computedStatsArray'
-import { OptimizerAction } from 'types/Optimizer'
+import { OptimizerAction } from 'types/optimizer'
 
 export function injectPrecomputedStatsContext(action: OptimizerAction, gpuParams: GpuConstants) {
   const x = action.precomputedX

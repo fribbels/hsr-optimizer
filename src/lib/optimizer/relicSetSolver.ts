@@ -1,6 +1,6 @@
 import { Constants, RelicSetFilterOptions } from 'lib/constants/constants'
 import { Utils } from 'lib/utils/utils'
-import { Form } from 'types/Form'
+import { Form } from 'types/form'
 
 // Here be dragons
 export function generateRelicSetSolutions(request: Form) {

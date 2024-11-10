@@ -1,9 +1,9 @@
 import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats } from 'lib/constants/constants'
 import { createGpuBuffer } from 'lib/gpu/webgpuInternals'
 import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
-import { StringToNumberMap } from 'types/Common'
-import { OptimizerContext } from 'types/Optimizer'
-import { Relic } from 'types/Relic'
+import { StringToNumberMap } from 'types/common'
+import { OptimizerContext } from 'types/optimizer'
+import { Relic } from 'types/relic'
 
 export const StatsToWebgpuIndex = {
   [Stats.HP_P]: 0,

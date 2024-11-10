@@ -3,10 +3,10 @@ import { gpuStandardAtkFinalizer, gpuStandardAtkHealFinalizer, standardAtkFinali
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Eidolon } from 'types/Character'
+import { Eidolon } from 'types/character'
 
-import { CharacterConditionalsController } from 'types/Conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { CharacterConditionalsController } from 'types/conditionals'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Luocha')

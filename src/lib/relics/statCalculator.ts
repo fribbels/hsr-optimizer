@@ -1,6 +1,6 @@
 import { Constants, SubStatValues } from 'lib/constants/constants'
 import { Utils } from 'lib/utils/utils'
-import { Relic } from 'types/Relic'
+import { Relic } from 'types/relic'
 
 const maxedMainStats = {
   [Constants.Stats.SPD]: [7.613, 11.419, 16.426, 25.032],

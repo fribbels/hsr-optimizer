@@ -26,7 +26,7 @@ import TeammateCard from 'lib/tabs/tabOptimizer/optimizerForm/TeammateCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import React, { useEffect } from 'react'
-import { Form } from 'types/Form'
+import { Form } from 'types/form'
 
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')

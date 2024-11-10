@@ -11,14 +11,14 @@ import { Renderer } from 'lib/rendering/renderer'
 import DB, { DBMetadataCharacter } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/CharacterSelect'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ReactElement } from 'types/Components'
-import { Relic } from 'types/Relic'
+import { ReactElement } from 'types/components'
+import { Relic } from 'types/relic'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -30,7 +30,10 @@ const BLANK = Assets.getBlank()
 
 export default function RelicFilterBar(props: {
   setValueColumns: () => void
-  valueColumnOptions: { label: string; options: unknown[] }[]
+  valueColumnOptions: {
+    label: string;
+    options: unknown[]
+  }[]
   valueColumns: string[]
 }) {
   const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
@@ -360,7 +363,10 @@ export default function RelicFilterBar(props: {
   )
 }
 
-type FilterTag = { key: string | number; display: ReactElement }
+type FilterTag = {
+  key: string | number;
+  display: ReactElement
+}
 
 function FilterRow(props: {
   name: string

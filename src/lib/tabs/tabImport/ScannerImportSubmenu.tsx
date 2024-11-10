@@ -10,7 +10,7 @@ import { ReliquaryDescription } from 'lib/tabs/tabImport/ReliquaryDescription'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Relic } from 'types/Relic'
+import { Relic } from 'types/relic'
 
 const { Text } = Typography
 

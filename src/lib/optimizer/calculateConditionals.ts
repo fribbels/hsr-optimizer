@@ -3,8 +3,8 @@ import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightCo
 import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalSets } from 'lib/gpu/conditionals/setConditionals'
-import { CharacterConditionalsController, LightConeConditionalsController } from 'types/Conditionals'
-import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { CharacterConditionalsController, LightConeConditionalsController } from 'types/conditionals'
+import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export function calculateContextConditionalRegistry(action: OptimizerAction, context: OptimizerContext) {
   const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(context)

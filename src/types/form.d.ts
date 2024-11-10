@@ -1,11 +1,11 @@
 // import { } from "./Common";
 import { SetsOrnaments } from 'lib/constants/constants'
 import { Simulation } from 'lib/simulations/statSimulationController'
-import { CharacterId, Eidolon } from 'types/Character'
+import { CharacterId, Eidolon } from 'types/character'
 
-import { ConditionalValueMap } from 'types/Conditionals'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { RelicEnhance, RelicGrade } from 'types/Relic'
+import { ConditionalValueMap } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { RelicEnhance, RelicGrade } from 'types/relic'
 
 type MIN_INT = 0
 type MAX_INT = 2147483647

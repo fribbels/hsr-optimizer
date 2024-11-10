@@ -8,7 +8,7 @@ import { GenerateStat } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
 import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Relic } from 'types/Relic'
+import { Relic } from 'types/relic'
 
 export function RelicPreview(props: {
   relic?: Relic

@@ -1,4 +1,4 @@
-import { LightConeConditionalsController } from 'types/Conditionals'
+import { LightConeConditionalsController } from 'types/conditionals'
 
 export default (): LightConeConditionalsController => {
   return {

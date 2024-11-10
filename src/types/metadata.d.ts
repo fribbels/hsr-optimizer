@@ -21,23 +21,23 @@ export type SimulationMetadata = {
   }
   substats: string[]
   errRopeEidolon?: number
-  breakpoints?: {
-    [stat: string]: number
-  }
   comboAbilities: string[]
   comboDot: number
   comboBreak: number
   relicSets: string[][]
   ornamentSets: string[]
-  maxBonusRolls?: {
-    [stat: string]: number
-  }
   teammates: {
     characterId: string
     lightCone: string
     characterEidolon: number
     lightConeSuperimposition: number
   }[]
+  maxBonusRolls?: {
+    [stat: string]: number
+  }
+  breakpoints?: {
+    [stat: string]: number
+  }
 }
 
 export type DBMetadataCharacter = {

@@ -5,6 +5,7 @@ import { Constants, StatsValues } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 
 import { Assets } from 'lib/rendering/assets'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
 
@@ -60,7 +61,7 @@ const StatRow = (props: {
   value?: number
 }): JSX.Element => {
   const { stat, finalStats } = props
-  const value = Utils.precisionRound(finalStats[stat])
+  const value = TsUtils.precisionRound(finalStats[stat])
 
   const { t, i18n } = useTranslation('common')
 

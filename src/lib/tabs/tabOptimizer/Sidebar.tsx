@@ -1,4 +1,5 @@
 import { DownOutlined, ThunderboltFilled } from '@ant-design/icons'
+import { IRowNode } from 'ag-grid-community'
 import { Button, Divider, Dropdown, Flex, Grid, Modal, Popconfirm, Progress, Radio, theme, Typography } from 'antd'
 import i18next from 'i18next'
 import { COMPUTE_ENGINE_CPU, COMPUTE_ENGINE_GPU_EXPERIMENTAL, COMPUTE_ENGINE_GPU_STABLE, ComputeEngine } from 'lib/constants/constants'
@@ -6,6 +7,7 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
 import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
+import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { Optimizer } from 'lib/optimization/optimizer'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import DB from 'lib/state/db'
@@ -13,11 +15,10 @@ import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimiz
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
+import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-
-// FIXME HIGH
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
@@ -53,14 +54,6 @@ function getGpuOptions(computeEngine: ComputeEngine) {
       ),
       key: COMPUTE_ENGINE_CPU,
     },
-    // {
-    //   label: (
-    //     <div style={{ width: '100%' }}>
-    //       More information
-    //     </div>
-    //   ),
-    //   key: MORE_INFO,
-    // },
   ]
 }
 
@@ -144,25 +137,30 @@ function ComputeEngineSelect() {
 }
 
 function addToPinned() {
-  const currentPinned = window.optimizerGrid.current.api.getGridOption('pinnedTopRowData')
-  const selectedNodes = window.optimizerGrid.current.api.getSelectedNodes()
+  const gridApi = optimizerGridApi()
+  const currentPinnedRows = gridApi.getGridOption('pinnedTopRowData')! as OptimizerDisplayDataStatSim[]
+  const selectedNodes = gridApi.getSelectedNodes() as IRowNode<OptimizerDisplayDataStatSim>[]
+
   if (!selectedNodes || selectedNodes.length == 0) {
     Message.warning(i18next.t('optimizerTab:Sidebar.Pinning.Messages.NoneSelected')/* 'No row selected' */)
-  } else if (selectedNodes[0].data.statSim) {
+  } else if (selectedNodes[0].data!.statSim) {
     Message.warning(i18next.t('optimizerTab:Sidebar.Pinning.Messages.SimSelected')/* 'Custom simulation rows are not pinnable' */)
-  } else if (currentPinned.find((x) => String(x.id) == String(selectedNodes[0].data.id))) {
+  } else if (currentPinnedRows.find((row) => String(row.id) == String(selectedNodes[0].data!.id))) {
     Message.warning(i18next.t('optimizerTab:Sidebar.Pinning.Messages.AlreadyPinned')/* 'This build is already pinned' */)
   } else {
     const selectedRow = selectedNodes[0].data
-    currentPinned.push(selectedRow)
-    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: currentPinned })
+    if (selectedRow) {
+      currentPinnedRows.push(selectedRow)
+      gridApi.updateGridOptions({ pinnedTopRowData: currentPinnedRows })
+    }
   }
 }
 
 function clearPinned() {
-  const currentPinned = window.optimizerGrid.current.api.getGridOption('pinnedTopRowData')
+  const gridApi = optimizerGridApi()
+  const currentPinned = gridApi.getGridOption('pinnedTopRowData')
   if (currentPinned?.length) {
-    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [currentPinned[0]] })
+    gridApi.updateGridOptions({ pinnedTopRowData: [currentPinned[0]] })
   }
 }
 
@@ -196,10 +194,15 @@ function calculateProgressText(startTime: number | null,
   const msRemaining = msDiff / permutationsSearched * (permutations - permutationsSearched)
   const perSecond = searched / (msDiff / 1000)
   return optimizationInProgress
-    ? i18next.t('optimizerTab:Sidebar.ProgressText.TimeRemaining', { rate: Math.floor(perSecond).toLocaleString(), timeRemaining: Utils.msToReadable(msRemaining) })
-    : i18next.t('optimizerTab:Sidebar.ProgressText.Finished', { rate: Math.floor(perSecond).toLocaleString() })
-  // {{rate}} / sec — ${{timeRemaining}} left
-  // {{rate}} / sec — Finished
+    ? i18next.t('optimizerTab:Sidebar.ProgressText.TimeRemaining', {
+      // {{rate}} / sec — ${{timeRemaining}} left
+      rate: Math.floor(perSecond).toLocaleString(),
+      timeRemaining: Utils.msToReadable(msRemaining),
+    })
+    : i18next.t('optimizerTab:Sidebar.ProgressText.Finished', {
+      // {{rate}} / sec — Finished
+      rate: Math.floor(perSecond).toLocaleString(),
+    })
 }
 
 function ManyPermsModal(props: { manyPermsModalOpen: boolean; setManyPermsModalOpen: (open: boolean) => void; startSearch: () => void }) {

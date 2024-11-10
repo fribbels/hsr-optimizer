@@ -415,7 +415,7 @@ export const SetsRelics = {
   WatchmakerMasterOfDreamMachinations: 'Watchmaker, Master of Dream Machinations',
   IronCavalryAgainstTheScourge: 'Iron Cavalry Against the Scourge',
   TheWindSoaringValorous: 'The Wind-Soaring Valorous',
-  SacerdosRelivedOrdeal: "Sacerdos' Relived Ordeal",
+  SacerdosRelivedOrdeal: 'Sacerdos\' Relived Ordeal',
   ScholarLostInErudition: 'Scholar Lost in Erudition',
 } as const
 
@@ -444,7 +444,7 @@ export const SetsOrnaments = {
 export const officialOnly = false
 const characters = gameData.characters
 const lightCones = gameData.lightCones
-export const UnreleasedSets = {}
+export const UnreleasedSets: Record<string, boolean> = {}
 
 if (officialOnly) {
   // UnreleasedSets[SetsRelics.SacerdosRelivedOrdeal] = true
@@ -525,7 +525,7 @@ export const ElementToResPenType = {
   Wind: 'WIND_RES_PEN',
   Quantum: 'QUANTUM_RES_PEN',
   Imaginary: 'IMAGINARY_RES_PEN',
-}
+} as const
 
 export const Constants = {
   Sets,

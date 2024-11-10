@@ -1,12 +1,12 @@
 import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
 import { Constants, Parts } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-
-// FIXME HIGH
+import { OptimizerForm } from 'types/form'
 
 const Text = styled(Typography)`
     white-space: pre-line;
@@ -47,7 +47,7 @@ export function FormStatRollSliders() {
             marginLeft: 'auto',
             marginRight: 'auto',
           }}
-          onChangeComplete={(x) => window.onOptimizerFormValuesChange(x, window.optimizerForm.getFieldsValue(), true)}
+          onChangeComplete={() => window.onOptimizerFormValuesChange({} as OptimizerForm, OptimizerTabController.getForm(), true)}
         />
       </Form.Item>,
     )
@@ -78,11 +78,11 @@ const partsPerSlotIndex: Record<number, string[]> = {
   2: [Parts.PlanarSphere, Parts.LinkRope],
 }
 
-const formNamePerSlotIndex = {
+const formNamePerSlotIndex: Record<number, string> = {
   0: 'headHands',
   1: 'bodyFeet',
   2: 'sphereRope',
-}
+} as const
 
 const MAX_ROLLS = 5
 
@@ -116,14 +116,13 @@ export function FormStatRollSliderTopPercent(props: { index: number }) {
               marginLeft: 0,
               marginRight: 5,
             }}
-            // marks={[1, 2, 3, 4, 5, 6, 7, 9]}
             keyboard={false}
             tooltip={{
               formatter: (value) => `${Utils.precisionRound(value)}`,
             }}
             value={typeof inputValue === 'number' ? inputValue : 0}
             onChange={onChange}
-            onChangeComplete={(x) => window.onOptimizerFormValuesChange(x, window.optimizerForm.getFieldsValue(), true)}
+            onChangeComplete={() => window.onOptimizerFormValuesChange({} as OptimizerForm, OptimizerTabController.getForm(), true)}
           />
         </Form.Item>
       </Flex>
@@ -138,11 +137,10 @@ export function FormStatRollSliderTopPercent(props: { index: number }) {
           controls={false}
           min={0}
           max={MAX_ROLLS}
-          // variant="filled"
           variant='borderless'
           onChange={(x: number | null) => {
             onChange(x)
-            window.onOptimizerFormValuesChange(x, window.optimizerForm.getFieldsValue(), true)
+            window.onOptimizerFormValuesChange({} as OptimizerForm, OptimizerTabController.getForm(), true)
           }}
         />
       </Form.Item>

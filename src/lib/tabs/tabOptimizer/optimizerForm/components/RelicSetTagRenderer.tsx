@@ -1,16 +1,17 @@
 import { Flex, Tag } from 'antd'
 import { Constants, RelicSetFilterOptions } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import React from 'react'
+import React, { ReactNode } from 'react'
+import { ReactElement } from 'types/components'
 
 // NOTE: Be careful hot-reloading with this file, can cause Db to wipe. Unsure why yet
 export function RelicSetTagRenderer(props: {
   value: string
-  label: string
+  label: ReactNode
   closable: boolean
   onClose: () => void
-}) {
-  const { value, closable, onClose } = props
+}): ReactElement {
+  const { value, label, closable, onClose } = props
 
   /*
    * The value comes in as:
@@ -22,16 +23,20 @@ export function RelicSetTagRenderer(props: {
    *['2 + Any', 'Knight of Purity Palace']
    */
 
-  if (!value) return (
-    <Tag
-      closable={closable}
-      onClose={onClose}
-    >
-      <Flex>
-        {(props.label || '').replace(/[^0-9+]/g, '')}
-      </Flex>
-    </Tag>
-  )
+  if (!value) {
+    const processedLabel = typeof label === 'string' ? label.replace(/[^0-9+]/g, '') : null
+
+    return (
+      <Tag
+        closable={closable}
+        onClose={onClose}
+      >
+        <Flex>
+          {processedLabel}
+        </Flex>
+      </Tag>
+    )
+  }
 
   const pieces = value.split('__RC_CASCADER_SPLIT__')
   let inner

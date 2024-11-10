@@ -13,12 +13,9 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-// FIXME HIGH
-
 const { SHOW_CHILD } = Cascader
 
-type RelicMainSetFiltersProps = {}
-export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
+export default function RelicMainSetFilters() {
   const { t } = useTranslation(['optimizerTab', 'common'])
   const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
 

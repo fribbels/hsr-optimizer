@@ -6,8 +6,8 @@ import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { OptimizerDisplayData, OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
+import { StatCalculator } from 'lib/relics/statCalculator'
 import { GridAggregations } from 'lib/rendering/gradient'
-import { CharacterStats } from 'lib/scoring/characterStats'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
@@ -435,7 +435,7 @@ export const OptimizerTabController = {
 }
 
 function aggregate(subArray: OptimizerDisplayData[]) {
-  const minAgg: Record<string, number> = CharacterStats.getZeroes()
+  const minAgg: Record<string, number> = StatCalculator.getZeroes()
   for (const column of OptimizerTabController.getColumnsToAggregate()) {
     minAgg[column] = Constants.MAX_INT
   }
@@ -445,7 +445,7 @@ function aggregate(subArray: OptimizerDisplayData[]) {
     maxAgg[name] = 0
   }
 
-  const maxAgg: Record<string, number> = CharacterStats.getZeroes()
+  const maxAgg: Record<string, number> = StatCalculator.getZeroes()
   minAgg.ED = Constants.MAX_INT
   maxAgg.ED = 0
   minAgg.WEIGHT = Constants.MAX_INT
@@ -483,8 +483,8 @@ function aggregate(subArray: OptimizerDisplayData[]) {
     }
   }
   aggregations = {
-    minAgg: minAgg,
-    maxAgg: maxAgg,
+    min: minAgg,
+    max: maxAgg,
   }
 }
 

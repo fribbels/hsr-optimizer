@@ -28,8 +28,6 @@ import { Utils } from 'lib/utils/utils'
 import React, { useEffect } from 'react'
 import { Form } from 'types/form'
 
-// FIXME HIGH
-
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')
   const [optimizerForm] = AntDForm.useForm()
@@ -60,10 +58,10 @@ export default function OptimizerForm() {
       || keys[0].startsWith('statDisplay')
       || keys[0].startsWith('statSim')
       || keys[0].startsWith('teammate')
-      // || keys[0].startsWith('combo')
       || keys[0].startsWith('combatBuffs')
       || keys[0] == 'characterConditionals'
-      || keys[0] == 'lightConeConditionals')) {
+      || keys[0] == 'lightConeConditionals')
+    ) {
       return
     }
 

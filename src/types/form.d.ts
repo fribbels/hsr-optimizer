@@ -1,5 +1,5 @@
 import { SetsOrnaments } from 'lib/constants/constants'
-import { Simulation } from 'lib/simulations/statSimulationController'
+import { Simulation, SimulationRequest } from 'lib/simulations/statSimulationController'
 import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterId, Eidolon } from 'types/character'
 
@@ -17,6 +17,8 @@ export type Teammate = {
   characterConditionals?: ConditionalValueMap
   lightConeConditionals?: ConditionalValueMap
 } & Form
+
+export type OptimizerForm = Form
 
 export type Form = {
   // Core
@@ -73,6 +75,8 @@ export type Form = {
   // Optimizer additional data
   statSim?: {
     key: string
+    substatRolls: SimulationRequest
+    substatTotals: SimulationRequest
     simulations: Simulation[]
   }
   optimizationId?: string

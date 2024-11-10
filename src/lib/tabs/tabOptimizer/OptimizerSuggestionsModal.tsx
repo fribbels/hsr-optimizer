@@ -12,18 +12,16 @@ import { useTranslation } from 'react-i18next'
 import { Form } from 'types/form'
 import { Relic } from 'types/relic'
 
-// FIXME MED
-
 const { Text } = Typography
 
 enum ZeroPermRootCause {
-  IMPORT = 'IMPORT', //
-  BODY_MAIN = 'BODY_MAIN', //
-  FEET_MAIN = 'FEET_MAIN', //
-  PLANAR_SPHERE_MAIN = 'PLANAR_SPHERE_MAIN', //
-  LINK_ROPE_MAIN = 'LINK_ROPE_MAIN', //
-  RELIC_SETS = 'RELIC_SETS', //
-  ORNAMENT_SETS = 'ORNAMENT_SETS', //
+  IMPORT = 'IMPORT',
+  BODY_MAIN = 'BODY_MAIN',
+  FEET_MAIN = 'FEET_MAIN',
+  PLANAR_SPHERE_MAIN = 'PLANAR_SPHERE_MAIN',
+  LINK_ROPE_MAIN = 'LINK_ROPE_MAIN',
+  RELIC_SETS = 'RELIC_SETS',
+  ORNAMENT_SETS = 'ORNAMENT_SETS',
   KEEP_CURRENT = 'KEEP_CURRENT',
   PRIORITY = 'PRIORITY',
   EXCLUDE_ENABLED = 'EXCLUDE_ENABLED',
@@ -84,7 +82,7 @@ const ZeroPermRootCauseFixes: {
     descriptionKey: '0Perms.RootCauses.PRIORITY.Description', // 'The character is ranked below other characters on the priority list. When the "Character priority filter" is enabled, characters may only take lower priority characters\' relics',
     buttonTextKey: '0Perms.RootCauses.PRIORITY.ButtonText', // 'Move character to priority #1',
     applyFix: () => {
-      DB.insertCharacter(window.store.getState().optimizerTabFocusCharacter, 0)
+      DB.insertCharacter(window.store.getState().optimizerTabFocusCharacter!, 0)
       DB.refreshCharacters()
       // Message.success('Moved character to priority #1', 2)
     },
@@ -224,7 +222,7 @@ export function activateZeroPermutationsSuggestionsModal(request: Form) {
     rootCauses.push(ZeroPermRootCause.MINIMUM_ROLLS)
   }
 
-  // I don't know whats wrong, default to import issue
+  // I don't know what's wrong, default to import issue
   if (rootCauses.length == 0) {
     rootCauses.push(ZeroPermRootCause.IMPORT)
   }
@@ -233,7 +231,7 @@ export function activateZeroPermutationsSuggestionsModal(request: Form) {
 }
 
 function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRootCause, t: TFunction<'modals', undefined>): ReactElement {
-  const fixes = (ZeroPermRootCauseFixes[rootCause] || ZeroResultRootCauseFixes[rootCause]) as {
+  const fixes = (ZeroPermRootCauseFixes[rootCause as ZeroPermRootCause] || ZeroResultRootCauseFixes[rootCause as ZeroResultRootCause]) as {
     descriptionKey: string
     buttonTextKey: string
     applyFix: () => void
@@ -242,18 +240,18 @@ function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRoot
   return (
     <Flex justify='space-between' align='center' style={{ height: 45 }} key={Utils.randomId()}>
       <Text style={{ width: 550 }}>
-        {t(fixes.descriptionKey)}
+        {t(fixes.descriptionKey as never)}
       </Text>
       <Button
         onClick={() => {
           fixes.applyFix()
-          window.onOptimizerFormValuesChange({}, OptimizerTabController.getForm())
-          Message.success(t(fixes.successMessageKey), 2)
+          window.onOptimizerFormValuesChange({} as Form, OptimizerTabController.getForm())
+          Message.success(t(fixes.successMessageKey as never), 2)
         }}
         style={{ width: 250 }}
         type='primary'
       >
-        {t(fixes.buttonTextKey)}
+        {t(fixes.buttonTextKey as never)}
       </Button>
     </Flex>
   )

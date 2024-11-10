@@ -1,10 +1,10 @@
-import { MainStats, Parts, Sets, StatsValues } from 'lib/constants/constants'
+import { MainStats, Parts, Sets, StatsValues, SubStats } from 'lib/constants/constants'
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { RelicScoringWeights } from 'lib/tabs/tabRelics/RelicFilterBar'
 import { GUID } from 'types/common'
 
-export type RelicGrade = 2 | 3 | 4 | 5
-export type RelicEnhance = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15
+export type RelicGrade = number
+export type RelicEnhance = number
 
 export type Relic = {
   /*
@@ -30,7 +30,7 @@ export type Relic = {
   part: Parts
   set: Sets
   substats: {
-    stat: string
+    stat: SubStats
     value: number
     rolls?: StatRolls
     addedRolls?: number

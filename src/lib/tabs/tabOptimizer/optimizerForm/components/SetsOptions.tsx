@@ -2,18 +2,25 @@ import { Flex } from 'antd'
 import i18next from 'i18next'
 import { Constants, RelicSetFilterOptions, setToId, UnreleasedSets } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
+import { ReactElement } from 'types/components'
 
-// FIXME HIGH
+type OptionsWithChildren = {
+  value: string
+  label: ReactElement | string
+  children: Options[]
+}
+
+type Options = {
+  value: string
+  label: ReactElement | string
+  children?: Options[]
+}
 
 // This should be memoised with either the t function or resolved language as a dependency
 const GenerateSetsOptions = () => {
   const t = i18next.getFixedT(null, 'optimizerTab', 'RelicSetSelector')
   const tGameData = i18next.getFixedT(null, 'gameData', 'RelicSets')
-  const result: {
-    value: string
-    label: string
-    children: any[]
-  }[] = [
+  const result: OptionsWithChildren[] = [
     // Example: aaaa
     {
       value: RelicSetFilterOptions.relic4Piece,

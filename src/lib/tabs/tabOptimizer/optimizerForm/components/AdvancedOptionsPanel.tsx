@@ -4,8 +4,7 @@ import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid
 import { HeaderText } from 'lib/ui/HeaderText'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-
-// FIXME MED
+import { OptimizerForm } from 'types/form'
 
 export const AdvancedOptionsPanel = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'AdvancedOptions' })
@@ -13,7 +12,7 @@ export const AdvancedOptionsPanel = () => {
   const setEnemyConfigurationsDrawerOpen = window.store((s) => s.setEnemyConfigurationsDrawerOpen)
 
   // Count the # of active buffs to display
-  const formCombatBuffs = Form.useWatch((values) => values.combatBuffs, window.optimizerForm)
+  const formCombatBuffs = Form.useWatch((values: OptimizerForm) => values.combatBuffs, window.optimizerForm)
   const buffsActive = useMemo(() => {
     if (!formCombatBuffs) return 0
 

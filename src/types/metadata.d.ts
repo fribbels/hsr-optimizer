@@ -40,12 +40,39 @@ export type SimulationMetadata = {
   }
 }
 
+export type Element =
+  'Physical'
+  | 'Fire'
+  | 'Ice'
+  | 'Lightning'
+  | 'Wind'
+  | 'Quantum'
+  | 'Imaginary'
+
+export type ElementalResPenType =
+  'PHYSICAL_RES_PEN'
+  | 'FIRE_RES_PEN'
+  | 'ICE_RES_PEN'
+  | 'LIGHTNING_RES_PEN'
+  | 'WIND_RES_PEN'
+  | 'QUANTUM_RES_PEN'
+  | 'IMAGINARY_RES_PEN'
+
+export type ElementalDamageType =
+  'Physical DMG Boost'
+  | 'Fire DMG Boost'
+  | 'Ice DMG Boost'
+  | 'Lightning DMG Boost'
+  | 'Wind DMG Boost'
+  | 'Quantum DMG Boost'
+  | 'Imaginary DMG Boost'
+
 export type DBMetadataCharacter = {
   id: string
   name: string
   rarity: number
   path: string
-  element: string
+  element: Element
   max_sp: number
   stats: Record<string, number>
   unreleased: boolean

@@ -9,7 +9,7 @@ import { Constants } from 'lib/constants/constants'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
-import { BufferPacker } from 'lib/optimization/bufferPacker'
+import { BufferPacker, OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
@@ -19,7 +19,6 @@ import { Assets } from 'lib/rendering/assets'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
-import { CharacterStats } from 'lib/scoring/characterStats'
 import { DB } from 'lib/state/db'
 import { Metadata } from 'lib/state/metadata'
 import { SaveState } from 'lib/state/saveState'
@@ -32,7 +31,6 @@ import { Form } from 'types/form'
 import { Relic } from 'types/relic'
 import { HsrOptimizerStore } from 'types/store'
 import { StoreApi, UseBoundStore } from 'zustand'
-import { Hero } from './types/calc'
 
 declare global {
   interface Window {
@@ -44,7 +42,7 @@ declare global {
 
     characterGrid: RefObject<AgGridReact<Character>>
     relicsGrid: RefObject<AgGridReact<Relic>>
-    optimizerGrid: RefObject<AgGridReact<Hero>>
+    optimizerGrid: RefObject<AgGridReact<OptimizerDisplayData>>
 
     setCharacterRows: (characters: Character[]) => void
     setRelicRows: (characters: Relic[]) => void
@@ -71,7 +69,6 @@ declare global {
     DataParser: typeof Metadata
     OptimizerTabController: typeof OptimizerTabController
     DB: typeof DB
-    CharacterStats: typeof CharacterStats
     Utils: typeof Utils
     Assets: typeof Assets
     RelicAugmenter: typeof RelicAugmenter

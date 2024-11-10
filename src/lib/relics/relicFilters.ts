@@ -6,12 +6,12 @@ import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
 import { Relic } from 'types/relic'
 
-// FIXME HIGH
-
 export const RelicFilters = {
   calculateWeightScore: (request: Form, relics: Relic[]) => {
     const weights = request.weights || {}
     const baseStats = DB.getMetadata().characters[request.characterId].stats
+
+    // TODO: This no longer uses 2x base, we're using a fixed scaling value for flats now
     const statScalings = {
       [Constants.Stats.HP_P]: 64.8 / 43.2,
       [Constants.Stats.ATK_P]: 64.8 / 43.2,
@@ -76,7 +76,7 @@ export const RelicFilters = {
 
     const characters = DB.getCharacters()
     const characterId = request.characterId
-    const higherRankedRelics = {}
+    const higherRankedRelics: Record<string, boolean> = {}
     for (let i = 0; i < characters.length; i++) {
       const rankedCharacter = characters[i]
       if (rankedCharacter.id == characterId) {
@@ -87,8 +87,8 @@ export const RelicFilters = {
       }
 
       Object.values(rankedCharacter.equipped)
-        .filter((x) => x != null)
-        .map((x) => higherRankedRelics[x] = true)
+        .filter((relicId) => relicId != null)
+        .map((relicId) => higherRankedRelics[relicId] = true)
     }
 
     return relics.filter((x) => !higherRankedRelics[x.id])
@@ -98,12 +98,12 @@ export const RelicFilters = {
     if (!request.exclude) return relics
 
     const characters = DB.getCharacters()
-    const excludedRelics = []
+    const excludedRelics: Record<string, boolean> = {}
     for (const character of characters) {
       if (request.exclude.includes(character.id) && character.id != request.characterId)
         Object.values(character.equipped)
-          .filter((x) => x != null)
-          .map((x) => excludedRelics[x] = true)
+          .filter((relicId) => relicId != null)
+          .map((relicId) => excludedRelics[relicId] = true)
     }
 
     return relics.filter((x) => !excludedRelics[x.id])
@@ -220,7 +220,7 @@ export const RelicFilters = {
       return relics
     }
 
-    function matchingRelic(part: string) {
+    function matchingRelic(part: Parts) {
       const partition: Relic[] = relics[part]
       if (!character.equipped[part]) {
         return partition
@@ -230,23 +230,23 @@ export const RelicFilters = {
     }
 
     return {
-      Head: matchingRelic(Constants.Parts.Head),
-      Hands: matchingRelic(Constants.Parts.Hands),
-      Body: matchingRelic(Constants.Parts.Body),
-      Feet: matchingRelic(Constants.Parts.Feet),
-      PlanarSphere: matchingRelic(Constants.Parts.PlanarSphere),
-      LinkRope: matchingRelic(Constants.Parts.LinkRope),
+      Head: matchingRelic(Parts.Head),
+      Hands: matchingRelic(Parts.Hands),
+      Body: matchingRelic(Parts.Body),
+      Feet: matchingRelic(Parts.Feet),
+      PlanarSphere: matchingRelic(Parts.PlanarSphere),
+      LinkRope: matchingRelic(Parts.LinkRope),
     }
   },
 
   splitRelicsByPart: (relics: Relic[]) => {
     return {
-      Head: relics.filter((x) => x.part == Constants.Parts.Head),
-      Hands: relics.filter((x) => x.part == Constants.Parts.Hands),
-      Body: relics.filter((x) => x.part == Constants.Parts.Body),
-      Feet: relics.filter((x) => x.part == Constants.Parts.Feet),
-      PlanarSphere: relics.filter((x) => x.part == Constants.Parts.PlanarSphere),
-      LinkRope: relics.filter((x) => x.part == Constants.Parts.LinkRope),
+      Head: relics.filter((x) => x.part == Parts.Head),
+      Hands: relics.filter((x) => x.part == Parts.Hands),
+      Body: relics.filter((x) => x.part == Parts.Body),
+      Feet: relics.filter((x) => x.part == Parts.Feet),
+      PlanarSphere: relics.filter((x) => x.part == Parts.PlanarSphere),
+      LinkRope: relics.filter((x) => x.part == Parts.LinkRope),
     }
   },
 
@@ -284,22 +284,8 @@ export const RelicFilters = {
   },
 
   condenseRelicSubstatsForOptimizer: (relicsByPart: RelicsByPart) => {
-    for (const part of Object.keys(Constants.Parts)) {
-      const relics: Relic[] = relicsByPart[part]
-      for (const relic of relics) {
-        relic.condensedStats = []
-        for (const substat of relic.substats) {
-          const stat = substat.stat
-          const value = getValueByStatType(stat, substat.value)
-
-          relic.condensedStats.push([stat, value])
-        }
-        // Use augmented main value for maxed main stat filter
-        relic.condensedStats.push([relic.augmentedStats!.mainStat, relic.augmentedStats!.mainValue])
-
-        delete relic.augmentedStats
-        delete relic.weights
-      }
+    for (const relics of Object.values(relicsByPart)) {
+      RelicFilters.condenseRelicSubstatsForOptimizerSingle(relics)
     }
 
     return relicsByPart

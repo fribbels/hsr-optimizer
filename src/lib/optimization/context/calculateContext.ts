@@ -3,12 +3,10 @@ import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightCo
 import { ElementToDamage, ElementToResPenType, Stats } from 'lib/constants/constants'
 import { emptyLightCone } from 'lib/optimization/optimizerUtils'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
-import { CharacterStats } from 'lib/scoring/characterStats'
+import { StatCalculator } from 'lib/relics/statCalculator'
 import DB from 'lib/state/db'
 import { Form, Teammate } from 'types/form'
 import { CharacterMetadata, CharacterStatsBreakdown, OptimizerContext } from 'types/optimizer'
-
-// FIXME HIGH
 
 export function generateContext(request: Form): OptimizerContext {
   const context: OptimizerContext = {} as OptimizerContext
@@ -68,7 +66,8 @@ export const ElementToBreakScaling = {
 }
 
 function generateCharacterMetadataContext(request: Form, context: Partial<OptimizerContext>) {
-  const characterMetadata = DB.getMetadata().characters[request.characterId]
+  const dbMetadata = DB.getMetadata()
+  const characterMetadata = dbMetadata.characters[request.characterId]
   const element = characterMetadata.element
 
   context.characterId = request.characterId
@@ -120,15 +119,15 @@ function generateBaseStatsContext(request: Form, context: Partial<OptimizerConte
 
   const statsBreakdown: CharacterStatsBreakdown = {
     base: {
-      ...CharacterStats.getZeroes(),
+      ...StatCalculator.getZeroes(),
       ...characterStats,
     },
     traces: {
-      ...CharacterStats.getZeroes(),
+      ...StatCalculator.getZeroes(),
       ...characterMetadata.traces,
     },
     lightCone: {
-      ...CharacterStats.getZeroes(),
+      ...StatCalculator.getZeroes(),
       ...lightConeStats,
       ...lightConeSuperimposition,
     },

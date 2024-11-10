@@ -2,8 +2,6 @@ import { Collapse, Flex } from 'antd'
 import { ReactElement, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-// FIXME HIGH
-
 export const OptimizerMenuIds = {
   characterOptions: 'Character options',
   relicAndStatFilters: 'Relic & stat filters',
@@ -16,7 +14,7 @@ export function FormRow(props: { id: string; label?: string; children: ReactElem
   const optimizerMenuState = window.store((s) => s.optimizerMenuState)
   const setOptimizerMenuState = window.store((s) => s.setOptimizerMenuState)
 
-  function onChange(event) {
+  function onChange(event: string[]) {
     optimizerMenuState[props.id] = event.length > 0
     setOptimizerMenuState(optimizerMenuState)
   }
@@ -26,7 +24,10 @@ export function FormRow(props: { id: string; label?: string; children: ReactElem
       key: props.id,
       label: (
         <Flex style={{ paddingTop: 8 }}>
-          {props.label ?? t(`${props.id}`)}
+          {
+            // @ts-ignore
+            props.label ?? t(`${props.id}`)
+          }
         </Flex>
       ),
       forceRender: true,

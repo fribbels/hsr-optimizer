@@ -17,6 +17,7 @@ import {
   SimulationStats,
 } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
+import { PresetDefinition } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
@@ -176,9 +177,9 @@ export type ScoringMetadata = {
   parts: {
     [part: string]: string[]
   }
-  presets: (() => void)[]
+  presets: PresetDefinition[]
   sortOption: SortOptionProperties
-  simulation: SimulationMetadata
+  simulation?: SimulationMetadata
   modified?: boolean
   hiddenColumns: SortOptionProperties[]
 }
@@ -188,8 +189,8 @@ export type SimulationMetadata = {
     [part: string]: string[]
   }
   substats: string[]
-  errRopeEidolon: number
-  breakpoints: {
+  errRopeEidolon?: number
+  breakpoints?: {
     [stat: string]: number
   }
   comboAbilities: string[]
@@ -197,7 +198,7 @@ export type SimulationMetadata = {
   comboBreak: number
   relicSets: string[][]
   ornamentSets: string[]
-  maxBonusRolls: {
+  maxBonusRolls?: {
     [stat: string]: number
   }
   teammates: {

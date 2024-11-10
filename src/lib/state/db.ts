@@ -555,7 +555,7 @@ export const DB = {
       character.form.mainLinkRope = deduplicateStringArray(character.form.mainLinkRope)
 
       // In beta, Duran maxed out at 6
-      if (character.form.setConditionals?.[Sets.DuranDynastyOfRunningWolves]?.[1] > 5) {
+      if (character.form.setConditionals?.[Sets.DuranDynastyOfRunningWolves]?.[1] ?? 0 > 5) {
         character.form.setConditionals[Sets.DuranDynastyOfRunningWolves][1] = 5
       }
 

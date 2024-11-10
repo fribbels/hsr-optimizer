@@ -4,20 +4,20 @@ import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
 import { Constants, Parts, PartsMainStats, Sets, SetsRelics, Stats } from 'lib/constants/constants'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { ScoringMetadata } from 'lib/scoring/characterScorer'
-import DB, { DBMetadata } from 'lib/state/db'
+import DB, { DBMetadata, DBMetadataCharacter, DBMetadataLightCone, DBMetadataSets } from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { MetadataCharacter } from 'types/character'
-import { LightCone } from 'types/lightCone'
 
 // FIXME HIGH
 
+const NULL = null as unknown as string
 const BASIC = 'BASIC'
 const SKILL = 'SKILL'
 const ULT = 'ULT'
 const FUA = 'FUA'
 
-const characters: Record<string, MetadataCharacter> = gameData.characters as unknown as Record<string, MetadataCharacter>
-const lightCones: Record<string, LightCone> = gameData.lightCones as unknown as Record<string, LightCone>
+const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
+const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>
 
 const RELICS_2P_BREAK_EFFECT_SPEED = [
   Sets.MessengerTraversingHackerspace,
@@ -48,6 +48,8 @@ export const DataParser = {
     const lightConeSuperimpositions = getSuperimpositions()
     const lightConeCenters = getLightConeOverrideCenter()
 
+    const dbMetadataCharacters: Record<string, DBMetadataCharacter | MetadataCharacter> = characters
+
     for (const lightCone of Object.values(lightCones)) {
       const id = lightCone.id
       if (lightConeSuperimpositions[id]) {
@@ -69,7 +71,7 @@ export const DataParser = {
     const imageCenters = getOverrideImageCenter()
     const scoringMetadata = getScoringMetadata()
 
-    const scoringMetadataValues = Object.values(scoringMetadata) as ScoringMetadata[]
+    const scoringMetadataValues = Object.values(scoringMetadata)
     for (const metadata of scoringMetadataValues) {
       for (const part of [Parts.Body, Parts.Feet, Parts.PlanarSphere, Parts.LinkRope]) {
         if (metadata.parts[part].length === 0) {
@@ -84,7 +86,7 @@ export const DataParser = {
         continue
       }
 
-      let imageCenter = { x: 1024, y: 1024 }
+      let imageCenter = { x: 1024, y: 1024, z: 1 }
       if (imageCenters[id] != undefined) {
         imageCenter = imageCenters[id]
       }
@@ -93,10 +95,10 @@ export const DataParser = {
       characters[id].imageCenter = imageCenter
       characters[id].displayName = getDisplayName(characters[id])
       characters[id].scoringMetadata = scoringMetadata[id]
-      characters[id].scoringMetadata.characterId = id
+      // dbMetadataCharacters[id].scoringMetadata.characterId = id
     }
 
-    const relicSets = gameData.relics.reduce((acc, obj) => {
+    const relicSets = gameData.relics.reduce<Record<string, DBMetadataSets>>((acc, obj) => {
       acc[obj.id] = obj
       return acc
     }, {})
@@ -108,7 +110,7 @@ export const DataParser = {
     }
 
     const augmentedDbMetadata = {
-      characters: characters,
+      characters: dbMetadataCharacters,
       lightCones: lightCones,
       relics: relics,
     } as unknown as DBMetadata
@@ -118,7 +120,7 @@ export const DataParser = {
   },
 }
 
-const displayNameMapping = {
+const displayNameMapping: Record<string, string> = {
   8001: 'Caelus (Destruction)',
   8002: 'Stelle (Destruction)',
   8003: 'Caelus (Preservation)',
@@ -127,18 +129,18 @@ const displayNameMapping = {
   8006: 'Stelle (Harmony)',
   1213: 'Imbibitor Lunae',
   1224: 'March 7th (Hunt)',
-}
+} as const
 
-function getDisplayName(character: MetadataCharacter) {
+function getDisplayName(character: DBMetadataCharacter) {
   if (character.id in displayNameMapping) {
     return displayNameMapping[character.id]
   }
   return character.name
 }
 
-type DBMetadataSuperimpositions = Record<number, Record<string, number>>
+export type DBMetadataSuperimpositions = Record<number, Record<string, number>>
 
-function getSuperimpositions(): Record<number, DBMetadataSuperimpositions> {
+function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
   return {
     20000: {}, // Arrows
     20001: {},
@@ -655,7 +657,7 @@ function getSuperimpositions(): Record<number, DBMetadataSuperimpositions> {
 }
 
 // Standardized to 450 width
-function getLightConeOverrideCenter(): Record<number, number> {
+function getLightConeOverrideCenter(): Record<string, number> {
   return {
     20000: 270,
     20001: 220,
@@ -774,7 +776,7 @@ function getLightConeOverrideCenter(): Record<number, number> {
   }
 }
 
-function getOverrideTraces(): Record<number, Record<string, number>> {
+function getOverrideTraces(): Record<string, Record<string, number>> {
   return {
     1001: { // March 7th
       [Stats.Ice_DMG]: 0.224,
@@ -1104,7 +1106,7 @@ function getOverrideTraces(): Record<number, Record<string, number>> {
   }
 }
 
-function getOverrideImageCenter(): Record<number, {
+function getOverrideImageCenter(): Record<string, {
   x: number
   y: number
   z: number
@@ -1438,7 +1440,7 @@ function getOverrideImageCenter(): Record<number, {
   }
 }
 
-function getScoringMetadata() {
+function getScoringMetadata(): Record<string, ScoringMetadata> {
   return {
     1001: { // March 7th
       stats: {
@@ -1558,7 +1560,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -1665,7 +1667,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, FUA, SKILL, FUA, SKILL, FUA],
+        comboAbilities: [NULL, ULT, FUA, SKILL, FUA, SKILL, FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -1773,7 +1775,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -1881,7 +1883,7 @@ function getScoringMetadata() {
         breakpoints: {
           [Stats.EHR]: 0.282,
         },
-        comboAbilities: [null, ULT, SKILL, FUA, SKILL, FUA],
+        comboAbilities: [NULL, ULT, SKILL, FUA, SKILL, FUA],
         comboDot: 16,
         comboBreak: 0,
         relicSets: [
@@ -2032,7 +2034,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -2177,7 +2179,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, FUA, SKILL, FUA, SKILL, FUA],
+        comboAbilities: [NULL, ULT, FUA, SKILL, FUA, SKILL, FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -2321,7 +2323,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -2427,7 +2429,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -2671,7 +2673,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, FUA, FUA, FUA],
+        comboAbilities: [NULL, ULT, SKILL, FUA, FUA, FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -2778,7 +2780,7 @@ function getScoringMetadata() {
           Stats.CD,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 60,
         comboBreak: 0,
         relicSets: [
@@ -2880,7 +2882,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -3032,7 +3034,7 @@ function getScoringMetadata() {
           Stats.CR,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, BASIC, BASIC],
+        comboAbilities: [NULL, ULT, SKILL, BASIC, BASIC],
         comboDot: 5,
         comboBreak: 1,
         relicSets: [
@@ -3141,7 +3143,7 @@ function getScoringMetadata() {
         ],
         errRopeEidolon: 6,
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, FUA, FUA],
+        comboAbilities: [NULL, ULT, SKILL, FUA, FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -3247,7 +3249,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, BASIC, FUA, BASIC, FUA],
+        comboAbilities: [NULL, ULT, BASIC, FUA, BASIC, FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -3450,7 +3452,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, SKILL, SKILL, FUA],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL, FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -3558,7 +3560,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, BASIC, FUA, BASIC],
+        comboAbilities: [NULL, ULT, BASIC, FUA, BASIC],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -3662,7 +3664,7 @@ function getScoringMetadata() {
           Stats.BE,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
@@ -3865,7 +3867,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, FUA, SKILL, FUA, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, FUA, SKILL, FUA, SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -4060,7 +4062,7 @@ function getScoringMetadata() {
         ],
         errRopeEidolon: 0,
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -4165,7 +4167,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, BASIC, BASIC],
+        comboAbilities: [NULL, ULT, BASIC, BASIC],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -4274,7 +4276,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, FUA, SKILL, FUA, SKILL, FUA],
+        comboAbilities: [NULL, ULT, FUA, SKILL, FUA, SKILL, FUA],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
@@ -4508,7 +4510,7 @@ function getScoringMetadata() {
         ],
         breakpoints: {},
         maxBonusRolls: {},
-        comboAbilities: [null, ULT, SKILL, FUA, FUA, ULT, SKILL, FUA, FUA],
+        comboAbilities: [NULL, ULT, SKILL, FUA, FUA, ULT, SKILL, FUA, FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -4617,7 +4619,7 @@ function getScoringMetadata() {
         ],
         errRopeEidolon: 0,
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, FUA],
+        comboAbilities: [NULL, ULT, SKILL, FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -4779,7 +4781,7 @@ function getScoringMetadata() {
         ],
         breakpoints: {},
         maxBonusRolls: {},
-        comboAbilities: [null, SKILL, ULT, FUA, FUA],
+        comboAbilities: [NULL, SKILL, ULT, FUA, FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -4888,7 +4890,7 @@ function getScoringMetadata() {
         ],
         breakpoints: {},
         maxBonusRolls: {},
-        comboAbilities: [null, ULT, BASIC, FUA],
+        comboAbilities: [NULL, ULT, BASIC, FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -5032,7 +5034,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -5181,7 +5183,7 @@ function getScoringMetadata() {
         breakpoints: {
           [Stats.DEF]: 4000,
         },
-        comboAbilities: [null, ULT, BASIC, FUA, BASIC, FUA],
+        comboAbilities: [NULL, ULT, BASIC, FUA, BASIC, FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -5294,7 +5296,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, FUA, FUA, SKILL, FUA, FUA],
+        comboAbilities: [NULL, ULT, SKILL, FUA, FUA, SKILL, FUA, FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -5442,7 +5444,7 @@ function getScoringMetadata() {
         breakpoints: {
           [Stats.EHR]: 1.20,
         },
-        comboAbilities: [null, SKILL, ULT, BASIC, BASIC],
+        comboAbilities: [NULL, SKILL, ULT, BASIC, BASIC],
         comboDot: 16,
         comboBreak: 0,
         relicSets: [
@@ -5545,7 +5547,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -5689,7 +5691,7 @@ function getScoringMetadata() {
         ],
         breakpoints: {},
         maxBonusRolls: {},
-        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
@@ -5791,7 +5793,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -5899,7 +5901,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, FUA, BASIC, FUA, BASIC],
+        comboAbilities: [NULL, ULT, FUA, BASIC, FUA, BASIC],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -5996,7 +5998,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, BASIC, BASIC, BASIC],
+        comboAbilities: [NULL, ULT, BASIC, BASIC, BASIC],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
@@ -6095,7 +6097,7 @@ function getScoringMetadata() {
         breakpoints: {
           [Stats.ATK]: 3200,
         },
-        comboAbilities: [null, ULT, BASIC, BASIC, BASIC, SKILL],
+        comboAbilities: [NULL, ULT, BASIC, BASIC, BASIC, SKILL],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
@@ -6197,7 +6199,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
@@ -6302,7 +6304,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        comboAbilities: [null, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
@@ -6571,7 +6573,7 @@ function getScoringMetadata() {
           [Stats.EHR]: 0.67,
         },
         maxBonusRolls: {},
-        comboAbilities: [null, ULT, BASIC, BASIC, BASIC],
+        comboAbilities: [NULL, ULT, BASIC, BASIC, BASIC],
         comboDot: 0,
         comboBreak: 3,
         relicSets: [

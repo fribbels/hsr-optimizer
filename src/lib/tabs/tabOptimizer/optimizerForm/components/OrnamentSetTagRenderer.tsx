@@ -1,16 +1,19 @@
 import { Flex, Tag } from 'antd'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import React from 'react'
+import React, { ReactNode } from 'react'
+import { ReactElement } from 'types/components'
 
 // NOTE: Be careful hot-reloading with this file, can cause Db to wipe. Unsure why yet
 export function OrnamentSetTagRenderer(props: {
   value: string
-  label: string
+  label: ReactNode
   closable: boolean
   onClose: () => void
-}) {
-  const { value, closable, onClose } = props
+}): ReactElement {
+  const { value, label, closable, onClose } = props
+
+  const processedLabel = typeof label === 'string' ? label.replace(/[^0-9+]/g, '') : null
 
   if (!value) return (
     <Tag
@@ -18,7 +21,7 @@ export function OrnamentSetTagRenderer(props: {
       onClose={onClose}
     >
       <Flex>
-        {(props.label || '').replace(/[^0-9+]/g, '')}
+        {processedLabel}
       </Flex>
     </Tag>
   )

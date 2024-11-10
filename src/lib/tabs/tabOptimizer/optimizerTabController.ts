@@ -483,8 +483,8 @@ function aggregate(subArray: OptimizerDisplayData[]) {
     }
   }
   aggregations = {
-    minAgg: minAgg,
-    maxAgg: maxAgg,
+    min: minAgg,
+    max: maxAgg,
   }
 }
 

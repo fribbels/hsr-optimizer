@@ -1,6 +1,6 @@
 import { Flex, Form, Select } from 'antd'
 import { Hint } from 'lib/interactions/hint'
-import { SortOption } from 'lib/optimizer/sortOptions'
+import { SortOption } from 'lib/optimization/sortOptions'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import RecommendedPresetsButton from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'

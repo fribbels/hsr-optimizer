@@ -1,5 +1,5 @@
 import { calculateAshblazingSet } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 // Standard ATK

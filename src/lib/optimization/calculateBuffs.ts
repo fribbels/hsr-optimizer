@@ -1,4 +1,4 @@
-import { ComputedStatsArray, Key } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 
 /*
  * These methods handle buffing damage types for characters who have dynamic ability types. For example Yunli's FUA

@@ -16,9 +16,9 @@ import {
   SpaceSealingStationConditional,
   TaliaKingdomOfBanditryConditional,
 } from 'lib/gpu/conditionals/setConditionals'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { buffElementalDamageType, ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
-import { p2, p4 } from 'lib/optimizer/optimizerUtils'
+import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
+import { buffElementalDamageType, ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { p2, p4 } from 'lib/optimization/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'
 

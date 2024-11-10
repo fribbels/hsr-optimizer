@@ -1,5 +1,5 @@
 import { Sets } from 'lib/constants/constants'
-import { ComboBooleanConditional, ComboState } from 'lib/optimizer/rotation/comboDrawerController'
+import { ComboBooleanConditional, ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Form } from 'types/form'
 
 // FIXME HIGH

@@ -1,5 +1,5 @@
 import { Sets } from 'lib/constants/constants'
-import { ComputedStatsObjectExternal } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
 
 export const ASHBLAZING_ATK_STACK = 0.06
 

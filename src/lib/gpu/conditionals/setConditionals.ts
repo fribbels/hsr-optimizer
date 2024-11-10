@@ -1,9 +1,9 @@
 import { BASIC_TYPE, BREAK_TYPE, FUA_TYPE, SKILL_TYPE, SUPER_BREAK_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
-import { p2, p4 } from 'lib/optimizer/optimizerUtils'
+import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
+import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { p2, p4 } from 'lib/optimization/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export const RutilantArenaConditional: DynamicConditional = {

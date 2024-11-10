@@ -1,7 +1,7 @@
 // This file tracks the mapping between various stat property references between the optimizer / worker / grid / buffer packer
 // This sucks - clean up the discrepancies eventually
 
-import { Key } from 'lib/optimizer/computedStatsArray'
+import { Key } from 'lib/optimization/computedStatsArray'
 
 export type SortOptionProperties = {
   key: string

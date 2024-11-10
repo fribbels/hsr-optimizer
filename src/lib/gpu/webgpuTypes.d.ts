@@ -1,4 +1,4 @@
-import { FixedSizePriorityQueue } from 'lib/optimizer/fixedSizePriorityQueue'
+import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'

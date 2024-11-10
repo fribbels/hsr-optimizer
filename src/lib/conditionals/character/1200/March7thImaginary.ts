@@ -1,8 +1,8 @@
 import { ASHBLAZING_ATK_STACK, BASIC_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { buffAbilityCd, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
+import { buffAbilityCd, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'

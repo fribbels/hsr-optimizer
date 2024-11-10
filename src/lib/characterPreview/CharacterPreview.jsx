@@ -34,7 +34,7 @@ import {
   parentW,
 } from 'lib/constants/constantsUi'
 import { Message } from 'lib/interactions/message'
-import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { calculateBuild } from 'lib/optimization/calculateBuild'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import EditImageModal from 'lib/overlays/modals/EditImageModal'
 import RelicModal from 'lib/overlays/modals/RelicModal.tsx'

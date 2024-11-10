@@ -1,6 +1,6 @@
 import { SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { ComputedStatsArray, getElementalDamageType, getResPenType, Key } from 'lib/optimizer/computedStatsArray'
-import { p2, p4 } from 'lib/optimizer/optimizerUtils'
+import { ComputedStatsArray, getElementalDamageType, getResPenType, Key } from 'lib/optimization/computedStatsArray'
+import { p2, p4 } from 'lib/optimization/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export function calculateBaseMultis(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {

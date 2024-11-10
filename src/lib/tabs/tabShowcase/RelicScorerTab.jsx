@@ -12,7 +12,7 @@ import { Constants, CURRENT_DATA_VERSION, officialOnly } from 'lib/constants/con
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
-import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { calculateBuild } from 'lib/optimization/calculateBuild'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import DB, { AppPages, PageToRoute } from 'lib/state/db'

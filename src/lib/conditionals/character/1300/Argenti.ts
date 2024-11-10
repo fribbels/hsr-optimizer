@@ -1,8 +1,8 @@
 import { ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
+import { buffAbilityDefPen } from 'lib/optimization/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'

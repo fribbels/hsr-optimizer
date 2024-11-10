@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants/constants'
-import { ComputedStatsArray, Key } from 'lib/optimizer/computedStatsArray'
-import { FixedSizePriorityQueue } from 'lib/optimizer/fixedSizePriorityQueue'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 
 const SIZE = 40
 

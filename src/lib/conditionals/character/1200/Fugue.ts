@@ -3,8 +3,8 @@ import { BREAK_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
+import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
 
 import { Eidolon } from 'types/character'
 

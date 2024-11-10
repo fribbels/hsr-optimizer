@@ -3,6 +3,9 @@ import { Button, Divider, Drawer, Flex, Select } from 'antd'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ConditionalDataType, setToId } from 'lib/constants/constants'
+import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimization/rotation/setConditionalContent'
+import { Assets } from 'lib/rendering/assets'
+import { lockScroll, unlockScroll } from 'lib/rendering/scrollController'
 import {
   ComboBooleanConditional,
   ComboCharacter,
@@ -23,10 +26,7 @@ import {
   updateNumberDefaultSelection,
   updatePartitionActivation,
   updateSelectedSets,
-} from 'lib/optimizer/rotation/comboDrawerController'
-import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimizer/rotation/setConditionalContent'
-import { Assets } from 'lib/rendering/assets'
-import { lockScroll, unlockScroll } from 'lib/rendering/scrollController'
+} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { FormSelectWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'

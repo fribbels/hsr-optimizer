@@ -1,6 +1,6 @@
 import { DOT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
+import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 

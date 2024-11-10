@@ -21,9 +21,10 @@ export function OptimizerGrid() {
   const { token } = useToken()
   const { t, i18n } = useTranslation('optimizerTab')
   const optimizerGrid = useRef()
-  window.optimizerGrid = optimizerGrid
   const [gridDestroyed, setGridDestroyed] = useState(false)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+
+  window.optimizerGrid = optimizerGrid
 
   const datasource = useMemo(() => {
     return OptimizerTabController.getDataSource()

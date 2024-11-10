@@ -32,7 +32,7 @@ export const SettingOptions = {
     ScoreAtStartup: 'Score at startup',
     ManuallyClickReapplyScores: 'Manually click reapply scores',
   },
-}
+} as const
 
 export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
   [SettingOptions.RelicEquippingBehavior.name]: SettingOptions.RelicEquippingBehavior.Replace,

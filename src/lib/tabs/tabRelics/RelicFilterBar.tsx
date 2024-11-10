@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 import { DBMetadataCharacter } from 'types/metadata'
 import { Relic } from 'types/relic'
+import { RelicTabFilters } from 'types/store'
 
 // FIXME MED
 
@@ -372,7 +373,7 @@ type FilterTag = {
 }
 
 function FilterRow(props: {
-  name: string
+  name: keyof RelicTabFilters
   tags: FilterTag[]
   flexBasis?: string
 }) {
@@ -381,7 +382,7 @@ function FilterRow(props: {
   const relicTabFilters = window.store((s) => s.relicTabFilters)
   const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
 
-  const selectedTags = relicTabFilters[props.name] as (string | number)[]
+  const selectedTags = relicTabFilters[props.name]
 
   const handleChange = (tag: string | number, checked: boolean) => {
     const nextSelectedTags = checked

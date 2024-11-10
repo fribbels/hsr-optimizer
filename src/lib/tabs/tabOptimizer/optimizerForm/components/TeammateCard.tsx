@@ -218,7 +218,7 @@ const TeammateCard = (props: {
       return
     }
 
-    const displayFormValues = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
+    const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
     const teammateValues = displayFormValues[teammateProperty]
     const teammateCharacter = DB.getCharacterById(teammateCharacterId)
     if (teammateCharacter) {
@@ -253,7 +253,7 @@ const TeammateCard = (props: {
   useEffect(() => {
     if (!teammateLightConeId) return
 
-    const displayFormValues = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
+    const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
     const lightConeConditionals = LightConeConditionalsResolver.get({
       lightCone: teammateLightConeId,
       lightConeSuperimposition: teammateSuperimposition,

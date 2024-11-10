@@ -466,7 +466,7 @@ function CharacterPreviewSelection(props) {
     // Timeout to allow the optimize page to load before applying presets
     setTimeout(() => {
       const equippedRelics = Utils.clone(props.selectedCharacter.equipped)
-      const cleanedForm = OptimizerTabController.getDisplayFormValues(form)
+      const cleanedForm = OptimizerTabController.formToDisplay(form)
 
       // Do some relic transformations to get it ready for optimization
       const relicsByPart = {}

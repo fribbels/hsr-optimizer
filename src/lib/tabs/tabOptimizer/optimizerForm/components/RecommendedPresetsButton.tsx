@@ -238,8 +238,8 @@ export function applySpdPreset(spd: number, characterId: string | undefined) {
   const metadata = TsUtils.clone(character.scoringMetadata)
 
   // Using the user's current form so we don't overwrite their other numeric filter values
-  const form: Form = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
-  const defaultForm: Form = OptimizerTabController.getDisplayFormValues(getDefaultForm(character))
+  const form: Form = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
+  const defaultForm: Form = OptimizerTabController.formToDisplay(getDefaultForm(character))
   form.setConditionals = defaultForm.setConditionals
 
   const overrides = window.store.getState().scoringMetadataOverrides[characterId]

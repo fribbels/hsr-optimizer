@@ -184,7 +184,7 @@ export function generateRelicSetTests(device: GPUDevice) {
 }
 
 export function generateE0S1CharacterTest(characterId: string, lightConeId: string, device: GPUDevice) {
-  const request = OptimizerTabController.fixForm(generateFullDefaultForm(characterId, lightConeId, 0, 1))
+  const request = OptimizerTabController.displayToForm(generateFullDefaultForm(characterId, lightConeId, 0, 1))
   const relics = generateTestRelics()
   request.sortOption = SortOption.COMBO.key
 
@@ -193,7 +193,7 @@ export function generateE0S1CharacterTest(characterId: string, lightConeId: stri
 }
 
 export function generateE6S5CharacterTest(characterId: string, lightConeId: string, device: GPUDevice) {
-  const request = OptimizerTabController.fixForm(generateFullDefaultForm(characterId, lightConeId, 6, 5))
+  const request = OptimizerTabController.displayToForm(generateFullDefaultForm(characterId, lightConeId, 6, 5))
   const relics = generateTestRelics()
   request.sortOption = SortOption.COMBO.key
 

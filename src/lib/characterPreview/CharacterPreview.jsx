@@ -251,7 +251,7 @@ export function CharacterPreview(props) {
 
   const statCalculationRelics = Utils.clone(displayRelics)
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics))
-  const { c: finalStats } = calculateBuild(OptimizerTabController.fixForm(OptimizerTabController.getDisplayFormValues(character.form)), statCalculationRelics)
+  const { c: finalStats } = calculateBuild(OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form)), statCalculationRelics)
   finalStats.CV = StatCalculator.calculateCv(Object.values(statCalculationRelics))
   finalStats[elementalDmgValue] = finalStats.ELEMENTAL_DMG
 

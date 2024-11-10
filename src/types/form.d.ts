@@ -1,5 +1,6 @@
 import { SetsOrnaments } from 'lib/constants/constants'
 import { Simulation } from 'lib/simulations/statSimulationController'
+import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterId, Eidolon } from 'types/character'
 
 import { ConditionalValueMap } from 'types/conditionals'
@@ -40,9 +41,7 @@ export type Form = {
   // Conditionals
   characterConditionals: ConditionalValueMap
   lightConeConditionals: ConditionalValueMap
-  setConditionals: {
-    [key: string]: any[]
-  }
+  setConditionals: SetConditionals
 
   // Optimizer filters
   enhance: RelicEnhance

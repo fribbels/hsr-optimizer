@@ -19,7 +19,6 @@ import { Assets } from 'lib/rendering/assets'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
-import { CharacterStats } from 'lib/scoring/characterStats'
 import { DB } from 'lib/state/db'
 import { Metadata } from 'lib/state/metadata'
 import { SaveState } from 'lib/state/saveState'
@@ -70,7 +69,6 @@ declare global {
     DataParser: typeof Metadata
     OptimizerTabController: typeof OptimizerTabController
     DB: typeof DB
-    CharacterStats: typeof CharacterStats
     Utils: typeof Utils
     Assets: typeof Assets
     RelicAugmenter: typeof RelicAugmenter

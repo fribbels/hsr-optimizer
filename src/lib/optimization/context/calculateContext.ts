@@ -3,7 +3,7 @@ import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightCo
 import { ElementToDamage, ElementToResPenType, Stats } from 'lib/constants/constants'
 import { emptyLightCone } from 'lib/optimization/optimizerUtils'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
-import { CharacterStats } from 'lib/scoring/characterStats'
+import { StatCalculator } from 'lib/relics/statCalculator'
 import DB from 'lib/state/db'
 import { Form, Teammate } from 'types/form'
 import { CharacterMetadata, CharacterStatsBreakdown, OptimizerContext } from 'types/optimizer'
@@ -120,15 +120,15 @@ function generateBaseStatsContext(request: Form, context: Partial<OptimizerConte
 
   const statsBreakdown: CharacterStatsBreakdown = {
     base: {
-      ...CharacterStats.getZeroes(),
+      ...StatCalculator.getZeroes(),
       ...characterStats,
     },
     traces: {
-      ...CharacterStats.getZeroes(),
+      ...StatCalculator.getZeroes(),
       ...characterMetadata.traces,
     },
     lightCone: {
-      ...CharacterStats.getZeroes(),
+      ...StatCalculator.getZeroes(),
       ...lightConeStats,
       ...lightConeSuperimposition,
     },

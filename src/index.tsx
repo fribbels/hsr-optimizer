@@ -17,7 +17,6 @@ import { Assets } from 'lib/rendering/assets'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { Themes } from 'lib/rendering/theme'
-import { CharacterStats } from 'lib/scoring/characterStats'
 import { DB } from 'lib/state/db'
 import { Metadata } from 'lib/state/metadata'
 import { SaveState } from 'lib/state/saveState'
@@ -33,7 +32,6 @@ window.WorkerPool = WorkerPool
 window.Constants = Constants
 window.DataParser = Metadata
 window.DB = DB
-window.CharacterStats = CharacterStats
 window.Assets = Assets
 window.RelicAugmenter = RelicAugmenter
 window.StatCalculator = StatCalculator

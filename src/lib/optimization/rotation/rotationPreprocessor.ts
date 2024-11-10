@@ -2,8 +2,6 @@ import { Sets } from 'lib/constants/constants'
 import { ComboBooleanConditional, ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Form } from 'types/form'
 
-// FIXME HIGH
-
 /**
  * Some passives such as Scholar Lost In Erudition set only activate after abilities trigger them.
  * Use the simulation ability rotation to precompute when their activations are active.
@@ -26,7 +24,7 @@ export function precomputeConditionalActivations(comboState: ComboState, request
 }
 
 type AbilityPreprocessor = {
-  state: any
+  state: Record<string, boolean>
   processAbility: (ability: string, index: number) => void
 }
 

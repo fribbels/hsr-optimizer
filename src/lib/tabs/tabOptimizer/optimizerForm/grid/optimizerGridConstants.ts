@@ -15,6 +15,30 @@ export const optimizerTabDefaultGap = 5
 export const panelWidth = 211
 export const defaultPadding = 11
 
+export const gridOptions = {
+  rowHeight: 33,
+  pagination: true,
+  rowModelType: 'infinite',
+  datasource: null,
+  paginationPageSize: 500,
+  paginationPageSizeSelector: [100, 500, 1000],
+  cacheBlockSize: 500,
+  maxBlocksInCache: 1,
+  alwaysShowVerticalScroll: true,
+  suppressDragLeaveHidesColumns: true,
+  suppressScrollOnNewData: true,
+  suppressMultiSort: true,
+  getRowId: (params: GetRowIdParams) => String(params.data.id || Utils.randomId()),
+}
+
+export const defaultColDef = {
+  cellStyle: Gradient.getOptimizerColumnGradient,
+  sortable: true,
+  sortingOrder: ['desc', 'asc'],
+  wrapHeaderText: true,
+  autoHeaderHeight: true,
+}
+
 export function getBaseColumnDefs(t: TFunction<'optimizerTab', undefined>) {
   return [
     {
@@ -392,28 +416,4 @@ export function getCombatColumnDefs(t: TFunction<'optimizerTab', undefined>) {
       headerName: t('Grid.Headers.Combat.COMBO'), // 'COMBO\nDMG',
     },
   ]
-}
-
-export const gridOptions = {
-  rowHeight: 33,
-  pagination: true,
-  rowModelType: 'infinite',
-  datasource: null,
-  paginationPageSize: 500,
-  paginationPageSizeSelector: [100, 500, 1000],
-  cacheBlockSize: 500,
-  maxBlocksInCache: 1,
-  alwaysShowVerticalScroll: true,
-  suppressDragLeaveHidesColumns: true,
-  suppressScrollOnNewData: true,
-  suppressMultiSort: true,
-  getRowId: (params: GetRowIdParams) => String(params.data.id || Utils.randomId()),
-}
-
-export const defaultColDef = {
-  cellStyle: Gradient.getOptimizerColumnGradient,
-  sortable: true,
-  sortingOrder: ['desc', 'asc'],
-  wrapHeaderText: true,
-  autoHeaderHeight: true,
 }

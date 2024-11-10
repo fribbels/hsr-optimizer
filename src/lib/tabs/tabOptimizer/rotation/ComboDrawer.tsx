@@ -30,9 +30,9 @@ import { lockScroll, unlockScroll } from 'lib/rendering/scrollController'
 import { FormSelectWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
-import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/OrnamentSetTagRenderer'
-import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/OrnamentsOptions'
-import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/SetsOptions'
+import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
+import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
+import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
@@ -164,8 +164,8 @@ function AbilitySelector(props: {
   comboAbilities: string[]
   index: number
   abilitySelectOptions: {
-    value: string;
-    label: string;
+    value: string
+    label: string
     display: string
   }[]
 }) {
@@ -228,8 +228,8 @@ function ComboHeader(props: {
   const comboAbilities = props.comboState.comboAbilities
   const selectOptions = useMemo(() => {
     const selectOptions: {
-      value: string;
-      label: string;
+      value: string
+      label: string
       display: string
     }[] = []
     for (const option of abilitySelectOptions) {
@@ -276,7 +276,7 @@ function GroupDivider(props: {
 function SetSelector(props: {
   selected: string[]
   options: {
-    value: string;
+    value: string
     label: ReactElement
   }[]
   placeholder: string
@@ -841,8 +841,8 @@ function Partition(props: {
 }
 
 function BooleanSwitch(props: {
-  contentItem: ContentItem;
-  sourceKey: string;
+  contentItem: ContentItem
+  sourceKey: string
   value: boolean
 }) {
   const contentItem = props.contentItem
@@ -880,9 +880,9 @@ function getTeammateIndex(sourceKey: string) {
 }
 
 function NumberSlider(props: {
-  contentItem: ContentItem;
-  value: number;
-  sourceKey: string;
+  contentItem: ContentItem
+  value: number
+  sourceKey: string
   partitionIndex: number
 }) {
   const contentItem = props.contentItem
@@ -924,9 +924,9 @@ function NumberSlider(props: {
 }
 
 function NumberSelect(props: {
-  contentItem: ContentItem;
-  value: number;
-  sourceKey: string;
+  contentItem: ContentItem
+  value: number
+  sourceKey: string
   partitionIndex: number
 }) {
   const contentItem = props.contentItem

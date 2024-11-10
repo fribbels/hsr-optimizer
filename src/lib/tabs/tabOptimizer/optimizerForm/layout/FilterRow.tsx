@@ -1,6 +1,6 @@
 import { Flex, Form } from 'antd'
-import FormStatTextStyled from 'lib/tabs/tabOptimizer/optimizerForm/FormStatTextStyled'
-import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/InputNumberStyled'
+import FormStatTextStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/FormStatTextStyled'
+import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 
 const FilterRow = (props: { name: string; label: string }) => {
   return (

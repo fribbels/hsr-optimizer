@@ -13,7 +13,7 @@ import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/opt
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import DB from 'lib/state/db'
-import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/RecommendedPresetsButton'
+import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'

@@ -1,7 +1,7 @@
 import { Button, Flex, Form as AntDForm, Modal, Radio } from 'antd'
 import DB from 'lib/state/db'
-import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/CharacterSelect'
-import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/LightConeSelect'
+import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
+import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { HeaderText } from 'lib/ui/HeaderText'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -140,7 +140,7 @@ export default function CharacterModal(props: {
 
 // Full width radio buttons
 function RadioButton(props: {
-  text: string;
+  text: string
   value: number
 }) {
   return (

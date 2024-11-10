@@ -13,7 +13,6 @@ import { Button, Dropdown, Flex, Image, Input, Modal, theme, Typography } from '
 import { useSubscribe } from 'hooks/useSubscribe'
 import i18next from 'i18next'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Message } from 'lib/interactions/message'
 import BuildsModal from 'lib/overlays/modals/BuildsModal'
@@ -29,7 +28,8 @@ import {
   generateElementTags,
   generatePathTags,
   SegmentedFilterRow,
-} from 'lib/tabs/tabOptimizer/optimizerForm/CardSelectModalComponents.tsx'
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents.tsx'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import PropTypes from 'prop-types'
 import React, { useCallback, useMemo, useRef, useState } from 'react'

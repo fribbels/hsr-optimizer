@@ -9,7 +9,7 @@ import {
   getBaseColumnDefs,
   getCombatColumnDefs,
   gridOptions,
-} from 'lib/tabs/tabOptimizer/optimizerTabConstants'
+} from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridConstants'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 

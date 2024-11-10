@@ -1,6 +1,6 @@
 import { Flex } from 'antd'
 import { Hint } from 'lib/interactions/hint'
-import { FormStatRollSliders, FormStatRollSliderTopPercent } from 'lib/tabs/tabOptimizer/optimizerForm/FormStatRollSlider'
+import { FormStatRollSliders, FormStatRollSliderTopPercent } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormStatRollSlider'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useTranslation } from 'react-i18next'

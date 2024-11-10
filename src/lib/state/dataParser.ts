@@ -5,7 +5,7 @@ import { Constants, Parts, PartsMainStats, Sets, SetsRelics, Stats } from 'lib/c
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { ScoringMetadata } from 'lib/scoring/characterScorer'
 import DB, { DBMetadata } from 'lib/state/db'
-import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/RecommendedPresetsButton'
+import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { MetadataCharacter } from 'types/character'
 import { LightCone } from 'types/lightCone'
 

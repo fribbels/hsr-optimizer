@@ -19,7 +19,6 @@ export const CharacterConditionalsDisplay = memo(({ id, eidolon, teammateIndex }
   const { t } = useTranslation('optimizerTab')
   // console.log('getDisplayForCharacter', id, teammateIndex)
 
-  // TODO revisit type workaround
   const characterId = id as unknown as keyof typeof characterOptionMapping
   if (!id || !characterOptionMapping[characterId]) {
     return (

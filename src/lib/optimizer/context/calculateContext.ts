@@ -1,12 +1,14 @@
-import { Form, Teammate } from 'types/Form'
-import { CharacterMetadata, CharacterStatsBreakdown, OptimizerContext } from 'types/Optimizer'
-import DB from 'lib/db'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { ElementToDamage, ElementToResPenType, Stats } from 'lib/constants/constants'
 import { emptyLightCone } from 'lib/optimizer/optimizerUtils'
-import { ElementToDamage, ElementToResPenType, Stats } from 'lib/constants'
-import { CharacterStats } from 'lib/characterStats'
 import { transformComboState } from 'lib/optimizer/rotation/comboStateTransform'
-import { CharacterConditionals } from 'lib/characterConditionals'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { CharacterStats } from 'lib/scoring/characterStats'
+import DB from 'lib/state/db'
+import { Form, Teammate } from 'types/form'
+import { CharacterMetadata, CharacterStatsBreakdown, OptimizerContext } from 'types/optimizer'
+
+// FIXME HIGH
 
 export function generateContext(request: Form): OptimizerContext {
   const context: OptimizerContext = {} as OptimizerContext
@@ -45,12 +47,12 @@ function generateCombatBuffsContext(request: Form, context: OptimizerContext) {
 }
 
 function generateFiltersContext(request: Form, context: OptimizerContext) {
-  context.resultSort = request.resultSort as string
+  context.resultSort = request.resultSort!
 }
 
 function calculateConditionals(request: Form, context: OptimizerContext) {
-  context.characterConditionalController = CharacterConditionals.get(context)
-  context.lightConeConditionalController = LightConeConditionals.get(context)
+  context.characterConditionalController = CharacterConditionalsResolver.get(context)
+  context.lightConeConditionalController = LightConeConditionalsResolver.get(context)
 
   transformComboState(request, context)
 }

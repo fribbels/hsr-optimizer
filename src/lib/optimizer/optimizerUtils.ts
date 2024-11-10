@@ -1,5 +1,5 @@
-import { Constants, Stats } from 'lib/constants'
-import { AugmentedStats } from 'lib/relicAugmenter'
+import { Constants, Stats } from 'lib/constants/constants'
+import { AugmentedStats } from 'lib/relics/relicAugmenter'
 
 export function p4(set: number) {
   return set >> 2

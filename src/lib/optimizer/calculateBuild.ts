@@ -1,5 +1,5 @@
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex } from 'lib/constants'
+import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
@@ -7,10 +7,10 @@ import { ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/opt
 import { generateContext } from 'lib/optimizer/context/calculateContext'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { transformComboState } from 'lib/optimizer/rotation/comboStateTransform'
-import { RelicFilters } from 'lib/relicFilters'
-import { Utils } from 'lib/utils'
-import { Form } from 'types/Form'
-import { OptimizerContext } from 'types/Optimizer'
+import { RelicFilters } from 'lib/relics/relicFilters'
+import { Utils } from 'lib/utils/utils'
+import { Form } from 'types/form'
+import { OptimizerContext } from 'types/optimizer'
 
 function generateUnusedSets(relics: SingleRelicByPart) {
   const usedSets = new Set([

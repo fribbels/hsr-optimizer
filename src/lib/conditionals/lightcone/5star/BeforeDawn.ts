@@ -2,12 +2,12 @@ import { FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalCons
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
-import { TsUtils } from 'lib/TsUtils'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.BeforeDawn')
   const sValuesSkillUltDmg = [0.18, 0.21, 0.24, 0.27, 0.30]
   const sValuesFuaDmg = [0.48, 0.56, 0.64, 0.72, 0.80]
@@ -30,7 +30,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.lightConeConditionals
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
       buffAbilityDmg(x, SKILL_TYPE | ULT_TYPE, sValuesSkillUltDmg[s], Source.NONE)
       buffAbilityDmg(x, FUA_TYPE, (r.fuaDmgBoost) ? sValuesFuaDmg[s] : 0, Source.NONE)

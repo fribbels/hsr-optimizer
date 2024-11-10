@@ -1,6 +1,6 @@
-import { Stats } from 'lib/constants'
-import { Form } from 'types/Form'
-import { OptimizerContext } from 'types/Optimizer'
+import { Stats } from 'lib/constants/constants'
+import { Form } from 'types/form'
+import { OptimizerContext } from 'types/optimizer'
 
 export function injectSettings(wgsl: string, context: OptimizerContext, request: Form) {
   wgsl += generateCharacterStats(context.characterStatsBreakdown.base, 'character')

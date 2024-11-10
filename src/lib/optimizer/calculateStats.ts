@@ -1,5 +1,5 @@
 import { BASIC_TYPE, BasicStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { Stats, StatsValues } from 'lib/constants'
+import { Stats, StatsValues } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   BelobogOfTheArchitectsConditional,
@@ -19,8 +19,8 @@ import {
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { buffElementalDamageType, ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
-import { Relic } from 'types/Relic'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import { Relic } from 'types/relic'
 
 export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: number, setB: number, setF: number, setP: number, setL: number) {
   c.sets = {
@@ -76,7 +76,7 @@ export function calculateElementalStats(c: BasicStatsObject, context: OptimizerC
   const sets = c.sets
 
   // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
-  // This is mostly because there isnt a need to split out damage types while we're calculating display stats.
+  // This is mostly because there isn't a need to split out damage types while we're calculating display stats.
   c.ELEMENTAL_DMG = 0
   switch (context.elementalDamageType) {
     case Stats.Physical_DMG:

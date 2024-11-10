@@ -1,4 +1,4 @@
-import { Constants } from 'lib/constants'
+import { Constants } from 'lib/constants/constants'
 import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { injectUtils } from 'lib/gpu/injection/injectUtils'
@@ -8,8 +8,8 @@ import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
 import structComputedStats from 'lib/gpu/wgsl/structComputedStats.wgsl?raw'
 import structs from 'lib/gpu/wgsl/structs.wgsl?raw'
 import { SortOption } from 'lib/optimizer/sortOptions'
-import { Form } from 'types/Form'
-import { OptimizerContext } from 'types/Optimizer'
+import { Form } from 'types/form'
+import { OptimizerContext } from 'types/optimizer'
 
 export function generateWgsl(context: OptimizerContext, request: Form, gpuParams: GpuConstants) {
   let wgsl = ''

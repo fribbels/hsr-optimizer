@@ -1,0 +1,96 @@
+import { AgGridReact } from 'ag-grid-react'
+import { FormInstance } from 'antd/es/form/hooks/useForm'
+import { MessageInstance } from 'antd/es/message/interface'
+import { NotificationInstance } from 'antd/es/notification/interface'
+import { HookAPI } from 'antd/lib/modal/useModal'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { Constants } from 'lib/constants/constants'
+import { CharacterConverter } from 'lib/importer/characterConverter'
+import { Hint } from 'lib/interactions/hint'
+import { Message } from 'lib/interactions/message'
+import { BufferPacker } from 'lib/optimizer/bufferPacker'
+import { RelicAugmenter } from 'lib/relics/relicAugmenter'
+import { RelicFilters } from 'lib/relics/relicFilters'
+import { RelicRollFixer } from 'lib/relics/relicRollFixer'
+import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import { StatCalculator } from 'lib/relics/statCalculator'
+import { Assets } from 'lib/rendering/assets'
+import { Gradient } from 'lib/rendering/gradient'
+import { Renderer } from 'lib/rendering/renderer'
+import { ColorThemeOverrides } from 'lib/rendering/theme'
+import { CharacterStats } from 'lib/scoring/characterStats'
+import { DataParser } from 'lib/state/dataParser'
+import { DB } from 'lib/state/db'
+import { SaveState } from 'lib/state/saveState'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { Utils } from 'lib/utils/utils'
+import { WorkerPool } from 'lib/worker/workerPool'
+import { DispatchWithoutAction, RefObject } from 'react'
+import { Build, Character } from 'types/character'
+import { Form } from 'types/form'
+import { Relic } from 'types/relic'
+import { HsrOptimizerStore } from 'types/store'
+import { StoreApi, UseBoundStore } from 'zustand'
+import { Hero } from './types/calc'
+
+declare global {
+  interface Window {
+    notificationApi: NotificationInstance
+    messageApi: MessageInstance
+    modalApi: HookAPI
+    store: UseBoundStore<StoreApi<HsrOptimizerStore>>
+    colorTheme: ColorThemeOverrides
+
+    characterGrid: RefObject<AgGridReact<Character>>
+    relicsGrid: RefObject<AgGridReact<Relic>>
+    optimizerGrid: RefObject<AgGridReact<Hero>>
+
+    setCharacterRows: (characters: Character[]) => void
+    setRelicRows: (characters: Relic[]) => void
+    setOptimizerBuild: (build?: Build) => void
+    setSelectedRelic: (relic: Partial<Relic>) => void
+    setEditModalOpen: (open: boolean) => void
+
+    // TODO see OptimizerForm
+    onOptimizerFormValuesChange: (changedValues: Form, allValues: Form, bypass?: boolean) => unknown
+    optimizerStartClicked: () => void
+    optimizerForm: FormInstance
+    statSimulationForm: FormInstance
+
+    forceOptimizerBuildPreviewUpdate: DispatchWithoutAction
+    forceCharacterTabUpdate: DispatchWithoutAction
+    refreshRelicsScore: DispatchWithoutAction
+
+    rescoreSingleRelic: (relic: Relic) => void
+    showSaveFilePicker: (options?: SaveFilePickerOptions) => Promise<FileSystemFileHandle>
+
+    yaml: unknown
+    WorkerPool: typeof WorkerPool
+    Constants: typeof Constants
+    DataParser: typeof DataParser
+    OptimizerTabController: typeof OptimizerTabController
+    DB: typeof DB
+    CharacterStats: typeof CharacterStats
+    Utils: typeof Utils
+    Assets: typeof Assets
+    RelicAugmenter: typeof RelicAugmenter
+    StatCalculator: typeof StatCalculator
+    Gradient: typeof Gradient
+    SaveState: typeof SaveState
+    RelicFilters: typeof RelicFilters
+    Renderer: typeof Renderer
+    Message: typeof Message
+    Hint: typeof Hint
+    CharacterConverter: typeof CharacterConverter
+    RelicScorer: typeof RelicScorer
+    CharacterConditionals: typeof CharacterConditionalsResolver
+    LightConeConditionals: typeof LightConeConditionalsResolver
+    BufferPacker: typeof BufferPacker
+    RelicRollFixer: typeof RelicRollFixer
+
+    title: string
+
+    WEBGPU_DEBUG: boolean
+  }
+}

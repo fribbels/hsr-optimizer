@@ -1,12 +1,12 @@
-import { generateFullDefaultForm } from 'lib/characterScorer'
-import { SetsOrnamentsNames, SetsRelicsNames } from 'lib/constants'
-import DB, { DBMetadata, DBMetadataLightCone } from 'lib/db'
+import { SetsOrnamentsNames, SetsRelicsNames } from 'lib/constants/constants'
 import { generateTestRelics, StatDeltaAnalysis, testWrapper } from 'lib/gpu/tests/webgpuTestUtils'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { SortOption } from 'lib/optimizer/sortOptions'
-import { OptimizerTabController } from 'lib/optimizerTabController'
-import { Form } from 'types/Form'
+import { generateFullDefaultForm } from 'lib/scoring/characterScorer'
+import DB, { DBMetadata, DBMetadataLightCone } from 'lib/state/db'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { Form } from 'types/form'
 
 export type WebgpuTest = {
   name: string

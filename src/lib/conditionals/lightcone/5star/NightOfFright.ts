@@ -1,11 +1,11 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
-import { TsUtils } from 'lib/TsUtils'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.NightOfFright')
 
   const sValues = [0.024, 0.028, 0.032, 0.036, 0.04]
@@ -42,7 +42,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.lightConeConditionals
+      const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
       x.ATK_P.buff(m.atkBuffStacks * sValues[s], Source.NONE)
     },

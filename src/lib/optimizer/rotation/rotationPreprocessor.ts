@@ -1,6 +1,8 @@
-import { Form } from 'types/Form'
+import { Sets } from 'lib/constants/constants'
 import { ComboBooleanConditional, ComboState } from 'lib/optimizer/rotation/comboDrawerController'
-import { Sets } from 'lib/constants'
+import { Form } from 'types/form'
+
+// FIXME HIGH
 
 /**
  * Some passives such as Scholar Lost In Erudition set only activate after abilities trigger them.
@@ -8,7 +10,7 @@ import { Sets } from 'lib/constants'
  */
 export function precomputeConditionalActivations(comboState: ComboState, request: Form) {
   const setPreprocessors = [
-    scholarLostInEruditionPreprocessor(comboState, request)
+    scholarLostInEruditionPreprocessor(comboState, request),
     // Hunter of Glacial Forest
     // Firesmith of Lava-Forging
     // Band of Sizzling Thunder
@@ -31,7 +33,7 @@ type AbilityPreprocessor = {
 function scholarLostInEruditionPreprocessor(comboState: ComboState, request: Form): AbilityPreprocessor {
   return {
     state: {
-      scholarActivated: false
+      scholarActivated: false,
     },
     processAbility: function (ability: string, index: number) {
       if (ability == 'ULT') {
@@ -44,8 +46,8 @@ function scholarLostInEruditionPreprocessor(comboState: ComboState, request: For
       } else {
         setComboBooleanCategoryActivation(comboState, index, false)
       }
-    }
-  };
+    },
+  }
 }
 
 function setComboBooleanCategoryActivation(comboState: ComboState, index: number, value: boolean) {

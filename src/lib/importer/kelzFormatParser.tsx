@@ -1,16 +1,18 @@
-import stringSimilarity from 'string-similarity'
-import { Constants, Parts, Sets } from '../constants'
-import { RelicAugmenter } from 'lib/relicAugmenter'
+import { Typography } from 'antd'
 
 import gameData from 'data/game_data.json'
-import DB from 'lib/db'
-import { Utils } from '../utils'
-import semver from 'semver'
-import { Typography } from 'antd'
-import { Message } from 'lib/message'
+import { Constants, Parts, Sets } from 'lib/constants/constants'
 import { ScannerConfig } from 'lib/importer/importConfig'
-import { Relic } from 'types/Relic'
-import { Character } from 'types/Character'
+import { Message } from 'lib/interactions/message'
+import { RelicAugmenter } from 'lib/relics/relicAugmenter'
+import DB from 'lib/state/db'
+import { Utils } from 'lib/utils/utils'
+import semver from 'semver'
+import stringSimilarity from 'string-similarity'
+import { Character } from 'types/character'
+import { Relic } from 'types/relic'
+
+// FIXME HIGH
 
 const { Text } = Typography
 
@@ -51,7 +53,10 @@ type V4ParserRelic = {
   rarity: number
   level: number
   mainstat: string
-  substats: { key: string; value: number }[]
+  substats: {
+    key: string
+    value: number
+  }[]
   location: string
   lock: boolean
   discard: boolean
@@ -171,8 +176,17 @@ export class KelzFormatParser { // TODO abstract class
 
 // ================================================== V3 ==================================================
 // TODO: deprecate soon
-function readCharacterV3(character: V4ParserCharacter & { key: string }, lightCones: (V4ParserLightCone & { key: string })[], trailblazer, path) {
-  let lightCone: (V4ParserLightCone & { key: string }) | undefined
+function readCharacterV3(character: V4ParserCharacter & {
+  key: string
+},
+lightCones: (V4ParserLightCone & {
+  key: string
+})[],
+trailblazer,
+path) {
+  let lightCone: (V4ParserLightCone & {
+    key: string
+  }) | undefined
   if (lightCones) {
     if (character.key.startsWith('Trailblazer')) {
       lightCone = lightCones.find((x) => x.location === character.key)

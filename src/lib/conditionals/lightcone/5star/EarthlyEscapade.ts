@@ -1,11 +1,11 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
-import { TsUtils } from 'lib/TsUtils'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.EarthlyEscapade')
 
   const sValuesCr = [0.10, 0.11, 0.12, 0.13, 0.14]
@@ -44,7 +44,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: () => {
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t: Conditionals<typeof teammateContent> = action.lightConeConditionals
+      const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
       x.CR.buff((t.maskActive) ? sValuesCr[s] : 0, Source.NONE)
       x.CD.buff((t.maskActive) ? sValuesCd[s] : 0, Source.NONE)

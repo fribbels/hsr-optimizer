@@ -1,11 +1,11 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
-import { TsUtils } from 'lib/TsUtils'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.FlowingNightglow')
 
   const sValuesErr = [0.03, 0.035, 0.04, 0.045, 0.05]
@@ -58,12 +58,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t: Conditionals<typeof teammateContent> = action.lightConeConditionals
+      const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
       x.ELEMENTAL_DMG.buff((t.cadenzaActive) ? sValuesDmgBuff[s] : 0, Source.NONE)
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.lightConeConditionals
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.ERR.buff(r.cantillationStacks * sValuesErr[s], Source.NONE)
       x.ATK_P.buff((r.cadenzaActive) ? sValuesAtkBuff[s] : 0, Source.NONE)

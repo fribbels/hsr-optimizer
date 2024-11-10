@@ -1,18 +1,18 @@
-import { BufferPacker } from 'lib/bufferPacker'
-import { CharacterConditionals } from 'lib/characterConditionals'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats, StatsValues } from 'lib/constants'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats, StatsValues } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { BufferPacker } from 'lib/optimizer/bufferPacker'
 import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimizer/calculateConditionals'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimizer/sortOptions'
-import { Form } from 'types/Form'
-import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
-import { Relic } from 'types/Relic'
+import { Form } from 'types/form'
+import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/optimizer'
+import { Relic } from 'types/relic'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
@@ -75,12 +75,12 @@ self.onmessage = function (e: MessageEvent) {
     calculateContextConditionalRegistry(action, context)
   }
 
-  context.characterConditionalController = CharacterConditionals.get(context)
-  context.lightConeConditionalController = LightConeConditionals.get(context)
+  context.characterConditionalController = CharacterConditionalsResolver.get(context)
+  context.lightConeConditionalController = LightConeConditionalsResolver.get(context)
 
   function calculateTeammateDynamicConditionals(action: OptimizerAction, teammateMetadata: CharacterMetadata, index: number) {
     if (teammateMetadata?.characterId) {
-      const teammateCharacterConditionalController = CharacterConditionals.get(teammateMetadata)
+      const teammateCharacterConditionalController = CharacterConditionalsResolver.get(teammateMetadata)
       const dynamicConditionals = (teammateCharacterConditionalController.teammateDynamicConditionals ?? [])
         .map((dynamicConditional: DynamicConditional) => {
           const wrapped = wrapTeammateDynamicConditional(dynamicConditional, index)

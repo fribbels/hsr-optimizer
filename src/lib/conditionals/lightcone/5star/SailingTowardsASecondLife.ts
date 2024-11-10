@@ -1,15 +1,15 @@
 import { BREAK_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
-import { TsUtils } from 'lib/TsUtils'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.SailingTowardsASecondLife')
 
   const sValuesSpdBuff = [0.12, 0.14, 0.16, 0.18, 0.20]
@@ -41,7 +41,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.lightConeConditionals
+      const r = action.lightConeConditionals as Conditionals<typeof content>
       buffAbilityDefPen(x, BREAK_TYPE, (r.breakDmgDefShred) ? sValuesDefShred[s] : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -53,7 +53,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.BE],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof content> = action.lightConeConditionals
+          const r = action.lightConeConditionals as Conditionals<typeof content>
 
           return r.spdBuffConditional && x.a[Key.BE] >= 1.50
         },

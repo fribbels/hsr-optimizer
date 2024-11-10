@@ -1,13 +1,13 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
-import { TsUtils } from 'lib/TsUtils'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PerfectTiming')
 
   const sValues = [0.33, 0.36, 0.39, 0.42, 0.45]
@@ -44,7 +44,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.RES],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof content> = action.lightConeConditionals
+          const r = action.lightConeConditionals as Conditionals<typeof content>
 
           return r.resToHealingBoost
         },

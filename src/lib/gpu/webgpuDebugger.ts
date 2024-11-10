@@ -1,6 +1,6 @@
 import { GpuExecutionContext } from 'lib/gpu/webgpuTypes'
 import { ComputedStatsObjectExternal, InternalKeyToExternal, Key, KeysType } from 'lib/optimizer/computedStatsArray'
-import { TsUtils } from 'lib/TsUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 export function logIterationTimer(i: number, gpuContext: GpuExecutionContext) {
   const endTime = new Date().getTime()
@@ -48,9 +48,8 @@ export function debugExportWebgpuResult(array: Float32Array) {
 
 export function debugPinOptimizerWebgpuArray(array: Float32Array) {
   const currentPinned = window.optimizerGrid.current!.api.getGridOption('pinnedTopRowData') ?? []
-  const x = debugExportWebgpuResult(array)
+  currentPinned[1] = debugExportWebgpuResult(array)
 
-  currentPinned[1] = x
   window.optimizerGrid.current!.api.updateGridOptions({ pinnedTopRowData: currentPinned })
 }
 

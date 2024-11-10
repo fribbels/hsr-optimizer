@@ -4,7 +4,7 @@ import { writeFile } from "fs"
 import { readFile } from "fs/promises"
 //@ts-ignore
 import yaml from "js-yaml"
-import { TsUtils } from '../../src/lib/TsUtils'
+import { TsUtils } from 'src/lib/utils/TsUtils'
 import { betaInformation } from "./betaInformation"
 import pathConfig from './AvatarBaseType.json'
 import AvatarConfig from './AvatarConfig.json'

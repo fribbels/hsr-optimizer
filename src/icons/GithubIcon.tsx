@@ -1,4 +1,5 @@
 import Icon from '@ant-design/icons'
+import React from 'react'
 
 const IconSVG = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'>
@@ -6,6 +7,6 @@ const IconSVG = () => (
   </svg>
 )
 
-export const GithubIcon = (props) => {
+export const GithubIcon = (props: React.ComponentProps<typeof Icon>) => {
   return <Icon component={IconSVG} {...props}/>
 }

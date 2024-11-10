@@ -1,4 +1,4 @@
-import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, SetsOrnaments, SetsRelics } from 'lib/constants'
+import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import { debugWebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
@@ -7,7 +7,7 @@ import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { ComputedStatsObjectExternal } from 'lib/optimizer/computedStatsArray'
 import { generateContext } from 'lib/optimizer/context/calculateContext'
 import { SortOption } from 'lib/optimizer/sortOptions'
-import { Form } from 'types/Form'
+import { Form } from 'types/form'
 
 export async function runTestRequest(request: Form, relics: RelicsByPart, device: GPUDevice) {
   request.resultSort = SortOption.COMBO.key

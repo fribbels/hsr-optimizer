@@ -1,11 +1,11 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
-import { TsUtils } from 'lib/TsUtils'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.IShallBeMyOwnSword')
 
   const sValuesStackDmg = [0.14, 0.165, 0.19, 0.215, 0.24]
@@ -39,7 +39,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.lightConeConditionals
+      const r = action.lightConeConditionals as Conditionals<typeof content>
       x.ELEMENTAL_DMG.buff(r.eclipseStacks * sValuesStackDmg[s], Source.NONE)
       x.DEF_PEN.buff((r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0, Source.NONE)
     },

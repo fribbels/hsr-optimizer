@@ -1,16 +1,16 @@
-import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterConditional'
-import { ConditionalMap, ContentItem } from 'types/Conditionals'
-import { Form, Teammate } from 'types/Form'
-import { CharacterConditionals } from 'lib/characterConditionals'
-import { LightConeConditional, LightConeConditionalMap } from 'types/LightConeConditionals'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { defaultSetConditionals, getDefaultForm } from 'lib/defaultForm'
-import { ConditionalDataType, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants'
-import { SaveState } from 'lib/saveState'
-import DB from 'lib/db'
-import { OptimizerTabController } from 'lib/optimizerTabController'
-import { ConditionalSetMetadata } from 'lib/optimizer/rotation/setConditionalContent'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { ConditionalDataType, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants/constants'
+import { defaultSetConditionals, getDefaultForm } from 'lib/optimizer/defaultForm'
 import { precomputeConditionalActivations } from 'lib/optimizer/rotation/rotationPreprocessor'
+import { ConditionalSetMetadata } from 'lib/optimizer/rotation/setConditionalContent'
+import DB from 'lib/state/db'
+import { SaveState } from 'lib/state/saveState'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { CharacterConditionalsController, ConditionalValueMap, ContentItem, LightConeConditionalsController } from 'types/conditionals'
+import { Form, Teammate } from 'types/form'
+
+// FIXME HIGH
 
 export type ComboConditionals = {
   [key: string]: ComboConditionalCategory
@@ -96,8 +96,8 @@ export function initializeComboState(request: Form, merge: boolean) {
     comboState.comboAbilities.push(action)
   }
 
-  const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(request)
-  const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(request)
+  const characterConditionalMetadata: CharacterConditionalsController = CharacterConditionalsResolver.get(request)
+  const lightConeConditionalMetadata: LightConeConditionalsController = LightConeConditionalsResolver.get(request)
 
   const requestCharacterConditionals = request.characterConditionals
   const requestLightConeConditionals = request.lightConeConditionals
@@ -241,9 +241,9 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
 }
 
 function generateComboConditionals(
-  conditionals: CharacterConditionalMap,
+  conditionals: ConditionalValueMap,
   contents: ContentItem[],
-  defaults: ConditionalMap,
+  defaults: ConditionalValueMap,
   actionCount: number,
 ) {
   const output: ComboConditionals = {}
@@ -252,7 +252,7 @@ function generateComboConditionals(
     if (content.disabled) continue
 
     if (content.formItem == 'switch') {
-      const value: boolean = conditionals[content.id] ?? defaults[content.id]
+      const value = conditionals[content.id] ?? defaults[content.id]
       const activations: boolean[] = Array(actionCount).fill(value)
       output[content.id] = {
         type: ConditionalDataType.BOOLEAN,
@@ -322,11 +322,11 @@ function generateSetComboConditionals(
 function generateComboTeammate(teammate: Teammate, actionCount: number, dbCharacters: any) {
   if (!teammate?.characterId) return null
 
-  const characterConditionals = teammate.characterConditionals || {} as CharacterConditionalMap
-  const lightConeConditionals = teammate.lightConeConditionals || {} as LightConeConditionalMap
+  const characterConditionals = teammate.characterConditionals || {}
+  const lightConeConditionals = teammate.lightConeConditionals || {}
 
-  const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(teammate)
-  const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(teammate)
+  const characterConditionalMetadata: CharacterConditionalsController = CharacterConditionalsResolver.get(teammate)
+  const lightConeConditionalMetadata: LightConeConditionalsController = LightConeConditionalsResolver.get(teammate)
 
   const relicSetConditionals: ComboConditionals = {}
   const ornamentSetConditionals: ComboConditionals = {}
@@ -681,16 +681,30 @@ export function updateFormState(comboState: ComboState) {
 }
 
 type ChangeEvent = {
-  characterConditionals: { [key: string]: object }
-  lightConeConditionals: { [key: string]: object }
-  setConditionals: { [key: string]: object }
-  teammate0: { [key: string]: object }
-  teammate1: { [key: string]: object }
-  teammate2: { [key: string]: object }
+  characterConditionals: {
+    [key: string]: object
+  }
+  lightConeConditionals: {
+    [key: string]: object
+  }
+  setConditionals: {
+    [key: string]: object
+  }
+  teammate0: {
+    [key: string]: object
+  }
+  teammate1: {
+    [key: string]: object
+  }
+  teammate2: {
+    [key: string]: object
+  }
 }
 
 // eslint-disable-next-line
-function change(changeConditional: { [key: string]: any }, originalConditional: ComboConditionals, set: boolean = false) {
+function change(changeConditional: {
+  [key: string]: any
+}, originalConditional: ComboConditionals, set: boolean = false) {
   for (const [key, value] of Object.entries(changeConditional)) {
     const comboCategory = originalConditional[key]
     if (comboCategory.type == ConditionalDataType.BOOLEAN) {

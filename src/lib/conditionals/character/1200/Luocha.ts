@@ -1,13 +1,6 @@
 import { NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
-  gpuStandardAtkFinalizer,
-  gpuStandardAtkHealFinalizer,
-  standardAtkFinalizer,
-  standardAtkHealFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { gpuStandardAtkFinalizer, gpuStandardAtkHealFinalizer, standardAtkFinalizer, standardAtkHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/Character'

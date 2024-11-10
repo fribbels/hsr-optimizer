@@ -1,12 +1,10 @@
 import { NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardDefFinalizer, gpuStandardDefShieldFinalizer, standardDefFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
-  gpuStandardDefFinalizer,
-  gpuStandardDefShieldFinalizer,
-  standardDefFinalizer,
-  standardDefShieldFinalizer,
+
 } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'

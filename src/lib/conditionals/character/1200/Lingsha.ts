@@ -1,13 +1,6 @@
 import { ASHBLAZING_ATK_STACK, BREAK_TYPE, NONE_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
-  gpuStandardAtkHealFinalizer,
-  gpuStandardFuaAtkFinalizer,
-  standardAtkHealFinalizer,
-  standardFuaAtkFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { gpuStandardAtkHealFinalizer, gpuStandardFuaAtkFinalizer, standardAtkHealFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'

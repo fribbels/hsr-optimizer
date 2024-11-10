@@ -1,7 +1,7 @@
 import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
-import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { getItemName } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import WithPopover from 'lib/ui/WithPopover'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { ComponentProps, ComponentType, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
@@ -65,8 +65,8 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
       style={{
         width: numberWidth,
       }}
-      parser={(value) => value == null || value == '' ? 0 : precisionRound(parseFloat(value) / multiplier)}
-      formatter={(value) => `${precisionRound((value ?? 0) * multiplier)}${symbol}`}
+      parser={(value) => value == null || value == '' ? 0 : TsUtils.precisionRound(parseFloat(value) / multiplier)}
+      formatter={(value) => `${TsUtils.precisionRound((value ?? 0) * multiplier)}${symbol}`}
       disabled={props.disabled}
       onChange={(newValue) => {
         if (props.onChange) {
@@ -94,7 +94,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
         marginLeft: 1,
       }}
       tooltip={{
-        formatter: (value) => `${precisionRound((value ?? 0) * multiplier)}${symbol}`,
+        formatter: (value) => `${TsUtils.precisionRound((value ?? 0) * multiplier)}${symbol}`,
       }}
       disabled={props.disabled}
       onChange={(newValue) => {
@@ -147,7 +147,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
             textAlign: 'center',
           }}
         >
-          {`${precisionRound(props.max * multiplier)}${symbol}`}
+          {`${TsUtils.precisionRound(props.max * multiplier)}${symbol}`}
         </Text>
       </Flex>
     </Flex>

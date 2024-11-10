@@ -1,7 +1,7 @@
-import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { indent, wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { OptimizerAction, OptimizerContext, TeammateAction } from 'types/Optimizer'
 
 export type DynamicConditional = {
@@ -157,7 +157,7 @@ export const RappaConversionConditional: DynamicConditional = {
     }
 
     const stateValue = action.conditionalState[this.id] || 0
-    const atkOverStacks = Math.floor(precisionRound((x.a[Key.ATK] - 2400) / 100))
+    const atkOverStacks = Math.floor(TsUtils.precisionRound((x.a[Key.ATK] - 2400) / 100))
     const buffValue = Math.min(0.08, Math.max(0, atkOverStacks) * 0.01) + 0.02
 
     action.conditionalState[this.id] = buffValue
@@ -224,7 +224,7 @@ export const RuanMeiConversionConditional: DynamicConditional = {
     const r = action.characterConditionals
 
     const stateValue = action.conditionalState[this.id] || 0
-    const beOver = Math.floor(precisionRound((x.a[Key.BE] * 100 - 120) / 10))
+    const beOver = Math.floor(TsUtils.precisionRound((x.a[Key.BE] * 100 - 120) / 10))
     const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
 
     action.conditionalState[this.id] = buffValue

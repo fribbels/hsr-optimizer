@@ -1,12 +1,5 @@
-import {
-  AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
-  gpuStandardAtkFinalizer,
-  gpuStandardDefShieldFinalizer,
-  standardAtkFinalizer,
-  standardDefShieldFinalizer,
-} from 'lib/conditionals/conditionalUtils'
+import { gpuStandardAtkFinalizer, gpuStandardDefShieldFinalizer, standardAtkFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'

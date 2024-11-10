@@ -1,12 +1,10 @@
 import { BREAK_TYPE, NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardAtkFinalizer, gpuStandardFlatHealFinalizer, standardAtkFinalizer, standardFlatHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
-  gpuStandardAtkFinalizer,
-  gpuStandardFlatHealFinalizer,
-  standardAtkFinalizer,
-  standardFlatHealFinalizer,
+
 } from 'lib/conditionals/conditionalUtils'
 import { GallagherConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'

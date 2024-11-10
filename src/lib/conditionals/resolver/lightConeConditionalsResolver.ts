@@ -256,9 +256,7 @@ export const LightConeConditionalsResolver = {
     if (!lcFn) {
       return {
         content: () => [],
-        teammateContent: () => [],
         defaults: () => ({}),
-        teammateDefaults: () => ({}),
         precomputeEffects: () => {
         },
         finalizeCalculations: () => {

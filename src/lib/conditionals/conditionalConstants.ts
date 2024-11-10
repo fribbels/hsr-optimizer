@@ -210,6 +210,7 @@ export type BasicStatsObject = {
   ['Wind DMG Boost']: number
   ['Quantum DMG Boost']: number
   ['Imaginary DMG Boost']: number
+
   ELEMENTAL_DMG: number // ?
   WEIGHT: number // ?
 

@@ -1,5 +1,6 @@
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet, gpuStandardDefShieldFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalUtils'
+import { gpuStandardDefShieldFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { Eidolon } from 'types/Character'

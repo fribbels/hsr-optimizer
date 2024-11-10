@@ -1,12 +1,10 @@
 import { NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardHpFinalizer, gpuStandardHpHealFinalizer, standardHpFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
-  gpuStandardHpFinalizer,
-  gpuStandardHpHealFinalizer,
-  standardHpFinalizer,
-  standardHpHealFinalizer,
+
 } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsArray, Source } from 'lib/optimizer/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'

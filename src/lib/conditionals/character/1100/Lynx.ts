@@ -1,12 +1,10 @@
 import { NONE_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardHpFinalizer, gpuStandardHpHealFinalizer, standardHpFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
-  gpuStandardHpFinalizer,
-  gpuStandardHpHealFinalizer,
-  standardHpFinalizer,
-  standardHpHealFinalizer,
+
 } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'

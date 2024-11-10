@@ -1,4 +1,4 @@
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { ContentItem } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 

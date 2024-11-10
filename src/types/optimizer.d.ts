@@ -1,6 +1,6 @@
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ConditionalRegistry } from 'lib/optimizer/calculateConditionals'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
 
 export type OptimizerAction = {

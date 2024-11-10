@@ -3,7 +3,7 @@ import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
 import { generateBaseParamsArray, generateParamsMatrix, mergeRelicsIntoArray } from 'lib/gpu/webgpuDataTransform'
 import { GpuExecutionContext, GpuResult, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import postComputeShader from 'lib/gpu/wgsl/postComputeShader.wgsl?raw'
-import { FixedSizePriorityQueue } from 'lib/optimizer/fixedSizePriorityQueue'
+import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 

@@ -1,9 +1,9 @@
 import { Flex } from 'antd'
 import 'ag-grid-community/styles/ag-grid.css'
 import OptimizerBuildPreview from 'lib/tabs/tabOptimizer/OptimizerBuildPreview'
+import { OptimizerGrid } from 'lib/tabs/tabOptimizer/optimizerForm/grid/OptimizerGrid'
 
-import OptimizerForm from 'lib/tabs/tabOptimizer/OptimizerForm'
-import { OptimizerGrid } from 'lib/tabs/tabOptimizer/OptimizerGrid'
+import OptimizerForm from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { ZeroPermutationsSuggestionsModal, ZeroResultSuggestionModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import Sidebar from 'lib/tabs/tabOptimizer/Sidebar'
 import React from 'react'

@@ -12,11 +12,6 @@ import { Relic } from 'types/relic'
 export default function OptimizerBuildPreview() {
   const optimizerBuild = window.store((s) => s.optimizerBuild)
 
-  /*
-   * TODO: Force update was a band-aid fix, revisit if we actually need to
-   * const [, forceUpdate] = React.useReducer(o => !o, true);
-   * window.forceOptimizerBuildPreviewUpdate = forceUpdate
-   */
   const [selectedRelic, setSelectedRelic] = useState<Relic>()
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false)
 

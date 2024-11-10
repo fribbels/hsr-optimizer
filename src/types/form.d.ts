@@ -1,14 +1,11 @@
-// import { } from "./Common";
 import { SetsOrnaments } from 'lib/constants/constants'
 import { Simulation } from 'lib/simulations/statSimulationController'
+import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterId, Eidolon } from 'types/character'
 
 import { ConditionalValueMap } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import { RelicEnhance, RelicGrade } from 'types/relic'
-
-type MIN_INT = 0
-type MAX_INT = 2147483647
 
 export type Teammate = {
   characterId: string
@@ -22,9 +19,17 @@ export type Teammate = {
 } & Form
 
 export type Form = {
+  // Core
   characterEidolon: Eidolon
   characterId: string
   characterLevel: number
+
+  // Light cone
+  lightCone: string
+  lightConeLevel: number
+  lightConeSuperimposition: SuperImpositionLevel
+
+  // Enemy
   enemyCount: number
   enemyElementalWeak: boolean
   enemyLevel: number
@@ -32,16 +37,19 @@ export type Form = {
   enemyResistance: number
   enemyEffectResistance: number
   enemyWeaknessBroken: boolean
+
+  // Conditionals
+  characterConditionals: ConditionalValueMap
+  lightConeConditionals: ConditionalValueMap
+  setConditionals: SetConditionals
+
+  // Optimizer filters
   enhance: RelicEnhance
   grade: RelicGrade
   rank: number
   exclude: CharacterId[]
   includeEquippedRelics: boolean
   keepCurrentRelics: boolean
-  lightCone: string
-  lightConeConditionals: ConditionalValueMap
-  lightConeLevel: number
-  lightConeSuperimposition: SuperImpositionLevel
   mainBody: string[]
   mainFeet: string[]
   mainHands: string[]
@@ -53,7 +61,16 @@ export type Form = {
   rankFilter: boolean
   relicSets: ([pieces: string, set: string] | [pieces: string, set1: string, set2: string])[]
   statDisplay: string
-  PRIMARY_ELEMENTAL_DMG_TYPE: string
+
+  weights: {
+    [key: string]: number
+  }
+
+  combatBuffs: {
+    [key: string]: number
+  }
+
+  // Optimizer additional data
   statSim?: {
     key: string
     simulations: Simulation[]
@@ -62,81 +79,63 @@ export type Form = {
   sortOption?: string
   resultSort?: string
   resultsLimit?: number
-  path?: string
+  path?: string // remove?
   resultMinFilter: number
 
-  weights: {
-    [key: string]: number
-  }
-  characterConditionals: ConditionalValueMap
-
-  combatBuffs: {
-    [key: string]: number
-  }
-  combo: {
-    [key: string]: number
-  }
+  // Combo
   comboStateJson: string
   comboAbilities: string[]
   comboType: string
   comboDot: number
   comboBreak: number
 
-  setConditionals: {
-    [key: string]: any[]
-  }
-
   teammate0: Teammate
   teammate1: Teammate
   teammate2: Teammate
 
-  baseHp: number
-  baseAtk: number
-  baseDef: number
-  baseSpd: number
-
-  maxAtk: number
-  maxBasic: number
-  maxBe: number
-  maxCd: number
-  maxCr: number
-  maxDef: number
-  maxDmg: number
-  maxDot: number
-  maxBreak: number
-  maxHeal: number
-  maxShield: number
-  maxEhp: number
-  maxEhr: number
-  maxErr: number
-  maxFua: number
-  maxHp: number
-  maxMcd: number
-  maxRes: number
-  maxSkill: number
-  maxSpd: number
-  maxUlt: number
+  // Min / Max
   minAtk: number
+  maxAtk: number
   minBasic: number
+  maxBasic: number
   minBe: number
+  maxBe: number
   minCd: number
+  maxCd: number
   minCr: number
+  maxCr: number
   minDef: number
+  maxDef: number
   minDmg: number
+  maxDmg: number
   minDot: number
+  maxDot: number
   minBreak: number
+  maxBreak: number
   minHeal: number
+  maxHeal: number
   minShield: number
+  maxShield: number
   minEhp: number
+  maxEhp: number
   minEhr: number
+  maxEhr: number
   minErr: number
+  maxErr: number
   minFua: number
+  maxFua: number
   minHp: number
+  maxHp: number
   minMcd: number
+  maxMcd: number
   minRes: number
+  maxRes: number
   minSkill: number
+  maxSkill: number
   minSpd: number
+  maxSpd: number
   minUlt: number
+  maxUlt: number
 }
 
 type TeammateProperty = 'teammate0' | 'teammate1' | 'teammate2'

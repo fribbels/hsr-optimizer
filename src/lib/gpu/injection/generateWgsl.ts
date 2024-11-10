@@ -7,7 +7,7 @@ import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
 import structComputedStats from 'lib/gpu/wgsl/structComputedStats.wgsl?raw'
 import structs from 'lib/gpu/wgsl/structs.wgsl?raw'
-import { SortOption } from 'lib/optimizer/sortOptions'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 

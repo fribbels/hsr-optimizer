@@ -3,8 +3,8 @@ import { gpuStandardAtkFinalizer, gpuStandardFlatHealFinalizer, standardAtkFinal
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
+import { buffAbilityVulnerability } from 'lib/optimization/calculateBuffs'
+import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 

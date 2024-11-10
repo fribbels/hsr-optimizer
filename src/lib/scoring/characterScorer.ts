@@ -2,10 +2,9 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants/constants'
-import { generateContext } from 'lib/optimizer/context/calculateContext'
-import { getDefaultForm } from 'lib/optimizer/defaultForm'
-import { emptyRelic } from 'lib/optimizer/optimizerUtils'
-import { SortOptionProperties } from 'lib/optimizer/sortOptions'
+import { generateContext } from 'lib/optimization/context/calculateContext'
+import { getDefaultForm } from 'lib/optimization/defaultForm'
+import { emptyRelic } from 'lib/optimization/optimizerUtils'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import {
   calculateOrnamentSets,
@@ -17,12 +16,13 @@ import {
   SimulationStats,
 } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
-import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/StatSimulationDisplay'
+import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/character'
 import { CharacterConditionalsController, LightConeConditionalsController } from 'types/conditionals'
 import { Form } from 'types/form'
+import { ScoringMetadata, SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'
 
@@ -169,45 +169,6 @@ export type CharacterMetadata = {
   scoringMetadata: ScoringMetadata
 }
 
-export type ScoringMetadata = {
-  stats: {
-    [stat: string]: number
-  }
-  parts: {
-    [part: string]: string[]
-  }
-  presets: (() => void)[]
-  sortOption: SortOptionProperties
-  simulation: SimulationMetadata
-  modified?: boolean
-  hiddenColumns: SortOptionProperties[]
-}
-
-export type SimulationMetadata = {
-  parts: {
-    [part: string]: string[]
-  }
-  substats: string[]
-  errRopeEidolon: number
-  breakpoints: {
-    [stat: string]: number
-  }
-  comboAbilities: string[]
-  comboDot: number
-  comboBreak: number
-  relicSets: string[][]
-  ornamentSets: string[]
-  maxBonusRolls: {
-    [stat: string]: number
-  }
-  teammates: {
-    characterId: string
-    lightCone: string
-    characterEidolon: number
-    lightConeSuperimposition: number
-  }[]
-}
-
 export type RelicBuild = {
   [key: string]: Relic
 }
@@ -349,7 +310,7 @@ export function scoreCharacterSimulation(
     if (!result) return
 
     result.unpenalizedSimScore = result.x.COMBO_DMG
-    result.penaltyMultiplier = calculatePenaltyMultiplier(result, metadata.breakpoints, benchmarkScoringParams)
+    result.penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, benchmarkScoringParams)
     result.simScore = result.unpenalizedSimScore * (penalty ? result.penaltyMultiplier : 1)
   }
 
@@ -816,7 +777,7 @@ function computeOptimalSimulation(
       })[0]
       simulationRuns++
 
-      if (breakpointsCap && breakpoints[stat]) {
+      if (breakpointsCap && breakpoints?.[stat]) {
         if (newSimResult.x[stat] < breakpoints[stat]) {
           continue
         }
@@ -1256,20 +1217,20 @@ function calculateSetNames(relicsByPart: RelicBuild) {
 
 export function calculatePenaltyMultiplier(
   simulationResult: SimulationResult,
-  breakpoints: {
-    [key: string]: number
-  },
+  metadata: SimulationMetadata,
   scoringParams: ScoringParams,
 ) {
   let newPenaltyMultiplier = 1
-  for (const stat of Object.keys(breakpoints)) {
-    if (Utils.isFlat(stat)) {
-      // Flats are penalized by their percentage
-      newPenaltyMultiplier *= (Math.min(1, simulationResult.x[stat] / breakpoints[stat]) + 1) / 2
-    } else {
-      // Percents are penalize by half of the missing stat's breakpoint roll percentage
-      newPenaltyMultiplier *= Math.min(1,
-        1 - (breakpoints[stat] - simulationResult.x[stat]) / StatCalculator.getMaxedSubstatValue(stat, scoringParams.quality))
+  if (metadata.breakpoints) {
+    for (const stat of Object.keys(metadata.breakpoints)) {
+      if (Utils.isFlat(stat)) {
+        // Flats are penalized by their percentage
+        newPenaltyMultiplier *= (Math.min(1, simulationResult.x[stat] / metadata.breakpoints[stat]) + 1) / 2
+      } else {
+        // Percents are penalize by half of the missing stat's breakpoint roll percentage
+        newPenaltyMultiplier *= Math.min(1,
+          1 - (metadata.breakpoints[stat] - simulationResult.x[stat]) / StatCalculator.getMaxedSubstatValue(stat, scoringParams.quality))
+      }
     }
   }
   simulationResult.penaltyMultiplier = newPenaltyMultiplier

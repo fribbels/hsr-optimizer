@@ -12,21 +12,21 @@ import {
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
-import { getDefaultForm } from 'lib/optimizer/defaultForm'
-import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
+import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { DefaultSettingOptions, SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { Themes } from 'lib/rendering/theme'
-import { ScoringMetadata, SimulationMetadata } from 'lib/scoring/characterScorer'
 import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
 import { SaveState } from 'lib/state/saveState'
-import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/FormRow'
-import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/StatSimulationDisplay'
+import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
+import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/character'
 import { Form } from 'types/form'
+import { DBMetadata, ScoringMetadata, SimulationMetadata } from 'types/metadata'
 import { Relic, Stat } from 'types/relic'
 import { CustomPortrait, HsrOptimizerSaveFormat, HsrOptimizerStore, SavedSession, UserSettings } from 'types/store'
 import { create } from 'zustand'
@@ -258,69 +258,6 @@ window.store = create((set) => {
   }
   return store
 })
-
-export type DBMetadataCharacter = {
-  id: string
-  name: string
-  rarity: number
-  path: string
-  element: string
-  max_sp: number
-  stats: Record<string, number>
-  unreleased: boolean
-  traces: Record<string, number>
-  imageCenter: {
-    x: number
-    y: number
-    z: number
-  }
-  displayName: string
-  scoringMetadata: ScoringMetadata
-}
-
-export type DBMetadataLightCone = {
-  id: string
-  name: string
-  rarity: number
-  path: string
-  stats: Record<string, number>
-  unreleased: boolean
-  superimpositions: Record<number, Record<string, number>>
-  displayName: string
-  imageCenter: number
-}
-
-export type DBMetadataSets = {
-  id: string
-  name: string
-}
-
-type DBMetadataStatAffixes = {
-  [key: string]: {
-    id: string
-    affixes: {
-      [key: number]: {
-        affix_id: string
-        property: string
-        base: number
-        step: number
-        step_num: number
-      }
-    }
-  }
-}
-
-export type DBMetadataRelics = {
-  relicMainAffixes: DBMetadataStatAffixes
-  relicSubAffixes: DBMetadataStatAffixes
-  relicSets: Record<string, DBMetadataSets>
-}
-
-export type DBMetadata = {
-  characters: Record<string, DBMetadataCharacter>
-  lightCones: Record<string, DBMetadataLightCone>
-  relics: DBMetadataRelics
-}
 
 // TODO: define specific overrides
 // export type ScoringMetadataOverride = {
@@ -555,7 +492,7 @@ export const DB = {
       character.form.mainLinkRope = deduplicateStringArray(character.form.mainLinkRope)
 
       // In beta, Duran maxed out at 6
-      if (character.form.setConditionals?.[Sets.DuranDynastyOfRunningWolves]?.[1] > 5) {
+      if (character.form.setConditionals?.[Sets.DuranDynastyOfRunningWolves]?.[1] ?? 0 > 5) {
         character.form.setConditionals[Sets.DuranDynastyOfRunningWolves][1] = 5
       }
 
@@ -774,7 +711,7 @@ export const DB = {
   saveCharacterBuild: (name: string,
     characterId: string,
     score: {
-      rating: string;
+      rating: string
       score: string
     }) => {
     const character = DB.getCharacterById(characterId)
@@ -1073,7 +1010,7 @@ export const DB = {
     const updatedOldRelics: Relic[] = []
     const addedNewRelics: Relic[] = []
     const equipUpdates: {
-      relic: Relic;
+      relic: Relic
       equippedBy: string | undefined
     }[] = []
 

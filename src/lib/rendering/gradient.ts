@@ -50,7 +50,7 @@ export const Gradient = {
   },
 
   getOptimizerColumnGradient: (params: GridParams) => {
-    const aggs = OptimizerTabController.getAggs()
+    const aggs = OptimizerTabController.getAggregations()
 
     try {
       const colId = params.column.colId

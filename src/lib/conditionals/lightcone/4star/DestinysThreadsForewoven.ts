@@ -1,4 +1,4 @@
-import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'

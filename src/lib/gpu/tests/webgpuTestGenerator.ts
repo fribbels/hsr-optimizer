@@ -2,11 +2,12 @@ import { SetsOrnamentsNames, SetsRelicsNames } from 'lib/constants/constants'
 import { generateTestRelics, StatDeltaAnalysis, testWrapper } from 'lib/gpu/tests/webgpuTestUtils'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
-import { SortOption } from 'lib/optimizer/sortOptions'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { generateFullDefaultForm } from 'lib/scoring/characterScorer'
-import DB, { DBMetadata, DBMetadataLightCone } from 'lib/state/db'
+import DB from 'lib/state/db'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Form } from 'types/form'
+import { DBMetadata, DBMetadataLightCone } from 'types/metadata'
 
 export type WebgpuTest = {
   name: string
@@ -184,7 +185,7 @@ export function generateRelicSetTests(device: GPUDevice) {
 }
 
 export function generateE0S1CharacterTest(characterId: string, lightConeId: string, device: GPUDevice) {
-  const request = OptimizerTabController.fixForm(generateFullDefaultForm(characterId, lightConeId, 0, 1))
+  const request = OptimizerTabController.displayToForm(generateFullDefaultForm(characterId, lightConeId, 0, 1))
   const relics = generateTestRelics()
   request.sortOption = SortOption.COMBO.key
 
@@ -193,7 +194,7 @@ export function generateE0S1CharacterTest(characterId: string, lightConeId: stri
 }
 
 export function generateE6S5CharacterTest(characterId: string, lightConeId: string, device: GPUDevice) {
-  const request = OptimizerTabController.fixForm(generateFullDefaultForm(characterId, lightConeId, 6, 5))
+  const request = OptimizerTabController.displayToForm(generateFullDefaultForm(characterId, lightConeId, 6, 5))
   const relics = generateTestRelics()
   request.sortOption = SortOption.COMBO.key
 

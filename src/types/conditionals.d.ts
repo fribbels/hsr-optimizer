@@ -1,5 +1,5 @@
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'

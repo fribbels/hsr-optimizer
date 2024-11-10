@@ -1,42 +1,13 @@
-import { Parts, SetsOrnaments, SetsRelics, StatsValues } from 'lib/constants/constants'
-import { GUID } from 'types/common'
+import { Parts } from 'lib/constants/constants'
 import { Form } from 'types/form'
 import { CustomPortrait } from 'types/store'
 
-export type CharacterId = string // "1004"
+export type CharacterId = string
 
-export type Eidolon = (0 | 1 | 2 | 3 | 4 | 5 | 6) | number
-
-export type Traces = {
-  [key in StatsValues]: number;
-}
+export type Eidolon = number
 
 export type Build = {
-  [key in Parts]?: GUID;
-}
-
-// Db.getMetadata().characters
-export type MetadataCharacter = {
-  id: string
-  name: string // "Dan Heng"
-  rarity: number
-  path: string
-  element: string
-  max_sp: number
-  portrait: CustomPortrait
-  traces: Record<string, number>
-  imageCenter: {
-    x: number;
-    y: number
-  }
-  displayName: string // injected on hydration
-  scoringMetadata: {
-    stats: { [key in StatsValues]: number }
-    parts: { [key in Parts]: StatsValues[] }
-    relicSets: SetsRelics[]
-    ornamentSets: SetsOrnaments[]
-    characterId: CharacterId
-  }
+  [key in Parts]?: string;
 }
 
 // store.getState().characters[0]
@@ -57,5 +28,3 @@ export type SavedBuild = {
     rating: string
   }
 }
-
-export type UnrankedCharacter = Omit<Character, 'rank'>

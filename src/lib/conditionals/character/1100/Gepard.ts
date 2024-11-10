@@ -2,7 +2,7 @@ import { gpuStandardAtkFinalizer, gpuStandardDefShieldFinalizer, standardAtkFina
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 

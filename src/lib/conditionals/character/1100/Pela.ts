@@ -1,8 +1,8 @@
 import { BASIC_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
+import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
+import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'

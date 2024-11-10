@@ -4,8 +4,8 @@ import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditional
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { buffAbilityCr } from 'lib/optimizer/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimizer/computedStatsArray'
+import { buffAbilityCr } from 'lib/optimization/calculateBuffs'
+import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'

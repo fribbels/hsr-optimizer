@@ -12,12 +12,12 @@ import { Constants, CURRENT_DATA_VERSION, officialOnly } from 'lib/constants/con
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
-import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { calculateBuild } from 'lib/optimization/calculateBuild'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import DB, { AppPages, PageToRoute } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { applySpdPreset } from 'lib/tabs/tabOptimizer/optimizerForm/RecommendedPresetsButton'
+import { applySpdPreset } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import PropTypes from 'prop-types'
@@ -466,7 +466,7 @@ function CharacterPreviewSelection(props) {
     // Timeout to allow the optimize page to load before applying presets
     setTimeout(() => {
       const equippedRelics = Utils.clone(props.selectedCharacter.equipped)
-      const cleanedForm = OptimizerTabController.getDisplayFormValues(form)
+      const cleanedForm = OptimizerTabController.formToDisplay(form)
 
       // Do some relic transformations to get it ready for optimization
       const relicsByPart = {}

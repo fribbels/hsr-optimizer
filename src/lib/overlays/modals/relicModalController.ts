@@ -1,15 +1,45 @@
 import i18next from 'i18next'
-import { Constants, Stats, SubStats, SubStatValues } from 'lib/constants/constants'
+import { MainStats, Sets, SetsOrnamentsNames, SetsRelicsNames, Stats, SubStats, SubStatValues } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { arrayIncludes } from 'lib/utils/arrayUtils'
+import { partIsOrnament, partIsRelic } from 'lib/utils/relicUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/relic'
 
-// FIXME MED
+export type RelicUpgradeValues = {
+  low: number | undefined
+  mid: number | undefined
+  high: number | undefined
+}
+
+type RelicFormStat = {
+  stat: string
+  value: string
+}
+
+export type RelicForm = {
+  part: string
+  mainStatType: MainStats
+  mainStatValue: number
+  set: Sets
+  enhance: RelicEnhance
+  grade: RelicGrade
+  substatType0: SubStats
+  substatType1: SubStats
+  substatType2: SubStats
+  substatType3: SubStats
+  substatValue0: string
+  substatValue1: string
+  substatValue2: string
+  substatValue3: string
+  equippedBy: string
+}
 
 export const RelicModalController = {
   onEditOk: (selectedRelic: Relic, relic: Relic) => {
@@ -27,34 +57,16 @@ export const RelicModalController = {
     setTimeout(() => {
       SaveState.delayedSave()
       window.forceCharacterTabUpdate()
+      OptimizerTabController.updateFilters()
     }, 200)
-
-    OptimizerTabController.updateFilters()
 
     return updatedRelic
   },
 }
 
-export type RelicForm = {
-  part: string
-  mainStatType: string
-  mainStatValue: number
-  set: string
-  enhance: RelicEnhance
-  grade: RelicGrade
-  substatType0: string
-  substatType1: string
-  substatType2: string
-  substatType3: string
-  substatValue0: string
-  substatValue1: string
-  substatValue2: string
-  substatValue3: string
-  equippedBy: string
-}
-
 export function validateRelic(relicForm: RelicForm): Relic | void {
   console.log('Form finished', relicForm)
+
   if (!relicForm.part) {
     return Message.error(i18next.t('modals:Relic.Messages.Error.PartMissing')/* Part field is missing */)
   }
@@ -82,16 +94,13 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
   if (relicForm.enhance > relicForm.grade * 3) {
     return Message.error(i18next.t('modals:Relic.Messages.Error.EnhanceTooHigh')/* Enhance value is too high for this grade */)
   }
-  if (!Constants.SetsRelicsNames.includes(relicForm.set) && !Constants.SetsOrnamentsNames.includes(relicForm.set)) {
+  if (!arrayIncludes(SetsRelicsNames, relicForm.set) && !arrayIncludes(SetsOrnamentsNames, relicForm.set)) {
     return Message.error(i18next.t('modals:Relic.Messages.Error.SetInvalid')/* Set value is invalid */)
   }
-  if (Constants.SetsRelicsNames.includes(relicForm.set) && (relicForm.part == Constants.Parts.PlanarSphere || relicForm.part == Constants.Parts.LinkRope)) {
+  if (arrayIncludes(SetsRelicsNames, relicForm.set) && partIsOrnament(relicForm.part)) {
     return Message.error(i18next.t('modals:Relic.Messages.Error.SetNotOrnament')/* The selected set is not an ornament set */)
   }
-  if (Constants.SetsOrnamentsNames.includes(relicForm.set) && (relicForm.part == Constants.Parts.Head
-    || relicForm.part == Constants.Parts.Hands
-    || relicForm.part == Constants.Parts.Body
-    || relicForm.part == Constants.Parts.Feet)) {
+  if (arrayIncludes(SetsOrnamentsNames, relicForm.set) && partIsRelic(relicForm.part)) {
     return Message.error(i18next.t('modals:Relic.Messages.Error.SetNotRelic')/* The selected set is not a relic set */)
   }
   if (relicForm.substatType0 != undefined && relicForm.substatValue0 == undefined || relicForm.substatType0 == undefined && relicForm.substatValue0 != undefined) {
@@ -121,7 +130,7 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
   if (new Set(substatTypes).size !== substatTypes.length) {
     return Message.error(i18next.t('modals:Relic.Messages.Error.DuplicateSubs')/* Duplicate substats, only one of each type is allowed */)
   }
-  if (substatTypes.includes(relicForm.mainStatType)) {
+  if (substatTypes.includes(relicForm.mainStatType as SubStats)) {
     return Message.error(i18next.t('modals:Relic.Messages.Error.MainAsSub')/* Substat type is the same as the main stat */)
   }
 
@@ -154,6 +163,7 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
       value: relicForm.mainStatValue,
     },
   } as Relic
+
   const substats: Stat[] = []
   if (relicForm.substatType0 != undefined && relicForm.substatValue0 != undefined) {
     substats.push({
@@ -183,17 +193,6 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
   RelicAugmenter.augment(relic)
 
   return relic
-}
-
-export type RelicUpgradeValues = {
-  low: number | undefined
-  mid: number | undefined
-  high: number | undefined
-}
-
-type RelicFormStat = {
-  stat: string
-  value: string
 }
 
 export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues[] {
@@ -248,9 +247,9 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
 }
 
 function renderFlatStat(value: number) {
-  return Math.floor(Utils.precisionRound(value))
+  return Math.floor(TsUtils.precisionRound(value))
 }
 
 function renderPercentStat(value: number) {
-  return parseFloat(Utils.truncate10ths(Utils.precisionRound(value)).toFixed(1))
+  return parseFloat(Utils.truncate10ths(TsUtils.precisionRound(value)).toFixed(1))
 }

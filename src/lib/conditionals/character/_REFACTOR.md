@@ -26,7 +26,7 @@ import { CharacterConditional, ConditionalMap, ContentItem, Form } from 'types/C
 ```
 
 Some common/reused utils & constants live in `lib/conditionals/conditionalUtils.ts` &
-`lib/conditionals/optimizerTabConstants.ts`. Import from these dependenciese (DRY this out);
+`lib/conditionals/optimizerGridColumns.ts`. Import from these dependenciese (DRY this out);
 
 4. Refactor the `display()` function and extract the `content` array:
 

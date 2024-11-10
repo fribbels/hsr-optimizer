@@ -2,14 +2,14 @@ import { Button, Divider, Flex, Form, InputNumber, Modal, Popconfirm, Select, Ty
 import { usePublish } from 'hooks/usePublish'
 import { Parts, Stats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { ScoringMetadata } from 'lib/scoring/characterScorer'
 import DB from 'lib/state/db'
-import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/CharacterSelect'
+import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { ScoringMetadata } from 'types/metadata'
 
 const { Text } = Typography
 

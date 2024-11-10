@@ -7,7 +7,7 @@ import 'overlayscrollbars/overlayscrollbars.css'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
-import { BufferPacker } from 'lib/optimizer/bufferPacker'
+import { BufferPacker } from 'lib/optimization/bufferPacker'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
@@ -18,8 +18,8 @@ import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { Themes } from 'lib/rendering/theme'
 import { CharacterStats } from 'lib/scoring/characterStats'
-import { DataParser } from 'lib/state/dataParser'
 import { DB } from 'lib/state/db'
+import { Metadata } from 'lib/state/metadata'
 import { SaveState } from 'lib/state/saveState'
 
 import { WorkerPool } from 'lib/worker/workerPool'
@@ -31,7 +31,7 @@ import 'style/hsro.css'
 
 window.WorkerPool = WorkerPool
 window.Constants = Constants
-window.DataParser = DataParser
+window.DataParser = Metadata
 window.DB = DB
 window.CharacterStats = CharacterStats
 window.Assets = Assets
@@ -50,7 +50,7 @@ window.RelicRollFixer = RelicRollFixer
 
 window.colorTheme = Themes.BLUE
 
-DataParser.parse()
+Metadata.initialize()
 SaveState.load(false)
 void verifyWebgpuSupport(false)
 

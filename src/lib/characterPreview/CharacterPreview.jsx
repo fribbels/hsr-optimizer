@@ -34,7 +34,7 @@ import {
   parentW,
 } from 'lib/constants/constantsUi'
 import { Message } from 'lib/interactions/message'
-import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { calculateBuild } from 'lib/optimization/calculateBuild'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import EditImageModal from 'lib/overlays/modals/EditImageModal'
 import RelicModal from 'lib/overlays/modals/RelicModal.tsx'
@@ -251,7 +251,7 @@ export function CharacterPreview(props) {
 
   const statCalculationRelics = Utils.clone(displayRelics)
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics))
-  const { c: finalStats } = calculateBuild(OptimizerTabController.fixForm(OptimizerTabController.getDisplayFormValues(character.form)), statCalculationRelics)
+  const { c: finalStats } = calculateBuild(OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form)), statCalculationRelics)
   finalStats.CV = StatCalculator.calculateCv(Object.values(statCalculationRelics))
   finalStats[elementalDmgValue] = finalStats.ELEMENTAL_DMG
 

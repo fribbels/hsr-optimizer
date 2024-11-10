@@ -1,9 +1,8 @@
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { Button, Divider, Drawer, Flex, Select } from 'antd'
-import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
-import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
+import { CharacterConditionalsResolver } from 'lib/conditionals/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
 import { ConditionalDataType, setToId } from 'lib/constants/constants'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import {
   ComboBooleanConditional,
   ComboCharacter,
@@ -34,15 +33,16 @@ import { FormSwitchWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSw
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/SetsOptions'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Selecto from 'react-selecto'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditionalsController } from 'types/CharacterConditional'
 import { ReactElement } from 'types/Components'
 import { ContentItem } from 'types/Conditionals'
-import { LightConeConditional } from 'types/LightConeConditionals'
+import { LightConeConditionalsController } from 'types/LightConeConditionals'
 
 const buttonStyle = {
   fontSize: 20,
@@ -487,7 +487,7 @@ function ComboConditionalsGroupRow(props: {
     const metadata = comboCharacter.metadata
 
     if (props.originKey.includes('LightCone')) {
-      const lightConeConditionalMetadata: LightConeConditional = LightConeConditionals.get(metadata, true)
+      const lightConeConditionalMetadata: LightConeConditionalsController = LightConeConditionalsResolver.get(metadata, true)
 
       content = isTeammate
         ? lightConeConditionalMetadata.teammateContent?.() ?? []
@@ -577,7 +577,7 @@ function ComboConditionalsGroupRow(props: {
       }
     } else {
       // Character
-      const characterConditionalMetadata: CharacterConditional = CharacterConditionals.get(metadata, true)
+      const characterConditionalMetadata: CharacterConditionalsController = CharacterConditionalsResolver.get(metadata, true)
 
       content = isTeammate
         ? characterConditionalMetadata.teammateContent?.() ?? []

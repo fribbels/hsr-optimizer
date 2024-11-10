@@ -1,6 +1,6 @@
-import { Conditional, ConditionalBuff } from 'types/Conditionals'
+import { ConditionalBuff, ConditionalsController } from 'types/Conditionals'
 
-export interface CharacterConditional extends Conditional {
+export interface CharacterConditionalsController extends ConditionalsController {
 }
 
 export type CharacterConditionalMap = {

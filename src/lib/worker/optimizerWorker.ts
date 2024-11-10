@@ -1,6 +1,6 @@
-import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
+import { CharacterConditionalsResolver } from 'lib/conditionals/characterConditionalsResolver'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
+import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
 import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats, StatsValues } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
@@ -75,12 +75,12 @@ self.onmessage = function (e: MessageEvent) {
     calculateContextConditionalRegistry(action, context)
   }
 
-  context.characterConditionalController = CharacterConditionals.get(context)
-  context.lightConeConditionalController = LightConeConditionals.get(context)
+  context.characterConditionalController = CharacterConditionalsResolver.get(context)
+  context.lightConeConditionalController = LightConeConditionalsResolver.get(context)
 
   function calculateTeammateDynamicConditionals(action: OptimizerAction, teammateMetadata: CharacterMetadata, index: number) {
     if (teammateMetadata?.characterId) {
-      const teammateCharacterConditionalController = CharacterConditionals.get(teammateMetadata)
+      const teammateCharacterConditionalController = CharacterConditionalsResolver.get(teammateMetadata)
       const dynamicConditionals = (teammateCharacterConditionalController.teammateDynamicConditionals ?? [])
         .map((dynamicConditional: DynamicConditional) => {
           const wrapped = wrapTeammateDynamicConditional(dynamicConditional, index)

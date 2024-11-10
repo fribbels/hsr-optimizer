@@ -1,6 +1,6 @@
-import { LightConeConditional } from 'types/LightConeConditionals'
+import { LightConeConditionalsController } from 'types/LightConeConditionals'
 
-export default (): LightConeConditional => {
+export default (): LightConeConditionalsController => {
   return {
     content: () => [],
     defaults: () => ({}),

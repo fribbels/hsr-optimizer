@@ -61,9 +61,9 @@ import yanqing from 'lib/conditionals/character/Yanqing'
 import yukong from 'lib/conditionals/character/Yukong'
 import yunli from 'lib/conditionals/character/Yunli'
 import { Eidolon } from 'types/Character'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditionalsController } from 'types/CharacterConditional'
 
-export type CharacterConditionalFunction = (e: Eidolon, withContent: boolean) => CharacterConditional
+export type CharacterConditionalFunction = (e: Eidolon, withContent: boolean) => CharacterConditionalsController
 
 export const characterOptionMapping: Record<string, CharacterConditionalFunction> = {
   1001: march7th,
@@ -147,8 +147,8 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
  * If a conditional has more than one buff effect, just consolidate as “buffs”
  * Techniques / start of fight buffs are called Initial buffs
  */
-export const CharacterConditionals = {
-  get: (request: { characterId: string; characterEidolon: number }, withContent = false) => {
+export const CharacterConditionalsResolver = {
+  get: (request: { characterId: string; characterEidolon: number }, withContent = false): CharacterConditionalsController => {
     const characterFn = characterOptionMapping[request.characterId]
     return characterFn(request.characterEidolon, withContent)
   },

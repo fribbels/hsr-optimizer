@@ -4,10 +4,9 @@ import { MessageInstance } from 'antd/es/message/interface'
 import { NotificationInstance } from 'antd/es/notification/interface'
 import { HookAPI } from 'antd/lib/modal/useModal'
 import { CharacterStats } from 'lib/characters/characterStats'
-import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
-import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
+import { CharacterConditionalsResolver } from 'lib/conditionals/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
 import { Constants } from 'lib/constants/constants'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
@@ -24,6 +23,7 @@ import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { DataParser } from 'lib/state/dataParser'
 import { DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import { WorkerPool } from 'lib/worker/workerPool'
 import { DispatchWithoutAction, RefObject } from 'react'
@@ -84,8 +84,8 @@ declare global {
     Hint: typeof Hint
     CharacterConverter: typeof CharacterConverter
     RelicScorer: typeof RelicScorer
-    CharacterConditionals: typeof CharacterConditionals
-    LightConeConditionals: typeof LightConeConditionals
+    CharacterConditionals: typeof CharacterConditionalsResolver
+    LightConeConditionals: typeof LightConeConditionalsResolver
     BufferPacker: typeof BufferPacker
     RelicRollFixer: typeof RelicRollFixer
 

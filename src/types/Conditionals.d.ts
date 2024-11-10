@@ -11,7 +11,7 @@ export type ConditionalMap = {
 }
 
 // interface to an instance of a Character or Light Cone conditional controller
-export interface Conditional {
+export interface ConditionalsController {
   // Visual elements for conditionals
   // Content defines the form UI components and their related conditional variables
   content: () => ContentItem[]

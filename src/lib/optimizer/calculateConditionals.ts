@@ -1,15 +1,15 @@
-import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
-import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
+import { CharacterConditionalsResolver } from 'lib/conditionals/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
 import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalSets } from 'lib/gpu/conditionals/setConditionals'
-import { CharacterConditional } from 'types/CharacterConditional'
-import { LightConeConditional } from 'types/LightConeConditionals'
+import { CharacterConditionalsController } from 'types/CharacterConditional'
+import { LightConeConditionalsController } from 'types/LightConeConditionals'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
 
 export function calculateContextConditionalRegistry(action: OptimizerAction, context: OptimizerContext) {
-  const characterConditionals: CharacterConditional = CharacterConditionals.get(context)
-  const lightConeConditionals: LightConeConditional = LightConeConditionals.get(context)
+  const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(context)
+  const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(context)
 
   const conditionalRegistry: ConditionalRegistry = emptyRegistry()
 
@@ -30,7 +30,7 @@ export function registerTeammateConditionals(conditionalRegistry: { [key: string
   action: OptimizerAction,
   index: number) {
   if (teammateMetadata) {
-    const teammateCharacterConditionals: CharacterConditional = CharacterConditionals.get(teammateMetadata)
+    const teammateCharacterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(teammateMetadata)
     const dynamicConditionals = (teammateCharacterConditionals.teammateDynamicConditionals ?? [])
       .map((dynamicConditional) => {
         const wrapped = wrapTeammateDynamicConditional(dynamicConditional, index)

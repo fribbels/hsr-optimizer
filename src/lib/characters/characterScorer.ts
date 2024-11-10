@@ -1,7 +1,12 @@
-import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
+import { CharacterConditionalsResolver } from 'lib/conditionals/characterConditionalsResolver'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
+import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
 import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants/constants'
+import { generateContext } from 'lib/optimizer/context/calculateContext'
+import { getDefaultForm } from 'lib/optimizer/defaultForm'
+import { emptyRelic } from 'lib/optimizer/optimizerUtils'
+import { SortOptionProperties } from 'lib/optimizer/sortOptions'
+import { StatCalculator } from 'lib/relics/statCalculator'
 import {
   calculateOrnamentSets,
   calculateRelicSets,
@@ -11,17 +16,12 @@ import {
   SimulationRequest,
   SimulationStats,
 } from 'lib/simulations/statSimulationController'
-import { generateContext } from 'lib/optimizer/context/calculateContext'
-import { getDefaultForm } from 'lib/optimizer/defaultForm'
-import { emptyRelic } from 'lib/optimizer/optimizerUtils'
-import { SortOptionProperties } from 'lib/optimizer/sortOptions'
-import { StatCalculator } from 'lib/relics/statCalculator'
 import DB from 'lib/state/db'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/Character'
-import { Conditional } from 'types/Conditionals'
+import { ConditionalsController } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { OptimizerContext } from 'types/Optimizer'
 import { Relic } from 'types/Relic'
@@ -671,8 +671,8 @@ export function generateFullDefaultForm(
   simulationForm.characterConditionals = {}
   simulationForm.lightConeConditionals = {}
 
-  const characterConditionals: Conditional = CharacterConditionals.get(characterConditionalsRequest)
-  const lightConeConditionals: Conditional = LightConeConditionals.get(lightConeConditionalsRequest)
+  const characterConditionals: ConditionalsController = CharacterConditionalsResolver.get(characterConditionalsRequest)
+  const lightConeConditionals: ConditionalsController = LightConeConditionalsResolver.get(lightConeConditionalsRequest)
 
   if (teammate) {
     if (characterConditionals.teammateDefaults) Utils.mergeUndefinedValues(simulationForm.characterConditionals, characterConditionals.teammateDefaults())

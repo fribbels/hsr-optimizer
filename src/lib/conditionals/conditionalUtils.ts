@@ -25,10 +25,6 @@ export const calculateAshblazingSet = (x: ComputedStatsArray, action: OptimizerA
   return ashblazingMulti - ashblazingAtk
 }
 
-export const findContentId = (content: ContentItem[], id: string) => {
-  return content.find((contentItem) => contentItem.id == id)!
-}
-
 export const p4 = (set: number): number => {
   return set >> 2
 }

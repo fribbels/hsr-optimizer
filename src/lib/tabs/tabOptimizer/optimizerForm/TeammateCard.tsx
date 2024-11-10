@@ -1,17 +1,17 @@
 import { SyncOutlined } from '@ant-design/icons'
 import { Button, Flex, Form as AntDForm, Select, Typography } from 'antd'
-import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
-import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
+import { CharacterConditionalsResolver } from 'lib/conditionals/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
 import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants/constants'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
-import { CharacterConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalDisplay'
+import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
 import FormCard from 'lib/tabs/tabOptimizer/FormCard'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/LightConeSelect'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/Character'
@@ -219,7 +219,7 @@ const TeammateCard = (props: { index: number }) => {
       teammateValues.characterEidolon = 0
     }
 
-    const characterConditionals = CharacterConditionals.get({
+    const characterConditionals = CharacterConditionalsResolver.get({
       characterId: teammateCharacterId,
       characterEidolon: teammateValues.characterEidolon,
     })
@@ -238,7 +238,7 @@ const TeammateCard = (props: { index: number }) => {
     if (!teammateLightConeId) return
 
     const displayFormValues = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
-    const lightConeConditionals = LightConeConditionals.get({
+    const lightConeConditionals = LightConeConditionalsResolver.get({
       lightCone: teammateLightConeId,
       lightConeSuperimposition: teammateSuperimposition,
     })
@@ -284,7 +284,7 @@ const TeammateCard = (props: { index: number }) => {
 
         <Flex>
           <Flex vertical style={{ minWidth: 258, marginLeft: 5 }}>
-            <CharacterConditionalDisplay
+            <CharacterConditionalsDisplay
               id={teammateCharacterId}
               eidolon={teammateEidolon}
               teammateIndex={props.index}

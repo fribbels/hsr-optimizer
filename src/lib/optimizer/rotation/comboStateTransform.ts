@@ -1,13 +1,13 @@
-import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
-import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
+import { CharacterConditionalsResolver } from 'lib/conditionals/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
 import { SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { calculateContextConditionalRegistry } from 'lib/optimizer/calculateConditionals'
 import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimizer/computedStatsArray'
 import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/optimizer/rotation/comboDrawerController'
-import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterConditional'
+import { CharacterConditionalMap, CharacterConditionalsController } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
-import { LightConeConditional, LightConeConditionalMap } from 'types/LightConeConditionals'
+import { LightConeConditionalsController, LightConeConditionalMap } from 'types/LightConeConditionals'
 import { OptimizerAction, OptimizerContext, SetConditional } from 'types/Optimizer'
 
 export type ComboForm = {}
@@ -91,8 +91,8 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
 }
 
 function precomputeConditionals(action: OptimizerAction, comboState: ComboState, context: OptimizerContext) {
-  const characterConditionals: CharacterConditional = CharacterConditionals.get(comboState.comboCharacter.metadata)
-  const lightConeConditionals: LightConeConditional = LightConeConditionals.get(comboState.comboCharacter.metadata)
+  const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(comboState.comboCharacter.metadata)
+  const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(comboState.comboCharacter.metadata)
 
   const x = action.precomputedX
 
@@ -113,8 +113,8 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
       lightConeConditionals: transformConditionals(action.actionIndex, teammate.lightConeConditionals) as CharacterConditionalMap,
     } as OptimizerAction
 
-    const teammateCharacterConditionals = CharacterConditionals.get(teammate.metadata)
-    const teammateLightConeConditionals = LightConeConditionals.get(teammate.metadata)
+    const teammateCharacterConditionals = CharacterConditionalsResolver.get(teammate.metadata)
+    const teammateLightConeConditionals = LightConeConditionalsResolver.get(teammate.metadata)
 
     teammateCharacterConditionals.initializeTeammateConfigurations?.(x, teammateAction, context)
     teammateLightConeConditionals.initializeTeammateConfigurations?.(x, teammateAction, context)
@@ -152,8 +152,8 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
       lightConeConditionals: transformConditionals(action.actionIndex, teammate.lightConeConditionals) as CharacterConditionalMap,
     } as OptimizerAction
 
-    const teammateCharacterConditionals = CharacterConditionals.get(teammate.metadata)
-    const teammateLightConeConditionals = LightConeConditionals.get(teammate.metadata) as CharacterConditional
+    const teammateCharacterConditionals = CharacterConditionalsResolver.get(teammate.metadata)
+    const teammateLightConeConditionals = LightConeConditionalsResolver.get(teammate.metadata) as CharacterConditionalsController
 
     if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateAction, context)
     if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateAction, context)

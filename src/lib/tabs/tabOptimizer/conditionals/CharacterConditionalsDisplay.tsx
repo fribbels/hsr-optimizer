@@ -1,5 +1,5 @@
 import { Flex } from 'antd'
-import { characterOptionMapping } from 'lib/conditionals/characterConditionals'
+import { characterOptionMapping } from 'lib/conditionals/characterConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
 import DisplayFormControl from 'lib/tabs/tabOptimizer/conditionals/DisplayFormControl'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -15,7 +15,7 @@ export interface CharacterConditionalDisplayProps {
   teammateIndex?: number
 }
 
-export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }: CharacterConditionalDisplayProps) => {
+export const CharacterConditionalsDisplay = memo(({ id, eidolon, teammateIndex }: CharacterConditionalDisplayProps) => {
   const { t } = useTranslation('optimizerTab')
   // console.log('getDisplayForCharacter', id, teammateIndex)
 
@@ -51,4 +51,4 @@ export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }:
   )
 })
 
-CharacterConditionalDisplay.displayName = 'CharacterConditionalDisplay'
+CharacterConditionalsDisplay.displayName = 'CharacterConditionalDisplay'

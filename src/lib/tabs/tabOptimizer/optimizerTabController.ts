@@ -1,8 +1,8 @@
 import { CellClickedEvent, IGetRowsParams, IRowNode } from 'ag-grid-community'
 import { inPlaceSort } from 'fast-sort'
 import { CharacterStats } from 'lib/characters/characterStats'
-import { CharacterConditionals } from 'lib/conditionals/characterConditionals'
-import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
+import { CharacterConditionalsResolver } from 'lib/conditionals/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
 import { CombatBuffs, ConditionalDataType, Constants, DamageKeys, DEFAULT_STAT_DISPLAY, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
@@ -395,7 +395,7 @@ export const OptimizerTabController = {
     }
 
     if (newForm.characterId) {
-      const defaultOptions = CharacterConditionals.get(form).defaults()
+      const defaultOptions = CharacterConditionalsResolver.get(form).defaults()
       if (!newForm.characterConditionals) {
         newForm.characterConditionals = {} as CharacterConditionalMap
       }
@@ -407,7 +407,7 @@ export const OptimizerTabController = {
     }
 
     if (newForm.lightCone) {
-      const defaultLcOptions = LightConeConditionals.get(form).defaults()
+      const defaultLcOptions = LightConeConditionalsResolver.get(form).defaults()
       if (!newForm.lightConeConditionals) {
         newForm.lightConeConditionals = {} as LightConeConditionalMap
       }

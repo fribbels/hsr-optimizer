@@ -1,12 +1,11 @@
 import { Flex, Form as AntDForm } from 'antd'
-import { LightConeConditionals } from 'lib/conditionals/lightConeConditionals'
+import { LightConeConditionalsResolver } from 'lib/conditionals/lightConeConditionalsResolver'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Optimizer } from 'lib/optimizer/optimizer'
 import { updateConditionalChange } from 'lib/optimizer/rotation/comboDrawerController'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { CharacterConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalDisplay'
+import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
 import FilterContainer from 'lib/tabs/tabOptimizer/FilterContainer'
 import FormCard from 'lib/tabs/tabOptimizer/FormCard'
@@ -24,6 +23,7 @@ import { MinMaxRatingFilters, MinMaxStatFilters } from 'lib/tabs/tabOptimizer/op
 import { StatSimulationDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/StatSimulationDisplay'
 import { SubstatWeightFilters } from 'lib/tabs/tabOptimizer/optimizerForm/SubstatWeightFilters'
 import TeammateCard from 'lib/tabs/tabOptimizer/optimizerForm/TeammateCard'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import React, { useEffect } from 'react'
 import { Form } from 'types/Form'
@@ -222,7 +222,7 @@ function CharacterConditionalDisplayWrapper() {
   const optimizerFormCharacterEidolon = window.store((s) => s.optimizerFormCharacterEidolon)
 
   return (
-    <CharacterConditionalDisplay
+    <CharacterConditionalsDisplay
       id={optimizerTabFocusCharacter}
       eidolon={optimizerFormCharacterEidolon}
     />
@@ -236,7 +236,7 @@ function LightConeConditionalDisplayWrapper() {
 
   // Hook into light cone changes to set defaults
   useEffect(() => {
-    const lcFn = LightConeConditionals.get(window.optimizerForm.getFieldsValue() as Form)
+    const lcFn = LightConeConditionalsResolver.get(window.optimizerForm.getFieldsValue() as Form)
     const defaults = lcFn.defaults()
     const lightConeForm = DB.getCharacterById(optimizerTabFocusCharacter!)?.form.lightConeConditionals || {}
     Utils.mergeDefinedValues(defaults, lightConeForm)

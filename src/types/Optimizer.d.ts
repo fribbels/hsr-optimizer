@@ -1,8 +1,8 @@
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimizer/calculateConditionals'
 import { ComputedStatsArray } from 'lib/optimizer/computedStatsArray'
-import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterConditional'
-import { LightConeConditional, LightConeConditionalMap } from 'types/LightConeConditionals'
+import { CharacterConditionalMap, CharacterConditionalsController } from 'types/CharacterConditional'
+import { LightConeConditionalsController, LightConeConditionalMap } from 'types/LightConeConditionals'
 
 export type OptimizerAction = {
   precomputedX: ComputedStatsArray
@@ -111,8 +111,8 @@ export type OptimizerContext = {
   comboBreak: number
   comboDot: number
 
-  characterConditionalController: CharacterConditional
-  lightConeConditionalController: LightConeConditional
+  characterConditionalController: CharacterConditionalsController
+  lightConeConditionalController: LightConeConditionalsController
 }
 
 export type OptimizerMinFilters = {}

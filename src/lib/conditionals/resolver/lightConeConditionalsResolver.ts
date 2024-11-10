@@ -114,9 +114,9 @@ import WhereaboutsShouldDreamsRest from 'lib/conditionals/lightcone/5star/Wherea
 import WorrisomeBlissful from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import YetHopeIsPriceless from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
+import { LightConeConditionalsController } from 'types/LightConeConditionals'
 
-export type LightConeConditionalFunction = (s: SuperImpositionLevel, withContent: boolean) => LightConeConditional
+export type LightConeConditionalFunction = (s: SuperImpositionLevel, withContent: boolean) => LightConeConditionalsController
 
 const fiveStar: Record<string, LightConeConditionalFunction> = {
   23000: NightOnTheMilkyWay,
@@ -250,8 +250,8 @@ export const lightConeOptionMapping: Record<string, LightConeConditionalFunction
   ...threeStar,
 }
 
-export const LightConeConditionals = {
-  get: (request: { lightCone: string; lightConeSuperimposition: number }, withContent = false): LightConeConditional => {
+export const LightConeConditionalsResolver = {
+  get: (request: { lightCone: string; lightConeSuperimposition: number }, withContent = false): LightConeConditionalsController => {
     const lcFn = lightConeOptionMapping[request.lightCone]
     if (!lcFn) {
       return {

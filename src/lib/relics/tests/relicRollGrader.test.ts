@@ -1,11 +1,11 @@
 import { Constants } from 'lib/constants/constants'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
-import { DataParser } from 'lib/state/dataParser'
 import DB from 'lib/state/db'
+import { Metadata } from 'lib/state/metadata'
 import { Relic } from 'types/relic'
 import { expect, test } from 'vitest'
 
-DataParser.parse()
+Metadata.initialize()
 
 test('Test the substat values', () => {
   // Test that calcs for a useful mainstat and useless substats are in alignment

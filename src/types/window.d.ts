@@ -20,8 +20,8 @@ import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { CharacterStats } from 'lib/scoring/characterStats'
-import { DataParser } from 'lib/state/dataParser'
 import { DB } from 'lib/state/db'
+import { Metadata } from 'lib/state/metadata'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
@@ -68,7 +68,7 @@ declare global {
     yaml: unknown
     WorkerPool: typeof WorkerPool
     Constants: typeof Constants
-    DataParser: typeof DataParser
+    DataParser: typeof Metadata
     OptimizerTabController: typeof OptimizerTabController
     DB: typeof DB
     CharacterStats: typeof CharacterStats

@@ -40,8 +40,8 @@ const SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS = [
   Sets.SigoniaTheUnclaimedDesolation,
 ]
 
-export const DataParser = {
-  parse: () => {
+export const Metadata = {
+  initialize: () => {
     const lightConeSuperimpositions = getSuperimpositions()
     const lightConeCenters = getLightConeOverrideCenter()
 
@@ -92,7 +92,6 @@ export const DataParser = {
       characters[id].imageCenter = imageCenter
       characters[id].displayName = getDisplayName(characters[id])
       characters[id].scoringMetadata = scoringMetadata[id]
-      // dbMetadataCharacters[id].scoringMetadata.characterId = id
     }
 
     const relicSets = gameData.relics.reduce<Record<string, DBMetadataSets>>((acc, obj) => {

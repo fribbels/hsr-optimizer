@@ -18,6 +18,8 @@ export type Teammate = {
   lightConeConditionals?: ConditionalValueMap
 } & Form
 
+export type OptimizerForm = Form
+
 export type Form = {
   // Core
   characterEidolon: Eidolon

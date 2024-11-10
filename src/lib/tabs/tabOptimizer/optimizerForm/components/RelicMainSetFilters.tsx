@@ -17,8 +17,7 @@ import { useTranslation } from 'react-i18next'
 
 const { SHOW_CHILD } = Cascader
 
-type RelicMainSetFiltersProps = {}
-export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
+export default function RelicMainSetFilters() {
   const { t } = useTranslation(['optimizerTab', 'common'])
   const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
 

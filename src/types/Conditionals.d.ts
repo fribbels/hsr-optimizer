@@ -10,7 +10,7 @@ export type ConditionalMap = {
   [key: string]: number | boolean
 }
 
-// interface to an instance of a Character or Light Cone conditional controller
+// Interface to an instance of a Character or Light Cone conditional controller
 export interface ConditionalsController {
   // Visual elements for conditionals
   // Content defines the form UI components and their related conditional variables
@@ -64,7 +64,8 @@ export type ContentItem = {
     id: string
     content: string
     teammateIndex?: number
-  } & Omit<ComponentProps<ContentComponentMap[K]>, 'content' | 'title'>
+  }
+  & Omit<ComponentProps<ContentComponentMap[K]>, 'content' | 'title'>
 }[keyof ContentComponentMap]
 
 export type ConditionalBuff =

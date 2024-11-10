@@ -1,7 +1,6 @@
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
 import { Message } from 'lib/interactions/message'
@@ -16,9 +15,12 @@ import { RelicFilters } from 'lib/relics/relicFilters'
 import DB from 'lib/state/db'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/RecommendedPresetsButton'
 import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import { WorkerPool } from 'lib/worker/workerPool'
 import { Form } from 'types/form'
+
+// FIXME HIGH
 
 let CANCEL = false
 const isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().indexOf('firefox') > -1

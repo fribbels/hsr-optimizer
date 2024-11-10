@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { Flex, Form, Select, Switch, Typography } from 'antd'
 
@@ -189,35 +188,8 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
             </Form.Item>
           </Flex>
         </Flex>
-
-        {/*
-      <Button type="primary" onClick={showDrawer}>
-        Advanced Options
-      </Button>
-      <Drawer
-        placement="right"
-        closable={false}
-        onClose={onClose}
-        open={open}
-        getContainer={false}
-        width={250}
-      >
-        <HeaderText>
-          Damage Buffs
-          Coming Soon
-        </HeaderText>
-
-        <Divider style={{marginTop: '8px', marginBottom: '12px'}}/>
-
-      </Drawer>
-
-      <Text>Actions</Text>
-      <Button type="primary" onClick={saveCharacterClicked} style={{width: '100%'}}>
-        Save Character
-      </Button> */}
       </Flex>
     </Flex>
-
   )
 }
 

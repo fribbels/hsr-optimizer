@@ -7,6 +7,8 @@ import { Character, CharacterId } from 'types/character'
 import { GUID } from 'types/common'
 import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/relic'
 
+// FIXME HIGH
+
 enum relicPotentialCases {
   SINGLE_STAT,
   HP,
@@ -609,7 +611,7 @@ export class RelicScorer {
     const worst = Math.max(0, (this.substatScore(fake, id).score + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus)
 
     let levelupMetadata: {
-      bestAddedStats: SubStats[];
+      bestAddedStats: SubStats[]
       bestUpgradedStats: SubStats[]
     } | undefined = undefined
     if (withMeta) {
@@ -695,8 +697,8 @@ export class RelicScorer {
    * @param relics relics to score against the character
    */
   scoreCharacterWithRelics(character: Character, relics: Relic[]): {
-    relics: object[];
-    totalScore: number;
+    relics: object[]
+    totalScore: number
     totalRating: string
   } {
     if (!character?.id) {

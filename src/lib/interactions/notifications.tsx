@@ -96,6 +96,7 @@ export function webgpuNotSupportedNotification() {
                 <Trans
                   t={i18next.t}
                   i18nKey='notifications:GPU.Description.l3'
+                  // @ts-ignore
                   components={{ CustomLink: <ColorizedLinkWithIcon url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status' linkIcon={true}/> }}
                 />
                 {/* Linux — <ColorizedLink text='Behind a flag' url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status'/> */}

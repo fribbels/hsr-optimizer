@@ -26,6 +26,8 @@ import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'
 
+// FIXME HIGH
+
 const cachedSims: {
   [key: string]: SimulationScore
 } = {}

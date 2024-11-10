@@ -11,7 +11,7 @@ const smallWidth = panelWidth
 const mediumWidth = 373
 const largeWidth = 1183
 
-const dimsBySize = {
+const dimsBySize: Record<string, number> = {
   small: smallWidth,
   medium: mediumWidth,
   large: largeWidth,

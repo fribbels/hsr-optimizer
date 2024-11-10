@@ -1,5 +1,7 @@
 import { Assets } from 'lib/rendering/assets'
 
+// FIXME HIGH
+
 const parentW = 233
 const parentH = 350
 const innerW = 350

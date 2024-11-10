@@ -4,6 +4,8 @@ import { Assets } from 'lib/rendering/assets'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
+// FIXME LOW
+
 type placementOptions = 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight'
 
 type Languages = keyof typeof languages

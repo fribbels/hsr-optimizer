@@ -12,6 +12,8 @@ import stringSimilarity from 'string-similarity'
 import { Character } from 'types/character'
 import { Relic } from 'types/relic'
 
+// FIXME HIGH
+
 const { Text } = Typography
 
 const characterList = Object.values(gameData.characters)
@@ -52,7 +54,7 @@ type V4ParserRelic = {
   level: number
   mainstat: string
   substats: {
-    key: string;
+    key: string
     value: number
   }[]
   location: string
@@ -175,20 +177,20 @@ export class KelzFormatParser { // TODO abstract class
 // ================================================== V3 ==================================================
 // TODO: deprecate soon
 function readCharacterV3(character: V4ParserCharacter & {
-    key: string
-  },
-  lightCones: (V4ParserLightCone & {
-    key: string
-  })[],
-  trailblazer,
-  path) {
+  key: string
+},
+lightCones: (V4ParserLightCone & {
+  key: string
+})[],
+trailblazer,
+path) {
   let lightCone: (V4ParserLightCone & {
     key: string
   }) | undefined
   if (lightCones) {
     if (character.key.startsWith('Trailblazer')) {
       lightCone = lightCones.find((x) => x.location === character.key)
-        || lightCones.find((x) => x.location.startsWith('Trailblazer'))
+      || lightCones.find((x) => x.location.startsWith('Trailblazer'))
     } else {
       lightCone = lightCones.find((x) => x.location === character.key)
     }

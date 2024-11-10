@@ -36,7 +36,7 @@ const cardHeight = 480
 
 const optionRender = (option: {
   data: {
-    value: string;
+    value: string
     desc: string
   }
 }) => (
@@ -93,7 +93,7 @@ const teammateOrnamentSets = [
 function calculateTeammateSets(teammateCharacter: Character) {
   const relics = Object.values(teammateCharacter.equipped).map((id) => DB.getRelicById(id)).filter((x) => x)
   const activeTeammateSets: {
-    teamRelicSet?: string;
+    teamRelicSet?: string
     teamOrnamentSet?: string
   } = {}
   for (const set of teammateRelicSets) {
@@ -190,7 +190,7 @@ const TeammateCard = (props: {
 
   const superimpositionOptions = useMemo(() => {
     const options: {
-      value: number;
+      value: number
       label: string
     }[] = []
     for (let i = 1; i <= 5; i++) {
@@ -201,7 +201,7 @@ const TeammateCard = (props: {
 
   const eidolonOptions = useMemo(() => {
     const options: {
-      value: number;
+      value: number
       label: string
     }[] = []
     for (let i = 0; i <= 6; i++) {

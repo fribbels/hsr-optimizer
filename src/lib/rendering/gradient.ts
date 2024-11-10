@@ -1,7 +1,9 @@
 import type { GlobalToken } from 'antd/es/theme/interface'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import tinygradient from 'tinygradient'
+
+// FIXME MED
 
 const optimizerGridGradient = tinygradient([
   { color: '#5A1A06', pos: 0 }, // red

@@ -1,5 +1,4 @@
 import { Flex, Typography } from 'antd'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import ScoringModal from 'lib/overlays/modals/ScoringModal'
 import { AppPages, PageToRoute } from 'lib/state/db'
 import ChangelogTab from 'lib/tabs/tabChangelog/ChangelogTab'
@@ -10,6 +9,7 @@ import ImportTab from 'lib/tabs/tabImport/ImportTab'
 import MetadataTab from 'lib/tabs/tabMetadata/MetadataTab'
 
 import OptimizerTab from 'lib/tabs/tabOptimizer/OptimizerTab'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import RelicsTab from 'lib/tabs/tabRelics/RelicsTab'
 import RelicScorerTab from 'lib/tabs/tabShowcase/RelicScorerTab'
 import WebgpuTab from 'lib/tabs/tabWebgpu/WebgpuTab'
@@ -18,7 +18,11 @@ import React, { ReactElement, useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Form } from 'types/form'
 
-const defaultErrorRender = ({ error: { message } }: { error: { message: string } }) => (
+const defaultErrorRender = ({ error: { message } }: {
+  error: {
+    message: string
+  }
+}) => (
   <Typography>Something went wrong: {message}</Typography>
 )
 
@@ -84,7 +88,11 @@ const Tabs = () => {
 
 export default Tabs
 
-function TabRenderer(props: { activeKey: string; tabKey: string; content: ReactElement }) {
+function TabRenderer(props: {
+  activeKey: string
+  tabKey: string
+  content: ReactElement
+}) {
   return (
     <ErrorBoundary fallbackRender={defaultErrorRender}>
       <div style={{ display: props.activeKey === props.tabKey ? 'contents' : 'none' }} id={props.tabKey}>

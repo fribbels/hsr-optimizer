@@ -7,6 +7,8 @@ import React, { useState } from 'react'
 import { StringToNumberMap } from 'types/common'
 import { ReactElement } from 'types/components'
 
+// FIXME LOW
+
 // Fake type for metadata
 type MetadataObject = {
   id: string
@@ -286,33 +288,33 @@ function GridDisplay(props: {
   return (
     <table style={{ borderCollapse: 'collapse', width: 'fit-content', lineHeight: '0px' }}>
       <tbody>
-      {props.grid.map((row, rowIndex) => (
-        <tr
-          key={rowIndex}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.11)')}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}
-        >
-          {row.map((cell, colIndex) => (
-            <td
-              key={`${rowIndex}-${colIndex}`}
-              style={{
-                height: iconSize,
-                width: iconSize,
-                border: '1px solid #464d6bc4',
-                padding: 0,
-                textAlign: 'center',
-                backgroundColor: hoveredColumn === colIndex ? 'rgba(255,255,255,0.11)' : '', // Apply background on hover
-              }}
-              onMouseEnter={() => setHoveredColumn(colIndex)}
-              onMouseLeave={() => setHoveredColumn(null)}
-            >
-              <div>
-                {cell || ''}
-              </div>
-            </td>
-          ))}
-        </tr>
-      ))}
+        {props.grid.map((row, rowIndex) => (
+          <tr
+            key={rowIndex}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.11)')}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}
+          >
+            {row.map((cell, colIndex) => (
+              <td
+                key={`${rowIndex}-${colIndex}`}
+                style={{
+                  height: iconSize,
+                  width: iconSize,
+                  border: '1px solid #464d6bc4',
+                  padding: 0,
+                  textAlign: 'center',
+                  backgroundColor: hoveredColumn === colIndex ? 'rgba(255,255,255,0.11)' : '', // Apply background on hover
+                }}
+                onMouseEnter={() => setHoveredColumn(colIndex)}
+                onMouseLeave={() => setHoveredColumn(null)}
+              >
+                <div>
+                  {cell || ''}
+                </div>
+              </td>
+            ))}
+          </tr>
+        ))}
       </tbody>
     </table>
   )

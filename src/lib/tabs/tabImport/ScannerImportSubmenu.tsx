@@ -12,6 +12,8 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Relic } from 'types/relic'
 
+// FIXME MED
+
 const { Text } = Typography
 
 type ParsedCharacter = {

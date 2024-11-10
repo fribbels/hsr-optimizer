@@ -5,6 +5,8 @@ import { Assets } from 'lib/rendering/assets'
 import { Utils } from 'lib/utils/utils'
 import { ReactElement } from 'react'
 
+// FIXME MED
+
 const { useToken } = theme
 
 const { Paragraph } = Typography

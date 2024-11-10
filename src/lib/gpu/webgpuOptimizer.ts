@@ -1,5 +1,4 @@
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, ComputeEngine } from 'lib/constants/constants'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
@@ -10,6 +9,7 @@ import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { renameFields } from 'lib/optimizer/optimizer'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/RecommendedPresetsButton'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 

@@ -22,7 +22,7 @@ export const RelicAugmenter = {
     }
 
     const mainStat = relic.main.stat
-    relic.main.value = RelicRollFixer.fixMainStatvalue(relic)
+    relic.main.value = RelicRollFixer.fixMainStatValue(relic)
     const mainMaxValue = relic.main.value
 
     augmentedStats.mainStat = mainStat

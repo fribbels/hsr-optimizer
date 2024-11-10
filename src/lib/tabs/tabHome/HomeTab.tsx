@@ -4,8 +4,8 @@ import { Button, Card, Collapse, Divider, Flex, Input } from 'antd'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db.js'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
+import { TsUtils } from 'lib/utils/TsUtils'
 import React from 'react'
 
 const headerHeight = 900
@@ -13,7 +13,6 @@ const headerWidth = 1600
 
 export default function HomeTab(): React.JSX.Element {
   const activeKey = window.store((s) => s.activeKey)
-  const scorerId = window.store((s) => s.scorerId)
 
   if (activeKey != AppPages.HOME) {
     // Don't load unless tab active

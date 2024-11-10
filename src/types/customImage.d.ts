@@ -29,6 +29,8 @@ export type CustomImageConfig = {
   artistName: string
 }
 
-export type CustomImagePayload = ({
+export type CustomImagePayload = {
   type: 'add'
-} & CustomImageConfig) | { type: 'delete' }
+} & CustomImageConfig | {
+  type: 'delete'
+}

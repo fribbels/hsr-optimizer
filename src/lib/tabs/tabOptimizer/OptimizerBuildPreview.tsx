@@ -1,10 +1,10 @@
 import { Flex } from 'antd'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 
 import RelicModal from 'lib/overlays/modals/RelicModal'
-import { RelicModalController } from 'lib/relics/relicModalController'
+import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import DB from 'lib/state/db'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import React, { useState } from 'react'
 import { Relic } from 'types/relic'

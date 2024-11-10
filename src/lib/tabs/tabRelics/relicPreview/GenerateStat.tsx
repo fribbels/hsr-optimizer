@@ -9,6 +9,8 @@ import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Relic, StatRolls } from 'types/relic'
 
+// FIXME MED
+
 type Substat = {
   stat: string
   value: number

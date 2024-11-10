@@ -148,7 +148,7 @@ function relicsToArray(relics: Relic[]) {
 }
 
 function relicSetToIndex(relic: Relic) {
-  if (SetsRelicsNames.includes(relic.set)) {
+  if (SetsRelicsNames.some((name) => name === relic.set)) {
     return RelicSetToIndex[relic.set]
   }
   return OrnamentSetToIndex[relic.set]

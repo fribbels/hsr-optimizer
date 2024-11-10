@@ -2,6 +2,8 @@ import { Collapse, Flex } from 'antd'
 import { ReactElement, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
+// FIXME HIGH
+
 export const OptimizerMenuIds = {
   characterOptions: 'Character options',
   relicAndStatFilters: 'Relic & stat filters',

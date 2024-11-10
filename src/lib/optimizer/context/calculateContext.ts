@@ -8,6 +8,8 @@ import DB from 'lib/state/db'
 import { Form, Teammate } from 'types/form'
 import { CharacterMetadata, CharacterStatsBreakdown, OptimizerContext } from 'types/optimizer'
 
+// FIXME HIGH
+
 export function generateContext(request: Form): OptimizerContext {
   const context: OptimizerContext = {} as OptimizerContext
 

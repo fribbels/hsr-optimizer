@@ -6,6 +6,8 @@ import { importerTabButtonWidth, importerTabSpinnerMs } from 'lib/tabs/tabImport
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+// FIXME LOW
+
 const { Text } = Typography
 
 enum Stages {

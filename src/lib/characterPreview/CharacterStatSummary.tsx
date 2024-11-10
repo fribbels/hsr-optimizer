@@ -2,6 +2,8 @@ import { Flex } from 'antd'
 import StatRow from 'lib/characterPreview/StatRow'
 import { Constants, Stats } from 'lib/constants/constants'
 
+// FIXME MED
+
 const epsilon = 0.001
 
 export const CharacterStatSummary = (props: {

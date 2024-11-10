@@ -6,6 +6,8 @@ import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
 import { Relic } from 'types/relic'
 
+// FIXME HIGH
+
 export const RelicFilters = {
   calculateWeightScore: (request: Form, relics: Relic[]) => {
     const weights = request.weights || {}

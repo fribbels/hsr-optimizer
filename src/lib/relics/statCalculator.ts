@@ -2,6 +2,8 @@ import { Constants, SubStatValues } from 'lib/constants/constants'
 import { Utils } from 'lib/utils/utils'
 import { Relic } from 'types/relic'
 
+// FIXME HIGH
+
 const maxedMainStats = {
   [Constants.Stats.SPD]: [7.613, 11.419, 16.426, 25.032],
   [Constants.Stats.HP]: [139.991, 281.111, 469.647, 705.600],

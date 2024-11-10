@@ -3,6 +3,8 @@ import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
 
+// FIXME MED
+
 const partConversion = {
   1: Constants.Parts.Head,
   2: Constants.Parts.Hands,

@@ -7,6 +7,8 @@ import * as React from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+// FIXME HIGH
+
 interface LightConeSelectProps {
   value
   characterId: string

@@ -3,6 +3,8 @@ import i18next from 'i18next'
 import { Constants, RelicSetFilterOptions, setToId, UnreleasedSets } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 
+// FIXME HIGH
+
 // This should be memoised with either the t function or resolved language as a dependency
 const GenerateSetsOptions = () => {
   const t = i18next.getFixedT(null, 'optimizerTab', 'RelicSetSelector')

@@ -9,6 +9,8 @@ import Cropper from 'react-easy-crop'
 import { useTranslation } from 'react-i18next'
 import { CroppedArea, CustomImageConfig, CustomImageParams, CustomImagePayload, ImageDimensions } from 'types/customImage'
 
+// FIXME LOW
+
 const { Text } = Typography
 
 interface EditImageModalProps {
@@ -397,7 +399,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         break
       case null:
       default:
-        console.warn("Radio select must be either 'upload' or 'url'")
+        console.warn('Radio select must be either \'upload\' or \'url\'')
         break
     }
   }

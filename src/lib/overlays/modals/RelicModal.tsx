@@ -4,7 +4,7 @@ import { FormInstance } from 'antd/es/form/hooks/useForm'
 import i18next from 'i18next'
 import { Constants, setToId, Stats, UnreleasedSets } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
-import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/relics/relicModalController'
+import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/overlays/modals/relicModalController'
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -16,6 +16,8 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { Character } from 'types/character'
 import { Relic, Stat } from 'types/relic'
+
+// FIXME MED
 
 const { useToken } = theme
 
@@ -86,7 +88,7 @@ function renderStat(stat: string, value: number, relic?: Relic): Stat {
 }
 
 type MainStatOption = {
-  label: ReactElement | string;
+  label: ReactElement | string
   value: string
 }
 
@@ -108,7 +110,7 @@ export default function RelicModal(props: {
   const setOptions = useMemo(
     function getSetOptions() {
       const setOptions: {
-        label: ReactElement;
+        label: ReactElement
         value: string
       }[] = []
       for (const entry of [...Object.entries(Constants.SetsRelics), ...Object.entries(Constants.SetsOrnaments)].filter((x) => !UnreleasedSets[x[1]])) {
@@ -263,11 +265,11 @@ export default function RelicModal(props: {
   }
 
   const enhanceOptions: {
-    value: number;
+    value: number
     label: string
   }[] = useMemo(() => {
     const ret: {
-      value: number;
+      value: number
       label: string
     }[] = []
     for (let i = 15; i >= 0; i--) {
@@ -491,7 +493,7 @@ function SubstatInput(props: {
 
   const substatOptionsMemoized = useMemo(() => {
     const output: {
-      label: ReactElement;
+      label: ReactElement
       value: string
     }[] = []
     for (const entry of Object.entries(Constants.SubStats)) {

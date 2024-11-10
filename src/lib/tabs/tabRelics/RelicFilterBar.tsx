@@ -20,6 +20,8 @@ import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 import { Relic } from 'types/relic'
 
+// FIXME MED
+
 const { useToken } = theme
 const { Text } = Typography
 
@@ -31,7 +33,7 @@ const BLANK = Assets.getBlank()
 export default function RelicFilterBar(props: {
   setValueColumns: () => void
   valueColumnOptions: {
-    label: string;
+    label: string
     options: unknown[]
   }[]
   valueColumns: string[]
@@ -364,7 +366,7 @@ export default function RelicFilterBar(props: {
 }
 
 type FilterTag = {
-  key: string | number;
+  key: string | number
   display: ReactElement
 }
 

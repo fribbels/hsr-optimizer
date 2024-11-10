@@ -47,7 +47,6 @@ const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({
         // @ts-ignore
         <Item
           {...passive}
-          name={passive.id}
           title={passive.text}
           content={ColorizeNumbers(passive.content)}
           text={passive.text}

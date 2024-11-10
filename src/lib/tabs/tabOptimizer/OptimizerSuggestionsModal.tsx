@@ -1,16 +1,18 @@
 import { Button, Flex, Modal, Typography } from 'antd'
 import { TFunction } from 'i18next'
 import { Parts } from 'lib/constants/constants'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Message } from 'lib/interactions/message'
 import { Optimizer } from 'lib/optimizer/optimizer'
 import DB, { AppPages } from 'lib/state/db'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { Utils } from 'lib/utils/utils'
 import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Form } from 'types/form'
 import { Relic } from 'types/relic'
+
+// FIXME MED
 
 const { Text } = Typography
 
@@ -464,11 +466,11 @@ export function ZeroResultSuggestionModal() {
 
   // console.log('Suggestions root causes', rootCauses)
   /*
-  const rootCauseDisplay: ReactElement[] = []
-  for (const rootCause of rootCauses) {
-    rootCauseDisplay.push(convertRootCauseToDisplay(rootCause))
-  }
-  */
+   const rootCauseDisplay: ReactElement[] = []
+   for (const rootCause of rootCauses) {
+   rootCauseDisplay.push(convertRootCauseToDisplay(rootCause))
+   }
+   */
   const rootCauseDisplay: ReactElement[] = []
   for (const rootCause of rootCauses) {
     rootCauseDisplay.push(convertRootCauseToDisplay(rootCause, t))

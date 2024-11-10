@@ -14,6 +14,8 @@ import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 import { Form } from 'types/form'
 
+// FIXME HIGH
+
 /*
  * 111.11 (5 actions in first four cycles)
  * 114.28 (4 actions in first three cycles)
@@ -110,8 +112,8 @@ export function setSortColumn(columnId) {
 }
 
 export type SpdPresets = Record<string, {
-  key: string;
-  label: string | ReactElement;
+  key: string
+  label: string | ReactElement
   value: number | undefined
 }>
 

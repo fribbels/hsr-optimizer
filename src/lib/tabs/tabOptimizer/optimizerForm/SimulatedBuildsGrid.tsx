@@ -4,8 +4,10 @@ import { Empty, Flex, Table, TableColumnsType } from 'antd'
 import { deleteStatSimulationBuild, renderDefaultSimulationName } from 'lib/simulations/statSimulationController'
 import { STAT_SIMULATION_GRID_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm/StatSimulationDisplay'
 import { Utils } from 'lib/utils/utils'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+
+// FIXME MED
 
 interface DataType {
   key: React.Key

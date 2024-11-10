@@ -1,16 +1,18 @@
 import { Flex, Form, Select } from 'antd'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Hint } from 'lib/interactions/hint'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/LightConeSelect'
 import RecommendedPresetsButton from 'lib/tabs/tabOptimizer/optimizerForm/RecommendedPresetsButton'
 import { optimizerTabDefaultGap, panelWidth } from 'lib/tabs/tabOptimizer/optimizerTabConstants'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { Utils } from 'lib/utils/utils'
 import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+
+// FIXME HIGH
 
 type CharacterSelectorDisplayProps = {}
 

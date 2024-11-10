@@ -8,6 +8,8 @@ import { Assets } from 'lib/rendering/assets'
 import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
 
+// FIXME HIGH
+
 const checkSpeedInBreakpoint = (speedValue: number): boolean => {
   const breakpointPresets = [
     [111.1, 111.2],
@@ -52,7 +54,11 @@ export const displayTextMap = {
   'DOT': 'DoT Damage',
 }
 
-const StatRow = (props: { stat: string; finalStats: object; value?: number }): JSX.Element => {
+const StatRow = (props: {
+  stat: string
+  finalStats: object
+  value?: number
+}): JSX.Element => {
   const { stat, finalStats } = props
   const value = Utils.precisionRound(finalStats[stat])
 

@@ -21,6 +21,8 @@ import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 import { Relic, Stat } from 'types/relic'
 
+// FIXME HIGH
+
 export type Simulation = {
   name?: string
   key: string

@@ -15,6 +15,7 @@ export const CombatBuffsDrawer = () => {
 
   const combatBuffsList = useMemo(() => {
     return Object.values(CombatBuffs).map((x) => (
+      // @ts-ignore
       <CombatBuff title={t(`${x.key}`)} name={x.key} key={x.key}/>
     ))
   }, [t])

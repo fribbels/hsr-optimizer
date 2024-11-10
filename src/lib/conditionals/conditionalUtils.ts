@@ -7,16 +7,14 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
  */
 
 export type ContentDefinition<T extends Record<string, unknown>> = {
-  [K in keyof T]: ContentItem & { id: K };
+  [K in keyof T]: ContentItem &
+  {
+    id: K
+  }
 }
 
 export type Conditionals<T extends ContentDefinition<T>> = {
   [K in keyof T]: number;
-}
-
-export const precisionRound = (number: number, precision: number = 8): number => {
-  const factor = Math.pow(10, precision)
-  return Math.round(number * factor) / factor
 }
 
 // Remove the ashblazing set atk bonus only when calc-ing fua attacks

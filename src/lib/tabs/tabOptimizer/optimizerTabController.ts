@@ -22,6 +22,8 @@ import { ConditionalValueMap } from 'types/conditionals'
 import { Form, Teammate } from 'types/form'
 import { OptimizerCombatBuffs } from 'types/optimizer'
 
+// FIXME HIGH
+
 let relics: RelicsByPart
 let consts: OptimizerSizes
 let aggs: GridAggregations
@@ -395,13 +397,13 @@ export const OptimizerTabController = {
     }
 
     if (newForm.characterId) {
-      const defaultOptions = CharacterConditionalsResolver.get(form).defaults() as ConditionalValueMap
+      const defaultOptions = CharacterConditionalsResolver.get(form).defaults()
       if (!newForm.characterConditionals) {
         newForm.characterConditionals = {}
       }
       for (const option of Object.keys(defaultOptions)) {
         if (newForm.characterConditionals[option] == undefined) {
-          newForm.characterConditionals[option] = defaultOptions[option] as number
+          newForm.characterConditionals[option] = defaultOptions[option]
         }
       }
     }
@@ -413,7 +415,7 @@ export const OptimizerTabController = {
       }
       for (const option of Object.keys(defaultLcOptions)) {
         if (newForm.lightConeConditionals[option] == undefined) {
-          newForm.lightConeConditionals[option] = defaultLcOptions[option] as number
+          newForm.lightConeConditionals[option] = defaultLcOptions[option]
         }
       }
     } else {

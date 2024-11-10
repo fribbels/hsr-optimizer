@@ -1,4 +1,5 @@
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
+import React from 'react'
 import { CustomImageConfig } from 'types/customImage'
 
 interface CharacterCustomPortraitProps {

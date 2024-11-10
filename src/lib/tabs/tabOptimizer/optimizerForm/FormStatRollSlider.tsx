@@ -6,6 +6,8 @@ import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
+// FIXME HIGH
+
 const Text = styled(Typography)`
     white-space: pre-line;
 `

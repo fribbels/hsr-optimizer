@@ -1,8 +1,8 @@
 import { DeleteOutlined, DoubleLeftOutlined, DownOutlined, SettingOutlined, UpOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
 import { Parts, Stats, SubStats } from 'lib/constants/constants'
-import { deleteAllStatSimulationBuilds, importOptimizerBuild, saveStatSimulationBuildFromForm, startOptimizerStatSimulation } from 'lib/simulations/statSimulationController'
 import { Assets } from 'lib/rendering/assets'
+import { deleteAllStatSimulationBuilds, importOptimizerBuild, saveStatSimulationBuildFromForm, startOptimizerStatSimulation } from 'lib/simulations/statSimulationController'
 import FormCard from 'lib/tabs/tabOptimizer/FormCard'
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/OrnamentsOptions'
@@ -13,6 +13,8 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+
+// FIXME HIGH
 
 const { Text } = Typography
 

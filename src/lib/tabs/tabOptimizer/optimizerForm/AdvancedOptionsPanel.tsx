@@ -5,6 +5,8 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
+// FIXME MED
+
 export const AdvancedOptionsPanel = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'AdvancedOptions' })
   const setCombatBuffsDrawerOpen = window.store((s) => s.setCombatBuffsDrawerOpen)

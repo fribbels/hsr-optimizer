@@ -10,6 +10,8 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { CharacterConditionalsController, ConditionalValueMap, ContentItem, LightConeConditionalsController } from 'types/conditionals'
 import { Form, Teammate } from 'types/form'
 
+// FIXME HIGH
+
 export type ComboConditionals = {
   [key: string]: ComboConditionalCategory
 }

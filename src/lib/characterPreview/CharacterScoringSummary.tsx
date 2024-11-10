@@ -19,7 +19,11 @@ import { Utils } from 'lib/utils/utils'
 import React, { ReactElement } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
-export const CharacterScoringSummary = (props: { simScoringResult: SimulationScore }) => {
+// FIXME MED
+
+export const CharacterScoringSummary = (props: {
+  simScoringResult: SimulationScore
+}) => {
   const result = TsUtils.clone(props.simScoringResult)
   const { t, i18n } = useTranslation(['charactersTab', 'common'])
   if (!result) return (
@@ -32,7 +36,9 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   const characterMetadata = DB.getMetadata().characters[characterId]
   const elementalDmgValue: string = ElementToDamage[characterMetadata.element]
 
-  function ScoringSet(props: { set: string }) {
+  function ScoringSet(props: {
+    set: string
+  }) {
     return (
       <Flex vertical align='center' gap={2}>
         <img src={Assets.getSetImage(props.set)} style={{ height: 60 }}/>
@@ -40,7 +46,10 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     )
   }
 
-  function ScoringStat(props: { stat: string; part: string }) {
+  function ScoringStat(props: {
+    stat: string
+    part: string
+  }) {
     const display = props.stat?.replace('Boost', '') || ''
     return (
       <Flex align='center' gap={10}>
@@ -50,7 +59,11 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     )
   }
 
-  function ScoringNumber(props: { label: string; number?: number; precision?: number }) {
+  function ScoringNumber(props: {
+    label: string
+    number?: number
+    precision?: number
+  }) {
     const precision = props.precision ?? 1
     const value = props.number ?? 0
     const show = value != 0
@@ -62,7 +75,12 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     )
   }
 
-  function ScoringNumberParens(props: { label: string; number?: number; parens?: number; precision?: number }) {
+  function ScoringNumberParens(props: {
+    label: string
+    number?: number
+    parens?: number
+    precision?: number
+  }) {
     const precision = props.precision ?? 1
     const value = props.number ?? 0
     const parens = props.parens ?? 0
@@ -81,7 +99,11 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     )
   }
 
-  function ScoringInteger(props: { label: string; number?: number; valueWidth?: number }) {
+  function ScoringInteger(props: {
+    label: string
+    number?: number
+    valueWidth?: number
+  }) {
     const value = props.number ?? 0
     return (
       <Flex gap={9} justify='space-between'>
@@ -91,7 +113,10 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     )
   }
 
-  function ScoringText(props: { label: string; text?: string }) {
+  function ScoringText(props: {
+    label: string
+    text?: string
+  }) {
     const value = props.text ?? ''
     return (
       <Flex align='center' gap={1} justify='space-between'>
@@ -101,7 +126,10 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     )
   }
 
-  function ScoringAbility(props: { comboAbilities: string[]; index: number }) {
+  function ScoringAbility(props: {
+    comboAbilities: string[]
+    index: number
+  }) {
     const displayValue = i18n.exists(`charactersTab:CharacterPreview.BuildAnalysis.Rotation.${props.comboAbilities[props.index]}`)
       // @ts-ignore ts is being dumb :/, key existence is verified on the line above and for some reason can't tell that t() always returns a string
       ? t(`CharacterPreview.BuildAnalysis.Rotation.${props.comboAbilities[props.index]}`)
@@ -450,7 +478,10 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   )
 }
 
-export function ScoringTeammate(props: { result: SimulationScore; index: number }) {
+export function ScoringTeammate(props: {
+  result: SimulationScore
+  index: number
+}) {
   const { t } = useTranslation('common')
   const teammate = props.result.simulationMetadata.teammates[props.index]
   const iconSize = 60
@@ -486,7 +517,9 @@ const percentFlatStats = {
   [Stats.HP_P]: true,
 }
 
-export function CharacterCardCombatStats(props: { result: SimulationScore }) {
+export function CharacterCardCombatStats(props: {
+  result: SimulationScore
+}) {
   const result = TsUtils.clone(props.result)
   addOnHitStats(result)
 
@@ -555,7 +588,9 @@ function Arrow() {
   )
 }
 
-export function CharacterCardScoringStatUpgrades(props: { result: SimulationScore }) {
+export function CharacterCardScoringStatUpgrades(props: {
+  result: SimulationScore
+}) {
   const { t } = useTranslation(['common', 'charactersTab'])
   const result = props.result
   const rows: ReactElement[] = []

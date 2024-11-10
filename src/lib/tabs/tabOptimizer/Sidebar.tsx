@@ -3,7 +3,6 @@ import { Button, Divider, Dropdown, Flex, Grid, Modal, Popconfirm, Progress, Rad
 import i18next from 'i18next'
 import { COMPUTE_ENGINE_CPU, COMPUTE_ENGINE_GPU_EXPERIMENTAL, COMPUTE_ENGINE_GPU_STABLE, ComputeEngine } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
 import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
@@ -11,11 +10,14 @@ import { Optimizer } from 'lib/optimizer/optimizer'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import DB from 'lib/state/db'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerTabConstants'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { Utils } from 'lib/utils/utils'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+
+// FIXME HIGH
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
@@ -128,10 +130,10 @@ function ComputeEngineSelect() {
             {
               t(`Display.${computeEngine}`)
               /*
-              [COMPUTE_ENGINE_GPU_EXPERIMENTAL]: 'GPU acceleration: Enabled',
-              [COMPUTE_ENGINE_GPU_STABLE]: 'GPU acceleration: Enabled',
-              [COMPUTE_ENGINE_CPU]: 'GPU acceleration: Disabled',
-              */
+               [COMPUTE_ENGINE_GPU_EXPERIMENTAL]: 'GPU acceleration: Enabled',
+               [COMPUTE_ENGINE_GPU_STABLE]: 'GPU acceleration: Enabled',
+               [COMPUTE_ENGINE_CPU]: 'GPU acceleration: Disabled',
+               */
             }
           </Text>
           <DownOutlined/>

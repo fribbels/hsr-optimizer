@@ -3,6 +3,8 @@ import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form, Teammate } from 'types/form'
 
+// FIXME HIGH
+
 export function getDefaultWeights(characterId?: string) {
   if (characterId) {
     const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))

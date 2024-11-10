@@ -24,12 +24,14 @@ export function calculateContextConditionalRegistry(action: OptimizerAction, con
   action.conditionalState = {}
 }
 
-export function registerTeammateConditionals(conditionalRegistry: {
+export function registerTeammateConditionals(
+  conditionalRegistry: {
     [key: string]: DynamicConditional[]
   },
   teammateMetadata: CharacterMetadata,
   action: OptimizerAction,
-  index: number) {
+  index: number,
+) {
   if (teammateMetadata) {
     const teammateCharacterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(teammateMetadata)
     const dynamicConditionals = (teammateCharacterConditionals.teammateDynamicConditionals ?? [])

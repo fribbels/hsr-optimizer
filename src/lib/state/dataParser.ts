@@ -9,6 +9,8 @@ import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/RecommendedPr
 import { MetadataCharacter } from 'types/character'
 import { LightCone } from 'types/lightCone'
 
+// FIXME HIGH
+
 const BASIC = 'BASIC'
 const SKILL = 'SKILL'
 const ULT = 'ULT'
@@ -1103,8 +1105,8 @@ function getOverrideTraces(): Record<number, Record<string, number>> {
 }
 
 function getOverrideImageCenter(): Record<number, {
-  x: number;
-  y: number;
+  x: number
+  y: number
   z: number
 }> {
   return {

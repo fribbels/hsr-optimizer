@@ -40,7 +40,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    const r: Conditionals<typeof content> = action.characterConditionals
+    const r = action.characterConditionals as Conditionals<typeof content>
     return (r.blockActive && r.ultCull)
       ? cullHitCountMultiByTargets[context.enemyCount]
       : fuaHitCountMultiByTargets[context.enemyCount]
@@ -126,13 +126,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     content: () => Object.values(content),
     defaults: () => defaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
       if (r.blockActive && r.ultCull) {
         x.FUA_DMG_TYPE.set(ULT_TYPE | FUA_TYPE, Source.NONE)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.blockActive) {
         if (r.ultCull) {

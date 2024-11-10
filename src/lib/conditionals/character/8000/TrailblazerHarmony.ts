@@ -87,19 +87,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
       if (r.superBreakDmg) {
         x.ENEMY_WEAKNESS_BROKEN.set(1, Source.NONE)
       }
     },
     initializeTeammateConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
       if (r.superBreakDmg) {
         x.ENEMY_WEAKNESS_BROKEN.set(1, Source.NONE)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
       x.ERR.buff((e >= 2 && r.e2EnergyRegenBuff) ? 0.25 : 0, Source.NONE)
@@ -115,7 +115,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.BE.buff((m.backupDancer) ? ultBeScaling : 0, Source.NONE)
       x.SUPER_BREAK_HMC_MODIFIER.buff(
@@ -125,7 +125,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t: Conditionals<typeof teammateContent> = action.characterConditionals
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.BE.buff((e >= 4) ? 0.15 * t.teammateBeValue : 0, Source.NONE)
     },

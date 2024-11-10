@@ -93,7 +93,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
 
@@ -110,7 +110,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.ATK_P.buff((m.ultBuff) ? ultAtkBuffValue : 0, Source.NONE)
       x.ATK_P.buff((m.burdenAtkBuff) ? 0.10 : 0, Source.NONE)
@@ -118,7 +118,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ELEMENTAL_DMG.buff((m.targetBurdenActive) ? talentDmgBoostValue : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t: Conditionals<typeof teammateContent> = action.characterConditionals
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.SPD.buff((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, Source.NONE)
     },
@@ -135,7 +135,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return true
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof content> = action.characterConditionals
+          const r = action.characterConditionals as Conditionals<typeof content>
           if (!r.ultBuff) {
             return
           }
@@ -154,7 +154,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.SPD.buffDynamic(finalBuffSpd, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof content> = action.characterConditionals
+          const r = action.characterConditionals as Conditionals<typeof content>
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.ultBuff)}) {

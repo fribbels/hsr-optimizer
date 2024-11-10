@@ -81,7 +81,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // Scaling
       x.BASIC_SCALING.buff(basicScaling, Source.NONE)
@@ -105,7 +105,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.ATK_P.buff((e >= 1 && m.fieldActive) ? 0.20 : 0, Source.NONE)
 

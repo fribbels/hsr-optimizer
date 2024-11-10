@@ -96,7 +96,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
       x.OHB.buff((e >= 2 && r.e2UltHealingBuff) ? 0.15 : 0, Source.NONE)
@@ -127,7 +127,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.HP_P.buff((m.healingMaxHpBuff) ? 0.10 : 0, Source.NONE)
 

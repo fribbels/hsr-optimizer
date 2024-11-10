@@ -107,14 +107,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.sealformActive) {
         x.ENEMY_WEAKNESS_BROKEN.set(1, Source.NONE)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.BE.buff((r.sealformActive) ? ultBeBuff : 0, Source.NONE)
       x.BREAK_EFFICIENCY_BOOST.buff((r.sealformActive) ? 0.50 : 0, Source.NONE)
@@ -138,7 +138,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t: Conditionals<typeof teammateContent> = action.characterConditionals
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.BREAK_VULNERABILITY.buff(t.teammateBreakVulnerability, Source.NONE)
 

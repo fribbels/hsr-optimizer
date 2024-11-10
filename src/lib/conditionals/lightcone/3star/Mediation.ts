@@ -40,7 +40,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.lightConeConditionals
+      const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
       x.SPD.buff((m.initialSpdBuff) ? sValues[s] : 0, Source.NONE)
     },

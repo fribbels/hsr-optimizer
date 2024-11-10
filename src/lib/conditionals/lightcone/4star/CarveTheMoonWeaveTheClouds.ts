@@ -75,7 +75,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.lightConeConditionals
+      const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
       x.ATK_P.buff((m.atkBuffActive) ? sValuesAtk[s] : 0, Source.NONE)
       x.CD.buff((m.cdBuffActive) ? sValuesCd[s] : 0, Source.NONE)

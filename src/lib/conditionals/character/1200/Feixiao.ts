@@ -34,7 +34,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     + 8 * 0.2285)
 
   function getUltHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    const r: Conditionals<typeof content> = action.characterConditionals
+    const r = action.characterConditionals as Conditionals<typeof content>
 
     return r.weaknessBrokenUlt
       ? ASHBLAZING_ATK_STACK * ultBrokenHitCountMulti
@@ -99,7 +99,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     content: () => Object.values(content),
     defaults: () => defaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.ULT_DMG_TYPE.set(ULT_TYPE | FUA_TYPE, Source.NONE)
 
@@ -112,7 +112,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // Special case where we force the weakness break on if the ult break option is enabled
       if (!r.weaknessBrokenUlt) {

@@ -38,7 +38,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    const r: Conditionals<typeof content> = action.characterConditionals
+    const r = action.characterConditionals as Conditionals<typeof content>
     return e >= 2
       ? fuaMultiByDebuffs[Math.min(4, r.enemyDebuffStacks)]
       : baseHitMulti
@@ -72,7 +72,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
       x.CR.buff(r.summationStacks * 0.025, Source.NONE)

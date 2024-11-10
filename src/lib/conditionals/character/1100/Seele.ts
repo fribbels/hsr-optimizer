@@ -61,7 +61,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
       x.CR.buff((e >= 1 && r.e1EnemyHp80CrBoost) ? 0.15 : 0, Source.NONE)
@@ -86,7 +86,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // TODO: Seele's E6 should have a teammate effect but its kinda hard to calc
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
       x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
@@ -97,7 +97,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_DMG.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_DMG] : 0, Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;

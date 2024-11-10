@@ -82,7 +82,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
       x.ATK_P.buff((e >= 4) ? r.e4TalentStacks * 0.05 : 0, Source.NONE)
@@ -106,7 +106,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.VULNERABILITY.buff((m.targetUltDebuffed) ? targetUltDebuffDmgTakenValue : 0, Source.NONE)
     },

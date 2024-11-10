@@ -114,7 +114,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       if (e >= 6 && r.e6UltBuffs) {
         x.BASIC_DMG_TYPE.set(ULT_TYPE | BASIC_TYPE, Source.NONE)
@@ -122,7 +122,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.CR.buff((e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0, Source.NONE)
 
@@ -151,7 +151,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       buffAbilityVulnerability(x, ULT_TYPE, (e >= 4 && m.e4UltVulnerability) ? 0.08 : 0, Source.NONE)
     },

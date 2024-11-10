@@ -77,7 +77,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DOT_CHANCE.set(1.30, Source.NONE)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       buffAbilityVulnerability(x, DOT_TYPE, (e >= 1 && m.e1DotDmgReceivedDebuff) ? 0.30 : 0, Source.NONE)
       buffAbilityDmg(x, DOT_TYPE, (e >= 2 && m.e2TeamDotBoost) ? 0.25 : 0, Source.NONE)

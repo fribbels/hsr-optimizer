@@ -123,7 +123,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.DEF_P.buff((e >= 4 && r.e4DefBuff) ? 0.40 : 0, Source.NONE)
       x.ELEMENTAL_DMG.buff((e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0, Source.NONE)
@@ -148,7 +148,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.RES.buff((m.fortifiedWagerBuff) ? talentResScaling : 0, Source.NONE)
       x.CD.buff((m.enemyUnnervedDebuff) ? ultCdBoost : 0, Source.NONE)
@@ -168,7 +168,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       activation: ConditionalActivation.CONTINUOUS,
       dependsOn: [Stats.DEF],
       condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-        const r: Conditionals<typeof content> = action.characterConditionals
+        const r = action.characterConditionals as Conditionals<typeof content>
         return r.defToCrBoost && x.a[Key.DEF] > 1600
       },
       effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
@@ -181,7 +181,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         return buffValue
       },
       gpu: function (action: OptimizerAction, context: OptimizerContext) {
-        const r: Conditionals<typeof content> = action.characterConditionals
+        const r = action.characterConditionals as Conditionals<typeof content>
 
         return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.defToCrBoost)}) {

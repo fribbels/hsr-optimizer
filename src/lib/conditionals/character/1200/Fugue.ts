@@ -108,14 +108,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.superBreakDmg) {
         x.ENEMY_WEAKNESS_BROKEN.set(1, Source.NONE)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.BE.buff(0.30, Source.NONE)
 
@@ -128,7 +128,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.BE.buff((m.foxianPrayer) ? skillBeValue : 0, Source.NONE)
 
@@ -139,7 +139,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       buffAbilityDmg(x, BREAK_TYPE, (e >= 4 && m.e4BreakDmg) ? 0.20 : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t: Conditionals<typeof teammateContent> = action.characterConditionals
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.BE.buff(t.weaknessBreakBeStacks * (0.08 + (t.be250Buff ? 0.16 : 0)), Source.NONE)
     },

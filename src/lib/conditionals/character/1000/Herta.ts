@@ -56,7 +56,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    const r: Conditionals<typeof content> = action.characterConditionals
+    const r = action.characterConditionals as Conditionals<typeof content>
 
     const hitMultiStacks = getHitMultiByTargetsAndHits(r.fuaStacks, context)
     const hitMultiByTargets: NumberToNumberMap = {
@@ -134,7 +134,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
       x.ATK_P.buff((r.techniqueBuff) ? 0.40 : 0, Source.NONE)

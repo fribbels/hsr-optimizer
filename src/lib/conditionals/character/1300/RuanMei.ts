@@ -97,7 +97,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
       x.ATK_P.buff((e >= 2 && r.e2AtkBoost) ? 0.40 : 0, Source.NONE)
@@ -111,7 +111,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.BE.buff((m.teamBEBuff) ? 0.20 : 0, Source.NONE)
 
@@ -122,7 +122,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DEF_PEN.buff((e >= 1 && m.ultFieldActive) ? 0.20 : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t: Conditionals<typeof teammateContent> = action.characterConditionals
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.SPD_P.buff((t.teamSpdBuff) ? talentSpdScaling : 0, Source.NONE)
       x.ELEMENTAL_DMG.buff(t.teamDmgBuff, Source.NONE)

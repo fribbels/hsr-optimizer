@@ -114,7 +114,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Main damage type
       x.ATK_P.buff(
@@ -132,7 +132,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DEF_PEN.buff((e >= 2) ? 0.08 * m.talentStacks : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t: Conditionals<typeof teammateContent> = action.characterConditionals
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.CD.buff(
         (t.skillCdBuff)
@@ -153,7 +153,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return true
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof content> = action.characterConditionals
+          const r = action.characterConditionals as Conditionals<typeof content>
           if (!r.skillCdBuff) {
             return
           }
@@ -174,7 +174,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.CD.buffDynamic(finalBuffCd, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof content> = action.characterConditionals
+          const r = action.characterConditionals as Conditionals<typeof content>
           const buffScalingValue = (skillCdBuffScaling + (e >= 6 ? 0.30 : 0))
 
           return conditionalWgslWrapper(this, `

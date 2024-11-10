@@ -87,7 +87,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.BASIC_SCALING.buff(basicScaling, Source.NONE)
       x.SKILL_SCALING.buff(skillScaling, Source.NONE)
@@ -114,12 +114,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.RES.buff((e >= 6 && m.skillBuff) ? 0.30 : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t: Conditionals<typeof teammateContent> = action.characterConditionals
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.HP.buff((t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0, Source.NONE)
       x.HP.buff((e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0, Source.NONE)
@@ -145,7 +145,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         return true
       },
       effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-        const r: Conditionals<typeof content> = action.characterConditionals
+        const r = action.characterConditionals as Conditionals<typeof content>
         if (!r.skillBuff) {
           return
         }
@@ -180,7 +180,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.ATK.buffDynamic(finalBuffAtk, Source.NONE, action, context)
       },
       gpu: function (action: OptimizerAction, context: OptimizerContext) {
-        const r: Conditionals<typeof content> = action.characterConditionals
+        const r = action.characterConditionals as Conditionals<typeof content>
 
         return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.skillBuff)}) {

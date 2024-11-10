@@ -100,7 +100,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.RES.buff((e >= 1 && r.e1ResBuff) ? 0.50 : 0, Source.NONE)
       x.RES.buff((e >= 2 && r.e2ResBuff) ? 0.30 : 0, Source.NONE)
@@ -126,7 +126,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       buffAbilityVulnerability(x, BREAK_TYPE, (m.targetBesotted) ? talentBesottedScaling : 0, Source.NONE)
     },

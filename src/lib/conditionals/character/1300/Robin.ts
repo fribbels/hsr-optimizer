@@ -126,7 +126,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.BASIC_SCALING.buff(basicScaling, Source.NONE)
       x.ULT_ADDITIONAL_DMG_SCALING.buff((r.concertoActive) ? ultScaling : 0, Source.NONE)
@@ -136,7 +136,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.CD.buff((m.talentCdBuff) ? talentCdBuffValue : 0, Source.NONE)
       x.RES.buff((e >= 4 && m.concertoActive && m.e4TeamResBuff) ? 0.50 : 0, Source.NONE)
@@ -145,7 +145,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.RES_PEN.buff((e >= 1 && m.concertoActive && m.e1UltResPen) ? 0.24 : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t: Conditionals<typeof teammateContent> = action.characterConditionals
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.ATK.buff((t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0, Source.NONE)
       x.RATIO_BASED_ATK_BUFF.buff((t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue : 0, Source.NONE)
@@ -155,7 +155,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       buffAbilityCd(x, FUA_TYPE, t.traceFuaCdBoost && t.concertoActive ? 0.25 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.ATK.buff((r.concertoActive) ? x.a[Key.ATK] * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0, Source.NONE)
 
@@ -166,7 +166,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_ADDITIONAL_DMG.buff(x.a[Key.ULT_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
       return `
 if (${wgslTrue(r.concertoActive)}) {
   buffDynamicATK(x.ATK * ${ultAtkBuffScalingValue} + ${ultAtkBuffFlatValue}, p_x, p_state);

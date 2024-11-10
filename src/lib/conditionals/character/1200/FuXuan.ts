@@ -86,7 +86,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // Scaling
       x.BASIC_SCALING.buff(basicScaling, Source.NONE)
@@ -103,7 +103,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.CR.buff((m.skillActive) ? skillCrBuffValue : 0, Source.NONE)
       x.CD.buff((e >= 1 && m.skillActive) ? 0.30 : 0, Source.NONE)
@@ -112,7 +112,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DMG_RED_MULTI.multiply((m.talentActive) ? (1 - talentDmgReductionValue) : 1, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t: Conditionals<typeof teammateContent> = action.characterConditionals
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.HP.buff((t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0, Source.NONE)
 
@@ -137,7 +137,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return true
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof content> = action.characterConditionals
+          const r = action.characterConditionals as Conditionals<typeof content>
           if (!r.skillActive) {
             return
           }
@@ -156,7 +156,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.HP.buffDynamic(finalBuffHp, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof content> = action.characterConditionals
+          const r = action.characterConditionals as Conditionals<typeof content>
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.skillActive)}) {

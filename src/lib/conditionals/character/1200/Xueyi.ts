@@ -81,7 +81,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
       x.BE.buff((e >= 4 && r.e4BeBuff) ? 0.40 : 0, Source.NONE)
@@ -119,7 +119,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.BE],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof content> = action.characterConditionals
+          const r = action.characterConditionals as Conditionals<typeof content>
 
           return r.beToDmgBoost
         },
@@ -131,7 +131,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.ELEMENTAL_DMG.buff(buffValue - stateValue, Source.NONE)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof content> = action.characterConditionals
+          const r = action.characterConditionals as Conditionals<typeof content>
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.beToDmgBoost)}) {
   return;

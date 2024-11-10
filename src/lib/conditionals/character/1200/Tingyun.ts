@@ -96,7 +96,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
       x.SPD_P.buff((r.skillSpdBuff) ? 0.20 : 0, Source.NONE)
@@ -114,19 +114,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.SPD_P.buff((e >= 1 && m.ultSpdBuff) ? 0.20 : 0, Source.NONE)
 
       x.ELEMENTAL_DMG.buff((m.ultDmgBuff) ? ultDmgBoost : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t: Conditionals<typeof teammateContent> = action.characterConditionals
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.ATK_P.buff((t.benedictionBuff) ? t.teammateAtkBuffValue : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // x[Stats.ATK] += (r.benedictionBuff) ? x[Stats.ATK] * skillAtkBoostMax : 0
 
@@ -143,7 +143,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 if (${wgslTrue(r.benedictionBuff)}) {
@@ -165,7 +165,7 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
           return true
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof content> = action.characterConditionals
+          const r = action.characterConditionals as Conditionals<typeof content>
           if (!r.benedictionBuff) {
             return
           }
@@ -184,7 +184,7 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
           x.ATK.buffDynamic(finalBuffAtk, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof content> = action.characterConditionals
+          const r = action.characterConditionals as Conditionals<typeof content>
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.benedictionBuff)}) {

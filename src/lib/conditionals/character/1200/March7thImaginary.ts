@@ -109,7 +109,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => (teammateDefaults),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.SPD_P.buff((e >= 1 && r.selfSpdBuff) ? 0.10 : 0, Source.NONE)
       buffAbilityDmg(x, BASIC_TYPE, (r.talentDmgBuff) ? talentDmgBuff : 0, Source.NONE)
@@ -134,7 +134,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t: Conditionals<typeof teammateContent> = action.characterConditionals
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.SPD_P.buff((t.masterBuff) ? skillSpdScaling : 0, Source.NONE)
 

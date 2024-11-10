@@ -20,7 +20,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const fuaScaling = talent(e, 0.66, 0.726)
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    const r: Conditionals<typeof content> = action.characterConditionals
+    const r = action.characterConditionals as Conditionals<typeof content>
 
     let hitMulti = 0
     const stacks = r.talentHitsPerAction
@@ -98,12 +98,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     content: () => Object.values(content),
     defaults: () => defaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.SUMMONS.set(1, Source.NONE)
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       r.talentHitsPerAction = Math.max(r.talentHitsPerAction, r.talentAttacks)
 

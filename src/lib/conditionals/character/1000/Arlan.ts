@@ -42,7 +42,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
       x.ELEMENTAL_DMG.buff(Math.min(talentMissingHpDmgBoostMax, 1 - r.selfCurrentHpPercent), Source.NONE)

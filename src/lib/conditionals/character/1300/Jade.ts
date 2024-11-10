@@ -34,7 +34,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    const r: Conditionals<typeof content> = action.characterConditionals
+    const r = action.characterConditionals as Conditionals<typeof content>
     return r.enhancedFollowUp
       ? enhancedHitMultiByTargets[context.enemyCount]
       : unenhancedHitMultiByTargets[context.enemyCount]
@@ -113,7 +113,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => (teammateDefaults),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.CD.buff(r.pawnedAssetStacks * pawnedAssetCdScaling, Source.NONE)
       x.ATK_P.buff(r.pawnedAssetStacks * 0.005, Source.NONE)
@@ -137,7 +137,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t: Conditionals<typeof teammateContent> = action.characterConditionals
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.SPD.buff((t.debtCollectorSpdBuff) ? 30 : 0, Source.NONE)
     },

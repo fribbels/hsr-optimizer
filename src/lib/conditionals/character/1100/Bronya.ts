@@ -124,7 +124,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.FUA_TOUGHNESS_DMG.buff((e >= 4) ? 30 : 0, Source.NONE)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.DEF_P.buff((m.battleStartDefBuff) ? 0.20 : 0, Source.NONE)
       x.SPD_P.buff((m.e2SkillSpdBuff) ? 0.30 : 0, Source.NONE)
@@ -135,7 +135,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ELEMENTAL_DMG.buff((m.skillBuff) ? skillDmgBoostValue : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t: Conditionals<typeof teammateContent> = action.characterConditionals
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.CD.buff((t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
       x.CD.buff((t.ultBuff) ? ultCdBoostBaseValue : 0, Source.NONE)
@@ -157,7 +157,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return true
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof content> = action.characterConditionals
+          const r = action.characterConditionals as Conditionals<typeof content>
           if (!r.ultBuff) {
             return
           }
@@ -176,7 +176,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.CD.buffDynamic(finalBuffCd, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof content> = action.characterConditionals
+          const r = action.characterConditionals as Conditionals<typeof content>
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.ultBuff)}) {

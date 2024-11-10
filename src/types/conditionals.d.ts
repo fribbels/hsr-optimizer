@@ -53,7 +53,7 @@ export interface LightConeConditionalsController extends ConditionalsController 
 export interface CharacterConditionalsController extends ConditionalsController {
 }
 
-export type ConditionalValueMap = Record<string, number>
+export type ConditionalValueMap = Record<string, number | boolean>
 
 export type ContentComponentMap = {
   switch: ComponentType<FormSwitchWithPopoverProps>

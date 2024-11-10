@@ -21,7 +21,7 @@ import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/StatSimulation
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/character'
-import { ConditionalsController } from 'types/conditionals'
+import { CharacterConditionalsController, LightConeConditionalsController } from 'types/conditionals'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'
@@ -671,7 +671,7 @@ export function generateFullDefaultForm(
   if (!characterId) return null
 
   const characterConditionalsRequest = { characterId: characterId, characterEidolon: characterEidolon }
-  const lightConeConditionalsRequest = { lightCone: lightCone, eidolon: lightConeSuperimposition }
+  const lightConeConditionalsRequest = { lightCone: lightCone, lightConeSuperimposition: lightConeSuperimposition }
 
   const simulationForm: Form = getDefaultForm({ id: characterId })
 
@@ -683,8 +683,8 @@ export function generateFullDefaultForm(
   simulationForm.characterConditionals = {}
   simulationForm.lightConeConditionals = {}
 
-  const characterConditionals: ConditionalsController = CharacterConditionalsResolver.get(characterConditionalsRequest)
-  const lightConeConditionals: ConditionalsController = LightConeConditionalsResolver.get(lightConeConditionalsRequest)
+  const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(characterConditionalsRequest)
+  const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(lightConeConditionalsRequest)
 
   if (teammate) {
     if (characterConditionals.teammateDefaults) Utils.mergeUndefinedValues(simulationForm.characterConditionals, characterConditionals.teammateDefaults())

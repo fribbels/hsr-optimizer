@@ -90,7 +90,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.BASIC_SCALING.buff(basicScaling, Source.NONE)
       x.SKILL_SCALING.buff(skillScaling, Source.NONE)
@@ -108,7 +108,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DOT_STACKS.set(r.arcanaStacks, Source.NONE)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // TODO: Technically this isnt a DoT vulnerability but rather vulnerability to damage on the enemy's turn which includes ults/etc.
       buffAbilityVulnerability(x, DOT_TYPE, (m.epiphanyDebuff) ? epiphanyDmgTakenBoost : 0, Source.NONE)

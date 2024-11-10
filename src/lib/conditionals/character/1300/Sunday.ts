@@ -119,7 +119,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_TOUGHNESS_DMG.set(30, Source.NONE)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.CR.buff(m.talentCrBuffStacks * talentCrBuffValue, Source.NONE)
       x.ELEMENTAL_DMG.buff((m.skillDmgBuff) ? skillDmgBoostValue : 0, Source.NONE)
@@ -132,7 +132,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ELEMENTAL_DMG.buff((e >= 2 && m.e2DmgBuff) ? 0.30 : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t: Conditionals<typeof teammateContent> = action.characterConditionals
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.CD.buff((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
       x.CD.buff((t.beatified) ? ultCdBoostBaseValue : 0, Source.NONE)
@@ -154,7 +154,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return x.a[Key.CR] > 1.00
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof teammateContent> = action.characterConditionals
+          const r = action.characterConditionals as Conditionals<typeof teammateContent>
           if (!(e >= 6 && r.e6CrToCdConversion)) {
             return
           }
@@ -166,7 +166,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.CD.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r: Conditionals<typeof teammateContent> = action.characterConditionals
+          const r = action.characterConditionals as Conditionals<typeof teammateContent>
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {

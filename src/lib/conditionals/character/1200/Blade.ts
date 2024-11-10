@@ -69,7 +69,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
       x.CR.buff((e >= 2 && r.enhancedStateActive) ? 0.15 : 0, Source.NONE)
@@ -91,7 +91,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
       const a = x.a
 
       if (r.enhancedStateActive) {
@@ -114,7 +114,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.FUA_DMG.buff((e >= 6) ? 0.50 * a[Key.HP] : 0, Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       return `
 if (${wgslTrue(r.enhancedStateActive)}) {

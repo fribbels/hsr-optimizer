@@ -118,12 +118,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.SUMMONS.set(1, Source.NONE)
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.BASIC_SCALING.buff(basicScaling, Source.NONE)
       x.SKILL_SCALING.buff(skillScaling, Source.NONE)
@@ -156,7 +156,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       }
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       if (x.a[Key.ENEMY_WEAKNESS_BROKEN]) {
         x.DEF_PEN.buff((e >= 1 && m.e1DefShred) ? 0.20 : 0, Source.NONE)
@@ -183,7 +183,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         return true
       },
       effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-        const r: Conditionals<typeof content> = action.characterConditionals
+        const r = action.characterConditionals as Conditionals<typeof content>
         if (!r.beConversion) {
           return
         }
@@ -204,7 +204,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.OHB.buffDynamic(finalBuffOhb, Source.NONE, action, context)
       },
       gpu: function (action: OptimizerAction, context: OptimizerContext) {
-        const r: Conditionals<typeof content> = action.characterConditionals
+        const r = action.characterConditionals as Conditionals<typeof content>
 
         return conditionalWgslWrapper(this, `
 if (${wgslFalse(r.beConversion)}) {

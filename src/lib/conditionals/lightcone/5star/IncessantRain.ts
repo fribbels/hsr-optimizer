@@ -52,7 +52,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.CR.buff((r.enemy3DebuffsCrBoost) ? sValuesCr[s] : 0, Source.NONE)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.lightConeConditionals
+      const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
       x.VULNERABILITY.buff((m.targetCodeDebuff) ? sValuesDmg[s] : 0, Source.NONE)
     },

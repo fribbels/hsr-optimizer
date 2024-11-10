@@ -31,7 +31,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    const r: Conditionals<typeof content> = action.characterConditionals
+    const r = action.characterConditionals as Conditionals<typeof content>
     return r.basicEnhanced
       ? hitMultiByTargetsBlast[context.enemyCount]
       : hitMultiSingle
@@ -70,7 +70,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
       x.ATK_P.buff((r.basicEnhanced) ? talentAtkBuff : 0, Source.NONE)

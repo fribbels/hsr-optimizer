@@ -87,7 +87,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SUMMONS.set(1, Source.NONE)
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       buffAbilityCd(x, SKILL_TYPE | FUA_TYPE, (r.numbyEnhancedState) ? enhancedStateFuaCdBoost : 0, Source.NONE)
       buffAbilityResPen(x, SKILL_TYPE | FUA_TYPE, (e >= 6) ? 0.10 : 0, Source.NONE)
@@ -113,13 +113,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m: Conditionals<typeof teammateContent> = action.characterConditionals
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       buffAbilityVulnerability(x, FUA_TYPE, (m.enemyProofOfDebtDebuff) ? proofOfDebtFuaVulnerability : 0, Source.NONE)
       buffAbilityCd(x, FUA_TYPE, (e >= 1 && m.enemyProofOfDebtDebuff) ? 0.25 * m.e1DebtorStacks : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
       const basicAshblazingAtk = calculateAshblazingSet(x, action, context, basicHitCountMulti)
@@ -129,7 +129,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_DMG.set(x.a[Key.FUA_DMG], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
 
       return `

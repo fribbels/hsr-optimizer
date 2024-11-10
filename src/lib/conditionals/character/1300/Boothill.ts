@@ -100,14 +100,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     content: () => Object.values(content),
     defaults: () => defaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.talentBreakDmgScaling) {
         x.ENEMY_WEAKNESS_BROKEN.set(1, Source.NONE)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r: Conditionals<typeof content> = action.characterConditionals
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       x.BE.buff((e >= 2 && r.e2BeBuff) ? 0.30 : 0, Source.NONE)
       x.VULNERABILITY.buff((r.standoffActive) ? standoffVulnerabilityBoost : 0, Source.NONE)

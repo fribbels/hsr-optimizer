@@ -6,11 +6,10 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Eidolon } from 'types/character'
-import { DataMineId } from 'types/common'
+import { CharacterId, Eidolon } from 'types/character'
 
 export interface CharacterConditionalDisplayProps {
-  id?: DataMineId
+  id?: CharacterId
   eidolon: Eidolon
   teammateIndex?: number
 }

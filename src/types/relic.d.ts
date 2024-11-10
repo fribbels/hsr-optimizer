@@ -1,8 +1,8 @@
 import { MainStats, Parts, Sets, StatsValues, SubStats } from 'lib/constants/constants'
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { RelicScoringWeights } from 'lib/tabs/tabRelics/RelicFilterBar'
-import { GUID } from 'types/common'
 
+export type RelicId = string
 export type RelicGrade = number
 export type RelicEnhance = number
 
@@ -17,7 +17,7 @@ export type Relic = {
   enhance: RelicEnhance
   equippedBy: string | undefined
   grade: RelicGrade
-  id: GUID
+  id: RelicId
   verified?: boolean
   ageIndex?: number
 

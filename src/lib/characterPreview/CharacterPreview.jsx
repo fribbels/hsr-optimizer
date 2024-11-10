@@ -10,7 +10,6 @@ import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 
 import Rarity from 'lib/characterPreview/Rarity'
 import StatText from 'lib/characterPreview/StatText'
-import { getSimScoreGrade, scoreCharacterSimulation } from 'lib/characters/characterScorer'
 import {
   CHARACTER_SCORE,
   COMBAT_STATS,
@@ -34,7 +33,6 @@ import {
   parentH,
   parentW,
 } from 'lib/constants/constantsUi'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Message } from 'lib/interactions/message'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
@@ -45,8 +43,10 @@ import { RelicModalController } from 'lib/relics/relicModalController'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
+import { getSimScoreGrade, scoreCharacterSimulation } from 'lib/scoring/characterScorer'
 import { AppPages, DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'

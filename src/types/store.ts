@@ -1,9 +1,9 @@
-import { ScoringMetadata } from 'lib/characters/characterScorer'
+import { ComputeEngine } from 'lib/constants/constants'
 import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
+import { ScoringMetadata } from 'lib/scoring/characterScorer'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/StatSimulationDisplay'
 import { Form } from 'types/Form'
-import { ComputeEngine } from 'lib/constants/constants'
 import { Build, Character, CharacterId } from './Character'
 import { Relic } from './Relic'
 

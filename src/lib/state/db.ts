@@ -1,18 +1,28 @@
 import i18next from 'i18next'
-import { ScoringMetadata, SimulationMetadata } from 'lib/characters/characterScorer'
-import { oldCharacterScoringMetadata } from 'lib/characters/oldCharacterScoringMetadata'
-import { COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, Parts, Sets, SIMULATION_SCORE } from 'lib/constants/constants'
+import {
+  COMPUTE_ENGINE_GPU_STABLE,
+  ComputeEngine,
+  Constants,
+  CURRENT_OPTIMIZER_VERSION,
+  DAMAGE_UPGRADES,
+  DEFAULT_STAT_DISPLAY,
+  Parts,
+  Sets,
+  SIMULATION_SCORE,
+} from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimizer/defaultForm'
 import { ComboState } from 'lib/optimizer/rotation/comboDrawerController'
 import { DefaultSettingOptions, SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { Themes } from 'lib/rendering/theme'
+import { ScoringMetadata, SimulationMetadata } from 'lib/scoring/characterScorer'
+import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/FormRow'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/StatSimulationDisplay'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/Character'

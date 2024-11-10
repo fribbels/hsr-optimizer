@@ -1,11 +1,11 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
-import { ScoringMetadata } from 'lib/characters/characterScorer'
 import { Constants, Parts, PartsMainStats, Sets, SetsRelics, Stats } from 'lib/constants/constants'
 import { SortOption } from 'lib/optimizer/sortOptions'
+import { ScoringMetadata } from 'lib/scoring/characterScorer'
 import DB, { DBMetadata } from 'lib/state/db'
-import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/RecommendedPresetsButton.tsx'
+import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/RecommendedPresetsButton'
 import { MetadataCharacter } from 'types/Character'
 import { LightCone } from 'types/LightCone'
 

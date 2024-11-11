@@ -22,7 +22,6 @@ export function LanguageSelector() {
       label: (
         <Flex gap={8}>
           {nativeName}
-          {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access */}
           {completedLocales.includes(locale) ? '' : ' (WIP)'}
         </Flex>
       ),
@@ -33,7 +32,7 @@ export function LanguageSelector() {
       options={selectOptions}
       optionRender={(option) => option.data.label}
       onChange={(e: string) => {
-        i18n.changeLanguage(e)
+        void i18n.changeLanguage(e)
       }}
       style={{ width: 135, marginRight: 6, height: 36 }}
       placement='bottomLeft'

@@ -614,3 +614,7 @@ a {
     margin: auto !important;
     height: unset !important;
 }
+
+.dropdownButton .ant-btn-compact-first-item {
+    width: 100% !important;
+}

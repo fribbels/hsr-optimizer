@@ -146,4 +146,4 @@ backend/cdk.out/
 backend/infra.js
 
 # game data files
-misc/i18n/*.json
+src/lib/i18n/*.json

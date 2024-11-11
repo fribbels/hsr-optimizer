@@ -61,7 +61,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "update-resources": "npx i18next-resources-for-ts interface -i ./public/locales/en -o ./src/types/resources.d.ts",
-    "update-gameData": "npx tsx misc/i18n/generateTranslations.ts && npm run update-resources"
+    "update-gameData": "npx tsx src/lib/i18n/generateTranslations.ts && npm run update-resources"
   },
   "browserslist": {
     "production": [

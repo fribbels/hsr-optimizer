@@ -7,11 +7,10 @@ import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditional
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { arrayIncludes } from 'lib/utils/arrayUtils'
 import { CharacterConditionalsController, ConditionalValueMap, ContentItem, LightConeConditionalsController } from 'types/conditionals'
 import { Form, Teammate } from 'types/form'
 import { DBMetadataCharacter } from 'types/metadata'
-
-// FIXME HIGH
 
 export type ComboConditionals = {
   [key: string]: ComboConditionalCategory
@@ -190,8 +189,8 @@ function displayModifiedSets(request: Form, comboState: ComboState) {
     }
   }
 
-  const modifiedRelics = modified.filter((set) => SetsRelicsNames.includes(set))
-  const modifiedOrnaments = modified.filter((set) => SetsOrnamentsNames.includes(set))
+  const modifiedRelics = modified.filter((set) => arrayIncludes(SetsRelicsNames, set))
+  const modifiedOrnaments = modified.filter((set) => arrayIncludes(SetsOrnamentsNames, set))
 
   comboState.comboCharacter.displayedRelicSets = Array.from(new Set([...modifiedRelics, ...comboState.comboCharacter.displayedRelicSets]))
   comboState.comboCharacter.displayedOrnamentSets = Array.from(new Set([...modifiedOrnaments, ...comboState.comboCharacter.displayedOrnamentSets]))
@@ -260,7 +259,7 @@ function generateComboConditionals(
         activations: activations,
       }
     } else if (content.formItem == 'slider') {
-      const value: number = conditionals[content.id] ?? defaults[content.id]
+      const value = (conditionals[content.id] ?? defaults[content.id]) as number
       const activations: boolean[] = Array(actionCount).fill(true)
       const valuePartitions: ComboSubNumberConditional = {
         value: value,
@@ -271,7 +270,7 @@ function generateComboConditionals(
         partitions: [valuePartitions],
       }
     } else if (content.formItem == 'select') {
-      const value: number = conditionals[content.id] ?? defaults[content.id]
+      const value = (conditionals[content.id] ?? defaults[content.id]) as number
       const activations: boolean[] = Array(actionCount).fill(true)
       const valuePartitions: ComboSubSelectConditional = {
         value: value,
@@ -385,7 +384,8 @@ export function locateComboCategory(sourceKey: string, contentItemId: string, co
       comboConditionals = character.characterConditionals
     }
   } else if (sourceKey.includes('comboTeammate')) {
-    const teammate: ComboTeammate = comboState[sourceKey.substring(0, 14)]
+    const teammateIndexString = sourceKey.substring(0, 14) as 'comboTeammate0' | 'comboTeammate1' | 'comboTeammate2'
+    const teammate: ComboTeammate = comboState[teammateIndexString]!
     if (sourceKey.includes('RelicSet')) {
       comboConditionals = teammate.relicSetConditionals
     } else if (sourceKey.includes('OrnamentSet')) {
@@ -620,33 +620,34 @@ function shiftLeft(arr: boolean[], index: number) {
   arr.push(arr[0])
 }
 
-function shiftAllActivations(obj: ComboState, index: number): void {
+type NestedObject = {
+  [key: string]: unknown
+}
+
+function shiftAllActivations(obj: NestedObject, index: number): void {
   for (const key in obj) {
     if (!Object.prototype.hasOwnProperty.call(obj, key)) continue
 
     if (key === 'activations' && Array.isArray(obj[key])) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      shiftLeft(obj[key], index)
+      shiftLeft(obj[key] as boolean[], index)
     }
 
     if (typeof obj[key] === 'object' && obj[key] !== null) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      shiftAllActivations(obj[key], index)
+      shiftAllActivations(obj[key] as NestedObject, index)
     }
   }
 }
 
-function setActivationIndexToDefault(obj: ComboState, index: number): void {
+function setActivationIndexToDefault(obj: NestedObject, index: number): void {
   for (const key in obj) {
     if (!Object.prototype.hasOwnProperty.call(obj, key)) continue
 
     if (key === 'activations' && Array.isArray(obj[key])) {
-      obj[key][index] = obj[key][0]
+      obj[key][index] = (obj[key] as boolean[])[0]
     }
 
     if (typeof obj[key] === 'object' && obj[key] !== null) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      setActivationIndexToDefault(obj[key], index)
+      setActivationIndexToDefault(obj[key] as NestedObject, index)
     }
   }
 }
@@ -702,8 +703,8 @@ type ChangeEvent = {
   }
 }
 
-// eslint-disable-next-line
 function change(changeConditional: {
+  // eslint-disable-next-line
   [key: string]: any
 }, originalConditional: ComboConditionals, set: boolean = false) {
   for (const [key, value] of Object.entries(changeConditional)) {

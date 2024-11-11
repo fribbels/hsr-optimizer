@@ -68,8 +68,8 @@ function CommunityCollapse() {
         </span>
 
         <span>
-          Come be a part of our Star Rail community! Join the <ColorizedLinkWithIcon text='Discord server' url='https://discord.gg/rDmB4Un7qg'/> to hang out,
-          or check out the <ColorizedLinkWithIcon text='GitHub repo' url='https://github.com/fribbels/hsr-optimizer'/> if you'd like to contribute.
+          Come be a part of our Star Rail community! Join the <ColorizedLinkWithIcon text='Discord' url='https://discord.gg/rDmB4Un7qg'/> server to hang out,
+          or check out the <ColorizedLinkWithIcon text='GitHub' url='https://github.com/fribbels/hsr-optimizer'/> repo if you'd like to contribute.
         </span>
       </Flex>
       <Flex style={{ flex: 1 }} align='flex-start'>
@@ -267,7 +267,7 @@ function SearchBar() {
         placeholder='UUID'
         enterButton={(
           <Flex gap={5} style={{ marginRight: 5 }}>
-            <SearchOutlined/> Search
+            <SearchOutlined style={{ marginRight: 10 }}/> Search
           </Flex>
         )}
         allowClear

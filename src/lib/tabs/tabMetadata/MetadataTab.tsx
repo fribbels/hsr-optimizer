@@ -6,24 +6,7 @@ import { AppPages, DB } from 'lib/state/db'
 import React, { useState } from 'react'
 import { StringToNumberMap } from 'types/common'
 import { ReactElement } from 'types/components'
-
-// FIXME LOW
-
-// Fake type for metadata
-type MetadataObject = {
-  id: string
-  name: string
-  scoringMetadata: {
-    simulation: {
-      relicSets: string[][]
-      ornamentSets: string[]
-    }
-    presets: any[]
-    stats: StringToNumberMap
-  }
-  element: string
-  path: string
-}
+import { DBMetadataCharacter } from 'types/metadata'
 
 const setToIndex: StringToNumberMap = {}
 const iconSize = 40
@@ -68,8 +51,8 @@ export default function MetadataTab(): React.JSX.Element {
 
 function SubstatWeightDashboard() {
   // @ts-ignore
-  const sets: MetadataObject[] = gameData.relics.slice().reverse()
-  const characters: MetadataObject[] = Object.values(DB.getMetadata().characters)
+  const sets = gameData.relics.slice().reverse()
+  const characters = Object.values(DB.getMetadata().characters)
 
   for (let i = 0; i < sets.length; i++) {
     setToIndex[sets[i].name] = i
@@ -88,7 +71,7 @@ function SubstatWeightDashboard() {
   )
 }
 
-function generateSubstatWeightGrid(characters: MetadataObject[], sets: MetadataObject[]) {
+function generateSubstatWeightGrid(characters: DBMetadataCharacter[], sets: (typeof gameData.relics)) {
   const weightedStats = [
     Stats.ATK,
     Stats.ATK_P,
@@ -124,8 +107,9 @@ function generateSubstatWeightGrid(characters: MetadataObject[], sets: MetadataO
 
   for (let i = 0; i < characters.length; i++) {
     const character = characters[i]
-    const rowAssets: ReactElement[] = [<Icon src={Assets.getCharacterAvatarById(character.id)}/>]
+    const rowAssets: ReactElement[] = []
 
+    rowAssets.push(<Icon src={Assets.getCharacterAvatarById(character.id)}/>)
     for (const value of Object.values(character.scoringMetadata.stats)) {
       rowAssets.push(<div>{value || ''}</div>)
     }
@@ -138,7 +122,7 @@ function generateSubstatWeightGrid(characters: MetadataObject[], sets: MetadataO
 
 // =========================================== ConditionalSetsPresetsDashboard ===========================================
 
-const presetToSetMapping = {
+const presetToSetMapping: Record<string, string> = {
   fnAshblazingSet: Sets.TheAshblazingGrandDuke,
   fnPioneerSet: Sets.PioneerDiverOfDeadWaters,
   fnSacerdosSet: Sets.SacerdosRelivedOrdeal,
@@ -150,8 +134,8 @@ const presetToSetMapping = {
 
 function ConditionalSetsPresetsDashboard() {
   // @ts-ignore
-  const sets: MetadataObject[] = gameData.relics.slice().reverse()
-  const characters: MetadataObject[] = Object.values(DB.getMetadata().characters)
+  const sets = gameData.relics.slice().reverse()
+  const characters = Object.values(DB.getMetadata().characters)
 
   for (let i = 0; i < sets.length; i++) {
     setToIndex[sets[i].name] = i
@@ -170,7 +154,7 @@ function ConditionalSetsPresetsDashboard() {
   )
 }
 
-function generateConditionalSetsGrid(characters: MetadataObject[], sets: MetadataObject[]) {
+function generateConditionalSetsGrid(characters: DBMetadataCharacter[], sets: (typeof gameData.relics)) {
   const relicAssets = sets.map((x) => Assets.getSetImage(x.name))
   relicAssets.unshift(Assets.getBlank())
 
@@ -182,7 +166,8 @@ function generateConditionalSetsGrid(characters: MetadataObject[], sets: Metadat
 
   for (let i = 0; i < characters.length; i++) {
     const character = characters[i]
-    const rowAssets: ReactElement[] = [<Icon src={Assets.getCharacterAvatarById(character.id)}/>]
+    const rowAssets: ReactElement[] = []
+    rowAssets.push(<Icon src={Assets.getCharacterAvatarById(character.id)}/>)
 
     for (const preset of character.scoringMetadata.presets) {
       const set = presetToSetMapping[preset.name]
@@ -201,9 +186,9 @@ function generateConditionalSetsGrid(characters: MetadataObject[], sets: Metadat
 
 function SimulationEquivalentSetsDashboard() {
   // @ts-ignore
-  const sets: MetadataObject[] = gameData.relics.slice().reverse()
-  const characters: MetadataObject[] = Object.values(DB.getMetadata().characters)
-  const simulationCharacters: MetadataObject[] = characters.filter((x) => x.scoringMetadata.simulation)
+  const sets = gameData.relics.slice().reverse()
+  const characters = Object.values(DB.getMetadata().characters)
+  const simulationCharacters = characters.filter((x) => x.scoringMetadata.simulation)
 
   for (let i = 0; i < sets.length; i++) {
     setToIndex[sets[i].name] = i
@@ -222,7 +207,7 @@ function SimulationEquivalentSetsDashboard() {
   )
 }
 
-function generateEquivalentSetsGrid(characters: MetadataObject[], sets: MetadataObject[]) {
+function generateEquivalentSetsGrid(characters: DBMetadataCharacter[], sets: (typeof gameData.relics)) {
   const relicAssets = sets.map((x) => Assets.getSetImage(x.name))
   relicAssets.unshift(Assets.getBlank())
 
@@ -234,9 +219,10 @@ function generateEquivalentSetsGrid(characters: MetadataObject[], sets: Metadata
 
   for (let i = 0; i < characters.length; i++) {
     const character = characters[i]
-    const rowAssets: ReactElement[] = [<Icon src={Assets.getCharacterAvatarById(character.id)}/>]
+    const rowAssets: ReactElement[] = []
+    rowAssets.push(<Icon src={Assets.getCharacterAvatarById(character.id)}/>)
 
-    for (const allowedSets of character.scoringMetadata.simulation.relicSets) {
+    for (const allowedSets of character.scoringMetadata.simulation!.relicSets) {
       if (allowedSets.length == 2) {
         // 4p
         const setIndex = setToIndex[allowedSets[0]]
@@ -250,7 +236,7 @@ function generateEquivalentSetsGrid(characters: MetadataObject[], sets: Metadata
       }
     }
 
-    for (const p2 of character.scoringMetadata.simulation.ornamentSets) {
+    for (const p2 of character.scoringMetadata.simulation!.ornamentSets) {
       const setIndex = setToIndex[p2]
       rowAssets[setIndex + 1] = <Icon src={Assets.getSetImage(p2)}/>
     }
@@ -272,7 +258,7 @@ function Icon(props: {
 }
 
 function GridDisplay(props: {
-  grid: ReactElement[][]
+  grid: (ReactElement | string)[][]
 }) {
   const [hoveredColumn, setHoveredColumn] = useState<number | null>(null)
 

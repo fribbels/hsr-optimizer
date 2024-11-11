@@ -2,10 +2,9 @@ import { Flex, theme, Typography } from 'antd'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { ElementToDamage, PathNames } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { Utils } from 'lib/utils/utils'
+import { arrayIncludes } from 'lib/utils/arrayUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { ReactElement } from 'react'
-
-// FIXME MED
 
 const { useToken } = theme
 
@@ -102,16 +101,31 @@ export function generateElementTags() {
   })
 }
 
-export function SegmentedFilterRow({ currentFilters, name, flexBasis, tags, setCurrentFilters }) {
+type Filters = {
+  element: string[]
+  path: string[]
+  rarity: number[]
+  name: string
+}
+
+export function SegmentedFilterRow(props: {
+  currentFilters: Filters
+  name: 'element' | 'path' | 'rarity'
+  flexBasis: string
+  tags: { key: string | number; display: ReactElement }[]
+  setCurrentFilters: (filters: Filters) => void
+}) {
   const { token } = useToken()
+  const { currentFilters, name, flexBasis, tags, setCurrentFilters } = props
   const selectedTags = currentFilters[name]
 
-  const handleChange = (tag, checked) => {
+  const handleChange = (tag: string | number, checked: boolean) => {
     const nextSelectedTags = checked
       ? [...selectedTags, tag]
       : selectedTags.filter((t) => t != tag)
 
-    const clonedFilters = Utils.clone(currentFilters)
+    const clonedFilters = TsUtils.clone(currentFilters)
+    // @ts-ignore
     clonedFilters[name] = nextSelectedTags
     console.log('filters', name, clonedFilters)
 
@@ -133,13 +147,13 @@ export function SegmentedFilterRow({ currentFilters, name, flexBasis, tags, setC
       {tags.map((tag) => (
         <CheckableTag
           key={tag.key}
-          checked={selectedTags.includes(tag.key)}
+          checked={arrayIncludes(selectedTags, tag.key)}
           onChange={(checked) => handleChange(tag.key, checked)}
           style={{
             flex: 1,
             flexBasis: flexBasis,
             boxShadow: `1px 1px 1px 0px ${token.colorBorder}`,
-            backgroundColor: selectedTags.includes(tag.key) ? token.colorPrimary : 'transparent',
+            backgroundColor: arrayIncludes(selectedTags, tag.key) ? token.colorPrimary : 'transparent',
           }}
         >
           <Flex align='center' justify='space-around' style={{ height: '100%' }}>

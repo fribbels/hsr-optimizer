@@ -106,7 +106,7 @@ export function getDefaultForm(initialCharacter: { id: string }) {
     defaultForm.comboBreak = scoringMetadata.simulation.comboBreak
   }
 
-  return defaultForm
+  return defaultForm as Form
 }
 
 export function defaultTeammate() {

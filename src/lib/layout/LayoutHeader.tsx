@@ -50,12 +50,7 @@ export function LayoutHeader() {
           </a>
         </Flex>
         <Flex>
-          <LanguageSelector
-            style={{ width: 60, marginRight: 6, height: 36 }}
-            dropdownStyle={{ width: 210 }}
-            flagOnly={true}
-            placement='bottomRight'
-          />
+          <LanguageSelector/>
           <a href='https://ko-fi.com/fribbels' target='_blank' rel='noreferrer'>
             <Flex>
               <img src={Assets.getKofi()} style={{ height: 36, marginRight: 6, borderRadius: 5 }}></img>

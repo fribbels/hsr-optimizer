@@ -242,9 +242,7 @@ export default function RelicFilterBar(props: {
   function selectRecommendationCharacterRelics() {
     if (!currentlySelectedCharacterId) return
   
-    const characterPreferredSets = window.store.getState().characters.find(
-      (character) => character.id === currentlySelectedCharacterId,
-    )
+    const characterPreferredSets = window.store.getState().charactersById[currentlySelectedCharacterId]
 
     const uniqueRelicSets = [
       ...new Set(characterPreferredSets?.form.relicSets.flatMap((subArray) => subArray.slice(1)) ?? []),

@@ -51,10 +51,10 @@ export function LayoutHeader() {
         </Flex>
         <Flex>
           <LanguageSelector
-            style={{ width: 60, marginRight: 6, height: 36 }}
+            style={{ width: 135, marginRight: 6, height: 36 }}
             dropdownStyle={{ width: 210 }}
             flagOnly={true}
-            placement='bottomRight'
+            placement='bottomLeft'
           />
           <a href='https://ko-fi.com/fribbels' target='_blank' rel='noreferrer'>
             <Flex>

@@ -52,6 +52,7 @@ export const Utils = {
     return x
   },
 
+  // TODO: Deprecate these
   mergeDefinedValues: (target, source) => {
     if (!source) return target
 
@@ -63,6 +64,7 @@ export const Utils = {
     return target
   },
 
+  // TODO: Deprecate these
   mergeUndefinedValues: (target, source) => {
     for (const key of Object.keys(source)) {
       if (target[key] == null) {
@@ -225,6 +227,7 @@ export const Utils = {
   truncate10000ths: (x) => {
     return Math.floor(x * 10000) / 10000
   },
+
   // Round a number to a certain precision. Useful for js floats: precisionRound(16.1999999312682. 5) == 16.2
   precisionRound(number, precision = 5) {
     const factor = Math.pow(10, precision)
@@ -311,11 +314,6 @@ export const Utils = {
   // Generate a random uuid
   randomId: () => {
     return uuidv4()
-  },
-
-  // 1212 => Jingliu
-  getCharacterNameById: (id) => {
-    return DB.getMetadata().characters[id]?.displayName
   },
 
   // hsr-optimizer// => hsr-optimizer

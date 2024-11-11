@@ -7,8 +7,6 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { HsrOptimizerSaveFormat } from 'types/store'
 
-// FIXME LOW
-
 const { Text } = Typography
 
 enum Stages {

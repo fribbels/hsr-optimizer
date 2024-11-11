@@ -1,6 +1,7 @@
 import i18next from 'i18next'
 import { Constants, MainStats, MainStatsValues, Parts, PartsMainStats, Stats, StatsValues, SubStats, SubStatValues } from 'lib/constants/constants'
 import DB from 'lib/state/db'
+import { arrayToMap, stringArrayToMap } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character, CharacterId } from 'types/character'
@@ -618,25 +619,27 @@ export class RelicScorer {
       if (relic.substats.length < 4) {
         for (const [stat, weight] of availableSubstats) {
           if (weight >= availableSubstats[availableSubstats.length - 1][1]) {
-            bestAddedStats.push(i18next.t(`common:Stats.${stat}`))
+            bestAddedStats.push(stat)
           }
         }
       }
       const candidateSubstats: [SubStats, number][] = meta.sortedSubstats.filter((x) => relic.main.stat !== x[0])// All substats that could possibly exist on the relic
       const bestUpgradedStats: SubStats[] = [] // Array of all substats possibly on relic sharing highest weight
 
-      const validUpgrades = {
-        ...Utils.arrayToMap(relic.substats, 'stat'),
-        ...Utils.stringArrayToMap(bestAddedStats),
+      const validUpgrades: Record<SubStats, object | true | undefined> = {
+        ...arrayToMap(relic.substats, 'stat'),
+        ...stringArrayToMap(bestAddedStats),
       }
 
       const upgradeCandidates: [SubStats, number][] = candidateSubstats.filter((candidateSubstats) => validUpgrades[candidateSubstats[0]])
       const bestWeight = upgradeCandidates[0][1]
       for (const [stat, weight] of upgradeCandidates) {
         if (validUpgrades[stat] && weight >= bestWeight) {
-          bestUpgradedStats.push(i18next.t(`common:Stats.${stat}`))
+          bestUpgradedStats.push(stat)
         }
       }
+      bestAddedStats.forEach((s, i) => bestAddedStats[i] = i18next.t(`common:Stats.${s}`))
+      bestUpgradedStats.forEach((s, i) => bestUpgradedStats[i] = i18next.t(`common:Stats.${s}`))
       levelupMetadata = {
         bestAddedStats: bestAddedStats,
         bestUpgradedStats: bestUpgradedStats,

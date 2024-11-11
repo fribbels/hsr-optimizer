@@ -41,7 +41,7 @@ jobs:
           replace: "Fribbels Honkai Star Rail Optimizer (Beta)"
           include: "src/lib/layout/LayoutHeader.tsx"
       - run: rm -rf .github/workflows
-      - run: mv .github/beta .github/workflows
+      - run: mv .github/drearyquibbles .github/workflows
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main
         env:

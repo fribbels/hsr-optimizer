@@ -4,8 +4,7 @@ import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character, CharacterId } from 'types/character'
-import { GUID } from 'types/common'
-import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/relic'
+import { Relic, RelicEnhance, RelicGrade, RelicId, Stat } from 'types/relic'
 
 // FIXME HIGH
 
@@ -160,8 +159,8 @@ const possibleSubstats = new Set(Constants.SubStats)
 export class RelicScorer {
   characterRelicScoreMetas: Map<CharacterId, ScoringMetadata>
   optimalPartScore: Map<Parts, Map<string, number>>
-  currentRelicScore: Map<GUID, Map<string, RelicScoringResult>>
-  futureRelicScore: Map<GUID, Map<string, FutureScoringResult>>
+  currentRelicScore: Map<RelicId, Map<string, RelicScoringResult>>
+  futureRelicScore: Map<RelicId, Map<string, FutureScoringResult>>
 
   constructor() {
     this.characterRelicScoreMetas = new Map()

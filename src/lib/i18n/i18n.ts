@@ -11,56 +11,63 @@ export const languages = {
   en: {
     locale: 'en',
     nativeName: 'English',
+    shortName: 'English',
   },
   es: {
     locale: 'es',
     nativeName: 'Español',
+    shortName: 'Español',
   },
   fr: {
     locale: 'fr',
     nativeName: 'Français',
+    shortName: 'Français',
   },
   it: {
     locale: 'it',
     nativeName: 'Italiano',
+    shortName: 'Italiano',
   },
   pt: {
     locale: 'pt',
-    nativeName: 'Português (Brasil)',
+    nativeName: 'Português (BR)',
+    shortName: 'Português',
   },
   zh: {
     locale: 'zh',
     nativeName: '中文',
+    shortName: '中文',
   },
   /*
-  de: {
-    locale: 'de',
-    nativeName: 'Deutsch',
-  },
-  id: {
-    locale: 'id',
-    nativeName: 'Bahasa Indonesia',
-  },
-  ja: {
-    locale: 'ja',
-    nativeName: '日本語',
-  },
-  ko: {
-    locale: 'ko',
-    nativeName: '한국인',
-  },
-  ru: {
-    locale: 'ru',
-    nativeName: 'русский',
-  },
-  th: {
-    locale: 'th',
-    nativeName: ' ไทย',
-  },
-  vi: {
-    locale: 'vi',
-    nativeName: 'tiếng việt',
-  }, */
+      de: {
+        locale: 'de',
+        nativeName: 'Deutsch',
+      },
+      id: {
+        locale: 'id',
+        nativeName: 'Bahasa Indonesia',
+      },
+      ja: {
+        locale: 'ja',
+        nativeName: '日本語',
+      },
+      ko: {
+        locale: 'ko',
+        nativeName: '한국인',
+      },
+      ru: {
+        locale: 'ru',
+        nativeName: 'русский',
+      },
+      th: {
+        locale: 'th',
+        nativeName: ' ไทย',
+      },
+      vi: {
+        locale: 'vi',
+        nativeName: 'tiếng việt',
+      },
+  */
 } as const
 
 export const supportedLanguages = Object.keys(languages)

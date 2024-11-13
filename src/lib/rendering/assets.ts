@@ -172,4 +172,8 @@ export const Assets = {
   getHomeBackground: (file: string) => {
     return getImageUrl(`/misc/home/background/${file}.webp`)
   },
+
+  getGlobe: () => {
+    return getImageUrl(`/misc/globe.webp`)
+  },
 }

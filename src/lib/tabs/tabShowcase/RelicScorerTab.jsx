@@ -4,21 +4,17 @@ import Icon, {
   EditOutlined,
   ExperimentOutlined,
   ImportOutlined,
-  LineChartOutlined,
 } from '@ant-design/icons'
 import { Button, Dropdown, Flex, Form, Input, Segmented, theme, Typography } from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
-import { Constants, CURRENT_DATA_VERSION, officialOnly } from 'lib/constants/constants'
+import { CURRENT_DATA_VERSION, officialOnly } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
-import { calculateBuild } from 'lib/optimization/calculateBuild'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import DB, { AppPages, PageToRoute } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { applySpdPreset } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import PropTypes from 'prop-types'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
@@ -450,51 +446,19 @@ function CharacterPreviewSelection(props) {
     })
   }
 
-  // This is kinda janky and could use a refactor
-  function optimizeClicked() {
-    const form = props.selectedCharacter.form
-    const characterId = form.characterId
-
-    // Add relics and character
-    importClicked()
-    DB.addFromForm(form)
-
-    // Open optimizer
-    window.store.getState().setActiveKey(AppPages.OPTIMIZER)
-    window.store.getState().setOptimizerTabFocusCharacter(characterId)
-
-    // Timeout to allow the optimize page to load before applying presets
-    setTimeout(() => {
-      const equippedRelics = Utils.clone(props.selectedCharacter.equipped)
-      const cleanedForm = OptimizerTabController.formToDisplay(form)
-
-      // Do some relic transformations to get it ready for optimization
-      const relicsByPart = {}
-      for (const part of Object.values(Constants.Parts)) {
-        relicsByPart[part] = [equippedRelics[part]]
-      }
-      RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
-
-      // Calculate the build's speed value to use as a preset
-      const { c } = calculateBuild(cleanedForm, equippedRelics)
-      applySpdPreset(Utils.precisionRound(c.SPD, 3), characterId)
-
-      // Timeout to allow the form to populate before optimizing
-      setTimeout(() => {
-        window.optimizerStartClicked()
-      }, 500)
-    }, 1000)
-  }
-
   return (
     <Flex style={{ width: 1300, marginLeft: 25 }} justify='space-around'>
       <Flex vertical align='center' gap={5} style={{ marginBottom: 100, width: 1068 }}>
         <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none', width: '100%' }}>
-          <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey}/>
-          <Flex style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }} justify='space-between'>
+          <Sidebar presetClicked={presetClicked} activeKey={activeKey}/>
+          <Flex
+            style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}
+            justify='space-between'
+            gap={10}
+          >
             <Button
+              style={{ flex: 1 }}
               onClick={clipboardClicked}
-              style={{ width: 225 }}
               icon={<CameraOutlined/>}
               loading={screenshotLoading}
               type='primary'
@@ -502,24 +466,26 @@ function CharacterPreviewSelection(props) {
               {t('CopyScreenshot')/* Copy screenshot */}
             </Button>
             <Button
-              style={{ width: 40 }}
+              style={{ width: 50 }}
               icon={<DownloadOutlined/>}
               onClick={downloadClicked}
               loading={downloadLoading}
             />
             <Dropdown.Button
+              style={{ flex: 1 }}
+              className='dropdownButton'
               onClick={importClicked}
-              style={{ width: 250 }}
               menu={menuProps}
             >
               <ImportOutlined/>
               {t('ImportLabels.Relics')/* Import relics into optimizer */}
             </Dropdown.Button>
-            <Button icon={<ExperimentOutlined/>} onClick={simulateClicked} style={{ width: 280 }}>
+            <Button
+              style={{ flex: 1 }}
+              icon={<ExperimentOutlined/>}
+              onClick={simulateClicked}
+            >
               {t('SimulateRelics')/* Simulate relics on another character */}
-            </Button>
-            <Button icon={<LineChartOutlined/>} onClick={optimizeClicked} style={{ width: 228 }}>
-              {t('OptimizeOnCharacter')/* Optimize character stats */}
             </Button>
           </Flex>
         </Flex>

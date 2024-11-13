@@ -34,7 +34,7 @@ export const CharacterScoringSummary = (props: {
 
   const characterId = result.simulationForm.characterId
   const characterMetadata = DB.getMetadata().characters[characterId]
-  const elementalDmgValue: string = ElementToDamage[characterMetadata.element]
+  const elementalDmgValue = ElementToDamage[characterMetadata.element]
 
   function ScoringSet(props: {
     set: string
@@ -155,7 +155,7 @@ export const CharacterScoringSummary = (props: {
       const upgradeStat = statUpgrade.stat!
       const isFlat = Utils.isFlat(statUpgrade.stat)
       const suffix = isFlat ? '' : '%'
-      const rollValue = Utils.precisionRound(StatCalculator.getMaxedSubstatValue(upgradeStat, 0.8))
+      const rollValue = TsUtils.precisionRound(StatCalculator.getMaxedSubstatValue(upgradeStat as SubStats, 0.8))
 
       rows.push(
         <Flex key={Utils.randomId()} align='center' gap={10}>

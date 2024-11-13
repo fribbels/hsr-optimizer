@@ -5,8 +5,7 @@ import { SaveState } from 'lib/state/saveState'
 import { importerTabButtonWidth, importerTabSpinnerMs } from 'lib/tabs/tabImport/importerTabUiConstants'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-
-// FIXME LOW
+import { HsrOptimizerSaveFormat } from 'types/store'
 
 const { Text } = Typography
 
@@ -16,30 +15,24 @@ enum Stages {
   FINISHED = 2,
 }
 
-type LoadSaveState = {
-  characters: []
-  relics: []
-}
-
 export function LoadDataSubmenu() {
   const [currentStage, setCurrentStage] = useState<Stages>(Stages.LOAD_FILE)
-  const [currentSave, setCurrentSave] = useState<LoadSaveState | undefined>(undefined)
+  const [currentSave, setCurrentSave] = useState<HsrOptimizerSaveFormat | undefined>(undefined)
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
   const { t } = useTranslation('importSaveTab', { keyPrefix: 'LoadData' })
 
-  function beforeUpload(file): Promise<boolean> {
+  function beforeUpload(file: File): Promise<boolean> {
     return new Promise(() => {
       const reader = new FileReader()
       reader.readAsText(file)
       reader.onload = () => {
         const fileUploadText = String(reader.result)
-        // console.log('Uploaded file', fileUploadText)
-
         const json = JSON.parse(fileUploadText)
-        // console.log('Parsed json', json)
 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         if (json.fileType || json.source) {
+          // Invalid save file
           setLoading1(true)
 
           setTimeout(() => {
@@ -54,7 +47,7 @@ export function LoadDataSubmenu() {
 
         setTimeout(() => {
           setLoading1(false)
-          setCurrentSave(json)
+          setCurrentSave(json as HsrOptimizerSaveFormat)
           setCurrentStage(Stages.CONFIRM_DATA)
         }, importerTabSpinnerMs)
       }
@@ -65,7 +58,7 @@ export function LoadDataSubmenu() {
   function loadConfirmed() {
     setLoading2(true)
     setTimeout(() => {
-      DB.setStore(currentSave, false)
+      DB.setStore(currentSave!, false)
       window.refreshRelicsScore()
 
       setTimeout(() => {
@@ -106,7 +99,7 @@ export function LoadDataSubmenu() {
     if (!currentSave?.relics || !currentSave.characters) {
       return (
         <Flex style={{ minHeight: 100 }}>
-          <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
+          <Flex vertical gap={10} style={{ display: currentStage >= Stages.CONFIRM_DATA ? 'flex' : 'none' }}>
             {
               /* Invalid save file, please try a different file. Did you mean to use the Relic scanner import tab? */
               t('Stage2.ErrorMsg')
@@ -117,7 +110,7 @@ export function LoadDataSubmenu() {
     }
     return (
       <Flex style={{ minHeight: 100 }}>
-        <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
+        <Flex vertical gap={10} style={{ display: currentStage >= Stages.CONFIRM_DATA ? 'flex' : 'none' }}>
           <Text>
             {
               /* File contains {n relics} and {m characters}. Replace your current data with the uploaded data? */
@@ -135,7 +128,7 @@ export function LoadDataSubmenu() {
   function LoadCompleted() {
     return (
       <Flex style={{ minHeight: 100 }}>
-        <Flex vertical gap={10} style={{ display: currentStage >= 2 ? 'flex' : 'none' }}>
+        <Flex vertical gap={10} style={{ display: currentStage >= Stages.FINISHED ? 'flex' : 'none' }}>
           <Text>
             {t('Stage3.SuccessMessage')/* Done! */}
           </Text>

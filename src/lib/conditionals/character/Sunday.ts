@@ -14,7 +14,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sunday')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
-  const skillDmgBoostValue = skill(e, 0.40, 0.44)
+  const skillDmgBoostValue = skill(e, 0.30, 0.33)
+  const skillDmgBoostSummonValue = skill(e, 0.50, 0.55)
   const ultCdBoostValue = ult(e, 0.30, 0.336)
   const ultCdBoostBaseValue = ult(e, 0.12, 0.128)
   const talentCrBuffValue = talent(e, 0.20, 0.22)
@@ -140,11 +141,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
 
       x[Stats.CR] += m.talentCrBuffStacks * talentCrBuffValue
       x.ELEMENTAL_DMG += (m.skillDmgBuff) ? skillDmgBoostValue : 0
-      x.ELEMENTAL_DMG += (m.skillDmgBuff && x.SUMMONS > 0) ? skillDmgBoostValue : 0
+      x.ELEMENTAL_DMG += (m.skillDmgBuff && x.SUMMONS > 0) ? skillDmgBoostSummonValue : 0
       x.ELEMENTAL_DMG += (m.techniqueDmgBuff) ? 0.50 : 0
 
-      x.DEF_PEN += (e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.20 : 0
-      x.DEF_PEN += (e >= 1 && m.e1DefPen && m.skillDmgBuff && x.SUMMONS > 0) ? 0.20 : 0
+      // 16% base character, 40% for summons
+      x.DEF_PEN += (e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.16 : 0
+      x.DEF_PEN += (e >= 1 && m.e1DefPen && m.skillDmgBuff && x.SUMMONS > 0) ? 0.24 : 0
 
       x.ELEMENTAL_DMG += (e >= 2 && m.e2DmgBuff) ? 0.30 : 0
     },

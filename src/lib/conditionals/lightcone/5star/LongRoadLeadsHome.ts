@@ -1,14 +1,14 @@
+import i18next from 'i18next'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { CURRENT_DATA_VERSION } from 'lib/constants'
 import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { CURRENT_DATA_VERSION } from 'lib/constants'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
-import i18next from 'i18next'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LongRoadLeadsHome')
-  const sValuesBreakVulnerability = [0.20, 0.225, 0.25, 0.275, 0.30]
+  const sValuesBreakVulnerability = [0.18, 0.21, 0.24, 0.27, 0.30]
 
   const content: ContentItem[] = [{
     lc: true,

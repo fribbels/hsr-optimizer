@@ -15,7 +15,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sunday')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
-  const skillDmgBoostValue = skill(e, 0.40, 0.44)
+  const skillDmgBoostValue = skill(e, 0.30, 0.33)
+  const skillDmgBoostSummonValue = skill(e, 0.50, 0.55)
   const ultCdBoostValue = ult(e, 0.30, 0.336)
   const ultCdBoostBaseValue = ult(e, 0.12, 0.128)
   const talentCrBuffValue = talent(e, 0.20, 0.22)
@@ -123,11 +124,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.CR.buff(m.talentCrBuffStacks * talentCrBuffValue, Source.NONE)
       x.ELEMENTAL_DMG.buff((m.skillDmgBuff) ? skillDmgBoostValue : 0, Source.NONE)
-      x.ELEMENTAL_DMG.buff((m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? skillDmgBoostValue : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? skillDmgBoostSummonValue : 0, Source.NONE)
       x.ELEMENTAL_DMG.buff((m.techniqueDmgBuff) ? 0.50 : 0, Source.NONE)
 
-      x.DEF_PEN.buff((e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.20 : 0, Source.NONE)
-      x.DEF_PEN.buff((e >= 1 && m.e1DefPen && m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? 0.20 : 0, Source.NONE)
+      x.DEF_PEN.buff((e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.16 : 0, Source.NONE)
+      x.DEF_PEN.buff((e >= 1 && m.e1DefPen && m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? 0.24 : 0, Source.NONE)
 
       x.ELEMENTAL_DMG.buff((e >= 2 && m.e2DmgBuff) ? 0.30 : 0, Source.NONE)
     },

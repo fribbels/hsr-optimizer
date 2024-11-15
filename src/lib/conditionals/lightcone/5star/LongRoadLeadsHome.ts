@@ -8,7 +8,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LongRoadLeadsHome')
-  const sValuesBreakVulnerability = [0.20, 0.225, 0.25, 0.275, 0.30]
+  const sValuesBreakVulnerability = [0.18, 0.21, 0.24, 0.27, 0.30]
 
   const defaults = {
     breakVulnerabilityStacks: 2,

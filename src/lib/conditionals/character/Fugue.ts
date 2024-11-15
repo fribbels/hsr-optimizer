@@ -12,7 +12,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Fugue')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
-  const skillBeValue = skill(e, 0.40, 0.44)
+  const skillBeValue = skill(e, 0.30, 0.33)
   const skillDefPenValue = skill(e, 0.18, 0.20)
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -78,7 +78,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
       formItem: 'switch',
       id: 'be250Buff',
       name: 'be250Buff',
-      text: 'BE ≥ 250%',
+      text: 'BE ≥ 220%',
       title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
@@ -154,7 +154,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditional => {
     precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals
 
-      x[Stats.BE] += t.weaknessBreakBeStacks * (0.08 + (t.be250Buff ? 0.16 : 0))
+      x[Stats.BE] += t.weaknessBreakBeStacks * (0.06 + (t.be250Buff ? 0.12 : 0))
     },
     finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)

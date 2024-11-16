@@ -13,6 +13,7 @@ import { Button, Dropdown, Flex, Image, Input, Modal, theme, Typography } from '
 import { useSubscribe } from 'hooks/useSubscribe'
 import i18next from 'i18next'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
+import { CharacterPreviewSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Message } from 'lib/interactions/message'
 import BuildsModal from 'lib/overlays/modals/BuildsModal'
@@ -627,6 +628,7 @@ export default function CharacterTab() {
           <Flex vertical>
             <CharacterPreview
               id='characterTabPreview'
+              source={CharacterPreviewSource.CHARACTER_TAB}
               character={selectedCharacter}
               setOriginalCharacterModalOpen={setCharacterModalOpen}
               setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}

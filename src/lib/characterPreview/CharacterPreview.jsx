@@ -1,6 +1,7 @@
 import { EditOutlined, SettingOutlined, SwapOutlined, SyncOutlined } from '@ant-design/icons'
 import { Button, Card, Flex, Image, Segmented, theme, Typography } from 'antd'
 import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
+import { CharacterShowcase } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   CharacterCardCombatStats,
   CharacterCardScoringStatUpgrades,
@@ -83,6 +84,19 @@ export function CharacterPreview(props) {
     setOriginalCharacterModalInitialCharacter,
     setCharacterModalAdd,
   } = props
+
+  if (1 == 1) {
+    return (
+      <CharacterShowcase
+        source={source}
+        character={character}
+        id
+        setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+        setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+        setCharacterModalAdd={setCharacterModalAdd}
+      />
+    )
+  }
 
   const isScorer = source == 'scorer'
   const isBuilds = source == 'builds'

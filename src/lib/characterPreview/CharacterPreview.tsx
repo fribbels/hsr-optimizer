@@ -10,6 +10,7 @@ import Rarity from 'lib/characterPreview/Rarity'
 import { ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import StatText from 'lib/characterPreview/StatText'
+import { BasicStatsObjectCV } from 'lib/conditionals/conditionalConstants'
 import { CHARACTER_SCORE, COMBAT_STATS, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, ElementToDamage, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleColumnWidth, parentH, parentW } from 'lib/constants/constantsUi'
@@ -114,7 +115,7 @@ export function CharacterPreview(props: {
         break
       case 'delete':
         DB.deleteCharacterPortrait(character.id)
-        setCustomPortrait(null)
+        setCustomPortrait(undefined)
         Message.success(t('CharacterPreview.Messages.RevertedPortrait')/* Successfully reverted portrait */)
         SaveState.delayedSave()
         break
@@ -148,9 +149,14 @@ export function CharacterPreview(props: {
 
   const statCalculationRelics = Utils.clone(displayRelics)
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics))
-  const { c: finalStats } = calculateBuild(OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form)), statCalculationRelics)
-  finalStats.CV = StatCalculator.calculateCv(Object.values(statCalculationRelics))
-  finalStats[elementalDmgValue] = finalStats.ELEMENTAL_DMG
+  const { c: basicStats } = calculateBuild(OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form)), statCalculationRelics)
+  const finalStats: BasicStatsObjectCV = {
+    ...basicStats,
+    CV: StatCalculator.calculateCv(Object.values(statCalculationRelics)),
+  }
+
+  finalStats.CV =
+    finalStats[elementalDmgValue] = finalStats.ELEMENTAL_DMG
 
   let currentSelection = teamSelection
   if (character?.id) {
@@ -195,12 +201,12 @@ export function CharacterPreview(props: {
   const lightConeLevel = 80
   const lightConeSuperimposition = character.form.lightConeSuperimposition
   const lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
-  const lightConeName = lightConeId ? t(`gameData:Lightcones.${lightConeId}.Name`) : ''
+  const lightConeName = lightConeId ? t(`gameData:Lightcones.${lightConeId}.Name` as never) : ''
   const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata) || ''
 
   const characterLevel = 80
   const characterEidolon = character.form.characterEidolon
-  const characterName = characterId ? t(`gameData:Characters.${characterId}.Name`) : ''
+  const characterName = characterId ? t(`gameData:Characters.${characterId}.Name` as never) : ''
   const characterPath = characterMetadata.path
   // console.log(displayRelics)
 
@@ -269,7 +275,7 @@ export function CharacterPreview(props: {
                   (character.portrait || customPortrait)
                     ? (
                       <CharacterCustomPortrait
-                        customPortrait={customPortrait ?? character.portrait}
+                        customPortrait={customPortrait ?? character.portrait!}
                         parentW={parentW}
                       />
                     )

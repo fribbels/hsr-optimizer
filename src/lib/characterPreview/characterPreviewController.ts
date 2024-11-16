@@ -63,7 +63,7 @@ export function presetTeamSelectionDisplay(
   character: Character,
   prevCharId: MutableRefObject<null | string>,
   setTeamSelection: (teamSelection: string) => void,
-  setCustomPortrait: (customPortrait: CustomImageConfig | null) => void,
+  setCustomPortrait: (customPortrait: CustomImageConfig | undefined) => void,
 ) {
   // Use any existing character's portrait instead of the default
   setCustomPortrait(DB.getCharacterById(character?.id)?.portrait ?? null)

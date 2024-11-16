@@ -25,10 +25,11 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/character'
+import { CustomImageConfig } from 'types/customImage'
 import { Form } from 'types/form'
 import { DBMetadata, ScoringMetadata, SimulationMetadata } from 'types/metadata'
 import { Relic, Stat } from 'types/relic'
-import { CustomPortrait, HsrOptimizerSaveFormat, HsrOptimizerStore, SavedSession, UserSettings } from 'types/store'
+import { HsrOptimizerSaveFormat, HsrOptimizerStore, SavedSession, UserSettings } from 'types/store'
 import { create } from 'zustand'
 
 export type HsrOptimizerMetadataState = {
@@ -685,7 +686,7 @@ export const DB = {
     return found
   },
 
-  saveCharacterPortrait: (characterId: string, portrait: CustomPortrait) => {
+  saveCharacterPortrait: (characterId: string, portrait: CustomImageConfig) => {
     let character = DB.getCharacterById(characterId)
     if (!character) {
       DB.addFromForm({ characterId: characterId } as Form)

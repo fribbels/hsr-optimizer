@@ -175,7 +175,7 @@ function CharacterPreviewScoringTeammate(props: {
   )
 }
 
-export function ShowcaseDpsScoreHeader(props: {
+function ShowcaseDpsScoreHeader(props: {
   relics: SingleRelicByPart
   result: SimulationScore
 }) {
@@ -220,7 +220,7 @@ export function ShowcaseDpsScoreHeader(props: {
   )
 }
 
-export function ScoreFooter(props: {
+function ScoreFooter(props: {
   characterId: string
   teamSelection: string
   selectedTeammateIndex: number

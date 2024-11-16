@@ -223,3 +223,7 @@ export type BasicStatsObject = {
   sets: SetsType
   x: ComputedStatsObject | ComputedStatsObjectExternal
 }
+
+export type BasicStatsObjectCV = BasicStatsObject & {
+  CV: number
+}

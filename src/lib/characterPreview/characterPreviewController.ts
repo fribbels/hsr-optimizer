@@ -3,7 +3,7 @@ import { CUSTOM_TEAM, DEFAULT_TEAM, Parts } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { RelicScorer, RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { AppPages, DB } from 'lib/state/db'
-import { Utils } from 'lib/utils/utils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { MutableRefObject } from 'react'
 import { Character } from 'types/character'
 import { CustomImageConfig } from 'types/customImage'
@@ -21,17 +21,19 @@ export function getPreviewRelics(source: ShowcaseSource, character: Character, r
   if (source == ShowcaseSource.CHARACTER_TAB) {
     scoringResults = RelicScorer.scoreCharacter(character) as ScoringResults
     displayRelics = {
-      Head: getRelic(relicsById, character, Parts.Head)!, // relicsById[character.equipped?.Head],
-      Hands: getRelic(relicsById, character, Parts.Hands)!, // relicsById[character.equipped?.Hands],
-      Body: getRelic(relicsById, character, Parts.Body)!, // relicsById[character.equipped?.Body],
-      Feet: getRelic(relicsById, character, Parts.Feet)!, // relicsById[character.equipped?.Feet],
-      PlanarSphere: getRelic(relicsById, character, Parts.PlanarSphere)!, // relicsById[character.equipped?.PlanarSphere],
-      LinkRope: getRelic(relicsById, character, Parts.LinkRope)!, // relicsById[character.equipped?.LinkRope],
+      Head: getRelic(relicsById, character, Parts.Head)!,
+      Hands: getRelic(relicsById, character, Parts.Hands)!,
+      Body: getRelic(relicsById, character, Parts.Body)!,
+      Feet: getRelic(relicsById, character, Parts.Feet)!,
+      PlanarSphere: getRelic(relicsById, character, Parts.PlanarSphere)!,
+      LinkRope: getRelic(relicsById, character, Parts.LinkRope)!,
     }
   } else {
-    const relicsArray = Object.values(character.equipped)
-    scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray)
-    displayRelics = character.equipped
+    // Showcase tab relics are stored in equipped as relics instead of ids
+    const equipped = character.equipped as unknown as SingleRelicByPart
+    const relicsArray = Object.values(equipped)
+    scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray) as ScoringResults
+    displayRelics = equipped
   }
 
   return { scoringResults, displayRelics }
@@ -65,18 +67,19 @@ export function presetTeamSelectionDisplay(
 ) {
   // Use any existing character's portrait instead of the default
   setCustomPortrait(DB.getCharacterById(character?.id)?.portrait ?? null)
-  if (character?.id) {
-    // Only for simulation scoring characters
-    const defaultScoringMetadata = DB.getMetadata().characters[character.id].scoringMetadata
-    if (defaultScoringMetadata?.simulation) {
-      const scoringMetadata = DB.getScoringMetadata(character.id)
+  if (!character?.id) return
 
-      if (Utils.objectHash(scoringMetadata.simulation!.teammates) != Utils.objectHash(defaultScoringMetadata.simulation.teammates)) {
-        setTeamSelection(CUSTOM_TEAM)
-      } else {
-        setTeamSelection(DEFAULT_TEAM)
-      }
+  prevCharId.current = character.id
+
+  // Only for simulation scoring characters
+  const defaultScoringMetadata = DB.getMetadata().characters[character.id].scoringMetadata
+  if (defaultScoringMetadata?.simulation) {
+    const scoringMetadata = DB.getScoringMetadata(character.id)
+
+    if (TsUtils.objectHash(scoringMetadata.simulation!.teammates) != TsUtils.objectHash(defaultScoringMetadata.simulation.teammates)) {
+      setTeamSelection(CUSTOM_TEAM)
+    } else {
+      setTeamSelection(DEFAULT_TEAM)
     }
-    prevCharId.current = character.id
   }
 }

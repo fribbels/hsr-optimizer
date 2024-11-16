@@ -581,9 +581,9 @@ export default function CharacterTab() {
           <Flex vertical gap={8} style={{ marginRight: selectedCharacter ? 6 : 8 }}>
             <div
               id='characterGrid' className='ag-theme-balham-dark' style={{
-                ...{ display: 'block', width: 230, height: parentH - 38 },
-                ...getGridTheme(token),
-              }}
+              ...{ display: 'block', width: 230, height: parentH - 38 },
+              ...getGridTheme(token),
+            }}
             >
               <AgGridReact
                 ref={characterGrid}
@@ -642,7 +642,6 @@ export default function CharacterTab() {
         open={isCharacterModalOpen}
         setOpen={setCharacterModalOpen}
         initialCharacter={characterModalInitialCharacter}
-        addCharacter={characterModalAdd}
       />
       <SwitchRelicsModal
         onOk={onSwitchRelicsModalOk}

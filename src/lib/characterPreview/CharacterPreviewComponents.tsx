@@ -1,11 +1,7 @@
-import { Flex } from 'antd'
-import { Constants } from 'lib/constants/constants'
-import { defaultGap } from 'lib/constants/constantsUi'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
-import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
-import React from 'react'
-import { Relic } from 'types/relic'
+import { Flex, Typography } from 'antd'
+import React, { CSSProperties } from 'react'
+
+const { Text } = Typography
 
 export enum ShowcaseSource {
   CHARACTER_TAB,
@@ -13,85 +9,48 @@ export enum ShowcaseSource {
   BUILDS_MODAL,
 }
 
-export function ShowcaseRelicPreview(props: {
-  setSelectedRelic: (r: Relic) => void
-  setEditModalOpen: (b: boolean) => void
-  setAddModalOpen: (b: boolean) => void
-  displayRelics: SingleRelicByPart
-  source: ShowcaseSource
-  characterId: string
-  scoredRelics: RelicScoringResult[]
-}) {
-  const {
-    setSelectedRelic,
-    setEditModalOpen,
-    setAddModalOpen,
-    displayRelics,
-    source,
-    characterId,
-    scoredRelics,
-  } = props
-  return (
-    <Flex gap={defaultGap}>
-      <Flex vertical gap={defaultGap}>
-        <RelicPreview
-          setEditModalOpen={setEditModalOpen}
-          setSelectedRelic={setSelectedRelic}
-          setAddModalOpen={setAddModalOpen}
-          relic={{ ...displayRelics.Head, part: Constants.Parts.Head }}
-          source={source}
-          characterId={characterId}
-          score={scoredRelics.find((x) => x.part == Constants.Parts.Head)}
-        />
-        <RelicPreview
-          setEditModalOpen={setEditModalOpen}
-          setSelectedRelic={setSelectedRelic}
-          setAddModalOpen={setAddModalOpen}
-          relic={{ ...displayRelics.Body, part: Constants.Parts.Body }}
-          source={source}
-          characterId={characterId}
-          score={scoredRelics.find((x) => x.part == Constants.Parts.Body)}
-        />
-        <RelicPreview
-          setEditModalOpen={setEditModalOpen}
-          setSelectedRelic={setSelectedRelic}
-          setAddModalOpen={setAddModalOpen}
-          relic={{ ...displayRelics.PlanarSphere, part: Constants.Parts.PlanarSphere }}
-          source={source}
-          characterId={characterId}
-          score={scoredRelics.find((x) => x.part == Constants.Parts.PlanarSphere)}
-        />
-      </Flex>
+export const showcaseOutline = 'rgb(255 255 255 / 40%) solid 1px'
+export const showcaseShadow = 'rgba(0, 0, 0, 0.5) 1px 1px 1px 1px'
+export const showcaseDropShadowFilter = 'drop-shadow(rgb(0, 0, 0) 1px 1px 3px)'
+export const showcaseButtonStyle: CSSProperties = {
+  flex: 'auto',
+  opacity: 0,
+  transition: 'opacity 0.3s ease',
+  visibility: 'hidden',
+}
 
-      <Flex vertical gap={defaultGap}>
-        <RelicPreview
-          setEditModalOpen={setEditModalOpen}
-          setSelectedRelic={setSelectedRelic}
-          setAddModalOpen={setAddModalOpen}
-          relic={{ ...displayRelics.Hands, part: Constants.Parts.Hands }}
-          source={source}
-          characterId={characterId}
-          score={scoredRelics.find((x) => x.part == Constants.Parts.Hands)}
-        />
-        <RelicPreview
-          setEditModalOpen={setEditModalOpen}
-          setSelectedRelic={setSelectedRelic}
-          setAddModalOpen={setAddModalOpen}
-          relic={{ ...displayRelics.Feet, part: Constants.Parts.Feet }}
-          source={source}
-          characterId={characterId}
-          score={scoredRelics.find((x) => x.part == Constants.Parts.Feet)}
-        />
-        <RelicPreview
-          setEditModalOpen={setEditModalOpen}
-          setSelectedRelic={setSelectedRelic}
-          setAddModalOpen={setAddModalOpen}
-          relic={{ ...displayRelics.LinkRope, part: Constants.Parts.LinkRope }}
-          source={source}
-          characterId={characterId}
-          score={scoredRelics.find((x) => x.part == Constants.Parts.LinkRope)}
-        />
-      </Flex>
+export function OverlayText(props: {
+  text: string
+  top: number
+}) {
+  const top = props.top
+  return (
+    <Flex
+      vertical
+      style={{
+        position: 'relative',
+        height: 0,
+        top: top,
+      }}
+      align='center'
+    >
+      <Text
+        style={{
+          position: 'absolute',
+          backgroundColor: 'rgb(0 0 0 / 75%)',
+          padding: '2px 14px',
+          borderRadius: 4,
+          fontSize: 12,
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          textShadow: '0px 0px 10px black',
+          outline: showcaseOutline,
+          filter: showcaseDropShadowFilter,
+          lineHeight: '12px',
+        }}
+      >
+        {props.text}
+      </Text>
     </Flex>
   )
 }

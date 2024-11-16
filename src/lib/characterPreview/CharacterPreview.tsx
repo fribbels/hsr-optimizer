@@ -1,8 +1,8 @@
 import { EditOutlined, SettingOutlined, SwapOutlined, SyncOutlined } from '@ant-design/icons'
 import { Button, Card, Flex, Image, Segmented, theme, Typography } from 'antd'
 import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
-import { CharacterPreviewSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { getPreviewRelics, showcaseIsInactive } from 'lib/characterPreview/characterPreviewController'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { getArtistName, getPreviewRelics, presetTeamSelectionDisplay, showcaseIsInactive } from 'lib/characterPreview/characterPreviewController'
 import { CharacterCardCombatStats, CharacterCardScoringStatUpgrades, CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 
@@ -15,7 +15,7 @@ import { Message } from 'lib/interactions/message'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import EditImageModal from 'lib/overlays/modals/EditImageModal'
-import RelicModal from 'lib/overlays/modals/RelicModal.tsx'
+import RelicModal from 'lib/overlays/modals/RelicModal'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { StatCalculator } from 'lib/relics/statCalculator'
@@ -31,6 +31,7 @@ import { Utils } from 'lib/utils/utils'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
+import { CustomImageConfig } from 'types/customImage'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -47,7 +48,7 @@ const buttonStyle = {
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 export function CharacterPreview(props: {
-  source: CharacterPreviewSource
+  source: ShowcaseSource
   character: Character
   setOriginalCharacterModalOpen: (open: boolean) => void
   setOriginalCharacterModalInitialCharacter: (character: Character) => void
@@ -71,7 +72,7 @@ export function CharacterPreview(props: {
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
-  const [customPortrait, setCustomPortrait] = useState(null) // <null | CustomImageConfig>
+  const [customPortrait, setCustomPortrait] = useState<CustomImageConfig | null>(null) // <null | CustomImageConfig>
   const [teamSelection, setTeamSelection] = useState(DEFAULT_TEAM)
   const [scoringType, setScoringType] = useState(SIMULATION_SCORE)
   const [combatScoreDetails, setCombatScoreDetails] = useState(COMBAT_STATS)
@@ -81,40 +82,23 @@ export function CharacterPreview(props: {
   const [redrawTeammates, setRedrawTeammates] = useState()
   const activeKey = window.store((s) => s.activeKey)
 
-  const backgroundColor = token.colorBgLayout
-
   // We need to track the previously selected character in order to know which state to put the sim team in.
   const prevCharId = useRef(null)
 
-  useEffect(() => {
-    // Use any existing character's portrait instead of the default
-    setCustomPortrait(DB.getCharacterById(character?.id)?.portrait || null)
-    if (character?.id) {
-      // Only for simulation scoring characters
-      const defaultScoringMetadata = DB.getMetadata().characters[character.id].scoringMetadata
-      if (defaultScoringMetadata?.simulation) {
-        const scoringMetadata = DB.getScoringMetadata(character.id)
+  const backgroundColor = token.colorBgLayout
 
-        if (Utils.objectHash(scoringMetadata.simulation.teammates) != Utils.objectHash(defaultScoringMetadata.simulation.teammates)) {
-          setTeamSelection(CUSTOM_TEAM)
-        } else {
-          setTeamSelection(DEFAULT_TEAM)
-        }
-      }
-      prevCharId.current = character.id
-    }
+  // REFACTOR ZONE ===========================================================================================================================
+
+  const artistName = getArtistName(character)
+
+  // REFACTOR ZONE ===========================================================================================================================
+
+  useEffect(() => {
+    presetTeamSelectionDisplay(character, prevCharId, setTeamSelection, setCustomPortrait)
   }, [character])
 
   if (showcaseIsInactive(source, activeKey)) {
     return <></>
-  }
-
-  function getArtistName() {
-    const artistName = character?.portrait?.artistName || DB.getCharacterById(character?.id)?.portrait?.artistName
-    if (!artistName) return null
-
-    const name = artistName.trim()
-    return name.length < 1 ? null : name
   }
 
   function onEditOk(relic) {
@@ -479,7 +463,7 @@ export function CharacterPreview(props: {
             vertical gap={12}
             className='character-build-portrait'
           >
-            {source != CharacterPreviewSource.BUILDS_MODAL && (
+            {source != ShowcaseSource.BUILDS_MODAL && (
               <div
                 style={{
                   width: `${parentW}px`,
@@ -513,7 +497,7 @@ export function CharacterPreview(props: {
                     )
                 }
                 <Flex vertical style={{ width: 'max-content', marginLeft: 6, marginTop: 6 }} gap={7}>
-                  {source == CharacterPreviewSource.SHOWCASE_TAB && (
+                  {source != ShowcaseSource.SHOWCASE_TAB && (
                     <Button
                       style={{
                         ...buttonStyle,
@@ -530,7 +514,7 @@ export function CharacterPreview(props: {
                       {t('CharacterPreview.EditCharacter')/* Edit character */}
                     </Button>
                   )}
-                  {source == CharacterPreviewSource.SHOWCASE_TAB && (
+                  {source == ShowcaseSource.SHOWCASE_TAB && (
                     <Button
                       style={{
                         ...buttonStyle,
@@ -575,7 +559,7 @@ export function CharacterPreview(props: {
                     top: simScoringResult ? tempParentH - 118 : tempParentH - 111,
                     height: 34,
                     paddingLeft: 4,
-                    display: getArtistName() ? 'flex' : 'none',
+                    display: artistName ? 'flex' : 'none',
                   }}
                   align='flex-start'
                 >
@@ -593,7 +577,7 @@ export function CharacterPreview(props: {
                       textShadow: '0px 0px 10px black',
                     }}
                   >
-                    {t('CharacterPreview.ArtBy', { artistName: getArtistName() || '' })/* Art by {{artistName}} */}
+                    {t('CharacterPreview.ArtBy', { artistName: artistName || '' })/* Art by {{artistName}} */}
                   </Text>
                 </Flex>
               </div>
@@ -601,7 +585,7 @@ export function CharacterPreview(props: {
 
             {
               simScoringResult
-              && source != CharacterPreviewSource.BUILDS_MODAL && (
+              && source != ShowcaseSource.BUILDS_MODAL && (
                 <Flex vertical>
                   {lightConeName && (
                     <Flex
@@ -650,7 +634,7 @@ export function CharacterPreview(props: {
                       position: 'relative',
                     }}
                     onClick={() => {
-                      if (source == CharacterPreviewSource.SHOWCASE_TAB) {
+                      if (source == ShowcaseSource.SHOWCASE_TAB) {
                         setOriginalCharacterModalInitialCharacter(character)
                         setOriginalCharacterModalOpen(true)
                       } else {
@@ -820,7 +804,7 @@ export function CharacterPreview(props: {
                           filter: filter,
                         }}
                         onClick={() => {
-                          if (source == CharacterPreviewSource.SHOWCASE_TAB) {
+                          if (source == ShowcaseSource.SHOWCASE_TAB) {
                             setOriginalCharacterModalInitialCharacter(character)
                             setOriginalCharacterModalOpen(true)
                           } else {
@@ -907,7 +891,7 @@ export function CharacterPreview(props: {
         </Flex>
       </Flex>
 
-      {source != CharacterPreviewSource.BUILDS_MODAL && (
+      {source != ShowcaseSource.BUILDS_MODAL && (
         <Flex vertical>
           <Flex justify='center' gap={25}>
             <Flex

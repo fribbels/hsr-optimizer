@@ -209,4 +209,5 @@ export type CustomPortrait = {
       y: number
     }
   }
+  artistName: string
 }

@@ -1,8 +1,11 @@
-import { CharacterPreviewSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { Parts } from 'lib/constants/constants'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { CUSTOM_TEAM, DEFAULT_TEAM, Parts } from 'lib/constants/constants'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
-import { AppPages } from 'lib/state/db'
+import { AppPages, DB } from 'lib/state/db'
+import { Utils } from 'lib/utils/utils'
+import { MutableRefObject } from 'react'
 import { Character } from 'types/character'
+import { CustomImageConfig } from 'types/customImage'
 import { Relic } from 'types/relic'
 
 type ScoringResults = {
@@ -11,10 +14,10 @@ type ScoringResults = {
   totalRating: string
 }
 
-export function getPreviewRelics(source: CharacterPreviewSource, character: Character, relicsById: Record<string, Relic>) {
+export function getPreviewRelics(source: ShowcaseSource, character: Character, relicsById: Record<string, Relic>) {
   let scoringResults: ScoringResults
   let displayRelics
-  if (source == CharacterPreviewSource.CHARACTER_TAB) {
+  if (source == ShowcaseSource.CHARACTER_TAB) {
     scoringResults = RelicScorer.scoreCharacter(character) as ScoringResults
     displayRelics = {
       Head: getRelic(relicsById, character, Parts.Head), // relicsById[character.equipped?.Head],
@@ -40,7 +43,39 @@ function getRelic(relicsById: Record<string, Relic>, character: Character, part:
   return null
 }
 
-export function showcaseIsInactive(source: CharacterPreviewSource, activeKey: string) {
-  return source == CharacterPreviewSource.SHOWCASE_TAB && activeKey != AppPages.SHOWCASE
-    || source != CharacterPreviewSource.SHOWCASE_TAB && activeKey != AppPages.CHARACTERS
+export function showcaseIsInactive(source: ShowcaseSource, activeKey: string) {
+  return source == ShowcaseSource.SHOWCASE_TAB && activeKey != AppPages.SHOWCASE
+    || source != ShowcaseSource.SHOWCASE_TAB && activeKey != AppPages.CHARACTERS
+}
+
+export function getArtistName(character: Character) {
+  const artistName = character?.portrait?.artistName ?? DB.getCharacterById(character?.id)?.portrait?.artistName
+  if (!artistName) return null
+
+  const name = artistName.trim()
+  return name.length < 1 ? null : name
+}
+
+export function presetTeamSelectionDisplay(
+  character: Character,
+  prevCharId: MutableRefObject<null | string>,
+  setTeamSelection: (teamSelection: string) => void,
+  setCustomPortrait: (customPortrait: CustomImageConfig | null) => void,
+) {
+  // Use any existing character's portrait instead of the default
+  setCustomPortrait(DB.getCharacterById(character?.id)?.portrait ?? null)
+  if (character?.id) {
+    // Only for simulation scoring characters
+    const defaultScoringMetadata = DB.getMetadata().characters[character.id].scoringMetadata
+    if (defaultScoringMetadata?.simulation) {
+      const scoringMetadata = DB.getScoringMetadata(character.id)
+
+      if (Utils.objectHash(scoringMetadata.simulation!.teammates) != Utils.objectHash(defaultScoringMetadata.simulation.teammates)) {
+        setTeamSelection(CUSTOM_TEAM)
+      } else {
+        setTeamSelection(DEFAULT_TEAM)
+      }
+    }
+    prevCharId.current = character.id
+  }
 }

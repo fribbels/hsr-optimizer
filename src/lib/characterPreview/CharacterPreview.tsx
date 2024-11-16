@@ -67,10 +67,6 @@ export function CharacterPreview(props: {
   const [teamSelection, setTeamSelection] = useState(DEFAULT_TEAM)
   const [scoringType, setScoringType] = useState(SIMULATION_SCORE)
   const [combatScoreDetails, setCombatScoreDetails] = useState(COMBAT_STATS)
-  const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
-  const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState<Character | undefined>()
-  const [selectedTeammateIndex, setSelectedTeammateIndex] = useState<number | undefined>()
-  const [redrawTeammates, setRedrawTeammates] = useState<number>(0)
   const activeKey = window.store((s) => s.activeKey)
 
   // We need to track the previously selected character in order to know which state to put the sim team in.
@@ -490,11 +486,11 @@ export function CharacterPreview(props: {
                   simScoringResult
                   && (
                     <ShowcaseDpsScorePanel
+                      characterId={characterId}
                       token={token}
                       simScoringResult={simScoringResult}
-                      setCharacterModalOpen={setCharacterModalOpen}
-                      setSelectedTeammateIndex={setSelectedTeammateIndex}
-                      setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+                      teamSelection={teamSelection}
+                      setTeamSelection={setTeamSelection}
                     />
                   )
                 }

@@ -18,19 +18,24 @@ import { Character } from 'types/character'
 import { Form } from 'types/form'
 
 export function ShowcaseDpsScorePanel(props: {
+  characterId: string
   token: GlobalToken
   simScoringResult: SimulationScore
-  setCharacterModalOpen: (b: boolean) => void
-  setSelectedTeammateIndex: (i: number | undefined) => void
-  setCharacterModalInitialCharacter: (c: Character) => void
+  teamSelection: string
+  setTeamSelection: (t: string) => void
 }) {
   const {
+    characterId,
     token,
     simScoringResult,
-    setCharacterModalOpen,
-    setSelectedTeammateIndex,
-    setCharacterModalInitialCharacter,
+    teamSelection,
+    setTeamSelection,
   } = props
+
+  const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
+  const [selectedTeammateIndex, setSelectedTeammateIndex] = useState<number | undefined>()
+  const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState<Character | undefined>()
+  const [redrawTeammates, setRedrawTeammates] = useState<number>(0)
 
   return (
     <Flex
@@ -40,9 +45,6 @@ export function ShowcaseDpsScorePanel(props: {
         style={{
           backgroundColor: token.colorBgLayout,
           padding: '0px !important',
-          body: {
-            height: 500,
-          },
         }}
         styles={{
           body: {
@@ -78,7 +80,16 @@ export function ShowcaseDpsScorePanel(props: {
           />
         </Flex>
       </Card>
-      <ScoreFooter result={simScoringResult}/>
+      <ScoreFooter
+        characterId={characterId}
+        teamSelection={teamSelection}
+        selectedTeammateIndex={selectedTeammateIndex!}
+        characterModalInitialCharacter={characterModalInitialCharacter}
+        isCharacterModalOpen={isCharacterModalOpen}
+        setCharacterModalOpen={setCharacterModalOpen}
+        setTeamSelection={setTeamSelection}
+        setRedrawTeammates={setRedrawTeammates}
+      />
     </Flex>
   )
 }
@@ -189,9 +200,10 @@ export function ScoreFooter(props: {
   characterModalInitialCharacter: Character | undefined
   setTeamSelection: (teamSelection: string) => void
   setRedrawTeammates: (random: number) => void
+  isCharacterModalOpen: boolean
+  setCharacterModalOpen: (open: boolean) => void
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
-  const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
 
   const {
     characterId,
@@ -200,6 +212,8 @@ export function ScoreFooter(props: {
     characterModalInitialCharacter,
     setTeamSelection,
     setRedrawTeammates,
+    isCharacterModalOpen,
+    setCharacterModalOpen,
   } = props
 
   // Teammate character modal OK

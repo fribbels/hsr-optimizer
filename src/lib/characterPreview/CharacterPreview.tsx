@@ -1,39 +1,16 @@
 import { EditOutlined, SettingOutlined, SwapOutlined, SyncOutlined } from '@ant-design/icons'
 import { Button, Card, Flex, Image, Segmented, theme, Typography } from 'antd'
 import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
-import { CharacterShowcase } from 'lib/characterPreview/CharacterPreviewComponents'
-import {
-  CharacterCardCombatStats,
-  CharacterCardScoringStatUpgrades,
-  CharacterScoringSummary,
-} from 'lib/characterPreview/CharacterScoringSummary'
+import { CharacterPreviewSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { getPreviewRelics, showcaseIsInactive } from 'lib/characterPreview/characterPreviewController'
+import { CharacterCardCombatStats, CharacterCardScoringStatUpgrades, CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 
 import Rarity from 'lib/characterPreview/Rarity'
 import StatText from 'lib/characterPreview/StatText'
-import {
-  CHARACTER_SCORE,
-  COMBAT_STATS,
-  Constants,
-  CUSTOM_TEAM,
-  DAMAGE_UPGRADES,
-  DEFAULT_TEAM,
-  ElementToDamage,
-  SETTINGS_TEAM,
-  SIMULATION_SCORE,
-} from 'lib/constants/constants'
+import { CHARACTER_SCORE, COMBAT_STATS, Constants, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, ElementToDamage, SETTINGS_TEAM, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import {
-  defaultGap,
-  innerW,
-  lcInnerH,
-  lcInnerW,
-  lcParentH,
-  lcParentW,
-  middleColumnWidth,
-  parentH,
-  parentW,
-} from 'lib/constants/constantsUi'
+import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleColumnWidth, parentH, parentW } from 'lib/constants/constantsUi'
 import { Message } from 'lib/interactions/message'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
@@ -41,20 +18,19 @@ import EditImageModal from 'lib/overlays/modals/EditImageModal'
 import RelicModal from 'lib/overlays/modals/RelicModal.tsx'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicFilters } from 'lib/relics/relicFilters'
-import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { getSimScoreGrade, scoreCharacterSimulation } from 'lib/scoring/characterScorer'
-import { AppPages, DB } from 'lib/state/db'
+import { DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import { Utils } from 'lib/utils/utils'
-import PropTypes from 'prop-types'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Character } from 'types/character'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -70,12 +46,14 @@ const buttonStyle = {
 }
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
-export function CharacterPreview(props) {
+export function CharacterPreview(props: {
+  source: CharacterPreviewSource
+  character: Character
+  setOriginalCharacterModalOpen: (open: boolean) => void
+  setOriginalCharacterModalInitialCharacter: (character: Character) => void
+  setCharacterModalAdd: (add: boolean) => void
+}) {
   console.log('======================================================================= RENDER CharacterPreview')
-
-  const { token } = useToken()
-
-  const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
   const {
     source,
@@ -85,23 +63,8 @@ export function CharacterPreview(props) {
     setCharacterModalAdd,
   } = props
 
-  if (1 == 1) {
-    return (
-      <CharacterShowcase
-        source={source}
-        character={character}
-        id
-        setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-        setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-        setCharacterModalAdd={setCharacterModalAdd}
-      />
-    )
-  }
-
-  const isScorer = source == 'scorer'
-  const isBuilds = source == 'builds'
-
-  const backgroundColor = token.colorBgLayout
+  const { t } = useTranslation(['charactersTab', 'modals', 'common'])
+  const { token } = useToken()
 
   const relicsById = window.store((s) => s.relicsById)
   const [selectedRelic, setSelectedRelic] = useState()
@@ -117,6 +80,8 @@ export function CharacterPreview(props) {
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState()
   const [redrawTeammates, setRedrawTeammates] = useState()
   const activeKey = window.store((s) => s.activeKey)
+
+  const backgroundColor = token.colorBgLayout
 
   // We need to track the previously selected character in order to know which state to put the sim team in.
   const prevCharId = useRef(null)
@@ -140,9 +105,7 @@ export function CharacterPreview(props) {
     }
   }, [character])
 
-  if (isScorer && activeKey != AppPages.SHOWCASE) {
-    return <></>
-  } else if (!isScorer && activeKey != AppPages.CHARACTERS) {
+  if (showcaseIsInactive(source, activeKey)) {
     return <></>
   }
 
@@ -192,71 +155,20 @@ export function CharacterPreview(props) {
 
   if (!character) {
     return (
-      <Flex
-        style={{ display: 'flex', height: parentH, backgroundColor: backgroundColor }}
-        gap={defaultGap}
-        id={props.id}
-      >
-        <div
-          style={{
-            width: parentW,
-            overflow: 'hidden',
-            outline: `2px solid ${token.colorBgContainer}`,
-            height: '100%',
-            borderRadius: '8px',
-          }}
-        >
-          {/* This is a placeholder for the character portrait when no character is selected */}
-        </div>
-
-        <Flex gap={defaultGap}>
-          <Flex
-            vertical gap={defaultGap} align='center'
-            style={{
-              outline: `2px solid ${token.colorBgContainer}`,
-              width: '100%',
-              height: '100%',
-              borderRadius: '8px',
-            }}
-          >
-            <Flex vertical style={{ width: middleColumnWidth, height: 280 * 2 + defaultGap }} justify='space-between'>
-              <Flex></Flex>
-            </Flex>
-          </Flex>
-
-          <Flex vertical gap={defaultGap}>
-            <RelicPreview setSelectedRelic={setSelectedRelic}/>
-            <RelicPreview setSelectedRelic={setSelectedRelic}/>
-            <RelicPreview setSelectedRelic={setSelectedRelic}/>
-          </Flex>
-
-          <Flex vertical gap={defaultGap}>
-            <RelicPreview setSelectedRelic={setSelectedRelic}/>
-            <RelicPreview setSelectedRelic={setSelectedRelic}/>
-            <RelicPreview setSelectedRelic={setSelectedRelic}/>
-          </Flex>
-        </Flex>
-      </Flex>
+      <div
+        style={{
+          height: parentH,
+          backgroundColor: backgroundColor,
+          width: 1066,
+          borderRadius: 8,
+          marginRight: 2,
+          outline: `2px solid ${token.colorBgContainer}`,
+        }}
+      />
     )
   }
 
-  let displayRelics
-  let scoringResults
-  if (isScorer || isBuilds) {
-    const relicsArray = Object.values(character.equipped)
-    scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray)
-    displayRelics = character.equipped
-  } else {
-    scoringResults = RelicScorer.scoreCharacter(character)
-    displayRelics = {
-      Head: relicsById[character.equipped?.Head],
-      Hands: relicsById[character.equipped?.Hands],
-      Body: relicsById[character.equipped?.Body],
-      Feet: relicsById[character.equipped?.Feet],
-      PlanarSphere: relicsById[character.equipped?.PlanarSphere],
-      LinkRope: relicsById[character.equipped?.LinkRope],
-    }
-  }
+  const { scoringResults, displayRelics } = getPreviewRelics(source, character, relicsById)
 
   const characterId = character.form.characterId
   const characterMetadata = DB.getMetadata().characters[characterId]
@@ -567,7 +479,7 @@ export function CharacterPreview(props) {
             vertical gap={12}
             className='character-build-portrait'
           >
-            {!isBuilds && (
+            {source != CharacterPreviewSource.BUILDS_MODAL && (
               <div
                 style={{
                   width: `${parentW}px`,
@@ -601,7 +513,7 @@ export function CharacterPreview(props) {
                     )
                 }
                 <Flex vertical style={{ width: 'max-content', marginLeft: 6, marginTop: 6 }} gap={7}>
-                  {!isScorer && (
+                  {source == CharacterPreviewSource.SHOWCASE_TAB && (
                     <Button
                       style={{
                         ...buttonStyle,
@@ -618,7 +530,7 @@ export function CharacterPreview(props) {
                       {t('CharacterPreview.EditCharacter')/* Edit character */}
                     </Button>
                   )}
-                  {isScorer && (
+                  {source == CharacterPreviewSource.SHOWCASE_TAB && (
                     <Button
                       style={{
                         ...buttonStyle,
@@ -689,7 +601,7 @@ export function CharacterPreview(props) {
 
             {
               simScoringResult
-              && !isBuilds && (
+              && source != CharacterPreviewSource.BUILDS_MODAL && (
                 <Flex vertical>
                   {lightConeName && (
                     <Flex
@@ -738,7 +650,7 @@ export function CharacterPreview(props) {
                       position: 'relative',
                     }}
                     onClick={() => {
-                      if (isScorer) {
+                      if (source == CharacterPreviewSource.SHOWCASE_TAB) {
                         setOriginalCharacterModalInitialCharacter(character)
                         setOriginalCharacterModalOpen(true)
                       } else {
@@ -908,7 +820,7 @@ export function CharacterPreview(props) {
                           filter: filter,
                         }}
                         onClick={() => {
-                          if (isScorer) {
+                          if (source == CharacterPreviewSource.SHOWCASE_TAB) {
                             setOriginalCharacterModalInitialCharacter(character)
                             setOriginalCharacterModalOpen(true)
                           } else {
@@ -995,7 +907,7 @@ export function CharacterPreview(props) {
         </Flex>
       </Flex>
 
-      {!isBuilds && (
+      {source != CharacterPreviewSource.BUILDS_MODAL && (
         <Flex vertical>
           <Flex justify='center' gap={25}>
             <Flex
@@ -1085,11 +997,11 @@ export function CharacterPreview(props) {
   )
 }
 
-CharacterPreview.propTypes = {
-  source: PropTypes.string,
-  character: PropTypes.object,
-  id: PropTypes.string,
-}
+// CharacterPreview.propTypes = {
+//   source: PropTypes.string,
+//   character: PropTypes.object,
+//   id: PropTypes.string,
+// }
 
 function OverlayText(props) {
   const top = props.top

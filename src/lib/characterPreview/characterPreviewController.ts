@@ -1,6 +1,7 @@
 import { CharacterPreviewSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Parts } from 'lib/constants/constants'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import { AppPages } from 'lib/state/db'
 import { Character } from 'types/character'
 import { Relic } from 'types/relic'
 
@@ -13,7 +14,7 @@ type ScoringResults = {
 export function getPreviewRelics(source: CharacterPreviewSource, character: Character, relicsById: Record<string, Relic>) {
   let scoringResults: ScoringResults
   let displayRelics
-  if (source == CharacterPreviewSource.SHOWCASE_TAB) {
+  if (source == CharacterPreviewSource.CHARACTER_TAB) {
     scoringResults = RelicScorer.scoreCharacter(character) as ScoringResults
     displayRelics = {
       Head: getRelic(relicsById, character, Parts.Head), // relicsById[character.equipped?.Head],
@@ -25,7 +26,6 @@ export function getPreviewRelics(source: CharacterPreviewSource, character: Char
     }
   } else {
     const relicsArray = Object.values(character.equipped)
-    // @ts-ignore The scorer relics are a Relic[]
     scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray)
     displayRelics = character.equipped
   }
@@ -38,4 +38,9 @@ function getRelic(relicsById: Record<string, Relic>, character: Character, part:
     return relicsById[character.equipped[part]]
   }
   return null
+}
+
+export function showcaseIsInactive(source: CharacterPreviewSource, activeKey: string) {
+  return source == CharacterPreviewSource.SHOWCASE_TAB && activeKey != AppPages.SHOWCASE
+    || source != CharacterPreviewSource.SHOWCASE_TAB && activeKey != AppPages.CHARACTERS
 }

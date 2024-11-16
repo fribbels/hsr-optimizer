@@ -1,4 +1,5 @@
 import { Card, Divider, Flex } from 'antd'
+import { CharacterPreviewSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { iconSize } from 'lib/constants/constantsUi'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
@@ -12,7 +13,7 @@ import { Relic } from 'types/relic'
 
 export function RelicPreview(props: {
   relic?: Relic
-  source?: string
+  source?: CharacterPreviewSource
   characterId?: string
   score?: RelicScoringResult
   setEditModalOpen?: (open: boolean) => void
@@ -47,7 +48,7 @@ export function RelicPreview(props: {
   const scored = score !== undefined
 
   const cardClicked = () => {
-    if ((!relic.id && !characterId) || source === 'scorer' || source === 'builds') return
+    if ((!relic.id && !characterId) || source == CharacterPreviewSource.SHOWCASE_TAB || source == CharacterPreviewSource.BUILDS_MODAL) return
 
     if (!relic.id) {
       console.log(`Add new relic for characterId=${characterId}.`)
@@ -65,7 +66,7 @@ export function RelicPreview(props: {
   return (
     <Card
       size='small'
-      hoverable={source != 'scorer' && source != 'builds'}
+      hoverable={source != CharacterPreviewSource.SHOWCASE_TAB && source != CharacterPreviewSource.BUILDS_MODAL}
       onClick={cardClicked}
       style={{ width: 200, height: 280 }}
     >

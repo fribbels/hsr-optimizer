@@ -4,7 +4,7 @@ To completely rewrite in TS:
 
 * utils.js
 * CharacterTab.jsx
-* CharacterPreview.jsx
+* CharacterPreview.tsx
 * RelicScorerTab.jsx
 * FormSetConditionals.jsx
 * OptimizerGrid.jsx

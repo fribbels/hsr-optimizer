@@ -3,11 +3,11 @@ import { Button, Flex, Image, Segmented, theme, Typography } from 'antd'
 import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
 import { showcaseButtonStyle, showcaseDropShadowFilter, showcaseOutline, showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { getArtistName, getPreviewRelics, presetTeamSelectionDisplay, showcaseIsInactive } from 'lib/characterPreview/characterPreviewController'
-import { CharacterCardCombatStats, CharacterCardScoringStatUpgrades, CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
+import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 
 import Rarity from 'lib/characterPreview/Rarity'
-import { ShowcaseDpsScoreHeader, ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
+import { ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import StatText from 'lib/characterPreview/StatText'
 import { CHARACTER_SCORE, COMBAT_STATS, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, ElementToDamage, SIMULATION_SCORE } from 'lib/constants/constants'
@@ -76,10 +76,6 @@ export function CharacterPreview(props: {
 
   // REFACTOR ZONE ===========================================================================================================================
 
-  const artistName = getArtistName(character)
-
-  // REFACTOR ZONE ===========================================================================================================================
-
   useEffect(() => {
     presetTeamSelectionDisplay(character, prevCharId, setTeamSelection, setCustomPortrait)
   }, [character])
@@ -87,6 +83,10 @@ export function CharacterPreview(props: {
   if (showcaseIsInactive(source, activeKey)) {
     return <></>
   }
+
+  const artistName = getArtistName(character)
+
+  // REFACTOR ZONE ===========================================================================================================================
 
   function onEditOk(relic: Relic) {
     const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
@@ -478,35 +478,19 @@ export function CharacterPreview(props: {
                   cv={finalStats.CV}
                   simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
                 />
+
                 {
-                  simScoringResult
-                  && <ShowcaseDpsScoreHeader result={simScoringResult} relics={displayRelics}/>
-                }
-                {
-                  simScoringResult
-                  && (
+                  simScoringResult &&
+                  (
                     <ShowcaseDpsScorePanel
                       characterId={characterId}
                       token={token}
                       simScoringResult={simScoringResult}
                       teamSelection={teamSelection}
+                      combatScoreDetails={combatScoreDetails}
+                      displayRelics={displayRelics}
                       setTeamSelection={setTeamSelection}
                     />
-                  )
-                }
-                {
-                  simScoringResult && combatScoreDetails == DAMAGE_UPGRADES && (
-                    <Flex vertical gap={defaultGap}>
-                      <CharacterCardScoringStatUpgrades result={simScoringResult}/>
-                    </Flex>
-                  )
-                }
-
-                {
-                  simScoringResult && combatScoreDetails == COMBAT_STATS && (
-                    <Flex vertical gap={defaultGap}>
-                      <CharacterCardCombatStats result={simScoringResult}/>
-                    </Flex>
                   )
                 }
 

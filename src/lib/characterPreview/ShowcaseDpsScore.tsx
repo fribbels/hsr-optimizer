@@ -2,8 +2,10 @@ import { SettingOutlined, SwapOutlined, SyncOutlined } from '@ant-design/icons'
 import { Button, Card, Flex, Segmented } from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
 import { OverlayText } from 'lib/characterPreview/CharacterPreviewComponents'
+import { CharacterCardCombatStats, CharacterCardScoringStatUpgrades } from 'lib/characterPreview/CharacterScoringSummary'
 import StatText from 'lib/characterPreview/StatText'
-import { CUSTOM_TEAM, DEFAULT_TEAM, SETTINGS_TEAM } from 'lib/constants/constants'
+import { COMBAT_STATS, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, SETTINGS_TEAM } from 'lib/constants/constants'
+import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
@@ -22,6 +24,8 @@ export function ShowcaseDpsScorePanel(props: {
   token: GlobalToken
   simScoringResult: SimulationScore
   teamSelection: string
+  combatScoreDetails: string
+  displayRelics: SingleRelicByPart
   setTeamSelection: (t: string) => void
 }) {
   const {
@@ -29,18 +33,22 @@ export function ShowcaseDpsScorePanel(props: {
     token,
     simScoringResult,
     teamSelection,
+    combatScoreDetails,
+    displayRelics,
     setTeamSelection,
   } = props
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState<number | undefined>()
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState<Character | undefined>()
-  const [redrawTeammates, setRedrawTeammates] = useState<number>(0)
+  const [_redrawTeammates, setRedrawTeammates] = useState<number>(0)
 
   return (
     <Flex
       vertical
     >
+      <ShowcaseDpsScoreHeader result={simScoringResult} relics={displayRelics}/>
+
       <Card
         style={{
           backgroundColor: token.colorBgLayout,
@@ -80,6 +88,7 @@ export function ShowcaseDpsScorePanel(props: {
           />
         </Flex>
       </Card>
+
       <ScoreFooter
         characterId={characterId}
         teamSelection={teamSelection}
@@ -90,6 +99,24 @@ export function ShowcaseDpsScorePanel(props: {
         setTeamSelection={setTeamSelection}
         setRedrawTeammates={setRedrawTeammates}
       />
+
+      {
+        combatScoreDetails == DAMAGE_UPGRADES &&
+        (
+          <Flex vertical gap={defaultGap}>
+            <CharacterCardScoringStatUpgrades result={simScoringResult}/>
+          </Flex>
+        )
+      }
+
+      {
+        combatScoreDetails == COMBAT_STATS &&
+        (
+          <Flex vertical gap={defaultGap}>
+            <CharacterCardCombatStats result={simScoringResult}/>
+          </Flex>
+        )
+      }
     </Flex>
   )
 }
@@ -323,7 +350,7 @@ export function ScoreFooter(props: {
   )
 
   return (
-    <Flex vertical style={{}} gap={2}>
+    <Flex vertical gap={2}>
       <CharacterModal
         onOk={onCharacterModalOk}
         open={isCharacterModalOpen}

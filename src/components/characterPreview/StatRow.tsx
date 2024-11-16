@@ -1,12 +1,12 @@
 import { Divider, Flex } from 'antd'
-import PropTypes from 'prop-types'
+
+import StatText from 'components/characterPreview/StatText'
 
 import { Assets } from 'lib/assets'
 import { Constants } from 'lib/constants'
 import { iconSize } from 'lib/constantsUi'
 import { Utils } from 'lib/utils'
-
-import StatText from 'components/characterPreview/StatText'
+import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 const checkSpeedInBreakpoint = (speedValue: number): boolean => {
@@ -72,7 +72,7 @@ const StatRow = (props: { stat: string; finalStats: object; value?: number }): J
     value1000thsPrecision = Utils.precisionRound(props.value).toFixed(3)
   } else if (stat == Constants.Stats.SPD) {
     const is1000thSpeed = checkSpeedInBreakpoint(value)
-    valueDisplay = is1000thSpeed ? Utils.precisionRound(value).toFixed(3) : valueDisplay = Utils.precisionRound(value).toFixed(1)
+    valueDisplay = is1000thSpeed ? Utils.precisionRound(value).toFixed(3) : valueDisplay = Utils.truncate10ths(Utils.precisionRound(value))
     value1000thsPrecision = Utils.precisionRound(value).toFixed(3)
   } else if (Utils.isFlat(stat)) {
     valueDisplay = Math.floor(value)

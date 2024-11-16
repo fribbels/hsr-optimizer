@@ -11,7 +11,7 @@ import { Character } from 'types/character'
 import { CustomImageConfig } from 'types/customImage'
 import { Relic } from 'types/relic'
 
-type ScoringResults = {
+export type ScoringResults = {
   relics: RelicScoringResult[]
   totalScore: number
   totalRating: string

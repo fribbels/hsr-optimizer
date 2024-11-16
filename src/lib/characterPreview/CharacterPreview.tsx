@@ -1,18 +1,16 @@
-import { Flex, Image, Segmented, theme, Typography } from 'antd'
+import { Flex, theme, Typography } from 'antd'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { getArtistName, getPreviewRelics, getShowcaseDisplayDimensions, presetTeamSelectionDisplay, showcaseIsInactive } from 'lib/characterPreview/characterPreviewController'
-import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
-
-import Rarity from 'lib/characterPreview/Rarity'
+import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
+import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
 import { ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
 import { ShowcaseLightConeLarge, ShowcaseLightConeSmall } from 'lib/characterPreview/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
-import StatText from 'lib/characterPreview/StatText'
+import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
 import { BasicStatsObjectCV } from 'lib/conditionals/conditionalConstants'
-import { CHARACTER_SCORE, COMBAT_STATS, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, ElementToDamage, SIMULATION_SCORE } from 'lib/constants/constants'
-import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { COMBAT_STATS, CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, SIMULATION_SCORE } from 'lib/constants/constants'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import { Message } from 'lib/interactions/message'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
@@ -21,7 +19,7 @@ import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
-import { scoreCharacterSimulation } from 'lib/scoring/characterScorer'
+import { scoreCharacterSimulation, SimulationScore } from 'lib/scoring/characterScorer'
 import { DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -161,7 +159,7 @@ export function CharacterPreview(props: {
 
   const statCalculationRelics = Utils.clone(displayRelics)
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics))
-  const { c: basicStats } = calculateBuild(OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form)), statCalculationRelics)
+  const { c: basicStats } = calculateBuild(OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form)), statCalculationRelics, null)
   const finalStats: BasicStatsObjectCV = {
     ...basicStats,
     CV: StatCalculator.calculateCv(Object.values(statCalculationRelics)),
@@ -210,11 +208,6 @@ export function CharacterPreview(props: {
   const scoredRelics = scoringResults.relics || []
 
   const displayDimensions: ShowcaseDisplayDimensions = getShowcaseDisplayDimensions(character, Boolean(simScoringResult))
-  const {
-    tempInnerW,
-    tempParentH,
-    charCenter,
-  } = displayDimensions
 
   const lightConeId = character.form.lightCone
   const lightConeLevel = 80
@@ -294,32 +287,18 @@ export function CharacterPreview(props: {
           <Flex gap={defaultGap}>
             <Flex vertical gap={defaultGap} align='center' justify='space-between'>
               <Flex
-                vertical style={{ width: middleColumnWidth, height: '100%' /* 280 * 2 + defaultGap */ }}
+                vertical
+                style={{ width: middleColumnWidth, height: '100%' }}
                 justify='space-between'
               >
-                <Flex vertical>
-                  <Flex justify='space-around' style={{ height: 26, marginBottom: 6 }} align='center'>
-                    <Image
-                      preview={false}
-                      width={32}
-                      src={Assets.getElement(characterElement)}
-                    />
-                    <Rarity rarity={characterMetadata.rarity}/>
-                    <Image
-                      preview={false}
-                      width={32}
-                      src={Assets.getPathFromClass(characterPath)}
-                    />
-                  </Flex>
-                  <Flex vertical>
-                    <StatText style={{ fontSize: 24, lineHeight: '30px', fontWeight: 400, textAlign: 'center' }}>
-                      {characterName}
-                    </StatText>
-                    <StatText style={{ fontSize: 16, fontWeight: 400, textAlign: 'center' }}>
-                      {`${t('common:LevelShort', { level: characterLevel })} ${t('common:EidolonNShort', { eidolon: characterEidolon })}`}
-                    </StatText>
-                  </Flex>
-                </Flex>
+                <ShowcaseCharacterHeader
+                  characterLevel={characterLevel}
+                  characterEidolon={characterEidolon}
+                  characterName={characterName}
+                  characterPath={characterPath}
+                  characterElement={characterElement}
+                  characterMetadata={characterMetadata}
+                />
 
                 <CharacterStatSummary
                   finalStats={finalStats}
@@ -344,32 +323,26 @@ export function CharacterPreview(props: {
                 }
 
                 {
-                  !simScoringResult
-                  && (
-                    <Flex vertical>
-                      <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
-                        {t('CharacterPreview.CharacterScore', {
-                          score: scoringResults.totalScore.toFixed(0),
-                          grade: scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')',
-                        })}
-                      </StatText>
-                    </Flex>
+                  !simScoringResult && (
+                    <>
+                      <ShowcaseStatScore
+                        scoringResults={scoringResults}
+                      />
+
+                      <ShowcaseLightConeLarge
+                        source={source}
+                        character={character}
+                        lightConeSrc={lightConeSrc}
+                        lightConeName={lightConeName}
+                        lightConeLevel={lightConeLevel}
+                        lightConeSuperimposition={lightConeSuperimposition}
+                        displayDimensions={displayDimensions}
+                        setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                        setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+                        setCharacterModalAdd={setCharacterModalAdd}
+                      />
+                    </>
                   )
-                }
-                {
-                  !simScoringResult &&
-                  <ShowcaseLightConeLarge
-                    source={source}
-                    character={character}
-                    lightConeSrc={lightConeSrc}
-                    lightConeName={lightConeName}
-                    lightConeLevel={lightConeLevel}
-                    lightConeSuperimposition={lightConeSuperimposition}
-                    displayDimensions={displayDimensions}
-                    setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                    setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                    setCharacterModalAdd={setCharacterModalAdd}
-                  />
                 }
               </Flex>
             </Flex>
@@ -387,92 +360,19 @@ export function CharacterPreview(props: {
         </Flex>
       </Flex>
 
-      {source != ShowcaseSource.BUILDS_MODAL && (
-        <Flex vertical>
-          <Flex justify='center' gap={25}>
-            <Flex
-              justify='center'
-              style={{
-                paddingLeft: 20,
-                paddingRight: 5,
-                borderRadius: 7,
-                height: 40,
-                marginTop: 10,
-                backgroundColor: token.colorBgContainer + '85',
-              }}
-              align='center'
-            >
-              <Text style={{ width: 150 }}>
-                {t('CharacterPreview.AlgorithmSlider.Title')/* Scoring algorithm: */}
-              </Text>
-              <Segmented
-                style={{ width: 325, height: 30 }}
-                onChange={(selection) => {
-                  setScoringType(selection)
-                  window.store.getState().setSavedSessionKey(SavedSessionKeys.scoringType, selection)
-                  SaveState.delayedSave()
-                }}
-                value={scoringType}
-                block
-                options={[
-                  {
-                    label: characterMetadata.scoringMetadata.simulation == null
-                      ? t('CharacterPreview.AlgorithmSlider.Labels.CombatScoreTBD')/* Combat Score (TBD) */
-                      : t('CharacterPreview.AlgorithmSlider.Labels.CombatScore'), /* Combat Score */
-                    value: SIMULATION_SCORE,
-                    disabled: false,
-                  },
-                  {
-                    label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'), /* Stat Score */
-                    value: CHARACTER_SCORE,
-                    disabled: false,
-                  },
-                ]}
-              />
-            </Flex>
-
-            <Flex
-              justify='center'
-              style={{
-                paddingLeft: 20,
-                paddingRight: 5,
-                borderRadius: 7,
-                height: 40,
-                marginTop: 10,
-                backgroundColor: token.colorBgContainer + '85',
-              }}
-              align='center'
-            >
-              <Text style={{ width: 150 }}>
-                {t('CharacterPreview.DetailsSlider.Title')/* Combat score details: */}
-              </Text>
-              <Segmented
-                style={{ width: 325, height: 30 }}
-                onChange={(selection) => {
-                  setCombatScoreDetails(selection)
-                  window.store.getState().setSavedSessionKey(SavedSessionKeys.combatScoreDetails, selection)
-                  SaveState.delayedSave()
-                }}
-                value={combatScoreDetails}
-                block
-                options={[
-                  {
-                    label: t('CharacterPreview.DetailsSlider.Labels.CombatStats'), /* Combat Stats */
-                    value: COMBAT_STATS,
-                    disabled: characterMetadata.scoringMetadata.simulation == null || scoringType == CHARACTER_SCORE,
-                  },
-                  {
-                    label: t('CharacterPreview.DetailsSlider.Labels.DMGUpgrades'), /* Damage Upgrades */
-                    value: DAMAGE_UPGRADES,
-                    disabled: characterMetadata.scoringMetadata.simulation == null || scoringType == CHARACTER_SCORE,
-                  },
-                ]}
-              />
-            </Flex>
-          </Flex>
-          <CharacterScoringSummary simScoringResult={simScoringResult}/>
-        </Flex>
-      )}
+      {
+        source != ShowcaseSource.BUILDS_MODAL && (
+          <ShowcaseBuildAnalysis
+            token={token}
+            simScoringResult={simScoringResult as SimulationScore}
+            combatScoreDetails={combatScoreDetails}
+            characterMetadata={characterMetadata}
+            scoringType={scoringType}
+            setScoringType={setScoringType}
+            setCombatScoreDetails={setCombatScoreDetails}
+          />
+        )
+      }
     </Flex>
   )
 }

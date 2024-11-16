@@ -22,7 +22,7 @@ import { Trans, useTranslation } from 'react-i18next'
 // FIXME MED
 
 export const CharacterScoringSummary = (props: {
-  simScoringResult: SimulationScore
+  simScoringResult?: SimulationScore
 }) => {
   const result = TsUtils.clone(props.simScoringResult)
   const { t, i18n } = useTranslation(['charactersTab', 'common'])

@@ -246,8 +246,7 @@ export function CharacterPreview(props: {
             open={addModalOpen}
           />
 
-          {
-            source != ShowcaseSource.BUILDS_MODAL &&
+          {source != ShowcaseSource.BUILDS_MODAL &&
             <Flex vertical gap={12} className='character-build-portrait'>
               <ShowcasePortrait
                 source={source}
@@ -264,23 +263,20 @@ export function CharacterPreview(props: {
                 setCharacterModalAdd={setCharacterModalAdd}
               />
 
-              {
-                simScoringResult
-                && (
-                  <ShowcaseLightConeSmall
-                    source={source}
-                    character={character}
-                    lightConeSrc={lightConeSrc}
-                    lightConeName={lightConeName}
-                    lightConeLevel={lightConeLevel}
-                    lightConeSuperimposition={lightConeSuperimposition}
-                    displayDimensions={displayDimensions}
-                    setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                    setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                    setCharacterModalAdd={setCharacterModalAdd}
-                  />
-                )
-              }
+              {simScoringResult && (
+                <ShowcaseLightConeSmall
+                  source={source}
+                  character={character}
+                  lightConeSrc={lightConeSrc}
+                  lightConeName={lightConeName}
+                  lightConeLevel={lightConeLevel}
+                  lightConeSuperimposition={lightConeSuperimposition}
+                  displayDimensions={displayDimensions}
+                  setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                  setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+                  setCharacterModalAdd={setCharacterModalAdd}
+                />
+              )}
             </Flex>
           }
 
@@ -307,43 +303,36 @@ export function CharacterPreview(props: {
                   simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
                 />
 
-                {
-                  simScoringResult &&
-                  (
-                    <ShowcaseDpsScorePanel
-                      characterId={characterId}
-                      token={token}
-                      simScoringResult={simScoringResult}
-                      teamSelection={teamSelection}
-                      combatScoreDetails={combatScoreDetails}
-                      displayRelics={displayRelics}
-                      setTeamSelection={setTeamSelection}
-                    />
-                  )
-                }
+                {simScoringResult && <>
+                  <ShowcaseDpsScorePanel
+                    characterId={characterId}
+                    token={token}
+                    simScoringResult={simScoringResult}
+                    teamSelection={teamSelection}
+                    combatScoreDetails={combatScoreDetails}
+                    displayRelics={displayRelics}
+                    setTeamSelection={setTeamSelection}
+                  />
+                </>}
 
-                {
-                  !simScoringResult && (
-                    <>
-                      <ShowcaseStatScore
-                        scoringResults={scoringResults}
-                      />
+                {!simScoringResult && <>
+                  <ShowcaseStatScore
+                    scoringResults={scoringResults}
+                  />
 
-                      <ShowcaseLightConeLarge
-                        source={source}
-                        character={character}
-                        lightConeSrc={lightConeSrc}
-                        lightConeName={lightConeName}
-                        lightConeLevel={lightConeLevel}
-                        lightConeSuperimposition={lightConeSuperimposition}
-                        displayDimensions={displayDimensions}
-                        setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                        setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                        setCharacterModalAdd={setCharacterModalAdd}
-                      />
-                    </>
-                  )
-                }
+                  <ShowcaseLightConeLarge
+                    source={source}
+                    character={character}
+                    lightConeSrc={lightConeSrc}
+                    lightConeName={lightConeName}
+                    lightConeLevel={lightConeLevel}
+                    lightConeSuperimposition={lightConeSuperimposition}
+                    displayDimensions={displayDimensions}
+                    setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                    setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+                    setCharacterModalAdd={setCharacterModalAdd}
+                  />
+                </>}
               </Flex>
             </Flex>
 
@@ -360,18 +349,16 @@ export function CharacterPreview(props: {
         </Flex>
       </Flex>
 
-      {
-        source != ShowcaseSource.BUILDS_MODAL && (
-          <ShowcaseBuildAnalysis
-            token={token}
-            simScoringResult={simScoringResult as SimulationScore}
-            combatScoreDetails={combatScoreDetails}
-            characterMetadata={characterMetadata}
-            scoringType={scoringType}
-            setScoringType={setScoringType}
-            setCombatScoreDetails={setCombatScoreDetails}
-          />
-        )
+      {source != ShowcaseSource.BUILDS_MODAL &&
+        <ShowcaseBuildAnalysis
+          token={token}
+          simScoringResult={simScoringResult as SimulationScore}
+          combatScoreDetails={combatScoreDetails}
+          characterMetadata={characterMetadata}
+          scoringType={scoringType}
+          setScoringType={setScoringType}
+          setCombatScoreDetails={setCombatScoreDetails}
+        />
       }
     </Flex>
   )

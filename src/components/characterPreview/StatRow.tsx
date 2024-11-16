@@ -72,7 +72,7 @@ const StatRow = (props: { stat: string; finalStats: object; value?: number }): J
     value1000thsPrecision = Utils.precisionRound(props.value).toFixed(3)
   } else if (stat == Constants.Stats.SPD) {
     const is1000thSpeed = checkSpeedInBreakpoint(value)
-    valueDisplay = is1000thSpeed ? Utils.precisionRound(value).toFixed(3) : valueDisplay = Utils.truncate10ths(Utils.precisionRound(value))
+    valueDisplay = is1000thSpeed ? Utils.precisionRound(value).toFixed(3) : valueDisplay = Utils.truncate10ths(Utils.precisionRound(value)).toFixed(1)
     value1000thsPrecision = Utils.precisionRound(value).toFixed(3)
   } else if (Utils.isFlat(stat)) {
     valueDisplay = Math.floor(value)

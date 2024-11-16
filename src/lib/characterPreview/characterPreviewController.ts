@@ -55,10 +55,10 @@ export function showcaseIsInactive(source: ShowcaseSource, activeKey: string) {
 
 export function getArtistName(character: Character) {
   const artistName = character?.portrait?.artistName ?? DB.getCharacterById(character?.id)?.portrait?.artistName
-  if (!artistName) return null
+  if (!artistName) return undefined
 
   const name = artistName.trim()
-  return name.length < 1 ? null : name
+  return name.length < 1 ? undefined : name
 }
 
 export function presetTeamSelectionDisplay(

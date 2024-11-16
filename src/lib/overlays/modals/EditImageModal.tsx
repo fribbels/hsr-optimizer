@@ -9,8 +9,6 @@ import Cropper from 'react-easy-crop'
 import { useTranslation } from 'react-i18next'
 import { CroppedArea, CustomImageConfig, CustomImageParams, CustomImagePayload, ImageDimensions } from 'types/customImage'
 
-// FIXME LOW
-
 const { Text } = Typography
 
 interface EditImageModalProps {

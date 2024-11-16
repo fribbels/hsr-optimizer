@@ -19,7 +19,7 @@ export function ShowcasePortraitLarge() {
 
 }
 
-export function ShowcasePortraitSmall(props: {
+export function ShowcasePortrait(props: {
   source: ShowcaseSource,
   character: Character,
   displayDimensions: ShowcaseDisplayDimensions,
@@ -28,7 +28,7 @@ export function ShowcasePortraitSmall(props: {
   setEditPortraitModalOpen: (b: boolean) => void
   onEditPortraitOk: (p: CustomImagePayload) => void
   simScoringResult: SimulationScore
-  artistName: string,
+  artistName: string | undefined,
   setOriginalCharacterModalInitialCharacter: (c: Character) => void,
   setOriginalCharacterModalOpen: (b: boolean) => void,
   setCharacterModalAdd: (b: boolean) => void,

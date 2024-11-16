@@ -7,7 +7,7 @@ import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import Rarity from 'lib/characterPreview/Rarity'
 import { ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
 import { ShowcaseLightConeLarge, ShowcaseLightConeSmall } from 'lib/characterPreview/ShowcaseLightCone'
-import { ShowcasePortraitSmall } from 'lib/characterPreview/ShowcasePortrait'
+import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import StatText from 'lib/characterPreview/StatText'
 import { BasicStatsObjectCV } from 'lib/conditionals/conditionalConstants'
@@ -117,11 +117,11 @@ export function CharacterPreview(props: {
   }
 
   function onEditPortraitOk(portraitPayload: CustomImagePayload) {
-    const { type, ...portrait } = portraitPayload
+    const { type, config } = portraitPayload
     switch (type) {
       case 'add':
-        setCustomPortrait(portrait)
-        DB.saveCharacterPortrait(character.id, portrait)
+        setCustomPortrait(config)
+        DB.saveCharacterPortrait(character.id, config)
         Message.success(t('CharacterPreview.Messages.SavedPortrait')/* Successfully saved portrait */)
         SaveState.delayedSave()
         break
@@ -253,9 +253,10 @@ export function CharacterPreview(props: {
             open={addModalOpen}
           />
 
-          <Flex vertical gap={12} className='character-build-portrait'>
-            {source != ShowcaseSource.BUILDS_MODAL && (
-              <ShowcasePortraitSmall
+          {
+            source != ShowcaseSource.BUILDS_MODAL &&
+            <Flex vertical gap={12} className='character-build-portrait'>
+              <ShowcasePortrait
                 source={source}
                 character={character}
                 displayDimensions={displayDimensions}
@@ -269,26 +270,26 @@ export function CharacterPreview(props: {
                 setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
                 setCharacterModalAdd={setCharacterModalAdd}
               />
-            )}
 
-            {
-              simScoringResult
-              && source != ShowcaseSource.BUILDS_MODAL && (
-                <ShowcaseLightConeSmall
-                  source={source}
-                  character={character}
-                  lightConeSrc={lightConeSrc}
-                  lightConeName={lightConeName}
-                  lightConeLevel={lightConeLevel}
-                  lightConeSuperimposition={lightConeSuperimposition}
-                  displayDimensions={displayDimensions}
-                  setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                  setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                  setCharacterModalAdd={setCharacterModalAdd}
-                />
-              )
-            }
-          </Flex>
+              {
+                simScoringResult
+                && (
+                  <ShowcaseLightConeSmall
+                    source={source}
+                    character={character}
+                    lightConeSrc={lightConeSrc}
+                    lightConeName={lightConeName}
+                    lightConeLevel={lightConeLevel}
+                    lightConeSuperimposition={lightConeSuperimposition}
+                    displayDimensions={displayDimensions}
+                    setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                    setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+                    setCharacterModalAdd={setCharacterModalAdd}
+                  />
+                )
+              }
+            </Flex>
+          }
 
           <Flex gap={defaultGap}>
             <Flex vertical gap={defaultGap} align='center' justify='space-between'>

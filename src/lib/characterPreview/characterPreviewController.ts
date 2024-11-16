@@ -1,5 +1,7 @@
+import { ShowcaseDisplayDimensions } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CUSTOM_TEAM, DEFAULT_TEAM, Parts } from 'lib/constants/constants'
+import { innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, parentH, parentW } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { RelicScorer, RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { AppPages, DB } from 'lib/state/db'
@@ -66,7 +68,7 @@ export function presetTeamSelectionDisplay(
   setCustomPortrait: (customPortrait: CustomImageConfig | undefined) => void,
 ) {
   // Use any existing character's portrait instead of the default
-  setCustomPortrait(DB.getCharacterById(character?.id)?.portrait ?? null)
+  setCustomPortrait(DB.getCharacterById(character?.id)?.portrait)
   if (!character?.id) return
 
   prevCharId.current = character.id
@@ -81,5 +83,41 @@ export function presetTeamSelectionDisplay(
     } else {
       setTeamSelection(DEFAULT_TEAM)
     }
+  }
+}
+
+export function getShowcaseDisplayDimensions(character: Character, simScore: boolean): ShowcaseDisplayDimensions {
+  const newLcMargin = 5
+  const newLcHeight = 125
+
+  // Some APIs return empty light cone as '0'
+  const charCenter = DB.getMetadata().characters[character.id].imageCenter
+  const lcCenter = (character.form.lightCone && character.form.lightCone != '0')
+    ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter
+    : 0
+
+  const tempLcParentW = simScore ? parentW : lcParentW
+
+  const tempLcParentH = simScore ? newLcHeight : lcParentH
+  const tempLcInnerW = simScore ? parentW + 16 : lcInnerW
+
+  const tempLcInnerH = simScore ? 1260 / 902 * tempLcInnerW : lcInnerH
+
+  const tempParentH = simScore ? parentH - newLcHeight - newLcMargin : parentH
+
+  // Since the lc takes some space, we want to zoom the portrait out
+  const tempInnerW = simScore ? 950 : innerW
+
+  return {
+    tempLcParentW: tempLcParentW,
+    tempLcParentH: tempLcParentH,
+    tempLcInnerW: tempLcInnerW,
+    tempLcInnerH: tempLcInnerH,
+    tempInnerW: tempInnerW,
+    tempParentH: tempParentH,
+    newLcHeight: newLcHeight,
+    newLcMargin: newLcMargin,
+    charCenter: charCenter,
+    lcCenter: lcCenter,
   }
 }

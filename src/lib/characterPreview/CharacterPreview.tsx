@@ -1,22 +1,21 @@
-import { EditOutlined } from '@ant-design/icons'
-import { Button, Flex, Image, Segmented, theme, Typography } from 'antd'
-import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
-import { showcaseButtonStyle, showcaseDropShadowFilter, showcaseOutline, showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { getArtistName, getPreviewRelics, presetTeamSelectionDisplay, showcaseIsInactive } from 'lib/characterPreview/characterPreviewController'
+import { Flex, Image, Segmented, theme, Typography } from 'antd'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { getArtistName, getPreviewRelics, getShowcaseDisplayDimensions, presetTeamSelectionDisplay, showcaseIsInactive } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 
 import Rarity from 'lib/characterPreview/Rarity'
 import { ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
+import { ShowcaseLightConeLarge, ShowcaseLightConeSmall } from 'lib/characterPreview/ShowcaseLightCone'
+import { ShowcasePortraitSmall } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import StatText from 'lib/characterPreview/StatText'
 import { BasicStatsObjectCV } from 'lib/conditionals/conditionalConstants'
 import { CHARACTER_SCORE, COMBAT_STATS, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, ElementToDamage, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleColumnWidth, parentH, parentW } from 'lib/constants/constantsUi'
+import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import { Message } from 'lib/interactions/message'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
-import EditImageModal from 'lib/overlays/modals/EditImageModal'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicFilters } from 'lib/relics/relicFilters'
@@ -26,16 +25,29 @@ import { scoreCharacterSimulation } from 'lib/scoring/characterScorer'
 import { DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import { Utils } from 'lib/utils/utils'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
-import { CustomImageConfig } from 'types/customImage'
+import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
+import { ImageCenter } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 const { useToken } = theme
 const { Text } = Typography
+
+export type ShowcaseDisplayDimensions = {
+  tempLcParentW: number
+  tempLcParentH: number
+  tempLcInnerW: number
+  tempLcInnerH: number
+  tempInnerW: number
+  tempParentH: number
+  newLcHeight: number
+  newLcMargin: number
+  lcCenter: number
+  charCenter: ImageCenter
+}
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 export function CharacterPreview(props: {
@@ -104,11 +116,11 @@ export function CharacterPreview(props: {
     Message.success(t('CharacterPreview.Messages.AddedRelic')/* Successfully added relic */)
   }
 
-  function onEditPortraitOk(portraitPayload) {
+  function onEditPortraitOk(portraitPayload: CustomImagePayload) {
     const { type, ...portrait } = portraitPayload
     switch (type) {
       case 'add':
-        setCustomPortrait({ ...portrait })
+        setCustomPortrait(portrait)
         DB.saveCharacterPortrait(character.id, portrait)
         Message.success(t('CharacterPreview.Messages.SavedPortrait')/* Successfully saved portrait */)
         SaveState.delayedSave()
@@ -197,6 +209,13 @@ export function CharacterPreview(props: {
 
   const scoredRelics = scoringResults.relics || []
 
+  const displayDimensions: ShowcaseDisplayDimensions = getShowcaseDisplayDimensions(character, Boolean(simScoringResult))
+  const {
+    tempInnerW,
+    tempParentH,
+    charCenter,
+  } = displayDimensions
+
   const lightConeId = character.form.lightCone
   const lightConeLevel = 80
   const lightConeSuperimposition = character.form.lightConeSuperimposition
@@ -208,29 +227,6 @@ export function CharacterPreview(props: {
   const characterEidolon = character.form.characterEidolon
   const characterName = characterId ? t(`gameData:Characters.${characterId}.Name` as never) : ''
   const characterPath = characterMetadata.path
-  // console.log(displayRelics)
-
-  // Temporary w/h overrides while we're split between sim scoring and weight scoring
-  const newLcMargin = 5
-  const newLcHeight = 125
-  // Some APIs return empty light cone as '0'
-  const charCenter = DB.getMetadata().characters[character.id].imageCenter
-
-  const lcCenter = (character.form.lightCone && character.form.lightCone != '0')
-    ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter
-    : 0
-
-  const tempLcParentW = simScoringResult ? parentW : lcParentW
-
-  const tempLcParentH = simScoringResult ? newLcHeight : lcParentH
-  const tempLcInnerW = simScoringResult ? parentW + 16 : lcInnerW
-
-  const tempLcInnerH = simScoringResult ? 1260 / 902 * tempLcInnerW : lcInnerH
-
-  const tempParentH = simScoringResult ? parentH - newLcHeight - newLcMargin : parentH
-
-  // Since the lc takes some space, we want to zoom the portrait out
-  const tempInnerW = simScoringResult ? 950 : innerW
 
   return (
     <Flex vertical>
@@ -259,191 +255,37 @@ export function CharacterPreview(props: {
 
           <Flex vertical gap={12} className='character-build-portrait'>
             {source != ShowcaseSource.BUILDS_MODAL && (
-              <div
-                style={{
-                  width: `${parentW}px`,
-                  height: `${tempParentH}px`,
-                  overflow: 'hidden',
-                  borderRadius: '8px',
-                  marginRight: defaultGap,
-                  outline: showcaseOutline,
-                  filter: showcaseDropShadowFilter,
-                  position: 'relative',
-                }}
-              >
-                {
-                  (character.portrait || customPortrait)
-                    ? (
-                      <CharacterCustomPortrait
-                        customPortrait={customPortrait ?? character.portrait!}
-                        parentW={parentW}
-                      />
-                    )
-                    : (
-                      <LoadingBlurredImage
-                        src={Assets.getCharacterPortraitById(character.id)}
-                        style={{
-                          position: 'absolute',
-                          left: -charCenter.x * charCenter.z / 2 * tempInnerW / 1024 + parentW / 2,
-                          top: -charCenter.y * charCenter.z / 2 * tempInnerW / 1024 + tempParentH / 2,
-                          width: tempInnerW * charCenter.z,
-                        }}
-                      />
-                    )
-                }
-                <Flex vertical style={{ width: 'max-content', marginLeft: 6, marginTop: 6 }} gap={7}>
-                  {source != ShowcaseSource.SHOWCASE_TAB && (
-                    <Button
-                      style={showcaseButtonStyle}
-                      className='character-build-portrait-button'
-                      icon={<EditOutlined/>}
-                      onClick={() => {
-                        setCharacterModalAdd(false)
-                        setOriginalCharacterModalInitialCharacter(character)
-                        setOriginalCharacterModalOpen(true)
-                      }}
-                      type='primary'
-                    >
-                      {t('CharacterPreview.EditCharacter')/* Edit character */}
-                    </Button>
-                  )}
-                  {source == ShowcaseSource.SHOWCASE_TAB && (
-                    <Button
-                      style={showcaseButtonStyle}
-                      className='character-build-portrait-button'
-                      icon={<EditOutlined/>}
-                      onClick={() => {
-                        setOriginalCharacterModalInitialCharacter(character)
-                        setOriginalCharacterModalOpen(true)
-                      }}
-                      type='primary'
-                    >
-                      {t('CharacterPreview.EditCharacter')/* Edit character */}
-                    </Button>
-                  )}
-                  <Button
-                    style={showcaseButtonStyle}
-                    className='character-build-portrait-button'
-                    icon={<EditOutlined/>}
-                    onClick={() => setEditPortraitModalOpen(true)}
-                    type='primary'
-                  >
-                    {t('CharacterPreview.EditPortrait')/* Edit portrait */}
-                  </Button>
-                </Flex>
-                <EditImageModal
-                  title={t('CharacterPreview.EditPortrait')/* Edit portrait */}
-                  aspectRatio={parentW / parentH}
-                  existingConfig={customPortrait ?? character.portrait}
-                  open={editPortraitModalOpen}
-                  setOpen={setEditPortraitModalOpen}
-                  onOk={onEditPortraitOk}
-                  defaultImageUrl={Assets.getCharacterPortraitById(character.id)}
-                  width={500}
-                />
-                <Flex
-                  vertical
-                  style={{
-                    position: 'relative',
-                    top: simScoringResult ? tempParentH - 118 : tempParentH - 111,
-                    height: 34,
-                    paddingLeft: 4,
-                    display: artistName ? 'flex' : 'none',
-                  }}
-                  align='flex-start'
-                >
-                  <Text
-                    style={{
-                      backgroundColor: 'rgb(0 0 0 / 40%)',
-                      padding: '4px 12px',
-                      borderRadius: 8,
-                      fontSize: 14,
-                      maxWidth: parentW - 150,
-                      textOverflow: 'ellipsis',
-                      overflow: 'hidden',
-                      whiteSpace: 'nowrap',
-                      zIndex: 2,
-                      textShadow: '0px 0px 10px black',
-                    }}
-                  >
-                    {t('CharacterPreview.ArtBy', { artistName: artistName || '' })/* Art by {{artistName}} */}
-                  </Text>
-                </Flex>
-              </div>
+              <ShowcasePortraitSmall
+                source={source}
+                character={character}
+                displayDimensions={displayDimensions}
+                customPortrait={customPortrait}
+                editPortraitModalOpen={editPortraitModalOpen}
+                setEditPortraitModalOpen={setEditPortraitModalOpen}
+                onEditPortraitOk={onEditPortraitOk}
+                simScoringResult={simScoringResult}
+                artistName={artistName}
+                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+                setCharacterModalAdd={setCharacterModalAdd}
+              />
             )}
 
             {
               simScoringResult
               && source != ShowcaseSource.BUILDS_MODAL && (
-                <Flex vertical>
-                  {lightConeName && (
-                    <Flex
-                      vertical
-                      style={{
-                        position: 'relative',
-                        height: 0,
-                        top: newLcHeight - 35,
-                        // top: newLcHeight - 221, // top right
-                        paddingRight: 12,
-                      }}
-                      align='flex-end'
-                    >
-                      <Text
-                        style={{
-                          position: 'absolute',
-                          height: 30,
-                          backgroundColor: 'rgb(0 0 0 / 70%)',
-                          padding: '4px 12px',
-                          borderRadius: 8,
-                          fontSize: 14,
-                          maxWidth: parentW - 50,
-                          textOverflow: 'ellipsis',
-                          overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          zIndex: 3,
-                          textShadow: '0px 0px 10px black',
-                          outline: showcaseOutline,
-                          boxShadow: showcaseShadow,
-                        }}
-                      >
-                        {`${t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })} - ${lightConeName}`}
-                      </Text>
-                    </Flex>
-                  )}
-                  <Flex
-                    className='lightConeCard'
-                    style={{
-                      width: `${tempLcParentW}px`,
-                      height: `${tempLcParentH}px`,
-                      overflow: 'hidden',
-                      zIndex: 2,
-                      borderRadius: '8px',
-                      outline: showcaseOutline,
-                      filter: showcaseDropShadowFilter,
-                      position: 'relative',
-                    }}
-                    onClick={() => {
-                      if (source == ShowcaseSource.SHOWCASE_TAB) {
-                        setOriginalCharacterModalInitialCharacter(character)
-                        setOriginalCharacterModalOpen(true)
-                      } else {
-                        setCharacterModalAdd(false)
-                        setOriginalCharacterModalInitialCharacter(character)
-                        setOriginalCharacterModalOpen(true)
-                      }
-                    }}
-                  >
-                    <LoadingBlurredImage
-                      src={lightConeSrc}
-                      style={{
-                        position: 'absolute',
-                        width: 420,
-                        top: -lcCenter + newLcHeight / 2,
-                        left: -8,
-                      }}
-                    />
-                  </Flex>
-                </Flex>
+                <ShowcaseLightConeSmall
+                  source={source}
+                  character={character}
+                  lightConeSrc={lightConeSrc}
+                  lightConeName={lightConeName}
+                  lightConeLevel={lightConeLevel}
+                  lightConeSuperimposition={lightConeSuperimposition}
+                  displayDimensions={displayDimensions}
+                  setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                  setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+                  setCharacterModalAdd={setCharacterModalAdd}
+                />
               )
             }
           </Flex>
@@ -514,55 +356,19 @@ export function CharacterPreview(props: {
                   )
                 }
                 {
-                  !simScoringResult
-                  && (
-                    <Flex vertical style={{ width: middleColumnWidth }}>
-                      <Flex vertical>
-                        <StatText
-                          style={{ fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center' }}
-                          ellipsis={true}
-                        >
-                          {`${lightConeName}`}
-                          &nbsp;
-                        </StatText>
-                        <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
-                          {
-                            `${t('common:LevelShort', { level: lightConeLevel })} ${t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })}`
-                            /* Lv 80 S5 */
-                          }
-                        </StatText>
-                      </Flex>
-                      <div
-                        className='lightConeCard'
-                        style={{
-                          width: `${tempLcParentW}px`,
-                          height: `${tempLcParentH}px`,
-                          overflow: 'hidden',
-                          borderRadius: '8px',
-                          outline: showcaseOutline,
-                          filter: showcaseDropShadowFilter,
-                        }}
-                        onClick={() => {
-                          if (source == ShowcaseSource.SHOWCASE_TAB) {
-                            setOriginalCharacterModalInitialCharacter(character)
-                            setOriginalCharacterModalOpen(true)
-                          } else {
-                            setCharacterModalAdd(false)
-                            setOriginalCharacterModalInitialCharacter(character)
-                            setOriginalCharacterModalOpen(true)
-                          }
-                        }}
-                      >
-                        <LoadingBlurredImage
-                          src={lightConeSrc}
-                          style={{
-                            width: tempLcInnerW,
-                            transform: `translate(${(tempLcInnerW - tempLcParentW) / 2 / tempLcInnerW * -100}%, ${(tempLcInnerH - tempLcParentH) / 2 / tempLcInnerH * -100 + 8}%)`, // Magic # 8 to fit certain LCs
-                          }}
-                        />
-                      </div>
-                    </Flex>
-                  )
+                  !simScoringResult &&
+                  <ShowcaseLightConeLarge
+                    source={source}
+                    character={character}
+                    lightConeSrc={lightConeSrc}
+                    lightConeName={lightConeName}
+                    lightConeLevel={lightConeLevel}
+                    lightConeSuperimposition={lightConeSuperimposition}
+                    displayDimensions={displayDimensions}
+                    setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                    setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+                    setCharacterModalAdd={setCharacterModalAdd}
+                  />
                 }
               </Flex>
             </Flex>

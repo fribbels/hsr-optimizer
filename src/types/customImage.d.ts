@@ -30,7 +30,6 @@ export type CustomImageConfig = {
 }
 
 export type CustomImagePayload = {
-  type: 'add'
-} & CustomImageConfig | {
-  type: 'delete'
+  type: 'add' | 'delete'
+  config: CustomImageConfig
 }

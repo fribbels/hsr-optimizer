@@ -1,6 +1,7 @@
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CUSTOM_TEAM, DEFAULT_TEAM, Parts } from 'lib/constants/constants'
-import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { RelicScorer, RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { AppPages, DB } from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
 import { MutableRefObject } from 'react'
@@ -9,23 +10,23 @@ import { CustomImageConfig } from 'types/customImage'
 import { Relic } from 'types/relic'
 
 type ScoringResults = {
-  relics: Relic[]
+  relics: RelicScoringResult[]
   totalScore: number
   totalRating: string
 }
 
 export function getPreviewRelics(source: ShowcaseSource, character: Character, relicsById: Record<string, Relic>) {
   let scoringResults: ScoringResults
-  let displayRelics
+  let displayRelics: SingleRelicByPart
   if (source == ShowcaseSource.CHARACTER_TAB) {
     scoringResults = RelicScorer.scoreCharacter(character) as ScoringResults
     displayRelics = {
-      Head: getRelic(relicsById, character, Parts.Head), // relicsById[character.equipped?.Head],
-      Hands: getRelic(relicsById, character, Parts.Hands), // relicsById[character.equipped?.Hands],
-      Body: getRelic(relicsById, character, Parts.Body), // relicsById[character.equipped?.Body],
-      Feet: getRelic(relicsById, character, Parts.Feet), // relicsById[character.equipped?.Feet],
-      PlanarSphere: getRelic(relicsById, character, Parts.PlanarSphere), // relicsById[character.equipped?.PlanarSphere],
-      LinkRope: getRelic(relicsById, character, Parts.LinkRope), // relicsById[character.equipped?.LinkRope],
+      Head: getRelic(relicsById, character, Parts.Head)!, // relicsById[character.equipped?.Head],
+      Hands: getRelic(relicsById, character, Parts.Hands)!, // relicsById[character.equipped?.Hands],
+      Body: getRelic(relicsById, character, Parts.Body)!, // relicsById[character.equipped?.Body],
+      Feet: getRelic(relicsById, character, Parts.Feet)!, // relicsById[character.equipped?.Feet],
+      PlanarSphere: getRelic(relicsById, character, Parts.PlanarSphere)!, // relicsById[character.equipped?.PlanarSphere],
+      LinkRope: getRelic(relicsById, character, Parts.LinkRope)!, // relicsById[character.equipped?.LinkRope],
     }
   } else {
     const relicsArray = Object.values(character.equipped)

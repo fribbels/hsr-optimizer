@@ -17,7 +17,7 @@ export function RelicPreview(props: {
   characterId?: string
   score?: RelicScoringResult
   setEditModalOpen?: (open: boolean) => void
-  setAddModelOpen?: (open: boolean) => void
+  setAddModalOpen?: (open: boolean) => void
   setSelectedRelic: (relic: Relic) => void
 }) {
   const { t } = useTranslation('common')
@@ -26,7 +26,7 @@ export function RelicPreview(props: {
     characterId,
     score,
     setEditModalOpen,
-    setAddModelOpen,
+    setAddModalOpen,
     setSelectedRelic,
   } = props
   const placeholderRelic: Partial<Relic> = {
@@ -56,7 +56,7 @@ export function RelicPreview(props: {
       relic.enhance = 15
       relic.grade = 5
       setSelectedRelic(relic)
-      setAddModelOpen?.(true)
+      setAddModalOpen?.(true)
     } else {
       setSelectedRelic(relic)
       setEditModalOpen?.(true)

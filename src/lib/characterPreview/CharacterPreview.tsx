@@ -1,14 +1,14 @@
 import { EditOutlined, SettingOutlined, SwapOutlined, SyncOutlined } from '@ant-design/icons'
 import { Button, Card, Flex, Image, Segmented, theme, Typography } from 'antd'
 import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
-import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { ShowcaseRelicPreview, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { getArtistName, getPreviewRelics, presetTeamSelectionDisplay, showcaseIsInactive } from 'lib/characterPreview/characterPreviewController'
 import { CharacterCardCombatStats, CharacterCardScoringStatUpgrades, CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 
 import Rarity from 'lib/characterPreview/Rarity'
 import StatText from 'lib/characterPreview/StatText'
-import { CHARACTER_SCORE, COMBAT_STATS, Constants, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, ElementToDamage, SETTINGS_TEAM, SIMULATION_SCORE } from 'lib/constants/constants'
+import { CHARACTER_SCORE, COMBAT_STATS, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, ElementToDamage, SETTINGS_TEAM, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleColumnWidth, parentH, parentW } from 'lib/constants/constantsUi'
 import { Message } from 'lib/interactions/message'
@@ -24,7 +24,6 @@ import { getSimScoreGrade, scoreCharacterSimulation } from 'lib/scoring/characte
 import { DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import { Utils } from 'lib/utils/utils'
@@ -32,6 +31,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 import { CustomImageConfig } from 'types/customImage'
+import { Relic } from 'types/relic'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -68,7 +68,7 @@ export function CharacterPreview(props: {
   const { token } = useToken()
 
   const relicsById = window.store((s) => s.relicsById)
-  const [selectedRelic, setSelectedRelic] = useState()
+  const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
@@ -101,12 +101,12 @@ export function CharacterPreview(props: {
     return <></>
   }
 
-  function onEditOk(relic) {
+  function onEditOk(relic: Relic) {
     const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
     setSelectedRelic(updatedRelic)
   }
 
-  function onAddOk(relic) {
+  function onAddOk(relic: Relic) {
     DB.setRelic(relic)
     setRelicRows(DB.getRelics())
     SaveState.delayedSave()
@@ -828,65 +828,15 @@ export function CharacterPreview(props: {
               </Flex>
             </Flex>
 
-            <Flex vertical gap={defaultGap}>
-              <RelicPreview
-                setEditModalOpen={setEditModalOpen}
-                setSelectedRelic={setSelectedRelic}
-                setAddModelOpen={setAddModalOpen}
-                relic={{ ...displayRelics.Head, part: Constants.Parts.Head }}
-                source={props.source}
-                characterId={characterId}
-                score={scoredRelics.find((x) => x.part == Constants.Parts.Head)}
-              />
-              <RelicPreview
-                setEditModalOpen={setEditModalOpen}
-                setSelectedRelic={setSelectedRelic}
-                setAddModelOpen={setAddModalOpen}
-                relic={{ ...displayRelics.Body, part: Constants.Parts.Body }}
-                source={props.source}
-                characterId={characterId}
-                score={scoredRelics.find((x) => x.part == Constants.Parts.Body)}
-              />
-              <RelicPreview
-                setEditModalOpen={setEditModalOpen}
-                setSelectedRelic={setSelectedRelic}
-                setAddModelOpen={setAddModalOpen}
-                relic={{ ...displayRelics.PlanarSphere, part: Constants.Parts.PlanarSphere }}
-                source={props.source}
-                characterId={characterId}
-                score={scoredRelics.find((x) => x.part == Constants.Parts.PlanarSphere)}
-              />
-            </Flex>
-
-            <Flex vertical gap={defaultGap}>
-              <RelicPreview
-                setEditModalOpen={setEditModalOpen}
-                setSelectedRelic={setSelectedRelic}
-                setAddModelOpen={setAddModalOpen}
-                relic={{ ...displayRelics.Hands, part: Constants.Parts.Hands }}
-                source={props.source}
-                characterId={characterId}
-                score={scoredRelics.find((x) => x.part == Constants.Parts.Hands)}
-              />
-              <RelicPreview
-                setEditModalOpen={setEditModalOpen}
-                setSelectedRelic={setSelectedRelic}
-                setAddModelOpen={setAddModalOpen}
-                relic={{ ...displayRelics.Feet, part: Constants.Parts.Feet }}
-                source={props.source}
-                characterId={characterId}
-                score={scoredRelics.find((x) => x.part == Constants.Parts.Feet)}
-              />
-              <RelicPreview
-                setEditModalOpen={setEditModalOpen}
-                setSelectedRelic={setSelectedRelic}
-                setAddModelOpen={setAddModalOpen}
-                relic={{ ...displayRelics.LinkRope, part: Constants.Parts.LinkRope }}
-                source={props.source}
-                characterId={characterId}
-                score={scoredRelics.find((x) => x.part == Constants.Parts.LinkRope)}
-              />
-            </Flex>
+            <ShowcaseRelicPreview
+              setSelectedRelic={setSelectedRelic}
+              setEditModalOpen={setEditModalOpen}
+              setAddModalOpen={setAddModalOpen}
+              displayRelics={displayRelics}
+              source={source}
+              characterId={characterId}
+              scoredRelics={scoredRelics}
+            />
           </Flex>
         </Flex>
       </Flex>
@@ -980,12 +930,6 @@ export function CharacterPreview(props: {
     </Flex>
   )
 }
-
-// CharacterPreview.propTypes = {
-//   source: PropTypes.string,
-//   character: PropTypes.object,
-//   id: PropTypes.string,
-// }
 
 function OverlayText(props) {
   const top = props.top

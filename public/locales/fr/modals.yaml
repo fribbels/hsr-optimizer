@@ -1,6 +1,6 @@
 Scoring:
   StatWeightsHeader: Poids des stats
-  MainstatsHeader: Stats principales optimales
+  MainstatsHeader: Mainstats optimales
   WeightMethodology:
     Header: Comment est calculée la note de stat?
   Footer:
@@ -19,21 +19,21 @@ Scoring:
       ButtonText: Ouvrir l'onglet d'importateur
       SuccessMessage: Choisissez une méthode d'importation et importez vos reliques et vos personnages
     Body_MAIN:
-      Description: "Le filtre de stat principale pour le $t(common:Parts.Body) pourrait être trop restrictif"
-      ButtonText: "Effacer le filtre de stat principale pour le $t(common:Parts.Body)"
-      SuccessMessage: "Filtre de stat principale pour le $t(common:Parts.Body) effacé"
+      Description: "Le filtre de mainstat pour le $t(common:Parts.Body) pourrait être trop restrictif"
+      ButtonText: "Effacer le filtre de mainstat pour le $t(common:Parts.Body)"
+      SuccessMessage: "Filtre de mainstat pour le $t(common:Parts.Body) effacé"
     Feet_MAIN:
-      Description: "Le filtre de stat principale pour les $t(common:Parts.Feet) pourrait être trop restrictif"
-      ButtonText: "Effacer le filtre de stat principale pour les $t(common:Parts.Feet)"
-      SuccessMessage: "Filtre de stat principale pour les $t(common:Parts.Feet) effacé"
+      Description: "Le filtre de mainstat pour les $t(common:Parts.Feet) pourrait être trop restrictif"
+      ButtonText: "Effacer le filtre de mainstat pour les $t(common:Parts.Feet)"
+      SuccessMessage: "Filtre de mainstat pour les $t(common:Parts.Feet) effacé"
     PlanarSphere_MAIN:
-      Description: "Le filtre de stat principale pour la $t(common:Parts.PlanarSphere) pourrait être trop restrictif"
-      ButtonText: "Effacer le filtre de stat principale pour la $t(common:Parts.PlanarSphere)"
-      SuccessMessage: "Filtre de stat principale pour la $t(common:Parts.PlanarSphere) effacé"
+      Description: "Le filtre de mainstat pour la $t(common:Parts.PlanarSphere) pourrait être trop restrictif"
+      ButtonText: "Effacer le filtre de mainstat pour la $t(common:Parts.PlanarSphere)"
+      SuccessMessage: "Filtre de mainstat pour la $t(common:Parts.PlanarSphere) effacé"
     LinkRope_MAIN:
-      Description: "Le filtre de stat principale pour la $t(common:Parts.LinkRope) pourrait être trop restrictif"
-      ButtonText: "Effacer le filtre de stat principale pour la $t(common:Parts.LinkRope)"
-      SuccessMessage: "Filtre de stat principale pour la $t(common:Parts.LinkRope) effacé"
+      Description: "Le filtre de mainstat pour la $t(common:Parts.LinkRope) pourrait être trop restrictif"
+      ButtonText: "Effacer le filtre de mainstat pour la $t(common:Parts.LinkRope)"
+      SuccessMessage: "Filtre de mainstat pour la $t(common:Parts.LinkRope) effacé"
     RELIC_SETS:
       Description: Le filtre d'ensemble de reliques est peut-être trop restrictif
       ButtonText: Effacer le filtre d'ensembles de reliques
@@ -59,7 +59,7 @@ Scoring:
       ButtonText: Activer l'option "Permettre reliques équipées"
       SuccessMessage: Option "Permettre reliques équipées" activée
     MINIMUM_ROLLS:
-      Description: Le filtre de poids des stats secondaires a peut-être un seuil de rolls minimum trop élevé
+      Description: Le filtre de poids des substats a peut-être un seuil de rolls minimum trop élevé
       ButtonText: Régler le nombre minimum de rolls à 0
       SuccessMessage: Régler le nombre minimum de rolls à 0
 0Results:
@@ -236,7 +236,7 @@ Scoring:
 ManyPerms:
   Title: Recherche très importante demandée
   Text: >-
-    Cette recherche d'optimisation prendra beaucoup de temps à se terminer. Vous pouvez activer l'accélération GPU ou limiter la recherche à certaines stats principales / ensembles, ou utilisez le filtre de poids de stats secondaires pour réduire le nombre de permutations.
+    Cette recherche d'optimisation prendra beaucoup de temps à se terminer. Vous pouvez activer l'accélération GPU ou limiter la recherche à certaines mainstats / ensembles, ou utilisez le filtre de poids de substats pour réduire le nombre de permutations.
   Cancel: Annuler la recherche
   Proceed: Commencer la recherche
 EditCharacter:
@@ -251,15 +251,15 @@ Relic:
   Wearer: Equipée par
   Set: Ensemble
   Enhance: Niveau / Grade
-  Mainstat: Stat principale
-  Substat: Stats secondaires
-  Upgrades: Améliorations de stat secondaires
+  Mainstat: Mainstat
+  Substat: Substats
+  Upgrades: Améliorations de substats
   Messages:
     SubmitFail: Échec de soumission!
     EditSuccess: Relique modifiée avec succès
     Error:
       PartMissing: Le champ "pièce" est absent
-      MainstatMissing: La stat principale est manquante
+      MainstatMissing: La mainstat est manquante
       SetMissing: Le champ "Ensemble" est manquant
       EnhanceMissing: Le champ "niveau" est manquant
       GradeMissing: Le champ "grade" est manquant
@@ -269,14 +269,14 @@ Relic:
       SetInvalid: L'ensemble sélectionné est invalide
       SetNotOrnament: L'ensemble sélectionné n'est pas un ensemble d'ornement
       SetNotRelic: L'ensemble sélectionné n'est pas un ensemble de relique
-      SubNInvalid: "Stat secondaire {{number}} est invalide"
-      SubsOutOfOrder: Les stats secondaires ne sont pas dans le bon ordre
-      DuplicateSubs: Stats secondaires dupliquées, seulement une ligne de chaque stat est autorisée
-      MainAsSub: Stat  secondaire de même type que la stat principale
-      SubTooBig: Stat secondaire de valeur trop élevée
-      MainTooBig: Stat principale de valeur trop élevée
-      SubTooSmall: Les stats secondaires doivent être de valeur positive
-      MainTooSmall: La stats principale doit être de valeur positive
+      SubNInvalid: "Substat {{number}} est invalide"
+      SubsOutOfOrder: Les substats ne sont pas dans le bon ordre
+      DuplicateSubs: Substats dupliquées, seulement une ligne de chaque stat est autorisée
+      MainAsSub: Substat de même type que la stat principale
+      SubTooBig: Substat de valeur trop élevée
+      MainTooBig: Mainstat de valeur trop élevée
+      SubTooSmall: Les substats doivent être de valeur positive
+      MainTooSmall: La mainstat doit être de valeur positive
 EditImage:
   DefaultTitle: Modifier l'image
   Upload:

@@ -57,7 +57,7 @@ Relics:
     Note - Potential is a percent rating which compares a relic to the best possible +15 relic for the current character in the slot. This rating is based off the scoring algorithm weights. This means
     unrolled relics at +0 sometimes have a higher potential than existing +15 relics, because their possible rolls can go into the character's desired stats.
   p2: "Selected character: Score - The relic's current score as defined by the scoring algorithm for the currently selected character"
-  p3: "Selected character: Average potential - The relic's potential at it's maximum level, averaged across all the possible rolls it could have on the way to +15"
+  p3: "Selected character: Average potential - The relic's potential at its maximum level, averaged across all the possible rolls it could have on the way to +15"
   p4: "Selected character: Max potential - The relic's maximum potential if all future rolls went into the character's desired stats"
   p5: "All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game."
 OptimizationDetails:

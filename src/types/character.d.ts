@@ -1,6 +1,6 @@
 import { Parts } from 'lib/constants/constants'
+import { CustomImageConfig } from 'types/customImage'
 import { Form } from 'types/form'
-import { CustomPortrait } from 'types/store'
 
 export type CharacterId = string
 
@@ -17,7 +17,7 @@ export type Character = {
   form: Form
   rank: number // order in character tab
   builds: SavedBuild[]
-  portrait?: CustomPortrait
+  portrait?: CustomImageConfig
 }
 
 export type SavedBuild = {

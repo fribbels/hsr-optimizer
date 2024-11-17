@@ -12,8 +12,7 @@ export default function CharacterModal(props: {
   open: boolean
   onOk: (form: Form) => void
   setOpen: (open: boolean) => void
-  initialCharacter: Character
-  addCharacter: boolean
+  initialCharacter?: Character
 }) {
   const [characterForm] = AntDForm.useForm()
 
@@ -36,7 +35,7 @@ export default function CharacterModal(props: {
       lightConeSuperimposition: props.initialCharacter?.form.lightConeSuperimposition || 1,
     }
 
-    setCharacterId(props.initialCharacter?.form.characterId)
+    setCharacterId(props.initialCharacter?.form.characterId ?? '')
 
     characterForm.setFieldsValue(defaultValues)
   }, [props.open])

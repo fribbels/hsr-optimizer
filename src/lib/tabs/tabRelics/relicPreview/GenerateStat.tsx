@@ -10,14 +10,14 @@ import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Relic, StatRolls } from 'types/relic'
 
-type Substat = {
+export type SubstatDetails = {
   stat: SubStats
   value: number
   rolls?: StatRolls
   addedRolls?: number
 }
 
-export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
+export const GenerateStat = (stat: SubstatDetails, main: boolean, relic: Relic) => {
   const { t } = useTranslation('common')
   if (!stat?.stat || stat.value == null) {
     return (
@@ -69,7 +69,7 @@ export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
   )
 }
 
-function generateRolls(stat: Substat) {
+function generateRolls(stat: SubstatDetails) {
   const result: ReactElement[] = []
   for (let i = 0; i < stat.addedRolls!; i++) {
     result.push(<RightIcon key={i} style={{ marginRight: -5, opacity: 0.75 }}/>)

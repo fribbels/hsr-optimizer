@@ -7,6 +7,7 @@ import Icon, {
 } from '@ant-design/icons'
 import { Button, Dropdown, Flex, Form, Input, Segmented, theme, Typography } from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CURRENT_DATA_VERSION, officialOnly } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { CharacterConverter } from 'lib/importer/characterConverter'
@@ -501,7 +502,7 @@ function CharacterPreviewSelection(props) {
           <CharacterPreview
             class='relicScorerCharacterPreview'
             character={props.selectedCharacter}
-            source='scorer'
+            source={ShowcaseSource.SHOWCASE_TAB}
             id='relicScorerPreview'
             setOriginalCharacterModalOpen={setCharacterModalOpen}
             setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}

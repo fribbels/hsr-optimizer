@@ -67,6 +67,12 @@ export type ElementalDamageType =
   | 'Quantum DMG Boost'
   | 'Imaginary DMG Boost'
 
+export type ImageCenter = {
+  x: number
+  y: number
+  z: number
+}
+
 export type DBMetadataCharacter = {
   id: string
   name: string
@@ -77,11 +83,7 @@ export type DBMetadataCharacter = {
   stats: Record<string, number>
   unreleased: boolean
   traces: Record<string, number>
-  imageCenter: {
-    x: number
-    y: number
-    z: number
-  }
+  imageCenter: ImageCenter
   displayName: string
   scoringMetadata: ScoringMetadata
 }

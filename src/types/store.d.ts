@@ -181,32 +181,3 @@ export type HsrOptimizerSaveFormat = {
     rowLimit: number
   }
 }
-
-export type CustomPortrait = {
-  imageUrl: string
-  originalDimensions: {
-    width: number
-    height: number
-  }
-  customImageParams: {
-    croppedArea: {
-      x: number
-      y: number
-      width: number
-      height: number
-    }
-    croppedAreaPixels: {
-      width: number
-      height: number
-      x: number
-      y: number
-    }
-  }
-  cropper: {
-    zoom: number
-    crop: {
-      x: number
-      y: number
-    }
-  }
-}

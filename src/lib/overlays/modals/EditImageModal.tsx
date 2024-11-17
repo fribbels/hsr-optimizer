@@ -9,15 +9,13 @@ import Cropper from 'react-easy-crop'
 import { useTranslation } from 'react-i18next'
 import { CroppedArea, CustomImageConfig, CustomImageParams, CustomImagePayload, ImageDimensions } from 'types/customImage'
 
-// FIXME LOW
-
 const { Text } = Typography
 
 interface EditImageModalProps {
-  existingConfig: CustomImageConfig | null // currently existing custom image
+  existingConfig: CustomImageConfig | undefined // currently existing custom image
   aspectRatio: number // width / height
   open: boolean
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setOpen: (b: boolean) => void
   onOk: (_x: CustomImagePayload) => void
   title?: string
   width?: number
@@ -97,7 +95,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
 
   const handleOk = () => {
     const artistName: string = customImageForm.getFieldValue('artistName') as string
-    const imageConfigWithoutUrl = {
+    const baseConfig = {
       originalDimensions,
       customImageParams,
       cropper: {
@@ -107,13 +105,26 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     }
     switch (radio) {
       case 'upload':
-        onOk({ type: 'add', imageUrl: verifiedImageUrl, ...imageConfigWithoutUrl, artistName })
+        onOk({
+          type: 'add',
+          config: {
+            ...baseConfig,
+            artistName: artistName,
+          } as CustomImageConfig,
+        })
         setCurrent(0)
         break
       case 'url':
         customImageForm.validateFields()
           .then((values) => {
-            onOk({ type: 'add', imageUrl: values.imageUrl, ...imageConfigWithoutUrl, artistName })
+            onOk({
+              type: 'add',
+              config: {
+                ...baseConfig,
+                imageUrl: values.imageUrl,
+                artistName: artistName,
+              } as CustomImageConfig,
+            })
           })
           .catch((e) => {
             console.error('Error:', e)
@@ -126,7 +137,10 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         if (!defaultImageUrl) {
           console.error('defaultImageUrl does not exist, but default image was chosen.')
         }
-        onOk({ type: 'delete' })
+        onOk({
+          type: 'delete',
+          config: {} as CustomImageConfig,
+        })
         setOpen(false)
         setCurrent(0)
         break
@@ -394,7 +408,10 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         await validateInputImageUrl(customImageForm.getFieldValue('imageUrl'))
         break
       case 'default':
-        onOk({ type: 'delete' })
+        onOk({
+          type: 'delete',
+          config: {} as CustomImageConfig,
+        })
         setOpen(false)
         break
       case null:
@@ -404,10 +421,6 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     }
   }
 
-  const revert = () => {
-    onOk({ type: 'delete' })
-    setCurrent(1)
-  }
   const prev = () => setCurrent(current - 1)
   const onRadioChange = (e: RadioChangeEvent) => setRadio(e.target.value)
 
@@ -599,13 +612,13 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       >
         <div style={{ height: '505px', position: 'relative' }}>
           {!existingConfig
-          && (
-            <Steps current={current} style={{ marginBottom: 12 }}>
-              {steps.map((item) => (// make this cleaner if ever adding more steps
-                <Steps.Step key={item.title} title={item.title == 'Provide image' ? t('Upload.Title')/* Provide image */ : t('Edit.Title')/* Crop image */}/>
-              ))}
-            </Steps>
-          )}
+            && (
+              <Steps current={current} style={{ marginBottom: 12 }}>
+                {steps.map((item) => (// make this cleaner if ever adding more steps
+                  <Steps.Step key={item.title} title={item.title == 'Provide image' ? t('Upload.Title')/* Provide image */ : t('Edit.Title')/* Crop image */}/>
+                ))}
+              </Steps>
+            )}
           {steps.map((step, index) => (
             <div key={step.title} style={{ display: current === index ? 'block' : 'none' }}>
               {step.content}

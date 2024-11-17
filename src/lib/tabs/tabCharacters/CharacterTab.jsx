@@ -13,6 +13,7 @@ import { Button, Dropdown, Flex, Image, Input, Modal, theme, Typography } from '
 import { useSubscribe } from 'hooks/useSubscribe'
 import i18next from 'i18next'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Message } from 'lib/interactions/message'
 import BuildsModal from 'lib/overlays/modals/BuildsModal'
@@ -580,9 +581,9 @@ export default function CharacterTab() {
           <Flex vertical gap={8} style={{ marginRight: selectedCharacter ? 6 : 8 }}>
             <div
               id='characterGrid' className='ag-theme-balham-dark' style={{
-                ...{ display: 'block', width: 230, height: parentH - 38 },
-                ...getGridTheme(token),
-              }}
+              ...{ display: 'block', width: 230, height: parentH - 38 },
+              ...getGridTheme(token),
+            }}
             >
               <AgGridReact
                 ref={characterGrid}
@@ -627,6 +628,7 @@ export default function CharacterTab() {
           <Flex vertical>
             <CharacterPreview
               id='characterTabPreview'
+              source={ShowcaseSource.CHARACTER_TAB}
               character={selectedCharacter}
               setOriginalCharacterModalOpen={setCharacterModalOpen}
               setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
@@ -640,7 +642,6 @@ export default function CharacterTab() {
         open={isCharacterModalOpen}
         setOpen={setCharacterModalOpen}
         initialCharacter={characterModalInitialCharacter}
-        addCharacter={characterModalAdd}
       />
       <SwitchRelicsModal
         onOk={onSwitchRelicsModalOk}

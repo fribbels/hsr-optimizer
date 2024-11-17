@@ -1,6 +1,7 @@
 import { DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { Button, Card, Flex, Modal } from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import StatText from 'lib/characterPreview/StatText'
 import { Message } from 'lib/interactions/message'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
@@ -51,7 +52,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
       previewCharacter.equipped = relicObject
 
       console.log('Previewing builds character:', previewCharacter)
-      return <CharacterPreview character={previewCharacter} source='builds' id='relicScorerPreview'/>
+      return <CharacterPreview character={previewCharacter} source={ShowcaseSource.BUILDS_MODAL} id='relicScorerPreview'/>
     }
 
     return <div style={{ width: 656, height: 856, border: '1px solid #354b7d' }}></div>

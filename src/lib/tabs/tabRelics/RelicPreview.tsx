@@ -1,10 +1,11 @@
 import { Card, Divider, Flex } from 'antd'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { iconSize } from 'lib/constants/constantsUi'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 
 import { Renderer } from 'lib/rendering/renderer'
-import { GenerateStat } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
+import { GenerateStat, SubstatDetails } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
 import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,11 +13,11 @@ import { Relic } from 'types/relic'
 
 export function RelicPreview(props: {
   relic?: Relic
-  source?: string
+  source?: ShowcaseSource
   characterId?: string
   score?: RelicScoringResult
   setEditModalOpen?: (open: boolean) => void
-  setAddModelOpen?: (open: boolean) => void
+  setAddModalOpen?: (open: boolean) => void
   setSelectedRelic: (relic: Relic) => void
 }) {
   const { t } = useTranslation('common')
@@ -25,7 +26,7 @@ export function RelicPreview(props: {
     characterId,
     score,
     setEditModalOpen,
-    setAddModelOpen,
+    setAddModalOpen,
     setSelectedRelic,
   } = props
   const placeholderRelic: Partial<Relic> = {
@@ -47,7 +48,7 @@ export function RelicPreview(props: {
   const scored = score !== undefined
 
   const cardClicked = () => {
-    if ((!relic.id && !characterId) || source === 'scorer' || source === 'builds') return
+    if ((!relic.id && !characterId) || source == ShowcaseSource.SHOWCASE_TAB || source == ShowcaseSource.BUILDS_MODAL) return
 
     if (!relic.id) {
       console.log(`Add new relic for characterId=${characterId}.`)
@@ -55,7 +56,7 @@ export function RelicPreview(props: {
       relic.enhance = 15
       relic.grade = 5
       setSelectedRelic(relic)
-      setAddModelOpen?.(true)
+      setAddModalOpen?.(true)
     } else {
       setSelectedRelic(relic)
       setEditModalOpen?.(true)
@@ -65,7 +66,7 @@ export function RelicPreview(props: {
   return (
     <Card
       size='small'
-      hoverable={source != 'scorer' && source != 'builds'}
+      hoverable={source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.BUILDS_MODAL}
       onClick={cardClicked}
       style={{ width: 200, height: 280 }}
     >
@@ -94,7 +95,7 @@ export function RelicPreview(props: {
 
         <Divider style={{ margin: '6px 0px 6px 0px' }}/>
 
-        {GenerateStat(relic.main, true, relic)}
+        {GenerateStat(relic.main as SubstatDetails, true, relic)}
 
         <Divider style={{ margin: '6px 0px 6px 0px' }}/>
 

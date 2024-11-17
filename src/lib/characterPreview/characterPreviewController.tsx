@@ -173,8 +173,8 @@ export function getShowcaseStats(
   displayRelics: SingleRelicByPart,
   showcaseMetadata: ShowcaseMetadata,
 ) {
-  const statCalculationRelics = Utils.clone(displayRelics)
-  RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics))
+  const statCalculationRelics = TsUtils.clone(displayRelics)
+  RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics).filter(relic => !!relic))
   const { c: basicStats } = calculateBuild(OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form)), statCalculationRelics, null)
   const finalStats: BasicStatsObjectCV = {
     ...basicStats,

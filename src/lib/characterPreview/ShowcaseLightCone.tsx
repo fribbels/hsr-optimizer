@@ -57,7 +57,7 @@ export function ShowcaseLightConeSmall(props: {
             position: 'relative',
             height: 0,
             top: newLcHeight - 35,
-            paddingRight: 12,
+            paddingRight: 5,
           }}
           align='flex-end'
         >

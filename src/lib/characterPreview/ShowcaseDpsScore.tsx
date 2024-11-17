@@ -47,7 +47,6 @@ export function ShowcaseDpsScorePanel(props: {
     <Flex
       vertical
     >
-      <ShowcaseDpsScoreHeader result={simScoringResult} relics={displayRelics}/>
 
       <Card
         style={{
@@ -89,7 +88,7 @@ export function ShowcaseDpsScorePanel(props: {
         </Flex>
       </Card>
 
-      <ScoreFooter
+      <ShowcaseTeammateSelectPanel
         characterId={characterId}
         teamSelection={teamSelection}
         selectedTeammateIndex={selectedTeammateIndex!}
@@ -99,26 +98,38 @@ export function ShowcaseDpsScorePanel(props: {
         setTeamSelection={setTeamSelection}
         setRedrawTeammates={setRedrawTeammates}
       />
-
-      {
-        combatScoreDetails == DAMAGE_UPGRADES &&
-        (
-          <Flex vertical gap={defaultGap}>
-            <CharacterCardScoringStatUpgrades result={simScoringResult}/>
-          </Flex>
-        )
-      }
-
-      {
-        combatScoreDetails == COMBAT_STATS &&
-        (
-          <Flex vertical gap={defaultGap}>
-            <CharacterCardCombatStats result={simScoringResult}/>
-          </Flex>
-        )
-      }
     </Flex>
   )
+}
+
+export function ShowcaseCombatScoreDetailsFooter(props: {
+  combatScoreDetails: string,
+  simScoringResult: SimulationScore
+}) {
+  const {
+    combatScoreDetails,
+    simScoringResult,
+  } = props
+
+  return <>
+    {
+      combatScoreDetails == DAMAGE_UPGRADES &&
+      (
+        <Flex vertical gap={defaultGap}>
+          <CharacterCardScoringStatUpgrades result={simScoringResult}/>
+        </Flex>
+      )
+    }
+
+    {
+      combatScoreDetails == COMBAT_STATS &&
+      (
+        <Flex vertical gap={defaultGap}>
+          <CharacterCardCombatStats result={simScoringResult}/>
+        </Flex>
+      )
+    }
+  </>
 }
 
 function CharacterPreviewScoringTeammate(props: {
@@ -175,7 +186,7 @@ function CharacterPreviewScoringTeammate(props: {
   )
 }
 
-function ShowcaseDpsScoreHeader(props: {
+export function ShowcaseDpsScoreHeader(props: {
   relics: SingleRelicByPart
   result: SimulationScore
 }) {
@@ -220,7 +231,7 @@ function ShowcaseDpsScoreHeader(props: {
   )
 }
 
-function ScoreFooter(props: {
+function ShowcaseTeammateSelectPanel(props: {
   characterId: string
   teamSelection: string
   selectedTeammateIndex: number

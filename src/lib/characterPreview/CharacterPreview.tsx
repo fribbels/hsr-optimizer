@@ -1,4 +1,4 @@
-import { Flex, theme, Typography } from 'antd'
+import { Flex, theme } from 'antd'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   getArtistName,
@@ -17,7 +17,7 @@ import {
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
-import { ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
+import { ShowcaseCombatScoreDetailsFooter, ShowcaseDpsScoreHeader, ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
 import { ShowcaseLightConeLarge, ShowcaseLightConeSmall } from 'lib/characterPreview/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
@@ -27,14 +27,12 @@ import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsU
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { SimulationScore } from 'lib/scoring/characterScorer'
 import React, { useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
 import { ImageCenter } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 const { useToken } = theme
-const { Text } = Typography
 
 export type ShowcaseDisplayDimensions = {
   tempLcParentW: number
@@ -68,10 +66,7 @@ export function CharacterPreview(props: {
     setCharacterModalAdd,
   } = props
 
-  const { t } = useTranslation(['charactersTab', 'modals', 'common'])
   const { token } = useToken()
-
-  const relicsById = window.store((s) => s.relicsById)
   const [selectedRelic, setSelectedRelic] = useState<Relic | undefined>()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
@@ -81,27 +76,16 @@ export function CharacterPreview(props: {
   const [scoringType, setScoringType] = useState(SIMULATION_SCORE)
   const [combatScoreDetails, setCombatScoreDetails] = useState(COMBAT_STATS)
   const activeKey = window.store((s) => s.activeKey)
-
-  // We need to track the previously selected character in order to know which state to put the sim team in.
   const prevCharId = useRef<string | undefined>()
+  const relicsById = window.store((s) => s.relicsById)
 
   const backgroundColor = token.colorBgLayout
-
-  // REFACTOR ZONE ===========================================================================================================================
 
   useEffect(() => {
     presetTeamSelectionDisplay(character, prevCharId, setTeamSelection, setCustomPortrait)
   }, [character])
 
-  if (showcaseIsInactive(source, activeKey)) {
-    return <></>
-  }
-
-  const artistName = getArtistName(character)
-
-  // REFACTOR ZONE ===========================================================================================================================
-
-  if (!character) {
+  if (!character || showcaseIsInactive(source, activeKey)) {
     return (
       <div
         style={{
@@ -117,27 +101,10 @@ export function CharacterPreview(props: {
   }
 
   const { scoringResults, displayRelics } = getPreviewRelics(source, character, relicsById)
-
-  // const characterId = character.form.characterId
-  // const characterMetadata = DB.getMetadata().characters[characterId]
-  // const characterElement = characterMetadata.element
-  // const elementalDmgType = ElementToDamage[characterElement]
-  //
-  // const lightConeId = character.form.lightCone
-  // const lightConeLevel = 80
-  // const lightConeSuperimposition = character.form.lightConeSuperimposition
-  // const lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
-  // const lightConeName = lightConeId ? t(`gameData:Lightcones.${lightConeId}.Name` as never) : ''
-  // const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata) || ''
-  //
-  // const characterLevel = 80
-  // const characterEidolon = character.form.characterEidolon
-  // const characterName = characterId ? t(`gameData:Characters.${characterId}.Name` as never) : ''
-  // const characterPath = characterMetadata.path
+  const scoredRelics = scoringResults.relics || []
 
   const showcaseMetadata = getShowcaseMetadata(character)
 
-  const finalStats = getShowcaseStats(character, displayRelics, showcaseMetadata)
   const currentSelection = handleTeamSelection(character, prevCharId, teamSelection)
   const simScoringResult = getShowcaseSimScoringResult(
     character,
@@ -147,9 +114,9 @@ export function CharacterPreview(props: {
     showcaseMetadata,
   )
 
-  const scoredRelics = scoringResults.relics || []
-
   const displayDimensions: ShowcaseDisplayDimensions = getShowcaseDisplayDimensions(character, Boolean(simScoringResult))
+  const artistName = getArtistName(character)
+  const finalStats = getShowcaseStats(character, displayRelics, showcaseMetadata)
 
   return (
     <Flex vertical>
@@ -168,6 +135,7 @@ export function CharacterPreview(props: {
         open={addModalOpen}
       />
 
+      {/* Showcase full card */}
       <Flex
         id={props.id}
         style={{
@@ -178,6 +146,7 @@ export function CharacterPreview(props: {
         }}
         gap={defaultGap}
       >
+        {/* Portrait left panel */}
         {source != ShowcaseSource.BUILDS_MODAL &&
           <Flex vertical gap={12} className='character-build-portrait'>
             <ShowcasePortrait
@@ -209,9 +178,9 @@ export function CharacterPreview(props: {
           </Flex>
         }
 
+        {/* Character details middle panel */}
         <Flex
           vertical
-          gap={defaultGap}
           style={{ width: middleColumnWidth, height: '100%' }}
           justify='space-between'
         >
@@ -227,6 +196,8 @@ export function CharacterPreview(props: {
           />
 
           {simScoringResult && <>
+            <ShowcaseDpsScoreHeader result={simScoringResult} relics={displayRelics}/>
+
             <ShowcaseDpsScorePanel
               characterId={showcaseMetadata.characterId}
               token={token}
@@ -236,6 +207,8 @@ export function CharacterPreview(props: {
               displayRelics={displayRelics}
               setTeamSelection={setTeamSelection}
             />
+
+            <ShowcaseCombatScoreDetailsFooter combatScoreDetails={combatScoreDetails} simScoringResult={simScoringResult}/>
           </>}
 
           {!simScoringResult && <>
@@ -255,6 +228,7 @@ export function CharacterPreview(props: {
           </>}
         </Flex>
 
+        {/* Relics right panel */}
         <ShowcaseRelicsPanel
           setSelectedRelic={setSelectedRelic}
           setEditModalOpen={setEditModalOpen}
@@ -265,6 +239,8 @@ export function CharacterPreview(props: {
           scoredRelics={scoredRelics}
         />
       </Flex>
+
+      {/* Showcase analysis footer */}
 
       {source != ShowcaseSource.BUILDS_MODAL &&
         <ShowcaseBuildAnalysis

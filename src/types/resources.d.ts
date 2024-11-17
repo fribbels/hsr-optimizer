@@ -3333,7 +3333,7 @@ interface Resources {
     "Lightcone": {
       "Title": "Light cone",
       "p1": "Select the light cone and superimposition. Light cone is assumed to be level 80 in optimization calcs.",
-      "p2": "Superimposition and passive effects are applied under the Light cone passives panel."
+      "p2": "Passive effects are applied under the Light cone passives panel."
     },
     "Actions": {
       "Title": "Actions",
@@ -3346,7 +3346,7 @@ interface Resources {
       "Title": "Optimizer options",
       "p1": "<0>Character priority filter</0> - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.",
       "p2": "<0>Boost main stat</0> - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats are not changed accordingly, so builds with lower level relics may be stronger once you level them.",
-      "p3": "<0>Keep current relics</0> - The character must use its currently equipped items, and the optimizer will try to fill in empty slots",
+      "p3": "<0>Keep current relics</0> - The character must use its currently equipped items and the optimizer will try to fill in empty slots",
       "p4": "<0>Include equipped relics</0> - When enabled, the optimizer will allow using relics that are currently equipped by a character for the search. Otherwise equipped relics are excluded",
       "p5": "<0>Priority</0> - See: Character priority filter. Changing this setting will change the character's priority",
       "p6": "<0>Exclude</0> - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter",
@@ -3355,9 +3355,9 @@ interface Resources {
     "Relics": {
       "Title": "Relics",
       "p1": "Note - Potential is a percent rating which compares a relic to the best possible +15 relic for the current character in the slot. This rating is based off the scoring algorithm weights. This means unrolled relics at +0 sometimes have a higher potential than existing +15 relics, because their possible rolls can go into the character's desired stats.",
-      "p2": "Selected character: Score - The relic's current weight as defined by the scoring algorithm for the currently selected character",
-      "p3": "Selected character: Average potential - The relic's potential weight if rolls went into the average weight of the relic's substats",
-      "p4": "Selected character: Max potential - The relic's maximum potential weight if all future rolls went into the character's desired stats",
+      "p2": "Selected character: Score - The relic's current score as defined by the scoring algorithm for the currently selected character",
+      "p3": "Selected character: Average potential - The relic's potential at it's maximum level, averaged across all the possible rolls it could have on the way to +15",
+      "p4": "Selected character: Max potential - The relic's maximum potential if all future rolls went into the character's desired stats",
       "p5": "All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game."
     },
     "OptimizationDetails": {
@@ -3370,18 +3370,19 @@ interface Resources {
     "EnemyOptions": {
       "Title": "Enemy options",
       "p1": "Level - Enemy level, affects enemy DEF calculations",
-      "p2": "Targets - Number of targets in the battle. The target enemy is always assumed to be in the center, and damage calculations are only for the single primary target.",
-      "p3": "RES - Enemy elemental RES. RES is set to 0 when the enemy's elemental weakness is enabled.",
+      "p2": "Effect RES - Enemy effect RES. Effect res is used for calculations relating to DOT damage",
+      "p3": "Damage RES - Enemy elemental RES. RES is set to 0 when the enemy's elemental weakness is enabled.",
       "p4": "Max toughness - Enemy's maximum toughness bar value. Affects calculations related to break damage.",
-      "p5": "Elemental weakness - Whether the enemy is weak to the character's type. Enabling this sets enemy elemental RES % to 0.",
-      "p6": "Weakness broken - Whether the enemy's toughness bar is broken. Affects damage calculations and certain character passives."
+      "p5": "Targets - Number of targets in the battle. The target enemy is always assumed to be in the center, and damage calculations are only for the single primary target.",
+      "p6": "Elemental weakness - Whether the enemy is weak to the character's type. Enabling this sets enemy elemental RES % to 0.",
+      "p7": "Weakness broken - Whether the enemy's toughness bar is broken. Affects damage calculations and certain character passives."
     },
     "SubstatWeightFilter": {
       "Title": "Substat weight filter",
       "p1": "This filter is used to reduce the number of permutations the optimizer has to process.",
       "p2": "It works by first scoring each relic per slot by the weights defined, then filtering by the number of weighted min rolls the relic has.",
       "p3": "Only relics that have more than the specified number of weighted rolls will be used for the optimization search.",
-      "p4": "Note that setting the minimum rolls too low may result in some builds not being displayed, if the filter ends up excludes a key relic. Use this filter with caution, but on large searches it makes a large impact on reducing search time."
+      "p4": "Note that setting the minimum rolls too high may result in some builds not being displayed, if the filter ends up excluding a key relic. Use this filter with caution, but on large searches it makes a large impact on reducing search time."
     },
     "StatDisplay": {
       "Title": "Stat and filter view",
@@ -3392,15 +3393,11 @@ interface Resources {
     "ValueColumns": {
       "Title": "Value Columns",
       "p1": "You can optionally display a number of columns that assess the relative 'value' of a relic.",
-      "p2": "Weight",
-      "p3": "Weight columns assess the contribution of a particular relic to the overall letter grading of the selected recommendation character (if any).",
-      "p4": "Weight can show the current value of a relic, the possible best case upgraded weight, or an 'average' weight that you're more likely to see",
-      "p5": "Weight is useful to focus on a single character and see which relics might give them a higher letter grading.",
-      "p6": "Potential",
-      "p7": "Potential is a character-specific percentage of how good the relic could be (or 'is', if fully upgraded), compared against the stats on a fully upgraded 'perfect' relic in that slot.",
-      "p8": "Potential can look at all characters or just owned. It then takes the maximum percentage for any character.",
-      "p9": "Potential is useful for finding relics that aren't good on any character, or hidden gems that could be great when upgraded.",
-      "p10": "Note: ordering by potential can be mismatched against weights, due to weight calculations preferring lower weight ideal mainstats."
+      "p2": "Potential",
+      "p3": "Potential is a character-specific percentage of how good the relic could be (or 'is', if fully upgraded), compared against the stats on a fully upgraded 'perfect' relic in that slot.",
+      "p4": "Potential can look at all characters or just owned. It then takes the maximum percentage for any character.",
+      "p5": "Potential is useful for finding relics that aren't good on any character, or hidden gems that could be great when upgraded.",
+      "p6": "Note: ordering by potential can be mismatched against weights, due to weight calculations preferring lower weight ideal mainstats."
     },
     "RelicInsights": {
       "Title": "Relic Insight",

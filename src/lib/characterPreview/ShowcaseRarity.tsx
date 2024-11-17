@@ -3,7 +3,7 @@ import { Flex } from 'antd'
 import { Assets } from 'lib/rendering/assets'
 import { ReactElement } from 'react'
 
-const Rarity = ({
+const ShowcaseRarity = ({
   rarity = 0,
 }) => {
   const children: ReactElement[] = []
@@ -19,4 +19,4 @@ const Rarity = ({
   )
 }
 
-export default Rarity
+export default ShowcaseRarity

@@ -1,6 +1,6 @@
 import { Flex, Image } from 'antd'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
-import Rarity from 'lib/characterPreview/Rarity'
+import ShowcaseRarity from 'lib/characterPreview/ShowcaseRarity'
 import StatText from 'lib/characterPreview/StatText'
 import { Assets } from 'lib/rendering/assets'
 import React from 'react'
@@ -28,7 +28,7 @@ export function ShowcaseCharacterHeader(props: {
           width={32}
           src={Assets.getElement(characterElement)}
         />
-        <Rarity rarity={characterMetadata.rarity}/>
+        <ShowcaseRarity rarity={characterMetadata.rarity}/>
         <Image
           preview={false}
           width={32}

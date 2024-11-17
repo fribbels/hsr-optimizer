@@ -12,7 +12,7 @@ CharacterPassives: Passifs de personnages
 NoConditionals: Pas de passifs conditionnels
 NoTeamConditionals: Pas de passifs conditionnels de coéquipier
 ResultLimitN: "Trouver meilleurs {{limit}} résultats"
-MainStats: Stats principales
+MainStats: Mainstats
 Sets: Ensembles
 RelicSetSelector:
   Placeholder: Ensemble de relique
@@ -71,7 +71,7 @@ OptimizerOptions:
     Label4: 4 ★ +
     Label5: 5 ★
   BoostMain:
-    Header: Niv. de stat principale
+    Header: Niv. de mainstat
     Label3: "+3"
     Label6: "+6"
     Label9: "+9"
@@ -352,7 +352,7 @@ EnemyConfiguration:
   WeaknessLabel: Faiblesse élémentaire
   BrokenLabel: Faiblesse brisée
 WeightFilter:
-  WeightFilterHeader: Filtre de poids de stat secondaires
+  WeightFilterHeader: Filtre de poids de substats
   RollFilterHeader: Rolls pondérés par relique
   HPFilterText: PV
   ATKFilterText: ATQ
@@ -462,7 +462,7 @@ TeammateCard:
       Text: 12% ATQ
 StatSimulation:
   DuplicateSimMessage: Une simulation identique existe déjà
-  MissingMainstatsMessage: Les stats principale de simulation sont manquantes
+  MissingMainstatsMessage: Les mainstats de simulation sont manquantes
   BuildAlreadyImported: La build sélectionnée est déjà une simulation
   NothingToImport: Lance d'abord l'optimiseur, puis sélectionne une ligne à importer
   NoStatSimulations: Aucune simulation de stat custom n'est sélectionnée
@@ -474,8 +474,8 @@ StatSimulation:
   SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
   ModeSelector:
     Off: Off
-    RollCount: Simuler rolls custom de stats secondaires
-    Totals: Simuler total custom de stats secondaires
+    RollCount: Simuler rolls custom de substats
+    Totals: Simuler total custom de substats
   FooterLabels:
     Simulate: Simuler les builds
     Import: Importer une build de l'optimiseur
@@ -485,10 +485,10 @@ StatSimulation:
     Description: Êtes-vous sûr de vouloir effacer toutes les simulations enregistrées de ce personnage ?
   SimulationNamePlaceholder: Nom de simulation (facultatif)
   OptionsHeader: Options
-  RollsHeader: Roll maximales des stats secondaires 
-  TotalsHeader: Valeur totale des stats secondaires
+  RollsHeader: Roll maximales des substats
+  TotalsHeader: Valeur totale des substats
   MainStatsSelection:
-    Header: Stats principales
+    Header: Mainstats
     BodyPlaceholder: Corps
     FeetPlaceholder: Pieds
     SpherePlaceholder: Sphère

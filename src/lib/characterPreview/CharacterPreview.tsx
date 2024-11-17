@@ -5,6 +5,8 @@ import {
   getPreviewRelics,
   getShowcaseDisplayDimensions,
   getShowcaseSimScoringResult,
+  getShowcaseStats,
+  handleTeamSelection,
   presetTeamSelectionDisplay,
   showcaseIsInactive,
   showcaseOnAddOk,
@@ -19,18 +21,12 @@ import { ShowcaseLightConeLarge, ShowcaseLightConeSmall } from 'lib/characterPre
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
-import { BasicStatsObjectCV } from 'lib/conditionals/conditionalConstants'
-import { COMBAT_STATS, CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, SIMULATION_SCORE } from 'lib/constants/constants'
+import { COMBAT_STATS, DEFAULT_TEAM, ElementToDamage, SIMULATION_SCORE } from 'lib/constants/constants'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
-import { calculateBuild } from 'lib/optimization/calculateBuild'
 import RelicModal from 'lib/overlays/modals/RelicModal'
-import { RelicFilters } from 'lib/relics/relicFilters'
-import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/characterScorer'
 import { DB } from 'lib/state/db'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { Utils } from 'lib/utils/utils'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
@@ -88,7 +84,7 @@ export function CharacterPreview(props: {
   const activeKey = window.store((s) => s.activeKey)
 
   // We need to track the previously selected character in order to know which state to put the sim team in.
-  const prevCharId = useRef(null)
+  const prevCharId = useRef<string | undefined>()
 
   const backgroundColor = token.colorBgLayout
 
@@ -128,54 +124,6 @@ export function CharacterPreview(props: {
   const characterElement = characterMetadata.element
   const elementalDmgType = ElementToDamage[characterElement]
 
-  const statCalculationRelics = Utils.clone(displayRelics)
-  RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics))
-  const { c: basicStats } = calculateBuild(OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form)), statCalculationRelics, null)
-  const finalStats: BasicStatsObjectCV = {
-    ...basicStats,
-    CV: StatCalculator.calculateCv(Object.values(statCalculationRelics)),
-  }
-
-  finalStats[elementalDmgType] = finalStats.ELEMENTAL_DMG
-
-  let currentSelection = teamSelection
-  if (character?.id) {
-    const defaultScoringMetadata = DB.getMetadata().characters[character.id].scoringMetadata
-    if (defaultScoringMetadata?.simulation) {
-      const scoringMetadata = DB.getScoringMetadata(character.id)
-
-      const hasCustom = Utils.objectHash(scoringMetadata.simulation!.teammates) != Utils.objectHash(defaultScoringMetadata.simulation.teammates)
-
-      // Use the previously selected character to handle all cases of overriding the sim team display
-      if (prevCharId.current == null) {
-        if (hasCustom) {
-          currentSelection = CUSTOM_TEAM
-        } else {
-          currentSelection = DEFAULT_TEAM
-        }
-      }
-
-      if (prevCharId.current != character.id) {
-        if (hasCustom) {
-          currentSelection = CUSTOM_TEAM
-        } else {
-          currentSelection = teamSelection
-        }
-      }
-    }
-  }
-  const simScoringResult = getShowcaseSimScoringResult(
-    character,
-    displayRelics,
-    scoringType,
-    currentSelection,
-    elementalDmgType,
-  )
-
-  const scoredRelics = scoringResults.relics || []
-
-  const displayDimensions: ShowcaseDisplayDimensions = getShowcaseDisplayDimensions(character, Boolean(simScoringResult))
-
   const lightConeId = character.form.lightCone
   const lightConeLevel = 80
   const lightConeSuperimposition = character.form.lightConeSuperimposition
@@ -187,6 +135,20 @@ export function CharacterPreview(props: {
   const characterEidolon = character.form.characterEidolon
   const characterName = characterId ? t(`gameData:Characters.${characterId}.Name` as never) : ''
   const characterPath = characterMetadata.path
+
+  const finalStats = getShowcaseStats(character, displayRelics, elementalDmgType)
+  const currentSelection = handleTeamSelection(character, prevCharId, teamSelection)
+  const simScoringResult = getShowcaseSimScoringResult(
+    character,
+    displayRelics,
+    scoringType,
+    currentSelection,
+    elementalDmgType,
+  )
+
+  const scoredRelics = scoringResults.relics || []
+
+  const displayDimensions: ShowcaseDisplayDimensions = getShowcaseDisplayDimensions(character, Boolean(simScoringResult))
 
   return (
     <Flex vertical>

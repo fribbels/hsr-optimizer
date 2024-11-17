@@ -1,15 +1,21 @@
 import { ShowcaseDisplayDimensions } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { BasicStatsObjectCV } from 'lib/conditionals/conditionalConstants'
 import { CUSTOM_TEAM, DEFAULT_TEAM, Parts, SIMULATION_SCORE } from 'lib/constants/constants'
 import { innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, parentH, parentW } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
+import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
+import { RelicFilters } from 'lib/relics/relicFilters'
 import { RelicScorer, RelicScoringResult } from 'lib/relics/relicScorerPotential'
+import { StatCalculator } from 'lib/relics/statCalculator'
 import { scoreCharacterSimulation } from 'lib/scoring/characterScorer'
 import { AppPages, DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { Utils } from 'lib/utils/utils'
 import { MutableRefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
@@ -69,7 +75,7 @@ export function getArtistName(character: Character) {
 
 export function presetTeamSelectionDisplay(
   character: Character,
-  prevCharId: MutableRefObject<null | string>,
+  prevCharId: MutableRefObject<string | undefined>,
   setTeamSelection: (teamSelection: string) => void,
   setCustomPortrait: (customPortrait: CustomImageConfig | undefined) => void,
 ) {
@@ -126,6 +132,24 @@ export function getShowcaseDisplayDimensions(character: Character, simScore: boo
     charCenter: charCenter,
     lcCenter: lcCenter,
   }
+}
+
+export function getShowcaseStats(
+  character: Character,
+  displayRelics: SingleRelicByPart,
+  elementalDmgType: ElementalDamageType,
+) {
+  const statCalculationRelics = Utils.clone(displayRelics)
+  RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics))
+  const { c: basicStats } = calculateBuild(OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form)), statCalculationRelics, null)
+  const finalStats: BasicStatsObjectCV = {
+    ...basicStats,
+    CV: StatCalculator.calculateCv(Object.values(statCalculationRelics)),
+  }
+
+  finalStats[elementalDmgType] = finalStats.ELEMENTAL_DMG
+
+  return finalStats
 }
 
 export function getShowcaseSimScoringResult(
@@ -192,4 +216,38 @@ export function showcaseOnEditPortraitOk(
       console.error(`Payload of type '${type}' is not valid!`)
   }
   setEditPortraitModalOpen(false)
+}
+
+export function handleTeamSelection(
+  character: Character,
+  prevCharId: MutableRefObject<string | undefined>,
+  teamSelection: string,
+) {
+  let currentSelection: string = teamSelection
+
+  const defaultScoringMetadata = DB.getMetadata().characters[character.id].scoringMetadata
+  if (defaultScoringMetadata?.simulation) {
+    const scoringMetadata = DB.getScoringMetadata(character.id)
+
+    const hasCustom = Utils.objectHash(scoringMetadata.simulation!.teammates) != Utils.objectHash(defaultScoringMetadata.simulation.teammates)
+
+    // Use the previously selected character to handle all cases of overriding the sim team display
+    if (prevCharId.current == null) {
+      if (hasCustom) {
+        currentSelection = CUSTOM_TEAM
+      } else {
+        currentSelection = DEFAULT_TEAM
+      }
+    }
+
+    if (prevCharId.current != character.id) {
+      if (hasCustom) {
+        currentSelection = CUSTOM_TEAM
+      } else {
+        currentSelection = teamSelection
+      }
+    }
+  }
+
+  return currentSelection
 }

@@ -27,6 +27,7 @@ export function ShowcaseDpsScorePanel(props: {
   combatScoreDetails: string
   displayRelics: SingleRelicByPart
   setTeamSelection: (t: string) => void
+  setRedrawTeammates: (n: number) => void
 }) {
   const {
     characterId,
@@ -36,18 +37,17 @@ export function ShowcaseDpsScorePanel(props: {
     combatScoreDetails,
     displayRelics,
     setTeamSelection,
+    setRedrawTeammates,
   } = props
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState<number | undefined>()
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState<Character | undefined>()
-  const [_redrawTeammates, setRedrawTeammates] = useState<number>(0)
 
   return (
     <Flex
       vertical
     >
-
       <Card
         style={{
           backgroundColor: token.colorBgLayout,
@@ -88,7 +88,7 @@ export function ShowcaseDpsScorePanel(props: {
         </Flex>
       </Card>
 
-      <ShowcaseTeammateSelectPanel
+      <ShowcaseTeamSelectPanel
         characterId={characterId}
         teamSelection={teamSelection}
         selectedTeammateIndex={selectedTeammateIndex!}
@@ -231,7 +231,7 @@ export function ShowcaseDpsScoreHeader(props: {
   )
 }
 
-function ShowcaseTeammateSelectPanel(props: {
+function ShowcaseTeamSelectPanel(props: {
   characterId: string
   teamSelection: string
   selectedTeammateIndex: number
@@ -269,9 +269,8 @@ function ShowcaseTeammateSelectPanel(props: {
     simulation.teammates[selectedTeammateIndex] = form
 
     DB.updateSimulationScoreOverrides(characterId, simulation)
-    setRedrawTeammates(Math.random())
-
     setTeamSelection(CUSTOM_TEAM)
+    setRedrawTeammates(Math.random())
   }
 
   const tabsDisplay = (

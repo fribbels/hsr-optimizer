@@ -78,6 +78,7 @@ export function CharacterPreview(props: {
   const activeKey = window.store((s) => s.activeKey)
   const prevCharId = useRef<string | undefined>()
   const relicsById = window.store((s) => s.relicsById)
+  const [_redrawTeammates, setRedrawTeammates] = useState<number>(0)
 
   const backgroundColor = token.colorBgLayout
 
@@ -206,6 +207,7 @@ export function CharacterPreview(props: {
               combatScoreDetails={combatScoreDetails}
               displayRelics={displayRelics}
               setTeamSelection={setTeamSelection}
+              setRedrawTeammates={setRedrawTeammates}
             />
 
             <ShowcaseCombatScoreDetailsFooter combatScoreDetails={combatScoreDetails} simScoringResult={simScoringResult}/>

@@ -8,10 +8,12 @@ CharacterSelector:
   EidolonPlaceholder: E
   SuperimpositionPlaceholder: S
 LightconePassives: Passifs de cônes de lumière
+CharacterPassives: Passifs de personnages
 NoConditionals: Pas de passifs conditionnels
 NoTeamConditionals: Pas de passifs conditionnels de coéquipier
 ResultLimitN: "Trouver meilleurs {{limit}} résultats"
 MainStats: Stats principales
+Sets: Ensembles
 RelicSetSelector:
   Placeholder: Ensemble de relique
   4pcLabel: 4 pièces
@@ -45,6 +47,7 @@ SortOptions:
   DMG: Trié par DGT Élémentaire
   EHP: Trié par PV Effectif
 OptimizerOptions:
+  Header: Options d'optimiseur
   PriorityFilter: Filtre de priorité de personnage
   Priority:
     Header: Priorité
@@ -201,6 +204,7 @@ Sidebar:
       Title: Réinitialiser tous les filtres?
       Description: Tous les filtres seront réinitialisés à leurs valeurs par défaut
   StatViewGroup:
+    Header: Vue Stats et Filtres
     CombatStats: Stats de combat
     BasicStats: Stats basiques
   ResultsGroup:
@@ -348,6 +352,7 @@ EnemyConfiguration:
   WeaknessLabel: Faiblesse élémentaire
   BrokenLabel: Faiblesse brisée
 WeightFilter:
+  WeightFilterHeader: Filtre de poids de stat secondaires
   RollFilterHeader: Rolls pondérés par relique
   HPFilterText: PV
   ATKFilterText: ATQ
@@ -462,6 +467,7 @@ StatSimulation:
   NothingToImport: Lance d'abord l'optimiseur, puis sélectionne une ligne à importer
   NoStatSimulations: Aucune simulation de stat custom n'est sélectionnée
   SetSelection:
+    Header: Ensembles
     RelicPlaceholder: Ensemble de relique
     OrnamentPlaceholder: Ensemble d'ornement
   TotalRolls: Rolls totaux

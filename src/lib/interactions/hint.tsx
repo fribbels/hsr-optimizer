@@ -292,16 +292,16 @@ export const Hint = {
           <p>{i18next.t('hint:EnemyOptions.p4')}</p>
           <p>{i18next.t('hint:EnemyOptions.p5')}</p>
           <p>{i18next.t('hint:EnemyOptions.p6')}</p>
+          <p>{i18next.t('hint:EnemyOptions.p7')}</p>
         </Flex>
-        /*
-         "Title": "Enemy options",
-         "p1": "Level - Enemy level, affects enemy DEF calculations",
-         "p2": "Targets - Number of targets in the battle. The target enemy is always assumed to be in the center, and damage calculations are only for the single primary target.",
-         "p3": "RES - Enemy elemental RES. RES is set to 0 when the enemy's elemental weakness is enabled.",
-         "p4": "Max toughness - Enemy's maximum toughness bar value. Affects calculations related to break damage.",
-         "p5": "Elemental weakness - Whether the enemy is weak to the character's type. Enabling this sets enemy elemental RES % to 0.",
-         "p6": "Weakness broken - Whether the enemy's toughness bar is broken. Affects damage calculations and certain character passives."
-         */
+      /* Title: Enemy options
+      p1: Level - Enemy level, affects enemy DEF calculations
+      p2: Effect RES - Enemy effect RES. Effect res is used for calculations relating to DOT damage
+      p3: Damage RES - Enemy elemental RES. RES is set to 0 when the enemy's elemental weakness is enabled.
+      p4: Max toughness - Enemy's maximum toughness bar value. Affects calculations related to break damage.
+      p5: Targets - Number of targets in the battle. The target enemy is always assumed to be in the center, and damage calculations are only for the single primary target.
+      p6: Elemental weakness - Whether the enemy is weak to the character's type. Enabling this sets enemy elemental RES % to 0.
+      p7: Weakness broken - Whether the enemy's toughness bar is broken. Affects damage calculations and certain character passives. */
       ),
     }
   },
@@ -356,11 +356,7 @@ export const Hint = {
           <p>{i18next.t('hint:ValueColumns.p3')}</p>
           <p>{i18next.t('hint:ValueColumns.p4')}</p>
           <p>{i18next.t('hint:ValueColumns.p5')}</p>
-          <p><b>{i18next.t('hint:ValueColumns.p6')}</b></p>
-          <p>{i18next.t('hint:ValueColumns.p7')}</p>
-          <p>{i18next.t('hint:ValueColumns.p8')}</p>
-          <p>{i18next.t('hint:ValueColumns.p9')}</p>
-          <p>{i18next.t('hint:ValueColumns.p10')}</p>
+          <p>{i18next.t('hint:ValueColumns.p6')}</p>
         </Flex>
         /*
          "Title": "Value Columns",

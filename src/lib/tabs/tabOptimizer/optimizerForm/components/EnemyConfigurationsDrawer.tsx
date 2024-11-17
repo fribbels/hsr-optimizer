@@ -118,7 +118,6 @@ export const EnemyConfigurationsDrawer = () => {
             showSearch
             filterOption={Utils.labelFilterOption}
             options={enemyMaxToughnessOptions}
-            optionLabelProp='number'
           />
         </Form.Item>
 

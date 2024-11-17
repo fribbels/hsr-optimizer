@@ -11,8 +11,8 @@ StatFilters:
   p2: Les abréviations des stats sont ATQ / PV / DÉF / Taux Crit / Dégâts Crit / Taux d'Application d'Effets / Résistance Aux Effets / Effet de Rupture / Taux de Récupération d'Énergie
   p3: "REMARQUE: Les décimales de vitesse visibles dans le jeu sont tronquées donc vous verriez peut-être des vitesses plus élevées dans le jeu que sur l'optimiseur. Cela est dû au fait que l'importateur OCR ne peut pas détecter ces décimales cachées"
 Mainstats:
-  Title: Stats principales
-  p1: Sélectionnez les stat principales à utiliser pour la recherche. Plusieurs stats peuvent être sélectionnées pour plus d'options
+  Title: Mainstats
+  p1: Sélectionnez les mainstats à utiliser pour la recherche. Plusieurs stats peuvent être sélectionnées pour plus d'options
 Sets:
   Title: Ensembles
   p1: Sélectionnez les ensembles de reliques et ornements par lesquels filtrer les résultats. Plusieurs ensembles peuvent être sélectionnés pour plus d'options
@@ -43,7 +43,7 @@ OptimizerOptions:
   p1: >-
     <0>Filtre de priorité de personnage</0> - Lorsque cette option est sélectionnée, le personnage ne peut prendre que les reliques de personnages classés plus bas dans la liste de priorité. L'optimiseur ignorera les reliques de personnages classés plus haut dans la liste. Changez les rangs depuis le sélecteur ou en faissant glisser sur la page Personnages.
   p2: >-
-    <0>Niv. de stat principale</0> - Calcule les stats principales des reliques comme si elles étaient à leur niveau maximal. Les stats secondaires ne sont pas modifiées, donc des builds ayant des reliques de bas niveau peuvent s'améliorer une fois ces reliques améliorées.
+    <0>Niv. de mainstat</0> - Calcule les mainstats des reliques comme si elles étaient à leur niveau maximal. Les substats ne sont pas modifiées, donc des builds ayant des reliques de bas niveau peuvent s'améliorer une fois ces reliques améliorées.
   p3: <0>Garder reliques courantes</0> - Le personnage gardera toutes ses reliques couramment équipées et l'optimiseur tentera de remplir les emplacements vides
   p4: <0>Permettre reliques équipées</0> - Lorsque cette option est sélectionnée, l'optimiseur permettra au personnage d'utiliser des reliques équipées à d'autres personnages. Sinon, toutes reliques équipées seront exclues de la recherche.
   p5: "<0>Priorité</0> - Voir: Filtre de priorité de personnage. Modifier ce paramètre modifiera la priorité du personnage."
@@ -73,7 +73,7 @@ EnemyOptions:
   p6: Faiblesse élémentaire - Si l'ennemi est faible à l'élément du personnage. Activer cette option mets la résistance élémentaire de l'ennemi à 0.
   p7: Faiblesse brisée - Si la barre d'endurance de l'ennemi est brisée. Affecte le calcul des dégâts et certains passifs de personnage.
 SubstatWeightFilter:
-  Title: Filtre de poids de stat secondaires
+  Title: Filtre de poids de substats
   p1: Ce filtre est utilisé pour réduire le nombre de permutations que l'optimiseur doit traiter.
   p2: Il fonctionne en calculant d'abord un total pondéré des stats secondaires sur une relique utilisant les poids configurés, puis en filtrant en fonction du nombre équivalent de rolls minimums présents sur la relique.
   p3: Seules les reliques ayant un nombre équivalent de rolls minimum supérieur au nombre spécifié seront comprises dans la recherche.
@@ -91,12 +91,12 @@ ValueColumns:
   p3: Le potentiel est un pourcentage spécifique à un personnage de la qualité de la relique (ou "est", Si complètement mis à niveau), comparé aux statistiques sur une relique "parfaite" entièrement améliorée pour cet emplacement.
   p4: Le potentiel peut être en fonction soit de tous les personnages ou uniquement ceux possédés et présentera le potentiel maximum parmi les personnages.
   p5: Le potentiel est utile pour trouver les reliques qui sont utiles sur personne, ou inversement des joyaux cachés qui pourraient être excellent une fois améliorées
-  p6: "Remarque: le classement par potentiel ne correspond pas forcément au classement par poids, en raison des calculs préférant des stats principales de poids plus faibles."
+  p6: "Remarque: le classement par potentiel ne correspond pas forcément au classement par poids, en raison des calculs préférant des mainstats de poids plus faibles."
 RelicInsights:
   Title: Appercu de reliques
   p1: Lorsqu'une relique set sélectionnée dans la grille ci-dessus, vous pouvez choisir une analyse à visionner
   p2: >-
-    'Seaux' examine à quel point cette relique pourrait être parfaite (avec les meilleurs rolls possibles lors de son amélioration) pour chaque personnage, et regroupe les personnages par pourcentage.<1/>Si vous survolez le portrait d'un personnage, vous pouvez voir les stats à ajouter / améliorer pour atteindre le potentiel maximal de cette relique pour le personnage en question.<3/>⚠️ Les reliques qui ont des stats secondaires manquantes peuvent avoir un potentiel trompeusement élevé, car l'analyse de relique suppose que toutes stats ajoutées seront les meilleurs possibles pour le personnage en question.
+    'Seaux' examine à quel point cette relique pourrait être parfaite (avec les meilleurs rolls possibles lors de son amélioration) pour chaque personnage, et regroupe les personnages par pourcentage.<1/>Si vous survolez le portrait d'un personnage, vous pouvez voir les stats à ajouter / améliorer pour atteindre le potentiel maximal de cette relique pour le personnage en question.<3/>⚠️ Les reliques qui ont des substats manquantes peuvent avoir un potentiel trompeusement élevé, car l'analyse de relique suppose que toutes stats ajoutées seront les meilleurs possibles pour le personnage en question.
   p3: "Top 10 prend les 10 personnages pour lesquels le potentiel de cette relique est le plus élevé, et présente la portée de \"% perfection\" possible après l'amélioration de cette relique."
 RelicLocation:
   Title: Position de relique

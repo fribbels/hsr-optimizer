@@ -138,17 +138,21 @@ export function getShowcaseDisplayDimensions(character: Character, simScore: boo
     ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter
     : 0
 
-  const tempLcParentW = simScore ? parentW : lcParentW
+  let tempLcParentW = lcParentW
+  let tempLcParentH = lcParentH
+  let tempLcInnerW = lcInnerW
+  let tempLcInnerH = lcInnerH
+  let tempParentH = parentH
+  let tempInnerW = innerW
 
-  const tempLcParentH = simScore ? newLcHeight : lcParentH
-  const tempLcInnerW = simScore ? parentW + 16 : lcInnerW
-
-  const tempLcInnerH = simScore ? 1260 / 902 * tempLcInnerW : lcInnerH
-
-  const tempParentH = simScore ? parentH - newLcHeight - newLcMargin : parentH
-
-  // Since the lc takes some space, we want to zoom the portrait out
-  const tempInnerW = simScore ? 950 : innerW
+  if (simScore) {
+    tempLcParentW = parentW
+    tempLcParentH = newLcHeight
+    tempLcInnerW = parentW + 16
+    tempLcInnerH = 1260 / 902 * tempLcInnerW
+    tempParentH = parentH - newLcHeight - newLcMargin
+    tempInnerW = 950
+  }
 
   return {
     tempLcParentW: tempLcParentW,

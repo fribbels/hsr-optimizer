@@ -1,5 +1,4 @@
 import i18next from 'i18next'
-import { ShowcaseDisplayDimensions } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { BasicStatsObjectCV } from 'lib/conditionals/conditionalConstants'
 import { CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, Parts, SIMULATION_SCORE } from 'lib/constants/constants'
@@ -21,8 +20,38 @@ import { Utils } from 'lib/utils/utils'
 import { MutableRefObject } from 'react'
 import { Character } from 'types/character'
 import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
-import { DBMetadataCharacter, DBMetadataLightCone, ElementalDamageType } from 'types/metadata'
+import { DBMetadataCharacter, DBMetadataLightCone, ElementalDamageType, ImageCenter } from 'types/metadata'
 import { Relic } from 'types/relic'
+
+export type ShowcaseMetadata = {
+  characterId: string
+  characterMetadata: DBMetadataCharacter
+  characterElement: string
+  characterLevel: number
+  characterEidolon: number
+  characterName: string
+  characterPath: string
+  lightConeId: string
+  lightConeLevel: number
+  lightConeSuperimposition: number
+  lightConeMetadata: DBMetadataLightCone
+  lightConeName: string
+  lightConeSrc: string
+  elementalDmgType: ElementalDamageType
+}
+
+export type ShowcaseDisplayDimensions = {
+  tempLcParentW: number
+  tempLcParentH: number
+  tempLcInnerW: number
+  tempLcInnerH: number
+  tempInnerW: number
+  tempParentH: number
+  newLcHeight: number
+  newLcMargin: number
+  lcCenter: number
+  charCenter: ImageCenter
+}
 
 export type ScoringResults = {
   relics: RelicScoringResult[]
@@ -251,23 +280,6 @@ export function handleTeamSelection(
   }
 
   return currentSelection
-}
-
-export type ShowcaseMetadata = {
-  characterId: string
-  characterMetadata: DBMetadataCharacter
-  characterElement: string
-  characterLevel: number
-  characterEidolon: number
-  characterName: string
-  characterPath: string
-  lightConeId: string
-  lightConeLevel: number
-  lightConeSuperimposition: number
-  lightConeMetadata: DBMetadataLightCone
-  lightConeName: string
-  lightConeSrc: string
-  elementalDmgType: ElementalDamageType
 }
 
 export function getShowcaseMetadata(character: Character) {

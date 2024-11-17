@@ -9,6 +9,7 @@ import {
   getShowcaseStats,
   handleTeamSelection,
   presetTeamSelectionDisplay,
+  ShowcaseDisplayDimensions,
   showcaseIsInactive,
   showcaseOnAddOk,
   showcaseOnEditOk,
@@ -29,25 +30,10 @@ import { SimulationScore } from 'lib/scoring/characterScorer'
 import React, { useEffect, useRef, useState } from 'react'
 import { Character } from 'types/character'
 import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
-import { ImageCenter } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 const { useToken } = theme
 
-export type ShowcaseDisplayDimensions = {
-  tempLcParentW: number
-  tempLcParentH: number
-  tempLcInnerW: number
-  tempLcInnerH: number
-  tempInnerW: number
-  tempParentH: number
-  newLcHeight: number
-  newLcMargin: number
-  lcCenter: number
-  charCenter: ImageCenter
-}
-
-// This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 export function CharacterPreview(props: {
   id: string
   source: ShowcaseSource
@@ -243,7 +229,6 @@ export function CharacterPreview(props: {
       </Flex>
 
       {/* Showcase analysis footer */}
-
       {source != ShowcaseSource.BUILDS_MODAL &&
         <ShowcaseBuildAnalysis
           token={token}

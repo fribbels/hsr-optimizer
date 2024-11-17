@@ -848,6 +848,10 @@ Characters:
       e6Buffs:
         text: 6魂增益
         content: '「完全燃烧」状态下装甲「萨姆」的火属性抗性穿透提高20%。施放强化普攻、强化战技时弱点击破效率提高50%。'
+  Fugue:
+    Content:
+      superBreakDmg:
+        text: 超击破伤害（强制弱点击破）
   FuXuan:
     Content:
       talentActive:
@@ -1399,6 +1403,12 @@ Characters:
       teammateCDValue:
         text: 花火战斗中暴击伤害值
         content: 使指定我方单体的暴击伤害提高，提高数值等同于花火{{skillCdBuffScaling}}%暴击伤害+{{skillCdBuffBase}}%，持续1回合。
+  Sunday:
+    Content:
+      skillDmgBuff:
+        text: 战技伤害增益
+      e1DefPen:
+        text: 1魂防御穿透
   Sushang:
     Content:
       ultBuffedState:

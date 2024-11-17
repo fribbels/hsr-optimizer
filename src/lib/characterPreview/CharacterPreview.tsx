@@ -7,6 +7,9 @@ import {
   getShowcaseSimScoringResult,
   presetTeamSelectionDisplay,
   showcaseIsInactive,
+  showcaseOnAddOk,
+  showcaseOnEditOk,
+  showcaseOnEditPortraitOk,
 } from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
@@ -19,16 +22,13 @@ import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
 import { BasicStatsObjectCV } from 'lib/conditionals/conditionalConstants'
 import { COMBAT_STATS, CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, SIMULATION_SCORE } from 'lib/constants/constants'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
-import { Message } from 'lib/interactions/message'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import RelicModal from 'lib/overlays/modals/RelicModal'
-import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/characterScorer'
 import { DB } from 'lib/state/db'
-import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import React, { useEffect, useRef, useState } from 'react'
@@ -105,42 +105,6 @@ export function CharacterPreview(props: {
   const artistName = getArtistName(character)
 
   // REFACTOR ZONE ===========================================================================================================================
-
-  function onEditOk(relic: Relic) {
-    const updatedRelic = RelicModalController.onEditOk(selectedRelic!, relic)
-    setSelectedRelic(updatedRelic)
-  }
-
-  function onAddOk(relic: Relic) {
-    DB.setRelic(relic)
-    window.setRelicRows(DB.getRelics())
-    SaveState.delayedSave()
-
-    setSelectedRelic(relic)
-
-    Message.success(t('CharacterPreview.Messages.AddedRelic')/* Successfully added relic */)
-  }
-
-  function onEditPortraitOk(portraitPayload: CustomImagePayload) {
-    const { type, config } = portraitPayload
-    switch (type) {
-      case 'add':
-        setCustomPortrait(config)
-        DB.saveCharacterPortrait(character.id, config)
-        Message.success(t('CharacterPreview.Messages.SavedPortrait')/* Successfully saved portrait */)
-        SaveState.delayedSave()
-        break
-      case 'delete':
-        DB.deleteCharacterPortrait(character.id)
-        setCustomPortrait(undefined)
-        Message.success(t('CharacterPreview.Messages.RevertedPortrait')/* Successfully reverted portrait */)
-        SaveState.delayedSave()
-        break
-      default:
-        console.error(`Payload of type '${type}' is not valid!`)
-    }
-    setEditPortraitModalOpen(false)
-  }
 
   if (!character) {
     return (
@@ -229,14 +193,14 @@ export function CharacterPreview(props: {
       <RelicModal
         selectedRelic={selectedRelic}
         type='edit'
-        onOk={onEditOk}
+        onOk={(relic: Relic) => showcaseOnEditOk(relic, selectedRelic, setSelectedRelic)}
         setOpen={setEditModalOpen}
         open={editModalOpen}
       />
       <RelicModal
         selectedRelic={selectedRelic}
         type='edit'
-        onOk={onAddOk}
+        onOk={(relic: Relic) => showcaseOnAddOk(relic, setSelectedRelic)}
         setOpen={setAddModalOpen}
         open={addModalOpen}
       />
@@ -260,7 +224,7 @@ export function CharacterPreview(props: {
               customPortrait={customPortrait}
               editPortraitModalOpen={editPortraitModalOpen}
               setEditPortraitModalOpen={setEditPortraitModalOpen}
-              onEditPortraitOk={onEditPortraitOk}
+              onEditPortraitOk={(payload: CustomImagePayload) => showcaseOnEditPortraitOk(character, payload, setCustomPortrait, setEditPortraitModalOpen)}
               simScoringResult={simScoringResult as SimulationScore}
               artistName={artistName}
               setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}

@@ -3,13 +3,17 @@ import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CUSTOM_TEAM, DEFAULT_TEAM, Parts, SIMULATION_SCORE } from 'lib/constants/constants'
 import { innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, parentH, parentW } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { Message } from 'lib/interactions/message'
+import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicScorer, RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { scoreCharacterSimulation } from 'lib/scoring/characterScorer'
 import { AppPages, DB } from 'lib/state/db'
+import { SaveState } from 'lib/state/saveState'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { MutableRefObject } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
-import { CustomImageConfig } from 'types/customImage'
+import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
 import { ElementalDamageType } from 'types/metadata'
 import { Relic } from 'types/relic'
 
@@ -143,4 +147,49 @@ export function getShowcaseSimScoringResult(
   }
 
   return simScoringResult
+}
+
+export function showcaseOnEditOk(relic: Relic, selectedRelic: Relic | undefined, setSelectedRelic: (r: Relic) => void) {
+  const updatedRelic = RelicModalController.onEditOk(selectedRelic!, relic)
+  setSelectedRelic(updatedRelic)
+  SaveState.delayedSave()
+}
+
+export function showcaseOnAddOk(relic: Relic, setSelectedRelic: (r: Relic) => void) {
+  const { t } = useTranslation(['charactersTab', 'modals', 'common'])
+
+  DB.setRelic(relic)
+  window.setRelicRows(DB.getRelics())
+  setSelectedRelic(relic)
+  SaveState.delayedSave()
+
+  Message.success(t('CharacterPreview.Messages.AddedRelic')/* Successfully added relic */)
+}
+
+export function showcaseOnEditPortraitOk(
+  character: Character,
+  portraitPayload: CustomImagePayload,
+  setCustomPortrait: (c: CustomImageConfig | undefined) => void,
+  setEditPortraitModalOpen: (b: boolean) => void,
+) {
+  const { t } = useTranslation(['charactersTab', 'modals', 'common'])
+
+  const { type, config } = portraitPayload
+  switch (type) {
+    case 'add':
+      setCustomPortrait(config)
+      DB.saveCharacterPortrait(character.id, config)
+      Message.success(t('CharacterPreview.Messages.SavedPortrait')/* Successfully saved portrait */)
+      SaveState.delayedSave()
+      break
+    case 'delete':
+      DB.deleteCharacterPortrait(character.id)
+      setCustomPortrait(undefined)
+      Message.success(t('CharacterPreview.Messages.RevertedPortrait')/* Successfully reverted portrait */)
+      SaveState.delayedSave()
+      break
+    default:
+      console.error(`Payload of type '${type}' is not valid!`)
+  }
+  setEditPortraitModalOpen(false)
 }

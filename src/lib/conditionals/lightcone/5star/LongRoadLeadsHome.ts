@@ -1,13 +1,13 @@
-import i18next from 'i18next'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
+
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LongRoadLeadsHome')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LongRoadLeadsHome')
   const sValuesBreakVulnerability = [0.18, 0.21, 0.24, 0.27, 0.30]
 
   const defaults = {
@@ -23,8 +23,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'breakVulnerabilityStacks',
       formItem: 'slider',
-      text: 'Break vulnerability stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.breakVulnerabilityStacks.text'),
+      content: t('Content.breakVulnerabilityStacks.content', { breakVulnerability: TsUtils.precisionRound(100 * sValuesBreakVulnerability[s]) }),
       min: 0,
       max: 2,
     },

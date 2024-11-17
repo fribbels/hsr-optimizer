@@ -383,12 +383,11 @@ a {
 .custom-grid {
     border-radius: 10px !important;
     transition: background-color 0.3s ease, box-shadow 0.3s ease, outline 0.3s ease;
-    cursor: pointer; /* Change cursor to pointer */
+    cursor: pointer;
     outline: 1px solid rgba(255, 255, 255, 0.0) !important;
 }
 
 .custom-grid:hover {
-    /*background-color: rgba(107, 107, 107, 0.36); !* Change this to your desired hover color *!*/
     background-color: rgba(255, 255, 255, 0.2);
     outline: 1px solid rgba(255, 255, 255, 0.4) !important;
 }

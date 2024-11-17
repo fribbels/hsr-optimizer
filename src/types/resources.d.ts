@@ -364,6 +364,14 @@ interface Resources {
       }
     },
     "Lightcones": {
+      "AGroundedAscent": {
+        "Content": {
+          "dmgBuffStacks": {
+            "text": "DMG boost stacks",
+            "content": "After the wearer uses Skill or Ultimate on one ally character, the ability's target receives 1 stack of \"Hymn\" for 3 turns, stacking up to 3 times. Each stack of \"Hymn\" increases its holder's DMG dealt by {{DmgBuff}}%."
+          }
+        }
+      },
       "AlongThePassingShore": {
         "Content": {
           "emptyBubblesDebuff": {
@@ -537,6 +545,14 @@ interface Resources {
           "luminfluxUltStacks": {
             "text": "Luminflux stacks",
             "content": "When the wearer launches a follow-up attack, gains 1 stack of Luminflux, stacking up to 2.0 time(s). Each stack of Luminflux enables the Ultimate DMG dealt by the wearer to ignore {{DefIgnore}}% of the target's DEF. When the wearer's turn ends, removes 1 stack of Luminflux."
+          }
+        }
+      },
+      "LongRoadLeadsHome": {
+        "Content": {
+          "breakVulnerabilityStacks": {
+            "text": "Break vulnerability stacks",
+            "content": "When an enemy target's Weakness gets broken, there is a 100% base chance to inflict the \"Charring\" state on it, which increases its Break DMG taken by {{breakVulnerability}}%, lasting for 2 turn(s). This effect can stack 2 time(s)."
           }
         }
       },
@@ -1542,6 +1558,44 @@ interface Resources {
           }
         }
       },
+      "Fugue": {
+        "Content": {
+          "torridScorch": {
+            "text": "Torrid Scorch state",
+            "content": "While in the \"Torrid Scorch\" state, Fugue's Basic ATK will be enhanced."
+          },
+          "foxianPrayer": {
+            "text": "Foxian Prayer BE buff",
+            "content": "The ally target with \"Foxian Prayer\" increases their Break Effect by {{BreakBuff}}% and can deal Toughness Reduction by attacking enemies without corresponding Weakness Type, with the effect being equal to 50% of the original Toughness Reduction. This effect cannot be stacked with other Weakness-ignoring Toughness Reduction effects."
+          },
+          "defReduction": {
+            "text": "Skill DEF shred",
+            "content": "When an ally target with \"Foxian Prayer\" attacks, Fugue has a 100% base chance to reduce the attacked enemy target's DEF by {{DefShred}}%, lasting for 2 turns."
+          },
+          "superBreakDmg": {
+            "text": "Super Break DMG (force weakness break)",
+            "content": "While Fugue is on the field and after allies attack Weakness Broken enemy targets, converts the Toughness Reduction of this attack into 1 instance of {{SuperBreakMultiplier}}% Super Break DMG."
+          },
+          "e4BreakDmg": {
+            "text": "E4 Break DMG boost",
+            "content": "Ally target with \"Foxian Prayer\" increases their Break DMG by 20%."
+          },
+          "e6BreakEfficiency": {
+            "text": "E6 break efficiency boost",
+            "content": "Increases Fugue's Weakness Break Efficiency by 50%. When Fugue is in the \"Torrid Scorch\" state, \"Foxian Prayer\" will take effect on all allies."
+          }
+        },
+        "TeammateContent": {
+          "be220Buff": {
+            "text": "BE ≥ 220%",
+            "content": "When an enemy target's Weakness gets broken, Break Effect of teammates increases by 6%. If Fugue's Break Effect is 220% or more, the Break Effect Boost effect additionally increases by 12%, lasting for 2 turns. This effect can stack up to 2 time(s)."
+          },
+          "weaknessBreakBeStacks": {
+            "text": "Enemy broken BE stacks",
+            "content": "When an enemy target's Weakness gets broken, Break Effect of teammates increases by 6%. If Fugue's Break Effect is 220% or more, the Break Effect Boost effect additionally increases by 12%, lasting for 2 turns. This effect can stack up to 2 time(s)."
+          }
+        }
+      },
       "FuXuan": {
         "Content": {
           "talentActive": {
@@ -2280,6 +2334,44 @@ interface Resources {
           "teammateCDValue": {
             "text": "Sparkle's Combat CD",
             "content": "Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turn(s)."
+          }
+        }
+      },
+      "Sunday": {
+        "Content": {
+          "skillDmgBuff": {
+            "text": "Skill DMG buff",
+            "content": "Enables one designated ally character and their summon to immediately take action, and increases their DMG dealt by {{DmgBoost}}%. If the target has a summon, then additionally increases the DMG boost effect by {{SummonDmgBoost}}%"
+          },
+          "talentCrBuffStacks": {
+            "text": "Talent CR buff stacks",
+            "content": "When using Skill, increases the target's CRIT Rate by {{CritRateBoost}}%, lasting for 3 turns."
+          },
+          "techniqueDmgBuff": {
+            "text": "Technique DMG buff",
+            "content": "The first time Sunday uses an ability on an ally target in the next battle, the target's DMG dealt increases by 50% for 2 turns."
+          },
+          "e1DefPen": {
+            "text": "E1 DEF PEN",
+            "content": "When Sunday uses his Skill, allows target character to ignore 16% of enemy target's DEF and their summons to ignore 40% of enemy target's DEF when dealing DMG, lasting for 2 turns."
+          },
+          "e2DmgBuff": {
+            "text": "E2 Beatified DMG buff",
+            "content": "The DMG dealt by \"The Beatified\" increases by 30%."
+          }
+        },
+        "TeammateContent": {
+          "beatified": {
+            "text": "Ult CD buff",
+            "content": "The target and their summon have their CRIT DMG increased by an amount equal to {{CritBuffScaling}}% of Sunday's CRIT DMG plus {{CritBuffFlat}}%."
+          },
+          "teammateCDValue": {
+            "text": "Sunday Combat CD",
+            "content": "The target and their summon have their CRIT DMG increased by an amount equal to {{CritBuffScaling}}% of Sunday's CRIT DMG plus {{CritBuffFlat}}%."
+          },
+          "e6CrToCdConversion": {
+            "text": "E6 CR to CD conversion",
+            "content": "When the Talent's CRIT Rate boost takes effect and the target's CRIT Rate exceeds 100%, every 1% of excess CRIT Rate increases CRIT DMG by 2%."
           }
         }
       },
@@ -3356,7 +3448,7 @@ interface Resources {
       "Title": "Relics",
       "p1": "Note - Potential is a percent rating which compares a relic to the best possible +15 relic for the current character in the slot. This rating is based off the scoring algorithm weights. This means unrolled relics at +0 sometimes have a higher potential than existing +15 relics, because their possible rolls can go into the character's desired stats.",
       "p2": "Selected character: Score - The relic's current score as defined by the scoring algorithm for the currently selected character",
-      "p3": "Selected character: Average potential - The relic's potential at it's maximum level, averaged across all the possible rolls it could have on the way to +15",
+      "p3": "Selected character: Average potential - The relic's potential at its maximum level, averaged across all the possible rolls it could have on the way to +15",
       "p4": "Selected character: Max potential - The relic's maximum potential if all future rolls went into the character's desired stats",
       "p5": "All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game."
     },

@@ -1,18 +1,17 @@
-import i18next from 'i18next'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
-
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sunday')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sunday')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const skillDmgBoostValue = skill(e, 0.30, 0.33)
@@ -46,35 +45,40 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillDmgBuff: {
       id: 'skillDmgBuff',
       formItem: 'switch',
-      text: 'Skill DMG buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.skillDmgBuff.text'),
+      content: t(
+        'Content.skillDmgBuff.content',
+        {
+          DmgBoost: TsUtils.precisionRound(100 * skillDmgBoostValue),
+          SummonDmgBoost: TsUtils.precisionRound(100 * skillDmgBoostSummonValue),
+        }),
     },
     talentCrBuffStacks: {
       id: 'talentCrBuffStacks',
       formItem: 'slider',
-      text: 'Talent CR buff stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.talentCrBuffStacks.text'),
+      content: t('Content.talentCrBuffStacks.content', { CritRateBoost: TsUtils.precisionRound(100 * talentCrBuffValue) }),
       min: 0,
       max: e < 6 ? 1 : 3,
     },
     techniqueDmgBuff: {
       id: 'techniqueDmgBuff',
       formItem: 'switch',
-      text: 'Technique DMG buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.techniqueDmgBuff.text'),
+      content: t('Content.techniqueDmgBuff.content'),
     },
     e1DefPen: {
       id: 'e1DefPen',
       formItem: 'switch',
-      text: 'E1 DEF PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e1DefPen.text'),
+      content: t('Content.e1DefPen.content'),
       disabled: e < 1,
     },
     e2DmgBuff: {
       id: 'e2DmgBuff',
       formItem: 'switch',
-      text: 'E2 Beatified DMG buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e2DmgBuff.text'),
+      content: t('Content.e2DmgBuff.content'),
       disabled: e < 2,
     },
   }
@@ -85,14 +89,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     beatified: {
       id: 'beatified',
       formItem: 'switch',
-      text: 'Ult CD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.beatified.text'),
+      content: t(
+        'TeammateContent.beatified.content',
+        {
+          CritBuffScaling: TsUtils.precisionRound(100 * ultCdBoostValue),
+          CritBuffFlat: TsUtils.precisionRound(100 * ultCdBoostBaseValue),
+        }),
     },
     teammateCDValue: {
       id: 'teammateCDValue',
       formItem: 'slider',
-      text: 'Sunday Combat CD',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.teammateCDValue.text'),
+      content: t(
+        'TeammateContent.teammateCDValue.content',
+        {
+          CritBuffScaling: TsUtils.precisionRound(100 * ultCdBoostValue),
+          CritBuffFlat: TsUtils.precisionRound(100 * ultCdBoostBaseValue),
+        }),
       min: 0,
       max: 3.00,
       percent: true,
@@ -103,8 +117,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e6CrToCdConversion: {
       id: 'e6CrToCdConversion',
       formItem: 'switch',
-      text: 'E6 CR to CD conversion',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.e6CrToCdConversion.text'),
+      content: t('TeammateContent.e6CrToCdConversion.content'),
       disabled: e < 6,
     },
   }

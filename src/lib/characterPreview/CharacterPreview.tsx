@@ -1,6 +1,13 @@
 import { Flex, theme, Typography } from 'antd'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { getArtistName, getPreviewRelics, getShowcaseDisplayDimensions, presetTeamSelectionDisplay, showcaseIsInactive } from 'lib/characterPreview/characterPreviewController'
+import {
+  getArtistName,
+  getPreviewRelics,
+  getShowcaseDisplayDimensions,
+  getShowcaseSimScoringResult,
+  presetTeamSelectionDisplay,
+  showcaseIsInactive,
+} from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
@@ -19,7 +26,7 @@ import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
-import { scoreCharacterSimulation, SimulationScore } from 'lib/scoring/characterScorer'
+import { SimulationScore } from 'lib/scoring/characterScorer'
 import { DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -74,7 +81,7 @@ export function CharacterPreview(props: {
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
-  const [customPortrait, setCustomPortrait] = useState<CustomImageConfig | undefined>() // <null | CustomImageConfig>
+  const [customPortrait, setCustomPortrait] = useState<CustomImageConfig | undefined>()
   const [teamSelection, setTeamSelection] = useState(DEFAULT_TEAM)
   const [scoringType, setScoringType] = useState(SIMULATION_SCORE)
   const [combatScoreDetails, setCombatScoreDetails] = useState(COMBAT_STATS)
@@ -155,7 +162,7 @@ export function CharacterPreview(props: {
   const characterId = character.form.characterId
   const characterMetadata = DB.getMetadata().characters[characterId]
   const characterElement = characterMetadata.element
-  const elementalDmgValue = ElementToDamage[characterElement]
+  const elementalDmgType = ElementToDamage[characterElement]
 
   const statCalculationRelics = Utils.clone(displayRelics)
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics))
@@ -165,7 +172,7 @@ export function CharacterPreview(props: {
     CV: StatCalculator.calculateCv(Object.values(statCalculationRelics)),
   }
 
-  finalStats[elementalDmgValue] = finalStats.ELEMENTAL_DMG
+  finalStats[elementalDmgType] = finalStats.ELEMENTAL_DMG
 
   let currentSelection = teamSelection
   if (character?.id) {
@@ -193,16 +200,13 @@ export function CharacterPreview(props: {
       }
     }
   }
-
-  let combatSimResult = scoreCharacterSimulation(character, displayRelics, currentSelection)
-  let simScoringResult = scoringType == SIMULATION_SCORE ? combatSimResult : null
-  if (!simScoringResult?.originalSim) {
-    combatSimResult = null
-    simScoringResult = null
-  } else {
-    // Fix elemental damage
-    simScoringResult.originalSimResult[elementalDmgValue] = simScoringResult.originalSimResult.ELEMENTAL_DMG
-  }
+  const simScoringResult = getShowcaseSimScoringResult(
+    character,
+    displayRelics,
+    scoringType,
+    currentSelection,
+    elementalDmgType,
+  )
 
   const scoredRelics = scoringResults.relics || []
 
@@ -298,7 +302,7 @@ export function CharacterPreview(props: {
 
           <CharacterStatSummary
             finalStats={finalStats}
-            elementalDmgValue={elementalDmgValue}
+            elementalDmgValue={elementalDmgType}
             cv={finalStats.CV}
             simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
           />

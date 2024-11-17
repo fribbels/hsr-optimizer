@@ -1,14 +1,16 @@
 import { ShowcaseDisplayDimensions } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { CUSTOM_TEAM, DEFAULT_TEAM, Parts } from 'lib/constants/constants'
+import { CUSTOM_TEAM, DEFAULT_TEAM, Parts, SIMULATION_SCORE } from 'lib/constants/constants'
 import { innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, parentH, parentW } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { RelicScorer, RelicScoringResult } from 'lib/relics/relicScorerPotential'
+import { scoreCharacterSimulation } from 'lib/scoring/characterScorer'
 import { AppPages, DB } from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { MutableRefObject } from 'react'
 import { Character } from 'types/character'
 import { CustomImageConfig } from 'types/customImage'
+import { ElementalDamageType } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 export type ScoringResults = {
@@ -120,4 +122,25 @@ export function getShowcaseDisplayDimensions(character: Character, simScore: boo
     charCenter: charCenter,
     lcCenter: lcCenter,
   }
+}
+
+export function getShowcaseSimScoringResult(
+  character: Character,
+  displayRelics: SingleRelicByPart,
+  scoringType: string,
+  teamSelection: string,
+  elementalDmgType: ElementalDamageType,
+) {
+
+  let combatSimResult = scoreCharacterSimulation(character, displayRelics, teamSelection)
+  let simScoringResult = scoringType == SIMULATION_SCORE ? combatSimResult : null
+  if (!simScoringResult?.originalSim) {
+    combatSimResult = null
+    simScoringResult = null
+  } else {
+    // Fix elemental damage
+    simScoringResult.originalSimResult[elementalDmgType] = simScoringResult.originalSimResult.ELEMENTAL_DMG
+  }
+
+  return simScoringResult
 }

@@ -1,5 +1,6 @@
 import { Flex, Segmented, Typography } from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
+import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
 import { CHARACTER_SCORE, COMBAT_STATS, DAMAGE_UPGRADES, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
@@ -7,7 +8,6 @@ import { SimulationScore } from 'lib/scoring/characterScorer'
 import { SaveState } from 'lib/state/saveState'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { DBMetadataCharacter } from 'types/metadata'
 
 const { Text } = Typography
 
@@ -15,7 +15,7 @@ export function ShowcaseBuildAnalysis(props: {
   token: GlobalToken
   simScoringResult: SimulationScore | undefined
   combatScoreDetails: string
-  characterMetadata: DBMetadataCharacter
+  showcaseMetadata: ShowcaseMetadata
   scoringType: string
   setScoringType: (s: string) => void
   setCombatScoreDetails: (s: string) => void
@@ -26,11 +26,15 @@ export function ShowcaseBuildAnalysis(props: {
     token,
     simScoringResult,
     combatScoreDetails,
-    characterMetadata,
+    showcaseMetadata,
     scoringType,
     setScoringType,
     setCombatScoreDetails,
   } = props
+
+  const {
+    characterMetadata,
+  } = showcaseMetadata
 
   return (
     <Flex vertical>

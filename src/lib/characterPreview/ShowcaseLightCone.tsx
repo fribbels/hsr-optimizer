@@ -1,6 +1,7 @@
 import { Flex, Typography } from 'antd'
 import { ShowcaseDisplayDimensions } from 'lib/characterPreview/CharacterPreview'
 import { showcaseDropShadowFilter, showcaseOutline, showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import StatText from 'lib/characterPreview/StatText'
 import { middleColumnWidth, parentW } from 'lib/constants/constantsUi'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
@@ -13,28 +14,22 @@ const { Text } = Typography
 export function ShowcaseLightConeSmall(props: {
   source: ShowcaseSource,
   character: Character,
-  lightConeSrc: string,
-  lightConeName: string,
-  lightConeLevel: number,
-  lightConeSuperimposition: number,
   displayDimensions: ShowcaseDisplayDimensions,
   setOriginalCharacterModalInitialCharacter: (c: Character) => void,
   setOriginalCharacterModalOpen: (b: boolean) => void,
   setCharacterModalAdd: (b: boolean) => void,
+  showcaseMetadata: ShowcaseMetadata,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
   const {
     source,
     character,
-    lightConeSrc,
-    lightConeName,
-    lightConeLevel,
-    lightConeSuperimposition,
     displayDimensions,
     setOriginalCharacterModalInitialCharacter,
     setOriginalCharacterModalOpen,
     setCharacterModalAdd,
+    showcaseMetadata,
   } = props
 
   const {
@@ -45,6 +40,13 @@ export function ShowcaseLightConeSmall(props: {
     newLcHeight,
     lcCenter,
   } = displayDimensions
+
+  const {
+    lightConeSrc,
+    lightConeName,
+    lightConeLevel,
+    lightConeSuperimposition,
+  } = showcaseMetadata
 
   return (
     <Flex vertical>
@@ -121,28 +123,22 @@ export function ShowcaseLightConeSmall(props: {
 export function ShowcaseLightConeLarge(props: {
   source: ShowcaseSource,
   character: Character,
-  lightConeSrc: string,
-  lightConeName: string,
-  lightConeLevel: number,
-  lightConeSuperimposition: number,
   displayDimensions: ShowcaseDisplayDimensions,
   setOriginalCharacterModalInitialCharacter: (c: Character) => void,
   setOriginalCharacterModalOpen: (b: boolean) => void,
   setCharacterModalAdd: (b: boolean) => void,
+  showcaseMetadata: ShowcaseMetadata,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
   const {
     source,
     character,
-    lightConeSrc,
-    lightConeName,
-    lightConeLevel,
-    lightConeSuperimposition,
     displayDimensions,
     setOriginalCharacterModalInitialCharacter,
     setOriginalCharacterModalOpen,
     setCharacterModalAdd,
+    showcaseMetadata,
   } = props
 
   const {
@@ -151,6 +147,13 @@ export function ShowcaseLightConeLarge(props: {
     tempLcInnerW,
     tempLcInnerH,
   } = displayDimensions
+
+  const {
+    lightConeSrc,
+    lightConeName,
+    lightConeLevel,
+    lightConeSuperimposition,
+  } = showcaseMetadata
 
   return (
     <Flex vertical style={{ width: middleColumnWidth }}>

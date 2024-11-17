@@ -4,6 +4,7 @@ import {
   getArtistName,
   getPreviewRelics,
   getShowcaseDisplayDimensions,
+  getShowcaseMetadata,
   getShowcaseSimScoringResult,
   getShowcaseStats,
   handleTeamSelection,
@@ -21,12 +22,10 @@ import { ShowcaseLightConeLarge, ShowcaseLightConeSmall } from 'lib/characterPre
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
-import { COMBAT_STATS, DEFAULT_TEAM, ElementToDamage, SIMULATION_SCORE } from 'lib/constants/constants'
+import { COMBAT_STATS, DEFAULT_TEAM, SIMULATION_SCORE } from 'lib/constants/constants'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import RelicModal from 'lib/overlays/modals/RelicModal'
-import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/characterScorer'
-import { DB } from 'lib/state/db'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
@@ -119,31 +118,33 @@ export function CharacterPreview(props: {
 
   const { scoringResults, displayRelics } = getPreviewRelics(source, character, relicsById)
 
-  const characterId = character.form.characterId
-  const characterMetadata = DB.getMetadata().characters[characterId]
-  const characterElement = characterMetadata.element
-  const elementalDmgType = ElementToDamage[characterElement]
+  // const characterId = character.form.characterId
+  // const characterMetadata = DB.getMetadata().characters[characterId]
+  // const characterElement = characterMetadata.element
+  // const elementalDmgType = ElementToDamage[characterElement]
+  //
+  // const lightConeId = character.form.lightCone
+  // const lightConeLevel = 80
+  // const lightConeSuperimposition = character.form.lightConeSuperimposition
+  // const lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
+  // const lightConeName = lightConeId ? t(`gameData:Lightcones.${lightConeId}.Name` as never) : ''
+  // const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata) || ''
+  //
+  // const characterLevel = 80
+  // const characterEidolon = character.form.characterEidolon
+  // const characterName = characterId ? t(`gameData:Characters.${characterId}.Name` as never) : ''
+  // const characterPath = characterMetadata.path
 
-  const lightConeId = character.form.lightCone
-  const lightConeLevel = 80
-  const lightConeSuperimposition = character.form.lightConeSuperimposition
-  const lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
-  const lightConeName = lightConeId ? t(`gameData:Lightcones.${lightConeId}.Name` as never) : ''
-  const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata) || ''
+  const showcaseMetadata = getShowcaseMetadata(character)
 
-  const characterLevel = 80
-  const characterEidolon = character.form.characterEidolon
-  const characterName = characterId ? t(`gameData:Characters.${characterId}.Name` as never) : ''
-  const characterPath = characterMetadata.path
-
-  const finalStats = getShowcaseStats(character, displayRelics, elementalDmgType)
+  const finalStats = getShowcaseStats(character, displayRelics, showcaseMetadata)
   const currentSelection = handleTeamSelection(character, prevCharId, teamSelection)
   const simScoringResult = getShowcaseSimScoringResult(
     character,
     displayRelics,
     scoringType,
     currentSelection,
-    elementalDmgType,
+    showcaseMetadata,
   )
 
   const scoredRelics = scoringResults.relics || []
@@ -198,10 +199,7 @@ export function CharacterPreview(props: {
               <ShowcaseLightConeSmall
                 source={source}
                 character={character}
-                lightConeSrc={lightConeSrc}
-                lightConeName={lightConeName}
-                lightConeLevel={lightConeLevel}
-                lightConeSuperimposition={lightConeSuperimposition}
+                showcaseMetadata={showcaseMetadata}
                 displayDimensions={displayDimensions}
                 setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
                 setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
@@ -218,24 +216,19 @@ export function CharacterPreview(props: {
           justify='space-between'
         >
           <ShowcaseCharacterHeader
-            characterLevel={characterLevel}
-            characterEidolon={characterEidolon}
-            characterName={characterName}
-            characterPath={characterPath}
-            characterElement={characterElement}
-            characterMetadata={characterMetadata}
+            showcaseMetadata={showcaseMetadata}
           />
 
           <CharacterStatSummary
             finalStats={finalStats}
-            elementalDmgValue={elementalDmgType}
+            elementalDmgValue={showcaseMetadata.elementalDmgType}
             cv={finalStats.CV}
             simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
           />
 
           {simScoringResult && <>
             <ShowcaseDpsScorePanel
-              characterId={characterId}
+              characterId={showcaseMetadata.characterId}
               token={token}
               simScoringResult={simScoringResult}
               teamSelection={teamSelection}
@@ -253,10 +246,7 @@ export function CharacterPreview(props: {
             <ShowcaseLightConeLarge
               source={source}
               character={character}
-              lightConeSrc={lightConeSrc}
-              lightConeName={lightConeName}
-              lightConeLevel={lightConeLevel}
-              lightConeSuperimposition={lightConeSuperimposition}
+              showcaseMetadata={showcaseMetadata}
               displayDimensions={displayDimensions}
               setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
               setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
@@ -271,7 +261,7 @@ export function CharacterPreview(props: {
           setAddModalOpen={setAddModalOpen}
           displayRelics={displayRelics}
           source={source}
-          characterId={characterId}
+          characterId={showcaseMetadata.characterId}
           scoredRelics={scoredRelics}
         />
       </Flex>
@@ -281,7 +271,7 @@ export function CharacterPreview(props: {
           token={token}
           simScoringResult={simScoringResult as SimulationScore}
           combatScoreDetails={combatScoreDetails}
-          characterMetadata={characterMetadata}
+          showcaseMetadata={showcaseMetadata}
           scoringType={scoringType}
           setScoringType={setScoringType}
           setCombatScoreDetails={setCombatScoreDetails}

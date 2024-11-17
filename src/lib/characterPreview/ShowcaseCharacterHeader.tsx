@@ -1,18 +1,13 @@
 import { Flex, Image } from 'antd'
+import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import Rarity from 'lib/characterPreview/Rarity'
 import StatText from 'lib/characterPreview/StatText'
 import { Assets } from 'lib/rendering/assets'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { DBMetadataCharacter } from 'types/metadata'
 
 export function ShowcaseCharacterHeader(props: {
-  characterLevel: number,
-  characterEidolon: number,
-  characterName: string
-  characterPath: string,
-  characterElement: string,
-  characterMetadata: DBMetadataCharacter
+  showcaseMetadata: ShowcaseMetadata
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
@@ -23,7 +18,7 @@ export function ShowcaseCharacterHeader(props: {
     characterPath,
     characterElement,
     characterMetadata,
-  } = props
+  } = props.showcaseMetadata
 
   return (
     <Flex vertical>

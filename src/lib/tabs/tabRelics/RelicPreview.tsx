@@ -5,7 +5,7 @@ import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 
 import { Renderer } from 'lib/rendering/renderer'
-import { GenerateStat } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
+import { GenerateStat, SubstatDetails } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
 import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -95,7 +95,7 @@ export function RelicPreview(props: {
 
         <Divider style={{ margin: '6px 0px 6px 0px' }}/>
 
-        {GenerateStat(relic.main, true, relic)}
+        {GenerateStat(relic.main as SubstatDetails, true, relic)}
 
         <Divider style={{ margin: '6px 0px 6px 0px' }}/>
 

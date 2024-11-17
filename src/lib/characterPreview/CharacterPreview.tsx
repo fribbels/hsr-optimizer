@@ -100,13 +100,13 @@ export function CharacterPreview(props: {
   // REFACTOR ZONE ===========================================================================================================================
 
   function onEditOk(relic: Relic) {
-    const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
+    const updatedRelic = RelicModalController.onEditOk(selectedRelic!, relic)
     setSelectedRelic(updatedRelic)
   }
 
   function onAddOk(relic: Relic) {
     DB.setRelic(relic)
-    setRelicRows(DB.getRelics())
+    window.setRelicRows(DB.getRelics())
     SaveState.delayedSave()
 
     setSelectedRelic(relic)
@@ -165,8 +165,7 @@ export function CharacterPreview(props: {
     CV: StatCalculator.calculateCv(Object.values(statCalculationRelics)),
   }
 
-  finalStats.CV =
-    finalStats[elementalDmgValue] = finalStats.ELEMENTAL_DMG
+  finalStats[elementalDmgValue] = finalStats.ELEMENTAL_DMG
 
   let currentSelection = teamSelection
   if (character?.id) {
@@ -174,7 +173,7 @@ export function CharacterPreview(props: {
     if (defaultScoringMetadata?.simulation) {
       const scoringMetadata = DB.getScoringMetadata(character.id)
 
-      const hasCustom = Utils.objectHash(scoringMetadata.simulation.teammates) != Utils.objectHash(defaultScoringMetadata.simulation.teammates)
+      const hasCustom = Utils.objectHash(scoringMetadata.simulation!.teammates) != Utils.objectHash(defaultScoringMetadata.simulation.teammates)
 
       // Use the previously selected character to handle all cases of overriding the sim team display
       if (prevCharId.current == null) {
@@ -196,7 +195,7 @@ export function CharacterPreview(props: {
   }
 
   let combatSimResult = scoreCharacterSimulation(character, displayRelics, currentSelection)
-  let simScoringResult = scoringType == SIMULATION_SCORE && combatSimResult
+  let simScoringResult = scoringType == SIMULATION_SCORE ? combatSimResult : null
   if (!simScoringResult?.originalSim) {
     combatSimResult = null
     simScoringResult = null
@@ -223,130 +222,128 @@ export function CharacterPreview(props: {
 
   return (
     <Flex vertical>
-      <Flex vertical id={props.id} style={{ backgroundColor: backgroundColor }}>
-        <Flex
-          style={{
-            display: character ? 'flex' : 'none',
-            height: parentH,
-            margin: 1,
-          }}
-        >
-          <RelicModal
-            selectedRelic={selectedRelic}
-            type='edit'
-            onOk={onEditOk}
-            setOpen={setEditModalOpen}
-            open={editModalOpen}
-          />
-          <RelicModal
-            selectedRelic={selectedRelic}
-            type='edit'
-            onOk={onAddOk}
-            setOpen={setAddModalOpen}
-            open={addModalOpen}
-          />
+      <RelicModal
+        selectedRelic={selectedRelic}
+        type='edit'
+        onOk={onEditOk}
+        setOpen={setEditModalOpen}
+        open={editModalOpen}
+      />
+      <RelicModal
+        selectedRelic={selectedRelic}
+        type='edit'
+        onOk={onAddOk}
+        setOpen={setAddModalOpen}
+        open={addModalOpen}
+      />
 
-          {source != ShowcaseSource.BUILDS_MODAL &&
-            <Flex vertical gap={12} className='character-build-portrait'>
-              <ShowcasePortrait
+      <Flex
+        id={props.id}
+        style={{
+          display: character ? 'flex' : 'none',
+          height: parentH,
+          margin: 1,
+          backgroundColor: backgroundColor,
+        }}
+        gap={defaultGap}
+      >
+        {source != ShowcaseSource.BUILDS_MODAL &&
+          <Flex vertical gap={12} className='character-build-portrait'>
+            <ShowcasePortrait
+              source={source}
+              character={character}
+              displayDimensions={displayDimensions}
+              customPortrait={customPortrait}
+              editPortraitModalOpen={editPortraitModalOpen}
+              setEditPortraitModalOpen={setEditPortraitModalOpen}
+              onEditPortraitOk={onEditPortraitOk}
+              simScoringResult={simScoringResult as SimulationScore}
+              artistName={artistName}
+              setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+              setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+              setCharacterModalAdd={setCharacterModalAdd}
+            />
+
+            {simScoringResult && (
+              <ShowcaseLightConeSmall
                 source={source}
                 character={character}
+                lightConeSrc={lightConeSrc}
+                lightConeName={lightConeName}
+                lightConeLevel={lightConeLevel}
+                lightConeSuperimposition={lightConeSuperimposition}
                 displayDimensions={displayDimensions}
-                customPortrait={customPortrait}
-                editPortraitModalOpen={editPortraitModalOpen}
-                setEditPortraitModalOpen={setEditPortraitModalOpen}
-                onEditPortraitOk={onEditPortraitOk}
-                simScoringResult={simScoringResult}
-                artistName={artistName}
                 setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
                 setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
                 setCharacterModalAdd={setCharacterModalAdd}
               />
-
-              {simScoringResult && (
-                <ShowcaseLightConeSmall
-                  source={source}
-                  character={character}
-                  lightConeSrc={lightConeSrc}
-                  lightConeName={lightConeName}
-                  lightConeLevel={lightConeLevel}
-                  lightConeSuperimposition={lightConeSuperimposition}
-                  displayDimensions={displayDimensions}
-                  setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                  setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                  setCharacterModalAdd={setCharacterModalAdd}
-                />
-              )}
-            </Flex>
-          }
-
-          <Flex gap={defaultGap}>
-            <Flex vertical gap={defaultGap} align='center' justify='space-between'>
-              <Flex
-                vertical
-                style={{ width: middleColumnWidth, height: '100%' }}
-                justify='space-between'
-              >
-                <ShowcaseCharacterHeader
-                  characterLevel={characterLevel}
-                  characterEidolon={characterEidolon}
-                  characterName={characterName}
-                  characterPath={characterPath}
-                  characterElement={characterElement}
-                  characterMetadata={characterMetadata}
-                />
-
-                <CharacterStatSummary
-                  finalStats={finalStats}
-                  elementalDmgValue={elementalDmgValue}
-                  cv={finalStats.CV}
-                  simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
-                />
-
-                {simScoringResult && <>
-                  <ShowcaseDpsScorePanel
-                    characterId={characterId}
-                    token={token}
-                    simScoringResult={simScoringResult}
-                    teamSelection={teamSelection}
-                    combatScoreDetails={combatScoreDetails}
-                    displayRelics={displayRelics}
-                    setTeamSelection={setTeamSelection}
-                  />
-                </>}
-
-                {!simScoringResult && <>
-                  <ShowcaseStatScore
-                    scoringResults={scoringResults}
-                  />
-
-                  <ShowcaseLightConeLarge
-                    source={source}
-                    character={character}
-                    lightConeSrc={lightConeSrc}
-                    lightConeName={lightConeName}
-                    lightConeLevel={lightConeLevel}
-                    lightConeSuperimposition={lightConeSuperimposition}
-                    displayDimensions={displayDimensions}
-                    setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                    setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                    setCharacterModalAdd={setCharacterModalAdd}
-                  />
-                </>}
-              </Flex>
-            </Flex>
-
-            <ShowcaseRelicsPanel
-              setSelectedRelic={setSelectedRelic}
-              setEditModalOpen={setEditModalOpen}
-              setAddModalOpen={setAddModalOpen}
-              displayRelics={displayRelics}
-              source={source}
-              characterId={characterId}
-              scoredRelics={scoredRelics}
-            />
+            )}
           </Flex>
+        }
+
+        <Flex
+          vertical
+          gap={defaultGap}
+          style={{ width: middleColumnWidth, height: '100%' }}
+          justify='space-between'
+        >
+          <ShowcaseCharacterHeader
+            characterLevel={characterLevel}
+            characterEidolon={characterEidolon}
+            characterName={characterName}
+            characterPath={characterPath}
+            characterElement={characterElement}
+            characterMetadata={characterMetadata}
+          />
+
+          <CharacterStatSummary
+            finalStats={finalStats}
+            elementalDmgValue={elementalDmgValue}
+            cv={finalStats.CV}
+            simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
+          />
+
+          {simScoringResult && <>
+            <ShowcaseDpsScorePanel
+              characterId={characterId}
+              token={token}
+              simScoringResult={simScoringResult}
+              teamSelection={teamSelection}
+              combatScoreDetails={combatScoreDetails}
+              displayRelics={displayRelics}
+              setTeamSelection={setTeamSelection}
+            />
+          </>}
+
+          {!simScoringResult && <>
+            <ShowcaseStatScore
+              scoringResults={scoringResults}
+            />
+
+            <ShowcaseLightConeLarge
+              source={source}
+              character={character}
+              lightConeSrc={lightConeSrc}
+              lightConeName={lightConeName}
+              lightConeLevel={lightConeLevel}
+              lightConeSuperimposition={lightConeSuperimposition}
+              displayDimensions={displayDimensions}
+              setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+              setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+              setCharacterModalAdd={setCharacterModalAdd}
+            />
+          </>}
         </Flex>
+
+        <ShowcaseRelicsPanel
+          setSelectedRelic={setSelectedRelic}
+          setEditModalOpen={setEditModalOpen}
+          setAddModalOpen={setAddModalOpen}
+          displayRelics={displayRelics}
+          source={source}
+          characterId={characterId}
+          scoredRelics={scoredRelics}
+        />
       </Flex>
 
       {source != ShowcaseSource.BUILDS_MODAL &&

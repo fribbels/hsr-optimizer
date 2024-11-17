@@ -1,7 +1,7 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants/constants'
+import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { emptyRelic } from 'lib/optimization/optimizerUtils'
@@ -107,7 +107,7 @@ export function diminishingReturnsFormula(mainsCount: number, rolls: number) {
   return lowerLimit + diminishedExcess
 }
 
-export type SimulationResult = ComputedStatsObject & {
+export type SimulationResult = ComputedStatsObjectExternal & {
   BASIC: number
   SKILL: number
   ULT: number
@@ -118,7 +118,7 @@ export type SimulationResult = ComputedStatsObject & {
   penaltyMultiplier: number
   simScore: number
   stat: string
-  x: ComputedStatsObject
+  x: ComputedStatsObjectExternal
 }
 
 export type SimulationScore = {

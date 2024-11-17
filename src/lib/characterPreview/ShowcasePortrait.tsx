@@ -3,7 +3,7 @@ import { Button, Flex, Typography } from 'antd'
 import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
 import { ShowcaseDisplayDimensions } from 'lib/characterPreview/CharacterPreview'
 import { showcaseButtonStyle, showcaseDropShadowFilter, showcaseOutline, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { defaultGap, parentH, parentW } from 'lib/constants/constantsUi'
+import { parentH, parentW } from 'lib/constants/constantsUi'
 import EditImageModal from 'lib/overlays/modals/EditImageModal'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/characterScorer'
@@ -70,7 +70,6 @@ export function ShowcasePortrait(props: {
         height: `${tempParentH}px`,
         overflow: 'hidden',
         borderRadius: '8px',
-        marginRight: defaultGap,
         outline: showcaseOutline,
         filter: showcaseDropShadowFilter,
         position: 'relative',

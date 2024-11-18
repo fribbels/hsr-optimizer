@@ -26,7 +26,7 @@ CharacterWithCount_one: "{{count}} personnage"
 CharacterWithCount_other: "{{count}} personnages"
 Character_one: personnage
 Character_other: personnages
-VerifiedRelicHoverText: Stats secondaires confirmées par l'appréciateur de reliques (décimales de vitesse)
+VerifiedRelicHoverText: Substats confirmées par l'appréciateur de reliques (décimales de vitesse)
 CombatStats: Stats de Combat
 Parts:
   Head: Tête

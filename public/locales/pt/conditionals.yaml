@@ -863,6 +863,10 @@ Characters:
       e6Buffs:
         text: Buffs E6
         content: Enquanto estiver em Combustão Completa, aumenta a PEN de RES de Fogo do SAM em 20%. Ao usar o ATK Básico Aprimorado ou a Habilidade Aprimorada, aumenta a eficiência da quebra de fraqueza em 50%.
+  Fugue:
+    Content:
+      superBreakDmg:
+        text: DMG de Super Quebra (força a quebra de fraqueza)
   FuXuan:
     Content:
       talentActive:
@@ -1414,6 +1418,12 @@ Characters:
       teammateCDValue:
         text: Tempo de recarga de combate da Sparkle
         content: Aumenta o CRIT DMG de um único aliado em {{skillCdBuffScaling}}% do CRIT DMG de Sparkle mais {{skillCdBuffBase}}%, durando por 1 turno(s).
+  Sunday:
+    Content:
+      skillDmgBuff:
+        text: Buff de DMG de Habilidade
+      e1DefPen:
+        text: PEN de DEF E1
   Sushang:
     Content:
       ultBuffedState:

@@ -7,8 +7,8 @@ RelicFilterBar:
   Clear: Effacer
   ClearButton: Effacer tous les filtres
   Set: Ensemble
-  Mainstat: Stats principales
-  Substat: Stats secondaires
+  Mainstat: Mainstats
+  Substat: Substats
   ReapplyButton: Réapprécier les notes
   ScoringButton: Algorithme d'appréciation
   RecommendationHeader: Personnage de recommandation de reliques
@@ -28,8 +28,8 @@ RelicGrid:
     Part: Pièce
     Enhance: Niveau
     MainStat: |-
+      Main
       Stat
-      Principale
     MainValue: |-
       Valeur
       Principale
@@ -127,4 +127,4 @@ Toolbar:
   AddRelic: Ajouter nouvelle relique
 RelicInsights:
   NewStats: "Nouvelles stats: "
-  UpgradedStats: "Stats amgliorées: "
+  UpgradedStats: "Stats améliorées: "

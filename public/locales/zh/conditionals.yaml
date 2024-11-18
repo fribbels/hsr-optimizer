@@ -17,6 +17,12 @@ Common:
     Talent: "护盾技能：天赋"
     Trace: "护盾技能：行迹"
 Lightcones:
+  AGroundedAscent:
+    Content:
+      dmgBuffStacks:
+        text: 伤害提高层数
+        content: >-
+          当装备者对我方单体角色施放战技或终结技后，使技能目标获得1层【圣咏】，持续3回合，最多叠加3层，每层【圣咏】使持有者造成的伤害提高{{DmgBuff}}%。
   AlongThePassingShore:
     Content:
       emptyBubblesDebuff:
@@ -144,6 +150,12 @@ Lightcones:
         text: 流光层数
         content: >-
           装备者施放追加攻击时，获得1层【流光】，最多叠加2层。每层【流光】使装备者造成的终结技伤害无视目标{{DefIgnore}}%的防御力。装备者回合结束时，移除1层【流光】。
+  LongRoadLeadsHome:
+    Content:
+      breakVulnerabilityStacks:
+        text: 击破易伤层数
+        content: >-
+          当有敌方目标的弱点被击破时，有 100% 的基础概率使其陷入【焚灼】状态，受到的击破伤害提高{{breakVulnerability}}%，持续2回合，此效果可叠加2层。
   MomentOfVictory:
     Content:
       selfAttackedDefBuff:
@@ -848,6 +860,39 @@ Characters:
       e6Buffs:
         text: 6魂增益
         content: '「完全燃烧」状态下装甲「萨姆」的火属性抗性穿透提高20%。施放强化普攻、强化战技时弱点击破效率提高50%。'
+  Fugue:
+    Content:
+      torridScorch:
+        text: 炽灼状态
+        content: 处于【炽灼】状态时，忘归人普攻获得强化。
+      foxianPrayer:
+        text: 狐祈击破特攻增益
+        content: >-
+          持有【狐祈】的我方目标，击破特攻提高{{BreakBuff}}%，攻击没有对应属性弱点的敌人也能削减韧性，效果等同于原削韧值的50%，无法与其他无视弱点属性削韧效果叠加。
+      defReduction:
+        text: 战技防御削弱
+        content: >-
+          持有【狐祈】的我方目标每次施放攻击时，忘归人有 100% 的基础概率使受到攻击的敌方目标防御力降低{{DefShred}}%，持续2回合。
+      superBreakDmg:
+        text: 超击破伤害（强制弱点击破）
+        content: >-
+          忘归人在场时，我方攻击处于弱点击破状态的敌方目标后，会将本次攻击的削韧值转化为1次{{SuperBreakMultiplier}}%的超击破伤害。
+      e4BreakDmg:
+        text: 4魂击破伤害提升
+        content: 持有【狐祈】的我方目标，造成的击破伤害提高20%。
+      e6BreakEfficiency:
+        text: 6魂击破效率提升
+        content: >-
+          忘归人的弱点击破效率提高50%。当忘归人处于【炽灼】状态时【狐祈】效果对我方全体生效。
+    TeammateContent:
+      be220Buff:
+        text: 击破特攻≥220%
+        content: >-
+          当有敌方目标的弱点被击破时，使除自身以外的队友击破特攻提高6%，若忘归人的击破特攻大于等于220%，击破特攻提高的效果额外提高12%，持续2回合，该效果最多可叠加2层。
+      weaknessBreakBeStacks:
+        text: 敌人弱点击破层数
+        content: >-
+          当有敌方目标的弱点被击破时，使除自身以外的队友击破特攻提高6%，若忘归人的击破特攻大于等于220%，击破特攻提高的效果额外提高12%，持续2回合，该效果最多可叠加2层。
   FuXuan:
     Content:
       talentActive:
@@ -1399,6 +1444,38 @@ Characters:
       teammateCDValue:
         text: 花火战斗中暴击伤害值
         content: 使指定我方单体的暴击伤害提高，提高数值等同于花火{{skillCdBuffScaling}}%暴击伤害+{{skillCdBuffBase}}%，持续1回合。
+  Sunday:
+    Content:
+      skillDmgBuff:
+        text: 战技伤害增益
+        content: >-
+          使指定我方单体角色及其召唤物立即行动，并使其造成的伤害提高{{DmgBoost}}%，若目标拥有召唤物，则造成的伤害提高效果额外提高{{SummonDmgBoost}}%，持续2回合。
+      talentCrBuffStacks:
+        text: 天赋暴击率增益层数
+        content: 施放战技时，使目标的暴击率提高20%，持续3回合。
+      techniqueDmgBuff:
+        text: 秘技伤害增益
+        content: 使用秘技后，下一次战斗星期日首次对我方目标施放技能时，使目标造成的伤害提高50%，持续2回合。
+      e1DefPen:
+        text: 1魂防御穿透
+        content: >-
+          星期日施放战技时，使目标角色造成伤害时无视目标16%的防御力，召唤物造成伤害时无视目标40%的防御力，持续2回合。
+      e2DmgBuff:
+        text: 2魂蒙福者伤害增益
+        content: '【蒙福者】造成的伤害提高30%。'
+    TeammateContent:
+      beatified:
+        text: 终结技暴击伤害增益
+        content: >-
+          为指定目标及其召唤物成为【蒙福者】，【蒙福者】的暴击伤害提高，提高数值等同于星期日{{CritBuffScaling}}暴击伤害+{{CritBuffFlat}}%。
+      teammateCDValue:
+        text: 星期日战斗中暴击伤害
+        content: >-
+          为指定目标及其召唤物成为【蒙福者】，【蒙福者】的暴击伤害提高，提高数值等同于星期日{{CritBuffScaling}}暴击伤害+{{CritBuffFlat}}%。
+      e6CrToCdConversion:
+        text: 6魂暴击率转至暴击伤害
+        content: >-
+          天赋的暴击率提高效果生效时，当目标的暴击率超过100%，每溢出1%暴击率提高2%暴击伤害。
   Sushang:
     Content:
       ultBuffedState:

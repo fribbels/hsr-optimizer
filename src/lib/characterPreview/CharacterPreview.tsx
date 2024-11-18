@@ -1,4 +1,5 @@
 import { Button, ConfigProvider, Flex, theme, ThemeConfig } from 'antd'
+import getDesignToken from 'antd/lib/theme/getDesignToken'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   getArtistName,
@@ -67,7 +68,14 @@ export function CharacterPreview(props: {
   const relicsById = window.store((s) => s.relicsById)
   const [_redrawTeammates, setRedrawTeammates] = useState<number>(0)
 
-  const backgroundColor = overrideTheme ? overrideTheme.token.colorBgLayout : token.colorBgLayout
+  const backgroundColor = token.colorBgLayout
+  const colorBgBase = token.colorBgBase
+  const overrideToken = overrideTheme ? getDesignToken(overrideTheme) : token
+
+  useEffect(() => {
+    // Log whenever overrideTheme updates
+    console.log('Updated theme tokens:', overrideTheme?.token)
+  }, [overrideTheme])
 
   useEffect(() => {
     presetTeamSelectionDisplay(character, prevCharId, setTeamSelection, setCustomPortrait)
@@ -123,7 +131,7 @@ export function CharacterPreview(props: {
         open={addModalOpen}
       />
 
-      <ConfigProvider theme={overrideTheme ?? undefined}>
+      <ConfigProvider theme={overrideTheme}>
         <Flex
           style={{
             position: 'absolute',
@@ -134,9 +142,10 @@ export function CharacterPreview(props: {
           <Button
             onClick={() => {
               setOverrideTheme({
+                algorithm: theme.darkAlgorithm,
                 token: {
-                  colorBgLayout: '#670931', // Background color
-                  colorBgBase: '#491f2b', // Cards, interactables
+                  colorBgLayout: '#2a1c2e', // Custom layout background
+                  colorBgBase: 'rgba(53,40,99,0.34)', // Custom base background
                 },
               })
             }}
@@ -152,7 +161,7 @@ export function CharacterPreview(props: {
             display: character ? 'flex' : 'none',
             height: parentH,
             margin: 1,
-            backgroundColor: backgroundColor,
+            backgroundColor: overrideToken.colorBgLayout,
           }}
           gap={defaultGap}
         >
@@ -191,7 +200,13 @@ export function CharacterPreview(props: {
           {/* Character details middle panel */}
           <Flex
             vertical
-            style={{ width: middleColumnWidth, height: '100%' }}
+            style={{
+              width: middleColumnWidth,
+              height: '100%',
+              outline: `1px solid ${overrideToken.colorBorderSecondary}`,
+              borderRadius: 8,
+              backgroundColor: overrideToken.colorBgContainer,
+            }}
             justify='space-between'
           >
             <ShowcaseCharacterHeader

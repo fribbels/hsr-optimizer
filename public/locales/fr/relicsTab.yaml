@@ -6,7 +6,7 @@ RelicFilterBar:
   Equipped: Équipée
   Clear: Effacer
   ClearButton: Effacer tous les filtres
-  Set: Ensemble
+  Set: Set
   Mainstat: Mainstats
   Substat: Substats
   ReapplyButton: Réapprécier les notes
@@ -23,7 +23,7 @@ RelicGrid:
   Of: à
   Headers:
     EquippedBy: Propriétaire
-    Set: Ensemble
+    Set: Set
     Grade: Grade
     Part: Pièce
     Enhance: Niveau
@@ -103,10 +103,10 @@ RelicGrid:
     ComingSoon:
       Label: Prochainement
       SetsPotential:
-        Label: Potentiel d'ensemble de relique / ornement
+        Label: Potentiel de sets de relique / ornement
         Header: |-
           Tous pers.
-          Potentiel max. + ensembles
+          Potentiel max. + Sets
 Toolbar:
   RelicLocator:
     Width: Largeur de l'inventaire

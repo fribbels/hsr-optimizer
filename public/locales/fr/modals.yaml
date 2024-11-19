@@ -35,13 +35,13 @@ Scoring:
       ButtonText: "Effacer le filtre de mainstat pour la $t(common:Parts.LinkRope)"
       SuccessMessage: "Filtre de mainstat pour la $t(common:Parts.LinkRope) effacé"
     RELIC_SETS:
-      Description: Le filtre d'ensemble de reliques est peut-être trop restrictif
-      ButtonText: Effacer le filtre d'ensembles de reliques
-      SuccessMessage: Filtre d'ensemble de reliques effacé
+      Description: Le filtre de sets de reliques est peut-être trop restrictif
+      ButtonText: Effacer le filtre de sets de reliques
+      SuccessMessage: Filtre de sets de reliques effacé
     ORNAMENT_SETS:
-      Description: Le filtre d'ensemble d'ornements est peut-être trop restrictif
-      ButtonText: Effacer le filtre d'ensemble d'ornements
-      SuccessMessage: Filtre d'ensemble d'ornements effacé
+      Description: Le filtre de sets d'ornements est peut-être trop restrictif
+      ButtonText: Effacer le filtre de sets d'ornements
+      SuccessMessage: Filtre de sets d'ornements effacé
     KEEP_CURRENT:
       Description: L'option "Garder reliques courantes" est activée, ce qui oblige le personnage à garder ses reliques déjà équipées lors de la recherche.
       ButtonText: Désactiver "Garder reliques courantes"
@@ -236,7 +236,7 @@ Scoring:
 ManyPerms:
   Title: Recherche très importante demandée
   Text: >-
-    Cette recherche d'optimisation prendra beaucoup de temps à se terminer. Vous pouvez activer l'accélération GPU ou limiter la recherche à certaines mainstats / ensembles, ou utilisez le filtre de poids de substats pour réduire le nombre de permutations.
+    Cette recherche d'optimisation prendra beaucoup de temps à se terminer. Vous pouvez activer l'accélération GPU ou limiter la recherche à certaines mainstats / sets, ou utilisez le filtre de poids de substats pour réduire le nombre de permutations.
   Cancel: Annuler la recherche
   Proceed: Commencer la recherche
 EditCharacter:
@@ -249,7 +249,7 @@ EditCharacter:
 Relic:
   Part: Pièce
   Wearer: Equipée par
-  Set: Ensemble
+  Set: Set
   Enhance: Niveau / Grade
   Mainstat: Mainstat
   Substat: Substats
@@ -260,15 +260,15 @@ Relic:
     Error:
       PartMissing: Le champ "pièce" est absent
       MainstatMissing: La mainstat est manquante
-      SetMissing: Le champ "Ensemble" est manquant
+      SetMissing: Le champ "Set" est manquant
       EnhanceMissing: Le champ "niveau" est manquant
       GradeMissing: Le champ "grade" est manquant
       EnhanceInvalid: Le niveau est invalide
       GradeInvalid: Le grade est invalide
       EnhanceTooHigh: Le niveau est trop élevé pour ce grade
-      SetInvalid: L'ensemble sélectionné est invalide
-      SetNotOrnament: L'ensemble sélectionné n'est pas un ensemble d'ornement
-      SetNotRelic: L'ensemble sélectionné n'est pas un ensemble de relique
+      SetInvalid: Le set sélectionné est invalide
+      SetNotOrnament: Le set sélectionné n'est pas un set d'ornement
+      SetNotRelic: Le set sélectionné n'est pas un set de relique
       SubNInvalid: "Substat {{number}} est invalide"
       SubsOutOfOrder: Les substats ne sont pas dans le bon ordre
       DuplicateSubs: Substats dupliquées, seulement une ligne de chaque stat est autorisée

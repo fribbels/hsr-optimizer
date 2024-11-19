@@ -14,9 +14,9 @@ Mainstats:
   Title: Mainstats
   p1: Sélectionnez les mainstats à utiliser pour la recherche. Plusieurs stats peuvent être sélectionnées pour plus d'options
 Sets:
-  Title: Ensembles
-  p1: Sélectionnez les ensembles de reliques et ornements par lesquels filtrer les résultats. Plusieurs ensembles peuvent être sélectionnés pour plus d'options
-  p2: Les effets d'ensembles seront pris en compte lors des calculs. Utilisez le menu d'effets d'ensembles conditionnels pour modifier quels effets sont pris en compte.
+  Title: Sets
+  p1: Sélectionnez les sets de reliques et ornements par lesquels filtrer les résultats. Plusieurs sets peuvent être sélectionnés pour plus d'options
+  p2: Les effets de set seront pris en compte lors des calculs. Utilisez le menu d'effets de sets conditionnels pour modifier quels effets sont pris en compte.
 Character:
   Title: Personnage
   p1: Sélectionnez le personnage et l'eidolon. Le personnage est supposé être de niveau 80 avec ses traces au maximum lors des calculs d'optimisation.
@@ -83,7 +83,7 @@ StatDisplay:
   Title: Vue Stats et Filtres
   p1: Cela permet de basculer entre la vue des stats basiques et celle des stats de combat. Les filtres de stats seront appliqués en fonction de la vue sélectionnée.
   p2: Stats basiques - Les stats telles qu'elles sont affichées sur la vue du personnage dans le jeu, avec aucun buff de combat appliqué.
-  p3: "Stats de combat - Les stats du personnage avec toutes les buffs de combat: buffs de personnages, cônes de lumière, alliés, effets d'ensembles, etc."
+  p3: "Stats de combat - Les stats du personnage avec toutes les buffs de combat: buffs de personnages, cônes de lumière, alliés, effets de sets, etc."
 ValueColumns:
   Title: Colonnes de valeur
   p1: Vous pouvez optionnellement afficher un certain nombre de colonnes qui évaluent la 'valeur' relative d'une relique.
@@ -109,4 +109,4 @@ RelicLocation:
 LocatorParams:
   Title: Options de localisateur de relique
   p1: <0>Largeur d'inventaire</0> - Sélectionnez le nombre de colonnes que présente votre inventaire dans le jeu affin que le localisateur de reliques puisse trouver votre relique avec précision
-  p2: <0>Filtre automatique des lignes</0> - Nombre maximum de lignes avant le localisateur de reliques applique un filtre de pièce/ensemble pour essayer de remonter la relique recherchée vers le haut de votre inventaire
+  p2: <0>Filtre automatique des lignes</0> - Nombre maximum de lignes avant le localisateur de reliques applique un filtre de pièce/set pour essayer de remonter la relique recherchée vers le haut de votre inventaire

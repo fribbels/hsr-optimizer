@@ -73,7 +73,7 @@ CharacterPreview:
   BuildAnalysis:
     Header: Analyse de build du personnage
     SimulationTeammates: Coéquipiers de simulation
-    SimulationSets: Ensemble de simulation
+    SimulationSets: Set de simulation
     Rotation:
       Header: Rotation des dégâts de combo
       BASIC: NORMALE

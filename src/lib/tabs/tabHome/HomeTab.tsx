@@ -246,6 +246,7 @@ function FeaturesCollapse() {
 }
 
 function Header() {
+  const { t } = useTranslation('hometab')
   return (
     <Flex
       vertical
@@ -266,7 +267,9 @@ function Header() {
           fontFamily: 'Tahoma, Geneva, Verdana, sans-serif',
         }}
       >
-        Welcome to the<br/>Fribbels Star Rail Optimizer
+        <Trans t={t} i18nKey='Welcome'>
+          Welcome to the<br/>Fribbels Star Rail Optimizer
+        </Trans>
       </h1>
       <div style={{ height: 500 }}/>
       <SearchBar/>
@@ -276,7 +279,7 @@ function Header() {
 
 function SearchBar() {
   const scorerId = window.store((s) => s.scorerId)
-
+  const { t } = useTranslation('hometab', { keyPrefix: 'SearchBar' })
   return (
     <Flex
       vertical
@@ -287,10 +290,10 @@ function SearchBar() {
       gap={5}
     >
       <Flex justify='flex-start' style={{ width: '100%', paddingLeft: 3, paddingBottom: 5, fontSize: 18, textShadow: 'rgb(0, 0, 0) 2px 2px 20px, rgb(0, 0, 0) 0px 0px 5px' }}>
-        Enter your UUID to showcase characters:
+        {t('Label')/* Enter your UUID to showcase characters: */}
       </Flex>
       <Input.Search
-        placeholder='UUID'
+        placeholder={t('Placeholder')/* 'UUID' */}
         enterButton={(
           <Flex gap={5} style={{ marginRight: 5 }}>
             <SearchOutlined style={{ marginRight: 10 }}/> Search
@@ -302,7 +305,7 @@ function SearchBar() {
         onSearch={(uuid: string) => {
           const validated = TsUtils.validateUuid(uuid)
           if (!validated) {
-            return Message.warning('Invalid input - This should be your 9 digit ingame UUID')
+            return Message.warning(t('Message')/* 'Invalid input - This should be your 9 digit ingame UUID' */)
           }
 
           window.history.pushState({}, '', `/hsr-optimizer#showcase?id=${uuid}`)

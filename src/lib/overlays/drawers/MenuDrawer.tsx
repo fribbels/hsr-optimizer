@@ -119,7 +119,7 @@ const MenuDrawer = () => {
           <Typography.Link>
             <HomeOutlined style={{ marginRight: 2, width: 16 }}/>
             {' '}
-            {'Home' /* Home */}
+            {t('Links.Home') /* Home */}
           </Typography.Link>
         ),
         AppPages.HOME),

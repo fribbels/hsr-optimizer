@@ -2,7 +2,7 @@ import { ExportOutlined, LinkOutlined } from '@ant-design/icons'
 import React from 'react'
 
 export function ColorizedLinkWithIcon(props: {
-  text: string
+  text?: string
   url?: string
   externalIcon?: boolean
   linkIcon?: boolean

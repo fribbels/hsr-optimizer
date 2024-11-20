@@ -27,7 +27,10 @@ import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
 import { COMBAT_STATS, DEFAULT_TEAM, SIMULATION_SCORE } from 'lib/constants/constants'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import RelicModal from 'lib/overlays/modals/RelicModal'
+import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/characterScorer'
+import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
+import { addColorTransparency } from 'lib/utils/colorUtils'
 import React, { useEffect, useRef, useState } from 'react'
 import { Character } from 'types/character'
 import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
@@ -72,6 +75,11 @@ export function CharacterPreview(props: {
   const colorBgBase = token.colorBgBase
   const overrideToken = overrideTheme ? getDesignToken(overrideTheme) : token
 
+  const showcaseTheme: ShowcaseTheme = {
+    cardBackgroundColor: addColorTransparency(overrideToken.colorPrimaryActive, 0.85),
+    cardBorderColor: '',
+  }
+
   useEffect(() => {
     // Log whenever overrideTheme updates
     console.log('Updated theme tokens:', overrideTheme?.token)
@@ -114,6 +122,9 @@ export function CharacterPreview(props: {
   const artistName = getArtistName(character)
   const finalStats = getShowcaseStats(character, displayRelics, showcaseMetadata)
 
+  console.log(customPortrait)
+  console.log(character)
+
   return (
     <Flex vertical>
       <RelicModal
@@ -145,7 +156,8 @@ export function CharacterPreview(props: {
                 algorithm: theme.darkAlgorithm,
                 token: {
                   colorBgLayout: '#2a1c2e', // Custom layout background
-                  colorBgBase: 'rgba(53,40,99,0.34)', // Custom base background
+                  colorBgBase: '#352863', // Custom base background
+                  colorPrimary: '#352863', // Custom base background
                 },
               })
             }}
@@ -158,13 +170,33 @@ export function CharacterPreview(props: {
         <Flex
           id={props.id}
           style={{
+            position: 'relative',
             display: character ? 'flex' : 'none',
             height: parentH,
             margin: 1,
-            backgroundColor: overrideToken.colorBgLayout,
+            background: overrideToken.colorBgLayout,
+            // background: 'linear-gradient(red, transparent), linear-gradient(to top left, lime, transparent), linear-gradient(to top right, blue, transparent)',
+            backgroundBlendMode: 'screen',
+            overflow: 'hidden',
           }}
           gap={defaultGap}
         >
+          <div
+            style={{
+              backgroundImage: `url(${customPortrait?.imageUrl ?? Assets.getCharacterPortraitById(character.id)})`,
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 0,
+              filter: 'blur(10px)',
+              WebkitFilter: 'blur(10px)',
+            }}
+          />
           {/* Portrait left panel */}
           {source != ShowcaseSource.BUILDS_MODAL &&
             <Flex vertical gap={12} className='character-build-portrait'>
@@ -205,7 +237,8 @@ export function CharacterPreview(props: {
               height: '100%',
               outline: `1px solid ${overrideToken.colorBorderSecondary}`,
               borderRadius: 8,
-              backgroundColor: overrideToken.colorBgContainer,
+              zIndex: 1,
+              backgroundColor: addColorTransparency(overrideToken.colorPrimaryActive, 0.85),
             }}
             justify='space-between'
           >
@@ -263,6 +296,7 @@ export function CharacterPreview(props: {
             source={source}
             characterId={showcaseMetadata.characterId}
             scoredRelics={scoredRelics}
+            showcaseColors={showcaseTheme}
           />
         </Flex>
       </ConfigProvider>

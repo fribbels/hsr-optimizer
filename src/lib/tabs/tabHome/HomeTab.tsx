@@ -1,12 +1,14 @@
 import { ExportOutlined, SearchOutlined } from '@ant-design/icons'
 import { RightOutlined } from '@ant-design/icons/lib/icons'
 import { Button, Card, Collapse, Divider, Flex, Input } from 'antd'
+import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db.js'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 const headerHeight = 900
 const headerWidth = 1600
@@ -39,38 +41,44 @@ export default function HomeTab(): React.JSX.Element {
 const collapseItems = [
   {
     key: '1',
-    label: <CollapseLabel text='Explore the features'/>,
+    label: <CollapseLabel i18nkey='Explore'/* Explore the features *//>,
     children: <FeaturesCollapse/>,
   },
   {
     key: '2',
-    label: <CollapseLabel text='Join the community'/>,
+    label: <CollapseLabel i18nkey='Join'/* Join the community *//>,
     children: <CommunityCollapse/>,
   },
 ]
 
-function CollapseLabel(props: { text: string }) {
+type CollapseLabelI18nKey = 'Explore' | 'Join'
+
+function CollapseLabel(props: { i18nkey: CollapseLabelI18nKey }) {
+  const { t } = useTranslation('hometab', { keyPrefix: 'CollapseLabels' })
   return (
     <div style={{ marginRight: 38, textAlign: 'center' }}>
       <Divider style={{ fontSize: 24, paddingInline: 30, marginBlock: 0 }}>
-        {props.text}
+        {t(props.i18nkey)}
       </Divider>
     </div>
   )
 }
 
 function CommunityCollapse() {
+  const { t } = useTranslation('hometab')
   return (
     <Flex style={{ padding: '0px 25px' }} gap={50}>
       <Flex vertical style={{ flex: 1, fontSize: 20 }} gap={20}>
-        <span>
-          A huge thanks to all our contributors, translators, users, and everyone who provided feedback, for supporting this project and helping to build it together!
-        </span>
+        <Trans t={t} i18nKey='CommunityCollapse'>
+          <span>
+            A huge thanks to all our contributors, translators, users, and everyone who provided feedback, for supporting this project and helping to build it together!
+          </span>
 
-        <span>
-          Come be a part of our Star Rail community! Join the <ColorizedLinkWithIcon text='Discord' url='https://discord.gg/rDmB4Un7qg'/> server to hang out,
-          or check out the <ColorizedLinkWithIcon text='GitHub' url='https://github.com/fribbels/hsr-optimizer'/> repo if you'd like to contribute.
-        </span>
+          <span>
+            Come be a part of our Star Rail community! Join the <ColorizedLinkWithIcon url='https://discord.gg/rDmB4Un7qg'/> server to hang out,
+            or check out the <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer'/> repo if you'd like to contribute.
+          </span>
+        </Trans>
       </Flex>
       <Flex style={{ flex: 1 }} align='flex-start'>
         <a href='https://github.com/fribbels/hsr-optimizer/graphs/contributors' target='_blank' rel='noreferrer' style={{ width: '100%' }}>
@@ -141,13 +149,18 @@ function CardImage(props: { id: string }) {
           outline: 'rgba(255, 255, 255, 0.15) solid 1px',
           boxShadow: 'rgb(0 0 0 / 50%) 2px 2px 3px',
         }}
-        src={Assets.getHomeFeature(props.id)}
+        src={Assets.getHomeFeature(props.id, i18next.resolvedLanguage)}
+        onError={(e) => {
+          e.target.src = Assets.getHomeFeature(props.id)
+          e.onerror = null // prevent infinite looping if for some reason the english image can't be loaded
+        }}
       />
     </div>
   )
 }
 
 function FeatureCard(props: { title: string; id: string; content: string; url: string }) {
+  const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards' })
   return (
     <Card
       title={(
@@ -175,7 +188,7 @@ function FeatureCard(props: { title: string; id: string; content: string; url: s
           target='_blank'
           icon={<ExportOutlined/>}
         >
-          Learn more
+          {t('LearnMore')/* Learn more */}
         </Button>
       </Flex>
     </Card>
@@ -183,34 +196,47 @@ function FeatureCard(props: { title: string; id: string; content: string; url: s
 }
 
 function FeaturesCollapse() {
+  const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards' })
   return (
     <Flex style={{ maxWidth: headerWidth, minWidth: 1000, width: '100%', padding: '0px 20px' }}>
       <Flex vertical style={{ width: '100%' }} gap={cardGap}>
         <Flex gap={cardGap}>
           <FeatureCard
-            title='Character Showcase'
+            title={t('Showcase.Title')/* Character Showcase */}
             id='showcase'
-            content='Showcase your character’s stats or prebuild future characters. Simulate their combat damage with DPS score and measure it against the benchmarks.'
+            content={
+              t('Showcase.Content')
+              // Showcase your character’s stats or prebuild future characters. Simulate their combat damage with DPS score and measure it against the benchmarks.
+            }
             url='https://github.com/fribbels/hsr-optimizer'
           />
           <FeatureCard
-            title='Relic Optimizer'
+            title={t('Optimizer.Title')/* Relic Optimizer */}
             id='optimizer'
-            content='Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats.'
+            content={
+              t('Optimizer.Content')
+              // Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats.
+            }
             url='https://github.com/fribbels/hsr-optimizer'
           />
         </Flex>
         <Flex gap={cardGap} style={{ width: '100%' }}>
           <FeatureCard
-            title='Damage Calculator'
+            title={t('Calculator.Title')/* Damage Calculator */}
             id='calculator'
-            content='Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output.'
+            content={
+              t('Calculator.Content')
+              // Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output.
+            }
             url='https://github.com/fribbels/hsr-optimizer'
           />
           <FeatureCard
-            title='Inventory Organizer'
+            title={t('Organizer.Title')/* Inventory Organizer */}
             id='relics'
-            content='Organize your inventory by scoring and sorting relics based on their potential, and find the top relics to upgrade for each character.'
+            content={
+              t('Organizer.Content')
+              // Organize your inventory by scoring and sorting relics based on their potential, and find the top relics to upgrade for each character.
+            }
             url='https://github.com/fribbels/hsr-optimizer'
           />
         </Flex>
@@ -220,6 +246,7 @@ function FeaturesCollapse() {
 }
 
 function Header() {
+  const { t } = useTranslation('hometab')
   return (
     <Flex
       vertical
@@ -240,7 +267,9 @@ function Header() {
           fontFamily: 'Tahoma, Geneva, Verdana, sans-serif',
         }}
       >
-        Welcome to the<br/>Fribbels Star Rail Optimizer
+        <Trans t={t} i18nKey='Welcome'>
+          Welcome to the<br/>Fribbels Star Rail Optimizer
+        </Trans>
       </h1>
       <div style={{ height: 500 }}/>
       <SearchBar/>
@@ -250,7 +279,7 @@ function Header() {
 
 function SearchBar() {
   const scorerId = window.store((s) => s.scorerId)
-
+  const { t } = useTranslation('hometab', { keyPrefix: 'SearchBar' })
   return (
     <Flex
       vertical
@@ -261,10 +290,10 @@ function SearchBar() {
       gap={5}
     >
       <Flex justify='flex-start' style={{ width: '100%', paddingLeft: 3, paddingBottom: 5, fontSize: 18, textShadow: 'rgb(0, 0, 0) 2px 2px 20px, rgb(0, 0, 0) 0px 0px 5px' }}>
-        Enter your UUID to showcase characters:
+        {t('Label')/* Enter your UUID to showcase characters: */}
       </Flex>
       <Input.Search
-        placeholder='UUID'
+        placeholder={t('Placeholder')/* 'UUID' */}
         enterButton={(
           <Flex gap={5} style={{ marginRight: 5 }}>
             <SearchOutlined style={{ marginRight: 10 }}/> Search
@@ -276,7 +305,7 @@ function SearchBar() {
         onSearch={(uuid: string) => {
           const validated = TsUtils.validateUuid(uuid)
           if (!validated) {
-            return Message.warning('Invalid input - This should be your 9 digit ingame UUID')
+            return Message.warning(t('Message')/* 'Invalid input - This should be your 9 digit ingame UUID' */)
           }
 
           window.history.pushState({}, '', `/hsr-optimizer#showcase?id=${uuid}`)

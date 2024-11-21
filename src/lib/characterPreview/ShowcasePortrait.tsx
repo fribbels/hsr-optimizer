@@ -32,6 +32,7 @@ export function ShowcasePortrait(props: {
   setOriginalCharacterModalInitialCharacter: (c: Character) => void,
   setOriginalCharacterModalOpen: (b: boolean) => void,
   setCharacterModalAdd: (b: boolean) => void,
+  onPortraitLoad: (img: HTMLImageElement) => void,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
@@ -48,6 +49,7 @@ export function ShowcasePortrait(props: {
     setOriginalCharacterModalInitialCharacter,
     setOriginalCharacterModalOpen,
     setCharacterModalAdd,
+    onPortraitLoad,
   } = props
 
   const {
@@ -81,6 +83,7 @@ export function ShowcasePortrait(props: {
             <CharacterCustomPortrait
               customPortrait={customPortrait ?? character.portrait!}
               parentW={parentW}
+              onPortraitLoad={onPortraitLoad}
             />
           )
           : (
@@ -92,6 +95,7 @@ export function ShowcasePortrait(props: {
                 top: -charCenter.y * charCenter.z / 2 * tempInnerW / 1024 + tempParentH / 2,
                 width: tempInnerW * charCenter.z,
               }}
+              callback={onPortraitLoad}
             />
           )
       }

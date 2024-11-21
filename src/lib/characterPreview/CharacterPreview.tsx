@@ -31,12 +31,16 @@ import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/characterScorer'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import { addColorTransparency } from 'lib/utils/colorUtils'
+import Vibrant from 'node-vibrant'
 import React, { useEffect, useRef, useState } from 'react'
 import { Character } from 'types/character'
 import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
 import { Relic } from 'types/relic'
 
 const { useToken } = theme
+
+// @ts-ignore
+window.Vibrant = Vibrant
 
 export function CharacterPreview(props: {
   id: string
@@ -70,6 +74,7 @@ export function CharacterPreview(props: {
   const prevCharId = useRef<string | undefined>()
   const relicsById = window.store((s) => s.relicsById)
   const [_redrawTeammates, setRedrawTeammates] = useState<number>(0)
+  const [colors, setColors] = useState([])
 
   const backgroundColor = token.colorBgLayout
   const colorBgBase = token.colorBgBase
@@ -88,6 +93,47 @@ export function CharacterPreview(props: {
   useEffect(() => {
     presetTeamSelectionDisplay(character, prevCharId, setTeamSelection, setCustomPortrait)
   }, [character])
+
+  const portraitUrl = character ? (customPortrait?.imageUrl ?? Assets.getCharacterPortraitById(character.id)) : ''
+
+  function closerToBlue(color1, color2) {
+    const toBlueDistance = (hex) => {
+      const [r, g, b] = hex.match(/\w\w/g).map(c => parseInt(c, 16))
+      return (r ** 2) + (g ** 2) + ((b - 255) ** 2)
+    }
+
+    return toBlueDistance(color1) < toBlueDistance(color2) ? color1 : color2
+  }
+
+  function onPortraitLoad(img: HTMLImageElement) {
+    const timerLabel = '!!!!!!!!!!!!!!!!!!!!!!!'
+    console.time(timerLabel)
+    let v = new Vibrant(img, {})
+    v.getPalette((err, palette) => {
+      console.log(err)
+      console.log(palette)
+      console.timeEnd(timerLabel)
+
+      setColors([
+        palette!.Vibrant!.hex,
+        palette!.DarkVibrant!.hex,
+        palette!.Muted!.hex,
+        palette!.DarkMuted!.hex,
+        palette!.LightMuted!.hex,
+        palette!.LightVibrant!.hex,
+      ])
+
+      const color = palette!.DarkVibrant!.hex
+      setOverrideTheme({
+        algorithm: theme.darkAlgorithm,
+        token: {
+          colorBgLayout: palette!.DarkMuted!.hex,
+          colorBgBase: palette!.DarkMuted!.hex,
+          colorPrimary: closerToBlue(palette!.DarkVibrant!.hex, palette!.DarkMuted!.hex),
+        },
+      })
+    })
+  }
 
   if (!character || showcaseIsInactive(source, activeKey)) {
     return (
@@ -164,7 +210,17 @@ export function CharacterPreview(props: {
           >
             Color
           </Button>
+
+          <Flex vertical gap={5}>
+            {
+              colors.map(x => {
+                  return (<div key={x} style={{ width: 30, height: 30, backgroundColor: x }}/>)
+                },
+              )
+            }
+          </Flex>
         </Flex>
+
 
         {/* Showcase full card */}
         <Flex
@@ -182,7 +238,7 @@ export function CharacterPreview(props: {
         >
           <div
             style={{
-              backgroundImage: `url(${customPortrait?.imageUrl ?? Assets.getCharacterPortraitById(character.id)})`,
+              backgroundImage: `url(${portraitUrl})`,
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover',
@@ -212,6 +268,7 @@ export function CharacterPreview(props: {
                 setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
                 setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
                 setCharacterModalAdd={setCharacterModalAdd}
+                onPortraitLoad={onPortraitLoad}
               />
 
               {simScoringResult && (

@@ -1,5 +1,5 @@
 import chroma from 'chroma-js'
 
 export function addColorTransparency(color: string, alpha: number) {
-  return chroma(color).alpha(alpha).css()
+  return chroma(color).alpha(alpha).desaturate(0.5).luminance(0.02).css()
 }

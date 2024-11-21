@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 interface LoadingBlurredImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string
   style: React.CSSProperties
+  callback?: (img: HTMLImageElement) => void
 }
 
 type ImageProperties = {
@@ -11,7 +12,7 @@ type ImageProperties = {
   style: React.CSSProperties
 }
 
-export const LoadingBlurredImage: React.FC<LoadingBlurredImageProps> = ({ src, style }) => {
+export const LoadingBlurredImage: React.FC<LoadingBlurredImageProps> = ({ src, style, callback }) => {
   // @ts-ignore
   const [storedImg, setStoredImg] = useState<ImageProperties>({})
   // @ts-ignore
@@ -64,6 +65,11 @@ export const LoadingBlurredImage: React.FC<LoadingBlurredImageProps> = ({ src, s
       })
 
       setFinishedLoading(false)
+
+      if (callback) {
+        // @ts-ignore
+        callback(pendingImage.src)
+      }
     }
   }, [finishedLoading])
 

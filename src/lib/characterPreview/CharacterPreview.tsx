@@ -173,10 +173,10 @@ export function CharacterPreview(props: {
             position: 'relative',
             display: character ? 'flex' : 'none',
             height: parentH,
-            margin: 1,
             background: overrideToken.colorBgLayout,
             backgroundBlendMode: 'screen',
             overflow: 'hidden',
+            borderRadius: 7,
           }}
           gap={defaultGap}
         >

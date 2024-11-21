@@ -70,7 +70,7 @@ export function ShowcasePortrait(props: {
         height: `${tempParentH}px`,
         overflow: 'hidden',
         borderRadius: '8px',
-        outline: showcaseOutline,
+        border: showcaseOutline,
         filter: showcaseDropShadowFilter,
         position: 'relative',
       }}

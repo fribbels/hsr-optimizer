@@ -76,7 +76,7 @@ export function CharacterPreview(props: {
   const overrideToken = overrideTheme ? getDesignToken(overrideTheme) : token
 
   const showcaseTheme: ShowcaseTheme = {
-    cardBackgroundColor: addColorTransparency(overrideToken.colorPrimaryActive, 0.85),
+    cardBackgroundColor: addColorTransparency(overrideToken.colorPrimaryActive, 0.90),
     cardBorderColor: '',
   }
 
@@ -175,7 +175,6 @@ export function CharacterPreview(props: {
             height: parentH,
             margin: 1,
             background: overrideToken.colorBgLayout,
-            // background: 'linear-gradient(red, transparent), linear-gradient(to top left, lime, transparent), linear-gradient(to top right, blue, transparent)',
             backgroundBlendMode: 'screen',
             overflow: 'hidden',
           }}
@@ -193,8 +192,8 @@ export function CharacterPreview(props: {
               right: 0,
               bottom: 0,
               zIndex: 0,
-              filter: 'blur(10px)',
-              WebkitFilter: 'blur(10px)',
+              filter: 'blur(15px)',
+              WebkitFilter: 'blur(15px)',
             }}
           />
           {/* Portrait left panel */}
@@ -235,10 +234,10 @@ export function CharacterPreview(props: {
             style={{
               width: middleColumnWidth,
               height: '100%',
-              outline: `1px solid ${overrideToken.colorBorderSecondary}`,
+              border: `1px solid ${overrideToken.colorBorderSecondary}`,
               borderRadius: 8,
               zIndex: 1,
-              backgroundColor: addColorTransparency(overrideToken.colorPrimaryActive, 0.85),
+              backgroundColor: showcaseTheme.cardBackgroundColor,
             }}
             justify='space-between'
           >

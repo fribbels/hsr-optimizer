@@ -90,7 +90,7 @@ export function ShowcaseLightConeSmall(props: {
           overflow: 'hidden',
           zIndex: 2,
           borderRadius: '8px',
-          outline: showcaseOutline,
+          border: showcaseOutline,
           filter: showcaseDropShadowFilter,
           position: 'relative',
         }}

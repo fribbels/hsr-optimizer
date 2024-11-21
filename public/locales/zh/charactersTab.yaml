@@ -84,12 +84,12 @@ CharacterPreview:
       BREAKS: "击破次数"
     CombatResults:
       Header: 战斗伤害结果
-      Primary: "主要伤害:         "
-      Character: "角色伤害:         "
-      Benchmark: "基准伤害:         "
-      Baseline: "基础伤害:         "
-      Maximum: "最高伤害:         "
-      Score: "DPS评分%:         "
+      Primary: "主要伤害:"
+      Character: "角色伤害:"
+      Benchmark: "基准伤害:"
+      Baseline: "基础伤害:"
+      Maximum: "最高伤害:"
+      Score: "DPS评分%:"
       Abilities:
         BASIC: 普攻伤害
         SKILL: 战技伤害

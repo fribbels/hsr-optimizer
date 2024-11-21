@@ -12,15 +12,15 @@ CharacterPassives: Passifs de personnages
 NoConditionals: Pas de passifs conditionnels
 NoTeamConditionals: Pas de passifs conditionnels de coéquipier
 ResultLimitN: "Trouver meilleurs {{limit}} résultats"
-MainStats: Stats principales
-Sets: Ensembles
+MainStats: Mainstats
+Sets: Sets
 RelicSetSelector:
-  Placeholder: Ensemble de relique
+  Placeholder: Set de relique
   4pcLabel: 4 pièces
   2+2pcLabel: 2 + 2 pièces
   2pcLabel: 2 + Quelconque
 OrnamentSetSelector:
-  Placeholder: Ensemble d'ornement
+  Placeholder: Set d'ornement
 SortOptions:
   DMGLabel: Calcul des dégâts
   StatLabel: Stats
@@ -71,7 +71,7 @@ OptimizerOptions:
     Label4: 4 ★ +
     Label5: 5 ★
   BoostMain:
-    Header: Niv. de stat principale
+    Header: Niv. de mainstat
     Label3: "+3"
     Label6: "+6"
     Label9: "+9"
@@ -89,7 +89,7 @@ Grid:
   PageSelectorLabel: "Taille de page"
   Headers:
     Basic:
-      Set: Ensemble
+      Set: Set
       ATK: ATQ
       DEF: DÉF
       HP: PV
@@ -130,7 +130,7 @@ Grid:
         DGT
         COMBO
     Combat:
-      Set: Ensemble
+      Set: Set
       ATK: Σ ATQ
       DEF: Σ DEF
       HP: Σ PV
@@ -221,8 +221,8 @@ FormRowLabels:
   Teammates: Coéquipiers
   Character custom stats simulation: Simulation de stats customisée
 SetConditionals:
-  Title: Effets d'ensembles conditionnels
-  DescriptionHeader: Description de l'ensemble
+  Title: Effets de sets conditionnels
+  DescriptionHeader: Description du set
   EffectHeader: Effet activé
   SetName: "$t(gameData:RelicSets.{{id}}.Name)"
   RelicDescription: "$t(gameData:RelicSets.{{id}}.Description4pc)"
@@ -352,7 +352,7 @@ EnemyConfiguration:
   WeaknessLabel: Faiblesse élémentaire
   BrokenLabel: Faiblesse brisée
 WeightFilter:
-  WeightFilterHeader: Filtre de poids de stat secondaires
+  WeightFilterHeader: Filtre de poids de substats
   RollFilterHeader: Rolls pondérés par relique
   HPFilterText: PV
   ATKFilterText: ATQ
@@ -410,10 +410,10 @@ ComboDrawer:
   NoConditionals: Pas de passifs conditionnels
   Title: Guide de l'utilisateur de Rotation Avancée
   Placeholders:
-    Sets: Conditionnels d'ensemble de relique
-    Ornaments: Conditionnels d'ensemble d'ornements
+    Sets: Conditionnels de set de relique
+    Ornaments: Conditionnels de set d'ornements
   GroupHeaders:
-    Sets: Conditionnels d'ensembles de reliques / ornements
+    Sets: Conditionnels de sets de reliques / ornements
     Teammate1: Conditionnels du coéquipier 1
     Teammate2: Conditionnels du coéquipier 2
     Teammate3: Conditionnels du coéquipier 3
@@ -462,33 +462,33 @@ TeammateCard:
       Text: 12% ATQ
 StatSimulation:
   DuplicateSimMessage: Une simulation identique existe déjà
-  MissingMainstatsMessage: Les stats principale de simulation sont manquantes
+  MissingMainstatsMessage: Les mainstats de simulation sont manquantes
   BuildAlreadyImported: La build sélectionnée est déjà une simulation
   NothingToImport: Lance d'abord l'optimiseur, puis sélectionne une ligne à importer
   NoStatSimulations: Aucune simulation de stat custom n'est sélectionnée
   SetSelection:
-    Header: Ensembles
-    RelicPlaceholder: Ensemble de relique
-    OrnamentPlaceholder: Ensemble d'ornement
+    Header: Sets
+    RelicPlaceholder: Set de relique
+    OrnamentPlaceholder: Set d'ornement
   TotalRolls: Rolls totaux
   SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
   ModeSelector:
     Off: Off
-    RollCount: Simuler rolls custom de stats secondaires
-    Totals: Simuler total custom de stats secondaires
+    RollCount: Simuler rolls custom de substats
+    Totals: Simuler total custom de substats
   FooterLabels:
     Simulate: Simuler les builds
     Import: Importer une build de l'optimiseur
-    Conditionals: Effets d'ensembles conditionnels
+    Conditionals: Effets de sets conditionnels
   DeletePopup:
     Title: Effacer les simulations de stats
     Description: Êtes-vous sûr de vouloir effacer toutes les simulations enregistrées de ce personnage ?
   SimulationNamePlaceholder: Nom de simulation (facultatif)
   OptionsHeader: Options
-  RollsHeader: Roll maximales des stats secondaires 
-  TotalsHeader: Valeur totale des stats secondaires
+  RollsHeader: Roll maximales des substats
+  TotalsHeader: Valeur totale des substats
   MainStatsSelection:
-    Header: Stats principales
+    Header: Mainstats
     BodyPlaceholder: Corps
     FeetPlaceholder: Pieds
     SpherePlaceholder: Sphère

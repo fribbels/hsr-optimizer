@@ -165,8 +165,8 @@ export const Assets = {
     return getImageUrl(`/icon/relic/${setToId[setId]}${partToId[part]}.webp`)
   },
 
-  getHomeFeature: (file: string) => {
-    return getImageUrl(`/misc/home/${file}.webp`)
+  getHomeFeature: (file: string, language = 'en') => {
+    return getImageUrl(`/misc/home/${language}/${file}.webp`)
   },
 
   getHomeBackground: (file: string) => {

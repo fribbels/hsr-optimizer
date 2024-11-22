@@ -526,27 +526,74 @@ export default function CharacterTab() {
 
   return (
     <Flex
-      vertical
       style={{
         height: '100%',
         marginBottom: 200,
       }}
+      gap={defaultGap}
     >
       <Flex vertical gap={defaultGap}>
-        <Flex gap={8} style={{ width: '100%', marginBottom: 0, paddingRight: 1 }}>
-          <Flex justify='space-between' gap={8} style={{ width: 230, height: '100%' }}>
-            <Dropdown
-              placement='topLeft'
-              menu={actionsMenuProps}
-              trigger={['hover']}
-            >
-              <Button style={{ width: '100%', height: '100%' }} icon={<UserOutlined/>} type='default'>
-                {t('CharacterMenu.ButtonText')/* Character menu */}
-                <DownOutlined/>
+        <Dropdown
+          placement='topLeft'
+          menu={actionsMenuProps}
+          trigger={['hover']}
+        >
+          <Button style={{ width: '100%', height: 40 }} icon={<UserOutlined/>} type='default'>
+            {t('CharacterMenu.ButtonText')/* Character menu */}
+            <DownOutlined/>
+          </Button>
+        </Dropdown>
+        <Flex vertical gap={8}>
+          <div
+            id='characterGrid' className='ag-theme-balham-dark' style={{
+              ...{ display: 'block', width: '100%', height: parentH - 38 },
+              ...getGridTheme(token),
+            }}
+          >
+            <AgGridReact
+              ref={characterGrid}
+
+              rowData={characterRows}
+              gridOptions={gridOptions}
+              getRowNodeId={(data) => data.id}
+
+              columnDefs={columnDefs}
+              defaultColDef={defaultColDef}
+              deltaRowDataMode={true}
+
+              headerHeight={24}
+
+              onCellClicked={cellClickedListener}
+              onCellDoubleClicked={cellDoubleClickedListener}
+              onRowDragEnd={onRowDragEnd}
+              onRowDragLeave={onRowDragLeave}
+              navigateToNextCell={navigateToNextCell}
+              isExternalFilterPresent={isExternalFilterPresent}
+              doesExternalFilterPass={doesExternalFilterPass}
+              rowSelection='single'
+            />
+          </div>
+          <Flex vertical gap={8}>
+            <Flex gap={8}>
+              <Button
+                style={{ flex: 'auto' }} icon={<CameraOutlined/>} onClick={clipboardClicked}
+                type='primary'
+                loading={screenshotLoading}
+              >
+                {t('CopyScreenshot')/* Copy screenshot */}
               </Button>
-            </Dropdown>
+              <Button
+                style={{ width: 40 }} type='primary' icon={<DownloadOutlined/>}
+                onClick={downloadClicked}
+                loading={downloadLoading}
+              />
+            </Flex>
           </Flex>
-          <Flex style={{ width: 235 }}>
+        </Flex>
+      </Flex>
+      <Flex vertical gap={defaultGap}>
+        <Flex gap={8} style={{ width: '100%', marginBottom: 0, paddingRight: 1 }} justify='space-between' alignItems='center'>
+          <Flex style={{ flex: 4 }}>
             <Input
               allowClear
               size='large'
@@ -558,7 +605,7 @@ export default function CharacterTab() {
               }}
             />
           </Flex>
-          <Flex style={{ flex: 1 }}>
+          <Flex style={{ flex: 5 }}>
             <SegmentedFilterRow
               name='path'
               tags={generatePathTags()}
@@ -567,7 +614,7 @@ export default function CharacterTab() {
               setCurrentFilters={setCharacterFilters}
             />
           </Flex>
-          <Flex style={{ flex: 1 }}>
+          <Flex style={{ flex: 5 }}>
             <SegmentedFilterRow
               name='element'
               tags={generateElementTags()}
@@ -578,53 +625,7 @@ export default function CharacterTab() {
           </Flex>
         </Flex>
         <Flex style={{ height: '100%' }}>
-          <Flex vertical gap={8} style={{ marginRight: selectedCharacter ? 6 : 8 }}>
-            <div
-              id='characterGrid' className='ag-theme-balham-dark' style={{
-              ...{ display: 'block', width: 230, height: parentH - 38 },
-              ...getGridTheme(token),
-            }}
-            >
-              <AgGridReact
-                ref={characterGrid}
 
-                rowData={characterRows}
-                gridOptions={gridOptions}
-                getRowNodeId={(data) => data.id}
-
-                columnDefs={columnDefs}
-                defaultColDef={defaultColDef}
-                deltaRowDataMode={true}
-
-                headerHeight={24}
-
-                onCellClicked={cellClickedListener}
-                onCellDoubleClicked={cellDoubleClickedListener}
-                onRowDragEnd={onRowDragEnd}
-                onRowDragLeave={onRowDragLeave}
-                navigateToNextCell={navigateToNextCell}
-                isExternalFilterPresent={isExternalFilterPresent}
-                doesExternalFilterPass={doesExternalFilterPass}
-                rowSelection='single'
-              />
-            </div>
-            <Flex vertical gap={8}>
-              <Flex gap={8}>
-                <Button
-                  style={{ flex: 'auto' }} icon={<CameraOutlined/>} onClick={clipboardClicked}
-                  type='primary'
-                  loading={screenshotLoading}
-                >
-                  {t('CopyScreenshot')/* Copy screenshot */}
-                </Button>
-                <Button
-                  style={{ width: 40 }} type='primary' icon={<DownloadOutlined/>}
-                  onClick={downloadClicked}
-                  loading={downloadLoading}
-                />
-              </Flex>
-            </Flex>
-          </Flex>
           <Flex vertical>
             <CharacterPreview
               id='characterTabPreview'

@@ -69,8 +69,10 @@ export const languages = {
       },
   */
 } as const
+type Languages = keyof typeof languages
+export const completedLocales: Languages[] = ['en', 'fr', 'pt', 'zh'] as const
 
-export const supportedLanguages = Object.keys(languages)
+export const supportedLanguages = BASE_PATH == '/dreary-quibbles' ? Object.keys(languages) : completedLocales
 void i18next
   .use(Backend)
   .use(LanguageDetector)

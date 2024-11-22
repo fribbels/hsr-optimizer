@@ -2,16 +2,15 @@ import chroma from 'chroma-js'
 
 export function addColorTransparency(color: string, alpha: number) {
   const minSaturation = 0.2
-  const maxSaturation = 0.3
+  const maxSaturation = 0.35
   const chromaColor = chroma(color)
 
   const currentSaturation = chromaColor.get('hsl.s')
-
   const clampedSaturation = Math.min(Math.max(currentSaturation, minSaturation), maxSaturation)
 
   const adjustedColor = chromaColor.set('hsl.s', clampedSaturation)
 
-  return adjustedColor.luminance(0.03).alpha(alpha).css()
+  return adjustedColor.luminance(0.029).alpha(alpha).css()
 }
 
 export function showcaseCardBorderColor(color: string) {
@@ -34,6 +33,11 @@ export function showcaseTransition() {
   return 'background-color 1.5s, border 1.5s'
 }
 
-export function mix(color1: string, color2: string) {
-  return chroma.mix(color1, color2)
+export function selectColor(color1: string, color2: string): string {
+  const targetBlue = 'rgb(0, 0, 255)'
+
+  const deltaE1 = chroma.deltaE(color1, targetBlue)
+  const deltaE2 = chroma.deltaE(color2, targetBlue)
+
+  return deltaE1 < deltaE2 ? color1 : color2
 }

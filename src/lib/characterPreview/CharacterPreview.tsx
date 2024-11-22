@@ -30,7 +30,15 @@ import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/characterScorer'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
-import { addColorTransparency, colorTransparent, showcaseBackgroundColor, showcaseCardBorderColor, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
+import {
+  addColorTransparency,
+  colorTransparent,
+  selectColor,
+  showcaseBackgroundColor,
+  showcaseCardBorderColor,
+  showcaseSegmentedColor,
+  showcaseTransition,
+} from 'lib/utils/colorUtils'
 import Vibrant from 'node-vibrant'
 import React, { useEffect, useRef, useState } from 'react'
 import { Character } from 'types/character'
@@ -91,17 +99,10 @@ export function CharacterPreview(props: {
 
   const portraitUrl = character ? (customPortrait?.imageUrl ?? Assets.getCharacterPortraitById(character.id)) : ''
 
-  function selectColor(color1: string, color2: string) {
-    const yellowness = (hex: string) => {
-      const [r, g, b] = hex.match(/\w\w/g)!.map(c => parseInt(c, 16))
-      return r + g - b
-    }
-
-    return yellowness(color1) < yellowness(color2) ? color1 : color2
-  }
-
   function onPortraitLoad(img: string) {
-    new Vibrant(img, {}).getPalette((err, palette) => {
+    new Vibrant(img, {
+      colorCount: 32,
+    }).getPalette((err, palette) => {
       const primary = selectColor(palette!.DarkVibrant!.hex, palette!.DarkMuted!.hex)
       setOverrideTheme({
         algorithm: theme.darkAlgorithm,
@@ -178,22 +179,22 @@ export function CharacterPreview(props: {
       />
 
       <ConfigProvider theme={overrideTheme}>
-        {/*<Flex*/}
-        {/*  style={{*/}
-        {/*    position: 'absolute',*/}
-        {/*    marginLeft: 1100,*/}
-        {/*    backgroundColor: token.colorBgLayout,*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  <Flex vertical gap={5}>*/}
-        {/*    {*/}
-        {/*      colors.map(x => {*/}
-        {/*          return (<div key={x} style={{ width: 30, height: 30, backgroundColor: x }}/>)*/}
-        {/*        },*/}
-        {/*      )*/}
-        {/*    }*/}
-        {/*  </Flex>*/}
-        {/*</Flex>*/}
+        <Flex
+          style={{
+            position: 'absolute',
+            marginLeft: 1100,
+            backgroundColor: token.colorBgLayout,
+          }}
+        >
+          <Flex vertical gap={5}>
+            {
+              colors.map(x => {
+                  return (<div key={x} style={{ width: 30, height: 30, backgroundColor: x }}/>)
+                },
+              )
+            }
+          </Flex>
+        </Flex>
 
 
         {/* Showcase full card */}

@@ -48,12 +48,12 @@ SortOptions:
   EHP: Trié par PV Effectif
 OptimizerOptions:
   Header: Options d'optimiseur
-  PriorityFilter: Filtre de priorité de personnage
+  PriorityFilter: Filtre de priorité de pers.
   Priority:
     Header: Priorité
     Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
     Name: "# {{rank}}"
-  AllowEquipped: Permettre reliques équipées
+  AllowEquipped: Autoriser reliques équipées
   KeepCurrent: Garder reliques courantes
   Exclude: Exclure
   MinEnhance:
@@ -337,6 +337,7 @@ CombatBuffs:
   EFFECT_RES_PEN: PÉN RÉS Eff %
   VULNERABILITY: Vulnérabilité %
   BREAK_EFFICIENCY: Éfficacité de Rupture %
+  Title: Autres buffs de combat
 Target_one: cible
 Target_other: cibles
 EnemyConfiguration:

@@ -401,8 +401,8 @@ ComboFilter:
     Dot: Dsd
     Break: Ruptures
   ComboOptions:
-    Basic: Normale
-    Skill: Compétence
+    Basic: Norm.
+    Skill: Comp.
     Ult: Ult
     Fua: Ads
   RotationButton: Rotation avancée

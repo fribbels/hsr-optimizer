@@ -279,14 +279,6 @@ a {
     padding-inline-end: 6px !important;
 }
 
-/*.ant-slider:hover .ant-slider-handle::after {*/
-/*  box-shadow: 0 0 0 4px #1668dc;*/
-/*}*/
-
-/*.ant-slider-handle::after {*/
-/*  background-color: #1668dc !important;*/
-/*}*/
-
 .ant-input-number-group-addon {
     padding: 0 5px !important;
 }
@@ -449,15 +441,19 @@ a {
 }
 
 .ant-card-hoverable {
-    transition: box-shadow 0.3s, border-color 0.3s;
+    transition: box-shadow 0.25s, border-color 0.25s !important;
+}
+
+.lightConeCard {
+    transition: box-shadow 0.25s, border-color 0.25s !important;
 }
 
 .ant-card-hoverable:hover {
-    border-color: #4d7fb2 !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
 }
 
 .lightConeCard:hover {
-    outline: 1px solid #4d7fb2 !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
     cursor: pointer;
 }
 

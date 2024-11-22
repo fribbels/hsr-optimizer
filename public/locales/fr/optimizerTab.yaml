@@ -53,7 +53,7 @@ OptimizerOptions:
     Header: Priorité
     Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
     Name: "# {{rank}}"
-  AllowEquipped: Autoriser reliques équipées
+  AllowEquipped: Permettre dreliques équipées
   KeepCurrent: Garder reliques courantes
   Exclude: Exclure
   MinEnhance:
@@ -80,7 +80,7 @@ OptimizerOptions:
 AdvancedOptions:
   Header: Options avancées
   EnemyConfigButtonText: Configuration des ennemis
-  CombatBuffsButtonTextNone: Autres buffs de combat
+  CombatBuffsButtonTextNone: Buffs supplémentaires
   CombatBuffsButtonText: "Buffs supplémentaires ({{activeCount}})"
 Grid:
   To: de
@@ -337,7 +337,7 @@ CombatBuffs:
   EFFECT_RES_PEN: PÉN RÉS Eff %
   VULNERABILITY: Vulnérabilité %
   BREAK_EFFICIENCY: Éfficacité de Rupture %
-  Title: Autres buffs de combat
+  Title: Buffs supplémentaires
 Target_one: cible
 Target_other: cibles
 EnemyConfiguration:
@@ -401,8 +401,8 @@ ComboFilter:
     Dot: Dsd
     Break: Ruptures
   ComboOptions:
-    Basic: Norm.
-    Skill: Comp.
+    Basic: Norm
+    Skill: Comp
     Ult: Ult
     Fua: Ads
   RotationButton: Rotation avancée

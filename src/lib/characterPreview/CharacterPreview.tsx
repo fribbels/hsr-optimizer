@@ -30,7 +30,7 @@ import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/characterScorer'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
-import { addColorTransparency, colorTransparent, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
+import { addColorTransparency, colorTransparent, showcaseCardBorderColor, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
 import Vibrant from 'node-vibrant'
 import React, { useEffect, useRef, useState } from 'react'
 import { Character } from 'types/character'
@@ -82,7 +82,7 @@ export function CharacterPreview(props: {
 
   const showcaseTheme: ShowcaseTheme = {
     cardBackgroundColor: addColorTransparency(overrideToken.colorPrimaryActive, 0.925),
-    cardBorderColor: '',
+    cardBorderColor: showcaseCardBorderColor(overrideToken.colorPrimaryActive),
   }
 
   useEffect(() => {
@@ -118,7 +118,7 @@ export function CharacterPreview(props: {
       setOverrideTheme({
         algorithm: theme.darkAlgorithm,
         token: {
-          colorBgLayout: palette!.DarkMuted!.hex,
+          colorBgLayout: closerToBlue(palette!.DarkVibrant!.hex, palette!.DarkMuted!.hex),
           colorBgBase: palette!.DarkMuted!.hex,
           colorPrimary: closerToBlue(palette!.DarkVibrant!.hex, palette!.DarkMuted!.hex),
         },
@@ -280,7 +280,7 @@ export function CharacterPreview(props: {
               style={{
                 width: middleColumnWidth,
                 height: '100%',
-                border: `1px solid ${overrideToken.colorBorderSecondary}`,
+                border: `1px solid ${showcaseTheme.cardBorderColor}`,
                 borderRadius: 8,
                 zIndex: 1,
                 backgroundColor: showcaseTheme.cardBackgroundColor,

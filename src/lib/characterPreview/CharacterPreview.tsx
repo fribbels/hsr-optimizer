@@ -30,7 +30,7 @@ import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/characterScorer'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
-import { addColorTransparency, colorTransparent, showcaseCardBorderColor, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
+import { addColorTransparency, colorTransparent, showcaseBackgroundColor, showcaseCardBorderColor, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
 import Vibrant from 'node-vibrant'
 import React, { useEffect, useRef, useState } from 'react'
 import { Character } from 'types/character'
@@ -115,12 +115,13 @@ export function CharacterPreview(props: {
       console.timeEnd(timerLabel)
 
       const color = palette!.DarkVibrant!.hex
+
+      const primary = closerToBlue(palette!.DarkVibrant!.hex, palette!.DarkMuted!.hex)
       setOverrideTheme({
         algorithm: theme.darkAlgorithm,
         token: {
-          colorBgLayout: closerToBlue(palette!.DarkVibrant!.hex, palette!.DarkMuted!.hex),
-          colorBgBase: palette!.DarkMuted!.hex,
-          colorPrimary: closerToBlue(palette!.DarkVibrant!.hex, palette!.DarkMuted!.hex),
+          colorBgLayout: primary,
+          colorPrimary: primary,
         },
         components: {
           Segmented: {
@@ -216,7 +217,7 @@ export function CharacterPreview(props: {
             position: 'relative',
             display: character ? 'flex' : 'none',
             height: parentH,
-            background: overrideToken.colorBgLayout,
+            background: showcaseBackgroundColor(overrideToken.colorBgLayout),
             backgroundBlendMode: 'screen',
             overflow: 'hidden',
             borderRadius: 7,

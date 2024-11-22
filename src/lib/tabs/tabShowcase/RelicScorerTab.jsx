@@ -498,7 +498,7 @@ function CharacterPreviewSelection(props) {
           onChange={selectionChange}
           value={props.selectedCharacter?.id}
         />
-        <Flex id='previewWrapper' style={{ padding: '5px', backgroundColor: token.colorBgBase }}>
+        <Flex id='previewWrapper' style={{ padding: '5px' }}>
           <CharacterPreview
             class='relicScorerCharacterPreview'
             character={props.selectedCharacter}

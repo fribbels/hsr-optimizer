@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 export function LanguageSelector() {
   const { i18n } = useTranslation()
   const selectOptions = Object.values(languages)
+    .filter((x) => BASE_PATH == '/dreary-quibbles' || completedLocales.includes(x.locale))
     .map(({ locale, nativeName, shortName }) => ({
       value: locale,
       display: (
@@ -19,7 +20,7 @@ export function LanguageSelector() {
       label: (
         <Flex gap={8}>
           {nativeName}
-          {completedLocales.includes(locale) || BASE_PATH != '/dreary-quibbles' ? '' : ' (WIP)'}
+          {completedLocales.includes(locale) ? '' : ' (WIP)'}
         </Flex>
       ),
     }))

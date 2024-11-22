@@ -90,7 +90,7 @@ export function ShowcaseLightConeSmall(props: {
           overflow: 'hidden',
           zIndex: 2,
           borderRadius: '8px',
-          outline: showcaseOutline,
+          border: showcaseOutline,
           filter: showcaseDropShadowFilter,
           position: 'relative',
         }}
@@ -155,52 +155,70 @@ export function ShowcaseLightConeLarge(props: {
   } = showcaseMetadata
 
   return (
-    <Flex vertical style={{ width: middleColumnWidth }}>
-      <Flex vertical>
-        <StatText
-          style={{ fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center' }}
-          ellipsis={true}
-        >
-          {`${lightConeName}`}
-          &nbsp;
-        </StatText>
-        <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
-          {
-            `${t('common:LevelShort', { level: lightConeLevel })} ${t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })}`
-            /* Lv 80 S5 */
-          }
-        </StatText>
-      </Flex>
-      <div
-        className='lightConeCard'
+    <div
+      className='lightConeCard'
+      style={{
+        width: `${tempLcParentW}px`,
+        height: `${tempLcParentH}px`,
+        overflow: 'hidden',
+        borderRadius: '8px',
+        border: showcaseOutline,
+        filter: showcaseDropShadowFilter,
+      }}
+      onClick={() => {
+        if (source == ShowcaseSource.SHOWCASE_TAB) {
+          setOriginalCharacterModalInitialCharacter(character)
+          setOriginalCharacterModalOpen(true)
+        } else {
+          setCharacterModalAdd(false)
+          setOriginalCharacterModalInitialCharacter(character)
+          setOriginalCharacterModalOpen(true)
+        }
+      }}
+    >
+      <LoadingBlurredImage
+        src={lightConeSrc}
         style={{
-          width: `${tempLcParentW}px`,
-          height: `${tempLcParentH}px`,
-          overflow: 'hidden',
-          borderRadius: '8px',
-          outline: showcaseOutline,
-          filter: showcaseDropShadowFilter,
+          width: tempLcInnerW,
+          // Magic # 8 to fit certain LCs
+          transform: `translate(${(tempLcInnerW - tempLcParentW) / 2 / tempLcInnerW * -100}%, ${(tempLcInnerH - tempLcParentH) / 2 / tempLcInnerH * -100 + 8}%)`,
         }}
-        onClick={() => {
-          if (source == ShowcaseSource.SHOWCASE_TAB) {
-            setOriginalCharacterModalInitialCharacter(character)
-            setOriginalCharacterModalOpen(true)
-          } else {
-            setCharacterModalAdd(false)
-            setOriginalCharacterModalInitialCharacter(character)
-            setOriginalCharacterModalOpen(true)
-          }
-        }}
+      />
+    </div>
+  )
+}
+
+export function ShowcaseLightConeLargeName(props: {
+  showcaseMetadata: ShowcaseMetadata,
+}) {
+  const { t } = useTranslation(['charactersTab', 'modals', 'common'])
+
+  const {
+    showcaseMetadata,
+  } = props
+
+  const {
+    lightConeSrc,
+    lightConeName,
+    lightConeLevel,
+    lightConeSuperimposition,
+  } = showcaseMetadata
+
+  return (
+    <Flex vertical style={{ width: middleColumnWidth }}>
+      <StatText
+        style={{ fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center' }}
+        ellipsis={true}
       >
-        <LoadingBlurredImage
-          src={lightConeSrc}
-          style={{
-            width: tempLcInnerW,
-            // Magic # 8 to fit certain LCs
-            transform: `translate(${(tempLcInnerW - tempLcParentW) / 2 / tempLcInnerW * -100}%, ${(tempLcInnerH - tempLcParentH) / 2 / tempLcInnerH * -100 + 8}%)`,
-          }}
-        />
-      </div>
+        {`${lightConeName}`}
+        &nbsp;
+      </StatText>
+      <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
+        {
+          `${t('common:LevelShort', { level: lightConeLevel })} ${t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })}`
+          /* Lv 80 S5 */
+        }
+      </StatText>
     </Flex>
   )
 }

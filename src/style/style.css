@@ -279,14 +279,6 @@ a {
     padding-inline-end: 6px !important;
 }
 
-/*.ant-slider:hover .ant-slider-handle::after {*/
-/*  box-shadow: 0 0 0 4px #1668dc;*/
-/*}*/
-
-/*.ant-slider-handle::after {*/
-/*  background-color: #1668dc !important;*/
-/*}*/
-
 .ant-input-number-group-addon {
     padding: 0 5px !important;
 }
@@ -383,12 +375,11 @@ a {
 .custom-grid {
     border-radius: 10px !important;
     transition: background-color 0.3s ease, box-shadow 0.3s ease, outline 0.3s ease;
-    cursor: pointer; /* Change cursor to pointer */
+    cursor: pointer;
     outline: 1px solid rgba(255, 255, 255, 0.0) !important;
 }
 
 .custom-grid:hover {
-    /*background-color: rgba(107, 107, 107, 0.36); !* Change this to your desired hover color *!*/
     background-color: rgba(255, 255, 255, 0.2);
     outline: 1px solid rgba(255, 255, 255, 0.4) !important;
 }
@@ -449,16 +440,16 @@ a {
     display: none;
 }
 
-.ant-card-hoverable {
-    transition: box-shadow 0.3s, border-color 0.3s;
+.lightConeCard {
+    transition: box-shadow 0.25s, border-color 0.25s !important;
 }
 
 .ant-card-hoverable:hover {
-    border-color: #4d7fb2 !important;
+    border-color: rgba(255, 255, 255, 0.45) !important;
 }
 
 .lightConeCard:hover {
-    outline: 1px solid #4d7fb2 !important;
+    border-color: rgba(255, 255, 255, 0.55) !important;
     cursor: pointer;
 }
 
@@ -617,4 +608,8 @@ a {
 
 .dropdownButton .ant-btn-compact-first-item {
     width: 100% !important;
+}
+
+.ant-segmented .ant-segmented-item-label {
+    transition: background-color 5s, background 5s;
 }

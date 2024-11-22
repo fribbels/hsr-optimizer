@@ -4,7 +4,7 @@ import { Constants } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
-import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
+import { RelicPreview, ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import React from 'react'
 import { Relic } from 'types/relic'
 
@@ -16,6 +16,7 @@ export function ShowcaseRelicsPanel(props: {
   source: ShowcaseSource
   characterId: string
   scoredRelics: RelicScoringResult[]
+  showcaseColors?: ShowcaseTheme
 }) {
   const {
     setSelectedRelic,
@@ -25,6 +26,7 @@ export function ShowcaseRelicsPanel(props: {
     source,
     characterId,
     scoredRelics,
+    showcaseColors,
   } = props
   return (
     <Flex gap={defaultGap}>
@@ -37,6 +39,7 @@ export function ShowcaseRelicsPanel(props: {
           source={source}
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.Head)}
+          showcaseTheme={showcaseColors}
         />
         <RelicPreview
           setEditModalOpen={setEditModalOpen}
@@ -46,6 +49,7 @@ export function ShowcaseRelicsPanel(props: {
           source={source}
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.Body)}
+          showcaseTheme={showcaseColors}
         />
         <RelicPreview
           setEditModalOpen={setEditModalOpen}
@@ -55,6 +59,7 @@ export function ShowcaseRelicsPanel(props: {
           source={source}
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.PlanarSphere)}
+          showcaseTheme={showcaseColors}
         />
       </Flex>
 
@@ -67,6 +72,7 @@ export function ShowcaseRelicsPanel(props: {
           source={source}
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.Hands)}
+          showcaseTheme={showcaseColors}
         />
         <RelicPreview
           setEditModalOpen={setEditModalOpen}
@@ -76,6 +82,7 @@ export function ShowcaseRelicsPanel(props: {
           source={source}
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.Feet)}
+          showcaseTheme={showcaseColors}
         />
         <RelicPreview
           setEditModalOpen={setEditModalOpen}
@@ -85,6 +92,7 @@ export function ShowcaseRelicsPanel(props: {
           source={source}
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.LinkRope)}
+          showcaseTheme={showcaseColors}
         />
       </Flex>
     </Flex>

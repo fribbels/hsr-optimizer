@@ -15,7 +15,7 @@ import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { DefaultSettingOptions, SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
-import { Themes } from 'lib/rendering/theme'
+import { getGlobalThemeConfigFromColorTheme, Themes } from 'lib/rendering/theme'
 import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
 import { SaveState } from 'lib/state/saveState'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
@@ -110,6 +110,7 @@ window.store = create((set) => {
   const store: HsrOptimizerStore = {
     version: CURRENT_OPTIMIZER_VERSION,
     colorTheme: Themes.BLUE,
+    globalThemeConfig: getGlobalThemeConfigFromColorTheme(Themes.BLUE),
 
     formValues: undefined,
 
@@ -256,6 +257,7 @@ window.store = create((set) => {
     })),
     setColorTheme: (x) => set(() => ({ colorTheme: x })),
     setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
+    setGlobalThemeConfig: (x) => set(() => ({ globalThemeConfig: x })),
   }
   return store
 })

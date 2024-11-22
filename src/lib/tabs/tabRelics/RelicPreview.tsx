@@ -7,9 +7,15 @@ import { Assets } from 'lib/rendering/assets'
 import { Renderer } from 'lib/rendering/renderer'
 import { GenerateStat, SubstatDetails } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
 import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
+import { showcaseTransition } from 'lib/utils/colorUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Relic } from 'types/relic'
+
+export type ShowcaseTheme = {
+  cardBackgroundColor: string
+  cardBorderColor: string
+}
 
 export function RelicPreview(props: {
   relic?: Relic
@@ -19,6 +25,7 @@ export function RelicPreview(props: {
   setEditModalOpen?: (open: boolean) => void
   setAddModalOpen?: (open: boolean) => void
   setSelectedRelic: (relic: Relic) => void
+  showcaseTheme?: ShowcaseTheme
 }) {
   const { t } = useTranslation('common')
   const {
@@ -28,6 +35,7 @@ export function RelicPreview(props: {
     setEditModalOpen,
     setAddModalOpen,
     setSelectedRelic,
+    showcaseTheme,
   } = props
   const placeholderRelic: Partial<Relic> = {
     enhance: 0,
@@ -68,7 +76,13 @@ export function RelicPreview(props: {
       size='small'
       hoverable={source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.BUILDS_MODAL}
       onClick={cardClicked}
-      style={{ width: 200, height: 280 }}
+      style={{
+        width: 200,
+        height: 280,
+        backgroundColor: showcaseTheme?.cardBackgroundColor,
+        borderColor: showcaseTheme?.cardBorderColor,
+        transition: showcaseTransition(),
+      }}
     >
       <Flex vertical justify='space-between' style={{ height: 255 }}>
         <Flex justify='space-between' align='center'>

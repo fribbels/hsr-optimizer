@@ -22,7 +22,7 @@ export function ShowcaseCharacterHeader(props: {
 
   return (
     <Flex vertical>
-      <Flex justify='space-around' style={{ height: 26, marginBottom: 6 }} align='center'>
+      <Flex justify='space-around' style={{ height: 26, marginBottom: 4 }} align='center'>
         <Image
           preview={false}
           width={32}

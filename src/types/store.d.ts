@@ -1,3 +1,4 @@
+import { ThemeConfig } from 'antd'
 import { ComputeEngine } from 'lib/constants/constants'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
@@ -134,6 +135,7 @@ export type HsrOptimizerStore = {
   setCharacterTabFocusCharacter: (x: any) => void
   setVersion: (x: any) => void
   setOptimizerMenuState: (x: any) => void
+  setGlobalThemeConfig: (x: ThemeConfig) => void
 
   permutationDetails: PermutationDetails
 
@@ -149,6 +151,7 @@ export type HsrOptimizerStore = {
   optimizerMenuState: Record<string, boolean>
 
   savedSession: SavedSession
+  globalThemeConfig: ThemeConfig
 }
 
 export type SavedSession = {

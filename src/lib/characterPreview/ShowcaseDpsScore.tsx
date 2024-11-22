@@ -48,45 +48,32 @@ export function ShowcaseDpsScorePanel(props: {
     <Flex
       vertical
     >
-      <Card
-        style={{
-          backgroundColor: token.colorBgLayout,
-          padding: '0px !important',
-        }}
-        styles={{
-          body: {
-            padding: 0,
-            borderRadius: 10,
-          },
-        }}
-        className='teamSelectionCard'
-        size='small'
-        bordered={false}
-      >
-        <Flex justify='space-around' style={{ paddingTop: 0 }}>
-          <CharacterPreviewScoringTeammate
-            index={0}
-            result={simScoringResult}
-            setCharacterModalOpen={setCharacterModalOpen}
-            setSelectedTeammateIndex={setSelectedTeammateIndex}
-            setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
-          />
-          <CharacterPreviewScoringTeammate
-            index={1}
-            result={simScoringResult}
-            setCharacterModalOpen={setCharacterModalOpen}
-            setSelectedTeammateIndex={setSelectedTeammateIndex}
-            setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
-          />
-          <CharacterPreviewScoringTeammate
-            index={2}
-            result={simScoringResult}
-            setCharacterModalOpen={setCharacterModalOpen}
-            setSelectedTeammateIndex={setSelectedTeammateIndex}
-            setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
-          />
-        </Flex>
-      </Card>
+      <Flex justify='space-around' style={{ padding: '0 5px' }}>
+        <CharacterPreviewScoringTeammate
+          index={0}
+          result={simScoringResult}
+          token={token}
+          setCharacterModalOpen={setCharacterModalOpen}
+          setSelectedTeammateIndex={setSelectedTeammateIndex}
+          setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+        />
+        <CharacterPreviewScoringTeammate
+          index={1}
+          result={simScoringResult}
+          token={token}
+          setCharacterModalOpen={setCharacterModalOpen}
+          setSelectedTeammateIndex={setSelectedTeammateIndex}
+          setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+        />
+        <CharacterPreviewScoringTeammate
+          index={2}
+          result={simScoringResult}
+          token={token}
+          setCharacterModalOpen={setCharacterModalOpen}
+          setSelectedTeammateIndex={setSelectedTeammateIndex}
+          setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+        />
+      </Flex>
 
       <ShowcaseTeamSelectPanel
         characterId={characterId}
@@ -135,12 +122,13 @@ export function ShowcaseCombatScoreDetailsFooter(props: {
 function CharacterPreviewScoringTeammate(props: {
   index: number
   result: SimulationScore
+  token: GlobalToken
   setCharacterModalOpen: (b: boolean) => void
   setSelectedTeammateIndex: (i: number | undefined) => void
   setCharacterModalInitialCharacter: (character: Character) => void
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
-  const { result, index, setCharacterModalOpen, setSelectedTeammateIndex, setCharacterModalInitialCharacter } = props
+  const { result, index, token, setCharacterModalOpen, setSelectedTeammateIndex, setCharacterModalInitialCharacter } = props
 
   const teammate = result.simulationMetadata.teammates[index]
   const iconSize = 64
@@ -152,6 +140,7 @@ function CharacterPreviewScoringTeammate(props: {
         textAlign: 'center',
         padding: 1,
         boxShadow: 'none',
+        // background: token.colorBgLayout,
       }}
       hoverable={true}
       onClick={() => {

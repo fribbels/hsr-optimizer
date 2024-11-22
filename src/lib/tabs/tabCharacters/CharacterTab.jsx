@@ -533,7 +533,7 @@ export default function CharacterTab() {
       }}
     >
       <Flex vertical gap={defaultGap}>
-        <Flex gap={6} style={{ width: '100%', marginBottom: 0, paddingRight: 1 }}>
+        <Flex gap={8} style={{ width: '100%', marginBottom: 0, paddingRight: 1 }}>
           <Flex justify='space-between' gap={8} style={{ width: 230, height: '100%' }}>
             <Dropdown
               placement='topLeft'
@@ -546,7 +546,7 @@ export default function CharacterTab() {
               </Button>
             </Dropdown>
           </Flex>
-          <Flex style={{ width: 242 }}>
+          <Flex style={{ width: 235 }}>
             <Input
               allowClear
               size='large'

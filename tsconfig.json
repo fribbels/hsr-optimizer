@@ -6,7 +6,8 @@
       "ES2020",
       "DOM",
       "DOM.Iterable",
-      "webworker"
+      "webworker",
+      "dom"
     ],
     "module": "ESNext",
     "skipLibCheck": true,

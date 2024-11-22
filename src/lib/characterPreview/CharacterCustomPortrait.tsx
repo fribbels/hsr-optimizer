@@ -5,11 +5,13 @@ import { CustomImageConfig } from 'types/customImage'
 interface CharacterCustomPortraitProps {
   customPortrait: CustomImageConfig
   parentW: number
+  onPortraitLoad?: (img: string) => void
 }
 
 const CharacterCustomPortrait: React.FC<CharacterCustomPortraitProps> = ({
   customPortrait,
   parentW,
+  onPortraitLoad,
 }) => {
   const scaleWidth = parentW / customPortrait.customImageParams.croppedAreaPixels.width
 
@@ -29,6 +31,7 @@ const CharacterCustomPortrait: React.FC<CharacterCustomPortraitProps> = ({
           height: `${customPortrait.originalDimensions.height * scaleWidth}px`,
           objectFit: 'cover',
         }}
+        callback={onPortraitLoad}
       />
     </div>
   )

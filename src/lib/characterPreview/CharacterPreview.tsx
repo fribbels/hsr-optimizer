@@ -81,7 +81,7 @@ export function CharacterPreview(props: {
   const overrideToken = overrideTheme ? getDesignToken(overrideTheme) : token
 
   const showcaseTheme: ShowcaseTheme = {
-    cardBackgroundColor: addColorTransparency(overrideToken.colorPrimaryActive, 0.925),
+    cardBackgroundColor: addColorTransparency(overrideToken.colorPrimaryActive, 0.9),
     cardBorderColor: showcaseCardBorderColor(overrideToken.colorPrimaryActive),
   }
 
@@ -96,13 +96,13 @@ export function CharacterPreview(props: {
 
   const portraitUrl = character ? (customPortrait?.imageUrl ?? Assets.getCharacterPortraitById(character.id)) : ''
 
-  function closerToBlue(color1: string, color2: string) {
-    const toBlueDistance = (hex: string) => {
+  function selectColor(color1: string, color2: string) {
+    const yellowness = (hex: string) => {
       const [r, g, b] = hex.match(/\w\w/g)!.map(c => parseInt(c, 16))
-      return (r ** 2) + (g ** 2) + ((b - 255) ** 2)
+      return r + g - b
     }
 
-    return toBlueDistance(color1) < toBlueDistance(color2) ? color1 : color2
+    return yellowness(color1) < yellowness(color2) ? color1 : color2
   }
 
   function onPortraitLoad(img: HTMLImageElement) {
@@ -116,7 +116,7 @@ export function CharacterPreview(props: {
 
       const color = palette!.DarkVibrant!.hex
 
-      const primary = closerToBlue(palette!.DarkVibrant!.hex, palette!.DarkMuted!.hex)
+      const primary = selectColor(palette!.DarkVibrant!.hex, palette!.DarkMuted!.hex)
       setOverrideTheme({
         algorithm: theme.darkAlgorithm,
         token: {
@@ -237,8 +237,8 @@ export function CharacterPreview(props: {
               right: 0,
               bottom: 0,
               zIndex: 0,
-              filter: 'blur(15px)',
-              WebkitFilter: 'blur(15px)',
+              filter: 'blur(15px) brightness(0.9) saturate(0.8)',
+              WebkitFilter: 'blur(15px) brightness(0.9) saturate(0.8)',
             }}
           />
           {/* Portrait left panel */}

@@ -543,7 +543,7 @@ export default function CharacterTab() {
             <DownOutlined/>
           </Button>
         </Dropdown>
-        <Flex vertical gap={8}>
+        <Flex vertical gap={8} style={{ minWidth: 230 }}>
           <div
             id='characterGrid' className='ag-theme-balham-dark' style={{
               ...{ display: 'block', width: '100%', height: parentH - 38 },

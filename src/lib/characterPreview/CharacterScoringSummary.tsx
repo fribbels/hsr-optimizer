@@ -355,7 +355,7 @@ export const CharacterScoringSummary = (props: {
           {t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
         </pre>
       </Flex>
-      <Flex gap={30}>
+      <Flex gap={25}>
         <Flex vertical gap={defaultGap} style={{ marginLeft: 10 }}>
           <pre style={{ margin: '5px auto' }}>
             {t('CharacterPreview.BuildAnalysis.SimulationTeammates')/* Simulation teammates */}

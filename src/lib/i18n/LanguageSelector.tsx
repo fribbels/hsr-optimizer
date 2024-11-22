@@ -23,7 +23,7 @@ export function LanguageSelector() {
       label: (
         <Flex gap={8}>
           {nativeName}
-          {completedLocales.includes(locale) || BASE_PATH != 'dreary-quibbles' ? '' : ' (WIP)'}
+          {completedLocales.includes(locale) || BASE_PATH != '/dreary-quibbles' ? '' : ' (WIP)'}
         </Flex>
       ),
     }))

@@ -1,4 +1,4 @@
-import { Button, ConfigProvider, Flex, theme, ThemeConfig } from 'antd'
+import { ConfigProvider, Flex, theme, ThemeConfig } from 'antd'
 import getDesignToken from 'antd/lib/theme/getDesignToken'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
@@ -20,7 +20,7 @@ import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
 import { ShowcaseCombatScoreDetailsFooter, ShowcaseDpsScoreHeader, ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
-import { ShowcaseLightConeLarge, ShowcaseLightConeSmall } from 'lib/characterPreview/ShowcaseLightCone'
+import { ShowcaseLightConeLarge, ShowcaseLightConeLargeName, ShowcaseLightConeSmall } from 'lib/characterPreview/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
@@ -30,7 +30,7 @@ import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/characterScorer'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
-import { addColorTransparency, showcaseTransition } from 'lib/utils/colorUtils'
+import { addColorTransparency, colorTransparent, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
 import Vibrant from 'node-vibrant'
 import React, { useEffect, useRef, useState } from 'react'
 import { Character } from 'types/character'
@@ -114,15 +114,6 @@ export function CharacterPreview(props: {
       console.log(palette)
       console.timeEnd(timerLabel)
 
-      setColors([
-        palette!.Vibrant!.hex,
-        palette!.DarkVibrant!.hex,
-        palette!.Muted!.hex,
-        palette!.DarkMuted!.hex,
-        palette!.LightMuted!.hex,
-        palette!.LightVibrant!.hex,
-      ])
-
       const color = palette!.DarkVibrant!.hex
       setOverrideTheme({
         algorithm: theme.darkAlgorithm,
@@ -131,7 +122,21 @@ export function CharacterPreview(props: {
           colorBgBase: palette!.DarkMuted!.hex,
           colorPrimary: closerToBlue(palette!.DarkVibrant!.hex, palette!.DarkMuted!.hex),
         },
+        components: {
+          Segmented: {
+            trackBg: colorTransparent(),
+            itemSelectedBg: showcaseSegmentedColor(palette!.DarkMuted!.hex),
+          },
+        },
       })
+      setColors([
+        palette!.Vibrant!.hex,
+        palette!.DarkVibrant!.hex,
+        palette!.Muted!.hex,
+        palette!.DarkMuted!.hex,
+        palette!.LightMuted!.hex,
+        palette!.LightVibrant!.hex,
+      ])
     })
   }
 
@@ -168,9 +173,6 @@ export function CharacterPreview(props: {
   const artistName = getArtistName(character)
   const finalStats = getShowcaseStats(character, displayRelics, showcaseMetadata)
 
-  console.log(customPortrait)
-  console.log(character)
-
   return (
     <Flex vertical>
       <RelicModal
@@ -196,21 +198,6 @@ export function CharacterPreview(props: {
             backgroundColor: token.colorBgLayout,
           }}
         >
-          <Button
-            onClick={() => {
-              setOverrideTheme({
-                algorithm: theme.darkAlgorithm,
-                token: {
-                  colorBgLayout: '#2a1c2e', // Custom layout background
-                  colorBgBase: '#352863', // Custom base background
-                  colorPrimary: '#352863', // Custom base background
-                },
-              })
-            }}
-          >
-            Color
-          </Button>
-
           <Flex vertical gap={5}>
             {
               colors.map(x => {
@@ -287,52 +274,61 @@ export function CharacterPreview(props: {
           }
 
           {/* Character details middle panel */}
-          <Flex
-            vertical
-            style={{
-              width: middleColumnWidth,
-              height: '100%',
-              border: `1px solid ${overrideToken.colorBorderSecondary}`,
-              borderRadius: 8,
-              zIndex: 1,
-              backgroundColor: showcaseTheme.cardBackgroundColor,
-              transition: showcaseTransition(),
-            }}
-            justify='space-between'
-          >
-            <ShowcaseCharacterHeader
-              showcaseMetadata={showcaseMetadata}
-            />
-
-            <CharacterStatSummary
-              finalStats={finalStats}
-              elementalDmgValue={showcaseMetadata.elementalDmgType}
-              cv={finalStats.CV}
-              simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
-            />
-
-            {simScoringResult && <>
-              <ShowcaseDpsScoreHeader result={simScoringResult} relics={displayRelics}/>
-
-              <ShowcaseDpsScorePanel
-                characterId={showcaseMetadata.characterId}
-                token={token}
-                simScoringResult={simScoringResult}
-                teamSelection={teamSelection}
-                combatScoreDetails={combatScoreDetails}
-                displayRelics={displayRelics}
-                setTeamSelection={setTeamSelection}
-                setRedrawTeammates={setRedrawTeammates}
+          <Flex vertical justify='space-between' gap={8}>
+            <Flex
+              vertical
+              style={{
+                width: middleColumnWidth,
+                height: '100%',
+                border: `1px solid ${overrideToken.colorBorderSecondary}`,
+                borderRadius: 8,
+                zIndex: 1,
+                backgroundColor: showcaseTheme.cardBackgroundColor,
+                transition: showcaseTransition(),
+                flex: 1,
+              }}
+              justify='space-between'
+            >
+              <ShowcaseCharacterHeader
+                showcaseMetadata={showcaseMetadata}
               />
 
-              <ShowcaseCombatScoreDetailsFooter combatScoreDetails={combatScoreDetails} simScoringResult={simScoringResult}/>
-            </>}
+              <CharacterStatSummary
+                finalStats={finalStats}
+                elementalDmgValue={showcaseMetadata.elementalDmgType}
+                cv={finalStats.CV}
+                simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
+              />
+
+              {simScoringResult && <>
+                <ShowcaseDpsScoreHeader result={simScoringResult} relics={displayRelics}/>
+
+                <ShowcaseDpsScorePanel
+                  characterId={showcaseMetadata.characterId}
+                  token={token}
+                  simScoringResult={simScoringResult}
+                  teamSelection={teamSelection}
+                  combatScoreDetails={combatScoreDetails}
+                  displayRelics={displayRelics}
+                  setTeamSelection={setTeamSelection}
+                  setRedrawTeammates={setRedrawTeammates}
+                />
+
+                <ShowcaseCombatScoreDetailsFooter combatScoreDetails={combatScoreDetails} simScoringResult={simScoringResult}/>
+              </>}
+
+              {!simScoringResult && <>
+                <ShowcaseStatScore
+                  scoringResults={scoringResults}
+                />
+
+                <ShowcaseLightConeLargeName
+                  showcaseMetadata={showcaseMetadata}
+                />
+              </>}
+            </Flex>
 
             {!simScoringResult && <>
-              <ShowcaseStatScore
-                scoringResults={scoringResults}
-              />
-
               <ShowcaseLightConeLarge
                 source={source}
                 character={character}
@@ -344,7 +340,6 @@ export function CharacterPreview(props: {
               />
             </>}
           </Flex>
-
           {/* Relics right panel */}
           <ShowcaseRelicsPanel
             setSelectedRelic={setSelectedRelic}

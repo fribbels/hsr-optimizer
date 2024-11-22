@@ -617,3 +617,7 @@ a {
 .dropdownButton .ant-btn-compact-first-item {
     width: 100% !important;
 }
+
+.ant-segmented .ant-segmented-item-label {
+    transition: background-color 5s, background 5s;
+}

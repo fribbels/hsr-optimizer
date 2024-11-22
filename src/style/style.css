@@ -440,20 +440,16 @@ a {
     display: none;
 }
 
-.ant-card-hoverable {
-    transition: box-shadow 0.25s, border-color 0.25s !important;
-}
-
 .lightConeCard {
     transition: box-shadow 0.25s, border-color 0.25s !important;
 }
 
 .ant-card-hoverable:hover {
-    border-color: rgba(255, 255, 255, 0.5) !important;
+    border-color: rgba(255, 255, 255, 0.45) !important;
 }
 
 .lightConeCard:hover {
-    border-color: rgba(255, 255, 255, 0.5) !important;
+    border-color: rgba(255, 255, 255, 0.55) !important;
     cursor: pointer;
 }
 

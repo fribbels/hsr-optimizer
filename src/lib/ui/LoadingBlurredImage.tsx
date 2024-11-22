@@ -1,10 +1,10 @@
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { useEffect, useState } from 'react'
 
-interface LoadingBlurredImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+interface LoadingBlurredImageProps extends React.ImgHTMLAttributes<string> {
   src: string
   style: React.CSSProperties
-  callback?: (img: HTMLImageElement) => void
+  callback?: (img: string) => void
 }
 
 type ImageProperties = {
@@ -67,7 +67,6 @@ export const LoadingBlurredImage: React.FC<LoadingBlurredImageProps> = ({ src, s
       setFinishedLoading(false)
 
       if (callback) {
-        // @ts-ignore
         callback(pendingImage.src)
       }
     }

@@ -46,7 +46,7 @@ export function getGlobalThemeConfigFromColorTheme(colorTheme: ColorThemeOverrid
   return {
     token: {
       motionUnit: 0.1,
-      opacityLoading: 0.20, // FormSetConditionals.js
+      opacityLoading: 0.20,
       colorBgBase: colorTheme.colorBgBase,
       colorTextBase: colorTheme.colorTextBase,
       colorPrimary: colorTheme.colorPrimary,
@@ -57,7 +57,6 @@ export function getGlobalThemeConfigFromColorTheme(colorTheme: ColorThemeOverrid
       screenXXLMin: 1660,
     },
     components: {
-      // OptimizerForm.js
       Cascader: {
         dropdownHeight: 700,
         controlItemWidth: 100,

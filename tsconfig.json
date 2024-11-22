@@ -22,7 +22,6 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
     "baseUrl": "./src",
     "paths": {

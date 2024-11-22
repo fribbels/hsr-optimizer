@@ -24,7 +24,6 @@ const App = () => {
 
   const colorTheme = window.store((s) => s.colorTheme)
   const globalThemeConfig = window.store((s) => s.globalThemeConfig)
-  // const globalThemeConfig: ThemeConfig = useMemo(getGlobalThemeConfigFromColorTheme(theme), [theme])
 
   useEffect(() => {
     Gradient.setToken(getDesignToken({

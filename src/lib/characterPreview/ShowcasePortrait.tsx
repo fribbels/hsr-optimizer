@@ -32,7 +32,7 @@ export function ShowcasePortrait(props: {
   setOriginalCharacterModalInitialCharacter: (c: Character) => void,
   setOriginalCharacterModalOpen: (b: boolean) => void,
   setCharacterModalAdd: (b: boolean) => void,
-  onPortraitLoad: (img: HTMLImageElement) => void,
+  onPortraitLoad: (img: string) => void,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
   const globalThemeConfig = window.store((s) => s.globalThemeConfig)

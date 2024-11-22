@@ -86,11 +86,6 @@ export function CharacterPreview(props: {
   }
 
   useEffect(() => {
-    // Log whenever overrideTheme updates
-    console.log('Updated theme tokens:', overrideTheme?.token)
-  }, [overrideTheme])
-
-  useEffect(() => {
     presetTeamSelectionDisplay(character, prevCharId, setTeamSelection, setCustomPortrait)
   }, [character])
 
@@ -105,17 +100,8 @@ export function CharacterPreview(props: {
     return yellowness(color1) < yellowness(color2) ? color1 : color2
   }
 
-  function onPortraitLoad(img: HTMLImageElement) {
-    const timerLabel = '!!!!!!!!!!!!!!!!!!!!!!!'
-    console.time(timerLabel)
-    let v = new Vibrant(img, {})
-    v.getPalette((err, palette) => {
-      console.log(err)
-      console.log(palette)
-      console.timeEnd(timerLabel)
-
-      const color = palette!.DarkVibrant!.hex
-
+  function onPortraitLoad(img: string) {
+    new Vibrant(img, {}).getPalette((err, palette) => {
       const primary = selectColor(palette!.DarkVibrant!.hex, palette!.DarkMuted!.hex)
       setOverrideTheme({
         algorithm: theme.darkAlgorithm,
@@ -192,22 +178,22 @@ export function CharacterPreview(props: {
       />
 
       <ConfigProvider theme={overrideTheme}>
-        <Flex
-          style={{
-            position: 'absolute',
-            marginLeft: 1100,
-            backgroundColor: token.colorBgLayout,
-          }}
-        >
-          <Flex vertical gap={5}>
-            {
-              colors.map(x => {
-                  return (<div key={x} style={{ width: 30, height: 30, backgroundColor: x }}/>)
-                },
-              )
-            }
-          </Flex>
-        </Flex>
+        {/*<Flex*/}
+        {/*  style={{*/}
+        {/*    position: 'absolute',*/}
+        {/*    marginLeft: 1100,*/}
+        {/*    backgroundColor: token.colorBgLayout,*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  <Flex vertical gap={5}>*/}
+        {/*    {*/}
+        {/*      colors.map(x => {*/}
+        {/*          return (<div key={x} style={{ width: 30, height: 30, backgroundColor: x }}/>)*/}
+        {/*        },*/}
+        {/*      )*/}
+        {/*    }*/}
+        {/*  </Flex>*/}
+        {/*</Flex>*/}
 
 
         {/* Showcase full card */}

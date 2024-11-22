@@ -5,7 +5,7 @@ import { CustomImageConfig } from 'types/customImage'
 interface CharacterCustomPortraitProps {
   customPortrait: CustomImageConfig
   parentW: number
-  onPortraitLoad?: (img: HTMLImageElement) => void
+  onPortraitLoad?: (img: string) => void
 }
 
 const CharacterCustomPortrait: React.FC<CharacterCustomPortraitProps> = ({

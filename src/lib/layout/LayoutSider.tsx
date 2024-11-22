@@ -11,6 +11,7 @@ export function LayoutSider() {
 
   return (
     <Sider
+      width='fit-content'
       style={{
         background: token.colorBgContainer,
       }}

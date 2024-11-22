@@ -245,15 +245,15 @@ export function CharacterPreview(props: {
               backgroundImage: `url(${portraitUrl})`,
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
-              backgroundSize: '125%',
+              backgroundSize: '150%',
               position: 'absolute',
               top: 0,
               left: 0,
               right: 0,
               bottom: 0,
               zIndex: 0,
-              filter: 'blur(15px) brightness(0.9) saturate(0.8)',
-              WebkitFilter: 'blur(15px) brightness(0.9) saturate(0.8)',
+              filter: 'blur(20px) brightness(0.85) saturate(0.8)',
+              WebkitFilter: 'blur(20px) brightness(0.85) saturate(0.8)',
             }}
           />
           {/* Portrait left panel */}

@@ -217,7 +217,7 @@ export function CharacterPreview(props: {
               backgroundImage: `url(${portraitUrl})`,
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
-              backgroundSize: 'cover',
+              backgroundSize: '125%',
               position: 'absolute',
               top: 0,
               left: 0,
@@ -274,6 +274,9 @@ export function CharacterPreview(props: {
                 backgroundColor: showcaseTheme.cardBackgroundColor,
                 transition: showcaseTransition(),
                 flex: 1,
+                paddingRight: 2,
+                paddingLeft: 2,
+                paddingBottom: 3,
               }}
               justify='space-between'
             >

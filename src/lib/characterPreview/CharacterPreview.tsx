@@ -104,6 +104,7 @@ export function CharacterPreview(props: {
       colorCount: 32,
     }).getPalette((err, palette) => {
       const primary = selectColor(palette!.DarkVibrant!.hex, palette!.DarkMuted!.hex)
+
       setOverrideTheme({
         algorithm: theme.darkAlgorithm,
         token: {
@@ -117,6 +118,7 @@ export function CharacterPreview(props: {
           },
         },
       })
+
       setColors([
         palette!.Vibrant!.hex,
         palette!.DarkVibrant!.hex,
@@ -188,10 +190,29 @@ export function CharacterPreview(props: {
         >
           <Flex vertical gap={5}>
             {
-              colors.map(x => {
-                  return (<div key={x} style={{ width: 30, height: 30, backgroundColor: x }}/>)
-                },
-              )
+              colors.map(primary => {
+                return (
+                  <div
+                    key={primary}
+                    style={{ width: 30, height: 30, backgroundColor: primary, cursor: 'pointer' }}
+                    onClick={() => {
+                      setOverrideTheme({
+                        algorithm: theme.darkAlgorithm,
+                        token: {
+                          colorBgLayout: primary,
+                          colorPrimary: primary,
+                        },
+                        components: {
+                          Segmented: {
+                            trackBg: colorTransparent(),
+                            itemSelectedBg: showcaseSegmentedColor(primary),
+                          },
+                        },
+                      })
+                    }
+                    }/>
+                )
+              })
             }
           </Flex>
         </Flex>

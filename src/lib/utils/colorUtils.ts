@@ -14,7 +14,7 @@ export function addColorTransparency(color: string, alpha: number) {
 }
 
 export function showcaseCardBorderColor(color: string) {
-  return chroma(color).saturate(0.5).brighten(1.5).css()
+  return chroma(color).saturate(0.5).luminance(0.125).alpha(0.9).css()
 }
 
 export function showcaseBackgroundColor(color: string) {
@@ -30,7 +30,7 @@ export function colorTransparent() {
 }
 
 export function showcaseTransition() {
-  return 'background-color 1.5s, box-shadow 0.25s, border-color 0.25s'
+  return 'background-color 1.25s, box-shadow 0.25s, border-color 0.25s'
 }
 
 export function selectColor(color1: string, color2: string): string {

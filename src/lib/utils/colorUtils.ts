@@ -1,6 +1,6 @@
 import chroma from 'chroma-js'
 
-export function addColorTransparency(color: string, alpha: number) {
+export function showcaseCardBackgroundColor(color: string) {
   const minSaturation = 0.2
   const maxSaturation = 0.35
   const chromaColor = chroma(color)
@@ -10,7 +10,7 @@ export function addColorTransparency(color: string, alpha: number) {
 
   const adjustedColor = chromaColor.set('hsl.s', clampedSaturation)
 
-  return adjustedColor.luminance(0.029).alpha(alpha).css()
+  return adjustedColor.luminance(0.025).alpha(0.9).css()
 }
 
 export function showcaseCardBorderColor(color: string) {

@@ -31,10 +31,10 @@ import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/characterScorer'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import {
-  addColorTransparency,
   colorTransparent,
   selectColor,
   showcaseBackgroundColor,
+  showcaseCardBackgroundColor,
   showcaseCardBorderColor,
   showcaseSegmentedColor,
   showcaseTransition,
@@ -89,7 +89,7 @@ export function CharacterPreview(props: {
   const overrideToken = overrideTheme ? getDesignToken(overrideTheme) : token
 
   const showcaseTheme: ShowcaseTheme = {
-    cardBackgroundColor: addColorTransparency(overrideToken.colorPrimaryActive, 0.9),
+    cardBackgroundColor: showcaseCardBackgroundColor(overrideToken.colorPrimaryActive),
     cardBorderColor: showcaseCardBorderColor(overrideToken.colorPrimaryActive),
   }
 
@@ -252,8 +252,8 @@ export function CharacterPreview(props: {
               right: 0,
               bottom: 0,
               zIndex: 0,
-              filter: 'blur(20px) brightness(0.85) saturate(0.8)',
-              WebkitFilter: 'blur(20px) brightness(0.85) saturate(0.8)',
+              filter: 'blur(20px) brightness(0.75) saturate(0.8)',
+              WebkitFilter: 'blur(20px) brightness(0.75) saturate(0.8)',
             }}
           />
           {/* Portrait left panel */}

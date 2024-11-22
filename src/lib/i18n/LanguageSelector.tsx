@@ -1,6 +1,7 @@
 import { Button, Flex, Select } from 'antd'
 import { languages } from 'lib/i18n/i18n'
 import { Assets } from 'lib/rendering/assets'
+import { BASE_PATH } from 'lib/state/db'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -22,7 +23,7 @@ export function LanguageSelector() {
       label: (
         <Flex gap={8}>
           {nativeName}
-          {completedLocales.includes(locale) ? '' : ' (WIP)'}
+          {completedLocales.includes(locale) || BASE_PATH != 'dreary-quibbles' ? '' : ' (WIP)'}
         </Flex>
       ),
     }))

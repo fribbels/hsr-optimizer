@@ -11,7 +11,7 @@ LightconePassives: Passifs de cônes de lumière
 CharacterPassives: Passifs de personnages
 NoConditionals: Pas de passifs conditionnels
 NoTeamConditionals: Pas de passifs conditionnels de coéquipier
-ResultLimitN: "Trouver meilleurs {{limit}} résultats"
+ResultLimitN: "{{limit}} meilleurs résultats"
 MainStats: Mainstats
 Sets: Sets
 RelicSetSelector:
@@ -80,7 +80,7 @@ OptimizerOptions:
 AdvancedOptions:
   Header: Options avancées
   EnemyConfigButtonText: Configuration des ennemis
-  CombatBuffsButtonTextNone: Buffs supplémentaires de combat
+  CombatBuffsButtonTextNone: Autres buffs de combat
   CombatBuffsButtonText: "Buffs supplémentaires ({{activeCount}})"
 Grid:
   To: de
@@ -337,7 +337,6 @@ CombatBuffs:
   EFFECT_RES_PEN: PÉN RÉS Eff %
   VULNERABILITY: Vulnérabilité %
   BREAK_EFFICIENCY: Éfficacité de Rupture %
-  Title: Buffs supplémentaires de combat
 Target_one: cible
 Target_other: cibles
 EnemyConfiguration:

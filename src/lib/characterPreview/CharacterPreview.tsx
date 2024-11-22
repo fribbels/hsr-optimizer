@@ -193,8 +193,15 @@ export function CharacterPreview(props: {
               colors.map(primary => {
                 return (
                   <div
+                    className='colorSelector'
                     key={primary}
-                    style={{ width: 30, height: 30, backgroundColor: primary, cursor: 'pointer' }}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      backgroundColor: primary,
+                      cursor: 'pointer',
+                      borderRadius: 50,
+                    }}
                     onClick={() => {
                       setOverrideTheme({
                         algorithm: theme.darkAlgorithm,
@@ -209,8 +216,8 @@ export function CharacterPreview(props: {
                           },
                         },
                       })
-                    }
-                    }/>
+                    }}
+                  />
                 )
               })
             }

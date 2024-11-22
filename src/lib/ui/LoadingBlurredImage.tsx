@@ -57,7 +57,7 @@ export const LoadingBlurredImage: React.FC<LoadingBlurredImageProps> = ({ src, s
     if (finishedLoading) {
       setTimeout(() => {
         setBlur(false)
-      }, 150)
+      }, 50)
 
       setStoredImg({
         src: pendingImage.src,

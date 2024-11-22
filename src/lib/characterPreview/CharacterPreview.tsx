@@ -30,7 +30,7 @@ import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/characterScorer'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
-import { addColorTransparency } from 'lib/utils/colorUtils'
+import { addColorTransparency, showcaseTransition } from 'lib/utils/colorUtils'
 import Vibrant from 'node-vibrant'
 import React, { useEffect, useRef, useState } from 'react'
 import { Character } from 'types/character'
@@ -74,14 +74,14 @@ export function CharacterPreview(props: {
   const prevCharId = useRef<string | undefined>()
   const relicsById = window.store((s) => s.relicsById)
   const [_redrawTeammates, setRedrawTeammates] = useState<number>(0)
-  const [colors, setColors] = useState([])
+  const [colors, setColors] = useState<string[]>([])
 
   const backgroundColor = token.colorBgLayout
   const colorBgBase = token.colorBgBase
   const overrideToken = overrideTheme ? getDesignToken(overrideTheme) : token
 
   const showcaseTheme: ShowcaseTheme = {
-    cardBackgroundColor: addColorTransparency(overrideToken.colorPrimaryActive, 0.90),
+    cardBackgroundColor: addColorTransparency(overrideToken.colorPrimaryActive, 0.925),
     cardBorderColor: '',
   }
 
@@ -96,9 +96,9 @@ export function CharacterPreview(props: {
 
   const portraitUrl = character ? (customPortrait?.imageUrl ?? Assets.getCharacterPortraitById(character.id)) : ''
 
-  function closerToBlue(color1, color2) {
-    const toBlueDistance = (hex) => {
-      const [r, g, b] = hex.match(/\w\w/g).map(c => parseInt(c, 16))
+  function closerToBlue(color1: string, color2: string) {
+    const toBlueDistance = (hex: string) => {
+      const [r, g, b] = hex.match(/\w\w/g)!.map(c => parseInt(c, 16))
       return (r ** 2) + (g ** 2) + ((b - 255) ** 2)
     }
 
@@ -233,6 +233,7 @@ export function CharacterPreview(props: {
             backgroundBlendMode: 'screen',
             overflow: 'hidden',
             borderRadius: 7,
+            transition: showcaseTransition(),
           }}
           gap={defaultGap}
         >
@@ -295,6 +296,7 @@ export function CharacterPreview(props: {
               borderRadius: 8,
               zIndex: 1,
               backgroundColor: showcaseTheme.cardBackgroundColor,
+              transition: showcaseTransition(),
             }}
             justify='space-between'
           >

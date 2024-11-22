@@ -7,6 +7,7 @@ import { Assets } from 'lib/rendering/assets'
 import { Renderer } from 'lib/rendering/renderer'
 import { GenerateStat, SubstatDetails } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
 import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
+import { showcaseTransition } from 'lib/utils/colorUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Relic } from 'types/relic'
@@ -80,6 +81,7 @@ export function RelicPreview(props: {
         height: 280,
         backgroundColor: showcaseTheme?.cardBackgroundColor,
         borderColor: showcaseTheme?.cardBorderColor,
+        transition: showcaseTransition(),
       }}
     >
       <Flex vertical justify='space-between' style={{ height: 255 }}>

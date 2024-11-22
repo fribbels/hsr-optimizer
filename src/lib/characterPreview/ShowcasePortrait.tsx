@@ -1,5 +1,5 @@
 import { EditOutlined } from '@ant-design/icons'
-import { Button, Flex, Typography } from 'antd'
+import { Button, ConfigProvider, Flex, Typography } from 'antd'
 import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
 import { showcaseButtonStyle, showcaseDropShadowFilter, showcaseOutline, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { ShowcaseDisplayDimensions } from 'lib/characterPreview/characterPreviewController'
@@ -35,6 +35,7 @@ export function ShowcasePortrait(props: {
   onPortraitLoad: (img: HTMLImageElement) => void,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
+  const globalThemeConfig = window.store((s) => s.globalThemeConfig)
 
   const {
     source,
@@ -99,56 +100,61 @@ export function ShowcasePortrait(props: {
             />
           )
       }
-      <Flex vertical style={{ width: 'max-content', marginLeft: 6, marginTop: 6 }} gap={7}>
-        {source != ShowcaseSource.SHOWCASE_TAB && (
+
+      <ConfigProvider theme={globalThemeConfig}>
+        <Flex vertical style={{ width: 'max-content', marginLeft: 6, marginTop: 6 }} gap={7}>
+          {source != ShowcaseSource.SHOWCASE_TAB && (
+            <Button
+              style={showcaseButtonStyle}
+              className='character-build-portrait-button'
+              icon={<EditOutlined/>}
+              onClick={() => {
+                setCharacterModalAdd(false)
+                setOriginalCharacterModalInitialCharacter(character)
+                setOriginalCharacterModalOpen(true)
+              }}
+              type='primary'
+            >
+              {t('CharacterPreview.EditCharacter')/* Edit character */}
+            </Button>
+          )}
+          {source == ShowcaseSource.SHOWCASE_TAB && (
+            <Button
+              style={showcaseButtonStyle}
+              className='character-build-portrait-button'
+              icon={<EditOutlined/>}
+              onClick={() => {
+                setOriginalCharacterModalInitialCharacter(character)
+                setOriginalCharacterModalOpen(true)
+              }}
+              type='primary'
+            >
+              {t('CharacterPreview.EditCharacter')/* Edit character */}
+            </Button>
+          )}
           <Button
             style={showcaseButtonStyle}
             className='character-build-portrait-button'
             icon={<EditOutlined/>}
-            onClick={() => {
-              setCharacterModalAdd(false)
-              setOriginalCharacterModalInitialCharacter(character)
-              setOriginalCharacterModalOpen(true)
-            }}
+            onClick={() => setEditPortraitModalOpen(true)}
             type='primary'
           >
-            {t('CharacterPreview.EditCharacter')/* Edit character */}
+            {t('CharacterPreview.EditPortrait')/* Edit portrait */}
           </Button>
-        )}
-        {source == ShowcaseSource.SHOWCASE_TAB && (
-          <Button
-            style={showcaseButtonStyle}
-            className='character-build-portrait-button'
-            icon={<EditOutlined/>}
-            onClick={() => {
-              setOriginalCharacterModalInitialCharacter(character)
-              setOriginalCharacterModalOpen(true)
-            }}
-            type='primary'
-          >
-            {t('CharacterPreview.EditCharacter')/* Edit character */}
-          </Button>
-        )}
-        <Button
-          style={showcaseButtonStyle}
-          className='character-build-portrait-button'
-          icon={<EditOutlined/>}
-          onClick={() => setEditPortraitModalOpen(true)}
-          type='primary'
-        >
-          {t('CharacterPreview.EditPortrait')/* Edit portrait */}
-        </Button>
-      </Flex>
-      <EditImageModal
-        title={t('CharacterPreview.EditPortrait')/* Edit portrait */}
-        aspectRatio={parentW / parentH}
-        existingConfig={customPortrait ?? character.portrait}
-        open={editPortraitModalOpen}
-        setOpen={setEditPortraitModalOpen}
-        onOk={onEditPortraitOk}
-        defaultImageUrl={Assets.getCharacterPortraitById(character.id)}
-        width={500}
-      />
+        </Flex>
+      </ConfigProvider>
+      <ConfigProvider theme={globalThemeConfig}>
+        <EditImageModal
+          title={t('CharacterPreview.EditPortrait')/* Edit portrait */}
+          aspectRatio={parentW / parentH}
+          existingConfig={customPortrait ?? character.portrait}
+          open={editPortraitModalOpen}
+          setOpen={setEditPortraitModalOpen}
+          onOk={onEditPortraitOk}
+          defaultImageUrl={Assets.getCharacterPortraitById(character.id)}
+          width={500}
+        />
+      </ConfigProvider>
       <Flex
         vertical
         style={{

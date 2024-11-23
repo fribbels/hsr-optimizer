@@ -1,130 +1,193 @@
 Characters:
   "1001":
     Name: "Mar.\_7th"
+    LongName: "Mar.\_7th (보존)"
   "1002":
     Name: 단항
+    LongName: 단항
   "1003":
     Name: 히메코
+    LongName: 히메코
   "1004":
     Name: 웰트
+    LongName: 웰트
   "1005":
     Name: 카프카
+    LongName: 카프카
   "1006":
     Name: 은랑
+    LongName: 은랑
   "1008":
     Name: 아를란
+    LongName: 아를란
   "1009":
     Name: 아스타
+    LongName: 아스타
   "1013":
     Name: 헤르타
+    LongName: 헤르타
   "1101":
     Name: 브로냐
+    LongName: 브로냐
   "1102":
     Name: 제레
+    LongName: 제레
   "1103":
     Name: 서벌
+    LongName: 서벌
   "1104":
     Name: 게파드
+    LongName: 게파드
   "1105":
     Name: 나타샤
+    LongName: 나타샤
   "1106":
     Name: 페라
+    LongName: 페라
   "1107":
     Name: 클라라
+    LongName: 클라라
   "1108":
     Name: 삼포
+    LongName: 삼포
   "1109":
     Name: 후크
+    LongName: 후크
   "1110":
     Name: 링스
+    LongName: 링스
   "1111":
     Name: 루카
+    LongName: 루카
   "1112":
     Name: 토파즈&복순이
+    LongName: 토파즈&복순이
   "1201":
     Name: 청작
+    LongName: 청작
   "1202":
     Name: 정운
+    LongName: 정운
   "1203":
     Name: 나찰
+    LongName: 나찰
   "1204":
     Name: 경원
+    LongName: 경원
   "1205":
     Name: 블레이드
+    LongName: 블레이드
   "1206":
     Name: 소상
+    LongName: 소상
   "1207":
     Name: 어공
+    LongName: 어공
   "1208":
     Name: 부현
+    LongName: 부현
   "1209":
     Name: 연경
+    LongName: 연경
   "1210":
     Name: 계네빈
+    LongName: 계네빈
   "1211":
     Name: 백로
+    LongName: 백로
   "1212":
     Name: 경류
+    LongName: 경류
   "1213":
     Name: 단항•음월
+    LongName: 단항•음월
   "1214":
     Name: 설의
+    LongName: 설의
   "1215":
     Name: 한아
+    LongName: 한아
   "1217":
     Name: 곽향
+    LongName: 곽향
   "1218":
     Name: 초구
+    LongName: 초구
   "1220":
     Name: 비소
+    LongName: 비소
   "1221":
     Name: 운리
+    LongName: 운리
   "1222":
     Name: 영사
+    LongName: 영사
   "1223":
     Name: 맥택
+    LongName: 맥택
   "1224":
     Name: "Mar.\_7th"
+    LongName: "Mar.\_7th (수렵)"
   "1301":
     Name: 갤러거
+    LongName: 갤러거
   "1302":
     Name: 아젠티
+    LongName: 아젠티
   "1303":
     Name: 완•매
+    LongName: 완•매
   "1304":
     Name: 어벤츄린
+    LongName: 어벤츄린
   "1305":
     Name: "Dr.\_레이시오"
+    LongName: "Dr.\_레이시오"
   "1306":
     Name: 스파클
+    LongName: 스파클
   "1307":
     Name: "블랙\_스완"
+    LongName: "블랙\_스완"
   "1308":
     Name: 아케론
+    LongName: 아케론
   "1309":
     Name: 로빈
+    LongName: 로빈
   "1310":
     Name: 반디
+    LongName: 반디
   "1312":
     Name: 미샤
+    LongName: 미샤
   "1314":
     Name: 제이드
+    LongName: 제이드
   "1315":
     Name: 부트힐
+    LongName: 부트힐
   "1317":
     Name: 라파
+    LongName: 라파
   "8001":
     Name: Caelus
+    LongName: Caelus (파멸)
   "8002":
     Name: Stelle
+    LongName: Stelle (파멸)
   "8003":
     Name: Caelus
+    LongName: Caelus (보존)
   "8004":
     Name: Stelle
+    LongName: Stelle (보존)
   "8005":
     Name: Caelus
+    LongName: Caelus (화합)
   "8006":
     Name: Stelle
+    LongName: Stelle (화합)
 RelicSets:
   "101":
     Name: "흔적을\_남기지\_않은\_과객"

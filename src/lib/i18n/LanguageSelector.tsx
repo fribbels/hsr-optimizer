@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 export function LanguageSelector() {
   const { i18n } = useTranslation()
   const selectOptions = Object.values(languages)
+    // @ts-ignore
     .filter((x) => BASE_PATH == '/dreary-quibbles' || completedLocales.includes(x.locale))
     .map(({ locale, nativeName, shortName }) => ({
       value: locale,

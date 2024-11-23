@@ -65,8 +65,16 @@ function cellRankRenderer(params) {
 }
 
 function cellNameRenderer(params) {
+  const t = i18next.getFixedT(null, 'gameData', 'Characters')
   const data = params.data
-  const characterName = i18next.t(`gameData:Characters.${data.id}.Name`)
+  const characterNameString = t(`${data.id}.LongName`)
+  let nameSections = characterNameString.split(' (') // seperate the path indication on multipath characters
+  if (nameSections.length > 1) { // into a seperate block from the name for better line break positioning
+    nameSections[1] = ' (' + nameSections[1]
+  } else {
+    nameSections = characterNameString.split('•') // special case for DHIL
+  }
+  nameSections.forEach((section, index) => nameSections[index] = <span style={{ display: 'inline-block' }}>{section}</span>)
   const equippedNumber = data.equipped ? Object.values(data.equipped).filter((x) => x != undefined).length : 0
   // console.log('CellRenderer', equippedNumber, data, characterMetadata)
   let color = '#81d47e'
@@ -88,7 +96,7 @@ function cellNameRenderer(params) {
           lineHeight: '18px',
         }}
       >
-        {characterName}
+        {nameSections}
       </Text>
       <Flex style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }}>
 

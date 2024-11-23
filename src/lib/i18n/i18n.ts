@@ -72,6 +72,7 @@ export const languages = {
 type Languages = keyof typeof languages
 export const completedLocales: Languages[] = ['en', 'fr', 'pt', 'zh'] as const
 
+// @ts-ignore
 export const supportedLanguages = BASE_PATH == '/dreary-quibbles' ? Object.keys(languages) : completedLocales
 void i18next
   .use(Backend)

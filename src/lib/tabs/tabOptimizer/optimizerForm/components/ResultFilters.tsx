@@ -1,7 +1,5 @@
-import { Flex, Form } from 'antd'
+import { Flex } from 'antd'
 import { Hint } from 'lib/interactions/hint'
-import FormStatTextStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/FormStatTextStyled'
-import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import FilterRow from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterRow'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -47,16 +45,18 @@ export const MinMaxStatFilters = () => {
         <HeaderText>{t('StatHeader')/* Stat min / max filters */}</HeaderText>
         <TooltipImage type={Hint.statFilters()}/>
       </Flex>
-      <FilterRow name='Hp' label={t('HPLabel')}/>
-      <FilterRow name='Atk' label={t('ATKLabel')}/>
-      <FilterRow name='Def' label={t('DEFLabel')}/>
-      <FilterRow name='Spd' label={t('SPDLabel')}/>
-      <FilterRow name='Cr' label={t('CRLabel')}/>
-      <FilterRow name='Cd' label={t('CDLabel')}/>
-      <FilterRow name='Ehr' label={t('EHRLabel')}/>
-      <FilterRow name='Res' label={t('RESLabel')}/>
-      <FilterRow name='Be' label={t('BELabel')}/>
-      <FilterRow name='Err' label={t('ERRLabel')}/>
+      <Flex vertical gap={5}>
+        <FilterRow name='Hp' label={t('HPLabel')}/>
+        <FilterRow name='Atk' label={t('ATKLabel')}/>
+        <FilterRow name='Def' label={t('DEFLabel')}/>
+        <FilterRow name='Spd' label={t('SPDLabel')}/>
+        <FilterRow name='Cr' label={t('CRLabel')}/>
+        <FilterRow name='Cd' label={t('CDLabel')}/>
+        <FilterRow name='Ehr' label={t('EHRLabel')}/>
+        <FilterRow name='Res' label={t('RESLabel')}/>
+        <FilterRow name='Be' label={t('BELabel')}/>
+        <FilterRow name='Err' label={t('ERRLabel')}/>
+      </Flex>
     </Flex>
   )
 }
@@ -69,17 +69,15 @@ export const MinMaxRatingFilters = () => {
         <HeaderText>{t('StatHeader')/* Stat min / max filters */}</HeaderText>
         <TooltipImage type={Hint.ratingFilters()}/>
       </Flex>
-      <Flex vertical gap={5}>
-        <FilterRow name='Ehp' label={t('EHPLabel')}/>
-        <FilterRow name='Basic' label={t('BASICLabel')}/>
-        <FilterRow name='Skill' label={t('SKILLLabel')}/>
-        <FilterRow name='Ult' label={t('ULTLabel')}/>
-        <FilterRow name='Fua' label={t('FUALabel')}/>
-        <FilterRow name='Dot' label={t('DOTLabel')}/>
-        <FilterRow name='Break' label={t('BREAKLabel')}/>
-        <FilterRow name='Heal' label={t('HEALLabel')}/>
-        <FilterRow name='Shield' label={t('SHIELDLabel')}/>
-      </Flex>
+      <FilterRow name='Ehp' label={t('EHPLabel')}/>
+      <FilterRow name='Basic' label={t('BASICLabel')}/>
+      <FilterRow name='Skill' label={t('SKILLLabel')}/>
+      <FilterRow name='Ult' label={t('ULTLabel')}/>
+      <FilterRow name='Fua' label={t('FUALabel')}/>
+      <FilterRow name='Dot' label={t('DOTLabel')}/>
+      <FilterRow name='Break' label={t('BREAKLabel')}/>
+      <FilterRow name='Heal' label={t('HEALLabel')}/>
+      <FilterRow name='Shield' label={t('SHIELDLabel')}/>
     </Flex>
   )
 }

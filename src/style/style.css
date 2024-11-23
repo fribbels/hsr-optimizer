@@ -613,3 +613,8 @@ a {
 .ant-segmented .ant-segmented-item-label {
     transition: background-color 5s, background 5s;
 }
+
+.ant-color-picker-trigger {
+    /*width: 100% !important;*/
+    justify-content: flex-start !important;
+}

@@ -138,6 +138,7 @@ window.store = create((set) => {
     relicsById: {},
     scorerId: '',
     scoringMetadataOverrides: {},
+    showcasePreferences: {},
     statDisplay: DEFAULT_STAT_DISPLAY,
     statSimulationDisplay: StatSimTypes.Disabled,
     statSimulations: [],
@@ -230,6 +231,7 @@ window.store = create((set) => {
     setCharacterTabFilters: (x) => set(() => ({ characterTabFilters: x })),
     setScorerId: (x) => set(() => ({ scorerId: x })),
     setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
+    setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
     setStatDisplay: (x) => set(() => ({ statDisplay: x })),
     setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
     setStatSimulations: (x) => set(() => ({ statSimulations: Utils.clone(x) })),
@@ -577,6 +579,10 @@ export const DB = {
       window.store.getState().setScoringMetadataOverrides(saveData.scoringMetadataOverrides || {})
     }
 
+    if (saveData.showcasePreferences) {
+      window.store.getState().setShowcasePreferences(saveData.showcasePreferences || {})
+    }
+
     window.store.getState().setScorerId(saveData.scorerId)
     if (saveData.optimizerMenuState) {
       const menuState = window.store.getState().optimizerMenuState
@@ -629,6 +635,7 @@ export const DB = {
     const saveFormat: Partial<HsrOptimizerSaveFormat> = {
       relics: [],
       characters: [],
+      showcasePreferences: {},
     }
     DB.setStore(saveFormat as HsrOptimizerSaveFormat)
   },

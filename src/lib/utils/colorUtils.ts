@@ -30,7 +30,8 @@ export function colorTransparent() {
 }
 
 export function showcaseTransition() {
-  return 'background-color 1.0s, box-shadow 0.25s, border-color 0.25s'
+  // return 'background-color 0.25s, box-shadow 0.25s, border-color 0.25s'
+  return ''
 }
 
 export function selectColor(color1: string, color2: string): string {

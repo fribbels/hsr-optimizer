@@ -1,5 +1,6 @@
 import { ConfigProvider, Flex, theme, ThemeConfig } from 'antd'
 import getDesignToken from 'antd/lib/theme/getDesignToken'
+import chroma from 'chroma-js'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   getArtistName,
@@ -19,6 +20,8 @@ import {
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
+import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/showcaseCustomizationController'
+import { ShowcaseColorMode, ShowcaseCustomizationSidebar } from 'lib/characterPreview/ShowcaseCustomizationSidebar'
 import { ShowcaseCombatScoreDetailsFooter, ShowcaseDpsScoreHeader, ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
 import { ShowcaseLightConeLarge, ShowcaseLightConeLargeName, ShowcaseLightConeSmall } from 'lib/characterPreview/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
@@ -30,15 +33,7 @@ import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/characterScorer'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
-import {
-  colorTransparent,
-  selectColor,
-  showcaseBackgroundColor,
-  showcaseCardBackgroundColor,
-  showcaseCardBorderColor,
-  showcaseSegmentedColor,
-  showcaseTransition,
-} from 'lib/utils/colorUtils'
+import { selectColor, showcaseBackgroundColor, showcaseCardBackgroundColor, showcaseCardBorderColor, showcaseTransition } from 'lib/utils/colorUtils'
 import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
 import Vibrant from 'node-vibrant'
 import React, { useEffect, useRef, useState } from 'react'
@@ -82,6 +77,7 @@ export function CharacterPreview(props: {
   const activeKey = window.store((s) => s.activeKey)
   const prevCharId = useRef<string | undefined>()
   const relicsById = window.store((s) => s.relicsById)
+  const showcasePreferences = window.store((s) => s.showcasePreferences)
   const [_redrawTeammates, setRedrawTeammates] = useState<number>(0)
   const [colors, setColors] = useState<string[]>([])
 
@@ -104,19 +100,19 @@ export function CharacterPreview(props: {
     getPalette(img, (palette: PaletteResponse) => {
       const primary = selectColor(palette.DarkVibrant, palette.DarkMuted)
 
-      setOverrideTheme({
-        algorithm: theme.darkAlgorithm,
-        token: {
-          colorBgLayout: primary,
-          colorPrimary: primary,
-        },
-        components: {
-          Segmented: {
-            trackBg: colorTransparent(),
-            itemSelectedBg: showcaseSegmentedColor(primary),
-          },
-        },
-      })
+      // setOverrideTheme({
+      //   algorithm: theme.darkAlgorithm,
+      //   token: {
+      //     colorBgLayout: primary,
+      //     colorPrimary: primary,
+      //   },
+      //   components: {
+      //     Segmented: {
+      //       trackBg: colorTransparent(),
+      //       itemSelectedBg: showcaseSegmentedColor(primary),
+      //     },
+      //   },
+      // })
 
       setColors(
         [
@@ -126,7 +122,11 @@ export function CharacterPreview(props: {
           palette.DarkMuted,
           palette.LightVibrant,
           palette.LightMuted,
-          ...palette.colors,
+          ...palette.colors.sort((a, b) => {
+            const hueDiff = chroma(a).hsl()[0] - chroma(b).hsl()[0]
+            if (hueDiff !== 0) return hueDiff
+            return chroma(a).hsl()[2] - chroma(b).hsl()[2]
+          }),
         ],
       )
     })
@@ -161,6 +161,11 @@ export function CharacterPreview(props: {
     showcaseMetadata,
   )
 
+  const characterShowcasePreferences = showcasePreferences[character.id] ?? {
+    color: DEFAULT_SHOWCASE_COLOR,
+    colorMode: ShowcaseColorMode.DEFAULT,
+  }
+
   const displayDimensions: ShowcaseDisplayDimensions = getShowcaseDisplayDimensions(character, Boolean(simScoringResult))
   const artistName = getArtistName(character)
   const finalStats = getShowcaseStats(character, displayRelics, showcaseMetadata)
@@ -181,59 +186,15 @@ export function CharacterPreview(props: {
         setOpen={setAddModalOpen}
         open={addModalOpen}
       />
+      <ShowcaseCustomizationSidebar
+        characterId={character.id}
+        token={token}
+        colors={colors}
+        showcasePreferences={characterShowcasePreferences}
+        setOverrideTheme={setOverrideTheme}
+      />
 
       <ConfigProvider theme={overrideTheme}>
-        <Flex
-          style={{
-            position: 'absolute',
-            marginLeft: 1100,
-            backgroundColor: token.colorBgLayout,
-          }}
-        >
-          <Flex
-            vertical
-            gap={5}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)', // Two columns
-              gap: '10px', // Adjust spacing between items
-            }}
-          >
-            {
-              colors.map(primary => {
-                return (
-                  <div
-                    className='colorSelector'
-                    key={primary}
-                    style={{
-                      width: 32,
-                      height: 32,
-                      backgroundColor: primary,
-                      cursor: 'pointer',
-                      borderRadius: 8,
-                    }}
-                    onClick={() => {
-                      setOverrideTheme({
-                        algorithm: theme.darkAlgorithm,
-                        token: {
-                          colorBgLayout: primary,
-                          colorPrimary: primary,
-                        },
-                        components: {
-                          Segmented: {
-                            trackBg: colorTransparent(),
-                            itemSelectedBg: showcaseSegmentedColor(primary),
-                          },
-                        },
-                      })
-                    }}
-                  />
-                )
-              })
-            }
-          </Flex>
-        </Flex>
-
 
         {/* Showcase full card */}
         <Flex

@@ -1,130 +1,193 @@
 Characters:
   "1001":
     Name: 三月なのか
+    LongName: 三月なのか (存護)
   "1002":
     Name: 丹恒
+    LongName: 丹恒
   "1003":
     Name: 姫子
+    LongName: 姫子
   "1004":
     Name: ヴェルト
+    LongName: ヴェルト
   "1005":
     Name: カフカ
+    LongName: カフカ
   "1006":
     Name: 銀狼
+    LongName: 銀狼
   "1008":
     Name: アーラン
+    LongName: アーラン
   "1009":
     Name: アスター
+    LongName: アスター
   "1013":
     Name: ヘルタ
+    LongName: ヘルタ
   "1101":
     Name: ブローニャ
+    LongName: ブローニャ
   "1102":
     Name: ゼーレ
+    LongName: ゼーレ
   "1103":
     Name: セーバル
+    LongName: セーバル
   "1104":
     Name: ジェパード
+    LongName: ジェパード
   "1105":
     Name: ナターシャ
+    LongName: ナターシャ
   "1106":
     Name: ペラ
+    LongName: ペラ
   "1107":
     Name: クラーラ
+    LongName: クラーラ
   "1108":
     Name: サンポ
+    LongName: サンポ
   "1109":
     Name: フック
+    LongName: フック
   "1110":
     Name: リンクス
+    LongName: リンクス
   "1111":
     Name: ルカ
+    LongName: ルカ
   "1112":
     Name: トパーズ&カブ
+    LongName: トパーズ&カブ
   "1201":
     Name: 青雀
+    LongName: 青雀
   "1202":
     Name: 停雲
+    LongName: 停雲
   "1203":
     Name: 羅刹
+    LongName: 羅刹
   "1204":
     Name: 景元
+    LongName: 景元
   "1205":
     Name: 刃
+    LongName: 刃
   "1206":
     Name: 素裳
+    LongName: 素裳
   "1207":
     Name: 御空
+    LongName: 御空
   "1208":
     Name: 符玄
+    LongName: 符玄
   "1209":
     Name: 彦卿
+    LongName: 彦卿
   "1210":
     Name: 桂乃芬
+    LongName: 桂乃芬
   "1211":
     Name: 白露
+    LongName: 白露
   "1212":
     Name: 鏡流
+    LongName: 鏡流
   "1213":
     Name: 丹恒・飲月
+    LongName: 丹恒・飲月
   "1214":
     Name: 雪衣
+    LongName: 雪衣
   "1215":
     Name: 寒鴉
+    LongName: 寒鴉
   "1217":
     Name: フォフォ
+    LongName: フォフォ
   "1218":
     Name: 椒丘
+    LongName: 椒丘
   "1220":
     Name: 飛霄
+    LongName: 飛霄
   "1221":
     Name: 雲璃
+    LongName: 雲璃
   "1222":
     Name: 霊砂
+    LongName: 霊砂
   "1223":
     Name: モゼ
+    LongName: モゼ
   "1224":
     Name: 三月なのか
+    LongName: 三月なのか (巡狩)
   "1301":
     Name: ギャラガー
+    LongName: ギャラガー
   "1302":
     Name: アルジェンティ
+    LongName: アルジェンティ
   "1303":
     Name: ルアン・メェイ
+    LongName: ルアン・メェイ
   "1304":
     Name: アベンチュリン
+    LongName: アベンチュリン
   "1305":
     Name: Dr.レイシオ
+    LongName: Dr.レイシオ
   "1306":
     Name: 花火
+    LongName: 花火
   "1307":
     Name: ブラックスワン
+    LongName: ブラックスワン
   "1308":
     Name: 黄泉
+    LongName: 黄泉
   "1309":
     Name: ロビン
+    LongName: ロビン
   "1310":
     Name: ホタル
+    LongName: ホタル
   "1312":
     Name: ミーシャ
+    LongName: ミーシャ
   "1314":
     Name: ジェイド
+    LongName: ジェイド
   "1315":
     Name: ブートヒル
+    LongName: ブートヒル
   "1317":
     Name: 乱破
+    LongName: 乱破
   "8001":
     Name: Caelus
+    LongName: Caelus (壊滅)
   "8002":
     Name: Stelle
+    LongName: Stelle (壊滅)
   "8003":
     Name: Caelus
+    LongName: Caelus (存護)
   "8004":
     Name: Stelle
+    LongName: Stelle (存護)
   "8005":
     Name: Caelus
+    LongName: Caelus (調和)
   "8006":
     Name: Stelle
+    LongName: Stelle (調和)
 RelicSets:
   "101":
     Name: 流雲無痕の過客

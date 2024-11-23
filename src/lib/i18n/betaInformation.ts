@@ -7,12 +7,14 @@ export const betaInformation: betaInformation = {
         key: 1225,
         value: {
           Name: 'Fugue',
+          LongName: 'Fugue',
         },
       },
       {
         key: 1313,
         value: {
           Name: 'Sunday',
+          LongName: 'Sunday',
         },
       },
     ],
@@ -35,6 +37,6 @@ export const betaInformation: betaInformation = {
 }
 
 type betaInformation = Partial<Record<InputLocale, { Characters: Character[];Lightcones: LightCone[];RelicSets: RelicSet[] }>>
-type Character = { key: number; value: { Name: string } }
+type Character = { key: number; value: { Name: string; LongName: string } }
 type LightCone = { id: number; value: { Name: string } }
 type RelicSet = { id: number; value: { Name: string; Description2pc: string; Description4pc?: string } }

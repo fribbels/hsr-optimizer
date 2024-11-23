@@ -237,7 +237,7 @@ export default function RelicScorerTab() {
               {t('common:Submit')/* Submit */}
             </Button>
             <Button
-              style={{ width: 150 }}
+              style={{ width: 'fit-content' }}
               onClick={() => window.store.getState().setScoringModalOpen(true)}
             >
               {t('SubmissionBar.AlgorithmButton')/* Scoring algorithm */}

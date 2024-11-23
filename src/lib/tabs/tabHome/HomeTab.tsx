@@ -296,7 +296,7 @@ function SearchBar() {
         placeholder={t('Placeholder')/* 'UUID' */}
         enterButton={(
           <Flex gap={5} style={{ marginRight: 5 }}>
-            <SearchOutlined style={{ marginRight: 10 }}/> Search
+            <SearchOutlined style={{ marginRight: 10 }}/> {t('Search')/* Search */}
           </Flex>
         )}
         allowClear

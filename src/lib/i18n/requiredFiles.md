@@ -2,7 +2,6 @@ Files needed to run generateTranslations.ts:
 * <u>**Data files:**</u>
   * AvatarBaseType.json
   * AvatarConfig.json
-  * AvatarSkillConfig.json
   * DamageType.json
   * EquipmentConfig.json
   * RelicSetConfig.json

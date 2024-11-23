@@ -65,10 +65,20 @@ function cellRankRenderer(params) {
 }
 
 function cellNameRenderer(params) {
+  const t = i18next.getFixedT(null, 'gameData', 'Characters')
   const data = params.data
-  const characterName = i18next.t(`gameData:Characters.${data.id}.Name`)
+  const characterNameString = t(`${data.id}.LongName`)
+
+  // Separate the path parens for multipath characters or handle dots so they render on separate lines if overflow
+  const nameSections = characterNameString.includes(' (')
+    ? characterNameString.split(' (').map((section, index) => index === 1 ? ` (${section}` : section)
+    : characterNameString.split('•')
+
+  const nameSectionRender = nameSections.map(section => (
+    <span style={{ display: 'inline-block' }}>{section}</span>
+  ))
+
   const equippedNumber = data.equipped ? Object.values(data.equipped).filter((x) => x != undefined).length : 0
-  // console.log('CellRenderer', equippedNumber, data, characterMetadata)
   let color = '#81d47e'
   if (equippedNumber < 6) color = 'rgb(229, 135, 66)'
   if (equippedNumber < 1) color = '#d72f2f'
@@ -88,7 +98,7 @@ function cellNameRenderer(params) {
           lineHeight: '18px',
         }}
       >
-        {characterName}
+        {nameSectionRender}
       </Text>
       <Flex style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }}>
 
@@ -526,38 +536,88 @@ export default function CharacterTab() {
 
   return (
     <Flex
-      vertical
       style={{
         height: '100%',
         marginBottom: 200,
       }}
+      gap={defaultGap}
     >
       <Flex vertical gap={defaultGap}>
-        <Flex gap={8} style={{ width: '100%', marginBottom: 0, paddingRight: 1 }}>
-          <Flex justify='space-between' gap={8} style={{ width: 230, height: '100%' }}>
-            <Dropdown
-              placement='topLeft'
-              menu={actionsMenuProps}
-              trigger={['hover']}
-            >
-              <Button style={{ width: '100%', height: '100%' }} icon={<UserOutlined/>} type='default'>
-                {t('CharacterMenu.ButtonText')/* Character menu */}
-                <DownOutlined/>
-              </Button>
-            </Dropdown>
-          </Flex>
-          <Flex style={{ width: 235 }}>
-            <Input
-              allowClear
-              size='large'
-              style={{ height: 40 }}
-              placeholder={t('SearchPlaceholder')/* Search character name */}
-              onChange={(e) => {
-                nameFilter.current = e.target.value.toLowerCase()
-                externalFilterChanged()
-              }}
+        <Dropdown
+          placement='topLeft'
+          menu={actionsMenuProps}
+          trigger={['hover']}
+        >
+          <Button style={{ width: '100%', height: 40 }} icon={<UserOutlined/>} type='default'>
+            {t('CharacterMenu.ButtonText')/* Character menu */}
+            <DownOutlined/>
+          </Button>
+        </Dropdown>
+        <Flex vertical gap={8} style={{ minWidth: 230 }}>
+          <div
+            id='characterGrid' className='ag-theme-balham-dark' style={{
+            ...{ display: 'block', width: '100%', height: parentH - 38 },
+            ...getGridTheme(token),
+          }}
+          >
+            <AgGridReact
+              ref={characterGrid}
+
+              rowData={characterRows}
+              gridOptions={gridOptions}
+              getRowNodeId={(data) => data.id}
+
+              columnDefs={columnDefs}
+              defaultColDef={defaultColDef}
+              deltaRowDataMode={true}
+
+              headerHeight={24}
+
+              onCellClicked={cellClickedListener}
+              onCellDoubleClicked={cellDoubleClickedListener}
+              onRowDragEnd={onRowDragEnd}
+              onRowDragLeave={onRowDragLeave}
+              navigateToNextCell={navigateToNextCell}
+              isExternalFilterPresent={isExternalFilterPresent}
+              doesExternalFilterPass={doesExternalFilterPass}
+              rowSelection='single'
             />
+          </div>
+          <Flex vertical gap={8}>
+            <Flex gap={8}>
+              <Button
+                style={{ flex: 'auto' }} icon={<CameraOutlined/>} onClick={clipboardClicked}
+                type='primary'
+                loading={screenshotLoading}
+              >
+                {t('CopyScreenshot')/* Copy screenshot */}
+              </Button>
+              <Button
+                style={{ width: 40 }} type='primary' icon={<DownloadOutlined/>}
+                onClick={downloadClicked}
+                loading={downloadLoading}
+              />
+            </Flex>
           </Flex>
+        </Flex>
+      </Flex>
+      <Flex vertical gap={defaultGap}>
+        <Flex
+          gap={8}
+          style={{ width: '100%', marginBottom: 0, alignItems: 'center' }}
+          justify='space-between'
+        >
+          <Input
+            allowClear
+            size='large'
+            // Revisit width of search + filters with Remembrance path
+            style={{ height: 40, fontSize: 14, width: 200 }}
+            placeholder={t('SearchPlaceholder')/* Search */}
+            onChange={(e) => {
+              nameFilter.current = e.target.value.toLowerCase()
+              externalFilterChanged()
+            }}
+          />
           <Flex style={{ flex: 1 }}>
             <SegmentedFilterRow
               name='path'
@@ -567,7 +627,10 @@ export default function CharacterTab() {
               setCurrentFilters={setCharacterFilters}
             />
           </Flex>
-          <Flex style={{ flex: 1 }}>
+          <Flex
+            // Selected to align with relics panel
+            style={{ width: 408 }}
+          >
             <SegmentedFilterRow
               name='element'
               tags={generateElementTags()}
@@ -578,53 +641,6 @@ export default function CharacterTab() {
           </Flex>
         </Flex>
         <Flex style={{ height: '100%' }}>
-          <Flex vertical gap={8} style={{ marginRight: selectedCharacter ? 6 : 8 }}>
-            <div
-              id='characterGrid' className='ag-theme-balham-dark' style={{
-              ...{ display: 'block', width: 230, height: parentH - 38 },
-              ...getGridTheme(token),
-            }}
-            >
-              <AgGridReact
-                ref={characterGrid}
-
-                rowData={characterRows}
-                gridOptions={gridOptions}
-                getRowNodeId={(data) => data.id}
-
-                columnDefs={columnDefs}
-                defaultColDef={defaultColDef}
-                deltaRowDataMode={true}
-
-                headerHeight={24}
-
-                onCellClicked={cellClickedListener}
-                onCellDoubleClicked={cellDoubleClickedListener}
-                onRowDragEnd={onRowDragEnd}
-                onRowDragLeave={onRowDragLeave}
-                navigateToNextCell={navigateToNextCell}
-                isExternalFilterPresent={isExternalFilterPresent}
-                doesExternalFilterPass={doesExternalFilterPass}
-                rowSelection='single'
-              />
-            </div>
-            <Flex vertical gap={8}>
-              <Flex gap={8}>
-                <Button
-                  style={{ flex: 'auto' }} icon={<CameraOutlined/>} onClick={clipboardClicked}
-                  type='primary'
-                  loading={screenshotLoading}
-                >
-                  {t('CopyScreenshot')/* Copy screenshot */}
-                </Button>
-                <Button
-                  style={{ width: 40 }} type='primary' icon={<DownloadOutlined/>}
-                  onClick={downloadClicked}
-                  loading={downloadLoading}
-                />
-              </Flex>
-            </Flex>
-          </Flex>
           <Flex vertical>
             <CharacterPreview
               id='characterTabPreview'

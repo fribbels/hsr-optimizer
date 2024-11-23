@@ -1,130 +1,193 @@
 Characters:
   "1001":
     Name: 三月七
+    LongName: 三月七 (存护)
   "1002":
     Name: 丹恒
+    LongName: 丹恒
   "1003":
     Name: 姬子
+    LongName: 姬子
   "1004":
     Name: 瓦尔特
+    LongName: 瓦尔特
   "1005":
     Name: 卡芙卡
+    LongName: 卡芙卡
   "1006":
     Name: 银狼
+    LongName: 银狼
   "1008":
     Name: 阿兰
+    LongName: 阿兰
   "1009":
     Name: 艾丝妲
+    LongName: 艾丝妲
   "1013":
     Name: 黑塔
+    LongName: 黑塔
   "1101":
     Name: 布洛妮娅
+    LongName: 布洛妮娅
   "1102":
     Name: 希儿
+    LongName: 希儿
   "1103":
     Name: 希露瓦
+    LongName: 希露瓦
   "1104":
     Name: 杰帕德
+    LongName: 杰帕德
   "1105":
     Name: 娜塔莎
+    LongName: 娜塔莎
   "1106":
     Name: 佩拉
+    LongName: 佩拉
   "1107":
     Name: 克拉拉
+    LongName: 克拉拉
   "1108":
     Name: 桑博
+    LongName: 桑博
   "1109":
     Name: 虎克
+    LongName: 虎克
   "1110":
     Name: 玲可
+    LongName: 玲可
   "1111":
     Name: 卢卡
+    LongName: 卢卡
   "1112":
     Name: 托帕&账账
+    LongName: 托帕&账账
   "1201":
     Name: 青雀
+    LongName: 青雀
   "1202":
     Name: 停云
+    LongName: 停云
   "1203":
     Name: 罗刹
+    LongName: 罗刹
   "1204":
     Name: 景元
+    LongName: 景元
   "1205":
     Name: 刃
+    LongName: 刃
   "1206":
     Name: 素裳
+    LongName: 素裳
   "1207":
     Name: 驭空
+    LongName: 驭空
   "1208":
     Name: 符玄
+    LongName: 符玄
   "1209":
     Name: 彦卿
+    LongName: 彦卿
   "1210":
     Name: 桂乃芬
+    LongName: 桂乃芬
   "1211":
     Name: 白露
+    LongName: 白露
   "1212":
     Name: 镜流
+    LongName: 镜流
   "1213":
     Name: 丹恒•饮月
+    LongName: 丹恒•饮月
   "1214":
     Name: 雪衣
+    LongName: 雪衣
   "1215":
     Name: 寒鸦
+    LongName: 寒鸦
   "1217":
     Name: 藿藿
+    LongName: 藿藿
   "1218":
     Name: 椒丘
+    LongName: 椒丘
   "1220":
     Name: 飞霄
+    LongName: 飞霄
   "1221":
     Name: 云璃
+    LongName: 云璃
   "1222":
     Name: 灵砂
+    LongName: 灵砂
   "1223":
     Name: 貊泽
+    LongName: 貊泽
   "1224":
     Name: 三月七
+    LongName: 三月七 (巡猎)
   "1301":
     Name: 加拉赫
+    LongName: 加拉赫
   "1302":
     Name: 银枝
+    LongName: 银枝
   "1303":
     Name: 阮•梅
+    LongName: 阮•梅
   "1304":
     Name: 砂金
+    LongName: 砂金
   "1305":
     Name: 真理医生
+    LongName: 真理医生
   "1306":
     Name: 花火
+    LongName: 花火
   "1307":
     Name: 黑天鹅
+    LongName: 黑天鹅
   "1308":
     Name: 黄泉
+    LongName: 黄泉
   "1309":
     Name: 知更鸟
+    LongName: 知更鸟
   "1310":
     Name: 流萤
+    LongName: 流萤
   "1312":
     Name: 米沙
+    LongName: 米沙
   "1314":
     Name: 翡翠
+    LongName: 翡翠
   "1315":
     Name: 波提欧
+    LongName: 波提欧
   "1317":
     Name: 乱破
+    LongName: 乱破
   "8001":
     Name: 穹
+    LongName: 穹 (毁灭)
   "8002":
     Name: 星
+    LongName: 星 (毁灭)
   "8003":
     Name: 穹
+    LongName: 穹 (存护)
   "8004":
     Name: 星
+    LongName: 星 (存护)
   "8005":
     Name: 穹
+    LongName: 穹 (同谐)
   "8006":
     Name: 星
+    LongName: 星 (同谐)
 RelicSets:
   "101":
     Name: 云无留迹的过客

@@ -1,16 +1,15 @@
 import { Button, Flex, Select } from 'antd'
-import { languages } from 'lib/i18n/i18n'
+import { languages, completedLocales } from 'lib/i18n/i18n'
 import { Assets } from 'lib/rendering/assets'
+import { BASE_PATH } from 'lib/state/db'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-
-type Languages = keyof typeof languages
-
-const completedLocales: Languages[] = ['en', 'zh', 'pt'] as const
 
 export function LanguageSelector() {
   const { i18n } = useTranslation()
   const selectOptions = Object.values(languages)
+    // @ts-ignore
+    .filter((x) => BASE_PATH == '/dreary-quibbles' || completedLocales.includes(x.locale))
     .map(({ locale, nativeName, shortName }) => ({
       value: locale,
       display: (

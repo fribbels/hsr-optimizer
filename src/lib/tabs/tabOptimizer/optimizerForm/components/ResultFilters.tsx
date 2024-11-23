@@ -69,20 +69,22 @@ const AlignedMinMaxFilters = (props: { rows: Readonly<{ name: FilterNames; label
   const minFilters: JSX.Element[] = []
   const maxFilters: JSX.Element[] = []
   const labels: JSX.Element[] = []
+  let index = 0
   for (const row of props.rows) {
     minFilters.push(
-      <Form.Item name={`min${row.name}`} style={{ margin: 0 }}>
+      <Form.Item name={`min${row.name}`} style={{ margin: 0 }} key={index}>
         <InputNumberStyled size='small' controls={false} style={{ margin: 0, width: '100%' }}/>
       </Form.Item>,
     )
     labels.push(
-      <FormStatTextStyled style={{ whiteSpace: 'nowrap', height: 24 }}>{t(row.labelKey)}</FormStatTextStyled>,
+      <FormStatTextStyled style={{ whiteSpace: 'nowrap', height: 24 }} key={index}>{t(row.labelKey)}</FormStatTextStyled>,
     )
     maxFilters.push(
-      <Form.Item name={`max${row.name}`} style={{ margin: 0 }}>
+      <Form.Item name={`max${row.name}`} style={{ margin: 0 }} key={index}>
         <InputNumberStyled size='small' controls={false} style={{ margin: 0, width: '100%' }}/>
       </Form.Item>,
     )
+    index++
   }
   return (
     <Flex gap={5} justify='space-between' align='center'>

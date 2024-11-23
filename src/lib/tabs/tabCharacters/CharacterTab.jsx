@@ -592,7 +592,7 @@ export default function CharacterTab() {
         </Flex>
       </Flex>
       <Flex vertical gap={defaultGap}>
-        <Flex gap={8} style={{ width: '100%', marginBottom: 0, paddingRight: 1 }} justify='space-between' alignItems='center'>
+        <Flex gap={8} style={{ width: '100%', marginBottom: 0, paddingRight: 1, alignItems: 'center' }} justify='space-between'>
           <Flex style={{ flex: 4 }}>
             <Input
               allowClear

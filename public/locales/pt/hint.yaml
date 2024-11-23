@@ -1,7 +1,9 @@
 RatingFilter:
   Title: Filtros de pontuação
-  p1: Ehp - HP efetivo, medindo quão resistente um personagem de nível máximo é. Calculado usando HP, DEF e passivas de redução de dano
-  p2: Básico / Habilidade / Ult / Fua (Ataque Extra) / Dot (Dano contínuo) / Break (Quebra de Fraqueza) - Cálculos de dano de habilidade, baseados nos fatores ambientais nas passivas do personagem / passivas do cone de luz / opções do inimigo.
+  p1: >-
+    Ehp - HP efetivo, medindo quão resistente um personagem de nível máximo é. Calculado usando HP, DEF e passivas de redução de dano
+  p2: >-
+    Básico / Habilidade / Ult / Fua (Ataque Extra) / Dot (Dano contínuo) / Break (Quebra de Fraqueza) - Cálculos de dano de habilidade, baseados nos fatores ambientais nas passivas do personagem / passivas do cone de luz / opções do inimigo.
 CombatBuffs:
   Title: Buffs de combate
   p1: Buffs adicionais da equipe a serem aplicados nos cálculos. Observe que os buffs das auto-buffs e passivas do personagem / cone de luz e traços já estão incluídos nos cálculos.

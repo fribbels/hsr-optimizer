@@ -3533,15 +3533,16 @@ interface Resources {
         "Content": "Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output."
       },
       "Organizer": {
-        "Title": "Inventory Organizer",
-        "Content": "Organize your inventory by scoring and sorting relics based on their potential, and find the top relics to upgrade for each character."
+        "Title": "Relics Organizer",
+        "Content": "Organize your relics by scoring and sorting relics based on their potential, and find the top relics to upgrade for each character."
       }
     },
     "Welcome": "Welcome to the<1/>Fribbels Star Rail Optimizer",
     "SearchBar": {
       "Placeholder": "UUID",
       "Label": "Enter your UUID to view your showcase characters:",
-      "Message": "Invalid input - This should be your 9 digit ingame UUID"
+      "Message": "Invalid input - This should be your 9 digit ingame UUID",
+      "Search": "Search"
     }
   },
   "importSaveTab": {

@@ -2,7 +2,6 @@
 import { writeFile } from 'fs'
 // @ts-ignore
 import { readFile } from 'fs/promises'
-// @ts-ignore
 import yaml from 'js-yaml'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { betaInformation } from 'lib/i18n/betaInformation'
@@ -39,6 +38,23 @@ const outputLocalesMapping: Record<InputLocale, OutputLocale[]> = {
   vi: ['vi'],
   zh: ['zh'],
 } as const
+
+//           Destruction, Hunt, Erudition, Harmony, Nihility, Preservation, Abundance, Remembrance
+const Paths = ['Warrior', 'Rogue', 'Mage', 'Shaman', 'Warlock', 'Knight', 'Priest', 'Placeholder'] as const
+const multiPathIds = [1001, 1224, 8001, 8002, 8003, 8004, 8005, 8006, 8007, 8008] as const
+type Path = typeof Paths[number]
+const multiPathIdToPath: Record<typeof multiPathIds[number], Path> = {
+  1001: 'Knight',
+  1224: 'Rogue',
+  8001: 'Warrior',
+  8002: 'Warrior',
+  8003: 'Knight',
+  8004: 'Knight',
+  8005: 'Shaman',
+  8006: 'Shaman',
+  8007: 'Placeholder',
+  8008: 'Placeholder',
+}
 
 const tbNames: Record<InputLocale, { stelle: string; caelus: string }> = {
   de: {
@@ -150,7 +166,7 @@ function cleanString(locale: string, string: string): string {
 }
 
 async function importTextmap(suffix: string) {
-  const textmap = await readFile(`./lib/i18n/TextMap${suffix}.json`, 'utf-8')
+  const textmap = await readFile(`src/lib/i18n/TextMap${suffix}.json`, 'utf-8')
   return JSON.parse(textmap)
 }
 
@@ -206,11 +222,19 @@ async function generateTranslations() {
 
     const output: Output = { Characters: {}, RelicSets: {}, Lightcones: {}, Paths: {}, Elements: {} }
 
+    for (const path of pathConfig) {
+      output.Paths[path.ID ?? 'Unknown'] = cleanString(locale, textmap[path.BaseTypeText.Hash])
+    }
+
     for (const avatar of AvatarConfig) {
+      const name = avatar.AvatarID > 8000
+        ? tbNames[locale][avatar.AvatarID % 2 ? 'caelus' : 'stelle']
+        : cleanString(locale, textmap[avatar.AvatarName.Hash])
       output.Characters[avatar.AvatarID] = {
-        Name: avatar.AvatarID > 8000
-          ? tbNames[locale][avatar.AvatarID % 2 ? 'caelus' : 'stelle']
-          : cleanString(locale, textmap[avatar.AvatarName.Hash]),
+        Name: name,
+        LongName: multiPathIds.some((x) => x == avatar.AvatarID)
+          ? name + ` (${output.Paths[multiPathIdToPath[avatar.AvatarID as typeof multiPathIds[number]]]})`
+          : name,
       }
       if (betaInformation[locale]?.Characters) {
         for (const character of betaInformation[locale].Characters) {
@@ -238,20 +262,15 @@ async function generateTranslations() {
     }
 
     for (const lightcone of lightconeConfig) {
-      const Lightcone: Lightcone = {
+      output.Lightcones[lightcone.EquipmentID] = {
         Name: cleanString(locale, textmap[lightcone.EquipmentName.Hash]),
       }
-      output.Lightcones[lightcone.EquipmentID] = Lightcone
     }
     if (betaInformation[locale]?.Lightcones) {
       for (const lightcone of betaInformation[locale].Lightcones) {
         if (output.Lightcones[lightcone.id]) continue
         output.Lightcones[lightcone.id] = lightcone.value
       }
-    }
-
-    for (const path of pathConfig) {
-      output.Paths[path.ID ?? 'Unknown'] = cleanString(locale, textmap[path.BaseTypeText.Hash])
     }
 
     for (const element of damageConfig) {
@@ -313,12 +332,8 @@ function translateKey(key: string, textmap: TextMap) {
 
 type TextMap = Record<number, string>
 
-type Lightcone = {
-  Name: string
-}
-
 type Output = {
-  Characters: Record<number, { Name: string }>
+  Characters: Record<number, { Name: string; LongName: string }>
   RelicSets: Record<number, { Name: string; Description2pc: string; Description4pc?: string }>
   Lightcones: Record<number, { Name: string }>
   Paths: Record<string, string>

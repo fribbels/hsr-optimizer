@@ -1,130 +1,193 @@
 Characters:
   "1001":
     Name: Март 7
+    LongName: Март 7 (Сохранение)
   "1002":
     Name: Дань Хэн
+    LongName: Дань Хэн
   "1003":
     Name: Химеко
+    LongName: Химеко
   "1004":
     Name: Вельт
+    LongName: Вельт
   "1005":
     Name: Кафка
+    LongName: Кафка
   "1006":
     Name: Серебряный Волк
+    LongName: Серебряный Волк
   "1008":
     Name: Арлан
+    LongName: Арлан
   "1009":
     Name: Аста
+    LongName: Аста
   "1013":
     Name: Герта
+    LongName: Герта
   "1101":
     Name: Броня
+    LongName: Броня
   "1102":
     Name: Зеле
+    LongName: Зеле
   "1103":
     Name: Сервал
+    LongName: Сервал
   "1104":
     Name: Гепард
+    LongName: Гепард
   "1105":
     Name: Наташа
+    LongName: Наташа
   "1106":
     Name: Пела
+    LongName: Пела
   "1107":
     Name: Клара
+    LongName: Клара
   "1108":
     Name: Сампо
+    LongName: Сампо
   "1109":
     Name: Хук
+    LongName: Хук
   "1110":
     Name: Рысь
+    LongName: Рысь
   "1111":
     Name: Лука
+    LongName: Лука
   "1112":
     Name: Топаз и Счетовод
+    LongName: Топаз и Счетовод
   "1201":
     Name: Цинцюэ
+    LongName: Цинцюэ
   "1202":
     Name: Тинъюнь
+    LongName: Тинъюнь
   "1203":
     Name: Лоча
+    LongName: Лоча
   "1204":
     Name: Цзин Юань
+    LongName: Цзин Юань
   "1205":
     Name: Блэйд
+    LongName: Блэйд
   "1206":
     Name: Сушан
+    LongName: Сушан
   "1207":
     Name: Юйкун
+    LongName: Юйкун
   "1208":
     Name: Фу Сюань
+    LongName: Фу Сюань
   "1209":
     Name: Яньцин
+    LongName: Яньцин
   "1210":
     Name: Гуйнайфэнь
+    LongName: Гуйнайфэнь
   "1211":
     Name: Байлу
+    LongName: Байлу
   "1212":
     Name: Цзинлю
+    LongName: Цзинлю
   "1213":
     Name: "Дань Хэн: Пожиратель Луны"
+    LongName: "Дань Хэн: Пожиратель Луны"
   "1214":
     Name: Сюэи
+    LongName: Сюэи
   "1215":
     Name: Ханья
+    LongName: Ханья
   "1217":
     Name: Хохо
+    LongName: Хохо
   "1218":
     Name: Цзяоцю
+    LongName: Цзяоцю
   "1220":
     Name: Фэйсяо
+    LongName: Фэйсяо
   "1221":
     Name: Юньли
+    LongName: Юньли
   "1222":
     Name: Линша
+    LongName: Линша
   "1223":
     Name: Моцзэ
+    LongName: Моцзэ
   "1224":
     Name: Март 7
+    LongName: Март 7 (Охота)
   "1301":
     Name: Галлахер
+    LongName: Галлахер
   "1302":
     Name: Аргенти
+    LongName: Аргенти
   "1303":
     Name: Жуань Мэй
+    LongName: Жуань Мэй
   "1304":
     Name: Авантюрин
+    LongName: Авантюрин
   "1305":
     Name: Доктор Рацио
+    LongName: Доктор Рацио
   "1306":
     Name: Искорка
+    LongName: Искорка
   "1307":
     Name: Чёрный Лебедь
+    LongName: Чёрный Лебедь
   "1308":
     Name: Ахерон
+    LongName: Ахерон
   "1309":
     Name: Зарянка
+    LongName: Зарянка
   "1310":
     Name: Светлячок
+    LongName: Светлячок
   "1312":
     Name: Миша
+    LongName: Миша
   "1314":
     Name: Яшма
+    LongName: Яшма
   "1315":
     Name: Бутхилл
+    LongName: Бутхилл
   "1317":
     Name: Раппа
+    LongName: Раппа
   "8001":
     Name: Caelus
+    LongName: Caelus (Разрушение)
   "8002":
     Name: Stelle
+    LongName: Stelle (Разрушение)
   "8003":
     Name: Caelus
+    LongName: Caelus (Сохранение)
   "8004":
     Name: Stelle
+    LongName: Stelle (Сохранение)
   "8005":
     Name: Caelus
+    LongName: Caelus (Гармония)
   "8006":
     Name: Stelle
+    LongName: Stelle (Гармония)
 RelicSets:
   "101":
     Name: Скиталец блуждающего облака

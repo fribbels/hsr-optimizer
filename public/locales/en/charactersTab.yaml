@@ -27,7 +27,7 @@ CharacterMenu:
       SortByScore: Sort all characters by score
       MoveToTop: Move character to top
 CopyScreenshot: Copy screenshot
-SearchPlaceholder: Search character name
+SearchPlaceholder: Search
 GridHeaders:
   Icon: Icon
   Priority: Priority

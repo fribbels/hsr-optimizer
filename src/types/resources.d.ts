@@ -2628,199 +2628,264 @@ interface Resources {
   "gameData": {
     "Characters": {
       "1001": {
-        "Name": "March 7th"
+        "Name": "March 7th",
+        "LongName": "March 7th (Preservation)"
       },
       "1002": {
-        "Name": "Dan Heng"
+        "Name": "Dan Heng",
+        "LongName": "Dan Heng"
       },
       "1003": {
-        "Name": "Himeko"
+        "Name": "Himeko",
+        "LongName": "Himeko"
       },
       "1004": {
-        "Name": "Welt"
+        "Name": "Welt",
+        "LongName": "Welt"
       },
       "1005": {
-        "Name": "Kafka"
+        "Name": "Kafka",
+        "LongName": "Kafka"
       },
       "1006": {
-        "Name": "Silver Wolf"
+        "Name": "Silver Wolf",
+        "LongName": "Silver Wolf"
       },
       "1008": {
-        "Name": "Arlan"
+        "Name": "Arlan",
+        "LongName": "Arlan"
       },
       "1009": {
-        "Name": "Asta"
+        "Name": "Asta",
+        "LongName": "Asta"
       },
       "1013": {
-        "Name": "Herta"
+        "Name": "Herta",
+        "LongName": "Herta"
       },
       "1101": {
-        "Name": "Bronya"
+        "Name": "Bronya",
+        "LongName": "Bronya"
       },
       "1102": {
-        "Name": "Seele"
+        "Name": "Seele",
+        "LongName": "Seele"
       },
       "1103": {
-        "Name": "Serval"
+        "Name": "Serval",
+        "LongName": "Serval"
       },
       "1104": {
-        "Name": "Gepard"
+        "Name": "Gepard",
+        "LongName": "Gepard"
       },
       "1105": {
-        "Name": "Natasha"
+        "Name": "Natasha",
+        "LongName": "Natasha"
       },
       "1106": {
-        "Name": "Pela"
+        "Name": "Pela",
+        "LongName": "Pela"
       },
       "1107": {
-        "Name": "Clara"
+        "Name": "Clara",
+        "LongName": "Clara"
       },
       "1108": {
-        "Name": "Sampo"
+        "Name": "Sampo",
+        "LongName": "Sampo"
       },
       "1109": {
-        "Name": "Hook"
+        "Name": "Hook",
+        "LongName": "Hook"
       },
       "1110": {
-        "Name": "Lynx"
+        "Name": "Lynx",
+        "LongName": "Lynx"
       },
       "1111": {
-        "Name": "Luka"
+        "Name": "Luka",
+        "LongName": "Luka"
       },
       "1112": {
-        "Name": "Topaz & Numby"
+        "Name": "Topaz & Numby",
+        "LongName": "Topaz & Numby"
       },
       "1201": {
-        "Name": "Qingque"
+        "Name": "Qingque",
+        "LongName": "Qingque"
       },
       "1202": {
-        "Name": "Tingyun"
+        "Name": "Tingyun",
+        "LongName": "Tingyun"
       },
       "1203": {
-        "Name": "Luocha"
+        "Name": "Luocha",
+        "LongName": "Luocha"
       },
       "1204": {
-        "Name": "Jing Yuan"
+        "Name": "Jing Yuan",
+        "LongName": "Jing Yuan"
       },
       "1205": {
-        "Name": "Blade"
+        "Name": "Blade",
+        "LongName": "Blade"
       },
       "1206": {
-        "Name": "Sushang"
+        "Name": "Sushang",
+        "LongName": "Sushang"
       },
       "1207": {
-        "Name": "Yukong"
+        "Name": "Yukong",
+        "LongName": "Yukong"
       },
       "1208": {
-        "Name": "Fu Xuan"
+        "Name": "Fu Xuan",
+        "LongName": "Fu Xuan"
       },
       "1209": {
-        "Name": "Yanqing"
+        "Name": "Yanqing",
+        "LongName": "Yanqing"
       },
       "1210": {
-        "Name": "Guinaifen"
+        "Name": "Guinaifen",
+        "LongName": "Guinaifen"
       },
       "1211": {
-        "Name": "Bailu"
+        "Name": "Bailu",
+        "LongName": "Bailu"
       },
       "1212": {
-        "Name": "Jingliu"
+        "Name": "Jingliu",
+        "LongName": "Jingliu"
       },
       "1213": {
-        "Name": "Imbibitor Lunae"
+        "Name": "Imbibitor Lunae",
+        "LongName": "Dan Heng • Imbibitor Lunae"
       },
       "1214": {
-        "Name": "Xueyi"
+        "Name": "Xueyi",
+        "LongName": "Xueyi"
       },
       "1215": {
-        "Name": "Hanya"
+        "Name": "Hanya",
+        "LongName": "Hanya"
       },
       "1217": {
-        "Name": "Huohuo"
+        "Name": "Huohuo",
+        "LongName": "Huohuo"
       },
       "1218": {
-        "Name": "Jiaoqiu"
+        "Name": "Jiaoqiu",
+        "LongName": "Jiaoqiu"
       },
       "1220": {
-        "Name": "Feixiao"
+        "Name": "Feixiao",
+        "LongName": "Feixiao"
       },
       "1221": {
-        "Name": "Yunli"
+        "Name": "Yunli",
+        "LongName": "Yunli"
       },
       "1222": {
-        "Name": "Lingsha"
+        "Name": "Lingsha",
+        "LongName": "Lingsha"
       },
       "1223": {
-        "Name": "Moze"
+        "Name": "Moze",
+        "LongName": "Moze"
       },
       "1224": {
-        "Name": "March 7th"
+        "Name": "March 7th",
+        "LongName": "March 7th (The Hunt)"
       },
       "1225": {
-        "Name": "Fugue"
+        "Name": "Fugue",
+        "LongName": "Fugue"
       },
       "1301": {
-        "Name": "Gallagher"
+        "Name": "Gallagher",
+        "LongName": "Gallagher"
       },
       "1302": {
-        "Name": "Argenti"
+        "Name": "Argenti",
+        "LongName": "Argenti"
       },
       "1303": {
-        "Name": "Ruan Mei"
+        "Name": "Ruan Mei",
+        "LongName": "Ruan Mei"
       },
       "1304": {
-        "Name": "Aventurine"
+        "Name": "Aventurine",
+        "LongName": "Aventurine"
       },
       "1305": {
-        "Name": "Dr. Ratio"
+        "Name": "Dr. Ratio",
+        "LongName": "Dr. Ratio"
       },
       "1306": {
-        "Name": "Sparkle"
+        "Name": "Sparkle",
+        "LongName": "Sparkle"
       },
       "1307": {
-        "Name": "Black Swan"
+        "Name": "Black Swan",
+        "LongName": "Black Swan"
       },
       "1308": {
-        "Name": "Acheron"
+        "Name": "Acheron",
+        "LongName": "Acheron"
       },
       "1309": {
-        "Name": "Robin"
+        "Name": "Robin",
+        "LongName": "Robin"
       },
       "1310": {
-        "Name": "Firefly"
+        "Name": "Firefly",
+        "LongName": "Firefly"
       },
       "1312": {
-        "Name": "Misha"
+        "Name": "Misha",
+        "LongName": "Misha"
       },
       "1313": {
-        "Name": "Sunday"
+        "Name": "Sunday",
+        "LongName": "Sunday"
       },
       "1314": {
-        "Name": "Jade"
+        "Name": "Jade",
+        "LongName": "Jade"
       },
       "1315": {
-        "Name": "Boothill"
+        "Name": "Boothill",
+        "LongName": "Boothill"
       },
       "1317": {
-        "Name": "Rappa"
+        "Name": "Rappa",
+        "LongName": "Rappa"
       },
       "8001": {
-        "Name": "Caelus"
+        "Name": "Caelus",
+        "LongName": "Caelus (Destruction)"
       },
       "8002": {
-        "Name": "Stelle"
+        "Name": "Stelle",
+        "LongName": "Stelle (Destruction)"
       },
       "8003": {
-        "Name": "Caelus"
+        "Name": "Caelus",
+        "LongName": "Caelus (Preservation)"
       },
       "8004": {
-        "Name": "Stelle"
+        "Name": "Stelle",
+        "LongName": "Stelle (Preservation)"
       },
       "8005": {
-        "Name": "Caelus"
+        "Name": "Caelus",
+        "LongName": "Caelus (Harmony)"
       },
       "8006": {
-        "Name": "Stelle"
+        "Name": "Stelle",
+        "LongName": "Stelle (Harmony)"
       }
     },
     "RelicSets": {
@@ -3387,7 +3452,8 @@ interface Resources {
     "RatingFilter": {
       "Title": "Rating filters",
       "p1": "Ehp - Effective HP, measuring how tanky a max level character is. Calculated using HP & DEF & damage reduction passives",
-      "p2": "Basic / Skill / Ult / Fua (Follow-up attack) / Dot (Damage over time) / Break (Weakness Break) - Skill damage calculations, based on the environmental factors in character passives / light cone passives / enemy options."
+      "p2": "Basic / Skill / Ult / Fua (Follow-up attack) / Dot (Damage over time) / Break (Weakness Break) - Skill damage calculations, based on the environmental factors in character passives / light cone passives / enemy options.",
+      "p3": "Heal / Shield - Other ability calculations, based on the environmental factors in character passives / light cone passives / enemy options."
     },
     "CombatBuffs": {
       "Title": "Combat buffs",
@@ -3533,15 +3599,16 @@ interface Resources {
         "Content": "Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output."
       },
       "Organizer": {
-        "Title": "Inventory Organizer",
-        "Content": "Organize your inventory by scoring and sorting relics based on their potential, and find the top relics to upgrade for each character."
+        "Title": "Relics Organizer",
+        "Content": "Organize your relics by scoring and sorting relics based on their potential, and find the top relics to upgrade for each character."
       }
     },
     "Welcome": "Welcome to the<1/>Fribbels Star Rail Optimizer",
     "SearchBar": {
       "Placeholder": "UUID",
       "Label": "Enter your UUID to view your showcase characters:",
-      "Message": "Invalid input - This should be your 9 digit ingame UUID"
+      "Message": "Invalid input - This should be your 9 digit ingame UUID",
+      "Search": "Search"
     }
   },
   "importSaveTab": {

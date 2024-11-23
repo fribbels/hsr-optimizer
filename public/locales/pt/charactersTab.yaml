@@ -84,12 +84,12 @@ CharacterPreview:
       BREAKS: "QUEBRAS:"
     CombatResults:
       Header: Resultados do dano de combate
-      Primary: "Habilidade primária:     "
-      Character: "Dano do personagem:       "
-      Benchmark: "Dano do benchmark:       "
-      Baseline: "Dano base:        "
-      Maximum: "Dano máximo:         "
-      Score: "Pontuação de DPS %:         "
+      Primary: "Habilidade primária:"
+      Character: "Dano do personagem:"
+      Benchmark: "Dano do benchmark:"
+      Baseline: "Dano base:"
+      Maximum: "Dano máximo:"
+      Score: "Pontuação de DPS %:"
       Abilities:
         BASIC: Dano básico
         SKILL: Dano perícia

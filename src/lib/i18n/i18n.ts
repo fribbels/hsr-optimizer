@@ -69,8 +69,11 @@ export const languages = {
       },
   */
 } as const
+type Languages = keyof typeof languages
+export const completedLocales: Languages[] = ['en', 'fr', 'pt', 'zh'] as const
 
-export const supportedLanguages = Object.keys(languages)
+// @ts-ignore
+export const supportedLanguages = BASE_PATH == '/dreary-quibbles' ? Object.keys(languages) : completedLocales
 void i18next
   .use(Backend)
   .use(LanguageDetector)
@@ -104,7 +107,6 @@ void i18next
     backend: {
       loadPath: BASE_PATH + '/locales/{{lng}}/{{ns}}.yaml',
       parse: function (data: string) {
-        // eslint-disable-next-line
         return yaml.load(data)
       },
     },

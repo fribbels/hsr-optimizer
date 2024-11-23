@@ -270,7 +270,7 @@ export const Utils = {
 
     for (const value of Object.values(characterData)) {
       value.value = value.id
-      value.label = i18next.t(`gameData:Characters.${value.id}.Name`)
+      value.label = i18next.t(`gameData:Characters.${value.id}.LongName`)
     }
 
     return Object.values(characterData).sort((a, b) => a.displayName.localeCompare(b.displayName))

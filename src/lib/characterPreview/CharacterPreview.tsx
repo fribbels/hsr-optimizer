@@ -39,6 +39,7 @@ import {
   showcaseSegmentedColor,
   showcaseTransition,
 } from 'lib/utils/colorUtils'
+import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
 import Vibrant from 'node-vibrant'
 import React, { useEffect, useRef, useState } from 'react'
 import { Character } from 'types/character'
@@ -100,10 +101,8 @@ export function CharacterPreview(props: {
   const portraitUrl = character ? (customPortrait?.imageUrl ?? Assets.getCharacterPortraitById(character.id)) : ''
 
   function onPortraitLoad(img: string) {
-    new Vibrant(img, {
-      colorCount: 32,
-    }).getPalette((err, palette) => {
-      const primary = selectColor(palette!.DarkVibrant!.hex, palette!.DarkMuted!.hex)
+    getPalette(img, (palette: PaletteResponse) => {
+      const primary = selectColor(palette.DarkVibrant, palette.DarkMuted)
 
       setOverrideTheme({
         algorithm: theme.darkAlgorithm,
@@ -114,19 +113,22 @@ export function CharacterPreview(props: {
         components: {
           Segmented: {
             trackBg: colorTransparent(),
-            itemSelectedBg: showcaseSegmentedColor(palette!.DarkMuted!.hex),
+            itemSelectedBg: showcaseSegmentedColor(primary),
           },
         },
       })
 
-      setColors([
-        palette!.Vibrant!.hex,
-        palette!.DarkVibrant!.hex,
-        palette!.Muted!.hex,
-        palette!.DarkMuted!.hex,
-        palette!.LightMuted!.hex,
-        palette!.LightVibrant!.hex,
-      ])
+      setColors(
+        [
+          palette.Vibrant,
+          palette.DarkVibrant,
+          palette.Muted,
+          palette.DarkMuted,
+          palette.LightVibrant,
+          palette.LightMuted,
+          ...palette.colors,
+        ],
+      )
     })
   }
 
@@ -188,7 +190,15 @@ export function CharacterPreview(props: {
             backgroundColor: token.colorBgLayout,
           }}
         >
-          <Flex vertical gap={5}>
+          <Flex
+            vertical
+            gap={5}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)', // Two columns
+              gap: '10px', // Adjust spacing between items
+            }}
+          >
             {
               colors.map(primary => {
                 return (
@@ -196,11 +206,11 @@ export function CharacterPreview(props: {
                     className='colorSelector'
                     key={primary}
                     style={{
-                      width: 40,
-                      height: 40,
+                      width: 32,
+                      height: 32,
                       backgroundColor: primary,
                       cursor: 'pointer',
-                      borderRadius: 50,
+                      borderRadius: 8,
                     }}
                     onClick={() => {
                       setOverrideTheme({

@@ -117,8 +117,8 @@ Toolbar:
     Buckets: "Aperçu de relique: Seaux"
     Top10: "Aperçu de relique: Top 10"
   PlotOptions:
-    PlotAll: Afficher tous les personnages
-    PlotCustom: Afficher les personnages custom
+    PlotAll: Tous les personnages
+    PlotCustom: Personnages custom
   EditRelic: Modifier la relique
   DeleteRelic:
     ButtonText: Supprimer la relique

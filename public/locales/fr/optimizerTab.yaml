@@ -11,7 +11,7 @@ LightconePassives: Passifs de cônes de lumière
 CharacterPassives: Passifs de personnages
 NoConditionals: Pas de passifs conditionnels
 NoTeamConditionals: Pas de passifs conditionnels de coéquipier
-ResultLimitN: "Trouver meilleurs {{limit}} résultats"
+ResultLimitN: "{{limit}} meilleurs résultats"
 MainStats: Mainstats
 Sets: Sets
 RelicSetSelector:
@@ -48,12 +48,12 @@ SortOptions:
   EHP: Trié par PV Effectif
 OptimizerOptions:
   Header: Options d'optimiseur
-  PriorityFilter: Filtre de priorité de personnage
+  PriorityFilter: Filtre de priorité de pers.
   Priority:
     Header: Priorité
     Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
     Name: "# {{rank}}"
-  AllowEquipped: Permettre reliques équipées
+  AllowEquipped: Permettre dreliques équipées
   KeepCurrent: Garder reliques courantes
   Exclude: Exclure
   MinEnhance:
@@ -80,7 +80,7 @@ OptimizerOptions:
 AdvancedOptions:
   Header: Options avancées
   EnemyConfigButtonText: Configuration des ennemis
-  CombatBuffsButtonTextNone: Buffs supplémentaires de combat
+  CombatBuffsButtonTextNone: Buffs supplémentaires
   CombatBuffsButtonText: "Buffs supplémentaires ({{activeCount}})"
 Grid:
   To: de
@@ -337,7 +337,7 @@ CombatBuffs:
   EFFECT_RES_PEN: PÉN RÉS Eff %
   VULNERABILITY: Vulnérabilité %
   BREAK_EFFICIENCY: Éfficacité de Rupture %
-  Title: Buffs supplémentaires de combat
+  Title: Buffs supplémentaires
 Target_one: cible
 Target_other: cibles
 EnemyConfiguration:
@@ -401,8 +401,8 @@ ComboFilter:
     Dot: Dsd
     Break: Ruptures
   ComboOptions:
-    Basic: Normale
-    Skill: Compétence
+    Basic: Norm
+    Skill: Comp
     Ult: Ult
     Fua: Ads
   RotationButton: Rotation avancée

@@ -45,7 +45,7 @@ CharacterPreview:
   ArtBy: "Art réalisé par {{artistName}}"
   EditCharacter: Modifier le personnage
   EditPortrait: Modifier le portrait
-  CharacterScore: "Note de Personnage: {{score}} {{grade}}"
+  CharacterScore: "Note de Pers.: {{score}} {{grade}}"
   Messages:
     AddedRelic: Relique ajoutée avec succès
     SavedPortrait: Portrait enregistré avec succès
@@ -55,17 +55,17 @@ CharacterPreview:
     Title: Sim de combat
     Score: "Score DPS {{score}}% {{grade}}"
   AlgorithmSlider:
-    Title: "Algorithme d'appréciation:"
+    Title: "Mode d'évaluation:"
     Labels:
       CombatScore: Note de Combat
-      CombatScoreTBD: Note de Combat (à déterminer)
+      CombatScoreTBD: Note de Combat (WIP)
       StatScore: Note de Stat
   DetailsSlider:
-    Title: "Détails de la note de combat:"
+    Title: "Détails de combat:"
     Labels:
       CombatStats: Stats de Combat
-      DMGUpgrades: Améliorations de Dégâts
-  DMGUpgrades: Améliorations de Dégâts
+      DMGUpgrades: Améliorations Dégâts
+  DMGUpgrades: Améliorations des Dégâts
   SubstatUpgradeComparisons:
     Header: Comparaisons d'améliorations de substats
     Roll: roll
@@ -91,30 +91,30 @@ CharacterPreview:
       Maximum: "DGT maximum:"
       Score: "Note DPS %:"
       Abilities:
-        BASIC: DGT NORMALE
-        SKILL: DGT COMPÉTENCE
-        ULT: DGT ULT
-        FUA: DGT ADS
-        DOT: DGT DSD
-        BREAK: DGT RUPTURE
-        COMBO: DGT COMBO
+        BASIC: NORMALE
+        SKILL: COMPÉTENCE
+        ULT: ULT
+        FUA: ADS
+        DOT: DSD
+        BREAK: RUPTURE
+        COMBO: COMBO
   ScoringColumn:
     Character:
-      Header: "Build personnage ({{score}}&)"
+      Header: "Build personnage ({{score}}%)"
       BasicStats: Stats basiques du personnage
       CombatStats: <1>stats de combat</1> du personnage
       Substats: Substats du personnage (min rolls)
       Mainstats: Mainstats du personnage
       Abilities: Dégâts des capacités du personnage
     Benchmark:
-      Header: "Build référence ({{score}}&)"
+      Header: "Build référence ({{score}}%)"
       BasicStats: Stats basiques de référence
       CombatStats: <1>stats de combat</1> de référence
       Substats: Substats de référence 100% (min rolls)
       Mainstats: Mainstats de référence
       Abilities: Dégâts de capacités de référence
     Perfect:
-      Header: "Build parfaite ({{score}}&)"
+      Header: "Build parfaite ({{score}}%)"
       BasicStats: Stats basiques parfaites
       CombatStats: <1>stats de combat</1> parfaites
       Substats: Substats parfaites 200% (max rolls)

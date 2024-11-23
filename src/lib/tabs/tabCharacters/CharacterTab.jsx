@@ -68,15 +68,17 @@ function cellNameRenderer(params) {
   const t = i18next.getFixedT(null, 'gameData', 'Characters')
   const data = params.data
   const characterNameString = t(`${data.id}.LongName`)
-  let nameSections = characterNameString.split(' (') // seperate the path indication on multipath characters
-  if (nameSections.length > 1) { // into a seperate block from the name for better line break positioning
-    nameSections[1] = ' (' + nameSections[1]
-  } else {
-    nameSections = characterNameString.split('•') // special case for DHIL
-  }
-  nameSections.forEach((section, index) => nameSections[index] = <span style={{ display: 'inline-block' }}>{section}</span>)
+
+  // Separate the path parens for multipath characters or handle dots so they render on separate lines if overflow
+  const nameSections = characterNameString.includes(' (')
+    ? characterNameString.split(' (').map((section, index) => index === 1 ? ` (${section}` : section)
+    : characterNameString.split('•')
+
+  const nameSectionRender = nameSections.map(section => (
+    <span style={{ display: 'inline-block' }}>{section}</span>
+  ))
+
   const equippedNumber = data.equipped ? Object.values(data.equipped).filter((x) => x != undefined).length : 0
-  // console.log('CellRenderer', equippedNumber, data, characterMetadata)
   let color = '#81d47e'
   if (equippedNumber < 6) color = 'rgb(229, 135, 66)'
   if (equippedNumber < 1) color = '#d72f2f'
@@ -96,7 +98,7 @@ function cellNameRenderer(params) {
           lineHeight: '18px',
         }}
       >
-        {nameSections}
+        {nameSectionRender}
       </Text>
       <Flex style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }}>
 
@@ -554,9 +556,9 @@ export default function CharacterTab() {
         <Flex vertical gap={8} style={{ minWidth: 230 }}>
           <div
             id='characterGrid' className='ag-theme-balham-dark' style={{
-              ...{ display: 'block', width: '100%', height: parentH - 38 },
-              ...getGridTheme(token),
-            }}
+            ...{ display: 'block', width: '100%', height: parentH - 38 },
+            ...getGridTheme(token),
+          }}
           >
             <AgGridReact
               ref={characterGrid}
@@ -600,20 +602,23 @@ export default function CharacterTab() {
         </Flex>
       </Flex>
       <Flex vertical gap={defaultGap}>
-        <Flex gap={8} style={{ width: '100%', marginBottom: 0, paddingRight: 1, alignItems: 'center' }} justify='space-between'>
-          <Flex style={{ flex: 4 }}>
-            <Input
-              allowClear
-              size='large'
-              style={{ height: 40 }}
-              placeholder={t('SearchPlaceholder')/* Search character name */}
-              onChange={(e) => {
-                nameFilter.current = e.target.value.toLowerCase()
-                externalFilterChanged()
-              }}
-            />
-          </Flex>
-          <Flex style={{ flex: 5 }}>
+        <Flex
+          gap={8}
+          style={{ width: '100%', marginBottom: 0, alignItems: 'center' }}
+          justify='space-between'
+        >
+          <Input
+            allowClear
+            size='large'
+            // Revisit width of search + filters with Remembrance path
+            style={{ height: 40, fontSize: 14, width: 200 }}
+            placeholder={t('SearchPlaceholder')/* Search */}
+            onChange={(e) => {
+              nameFilter.current = e.target.value.toLowerCase()
+              externalFilterChanged()
+            }}
+          />
+          <Flex style={{ flex: 1 }}>
             <SegmentedFilterRow
               name='path'
               tags={generatePathTags()}
@@ -622,7 +627,10 @@ export default function CharacterTab() {
               setCurrentFilters={setCharacterFilters}
             />
           </Flex>
-          <Flex style={{ flex: 5 }}>
+          <Flex
+            // Selected to align with relics panel
+            style={{ width: 408 }}
+          >
             <SegmentedFilterRow
               name='element'
               tags={generateElementTags()}
@@ -633,7 +641,6 @@ export default function CharacterTab() {
           </Flex>
         </Flex>
         <Flex style={{ height: '100%' }}>
-
           <Flex vertical>
             <CharacterPreview
               id='characterTabPreview'

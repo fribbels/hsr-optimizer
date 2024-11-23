@@ -1,8 +1,6 @@
 import i18next, { DefaultNamespace, KeyPrefix, Namespace, TFunction } from 'i18next'
 import stringify from 'json-stable-stringify'
 import { Constants } from 'lib/constants/constants'
-import DB from 'lib/state/db'
-import { DBMetadataCharacter } from 'types/metadata'
 import { v4 as uuidv4 } from 'uuid'
 
 export const TsUtils = {

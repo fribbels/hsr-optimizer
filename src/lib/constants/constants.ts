@@ -546,7 +546,7 @@ export const Constants = {
   // StatMaxes,
   MAX_INT: 2147483647,
   THREAD_BUFFER_LENGTH: 150000,
-}
+} as const
 
 export const RelicSetFilterOptions = {
   relic4Piece: '4 Piece',

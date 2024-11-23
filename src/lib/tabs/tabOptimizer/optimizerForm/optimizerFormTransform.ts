@@ -76,8 +76,8 @@ export function displayToForm(form: Form) {
 export function formToDisplay(form: Form) {
   const characterId = form.characterId
   const newForm: Partial<Form> = TsUtils.clone(form)
-  const metadata = DB.getMetadata().characters[characterId]
-  const scoringMetadata = DB.getScoringMetadata(characterId)
+  const metadata = characterId ? DB.getMetadata().characters[characterId] : null
+  const scoringMetadata = characterId ? DB.getScoringMetadata(characterId) : null
 
   // Erase inputs where min == 0 and max == MAX_INT to hide the displayed values
   newForm.maxHp = unsetMax(form.maxHp)
@@ -203,7 +203,7 @@ export function formToDisplay(form: Form) {
     newForm.rank = DB.getCharacters().length
 
     // Apply any presets to new characters
-    if (metadata) {
+    if (metadata && scoringMetadata) {
       for (const preset of scoringMetadata.presets || []) {
         preset.apply(newForm)
       }
@@ -278,7 +278,7 @@ export function formToDisplay(form: Form) {
     newForm.comboStateJson = '{}'
   }
 
-  if (!newForm.comboAbilities) {
+  if (!newForm.comboAbilities && metadata) {
     const simulation = metadata.scoringMetadata?.simulation
     newForm.comboAbilities = simulation?.comboAbilities ?? [null, 'BASIC']
     newForm.comboDot = simulation?.comboDot ?? 0

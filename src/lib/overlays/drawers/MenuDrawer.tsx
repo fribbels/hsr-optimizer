@@ -48,7 +48,7 @@ const MenuDrawer = () => {
     getItem(t('Showcase.Title')/* Showcase */, 'subTools', <SunOutlined/>, [
       getItem(
         (
-          <Flex style={{ marginRight: 5 }}>
+          <Flex>
             <StarFilled style={{ marginRight: 5, width: 16 }}/>
             {' '}
             {t('Showcase.Scorer')/* Relic Scorer */}
@@ -59,7 +59,7 @@ const MenuDrawer = () => {
     getItem(t('Optimization.Title')/* Optimization */, 'subOptimizer', <LineChartOutlined/>, [
       getItem(
         (
-          <Flex style={{ marginRight: 5 }}>
+          <Flex>
             <BarChartOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
             {t('Optimization.Optimizer')/* Optimizer */}
@@ -68,7 +68,7 @@ const MenuDrawer = () => {
         AppPages.OPTIMIZER),
       getItem(
         (
-          <Flex style={{ marginRight: 5 }}>
+          <Flex>
             <UserOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
             {t('Optimization.Characters')/* Characters */}
@@ -77,7 +77,7 @@ const MenuDrawer = () => {
         AppPages.CHARACTERS),
       getItem(
         (
-          <Flex style={{ marginRight: 5 }}>
+          <Flex>
             <RadarChartOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
             {t('Optimization.Relics')/* Relics */}
@@ -86,7 +86,7 @@ const MenuDrawer = () => {
         AppPages.RELICS),
       getItem(
         (
-          <Flex style={{ marginRight: 5 }}>
+          <Flex>
             <UploadOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
             {t('Optimization.Import')/* Import / Save */}
@@ -95,7 +95,7 @@ const MenuDrawer = () => {
         AppPages.IMPORT),
       getItem(
         (
-          <Flex onClick={() => window.store.getState().setSettingsDrawerOpen(true)} style={{ width: '100%', marginRight: 5 }}>
+          <Flex onClick={() => window.store.getState().setSettingsDrawerOpen(true)} style={{ width: '100%' }}>
             <SettingOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
             {t('Optimization.Settings')/* Settings */}
@@ -105,7 +105,7 @@ const MenuDrawer = () => {
       ),
       getItem(
         (
-          <Flex style={{ marginRight: 5 }}>
+          <Flex>
             <BookOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
             {t('Optimization.Start')/* Get Started */}
@@ -116,7 +116,7 @@ const MenuDrawer = () => {
     getItem(t('Links.Title')/* Links */, 'subLinks', <BarsOutlined/>, [
       getItem(
         (
-          <Typography.Link style={{ marginRight: 5 }}>
+          <Typography.Link>
             <HomeOutlined style={{ marginRight: 2, width: 16 }}/>
             {' '}
             {t('Links.Home') /* Home */}
@@ -125,7 +125,7 @@ const MenuDrawer = () => {
         AppPages.HOME),
       getItem(
         (
-          <Typography.Link style={{ marginRight: 5 }}>
+          <Typography.Link>
             <UnorderedListOutlined style={{ marginRight: 2, width: 16 }}/>
             {' '}
             {t('Links.Changelog')/* Changelog */}
@@ -133,7 +133,7 @@ const MenuDrawer = () => {
         ),
         AppPages.CHANGELOG),
       getItem(
-        <Typography.Link href='https://ko-fi.com/fribbels' target='_blank' rel='noopener noreferrer' style={{ marginRight: 5 }}>
+        <Typography.Link href='https://ko-fi.com/fribbels' target='_blank' rel='noopener noreferrer'>
           <CoffeeIcon style={{ marginRight: 5 }}/>
           {' '}
           {t('Links.Kofi')/* Ko-fi */}
@@ -141,7 +141,7 @@ const MenuDrawer = () => {
         'link donate',
       ),
       getItem(
-        <Typography.Link href='https://discord.gg/rDmB4Un7qg' target='_blank' rel='noopener noreferrer' style={{ marginRight: 5 }}>
+        <Typography.Link href='https://discord.gg/rDmB4Un7qg' target='_blank' rel='noopener noreferrer'>
           <DiscordIcon style={{ marginRight: 5 }}/>
           {' '}
           {t('Links.Discord')/* Discord */}
@@ -149,7 +149,7 @@ const MenuDrawer = () => {
         'link discord',
       ),
       getItem(
-        <Typography.Link href='https://github.com/fribbels/hsr-optimizer' target='_blank' rel='noopener noreferrer' style={{ marginRight: 5 }}>
+        <Typography.Link href='https://github.com/fribbels/hsr-optimizer' target='_blank' rel='noopener noreferrer'>
           <GithubIcon style={{ marginRight: 5 }}/>
           {' '}
           {t('Links.Github')/* GitHub */}
@@ -157,7 +157,7 @@ const MenuDrawer = () => {
         'link github',
       ),
       !officialOnly && getItem(
-        <Typography.Link href='https://starrailoptimizer.github.io/' target='_blank' rel='noopener noreferrer' style={{ marginRight: 5 }}>
+        <Typography.Link href='https://starrailoptimizer.github.io/' target='_blank' rel='noopener noreferrer'>
           <LinkOutlined style={{ marginRight: 5 }}/>
           {' '}
           {t('Links.Unleak')/* No leaks */}

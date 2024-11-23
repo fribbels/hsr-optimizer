@@ -3,6 +3,7 @@ import { Hint } from 'lib/interactions/hint'
 import FormStatTextStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/FormStatTextStyled'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import FilterRow from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterRow'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useTranslation } from 'react-i18next'
@@ -46,7 +47,16 @@ export const MinMaxStatFilters = () => {
         <HeaderText>{t('StatHeader')/* Stat min / max filters */}</HeaderText>
         <TooltipImage type={Hint.statFilters()}/>
       </Flex>
-      <AlignedMinMaxFilters rows={statFilterData}/>
+      <FilterRow name='Hp' label={t('HPLabel')}/>
+      <FilterRow name='Atk' label={t('ATKLabel')}/>
+      <FilterRow name='Def' label={t('DEFLabel')}/>
+      <FilterRow name='Spd' label={t('SPDLabel')}/>
+      <FilterRow name='Cr' label={t('CRLabel')}/>
+      <FilterRow name='Cd' label={t('CDLabel')}/>
+      <FilterRow name='Ehr' label={t('EHRLabel')}/>
+      <FilterRow name='Res' label={t('RESLabel')}/>
+      <FilterRow name='Be' label={t('BELabel')}/>
+      <FilterRow name='Err' label={t('ERRLabel')}/>
     </Flex>
   )
 }
@@ -59,43 +69,16 @@ export const MinMaxRatingFilters = () => {
         <HeaderText>{t('StatHeader')/* Stat min / max filters */}</HeaderText>
         <TooltipImage type={Hint.ratingFilters()}/>
       </Flex>
-      <AlignedMinMaxFilters rows={ratingFilterData}/>
-    </Flex>
-  )
-}
-
-const AlignedMinMaxFilters = (props: { rows: Readonly<{ name: FilterNames; labelKey: FilterKeys }[]> }) => {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'MinMaxFilters' })
-  const minFilters: JSX.Element[] = []
-  const maxFilters: JSX.Element[] = []
-  const labels: JSX.Element[] = []
-  let index = 0
-  for (const row of props.rows) {
-    minFilters.push(
-      <Form.Item name={`min${row.name}`} style={{ margin: 0 }} key={index}>
-        <InputNumberStyled size='small' controls={false} style={{ margin: 0, width: '100%' }}/>
-      </Form.Item>,
-    )
-    labels.push(
-      <FormStatTextStyled style={{ whiteSpace: 'nowrap', height: 24 }} key={index}>{t(row.labelKey)}</FormStatTextStyled>,
-    )
-    maxFilters.push(
-      <Form.Item name={`max${row.name}`} style={{ margin: 0 }} key={index}>
-        <InputNumberStyled size='small' controls={false} style={{ margin: 0, width: '100%' }}/>
-      </Form.Item>,
-    )
-    index++
-  }
-  return (
-    <Flex gap={5} justify='space-between' align='center'>
-      <Flex vertical gap={optimizerTabDefaultGap} style={{ minWidth: 30, maxWidth: 63 }}>
-        {minFilters}
-      </Flex>
-      <Flex vertical gap={optimizerTabDefaultGap} style={{ width: 'max-content' }}>
-        {labels}
-      </Flex>
-      <Flex vertical gap={optimizerTabDefaultGap} style={{ minWidth: 30, maxWidth: 63 }}>
-        {maxFilters}
+      <Flex vertical gap={5}>
+        <FilterRow name='Ehp' label={t('EHPLabel')}/>
+        <FilterRow name='Basic' label={t('BASICLabel')}/>
+        <FilterRow name='Skill' label={t('SKILLLabel')}/>
+        <FilterRow name='Ult' label={t('ULTLabel')}/>
+        <FilterRow name='Fua' label={t('FUALabel')}/>
+        <FilterRow name='Dot' label={t('DOTLabel')}/>
+        <FilterRow name='Break' label={t('BREAKLabel')}/>
+        <FilterRow name='Heal' label={t('HEALLabel')}/>
+        <FilterRow name='Shield' label={t('SHIELDLabel')}/>
       </Flex>
     </Flex>
   )

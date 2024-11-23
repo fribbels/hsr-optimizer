@@ -106,7 +106,6 @@ void i18next
     backend: {
       loadPath: BASE_PATH + '/locales/{{lng}}/{{ns}}.yaml',
       parse: function (data: string) {
-        // eslint-disable-next-line
         return yaml.load(data)
       },
     },

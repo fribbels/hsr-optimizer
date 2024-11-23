@@ -14,7 +14,7 @@ import RelicsTab from 'lib/tabs/tabRelics/RelicsTab'
 import RelicScorerTab from 'lib/tabs/tabShowcase/RelicScorerTab'
 import WebgpuTab from 'lib/tabs/tabWebgpu/WebgpuTab'
 import { WorkerPool } from 'lib/worker/workerPool'
-import React, { ReactElement, useEffect } from 'react'
+import React, { ReactElement, Suspense, useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Form } from 'types/form'
 
@@ -95,9 +95,11 @@ function TabRenderer(props: {
 }) {
   return (
     <ErrorBoundary fallbackRender={defaultErrorRender}>
-      <div style={{ display: props.activeKey === props.tabKey ? 'contents' : 'none' }} id={props.tabKey}>
-        {props.content}
-      </div>
+      <Suspense>
+        <div style={{ display: props.activeKey === props.tabKey ? 'contents' : 'none' }} id={props.tabKey}>
+          {props.content}
+        </div>
+      </Suspense>
     </ErrorBoundary>
   )
 }

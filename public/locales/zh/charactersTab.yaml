@@ -84,12 +84,12 @@ CharacterPreview:
       BREAKS: "击破次数"
     CombatResults:
       Header: 战斗伤害结果
-      Primary: "主要伤害:         "
-      Character: "角色伤害:         "
-      Benchmark: "标杆伤害:         "
-      Baseline: "基础伤害:         "
-      Maximum: "最高伤害:         "
-      Score: "DPS评分%:         "
+      Primary: "主要伤害:"
+      Character: "角色伤害:"
+      Benchmark: "基准伤害:"
+      Baseline: "基础伤害:"
+      Maximum: "最高伤害:"
+      Score: "DPS评分%:"
       Abilities:
         BASIC: 普攻伤害
         SKILL: 战技伤害
@@ -107,12 +107,12 @@ CharacterPreview:
       Mainstats: 角色遗器主词条
       Abilities: 角色技能伤害
     Benchmark:
-      Header: "标杆配装 ({{score}}%)"
-      BasicStats: 100% 标杆基础属性
-      CombatStats: 100% 标杆<1>战斗属性</1>
-      Substats: 100% 标杆副词条 (最少升级次数)
-      Mainstats: 100% 标杆主词条
-      Abilities: 100% 标杆技能伤害
+      Header: "基准配装 ({{score}}%)"
+      BasicStats: 100% 基准基础属性
+      CombatStats: 100% 基准<1>战斗属性</1>
+      Substats: 100% 基准副词条 (最少升级次数)
+      Mainstats: 100% 基准主词条
+      Abilities: 100% 基准技能伤害
     Perfect:
       Header: "完美角色配装 ({{score}}%)"
       BasicStats: 200% 完美基础属性

@@ -27,7 +27,6 @@ CharacterMenu:
       SortByScore: Trier tous les personnages par note
       MoveToTop: Placer le personnage en haut
 CopyScreenshot: Copier la capture d'écran
-SearchPlaceholder: Rechercher un nom de personnage
 GridHeaders:
   Icon: Icône
   Priority: Priorité

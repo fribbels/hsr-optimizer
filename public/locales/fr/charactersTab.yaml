@@ -77,7 +77,6 @@ CharacterPreview:
     Rotation:
       Header: Rotation des dégâts de combo
       BASIC: NORMALE
-      SKILL: COMPÉTENCE
       ULT: ULT
       FUA: ADS
       DOTS: "DSD"

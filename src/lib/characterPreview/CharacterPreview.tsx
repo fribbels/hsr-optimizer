@@ -94,11 +94,10 @@ export function CharacterPreview(props: {
       <div
         style={{
           height: parentH,
-          width: 1066,
+          width: 1068,
           borderRadius: 8,
-          marginRight: 2,
           backgroundColor: token.colorBgLayout,
-          outline: `2px solid ${token.colorBgContainer}`,
+          border: `1px solid ${token.colorBgContainer}`,
         }}
       />
     )
@@ -372,7 +371,7 @@ export function CharacterPreview(props: {
       {/* Showcase analysis footer */}
       {source != ShowcaseSource.BUILDS_MODAL &&
         <ShowcaseBuildAnalysis
-          token={seedToken}
+          token={token}
           simScoringResult={simScoringResult as SimulationScore}
           combatScoreDetails={combatScoreDetails}
           showcaseMetadata={showcaseMetadata}

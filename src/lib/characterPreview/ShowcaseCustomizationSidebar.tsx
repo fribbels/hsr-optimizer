@@ -131,7 +131,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
         gap={8}
         style={{
           position: 'absolute',
-          marginLeft: 1100,
+          marginLeft: 1085,
           width: 130,
           backgroundColor: 'rgb(29 42 71)',
           boxShadow: shadow,

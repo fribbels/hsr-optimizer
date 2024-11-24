@@ -7,7 +7,7 @@ import DB from 'lib/state/db'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { colorSorter, colorTransparent, selectColor, showcaseSegmentedColor } from 'lib/utils/colorUtils'
+import { colorTransparent, organizeColors, selectColor, showcaseSegmentedColor } from 'lib/utils/colorUtils'
 import { Utils } from 'lib/utils/utils'
 import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
@@ -57,32 +57,15 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
 
             setSeedColor(primary)
             urlToColorCache[img] = primary
-            console.log('SET SEED COLOR', primary)
 
-            setColors([
-              palette.Vibrant,
-              palette.DarkVibrant,
-              palette.Muted,
-              palette.DarkMuted,
-              palette.LightVibrant,
-              palette.LightMuted,
-              ...palette.colors.sort(colorSorter),
-            ])
+            setColors(organizeColors(palette))
           })
         } else {
           setTimeout(() => {
             getPalette(img, (palette: PaletteResponse) => {
               const primary = selectColor(palette.DarkVibrant, palette.DarkMuted)
 
-              setColors([
-                palette.Vibrant,
-                palette.DarkVibrant,
-                palette.Muted,
-                palette.DarkMuted,
-                palette.LightVibrant,
-                palette.LightMuted,
-                ...palette.colors.sort(colorSorter),
-              ])
+              setColors(organizeColors(palette))
             })
           }, 1000)
         }

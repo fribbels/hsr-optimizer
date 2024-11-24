@@ -1,4 +1,5 @@
 import chroma from 'chroma-js'
+import { PaletteResponse } from 'lib/utils/vibrantFork'
 
 export function showcaseCardBackgroundColor(color: string) {
   const minSaturation = 0.2
@@ -43,8 +44,48 @@ export function selectColor(color1: string, color2: string): string {
   return deltaE1 < deltaE2 ? color1 : color2
 }
 
-export function colorSorter(a: string, b: string) {
-  const hueDiff = chroma(a).hsl()[0] - chroma(b).hsl()[0]
-  if (hueDiff !== 0) return hueDiff
-  return chroma(a).hsl()[2] - chroma(b).hsl()[2]
+export function colorSorter(a: string, b: string): number {
+  const [hueA, , lightnessA] = chroma(a).hsl()
+  const [hueB, , lightnessB] = chroma(b).hsl()
+
+  const lightnessDiff = lightnessB - lightnessA
+  if (lightnessDiff !== 0) return lightnessDiff
+
+  return hueA - hueB
+}
+
+// Sort colors into groups by lightness, then by hue within groups
+export function sortColorsByGroups(colors: string[], groupSize: number): string[] {
+  const sortedColors = colors.sort(colorSorter)
+
+  const groupedColors: string[] = []
+  for (let i = 0; i < sortedColors.length; i += groupSize) {
+    const group = sortedColors.slice(i, i + groupSize)
+
+    const hueSortedGroup = group.sort((a, b) => {
+      const hueA = chroma(a).hsl()[0]
+      const hueB = chroma(b).hsl()[0]
+      return hueA - hueB
+    })
+
+    groupedColors.push(...hueSortedGroup)
+  }
+
+  return groupedColors
+}
+
+export function organizeColors(palette: PaletteResponse) {
+  const colors = [
+    palette.Vibrant,
+    palette.DarkVibrant,
+    palette.Muted,
+    palette.DarkMuted,
+    palette.LightVibrant,
+    palette.LightMuted,
+    ...palette.colors,
+  ]
+
+  const sortedColors = sortColorsByGroups(colors, 8)
+
+  return sortedColors
 }

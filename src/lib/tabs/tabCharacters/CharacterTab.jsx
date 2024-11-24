@@ -74,8 +74,8 @@ function cellNameRenderer(params) {
     ? characterNameString.split(' (').map((section, index) => index === 1 ? ` (${section}` : section)
     : characterNameString.split('•')
 
-  const nameSectionRender = nameSections.map(section => (
-    <span style={{ display: 'inline-block' }}>{section}</span>
+  const nameSectionRender = nameSections.map((section, index) => (
+    <span key={index} style={{ display: 'inline-block' }}>{section}</span>
   ))
 
   const equippedNumber = data.equipped ? Object.values(data.equipped).filter((x) => x != undefined).length : 0
@@ -129,7 +129,7 @@ export default function CharacterTab() {
 
   const [characterFilters, setCharacterFilters] = useState(defaultFilters)
 
-  const { t } = useTranslation(['charactersTab', ' common'])
+  const { t } = useTranslation(['charactersTab', ' common', 'gameData'])
 
   console.log('======================================================================= RENDER CharacterTab')
 
@@ -274,8 +274,7 @@ export default function CharacterTab() {
       if (characterFilters.path.length && !characterFilters.path.includes(filteredCharacter.path)) {
         return false
       }
-      return filteredCharacter.name.toLowerCase().includes(nameFilter.current)
-        || filteredCharacter.displayName.toLowerCase().includes(nameFilter.current)
+      return t(`gameData:Characters.${node.data.id}.LongName`).toLowerCase().includes(nameFilter.current)
     }, [characterFilters],
   )
 
@@ -556,9 +555,9 @@ export default function CharacterTab() {
         <Flex vertical gap={8} style={{ minWidth: 230 }}>
           <div
             id='characterGrid' className='ag-theme-balham-dark' style={{
-            ...{ display: 'block', width: '100%', height: parentH - 38 },
-            ...getGridTheme(token),
-          }}
+              ...{ display: 'block', width: '100%', height: parentH - 38 },
+              ...getGridTheme(token),
+            }}
           >
             <AgGridReact
               ref={characterGrid}

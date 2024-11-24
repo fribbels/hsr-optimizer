@@ -77,7 +77,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
     if (currentFilters.path.length && !currentFilters.path.includes(x.path)) {
       return false
     }
-    if (!x.label.toLowerCase().includes(currentFilters.name) || !x.displayName.toLowerCase().includes(currentFilters.name)) {
+    if (!x.label.toLowerCase().includes(currentFilters.name)) {
       return false
     }
 

@@ -30,8 +30,8 @@ export function colorTransparent() {
 }
 
 export function showcaseTransition() {
-  // return 'background-color 0.25s, box-shadow 0.25s, border-color 0.25s'
-  return ''
+  return 'background-color 0.35s, box-shadow 0.25s, border-color 0.25s'
+  return undefined
 }
 
 export function selectColor(color1: string, color2: string): string {
@@ -41,4 +41,10 @@ export function selectColor(color1: string, color2: string): string {
   const deltaE2 = chroma.deltaE(color2, targetBlue)
 
   return deltaE1 < deltaE2 ? color1 : color2
+}
+
+export function colorSorter(a: string, b: string) {
+  const hueDiff = chroma(a).hsl()[0] - chroma(b).hsl()[0]
+  if (hueDiff !== 0) return hueDiff
+  return chroma(a).hsl()[2] - chroma(b).hsl()[2]
 }

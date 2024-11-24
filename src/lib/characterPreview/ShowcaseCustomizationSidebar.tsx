@@ -1,14 +1,16 @@
 import { CameraOutlined, DownloadOutlined } from '@ant-design/icons'
-import { Button, ColorPicker, ColorPickerProps, Flex, Segmented, theme, ThemeConfig } from 'antd'
+import { Button, ColorPicker, Flex, Segmented, theme, ThemeConfig } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
+import DB from 'lib/state/db'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { colorTransparent, showcaseSegmentedColor } from 'lib/utils/colorUtils'
+import { colorSorter, colorTransparent, selectColor, showcaseSegmentedColor } from 'lib/utils/colorUtils'
 import { Utils } from 'lib/utils/utils'
-import React, { useEffect, useState } from 'react'
+import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
+import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ShowcasePreferences } from 'types/metadata'
 
@@ -17,144 +19,176 @@ export enum ShowcaseColorMode {
   CUSTOM = 'CUSTOM'
 }
 
-export function ShowcaseCustomizationSidebar(props: {
+export interface ShowcaseCustomizationSidebarRef {
+  onPortraitLoad: (src: string, characterId: string) => void
+}
+
+export interface ShowcaseCustomizationSidebarProps {
   characterId: string,
   token: GlobalToken,
-  colors: string[]
   showcasePreferences: ShowcasePreferences
   setOverrideTheme: (overrideTheme: ThemeConfig) => void
-}) {
-  const {
-    characterId,
-    token,
-    colors,
-    showcasePreferences,
-    setOverrideTheme,
-  } = props
+  seedColor: string,
+  setSeedColor: (color: string) => void
+  colorMode: ShowcaseColorMode
+  setColorMode: (colorMode: ShowcaseColorMode) => void
+}
 
-  const { t } = useTranslation(['charactersTab'])
-  const [primaryColor, setPrimaryColor] = useState<string>(showcasePreferences.color ?? DEFAULT_SHOWCASE_COLOR)
-  const [colorMode, setColorMode] = useState<ShowcaseColorMode>(showcasePreferences.colorMode ?? ShowcaseColorMode.DEFAULT)
-  const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
-  const setGlobalShowcasePreferences = window.store((s) => s.setShowcasePreferences)
+export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef, ShowcaseCustomizationSidebarProps>(
+  (props, ref) => {
+    const {
+      characterId,
+      seedColor,
+      setSeedColor,
+      colorMode,
+      setColorMode,
+    } = props
 
-  const displayColor = colorMode == ShowcaseColorMode.DEFAULT ? DEFAULT_SHOWCASE_COLOR : primaryColor
+    const { t } = useTranslation(['charactersTab'])
+    const [colors, setColors] = useState<string[]>([])
+    const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
+    const setGlobalShowcasePreferences = window.store((s) => s.setShowcasePreferences)
 
-  useEffect(() => {
-    if (colorMode == ShowcaseColorMode.DEFAULT) {
-      setTheme(displayColor, setOverrideTheme)
-    } else {
-      setTheme(displayColor, setOverrideTheme)
+    useImperativeHandle(ref, () => ({
+      onPortraitLoad: (img: string, characterId: string) => {
+        console.log('LOADED')
+        if (DB.getCharacterById(characterId)?.portrait) {
+          getPalette(img, (palette: PaletteResponse) => {
+            const primary = selectColor(palette.DarkVibrant, palette.DarkMuted)
+
+            setSeedColor(primary)
+            urlToColorCache[img] = primary
+            console.log('SET SEED COLOR', primary)
+
+            setColors([
+              palette.Vibrant,
+              palette.DarkVibrant,
+              palette.Muted,
+              palette.DarkMuted,
+              palette.LightVibrant,
+              palette.LightMuted,
+              ...palette.colors.sort(colorSorter),
+            ])
+          })
+        } else {
+          getPalette(img, (palette: PaletteResponse) => {
+            const primary = selectColor(palette.DarkVibrant, palette.DarkMuted)
+
+            setColors([
+              palette.Vibrant,
+              palette.DarkVibrant,
+              palette.Muted,
+              palette.DarkMuted,
+              palette.LightVibrant,
+              palette.LightMuted,
+              ...palette.colors.sort(colorSorter),
+            ])
+          })
+        }
+      },
+    }))
+
+    function onColorSelectorChange(newColor: string) {
+      if (newColor == DEFAULT_SHOWCASE_COLOR) return
+
+      editShowcasePreferences(
+        characterId,
+        globalShowcasePreferences,
+        setGlobalShowcasePreferences,
+        { color: newColor, colorMode: ShowcaseColorMode.CUSTOM },
+      )
+
+      console.log('Set seed color to', newColor)
+
+      setColorMode(ShowcaseColorMode.CUSTOM)
+      setSeedColor(newColor)
     }
 
-    editShowcasePreferences(
-      characterId,
-      globalShowcasePreferences,
-      setGlobalShowcasePreferences,
-      { colorMode: colorMode },
-    )
-  }, [colorMode])
+    function onColorModeChange(newColorMode: ShowcaseColorMode) {
+      editShowcasePreferences(
+        characterId,
+        globalShowcasePreferences,
+        setGlobalShowcasePreferences,
+        { colorMode: newColorMode },
+      )
 
-  // useEffect(() => {
-  //   if (primaryColor == DEFAULT_SHOWCASE_COLOR) return
-  //
-  //   setColorMode(ShowcaseColorMode.CUSTOM)
-  //
-  //   editShowcasePreferences(
-  //     characterId,
-  //     globalShowcasePreferences,
-  //     setGlobalShowcasePreferences,
-  //     { color: primaryColor, colorMode: ShowcaseColorMode.CUSTOM },
-  //   )
-  // }, [primaryColor])
+      console.log('Set color mode to', newColorMode)
 
-  function onColorSelectorChange(color: string) {
-    if (color == DEFAULT_SHOWCASE_COLOR) return
+      setColorMode(newColorMode)
+    }
 
-    setColorMode(ShowcaseColorMode.CUSTOM)
+    const presets = [
+      {
+        label: 'Portrait colors',
+        colors: colors,
+      },
+    ]
 
-    editShowcasePreferences(
-      characterId,
-      globalShowcasePreferences,
-      setGlobalShowcasePreferences,
-      { color: color, colorMode: ShowcaseColorMode.CUSTOM },
-    )
-
-    setPrimaryColor(color)
-    setTheme(color, setOverrideTheme)
-  }
-
-  const presets = [
-    {
-      label: 'Portrait colors',
-      colors: colors,
-    },
-  ]
-
-  return (
-    <Flex
-      vertical
-      gap={8}
-      style={{
-        position: 'absolute',
-        marginLeft: 1100,
-        width: 130,
-        backgroundColor: 'rgb(29 42 71)',
-        boxShadow: shadow,
-        borderRadius: 5,
-        padding: defaultPadding,
-      }}
-    >
-      <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-        Customization
-      </HeaderText>
-
-      <ColorPicker
-        presets={presets}
-        defaultValue='#1677ff'
-        value={displayColor}
-        onChange={(value: AggregationColor, css: string) => {
-          const color = value.toHexString()
-          console.log(color)
-          onColorSelectorChange(color)
-        }}
-        disabledAlpha
-        showText
-      />
-
-      <HorizontalDivider/>
-
-      <Segmented
+    return (
+      <Flex
         vertical
-        options={[
-          { value: ShowcaseColorMode.DEFAULT, label: 'Default' },
-          { value: ShowcaseColorMode.CUSTOM, label: 'Custom' },
-        ]}
-        value={colorMode}
-        onChange={setColorMode}
-      />
+        gap={8}
+        style={{
+          position: 'absolute',
+          marginLeft: 1100,
+          width: 130,
+          backgroundColor: 'rgb(29 42 71)',
+          boxShadow: shadow,
+          borderRadius: 5,
+          padding: defaultPadding,
+        }}
+      >
+        <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+          Customization
+        </HeaderText>
 
-      <HorizontalDivider/>
+        <ColorPicker
+          presets={presets}
+          defaultValue='#1677ff'
+          value={seedColor}
+          onChangeComplete={(value: AggregationColor) => {
+            const color = value.toHexString()
+            console.log(color)
+            onColorSelectorChange(color)
+          }}
+          disabledAlpha
+          showText
+        />
 
-      <Flex justify='space-between'>
-        <Button
-          icon={<CameraOutlined style={{ fontSize: 30 }}/>}
-          onClick={clipboardClicked}
-          type='primary'
-          style={{ height: 50, width: 50, borderRadius: 8, marginBottom: 5 }}
-        >
-        </Button>
-        <Button
-          icon={<DownloadOutlined style={{ fontSize: 30 }}/>}
-          onClick={clipboardClicked}
-          type='primary'
-          style={{ height: 50, width: 50, borderRadius: 8, marginBottom: 5 }}
-        >
-        </Button>
+        <HorizontalDivider/>
+
+        <Segmented
+          vertical
+          options={[
+            { value: ShowcaseColorMode.DEFAULT, label: 'Auto' },
+            { value: ShowcaseColorMode.CUSTOM, label: 'Custom' },
+          ]}
+          value={colorMode}
+          onChange={onColorModeChange}
+        />
+
+        <HorizontalDivider/>
+
+        <Flex justify='space-between'>
+          <Button
+            icon={<CameraOutlined style={{ fontSize: 30 }}/>}
+            onClick={clipboardClicked}
+            type='primary'
+            style={{ height: 50, width: 50, borderRadius: 8, marginBottom: 5 }}
+          >
+          </Button>
+          <Button
+            icon={<DownloadOutlined style={{ fontSize: 30 }}/>}
+            onClick={clipboardClicked}
+            type='primary'
+            style={{ height: 50, width: 50, borderRadius: 8, marginBottom: 5 }}
+          >
+          </Button>
+        </Flex>
       </Flex>
-    </Flex>
-  )
-}
+    )
+  },
+)
 
 function setTheme(color: string, setOverrideTheme: (overrideTheme: ThemeConfig) => void) {
   setOverrideTheme({
@@ -182,4 +216,10 @@ function clipboardClicked() {
   }, 100)
 }
 
-type Presets = Required<ColorPickerProps>['presets'][number]
+export const urlToColorCache: Record<string, string> = {}
+
+export function getDefaultColor(characterId: string, portraitUrl: string) {
+  if (urlToColorCache[portraitUrl]) return urlToColorCache[portraitUrl]
+
+  return '#000000'
+}

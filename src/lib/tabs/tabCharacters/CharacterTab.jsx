@@ -74,8 +74,8 @@ function cellNameRenderer(params) {
     ? characterNameString.split(' (').map((section, index) => index === 1 ? ` (${section}` : section)
     : characterNameString.split('•')
 
-  const nameSectionRender = nameSections.map(section => (
-    <span style={{ display: 'inline-block' }}>{section}</span>
+  const nameSectionRender = nameSections.map((section, index) => (
+    <span key={index} style={{ display: 'inline-block' }}>{section}</span>
   ))
 
   const equippedNumber = data.equipped ? Object.values(data.equipped).filter((x) => x != undefined).length : 0

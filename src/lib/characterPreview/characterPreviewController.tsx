@@ -106,14 +106,17 @@ export function getArtistName(character: Character) {
 export function presetTeamSelectionDisplay(
   character: Character,
   prevCharId: MutableRefObject<string | undefined>,
+  teamSelection: string,
+  scoringType: string,
+  existingCustomPortrait: CustomImageConfig | undefined,
   setTeamSelection: (teamSelection: string) => void,
   setCustomPortrait: (customPortrait: CustomImageConfig | undefined) => void,
 ) {
-  // Use any existing character's portrait instead of the default
-  setCustomPortrait(DB.getCharacterById(character?.id)?.portrait)
   if (!character?.id) return
 
   prevCharId.current = character.id
+
+  if (scoringType != SIMULATION_SCORE) return
 
   // Only for simulation scoring characters
   const defaultScoringMetadata = DB.getMetadata().characters[character.id].scoringMetadata
@@ -121,9 +124,9 @@ export function presetTeamSelectionDisplay(
     const scoringMetadata = DB.getScoringMetadata(character.id)
 
     if (TsUtils.objectHash(scoringMetadata.simulation!.teammates) != TsUtils.objectHash(defaultScoringMetadata.simulation.teammates)) {
-      setTeamSelection(CUSTOM_TEAM)
+      if (teamSelection != CUSTOM_TEAM) setTeamSelection(CUSTOM_TEAM)
     } else {
-      setTeamSelection(DEFAULT_TEAM)
+      if (teamSelection != DEFAULT_TEAM) setTeamSelection(DEFAULT_TEAM)
     }
   }
 }
@@ -193,11 +196,13 @@ export function getShowcaseSimScoringResult(
   teamSelection: string,
   showcaseMetadata: ShowcaseMetadata,
 ) {
+  if (scoringType != SIMULATION_SCORE) {
+    return null
+  }
 
-  let combatSimResult = scoreCharacterSimulation(character, displayRelics, teamSelection)
-  let simScoringResult = scoringType == SIMULATION_SCORE ? combatSimResult : null
+  let simScoringResult = scoreCharacterSimulation(character, displayRelics, teamSelection)
+
   if (!simScoringResult?.originalSim) {
-    combatSimResult = null
     simScoringResult = null
   } else {
     // Fix elemental damage

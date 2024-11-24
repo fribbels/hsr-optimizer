@@ -55,7 +55,6 @@ Stats:
   CRIT DMG: DGT CRIT
   Effect Hit Rate: Taux d'app. d'eff.
   Effect RES: RÉS aux effets
-  Break Effect: Effet de rupture
   Energy Regeneration Rate: Taux de régénération d'énergie
   Outgoing Healing Boost: Augm. de soins prodigués
   Physical DMG Boost: "Augm. des DGT $t(gameData:Elements.Physical)"
@@ -124,7 +123,7 @@ ReadableStats:
   CRIT DMG: DGT CRIT
   Effect Hit Rate: Chance d'APP
   Effect RES: RÉS aux effets
-  Break Effect: Effet de rupture
+  Break Effect: Effet rupture
   Energy Regeneration Rate: Regen d'énergie
   Outgoing Healing Boost: Augm. des soins
   Physical DMG Boost: "DGT $t(gameData:Elements.Physical)"

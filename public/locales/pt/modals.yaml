@@ -209,6 +209,22 @@ Scoring:
       SuccessMessage: "Redefinir filtro de Quebra Mínimo"
       Description: "Dano de quebra mínimo pode estar alto"
       ButtonText: "Redefinir filtro de Quebra Mínimo"
+    MAX_HEAL:
+      SuccessMessage: "Redefinir filtro de CURA Máxima"
+      Description: "CURA Máxima pode estar muito baixa"
+      ButtonText: "Redefinir filtro de CURA Máxima"
+    MIN_HEAL:
+      SuccessMessage: "Redefinir filtro de CURA Mínima"
+      Description: "CURA Mínima pode estar muito alta"
+      ButtonText: "Redefinir filtro de CURA Mínima"
+    MAX_SHIELD:
+      SuccessMessage: "Redefinir filtro de ESCUDO Máximo"
+      Description: "ESCUDO Máximo pode estar muito baixo"
+      ButtonText: "Redefinir filtro de ESCUDO Máximo"
+    MIN_SHIELD:
+      SuccessMessage: "Redefinir filtro de ESCUDO Mínimo"
+      Description: "ESCUDO Mínimo pode estar muito alto"
+      ButtonText: "Redefinir filtro de ESCUDO Mínimo"
     MAX_COMBO:
       SuccessMessage: "Redefinir filtro de Combo Máximo"
       Description: "Dano de combo máximo pode estar baixo"

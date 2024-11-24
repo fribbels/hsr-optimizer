@@ -234,6 +234,8 @@ export function CharacterPreview(props: {
           }}
           gap={defaultGap}
         >
+
+          {/* Background */}
           <div
             style={{
               backgroundImage: `url(${portraitUrl})`,
@@ -354,6 +356,7 @@ export function CharacterPreview(props: {
               />
             </>}
           </Flex>
+
           {/* Relics right panel */}
           <ShowcaseRelicsPanel
             setSelectedRelic={setSelectedRelic}

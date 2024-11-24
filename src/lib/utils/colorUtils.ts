@@ -1,17 +1,23 @@
 import chroma from 'chroma-js'
+import { scaleTowardsRange } from 'lib/utils/mathUtils'
 import { PaletteResponse } from 'lib/utils/vibrantFork'
 
 export function showcaseCardBackgroundColor(color: string) {
-  const minSaturation = 0.2
-  const maxSaturation = 0.35
+  const scaleFactor = 0.90
+  const minSaturation = 0.20
+  const maxSaturation = 0.30
   const chromaColor = chroma(color)
 
   const currentSaturation = chromaColor.get('hsl.s')
-  const clampedSaturation = Math.min(Math.max(currentSaturation, minSaturation), maxSaturation)
+  const clampedSaturation = scaleTowardsRange(currentSaturation, minSaturation, maxSaturation, scaleFactor)
 
   const adjustedColor = chromaColor.set('hsl.s', clampedSaturation)
 
-  return adjustedColor.luminance(0.025).alpha(0.9).css()
+  const finalColor = adjustedColor.luminance(0.025).alpha(0.9)
+
+  console.log(finalColor.hsl()[1] * 100)
+
+  return finalColor
 }
 
 export function showcaseCardBorderColor(color: string) {

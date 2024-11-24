@@ -62,9 +62,8 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
           })
         } else {
           setTimeout(() => {
+            // Delayed to update color palette after render
             getPalette(img, (palette: PaletteResponse) => {
-              const primary = selectColor(palette.DarkVibrant, palette.DarkMuted)
-
               setColors(organizeColors(palette))
             })
           }, 1000)
@@ -126,22 +125,6 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
           Customization
         </HeaderText>
 
-        <ColorPicker
-          presets={presets}
-          defaultValue='#1677ff'
-          value={seedColor}
-          onChangeComplete={(value: AggregationColor) => {
-            const color = value.toHexString()
-            console.log(color)
-            onColorSelectorChange(color)
-          }}
-          disabledAlpha
-          disabledFormat
-          showText
-        />
-
-        <HorizontalDivider/>
-
         <Segmented
           vertical
           options={[
@@ -150,6 +133,21 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
           ]}
           value={colorMode}
           onChange={onColorModeChange}
+        />
+
+        <HorizontalDivider/>
+
+        <ColorPicker
+          presets={presets}
+          defaultValue='#1677ff'
+          value={seedColor}
+          onChangeComplete={(value: AggregationColor) => {
+            const color = value.toHexString()
+            onColorSelectorChange(color)
+          }}
+          disabledAlpha
+          disabledFormat
+          showText
         />
 
         <HorizontalDivider/>

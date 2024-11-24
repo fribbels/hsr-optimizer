@@ -40,7 +40,7 @@ const Tabs = () => {
   const changelogTab = React.useMemo(() => <ChangelogTab/>, [])
   const webgpuTab = React.useMemo(() => <WebgpuTab/>, [])
   const metadataTab = React.useMemo(() => <MetadataTab/>, [])
-  const homeTab = React.useMemo(() => <HomeTab/>, [])
+  const homeTab = React.useMemo(() => <Suspense><HomeTab/></Suspense>, [])
 
   useEffect(() => {
     let route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]
@@ -95,11 +95,9 @@ function TabRenderer(props: {
 }) {
   return (
     <ErrorBoundary fallbackRender={defaultErrorRender}>
-      <Suspense>
-        <div style={{ display: props.activeKey === props.tabKey ? 'contents' : 'none' }} id={props.tabKey}>
-          {props.content}
-        </div>
-      </Suspense>
+      <div style={{ display: props.activeKey === props.tabKey ? 'contents' : 'none' }} id={props.tabKey}>
+        {props.content}
+      </div>
     </ErrorBoundary>
   )
 }

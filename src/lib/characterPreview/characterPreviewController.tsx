@@ -103,34 +103,6 @@ export function getArtistName(character: Character) {
   return name.length < 1 ? undefined : name
 }
 
-export function presetTeamSelectionDisplay(
-  character: Character,
-  prevCharId: MutableRefObject<string | undefined>,
-  teamSelection: string,
-  scoringType: string,
-  existingCustomPortrait: CustomImageConfig | undefined,
-  setTeamSelection: (teamSelection: string) => void,
-  setCustomPortrait: (customPortrait: CustomImageConfig | undefined) => void,
-) {
-  if (!character?.id) return
-
-  prevCharId.current = character.id
-
-  if (scoringType != SIMULATION_SCORE) return
-
-  // Only for simulation scoring characters
-  const defaultScoringMetadata = DB.getMetadata().characters[character.id].scoringMetadata
-  if (defaultScoringMetadata?.simulation) {
-    const scoringMetadata = DB.getScoringMetadata(character.id)
-
-    if (TsUtils.objectHash(scoringMetadata.simulation!.teammates) != TsUtils.objectHash(defaultScoringMetadata.simulation.teammates)) {
-      if (teamSelection != CUSTOM_TEAM) setTeamSelection(CUSTOM_TEAM)
-    } else {
-      if (teamSelection != DEFAULT_TEAM) setTeamSelection(DEFAULT_TEAM)
-    }
-  }
-}
-
 export function getShowcaseDisplayDimensions(character: Character, simScore: boolean): ShowcaseDisplayDimensions {
   const newLcMargin = 5
   const newLcHeight = 125
@@ -260,9 +232,9 @@ export function showcaseOnEditPortraitOk(
 export function handleTeamSelection(
   character: Character,
   prevCharId: MutableRefObject<string | undefined>,
-  teamSelection: string,
+  teamSelection: Record<string, string>,
 ) {
-  let currentSelection: string = teamSelection
+  let currentSelection: string | undefined = teamSelection[character.id]
 
   const defaultScoringMetadata = DB.getMetadata().characters[character.id].scoringMetadata
   if (defaultScoringMetadata?.simulation) {
@@ -270,25 +242,14 @@ export function handleTeamSelection(
 
     const hasCustom = Utils.objectHash(scoringMetadata.simulation!.teammates) != Utils.objectHash(defaultScoringMetadata.simulation.teammates)
 
-    // Use the previously selected character to handle all cases of overriding the sim team display
-    if (prevCharId.current == null) {
-      if (hasCustom) {
-        currentSelection = CUSTOM_TEAM
-      } else {
-        currentSelection = DEFAULT_TEAM
-      }
-    }
-
-    if (prevCharId.current != character.id) {
-      if (hasCustom) {
-        currentSelection = CUSTOM_TEAM
-      } else {
-        currentSelection = teamSelection
-      }
+    if (hasCustom && currentSelection != DEFAULT_TEAM) {
+      currentSelection = CUSTOM_TEAM
     }
   }
 
-  return currentSelection
+  prevCharId.current = character.id
+
+  return currentSelection ?? DEFAULT_TEAM
 }
 
 export function getShowcaseMetadata(character: Character) {

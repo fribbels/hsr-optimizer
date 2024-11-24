@@ -23,7 +23,7 @@ export function editShowcasePreferences(
     changesMade = true
   }
 
-  if (changed.colorMode && (finalized.colorMode || changed.color != ShowcaseColorMode.DEFAULT)) {
+  if (changed.colorMode && (finalized.colorMode || changed.colorMode != ShowcaseColorMode.DEFAULT)) {
     finalized.colorMode = changed.colorMode
     changesMade = true
   }

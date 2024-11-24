@@ -9,7 +9,6 @@ import {
   getShowcaseSimScoringResult,
   getShowcaseStats,
   handleTeamSelection,
-  presetTeamSelectionDisplay,
   ShowcaseDisplayDimensions,
   showcaseIsInactive,
   showcaseOnAddOk,
@@ -32,7 +31,7 @@ import { ShowcaseLightConeLarge, ShowcaseLightConeLargeName, ShowcaseLightConeSm
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
-import { COMBAT_STATS, DEFAULT_TEAM, SIMULATION_SCORE } from 'lib/constants/constants'
+import { COMBAT_STATS, SIMULATION_SCORE } from 'lib/constants/constants'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
@@ -41,7 +40,7 @@ import DB from 'lib/state/db'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import { colorTransparent, showcaseBackgroundColor, showcaseCardBackgroundColor, showcaseCardBorderColor, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
 import Vibrant from 'node-vibrant'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Character } from 'types/character'
 import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
 import { Relic } from 'types/relic'
@@ -69,19 +68,20 @@ export function CharacterPreview(props: {
     setCharacterModalAdd,
   } = props
 
+  const { token } = useToken()
   const [selectedRelic, setSelectedRelic] = useState<Relic | undefined>()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
   const [customPortrait, setCustomPortrait] = useState<CustomImageConfig | undefined>()
-  const [teamSelection, setTeamSelection] = useState(DEFAULT_TEAM)
+  const [teamSelectionByCharacter, setTeamSelectionByCharacter] = useState<Record<string, string>>({})
+
   const [scoringType, setScoringType] = useState(SIMULATION_SCORE)
   const [combatScoreDetails, setCombatScoreDetails] = useState(COMBAT_STATS)
   const activeKey = window.store((s) => s.activeKey)
   const prevCharId = useRef<string | undefined>()
   const prevSeedColor = useRef<string>(DEFAULT_SHOWCASE_COLOR)
   const relicsById = window.store((s) => s.relicsById)
-  const showcasePreferences = window.store((s) => s.showcasePreferences)
   const [_redrawTeammates, setRedrawTeammates] = useState<number>(0)
   const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
 
@@ -89,24 +89,26 @@ export function CharacterPreview(props: {
   const [seedColor, setSeedColor] = useState<string>(DEFAULT_SHOWCASE_COLOR)
   const [colorMode, setColorMode] = useState<ShowcaseColorMode>(ShowcaseColorMode.DEFAULT)
 
-  useEffect(() => {
-    presetTeamSelectionDisplay(character, prevCharId, teamSelection, scoringType, customPortrait, setTeamSelection, setCustomPortrait)
-  }, [character])
-
   if (!character || showcaseIsInactive(source, activeKey)) {
     return (
       <div
         style={{
           height: parentH,
-          backgroundColor: DEFAULT_SHOWCASE_COLOR,
           width: 1066,
           borderRadius: 8,
           marginRight: 2,
-          // outline: `2px solid ${token.colorBgContainer}`,
-          outline: `2px solid ${DEFAULT_SHOWCASE_COLOR}`,
+          backgroundColor: token.colorBgLayout,
+          outline: `2px solid ${token.colorBgContainer}`,
         }}
       />
     )
+  }
+
+  function wrappedSetTeamSelectionByCharacter(update: Record<string, string>) {
+    setTeamSelectionByCharacter({
+      ...teamSelectionByCharacter,
+      ...update,
+    })
   }
 
   // ===== Relics =====
@@ -118,7 +120,7 @@ export function CharacterPreview(props: {
 
   // ===== Simulation =====
 
-  const currentSelection = handleTeamSelection(character, prevCharId, teamSelection)
+  const currentSelection = handleTeamSelection(character, prevCharId, teamSelectionByCharacter)
   const simScoringResult = getShowcaseSimScoringResult(
     character,
     displayRelics,
@@ -135,7 +137,7 @@ export function CharacterPreview(props: {
   // ===== Color =====
 
   const defaultColor = getDefaultColor(character.id, portraitUrl)
-  const characterShowcasePreferences = showcasePreferences[character.id] ?? {
+  const characterShowcasePreferences = globalShowcasePreferences[character.id] ?? {
     color: defaultColor,
     colorMode: ShowcaseColorMode.DEFAULT,
   }
@@ -159,7 +161,8 @@ export function CharacterPreview(props: {
 
   prevSeedColor.current = overrideSeedColor
 
-  // Get theme
+  // ===== Theme =====
+
   const seedTheme = {
     algorithm: theme.darkAlgorithm,
     token: {
@@ -216,6 +219,7 @@ export function CharacterPreview(props: {
       />
 
       <ConfigProvider theme={seedTheme}>
+
         {/* Showcase full card */}
         <Flex
           id={props.id}
@@ -247,6 +251,7 @@ export function CharacterPreview(props: {
               WebkitFilter: 'blur(20px) brightness(0.75) saturate(0.8)',
             }}
           />
+
           {/* Portrait left panel */}
           {source != ShowcaseSource.BUILDS_MODAL &&
             <Flex vertical gap={12} className='character-build-portrait'>
@@ -317,10 +322,10 @@ export function CharacterPreview(props: {
                   characterId={showcaseMetadata.characterId}
                   token={seedToken}
                   simScoringResult={simScoringResult}
-                  teamSelection={teamSelection}
+                  teamSelection={currentSelection}
                   combatScoreDetails={combatScoreDetails}
                   displayRelics={displayRelics}
-                  setTeamSelection={setTeamSelection}
+                  setTeamSelectionByCharacter={wrappedSetTeamSelectionByCharacter}
                   setRedrawTeammates={setRedrawTeammates}
                 />
 

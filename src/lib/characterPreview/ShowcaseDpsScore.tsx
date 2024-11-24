@@ -1,5 +1,5 @@
 import { SettingOutlined, SwapOutlined, SyncOutlined } from '@ant-design/icons'
-import { Button, Card, Flex, Segmented } from 'antd'
+import { Button, Card, ConfigProvider, Flex, Segmented } from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
 import { OverlayText } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CharacterCardCombatStats, CharacterCardScoringStatUpgrades } from 'lib/characterPreview/CharacterScoringSummary'
@@ -26,7 +26,7 @@ export function ShowcaseDpsScorePanel(props: {
   teamSelection: string
   combatScoreDetails: string
   displayRelics: SingleRelicByPart
-  setTeamSelection: (t: string) => void
+  setTeamSelectionByCharacter: (t: Record<string, string>) => void
   setRedrawTeammates: (n: number) => void
 }) {
   const {
@@ -36,7 +36,7 @@ export function ShowcaseDpsScorePanel(props: {
     teamSelection,
     combatScoreDetails,
     displayRelics,
-    setTeamSelection,
+    setTeamSelectionByCharacter,
     setRedrawTeammates,
   } = props
 
@@ -82,7 +82,7 @@ export function ShowcaseDpsScorePanel(props: {
         characterModalInitialCharacter={characterModalInitialCharacter}
         isCharacterModalOpen={isCharacterModalOpen}
         setCharacterModalOpen={setCharacterModalOpen}
-        setTeamSelection={setTeamSelection}
+        setTeamSelectionByCharacter={setTeamSelectionByCharacter}
         setRedrawTeammates={setRedrawTeammates}
       />
     </Flex>
@@ -225,19 +225,20 @@ function ShowcaseTeamSelectPanel(props: {
   teamSelection: string
   selectedTeammateIndex: number
   characterModalInitialCharacter: Character | undefined
-  setTeamSelection: (teamSelection: string) => void
+  setTeamSelectionByCharacter: (t: Record<string, string>) => void
   setRedrawTeammates: (random: number) => void
   isCharacterModalOpen: boolean
   setCharacterModalOpen: (open: boolean) => void
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
+  const globalThemeConfig = window.store((s) => s.globalThemeConfig)
 
   const {
     characterId,
     teamSelection,
     selectedTeammateIndex,
     characterModalInitialCharacter,
-    setTeamSelection,
+    setTeamSelectionByCharacter,
     setRedrawTeammates,
     isCharacterModalOpen,
     setCharacterModalOpen,
@@ -258,7 +259,7 @@ function ShowcaseTeamSelectPanel(props: {
     simulation.teammates[selectedTeammateIndex] = form
 
     DB.updateSimulationScoreOverrides(characterId, simulation)
-    setTeamSelection(CUSTOM_TEAM)
+    setTeamSelectionByCharacter({ [characterId]: CUSTOM_TEAM })
     setRedrawTeammates(Math.random())
   }
 
@@ -284,7 +285,7 @@ function ShowcaseTeamSelectPanel(props: {
 
                       DB.updateSimulationScoreOverrides(characterId, simulation)
 
-                      setTeamSelection(DEFAULT_TEAM)
+                      if (teamSelection != DEFAULT_TEAM) setTeamSelectionByCharacter({ [characterId]: DEFAULT_TEAM })
                       setRedrawTeammates(Math.random())
 
                       Message.success(t('modals:ScoreFooter.ResetSuccessMsg')/* Reset to default teams */)
@@ -310,7 +311,7 @@ function ShowcaseTeamSelectPanel(props: {
                       }
 
                       DB.updateSimulationScoreOverrides(characterId, simulation)
-                      setTeamSelection(CUSTOM_TEAM)
+                      if (teamSelection != CUSTOM_TEAM) setTeamSelectionByCharacter({ [characterId]: CUSTOM_TEAM })
                       setRedrawTeammates(Math.random())
 
                       Message.success(t('modals:ScoreFooter.SyncSuccessMsg')/* Synced teammates */)
@@ -323,7 +324,7 @@ function ShowcaseTeamSelectPanel(props: {
             ),
           })
         } else {
-          setTeamSelection(selection)
+          setTeamSelectionByCharacter({ [characterId]: selection })
         }
       }}
       value={teamSelection}
@@ -350,12 +351,14 @@ function ShowcaseTeamSelectPanel(props: {
 
   return (
     <Flex vertical gap={2}>
-      <CharacterModal
-        onOk={onCharacterModalOk}
-        open={isCharacterModalOpen}
-        setOpen={setCharacterModalOpen}
-        initialCharacter={characterModalInitialCharacter}
-      />
+      <ConfigProvider theme={globalThemeConfig}>
+        <CharacterModal
+          onOk={onCharacterModalOk}
+          open={isCharacterModalOpen}
+          setOpen={setCharacterModalOpen}
+          initialCharacter={characterModalInitialCharacter}
+        />
+      </ConfigProvider>
 
       {tabsDisplay}
     </Flex>

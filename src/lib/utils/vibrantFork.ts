@@ -297,7 +297,7 @@ export function getPalette(src: string, callback: (r: PaletteResponse) => void) 
         )
       })
 
-      console.debug(palette.colors)
+      // console.debug(palette.colors)
       const paletteResponse: PaletteResponse = {
         ...defaults,
         colors,

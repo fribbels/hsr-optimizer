@@ -51,7 +51,6 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
 
     useImperativeHandle(ref, () => ({
       onPortraitLoad: (img: string, characterId: string) => {
-        console.log('LOADED')
         if (DB.getCharacterById(characterId)?.portrait) {
           getPalette(img, (palette: PaletteResponse) => {
             const primary = selectColor(palette.DarkVibrant, palette.DarkMuted)
@@ -71,19 +70,21 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
             ])
           })
         } else {
-          getPalette(img, (palette: PaletteResponse) => {
-            const primary = selectColor(palette.DarkVibrant, palette.DarkMuted)
+          setTimeout(() => {
+            getPalette(img, (palette: PaletteResponse) => {
+              const primary = selectColor(palette.DarkVibrant, palette.DarkMuted)
 
-            setColors([
-              palette.Vibrant,
-              palette.DarkVibrant,
-              palette.Muted,
-              palette.DarkMuted,
-              palette.LightVibrant,
-              palette.LightMuted,
-              ...palette.colors.sort(colorSorter),
-            ])
-          })
+              setColors([
+                palette.Vibrant,
+                palette.DarkVibrant,
+                palette.Muted,
+                palette.DarkMuted,
+                palette.LightVibrant,
+                palette.LightMuted,
+                ...palette.colors.sort(colorSorter),
+              ])
+            })
+          }, 1000)
         }
       },
     }))

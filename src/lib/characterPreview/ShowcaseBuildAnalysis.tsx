@@ -6,20 +6,24 @@ import { CHARACTER_SCORE, COMBAT_STATS, DAMAGE_UPGRADES, SIMULATION_SCORE } from
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SimulationScore } from 'lib/scoring/characterScorer'
 import { SaveState } from 'lib/state/saveState'
+import { TsUtils } from 'lib/utils/TsUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
 
-export function ShowcaseBuildAnalysis(props: {
+interface ShowcaseBuildAnalysisProps {
   token: GlobalToken
-  simScoringResult: SimulationScore | undefined
-  combatScoreDetails: string
-  showcaseMetadata: ShowcaseMetadata
   scoringType: string
+  combatScoreDetails: string
+  simScoringResult: SimulationScore | undefined
+  showcaseMetadata: ShowcaseMetadata
   setScoringType: (s: string) => void
   setCombatScoreDetails: (s: string) => void
-}) {
+}
+
+// !! NOTE - Props are manually memoized for performance, remember to update the comparator
+export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
   const {
@@ -123,3 +127,21 @@ export function ShowcaseBuildAnalysis(props: {
     </Flex>
   )
 }
+
+const arePropsEqual = (
+  prevProps: ShowcaseBuildAnalysisProps,
+  nextProps: ShowcaseBuildAnalysisProps,
+): boolean => {
+  return (
+    prevProps.token === nextProps.token &&
+    prevProps.scoringType === nextProps.scoringType &&
+    prevProps.combatScoreDetails === nextProps.combatScoreDetails &&
+    TsUtils.objectHash(prevProps.simScoringResult) === TsUtils.objectHash(nextProps.simScoringResult) &&
+    TsUtils.objectHash(prevProps.showcaseMetadata) === TsUtils.objectHash(nextProps.showcaseMetadata)
+  )
+}
+
+export const MemoizedShowcaseBuildAnalysis = React.memo(
+  ShowcaseBuildAnalysis,
+  arePropsEqual,
+)

@@ -136,6 +136,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
             onColorSelectorChange(color)
           }}
           disabledAlpha
+          disabledFormat
           showText
         />
 

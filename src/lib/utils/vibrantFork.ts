@@ -267,12 +267,12 @@ export type PaletteResponse = {
 
 export function getPalette(src: string, callback: (r: PaletteResponse) => void) {
   Vibrant.from(src)
-    .maxColorCount(32)
+    .maxColorCount(40)
     .useGenerator(CustomGenerator)
     .addFilter((red: number, green: number, blue: number, alpha: number) => {
       const color = chroma(red, green, blue, 'rgb')
       const lightness = color.lch()[0] / 100
-      return lightness > 0.1 && lightness < 0.9 && alpha > 0.9
+      return lightness > 0.1 && lightness < 0.9 && alpha > 0.75
     })
     .getPalette()
     .then((palette) => {

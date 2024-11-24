@@ -16,7 +16,7 @@ import {
   showcaseOnEditPortraitOk,
 } from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
-import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
+import { MemoizedShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/showcaseCustomizationController'
 import {
@@ -58,8 +58,6 @@ export function CharacterPreview(props: {
   setOriginalCharacterModalInitialCharacter: (character: Character) => void
   setCharacterModalAdd: (add: boolean) => void
 }) {
-  console.log('======================================================================= RENDER CharacterPreview')
-
   const {
     source,
     character,
@@ -102,6 +100,8 @@ export function CharacterPreview(props: {
       />
     )
   }
+
+  console.log('======================================================================= RENDER CharacterPreview', source)
 
   function wrappedSetTeamSelectionByCharacter(update: Record<string, string>) {
     setTeamSelectionByCharacter({
@@ -370,7 +370,7 @@ export function CharacterPreview(props: {
 
       {/* Showcase analysis footer */}
       {source != ShowcaseSource.BUILDS_MODAL &&
-        <ShowcaseBuildAnalysis
+        <MemoizedShowcaseBuildAnalysis
           token={token}
           simScoringResult={simScoringResult as SimulationScore}
           combatScoreDetails={combatScoreDetails}

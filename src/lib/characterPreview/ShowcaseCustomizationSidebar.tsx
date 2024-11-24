@@ -175,14 +175,14 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
             icon={<CameraOutlined style={{ fontSize: 30 }}/>}
             onClick={clipboardClicked}
             type='primary'
-            style={{ height: 50, width: 50, borderRadius: 8, marginBottom: 5 }}
+            style={{ height: 50, width: 50, borderRadius: 8 }}
           >
           </Button>
           <Button
             icon={<DownloadOutlined style={{ fontSize: 30 }}/>}
             onClick={clipboardClicked}
             type='primary'
-            style={{ height: 50, width: 50, borderRadius: 8, marginBottom: 5 }}
+            style={{ height: 50, width: 50, borderRadius: 8 }}
           >
           </Button>
         </Flex>

@@ -122,7 +122,10 @@ export default function OptimizerForm() {
     window.store.getState().setPermutationsResults(0)
     window.store.getState().setOptimizationInProgress(true)
 
-    DB.addFromForm(form)
+    setTimeout(() => {
+      // Delay the state update since this rerenders the characters tab
+      DB.addFromForm(form)
+    }, 2000)
     SaveState.delayedSave()
 
     const optimizationId = Utils.randomId()

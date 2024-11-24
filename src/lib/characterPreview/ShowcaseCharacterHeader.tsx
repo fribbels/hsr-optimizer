@@ -1,4 +1,4 @@
-import { Flex, Image } from 'antd'
+import { Flex } from 'antd'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import ShowcaseRarity from 'lib/characterPreview/ShowcaseRarity'
 import StatText from 'lib/characterPreview/StatText'
@@ -22,16 +22,14 @@ export function ShowcaseCharacterHeader(props: {
 
   return (
     <Flex vertical>
-      <Flex justify='space-around' style={{ height: 26, marginBottom: 4 }} align='center'>
-        <Image
-          preview={false}
-          width={32}
+      <Flex justify='space-around' style={{ height: 26, marginBottom: 4, marginTop: 4 }} align='center'>
+        <img
+          style={{ width: 32 }}
           src={Assets.getElement(characterElement)}
         />
         <ShowcaseRarity rarity={characterMetadata.rarity}/>
-        <Image
-          preview={false}
-          width={32}
+        <img
+          style={{ width: 32 }}
           src={Assets.getPathFromClass(characterPath)}
         />
       </Flex>

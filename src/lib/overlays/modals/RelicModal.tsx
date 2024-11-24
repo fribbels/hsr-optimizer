@@ -106,7 +106,7 @@ export default function RelicModal(props: {
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
   const characters: Character[] = window.store((s) => s.characters)
 
-  const characterOptions = useMemo(() => generateCharacterList({ currentCharacters: characters }), [characters, i18next.resolvedLanguage])
+  const characterOptions = useMemo(() => generateCharacterList({ currentCharacters: characters, longNameLabel: true }), [characters, i18next.resolvedLanguage])
   const setOptions = useMemo(
     function getSetOptions() {
       const setOptions: {

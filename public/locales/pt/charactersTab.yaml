@@ -27,6 +27,7 @@ CharacterMenu:
       SortByScore: Organizar todos os personagens por pontuação
       MoveToTop: Mover personagem para o topo
 CopyScreenshot: Copiar captura de tela
+SearchPlaceholder: Buscar
 GridHeaders:
   Icon: Ícone
   Priority: Prioridade
@@ -54,7 +55,7 @@ CharacterPreview:
     Title: Simulação de combate
     Score: "Pontuação de DPS {{score}}% {{grade}}"
   AlgorithmSlider:
-    Title: "Algorítimo de pontuação"
+    Title: "Algorítimo de pontuação:"
     Labels:
       CombatScore: Pontuação de Combate
       CombatScoreTBD: Pontuação de Combate (TBD)

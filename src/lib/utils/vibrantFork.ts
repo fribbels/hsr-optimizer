@@ -266,7 +266,6 @@ export type PaletteResponse = {
 }
 
 export function getPalette(src: string, callback: (r: PaletteResponse) => void) {
-  console.time('!!!')
   Vibrant.from(src)
     .maxColorCount(100)
     .useGenerator(CustomGenerator)
@@ -303,7 +302,6 @@ export function getPalette(src: string, callback: (r: PaletteResponse) => void) 
         ...defaults,
         colors,
       }
-      console.timeEnd('!!!')
 
       callback(paletteResponse)
     })

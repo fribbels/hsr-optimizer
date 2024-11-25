@@ -65,14 +65,14 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
             urlToColorCache[img] = primary
 
             setColors(organizeColors(palette))
-            debugColors.defaults = [palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]
+            // debugColors.defaults = [palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]
           })
         } else {
           setTimeout(() => {
             // Delayed to update color palette after render
             getPalette(img, (palette: PaletteResponse) => {
               setColors(organizeColors(palette))
-              debugColors.defaults = [palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]
+              // debugColors.defaults = [palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]
             })
           }, 1000)
         }
@@ -212,7 +212,7 @@ function clipboardClicked() {
   }, 100)
 }
 
-const STANDARD_COLOR = '#04275c'
+const STANDARD_COLOR = '#0a245e'
 
 export function standardShowcasePreferences() {
   return {

@@ -110,6 +110,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           config: {
             ...baseConfig,
             artistName: artistName,
+            imageUrl: verifiedImageUrl,
           } as CustomImageConfig,
         })
         setCurrent(0)
@@ -230,6 +231,8 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
    WORKAROUND:
    1) start vite using `HOST=0.0.0.0 npm run start` instead of `npm run start`
    2) Use http://127.0.0.1:3000/hsr-optimizer instead of http://localhost:3000/hsr-optimizer
+   WORKAROUND #2:
+   Add `127.0.0.1 testlocalhost.com` to windows hosts file, then use testlocalhost.com:3000
    HOWEVER:
    You will not be able to access i.imgur.com/... links using 127.0.0.1,
    So the immediate next step of cropping will not work as expected.
@@ -380,20 +383,6 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       }
     }
     setIsVerificationLoading(false)
-  }
-
-  const validateInputImageDefault = async () => {
-    if (!defaultImageUrl) {
-      console.warn('defaultImageUrl does not exist, but default image was chosen. This should not happen.')
-      return
-    }
-    setIsVerificationLoading(true)
-    // Check if the defaultImageUrl is valid
-    if (await isValidImageUrl(defaultImageUrl)) {
-      setVerifiedImageUrl(defaultImageUrl)
-      setIsVerificationLoading(false)
-      setCurrent(current + 1)
-    }
   }
 
   const next = async () => {
@@ -578,6 +567,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         maskClosable={false}
         onOk={handleOk}
         onCancel={() => setOpen(false)}
+        transitionName=''
         footer={[
           <Flex key={1} justify='flex-end'>
             <Flex style={{ marginTop: 16 }} justify='center' align='center' gap={8}>

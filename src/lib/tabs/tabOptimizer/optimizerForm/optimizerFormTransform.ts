@@ -205,7 +205,7 @@ export function formToDisplay(form: Form) {
     // Apply any presets to new characters
     if (metadata && scoringMetadata) {
       for (const preset of scoringMetadata.presets || []) {
-        preset.apply(newForm)
+        preset.apply(newForm as Form)
       }
 
       newForm.mainBody = scoringMetadata.parts[Constants.Parts.Body]
@@ -280,7 +280,7 @@ export function formToDisplay(form: Form) {
 
   if (!newForm.comboAbilities && metadata) {
     const simulation = metadata.scoringMetadata?.simulation
-    newForm.comboAbilities = simulation?.comboAbilities ?? [null, 'BASIC']
+    newForm.comboAbilities = simulation?.comboAbilities ?? [null, 'BASIC'] as string[]
     newForm.comboDot = simulation?.comboDot ?? 0
     newForm.comboBreak = simulation?.comboBreak ?? 0
   }

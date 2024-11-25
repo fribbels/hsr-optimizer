@@ -23,11 +23,11 @@ export type OptimizerForm = Form
 export type Form = {
   // Core
   characterEidolon: Eidolon
-  characterId: string | undefined
+  characterId: string
   characterLevel: number
 
   // Light cone
-  lightCone: string | undefined
+  lightCone: string
   lightConeLevel: number
   lightConeSuperimposition: SuperImpositionLevel
 

@@ -478,7 +478,7 @@ StatSimulation:
     Totals: Simuler total custom de substats
   FooterLabels:
     Simulate: Simuler les builds
-    Import: Importer une build de l'optimiseur
+    Import: Importer la build sélectionnée
     Conditionals: Effets de sets conditionnels
   DeletePopup:
     Title: Effacer les simulations de stats

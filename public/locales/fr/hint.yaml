@@ -1,7 +1,11 @@
 RatingFilter:
   Title: Filtre d'évaluation
-  p1: PVE - PV effectifs, mesure à quel point un personnage résiste aux attaques. Calculé à partir des PV, DÉF, et diminutions de dégâts.
-  p2: Normale / Compétence / ADS (attaque de suivie) / DSD (dégâts sur délai) / Rupture - Calcul de dégâts de capacités, calculés en fonction des facteurs environnementaux tels que les passifs de personnages / passifs de cône de lumière / paramétrage des ennemis
+  p1: >-
+    PVE - PV effectifs, mesure à quel point un personnage résiste aux attaques. Calculé à partir des PV, DÉF, et diminutions de dégâts.
+  p2: >-
+    Normale / Compétence / ADS (attaque de suivie) / DSD (dégâts sur délai) / Rupture - Calcul de dégâts de capacités, calculés en fonction des facteurs environnementaux tels que les passifs de personnages / passifs de cône de lumière / paramétrage des ennemis
+  p3: >-
+    Soin / Bouclier - Calcul d'autres capacités, calculés en fonction des facteurs environnementaux tels que les passifs de personnages / passifs de cône de lumière / paramétrage des ennemis
 CombatBuffs:
   Title: Buffs de combat
   p1: Buff supplémentaires à appliquer aux calculs. À noter que les buffs venant des personnages, cônes de lumière, effets passifs, ainsi que les traces sont déjà inclus dans les calculs

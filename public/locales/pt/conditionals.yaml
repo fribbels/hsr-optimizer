@@ -17,6 +17,12 @@ Common:
     Talent: "Habilidade de proteção: Talento"
     Trace: "Habilidade de escudo: Rastro"
 Lightcones:
+  AGroundedAscent:
+    Content:
+      dmgBuffStacks:
+        text: Aumento de dano acumula
+        content: >-
+          Depois que o usuário usar Perícia ou Ultimate em um personagem aliado, o alvo da habilidade recebe 1 acúmulo de “Hino” por 3 turnos, acumulando até 3 vezes. Cada acúmulo de “Hino” aumenta o Dano causado por seu portador em {{DmgBuff}}%.
   AlongThePassingShore:
     Content:
       emptyBubblesDebuff:
@@ -144,6 +150,12 @@ Lightcones:
         text: Acúmulos de Luminflux
         content: >-
           Quando o portador realiza um ataque de seguimento, ganha 1 acúmulo de Luminflux, acumulando até 2.0 vez(es). Cada pilha de Luminflux permite que o DMG da Ultimate do portador ignore {{DefIgnore}}% da DEF do alvo. Quando o turno do portador termina, remove 1 pilha de Luminflux.
+  LongRoadLeadsHome:
+    Content:
+      breakVulnerabilityStacks:
+        text: Vulnerabilidade de quebra acumula
+        content: >-
+          Quando a Fraqueza de um alvo inimigo é quebrada, há uma chance básica de 100% de infligir o estado “Charring” nele, o que aumenta o Dano de Quebra recebido em {{breakVulnerability}}%, com duração de 2 turnos. Esse efeito pode se acumular 2 vezes.
   MomentOfVictory:
     Content:
       selfAttackedDefBuff:
@@ -865,8 +877,37 @@ Characters:
         content: Enquanto estiver em Combustão Completa, aumenta a PEN de RES de Fogo do SAM em 20%. Ao usar o ATK Básico Aprimorado ou a Habilidade Aprimorada, aumenta a eficiência da quebra de fraqueza em 50%.
   Fugue:
     Content:
+      torridScorch:
+        text: Estado de Torrid Scorch
+        content: Enquanto estiver no estado “Torrid Scorch”, o ATK básico do Fugue será aprimorado.
+      foxianPrayer:
+        text: Oração da Raposa BE buff
+        content: >-
+          O alvo aliado com “Oração da Raposa” aumenta seu Efeito de Quebra em {{BreakBuff}}% e pode causar Redução de Robustez ao atacar inimigos sem o Tipo de Fraqueza correspondente, com o efeito sendo igual a 50% da Redução de Robustez original. Esse efeito não pode ser acumulado com outros efeitos de redução de resistência que ignoram a fraqueza.
+      defReduction:
+        text: Perícia de redução de DEF
+        content: >-
+          Quando um alvo aliado com “Oração da Raposa” ataca, Fugue tem 100% de chance de reduzir a DEF do alvo inimigo atacado em {{DefShred}}%, com duração de 2 turnos.
       superBreakDmg:
         text: DMG de Super Quebra (força a quebra de fraqueza)
+        content: >-
+          Enquanto Fugue estiver em campo e depois que os aliados atacarem alvos inimigos com Quebra de Fraqueza, converte a Redução de Resistência desse ataque em 1 instância de {{SuperBreakMultiplier}}% de DMG de Super Break.
+      e4BreakDmg:
+        text: E4 Aumento de Dano de Quebra
+        content: Aliado alvo com "Oração da Raposa" aumenta o dano de quebra em 20%.
+      e6BreakEfficiency:
+        text: E6 aumento da eficiência da quebra
+        content: >-
+          Aumenta a eficiência da quebra de fraqueza da Fugue em 50%. Quando Fugue estiver no estado “Torrid Scorch”, a “Oração da Raposa” entrará em vigor em todos os aliados.
+    TeammateContent:
+      be220Buff:
+        text: BE ≥ 220%
+        content: >-
+          Quando a Fraqueza de um alvo inimigo é quebrada, o Efeito de Quebra dos companheiros de equipe aumenta em 6%. Se o Efeito de Quebra de Fugue for 220% ou mais, o Boost do Efeito de Quebra também aumenta em 12%, com duração de 2 turnos. Esse efeito pode se acumular até 2 vezes.
+      weaknessBreakBeStacks:
+        text: BE em inimigo quebrado acumula
+        content: >-
+          Quando a Fraqueza de um alvo inimigo é quebrada, o Efeito de Quebra dos companheiros de equipe aumenta em 6%. Se o Efeito de Quebra de Fugue for de 220% ou mais, o boost do Efeito de Quebra também aumenta em 12%, com duração de 2 turnos. Esse efeito pode se acumular até 2 vezes.
   FuXuan:
     Content:
       talentActive:
@@ -1422,8 +1463,34 @@ Characters:
     Content:
       skillDmgBuff:
         text: Buff de DMG de Habilidade
+        content: >-
+          Permite que um personagem aliado designado e sua invocação entrem em ação imediatamente e aumentam o DMG causado em {{DmgBoost}}%. Se o alvo tiver uma invocação, o efeito de aumento de DMG também será aumentado em {{SummonDmgBoost}}%
+      talentCrBuffStacks:
+        text: Buff de CR de talento acumula
+        content: Ao usar a Perícia, aumenta a taxa de CRIT do alvo em {{CritRateBoost}}%, com duração de 3 turnos.
+      techniqueDmgBuff:
+        text: DMG buff da técnica
+        content: Na primeira vez que Sunday usar uma habilidade em um alvo aliado na próxima batalha, o dano causado pelo alvo aumentará em 50% por 2 turnos.
       e1DefPen:
         text: PEN de DEF E1
+        content: >-
+          Quando Sunday usa sua habilidade, permite que o personagem-alvo ignore 16% da DEF do alvo inimigo e que suas invocações ignorem 40% da DEF do alvo inimigo ao causar DANO, com duração de 2 turnos.
+      e2DmgBuff:
+        text: E2 Melhoria do DMG Beatificado
+        content: O Dano causado por “The Beatified” aumenta em 30%.
+    TeammateContent:
+      beatified:
+        text: Buff de CD da Ult
+        content: >-
+          O alvo e sua invocação têm seu Dano de CRIT aumentado em um valor igual a {{CritBuffScaling}}% do Dano de CRIT de Sunday mais {{CritBuffFlat}}%.
+      teammateCDValue:
+        text: CD de Combate de Sunday
+        content: >-
+          O alvo e sua invocação têm seu Dano de CRIT aumentado em um valor igual a {{CritBuffScaling}}% do Dano de CRIT de Sunday mais {{CritBuffFlat}}%.
+      e6CrToCdConversion:
+        text: E6 Conversão de CR para CD
+        content: >-
+          Quando o aumento da Taxa de CRIT do talento entra em vigor e a Taxa de CRIT do alvo excede 100%, cada 1% de excesso de Taxa de CRIT aumenta o DANO DE CRIT em 2%.
   Sushang:
     Content:
       ultBuffedState:

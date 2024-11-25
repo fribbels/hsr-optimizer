@@ -27,7 +27,7 @@ CharacterMenu:
       SortByScore: 按评分排序所有角色
       MoveToTop: 将角色移至顶部
 CopyScreenshot: 复制截图
-SearchPlaceholder: 搜索角色名称
+SearchPlaceholder: 搜索
 GridHeaders:
   Icon: 图标
   Priority: 优先级

@@ -26,8 +26,7 @@ CharacterMenu:
     Options:
       SortByScore: Trier tous les personnages par note
       MoveToTop: Placer le personnage en haut
-CopyScreenshot: Copier la capture d'écran
-SearchPlaceholder: Rechercher un nom de personnage
+SearchPlaceholder: Rechercher
 GridHeaders:
   Icon: Icône
   Priority: Priorité
@@ -53,7 +52,7 @@ CharacterPreview:
     NoSelectedCharacter: Aucun personnage sélectionné
   ScoreHeader:
     Title: Sim de combat
-    Score: "Score DPS {{score}}% {{grade}}"
+    Score: "Note DPS {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "Mode d'évaluation:"
     Labels:
@@ -77,6 +76,7 @@ CharacterPreview:
     Rotation:
       Header: Rotation des dégâts de combo
       BASIC: NORMALE
+      SKILL: COMPÉTENCE
       ULT: ULT
       FUA: ADS
       DOTS: "DSD"

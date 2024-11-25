@@ -18,11 +18,12 @@ FeatureCards:
     Content: >-
       Calcules les dégâts avec précision grâce au réglage de l'équipe, des buffs actifs, et de la rotation de capacités afin de maximiser les dégâts.
   Organizer:
-    Title: Organisateur d'inventaire
+    Title: Organisateur de reliques
     Content: >-
-      Organisez votre inventaire en évaluant et triant les reliques en fonction de leur potentiel, et trouvez les meilleures reliques à améliorer pour chaque personnage.
+      Organisez vos reliques en les évaluant et les triant en fonction de leur potentiel, et trouvez les meilleures reliques à améliorer pour chaque personnage.
 Welcome: Bienvenue à <1/> l'Optimiseur Star Rail de Fribbels
 SearchBar:
   Placeholder: UUID
   Label: "Entrez votre UUID pour afficher vos personnages de vitrine:"
   Message: Entrée invalide - Cela doit être votre UUID à 9 chiffres
+  Search: Rechercher

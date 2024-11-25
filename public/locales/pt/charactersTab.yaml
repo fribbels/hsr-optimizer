@@ -26,8 +26,7 @@ CharacterMenu:
     Options:
       SortByScore: Organizar todos os personagens por pontuação
       MoveToTop: Mover personagem para o topo
-CopyScreenshot: Copiar captura de tela
-SearchPlaceholder: Procurar nome do personagem
+SearchPlaceholder: Buscar
 GridHeaders:
   Icon: Ícone
   Priority: Prioridade
@@ -53,12 +52,12 @@ CharacterPreview:
     NoSelectedCharacter: Não há personagem selecionado
   ScoreHeader:
     Title: Simulação de combate
-    Score: "Pontuação de DPS {{score}}% {{grade}}"
+    Score: "Pontuação DPS {{score}}% {{grade}}"
   AlgorithmSlider:
-    Title: "Algorítimo de pontuação"
+    Title: "Algorítimo pontuação:"
     Labels:
-      CombatScore: Pontuação de Combate
-      CombatScoreTBD: Pontuação de Combate (TBD)
+      CombatScore: Pontuação Combate
+      CombatScoreTBD: Pontuação Combate (TBD)
       StatScore: Pontuação de Atributo
   DetailsSlider:
     Title: "Detalhes da pontuação:"
@@ -93,9 +92,9 @@ CharacterPreview:
       Abilities:
         BASIC: Dano básico
         SKILL: Dano perícia
-        ULT: Dano perícia suprema
-        FUA: Dano ataque extra
-        DOT: Dano de dano contínuo
+        ULT: Dano de ULT
+        FUA: Dano FUA
+        DOT: Dano de DOT
         BREAK: DANO BREAK
         COMBO: Dano do combo
   ScoringColumn:

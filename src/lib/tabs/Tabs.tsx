@@ -14,7 +14,7 @@ import RelicsTab from 'lib/tabs/tabRelics/RelicsTab'
 import RelicScorerTab from 'lib/tabs/tabShowcase/RelicScorerTab'
 import WebgpuTab from 'lib/tabs/tabWebgpu/WebgpuTab'
 import { WorkerPool } from 'lib/worker/workerPool'
-import React, { ReactElement, useEffect } from 'react'
+import React, { ReactElement, Suspense, useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Form } from 'types/form'
 
@@ -40,7 +40,7 @@ const Tabs = () => {
   const changelogTab = React.useMemo(() => <ChangelogTab/>, [])
   const webgpuTab = React.useMemo(() => <WebgpuTab/>, [])
   const metadataTab = React.useMemo(() => <MetadataTab/>, [])
-  const homeTab = React.useMemo(() => <HomeTab/>, [])
+  const homeTab = React.useMemo(() => <Suspense><HomeTab/></Suspense>, [])
 
   useEffect(() => {
     let route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]

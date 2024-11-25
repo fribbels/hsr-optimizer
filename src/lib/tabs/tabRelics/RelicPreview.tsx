@@ -87,7 +87,10 @@ export function RelicPreview(props: {
       <Flex vertical justify='space-between' style={{ height: 255 }}>
         <Flex justify='space-between' align='center'>
           <img
-            style={{ height: 50, width: 50 }}
+            style={{
+              height: 50,
+              width: 50,
+            }}
             title={relic.set}
             src={relicSrc}
           />
@@ -102,7 +105,13 @@ export function RelicPreview(props: {
             </Flex>
           </Flex>
           <img
-            style={{ height: 50, width: 50 }}
+            style={{
+              height: 50,
+              width: 50,
+              borderRadius: 25,
+              outline: relic.equippedBy ? '1px solid rgba(125, 125, 125, 0.2)' : undefined,
+              backgroundColor: relic.equippedBy ? 'rgba(0, 0, 0, 0.1)' : undefined,
+            }}
             src={equippedBySrc}
           />
         </Flex>

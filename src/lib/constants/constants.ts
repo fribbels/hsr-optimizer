@@ -483,12 +483,12 @@ export type Sets = typeof Sets[keyof typeof Sets]
 export const SetsRelicsNames = Object.values(SetsRelics)
 export const SetsOrnamentsNames = Object.values(SetsOrnaments)
 
-export const OrnamentSetToIndex: { [key: string]: number } = {}
+export const OrnamentSetToIndex: Record<SetsOrnaments, number> = {} as Record<SetsOrnaments, number>
 for (let i = 0; i < SetsOrnamentsNames.length; i++) {
   OrnamentSetToIndex[SetsOrnamentsNames[i]] = i
 }
 
-export const RelicSetToIndex: { [key: string]: number } = {}
+export const RelicSetToIndex: Record<SetsRelics, number> = {} as Record<SetsRelics, number>
 for (let i = 0; i < SetsRelicsNames.length; i++) {
   RelicSetToIndex[SetsRelicsNames[i]] = i
 }
@@ -546,7 +546,7 @@ export const Constants = {
   // StatMaxes,
   MAX_INT: 2147483647,
   THREAD_BUFFER_LENGTH: 150000,
-}
+} as const
 
 export const RelicSetFilterOptions = {
   relic4Piece: '4 Piece',
@@ -642,7 +642,7 @@ export const CombatBuffs = {
     key: 'BREAK_EFFICIENCY',
     percent: true,
   },
-}
+} as const
 
 export const setToId = {
   [Sets.PasserbyOfWanderingCloud]: '101',

@@ -11,6 +11,7 @@ export const SaveState = {
       characters: DB.getCharacters(),
       scorerId: window.store.getState().scorerId,
       scoringMetadataOverrides: window.store.getState().scoringMetadataOverrides,
+      showcasePreferences: window.store.getState().showcasePreferences,
       optimizerMenuState: window.store.getState().optimizerMenuState,
       excludedRelicPotentialCharacters: window.store.getState().excludedRelicPotentialCharacters,
       savedSession: window.store.getState().savedSession,

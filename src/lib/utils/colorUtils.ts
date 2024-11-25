@@ -15,9 +15,9 @@ export function showcaseCardBackgroundColor(color: string) {
 
   const finalColor = adjustedColor.luminance(0.025).alpha(0.9)
 
-  console.log(finalColor.hsl()[1] * 100)
+  // console.log(finalColor.hsl()[1] * 100)
 
-  return finalColor
+  return finalColor.css()
 }
 
 export function showcaseCardBorderColor(color: string) {
@@ -25,7 +25,7 @@ export function showcaseCardBorderColor(color: string) {
 }
 
 export function showcaseBackgroundColor(color: string) {
-  return chroma(color).desaturate(2).luminance(0.03).css()
+  return chroma(color).desaturate(0.2).luminance(0.02).css()
 }
 
 export function showcaseSegmentedColor(color: string) {
@@ -88,9 +88,7 @@ export function organizeColors(palette: PaletteResponse) {
     palette.LightVibrant,
     palette.LightMuted,
     ...palette.colors,
-  ]
+  ].slice(0, 64)
 
-  const sortedColors = sortColorsByGroups(colors, 8)
-
-  return sortedColors
+  return sortColorsByGroups(colors, 8)
 }

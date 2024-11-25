@@ -226,7 +226,7 @@ export function CharacterPreview(props: {
             position: 'relative',
             display: character ? 'flex' : 'none',
             height: parentH,
-            background: showcaseBackgroundColor(seedToken.colorBgLayout),
+            background: showcaseBackgroundColor(token.colorBgLayout),
             backgroundBlendMode: 'screen',
             overflow: 'hidden',
             borderRadius: 7,

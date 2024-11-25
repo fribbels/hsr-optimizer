@@ -1,3 +1,4 @@
+// 0.1, 0.2, 0.3, 0.5 => 0.15
 export function scaleTowardsRange(
   value: number,
   min: number,

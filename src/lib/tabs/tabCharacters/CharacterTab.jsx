@@ -63,12 +63,15 @@ function cellNameRenderer(params) {
 
   // Separate the path parens for multipath characters or handle dots so they render on separate lines if overflow
   const nameSections = characterNameString.includes(' (')
-    ? characterNameString.split(' (').map((section, index) => index === 1 ? ` (${section}` : section)
+    ? characterNameString.split(' (')
+      .map((section) => section.trim())
+      .map((section, index) => index === 1 ? ` (${section} ` : section)
     : characterNameString.split('•')
 
-  const nameSectionRender = nameSections.map((section, index) => (
-    <span key={index} style={{ display: 'inline-block' }}>{section}</span>
-  ))
+  const nameSectionRender = nameSections
+    .map((section, index) => (
+      <span key={index} style={{ display: 'inline-block' }}>{section}</span>
+    ))
 
   const equippedNumber = data.equipped ? Object.values(data.equipped).filter((x) => x != undefined).length : 0
   let color = '#81d47e'

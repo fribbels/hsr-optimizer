@@ -266,13 +266,15 @@ export type PaletteResponse = {
 }
 
 export function getPalette(src: string, callback: (r: PaletteResponse) => void) {
+  console.time('!!!')
   Vibrant.from(src)
-    .maxColorCount(40)
+    .maxColorCount(100)
     .useGenerator(CustomGenerator)
     .addFilter((red: number, green: number, blue: number, alpha: number) => {
       const color = chroma(red, green, blue, 'rgb')
       const lightness = color.lch()[0] / 100
-      return lightness > 0.1 && lightness < 0.9 && alpha > 0.75
+      const saturation = color.hsl()[1]
+      return saturation > 0.05 && lightness > 0.1 && lightness < 0.9 && alpha > 0.75
     })
     .getPalette()
     .then((palette) => {
@@ -297,11 +299,11 @@ export function getPalette(src: string, callback: (r: PaletteResponse) => void) 
         )
       })
 
-      // console.debug(palette.colors)
       const paletteResponse: PaletteResponse = {
         ...defaults,
         colors,
       }
+      console.timeEnd('!!!')
 
       callback(paletteResponse)
     })

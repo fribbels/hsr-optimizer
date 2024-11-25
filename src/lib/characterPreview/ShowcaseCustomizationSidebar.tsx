@@ -113,13 +113,13 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
 
     const presets = [
       {
-        label: 'Portrait colors',
+        label: 'Portrait color palette',
         colors: colors,
       },
-      {
-        label: 'DEBUG',
-        colors: debugColors.defaults,
-      },
+      // {
+      //   label: 'DEBUG',
+      //   colors: debugColors.defaults,
+      // },
     ]
 
     return (

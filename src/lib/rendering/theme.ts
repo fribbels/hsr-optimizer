@@ -105,6 +105,9 @@ export function getGlobalThemeConfigFromColorTheme(colorTheme: ColorThemeOverrid
       Notification: {
         width: 450,
       },
+      Dropdown: {
+        zIndexPopup: 900,
+      },
     },
     algorithm: theme.darkAlgorithm,
   }

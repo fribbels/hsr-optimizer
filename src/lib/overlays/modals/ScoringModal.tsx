@@ -170,7 +170,6 @@ export default function ScoringModal() {
       centered
       onOk={onModalOk}
       onCancel={handleCancel}
-      forceRender
       footer={[
         <Button key='back' onClick={handleCancel}>
           {t('common:Cancel')/* Cancel */}

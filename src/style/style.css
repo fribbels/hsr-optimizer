@@ -615,6 +615,5 @@ a {
 }
 
 .ant-color-picker-trigger {
-    /*width: 100% !important;*/
     justify-content: flex-start !important;
 }

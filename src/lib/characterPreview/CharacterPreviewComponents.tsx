@@ -9,7 +9,7 @@ export enum ShowcaseSource {
   BUILDS_MODAL,
 }
 
-export const showcaseOutline = 'outline: rgba(255, 255, 255, 0.4) solid 1px;\n'
+export const showcaseOutline = 'rgba(255, 255, 255, 0.4) solid 1px'
 export const showcaseShadow = 'rgba(0, 0, 0, 0.5) 1px 1px 1px 1px'
 export const showcaseDropShadowFilter = 'drop-shadow(rgb(0, 0, 0) 1px 1px 3px)'
 export const showcaseButtonStyle: CSSProperties = {

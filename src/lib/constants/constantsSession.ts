@@ -7,4 +7,5 @@ export enum SavedSessionKeys {
   scoringType = 'scoringType',
   combatScoreDetails = 'combatScoreDetails',
   computeEngine = 'computeEngine',
+  showcaseStandardMode = 'showcaseStandardMode'
 }

@@ -108,7 +108,7 @@ export type HsrOptimizerStore = {
   setScoringModalOpen: (open: boolean) => void
   setZeroResultModalOpen: (open: boolean) => void
   setRelicsById: (relicsById: Record<number, Relic>) => void
-  setSavedSessionKey: (key: string, value: string) => void
+  setSavedSessionKey: (key: string, value: string | boolean) => void
   setActiveKey: (key: string) => void
   setScoringAlgorithmFocusCharacter: (id: CharacterId) => void
   setConditionalSetEffectsDrawerOpen: (b: boolean) => void
@@ -162,6 +162,7 @@ export type SavedSession = {
   scoringType: string
   combatScoreDetails: string
   computeEngine: ComputeEngine
+  showcaseStandardMode: boolean
 }
 
 export type UserSettings = {

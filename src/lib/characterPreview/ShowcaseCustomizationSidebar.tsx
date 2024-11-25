@@ -26,6 +26,7 @@ export interface ShowcaseCustomizationSidebarRef {
 }
 
 export interface ShowcaseCustomizationSidebarProps {
+  id: string,
   characterId: string,
   token: GlobalToken,
   showcasePreferences: ShowcasePreferences
@@ -43,6 +44,7 @@ const debugColors: { defaults: string[] } = {
 export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef, ShowcaseCustomizationSidebarProps>(
   (props, ref) => {
     const {
+      id,
       characterId,
       seedColor,
       setSeedColor,
@@ -54,6 +56,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
     const [colors, setColors] = useState<string[]>([])
     const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
     const setGlobalShowcasePreferences = window.store((s) => s.setShowcasePreferences)
+    const [loading, setLoading] = useState<boolean>(false)
 
     useImperativeHandle(ref, () => ({
       onPortraitLoad: (img: string, characterId: string) => {
@@ -168,14 +171,16 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
         <Flex justify='space-between'>
           <Button
             icon={<CameraOutlined style={{ fontSize: 30 }}/>}
-            onClick={clipboardClicked}
+            loading={loading}
+            onClick={() => clipboardClicked(id, 'clipboard', setLoading)}
             type='primary'
             style={{ height: 50, width: 50, borderRadius: 8 }}
           >
           </Button>
           <Button
             icon={<DownloadOutlined style={{ fontSize: 30 }}/>}
-            onClick={clipboardClicked}
+            loading={loading}
+            onClick={() => clipboardClicked(id, 'download', setLoading)}
             type='primary'
             style={{ height: 50, width: 50, borderRadius: 8 }}
           >
@@ -185,6 +190,15 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
     )
   },
 )
+
+function clipboardClicked(elementId: string, action: string, setLoading: (b: boolean) => void) {
+  setLoading(true)
+  setTimeout(() => {
+    Utils.screenshotElementById(elementId, action).finally(() => {
+      setLoading(false)
+    })
+  }, 100)
+}
 
 function setTheme(color: string, setOverrideTheme: (overrideTheme: ThemeConfig) => void) {
   setOverrideTheme({
@@ -204,15 +218,7 @@ function setTheme(color: string, setOverrideTheme: (overrideTheme: ThemeConfig) 
 
 const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
 
-function clipboardClicked() {
-  // Use a small timeout here so the spinner doesn't lag while the image is being generated
-  setTimeout(() => {
-    Utils.screenshotElementById('characterTabPreview', 'clipboard').finally(() => {
-    })
-  }, 100)
-}
-
-const STANDARD_COLOR = '#0a245e'
+const STANDARD_COLOR = '#103076' // '#0a245e'
 
 export function standardShowcasePreferences() {
   return {

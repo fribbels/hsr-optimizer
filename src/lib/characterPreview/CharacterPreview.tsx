@@ -35,6 +35,7 @@ import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
 import { COMBAT_STATS, SIMULATION_SCORE } from 'lib/constants/constants'
+import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
@@ -88,7 +89,9 @@ export function CharacterPreview(props: {
 
   const sidebarRef = useRef<ShowcaseCustomizationSidebarRef>(null)
   const [seedColor, setSeedColor] = useState<string>(DEFAULT_SHOWCASE_COLOR)
-  const [colorMode, setColorMode] = useState<ShowcaseColorMode>(ShowcaseColorMode.AUTO)
+  const [colorMode, setColorMode] = useState<ShowcaseColorMode>(
+    window.store.getState().savedSession[SavedSessionKeys.showcaseStandardMode] ? ShowcaseColorMode.STANDARD : ShowcaseColorMode.AUTO,
+  )
 
   if (!character || showcaseIsInactive(source, activeKey)) {
     return (
@@ -210,6 +213,7 @@ export function CharacterPreview(props: {
       />
       <ShowcaseCustomizationSidebar
         ref={sidebarRef}
+        id={props.id}
         characterId={character.id}
         token={seedToken}
         showcasePreferences={characterShowcasePreferences}

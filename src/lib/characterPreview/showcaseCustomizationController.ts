@@ -1,4 +1,5 @@
 import { ShowcaseColorMode } from 'lib/characterPreview/ShowcaseCustomizationSidebar'
+import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SaveState } from 'lib/state/saveState'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { ShowcasePreferences } from 'types/metadata'
@@ -30,7 +31,10 @@ export function editShowcasePreferences(
 
   if (changesMade) {
     globalShowcasePreferences[characterId] = finalized
+
     setGlobalShowcasePreferences(TsUtils.clone(globalShowcasePreferences))
+    window.store.getState().setSavedSessionKey(SavedSessionKeys.showcaseStandardMode, changed.colorMode === ShowcaseColorMode.STANDARD)
+
     SaveState.delayedSave()
   }
 }

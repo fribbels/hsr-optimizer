@@ -1,15 +1,9 @@
-import {
-  CameraOutlined,
-  DownloadOutlined,
-  DownOutlined,
-  ExclamationCircleOutlined,
-  UserOutlined,
-} from '@ant-design/icons'
+import { DownOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
 
-import { Button, Dropdown, Flex, Image, Input, Modal, theme, Typography } from 'antd'
+import { Button, Dropdown, Flex, Input, Modal, theme, Typography } from 'antd'
 import { useSubscribe } from 'hooks/useSubscribe'
 import i18next from 'i18next'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
@@ -44,11 +38,9 @@ function cellImageRenderer(params) {
   const characterIconSrc = Assets.getCharacterAvatarById(data.id)
 
   return (
-    <Image
-      preview={false}
-      width={50}
+    <img
       src={characterIconSrc}
-      style={{ flex: '0 0 auto', maxWidth: '100%', minWidth: 50 }}
+      style={{ flex: '0 0 auto', maxWidth: '100%', width: 48 }}
     />
   )
 }
@@ -71,12 +63,15 @@ function cellNameRenderer(params) {
 
   // Separate the path parens for multipath characters or handle dots so they render on separate lines if overflow
   const nameSections = characterNameString.includes(' (')
-    ? characterNameString.split(' (').map((section, index) => index === 1 ? ` (${section}` : section)
+    ? characterNameString.split(' (')
+      .map((section) => section.trim())
+      .map((section, index) => index === 1 ? ` (${section} ` : section)
     : characterNameString.split('•')
 
-  const nameSectionRender = nameSections.map(section => (
-    <span style={{ display: 'inline-block' }}>{section}</span>
-  ))
+  const nameSectionRender = nameSections
+    .map((section, index) => (
+      <span key={index} style={{ display: 'inline-block' }}>{section}</span>
+    ))
 
   const equippedNumber = data.equipped ? Object.values(data.equipped).filter((x) => x != undefined).length : 0
   let color = '#81d47e'
@@ -249,7 +244,7 @@ export default function CharacterTab() {
   ], [t])
 
   const gridOptions = useMemo(() => ({
-    rowHeight: 50,
+    rowHeight: 46,
     rowDragManaged: true,
     animateRows: true,
     suppressDragLeaveHidesColumns: true,
@@ -539,6 +534,7 @@ export default function CharacterTab() {
       style={{
         height: '100%',
         marginBottom: 200,
+        width: 1455,
       }}
       gap={defaultGap}
     >
@@ -548,7 +544,11 @@ export default function CharacterTab() {
           menu={actionsMenuProps}
           trigger={['hover']}
         >
-          <Button style={{ width: '100%', height: 40 }} icon={<UserOutlined/>} type='default'>
+          <Button
+            style={{ width: '100%', height: 40, boxShadow: 'unset', borderRadius: 8 }}
+            icon={<UserOutlined/>}
+            type='default'
+          >
             {t('CharacterMenu.ButtonText')/* Character menu */}
             <DownOutlined/>
           </Button>
@@ -556,7 +556,7 @@ export default function CharacterTab() {
         <Flex vertical gap={8} style={{ minWidth: 230 }}>
           <div
             id='characterGrid' className='ag-theme-balham-dark' style={{
-            ...{ display: 'block', width: '100%', height: parentH - 38 },
+            ...{ display: 'block', width: '100%', height: parentH },
             ...getGridTheme(token),
           }}
           >
@@ -583,22 +583,6 @@ export default function CharacterTab() {
               rowSelection='single'
             />
           </div>
-          <Flex vertical gap={8}>
-            <Flex gap={8}>
-              <Button
-                style={{ flex: 'auto' }} icon={<CameraOutlined/>} onClick={clipboardClicked}
-                type='primary'
-                loading={screenshotLoading}
-              >
-                {t('CopyScreenshot')/* Copy screenshot */}
-              </Button>
-              <Button
-                style={{ width: 40 }} type='primary' icon={<DownloadOutlined/>}
-                onClick={downloadClicked}
-                loading={downloadLoading}
-              />
-            </Flex>
-          </Flex>
         </Flex>
       </Flex>
       <Flex vertical gap={defaultGap}>
@@ -611,7 +595,7 @@ export default function CharacterTab() {
             allowClear
             size='large'
             // Revisit width of search + filters with Remembrance path
-            style={{ height: 40, fontSize: 14, width: 200 }}
+            style={{ height: 40, fontSize: 14, width: 200, borderRadius: 8 }}
             placeholder={t('SearchPlaceholder')/* Search */}
             onChange={(e) => {
               nameFilter.current = e.target.value.toLowerCase()

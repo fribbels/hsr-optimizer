@@ -26,7 +26,6 @@ CharacterMenu:
     Options:
       SortByScore: Sort all characters by score
       MoveToTop: Move character to top
-CopyScreenshot: Copy screenshot
 SearchPlaceholder: Search
 GridHeaders:
   Icon: Icon

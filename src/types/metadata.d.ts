@@ -1,5 +1,11 @@
+import { ShowcaseColorMode } from 'lib/characterPreview/ShowcaseCustomizationSidebar'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
 import { PresetDefinition } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+
+export type ShowcasePreferences = {
+  color?: string
+  colorMode?: ShowcaseColorMode
+}
 
 export type ScoringMetadata = {
   stats: {

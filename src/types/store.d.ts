@@ -5,7 +5,7 @@ import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { Build, Character, CharacterId } from 'types/character'
 import { Form } from 'types/form'
-import { ScoringMetadata } from 'types/metadata'
+import { ScoringMetadata, ShowcasePreferences } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 type PermutationDetails = {
@@ -57,6 +57,7 @@ export type HsrOptimizerStore = {
   permutationsSearched: number
   scorerId: string
   scoringMetadataOverrides: Record<string, ScoringMetadata>
+  showcasePreferences: Record<string, ShowcasePreferences>
   statSimulationDisplay: StatSimTypes
   statSimulations: unknown
   selectedStatSimulations: unknown
@@ -107,7 +108,7 @@ export type HsrOptimizerStore = {
   setScoringModalOpen: (open: boolean) => void
   setZeroResultModalOpen: (open: boolean) => void
   setRelicsById: (relicsById: Record<number, Relic>) => void
-  setSavedSessionKey: (key: string, value: string) => void
+  setSavedSessionKey: (key: string, value: string | boolean) => void
   setActiveKey: (key: string) => void
   setScoringAlgorithmFocusCharacter: (id: CharacterId) => void
   setConditionalSetEffectsDrawerOpen: (b: boolean) => void
@@ -127,6 +128,7 @@ export type HsrOptimizerStore = {
   setStatSimulations: (x: any) => void
   setStatSimulationDisplay: (x: any) => void
   setScoringMetadataOverrides: (x: any) => void
+  setShowcasePreferences: (x: Record<string, ShowcasePreferences>) => void
   setScorerId: (x: any) => void
   setCharacterTabFilters: (x: any) => void
   setPermutations: (x: any) => void
@@ -160,6 +162,7 @@ export type SavedSession = {
   scoringType: string
   combatScoreDetails: string
   computeEngine: ComputeEngine
+  showcaseStandardMode: boolean
 }
 
 export type UserSettings = {
@@ -174,6 +177,7 @@ export type HsrOptimizerSaveFormat = {
   characters: Character[]
   scorerId: string
   scoringMetadataOverrides: Record<string, ScoringMetadata>
+  showcasePreferences: Record<string, ShowcasePreferences>
   optimizerMenuState: Record<string, boolean>
   excludedRelicPotentialCharacters: string[]
   savedSession: SavedSession

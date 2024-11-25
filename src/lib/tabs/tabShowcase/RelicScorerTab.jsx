@@ -448,7 +448,7 @@ function CharacterPreviewSelection(props) {
   }
 
   return (
-    <Flex style={{ width: 1300, marginLeft: 25 }} justify='space-around'>
+    <Flex style={{ width: 1375 }} justify='space-around'>
       <Flex vertical align='center' gap={5} style={{ marginBottom: 100, width: 1068 }}>
         <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none', width: '100%' }}>
           <Sidebar presetClicked={presetClicked} activeKey={activeKey}/>

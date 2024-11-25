@@ -151,7 +151,10 @@ function CardImage(props: { id: string }) {
         }}
         src={Assets.getHomeFeature(props.id, i18next.resolvedLanguage)}
         onError={(e) => {
+          // TODO: .src and .onerror don't actually exist on SyntheticEvent, revisit
+          // @ts-ignore
           e.target.src = Assets.getHomeFeature(props.id)
+          // @ts-ignore
           e.onerror = null // prevent infinite looping if for some reason the english image can't be loaded
         }}
       />

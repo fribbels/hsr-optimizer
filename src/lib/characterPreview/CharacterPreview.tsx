@@ -20,10 +20,13 @@ import { MemoizedShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuil
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/showcaseCustomizationController'
 import {
+  defaultShowcasePreferences,
   getDefaultColor,
+  getOverrideColorMode,
   ShowcaseColorMode,
   ShowcaseCustomizationSidebar,
   ShowcaseCustomizationSidebarRef,
+  standardShowcasePreferences,
   urlToColorCache,
 } from 'lib/characterPreview/ShowcaseCustomizationSidebar'
 import { ShowcaseCombatScoreDetailsFooter, ShowcaseDpsScoreHeader, ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
@@ -85,7 +88,7 @@ export function CharacterPreview(props: {
 
   const sidebarRef = useRef<ShowcaseCustomizationSidebarRef>(null)
   const [seedColor, setSeedColor] = useState<string>(DEFAULT_SHOWCASE_COLOR)
-  const [colorMode, setColorMode] = useState<ShowcaseColorMode>(ShowcaseColorMode.DEFAULT)
+  const [colorMode, setColorMode] = useState<ShowcaseColorMode>(ShowcaseColorMode.AUTO)
 
   if (!character || showcaseIsInactive(source, activeKey)) {
     return (
@@ -135,25 +138,26 @@ export function CharacterPreview(props: {
 
   // ===== Color =====
 
-  const defaultColor = getDefaultColor(character.id, portraitUrl)
-  const characterShowcasePreferences = globalShowcasePreferences[character.id] ?? {
-    color: defaultColor,
-    colorMode: ShowcaseColorMode.DEFAULT,
-  }
+  const defaultColor = getDefaultColor(character.id, portraitUrl, colorMode)
 
-  const overrideColorMode = globalShowcasePreferences[character.id]?.colorMode ?? ShowcaseColorMode.DEFAULT
+  const characterShowcasePreferences = colorMode == ShowcaseColorMode.STANDARD
+    ? standardShowcasePreferences()
+    : globalShowcasePreferences[character.id] ?? defaultShowcasePreferences(defaultColor)
+
+  const overrideColorMode = getOverrideColorMode(colorMode, globalShowcasePreferences, character)
+
   const overrideSeedColor = portraitToUse
     ?
     (
       urlToColorCache[portraitUrl]
-        ? (overrideColorMode == ShowcaseColorMode.DEFAULT)
+        ? (overrideColorMode == ShowcaseColorMode.AUTO)
           ? (defaultColor)
           : (characterShowcasePreferences.color ?? defaultColor)
         : prevSeedColor.current
     )
     :
     (
-      (overrideColorMode == ShowcaseColorMode.DEFAULT)
+      (overrideColorMode == ShowcaseColorMode.AUTO)
         ? (defaultColor)
         : (characterShowcasePreferences.color ?? defaultColor)
     )

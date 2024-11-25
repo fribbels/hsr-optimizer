@@ -12,10 +12,11 @@ import { Utils } from 'lib/utils/utils'
 import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Character } from 'types/character'
 import { ShowcasePreferences } from 'types/metadata'
 
 export enum ShowcaseColorMode {
-  DEFAULT = 'DEFAULT',
+  AUTO = 'AUTO',
   CUSTOM = 'CUSTOM',
   STANDARD = 'STANDARD'
 }
@@ -139,7 +140,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
         <Segmented
           vertical
           options={[
-            { value: ShowcaseColorMode.DEFAULT, label: 'Auto' },
+            { value: ShowcaseColorMode.AUTO, label: 'Auto' },
             { value: ShowcaseColorMode.CUSTOM, label: 'Custom' },
             { value: ShowcaseColorMode.STANDARD, label: 'Standard' },
           ]}
@@ -211,10 +212,50 @@ function clipboardClicked() {
   }, 100)
 }
 
+const STANDARD_COLOR = '#04275c'
+
+export function standardShowcasePreferences() {
+  return {
+    color: STANDARD_COLOR,
+    colorMode: ShowcaseColorMode.STANDARD,
+  }
+}
+
+export function defaultShowcasePreferences(color: string) {
+  return {
+    color: color,
+    colorMode: ShowcaseColorMode.AUTO,
+  }
+}
+
 export const urlToColorCache: Record<string, string> = {}
 
-export function getDefaultColor(characterId: string, portraitUrl: string) {
-  if (urlToColorCache[portraitUrl]) return urlToColorCache[portraitUrl]
+export function getOverrideColorMode(
+  colorMode: ShowcaseColorMode,
+  globalShowcasePreferences: Record<string, ShowcasePreferences>,
+  character: Character,
+) {
+  if (colorMode == ShowcaseColorMode.STANDARD) {
+    return ShowcaseColorMode.STANDARD
+  }
+
+  const savedColorMode = globalShowcasePreferences[character.id]?.colorMode
+
+  if (!savedColorMode || savedColorMode == ShowcaseColorMode.STANDARD) {
+    return ShowcaseColorMode.AUTO
+  }
+
+  return savedColorMode
+}
+
+export function getDefaultColor(characterId: string, portraitUrl: string, colorMode: ShowcaseColorMode) {
+  if (colorMode == ShowcaseColorMode.STANDARD) {
+    return STANDARD_COLOR
+  }
+
+  if (urlToColorCache[portraitUrl]) {
+    return urlToColorCache[portraitUrl]
+  }
 
   const defaults: Record<string, string[]> = {
     1001: ['#648fe3'], // march7th
@@ -284,5 +325,5 @@ export function getDefaultColor(characterId: string, portraitUrl: string) {
     8006: ['#6c5d83'], // trailblazerharmony
   }
 
-  return Utils.randomElement(defaults[characterId] ?? ['#000000'])
+  return (defaults[characterId] ?? ['#000000'])[0]
 }

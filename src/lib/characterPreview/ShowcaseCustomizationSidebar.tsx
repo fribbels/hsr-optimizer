@@ -2,6 +2,7 @@ import { CameraOutlined, DownloadOutlined } from '@ant-design/icons'
 import { Button, ColorPicker, Flex, Segmented, theme, ThemeConfig } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
+import chroma from 'chroma-js'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
 import DB from 'lib/state/db'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
@@ -93,6 +94,8 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       )
 
       console.log('Set seed color to', newColor)
+
+      console.log(chroma(newColor).luminance())
 
       setColorMode(ShowcaseColorMode.CUSTOM)
       setSeedColor(newColor)

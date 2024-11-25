@@ -19,7 +19,7 @@ import { ShowcasePreferences } from 'types/metadata'
 export enum ShowcaseColorMode {
   AUTO = 'AUTO',
   CUSTOM = 'CUSTOM',
-  STANDARD = 'STANDARD'
+  STANDARD = 'STANDARD',
 }
 
 export interface ShowcaseCustomizationSidebarRef {
@@ -27,12 +27,12 @@ export interface ShowcaseCustomizationSidebarRef {
 }
 
 export interface ShowcaseCustomizationSidebarProps {
-  id: string,
-  characterId: string,
-  token: GlobalToken,
+  id: string
+  characterId: string
+  token: GlobalToken
   showcasePreferences: ShowcasePreferences
   setOverrideTheme: (overrideTheme: ThemeConfig) => void
-  seedColor: string,
+  seedColor: string
   setSeedColor: (color: string) => void
   colorMode: ShowcaseColorMode
   setColorMode: (colorMode: ShowcaseColorMode) => void
@@ -53,7 +53,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       setColorMode,
     } = props
 
-    const { t } = useTranslation(['charactersTab'])
+    const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
     const [colors, setColors] = useState<string[]>([])
     const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
     const setGlobalShowcasePreferences = window.store((s) => s.setShowcasePreferences)
@@ -116,7 +116,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
 
     const presets = [
       {
-        label: 'Portrait color palette',
+        label: t('PaletteLabel'),
         colors: colors,
       },
       // {
@@ -140,15 +140,15 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
         }}
       >
         <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-          Customization
+          {t('Label')}
         </HeaderText>
 
         <Segmented
           vertical
           options={[
-            { value: ShowcaseColorMode.AUTO, label: 'Auto' },
-            { value: ShowcaseColorMode.CUSTOM, label: 'Custom' },
-            { value: ShowcaseColorMode.STANDARD, label: 'Standard' },
+            { value: ShowcaseColorMode.AUTO, label: t('Modes.Auto') },
+            { value: ShowcaseColorMode.CUSTOM, label: t('Modes.Custom') },
+            { value: ShowcaseColorMode.STANDARD, label: t('Modes.Standard') },
           ]}
           value={colorMode}
           onChange={onColorModeChange}

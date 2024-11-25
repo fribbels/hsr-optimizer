@@ -38,8 +38,7 @@ interface Resources {
         }
       }
     },
-    "CopyScreenshot": "Copy screenshot",
-    "SearchPlaceholder": "Search character name",
+    "SearchPlaceholder": "Search",
     "GridHeaders": {
       "Icon": "Icon",
       "Priority": "Priority",
@@ -56,6 +55,15 @@ interface Resources {
       "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?"
     },
     "CharacterPreview": {
+      "CustomizationSidebar": {
+        "Label": "Customization",
+        "Modes": {
+          "Auto": "Auto",
+          "Custom": "Custom",
+          "Standard": "Standard"
+        },
+        "PaletteLabel": "Portrait color palette"
+      },
       "ArtBy": "Art by {{artistName}}",
       "EditCharacter": "Edit character",
       "EditPortrait": "Edit portrait",

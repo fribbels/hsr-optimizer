@@ -1,4 +1,4 @@
-import { ConfigProvider, Flex, theme, ThemeConfig } from 'antd'
+import { ConfigProvider, Flex, theme } from 'antd'
 import getDesignToken from 'antd/lib/theme/getDesignToken'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
@@ -9,7 +9,6 @@ import {
   getShowcaseSimScoringResult,
   getShowcaseStats,
   handleTeamSelection,
-  presetTeamSelectionDisplay,
   ShowcaseDisplayDimensions,
   showcaseIsInactive,
   showcaseOnAddOk,
@@ -17,30 +16,35 @@ import {
   showcaseOnEditPortraitOk,
 } from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
-import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
+import { MemoizedShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
+import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/showcaseCustomizationController'
+import {
+  defaultShowcasePreferences,
+  getDefaultColor,
+  getOverrideColorMode,
+  ShowcaseColorMode,
+  ShowcaseCustomizationSidebar,
+  ShowcaseCustomizationSidebarRef,
+  standardShowcasePreferences,
+  urlToColorCache,
+} from 'lib/characterPreview/ShowcaseCustomizationSidebar'
 import { ShowcaseCombatScoreDetailsFooter, ShowcaseDpsScoreHeader, ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
 import { ShowcaseLightConeLarge, ShowcaseLightConeLargeName, ShowcaseLightConeSmall } from 'lib/characterPreview/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
-import { COMBAT_STATS, DEFAULT_TEAM, SIMULATION_SCORE } from 'lib/constants/constants'
+import { COMBAT_STATS, SIMULATION_SCORE } from 'lib/constants/constants'
+import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/characterScorer'
+import DB from 'lib/state/db'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
-import {
-  colorTransparent,
-  selectColor,
-  showcaseBackgroundColor,
-  showcaseCardBackgroundColor,
-  showcaseCardBorderColor,
-  showcaseSegmentedColor,
-  showcaseTransition,
-} from 'lib/utils/colorUtils'
+import { colorTransparent, showcaseBackgroundColor, showcaseCardBackgroundColor, showcaseCardBorderColor, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
 import Vibrant from 'node-vibrant'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Character } from 'types/character'
 import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
 import { Relic } from 'types/relic'
@@ -58,8 +62,6 @@ export function CharacterPreview(props: {
   setOriginalCharacterModalInitialCharacter: (character: Character) => void
   setCharacterModalAdd: (add: boolean) => void
 }) {
-  console.log('======================================================================= RENDER CharacterPreview')
-
   const {
     source,
     character,
@@ -69,88 +71,61 @@ export function CharacterPreview(props: {
   } = props
 
   const { token } = useToken()
-  const [overrideTheme, setOverrideTheme] = useState<ThemeConfig>()
   const [selectedRelic, setSelectedRelic] = useState<Relic | undefined>()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
   const [customPortrait, setCustomPortrait] = useState<CustomImageConfig | undefined>()
-  const [teamSelection, setTeamSelection] = useState(DEFAULT_TEAM)
+  const [teamSelectionByCharacter, setTeamSelectionByCharacter] = useState<Record<string, string>>({})
+
   const [scoringType, setScoringType] = useState(SIMULATION_SCORE)
   const [combatScoreDetails, setCombatScoreDetails] = useState(COMBAT_STATS)
   const activeKey = window.store((s) => s.activeKey)
   const prevCharId = useRef<string | undefined>()
+  const prevSeedColor = useRef<string>(DEFAULT_SHOWCASE_COLOR)
   const relicsById = window.store((s) => s.relicsById)
   const [_redrawTeammates, setRedrawTeammates] = useState<number>(0)
-  const [colors, setColors] = useState<string[]>([])
+  const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
 
-  const backgroundColor = token.colorBgLayout
-  const colorBgBase = token.colorBgBase
-  const overrideToken = overrideTheme ? getDesignToken(overrideTheme) : token
-
-  const showcaseTheme: ShowcaseTheme = {
-    cardBackgroundColor: showcaseCardBackgroundColor(overrideToken.colorPrimaryActive),
-    cardBorderColor: showcaseCardBorderColor(overrideToken.colorPrimaryActive),
-  }
-
-  useEffect(() => {
-    presetTeamSelectionDisplay(character, prevCharId, setTeamSelection, setCustomPortrait)
-  }, [character])
-
-  const portraitUrl = character ? (customPortrait?.imageUrl ?? Assets.getCharacterPortraitById(character.id)) : ''
-
-  function onPortraitLoad(img: string) {
-    new Vibrant(img, {
-      colorCount: 32,
-    }).getPalette((err, palette) => {
-      const primary = selectColor(palette!.DarkVibrant!.hex, palette!.DarkMuted!.hex)
-
-      setOverrideTheme({
-        algorithm: theme.darkAlgorithm,
-        token: {
-          colorBgLayout: primary,
-          colorPrimary: primary,
-        },
-        components: {
-          Segmented: {
-            trackBg: colorTransparent(),
-            itemSelectedBg: showcaseSegmentedColor(palette!.DarkMuted!.hex),
-          },
-        },
-      })
-
-      setColors([
-        palette!.Vibrant!.hex,
-        palette!.DarkVibrant!.hex,
-        palette!.Muted!.hex,
-        palette!.DarkMuted!.hex,
-        palette!.LightMuted!.hex,
-        palette!.LightVibrant!.hex,
-      ])
-    })
-  }
+  const sidebarRef = useRef<ShowcaseCustomizationSidebarRef>(null)
+  const [seedColor, setSeedColor] = useState<string>(DEFAULT_SHOWCASE_COLOR)
+  const [colorMode, setColorMode] = useState<ShowcaseColorMode>(
+    window.store.getState().savedSession[SavedSessionKeys.showcaseStandardMode] ? ShowcaseColorMode.STANDARD : ShowcaseColorMode.AUTO,
+  )
 
   if (!character || showcaseIsInactive(source, activeKey)) {
     return (
       <div
         style={{
           height: parentH,
-          backgroundColor: backgroundColor,
-          width: 1066,
+          width: 1068,
           borderRadius: 8,
-          marginRight: 2,
-          outline: `2px solid ${token.colorBgContainer}`,
+          backgroundColor: token.colorBgLayout,
+          border: `1px solid ${token.colorBgContainer}`,
         }}
       />
     )
   }
+
+  console.log('======================================================================= RENDER CharacterPreview', source)
+
+  function wrappedSetTeamSelectionByCharacter(update: Record<string, string>) {
+    setTeamSelectionByCharacter({
+      ...teamSelectionByCharacter,
+      ...update,
+    })
+  }
+
+  // ===== Relics =====
 
   const { scoringResults, displayRelics } = getPreviewRelics(source, character, relicsById)
   const scoredRelics = scoringResults.relics || []
 
   const showcaseMetadata = getShowcaseMetadata(character)
 
-  const currentSelection = handleTeamSelection(character, prevCharId, teamSelection)
+  // ===== Simulation =====
+
+  const currentSelection = handleTeamSelection(character, prevCharId, teamSelectionByCharacter)
   const simScoringResult = getShowcaseSimScoringResult(
     character,
     displayRelics,
@@ -158,6 +133,63 @@ export function CharacterPreview(props: {
     currentSelection,
     showcaseMetadata,
   )
+
+  // ===== Portrait =====
+
+  const portraitToUse = DB.getCharacterById(character?.id)?.portrait ?? undefined
+  const portraitUrl = portraitToUse?.imageUrl ?? Assets.getCharacterPortraitById(character.id)
+
+  // ===== Color =====
+
+  const defaultColor = getDefaultColor(character.id, portraitUrl, colorMode)
+
+  const characterShowcasePreferences = colorMode == ShowcaseColorMode.STANDARD
+    ? standardShowcasePreferences()
+    : globalShowcasePreferences[character.id] ?? defaultShowcasePreferences(defaultColor)
+
+  const overrideColorMode = getOverrideColorMode(colorMode, globalShowcasePreferences, character)
+
+  const overrideSeedColor = portraitToUse
+    ?
+    (
+      urlToColorCache[portraitUrl]
+        ? (overrideColorMode == ShowcaseColorMode.AUTO)
+          ? (defaultColor)
+          : (characterShowcasePreferences.color ?? defaultColor)
+        : prevSeedColor.current
+    )
+    :
+    (
+      (overrideColorMode == ShowcaseColorMode.AUTO)
+        ? (defaultColor)
+        : (characterShowcasePreferences.color ?? defaultColor)
+    )
+
+  prevSeedColor.current = overrideSeedColor
+
+  // ===== Theme =====
+
+  const seedTheme = {
+    algorithm: theme.darkAlgorithm,
+    token: {
+      colorBgLayout: overrideSeedColor,
+      colorPrimary: overrideSeedColor,
+    },
+    components: {
+      Segmented: {
+        trackBg: colorTransparent(),
+        itemSelectedBg: showcaseSegmentedColor(overrideSeedColor),
+      },
+    },
+  }
+
+  const seedToken = getDesignToken(seedTheme)
+  const derivedShowcaseTheme: ShowcaseTheme = {
+    cardBackgroundColor: showcaseCardBackgroundColor(seedToken.colorPrimaryActive),
+    cardBorderColor: showcaseCardBorderColor(seedToken.colorPrimaryActive),
+  }
+
+  // ===== Display =====
 
   const displayDimensions: ShowcaseDisplayDimensions = getShowcaseDisplayDimensions(character, Boolean(simScoringResult))
   const artistName = getArtistName(character)
@@ -179,51 +211,21 @@ export function CharacterPreview(props: {
         setOpen={setAddModalOpen}
         open={addModalOpen}
       />
+      <ShowcaseCustomizationSidebar
+        ref={sidebarRef}
+        id={props.id}
+        characterId={character.id}
+        token={seedToken}
+        showcasePreferences={characterShowcasePreferences}
+        setOverrideTheme={() => {
+        }}
+        seedColor={overrideSeedColor}
+        setSeedColor={setSeedColor}
+        colorMode={overrideColorMode}
+        setColorMode={setColorMode}
+      />
 
-      <ConfigProvider theme={overrideTheme}>
-        <Flex
-          style={{
-            position: 'absolute',
-            marginLeft: 1100,
-            backgroundColor: token.colorBgLayout,
-          }}
-        >
-          <Flex vertical gap={5}>
-            {
-              colors.map(primary => {
-                return (
-                  <div
-                    className='colorSelector'
-                    key={primary}
-                    style={{
-                      width: 40,
-                      height: 40,
-                      backgroundColor: primary,
-                      cursor: 'pointer',
-                      borderRadius: 50,
-                    }}
-                    onClick={() => {
-                      setOverrideTheme({
-                        algorithm: theme.darkAlgorithm,
-                        token: {
-                          colorBgLayout: primary,
-                          colorPrimary: primary,
-                        },
-                        components: {
-                          Segmented: {
-                            trackBg: colorTransparent(),
-                            itemSelectedBg: showcaseSegmentedColor(primary),
-                          },
-                        },
-                      })
-                    }}
-                  />
-                )
-              })
-            }
-          </Flex>
-        </Flex>
-
+      <ConfigProvider theme={seedTheme}>
 
         {/* Showcase full card */}
         <Flex
@@ -232,7 +234,7 @@ export function CharacterPreview(props: {
             position: 'relative',
             display: character ? 'flex' : 'none',
             height: parentH,
-            background: showcaseBackgroundColor(overrideToken.colorBgLayout),
+            background: showcaseBackgroundColor(token.colorBgLayout),
             backgroundBlendMode: 'screen',
             overflow: 'hidden',
             borderRadius: 7,
@@ -240,6 +242,8 @@ export function CharacterPreview(props: {
           }}
           gap={defaultGap}
         >
+
+          {/* Background */}
           <div
             style={{
               backgroundImage: `url(${portraitUrl})`,
@@ -256,6 +260,7 @@ export function CharacterPreview(props: {
               WebkitFilter: 'blur(20px) brightness(0.75) saturate(0.8)',
             }}
           />
+
           {/* Portrait left panel */}
           {source != ShowcaseSource.BUILDS_MODAL &&
             <Flex vertical gap={12} className='character-build-portrait'>
@@ -263,7 +268,7 @@ export function CharacterPreview(props: {
                 source={source}
                 character={character}
                 displayDimensions={displayDimensions}
-                customPortrait={customPortrait}
+                customPortrait={portraitToUse}
                 editPortraitModalOpen={editPortraitModalOpen}
                 setEditPortraitModalOpen={setEditPortraitModalOpen}
                 onEditPortraitOk={(payload: CustomImagePayload) => showcaseOnEditPortraitOk(character, payload, setCustomPortrait, setEditPortraitModalOpen)}
@@ -272,7 +277,7 @@ export function CharacterPreview(props: {
                 setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
                 setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
                 setCharacterModalAdd={setCharacterModalAdd}
-                onPortraitLoad={onPortraitLoad}
+                onPortraitLoad={(img: string) => sidebarRef.current?.onPortraitLoad!(img, character.id)}
               />
 
               {simScoringResult && (
@@ -296,10 +301,10 @@ export function CharacterPreview(props: {
               style={{
                 width: middleColumnWidth,
                 height: '100%',
-                border: `1px solid ${showcaseTheme.cardBorderColor}`,
+                border: `1px solid ${derivedShowcaseTheme.cardBorderColor}`,
                 borderRadius: 8,
                 zIndex: 1,
-                backgroundColor: showcaseTheme.cardBackgroundColor,
+                backgroundColor: derivedShowcaseTheme.cardBackgroundColor,
                 transition: showcaseTransition(),
                 flex: 1,
                 paddingRight: 2,
@@ -324,12 +329,12 @@ export function CharacterPreview(props: {
 
                 <ShowcaseDpsScorePanel
                   characterId={showcaseMetadata.characterId}
-                  token={token}
+                  token={seedToken}
                   simScoringResult={simScoringResult}
-                  teamSelection={teamSelection}
+                  teamSelection={currentSelection}
                   combatScoreDetails={combatScoreDetails}
                   displayRelics={displayRelics}
-                  setTeamSelection={setTeamSelection}
+                  setTeamSelectionByCharacter={wrappedSetTeamSelectionByCharacter}
                   setRedrawTeammates={setRedrawTeammates}
                 />
 
@@ -359,6 +364,7 @@ export function CharacterPreview(props: {
               />
             </>}
           </Flex>
+
           {/* Relics right panel */}
           <ShowcaseRelicsPanel
             setSelectedRelic={setSelectedRelic}
@@ -368,14 +374,14 @@ export function CharacterPreview(props: {
             source={source}
             characterId={showcaseMetadata.characterId}
             scoredRelics={scoredRelics}
-            showcaseColors={showcaseTheme}
+            showcaseColors={derivedShowcaseTheme}
           />
         </Flex>
       </ConfigProvider>
 
       {/* Showcase analysis footer */}
       {source != ShowcaseSource.BUILDS_MODAL &&
-        <ShowcaseBuildAnalysis
+        <MemoizedShowcaseBuildAnalysis
           token={token}
           simScoringResult={simScoringResult as SimulationScore}
           combatScoreDetails={combatScoreDetails}

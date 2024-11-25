@@ -159,9 +159,9 @@ export function ShowcasePortrait(props: {
         vertical
         style={{
           position: 'relative',
-          top: simScoringResult ? tempParentH - 118 : tempParentH - 111,
+          top: simScoringResult ? tempParentH - 119 : tempParentH - 112,
           height: 34,
-          paddingLeft: 4,
+          paddingLeft: 3,
           display: artistName ? 'flex' : 'none',
         }}
         align='flex-start'

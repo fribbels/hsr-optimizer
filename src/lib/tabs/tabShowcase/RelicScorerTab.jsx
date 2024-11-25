@@ -342,7 +342,6 @@ function CharacterPreviewSelection(props) {
   function selectionChange(selected) {
     console.log('selectionChange', selected)
     props.setSelectedCharacter(props.availableCharacters.find((x) => x.id == selected))
-    setScoringAlgorithmFocusCharacter(selected)
   }
 
   async function simulateClicked() {
@@ -452,6 +451,7 @@ function CharacterPreviewSelection(props) {
       <Flex vertical align='center' gap={5} style={{ marginBottom: 100, width: 1068 }}>
         <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none', width: '100%' }}>
           <Sidebar presetClicked={presetClicked} activeKey={activeKey}/>
+
           <Flex
             style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}
             justify='space-between'
@@ -498,7 +498,8 @@ function CharacterPreviewSelection(props) {
           onChange={selectionChange}
           value={props.selectedCharacter?.id}
         />
-        <Flex id='previewWrapper' style={{ padding: '5px' }}>
+
+        <div id='previewWrapper' style={{ padding: '5px' }}>
           <CharacterPreview
             class='relicScorerCharacterPreview'
             character={props.selectedCharacter}
@@ -507,7 +508,7 @@ function CharacterPreviewSelection(props) {
             setOriginalCharacterModalOpen={setCharacterModalOpen}
             setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
           />
-        </Flex>
+        </div>
 
         <CharacterModal
           onOk={onCharacterModalOk}
@@ -592,6 +593,7 @@ function Sidebar(props) {
       gap={5}
     >
       <Dropdown
+        zIndexPopup={10}
         dropdownRender={() => (dropdownDisplay)}
         open={open}
       >

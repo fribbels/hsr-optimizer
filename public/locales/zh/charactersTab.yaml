@@ -42,8 +42,12 @@ Messages:
   DeleteWarning: "你确定要删除$t(gameData:Characters.{{charId}}.Name)吗?"
 CharacterPreview:
   CustomizationSidebar:
+    Label: 自定义
     Modes:
+      Auto: 自动
       Custom: 自定义
+      Standard: 标准
+    PaletteLabel: 头像色调
   ArtBy: "{{artistName}}的作品"
   EditCharacter: 编辑角色
   EditPortrait: 编辑角色图像

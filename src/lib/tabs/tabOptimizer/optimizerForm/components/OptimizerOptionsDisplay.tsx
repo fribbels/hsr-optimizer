@@ -23,6 +23,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
     currentCharacters: characters,
     excludeCharacters: [DB.getCharacterById(optimizerTabFocusCharacter!)],
     withNobodyOption: false,
+    longNameLabel: true,
   }), [characters, optimizerTabFocusCharacter, i18n.resolvedLanguage])
 
   const characterPriorityOptions = useMemo(() => {
@@ -118,7 +119,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                 style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 mode='multiple'
                 maxTagCount='responsive'
-                popupMatchSelectWidth={225}
+                popupMatchSelectWidth={250}
                 listHeight={500}
                 allowClear
                 showSearch

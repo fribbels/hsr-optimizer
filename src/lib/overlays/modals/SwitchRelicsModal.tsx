@@ -36,6 +36,8 @@ export default function SwitchRelicsModal(props: {
     currentCharacters: characters,
     excludeCharacters: [currentCharacter],
     withNobodyOption: false,
+    longNameLabel: true,
+    longNameTitle: true,
   }), [characters, currentCharacter, t])
 
   useEffect(() => {
@@ -57,12 +59,12 @@ export default function SwitchRelicsModal(props: {
     setOpen(false)
   }
 
-  const panelWidth = 300 - 47
+  const panelWidth = 325 - 47
 
   return (
     <Modal
       open={open}
-      width={300}
+      width={panelWidth + 47}
       destroyOnClose
       centered
       onOk={onModalOk}

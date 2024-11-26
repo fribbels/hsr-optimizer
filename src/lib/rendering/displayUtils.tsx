@@ -8,6 +8,8 @@ type GenerateCharacterListProps = {
   currentCharacters: Character[]
   excludeCharacters?: Character[]
   withNobodyOption?: boolean
+  longNameLabel?: boolean
+  longNameTitle?: boolean
 }
 
 type OptionType = {
@@ -44,10 +46,16 @@ export function generateCharacterList(
               src={Assets.getCharacterAvatarById(character.id)}
               style={{ height: 22, marginRight: 4 }}
             />
-            {i18next.t(`gameData:Characters.${character.id}.Name` as never)}
+            {
+              props.longNameLabel
+                ? i18next.t(`gameData:Characters.${character.id}.LongName` as never)
+                : i18next.t(`gameData:Characters.${character.id}.Name` as never)
+            }
           </Flex>
         ),
-      title: i18next.t(`gameData:Characters.${character.id}.Name` as never),
+      title: props.longNameTitle
+        ? i18next.t(`gameData:Characters.${character.id}.LongName` as never)
+        : i18next.t(`gameData:Characters.${character.id}.Name` as never),
     }))
     .sort((a, b) => a.title.localeCompare(b.title))
 

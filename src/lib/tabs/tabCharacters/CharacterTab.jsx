@@ -124,7 +124,7 @@ export default function CharacterTab() {
 
   const [characterFilters, setCharacterFilters] = useState(defaultFilters)
 
-  const { t } = useTranslation(['charactersTab', ' common'])
+  const { t } = useTranslation(['charactersTab', ' common', 'gameData'])
 
   console.log('======================================================================= RENDER CharacterTab')
 
@@ -269,8 +269,7 @@ export default function CharacterTab() {
       if (characterFilters.path.length && !characterFilters.path.includes(filteredCharacter.path)) {
         return false
       }
-      return filteredCharacter.name.toLowerCase().includes(nameFilter.current)
-        || filteredCharacter.displayName.toLowerCase().includes(nameFilter.current)
+      return t(`gameData:Characters.${node.data.id}.LongName`).toLowerCase().includes(nameFilter.current)
     }, [characterFilters],
   )
 

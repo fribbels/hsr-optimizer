@@ -1,4 +1,5 @@
 import { Flex } from 'antd'
+import i18next from 'i18next'
 import { RightIcon } from 'icons/RightIcon'
 import { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
@@ -49,7 +50,7 @@ export const GenerateStat = (stat: SubstatDetails, main: boolean, relic: Relic) 
           style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}
         >
         </img>
-        <RelicStatText>{t(`ReadableStats.${stat.stat}`)}</RelicStatText>
+        <RelicStatText language={i18next.resolvedLanguage}>{t(`ReadableStats.${stat.stat}`)}</RelicStatText>
       </Flex>
       {!main
         ? (

@@ -6,37 +6,6 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useTranslation } from 'react-i18next'
 
-const statFilterData = [
-  { name: 'Hp', labelKey: 'HPLabel' },
-  { name: 'Atk', labelKey: 'ATKLabel' },
-  { name: 'Def', labelKey: 'DEFLabel' },
-  { name: 'Spd', labelKey: 'SPDLabel' },
-  { name: 'Cr', labelKey: 'CRLabel' },
-  { name: 'Cd', labelKey: 'CDLabel' },
-  { name: 'Ehr', labelKey: 'EHRLabel' },
-  { name: 'Res', labelKey: 'RESLabel' },
-  { name: 'Be', labelKey: 'BELabel' },
-  { name: 'Err', labelKey: 'ERRLabel' },
-] as const
-type StatFilterKey = typeof statFilterData[number]['labelKey']
-type StatFilterName = typeof statFilterData[number]['name']
-
-const ratingFilterData = [
-  { name: 'Ehp', labelKey: 'EHPLabel' },
-  { name: 'Basic', labelKey: 'BASICLabel' },
-  { name: 'Skill', labelKey: 'SKILLLabel' },
-  { name: 'Ult', labelKey: 'ULTLabel' },
-  { name: 'Fua', labelKey: 'FUALabel' },
-  { name: 'Dot', labelKey: 'DOTLabel' },
-  { name: 'Break', labelKey: 'BREAKLabel' },
-  { name: 'Heal', labelKey: 'HEALLabel' },
-  { name: 'Shield', labelKey: 'SHIELDLabel' },
-] as const
-type RatingFilterKey = typeof ratingFilterData[number]['labelKey']
-type RatingFilterName = typeof ratingFilterData[number]['name']
-type FilterKeys = StatFilterKey | RatingFilterKey
-type FilterNames = RatingFilterName | StatFilterName
-
 export const MinMaxStatFilters = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'MinMaxFilters' })
   return (

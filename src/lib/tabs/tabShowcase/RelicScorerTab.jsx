@@ -32,7 +32,6 @@ function presetCharacters() {
   return [
     { characterId: char('Fugue'), lightConeId: lc('Long Road Leads Home') },
     { characterId: char('Sunday'), lightConeId: lc('A Grounded Ascent') },
-    { characterId: char('Rappa'), lightConeId: lc('Ninjutsu Inscription: Dazzling Evilbreaker') },
     { custom: true },
   ].filter((x) => x.characterId != null || x.custom) // Unreleased characters
 }
@@ -42,8 +41,6 @@ const { Text } = Typography
 const throttleSeconds = 10
 
 export default function RelicScorerTab() {
-  console.log('======================================================================= RENDER RelicScorerTab')
-
   const [loading, setLoading] = useState(false)
   const [availableCharacters, setAvailableCharacters] = useState([])
   const [selectedCharacter, setSelectedCharacter] = useState()
@@ -68,11 +65,17 @@ export default function RelicScorerTab() {
       onFinish({ scorerId: id })
     }
   }, [activeKey])
+
   useEffect(() => {
     if (availableCharacters.length && scorerId && activeKey == AppPages.SHOWCASE) {
       window.history.replaceState({ id: scorerId }, `profile: ${scorerId}`, PageToRoute[AppPages.SHOWCASE] + `?id=${scorerId}`)
     }
   }, [activeKey])
+
+  if (activeKey != AppPages.SHOWCASE && availableCharacters.length == 0) {
+    return <></>
+  }
+  console.log('======================================================================= RENDER RelicScorerTab')
 
   function onFinish(x) {
     if (latestRefreshDate.current) {

@@ -557,11 +557,12 @@ export function CharacterCardCombatStats(props: {
     rows.push(
       <Flex key={Utils.randomId()} justify='space-between' align='center' style={{ width: '100%' }}>
         <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-        <StatTextSm>
-          <Flex gap={3} align='center'>
-            {t(`ReadableStats.${stat as StatsValues}`)}{upgraded && <Arrow/>}
-          </Flex>
-        </StatTextSm>
+        <Flex gap={3} align='center'>
+          <StatTextSm>
+            {t(`ReadableStats.${stat as StatsValues}`)}
+          </StatTextSm>
+          {upgraded && <Arrow/>}
+        </Flex>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
         <StatTextSm>{`${display}${flat ? '' : '%'}`}</StatTextSm>
       </Flex>,

@@ -211,7 +211,7 @@ export function ShowcaseLightConeLargeName(props: {
       >
         {`${lightConeName}`}
       </StatTextEllipses>
-      <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
+      <StatText style={{ fontSize: 16, fontWeight: 400, textAlign: 'center' }}>
         {
           `${t('common:LevelShort', { level: lightConeLevel })} ${t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })}`
           /* Lv 80 S5 */

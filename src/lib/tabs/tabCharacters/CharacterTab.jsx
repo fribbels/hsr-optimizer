@@ -237,7 +237,7 @@ export default function CharacterTab() {
       field: '',
       headerName: t('GridHeaders.Priority')/* Priority */,
       cellRenderer: cellRankRenderer,
-      width: 50,
+      width: 55,
       rowDrag: true,
     },
     { field: '', headerName: t('GridHeaders.Character')/* Character */, flex: 1, cellRenderer: cellNameRenderer },
@@ -555,9 +555,9 @@ export default function CharacterTab() {
         <Flex vertical gap={8} style={{ minWidth: 230 }}>
           <div
             id='characterGrid' className='ag-theme-balham-dark' style={{
-            ...{ display: 'block', width: '100%', height: parentH },
-            ...getGridTheme(token),
-          }}
+              ...{ display: 'block', width: '100%', height: parentH },
+              ...getGridTheme(token),
+            }}
           >
             <AgGridReact
               ref={characterGrid}

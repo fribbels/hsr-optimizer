@@ -32,7 +32,6 @@ function presetCharacters() {
   return [
     { characterId: char('Fugue'), lightConeId: lc('Long Road Leads Home') },
     { characterId: char('Sunday'), lightConeId: lc('A Grounded Ascent') },
-    { characterId: char('Rappa'), lightConeId: lc('Ninjutsu Inscription: Dazzling Evilbreaker') },
     { custom: true },
   ].filter((x) => x.characterId != null || x.custom) // Unreleased characters
 }

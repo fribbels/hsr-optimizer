@@ -617,3 +617,7 @@ a {
 .ant-color-picker-trigger {
     justify-content: flex-start !important;
 }
+
+.ant-divider {
+    border-block-start-color: rgba(120, 120, 120, 0.3) !important;
+}

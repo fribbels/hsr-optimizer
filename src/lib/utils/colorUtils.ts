@@ -3,7 +3,7 @@ import { scaleTowardsRange } from 'lib/utils/mathUtils'
 import { PaletteResponse } from 'lib/utils/vibrantFork'
 
 export function showcaseCardBackgroundColor(color: string) {
-  const scaleFactor = 0.98
+  const scaleFactor = 0.975
   const minSaturation = 0.20
   const maxSaturation = 0.25
   const chromaColor = chroma(color)

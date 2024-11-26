@@ -41,6 +41,13 @@ Messages:
   UnequipWarning: "Você tem certeza que quer desequipar $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "Você tem certeza que quer deletar $t(gameData:Characters.{{charId}}.Name)?"
 CharacterPreview:
+  CustomizationSidebar:
+    Label: Personalização
+    Modes:
+      Auto: Auto
+      Custom: Customizado
+      Standard: Padrão
+    PaletteLabel: Paleta de cores do retrato
   ArtBy: "Arte por {{artistName}}"
   EditCharacter: Editar personagem
   EditPortrait: Editar retrato

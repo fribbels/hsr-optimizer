@@ -47,6 +47,8 @@ export const LoadingBlurredImage: React.FC<LoadingBlurredImageProps> = ({ src, s
       return
     }
 
+    setFinishedLoading(false)
+
     // We have to load the pending image before it can be stored
     img.onload = () => {
       setFinishedLoading(true)

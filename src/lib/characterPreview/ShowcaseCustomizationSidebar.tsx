@@ -271,7 +271,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1002: ['#60828b'], // danheng
     1003: ['#d6b5c2'], // himeko
     1004: ['#6385d8'], // welt
-    1005: ['#572743'], // kafka
+    1005: ['#4a414c'], // kafka
     1006: ['#8483eb'], // silverwolf
     1008: ['#59578e'], // arlan
     1009: ['#655c9a'], // asta
@@ -289,13 +289,13 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1111: ['#c2525c'], // luka
     1112: ['#365396'], // topaz
     1201: ['#5f94a3'], // qingque
-    1202: ['#f18c8c'], // tingyun
+    1202: ['#e6d3d4'], // tingyun
     1203: ['#6b9199'], // luocha
     1204: ['#263339'], // jingyuan
     1205: ['#2c3758'], // blade
     1206: ['#eacaaa'], // sushang
     1207: ['#687093'], // yukong
-    1208: ['#7953a4'], // fuxuan
+    1208: ['#9e58bf'], // fuxuan
     1209: ['#507eae'], // yanqing
     1210: ['#df9483'], // guinaifen
     1211: ['#2a415c'], // bailu
@@ -303,7 +303,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1213: ['#203e4a'], // imbibitorlunae
     1214: ['#5d6b9d'], // xueyi
     1215: ['#69629f'], // hanya
-    1217: ['#22b8c8'], // huohuo
+    1217: ['#71c2e3'], // huohuo
     1218: ['#e6dad5'], // jiaoqiu
     1220: ['#7ba1b3'], // feixiao
     1221: ['#e9d7d2'], // yunli
@@ -312,14 +312,14 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1224: ['#e4bae4'], // march7thImaginary
     1225: ['#e6d0c3'], // fugue
     1301: ['#ccb7b4'], // gallagher
-    1302: ['#d1171d'], // argenti
+    1302: ['#9e0e1d'], // argenti
     1303: ['#7c86a9'], // ruanmei
     1304: ['#decfbb'], // aventurine
     1305: ['#324073'], // drratio
     1306: ['#1028cd'], // sparkle
     1307: ['#6c41c9'], // blackswan
-    1308: ['#6664a4'], // acheron
-    1309: ['#d5bda7'], // robin
+    1308: ['#605985'], // acheron
+    1309: ['#d5aca7'], // robin
     1310: ['#8fbdcd'], // firefly
     1312: ['#b0b7d0'], // misha
     1313: ['#203163'], // sunday

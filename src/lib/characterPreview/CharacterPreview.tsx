@@ -228,6 +228,7 @@ export function CharacterPreview(props: {
         {/* Showcase full card */}
         <Flex
           id={props.id}
+          className='characterPreview'
           style={{
             position: 'relative',
             display: character ? 'flex' : 'none',

@@ -17,8 +17,8 @@ export function showcaseCardBackgroundColor(color: string) {
     .luminance(scaleTowardsRange(adjustedColor.luminance(), 0.025, 0.025, 0.98))
     .alpha(0.89)
 
-  console.log(finalColor.luminance())
-  console.log(finalColor.hsl())
+  // console.log(finalColor.luminance())
+  // console.log(finalColor.hsl())
 
   return finalColor.css()
 }

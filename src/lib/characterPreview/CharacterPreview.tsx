@@ -10,7 +10,6 @@ import {
   getShowcaseStats,
   handleTeamSelection,
   ShowcaseDisplayDimensions,
-  showcaseIsInactive,
   showcaseOnAddOk,
   showcaseOnEditOk,
   showcaseOnEditPortraitOk,
@@ -80,7 +79,6 @@ export function CharacterPreview(props: {
 
   const [scoringType, setScoringType] = useState(SIMULATION_SCORE)
   const [combatScoreDetails, setCombatScoreDetails] = useState(COMBAT_STATS)
-  const activeKey = window.store((s) => s.activeKey)
   const prevCharId = useRef<string | undefined>()
   const prevSeedColor = useRef<string>(DEFAULT_SHOWCASE_COLOR)
   const relicsById = window.store((s) => s.relicsById)
@@ -93,7 +91,7 @@ export function CharacterPreview(props: {
     window.store.getState().savedSession[SavedSessionKeys.showcaseStandardMode] ? ShowcaseColorMode.STANDARD : ShowcaseColorMode.AUTO,
   )
 
-  if (!character || showcaseIsInactive(source, activeKey)) {
+  if (!character) {
     return (
       <div
         style={{

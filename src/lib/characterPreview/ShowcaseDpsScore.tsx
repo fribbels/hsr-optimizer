@@ -193,7 +193,7 @@ export function ShowcaseDpsScoreHeader(props: {
   }
 
   const textDisplay = (
-    <Flex align='center' vertical style={{ marginBottom: 4, paddingTop: 3, paddingBottom: 3 }}>
+    <Flex align='center' vertical style={{ marginBottom: 6, paddingTop: 3, paddingBottom: 3 }}>
       <StatText style={textStyle}>
         {t('CharacterPreview.ScoreHeader.Title')/* Combat Sim */}
       </StatText>

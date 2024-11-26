@@ -445,7 +445,7 @@ a {
 }
 
 .ant-card-hoverable:hover {
-    border-color: rgba(255, 255, 255, 0.45) !important;
+    border-color: rgba(255, 255, 255, 0.40) !important;
 }
 
 .lightConeCard:hover {

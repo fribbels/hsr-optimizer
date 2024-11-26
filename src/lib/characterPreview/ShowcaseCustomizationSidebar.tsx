@@ -268,7 +268,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
 
   const defaults: Record<string, string[]> = {
     1001: ['#718fe5'], // march7th
-    1002: ['#d5d9db'], // danheng
+    1002: ['#60828b'], // danheng
     1003: ['#d6b5c2'], // himeko
     1004: ['#6385d8'], // welt
     1005: ['#572743'], // kafka
@@ -299,13 +299,13 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1209: ['#507eae'], // yanqing
     1210: ['#df9483'], // guinaifen
     1211: ['#2a415c'], // bailu
-    1212: ['#3750af'], // jingliu
+    1212: ['#0b2fbc'], // jingliu
     1213: ['#203e4a'], // imbibitorlunae
     1214: ['#5d6b9d'], // xueyi
     1215: ['#69629f'], // hanya
     1217: ['#22b8c8'], // huohuo
     1218: ['#e6dad5'], // jiaoqiu
-    1220: ['#6b95af'], // feixiao
+    1220: ['#7ba1b3'], // feixiao
     1221: ['#e9d7d2'], // yunli
     1222: ['#e3bc9f'], // lingsha
     1223: ['#575aa0'], // moze
@@ -318,12 +318,12 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1305: ['#324073'], // drratio
     1306: ['#1028cd'], // sparkle
     1307: ['#6c41c9'], // blackswan
-    1308: ['#4843bd'], // acheron
+    1308: ['#6664a4'], // acheron
     1309: ['#d5bda7'], // robin
     1310: ['#8fbdcd'], // firefly
     1312: ['#b0b7d0'], // misha
     1313: ['#203163'], // sunday
-    1314: ['#5341c9'], // jade
+    1314: ['#5644ac'], // jade
     1315: ['#a4a0d3'], // boothill
     1317: ['#35448f'], // rappa
     8001: ['#5f81f4'], // trailblazerdestruction

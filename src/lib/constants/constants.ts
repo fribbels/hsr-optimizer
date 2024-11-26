@@ -723,3 +723,9 @@ export enum ConditionalDataType {
   NUMBER = 'number',
   SELECT = 'select',
 }
+
+export enum ShowcaseColorMode {
+  AUTO = 'AUTO',
+  CUSTOM = 'CUSTOM',
+  STANDARD = 'STANDARD',
+}

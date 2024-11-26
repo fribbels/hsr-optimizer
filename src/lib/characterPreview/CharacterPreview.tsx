@@ -22,7 +22,6 @@ import {
   defaultShowcasePreferences,
   getDefaultColor,
   getOverrideColorMode,
-  ShowcaseColorMode,
   ShowcaseCustomizationSidebar,
   ShowcaseCustomizationSidebarRef,
   standardShowcasePreferences,
@@ -33,7 +32,7 @@ import { ShowcaseLightConeLarge, ShowcaseLightConeLargeName, ShowcaseLightConeSm
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
-import { COMBAT_STATS, SIMULATION_SCORE } from 'lib/constants/constants'
+import { COMBAT_STATS, ShowcaseColorMode, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import RelicModal from 'lib/overlays/modals/RelicModal'

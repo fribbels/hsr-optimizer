@@ -4,6 +4,7 @@ import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
 import chroma from 'chroma-js'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
+import { ShowcaseColorMode } from 'lib/constants/constants'
 import DB from 'lib/state/db'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HorizontalDivider } from 'lib/ui/Dividers'
@@ -15,12 +16,6 @@ import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 import { ShowcasePreferences } from 'types/metadata'
-
-export enum ShowcaseColorMode {
-  AUTO = 'AUTO',
-  CUSTOM = 'CUSTOM',
-  STANDARD = 'STANDARD',
-}
 
 export interface ShowcaseCustomizationSidebarRef {
   onPortraitLoad: (src: string, characterId: string) => void

@@ -66,7 +66,9 @@ function cellNameRenderer(params) {
     ? characterNameString.split(' (')
       .map((section) => section.trim())
       .map((section, index) => index === 1 ? ` (${section} ` : section)
-    : characterNameString.split('•')
+    : characterNameString.includes('-')
+      ? characterNameString.split('-')// some languages use a dash instead of a dot
+      : characterNameString.split('•')
 
   const nameSectionRender = nameSections
     .map((section, index) => (
@@ -237,7 +239,7 @@ export default function CharacterTab() {
       field: '',
       headerName: t('GridHeaders.Priority')/* Priority */,
       cellRenderer: cellRankRenderer,
-      width: 55,
+      width: 60,
       rowDrag: true,
     },
     { field: '', headerName: t('GridHeaders.Character')/* Character */, flex: 1, cellRenderer: cellNameRenderer },
@@ -552,7 +554,7 @@ export default function CharacterTab() {
             <DownOutlined/>
           </Button>
         </Dropdown>
-        <Flex vertical gap={8} style={{ minWidth: 230 }}>
+        <Flex vertical gap={8} style={{ minWidth: 240 }}>
           <div
             id='characterGrid' className='ag-theme-balham-dark' style={{
               ...{ display: 'block', width: '100%', height: parentH },

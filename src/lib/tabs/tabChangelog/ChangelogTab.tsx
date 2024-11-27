@@ -107,6 +107,33 @@ function getChangelogContent() {
   const changelog: ChangelogContent[] = [
     {
       title: '',
+      date: '11-27-2024',
+      content: [
+        `The optimizer site has a new home page`,
+        `home.webp`,
+        `Updated the character showcase design`,
+        `showcase.webp`,
+        `Added a new showcase theme customization sidebar`,
+        `custom.webp`,
+        `I18n support has been enabled with support for: Français, Português (BR), 中文`,
+        `i18n.webp`,
+        `Added healing and shielding columns and filters for sustain characters, and adjusted their default sort columns`,
+        `heal.webp`,
+        `Added new selector conditional type for healing and shielding sources`,
+        `healSource.webp`,
+        `Added a new AEON tier for DPS score at 150% with verified-only relics`,
+        `aeon.webp`,
+        `Incorrect main stat pieces will now get a (?) rating on the character showcase`,
+        `question.webp`,
+        `The optimizer grid will now remove irrelevant columns for characters to hide the full-zero columns`,
+        `Made slight adjustments to relic scoring - flat stats are now valued at a static 0.40x of their percentage counterpart`,
+        `Fix: Fugue E4 break DMG buff now calculates correctly`,
+        `Balance: Sim scoring will now match Energy Regeneration rope for certain character / eidolon combinations`,
+        `Balance: Fugue now has additional Break instances in her combo damage rotation to push towards break focus`,
+      ],
+    },
+    {
+      title: '',
       date: '10-19-2024',
       content: [
         leaks(`Updated content for version 2.7`),

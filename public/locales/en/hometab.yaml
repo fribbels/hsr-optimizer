@@ -18,17 +18,17 @@ FeatureCards:
       Showcase your character’s stats or prebuild future characters.
       Simulate their combat damage with DPS score and measure it against the benchmarks.
   Optimizer:
-      Title: Relic Optimizer
-      Content: >-
-        Optimize your characters to search for the best combination
-        of relics to reach their breakpoints and maximize their stats.
+    Title: Relic Optimizer
+    Content: >-
+      Optimize your characters to search for the best combination
+      of relics to reach their breakpoints and maximize their stats.
   Calculator:
     Title: Damage Calculator
     Content: >-
       Calculate damage accurately with fully customizable team setups,
       buff conditions, and ability rotations to maximize damage output.
   Organizer:
-    Title: Relics Organizer
+    Title: Relic Organizer
     Content: >-
       Organize your relics by scoring and sorting relics based on their potential,
       and find the top relics to upgrade for each character.

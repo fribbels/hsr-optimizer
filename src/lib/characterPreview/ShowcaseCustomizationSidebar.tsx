@@ -4,6 +4,7 @@ import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
 import chroma from 'chroma-js'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
+import { ShowcaseColorMode } from 'lib/constants/constants'
 import DB from 'lib/state/db'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HorizontalDivider } from 'lib/ui/Dividers'
@@ -15,12 +16,6 @@ import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 import { ShowcasePreferences } from 'types/metadata'
-
-export enum ShowcaseColorMode {
-  AUTO = 'AUTO',
-  CUSTOM = 'CUSTOM',
-  STANDARD = 'STANDARD',
-}
 
 export interface ShowcaseCustomizationSidebarRef {
   onPortraitLoad: (src: string, characterId: string) => void
@@ -221,7 +216,7 @@ function setTheme(color: string, setOverrideTheme: (overrideTheme: ThemeConfig) 
 
 const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
 
-const STANDARD_COLOR = '#103076'
+const STANDARD_COLOR = '#2d58b6'
 
 export function standardShowcasePreferences() {
   return {
@@ -271,7 +266,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1002: ['#60828b'], // danheng
     1003: ['#d6b5c2'], // himeko
     1004: ['#6385d8'], // welt
-    1005: ['#4a414c'], // kafka
+    1005: ['#b3859b'], // kafka
     1006: ['#8483eb'], // silverwolf
     1008: ['#59578e'], // arlan
     1009: ['#655c9a'], // asta
@@ -293,25 +288,25 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1203: ['#6b9199'], // luocha
     1204: ['#263339'], // jingyuan
     1205: ['#2c3758'], // blade
-    1206: ['#eacaaa'], // sushang
+    1206: ['#f1d6bc'], // sushang
     1207: ['#687093'], // yukong
     1208: ['#9e58bf'], // fuxuan
     1209: ['#507eae'], // yanqing
-    1210: ['#df9483'], // guinaifen
+    1210: ['#ef9784'], // guinaifen
     1211: ['#2a415c'], // bailu
     1212: ['#0b2fbc'], // jingliu
     1213: ['#203e4a'], // imbibitorlunae
     1214: ['#5d6b9d'], // xueyi
     1215: ['#69629f'], // hanya
-    1217: ['#71c2e3'], // huohuo
+    1217: ['#81bad1'], // huohuo
     1218: ['#e6dad5'], // jiaoqiu
     1220: ['#7ba1b3'], // feixiao
     1221: ['#e9d7d2'], // yunli
-    1222: ['#ffa09b'], // lingsha
+    1222: ['#e2dbd8'], // lingsha
     1223: ['#575aa0'], // moze
     1224: ['#e4bae4'], // march7thImaginary
     1225: ['#e6d0c3'], // fugue
-    1301: ['#ccb7b4'], // gallagher
+    1301: ['#e1cac7'], // gallagher
     1302: ['#9e0e1d'], // argenti
     1303: ['#7c86a9'], // ruanmei
     1304: ['#decfbb'], // aventurine
@@ -319,7 +314,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1306: ['#1028cd'], // sparkle
     1307: ['#6c41c9'], // blackswan
     1308: ['#605985'], // acheron
-    1309: ['#d5aca7'], // robin
+    1309: ['#cfc5d5'], // robin
     1310: ['#8fbdcd'], // firefly
     1312: ['#b0b7d0'], // misha
     1313: ['#203163'], // sunday

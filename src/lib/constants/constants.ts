@@ -2,7 +2,7 @@
 import gameData from 'data/game_data.json'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v2.7.1'
+export const CURRENT_OPTIMIZER_VERSION = 'v2.7.5'
 // Represents the beta data content version, used for display but not for update notifications
 export const CURRENT_DATA_VERSION = '2.7v5'
 
@@ -722,4 +722,10 @@ export enum ConditionalDataType {
   BOOLEAN = 'boolean',
   NUMBER = 'number',
   SELECT = 'select',
+}
+
+export enum ShowcaseColorMode {
+  AUTO = 'AUTO',
+  CUSTOM = 'CUSTOM',
+  STANDARD = 'STANDARD',
 }

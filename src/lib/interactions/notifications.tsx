@@ -20,9 +20,9 @@ export function checkForUpdatesNotification(version: string) {
       <Space>
         <Button
           type='primary' icon={<UnorderedListOutlined/>} onClick={() => {
-            window.notificationApi.destroy()
-            window.store.getState().setActiveKey(AppPages.CHANGELOG)
-          }}
+          window.notificationApi.destroy()
+          window.store.getState().setActiveKey(AppPages.CHANGELOG)
+        }}
         >
           {
             i18next.t('notifications:Changelog.View')
@@ -58,7 +58,7 @@ export function checkForUpdatesNotification(version: string) {
     )
 
     window.notificationApi.success({
-      message: 'I18N coming soon!',
+      message: 'I18N launch!',
       description: 'Looking for contributors to help to translate content into other languages. Check out the Discord server for more info!',
       btn: translationsBtn,
       duration: 30,

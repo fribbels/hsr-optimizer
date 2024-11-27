@@ -1,4 +1,4 @@
-import { ShowcaseColorMode } from 'lib/characterPreview/ShowcaseCustomizationSidebar'
+import { ShowcaseColorMode } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SaveState } from 'lib/state/saveState'
 import { TsUtils } from 'lib/utils/TsUtils'

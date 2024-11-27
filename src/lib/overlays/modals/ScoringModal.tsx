@@ -168,6 +168,7 @@ export default function ScoringModal() {
       width={900}
       destroyOnClose
       centered
+      forceRender
       onOk={onModalOk}
       onCancel={handleCancel}
       footer={[

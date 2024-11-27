@@ -2,6 +2,7 @@ import { ConfigProvider, Layout, message, Modal, notification, theme } from 'ant
 import { checkForUpdatesNotification } from 'lib/interactions/notifications'
 import { LayoutHeader } from 'lib/layout/LayoutHeader'
 import { LayoutSider } from 'lib/layout/LayoutSider'
+import { GettingStartedDrawer } from 'lib/overlays/drawers/GettingStartedDrawer'
 import { SettingsDrawer } from 'lib/overlays/drawers/SettingsDrawer'
 import { Gradient } from 'lib/rendering/gradient'
 import DB from 'lib/state/db'
@@ -64,6 +65,7 @@ const App = () => {
             <Tabs/>
           </Content>
           <SettingsDrawer/>
+          <GettingStartedDrawer/>
         </Layout>
       </Layout>
     </ConfigProvider>

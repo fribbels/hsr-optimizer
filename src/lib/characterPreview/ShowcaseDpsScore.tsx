@@ -90,7 +90,7 @@ export function ShowcaseDpsScorePanel(props: {
 }
 
 export function ShowcaseCombatScoreDetailsFooter(props: {
-  combatScoreDetails: string,
+  combatScoreDetails: string
   simScoringResult: SimulationScore
 }) {
   const {
@@ -98,25 +98,27 @@ export function ShowcaseCombatScoreDetailsFooter(props: {
     simScoringResult,
   } = props
 
-  return <>
-    {
-      combatScoreDetails == DAMAGE_UPGRADES &&
-      (
-        <Flex vertical gap={defaultGap}>
-          <CharacterCardScoringStatUpgrades result={simScoringResult}/>
-        </Flex>
-      )
-    }
+  return (
+    <>
+      {
+        combatScoreDetails == DAMAGE_UPGRADES
+        && (
+          <Flex vertical gap={defaultGap}>
+            <CharacterCardScoringStatUpgrades result={simScoringResult}/>
+          </Flex>
+        )
+      }
 
-    {
-      combatScoreDetails == COMBAT_STATS &&
-      (
-        <Flex vertical gap={defaultGap}>
-          <CharacterCardCombatStats result={simScoringResult}/>
-        </Flex>
-      )
-    }
-  </>
+      {
+        combatScoreDetails == COMBAT_STATS
+        && (
+          <Flex vertical gap={defaultGap}>
+            <CharacterCardCombatStats result={simScoringResult}/>
+          </Flex>
+        )
+      }
+    </>
+  )
 }
 
 function CharacterPreviewScoringTeammate(props: {
@@ -331,7 +333,11 @@ function ShowcaseTeamSelectPanel(props: {
       options={[
         {
           value: DEFAULT_TEAM,
-          label: t('modals:ScoreFooter.TeamOptions.Default')/* Default */,
+          label: (
+            <Flex justify='center' align='center'>
+              {t('modals:ScoreFooter.TeamOptions.Default')/* Default */}
+            </Flex>
+          ),
         },
         {
           label: (
@@ -342,7 +348,11 @@ function ShowcaseTeamSelectPanel(props: {
         },
         {
           value: CUSTOM_TEAM,
-          label: t('modals:ScoreFooter.TeamOptions.Custom')/* Custom */,
+          label: (
+            <Flex justify='center' align='center'>
+              {t('modals:ScoreFooter.TeamOptions.Custom')/* Custom */}
+            </Flex>
+          ),
         },
       ]}
     />

@@ -1,5 +1,5 @@
 Messages:
-  ThrottleWarning: Please wait {{seconds}} seconds before retrying
+  ThrottleWarning: "Please wait {{seconds}} seconds before retrying"
   InvalidIdWarning: Invalid ID
   IdLoadError: Error loading ID
   SuccessMsg: Successfully loaded profile
@@ -8,17 +8,16 @@ Messages:
   CharacterAlreadyExists: Selected character already exists
   UnknownButtonClicked: Unknown button clicked
 Header:
-  DowntimeWarning: 'The relic scorer may be down for maintenance after the {{game_version}} patch, please try again later'
-  WithVersion: 'Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}})'
-  WithoutVersion: 'Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly.'
+  DowntimeWarning: "The relic scorer may be down for maintenance after the {{game_version}} patch, please try again later"
+  WithVersion: "Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}})"
+  WithoutVersion: Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly.
 SubmissionBar:
   Placeholder: Account UID
-  ButtonText: '$t(common:Submit, {"capitalizeLength": 1})'
   AlgorithmButton: Scoring algorithm
 CopyScreenshot: Copy screenshot
 ImportLabels:
-  Relics: 'Import relics into optimizer'
-  SingleCharacter: 'Import selected character & all relics into optimizer'
-  AllCharacters: 'Import all characters & all relics into optimizer'
-SimulateRelics: 'Simulate relics on another character'
-OptimizeOnCharacter: 'Optimize character stats'
+  Relics: Import relics into optimizer
+  SingleCharacter: Import selected character & all relics into optimizer
+  AllCharacters: Import all characters & all relics into optimizer
+SimulateRelics: Simulate relics on another character
+OptimizeOnCharacter: Optimize character stats

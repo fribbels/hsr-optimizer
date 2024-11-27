@@ -1,35 +1,41 @@
-import { ContentItem } from 'types/Conditionals'
-import { Stats } from 'lib/constants'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.RiverFlowsInSpring')
+
   const sValuesSpd = [0.08, 0.09, 0.10, 0.11, 0.12]
   const sValuesDmg = [0.12, 0.15, 0.18, 0.21, 0.24]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'spdDmgBuff',
-    name: 'spdDmgBuff',
-    formItem: 'switch',
-    text: t('Content.spdDmgBuff.text'),
-    title: t('Content.spdDmgBuff.title'),
-    content: t('Content.spdDmgBuff.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpd[s]), DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]) }),
-  }]
+
+  const defaults = {
+    spdDmgBuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    spdDmgBuff: {
+      lc: true,
+      id: 'spdDmgBuff',
+      formItem: 'switch',
+      text: t('Content.spdDmgBuff.text'),
+      content: t('Content.spdDmgBuff.content', {
+        SpdBuff: TsUtils.precisionRound(100 * sValuesSpd[s]),
+        DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]),
+      }),
+    },
+  }
 
   return {
-    content: () => content,
-    defaults: () => ({
-      spdDmgBuff: true,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x[Stats.SPD_P] += (r.spdDmgBuff) ? sValuesSpd[s] : 0
-      x.ELEMENTAL_DMG += (r.spdDmgBuff) ? sValuesDmg[s] : 0
+      x.SPD_P.buff((r.spdDmgBuff) ? sValuesSpd[s] : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((r.spdDmgBuff) ? sValuesDmg[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

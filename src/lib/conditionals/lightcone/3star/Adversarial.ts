@@ -1,33 +1,36 @@
-import { Stats } from 'lib/constants'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { ContentItem } from 'types/Conditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.Adversarial')
+
   const sValues = [0.10, 0.12, 0.14, 0.16, 0.18]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'defeatedEnemySpdBuff',
-    name: 'defeatedEnemySpdBuff',
-    formItem: 'switch',
-    text: t('Content.defeatedEnemySpdBuff.text'),
-    title: t('Content.defeatedEnemySpdBuff.title'),
-    content: t('Content.defeatedEnemySpdBuff.content', { SpdBuff: TsUtils.precisionRound(100 * sValues[s]) }),
-  }]
+
+  const defaults = {
+    defeatedEnemySpdBuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    defeatedEnemySpdBuff: {
+      lc: true,
+      id: 'defeatedEnemySpdBuff',
+      formItem: 'switch',
+      text: t('Content.defeatedEnemySpdBuff.text'),
+      content: t('Content.defeatedEnemySpdBuff.content', { SpdBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+    },
+  }
 
   return {
-    content: () => content,
-    defaults: () => ({
-      defeatedEnemySpdBuff: true,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x[Stats.SPD_P] += (r.defeatedEnemySpdBuff) ? sValues[s] : 0
+      x.SPD_P.buff((r.defeatedEnemySpdBuff) ? sValues[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

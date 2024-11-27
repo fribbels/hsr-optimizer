@@ -1,8 +1,7 @@
-import { Form } from 'types/Form'
-import { RelicsByPart } from 'lib/gpu/webgpuDataTransform'
-import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
-import { Relic } from 'types/Relic'
-import { OptimizerContext } from 'types/Optimizer'
+import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
+import { Form } from 'types/form'
+import { OptimizerContext } from 'types/optimizer'
+import { Relic } from 'types/relic'
 
 export type GpuResult = {
   index: number
@@ -60,4 +59,13 @@ export type RelicsByPart = {
   Body: Relic[]
   Hands: Relic[]
   Head: Relic[]
+}
+
+export type SingleRelicByPart = {
+  LinkRope: Relic
+  PlanarSphere: Relic
+  Feet: Relic
+  Body: Relic
+  Hands: Relic
+  Head: Relic
 }

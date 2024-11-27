@@ -1,613 +1,563 @@
 Characters:
   "1001":
     Name: March 7th
+    LongName: March 7th (Bảo Hộ)
   "1002":
     Name: Dan Heng
+    LongName: Dan Heng
   "1003":
     Name: Himeko
+    LongName: Himeko
   "1004":
     Name: Welt
+    LongName: Welt
   "1005":
     Name: Kafka
+    LongName: Kafka
   "1006":
     Name: Sói Bạc
+    LongName: Sói Bạc
   "1008":
     Name: Arlan
+    LongName: Arlan
   "1009":
     Name: Asta
+    LongName: Asta
   "1013":
     Name: Herta
+    LongName: Herta
   "1101":
     Name: Bronya
+    LongName: Bronya
   "1102":
     Name: Seele
+    LongName: Seele
   "1103":
     Name: Serval
+    LongName: Serval
   "1104":
     Name: Gepard
+    LongName: Gepard
   "1105":
     Name: Natasha
+    LongName: Natasha
   "1106":
     Name: Pela
+    LongName: Pela
   "1107":
     Name: Clara
+    LongName: Clara
   "1108":
     Name: Sampo
+    LongName: Sampo
   "1109":
     Name: Hook
+    LongName: Hook
   "1110":
     Name: Lynx
+    LongName: Lynx
   "1111":
     Name: Luka
+    LongName: Luka
   "1112":
     Name: Topaz & Numby
+    LongName: Topaz & Numby
   "1201":
     Name: Qingque
+    LongName: Qingque
   "1202":
     Name: Tingyun
+    LongName: Tingyun
   "1203":
     Name: Luocha
+    LongName: Luocha
   "1204":
     Name: Jing Yuan
+    LongName: Jing Yuan
   "1205":
     Name: Blade
+    LongName: Blade
   "1206":
     Name: Sushang
+    LongName: Sushang
   "1207":
     Name: Yukong
+    LongName: Yukong
   "1208":
     Name: Fu Xuan
+    LongName: Fu Xuan
   "1209":
     Name: Yanqing
+    LongName: Yanqing
   "1210":
     Name: Guinaifen
+    LongName: Guinaifen
   "1211":
     Name: Bailu
+    LongName: Bailu
   "1212":
     Name: Jingliu
+    LongName: Jingliu
   "1213":
     Name: Dan Heng - Ẩm Nguyệt
+    LongName: Dan Heng - Ẩm Nguyệt
   "1214":
     Name: Xueyi
+    LongName: Xueyi
   "1215":
     Name: Hanya
+    LongName: Hanya
   "1217":
     Name: Huohuo
+    LongName: Huohuo
   "1218":
     Name: Jiaoqiu
+    LongName: Jiaoqiu
   "1220":
     Name: Feixiao
+    LongName: Feixiao
   "1221":
     Name: Yunli
+    LongName: Yunli
   "1222":
     Name: Lingsha
+    LongName: Lingsha
   "1223":
     Name: Moze
+    LongName: Moze
   "1224":
     Name: March 7th
+    LongName: March 7th (Săn Bắn)
   "1301":
     Name: Gallagher
+    LongName: Gallagher
   "1302":
     Name: Argenti
+    LongName: Argenti
   "1303":
     Name: Ruan Mei
+    LongName: Ruan Mei
   "1304":
     Name: Aventurine
+    LongName: Aventurine
   "1305":
     Name: Dr. Ratio
+    LongName: Dr. Ratio
   "1306":
     Name: Sparkle
+    LongName: Sparkle
   "1307":
     Name: Black Swan
+    LongName: Black Swan
   "1308":
     Name: Acheron
+    LongName: Acheron
   "1309":
     Name: Robin
+    LongName: Robin
   "1310":
     Name: Firefly
+    LongName: Firefly
   "1312":
     Name: Misha
+    LongName: Misha
   "1314":
     Name: Jade
+    LongName: Jade
   "1315":
     Name: Boothill
+    LongName: Boothill
   "1317":
     Name: Rappa
+    LongName: Rappa
   "8001":
-    Name: Caelus (Hủy Diệt)
+    Name: Caelus
+    LongName: Caelus (Hủy Diệt)
   "8002":
-    Name: Stelle (Hủy Diệt)
+    Name: Stelle
+    LongName: Stelle (Hủy Diệt)
   "8003":
-    Name: Caelus (Bảo Hộ)
+    Name: Caelus
+    LongName: Caelus (Bảo Hộ)
   "8004":
-    Name: Stelle (Bảo Hộ)
+    Name: Stelle
+    LongName: Stelle (Bảo Hộ)
   "8005":
-    Name: Caelus (Hòa Hợp)
+    Name: Caelus
+    LongName: Caelus (Hòa Hợp)
   "8006":
-    Name: Stelle (Hòa Hợp)
+    Name: Stelle
+    LongName: Stelle (Hòa Hợp)
 RelicSets:
   "101":
     Name: Lãng Khách Âm Thầm
-    Description2pc: "<span>Tăng Lượng Trị Liệu <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: <span>Khi bắt đầu chiến đấu sẽ hồi ngay cho phe ta 1 điểm Chiến Kỹ.</span>
+    Description2pc: Tăng Lượng Trị Liệu 10%.
+    Description4pc: Khi bắt đầu chiến đấu sẽ hồi ngay cho phe ta 1 điểm Chiến Kỹ.
   "102":
     Name: Thiện Xạ Bông Lúa
-    Description2pc: "<span>Tăng Tấn Công <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>6%</span> tốc độ của người trang bị, sát thương Tấn Công Thường gây ra tăng <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description2pc: Tăng Tấn Công 12%.
+    Description4pc: Tăng 6% tốc độ của người trang bị, sát thương Tấn Công Thường gây ra tăng 10%.
   "103":
     Name: Thánh Kỵ Sĩ Giáo Hoàng Tịnh Đình
-    Description2pc: "<span>Tăng Phòng Thủ <span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
-    Description4pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>20%</span> Khiên mà người trang bị cung cấp.</span>"
+    Description2pc: Tăng Phòng Thủ 15%.
+    Description4pc: Tăng 20% Khiên mà người trang bị cung cấp.
   "104":
     Name: Thợ Săn Tuyết Phủ
-    Description2pc: "<span>Tăng Sát Thương Băng <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Khi người trang bị thi triển Tuyệt Kỹ, Sát Thương Bạo Kích tăng <span style='whiteSpace: \"nowrap\"'>25%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>2</span> hiệp.</span>"
+    Description2pc: Tăng Sát Thương Băng 10%.
+    Description4pc: Khi người trang bị thi triển Tuyệt Kỹ, Sát Thương Bạo Kích tăng 25%, duy trì 2 hiệp.
   "105":
     Name: Quyền Vương Đường Phố
-    Description2pc: "<span>Sát Thương Vật Lý tăng <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Sau khi người trang bị tấn công hoặc bị tấn công, tấn công của người trang bị trong trận này tăng <span style='whiteSpace: \"nowrap\"'>5%</span>, tối đa cộng dồn <span style='whiteSpace: \"nowrap\"'>5</span> tầng.</span>"
+    Description2pc: Sát Thương Vật Lý tăng 10%.
+    Description4pc: Sau khi người trang bị tấn công hoặc bị tấn công, tấn công của người trang bị trong trận này tăng 5%, tối đa cộng dồn 5 tầng.
   "106":
     Name: Thiết Vệ Bão Tuyết
-    Description2pc: "<span>Sát thương phải chịu giảm <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
-    Description4pc: "<span>Khi bắt đầu hiệp, nếu người trang bị có phần trăm HP hiện tại thấp hơn hoặc bằng <span style='whiteSpace: \"nowrap\"'>50%</span>, sẽ hồi HP bằng <span style='whiteSpace: \"nowrap\"'>8%</span> Giới Hạn HP của bản thân, và hồi <span style='whiteSpace: \"nowrap\"'>5</span> điểm Năng Lượng.</span>"
+    Description2pc: Sát thương phải chịu giảm 8%.
+    Description4pc: Khi bắt đầu hiệp, nếu người trang bị có phần trăm HP hiện tại thấp hơn hoặc bằng 50%, sẽ hồi HP bằng 8% Giới Hạn HP của bản thân, và hồi 5 điểm Năng Lượng.
   "107":
     Name: Thợ Rèn Lửa Dung Nham
-    Description2pc: "<span>Tăng Sát Thương Hỏa <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Khiến sát thương Chiến Kỹ gây ra của người trang bị tăng <span style='whiteSpace: \"nowrap\"'>12%</span>, đồng thời tăng <span style='whiteSpace: \"nowrap\"'>12%</span> Sát Thương Hỏa của lần tấn công kế tiếp sau khi thi triển Tuyệt Kỹ.</span>"
+    Description2pc: Tăng Sát Thương Hỏa 10%.
+    Description4pc: Khiến sát thương Chiến Kỹ gây ra của người trang bị tăng 12%, đồng thời tăng 12% Sát Thương Hỏa của lần tấn công kế tiếp sau khi thi triển Tuyệt Kỹ.
   "108":
     Name: Thiên Tài Xuất Chúng
-    Description2pc: "<span>Tăng Sát Thương Lượng Tử <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Khi người trang bị gây sát thương lên mục tiêu địch, sẽ bỏ qua <span style='whiteSpace: \"nowrap\"'>10%</span> Phòng Thủ của địch. Nếu mục tiêu có Điểm Yếu Lượng Tử, sẽ bỏ qua thêm <span style='whiteSpace: \"nowrap\"'>10%</span> Phòng Thủ của địch.</span>"
+    Description2pc: Tăng Sát Thương Lượng Tử 10%.
+    Description4pc: Khi người trang bị gây sát thương lên mục tiêu địch, sẽ bỏ qua 10% Phòng Thủ của địch. Nếu mục tiêu có Điểm Yếu Lượng Tử, sẽ bỏ qua thêm 10% Phòng Thủ của địch.
   "109":
     Name: Ban Nhạc Sizzling Thunder
-    Description2pc: "<span>Tăng Sát Thương Lôi <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Khi người trang bị thi triển Chiến Kỹ, tấn công của người đó tăng <span style='whiteSpace: \"nowrap\"'>20%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>1</span> hiệp.</span>"
+    Description2pc: Tăng Sát Thương Lôi 10%.
+    Description4pc: Khi người trang bị thi triển Chiến Kỹ, tấn công của người đó tăng 20%, duy trì 1 hiệp.
   "110":
     Name: Chim Ưng Ranh Giới Ngày Đêm
-    Description2pc: "<span>Tăng Sát Thương Phong <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Sau khi người trang bị thi triển Tuyệt Kỹ, khiến Hành Động của người đó ưu tiên <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Tăng Sát Thương Phong 10%.
+    Description4pc: Sau khi người trang bị thi triển Tuyệt Kỹ, khiến Hành Động của người đó ưu tiên 25%.
   "111":
     Name: Kẻ Cướp Vệt Sao Băng
-    Description2pc: "<span>Tăng Tấn Công Kích Phá <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>16%</span> Tấn Công Kích Phá của người trang bị. Sau khi người trang bị phá vỡ điểm yếu của kẻ địch, sẽ hồi <span style='whiteSpace: \"nowrap\"'>3</span> điểm Năng Lượng.</span>"
+    Description2pc: Tăng Tấn Công Kích Phá 16%.
+    Description4pc: Tăng 16% Tấn Công Kích Phá của người trang bị. Sau khi người trang bị phá vỡ điểm yếu của kẻ địch, sẽ hồi 3 điểm Năng Lượng.
   "112":
     Name: Kẻ Hoang Dã Sa Mạc
-    Description2pc: "<span>Tăng Sát Thương Số Ảo <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Khi người trang bị gây sát thương lên mục tiêu địch rơi vào Hiệu Ứng Xấu, Tỷ Lệ Bạo Kích tăng <span style='whiteSpace: \"nowrap\"'>10%</span>, khi gây sát thương lên mục tiêu địch rơi vào trạng thái Giam Cầm, Sát Thương Bạo Kích tăng <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+    Description2pc: Tăng Sát Thương Số Ảo 10%.
+    Description4pc: Khi người trang bị gây sát thương lên mục tiêu địch rơi vào Hiệu Ứng Xấu, Tỷ Lệ Bạo Kích tăng 10%, khi gây sát thương lên mục tiêu địch rơi vào trạng thái Giam Cầm, Sát Thương Bạo Kích tăng 20%.
   "113":
     Name: Môn Đồ Trường Thọ
-    Description2pc: "<span>Tăng Giới Hạn HP <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Sau khi người trang bị chịu tấn công hoặc bị mục tiêu phe ta tiêu hao HP, Tỷ Lệ Bạo Kích tăng <span style='whiteSpace: \"nowrap\"'>8%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>2</span> hiệp. Hiệu ứng này tối đa cộng dồn <span style='whiteSpace: \"nowrap\"'>2</span> tầng.</span>"
+    Description2pc: Tăng Giới Hạn HP 12%.
+    Description4pc: Sau khi người trang bị chịu tấn công hoặc bị mục tiêu phe ta tiêu hao HP, Tỷ Lệ Bạo Kích tăng 8%, duy trì 2 hiệp. Hiệu ứng này tối đa cộng dồn 2 tầng.
   "114":
     Name: Tín Sứ Du Ngoạn Không Gian Hacker
-    Description2pc: "<span>Tăng Tốc Độ <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
-    Description4pc: "<span>Khi người trang bị thi triển Tuyệt Kỹ lên mục tiêu phe ta, tốc độ toàn phe ta tăng <span style='whiteSpace: \"nowrap\"'>12%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>1</span> hiệp, hiệu ứng này không thể cộng dồn.</span>"
+    Description2pc: Tăng Tốc Độ 6%.
+    Description4pc: Khi người trang bị thi triển Tuyệt Kỹ lên mục tiêu phe ta, tốc độ toàn phe ta tăng 12%, duy trì 1 hiệp, hiệu ứng này không thể cộng dồn.
   "115":
     Name: Đại Công Tước Tro Tàn
-    Description2pc: "<span>Sát thương Đòn Đánh Theo Sau gây ra tăng <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
-    Description4pc: "<span>Khi người trang bị thi triển Đòn Đánh Theo Sau, mỗi lần gây sát thương sẽ tăng <span style='whiteSpace: \"nowrap\"'>6%</span> tấn công của người trang bị dựa theo số lần Đòn Đánh Theo Sau gây sát thương, tối đa cộng dồn <span style='whiteSpace: \"nowrap\"'>8</span> lần, duy trì <span style='whiteSpace: \"nowrap\"'>3</span> hiệp. Hiệu ứng này sẽ bị xóa khi người trang bị thi triển Đòn Đánh Theo Sau tiếp theo.</span>"
+    Description2pc: Sát thương Đòn Đánh Theo Sau gây ra tăng 20%.
+    Description4pc: Khi người trang bị thi triển Đòn Đánh Theo Sau, mỗi lần gây sát thương sẽ tăng 6% tấn công của người trang bị dựa theo số lần Đòn Đánh Theo Sau gây sát thương, tối đa cộng dồn 8 lần, duy trì 3 hiệp. Hiệu ứng này sẽ bị xóa khi người trang bị thi triển Đòn Đánh Theo Sau tiếp theo.
   "116":
     Name: Tù Nhân Ngục Tối
-    Description2pc: "<span>Tấn Công tăng <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Mỗi khi kẻ địch nhận phải 1 hiệu ứng Sát Thương Duy Trì, thì sát thương người trang bị gây ra cho kẻ đó sẽ bỏ qua <span style='whiteSpace: \"nowrap\"'>6%</span> Phòng Thủ của kẻ đó. Hiệu ứng này có hiệu lực với tối đa <span style='whiteSpace: \"nowrap\"'>3</span> hiệu ứng Sát Thương Duy Trì.</span>"
+    Description2pc: Tấn Công tăng 12%.
+    Description4pc: Mỗi khi kẻ địch nhận phải 1 hiệu ứng Sát Thương Duy Trì, thì sát thương người trang bị gây ra cho kẻ đó sẽ bỏ qua 6% Phòng Thủ của kẻ đó. Hiệu ứng này có hiệu lực với tối đa 3 hiệu ứng Sát Thương Duy Trì.
   "117":
     Name: Tiên Phong Trong Nước Chết
-    Description2pc: "<span>Sát thương gây ra cho kẻ địch bị ảnh hưởng bởi Hiệu Ứng Xấu tăng <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>4%</span> Tỷ Lệ Bạo Kích, tăng <span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span> Sát Thương Bạo Kích mà người trang bị gây cho kẻ địch rơi vào không dưới <span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span> Hiệu Ứng Xấu. Sau khi người trang bị thi triển Hiệu Ứng Xấu lên kẻ địch, hiệu ứng nói trên tăng <span style='whiteSpace: \"nowrap\"'>100%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>1</span> hiệp.</span>"
+    Description2pc: Sát thương gây ra cho kẻ địch bị ảnh hưởng bởi Hiệu Ứng Xấu tăng 12%.
+    Description4pc: Tăng 4% Tỷ Lệ Bạo Kích, tăng 8%/12% Sát Thương Bạo Kích mà người trang bị gây cho kẻ địch rơi vào không dưới 2/3 Hiệu Ứng Xấu. Sau khi người trang bị thi triển Hiệu Ứng Xấu lên kẻ địch, hiệu ứng nói trên tăng 100%, duy trì 1 hiệp.
   "118":
     Name: Thợ Đồng Hồ, Bậc Thầy Máy Móc
-    Description2pc: "<span>Tấn Công Kích Phá tăng <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Khi người trang bị thi triển Tuyệt Kỹ lên mục tiêu phe ta, Tấn Công Kích Phá toàn phe ta tăng <span style='whiteSpace: \"nowrap\"'>30%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>2</span> hiệp, hiệu ứng này không thể cộng dồn.</span>"
+    Description2pc: Tấn Công Kích Phá tăng 16%.
+    Description4pc: Khi người trang bị thi triển Tuyệt Kỹ lên mục tiêu phe ta, Tấn Công Kích Phá toàn phe ta tăng 30%, duy trì 2 hiệp, hiệu ứng này không thể cộng dồn.
   "119":
     Name: Thiết Kỵ Diệt Trừ Tai Họa
-    Description2pc: "<span>Tấn Công Kích Phá tăng <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Khi Tấn Công Kích Phá của người trang bị lớn hơn hoặc bằng <span style='whiteSpace: \"nowrap\"'>150%</span>, Sát Thương Phá Vỡ gây ra cho kẻ địch sẽ bỏ qua <span style='whiteSpace: \"nowrap\"'>10%</span> Phòng Thủ của kẻ đó. Khi Tấn Công Kích Phá của người trang bị lớn hơn hoặc bằng <span style='whiteSpace: \"nowrap\"'>250%</span>, Siêu Sát Thương Phá Vỡ gây ra cho kẻ địch sẽ bỏ qua thêm <span style='whiteSpace: \"nowrap\"'>15%</span> Phòng Thủ của kẻ đó.</span>"
+    Description2pc: Tấn Công Kích Phá tăng 16%.
+    Description4pc: Khi Tấn Công Kích Phá của người trang bị lớn hơn hoặc bằng 150%, Sát Thương Phá Vỡ gây ra cho kẻ địch sẽ bỏ qua 10% Phòng Thủ của kẻ đó. Khi Tấn Công Kích Phá của người trang bị lớn hơn hoặc bằng 250%, Siêu Sát Thương Phá Vỡ gây ra cho kẻ địch sẽ bỏ qua thêm 15% Phòng Thủ của kẻ đó.
   "120":
     Name: Dũng Khí Ngút Trời
-    Description2pc: "<span>Tấn Công tăng <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>6%</span> Tỷ Lệ Bạo Kích cho người trang bị. Khi người trang bị thi triển Đòn Đánh Theo Sau, khiến sát thương Tuyệt Kỹ gây ra tăng <span style='whiteSpace: \"nowrap\"'>36%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>1</span> hiệp.</span>"
+    Description2pc: Tấn Công tăng 12%.
+    Description4pc: Tăng 6% Tỷ Lệ Bạo Kích cho người trang bị. Khi người trang bị thi triển Đòn Đánh Theo Sau, khiến sát thương Tuyệt Kỹ gây ra tăng 36%, duy trì 1 hiệp.
   "121":
     Name: Lại Một Hành Trình Gian Khổ Của Linh Mục
-    Description2pc: "<span>Tốc Độ tăng <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
-    Description4pc: "<span>Khi thi triển Chiến Kỹ hoặc Tuyệt Kỹ lên 1 mục tiêu phe ta, sẽ khiến Sát Thương Bạo Kích của mục tiêu kỹ năng tăng <span style='whiteSpace: \"nowrap\"'>18%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>2</span> hiệp, hiệu ứng này tối đa cộng dồn <span style='whiteSpace: \"nowrap\"'>2</span> lần.</span>"
+    Description2pc: Tốc Độ tăng 6%.
+    Description4pc: Khi thi triển Chiến Kỹ hoặc Tuyệt Kỹ lên 1 mục tiêu phe ta, sẽ khiến Sát Thương Bạo Kích của mục tiêu kỹ năng tăng 18%, duy trì 2 hiệp, hiệu ứng này tối đa cộng dồn 2 lần.
   "122":
     Name: Học Giả Lạc Lối Trong Biển Tri Thức
-    Description2pc: "<span>Tỷ Lệ Bạo Kích tăng <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
-    Description4pc: "<span>Sát thương Chiến Kỹ và Tuyệt Kỹ gây ra tăng <span style='whiteSpace: \"nowrap\"'>20%</span>, sau khi thi triển Tuyệt Kỹ, sát thương gây ra trong lần thi triển Chiến Kỹ kế tiếp tăng thêm <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Tỷ Lệ Bạo Kích tăng 8%.
+    Description4pc: Sát thương Chiến Kỹ và Tuyệt Kỹ gây ra tăng 20%, sau khi thi triển Tuyệt Kỹ, sát thương gây ra trong lần thi triển Chiến Kỹ kế tiếp tăng thêm 25%.
   "301":
     Name: Trạm Phong Ấn Không Gian
-    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>12%</span> Tấn Công của người trang bị. Khi tốc độ của người trang bị từ <span style='whiteSpace: \"nowrap\"'>120</span> trở lên, Tấn Công tăng thêm <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description2pc: Tăng 12% Tấn Công của người trang bị. Khi tốc độ của người trang bị từ 120 trở lên, Tấn Công tăng thêm 12%.
   "302":
     Name: Xianzhou Không Có Tuổi
-    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>12%</span> Giới Hạn HP của người trang bị. Khi tốc độ của người trang bị từ <span style='whiteSpace: \"nowrap\"'>120</span> trở lên, Tấn Công của toàn phe ta tăng <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
+    Description2pc: Tăng 12% Giới Hạn HP của người trang bị. Khi tốc độ của người trang bị từ 120 trở lên, Tấn Công của toàn phe ta tăng 8%.
   "303":
     Name: Công Ty Kinh Doanh Liên Ngân Hà
-    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>10%</span> Chính Xác Hiệu Ứng của người trang bị. Đồng thời tăng Tấn Công bằng <span style='whiteSpace: \"nowrap\"'>25%</span> Chính Xác Hiệu Ứng hiện tại của người trang bị, tối đa tăng <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Tăng 10% Chính Xác Hiệu Ứng của người trang bị. Đồng thời tăng Tấn Công bằng 25% Chính Xác Hiệu Ứng hiện tại của người trang bị, tối đa tăng 25%.
   "304":
     Name: Belobog Của Đấng Kiến Tạo
-    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>15%</span> Phòng Thủ của người trang bị. Khi Chính Xác Hiệu Ứng của người trang bị từ <span style='whiteSpace: \"nowrap\"'>50%</span> trở lên, Phòng Thủ tăng thêm <span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
+    Description2pc: Tăng 15% Phòng Thủ của người trang bị. Khi Chính Xác Hiệu Ứng của người trang bị từ 50% trở lên, Phòng Thủ tăng thêm 15%.
   "305":
     Name: Máy Sai Lệch Hành Tinh
-    Description2pc: "<span>Khiến sát thương Bạo Kích của người trang bị tăng <span style='whiteSpace: \"nowrap\"'>16%</span>. Khi sát thương Bạo Kích của người trang bị từ <span style='whiteSpace: \"nowrap\"'>120%</span> trở lên, sau khi vào chiến đấu, Tỷ Lệ Bạo Kích của người trang bị tăng <span style='whiteSpace: \"nowrap\"'>60%</span>, duy trì đến khi kết thúc thi triển lần đầu tấn công.</span>"
+    Description2pc: Khiến sát thương Bạo Kích của người trang bị tăng 16%. Khi sát thương Bạo Kích của người trang bị từ 120% trở lên, sau khi vào chiến đấu, Tỷ Lệ Bạo Kích của người trang bị tăng 60%, duy trì đến khi kết thúc thi triển lần đầu tấn công.
   "306":
     Name: Salsotto Dừng Xoay
-    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>8%</span> Tỷ Lệ Bạo Kích của người trang bị. Khi Tỷ Lệ Bạo Kích của người đó từ <span style='whiteSpace: \"nowrap\"'>50%</span> trở lên, sẽ tăng <span style='whiteSpace: \"nowrap\"'>15%</span> sát thương của Tuyệt Kỹ và Đòn Đánh Theo Sau gây ra.</span>"
+    Description2pc: Tăng 8% Tỷ Lệ Bạo Kích của người trang bị. Khi Tỷ Lệ Bạo Kích của người đó từ 50% trở lên, sẽ tăng 15% sát thương của Tuyệt Kỹ và Đòn Đánh Theo Sau gây ra.
   "307":
     Name: Talia - Vương Quốc Trộm Cướp
-    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>16%</span> Tấn Công Kích Phá của người trang bị. Khi tốc độ của người trang bị từ <span style='whiteSpace: \"nowrap\"'>145</span> trở lên, Tấn Công Kích Phá tăng thêm <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+    Description2pc: Tăng 16% Tấn Công Kích Phá của người trang bị. Khi tốc độ của người trang bị từ 145 trở lên, Tấn Công Kích Phá tăng thêm 20%.
   "308":
     Name: Vonwacq Hoạt Bát
-    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>5%</span> hiệu suất hồi Năng Lượng của người trang bị. Khi tốc độ của người trang bị từ <span style='whiteSpace: \"nowrap\"'>120</span> trở lên, vào chiến đấu sẽ lập tức Ưu Tiên Hành Động <span style='whiteSpace: \"nowrap\"'>40%</span>.</span>"
+    Description2pc: Tăng 5% hiệu suất hồi Năng Lượng của người trang bị. Khi tốc độ của người trang bị từ 120 trở lên, vào chiến đấu sẽ lập tức Ưu Tiên Hành Động 40%.
   "309":
     Name: Đấu Trường Ngôi Sao
-    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>8%</span> tỷ lệ Bạo Kích của người trang bị. Khi tỷ lệ Bạo Kích của người đó từ <span style='whiteSpace: \"nowrap\"'>70%</span> trở lên, sẽ tăng <span style='whiteSpace: \"nowrap\"'>20%</span> sát thương gây ra khi thi triển Tấn Công Thường hoặc Chiến Kỹ</span>"
+    Description2pc: Tăng 8% tỷ lệ Bạo Kích của người trang bị. Khi tỷ lệ Bạo Kích của người đó từ 70% trở lên, sẽ tăng 20% sát thương gây ra khi thi triển Tấn Công Thường hoặc Chiến Kỹ
   "310":
     Name: Bộ Khung Bị Gãy
-    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>10%</span> Kháng Hiệu Ứng của người trang bị. Khi Kháng Hiệu Ứng của người trang bị từ <span style='whiteSpace: \"nowrap\"'>30%</span> trở lên, Sát Thương Bạo Kích của toàn bộ phe ta tăng <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description2pc: Tăng 10% Kháng Hiệu Ứng của người trang bị. Khi Kháng Hiệu Ứng của người trang bị từ 30% trở lên, Sát Thương Bạo Kích của toàn bộ phe ta tăng 10%.
   "311":
     Name: Glamoth, Chiến Tuyến Không Trung
-    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>12%</span> Tấn Công của người trang bị. Khi tốc độ của người trang bị từ <span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span> trở lên, sát thương do người trang bị gây ra tăng <span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span>.</span>"
+    Description2pc: Tăng 12% Tấn Công của người trang bị. Khi tốc độ của người trang bị từ 135/160 trở lên, sát thương do người trang bị gây ra tăng 12%/18%.
   "312":
     Name: Penacony, Vùng Đất Của Những Giấc Mơ
-    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>5%</span> hiệu suất hồi Năng Lượng của người trang bị. Khiến nhân vật khác trong đội của phe ta có cùng thuộc tính với người trang bị tăng <span style='whiteSpace: \"nowrap\"'>10%</span> sát thương gây ra.</span>"
+    Description2pc: Tăng 5% hiệu suất hồi Năng Lượng của người trang bị. Khiến nhân vật khác trong đội của phe ta có cùng thuộc tính với người trang bị tăng 10% sát thương gây ra.
   "313":
     Name: Hành Tinh Vô Chủ Sigonia
-    Description2pc: "<span>Khiến tỷ lệ Bạo Kích của người trang bị tăng <span style='whiteSpace: \"nowrap\"'>4%</span>. Khi kẻ địch bị tiêu diệt, Sát Thương Bạo Kích của người trang bị tăng <span style='whiteSpace: \"nowrap\"'>4%</span>, tối đa cộng dồn <span style='whiteSpace: \"nowrap\"'>10</span> tầng.</span>"
+    Description2pc: Khiến tỷ lệ Bạo Kích của người trang bị tăng 4%. Khi kẻ địch bị tiêu diệt, Sát Thương Bạo Kích của người trang bị tăng 4%, tối đa cộng dồn 10 tầng.
   "314":
     Name: Izumo Hiện Thế Và Thần Quốc Cõi Trời
-    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>12%</span> Tấn Công của người trang bị. Khi vào chiến đấu, nếu có ít nhất 1 đồng đội cùng Vận Mệnh với người trang bị, thì Tỷ Lệ Bạo Kích của người trang bị tăng <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description2pc: Tăng 12% Tấn Công của người trang bị. Khi vào chiến đấu, nếu có ít nhất 1 đồng đội cùng Vận Mệnh với người trang bị, thì Tỷ Lệ Bạo Kích của người trang bị tăng 12%.
   "315":
     Name: Duran - Vương Triều Sói Hoang
-    Description2pc: "<span>Khi nhân vật phe ta thi triển Đòn Đánh Theo Sau, người trang bị sẽ nhận 1 tầng Công Huân, tối đa cộng dồn <span style='whiteSpace: \"nowrap\"'>5</span> tầng. Mỗi tầng Công Huân sẽ khiến sát thương Đòn Đánh Theo Sau của người trang bị gây ra tăng <span style='whiteSpace: \"nowrap\"'>5%</span>, khi cộng dồn đầy <span style='whiteSpace: \"nowrap\"'>5</span> tầng, tăng thêm <span style='whiteSpace: \"nowrap\"'>25%</span> Sát Thương Bạo Kích của người trang bị.</span>"
+    Description2pc: Khi nhân vật phe ta thi triển Đòn Đánh Theo Sau, người trang bị sẽ nhận 1 tầng Công Huân, tối đa cộng dồn 5 tầng. Mỗi tầng Công Huân sẽ khiến sát thương Đòn Đánh Theo Sau của người trang bị gây ra tăng 5%, khi cộng dồn đầy 5 tầng, tăng thêm 25% Sát Thương Bạo Kích của người trang bị.
   "316":
     Name: Cung Điện Rèn Đúc Kiếp Hỏa Liên Đăng
-    Description2pc: "<span>Tăng <span style='whiteSpace: \"nowrap\"'>6%</span> Tốc Độ của người trang bị. Khi người trang bị đánh trúng kẻ địch có Điểm Yếu Hỏa, Tấn Công Kích Phá tăng <span style='whiteSpace: \"nowrap\"'>40%</span>, duy trì <span style='whiteSpace: \"nowrap\"'>1</span> hiệp.</span>"
+    Description2pc: Tăng 6% Tốc Độ của người trang bị. Khi người trang bị đánh trúng kẻ địch có Điểm Yếu Hỏa, Tấn Công Kích Phá tăng 40%, duy trì 1 hiệp.
   "317":
     Name: Biển Lục Địa Chìm - Lushaka
-    Description2pc: "<span>Khiến Hiệu Suất Hồi Năng Lượng của người trang bị tăng <span style='whiteSpace: \"nowrap\"'>5%</span>, nếu người trang bị không phải nhân vật vị trí đầu tiên trong đội, thì sẽ khiến Tấn Công của nhân vật ở vị trí đầu tiên trong đội tăng <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description2pc: Khiến Hiệu Suất Hồi Năng Lượng của người trang bị tăng 5%, nếu người trang bị không phải nhân vật vị trí đầu tiên trong đội, thì sẽ khiến Tấn Công của nhân vật ở vị trí đầu tiên trong đội tăng 12%.
   "318":
     Name: Công Viên Chuối Kỳ Ảo
-    Description2pc: "<span>Khiến Sát Thương Bạo Kích của người trang bị tăng <span style='whiteSpace: \"nowrap\"'>16%</span>, khi tồn tại mục tiêu mà người trang bị triệu hồi, Sát Thương Bạo Kích sẽ tăng thêm <span style='whiteSpace: \"nowrap\"'>32%</span>.</span>"
+    Description2pc: Khiến Sát Thương Bạo Kích của người trang bị tăng 16%, khi tồn tại mục tiêu mà người trang bị triệu hồi, Sát Thương Bạo Kích sẽ tăng thêm 32%.
 Lightcones:
   "20000":
     Name: Mũi Tên
-    SkillName: Mối Nguy
   "20001":
     Name: Dồi Dào
-    SkillName: Phồn Thịnh
   "20002":
     Name: Trời Sập
-    SkillName: Sụp Đổ
   "20003":
     Name: Hổ Phách
-    SkillName: Ngưng Trệ
   "20004":
     Name: Tĩnh Mịch
-    SkillName: Trầm Luân
   "20005":
     Name: Điệp Khúc
-    SkillName: Hiệp Lực
   "20006":
     Name: Kho Lưu Trữ
-    SkillName: Học Thức
   "20007":
     Name: Tên Bắn
-    SkillName: Tiếng Hống
   "20008":
     Name: Trái Ngọt
-    SkillName: Hương Thơm
   "20009":
     Name: Đổ Nát
-    SkillName: Thanh Trừng
   "20010":
     Name: Phòng Thủ
-    SkillName: Phục Sinh
   "20011":
     Name: Xoáy Ốc
-    SkillName: Truy Đuổi
   "20012":
     Name: Luân Hồi
-    SkillName: Tốc Quyết
   "20013":
     Name: Chìa Khóa Linh Hồn
-    SkillName: Giác Ngộ
   "20014":
     Name: Đối Kháng
-    SkillName: Liên Minh
   "20015":
     Name: Sinh Sôi
-    SkillName: Dân Trù Phú
   "20016":
     Name: Hủy Diệt Tất Cả
-    SkillName: Quân Đoàn
   "20017":
     Name: Mở Rộng
-    SkillName: Công Ty
   "20018":
     Name: Bóng Ẩn
-    SkillName: Cơ Quan
   "20019":
     Name: Hài Hòa
-    SkillName: Gia Tộc
   "20020":
     Name: Thông Tuệ
-    SkillName: Thiên Tài
   "21000":
     Name: Buổi Trò Chuyện Hậu Phẫu
-    SkillName: Hồi Phục Qua Lại
   "21001":
     Name: Chúc Ngủ Ngon
-    SkillName: Kẻ Gian Khổ
   "21002":
     Name: Ngày Đầu Tiên
-    SkillName: Tạm Dừng Thời Khắc Này
   "21003":
     Name: Sự Trầm Mặc Duy Nhất
-    SkillName: Kỷ Lục
   "21004":
     Name: Dáng Hình Trong Ký Ức
-    SkillName: Bức Hình Cũ
   "21005":
     Name: Băng Chuột Chũi Hoan Nghênh
-    SkillName: Phiêu Lưu Kỳ Diệu
   "21006":
     Name: Sự Ra Đời Của "Tôi"
-    SkillName: Thiếu Nữ Trong Tranh
   "21007":
     Name: Cùng Một Tâm Trạng
-    SkillName: Cứu Chữa Và Tu Sửa
   "21008":
     Name: Tầm Mắt Của Con Mồi
-    SkillName: Tự Tin
   "21009":
     Name: Sự Lựa Chọn Của Landau
-    SkillName: Thời Gian Như Thoi Đưa
   "21010":
     Name: Luận Kiếm
-    SkillName: Câu Trả Lời Của Riêng Họ
   "21011":
     Name: Điểm Hẹn Hành Tinh
-    SkillName: Khởi Hành
   "21012":
     Name: Lời Thề Bí Mật
-    SkillName: Cố Gắng Hết Sức
   "21013":
     Name: Đừng Để Thế Giới Lạnh Lẽo
-    SkillName: Sức Mạnh Của Âm Thanh
   "21014":
     Name: Vừa Đúng Lúc
-    SkillName: Tầm Nhìn Khúc Xạ
   "21015":
     Name: Sự Quyết Tâm Như Giọt Mồ Hôi Lấp Lánh
-    SkillName: Ngoái Đầu Nhìn
   "21016":
     Name: Xu Hướng Thị Trường Vũ Trụ
-    SkillName: Xáo Bài Ván Mới
   "21017":
     Name: Hãy Theo Dõi Nào!
-    SkillName: Không Like Không Được Đi!
   "21018":
     Name: Múa! Múa! Múa!
-    SkillName: Không Dừng Lại Được!
   "21019":
     Name: Dưới Bầu Trời Xanh
-    SkillName: Ngọn Lúa Dưới Ánh Mặt Trời
   "21020":
     Name: Sự Nghỉ Ngơi Của Thiên Tài
-    SkillName: Bố Trí Thỏa Đáng
   "21021":
     Name: Đổi Ngang Giá
-    SkillName: Thích Thú Dễ Chịu
   "21022":
     Name: Ký Hiệu Kéo Dài
-    SkillName: Dấu Lặng
   "21023":
     Name: Chúng Ta Là Lửa Ngầm
-    SkillName: Kẻ Rơi Lệ
   "21024":
     Name: Làn Nước Xuân Xuất Hiện
-    SkillName: Xua Tan Giá Rét
   "21025":
     Name: Quá Khứ Tương Lai
-    SkillName: Diều Giấy Ngày Cũ
   "21026":
     Name: Gâu! Thời Gian Tản Bộ
-    SkillName: Chạy!
   "21027":
     Name: Bữa Sáng Đúng Điệu
-    SkillName: Sẵn Sàng
   "21028":
     Name: Đêm Ấm Sẽ Chóng Qua
-    SkillName: Ngọn Đèn Le Lói
   "21029":
     Name: Hẹn Gặp Lại
-    SkillName: Động Thủ Như Động Khẩu
   "21030":
     Name: Đó Chính Là Tôi!
-    SkillName: Chương Mới
   "21031":
     Name: U Tối Trở Lại
-    SkillName: Sóng Cuồng
   "21032":
     Name: Khắc Lên Ánh Trăng
-    SkillName: Bí Mật
   "21033":
     Name: Không Nơi Ẩn Náu
-    SkillName: Đường Cùng
   "21034":
     Name: Hôm Nay Là Ngày Yên Lành
-    SkillName: Cơn Bão Sắp Đến
   "21035":
     Name: Đâu Là Thật?
-    SkillName: Giả Sử
   "21036":
     Name: Chuyến Thám Hiểm Thị Trấn Mộng Đẹp
-    SkillName: Đoàn Kết
   "21037":
     Name: Người Chiến Thắng Cuối Cùng
-    SkillName: Đặt Cược
   "21038":
     Name: Ở Nơi Xa Ngọn Lửa
-    SkillName: Bùng Nổ
   "21039":
     Name: Dây Thêu Dệt Vận Mệnh
-    SkillName: Nhìn Thấu
   "21040":
     Name: Ngày Ngân Hà Sụp Đổ
-    SkillName: Chiến Lược
   "21041":
     Name: Vai Diễn Bắt Đầu
-    SkillName: Niềm Vui Tự Tại
   "21042":
     Name: Ước Hẹn Khắc Ghi
-    SkillName: Kế Thừa
   "21043":
     Name: Buổi Hòa Nhạc Hai Người
-    SkillName: Cổ Vũ
   "21044":
     Name: Vũ Điệu Vô Biên
-    SkillName: Thăm Dò
   "21045":
     Name: Sau Sự Im Lặng Hài Hòa
-    SkillName: Tĩnh Mịch
   "21046":
     Name: Tuổi Hoa Chờ Nở Rộ
-    SkillName: Không Thua, Không Quên
   "21047":
     Name: Bóng Tối Đồng Hành
-    SkillName: Ẩn Nấp
   "21048":
     Name: Dựng Phim Trong Mơ
-    SkillName: Chỉnh Sửa Phong Cách Học Viện
   "22000":
     Name: Trước Khi Bắt Đầu Nhiệm Vụ Tân Thủ
-    SkillName: Nhanh Như Tia Chớp
   "22001":
     Name: Hi, Tôi Ở Đây
-    SkillName: Không Sợ Đâu!
   "22002":
     Name: Vì Hành Trình Ngày Mai
-    SkillName: Liên Kết
   "22003":
     Name: Nhẫn Sự Lục-Săn Bắn Âm Luật
-    SkillName: Bắt Đầu Biểu Diễn!
   "23000":
     Name: Chuyến Tàu Đêm Trên Dải Ngân Hà
-    SkillName: Chòm Sao Băng
   "23001":
     Name: Trong Đêm Tối
-    SkillName: Hoa Và Bướm
   "23002":
     Name: Vật Không Thể Thay Thế
-    SkillName: Người Nhà
   "23003":
     Name: Cuộc Chiến Chưa Nguôi
-    SkillName: Người Thừa Kế
   "23004":
     Name: Nhân Danh Thế Giới
-    SkillName: Người Kế Thừa
   "23005":
     Name: Giây Phút Thắng Lợi
-    SkillName: Quyết Đoán
   "23006":
     Name: Chỉ Cần Chờ Đợi
-    SkillName: Mạng Nhện
   "23007":
     Name: Cơn Mưa Tầm Tã
-    SkillName: Ảo Ảnh Hiện Thực
   "23008":
     Name: Tiếng Vọng Của Quan Tài
-    SkillName: Gai Góc
   "23009":
     Name: Bến Bờ Xa Diệu Vợi
-    SkillName: Không Thể Được
   "23010":
     Name: Trước Buổi Bình Minh
-    SkillName: Đêm Dài
   "23011":
     Name: Đôi Mắt Đã Nhắm Lại
-    SkillName: Tầm Nhìn
   "23012":
     Name: Giấc Ngủ Say Mềm
-    SkillName: Mộng Đẹp
   "23013":
     Name: Thời Gian Không Ngừng Lại
-    SkillName: Sáng, Trưa, Chiều, Tối
   "23014":
     Name: Thân Này Là Kiếm
-    SkillName: Giữ Lấy Ngọc Này
   "23015":
     Name: Rực Rỡ Hơn Mặt Trời
-    SkillName: Liều Mình
   "23016":
     Name: Phiền Não, Hạnh Phúc
-    SkillName: Từng Người Một
   "23017":
     Name: Đêm Kinh Hoàng
-    SkillName: Hít Thở Sâu
   "23018":
     Name: Khoảnh Khắc Nơi Đáy Mắt
-    SkillName: Kỵ Sĩ Hành Hương
   "23019":
     Name: Tôi Trong Gương Ngày Ấy
-    SkillName: Hương Mai Nồng Nàn
   "23020":
     Name: Lễ Rửa Tội Thuần Khiết
-    SkillName: Huấn Luyện Tư Tưởng
   "23021":
     Name: Trò Đùa Trần Thế
-    SkillName: Thiện Biến
   "23022":
     Name: Hun Đúc Ký Ức Thời Gian
-    SkillName: Kết Tinh
   "23023":
     Name: Vận Mệnh Chưa Từng Công Bằng
-    SkillName: Cược Hết Tất Cả
   "23024":
     Name: Bước Theo Bến Bờ Thời Gian
-    SkillName: Người Điều Khiển
   "23025":
     Name: Giấc Mộng Sẽ Đi Về Đâu
-    SkillName: Biến Đổi
   "23026":
     Name: Sắc Đêm Rực Sáng
-    SkillName: An Ủi
   "23027":
     Name: Hướng Đến Sinh Mệnh Thứ Hai
-    SkillName: Gian Khổ
   "23028":
     Name: Hi Vọng Là Vô Giá
-    SkillName: Hứa Hẹn
   "23029":
     Name: Vô Số Mùa Xuân Ấy
-    SkillName: Chẳng Còn Dấu Vết Chuyện Thế Gian
   "23030":
     Name: Điệu Múa Dưới Hoàng Hôn
-    SkillName: Trầm Mê
   "23031":
     Name: Ta Sẽ, Tuần Tra Săn Bắn
-    SkillName: Kinh Hoàng
   "23032":
     Name: Mùi Hương Vẹn Nguyên
-    SkillName: An Tâm
   "23033":
     Name: Bí Kíp Nhẫn Pháp-Dazzling Phá Ma
-    SkillName: Trừ Tà
   "24000":
     Name: Sự Sụp Đổ Của Aeon
-    SkillName: Dập Lửa
   "24001":
     Name: Du Hành Trên Biển Sao
-    SkillName: Săn Đuổi
   "24002":
     Name: Chất Liệu Ký Ức
-    SkillName: Tích Trữ
   "24003":
     Name: Một Mình Chữa Trị
-    SkillName: Linh Dược Hỗn Độn
   "24004":
     Name: Ngoại Suy Vô Tận
-    SkillName: Suy Tư Không Ranh Giới
 Paths:
   Warrior: Hủy Diệt
   Rogue: Săn Bắn

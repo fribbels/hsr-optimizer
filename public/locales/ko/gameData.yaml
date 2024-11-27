@@ -1,613 +1,563 @@
 Characters:
   "1001":
     Name: "Mar.\_7th"
+    LongName: "Mar.\_7th (보존)"
   "1002":
     Name: 단항
+    LongName: 단항
   "1003":
     Name: 히메코
+    LongName: 히메코
   "1004":
     Name: 웰트
+    LongName: 웰트
   "1005":
     Name: 카프카
+    LongName: 카프카
   "1006":
     Name: 은랑
+    LongName: 은랑
   "1008":
     Name: 아를란
+    LongName: 아를란
   "1009":
     Name: 아스타
+    LongName: 아스타
   "1013":
     Name: 헤르타
+    LongName: 헤르타
   "1101":
     Name: 브로냐
+    LongName: 브로냐
   "1102":
     Name: 제레
+    LongName: 제레
   "1103":
     Name: 서벌
+    LongName: 서벌
   "1104":
     Name: 게파드
+    LongName: 게파드
   "1105":
     Name: 나타샤
+    LongName: 나타샤
   "1106":
     Name: 페라
+    LongName: 페라
   "1107":
     Name: 클라라
+    LongName: 클라라
   "1108":
     Name: 삼포
+    LongName: 삼포
   "1109":
     Name: 후크
+    LongName: 후크
   "1110":
     Name: 링스
+    LongName: 링스
   "1111":
     Name: 루카
+    LongName: 루카
   "1112":
     Name: 토파즈&복순이
+    LongName: 토파즈&복순이
   "1201":
     Name: 청작
+    LongName: 청작
   "1202":
     Name: 정운
+    LongName: 정운
   "1203":
     Name: 나찰
+    LongName: 나찰
   "1204":
     Name: 경원
+    LongName: 경원
   "1205":
     Name: 블레이드
+    LongName: 블레이드
   "1206":
     Name: 소상
+    LongName: 소상
   "1207":
     Name: 어공
+    LongName: 어공
   "1208":
     Name: 부현
+    LongName: 부현
   "1209":
     Name: 연경
+    LongName: 연경
   "1210":
     Name: 계네빈
+    LongName: 계네빈
   "1211":
     Name: 백로
+    LongName: 백로
   "1212":
     Name: 경류
+    LongName: 경류
   "1213":
     Name: 단항•음월
+    LongName: 단항•음월
   "1214":
     Name: 설의
+    LongName: 설의
   "1215":
     Name: 한아
+    LongName: 한아
   "1217":
     Name: 곽향
+    LongName: 곽향
   "1218":
     Name: 초구
+    LongName: 초구
   "1220":
     Name: 비소
+    LongName: 비소
   "1221":
     Name: 운리
+    LongName: 운리
   "1222":
     Name: 영사
+    LongName: 영사
   "1223":
     Name: 맥택
+    LongName: 맥택
   "1224":
     Name: "Mar.\_7th"
+    LongName: "Mar.\_7th (수렵)"
   "1301":
     Name: 갤러거
+    LongName: 갤러거
   "1302":
     Name: 아젠티
+    LongName: 아젠티
   "1303":
     Name: 완•매
+    LongName: 완•매
   "1304":
     Name: 어벤츄린
+    LongName: 어벤츄린
   "1305":
     Name: "Dr.\_레이시오"
+    LongName: "Dr.\_레이시오"
   "1306":
     Name: 스파클
+    LongName: 스파클
   "1307":
     Name: "블랙\_스완"
+    LongName: "블랙\_스완"
   "1308":
     Name: 아케론
+    LongName: 아케론
   "1309":
     Name: 로빈
+    LongName: 로빈
   "1310":
     Name: 반디
+    LongName: 반디
   "1312":
     Name: 미샤
+    LongName: 미샤
   "1314":
     Name: 제이드
+    LongName: 제이드
   "1315":
     Name: 부트힐
+    LongName: 부트힐
   "1317":
     Name: 라파
+    LongName: 라파
   "8001":
-    Name: Caelus (파멸)
+    Name: Caelus
+    LongName: Caelus (파멸)
   "8002":
-    Name: Stelle (파멸)
+    Name: Stelle
+    LongName: Stelle (파멸)
   "8003":
-    Name: Caelus (보존)
+    Name: Caelus
+    LongName: Caelus (보존)
   "8004":
-    Name: Stelle (보존)
+    Name: Stelle
+    LongName: Stelle (보존)
   "8005":
-    Name: Caelus (화합)
+    Name: Caelus
+    LongName: Caelus (화합)
   "8006":
-    Name: Stelle (화합)
+    Name: Stelle
+    LongName: Stelle (화합)
 RelicSets:
   "101":
     Name: "흔적을\_남기지\_않은\_과객"
-    Description2pc: "<span>치유량\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가</span>"
-    Description4pc: "<span>전투\_시작\_시\_즉시\_아군의\_전투\_스킬\_포인트를\_1pt\_회복한다</span>"
+    Description2pc: "치유량\_10%\_증가"
+    Description4pc: "전투\_시작\_시\_즉시\_아군의\_전투\_스킬\_포인트를\_1pt\_회복한다"
   "102":
     Name: "들이삭과\_동행하는\_거너"
-    Description2pc: "<span>공격력\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터의\_속도가\_<span style='whiteSpace: \"nowrap\"'>6%</span>\_증가한다.\_일반\_공격이\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가한다</span>"
+    Description2pc: "공격력\_12%\_증가"
+    Description4pc: "장착한\_캐릭터의\_속도가\_6%\_증가한다.\_일반\_공격이\_가하는\_피해가\_10%\_증가한다"
   "103":
     Name: "정토\_교황의\_팔라딘"
-    Description2pc: "<span>방어력\_<span style='whiteSpace: \"nowrap\"'>15%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터가\_제공하는\_실드량이\_<span style='whiteSpace: \"nowrap\"'>20%</span>\_증가한다</span>"
+    Description2pc: "방어력\_15%\_증가"
+    Description4pc: "장착한\_캐릭터가\_제공하는\_실드량이\_20%\_증가한다"
   "104":
     Name: "혹한\_밀림의\_사냥꾼"
-    Description2pc: "<span>얼음\_속성\_피해\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터는\_필살기\_발동\_시\_치명타\_피해가\_<span style='whiteSpace: \"nowrap\"'>25%</span>\_증가한다.\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>2</span>턴</span>"
+    Description2pc: "얼음\_속성\_피해\_10%\_증가"
+    Description4pc: "장착한\_캐릭터는\_필살기\_발동\_시\_치명타\_피해가\_25%\_증가한다.\_지속\_시간:\_2턴"
   "105":
     Name: "스트리트\_격투왕"
-    Description2pc: "<span>물리\_속성\_피해\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터는\_공격\_발동\_혹은\_피격\_후\_해당\_전투에서\_공격력이\_<span style='whiteSpace: \"nowrap\"'>5%</span>\_증가한다.\_최대\_중첩수:\_<span style='whiteSpace: \"nowrap\"'>5</span>스택</span>"
+    Description2pc: "물리\_속성\_피해\_10%\_증가"
+    Description4pc: "장착한\_캐릭터는\_공격\_발동\_혹은\_피격\_후\_해당\_전투에서\_공격력이\_5%\_증가한다.\_최대\_중첩수:\_5스택"
   "106":
     Name: "눈보라에\_맞서는\_철위대"
-    Description2pc: "<span>받는\_피해\_<span style='whiteSpace: \"nowrap\"'>8%</span>\_감소</span>"
-    Description4pc: "<span>턴\_시작\_시\_장착한\_캐릭터의\_현재\_HP\_백분율이\_<span style='whiteSpace: \"nowrap\"'>50%</span>\_이하일\_경우,\_자신\_HP\_최대치\_<span style='whiteSpace: \"nowrap\"'>8%</span>만큼의\_HP를\_회복하고\_에너지를\_<span style='whiteSpace: \"nowrap\"'>5</span>pt\_회복한다</span>"
+    Description2pc: "받는\_피해\_8%\_감소"
+    Description4pc: "턴\_시작\_시\_장착한\_캐릭터의\_현재\_HP\_백분율이\_50%\_이하일\_경우,\_자신\_HP\_최대치\_8%만큼의\_HP를\_회복하고\_에너지를\_5pt\_회복한다"
   "107":
     Name: "용암\_단조의\_화장(火匠)"
-    Description2pc: "<span>화염\_속성\_피해\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터의\_전투\_스킬이\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가하고,\_필살기\_발동\_후\_다음번\_공격이\_가하는\_화염\_속성\_피해가\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다</span>"
+    Description2pc: "화염\_속성\_피해\_10%\_증가"
+    Description4pc: "장착한\_캐릭터의\_전투\_스킬이\_가하는\_피해가\_12%\_증가하고,\_필살기\_발동\_후\_다음번\_공격이\_가하는\_화염\_속성\_피해가\_12%\_증가한다"
   "108":
     Name: "별처럼\_빛나는\_천재"
-    Description2pc: "<span>양자\_속성\_피해\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터는\_적에게\_피해를\_줄\_때\_<span style='whiteSpace: \"nowrap\"'>10%</span>의\_방어력을\_무시한다.\_목표가\_양자\_속성\_약점을\_보유할\_경우,\_추가로\_<span style='whiteSpace: \"nowrap\"'>10%</span>의\_방어력을\_무시한다</span>"
+    Description2pc: "양자\_속성\_피해\_10%\_증가"
+    Description4pc: "장착한\_캐릭터는\_적에게\_피해를\_줄\_때\_10%의\_방어력을\_무시한다.\_목표가\_양자\_속성\_약점을\_보유할\_경우,\_추가로\_10%의\_방어력을\_무시한다"
   "109":
     Name: "뇌전을\_울리는\_밴드"
-    Description2pc: "<span>번개\_속성\_피해\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터는\_전투\_스킬\_발동\_시\_공격력이\_<span style='whiteSpace: \"nowrap\"'>20%</span>\_증가한다.\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>1</span>턴</span>"
+    Description2pc: "번개\_속성\_피해\_10%\_증가"
+    Description4pc: "장착한\_캐릭터는\_전투\_스킬\_발동\_시\_공격력이\_20%\_증가한다.\_지속\_시간:\_1턴"
   "110":
     Name: "밤낮의\_경계를\_나는\_매"
-    Description2pc: "<span>바람\_속성\_피해\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터는\_필살기\_발동\_후\_행동\_게이지가\_<span style='whiteSpace: \"nowrap\"'>25%</span>\_증가한다</span>"
+    Description2pc: "바람\_속성\_피해\_10%\_증가"
+    Description4pc: "장착한\_캐릭터는\_필살기\_발동\_후\_행동\_게이지가\_25%\_증가한다"
   "111":
     Name: "유성을\_쫓는\_괴도"
-    Description2pc: "<span>격파\_특수효과\_<span style='whiteSpace: \"nowrap\"'>16%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터의\_격파\_특수효과가\_<span style='whiteSpace: \"nowrap\"'>16%</span>\_증가한다.\_장착한\_캐릭터는\_적의\_약점을\_격파한\_후\_에너지를\_<span style='whiteSpace: \"nowrap\"'>3</span>pt\_회복한다</span>"
+    Description2pc: "격파\_특수효과\_16%\_증가"
+    Description4pc: "장착한\_캐릭터의\_격파\_특수효과가\_16%\_증가한다.\_장착한\_캐릭터는\_적의\_약점을\_격파한\_후\_에너지를\_3pt\_회복한다"
   "112":
     Name: "황무지의\_도적,\_황야인"
-    Description2pc: "<span>허수\_속성\_피해\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터가\_디버프\_효과에\_빠진\_적에게\_피해를\_가할\_시\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가한다.\_속박\_상태에\_빠진\_적에게\_피해를\_가할\_시\_치명타\_피해가\_<span style='whiteSpace: \"nowrap\"'>20%</span>\_증가한다</span>"
+    Description2pc: "허수\_속성\_피해\_10%\_증가"
+    Description4pc: "장착한\_캐릭터가\_디버프\_효과에\_빠진\_적에게\_피해를\_가할\_시\_치명타\_확률이\_10%\_증가한다.\_속박\_상태에\_빠진\_적에게\_피해를\_가할\_시\_치명타\_피해가\_20%\_증가한다"
   "113":
     Name: "장수를\_원하는\_제자"
-    Description2pc: "<span>HP\_최대치\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터가\_피격되거나\_아군에\_의해\_HP가\_소모되면\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>8%</span>\_증가한다.\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>2</span>턴.\_해당\_효과\_최대\_중첩수:\_<span style='whiteSpace: \"nowrap\"'>2</span>스택</span>"
+    Description2pc: "HP\_최대치\_12%\_증가"
+    Description4pc: "장착한\_캐릭터가\_피격되거나\_아군에\_의해\_HP가\_소모되면\_치명타\_확률이\_8%\_증가한다.\_지속\_시간:\_2턴.\_해당\_효과\_최대\_중첩수:\_2스택"
   "114":
     Name: "가상공간을\_누비는\_메신저"
-    Description2pc: "<span>속도\_<span style='whiteSpace: \"nowrap\"'>6%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터가\_아군에게\_필살기\_발동\_시\_모든\_아군의\_속도가\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다.\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>1</span>턴.\_해당\_효과는\_중첩되지\_않는다</span>"
+    Description2pc: "속도\_6%\_증가"
+    Description4pc: "장착한\_캐릭터가\_아군에게\_필살기\_발동\_시\_모든\_아군의\_속도가\_12%\_증가한다.\_지속\_시간:\_1턴.\_해당\_효과는\_중첩되지\_않는다"
   "115":
     Name: "재와\_뼈마저\_불사르는\_대공"
-    Description2pc: "<span>추가\_공격으로\_가하는\_피해\_<span style='whiteSpace: \"nowrap\"'>20%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터가\_추가\_공격을\_가할\_시,\_추가\_공격이\_가한\_피해\_횟수에\_따라\_피해를\_가할\_때마다\_장착한\_캐릭터의\_공격력이\_<span style='whiteSpace: \"nowrap\"'>6%</span>\_증가한다.\_최대\_중첩수:\_<span style='whiteSpace: \"nowrap\"'>8</span>회.\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>3</span>턴.\_해당\_효과는\_장착한\_캐릭터가\_다음\_추가\_공격\_발동\_시\_해제된다</span>"
+    Description2pc: "추가\_공격으로\_가하는\_피해\_20%\_증가"
+    Description4pc: "장착한\_캐릭터가\_추가\_공격을\_가할\_시,\_추가\_공격이\_가한\_피해\_횟수에\_따라\_피해를\_가할\_때마다\_장착한\_캐릭터의\_공격력이\_6%\_증가한다.\_최대\_중첩수:\_8회.\_지속\_시간:\_3턴.\_해당\_효과는\_장착한\_캐릭터가\_다음\_추가\_공격\_발동\_시\_해제된다"
   "116":
     Name: "깊은\_감옥에\_수감된\_죄수"
-    Description2pc: "<span>공격력\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터가\_적에게\_피해를\_가할\_시\_적이\_받는\_지속\_피해\_효과\_1개마다\_대상의\_방어력을\_<span style='whiteSpace: \"nowrap\"'>6%</span>\_무시한다.\_지속\_피해\_효과는\_최대\_<span style='whiteSpace: \"nowrap\"'>3</span>개까지\_계산한다</span>"
+    Description2pc: "공격력\_12%\_증가"
+    Description4pc: "장착한\_캐릭터가\_적에게\_피해를\_가할\_시\_적이\_받는\_지속\_피해\_효과\_1개마다\_대상의\_방어력을\_6%\_무시한다.\_지속\_피해\_효과는\_최대\_3개까지\_계산한다"
   "117":
     Name: "사수에\_잠수한\_선구자"
-    Description2pc: "<span>디버프\_상태의\_영향을\_받은\_적에게\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다</span>"
-    Description4pc: "<span>치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>4%</span>\_증가하고\_장착한\_캐릭터가\_<span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span>개\_이상의\_디버프\_효과에\_빠진\_적에게\_가하는\_치명타\_피해가\_<span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다.\_장착한\_캐릭터가\_적에게\_디버프\_효과\_부여\_시\_상기\_효과가\_<span style='whiteSpace: \"nowrap\"'>100%</span>\_증가한다,\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>1</span>턴</span>"
+    Description2pc: "디버프\_상태의\_영향을\_받은\_적에게\_가하는\_피해가\_12%\_증가한다"
+    Description4pc: "치명타\_확률이\_4%\_증가하고\_장착한\_캐릭터가\_2/3개\_이상의\_디버프\_효과에\_빠진\_적에게\_가하는\_치명타\_피해가\_8%/12%\_증가한다.\_장착한\_캐릭터가\_적에게\_디버프\_효과\_부여\_시\_상기\_효과가\_100%\_증가한다,\_지속\_시간:\_1턴"
   "118":
     Name: "꿈을\_조작하는\_시계공"
-    Description2pc: "<span>격파\_특수효과\_<span style='whiteSpace: \"nowrap\"'>16%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터가\_아군에게\_필살기\_발동\_시,\_모든\_아군의\_격파\_특수효과가\_<span style='whiteSpace: \"nowrap\"'>30%</span>\_증가한다.\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>2</span>턴.\_해당\_효과는\_중첩할\_수\_없다</span>"
+    Description2pc: "격파\_특수효과\_16%\_증가"
+    Description4pc: "장착한\_캐릭터가\_아군에게\_필살기\_발동\_시,\_모든\_아군의\_격파\_특수효과가\_30%\_증가한다.\_지속\_시간:\_2턴.\_해당\_효과는\_중첩할\_수\_없다"
   "119":
     Name: "곤충\_재앙을\_잠재우는\_철기군"
-    Description2pc: "<span>격파\_특수효과\_<span style='whiteSpace: \"nowrap\"'>16%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터의\_격파\_특수효과가\_<span style='whiteSpace: \"nowrap\"'>150%</span>\_이상이면\_적에게\_가하는\_격파\_피해가\_해당\_적의\_방어력을\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_무시한다.\_장착한\_캐릭터의\_격파\_특수효과가\_<span style='whiteSpace: \"nowrap\"'>250%</span>\_이상이면\_적에게\_가하는\_슈퍼\_격파\_피해가\_적의\_방어력을\_<span style='whiteSpace: \"nowrap\"'>15%</span>\_추가로\_무시한다</span>"
+    Description2pc: "격파\_특수효과\_16%\_증가"
+    Description4pc: "장착한\_캐릭터의\_격파\_특수효과가\_150%\_이상이면\_적에게\_가하는\_격파\_피해가\_해당\_적의\_방어력을\_10%\_무시한다.\_장착한\_캐릭터의\_격파\_특수효과가\_250%\_이상이면\_적에게\_가하는\_슈퍼\_격파\_피해가\_적의\_방어력을\_15%\_추가로\_무시한다"
   "120":
     Name: "바람과\_구름을\_가르는\_용맹함"
-    Description2pc: "<span>공격력\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가</span>"
-    Description4pc: "<span>장착한\_캐릭터의\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>6%</span>\_증가하고,\_장착한\_캐릭터가\_추가\_공격\_발동\_시\_필살기가\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>36%</span>\_증가한다.\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>1</span>턴</span>"
+    Description2pc: "공격력\_12%\_증가"
+    Description4pc: "장착한\_캐릭터의\_치명타\_확률이\_6%\_증가하고,\_장착한\_캐릭터가\_추가\_공격\_발동\_시\_필살기가\_가하는\_피해가\_36%\_증가한다.\_지속\_시간:\_1턴"
   "121":
     Name: "고행의\_길에\_다시\_오른\_사제"
-    Description2pc: "<span>속도\_<span style='whiteSpace: \"nowrap\"'>6%</span>\_증가</span>"
-    Description4pc: "<span>단일\_아군에게\_전투\_스킬\_또는\_필살기\_발동\_시,\_스킬\_목표의\_치명타\_피해를\_<span style='whiteSpace: \"nowrap\"'>18%</span>\_증가시킨다,\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>2</span>턴,\_해당\_효과\_최대\_중첩수:\_<span style='whiteSpace: \"nowrap\"'>2</span>회</span>"
+    Description2pc: "속도\_6%\_증가"
+    Description4pc: "단일\_아군에게\_전투\_스킬\_또는\_필살기\_발동\_시,\_스킬\_목표의\_치명타\_피해를\_18%\_증가시킨다,\_지속\_시간:\_2턴,\_해당\_효과\_최대\_중첩수:\_2회"
   "122":
     Name: "지식의\_바다에\_빠진\_학자"
-    Description2pc: "<span>치명타\_확률\_<span style='whiteSpace: \"nowrap\"'>8%</span>\_증가</span>"
-    Description4pc: "<span>전투\_스킬과\_필살기로\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>20%</span>\_증가한다.\_필살기\_발동\_후,\_다음번\_전투\_스킬\_발동\_시\_가하는\_피해가\_추가로\_<span style='whiteSpace: \"nowrap\"'>25%</span>\_증가한다</span>"
+    Description2pc: "치명타\_확률\_8%\_증가"
+    Description4pc: "전투\_스킬과\_필살기로\_가하는\_피해가\_20%\_증가한다.\_필살기\_발동\_후,\_다음번\_전투\_스킬\_발동\_시\_가하는\_피해가\_추가로\_25%\_증가한다"
   "301":
     Name: "우주\_봉인\_정거장"
-    Description2pc: "<span>장착한\_캐릭터의\_공격력이\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다.\_장착한\_캐릭터의\_속도가\_<span style='whiteSpace: \"nowrap\"'>120</span>\_이상일\_경우\_공격력이\_추가로\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_공격력이\_12%\_증가한다.\_장착한\_캐릭터의\_속도가\_120\_이상일\_경우\_공격력이\_추가로\_12%\_증가한다"
   "302":
     Name: "불로인의\_선주"
-    Description2pc: "<span>장착한\_캐릭터의\_HP\_최대치가\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다.\_장착한\_캐릭터의\_속도가\_<span style='whiteSpace: \"nowrap\"'>120</span>\_이상일\_경우\_모든\_아군의\_공격력이\_<span style='whiteSpace: \"nowrap\"'>8%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_HP\_최대치가\_12%\_증가한다.\_장착한\_캐릭터의\_속도가\_120\_이상일\_경우\_모든\_아군의\_공격력이\_8%\_증가한다"
   "303":
     Name: "범은하\_상사"
-    Description2pc: "<span>장착한\_캐릭터의\_효과\_명중이\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가한다.\_동시에\_장착한\_캐릭터의\_현재\_효과\_명중\_<span style='whiteSpace: \"nowrap\"'>25%</span>만큼의\_공격력이\_증가하며\_최대\_<span style='whiteSpace: \"nowrap\"'>25%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_효과\_명중이\_10%\_증가한다.\_동시에\_장착한\_캐릭터의\_현재\_효과\_명중\_25%만큼의\_공격력이\_증가하며\_최대\_25%\_증가한다"
   "304":
     Name: "축성가의\_벨로보그"
-    Description2pc: "<span>장착한\_캐릭터의\_방어력이\_<span style='whiteSpace: \"nowrap\"'>15%</span>\_증가한다.\_장착한\_캐릭터의\_효과\_명중이\_<span style='whiteSpace: \"nowrap\"'>50%</span>\_이상일\_경우\_방어력이\_추가로\_<span style='whiteSpace: \"nowrap\"'>15%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_방어력이\_15%\_증가한다.\_장착한\_캐릭터의\_효과\_명중이\_50%\_이상일\_경우\_방어력이\_추가로\_15%\_증가한다"
   "305":
     Name: "천체\_차분기관"
-    Description2pc: "<span>장착한\_캐릭터의\_치명타\_피해가\_<span style='whiteSpace: \"nowrap\"'>16%</span>\_증가한다.\_장착한\_캐릭터의\_치명타\_피해가\_<span style='whiteSpace: \"nowrap\"'>120%</span>\_이상일\_경우,\_전투\_진입\_후\_장착한\_캐릭터의\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>60%</span>\_증가한다.\_첫\_공격\_발동\_후까지\_지속하고\_종료된다</span>"
+    Description2pc: "장착한\_캐릭터의\_치명타\_피해가\_16%\_증가한다.\_장착한\_캐릭터의\_치명타\_피해가\_120%\_이상일\_경우,\_전투\_진입\_후\_장착한\_캐릭터의\_치명타\_확률이\_60%\_증가한다.\_첫\_공격\_발동\_후까지\_지속하고\_종료된다"
   "306":
     Name: "회전을\_멈춘\_살소토"
-    Description2pc: "<span>장착한\_캐릭터의\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>8%</span>\_증가한다.\_장착한\_캐릭터의\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>50%</span>\_이상일\_경우,\_필살기와\_추가\_공격이\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>15%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_치명타\_확률이\_8%\_증가한다.\_장착한\_캐릭터의\_치명타\_확률이\_50%\_이상일\_경우,\_필살기와\_추가\_공격이\_가하는\_피해가\_15%\_증가한다"
   "307":
     Name: "도적국\_탈리아"
-    Description2pc: "<span>장착한\_캐릭터의\_격파\_특수효과가\_<span style='whiteSpace: \"nowrap\"'>16%</span>\_증가한다.\_장착한\_캐릭터의\_속도가\_<span style='whiteSpace: \"nowrap\"'>145</span>\_이상일\_경우\_격파\_특수효과가\_추가로\_<span style='whiteSpace: \"nowrap\"'>20%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_격파\_특수효과가\_16%\_증가한다.\_장착한\_캐릭터의\_속도가\_145\_이상일\_경우\_격파\_특수효과가\_추가로\_20%\_증가한다"
   "308":
     Name: "생명의\_바커\_공"
-    Description2pc: "<span>장착한\_캐릭터의\_에너지\_회복효율이\_<span style='whiteSpace: \"nowrap\"'>5%</span>\_증가한다.\_장착한\_캐릭터의\_속도가\_<span style='whiteSpace: \"nowrap\"'>120</span>\_이상일\_경우\_전투\_진입\_시\_즉시\_행동\_게이지가\_<span style='whiteSpace: \"nowrap\"'>40%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_에너지\_회복효율이\_5%\_증가한다.\_장착한\_캐릭터의\_속도가\_120\_이상일\_경우\_전투\_진입\_시\_즉시\_행동\_게이지가\_40%\_증가한다"
   "309":
     Name: "뭇별\_경기장"
-    Description2pc: "<span>장착한\_캐릭터의\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>8%</span>\_증가한다.\_장착한\_캐릭터의\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>70%</span>\_이상일\_경우,\_일반\_공격과\_전투\_스킬이\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>20%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_치명타\_확률이\_8%\_증가한다.\_장착한\_캐릭터의\_치명타\_확률이\_70%\_이상일\_경우,\_일반\_공격과\_전투\_스킬이\_가하는\_피해가\_20%\_증가한다"
   "310":
     Name: "부러진\_용골"
-    Description2pc: "<span>장착한\_캐릭터의\_효과\_저항이\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가한다.\_장착한\_캐릭터의\_효과\_저항이\_<span style='whiteSpace: \"nowrap\"'>30%</span>\_이상일\_경우\_모든\_아군의\_치명타\_피해가\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_효과\_저항이\_10%\_증가한다.\_장착한\_캐릭터의\_효과\_저항이\_30%\_이상일\_경우\_모든\_아군의\_치명타\_피해가\_10%\_증가한다"
   "311":
     Name: "창공\_전선\_그라모스"
-    Description2pc: "<span>장착한\_캐릭터의\_공격력이\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다.\_장착한\_캐릭터의\_속도가\_<span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span>\_이상일\_경우,\_장착한\_캐릭터가\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_공격력이\_12%\_증가한다.\_장착한\_캐릭터의\_속도가\_135/160\_이상일\_경우,\_장착한\_캐릭터가\_가하는\_피해가\_12%/18%\_증가한다"
   "312":
     Name: "꿈의\_땅\_페나코니"
-    Description2pc: "<span>장착한\_캐릭터의\_에너지\_회복효율이\_<span style='whiteSpace: \"nowrap\"'>5%</span>\_증가한다.\_장착한\_캐릭터와\_같은\_속성의\_파티\_내\_다른\_아군\_캐릭터가\_주는\_피해가\_<span style='whiteSpace: \"nowrap\"'>10%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_에너지\_회복효율이\_5%\_증가한다.\_장착한\_캐릭터와\_같은\_속성의\_파티\_내\_다른\_아군\_캐릭터가\_주는\_피해가\_10%\_증가한다"
   "313":
     Name: "주인\_없는\_황폐한\_별\_츠가냐"
-    Description2pc: "<span>장착한\_캐릭터의\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>4%</span>\_증가한다.\_적이\_처치될\_시\_장착한\_캐릭터의\_치명타\_피해가\_<span style='whiteSpace: \"nowrap\"'>4%</span>\_증가한다.\_최대\_중첩수:\_<span style='whiteSpace: \"nowrap\"'>10</span></span>"
+    Description2pc: "장착한\_캐릭터의\_치명타\_확률이\_4%\_증가한다.\_적이\_처치될\_시\_장착한\_캐릭터의\_치명타\_피해가\_4%\_증가한다.\_최대\_중첩수:\_10"
   "314":
     Name: "이즈모\_현세와\_타카마\_신국"
-    Description2pc: "<span>장착한\_캐릭터의\_공격력이\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다.\_전투\_진입\_시\_장착한\_캐릭터와\_운명의\_길이\_같은\_동료가\_최소\_1명\_존재할\_경우,\_장착한\_캐릭터의\_치명타\_확률이\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_공격력이\_12%\_증가한다.\_전투\_진입\_시\_장착한\_캐릭터와\_운명의\_길이\_같은\_동료가\_최소\_1명\_존재할\_경우,\_장착한\_캐릭터의\_치명타\_확률이\_12%\_증가한다"
   "315":
     Name: "질주하는\_늑대의\_도람\_왕조"
-    Description2pc: "<span>아군\_캐릭터가\_추가\_공격을\_발동하면\_장착한\_캐릭터는\_[공훈]을\_1스택\_획득한다,\_최대\_중첩수:\_<span style='whiteSpace: \"nowrap\"'>5</span>스택.\_[공훈]\_스택당\_장착한\_캐릭터의\_추가\_공격으로\_가하는\_피해가\_<span style='whiteSpace: \"nowrap\"'>5%</span>\_증가하고,\_<span style='whiteSpace: \"nowrap\"'>5</span>스택까지\_중첩\_시\_장착한\_캐릭터의\_치명타\_피해가\_추가로\_<span style='whiteSpace: \"nowrap\"'>25%</span>\_증가한다</span>"
+    Description2pc: "아군\_캐릭터가\_추가\_공격을\_발동하면\_장착한\_캐릭터는\_[공훈]을\_1스택\_획득한다,\_최대\_중첩수:\_5스택.\_[공훈]\_스택당\_장착한\_캐릭터의\_추가\_공격으로\_가하는\_피해가\_5%\_증가하고,\_5스택까지\_중첩\_시\_장착한\_캐릭터의\_치명타\_피해가\_추가로\_25%\_증가한다"
   "316":
     Name: "겁화\_연등의\_연마궁"
-    Description2pc: "<span>장착한\_캐릭터의\_속도가\_<span style='whiteSpace: \"nowrap\"'>6%</span>\_증가한다.\_장착한\_캐릭터가\_화염\_속성\_약점을\_보유한\_적을\_명중하면\_격파\_특수효과가\_<span style='whiteSpace: \"nowrap\"'>40%</span>\_증가한다,\_지속\_시간:\_<span style='whiteSpace: \"nowrap\"'>1</span>턴</span>"
+    Description2pc: "장착한\_캐릭터의\_속도가\_6%\_증가한다.\_장착한\_캐릭터가\_화염\_속성\_약점을\_보유한\_적을\_명중하면\_격파\_특수효과가\_40%\_증가한다,\_지속\_시간:\_1턴"
   "317":
     Name: "바다에\_잠긴\_루샤카"
-    Description2pc: "<span>장착한\_캐릭터의\_에너지\_회복효율이\_<span style='whiteSpace: \"nowrap\"'>5%</span>\_증가한다.\_장착한\_캐릭터가\_파티\_편성의\_첫\_번째\_캐릭터가\_아닐\_경우,\_파티\_편성의\_첫\_번째\_캐릭터의\_공격력이\_<span style='whiteSpace: \"nowrap\"'>12%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_에너지\_회복효율이\_5%\_증가한다.\_장착한\_캐릭터가\_파티\_편성의\_첫\_번째\_캐릭터가\_아닐\_경우,\_파티\_편성의\_첫\_번째\_캐릭터의\_공격력이\_12%\_증가한다"
   "318":
     Name: "기묘한\_나나\_낙원"
-    Description2pc: "<span>장착한\_캐릭터의\_치명타\_피해가\_<span style='whiteSpace: \"nowrap\"'>16%</span>\_증가한다.\_장착한\_캐릭터가\_소환한\_목표가\_있을\_시,\_치명타\_피해가\_추가로\_<span style='whiteSpace: \"nowrap\"'>32%</span>\_증가한다</span>"
+    Description2pc: "장착한\_캐릭터의\_치명타\_피해가\_16%\_증가한다.\_장착한\_캐릭터가\_소환한\_목표가\_있을\_시,\_치명타\_피해가\_추가로\_32%\_증가한다"
 Lightcones:
   "20000":
     Name: 화살촉
-    SkillName: 위기
   "20001":
     Name: 풍작
-    SkillName: 번성
   "20002":
     Name: 천경
-    SkillName: 파멸
   "20003":
     Name: 앰버
-    SkillName: 정체
   "20004":
     Name: 그윽
-    SkillName: 타락
   "20005":
     Name: 합창
-    SkillName: 협력
   "20006":
     Name: 아카이브
-    SkillName: 박식
   "20007":
     Name: "시위를\_떠난\_화살"
-    SkillName: 호각
   "20008":
     Name: "알찬\_열매"
-    SkillName: 감미
   "20009":
     Name: "무너진\_행복"
-    SkillName: 토벌
   "20010":
     Name: 수비
-    SkillName: 부흥
   "20011":
     Name: "심연의\_고리"
-    SkillName: 추궁
   "20012":
     Name: "맞물린\_톱니"
-    SkillName: 속결
   "20013":
     Name: "영험한\_열쇠"
-    SkillName: 깨달음
   "20014":
     Name: 대립
-    SkillName: 연맹
   "20015":
     Name: 증식
-    SkillName: "풍요의\_백성"
   "20016":
     Name: 전멸
-    SkillName: 군단
   "20017":
     Name: "강토\_개척"
-    SkillName: 컴퍼니
   "20018":
     Name: "숨은\_그림자"
-    SkillName: 장치
   "20019":
     Name: 어울림
-    SkillName: 가족
   "20020":
     Name: 식견
-    SkillName: 천재
   "21000":
     Name: "수술\_후의\_대화"
-    SkillName: "상호\_치유"
   "21001":
     Name: "밤\_인사와\_잠든\_얼굴"
-    SkillName: "고된\_자"
   "21002":
     Name: "여생의\_첫날"
-    SkillName: "지금\_이\_순간"
   "21003":
     Name: 침묵만이
-    SkillName: 기록
   "21004":
     Name: "기억\_속\_모습"
-    SkillName: "오래된\_사진"
   "21005":
     Name: "두더지파가\_환영해"
-    SkillName: "기묘한\_모험"
   "21006":
     Name: "「나」의\_탄생"
-    SkillName: "그림\_속\_소녀"
   "21007":
     Name: "같은\_심정"
-    SkillName: "치료와\_수리"
   "21008":
     Name: "사냥감의\_시선"
-    SkillName: 자신감
   "21009":
     Name: "랜도의\_선택"
-    SkillName: "빠른\_세월"
   "21010":
     Name: 논검
-    SkillName: "각자의\_답"
   "21011":
     Name: "행성과의\_만남"
-    SkillName: 출발
   "21012":
     Name: "비밀\_맹세"
-    SkillName: "젖\_먹던\_힘까지"
   "21013":
     Name: "세상을\_진정시키지\_마"
-    SkillName: "소리의\_힘"
   "21014":
     Name: "알맞은\_타이밍"
-    SkillName: "굴절된\_시선"
   "21015":
     Name: "땀방울처럼\_빛나는\_결심"
-    SkillName: 뒤돌아봄
   "21016":
     Name: "우주\_시장\_동향"
-    SkillName: "새로운\_개편"
   "21017":
     Name: "팔로우를\_부탁해!"
-    SkillName: "좋아요도\_안\_하고\_가려고?"
   "21018":
     Name: "댄스!\_댄스!\_댄스!"
-    SkillName: "멈출\_수\_없어!"
   "21019":
     Name: "푸른\_하늘\_아래"
-    SkillName: "파도치는\_따스한\_이삭"
   "21020":
     Name: "천재들의\_휴식"
-    SkillName: "각자\_제자리에"
   "21021":
     Name: 등가교환
-    SkillName: 편안함
   "21022":
     Name: 페르마타
-    SkillName: 쉼표
   "21023":
     Name: "우리는\_와일드\_파이어"
-    SkillName: "눈물을\_글썽이는\_사람"
   "21024":
     Name: "움트는\_봄물"
-    SkillName: "남은\_추위\_몰아내기"
   "21025":
     Name: "과거와\_미래"
-    SkillName: "옛날\_연"
   "21026":
     Name: "멍!\_산책\_시간!"
-    SkillName: 튀어!
   "21027":
     Name: "느낌\_있는\_아침\_식사\_루틴"
-    SkillName: "각자\_위치로"
   "21028":
     Name: "따듯한\_밤은\_길지\_않고"
-    SkillName: "작은\_등불"
   "21029":
     Name: "훗날\_기약"
-    SkillName: "교섭\_같은\_교전"
   "21030":
     Name: "이게\_바로\_나야!"
-    SkillName: 지평
   "21031":
     Name: "또다시\_저승으로"
-    SkillName: 용솟음
   "21032":
     Name: "누월재운의\_뜻"
-    SkillName: 비밀
   "21033":
     Name: "도망칠\_곳은\_없다"
-    SkillName: 곤경
   "21034":
     Name: "오늘도\_평화로운\_하루"
-    SkillName: 폭풍전야
   "21035":
     Name: "무엇이\_진실인가"
-    SkillName: 가설
   "21036":
     Name: "좋은꿈\_마을\_대모험"
-    SkillName: 단결
   "21037":
     Name: "최후의\_승자"
-    SkillName: 베팅
   "21038":
     Name: "불의\_먼\_곳에서"
-    SkillName: 폭연
   "21039":
     Name: "운명의\_실을\_엮다"
-    SkillName: 간파
   "21040":
     Name: "은하\_함락의\_날"
-    SkillName: 공략
   "21041":
     Name: 쇼타임
-    SkillName: "스스로\_찾는\_즐거움"
   "21042":
     Name: "마음에\_새긴\_약속"
-    SkillName: 전승
   "21043":
     Name: "두\_사람의\_콘서트"
-    SkillName: 격려
   "21044":
     Name: "끝없는\_춤"
-    SkillName: 탐색
   "21045":
     Name: "조화가\_침묵한\_후"
-    SkillName: 적막
   "21046":
     Name: "피어나길\_기다리는\_꽃"
-    SkillName: "잃지도,\_잊지도\_않으리"
   "21047":
     Name: "그림자처럼\_뒤따르는\_밤"
-    SkillName: 은닉
   "21048":
     Name: "꿈의\_몽타주"
-    SkillName: "아카데믹\_편집"
   "22000":
     Name: "초보자\_임무\_시작\_전"
-    SkillName: "빠른\_눈썰미"
   "22001":
     Name: "저기,\_나\_여기\_있어"
-    SkillName: "무섭지\_않아…!"
   "22002":
     Name: "내일을\_위한\_여정"
-    SkillName: 연결
   "22003":
     Name: "인사록•음률\_사냥"
-    SkillName: "공연\_시작!"
   "23000":
     Name: "은하철도의\_밤"
-    SkillName: 유성군
   "23001":
     Name: "야경\_속에서"
-    SkillName: "꽃과\_나비"
   "23002":
     Name: "대체할\_수\_없는\_것"
-    SkillName: 가족
   "23003":
     Name: "아직\_전투는\_끝나지\_않았다"
-    SkillName: 계승자
   "23004":
     Name: "세계의\_이름으로"
-    SkillName: 전승자
   "23005":
     Name: "승리의\_순간"
-    SkillName: 결단
   "23006":
     Name: "필요한\_건\_기다림뿐"
-    SkillName: 거미줄
   "23007":
     Name: "계속\_내리는\_비"
-    SkillName: "현실\_속\_신기루"
   "23008":
     Name: "관의\_울림"
-    SkillName: 가시
   "23009":
     Name: "닿을\_수\_없는\_저편"
-    SkillName: 불능
   "23010":
     Name: "동트기\_전"
-    SkillName: "긴\_밤"
   "23011":
     Name: "그녀는\_두\_눈을\_감았네"
-    SkillName: "펼쳐진\_세계"
   "23012":
     Name: "깊게\_든\_단잠"
-    SkillName: 좋은꿈
   "23013":
     Name: "세월은\_흐를\_뿐"
-    SkillName: "아침,\_점심,\_저녁,\_그리고\_밤"
   "23014":
     Name: "이\_몸이\_검이니"
-    SkillName: "옥을\_쥐고"
   "23015":
     Name: "태양보다\_밝게\_빛나는\_것"
-    SkillName: "결사\_저항"
   "23016":
     Name: "고민,\_그리고\_행복"
-    SkillName: "한\_번에\_하나씩"
   "23017":
     Name: "섬뜩한\_밤"
-    SkillName: "깊은\_심호흡"
   "23018":
     Name: "눈에\_담긴\_순간"
-    SkillName: "기사의\_순례"
   "23019":
     Name: "거울\_속\_지난날의\_나"
-    SkillName: "뼈에\_사무치는\_매화향"
   "23020":
     Name: "순수\_사유의\_세례"
-    SkillName: "사고력\_훈련"
   "23021":
     Name: "속세에서의\_유희"
-    SkillName: 변덕
   "23022":
     Name: "시간의\_기억에\_대한\_재구성"
-    SkillName: 결정
   "23023":
     Name: "언제나\_불공평한\_운명"
-    SkillName: 올인
   "23024":
     Name: "흘러가는\_강가를\_따라"
-    SkillName: 뱃사공
   "23025":
     Name: "꿈은\_어디로\_돌아가야\_하는가"
-    SkillName: 탈바꿈
   "23026":
     Name: "찬란하게\_빛나는\_밤"
-    SkillName: 위로
   "23027":
     Name: "두\_번째\_생명을\_향해"
-    SkillName: "고된\_항해"
   "23028":
     Name: "값을\_매길\_수\_없는\_건\_희망뿐"
-    SkillName: 약속
   "23029":
     Name: "그\_무수한\_봄날"
-    SkillName: "흔적\_없는\_세상만사"
   "23030":
     Name: "해\_질\_무렵\_시작되는\_춤"
-    SkillName: 심취
   "23031":
     Name: "정복하고\_사냥하리"
-    SkillName: 진섭
   "23032":
     Name: "오직\_향만이\_변함없이"
-    SkillName: 안심
   "23033":
     Name: "인법첩•요란\_파마"
-    SkillName: 제악
   "24000":
     Name: "어떤\_에이언즈의\_몰락"
-    SkillName: 자충수
   "24001":
     Name: "별바다\_순항"
-    SkillName: "사냥감\_추적"
   "24002":
     Name: "기억의\_소재"
-    SkillName: 간직
   "24003":
     Name: "고독의\_치유"
-    SkillName: "혼돈\_영약"
   "24004":
     Name: "멈추지\_않는\_연산"
-    SkillName: "끝없는\_생각"
 Paths:
   Warrior: 파멸
   Rogue: 수렵

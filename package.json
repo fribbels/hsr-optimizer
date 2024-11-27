@@ -17,8 +17,9 @@
     "@viselect/react": "^3.6.0",
     "ag-grid-community": "32.1.0",
     "ag-grid-react": "32.1.0",
-    "antd": "^5.21.3",
+    "antd": "^5.22.2",
     "btoa": "^1.2.1",
+    "chroma-js": "^3.1.2",
     "fast-sort": "^3.4.0",
     "html-to-image": "^1.11.11",
     "i18next": "^23.14.0",
@@ -27,6 +28,7 @@
     "i18next-resources-for-ts": "^1.5.0",
     "js-yaml": "^4.1.0",
     "json-stable-stringify": "^1.1.1",
+    "node-vibrant": "^3.1.6",
     "overlayscrollbars": "^2.10.0",
     "overlayscrollbars-react": "^0.5.6",
     "path": "^0.12.7",
@@ -61,7 +63,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "update-resources": "npx i18next-resources-for-ts interface -i ./public/locales/en -o ./src/types/resources.d.ts",
-    "update-gameData": "npx tsx misc/i18n/generateTranslations.ts && npm run update-resources"
+    "update-gameData": "npx tsx src/lib/i18n/generateTranslations.ts && npm run update-resources"
   },
   "browserslist": {
     "production": [
@@ -81,9 +83,14 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/chroma-js": "^2.4.4",
     "@types/eslint": "^8.56.11",
+    "@types/js-yaml": "^4.0.9",
+    "@types/json-stable-stringify": "^1.0.36",
     "@types/node": "^22.2.0",
     "@types/object-hash": "^3.0.6",
+    "@types/string-similarity": "^4.0.2",
+    "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "@webgpu/types": "^0.1.48",
     "eslint": "^8.57.0",

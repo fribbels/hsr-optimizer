@@ -1,25 +1,30 @@
-import { Stats } from 'lib/constants'
-import { ContentItem } from 'types/Conditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ContentItem } from 'types/conditionals'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export const precisionRound = (number: number, precision: number = 8): number => {
-  const factor = Math.pow(10, precision)
-  return Math.round(number * factor) / factor
+/**
+ * Helper methods used in conditional files
+ */
+
+export type ContentDefinition<T extends Record<string, unknown>> = {
+  [K in keyof T]: ContentItem &
+  {
+    id: K
+  }
+}
+
+export type Conditionals<T extends ContentDefinition<T>> = {
+  [K in keyof T]: number;
 }
 
 // Remove the ashblazing set atk bonus only when calc-ing fua attacks
-export const calculateAshblazingSet = (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext, hitMulti: number): number => {
-  const enabled = p4(x.sets.TheAshblazingGrandDuke)
+export const calculateAshblazingSet = (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, hitMulti: number): number => {
+  const enabled = p4(x.c.sets.TheAshblazingGrandDuke)
   const valueTheAshblazingGrandDuke = action.setConditionals.valueTheAshblazingGrandDuke
   const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled * context.baseATK
   const ashblazingMulti = hitMulti * enabled * context.baseATK
 
   return ashblazingMulti - ashblazingAtk
-}
-
-export const findContentId = (content: ContentItem[], id: string) => {
-  return content.find((contentItem) => contentItem.id == id)!
 }
 
 export const p4 = (set: number): number => {
@@ -32,6 +37,7 @@ export const ability = (upgradeEidolon: number) => {
   }
 }
 
+// Different characters have different ability activations at E3 / E5, this maps the known types
 export const AbilityEidolon = {
   SKILL_TALENT_3_ULT_BASIC_5: {
     basic: ability(5),
@@ -63,58 +69,4 @@ export const AbilityEidolon = {
     ult: ability(3),
     talent: ability(5),
   },
-}
-
-export function standardAtkFinalizer(x: ComputedStatsObject) {
-  x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-  x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-  x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-  x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
-  x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-}
-
-export function gpuStandardAtkFinalizer() {
-  return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * x.ATK;
-x.FUA_DMG += x.FUA_SCALING * x.ATK;
-x.DOT_DMG += x.DOT_SCALING * x.ATK;
-`
-}
-
-export function standardHpFinalizer(x: ComputedStatsObject) {
-  x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
-  x.SKILL_DMG += x.SKILL_SCALING * x[Stats.HP]
-  x.ULT_DMG += x.ULT_SCALING * x[Stats.HP]
-  x.FUA_DMG += x.FUA_SCALING * x[Stats.HP]
-  x.DOT_DMG += x.DOT_SCALING * x[Stats.HP]
-}
-
-export function gpuStandardHpFinalizer() {
-  return `
-x.BASIC_DMG += x.BASIC_SCALING * x.HP;
-x.SKILL_DMG += x.SKILL_SCALING * x.HP;
-x.ULT_DMG += x.ULT_SCALING * x.HP;
-x.FUA_DMG += x.FUA_SCALING * x.HP;
-x.DOT_DMG += x.DOT_SCALING * x.HP;
-`
-}
-
-export function standardFuaAtkFinalizer(x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext, hitMulti: number) {
-  x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-  x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-  x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-  x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + calculateAshblazingSet(x, action, context, hitMulti))
-  x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-}
-
-export function gpuStandardFuaAtkFinalizer(hitMulti: number) {
-  return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * x.ATK;
-x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMulti}));
-x.DOT_DMG += x.DOT_SCALING * x.ATK;
-`
 }

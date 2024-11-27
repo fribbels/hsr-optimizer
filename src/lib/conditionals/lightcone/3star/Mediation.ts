@@ -1,39 +1,48 @@
-import { Stats } from 'lib/constants'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { ContentItem } from 'types/Conditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.Mediation')
+
   const sValues = [12, 14, 16, 18, 20]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'initialSpdBuff',
-    name: 'initialSpdBuff',
-    formItem: 'switch',
-    text: t('Content.initialSpdBuff.text'),
-    title: t('Content.initialSpdBuff.title'),
-    content: t('Content.initialSpdBuff.content', { SpdBuff: sValues[s] }),
-  }]
+
+  const defaults = {
+    initialSpdBuff: true,
+  }
+
+  const teammateDefaults = {
+    initialSpdBuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    initialSpdBuff: {
+      lc: true,
+      id: 'initialSpdBuff',
+      formItem: 'switch',
+      text: t('Content.initialSpdBuff.text'),
+      content: t('Content.initialSpdBuff.content', { SpdBuff: sValues[s] }),
+    },
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    initialSpdBuff: content.initialSpdBuff,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => content,
-    defaults: () => ({
-      initialSpdBuff: true,
-    }),
-    teammateDefaults: () => ({
-      initialSpdBuff: true,
-    }),
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x[Stats.SPD] += (m.initialSpdBuff) ? sValues[s] : 0
+      x.SPD.buff((m.initialSpdBuff) ? sValues[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

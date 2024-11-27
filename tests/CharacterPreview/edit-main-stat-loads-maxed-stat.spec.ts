@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test'
 
 test('Editing relics show the correct main stat at maxed value', async ({ page }) => {
   // navigate to Relics tab
-  await page.goto('/#scorer')
+  await page.goto('/#showcase')
 
   await page.getByRole('menuitem', { name: 'Characters' }).click()
   await page.locator('#characterGrid').getByText('Jingliu').click()

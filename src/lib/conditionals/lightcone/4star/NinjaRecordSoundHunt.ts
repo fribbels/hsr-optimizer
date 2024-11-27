@@ -1,37 +1,36 @@
-import { ContentItem } from 'types/Conditionals'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { CURRENT_DATA_VERSION, Stats } from 'lib/constants'
-import i18next from 'i18next'
-import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction } from 'types/Optimizer'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.NinjaRecordSoundHunt')
+
   const sValuesCd = [0.18, 0.225, 0.27, 0.315, 0.36]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    cdBuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    cdBuff: {
       lc: true,
       id: 'cdBuff',
-      name: 'cdBuff',
       formItem: 'switch',
       text: t('Content.cdBuff.text'),
-      title: t('Content.cdBuff.title'),
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      content: t('Content.cdBuff.content', { sValuesCd: TsUtils.precisionRound(100 * sValuesCd[s]) }),
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    defaults: () => ({
-      cdBuff: true,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x[Stats.CD] += (r.cdBuff) ? sValuesCd[s] : 0
+      x.CD.buff((r.cdBuff) ? sValuesCd[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

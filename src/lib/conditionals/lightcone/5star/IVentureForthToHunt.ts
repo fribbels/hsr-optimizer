@@ -1,38 +1,40 @@
-import { ContentItem } from 'types/Conditionals'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
-import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { buffAbilityDefPen } from 'lib/optimization/calculateBuffs'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.IVentureForthToHunt')
+
   const sValuesDefShred = [0.27, 0.30, 0.33, 0.36, 0.39]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    luminfluxUltStacks: 2,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    luminfluxUltStacks: {
       lc: true,
-      formItem: 'slider',
       id: 'luminfluxUltStacks',
-      name: 'luminfluxUltStacks',
+      formItem: 'slider',
       text: t('Content.luminfluxUltStacks.text'),
-      title: t('Content.luminfluxUltStacks.title'),
       content: t('Content.luminfluxUltStacks.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefShred[s]) }),
       min: 0,
       max: 2,
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    defaults: () => ({
-      luminfluxUltStacks: 2,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      buffAbilityDefPen(x, ULT_TYPE, r.luminfluxUltStacks * sValuesDefShred[s])
+      buffAbilityDefPen(x, ULT_TYPE, r.luminfluxUltStacks * sValuesDefShred[s], Source.NONE)
     },
     finalizeCalculations: () => {
     },

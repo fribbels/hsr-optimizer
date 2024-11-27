@@ -1,0 +1,130 @@
+ScreenshotMessages:
+  ScreenshotSuccess: 截图已复制至剪贴板
+  ScreenshotFailed: 无法将截图保存到剪贴板，请尝试右侧的下载按钮
+  DownloadSuccess: 已下载截图
+CharacterMenu:
+  ButtonText: 角色菜单
+  Character:
+    Label: 角色
+    Options:
+      Add: 添加新角色
+      Edit: 更改角色/光锥
+      Switch: 和另一角色切换遗器
+      Unequip: 卸下角色装备
+      Delete: 删除角色
+  Build:
+    Label: 配装
+    Options:
+      Save: 保存当前配装
+      View: 查看已保存配装
+  Scoring:
+    Label: 评分
+    Options:
+      ScoringModal: 评分算法
+  Priority:
+    Label: 优先级
+    Options:
+      SortByScore: 按评分排序所有角色
+      MoveToTop: 将角色移至顶部
+SearchPlaceholder: 搜索
+GridHeaders:
+  Icon: 图标
+  Priority: 优先级
+  Character: 角色
+Messages:
+  RemoveSuccess: 成功移除角色
+  UnequipSuccess: 成功卸下角色遗器
+  NoSelectedCharacter: 未选择角色
+  SwitchSuccess: "成功与$t(gameData:Characters.{{charId}}.Name)互换装备"
+  SortByScoreWarning: 你确定要对所有角色进行排序吗？ 你将失去你所设置的任何自定义排序。
+  SaveSuccess: "成功保存配装: {{name}}"
+  UnequipWarning: "你确定要卸下$t(gameData:Characters.{{charId}}.Name)的遗器吗?"
+  DeleteWarning: "你确定要删除$t(gameData:Characters.{{charId}}.Name)吗?"
+CharacterPreview:
+  CustomizationSidebar:
+    Label: 自定义
+    Modes:
+      Auto: 自动
+      Custom: 自定义
+      Standard: 标准
+    PaletteLabel: 头像色调
+  ArtBy: "{{artistName}}的作品"
+  EditCharacter: 编辑角色
+  EditPortrait: 编辑角色图像
+  CharacterScore: "角色评分: {{score}} {{grade}}"
+  Messages:
+    AddedRelic: 成功添加遗器
+    SavedPortrait: 成功保存角色图像
+    RevertedPortrait: 成功还原角色图像
+    NoSelectedCharacter: 未选择角色
+  ScoreHeader:
+    Title: 战斗模拟
+    Score: "DPS评分 {{score}}% {{grade}}"
+  AlgorithmSlider:
+    Title: "评分算法:"
+    Labels:
+      CombatScore: 战斗评分
+      CombatScoreTBD: 战斗评分 (待定)
+      StatScore: 属性评分
+  DetailsSlider:
+    Title: "战斗评分详情:"
+    Labels:
+      CombatStats: 战斗属性
+      DMGUpgrades: 伤害升级
+  DMGUpgrades: 伤害升级
+  SubstatUpgradeComparisons:
+    Header: 副词条升级比较
+    Roll: 升级次数
+    Damage: 伤害
+  BuildAnalysis:
+    Header: 角色配装分析
+    SimulationTeammates: 模拟队友
+    SimulationSets: 模拟套装
+    Rotation:
+      Header: 连招伤害循环
+      BASIC: 普攻
+      SKILL: 战技
+      ULT: 终结技
+      FUA: 追加攻击
+      DOTS: "持续伤害次数"
+      BREAKS: "击破次数"
+    CombatResults:
+      Header: 战斗伤害结果
+      Primary: "主要伤害:"
+      Character: "角色伤害:"
+      Benchmark: "基准伤害:"
+      Baseline: "基础伤害:"
+      Maximum: "最高伤害:"
+      Score: "DPS评分%:"
+      Abilities:
+        BASIC: 普攻伤害
+        SKILL: 战技伤害
+        ULT: 终结技伤害
+        FUA: 追加伤害
+        DOT: 持续伤害
+        BREAK: 击破伤害
+        COMBO: 连招伤害
+  ScoringColumn:
+    Character:
+      Header: "角色配装 ({{score}}%)"
+      BasicStats: 角色基础属性
+      CombatStats: 角色<1>战斗属性</1>
+      Substats: 角色遗器副词条（最少升级次数)
+      Mainstats: 角色遗器主词条
+      Abilities: 角色技能伤害
+    Benchmark:
+      Header: "基准配装 ({{score}}%)"
+      BasicStats: 100% 基准基础属性
+      CombatStats: 100% 基准<1>战斗属性</1>
+      Substats: 100% 基准副词条 (最少升级次数)
+      Mainstats: 100% 基准主词条
+      Abilities: 100% 基准技能伤害
+    Perfect:
+      Header: "完美角色配装 ({{score}}%)"
+      BasicStats: 200% 完美基础属性
+      CombatStats: 200% 完美<1>战斗属性</1>
+      Substats: 200% 完美副词条 (最大升级次数)
+      Mainstats: 200% 完美主词条
+      Abilities: 200% 完美技能伤害
+  ScoringDetails:
+    Header: DPS评分是如何计算的?

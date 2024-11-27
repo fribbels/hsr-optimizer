@@ -1,42 +1,50 @@
-import i18next from 'i18next'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { CURRENT_DATA_VERSION } from 'lib/constants'
-import { ContentItem } from 'types/Conditionals'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LongRoadLeadsHome')
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LongRoadLeadsHome')
   const sValuesBreakVulnerability = [0.18, 0.21, 0.24, 0.27, 0.30]
 
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'breakVulnerabilityStacks',
-    name: 'breakVulnerabilityStacks',
-    formItem: 'slider',
-    text: 'Break vulnerability stacks',
-    title: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    min: 0,
-    max: 2,
-  }]
+  const defaults = {
+    breakVulnerabilityStacks: 2,
+  }
+
+  const teammateDefaults = {
+    breakVulnerabilityStacks: 2,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    breakVulnerabilityStacks: {
+      lc: true,
+      id: 'breakVulnerabilityStacks',
+      formItem: 'slider',
+      text: t('Content.breakVulnerabilityStacks.text'),
+      content: t('Content.breakVulnerabilityStacks.content', { breakVulnerability: TsUtils.precisionRound(100 * sValuesBreakVulnerability[s]) }),
+      min: 0,
+      max: 2,
+    },
+  }
+
+  const teammateContent = {
+    breakVulnerabilityStacks: content.breakVulnerabilityStacks,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => content,
-    defaults: () => ({
-      breakVulnerabilityStacks: 2,
-    }),
-    teammateDefaults: () => ({
-      breakVulnerabilityStacks: 2,
-    }),
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.BREAK_VULNERABILITY += m.breakVulnerabilityStacks * sValuesBreakVulnerability[s]
+      x.BREAK_VULNERABILITY.buff(m.breakVulnerabilityStacks * sValuesBreakVulnerability[s], Source.NONE)
     },
     finalizeCalculations: () => {
     },

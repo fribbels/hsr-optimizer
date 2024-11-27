@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 test('Tab render happy-path', async ({ page }) => {
-  await page.goto('/#scorer')
+  await page.goto('/#showcase')
   await expect(page.getByRole('banner')).toContainText('Fribbels Honkai Star Rail Optimizer')
 
   // OptimizerTab

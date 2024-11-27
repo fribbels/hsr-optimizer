@@ -1,39 +1,49 @@
-import { ContentItem } from 'types/Conditionals'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.DayOneOfMyNewLife')
+
   const sValues = [0.08, 0.09, 0.10, 0.11, 0.12]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'dmgResBuff',
-    name: 'dmgResBuff',
-    formItem: 'switch',
-    text: t('Content.dmgResBuff.text'),
-    title: t('Content.dmgResBuff.title'),
-    content: t('Content.dmgResBuff.content', { ResBuff: TsUtils.precisionRound(100 * sValues[s]) }),
-  }]
+
+  const defaults = {
+    dmgResBuff: true,
+  }
+
+  const teammateDefaults = {
+    dmgResBuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    dmgResBuff: {
+      lc: true,
+      id: 'dmgResBuff',
+      formItem: 'switch',
+      text: t('Content.dmgResBuff.text'),
+      content: t('Content.dmgResBuff.content', { ResBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+    },
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    dmgResBuff: content.dmgResBuff,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => content,
-    defaults: () => ({
-      dmgResBuff: true,
-    }),
-    teammateDefaults: () => ({
-      dmgResBuff: true,
-    }),
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
       // TODO: This is technically a DMG RES buff not a DMG Reduction buff
-      x.DMG_RED_MULTI *= (m.dmgResBuff) ? (1 - sValues[s]) : 1
+      x.DMG_RED_MULTI.multiply((m.dmgResBuff) ? (1 - sValues[s]) : 1, Source.NONE)
     },
     finalizeCalculations: () => {
     },

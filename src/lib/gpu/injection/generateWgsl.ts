@@ -1,15 +1,15 @@
-import structs from 'lib/gpu/wgsl/structs.wgsl?raw'
-import structComputedStats from 'lib/gpu/wgsl/structComputedStats.wgsl?raw'
-import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
-import { injectSettings } from 'lib/gpu/injection/injectSettings'
-import { Form } from 'types/Form'
+import { Constants } from 'lib/constants/constants'
 import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
+import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { injectUtils } from 'lib/gpu/injection/injectUtils'
-import { SortOption } from 'lib/optimizer/sortOptions'
 import { indent } from 'lib/gpu/injection/wgslUtils'
-import { Constants } from 'lib/constants'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
-import { OptimizerContext } from 'types/Optimizer'
+import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
+import structComputedStats from 'lib/gpu/wgsl/structComputedStats.wgsl?raw'
+import structs from 'lib/gpu/wgsl/structs.wgsl?raw'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { Form } from 'types/form'
+import { OptimizerContext } from 'types/optimizer'
 
 export function generateWgsl(context: OptimizerContext, request: Form, gpuParams: GpuConstants) {
   let wgsl = ''
@@ -152,6 +152,10 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.DOT_DMG > maxDot'),
     filter('x.BREAK_DMG < minBreak'),
     filter('x.BREAK_DMG > maxBreak'),
+    filter('x.HEAL_VALUE < minHeal'),
+    filter('x.HEAL_VALUE > maxHeal'),
+    filter('x.SHIELD_VALUE < minShield'),
+    filter('x.SHIELD_VALUE > maxShield'),
     sortOption == SortOption.COMBO.key ? '' : filter(`x.${sortOption} < threshold`),
   ].filter((str) => str.length > 0).join(' ||\n')
 
@@ -177,10 +181,10 @@ function injectGpuParams(wgsl: string, request: Form, context: OptimizerContext,
 
   if (gpuParams.DEBUG) {
     debugValues = `
-const DEBUG_BASIC_COMBO: f32 = ${request.comboAbilities.filter(x => x == 'BASIC').length};
-const DEBUG_SKILL_COMBO: f32 = ${request.comboAbilities.filter(x => x == 'SKILL').length};
-const DEBUG_ULT_COMBO: f32 = ${request.comboAbilities.filter(x => x == 'ULT').length};
-const DEBUG_FUA_COMBO: f32 = ${request.comboAbilities.filter(x => x == 'FUA').length};
+const DEBUG_BASIC_COMBO: f32 = ${request.comboAbilities.filter((x) => x == 'BASIC').length};
+const DEBUG_SKILL_COMBO: f32 = ${request.comboAbilities.filter((x) => x == 'SKILL').length};
+const DEBUG_ULT_COMBO: f32 = ${request.comboAbilities.filter((x) => x == 'ULT').length};
+const DEBUG_FUA_COMBO: f32 = ${request.comboAbilities.filter((x) => x == 'FUA').length};
 `
   }
 
@@ -191,7 +195,6 @@ const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
 const DEBUG = ${gpuParams.DEBUG ? 1 : 0};
 ${debugValues}
   `)
-
 
   if (gpuParams.DEBUG) {
     wgsl = wgsl.replace('/* INJECT RESULTS BUFFER */', `

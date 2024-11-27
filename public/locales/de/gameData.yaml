@@ -1,613 +1,563 @@
 Characters:
   "1001":
     Name: 7. März
+    LongName: 7. März (Die Bewahrung)
   "1002":
     Name: Dan Heng
+    LongName: Dan Heng
   "1003":
     Name: Himeko
+    LongName: Himeko
   "1004":
     Name: Welt
+    LongName: Welt
   "1005":
     Name: Kafka
+    LongName: Kafka
   "1006":
     Name: Silberwolf
+    LongName: Silberwolf
   "1008":
     Name: Arlan
+    LongName: Arlan
   "1009":
     Name: Asta
+    LongName: Asta
   "1013":
     Name: Herta
+    LongName: Herta
   "1101":
     Name: Bronya
+    LongName: Bronya
   "1102":
     Name: Seele
+    LongName: Seele
   "1103":
     Name: Serval
+    LongName: Serval
   "1104":
     Name: Gepard
+    LongName: Gepard
   "1105":
     Name: Natasha
+    LongName: Natasha
   "1106":
     Name: Pela
+    LongName: Pela
   "1107":
     Name: Clara
+    LongName: Clara
   "1108":
     Name: Sampo
+    LongName: Sampo
   "1109":
     Name: Hook
+    LongName: Hook
   "1110":
     Name: Lynx
+    LongName: Lynx
   "1111":
     Name: Luka
+    LongName: Luka
   "1112":
     Name: Topaz & Kontie
+    LongName: Topaz & Kontie
   "1201":
     Name: Qingque
+    LongName: Qingque
   "1202":
     Name: Tingyun
+    LongName: Tingyun
   "1203":
     Name: Luocha
+    LongName: Luocha
   "1204":
     Name: Jing Yuan
+    LongName: Jing Yuan
   "1205":
     Name: Blade
+    LongName: Blade
   "1206":
     Name: Sushang
+    LongName: Sushang
   "1207":
     Name: Yukong
+    LongName: Yukong
   "1208":
     Name: Fu Xuan
+    LongName: Fu Xuan
   "1209":
     Name: Yanqing
+    LongName: Yanqing
   "1210":
     Name: Guinaifen
+    LongName: Guinaifen
   "1211":
     Name: Bailu
+    LongName: Bailu
   "1212":
     Name: Jingliu
+    LongName: Jingliu
   "1213":
     Name: Dan Heng – Imbibitor Lunae
+    LongName: Dan Heng – Imbibitor Lunae
   "1214":
     Name: Xueyi
+    LongName: Xueyi
   "1215":
     Name: Hanya
+    LongName: Hanya
   "1217":
     Name: Huohuo
+    LongName: Huohuo
   "1218":
     Name: Jiaoqiu
+    LongName: Jiaoqiu
   "1220":
     Name: Feixiao
+    LongName: Feixiao
   "1221":
     Name: Yunli
+    LongName: Yunli
   "1222":
     Name: Lingsha
+    LongName: Lingsha
   "1223":
     Name: Moze
+    LongName: Moze
   "1224":
     Name: 7. März
+    LongName: 7. März (Die Jagd)
   "1301":
     Name: Gallagher
+    LongName: Gallagher
   "1302":
     Name: Argenti
+    LongName: Argenti
   "1303":
     Name: Ruan Mei
+    LongName: Ruan Mei
   "1304":
     Name: Aventurin
+    LongName: Aventurin
   "1305":
     Name: Dr. Wahrheit
+    LongName: Dr. Wahrheit
   "1306":
     Name: Sparkle
+    LongName: Sparkle
   "1307":
     Name: Schwarzer Schwan
+    LongName: Schwarzer Schwan
   "1308":
     Name: Acheron
+    LongName: Acheron
   "1309":
     Name: Robin
+    LongName: Robin
   "1310":
     Name: Glühwürmchen
+    LongName: Glühwürmchen
   "1312":
     Name: Misha
+    LongName: Misha
   "1314":
     Name: Jade
+    LongName: Jade
   "1315":
     Name: Boothill
+    LongName: Boothill
   "1317":
     Name: Rappa
+    LongName: Rappa
   "8001":
-    Name: Caelus (Die Zerstörung)
+    Name: Caelus
+    LongName: Caelus (Die Zerstörung)
   "8002":
-    Name: Stelle (Die Zerstörung)
+    Name: Stelle
+    LongName: Stelle (Die Zerstörung)
   "8003":
-    Name: Caelus (Die Bewahrung)
+    Name: Caelus
+    LongName: Caelus (Die Bewahrung)
   "8004":
-    Name: Stelle (Die Bewahrung)
+    Name: Stelle
+    LongName: Stelle (Die Bewahrung)
   "8005":
-    Name: Caelus (Die Harmonie)
+    Name: Caelus
+    LongName: Caelus (Die Harmonie)
   "8006":
-    Name: Stelle (Die Harmonie)
+    Name: Stelle
+    LongName: Stelle (Die Harmonie)
 RelicSets:
   "101":
     Name: Wanderer der vorbeiziehenden Wolke
-    Description2pc: "<span>Erhöht bewirkte Heilung um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: <span>Stellt zu Kampfbeginn sofort 1 Fertigkeitspunkt wieder her.</span>
+    Description2pc: Erhöht bewirkte Heilung um 10%.
+    Description4pc: Stellt zu Kampfbeginn sofort 1 Fertigkeitspunkt wieder her.
   "102":
     Name: Musketierin des wilden Weizens
-    Description2pc: "<span>Erhöht ANG um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Erhöht die GES des Trägers um <span style='whiteSpace: \"nowrap\"'>6%</span> und den durch Standardangriffe verursachten SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description2pc: Erhöht ANG um 12%.
+    Description4pc: Erhöht die GES des Trägers um 6% und den durch Standardangriffe verursachten SCH um 10%.
   "103":
     Name: Ritterin vom Palast der Reinheit
-    Description2pc: "<span>Erhöht VTD um <span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
-    Description4pc: "<span>Erhöht die vom Träger gewährte Schildmenge um <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+    Description2pc: Erhöht VTD um 15%.
+    Description4pc: Erhöht die vom Träger gewährte Schildmenge um 20%.
   "104":
     Name: Jäger aus dem Gletscherwald
-    Description2pc: "<span>Erhöht Eis-SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Erhöht beim Einsatz des Ultimates den KRIT-SCH des Trägers für <span style='whiteSpace: \"nowrap\"'>2</span>\_Rd. um <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Erhöht Eis-SCH um 10%.
+    Description4pc: "Erhöht beim Einsatz des Ultimates den KRIT-SCH des Trägers für 2\_Rd. um 25%."
   "105":
     Name: Champion des Straßenboxens
-    Description2pc: "<span>Erhöht physischen SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Wenn der Träger einen Angriff ausführt oder getroffen wird, wird sein ANG im aktuellen Kampf um <span style='whiteSpace: \"nowrap\"'>5%</span> erhöht. Dieser Effekt ist bis zu <span style='whiteSpace: \"nowrap\"'>5</span>-fach stapelbar.</span>"
+    Description2pc: Erhöht physischen SCH um 10%.
+    Description4pc: Wenn der Träger einen Angriff ausführt oder getroffen wird, wird sein ANG im aktuellen Kampf um 5% erhöht. Dieser Effekt ist bis zu 5-fach stapelbar.
   "106":
     Name: Wachen des stürmischen Schnees
-    Description2pc: "<span>Verringert erlittenen SCH um <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
-    Description4pc: "<span>Liegt der LP-Prozentsatz des Trägers zu Beginn seiner Runde bei <span style='whiteSpace: \"nowrap\"'>50%</span> oder niedriger, werden LP in Höhe von <span style='whiteSpace: \"nowrap\"'>8%</span> seiner max. LP und <span style='whiteSpace: \"nowrap\"'>5</span> Pkt. Energie wiederhergestellt.</span>"
+    Description2pc: Verringert erlittenen SCH um 8%.
+    Description4pc: Liegt der LP-Prozentsatz des Trägers zu Beginn seiner Runde bei 50% oder niedriger, werden LP in Höhe von 8% seiner max. LP und 5 Pkt. Energie wiederhergestellt.
   "107":
     Name: Feuerschmied der Lavaglut
-    Description2pc: "<span>Erhöht Feuer-SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Erhöht den durch Fertigkeiten verursachten SCH des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span>. Erhöht nach dem Einsatz des Ultimates den verursachten Feuer-SCH durch den nächsten Angriff um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description2pc: Erhöht Feuer-SCH um 10%.
+    Description4pc: Erhöht den durch Fertigkeiten verursachten SCH des Trägers um 12%. Erhöht nach dem Einsatz des Ultimates den verursachten Feuer-SCH durch den nächsten Angriff um 12%.
   "108":
     Name: Genie der strahlenden Sterne
-    Description2pc: "<span>Erhöht Quanten-SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Wenn der Träger einem Gegner SCH zufügt, ignoriert er <span style='whiteSpace: \"nowrap\"'>10%</span> der VTD des Gegners. Wenn das Ziel Quanten-Schwäche hat, ignoriert der Träger zusätzlich <span style='whiteSpace: \"nowrap\"'>10%</span> der VTD des Gegners.</span>"
+    Description2pc: Erhöht Quanten-SCH um 10%.
+    Description4pc: Wenn der Träger einem Gegner SCH zufügt, ignoriert er 10% der VTD des Gegners. Wenn das Ziel Quanten-Schwäche hat, ignoriert der Träger zusätzlich 10% der VTD des Gegners.
   "109":
     Name: Band des knisternden Donners
-    Description2pc: "<span>Erhöht Blitz-SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Erhöht beim Einsatz der Fertigkeit den ANG des Trägers für <span style='whiteSpace: \"nowrap\"'>1</span>\_Rd. um <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+    Description2pc: Erhöht Blitz-SCH um 10%.
+    Description4pc: "Erhöht beim Einsatz der Fertigkeit den ANG des Trägers für 1\_Rd. um 20%."
   "110":
     Name: Adler des Zwielichts
-    Description2pc: "<span>Erhöht Wind-SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Nach dem Einsatz des Ultimates wird die Aktion des Trägers um <span style='whiteSpace: \"nowrap\"'>25%</span> vorgezogen.</span>"
+    Description2pc: Erhöht Wind-SCH um 10%.
+    Description4pc: Nach dem Einsatz des Ultimates wird die Aktion des Trägers um 25% vorgezogen.
   "111":
     Name: Dieb des fallenden Meteors
-    Description2pc: "<span>Erhöht Brucheffekt um <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Erhöht den Brucheffekt des Trägers um <span style='whiteSpace: \"nowrap\"'>16%</span>. Wenn der Träger bei einem Gegner Schwächebruch verursacht, wird <span style='whiteSpace: \"nowrap\"'>3</span> Pkt. Energie wiederhergestellt.</span>"
+    Description2pc: Erhöht Brucheffekt um 16%.
+    Description4pc: Erhöht den Brucheffekt des Trägers um 16%. Wenn der Träger bei einem Gegner Schwächebruch verursacht, wird 3 Pkt. Energie wiederhergestellt.
   "112":
     Name: Ödländer aus der Räuberwüste
-    Description2pc: "<span>Erhöht imaginären SCH um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Wenn der Träger Gegnern mit Debuff SCH zufügt, wird KRIT-Rate um <span style='whiteSpace: \"nowrap\"'>10%</span> erhöht. Wenn der Träger Gegnern im Status Gefangenschaft SCH zufügt, wird KRIT-SCH um <span style='whiteSpace: \"nowrap\"'>20%</span> erhöht.</span>"
+    Description2pc: Erhöht imaginären SCH um 10%.
+    Description4pc: Wenn der Träger Gegnern mit Debuff SCH zufügt, wird KRIT-Rate um 10% erhöht. Wenn der Träger Gegnern im Status Gefangenschaft SCH zufügt, wird KRIT-SCH um 20% erhöht.
   "113":
     Name: Langlebige Jüngerin
-    Description2pc: "<span>Erhöht die max. LP um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Wenn der Träger getroffen wird oder seine LP von einem Verbündeten verbraucht werden, wird seine KRIT-Rate für <span style='whiteSpace: \"nowrap\"'>2</span>\_Rd. um <span style='whiteSpace: \"nowrap\"'>8%</span> erhöht. Dieser Effekt ist bis zu <span style='whiteSpace: \"nowrap\"'>2</span>-fach stapelbar.</span>"
+    Description2pc: Erhöht die max. LP um 12%.
+    Description4pc: "Wenn der Träger getroffen wird oder seine LP von einem Verbündeten verbraucht werden, wird seine KRIT-Rate für 2\_Rd. um 8% erhöht. Dieser Effekt ist bis zu 2-fach stapelbar."
   "114":
     Name: Bote im Hackerspace
-    Description2pc: "<span>Erhöht GES um <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
-    Description4pc: "<span>Wenn der Träger ein Ultimate auf einen Verbündeten anwendet, erhöht sich die GES aller Verbündeten für <span style='whiteSpace: \"nowrap\"'>1</span>\_Rd. um <span style='whiteSpace: \"nowrap\"'>12%</span>. Dieser Effekt ist nicht stapelbar.</span>"
+    Description2pc: Erhöht GES um 6%.
+    Description4pc: "Wenn der Träger ein Ultimate auf einen Verbündeten anwendet, erhöht sich die GES aller Verbündeten für 1\_Rd. um 12%. Dieser Effekt ist nicht stapelbar."
   "115":
     Name: Der eingeäscherte Erzherzog
-    Description2pc: "<span>Erhöht den durch Folgeangriffe verursachte SCH um <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
-    Description4pc: "<span>Wenn der Träger einen Folgeangriff einsetzt, wird sein ANG für jedes Mal, das der Folgeangriff SCH zufügt, um <span style='whiteSpace: \"nowrap\"'>6%</span> erhöht. Dieser Effekt ist bis zu <span style='whiteSpace: \"nowrap\"'>8</span>-mal stapelbar und hält <span style='whiteSpace: \"nowrap\"'>3</span> Rd. an. Das nächste Mal, dass der Träger einen Folgeangriff einsetzt, wird der Effekt entfernt.</span>"
+    Description2pc: Erhöht den durch Folgeangriffe verursachte SCH um 20%.
+    Description4pc: Wenn der Träger einen Folgeangriff einsetzt, wird sein ANG für jedes Mal, das der Folgeangriff SCH zufügt, um 6% erhöht. Dieser Effekt ist bis zu 8-mal stapelbar und hält 3 Rd. an. Das nächste Mal, dass der Träger einen Folgeangriff einsetzt, wird der Effekt entfernt.
   "116":
     Name: Gefangene in tiefem Gewahrsam
-    Description2pc: "<span>Erhöht den ANG um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Für jeden DoT-Effekt, den der Gegner erleidet, ignoriert der Träger <span style='whiteSpace: \"nowrap\"'>6%</span> der VTD dieses Gegners, wenn er diesem SCH zufügt. Bis zu <span style='whiteSpace: \"nowrap\"'>3</span> DoT-Effekte werden gezählt.</span>"
+    Description2pc: Erhöht den ANG um 12%.
+    Description4pc: Für jeden DoT-Effekt, den der Gegner erleidet, ignoriert der Träger 6% der VTD dieses Gegners, wenn er diesem SCH zufügt. Bis zu 3 DoT-Effekte werden gezählt.
   "117":
     Name: Pioniertaucherin toter Gewässer
-    Description2pc: "<span>Erhöht den bei Gegnern mit Debuff verursachten SCH um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Erhöht die KRIT-Rate um <span style='whiteSpace: \"nowrap\"'>4%</span>. Der bei Gegnern mit nicht weniger als <span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span> Debuffs verursachte KRIT-SCH des Trägers wird um jeweils <span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span> erhöht. Nachdem er dem Gegner einen Debuff zugefügt hat, werden diese Effekte für <span style='whiteSpace: \"nowrap\"'>1</span> Rd. um <span style='whiteSpace: \"nowrap\"'>100</span>\_% erhöht.</span>"
+    Description2pc: Erhöht den bei Gegnern mit Debuff verursachten SCH um 12%.
+    Description4pc: "Erhöht die KRIT-Rate um 4%. Der bei Gegnern mit nicht weniger als 2/3 Debuffs verursachte KRIT-SCH des Trägers wird um jeweils 8%/12% erhöht. Nachdem er dem Gegner einen Debuff zugefügt hat, werden diese Effekte für 1 Rd. um 100\_% erhöht."
   "118":
     Name: Uhrmacher der maschinellen Traumspiele
-    Description2pc: "<span>Erhöht Brucheffekt um <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Wenn der Träger seinen Ultimate auf einen Verbündeten anwendet, wird der Brucheffekt aller Verbündeten für <span style='whiteSpace: \"nowrap\"'>2</span> Rd. um <span style='whiteSpace: \"nowrap\"'>30%</span> erhöht. Dieser Effekt ist nicht stapelbar.</span>"
+    Description2pc: Erhöht Brucheffekt um 16%.
+    Description4pc: Wenn der Träger seinen Ultimate auf einen Verbündeten anwendet, wird der Brucheffekt aller Verbündeten für 2 Rd. um 30% erhöht. Dieser Effekt ist nicht stapelbar.
   "119":
     Name: Eiserne Kavallerie gegen die Plage
-    Description2pc: "<span>Erhöht Brucheffekt um <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Wenn der Brucheffekt des Trägers <span style='whiteSpace: \"nowrap\"'>150%</span> oder mehr beträgt, wird beim Verursachen von Bruch-SCH <span style='whiteSpace: \"nowrap\"'>10%</span> der VTD des gegnerischen Ziels ignoriert. Wenn der Brucheffekt des Trägers <span style='whiteSpace: \"nowrap\"'>250%</span> oder mehr beträgt, wird beim Verursachen von Super-Bruch-SCH zusätzlich <span style='whiteSpace: \"nowrap\"'>15%</span> der VTD des gegnerischen Ziels ignoriert.</span>"
+    Description2pc: Erhöht Brucheffekt um 16%.
+    Description4pc: Wenn der Brucheffekt des Trägers 150% oder mehr beträgt, wird beim Verursachen von Bruch-SCH 10% der VTD des gegnerischen Ziels ignoriert. Wenn der Brucheffekt des Trägers 250% oder mehr beträgt, wird beim Verursachen von Super-Bruch-SCH zusätzlich 15% der VTD des gegnerischen Ziels ignoriert.
   "120":
     Name: Tapferer Krieger des Winds
-    Description2pc: "<span>Erhöht den ANG um <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Erhöht die KRIT-Rate des Trägers um <span style='whiteSpace: \"nowrap\"'>6%</span>. Wenn der Träger einen Folgeangriff einsetzt, wird der durch Ultimates verursachte SCH für <span style='whiteSpace: \"nowrap\"'>1</span> Rd. um <span style='whiteSpace: \"nowrap\"'>36%</span> erhöht.</span>"
+    Description2pc: Erhöht den ANG um 12%.
+    Description4pc: Erhöht die KRIT-Rate des Trägers um 6%. Wenn der Träger einen Folgeangriff einsetzt, wird der durch Ultimates verursachte SCH für 1 Rd. um 36% erhöht.
   "121":
     Name: Wiedererlebte Tortur des Priesters
-    Description2pc: "<span>Erhöht GES um <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
-    Description4pc: "<span>Wenn eine Fertigkeit oder ein Ultimate auf einen Verbündeten eingesetzt wird, wird der KRIT-SCH des Ziels für <span style='whiteSpace: \"nowrap\"'>2</span> Rd. um <span style='whiteSpace: \"nowrap\"'>18%</span> erhöht. Dieser Effekt ist bis zu <span style='whiteSpace: \"nowrap\"'>2</span>-fach stapelbar.</span>"
+    Description2pc: Erhöht GES um 6%.
+    Description4pc: Wenn eine Fertigkeit oder ein Ultimate auf einen Verbündeten eingesetzt wird, wird der KRIT-SCH des Ziels für 2 Rd. um 18% erhöht. Dieser Effekt ist bis zu 2-fach stapelbar.
   "122":
     Name: Im Wissen verlorene Gelehrte
-    Description2pc: "<span>Erhöht KRIT-Rate um <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
-    Description4pc: "<span>Erhöht den durch Fertigkeiten und Ultimates verursachten SCH um <span style='whiteSpace: \"nowrap\"'>20%</span>. Nach dem Einsatz des Ultimates wird der SCH beim nächsten Einsatz der Fertigkeit zusätzlich um <span style='whiteSpace: \"nowrap\"'>25%</span> erhöht.</span>"
+    Description2pc: Erhöht KRIT-Rate um 8%.
+    Description4pc: Erhöht den durch Fertigkeiten und Ultimates verursachten SCH um 20%. Nach dem Einsatz des Ultimates wird der SCH beim nächsten Einsatz der Fertigkeit zusätzlich um 25% erhöht.
   "301":
     Name: Raumstation für Versiegelung
-    Description2pc: "<span>Erhöht ANG des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span>. Wenn die GES des Trägers <span style='whiteSpace: \"nowrap\"'>120</span> oder höher erreicht, wird sein ANG zusätzlich um <span style='whiteSpace: \"nowrap\"'>12%</span> erhöht.</span>"
+    Description2pc: Erhöht ANG des Trägers um 12%. Wenn die GES des Trägers 120 oder höher erreicht, wird sein ANG zusätzlich um 12% erhöht.
   "302":
     Name: Flotte der Alterslosen
-    Description2pc: "<span>Erhöht die max. LP des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span>. Wenn die GES des Trägers <span style='whiteSpace: \"nowrap\"'>120</span> oder höher erreicht, wird der ANG aller Verbündeten zusätzlich um <span style='whiteSpace: \"nowrap\"'>8%</span> erhöht.</span>"
+    Description2pc: Erhöht die max. LP des Trägers um 12%. Wenn die GES des Trägers 120 oder höher erreicht, wird der ANG aller Verbündeten zusätzlich um 8% erhöht.
   "303":
     Name: Pangalaktische Handelsgesellschaft
-    Description2pc: "<span>Erhöht die Effekt-Trefferrate des Trägers um <span style='whiteSpace: \"nowrap\"'>10%</span>. Erhöht gleichzeitig den ANG des Trägers in Höhe von <span style='whiteSpace: \"nowrap\"'>25%</span> der Effekt-Trefferrate, bis zu einem Höchstwert von <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Erhöht die Effekt-Trefferrate des Trägers um 10%. Erhöht gleichzeitig den ANG des Trägers in Höhe von 25% der Effekt-Trefferrate, bis zu einem Höchstwert von 25%.
   "304":
     Name: Belobog der Architekten
-    Description2pc: "<span>Erhöht die VTD des Trägers um <span style='whiteSpace: \"nowrap\"'>15%</span>. Wenn die Effekt-Trefferrate des Trägers <span style='whiteSpace: \"nowrap\"'>50%</span> oder höher erreicht, wird seine VTD zusätzlich um <span style='whiteSpace: \"nowrap\"'>15%</span> erhöht.</span>"
+    Description2pc: Erhöht die VTD des Trägers um 15%. Wenn die Effekt-Trefferrate des Trägers 50% oder höher erreicht, wird seine VTD zusätzlich um 15% erhöht.
   "305":
     Name: Himmlischer Differenziator
-    Description2pc: "<span>Erhöht den KRIT-SCH des Trägers um <span style='whiteSpace: \"nowrap\"'>16%</span>. Wenn der aktuelle KRIT-SCH des Trägers <span style='whiteSpace: \"nowrap\"'>120%</span> oder höher erreicht, wird die KRIT-Rate nach Kampfeintritt um <span style='whiteSpace: \"nowrap\"'>60%</span> erhöht, bis zum Ende seines ersten Angriffs.</span>"
+    Description2pc: Erhöht den KRIT-SCH des Trägers um 16%. Wenn der aktuelle KRIT-SCH des Trägers 120% oder höher erreicht, wird die KRIT-Rate nach Kampfeintritt um 60% erhöht, bis zum Ende seines ersten Angriffs.
   "306":
     Name: Regloses Salsotto
-    Description2pc: "<span>Erhöht die KRIT-Rate des Trägers um <span style='whiteSpace: \"nowrap\"'>8%</span>. Wenn die aktuelle KRIT-Rate des Trägers <span style='whiteSpace: \"nowrap\"'>50%</span> oder höher erreicht, wird der durch Ultimates und Folgeangriffe verursachte SCH um <span style='whiteSpace: \"nowrap\"'>15%</span> erhöht.</span>"
+    Description2pc: Erhöht die KRIT-Rate des Trägers um 8%. Wenn die aktuelle KRIT-Rate des Trägers 50% oder höher erreicht, wird der durch Ultimates und Folgeangriffe verursachte SCH um 15% erhöht.
   "307":
     Name: Talia – Königreich der Banditen
-    Description2pc: "<span>Erhöht den Brucheffekt des Trägers um <span style='whiteSpace: \"nowrap\"'>16%</span>. Wenn die GES des Trägers <span style='whiteSpace: \"nowrap\"'>145</span> oder höher erreicht, wird der Brucheffekt des Trägers zusätzlich um <span style='whiteSpace: \"nowrap\"'>20%</span> erhöht.</span>"
+    Description2pc: Erhöht den Brucheffekt des Trägers um 16%. Wenn die GES des Trägers 145 oder höher erreicht, wird der Brucheffekt des Trägers zusätzlich um 20% erhöht.
   "308":
     Name: Lebhaftes Vonwacq
-    Description2pc: "<span>Erhöht die Energie-Wiederherstellungsrate des Trägers um <span style='whiteSpace: \"nowrap\"'>5%</span>. Wenn die GES des Trägers <span style='whiteSpace: \"nowrap\"'>120</span> oder höher erreicht, wird seine Aktion beim Kampfeintritt um <span style='whiteSpace: \"nowrap\"'>40%</span> vorgezogen.</span>"
+    Description2pc: Erhöht die Energie-Wiederherstellungsrate des Trägers um 5%. Wenn die GES des Trägers 120 oder höher erreicht, wird seine Aktion beim Kampfeintritt um 40% vorgezogen.
   "309":
     Name: Sternenarena
-    Description2pc: "<span>Erhöht die KRIT-Rate des Trägers um <span style='whiteSpace: \"nowrap\"'>8%</span>. Wenn die aktuelle KRIT-Rate des Trägers einen Wert von <span style='whiteSpace: \"nowrap\"'>70%</span> oder höher erreicht, wird der durch Standardangriffe und Fertigkeiten verursachte SCH um <span style='whiteSpace: \"nowrap\"'>20%</span> erhöht.</span>"
+    Description2pc: Erhöht die KRIT-Rate des Trägers um 8%. Wenn die aktuelle KRIT-Rate des Trägers einen Wert von 70% oder höher erreicht, wird der durch Standardangriffe und Fertigkeiten verursachte SCH um 20% erhöht.
   "310":
     Name: Gebrochener Kiel
-    Description2pc: "<span>Der Effekt-WDS des Trägers wird um <span style='whiteSpace: \"nowrap\"'>10%</span> erhöht. Wenn der Effekt-WDS des Trägers <span style='whiteSpace: \"nowrap\"'>30%</span> oder mehr beträgt, wird der KRIT-SCH aller Verbündeten um <span style='whiteSpace: \"nowrap\"'>10%</span> erhöht.</span>"
+    Description2pc: Der Effekt-WDS des Trägers wird um 10% erhöht. Wenn der Effekt-WDS des Trägers 30% oder mehr beträgt, wird der KRIT-SCH aller Verbündeten um 10% erhöht.
   "311":
     Name: Himmelsfront Glamoth
-    Description2pc: "<span>Erhöht den ANG des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span>. Wenn die GES des Trägers <span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span> oder höher erreicht, wird sein verursachter SCH um <span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span> erhöht.</span>"
+    Description2pc: Erhöht den ANG des Trägers um 12%. Wenn die GES des Trägers 135/160 oder höher erreicht, wird sein verursachter SCH um 12%/18% erhöht.
   "312":
     Name: Penacony, Land der Träume
-    Description2pc: "<span>Erhöht die Energie-Wiederherstellungsrate des Trägers um <span style='whiteSpace: \"nowrap\"'>5%</span>. Erhöht den SCH aller anderen Verbündeten im Team mit dem gleichen Typ wie der Träger um <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description2pc: Erhöht die Energie-Wiederherstellungsrate des Trägers um 5%. Erhöht den SCH aller anderen Verbündeten im Team mit dem gleichen Typ wie der Träger um 10%.
   "313":
     Name: Verlassenes Sigonien
-    Description2pc: "<span>Erhöht die KRIT-Rate des Trägers um <span style='whiteSpace: \"nowrap\"'>4%</span>. Wenn Gegner besiegt werden, wird der KRIT-SCH des Trägers bis zu <span style='whiteSpace: \"nowrap\"'>10</span>-mal um <span style='whiteSpace: \"nowrap\"'>4%</span> erhöht.</span>"
+    Description2pc: Erhöht die KRIT-Rate des Trägers um 4%. Wenn Gegner besiegt werden, wird der KRIT-SCH des Trägers bis zu 10-mal um 4% erhöht.
   "314":
     Name: Izumo-Gensei und Takama-Himmelreich
-    Description2pc: "<span>Erhöht den ANG des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span>. Wenn beim Kampfeintritt mindestens ein Verbündeter dem gleichen Pfad wie der Träger folgt, wird die KRIT-Rate des Trägers um <span style='whiteSpace: \"nowrap\"'>12%</span> erhöht.</span>"
+    Description2pc: Erhöht den ANG des Trägers um 12%. Wenn beim Kampfeintritt mindestens ein Verbündeter dem gleichen Pfad wie der Träger folgt, wird die KRIT-Rate des Trägers um 12% erhöht.
   "315":
     Name: Duran, Dynastie der rennenden Wölfe
-    Description2pc: "<span>Wenn ein Verbündeter einen Folgeangriff ausführt, erhält der Träger 1 Stapelung „Verdienst“, bis zu <span style='whiteSpace: \"nowrap\"'>5</span> Stapelungen. Jede Stapelung Verdienst erhöht den durch Folgeangriffe verursachten SCH des Trägers um <span style='whiteSpace: \"nowrap\"'>5%</span>. Werden <span style='whiteSpace: \"nowrap\"'>5</span> Stapelungen erreicht, wird der KRIT-SCH des Trägers zusätzlich um <span style='whiteSpace: \"nowrap\"'>25%</span> erhöht.</span>"
+    Description2pc: Wenn ein Verbündeter einen Folgeangriff ausführt, erhält der Träger 1 Stapelung „Verdienst“, bis zu 5 Stapelungen. Jede Stapelung Verdienst erhöht den durch Folgeangriffe verursachten SCH des Trägers um 5%. Werden 5 Stapelungen erreicht, wird der KRIT-SCH des Trägers zusätzlich um 25% erhöht.
   "316":
     Name: Schmiede der Kalpagni-Laterne
-    Description2pc: "<span>Erhöht die GES des Trägers um <span style='whiteSpace: \"nowrap\"'>6%</span>. Trifft der Träger einen Gegner mit Feuer-Schwäche, wird sein Brucheffekt für <span style='whiteSpace: \"nowrap\"'>1</span> Rd. um <span style='whiteSpace: \"nowrap\"'>40%</span> erhöht.</span>"
+    Description2pc: Erhöht die GES des Trägers um 6%. Trifft der Träger einen Gegner mit Feuer-Schwäche, wird sein Brucheffekt für 1 Rd. um 40% erhöht.
   "317":
     Name: Lushaka, die versunkenen See
-    Description2pc: "<span>Erhöht Die Energie-Wiederherstellungsrate des Trägers um <span style='whiteSpace: \"nowrap\"'>5%</span>. Wenn der Träger nicht die erste Figur in der Teamformation ist, wird der ANG der ersten Figur in der Teamformation um <span style='whiteSpace: \"nowrap\"'>12%</span> erhöht.</span>"
+    Description2pc: Erhöht Die Energie-Wiederherstellungsrate des Trägers um 5%. Wenn der Träger nicht die erste Figur in der Teamformation ist, wird der ANG der ersten Figur in der Teamformation um 12% erhöht.
   "318":
     Name: Wunbanana-Park
-    Description2pc: "<span>Erhöht den KRIT-SCH des Trägers um <span style='whiteSpace: \"nowrap\"'>16%</span>. Befindet sich ein vom Träger beschworenes Ziel auf dem Kampffeld, wird der KRIT-SCH zusätzlich um <span style='whiteSpace: \"nowrap\"'>32%</span> erhöht.</span>"
+    Description2pc: Erhöht den KRIT-SCH des Trägers um 16%. Befindet sich ein vom Träger beschworenes Ziel auf dem Kampffeld, wird der KRIT-SCH zusätzlich um 32% erhöht.
 Lightcones:
   "20000":
     Name: Pfeile
-    SkillName: Krise
   "20001":
     Name: Füllhorn
-    SkillName: Gedeihen
   "20002":
     Name: Zusammenbruch des Himmels
-    SkillName: Verwüstung
   "20003":
     Name: Bernstein
-    SkillName: Stillstand
   "20004":
     Name: Leere
-    SkillName: Niedergang
   "20005":
     Name: Chor
-    SkillName: Vereint
   "20006":
     Name: Datenbank
-    SkillName: Gelehrt
   "20007":
     Name: Wurfpfeil
-    SkillName: Kriegsschrei
   "20008":
     Name: Feines Obst
-    SkillName: Geschmack
   "20009":
     Name: Zerstörtes Zuhause
-    SkillName: Ausrottung
   "20010":
     Name: Verteidigung
-    SkillName: Wiederbelebung
   "20011":
     Name: Schleife
-    SkillName: Verfolgung
   "20012":
     Name: Einklang der Zahnräder
-    SkillName: Schneller Sieg
   "20013":
     Name: Generalschlüssel
-    SkillName: Erleuchtung
   "20014":
     Name: Gegensätzliches
-    SkillName: Allianz
   "20015":
     Name: Aufschwung
-    SkillName: Wesen des Überflusses
   "20016":
     Name: Gemeinsamer Untergang
-    SkillName: Legion
   "20017":
     Name: Pionierarbeit
-    SkillName: IFK
   "20018":
     Name: Verborgener Schatten
-    SkillName: Mechanismus
   "20019":
     Name: Vermittlung
-    SkillName: Familie
   "20020":
     Name: Weisheit
-    SkillName: Genie
   "21000":
     Name: Ein Gespräch nach der OP
-    SkillName: Gegenseitiges Heilen
   "21001":
     Name: Gute Nacht, schlaf schön
-    SkillName: Malocher
   "21002":
     Name: Der erste Tag meines neuen Lebens
-    SkillName: Genau in diesem Moment
   "21003":
     Name: Nur die Stille bleibt
-    SkillName: Aufzeichnung
   "21004":
     Name: Erinnerungen an die Vergangenheit
-    SkillName: Altes Foto
   "21005":
     Name: Die Maulwürfe heißen dich willkommen
-    SkillName: Fantastisches Abenteuer
   "21006":
     Name: Die Geburt des Selbst
-    SkillName: Die Jungfrau im Gemälde
   "21007":
     Name: Gefühl der Gemeinsamkeit
-    SkillName: Heilung und Reparatur
   "21008":
     Name: Die Augen der Beute
-    SkillName: Selbstvertrauen
   "21009":
     Name: Landaus Wahl
-    SkillName: Die Zeit fliegt davon
   "21010":
     Name: Schwertkampf
-    SkillName: Eigene Antworten
   "21011":
     Name: Planetarisches Rendezvous
-    SkillName: Abreise
   "21012":
     Name: Ein geheimes Gelübde
-    SkillName: Keine Mühen scheuen
   "21013":
     Name: Die Welt in Aufruhr versetzen
-    SkillName: Die Macht des Klangs
   "21014":
     Name: Perfektes Timing
-    SkillName: Brechung der Sichtlinie
   "21015":
     Name: Die Entschlusskraft glitzert als Schweißperlen
-    SkillName: Zurückblicken
   "21016":
     Name: Trend des universellen Markts
-    SkillName: Für eine neue Runde mischen
   "21017":
     Name: Abonniere für mehr!
-    SkillName: Gib uns einen Like, bevor du gehst!
   "21018":
     Name: Tanz! Tanz! Tanz!
-    SkillName: Unaufhaltsam!
   "21019":
     Name: Unter dem blauen Himmel
-    SkillName: Wogender Weizen unter der Sonne
   "21020":
     Name: Die Rast der Genies
-    SkillName: Jeder muss jetzt eine Rolle spielen
   "21021":
     Name: Quid pro quo
-    SkillName: Im Rausch genießen
   "21022":
     Name: Fermate
-    SkillName: Semibrevis-Pause
   "21023":
     Name: Wir sind Wildfeuer
-    SkillName: Mit tränenden Augen
   "21024":
     Name: Flüsse plätschern im Frühling
-    SkillName: Die nachklingende Kälte abwehren
   "21025":
     Name: Vergangenheit und Zukunft
-    SkillName: Drachen aus der Vergangenheit
   "21026":
     Name: Wuff! Zeit zum Laufen!
-    SkillName: Lauf!
   "21027":
     Name: Die Ernsthaftigkeit des Frühstücks
-    SkillName: Mach dich bereit
   "21028":
     Name: Warme Nächte dauern nicht lange
-    SkillName: Kleines Licht
   "21029":
     Name: Wir werden uns wiedersehen
-    SkillName: Ein Diskurs in Waffen
   "21030":
     Name: Das bin ich!
-    SkillName: Neues Kapitel
   "21031":
     Name: Rückkehr in die Dunkelheit
-    SkillName: Tosende Wellen
   "21032":
     Name: Den Mond schnitzen, die Wolken weben
-    SkillName: Geheimnis
   "21033":
     Name: Nirgends zu fliehen
-    SkillName: Krise
   "21034":
     Name: Heute ist wieder ein friedlicher Tag
-    SkillName: Ein Sturm zieht auf
   "21035":
     Name: Sache der Wahrheit
-    SkillName: Hypothese
   "21036":
     Name: Abenteuer in Traumstadt
-    SkillName: Solidarität
   "21037":
     Name: Endgültiger Sieger
-    SkillName: Die Wette gilt
   "21038":
     Name: Feuer in der Ferne
-    SkillName: Deflagration
   "21039":
     Name: Schicksalsfaden
-    SkillName: Einblick
   "21040":
     Name: Tag des kosmischen Kollapses
-    SkillName: Strategem
   "21041":
     Name: Vorhang auf
-    SkillName: Selbstbelustigung
   "21042":
     Name: Verewigtes Versprechen
-    SkillName: Erbe
   "21043":
     Name: Konzert für zwei
-    SkillName: Inspirieren
   "21044":
     Name: Grenzenloser Tanz
-    SkillName: Prüfen
   "21045":
     Name: Nach dem Fall der Harmonie
-    SkillName: Stille
   "21046":
     Name: Jugend in Erwartung der Entflammung
-    SkillName: Verliere nicht, vergiss nicht
   "21047":
     Name: Die Nacht der langen Schatten
-    SkillName: Verstecken
   "21048":
     Name: Traummontage
-    SkillName: Akademischer Schnitt
   "22000":
     Name: Bevor das Tutorial beginnt
-    SkillName: Flinke Hände
   "22001":
     Name: Hey, ich bin hier
-    SkillName: Hab keine Angst
   "22002":
     Name: Für die Reise von morgen
-    SkillName: Verketten
   "22003":
     Name: "Ninja-Aufzeichnung: Klangjagd"
-    SkillName: Vorhang auf!
   "23000":
     Name: Nacht auf der Milchstraße
-    SkillName: Meteoritenschwarm
   "23001":
     Name: In der Nacht
-    SkillName: Blumen und Schmetterlinge
   "23002":
     Name: Etwas Unersetzliches
-    SkillName: Teil der Familie
   "23003":
     Name: Der Kampf ist nicht vorbei
-    SkillName: Erbin
   "23004":
     Name: Im Namen der Welt
-    SkillName: Nachkomme
   "23005":
     Name: Moment des Sieges
-    SkillName: Urteilsspruch
   "23006":
     Name: Nur Geduld
-    SkillName: Spinnennetz
   "23007":
     Name: Unaufhörlicher Regen
-    SkillName: Trugbild der Realität
   "23008":
     Name: Echos des Sarges
-    SkillName: Dornen
   "23009":
     Name: Unerreichbares Jenseits
-    SkillName: Unerfüllte Sehnsucht
   "23010":
     Name: Vor der Dämmerung
-    SkillName: Lange Nacht
   "23011":
     Name: Ihre Augen sind bereits geschlossen
-    SkillName: Sicht
   "23012":
     Name: Schlafen wie die Toten
-    SkillName: Süßer Traum
   "23013":
     Name: Die Zeit wartet auf niemanden
-    SkillName: Morgens, mittags, abends und nachts
   "23014":
     Name: Eins mit dem Schwert
-    SkillName: Mit dieser Abendjade
   "23015":
     Name: Heller als die Sonne
-    SkillName: Dem Tode trotzend
   "23016":
     Name: Besorgt doch glückselig
-    SkillName: Einer nach dem Anderen
   "23017":
     Name: Nacht der Angst
-    SkillName: Atme tief durch
   "23018":
     Name: Ein unvergesslicher Augenblick
-    SkillName: Ritterreise
   "23019":
     Name: Das Ich im Spiegel
-    SkillName: Pflaumenduft
   "23020":
     Name: Taufe des reinen Denkens
-    SkillName: Denktraining
   "23021":
     Name: Eskapade auf Erden
-    SkillName: Wankelmut
   "23022":
     Name: Restaurierte Erinnerung
-    SkillName: Kristallisiert
   "23023":
     Name: Ungerechtes Schicksal
-    SkillName: Alles auf den Tisch
   "23024":
     Name: Entlang am vorbeiziehenden Ufer
-    SkillName: Fährmann
   "23025":
     Name: Wohin sollen die Träume gehen
-    SkillName: Metamorphose
   "23026":
     Name: Schillernde Nacht
-    SkillName: Trösten
   "23027":
     Name: Auf zu einem zweiten Leben
-    SkillName: Starker Wellengang
   "23028":
     Name: Doch Hoffnung ist unbezahlbar
-    SkillName: Versprechen
   "23029":
     Name: Jene unzähligen Frühlinge
-    SkillName: Weltliches hinterlässt keine Spur
   "23030":
     Name: Tanz im Sonnenuntergang
-    SkillName: Tief versunken
   "23031":
     Name: Ich wage die Jagd
-    SkillName: Einschüchtern
   "23032":
     Name: Nur ein Duft bleibt zurück
-    SkillName: Erleichterung
   "23033":
     Name: "Ninja-Kodex: Blendender Schattenbrecher"
-    SkillName: Exorzismus
   "24000":
     Name: Der Niedergang eines Äons
-    SkillName: Wie Motten ins Licht
   "24001":
     Name: Fahrt durch das Sternenmeer
-    SkillName: Jagen
   "24002":
     Name: Textur der Erinnerungen
-    SkillName: Schätzen
   "24003":
     Name: Einzelne Heilung
-    SkillName: Chaoselixier
   "24004":
     Name: Unermüdliche Berechnung
-    SkillName: Gedanken ohne Grenzen
 Paths:
   Warrior: Die Zerstörung
   Rogue: Die Jagd

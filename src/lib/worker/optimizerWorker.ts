@@ -1,15 +1,18 @@
-import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants'
-import { BufferPacker } from '../bufferPacker.js'
-import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
-import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
-import { SortOption } from 'lib/optimizer/sortOptions'
-import { Form } from 'types/Form'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/Optimizer'
-import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimizer/calculateConditionals'
-import { CharacterConditionals } from 'lib/characterConditionals'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats, StatsValues } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { BufferPacker } from 'lib/optimization/bufferPacker'
+import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimization/calculateConditionals'
+import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
+import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimization/calculateStats'
+import { ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimization/computedStatsArray'
+import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
+import { Form } from 'types/form'
+import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/optimizer'
+import { Relic } from 'types/relic'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
@@ -17,12 +20,12 @@ let isFirefox = false
 
 type OptimizerEventData = {
   relics: {
-    LinkRope: any[]
-    PlanarSphere: any[]
-    Feet: any[]
-    Body: any[]
-    Hands: any[]
-    Head: any[]
+    LinkRope: Relic[]
+    PlanarSphere: Relic[]
+    Feet: Relic[]
+    Body: Relic[]
+    Hands: Relic[]
+    Head: Relic[]
   }
   request: Form
   context: OptimizerContext
@@ -43,8 +46,8 @@ self.onmessage = function (e: MessageEvent) {
   const request: Form = data.request
   const context: OptimizerContext = data.context
 
-  const relics = data.relics
-  const arr = new Float64Array(data.buffer)
+  const relics: RelicsByPart = data.relics
+  const arr = new Float32Array(data.buffer)
 
   const lSize = relics.LinkRope.length
   const pSize = relics.PlanarSphere.length
@@ -63,8 +66,8 @@ self.onmessage = function (e: MessageEvent) {
   isFirefox = data.isFirefox
 
   const {
-    failsBasicFilter,
-    failsCombatFilter,
+    failsBasicThresholdFilter,
+    failsCombatThresholdFilter,
     // @ts-ignore
   } = generateResultMinFilter(request, combatDisplay)
 
@@ -72,12 +75,12 @@ self.onmessage = function (e: MessageEvent) {
     calculateContextConditionalRegistry(action, context)
   }
 
-  context.characterConditionalController = CharacterConditionals.get(context)
-  context.lightConeConditionalController = LightConeConditionals.get(context)
+  context.characterConditionalController = CharacterConditionalsResolver.get(context)
+  context.lightConeConditionalController = LightConeConditionalsResolver.get(context)
 
   function calculateTeammateDynamicConditionals(action: OptimizerAction, teammateMetadata: CharacterMetadata, index: number) {
     if (teammateMetadata?.characterId) {
-      const teammateCharacterConditionalController = CharacterConditionals.get(teammateMetadata)
+      const teammateCharacterConditionalController = CharacterConditionalsResolver.get(teammateMetadata)
       const dynamicConditionals = (teammateCharacterConditionalController.teammateDynamicConditionals ?? [])
         .map((dynamicConditional: DynamicConditional) => {
           const wrapped = wrapTeammateDynamicConditional(dynamicConditional, index)
@@ -92,9 +95,18 @@ self.onmessage = function (e: MessageEvent) {
     if (context.teammate0Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate0Metadata, 0)
     if (context.teammate1Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate1Metadata, 1)
     if (context.teammate2Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate2Metadata, 2)
+
+    // Reconstruct arrays after transfer
+    action.precomputedX.a = new Float32Array(Object.values(action.precomputedX.a))
+    action.precomputedX.precomputedStatsArray = new Float32Array(Object.values(action.precomputedX.precomputedStatsArray))
   }
 
   const limit = Math.min(data.permutations, data.WIDTH)
+
+  const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
+
+  const failsCombatStatsFilter = combatStatsFilter(request)
+  const failsBasicStatsFilter = basicStatsFilter(request)
 
   for (let col = 0; col < limit; col++) {
     const index = data.skip + col
@@ -144,97 +156,48 @@ self.onmessage = function (e: MessageEvent) {
     calculateBaseStats(c, context)
     calculateElementalStats(c, context)
 
-    // Exit early on base display filters failing
-    if (baseDisplay) {
-      if (failsBasicFilter(c)) {
-        continue
-      }
+    x.setBasic(c)
 
-      const fail
-        = c[Stats.SPD] < request.minSpd || c[Stats.SPD] > request.maxSpd
-        || c[Stats.HP] < request.minHp || c[Stats.HP] > request.maxHp
-        || c[Stats.ATK] < request.minAtk || c[Stats.ATK] > request.maxAtk
-        || c[Stats.DEF] < request.minDef || c[Stats.DEF] > request.maxDef
-        || c[Stats.CR] < request.minCr || c[Stats.CR] > request.maxCr
-        || c[Stats.CD] < request.minCd || c[Stats.CD] > request.maxCd
-        || c[Stats.EHR] < request.minEhr || c[Stats.EHR] > request.maxEhr
-        || c[Stats.RES] < request.minRes || c[Stats.RES] > request.maxRes
-        || c[Stats.BE] < request.minBe || c[Stats.BE] > request.maxBe
-        || c[Stats.ERR] < request.minErr || c[Stats.ERR] > request.maxErr
-      if (fail) {
-        continue
-      }
+    // Exit early on base display filters failing
+    if (baseDisplay && (failsBasicThresholdFilter(c) || failsBasicStatsFilter(c))) {
+      continue
     }
 
     let combo = 0
     for (let i = context.actions.length - 1; i >= 0; i--) {
       const action = setupAction(c, i, context)
-      const ax = action.precomputedX
+      const a = x.a
+      x.setPrecompute(action.precomputedX.a)
 
-      calculateComputedStats(c, ax, action, context)
-      calculateBaseMultis(ax, action, context)
-      calculateDamage(ax, action, context)
+      calculateComputedStats(x, action, context)
+      calculateBaseMultis(x, action, context)
+      calculateDamage(x, action, context)
 
       if (action.actionType === 'BASIC') {
-        combo += ax.BASIC_DMG
-      }
-      if (action.actionType === 'SKILL') {
-        combo += ax.SKILL_DMG
-      }
-      if (action.actionType === 'ULT') {
-        combo += ax.ULT_DMG
-      }
-      if (action.actionType === 'FUA') {
-        combo += ax.FUA_DMG
+        combo += a[Key.BASIC_DMG]
+      } else if (action.actionType === 'SKILL') {
+        combo += a[Key.SKILL_DMG]
+      } else if (action.actionType === 'ULT') {
+        combo += a[Key.ULT_DMG]
+      } else if (action.actionType === 'FUA') {
+        combo += a[Key.FUA_DMG]
       }
 
       if (i === 0) {
-        combo += context.comboDot * ax.DOT_DMG + context.comboBreak * ax.BREAK_DMG
-        c.x = ax
+        combo += context.comboDot * a[Key.DOT_DMG] + context.comboBreak * a[Key.BREAK_DMG]
+        x.COMBO_DMG.set(combo, Source.NONE)
       }
     }
 
-    c.x.COMBO_DMG = combo
-    const x = c.x
-
-    if (failsCombatFilter(x)) {
-      continue
-    }
-
-    // Since we exited early on the c comparisons, we only need to check against x stats here
     // Combat filters
-    if (combatDisplay) {
-      const fail
-        = x[Stats.HP] < request.minHp || x[Stats.HP] > request.maxHp
-        || x[Stats.ATK] < request.minAtk || x[Stats.ATK] > request.maxAtk
-        || x[Stats.DEF] < request.minDef || x[Stats.DEF] > request.maxDef
-        || x[Stats.SPD] < request.minSpd || x[Stats.SPD] > request.maxSpd
-        || x[Stats.CR] < request.minCr || x[Stats.CR] > request.maxCr
-        || x[Stats.CD] < request.minCd || x[Stats.CD] > request.maxCd
-        || x[Stats.EHR] < request.minEhr || x[Stats.EHR] > request.maxEhr
-        || x[Stats.RES] < request.minRes || x[Stats.RES] > request.maxRes
-        || x[Stats.BE] < request.minBe || x[Stats.BE] > request.maxBe
-        || x[Stats.ERR] < request.minErr || x[Stats.ERR] > request.maxErr
-      if (fail) {
-        continue
-      }
-    }
-
-    // Rating filters
-    const fail = x.EHP < request.minEhp || x.EHP > request.maxEhp
-      || x.BASIC_DMG < request.minBasic || x.BASIC_DMG > request.maxBasic
-      || x.SKILL_DMG < request.minSkill || x.SKILL_DMG > request.maxSkill
-      || x.ULT_DMG < request.minUlt || x.ULT_DMG > request.maxUlt
-      || x.FUA_DMG < request.minFua || x.FUA_DMG > request.maxFua
-      || x.DOT_DMG < request.minDot || x.DOT_DMG > request.maxDot
-      || x.BREAK_DMG < request.minBreak || x.BREAK_DMG > request.maxBreak
-    if (fail) {
+    const a = x.a
+    if (combatDisplay && (failsCombatThresholdFilter(a) || failsCombatStatsFilter(a))) {
       continue
     }
 
-    // Pack the passing results into the ArrayBuffer to return
-    c.id = index
-    BufferPacker.packCharacter(arr, passCount, c)
+    c.id = col
+
+    BufferPacker.packCharacter(arr, passCount, x)
     passCount++
   }
 
@@ -244,38 +207,91 @@ self.onmessage = function (e: MessageEvent) {
   }, [data.buffer])
 }
 
+function addConditionIfNeeded(
+  conditions: ((stats: Record<number | string, number>) => boolean)[],
+  statKey: number | string,
+  min: number,
+  max: number,
+) {
+  if (min !== 0 || max !== Constants.MAX_INT) {
+    conditions.push((stats) => stats[statKey] < min || stats[statKey] > max)
+  }
+}
+
+function basicStatsFilter(request: Form) {
+  const conditions: ((stats: Record<string, number>) => boolean)[] = []
+
+  addConditionIfNeeded(conditions, Stats.SPD, request.minHp, request.maxHp)
+  addConditionIfNeeded(conditions, Stats.HP, request.minAtk, request.maxAtk)
+  addConditionIfNeeded(conditions, Stats.ATK, request.minDef, request.maxDef)
+  addConditionIfNeeded(conditions, Stats.DEF, request.minSpd, request.maxSpd)
+  addConditionIfNeeded(conditions, Stats.CR, request.minCr, request.maxCr)
+  addConditionIfNeeded(conditions, Stats.CD, request.minCd, request.maxCd)
+  addConditionIfNeeded(conditions, Stats.EHR, request.minEhr, request.maxEhr)
+  addConditionIfNeeded(conditions, Stats.RES, request.minRes, request.maxRes)
+  addConditionIfNeeded(conditions, Stats.BE, request.minBe, request.maxBe)
+  addConditionIfNeeded(conditions, Stats.ERR, request.minErr, request.maxErr)
+
+  return (stats: Record<number, number>) => conditions.some((condition) => condition(stats))
+}
+
+function combatStatsFilter(request: Form) {
+  const conditions: ((stats: Record<number, number>) => boolean)[] = []
+
+  addConditionIfNeeded(conditions, Key.HP, request.minHp, request.maxHp)
+  addConditionIfNeeded(conditions, Key.ATK, request.minAtk, request.maxAtk)
+  addConditionIfNeeded(conditions, Key.DEF, request.minDef, request.maxDef)
+  addConditionIfNeeded(conditions, Key.SPD, request.minSpd, request.maxSpd)
+  addConditionIfNeeded(conditions, Key.CR, request.minCr, request.maxCr)
+  addConditionIfNeeded(conditions, Key.CD, request.minCd, request.maxCd)
+  addConditionIfNeeded(conditions, Key.EHR, request.minEhr, request.maxEhr)
+  addConditionIfNeeded(conditions, Key.RES, request.minRes, request.maxRes)
+  addConditionIfNeeded(conditions, Key.BE, request.minBe, request.maxBe)
+  addConditionIfNeeded(conditions, Key.ERR, request.minErr, request.maxErr)
+
+  addConditionIfNeeded(conditions, Key.EHP, request.minEhp, request.maxEhp)
+  addConditionIfNeeded(conditions, Key.BASIC_DMG, request.minBasic, request.maxBasic)
+  addConditionIfNeeded(conditions, Key.SKILL_DMG, request.minSkill, request.maxSkill)
+  addConditionIfNeeded(conditions, Key.ULT_DMG, request.minUlt, request.maxUlt)
+  addConditionIfNeeded(conditions, Key.FUA_DMG, request.minFua, request.maxFua)
+  addConditionIfNeeded(conditions, Key.DOT_DMG, request.minDot, request.maxDot)
+  addConditionIfNeeded(conditions, Key.BREAK_DMG, request.minBreak, request.maxBreak)
+  addConditionIfNeeded(conditions, Key.HEAL_VALUE, request.minHeal, request.maxHeal)
+  addConditionIfNeeded(conditions, Key.SHIELD_VALUE, request.minShield, request.maxShield)
+
+  return (stats: Record<number, number>) => conditions.some((condition) => condition(stats))
+}
+
 function generateResultMinFilter(request: Form, combatDisplay: string) {
   // @ts-ignore
   const filter = request.resultMinFilter
   // @ts-ignore
-  const sortOption = SortOption[request.resultSort]
+  const sortOption = SortOption[request.resultSort] as SortOptionProperties
   const isComputedRating = sortOption.isComputedRating
 
   // Combat and basic filters apply at different places in the loop
   // Computed ratings (EHP, DMG, WEIGHT) only apply to the computed x values independent of the stat display
   if (combatDisplay || isComputedRating) {
-    const property = sortOption.combatProperty
+    const key = sortOption.optimizerKey
     return {
-      failsBasicFilter: () => false,
-      failsCombatFilter: (candidate) => {
-        return candidate[property] < filter
+      failsBasicThresholdFilter: () => false,
+      failsCombatThresholdFilter: (candidate: Float32Array) => {
+        return candidate[key] < filter
       },
     }
   } else {
     const property = sortOption.basicProperty
     return {
-      failsBasicFilter: (candidate) => {
-        return candidate[property] < filter
+      failsBasicThresholdFilter: (candidate: BasicStatsObject) => {
+        return candidate[property as StatsValues] < filter
       },
-      failsCombatFilter: () => false,
+      failsCombatThresholdFilter: () => false,
     }
   }
 }
 
 function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) {
   const originalAction = context.actions[i]
-  const ax = cloneX(originalAction)
-  ax.sets = c.x.sets
   const action = {
     characterConditionals: originalAction.characterConditionals,
     lightConeConditionals: originalAction.lightConeConditionals,
@@ -286,7 +302,7 @@ function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) 
     setConditionals: originalAction.setConditionals,
     conditionalRegistry: originalAction.conditionalRegistry,
     actionType: originalAction.actionType,
-    precomputedX: ax,
+    precomputedX: originalAction.precomputedX,
     conditionalState: {},
   } as OptimizerAction
 

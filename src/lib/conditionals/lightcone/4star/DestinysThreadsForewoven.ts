@@ -1,10 +1,9 @@
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { Stats } from 'lib/constants'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const sValues = [0.008, 0.009, 0.01, 0.011, 0.012]
   const sValuesMax = [0.32, 0.36, 0.40, 0.44, 0.48]
 
@@ -13,8 +12,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     defaults: () => ({}),
     precomputeEffects: () => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      x.ELEMENTAL_DMG += Math.min(sValuesMax[s], Math.floor(x[Stats.DEF] / 100) * sValues[s])
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      x.ELEMENTAL_DMG.buff(Math.min(sValuesMax[s], Math.floor(x.a[Key.DEF] / 100) * sValues[s]), Source.NONE)
     },
     gpuFinalizeCalculations: () => {
       return `

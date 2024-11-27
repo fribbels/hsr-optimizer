@@ -88,7 +88,7 @@ export const handler = async (event: APIGatewayEvent): Promise<any> => {
   //   await db.put(params).promise()
   // } catch (error) {
   //   console.log(params)
-  //   console.error('DB put error', error)
+  //   console.error('Db put error', error)
   // }
 
   return generate200Response(dataString)

@@ -1,11 +1,15 @@
 # REFACTORING CHARACTER CONDITIONALS
 
-1. fork working branch: from [https://github.com/cnojima/hsr-optimizer/tree/feature/22-improve-passives](https://github.com/cnojima/hsr-optimizer/tree/feature/22-improve-passives)
+1. fork working branch:
+   from [https://github.com/cnojima/hsr-optimizer/tree/feature/22-improve-passives](https://github.com/cnojima/hsr-optimizer/tree/feature/22-improve-passives)
 
-1. refactor/move 1 character-conditional controller code from `lib/characterConditionals.js` to `lib/conditionals/character/[CharName].tsx` (pls. notice file extension).
+1. refactor/move 1 character-conditional controller code from `lib/characterConditionals.ts` to
+   `lib/conditionals/character/[CharName].tsx` (pls. notice file extension).
     - "character-conditional controller" is a function named for the char, e.g., `function jingliu() {...}`
 
-1. copy import list from sample [`Jingliu.tsx`](https://github.com/cnojima/hsr-optimizer/blob/feature/22-passives-drawer/src/lib/conditionals/character/Jingliu.tsx) to the top of your new TSX file.
+1. copy import list from sample [
+   `Jingliu.tsx`](https://github.com/cnojima/hsr-optimizer/blob/feature/22-passives-drawer/src/lib/conditionals/character/Jingliu.tsx)
+   to the top of your new TSX file.
 
 ``` 
 import { Stats } from 'lib/constants';
@@ -21,14 +25,15 @@ import { CharacterConditional, ConditionalMap, ContentItem, Form } from 'types/C
 
 ```
 
-Some common/reused utils & constants live in `lib/conditionals/conditionalUtils.ts` & `lib/conditionals/optimizerTabConstants.ts`. Import from these dependenciese (DRY this out);
+Some common/reused utils & constants live in `lib/conditionals/conditionalUtils.ts` &
+`lib/conditionals/optimizerGridColumns.ts`. Import from these dependenciese (DRY this out);
 
 4. Refactor the `display()` function and extract the `content` array:
 
 ```
 ...
 // create new array inside controller code:
-const content: ContentItem[] = [{
+const content: ContentDefinition<typeof defaults> = [{
   id: 'form_control_name',
   // depends on the control being refactored
   formItem: 'switch' | 'slider',
@@ -47,11 +52,14 @@ const content: ContentItem[] = [{
 }
 ```
 
-5. update typing for the functions - the existing types were inferred (badly) and are subject to change. Please refer to `Jingliu.tsx` for quick-reference.
+5. update typing for the functions - the existing types were inferred (badly) and are subject to change. Please refer to
+   `Jingliu.tsx` for quick-reference.
 
 6. add the line `export default [SnakeCaseName];` to the bottom of the new controller.
 
-7. link the new controller to [`lib/characterConditionals.js`](https://github.com/cnojima/hsr-optimizer/blob/feature/22-improve-passives/src/lib/characterConditionals.js).  ***Please alpha-order in import order***:
+7. link the new controller to [
+   `lib/characterConditionals.ts`](https://github.com/cnojima/hsr-optimizer/blob/feature/22-improve-passives/src/lib/characterConditionals.js).
+   ***Please alpha-order in import order***:
 
 ```
 ...

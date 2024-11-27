@@ -1,65 +1,85 @@
-import { ContentItem } from 'types/Conditionals'
-import { Stats } from 'lib/constants'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
 
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.CarveTheMoonWeaveTheClouds')
+
   const sValuesAtk = [0.10, 0.125, 0.15, 0.175, 0.20]
   const sValuesCd = [0.12, 0.15, 0.18, 0.21, 0.24]
   const sValuesErr = [0.06, 0.075, 0.09, 0.105, 0.12]
 
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'atkBuffActive',
-    name: 'atkBuffActive',
-    formItem: 'switch',
-    text: t('Content.atkBuffActive.text'),
-    title: t('Content.atkBuffActive.title'),
-    content: t('Content.atkBuffActive.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]), CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]), RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]) }),
-  }, {
-    lc: true,
-    id: 'cdBuffActive',
-    name: 'cdBuffActive',
-    formItem: 'switch',
-    text: t('Content.cdBuffActive.text'),
-    title: t('Content.cdBuffActive.title'),
-    content: t('Content.cdBuffActive.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]), CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]), RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]) }),
-  }, {
-    lc: true,
-    id: 'errBuffActive',
-    name: 'errBuffActive',
-    formItem: 'switch',
-    text: t('Content.errBuffActive.text'),
-    title: t('Content.errBuffActive.title'),
-    content: t('Content.errBuffActive.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]), CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]), RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]) }),
-  }]
+  const defaults = {
+    atkBuffActive: true,
+    cdBuffActive: false,
+    errBuffActive: false,
+  }
+
+  const teammateDefaults = {
+    atkBuffActive: true,
+    cdBuffActive: false,
+    errBuffActive: false,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    atkBuffActive: {
+      lc: true,
+      id: 'atkBuffActive',
+      formItem: 'switch',
+      text: t('Content.atkBuffActive.text'),
+      content: t('Content.atkBuffActive.content', {
+        AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]),
+        CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]),
+        RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]),
+      }),
+    },
+    cdBuffActive: {
+      lc: true,
+      id: 'cdBuffActive',
+      formItem: 'switch',
+      text: t('Content.cdBuffActive.text'),
+      content: t('Content.cdBuffActive.content', {
+        AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]),
+        CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]),
+        RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]),
+      }),
+    },
+    errBuffActive: {
+      lc: true,
+      id: 'errBuffActive',
+      formItem: 'switch',
+      text: t('Content.errBuffActive.text'),
+      content: t('Content.errBuffActive.content', {
+        AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]),
+        CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]),
+        RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]),
+      }),
+    },
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    atkBuffActive: content.atkBuffActive,
+    cdBuffActive: content.cdBuffActive,
+    errBuffActive: content.errBuffActive,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => content,
-    defaults: () => ({
-      atkBuffActive: true,
-      cdBuffActive: false,
-      errBuffActive: false,
-    }),
-    teammateDefaults: () => ({
-      atkBuffActive: true,
-      cdBuffActive: false,
-      errBuffActive: false,
-    }),
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x[Stats.ATK_P] += (m.atkBuffActive) ? sValuesAtk[s] : 0
-      x[Stats.CD] += (m.cdBuffActive) ? sValuesCd[s] : 0
-      x[Stats.ERR] += (m.errBuffActive) ? sValuesErr[s] : 0
+      x.ATK_P.buff((m.atkBuffActive) ? sValuesAtk[s] : 0, Source.NONE)
+      x.CD.buff((m.cdBuffActive) ? sValuesCd[s] : 0, Source.NONE)
+      x.ERR.buff((m.errBuffActive) ? sValuesErr[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

@@ -279,14 +279,6 @@ a {
     padding-inline-end: 6px !important;
 }
 
-/*.ant-slider:hover .ant-slider-handle::after {*/
-/*  box-shadow: 0 0 0 4px #1668dc;*/
-/*}*/
-
-/*.ant-slider-handle::after {*/
-/*  background-color: #1668dc !important;*/
-/*}*/
-
 .ant-input-number-group-addon {
     padding: 0 5px !important;
 }
@@ -383,12 +375,11 @@ a {
 .custom-grid {
     border-radius: 10px !important;
     transition: background-color 0.3s ease, box-shadow 0.3s ease, outline 0.3s ease;
-    cursor: pointer; /* Change cursor to pointer */
+    cursor: pointer;
     outline: 1px solid rgba(255, 255, 255, 0.0) !important;
 }
 
 .custom-grid:hover {
-    /*background-color: rgba(107, 107, 107, 0.36); !* Change this to your desired hover color *!*/
     background-color: rgba(255, 255, 255, 0.2);
     outline: 1px solid rgba(255, 255, 255, 0.4) !important;
 }
@@ -449,16 +440,16 @@ a {
     display: none;
 }
 
-.ant-card-hoverable {
-    transition: box-shadow 0.3s, border-color 0.3s;
+.lightConeCard {
+    transition: box-shadow 0.25s, border-color 0.25s !important;
 }
 
 .ant-card-hoverable:hover {
-    border-color: #4d7fb2 !important;
+    border-color: rgba(255, 255, 255, 0.40) !important;
 }
 
 .lightConeCard:hover {
-    outline: 1px solid #4d7fb2 !important;
+    border-color: rgba(255, 255, 255, 0.55) !important;
     cursor: pointer;
 }
 
@@ -587,4 +578,50 @@ a {
 .ag-body-vertical-scroll-viewport::-webkit-scrollbar-thumb {
     background-color: #95959552;
     border-radius: 4px !important;
+}
+
+.homeCard {
+    /*backdrop-filter: blur(12px) saturate(200%);*/
+    /*-webkit-backdrop-filter: blur(12px) saturate(200%);*/
+    /*background-color: rgba(17, 25, 40, 0.59);*/
+    /*border-radius: 12px;*/
+    /*border: 1px solid rgba(255, 255, 255, 0.125);*/
+
+
+    background: rgba(129, 129, 129, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8.4px);
+    -webkit-backdrop-filter: blur(8.4px);
+    border: 1px solid rgba(129, 129, 129, 0.91);
+}
+
+/* Arrow for small selectors */
+.ant-select-sm .ant-select-arrow {
+    inset-inline-end: 7px !important;
+}
+
+.ant-collapse-expand-icon {
+    margin: auto !important;
+    height: unset !important;
+}
+
+.dropdownButton .ant-btn-compact-first-item {
+    width: 100% !important;
+}
+
+.ant-segmented .ant-segmented-item-label {
+    transition: background-color 5s, background 5s;
+}
+
+.ant-color-picker-trigger {
+    justify-content: flex-start !important;
+}
+
+.ant-divider {
+    border-block-start-color: rgba(120, 120, 120, 0.3) !important;
+}
+
+.characterPreview .ant-typography {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !important;
 }

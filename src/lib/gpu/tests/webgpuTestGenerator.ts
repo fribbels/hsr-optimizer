@@ -1,13 +1,13 @@
-import { Form } from 'types/Form'
+import { SetsOrnamentsNames, SetsRelicsNames } from 'lib/constants/constants'
 import { generateTestRelics, StatDeltaAnalysis, testWrapper } from 'lib/gpu/tests/webgpuTestUtils'
-import DB from 'lib/db'
-import { SetsOrnamentsNames, SetsRelicsNames } from 'lib/constants'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
-import { LightCone } from 'types/LightCone'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
-import { generateFullDefaultForm } from 'lib/characterScorer'
-import { OptimizerTabController } from 'lib/optimizerTabController'
-import { SortOption } from 'lib/optimizer/sortOptions'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { generateFullDefaultForm } from 'lib/scoring/characterScorer'
+import DB from 'lib/state/db'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { Form } from 'types/form'
+import { DBMetadata, DBMetadataLightCone } from 'types/metadata'
 
 export type WebgpuTest = {
   name: string
@@ -20,8 +20,10 @@ export type WebgpuTest = {
 }
 
 const cache: {
-  [key: string]: any
-} = {}
+  metadata: DBMetadata
+} = {
+  metadata: {} as DBMetadata,
+}
 
 const basicLc = '23001' // In the Night
 const baseCharacterLightConeMappings = [
@@ -99,23 +101,34 @@ export async function generateAllTests() {
   cache.metadata = DB.getMetadata()
 
   return [
+    // ...generateSingleCharacterTest(device, { characterId: '1105', lightConeId: basicLc }),
     ...generateOrnamentSetTests(device),
     ...generateRelicSetTests(device),
+    ...generateE6E5Tests(device),
+    ...generateE0E1Tests(device),
     ...generateStarLcTests(device, 4),
     ...generateStarLcTests(device, 3),
-    ...generateE0E1Tests(device),
-    ...generateE6E5Tests(device),
+  ]
+}
+
+export function generateSingleCharacterTest(
+  device: GPUDevice,
+  pair: { characterId: string; lightConeId: string },
+) {
+  return [
+    generateE0S1CharacterTest(pair.characterId, pair.lightConeId, device),
+    generateE6S5CharacterTest(pair.characterId, pair.lightConeId, device),
   ]
 }
 
 export function generateE0E1Tests(device: GPUDevice) {
-  return baseCharacterLightConeMappings.map((pair) => {
+  return baseCharacterLightConeMappings.reverse().map((pair) => {
     return generateE0S1CharacterTest(pair.characterId, pair.lightConeId, device)
   })
 }
 
 export function generateE6E5Tests(device: GPUDevice) {
-  return baseCharacterLightConeMappings.map((pair) => {
+  return baseCharacterLightConeMappings.reverse().map((pair) => {
     return generateE6S5CharacterTest(pair.characterId, pair.lightConeId, device)
   })
 }
@@ -123,7 +136,8 @@ export function generateE6E5Tests(device: GPUDevice) {
 export function generateStarLcTests(device: GPUDevice, star: number) {
   // Use Kafka since she has DOT and FUA
   const characterId = '1005'
-  const lightCones = Object.values(cache.metadata.lightCones as LightCone[]).filter((lc: LightCone) => lc.rarity == star)
+  const metadataLightCones = Object.values(cache.metadata.lightCones)
+  const lightCones = metadataLightCones.filter((lc: DBMetadataLightCone) => lc.rarity == star)
   const tests: WebgpuTest[] = []
 
   for (const lc of lightCones) {
@@ -171,7 +185,7 @@ export function generateRelicSetTests(device: GPUDevice) {
 }
 
 export function generateE0S1CharacterTest(characterId: string, lightConeId: string, device: GPUDevice) {
-  const request = OptimizerTabController.fixForm(generateFullDefaultForm(characterId, lightConeId, 0, 1))
+  const request = OptimizerTabController.displayToForm(generateFullDefaultForm(characterId, lightConeId, 0, 1))
   const relics = generateTestRelics()
   request.sortOption = SortOption.COMBO.key
 
@@ -180,7 +194,7 @@ export function generateE0S1CharacterTest(characterId: string, lightConeId: stri
 }
 
 export function generateE6S5CharacterTest(characterId: string, lightConeId: string, device: GPUDevice) {
-  const request = OptimizerTabController.fixForm(generateFullDefaultForm(characterId, lightConeId, 6, 5))
+  const request = OptimizerTabController.displayToForm(generateFullDefaultForm(characterId, lightConeId, 6, 5))
   const relics = generateTestRelics()
   request.sortOption = SortOption.COMBO.key
 

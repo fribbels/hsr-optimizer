@@ -1,0 +1,53 @@
+name: drearyquibbles
+
+on:
+  push:
+    branches: [ beta ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: pandoc/latex    # "ubuntu" is a more generic container, using "pandoc/latex" because of dependencies, used in the specific "build.sh"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find and Replace homepage
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "\"homepage\": \"https://fribbels.github.io/hsr-optimizer\""
+          replace: "\"homepage\": \"https://fribbels.github.io/dreary-quibbles\""
+          include: "package.json"
+      - name: Find and Replace vite page
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "base: '/hsr-optimizer'"
+          replace: "base: '/dreary-quibbles'"
+          include: "vite.config.ts"
+      - name: Find and Replace router path
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "const BASE_PATH = '/hsr-optimizer'"
+          replace: "const BASE_PATH = '/dreary-quibbles'"
+          include: "src/lib/state/db.ts"
+      - name: Find and Replace API endpoint
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "const API_ENDPOINT = 'https://o4b6dqwu5a.execute-api.us-east-1.amazonaws.com/prod'"
+          replace: "const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'"
+          include: "src/lib/tabs/tabShowcase/RelicScorerTab.jsx"
+      - name: Find and Replace Beta header
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "Fribbels Honkai Star Rail Optimizer"
+          replace: "Fribbels Honkai Star Rail Optimizer (Beta)"
+          include: "src/lib/layout/LayoutHeader.tsx"
+      - run: rm -rf .github/workflows
+      - run: mv .github/drearyquibbles .github/workflows
+      - name: Pushes to another repository
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+        with:
+          source-directory: '.'
+          destination-github-username: 'fribbels'
+          destination-repository-name: 'dreary-quibbles'
+          target-branch: main

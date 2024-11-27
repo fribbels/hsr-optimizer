@@ -1,0 +1,29 @@
+CollapseLabels:
+  Explore: Explorar as funções
+  Join: Junte-se à comunidade
+CommunityCollapse: >-
+  <0> Muito obrigado a todos os nossos colaboradores, tradutores, usuários e a todos que forneceram feedback, por apoiarem este projeto e ajudarem a construí-lo juntos! </0> <1> Venha fazer parte de nossa comunidade Star Rail! Junte-se ao servidor <1 text='Discord'/> para se divertir, ou confira o <3 text='GitHub'/> repo se quiser contribuir. </1>
+FeatureCards:
+  LearnMore: Saiba mais
+  Showcase:
+    Title: Apresentação de Personagem
+    Content: >-
+      Exiba as estatísticas de seu personagem ou crie previamente futuros personagens. Simule o dano de combate com a pontuação de DPS e compare-o com os benchmarks.
+  Optimizer:
+    Title: Otimizador de Relíquia
+    Content: >-
+      Otimize seus personagens para buscar a melhor combinação de relíquias para atingir seus breakpoints e maximizar suas estatísticas.
+  Calculator:
+    Title: Calculadora de Dano
+    Content: >-
+      Calcule o dano com precisão, com configurações de equipe totalmente personalizáveis, condições de bônus e rotações de habilidades para maximizar o dano.
+  Organizer:
+    Title: Organizador de Relíquias
+    Content: >-
+      Organize suas relíquias pontuando e classificando as relíquias com base em seu potencial e encontre as melhores relíquias para aprimorar para cada personagem.
+Welcome: Bem-vindo ao<1/>Fribbels Star Rail Optimizer
+SearchBar:
+  Placeholder: UUID
+  Label: "Insira seu UUID para ver seu showcase de personagens"
+  Message: Entrada inválida - Este deve ser seu UUID de 9 dígitos
+  Search: Buscar

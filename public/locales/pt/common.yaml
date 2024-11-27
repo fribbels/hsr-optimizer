@@ -1,0 +1,176 @@
+Relic_one: relíquia
+Relic_other: relíquias
+RelicWithCount_one: "{{count}} relíquia"
+RelicWithCount_other: "{{count}} relíquias"
+Lightcone_one: cone de luz
+Lightcone_other: cones de luz
+LightconeWithCount_one: "{{count}} cone de luz"
+LightconeWithCount_other: "{{count}} cones de luz"
+ThousandsSuffix: K
+DecimalSeparator: "."
+ThousandsSeparator: "."
+I18nNumber: "{{value, number}}"
+Cancel: Cancelar
+Confirm: Confirmar
+Submit: Enviar
+Ok: Ok
+Yes: "Sim"
+No: "Não"
+Save: Salvar
+Score: Pontuação
+Reset: Resetar
+EidolonNShort: "E{{eidolon}}"
+SuperimpositionNShort: "S{{superimposition}}"
+LevelShort: "Nv{{level}}"
+CharacterWithCount_one: "{{count}} personagem"
+CharacterWithCount_other: "{{count}} personagens"
+Character_one: personagem 
+Character_other: personagens
+VerifiedRelicHoverText: Subatributos das relíquias verificados pelo pontuador de relíquias (decimais de velocidade)
+CombatStats: Atributos de combate
+Parts:
+  Head: Cabeça
+  Hands: Mãos
+  Body: Corpo
+  Feet: Pés
+  PlanarSphere: Esfera Plana
+  LinkRope: Corda de Ligação
+ReadableParts:
+  Head: Cabeça
+  Hands: Mãos
+  Body: Corpo
+  Feet: Pés
+  PlanarSphere: Esfera
+  LinkRope: Corda
+Stats:
+  "HP%": PV%
+  HP: PV
+  "ATK%": ATQ%
+  ATK: ATQ
+  "DEF%": DEF%
+  DEF: DEF
+  "SPD%": VEL%
+  SPD: VEL
+  CRIT Rate: Taxa Crítica
+  CRIT DMG: Dano Crítico
+  Effect Hit Rate: Acerto Efeito
+  Effect RES: RES a Efeito
+  Break Effect: Efeito Quebra
+  Energy Regeneration Rate: Taxa de Regen de Energia
+  Outgoing Healing Boost: Bônus de Cura Realizada
+  Physical DMG Boost: "Aumento de Dano $t(gameData:Elements.Physical)"
+  Fire DMG Boost: "Aumento de Dano $t(gameData:Elements.Fire)"
+  Ice DMG Boost: "Aumento de Dano $t(gameData:Elements.Ice)"
+  Lightning DMG Boost: "Aumento de Dano $t(gameData:Elements.Thunder)"
+  Wind DMG Boost: "Aumento de Dano $t(gameData:Elements.Wind)"
+  Quantum DMG Boost: "Aumento de Dano $t(gameData:Elements.Quantum)"
+  Imaginary DMG Boost: "Aumento de Dano $t(gameData:Elements.Imaginary)"
+ShortStats:
+  "HP%": PV%
+  HP: PV
+  "ATK%": ATQ%
+  ATK: ATQ
+  "DEF%": DEF%
+  DEF: DEF
+  "SPD%": VEL%
+  SPD: VEL
+  CRIT Rate: CR
+  CRIT DMG: CD
+  Effect Hit Rate: EHR
+  Effect RES: RES
+  Break Effect: BE
+  Energy Regeneration Rate: ERR
+  Outgoing Healing Boost: OHB
+  Physical DMG Boost: "$t(gameData:Elements.Physical)"
+  Fire DMG Boost: "$t(gameData:Elements.Fire)"
+  Ice DMG Boost: "$t(gameData:Elements.Ice)"
+  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
+  Wind DMG Boost: "$t(gameData:Elements.Wind)"
+  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
+  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+ShortSpacedStats:
+  "HP%": PV %
+  HP: PV
+  "ATK%": ATQ %
+  ATK: ATQ
+  "DEF%": DEF %
+  DEF: DEF
+  "SPD%": VEL %
+  SPD: VEL
+  CRIT Rate: CR
+  CRIT DMG: CD
+  Effect Hit Rate: EHR
+  Effect RES: RES
+  Break Effect: BE
+  Energy Regeneration Rate: ERR
+  Outgoing Healing Boost: OHB
+  Physical DMG Boost: "$t(gameData:Elements.Physical)"
+  Fire DMG Boost: "$t(gameData:Elements.Fire)"
+  Ice DMG Boost: "$t(gameData:Elements.Ice)"
+  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
+  Wind DMG Boost: "$t(gameData:Elements.Wind)"
+  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
+  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+ReadableStats:
+  "HP%": PV %
+  HP: PV
+  "ATK%": ATQ %
+  ATK: ATQ
+  "DEF%": DEF %
+  DEF: DEF
+  "SPD%": VEL %
+  SPD: VEL
+  CRIT Rate: Taxa Crítica
+  CRIT DMG: Dano Crítico
+  Effect Hit Rate: Acerto Efeito
+  Effect RES: RES a Efeito
+  Break Effect: Efeito Quebra
+  Energy Regeneration Rate: Regen de Energia
+  Outgoing Healing Boost: Aumento de Cura
+  Physical DMG Boost: "Dano $t(gameData:Elements.Physical)"
+  Fire DMG Boost: "Dano $t(gameData:Elements.Fire)"
+  Ice DMG Boost: "Dano $t(gameData:Elements.Ice)"
+  Lightning DMG Boost: "Dano $t(gameData:Elements.Thunder)"
+  Wind DMG Boost: "Dano $t(gameData:Elements.Wind)"
+  Quantum DMG Boost: "Dano $t(gameData:Elements.Quantum)"
+  Imaginary DMG Boost: "Dano $t(gameData:Elements.Imaginary)"
+ShortReadableStats:
+  "HP%": PV %
+  HP: PV
+  "ATK%": ATQ %
+  ATK: ATQ
+  "DEF%": DEF %
+  DEF: DEF
+  "SPD%": VEL %
+  SPD: VEL
+  CRIT Rate: Taxa Crítica
+  CRIT DMG: Dano Crítico
+  Effect Hit Rate: Acerto
+  Effect RES: RES
+  Break Effect: Quebra
+  Energy Regeneration Rate: Energia
+  Outgoing Healing Boost: Cura
+  Physical DMG Boost: "$t(gameData:Elements.Physical)"
+  Fire DMG Boost: "$t(gameData:Elements.Fire)"
+  Ice DMG Boost: "$t(gameData:Elements.Ice)"
+  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
+  Wind DMG Boost: "$t(gameData:Elements.Wind)"
+  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
+  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+DMGTypes:
+  simScore: Dano de Combo
+  BASIC: Dano Básico
+  SKILL: Dano de Perícia
+  ULT: Dano de Perícia Suprema
+  FUA: Dano FuA
+  DOT: Dano DoT
+  BREAK: Dano Quebra
+  CV: CV
+ShortDMGTypes:
+  Basic: Dano Básico
+  Skill: Dano Pericia
+  Ult: Dano Ult
+  Fua: Dano FuA
+  Dot: Dano DoT
+  Break: Dano Break
+  CV: CV

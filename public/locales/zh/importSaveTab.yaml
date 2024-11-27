@@ -1,0 +1,83 @@
+TabLabels:
+  Import: 遗器扫描仪导入器
+  Load: 加载优化器数据
+  Save: 保存优化器数据
+  Clear: 删除优化器数据
+Import:
+  ErrorMsg:
+    Unknown: 未知错误
+    InvalidFile: 扫描器文件无效
+    InvalidJson: JSON文件无效
+    Fragment: "导入文件时发生错误: "
+  Stage1:
+    Header: "安装并运行其中一个遗器扫描器选项："
+    ReliquaryDesc:
+      Title: (推荐) IceDynamix Reliquary Archiver
+      Link: Github
+      OnlineMsg: "状态: 已更新至{{version}}版本 —— 需要重新下载"
+      OfflineMsg: "***** 状态: 正在{{version}}版本后停机维护*****"
+      l1: 精准的速度小数点，快速扫描
+      l2: 导入完整的遗器库存和角色列表
+    KelzDesc:
+      Title: Kel-Z HSR Scanner
+      Link: Github
+      l1: 不精准的速度小数点, 5-10分钟的OCR扫描
+      l2: 导入完整的遗器库存和角色列表
+    ScorerDesc:
+      Title: 遗器评分器导入
+      Link: 遗器评分器
+      l1: 精准的速度小数点，快速扫描
+      l2: 无需下载，但仅限于个人资料展示中的8个角色的遗器
+    HoyolabDesc:
+      Title: HoyoLab导入
+      Link: 步骤
+      l1: 不精准的速度小数点，快速扫描
+      l2: 无需下载，但仅限于游戏内所有角色所装备的遗器
+    ButtonText: 上传扫描器JSON文件
+    Or: 或
+    Placeholder: 粘贴JSON文件内容
+  Stage2:
+    Or: 或
+    FileInfo: >-
+      文件包含$t(common:RelicWithCount, {"count": {{relicCount}}})和$t(common:CharacterWithCount, {"count": {{characterCount}}})。
+    NoRelics: 扫描文件无效，请尝试其他文件。你是想使用‘加载优化器数据’吗？
+    RelicsImport:
+      Label: >-
+        仅导入$t(common:Relic, {"count": {{relicCount}}})。将使用新$t(common:Relic, {"count": {{relicCount}}})数据更新优化器现有的数据，但不覆盖角色配装。
+      ButtonText: >-
+        导入$t(common:Relic, {"count": {{relicCount}}})
+    CharactersImport:
+      Label: >-
+        导入$t(common:Relic, {"count": {{relicCount}}})和$t(common:Character, {"count": {{characterCount}}})。将使用游戏内的角色配装替换优化器现有的角色配装。
+      ButtonText: >-
+        导入$t(common:Relic, {"count": {{relicCount}}})和$t(common:Character, {"count": {{characterCount}}})
+      WarningTitle: 覆盖优化器现有的角色配装
+      WarningDescription: 你确定要用游戏内的角色配装覆盖你当前优化器内的角色配装吗？
+  Stage3:
+    SuccessMessage: 完成！
+LoadData:
+  Stage1:
+    Label: 从文件加载你的优化器数据。
+    ButtonText: 加载存档数据
+  Stage2:
+    ErrorMsg: 存档文件无效，请尝试其他文件。 你是想使用‘遗器扫描仪导入器’吗？
+    Label: >-
+      文件包含$t(common:RelicWithCount, {"count": {{relicCount}}})和$t(common:CharacterWithCount, {"count": {{characterCount}}})。是否用上传的数据替换你当前的数据？
+    ButtonText: 使用上传的数据
+  Stage3:
+    SuccessMessage: 完成！
+SaveData:
+  Label: 将你的优化器数据保存到文件中。
+  ButtonText: 保存数据
+  SuccessMessage: 完成！
+ClearData:
+  Label: 清除所有优化器数据
+  ButtonText: 清除数据
+  SuccessMessage: 已清除数据
+  WarningTitle: 清除所有数据
+  WarningDescription: 你确定要清除所有遗器和角色吗？
+PartialImport:
+  OldRelics: >-
+    已更新{{count}}个现有的$t(common:Relic, {"count": {{count}}})的属性
+  NewRelics: >-
+    已添加{{count}}个新$t(common:Relic, {"count": {{count}}})

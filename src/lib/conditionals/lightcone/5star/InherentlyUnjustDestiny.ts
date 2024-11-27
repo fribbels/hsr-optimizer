@@ -1,61 +1,60 @@
-import { ContentItem } from 'types/Conditionals'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Stats } from 'lib/constants'
-import { findContentId } from 'lib/conditionals/conditionalUtils'
-import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.InherentlyUnjustDestiny')
+
   const sValuesCd = [0.40, 0.46, 0.52, 0.58, 0.64]
   const sValuesVulnerability = [0.10, 0.115, 0.13, 0.145, 0.16]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    shieldCdBuff: true,
+    targetVulnerability: true,
+  }
+
+  const teammateDefaults = {
+    targetVulnerability: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    shieldCdBuff: {
       lc: true,
       id: 'shieldCdBuff',
-      name: 'shieldCdBuff',
       formItem: 'switch',
       text: t('Content.shieldCdBuff.text'),
-      title: t('Content.shieldCdBuff.title'),
       content: t('Content.shieldCdBuff.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
     },
-    {
+    targetVulnerability: {
       lc: true,
       id: 'targetVulnerability',
-      name: 'targetVulnerability',
       formItem: 'switch',
       text: t('Content.targetVulnerability.text'),
-      title: t('Content.targetVulnerability.title'),
       content: t('Content.targetVulnerability.content', { Vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]) }),
     },
-  ]
+  }
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'targetVulnerability'),
-  ]
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    targetVulnerability: content.targetVulnerability,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => teammateContent,
-    defaults: () => ({
-      shieldCdBuff: true,
-      targetVulnerability: true,
-    }),
-    teammateDefaults: () => ({
-      targetVulnerability: true,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x[Stats.CD] += (r.shieldCdBuff) ? sValuesCd[s] : 0
+      x.CD.buff((r.shieldCdBuff) ? sValuesCd[s] : 0, Source.NONE)
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY += (m.targetVulnerability) ? sValuesVulnerability[s] : 0
+      x.VULNERABILITY.buff((m.targetVulnerability) ? sValuesVulnerability[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

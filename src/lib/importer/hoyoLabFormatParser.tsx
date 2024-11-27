@@ -1,42 +1,44 @@
-import { Constants, Parts, SubStats } from 'lib/constants'
-import { Utils } from 'lib/utils'
-import { RelicAugmenter } from 'lib/relicAugmenter'
-import DB from 'lib/db'
+import { Constants, Parts, SubStats } from 'lib/constants/constants'
+import { RelicAugmenter } from 'lib/relics/relicAugmenter'
+import DB from 'lib/state/db'
+import { Utils } from 'lib/utils/utils'
+
+// FIXME MED
 
 /*
 
-  Sample data:
+ Sample data:
 
-            "id": 1309,
-            "level": 80,
-            "name": "Robin",
-            "element": "physical",
-            "rarity": 5,
-            "rank": 0,
-            "equip": {
-                "id": 22002,
-                "level": 70,
-                "rank": 5,
-                "rarity": 4
-            },
-            "relics": [{
-                "id": 61141,
-                "level": 15,
-                "pos": 1,
-                "rarity": 5,
-                "main_property": {
-                    "property_type": 27,
-                    "value": "705",
-                    "times": 0
-                },
-                "properties": [{
-                    "property_type": 29,
-                    "value": "33",
-                    "times": 2
+ "id": 1309,
+ "level": 80,
+ "name": "Robin",
+ "element": "physical",
+ "rarity": 5,
+ "rank": 0,
+ "equip": {
+ "id": 22002,
+ "level": 70,
+ "rank": 5,
+ "rarity": 4
+ },
+ "relics": [{
+ "id": 61141,
+ "level": 15,
+ "pos": 1,
+ "rarity": 5,
+ "main_property": {
+ "property_type": 27,
+ "value": "705",
+ "times": 0
+ },
+ "properties": [{
+ "property_type": 29,
+ "value": "33",
+ "times": 2
 
-                    ...
-                }]
-            }, {
+ ...
+ }]
+ }, {
  */
 
 type HoyolabRelic = {

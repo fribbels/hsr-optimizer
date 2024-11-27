@@ -1,8 +1,10 @@
-import { Sets } from 'lib/constants'
+import { Sets } from 'lib/constants/constants'
+import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
 
 export const ASHBLAZING_ATK_STACK = 0.06
 
 // Ability types
+export const NONE_TYPE = 0
 export const BASIC_TYPE = 1
 export const SKILL_TYPE = 2
 export const ULT_TYPE = 4
@@ -12,37 +14,29 @@ export const BREAK_TYPE = 32
 export const SUPER_BREAK_TYPE = 64
 
 export const baseComputedStatsObject = {
-  BASIC_DMG_TYPE: BASIC_TYPE,
-  SKILL_DMG_TYPE: SKILL_TYPE,
-  ULT_DMG_TYPE: ULT_TYPE,
-  FUA_DMG_TYPE: FUA_TYPE,
-  DOT_DMG_TYPE: DOT_TYPE,
-  BREAK_DMG_TYPE: BREAK_TYPE,
-  SUPER_BREAK_DMG_TYPE: SUPER_BREAK_TYPE,
+  HP_P: 0,
+  ATK_P: 0,
+  DEF_P: 0,
+  SPD_P: 0,
+  HP: 0,
+  ATK: 0,
+  DEF: 0,
+  SPD: 0.0001,
+  CR: 0,
+  CD: 0,
+  EHR: 0,
+  RES: 0,
+  BE: 0,
+  ERR: 0,
+  OHB: 0,
 
-  ['HP%']: 0,
-  ['ATK%']: 0,
-  ['DEF%']: 0,
-  ['SPD%']: 0,
-  ['HP']: 0,
-  ['ATK']: 0,
-  ['DEF']: 0,
-  ['SPD']: 0.0001,
-  ['CRIT DMG']: 0,
-  ['CRIT Rate']: 0,
-  ['Effect Hit Rate']: 0,
-  ['Effect RES']: 0,
-  ['Break Effect']: 0,
-  ['Energy Regeneration Rate']: 0,
-  ['Outgoing Healing Boost']: 0,
-
-  ['Physical DMG Boost']: 0,
-  ['Fire DMG Boost']: 0,
-  ['Ice DMG Boost']: 0,
-  ['Lightning DMG Boost']: 0,
-  ['Wind DMG Boost']: 0,
-  ['Quantum DMG Boost']: 0,
-  ['Imaginary DMG Boost']: 0,
+  PHYSICAL_DMG_BOOST: 0,
+  FIRE_DMG_BOOST: 0,
+  ICE_DMG_BOOST: 0,
+  LIGHTNING_DMG_BOOST: 0,
+  WIND_DMG_BOOST: 0,
+  QUANTUM_DMG_BOOST: 0,
+  IMAGINARY_DMG_BOOST: 0,
 
   ELEMENTAL_DMG: 0,
 
@@ -68,6 +62,7 @@ export const baseComputedStatsObject = {
   ULT_BOOST: 0,
   FUA_BOOST: 0,
   DOT_BOOST: 0,
+  BREAK_BOOST: 0,
 
   VULNERABILITY: 0,
   BASIC_VULNERABILITY: 0,
@@ -141,8 +136,28 @@ export const baseComputedStatsObject = {
   BASIC_BREAK_DMG_MODIFIER: 0,
 
   // Robin
-  ULT_CD_OVERRIDE: 0,
-  ULT_BOOSTS_MULTI: 1,
+  ULT_ADDITIONAL_DMG_CR_OVERRIDE: 0,
+  ULT_ADDITIONAL_DMG_CD_OVERRIDE: 0,
+
+  SKILL_OHB: 0,
+  ULT_OHB: 0,
+  HEAL_TYPE: 0,
+  HEAL_FLAT: 0,
+  HEAL_SCALING: 0,
+  HEAL_VALUE: 0,
+  SHIELD_FLAT: 0,
+  SHIELD_SCALING: 0,
+  SHIELD_VALUE: 0,
+
+  BASIC_ADDITIONAL_DMG_SCALING: 0,
+  SKILL_ADDITIONAL_DMG_SCALING: 0,
+  ULT_ADDITIONAL_DMG_SCALING: 0,
+  FUA_ADDITIONAL_DMG_SCALING: 0,
+
+  BASIC_ADDITIONAL_DMG: 0,
+  SKILL_ADDITIONAL_DMG: 0,
+  ULT_ADDITIONAL_DMG: 0,
+  FUA_ADDITIONAL_DMG: 0,
 
   RATIO_BASED_HP_BUFF: 0,
   RATIO_BASED_HP_P_BUFF: 0,
@@ -157,11 +172,16 @@ export const baseComputedStatsObject = {
   BASIC_BREAK_EFFICIENCY_BOOST: 0, // Boothill
   ULT_BREAK_EFFICIENCY_BOOST: 0, // Feixiao
 
-  sets: {} as SetsType,
-  WEIGHT: 0,
+  BASIC_DMG_TYPE: BASIC_TYPE,
+  SKILL_DMG_TYPE: SKILL_TYPE,
+  ULT_DMG_TYPE: ULT_TYPE,
+  FUA_DMG_TYPE: FUA_TYPE,
+  DOT_DMG_TYPE: DOT_TYPE,
+  BREAK_DMG_TYPE: BREAK_TYPE,
+  SUPER_BREAK_DMG_TYPE: SUPER_BREAK_TYPE,
 }
 
-type SetsType = {
+export type SetsType = {
   [K in keyof typeof Sets]: number;
 }
 
@@ -190,12 +210,20 @@ export type BasicStatsObject = {
   ['Wind DMG Boost']: number
   ['Quantum DMG Boost']: number
   ['Imaginary DMG Boost']: number
+
   ELEMENTAL_DMG: number // ?
   WEIGHT: number // ?
 
   relicSetIndex: number
   ornamentSetIndex: number
   id: number
+  low: number
+  high: number
 
-  x: ComputedStatsObject
+  sets: SetsType
+  x: ComputedStatsObject | ComputedStatsObjectExternal
+}
+
+export type BasicStatsObjectCV = BasicStatsObject & {
+  CV: number
 }

@@ -6,7 +6,8 @@
       "ES2020",
       "DOM",
       "DOM.Iterable",
-      "webworker"
+      "webworker",
+      "dom"
     ],
     "module": "ESNext",
     "skipLibCheck": true,
@@ -21,7 +22,7 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "baseUrl": "./src",
     "paths": {
       "src/*": [

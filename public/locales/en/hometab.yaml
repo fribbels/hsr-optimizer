@@ -1,0 +1,40 @@
+CollapseLabels:
+  Explore: Explore the features
+  Join: Join the community
+CommunityCollapse: >-
+  <0>
+  A huge thanks to all our contributors, translators, users,
+  and everyone who provided feedback, for supporting this project and helping to build it together!
+  </0>
+  <1>
+  Come be a part of our Star Rail community! Join the <1 text='Discord'/> server to hang out,
+  or check out the <3 text='GitHub'/> repo if you'd like to contribute.
+  </1>
+FeatureCards:
+  LearnMore: Learn more
+  Showcase:
+    Title: Character Showcase
+    Content: >-
+      Showcase your character’s stats or prebuild future characters.
+      Simulate their combat damage with DPS score and measure it against the benchmarks.
+  Optimizer:
+    Title: Relic Optimizer
+    Content: >-
+      Optimize your characters to search for the best combination
+      of relics to reach their breakpoints and maximize their stats.
+  Calculator:
+    Title: Damage Calculator
+    Content: >-
+      Calculate damage accurately with fully customizable team setups,
+      buff conditions, and ability rotations to maximize damage output.
+  Organizer:
+    Title: Relic Organizer
+    Content: >-
+      Organize your relics by scoring and sorting relics based on their potential,
+      and find the top relics to upgrade for each character.
+Welcome: Welcome to the<1/>Fribbels Star Rail Optimizer
+SearchBar:
+  Placeholder: UUID
+  Label: "Enter your UUID to view your showcase characters:"
+  Message: Invalid input - This should be your 9 digit ingame UUID
+  Search: Search

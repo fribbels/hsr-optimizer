@@ -1,13 +1,13 @@
-import { Form } from 'types/Form'
-import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, SetsOrnaments, SetsRelics } from 'lib/constants'
-import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { debugWebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
-import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
+import { debugWebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
+import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
-import { generateContext } from 'lib/optimizer/context/calculateContext'
-import { SortOption } from 'lib/optimizer/sortOptions'
+import { calculateBuild } from 'lib/optimization/calculateBuild'
+import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
+import { generateContext } from 'lib/optimization/context/calculateContext'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { Form } from 'types/form'
 
 export async function runTestRequest(request: Form, relics: RelicsByPart, device: GPUDevice) {
   request.resultSort = SortOption.COMBO.key
@@ -27,6 +27,7 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
     relicSetSolutions,
     ornamentSetSolutions,
     true,
+    true,
   )
 
   const gpuReadBuffer = generateExecutionPass(gpuContext, 0)
@@ -34,16 +35,16 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
   const arrayBuffer = gpuReadBuffer.getMappedRange()
   const array = new Float32Array(arrayBuffer)
 
-  const gpuComputedStats: ComputedStatsObject = debugWebgpuComputedStats(array)
+  const gpuComputedStats: ComputedStatsObjectExternal = debugWebgpuComputedStats(array)
   // @ts-ignore
-  const cpuComputedStats: ComputedStatsObject = calculateBuild(request, {
+  const cpuComputedStats = calculateBuild(request, {
     Head: relics.Head[0],
     Hands: relics.Hands[0],
     Body: relics.Body[0],
     Feet: relics.Feet[0],
     PlanarSphere: relics.PlanarSphere[0],
     LinkRope: relics.LinkRope[0],
-  }).x
+  }).computedStatsObject as ComputedStatsObjectExternal
 
   const deltas = deltaComputedStats(cpuComputedStats, gpuComputedStats)
 
@@ -68,19 +69,19 @@ export type StatDeltas = {
 
 export type StatDelta = {
   key: string
-  cpu: number
-  gpu: number
+  cpu: string
+  gpu: string
   deltaValue: number
   deltaString: string
   precision: number
   pass: boolean
 }
 
-function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject): StatDeltaAnalysis {
+function deltaComputedStats(cpu: ComputedStatsObjectExternal, gpu: ComputedStatsObjectExternal): StatDeltaAnalysis {
   const statDeltas: StatDeltas = {}
   let allPass = true
 
-  function analyze(stat: string, precision: number) {
+  function analyze(stat: keyof ComputedStatsObjectExternal, precision: number) {
     const delta = cpu[stat] - gpu[stat]
     const pass = Math.abs(delta) <= precision
     if (!pass) {
@@ -144,6 +145,7 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
   analyze('ULT_BOOST', P_2)
   analyze('FUA_BOOST', P_2)
   analyze('DOT_BOOST', P_2)
+  analyze('BREAK_BOOST', P_2)
   analyze('VULNERABILITY', P_2)
   analyze('BASIC_VULNERABILITY', P_2)
   analyze('SKILL_VULNERABILITY', P_2)
@@ -198,8 +200,25 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
   analyze('SKILL_ORIGINAL_DMG_BOOST', P_2)
   analyze('ULT_ORIGINAL_DMG_BOOST', P_2)
   analyze('BASIC_BREAK_DMG_MODIFIER', P_2)
-  analyze('ULT_CD_OVERRIDE', P_2)
-  analyze('ULT_BOOSTS_MULTI', P_2)
+  analyze('ULT_ADDITIONAL_DMG_CR_OVERRIDE', P_2)
+  analyze('ULT_ADDITIONAL_DMG_CD_OVERRIDE', P_2)
+  analyze('SKILL_OHB', P_2)
+  analyze('ULT_OHB', P_2)
+  analyze('HEAL_TYPE', P_2)
+  analyze('HEAL_FLAT', P_2)
+  analyze('HEAL_SCALING', P_2)
+  analyze('HEAL_VALUE', P_2)
+  analyze('SHIELD_FLAT', P_2)
+  analyze('SHIELD_SCALING', P_2)
+  analyze('SHIELD_VALUE', P_2)
+  analyze('BASIC_ADDITIONAL_DMG_SCALING', P_2)
+  analyze('SKILL_ADDITIONAL_DMG_SCALING', P_2)
+  analyze('ULT_ADDITIONAL_DMG_SCALING', P_2)
+  analyze('FUA_ADDITIONAL_DMG_SCALING', P_2)
+  analyze('BASIC_ADDITIONAL_DMG', P_2)
+  analyze('SKILL_ADDITIONAL_DMG', P_2)
+  analyze('ULT_ADDITIONAL_DMG', P_2)
+  analyze('FUA_ADDITIONAL_DMG', P_2)
   analyze('RATIO_BASED_HP_BUFF', P_2)
   analyze('RATIO_BASED_HP_P_BUFF', P_2)
   analyze('RATIO_BASED_ATK_BUFF', P_2)
@@ -236,12 +255,12 @@ export function testWrapper(name: string, request: Form, relics: RelicsByPart, d
     relics: relics,
     done: false,
   }
-  test.execute = () => {
+  test.execute = async () => {
     const promise = runTestRequest(request, relics, device)
-    void promise.then((result) => {
-      test.done = true
-      test.result = result
-    })
+
+    const result = await promise
+    test.done = true
+    test.result = result
 
     return promise
   }

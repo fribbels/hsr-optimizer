@@ -1,32 +1,36 @@
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { ContentItem } from 'types/Conditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.HiddenShadow')
+
   const sValues = [0.60, 0.75, 0.90, 1.05, 1.20]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'basicAtkBuff',
-    name: 'basicAtkBuff',
-    formItem: 'switch',
-    text: t('Content.basicAtkBuff.text'),
-    title: t('Content.basicAtkBuff.title'),
-    content: t('Content.basicAtkBuff.content', { MultiplierBonus: TsUtils.precisionRound(100 * sValues[s]) }),
-  }]
+
+  const defaults = {
+    basicAtkBuff: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    basicAtkBuff: {
+      lc: true,
+      id: 'basicAtkBuff',
+      formItem: 'switch',
+      text: t('Content.basicAtkBuff.text'),
+      content: t('Content.basicAtkBuff.content', { MultiplierBonus: TsUtils.precisionRound(100 * sValues[s]) }),
+    },
+  }
 
   return {
-    content: () => content,
-    defaults: () => ({
-      basicAtkBuff: true,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING += (r.basicAtkBuff) ? sValues[s] : 0
+      x.BASIC_SCALING.buff((r.basicAtkBuff) ? sValues[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

@@ -1,9 +1,9 @@
-import { Relic } from 'types/Relic'
+import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats } from 'lib/constants/constants'
 import { createGpuBuffer } from 'lib/gpu/webgpuInternals'
-import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats } from 'lib/constants'
-import { StringToNumberMap } from 'types/Common'
 import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
-import { OptimizerContext } from 'types/Optimizer'
+import { StringToNumberMap } from 'types/common'
+import { OptimizerContext } from 'types/optimizer'
+import { Relic } from 'types/relic'
 
 export const StatsToWebgpuIndex = {
   [Stats.HP_P]: 0,
@@ -114,9 +114,7 @@ function relicsToArray(relics: Relic[]) {
     const startIndex = RELIC_ARG_SIZE * i
     let j = 0
     const uncondensedStats: StringToNumberMap = {}
-
-    // @ts-expect-error This is a custom relic type with modified stats
-    const condensedStats: StringToNumberMap[] = relic.condensedStats
+    const condensedStats: [string, number][] = relic.condensedStats!
 
     for (const condensedStat of condensedStats) {
       uncondensedStats[condensedStat[0]] = condensedStat[1]
@@ -150,7 +148,7 @@ function relicsToArray(relics: Relic[]) {
 }
 
 function relicSetToIndex(relic: Relic) {
-  if (SetsRelicsNames.includes(relic.set)) {
+  if (SetsRelicsNames.some((name) => name === relic.set)) {
     return RelicSetToIndex[relic.set]
   }
   return OrnamentSetToIndex[relic.set]

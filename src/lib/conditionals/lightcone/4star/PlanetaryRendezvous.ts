@@ -1,41 +1,51 @@
-import { ContentItem } from 'types/Conditionals'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PlanetaryRendezvous')
+
   const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'alliesSameElement',
-    name: 'alliesSameElement',
-    formItem: 'switch',
-    text: t('Content.alliesSameElement.text'),
-    title: t('Content.alliesSameElement.title'),
-    content: t('Content.alliesSameElement.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
-  }]
+
+  const defaults = {
+    alliesSameElement: true,
+  }
+
+  const teammateDefaults = {
+    alliesSameElement: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    alliesSameElement: {
+      lc: true,
+      id: 'alliesSameElement',
+      formItem: 'switch',
+      text: t('Content.alliesSameElement.text'),
+      content: t('Content.alliesSameElement.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+    },
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    alliesSameElement: content.alliesSameElement,
+  }
 
   return {
-    content: () => content,
-    teammateContent: () => content,
-    defaults: () => ({
-      alliesSameElement: true,
-    }),
-    teammateDefaults: () => ({
-      alliesSameElement: true,
-    }),
-    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.ELEMENTAL_DMG += (r.alliesSameElement) ? sValues[s] : 0
+      x.ELEMENTAL_DMG.buff((r.alliesSameElement) ? sValues[s] : 0, Source.NONE)
     },
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.ELEMENTAL_DMG += (r.alliesSameElement) ? sValues[s] : 0
+      x.ELEMENTAL_DMG.buff((r.alliesSameElement) ? sValues[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

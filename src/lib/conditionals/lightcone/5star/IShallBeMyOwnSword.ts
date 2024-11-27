@@ -1,48 +1,47 @@
-import { ContentItem } from 'types/Conditionals'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.IShallBeMyOwnSword')
+
   const sValuesStackDmg = [0.14, 0.165, 0.19, 0.215, 0.24]
   const sValuesDefPen = [0.12, 0.14, 0.16, 0.18, 0.20]
 
-  const content: ContentItem[] = [
-    {
+  const defaults = {
+    eclipseStacks: 3,
+    maxStackDefPen: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    eclipseStacks: {
       lc: true,
       id: 'eclipseStacks',
-      name: 'eclipseStacks',
       formItem: 'slider',
       text: t('Content.eclipseStacks.text'),
-      title: t('Content.eclipseStacks.title'),
       content: t('Content.eclipseStacks.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesStackDmg[s]) }),
       min: 0,
       max: 3,
     },
-    {
+    maxStackDefPen: {
       lc: true,
       id: 'maxStackDefPen',
-      name: 'maxStackDefPen',
       formItem: 'switch',
       text: t('Content.maxStackDefPen.text'),
-      title: t('Content.maxStackDefPen.title'),
       content: t('Content.maxStackDefPen.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefPen[s]) }),
     },
-  ]
+  }
 
   return {
-    content: () => content,
-    defaults: () => ({
-      eclipseStacks: 3,
-      maxStackDefPen: true,
-    }),
-    precomputeEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals
-      x.ELEMENTAL_DMG += r.eclipseStacks * sValuesStackDmg[s]
-      x.DEF_PEN += (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0
+    content: () => Object.values(content),
+    defaults: () => defaults,
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals as Conditionals<typeof content>
+      x.ELEMENTAL_DMG.buff(r.eclipseStacks * sValuesStackDmg[s], Source.NONE)
+      x.DEF_PEN.buff((r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

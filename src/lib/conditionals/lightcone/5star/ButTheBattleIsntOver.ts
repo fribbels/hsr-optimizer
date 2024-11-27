@@ -1,37 +1,40 @@
-import { ContentItem } from 'types/Conditionals'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ButTheBattleIsntOver')
+
   const sValuesDmg = [0.30, 0.35, 0.40, 0.45, 0.50]
 
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'postSkillDmgBuff',
-    name: 'postSkillDmgBuff',
-    formItem: 'switch',
-    text: t('Content.postSkillDmgBuff.text'),
-    title: t('Content.postSkillDmgBuff.title'),
-    content: t('Content.postSkillDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]) }),
-  }]
+  const teammateDefaults = {
+    postSkillDmgBuff: true,
+  }
+
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    postSkillDmgBuff: {
+      lc: true,
+      formItem: 'switch',
+      id: 'postSkillDmgBuff',
+      text: t('Content.postSkillDmgBuff.text'),
+      content: t('Content.postSkillDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]) }),
+    },
+  }
 
   return {
     content: () => [],
-    teammateContent: () => content,
+    teammateContent: () => Object.values(teammateContent),
     defaults: () => ({}),
-    teammateDefaults: () => ({
-      postSkillDmgBuff: true,
-    }),
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: () => {
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.lightConeConditionals
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.ELEMENTAL_DMG += (t.postSkillDmgBuff) ? sValuesDmg[s] : 0
+      x.ELEMENTAL_DMG.buff((t.postSkillDmgBuff) ? sValuesDmg[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

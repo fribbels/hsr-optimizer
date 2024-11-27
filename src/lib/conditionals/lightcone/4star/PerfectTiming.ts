@@ -1,34 +1,41 @@
-import { ContentItem } from 'types/Conditionals'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants'
-import { SuperImpositionLevel } from 'types/LightCone'
-import { LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { TsUtils } from 'lib/TsUtils'
-import { OptimizerAction, OptimizerContext } from 'types/Optimizer'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditional => {
+export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PerfectTiming')
+
   const sValues = [0.33, 0.36, 0.39, 0.42, 0.45]
   const sMaxValues = [0.15, 0.18, 0.21, 0.24, 0.27]
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'resToHealingBoost',
-    name: 'resToHealingBoost',
-    formItem: 'switch',
-    text: t('Content.resToHealingBoost.text'),
-    title: t('Content.resToHealingBoost.title'),
-    content: t('Content.resToHealingBoost.content', { Scaling: TsUtils.precisionRound(100 * sValues[s]), Limit: TsUtils.precisionRound(100 * sMaxValues[s]) }),
-  }]
+
+  const defaults = {
+    resToHealingBoost: true,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
+    resToHealingBoost: {
+      lc: true,
+      id: 'resToHealingBoost',
+      formItem: 'switch',
+      text: t('Content.resToHealingBoost.text'),
+      content: t('Content.resToHealingBoost.content', {
+        Scaling: TsUtils.precisionRound(100 * sValues[s]),
+        Limit: TsUtils.precisionRound(100 * sMaxValues[s]),
+      }),
+    },
+  }
 
   return {
-    content: () => content,
-    defaults: () => ({
-      resToHealingBoost: true,
-    }),
+    content: () => Object.values(content),
+    defaults: () => defaults,
     precomputeEffects: () => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, request) => {
+    finalizeCalculations: (x: ComputedStatsArray, request) => {
     },
     dynamicConditionals: [
       {
@@ -36,14 +43,14 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.RES],
-        condition: function (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.lightConeConditionals
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.lightConeConditionals as Conditionals<typeof content>
 
           return r.resToHealingBoost
         },
-        effect: (x: ComputedStatsObject, action: OptimizerAction, context: OptimizerContext) => {
-          const boost = Math.min(sMaxValues[s], sValues[s] * x[Stats.RES])
-          buffStat(x, Stats.OHB, boost, action, context)
+        effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+          const boost = Math.min(sMaxValues[s], sValues[s] * x.a[Key.RES])
+          x.OHB.buffDynamic(boost, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           return conditionalWgslWrapper(this, `

@@ -3,6 +3,7 @@ import { Button, Drawer, Flex, Popconfirm } from 'antd'
 import sampleSave from 'data/sample-save.json'
 import { Message } from 'lib/interactions/message'
 import DB from 'lib/state/db'
+import { SaveState } from 'lib/state/saveState'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,7 +16,9 @@ export const GettingStartedDrawer = () => {
   const setGettingStartedDrawerOpen = window.store((s) => s.setGettingStartedDrawerOpen)
 
   function tryItOutClicked() {
-    DB.setStore(JSON.parse(JSON.stringify(sampleSave)) as HsrOptimizerSaveFormat, true)
+    // Manually save for test files
+    DB.setStore(JSON.parse(JSON.stringify(sampleSave)) as HsrOptimizerSaveFormat, false)
+    SaveState.save()
     Message.success(t('TryOut.SuccessMessage'))// 'Successfully loaded data'
   }
 

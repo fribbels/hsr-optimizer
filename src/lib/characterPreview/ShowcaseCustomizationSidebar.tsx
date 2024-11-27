@@ -302,7 +302,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1218: ['#e6dad5'], // jiaoqiu
     1220: ['#7ba1b3'], // feixiao
     1221: ['#e9d7d2'], // yunli
-    1222: ['#ffa09b'], // lingsha
+    1222: ['#bab6b3'], // lingsha
     1223: ['#575aa0'], // moze
     1224: ['#e4bae4'], // march7thImaginary
     1225: ['#e6d0c3'], // fugue

@@ -52,6 +52,7 @@ export type HsrOptimizerStore = {
   combatBuffsDrawerOpen: boolean
   enemyConfigurationsDrawerOpen: boolean
   settingsDrawerOpen: boolean
+  gettingStartedDrawerOpen: boolean
   permutations: number
   permutationsResults: number
   permutationsSearched: number
@@ -87,6 +88,7 @@ export type HsrOptimizerStore = {
   setSettings: (settings: UserSettings) => void
   setOptimizationId: (id: string) => void
   setSettingsDrawerOpen: (open: boolean) => void
+  setGettingStartedDrawerOpen: (open: boolean) => void
   setComboState: (state: ComboState) => void
   setFormValues: (form: Form) => void
   setCombatBuffsDrawerOpen: (open: boolean) => void

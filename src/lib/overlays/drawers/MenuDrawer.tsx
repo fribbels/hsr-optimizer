@@ -105,13 +105,14 @@ const MenuDrawer = () => {
       ),
       getItem(
         (
-          <Flex>
+          <Flex onClick={() => window.store.getState().setGettingStartedDrawerOpen(true)} style={{ width: '100%' }}>
             <BookOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
             {t('Optimization.Start')/* Get Started */}
           </Flex>
         ),
-        AppPages.GETTING_STARTED),
+        'link gettingstarted',
+      ),
     ]),
     getItem(t('Links.Title')/* Links */, 'subLinks', <BarsOutlined/>, [
       getItem(

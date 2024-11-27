@@ -266,7 +266,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1002: ['#60828b'], // danheng
     1003: ['#d6b5c2'], // himeko
     1004: ['#6385d8'], // welt
-    1005: ['#9e627f'], // kafka
+    1005: ['#b3859b'], // kafka
     1006: ['#8483eb'], // silverwolf
     1008: ['#59578e'], // arlan
     1009: ['#655c9a'], // asta
@@ -298,7 +298,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1213: ['#203e4a'], // imbibitorlunae
     1214: ['#5d6b9d'], // xueyi
     1215: ['#69629f'], // hanya
-    1217: ['#71c2e3'], // huohuo
+    1217: ['#81bad1'], // huohuo
     1218: ['#e6dad5'], // jiaoqiu
     1220: ['#7ba1b3'], // feixiao
     1221: ['#e9d7d2'], // yunli
@@ -314,7 +314,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1306: ['#1028cd'], // sparkle
     1307: ['#6c41c9'], // blackswan
     1308: ['#605985'], // acheron
-    1309: ['#e6b4a5'], // robin
+    1309: ['#cfc5d5'], // robin
     1310: ['#8fbdcd'], // firefly
     1312: ['#b0b7d0'], // misha
     1313: ['#203163'], // sunday

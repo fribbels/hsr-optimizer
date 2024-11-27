@@ -3,7 +3,6 @@ import ScoringModal from 'lib/overlays/modals/ScoringModal'
 import { AppPages, PageToRoute } from 'lib/state/db'
 import ChangelogTab from 'lib/tabs/tabChangelog/ChangelogTab'
 import CharacterTab from 'lib/tabs/tabCharacters/CharacterTab'
-import GettingStartedTab from 'lib/tabs/tabGettingStarted/GettingStartedTab'
 import HomeTab from 'lib/tabs/tabHome/HomeTab'
 import ImportTab from 'lib/tabs/tabImport/ImportTab'
 import MetadataTab from 'lib/tabs/tabMetadata/MetadataTab'
@@ -35,7 +34,6 @@ const Tabs = () => {
   const characterTab = React.useMemo(() => <CharacterTab/>, [])
   const relicsTab = React.useMemo(() => <RelicsTab/>, [])
   const importTab = React.useMemo(() => <ImportTab/>, [])
-  const gettingStartedTab = React.useMemo(() => <GettingStartedTab/>, [])
   const relicScorerTab = React.useMemo(() => <RelicScorerTab/>, [])
   const changelogTab = React.useMemo(() => <ChangelogTab/>, [])
   const webgpuTab = React.useMemo(() => <WebgpuTab/>, [])
@@ -73,7 +71,6 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHARACTERS} content={characterTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.IMPORT} content={importTab}/>
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.GETTING_STARTED} content={gettingStartedTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.SHOWCASE} content={relicScorerTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.WEBGPU_TEST} content={webgpuTab}/>

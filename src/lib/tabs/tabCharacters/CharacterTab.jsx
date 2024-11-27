@@ -66,9 +66,8 @@ function cellNameRenderer(params) {
     ? characterNameString.split(' (')
       .map((section) => section.trim())
       .map((section, index) => index === 1 ? ` (${section} ` : section)
-    : characterNameString.includes(' - ')
-      ? characterNameString.split(' - ')// some languages use a dash instead of a dot
-      : characterNameString.split('•')
+    : characterNameString.split(/ - |•/) // some languages use a dash instead of a dot
+      .map((section) => section.trim())
 
   const nameSectionRender = nameSections
     .map((section, index) => (
@@ -557,9 +556,9 @@ export default function CharacterTab() {
         <Flex vertical gap={8} style={{ minWidth: 240 }}>
           <div
             id='characterGrid' className='ag-theme-balham-dark' style={{
-              ...{ display: 'block', width: '100%', height: parentH },
-              ...getGridTheme(token),
-            }}
+            ...{ display: 'block', width: '100%', height: parentH },
+            ...getGridTheme(token),
+          }}
           >
             <AgGridReact
               ref={characterGrid}

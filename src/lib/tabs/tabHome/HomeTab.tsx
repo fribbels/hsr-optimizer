@@ -143,7 +143,7 @@ function CardImage(props: { id: string }) {
       <img
         style={{
           width: '100%',
-          height: '100%',
+          height: 593,
           objectFit: 'cover',
           borderRadius: 8,
           outline: 'rgba(255, 255, 255, 0.15) solid 1px',
@@ -179,7 +179,7 @@ function FeatureCard(props: { title: string; id: string; content: string; url: s
       hoverable={true}
       cover={<CardImage id={props.id}/>}
     >
-      <Flex align='center' gap={10}>
+      <Flex align='center' gap={10} justify='space-between'>
         <span>
           {props.content}
         </span>
